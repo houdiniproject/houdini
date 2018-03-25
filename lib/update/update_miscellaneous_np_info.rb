@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module UpdateMiscellaneousNpInfo
   def self.update(np_id, misc_settings)
     ParamValidation.new({np_id: np_id, misc_settings:misc_settings},

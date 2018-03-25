@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'openssl'
 
 # This module is useful for encrypting columns into the database

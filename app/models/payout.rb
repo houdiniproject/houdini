@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # Payouts record a credit of the total pending balance on a nonprofit's account
 # to their bank account or debit card
 #

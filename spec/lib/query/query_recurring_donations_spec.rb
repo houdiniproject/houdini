@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
 # Note that the recurring donation used in these tests is created on 2020-01-01 and the first charge is created on that date

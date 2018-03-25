@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Audit
 
   # Given a list of pairs of nonprofit ids and stripe_account_ids (eg [[4341, 'acct_arst'], [3624, 'acct_arst']])

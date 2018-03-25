@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # This will fire a slack event when charges are greater than $3 Million
 # We can then remove this file and/or update any notice we'd like
 

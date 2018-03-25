@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Expect
 
   def expect_validation_errors(list_of_errors, validators, error_validator_length_should_match=true)

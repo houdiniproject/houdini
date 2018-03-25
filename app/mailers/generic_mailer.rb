@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class GenericMailer < BaseMailer
 
   def generic_mail(from_email, from_name, message, subject, to_email, to_name)

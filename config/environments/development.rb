@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 CarrierWave.configure do |config|
   config.ignore_integrity_errors = false
   config.ignore_processing_errors = false

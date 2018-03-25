@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module MaintainTicketRecords
 
   # a function for taking every ticket record with a card and creating a token

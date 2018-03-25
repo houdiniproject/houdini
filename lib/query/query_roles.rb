@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module QueryRoles
 
   def self.user_has_role?(user_id, role_names, host_id=nil)

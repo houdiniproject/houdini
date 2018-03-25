@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AddDirectDebitDetail < ActiveRecord::Migration
   def change
     create_table :direct_debit_details do |t|

@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module JobTypes
   class GenericMailJob < EmailJob
     attr_reader :from_email, :from_name, :message, :subject, :to_email, :to_name

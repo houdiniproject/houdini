@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module DeleteCustomFieldJoins
   @columns =  ['id', 'custom_field_master_id', 'supporter_id', 'value', 'created_at', 'updated_at', 'metadata']
   def self.find_multiple_custom_field_joins

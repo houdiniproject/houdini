@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'query/query_payments'
 require 'fetch/stripe/fetch_stripe_account'
 module UpdateNonprofit

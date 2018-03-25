@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # A Charge represents a potential debit to a nonprofit's account on a credit card donation action.
 
 class Charge < ActiveRecord::Base

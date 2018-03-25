@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class SourceToken < ActiveRecord::Base
   self.primary_key = :token
   attr_accessible :expiration, :token, :max_uses, :total_uses

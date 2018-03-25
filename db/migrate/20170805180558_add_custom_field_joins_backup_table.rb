@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AddCustomFieldJoinsBackupTable < ActiveRecord::Migration
   def change
     create_table :custom_field_joins_backup do |t|

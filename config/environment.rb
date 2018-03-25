@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 

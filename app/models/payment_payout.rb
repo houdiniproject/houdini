@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # charge_payouts are a join table between charges and payouts
 #
 # The reason we need a join table between charges and payouts:

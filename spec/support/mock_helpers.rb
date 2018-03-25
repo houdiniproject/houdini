@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module MockHelpers
   def self.payment_export_headers()
     ["Date",'Gross Amount',	'Fee Total',	'Net Amount','Type',	'Last Name',	'First Name','Full Name', 'Organization',	'Email',	'Phone',	'Address',	'City',	'State',	'Postal Code',	'Country',	'Anonymous?',	'Supporter Id',	'Designation',	'Honorarium/Memorium',	'Anonymous','Comment','Campaign',	'Campaign Gift Level',	'Event Name',	'Payment',	'Check Number', 'Donation Note']

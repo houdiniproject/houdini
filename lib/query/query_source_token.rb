@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module QuerySourceToken
   EXPIRED_TOKEN_MESSAGE = "There was an error processing your card and it was not charged. Please try again."
   AUTH_ERROR_MESSAGE = "You're not authorized to make this charge"

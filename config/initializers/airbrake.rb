@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'airbrake/delayed_job'
 
 # Airbrake is an online tool that provides robust exception tracking in your Rails

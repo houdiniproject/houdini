@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
  module MergeSupporters
 
   # Given some supporter ids, merge them together into a new supporter

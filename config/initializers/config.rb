@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Config.setup do |config|
   # Name of the constant exposing loaded settings
   config.const_name = 'Settings'

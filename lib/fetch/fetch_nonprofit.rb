@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module FetchNonprofit
 
 	def self.with_params(params, administered_nonprofit=nil)

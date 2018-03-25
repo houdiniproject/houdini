@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module JobTypes
   class NonprofitAdminSupporterFundraiserJob < EmailJob
     attr_reader :event_or_campaign

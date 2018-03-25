@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 if Rails.env.development?
   Rails.application.assets.logger = Logger.new('/dev/null')
   Rails::Rack::Logger.class_eval do

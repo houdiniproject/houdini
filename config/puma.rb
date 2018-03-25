@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 threads 1,1 #not threadsafe yet
 preload_app! if ENV['RAILS_ENV'] != 'development'

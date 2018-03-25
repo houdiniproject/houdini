@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class NormalizeStartAndEndDatetimesForEventsAndCampaigns < ActiveRecord::Migration
   def up
     add_column :events, :start_datetime, :datetime

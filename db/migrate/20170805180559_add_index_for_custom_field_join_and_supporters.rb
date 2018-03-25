@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AddIndexForCustomFieldJoinAndSupporters < ActiveRecord::Migration
   def up
     ids = DeleteCustomFieldJoins.find_multiple_custom_field_joins

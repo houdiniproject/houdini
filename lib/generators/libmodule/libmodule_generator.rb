@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class LibmoduleGenerator < Rails::Generators::NamedBase
   argument :mod_type, :type => :string
   source_root File.expand_path('../templates', __FILE__)

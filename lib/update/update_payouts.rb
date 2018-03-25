@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module UpdatePayouts
 
   def self.reverse_with_stripe(payout_id, status, failure_message)

@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module CalculateFees
   BaseFeeRate = 0.022 # 2.2%
   PerTransaction = 30 # 30 cents

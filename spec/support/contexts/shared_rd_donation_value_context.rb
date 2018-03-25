@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # holy cow, this is confusing
 RSpec.shared_context :shared_rd_donation_value_context do
   include_context :shared_donation_charge_context

@@ -23,8 +23,13 @@ comfort and speed.
 All backend code and React components should be TDD.
 
 ## Get involved
-Houdini's success depends on you. 
+Houdini's success depends on you!
 
+### Join our Zulip chat
+https://houdini.zulipchat.com
+
+### Help with translations
+Visit the Internationalization channel on Houdini Zulip and discuss
 ## Dev Setup
 
 #### Get the code  

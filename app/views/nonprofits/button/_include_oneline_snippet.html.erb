@@ -1,0 +1,17 @@
+<textarea readonly class='codeText' rows='15'>
+<script>
+	(function() {
+	if(document.querySelector('.commitchange-donate[data-fixed]')) return;
+	var cc_donate = document.createElement('div');
+	cc_donate.innerHTML = "<a data-fixed class='commitchange-donate'></a>";
+	document.body.appendChild(cc_donate);
+	var npo = <%= @nonprofit.id %>;
+	var script = document.createElement('script');
+	var first = document.getElementsByTagName('script')[0];
+	script.setAttribute('data-npo-id', npo);
+	script.id = 'commitchange-script';
+	script.src = '<%= request.base_url %>/js/donate-button.v2.js';
+	first.parentNode.insertBefore(script, first);
+	})();
+</script>
+</textarea>

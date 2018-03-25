@@ -1,0 +1,11 @@
+<% if @thank_you_note %>
+    <div><%= raw(@thank_you_note) %></div>
+
+<% else %>
+    <div><p>You have successfully changed your recurring donation amount. Please see the receipt and details below.</p></div>
+<% end %>
+<hr>
+
+<%= render 'donation_mailer/donation_changed_amount_table', donation: @donation, previous_amount: @previous_amount %>
+
+<%= render 'components/email/supporter_table', supporter: @donation.supporter %>

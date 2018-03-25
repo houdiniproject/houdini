@@ -1,0 +1,12 @@
+@mixin circleText($background, $size, $color, $font-size) {
+	background: $background;
+	display: inline-block;
+	color: $color;
+	@include box-shadow(2px 2px 2px 0 rgba(black, 0.06));
+	@include border-radius(50%);
+	text-align: center;
+	font-size: $font-size;
+	line-height: $size;
+	width: $size;
+	margin: 0;
+}

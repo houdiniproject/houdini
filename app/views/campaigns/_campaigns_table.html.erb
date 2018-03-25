@@ -1,0 +1,30 @@
+<table class='table--striped u-marginBottom--0'>
+   <% campaigns.each do |campaign |%>
+    <tr>
+      <td class='u-padding--0 u-width--200 u-hideIf--400'>
+        <img src='<%= campaign.main_image_url(:normal) %>'>
+      </td>
+      <td class='u-padding--10'>
+        <% if campaign.end_datetime %>
+          <p class='u-marginBottom--0'>
+            <small><strong>Until: <%= Format::Date.full(campaign.end_datetime, campaign.nonprofit.timezone) %> </strong></small>
+          </p>
+        <% end %>
+        <h6 class='u-marginTop--0 u-marginBottom--5'>
+          <a if-branded='color, darker' href='<%= campaign.url %>'><%= campaign.name %></a>
+        </h6>
+        <p class='u-marginBottom--15'>
+          <small><%= campaign.summary ? strip_tags(campaign.summary) : strip_tags(campaign.tagline) %></small>
+        </p>
+        <% if campaign.show_total_count %>
+          <span class='pastelBox--white u-padding--3'><%= campaign.donations.count %> <small>supporters</small></span>
+        <% end %>
+        <% if campaign.show_total_raised %>
+          <span class='pastelBox--white u-padding--3'>
+            $<%= print_currency campaign.total_raised, false %> <small>raised</small>
+          </span>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

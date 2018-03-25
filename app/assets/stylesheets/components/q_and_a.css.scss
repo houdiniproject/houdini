@@ -1,0 +1,34 @@
+@import 'components/circle_text';
+
+.question,
+.answer {
+	position: relative;
+	padding-left: 45px;
+}
+.question {
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+.answer {
+	margin-bottom: 30px;
+	border-bottom: 1px rgba(black, 0.07) solid;
+	padding-bottom: 20px; 
+}
+.answer:last-of-type {
+	border-bottom: none;
+}
+.question:before,
+.answer:before {
+	font-weight: bold;
+	position: absolute;
+	left: 0;
+	top: -4px;
+} 
+.question:before {
+	content: 'Q';
+	@include circleText($bluegrass, 32px, white, 16px);
+}
+.answer:before {
+	content: 'A';
+	@include circleText($logo-blue, 32px, white, 16px);
+}

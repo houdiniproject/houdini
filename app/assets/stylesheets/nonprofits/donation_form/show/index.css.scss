@@ -1,0 +1,46 @@
+@import 'mixins';
+
+$width: 400px; // same as .modal.skinny
+
+.donate-popup {
+	overflow: visible;
+	position: absolute;
+	min-width: 290px;
+	width: $width;
+	max-width: 100%;
+	top: 100px;
+	left: 50%;
+	margin: 0;
+	margin-left: -$width / 2;
+	background-color: white;
+	border: 1px solid #ddd;
+	@include border-radius(4px);
+} //.donate-popup
+
+.donate-popup.is-embedded {
+	margin: 0;
+	top: 0;
+	left: 0;
+}
+
+.donate-popup.is-modal .closeButton {
+	display: block;
+}
+
+.donate-popup.is-embedded .titleRow,
+.donate-popup.is-embedded .closeButton {
+	display: none;
+}
+
+@media screen and (max-width: 500px) {
+	.donate-popup {
+		top: 10px;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.donate-popup {
+		left: 0;
+		margin-left: 0;
+	}
+}

@@ -1,0 +1,48 @@
+<table class='table'>
+
+	<thead>
+		<th colspan='2'>
+			Donation Details
+		</th>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>Recurring Amount</strong></td>
+			<td> <%= print_currency(donation.amount) %></td>
+		</tr>
+
+    <tr>
+      <td><strong>Recurring Interval</strong></td>
+      <td> Every <%= donation.recurring_donation.interval %> <%= donation.recurring_donation.time_unit %></td>
+    </tr>
+
+    <tr>
+      <td><strong>Start Date</strong></td>
+      <td><%= Format::Date.simple donation.created_at %></td>
+    </tr>
+
+		<% if donation.campaign && donation.campaign.published %>
+		<tr>
+			<td><strong>Campaign</strong></td>
+			<td> <%= donation.campaign.name %></td>
+		</tr>
+		<% end %>
+
+    <% if donation.card %>
+
+    <tr>
+      <td><strong>Card Name</strong></td>
+      <td> <%= donation.card.name %> </td>
+    </tr>
+
+    <% end %>
+
+		<tr>
+			<td><strong>Donation ID</strong></td>
+      <td> <%= donation.id %> </td>
+		</tr>
+
+	</tbody>
+
+</table>

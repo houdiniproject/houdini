@@ -1,0 +1,55 @@
+@import 'mixins';
+// @import '/assets/ff-core/notification/index.css'
+
+$notice-red : lighten($red, 10); 
+$notice-green : lighten($grass, 60);  
+
+@mixin slide_message {
+	position: fixed;
+	line-height: 1.3; 
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	width: 100%;
+	left: 0;
+	margin: 0;
+	padding: 25px 10px;
+	@include transform(translateZ(0));
+	@include box-shadow(0 0 10px 2px rgba(black, 0.1));
+}
+[data-ff-notification],
+.ff-notification,
+#js-notification,
+.notification,
+#notification {
+	z-index: 999;
+	@include slide_message;
+	background: $notice-green;
+	bottom: -60px;
+	@include opacity(0);
+	@include transition(bottom 0.2s $cubic_bevier, opacity 0.2s ease-out);
+}
+#js-notification.error,
+.notification.error,
+#notification.error {
+	background-color: $notice-red;
+}
+[data-ff-notification='shown'],
+.ff-notification--inView,
+#js-notification.show,
+.notification.show,
+#notification.show {
+	@include opacity(1);
+	bottom: 0;
+}
+.alert--error, 
+.alert--success { 
+	@include slide_message;
+	top: 0px;
+}
+.alert--error {  
+	background: $notice-red; 
+}
+.alert--success { 
+	background: $notice-green;
+}

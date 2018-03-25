@@ -1,0 +1,37 @@
+<%= content_for(:title) {"#{@event.name} - #{@event.nonprofit.name}".html_safe} %>
+<%= content_for(:meta_description) {raw @event.summary} %>
+<%= content_for(:stylesheets) {stylesheet_link_tag 'events/stats/page'} %>
+<% content_for(:footer_hidden) {'hidden'} %>
+<% content_for(:fixed_position_cta_hidden) {'hidden'} %>
+
+<%= content_for :facebook_tags do %>
+  <meta property="og:title" content="<%= raw @event.name %>" />
+  <meta property="og:description" content="<%= raw @event.summary %>" />
+  <meta property="og:image" content="<%= @event.main_image_url(:normal) %>" />
+<% end %>
+
+<%= content_for :twitter_tags do %>
+  <meta property="twitter:title" content="<%= raw @event.name %>" />
+  <meta property="twitter:description" content="<%= raw @event.summary %>" />
+  <meta property="twitter:image" content="<%= @event.main_image_url(:normal) %>" />
+<% end %>
+
+<%= content_for :javascripts do %>
+  <script>
+    app.event_id = <%= @event.id %>
+    app.hide_activities = <%= @event.hide_activity_feed %>
+    app.event_background_image = '<%= @event_background_image %>'
+  </script>
+  <%= IncludeAsset.js '/client/js/events/stats/page.js' %>
+<% end %>
+
+<%= content_for :head do %>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link rel="canonical" href='<%= @url %>' />
+<% end %>
+
+<main>
+  <h1><a href="<%= @url %>"><%= @event.name %></a></h1>
+  <div id='container'>
+</main>
+

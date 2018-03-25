@@ -1,0 +1,32 @@
+<!-- partial: profiles/donation_history -->
+
+<header class='group u-padding--10 u-border--bottom'>
+	<strong class='u-fontSize--18'>One-Time Donations</strong>
+	<span class='highlight u-floatR'><%= print_currency(@donations.pluck(:amount).sum) %> total</span>
+</header>
+
+<% if @donations.empty? %>
+	<p class='noResults'>
+    None Yet
+  </p>
+<% else %>
+
+	<table class='table--plaid'>
+		<tbody>
+			<% @donations.order('created_at DESC').each do |donation| %>
+				<tr>
+					<td>
+            $<%= print_currency donation.amount, false %>
+					</td>
+					<td>
+						<%= link_to(donation.nonprofit.name, donation.nonprofit.url) %>
+					</td>
+					<td> <%= simple_date(donation.created_at) %></td>
+					<td> <%= GetData.chain(donation.card, :name) %> </td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table> <!-- .donation-table -->
+
+<% end %>
+

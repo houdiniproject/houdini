@@ -1,0 +1,4 @@
+.transition-slow {
+  transition: 300ms ease;
+}
+

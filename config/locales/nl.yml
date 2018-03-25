@@ -1,0 +1,134 @@
+nl:
+  hello: "Hallo wereld"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Content commenteren'
+  organization:
+    name: "Organisatie"
+  donation:
+    amount: "Totaal bedrag"
+    date: "Transactiedatum"
+    campaign: "Campagne"
+    recurring_interval: "Terugkerend interval"
+    interval: "Elke %{interval} %{time_unit}"
+    recurring_since: "Terugkerende sinds"
+    comment: "Commentaar"
+    payment_id: "Betaling ID"
+  mailer:
+    donations:
+      donation_receipt: "Gift ontvangstbewijs"
+      donor_name: "Naam schenker"
+      donor_receipt:
+        subject: "Gift ontvangstbewijs %{nonprofit_name}"
+        transfer_info_html: "Deze betaling verschijnt op uw bankafschriften als %{label}"
+        transfer_label_html: "Gift %{nonprofit_statement}"
+        oneoff_donation_html: "Bedankt voor uw gift aan % {nonprofit_name} en om samen met duizenden mensen in heel Europa die geïnvesteerd hebben om onze beweging de nodige kracht te geven dat  een echte verschil maakt. Uw steun zal ervoor zorgen dat we snel kunnen in actie komen in het belang van ons allemaal."
+        recurring_donation_html: "Bedankt voor uw gift aan % {nonprofit_name} en om samen met duizenden mensen in heel Europa die geïnvesteerd hebben om onze beweging de nodige kracht te geven dat een echte verschil maakt. Uw steun zal ervoor zorgen dat we snel kunnen in actie komen in het belang van ons allemaal."
+      donor_direct_debit_notification:
+        subject: "Gift ontvangstbewijs voor %{nonprofit_name}"
+        transfer_info_html: "Deze betaling verschijnt op uw bankafschriften als %{label}"
+        transfer_label_html: "Gift %{nonprofit_statement}"
+        donation_queued_html: "Uw bijdrage aan % {non-profitorganisatie} is in de wachtrij geplaatst voor verwerking."
+        recurring_donation_queued_html: "Bedankt voor uw gift aan % {nonprofit_name} en om samen met duizenden mensen in heel Europa die geïnvesteerd hebben om onze beweging de nodige kracht te geven dat een echte verschil maakt. Uw steun zal ervoor zorgen dat we snel kunnen in actie komen in het belang van ons allemaal."
+  nonprofits:
+    donate:
+      signed_in: "Aanmelden als"
+      log_out: "Afmelden"
+      amount:
+        label: "Bedrag"
+        sustaining: "Steun ons maandelijks"
+        sustaining_bold: "Duurzame steun, maandelijks"
+        sustaining_selected: "Selecteer een bedrag voor uw maandelijkse bijdrage"
+        sustaining_selected_bold: "Maandelijks"
+        monthly: "Maandelijks"
+        weekly: "Wekelijks"
+        weekly_notice: "* om bankkosten laag te houden, zullen we %{amount} %{currency} maandelijks debiteren"
+        custom: "Aangepast"
+        designation:
+          label: "Aanwijzing:"
+          choose: "Kies een aanwijzer (optioneel)"
+          most_needed: "Gebruik mijn gift waar het meest nodig is"
+        next: "Volgende"
+      info:
+        label: "Info"
+        supporter:
+          email: "E-mail"
+          email_required: "(vereist voor ontvangstsbewijs)"
+          full_name: "Volledig naam"
+          first_name: "Voornaam"
+          last_name: "Familienaam"
+          phone: "Telefoon"
+          address: "Adres"
+          city: "Stad"
+          state: "Selecteer provincie"
+          country: "Land"
+          other_country: "Andere"
+          region: "Regio"
+          postal_code: "Postcode"
+          shipping_address: "Verzendadres (verplicht)"
+          errors:
+            email:
+              format: "Gelieve een geldig e-mailadres in te geven"
+        dedication_link: "Maak deze gift ter ere / herinnering aan iemand."
+        dedication_saved: "Dedicatie van donatie aan"
+        anonymous_checkbox: "Maak deze donatie anoniem."
+        next: "Volgende"
+      dedication:
+        info: "Voeg een dedicatie toe voor uw gift:"
+        in_honor_label: "Ter ere van"
+        in_memory_label: "Ter nagedachtenis van"
+        first_name: "Voornaam"
+        last_name: "Familienaam"
+        email: "E-mail (optioneel)"
+        phone: "Telefoon (optioneel)"
+        full_address: "Volledig adres (optioneel)"
+        note: "Opmerking of bericht"
+        save: "Opslaan & terugkeren"
+        donor_note: "De opmerking van de donor was:"
+      payment:
+        label: "Betaling"
+        one_time: "Eenmalig"
+        monthly_recurring: "maandelijks terugkerend"
+        tabs:
+          card: "Kredietkaart"
+          sepa: "Direct betaling"
+        loading:
+          checking_card: "Controleren kaart ..."
+          sending_payment: "Verzending betaling ..."
+        card:
+          name: "Naam kaarthouder"
+          number: "Kaartnummer"
+          cvc: "CVC"
+          postal_code: "Postcode"
+          month: "Maand"
+          year: "Jaar"
+          submit: "Verzenden"
+          loading: "Aan opslaan..."
+          secure_info: "Transacties beveiligd met 256-bit SSL"
+          errors:
+            field:
+              presence: "Dit veld is verplicht"
+              format: "Dit ziet er niet uit als het juiste formaat"
+            number:
+              presence: "Voer uw kaartnummer in"
+              format: "Het kaartnummer lijkt niet juist"
+            email:
+              format: "Gelieve een geldig e-mailadres in te geven"
+        sepa:
+          name: "Naam rekeningeigenaar"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "Dit veld is verplicht"
+              format: "Dit ziet er niet uit als het juiste formaat"
+      followup:
+        success: "Uw gift is goed ontvangen!"
+        receipt_info: "Een ontvangbewijs wordt per e-mail verzonden naar"
+        message: "We waardeert je steun!"
+        share:
+          facebook: "Delen"
+          twitter: "Tweet"
+          twitter_message: "Help me bij het ondersteunen van"
+        finish: "Voltooid"

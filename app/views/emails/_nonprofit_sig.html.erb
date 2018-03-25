@@ -1,0 +1,7 @@
+
+<p>
+	<a href='<%= Format::Url.concat(root_url, nonprofit.url) %>'><%= nonprofit.name %></a><br>
+	<%= nonprofit.email %><br>
+	<%= nonprofit.phone %><br>
+	<%= Format::Address.city_and_state(nonprofit.city, nonprofit.state_code) %>
+</p>

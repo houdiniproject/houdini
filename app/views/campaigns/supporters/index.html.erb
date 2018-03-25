@@ -1,0 +1,41 @@
+<% content_for(:dont_load_optimizely) {'true'} %>
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<%= content_for :javascripts do %>
+  <script>ENV.campaignID = <%= @campaign.id %></script>
+  <%= IncludeAsset.js '/client/js/campaigns/supporters/index/page.js' %>
+<% end %>
+
+<% content_for :head do %>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+<% end %>
+
+<%= content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'campaigns/supporters/index/page' %>
+<% end %>
+
+<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
+
+<header class='header'>
+	<div class='container'>
+		<i class='icon-check-list header-icon'></i>
+		<h3 class='header-title'>
+			Campaign Dashboard
+		</h3>
+		<a class='header-profile' href='<%= @campaign.url%>'><%=  @campaign.name %></a>
+	</div>
+</header>
+
+<main class='container'> 
+  <div class='u-marginBottom--10 u-marginTop--15 u-noSelect'>
+    <div class='u-centered u-color--grey u-marginTop--20'>
+      <!--= show_if loading_chart -->
+      Loading...
+    </div>
+    <canvas id='js-timeline'></canvas>
+  </div>
+  <%= render 'totals' %>
+  <div class='js-view-supporters'> </div>
+</main>
+
+

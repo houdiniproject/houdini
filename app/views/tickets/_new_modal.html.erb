@@ -1,0 +1,51 @@
+<!-- partial tickets/new_modal -->
+<!-- this depends on cards.css -->
+<!-- this depends on tickets/wizard.js -->
+
+<% title ||= 'Get tickets' %>
+<% show_payment_options ||= false %>
+<% unrequire_email ||= false %>
+
+<div class='modal modal--wizard modal--flush' id='newTicketModal'>
+	<%= render 'common/modal_header', title: title %>
+	<%= render 'components/wizard/step_index', wizard_name: 'ticket_wiz' %>
+
+	<div class='modal-body'>
+		<p class='noResults'>
+			<!--= hide_if (length ticket_levels.data)-->
+			No ticket levels yet
+		</p>
+
+		<div class='wizard-steps'>
+			<!--= show_if (length ticket_levels.data)-->
+			<!--= wizard.init 'ticket_wiz' -->
+			<%= render 'tickets/ticket_step' %>
+			<%= render 'tickets/info_step', profile: profile, unrequire_email: unrequire_email %>
+			<%= render 'tickets/finish_step', show_payment_options: show_payment_options %>
+		</div>
+
+  </div>
+</div>
+
+
+<div class='modal skinny' id='confirmTicketsModal'>
+	<%= render 'common/modal_header', title: 'Success!', class_name: 'success' %>
+
+	<div class='modal-body centered'>
+		<p>We have successfully redeemed these tickets!</p>
+
+		<p>Expect an email within the next few minutes for a confirmation.</p>
+
+    <form>
+      <!--= on 'submit' add_ticket_note -->
+      <div class='field'>
+        <textarea name='note' placeholder='Add a note for the event organizer (eg. meal or seating preference)' row=2></textarea>
+      </div>
+
+      <div class='u-centered'>
+        <button class='button test-confirmButton' if-branded='background-color, base'> Done </button>
+      </div>
+    </form>
+
+  </div>
+</div>

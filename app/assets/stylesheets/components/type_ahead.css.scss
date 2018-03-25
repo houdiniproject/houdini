@@ -1,0 +1,35 @@
+@import "mixins";
+
+.typeAhead {
+  width: 100%;
+  position: relative;
+}
+.typeAhead ul {
+  background: white;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  list-style: none;
+  position: absolute;
+  border-left: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-bottom: 2px solid #d9d9d9;
+  @include box-shadow(1px 1px 5px 1px rgba(black, 0.1));
+  left: 0;
+  top: 0;
+}
+.typeAhead li {
+  font-size: 14px;
+  margin: 0 !important;
+  padding: 5px 10px !important;
+  line-height: 1;
+  border: none !important;
+  cursor: pointer;
+}
+.typeAhead li::before {
+  display: none;
+}
+.typeAhead li.is-selected,
+.typeAhead li:hover {
+  background: rgba(black, 0.07);
+}

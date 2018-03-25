@@ -1,0 +1,69 @@
+<% content_for(:dont_track_ga) {'true'} %>
+<% content_for(:hide_nav_beacon) {'true'} %>
+
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'nonprofits/supporter_form/page' %>
+<% end %>
+
+<% content_for :javascripts do %>
+	<%= IncludeAsset.js '/client/js/nonprofits/supporter_form/page.js' %>
+<% end %>
+
+<div class='u-centered'>
+
+  <div class='u-width--400 u-margin--auto'>
+
+
+    <br>
+    <%= image_tag @nonprofit.logo_url(:normal).to_s %>
+    <% if params[:title] %>
+      <h4><%= params[:title] %></h4>
+    <% else %>
+      <h4>Register your info with <%= @nonprofit.name %></h4>
+    <% end %>
+
+    <% if params[:tags] %>
+      <p> <%= params[:tags].split(',').map(&:titleize).join(", ") %> </p>
+    <% end %>
+
+    <% if params[:message] %>
+      <p> <%= params[:message] %></p>
+    <% end %>
+    <hr>
+    
+    <p class='finishedMessage hide'>
+      <% if params[:thankyou] %>
+        <%= params[:thankyou] %>
+      <% else %>
+        Thank you! Your information was successfully saved
+      <% end %>
+    </p>
+
+    <form class='js-submit'>
+
+      <% required = (params[:required] || '').split(',') %>
+    <%= render 'supporters/fields', show_anon: false, required: {name: required.include?('name'), email: required.include?('email')}, profile: current_user ? current_user.profile : nil %>
+
+    <% (params[:tags] || '').split(',').each do |t| %>
+      <input type='hidden' name='tag_<%=t%>' value=1>
+    <% end %>
+
+    <% (params[:fields] || '').split(',').each do |f| %>
+      <label><%= f.titleize %></label>
+      <% if params['desc_' + f] %>
+        <p class='u-small u-textAlign--left'><%= params['desc_' + f] %></p>
+      <% end %>
+      <input type='text' name='field_<%= f %>' placeholder='<%= f.titleize %>'>
+    <% end %>
+
+    <div class='u-centered u-marginTop--10'>
+      <p class='error'>
+        <!--= show_if info_step_error -->
+        <!--= put info_step.error -->
+      </p>
+      <%= render 'components/forms/submit_button' %>
+    </form>
+    </div>
+  </div>
+</div>
+

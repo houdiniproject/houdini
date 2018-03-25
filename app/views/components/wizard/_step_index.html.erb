@@ -1,0 +1,15 @@
+<div class='wizard-index'>
+	<!--= hide_if <%=wizard_name%>.is_completed -->
+
+	<!--= def '<%= wizard_name %>.step_width' (cat (divide 100 (length <%= wizard_name %>.steps)) '%') -->
+
+	<span class='wizard-index-label'>
+		<!--= repeat <%= wizard_name %>.steps -->
+		<!--= add_class_if (eq <%= wizard_name %>.current_step this.i) 'is-current' -->
+		<!--= add_class_if this.is_accessible 'is-accessible' -->
+		<!--= style 'width' <%= wizard_name %>.step_width -->
+		<!--= on 'click' (wizard.jump '<%= wizard_name %>' this.i) -->
+		<!--= put this.name -->
+	</span>
+
+</div>

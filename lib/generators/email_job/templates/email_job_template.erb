@@ -1,0 +1,13 @@
+module JobTypes
+  class <%= name %> < EmailJob
+    attr_reader <%= attribs.map{|i| ":#{i}"}.join(", ") %>
+
+    def initialize(<%= attribs.join(", ") %>)<% attribs.each {|i| %>
+      @<%= i %> = <%= i %><% }%>
+    end
+
+    def perform
+      fail
+    end
+  end
+end

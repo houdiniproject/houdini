@@ -1,0 +1,9 @@
+[class*="container"] {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container         { max-width: 60rem; }
+.container--medium { max-width: 50rem; }
+.container--narrow { max-width: 40rem; }
+

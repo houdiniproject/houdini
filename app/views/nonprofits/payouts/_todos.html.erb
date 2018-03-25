@@ -1,0 +1,70 @@
+<div class='pastelBox--yellow u-padding--10 u-marginBottom--15'>
+	<p>Before you can make payouts, we ask that you follow a two step verification process, which helps us prevent fraud.  Once the following steps are completed, you'll be able to make a payout any time with the click of a button and automatically receive deposits on the first of every month.</p>
+
+	<p >Please note that the verification process with our donation processor (<a href='https://stripe.com/' target='_blank'>Stripe</a>), can take up to a day.  If you don't see the todo list items getting crossed off like you expect them to, please check back in a day.</p>
+</div>
+
+<section class='todos'>
+	<ul>
+		<li class="<%= @nonprofit.vetted ? 'is-done' : '' %>">
+			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
+			<span class='name'>
+				Get your nonprofit status vetted by our team.  This process usually takes 1-2 days.
+			</span>
+		</li>
+
+
+		<li class="<%= @nonprofit.bank_account && @nonprofit.vetted ? 'is-done' : '' %>">
+			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
+			<span class='name'>
+					After your nonprofit status has been vetted, you can
+					<% if @nonprofit.vetted %>
+					<a>
+						<!--= on 'click' (open_modal 'newBankModal') -->
+						connect your bank account.
+					</a>
+					<% else %>
+						connect your bank account.
+					<% end %>
+			</span>
+		</li>
+
+
+		<li class='<%= @nonprofit.bank_account && !@nonprofit.bank_account.pending_verification ? 'is-done' : '' %>'>
+			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
+			<span class='name'>
+				After your bank account has been submitted, please confirm it with your email account by clicking the confirmation link that was sent to your inbox.
+				<% if @nonprofit.bank_account && @nonprofit.bank_account.pending_verification %>
+					If you can't find this email, you can <a class='js-event-resendBankConfirmEmail' href='#'><strong>resend bank account confirmation email for <%= @nonprofit.bank_account.name %></strong></a>.
+				<% end %>
+			</span>
+		</li>
+
+
+		<li class="<%= @nonprofit.verification_status == 'verified' ? 'is-done' : '' %>">
+			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
+			<span class='name'>
+				<% if @nonprofit.verification_status == 'pending' %>
+					Your verification data has been submitted and is pending approval. It should complete within 24 hours.
+				<% else %>
+					After you have connected your bank account, please complete the
+
+					<% if @nonprofit.bank_account && @nonprofit.vetted && @nonprofit.verification_status != 'verified' %>
+						<a class='js-openVerificationModal'> <strong>identity verification form.</strong></a>
+					<% else %> identity verification form. <% end %>
+
+				<% end %>
+
+			</span>
+		</li>
+	</ul>
+</section>
+
+<div class='modal' id='bankConfirmResendModal'>
+	<%= render 'common/modal_header', title: "Bank Account Confirmation Email Resent" %>
+	<div class='modal-body'>
+		<p>Success! The confirmation email to activate your bank account has been successfully re-sent. Expect it to arrive in your inbox within a few minutes. If you can't find it, be sure to check your spam folder.</p>
+		<p><blockquote>Why do we require this confirmation? It proves that you have access to both your <%= Settings.general.name %> account and your email account, preventing anybody from changing your organization's bank account if you leave your CommitChange account signed in on a shared computer.</blockquote></p>
+		<p>If you still have trouble finding the confirmation email, please contact <a href='mailto:<%= Settings.devise.mailer_sender %>'><%= Settings.devise.mailer_sender %></a>.</p>
+	</div>
+</div>

@@ -1,0 +1,62 @@
+<% content_for :title_suffix do %>
+   - Donor Profile
+<% end %>
+
+<% content_for :javascripts do %>
+	<%= IncludeAsset.js '/client/js/profiles/show/page.js' %>
+<% end %>
+
+<% content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'profiles/show/page' %>
+<% end %>
+
+<header class='donorProfileHeader stripe--blue'>
+	<div class='container'>
+		<table>
+			<tr>
+				<td>
+					<span class='donorProfileHeader-photo' style="background-image: url('<%= @profile.get_profile_picture(:normal) %>');"></span>
+				</td>
+				<td class='u-paddingLeft--15'>
+					<% supporter = (@profile.supporters && @profile.supporters.length != 0) ? supporter : false %>
+					<% if supporter %>
+						<h3 class='u-marginBottom--5'><%= supporter.name ? supporter.name : supporter.email %></h3>
+					<% else %>
+						<h3 class='u-marginBottom--5'><%= @profile.name ? @profile.name : @profile.email %></h3>
+					<% end %>
+					<% if supporter && supporter.city %>
+						<small>
+							<strong><%= Format::Address.city_and_state(supporter.city, supporter.state_code) %></strong>
+						</small>
+					<% elsif @profile.city %>
+						<small>
+							<strong><%= Format::Address.city_and_state(@profile.city, @profile.state_code) %></strong>
+						</small>
+					<% end %>
+					<% if  @profile.mini_bio %>
+						<p class='u-marginTop--10'><%= @profile.mini_bio %></p>
+					<% end %>
+				</td>
+			</tr>
+		</table>
+		<% if current_role?(:super_admin) || (current_user && current_user.profile == @profile) %>
+			<%= render 'profile_tabs', profile_id: @profile.id, active: :profile %>
+			<a class='button--tiny edit absolute' href='/settings?p=user-profile-edit&s=settings-pane'>
+				<i class='fa fa-pencil'></i> Edit Profile
+			</a>
+		<% end %>
+	</div>
+</header>
+
+<main class='container u-marginBottom--30'>
+	<%= render 'supported_nonprofits' %>
+
+  <section class='u-padding--15'>
+  	<h5 class='u-centered'>Supported Campaigns</h5>
+  	<% if @campaigns.empty? %>
+  		<p class='noResults'>None currently</p>
+  	<% else %>
+  		<%= render 'campaigns/campaigns_table', campaigns: @campaigns %>
+  	<% end %>
+  </section>
+</main>

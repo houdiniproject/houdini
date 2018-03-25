@@ -1,0 +1,42 @@
+<!-- partial nonprofits/payments/_filter_panel -->
+
+<form class='filterPanel tour-filter'>
+	<!--= scope 'payments' -->
+
+
+	<div class='filterPanel-body'>
+    <label>Payment dates...</label>
+    <%= render 'components/tables/filtering/filter_date_range',
+      scope: 'payments'%>
+
+    <label>Amount...</label>
+    <%= render 'components/tables/filtering/filter_amount_range',
+      scope: 'payments'%>
+
+    <label>Year</label>
+    <%= render 'components/tables/filtering/filter_by_year',
+      scope: 'payments'%>
+
+    <%= render 'components/tables/filtering/by_campaign' %>
+    <%= render 'components/tables/filtering/by_event' %>
+    
+    <hr>
+
+    <label>Designation/Fund</label>
+    <%= render 'components/tables/filtering/filter_input', scope: 'payments', name: 'designation' %>
+
+    <hr>
+
+    <label>Honorarium/Memorium</label>
+
+    <%= render 'components/tables/filtering/filter_input', scope: 'payments', name: 'dedication' %>
+
+    <hr>
+    <section class='filterPanel-section'>
+      <%= render 'components/tables/filtering/filter_donation_type', subject: 'Donations' %>
+    </section>
+
+	</div>
+</form>
+
+<!-- partial end nonprofits/payments/_filter_panel -->

@@ -1,0 +1,50 @@
+
+<div class='u-verticallyCenter'>
+
+	<h6 class='u-centered u-marginTop--15'>Your contribution was successful!</h6>
+
+	<form class='u-padding--15'>
+		<!--= on 'submit' (donate_wiz.save_followup form_object) -->
+
+		<fieldset>
+      <!--= hide_if is_hiding_dedication -->
+			<label>Dedication <small>(optional):</small></label>
+			<textarea rows='9' name='dedication' placeholder='Include the name and contact information for the person you would like to dedicate your contribution to.'></textarea>
+			<!--= set_attr_if followup_form.is_completed 'disabled' 'disabled' -->
+		</fieldset>
+
+		<div class='layout--three u-marginTop--10'>
+
+			<div class='u-marginBottom--0'>
+				<a target="_blank" href="<%= render 'components/facebook_link' %>" class='button--small facebook u-width--full share-button'>
+					<i class='fa fa-facebook-square'></i>
+					Share
+				</a>
+			</div>
+
+			<div class='u-marginBottom--0'>
+				<button type='submit' class='button--small finish u-width--full'>
+					<!--= set_attr_if (any followup_form.loading followup_form.is_completed) 'disabled' 'disabled' -->
+					<span>
+            <!--= show_if (all (not followup_form.loading) (not followup_form.is_completed)) -->
+						Finish
+					</span>
+					<span>
+            <!--= show_if followup_form.loading -->
+						<i class='fa fa-spin fa-spinner'></i> Saving...
+					</span>
+					<span>
+            <!--= show_if followup_form.is_completed -->
+						Thank you!
+					</span>
+				</button>
+			</div>
+
+			<div class='u-marginBottom--0'>
+				<a target='_blank' class='button--small twitter u-width--full'  href="<%= render 'components/twitter_link', text: 'I support ' + @nonprofit.name %>">
+					<i class='fa fa-twitter-square'></i> Tweet
+				</a>
+			</div>
+		</div>
+	</form>
+</div><!-- .followup -->

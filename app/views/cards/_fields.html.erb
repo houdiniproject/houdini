@@ -1,0 +1,57 @@
+<% card_holder_name ||= current_user && !current_user.profile.full_name.blank? #XXX blech %>
+
+<div class='u-background--grey group u-padding--8'>
+	<fieldset>
+		<input type='text' class='input-medium' name='name'
+			required
+			parsley-trigger='change'
+			placeholder="Cardholders' Name">
+			<!--= set_value donate_wiz.supporter.name -->
+			<!--= set_value card_form.preset_name -->
+			<!--= set_value selected_supporter.name -->
+	</fieldset>
+
+	<fieldset class='col-8'>
+		<input type='text' name='number'
+			required
+			parsley-trigger='blur'
+			parsley-card-number
+			placeholder="Card Number">
+	</fieldset>
+
+	<fieldset class='col-right-4 u-relative'>
+		<input type='text' name='cvc'
+			parsley-trigger='change'
+			placeholder='CVC'>
+		<%= image_tag 'graphics/cc-security-code.png', :class => 'security-code-image' %>
+	</fieldset>
+
+	<fieldset class='col-4 u-margin--0'>
+		<select name='exp_month' class='select' required parsley-trigger='change'>
+			<option value='' class='default' selected>Month</option>
+			<% (1..12).each do |month| %>
+				<option><%= month.to_s %></option>
+			<% end %>
+		</select>
+	</fieldset>
+
+	<fieldset class='col-left-4 u-margin--0'>
+		<select name='exp_year' class='select' required parsley-trigger='change'>
+			<option value='' class='default' selected>Year</option>
+			<% expiration_years.each do |year| %>
+				<option><%= year %></option>
+			<% end %>
+		</select>
+	</fieldset>
+
+	<fieldset class='col-right-4 u-margin--0'>
+		<input type='text' name='address_zip'
+			parsley-rangelength="[5,5]"
+			parsley-trigger="change"
+			required
+			value=''
+			placeholder='Postal Code'>
+	</fieldset>
+
+	<input type='hidden' name='profile_id' value='<%= GetData.chain(current_user, :profile, :id) %>'>
+</div>

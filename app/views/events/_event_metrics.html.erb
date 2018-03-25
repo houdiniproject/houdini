@@ -1,0 +1,28 @@
+<!-- start partial events/event_metrics -->
+
+<aside class='u-marginBottom--15 pastelBox--grey u-padding--20'>
+	<table class='u-fontSize--18 u-width--full'>
+
+
+    <% if @event.show_total_raised %>
+		<tr>
+      <td><strong>Total Raised</strong></td>
+			<td class='u-padding--5'>
+				$<!--= put (cents_to_dollars metrics.total_paid -->
+			</td>
+		</tr>
+    <% end %>
+
+  <% if @event.show_total_count %>
+		<tr>
+      <td><strong>Attendees</strong></td>
+			<td class='u-padding--5'>&nbsp; <!--= put metrics.total_attendees --> </td>
+		</tr>
+  <% end %>
+
+
+	</table>
+
+</aside>
+
+<!--  end partial events/event_metrics -->

@@ -1,0 +1,149 @@
+@import 'mixins';
+
+@mixin progressBar {
+	width: 100%;
+	overflow: hidden;
+	background-color: white;
+	position: relative;
+	@include box-shadow(0 0 1px 0 rgba($grey, 0.5));
+	.goalAmount,
+	.totalRaised {
+		position: absolute;
+		line-height: 1;
+		color: rgba(black, 0.7);
+	}
+	.dollar {
+		color: rgba(black, 0.6);
+	}
+}
+@mixin progressBar-fill($height) {
+	width: 0%;
+	height: $height;
+	@include transition(width 1s ease-out);
+	max-width: 100%;
+	background-color: rgba($bluegrass, 0.5);
+} // the height of the fill dictates the height of the progressBar
+
+
+// progressBar--large is used on campaigns
+.progressBar--large {
+	@include border-radius(20px);
+	@include progressBar;
+	border: 3px white solid;
+}
+.progressBar--large-fill {
+	@include progressBar-fill(26px); // passing in the height
+	@include border-radius(20px 0 0 20px);
+}
+.progressBar--large .goalAmount {
+	font-size: 20px;
+	right: 9px;
+	top: 4px;
+}
+.progressBar--large .goalAmount .dollar {
+	font-size: 14px;
+	margin-right: -4px;
+	line-height: 1.2;
+}
+
+.progressBar {
+	@include progressBar
+}
+
+// progressBar--medium is used on dasboard and todo list
+.progressBar--medium {
+	@include border-radius(10px);
+	@include progressBar;
+	font-size: 14px;
+	border: 2px white solid;
+}
+.progressBar--medium .dollar {
+	font-size: 11px;
+	margin-right: -3.5px;
+	line-height: 1.1;
+}
+.progressBar--medium .goalAmount,
+.progressBar--medium .totalRaised {
+	top: 1.5px;
+} 
+.progressBar--medium .goalAmount {
+	right: 7px;
+}
+.progressBar--medium .totalRaised {
+	left: 7px;
+}
+.progressBar--medium-fill {
+	@include progressBar-fill(18px); // passing in the height
+	@include border-radius(10px 0 0 10px);
+}
+
+
+// progressBar--small is used on campaign cards
+.progressBar--small {
+	@include border-radius(8px);
+	@include progressBar;
+}
+.progressBar--small-fill {
+	@include progressBar-fill(10px); // passing in the height
+	@include border-radius(6px 0 0 6px);
+}
+
+
+// progressBar--app lives in the footer and indicates a loading state
+// called like this: appl.def('loading', true)
+.progressBar--app {
+	@include progressBar;
+	padding: 0;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+.progressBar--app .progressBar-fill--striped {
+	height: 15px;
+	width: 100%;
+}
+// these keyframes animate the diagonal stripes
+@-webkit-keyframes progress-bar-stripes{
+	from{background-position:40px 0}
+	to{background-position:0 0}
+}
+@-moz-keyframes progress-bar-stripes{
+	from{background-position:40px 0}
+	to{background-position:0 0}
+}
+@-ms-keyframes progress-bar-stripes{
+	from{background-position:40px 0}
+	to{background-position:0 0}
+}
+@-o-keyframes progress-bar-stripes{
+	from{background-position:0 0}
+	to{background-position:40px 0}
+}
+@keyframes progress-bar-stripes{
+	from{background-position:40px 0}
+	to{background-position:0 0}
+}
+.progressBar-fill--striped {
+	width: 0%;
+	height: 15px;
+	-webkit-animation: progress-bar-stripes 2s linear infinite;
+	-moz-animation: progress-bar-stripes 2s linear infinite;
+	-ms-animation: progress-bar-stripes 2s linear infinite;
+	-o-animation: progress-bar-stripes 2s linear infinite;
+	animation: progress-bar-stripes 2s linear infinite;
+	background-color: $bluegrass;
+	background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(white,0.3)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(white,0.3)), color-stop(0.75, rgba(white,0.3)), color-stop(0.75, transparent), to(transparent));
+	background-image: -webkit-linear-gradient(45deg, rgba(white,0.3) 25%, transparent 25%, transparent 50%, rgba(white,0.3) 50%, rgba(white,0.3) 75%, transparent 75%, transparent);
+	background-image: -moz-linear-gradient(45deg, rgba(white,0.3) 25%, transparent 25%, transparent 50%, rgba(white,0.3) 50%, rgba(white,0.3) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(45deg, rgba(white,0.3) 25%, transparent 25%, transparent 50%, rgba(white,0.3) 50%, rgba(white,0.3) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(45deg, rgba(white,0.3) 25%, transparent 25%, transparent 50%, rgba(white,0.3) 50%, rgba(white,0.3) 75%, transparent 75%, transparent);
+	-webkit-background-size: 40px 40px;
+	-moz-background-size: 40px 40px;
+	-o-background-size: 40px 40px;
+	background-size: 40px 40px;
+	background-repeat: repeat-x;
+	-webkit-transition: width 5s ease;
+	-moz-transition: width 5s ease;
+	-o-transition: width 5s ease;
+	transition: width 5s ease;
+}

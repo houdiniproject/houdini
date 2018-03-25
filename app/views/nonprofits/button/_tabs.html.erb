@@ -1,0 +1,18 @@
+<!-- partial: nonprofits/button/_tabs.html.erb -->
+<div class='pageTabs'>
+	<a href='<%= nonprofits_button_advanced_path(@nonprofit) %>' 
+		class='<%= active == :advanced && 'is-active' %>'>
+		Advanced
+	</a>
+
+	<a href='<%= nonprofits_button_guided_path(@nonprofit) %>'
+		class='<%= active == :guided && 'is-active' %>'>
+		Guided
+	</a>
+
+	<a href='<%= nonprofits_button_basic_path(@nonprofit) %>'
+		class='<%= active == :basic && 'is-active' %>'>
+		Basic
+	</a>
+</div>
+<!-- end partial nonprofits/button/_tabs.html.erb -->

@@ -1,0 +1,61 @@
+<div class='modal' id='manageFieldMasterModal'>
+	<!--= scope 'custom_fields.masters' -->
+
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>
+			Manage Custom Fields
+		</h4>
+			<%= render 'common/modal_close' %>
+	</header>
+
+
+	<div class='modal-body'>
+
+		<form>
+			<!--= on 'submit' (this.add form_object) -->
+
+			<div class='u-relative u-marginBottom--15'>
+				<input name='name' type='text' placeholder='Tag name' class='u-margin--0'>
+				<button class='button--inset bluegreen' type='submit'>
+					<!--= set_attr_if this.loading 'disabled' 'disabled' -->
+					<i class='fa fa-plus'></i> Add New Field To List
+				</button>
+			</div>
+		</form>
+
+			<p class='noResults'>
+				<!--= hide_if (length this.data) -->
+				Add your first custom field by simply typing in the above input.
+			</p>
+
+			<table class='table--plaid'>
+				<!--= show_if (length this.data) -->
+				<thead>
+					<tr>
+						<th>Field Name</th>
+						<th>Date Created</th>
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<!--= repeat this.data -->
+						<td>
+							<!--= put this.name -->
+						</td>
+						<td>
+							<!--= put (readable_date this.created_at) -->
+						</td>
+						<td>
+							<a class='dangerLink u-fontSize--20'>
+								<!--= on 'click' (confirm (cat 'Are you sure you want to delete field "' this.name '"?') (custom_fields.masters.delete this.name this.id)) -->
+								<i class='fa fa-times'></i>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+	<%= render 'settings_modal_footer' %>
+</div>

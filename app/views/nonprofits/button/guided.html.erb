@@ -1,0 +1,22 @@
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'nonprofits/button/page' %>
+<% end %>
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<% content_for :javascripts do %>
+<%= IncludeAsset.js '/client/js/nonprofits/button/page.js' %>
+<% end %>
+
+<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
+
+<header class='header'>
+	<div class='container--mid'>
+		<i class='header-icon icon-credit-card'></i> 
+		<h3 class='header-title'>Donate Form Builder</h3>
+		<%= render 'tabs', active: :guided %>
+	</div>
+</header>
+
+<section class='container--mid u-padding--15' id='js-donateFormBuilder'></section>
+
+<%= render 'modals' %>

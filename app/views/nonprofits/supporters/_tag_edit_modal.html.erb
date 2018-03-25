@@ -1,0 +1,41 @@
+<div class='modal' id='tagEditModal'>
+
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>Edit Tags for
+		<!--= put  supporter_details.data.name_email_or_id --></h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+		<form>
+			<!--= show_if (length tags.masters.data) -->
+			<!--= on 'submit' (tags.single.prepare_to_post form_object) -->
+      <div class='layout--two'>
+        <span class='u-marginBottom--10 group'>
+					<!--= repeat supporter_details.tag_list -->
+						<input type='hidden' name='id'><!--= set_value this.id -->
+						<input type='checkbox' name='selected'>
+						<!--= set_attr 'id' (cat 'tag-edit-checkbox-' this.id) -->
+						<!--= checked_if this.is_checked -->
+						<label class='u-floatL'></label>
+						<!--= set_attr 'for' (cat 'tag-edit-checkbox-' this.id) -->
+						<span class='tag u-floatL'><!--= put this.name --></span>
+        </span>
+      </div>
+			<div class='u-centered u-marginTop--20'>
+				<%= render 'components/forms/submit_button', button_text: 'Apply Changes', resource: 'tags' %>
+			</div>
+
+		</form>
+
+		<p class='noResults'>
+			<!--= show_if (empty tags.masters.data) -->
+			It looks like you haven't created any tags yet. Click the link below to add some tags.
+		</p>
+	</div>
+
+	<footer class='modal-footer'>
+		<a><!--= on 'click' (open_modal 'manageTagMasterModal') -->Manage tags</a>
+	</footer>
+
+</div>

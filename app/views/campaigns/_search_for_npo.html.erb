@@ -1,0 +1,14 @@
+<input type='text' placeholder="Type nonprofit name here" class='u-marginBottom--0'>
+<!--= on "keyup" (search_nonprofits get_value) -->
+<!--= set_value selected_result.name -->
+<div class='typeAhead'>
+  <!--= show_if (length search_results) -->
+  <ul>
+    <li>
+      <!--= repeat search_results -->
+      <!--= on "click" (select_result.with_click this.i)-->
+      <!--= if (eq this.i selected_result_index) (select_result.with_arrows this.i) -->
+      <!--= put this.name -->
+    </li>
+  </ul>
+</div>

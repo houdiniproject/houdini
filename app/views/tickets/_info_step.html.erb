@@ -1,0 +1,21 @@
+<!-- partial start: tickets/info_step -->
+<% unrequire_email ||= false %>
+<section class='wizard-step'>
+	<!--= wizard.set_step 'ticket_wiz' 'Info' -->
+
+	<form parsley-validate>
+		<!--= on 'submit' (ticket_wiz.save_supporter form_object) -->
+		<div class='u-margin--auto u-maxWidth--400'>
+			<%= render 'supporters/fields',
+				required: {name: true, email: !unrequire_email },
+				show_anon: false, profile: profile || nil %>
+		</div>
+
+		<div class='u-centered'>
+			<p class='status error'><!--= put ticket_wiz.error --></p>
+			<%= render 'components/forms/submit_button', scope: 'ticket_wiz',
+				button_text: 'Next', branded: true %>
+		</div>
+	</form>
+</section>
+<!-- partial end: tickets/info_step -->

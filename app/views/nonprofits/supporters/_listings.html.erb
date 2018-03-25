@@ -1,0 +1,243 @@
+<section class='u-marginBottom--10'>
+  <!--= scope 'supporter_details.data' -->
+  <table class='u-width--full'>
+    <tr>
+      <td class='u-paddingRight--10 u-width--90'>
+        <!--= show_if this.full_contact.photo -->
+        <div class='u-centeredBg u-width--80 u-height--80'>
+          <!--= set_attr 'style' (cat "background-image: url('" this.full_contact.photo "');") -->
+        </div>
+      </td>
+      <td>
+        <h6 class='u-margin--0'>
+          <!--= put (any this.name (cat 'Supporter #' this.id)) -->
+        </h6>
+        <div>
+          <!--= show_if this.full_contact.current_job -->
+          <p class='u-flatHeight'><small><strong>
+            <!--= put this.full_contact.current_job.title  -->
+          </strong></small></p>
+          <p class='u-flatHeight'><small>
+             <!--= put this.full_contact.current_job.name -->
+          </small></p>
+        </div>
+      </td>
+    </tr>
+  </table>
+</section>
+
+<table class='table--small u-marginBottom--15'>
+  <!--= scope 'supporter_details.data' -->
+	<tr>
+    <!--= show_if this.email -->
+    <td><i class='fa fa-envelope u-color--grey'></i></td>
+    <td class='u-breakWord'>
+      <!--= put this.email-->
+      <small class='u-color--red'>
+        <!--= show_if this.is_unsubscribed_from_emails -->
+        Unsubscribed
+      </small>
+    </td>
+  </tr>
+	<tr>
+    <!--= show_if (any this.address this.city this.state_code this.zip_code this.country) -->
+    <td><i class='fa fa-map-marker u-color--grey'></i></td>
+    <td>
+      <!--= put address_with_commas this.address this.city this.state_code -->
+      <!--= put this.zip_code -->
+      <!--= put this.country -->
+    </td>
+	</tr>
+	<tr>
+    <!--= show_if (any this.fc_age this.fc_age_range) -->
+    <td><i class='fa fa-user u-color--grey'></i></td>
+    <td>Age: <!--= put (any this.fc_age this.fc_age_range) --></td>
+  </tr>
+  <tr>
+    <!--= show_if this.phone -->
+    <td><i class='fa fa-phone u-color--grey'></i></td>
+    <td><!--= put (format_phone this.phone) --></td>
+  </tr>
+  <tr>
+    <!--= show_if this.organization -->
+    <td><i class='fa fa-building-o u-color--grey'></i></td>
+    <td><!--= put this.organization --></td>
+  </tr>
+  <tr>
+    <!--= show_if this.websites -->
+    <td><i class='fa fa-globe u-color--grey'></i></td>
+    <td class='u-padding--0'>
+      <table class='table--small u-margin--0'>
+        <tr> 
+          <!--= repeat this.websites -->
+          <td class='u-breakWord'>
+            <a target='_blank'>
+              <!--= set_attr 'href' this -->
+              <!--= put (clean_url this) -->
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+	<tr>
+    <!--= show_if this.anon -->
+    <td><i class='fa fa-eye u-color--grey'></i></td>
+    <td>
+      Anonymous supporter
+    </td>
+	</tr>
+</table>
+
+<button class='button--tiny edit u-marginBottom--20'>
+  <!--= on 'click' (open_modal 'editSupporterModal') -->
+  <i class='fa fa-pencil'></i> Edit Supporter
+</button>
+
+<label>Metrics</label>
+<table class='table--small u-marginBottom--20'>
+  <!--= scope 'supporter_details.data' -->
+	<tr>
+		<td>Total Contributed</td>
+		<td>$<!--= put (cents_to_dollars this.raised) --></td>
+	</tr>
+	<tr>
+		<td>Payments</td>
+		<td><!--= put this.payments_count --></td>
+	</tr>
+  <tr>
+    <td>Recurring Donations</td>
+   <td><!--= put this.recurring_donations_count --></td>
+  </tr>
+</table>
+
+
+<section class='u-marginBottom--20'>
+	<!--= scope 'supporter_details.custom_fields.data' -->
+  <table class='u-width--full u-marginBottom--5'>
+    <tr>
+      <td><label>Custom Fields</label></td>
+      <td class='u-textAlign--right'>
+        <button class='button--micro edit u-textAlign--right'>
+          <!--= on 'click' custom_fields.single.show_modal -->
+          <i class='fa fa-pencil'></i> Edit Fields
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <p>
+  <!--= hide_if  (length this) -->
+    <small class='u-color--grey'>None yet</small>
+  </p>
+
+  <table class='table--small u-marginBottom--15'>
+    <tr>
+      <!--= repeat this -->
+      <!--= show_if this.value -->
+      <td>
+        <strong><!--= put this.name -->:</strong>
+      </td>
+      <td>
+        <!--= put this.value -->
+      </td>
+    </tr>
+  </table>
+</section>
+
+
+<table class='u-width--full u-marginBottom--10'>
+  <tr>
+    <td><label>Tags</label></td>
+    <td class='u-textAlign--right'>
+      <button class='button--micro edit u-textAlign--right'>
+        <!--= on 'click' tags.single.show_modal -->
+        <i class='fa fa-pencil'></i> Edit Tags
+      </button>
+    </td>
+  </tr>
+</table>
+
+  <p>
+  <!--= hide_if (length supporter_details.tags.data) -->
+    <small class='u-color--grey'>None yet</small>
+  </p>
+
+
+<div class='u-marginBottom--20 group'>
+  <span class='tag'>
+  	<!--= repeat supporter_details.tags.data -->
+  	<!--= put this.name -->
+  </span>
+</div>
+
+<section>
+  <!--= scope 'supporter_details.data.full_contact' -->
+  <!--= show_if (length this.interests) -->
+  <label>Interests</label>
+  <table class='table--small u-marginBottom--20'>
+    <tr>
+      <!--= repeat this.interests -->
+      <td><!--= put this.value --></td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <!--= scope 'supporter_details.data.full_contact' -->
+  <!--= show_if (length this.social) -->
+  <label>Social Media</label>
+  <table class='table--small u-marginBottom--20'>
+    <tr>
+      <!--= repeat this.social -->
+      <td>
+        <a target='_blank'>
+          <!--= set_attr 'href' this.url-->
+          <!--= put this.type_id -->
+        </a>
+      </td>
+      <td>
+        <span>
+          <!--= show_if this.followers -->
+          <i class='fa fa-users u-color--grey'></i>
+          <!--= put this.followers -->
+        </span>
+      </td>
+    </tr>
+  </table>
+</section>
+
+
+<section>
+  <!--= scope 'supporter_details.data.full_contact' -->
+  <!--= show_if (length this.jobs) -->
+
+  <label>Work History</label>
+  <table class='table--small u-marginBottom--20'>
+    <tr>
+      <!--= repeat this.jobs -->
+      <td>
+        <p class='u-margin--0'><strong><!--= put this.title --></strong></p>
+        <p class='u-margin--0'>
+          <small><!--= put this.start_date --></small>
+          <small>- <!--= put this.end_date --></small>
+            <!--= show_if this.end_date -->
+          <small>(current)</small>
+            <!--= show_if this.e -->
+        </p>
+        <!--= put this.name-->
+      </td>
+    </tr>
+  </table>
+</section>
+
+
+<p class='u-color--grey u-fontSize--13'>
+  <!--= show_if this.data.imported_at -->
+  Import date: <!--= put readable_date this.data.imported_at -->
+</p>
+
+<button class='u-marginTop--10 button--tiny redText'>
+  <!--= on 'click' (confirm 'Are you sure you want to delete this supporter?' delete_selected_supporters) -->
+  <i class='fa fa-times'></i> Delete Supporter
+</button>

@@ -1,0 +1,3 @@
+mailer:
+  delivery_method: "aws_ses"
+  host: "cc.wemove.eu"

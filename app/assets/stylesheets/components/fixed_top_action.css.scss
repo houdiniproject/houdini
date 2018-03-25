@@ -1,0 +1,140 @@
+.fixedTopAction {
+	position: fixed;
+	background: darken($fog, 1);
+	@include box-shadow(0 5px 6px 0 rgba(black, 0.1));
+	display: block;
+	left: 0;
+	top: 0;
+	width: 100%;
+}
+.fixedTopAction button {
+	line-height: 1;
+	font-size: 16px;
+	padding: 8px;
+}
+.fixedTopAction a {
+	font-weight: bold;
+	@include opacity(0.8);
+	text-decoration: underline;
+}
+.fixedTopAction-title {
+	margin: 0;
+	display: inline;
+	font-size: 17px;
+}
+.fixedTopAction .container {
+	padding: 7px 0;
+}
+.fixedTopAction-table {
+	width: 100%;
+	table-layout: fixed;
+}
+.fixedTopAction-metrics {
+	font-size: 13px;
+	font-weight: bold;
+	color: grey;
+}
+.fixedTopAction-metrics > *:last-child:before {
+	display: none;
+}
+.fixedTopAction-metrics > * {
+	padding-right: 16px;
+	position: relative;
+}
+.fixedTopAction-metrics > *:before {
+	content: '\2022';
+	color: rgba(black, 0.3);
+	position: absolute;
+	right: 3px;
+	top: 3px;
+}
+.fixedTopAction .progressBar--medium {
+	display: inline-block;
+	vertical-align: text-bottom;
+	margin-right: 7px;
+	font-size: 13px;
+	width: 200px;
+}
+.fixedTopAction-left  {
+	@include ellipsis;
+	padding-right: 10px;
+}
+.fixedTopAction--campaign .fixedTopAction-right  {
+	width: 450px;
+}
+.fixedTopAction--event .fixedTopAction-right {
+	width: 200px;
+}
+.fixedTopAction--npo .fixedTopAction-right {
+	width: 170px;
+}
+.fixedTopAction-right {
+	text-align: right;
+}
+.fixedTopAction-goal {
+	background: rgba(white, 0.8);
+	padding: 4px 7px;
+	font-size: 15px;
+	margin-right: 10px;
+}
+.fixedTopAction-goal strong {
+	@include opacity(0.7);
+	font-size: 13px;
+	margin-right: 5px;
+}
+.button.fixedTopAction-button--share {
+	@include border-radius(50% !important);
+	border: 0;
+	padding: 0;
+	width: 37px;
+	height: 37px;
+	margin-right: 8px;
+	@include opacity(0.9);
+}
+
+@media screen and (max-width: 980px) {
+	.fixedTopAction .container {
+		padding: 7px 10px;
+}
+}
+
+@media screen and (max-width: 800px) {
+	.fixedTopAction .progressBar--medium {
+		width: 150px;
+	}
+	.fixedTopAction--campaign .fixedTopAction-right  {
+		width: 450px;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.fixedTopAction-hideWhenMobile {
+		display: none !important;
+	}
+	.fixedTopAction--campaign .fixedTopAction-right {
+		width: 200px;
+	}
+}
+@media screen and (max-width: 460px) {
+	.fixedTopAction--campaign .fixedTopAction-right {
+		width: 100px;
+	}
+	.fixedTopAction--event .fixedTopAction-right {
+		width: 120px;
+	}
+	.fixedTopAction--npo .fixedTopAction-right {
+		width: 80px;
+	}
+	.fixedTopAction-promote {
+		display: none;
+	}
+}
+@media screen and (max-width: 460px) {
+	.fixedTopAction {
+		font-size: 14px;
+	}
+	.fixedTopAction button {
+		font-size: 14px;
+		padding: 5px;
+	}
+}

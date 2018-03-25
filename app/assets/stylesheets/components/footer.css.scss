@@ -1,0 +1,64 @@
+@import 'mixins';
+@import 'components/press_row';
+
+.globalFooter--mosaic {
+	background: $mosaic;
+	width: 100%;
+	height: 4px;
+}
+.globalFooter {
+	width: 100%;
+	background: $blue-grey;
+	position: relative;
+	@include mosaic(bottom, 4px);
+}
+.globalFooter-guest.container { padding: 30px 15px 15px 15px; }
+.globalFooter * { color: white; }
+.globalFooter a:not(.globalFooter-sub-item--social) {
+	@include setColorAndHover(white);
+	border-bottom: 1px solid rgba(white, 0.2);
+}
+.globalFooter-title { font-weight: bold; }
+.globalFooter li:not(.globalFooter-title) {
+	margin-top: 5px;
+	padding: 0 0 5px 0;
+	font-size: 15px;
+}
+
+// footer sub
+.globalFooter-sub {
+	background: rgba(black, 0.06);
+	padding: 20px 0 25px 0;
+}
+.globalFooter-sub .container {
+	padding: 0 10px;
+}
+.globalFooter-sub-item,
+.globalFooter-sub-item--social {
+	font-size: 14px;
+	margin-right: 10px;
+}
+.globalFooter-sub-item--social i.fa {
+	@include opacity(0.9);
+	text-align: center;
+	margin: 0;
+	width: 25px;
+	line-height: 25px;
+	@include border-radius(50%);
+	@include setBackgroundAndHover(rgba(white, 0.9));
+
+}
+.globalFooter-sub-item--social i.fa-facebook { color: $facebook; }
+.globalFooter-sub-item--social i.fa-twitter { color: $twitter; }
+.globalFooter-sub-item--social i.fa-google { color: $google; }
+.globalFooter-sub-commitchange {
+	@include bitter;
+	font-size: 17px;
+	font-weight: bold;
+	margin-right: 15px;
+}
+.globalFooter-sub img {
+	vertical-align: text-bottom;
+	width: 25px;
+}
+

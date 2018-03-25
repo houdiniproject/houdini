@@ -1,0 +1,30 @@
+.stepsMenu ul {
+	margin: 0 0 10px 0px;
+	list-style: none;
+}
+.stepsMenu li {
+	cursor: pointer;
+	position:relative;
+	padding: 10px;
+	&:last-of-type:before { background: none; }
+	&:hover {
+		font-weight: bold;
+	}
+}
+.stepsMenu li a {
+	color: $charcoal;
+	&:hover { color: $charcoal; }
+}
+.stepsMenu li:before {
+	content: '';
+	position: absolute;
+	height: 1px;
+	width: 100%;
+	background: rgba(black, 0.05);
+	left: 0;
+	bottom: 0;
+}
+.stepsMenu li.active {
+	border-left: 5px $bluegrass solid;
+	font-weight: bold;
+}

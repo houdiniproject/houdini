@@ -1,0 +1,81 @@
+<div class='modal' id='editSupporterModal'>
+	<!--= scope 'supporter_details.data' -->
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>Edit Info for <!--= put this.name_email_or_id --></h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+
+	<div class='modal-body'>
+
+		<form>
+			<!--= on 'submit' (ajax_supporter.update this.id form_object) -->
+
+			<input type='hidden' name='id'>
+			<!--= set_value this.id -->
+
+      <section class='layout--two'>
+        <fieldset class='u-marginBottom--0'>
+          <label>Name</label>
+          <input type='text' name='name'>
+          <!--= set_value this.name -->
+        </fieldset>
+
+        <fieldset class='u-marginBottom--0'>
+          <label>Organization</label>
+          <input type='text' name='organization'>
+          <!--= set_value this.organization -->
+        </fieldset>
+      </section>
+
+			<section class='layout--two'>
+				<fieldset class='u-marginBottom--0'>
+					<label>Email</label>
+					<input parsley-error-message='Please enter a valid email.' type='email' parsley-trigger='change' name='email'>
+					<!--= set_value this.email -->
+				</fieldset>
+
+				<fieldset class='u-marginBottom--0'>
+					<label>Phone</label>
+					<input  parsley-error-message='Enter a valid phone number.' parsley-trigger='change' parsley-type='phone' type='text' name='phone'>
+						<!--= set_value this.phone -->
+				</fieldset>
+
+				<fieldset class='u-marginBottom--0'>
+					<label>Address</label>
+					<input type='text' name='address'>
+						<!--= set_value this.address -->
+				</fieldset>
+
+				<fieldset class='u-marginBottom--0'>
+					<label>City</label>
+					<input type='text' name='city'>
+						<!--= set_value this.city -->
+				</fieldset>
+			</section>
+
+			<section class='layout--three'>
+				<fieldset class='u-marginBottom--0'>
+					<label>State/Region</label>
+					<input type='text' name='state_code'>
+						<!--= set_value this.state_code -->
+				</fieldset>
+
+				<fieldset class='u-marginBottom--0'>
+					<label>Postal Code</label>
+					<input type='text' name='zip_code'>
+						<!--= set_value this.zip_code -->
+				</fieldset>
+
+				<fieldset class='u-marginBottom--0'>
+					<label>Country</label>
+					<input type='text' name='country'>
+						<!--= set_value this.country -->
+				</fieldset>
+			</section>
+
+			<%= render 'components/forms/submit_button', resource: 'supporter_details' %>
+
+		</form>
+	</div>
+</div>

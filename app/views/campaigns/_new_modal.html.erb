@@ -1,0 +1,107 @@
+<!-- partial campaigns/new-modal -->
+<!-- include 'campaigns/new/index' -->
+
+<div class='modal' id='newCampaign'>
+
+	<%= render 'common/modal_header', title: 'New Campaign' %>
+
+	<div class='wizard-steps' style='display:none;'>
+		<!--= wizard.init 'new_campaign_wiz' -->
+
+	<%= render 'components/wizard/step_index', wizard_name: 'new_campaign_wiz' %>
+
+	<div class='modal-body' style='display: table;'>
+
+		<div class='wizard-step name-step'>
+			<!--= wizard.set_step 'new_campaign_wiz' 'Name' -->
+
+			<form parsley-validate>
+					<!--= on 'submit' (advance_campaign_name_step form_object) -->
+				<input type='hidden' name='campaign[profile_id]' value='<%= current_user.profile.id %>'>
+
+				<fieldset>
+					<label>Campaign Name</label>
+					<input type='text' name='campaign[name]' required parsley-trigger='change'>
+				</fieldset>
+
+				<fieldset>
+					<label>Short Tagline</label>
+					<input type='text' name='campaign[tagline]' required parsley-trigger='change'>
+				</fieldset>
+
+				<fieldset>
+					<label>Short Description <small>(used for sharing on social media)</small></label>
+					<textarea name='campaign[summary]' required parsley-maxlength='300' parsley-trigger='change'></textarea>
+				</fieldset>
+
+				<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_campaign_wiz', branded: true %>
+			</form>
+		</div>
+
+			<div class='wizard-step amount-step'>
+				<!--= wizard.set_step 'new_campaign_wiz' 'Goals' -->
+
+				<form parsley-validate>
+					<!--= on 'submit' (def 'new_campaign' form_object) (wizard.advance 'new_campaign_wiz') -->
+
+
+          <div class='u-margin--auto'>
+						<fieldset class='group u-marginBottom--0'>
+							<label class='u-paddingTop--5'>Goal Amount</label>
+							<div class='prepend--dollar'>
+								<input class='input--100 u-marginBottom--5' value='1000' type='number' name='campaign[goal_amount_dollars]' required min='1'>
+							</div>
+						</fieldset>
+
+						<hr>
+
+						<fieldset class='group'>
+							<label class='u-paddingTop--5'>End Date & Time</label>
+              <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
+                <input class='u-width--200 u-bold u-inlineBlock' type='text' name='campaign[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM'>
+                <a class='button edit u-inlineBlock'>Set</a>
+              </div>
+						</fieldset>
+					</div>
+
+					<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_campaign_wiz', branded: true %>
+				</form>
+			</div>
+
+			<div class='wizard-step media-step'>
+				<!--= wizard.set_step 'new_campaign_wiz' 'Media' -->
+
+				<form parsley-validate>
+					<!--= on 'submit' create_campaign -->
+
+					<fieldset>
+
+						<p class='u-color--red'>
+							<!--= show_if (length image_upload.error) -->
+							<small><!--= put image_upload.error --></small>
+						</p>
+
+						<div class='col-left-8'> 
+							<label>Image <small>(recommended width: 500px)</small></label>
+							<p>This image appears below the campaign's header as well as on the campaign's preview card.  You'll have a chance to upload an additional header image once you've created your campaign.</p>
+						</div>
+						<div class='image-upload u-margin--0 u-floatR' if-branded='border-color, light'>
+							<span><i class='fa fa-image'></i> Upload</span>
+							<input type='file' name='campaign[main_image]' parsley-trigger='change'>
+					</fieldset>
+
+					<fieldset>
+						<hr>
+						<label>Video</label>
+						<p>If you have a video, it can greatly boost your success. Copy and paste the URL from Vimeo or Youtube.</p>
+						<input type='text' class='u-marginBottom--10' name='campaign[video_url]' placeholder='Youtube or Vimeo URL' />
+					</fieldset>
+
+					<%= render 'components/forms/submit_button', button_text: 'Preview Campaign!', scope: 'new_campaign_wiz', branded: true %>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- end partial campaigns/new-modal -->

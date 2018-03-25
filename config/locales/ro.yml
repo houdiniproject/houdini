@@ -1,0 +1,118 @@
+ro:
+  hello: "Salut "
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Conținutul comentariului'
+  mailer:
+    donations:
+      donor_receipt:
+        subject: "Chitanța donației pentru %{nonprofit_name}"
+        transfer_info_html: "Acest transfer va apărea pe extrasul de cont ca %{label}"
+        transfer_label_html: "<strong>Donație %{nonprofit_statement}</strong>."
+        oneoff_donation_html: "Îți mulțumim că ai donat pentru <strong>%{nonprofit_name}</strong> și că te-ai alăturat miilor de oameni din toată Europa care s-au implicat pentru a transforma mișcarea noastră într-una redutabilă. Sprijinul financiar pe care l-ai acordat ne va ajuta să acționăm rapid și să avem câștig de cauză în campaniile care contează pentru noi toți."
+        recurring_donation_html: "Îți mulțumim că ai făcut o donație recurentă pentru <strong>%{nonprofit_name}</strong> și că te-ai alăturat miilor de oameni din toată Europa care s-au implicat pentru a transforma mișcarea noastră într-una redutabilă. Sprijinul financiar pe care l-ai acordat ne va ajuta să acționăm rapid pentru a obține câștig de cauză în campaniile care contează pentru noi toți."
+      donor_direct_debit_notification:
+        subject: "Chitanța donației pentru %{nonprofit_name}"
+        transfer_info_html: "Acest transfer va apărea în extrasul tău de cont ca %{label}"
+        transfer_label_html: "Donație %{nonprofit_statement}"
+        donation_queued_html: "Donația ta prin debitare directă pentru 1%{nonprofit_name}1 a fost înregistrată pentru procesare."
+        recurring_donation_queued_html: "Îți mulțumim că ai făcut o donație recurentă pentru <strong>%{nonprofit_name}</strong>și că te-ai alăturat miilor de oameni din toată Europa care s-au implicat pentru a transforma mișcarea noastră într-una redutabilă. Sprijinul financiar pe care l-ai acordat ne va ajuta să acționăm rapid pentru a obține câștig de cauză în campaniile care contează pentru noi toți. "
+  nonprofits:
+    donate:
+      signed_in: "Ești autentificat/ă ca"
+      log_out: "Deconectează-te"
+      amount:
+        label: "Sumă"
+        sustaining: "Contribuie cu o donație lunară"
+        sustaining_bold: "susținere, lunar"
+        sustaining_selected: "Selectează o sumă pentru donația lunară"
+        sustaining_selected_bold: "lunar"
+        custom: "Altă sumă"
+        designation:
+          label: "Scop:"
+          choose: "Alege un scop (opțional)"
+          most_needed: "Folosiți donația mea acolo unde e cea mai mare nevoie de ea"
+        next: "Pasul următor"
+      info:
+        label: "Date"
+        supporter:
+          email: "Adresă de e-mail"
+          email_required: "(obligatorie)"
+          full_name: "Nume complet"
+          first_name: "Prenume"
+          last_name: "Nume "
+          phone: "Telefon"
+          address: "Adresă"
+          city: "Oraș"
+          state: "Selectează țara"
+          country: "Țara"
+          other_country: "Alta"
+          region: "Județ"
+          postal_code: "Cod poștal"
+          shipping_address: "Adresă de corespondență (obligatoriu)"
+          errors:
+            email:
+              format: "Te rugăm să introduci o adresă de e-mail validă"
+        dedication_link: "Donează în onoarea sau în memoria cuiva."
+        dedication_saved: "Numele persoanei căreia îi este dedicată donația"
+        anonymous_checkbox: "Vreau ca donația să fie anonimă."
+        next: "Pasul următor"
+      dedication:
+        info: "Adaugă o dedicație pentru donația ta:"
+        in_honor_label: "În onoarea "
+        in_memory_label: "În memoria"
+        first_name: "Prenume"
+        last_name: "Nume de familie"
+        email: "E-mail (opțional)"
+        phone: "Telefon (opțional)"
+        full_address: "Adresă (opțional)"
+        note: "Notă sau mesaj"
+        save: "Salvează și întoarce-te pe pagina anterioară"
+        donor_note: "Donatorul/Donatoarea a lăsat următorul mesaj:"
+      payment:
+        label: "Plată"
+        one_time: "singulară"
+        monthly_recurring: "lunară"
+        tabs:
+          card: "Card de credit"
+          sepa: "Debitare directă"
+        loading:
+          checking_card: "Verificăm cardul..."
+          sending_payment: "Transfer în desfășurare..."
+        card:
+          name: "Numele deținătorului/deținătoarei cardului"
+          number: "Numărul cardului"
+          cvc: "CVC"
+          postal_code: "Cod poștal"
+          month: "Lună"
+          year: "An"
+          submit: "Trimite"
+          loading: "Se salvează..."
+          secure_info: "Tranzacție securizată prin criptare SSL pe 256 de biți"
+          errors:
+            field:
+              presence: "Câmp obligatoriu"
+              format: "Format incorect"
+            number:
+              presence: "Te rugăm să introduci numărul cardului"
+              format: "Numărul cardului nu a fost introdus corect"
+            email:
+              format: "Te rugăm să introduci o adresă de e-mail validă"
+        sepa:
+          name: "Numele deținătoarei/deținătorului contului"
+          iban: "Cod IBAN"
+          bic: "Cod BIC/SWIFT"
+          errors:
+            field:
+              presence: "Câmp obligatoriu"
+              format: "Format incorect"
+      followup:
+        success: "Donația ta a fost înregistrată cu succes!"
+        receipt_info: "Chitanța va fi trimisă la adresa de e-mail"
+        message: "apreciază sprijinul tău!"
+        share:
+          facebook: "Distribuie"
+          twitter: "Trimite un Tweet"
+          twitter_message: "Susține și tu"
+        finish: "Închide"

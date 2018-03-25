@@ -1,0 +1,50 @@
+<% hide_dedication_designation ||= false %>
+
+<div class='modal' id='newOfflineDonation'>
+
+	<header class='modal-header'>
+			<h4 class='modal-title'>
+				New Offsite Donation for
+				<!--= put (any supporter_details.data.name  supporter_details.data.email) -->
+			</h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+
+		<form parsley-validate class='donate-info-form'>
+			<!--= on 'submit' (create_offline_donation form_object) -->
+
+			<input type='hidden' name='nonprofit_id' value='<%= @nonprofit.id %>'>
+			<input type='hidden' name='supporter_id'>
+				<!--= set_attr_if supporter_details.data.id 'value' supporter_details.data.id -->
+
+		  <%= render 'components/forms/offsite_fields' %>
+
+			<% unless hide_dedication_designation %>
+				<div class='layout--two'>
+					<fieldset>
+						<label>Designation<small> (optional)</small></label>
+						<textarea rows='3' name='designation' placeholder='Designation'></textarea>
+					</fieldset>
+
+					<fieldset>
+						<label>Dedication <small> (optional)</small></label>
+						<textarea rows='3' name='dedication' placeholder='Dedication'></textarea>
+					</fieldset>
+				</div>
+			<% end %>
+
+      <fieldset>
+        <label>Notes <small> (optional) </small> </label>
+        <textarea name='comment' rows='3' placeholder='Notes'></textarea>
+      </fieldset>
+
+
+			<p class='error'></p>
+
+			<%= render 'components/forms/submit_button', scope: 'new_offline_donation' %>
+
+		</form>
+	</div>
+</div>

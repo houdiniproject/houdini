@@ -1,0 +1,28 @@
+@import 'mixins';
+
+.loading--overlay {
+  position: relative;
+}
+
+.loading--overlay:after, 
+.loading--overlay:before {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.loading--overlay:before {
+  top: 0;
+  content: '';
+  height: 100%;
+  background: rgba(white, 0.4);
+}
+
+.loading--overlay:after {
+  top: 50%;
+  font-size: 18px;
+  margin-top: -10px;
+  text-align: center;
+  content: 'Loading...';
+}
+

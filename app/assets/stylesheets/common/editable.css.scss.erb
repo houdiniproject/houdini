@@ -1,0 +1,33 @@
+@import 'mixins';
+
+.editable,
+.editable--readOnly {
+	font-size: 16px;
+	line-height: 1.6;
+
+	iframe {
+		max-width: 100%;
+	}
+	ul,
+  ol {
+		padding-left: 40px;
+	}
+  ul {
+    list-style-type: disc;
+  }
+  li {
+    margin-bottom: 5px;
+  }
+	img {
+		width: auto !important;
+	}
+  p, pre {
+    margin: 0;
+    min-height: 16px;
+  }
+}
+
+.editable--email {
+  font-family:"Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif !important;
+}
+

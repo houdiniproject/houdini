@@ -1,0 +1,47 @@
+<% unless yield(:side_nav_hidden) == 'hidden' ||  !current_user %>
+
+<aside class='sideNav-toggle'>
+	<!--= on 'click' toggle_side_nav -->
+	<!--= add_class_if (side_nav_is_open) 'is-togglingOpen' -->
+	<i class='fa fa-bars' title='Show Menu'></i>
+	<i class='fa fa-times' title='Hide Menu'></i>
+</aside>
+
+<nav class="sideNav" >
+	<!--= add_class_if side_nav_is_open 'is-open'  -->
+
+	<% unless current_role? [:nonprofit_admin,:nonprofit_associate] %>
+		<section class='sideNav-section'>
+			<a class='sideNav-commitchangeLogo' href='<%= root_path %>' title='Go To Home Page'>
+				<%= render 'common/logo' %>
+			</a>
+		</section>
+	<% end %>
+
+	<%= render 'layouts/admin_menu' %>
+
+	<%= render 'layouts/user_menu' %>
+
+	<% unless current_role?([:nonprofit_admin,:nonprofit_associate]) %>
+		<section class='sideNav-section'>
+			<a class='sideNav-link' href='/explore'>
+				<i class='sideNav-icon icon-binocular'></i>
+				<span class='sideNav-text'>Explore</span> 
+			</a>
+			<a class='sideNav-link' href="/help">
+				<i class='sideNav-icon icon-bubble-ask-2'></i>
+				<span class='sideNav-text'>Help</span>
+			</a>
+			<a class='sideNav-link' href="/blog">
+				<i class='sideNav-icon icon-megaphone-1'></i> 
+				<span class='sideNav-text'>Blog</span>
+			</a>
+		</section>
+	<% end %>
+</nav>
+
+<div class='sideNav-scrim'>
+	<!--= on 'click' (def 'side_nav_is_open' false) -->
+	<!--= add_class_if side_nav_is_open 'is-showing' -->
+</div>
+<% end %>

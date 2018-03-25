@@ -1,0 +1,5 @@
+mailer:
+  delivery_method: "smtp"
+  address: "localhost"
+  port: 1025
+  host: "localhost:8080"

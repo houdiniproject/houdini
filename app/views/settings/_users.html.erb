@@ -1,0 +1,81 @@
+<header class='pane-header'>
+	<h3>Organization Users</h3>
+</header>
+
+<div class='pane-inner'>
+	<table class='usersTable table table-striped'>
+		<thead>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Role</th>
+			<th></th>
+		</thead>
+		<tbody>
+		<% is_admin = current_role?(:nonprofit_admin) %>
+		<% @nonprofit.roles.includes(user: :profile).each do |role| %>
+			<tr>
+				<td><%= role.user.profile.name %></td>
+				<td class='u-ellipses'><%= role.user.email %></td>
+				<td><%= role.name.to_s.titleize.split(' ').last %></td>
+				<td>
+					<% if is_admin %>
+						<form autosubmit
+						 action='<%= nonprofit_role_path(@nonprofit, role.id, format: :json) %>'
+						 method='delete'
+						 data-reload data-confirm>
+
+							<input type='hidden' name='required_input'>
+							<button
+							 type='submit'
+							 class='button--tiny red'
+							 data-loading='Removing...'>
+
+									<i class='fa fa-times'></i> Remove
+
+							</button>
+						</form>
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+		</tbody>
+	</table>
+
+	<% if current_role?([:nonprofit_admin,:super_admin]) %>
+		<a class='button u-marginTop--5' open-modal='newRole'><i class='fa fa-plus'></i> New User</a>
+	<% end %>
+
+	<hr>
+
+	<div>
+		<a open-modal='roleInfoModal'>
+			What's the difference between an Associate and an Admin?
+		</a>
+	</div>
+</div>
+
+<div class='modal' id='roleInfoModal'>
+	<%= render 'common/modal_header', title: "What's the difference between an Associate and an Admin?" %>
+	<div class='modal-body'>
+		<p class='strong'>Associates can:</p>
+		<ul class='hasBullets'>
+			<li>Change timezone, branding, receipts</li>
+			<li>View payouts, pricing plan, and other users/roles (but cannot change/create any of these)</li>
+			<li>Can view payment histories and supporter records</li>
+			<li>Can edit and create supporter records</li>
+			<li>Can edit donation designation/dedications</li>
+			<li>Can view payout reports (but cannot create new payouts)</li>
+			<li>Can create and edit campaigns</li>
+			<li>Can create and edit events</li>
+			<li>Can charge and create supporters on event attendee lists</li>
+			<li>Can create new donate buttons</li>
+		</ul>
+
+		<p class='strong'>Admins can do everything above, PLUS:</p>
+		<ul class='hasBullets'>
+			<li>Change pricing plan
+			<li>Add/remove users</li>
+			<li>Initiate payouts</li>
+			<li>Change bank accounts</li>
+	</div>
+</div>

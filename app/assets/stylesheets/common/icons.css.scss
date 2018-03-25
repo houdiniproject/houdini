@@ -1,0 +1,29 @@
+@import 'mixins';
+
+// for styling icons and UI related psuedo elements.
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+	display: inline-block;
+}
+
+.greenIcons i {
+	color: $bluegrass;
+}
+
+.scrollToNext {
+	font-size: 100px;
+	display: block;
+	width: 100%;
+	text-align: center;
+	@include setColorAndHover(rgba($charcoal, 0.7));
+}
+
+@media screen and (max-width: 600px) {
+	.scrollToNext {
+		display: none;
+	}
+	.callToAction .scrollToNext {
+		font-size: 80px;
+		display: block;
+	}
+}

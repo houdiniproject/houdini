@@ -1,0 +1,89 @@
+<div class='modal fullScreen' id='manageGiftOptionsModal'>
+
+	<%= render 'common/modal_header', title: 'Manage Gift Options' %>
+
+	<section class='modal-body'>
+		<p>
+			<a class='button'>
+				<!--= on 'click' gift_options.open_new -->
+				<i class='fa fa-plus'></i> New Gift Option
+			</a>
+		</p>
+
+		<p class='noResults'>
+			<!--= show_if (empty gift_options.data) -->
+			It looks like you don't have any gift options yet.  Create one by clicking on the button above.
+		</p>
+
+    <form>
+      <table class='table'>
+        <!--= show_if (length gift_options.data) -->
+          <thead>
+            <th></th>
+            <th>Name</th>
+            <th>One-Time <br>Amount</th>
+            <th>Recurring <br>Amount</th>
+            <th>
+              <!--= show_if gift_options.has_any_quantities -->
+              Limit
+            </th>
+            <th>
+              <!--= show_if gift_options.has_any_quantities -->
+              Remaining
+            </th>
+            <th>ID</th>
+            <th></th>
+          </thead>
+
+          <tbody id='js-reorderGifts'>
+            <tr class='u-width--full draggable-item'>
+              <!--= repeat gift_options.data -->
+              <td class='u-paddingX--0'>
+                <i class='draggable-grip'></i>
+                <input type='hidden' name='id'></input>
+                <!--= set_value this.id -->
+              </td>
+              <td class='u-paddingLeft--0'>
+                <strong><!--= put this.name --></strong>
+              </td>
+              <td>
+                <span>
+                  <!--= show_if this.amount_one_time -->
+                  $<!--= put (cents_to_dollars this.amount_one_time) -->
+                </span>
+              </td>
+              <td>
+                <span>
+                  <!--= show_if this.amount_recurring -->
+                  $<!--= put (cents_to_dollars this.amount_recurring) -->
+                </span>
+              </td>
+              <td>
+                <!--= show_if gift_options.has_any_quantities -->
+                <!--= put this.quantity -->
+              </td>
+              <td>
+                <!--= show_if gift_options.has_any_quantities -->
+                <!--= put this.remaining -->
+              </td>
+              <td>
+                <!--= put this.id -->
+              </td>
+              <td style='width: 200px'>
+                <a class='button--tiny edit u-marginRight--10'>
+                  <!--= on 'click' (gift_options.open_edit this)-->
+                  <i class='fa fa-pencil'></i> Edit
+                </a>
+
+                <a class='button--tiny red'>
+                  <!--= on 'click' (confirm (ajax_gift_options.del this.id)) -->
+                  <i class='fa fa-times'></i> Remove
+                </a>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+    </form>
+	</section>
+
+</div>

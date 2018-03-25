@@ -1,0 +1,168 @@
+<form class='form--flatFields' autosubmit action='<%= nonprofit_event_path(@nonprofit, @event) %>' method='put'  data-reload>
+
+<div class='modal-body'>
+
+  <section class='layout--two'>
+    <fieldset>
+      <label>Title</label>
+      <input type='text' name='event[name]' value='<%= @event.name %>' class='wide'>
+    </fieldset>
+
+    <fieldset>
+      <label>Tagline</label>
+      <input type='text' name='event[tagline]' value='<%= @event.tagline %>' class='wide'>
+    </fieldset>
+  </section>
+
+  <hr>
+
+  <section class='layout--four'>
+    <fieldset>
+      <label>Organizer Contact Email</label>
+      <input type='text' name='event[organizer_email]' value='<%= @event.organizer_email || @organizer['email'] %>'>
+    </fieldset>
+    <fieldset>
+      <label>Start Date & Time</label>
+      <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
+        <input class='u-width--200 u-bold u-inlineBlock' apply-pikaday-time='MM/DD/YYYY hh:mm a' type='text' name='event[start_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@event.start_datetime, @nonprofit.timezone || "UTC") %>'>
+        <a class='button edit u-inlineBlock'>Set</a>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <label>End Date & Time</label>
+      <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
+        <input class='u-width--200 u-bold u-inlineBlock' type='text' name='event[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@event.end_datetime, @nonprofit.timezone || "UTC") %>'>
+        <a class='button edit u-inlineBlock'>Set</a>
+      </div>
+    </fieldset>
+  </section>
+
+  <hr>
+
+  <section class='group'>
+    <div class='col-left-8 u-paddingRight--30'>
+      <fieldset>
+        <label>Venue Name</label>
+        <input type='text' name='event[venue_name]' value='<%= @event.venue_name %>'>
+      </fieldset>
+
+      <fieldset>
+        <label>Address</label>
+        <input type='text' name='event[address]' value='<%= @event.address %>'>
+      </fieldset>
+
+      <div class='layout--two'>
+        <fieldset>
+          <label>City</label>
+          <input type='text' name='event[city]' value='<%= @event.city %>'>
+        </fieldset>
+
+        <fieldset>
+          <label>State</label>
+          <%= render :partial => 'common/states_dropdown', :locals => {:name => 'event[state_code]', :default => @event.state_code} %>
+        </fieldset>
+      </div>
+    </div>
+    <fieldset class='col-right-4'>
+      <label>Directions</label>
+      <p><small>Will be added to receipt (optional)</small></p>
+      <textarea style='margin-top: 6px' rows='6' name='event[directions]' parsley-maxlength='500'><%= @event.directions %></textarea>
+    </fieldset>
+  </section>
+
+  <hr>
+
+  <%= render 'components/forms/slug_field', fundraiser: @event, url: @nonprofit.url + '/events' %>
+
+  <hr>
+
+  <section class='group'>
+    <div class='col-left-7 u-paddingRight--10'>
+      <div class='layout--two u-overflow--hidden'>
+        <fieldset class='u-marginTop--5'>
+          <label>Preview Image</label>
+          <p><small>Used for sharing on social media</small></p>
+          <div class='image-upload  u-inlineBlock' style='background-image: url("<%= @event.main_image_url(:thumb) %>")'>
+            <span><i class='fa fa-pencil'></i> Edit</span>
+            <input type='file' name='event[main_image]'>
+          </div>
+        </fieldset>
+        <fieldset class='u-marginTop--5'>
+          <label>Header Image <small>(1000x600)</small></label>
+          <p><small>Used at top of event page</small></p>
+          <% if  @event_background_image %>
+            <div class='image-upload  u-inlineBlock' style='background-image: url("<%=  @event_background_image %>")'>
+              <!--= on 'click' (open_modal 'uploadBackgroundImage') -->
+              <span><i class='fa  fa-pencil'></i> Edit</span>
+            </div>
+          <% else %>
+            <a class='button edit'>
+              <!--= on 'click' (open_modal 'uploadBackgroundImage')   -->
+              <i class='fa fa-plus'></i> Add Image </i>
+            </a>
+          <% end %>
+        </fieldset>
+      </div>
+    </div>
+
+    <fieldset class='col-right-5'>
+      <label>Short Description</label>
+      <p><small>Used for sharing on social media</small></p>
+      <textarea rows='5' type='text' name='event[summary]' class='wide'><%= @event.summary %></textarea>
+    </fieldset>
+
+  </section>
+
+  <hr>
+
+  <section class="layout--two">
+    <fieldset>
+      <input type='hidden' value='false' name='event[published]'>
+      <input id='published-checkbox' type='checkbox' name='event[published]' <%= @event.published ? 'checked="checked"' : '' %>>
+      <label class='u-marginBottom--10' for='published-checkbox'>Published</label>
+    </fieldset>
+    <fieldset>
+      <input type='hidden' value='false' name='event[show_total_raised]'>
+      <input id='show_total_raised-checkbox' type='checkbox' name='event[show_total_raised]' <%= @event.show_total_raised ? 'checked="checked"' : '' %>>
+      <label class='u-marginBottom--10' for='show_total_raised-checkbox'>Show total dollars raised for the event?</label>
+    </fieldset>
+    <fieldset>
+      <input type='hidden' value='false' name='event[show_total_count]'>
+      <input id='show_total_count-checkbox' type='checkbox' name='event[show_total_count]' <%= @event.show_total_count ? 'checked="checked"' : '' %>>
+      <label class='u-marginBottom--10' for='show_total_count-checkbox'>Show total attendees for the event?</label>
+    </fieldset>
+    <fieldset>
+      <input type='hidden' value='false' name='event[hide_activity_feed]'>
+      <input id='hide_activity_feed-checkbox' type='checkbox' name='event[hide_activity_feed]' <%= @event.hide_activity_feed ? 'checked="checked"' : '' %>>
+      <label class='u-marginBottom--10' for='hide_activity_feed-checkbox'>Hide activity feed?</label>
+    </fieldset>
+    <% if @event_background_image %>
+      <fieldset>
+        <input type='hidden' value='false' name='event[hide_title]'>
+        <input id='hide_title-checkbox' type='checkbox' name='event[hide_title]' <%= @event.hide_title ? 'checked="checked"' : '' %>>
+        <label for='hide_title-checkbox'>Hide main title?</label>
+      </fieldset>
+    <% end %>
+  </section>
+
+  <div>
+    <p class='error'></p>
+  </div>
+
+</div>
+
+<footer class='modal-footer u-padding--15 layout--two'>
+  <span>
+    <button type='submit' data-loading='Updating...' class='button '>Update Event</button>
+  </span>
+  <span>
+    <a class='button red test-deleteEvent'>Delete Event</a>
+    <!--= on 'click' (toggle_soft_delete true) -->
+    <!--= hide_if event_is_deleted -->
+    <a class='button blue'>Undelete Event</a>
+    <!--= on 'click' (toggle_soft_delete false) -->
+    <!--= show_if event_is_deleted -->
+  </span>
+</footer>
+</form>

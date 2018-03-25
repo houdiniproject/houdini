@@ -1,0 +1,82 @@
+@import 'mixins';
+@import 'components/pagination';
+@import 'supporters/form';
+@import 'pikaday';
+@import 'components/panels_layout';
+@import 'side_panel';
+@import 'components/tags';
+@import 'components/bulk_actions';
+@import 'components/page_tabs';
+@import 'components/toggle_buttons';
+@import 'components/drop_down';
+@import 'components/google_maps';
+@import 'common/editable';
+@import 'nonprofits/supporters/custom_fields';
+@import 'components/tables/filtering/meta_status';
+@import 'bootstrap-tour';
+
+.supportersMap {
+	border: 2px solid rgba(black, 0.2);
+	position: relative;
+}
+.supportersMap .legend {
+	@include box-shadow(-2px 2px 4px 0 rgba(black, 0.07));
+	border-bottom: 2px solid rgba(black, 0.2);
+	border-left: 2px solid rgba(black, 0.2);
+	position: absolute;
+	right: 0;
+	top: 0;
+	background: $fog;
+	width: 30%;
+	padding: 7px;
+	z-index: 1;
+}
+.supportersMap .legend .detail {
+	margin-bottom: 5px;
+	font-size: 13px;
+	word-wrap: break-word;
+}
+.supportersMap .legend .detail i {
+	margin-right: 5px;
+	color: grey;
+}
+
+tr:hover .td--name > span {
+  text-decoration: underline;
+  -moz-text-decoration-color: rgba(black, 0.2);
+  text-decoration-color: rgba(black, 0.2);
+}
+
+.headerWithProfile {
+	border-bottom: none;
+}
+
+.mainPanel .td--action {
+	width: 30px;
+	padding: 0 15px;
+}
+
+.mainPanel .td--action-email {
+	background: white;
+	border: 1px solid rgba(black, 0.1);
+	font-size: 14px;
+	color: $logo-blue;
+	text-align: center;
+	line-height: 25px;
+	width: 26px;
+	height: 26px;
+	@include border-radius(50%);
+}
+
+.mainPanel input[type='checkbox'] + label:before {
+	margin: 0;
+}
+
+.panelsLayout.is-showingSidePanel {
+	.mainPanel .th--name,
+	.mainPanel .td--name {
+		font-size: 16px;
+	}
+}
+
+

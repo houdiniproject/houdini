@@ -1,0 +1,23 @@
+@import 'mixins';
+
+.mainPanel td:last-of-type {
+	@include ellipsis;
+} // for type td
+
+.paymentTypeIcon {
+	color: $bluegrass;
+}
+
+.refundStatus {
+	font-weight: bold;
+}
+.refundStatus.succeeded {
+	color: $thankYou-green;
+}
+.refundStatus.failed {
+	color: $red;
+}
+.refundStatus.pending {
+	color: $oj;
+}
+

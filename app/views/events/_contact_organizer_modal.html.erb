@@ -1,0 +1,41 @@
+<!-- partial: events/contact_organizer_modal -->
+
+<div class='modal' id='contactOrganizer'>
+	<%= render 'common/modal_header', title: 'Contact Organizer' %>
+	<div class='modal-body'>
+		<form autosubmit parsley-validate method='post' action='/emails.json' data-reload>
+			<p>
+				<span class='tip' if-branded='border-color, lighter'>To: </span>
+        <span> Event Organizer </span>
+			</p>
+			<p>
+				<span class='tip' if-branded='border-color, lighter'>Subject: </span>
+				<span> <%= @event.name %></span>
+			</p>
+
+			<input type='hidden' name='email[to_email]' value='<%= @event.organizer_email || @organizer['email'] %>'>
+			<input type='hidden' name='email[to_name]' value='<%= @organizer['name'] %>'>
+			<input type='hidden' name='email[subject]' value='Info request about <%= @event.name %>'>
+
+			<div>
+				<label if-branded='color, grey'>Your Email Address</label>
+				<input type='email' name='email[from_email]' placeholder='user@example.com' value='<%= current_user && current_user.email %>' required>
+			</div>
+			
+			<div>
+				<label if-branded='color, grey'>Your Name</label>
+				<input type='text' name='email[from_name]' value='<%= current_user ? current_user.profile.name : '' %>' required>
+			</div>
+
+			<div>
+				<label if-branded='color, grey'>Your Message</label>
+				<textarea name='email[message]' type='text' placeholder='Your Message'></textarea>
+			</div>
+
+			<%= render 'components/forms/submit_button', button_text: 'Send', branded: true %>
+		</form>
+	</div>
+
+</div>
+
+<!-- end partial: events/contact_organizer_modal -->

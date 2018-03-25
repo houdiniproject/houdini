@@ -1,0 +1,25 @@
+<% content_for :title_suffix do %>
+   - Donor Donations
+<% end %>
+
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'profiles/show/page' %>
+<% end %>
+
+<header class='header stripe--green'>
+  <div class='container'>
+    <h4>Donations
+      <% if @profile.name %>
+        <small>(<%= @profile.name %>)</small>
+      <% end %>
+    </h4>
+		<%= render 'profile_tabs', profile_id: @profile.id, active: :donations %>
+  </div>
+</header>
+
+<main class='container u-paddingTop--20'>
+  <%= render 'donations' %>
+	<%= render 'ongoing_donations' %>
+</main>

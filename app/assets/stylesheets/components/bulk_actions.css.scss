@@ -1,0 +1,62 @@
+@import 'mixins';
+
+.bulkActions-checkbox {
+	display: inline-block;
+	background: rgba($sky, 0.06);
+	border: 1px rgba($grey, 0.1) solid;
+	@include border-radius(3px);
+	vertical-align: middle;
+	padding: 6px;
+	margin-right: 8px;
+}
+.bulkActions-checkbox input[type='checkbox'] + label:before {
+	margin: 0px;
+}
+
+.supporterEmailRecipients {
+	float: right;
+	width: 90%;
+}
+
+
+.panelsLayout .mainPanel .table--plaid tr[is-checked] {
+	$checked-color: rgba($sage, 0.8);
+	border-color: $checked-color;
+	&:nth-of-type(2n) {
+		border-color: darken($checked-color, 5);
+	}
+}
+
+.bulkDelete-supporters {
+	font-size: 15px;
+	width: 33%;
+	float: left;
+	@include ellipsis;
+	&:nth-of-type(3n),
+	&:nth-of-type(3n-1) {
+		padding-right: 18px;
+	}
+}
+
+.bulkActions-checkbox--orange {
+	@extend .bulkActions-checkbox;
+	background: rgba($oj, 0.1);
+}
+
+.bulkActions-checkbox-annot {
+	@include transform(translateY(1px));
+	display: inherit;
+	margin-left: 5px;
+}
+
+.bulkActionSubject {
+	font-size: 14px;
+	line-height: 26px;
+	padding: 1px 4px;
+	background: rgba($grey, 0.1);
+}
+
+.bulkActionSubject--remaining {
+	@extend .bulkActionSubject;
+	color: $grass;
+}

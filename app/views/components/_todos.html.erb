@@ -1,0 +1,32 @@
+<div class='todos u-marginBottom--15' style='display: none;'>
+	<!--= show_if (not (eq todos.percent_done 100)) -->
+	<header class='todos-header'>
+			<!--= if (not todos.loading) (add_class 'show') -->
+
+		<p class='strong'>
+			Your <%= title %> is 
+			<!--= put todos.percent_done -->% complete.
+		</p>
+
+		<div class='progressBar--medium'>
+			<div class='progressBar--medium-fill' <%= @brand_color ? "style=background-color:" + @brand_color : '' %>>
+				<!--= style 'width' (cat todos.percent_done '%') -->
+				<!--= add_class_if (>= todos.percent_done 50) 'is-half' -->
+				<!--= add_class_if (>= todos.percent_done 100) 'is-done' -->
+			</div>
+		</div>
+	</header>
+
+	<ul>
+		<li>
+			<!--= repeat todos.items -->
+			<!--= if this.done (add_class 'is-done') -->
+			<a>
+				<!--= if (this.modal_id) (on 'click' (open_modal this.modal_id)) -->
+				<!--= if this.link (set_attr 'href' this.link) -->
+				<span class='checkbox-outer'><i class='icon-check-1'></i></span>
+				<span class='name'><!--= put this.text --></span>
+			</a>
+		</li>
+	</ul>
+</div>

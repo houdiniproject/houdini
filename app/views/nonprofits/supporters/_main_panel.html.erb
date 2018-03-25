@@ -1,0 +1,79 @@
+
+<div class='mainPanel'>
+	<section id='paginationScroll' style='display: none;'>
+		<!--= show_if (length supporters.data) -->
+		<table class='table--plaid clickable tour-supporters'>
+
+			<thead>
+				<tr>
+					<th if-side-panel='hide'></th>
+					<th class='th--name'>
+            <a class='sortArrows left' sort='none'>Name</a>
+            <!--= on 'click' (apply_sort_filter 'sort_name' 'desc' 'asc') -->
+          </th>
+					<th if-side-panel='hide'>
+            <a class='sortArrows left' sort='none'>Total</a>
+            <!--= on 'click' (apply_sort_filter 'sort_contributed' 'desc' 'asc') -->
+          </th>
+					<th if-side-panel='hide'>
+            <a class='sortArrows left' sort='none'>Last Payment</a>
+            <!--= on 'click' (apply_sort_filter 'sort_last_payment' 'desc' 'asc') -->
+          </th>
+					<th if-side-panel='hide'>Tags</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<!--= repeat supporters.data -->
+
+					<td class='td--action' if-side-panel='hide'>
+						<input type='checkbox' class='supporterRowCheckbox'>
+						<!--= set_attr 'id' this.id -->
+						<!--= on 'change' (toggle_supporters_checkbox this.id) -->
+						<!--= checked_if this.is_checked -->
+						<label></label>
+						<!--= set_attr 'for' this.id -->
+					</td>
+
+					<td class='td--name' if-side-panel='hover-marker'>
+						<!--= on 'click' (supporter_details.toggle_panel this) -->
+						<!--= put (any this.name (cat 'Supporter #' this.id) -->
+            <p class='u-color--grey u-marginBottom--0'>
+              <small><!--= put this.email --></small>
+            </p>
+					</td>
+
+					<td if-side-panel='hide' class='table-bigNum'>
+						<!--= on 'click' (supporter_details.toggle_panel this) -->
+						<span class='dollar'>$</span>
+						<!--= put (cents_to_dollars this.total_raised) -->
+					</td>
+
+					<td if-side-panel='hide' style='width: 170px'>
+						<!--= put this.last_contribution -->
+					</td>
+
+					<td if-side-panel='hide'>
+						<!--= on 'click' (supporter_details.toggle_panel this) -->
+						<span class='tag--red u-floatL'>
+							<!--= show_if this.is_unsubscribed_from_emails -->
+							Unsubscribed
+						</span>
+
+						<span class='tag u-floatL'>
+							<!--= repeat this.tags -->
+							<!--= put this -->
+						</span>
+
+						<span class='tag--trans u-floatL'>
+							<!--= show_if this.tags_remaining -->
+              <!--= put this.tags_remaining --> more
+						</span>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+		<%= render 'components/show_more', scope: 'supporters' %>
+	</section>
+</div>

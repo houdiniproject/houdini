@@ -1,0 +1,41 @@
+aside.infoCard {
+	position: absolute;
+	width: 100%;
+	max-width: 350px;
+	width: 100%;
+	background: $looseleaf;
+	padding: 7px;
+	border-radius: 7px 0 7px 0;
+	@include box-shadow(0 0 10px 0 rgba(black, 0.2));
+}
+aside.infoCard table {
+	width: 100%;
+}
+aside.infoCard table td {
+	padding: 4px 5px 4px 0;
+	font-size: 13px;
+}
+aside.infoCard table td:first-of-type {
+	font-weight: bold;
+	text-transform: capitalize;
+	min-width: 90px;
+}
+aside.infoCard table td:last-of-type {
+	width: 100%;
+	display: inline-block;
+	@include ellipsis;
+}
+aside.infoCard table tr {
+	border-bottom: 1px solid rgba(black, 0.04);
+}
+aside.infoCard i.fa-times {
+	@include setColorAndHover(rgba(black, 0.5));
+	cursor: pointer;
+	position: absolute;
+	font-size: 18px;
+	right: 7px;
+	top: 5px;
+}
+aside.infoCard .button--micro {
+	margin-top: 10px;
+}

@@ -1,0 +1,71 @@
+@import "mixins";
+
+.timeline li,
+.timeline--checklist li {
+	position: relative;
+	padding: 25px 0 20px 30px;
+	margin-left: 100px;
+}
+.timeline li,
+.timeline--checklist li.is-complete {
+	border-left: 2px solid lighten($bluegrass, 25);
+}
+.timeline--checklist li {
+  border-left: 2px solid lighten($grey, 35);
+}
+.timeline li:before,
+.timeline li .annot,
+.timeline--checklist li:before,
+.timeline--checklist li .annot {
+	position: absolute;
+}
+.timeline--checklist li:before,
+.timeline li:before {
+	z-index: 1;
+	top: 0;
+	content: '';
+	@include border-radius(50%);
+}
+.timeline--checklist li:before,
+.timeline li:before {
+	left: -9px;
+	width: 16px;
+	height: 16px;
+}
+.timeline li:before,
+.timeline--checklist li.is-complete:before {
+  background: #638173
+}
+.timeline--checklist li.is-complete .annot {
+  text-decoration: line-through;
+
+}
+.timeline--checklist li:before {
+  background: lighten($grey, 20);
+}
+.timeline--checklist li.is-complete:before {
+  left: -13px;
+  width: 24px;
+  height: 24px;
+}
+.timeline--checklist li.is-complete:after {
+  content: '\2713';
+  top: 0;
+  left: -7px;
+  z-index: 2;
+  color: white;
+  position: absolute;
+}
+.timeline--checklist li .annot,
+.timeline li .annot {
+	left: -100px;
+	font-size: 13px;
+	font-weight: bold;
+	max-width: 100px;
+	top: 50%;
+	color: rgb(154, 126, 92);
+}
+.timeline--checklist li:last-of-type,
+.timeline li:last-of-type {
+  border-left: 2px solid rgba(0,0,0,0);
+}

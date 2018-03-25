@@ -1,0 +1,151 @@
+// Errors and form statuses
+
+@import 'mixins';
+
+form {
+	margin: 0;
+}
+
+.form--flatFields fieldset {
+	margin-bottom: 0;
+}
+
+
+.form-error-message {
+	color: #A05B5B;
+}
+
+.form--inline input, .form--inline select, .form--inline button {
+	display: inline-block;
+}
+.status {
+	line-height: 1.3;
+	font-size: 13px;
+	text-align: center;
+}
+.ff-button-error,
+.small-error,
+.error {
+	margin: 10px auto;
+	color: #A05B5B;
+	font-size: 13px;
+	text-align: center;
+}
+
+input.narrow {
+	width: 75px;
+}
+
+form .field,
+fieldset {
+	margin-bottom: 10px;
+}
+
+.steps--narrow .step {
+	max-width: 450px;
+	margin: 0 auto;
+}
+
+.form--pill input,
+.form--pill button {
+  line-height: 34px; 
+  display: inline; 
+  border: 1px solid rgba(black, 0.1) !important;
+}
+.form--pill input {
+  font-size: 15px;
+  border-radius: 30px 0px 0px 30px !important;
+  padding: 0 10px 0 15px !important;
+  width: 250px;
+  border-right: none !important;
+}
+.form--pill button,
+.form--pill button:active {
+  font-size: 17px;
+  border-radius: 0px 30px 30px 0px !important;
+  padding: 0 15px 0 10px !important;
+  border-left: none !important;
+  @include transform(translateX(-10px));
+  @include setBackgroundAndHover($oj);
+}
+
+
+
+
+form[autosubmit] .reloadMessage { display: none; }
+
+.twoField {
+	text-align: left;
+}
+
+.well {
+	overflow: hidden;
+	background: rgba($grey, 0.1);
+	border-left: 1px solid rgba($grey, 0.2);
+	border-right: 1px solid rgba($grey, 0.2);
+	border-top: 1px solid rgba($grey, 0.2);
+	border-bottom: 2px solid rgba($grey, 0.2);
+	margin: 0 auto;
+	padding: 8px;
+}
+
+
+.twoField input, .twoField select {
+	width: 48% !important; // This is me (j) being lazy. Change this when you can better override bootstrap (aka satan)
+	padding: 3px 8px !important;
+	margin-bottom: 10px;
+}
+
+// Flim-flam form validation error message styling
+.ff-field {
+  position: relative;
+}
+
+.ff-field--invalid {
+  input[type="text"], input, input[type="email"], input[type="number"], input[type="password"], select {
+    border-color: $red;
+  }
+}
+
+.ff-field-errorMessage {
+  position: absolute;
+  top: -41px;
+  left: 0;
+  margin: 0;
+  padding: 4px 8px;
+  box-shadow: -3px -1px 7px 0 $cloudy;
+  background: $blue-grey;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
+}
+
+.ff-field-errorMessage:before {
+  content: "";
+  border: solid;
+  border-color: $blue-grey rgba(0, 0, 0, 0);
+  border-width: 9px 10px 0 10px;
+  bottom: -9px;
+  left: 0;
+  position: absolute;
+  z-index: 99;
+}
+
+@media screen and (max-width: 500px) {
+  .form--pill input {
+    width: 180px;
+  }
+  .form--pill button {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .form--pill input {
+    width: 170px;
+  }
+  .form--pill button {
+    font-size: 15px;
+  }
+}
+

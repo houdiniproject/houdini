@@ -1,0 +1,14 @@
+@import 'mixins';
+@import 'timeline';
+@import 'email_modal';
+
+.sidePanel-rightSide {
+	width: 65%;
+	float: right;
+	padding-left: 30px;
+}
+.sidePanel-leftSide {
+	width: 35%;
+	float: left;
+}
+

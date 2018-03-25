@@ -1,0 +1,10 @@
+<!-- partial start: nonprofits/email_templates/_footer_link_td -->
+<% if url != '' %>
+	<td style='padding: 15px 10px 10px 10px; text-align: center;'>
+		<a title='<%= add_http url %>' href="<%= add_http url %>" target="_blank">
+		<img src='https://raw.githubusercontent.com/CommitChange/public-resources/master/images/social-logos/social-logo-<%= text %>-30.png'><br style='height: 0;'>
+		<span style='font-size: 13px;'> <%= text %>
+		</a>
+	</td>
+<% end %>
+<!-- partial end: nonprofits/email_templates/_footer_link_td -->

@@ -1,0 +1,71 @@
+<div class='modal sidebar u-padding--15 superAdminSidebar' id='adminSidebar--profile'>
+		<p>
+			<a class='button--tiny details' href='<%= nonprofits_donations_path(@nonprofit) %>'>Donations</a>
+			<a class='button--tiny details' href='<%= nonprofits_supporters_path(@nonprofit) %>'>Supporters</a>
+		</p>
+		<hr>
+
+		<% if @nonprofit.billing_plan.nil? %>
+  		<p><strong>Upgrade to:</strong></p>
+  		<table class='table--plaid'>
+  			<tr>
+  				<td><%= link_to "Discount", nonprofit_pricing_index_path(@nonprofit.id, {referrer: 'community'}) %></td>
+  				<td><%= link_to "Regular", nonprofit_pricing_index_path(@nonprofit.id) %></td>
+  			</tr>
+  		</table>
+		  <hr>
+  	<% end %>
+
+		<form autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='put' parsley-validate>
+			<p><strong>Status: </strong></p>
+				<p class='u-marginBottom--10'>
+					<input type='hidden' name='nonprofit[vetted]' value='0'>
+					<input type='checkbox' name='nonprofit[vetted]' id='nonprofit-verified-input' <%= @nonprofit.vetted ? "checked=checked" : '' %> value='1'>
+					<label class='u-marginRight--20' for='nonprofit-verified-input'>Vetted</label>
+					<input type='hidden' name='nonprofit[published]' value='0'>
+					<input type='checkbox' name='nonprofit[published]' id='nonprofit-published-input' <%= @nonprofit.published ? "checked=checked" : '' %> value='1'>
+					<label for='nonprofit-published-input'>Published</label>
+				</p>
+
+			<button type='submit' class='button--tiny' data-loading='Saving...'>Save status</button>
+		</form>
+		<hr>
+
+
+		<p><strong>Nonprofit Users:</strong></p>
+		<ul>
+			<% @nonprofit.roles.includes(:host).where(name: [:nonprofit_admin, :nonprofit_associate]).includes(:user).each do |role| %>
+				<li class='removeNpoUser'>
+					<form
+					 autosubmit
+					 action='<%= nonprofit_role_path(role.host, role.id, format: :json) %>'
+					 method='delete'
+					 data-reload
+					 data-confirm>
+
+						<input type='hidden' name='required_input'>
+						<button
+							type='submit'
+							class='button--tiny redText'>
+							<i class='fa fa-times'></i>
+						</button>
+
+					</form>
+
+					<a href='mailto:<%= role.user.email %>'> <%= role.user.email %></a>
+				</li>
+			<% end %>
+		</ul>
+
+		<p><button class='button--tiny' open-modal='newRole'>New Admin</button></p>
+
+  <% if @nonprofit.charges.empty? %>
+  <hr>
+  <form autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='delete'
+        data-confirm data-redirect="/admin">
+    <input type='hidden' name='required_input'>
+    <button type="submit" class='button--tiny red' data-loading='Deleting...'>Destroy Nonprofit</button>
+  </form>
+  <% end %>
+
+</div>

@@ -1,0 +1,80 @@
+<!-- partial recurring_donations/edit_modal -->
+
+<div class='modal skinny' id='edit_recurring_donation'>
+	<!--= scope 'recurring_donation_details.data' -->
+
+	<%= render 'common/modal_header', title: 'Edit Recurring Donation' %>
+
+	<div class='modal-body'>
+		<form parsley-validate>
+			<!--= on 'submit' (confirm (ajax_details.update this.id form_object)) -->
+      <label>Select the amount and frequency below</label>
+
+			<span class='prepend--dollar'>
+				<input step='any' class='u-width--100' type='number' name='donation.dollars'>
+				<!--= set_value (cents_to_dollars this.donation.amount) -->
+			</span>
+
+      <span> every </span>
+
+			<input step='any' min='0' class='u-width--50' type='number' name='interval'>
+			<!--= set_value this.interval -->
+			<!--= on 'change' (def 'this.interval' get_value) -->
+
+			<select name='time_unit'  class='u-width--150 select'>
+				<!--= select_option this.time_unit -->
+				<!--= on 'change' (def 'this.time_unit' get_value) -->
+				<option value='day'>Day(s)</option>
+				<option value='week'>Week(s)</option>
+				<option value='month'>Month(s)</option>
+				<option value='year'>Year(s)</option>
+			</select>
+
+			<fieldset>
+				<label>
+          End Date <br>
+          <small>leave blank for indefinite</small>
+        </label>
+
+				<input type='text' name='end_date_str' id='edit_end_date'>
+				<!--= set_value (readable_date this.end_date) -->
+			</fieldset>
+
+			<fieldset>
+				<!--= show_if (all (eq this.interval 1) (eq this.time_unit 'month')) -->
+				<label>
+          Fixed paydate (optional) <br>
+          <small>
+            Setting a fixed paydate will affect the <strong>next due payment</strong>.
+  				  <a open-modal='fixedPaydateInfoModal'>
+              <strong> More Information </strong>
+            </a>
+          </small>
+        </label>
+				<input type='number' min='1' max='28' name='paydate'>
+				<!--= set_value this.paydate -->
+			</fieldset>
+
+
+			<fieldset>
+				<label>Designation</label>
+				<textarea name='donation.designation'></textarea>
+				<!--= set_value this.donation.designation -->
+			</fieldset>
+
+			<%= render 'components/forms/submit_button' %>
+		</form>
+	</div>
+
+</div>
+
+<!-- end partial recurring_donations/edit_modal -->
+
+<div class='modal skinny' id='fixedPaydateInfoModal'>
+	<%= render 'common/modal_header', title: 'Fixed Paydates' %>
+
+	<div class='modal-body'>
+		<p>Fixing a paydate on an existing recurring donation will affect the <strong>next due payment.</strong>
+		<p>For example, if a recurring donation was first paid on the 20th of January, and later gets a fixed paydate of the 1st, its next payment will be on February 1st. The recurring donation will continue to be paid on the 1st for every month after that.</p>
+	</div>
+</div>

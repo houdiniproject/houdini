@@ -1,0 +1,44 @@
+<p>
+  Hi <%= @donation.supporter.name %>,
+</p>
+<br>
+
+<% if @nonprofit.card_failure_message_top %>
+  <%= @nonprofit.card_failure_message_top.html_safe %>
+<% else %>
+  <%= render 'components/email/default_card_failure_message_top', 
+  npo_name: @nonprofit.name  %>
+<% end %>
+
+<br>
+<br>
+<p>
+  Kindly take a moment to update your credit card information using this secure link: 
+  <strong>
+    <% url = edit_recurring_donation_url(@donation.recurring_donation, {t: @donation.recurring_donation.edit_token}) %>
+    <a href="<%= url %>"> <%= url %> </a>
+  </strong>
+</p>
+
+<br>
+<% if @nonprofit.card_failure_message_bottom %>
+  <%= @nonprofit.card_failure_message_bottom.html_safe %>
+<% else %>
+  <%= render 'components/email/default_card_failure_message_bottom', 
+    npo_name: @nonprofit.name  %>
+<% end %>
+
+<br>
+<hr>
+
+<%= render 'failed_recurring_donation_table', donation: @donation, charge: @charge %>
+<br>
+<%= render 'recurring_donation_table', donation: @donation %>
+
+<hr>
+
+<br>
+
+<%= render 'nonprofits/email/footer', nonprofit: @nonprofit, hide_unsubscribe: true %>
+<%= render 'emails/powered_by' %>
+

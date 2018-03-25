@@ -1,0 +1,83 @@
+<table class='table'>
+
+  <thead>
+  <th colspan='2'>
+    Recurring Donation Change
+  </th>
+  </thead>
+
+  <tbody>
+  <tr>
+    <td><strong>Donor Name</strong></td>
+    <% if donation.anonymous %>
+        <td>Anonymous</td>
+    <% else %>
+        <td><%= donation.supporter.name %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <td><strong>New Amount</strong></td>
+    <td> <%= print_currency(donation.amount) %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Previous Amount</strong></td>
+    <td> <%= print_currency(previous_amount) %></td>
+  </tr>
+
+  <% if donation.campaign %>
+      <tr>
+        <td><strong>Campaign</strong></td>
+        <td> <a href='<%= nonprofit_campaign_url(donation.nonprofit, donation.campaign) %>'><%= donation.campaign.name %></a> </td>
+      </tr>
+  <% end %>
+
+  <% if donation.event %>
+      <tr>
+        <td><strong>Event</strong></td>
+        <td> <a href='<%= nonprofit_event_url(donation.nonprofit, donation.event) %>'><%= donation.event.name %></a></td>
+      </tr>
+  <% end %>
+
+  <% if donation.recurring_donation %>
+      <tr>
+        <td><strong>Recurring Interval</strong></td>
+        <td> Every <%= donation.recurring_donation.interval %> <%= donation.recurring_donation.time_unit %></td>
+      </tr>
+      <tr>
+        <td><strong>Recurring Since</strong></td>
+        <td> <%= simple_date donation.recurring_donation.created_at %></td>
+      </tr>
+  <% end %>
+
+  <tr>
+    <td><strong>Organization</strong></td>
+    <td> <%= donation.nonprofit.name %></td>
+  </tr>
+
+  <% unless donation.nonprofit.ein.blank? %>
+      <tr>
+        <td><strong>Tax ID Number</strong></td>
+        <td> <%= donation.nonprofit.ein %></td>
+      </tr>
+  <% end %>
+
+  <tr>
+    <td><strong>Comment</strong></td>
+    <td> <%= donation.comment || 'None' %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Designation</strong></td>
+    <td> <%= donation.designation || 'None' %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Dedication</strong></td>
+    <td> <%= donation.dedication ? Format::Dedication.from_json(donation.dedication) : 'None' %></td>
+
+  </tr>
+
+  </tbody>
+
+</table>

@@ -1,0 +1,128 @@
+@import 'mixins';
+@import 'pikaday';
+@import 'bootstrap-tour';
+@import 'common/donate_button';
+@import 'common/editable';
+@import 'components/admin_top_nav';
+@import 'common/image_uploader';
+@import 'components/info_card';
+@import 'components/activity_feed';
+@import 'components/page_tabs';
+@import 'components/fixed_top_action';
+@import 'components/draggable';
+@import 'gift_levels';
+@import '../../nonprofits/donation_form/form';
+
+.button--gift {
+	font-size: 17px;
+	padding: 8px 8px 5px 8px;
+	width: 100%;
+	line-height: 1;
+}
+.button--gift * {
+	line-height: 1 !important;
+}
+.button--gift small {
+	font-size: 12px;
+}
+.button--gift .dollar {
+	font-size: 14px;
+	margin-right: -3px;
+}
+
+.campaignMedia-image {
+	width: 100%;
+}
+.campaignMedia-video {
+	position: relative;
+	height: 0;
+	width: 100%;
+	padding-bottom: 56.25%;
+	background: $fog;
+}
+.campaignMedia-video iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+}
+.box,
+.box-l {
+	padding-right: 15px;
+}
+.box-l,
+.box-r {
+	margin-bottom: 15px;
+}
+.box {
+	@include columns(7.5);
+}
+.box-l {
+	@include columns-left(7.5);
+}
+.box-r {
+	@include columns-right(4.5);
+}
+.adminSidebar--sidebar-pledge.is-done {
+	text-decoration: line-through;
+}
+.adminSidebar--sidebar-pledge.is-done a {
+	color: rgba(black, 0.1);
+}
+.showWhenMobile {
+	display: none;
+}
+.globalFooter {
+	margin-top: 40px;
+}
+.editVideoButton {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+.campaignMetrics h4 {
+	margin: 0 0 0 0;
+	font-size: 32px;
+	line-height: 32px;
+}
+
+.campaignMetrics h4 .dollar {
+	font-size: 20px;
+	line-height: 25px;
+	margin-right: 2px;
+}
+
+.campaignMetrics p {
+	margin-bottom: 15px;
+	@include opacity(0.9);
+}
+
+.goalAmount .dollar {
+  margin-right: 1px;
+}
+
+
+@media screen and (max-width: 1000px) {
+	.box,
+	.box-l {
+		padding: 0 15px;
+	}
+	.box-r {
+		padding-right: 15px;
+	}
+}
+@media screen and (max-width: 700px) {
+	.box,
+	.box-l,
+	.box-r {
+		@include columns(12);
+		padding: 0 10px;
+	}
+	.hideWhenMobile {
+		display: none;
+	}
+	.showWhenMobile {
+		display: block;
+	}
+}

@@ -1,0 +1,90 @@
+<!-- partial nonprofits/recurring_donations/side_panel -->
+
+<div class='sidePanel'>
+	<!--= scope 'recurring_donation_details.data' -->
+
+	<header class='sidePanel-header'>
+		<h4 class='sidePanel-title'>
+			$<!--= put (cents_to_dollars this.donation.amount) --> <!--= put (readable_interval this.interval this.time_unit) -->
+			from
+			<!--= put (any this.supporter.name this.supporter.email (cat 'Supporter ' this.supporter.id)) -->
+		</h4>
+	</header>
+
+	<div class='sidePanel-body'>
+
+			<table class='table--small'>
+			<tr>
+				<td>Amount:</td>
+				<td>$<!--= put (cents_to_dollars this.donation.amount) --></td>
+			</tr>
+			<tr>
+			 <td>Donor: </td>
+				<td><!--= put (any this.supporter.name this.supporter.email (cat 'Supporter ' this.supporter.id)) --></td>
+			</tr>
+			<tr>
+				<!--= show_if this.card.name -->
+				<td>Card Name: </td>
+				<td><!--= put this.card.name --></td>
+			</tr>
+			<tr>
+				<td>Interval:</td>
+				<td>Every <!--= put (pluralize this.interval this.time_unit) --></td>
+			</tr>
+			<tr>
+				<!--= show_if (all (eq this.interval 1) (eq this.time_unit 'month')) -->
+				<td>Fixed paydate:</td>
+				<td><!--= put (any (ordinalize this.paydate) 'None (will be paid whenever due)') --></td>
+			</tr>
+			<tr>
+				<td>All-Time Total:</td>
+				<td>$<!--= put (cents_to_dollars this.total_given) --></td>
+			</tr>
+			<tr>
+				<td>Created On:</td>
+				<td><!--= put (readable_date (this.created_at)) --></td>
+			</tr>
+			<tr>
+				<td>Start Date:</td>
+				<td><!--= put (readable_date this.start_date) --></td>
+			</tr>
+			<tr>
+				<td>End Date:</td>
+				<td><!--= put (any (readable_date this.end_date) 'None') --></td>
+			</tr>
+			<tr>
+				<td>Designation:</td>
+				<td><!--= put (any this.donation.designation "None") --></td>
+			</tr>
+		</table>
+
+    <p>
+      <strong>Donation management link (for the donor):</strong>
+      <br>
+
+      <!--= def 'this.url' (cat (root_url) '/recurring_donations/' this.id '/edit?t=' this.edit_token) -->
+      <a>
+        <!--= set_attr 'href' this.url -->
+        <!--= put this.url -->
+      </a>
+    </p>
+
+		<p>
+			<button class='button--small edit u-marginY--10'>
+				<!--= on 'click' (open_modal 'edit_recurring_donation') -->
+				<i class='fa fa-pencil'></i> Edit this recurring donation
+			</button>
+		</p>
+
+		<p>
+			<button class='button--small red'>
+				<!--= on 'click' (confirm (ajax_details.del this.id)) -->
+				<i class='fa fa-times'></i> Stop this donation
+			</button>
+		</p>
+	</div>
+
+</div>
+
+<!-- end partial nonprofits/recurring_donations/side_panel -->
+

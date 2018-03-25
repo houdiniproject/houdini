@@ -1,0 +1,272 @@
+@import 'mixins';
+
+@mixin fundraiserHeader {
+	width: 100%;
+	position: relative;
+	.settingsButtons {
+		position: absolute;
+		left: 0;
+		top: 20px;
+		width: 100%;
+	}
+	.settingsButtons button {
+		position: absolute;
+		top: 0px;
+	}
+	.settingsButtons button:first-of-type {
+		left: 10px;
+	}
+	.settingsButtons button:last-of-type {
+		right: 10px;
+	}
+}
+.fundraisingHeader--plain {
+	@include fundraiserHeader;
+}
+.fundraisingHeader--plain .fundraisingHeader-content  {
+	padding: 70px 15px 30px 15px;
+}
+.fundraisingHeader--image {
+	@include fundraiserHeader;
+	min-height: 200px;
+}
+.fundraisingHeader--image-aspectRatio {
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+}
+.fundraisingHeader--image-container {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+.fundraisingHeader--image .fundraisingHeader-content {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+.fundraisingHeader--image .fundraisingHeader-content {
+	padding: 15px;
+	background: rgba(black, 0.4);
+}
+
+.fundraisingHeader-content-title,
+.fundraisingHeader-content-sub {
+	line-height: 1.1;
+	margin: 0;
+}
+
+.fundraisingHeader--image .fundraisingHeader-content-title,
+.fundraisingHeader--image .fundraisingHeader-content-sub {
+	color: white;
+	text-shadow: 0px 0px 1px rgba(black, 0.6);
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#000000,direction=45);
+}
+
+.fundraisingHeader-content-title {
+	padding-bottom: 5px;
+	font-size: 32px;
+}
+.fundraisingHeader-content-sub {
+	font-size: 20px;
+}
+.fundraisingHeader-content-sideElementTd {
+	width: 1px;
+}
+.fundraisingHeader-content-textTd {
+	padding: 0 15px;
+}
+@mixin fundraisingHeader-sideElement {
+	background-color: white;
+	display: inline-block;
+	margin-left: 15px;
+	border: 1px solid rgba(black, 0.1);
+	@include box-shadow(0 0 5px 0 rgba(black, 0.1));
+}
+.fundraisingHeader-content-logo {
+	@include fundraisingHeader-sideElement;
+	width: 100px;
+	height: 100px;
+	background-size: cover;
+	background-position: center top;
+	border-radius: 8px;
+	border: 3px solid white;
+}
+.fundraisingHeader-content-date {
+	@include fundraisingHeader-sideElement;
+}
+.fundraisingHeader-content-date-month,
+.fundraisingHeader-content-date-day {
+	text-align: center;
+	font-weight: bold;
+	margin: 0;
+	padding: 0 25px;
+	font-size: 20px;
+}
+.fundraisingHeader-content-date-month {
+  background: #747474;
+  color: white;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+.fundraisingHeader-content-date-day {
+	line-height: 50px;
+}
+
+.fundraisingMeta {
+	width: 100%;
+	background: lighten($grey, 42);
+	border-bottom: 1px solid white;
+	overflow: hidden;
+}
+.fundraisingMeta .container {
+	padding: 8px 15px;
+}
+.fundraisingMeta-brandStripe {
+	width: 100%;
+	height: 4px;
+}
+.fundraisingMeta-detail {
+	padding: 0 5px;
+	font-size: 14px;
+	line-height: 1;
+	font-weight: bold;
+	margin: 5px 0;
+	border-right: 1px solid rgba($grey, 0.6);
+	display: inline-block;
+	@include open-sans;
+	color: $sepia;
+	i { color: $sea-foam; }
+	&:last-child { border: 0; }
+}
+
+.header {
+	position: relative;
+	background: lighten($grey, 41);
+	overflow: hidden;
+	white-space: nowrap;
+	text-align: center;
+	border-bottom: 1px solid rgba(black, 0.05);
+}
+.header--white {
+	background: white;
+}
+.header--white .header-icon {
+	background: lighten($grey, 43);
+}
+.header * {
+	display: inline-block;
+}
+.header.stripe--mosaic {
+	@include mosaic(bottom, 2px);
+	border-bottom: 0;
+}
+.header > * {
+	text-align: left;
+	width: 100%;
+}
+.header.stripe--mosaic > * {
+	padding: 10px 15px 13px 15px;
+}
+.header:not(.stripe--mosaic) > * {
+	padding: 10px 15px;
+}
+.stripe--blue {
+	border-top: 4px solid $sky;
+}
+.stripe--green {
+	border-top: 4px solid $grass;
+}
+.stripe--orange {
+	border-top: 4px solid $oj;
+}
+.header-icon{
+	padding: 9px 0 0 2px;
+	height: 37px;
+	width: 37px;
+	text-align: center;
+	margin-right: 8px;
+	font-size: 20px;
+	background: white;
+	@include border-radius(50%);
+}
+.header-title {
+	font-size: 26px;
+	line-height: 26px;
+	margin: 0;
+	display: inline-block;
+}
+.header-title-sub {
+	font-size: 18px;
+	line-height: 26px;
+	vertical-align: middle;
+	margin: 0;
+	display: inline-block;
+}
+.header-profile {
+	@include transform(translateY(50%));
+	line-height: 18px;
+	font-size: 16px;
+	float: right;
+	font-weight: bold;
+}
+@media screen and (max-width: 980px) {
+	.fundraisingHeader--image-container:before,
+	.fundraisingHeader--image-container:after {
+		display: none;
+	}
+}
+@media screen and (max-width: 800px) {
+	.fundraisingHeader-content-logo {
+		width: 70px;
+		height: 70px;
+	}
+	.fundraisingHeader-content-date-day,
+	.fundraisingHeader-content-date-month {
+		padding: 0 20px;
+		font-size: 16px;
+	}
+	.fundraisingHeader-content-date-day {
+		line-height: 40px;
+	}
+}
+@media screen and (max-width: 700px) {
+	.header-profile,
+	.header-icon {
+		display: none;
+	}
+	.header-title {
+		padding-left: 30px;
+	}
+	.fundraisingHeader--image .fundraisingHeader-content .container {
+		padding: 60px 0 15px 0;
+	}
+	.fundraisingHeader-content-title {
+		font-size: 28px;
+	}
+	.fundraisingHeader-content-sub {
+		font-size: 18px;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.fundraisingHeader--image .fundraisingHeader-content-sideElementTd {
+		display: none;
+	}
+}
+@media screen and (max-width: 420px) {
+	.fundraisingHeader-content-logo {
+		display: none;
+	}
+	.fundraisingHeader-content-date-day,
+	.fundraisingHeader-content-date-month {
+		padding: 0 18px;
+	}
+	.fundraisingHeader-content-title {
+	  font-size: 24px;
+	}
+	.fundraisingHeader-content-sub {
+	  font-size: 16px;
+	}
+}

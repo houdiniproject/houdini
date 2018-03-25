@@ -1,0 +1,54 @@
+<!-- partial nonprofits/recurring_donations/main_panel -->
+
+<div class='mainPanel'>
+	<!--= add_class_if loading 'u-halfOpacity' -->
+
+	<table class='table--plaid clickable'>
+		<thead>
+			<th>Amount</th>
+			<th>Start Date</th>
+			<th>Donor</th>
+			<th class='hiddenWhenExpanded'>Interval</th>
+			<th class='hiddenWhenExpanded'>All-Time Total</th>
+		</thead>
+
+		<tbody>
+      <!--= hide_if (empty recurring_donations.data) -->
+			<tr>
+				<!--= repeat recurring_donations.data -->
+				<!--= on 'click' (if (has_attr 'data-selected') close_side_panel (ajax_details.fetch this.id)) -->
+
+				<td class='table-bigNum'>
+					<span class='dollar'>$</span>
+					<!--= put (cents_to_dollars this.amount) -->
+					<small class='u-color--red'><!--= show_if (> this.n_failures 2) -->
+						<strong>
+						(3 payment failures)
+						</strong>
+					</small>
+				</td>
+
+				<td>
+					<small><!--= put (readable_date this.start_date) --></small>
+				</td>
+
+				<td class='table-bigText'>
+					<!--= put (any this.name this.email (cat 'Supporter ' this.supporter_id)) -->
+				</td>
+
+				<td class='hiddenWhenExpanded'>
+					<!--= put (readable_interval this.interval this.time_unit) -->
+				</td>
+
+				<td class='table-bigNum hiddenWhenExpanded'>
+					<span class='dollar'>$</span>
+					<!--= put (cents_to_dollars this.total_given) -->
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+	<%= render 'components/show_more', scope: 'recurring_donations' %>
+</div>
+
+<!-- end partial nonprofits/recurring_donations/main_panel -->

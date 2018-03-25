@@ -1,0 +1,2 @@
+<% url = request.base_url + request.fullpath %>
+https://www.facebook.com/dialog/share?app_id=<%= ENV.fetch('FACEBOOK_APP_ID') %>&display=popup&href=<%= url %>&redirect_uri=<%= url %>

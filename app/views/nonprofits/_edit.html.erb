@@ -1,0 +1,112 @@
+<form autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='put' parsley-validate class='form--flatFields' data-redirect>
+<div class='modal-body'>
+  <section class='layout--three'>
+    <fieldset>
+      <label>Name <small>(required)</small></label>
+      <input type='text' name='nonprofit[name]' value='<%= @nonprofit.name %>' required>
+    </fieldset>
+
+    <fieldset>
+      <label>Website</label>
+      <input type='text' name='nonprofit[website]' value='<%= @nonprofit.website %>' parsley-type-'url'>
+    </fieldset>
+
+    <fieldset>
+      <label>Tagline</label>
+      <input type='text' name='nonprofit[tagline]' value='<%= @nonprofit.tagline %>' parsley-maxlength='140'>
+    </fieldset>
+
+    <fieldset>
+      <label>Org Email <small>(public)</small></label>
+      <input type='email' name='nonprofit[email]' value='<%= @nonprofit.email %>'>
+    </fieldset>
+
+    <fieldset>
+      <label>Org Phone <small>(public)</small></label>
+      <input type='text' name='nonprofit[phone]' value='<%= @nonprofit.phone %>'>
+    </fieldset>
+
+    <fieldset>
+      <label>EIN</label>
+      <input type='text' name='nonprofit[ein]' value='<%= @nonprofit.ein %>' parsley-type='digits'>
+    </fieldset>
+
+    <fieldset>
+      <label>Address</label>
+      <input type='text' name='nonprofit[address]' value='<%= @nonprofit.address %>'>
+    </fieldset>
+
+    <fieldset>
+      <label>City</label>
+      <input type='text' name='nonprofit[city]' value='<%= @nonprofit.city %>' required>
+    </fieldset>
+
+    <fieldset>
+      <label>State <small>(required)</small></label>
+      <%= render :partial => "common/states_dropdown", :locals => {:name => 'nonprofit[state_code]', :default => @nonprofit.state_code} %>
+    </fieldset>
+    
+    <fieldset>
+      <label>Postal code</label>
+      <input type='text' name='nonprofit[zip_code]' value='<%= @nonprofit.zip_code %>'>
+    </fieldset>
+  </section>
+
+  <hr>
+
+  <%= render 'components/forms/slug_field', 
+    fundraiser: @nonprofit, 
+    url: @nonprofit.url.split('/')[0...-1].join('/')
+  %>
+
+  <hr>
+
+
+  <section class='group'>
+
+    <fieldset class='col-left-4'>
+      <label class='u-marginBottom--10'>Categories</label>
+      <% Nonprofit::Categories.each_with_index do |cat, i| %>
+        <div class='u-marginBottom--10'>
+          <input id='cat-<%= i %>' type='checkbox' name='nonprofit[categories][]' <%= @nonprofit.categories.include?(cat) ? 'checked="checked"' : '' %> value='<%= cat %>'>
+          <label for='cat-<%= i %>'><%= cat %></label>
+        </div>
+      <% end %>
+    </fieldset>
+
+    <section class='col-right-8 u-paddingRight--10'>
+      <fieldset>
+        <label>Summary <small>(used for sharing on social media)</small></label>
+        <p><small>What does the organization do? Why is it important? Keep it short and punchy.</small></p>
+        <textarea rows='2' class='u-marginBottom--20' name='nonprofit[summary]' id='nonprofit-summary-input'><%= @nonprofit.summary %></textarea>
+      </fieldset>
+
+      <fieldset>
+        <label class='u-marginBottom--10'>Highlights Of Your Organization</label>
+        <section class='layout--two u-overflow--hidden'>
+          <% for i in 0..4 %>
+            <span>
+              <textarea class='u-marginBottom--5' rows=2 name='nonprofit[achievements][]'><%= @nonprofit.achievements[i] %></textarea>
+            </span>
+          <% end %>
+        </section>
+      </fieldset>
+
+      <hr>
+
+      <div class='layout--two'>
+        <fieldset>
+          <label class='u-marginBottom--10'>Logo</label>
+          <div class='image-upload u-margin--0' style='background-image:url("<%= @nonprofit.logo_url(:normal) %>")'>
+            <span><i class='fa fa-image'></i> Upload</span>
+            <input type='file' name='nonprofit[logo]'>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+  </section>
+</div>
+<footer class='modal-footer u-centered u-padding--10'>
+  <button class='button' type='submit' data-loading='Saving...'>Save Changes</button>
+</footer>
+</form>

@@ -1,0 +1,21 @@
+<!-- partial start: nonprofits/_contact_item -->
+<% link = false if link.nil? %>
+<% mail_to = false if mail_to.nil? %>
+
+<% if data && data != '' %>
+	<tr title='<%= title %>'>
+		<td><i class='strong fa <%= icon %>' if-branded='color, base'></i></td>
+		<td>
+			<% if link %>
+			<a href="<%= add_http data %>" target="_blank">
+				<%= data %>
+			</a>
+			<% elsif mail_to %>
+				<%= mail_to %>
+			<% else %>
+				<%= data %>
+			<% end %>
+		</td>
+	</tr>
+<% end %>
+<!-- partial end: nonprofits/_contact_item -->

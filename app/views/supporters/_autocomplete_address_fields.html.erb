@@ -1,0 +1,50 @@
+<section class='u-padding--5 pastelBox--grey'>
+  <label style='display: none' class='u-centered u-marginBottom--5'>Shipping address (required)</label>
+  <!--= show_if donate_wiz.to_ship -->
+    
+  <div>
+    <fieldset class='u-marginBottom--5'> 
+      <input class="u-margin--0 js-autocompleteAddress" type="text" placeholder="Search for your address">
+    </fieldset>
+
+    <p class='u-margin--0 u-centered'>
+      <a><small>Click here to enter your address manually</small></a>
+      <!--= on 'click' (def 'autocomplete.data' true) -->
+    </p>
+  </div>
+  <!--= hide_if (any '<%= profile && profile.address %>' autocomplete.data) -->
+
+  <div>
+    <div class='u-marginBottom--5 group'> 
+      <fieldset class="col-8 u-fontSize--14">
+        <input class="u-marginBottom--0" type="text" title="Street Address" name="address" placeholder="Street Address">
+        <!--= set_value (any autocomplete.data.address '<%= profile && profile['address'] %>') -->
+      </fieldset>
+
+      <fieldset class="col-right-4 u-fontSize--14">
+        <input class="u-marginBottom--0" type="text" title="City" name="city" placeholder="City">
+        <!--= set_value (any autocomplete.data.city '<%= profile && profile['city'] %>') -->
+      </fieldset>
+
+      <fieldset class="u-marginBottom--0 u-floatL col-4">
+        <input class="u-marginBottom--0" type="text" title="State/Region" name="state_code" placeholder="State/Region">
+        <!--= set_value (any autocomplete.data.state '<%= profile && profile['state_code'] %>') -->
+      </fieldset>
+      <fieldset class="u-marginBottom--0 u-floatL col-right-4 u-fontSize--14">
+        <input class="u-marginBottom--0" type="text" title="Zip/Postal" name="zip_code" placeholder="Zip/Postal">
+        <!--= set_value (any autocomplete.data.zip '<%= profile && profile['zip_code'] %>') -->
+      </fieldset>
+
+      <fieldset class="u-marginBottom--0 u-floatL col-right-4">
+        <input class="u-marginBottom--0" type="text" title="Country" name="country" placeholder="Country">
+        <!--= set_value (any autocomplete.data.country '<%= profile && profile['country'] %>') -->
+      </fieldset>
+    </div>
+    <p class='u-margin--0 u-centered'>
+      <a><small>Click here to search for your address</small></a>
+      <!--= hide_if '<%= profile && profile['address'] %>' -->
+      <!--= on 'click' (def 'autocomplete.data' false) -->
+    </p>
+  </div>
+  <!--= show_if (any '<%= profile && profile.address %>' autocomplete.data) -->
+</section>

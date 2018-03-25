@@ -1,0 +1,56 @@
+@import 'mixins';
+
+.events {
+	text-align: left;
+	display: table;
+	width: 100%;
+	border-bottom: 1px solid rgba($grey, 0.2);
+	&:hover {
+		.event-title { color: $light-logo-blue;}
+		@include box-shadow(0 0 7px 0 rgba(black, 0.1));
+		.event-day { color: $watermelon; }
+	}
+}
+.event-date {
+	width: 15%;
+	display: table-cell;
+	text-align: center;
+	@include open-sans-condensed;
+	font-weight: bold;
+	vertical-align: top;
+	background: rgba(white, 0.9);
+	border-left: 1px solid rgba($grey, 0.05);
+	border-right: 1px solid rgba($grey, 0.05);
+}
+p.event-day {
+	font-size: 30px;
+}
+p.event-month {
+	text-transform: uppercase;
+	padding: 5px;
+	color: white;
+	background: $shark;
+}
+.event-text {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 0 15px;
+}
+h4.event-title {
+	margin: 5px 0;
+	@include open-sans;
+	text-transform: capitalize;
+	color: $dark-logo-blue;
+}
+.event-desc {
+	text-indent: 1.5em;
+	color: rgba(black, 0.5);
+}
+.event-tagl { 
+	text-transform: capitalize;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+@media screen and (max-width: 500px) {
+	p.event-day { font-size: 26px; }
+}

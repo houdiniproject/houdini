@@ -1,0 +1,58 @@
+@import 'mixins';
+
+@mixin pastelBox {
+	border: 1px solid rgba(black, 0.03);
+	header {
+		text-align: center;
+		background: rgba(black, 0.04);
+		font-size: 20px;
+		font-weight: bold;
+		padding: 10px 15px;
+	}
+	header i {
+		font-size: 18px;
+		margin-right: 5px;
+		@include opacity(0.7);
+	}
+	footer {
+		padding: 10px 15px;
+		text-align: center;
+		border-top: 1px solid rgba(black, 0.03);
+		background: rgba(black, 0.01);
+	}
+}
+.pastelBox-body {
+	padding: 15px;
+}
+.pastelBox--green {
+	@include pastelBox;
+	background: rgb(242, 249, 241);
+} // used for donation related
+.pastelBox--orange {
+	@include pastelBox;
+	background: rgb(255, 247, 243);
+} // used for donor related
+.pastelBox--blue {
+	@include pastelBox;
+	background: rgb(241, 252, 252);
+} // used for recurring related
+.pastelBox--white{
+	@include pastelBox;
+	background: rgba(white, 0.9);
+}
+.pastelBox--grey--dark{
+	@include pastelBox;
+	background: darken($fog, 2);
+}  
+.pastelBox--grey{
+	@include pastelBox;
+	background: $fog;
+} 
+.pastelBox--yellow {
+	@include pastelBox;
+	background: rgb(254, 251, 233);
+} // used for events and campaigns related
+.pastelBox--looseleaf {
+	@include pastelBox;
+	background: $looseleaf;
+}

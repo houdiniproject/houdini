@@ -1,0 +1,66 @@
+@import 'pikaday';
+@import 'mixins';
+@import 'bootstrap-tour';
+
+@import 'common/image_uploader';
+@import 'components/activity_feed';
+@import 'components/admin_top_nav';
+@import 'common/editable';
+@import 'common/donate_button';
+@import 'common/fundraiser/metrics';
+
+@import 'components/info_card';
+@import 'components/page_tabs';
+@import 'components/ticket_button';
+@import 'events/show/settings';
+@import 'components/fixed_top_action';
+@import 'components/draggable';
+
+.globalFooter {
+	margin-top: 40px;
+}
+.rightSide,
+.leftSide {
+	margin-top: 15px;
+}
+.rightSide {
+	padding-left: 15px;
+	@include columns-right(4.5);
+}
+.leftSide {
+	@include columns(7.5);
+}
+.button--micro.edit {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+.showWhenMobile {
+	display: none;
+}
+
+@media screen and (max-width: 980px) {
+	.rightSide {
+		padding: 0 15px;
+	}
+	.leftSide {
+		padding-left: 15px;
+	}
+}
+@media screen and (max-width: 700px) {
+	.leftSide,
+	.rightSide {
+		float: none;
+		width: 100%;
+	}
+	.hideWhenMobile {
+		display: none;
+	}
+	.showWhenMobile {
+		display: block;
+	}
+	.rightSide,
+	.leftSide {
+		padding: 0 10px;
+	}
+}

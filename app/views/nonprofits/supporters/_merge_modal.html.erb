@@ -1,0 +1,46 @@
+<div class='modal' id='mergeModal'>
+
+	<div class='modal-header'>
+		<h4 class='modal-header-title'>Merge <!--=put merge.data.action_recipient --> </h4>
+		<%= render 'common/modal_close' %>
+	</div>
+
+	<section class='wizard-steps' style='display: none;'> 
+		<!--= wizard.init 'merge_wiz' -->
+		<%= render 'components/wizard/step_index', wizard_name: 'merge_wiz' %>
+
+		<div class='modal-body'>
+			<div class='wizard-step'>
+				<!--= wizard.set_step 'merge_wiz' 'Name' -->
+        <div class='u-margin--auto u-maxWidth--300'>
+          <%= render 'merge_step', merge_key: 'name' %>
+        </div>
+			</div>
+
+			<div class='wizard-step email-step' data-name='Email'>
+				<!--= wizard.set_step 'merge_wiz' 'Email' -->
+        <div class='u-margin--auto u-maxWidth--300'>
+          <%= render 'merge_step', merge_key: 'email', input_type: 'email' %>
+        </div>
+			</div>
+
+			<div class='wizard-step phone-step' data-name='Phone'>
+				<!--= wizard.set_step 'merge_wiz' 'Phone' -->
+        <div class='u-margin--auto u-maxWidth--300'>
+          <%= render 'merge_step', merge_key: 'phone' %>
+        </div>
+			</div>
+
+			<div class='wizard-step address-step' data-name='Address'>
+				<!--= wizard.set_step 'merge_wiz' 'Address' -->
+				<%= render 'merge_step_address' %>
+			</div>
+
+			<div class='wizard-step finish-step u-width--full'>
+				<!--= wizard.set_step 'merge_wiz' 'Finish' -->
+				<%= render 'merge_step_finish' %>
+			</div>
+		</div>
+	</section>
+
+</div>

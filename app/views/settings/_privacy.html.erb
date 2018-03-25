@@ -1,0 +1,18 @@
+<header class='pane-header'>
+	<h3>Privacy Settings</h3>
+</header>
+
+<div class='pane-inner'>
+	<form autosubmit action='<%= profile_path(@user.profile) %>' method='put' data-reload>
+		<p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>To make all your donations and other donor activity private, check the option below.</p>
+		<input type='hidden' name='profile[anonymous]' value='false'>
+		<input type='checkbox' name='profile[anonymous]' <%= @user.profile.anonymous ? 'checked=checked' : '' %> id='profile-anon-input'>
+		<label class='profile-anon-label' for='profile-anon-input'>Make my profile anonymous.</label>
+
+		<div>
+		</div>
+		<p class='error'></p>
+		<button type='submit' class='button u-marginTop--5' data-loading='Updating...'>Update Privacy Settings</button>
+	</form>
+	<p class='note u-marginTop--10'>Note: we don't directly share your individual donation amounts.</p>
+</div>

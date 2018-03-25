@@ -1,0 +1,63 @@
+<p>Dear <%= @nonprofit.name %>,</p>
+
+<br>
+
+<p>
+Your invoice for the month of <%= @month_name %> has been paid and the receipt is below. 
+</p>
+
+<br>
+
+<table class='table'>
+
+  <thead>
+    <th colspan='2'>
+      Payment Receipt for <%= Settings.general.name %>
+    </th>
+  </thead>
+
+  <tbody>
+  <tr>
+    <td><strong>Total Amount</strong></td>
+    <td> <%= print_currency(@payment.gross_amount) %></td>
+  </tr>
+  <tr>
+    <td><strong>Transaction Date</strong></td>
+    <td><%= date_and_time(@payment.date, @nonprofit.timezone) %></td>
+  </tr>
+
+  <tr>
+    <td><strong>Plan Level</strong></td>
+    <td> <%= @nonprofit.billing_plan.name %></td>
+  </tr>
+
+  <tr>
+    <td>From:</td>
+    <td>
+      CommitChange Inc. 
+      <br>Oakland, CA
+      <br>EIN 46-3123854
+      <br><%= Settings.devise.mailer_sender %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>To:</td>
+    <td>
+      <%= @nonprofit.name %>
+      <br><%= @nonprofit.city + ', ' + @nonprofit.state_code if @nonprofit.city.present? && @nonprofit.state_code.present? %>
+    <br><%= 'EIN ' + @nonprofit.ein unless @nonprofit.ein.blank? %>
+    <br><%= @nonprofit.email unless @nonprofit.email.blank? %>
+  </td>
+  </tr>
+
+  </tbody>
+
+</table>
+<p>
+
+<br>
+From our whole team: thank you so much for your business!
+</p>
+
+<%= render 'emails/sig' %>

@@ -1,0 +1,31 @@
+<div class='modal' id='bulkDeleteModal'>
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>Delete Records for  
+		<!--= put action_recipient -->
+		</h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+		
+		<div class='group'>
+			<span class='bulkDelete-supporters'>
+				<!--= repeat supporters.selected_with_limit -->
+				<!--= put (any this.name this.email (cat 'Supporter ' this.id)) -->
+			</span>
+			<span class='bulkActionSubject--remaining'>
+				<!--= show_if supporters.remaining -->
+				<!--= put supporters.remaining --> more...
+			</span>
+		</div>
+
+		<div class='u-marginTop--15 u-centered'>
+			<button class='button red'>
+				<!--= on 'click' (confirm 'Are you sure?' bulk_delete) -->
+				<i class='fa fa-times'></i> Delete
+			</button>
+		</div>
+
+	</div>
+</div>
+

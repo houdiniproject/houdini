@@ -1,0 +1,36 @@
+<!-- partial: common/new_role -->
+<div class='modal skinny' id='newRole'>
+	<header class='modal-header'>
+		<%= render 'common/modal_close' %>
+		<h3>Invite a New User</h3>
+	</header>
+
+	<div class='modal-body'>
+
+			<form autosubmit action='/nonprofits/<%= @nonprofit.id %>/roles.json' method='post' parsley-validate data-reload>
+				<div class='field'>
+					<div class='field-inline'>
+						<input type="radio" name="role[name]" value="nonprofit_admin" id='roleName--admin'>
+						<label for='roleName--admin'><strong>Nonprofit Admin</strong></label>
+					</div>
+					<p>Full permissions, including bank payouts</p>
+				</div>
+
+				<div class='field'>
+					<div class='field-inline'>
+						<input type="radio" name="role[name]" value="nonprofit_associate" checked='checked' id='roleName--assoc'>
+						<label for='roleName--assoc'><strong>Nonprofit Associate</strong></label>
+					</div>
+					<p>Edit content and view records</p>
+				</div>
+
+				<p><strong>Important!<br/> Double check this email address</strong></p>
+				<input name='role[email]' type='email' placeholder='Email' id='role-email-field' required><br>
+				<input name='role[email_confirmation]' type='email' placeholder='Confirm email' id='role-email-field' required parsley-equalto='#role-email-field'>
+
+				<p class='error'></p>
+				<%= render 'common/modal_submit', loading: 'Creating...', text: 'Create' %>
+			</form>
+	</div>
+</div>
+<!-- end partial: common/new_role -->

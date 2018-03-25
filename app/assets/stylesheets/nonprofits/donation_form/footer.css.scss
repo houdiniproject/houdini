@@ -1,0 +1,11 @@
+@import 'mixins';
+
+.donateForm-footer {
+	background: $fog;
+	font-size: 12px;
+	text-align: center;
+	padding: 7px;
+	@include ellipsis;
+	width: 100%;
+	color: $grey;
+}

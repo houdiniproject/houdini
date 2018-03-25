@@ -1,0 +1,20 @@
+#bank-account-form {
+	overflow: hidden;
+	background-color: #f2f2f2;
+	padding: 12px;
+} 
+#bank-account-form .fields { 
+	float: left; 
+	width: 50%;
+}
+#bank-account-form img { 
+	width: 50%;
+	float: right; 
+	margin-top: 16px;
+}
+.bankAccountModal-footer {
+	display: block;
+	clear: both;
+	padding-top: 10px;
+	text-align: center;
+}

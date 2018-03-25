@@ -1,0 +1,29 @@
+<table class='table'>
+
+	<thead>
+		<th colspan='2'>Supporter Info</th>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>Name</strong></td>
+			<td><%= supporter.name %></td>
+		</tr>
+		<tr>
+			<td><strong>Email</strong></td>
+			<td><%= supporter.email %></td>
+		</tr>
+		<tr>
+			<td><strong>Address</strong></td>
+			<td>
+				<%= Format::Address.with_supporter(supporter) %>
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Phone</strong></td>
+			<td><%= Format::Phone.readable(supporter.phone) %></td>
+		</tr>
+
+	</tbody>
+
+</table>

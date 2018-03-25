@@ -1,0 +1,22 @@
+@import 'common/image_uploader';
+@import 'mixins';
+
+#settings-modal {
+	.field {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	.image-upload {
+		float: left;
+		margin: 0 20px 20px 0;
+	}
+
+	.modal-footer-insideBody {
+		text-align: initial;
+	}
+
+	.modal-footer-margin { text-align: initial; }
+
+	.field { clear: left; } 
+}

@@ -1,0 +1,12 @@
+<!-- partial start: components/nav_top_links -->
+
+<% if current_user %>
+	<a href='<%= destroy_user_session_path %>'>
+		<span class='hoverUnderline' >Logout</span>
+	</a>
+<% else %>
+	<a open-modal='loginModal'>
+		<span class='hoverUnderline loginLink' >Login</span>
+	</a>
+<% end %>
+<!-- partial start: components/nav_top_links -->

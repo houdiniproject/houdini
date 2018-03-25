@@ -1,0 +1,19 @@
+<!-- partial start: nonprofits/_overview_media -->
+<div class='overview-media'>
+  <% if @nonprofit.main_image.file %>
+
+    <div>
+			<div style='overflow: hidden; height: initial;'>
+        <%= image_tag @nonprofit.main_image_url(:nonprofit_carousel).to_s %>
+			</div>
+		</div>
+
+	<% elsif Format::Address.full_address(@nonprofit.address, @nonprofit.city, @nonprofit.state_code) %>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+		<% npo_full_address = Format::Address.full_address(@nonprofit.address, @nonprofit.city, @nonprofit.state_code, @nonprofit.zip_code) %>
+
+		<div class='overview-map' id='js-map' data-address='<%= npo_full_address %>'>
+		</div>
+	<% end %>
+</div>
+<!-- partial end: nonprofits/_overview_media -->

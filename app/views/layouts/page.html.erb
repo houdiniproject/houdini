@@ -1,0 +1,19 @@
+<!doctype html>
+
+<html>
+  <head>
+    <%= render 'layouts/meta_tags' %>
+    <%= yield :head %>
+    <%= IncludeAsset.css '/client/css/global/page.css' %>
+    <%= yield :stylesheets %>
+  </head>
+
+  <body>
+    <%= yield %>
+    <%= render 'components/global_loading' %>
+    <%= render 'layouts/page_modals' %gi
+    <%= render 'layouts/javascripts' %>
+  </body>
+
+</html>
+

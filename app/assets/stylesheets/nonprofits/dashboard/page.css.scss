@@ -1,0 +1,95 @@
+@import 'mixins';
+@import 'bootstrap-tour';
+@import 'components/activity_feed';
+@import 'components/event_preview_small';
+@import 'campaigns/new/index';
+@import 'events/new/index';
+@import 'components/todos';
+@import 'components/nonprofit_bank_accounts';
+@import 'components/google_maps';
+@import 'components/info_card';
+
+.globalFooter {
+	margin-top: 40px;
+}
+.googleMapWrapper {
+	background: #E9EFE8;
+}
+.googleMapWrapper p {
+	font-size: 17px;
+	font-weight: bold;
+	padding: 10px 0 5px;
+	text-align: center;
+}
+.googleMap {
+	padding-bottom: 90%;
+}
+
+$sectionSpacing: 15px;
+
+.leftSide {
+	@include columns(7);
+	padding: 0 $sectionSpacing;
+}
+.sidebar {
+	@include columns-right(5);
+}
+.sidebar h3 {
+	font-size: 20px;
+}
+.pageTitle i {
+	position: relative;
+	top: 5px;
+}
+.metrics,
+.sidebar-listing,
+.sidebar-action {
+	padding: 0 $sectionSpacing $sectionSpacing 0;
+}
+.sidebar-action .button {
+	width: 100%;
+	margin: 0 auto;
+	display: block;
+}
+.sidebar-listing.campaigns li:nth-of-type(2n -1) {
+  background: rgba(black, 0.03);
+}
+.donationChart-loading,
+.todos-loading {
+  display: table;
+  text-align: center;
+  background: rgba($sky, 0.1);
+  width: 100%;
+}
+.todos-loading {
+  padding: 30px 15px;
+}
+.donationChart-loading {
+  padding: 90px 15px;
+}
+.donationChart-loading > span,
+.todos-loading > span {
+  display: table-cell;
+  vertical-align: middle;
+}
+.donationChart-loading > span {
+  font-size: 30px;
+}
+
+@media screen and (max-width: 600px) {
+	.sidebar,
+	.leftSide {
+		width: 100%;
+	}
+	.sidebar {
+		padding: 0 15px 0 15px;
+	}
+	.leftSide {
+		padding: 0 15px 15px 15px;
+	}
+	.metrics,
+	.sidebar-listing,
+	.sidebar-action {
+		padding: 0 0 15px 0;
+	}
+}

@@ -1,0 +1,7 @@
+<p>Hi <%= @user.profile.name %>,</p><br>
+
+<p>Thanks for signing up on <a href='https://commitchange.com'></a><%= Settings.general.name %></a>! Your profile is all set up, and you're ready to start fundraising.</p><br>
+
+<p>You can sign in to your account <a href='<%= new_user_session_url %>'>here.</a></p><br>
+
+<%= render 'emails/sig' %>

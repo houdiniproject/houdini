@@ -1,0 +1,12 @@
+.press-row {
+	background: rgb(230,230,230);
+	padding: 20px 0;
+}
+
+.press-image {
+	float: left;
+	width: 20%;
+	padding: 0 3%;
+	@include opacity(0.3);
+}
+

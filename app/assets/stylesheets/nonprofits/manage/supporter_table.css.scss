@@ -1,0 +1,635 @@
+.supporter-listing {
+	float: left;
+	width: 700px;
+	border-left: 1px solid #ddd;
+	padding-left: 12px;
+
+	.checkbox {
+		text-align: center;
+		font-size: 18px;
+		padding: 0;
+		display: inline-block;
+		float: right;
+		position: relative;
+		width: 20px; height: 20px;
+		border: 2px solid #ddd;
+		cursor: pointer;
+		margin-right: 12px;
+
+		i {
+			color: #222;
+			display: none;
+			margin-top: 1px;
+		}
+	} //.checkbox
+
+	.checkbox.selected {
+		border-color: #888;
+
+		i {
+			display: block;
+		}
+	}
+
+	.checkbox:hover {
+		background-color: #fff;
+	}
+
+	.slide-up-button {
+		clear: both;
+		height: 25px;
+		background-color: #fff;
+		cursor: pointer;
+
+		.triangle {
+			width: 0; height: 0;
+			margin: 0 auto;
+			border-left: 25px solid transparent;
+			border-right: 25px solid transparent;
+			border-bottom: 25px solid #ddd;
+			transition: border-bottom-color .15s ease-in-out;
+			-moz-transition: border-bottom-color .15s ease-in-out;
+			-webkit-transition: border-bottom-color .15s ease-in-out;
+		}
+	} //.slide-up-button
+
+	.actions {
+		overflow: visible;
+		height: 28px;
+		width: 100%;
+		padding: 0 0 10px 0;
+		border-bottom: 1px solid  #ddd;
+
+		.checkbox {
+			margin-top: 2px;
+		}
+
+		a {
+			display: inline-block;
+			float: left;
+			margin: 0 20px 0 0;
+		}
+
+		.dropdown {
+			display: inline-block;
+
+			ul {
+				min-width: 0;
+				width: 90px;
+				top: 22px;
+				border: 1px solid #ddd;
+				border-top: 0;
+				box-shadow: none;
+				border-radius: 0;
+
+				li a {
+					padding: 1px 4px;
+					margin-left: 8px;
+					color: #888;
+				}
+
+				li a:hover {
+					background: transparent;
+					color: #222;
+				}
+			}
+
+			.dropdown-toggle {
+				width: 70px;
+			}
+
+			.dropdown-toggle:active {
+				background-color: #eee;
+			}
+		}
+
+		.sort-supporters {
+			display: inline-block;
+			float: right;
+
+			.annotation {
+				color: gray;
+				margin-right: 6px;
+			}
+
+			.arrow {
+				position: relative;
+				right: 14px;
+				bottom: 2px;
+			}
+
+			#sort-field-select {
+				float: none;
+				margin-right: -8px;
+				padding: 1px 10px 2px 10px;
+				border: 1px solid #ddd;
+			}
+
+			#sort-arrows {
+				display: inline-block;
+				width: 24px;
+				vertical-align: middle;
+				margin-right: 12px;
+
+				#sort-arrow-desc {
+					display: inline-block;
+					width: 0; height: 0; margin: 0 auto;
+					border-left: 10px solid transparent;
+					border-right: 10px solid transparent;
+					border-bottom: 12px solid #ddd;
+					margin-bottom: 4px;
+				}
+
+				#sort-arrow-asc {
+					display: inline-block;
+					width: 0; height: 0; margin: 0 auto;
+					border-left: 10px solid transparent;
+					border-right: 10px solid transparent;
+					border-top: 12px solid #ddd;
+				}
+
+				#sort-arrow-asc.selected {
+					border-top-color: #888;
+				}
+
+				#sort-arrow-desc.selected {
+					border-bottom-color: #888;
+				}
+			}
+		}
+
+		#loading-message {
+			float: left;
+			color: #888;
+			margin: 0;
+		}
+
+	} //.actions
+
+	#new-supporter {
+		border-bottom: 1px solid #ddd;
+		background-color: #f8f8f8;
+
+		.fields {
+			padding: 12px;
+		}
+
+		h4 {
+			margin-bottom: 12px;
+			float: left;
+			margin: 4px 12px 0 0;
+		}
+
+		form {
+			margin: 0;
+		}
+
+		input {
+			width: 165px;
+			margin: 0;
+			margin-right: 12px;
+		}
+
+		button {
+			background-color: white;
+			margin-right: 12px;
+		}
+	}
+
+	.data-row {
+		width: 100%;
+		overflow: hidden;
+		clear: both;
+		border-bottom: 1px solid #ddd;
+		position: relative;
+		min-height: 100px;
+    transition: background-color .15s ease-in-out;
+    -moz-transition: background-color .15s ease-in-out;
+    -webkit-transition: background-color .15s ease-in-out;
+
+		.data {
+			overflow: hidden;
+			width: 652px;
+			float: left;
+			cursor: pointer;
+			padding-top: 12px;
+		}
+
+		.checkbox {
+			margin-top: 40px;
+		}
+
+		.circle-image {
+			float: left;
+			width: 70px; height: 70px;
+			border-radius: 35px;
+			overflow: hidden;
+			margin: 6px 12px 0 12px;
+		}
+
+		h4 {
+			margin: 4px 0 8px 0;
+			font-size: 20px;
+
+			a {
+				color: #666;
+			}
+		}
+
+		.location {
+			min-height: 14px;
+			margin: 0;
+			color: #2a8ecc;
+		}
+
+		.info {
+			float: left;
+			width: 365px;
+		}
+
+		.tags {
+			min-height: 14px;
+			margin: 10px 0 20px 0;
+
+			.tag {
+				padding: 0 8px 2px 8px;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				color: #888;
+				margin-right: 8px;
+				display: inline-block;
+			}
+		}
+
+		.dot-status {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			border-radius: 10px;
+			margin-right: 10px;
+		}
+
+		.dollar {
+			font-size: 20px;
+			display: inline-block;
+			position: relative;
+			bottom: 12px;
+		}
+
+		.total-raised {
+			display: inline-block;
+			float: left;
+			margin-top: 30px;
+
+			.total-raised-amount {
+				font-weight: 200;
+				font-size: 36px;
+			}
+		} //.total-raised
+
+		.total-raised.green {
+			color: #769437;
+			.dot-status { background-color: #769437; }
+		}
+		.total-raised.orange {
+			color: #e4af00;
+
+			.dot-status { background-color: #e4af00; }
+		}
+		.total-raised.red {
+			color: #c64945;
+			.dot-status { background-color: #c64945; }
+		}
+
+		.checkbox {
+			display: inline-block;
+			float: right;
+		}
+
+	} //.data-row
+
+
+	.data-row:hover {
+		background-color: #f8f8f8;
+	}
+
+	.data-row.opened {
+		background-color: #f8f8f8;
+
+		h4 a {
+			color: #222;
+		}
+	}
+
+} //#supporter-table
+
+.tag-listing {
+
+	#tag-index {
+		border-top: 1px solid #eee;
+	}
+
+	.tag-select {
+		cursor: pointer;
+		overflow: hidden;
+		margin: 8px 0;
+		padding: 0 0 0 4px;
+		border-left: 4px solid #fff;
+		transition: background-color .15s ease-in-out;
+		-moz-transition: background-color .15s ease-in-out;
+		-webkit-transition: background-color .15s ease-in-out;
+
+		.tag-name {
+			display: inline-block;
+			max-width: 120px;
+			color: #888;
+			display: inline-block;
+			padding: 4px 0;
+		}
+
+		.tag-total {
+			display: block;
+			float: right;
+			background-color: whitesmoke;
+			padding: 4px 0;
+			width: 45px;
+			text-align: center;
+			color: #808080;
+		}
+	} //.tag-total
+
+	.tag-select:hover {
+		border-left: 4px solid #98bb00;
+
+		.tag-name {
+			color: #222;
+		}
+	} //.tag-select:hover
+
+	.tag-select.selected {
+		border-left: 4px solid #98bb00;
+		background-color: whitesmoke;
+
+		.tag-name {
+			color: #222;
+		}
+		
+		.tag-total {
+			background-color: #98bb00;
+			color: white;
+		}
+	}
+
+} //.tag-listing
+
+.details-row {
+	overflow: hidden;
+	clear: both;
+	position: relative;
+
+	.separator-line {
+		height: 1px;
+		width: 592px;
+		margin-right: 12px;
+		float: right;
+		border-top: 1px solid #ddd;
+	}
+
+	h4 {
+		color: #666;
+	}
+
+	.left, .right {
+		width: 324px;
+		margin-top: 12px;
+		padding: 0 12px;
+		float: left;
+		display: inline-block;
+	}
+
+	.left {
+		border-right: 1px solid #ddd;
+		overflow: hidden;
+
+		form {
+			margin: 0;
+		}
+
+		h4 {
+			display: inline-block;
+		}
+
+		.meta {
+			overflow: hidden;
+
+			.loading-indicator {
+				float: right;
+				font-size: 16px;
+				display: none;
+			}
+
+			.saved-message {
+				float: right;
+				color: #808080;
+				display: none;
+				margin-top: 4px;
+			}
+
+			.error-message {
+				float: right;
+				color: #D37070;
+				display: none;
+				margin-top: 4px;
+			}
+		} //.meta
+
+		.add-field-button, .save-fields-button {
+			float: right;
+			margin-left: 12px;
+		}
+
+		.key {
+			display: inline-block;
+			width: 80px;
+			color: #808080;
+			max-height: 20px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		} //.key
+
+
+		.field {
+			position: relative;
+			
+			input, textarea {
+				background-color: #f8f8f8;
+				color: #222;
+			}
+
+			input.selected, textarea.selected {
+				background-color: white;
+			}
+		}
+
+		.remove-field-button {
+			position: absolute;
+			font-size: 18px;
+			top: 5px; right: 5px;
+		}
+
+		.remove-field-button:hover {
+			i { color: #222; }
+		}
+
+		input, textarea {
+			width: 226px;
+		}
+
+		input[disabled] {
+			background-color: #f8f8f8;
+			color: #888;
+		}
+
+		.new-field {
+			margin-left: 40px;
+		}
+
+		.new-field-form, .custom-field {
+			position: relative;
+
+			.key {
+				width: 60px;
+				margin-left: -2px;
+			}
+
+			.value {
+				margin-left: 8px;
+				width: 226px;
+			}
+
+			.actions {
+				a, button {
+					float: right;
+					display: inline-block;
+				}
+
+				button {
+					vertical-align: middle;
+				}
+
+				a {
+					margin-left: 8px;
+					margin-top: 6px;
+				}
+			} //.actions
+		} //.new-field-form
+
+		textarea {
+			margin-bottom: 0;
+		}
+
+		input {
+		} //input
+
+		textarea {
+			border-radius: 0;
+			resize: none;
+			height: 60px;
+		}
+	} //.left
+
+	.right {
+		overflow: hidden;
+
+		.donation {
+			margin-bottom: 12px;
+
+			span {
+				display: inline-block;
+			}
+
+			.date {
+				color: #808080;
+				margin-right: 12px;
+			}
+
+			.amount {
+				color: #000;
+				width: 38px;
+				font-size: 16px;
+			}
+
+			.url {
+				color: #2a8ecc;
+				font-size: 12px;
+				max-width: 192px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				display: inline-block;
+			}
+		}
+	} //.right
+
+	.details-tags {
+		clear: both;
+		padding: 12px;
+		margin: 12px 0 0 0;
+		overflow: hidden;
+
+		h4 {
+			margin-top: 10px;
+			float: left;
+		}
+
+		.add-tag-button {
+			display: block;
+		}
+
+		.tag-listing {
+			border-top: 1px solid #ddd;
+			float: right;
+			padding: 12px 0 0 0;
+			width: 592px;
+
+			.tag {
+				padding: 0 8px 2px 8px;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				color: #888;
+				background-color: white;
+				margin-right: 8px;
+				margin-bottom: 8px;
+				display: inline-block;
+				
+				i:hover {
+					color: #222;
+				}
+			}
+
+			.new-tag-template {
+				display: none;
+			}
+
+			input {
+				float: left;
+				display: inline-block;
+				margin-right: 8px;
+				margin-bottom: 8px;
+				padding: 0 8px 2px 8px;
+				border: 1px solid #ddd;
+				border-radius: 4px;
+				color: #888;
+				font-size: 12px;
+				width: 80px;
+		} //.new-tag 
+		} //.tag-listing
+	} //.tags
+
+
+	.slide-up-button:hover .triangle {
+		border-bottom-color: #888;
+	}
+
+} //.details-row

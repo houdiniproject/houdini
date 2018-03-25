@@ -1,0 +1,49 @@
+<div class='modal' id='newBankModal'>
+	<!--= scope 'new_bank' -->
+
+	<%= render 'common/modal_header', title: 'Connect a Bank Account' %>
+
+	<div class='modal-body'>
+
+		<p>To make payouts, we need to connect to your organization's bank account. All data is sent over a 256-bit secured SSL encryption and stored in a encrypted, PCI-DSS Level 1 Compliant database.</p>
+
+		<p>This connection only allows for <strong>deposits</strong> to your bank account.</p>
+
+		<form id='bank-account-form' parsley-validate>
+			<!--= on 'submit' (create_bank_account form_object) -->
+
+			<input type='hidden' name='country' value='US'>
+			<input type='hidden' name='currency' value='USD'>
+
+			<div class='fields'>
+				<div class='field'>
+					<label>Account Holder's Name</label>
+					<input name='name' required parsley-trigger='change'></input>
+				</div>
+				<div class='field'>
+					<label>Routing Number</label>
+					<input name='routing_number' required parsley-type='number' parsley-trigger='change' parsley-rangelength='[9,9]' parsley-rangelength-message='This must be exactly 9 digits long'></input>
+				</div>
+				<div class='field'>
+					<label>Account Number</label>
+					<input name='account_number' required parsley-type='number' parsley-trigger='change'></input>
+				</div>
+				<div class='field'>
+					<label>Your <%= Settings.general.name %> Password <br><small>(to confirm this change)</small></label>
+					<input name='user_password' required type='password' parsley-trigger='change'></input>
+				</div>
+			</div>
+
+			<%= image_tag 'graphics/bank-account-helper.png' %>
+
+			<div class='bankAccountModal-footer'>
+				<p class='note'><i class='fa fa-lock'></i> All data is 256-bit secured with <a href='https://stripe.com/help/security' target='_blank'>Stripe</a>.</p>
+				<%= render 'components/forms/submit_button', button_text: 'Submit', loading_text: 'Processing...', scope: 'new_bank_account' %>
+			</div>
+
+		</form>
+
+
+	</div>
+
+</div>

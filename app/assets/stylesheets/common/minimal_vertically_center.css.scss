@@ -1,0 +1,26 @@
+@import 'mixins';
+
+// used for minimal, single-purpose pages like the unsubscribe page
+
+html {
+	height: 100%;
+}
+body {
+	min-height: 100%;
+	display: table;
+	width: 100%;
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 30px;
+	background: #fbfbfb; 
+}
+main {
+	display: table-cell;
+	vertical-align: middle;
+}
+footer,
+nav,
+aside,
+header {
+	display: none;
+}

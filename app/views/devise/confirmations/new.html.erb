@@ -1,0 +1,24 @@
+<div class='container--narrow u-centered top--med'>
+	<div class='container-shadow'></div>
+
+	<section class='padded u-width--400 u-margin--auto'>
+
+		<h3>Send Confirmation Email</h3>
+
+		<p class='u-marginBottom--10'>In order to confirm your account, enter your email address below to receive an email with a confirmation link.</p>
+
+		<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+			
+			<p class='small-error'><%= devise_error_messages! %></p>
+
+			<div class='field'>
+				<label class='u-centered'>Your Email Address</label>
+				<%= f.email_field :email, :value => (current_user ? current_user.email : ''), :class => 'u-margin--10' %>
+			</div>
+
+			<button class="button" name="commit" type="submit">Send</button>
+		<% end %>
+
+	</section>
+
+</div>

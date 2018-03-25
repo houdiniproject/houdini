@@ -1,0 +1,22 @@
+<div class='modal skinny' id='videoModal'>
+	<div class='modal-header'>
+		<h3>Campaign Video</h3>
+		<%= render 'common/modal_close' %>
+	</div>
+
+	<div class='modal-body'>
+		<p class='tip'>Videos are optional but recommended.</p>
+		<p>A good video almost always guarantees greater campaign success. Upload your video to Youtube or Vimeo and link it below.</p>
+
+		<form autosubmit action='/nonprofits/<%=@nonprofit.id%>/campaigns/<%=@campaign.id%>' method='put' data-reload>
+
+			<fieldset class='u-marginTop--20'>
+				<label>Video URL: </label>
+				<input type='text' placeholder='YouTube or Vimeo' value='<%= @campaign.video_url %>' class='wide' name='campaign[video_url]'>
+			</fieldset>
+
+			<p class='error'></p>
+			<%= render 'common/modal_submit', :text => 'Submit' %>
+		</form>
+	</div>
+</div>

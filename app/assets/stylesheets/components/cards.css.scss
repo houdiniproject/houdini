@@ -1,0 +1,34 @@
+@import 'mixins';
+
+.cardForm {
+	max-width: 380px;
+	margin: 0 auto;
+}
+.cardForm input,
+.cardForm select {
+	margin: 0;
+}
+.cardForm .progress {
+	width: 100%;
+}
+.cardForm .parsley-error-list {
+	display: none;
+}
+.cardForm .security-code-image,
+.cardForm  .card-logos { 
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+.cardForm  .card-logos {
+	width: 32px;
+	height: 21px;
+	background-image: url('/assets/graphics/credit-card-logos.png');
+	@include opacity(0);
+
+	&.americanexpress, &.visa, &.discovercard, &.mastercard { @include opacity(1); }
+	&.americanexpress { background-position: 0; }
+	&.visa { background-position: 32px; }
+	&.mastercard { background-position: 64px; }
+	&.discovercard { background-position: 96px; }
+}

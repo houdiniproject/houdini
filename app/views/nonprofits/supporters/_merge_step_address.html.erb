@@ -1,0 +1,61 @@
+<p class='u-marginTop--0 u-centered u-strong'>
+  <!--= if (merge.data.has_at_least_one.address) 
+  (put 	'Which address would you like to use?')
+  (put 'No address listed. Please add a new one.') -->
+</p>
+<div>
+  <div>
+    <!--= repeat merge.data.supporters -->
+    <!--= show_if this.address -->
+
+    <input type='radio'>
+    <!--= if (all (eq merge.data.new_supporter.address this.address) 
+        (eq merge.data.new_supporter.city this.city) 
+        (eq merge.data.new_supporter.state_code this.state_code) 
+        (eq merge.data.new_supporter.zip_code this.zip_code) 
+        (eq merge.data.new_supporter.country this.country))
+      (check) (uncheck) -->
+    <label>
+      <!--= on 'click' (merge.select_address this) --> 
+      <!--= put address_with_commas this.address this.city this.state_code -->
+      <!--= put this.zip_code -->
+      <!--= put this.country -->
+    </label>
+  </div>
+</div>
+
+<div class='group u-marginTop--20'>
+  <!--= on 'input' (merge.set form_object) -->
+  <div class='layout--two'>
+    <fieldset>
+      <label>Address</label>
+      <input type='text' class='u-marginBottom--5' name='address' placeholder='Add new address'>
+    </fieldset>
+    <fieldset>
+      <label>City</label>
+      <input type='text' class='u-marginBottom--5' name='city' placeholder='Add new city'>
+    </fieldset>
+  </div>
+  <div class='layout--three'>
+    <fieldset>
+      <label>State/Region</label>
+      <input type='text' class='u-marginBottom--5'  name='state_code' placeholder='Add new state/region'>
+    </fieldset>
+    <fieldset>
+      <label>Zip Code</label>
+      <input type='text' name='zip_code' placeholder='Add new zip code'>
+    </fieldset>
+    <fieldset>
+      <label>Country</label>
+      <input name='country' type='text' placeholder='Add new country'>
+    </fieldset>
+  </div>
+</div>
+
+<div class='u-centered u-marginTop--10'>
+  <button class='button'> 
+    <!--= on 'click' (wizard.advance 'merge_wiz') -->
+    Next
+  </button>
+</div>
+

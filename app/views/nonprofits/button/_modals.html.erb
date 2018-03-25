@@ -1,0 +1,42 @@
+<!-- partial start: nonprofits/button/_modals -->
+<div class='modal skinny' id='choose-role-modal'>
+	<section class='modal-body'>
+		<button class='button--large u-width--full' open-modal='get-code-modal'>See the code</button>
+
+		<div class='lineText u-marginY--20'>
+			<span>OR</span>
+		</div>
+
+		<button class='button--large blue u-width--full' open-modal='send-code-modal'>Email the code</button>
+	</section>
+</div>
+
+<div class='modal' id='get-code-modal'>
+	<section class='modal-body'>
+		<%= render 'common/modal_close' %>
+
+		<p>First, include this script within the HTML of your website:</p>
+
+		<%= render 'include_snippet' %>
+
+		<p>Then, paste the following snippet wherever you want the donation widget to appear:</p>
+
+		<textarea readonly class='codeText' id='js-donateButtonAnchor'></textarea>
+	</section>
+</div>
+
+<div class='modal' id='send-code-modal'>
+  <%= render 'common/modal_header', title: 'Email the donate button code' %>
+	<section class='modal-body'>
+		<form parsley-validate>
+			<input required type='text' name='to_name' placeholder='Recipient Name'>
+			<input required type='email' name='to_email' placeholder='Recipient Email'>
+			<input type='hidden' name='from_email' value='<%= current_user.email %>'>
+			<input type='hidden' name='nonprofit_id' value='<%= @nonprofit.id %>'>
+			<input type='hidden' name='code'>
+			<textarea name='message' placeholder='Optional message'></textarea>
+			<%= render 'common/modal_submit', :text => 'Send' %>
+		</form>
+	</section>
+</div>
+<!-- partial end: nonprofits/button/_modals -->

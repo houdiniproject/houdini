@@ -1,0 +1,35 @@
+<!-- partial start: nonprofits/supporters/custom_fields_input -->
+<% bulk = false if bulk.nil? %>
+
+<div class='layout--two--repeat'>
+	<!--= the scope of the below repeat is set in the parent element -->
+	<div class='field u-relative <%= bulk ? "u-marginBottom--20" : "" %>'>
+		<!--= repeat this -->
+		<% if bulk %>
+			<button toggle='remove'>
+				<!--= add_class_if (this.remove) 'toggledOn' -->
+				<!--= on 'click' (if (this.remove)
+				(def 'this.remove' false) (def 'this.remove' true))  -->
+			</button>
+		<% end %>
+		<label>
+			<!--= add_class_if (this.remove) 'u-strike' -->
+			<!--= put this.name -->
+		</label>
+		<span>
+			<!--= hide_if this.remove -->
+			<input type='hidden' name='remove'><!--= set_value this.remove -->
+			<input type='hidden' name='id'><!--= set_value this.id -->
+			<input type='text' name='val'><!--= set_value this.value -->
+		</span>
+		<span>
+			<!--= show_if this.remove -->
+			<span class='customField-remove'>
+				<strong class='u-color--red'>Remove</strong> 
+				from <!--= put (custom_fields.bulk.action_recipient) -->
+			</span>
+			<input type='text' class='removeField'>
+		</span>
+	</div>
+</div>
+<!-- partial end: nonprofits/supporters/custom_fields_input -->

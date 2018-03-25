@@ -1,0 +1,16 @@
+@import 'mixins';
+
+
+body { padding: 0; }
+
+@media screen and (max-width: 700px) {
+  .overview { padding: 10px; }
+  .overview-col { 
+    width: 100%;  
+    display: block;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  .overview-col:last-of-type { margin: 0; }
+}
+

@@ -1,0 +1,42 @@
+@import 'mixins';
+
+.adminSidebar-body {
+	padding: 10px 15px;
+}
+.adminSidebar-action {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 20px;
+}
+.adminSidebar-action i {
+	width: 20px;
+	text-align: center;
+	margin-right: 8px;
+	display: inline-block;
+}
+.adminSidebar-action--subtleDanger {
+	@include setColorAndHover($red);
+}
+.superAdminSidebar * {
+	font-size: 15px;
+	line-height: 1.3;
+	@include ellipsis;
+}
+.superAdminSidebar .removeNpoUser {
+	position: relative;
+	padding-right: 20px;
+	line-height: 24px;
+}
+.superAdminSidebar .removeNpoUser form {
+	position: absolute;
+	right: 0px;
+	top: 3px;
+}
+@media screen and (max-width: 400px) {
+	.adminSidebar.is-shown {
+		width: 100%;
+	}
+	.adminSidebar .switch {
+		right: 0;
+	}
+}

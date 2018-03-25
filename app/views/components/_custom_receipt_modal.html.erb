@@ -1,0 +1,22 @@
+<!-- partial start: components/_custom_receipt_modal -->
+<%# requires type, path, key and text %>
+
+<div class='modal' id='customReceiptModal'>
+  <%= render 'common/modal_header', title: title %>
+  <section class='modal-body'>
+    <p>
+        You can add an optional message
+      <% if type == 'event' %>
+        to your attendees which will appear at the top of their ticket emails.
+      <% else %>
+        to your campaign contributors which will appear on their contribution receipts.  If you leave it blank,
+        <a href="/settings?p=receipts&s=settings-pane" target='_blank'> your custom donation receipt message</a> will be used.
+      <% end %>
+    </p>
+    <p class='u-marginBottom--20'><%= render 'components/messages/html_email_disclaimer' %></p>
+    <div class='editable  editable--email' id='js-customReceipt' data-path='<%= path %>' data-key='<%= key %>'>
+      <%= raw(text) %>
+    </div>
+  </section>
+</div>
+<!-- partial end: components/_custom_receipt_modal -->

@@ -1,0 +1,32 @@
+<div class='fixedTopAction fixedTopAction--event' <%= current_event_editor? ? "style='padding-left: 60px'".html_safe : "" %>>
+	<div class='container'>
+		<table class='fixedTopAction-table'>
+			<tr>
+				<td class='fixedTopAction-left'>
+					<h1 class='fixedTopAction-title'><%= @event.name %></h1><br>
+					<span class='fixedTopAction-metrics'>
+					<a if-branded='color, darker' href='<%= @nonprofit.url %>'><%= @nonprofit.name %></a>
+					<span class='u-capitalize'><%= @event.city %>, <%= @event.state_code %></span>
+          <span><%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @nonprofit.timezone) %></span>
+				</td>
+
+				<td class='fixedTopAction-right'>
+					<!--= show_if (length ticket_levels.data) -->
+					<a class='u-marginRight--10 fixedTopAction-promote' title='Promote' if-branded='color, darker'>
+						<!--= on 'click' (open_modal 'shareModal') -->
+						Promote</a>
+          <% if Time.now < @event.end_datetime %>
+  					<button class='button' title='Contribute' if-branded='background, dark'>
+  						<!--= on 'click' show_new_tickets -->
+  						Register
+  					</button>
+          <% else %>
+            <button class='button js-openDonationModal' title='Donate' if-branded='background, dark'>
+              Donate
+            </button>
+          <% end %>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

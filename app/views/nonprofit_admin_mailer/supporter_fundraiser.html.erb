@@ -1,0 +1,11 @@
+<% fundraiser_url = Format::Url.concat(root_url, @fundraiser.url) %>
+
+<p>Congratulations! <%= @profile.user.email %> has created <%= Format::Indefinitize.with_article(@kind) %> for your nonprofit. You can visit and edit the <%= @kind.downcase %> here: <strong><a href='<%= fundraiser_url %>'><%= fundraiser_url %></a></strong></p><br>
+
+<p>Be sure to share your draft URL (<%= fundraiser_url %>) to get some intial feedback before you launch.</p><br>
+
+<p>If you would like to get in touch with your supporter, you can email them at <a href="mailto:<%= @profile.user.email %>"><%= @profile.user.email %></a>.</p><br>
+
+<p>If you need help or have any questions, don't hesitate to contact us at <strong><%= Settings.devise.mailer_sender %></strong>.</p>
+
+<%= render 'emails/sig' %>

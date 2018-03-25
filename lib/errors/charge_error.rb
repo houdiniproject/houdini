@@ -1,0 +1,2 @@
+class ChargeError < RuntimeError
+end

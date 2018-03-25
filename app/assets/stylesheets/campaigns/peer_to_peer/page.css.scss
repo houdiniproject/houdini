@@ -1,0 +1,39 @@
+@import 'mixins';
+@import 'components/q_and_a';
+@import 'components/timeline';
+@import 'components/type_ahead';
+@import 'components/simple_tabs';
+@import 'pikaday';
+@import 'common/image_uploader';
+
+body {
+	padding: 0;
+	background: $fog;
+}
+main {
+	display: block;
+	padding: 60px 0 50px 0;
+}
+ .photoTiles {
+   min-height: 50px;
+   margin-bottom: 5px;
+   @include opacity(0.95);
+ }
+ .photoTiles > * {
+   width: 14.28571428%;
+   float: left;
+   border: 2px solid $fog;
+ }
+.photoTiles img {
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  .photoTiles > * {
+    width: 20%;
+    &:nth-of-type(7),
+    &:nth-of-type(8) {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+general:
+  name: Houdini Project
+  logo: "logos/houdini_project_bug.svg"
+  logo_full: "logos/houdini_project_full.svg"
+
+default:
+  image:
+#    profile: "/images/fallback/wemove.min.svg"
+#    nonprofit: "/images/fallback/wemove.min.svg"
+#    campaign: "/fallback/default-campaign-background.jpg"
+    profile: "/images/fallback/default-profile.png"
+    nonprofit: "/images/fallback/default-nonprofit.png"
+    campaign: "/fallback/default-campaign-background.jpg"
+
+
+  cache_store: dalli_store
+
+aws:
+  access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: test
+  bucket: test
+
+mailer:
+  delivery_method: "sendmail"
+  address: "localhost"
+  port: 25
+  host: "http://localhost"
+
+cdn:
+  url: "http://localhost"
+  port: 5000
+
+payment_provider:
+  stripe_connect: false
+  stripe_public_key: <%= ENV['STRIPE_API_PUBLIC'] %>
+  stripe_private_key: <%= ENV['STRIPE_API_KEY'] %>
+  stripe_proprietary_v2_js: false
+
+default_bp:
+  id: 1
+
+devise:
+  mailer_sender: 'fake@fake.fake'
+
+page_editor:
+  editor: 'quill'
+
+language: 'en'
+available_locales: ['en']
+
+intntl:
+  currencies: ["usd"]
+  all_currencies:
+    - unit: "dollars"
+      subunit: "cents"
+      symbol: "$"
+      abbv: "usd"
+      format: "%u%n"
+    - unit: "euro"
+      subunit: "cents"
+      symbol: "€"
+      abbv: "eur"
+      format: "%n%u"
+
+source_tokens:
+  max_uses: 1
+  expiration_time: 1200
+  event_donation_source:
+    time_after_event: 1728000
+    max_uses: 20
+
+nonprofits_must_be_vetted: false
+

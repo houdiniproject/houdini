@@ -1,0 +1,48 @@
+<!-- partial: supporters/fields -->
+<!-- include css: donation_form/form -->
+<!-- depends on @nonprofit being set -->
+
+<% profile = nil if profile.nil? # weird hack so erb doesn't throw an exception when profile is not passed in
+%>
+
+<% required ||= {} %>
+<% show_anon = true if show_anon.nil? %>
+
+<% # we need to generate a unique id for the "anonymous" checkbox if this form is included multiple times throughout a page
+%>
+<% unique_id_token = SecureRandom.uuid %>
+
+<div class='u-marginY--10'>
+
+	<fieldset>
+		<input  class='u-marginBottom--0'
+    type='email'
+    title='Email <%= required[:email] ? "(required)" : nil %>'
+    name='email'
+    <%= required[:email] ? "required" : nil %>
+    value='<%= profile && profile.user.email %>'
+    placeholder='Email <%= required[:email] ? "(required)" : nil %>'>
+	</fieldset>
+
+	<section class='group'>
+		<%= render 'nonprofits/supporters/fieldset', cssClass: 'col-8', profile: profile, name: 'name', placeholder: 'Full name', required: required[:name] %>
+
+		<%= render 'nonprofits/supporters/fieldset', cssClass: 'col-right-4', profile: profile, name: 'phone', placeholder: 'Phone' %>
+	</section>
+
+  <%= render 'supporters/manual_address_fields', profile: profile %>
+
+	<% if !@nonprofit.no_anon && show_anon %>
+		<div class='u-marginTop--10'>
+			<input type='checkbox' id='anon-<%= unique_id_token%>' name='anonymous' <%= profile && profile.anonymous ? 'checked':'' %>>
+			<label id='anonLabel' for='anon-<%= unique_id_token %>'><small>Make this donation anonymous.</small></label>
+		</div>
+	<% end %>
+
+</div>
+
+
+<input type='hidden' name='nonprofit_id' value='<%= @nonprofit.id %>'>
+<input type='hidden' name='profile_id' value='<%= profile && profile.id %>'>
+
+<!-- end partial: supporters/fields -->

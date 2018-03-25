@@ -1,0 +1,80 @@
+<div class='modal' id='exportPaymentsModal'>
+
+	<%= render 'common/modal_header', title: 'Export Payments' %>
+
+	<div class='modal-body'>
+		<!--= scope 'payments' -->
+		<p>Download a CSV report of payments received, which can be opened with any spreadsheet application, such as Excel or Google Sheets.</p>
+
+		<div id='export-queries'>
+
+			<p>
+				<!--= show_if this.query.search -->
+				Searching by: "<strong><!--= put this.query.search --></strong>"
+			</p>
+
+			<p>
+				<!--= show_if this.query.donation_type -->
+        Filtering only: <strong><!--= put this.query.donation_type --></strong>
+			</p>
+
+			<p>
+				<!--= show_if this.query.sort_date -->
+				Sorting by: <strong>Date</strong>
+			</p>
+
+			<p>
+				<!--= show_if this.query.sort_amount -->
+				Sorting by: <strong>Amount</strong>
+			</p>
+
+			<p>
+				<!--= show_if this.query.sort_name -->
+				Sorting by: <strong>Name</strong>
+			</p>
+
+			<p>
+				<!--= show_if this.query.sort_type -->
+				Sorting by: <strong>Type</strong>
+			</p>
+
+			<p>
+				<!--= show_if this.query.sort_towards -->
+				Sorting by: <strong>Towards</strong>
+			</p>
+
+			<p>
+				<!--= show_if this.query.before_date -->
+				Before: <strong> <!--= put this.query.before_date --></strong>
+			</p>
+
+			<p>
+				<!--= show_if this.query.after_date -->
+				After: <strong> <!--= put this.query.after_date --> </strong>
+			</p>
+
+			<p>
+			<!--= show_if this.query.amount_greater_than -->
+				Amount at least: $<!--= put this.query.amount_greater_than -->
+			</p>
+
+			<p>
+				<!--= show_if this.query.amount_less_than -->
+				Amount less than: $<!--= put this.query.amount_less_than -->
+			</p>
+
+      <p>
+        <!--= show_if this.query.event_id -->
+        Filtering by event
+      </p>
+
+		</div>
+
+		<hr>
+
+		<a id='csv-export-button' class='button' target='_blank'>
+			<!--= set_attr 'href' (cat 'payments.csv' (obj_to_url_params this.query)) -->
+			<i class='fa fa-cloud-download'></i> Download as CSV
+		</a>
+	</div>
+</div>

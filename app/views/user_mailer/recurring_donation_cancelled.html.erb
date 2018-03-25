@@ -1,0 +1,5 @@
+<p>
+Your recurring donation of <strong><%= print_currency(@recurring_donation.amount) %></strong> towards <strong><%= @recurring_donation.nonprofit.name %></strong> is now cancelled.
+</p>
+
+<%= render :partial => 'emails/nonprofit_sig', :locals => {:nonprofit => @recurring_donation.nonprofit} %>

@@ -1,0 +1,14 @@
+<div>
+  <!-- (show_if (length campaigns.data ))-->
+  <hr class='u-margin--0'>
+  <label class='u-marginBottom--5'>Campaigns</label>
+  <select class='select u-margin--0'>
+    <!--= on 'change' (apply_input_filter 'campaign_id' get_value) -->
+    <option>
+      <!--= repeat campaigns.data -->
+      <!--=  set_attr_if this.id 'value' this.id -->
+      <!--= put this.name -->
+    </option>
+  </select>
+</div>
+

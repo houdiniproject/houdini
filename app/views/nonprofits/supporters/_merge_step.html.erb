@@ -1,0 +1,36 @@
+<% input_type = 'text' if input_type.nil? %>
+<% number = (merge_key == 'phone') ? 'number' : '' %>
+
+<p class='u-marginTop--0 strong'>
+  <!--= if (merge.data.has_at_least_one.<%= merge_key %>) 
+  (put 	'Which <%= merge_key %> <%= number %> would you like to use?')
+  (put 'No <%= merge_key %> <%= number %> listed. Please add a new one.') -->
+</p>
+
+<div>
+  <!--= repeat merge.data.supporters -->
+  <span>
+    <!--= show_if this.<%= merge_key %> -->
+    <input type='radio'>
+    <!--= if 
+    (eq merge.data.new_supporter.<%= merge_key %> this.<%= merge_key %>) 
+    (check) (uncheck) -->
+    <label>
+      <!--= on 'click' (def "merge.data.new_supporter.<%= merge_key %>" this.<%= merge_key %>) -->  
+      <!--= put this.<%= merge_key %> -->
+    </label>
+  </span>
+</div>
+
+<div>
+  <!--= on 'input' (merge.set form_object) -->
+  <input name='<%= merge_key %>' type='<%= input_type %>' class='u-marginTop--10' placeholder='Add new <%= merge_key %> <%= number %>'>
+</div>
+
+<div class='u-centered u-marginTop--10'>
+  <button class='button'> 
+    <!--= on 'click' (wizard.advance 'merge_wiz') -->
+    Next
+  </button>
+</div>
+

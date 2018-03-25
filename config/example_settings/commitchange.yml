@@ -1,0 +1,50 @@
+general:
+  name: 'CommitChange'
+
+devise:
+  mailer_sender: "support@commitchange.com"
+
+mailer:
+  default_from: "CommitChange Team <support@commitchange.com>"
+  email: "support@commitchange.com"
+
+default_bp:
+  percentage_fee: 0.020
+  id: 40
+
+intntl:
+  currencies: ["usd"]
+  all_currencies:
+   - unit: "dollars"
+     subunit: "cents"
+     symbol: "$"
+     abbv: "usd"
+     format: "%u%n"
+
+
+language: "en"
+available_locales: ["en"]
+show_state_field: true
+
+payment_provider:
+  stripe_connect: true
+  stripe_proprietary_v2_js: true
+
+maps:
+  provider: "google"
+
+page_editor:
+  editor: 'froala'
+  editor_options:
+    froala_key: <%= Settings.page_editor.editor_options.froala_key %>
+
+aws:
+  region: us-west-1
+  bucket: commitchange
+
+default_bp:
+  percentage_fee: 0.020
+  id: 40
+
+#image:
+#  host: https://s3-us-west-1.amazonaws.com/commitchange

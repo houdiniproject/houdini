@@ -1,0 +1,53 @@
+
+	<section class='admin-topNav tour-admin'>
+    <div class='container u-centered'>
+
+    <p><strong>Manage Campaign</strong></p>
+
+
+		<a class='button--tiny edit'>
+			<!--= on 'click' (open_modal 'campaignSettings') -->
+			<i class='fa fa-gear'></i> Settings
+		</a>
+
+		<a class='button--tiny edit' target='_blank' href="<%= @campaign.url + '/supporters' %>">
+			<i class='fa fa-th-list'></i> Dashboard
+		</a>
+
+		<a class='button--tiny edit'>
+			<!--= on 'click' (open_modal 'offlineCampaignDonation') -->
+			<i class='fa fa-plus'></i> Offsite Donation
+		</a>
+
+    <a class='button--tiny edit'>
+      <!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
+      <i class='fa fa-gift'></i> Gift Options
+    </a>
+
+    <a class='button--tiny edit'>
+      <!--= on 'click' (open_modal 'customReceiptModal') -->
+      <i class='fa fa-pencil'></i> Custom Receipt
+    </a>
+
+    <a class='button--tiny edit' href='?preview=t'>
+      <i class='fa fa-eye'></i> Preview Mode
+    </a>
+
+    <a class='button--tiny edit'>
+      <!--= on 'click' (open_modal 'duplicateFundraiserModal') -->
+      <i class='fa fa-copy'></i> Copy Campaign 
+    </a>
+
+    <%= render 'components/messages/deleted_campaign_or_event', type: 'campaign' %>
+
+    <p>Campaign ID: <%= @campaign.id %></p>
+
+    <% if current_role?(:super_admin) %>
+      <p><i class='icon icon-pacman-ghost'></i> For super admin:
+        <% url = root_url + "nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}" %>
+        <%= link_to "NP: #{@nonprofit.id} - Campaign ID: #{@campaign.id}", url %>
+      </p>
+    <% end %>
+
+    </div>
+	</section>

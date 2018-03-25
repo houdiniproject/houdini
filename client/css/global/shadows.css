@@ -1,0 +1,11 @@
+:root {
+  --sh-1: 0 1px 3px 1px rgba(0,0,0,.1);
+  --sh-2: 0 1.5px 6px 1px rgba(0,0,0,.2);
+  --sh-3: 0 2px 10px 1px rgba(0,0,0,.3);
+  --sh-4: 0 3px 12px 1px rgba(0,0,0,.4);
+}
+
+/* these box-shadow variables correspond with the */ 
+/* shadow classes in commons.css (http://yutakahoulette.com/commons.css/#shadow) */
+
+

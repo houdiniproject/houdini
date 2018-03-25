@@ -1,0 +1,66 @@
+<div class='modal fullScreen' id='manageTicketLevelsModal'>
+	<%= render 'common/modal_header', title: 'Manage Ticket Levels' %>
+
+	<section class='modal-body'>
+		<a class='button u-marginBottom--15'>
+			<!--= on 'click' (ticket_levels.show_create_or_edit 'create') -->
+			<i class='fa fa-plus'></i> New Ticket Level
+		</a>
+
+		<p class='noResults'>
+			<!--= hide_if (length ticket_levels.data) -->
+			It looks like you don't have any ticket levels yet.  Add one by clicking on the button above.
+		</p>
+
+    <form>
+      <table class='table'>
+        <!--= show_if (length ticket_levels.data) -->
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Admin Only</th>
+              <th>Amount</th>
+              <th>Remaining</th>
+              <th>Number sold</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id='js-reorderTickets'>
+          <tr class='u-width--full draggable-item'>
+            <!--= show_if (length ticket_levels.data) -->
+            <!--= repeat ticket_levels.data -->
+            <td class='u-paddingX--0'>
+              <i class='draggable-grip'></i>
+              <input type='hidden' name='id'></input>
+              <!--= set_value this.id -->
+            </td>
+            <td class='strong'><!--= put this.name --></td>
+            <td><!--= put (if this.admin_only 'Yes' '') --></td>
+            <td><!--= put this.formatted_amount --></td>
+            <td>
+              <small class='u-fade'><!--= hide_if this.limit -->n/a</small>
+              <!--= if (this.sold_out) (put 'Sold Out') (put this.remaining) -->
+            </td>
+            <td><!--=  put (any this.quantity 0)  --></td>
+            <td class='u-textAlign--right u-width--200'>
+
+              <button class='button--tiny edit u-marginRight--10'>
+                <!--= on 'click' (ticket_levels.show_create_or_edit 'edit' this.i) -->
+                <i class='fa fa-pencil'></i> Edit
+              </button>
+
+              <a class='button--tiny red'>
+                <!--= on 'click' (confirm (ticket_levels.delete this.id)) -->
+                <i class='fa fa-times'></i> Remove
+              </a>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+
+	</section>
+
+</div>

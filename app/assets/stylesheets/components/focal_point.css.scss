@@ -1,0 +1,20 @@
+@import 'mixins';
+
+.focalPointPreview {
+	position: relative;
+	margin: 10px auto;
+	overflow: hidden;
+	width: 300px;
+	height: 200px;
+	cursor: pointer;
+	background-size: cover;
+	background-position: center center;
+}
+
+img.focalPointPreview-reticle {
+	@include transform(translate(-50%, -50%));
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  @include transition(all 0.2s ease-out);
+}

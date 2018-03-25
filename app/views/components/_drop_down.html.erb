@@ -1,0 +1,34 @@
+<!-- partial start: components/_drop_down -->
+<% extra_option ||= false %>
+
+<nav class='dropDown'>
+	<!--= scope '<%= scope %>' -->
+	<div class='dropDown-toggle'>
+		<!--= on 'click' (toggle_class 'is-droppedDown') -->
+		<span class='dropDown-toggle-button'>
+			<i class='fa fa-caret-down'></i>
+		</span>
+		<span class='dropDown-toggle-label'>
+			<span>
+				<!--= hide_if <%= scope %>.drop_down_selected -->
+				<%= label.html_safe %>
+			</span>
+			<!--= put <%= scope %>.drop_down_selected -->
+		</span>
+	</div>
+	<ul>
+		<li>
+			<!--= repeat this.data -->
+			<!--= add_class_if (this.is_selected 'is-selected') -->
+			<!--= on 'click' (<%= click_event %>) -->
+			<!--= put this.name -->
+		</li>
+		<%if extra_option %>
+			<li class='dropDown-extra'>
+				<%= extra_option %>
+				<!--= on 'click' (<%= extra_option_click_event %>) -->
+			</li>
+		<% end %>
+	</ul>
+</nav>
+<!-- partial end: components/_drop_down -->

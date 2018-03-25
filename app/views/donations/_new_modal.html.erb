@@ -1,0 +1,86 @@
+<!-- partial: donations/new_modal -->
+<!-- use cards.css -->
+<!-- use donations/new.js -->
+
+<div class='modal skinny' id='newDonationModal'%>
+
+	<%= render 'common/modal_header', title: 'New Donation' %>
+
+	<div class='modal-body'>
+		<table class='table--striped'>
+      <tr>
+			     <td class='strong'>Supporter</td>
+           <td><!--= put selected_supporter.name --></td>
+      </tr>
+      <tr>
+        <td class='strong'>Card</td>
+        <td><!--= put selected_card.name --></td>
+      </tr>
+		</table>
+
+    <hr>
+
+		<form class='newDonationModal-form'>
+			<!--= on 'submit' (def 'new_donation' form_object) (open_modal 'confirmDonationModal') -->
+
+			<fieldset>
+				<label>Amount</label>
+
+				<div class='prepend--dollar'>
+					<input type='number' step='any' min='0' class='input--100' name='dollars' required>
+					<!--= on 'change' (set 'dollars' get_value) -->
+				</div>
+			</fieldset>
+
+			<input type='hidden' name='nonprofit_id' value='<%= @nonprofit.id %>'>
+			<% if @event %><input type='hidden' name='event_id' value='<%= @event.id %>'><% end %>
+
+
+			<input type='hidden' name='token'>
+				<!--= set_value selected_card.id -->
+
+			<input type='hidden' name='supporter_id'>
+				<!--= set_value selected_supporter.id -->
+
+			<fieldset class='u-marginBottom--15'>
+				<label>Comment</label>
+				<textarea name='comment' placehoder='Type optional comment here'></textarea>
+			</fieldset>
+
+			<%= render 'components/forms/submit_button', loading_text: 'Loading...', button_text: 'Next' %>
+		</form>
+
+	</div>
+</div>
+
+<div class='modal skinny' id='confirmDonationModal'>
+
+	<%= render 'common/modal_header', title: 'Confirm Charge' %>
+
+	<div class='modal-body'>
+
+    <table class='table--striped u-marginBottom--20'>
+      <tr>
+        <td class='strong'>Amount</td>
+        <td>$<!--= put new_donation.dollars  --></td>
+      </tr>
+      <tr>
+        <td class='strong'>Supporter</td>
+        <td><!--= put selected_supporter.name --></td>
+      </tr>
+      <tr>
+        <td class='strong'>Card</td>
+        <td><!--= put selected_card.name --></td>
+      </tr>
+    </table>
+
+		<form>
+			<!--= on 'submit' (confirm create_donation) -->
+			<%= render 'components/forms/submit_button', loading_text: 'Processing...', button_text: 'Confirm' %>
+		</form>
+    </section>
+	</div>
+
+</div>
+
+<!-- end partial: donations/new_modal -->

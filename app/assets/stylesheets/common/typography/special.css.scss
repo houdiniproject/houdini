@@ -1,0 +1,351 @@
+@import 'mixins';
+
+.strong {
+	font-weight: bold;
+}
+.finePrint {
+	font-size: 12px;
+	color: $grey;
+}
+.indent {
+	text-indent: 20px;
+}
+.indent--subtle {
+	text-indent: 5px;
+}
+@mixin highlight {
+	padding: 6px 12px;
+	line-height: 1.2;
+}
+@mixin highlight--small {
+	padding: 3px 9px;
+	line-height: 1.2;
+}
+.highlight {
+	@include highlight;
+	background: $blush;
+}
+.highlight--blue {
+	@include highlight;
+	background: rgba($baby-blue, 0.8);
+}
+.highlight--white--small {
+	@include highlight--small;
+	background: white;
+}
+.highlight--green {
+	@include highlight;
+	background: rgba($sage, 0.4);
+}
+.highlight--small {
+	background: $blush;
+	@include highlight--small;
+}
+.highlight--grey {
+	@include highlight;
+	background: rgba(128, 128, 128, 0.1);
+}
+.note {
+	font-size: 14px;
+	color: $grey;
+	font-weight: bold;
+}
+a[disabled] {
+	pointer-events: none;
+	color: $charcoal;
+	&:hover {
+		color: $charcoal;
+	}
+}
+a.dangerLink {
+	display: inline-block;
+	@include setColorAndHover($red);
+}
+.subTitle {
+	font-weight: bold;
+	font-size: 20px;
+}
+.subTitle--grey {
+	@extend .subTitle;
+	color: $grey;
+}
+.hoverUnderline {
+	position: relative;
+	margin: 0;
+	padding: 5px 0;
+}
+.hoverUnderline:after {
+	@include transform(translateZ(0));
+	@include transition(background 0.1s ease-out);
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	background: $trans;
+	bottom: 0px;
+	left: 0;
+}
+.hoverUnderline:hover:after {
+	background: $logo-blue;
+}
+@mixin hasBullets($color) {
+	position: relative;
+	padding-left: 16px;
+	margin-bottom: 10px;
+	&:before {
+		content: '';
+		background: $color;
+		width: 6px; height: 6px;
+		position: absolute;
+		top: 8px;
+		@include border-radius(50%);
+		left: 0;
+	}
+}
+
+.hasBullets--small {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+.hasBullets--small li {
+  position: relative;
+  padding-left: 10px;
+  margin-bottom: 6px;
+  line-height: 1;
+  font-size: 14px;
+	&:before {
+		content: '';
+		background: rgba(black, 0.3);
+		width: 4px; height: 4px;
+		position: absolute;
+		top: 6px;
+		@include border-radius(50%);
+		left: 0;
+	}
+}
+
+.orWithLine {
+	position: relative;
+}
+.orWithLine:before {
+	content: 'OR';
+	position: absolute;
+	width: 32px;
+	line-height: 32px;
+	left: 50%;
+	margin-top: -16px;
+	text-align: center;
+	font-size: 13px;
+	color: rgba(black, 0.5);
+	font-weight: bold;
+	top: 50%;
+	margin-left: -16px;
+	@include border-radius(50%);
+	background: white;
+}
+.orWithLine:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 100%;
+	background: white;
+	height: 2px;
+}
+
+
+ul.shortList--2 {
+	li {
+		display: none;
+	}
+	li:nth-child(-n+3),{
+		display: block;
+	}
+}
+
+ul.hasBullets li {
+	@include hasBullets(rgba(black, 0.4));
+}
+ul.hasBullets--grey li {
+	@include hasBullets($grey);
+}
+
+@mixin iconBullet($icon) {
+	position: relative;
+  padding-left: 23px;
+	&:before {
+		content: $icon;
+    top: 1px;
+    left: 0;
+    position: absolute;
+		font-family: 'FontAwesome';
+		color: rgba(black, 0.4);
+	}
+}
+
+ul.hasBullets--star li {
+  @include iconBullet('\f005');
+}
+
+ul.hasBullets--check li {
+  @include iconBullet('\f00c');
+}
+
+ul.horizontal--striped li {
+	display: inline-block;
+	padding: 5px 8px;
+	line-height: 16px;
+	font-size: 16px;
+	float: left;
+	background: $fog;
+	&:nth-of-type(2n-1) {
+		background: rgba($bluegrass, 0.1);
+	}
+}
+.tip {
+	font-weight: bold;
+	position: relative;
+	padding-left: 25px;
+}
+.tip:before {
+	position: absolute;
+	content: '\2726';
+	left: 2px;
+	top: 3px;
+	line-height: 18px;
+	font-size: 18px;
+	color: $logo-blue;
+}
+.hero {
+	@include open-sans-condensed;
+	text-transform: uppercase;
+	font-weight: bold
+}
+.hero--3d {
+	@extend .hero;
+	text-shadow: 4px 4px 0px rgba(black,0.07);
+}
+.dollar {
+	vertical-align: top;
+}
+.is-highlighted {
+	@include box-shadow(0 0 15px 5px $oj);
+}
+@mixin noResults {
+	color: rgba(black, 0.5);
+	margin: 0 !important;
+}
+p.noResults,
+.noResults {
+	@include noResults;
+	padding: 10px;
+	display: block;
+	text-align: center;
+}
+p.noResults--small,
+.noResults--small {
+	@include noResults;
+	font-size: 15px;
+}
+span.flag,
+p.flag,
+a.flag {
+	@include open-sans-condensed;
+	text-transform: uppercase;
+	color: white;
+	text-align: right;
+	padding: 4px 5px 4px 10px;
+	line-height: 16px;
+	font-size: 14px;
+}
+.noLink {
+	color: $charcoal;
+	cursor: default;
+}
+.noLink:hover {
+	color: $charcoal
+}
+.codeText {
+	background: #f5f2f0;
+	text-shadow: 0 1px white;
+	font-family: Consolas, Monaco, 'Andale Mono', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: break-word;
+	line-height: 1.5;
+	font-size: 13px;
+	display: block;
+	resize: none;
+	border: 0;
+	cursor: text;
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	-moz-tab-size: 2;
+	-o-tab-size: 2;
+	tab-size: 2;
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+*.caption {
+	font-size: 16px;
+	font-weight: 400;
+	@include open-sans;
+	color: $grey;
+}
+.lineText {
+	height: 1px;
+	margin: 10px 0;
+	background: lighten($shark, 10%);
+	text-align: center;
+	* {
+		top: -0.5em;
+		position: relative;
+		padding: 0 10px;
+		background: white;
+	}
+}
+
+.wordBreak--hyphen {
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+	white-space: pre;
+}
+blockquote {
+	line-height: 1.6;
+	position: relative;
+}
+blockquote.has-quotes,
+blockquote.has-quotes--small {
+	margin: 0;
+}
+blockquote.has-quotes {
+	padding: 0 0 0 25px;
+}
+blockquote.has-quotes--small {
+	padding: 0 0 0 20px;
+}
+
+blockquote.has-quotes:before,
+blockquote.has-quotes--small:before {
+	position: absolute;
+	font-family: 'FontAwesome';
+	color: rgba($grey, 0.8);
+	content: "\f10d";
+	top: 0;
+	left: 0;
+}
+blockquote.has-quotes:before {
+	font-size: 18px;
+}
+blockquote.has-quotes--small:before {
+	font-size: 16px;
+}

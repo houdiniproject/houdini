@@ -1,0 +1,15 @@
+<!-- partial: components/filter_input -->
+<% amount ||= false %>
+<% subtitle ||= false %>
+<% placeholder ||= false %>
+<% event ||= 'change' %>
+
+<fieldset class='u-margin--0'>
+	<% if subtitle %><label><small><%= subtitle %></small></label><% end %>
+	<div class="u-relative <%= amount ? 'prepend--dollar' : nil %>">
+		<input  type="text" class='u-margin--0' name="<%= name %>" placeholder="<%= placeholder ? placeholder : nil %>">
+		<!--= on '<%=event%>' (apply_input_filter '<%=name%>' get_value -->
+		<i class='fa fa-times clear-input'></i>
+	</div>
+</fieldset>
+<!-- partial end: components/filter_input -->

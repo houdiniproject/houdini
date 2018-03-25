@@ -1,0 +1,15 @@
+<table class='table'>
+
+	<tbody>
+    <tr>
+      <td><strong>Failure Message</strong></td>
+      <td> <%= donation.charges.last.failure_message %> </td>
+    </tr>
+
+    <tr>
+      <td><strong>Failure Date</strong></td>
+      <td> <%= Format::Date.simple donation.charges.last.created_at %></td>
+    </tr>
+	</tbody>
+
+</table>

@@ -1,0 +1,42 @@
+@import 'mixins';
+
+.sortArrows {
+	@include noselect;
+	position: relative;
+	display: inline-block;
+	line-height: 1em;
+	color: inherit;
+}
+.sortArrows.right {
+	padding: 0 25px 0 0;
+}
+.sortArrows.left {
+	padding: 0 0 0 25px;
+}
+.sortArrows:after {
+	position: absolute;
+	content: '';
+	top: 0.1em;
+}
+.sortArrows.right:after {
+	right: 0;
+}
+.sortArrows.left:after {
+	left: 0;
+}
+.sortArrows:after {
+	border-left: 0.5em solid transparent;
+	border-right: 0.5em solid transparent;
+}
+.sortArrows[sort='none']:after {
+	border-top: 0.8em solid rgba($grey, 0.2);
+}
+.sortArrows[sort='desc']:after {
+	border-top: 0.8em solid $bluegrass;
+}
+.sortArrows[sort='asc']:after {
+	border-bottom: 0.8em solid $bluegrass;
+}
+.sortArrows[sort='none']:hover:after {
+	border-top: 0.8em solid darken($sage, 8);
+}

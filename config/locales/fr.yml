@@ -1,0 +1,134 @@
+fr:
+  hello: "Salut à tous"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Commentez le contrenu'
+  organization:
+    name: "Organisation"
+  donation:
+    amount: "Montant"
+    date: "Date de la transaction"
+    campaign: "Campagne"
+    recurring_interval: "Fréquence de paiement"
+    interval: "Mensuelle"
+    recurring_since: "Première transaction"
+    comment: "Commentaire"
+    payment_id: "Référence du paiment"
+  mailer:
+    donations:
+      donation_receipt: "Reçu"
+      donor_name: "Nom"
+      donor_receipt:
+        subject: "Reçu pour votre don à %{nonprofit_name}"
+        transfer_info_html: "Ce virement apparaîtra sur votre relevé bancaire comme tel : %{label}"
+        transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
+        oneoff_donation_html: "Merci pour votre généreuse donation à <strong>%{nonprofit_name}</strong> et pour avoir rejoint des milliers d'autres citoyens qui à travers l'Europe construisent notre mouvement . Votre contribution va nous permettre d'agir rapidement pour gagner les campagnes qui comptent pour nous tous."
+        recurring_donation_html: "Merci pour votre généreuse donation régulière à <strong>%{nonprofit_name}</strong> et pour avoir rejoint des milliers d'autres citoyens qui à travers l'Europe construisent notre mouvement . Votre contribution va nous permettre d'agir rapidement pour gagner les campagnes qui comptent pour nous tous."
+      donor_direct_debit_notification:
+        subject: "Confirmation de votre don pour %{nonprofit_name}"
+        transfer_info_html: "Ce transfert apparaîtra sur votre relevé bancaire comme %{label}"
+        transfer_label_html: "<strong>Don %{nonprofit_statement}</strong>."
+        donation_queued_html: "Votre prélèvement bancaire pour <strong>%{nonprofit_name}</strong> est en cours de traitement."
+        recurring_donation_queued_html: "Merci pour votre généreuse donation régulière à <strong>%{nonprofit_name}</strong> et pour avoir rejoint des milliers d'autres citoyens qui à travers l'Europe construisent notre mouvement . Votre contribution va nous permettre d'agir rapidement pour gagner les campagnes qui comptent pour nous tous."
+  nonprofits:
+    donate:
+      signed_in: "Connecté.e en tant que"
+      log_out: "Déconnexion"
+      amount:
+        label: "Montant"
+        sustaining: "Devenez un soutien régulier"
+        sustaining_bold: "mensuel"
+        sustaining_selected: "Choisissez votre montant mensuel :"
+        sustaining_selected_bold: "mensuel"
+        monthly: "mensuel"
+        weekly: "hebdomadaire"
+        weekly_notice: "*pour diminuer les frais bancaires, nous débiterons %{amount}%{currency} chaque mois"
+        custom: "Autre"
+        designation:
+          label: "Désignation:"
+          choose: "Choisir une désignation (optionnel)"
+          most_needed: "Affectez mon don là où il sera le plus utile"
+        next: "Suivant"
+      info:
+        label: "Info"
+        supporter:
+          email: "Email"
+          email_required: " (pour votre reçu)"
+          full_name: "Nom"
+          first_name: "Prénom"
+          last_name: "Nom de famille"
+          phone: "Tél"
+          address: "adresse"
+          city: "Ville"
+          state: "Sélectionner votre département"
+          country: "Pays"
+          other_country: "Autre"
+          region: "Pays"
+          postal_code: "code postal"
+          shipping_address: "Adresse de livraison (obligatoire)"
+          errors:
+            email:
+              format: "Cet email semble incorrect, merci de corriger"
+        dedication_link: "Dédier ce don à la mémoire d'un être cher."
+        dedication_saved: "Dédier ce don à"
+        anonymous_checkbox: "Jé désire que ce don reste anonyme."
+        next: "Suivant"
+      dedication:
+        info: "Transformer ce don en hommage:"
+        in_honor_label: "En l'honneur de"
+        in_memory_label: "À la mémoire de"
+        first_name: "Prénom"
+        last_name: "Nom de famille"
+        email: "Email (optionnel)"
+        phone: "Tél (optionnel)"
+        full_address: "Adresse complète (optionnel)"
+        note: "Note ou message"
+        save: "Sauvegarder & Retour"
+        donor_note: "Le message du contributeur : "
+      payment:
+        label: "Paiement"
+        one_time: "-"
+        monthly_recurring: "mensuel"
+        tabs:
+          card: "Carte"
+          sepa: "Prélèvement"
+        loading:
+          checking_card: "Vérification de la carte..."
+          sending_payment: "Envoi du paiement..."
+        card:
+          name: "Nom sur la carte"
+          number: "Numéro"
+          cvc: "CVC"
+          postal_code: "code postal"
+          month: "Mois"
+          year: "Année"
+          submit: "Je soutiens WeMove"
+          loading: "Enregistrement..."
+          secure_info: "Transactions sécurisées avec SSL 256-bits"
+          errors:
+            field:
+              presence: "Champ obligatoire"
+              format: "Le format semble incorrect"
+            number:
+              presence: "Merci d'ajouter votre numéro de carte"
+              format: "Cette carte semble incorrecte"
+            email:
+              format: "Cette email semble incorrect"
+        sepa:
+          name: "Nom du titulaire du compte"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "Ce champ est obligatoire"
+              format: "Ca n'a pas l'air d'être du bon format"
+      followup:
+        success: "Votre don a été envoyé avec succès !"
+        receipt_info: "Un reçu vous sera envoyé à "
+        message: "apprécie votre soutien !"
+        share:
+          facebook: "Partager"
+          twitter: "Tweeter"
+          twitter_message: "Rejoins-moi pour soutenir"
+        finish: "Terminer"

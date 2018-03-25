@@ -1,0 +1,15 @@
+<p><strong><%= @from %></strong> sent you the following message:</p><br>
+
+<p><%= @message %></p><br>
+
+<p><strong>Instructions to include the donate button:</strong></p><br>
+
+<p><strong>1.</strong> First, include the <%= Settings.general.name %> SDK within the page's HTML:</p>
+
+<pre><code><%= h "<script id='commitchange-donation-script' data-npo-id='#{@nonprofit.id}' src='https://commitchange.com/js/donate-button.v2.js'></script>" %></code></pre><br>
+
+<p><strong>2.</strong> Place the following snippet wherever you want the donation form to appear:</p>
+
+<pre><code><%= h @code %></code></pre><br>
+
+<p>For more information and options, visit the <a href='<%= nonprofits_button_guided_url(@nonprofit) %>'><strong>Donation Integration page for <%= @nonprofit.name %></strong></a>.</p>

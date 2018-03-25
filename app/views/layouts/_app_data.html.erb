@@ -1,0 +1,33 @@
+<script>
+var app = {
+  env: "<%= Rails.env %>"
+, ip: "<%= request.remote_ip %>"
+, current_user: <%= current_user ? current_user.id : 'undefined' %>
+, current_admin: <%= !!(current_user && current_role?(:super_admin)) %>
+, nonprofit: <%= @nonprofit ? raw(@nonprofit.to_json) : 'undefined' %>
+, nonprofit_id : <%= @nonprofit ? @nonprofit.id : 'undefined' %>
+, current_plan_tier: <%= @nonprofit ? current_plan_tier(@nonprofit.id) : 'undefined' %>
+, user: <%= current_user ? raw(current_user.to_json) : 'undefined' %>
+, user_id: <%= current_user ? current_user.id : 'undefined' %>
+, profile: <%= current_user ? raw(current_user.profile.to_json) : 'undefined' %>
+, profile_id: <%= current_user ? current_user.profile.id : 'undefined' %>
+, asset_path: "<%= Rails.application.config.assets.prefix %>"
+, host_with_port: "//<%= request.host_with_port %>"
+, google_api:  "<%= ENV['GOOGLE_API_KEY'] %>"
+, google_auth_client_id: "<%= ENV['GOOGLE_AUTH_CLIENT_ID'] %>"
+, autocomplete: <%= @nonprofit ? @nonprofit.autocomplete_supporter_address : 'undefined'%> 
+, facebook_app_id: "<%= ENV['FACEBOOK_APP_ID'] %>"
+, map_provider: "<%= Settings.maps&.provider %>"
+, editor: "<%= Settings.page_editor.editor%>"
+<% if Settings.page_editor.editor == 'froala' and Settings.page_editor.editor_options.froala_key %>, froala_key: "<%= Settings.froala_key%>"<% end %>
+};
+
+var ENV = {
+  nonprofitID: <%= @nonprofit ? @nonprofit.id : 'undefined' %>
+, nonprofitTimezone: "<%= @nonprofit ? @nonprofit.timezone : '' %>"
+, support_user_id: 540
+, feeRate: <%= print_percent(CalculateFees::BaseFeeRate) %>
+, perTransaction: <%= CalculateFees::PerTransaction %>
+};
+</script>
+

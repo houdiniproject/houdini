@@ -1,0 +1,121 @@
+
+<% content_for :head do %>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+<% end %>
+
+<% content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'campaigns/peer_to_peer/page' %>
+<% end %>
+
+<% content_for :javascripts do %>
+	<script>
+    <% if @npo %>
+    appl.def('selected_result', {name: '<%= @npo.name.html_safe %>', id: <%= @npo.id %>})
+    app.nonprofit_id = <%= @npo.id %>
+    <% end %>
+    <% if current_user %>
+      appl.def('is_logged_in', true)
+      appl.def('is_confirmed', <%= !current_user.confirmed_at.nil? %>)
+      appl.def('user', {
+        name: '<%= current_user.profile.name %>',
+        id: <%= current_user.id %>
+      })
+    <% end %>
+  </script>
+  <%= IncludeAsset.js '/client/js/campaigns/peer_to_peer/page.js' %>
+<% end %>
+
+<%= render 'layouts/top_nav' %>
+
+<main>
+  <header class='u-paddingX--15 container'>
+    <h1>Start a campaign</h1>
+    <h4>Start raising funds for your favorite nonprofit in less than 10 minutes.</h4>
+    </div>
+  </header>
+
+  <hr>
+
+  <div class='container u-paddingRight--10'>
+    <table><tr>
+      <td class='u-padding--15'>
+        <i class='icon icon-bicycle u-fontSize--50'></i>
+      </td>
+      <td>
+        <h5 class='u-paddingLeft--20'>Below is a roadmap to get you started on your campaign</h5>
+      </td>
+    </tr></table>
+
+    <ul class='u-paddingLeft--10 timeline--checklist'>
+      <li>
+        <!--= set_attr_if selected_result 'class' 'is-complete' -->
+        <span class='annot'>10 seconds</span>
+        <p class='strong u-marginBottom--15'>Search for a nonprofit that you want to fundraise for</p>
+        <div class='u-paddingLeft--20 u-maxWidth--500'>
+          <%= render 'search_for_npo' %>
+        </div>
+      </li>
+
+      <li>
+        <!--= set_attr_if is_logged_in 'class' 'is-complete' -->
+        <span class='annot'>1 minute</span>
+        <p class='strong u-marginBottom--15'>Sign Up or Login</p>
+        <div class='u-paddingLeft--20 u-maxWidth--500'>
+          <div>
+            <!--= hide_if is_logged_in -->
+            <%= render 'components/forms/sign_up_or_login_tabs' %>
+          </div>
+          <p class='pastelBox--green u-padding--5'>
+            <!--= show_if is_logged_in -->
+            <strong><!--= put user.name --></strong>, you're logged in.
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <!--= set_attr_if is_confirmed 'class' 'is-complete' -->
+        <span class='annot'>1 minute</span>
+        <p class='strong u-marginBottom--15'>Confirm your account</p>
+        <div class='u-paddingLeft--20 u-maxWidth--500'>
+          <p>
+            <!--= hide_if is_confirmed -->
+            Simply click the confirmation link in the email we sent you when you created your <%= Settings.general.name %> account.
+          </p>
+          <p class='pastelBox--green u-padding--5'>
+            <!--= show_if is_confirmed -->
+            <strong><!--= put user.name --></strong>, you're confirmed.
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <p class='strong u-marginBottom--15'>Start your campaign</p>
+        <span class='annot'>5 minutes</span>
+        <div class='u-paddingLeft--20 u-maxWidth--500'>
+          <p>Use our simple wizard to create your campaign for
+            <strong>
+              <!--= show_if selected_result -->
+              <!--= put selected_result.name -->.
+            </strong>
+            <strong>
+              <!--= hide_if selected_result -->
+              your favorite nonprofit.
+            </strong>
+          </p>
+          <p><small>If you need any further help setting up your campaign, check out <a target='_blank' href='/help/peer-to-peer-campaigns-essentials-package-feature'>this handy article</a>.</small></p>
+          <div class='u-centered u-padding--15'>
+            <button class='button orange'>
+              <!--= show_if (all is_logged_in is_confirmed selected_result) -->
+              <!--= on 'click' (open_modal 'newCampaign') -->
+              Start Campaign
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</main>
+
+<% if current_user %>
+	<%= render 'campaigns/new_modal' %>
+<% end %>

@@ -1,0 +1,41 @@
+@import 'mixins';
+
+
+.successes-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.successes-text, 
+.successes-photo-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 15px; 
+}
+
+.successes-photo-wrapper {
+  width: 50%;
+  text-align: center;
+}
+
+.successes-photo {
+  border: white 5px solid;
+  @include box-shadow(0 0 5px 0 rgba(0,0,0,0.2));
+}
+
+.successes-quotee { text-align: right }
+
+.successes-quotee-photo {
+  @include border-radius(100%);
+  margin-right: 10px;
+}
+
+
+@media screen and (max-width: 700px) {
+  .successes-text,
+  .successes-photo-wrapper {
+    width: 100%;
+    display: block;
+  }
+}
+

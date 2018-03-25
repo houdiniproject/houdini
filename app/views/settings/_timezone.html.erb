@@ -1,0 +1,20 @@
+<header class='pane-header'>
+	<h3>Set Timezone</h3>
+</header>
+
+<div class='pane-inner'>
+	<p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>This setting will change the timezone used for all dates and times throughout the app, including on the payment receipts.</p>
+
+	<form action='<%= nonprofit_path(@nonprofit) %>' method='put'>
+	<!--= autosubmit (notify 'Successfully updated') -->
+		<select class='u-width--250' name='nonprofit[timezone]'>
+				<option value=''>Select Timezone</option>
+			<% Format::Date.us_timezones.each do |name, val| %>
+				<option value='<%= val %>' <%= @nonprofit.timezone == val && 'selected=selected' %>><%= name %></option>
+			<% end %>
+		</select>
+		<br>
+		<button type='submit' class='button u-marginTop--5' data-loading='Saving..'>Save New Timezone</button>
+	</form>
+
+</div>

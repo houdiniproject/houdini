@@ -1,0 +1,13 @@
+<!-- partial start: components/loading_data -->
+<span>
+  <!--= hide_if loading_metrics  -->
+  <span>
+    <!--= show_if <%= data %> -->
+    <!--= put <%= data %> -->
+  </span>
+  <span class='u-color--grey'>
+    <!--= hide_if (any loading <%= data %>) -->
+    none
+  </span>
+</span>
+<!-- partial end: components/loading_data -->

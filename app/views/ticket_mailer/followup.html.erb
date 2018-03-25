@@ -1,0 +1,80 @@
+<% unless Format::HTML.has_only_empty_tags(@event.receipt_message)  %>
+  <div><%= raw(@event.receipt_message) %></div>
+  <hr>
+<% else %>
+  <p>Hi <%= @supporter.name ? @supporter.name.split(' ').first : '' %>,</p>
+  <br>
+  <p>Below
+    <%= @tickets.length == 1 ? 'is your ticket' : 'are your tickets' %>
+    and event info for <strong><%= @event.name %></strong>
+  </p>
+<% end %>
+
+<br>
+<%= render partial: 'ticket_mailer/tickets', locals: {tickets: @tickets} %>
+<br>
+
+<table class='table'>
+  <thead>
+    <th colspan='2'>
+      Event Info
+    </th>
+  </thead>
+	<tr>
+		<td><strong>Link</strong></td>
+		<td>
+			<a href='<%= Format::Url.concat(root_url, @event.url) %>'><%= Format::Url.concat(root_url, @event.url) %></a></td>
+	</tr>
+	<tr>
+		<td><strong>Date & Time</strong></td>
+    <td><%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @event.nonprofit.timezone) %></td>
+	</tr>
+  <% if @event.organizer_email %>
+    <tr>
+      <td><strong>Organizer Contact</strong></td>
+      <td>
+        <p>
+          <a href="mailto:<%= @event.organizer_email %>" target="_top"> <%= @event.organizer_email %> </a>
+        </p>
+      </td>
+    </tr>
+  <% end %>
+	<tr>
+		<td><strong>Nonprofit</strong></td>
+		<td><%= @event.nonprofit.name %></td>
+	</tr>
+	<tr>
+		<td><strong>Event Location</strong></td>
+		<td>
+			<p><%= @event.address %></p>
+			<p><%= @event.city %>, <%= @event.state_code %> <%= @event.zip_code %></p>
+      <p><a href='http://maps.google.com/?q=<%= Format::Address.full_address(@event.address, @event.city, @event.state_code) %>'>Map link</a></p>
+		</td>
+	</tr>
+  <% if !@event.directions.blank? %>
+    <tr>
+      <td><strong>Additional Directions</strong></td>
+      <td><%= @event.directions %></td>
+    </tr>
+  <% end %>
+</table>
+
+<br>
+
+<% if @charge %>
+  <p>
+    Your payment of $<strong><%= Format::Currency.cents_to_dollars(@charge.amount) %></strong>
+    for the event <strong><a href='<%= Format::Url.concat(root_url, @event.url) %>'><%= @event.name %></a></strong>
+    using <strong><%= GetData.chain(@charge, :card, :name) || 'Unknown card' %></strong>
+    was successful.
+  </p><br>
+
+  <p>This charge will appear on your card statement  as: "<strong>Tickets <%= @event.name %></strong>".</p><br>
+
+  <%= render partial: 'charge_mailer/payment_receipt', locals: {charge: @charge} %>
+  <br>
+<% end %>
+
+<%= render :partial => 'emails/nonprofit_sig', :locals => {:nonprofit => @event.nonprofit} %>
+
+<%= render "emails/powered_by" %>

@@ -1,0 +1,56 @@
+@import 'mixins';
+
+.titleRow {
+	padding: 15px 15px 10px 15px;
+	position: relative;
+	overflow: hidden;
+	background: $fog;
+}
+.titleRow-info {
+	float: left;
+	max-width: 85%;
+}
+.titleRow h2 {
+	margin: 0 0 1px 0;
+	font-size: 17px;
+	@include ellipsis;
+	font-weight: 400;
+	line-height: normal;
+}
+.titleRow p {
+	min-height: 21px;
+	@include opacity(0.8);
+	@include ellipsis;
+	font-size: 14px;
+	margin: 0;
+	line-height: 17px;
+}
+.titleRow .fa-star {
+	font-size: 14px;
+	color: rgba($logo-blue, 0.9);
+}
+.titleRow img {
+	float: left;
+	padding-right: 15px;
+	max-width: 15%;
+	max-height: 55px;
+}
+#donate .closeButton {
+  z-index: 1;
+  top: 5px;
+}
+
+@media screen and (max-width: 350px) {
+	.titleRow {
+		padding: 10px;
+	}
+	.titleRow img {
+		padding-right: 10px;
+	}
+	.titleRow h2 {
+		font-size: 15px;
+	}
+	.titleRow p {
+		font-size: 12px;
+	}
+}

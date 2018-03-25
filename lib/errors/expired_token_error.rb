@@ -1,0 +1,2 @@
+class ExpiredTokenError < RuntimeError
+end

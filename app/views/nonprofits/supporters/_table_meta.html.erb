@@ -1,0 +1,119 @@
+<!-- partial: nonprofits/supporters/_table_meta -->
+
+<div class='table-meta table-meta--main'>
+	<!--= hide_if is_showing_side_panel -->
+	<!--= add_class_if supporters.filter_count 'is-filtering' -->
+	<div class='container--wide'>
+		<div class='bulkActions-checkbox'>
+			<input type='checkbox' id='checkShowing'>
+				<!--= checked_if (length supporters.selected)  -->
+				<!--= on 'change' toggle_select_page -->
+			<label for='checkShowing'></label>
+
+			<span style='display:none' class='bulkActions-checkbox-annot'>
+				<!--= show_if (length supporters.selected) -->
+				<!--= if supporters.selecting_all (put (number_with_commas supporters.total_count)) (put (number_with_commas (length supporters.selected))) -->
+				<small>selected</small>
+			</span>
+		</div>
+
+		<span class='bulkActions-buttons tour-bulk'  style='display: none;'>
+			<!--= show_if (length supporters.selected) -->
+
+			<span class='bulkActions-checkbox--orange  u-marginRight--10'>
+				<!--= show_if (length supporters.selected) -->
+				<input type='checkbox' id='checkAll'>
+					<!--= checked_if supporters.selecting_all -->
+					<!--= on 'change' toggle_select_all -->
+				<label for='checkAll'></label>
+
+				<small>Select all <!--= put (number_with_commas supporters.total_count) --></small>
+			</span>
+
+      <!--
+			<a class='table-meta-button--left'>
+				(( on 'click' emails.show_new ))
+				<i class='fa fa-envelope'></i> Email
+			</a>
+      -->
+
+			<a class='table-meta-button--left'>
+				<!--= on 'click' tags.bulk.show_modal -->
+				<i class='fa fa-tags'></i> Tag
+			</a>
+			<a class='table-meta-button--left'>
+				<!--= on 'click' merge.init -->
+				<i class='fa fa-compress'></i> Merge
+			</a>
+
+			<a class='table-meta-button--left'>
+				<!--= on 'click' custom_fields.bulk.show_modal -->
+				<i class='fa fa-pencil'></i> Edit
+			</a>
+
+			<a class='table-meta-button--left red'>
+				<!--= on 'click' show_bulk_delete_supporters -->
+				<i class='fa fa-times'></i> Delete
+			</a>
+
+		</span>
+
+	<a class='table-meta-button--left blue u-marginRight--10' id='button--openFilter'>
+		<!--= hide_if (length supporters.selected) -->
+		<!--= on 'click' (if (has_attr 'data-selected') close_filter_panel open_filter_panel) -->
+		<i class='fa fa-filter'></i> Filter
+	</a>
+
+	<%= render 'components/tables/filtering/meta_status', scope: 'supporters' %>
+
+	<span>
+		<!--= hide_if (length supporters.selected) -->
+		<%= render 'components/tables/search', placeholder_text: 'Search name, email or org.', scope: 'supporters' %>
+	</span>
+
+	<span class='table-meta-metric'>
+		<!--= hide_if (length supporters.selected) -->
+		<span style='display:none'>
+			<!--= show_if metrics_loading -->
+      <small>Loading...</small>
+		</span>
+		<span>
+			<!--= show_if (not metrics_loading) -->
+			<!--= put (any (number_with_commas supporters.total_count) '0') --> <small>Results</small>
+		</span>
+	</span>
+
+	<span>
+		<!--= hide_if (length supporters.selected) -->
+		<a class='table-meta-button orange tour-addSupporter'>
+			<!--= on 'click' (open_modal 'newSupporterModal') -->
+			<i class='fa fa-plus'></i> Supporter
+		</a>
+
+    <a class='table-meta-button js-importButton'>
+      <i class='fa fa-file-text'></i> Import
+    </a>
+
+		<a class='table-meta-button bluegrey'>
+			<!--= on 'click' (open_modal 'exportSupportersModal') -->
+			<i class='fa fa-file-text'></i> Export
+		</a>
+
+    <% if current_role?(:super_admin) %>
+    <a class='table-meta-button bluegrey'>
+			<!--= on 'click' (open_modal 'exportSupportersS3Modal') -->
+			<i class='fa fa-file-text'></i> Export (using S3)
+		</a>
+    <% end %>
+
+
+		<a class='table-meta-button white'>
+			<!--= on 'click' (open_modal 'supportersMapModal') (def 'map_data' false)  -->
+			<i class='fa fa-map-marker'></i> Map
+		</a>
+	</span>
+
+	</div><!-- .container -->
+</div><!-- .table-meta -->
+
+<!-- end partial: nonprofits/supporters/_table_meta -->

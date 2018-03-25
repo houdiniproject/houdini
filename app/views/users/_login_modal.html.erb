@@ -1,0 +1,15 @@
+<div class='modal skinny' id='loginModal'>
+
+	<header class='modal-header'>
+	  <%= render 'common/modal_close' %>
+	  <h3>Login</h3>
+	</header>
+
+	<div class='modal-body u-centered'>
+		<div class='u-margin--auto u-width--300'>
+			<%= render 'users/email_login_form' %>
+		</div>
+		<p class='u-marginTop--10 u-marginBottom--0 u-bold'><a href='<%= new_password_path(resource_name) %>'>Forgot your password?</a></p>
+		<%= render 'users/login_footer', :action => "open-modal=signUpModal" %>
+	</div>
+</div>

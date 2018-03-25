@@ -1,0 +1,134 @@
+es:
+  hello: "Hola gente"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Comenta el contenido'
+  organization:
+    name: "Organización"
+  donation:
+    amount: "Cantidad total"
+    date: "Fecha de la transacción"
+    campaign: "Campaña"
+    recurring_interval: "Periodicidad"
+    interval: "Cada %{interval}%{time_unit}"
+    recurring_since: "Regular desde..."
+    comment: "Comentario"
+    payment_id: "Número de identidad del pago"
+  mailer:
+    donations:
+      donation_receipt: "Recibo de la contribución"
+      donor_name: "Nombre"
+      donor_receipt:
+        subject: "Recibo de donativo de %{nonprofit_name}"
+        transfer_info_html: "Esta transacción aparecerá en tu extracto bancario como %{label}"
+        transfer_label_html: "<strong>Donativo %{nonprofit_statement}</strong>."
+        oneoff_donation_html: "Gracias por tu donativo a <strong>%{nonprofit_name}</strong>  y por unirte a las miles de personas en toda Europa que ya nos apoyan económicamente para que nuestro movimiento pueda tener una mayor fuerza e impacto. Tu contribución irá destinada a asegurar los recursos que nos permitirán movilizarnos con rapidez y ganar las campañas que son importantes para nuestro movimiento. "
+        recurring_donation_html: "Gracias por tu donativo regular a <strong>%{nonprofit_name}</strong>  y por unirte a las miles de personas en toda Europa que ya nos apoyan económicamente para que nuestro movimiento pueda tener una mayor fuerza e impacto. Tu contribución se destinará a gasto que nos permitan movilizarnos con rapidez y ganar campañas importantes para nuestro movimiento. "
+      donor_direct_debit_notification:
+        subject: "Recibo de donativo de %{nonprofit_name}"
+        transfer_info_html: "Esta transacción aparecerá en tu extracto bancario como  %{label}"
+        transfer_label_html: "<strong>Donativo %{nonprofit_statement}</strong>."
+        donation_queued_html: "Tu donativo por domicialización bancaria a <strong>%{nonprofit_name}</strong> está ahora en espera para ser procesado."
+        recurring_donation_queued_html: "Gracias por tu donativo regular a <strong>%{nonprofit_name}</strong> y por unirte a las miles de personas en toda Europa que ya nos apoyan económicamente para que nuestro movimiento pueda tener una mayor fuerza e impacto. Tu contribución se destinará a gastos que nos permitan movilizarnos con rapidez y llevar a cabo campañas importantes para nuestro movimiento. "
+  nonprofits:
+    donate:
+      signed_in: "Has iniciado sesión como"
+      log_out: "Cerrar sesión"
+      amount:
+        label: "Cantidad"
+        sustaining: "Haz una contribución mensual "
+        sustaining_bold: "regular, mensual"
+        sustaining_selected: "Selecciona la cantidad de tu contribución mensual"
+        sustaining_selected_bold: "mensual"
+        monthly: "mensual"
+        weekly: "semanal"
+        weekly_notice: "Para reducir costes bancarios, cargaremos %{amount} %{currency}en tu cuenta cada mes"
+        custom: "Otra"
+        designation:
+          label: "Denominación:"
+          choose: "Elige una denominación (opcional)"
+          most_needed: "Utilizad mi donativo para el fin que sea más necesario"
+        next: "Continuar"
+      info:
+        label: "Información"
+        supporter:
+          email: "Correo electrónico"
+          email_required: "(se requiere para recibo)"
+          full_name: "Nombre completo"
+          first_name: "Nombre"
+          last_name: "Apellidos"
+          phone: "Teléfono"
+          address: "Dirección"
+          city: "Ciudad"
+          state: "Selecciona un país"
+          country: "País"
+          other_country: "Otros"
+          region: "Región"
+          postal_code: "Código postal"
+          shipping_address: "Dirección de envío (campo obligatorio)"
+          errors:
+            email:
+              format: "Introduce una dirección de correo electrónico válida"
+        dedication_link: "Lleva a cabo este donativo en honor o en memoria de alguien."
+        dedication_saved: "Dedicar donación a "
+        anonymous_checkbox: "LLeva a cabo este donativo de manera anónima"
+        next: "Continuar"
+      dedication:
+        info: "Añade una dedicatoria a tu donativo:"
+        in_honor_label: "En honor de"
+        in_memory_label: "En memoria de"
+        first_name: "Nombre"
+        last_name: "Apellidos"
+        email: "Correo electrónico (opcional)"
+        phone: "Teléfono (opcional)"
+        full_address: "Dirección completa (opcional)"
+        note: "Nota o mensaje"
+        save: "Guardar y volver"
+        donor_note: "La nota del donante dice así:"
+      payment:
+        label: "Pago"
+        one_time: "Una sola vez"
+        monthly_recurring: "mensual"
+        tabs:
+          card: "Tarjeta de crédito"
+          sepa: "Domiciliación bancaria"
+        loading:
+          checking_card: "Comprobando tarjeta..."
+          sending_payment: "LLevando a cabo el pago..."
+        card:
+          name: "Nombre del titular de la tarjeta"
+          number: "Número de tarjeta"
+          cvc: "CVC"
+          postal_code: "Código postal"
+          month: "Mes"
+          year: "Año"
+          submit: "Enviar"
+          loading: "Guardando"
+          secure_info: "Transacciones garantizadas con 256-bit SSL"
+          errors:
+            field:
+              presence: "Obligatorio"
+              format: "Formato incorrecto"
+            number:
+              presence: "Introduce tu número de tarjeta"
+              format: "El número de tarjeta no es correcto"
+            email:
+              format: "Introduce un dirección de correo electrónico válida"
+        sepa:
+          name: "Nombre del titular de la cuenta"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "Este campo es obligatorio"
+              format: "Formato incorrecto"
+      followup:
+        success: "¡Tu contribución se ha llevado a cabo!"
+        receipt_info: "Te mandaremos el recibo a "
+        message: "agradece tu apoyo"
+        share:
+          facebook: "Compartir"
+          twitter: "Tuitear"
+          twitter_message: "Únete para apoyar"
+        finish: "Terminar"

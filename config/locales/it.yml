@@ -1,0 +1,134 @@
+it:
+  hello: "Buongiorno mondo"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Commenta il contenuto '
+  organization:
+    name: "Organizzazione"
+  donation:
+    amount: "Importo totale"
+    date: "Data della transizione"
+    campaign: "Campagna"
+    recurring_interval: "Periodicità"
+    interval: "Ogni %{interval} %{time_unit}"
+    recurring_since: "Ricorrente a partire da "
+    comment: "Commento"
+    payment_id: "Identificativo del pagamento"
+  mailer:
+    donations:
+      donation_receipt: "Ricevuta della donazione"
+      donor_name: "Nome del donatore"
+      donor_receipt:
+        subject: "Ricevuta della donazione per%{nonprofit_name}"
+        transfer_info_html: "Questa operazione apparirà nel tuo resoconto bancario come %{label}"
+        transfer_label_html: "Donazione %{nonprofit_statement}"
+        oneoff_donation_html: "Grazie per la tua donazione a %{nonprofit_name} e per essere parte delle migliaia di persone in tutta Europa che si impegnano per fare del nostro movimento una forza da non sottovalutare.  Il tuo dono servirà a fare in modo che possiamo continuare efficacemente a vincere campagne che stanno a cuore a tutti noi. "
+        recurring_donation_html: "Grazie per la tua donazione ricorrente a %{nonprofit_name} e per essere parte delle migliaia di persone in tutta Europa che si impegnano per fare del nostro movimento una forza da non sottovalutare. Il tuo dono servirà a fare in modo che possiamo continuare efficacemente a vincere campagne che stanno a cuore a tutti noi. "
+      donor_direct_debit_notification:
+        subject: "Ricevuta per %{nonprofit_name}"
+        transfer_info_html: "Questo addebito apparirà sul tuo conto come %{label}"
+        transfer_label_html: "<strong> Donazione%{nonprofit_statement}</strong>"
+        donation_queued_html: "La tua donazione per<strong>%{nonprofit_name}</strong> è in fase di elaborazione."
+        recurring_donation_queued_html: "Grazie per la tua donazione regolare a %{nonprofit_name} e per essere parte delle migliaia di persone in tutta Europa che si impegnano per fare del nostro movimento una forza da non sottovalutare. Il tuo dono servirà a fare in modo che possiamo continuare efficacemente a vincere campagne che stanno a cuore a tutti noi. "
+  nonprofits:
+    donate:
+      signed_in: "Sei loggato come"
+      log_out: "Disconnettiti"
+      amount:
+        label: "Importo"
+        sustaining: "Diventa un sostenitore mensile regolare"
+        sustaining_bold: "sostenitore mensile"
+        sustaining_selected: "Scegli un importo per la tua donazione mensile"
+        sustaining_selected_bold: "mensile"
+        monthly: "mensile"
+        weekly: "settimanale"
+        weekly_notice: "*per mantenere bassi i costi bancari, addebiteremo %{amount} %{currency} mensilmente"
+        custom: "Altro "
+        designation:
+          label: "Designazione"
+          choose: "Scegli una designazione: (facoltativo)"
+          most_needed: "Usa la mia donazione dove è più necessaria"
+        next: "Avanti"
+      info:
+        label: "Informazioni"
+        supporter:
+          email: "Email"
+          email_required: "(necessario per la ricevuta)"
+          full_name: "Nome completo"
+          first_name: "Nome"
+          last_name: "Cognome"
+          phone: "Telefono"
+          address: "Indirizzo"
+          city: "Città"
+          state: "Scegli un paese"
+          country: "Paese"
+          other_country: "Altro"
+          region: "Regione"
+          postal_code: "Cod. Postale"
+          shipping_address: "Indirizzo di consegna (richiesto)"
+          errors:
+            email:
+              format: "Per favore inserisci un indirizzo mail valido"
+        dedication_link: "Fai questa donazione in onore/memoria di qualcuno"
+        dedication_saved: "Dedico la donazione a"
+        anonymous_checkbox: "Voglio che la mia donazione resti anonima."
+        next: "Avanti"
+      dedication:
+        info: "Aggiungi una dedica alla tua donazione:"
+        in_honor_label: "In onore di "
+        in_memory_label: "In memoria di "
+        first_name: "Nome"
+        last_name: "Cognome"
+        email: "Email (facoltativa)"
+        phone: "Telefono (facoltativo)"
+        full_address: "Indirizzo completo (facoltativo)"
+        note: "Nota o messaggio"
+        save: "Salva e torna indietro"
+        donor_note: "La nota del donatore era:"
+      payment:
+        label: "Pagamento"
+        one_time: "Unico"
+        monthly_recurring: "mensile ricorrente"
+        tabs:
+          card: "Carta di credito"
+          sepa: "Domiciliazione bancaria"
+        loading:
+          checking_card: "Stiamo controllando la carta... "
+          sending_payment: "Invio pagamento... "
+        card:
+          name: "Nome del titolare della carta"
+          number: "Numero della carta"
+          cvc: "CVC"
+          postal_code: "Codice postale"
+          month: "Mese"
+          year: "Anno"
+          submit: "Invia"
+          loading: "Salvataggio informazioni... "
+          secure_info: "Transizione sicura grazie a 256-bit SSL"
+          errors:
+            field:
+              presence: "Questo campo è obbligatorio"
+              format: "Questo non sembra essere il formato giusto"
+            number:
+              presence: "Per favore inserisci il numero della tua carta"
+              format: "Il numero della carta non sembra corretto"
+            email:
+              format: "Per favore, inserisci un indirizzo mail valido"
+        sepa:
+          name: "Titolare del conto"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "Questo campo è obbligatorio"
+              format: "Quest non sembra il formato giusto"
+      followup:
+        success: "La tua donazione è andata a buon fine!"
+        receipt_info: "Una ricevuta verrà inviata via mail a "
+        message: "Grazie per il tuo sostegno! "
+        share:
+          facebook: "Condividi"
+          twitter: "Tweet"
+          twitter_message: "Unisciti a me nel sostegno"
+        finish: "Fine"

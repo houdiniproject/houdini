@@ -1,0 +1,41 @@
+<!-- partial common/onboarding_modals -->
+
+<%= render 'billing_subscriptions/new_modal' %>
+
+<%= render 'nonprofits/new_modal' unless current_role?(:nonprofit_associate) || current_role?(:nonprofit_admin) %>
+
+<div class='modal skinny' id='onboardSignUpModal'>
+	<%= render 'common/modal_header', title: "Sign Up" %>
+
+	<div class='modal-body'>
+    <div class='u-marginBottom--15 u-centered'>
+      <h6>Welcome aboard!</h6>
+      <%= render 'components/selected_tier' %>
+      <hr>
+    </div>
+    <form class='u-width--300 u-margin--auto'>
+      <!--= on 'submit' (cache_new_admin form_object) -->
+
+      <%= render 'users/signup_fields' %>
+      <%= render 'components/forms/submit_button', 
+        button_text: 'Sign Up', 
+        loading_text: 'Thinking...', 
+        scope: 'new_admin' %>
+    </form>
+	</div>
+</div>
+
+<div class='modal skinny' id='onboardLoginModal'>
+	<%= render 'common/modal_header', title: 'Login' %>
+	<div class='modal-body u-centered'>
+		<section class='u-margin--auto u-width--300'>
+			<%= render 'users/email_login_form' %>
+			<hr>
+			<p class='u-bold'><a href='<%= new_password_path(:user) %>'>Forgot your password?</a></p>
+			<%= render 'users/login_footer', :action => "open-modal=onboardSignUpModal" %>
+		</section>
+	</div>
+</div>
+
+
+<!-- end partial common/onboarding_modals -->

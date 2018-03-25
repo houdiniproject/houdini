@@ -1,0 +1,15 @@
+#confirmation-modal {
+	text-align: center;
+	width: 260px;
+	height: 210px;
+	margin-left: -130px;
+
+	p { 
+		margin-top: 20px;
+		font-size: 30px; 
+	}
+
+	button.yes, button.no {
+		margin: 5px;
+	}
+}

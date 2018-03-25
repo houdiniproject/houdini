@@ -1,0 +1,12 @@
+@import 'mixins';
+
+#better-browser-message {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: $faded-sky;
+	padding: 20px;
+	padding-left: 100px;
+	font-size: 18px;
+}

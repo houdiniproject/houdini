@@ -1,0 +1,29 @@
+<% content_for(:fixed_position_cta_hidden) {'hidden'} %>
+
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'events/index/page' %>
+<% end %>
+
+<%= content_for :javascripts do %>
+  <script>
+		app.current_nonprofit_user = <%= current_nonprofit_user? %>
+  </script>
+	<%= IncludeAsset.js '/client/js/events/index/page.js' %>
+<% end %>
+
+<%= render 'components/header',
+icon_class: 'icon-ticket-2',
+title: 'Events',
+profile: @nonprofit,
+has_mosaic: true %>
+
+<main class='container u-padding--15 u-marginBottom--30'>
+	<% if current_user %>
+		<a class='button orange u-marginY--10' open-modal='newEvent' data-when-confirmed><i class='fa fa-plus'></i> New Event</a>
+	<% end %>
+  <div id='js-eventsListing'></div>
+</main>
+
+<% if current_user %>
+	<%= render 'events/new_modal' %>
+<% end %>

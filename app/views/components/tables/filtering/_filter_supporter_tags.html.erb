@@ -1,0 +1,18 @@
+<!-- partial: components/_filter_supporter_tags -->
+<section>
+  <!--= show_if (length tags.masters.data) -->
+  <hr class='u-margin--0'>
+  <label class='u-marginBottom--5'>Tags</label>
+  <fieldset class='u-marginBottom--0 u-marginLeft--5'>
+    <!--= repeat tags.masters.data -->
+    <input type='checkbox' name='tags'>
+      <!--= set_attr 'id' (cat 'tag_filter' this.i) -->
+      <!--= set_attr 'value' this.id -->
+      <!--= on 'change' apply_checkbox_array_aggregator -->
+    <label>
+      <!--= set_attr 'for' (cat 'tag_filter' this.i) -->
+      <!--= put this.name -->
+    </label>
+  </fieldset>
+</section>
+<!-- partial end: components/_filter_supporter_tags -->

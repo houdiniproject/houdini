@@ -1,0 +1,14 @@
+<aside class='u-marginBottom--15 pastelBox--grey u-centered u-relative'>
+	<header>Date &amp; Time</header>
+		<div class='pastelBox-body'>
+			<h5 class='strong u-marginBottom--0'>
+        <%= Format::Date.full_range(@event.start_datetime, @event.end_datetime, @nonprofit.timezone) %>
+			</h5>
+
+      <% if Time.now > @event.end_datetime %>
+				<p class='u-color--red u-marginTop--10 u-marginBottom--0'>
+					This event has ended
+				</p>
+			<% end %>
+	</div>
+</aside>

@@ -1,0 +1,30 @@
+<div class='modal' id='noteModal'>
+  <%= render 'common/modal_header', title: 'Supporter Note' %>
+  <form>
+    <!--= on 'submit' (ajax_supporter_notes.update form_object) -->
+    <section class='modal-body'>
+      <p><small><!--= put (readable_date current_note.date) --></small></p>
+      <textarea name='content' rows='10'></textarea>
+      <!--= set_attr_if (not current_note.is_editing) 'readonly' '' -->
+      <!--= set_value current_note.content -->
+
+      <input name='id' type='hidden'>
+      <!--= set_value current_note.id -->
+
+    </section>
+    <footer class='modal-footer'>
+      <a class='button--small red u-marginRight--10'>
+        <!--= on 'click' (confirm 'Are you sure?' (ajax_supporter_notes.delete current_note.id) -->
+        Delete
+      </a>
+      <a class='button--small edit u-marginLeft--10'>
+        <!--= hide_if current_note.is_editing -->
+        <!--= on 'click' (def 'current_note.is_editing' true) -->
+        Make Editable
+      </a>
+      <button class='button--small' type='submit'>
+        <!--= show_if current_note.is_editing -->
+        Save Edits </button>
+    </footer>
+  </form>
+</div>

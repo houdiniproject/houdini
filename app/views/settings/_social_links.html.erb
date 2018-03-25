@@ -1,0 +1,39 @@
+<header class='pane-header'>
+	<h3>Social Media Links</h3>
+</header>
+<div class='pane-inner'>
+	<form autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='put' data-reload class='form--flatFields'>
+    <p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>
+			If filled out, these links will appear in the footer of your emails.   
+		</p>
+
+		<section class='layout--two u-marginBottom--10'>
+			<fieldset>
+				<label>Facebook</label>
+				<input type='text' name='nonprofit[facebook]' value='<%= @nonprofit.facebook %>' placeholder='facebook.com/example'>
+			</fieldset>
+
+			<fieldset>
+				<label>Twitter</label>
+				<input type='text' name='nonprofit[twitter]' value='<%= @nonprofit.twitter %>'  placeholder='twitter.com/example'>
+			</fieldset>
+
+			<fieldset>
+				<label>YouTube</label>
+				<input type='text' name='nonprofit[youtube]' value='<%= @nonprofit.youtube %>'  placeholder='youtube.com/example'>
+			</fieldset>
+
+			<fieldset>
+				<label>Instagram</label>
+				<input type='text' name='nonprofit[instagram]' value='<%= @nonprofit.instagram %>'  placeholder='instagram.com/example'>
+			</fieldset>
+
+			<fieldset>
+				<label>Blog</label>
+				<input type='text' name='nonprofit[blog]' value='<%= @nonprofit.blog %>' placeholder='mycoolblog.com/example'>
+			</fieldset>
+		</section>
+
+		<button class='button' type='submit' data-loading='Saving...'>Save Links</button>
+	</form>
+</div>

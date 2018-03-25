@@ -1,0 +1,13 @@
+<div class='modal' id='customThankYouModal'>
+  <%= render 'common/modal_header', title: 'Edit donation thank-you note' %>
+  <div class='modal-body'>
+    <p class='pastelBox--yellow u-marginBottom--20 u-padding--10' >You can add a custom thank-you note that gets added to the top of all donation email receipts.</p>
+      <form>
+        <!--= on 'submit' update_custom_receipt -->
+        <div class='editable  editable--email u-marginBottom--20' data-path='/nonprofits/<%= @nonprofit.id %>.json' data-key='nonprofit[thank_you_note]'>
+          <%= raw @nonprofit.thank_you_note || "Thank you for your contribution!" %>
+        </div>
+        <%= render 'components/forms/submit_button', scope: 'receipt' %>
+      </form>
+    </div>  
+</div>

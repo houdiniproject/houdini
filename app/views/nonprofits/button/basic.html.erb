@@ -1,0 +1,55 @@
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'nonprofits/button/page' %>
+<% end %>
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(event) { 
+	(function() {
+	if(document.querySelector('.commitchange-donate[data-fixed]')) return;
+	var cc_donate = document.createElement('div');
+	cc_donate.innerHTML = "<a data-fixed class='commitchange-donate'></a>";
+	document.body.appendChild(cc_donate);
+	var npo = window.app.nonprofit.id;
+	var script = document.createElement('script');
+	var first = document.getElementsByTagName('script')[0];
+	script.setAttribute('data-npo-id', npo);
+	script.id = 'commitchange-script';
+	script.src = '<%= request.base_url %>/js/donate-button.v2.js';
+	first.parentNode.insertBefore(script, first);
+	})();
+})
+</script>
+
+<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
+
+<header class='header'>
+	<div class='container--mid'>
+	<i class='header-icon icon-credit-card'></i>
+	<h3 class='header-title'>Donate Form Builder</h3>
+	<%= render 'tabs', active: :basic %>
+	</div>
+</header>
+
+<aside class='helpBoxWrapper helpBoxWrapper--fade'>
+	<div class='helpBox'>
+		<p>
+			This is a <strong>live</strong> preview of the donate button.
+		</p>
+	</div>
+</aside>
+
+<div class='container u-paddingX--30 u-marginTop--20'>
+	<h5 class='u-centered'>Begin collecting donations on your website in minutes</h5>
+	<p>You can begin collecting donations on your website in minutes by copying and pasting the snippet of code below onto your website.  It's as easy as adding a Facebook 'Like' button to your website.  When adding the script to your website be sure to add it to the footer.</p>
+
+	<p>If this sounds too technical for you, don't worry; in most cases, we can either walk you through the process or add the code for you.</p>
+
+	<p>For more customization options for your donate button, such as creating a button from an image or adding a designation, use our <strong><%= link_to 'guided', nonprofits_button_guided_path(@nonprofit) %></strong> donate button builder.
+	</p>
+
+	<section class='u-marginTop--20'>
+		<%= render 'include_oneline_snippet' %>
+	</section>
+
+</div>

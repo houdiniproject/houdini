@@ -1,0 +1,29 @@
+<%if @donation.recurring_donation%>
+<p>A recurring donation has just been paid successfully. Please see the receipt and details below.</p>
+<%else%>
+<p>A one-time donation has just been paid successfully. Please see the receipt and details below.</p>
+<%end%>
+<br>
+
+<% if @donation.anonymous || @donation.supporter.anonymous %>
+<p><strong>This donor chose to make this contribution anonymously</strong></p>
+<br>
+<% end %>
+
+<%= render 'components/email/supporter_table', supporter: @donation.supporter %>
+<br>
+
+<%= render 'donation_mailer/donation_payment_table', donation: @donation, charge: @charge %>
+
+<% if @donation.recurring_donation %>
+<p>
+	To modify or cancel this recurring donation, please visit your recurring donations dashboard at this link:
+	<a href='<%= nonprofits_recurring_donations_url(@nonprofit) %>'>
+		<%= nonprofits_recurring_donations_url(@nonprofit) %>
+	</a>
+</p>
+<br>
+<% end %>
+
+<%= render 'emails/sig' %>
+

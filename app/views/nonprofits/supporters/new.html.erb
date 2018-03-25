@@ -1,0 +1,25 @@
+<%= content_for :javascripts do %>
+	<%= IncludeAsset.js '/client/js/nonprofits/supporters/new/page.js' %>
+<% end %>
+
+<div class='container'>
+	<div class='u-centered'>
+		<h1>Volunteer Signup</h1>
+		<h3><%= @nonprofit.name %></h3>
+		<div>
+			<section class='modal-body'>
+				<form class='supporterForm u-width--half u-margin--auto'>
+					<!--= on 'submit' (ajax.create supporter form_object) -->
+
+					<%= render 'supporters/form_blank', require_name: true, require_email: true %>
+						<!-- REMOVE ME ASAP - HARDCODED LINK -->
+						<input type='checkbox' id='check-agree-terms' checked='checked'>
+
+						<label for='check-agree-terms'>I accept the terms of the <a href='https://drive.google.com/file/d/0ByUzb8T-kxp4b1FBSG5UcWlOMTA/view' target='_blank'>Volunteer Agreement</a></label>
+
+					<%= render 'components/forms/submit_button' %>
+				</form>
+			</section>
+		</div>
+	</div>
+</div>

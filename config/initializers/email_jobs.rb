@@ -1,0 +1,1 @@
+MAX_EMAIL_JOB_ATTEMPTS = Rails.env == 'production' ? 50 : 2

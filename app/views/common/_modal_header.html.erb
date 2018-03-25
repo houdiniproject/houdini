@@ -1,0 +1,11 @@
+<% subtitle = '' if subtitle.nil? %>
+<% class_name = '' if class_name.nil? %>
+<% branded ||= false %>
+
+<header class='modal-header <%=class_name %>'>
+	<h4 class='modal-header-title'><%= title.html_safe %></h4>
+	<% if subtitle != '' %> 
+		<p class='modal-header-subtitle'><%= subtitle.html_safe %></p>
+	<% end %>
+	<%= render 'common/modal_close' %>
+</header>

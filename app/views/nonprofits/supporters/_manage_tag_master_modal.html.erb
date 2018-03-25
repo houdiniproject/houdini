@@ -1,0 +1,61 @@
+<div class='modal' id='manageTagMasterModal'>
+	<!--= scope 'tags.masters' -->
+
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>
+			System-Wide Tag Management
+		</h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+
+  <p>If you remove a tag here, it will get removed <strong>for all supporters</strong></p>
+
+		<form>
+			<!--= on 'submit' (this.add form_object) -->
+			<div class='u-relative u-marginBottom--15'>
+				<input name='name' type='text' placeholder='Tag name' class='u-margin--0'>
+				<button class='button--inset bluegreen' type='submit'>
+					<!--= set_attr_if this.loading 'disabled' 'disabled' -->
+					<i class='fa fa-plus'></i> Add New Tag To List
+				</button>
+			</div>
+		</form>
+
+		<p class='noResults'>
+			<!--= hide_if (length this.data) -->
+			Add your first custom tag by simply typing in the above input.
+		</p>
+
+		<table class='table--plaid'>
+		<!--= show_if (length this.data) -->
+			<thead>
+				<tr>
+					<th>Tag Name</th>
+					<th>Date Created</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<!--= repeat this.data -->
+					<td>
+						<span class='tag u-floatL'><!--= put this.name --></span>
+					</td>
+					<td>
+						<!--= put (readable_date this.created_at) -->
+					</td>
+					<td>
+						<a class='dangerLink u-fontSize--20'>
+							<!--= on 'click' (confirm (cat 'Are you sure you want to delete tag "' this.name '"?') (tags.masters.delete this.name this.id)) -->
+							<i class='fa fa-times'></i>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<%= render 'settings_modal_footer' %>
+
+</div>

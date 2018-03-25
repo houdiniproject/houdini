@@ -1,0 +1,30 @@
+<table class='table--plaid u-marginBottom--20'>
+  <thead>
+    <th>Supporters</th>
+    <th>Total</th>
+    <th>One time</th>
+    <th>Recurring</th>
+    <th>Offsite</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <!--= put campaign_totals.supporters_count -->
+      </td>
+      <td>
+        $<!--= put (cents_to_dollars campaign_totals.total_cents) -->
+      </td>
+      <td>
+        $<!--= put (cents_to_dollars campaign_totals.onetime_cents) -->
+      </td>
+      <td>
+        $<!--= put (cents_to_dollars campaign_totals.recurring_cents) -->
+      </td>
+      <td>
+        $<!--= put (cents_to_dollars campaign_totals.offsite_cents) -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!--= hide_if loading_totals -->
+

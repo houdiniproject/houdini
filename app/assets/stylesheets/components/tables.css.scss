@@ -1,0 +1,313 @@
+table {
+	max-width: 100%;
+	background-color: transparent;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.table {
+	width: 100%;
+	margin-bottom: 10px;
+}
+.table td,
+.table th {
+	padding: 5px 10px;
+}
+.table * {
+	line-height: 1.2;
+}
+.table input {
+	margin: 0;
+}
+.table th {
+	font-size: 17px;
+	text-align: left;
+	font-weight: bold;
+  color: $sea-foam;
+}
+.table thead tr {
+	border-bottom: 2px solid rgba(128, 128, 128, 0.07);
+}
+.table tr {
+	border-bottom: 1px solid rgba($grey, 0.07);
+}
+.table td {
+  vertical-align: middle;
+  word-wrap: break-word;
+  max-width: 400px;
+}
+.table td.td--backgroundImage {
+	background-position: center;
+	position: relative;
+}
+
+.table td .anon {
+	font-weight: 200;
+	color: $grey;
+}
+.table tfoot,
+.table tfoot tr {
+	border: none;
+}
+td.td--wide {
+	width: 60%;
+}
+
+.table--blank {
+	width: 100%;
+	margin: 0;
+}
+.table--blank td,
+.table--blank th {
+	padding: 2px 5px;
+}
+// .table
+
+.table.clickable td:first-of-type,
+.table.clickable [if-side-panel='hover-marker'] {
+	position: relative;
+}
+.table.clickable td:first-of-type:before,
+.table.clickable [if-side-panel='hover-marker']:before {
+	position: absolute;
+	content: '';
+	top: 0;
+	height: 100%;
+	background: $trans;
+	left: 0;
+	width: 4px;
+}
+
+@mixin activeRow {
+	cursor: pointer;
+	td:nth-of-type(2n){
+		background: $trans;
+	}
+}
+.table.clickable tbody tr:hover {
+	@include activeRow;
+	background: white;
+	td:first-of-type:before {
+		background: $bluegrass;
+	}
+	button {
+		display: inline-block;
+	}
+}
+.table.clickable tbody tr[data-selected] {
+	@include activeRow;
+	*:not(i) {
+		color: $charcoal;
+	}
+	td {
+		background: none !important;
+	}
+	td:before {
+		background: $bluegrass !important;
+	}
+	background: $looseleaf;
+}
+
+// .table.clickable
+
+.table--small {
+	@extend .table;
+}
+
+.table--small td,
+.table--small th {
+	padding: 4px;
+}
+.table--small td,
+.table--small th {
+	font-size: 14px;
+}
+
+.table--striped {
+	@extend .table;
+	tr:nth-child(2n -1){ background: rgba($grey, 0.005); }
+	tr:nth-child(2n){ background:   rgba($grey, 0.03); }
+}
+.table--striped thead {
+	background: rgba($sage, 0.05);
+}
+// .table--striped
+
+.table--plaid {
+	@extend .table--striped;
+}
+.table--plaid td:nth-of-type(2n) {
+	background: rgba($sage, 0.15);
+}
+// .table--plaid
+
+
+.table-strongText {
+	font-weight: bold;
+	color: rgba($charcoal, 0.9);
+}
+.table-bigText {
+	font-size: 16.5px;
+} // usually used for name
+.table-bigText-subText {
+	font-size: 14px;
+}
+
+.table-bigNum  {
+	font-size: 18px;
+} // usually used for amount
+.table-bigNum .dollar {
+	margin-right: -4px;
+	font-size: 13px;
+	line-height: 17px;
+}
+.table-bigNum .annot {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 14px;
+	@include opacity(0.5);
+}
+
+.td--skinny {
+	width: 80px;
+}
+
+.tr--line {
+	height: 1px;
+	width: 100%;
+	border-bottom: 1px dashed rgba(black ,0.05);
+}
+
+
+// Table header meta items: buttons, searching, metrics, etc.
+$meta_spacing: 10px;
+$meta_line-height: 34px;
+
+@mixin tableMetaElement {
+	display: inline-block;
+	padding: 0 8px;
+	vertical-align: middle;
+	&:last-of-type {
+		margin: 0;
+	}
+}
+.table-meta {
+	position: relative;
+	margin: 0;
+	width: 100%;
+	background: white;
+	border-bottom: 1px solid rgba($grey, 0.3);
+	@include box-shadow(0 4px 3px 0 rgba(black, 0.03));
+}
+.table-meta .table-meta-bar {
+	padding-top: 2px;
+	border-bottom: 1px dashed rgba(black ,0.1);
+}
+.table-meta-bar > *{
+	padding: 0 8px;
+}
+.table-meta > * {
+	padding: 12px 8px;
+}
+.table-meta.is-stuck {
+	width: 100%;
+	max-width: 940px;
+	position: fixed;
+	top: 0;
+}
+
+.table-meta-title {
+	@include tableMetaElement;
+	line-height: $meta_line-height;
+	margin: 0 $meta_spacing 0 0;
+	color: rgba($charcoal, 0.8);
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.table-meta-metric {
+	font-size: 17px;
+	@include tableMetaElement;
+	line-height: $meta_line-height;
+	margin: 0 $meta_spacing 0 0;
+	background-color: rgba($oj, 0.2);
+}
+
+.table-meta-metric--blue {
+	@extend .table-meta-metric;
+	background-color: rgba($sky, 0.2);
+}
+
+.table-meta-metric small {
+	font-size: 15px;
+	color: rgba($charcoal, 0.8);
+}
+
+@mixin tableMetaButton {
+	@include noselect;
+	@include transition(background 0.2s ease-out);
+	@include tableMetaElement;
+	color: white;
+	font-weight: bold;
+	line-height: 32px;
+	@include border-radius(3px);
+	border-bottom: 2px solid rgba(black, 0.2);
+	&:hover {color: white; }
+	@include setBackgroundAndHover($bluegrass);
+	&.orange { @include setBackgroundAndHover($oj);}
+	&.red { @include setBackgroundAndHover(rgba($red, 0.7));}
+	&.bluegrey { @include setBackgroundAndHover($sea-foam);}
+	&.blue { @include setBackgroundAndHover($sky);}
+	&.white {
+		@include setColorAndHover($logo-blue);
+		@include setBackgroundAndHover--subtle(darken(white, 5));
+	}
+	&.grey{@include setBackgroundAndHover($grey);}
+}
+
+.table-meta-button {
+	@include tableMetaButton;
+	float: right;
+	margin: 0 0 0 $meta_spacing;
+}
+
+.table-meta-button--left {
+	@include tableMetaButton;
+	margin: 0 $meta_spacing 0 0;
+}
+
+.table-meta-search {
+	display: inline-block;
+	position: relative;
+	margin: 0 3px 0 0;
+}
+.table-meta-search input[type='text'] {
+	@include tableMetaElement;
+  padding-right: 0 !important;
+	line-height: 32px;
+	width: 14em;
+	height: 34px;
+	font-size: 16px;
+	margin: 0;
+}
+
+.table-meta-search .button--input {
+	font-size: 16px;
+	line-height: 32px;
+	transform: translateX(-5px) translateY(1px);
+}
+
+.verticallyCenteredTableElement {
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+}
+
+// fullFeatures table
+.fullFeatures i {
+	color: $dark-turquoise;
+}
+.fullFeatures th,
+.fullFeatures td:nth-of-type(2),
+.fullFeatures td:nth-of-type(3) {
+	text-align: center;
+}

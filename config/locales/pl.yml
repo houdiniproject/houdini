@@ -1,0 +1,134 @@
+pl:
+  hello: "Witaj, świecie"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Twój komentarz'
+  organization:
+    name: "Organizacja"
+  donation:
+    amount: "Całkowita kwota"
+    date: "Data transakcji"
+    campaign: "Kampania"
+    recurring_interval: "Jak często"
+    interval: "Co %{interval}%{time_unit}"
+    recurring_since: "Od kiedy: "
+    comment: "Komentarz"
+    payment_id: "Nr transakcji"
+  mailer:
+    donations:
+      donation_receipt: "Potwierdzenie darowizny"
+      donor_name: "Imię darczyńcy"
+      donor_receipt:
+        subject: "Potwierdzienie przekazania darowizny dla %{nonprofit_name}"
+        transfer_info_html: "Transakcja pojawi się na wyciągu bankowym jako %{label}"
+        transfer_label_html: "Darowizna %{nonprofit_statement}"
+        oneoff_donation_html: "Dziękujemy za dorzucenie się do działań <strong> %{nonprofit_name} </strong>i dołączenie do tysięcy innych osób z całej Europy, dzięki zaangażowaniu i wsparciu których nasza społeczność rośnie w siłę. Twoja darowizna pomoże nam prowadzić szybkie i skuteczne kampanie na tematy ważne dla nas wszystkich."
+        recurring_donation_html: "Dziękujemy za regularne comiesięczne wsparcie działań <strong>%{nonprofit_name}</strong> i dołączenie do tysięcy innych osób z całej Europy, dzięki zaangażowaniu i wsparciu których nasza społeczność rośnie w siłę. Twoja darowizna pomoże nam prowadzić szybkie i skuteczne kampanie na tematy ważne dla nas wszystkich."
+      donor_direct_debit_notification:
+        subject: "Potwierdzenie dokonania darowizny przez: %{nonprofit_name}"
+        transfer_info_html: "Transakcja pojawi się na wyciągu bankowym jako: %{label}"
+        transfer_label_html: "Darowizna %{nonprofit_statement}"
+        donation_queued_html: "Twoje wsparcie %{nonprofit_name} oczekuje w kolejce do zaksięgowania"
+        recurring_donation_queued_html: "Dziękujemy za regularne comiesięczne wsparcie działań <strong>%{nonprofit_name}</strong> i dołączenie do tysięcy innych osób z całej Europy, dzięki zaangażowaniu i wsparciu których nasza społeczność rośnie w siłę. Twoja darowizna pomoże nam prowadzić szybkie i skuteczne kampanie na tematy ważne dla nas wszystkich."
+  nonprofits:
+    donate:
+      signed_in: "Zalogowano jako:"
+      log_out: "Wyloguj"
+      amount:
+        label: "Kwota"
+        sustaining: "Wspieraj regularnie, co miesiąc"
+        sustaining_bold: "co miesiąc"
+        sustaining_selected: "Wybierz kwotę którą dorzucasz co miesiąc"
+        sustaining_selected_bold: "co miesiąc"
+        monthly: "co miesiąc"
+        weekly: "co tydzień"
+        weekly_notice: "ograniczamy koszty transakcji księgując wpłatę %{amount}%{currency} co miesiąc"
+        custom: "Inna:"
+        designation:
+          label: "Cel:"
+          choose: "Wybierz cel (opcjonalnie):"
+          most_needed: "Dorzucam się tam gdzie to potrzebne"
+        next: "Dalej"
+      info:
+        label: "Info"
+        supporter:
+          email: "Email"
+          email_required: " (potrzebne do rachunku)"
+          full_name: "Pełne imię"
+          first_name: "Imię"
+          last_name: "Nazwisko"
+          phone: "Telefon"
+          address: "Adres"
+          city: "Miasto"
+          state: "Wybierz kraj"
+          country: "Kraj"
+          other_country: "Inna"
+          region: "Region"
+          postal_code: "Kod pocztowy"
+          shipping_address: "Adres korespondencyjny (wymagane)"
+          errors:
+            email:
+              format: "Proszę podać prawidłowy adres email"
+        dedication_link: "Przekaż darowiznę w czyimś imieniu"
+        dedication_saved: "Darowizna zadedykowana dla:"
+        anonymous_checkbox: "Chcę się dorzucić anonimowo"
+        next: "Dalej"
+      dedication:
+        info: "Dodaj treść dedykacji:"
+        in_honor_label: "W geście szacunku"
+        in_memory_label: "Dla upamiętnienia"
+        first_name: "Imię"
+        last_name: "Nazwisko"
+        email: "Email (opcjonalnie)"
+        phone: "Telefon (opcjonalnie)"
+        full_address: "Pełen adres (opcjonalnie)"
+        note: "Wiadomość:"
+        save: "Zapisz i wróć"
+        donor_note: "Wiadomość od darczyńcy:"
+      payment:
+        label: "Płatność"
+        one_time: "jednorazowo"
+        monthly_recurring: "co miesiąc"
+        tabs:
+          card: "Karta kredytowa"
+          sepa: "Polecenie przelewu"
+        loading:
+          checking_card: "Sprawdzam kartę..."
+          sending_payment: "Przesyłam informacje o płatności..."
+        card:
+          name: "Imię i nazwisko na karcie kredytowej"
+          number: "Numer karty"
+          cvc: "Kod CVC"
+          postal_code: "Kod pocztowy"
+          month: "Miesiąc"
+          year: "Rok"
+          submit: "Zatwierdź"
+          loading: "Zapisuję..."
+          secure_info: "Transakcja zabezpieczona szyfrowaniem 256-bit SSL"
+          errors:
+            field:
+              presence: "Pole wymagane"
+              format: "To nie wygląda na właściwy format"
+            number:
+              presence: "Proszę wprowadzić numer karty"
+              format: "Ten numer wydaje się niewłaściwy"
+            email:
+              format: "Proszę podać poprawny adres email"
+        sepa:
+          name: "Imię właściciela/lki konta"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "Pole wymagane"
+              format: "Ten format wydaje się niewłaściwy"
+      followup:
+        success: "Sukces - darowizna została przekazana!"
+        receipt_info: "Prześlemy potwierdzenie transakcji na adres: "
+        message: "dziękuje za Twoje wsparcie!"
+        share:
+          facebook: "Udostępnij"
+          twitter: "Zatweetuj"
+          twitter_message: "Dołącz i tak jak ja wspieraj "
+        finish: "Koniec"

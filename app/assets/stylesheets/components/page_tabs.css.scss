@@ -1,0 +1,42 @@
+@import 'mixins';
+
+.pageTabs {
+	position: absolute;
+	bottom: -4px;
+	right: 10px;
+	width: 100%;
+}
+.pageTabs a {
+	color: white;
+	float: right;
+	background: $sky;
+	padding: 10px 14px 14px 14px;
+	margin: 0 8px;
+	line-height: 1;
+	@include border-radius(4px 4px 0 0);
+	font-weight: bold;
+	@include transition(transform 0.1s ease-out);
+	@include transform(translateY(2px));
+}
+.pageTabs a:hover {
+	@include transform(translateY(0px));
+}
+.pageTabs a.is-active {
+	background: darken($sky, 20);
+	pointer-events: none;
+}
+
+.pageTabs--top {
+	@extend .pageTabs;
+	top: -35px;
+	bottom: initial;
+}
+
+.pageTabs--event {
+	max-width: 500px;
+	@extend .pageTabs;
+	@include transform(translateY(3px));
+	&:before {
+		display: none;
+	}
+}

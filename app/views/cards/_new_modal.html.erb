@@ -1,0 +1,29 @@
+<!-- partial cards/new_modal -->
+<!-- use cards/new.js -->
+<!-- use cards.css.scss -->
+
+<div class='modal' id='newCardModal'>
+
+	<div class='modal-header'>
+		<h3>New Card</h3>
+		<%= render 'common/modal_close' %>
+	</div>
+
+	<div class='modal-body'>
+		<p class='u-centered' >Add a new card for <strong><!--= put selected_supporter.name --></strong></p>
+
+		<form class='cardForm'>
+			<!--= on 'submit' (create_card form_object) -->
+
+			<%= render 'cards/fields' %>
+
+			<input type='hidden' name='supporter_id'> <!--= set_attr 'value' selected_supporter.id -->
+
+      <input type='hidden' name='event_id'><!--= set_attr 'value' selected_event.id -->
+			<%= render 'components/forms/submit_button' %>
+		</form>
+	</div>
+</div>
+
+<!-- end partial cards/new_modal -->
+

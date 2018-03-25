@@ -1,0 +1,16 @@
+<form autosubmit action="/users" method="post" parsley-validate data-reload>
+  <input type="text" name="user[profile_attributes][name]" required placeholder="Name" class="parsley-validated">
+
+  <input type="email" name="user[email]" placeholder="Email" required class="parsley-validated">
+
+  <input type="password" required name="user[password]" placeholder="New Password" parsley-minlength="7" parsley-minlength-message="Please enter at least 7 characters" class="parsley-validated">
+
+  <input type="password" required name="user[password_confirmation]" placeholder="Confirm Password" class="parsley-validated">
+
+  <div class='u-centered'>
+    <p class='error'></p>
+    <button type="submit" data-loading="Submitting..." class="button--small" >
+      Sign Up
+    </button>
+  </div>
+</form>

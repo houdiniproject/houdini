@@ -1,0 +1,48 @@
+<div class='modal' id='manageDiscountsModal'>
+  <%= render 'common/modal_header', title: 'Event Discounts'%>
+  <section class='modal-body'>
+    <p>You can setup discount codes for your attendees to enter when they purchase tickets.  The discount will be applied to their total purchase.</p>
+    <hr>
+    <button class='button--small'>
+      <!--= on 'click' discounts.show_new -->
+      <i class='fa fa-plus'></i> New Discount
+    </button>
+
+    <hr>
+    <p class='noResults'>
+      <!--= hide_if (length discounts.data) -->
+      No discounts
+    </p>
+    <table class='table--plaid'>
+      <!--= show_if (length discounts.data) -->
+      <thead>
+        <th>Name</th>
+        <th>Discount</th>
+        <th>Code</th>
+        <th></th>
+      </thead>
+      <tr>
+          <!--= repeat discounts.data -->
+          <td>
+            <!--= put this.name -->
+          <td>
+            <!--= put this.percent -->%
+          </td>
+          <td>
+            <!--= put this.code -->
+          </td>
+          <td>
+            <button class='button--tiny edit'>
+              <!--= on 'click' (discounts.show_edit this.i) -->
+              Edit
+            </button>
+            <button class='button--tiny red'>
+              <!--= on 'click' (confirm (discounts.delete this.id)) -->
+              <i class='fa fa-times'></i>
+            </button>
+          </td>
+      </tr>
+    </table>
+  </section>
+
+</div>

@@ -1,0 +1,18 @@
+<label>Your Name</label>
+<input type='text' name='user[profile_attributes][name]' placeholder='Name' class='u-marginTop--0' required>
+
+<label>Your Email Address</label>
+<input type='email' name='user[email]' placeholder='Email' required>
+
+<label>Password</label>
+<input type='password' required
+	id='new-user-password-input'
+	name='user[password]'
+	placeholder='New Password'
+	parsley-minlength='7'
+	parsley-minlength-message='Please enter at least 7 characters'>
+
+<label>Confirm Password</label>
+<input type='password' required
+	name='user[password_confirmation]'
+	placeholder='Confirm Password'>

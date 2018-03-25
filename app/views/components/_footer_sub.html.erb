@@ -1,0 +1,28 @@
+<!-- partial start: components/_footer_sub -->
+<section class='globalFooter-sub'>
+	<div class='container'>
+
+		<span <%= !current_user ? "style='display: block;'" : ""%>>
+			<span class='globalFooter-sub-items'>
+
+				<span>
+
+					<span class='globalFooter-sub-item'>&copy; <%= Time.current.year %> CommitChange</span>
+
+					<span class='globalFooter-sub-item'>
+						<% if current_user %>
+							HELP SHOULD BE HERE
+						<% else %>
+							<a href='/about'>About</a>
+						<% end %>
+					</span>
+					<span class='globalFooter-sub-item'>
+						<%= link_to "Terms & Privacy", Format::Url.concat(root_url, "help/terms-of-service-and-privacy-policy") %>
+					</span>
+				</span>
+			</span>
+		</span>
+
+	</div>
+</section>
+<!-- partial start: components/_footer_sub -->

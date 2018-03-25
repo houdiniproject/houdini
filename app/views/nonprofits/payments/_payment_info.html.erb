@@ -1,0 +1,103 @@
+<!-- partial start: payment_info -->
+
+<table class='table--small u-marginBottom--10'>
+  <!--= scope 'payment_details.data' -->
+
+  <thead>
+    <tr>
+      <th>Payment Info</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Date </td>
+      <td>
+        <!--= put (readable_date_time this.date) -->
+      </td>
+    </tr>
+
+    <tr>
+      <td>Type </td>
+      <td>
+        <!--= put (readable_kind this.kind) -->
+        <span>
+          <!--= show_if this.offsite_payment.kind -->
+           &nbsp; (<!--= put this.offsite_payment.kind  -->)
+        </span>
+      </td>
+    </tr>
+
+    <tr>
+      <!--= show_if (eq this.kind "RecurringDonation") -->
+      <td>Recurring </td>
+      <td>
+        <!--= put (get_recurring_interval this) -->
+        since
+        <!--= put (get_recurring_created this) -->
+      </td>
+    </tr>
+
+    <tr class='test-grossAmount'>
+      <td>Gross Amount </td>
+      <td>
+        $<!--= put (cents_to_dollars this.gross_amount) -->
+      </td>
+    </tr>
+
+    <tr>
+      <td>Processing Fees </td>
+      <td>
+        $<!--= put (cents_to_dollars this.fee_total) -->
+      </td>
+    </tr>
+
+    <tr>
+      <!--= show_if (> this.refund_total 0) -->
+      <td>Total Refunds </td>
+      <td>
+        $<!--= put (cents_to_dollars this.refund_total) -->
+      </td>
+    </tr>
+
+    <tr>
+      <td>Net Amount </td>
+      <td>
+        $<!--= put (cents_to_dollars this.net_amount) -->
+      </td>
+    </tr>
+
+    <tr>
+      <!--= show_if this.origin_url  -->
+      <td>Origin </td>
+      <td>
+        <a target='_blank'>
+        <!--= set_attr 'href' this.origin_url -->
+        <!--= put this.origin_url -->
+        </a>
+      </td>
+    </tr>
+
+    <tr>
+      <!--= show_if this.charge -->
+      <td>Status </td>
+      <td><!--= put this.charge.status --></td>
+    </tr>
+
+    <tr>
+      <!--= show_if this.offsite_payment.check_number -->
+      <td>Check # </td>
+      <td><!--= put this.offsite_payment.check_number -->
+    </tr>
+
+    <tr>
+      <td>ID </td>
+      <td><!--= put this.id --></td>
+    </tr>
+
+  </tbody>
+</table>
+
+<!-- partial end: payment_info -->
+

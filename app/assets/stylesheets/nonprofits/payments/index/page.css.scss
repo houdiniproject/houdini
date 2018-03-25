@@ -1,0 +1,48 @@
+@import 'mixins';
+@import 'pikaday';
+@import 'bootstrap-tour';
+@import 'components/pagination';
+@import './main_panel';
+@import 'components/page_tabs';
+@import 'components/panels_layout';
+@import 'components/tables/filtering/meta_status';
+
+.panelsLayout.is-showingSidePanel {
+	.mainPanel td:nth-of-type(5),
+	.mainPanel td:nth-of-type(4),
+	.mainPanel td:nth-of-type(2),
+	.mainPanel th:nth-of-type(5),
+	.mainPanel th:nth-of-type(4),
+	.mainPanel th:nth-of-type(2),{
+		display: none;
+	}
+	.mainPanel td:nth-of-type(3) {
+		background: rgba($sage, 0.2);
+	}
+}
+
+.sidePanel-body tbody td:first-of-type {
+	font-weight: bold;
+	width: 25%;
+}
+.sidePanel-body .addressTd p:first-of-type {
+	margin-top: 5px;
+}
+.sidePanel {
+	right: -65%;
+	width: 65%;
+}
+.panelsLayout.is-showingSidePanel .button--closeSidePanel {
+	right: 65%;
+}
+.panelsLayout.is-showingSidePanel .mainPanel {
+	width: 35%;
+}
+.panelsLayout.is-showingSidePanel .pagination {
+	width: 35%;
+}
+
+.table-meta--main {
+	@include transition(padding-bottom 0.1s ease);
+	@include transform(translateZ(0));
+}

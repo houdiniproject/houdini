@@ -1,0 +1,35 @@
+@import 'mixins';
+
+.pageTitle {
+	position: absolute;
+	top: -55px;
+	font-size: 32px;
+} // -55px in relation to .container
+.pageTitle i {
+	margin-right: 5px;
+	vertical-align: text-bottom;
+	font-size: 27px;
+}
+.pageTitle--centered {
+	@extend .pageTitle;
+	left: auto;
+	text-align: center;
+	width: 100%;
+}
+
+@mixin backgroundColor {
+	height: 500px;
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+	@include opacity(0.5);
+}
+.backgroundColor {
+	@include backgroundColor;
+	@include gradient(top, $sky, white);
+}
+.backgroundColor--green {
+	@include backgroundColor;
+	@include gradient(top, rgba($grass, 0.6), white);
+}

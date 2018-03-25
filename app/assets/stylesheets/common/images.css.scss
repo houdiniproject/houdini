@@ -1,0 +1,57 @@
+@import 'mixins';
+
+img { 
+	max-width: 100%; 
+	vertical-align: middle;
+}
+
+.circle-image, .circular-image {
+	@include background-size(cover);
+	background-color: white;
+	background-position: 50% 50%;
+	width: 34px;
+	height: 34px;
+	@include border-radius(17px);
+	margin-right: 10px;
+}
+.circularImage--small,
+.circular-image-small {
+	width: 30px;
+	height: 30px;
+	@include border-radius(15px);
+	margin-right: 5px;
+} // todo: change to circularImage
+
+.circularImage--tiny {
+	width: 18px;
+	height: 18px;
+	@include border-radius(50%);
+	margin-right: 5px;
+}
+
+.circularImage--large {
+	width: 60px;
+	height: 60px;
+	@include border-radius(50%);
+	margin-right: 10px;
+}
+
+
+
+
+.default-profile-image, .default-supporter {
+	background-image: url('https://commitchange.s3.amazonaws.com/images/default-profile.png');
+	@include background-size(cover);
+	display: inline-block;
+}
+
+.default-supporter.thumb {
+	width: 40px;
+	height: 40px;
+	@include border-radius(20px);
+}
+
+img[src*="gstatic.com/"], 
+img[src*="googleapis.com/"]  {
+	max-width: 99999px;
+}

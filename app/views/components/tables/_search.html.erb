@@ -1,0 +1,25 @@
+<!-- partial components/tables/search -->
+<!-- use components/restful_resource.js -->
+<!-- use restful_resource.js to define 'resource_name' with an 'index' function-->
+
+<% placeholder_text = 'Search' if placeholder_text.nil? %>
+
+<form class='table-meta-search'>
+	<!--= on 'submit' (def '<%=scope%>.query' form_object) <%=scope%>.index -->
+
+	<input type='hidden' name='page' value=1>
+
+	<input name='search' type='text' name='search' placeholder='<%= placeholder_text %>'>
+		<!--= on 'keyup' (<%=scope%>.clear_search_if_deleted get_value) -->
+		<!--= set_value <%=scope%>.query.search -->
+
+	<button class='button--input' type='submit'>
+		<!--= set_attr_if loading 'disabled' 'disabled' -->
+		<i class='fa fa-search'><!--= hide_if loading --></i>
+		<i class='fa fa-spin fa-spinner' style='display:none'><!--= show_if loading --></i>
+	</button>
+
+</form>
+
+<!-- end partial components/tables/search -->
+

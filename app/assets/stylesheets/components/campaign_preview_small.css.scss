@@ -1,0 +1,24 @@
+@import 'mixins';
+
+.campaignPreview--small {
+	padding: 15px;
+	border-bottom: rgba($grey, 0.2) 1px solid;
+}
+.campaignPreview--small:nth-of-type(2n -1){
+	background: rgba($sky, 0.04);
+}
+.campaignPreview--small:last-of-type {
+	margin-bottom: 0;
+}
+.campaignPreview--small-title {
+	color: rgba($charcoal, 0.8);
+	font-weight: bold;
+	line-height: 1.2;
+	margin-bottom: 8px;
+}
+.campaignPreview--small:hover {
+	@include box-shadow(0 0 5px 0 rgba(black, 0.2));
+	.campaignPreview--small-title {
+		color: $logo-blue;
+	}
+}

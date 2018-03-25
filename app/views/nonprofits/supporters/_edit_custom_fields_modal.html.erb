@@ -1,0 +1,28 @@
+<div class='modal' id='editCustomFieldsModal'>
+	<header class='modal-header'>
+		<h4 class='modal-title'>
+			Edit Custom Fields for <!--= put supporter_details.data.name_email_or_id -->
+		</h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+		<form>
+			<!--= show_if (length supporter_details.custom_field_list) -->
+			<!--= on 'submit' (custom_fields.single.prepare_to_post form_object) -->
+			<!--= scope 'supporter_details.custom_field_list' -->
+			<%= render 'custom_fields_inputs' %>
+			<%= render 'components/forms/submit_button' %>
+		</form>
+
+		<p class='noResults'>
+			It looks like you haven't created any custom fields yet.  Click the link below to add some custom fields.
+			<!--= hide_if (length custom_fields.masters.data) -->
+		</p>
+	</div>
+
+	<footer class='u-centered modal-footer'>
+		<a>Manage Custom Fields</a>
+		<!--= on 'click' (open_modal 'manageFieldMasterModal') -->
+	</footer>
+</div>

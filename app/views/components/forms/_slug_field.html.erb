@@ -1,0 +1,16 @@
+<!-- partial start components/forms/slug_field -->
+
+<!-- fundraiser is event or campaign or nonprofit -->
+<% fundraiser_name = fundraiser.class.name.downcase %>
+<% full_url = 'https://commitchange.com' + url %>
+
+<section>
+  <fieldset>
+    <label>URL Slug. This sets the URL path of your <%= fundraiser_name %>. Use only letters and hyphens.</label>
+    <p><small>Note that changing the <%= fundraiser_name %>'s slug will break any old links you might have shared</small></p>
+
+    <p class='u-color--grey'><%= full_url %>/<strong><%= fundraiser.slug %></strong></p>
+    <input data-slug-default='<%=fundraiser.name%>' class='js-sanitizeSlug' type='text' name='<%= fundraiser_name %>[slug]' value='<%= fundraiser.slug %>'>
+  </fieldset>
+</section>
+<!-- partial end components/forms/slug_field -->

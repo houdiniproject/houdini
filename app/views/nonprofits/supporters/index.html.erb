@@ -1,0 +1,58 @@
+<% content_for(:dont_load_optimizely) {'true'} %>
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<%= content_for(:stylesheets) {stylesheet_link_tag 'nonprofits/supporters/index/page'} %>
+<%= content_for :javascripts do %>
+	<%= IncludeAsset.js '/client/js/nonprofits/supporters/index/page.js' %>
+	<%= render 'common/froala' %>
+<% end %>
+
+<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
+
+<%= render 'header'%>
+<%= render 'table_meta' %>
+
+<div class='panelsLayout container--wide top--highest supporters'>
+	<section class='panelsLayout-body'>
+		<%= render 'filter_panel' %>
+		<%= render 'side_panel' %>
+		<%= render 'main_panel' %>
+		<%= render 'components/side_panel_close' %>
+		<%= render 'components/tables/filtering/filter_panel_close' %>
+	</section>
+</div>
+
+<div id='js-main'></div>
+
+<%= render 'merge_modal' %>
+<%= render 'new_modal' %>
+<%= render 'edit_modal' %>
+
+<%= render 'settings_modal' %>
+
+<%= render 'bulk_delete_modal' %>
+
+<%= render 'tag_edit_modal' %>
+<%= render 'bulk_tag_edit_modal' %>
+<%= render 'manage_tag_master_modal' %>
+
+<%= render 'note_modal' %>
+
+<%= render 'manage_field_master_modal' %>
+
+<%= render 'export_supporters_modal' %>
+
+<%= render 'edit_custom_fields_modal' %>
+<%= render 'edit_bulk_custom_fields_modal' %>
+
+<%= render 'map_modal' %>
+<%# render 'email_modal' %>
+<%# render 'email_preview_modal' %>
+<%# render 'email_read_only_modal' %>
+
+<%= render 'manage_email_drafts_modal' %>
+<%= render 'create_or_update_email_draft_modal' %>
+
+<%= render 'donations/new_offline_modal' %>
+
+<div id='js-vdomParty'></div>

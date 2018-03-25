@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title><%= yield(:title) || "Donate with #{Settings.general.name}" %></title>
+
+	<%= render 'layouts/stylesheets' %>
+  <%= yield :stylesheets %>
+
+	<%= favicon_link_tag %>
+	<%= csrf_meta_tags %>
+	<meta name="Description" content="Intelligent fundraising for nonprofits.">
+
+
+
+</head>
+
+<body id='<%= yield :body_id %>' class='embedded-layout'>
+<%= yield %>
+
+<%= render 'layouts/javascripts' %>
+<%= yield :javascripts %>
+
+<span data-parsley-namespace='parsley-'></span>
+
+
+</body>
+
+</html>

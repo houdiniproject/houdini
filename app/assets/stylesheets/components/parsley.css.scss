@@ -1,0 +1,19 @@
+@import 'mixins';
+
+.parsley-error-list {
+	padding: 4px;
+	@include border-radius(4px);
+	margin: 6px 0 0 0;
+	background: white;
+	position: absolute;
+	@include box-shadow(0 0 10px 0 rgba(black, 0.2));
+	border: 1px $lightGrey solid;
+	@include arrow-top(white, 7px);
+}
+
+.parsley-error-list li {
+	font-size: 12px;
+	line-height: 14px;
+	color: red;
+}
+

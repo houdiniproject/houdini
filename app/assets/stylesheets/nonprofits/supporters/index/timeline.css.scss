@@ -1,0 +1,81 @@
+@import 'mixins';
+
+ul.timeline-activities {
+	margin: 0;
+	position: relative;
+}
+
+.timeline-activities:before {
+	left: 12px;
+	top: -20px;
+	height: 20px;
+	width: 1px;
+} 
+
+.timeline-actions {
+	margin-bottom: 20px;
+	border: 1px solid rgba(black, 0.1);
+	background: rgba(black, 0.03); 
+}
+.timeline-activity {
+	padding: 0 0 16px 32px;
+	position: relative;
+}
+.timeline-activities:before,
+.timeline-activity:after,
+.timeline-activity:before {
+	position: absolute;
+	content: '';
+	background: rgb(230, 230, 230);
+}
+.timeline-activity:after {
+	left: 25px;
+	top: 12px;
+	height: 1px;
+	width: 7px;
+}
+.timeline-activity:before {
+	left: 12px;
+	top: 0;
+	height: 100%;
+	width: 1px;
+}
+
+// line connecting the icons
+.timeline-activity:last-of-type:before {
+	display: none;
+}
+
+.timeline-activity-icon {
+	background: #F8F7F2;
+	border: 1px solid rgb(230, 230, 230);
+	width: 25px; height: 25px;
+	@include border-radius(50%);
+	position: absolute;
+  text-align: center;
+	top: 0;
+	left: 0;
+}
+
+.timeline-activity-icon i {
+	font-size: 12px;
+	color: rgba(black, 0.4);
+  @include transform(translateY(-1px));
+}
+.timeline-activity-icon i.fa-ticket, 
+.timeline-activity-icon i.fa-pencil {
+	font-size: 14px;
+  @include transform(translateY(-2px));
+}
+
+.timeline .timeline-activity-card p {
+	margin-bottom: 0;
+}
+
+.timeline-activity-card {
+	background: white;
+	padding: 8px 10px;
+	line-height: 20px;
+	border: 1px solid rgba(black, 0.1);
+}
+

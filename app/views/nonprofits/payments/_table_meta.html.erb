@@ -1,0 +1,46 @@
+<div class='table-meta table-meta--main'>
+	<!--= scope 'payments' -->
+	<!--= add_class_if this.filter_count 'is-filtering' -->
+
+	<div class='container--wide'>
+
+		<a class='table-meta-button--left' id='button--openFilter'>
+			<!--= on 'click' (if (has_attr 'data-selected') close_filter_panel open_filter_panel) -->
+			<i class='fa fa-filter'></i> Filter
+		</a>
+
+		<%= render 'components/tables/filtering/meta_status', scope: 'payments' %>
+
+		<%= render 'components/tables/search', scope: 'payments' %>
+
+		<p class='table-meta-metric'>
+			<small>
+				<!--= show_if loading -->
+				Loading...
+			</small>
+			<span>
+				<!--= hide_if loading -->
+				<!--= put payments.total_count --> <small>Payments</small>
+			</span>
+		</p>
+
+		<p class='table-meta-metric tour-totalPayments test-totalPayments'>
+			<!--= hide_if loading -->
+			<span>
+				<!--= put payments.total_amount -->  <small>Total</small>
+			</span>
+		</p>
+
+    <a class='table-meta-button white'>
+      <!--= on 'click' (open_modal 'exportPaymentsS3Modal') -->
+      <i class='fa fa-file-text'></i> Export
+    </a>
+
+    <!--
+		<a class='table-meta-button'>
+    ((   on 'click' (open_modal 'importModal')  ))
+			<i class='fa fa-file-text'></i> Import
+		</a>
+    -->
+	</div>
+</div>

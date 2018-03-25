@@ -1,0 +1,20 @@
+@import 'mixins';
+
+@mi
+
+@include keyframes(fadeIn) {
+  0% {
+    // @include opacity(0);
+    // visibility: visible;
+  }
+  100% {
+    @include opacity(1);
+    visibility: visible;
+  }
+}
+
+@mixin fadeIn {
+  @include opacity(0);
+  @include animation('fadeIn ease 0.3s forwards');
+}
+

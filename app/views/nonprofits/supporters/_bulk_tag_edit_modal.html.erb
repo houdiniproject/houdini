@@ -1,0 +1,62 @@
+<div class='modal' id='bulkTagEditModal'>
+	<!--= scope 'tags.masters' -->
+
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>Add or Remove Tags for <!--= put tags.bulk.action_recipient --></h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+
+		<form>
+			<!--= show_if (length tags.masters.data) -->
+			<!--= on 'submit' tags.bulk.prepare_to_post -->
+			<table class='table--plaid'>
+				<tr>
+					<!--= repeat this.data -->
+					<td class='td--skinny u-centered'>
+						<button toggle='plus' class='u-marginRight--10'>
+							<!--= add_class_if (eq this.edit_action 'add') 'toggledOn' -->
+							<!--= on 'click' (tags.bulk.add_or_remove this.i 'add') -->
+						</button>
+						<button toggle='minus'>
+							<!--= add_class_if (eq this.edit_action 'remove') 'toggledOn' -->
+							<!--= on 'click' (tags.bulk.add_or_remove this.i 'remove') -->
+						</button>
+					</td>
+
+					<td>
+						<span class='tag u-floatL'><!--= put this.name --></span>
+					</td>
+					<td>
+						<small>
+							<!--= show_if (eq this.edit_action 'add')-->
+							<strong class='u-color--green'>Add </strong>to <!--= put tags.bulk.action_recipient -->
+						</small>
+						<small>
+							<!--= show_if (eq this.edit_action 'remove')-->
+							<strong class='u-color--red'>Remove </strong>from <!--= put tags.bulk.action_recipient -->
+						</small>
+					</td>
+				</tr>
+			</table>
+
+			<div class='u-marginTop--20'>
+				<%= render 'components/forms/submit_button', button_text: 'Apply Changes', resource: 'tags' %>
+			</div>
+		</form>
+		
+		<p class='noResults'>
+			<!--= show_if (empty tags.masters.data) -->
+			It looks like you haven't created any tags yet. Click the link below to add some tags.
+		</p>
+
+	</div>
+
+	<div class='modal-footer'>
+		<a>
+			<!--= on 'click' (open_modal 'manageTagMasterModal') -->
+			Manage Tags
+		</a>
+	</div>
+</div>

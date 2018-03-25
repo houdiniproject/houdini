@@ -1,0 +1,121 @@
+<% content_for(:title_prefix) {"#{@nonprofit.name} - #{@nonprofit.city}, #{@nonprofit.state_code} | ".html_safe} %>
+<% content_for(:fixed_position_cta_hidden) {'hidden'} %>
+<% content_for(:meta_description) {raw @nonprofit.summary} %>
+<% @brand_color = @nonprofit.brand_color ? @nonprofit.brand_color : nil %>
+
+<%= content_for :facebook_tags do %>
+	<meta property="og:title" content="<%= raw @nonprofit.name %>" />
+	<meta property="og:description" content="<%= raw @nonprofit.tagline %>" />
+	<meta property="og:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
+<% end %>
+<%= content_for :twitter_tags do %>
+	<meta property="twitter:title" content="<%= raw @nonprofit.name %>" />
+	<meta property="twitter:description" content="<%= raw @nonprofit.tagline %>" />
+	<meta property="twitter:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
+<% end %>
+
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'nonprofits/show/page' %>
+<% end %>
+
+<%= content_for :javascripts do %>
+	<script>
+		app.header_image_url = '<%= @nonprofit_background_image %>'
+		app.current_nonprofit_user = <%= current_nonprofit_user? %>
+    app.currency_symbol = "<%= @nonprofit.currency_symbol %>"
+    app.utmParams = {
+        utm_campaign: "<%= params[:utm_campaign] %>",
+        utm_content: "<%= params[:utm_content] %>",
+        utm_medium: "<%= params[:utm_medium] %>",
+        utm_source: "<%= params[:utm_source] %>"
+    }
+    app.iframeParams = document.location.search
+
+
+    app.countriesList = <%= raw (@countries_translations).to_json %>
+    app.show_state_field = <%= Settings.show_state_field %>
+		appl.def('current_nonprofit_user', <%= current_nonprofit_user? %>)
+	</script>
+  <%= render 'schema', npo: @nonprofit %>
+	<%= render 'common/froala' if current_nonprofit_user? %>
+
+	<%= IncludeAsset.js '/client/js/nonprofits/show/page.js' %>
+	<%= IncludeAsset.js '/client/js/nonprofits/edit/page.js' %>
+  <% # needs to be after the page load because that's when I18n is included %>
+  <script>
+      var I18n = I18n || {}
+      I18n.defaultLocale = "<%= I18n.default_locale %>"
+      I18n.locale = "<%= I18n.locale %>"
+  </script>
+<% end %>
+
+<% content_for :head do %>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<link rel="canonical" href='<%= @url %>' />
+<% end %>
+
+<% if current_nonprofit_user?  %>
+  <%= render 'admin_top_nav' %>
+<% end %>
+
+<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
+
+<%= render 'components/fundraising_pages/header',
+	image_url: @nonprofit_background_image,
+	is_editor: current_nonprofit_user?,
+	header_content_partial: 'header_content' %>
+
+<%= render 'components/preview_mode_notification' %>
+
+<main class="container nonprofitProfile u-marginTop--15 <%=  @brand_color ? 'is-branded' : '' %>">
+  <div class='ff-container'></div>
+	<div class='showWhenCollapsed '>
+		<%= render 'actions' %>
+	</div>
+
+	<section class='box'>
+		<%= render 'overview_media' %>
+		<%= render 'services_and_impact' %>
+	</section>
+
+	<section class='box-r'>
+		<!--= add_class_if (eq todos.percent_done 100) 'u-padding--0' -->
+		<%= render 'components/todos', title: 'profile' if current_nonprofit_user? %>
+		<div class='hideWhenCollapsed'>
+			<%= render 'actions' %>
+		</div>
+
+		<%= render 'achievements' %>
+		<%= render 'contact' %>
+
+		<div class='pastelBox--grey'>
+			<header>Promote this nonprofit</header>
+			<div class='pastelBox-body'>
+				<%= render 'common/social_buttons' %>
+			</div>
+		</div>
+	</section>
+
+	<section class='box-l'>
+		<%= render 'listings' %>
+	</section>
+
+</main>
+
+<% if current_role?(:super_admin) %>
+	<%= render 'admin_sidebar' %>
+	<%= render 'roles/new_modal' %>
+	<%= render 'components/admin_button' %>
+	<!--= on 'click' (open_modal 'adminSidebar--profile') -->
+<% end %>
+
+<%= render 'components/share_modal', name: @nonprofit.name, type: 'nonprofit' %>
+<%= render 'nonprofits/donate/modal' %>
+<%= render 'common/email_share_modal', fundraiser: @nonprofit.name, fundraiser_url: @url %>
+
+<%= render 'settings_modals' if current_nonprofit_user? %>
+
+<% if current_user %>
+	<%= render 'campaigns/new_modal' %>
+	<%= render 'events/new_modal' %>
+<% end %>

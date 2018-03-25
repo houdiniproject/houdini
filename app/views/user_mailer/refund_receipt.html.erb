@@ -1,0 +1,7 @@
+<p>A refund was made successfully for your payment to <%= @nonprofit.name %>.</p><br.sort>
+<br>
+
+<%= render 'user_mailer/refund_receipt', charge: @charge, refund: @refund %>
+
+<%= render 'emails/nonprofit_sig', nonprofit: @nonprofit %>
+

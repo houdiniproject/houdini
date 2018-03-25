@@ -1,0 +1,40 @@
+<table class='table'>
+
+	<thead>
+		<th colspan='2'>
+			Refund Receipt
+		</th>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>Amount Refunded</strong></td>
+			<td>($<%= Format::Currency.cents_to_dollars(refund.amount) %>)</td>
+		</tr>
+		<tr>
+			<td><strong>Original Payment</strong></td>
+			<td>$<%= Format::Currency.cents_to_dollars(charge.amount) %></td>
+		</tr>
+		<tr>
+			<td><strong>Refund Date</strong></td>
+			<td><%= Format::Date.full(refund.created_at) %></td>
+		</tr>
+		<tr>
+			<td><strong>Refund ID</strong></td>
+			<td> <%= refund.id %></td>
+		</tr>
+		<tr>
+			<td><strong>Charge ID</strong></td>
+			<td> <%= charge.id %></td>
+		</tr>
+
+    <% if refund.reason %>
+      <tr>
+        <td><strong>Reason</trong></td>
+        <td> <%= refund.reason %> </td>
+      </tr>
+    <% end %>
+
+	</tbody>
+</table>
+<br>

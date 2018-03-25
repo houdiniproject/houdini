@@ -1,0 +1,21 @@
+<% event_url = Format::Url.concat(root_url, @event.url) %>
+
+<p>Dear <%= @creator_profile.name.blank? ? @creator_profile.user.email : @creator_profile.name %>,</p>
+<br>
+
+<p>Congratulations on creating your event!</p>
+<br>
+
+<p>You can visit it here: <strong><a href='<%= event_url %>'><%= event_url %></a></strong></p>
+<br>
+
+
+<p>Once your event is ready to go, you can check the 'Publish' box on your event settings.</p>
+<br>
+
+<p><strong>Note:</strong> You can still share an unpublished event, but it will not show up on your nonprofit profile page or on your event listing page.</p>
+<br>
+
+<p>If you need some help getting your event up and running, don't hesitate to contact <strong><%= Settings.devise.mailer_sender %></strong>.</p>
+
+<%= render 'emails/sig' %>

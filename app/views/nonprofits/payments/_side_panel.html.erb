@@ -1,0 +1,46 @@
+
+<!-- partial nonprofits/payments/_side_panel -->
+
+<div class='sidePanel'>
+	<!--= add_class_if loading 'u-halfOpacity' -->
+
+	<header class='sidePanel-header'>
+		<!--= scope 'payment_details.data' -->
+
+		<h3 class='sidePanel-title'>
+			$<!--= put (cents_to_dollars this.gross_amount) -->
+			 <!--= put (readable_kind this.kind) -->
+			<span>
+				<!--= show_if (get_supporter_name this.supporter) -->
+			from
+				<!--= put (get_supporter_name this.supporter) -->
+			</span>
+		</h3>
+	</header>
+
+	<div class='sidePanel-body'>
+		<%= render 'details_table' %>
+
+		<div class='u-marginTop--20'>
+      <a class="button--tiny edit">
+        <!--= show_if (all (payment_details.data.donation) (not payment_details.data.dispute)) -->
+        <!--= on 'click' (open_modal 'editDonationModal') -->
+        <i class='fa fa-pencil'></i> Edit Donation
+      </a>
+
+      <a class="button--tiny u-marginLeft--10 test-refundButton">
+        <!--= hide_if (any (eq payment_details.data.refund_total payment_details.data.gross_amount) (eq payment_details.data.kind 'OffsitePayment') (eq payment_details.data.kind 'Refund) (payment_details.data.dispute)) -->
+        <!--= on 'click' (open_modal 'refundModal') -->
+        <i class='fa fa-reply'></i> Refund Donation
+      </a>
+
+			<a class="button--tiny red u-marginLeft--10">
+				<!--= show_if (eq payment_details.data.kind 'OffsitePayment') -->
+				<!--= on 'click' (confirm delete_offline_donation) -->
+				<i class='fa fa-times'></i> Delete Donation
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- end partial nonprofits/payments/_side_panel -->

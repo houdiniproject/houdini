@@ -1,0 +1,30 @@
+<% campaign_url = Format::Url.concat(root_url, @campaign.url) %>
+
+<p>Dear <%= @creator_profile.name.blank? ? @creator_profile.user.email : @creator_profile.name %>,</p>
+<br>
+
+<p>Congratulations on creating your campaign!</p>
+<br>
+
+<p>You can visit it here: <strong><a href='<%= campaign_url %>'><%= campaign_url %></a></strong></p>
+<br>
+
+<p>Before you share your campaign with the world, we have a few tips that could help the success of your campaign:</p>
+
+<ul>
+	<li>Use your campaign story to explain <strong>why</strong> supporters should give and <strong>how</strong> their contributions will be used.</li>
+  <li>Make your campaign story more engaging with images and video.</li>
+	<li>Create one-time or recurring gift options (recurring gift options are a powerful way to create sustainability for your organization).</li>
+  <li>Get a few people in your network to make initial donations.</li>
+  <li>Inform people in your network before your campaign launches so that they can be prepared to share it and contribute to it.</li>
+</ul>
+
+<p>Once your campaign is ready to go, you can check the 'Publish' box on your campaign settings.</p>
+<br>
+
+<p><strong>Note:</strong> You can still share an unpublished campaign, but it will not show up on your nonprofit profile page or on your campaign listing page.</p>
+<br>
+
+<p>If you need some help getting your campaign up and running, don't hesitate to contact <strong><%= Settings.devise.mailer_sender %></strong>.</p>
+
+<%= render 'emails/sig' %>

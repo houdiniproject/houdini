@@ -1,0 +1,18 @@
+<span class='simpleTabs-tab'>
+  <!--= set_attr_if is_signing_up 'is-selected' '' -->
+  <!--= on 'click' (def 'is_signing_up' true) -->
+  Sign Up
+</span>
+<span class='simpleTabs-tab'>
+    <!--= set_attr_if (not is_signing_up) 'is-selected' '' -->
+    <!--= on 'click' (def 'is_signing_up' false) -->
+  Login
+</span>
+<section class='simpleTabs-section u-padding--15'>
+  <!--= show_if is_signing_up -->
+  <%= render 'users/signup_form_simple' %>
+</section>
+<section class='simpleTabs-section u-padding--15'>
+  <!--= hide_if is_signing_up -->
+  <%= render 'users/login_form_simple' %>
+</section>

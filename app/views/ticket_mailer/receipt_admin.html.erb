@@ -1,0 +1,19 @@
+<p>
+	<strong><%= @supporter.name || @supporter.email %></strong>
+	redeemed the following tickets for <strong><a href='<%= Format::Url.concat(root_url, @event.url) %>'><%= @event.name %></a></strong>
+	on
+	<%= simple_date @tickets.last.created_at %>.</p><br>
+
+<%= render 'components/email/supporter_table', supporter: @supporter %>
+
+<br>
+
+<% if @charge %>
+<%= render 'charge_mailer/payment_receipt', charge: @charge %>
+<% end %>
+
+<hr>
+
+<p>The above supporter has redeemed these tickets:</p><br>
+
+<%= render 'ticket_mailer/tickets', tickets: @tickets %>

@@ -1,0 +1,23 @@
+.raisedAndAttendees {
+	background: $fog;
+	width: 100%;
+}
+.raisedAndAttendees * {
+	vertical-align: middle;
+}
+.raisedAndAttendees-number {
+	font-size: 30px;
+	width: 1px;
+}
+.raisedAndAttendees-attendees .raisedAndAttendees-number {
+	padding: 15px 25px 15px 42px;
+}
+.raisedAndAttendees-raised .raisedAndAttendees-number {
+	padding: 15px 25px;
+}
+.raisedAndAttendees-annot {
+	text-transform: uppercase;
+}
+.raisedAndAttendees-divider {
+	border-bottom: 1px solid rgba(black, 0.05);
+}

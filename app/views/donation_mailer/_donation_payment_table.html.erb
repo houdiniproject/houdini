@@ -1,0 +1,95 @@
+<table class='table'>
+
+	<thead>
+		<th colspan='2'>
+			<%= t('mailer.donations.donation_receipt') %>
+		</th>
+	</thead>
+
+	<tbody>
+    <tr>
+      <td><strong><%= t('mailer.donations.donor_name') %></strong></td>
+      <% if donation.anonymous || donation.supporter.anonymous %>
+          <td>Anonymous</td>
+      <% else %>
+          <td><%= donation.supporter.name %></td>
+      <% end %>
+    </tr>
+		<tr>
+			<td><strong><%= t('donation.amount') %></strong></td>
+			<td> <%= print_currency(charge.try(:amount) || donation.amount, donation.nonprofit.currency_symbol) %></td>
+		</tr>
+		<tr>
+			<td><strong><%= t('donation.date') %></strong></td>
+			<td><%= date_and_time(charge.try(:created_at) || donation.created_at, donation.nonprofit.timezone) %></td>
+		</tr>
+
+		<% if donation.campaign && donation.campaign.published %>
+		<tr>
+			<td><strong><%= t('donation.campaign') %></strong></td>
+      <td> <a href='<%= nonprofit_campaign_url(donation.nonprofit, donation.campaign) %>'><%= donation.campaign.name %></a> </td>
+		</tr>
+		<% end %>
+    
+    <% if donation.event %>
+		<tr>
+			<td><strong>Event</strong></td>
+      <td> <a href='<%= nonprofit_event_url(donation.nonprofit, donation.event) %>'><%= donation.event.name %></a></td>
+		</tr>
+		<% end %>
+
+		<% if donation.recurring_donation %>
+			<tr>
+			   <td><strong><%= t('donation.recurring_interval') %></strong></td>
+				<td> Every <%= donation.recurring_donation.interval %> <%= donation.recurring_donation.time_unit %></td>
+			</tr>
+			<tr>
+				<td><strong><%= t('donation.recurring_since') %></strong></td>
+				<td> <%= simple_date donation.recurring_donation.created_at %></td>
+			</tr>
+		<% end %>
+
+		<tr>
+			<td><strong><%= t('organization.name') %></strong></td>
+			<td> <%= donation.nonprofit.name %></td>
+		</tr>
+
+		<% unless donation.nonprofit.ein.blank? %>
+			<tr>
+				<td><strong>Tax ID Number</strong></td>
+				<td> <%= donation.nonprofit.ein %></td>
+			</tr>
+		<% end %>
+
+		<% if donation.comment %>
+		<tr>
+			<td><strong><%= t('donation.comment') %></strong></td>
+			<td> <%= donation.comment || 'None' %></td>
+		</tr>
+		<% end %>
+
+		<% if donation.designation %>
+		<tr>
+			<td><strong>Designation</strong></td>
+			<td> <%= donation.designation || 'None' %></td>
+		</tr>
+		<% end %>
+
+		<% if donation.dedication %>
+		<tr>
+			<td><strong>Dedication</strong></td>
+			<td> <%= donation.dedication ? Format::Dedication.from_json(donation.dedication) : 'None' %></td>
+
+		</tr>
+		<% end %>
+
+    <% if charge %>
+		<tr>
+  			<td><strong><%= t('donation.payment_id') %></strong></td>
+			<td> <%= GetData.chain(donation.payment, :id) %></td>
+		</tr>
+    <% end %>
+
+	</tbody>
+
+</table>

@@ -1,0 +1,52 @@
+<section class='admin-topNav tour-admin'>
+  <div class='container u-centered'>
+
+  <p><strong>Manage Event</strong></p>
+
+	<a class='button--tiny edit test-eventSettings'>
+		<!--= on 'click' (open_modal 'eventSettingsModal') -->
+		<i class='fa fa-gear'></i> Settings
+	</a>
+
+	<a class='button--tiny edit' href="<%= @event.url + '/tickets' %>">
+		<i class='fa fa-th-list'></i> Attendees
+	</a>
+
+	<a class='button--tiny edit'  href="<%= @event.url + '/stats' %>">
+		<i class='fa fa-star'></i> Stats
+	</a>
+
+  <a class='button--tiny edit'>
+    <!--= on 'click' (open_modal 'manageTicketLevelsModal') -->
+    <i class='fa fa-ticket'></i> Ticket Levels
+  </a>
+
+  <a class='button--tiny edit'>
+    <!--= on 'click' (open_modal 'customReceiptModal') -->
+    <i class='fa fa-pencil'></i> Custom Receipt
+  </a>
+
+  <a class='button--tiny edit' href='?preview=t'>
+    <i class='fa fa-eye'></i> Preview Mode
+  </a>
+
+  <a class='button--tiny edit'>
+    <!--= on 'click' (open_modal 'manageDiscountsModal') -->
+    <strong>&#37;</strong> Discounts
+  </a>
+  
+  <a class='button--tiny edit'>
+    <!--= on 'click' (open_modal 'duplicateFundraiserModal') -->
+    <i class='fa fa-copy'></i> Copy Event 
+  </a>
+  <%= render 'components/messages/deleted_campaign_or_event', type: 'event' %>
+
+  <% if current_role?(:super_admin) %>
+    <p><i class='icon icon-pacman-ghost'></i> For super admin:
+      <% url = root_url + "nonprofits/#{@nonprofit.id}/events/#{@event.id}" %>
+      <%= link_to "NP: #{@nonprofit.id} - Event ID: #{@event.id}", url %>
+    </p>
+  <% end %>
+
+  </div>
+</section>

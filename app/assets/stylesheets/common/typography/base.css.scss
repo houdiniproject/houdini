@@ -1,0 +1,77 @@
+@import 'mixins';
+
+// This file should'nt include any classes -
+// just HTML elements that are typographical.
+
+body {
+	@include open-sans;
+	font-size: 16px;
+	line-height: 1.2;
+	color: $charcoal;
+}
+b,
+strong {
+  font-weight: bold;
+}
+small {
+  font-size: 85%;
+}
+
+p,
+li {
+	line-height: 1.6;
+}
+
+p {
+	margin: 0 0 8px 0;
+}
+
+blockquote {
+  font-size: 16px;
+  margin-left: 0;
+  padding-left: 17px;
+  border-left: 3px solid $turquoise;
+  font-style: italic;
+}
+
+h1, h2, h3, h4, h5, h6, p, li { color: $charcoal; }
+
+ul {
+	margin: 0 0 10px 7px;
+	padding: 0;
+	list-style-type: none;
+}
+
+i {
+	font-style: normal;
+}
+
+ol {
+	padding-left: 25px;
+}
+
+a {
+	font-size: inherit;
+	text-decoration: none;
+	cursor: pointer;
+	@include setColorAndHover($logo-blue);
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin: 10px 0;
+	line-height: 1.2;
+	&.sans {
+		@include open-sans;
+		font-weight: normal;
+	}
+	&.sans--dark {
+		@include open-sans;
+	}
+}
+
+h6 { font-size: 18px; }
+h5 { font-size: 20px; }
+h4 { font-size: 22px; }
+h3 { font-size: 24px; }
+h2 { font-size: 34px; }
+h1 { font-size: 44px; }

@@ -1,0 +1,244 @@
+<!-- partial nonprofits/payments/details_table -->
+<table class="table--medium u-marginBottom--30">
+  <!--= show_if (payment_details.data.consider_donation_anonymous) -->
+<tr>
+  <td><i class='fa fa-eye u-color--grey'></i></td>
+  <td>
+    Anonymous donation
+  </td>
+</tr>
+</table>
+
+<%= render 'payment_info' %>
+
+<p class='notification'>
+  <!--= show_if payment_details.data.dispute -->
+  One of your supporters has disputed a charge (ie. made a charge-back), meaning they have called their bank and claimed that the charge was unauthorized. You need to collect evidence, via email, that the supporter intended to make the charge. Please contact <%= Settings.devise.mailer_sender %> so we can help resolve this for you.
+</p>
+
+<table class='table--small'>
+  <!--= show_if payment_details.data.dispute -->
+  <thead>
+    <tr>
+      <th>Dispute Info</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Reason </td>
+      <td> <!--= put payment_details.data.dispute.reason --> </td>
+    </tr>
+
+    <tr>
+      <td>Status </td>
+      <td> <!--= put payment_details.data.dispute.status --></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class='table--small'>
+  <!--= show_if payment_details.data.ticket -->
+  <thead>
+    <tr>
+      <th>Ticket & Event Info</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Event</td>
+      <td>
+        <a>
+          <!--= set_attr 'href' payment_details.data.ticket.event.url -->
+          <!--= put payment_details.data.ticket.event.name -->
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td>Ticket Levels</td>
+      <td><!--= put payment_details.data.ticket.levels --></td>
+    </tr>
+    <tr>
+      <!--= show_if payment_details.data.ticket.discount -->
+      <td>Discount Applied</td>
+      <td> <!--= put payment_details.data.ticket.discount -->
+    </tr>
+  <tbody>
+</table>
+
+<table class='table--small'>
+  <!--= show_if payment_details.data.donation -->
+	<thead>
+		<tr>
+			<th>Donation Info</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr>
+			<!--= show_if payment_details.data.donation.campaign -->
+			<td>Campaign </td>
+			<td>
+				<a target='_blank'>
+					<!--= set_attr 'href' (payment_details.data.donation.campaign.url) -->
+					<!--= put payment_details.data.donation.campaign.name -->
+				</a>
+			</td>
+		</tr>
+
+		<tr>
+			<!--= show_if payment_details.data.donation.event.name -->
+			<td>Event</td>
+			<td>
+				<a target='_blank'>
+					<!--= set_attr 'href' (payment_details.data.donation.event.url) -->
+					<!--= put payment_details.data.donation.event.name -->
+				</a>
+			</td>
+		</tr>
+
+		<tr>
+			<!--= show_if payment_details.data.donation.campaign -->
+			<td>Reward Level</td>
+			<td>
+        <!--= put payment_details.data.donation.campaign_gift.name -->
+			</td>
+		</tr>
+
+		<tr>
+			<td>Dedication </td>
+			<td>
+      </td>
+      <!--= format_dedication payment_details.data.donation.dedication -->
+		</tr>
+
+    <tr>
+      <td>Designation </td>
+      <td>
+        <!--= put payment_details.data.donation.designation -->
+      </td>
+    </tr>
+
+    <tr>
+      <td>Notes </td>
+      <td>
+        <!--= put payment_details.data.donation.comment -->
+      </td>
+    </tr>
+
+	</tbody>
+</table>
+
+<table class='table--small'>
+	<!--= show_if payment_details.data.refund -->
+	<thead>
+		<tr>
+			<th>Refund Info</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class='test-refundReason'>
+			<td>Reason</td>
+			<td><!--= put (any payment_details.data.refund.reason "Not entered") --></td>
+		</tr>
+
+		<tr>
+			<td>Comment</td>
+			<td><!--= put payment_details.data.refund.comment --></td>
+		</tr>
+	</tbody>
+</table>
+
+<table class='table--small'>
+	<!--= scope 'payment_details.data' -->
+	<thead>
+		<tr>
+			<th>Supporter Info</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<!--= show_if (is_at_least_plan 2) -->
+			<td>Supporter Page </td>
+			<td>
+				<a>
+					<!--= set_attr 'href' (route_with_params 'supporters' 'sid' this.supporter.id) -->
+					<!--= put (route_with_params 'supporters' 'sid' this.supporter.id) -->
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<!--= show_if this.supporter.email -->
+			<td>Email </td>
+			<td>
+				<a>
+					<!--= set_attr 'href' (cat 'mailto ' this.supporter.email) -->
+					<!--= put this.supporter.email -->
+				</a>
+			</td>
+		</tr>
+
+		<tr>
+			<!--= show_if this.supporter.phone -->
+			<td>Phone </td>
+			<td><!--= put this.supporter.phone --></td>
+		</tr>
+
+		<tr>
+			<!--= show_if (any this.supporter.address this.supporter.city_and_state) -->
+			<td>Address  </td>
+			<td class='addressTd'>
+				<p><!--= put this.supporter.address --></p>
+				<p><!--= put this.supporter.city --> <!--= put this.supporter.state_code --> <!--= put this.supporter.zip_code --></p>
+				<p><!--= put this.supporter.country --></p>
+			</td>
+		</tr>
+    <tr>
+      <td>Anonymous?</td>
+      <td><!--= if payment_details.data.supporter.anonymous (put 'Yes') (put 'No') --></td>
+    </tr>
+	</tbody>
+</table>
+
+<table class='table--small'>
+  <!--= show_if (not (eq payment_details.data.kind 'OffsitePayment')) -->
+  <thead>
+    <tr>
+      <th>Receipts</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Send Date</td>
+      <td><!--= put (readable_date_time payment_details.data.date) --></td>
+    </tr>
+    <tr>
+      <td>Resend to...</td>
+      <td> 
+        <a class='strong'>
+          <!--= on 'click' (confirm (resend_receipt 'admin')) -->
+           yourself
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td>Resend to...</td>
+      <td> 
+        <a class='strong'>
+          <!--= on 'click' (confirm (resend_receipt 'donor')) -->
+           donor
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- end partial nonprofits/payments/details_table -->

@@ -1,0 +1,50 @@
+@import 'data-tooltip'; /* npm */
+
+[data-ff-field] { position: relative; }
+
+[data-ff-field]:before, 
+[data-ff-field]:after {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+[data-ff-field='invalid']:before, 
+[data-ff-field='invalid']:after {
+  visibility: visible;
+}
+
+[data-ff-field]:before {
+  content: '';
+  position: absolute;
+  background: transparent;
+  height: 6px;
+  width: 6px;
+  border: 6px solid transparent;
+  border-top-color: #383838;
+  bottom: calc(100% - 6px);
+  left: 12px;
+}
+
+[data-ff-field]:after {
+  background: #383838;
+  font-weight: normal;
+  color: white;
+  padding: 6px 8px;
+  line-height: 1.4;
+  white-space: nowrap; 
+  border-radius: 3px;
+  text-align: left;
+  content: attr(data-ff-field-error);
+  bottom: calc(100% + 6px);
+  left: 0;
+}
+
+[data-ff-field]:after,
+[class*=tooltip--]:after {
+  font-size: .75rem;
+  letter-spacing: 1px;
+  box-shadow: 1px 1px 4px 1px rgba(0,0,0,.1);
+}
+

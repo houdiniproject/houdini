@@ -1,0 +1,39 @@
+<table class='table'>
+
+	<thead>
+		<th colspan='2'>
+			Payment Receipt
+		</th>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td><strong>Total Amount</strong></td>
+			<td> <%= print_currency(charge.amount) %></td>
+		</tr>
+
+		<% if @event %>
+			<tr>
+				<td><strong>Event</strong></td>
+				<td> <%= @event.name %></td>
+			</tr>
+		<% end %>
+
+		<tr>
+			<td><strong>Transaction Date</strong></td>
+			<td><%= Format::Date.full(charge.created_at, charge.nonprofit.timezone) %></td>
+		</tr>
+		<tr>
+			<td><strong>Transaction ID</strong></td>
+			<td> <%= charge.id %></td>
+		</tr>
+
+    <tr>
+    <% if GetData.chain(charge.card, :name).present? %>
+      <td><strong>Card</strong></td>
+      <td> <%= charge.card.name %> </td>
+    <% end %>
+	</tbody>
+
+</table>
+<br>

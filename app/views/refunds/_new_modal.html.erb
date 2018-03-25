@@ -1,0 +1,56 @@
+<!-- partial: refunds/new_modal -->
+
+<div class="modal" id='refundModal'>
+		<!--= scope 'payment_details.data' -->
+
+	<%= render 'common/modal_header', title: 'New Refund' %>
+
+	<div class='modal-body'>
+
+		<p>
+			<!--= show_if this.supporter.name -->
+			Supporter:
+			<strong><!--= put this.supporter.name --></strong>
+		</p>
+
+		<p>
+			Transaction ID:
+			<strong><!--= put this.charge.id --></strong>
+		</p>
+
+		<p>
+			Original payment amount:
+			<strong>$<!--= put (cents_to_dollars this.gross_amount) --></strong>
+		</p>
+
+		<form parsley-validate>
+			<!--= on 'submit' (ajax_refunds.create this.charge.id form_object) -->
+
+			<label>Refund Amount (up to $<!--= put (cents_to_dollars (sub this.gross_amount this.refund_total)) -->)</label>
+
+			<div class='prepend--dollar'>
+				<input type='text' name="amount" step='any' type='number'>
+				<!--= set_value (cents_to_dollars (sub this.gross_amount this.refund_total)) -->
+			</div>
+
+			<label>Reason</label>
+			<select name='reason'>
+				<option value ='' selected>Select a reason for this refund</option>
+				<option value='duplicate'>Duplicate payment</option>
+				<option value='fraudulent'>Fraudulent</option>
+				<option value='requested_by_customer'>Requested by the cardholder</option>
+				<option value=''>Unspecified</option>
+			</select>
+
+			<label>Comment</label>
+			<textarea name='comment'></textarea>
+
+			<input type='hidden' name='charge_id'> <!--= set_value this.charge.id -->
+
+			<%= render 'components/forms/submit_button', button_text: 'Refund', loading_text: 'Refunding...', scope: 'refunds' %>
+
+		</form>
+	</div>
+</div>
+
+<!-- end partial: refunds/new_modal -->

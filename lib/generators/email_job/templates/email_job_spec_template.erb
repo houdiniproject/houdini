@@ -1,0 +1,12 @@
+require 'rails_helper.rb'
+
+describe JobTypes::<%= name %> do
+  describe '.perform' do
+    it 'calls the correct active mailer' do
+      expect(fail).to receive(:fail).with(fail).and_wrap_original{|m, *args|  mailer = double('object'); expect(mailer).to receive(:deliver).and_return(nil); mailer}
+
+      job = JobTypes::<%= name %>.new(fail)
+      job.perform
+    end
+  end
+end

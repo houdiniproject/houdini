@@ -1,0 +1,29 @@
+<!-- partial: components/forms/_offsite_fields -->
+<div class='layout--four'>
+  <fieldset>
+    <label>Amount</label>
+    <div class='prepend--dollar'>
+      <input name='dollars' step='any' type='number' min='0' parsley-type='number'  required>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <label>Date</label>
+    <input id='js-offsiteDonationDate' name='date' type='text' placeholder='MM/DD/YYYY'>
+  </fieldset>
+
+  <fieldset>
+    <label>Type</label>
+    <select name='offsite_payment.kind'>
+      <option selected value='check'>Check</option>
+      <option value='cash'>Cash</option>
+      <option  value=''>Other</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <label>Check Number</label>
+    <input name='offsite_payment.check_number' type='number' placeholder='1234'>
+  </fieldset>
+</div>
+<!-- partial end: components/forms/_offsite_fields -->

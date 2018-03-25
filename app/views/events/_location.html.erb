@@ -1,0 +1,14 @@
+<% addr = Format::Address.full_address(@event.address, @event.city, @event.state_code, @event.zip_code) %>
+<aside class='u-marginBottom--15 u-centered pastelBox--grey u-relative'>
+	<header>Location</header>
+	<div class='pastelBox-body'>
+		<h6 class='u-marginTop--0'><%= @event.venue_name %></h6>
+		<p class='strong u-marginBottom--20'>
+      <%= @event.address %><br>
+      <%= @event.city %>, <%= @event.state_code %> <%= @event.zip_code %>
+		</p>
+		<a class='strong' href="http://maps.google.com/?q=<%= addr %>" target='_blank' if-branded='color, darker'>
+			<i class='fa fa-map-marker'></i>&nbsp; View on Map
+		</a>
+	</div>
+</aside>

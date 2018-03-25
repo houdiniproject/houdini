@@ -1,0 +1,51 @@
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  @include box-shadow(0 0 10px 0 rgba(black, 0.15));
+  background: white;
+  border: 1px solid rgba(black, 0.1);
+}
+
+.gu-hide {
+  display: none !important;
+}
+
+.gu-unselectable {
+  @include noselect;
+}
+
+.gu-transit {
+  background: rgba(black, 0.1);
+  @include opacity(0.3);
+}
+
+.gu-mirror {
+  display: table;
+  vertical-align: middle;
+}
+
+.gu-mirror button,
+.gu-mirror a {
+  display: none;
+}
+
+.draggable-item {
+  cursor: pointer;
+  @include noselect;
+}
+
+.draggable-item:hover .draggable-grip {
+  @include opacity(0.5);
+}
+
+.draggable-grip {
+  display: inline-block;
+  height: 100%;
+  width: 12px;
+  background-image: url(/assets/graphics/icon-grip.svg);
+  background-repeat: repeat-y;
+  background-size: 8px;
+  @include opacity(0.1);
+}
+

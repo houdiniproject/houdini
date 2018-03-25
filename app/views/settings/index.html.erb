@@ -1,0 +1,153 @@
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'settings/index/page' %>
+<% end %>
+
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<%= content_for :javascripts do %>
+  <script> 
+    app.current_nonprofit_user = <%= !!@nonprofit %> 
+    app.current_user_id = <%= @user.id %>
+  </script>
+	<%= render 'common/froala' if current_nonprofit_user? %>
+	<%= IncludeAsset.js '/client/js/settings/index/page.js' %>
+<% end %>
+
+<%= render '/components/trial_bar' if @nonprofit && nonprofit_in_trial?(@nonprofit.id) %>
+
+<header class='header stripe--mosaic'>
+	<div class='container--mid'>
+		<i class='header-icon icon-setting-gear'></i>
+		<h2 class='header-title'>Settings</h2>
+	</div>
+</header>
+
+<% if current_role?(:super_admin) && (params[:user_id] || params[:user_email]) %>
+  <div class='notification  show'>
+    Currently in super admin mode for user <%= params[:user_id] || params[:user_email] %>.
+    <a href='?'>Return to regular mode.</a>
+  </div>
+<% end %>
+
+
+<div class='container--mid settings'>
+
+	<section class='settings-content'>
+		<nav class='settings-nav-wrapper'>
+			<ul class='settings-nav'>
+				<% if current_role?([:nonprofit_admin, :nonprofit_associate, :super_admin]) %>
+					<span class='nav-header'>Organization Settings</span>
+					<li swap-class='settings-pane' swap-in='nonprofit-profile-edit'>Organization Profile</li>
+					<li class='active' swap-class='settings-pane' swap-in='pricing'>Pricing Plan</li>
+					<li swap-class='settings-pane' swap-in='timezone'>Timezone</li>
+					<li swap-class='settings-pane' swap-in='users'>Users</li>
+					<li swap-class='settings-pane' swap-in='payouts'>Payouts</li>
+					<li swap-class='settings-pane' swap-in='email-content'>Customize Email Content</li>
+					<li swap-class='settings-pane' swap-in='anons'>Anonymous Donations</li>
+					<li swap-class='settings-pane' swap-in='statements'>Transaction Message</li>
+					<li swap-class='settings-pane' swap-in='branding'>Branding</li>
+					<li swap-class='settings-pane' swap-in='autocomplete'>Address autocomplete</li>
+					<li swap-class='settings-pane' swap-in='social-links'>Social Links</li>
+					<li swap-class='settings-pane' swap-in='tracking'>Custom Tracking</li>
+					<li swap-class='settings-pane' swap-in='notifications' class='test-notificationsLink'>Email Notifications</li>
+          <li swap-class='settings-pane' swap-in='integrations'>Integrations</li>
+          <li swap-class='settings-pane' swap-in='miscellaneous'>Miscellaneous Settings (beta)</li>
+				<% end %>
+
+				<span class='nav-header bottom'>User Account Settings</span>
+				<li swap-class='settings-pane' swap-in='user-profile-edit'>Edit User Profile</li>
+				<li swap-class='settings-pane'
+						swap-in='email'
+						class='<%= !@nonprofit && 'active' %>'>
+							Email
+				</li>
+				<li swap-class='settings-pane' swap-in='pass'>Password</li>
+				<li swap-class='settings-pane' swap-in='privacy-settings'>Privacy</li>
+			</ul>
+		</nav>
+
+		<% if current_role?([:nonprofit_admin, :nonprofit_associate, :super_admin]) %>
+
+			<section class='settings-pane nonprofit-settings nonprofit-profile-edit hide'>
+				<header class='pane-header'><h3>Edit Organization Profile</h3></header>
+				<div class='pane-inner'>
+					<%= render 'nonprofits/edit' %>
+				</div>
+			</section>
+
+			<section class='active settings-pane nonprofit-settings pricing'>
+				<%= render 'pricing' %>
+			</section>
+
+			<section class='settings-pane timezone hide'>
+				<%= render 'timezone' %>
+			</section>
+
+			<section class='settings-pane nonprofit-settings users hide'>
+				<%= render 'users' %>
+			</section>
+
+			<section class='settings-pane nonprofit-settings email-content hide'>
+				<%= render 'email_content' %>
+			</section>
+      
+			<section class='settings-pane nonprofit-settings anons hide'>
+				<%= render 'anons' %>
+			</section>
+
+			<section class='settings-pane nonprofit-settings statements hide'>
+				<%= render 'statements' %>
+			</section>
+
+			<section class='settings-pane nonprofit-settings payouts hide'>
+				<%= render 'payouts' %>
+			</section>
+
+      <div id='js-main'></div>
+
+			<section class='settings-pane nonprofit-settings social-links hide'>
+				<%= render 'social_links' %>
+			</section>
+
+			<section class='settings-pane nonprofit-settings tracking hide'>
+				<%= render 'custom_tracking' %>
+			</section>
+      
+      <section class='settings-pane nonprofit-settings autocomplete hide'>
+				<%= render 'autocomplete' %>
+			</section>
+
+      <section class='settings-pane nonprofit-settings miscellaneous hide'>
+        <%= render 'miscellaneous' %>
+      </section>
+
+		<% end %>
+
+
+		<section class='settings-pane email <%= @nonprofit ? 'hide' : 'active' %>'>
+			<%= render 'email' %>
+		</section>
+
+		<section class='settings-pane hide pass'>
+			<%= render 'pass' %>
+		</section>
+
+		<section class='settings-pane hide privacy-settings'>
+			<%= render 'privacy' %>
+		</section>
+
+		<section class='settings-pane hide user-profile-edit'>
+			<%= render 'edit_profile' %>
+		</section>
+
+	</section>
+</div>
+
+<%= render 'custom_thank_you_modal' if @nonprofit %>
+<%= render 'card_failure_modal'  if @nonprofit %>
+<%= render 'change_amount_modal'  if @nonprofit %>
+
+<% if current_role?([:nonprofit_admin, :super_admin]) %>
+	<!-- TODO render 'nonprofit_bank_accounts/modal' -->
+	<%= render 'roles/new_modal' %>
+<% end %>

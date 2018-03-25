@@ -1,0 +1,39 @@
+<% content_for :title_suffix do %>
+   - Donor Fundraisers (P2P)
+<% end %>
+
+<% content_for :javascripts do %>
+  <%= IncludeAsset.js '/client/js/profiles/fundraisers/page.js' %>
+<% end %>
+
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<% content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'profiles/show/page' %>
+<% end %>
+
+<header class='header stripe--orange'>
+	<div class='container'>
+		<% supporter = (@profile.supporters && @profile.supporters.length != 0) ? supporter : false %>
+		<h4>Fundraisers
+			<% if supporter %>
+				<small>(<%= supporter.name ? supporter.name : supporter.email %>)</small>
+			<% else %>
+				<small>(<%= @profile.name ? @profile.name : @profile.email %>)</small>
+			<% end %>
+		</h4>
+		<%= render 'profiles/profile_tabs', profile_id: @profile.id, active: :fundraisers %>
+	</div>
+</header>
+
+<div class='container u-padding--15 u-marginBottom--50'>
+  <h3 class='u-centered u-marginTop--20 u-marginBottom--30'>Managed Events</h3>
+  <div id='js-eventsListing'></div>
+
+  <h3 class='u-centered u-marginTop--30'>Managed Campaigns</h3>
+  <% if @edited_campaigns.any? %>
+    <%= render 'campaigns/campaigns_table',  campaigns: @edited_campaigns %>
+  <% else %>
+		<p class='noResults'>None currently</p>
+  <% end %>
+</div>

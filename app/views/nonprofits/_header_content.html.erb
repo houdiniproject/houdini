@@ -1,0 +1,14 @@
+<!-- partial start: nonprofit/header_content -->
+<table>
+	<tr>
+		<td class='fundraisingHeader-content-sideElementTd'>
+			<div class='fundraisingHeader-content-logo' style="background-image:url('<%= @nonprofit.logo_url(:normal).to_s %>');">
+			</div>
+		</td>
+		<td class='fundraisingHeader-content-textTd'>
+			<h1 class='fundraisingHeader-content-title' data-id='<%= @nonprofit.id %>'><%= @nonprofit.name %></h1>
+			<h4 class='fundraisingHeader-content-sub'><%= @nonprofit.tagline %></h4>
+		</td>
+</tr>
+</table>
+<!-- partial end: nonprofit/header_content -->

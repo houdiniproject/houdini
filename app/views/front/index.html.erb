@@ -1,0 +1,21 @@
+
+
+
+<% content_for :head do %>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+<% end %>
+
+<% content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'front/page' %>
+<% end %>
+
+<% content_for :javascripts do %>
+  <%= IncludeAsset.js('/client/js/front/page.js') %>
+<% end %>
+
+
+<main>
+  <%= render 'layouts/top_nav' %>
+
+</main>
+

@@ -1,0 +1,243 @@
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<%= content_for :javascripts do %>
+	<script>
+		appl.def("event_id", <%= @event.id %>)
+		appl.def("event_name", '<%= @event.name %>')
+	</script>
+
+	<%= IncludeAsset.js '/client/js/tickets/index/page.js' %>
+<% end %>
+
+<% content_for :head do %>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+<% end %>
+
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'tickets/index/page' %>
+<% end %>
+
+<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
+
+<header class='header'>
+	<div class='container'>
+		<i class='icon-check-list header-icon'></i>
+		<h3 class='header-title'>Attendees</h3>
+		<a class='header-profile' href='<%=  @event.url%>'><%=  @event.name %></a>
+	</div>
+</header>
+
+<section class='table-meta'>
+	<div class='table-meta-bar'>
+		<div class='container group u-marginTop--15'>
+      <section class='col-right-6 u-paddingLeft--10 u-marginBottom--10'>
+        <table class='table--plaid'>
+          <thead>
+            <th><strong>Ticket Levels</strong></th>
+            <th></th>
+          </thead>
+          <tr>
+          <!--= repeat ticket_levels.data -->
+            <td><strong><!--= put this.name --></strong></td>
+            <td><!--= put this.quantity --></tr>
+          </tr>
+        </table>
+      </section>
+      <section class='col-left-6'>
+        <table class='table--plaid'>
+          <thead>
+            <th><strong>Metrics</strong></th>
+            <th></th>
+          </thead>
+          <tbody>
+            <!--= hide_if loading_metrics -->
+            <tr>
+              <td class='strong'>Tickets Redeemed</td>
+              <td><!--= put metrics.total_attendees --></td>
+            </tr>
+            <tr>
+              <td class='strong'>Checked In</td>
+              <td><!--= put metrics.checked_in_count --></td>
+            </tr>
+            <tr>
+              <td class='strong'>Percent Checked In</td>
+              <td><!--= put (percentage metrics.total_attendees metrics.checked_in_count) -->%</td>
+            </tr>
+            <tr>
+              <td class='strong'>Ticket Payments</td>
+              <td>$<!--= put cents_to_dollars (metrics.tickets_total_paid --></td>
+            </tr>
+            <tr>
+              <td class='strong'>Donation Payments</td>
+              <td>$<!--= put cents_to_dollars (metrics.donations_total_paid --></td>
+            </tr>
+            <tr>
+              <td class='strong'>Total Payments</td>
+              <td>$<!--= put cents_to_dollars (metrics.total_paid --></td>
+            </tr>
+          </tbody>
+        </table>
+        <span class='noResults'>Loading metrics...</span>
+          <!--= show_if loading_metrics -->
+        </span>
+      </section>
+    </div>
+	</div>
+
+	<div class='container'>
+		<%= render 'components/tables/search', scope: 'tickets' %>
+
+		<a class='table-meta-button test-addAttendeeButton'>
+			<!--= on 'click' show_new_tickets -->
+			<i class='fa fa-plus'></i> Attendee
+		</a>
+
+		<% if current_event_editor? %>
+			<a href='<%= nonprofit_event_tickets_path(@nonprofit, @event, format: 'csv') %>' target='_blank' class='hideWhenTablet table-meta-button white'><i class='fa fa-file-text'></i> Export</a>
+		<% end %>
+	</div>
+</section>
+
+<div class='u-padding--30 u-centered noResults'>
+  <!--= show_if loading_tickets  -->
+  Loading attendees...
+</div>
+
+<div class='u-padding--30 u-centered'>
+  <!--= show_if (all (not loading_tickets) (not (length tickets.data))) -->
+  No attendees
+</div>
+
+<main class='container u-marginBottom--20 u-marginTop--10'>
+  <!--= hide_if (any loading_tickets (not (length tickets.data))  -->
+	<table class='table--plaid js-table'>
+		<thead>
+			<th>
+        <span class='u-paddingLeft--10'>
+          <small><a class='sortArrows left' sort='none'>ID</a></small>
+      		<!--= on 'click' (apply_sort_filter 'sort_id' 'desc' 'asc') -->
+        </span>
+      </th>
+			<th class='u-centered'><i class="fa fa-check"></i></th>
+			<th>
+        <span class='u-paddingLeft--10'>
+          <small><a class='sortArrows left' sort='none'>Attendee</a></small>
+          <!--= on 'click' (apply_sort_filter 'sort_attendee' 'desc' 'asc') -->
+        </span>
+			</th>
+			<th class='hideWhenPhone'>
+        <span class='u-paddingLeft--10'>
+          <small><a class='sortArrows left' sort='none'>Ticket Level</a></small>
+          <!--= on 'click' (apply_sort_filter 'sort_ticket_level' 'desc' 'asc') -->
+        </span>
+      </th>
+      <th class='hideWhenTablet'>
+        <small><a class='sortArrows left' sort='none'>Donations</a></small>
+        <!--= on 'click' (apply_sort_filter 'sort_donation' 'desc' 'asc') -->
+      </th>
+      <th class='hideWhenTablet'>
+        <span class='u-paddingLeft--10'>
+          <small><a class='sortArrows left' sort='none'>Note</a></small>
+          <!--= on 'click' (apply_sort_filter 'sort_note' 'desc' 'asc') -->
+        </span>
+      </th>
+      <th class='u-centered'>
+        <small><span class='hideWhenPhone'>Payment</span></small>
+				<span class='showWhenPhone'><i class="fa fa-usd"></i></span>
+			</th>
+
+      <th></th>
+		</thead>
+
+		<tbody>
+			<tr> <!--= repeat tickets.data -->
+				<td>
+          <input type='number' class='u-width--70' name='bid_id' min='1'>
+            <!--= set_value this.bid_id -->
+            <!--= on 'change' (update_ticket this.id this.name 'ID' form_object) -->
+        </td>
+
+				<td class='u-centered'>
+						<input type='checkbox'>
+							<!--= checked_if this.checked_in -->
+							<!--= set_attr 'id' (cat "checkbox" this.id) -->
+							<!--= on 'change' (toggle_checkin this.id this.name) -->
+						<label>
+							<!--= set_attr 'for' (cat "checkbox" this.id) -->
+						</label>
+					</td>
+
+					<td>
+            <div class='u-width--140'>
+              <small>
+                <a target='_blank'>
+                  <!--= set_attr 'href' (route_with_params 'supporters' 'sid' this.supporter_id) -->
+                  <strong><!--= put this.name --></strong>
+                </a>
+                <br>
+                <a class='hideWhenTablet'>
+                    <!--= set_attr 'href' (cat 'mailto:' this.email) --> <!--= put this.email -->
+                </a>
+              </small>
+            </div>
+					</td>
+
+					<td class='hideWhenPhone'>
+            <div class='u-width--140'>
+              <small>
+                <strong><!--= put this.quantity --> </strong>
+                <!--= put this.ticket_level_name -->
+                ($<!--= put (cents_to_dollars this.total_paid) -->)
+                <span>
+                  <!--= show_if this.discount_percent -->
+                  Discount: <!--= put this.discount_percent -->%
+                </span>
+              </small>
+            </div>
+					</td>
+
+          <td class='hideWhenTablet'>
+            $<!--= put (cents_to_dollars this.total_donations) -->
+          </td>
+
+          <td class='hideWhenTablet'>
+            <textarea rows='3' class='u-width--140 u-padding--3 u-fontSize--12 u-margin--0' name='note' placeholder='Type to edit note'></textarea>
+              <!--= set_value this.note -->
+              <!--= on 'change' (update_ticket this.id this.name 'note' form_object) -->
+          </td>
+
+					<td class='u-centered'>
+						<button class='button--micro u-inlineBlock u-margin--5'>
+							<!--= show_if this.token -->
+							<!--= on 'click' (show_new_donation this.supporter_id this.name this.email this.token this.card_name) -->
+              <i class='fa fa-credit-card showWhenPhone'></i>
+              <span class='hideWhenPhone'> Charge</span>
+						</button>
+
+						<a class='button--micro blue u-inlineBlock u-margin--5' style='display:none'>
+							<!--= hide_if this.token -->
+							<!--= on 'click' (show_new_card this.supporter_id this.name this.email this.id '<%= @event.id %>' -->
+              <i class='fa fa-plus showWhenPhone'></i>
+              <span class='hideWhenPhone'> Add Card</span>
+						</a>
+
+						<a class='button--micro blue u-inlineBlock u-margin--5' style='display:none'>
+							<!--= show_if this.token -->
+              <!--= on 'click' (remove_card this.id this.supporter_id) -->
+              <i class='fa fa-plus showWhenPhone'></i>
+              <span class='hideWhenPhone'> Remove Card</span>
+						</a>
+        </td>
+
+      </tr>
+		</tbody>
+	</table>
+
+	<div class='u-paddingLeft--10'>
+    <%= render 'components/show_more', scope: 'tickets' %>
+  </div>
+</main>
+
+<%= render 'tickets/new_modal', title: "Add attendee", show_payment_options: true, profile: nil, unrequire_email: true %>
+<%= render 'donations/new_modal' %>
+<%= render 'cards/new_modal' %>

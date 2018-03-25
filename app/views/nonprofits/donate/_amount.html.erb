@@ -1,0 +1,87 @@
+<div class='wizard-step amount-step'>
+	<!--= wizard.set_step 'donate_wiz' 'Amount' -->
+
+	<section class='u-paddingX--5'>
+		<!--= show_if multiple_designations -->
+		<select name='designation' class='select u-marginBottom--10'>
+			<!--= on 'change' setDesignation -->
+		  <option>
+				<!--= repeat multiple_designations -->
+				<!--= set_attr 'value' this.value -->
+				<!--= set_attr_if this.is_placeholder 'selected' '' -->
+				<!--= set_attr_if this.is_placeholder 'disabled' '' -->
+				<!--= put this.name -->
+		  </option>
+		</select>
+	</section>
+
+	<section class='u-paddingX--5 u-marginBottom--10'>
+		<!--= hide_if donate_wiz.hide_recurring_checkbox -->
+		<div class='u-padding--8 u-background--grey u-centered'>
+			<!--= add_class_if (eq donate_wiz.type_selected 'recurring') 'highlight' -->
+			<input class='u-margin--0' type='checkbox' id='checkbox-recurring'>
+			<!--= checked_if (eq donate_wiz.type_selected 'recurring') -->
+			<!--= on 'change' (toggle_recurring) -->
+			<label for='checkbox-recurring'>Become a <strong>sustaining, monthly</strong> contributor</label>
+		</div>
+	</section>
+
+	<section class='group'>
+		<!--= hide_if donate_wiz.preset_amount -->
+
+		<p class='u-paddingX--5 u-centered'>
+			<!--= show_if donate_wiz.donation.recurring_donation -->
+			<small>Select an amount for your <strong>monthly</strong> contribution</small>
+		</p>
+
+		<div class='u-inline fieldsetLayout--three--evenPadding'>
+			<fieldset>
+				<!--= repeat donate_wiz.amounts -->
+				<button class='button u-width--full white amount'>
+					<!--= on 'click' (donate_wiz.select_amount this) -->
+					<!--= add_class_if (eq donate_wiz.amount_selected this) 'is-selected' -->
+					<span class='dollar'>$</span><!--= put this -->
+				</button>
+			</fieldset>
+
+			<fieldset class='prepend--dollar'>
+				<input class='amount' name='amount' step='any' type='number' min='1' placeholder='Custom'>
+					<!--= on 'change' donate_wiz.set_custom_amount -->
+					<!--= on 'focus' donate_wiz.select_custom_amount -->
+					<!--= add_class_if (eq donate_wiz.amount_selected 'custom') 'is-selected' -->
+			</fieldset>
+
+			<fieldset>
+				<button type='submit' disabled class='button u-width--full'>
+					<!--= remove_attr_if (> donate_wiz.donation.amount 0) 'disabled' -->
+					<!--= on 'click' advance_step -->
+					Next
+				</button>
+			</fieldset>
+		</div>
+
+	</section>
+
+	<section>
+		<!--= show_if donate_wiz.preset_amount -->
+		<p class='singleAmount-message'>
+			Contribute
+			<strong>$<!--= put (cents_to_dollars (donate_wiz.donation.amount)) --></strong>
+			<span class='highlight u-padding--0'>
+				<!--= show_if donate_wiz.donation.recurring_donation -->
+				monthly</span>
+			<span>
+				<!--= show_if donate_wiz.preset_designation -->
+				<br>
+				for <!--= put donate_wiz.donation.designation -->
+			</span>
+		</p>
+
+		<button class='button u-marginBottom--20' type='submit'>
+			<!--= on 'click' (wizard.advance 'donate_wiz') -->
+			Next
+		</button>
+	</section>
+
+
+</div>

@@ -1,0 +1,73 @@
+<% content_for(:fixed_position_cta_hidden) {'hidden'} %>
+
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'campaigns/index/page' %>
+<% end %>
+
+<%= content_for :javascripts do %>
+  <script>
+		app.current_nonprofit_user = <%= current_nonprofit_user? %>
+  </script>
+	<%= IncludeAsset.js '/client/js/campaigns/index/page.js' %>
+<% end %>
+
+<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
+
+<%= render 'components/header',
+icon_class: 'icon-thermometer-medium',
+title: 'Campaigns',
+profile: @nonprofit,
+has_mosaic: true %>
+
+<main class='container u-padding--15'>
+	<% if current_user %>
+		<a class='button orange u-marginY--10' open-modal='newCampaign' data-when-confirmed><i class='fa fa-plus'></i> New Campaign</a>
+	<% end %>
+
+	<% if @active_campaigns.empty? %>
+		<p class='fundraiser--active u-padding--15 u-marginTop--15'>No active campaigns</p>
+	<% else %>
+		<h3 class='u-centered'>Active Campaigns</h3>
+    <section class='fundraiser--active u-marginBottom--30'>
+			<%= render 'campaigns/campaigns_table', campaigns:  @active_campaigns %>
+		</section>
+	<% end %>
+
+
+	<% if @past_campaigns.empty? %>
+		<h3 class='fundraiser--past u-padding--15'>No past campaigns</h3>
+	<% else %>
+		<h3 class='u-centered'>Past Campaigns</h3>
+    <section class='fundraiser--past u-marginBottom--30'>
+      <%= render 'campaigns/campaigns_table', campaigns:  @past_campaigns %>
+		</section>
+	<% end %>
+
+	<% if current_nonprofit_user? %>
+		<% if @unpublished_campaigns.empty?%>
+			<p class='u-padding--15 fundraiser--unpublished'>No unpublished campaigns</p>
+		<% else %>
+			<h3 class='u-centered'>Unpublished Campaigns</h3>
+      <div class='u-margin--auto u-maxWidth--700'>
+        <p>Unpublished campaigns don't get listed on your nonprofit profile page or on this page for <strong>non campaign editors</strong>.  However, you <strong>can</strong> still share the link to an unpublished campaign with anyone, which can be helpful for getting feedback when setting up your campaign.</p>
+      </div>
+      <section class='fundraiser--unpublished u-marginTop--15 u-marginBottom--30'>
+        <%= render 'campaigns/campaigns_table', campaigns:  @unpublished_campaigns %>
+		  </section>
+		<% end %>
+
+    <% if @deleted_campaigns.empty?%>
+      <p class='u-padding--15 fundraiser--deleted'>No deleted campaigns</p>
+    <% else %>
+      <h3 class='u-centered'>Deleted Campaigns</h3>
+      <p class='u-centered'>Deleted campaigns are only accessible to <strong> campaign editors</strong>.</p>
+    <section class='fundraiser--deleted u-marginTop--15 u-marginBottom--30'>
+      <%= render 'campaigns/campaigns_table', campaigns:  @deleted_campaigns %>
+    </section>
+    <% end %>
+	<% end %>
+</main>
+
+<% if current_user %>
+	<%= render 'campaigns/new_modal' %>
+<% end %>

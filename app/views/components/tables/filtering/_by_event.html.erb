@@ -1,0 +1,13 @@
+<div>
+  <!-- (show_if (length events.data ))-->
+  <hr class='u-margin--0'>
+  <label class='u-marginBottom--5'>Events</label>
+  <select class='u-margin--0 select'>
+    <!--= on 'change' (apply_input_filter 'event_id' get_value) -->
+    <option>
+      <!--= repeat events.data -->
+      <!--=  set_attr_if this.id 'value' this.id -->
+      <!--= put this.name -->
+    </option>
+  </select>
+</div>

@@ -1,0 +1,112 @@
+@import 'mixins';
+
+$chevron_height: 34px;
+
+[data-ff-wizard-label-wrapper],
+.ff-wizard-index,
+.wizard-index {
+	background: white;
+	line-height: $chevron_height;
+	width: 100%;
+	overflow: hidden;
+	margin: 0;
+}
+
+[data-ff-wizard-content-wrapper],
+.ff-wizard-steps,
+.wizard-steps {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+  position: relative;
+}
+
+[data-ff-wizard-label],
+.ff-wizard-index-label,
+.wizard-index-label {
+	margin: 0;
+	float: left;
+	text-align: center;
+	position: relative;
+	padding-right: $chevron_height/2;
+	@include gradient(left, $fog, darken($fog, 6));
+}
+
+[data-ff-wizard-label]:before,
+.ff-wizard-index-label:before,
+.wizard-index-label:before {
+	content: '';
+	position: absolute;
+	border-left: $chevron_height/2 solid transparent;
+	height: 0;
+	cursor: default;
+	width: 0;
+	border-top: ($chevron_height/2) solid $fog;
+	border-bottom: $chevron_height/2 solid $fog;
+	left: -$chevron_height/2;
+	top: 0;
+}
+
+[data-ff-wizard-label='accessible'],
+.ff-wizard-index-label.ff-wizard-index-label--accessible,
+.wizard-index-label.is-accessible {
+	cursor: pointer;
+  font-weight: bold;
+}
+
+/*
+.wizard-step {
+	display: none;
+	vertical-align: middle;
+	width: 1%;
+}
+*/
+
+[data-ff-wizard-followup='incomplete'],
+[data-ff-wizard-content='not-current'] {
+  display: none;
+}
+
+[data-ff-wizard-label]:first-of-type,
+[data-ff-wizard-label]:last-of-type,
+.ff-wizard-index-label:first-of-type,
+.ff-wizard-index-label:last-of-type,
+.wizard-index-label:first-of-type,
+.wizard-index-label:last-of-type {
+	margin-left: 0;
+}
+
+[data-ff-wizard-label]
+.ff-wizard-index-label,
+.wizard-index-label {
+	color: lighten($charcoal, 30);
+	cursor: default;
+}
+
+[data-ff-wizard-label='current'],
+.ff-wizard-index-label--current,
+.wizard-index-label.is-current {
+	pointer-events: none;
+	color: $charcoal;
+	@include gradient(left, $fog, lighten($bluegrass, 30));
+  font-weight: bold;
+}
+
+// flimflam-wizard specific styles
+
+[data-ff-wizard-label-wrapper],
+.ff-wizard-index {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+[data-ff-modal-body],
+.ff-modal-body {
+  position: relative;
+}
+
+[data-ff-wizard-content],
+.ff-wizard-body-step {
+  margin-top: 30px;
+}

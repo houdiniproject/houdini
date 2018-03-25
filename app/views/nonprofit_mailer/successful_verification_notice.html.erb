@@ -1,0 +1,11 @@
+<p>Dear <%= @nonprofit.name %>,</p>
+
+<p>Congrats, our payment processor successfully marked you as verified!</p>
+
+<% if @nonprofit.bank_account && !@nonprofit.bank_account.pending_verification %>
+  <p>Now that you have both your bank account and identity verification taken care of, you can withdraw your available balance of payments at any time. <a href='<%= root_url + "/nonprofits/#{@nonprofit.id}/payouts" %>'> Visit your payout page to learn more.</a></p>
+<% else %>
+  <p>Be sure to connect and verify your bank account so that you can withdraw your available balance of donations in the future. <a href='<%= root_url + "/nonprofits/#{@nonprofit.id}/payouts" %>'>Visit your payout page to learn more.</a></p>
+<% end %>
+
+<%= render 'emails/sig' %>

@@ -1,0 +1,27 @@
+<div class='layout--three shareButtons'>
+	<div>
+    <a
+      target='_blank'
+      href="https://www.facebook.com/sharer/sharer.php?u=<%= request.original_url %>"
+      class='button--circle--large facebook'
+      >
+      <i class='fa fa-facebook'></i>
+    </a>
+    <p>Share</p>
+	</div>
+
+	<div>
+		<a class='button--circle--large grey'>
+			<!--= on 'click' (open_modal_if_confirmed 'shareEmail') -->
+			<i class='fa fa-1x fa-envelope-o'></i>
+		</a>
+		<p>Email</p>
+	</div>
+
+	<div>
+		<a class='button--circle--large twitter' target='_blank' href="<%= render 'components/twitter_link', text: 'I support ' + @nonprofit.name %>">
+			<i class='fa fa-1x fa-twitter'></i>
+		</a>
+		<p>Tweet</p>
+	</div>
+</div>

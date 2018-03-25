@@ -1,0 +1,13 @@
+.admin-topNav {
+  width: 100%;
+  background: rgba($fog, 0.8);
+  border-bottom: 1px solid rgba(black, 0.05);
+}
+
+.admin-topNav .container {
+  padding: 15px 10px;
+}
+
+.admin-topNav .container > * {
+  margin: 5px;
+}

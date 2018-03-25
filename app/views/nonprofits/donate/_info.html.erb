@@ -1,0 +1,18 @@
+<div class='wizard-step info-step u-padding--10'>
+	<!--= wizard.set_step 'donate_wiz' 'Info' -->
+
+	<form>
+		<!--= on 'submit' (donate_wiz.save_supporter form_object) -->
+		<%= render 'supporters/fields', required: {email: true}, profile: current_user ? current_user.profile : nil %>
+
+		<div class='u-centered u-marginTop--10'>
+			<p class='error'>
+				<!--= show_if info_step_error -->
+				<!--= put info_step_error -->
+			</p>
+			<button type='submit' class='button'> Next </button>
+		</div>
+
+	</form>
+
+</div>

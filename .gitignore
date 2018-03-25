@@ -1,0 +1,62 @@
+**/*.swp
+latest.dump
+node_modules
+npm-debug.log
+public/**/*
+client/js/nonprofits/donate/plugins-enabled
+
+
+.DS_Store
+
+# Ignore bundler config
+/.bundle
+
+# Ignore the default SQLite database.
+/db/*.sqlite3
+
+# Ignore all logfiles and tempfiles.
+log/
+tmp/
+
+# Zeus
+zeus.json
+.zeus.sock
+custom_plan.rb
+
+# simplecov
+/coverage
+
+# Ignore VCR cassettes
+spec/fixtures/vcr_cassettes
+
+.env
+.idea/
+.vscode
+
+# Jasmine specs build file
+spec/javascripts/bundle.js
+
+# Settings files
+config/settings.json
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
+
+#local bins we use for builds
+.bin
+
+# thing we want to keep in public
+!public/*.html
+!public/maintenance.html
+!public/favicon.ico
+!public/js/donate-button.js
+!public/images
+!public/images/fallback
+!public/images/fallback/*
+!public/fallback
+!public/fallback/*
+!public/css
+!public/css/donate-button.css
+!public/css/donate-button.v2.css
+!public/svgs
+!public/svgs/*

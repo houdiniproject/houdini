@@ -1,0 +1,15 @@
+<!-- partial components/tables/filtering/meta_status -->
+
+<small class='filteringBy'>
+	<!--= scope '<%= scope %>' -->
+	<!--= show_if this.filter_count -->
+	Filtering by:
+	<!--= put (readable_filter_names this.query) -->
+
+	<a>
+		<!--= on 'click' clear_all_filters -->
+		clear filters
+	</a>
+</small>
+
+<!-- partial end components/tables/filtering/meta_status -->

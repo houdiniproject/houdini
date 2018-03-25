@@ -1,0 +1,18 @@
+<div class='wizard-steps donation-steps' style='display:none;'>
+	<!--= wizard.init 'donate_wiz' -->
+
+	<%= render 'components/wizard/step_index', wizard_name: 'donate_wiz' %>
+
+	<div class='content'>
+		<!--= hide_if donate_wiz.is_completed -->
+    <%= render 'nonprofits/donate/amount' %>
+		<%= render 'nonprofits/donate/info' %>
+		<%= render 'nonprofits/donate/payment' %>
+	</div>
+
+	<div class='content'>
+		<!--= show_if donate_wiz.is_completed -->
+		<%= render 'nonprofits/donate/followup' %>
+	</div>
+
+</div>

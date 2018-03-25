@@ -1,0 +1,19 @@
+<table class='table'>
+	<tr>
+		<td><strong>Gross Amount</strong></td> 
+		<td><%= print_currency(payout.gross_amount) %></td>
+	</tr>
+	<tr>
+		<td><strong>Net Amount</strong></td> 
+		<td><%= print_currency(payout.net_amount) %></td>
+	</tr>
+	<tr>
+		<td><strong>Date</strong></td>
+		<td><%= simple_date(payout.created_at) %></td>
+	</tr>
+	<tr>
+		<td><strong>Bank Account</strong></td>
+		<td><%= payout.bank_name %></td>
+	</tr>
+</table>
+

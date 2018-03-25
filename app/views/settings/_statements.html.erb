@@ -1,0 +1,35 @@
+<!-- settings/statements -->
+<%= content_for :javascripts do %>
+	<script>
+		appl.def('statement.name', "<%= raw(@nonprofit.statement) %>")
+	</script>
+<% end %>
+
+<header class='pane-header'>
+	<h3>Transaction Statement Name</h3>
+</header>
+
+<div class='pane-inner'>
+	<p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>To prevent chargebacks and donor confusion, you can customize the name that appears on your donors' bank statements. In most cases, your nonprofit name works best.</p>
+
+	<form autosubmit method='put' action='/nonprofits/<%= @nonprofit.id %>.json' data-reload parsley-validate>
+
+		<label class='u-block u-marginBottom--10'>Name to appear on bank statements: </label>
+		<input class='statementInput u-block u-margin--0' name='nonprofit[statement]' parsley-maxlength='17' type='text' style='width: 18em;' parsley-trigger='keyup'>
+			<!--= set_attr 'value' statement.name -->
+			<!--= on 'keyup' statement.validate -->
+		<small>
+			Using <!--= put (length statement.name)-->
+			out of 17 characters.
+		</small>
+
+		<p class='error'><!--= put error --></p>
+		<button type='submit' class='button u-marginBottom--15' data-loading='Saving...'>
+			<!--= set_attr_if (> (length statement.name) 17) 'disabled' '' -->
+			<!--= set_attr_if (statement.invalid) 'disabled' '' -->
+			Save Name</button>
+	</form>
+
+	<p class='note'>Note: these statements only apply to general donations made towards your nonprofit. For campaign donations, the campaign name is automatically used. For event tickets, the event name is used.</p>
+
+</div>

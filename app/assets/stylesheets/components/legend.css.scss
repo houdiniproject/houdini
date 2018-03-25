@@ -1,0 +1,13 @@
+@import 'mixins';
+
+.legend > * {
+  border: 1px solid white;
+  border-left: 12px solid white;
+  background: white;
+  font-size: 12px;
+  display: inline-block;
+  line-height: 1;
+  margin: 7px 5px 0;
+  padding: 3px 5px;
+  @include opacity(0.9);
+}

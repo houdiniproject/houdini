@@ -1,0 +1,34 @@
+<!-- partial: nonprofits/settings_modal -->
+
+<div class='modal fullScreen' id='settingsModal'>
+	<%= render 'common/modal_header', title: 'Profile Settings' %>
+	<%= render 'edit' %>
+</div>
+
+<%= render 'components/upload_background_image',
+  end_point: nonprofit_path(@nonprofit),
+  image_url: @nonprofit_background_image,
+  input_name: 'nonprofit[background_image]' %>
+
+<div class='modal' id='uploadCarouselImages'>
+	<%= render 'common/modal_header', title: 'Main Image' %>
+
+	<div class='modal-body'>
+		<p class='u-centered'>Image size should be less than 2MB.</p>
+		<form class='u-centered' autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='put' data-reload>
+				<p class='u-color--red'>
+					<!--= show_if (length image_upload.error) -->
+					<small><!--= put image_upload.error --></small>
+				</p>
+
+			<div class='u-inlineBlock'>
+				<div class='image-upload' style='background-image:url("<%= @nonprofit.main_image_url(:thumb_explore) %>")'>
+					<span><i class='fa fa-image'></i> Select</span>
+					<input type='file' name='nonprofit[main_image]'>
+				</div>
+			</div>
+      <hr>
+			<button type='submit' class='button u-marginTop--10 ' data-loading='Uploading...'>Upload</button>
+		</form>
+	</div>
+</div>

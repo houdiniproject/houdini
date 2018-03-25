@@ -1,0 +1,33 @@
+<div class='container--narrow top--high u-centered'>
+	<div class='container-shadow'></div>
+
+	<header class='padded'>
+		<h2>Almost Done! Set Your Password</h2>
+	</header>
+
+	<section class='padded'>
+
+		<form method='post' action='<%= confirm_path %>' parsley-validate>
+			<%= devise_error_messages! %>
+
+			<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>" />
+
+			<input name='id' type='hidden' value='<%= @user.id %>'>
+			<input name='user[confirmation_token]' type='hidden' value='<%= params[:confirmation_token] %>'>
+
+			<div class='field'>
+				<label><strong>New Password</strong></label>
+				<input id='new-password-input' name='user[password]' type='password' required parsley-minlength='7'>
+			</div>
+
+			<div class='field'>
+				<label><strong>Confirm Password</strong></label>
+				<input name='user[password_confirmation]' type='password' parsley-equalto='#new-password-input' required parsley-minlength='7'>
+			</div>
+
+			<p class='error'></p>
+			<button type='submit' class='button--large'>Submit</button>
+		</form>
+	</section>
+
+</div>

@@ -1,0 +1,39 @@
+<!-- partial nonprofits/recurring_donations/table_meta -->
+
+<div class='table-meta'>
+	<div class='container--wide'>
+		<%= render 'components/tables/search', scope: 'recurring_donations' %>
+
+		<span class='table-meta-metric tour-totalRecurring'>
+
+			<span style='display: none'>
+				<!--= hide_if recurring_donations.loading -->
+				Total:
+				$<strong><!--= put (cents_to_dollars recurring_donations.total_amount) --></strong>
+			</span>
+
+			<small>
+				<!--= show_if recurring_donations.loading -->
+				Loading...
+			</small>
+		</span>
+
+
+		<a class='table-meta-button green js-openStatsModal'>
+			<i class='fa fa-tasks'></i> Stats
+		</a>
+
+		<a class='table-meta-button orange tour-newSubscriber'>
+			<!--= on 'click' (open_modal 'newRecurringDonationModal') -->
+			<i class='fa fa-plus'></i> New Subscriber
+		</a>
+
+    <a class='table-meta-button white tour-export'>
+      <!--= on 'click' (open_modal 'exportRecurringDonationsS3Modal') -->
+      <i class='fa fa-file-text'></i> Export
+    </a>
+	</div>
+</div>
+
+<!-- end partial nonprofits/recurring_donations/table_meta -->
+

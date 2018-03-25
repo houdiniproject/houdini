@@ -1,0 +1,40 @@
+<% if current_role?([:nonprofit_admin,:nonprofit_associate]) %>
+	<section class='sideNav-section'>
+		<a class='sideNav-link' href='<%= administered_nonprofit.url%>'>
+			<img class='sideNav-profile' src="<%= administered_nonprofit.logo_url(:small) %>">
+			<span class='sideNav-text'><%= administered_nonprofit.name %></span>
+		</a>
+
+		<a class='sideNav-link' href='<%= NonprofitPath.dashboard(administered_nonprofit) %>'>
+			<i class='sideNav-icon icon-camera-graph-2'></i>
+			<span class='sideNav-text'>Dashboard</span>
+		</a>
+
+
+		<a class='sideNav-link' href='<%= nonprofits_supporters_path(administered_nonprofit) %>'>
+			<i class='sideNav-icon icon-contacts-3'></i>
+			<span class='sideNav-text'>Supporters</span>
+		</a>
+
+		<a class='sideNav-link' href='<%= nonprofits_payments_path(administered_nonprofit) %>'>
+			<i class='sideNav-icon icon-piggy-bank'></i>
+			<span class='sideNav-text'>Payments</span>
+		</a>
+
+			<a class='sideNav-link' href='<%= administered_nonprofit.url + '/events' %>'>
+			<i class='sideNav-icon icon-ticket-2'></i>
+			<span class='sideNav-text'>Events</span>
+		</a>
+
+		<a class='sideNav-link' href='<%= administered_nonprofit.url + '/campaigns' %>'>
+			<i class='sideNav-icon icon-thermometer-medium'></i>
+			<span class='sideNav-text'>Campaigns</span>
+		</a>
+
+		<a class='sideNav-link' href='<%= nonprofits_button_basic_path(administered_nonprofit) %>'>
+			<i class='sideNav-icon icon-credit-card'></i>
+			<span class='sideNav-text'>Donate Button</span>
+		</a>
+
+	</section>
+<% end %>

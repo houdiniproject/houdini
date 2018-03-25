@@ -1,0 +1,95 @@
+.dropDown {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+.dropDown * {
+	@include no-select;
+}
+.dropDown-toggle {
+	border: 1px solid lighten($grey, 30);
+	cursor: pointer;
+	width: 100%;
+}
+.dropDown-toggle-button {
+	@include transition(0.1s background-color ease-out);
+	background-color: $bluegrass--light;
+	padding: 0 10px;
+	color: white;
+	line-height: 29px;
+	display: inline-block;
+	text-align: center;
+	font-size: 18px;
+}
+.dropDown-toggle:hover .dropDown-toggle-button {
+	background-color: $bluegrass;
+}
+.dropDown-toggle-label {
+	padding-left: 5px; 
+	max-width: 200px;
+	display: inline-block;
+	@include ellipsis;
+	margin-bottom: -4px;
+}
+.dropDown ul {
+	display: none;
+	position: absolute;
+	overflow: hidden;
+	top: 31px;
+	left: 0;
+	z-index: 99;
+	border: 1px solid lighten($grey, 30);
+	margin: 0;
+	background-color: white;
+	@include box-shadow(1px 1px 3px -1px rgba(black, 0.2));
+}
+.dropDown li {
+	font-size: 13px;
+	padding: 1px 10px 0 12px;
+	cursor: pointer;
+	border-bottom: 1px solid $fog;
+	position: relative;
+}
+.dropDown li:before {
+	content: '';
+	background-color: $trans;
+	width: 3px;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.dropDown li:last-of-type {
+	border-bottom: none;
+}
+.dropDown li:hover:before {
+	background-color: $bluegrass;
+}
+.dropDown li.is-selected {
+	background-color: $looseleaf;
+}
+.dropDown li.is-selected:before,
+.dropDown li.is-selected:hover:before {
+	background-color: $oj;
+}
+.dropDown li.dropDown-extra {
+	background-color: $fog;
+	color: rgba($charcoal, 0.7);
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.dropDown li.dropDown-extra:hover:before {
+	background-color: darken($fog, 15);
+}
+.dropDown li span {
+	@include ellipsis;
+	display: inline-block;
+	max-width: 190px;
+}
+.dropDown-toggle.is-droppedDown i {
+	@include transform(rotate(180deg));
+}
+.dropDown-toggle.is-droppedDown + ul {
+	display: inline-block;
+}
+

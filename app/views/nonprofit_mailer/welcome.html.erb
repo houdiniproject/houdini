@@ -1,0 +1,36 @@
+
+<p>Welcome to <%= Settings.general.name %>! We’re excited to have you on board.</p>
+
+<br>
+<p>
+Before we get into the good stuff, we'd like you to click this link to verify your email address:
+</p>
+<h4>
+  <% verification_url = confirmation_url(@user, confirmation_token: @token) %>
+  <a href='<%= verification_url %>'> Confirm my email address </a>
+</h4>
+
+<p>
+<small>
+(direct URL: <%= confirmation_url(@user, confirmation_token: @token) %>)
+</small>
+</p>
+
+<br>
+<p>
+Here are a few things you can do right away to get up and running:
+</p>
+
+<ul>
+  <% donate_url = donate_nonprofit_url(@nonprofit) %>
+  <li>Start collecting donations from your new donate page: <a href='<%= donate_url %>'> <%= donate_url %> </a></li>
+  <li><a href='https://commitchange.com/demo'>Schedule an in-depth tour of our features</a></li>
+  <li>Take advantage of the free donate button implementation service we offer to new customers</li>
+  <li>Get in-person help setting up a campaign or event</li>
+</ul>
+
+<p>
+If you need help or have any questions, our support team is just a phone call or email away. You can contact us directly at <%= Settings.devise.mailer_sender %> or 888-204-8792.
+</p>
+
+<%= render 'emails/sig' %>

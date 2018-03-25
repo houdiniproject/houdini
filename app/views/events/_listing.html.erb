@@ -1,0 +1,13 @@
+<% css = 'fundraiser--active' if css.nil? %>
+<section class='events <%= css %>'>
+	<div class='event-date'>
+    <p> <%= Format::Date.full_range(event.start_datetime, event.end_datetime, event.nonprofit.timezone) %> </p>
+	</div>
+	<a href='<%= event.url %>'>
+		<article class='event-text'>
+			<h4 class='event-title'  if-branded='color, darker'><%= event.name %></h4>
+			<p class='event-tagl'><%= event.tagline %></p>
+			<p class='event-desc'><%= event.summary %></p>
+		</article>
+	</a>
+</section>

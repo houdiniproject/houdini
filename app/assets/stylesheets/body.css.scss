@@ -1,0 +1,17 @@
+@import 'components/side_nav_dimensions';
+
+body { 
+	margin: 0; 
+	height: 100%;
+	padding-left: $sideNav-closed-width;
+}
+body.not-signedIn {
+	padding-left: 0px !important;;
+}
+body.embedded-layout {
+	background-color: #f8f8f8;
+	padding: 0;
+}
+body.panelsLayout {
+	overflow-y: hidden;
+}

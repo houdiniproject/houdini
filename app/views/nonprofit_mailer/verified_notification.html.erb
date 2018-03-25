@@ -1,0 +1,11 @@
+<p>Hi <%= @nonprofit.name %>,</p>
+
+<p>Congrats on getting your nonprofit's profile set up on <%= Settings.general.name %>.</p>
+
+<p>We've just vetted your organization's nonprofit status, and you are now able to withdraw donations. First, you'll need to securely connect your bank account to automatically start receiving donations.</p>
+
+<p><%= link_to 'Manage your donations and withdrawals here', nonprofits_donations_url(@nonprofit) %></p>
+
+<p>Feel free to reach out if you need a hand getting something set up!</p>
+
+<%= render 'emails/sig' %>

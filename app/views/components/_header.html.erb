@@ -1,0 +1,15 @@
+<% profile ||= nil %>
+<% has_mosaic ||= nil%>
+
+<header class="header <%= has_mosaic ? 'stripe--mosaic' : nil%>">
+	<div class="container">
+		<span class='u-floatL'>
+			<i class='<%= icon_class %> header-icon'></i>
+			<h3 class='header-title'><%= title %></h3>
+		</span>
+
+		<% if profile %>
+		<a class='header-profile' href='<%= profile.url%>'><%= profile.name %></a>
+		<% end %>
+	</div>
+</header>

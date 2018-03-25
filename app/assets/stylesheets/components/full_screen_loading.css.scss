@@ -1,0 +1,20 @@
+// this is an element that is layed over the entire page
+// during global loading states (appl.def('full_loading', true))
+// it's purpose is to prevent users from clicking on stuff
+/// while loading 
+.fullScreenLoading{
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	display: table;
+	background: rgba(white, 0.7);
+}
+.fullScreenLoading-inner {
+	font-size: 40px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	@include transform(translateY(-100px));
+}

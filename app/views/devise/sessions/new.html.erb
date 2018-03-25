@@ -1,0 +1,13 @@
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<div class='u-verticallyCenterAbs u-width--full'>
+  <div class='u-padding--20 u-centered u-maxWidth--300 u-margin--auto'>
+    <h2>Login</h2>
+    <%= render 'users/email_login_form' %>
+    <p class='u-marginTop--10 u-bold'>
+      <%= link_to "Forgot your password?", new_password_path(resource_name)%>
+    </p>
+    <p>Don't have an account? <a open-modal='chooseRoleModal' class='u-bold'>Sign up.</a></p>
+  </div>
+</div>
+

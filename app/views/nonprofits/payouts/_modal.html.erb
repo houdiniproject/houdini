@@ -1,0 +1,45 @@
+<div class='modal' id='newPayoutModal'>
+
+	<%= render 'common/modal_header', title: 'New Payout' %>
+
+	<div class='modal-body'>
+
+		<p>Use this form to make a payout right now of your available balance (<strong><%= print_currency @available_total %></strong>).</p>
+
+		<p>You will receive a receipt of all donations after this payout.</p>
+		<p>Payouts usually take 1-3 days to complete.</p>
+
+		<table class='table--striped'>
+			<thead>
+				<tr>
+					<th>Total Payout <small>(before fees)</small></th>
+					<th>Connected Account</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td><%= print_currency @available_total %></td>
+
+					<td>
+						<% if @nonprofit.bank_account %>
+							<%= @nonprofit.bank_account.name %>
+						<% else %>
+							You must connect a bank account.
+						<% end %>
+						<br>
+						<a class='button--tiny edit' href='/settings?p=payouts&s=settings-pane'>settings</a>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+
+		<form class='u-centered u-padding--10' action='/nonprofits/<%=@nonprofit.id%>/payouts.json' method='post'>
+			<!--= on 'submit' (create_payout form_object) -->
+			<%= render 'components/forms/submit_button', button_text: 'Create Payout' %>
+		</form>
+
+	</div>
+
+</div>

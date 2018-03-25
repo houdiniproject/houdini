@@ -1,0 +1,34 @@
+<!-- partial start: nonprofit/fixed_top_actions -->
+<div class='fixedTopAction fixedTopAction--npo' <%= current_nonprofit_user? ? "style='padding-left: 60px'".html_safe : "" %>>
+	<div class='container'>
+		<table class='fixedTopAction-table'>
+			<tr>
+				<td class='fixedTopAction-left'>
+					<h1 class='fixedTopAction-title'><%= @nonprofit.name %></h1><br>
+					<span class='fixedTopAction-metrics'>
+						<span><%= "#{@nonprofit.city}, #{@nonprofit.state_code}" %></span>
+						<% if @nonprofit.categories.any? %>
+							<span><%= @nonprofit.categories.take(3).join(", ") %></span>
+						<% end %>
+						<% unless @supporters.empty? || @nonprofit.hide_activity_feed %>
+							<span><%= pluralize(@supporters.count, "supporter") %></span>
+						<% end %>
+						<% if @nonprofit.vetted %>
+							<span>Vetted </span>
+						<% end %>
+					</span>
+				</td>
+
+				<td class='fixedTopAction-right'>
+					<a class='u-marginRight--10 fixedTopAction-promote' title='Promote' if-branded='color, darker'>
+						<!--= on 'click' (open_modal 'shareModal') -->
+						Promote</a>
+					<button class='button' id='js-fixedPositionDonate' title='Donate' if-branded='background, dark'>
+						Donate
+					</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!-- partial end: nonprofit/fixed_top_actions -->

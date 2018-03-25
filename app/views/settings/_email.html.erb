@@ -1,0 +1,23 @@
+<header class='pane-header'>
+	<h3>Change Email</h3>
+</header>
+
+<div class='pane-inner'>
+	<form autosubmit method='put' action='<%= registration_path(@user) %>' data-reload>
+
+		<div class='field'>
+			<label>Type your new email address below</label>
+			<input class='input--300 u-block' name='user[email]' type='text' placeholder='jane@doe.com'>
+		</div>
+
+		<% if !@user.pending_password %>
+			<div class='field'>
+				<label>Type your current password below to confirm your changes</label>
+				<input class='input--300 u-block' name='user[current_password]' type='password'>
+			</div>
+		<% end %>
+
+		<p class='error'></p>
+		<button class='button u-marginTop--5' type='submit' data-loading='Changing emailing...'>Save New Email</button>
+	</form>
+</div>

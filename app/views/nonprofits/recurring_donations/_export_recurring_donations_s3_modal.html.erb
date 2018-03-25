@@ -1,0 +1,45 @@
+<div class='modal' id='exportRecurringDonationsS3Modal'>
+
+	<%= render 'common/modal_header', title: 'Export Recurring Donations' %>
+
+	<div class='modal-body'>
+    <!--= scope 'recurring_donations' -->
+		<p>Download a CSV report of recurring donations, which can be opened with any spreadsheet application, such as Excel or Google Sheets.</p>
+    <div id='export-queries'>
+
+      <p>
+        <!--= show_if this.query.search -->
+        Searching by: "<strong><!--= put this.query.search --></strong>"
+      </p>
+    </div>
+		<hr>
+
+    <form autosubmit method="POST" data-success-message="Your export was successfully initiated and you'll be emailed as soon as it's available. Feel free to use the site in the meantime." data-reload>
+      <!--= set_attr 'action' (cat '/nonprofits/<%= @nonprofit.id %>/recurring_donations/export.json' (obj_to_url_params this.query )-->
+      <input type="hidden" name="active" value="true"/>
+      <div class='u-centered'>
+        <p class='error'></p>
+        <button id='csv-export-button' class='button--small' type='submit' data-loading='Initiating Download'><i class='fa fa-cloud-download'></i> Download as CSV</button>
+      </div>
+    </form>
+
+    <hr>
+    <form autosubmit method="POST" data-success-message="Your export was successfully initiated and you'll be emailed as soon as it's available. Feel free to use the site in the meantime." data-reload>
+      <!--= set_attr 'action' (cat '/nonprofits/<%= @nonprofit.id %>/recurring_donations/export.json' (obj_to_url_params this.query )-->
+      <input type="hidden" name="active_and_not_failed" value="false"/>
+      <div class='u-centered'>
+        <p class='error'></p>
+        <button id='csv-export-button' class='button--small' type='submit' data-loading='Initiating Download'><i class='fa fa-cloud-download'></i> Download Cancelled Recurring Donations as CSV</button>
+      </div>
+    </form>
+
+    <form autosubmit method="POST" data-success-message="Your export was successfully initiated and you'll be emailed as soon as it's available. Feel free to use the site in the meantime." data-reload>
+      <!--= set_attr 'action' (cat '/nonprofits/<%= @nonprofit.id %>/recurring_donations/export.json' (obj_to_url_params this.query )-->
+      <input type="hidden" name="failed" value="true"/>
+      <div class='u-centered'>
+        <p class='error'></p>
+        <button id='csv-export-button' class='button--small' type='submit' data-loading='Initiating Download'><i class='fa fa-cloud-download'></i> Download Failed Recurring Donations as CSV</button>
+      </div>
+    </form>
+	</div>
+</div>

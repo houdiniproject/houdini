@@ -1,0 +1,315 @@
+@import 'mixins';
+@import 'components/animations';
+
+// don't add any more classes here
+
+@mixin button {
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
+	@include no-select;
+	@include transition(background-color, 0.1s, ease-out);
+	@include open-sans;
+	text-align: center;
+	clear: both;
+	color: white;
+	display: inline-block;
+	&:focus { outline: none; }
+	&.blue {@include setBackgroundAndHover($light-logo-blue);}
+	&.bluegreen {@include setBackgroundAndHover($bluegrass);}
+	&.bluegrey {@include setBackgroundAndHover($sea-foam);}
+	&.lightblue {@include setBackgroundAndHover($sky);}
+	&.babyblue {@include setBackgroundAndHover($baby-blue);}
+	&.green {@include setBackgroundAndHover($grass);}
+	&.sage {@include setBackgroundAndHover(darken($sage, 5));}
+	&.yellow {@include setBackgroundAndHover($pollen);}
+	&.orange {@include setBackgroundAndHover(darken($oj, 5%));}
+	&.pink {@include setBackgroundAndHover($watermelon);}
+	&.red {@include setBackgroundAndHover(lighten($red, 5));}
+	&.redText {
+		padding: 0;
+		@include setColorAndHover(rgba($red, 0.7));
+		background: $trans;
+		border-color: $trans;
+		@include setBackgroundAndHover($trans);
+	}
+	&.red--strong {@include setBackgroundAndHover($red);}
+	&.grey {@include setBackgroundAndHover($grey);}
+	&.white {
+		@include setColorAndHover($logo-blue);
+		@include setBackgroundAndHover--subtle(darken(white, 5));
+	}
+	&.purple {@include setBackgroundAndHover($lavender);}
+	&.facebook {@include setBackgroundAndHover($facebook);}
+	&.google  {@include setBackgroundAndHover($google);}
+	&.twitter {@include setBackgroundAndHover($twitter);}
+	&.hasShadow {@include box-shadow(0.1em 0.1em 0.4em 0 rgba(black, 0.1));}
+	&:hover {color: white; }
+	a { color: white; &:hover{color: white;}}
+
+	&.details,
+	&.edit {
+		@include setColorAndHover($logo-blue);
+		@include setBackgroundAndHover--subtle(white);
+		transform: translateY(1px)
+	}
+	&.details {
+		border: 1px solid rgba($grey, 0.3);
+	}
+	&.edit {
+		border: 1px dashed $sky;
+	}
+	&[disabled],
+	&[disabled='disabled'],
+	&.disabled,
+	&.inactive {
+		background: lighten($grey, 10) !important;
+		color: white;
+		pointer-events: none;
+	}
+	&.absolute {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+	}
+}
+
+button {
+	@include button;
+}
+
+@mixin defaultButton {
+	@include button;
+	@include setBackgroundAndHover($bluegrass);
+	@include border-radius(0.5em !important);
+	width: initial;
+	border-bottom: 2px solid rgba(black, 0.1);
+	&:active { @include transform(translateY(2px)); }
+}
+
+.button--micro  {
+	@include defaultButton;
+	font-size: 14px;
+	line-height: 14px;
+	padding: 4px 6px 3px 6px;
+}
+
+.button--tiny  {
+	@include defaultButton;
+	font-size: 15px;
+	line-height: 15px;
+	padding: 5px 8px 4px 8px;
+}
+
+.button--small  {
+	@include defaultButton;
+	font-size: 16px;
+	line-height: 16px;
+	padding: 6px 9px 5px 9px;
+}
+
+button[data-ff-confirm],
+.ff-button,
+.button {
+	@include defaultButton;
+	font-size: 18px;
+	line-height: 18px;
+	padding: 10px 13px 9px 13px;
+}
+
+button[data-ff-confirm] {
+  margin-top: 30px;
+}
+
+button[data-ff-confirm]:first-of-type {
+  margin-right: 30px;
+}
+
+button[data-ff-confirm='false'] {
+  @include setBackgroundAndHover(red);
+}
+
+.button--large {
+	@include defaultButton;
+	font-size: 22px;
+	line-height: 22px;
+	padding: 12px 20px 11px 20px;
+}
+
+.button--jumbo {
+	@include defaultButton;
+	font-size: 24px;
+	line-height: 24px;
+	padding: 14px 22px 13px 22px;
+}
+
+.button--action {
+	@include defaultButton;
+	@extend .button--jumbo;
+	width: 100%;
+	@include setBackgroundAndHover($oj);
+} // use for only most important actions, like donate
+
+
+.button--admin {
+	border-left: 1px dashed $sky;
+	border-bottom: 1px dashed $sky;
+	@include setColorAndHover($logo-blue);
+	background: rgba(white, 0.95);
+	@include box-shadow(-1px 1px 5px 1px rgba(black, 0.1));
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 0;
+	line-height: 0;
+	@include transform(translateX(2px));
+	width: 50px;
+	height: 103px;
+	@include border-radius(0 0 0 5px);
+} // used to open admin sidepanels on fundraising pages
+
+.button--admin:hover {
+	@include transform(translateX(0));
+}
+
+.button--admin:before {
+	content: 'super admin';
+  position: absolute;
+  top: 27px;
+  width: 100px;
+  height: 47px;
+  text-align: center;
+  right: -47px;
+  font-size: 14px;
+	@include rotate(-90deg);
+
+}
+
+.button--circle {
+	@include button;
+	width: 32px;
+	line-height: 32px;
+	display: inline-block;
+	text-align: center;
+	@include border-radius(50%);
+	i { font-size: 19px; }
+}// for social buttons containing just an icon
+
+.button--circle--large {
+	@include button;
+	width: 50px;
+	line-height: 50px;
+	display: inline-block;
+	text-align: center;
+	@include border-radius(50%);
+}
+
+.button--circle--large i {
+	font-size: 24px;
+	@include transform(translateY(3px));
+}
+
+@mixin squareButton {
+	border-right: 1px solid rgba(black, 0.1);
+	border-bottom: 2px solid rgba(black, 0.1);
+	color: white;
+	@include setBackgroundAndHover($bluegrass);
+}
+@mixin squareButton--medium {
+	@include squareButton;
+	font-size: 15px;
+	line-height: 29px;
+	padding: 0 10px;
+}
+@mixin squareButton--large {
+	@include squareButton;
+	font-size: 20px;
+	line-height: 36px;
+	padding: 0 12px;
+
+}
+
+.button--square {
+	border-right: 1px solid rgba(black, 0.1);
+	border-bottom: 2px solid rgba(black, 0.1);
+	color: white;
+}
+
+.button--input {
+	@include squareButton--medium;
+	@include transform(translateX(-5px) translateY(-1px));
+}
+.button--input--large {
+	@include squareButton--large;
+	@include transform(translateX(-5px) translateY(-1px));
+}
+
+// todo: nuke these janky inset buttons and replace with button--input
+
+@mixin insetButton {
+	top: 0;
+	right: 0;
+	position: absolute;
+}
+.button--inset {
+	@include insetButton;
+	@include squareButton--medium;
+}
+.button--inset--large {
+	@include insetButton;
+	@include squareButton--large;
+}
+.button--inset--tall {
+	@include insetButton;
+	@include squareButton;
+	font-size: 16px;
+  line-height: 43px;
+  padding: 0 8px;
+}
+
+.button--socialLogin {
+	@extend .button;
+	margin: 0 auto 12px auto;
+	width: 100%;
+	text-align: center;
+} // full wide buttons used in login and sign up modals only
+// for other social buttons, just use a default button with
+// either .twitter, of .facebook classes to set the background color
+
+.shareButtons div {
+	text-align: center;
+}
+.shareButtons p {
+	margin: 5px 0 0 0;
+	font-size: 14px;
+	color: $grey;
+}
+// shareButtons is used in _social_button.html
+
+@include keyframes(popUpToFade) {
+	70% { @include transform(translateY(0)); }
+	100% { @include transform(translateY(5px)); }
+}
+
+.button--tab {
+  font-size: 15px;
+  @include transform(translateY(200px));
+  @include animation('popUpToFade 1s ease 2s forwards');
+  line-height: 15px;
+  padding: 8px 10px 13px 10px;
+  @include border-radius(5px 5px 0 0);
+  @include setBackgroundAndHover($logo-blue);
+  @include box-shadow(0 0 10px 1px rgba(black, 0.1));
+  color: white;
+  font-weight: bold;
+  &:hover {
+    color: white;
+  }
+}
+
+.button-subtext {
+	display: inline-block;
+	margin-top: 0.2em;
+	@include opacity(0.9);
+	font-weight: normal;
+}

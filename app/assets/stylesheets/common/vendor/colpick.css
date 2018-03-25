@@ -1,0 +1,175 @@
+/*Main container*/
+/* line 2, ../sass/colpick.scss */
+.colpick {
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  /*Prevents selecting text when dragging the selectors*/
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+/*Color selection box with gradients*/
+/* line 14, ../sass/colpick.scss */
+.colpick_color {
+  width: 156px;
+  height: 156px;
+  cursor: crosshair;
+}
+
+/* line 19, ../sass/colpick.scss */
+.colpick_color_overlay1 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 156px;
+  height: 156px;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#ffffff', endColorstr='#00ffffff')";
+  /* IE8 */
+  background: -moz-linear-gradient(left, white 0%, rgba(255, 255, 255, 0) 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, white), color-stop(100%, rgba(255, 255, 255, 0)));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, white 0%, rgba(255, 255, 255, 0) 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left, white 0%, rgba(255, 255, 255, 0) 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(left, white 0%, rgba(255, 255, 255, 0) 100%);
+  /* IE10+ */
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,startColorstr='#ffffff', endColorstr='#00ffffff');
+  /* IE6 & IE7 */
+}
+
+/* line 34, ../sass/colpick.scss */
+.colpick_color_overlay2 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 156px;
+  height: 156px;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00000000', endColorstr='#000000')";
+  /* IE8 */
+  background: -moz-linear-gradient(top, transparent 0%, black 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, transparent), color-stop(100%, black));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, transparent 0%, black 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, transparent 0%, black 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, transparent 0%, black 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, transparent 0%, black 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 );
+  /* IE6-9 */
+}
+
+/*Circular color selector*/
+/* line 51, ../sass/colpick.scss */
+.colpick_selector_outer {
+  background: none;
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  margin: -6px 0 0 -6px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+/* line 60, ../sass/colpick.scss */
+.colpick_selector_inner {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+/*Vertical hue bar*/
+/* line 69, ../sass/colpick.scss */
+.colpick_hue {
+  position: absolute;
+  top: 0px;
+  left: 178px;
+  width: 25px;
+  height: 156px;
+  cursor: pointer;
+}
+
+/*Hue bar sliding indicator*/
+/* line 79, ../sass/colpick.scss */
+.colpick_hue_arrs {
+  position: absolute;
+  left: -11px;
+  width: 35px;
+  height: 7px;
+  margin: -7px 0 0 0;
+}
+
+/* line 87, ../sass/colpick.scss */
+.colpick_hue_larr {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 11px solid rgba(128, 128, 128, 0.8);
+}
+
+/*New color box*/
+/* line 98, ../sass/colpick.scss */
+.colpick_new_color {
+  margin-top: 15px;
+  height: 30px;
+  float: left;
+  width: 100%;
+}
+
+/* line 105, ../sass/colpick.scss */
+.colpick_hex_field input {
+  background: rgba(255, 255, 255, 0.95);
+  height: 26px;
+  position: absolute;
+  right: 2px;
+  width: 102px;
+  top: 17px;
+  font-size: 17px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-left: 24px;
+  letter-spacing: 2px;
+  border: none;
+}
+
+/* line 120, ../sass/colpick.scss */
+.colpick_hex_field {
+  position: relative;
+}
+
+/* line 124, ../sass/colpick.scss */
+.colpick_hex_field:before {
+  position: absolute;
+  content: '#';
+  right: 85px;
+  top: 20px;
+  color: rgba(128, 128, 128, 0.9);
+}
+
+/* line 133, ../sass/colpick.scss */
+.colpick_rgbhex_ns .colpick_submit,
+.colpick_rgbhex_ns .colpick_current_color,
+.colpick_hex_ns .colpick_submit,
+.colpick_hex_ns .colpick_current_color,
+.colpick_hex .colpick_hsb_h,
+.colpick_hex .colpick_hsb_s,
+.colpick_hex .colpick_hsb_b,
+.colpick_hex .colpick_rgb_r,
+.colpick_hex .colpick_rgb_g,
+.colpick_hex .colpick_rgb_b,
+.colpick_hex .colpick_current_color,
+.colpick_field_letter {
+  display: none;
+}

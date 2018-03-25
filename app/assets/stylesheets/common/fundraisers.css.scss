@@ -1,0 +1,18 @@
+@import 'mixins';
+
+.fundraiser--active {
+	background-color: rgba($manila, 0.5);
+}
+
+.fundraiser--past {
+	background-color: rgba($sage, 0.5);
+}
+
+.fundraiser--unpublished {
+	background-color: rgba($baby-blue, 0.5);
+}
+
+.fundraiser--deleted {
+  background-color: rgba(255, 164, 164, 0.1);
+}
+

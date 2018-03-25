@@ -1,0 +1,56 @@
+@import 'mixins';
+@import 'components/pagination';
+@import 'common/donate_button';
+
+.table--plaid td.supporterName {
+	@include ellipsis;
+}
+.showWhenPhone {
+	display: none;
+}
+
+@media screen and (max-width: 900px) {
+	.table-search {
+		max-width: inherit;
+		width: 100%;
+		margin: 0;
+	}
+	.table-headerButton {
+		float: left;
+		margin: 10px 0 0 0;
+	}
+	.hideWhenTablet {
+		display: none;
+	}
+}
+@media screen and (max-width: 560px) {
+	td .button--small {
+		width: 36px;
+		padding: 0;
+		@include border-radius(50%);
+		border: none;
+		@include box-shadow(0 0 7px 0 rgba(black, 0.1));
+	}
+	td .button--small i {
+	line-height: 36px;
+	font-size: 15px;
+	@include transform(translateY(1px));
+	}
+	.hideWhenPhone {
+		display: none;
+	}
+	.showWhenPhone {
+		display: initial;
+	}
+	.table-meta-search input[type='text'] {
+		width: 12em;
+	}
+}
+
+@media screen and (max-width: 450px) {
+  [class^="col-"],
+  [class*=" col-"] {
+    width: 100%;
+    padding: 0;
+  }
+}

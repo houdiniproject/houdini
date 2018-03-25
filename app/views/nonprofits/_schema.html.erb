@@ -1,0 +1,19 @@
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "<%= npo.name %>",
+  "description": "<%= npo.tagline %>",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "<%= npo.address %>",
+    "addressLocality": "<%= npo.city %>",
+    "addressRegion": "<%= npo.state_code %>",
+    "postalCode": "<%= npo.zip_code %>"
+  },
+  "url": "<%= npo.website %>",
+  "telephone": "<%= npo.phone %>",
+  "email": "<%= npo.email %>"
+}
+</script>
+

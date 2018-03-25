@@ -1,0 +1,22 @@
+<!-- partial profiles/_profile_tabs.html.erb -->
+<%# needs a profile_id %>
+<% url = '/profiles/' + profile_id.to_s %>
+
+<div class='pageTabs'>
+
+	<a href='<%= url %>'
+		class="<%= active == :profile && 'is-active' %>">
+		Profile
+	</a>
+
+	<a href='<%= url %>/donations_history'
+		class="<%= active == :donations && 'is-active' %>">
+		Donations
+	</a>
+
+	<a href='<%= url %>/fundraisers'
+		class="<%= active == :fundraisers && 'is-active' %>">
+		Fundraisers
+	</a>
+</div>
+<!-- end partial profiles/_profile_tabs.html.erb -->

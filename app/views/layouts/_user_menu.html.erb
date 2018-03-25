@@ -1,0 +1,45 @@
+<% if current_user %>
+
+	<section class='sideNav-section'>
+		<a class='sideNav-link' href='<%= profile_url(current_user.profile) %>'>
+		<% if current_user.profile.picture? %>
+			<img class='sideNav-profile'src="<%= current_user.profile.get_profile_picture(:tiny) %>')">
+			<% else %>
+				<i class="sideNav-icon icon-user-1"></i>
+			<% end %>
+				<span class='sideNav-text'><%= current_user.profile.name.blank? ? 'Your Profile' : current_user.profile.name %></span>
+		</a>
+	</section>
+
+	<section class='sideNav-section'>
+		<a  class='sideNav-link' href='<%= settings_path %>'>
+			<i class='sideNav-icon icon-setting-gear'></i>
+			<span class='sideNav-text'>Settings</span>
+		</a>
+		<% if current_role?([:nonprofit_admin,:nonprofit_associate]) %>
+			<a class='sideNav-link' href='/help'>
+				<i class='sideNav-icon icon-question-mark'></i>
+				<span class='sideNav-text'>Help</span>
+			</a>
+		<% end %>
+		<a class='sideNav-link' href='<%= destroy_user_session_path %>'>
+			<i class='sideNav-icon icon-log-out-1'></i>
+			<span class='sideNav-text'>Logout</span>
+		</a>
+	</section>
+
+<% else %>
+
+	<section class='sideNav-section'>
+		<a class='sideNav-link' open-modal='loginModal'>
+			<i class='sideNav-icon icon-key-2'></i>
+			<span class='sideNav-text'>Login</span>
+		</a>
+		<a class='sideNav-link' open-modal='chooseRoleModal'>
+			<i class='sideNav-icon icon-user-add-1'></i>
+			<span class='sideNav-text'>Sign up</span>
+		</a>
+	</section>
+
+<% end %>
+

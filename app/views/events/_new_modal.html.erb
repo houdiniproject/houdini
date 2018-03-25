@@ -1,0 +1,143 @@
+<!-- partial: events/new_modal -->
+
+<!-- use 'campaigns/new/index' -->
+
+<div class='modal' id='newEvent'>
+
+	<%= render 'common/modal_header', title: 'New Event' %>
+
+	<div class='wizard-steps' style='display:none;'>
+		<!--= wizard.init 'new_event_wiz' -->
+
+		<%= render 'components/wizard/step_index', wizard_name: 'new_event_wiz' %>
+
+		<div class='modal-body' style='display: table;'>
+
+			<div class='wizard-step name-step'>
+				<!--= wizard.set_step 'new_event_wiz' 'Name' -->
+
+				<form parsley-validate>
+					<!--= on 'submit' (advance_event_name_step form_object) -->
+
+					<input type='hidden' name='event[profile_id]' value='<%= current_user.profile.id %>'>
+
+					<fieldset>
+						<label>Event Name</label>
+						<input type='text' name='event[name]' required parsley-maxlength='100' parsley-trigger='change'>
+					</fieldset>
+
+					<fieldset>
+						<label>Short Tagline</label>
+            <input type='text' name='event[tagline]' required parsley-maxlength='140' parsley-trigger='change'>
+					</fieldset>
+					<fieldset>
+						<label>Short Description <small>(used for sharing on social media)</small></label>
+						<textarea name='event[summary]' required parsley-maxlength='300' parsley-trigger='change'></textarea>
+					</fieldset>
+
+					<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_event_wiz', branded: true %>
+
+				</form>
+			</div><!-- .name-step -->
+
+			<div class='wizard-step dates-step' style='display: block;'>
+				<!--= wizard.set_step 'new_event_wiz' 'Dates' -->
+
+				<form parsley-validate class='dates-fields u-centered'>
+					<!--= on 'submit' (def 'new_event' form_object) (wizard.advance 'new_event_wiz') -->
+
+					<fieldset class='group'>
+						<label class='u-floatL'>Start Date & Time</label>
+            <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
+              <input class='u-width--200 u-bold u-inlineBlock' apply-pikaday-time='MM/DD/YYYY hh:mm a' type='text' name='event[start_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM'>
+              <a class='button edit u-inlineBlock'>Set</a>
+            </div>
+					</fieldset>
+
+					<fieldset class='group u-marginBottom--15  u-relative'>
+						<label class='u-floatL'>End Date & Time:</label>
+            <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
+              <input class='u-width--200 u-bold u-inlineBlock' type='text' name='event[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM'>
+              <a class='button edit u-inlineBlock'>Set</a>
+            </div>
+					</fieldset>
+
+					<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_event_wiz', branded: true %>
+
+				</form>
+			</div><!-- .dates-step -->
+
+
+
+			<div class='wizard-step location-step'>
+				<!--= wizard.set_step 'new_event_wiz' 'Location' -->
+
+				<form parsley-validate>
+					<!--= on 'submit' (def 'new_event' form_object) (wizard.advance 'new_event_wiz') -->
+
+					<div class='layout--two'>
+
+						<fieldset>
+							<label>Venue Name</label>
+							<input type='text' name='event[venue_name]' required parsley-trigger='change' parsley-maxlength='80'>
+						</fieldset>
+
+						<fieldset>
+							<label>Address</label>
+							<input type='text' name='event[address]' required parsley-trigger='change'>
+						</fieldset>
+
+						<fieldset>
+							<label>City</label>
+							<input type='text' name='event[city]' required parsley-trigger='change' value='<%= @nonprofit.city %>'>
+						</fieldset>
+
+						<fieldset>
+							<label>State</label>
+							<%= render :partial => "common/states_dropdown", :locals => {:name => 'event[state_code]', :default => @nonprofit.state_code} %>
+						</fieldset>
+
+					</div>
+
+					<fieldset>
+						<label>Extra Directions <small>(optional)</small></label>
+						<textarea name='event[directions]' parsley-maxlength='500'></textarea>
+					</fieldset>
+
+				<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_event_wiz', branded: true %>
+
+				</form>
+			</div><!-- .location-step -->
+
+			<div class='wizard-step images-step'>
+				<!--= wizard.set_step 'new_event_wiz' 'Images' -->
+
+				<form parsley-validate>
+					<!--= on 'submit' create_event -->
+
+					<fieldset>
+						<div class='image-upload u-floatR' if-branded='border-color, light'>
+							<span><i class='fa fa-image'></i> Upload</span>
+							<input type='file' name='event[main_image]' required parsley-trigger='change'>
+						</div>
+
+						<p class='u-color--red'>
+							<!--= show_if (length image_upload.error) -->
+							<small><!--= put image_upload.error --></small>
+						</p>
+
+						<div class='col-left-8'>
+							<label>Preview Image <small>(used for sharing on social media)</small></label>
+							<p>You'll have a chance to upload an additional header image once you've created your event.</p>
+						</div>
+					</fieldset>
+
+					<%= render 'components/forms/submit_button', button_text: 'Preview Event!', scope: 'new_event_wiz', branded: true %>
+
+				</form>
+			</div><!-- .images-step -->
+		</div>
+	</div>
+</div>
+
+<!-- end partial: events/new_modal -->

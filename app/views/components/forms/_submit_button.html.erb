@@ -1,0 +1,31 @@
+<% button_text = 'Save' if button_text.nil? %>
+<% loading_text = 'Saving...' if loading_text.nil? %>
+
+<% button_class = button_class || 'button' %>
+<% div_class = div_class || 'u-centered' %>
+<% no_error = false if no_error.nil? %>
+
+<% scope = scope + '.' unless scope.nil? %>
+<% scope = '' if scope.nil? %>
+
+<% attribute = attribute || '' %>
+<% branded ||= false %>
+
+<div class='<%= div_class %>'>
+
+	<% unless no_error %>
+		<p class='error'><!--= put <%= scope %>error --></p>
+	<% end %>
+
+	<button class='<%= button_class %>' 
+		type='submit' <%= attribute.html_safe %>
+		<%= branded ? "if-branded='background-color, base'".html_safe : ''%>>
+  	<!--= set_attr_if <%= scope %>loading 'disabled' 'disabled' -->
+
+	<i class='fa fa-spin fa-spinner'><!--= show_if <%= scope %>loading --></i>
+
+	<!--= (put '<%= button_text %>') -->
+	</button>
+
+</div>
+

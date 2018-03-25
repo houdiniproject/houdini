@@ -1,0 +1,18 @@
+<% content_for :javascripts do %>
+	<script>
+		app.bankAccount = <%= raw @bank_account.to_json %>
+		app.bankAccount.nonprofit = {
+			name: '<%= @nonprofit.name %>',
+			id: <%= @nonprofit.id %>
+		}
+	</script>
+
+	<%= IncludeAsset.js '/client/js/bank_accounts/confirm/page.js' %>
+<% end %>
+
+<div class='backgroundColor'>
+</div>
+
+<div class='container u-bg--white u-marginTop--50 u-padding--30 js-view-confirm'>
+
+</div>

@@ -1,0 +1,106 @@
+<%= content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'nonprofits/payouts/index/page' %>
+<% end %>
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<%= content_for :javascripts do %>
+	<%= IncludeAsset.js '/client/js/nonprofits/payouts/index/page.js' %>
+	<script>
+		appl.def('has_bank', <%= !!@nonprofit.bank_account %>)
+	</script>
+<% end %>
+
+<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
+
+<%= render 'nonprofits/transaction_title', 
+	active: :payouts, 
+	icon_class: 'icon-bank-1', 
+	page_name: 'Payouts' %>
+
+<section class='table-meta'>
+	<div class='container--wide'>
+		<span class='table-meta-metric'>
+			Pending balance: <%= print_currency @pending_total %>
+		</span>
+		<span class='table-meta-metric'>
+			Available balance: <%= print_currency @available_total %>
+		</span>
+		<% if @can_make_payouts %>
+			<span class='table-meta-metric--blue'>
+				Next automatic payout: <%= 1.month.from_now.strftime('%_m/1/%Y') %>
+			</span>
+		<% end %>
+		<span> <%= render 'payout_button' %> </span>
+	</div>
+</section>
+
+<div class='panelsLayout container--wide'>
+
+	<section class='u-padding--10 u-marginTop--10'>
+
+		<% if @can_make_payouts && current_role?(:nonprofit_admin) %>
+			<p>Your connected bank account is <strong><%= @nonprofit.bank_account && @nonprofit.bank_account.name %></strong>. 
+				<a class='button--micro edit'>
+					<!--= on 'click' (open_modal 'newBankModal') -->
+					<i class='fa fa-pencil'></i> Change Bank Account
+				</a>
+			</p>
+		<% elsif current_role?(:nonprofit_admin) %>
+			<%= render 'todos' %>
+	<% end %>
+
+		<% if @payouts.empty? %>
+			<p class='u-padding--30 noResults'><em>No payouts have been made yet.</em></p>
+		<% else %>
+	</section>
+
+	<table class='table--plaid'>
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Net Amount</th>
+				<th>Bank account</th>
+				<th>Status</th>
+				<th></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<% @payouts.each do |payout| %>
+			<tr>
+				<td><%= simple_date(payout.created_at) %></td>
+				<td class='table-bigNum'><%= print_currency(payout.net_amount) %></td>
+				<td><%= payout.bank_name %></td>
+				<td>
+					<% if payout.status == 'paid' || payout.status == 'succeeded' %>
+						<span class='succeeded'>Succeeded</span>
+					<% elsif payout.status == 'pending' %>
+						<span class='pending'>Pending</span>
+					<% elsif payout.status == 'failed' %>
+						<span class='failed'>Failed</span><br />
+						<% unless payout.failure_message.blank? %>
+							<span class='failure-msg'>Message received: <br /><%= payout.failure_message %></span>
+						<% end %>
+						</span>
+					<% end %>
+				</td>
+				<td>
+					<a class='button--small u-width--full details' href='./payouts/<%=payout.id%>.csv' target='_blank'>
+						<i class='fa fa-file-text'></i>
+						Payout report (CSV)
+					</a>
+				</td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+
+	<% end %>
+</div>
+
+
+<div class='js-flimflam-verification'></div>
+
+<%= render 'nonprofits/bank_accounts/modal' %>
+<%= render 'nonprofits/payouts/modal' %>
+

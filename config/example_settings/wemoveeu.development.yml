@@ -1,0 +1,12 @@
+mailer:
+  delivery_method: "sendmail"
+  address: "localhost"
+  port: 25
+  host: "cc.wemove.eu"
+
+cdn:
+  url: "https://cc.wemove.eu"
+
+payment_provider:
+  stripe_public_key: <%= ENV['STRIPE_API_PUBLIC'] %>
+  stripe_private_key: <%= ENV['STRIPE_API_KEY'] %>

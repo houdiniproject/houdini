@@ -1,0 +1,145 @@
+@mixin zIndex-minus2 { z-index: -2 !important; }
+@mixin zIndex-minus1 { z-index: -1 !important; }
+@mixin zIndex-0 { z-index: 0 !important; }
+@mixin zIndex-1 { z-index: 100 !important; }
+@mixin zIndex-2 { z-index: 200 !important; }
+@mixin zIndex-3 { z-index: 300 !important; }
+@mixin zIndex-4 { z-index: 400 !important; }
+@mixin zIndex-5 { z-index: 500 !important; }
+@mixin zIndex-6 { z-index: 600 !important; }
+@mixin zIndex-7 { z-index: 700 !important; }
+@mixin zIndex-8 { z-index: 800 !important; }
+@mixin zIndex-9 { z-index: 900 !important; }
+@mixin zIndex-10 { z-index: 1000 !important; }
+
+
+// zIndex-minus2
+.ccPattern:after,
+.container-shadow,
+.features:after,
+.backgroundColor,
+.backgroundColor--green {
+	@include zIndex-minus2;
+}
+
+
+// zIndex-minus1
+.propeller-image,
+.carousel-selectors-section:before,
+.features:before,
+.ccPattern:before {
+	@include zIndex-minus1;
+}
+
+.campaignMedia-video iframe {
+	@include zIndex-0;
+}
+
+// zIndex-1
+.helpBoxWrapper,
+img.fr-fil,
+img.fr-fir,
+img.fr-fin,
+.froala-element span.f-img-editor:before,
+.colpick_hex_field:before,
+.pageTabs:before,
+.edit-carousel-button,
+.goalAmount,
+.totalRaised,
+.editVideoButton,
+.button--tiny.edit.absolute,
+.fundraisingHeader-content,
+.changeImagesButton,
+.orWithLine:before  {
+	@include zIndex-1;
+}
+
+
+// zIndex-2
+.froala-element span.f-img-editor,
+.froala-element span.f-img-handle,
+.froala-box .froala-element .f-video-editor:after,
+.froala-editor button.fr-bttn,
+.froala-editor button.fr-trigger,
+.froala-modal .f-modal-wrapper div.f-image-list div.f-img-deleting:after,
+.froala-editor.f-basic,
+.givingIndicator,
+.wizard-index-label:before,
+.fundraisingHeader--color .settingsButtons,
+.fundraisingHeader--image .settingsButtons,
+.fixedTopAction {
+	@include zIndex-2;
+}
+
+
+// zIndex-3
+.froala-modal .f-modal-wrapper div.f-image-list div.f-img-deleting:before,
+.froala-box .html-switch,
+.supported-banner-number {
+	@include zIndex-3;
+}
+
+
+// zIndex-4
+.froala-editor .fr-dropdown.fr-color-picker .fr-dropdown-menu .fr-color-bttn,
+.button--admin,
+.parsley-error-list,
+.footer--mosaicStripe,
+.sideNav-scrim,
+.is-stuck, {
+	@include zIndex-4;
+}
+
+
+// zIndex-5
+.fr-dropdown-menu .fr-color-bttn.active,
+.topNav,
+.topNav.articleLayout,
+.infoCard {
+	@include zIndex-5;
+}
+
+
+// zIndex-6
+.fr-dropdown-menu .fr-color-bttn:hover:not(:focus):not(:active),
+.froala-editor.f-basic,
+.sideNav{
+	@include zIndex-6;
+}
+
+
+// zIndex-7
+.sideNav-toggle,
+.u-fixed--bottom {
+	@include zIndex-7;
+}
+
+// zIndex-8
+.modal-backdrop,
+.froala-editor,
+.froala-editor .fr-dropdown .fr-dropdown-menu,
+.froala-overlay {
+	@include zIndex-8;
+}
+
+
+// zIndex-9
+.ff-modalBackdrop,
+.modal,
+#better-browser-message,
+.progressBar--app,
+.froala-modal,
+.froala-editor,
+.froala-editor .fr-dropdown .fr-dropdown-menu,
+.alert--error,
+.alert--success,
+.froala-popup,{
+	@include zIndex-9;
+}
+
+
+// zIndex-10
+.fullScreenLoading {
+	@include zIndex-10;
+}
+

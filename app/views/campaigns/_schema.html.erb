@@ -1,0 +1,22 @@
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "<%= @campaign.name %>",
+  "description": "<%= @campaign.summary.present? ? raw(@campaign.summary) : raw(@campaign.name) %>",
+  "url": "<%= url %>",
+  "location": {
+    "@type": "Place",
+    "name": "<%= @campaign.name %>",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "<%= @nonprofit.city %>",
+      "addressRegion": "<%= @nonprofit.state_code %>",
+      "postalCode": "<%= @nonprofit.zip_code %>",
+      "streetAddress": "<%= @nonprofit.address %>"
+    }
+  },
+  "startDate": "<%= @campaign.created_at %>"
+}
+</script>
+

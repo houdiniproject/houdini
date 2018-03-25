@@ -1,0 +1,19 @@
+.sideGifts table {
+	width: 100%;
+}
+.sideGifts table td {
+	text-align: center;
+}
+.sideGifts table td:not(:nth-of-type(2)){
+	width: 35%;
+}
+.sideGifts table td:nth-of-type(2) {
+	width: 30%;
+}
+.sideGift {
+	padding: 15px;
+	margin-bottom: 15px;
+}
+.sideGift i {
+	color: rgba($bluegrass, 0.7);
+}

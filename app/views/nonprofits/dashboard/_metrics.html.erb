@@ -1,0 +1,105 @@
+<div class='metrics'>
+<!--= scope 'metrics.data' -->
+
+<section class='pastelBox--green u-marginBottom--15'>
+  <header><i class='fa fa-heart'></i> Payments</header>
+
+  <div class='pastelBox-body'>
+    <table class='table'>
+      <tr>
+        <td class='table-strongText'>Total</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.payments.total' %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class='table-strongText'>Average</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.payments.average' %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class='table-strongText'>This week</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.payments.week' %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class='table-strongText'>This month</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.payments.month' %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class='table-strongText'>This year</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.payments.year' %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section class='pastelBox--blue u-marginBottom--15'>
+  <header><i class='fa fa-refresh'></i> Recurring Monthly</header>
+
+  <div class='pastelBox-body'>
+    <table class='table'>
+      <tr>
+        <td class='table-strongText'>Total</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.recurring.total' %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class='table-strongText'>Average</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.recurring.average' %>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td class='table-strongText'>New this month</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.recurring.month' %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<section class='pastelBox--orange'>
+  <header><i class='fa fa-users'></i> Supporters</header>
+  <div class='pastelBox-body'>
+    <table class='table'>
+      <tr>
+        <td class='table-strongText'>Total</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.supporters.total' %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class='table-strongText'>New this week</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.supporters.week' %>
+        </td>
+      </tr>
+
+      <tr>
+        <td class='table-strongText'>New this month</td>
+        <td class='table-bigNum'>
+          <%= render 'components/loading_data', data: 'this.supporters.month' %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+</div>

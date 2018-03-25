@@ -1,0 +1,82 @@
+<div class='modal' id='offlineCampaignDonation'>
+
+	<%= render 'common/modal_header', title: 'New Offsite Donation' %>
+
+	<div class='modal-body'>
+
+		<form class='donate-info-form' parsley-validate>
+			<!--= on 'submit' (create_offline_donation form_object) -->
+			<input type='hidden' name='campaign_id' value='<%= @campaign.id %>'>
+
+			<input type='hidden' name='nonprofit_id' value='<%= @nonprofit.id %>'>
+			<input type='hidden' name='supporter.nonprofit_id' value='<%= @nonprofit.id %>'>
+      <input type='hidden' name='designation' value='<%= @campaign.name %>'>
+
+      <p class='u-centered highlight u-marginBottom--15'>Add an offsite donation to this campaign</p>
+
+      <%= render 'components/forms/offsite_fields' %>
+
+			<section class='layout--two'>
+
+				<fieldset>
+					<label>Full Name <small>(recommended)</small></label>
+					<input type='text' name='supporter.name'>
+				</fieldset>
+
+        <fieldset>
+          <label>Email <small>(recommended)</small></label>
+          <input parsley-error-message='Please enter a valid email.' type='email' parsley-trigger='change' name='supporter.email'>
+        </fieldset>
+
+				<fieldset>
+					<label>Address</label>
+					<input type='text' name='supporter.address'>
+				</fieldset>
+
+				<fieldset>
+					<label>City</label>
+					<input type='text' name='supporter.city'>
+				</fieldset>
+
+				<fieldset class='layout--two u-marginBottom--0'>
+					<fieldset>
+						<label>State</label>
+						<select class='u-marginBottom--0' name='supporter.state_code'>
+							<option selected value=''>
+							</option>
+							<% us_states.each do |state, code| %>
+								<option value="<%= code %>"><%= state %></option>
+							<% end %>
+						</select>
+					</fieldset>
+					<fieldset>
+						<label>Zipcode</label>
+						<input parsley-error-message='Enter a valid zip code.' parsley-trigger='change' parsley-type='number' type='text' name='supporter.zip_code'>
+				  </fieldset>
+				</fieldset>
+
+        <fieldset>
+          <label>Phone</label>
+          <input parsley-error-message='Enter a valid phone number.' parsley-trigger='change' parsley-type='phone' type='text' name='supporter.phone'>
+        </fieldset>
+			</section>
+
+      <fieldset>
+        <label>Notes <small> (optional) </small> </label>
+        <textarea name='comment' rows='3' placeholder='Notes'></textarea>
+      </fieldset>
+
+			<div class='u-centered'>
+				<input type='hidden' value='false'>
+				<input type='checkbox' id='anonymize' name='supporter.anonymous'>
+				<label id='anon-label' for='anonymize'>
+					Make this donation anonymous
+				</label>
+			</div>
+
+			<%= render 'components/forms/submit_button', button_text: 'Save', loading_text: 'Saving...' %>
+
+		</form>
+	</div>
+</div>
+</div>

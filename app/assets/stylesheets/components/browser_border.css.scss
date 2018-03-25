@@ -1,0 +1,49 @@
+.browserBorder {
+	position: relative;
+	@include border-radius(7px 7px 0 0);
+  @include basicShadow;
+}
+.browserBorder img {
+	width: 100%;
+	margin-top: 26px;
+	border-left: 1px solid grey;
+	border-right: 1px solid grey;
+	border-bottom: 1px solid grey;
+}
+.browserButtons {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.browserButtons-inner {
+	width: 100%;
+	height: 26px;
+	border: 1px solid grey;
+	@include border-radius(7px 7px 0 0);
+	background: darken(#fbfbfb, 10);
+}
+
+@mixin browserButton($color) {
+	@include border-radius(50%);
+	width: 10px;
+	height: 10px;
+	background-color: $color;
+	position: absolute;
+	top: 8px;
+	@include opacity(0.7);
+}
+
+.browserButtons-inner i:nth-of-type(1) {
+	@include browserButton($grass);
+	left: 10px;
+}
+.browserButtons-inner i:nth-of-type(2) {
+	@include browserButton(#FF9A00);
+	left: 30px;
+}
+.browserButtons-inner i:nth-of-type(3) {
+	@include browserButton($red);
+	left: 50px;
+}
+

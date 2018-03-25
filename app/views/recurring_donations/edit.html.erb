@@ -1,0 +1,12 @@
+<%= content_for :javascripts do %>
+	<script>
+		app.pageLoadData = <%= raw @data.to_json %>
+	</script>
+	<%= IncludeAsset.js '/client/js/recurring_donations/edit/page.js' %>
+<% end %>
+
+<% content_for :stylesheets do %>
+    <%= stylesheet_link_tag 'recurring_donations/edit/page' %>
+<% end %>
+
+<div id='js-main'></div>

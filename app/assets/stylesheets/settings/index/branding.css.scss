@@ -1,0 +1,79 @@
+@import 'mixins';
+@import 'common/vendor/colpick';
+@import 'nonprofits/btn/page';
+@import 'common/branded_campaign_button';
+
+
+.branding-settings-wrapper {
+  float: left;
+  width: 244px;
+}
+
+.branding-settings-wrapper .title,
+.preview-wrapper .title {
+  padding: 8px;
+  font-weight: 600;
+  margin: 0;
+}
+.preview-wrapper .title {
+  text-align: center;
+}
+
+.font-wrapper ul { margin: 0; }
+
+.font-wrapper li { 
+  padding: 5px 10px;
+  color: rgba(black, 0.6);
+  position: relative;
+  cursor: pointer;
+  &.open {font-family: OpenSansCondensed, 'Helvetica Neue', Arial, sans-serif;}
+  &.helvetica {font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+  &.georgia {font-family: Georgia, Serif;}
+  &.futura {font-family: ‘Futura’, Arial, sans-serif;}
+  &.bitter {@include bitter;}
+  &:after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba($grey, 0.1);
+  }
+  &:hover {
+    font-weight: bold;
+  }
+}
+
+.color-wrapper {
+  overflow: auto;
+}
+
+// color picker
+.colPick-wrapper {
+  height: 240px;
+  padding: 20px;
+}
+.colPick-wrapper input[type="text"]:focus {
+  border: none;
+}
+
+.preview-wrapper {
+  overflow: auto;
+  @include noselect;
+}
+
+.branded-donate-button-wrapper {
+  text-align: center;
+  padding: 20px;
+}
+
+.pane-inner .branded-donate-button {
+  @include transition(none);
+}
+
+.branding-form {
+  margin: 0;
+  text-align: center;
+  padding: 15px 10px 10px;
+}

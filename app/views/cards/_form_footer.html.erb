@@ -1,0 +1,39 @@
+<% hide_dedication = false if hide_dedication.nil? %>
+
+<!-- partial start: cards/form_footer -->
+<footer class='u-centered'>
+
+	<div class='progressBar u-marginY--10'>
+		<!--= show_if card_form.loading -->
+		<div class='progressBar-fill--striped'>
+			<!--= style 'width' card_form.progress_width -->
+		</div>
+	</div>
+
+	<p class='status'>
+		<!--= add_class_if card_form.error 'error' -->
+		<!--= put card_form.status -->
+	</p>
+
+	<button type='submit' class='button' if-branded='background-color, base'>
+		<!--= set_attr_if card_form.loading 'disabled' 'disabled' -->
+		Submit
+	</button>
+
+
+	<div class='u-marginTop--10'>
+		<!--= hide_if card_form.loading -->
+		<p>
+			<!--= hide_if card_form.loading -->
+			<small><i class='fa fa-lock'></i> 256-bit encrypted</small>
+		</p>
+
+	  <% unless hide_dedication %>
+		<p class='highlight u-marginBottom--0 u-centered'>
+      <!--= hide_if is_hiding_dedication -->
+			<small>You can add a dedication after submitting your payment</small>
+		</p>
+	  <% end %>
+	</div>
+</footer>
+<!-- partial end: cards/form_footer -->

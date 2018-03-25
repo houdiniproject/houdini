@@ -1,0 +1,37 @@
+<p>
+A recurring donation from one of your supporters has been cancelled. Details are below.
+</p>
+<br>
+
+<p>
+This donation was cancelled by <%= @donation.recurring_donation.cancelled_by %>.
+</p>
+
+
+
+<p>
+The donor has also received a notification of the cancellation.
+</p>
+<br>
+
+<% if @charge && @charge.failure_message.present? %>
+<p>
+The failure message we received from the payment processor was: <%= @charge.failure_message %>
+</p>
+<% end %>
+
+<%= render 'components/email/supporter_table', supporter: @donation.supporter %>
+<br>
+<%= render 'cancelled_recurring_donation_table', donation: @donation %>
+<br>
+<%= render 'recurring_donation_table', donation: @donation %>
+<br>
+
+<p>
+You can also access settings for this recurring donation from your 
+<a href='<%= nonprofits_recurring_donations_url(@nonprofit) %>'>
+  Recurring Donations Dashboard
+</a>
+</p>
+
+<%= render 'emails/sig' %>

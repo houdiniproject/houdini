@@ -1,0 +1,8 @@
+<%= content_for :javascripts do %>
+  <%= IncludeAsset.js '/client/js/super-admin/page.js' %>
+<% end %>
+
+<% content_for(:hide_nav_beacon) {'true'} %>
+
+<div id='ff-render-super-admin'></div>
+

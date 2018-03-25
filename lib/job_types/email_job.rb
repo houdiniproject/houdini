@@ -1,0 +1,27 @@
+module JobTypes
+ class EmailJob
+   def perform
+    raise 'You need to override this'
+   end
+
+   def max_attempts
+     MAX_EMAIL_JOB_ATTEMPTS || 1
+   end
+
+   def destroy_failed_jobs?
+     false
+   end
+
+   def error(job, exception)
+     Airbrake.notify(exception)
+   end
+
+   def reschedule_at(current_time, attempts)
+     current_time + attempts**(2.195);
+   end
+
+   def queue_name
+     'email_queue'
+   end
+ end
+end

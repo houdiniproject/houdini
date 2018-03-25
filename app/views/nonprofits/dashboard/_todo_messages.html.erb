@@ -1,0 +1,13 @@
+<div>
+	<!--= hide_if (eq todos.percent_done 100) -->
+	<p class='pastelBox--yellow u-padding--15 u-marginBottom--15'>
+		Welcome, <strong><%= current_user.profile.name.blank? ? @nonprofit.name : current_user.profile.name %></strong>! Below is a checklist to help you on your way to fundraising excellence.
+
+	<span>
+		<!--= show_if (< todos.percent_done 20) -->
+		 Once you've started completing these tasks, you'll see your dashboard come to life with helpful data and reminders.
+	</span>
+
+		If you need help with any these tasks, visit our <a href='/help'>Help Center</a>.
+	</p>
+</div>

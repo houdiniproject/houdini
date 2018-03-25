@@ -1,0 +1,134 @@
+de:
+  hello: "Hallo Welt"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Inhalt kommentieren'
+  organization:
+    name: "Organisation"
+  donation:
+    amount: "Gesamtsumme"
+    date: "Datum der Abbuchung"
+    campaign: "Kampagne"
+    recurring_interval: "Abbuchungsrhythmus"
+    interval: "Alle %{interval} %{time_unit}"
+    recurring_since: "Abbuchung begonnen am"
+    comment: "Kommentar"
+    payment_id: "Mandatsnummer"
+  mailer:
+    donations:
+      donation_receipt: "Informationen über ihre Spende"
+      donor_name: "Name des Spenders"
+      donor_receipt:
+        subject: "Bestätigung über eine Spende für "
+        transfer_info_html: "Auf Ihrem Kontoauszug erscheint die Abbuchung so: %{label}."
+        transfer_label_html: "Spende %{nonprofit_statement}"
+        oneoff_donation_html: "Herzlichen Dank für Ihre Spende an <strong>%{nonprofit_name}</strong>. Wie Sie spenden Tausende Bürgerinnen und Bürger aus Europa und machen uns so zu einer Bewegung, mit der gerechnet werden muss. Wir bewegen Themen, die uns alle angehen und Ihre Unterstützung hilft uns sehr, Kampagnen schnell aufzusetzen und mit ihnen erfolgreich zu sein. "
+        recurring_donation_html: "Herzlichen Dank für Ihre regelmäßige Spende an<strong>%{nonprofit_name}</strong>. Wie Sie spenden Tausende Bürgerinnen und Bürger aus Europa und machen uns so zu einer Bewegung, mit der gerechnet werden muss. Wir bewegen Themen, die uns alle angehen und Ihre Unterstützung hilft uns sehr, Kampagnen schnell aufzusetzen und mit ihnen erfolgreich zu sein. "
+      donor_direct_debit_notification:
+        subject: "Bestätigung über eine Spende für %{nonprofit_name}"
+        transfer_info_html: "Auf Ihrem Kontoauszug erscheint die Abbuchung so %{label}."
+        transfer_label_html: "<strong>Spende %{nonprofit_statement}</strong>."
+        donation_queued_html: "Ihre Einzugsermächtigung für <strong>%{nonprofit_name}</strong> ist zur Bearbeitung eingestellt."
+        recurring_donation_queued_html: "Herzlichen Dank für Ihre regelmäßige Spende an<strong>%{nonprofit_name}</strong>.  Wie Sie spenden Tausende Bürgerinnen und Bürger aus Europa und machen uns so zu einer Bewegung, mit der gerechnet werden muss. Wir bewegen Themen, die uns alle angehen und Ihre Unterstützung hilft uns sehr, Kampagnen schnell aufzusetzen und mit ihnen erfolgreich zu sein."
+  nonprofits:
+    donate:
+      signed_in: "Eingeloggt als"
+      log_out: "Abmelden"
+      amount:
+        label: "Betrag"
+        sustaining: "Werden Sie Förderer von WeMove.EU"
+        sustaining_bold: "monatlich"
+        sustaining_selected: "Wählen Sie die Höhe der monatlichen Spende aus"
+        sustaining_selected_bold: "monatlich"
+        monthly: "monatlich"
+        weekly: "wöchentlich"
+        weekly_notice: "um Verwaltungskosten niedrig zu halten, buchen wir monatlich %{amount}%{currency}ab"
+        custom: "anderer"
+        designation:
+          label: "Bezeichnung"
+          choose: "Wählen Sie eine Bezeichnung (optional)"
+          most_needed: "Verwenden Sie meine Spende, wo sie am meisten gebraucht wird"
+        next: "Weiter"
+      info:
+        label: "Information"
+        supporter:
+          email: "E-Mail"
+          email_required: " (notwendig für Bestätigung)"
+          full_name: "Name"
+          first_name: "Vorname"
+          last_name: "Nachname"
+          phone: "Telefon"
+          address: "Adresse"
+          city: "Stadt"
+          state: "Land wählen"
+          country: "Land"
+          other_country: "anderes"
+          region: "Bundesland"
+          postal_code: "Postleitzahl"
+          shipping_address: "Lieferadresse (erforderlich)"
+          errors:
+            email:
+              format: "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        dedication_link: "Diese Spende ist zum Gedenken für jemanden."
+        dedication_saved: "Die Spende widmen für"
+        anonymous_checkbox: "Anonym spenden"
+        next: "Weiter"
+      dedication:
+        info: "Fügen Sie eine Widmung für Ihre Spende hinzu:"
+        in_honor_label: "Zu Ehren von"
+        in_memory_label: "In Gedenken an"
+        first_name: "Vorname"
+        last_name: "Nachname"
+        email: "E-Mail (optional)"
+        phone: "Telefon (optional)"
+        full_address: "Adresse (optional)"
+        note: "Anmerkung"
+        save: "speichern & zurück"
+        donor_note: "Die Anmerkung des Spenders war: "
+      payment:
+        label: "Zahlungsart"
+        one_time: "einmalig"
+        monthly_recurring: "monatlich"
+        tabs:
+          card: "Kreditkarte"
+          sepa: "Lastschrift"
+        loading:
+          checking_card: "Karte wird geprüft..."
+          sending_payment: "Zahlung wird ausgeführt..."
+        card:
+          name: "Karteninhaber/in"
+          number: "Kartennummer"
+          cvc: "Sicherheitscode (CVC)"
+          postal_code: "Postleitzahl"
+          month: "Monat"
+          year: "Jahr"
+          submit: "absenden"
+          loading: "Speichert..."
+          secure_info: "Mit 256-bit SSL gesicherte Transaktionen"
+          errors:
+            field:
+              presence: "Diese Angabe ist erforderlich"
+              format: "Das sieht nicht nach dem richtigen Format aus"
+            number:
+              presence: "Bitten geben Sie Ihre Kartennummer ein"
+              format: "Falsche Kartennummer"
+            email:
+              format: "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+        sepa:
+          name: "Kontoinhaber/in"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "Diese Angabe ist erforderlich"
+              format: "Das scheint nicht das richtige Format zu sein"
+      followup:
+        success: "Ihre Spende wurde erfolgreich übermittelt!"
+        receipt_info: "Eine Bestätigung wird gesendet an"
+        message: "Vielen Dank für Ihre Unterstützung!"
+        share:
+          facebook: "Teilen"
+          twitter: "Twittern"
+          twitter_message: "Seien Sie dabei!"
+        finish: "Beenden"

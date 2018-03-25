@@ -1,0 +1,34 @@
+<p>
+A recurring donation from one of your supporters has had a payment failure. Details are below.
+</p>
+<br>
+
+<p>
+The donor has also received a notification of the payment failure with a link to update their card. Here is a copy of the link that the donor received:
+<br>
+<% url = edit_recurring_donation_url(@donation.recurring_donation, {t: @donation.recurring_donation.edit_token}) %>
+<a href="<%= url %>"> <%= url %> </a>
+</p>
+<br>
+
+<% if @charge.failure_message.present? %>
+<p>
+The failure message we received from the payment processor was: <%= @charge.failure_message %>
+</p>
+<% end %>
+
+<%= render 'components/email/supporter_table', supporter: @donation.supporter %>
+<br>
+<%= render 'failed_recurring_donation_table', donation: @donation, charge: @charge %>
+<br>
+<%= render 'recurring_donation_table', donation: @donation %>
+<br>
+
+<p>
+You can also access settings for this recurring donation from your 
+<a href='<%= nonprofits_recurring_donations_url(@nonprofit) %>'>
+  Recurring Donations Dashboard
+</a>
+</p>
+
+<%= render 'emails/sig' %>

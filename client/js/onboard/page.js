@@ -1,0 +1,2 @@
+require('../common/onboard')
+

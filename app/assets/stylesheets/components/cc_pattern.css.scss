@@ -1,0 +1,27 @@
+@import 'mixins';
+
+.ccPattern {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.ccPattern:after,
+.ccPattern:before {
+	position: absolute;
+	content: '';
+	width: 100%;
+	left: 0;
+	bottom: 0;
+}
+.ccPattern:after {
+		height: 100%;
+		background-image: url('/assets/patterns/features-nodes.svg');
+		background-size: contain;
+		@include opacity(0.3);
+	}
+.ccPattern:before {
+	height: 60%;
+	@include gradient(top, $trans, white);
+}

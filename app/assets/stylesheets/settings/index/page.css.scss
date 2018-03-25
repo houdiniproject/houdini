@@ -1,0 +1,105 @@
+@import 'mixins';
+@import 'components/nonprofit_bank_accounts';
+@import 'components/todos';
+@import 'common/image_uploader';
+@import 'common/vendor/colpick';
+@import 'common/editable';
+@import './branding';
+@import 'nonprofits/show/settings_modal';
+@import 'components/browser_border';
+
+.settings-nav li {
+	cursor: pointer;
+	position: relative;
+	padding: 6px 10px 6px 12px;
+  font-size: 15px;
+  &:before,
+  &:after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+  }
+	&:before {
+	  width: 90%;
+	  height: 1px;
+	  background-color: rgba(black, 0.05);
+	}
+  &:after {
+    width: 5px;
+    height: 100%;
+  }
+}
+.settings-nav li:hover:after {
+  background: rgba($bluegrass, 0.5);
+}
+.settings-nav li.active:after {
+  background: $bluegrass;
+}
+.nav-header {
+	display: block;
+	padding: 20px 0 10px 0;
+	font-size: 20px;
+	@include ellipsis;
+	font-weight: bold;
+}
+.settings-nav-wrapper {
+	@include columns(3.5);
+}
+.settings-nav {
+	margin: 10px 0 0 0;
+	padding: 0 0 0 15px;
+	overflow: auto;
+}
+.pane-header {
+	padding: 20px 15px;
+	text-align: center;
+}
+.pane-header h3 {
+	margin: 0;
+	@include open-sans;
+}
+
+.settings-pane {
+	padding: 10px 15px;
+	@include columns-right(8.5);
+}
+
+
+.pane-inner {
+	background: $fog;
+	border: 1px solid rgba(black, 0.05);
+	padding: 15px;
+	overflow: auto;
+}
+.profile-anon-label {
+	display: inline-block;
+}
+.usersTable form {
+	margin: 0;
+}
+
+.settings-pane .button--action {
+	display: block;
+	color: white; &:hover { color: white; }
+	max-width: 250px;
+	margin: 15px 0 20px 0;
+}
+
+.card-settings .existing-card,
+.card-settings .well,
+.card-settings .status {
+	text-align: left;
+	margin: 10px 0;
+}
+
+.donationPreview-receipt table {
+	width: 100%;
+}
+
+.donationPreview-receipt td{
+	padding: 6px;
+}
+.donationPreview-receipt th {
+	padding: 12px;
+}

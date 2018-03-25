@@ -1,0 +1,25 @@
+.table-meta--main .filteringBy {
+	position: absolute;
+	bottom: -18px;
+	font-size: 13px;
+	left: 14px;
+}
+.table-meta--main .filteringBy {
+	@include opacity(0);
+	@include transform(translateZ(0));
+}
+
+.filteringBy .filteringBy-key {
+	padding: 0 3px;
+	margin-right: 5px;
+	background: rgba($sky, 0.3);
+}
+
+.table-meta--main.is-filtering {
+	padding-bottom: 34px;
+	.filteringBy{
+	@include opacity(0.9);
+	@include transition(opacity 0.2s ease 0.2s);
+	}
+}
+

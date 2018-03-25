@@ -1,0 +1,15 @@
+<div class='modal' id='emailReadOnlyModal'>
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>
+			Subject: <!--= put timeline.displaying_email.subject -->
+		</h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+		<small class='u-marginBottom--15 u-inlineBlock u-color--grey'><!--= put (readable_date timeline.displaying_email.date) --> </small>
+		<article class='editable--readOnly editable--email u-padding--10 u-border--light'>
+			<!--= put timeline.displaying_email.body -->
+		</article>
+	</div>
+</div>

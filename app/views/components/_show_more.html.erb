@@ -1,0 +1,34 @@
+<!-- partial start components/show_more -->
+<footer class='moreResults group'>
+
+	<button class='button--micro details'>
+		<!--= show_if (any <%=scope%>.remaining <%=scope%>.remaining_count)-->
+		<!--= set_attr_if <%=scope%>.loading 'disabled' '' -->
+		<!--= on 'click' (incr '<%=scope%>.query.page') <%=scope%>.index -->
+
+		<span>
+			<!--= show_if <%=scope%>.loading -->
+			<i class='fa fa-spin fa-spinner'></i> Loading...
+		</span>
+
+		<span> <!--= hide_if <%=scope%>.loading --> Show More </span>
+	</button>
+
+
+	<small class='moreResults-showingCount'>
+		<!--= hide_if is_showing_side_panel -->
+		Showing <!--= put (length <%=scope%>.data) --> out of <!--= put (<%=scope%>.total_count)-->
+	</small>
+
+	<small class='moreResults-showingCount' >
+		<!--= show_if is_showing_side_panel -->
+		<span>
+			<!--= hide_if <%=scope%>.remaining -->
+			Showing
+		</span>
+			<!--= put (length <%=scope%>.data) -->/<!--= put (<%=scope%>.total_count)-->
+	</small>
+</footer>
+
+<!-- partial end components/show_more -->
+

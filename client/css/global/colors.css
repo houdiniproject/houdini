@@ -1,0 +1,44 @@
+:root {
+  --grey-05: color(black l(99.4%));
+  --grey-1: color(black l(98%));
+  --grey-2: color(black l(96%));
+  --grey-3: color(black l(92%));
+  --grey-4: color(black l(86%));
+  --grey-5: color(black l(65%));
+  --grey-6: color(black l(50%));
+  --black: #2f2f2f;
+
+  --scrim: rgba(0,0,0,.5);
+
+  --blue: #0176f5;
+  --blue-light: #78b6ff;  
+  --blue-lighter: #d2e6ff;
+  --green: #82c13e;
+  --red: #ff0f0f; 
+}
+
+.bg-grey-1 { background: var(--grey-1)}
+.bg-grey-2 { background: var(--grey-2)}
+.bg-grey-3 { background: var(--grey-3)}
+.bg-grey-4 { background: var(--grey-4)}
+.bg-grey-5 { background: var(--grey-5)}
+.bg-scrim { background: var(--scrim)}
+.bg-black { background: var(--black)} 
+.bg-blue { background: var(--blue)}
+.bg-blue-light { background: var(--blue-light)}
+.bg-blue-lighter { background: var(--blue-lighter)}
+.bg-red { background: var(--red)}
+.bg-green { background: var(--green)}
+
+.color-white { color: white}
+.color-grey { color: var(--grey-6)}
+.color-black { color: var(--black)}
+.color-red { color: var(--red)}
+.color-green { color: var(--green)}
+.color-blue { color: var(--blue)}
+
+.border-color-grey { border-color: var(--grey-4)}
+.border-color-red { border-color: var(--red)}
+.border-color-green { border-color: var(--green)}
+.border-color-blue { border-color: var(--blue-light)}
+

@@ -1,0 +1,8 @@
+<% display_code = false if display_code.nil? %>
+
+<select name=<%= name %>>
+	<option value="" disabled selected>Select a state</option>
+	<% us_states.each do |state| %>
+		<option value='<%= state[1] %>' <%= default == state[1] ? 'selected="selected"' : '' %>><%= display_code ? state[1] : state[0] %></option>
+	<% end %>
+</select>

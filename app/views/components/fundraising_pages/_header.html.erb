@@ -1,0 +1,18 @@
+<!-- partial start: fundaising_pages/_header -->
+<%#  requirements: image_url, is_editor, header_content_partial %>
+<% hide_title = hide_title ? true : false %>
+<% css_style = is_editor ? "style='margin-top: 0'" : '' %>
+
+
+<header class="container fundraisingHeader--plain" <%= css_style.html_safe %> id='js-fundraisingHeader'>
+	<div class='fundraisingHeader--image-container' id='js-fundraisingHeader-image' style='display: none;'>
+		<img class='fundraisingHeader--image-aspectRatio' src="<%= asset_path 'graphics/10x6.jpg' %>">
+	</div>
+
+	<% unless hide_title %>
+  	<section class='fundraisingHeader-content'>
+  		<%= render header_content_partial %>
+  	</section>
+	<% end %>
+</header>
+<!-- partial end: fundaising_pages/_header  -->

@@ -1,0 +1,94 @@
+<!-- partial nonprofits/supporter/_filter_panel -->
+
+<form class='filterPanel'>
+	<!--= scope 'supporters' -->
+	<div class='filterPanel-body'>
+		<label class='u-margin--0'>Total contributed is...</label>
+		<div class='layout--two'>
+			<%= render 'components/tables/filtering/filter_input',
+				subtitle: 'at least',
+				event: 'change',
+				name: 'total_raised_greater_than',
+				amount: true %>
+			<%= render 'components/tables/filtering/filter_input',
+				subtitle: 'less than',
+				event: 'change',
+				name: 'total_raised_less_than',
+				amount: true %>
+		</div>
+
+    <hr class='u-margin--0'>
+
+    <label class='u-margin--0'>Last contribution was...</label>
+    <div class='layout--two'>
+      <fieldset class='u-margin--0'>
+        <label><small>after</small></label>
+        <div class='u-relative'>
+          <input type='text' apply-pikaday='MM/DD/YYYY' placeholder='MM/DD/YYYY'>
+          <!--= on 'change' (apply_input_filter 'last_payment_after' get_value) -->
+          <i class='fa fa-times clear-input'></i>
+        </div>
+      </fieldset>
+
+      <fieldset class='u-margin--0'>
+        <label><small>before</small></label>
+        <div class='u-relative'>
+          <input type='text' apply-pikaday='MM/DD/YYYY' placeholder='MM/DD/YYYY'>
+          <!--= on 'change' (apply_input_filter 'last_payment_before' get_value) -->
+          <i class='fa fa-times clear-input'></i>
+        </div>
+      </fieldset>
+	</fieldset>
+
+    </div>
+
+    <label class='u-margin--0'>First contribution was...</label>
+    <div class='layout--two'>
+      <fieldset class='u-margin--0'>
+        <label><small>after</small></label>
+        <div class='u-relative'>
+          <input type='text' apply-pikaday='MM/DD/YYYY' placeholder='MM/DD/YYYY'>
+          <!--= on 'change' (apply_input_filter 'first_payment_after' get_value) -->
+          <i class='fa fa-times clear-input'></i>
+        </div>
+      </fieldset>
+      <fieldset class='u-margin--0'>
+        <label><small>before</small></label>
+        <div class='u-relative'>
+          <input type='text' apply-pikaday='MM/DD/YYYY' placeholder='MM/DD/YYYY'>
+          <!--= on 'change' (apply_input_filter 'first_payment_before' get_value) -->
+          <i class='fa fa-times clear-input'></i>
+        </div>
+      </fieldset>
+    </div>
+
+    <hr class='u-marginBottom--0'>
+
+		<label class='u-marginBottom--5'>Location</label>
+		<%= render 'components/tables/filtering/filter_input',
+			name: 'location',
+			placeholder: "City or zipcode" %>
+
+    <hr class='u-marginBottom--0'>
+    
+    <label class='u-marginBottom--5'>Notes</label>
+		<%= render 'components/tables/filtering/filter_input',
+			name: 'notes',
+			placeholder: "Notes" %>
+    
+    <hr class='u-marginBottom--0'>
+    
+    <label class='u-marginBottom--5'>Custom Fields</label>
+		<%= render 'components/tables/filtering/filter_input',
+			name: 'custom_fields',
+			placeholder: "Custom Fields" %>
+    
+    <hr class='u-marginBottom--5'>
+
+		<%= render 'components/tables/filtering/filter_recurring_donors' %>
+    <%= render 'components/tables/filtering/by_campaign' %>
+    <%= render 'components/tables/filtering/by_event' %>
+    <%= render 'components/tables/filtering/filter_supporter_tags' %>
+	</div>
+</form>
+<!-- partial end nonprofits/supporters/_filter_panel -->

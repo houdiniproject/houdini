@@ -1,0 +1,14 @@
+<div class='pageTabs'>
+	<a href='<%= nonprofits_payouts_path(@nonprofit) %>'
+		class='tour-payouts <%= active == :payouts && 'is-active' %>'>
+		Payouts
+	</a>
+	<a href='<%= nonprofits_recurring_donations_path(@nonprofit) %>'
+		class='<%= active == :recurring && 'is-active' %> lockedFeature'>
+		Recurring
+	</a>
+	<a href='<%= nonprofits_charges_path(@nonprofit) %>'
+	class='<%= active == :payments && 'is-active' %>'>
+		History
+	</a>
+</div>

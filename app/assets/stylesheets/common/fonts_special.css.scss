@@ -1,0 +1,26 @@
+@import 'mixins';
+
+.strong {font-weight: bold;}
+
+.tip { 
+	@include gutter-accent($bluegrass);
+	font-weight: bold;
+}
+
+
+.hero {
+	@include open-sans-condensed;
+	text-transform: uppercase;
+	font-weight: bold
+}
+
+.hero--3d {
+	@extend .hero;
+	text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+}
+
+span.dollar {
+	color: #666;
+	font-size: 0.6em;
+	vertical-align: top;
+}

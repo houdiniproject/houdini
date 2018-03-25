@@ -1,0 +1,10 @@
+
+[data-ff-field='invalid'] input,
+[data-ff-field='invalid'] textarea,
+[data-ff-field='invalid'] select {
+  border-color: $red;
+}
+[data-ff-field-error]:after {
+  content: attr(data-ff-field-error);
+  color: $red;
+}

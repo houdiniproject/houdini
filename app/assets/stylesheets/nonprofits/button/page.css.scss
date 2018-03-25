@@ -1,0 +1,143 @@
+@import 'mixins';
+@import 'nonprofits/btn/page';
+@import 'components/page_tabs';
+@import 'components/steps_menu';
+@import 'components/help_box';
+@import 'components/animations';
+
+.stepsMenu { 
+	margin-top: 15px;
+	@include columns(3.5); 
+}
+.step {
+	padding-left: 15px;
+	@include columns-right(8.5); 
+}
+.step label {
+	width: 100%;
+}
+.step-header {
+	padding: 5px;
+	text-align: center;
+}
+.step-header * {
+	@include open-sans;
+	font-weight: bold;
+}
+.step-header-title {
+	margin: 5px 0;
+}
+.step-inner {
+	background: $fog;
+	border: 1px solid rgba(black, 0.05);
+	padding: 15px;
+	overflow: auto;
+}
+.step-footer {
+	padding: 15px 15px 0 15px;
+	text-align: center;
+}
+.appearance label {
+	text-align: center;
+	cursor: pointer;
+	display: block;
+	padding: 15px;
+}
+.appearance img {
+	max-height: 180px;
+}
+.appearance table {
+	width: 100%;
+}
+.appearance td {
+	width: 50%;
+	vertical-align: middle;
+}
+.appearance td:nth-of-type(1){
+	border-right: 1px dashed rgba(black, 0.08);
+}
+.appearance tr,
+.customText-wrapper,
+.step.type label,
+.step.amounts label,
+.step.designations label  {
+	border-bottom: 1px dashed rgba(black, 0.08);
+}
+.step.designations label,
+.step.amounts label {
+	padding: 10px 0;
+}
+.customText-wrapper {
+	margin-bottom: 10px;
+}
+.appearance input[type='text'] {
+	margin: 10px 0 0 0;
+	max-width: 300px;
+}
+.customText-text {
+	display: block;
+	font-size: 20px;
+	min-height: 25px;
+}
+.step.type label {
+	line-height: 30px;
+	overflow: auto;
+	cursor: pointer;
+	position: relative;
+}
+.step.type img {
+	vertical-align: middle;
+	float: right;
+	width: 25px;
+	margin: 5px 5px 15px 5px;
+}
+.step.preview ul {
+	margin: 10px 0 0 0;
+}
+.advanced section { 
+	padding: 20px; 
+}
+.advanced section h3 {
+	text-align: center;
+	margin: 10px auto;
+}
+.advanced section h5 {
+	line-height: 1;
+	color: rgba($charcoal, 0.9);
+	margin: 30px 0 10px 0;
+}
+.advanced textarea { 
+	margin: 0 0 20px 0; 
+}
+.advanced .no-js { 
+	border: 5px $light-pollen solid; 
+	padding: 20px;
+}
+.advanced .yes-js {
+	padding: 20px;
+	margin-top: 40px;
+	border: 5px $faded-sky solid;
+}
+
+@include keyframes(popUpToFade) {
+	8% { @include transform(translateY(3px)); }
+	12% { 
+		@include opacity(1);
+		@include transform(translateY(5px)); 
+	}
+	90% { 
+		@include opacity(1);
+	}
+	100% { 
+		visibility: hidden;
+		@include transform(translateY(5px)); 
+	}
+}
+.helpBoxWrapper {
+	@include transform(translateY(200px));
+	@include opacity(0);
+	position: fixed;
+	bottom: 80px;
+	right: 60px;
+	@include animation('popUpToFade 10s ease-out 2.5s forwards');
+}

@@ -1,0 +1,8 @@
+<p>
+	Congrats! You're now <%= @title_with_article %> for
+	<strong><%= @nonprofit.name %></strong> on <%= Settings.general.name %>.
+</p><br>
+
+<p><a href='<%= nonprofit_url(@nonprofit) %>'>View your nonprofit profile</a></p>
+
+<%= render 'emails/sig' %>

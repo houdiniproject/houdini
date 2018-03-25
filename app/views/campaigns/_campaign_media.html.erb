@@ -1,0 +1,16 @@
+<div class='u-marginBottom--15 u-relative'>
+	<% has_video =  @campaign.vimeo_video_id || @campaign.youtube_video_id %>
+	<% text = has_video ? "Edit Video" : "Add Video" %>
+
+	<% if @campaign.vimeo_video_id %>
+		<div class='campaignMedia-video' if-branded='background, lightest'>
+			<iframe src="//player.vimeo.com/video/<%= @campaign.vimeo_video_id %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+		</div>
+	<% elsif @campaign.youtube_video_id %>
+		<div class='campaignMedia-video' if-branded='background, lightest'>
+			<%= render 'components/media/youtube_iframe', id: @campaign.youtube_video_id %>
+		</div>
+	<% elsif @campaign.main_image? %>
+		<img class='campaignMedia-image' src='<%= @campaign.main_image_url(:normal) %>'>
+	<% end %>
+</div>

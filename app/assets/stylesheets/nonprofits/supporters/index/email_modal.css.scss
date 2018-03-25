@@ -1,0 +1,17 @@
+@import 'mixins';
+.emailModal-tr > td input {
+	margin-bottom: 0;
+}
+.emailModal-tr > td:first-of-type {
+	width: 10%;
+	padding-right: 10px;
+}
+.emailModal-tr > td:last-of-type  {
+	width: 90%;
+}
+.emailModal-tr > td {
+	padding-bottom: 15px;
+}
+.emailModal input[readonly] {
+	border: none;
+}

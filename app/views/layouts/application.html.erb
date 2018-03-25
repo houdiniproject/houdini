@@ -1,0 +1,26 @@
+<!doctype html>
+
+<html>
+  <head>
+    <%= render 'layouts/meta_tags' %>
+    <%= render 'layouts/stylesheets' %>
+    <%= yield :head %>
+  </head>
+
+  <body class="<%= current_user ? '' : 'not-signedIn '.html_safe %> <%= @panels_layout ? 'panelsLayout' : '' %>">
+    <% if flash[:error] %>
+      <div class='alert--error flash'>
+        <%= flash[:error] %>
+      </div>
+    <% elsif flash[:notice] && !flash[:notice].blank? %>
+      <div class='alert--success flash'>
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    <%= render 'layouts/side_nav' %>
+    <%= yield %>
+    <%= render 'layouts/footer' %>
+    <%= render 'layouts/javascripts' %>
+  </body>
+</html>
+

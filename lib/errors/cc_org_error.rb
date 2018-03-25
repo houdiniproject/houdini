@@ -1,0 +1,2 @@
+class CCOrgError < RuntimeError
+end

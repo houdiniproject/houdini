@@ -1,0 +1,96 @@
+<!-- partial: donations/edit_modal -->
+
+<div class="modal" id='editDonationModal'>
+    <!--= scope 'payment_details.data' -->
+
+  <%= render 'common/modal_header', title: 'Edit Donation' %>
+
+  <div class='modal-body'>
+    <%= render 'payment_info' %>
+
+    <form class='u-marginTop--20' parsley-validate>
+      <!--= on 'submit' (update_donation form_object) -->
+
+
+    <div>
+      <!--= show_if (eq this.kind 'OffsitePayment')  -->
+      <div class='layout--two'>
+        <fieldset>
+          <label>Gross Amount<br><small>This amount should be more than zero</small></label>
+          <input required type='number' min='0.01' name='gross_amount' step='0.01'>
+          <!--= set_value (remove_commas (cents_to_dollars this.gross_amount -->
+        </fieldset>
+        <fieldset>
+          <label>Processing Fees <small>(optional)</small><br><small>This amount should be 0 or negative</small></label>
+          <input required type='number' name='fee_total' max='0' step='0.01'> 
+          <!--= set_value (remove_commas (cents_to_dollars this.fee_total -->
+        </fieldset>
+      </div>
+
+      <fieldset>
+        <label>Date</label>
+        <input required type='text' name='date'>
+        <!--= set_value (readable_date_time this.date) -->
+      </fieldset>
+
+      <fieldset>
+        <label>Check or Payment Number/ID</label>
+        <input type='text' name='check_number'>
+        <!--= set_value (this.check_number) -->
+      </fieldset>
+    </div>
+
+    <fieldset>
+      <label>Campaign</label>
+      <select name='campaign_id'>
+        <option>
+          <!--= repeat campaigns.data -->
+          <!--= set_attr_if (eq payment_details.data.donation.campaign.name this.name) 'selected' true  -->
+          <!--= set_value this.id -->
+          <!--= put this.name -->
+        </option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <label>Event</label>
+      <select name='event_id'>
+        <option>
+          <!--= repeat events.data -->
+          <!--= set_attr_if (eq payment_details.data.donation.event.name this.name) 'selected' true  -->
+          <!--= set_value this.id -->
+          <!--= put this.name -->
+        </option>
+      </select>
+    </fieldset>
+
+      <input type='hidden' name='id'>
+       <!--= set_value this.donation.id -->
+
+      <div class='layout--two'>
+        <fieldset>
+          <label>Dedication <small> (optional)</small></label>
+          <textarea rows='3' name='dedication' placeholder='Dedication'></textarea>
+          <!--= set_value this.donation.dedication -->
+        </fieldset>
+
+        <fieldset>
+          <label>Designation<small> (optional)</small></label>
+          <textarea rows='3' name='designation' placeholder='Designation'></textarea>
+            <!--= set_value this.donation.designation -->
+        </fieldset>
+      </div>
+
+      <fieldset>
+        <label>Notes <small> (optional) </small> </label>
+        <textarea name='comment' rows='3' placeholder='Notes'></textarea>
+        <!--= set_value this.donation.comment -->
+      </fieldset>
+
+      <%= render 'components/forms/submit_button', button_text: 'Save', loading_text: 'Updating...' %>
+
+    </form>
+  </div>
+</div>
+
+<!-- end partial: donations/edit_modal -->

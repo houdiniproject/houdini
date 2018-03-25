@@ -1,0 +1,96 @@
+/* css for public/js/donate-button.js */
+#commitchange-donate-button {
+	cursor: pointer;
+
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+	-webkit-opacity: 0.75;
+	-moz-opacity: 0.75;
+	-ms-opacity: 0.75;
+	opacity: 0.75;
+
+  -webkit-transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -ms-transition: opacity .25s ease-in-out;
+  transition: opacity .25s ease-in-out;
+}
+
+#commitchange-donate-button:hover {
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+	-ms-opacity: 1;
+	opacity: 1;
+}
+
+#commitchange-iframe {
+	height: 0;
+	width: 564px;
+	position: absolute;
+	top: 20px; left: 50%;
+	margin: 0 0 0 -282px;
+	background-color: rgba(0, 0, 0, 0);
+	border: none;
+	display: block;
+	overflow: hidden;
+	padding: 0px;
+	z-index: 99999;
+	visibility: visible;
+	overflow: hidden;
+
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	-ms-opacity: 0;
+	opacity: 0;
+
+  -webkit-transition: opacity .35s ease-in-out;
+  -moz-transition: opacity .35s ease-in-out;
+  -ms-transition: opacity .35s ease-in-out;
+  transition: opacity .35s ease-in-out;
+}
+
+#commitchange-overlay {
+	z-index: 9999;
+	position: fixed;
+	top: 0;
+	left: 0%;
+	width: 100%;
+	height: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	-ms-opacity: 0;
+	opacity: 0;
+
+  -webkit-transition: opacity .35s ease-in-out;
+  -moz-transition: opacity .35s ease-in-out;
+  -ms-transition: opacity .35s ease-in-out;
+  transition: opacity .35s ease-in-out;
+}
+
+#commitchange-iframe.commitchange-open {
+	height: 700px;
+}
+
+#commitchange-overlay.commitchange-open {
+	height: 100%;
+}
+
+#commitchange-overlay.commitchange-closed, #commitchange-iframe.commitchange-closed {
+	height: 0;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	-ms-opacity: 0;
+	opacity: 0;
+}
+
+#commitchange-overlay.commitchange-open, #commitchange-iframe.commitchange-open {
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+	-ms-opacity: 1;
+	opacity: 1;
+}
+
+#commitchange-close-overlay:hover {
+	color: #000;
+}

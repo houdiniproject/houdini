@@ -1,0 +1,108 @@
+@import 'mixins';
+@import 'bootstrap-tour';
+
+@import 'campaigns/new/index';
+@import 'common/donate_button';
+@import 'common/campaign_card';
+@import 'common/editable';
+@import 'events/new/index';
+@import 'events/listing';
+@import 'components/admin_sidebar';
+@import 'components/admin_top_nav';
+@import 'common/image_uploader';
+@import 'components/activity_feed';
+@import 'components/carousel';
+@import 'components/todos';
+@import 'components/info_card';
+@import 'components/fixed_top_action';
+@import './settings_modal';
+@import '../donation_form/form';
+
+.globalFooter {
+	margin-top: 40px;
+}
+.box,
+.box-l,
+.box-r,
+aside button:not(:last-of-type),
+.overview-media, {
+	margin-bottom: 15px;
+}
+.box,
+.box-l {
+	padding-right: 15px;
+}
+.box {
+	@include columns(7.5);
+}
+.box-l {
+	@include columns-left(7.5);
+}
+.box-r {
+	@include columns-right(4.5);
+}
+.overview-media {
+	position: relative;
+	min-height: 100px;
+}
+.overview-map {
+	height: 330px;
+}
+.stripedBox table {
+	width: 100%;
+}
+.stripedBox tr:nth-of-type(2n) {
+	background: rgba(black, 0.02);
+}
+.stripedBox td:first-of-type {
+	padding: 10px 15px;
+}
+.stripedBox td:last-of-type {
+	padding: 10px 10px 10px 0;
+	width: 100%;
+}
+.stripedBox td i {
+	@include opacity(0.7);
+	color: $bluegrass;
+}
+.stripedBox td img {
+	@include border-radius(50%);
+	margin-right: 30px;
+	width: 30px;
+	height: 30px;
+}
+.changeImagesButton {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+.showWhenCollapsed {
+	display: none;
+}
+.events {
+	background: darken($fog, 2);
+}
+
+@media screen and(max-width: 980px) {
+	.nonprofitProfile {
+		padding: 0 15px;
+	}
+}
+@media screen and (max-width: 670px) {
+	.box,
+	.box-r,
+	.box-l {
+		padding: 0;
+		@include columns(12);
+	}
+	.nonprofitProfile {
+		padding: 0 10px;
+	}
+	.todos,
+	.hideWhenCollapsed {
+		display: none;
+	}
+	.showWhenCollapsed {
+		display: block !important;
+	}
+}

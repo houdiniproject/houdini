@@ -1,0 +1,14 @@
+<textarea readonly class='codeText' rows='12'>
+<script>
+(function() {
+if(document.getElementById('commitchange-script')) return;
+var npo = <%= @nonprofit.id %>;
+var script = document.createElement('script');
+var first = document.getElementsByTagName('script')[0];
+script.setAttribute('data-npo-id', npo);
+script.id = 'commitchange-script';
+script.src = '<%= request.base_url %>/js/donate-button.v2.js';
+first.parentNode.insertBefore(script, first);
+})();
+</script>
+</textarea>

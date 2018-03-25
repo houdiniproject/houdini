@@ -1,0 +1,34 @@
+<div class='modal skinny' id='supportersSettingsModal'>
+
+  <%= render 'common/modal_header', title: "Settings" %>
+
+  <section class='modal-body largeFontContent'>
+    <table class='table--plaid'>
+      <tr>
+        <td class='u-paddingY--10'>
+          <a>
+            <!--= on 'click' custom_fields.masters.show_modal -->
+            <i class='fa fa-pencil u-marginRight--20'></i>Manage Custom Fields
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td class='u-paddingY--10'>
+          <a>
+            <!--= on 'click' tags.masters.show_modal -->
+            <i class='fa fa-tag u-marginRight--20'></i>Manage Tags
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td class='u-paddingY--10'>
+          <a class='js-openMailchimpModal'>
+            <i class='fa fa-refresh u-marginRight--20'></i>MailChimp Sync Settings
+          </a>
+        </td>
+      </tr>
+    </table>
+  </section>
+
+
+</div>

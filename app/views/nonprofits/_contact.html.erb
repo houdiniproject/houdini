@@ -1,0 +1,34 @@
+<% if @nonprofit.email || @nonprofit.phone || @nonprofit.website %>
+<aside class='pastelBox--grey u-relative stripedBox u-marginBottom--15'>
+	<header>Contact & Location</header>
+	<table>
+		<%= render 'contact_item',
+			data:  @nonprofit.website,
+			title: 'Visit Website',
+			link: true,
+			icon: 'fa-link' %>
+
+		<%= render 'contact_item',
+			data:  @nonprofit.email,
+			title: 'Email',
+			mail_to: (mail_to @nonprofit.email),
+			icon: 'fa-envelope' %>
+
+		<%= render 'contact_item',
+			data:  @nonprofit.phone,
+			title: 'Phone',
+			icon: 'fa-phone' %>
+
+		<tr>
+			<td><i class='fa fa-map-marker' if-branded='color, base'></i></td>
+			<td>
+				<a href="<%= "http://maps.google.com/?q=#{@nonprofit.address} #{@nonprofit.city}, #{@nonprofit.state_code}" %>" target="_blank"  title="View on map">
+					<% unless @nonprofit.address.blank? %><%= @nonprofit.address.to_s %><br /><% end %>
+					<%= "#{@nonprofit.city}, #{@nonprofit.state_code} #{@nonprofit.zip_code}" %>
+				</a>
+			</td>
+		</tr>
+
+	</table>
+</aside>
+<% end %>

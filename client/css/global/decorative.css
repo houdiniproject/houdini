@@ -1,0 +1,28 @@
+ul.tabs--v li.is-selected,
+ul.tabs--h li.is-selected {
+  border-color: var(--green);
+}
+
+ul.tabs--h li, 
+ul.tabs--v li {
+  color: var(--black); 
+}
+
+.border,
+.border-top,
+.border-bottom,
+.border-left,
+.border-right {
+  border-width: 2px;
+}
+
+hr {
+  border-bottom-width: 2px;
+  border-color: var(--grey-4);
+}
+
+::selection { 
+  color: white;
+  background: var(--black);
+}
+

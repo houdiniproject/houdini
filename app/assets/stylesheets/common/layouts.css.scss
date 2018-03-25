@@ -1,0 +1,202 @@
+@import 'mixins';
+
+[class*=" col-"].floatr {
+	clear: none;
+	clear: right;
+}
+
+.clearfix {
+  clear: both;
+  overflow: auto;
+}
+
+.col-1 { @include columns(1); }
+.col-2 { @include columns(2); }
+.col-3 { @include columns(3); }
+.col-4 { @include columns(4); }
+.col-5 { @include columns(5); }
+.col-6 { @include columns(6); }
+.col-7 { @include columns(7); }
+.col-8 { @include columns(8); }
+.col-9 { @include columns(9); }
+.col-10 { @include columns(10); }
+.col-11 { @include columns(11); }
+.col-12 { @include columns(12); }
+
+.col-right-1 { @include columns-right(1); }
+.col-right-2 { @include columns-right(2); }
+.col-right-3 { @include columns-right(3); }
+.col-right-4 { @include columns-right(4); }
+.col-right-5 { @include columns-right(5); }
+.col-right-6 { @include columns-right(6); }
+.col-right-7 { @include columns-right(7); }
+.col-right-8 { @include columns-right(8); }
+.col-right-9 { @include columns-right(9); }
+.col-right-10 { @include columns-right(10); }
+.col-right-11 { @include columns-right(11); }
+.col-right-12 { @include columns-right(12); }
+
+.col-left-1 { @include columns-left(1); }
+.col-left-2 { @include columns-left(2); }
+.col-left-3 { @include columns-left(3); }
+.col-left-4 { @include columns-left(4); }
+.col-left-5 { @include columns-left(5); }
+.col-left-6 { @include columns-left(6); }
+.col-left-7 { @include columns-left(7); }
+.col-left-8 { @include columns-left(8); }
+.col-left-9 { @include columns-left(9); }
+.col-left-10 { @include columns-left(10); }
+.col-left-11 { @include columns-left(11); }
+.col-left-12 { @include columns-left(12); }
+
+
+@mixin paddedBox {
+	position: relative;
+	overflow: auto;
+}
+.paddedBox--y {
+	padding: 0 0 15px 0;
+	@include paddedBox;
+}
+.paddedBox--x {
+	padding: 0 7.5px;
+	@include paddedBox;
+}
+.paddedBox {
+	padding: 15px;
+	@include paddedBox;
+}
+.paddedBox-header {
+	padding: 5px;
+	text-align: center;
+}
+
+.largeFontContent * {
+	font-size: 18px !important;
+}
+
+@mixin fieldsLayout {
+	clear: both;
+	overflow: auto;
+	.field {
+		display: inline-block;
+		float: left;
+		margin: 0 0 10px 0;
+	}
+}
+
+
+// eventually remove this and replace with layout--two,
+// which does not depend on a spcific class name
+// and is therefore more flexible
+.fieldsLayout--two {
+	@include fieldsLayout;
+	& > .field { width: 50%; }
+	& > .field:nth-of-type(2n -1) { padding-right: 5px; }
+	& > .field:nth-of-type(2n) { padding-left: 5px; }
+}
+
+.fieldsLayout--three {
+	@include fieldsLayout;
+	& > .field { width: 33.333%; }
+	& > .field:nth-of-type(3n -2) { padding: 0 10px 0 0; }
+	& > .field:nth-of-type(3n -1) { padding: 0 5px; }
+	& > .field:nth-of-type(3n) { padding:0 0 0 10px; }
+}
+
+.fieldsLayout--four {
+	@include fieldsLayout;
+	& > .field { width: 25%; }
+	& > .field:nth-of-type(4n -3) { padding: 0 10px 0 0; }
+	& > .field:nth-of-type(4n -2) { padding: 0 5px; }
+	& > .field:nth-of-type(4n - 1) { padding: 0 5px; }
+	& > .field:nth-of-type(4n) { padding:0 0 0 10px; }
+}
+
+@mixin layout {
+	clear: both;
+	overflow: auto;
+	& > * {
+		display: inline-block;
+		float: left;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+@mixin fieldsetLayout {
+	clear: both;
+	overflow: auto;
+	fieldset {
+		display: inline-block;
+		float: left;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+
+.layout--two {
+	@include layout;
+	& > * {
+		width: 50% !important;
+	}
+	& > *:nth-of-type(2n -1) { padding-right: 5px; }
+	& > *:nth-of-type(2n) { padding-left: 5px; }
+}
+.layout--two--repeat {
+	@include layout;
+	text-align: center;
+	.field { text-align: left; }
+	& > * {
+		float: none;
+		width: 50% !important;
+	}
+	& > *:nth-of-type(2n -1) { padding-left: 5px; }
+	& > *:nth-of-type(2n) { padding-right: 5px; }
+}
+.layout--three {
+	@include layout;
+	& > * { width: 33.33% !important;}
+	& > *:nth-of-type(3n-2) { padding: 0 5px 0 0; }
+	& > *:nth-of-type(3n-1) { padding: 0 5px; }
+	& > *:nth-of-type(3n) { padding:0 0 0 5px; }
+}
+
+.fieldsetLayout--three--evenPadding {
+	@include fieldsetLayout;
+	fieldset {
+		width: 33.33% !important;
+		padding: 0 5px;
+	}
+}
+
+.layout--four {
+	@include layout;
+	& > * {
+		width: 25% !important;
+	}
+	& > *:nth-of-type(4n-3) { padding: 0 5px 0 0; }
+	& > *:nth-of-type(4n-2) { padding: 0 5px; }
+	& > *:nth-of-type(4n-1) { padding:0 5px; }
+	& > *:nth-of-type(4n) { padding:0 0 0 5px; }
+}
+
+@media screen and (max-width: 600px) {
+	.layout--four {
+		& > * {
+			width: 50% !important;
+		}
+		& > *:nth-of-type(4n-3) { padding: 0 5px 0 0; }
+		& > *:nth-of-type(4n-2) {  padding: 0 0 0 5px;  }
+		& > *:nth-of-type(4n-1) {padding: 0 5px 0 0;  }
+		& > *:nth-of-type(4n) { padding:0 0 0 5px; }
+	}
+}
+
+
+.group:after {
+	content: "";
+	display: table;
+	clear: both;
+}

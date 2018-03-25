@@ -1,0 +1,43 @@
+<header class='pane-header'>
+	<h3>Edit User Profile</h3>
+</header>
+
+<div class='pane-inner'>
+	<form autosubmit action='<%= profile_path(@profile) %>' method='put' id='edit-profile-form' data-success-message='Successfully saved profile info!' >
+
+		<div class='layout--three'>
+			<fieldset>
+				<label>Name</label>
+				<input type='text' name='profile[name]' placeholder='Your Name' value='<%= @profile.name %>'>
+			</fieldset>
+
+			<fieldset>
+				<label>City</label>
+				<input type='text' name='profile[city]' placeholder='City' value='<%= @profile.city %>'>
+			</fieldset>
+
+			<fieldset>
+				<label>State</label>
+				<%= render 'common/states_dropdown', name: 'profile[state_code]', default: @profile.state_code %>
+			</fieldset>
+		</div>
+
+		<div class='group'>
+			<fieldset class='field col-4'>
+				<label>Add a profile image</label>
+				<div class='image-upload u-margin--0' style='background-image: url("<%= @profile.picture %>");'>
+					<span><i class='fa fa-image'></i> Upload</span>
+					<input type='file' name='profile[picture]' >
+				</div>
+			</fieldset>
+
+			<fieldset class='col-right-8'>
+				<label>Mini Bio</label>
+				<textarea rows='4' name='profile[mini_bio]' placeholder='I am a scuba diver, spelunker, and philanthropist'><%= @profile.mini_bio %></textarea>
+			</fieldset>
+		</div>
+
+		<p class='error'></p>
+		<button type='submit' class='button' data-loading='Saving...'>Save Profile Info</button>
+	</form>
+</div>

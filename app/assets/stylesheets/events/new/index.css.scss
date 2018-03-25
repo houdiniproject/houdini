@@ -1,0 +1,10 @@
+@import 'pikaday';
+@import 'common/image_uploader';
+@import 'mixins';
+
+.dates-fields {
+	margin: 15px auto 0 auto;
+	max-width: 270px;
+}
+
+.location-step .fieldsLayout--two { margin: 0 30px; }

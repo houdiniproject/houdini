@@ -1,0 +1,82 @@
+@import 'mixins';
+
+.getTickets {
+	width: 100%;
+	display: inline-block;
+	position: relative;
+	text-align: center;
+	cursor: pointer;
+}
+.not-branded .getTickets {
+	@include transition(background-color 0.2s ease-out);
+	@include setBackgroundAndHover($bluegrass);
+}
+
+.is-branded .getTickets {
+	@include opacity(0.7);
+	@include transition(opacity, 0.1s, ease-out);
+	&:hover {
+		@include opacity(0.9);
+	}
+}
+
+// Ticket perforations at top and bottom
+.getTickets:before, 
+.getTickets:after {
+	content: '';
+	position: absolute;
+	background-size: contain;
+	height: 100%;
+	width: 4px;
+	top: 0;
+}
+.getTickets:before {
+	background-image: url(/assets/graphics/half-circle-right.svg);
+	left: 0;
+} 
+.getTickets:after {
+	background-image: url(/assets/graphics/half-circle-left.svg);
+	right: 0;
+}
+.getTickets-text {
+	display: inline-block;
+	text-align: center;
+	font-size: 26px;
+	color: white;
+	@include open-sans;
+	font-weight: bold;
+	padding: 5px 0;
+	margin: 0;
+	line-height: 1;
+}
+.getTickets .doubleLines {
+	display: inline-block;
+	margin: 16px 0;
+}
+
+.getTickets .doubleLines:before,
+.getTickets .doubleLines:after {
+	width: 80%;
+	left: 10%;
+}
+
+.not-branded .getTickets .doubleLines:before,
+.not-branded .getTickets .doubleLines:after {
+	background: rgba(darken($bluegrass, 30%), 0.4);
+}
+
+.is-branded .getTickets .doubleLines:before,
+.is-branded .getTickets .doubleLines:after {
+	background: rgba(black, 0.15);
+}
+
+
+.cornerHoles--top {
+	position: relative;
+	display: block;
+	@include cornerHoles--top(1em, white);
+} 
+.cornerHoles--bottom {
+	display: block;
+	@include cornerHoles--bottom(1em, white);
+}

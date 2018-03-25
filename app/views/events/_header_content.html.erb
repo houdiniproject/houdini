@@ -1,0 +1,12 @@
+<!-- partial start: events/header_content -->
+<table>
+	<tr>
+		<td class='fundraisingHeader-content-textTd'>
+			<h1 class='fundraisingHeader-content-title'><%= @event.name %></h1>
+			<% if @event.tagline.present? %>
+			<h3 class='fundraisingHeader-content-sub'><%= @event.tagline %></h3>
+			<% end %>
+		</td>
+	</tr>
+</table>
+<!-- partial end: events/header_content -->

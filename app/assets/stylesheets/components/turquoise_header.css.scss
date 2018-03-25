@@ -1,0 +1,19 @@
+.turquoise-header { background-color: $dark-turquoise; }
+.turquoise-header * { color: white; }
+.turquoise-header .topNav { background: rgba(0,0,0,0.05) }
+
+.turquoise-header ul {
+  margin-top: 30px;
+  margin-left: 0;
+}
+.turquoise-header li {
+  padding-left: 40px !important;
+  font-weight: bold;
+  margin-bottom: 18px;
+  font-size: 24px;
+}
+.turquoise-header ul li:before { color: $light-logo-blue; }
+.turquoise-header ul a { text-decoration: underline; }
+.turquoise-header ul a:hover { color: white; }
+
+

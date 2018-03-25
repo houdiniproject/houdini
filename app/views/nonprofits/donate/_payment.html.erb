@@ -1,0 +1,28 @@
+<div class='wizard-step payment-step'>
+	<!--= wizard.set_step 'donate_wiz' 'Payment' -->
+
+	<p class='u-fontSize--18 u-marginBottom--0'>
+		$<!--= put (cents_to_dollars donate_wiz.donation.amount) -->
+			<strong>
+				<!--= show_if donate_wiz.donation.recurring_donation -->
+				sustaining, monthly 
+			</strong>
+			<strong>
+				<!--= hide_if donate_wiz.donation.recurring_donation -->
+				one-time
+			</strong> 
+		contribution
+	</p>
+
+	<form class='cardForm u-centered' novalidate>
+		<!--= on 'submit' (donate_wiz.send_payment form_object) -->
+
+		<div class='card-fields u-marginTop--15'>
+			<%= render 'cards/fields' %>
+		</div>
+
+		<%= render 'cards/form_footer' %>
+	</form>
+
+</div>
+

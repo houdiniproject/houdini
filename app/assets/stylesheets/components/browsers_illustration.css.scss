@@ -1,0 +1,48 @@
+.browsersIllustration {
+	padding: 20px 0;
+	display: table;
+	width: 100%;
+}
+.browsersIllustration section {
+	width: 50%;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.browsersIllustration section.clutteredBrowsers {
+	position: relative;
+	padding: 0 40px 0 0;
+}
+
+.browsersIllustration section.clutteredBrowsers:after {
+  position: absolute;
+  content: 'OR';
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background: $oj;
+  line-height: 44px;
+  width: 44px;
+  @include border-radius(50%);
+  top: 50%;
+  margin-top: -22px;
+  right: -22px;
+}
+
+.browsersIllustration section.ccBrowser { padding: 0px 0 0px 40px; }
+
+@media screen and (max-width: 500px) {
+  .browsersIllustration section.clutteredBrowsers:after {
+    position: relative;
+    display: block;
+    margin: 15px auto;
+    right: auto;
+  }
+  .browsersIllustration section.ccBrowser,
+  .browsersIllustration section.clutteredBrowsers {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+}

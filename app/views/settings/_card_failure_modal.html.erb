@@ -1,0 +1,35 @@
+<div class='modal' id='cardFailureModal'>
+  <%= render 'common/modal_header', title: 'Edit recurring donation card failure message 
+' %>
+  <div class='modal-body'>
+    <p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>You can edit the email that gets sent to a supporter whenever their recurring donation can't be processed due to a card failure.  A table with the payment and card failure details will be added to the bottom of the actual email.</p> 
+    <p class='u-padding--10'>Hi {{NAME}},</p>
+    <form>
+      <!--= on 'submit' update_card_failure_message -->
+      <p class='u-background--white u-border--edit u-padding--10' id='js-messageTop' contenteditable>
+        <% if @nonprofit.card_failure_message_top %>
+          <%= @nonprofit.card_failure_message_top.html_safe %>
+        <% else %>
+          <%= render 'components/email/default_card_failure_message_top', 
+            npo_name: @nonprofit.name  %>
+        <% end %>
+      </p>
+
+      <p class='u-padding--10'>
+        Kindly take a moment to update your credit card information using this secure link: <a href='#'>https://commitchange.com/recurring_donations/123456/edit?t=123abc123abs123abc</a>
+      </p>
+
+      <p class='u-background--white u-border--edit u-padding--10 u-marginBottom--30' id='js-messageBottom' contenteditable>
+        <% if @nonprofit.card_failure_message_bottom %>
+          <%= @nonprofit.card_failure_message_bottom.html_safe %>
+        <% else %>
+          <%= render 'components/email/default_card_failure_message_bottom', 
+            npo_name: @nonprofit.name  %>
+        <% end %>
+      </p>
+      <%= render 'components/forms/submit_button', scope: 'card_failure_message' %>
+    </form>
+    <br>
+  </div>
+</div>
+

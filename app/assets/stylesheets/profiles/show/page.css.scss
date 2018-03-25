@@ -1,0 +1,37 @@
+@import 'mixins';
+@import 'components/page_tabs';
+@import 'components/tags';
+@import 'common/fundraisers';
+
+.donorProfileHeader {
+	background: lighten($grey, 40);
+	padding: 12px 15px;
+	border-bottom: 1px solid rgba(black, 0.1);
+	position: relative;
+	overflow: hidden;
+}
+
+.donorProfileHeader td:first-of-type {
+	width: 110px;
+}
+.donorProfileHeader .pageTabs {
+	bottom: -12px;
+}
+.donorProfileHeader-photo {
+	background-color: white;
+	height: 100px;
+	width: 100px;
+	@include opacity(0.9);
+	border: 2px solid white;
+	display: block;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-image: url('/logos/cc-logo-blue.svg');
+}
+
+@media screen and (max-width: 550px) {
+	.hideWhenMobile {
+		display: none;
+	}
+}

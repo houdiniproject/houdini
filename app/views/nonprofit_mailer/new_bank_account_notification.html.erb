@@ -1,0 +1,15 @@
+<p>Dear <%= @nonprofit.name %>,</p>
+
+<p>We've received a request to update the bank account for receiving donations. Please verify the information below:</p>
+
+<p>New bank account: <strong><%= @bank_account.name %></strong></p>
+<p>Date and time of change: <strong><%=  date_and_time @bank_account.created_at %></strong></p>
+<p>User who requested change: <strong><%= @bank_account.email %></strong></p>
+
+<p>For security, please confirm your bank account change below:</p>
+
+<p><a href='<%= confirmation_nonprofits_bank_account_url(@nonprofit, :t => @bank_account.confirmation_token) %>' class='button'>Confirm Change</a></p>
+
+<p>If you think something is wrong with this change, please contact <a href='mailto:<%= Settings.devise.mailer_sender %>'><%= Settings.devise.mailer_sender %></a>.</p>
+
+<%= render 'emails/sig' %>

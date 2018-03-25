@@ -1,0 +1,72 @@
+<!-- partial start nonprofits/donations/_main_panel -->
+<div class='mainPanel'>
+	<table class='table--plaid clickable'>
+		<thead>
+			<tr>
+				<th>
+					<a class='sortArrows left strong' sort='none'>Amount</a>
+					<!--= on 'click' (apply_sort_filter 'sort_amount' 'desc' 'asc') -->
+				</th>
+				<th>
+					<a class='sortArrows left strong' sort='none'>Date</a>
+					<!--= on 'click' (apply_sort_filter 'sort_date' 'desc' 'asc') -->
+				</th>
+				<th>
+					<a class='sortArrows left strong' sort='none'>Supporter</a>
+					<!--= on 'click' (apply_sort_filter 'sort_name' 'desc' 'asc') -->
+				</th>
+				<th>
+					<a class='sortArrows left strong' sort='none'>Type</a>
+					<!--= on 'click' (apply_sort_filter 'sort_type' 'desc' 'asc') -->
+				</th>
+				<th>
+					<a class='sortArrows left strong' sort='none'>Towards</a>
+					<!--= on 'click' (apply_sort_filter 'sort_towards' 'desc' 'asc') -->
+				</th>
+			</tr>
+		</thead>
+		<tr>
+	    <!--= show_if (length payments.data) -->
+			<!--= repeat payments.data -->
+			<!--= on 'click' (payments.toggle_panel this.id) -->
+
+			<td class='table-bigNum'>
+				<!--= add_class_if (eq this.kind 'Refund') 'u-color--grey' -->
+				<span>
+					<span class='dollar'>$</span>
+					<!--= put (formatted_gross_amount this.gross_amount) -->
+				</span>
+			</td>
+
+			<td>
+				<small> <!--= put (readable_date this.date) --> </small>
+			</td>
+
+			<td>
+				<span>
+					<!--= put (any this.name this.email) -->
+				</span>
+
+				<span class='anon'>
+					<!--= show_if (any this.supporter.anonymous this.donation.anonymous) -->
+					(Anonymous)
+				</span>
+			</td>
+
+			<td>
+				<small>
+					<i class='paymentTypeIcon fa'><!--= add_class (kind_icon_class this.kind) --></i>
+					<!--= put (readable_kind this.kind) -->
+				</small>
+			</td>
+
+			<td>
+				<small> <!--= put this.towards --> </small>
+			</td>
+		</tr>
+
+	</table>
+	<%= render 'components/show_more', scope: 'payments' %>
+</div>
+
+<!-- partial end nonprofits/donations/_main_panel -->

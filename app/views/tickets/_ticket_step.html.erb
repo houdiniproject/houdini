@@ -1,0 +1,13 @@
+<!-- partial start: tickets/ticket_step -->
+<section class='wizard-step'>
+	<!--= wizard.set_step 'ticket_wiz' 'Tickets' -->
+	<form parsley-validate>
+		<!--= on 'submit' (ticket_wiz.set_tickets form_object)-->
+		<div class='u-marginBottom--20'>
+			<%= render 'tickets/ticket_level_table' %>
+		</div>
+		<%= render 'components/forms/submit_button', scope: 'ticket_wiz',
+			button_text: 'Next', branded: true %>
+	</form>
+</section>
+<!-- partial end: tickets/ticket_step -->

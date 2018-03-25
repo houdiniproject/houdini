@@ -1,0 +1,29 @@
+<p>
+Congratulations on receiving your first transaction on <%= Settings.general.name %>!
+</p>
+<br>
+<p>
+Whenever you receive money on <%= Settings.general.name %>, it will go into your account’s balance. Payouts can be made to your organization’s bank account automatically at the beginning of each month, or at any time with the click of a button.
+</p>
+
+<br>
+<p>
+<strong>Before you can make a payout</strong>, you need to connect your organization's bank account for withdrawals, allowing money to transfer from your account balance on <%= Settings.general.name %> directly to your organization.
+</p>
+
+<br>
+<p> You can connect your bank account on this page: </p>
+
+<br>
+<h4> 
+  <% url = nonprofits_payouts_url(@nonprofit) %>
+  <a href="<%= url %>"> <%= url %> </a>
+</h4>
+
+<br>
+<p>
+<strong>You have a 7 day window</strong> to continue processing transactions without a connected bank account. After that, transactions will become disabled. So, try to get that bank account connected as soon as you can.
+</p>
+
+<br>
+<%= render 'emails/sig' %>

@@ -1,0 +1,52 @@
+<!-- partial nonprofits/dashboard/campaign_listing -->
+
+<section class='u-marginBottom--15'>
+	<div class='pastelBox--yellow'>
+		<header><i class='icon-thermometer-medium'></i> Published Campaigns</header>
+      <!--= scope 'metrics.data.published_campaigns' -->
+
+			<p class='noResults u-padding--15'>
+				<!--= show_if (empty this) -->
+				None currently
+			</p>
+
+			<ul class='u-margin--0'>
+				<li class='u-padding--15'>
+					<!--= repeat this -->
+					<div class='u-centered u-marginBottom--5'>
+            <p class='u-flat u-paddingBottom--10'>
+              <a>
+                <!--= set_attr 'href' (cat nonprofit_path '/campaigns/' this.id -->
+                <strong><!--= put this.name --></strong>
+              </a>
+            </p>
+          </div>
+          <table class='table'>
+            <tr>
+              <td><strong>Total supporters</strong></td><td><%= render 'components/loading_data', data: 'this.supporter_count' %></td>
+            </tr>
+            <tr>
+              <td><strong>Total one-time</strong></td><td><%= render 'components/loading_data', data: 'this.total_one_time' %></td>
+            </tr>
+            <tr>
+              <!--= show_if this.total_recurring -->
+              <td><strong>Total recurring</strong></td><td><%= render 'components/loading_data', data: 'this.total_recurring' %></td>
+            </tr>
+            <tr>
+              <td><strong>Date</strong></td>
+              <td><!--= put (readable_date this.created_at) --> - <!--= put (readable_date this.end_datetime) --></td>
+            </tr>
+          </table>
+				</li>
+			</ul>
+
+			<footer class='u-padding--15'>
+				<button class='button--large orange' open-modal='newCampaign' data-when-confirmed>
+					New Campaign
+				</button>
+			</footer>
+
+	</div>
+</section>
+
+<!-- end partial nonprofits/dashboard/campaign_listing  -->

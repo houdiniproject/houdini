@@ -1,0 +1,26 @@
+@import 'mixins';
+
+
+.filterPanel-section .field {
+	margin-bottom: 5px;
+}
+
+.filterPanel-section {
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid rgba(black, 0.1);
+}
+
+.filterPanel-section:last-of-type {
+	border-bottom: none;
+}
+
+.filterPanel-section .clear-input {
+	right: 6px;
+	top: 6px;
+	font-size: 17px;
+}
+
+.filterPanel-section input.radio + label span {
+	@include transform(translateY(-1px));
+}

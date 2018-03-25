@@ -1,0 +1,43 @@
+<%= content_for :stylesheets do %>
+	<style>
+.signup form {
+	width: 30%;
+	margin: 0 auto;
+}
+</style>
+<% end %>
+
+<div class='backgroundColor'>
+</div>
+
+<div class='padded container--narrow u-centered top--high'>
+	<div class='container-shadow'></div>
+
+	<h2>Sign Up</h2>
+
+	<div class='u-width--300 u-margin--auto u-centered u-padding--20'>
+
+		<p class='small-error'><%= devise_error_messages! %></p>
+
+		<% if flash[:alert] %>
+			<div class='alert alert-error' style='width: 213px; margin: 0 auto 12px auto;'><%= flash[:alert] %></div>
+		<% end %>
+
+		<div class='u-centered'>
+
+			<form autosubmit action='<%= registration_path(:user) %>' method='post' parsley-validate data-reload>
+				<%= render 'users/signup_fields_brackets' %>
+
+				<p class='error'></p>
+				<button type='submit' data-loading='Submitting...' class='button--large'>Submit</button>
+			</form>
+
+		</div>
+
+		<div id='register-swap'>
+			<a on-click='openModal' data-modal='signinModal'>Have an account? Login.</a>
+		</div>
+
+	</div>
+
+	</div>

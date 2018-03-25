@@ -1,0 +1,36 @@
+<% content_for(:dont_load_optimizely) {'true'} %>
+<% content_for(:footer_hidden) {'hidden'} %>
+
+<% content_for :stylesheets do %>
+			<%= stylesheet_link_tag 'nonprofits/payments/index/page' %>
+<% end %>
+
+<% content_for :javascripts do %>
+	<script>
+		appl.def('has_bank', <%= !!@nonprofit.bank_account %>)
+	</script>
+	<%= IncludeAsset.js '/client/js/nonprofits/payments/index/page.js' %>
+<% end %>
+
+<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
+
+<%= render 'nonprofits/transaction_title',
+	active: :payments,
+	icon_class: 'icon-piggy-bank',
+	page_name: 'History' %>
+
+<%= render 'table_meta' %>
+
+<main class='panelsLayout container--wide'>
+	<section class='panelsLayout-body'>
+		<%= render 'filter_panel' %>
+		<%= render 'main_panel' %>
+		<%= render 'side_panel' %>
+		<%= render 'components/side_panel_close' %>
+		<%= render 'components/tables/filtering/filter_panel_close' %>
+	</section>
+</main>
+
+<%= render 'export_payments_s3_modal' %>
+<%= render 'refunds/new_modal' %>
+<%= render 'donations/edit_modal' %>

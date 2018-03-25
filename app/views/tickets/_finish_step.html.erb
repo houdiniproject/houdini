@@ -1,0 +1,93 @@
+<!-- partial start: tickets/finish_step -->
+<section class='wizard-step'>
+	<!--= wizard.set_step 'ticket_wiz' 'Finish' -->
+
+	<div>
+		<!--= show_if (eq ticket_wiz.post_data.kind 'free') -->
+		<h5 class='u-centered'>Your tickets are free!</h5>
+
+		<form>
+			<!--= on 'submit' ticket_wiz.create_tickets -->
+			<%= render 'components/forms/submit_button', button_text: 'Get Tickets', loading_text: 'Redeeming...', branded: true %>
+		</form>
+	</div>
+
+	<div>
+		<!--= hide_if (eq ticket_wiz.post_data.kind 'free') -->
+
+		<p class='u-centered'>
+			You've selected
+			<strong><!--= put (pluralize ticket_wiz.total_quantity 'tickets') --></strong>
+			totalling
+      <strong>
+        <!--= hide_if ticket_wiz.discounted_total_amount --> 
+        $<!--= put (cents_to_dollars ticket_wiz.total_amount) -->
+      </strong>
+      <strong>
+        <!--= show_if ticket_wiz.discounted_total_amount -->
+        $<!--= put (cents_to_dollars ticket_wiz.discounted_total_amount) --> (discounted)
+      </strong>
+		</p>
+
+		<% if show_payment_options  %>
+			<hr class='diamonds'>
+			<p class='u-centered u-marginY--10'>Please select a payment method:</p>
+			<div class='u-margin--auto u-maxWidth--200 u-marginBottom--20'>
+        <input type="radio" id="radio_charge" name="kind" value='' data-ticket-kind="charge" checked='checked'>
+        <!--= on 'change' ticket_wiz.set_kind -->
+        <label for="radio_charge">Credit Card</label>
+        <br>
+        <input type="radio" id="radio_check" name="kind" value="check" data-ticket-kind="offsite">
+        <!--= on 'change' ticket_wiz.set_kind -->
+        <label for="radio_check">Check</label>
+        <br>
+        <input type="radio" id="radio_cash" name="kind" value="cash" data-ticket-kind="offsite">
+        <!--= on 'change' ticket_wiz.set_kind -->
+        <label for="radio_cash">Cash</label>
+			</div>
+		<% end %>
+
+		<form class='cardForm'>
+			<!--= show_if (eq ticket_wiz.post_data.kind 'charge') -->
+			<!--= on 'submit' (ticket_wiz.send_payment form_object) -->
+
+			<%= render 'cards/fields' %>
+
+      <div class='u-background--grey u-padding--10'>
+        <!--= show_if (length discounts.data) -->
+        <label><small>Discount Code (optional)</small></label>
+        <input type='text' class='u-width--200'>
+        <!--= on 'keyup' discounts.apply -->
+      </div>
+
+			<div class='u-marginTop--15 u-centered'>
+				<% save_card_uid = SecureRandom.uuid %>
+				<input type='checkbox' id='<%= save_card_uid %>' name='save_card' checked='checked'>
+				<label for='<%= save_card_uid %>'> Save this card for purchases at the event </label>
+				<div class='u-marginTop--15'>
+					<%= render 'cards/form_footer', hide_dedication: true  %>
+				</div>
+			</div>
+		</form>
+
+    <form>
+      <!--= show_if (eq ticket_wiz.post_data.offsite_payment.kind 'cash') -->
+      <!--= on 'submit' ticket_wiz.create_tickets -->
+      <%= render 'components/forms/submit_button', branded: true %>
+    </form>
+
+
+		<form>
+      <!--= show_if (eq ticket_wiz.post_data.offsite_payment.kind 'check') -->
+      <!--= on 'submit' ticket_wiz.create_tickets -->
+
+			<div class='u-maxWidth--200 u-margin--auto'>
+				<label>Check Number</label>
+				<input class='input-100' name='check_number' type='number' placeholder="1234">
+			</div>
+      <%= render 'components/forms/submit_button', branded: true %>
+		</form>
+	</div>
+
+</section>
+<!-- partial end: tickets/finish_step -->

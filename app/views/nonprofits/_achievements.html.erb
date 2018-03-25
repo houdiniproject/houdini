@@ -1,0 +1,17 @@
+<!-- partial start: nonprofits/_achievements -->
+<% unless @nonprofit.achievements.join.blank? %>
+<aside class='u-marginBottom--15 pastelBox--grey stripedBox u-relative'>
+	<header>Highlights</header>
+	<table>
+		<% @nonprofit.achievements.each do |ach| %>
+			<% if ach != '' %>
+			<tr>
+				<td><i class='fa fa-star' if-branded='color, base'></i></td>
+				<td><%= ach %></td>
+			</tr>
+			<% end %>
+		<% end %>
+	</table>
+</aside>
+<% end %>
+<!-- partial end: nonprofits/_achievements -->

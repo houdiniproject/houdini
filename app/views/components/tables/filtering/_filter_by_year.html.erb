@@ -1,0 +1,16 @@
+<% years = (2000..Time.new.year).to_a.reverse %>
+
+<section class='filterPanel-section'>
+	<fieldset>
+    <select class='select'>
+      <!--= on 'change' (apply_input_filter 'year' get_value) -->
+      <option value='' selected></option>
+      <% years.each do |y|%>
+        <option value='<%= y %>'>
+          <%= y %>
+        </option>
+      <% end %>
+    </select>
+
+	</fieldset>
+</section>

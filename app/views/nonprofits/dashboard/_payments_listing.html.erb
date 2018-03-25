@@ -1,0 +1,48 @@
+<!-- partial nonprofits/dashboard/payments_listing -->
+
+<section class='sidebar-listing'>
+  <!--= scope 'metrics.data.recent_donations' -->
+
+	<div class='pastelBox--green'>
+		<header><i class='fa fa-heart'></i> Recent Donations</header>
+		<div class='pastelBox-body'>
+      <p class='u-paddingY--20 u-centered'>
+        <!--= show_if loading   -->
+        <i class='fa fa-spin fa-gear'></i> Loading...
+      </p>
+      <section>
+        <!--= hide_if loading   -->
+
+  			<p class='noResults'>
+  				<!--= show_if (empty this) -->
+  				None yet
+  			</p>
+
+    		<table class='table'>
+    			<tr>
+    				<!--= repeat this -->
+    					<td class='u-paddingLeft--0'>
+                <a target='_blank' title='Click for payment details'>
+                  <!--= set_attr 'href' (route_with_params 'payments' 'pid' this.payment_id) -->
+                  <!--= put this.amount -->
+                </a>
+    					</td>
+              <td class='u-paddingX--0'>
+                <small><!--= put (any this.supporter_name this.supporter_email) --></small>
+              </td>
+
+              <td>
+                <small class='u-color--grey'><!--= put (readable_date this.date) --></small>
+              </td>
+    			</tr>
+    		</table>
+
+    		<div class='u-centered'>
+    			<a class='button details strong' href='<%= nonprofits_payments_path(@nonprofit) %>'>View All</a>
+    		</div>
+      </section>
+	  </div>
+  </div>
+</section>
+
+<!-- end partial nonprofits/dashboard/payments_listing -->

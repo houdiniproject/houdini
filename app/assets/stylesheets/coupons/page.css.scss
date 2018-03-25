@@ -1,0 +1,25 @@
+@import 'mixins';
+
+body {
+	padding: 0;
+	background: $fog;
+}
+main {
+	padding: 80px 0 0;
+}
+.referAFriend-logos {
+	text-align: center;
+	padding-bottom: 30px;
+}
+.referAFriend-logos img,
+.referAFriend-arrows {
+	height: 70px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.referAFriend-arrows span {
+	color: rgba(black, 0.2);
+	font-size: 18px;
+	padding: 0 10px;
+	line-height: 70px;
+}

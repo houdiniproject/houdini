@@ -1,0 +1,150 @@
+@import 'mixins';
+@import 'components/ff_modal';
+
+.modal{
+	position: fixed;
+	background: transparent;
+	display: block;
+	height: 100%;
+	left: 50%;
+  top: 0;
+	width: 600px;
+	margin-left: -300px;
+	overflow-y: auto;
+  visibility: hidden;
+  @include opacity(0);
+  @include transition(all 0.2s);
+}
+
+.modal.inView {
+	visibility: visible;
+  @include opacity(1);
+}
+
+.modal.wide {
+	width: 800px;
+	margin-left: -400px;
+}
+.modal.skinny {
+	width: 400px;
+	margin-left: -200px;
+}
+.modal.fullScreen {
+	width: 980px;
+	margin-left: -490px;
+}
+
+@mixin modalSidebar {
+	background: white;
+	left: auto;
+	margin: 0;
+	min-height: 100%;
+	top: 0;
+	bottom: auto;
+	p {
+		margin-bottom: 5px;
+	}
+}
+
+.modal.sidebar {
+	@include modalSidebar;
+	width: 340px;
+	right: -340px;
+}
+.modal.sidebar.inView {
+	right: 0;
+}
+
+.modal.marketing {
+	width: 400px;
+	right: 0;
+	left: inherit;
+}
+
+.modal-header {
+	padding: 12px 50px 12px 20px;
+	background-color: #e9e9e9;
+	border-bottom: 1px solid rgba(black, 0.08);
+}
+
+
+.modal-header-title  {
+	margin: 0;
+}
+
+.closeButton {
+	cursor: pointer;
+	@include no-select;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 24px;
+}
+
+.modal-body {
+	background: white;
+	padding: 20px;
+	width: 100%;
+  overflow: auto;
+}
+
+.modal-footer {
+	border-top: 1px solid #E8E8E8;
+	width: 100%;
+	text-align: center;
+	background: lighten($grey, 47);
+	padding: 10px;
+	margin-bottom: 40px;
+}
+
+@mixin backdropStyles {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: rgba(black, 0.6);
+	display: block;
+  visibility: hidden;
+  @include opacity(0);
+  @include transition(all 0.2s);
+}
+
+.modal-backdrop {
+	@include backdropStyles;
+}
+
+html.is-showingModal,
+body.is-showingModal {
+  overflow-y: hidden;
+}
+
+body.is-showingModal .modal-backdrop {
+  visibility: visible;
+  @include opacity(1);
+}
+
+.modalBackdrop {
+	@include backdropStyles;
+}
+
+.modalBackdrop.inView {
+  visibility: visible;
+  @include opacity(1);
+}
+
+#confirmation-modal {
+	text-align: center;
+	width: 260px;
+	margin-left: -130px;
+
+	p {
+		margin-top: 20px;
+		font-size: 30px;
+	}
+
+	button.yes, button.no {
+		margin: 5px;
+	}
+}
+

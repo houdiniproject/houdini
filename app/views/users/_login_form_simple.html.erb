@@ -1,0 +1,8 @@
+<form autosubmit action='<%= session_path :user %>' method='post' data-reload class='login-form'>
+	<input type='email' name='user[email]' placeholder='Email' required>
+	<input type='password' name='user[password]' placeholder='Password' required>
+  <div class='u-centered'>
+    <p class='error'></p>
+	   <button class='button--small' type='submit' data-loading='Logging in...'>Login</button>
+  </div>
+</form>

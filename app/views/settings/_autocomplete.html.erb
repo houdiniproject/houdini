@@ -1,0 +1,28 @@
+<!-- settings/autocomplete -->
+
+<header class='pane-header'>
+  <h3>Address Autocomplete</h3>
+</header>
+
+<div class='pane-inner'>
+  <p class='pastelBox--yellow u-padding--10 u-marginBottom--30'>Make it easier for your supporters to enter their addresses and get more accurate address information by enabling the address autocomplete feature (screenshot below). Checking the box below will enable the feature on all of your donation, campaign and event forms.</p>    
+
+  <form autosubmit class='u-marginBottom--10' data-reload method='put' action='/nonprofits/<%= @nonprofit.id %>.json'>
+    <input type='hidden' name='nonprofit[autocomplete_supporter_address]' value='false'>
+    <input type='checkbox' name='nonprofit[autocomplete_supporter_address]' <%= @nonprofit.autocomplete_supporter_address ? 'checked=checked' : '' %> id='autocomplete-checkbox'>
+    <label for='autocomplete-checkbox'>Enable address autocomplete</label>
+    <div class='u-marginTop--15'>
+      <button type='submit' class='button u-marginTop--10' data-loading='Saving...'>
+        Save</button>
+    </div>
+  </form>
+  
+  <hr>
+
+  <div class='browserBorder u-marginTop--10 u-maxWidth--400'>
+		<%= render 'components/browser_buttons' %>
+    <img src='<%= asset_path 'screenshots/address-autocomplete.gif' %>'>
+  </div>
+
+</div>
+

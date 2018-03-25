@@ -1,0 +1,46 @@
+@import 'mixins';
+
+@mixin announcementBar($bg) {
+	display: none;
+	&.is-showing {
+		display: block;
+	}
+	width: 100%;
+	padding: 5px;
+	font-size: 15px;
+	background: $bg;
+	font-weight: bold;
+	.container {
+		margin: 0 auto;
+		padding-left: 10px;
+		position: relative;
+		color: white;
+	}
+	.fa-times {
+		position: absolute;
+		right: 0;
+		top: 2px;
+		font-size: 17px;
+		cursor: pointer;
+		@include setColorAndHover(white);
+	}
+}
+
+.announcementBar--blue {
+	@include announcementBar($sky);
+}
+.announcementBar--green {
+	@include announcementBar(rgba($bluegrass, 0.9));
+}
+.announcementBar--grey {
+	@include announcementBar(rgba($grey, 0.8));
+}
+
+
+@media screen and (max-width: 920px) {
+	.nav--top .announcementBar--blue.is-showing,
+	.nav--top .announcementBar--green.is-showing {
+		display: none;
+	}
+}
+

@@ -1,0 +1,17 @@
+<header class='pane-header'>
+	<h3>Anonymous Donations</h3>
+</header>
+
+<div class='pane-inner'>
+	<p class='pastelBox--yellow u-padding--10 u-marginBottom--20'>You can choose to hide the anonymous option on your donation forms.</p>
+	<form autosubmit method='put' action='/nonprofits/<%= @nonprofit.id %>.json' data-reload>
+		<div class='field'>
+			<input type='hidden' name='nonprofit[no_anon]' value='false'>
+			<input id='no_anonCheckbox' type='checkbox' name='nonprofit[no_anon]' <%= @nonprofit.no_anon ? 'checked=checked' : '' %>>
+			<label for='no_anonCheckbox'>Disallow anonymous donations</label>
+		</div>
+		<p class='error'></p>
+		<button type='submit' class='button u-marginTop--5' data-loading='Saving...'>Save</button>
+	</form>
+	<p class='note u-marginTop--10'>Note: removing this feature will lower the amount of money you raise through your donation forms.</p>
+</div>

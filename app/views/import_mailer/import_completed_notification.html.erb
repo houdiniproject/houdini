@@ -1,0 +1,10 @@
+<p>Your import from <%= Format::Date.simple @import.date %> was completed successfully.</p>
+
+<p>To view your new supporter data, visit: <a href='<%= root_url %>nonprofits/<%= @nonprofit.id %>/supporters'>supporter management.</a></p>
+
+<p>To view your new payments data, visit: <a href='<%= root_url %>nonprofits/<%= @nonprofit.id %>/payments'>payment history.</a></p>
+
+<p>If you have any questions about this import, please contact <%= Settings.devise.mailer_sender %>.</p>
+
+
+<%= render 'emails/sig' %>

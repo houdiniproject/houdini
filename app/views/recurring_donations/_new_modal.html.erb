@@ -1,0 +1,94 @@
+<div class='modal' id='newRecurringDonationModal'>
+	<%= render 'common/modal_header', title: 'New Subscriber' %>
+
+		<div class='wizard-steps'>
+			<!--= wizard.init 'rd_wizard' -->
+			<%= render 'components/wizard/step_index', wizard_name: 'rd_wizard' %>
+
+			<div class='modal-body'>
+				<div class='wizard-step'>
+					<!--= wizard.set_step 'rd_wizard' 'Amount' -->
+
+					<form parsley-validate>
+						<!--= on 'submit' rd_wizard.set_donation -->
+						<p class='tip u-marginBottom--20'>Enter the amount and frequency of the recurring donation.</p>
+
+						<div class='fieldsLayout--three'>
+							<div class='field prepend--dollar'>
+								<input name='dollars' parsley-type='number' type='text' parsley-min='0' required parsley-trigger='change'>
+							</div>
+							<div class='field u-centered'>
+								<span>Every </span><input class='input--50' required name='recurring_donation.interval' type='text' parsley-type='number' value='1'>
+							</div>
+							<div class='field'>
+								<select name='recurring_donation.time_unit'>
+									<option value='month'>Month(s)</option>
+									<option value='year'>Year(s)</option>
+									<option value='week'>Week(s)</option>
+								</select>
+							</div>
+						</div>
+
+						<div class='field'>
+							<label>Designation (optional)</label>
+							<textarea name='designation'></textarea>
+						</div>
+
+						<%= render 'components/forms/submit_button', button_text: 'Next', loading_text: 'Saving...', scope: 'rd_wizard' %>
+					</form>
+				</div>
+
+				<div class='wizard-step'>
+					<!--= wizard.set_step 'rd_wizard' 'Dates' -->
+					<form parsley-validate>
+						<!--= on 'submit' rd_wizard.set_donation -->
+						<div class='field u-marginBottom--10'>
+							<label>When should we activate this recurring donation?</label>
+							<p><small>This recurring donation will start running after this date. Default is today/immediately.</small></p>
+							<input name='recurring_donation.start_date' type='text' required class='input--150'>
+						</div>
+
+						<div class='field'>
+							<label>When should the recurring donation end (optional)?</label>
+							<p><small>Leave this blank to have it go indefinitely. It can always be deactivated at any time.</small></p>
+							<input name='recurring_donation.end_date' type='text' class='input--150'>
+						</div>
+
+						<div class='field'>
+							<!--= show_if (all (eq rd_wizard.donation.recurring_donation.time_unit 'month') (eq rd_wizard.donation.recurring_donation.interval 1)) -->
+							<label>Fixed paydate (optional)</label>
+							<p><small>You can pick a day of the month between 1-28 that fixes the day when this recurring donation gets paid</small></p>
+							<input type='number' max=28 min=1 name='recurring_donation.paydate' class='input--150'>
+						</div>
+
+						<%= render 'components/forms/submit_button', button_text: 'Next', loading_text: 'Saving...', scope: 'rd_wizard' %>
+					</form>
+				</div>
+
+				<div class='wizard-step'>
+					<!--= wizard.set_step 'rd_wizard' 'Info' -->
+
+					<form parsley-validate class='supporterForm u-centered'>
+						<!--= on 'submit' (rd_wizard.save_supporter form_object) -->
+						<p class='tip'>Enter the donor info. The donor email is the only required field.</p>
+						<%= render 'supporters/fields', required: {email: true}, profile: nil %>
+						<p class='error'><!--= put rd_wizard.error --></p>
+						<%= render 'components/forms/submit_button', button_text: 'Next', loading_text: 'Saving...', scope: 'rd_wizard' %>
+					</form>
+				</div>
+
+				<div class='wizard-step'>
+					<!--= wizard.set_step 'rd_wizard' 'Payment' -->
+
+					<p class='tip'>Enter the donor's credit card to use for this recurring donation</p>
+
+					<form class='cardForm u-centered'>
+						<!--= on 'submit' (rd_wizard.send_payment form_object) -->
+						<%= render 'cards/fields' %>
+						<%= render 'cards/form_footer' %>
+					</form>
+				</div>
+
+			</div>
+	</div>
+</div>

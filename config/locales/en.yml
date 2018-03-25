@@ -1,0 +1,140 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Comment content'
+  organization:
+    name: "Organisation"
+  donation:
+   amount: "Total Amount"
+   date: "Transaction Date"
+   campaign: "Campaign"
+   recurring_interval: "Recurring Interval"
+   interval: "Every %{interval} %{time_unit}"
+   recurring_since: "Recurring Since"
+   comment: "Comment"
+   payment_id: "Payment ID"
+  mailer:
+    donations:
+      donation_receipt: "Donation Receipt"
+      donor_name: "Donor Name"
+      donor_receipt:
+        subject: "Donation receipt for %{nonprofit_name}"
+        transfer_info_html: "This transfer will appear on your bank statement as %{label}"
+        transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
+        oneoff_donation_html: "Thank you for your donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
+        recurring_donation_html: "Thank you for your regular donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
+      donor_direct_debit_notification:
+        subject: "Donation receipt for %{nonprofit_name}"
+        transfer_info_html: "This transfer will appear on your bank statement as %{label}"
+        transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
+        donation_queued_html: "Your direct debit donation towards <strong>%{nonprofit_name}</strong> has been queued for processing."
+        recurring_donation_queued_html: "Thank you for your regular donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
+  nonprofits:
+    donate:
+      signed_in: "Signed in as"
+      log_out: "Logout"
+      campaign:
+        name: ""
+        tagline: ""
+      amount:
+        label: "Amount"
+        sustaining: "Become a sustaining, monthly contributor"
+        sustaining_bold: "sustaining, monthly"
+        sustaining_selected: "Select an amount for your monthly contribution"
+        sustaining_selected_bold: "monthly"
+        monthly: "monthly"
+        weekly: "weekly"
+        weekly_notice: "*to keep bank fees low, we'll debit %{amount} %{currency} monthly"
+        custom: "Custom"
+        designation:
+          label: "Designation:"
+          choose: "Choose a designation (optional)"
+          most_needed: "Use my donation where most needed"
+        next: "Next"
+      info:
+        label: "Info"
+        supporter:
+          email: "Email"
+          email_required: " (required for receipt)"
+          full_name: "Full name"
+          first_name: "First name"
+          last_name: "Last name"
+          phone: "Phone"
+          address: "Address"
+          city: "City"
+          state: "Select state"
+          country: "Country"
+          other_country: "Other"
+          region: "Region"
+          postal_code: "Postal code"
+          shipping_address: "Shipping address (required)"
+          errors:
+            email:
+              format: "Please enter a valid email address"
+        dedication_link: "Make this donation in honor/memory of someone."
+        dedication_saved: "Dedicating donation to "
+        anonymous_checkbox: "Make this donation anonymous."
+        next: "Next"
+      dedication:
+        info: "Add a dedication for your donation:"
+        in_honor_label: "In honor of"
+        in_memory_label: "In memory of"
+        first_name: "First name"
+        last_name: "Last name"
+        email: "Email (optional)"
+        phone: "Phone (optional)"
+        full_address: "Full Address (optional)"
+        note: "Note or message"
+        save: "Save & Return"
+        donor_note: "The donor's note was: "
+      payment:
+        label: "Payment"
+        one_time: "one-time"
+        monthly_recurring: "monthly recurring"
+        tabs:
+          card: "Credit Card"
+          sepa: "Direct Debit"
+        loading:
+          checking_card: "Checking card..."
+          sending_payment: "Sending the payment..."
+        card:
+          name: "Cardholder's Name"
+          number: "Card Number"
+          cvc: "CVC"
+          postal_code: "Zip Code"
+          month: "Month"
+          year: "Year"
+          submit: "Submit"
+          loading: "Saving..."
+          secure_info: "Transactions secured with 256-bit SSL"
+          errors:
+            field:
+              presence: "This field is required"
+              format: "This doesn't look like the right format"
+            number:
+              presence: "Please enter your card number"
+              format: "That card number doesn't look right"
+            email:
+              format: "Please enter a valid email address"
+        sepa:
+          name: "Account owner name"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "This field is required"
+              format: "This doesn't look like the right format"
+      followup:
+        success: "Your donation was successful!"
+        receipt_info: "A receipt will be emailed to"
+        message: "appreciates your support!"
+        share:
+          facebook: "Share"
+          twitter: "Tweet"
+          twitter_message: "Join me in supporting"
+        finish: "Finish"

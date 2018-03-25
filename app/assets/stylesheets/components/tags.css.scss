@@ -1,0 +1,29 @@
+@import 'mixins';
+
+$tag_color: #ece6e0;
+
+@mixin tag($color) {
+	display: inline-block;
+	background-color: $color;
+	padding: 2px 3px;
+	margin: 2px 4px 2px 0;
+	font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  max-width: 80%;
+}
+
+.tag {
+	@include tag($tag_color);
+}
+
+.tag--red {
+	@include tag(rgba(red, 0.09));
+}
+
+.tag--trans {
+	@include tag(transparent);
+}
+

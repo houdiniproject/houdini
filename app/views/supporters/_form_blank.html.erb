@@ -1,0 +1,54 @@
+<!-- partial: supporters/form_blank -->
+
+<% require_email = nil if require_email.nil? %>
+<% require_name = nil if require_name.nil? %>
+
+
+<fieldset class='u-marginBottom--0'>
+	<label <%= require_name && "class=required" %>>Name <small><%= require_name ? '(required)' : '' %></small></label>
+	<input type='text' name='name' <%= require_name && "required"%>>
+</fieldset>
+
+<section class='layout--two'>
+	<fieldset class='u-marginBottom--0'>
+		<label>Email <small><%= require_email && '(required)' %></small></label>
+		<input parsley-error-message='Please enter a valid email.' type='email' parsley-trigger='change' name='email' <%= require_email && 'required' %>>
+	</fieldset>
+
+	<fieldset class='u-marginBottom--0'>
+		<label>Phone</label>
+		<input parsley-error-message='Enter a valid phone number.' parsley-trigger='change' parsley-type='phone' type='text' name='phone'>
+	</fieldset>
+
+	<fieldset class='u-marginBottom--0'>
+		<label>Address</label>
+		<input type='text' name='address'>
+	</fieldset>
+
+	<fieldset class='u-marginBottom--0'>
+		<label>City</label>
+		<input type='text' name='city', value='<%= @nonprofit.city %>'>
+	</fieldset>
+</section>
+
+
+<section class='layout--three'>
+
+	<fieldset class='u-marginBottom--0'>
+		<label>State/Region</label>
+		<input type='text' name='state_code' value='<%= @nonprofit.state_code %>' placeholder='State/Region'>
+	</fieldset>
+
+	<fieldset class='u-marginBottom--0'>
+		<label>Postal Code</label>
+		<input type='text' name='zip_code' value='<%= @nonprofit.zip_code %>' placholder='Postal Code'>
+	</fieldset>
+
+	<fieldset class='u-marginBottom--0'>
+		<label>Country</label>
+		<input type='text' name='country' value='United States'>
+	</fieldset>
+
+</section>
+
+<!-- partial: supporters/form_blank -->

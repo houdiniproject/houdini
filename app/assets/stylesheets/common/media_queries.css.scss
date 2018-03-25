@@ -1,0 +1,178 @@
+@import 'mixins';
+
+// query by max-width
+
+
+@media screen and (max-width: 980px) {
+	.modal.fullScreen {
+		width: 100%;
+		margin-left: 0;
+		left: 0;
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.modal.wide {
+		width: 100%;
+		margin: 0;
+		left: 0;
+	}
+}
+
+
+@media screen and (max-width: 720px) {
+	.container .paddedBox,
+	.container .padded {
+		padding: 15px 10px;
+	}
+
+	.container .paddedBox--x {
+		padding: 0 10px;
+	}
+	.nonprofit-header {
+		padding: 10px;
+	}
+	.nonprofit-header--detail {
+		float: left;
+		clear: both;
+		margin: 0;
+	}
+	.nonprofit-header--detail img {
+		display: none;
+	}
+}
+
+
+@media screen and (max-width: 700px) {
+	body {
+		padding-left: 0;
+	}
+}
+
+@media screen and (max-width: 600px) {
+  [data-ff-modal],
+  .ff-modal,
+	.modal {
+		width: 100% !important;
+		margin-left: 0 !important;
+		left: 0;
+	}
+	.modal.skinny {
+		width: 400px;
+		margin-left: -200px;
+		left: 50%;
+	}
+  [data-ff-modal='shown'],
+	.modal.inView {
+		top: 0px;
+	}
+  [data-ff-modal-body],
+	.modal-body {
+		padding: 15px;
+		margin-bottom: 0px;
+	}
+}
+
+
+@media screen and (max-width: 500px) {
+	body,
+	blockquote {
+		font-size: 14px;
+	}
+	.subTitle { font-size: 18px; }
+	h6 { font-size: 16px; }
+	h5 { font-size: 18px; }
+	h4 { font-size: 20px; }
+
+	h3 { font-size: 22px; }
+	h2 { font-size: 30px; }
+	h1 { font-size: 40px; }
+
+	.table-bigText { font-size: 14px; }
+	.table-bigNum  { font-size: 14px; }
+
+	.table-bigNum .dollar {
+		font-size: 10px;
+		line-height: 13px;
+	}
+
+	.modal * .field {
+		margin-bottom: 7px;
+	}
+
+	.table thead th { font-size: 14px; }
+
+	.table td,
+	.table td {
+		padding: 7px;
+	}
+	.button--small  {
+		font-size: 14px;
+	}
+	.button {
+		font-size: 16px;
+	}
+	.button--large {
+		font-size: 20px;
+	}
+	.button--jumbo {
+		font-size: 22px;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.subTitle {
+		font-size: 16px;
+	}
+	.background-image {
+		display: none;
+	}
+  [data-ff-modal-body],
+	.modal-body {
+		padding: 10px;
+	}
+	.modal.skinny,
+	.modal.marketing {
+		width: 100%;
+		margin-left: 0;
+		left: 0;
+	}
+}
+
+
+@media screen and (max-width: 380px) {
+	.modal.sidebar {
+		max-width: 85%;
+	}
+}
+
+
+@media screen and (max-width: 350px) {
+	.modal-body {
+		padding: 8px;
+	}
+	.button--small  { font-size: 13px; }
+	.button { font-size: 14px; }
+	.button--large { font-size: 18px; }
+	.button--jumbo { font-size: 20px; }
+	body,
+	blockquote {
+		font-size: 13px;
+	}
+}
+
+
+// query by max-height
+
+@media screen and (max-height: 500px) {
+  [data-ff-modal='shown'],
+	.modal.inView { top: 0px; }
+	.modal-footer{
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+  [data-ff-modal-body],
+	.modal-body {
+		margin-bottom: 0px;
+	}
+}

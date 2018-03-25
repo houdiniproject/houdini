@@ -1,0 +1,117 @@
+@import 'mixins';
+
+$mint-milk : #E7F3ED;
+
+.wizard-steps {
+	font-size: 14px;
+}
+.wizard-steps .highlight {
+	background: $mint-milk;
+}
+.wizard-steps .content {
+	background: white;
+	display: table;
+	height: 315px;
+	width: 100%;
+	text-align: center;
+}
+.wizard-steps .field {
+	text-align: left;
+}
+.wizard-steps .wizard-step p {
+	line-height: 1.2;
+}
+.ff-wizard-body-step {
+  display: block;
+  overflow: auto;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+.internationalMessage {
+	text-align: center;
+	padding: 8px;
+	margin: 0;
+	background: $fog;
+}
+.internationalMessage small {
+	margin-top: -2px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+// amount step
+.wizard-steps .amount-step {
+	padding: 0 5px;
+}
+.wizard-steps .amount-step button.is-selected {
+	background: darken($mint-milk, 10);
+}
+.wizard-steps .amount-step button .dollar {
+	font-size: 14px;
+	font-weight: 200;
+	line-height: 18px;
+	margin-right: 1px;
+	margin-top: -2px;
+	display: inline-block;
+}
+.wizard-steps .highlight.greyBg {
+	background: rgba($grey, 0.1) !important;
+}
+.wizard-steps .amount-step .prepend--dollar:before {
+	line-height: 37px;
+	left: 6px;
+}
+.wizard-steps .amount-step .custom-amount button {
+	background: lighten($grey, 20);
+	@include transform(translateX(-2px));
+	width: 25%;
+	font-size: 16px;
+	padding: 0;
+	line-height: 37px;
+}
+.wizard-steps .amount-step input {
+	margin: 0;
+	font-size: 15px;
+	line-height: 27px;
+	border-width: 2px;
+}
+.wizard-steps .amount-step input.is-selected,
+.wizard-steps .amount-step input:focus {
+	border-color:  darken($mint-milk, 40);
+}
+.wizard-step p.singleAmount-message {
+	line-height: 1.5;
+	font-size: 22px;
+	margin: 15px 0 20px 0;
+}
+
+.dedication-form {
+  background: #fcfcfc;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.donationModal .ff-modal {
+  width: 480px;
+  margin-left: -240px;
+}
+.donationModal .ff-modal-body {
+  padding: 0;
+}
+
+
+@media screen and (max-width: 350px) {
+	.wizard-steps {
+		font-size: 13px;
+	}
+	.info-step select {
+		height: 29px;
+	}
+	.wizard-steps .amount-step .custom-amount input {
+		line-height: 32px;
+	}
+	.wizard-steps .amount-step .custom-amount .button--inset {
+		padding: 0 5px;
+	}
+}

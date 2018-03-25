@@ -1,0 +1,50 @@
+@import 'mixins';
+
+button[toggle] {
+	padding: 0;
+	margin: 0;
+	border: 1px solid rgba($grey, 0.2);
+	background: rgba($grey, 0.1);
+	width: 20px;
+	height: 20px;
+	position: relative;
+}
+button[toggle]:after {
+	position: absolute;
+	font-size: 13px;
+	color: rgba($grey, 0.6);
+	font-family: 'FontAwesome';
+	width: 100%;
+	line-height: 20px;
+	left: 0;
+	top: 0;
+	text-align: center;
+}
+button[toggle].toggledOn:after {
+	color: white;
+}
+button[toggle='plus']:after {
+	content: '\f067';
+}
+button[toggle='plus']:hover {
+	background: rgba($grass, 0.2);
+}
+button[toggle='plus'].toggledOn {
+	@include setBackgroundAndHover($grass);
+}
+
+button[toggle='minus']:after {
+	content: '\f068';
+}
+button[toggle='remove']:after {
+	content: '\f00d';
+}
+button[toggle='minus']:hover,
+button[toggle='remove']:hover {
+	background: rgba($red, 0.2);
+}
+button[toggle='minus'].toggledOn,
+button[toggle='remove'].toggledOn {
+	@include setBackgroundAndHover($red);
+}
+

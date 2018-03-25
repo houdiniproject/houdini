@@ -1,0 +1,12 @@
+<p>A refund has been made for the following payment. Here is a copy of the receipt for your records (the supporter also received a copy):</p><br>
+
+<%= render 'user_mailer/refund_receipt', charge: @charge, refund: @refund %>
+
+<% if @supporter %>
+<%= render 'components/email/supporter_table', supporter: @supporter %>
+<% end %>
+
+<p><a href='<%= Format::Url.concat(root_url, "/nonprofits/#{@nonprofit.id}/payments") %>'>Manage your payments here.</a></p>
+
+<%= render 'emails/sig' %>
+

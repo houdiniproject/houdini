@@ -1,0 +1,65 @@
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'nonprofits/dashboard/page' %>
+<% end %>
+
+<%= content_for :javascripts do %>
+	<script>
+		appl.def('nonprofit_path', '<%= nonprofit_path(@nonprofit) %>')
+	</script>
+	<%= IncludeAsset.js '/client/js/nonprofits/dashboard/page.js' %>
+<% end %>
+
+<%= render '/components/trial_bar' if nonprofit_in_trial? %>
+
+<%= render 'components/header',
+	icon_class: 'icon-camera-graph-2',
+	title: 'Dashboard',
+	profile: @nonprofit,
+	has_mosaic: 'true' %>
+
+<main class='container'>
+
+	<section>
+		<div class='u-padding--20 u-noSelect'>
+      <%= render 'nonprofits/dashboard/payments_chart' %>
+		</div>
+
+		<div class='leftSide'>
+			<div class='u-marginBottom--15 tour-todos'>
+        <!--= hide_if (any todos.loading (eq todos.percent_done 100)) -->
+        <div>
+          <%= render 'nonprofits/dashboard/todo_messages' %>
+				  <%= render 'components/todos', title: 'checklist' %>
+        </div>
+			</div>
+
+			<div class='googleMapWrapper u-marginBottom--15'>
+				<p><!--= put map_data_count --> most recent supporters</p>
+				<div class='googleMap tour-map' id='googleMap'></div>
+			</div>
+      <%= render 'nonprofits/dashboard/campaign_listing' %>
+      <%= render 'nonprofits/dashboard/event_listing' %>
+		</div>
+
+		<aside class='sidebar'>
+      <div class='metrics'>
+        <%= render 'nonprofits/dashboard/reports' %>
+      </div>
+			<div class='tour-metrics'>
+				<%= render 'nonprofits/dashboard/metrics' %>
+			</div>
+			<div class='tour-listings'>
+				<%= render 'nonprofits/dashboard/payments_listing' %>
+				<%= render 'nonprofits/dashboard/supporter_listing' %>
+			</div>
+		</aside>
+
+	</section>
+</main>
+
+
+<%= render 'nonprofits/payouts/identity_verification_modal' %>
+<%= render 'nonprofits/bank_accounts/modal' %>
+<%= render 'campaigns/new_modal' %>
+<%= render 'events/new_modal' %>
+<%= render 'billing_subscriptions/new_modal' %>

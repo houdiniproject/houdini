@@ -1,0 +1,55 @@
+<!-- partial: profiles/ongoing_donations -->
+
+<header class='group u-padding--10 u-marginTop--20 u-border--bottom'>
+	<strong class='u-fontSize--18'>Recurring Donations</strong>
+	<span class='highlight u-floatR'><%= print_currency(@recurring_donations.pluck(:amount).sum) %> total</span>
+</header>
+
+<% if @recurring_donations.empty? %>
+	<p class='noResults'>
+    None Yet
+  </p>
+<% else %>
+
+
+
+	<table class='table--plaid u-marginBottom--0'>
+
+			<tbody>
+
+				<% @recurring_donations.each do |d| %>
+
+					<tr>
+
+						<td>
+							<p class='u-flatHeight'>
+								<%= link_to d.nonprofit.name, d.nonprofit.url %>
+							</p>
+							<small>
+								<%= d.nonprofit.city %>, <%= d.nonprofit.state_code %>
+							</small>
+						</td>
+
+						<td>
+								<span class='table-bigNum'><%= print_currency d.amount %></span> <small>monthly</small>
+						</td>
+
+						<td>
+							Since <%= simple_date d.created_at %>
+						</td>
+
+						<td class='u-centered'>
+							<a class='button--tiny red' href="/recurring_donations/<%= d.id %>/edit?t=<%= d.edit_token %>">
+								Update card or cancel
+							</a>
+						</td>
+
+					</tr>
+
+				<% end %>
+
+		</tbody>
+
+	</table> <!-- .donation-table -->
+
+<% end %>

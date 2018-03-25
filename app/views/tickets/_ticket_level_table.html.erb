@@ -1,0 +1,50 @@
+<table class='table--plaid'>
+	<thead>
+		<th>Ticket Level</th>
+		<th>Price</th>
+		<th>Quantity</th>
+	</thead>
+		<tr>
+
+			<!--= repeat ticket_levels.data -->
+			<td>
+				<strong class='u-block'><!--= put this.name --></strong>
+				<small><!--= put this.description --></small>
+			</td>
+
+			<td>
+				<!--= put this.formatted_amount -->
+			</td>
+
+			<td>
+				<input type='hidden'>
+					<!--= set_attr 'name' (cat 'tickets.' this.i '.ticket_level_id') -->
+					<!--= set_value this.id -->
+
+				<input type='hidden'>
+					<!--= set_attr 'name' (cat 'tickets.' this.i '.amount') -->
+					<!--= set_value this.amount -->
+
+				<input class='input--100'
+					type='number'
+					min='0'
+					parsley-min='0' parsley-max='99'
+					value='0'>
+					<!--= on 'change' (ticket_wiz.check_if_any_ticket_levels this.i this.name) -->
+					<!--= set_attr 'name' (cat 'tickets.' this.i '.quantity') -->
+					<!--= set_attr 'max' (any this.remaining >= 0 ? this.remaining : 0 99) -->
+					<!--= hide_if this.sold_out -->
+				<br>
+
+				<small class='u-fade'>
+					<!--= show_if this.remaining -->
+					<!--= put this.remaining --> remaining
+				</small>
+
+				<span>
+					<!--= show_if this.sold_out -->
+					Sold Out
+				</span>
+			</td>
+		</tr>
+</table>

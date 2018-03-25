@@ -1,0 +1,58 @@
+<% if current_user %> <% unless current_user.confirmed? %>
+		<%= render 'common/confirm_email_modal' %>
+	<% end %>
+<% else %>
+	<%= render 'common/choose_role_modal' %>
+	<%= render 'users/signup_modal' %>
+	<%= render 'users/login_modal' %>
+<% end %>
+
+<div id='ff-render-onboard'>
+  <!-- This div will get replaced with the script found in common/onboard.js -->
+</div>
+
+<%= render 'common/onboarding_modals' %>
+<%= render 'common/confirmation' %>
+
+<div id='js-notification' if-branded='background-color, lightest'></div>
+<!--= on 'click' (remove_class 'show') -->
+
+<div class='fullScreenLoading'>
+	<!--= show_if full_loading -->
+	<div class='fullScreenLoading-inner'>
+		Loading...
+	</div>
+</div>
+
+<div class='progressBar--app'>
+	<!--= show_if loading -->
+	<div class='progressBar-fill--striped'></div>
+</div>
+
+<div class='modal-backdrop'></div>
+
+<% if yield(:footer_hidden) != 'hidden' %>
+	<footer class='globalFooter'>
+		<%= render 'components/guest_footer' unless current_user %>
+		<%= render 'components/footer_sub' %>
+	</footer>
+<% end %>
+
+<!--[if lte IE 9]>
+  <div class='modal inView'>
+  	<div class='modal-body u-strong'>
+      <div class='pastelBox--orange u-padding--10'>
+    		<p>
+          It looks like you're using an older version of Internet Explorer.  Because Microsoft is no longer offering support or security updates to your version of Internet Explorer, we strongly suggest you update your browser to avoid security and display issues.
+        </p>
+    		<p>
+          <a href='http://www.mozilla.org/'>Try Firefox,</a>
+          a browser made by a nonprofit.
+        </p>
+    		<p>
+          Or, <a href='http://windows.microsoft.com/en-us/internet-explorer/download-ie'>update your version of Internet Explorer.</a>
+        </p>
+      </div>
+  	</div>
+  </div>
+<![endif]-->

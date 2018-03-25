@@ -1,0 +1,69 @@
+<div class='modal' id='ticketLevelCreateOrEditModal'>
+
+	<header class='modal-header'>
+		<h4 class='u-capitalize modal-header-title'><!--= put ticket_levels.current_action --> Ticket Level</h4>
+		<%= render 'common/modal_close' %>
+	</header>
+
+	<div class='modal-body'>
+		<!--= scope 'ticket_levels.currently_editing' -->
+		<form class='ticketLevelForm'>
+			<!--= on 'submit' (ticket_levels.create_or_edit form_object) -->
+
+			<section class='layout--two'>
+				<fieldset>
+					<label>Ticket Name <small>(max 40 characters)</small></label>
+					<input type='text' name='name' parsley-maxlength='40' parsley-trigger='change' required placeholder='Add ticket name here'>
+					<!--= set_value this.name -->
+				</fieldset>
+
+				<fieldset>
+					<label>Amount <small>(can be $0)</small></label>
+					<div class='prepend--dollar'>
+						<input class='input--100' type='number' name='amount_dollars' min='0'>
+						<!--= if (this.amount) (set_value (divide this.amount 100)) (set_value 0) -->
+					</div>
+				</fieldset>
+			</section>
+
+			<fieldset>
+				<label>Quantity Limit (optional)</label>
+				<p>Limit the number of total tickets. After the limit has been reached, the ticket will appear as sold out. Leave this blank to allow for unlimited purchaces of this ticket level.</p>
+				<input class='input--150' type='number' name='limit' placeholder='Add limit here'  min='1'>
+					<!--= set_value this.limit -->
+			</fieldset>
+
+      <fieldset>
+        <label>Admin Only?</label>
+        <p>Marking a ticket as "admin only" means your supporters cannot see the ticket; only event administrators can view and create these tickets.</p>
+        <% check_id = SecureRandom.uuid %>
+        <input type='checkbox' name='admin_only' id='<%= check_id %>'>
+        <label for='<%= check_id %>'>Admin Only</label>
+      </fieldset>
+
+			<fieldset>
+				<label>Short description <small>(140 characters max)</small></label>
+				<textarea name='description' parsley-maxlength='140' parsley-trigger='change' placeholder='Add description here'></textarea>
+				<!--= set_value this.description -->
+			</fieldset>
+
+			<input type='hidden' name='id'>
+			<!--= set_value this.id -->
+
+			<div class='u-centered u-marginTop--15'>
+				<button class='button' type='submit'>
+					<!--= set_attr_if loading 'disabled' ''  -->
+					<span><!--= hide_if loading -->Save</span>
+					<span><!--= show_if loading -->Saving...</span>
+				</button>
+			</div>
+		</form>
+	</div>
+	<footer class='modal-footer'>
+		<a>
+			<!--= on 'click' (open_modal "manageTicketLevelsModal") -->
+			Manage Ticket Levels
+		</a>
+	</footer>
+
+</div>

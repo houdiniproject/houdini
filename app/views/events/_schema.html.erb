@@ -1,0 +1,23 @@
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "<%= event.name %>",
+  "description": "<%= event.tagline %>",
+  "location": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "<%= event.city %>",
+      "addressRegion": "<%= event.state_code %>",
+      "postalCode": "<%= event.zip_code %>",
+      "streetAddress": "<%= event.address %>"
+    },
+    "name": "<%= event.venue_name %>",
+    "url": "http://maps.google.com/?q=<%= Format::Address.full_address(@event.address, @event.city, @event.state_code, @event.zip_code) %>"
+  },
+  "startDate": "<%= Format::Date.full(@event.start_datetime, @event.nonprofit.timezone) %>",
+  "url": "<%= url %>"
+}
+</script>
+

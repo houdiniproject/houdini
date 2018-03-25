@@ -1,0 +1,62 @@
+<div class='modal' id='createOrEditDiscountsModal'>
+  <header class='modal-header'>
+    <h4 class='header-title'>
+      <span>
+        <!--= hide_if discounts.editing.id -->
+        Create
+      </span>
+      <span>
+        <!--= show_if discounts.editing.id -->
+        Edit
+      </span>
+      Discount
+    </h4>
+    	<%= render 'common/modal_close' %>
+  </header>
+  <section class='modal-body'>
+    <form>
+      <!--= on 'submit' (discounts.create_or_update form_object) -->
+      <input type='hidden' name='id'>
+      <!--= set_value discounts.editing.id -->
+      <fieldset>
+        <label>Name</label>
+        <input type='text' maxlength='40' minlength='3' name='name' placeholder='Name'>
+        <!--= set_value discounts.editing.name -->
+      </fieldset>
+      <section class='layout--two'>
+        <fieldset class='u-margin--0'>
+          <label class='u-margin--0'>Percentage Discount</label>
+          <p><small>Will be applied to total purchase</small></p>
+          <span class='input--percent'>
+            <input  minlength='0' maxlength='3' name='percent'>
+            <!--= set_value discounts.editing.percent -->
+          </span>
+        </fieldset>
+        <fieldset class='u-margin--0'>
+          <label class='u-margin--0'>Discount Code</label>
+          <p><small>For attendees to enter at checkout</small></p>
+          <input type='text' name='code' placeholder='Discount Code'  maxlength='10' minlength='4'>
+          <!--= set_value discounts.editing.code -->
+        </fieldset>
+      </section>
+      <hr>
+      <div class='u-centered'>
+        <button class='button'>
+          <!--= set_attr_if discounts.loading 'disabled' '' -->
+          <span>
+            <!--= show_if discounts.loading -->
+            Submiting...
+          </span>
+          <span>
+            <!--= hide_if discounts.loading -->
+            Submit
+          </span>
+        </button>
+      </div>
+    </form>
+  </section>
+  <footer class='modal-footer'>
+    <a>Manage Discounts</a>
+    <!--= on 'click' (open_modal 'manageDiscountsModal') -->
+  </footer>
+</div>

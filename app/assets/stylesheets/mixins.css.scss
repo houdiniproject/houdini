@@ -1,0 +1,586 @@
+@import 'common/colors';
+@import 'common/backgrounds';
+
+
+// COMMON EFFECTS:
+
+$box-5: 0 0 5px 0 rgba(0,0,0,0.3);
+$cubic_bevier: cubic-bezier(.5,1.2,.6,1);
+
+@mixin glow{
+	@include box-shadow(0 0 20px 0px rgba(white, 0.3));
+}
+@mixin background-size($val) {
+	-webkit-background-size: $val;
+	-moz-background-size: $val;
+	-ms-background-size: $val;
+	background-size: $val;
+}
+
+@mixin basicShadow{@include box-shadow(0 0 5px 1px rgba(black, 0.1));}
+
+@mixin rotate($deg) {
+	-webkit-transform: rotate($deg);
+	-moz-transform: rotate($deg);
+	-ms-transform: rotate($deg);
+	-o-transform: rotate($deg);
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation= ($deg / 90));
+} // for the Miscrosoft filter: 0 = no rotation, 1 = 90deg,
+// 2 = 180deg and 3 = 270deg
+
+
+@mixin transform($properties...) {
+	-ms-transform: $properties;
+	-webkit-transform: $properties; 
+	-moz-transform: $properties;
+	transform: $properties;
+}
+
+@mixin stripes($color){
+	&:nth-of-type(2n-1){ background: $color;}
+}
+
+@mixin color-steps($base-color){
+	&:nth-last-of-type(1) { background-color: $base-color;}
+	&:nth-last-of-type(2) { background-color: lighten($base-color, 5%);}
+	&:nth-last-of-type(3) { background-color: lighten($base-color, 10%);}
+	&:nth-last-of-type(4) { background-color: lighten($base-color, 15%);}
+	&:nth-last-of-type(5) { background-color: lighten($base-color, 20%);}
+	&:nth-last-of-type(6) { background-color: lighten($base-color, 25%);}
+	&:nth-last-of-type(7) { background-color: lighten($base-color, 30%);}
+	&:nth-last-of-type(8) { background-color: lighten($base-color, 35%);}
+	&:nth-last-of-type(9) { background-color: lighten($base-color, 40%);}
+}//$base-color will be the darkest color
+
+
+@mixin gutter-accent($color) {
+	border-left: $color 5px solid;
+	padding: 0 0 0 12px;
+}
+
+
+@mixin setColorAndHover($color) {
+	color: $color;
+	&:hover {
+		color: darken($color, 10%);
+	}
+}
+
+
+@mixin setBackgroundAndHover($color) {
+	background-color: $color;
+	&:hover {
+		background-color: darken($color, 10%);
+	}
+}
+
+@mixin setBackgroundAndHover--subtle($color) {
+	background-color: $color;
+	&:hover {
+		background-color: darken($color, 3%);
+	}
+}
+
+
+
+@mixin ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+@mixin skrim-grad-top($color, $height) {
+	&:before {
+		position: absolute;
+		content: '';
+		width: 100%;
+		height: $height;
+		left: 0;
+		top: 0;
+		@include gradient(top, $color, $trans);
+	}
+}
+
+@mixin skrim-grad-top--out($color, $height) {
+	&:before {
+		position: absolute;
+		content: '';
+		width: 100%;
+		height: $height;
+		left: 0;
+		top: - $height;
+		@include gradient(bottom, $color, $trans);
+	}
+}
+
+@mixin skrim-grad-bottom($color, $height) {
+	&:before {
+		position: absolute;
+		content: '';
+		width: 100%;
+		height: $height;
+		left: 0;
+		bottom: 0;
+		@include gradient(bottom, $color, $trans);
+	}
+}
+
+@mixin cornerHoles--bottom($size, $color) {
+	&:before {
+		content: '';
+		position: absolute;
+		border: $size solid $color;
+		border-bottom: none;
+		border-left: none;
+		border-top-right-radius: $size;
+		left: 0;
+		bottom: 0;
+	}
+
+	&:after{
+		content: '';
+		position: absolute;
+		border: $size solid $color;
+		border-bottom: none;
+		border-left: none;
+		border-top-left-radius: $size;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+@mixin cornerHoles--top($size, $color) {
+	&:before {
+		content: '';
+		position: absolute;
+		border: $size solid $color;
+		border-top: none;
+		border-left: none;
+		border-bottom-right-radius: $size;
+		left: 0;
+		top: 0;
+	}
+
+	&:after{
+		content: '';
+		position: absolute;
+		border: $size solid $color;
+		border-top: none;
+		border-right: none;
+		border-bottom-left-radius: $size;
+		right: 0;
+		top: 0;
+	}
+}
+
+@mixin noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+
+@mixin drop-cap {
+	&:first-letter {
+		@include bitter;
+		font-weight: bold;
+		font-size: 180%;
+	}
+	&:first-line {
+		line-height: 1;
+	}
+}
+
+@mixin after-gradient {
+	position: relative;
+	&:after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		@include gradient(top, $trans, #fff);
+		width: 100%;
+		height: 50px;
+	}
+}
+
+@mixin mosaic($topBottomOrBoth, $height){
+	&:after {
+		content: '';
+		position: absolute;
+		left: 0;
+		background: $mosaic;
+		height: $height;
+		width: 100%;
+		@if $topBottomOrBoth == top { top: 0; }
+		@if $topBottomOrBoth == bottom { bottom: 0; }
+		@else { bottom: 0; }
+	}
+	@if $topBottomOrBoth == both {
+		&:before {
+			z-index: 100;
+			content: '';
+			position: absolute;
+			left: 0;
+			background: $mosaic;
+			height: $height;
+			width: 100%;
+			top: 0;
+		}
+	}
+}
+
+@mixin border-topBottom($properties...) {
+	border-top: $properties;
+	border-bottom: $properties;
+}
+
+@mixin border-leftRight($properties...) {
+	border-left: $properties;
+	border-right: $properties;
+}
+
+@mixin flag($color, $height, $boolean){
+	$halfHeight: $height/2;
+	$lightColor: lighten($color, 3%);
+	$isLink: $boolean;
+	background: $color;
+	position: relative;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		width: 0;
+		height: 0;
+		left: -$halfHeight;
+		border-top: $halfHeight solid $color;
+		border-left: $halfHeight solid transparent;
+		border-bottom: $halfHeight solid $color;
+	}
+	@if $isLink {
+		&:hover {
+			background: $lightColor;
+			&:before {
+				border-top: $halfHeight solid $lightColor;
+				border-left: $halfHeight solid transparent;
+				border-bottom: $halfHeight solid $lightColor;
+			}
+		}
+	}
+}
+
+@mixin flag-right($color, $height, $boolean){
+	$halfHeight: $height/2;
+	$lightColor: lighten($color, 3%);
+	$isLink: $boolean;
+	background: $color;
+	position: relative;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		width: 0;
+		height: 0;
+		right: -$halfHeight;
+		border-top: $halfHeight solid $color;
+		border-right: $halfHeight solid transparent;
+		border-bottom: $halfHeight solid $color;
+	}
+	@if $isLink {
+		&:hover {
+			background: $lightColor;
+			&:before {
+				border-top: $halfHeight solid $lightColor;
+				border-right: $halfHeight solid transparent;
+				border-bottom: $halfHeight solid $lightColor;
+			}
+		}
+	}
+}
+
+@mixin banner($color, $height){
+	$halfHeight: $height/2;
+	background: $color;
+	position: relative;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		width: 0;
+		height: 0;
+		left: -$halfHeight;
+		border-top: $halfHeight solid $color;
+		border-left: $halfHeight solid transparent;
+		border-bottom: $halfHeight solid $color;
+	};
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		width: 0;
+		height: 0;
+		right: -$halfHeight;
+		border-top: $halfHeight solid $color;
+		border-right: $halfHeight solid transparent;
+		border-bottom: $halfHeight solid $color;
+	}
+}
+
+
+@mixin burst($color, $size){
+  background: $color;
+  width: $size;
+  height: $size;
+  position: relative;
+  text-align: center;
+  display: inline-block;
+
+	&:before, &:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: $size;
+		width: $size;
+		background: $color;
+	}
+	&:before {
+ 		@include rotate(30deg)
+	}
+	&:after {
+  	@include rotate(60deg)
+	}
+}
+
+
+@mixin tooltip-color($color) {
+	.tooltip.top .tooltip-arrow{
+	    border-top:5px solid $color
+	}
+	.tooltip.left .tooltip-arrow{
+	    border-left:5px solid $color
+	}
+	.tooltip.bottom .tooltip-arrow{
+	    border-bottom:5px solid $color
+	}
+
+	.tooltip.right .tooltip-arrow{
+	    border-right:5px solid $color
+	}
+	.tooltip-inner{
+	    background-color: $color
+	}
+}
+
+@mixin vertically-center {
+	position: relative;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-moz-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+@mixin vertically-center-flex {
+	display: -webkit-flex;
+	-webkit-align-items: center;
+	-webkit-justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin logo($px, $color, $is_showing_logo, $should_be_limited){
+	.commitchangeLogo {
+		font-weight: bold;
+		letter-spacing: -1px;
+		font-size: $px;
+		font-family: 'Bitter';
+		font-style: normal;
+		.commitchangeLogo-text {
+			vertical-align: middle;
+			display: inline-block;
+			color: $dark-logo-blue;
+			@include transform(translateY(2px));
+		}
+		.commitchangeLogo-c {
+			font-size: ($px + 1px);
+		}
+		img {
+            @if $should_be_limited {
+              width: $px + 10px;
+            } @else {
+              height: $px + 10px;
+            }
+
+			@if $is_showing_logo {
+				display: inline-block;
+			} @else {
+				display: none;
+			}
+		}
+	}
+}
+
+@mixin transition($properties...){
+  -webkit-transition: $properties;
+  -moz-transition: $properties;
+  -ms-transition: $properties;
+  transition: $properties;
+}
+
+@mixin basic-transition($property) {
+  -webkit-transition: $property 0.25s ease-in-out;
+  -moz-transition: $property 0.25s ease-in-out;
+  -ms-transition: $property 0.25s ease-in-out;
+  transition: $property 0.25s ease-in-out;
+}
+
+@mixin border-radius($val) {
+	@if $val == 50% {
+		-webkit-border-radius: 1000px;
+	}
+	-webkit-border-radius: $val;
+  -moz-border-radius: $val;
+  -ms-border-radius: $val;
+  border-radius: $val;
+}
+
+@mixin border-radius-indiv($a, $b, $c, $d) {
+  -webkit-border-radius: $a $b $c $d;
+  -moz-border-radius: $a $b $c $d;
+  -ms-border-radius: $a $b $c $d;
+  border-radius: $a $b $c $d;
+}
+
+@mixin box-shadow($a) {
+  -webkit-box-shadow: $a;
+  -moz-box-shadow: $a;
+  -ms-box-shadow: $a;
+  box-shadow: $a;
+}
+
+@mixin opacity($val) {
+	-webkit-opacity: $val;
+	-moz-opacity: $val;
+	-ms-opacity: $val;
+	opacity: $val;
+}
+
+@mixin backface-visibility($val) {
+	-webkit-backface-visibility: $val;
+	-moz-backface-visibility: $val;
+	-ms-backface-visibility: $val;
+	backface-visibility: $val;
+}
+
+@mixin open-sans {
+	font-family: 'Open Sans', 'Helvetica Neue', Arial, Verdana, 'Droid Sans', sans-serif;
+}
+
+@mixin open-sans-condensed {
+	font-family: OpenSansCondensed, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 3px;
+}
+
+@mixin bitter {
+	font-family: 'Bitter', serif;
+}
+
+@mixin placeholder {
+	&.placeholder { @content }
+	&::-webkit-input-placeholder { @content }
+	&:-moz-placeholder { @content }
+	&:-ms-placeholder { @content }
+}
+
+@mixin gradient($dir, $from, $to) {
+	$ie-hex-from: ie-hex-str($from);
+	$ie-hex-to: ie-hex-str($to);
+	background-image: -webkit-linear-gradient($dir,$from,$to);
+	background-image: -moz-linear-gradient($dir,$from,$to);
+	background-image: -ms-linear-gradient($dir,$from,$to);
+	background-image: -o-linear-gradient($dir,$from,$to);
+	background-image: linear-gradient($dir,$from,$to);
+	// For IE7-9:
+	$gradientType: 0;
+	@if $dir == 'left' { $gradientType: 1;}
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=#{$gradientType},startColorstr='#{$ie-hex-from}', endColorstr='#{$ie-hex-to}');
+}
+
+@mixin basic-animation($name) {
+  -webkit-animation: $name ease-in-out;
+  -moz-animation: $name ease-in-out;
+  -ms-animation: $name ease-in-out;
+  animation: $name 2s ease-in-out;
+}
+
+@mixin columns($amount) {
+	width: $amount * 8.3333333333333%;
+	clear: left;
+	float: left;
+}
+
+@mixin columns-right($amount) {
+	width: $amount * 8.3333333333333%;
+	clear: right;
+	float: right;
+}
+
+@mixin columns-left($amount) {
+	vertical-align: top;
+	width: $amount * 8.3333333333333%;
+	display: inline-block;
+}
+
+// General-purpose float-left columns
+@mixin cols($n) {
+	vertical-align: top;
+	width: $n * 8.3333333333333%;
+	float: left;
+	margin: 0;
+}
+
+@mixin no-select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@mixin arrow-top($color, $width) {
+	$widthMinusOne: $width - 1px;
+	$widthPlusOne: $width + 1px;
+
+	&:after,
+	&:before {
+		content: '';
+		position: absolute;
+		width: 0;
+		height: 0;
+	}
+	&:before {
+		top: - $widthPlusOne;
+		left: 9px;
+		border-left: $widthPlusOne solid transparent;
+		border-right: $widthPlusOne solid transparent;
+		border-bottom: $widthPlusOne solid $lightGrey;
+	}
+	&:after {
+		top: - $widthMinusOne;
+		left: 10px;
+		border-left: $width solid transparent;
+		border-right: $width solid transparent;
+		border-bottom: $width solid $color;
+	}
+}
+

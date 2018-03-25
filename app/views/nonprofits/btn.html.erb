@@ -1,0 +1,14 @@
+<% content_for(:dont_track_ga) {'true'} %>
+<% content_for(:hide_nav_beacon) {'true'} %>
+
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'nonprofits/btn/page' %>
+<% end %>
+
+<% content_for :javascripts do %>
+	<%= IncludeAsset.js '/client/js/nonprofits/btn/page.js' %>
+<% end %>
+
+<div class='u-centered'>
+	<p class='branded-donate-button'>Donate</p>
+</div>

@@ -1,0 +1,24 @@
+<% unless @active_campaigns.empty? %>
+  <section class='pastelBox--grey u-marginBottom--15'>
+  	<header>
+  	   Active Campaigns
+  	</header>
+    <%= render 'campaigns/campaigns_table', campaigns: @active_campaigns %>
+  	<% if @any_past_campaigns %>
+    	<footer>
+    		<a href='<%= @nonprofit.url + '/campaigns' %>' class='button details'>View Past Campaigns</a>
+    	</footer>
+  	<% end %>
+  </section>
+<% end %>
+
+<% unless @events.empty? %>
+	<section class='pastelBox--grey u-marginBottom--15'>
+  	<header>
+      Upcoming Events
+  	</header>
+  		<% @events.each do |event| %>
+  			<%= render :partial => 'events/listing', :locals => {:event => event} %>
+			<% end %>
+  </section>
+<% end %>

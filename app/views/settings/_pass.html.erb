@@ -1,0 +1,23 @@
+<header class='pane-header'>
+	<h3>Change Password</h3>
+</header>
+
+<div class='pane-inner'>
+	<form autosubmit method='put' action='<%= registration_path(@user) %>' data-reload>
+		<div class='field u-marginBottom--20'>
+			<label>Type your new password below</label>
+			<input class='input--300 u-marginBottom--10 u-block' type='password' name='user[password]' type='text' placeholder='New password'>
+			<input class='input--300' type='password' name='user[password_confirmation]' placeholder='Confirm password'>
+		</div>
+
+		<% if !@user.pending_password %>
+			<div class='field'>
+				<label>Type your current password below to confirm your changes</label>
+				<input class='input--300' name='user[current_password]' type='password'>
+			</div>
+		<% end %>
+
+		<p class='error'></p>
+		<button class='button u-marginTop--5' type='submit' data-loading='Saving...'>Save New Password</button>
+	</form>
+</div>

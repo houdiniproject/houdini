@@ -1,0 +1,265 @@
+@import 'mixins';
+
+html {
+	height: 100%;
+}
+
+.panelsLayout .table-meta {
+	@include box-shadow(0 5px 5px -4px rgba(black, 0.04));
+}
+
+.panelsLayout {
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.panelsLayout-body {
+	position: relative;
+	height: 100%;
+	min-height: 350px;
+}
+
+
+@mixin offScreenPanel {
+	display: block;
+	visibility: hidden;
+	background: $looseleaf;
+	top: 0;
+	p {
+		margin-bottom: 5px;
+	}
+}
+
+@mixin offScreenPanelHeader {
+	margin: 0;
+	width: 100%;
+	background: rgba(249, 247, 235, 0.7);
+	position: relative;
+}
+
+@mixin offScreenPanelTitle {
+	margin: 0;
+	font-weight: bold;
+	@include open-sans;
+}
+
+
+.sidePanel {
+	@include offScreenPanel;
+	@include transition(right 0.1s ease);
+	right: -80%;
+	width: 80%;
+	min-height: 400px;
+  border-left: 1px solid rgba(0,0,0,0.1);
+}
+
+.sidePanel-header {
+	@include offScreenPanelHeader;
+	padding: 8px 12px;
+}
+.sidePanel-title {
+	@include offScreenPanelTitle;
+	font-size: 20px;
+	padding: 0;
+	margin: 0;
+}
+.sidePanel-title--meta {
+	font-weight: normal;
+	font-size: 15px;
+	@include opacity(0.7);
+}
+
+
+.sidePanel-title .dollar {
+	font-size: 18px;
+	line-height: 1.3;
+}
+.sidePanel-body {
+	padding: 15px;
+}
+
+// filterPanel
+.filterPanel-body {
+	padding: 12px;
+}
+.filterPanel-body label {
+	font-size: 14px;
+	margin-bottom: 3px;
+}
+.filterPanel-body input,
+.filterPanel-body a {
+	font-size: 14px;
+}
+.filterPanel-body input[type='checkbox'] + label {
+	@include ellipsis;
+	max-width: 200px;
+}
+.filterPanel-body label.filterCheckbox-title {
+	position: relative;
+	margin-bottom: 10px;
+}
+.filterCheckbox-ellipsis {
+	font-size: 16px;
+	color: rgba($grey, 0.8);
+	line-height: 0;
+	margin-left: 2px;
+	display: inline-block;
+	@include transform(translateY(-8px));
+}
+.filterPanel-section:not(:last-of-type) {
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid rgba($grey, 0.1);
+}
+.filterPanel-section fieldset,
+.filterPanel-section ul {
+	margin: 0;
+}
+.filterPanel-section fieldset input[type='radio'] + label,
+.filterPanel-section input {
+	margin-bottom: 5px;
+}
+.filterPanel-body .filterCheckbox-showHide {
+	font-size: 13px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	@include opacity(0.8);
+}
+
+
+.sidePanel-metric {
+	display: inline-block;
+	padding: 0 10px;
+	line-height: 30px;
+	font-size: 16px;
+	margin: 0 10px 0 0;
+	background-color: lighten($sky, 22);
+	&:last-of-type {
+		margin: 0;
+	}
+	small {
+		font-size: 15px;
+		color: rgba($charcoal, 0.8);
+	}
+}
+
+.sidePanel-profilePhoto {
+	background-color: white;
+	height: 100px;
+	width: 100px;
+	@include opacity(0.9);
+	border: 2px solid white;
+	margin-right: 10px;
+	float: left;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.sidePanel input {
+	margin-bottom: 5px;
+}
+.sidePanel .stateZipFields {
+	input,
+	select,
+	.field {
+		margin-bottom: 0;
+	}
+}
+.sidePanel,
+.mainPanel,
+.filterPanel {
+	position: absolute;
+  overflow-x: hidden;
+	padding-bottom: 15px;
+}
+
+.mainPanel {
+	@include transition(width 0.1s ease);
+	width: 100%;
+	top: 0;
+}
+
+.filterPanel {
+	@include offScreenPanel;
+	@include transition(left 0.1s ease);
+	left: -27%;
+	width: 27%;
+  border-right: 1px solid rgba(0,0,0,0.1);
+}
+.filterPanel-header {
+	@include offScreenPanelHeader;
+	padding: 8px 40px 8px 10px;
+}
+.filterPanel-title {
+	@include offScreenPanelTitle;
+	font-size: 18px;
+}
+
+@mixin panelCloseButton {
+	position: absolute;
+	top: 0;
+	background: $bluegrass; 
+	i {
+		color: white;
+		padding: 10px 6px;
+		font-size: 20px;
+	}
+}
+.button--closeSidePanel {
+	@include border-radius(0 0 0 5px);
+	@include panelCloseButton;
+	@include transition(right 0.1s ease);
+	right: -70%;
+}
+.button--closeFilterPanel {
+	@include border-radius(0 0 5px 0);
+	@include panelCloseButton;
+	@include transition(left 0.1s ease);
+	left: -25%;
+}
+
+.panelsLayout.is-showingSidePanel {
+	[if-side-panel='hide'] {
+		display: none;
+	}
+	tr:hover [if-side-panel='hover-marker']:before {
+		background: $bluegrass;
+	}
+	.mainPanel {
+		width: 20%;
+	}
+	.button--closeSidePanel {
+		right: 80%;
+	}
+ .sidePanel {
+		visibility: visible;
+		right: 0;
+	}
+}
+
+.panelsLayout.is-showingFilterPanel {
+	.mainPanel  {
+		width: 73%;
+	}
+	.mainPanel td:first-of-type,
+	.mainPanel th:first-of-type  {
+		padding-left: 30px;
+	}
+	.button--closeFilterPanel {
+		left: 27%;
+	}
+ .filterPanel {
+ 		visibility: visible;
+		left: 0;
+	}
+}
+.panelsLayout .moreResults {
+	padding-left: 10px;
+}
+
+.panelsLayout .moreResults-showingCount {
+	margin-left: 5px;
+}

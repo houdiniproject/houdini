@@ -1,0 +1,8 @@
+<p>
+A recurring donation from one of your supporters has been modified. Details are below.
+</p>
+
+<%= render 'donation_mailer/donation_changed_amount_table', donation: @donation, previous_amount: @previous_amount %>
+
+<%= render 'components/email/supporter_table', supporter: @donation.supporter %>
+<br>

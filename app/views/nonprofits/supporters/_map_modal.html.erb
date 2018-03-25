@@ -1,0 +1,46 @@
+<div class='modal fullScreen' id='supportersMapModal'>
+	<header class='modal-header'>
+		<h4 class='modal-header-title'>Showing <!--= put map_data_count --> out of  <!--= put supporters.total_count --> Supporters</h4>
+		<%= render 'common/modal_close' %>
+	</header>
+	<div class='modal-body'>
+		<section class='supportersMap group'>
+			<div class='legend'>
+				<!--= scope 'map_data' -->
+				<div>
+					<!--= hide_if map_data -->
+					<p>Click on a marker to see a supporter's details</p>
+				</div>
+				<div>
+					<!--= show_if map_data -->
+					<p><strong>Supporter Details</strong></p>
+					<p class='detail'>
+						<!--= show_if this.name -->
+						<i class='fa fa-user'></i> <!--= put this.name -->
+					</p>
+					<p class='detail'>
+						<!--= show_if this.phone -->
+						<i class='fa fa-phone'></i> <!--= put this.phone -->
+					</p>
+					<p class='detail'>
+						<!--= show_if this.email -->
+						<i>@</i> <!--= put this.email -->
+					</p>
+					<p class='detail'>
+						<!--= show_if this.total_raised -->
+						<i class='fa fa-dollar'></i> <!--= put this.total_raised -->
+					</p>
+					<p class='detail'>
+						<!--= show_if this.address -->
+						<i class='fa fa-home'></i> <!--= put this.address --> <!--= put this.city --> <!--= put this.state_code -->
+					</p>
+					<button class='button--micro u-marginY--10'>
+						More Details
+						<!--= on 'click' (supporter_details.toggle_panel this) -->
+					</button>
+				</div>
+			</div>
+			<div class='googleMap' id='googleMap'></div>
+		</section>
+	</div>
+</div>

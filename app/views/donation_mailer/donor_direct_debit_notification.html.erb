@@ -1,0 +1,25 @@
+<% if @thank_you_note %>
+	<div><%= raw(@thank_you_note) %></div>
+	<hr>
+<% end %>
+
+<% if @donation.recurring_donation %>
+  <p>
+    <%= t('mailer.donations.donor_direct_debit_notification.recurring_donation_queued_html', nonprofit_name: @nonprofit.name, start_date: simple_date(@donation.recurring_donation.created_at)) %>
+  </p>
+  <br>
+<%else%>
+  <p>
+    <%= t('mailer.donations.donor_direct_debit_notification.donation_queued_html', nonprofit_name: @nonprofit.name) %>
+  </p>
+  <br>
+<%end%>
+
+<p>
+  <%= t('mailer.donations.donor_direct_debit_notification.transfer_info_html', label: t('mailer.donations.donor_direct_debit_notification.transfer_label_html', nonprofit_statement: @nonprofit.statement)) %>
+</p>
+<br>
+<%= render 'donation_mailer/donation_payment_table', donation: @donation, charge: @donation.charges.last %>
+
+<%= render 'emails/powered_by' %>
+

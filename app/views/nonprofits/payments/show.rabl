@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 object @payment => :data
 
 attributes :gross_amount, :towards, :net_amount, :fee_total, :id, :date, :refund_total, :kind

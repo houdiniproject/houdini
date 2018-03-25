@@ -1,3 +1,4 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <p>Dear <%= @nonprofit.name %>,</p>
 
 <p>We submitted your verification data, but our payment processor came back to us saying that they weren't able to verify your info. This usually happens because the name or birthdate provided in the form doesn't match your Social Security entry exactly. There is still hope, however! If you return to the <a href='<%= root_url + "/nonprofits/#{@nonprofit.id}/payouts" %>'>Payouts Page</a>, you can try one of two solutions:</p>

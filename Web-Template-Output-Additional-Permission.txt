@@ -61,8 +61,8 @@ copyright holder as a result of your choosing to follow a later version.
 
 5. Meta-License
 
-   The actual text of this Additional Permission is made available under CC0.
+The actual text of this Additional Permission is made available under CC0.
 
-   Software Freedom Conservancy, Inc. asks that you rename this Additional
-   Permission and remove our name from any modified version of this
-   Additional Permission.
+Software Freedom Conservancy, Inc. asks that you rename this Additional
+Permission and remove our name from any modified version of this Additional
+Permission.

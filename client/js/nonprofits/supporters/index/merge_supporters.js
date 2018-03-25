@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var action_recipient = require("./action_recipient")
 var request = require('../../../common/client')
 require('../../../components/wizard')

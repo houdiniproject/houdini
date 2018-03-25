@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 module.exports = {
 	helvetica: {family: "'Helvetica Neue', Helvetica, Arial, sans-serif", name: 'Helvetica'},
 	futura: {family: "'Futura', Arial, sans-serif", name: 'Futura'},

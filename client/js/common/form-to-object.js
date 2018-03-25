@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // Convert a form to an object literal
 module.exports = function(form) {
 	if(form === undefined) throw new Error("form is undefined")

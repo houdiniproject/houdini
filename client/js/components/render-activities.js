@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const snabbdom = require('snabbdom')
 const render = require('ff-core/render')
 const activities = require('./public-activities')

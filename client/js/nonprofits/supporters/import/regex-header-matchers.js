@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 
 // A full list of available import keys that data can be imported into
 // import_key roughly translates to 'table_name.column', but not exactly... see insert_imports.rb

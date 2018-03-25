@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var request = require('../common/client')
 
 appl.def('update_card', function(form_obj) {

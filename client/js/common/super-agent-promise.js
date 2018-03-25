@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // super-agent with default json and csrf wrappers
 // Also has a Promise api ('.then' and '.catch') rather than the default '.end'
 

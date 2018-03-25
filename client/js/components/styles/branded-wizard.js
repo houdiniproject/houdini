@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const colors = require('../nonprofit-branding')
 const gradient = require('../../common/css-gradient')
 

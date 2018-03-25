@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 /* ===========================================================
 # bootstrap-tour - v0.9.3
 # http://bootstraptour.com

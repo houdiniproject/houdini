@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // This plugin allows to automatically fill the form (name, address..) based on the url params
 
 jQuery(function($){

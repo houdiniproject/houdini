@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 $('.image-upload input').change(function(e) {
 	var self = this
 	appl.def('image_upload.is_selecting', true)

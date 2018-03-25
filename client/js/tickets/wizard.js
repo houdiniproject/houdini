@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 if(app.autocomplete) {
   require('../components/address-autocomplete')
 }

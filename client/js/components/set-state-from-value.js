@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 module.exports = function (state, ev){
   var target = ev.target
 	var names = target.name.split('.')

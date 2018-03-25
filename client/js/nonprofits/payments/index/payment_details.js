@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var request = require('../../../common/super-agent-promise')
 var readable_interval = require('../../recurring_donations/readable_interval')
 var format = require('../../../common/format')

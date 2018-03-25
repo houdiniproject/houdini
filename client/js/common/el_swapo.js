@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var el_swapo = {}
 
 $('*[swap-in]').each(function(i) {

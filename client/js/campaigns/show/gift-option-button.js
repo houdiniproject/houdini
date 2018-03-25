@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
 const branding = require('../../components/nonprofit-branding')
 const format = require('../../common/format')

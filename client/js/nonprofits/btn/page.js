@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
  var Font = require('../../common/brand-fonts'),
      utils = require('../../common/utilities'),
 	$brandedButton = $('.branded-donate-button')

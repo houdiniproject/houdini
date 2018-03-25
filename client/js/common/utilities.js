@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // Utilities!
 // XXX remove this whole file and split into modules with specific concerns
 const phoneFormatter = require('phone-formatter');

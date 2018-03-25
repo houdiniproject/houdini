@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const R = require('ramda')
 
 // Reference: https://en.wikipedia.org/wiki/Luhn_algorithm

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../../campaigns/new/wizard')
 require('../../events/new/wizard')
 require('./tour')

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var confirmation = function(msg, success_cb) {
 	var $confirm_modal = $('#confirmation-modal')
 	var $msg = $confirm_modal.find('.msg')

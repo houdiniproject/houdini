@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../../../common/restful_resource')
 require('../../../common/panels_layout')
 require('../../../components/date_range_picker')

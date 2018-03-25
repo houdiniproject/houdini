@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var Pikaday = require('pikaday')
 var moment = require('moment')
 

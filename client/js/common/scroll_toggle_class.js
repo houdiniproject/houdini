@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 module.exports = function(el, className, parentClass) {
 	var $el = $(el)
 	var elPxFromTop = $el.offset().top

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var actions = [ 'change', 'click', 'dblclick', 'mousedown', 'mouseup', 'mouseenter', 'mouseleave', 'scroll', 'blur', 'focus', 'input', 'submit', 'keydown', 'keypress', 'keyup' ]
 
 function event(id, fn) {

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var R = require('ramda')
 var request = require('../client')
 

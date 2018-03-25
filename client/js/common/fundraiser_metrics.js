@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const R = require('ramda')
 const format = require('../common/format')
 require('../common/restful_resource')

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 $('.ticket-level').click(function(e) {
 	wiz.model.set('single_amount', $(this).data('dollars'))
 	wiz.model.set('designation', $(this).data('name'))

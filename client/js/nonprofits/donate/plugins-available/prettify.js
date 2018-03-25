@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 jQuery(function($){
   $(".closeButton").hide();
   if (app.currency_symbol != "€") $("button.sepa").hide();

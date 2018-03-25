@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const R = require('ramda')
 const request = require('flyd-ajax')
 

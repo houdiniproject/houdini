@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 /*!
  * Salvattore 1.0.8 by @rnmp and @ppold
  * https://github.com/rnmp/salvattore

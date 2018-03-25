@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var $panelsLayout = $('.panelsLayout'),
 	$panelsLayoutBody = $panelsLayout.find('.panelsLayout-body'),
 	$sidePanel = $panelsLayoutBody.find('.sidePanel'),

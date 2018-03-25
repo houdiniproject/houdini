@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var request = require('../client')
 
 module.exports = function(npo_id) {

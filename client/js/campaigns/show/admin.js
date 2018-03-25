@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../../common/pikaday-timepicker')
 require('../../common/restful_resource')
 const request = require('../../common/client')

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const brandColors = require('../components/nonprofit-branding')
 
 $('[if-branded]').each(function() {

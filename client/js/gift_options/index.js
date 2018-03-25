@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../common/restful_resource')
 
 appl.def('gift_options', {

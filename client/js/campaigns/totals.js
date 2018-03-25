@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const request = require('../common/request')
 const flyd = require('flyd')
 const R = require('ramda')

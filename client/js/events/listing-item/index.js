@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const format = require('../../common/format')
 const h = require('snabbdom/h')
 const moment = require('moment-timezone')

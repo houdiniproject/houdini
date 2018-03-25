@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
 const button = require('ff-core/button')
 const notification = require('ff-core/notification')

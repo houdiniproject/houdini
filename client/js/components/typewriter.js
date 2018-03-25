@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 module.exports = function (arr, id, ms) {
 	var j = 0
 	var linesLength = arr.length

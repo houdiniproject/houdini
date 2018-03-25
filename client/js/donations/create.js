@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // This defines a create_donation function that will create a Donation and
 // Charge in our database and on Stripe given a Supporter that has a valid Card
 //

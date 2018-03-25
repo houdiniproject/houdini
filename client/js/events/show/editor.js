@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // Functionality for Event Editors (a nonprofit admin, the event creator, or a super admin)
 
 require('../../common/image_uploader')

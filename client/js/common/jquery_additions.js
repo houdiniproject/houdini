@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 $.fn.serializeObject = function() {
 	return this.serializeArray().reduce(function(obj, field) {
 		if(field.value)

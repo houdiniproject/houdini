@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 /* A simple module for dealing with ajax-based resources in viewscript
 	*
 	*

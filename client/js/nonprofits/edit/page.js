@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../../common/image_uploader')
 require('../../common/on-change-sanitize-slug')
 var url = "/nonprofits/" + app.nonprofit_id

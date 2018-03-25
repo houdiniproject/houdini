@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 
 appl.def('ajax_details', {
 	update: function(id, form_obj, node) {

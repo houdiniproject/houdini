@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // vendor
 window.utils = require('./common/utilities') // XXX remove
 window.appl = require('./common/application_view') // XXX remove

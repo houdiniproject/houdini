@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // npm
 const snabbdom = require('snabbdom')
 const flyd = require('flyd')

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // This is a little utility to convert a superagent response that has an error
 // into a readable single string message
 //

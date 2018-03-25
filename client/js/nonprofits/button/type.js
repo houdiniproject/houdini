@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var flyd = require("flyd")
 var h = require("virtual-dom/h")
 var footer = require('./footer')

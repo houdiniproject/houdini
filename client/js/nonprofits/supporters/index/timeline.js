@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 
 appl.def('timeline.make_clickable', function(node){
   var card = appl.prev_elem(node)

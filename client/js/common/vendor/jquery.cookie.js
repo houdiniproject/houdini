@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 /*!
  * jQuery Cookie Plugin v1.4.1
  * https://github.com/carhartl/jquery-cookie

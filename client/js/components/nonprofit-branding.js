@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const color = require('color')
 
 var brandColor = app.nonprofit.brand_color || '#5FB88D'

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../../../common/vendor/bootstrap-tour-standalone')
 
 var supporters_tour = new Tour({

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var request = require('../../../common/client')
 var action_recipient = require('./action_recipient')
 var fields = require('./tags_and_fields_shared_methods')

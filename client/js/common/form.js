@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var form = module.exports = {
 	loading: loading,
 	showErr: showErr,

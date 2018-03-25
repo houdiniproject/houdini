@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const flyd = require('flyd')
 const request = require('../common/request')
 const flatMap = require('flyd/module/flatmap')

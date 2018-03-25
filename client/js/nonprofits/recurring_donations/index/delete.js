@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 
 appl.def('ajax_details', {
 	del: function(id, node) {

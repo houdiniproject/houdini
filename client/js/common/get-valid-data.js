@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const flyd = require('flimflam/flyd')
 const request = require("../common/request")
 

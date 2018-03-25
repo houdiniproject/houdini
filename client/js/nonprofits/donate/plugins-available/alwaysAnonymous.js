@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 jQuery(function($){
 $(".donationWizard").on("render:post", function(){
   var cb=document.getElementsByName("anonymous")[0];

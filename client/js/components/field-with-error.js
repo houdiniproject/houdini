@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const h = require('flimflam/h')
 const R = require('ramda')
 const validatedForm = require('flimflam/ui/validated-form')

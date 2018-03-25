@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // Functionality for a wizard UI (eg. our donate button)
 
 appl.def('wizard', {

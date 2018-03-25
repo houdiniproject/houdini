@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // super-agent with default json and csrf wrappers
 // Also has a FRP api (using flyd) rather than the default '.end'
 // Every call to .perform() returns a flyd stream

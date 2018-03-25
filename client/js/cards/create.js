@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // Include the cards/fields partial to use with this.
 // Call appl.card_form.create(card_obj) to start the card creation process.
 // Use the appl.card_form.on_fail callback to handle failures.

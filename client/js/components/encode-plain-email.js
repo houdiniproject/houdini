@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const b64 = require('./b64')
 
 module.exports = o => {

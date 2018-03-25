@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var notification = require('./notification')
 
 $('form.dynamic').submit(function(e) {

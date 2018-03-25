@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var request = require('../common/client')
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/ticket_levels'
 const reorder = require('../components/drag-to-reorder')

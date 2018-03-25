@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var request = require('../common/super-agent-frp')
 
 var a = document.querySelector(".js-event-resendBankConfirmEmail")

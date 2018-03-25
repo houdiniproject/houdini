@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../../../components/wizard')
 var format_err = require('../../../common/format_response_error')
 var format = require('../../../common/format')

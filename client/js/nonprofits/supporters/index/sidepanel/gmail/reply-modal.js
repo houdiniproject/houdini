@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const modal = require('ff-core/modal')
 const h = require('snabbdom/h')
 const validated = require('ff-core/validated-form')

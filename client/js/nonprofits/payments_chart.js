@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const request = require('../common/client') 
 const R = require('ramda') 
 const Chart = require('chart.js')

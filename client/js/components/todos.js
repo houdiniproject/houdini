@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 module.exports = function(cb){
 	var request = require('../common/client')
 	var url = '/nonprofits/' + app.nonprofit_id

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 /* this file expects a config/config.json that contains
 { "button":{
     "url":"https://commitchange.com",

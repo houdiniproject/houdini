@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const bind = require('attr-binder')
 const Pikaday = require('pikaday-time')
 const moment = require('moment')

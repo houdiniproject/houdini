@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 function calculateIOS()
 {
     var userAgent = window.navigator.userAgent;

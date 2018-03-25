@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 module.exports = (dir, to, from) => 
 ` background-image: -webkit-linear-gradient(${dir}, ${to}, ${from});
 background-image: -moz-linear-gradient(${dir}, ${to}, ${from});

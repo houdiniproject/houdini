@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var Styles = {}
 
 // style credit: https://snazzymaps.com/style/1735/discreet

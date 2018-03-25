@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 module.exports = action_recipient
 
 function action_recipient(){

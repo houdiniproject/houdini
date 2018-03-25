@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/ticket_levels'
 var indexTicketLevels = require('../ticket_levels/manage')
 var formSerialize = require('form-serialize')

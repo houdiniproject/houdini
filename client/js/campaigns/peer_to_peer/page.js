@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 
 require('../new/wizard')
 var request = require("../../common/client")

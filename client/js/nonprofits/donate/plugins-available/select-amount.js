@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // This plugin allows to automatically chose an amount if the url query has "amount"=xz
 jQuery(function($){
 $(".donationWizard").on("render:post", function(){

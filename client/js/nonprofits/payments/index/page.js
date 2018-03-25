@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('../../../components/date_range_picker')
 require('../../../common/panels_layout')
 require('./tour')

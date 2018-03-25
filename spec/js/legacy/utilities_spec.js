@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var utils = require("../../../app/assets/javascripts/common/utilities")
 
 var fruit = { name: "banana", color: "yellow", flavor: "sweet" }

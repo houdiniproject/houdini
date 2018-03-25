@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const flyd = require('flyd')
 const flyd_filter = require('flyd/module/filter')
 const R = require('ramda')

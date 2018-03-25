@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var h = require("virtual-dom/h")
 
 module.exports = function(savingState) {

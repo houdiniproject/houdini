@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 mocha.setup({globals: ['google*']})
 import './nonprofits'
 

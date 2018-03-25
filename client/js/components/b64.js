@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // see https://developer.mozilla.org/en-US/docs/Web/API/WindowBase64/Base64_encoding_and_decoding
 // used for encoded and decoding data for email text
 

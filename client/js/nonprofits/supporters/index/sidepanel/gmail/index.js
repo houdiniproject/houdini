@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // npm
 const R = require('ramda')
 const serialize = require('form-serialize')

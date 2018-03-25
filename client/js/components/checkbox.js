@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const h = require('flimflam/h')
 const uuid = require('uuid')
 

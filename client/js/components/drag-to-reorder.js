@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const dragula = require('dragula')
 const serialize = require('form-serialize')
 const R = require('ramda')

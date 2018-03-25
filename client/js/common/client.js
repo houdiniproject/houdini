@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // superapi wrapper with our api defaults
 
 var request = require('superagent')

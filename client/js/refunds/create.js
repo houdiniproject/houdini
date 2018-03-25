@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const R = require('ramda')
 const format = require('../common/format')
 var format_err = require('../common/format_response_error')

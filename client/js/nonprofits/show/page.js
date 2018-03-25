@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 if (app.nonprofit.brand_color) {
 	require('../../components/branded_fundraising')
 }

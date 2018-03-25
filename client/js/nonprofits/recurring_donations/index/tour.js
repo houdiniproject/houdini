@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var tour_subscribers = new Tour({
 	backdrop: false,
 	steps: [

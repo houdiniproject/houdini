@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var notification = function(msg, err) {
 	var el = document.getElementById('js-notification')
   if(err) {el.className = 'show error'} 

@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const h = require('flimflam/h')
 const modal = require('flimflam/ui/modal')
 

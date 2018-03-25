@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 /*!
  * Bootstrap v3.3.2 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.

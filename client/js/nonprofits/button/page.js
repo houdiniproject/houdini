@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var view = require("vvvview")
 var flyd = require("flyd")
 flyd.scanmerge = require("flyd/module/scanmerge")

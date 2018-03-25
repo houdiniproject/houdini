@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const flyd = require('flyd')
 const flyd_every = require('flyd/module/every')
 const moment = require('moment-timezone')

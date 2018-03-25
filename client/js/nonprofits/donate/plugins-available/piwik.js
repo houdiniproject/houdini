@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var _paq = _paq || [];
 /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
 _paq.push(['trackPageView']);

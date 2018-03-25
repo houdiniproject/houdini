@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 require('parsleyjs')
 
 const render = require('ff-core/render')

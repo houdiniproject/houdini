@@ -46,7 +46,7 @@ wiz.send_payment = function(card_obj) {
 			return create_card({type: 'Supporter', id: supporter.id}, card_obj)
 		})
 		.then(function(card) {
-			appl.rd_wizard.donation.card_id = card.id
+			appl.rd_wizard.donation.token = card.token
       return request.post('/nonprofits/' + ENV.nonprofitID + '/recurring_donations')
         .send({ recurring_donation: appl.rd_wizard.donation }).perform()
 		})

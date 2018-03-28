@@ -17,6 +17,10 @@ format.camelToWords = function(str, os) {
 
 format.dollarsToCents = function(dollars) {
 	dollars = dollars.toString().replace(/[$,]/g, '')
+    if(!isNaN(dollars) && dollars.match(/^-?\d+\.\d$/)) {
+        // could we use toFixed instead? Probably but this is straightforward.
+        dollars = dollars + "0"
+    }
 	if(isNaN(dollars) || !dollars.match(/^-?\d+(\.\d\d)?$/)) throw "Invalid dollar amount: " + dollars
   return Math.round(Number(dollars) * 100)
 }

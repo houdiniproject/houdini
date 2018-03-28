@@ -187,7 +187,7 @@ function showSingleAmount(isRecurring, state) {
   var desig = state.params$().designation
   return h('section.u-centered', [
     h('p.singleAmount-message', [
-      h('strong', app.currency_symbol + state.params$().single_amount)
+      h('strong', app.currency_symbol + format.centsToDollars(format.dollarsToCents(state.params$().single_amount)))
     , h('span.u-padding--0', { class: {'u-hide': !isRecurring} }, ' monthly')
     , h('span', {class: {'u-hide': !state.params$().designation && !gift.id}}, [ ' for ' + (desig || gift.name) ])
     ])

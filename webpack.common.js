@@ -11,6 +11,8 @@ const config_button=require('./config/settings.json');
 const sourcePath = path.join(__dirname, 'client');
 const buildPath = path.join(__dirname, 'public/client');
 const translationPath = path.join(__dirname, 'public/javascripts/_final.js')
+const reactEntrySourcePath = path.join(__dirname, 'javascripts')
+const reactEntryOutputPath = path.join(__dirname, 'public')
 
 var common_rules= [
 
@@ -33,6 +35,7 @@ var common_rules= [
                 },
                 "babel-loader"]
         },
+        { test: /\.tsx?$/, loader:"ts-loader"},
         { test: /\.js$/, exclude: /node_modules|froala/, loader: "babel-loader" },
         { test: /\.es6$/, exclude: /node_modules/, loader: "babel-loader" }
 ]
@@ -47,14 +50,8 @@ module.exports = {
             filename: '[name].js'
         },
         plugins: [
-                 new CleanWebpackPlugin([path.resolve(buildPath, 'js')]),
-                new ProvidePlugin({
-                    // $: ['jquery'],
-                    // '$.cookie':  'jquery.cookie',
-                    // jQuery: ['jquery', 'jquery.cookie'],
-                    // 'jQuery.cookie': 'jquery.cookie'
-                })
-        ]
+                 new CleanWebpackPlugin([path.resolve(buildPath, 'js')])
+            ]
     }
     ,
     // translations: {
@@ -119,7 +116,21 @@ module.exports = {
             new ExtractTextPlugin('page.css'),
             new CleanWebpackPlugin([path.resolve(buildPath, 'css')])
         ]
+    },
+    react: {
+        module:{
+            rules: common_rules
+        },
+        entry: WebpackSweetEntry(path.resolve(reactEntrySourcePath, "app/*.ts"), 'ts', 'app'),
+        output: {
+            path: path.resolve(reactEntryOutputPath, 'app'),
+            filename: '[name].js'
+        },
+        resolve: {
+            extensions: [".ts", ".tsx", ".js", ".json"],
+        },
+        plugins: [
+            new CleanWebpackPlugin([path.resolve(reactEntryOutputPath, 'app')])
+        ]
     }
-
-
 }

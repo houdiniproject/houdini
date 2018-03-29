@@ -140,6 +140,22 @@ contribute!
 
 Assets get compiled from `/client` to `/public/client`
 
+## React Generators
+If creating new React code,  please use the Rails generators with the 'react:' prefix. This include:
+
+### react:packroot
+This generator creates a new entry for Webpack. This is a place where Webpack will start
+when packing a new javascript output file. It also creates a corresponding component for the entry.
+Usually, you will have one of these per page.
+
+### react:component
+This generator creates a React component along with a test file for testing with Jest. 
+Each component should have its own file. 
+
+### react:lib
+This generator creates a basic Typescript module along with a test file.
+
+
 ### Style
 
 #### Ruby
@@ -147,7 +163,7 @@ Assets get compiled from `/client` to `/public/client`
 
 #### New frontend code
 - All new front end code should be written in Typescript 
-and React (using TSX files)
+and React (using TSX files). Please use the React Generators for creation.
 
 #### Legacy Javascript
 - 2 spaces for tabs

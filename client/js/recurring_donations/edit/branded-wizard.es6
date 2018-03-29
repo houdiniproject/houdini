@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 
 const gradient = require('../../common/css-gradient')
 const customBranding = require('./custom-nonprofit-branding.es6')

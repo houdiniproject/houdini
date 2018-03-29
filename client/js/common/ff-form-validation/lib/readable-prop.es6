@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // "email_address" => "email address"
 // "emailAddress" => "email address"
 

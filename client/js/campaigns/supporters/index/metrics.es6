@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const view = require('vvvview')
 const h = require('virtual-dom/h')
 const flyd = require('flyd')

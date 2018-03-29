@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
 const snabbdom = require('snabbdom')
 const R = require('ramda')

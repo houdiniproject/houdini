@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var request = require('../common/super-agent-promise')
 var format_err = require('../common/format_response_error')
 

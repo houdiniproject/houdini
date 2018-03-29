@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const thunk = require('vdom-thunk')
 const h = require('virtual-dom/h')
 const flyd = require('flyd')

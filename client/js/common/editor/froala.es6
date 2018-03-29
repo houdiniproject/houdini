@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 var view = require("vvvview")
 var savingIndicator = require('../../components/saving_indicator')
 var savingState = {hide: true}

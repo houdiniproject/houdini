@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // npm
 const flyd = require('flyd')
 const mergeAll = require('flyd/module/mergeall')

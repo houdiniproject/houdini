@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // Table meta for the supporter listing under Campaigns
 const h = require('virtual-dom/h')
 const thunk = require('vdom-thunk')

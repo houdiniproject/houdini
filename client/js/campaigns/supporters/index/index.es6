@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const request = require('../../../common/super-agent-frp')
 const view = require('vvvview')
 const flyd = require('flyd')

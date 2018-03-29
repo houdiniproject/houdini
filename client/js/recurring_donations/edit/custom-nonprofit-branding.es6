@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const color = require('color')
 
 module.exports = (brand_color = null) => {

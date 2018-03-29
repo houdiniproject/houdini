@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 const flyd = require('flyd')
 const flyd_flatMap = require('flyd/module/flatmap')
 

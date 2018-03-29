@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 /*
 A 'Show More' button component, useful for placing at the bottom of a listing of ajax'd data.
 

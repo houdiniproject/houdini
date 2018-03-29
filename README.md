@@ -141,7 +141,7 @@ contribute!
 Assets get compiled from `/client` to `/public/client`
 
 ## React Generators
-If creating new React code,  please use the Rails generators with the 'react:' prefix. This include:
+If creating new React or Typescript code,  please use the Rails generators with the 'react:' prefix. This include:
 
 ### react:packroot
 This generator creates a new entry for Webpack. This is a place where Webpack will start

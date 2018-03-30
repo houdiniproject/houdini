@@ -10,6 +10,7 @@ class TicketsController < ApplicationController
 	def create
     authenticate_event_editor! if params[:kind] == 'offsite'
     render_json do
+      params[:current_user] = current_user
       InsertTickets.create(params)
     end
   end

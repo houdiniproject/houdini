@@ -31,7 +31,7 @@ module InsertTickets
       ParamValidation.new(t, {quantity: {is_integer: true, required: true, min: 1}, ticket_level_id: {is_reference: true, required: true}})
     }
 
-    ParamValidation.new(data[:offsite_payment], {kind: {included_in: %w(cash check)}}) if data[:offsite_payment]
+    ParamValidation.new(data[:offsite_payment], {kind: {included_in: %w(cash check)}}) if data[:offsite_payment] && !data[:offsite_payment][:kind].blank?
 
     entities =  RetrieveActiveRecordItems.retrieve_from_keys(data, {Supporter => :supporter_id, Nonprofit => :nonprofit_id, Event => :event_id})
 

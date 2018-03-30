@@ -380,6 +380,14 @@ describe InsertTickets do
         end
 
         it 'succeeds' do
+          success()
+        end
+
+        it 'succeeds if offsite_donation is there with empty kind' do
+          success({offsite_donation: {kind: nil}})
+        end
+
+        def success(other_elements={})
           nonprofit.stripe_account_id = Stripe::Account.create()['id']
           nonprofit.save!
           card.stripe_customer_id = 'some other id'
@@ -387,15 +395,15 @@ describe InsertTickets do
 
           success_expectations
           expect(InsertCharge).to receive(:with_stripe).with({
-           kind: "Ticket",
-           towards: event.name,
-           metadata: {kind: "Ticket", event_id: event.id, nonprofit_id: nonprofit.id},
-           statement: "Tickets #{event.name}",
-           amount: 1600,
-           nonprofit_id: nonprofit.id,
-           supporter_id: supporter.id,
-           card_id: card.id
-            }).and_call_original
+                                                                 kind: "Ticket",
+                                                                 towards: event.name,
+                                                                 metadata: {kind: "Ticket", event_id: event.id, nonprofit_id: nonprofit.id},
+                                                                 statement: "Tickets #{event.name}",
+                                                                 amount: 1600,
+                                                                 nonprofit_id: nonprofit.id,
+                                                                 supporter_id: supporter.id,
+                                                                 card_id: card.id
+                                                             }).and_call_original
 
           stripe_charge_id = nil
           expect(Stripe::Charge).to receive(:create).with({application_fee: 66,
@@ -410,7 +418,7 @@ describe InsertTickets do
           a}
           result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id))
           expected = generate_expected_tickets(
-              gross_amount: 1600,
+              {gross_amount: 1600,
               payment_fee_total: 66,
               payment_id: result['payment'].id,
               nonprofit: nonprofit,
@@ -421,21 +429,19 @@ describe InsertTickets do
               event_discount_id: event_discount.id,
               card: card,
               tickets: [{
-          id: result['tickets'][0]['id'],
-          quantity: 1,
-          ticket_level_id: ticket_level.id},
-              {
-                  id: result['tickets'][0]['id'],
-                  quantity: 2,
-                  ticket_level_id: ticket_level2.id
-                        }])
+                            id: result['tickets'][0]['id'],
+                            quantity: 1,
+                            ticket_level_id: ticket_level.id},
+                        {
+                            id: result['tickets'][0]['id'],
+                            quantity: 2,
+                            ticket_level_id: ticket_level2.id
+                        }]}.merge(other_elements))
 
           expect(result['payment'].attributes).to eq expected[:payment]
           expect(result['charge'].attributes).to eq expected[:charge]
           expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
         end
-
-
       end
 
       it 'errors where kind == free and positive gross_amount' do

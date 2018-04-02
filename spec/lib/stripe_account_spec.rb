@@ -7,7 +7,7 @@ describe StripeAccount do
   let(:stripe_helper) { StripeMock.create_test_helper }
   before(:each) { StripeMock.start}
   after(:each) { StripeMock.stop}
-  let!(:nonprofit) { force_create(:nonprofit)}
+  let(:nonprofit) { force_create(:nonprofit)}
 
   describe '.find_or_create' do
     describe 'param validation' do
@@ -92,7 +92,7 @@ describe StripeAccount do
       })
     end
 
-    describe 'saves properly' do
+    describe 'saves properly without org email' do
 
       let!(:result) { StripeAccount.create(nonprofit)}
 
@@ -114,6 +114,47 @@ describe StripeAccount do
       end
 
       it 'updates the nonprofit itself' do
+        np = Nonprofit.find(nonprofit.id)
+        expect(np.stripe_account_id).to eq result
+      end
+    end
+
+    describe 'saves properly without org email' do
+
+      before(:each){
+        nonprofit.email = nil
+        nonprofit.save!
+
+        role
+      }
+
+      let(:admin_role_email) { "email_user@email.email"}
+      let(:user) { force_create(:user, email: admin_role_email)}
+      let(:role) { force_create(:role, user: user, host: nonprofit, name: :nonprofit_admin)}
+
+
+      let(:result) { StripeAccount.create(nonprofit)}
+
+      it 'returns a Stripe acct id' do
+
+        expect(result).to_not be_blank
+      end
+      it 'sets the Account values on Stripe' do
+        saved_account = Stripe::Account.retrieve(result)
+        expect(saved_account['managed']).to eq true
+        expect(saved_account['business_name']).to eq (nonprofit.name)
+        expect(saved_account['email']).to eq (admin_role_email)
+        expect(saved_account['business_url']).to eq (nonprofit.website)
+        expect(saved_account['legal_entity']['type']).to eq ("company")
+        expect(saved_account['legal_entity']['address']['city']).to eq (nonprofit.city)
+        expect(saved_account['legal_entity']['address']['state']).to eq (nonprofit.state_code)
+        expect(saved_account['legal_entity']['business_name']).to eq (nonprofit.name)
+        expect(saved_account['product_description']).to eq ('Nonprofit donations')
+        expect(saved_account['transfer_schedule']['interval']).to eq('manual')
+      end
+
+      it 'updates the nonprofit itself' do
+        result
         np = Nonprofit.find(nonprofit.id)
         expect(np.stripe_account_id).to eq result
       end

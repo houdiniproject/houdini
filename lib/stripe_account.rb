@@ -23,7 +23,7 @@ module StripeAccount
 		ParamValidation.new({:np => np}, {:np => {:required=> true, :is_a => Nonprofit}})
 		params = {
 				managed: true,
-				email: np['email'],
+				email: np['email'].present? ? np['email'] : np.roles.nonprofit_admins.order('created_at ASC').first.user.email,
 				business_name: np['name'],
 				legal_entity: {
 						type: 'company',

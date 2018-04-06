@@ -10,31 +10,17 @@
   <%= render 'nonprofits/supporters/fieldset', cssClass: 'col-right-4 u-fontSize--14', profile: profile, name: 'city', placeholder: 'City' %>
   
   <fieldset  class='u-marginBottom--0 u-floatL col-4'>
-    <select name='state_code' class='select u-fontSize--14 u-marginBottom--0'>
-      <!--= show_if selected_usa -->
-      <!--= remove_attr_if (not selected_usa) 'name' -->
-      <% supporter_state = profile ? profile['state_code'] : @nonprofit.state_code %>
-      <option value='' disabled>Select State</option>
-      <% Format::Geography::StateMappings.each do |name, code| %>
-        <option <%= supporter_state == code ? 'selected="selected"' : ''%> value='<%=code%>'><%= name.titleize %></option>
-      <% end %>
-    </select>
 
     <% supporter_region = profile ? profile['state_code'] : '' %>
-    <input class='u-marginBottom--0' type='text' title="Region" name='state_code' placeholder='Region' value="<%= supporter_region %>">
-    <!--= hide_if selected_usa -->
-    <!--= remove_attr_if selected_usa 'name' -->
+    <input class='u-marginBottom--0' type='text' title="Region" name='state_code' placeholder='State/Region' value="<%= supporter_region %>">
   </fieldset>
 
   <fieldset class='u-marginBottom--0 u-floatL col-right-4 u-fontSize--14'>
-    <input class='u-marginBottom--0' type='text' title="Region" name='zip_code' placeholder='' value="<%= profile && profile['zip_code']%>">
-    <!--= if selected_usa (set_attr 'placeholder' 'Zip Code') (set_attr 'placeholder' 'Postal Code') -->
+    <input class='u-marginBottom--0' type='text' title="ZIP/Postal Code" name='zip_code' placeholder='Postal Code' value="<%= profile && profile['zip_code']%>">
   </fieldset>
 
   <fieldset  class='u-marginBottom--0 u-floatL col-right-4'>
     <select class='select u-fontSize--14 u-marginBottom--0' name='country'>
-      <!--= def 'selected_usa' (is_usa get_value) -->
-      <!--= on 'change' (def 'selected_usa' (is_usa get_value)) -->
       <% supporter_country = profile ? profile['country'] : 'United States' %>
       <option selected="selected" value='<%=supporter_country%>'><%= supporter_country %></option>
       <% Format::Geography::Countries.each do |c| %>

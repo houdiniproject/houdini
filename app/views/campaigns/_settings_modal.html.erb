@@ -91,6 +91,21 @@
         </fieldset>
       </section>
 
+      <% if @nonprofit.custom_layout %>
+        <hr>
+
+        <section class='layout--one u-overflow--hidden'>
+          <fieldset>
+            <label>Banner <small>(1200x120)</small></label>
+            <p><small>Custom image at the very top of the campaign page</small></p>
+            <div class='image-upload u-inlineBlock' style='background-image: url("<%= @campaign.custom_banner_url %>");'>
+              <span><i class='fa  fa-pencil'></i> Edit</span>
+              <input type='file' name='campaign[custom_banner]'>
+            </div>
+          </fieldset>
+        </section>
+      <% end %>
+
 			<hr>
 
       <section class='layout--two'>
@@ -140,7 +155,7 @@
         <% end %>
 
         <fieldset>
-          <!--= show_if length gift_options.data --> 
+          <!--= show_if length gift_options.data -->
           <input type='hidden' value='false' name='campaign[hide_custom_amounts]'>
           <input id='hide_custom_amounts' type='checkbox' name='campaign[hide_custom_amounts]' <%= @campaign.hide_custom_amounts ? 'checked="checked"' : '' %>>
           <label class='u-marginBottom--10' for='hide_custom_amounts'>Disallow regular contributions during campaign?</label>

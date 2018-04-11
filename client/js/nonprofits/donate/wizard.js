@@ -27,6 +27,7 @@ renderStyles()(brandedWizard(null))
 
 // pass in a stream of configuration parameters
 const init = params$ => {
+  console.log(params$())
   var state = {
     error$: flyd.stream()
   , loading$: flyd.stream()
@@ -99,10 +100,10 @@ const init = params$ => {
     (ev, params) => {
       if(!parent) return
       if(params.redirect) parent.postMessage(`commitchange:redirect:${params.redirect}`, '*')
-      else if(params.mode !== 'embedded'){ 
+      else if(params.mode !== 'embedded'){
         parent.postMessage('commitchange:close', '*');
       } else {
-        if (window.parent) {window.parent.postMessage('commitchange:close', '*');}; 
+        if (window.parent) {window.parent.postMessage('commitchange:close', '*');};
       }
     }
   , state.clickFinish$, state.params$ )
@@ -191,16 +192,18 @@ const headerDesignation = state => {
 }
 
 const wizardWrapper = state => {
-  return h('div.wizard-steps.donation-steps', [
-    wizard.view(R.merge(state.wizard, {
-      steps: [
-        {name: I18n.t('nonprofits.donate.amount.label'),   body: amountStep.view(state.amountStep)}
-      , {name: I18n.t('nonprofits.donate.info.label'),     body: infoStep.view(state.infoStep)}
-      , {name: I18n.t('nonprofits.donate.payment.label'),  body: paymentStep.view(state.paymentStep)}
-      ]
-    , followup: followupStep.view(state)
-    }))
-  ])
+  // return h('div.wizard-steps.donation-steps', [
+  //   wizard.view(R.merge(state.wizard, {
+  //     steps: [
+  //       {name: I18n.t('nonprofits.donate.amount.label'),   body: amountStep.view(state.amountStep)}
+  //     , {name: I18n.t('nonprofits.donate.info.label'),     body: infoStep.view(state.infoStep)}
+  //     , {name: I18n.t('nonprofits.donate.payment.label'),  body: paymentStep.view(state.paymentStep)}
+  //     ]
+  //   , followup: followupStep.view(state)
+  //   }))
+  // ])
+
+  return h('div.wizard-steps.donation-steps', 'Donation widget should be here.')
 }
 
 module.exports = {view, init}

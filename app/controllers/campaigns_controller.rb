@@ -38,8 +38,12 @@ class CampaignsController < ApplicationController
 
     @campaign_background_image = FetchBackgroundImage.with_model(@campaign)
 
-    respond_to do |format|
-      format.html
+    if @nonprofit.custom_layout.blank?
+      respond_to do |format|
+        format.html
+      end
+    else
+      render template: "nonprofits/custom_campaign_layouts/" + @nonprofit.custom_layout
     end
   end
 

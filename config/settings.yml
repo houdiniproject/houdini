@@ -19,8 +19,8 @@ default:
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  region: test
-  bucket: test
+  region: <%= ENV['AWS_REGION'] %>
+  bucket: <%= ENV['S3_BUCKET_NAME'] %>
 
 mailer:
   delivery_method: "sendmail"
@@ -72,4 +72,3 @@ source_tokens:
     max_uses: 20
 
 nonprofits_must_be_vetted: false
-

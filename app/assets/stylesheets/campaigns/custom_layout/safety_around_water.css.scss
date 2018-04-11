@@ -1,0 +1,78 @@
+@import 'mixins';
+@import 'common/fundraisers';
+
+button, a.js-contributeButton {
+  background: #01a490 !important;
+}
+
+main a.button {
+  background: #0089d0 !important;
+  color: white;
+}
+
+main .button.edit, main .button--tiny.edit {
+  color: white;
+}
+
+main {
+  width: 1200px;
+  margin: auto;
+}
+
+main > header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+body > .ymca-banner {
+  margin: auto;
+  width: 100vw;
+  height: 120px;
+  background-color: #01a490;
+}
+
+main > header div.fundraisingHeader--image-container {
+  background-position: 0 -80px;
+}
+
+img.fundraisingHeader--image-aspectRatio {
+  width: 1200px;
+  height: 500px;
+}
+
+main > .container {
+  max-width: none;
+  margin-top: 15px;
+}
+
+.campaigner-profile {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+}
+
+.campaigner-profile > figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  align-self: flex-start;
+}
+
+.campaigner-profile > figure > .avatar {
+  flex-basis: 20%;
+}
+
+.avatar > img {
+  width: 150px;
+  height: 150px;
+  clip-path: circle(50% at center);
+}
+
+.campaigner-profile > figure > figcaption {
+  flex-basis: 55%;
+  padding: 15px;
+  text-align: left;
+}

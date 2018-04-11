@@ -1,4 +1,3 @@
-<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <%= content_for(:title_prefix) { "#{@campaign.name} - #{@campaign.nonprofit.name} | ".html_safe } %>
 <% content_for(:fixed_position_cta_hidden) {'hidden'} %>
 <%= content_for(:meta_description) {raw @campaign.summary} %>
@@ -30,6 +29,7 @@
 <%= content_for :stylesheets do %>
 	<%= stylesheet_link_tag 'campaigns/show/page' %>
 	<%= stylesheet_link_tag 'campaigns/edit/page' %>
+  <%= stylesheet_link_tag 'campaigns/custom_layout/safety_around_water' %>
   <style>
     .force-
     .ios-force-absolute-positioning {
@@ -60,65 +60,91 @@
 
 <%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
 
-<%= render 'components/fundraising_pages/header',
-	image_url: @campaign_background_image,
-	is_editor: current_campaign_editor?,
-	hide_title:  @campaign.hide_title && @campaign_background_image,
-	header_content_partial: 'header_content' %>
+<% hide_title = @campaign.hide_title && @campaign_background_image ? true : false %>
+<% css_style = current_campaign_editor? ? "style='margin-top: 0'" : '' %>
 
-<%= render 'components/preview_mode_notification' %>
+<div class='ymca-banner'></div>
 
-<div class="container u-marginTop--15 <%=  @brand_color ? 'is-branded' : '' %>" data-id='<%= @campaign.id %>'>
+<main class="custom-campaign-layout" id="safety-around-water">
 
+  <%= render 'components/fundraising_pages/header',
+  	image_url: @campaign_background_image,
+  	is_editor: current_campaign_editor?,
+  	hide_title:  @campaign.hide_title && @campaign_background_image,
+  	header_content_partial: 'header_content' %>
 
-	<section class='box'>
-		<%= render 'campaign_media' %>
-	</section>
+  <%= render 'components/preview_mode_notification' %>
 
-	<section class='box-r'>
+  <div class="container <%=  @brand_color ? 'is-branded' : '' %>" data-id='<%= @campaign.id %>'>
+    <section class='box'>
+    	<%= render 'campaign_media' %>
+    </section>
 
-    <% if current_campaign_editor? %>
-      <!-- Campaign editor gift option management modal -->
-      <button class='button edit u-width--full u-marginBottom--15'>
-        <!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
-        <i class='fa fa-gift'></i> Manage Gift Options
-      </button>
-    <% end %>
+  	<section class='box-r'>
 
-    <!-- flimflam gift options javascript gets rendered into this div: -->
-    <div class='ff-sidebar'></div>
+      <% if current_campaign_editor? %>
+        <!-- Campaign editor gift option management modal -->
+        <button class='button edit u-width--full u-marginBottom--15'>
+          <!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
+          <i class='fa fa-gift'></i> Manage Gift Options
+        </button>
+      <% end %>
 
-		<aside class='u-marginTop--15 pastelBox--grey'>
-			<header>Promote This Campaign</header>
-			<div class='pastelBox-body'>
-				<%= render 'common/social_buttons' %>
-			</div>
-		</aside>
+      <!-- flimflam gift options javascript gets rendered into this div: -->
+      <div class='ff-sidebar'></div>
 
-    <% unless current_campaign_editor? %>
-      <aside class='u-marginTop--15'>
-        <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?npo_id=<%=@nonprofit.id %>'>
-          Start Your Own Campaign for <%= @nonprofit.name %>
-        </a>
-      </aside>
-    <% end %>
+  		<aside class='u-marginTop--15 pastelBox--grey'>
+  			<header>Promote This Campaign</header>
+  			<div class='pastelBox-body'>
+  				<%= render 'common/social_buttons' %>
+  			</div>
+  		</aside>
 
-	</section>
+  	</section>
 
-	<section class='box'>
+    <section class='box'>
 
-		<div id='js-campaignBody' class='editable' data-path='/nonprofits/<%= @nonprofit.id %>/campaigns/<%= @campaign.id %>.json' data-key='campaign[body]'>
-			<%= raw @campaign.body %>
-		</div>
+      <section class="campaigner-profile">
+        <figure>
+          <div class="avatar">
+            <img src=<%= @campaign.profile.get_profile_picture %> />
+          </div>
+          <figcaption>
+            <p><%= @campaign.profile.name %></p>
+            <p><%= @campaign.profile.city %></p>
+          </figcaption>
+        </figure>
 
-		<% unless @campaign.hide_activity_feed %>
-			<div class='u-marginTop--15 showWhenMobile'>
-				<%= render 'components/activity_feed' %>
-			</div>
-		<% end %>
-	</section>
-</div>
+        <section class='u-marginTop--15 u-marginBottom--15 pastelBox--grey'>
+          <header>I am supporting the Y because…</header>
+          <div class='pastelBox-body'>
+            (customizable reason)
+          </div>
 
+          <% unless current_campaign_editor? %>
+            <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @campaign.id %>'>
+              Start Your Own Campaign for <%= @nonprofit.name %>
+            </a>
+          <% end %>
+        </section>
+      </section>
+    </section>
+
+  	<section class='box'>
+      <h1><%= @campaign.name %></h1>
+
+  		<div id='js-campaignBody' class='editable' data-path='/nonprofits/<%= @nonprofit.id %>/campaigns/<%= @campaign.id %>.json' data-key='campaign[body]'>
+  			<%= raw @campaign.body %>
+  		</div>
+
+  		<% unless @campaign.hide_activity_feed %>
+  			<div class='u-marginTop--15 showWhenMobile'>
+  				<%= render 'components/activity_feed' %>
+  			</div>
+  		<% end %>
+  	</section>
+  </div>
+</main>
 
 <% if current_campaign_editor? %>
 	<%= render 'settings_modal' %>

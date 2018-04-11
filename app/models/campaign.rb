@@ -13,6 +13,8 @@ class Campaign < ActiveRecord::Base
 		:remove_main_image, # for carrierwave
 		:background_image,
 		:remove_background_image, #bool carrierwave
+    :custom_banner,
+    :remove_custom_banner,
 		:published,
 		:video_url, #str
 		:vimeo_video_id,
@@ -47,6 +49,7 @@ class Campaign < ActiveRecord::Base
 
 	mount_uploader :main_image, CampaignMainImageUploader
 	mount_uploader :background_image, CampaignBackgroundImageUploader
+	mount_uploader :custom_banner, CampaignCustomBannerUploader
 
 	has_many :donations
 	has_many :charges, through: :donations
@@ -60,6 +63,7 @@ class Campaign < ActiveRecord::Base
 	has_many :activities,   as: :host, dependent: :destroy
 	belongs_to :profile
 	belongs_to :nonprofit
+  belongs_to :campaign_template
 
 	scope :published, ->   {where(:published => true)}
   scope :active, ->      {where(:published => true).where("end_datetime IS NULL OR end_datetime >= ?", Date.today)}

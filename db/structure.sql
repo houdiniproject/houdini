@@ -2,8 +2,13 @@
 -- PostgreSQL database dump
 --
 
+<<<<<<< HEAD
 -- Dumped from database version 9.6.5
 -- Dumped by pg_dump version 9.6.10
+=======
+-- Dumped from database version 9.6.8
+-- Dumped by pg_dump version 9.6.8
+>>>>>>> Add CampaignTemplate
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -356,6 +361,46 @@ ALTER SEQUENCE public.campaign_gifts_id_seq OWNED BY public.campaign_gifts.id;
 
 
 --
+-- Name: campaign_templates; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.campaign_templates (
+    id integer NOT NULL,
+    template_name character varying(255) NOT NULL,
+    name character varying(255),
+    tagline character varying(255),
+    goal_amount integer,
+    main_image character varying(255),
+    video_url text,
+    vimeo_video_id character varying(255),
+    youtube_video_id character varying(255),
+    summary text,
+    body text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: campaign_templates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.campaign_templates_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: campaign_templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.campaign_templates_id_seq OWNED BY public.campaign_templates.id;
+
+
+--
 -- Name: campaigns; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -392,7 +437,8 @@ CREATE TABLE public.campaigns (
     hide_custom_amounts boolean,
     show_recurring_amount boolean DEFAULT false,
     end_datetime timestamp without time zone,
-    external_identifier character varying(255)
+    external_identifier character varying(255),
+    campaign_template_id integer
 );
 
 
@@ -1412,7 +1458,8 @@ CREATE TABLE public.nonprofits (
     card_failure_message_bottom text,
     fields_needed text,
     autocomplete_supporter_address boolean DEFAULT false,
-    currency character varying(255) DEFAULT 'usd'::character varying
+    currency character varying(255) DEFAULT 'usd'::character varying,
+    custom_layout character varying(255)
 );
 
 
@@ -2306,6 +2353,13 @@ ALTER TABLE ONLY public.campaign_gifts ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: campaign_templates id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.campaign_templates ALTER COLUMN id SET DEFAULT nextval('public.campaign_templates_id_seq'::regclass);
+
+
+--
 -- Name: campaigns id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2688,6 +2742,14 @@ ALTER TABLE ONLY public.campaign_gift_options
 
 ALTER TABLE ONLY public.campaign_gifts
     ADD CONSTRAINT campaign_gifts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: campaign_templates campaign_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.campaign_templates
+    ADD CONSTRAINT campaign_templates_pkey PRIMARY KEY (id);
 
 
 --
@@ -4346,4 +4408,8 @@ INSERT INTO schema_migrations (version) VALUES ('20180713220028');
 INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
+
+INSERT INTO schema_migrations (version) VALUES ('201810202124316');
+
+INSERT INTO schema_migrations (version) VALUES ('201810202124317');
 

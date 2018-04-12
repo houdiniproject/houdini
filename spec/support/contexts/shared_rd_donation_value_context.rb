@@ -12,6 +12,9 @@ RSpec.shared_context :shared_rd_donation_value_context do
   let(:charge_amount) {100}
 
   let(:default_edit_token) {'7903e34c-10fe-11e8-9ead-d302c690bee4'}
+  before(:each){
+    Event.any_instance.stub(:geocode).and_return([1,1])
+  }
 
 
   def generate_expected(donation_id, payment_id, charge_id, card, supporter, nonprofit, stripe_charge_id, data = {})

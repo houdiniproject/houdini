@@ -10,11 +10,19 @@ module InsertRecurringDonation
                                   .merge(token: {required: true, format: UUID::Regex}))
 
     unless data[:recurring_donation].nil?
+
       ParamValidation.new(data[:recurring_donation], {
           interval: {is_integer: true},
           start_date: {can_be_date: true},
           time_unit: {included_in: %w(month day week year)},
-          paydate: {is_integer:true, min: 1, max: 28}
+          paydate: {is_integer:true}
+      })
+      if (data[:recurring_donation][:paydate])
+        data[:recurring_donation][:paydate] = data[:recurring_donation][:paydate].to_i
+      end
+
+      ParamValidation.new(data[:recurring_donation], {
+          paydate: {min:1, max:28}
       })
 
     else

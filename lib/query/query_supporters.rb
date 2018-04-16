@@ -116,29 +116,29 @@ module QuerySupporters
     return { data: supps }
   end
 
-  # Given a list of supporters, you may want to remove duplicates from those supporters.
-  # @param [Enumerable[Supporter]] supporters
-  def self._remove_dupes_on_a_list_of_supporters(supporters, np_id)
-
-    new_supporters =supporters.clone.to_a
-
-    QuerySupporters.dupes_on_name_and_email(np_id).each{|duplicates|
-      matched_in_group = false
-      duplicates.each{|i|
-        supporter = new_supporters.find{|s| s.id == i}
-        if (supporter)
-          if (matched_in_group)
-            new_supporters.delete(supporter)
-          else
-            matched_in_group = true
-          end
-        end
-      }
-
-    }
-
-    return new_supporters
-  end
+  # # Given a list of supporters, you may want to remove duplicates from those supporters.
+  # # @param [Enumerable[Supporter]] supporters
+  # def self._remove_dupes_on_a_list_of_supporters(supporters, np_id)
+  #
+  #   new_supporters =supporters.clone.to_a
+  #
+  #   QuerySupporters.dupes_on_name_and_email(np_id).each{|duplicates|
+  #     matched_in_group = false
+  #     duplicates.each{|i|
+  #       supporter = new_supporters.find{|s| s.id == i}
+  #       if (supporter)
+  #         if (matched_in_group)
+  #           new_supporters.delete(supporter)
+  #         else
+  #           matched_in_group = true
+  #         end
+  #       end
+  #     }
+  #
+  #   }
+  #
+  #   return new_supporters
+  # end
 
 
   # Perform all filters and search for /nonprofits/id/supporters dashboard and export

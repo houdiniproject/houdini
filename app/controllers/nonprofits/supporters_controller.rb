@@ -86,7 +86,7 @@ class SupportersController < ApplicationController
       requires(:supporter_ids).as_array
     }.when_valid{|params|
       params[:supporter][:nonprofit_id] = params[:nonprofit_id]
-      MergeSupporters.selected(params[:supporter], params[:supporter_ids])
+      MergeSupporters.selected(params[:supporter], params[:supporter_ids], params[:nonprofit_id], current_user.id)
     }
 	end
 

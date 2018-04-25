@@ -27,7 +27,7 @@ gem 'hamster'
 
 gem 'aws-ses'
 gem 'aws-sdk'
- 
+
 # for blocking ip addressses
 gem 'rack-attack'
 
@@ -113,6 +113,9 @@ group :development do
   gem 'traceroute'
   gem 'debase'
   gem 'ruby-debug-ide', '0.6.0'
+  gem 'capistrano', '~> 3.10.2'
+  gem 'capistrano-rails', '~> 1.3.1'
+  gem 'capistrano3-puma', '~> 3.1.1'
 end
 
 group :development, :test do

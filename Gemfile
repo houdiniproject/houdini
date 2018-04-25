@@ -27,7 +27,7 @@ gem 'hamster'
 
 gem 'aws-ses'
 gem 'aws-sdk'
- 
+
 # for blocking ip addressses
 gem 'rack-attack'
 

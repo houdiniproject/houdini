@@ -3,6 +3,7 @@ lock "~> 3.10.2"
 
 set :application, "houdini"
 set :repo_url, "git@github.com:idengager/houdini.git"
+set :rails_env, 'production'
 
 # Default branch is :master
 ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

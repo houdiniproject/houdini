@@ -1,11 +1,13 @@
 source 'https://rubygems.org'
 
-ruby '2.3.6'
+ruby '~> 2.3.6'
 gem 'rake'
 gem 'rails', '3.2.22.5'
 gem 'rails_12factor'
 # https://stripe.com/docs/api
 gem 'stripe'
+
+gem 'dotenv-rails', '~> 2.0.1'
 
 # Compression of assets on heroku
 # https://github.com/romanbsd/heroku-deflater
@@ -27,7 +29,7 @@ gem 'hamster'
 
 gem 'aws-ses'
 gem 'aws-sdk'
- 
+
 # for blocking ip addressses
 gem 'rack-attack'
 
@@ -113,6 +115,9 @@ group :development do
   gem 'traceroute'
   gem 'debase'
   gem 'ruby-debug-ide', '0.6.0'
+  gem 'capistrano', '~> 3.10.2'
+  gem 'capistrano-rails', '~> 1.3.1'
+  gem 'capistrano3-puma', '~> 3.1.1'
 end
 
 group :development, :test do
@@ -123,7 +128,6 @@ group :development, :test do
   gem 'rspec'
 	gem 'rspec-rails'
 	gem 'database_cleaner'
-  gem 'dotenv-rails'
   gem 'ruby-prof', '0.15.9'
 	gem 'stripe-ruby-mock', '~> 2.4.1', :require => 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', :branch => '2.4.1'
   gem 'factory_bot'

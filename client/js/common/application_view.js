@@ -5,6 +5,18 @@ var request = require("superagent")
 var moment = require('moment-timezone')
 var client = require('./client')
 var appl = require('view-script')
+const on_ios11 = require('./on-ios11')
+function prepareForIOS11(id)
+{
+    let bad_elements = $("#" + id)
+    for(var i = 0; i < bad_elements.length; i++)
+    {
+        bad_elements[i].classList.add('ios-force-absolute-positioning')
+    }
+
+
+    document.body.scrollTop = 0 // so incredibly hacky
+}
 
 module.exports = appl
 
@@ -24,8 +36,14 @@ appl.def("is_at_least_plan", function(tier) {
 // Open a modal given by its modal id (uses the modal div's 'id' attribute)
 appl.def('open_modal', function(modalId) {
 	$('.modal').removeClass('inView')
+
+    //$('body').scrollTop(0)
 	$('#' + modalId).addClass('inView')
+
 	$('body').addClass('is-showingModal')
+    if (on_ios11()){
+        prepareForIOS11(modalId)
+    }
 	return appl
 })
 

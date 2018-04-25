@@ -421,7 +421,7 @@ DEPENDENCIES
   bunny (>= 2.6.3)
   capistrano (~> 3.10.2)
   capistrano-rails (~> 1.3.1)
-  capistrano3-puma
+  capistrano3-puma (~> 3.1.1)
   carrierwave
   carrierwave-aws
   chronic
@@ -435,7 +435,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   devise-async
-  dotenv-rails
+  dotenv-rails (~> 2.0.1)
   dry-validation
   factory_bot
   factory_bot_rails

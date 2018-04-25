@@ -7,6 +7,8 @@ gem 'rails_12factor'
 # https://stripe.com/docs/api
 gem 'stripe'
 
+gem 'dotenv-rails', '~> 2.0.1'
+
 # Compression of assets on heroku
 # https://github.com/romanbsd/heroku-deflater
 gem 'heroku-deflater', :group => :production
@@ -126,7 +128,6 @@ group :development, :test do
   gem 'rspec'
 	gem 'rspec-rails'
 	gem 'database_cleaner'
-  gem 'dotenv-rails'
   gem 'ruby-prof', '0.15.9'
 	gem 'stripe-ruby-mock', '~> 2.4.1', :require => 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', :branch => '2.4.1'
   gem 'factory_bot'

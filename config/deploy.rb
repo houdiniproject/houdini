@@ -22,10 +22,10 @@ set :deploy_to, "/home/houdini/houdini"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", ".env"
+append :linked_files, "config/database.yml", ".env", "config/settings.yml"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "node_modules"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -38,3 +38,20 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
+
+set :npm_flags, '--silent --no-progress'
+set :npm_env_variables, {'RAILS_ENV': 'production'}
+
+after 'npm:install', 'npm:build'
+
+namespace :npm do
+  task :build do
+    on roles fetch(:npm_roles) do
+      within fetch(:npm_target_path, release_path) do
+        with fetch(:npm_env_variables, {}) do
+          execute :npm, 'run build', fetch(:npm_flags)
+        end
+      end
+    end
+  end
+end

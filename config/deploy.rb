@@ -49,6 +49,9 @@ namespace :npm do
     on roles fetch(:npm_roles) do
       within fetch(:npm_target_path, release_path) do
         with fetch(:npm_env_variables, {}) do
+          # fix uglifyjs-webpack-plugin
+          execute :npm, 'install --silent --no-progress --save uglifyjs-webpack-plugin@1.2.5'
+
           execute :npm, 'run build', fetch(:npm_flags)
         end
       end

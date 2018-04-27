@@ -3,18 +3,18 @@ const h = require('snabbdom/h')
 const branding = require('../../components/nonprofit-branding')
 const format = require('../../common/format')
 const soldOut = require('./is-sold-out')
-const on_ios11 = require('../../common/on-ios11')
-function prepareForIOS11()
-{
-    bad_elements = $('.ff-modalBackdrop')
-    for(var i = 0; i < bad_elements.length; i++)
-    {
-        bad_elements[i].classList.add('ios-force-absolute-positioning')
-    }
 
-
-    $('body').scrollTop(195) // so incredibly hacky
-}
+// function prepareForIOS11()
+// {
+//     bad_elements = $('.ff-modalBackdrop')
+//     for(var i = 0; i < bad_elements.length; i++)
+//     {
+//         bad_elements[i].classList.add('ios-force-absolute-positioning')
+//     }
+//
+//
+//     $('body').scrollTop(195) // so incredibly hacky
+// }
 
 
 module.exports = (state, gift) => {
@@ -26,10 +26,7 @@ module.exports = (state, gift) => {
       gift.amount_one_time
       ? h('td', [
           h('button.button--small.button--gift', {
-            on: {click: ev => { if (on_ios11()) {
-                prepareForIOS11()
-            }
-
+            on: {click: ev => {
 
 
                 state.clickOption$([gift, gift.amount_one_time, 'one-time'])}
@@ -45,9 +42,7 @@ module.exports = (state, gift) => {
     , gift.amount_recurring
       ? h('td', [
           h('button.button--small.button--gift', {
-            on: {click: ev =>  { if (on_ios11()) {
-                prepareForIOS11()
-            }
+            on: {click: ev =>  {
 
             state.clickOption$([gift, gift.amount_recurring, 'recurring'])}
             }

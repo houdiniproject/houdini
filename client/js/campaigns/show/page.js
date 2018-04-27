@@ -25,16 +25,11 @@ require('../../common/fundraiser_metrics')
 require('../../components/fundraising/add_header_image')
 require('../../common/restful_resource')
 require('../../gift_options/index')
+const on_ios11 = require('../../common/on-ios11')
+const noScroll = require('no-scroll')
 appl.ajax_gift_options.index()
 
-function calculateIOS()
-{
-  var userAgent = window.navigator.userAgent;
-  var hasVersion11 = userAgent.search("Version/11.0") > 0
-  var has11_or_later = userAgent.search("OS 11_0_\d{1,2} like Mac OS X") > 0
 
-  return hasVersion11 && has11_or_later;
-}
 
 // Campaign editor only functionality
 if(app.current_campaign_editor) {
@@ -50,7 +45,6 @@ if(app.current_campaign_editor) {
 function init() {
   var state = { 
     timeRemaining$: timeRemaining(app.end_date_time, app.timezone),
-    onIOS11: calculateIOS()
   }
 
   console.error(window.navigator.userAgent)
@@ -96,6 +90,18 @@ function init() {
   state.modalID$ = flyd.merge(
       flyd.map(R.always('chooseGiftOptionsModal'), clickContributeGifts$)
     , flyd.map(R.always('donationModal'), startWiz$))
+
+  flyd.on((id) => {
+    if (on_ios11() &&  id === null) {
+      noScroll.off()
+    }
+  }, state.modalID$)
+
+    flyd.on((id) => {
+        if (on_ios11() &&  id !== null) {
+            noScroll.on()
+        }
+    }, state.modalID$)
 
   // Stream of which gift option you have selected
   const giftOption$ = flyd.map(setGiftParams, state.giftOptions.clickOption$)

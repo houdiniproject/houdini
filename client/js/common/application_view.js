@@ -6,17 +6,7 @@ var moment = require('moment-timezone')
 var client = require('./client')
 var appl = require('view-script')
 const on_ios11 = require('./on-ios11')
-function prepareForIOS11(id)
-{
-    let bad_elements = $("#" + id)
-    for(var i = 0; i < bad_elements.length; i++)
-    {
-        bad_elements[i].classList.add('ios-force-absolute-positioning')
-    }
-
-
-    document.body.scrollTop = 0 // so incredibly hacky
-}
+const noScroll = require('no-scroll')
 
 module.exports = appl
 
@@ -42,7 +32,7 @@ appl.def('open_modal', function(modalId) {
 
 	$('body').addClass('is-showingModal')
     if (on_ios11()){
-        prepareForIOS11(modalId)
+        noScroll.on()
     }
 	return appl
 })
@@ -51,6 +41,9 @@ appl.def('open_modal', function(modalId) {
 appl.def('close_modal', function() {
 	$('.modal').removeClass('inView')
 	$('body').removeClass('is-showingModal')
+    if (on_ios11()) {
+        noScroll.off()
+    }
 	return appl
 })
 

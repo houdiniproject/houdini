@@ -268,6 +268,74 @@ module QuerySupporters
     return expr
   end
 
+  def self.for_export_enumerable(npo_id, query, chunk_limit=35000)
+    ParamValidation.new({npo_id: npo_id, query:query}, {npo_id: {required: true, is_int: true},
+                                                        query: {required:true, is_hash: true}})
+
+    return QxQueryChunker.for_export_enumerable(chunk_limit) do |offset, limit, skip_header|
+      get_chunk_of_export(npo_id, query, offset, limit, skip_header)
+    end
+
+  end
+
+  def self.get_chunk_of_export(np_id, query, offset=nil, limit=nil, skip_header=false)
+    return QxQueryChunker.get_chunk_of_query(offset, limit, skip_header)  do
+      expr = full_filter_expr(np_id, query)
+      selects = supporter_export_selections.concat([
+                                                       '(payments.sum / 100)::money::text AS total_contributed',
+                                                       'supporters.id AS id'
+                                                   ])
+      if query[:export_custom_fields]
+        # Add a select/csv-column for every custom field master for this nonprofit
+        # and add a left join for every custom field master
+        # eg if the npo has a custom field like Employer with id 99, then the query will be
+        #   SELECT export_cfj_Employer.value AS Employer, ...
+        #   FROM supporters
+        #   LEFT JOIN custom_field_joins AS export_cfj_Employer ON export_cfj_Employer.supporter_id=supporters.id AND export_cfj_Employer.custom_field_master_id=99
+        #   ...
+        ids = query[:export_custom_fields].split(',').map(&:to_i)
+        if ids.any?
+          cfms = Qx.select("name", "id").from(:custom_field_masters).where(nonprofit_id: np_id).and_where("id IN ($ids)", ids: ids).ex
+          cfms.compact.map do |cfm|
+            table_alias = "cfjs_#{cfm['name'].gsub(/\$/, "")}"
+            table_alias_quot = "\"#{table_alias}\""
+            field_join_subq = Qx.select("STRING_AGG(value, ',') as value", "supporter_id")
+                                  .from("custom_field_joins")
+                                  .join("custom_field_masters" , "custom_field_masters.id=custom_field_joins.custom_field_master_id")
+                                  .where("custom_field_masters.id=$id", id: cfm['id'])
+                                  .group_by(:supporter_id)
+                                  .as(table_alias)
+            expr.add_left_join(field_join_subq, "#{table_alias_quot}.supporter_id=supporters.id")
+            selects = selects.concat(["#{table_alias_quot}.value AS \"#{cfm['name']}\""])
+          end
+        end
+      end
+
+
+      get_last_payment_query = Qx.select('supporter_id', "MAX(date) AS date")
+                                   .from(:payments)
+                                   .group_by("supporter_id")
+                                   .as("last_payment")
+
+      expr.add_left_join(get_last_payment_query, 'last_payment.supporter_id = supporters.id')
+      selects = selects.concat(['last_payment.date as "Last Payment Received"'])
+
+
+      supporter_note_query = Qx.select("STRING_AGG(supporter_notes.created_at || ': ' || supporter_notes.content, '\r\n' ORDER BY supporter_notes.created_at DESC) as notes", "supporter_notes.supporter_id")
+                                 .from(:supporter_notes)
+                                 .group_by('supporter_notes.supporter_id')
+                                 .as("supporter_note_query")
+
+      expr.add_left_join(supporter_note_query, 'supporter_note_query.supporter_id=supporters.id')
+      selects = selects.concat(["supporter_note_query.notes AS notes"])
+
+
+      expr.select(selects)
+    end
+  end
+
+
+
   # Give supp data for csv
   def self.for_export(np_id, query)
     expr = full_filter_expr(np_id, query)
@@ -520,7 +588,7 @@ module QuerySupporters
       .execute(format: 'csv')
   end
 
-  #
+
   def self.get_min_or_max_dates_for_range(time_range_params)
     begin
       if (time_range_params[:year])

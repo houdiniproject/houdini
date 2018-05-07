@@ -89,6 +89,7 @@ Commitchange::Application.routes.draw do
 			resources(:custom_field_joins, {only: [:index, :destroy]})
 			resources(:supporter_notes, {only: [:create, :update, :destroy]})
       resources(:activities, {only: [:index]})
+			post(:export, {on: :collection})
 			put :bulk_delete, on: :collection
 			post :merge, on: :collection
 			get :merge_data, on: :collection

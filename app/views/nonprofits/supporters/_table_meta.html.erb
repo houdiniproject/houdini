@@ -96,17 +96,9 @@
     </a>
 
 		<a class='table-meta-button bluegrey'>
-			<!--= on 'click' (open_modal 'exportSupportersModal') -->
+			<!--= on 'click' (open_modal 'exportSupportersS3Modal') -->
 			<i class='fa fa-file-text'></i> Export
 		</a>
-
-    <% if current_role?(:super_admin) %>
-    <a class='table-meta-button bluegrey'>
-			<!--= on 'click' (open_modal 'exportSupportersS3Modal') -->
-			<i class='fa fa-file-text'></i> Export (using S3)
-		</a>
-    <% end %>
-
 
 		<a class='table-meta-button white'>
 			<!--= on 'click' (open_modal 'supportersMapModal') (def 'map_data' false)  -->

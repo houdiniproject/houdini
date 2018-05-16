@@ -25,6 +25,10 @@ has_mosaic: true %>
 		<a class='button orange u-marginY--10' open-modal='newCampaign' data-when-confirmed><i class='fa fa-plus'></i> New Campaign</a>
 	<% end %>
 
+  <a class='button green u-marginY--10' href='<%= nonprofits_campaign_templates_path(@nonprofit.id) %>'>
+     Campaign templates
+  </a>
+
 	<% if @active_campaigns.empty? %>
 		<p class='fundraiser--active u-padding--15 u-marginTop--15'>No active campaigns</p>
 	<% else %>

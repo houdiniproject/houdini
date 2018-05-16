@@ -11,6 +11,14 @@ body {
 	padding: 0;
 	background: $fog;
 }
+
+body > .ymca-banner {
+  margin: auto;
+  width: 100vw;
+  height: 120px;
+  background-color: #01a490;
+}
+
 main {
 	display: block;
 	padding: 60px 0 50px 0;

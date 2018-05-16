@@ -36,6 +36,13 @@ class CampaignsController < ApplicationController
     @nonprofit = current_nonprofit
     @url = Format::Url.concat(root_url, @campaign.url)
 
+    if @campaign.parent_campaign
+      @parent_campaign = @campaign.parent_campaign
+      @peer_to_peer_campaign_param = @parent_campaign.id
+    else
+      @peer_to_peer_campaign_param = @campaign.id
+    end
+
     @campaign_background_image = FetchBackgroundImage.with_model(@campaign)
 
     if @nonprofit.custom_layout.blank?
@@ -55,7 +62,15 @@ class CampaignsController < ApplicationController
     Time.use_zone(current_nonprofit.timezone || 'UTC') do
       params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
     end
-    campaign = current_nonprofit.campaigns.create params[:campaign]
+
+    if !params[:campaign][:parent_campaign_id]
+      campaign = current_nonprofit.campaigns.create params[:campaign]
+    else
+      profile_id = params[:campaign][:profile_id]
+      Profile.find(profile_id).update_attributes params[:profile]
+      campaign = create_peer_to_peer_campaign params[:campaign], profile_id
+    end
+
     json_saved campaign, 'Campaign created! Well done.'
   end
 
@@ -103,6 +118,31 @@ class CampaignsController < ApplicationController
   def peer_to_peer
     session[:donor_signup_url] = request.env["REQUEST_URI"]
     @npo = Nonprofit.find_by_id(params[:npo_id])
+    @campaign = Campaign.find_by_id(params[:campaign_id])
+    @profile = current_user.profile if current_user
+  end
+
+  def custom_layout
+    @campaign = current_campaign
+    @timezone = Format::Timezone.to_proxy(current_nonprofit.timezone)
+    if @campaign.deleted && !current_campaign_editor?
+      redirect_to nonprofit_path(current_nonprofit)
+      flash[:notice] = "Sorry, we couldn't find that campaign"
+      return
+    end
+    @nonprofit = current_nonprofit
+    @url = Format::Url.concat(root_url, @campaign.url)
+
+    if @campaign.parent_campaign
+      @parent_campaign = @campaign.parent_campaign
+      @peer_to_peer_campaign_param = @parent_campaign.id
+    else
+      @peer_to_peer_campaign_param = @campaign.id
+    end
+
+    @campaign_background_image = FetchBackgroundImage.with_model(@campaign)
+
+    render template: "nonprofits/custom_campaign_layouts/safety_around_water"
   end
 
   private
@@ -113,4 +153,25 @@ class CampaignsController < ApplicationController
     end
   end
 
+  # TODO: refactor
+  def create_peer_to_peer_campaign(params, profile_id)
+    parent_campaign = Campaign.find(params[:parent_campaign_id])
+    profile = Profile.find(profile_id)
+
+    p2p_params = params.except(:nonprofit_id, :summary,:goal_amount)
+    p2p_params.merge!(parent_campaign.child_params)
+    p2p_params[:slug] = Format::Url.convert_to_slug "#{p2p_params[:name]}-#{profile.name}"
+
+    campaign = Campaign.create(p2p_params)
+
+    return campaign unless campaign.errors.empty?
+
+    gift_option_params = []
+    parent_campaign.campaign_gift_options.each do |option|
+      excluded_for_peer_to_peer = %w(id campaign_id created_at updated_at)
+      campaign.campaign_gift_options.create option.attributes.except(*excluded_for_peer_to_peer)
+    end
+
+    campaign
+  end
 end

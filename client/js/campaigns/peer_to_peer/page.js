@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // License: LGPL-3.0-or-later
 
 require('../new/wizard')
@@ -114,3 +115,7 @@ main.onclick = function(ev) {
   }
   appl.def('search_results', [])
 }
+=======
+require('../new/peer_to_peer_wizard')
+require('../../common/image_uploader')
+>>>>>>> 2dc48070e... Merge branch 'p2p-campaigns' into h-custom-layout

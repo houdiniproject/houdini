@@ -1,0 +1,84 @@
+<!-- partial campaigns/new-modal -->
+<!-- include 'campaigns/new/index' -->
+
+<div class='modal' id='newPeerToPeerCampaign'>
+
+	<%= render 'common/modal_header', title: @campaign.name %>
+
+	<div class='wizard-steps' style='display:none;'>
+		<!--= wizard.init 'new_p2p_campaign_wiz' -->
+
+	<%= render 'components/wizard/step_index', wizard_name: 'new_p2p_campaign_wiz' %>
+
+	<div class='modal-body' style='display: table;'>
+
+		<div class='wizard-step reason-step'>
+			<!--= wizard.set_step 'new_p2p_campaign_wiz' 'About you' -->
+
+			<form parsley-validate>
+					<!--= on 'submit' (def 'new_p2p_campaign' form_object) (wizard.advance 'new_p2p_campaign_wiz') -->
+				<input type='hidden' name='campaign[profile_id]' value='<%= current_user.profile.id %>'>
+				<input type='hidden' name='campaign[parent_campaign_id]' value='<%= @campaign.id %>'>
+
+        <div class='layout--three'>
+          <fieldset>
+            <label>Name</label>
+            <input type='text' name='profile[name]' placeholder='Your Name' value='<%= @profile.name %>'>
+          </fieldset>
+
+          <fieldset>
+            <label>City</label>
+            <input type='text' name='profile[city]' placeholder='City' value='<%= @profile.city %>'>
+          </fieldset>
+
+          <fieldset>
+            <label>State</label>
+            <%= render 'common/states_dropdown', name: 'profile[state_code]', default: @profile.state_code %>
+          </fieldset>
+        </div>
+
+        <div class='group'>
+          <fieldset class='field col-4'>
+            <label>Add a profile image</label>
+            <div class='image-upload u-margin--0' style='background-image: url("<%= @profile.picture %>");'>
+              <span><i class='fa fa-image'></i> Upload</span>
+              <input type='file' name='profile[picture]' >
+            </div>
+          </fieldset>
+
+          <fieldset class='col-right-8'>
+            <label>What's your reason for supporting <%= @campaign.name %>?</label>
+            <textarea rows='4' name='campaign[reason_for_supporting]' placeholder='' required></textarea>
+          </fieldset>
+        </div>
+
+				<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_p2p_campaign_wiz', branded: true %>
+			</form>
+		</div>
+
+			<div class='wizard-step amount-step'>
+				<!--= wizard.set_step 'new_p2p_campaign_wiz' 'Customize' -->
+
+				<form parsley-validate>
+				<!--= on 'submit' create_p2p_campaign -->
+				<!--= log new_p2p_campaign -->
+
+          <div class='u-margin--auto'>
+						<fieldset class='group u-marginBottom--0'>
+							<label class='u-paddingTop--5'>Goal Amount</label>
+							<div class='prepend--dollar'>
+								<input class='input--100 u-marginBottom--5' value='1000' type='number' name='campaign[goal_amount_dollars]' required min='1'>
+							</div>
+						</fieldset>
+
+					</div>
+
+          <%= render 'components/forms/submit_button', button_text: 'Preview Campaign!', scope: 'new_p2p_campaign_wiz', branded: true %>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- end partial campaigns/new-modal -->

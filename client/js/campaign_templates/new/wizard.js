@@ -1,35 +1,28 @@
-// License: LGPL-3.0-or-later
 require('../../common/pikaday-timepicker')
 require('../../components/wizard')
 require('../../common/image_uploader')
 var checkName = require('../../common/ajax/check_campaign_or_event_name')
 var format_err = require('../../common/format_response_error')
 
-
-appl.def('advance_campaign_name_step', function(form_obj) {
-  var name = form_obj['campaign[name]']
-  checkName(name, 'campaign', function(){
-    appl.def('new_campaign', form_obj) 
-    appl.wizard.advance('new_campaign_wiz')
-  })
+appl.def('advance_campaign_template_name_step', function(form_obj) {
+  appl.def('new_campaign_template', form_obj)
+  appl.wizard.advance('new_campaign_template_wiz')
 })
 
-// Post a new campaign.
-appl.def('create_campaign', function(el) {
+// Post a new campaign template
+appl.def('create_campaign_template', function(el) {
 	var form_data = utils.toFormData(appl.prev_elem(el))
-	form_data = utils.mergeFormData(form_data, appl.new_campaign)
-	appl.def('new_campaign_wiz.loading', true)
+	form_data = utils.mergeFormData(form_data, appl.new_campaign_template)
+	appl.def('new_campaign_template_wiz.loading', true)
 
-// TODO: for p2p capmaigns, merge with preset campaing params
-
-	post_campaign(form_data)
+	post_campaign_template(form_data)
 		.then(function(req) {
-			appl.notify("Redirecting to your campaign...")
+			appl.notify("Redirecting to your campaign template...")
 			appl.redirect(JSON.parse(req.response).url)
 		})
 		.catch(function(req) {
-			appl.def('new_campaign_wiz.loading', false)
-			appl.def('new_campaign_wiz.error', req.responseText)
+			appl.def('new_campaign_template_wiz.loading', false)
+			appl.def('new_campaign_template_wiz.error', req.responseText)
 		})
 })
 
@@ -43,10 +36,10 @@ new Pikaday({
 })
 
 // Using the bare-bones XMLHttpRequest API so we can post form data and upload the image
-function post_campaign(form_data) {
+function post_campaign_template(form_data) {
 	return new Promise(function(resolve, reject) {
 		var req = new XMLHttpRequest()
-		req.open("POST", '/nonprofits/' + app.nonprofit_id + '/campaigns')
+		req.open("POST", '/nonprofits/' + app.nonprofit_id + '/campaign_templates')
 		req.setRequestHeader('X-CSRF-Token', window._csrf)
 		req.send(form_data)
 		req.onload = function(ev) {

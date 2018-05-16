@@ -11,8 +11,20 @@
 <% content_for :javascripts do %>
 	<script>
     <% if @npo %>
-    appl.def('selected_result', {name: '<%= @npo.name.html_safe %>', id: <%= @npo.id %>})
-    app.nonprofit_id = <%= @npo.id %>
+      appl.def('selected_result', {
+        name: '<%= @npo.name.html_safe %>',
+        id: <%= @npo.id %>,
+        modal_id: 'newCampaign'
+      })
+      app.nonprofit_id = <%= @npo.id %>
+    <% elsif @campaign %>
+      appl.def('selected_result', {
+        name: '<%= @campaign.nonprofit.name.html_safe %>',
+        parent_campaign_id: <%= @campaign.id %>,
+        campaign_name: '<%= @campaign.name %>',
+        modal_id: 'newPeerToPeerCampaign'
+      })
+      app.nonprofit_id = <%= @campaign.nonprofit.id %>
     <% end %>
     <% if current_user %>
       appl.def('is_logged_in', true)
@@ -26,13 +38,12 @@
   <%= IncludeAsset.js '/client/js/campaigns/peer_to_peer/page.js' %>
 <% end %>
 
-<%= render 'layouts/top_nav' %>
+<div class='ymca-banner'></div>
+
 
 <main>
   <header class='u-paddingX--15 container'>
-    <h1>Start a campaign</h1>
-    <h4>Start raising funds for your favorite nonprofit in less than 10 minutes.</h4>
-    </div>
+    <h1>Start my campaign</h1>
   </header>
 
   <hr>
@@ -43,19 +54,31 @@
         <i class='icon icon-bicycle u-fontSize--50'></i>
       </td>
       <td>
-        <h5 class='u-paddingLeft--20'>Below is a roadmap to get you started on your campaign</h5>
+        <h5 class='u-paddingLeft--20'>Below is a roadmap to get you started with your campaign</h5>
       </td>
     </tr></table>
 
     <ul class='u-paddingLeft--10 timeline--checklist'>
-      <li>
-        <!--= set_attr_if selected_result 'class' 'is-complete' -->
-        <span class='annot'>10 seconds</span>
-        <p class='strong u-marginBottom--15'>Search for a nonprofit that you want to fundraise for</p>
-        <div class='u-paddingLeft--20 u-maxWidth--500'>
-          <%= render 'search_for_npo' %>
-        </div>
-      </li>
+      <% if @campaign.present? %>
+        <li>
+          <!--= set_attr_if selected_result 'class' 'is-complete' -->
+          <span class='annot'>10 seconds</span>
+          <p class='strong u-marginBottom--15'>My campaign</p>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <h4><%= @campaign.name %></h4>
+            <p>See our other <%= link_to 'active campaigns', @campaign.nonprofit.url %>.</p>
+          </div>
+        </li>
+      <% else %>
+        <li>
+          <!--= set_attr_if selected_result 'class' 'is-complete' -->
+          <span class='annot'>10 seconds</span>
+          <p class='strong u-marginBottom--15'>Search for a nonprofit that you want to fundraise for</p>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <%= render 'search_for_npo' %>
+          </div>
+        </li>
+      <% end %>
 
       <li>
         <!--= set_attr_if is_logged_in 'class' 'is-complete' -->
@@ -107,7 +130,7 @@
           <div class='u-centered u-padding--15'>
             <button class='button orange'>
               <!--= show_if (all is_logged_in is_confirmed selected_result) -->
-              <!--= on 'click' (open_modal 'newCampaign') -->
+              <!--= on 'click' (open_modal selected_result.modal_id) -->
               Start Campaign
             </button>
           </div>
@@ -118,5 +141,9 @@
 </main>
 
 <% if current_user %>
-	<%= render 'campaigns/new_modal' %>
+  <% if @npo.present? %>
+    <%= render 'campaigns/new_modal' %>
+  <% elsif @campaign.present? %>
+    <%= render 'campaigns/new_peer_to_peer_modal' %>
+  <% end %>
 <% end %>

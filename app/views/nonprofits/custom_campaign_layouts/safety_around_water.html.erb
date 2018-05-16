@@ -90,6 +90,20 @@
         </button>
       <% end %>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+      <% if !@campaign.parent_campaign %>
+        <aside class='u-marginBottom--15 pastelBox--grey'>
+          <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
+            Start Your Own Campaign for <%= @nonprofit.name %>
+          </a>
+        </aside>
+      <% end %>
+
+=======
+>>>>>>> custom-layout
+>>>>>>> p2p-campaigns
       <!-- flimflam gift options javascript gets rendered into this div: -->
       <div class='ff-sidebar'></div>
 
@@ -102,6 +116,41 @@
 
   	</section>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <% if @campaign.parent_campaign %>
+      <section class='box'>
+
+        <section class="campaigner-profile">
+          <figure>
+            <div class="avatar">
+              <img src=<%= @campaign.profile.picture %> />
+            </div>
+            <figcaption>
+              <p><%= @campaign.profile.name %></p>
+              <p><%= @campaign.profile.city %></p>
+              <% if @campaign.profile.state_code && @campaign.profile.city %>
+                <p><%= @campaign.profile.city_state %> <%= @campaign.profile.state_code %></p>
+              <% end %>
+            </figcaption>
+          </figure>
+
+          <section class='u-marginTop--15 u-marginBottom--15 pastelBox--grey'>
+            <header>I am supporting the Y because…</header>
+            <div class='pastelBox-body'>
+              <%= @campaign.reason_for_supporting %>
+            </div>
+
+            <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
+              Start Your Own Campaign for <%= @nonprofit.name %>
+            </a>
+          </section>
+        </section>
+      </section>
+    <% end %>
+=======
+>>>>>>> p2p-campaigns
     <section class='box'>
 
       <section class="campaigner-profile">
@@ -121,6 +170,7 @@
             (customizable reason)
           </div>
 
+<<<<<<< HEAD
           <% unless current_campaign_editor? %>
             <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @campaign.id %>'>
               Start Your Own Campaign for <%= @nonprofit.name %>
@@ -129,6 +179,16 @@
         </section>
       </section>
     </section>
+=======
+
+          <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @campaign.id %>'>
+            Start Your Own Campaign for <%= @nonprofit.name %>
+          </a>
+        </section>
+      </section>
+    </section>
+>>>>>>> custom-layout
+>>>>>>> p2p-campaigns
 
   	<section class='box'>
       <h1><%= @campaign.name %></h1>

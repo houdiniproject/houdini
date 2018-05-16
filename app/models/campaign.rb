@@ -32,7 +32,9 @@ class Campaign < ActiveRecord::Base
 		:hide_thermometer, #bool
 		:hide_title, # bool
     :receipt_message, # text
-    :hide_custom_amounts # boolean
+    :hide_custom_amounts, # boolean
+    :parent_campaign_id,
+    :reason_for_supporting
 
   validate  :end_datetime_cannot_be_in_past, :on => :create
 	validates :profile, :presence => true
@@ -64,6 +66,9 @@ class Campaign < ActiveRecord::Base
 	belongs_to :profile
 	belongs_to :nonprofit
   belongs_to :campaign_template
+
+  belongs_to :parent_campaign, class_name: 'Campaign'
+  has_many :children_campaigns, class_name: 'Campaign', foreign_key: 'parent_campaign_id'
 
 	scope :published, ->   {where(:published => true)}
   scope :active, ->      {where(:published => true).where("end_datetime IS NULL OR end_datetime >= ?", Date.today)}
@@ -159,4 +164,22 @@ class Campaign < ActiveRecord::Base
     (self.end_datetime.to_date - Date.today).to_i
 	end
 
+  def self.create_from_template(template_id)
+    # building params handled by another object
+    # not sure this method is needed eventually
+  end
+
+  def customizable_attributes_list
+    campaign_template.customizable_attributes_list if campaign_template
+  end
+
+  def child_params
+    excluded_for_peer_to_peer = %w(
+      id created_at updated_at slug profile_id campaign_template_id url
+      total_raised show_recurring_amount external_identifier parent_campaign_id
+      reason_for_supporting
+    )
+    excluded_for_peer_to_peer.push(customizable_attributes_list)
+    attributes.except(*excluded_for_peer_to_peer)
+  end
 end

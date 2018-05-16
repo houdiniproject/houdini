@@ -1,0 +1,64 @@
+<%= content_for :stylesheets do %>
+	<%= stylesheet_link_tag 'campaigns/index/page' %>
+	<%= stylesheet_link_tag 'campaign_templates' %>
+<% end %>
+
+<%= content_for :javascripts do %>
+  <script>
+		app.current_nonprofit_user = "<%= current_nonprofit_user? %>"
+  </script>
+	<%= IncludeAsset.js '/client/js/campaigns/index/page.js' %>
+<% end %>
+
+
+<%= render 'components/header',
+  icon_class: 'icon-thermometer-medium',
+  title: 'Campaign Templates',
+  profile: @nonprofit,
+  has_mosaic: true
+%>
+
+<main class='container u-padding--15'>
+	<% if current_user %>
+		<a class='button orange u-marginY--10' open-modal='newCampaignTemplate' data-when-confirmed><i class='fa fa-plus'></i> New Template</a>
+	<% end %>
+
+  <% if @templates.empty? %>
+		<p class='fundraiser--active u-padding--15 u-marginTop--15'>No templates yet</p>
+	<% else %>
+    <section class='fundraiser--unpublished u-marginTop--15 u-marginBottom--30'>
+
+      <!-- TODO: extract to partial -->
+      <table class='table--striped u-marginBottom--0'>
+         <% @templates.each do |template|%>
+          <tr>
+            <td class='u-padding--0 u-width--200 u-hideIf--400'>
+              <img src='<%= template.main_image_url(:normal) %>'>
+            </td>
+            <td class='u-padding--10'>
+              <h6 class='u-marginTop--0 u-marginBottom--5'>
+                <%= template.template_name %>
+              </h6>
+              <p class='u-marginBottom--15'>
+                <small>Campaign title: <%= template.name %></small>
+              </p>
+
+              <p class='u-marginBottom--15'>
+                <small>Campaign summary:<%= template.summary ? strip_tags(template.summary) : strip_tags(template.tagline) %></small>
+              </p>
+
+              <p class='u-marginBottom--15'>
+                <small>Customizable attributes: <%= template.customizable_attributes_list %></small>
+              </p>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+
+    </section>
+	<% end %>
+</main>
+
+<% if current_user %>
+	<%= render 'nonprofits/campaign_templates/new_modal' %>
+<% end %>

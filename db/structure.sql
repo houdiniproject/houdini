@@ -102,14 +102,14 @@ SELECT supporters.id, concat_ws(' '
         , payments.kind
         , payments.towards
         ) AS search_blob
-FROM supporters 
+FROM supporters
 LEFT OUTER JOIN payments
-  ON payments.supporter_id=supporters.id 
+  ON payments.supporter_id=supporters.id
 LEFT OUTER JOIN donations
-  ON donations.supporter_id=supporters.id 
+  ON donations.supporter_id=supporters.id
 LEFT OUTER JOIN (
 SELECT string_agg(value::text, ' ') AS value, supporter_id
-FROM custom_field_joins 
+FROM custom_field_joins
 GROUP BY supporter_id) AS custom_field_joins
   ON custom_field_joins.supporter_id=supporters.id
 WHERE (supporters.id=NEW.supporter_id)) AS data
@@ -438,13 +438,9 @@ CREATE TABLE public.campaigns (
     show_recurring_amount boolean DEFAULT false,
     end_datetime timestamp without time zone,
     external_identifier character varying(255),
-<<<<<<< HEAD
-    campaign_template_id integer
-=======
     campaign_template_id integer,
     parent_campaign_id integer,
     reason_for_supporting text
->>>>>>> p2p-campaigns
 );
 
 
@@ -4419,8 +4415,4 @@ INSERT INTO schema_migrations (version) VALUES ('201810202124316');
 
 INSERT INTO schema_migrations (version) VALUES ('201810202124317');
 
-<<<<<<< HEAD
-=======
 INSERT INTO schema_migrations (version) VALUES ('201810202124318');
-
->>>>>>> p2p-campaigns

@@ -8,4 +8,3 @@ AWS.config({
 
 s3 = AWS::S3.new
 S3Bucket = s3.buckets[Settings.aws.bucket]
-

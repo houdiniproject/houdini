@@ -3,7 +3,7 @@ Commitchange::Application.configure do
 	# Settings specified here will take precedence over those in config/application.rb
 
 	# Code is not reloaded between requests
-	config.cache_classes = true
+	config.cache_classes = false
         config.cache_store = Settings.default.cache_store.to_sym
 
 	# Full error reports are disabled and caching is turned on

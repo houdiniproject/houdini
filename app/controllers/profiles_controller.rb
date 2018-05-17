@@ -47,7 +47,6 @@ class ProfilesController < ApplicationController
       @profile = current_user.profile
     end
 		@profile.update_attributes(params[:profile])
-    puts Settings.image&.host
 		json_saved @profile, 'Profile updated'
 	end
 

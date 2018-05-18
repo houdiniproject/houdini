@@ -48,7 +48,7 @@ Config.schema do
 
   required(:aws).schema do
     # the region your AWS bucket is in
-    required(:region).filled(:str?)
+    # required(:region).filled(:str?)
 
     # the name of your aws bucket
     required(:bucket).filled(:str?)
@@ -225,4 +225,3 @@ Settings.reload!
 
 # Initialize the rails application
 Commitchange::Application.initialize!
-

@@ -19,8 +19,10 @@ default:
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  region: <%= ENV['AWS_REGION'] %>
   bucket: <%= ENV['S3_BUCKET_NAME'] %>
+
+image:
+  host: "https://#{Settings.aws.bucket}.s3.amazonaws.com"
 
 mailer:
   delivery_method: "sendmail"

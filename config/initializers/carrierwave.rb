@@ -4,8 +4,7 @@ CarrierWave.configure do |config|
 	config.storage    = :aws
 	config.aws_bucket = Settings.aws.bucket
 	config.aws_acl    = :public_read
-	# config.asset_host = Settings.image&.host || "https://s3-#{Settings.aws.region}.amazonaws.com/#{Settings.aws.bucket}"
-	config.asset_host = "https://s3.amazonaws.com/#{Settings.aws.bucket}"
+	config.asset_host = Settings.image&.host || "https://s3-#{Settings.aws.region}.amazonaws.com/#{Settings.aws.bucket}"
 	config.aws_authenticated_url_expiration = 60 * 60 * 24 * 365
 	config.aws_credentials = {
 		access_key_id:     Settings.aws.access_key_id,

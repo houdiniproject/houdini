@@ -46,8 +46,6 @@ class ProfilesController < ApplicationController
     else
       @profile = current_user.profile
     end
-    puts "______________awsbucketaddress: #{Settings.image.host}"
-    puts "______________awsbucketaddress: #{Settings.image&.host}"
 		@profile.update_attributes(params[:profile])
 		json_saved @profile, 'Profile updated'
 	end

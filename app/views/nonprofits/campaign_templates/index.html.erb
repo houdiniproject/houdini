@@ -6,8 +6,9 @@
 <%= content_for :javascripts do %>
   <script>
 		app.current_nonprofit_user = "<%= current_nonprofit_user? %>"
+    app.nonprofit_id = <%= @nonprofit.id %>
   </script>
-	<%= IncludeAsset.js '/client/js/campaigns/index/page.js' %>
+	<%= IncludeAsset.js '/client/js/campaign_templates/index/page.js' %>
 <% end %>
 
 
@@ -33,7 +34,7 @@
          <% @templates.each do |template|%>
           <tr>
             <td class='u-padding--0 u-width--200 u-hideIf--400'>
-              <img src='<%= template.main_image_url(:normal) %>'>
+              #<img src='<%= %>'>
             </td>
             <td class='u-padding--10'>
               <h6 class='u-marginTop--0 u-marginBottom--5'>
@@ -50,6 +51,9 @@
               <p class='u-marginBottom--15'>
                 <small>Customizable attributes: <%= template.customizable_attributes_list %></small>
               </p>
+
+              <a class="button red">Delete template</a>
+                <!--= on 'click' (delete_template <%= template.id %>) -->
             </td>
           </tr>
         <% end %>

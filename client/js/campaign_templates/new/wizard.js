@@ -1,6 +1,7 @@
 require('../../common/pikaday-timepicker')
 require('../../components/wizard')
 require('../../common/image_uploader')
+var confirmation = require('../../common/confirmation')
 var format_err = require('../../common/format_response_error')
 
 appl.def('advance_campaign_template_name_step', function(form_obj) {
@@ -50,21 +51,24 @@ function post_campaign_template(form_data) {
 }
 
 appl.def('delete_template', function(id) {
-  appl.def('loading', true)
-  var url = '/nonprofits/' + app.nonprofit_id + '/campaign_templates/' + id
+  var result = confirmation('Are you sure?')
+  result.confirmed = function() {
+    appl.def('loading', true)
+    var url = '/nonprofits/' + app.nonprofit_id + '/campaign_templates/' + id
 
-  return new Promise(function(resolve, reject) {
-    var req = new XMLHttpRequest()
-    req.open("DELETE", url)
-    req.setRequestHeader('X-CSRF-Token', window._csrf)
-    req.send({ campaign_template: {id: id} })
-    req.onload = function(ev) {
-      if(req.status === 204) resolve(req)
-      else reject(req)
-    }
-  }).then(function() {
-    appl.def('loading', false)
-    appl.notify('Successfully deleted template.')
-    appl.redirect('/nonprofits/' + app.nonprofit_id + '/campaign_templates')
-  })
+    return new Promise(function(resolve, reject) {
+      var req = new XMLHttpRequest()
+      req.open("DELETE", url)
+      req.setRequestHeader('X-CSRF-Token', window._csrf)
+      req.send({ campaign_template: {id: id} })
+      req.onload = function(ev) {
+        if(req.status === 204) resolve(req)
+        else reject(req)
+      }
+    }).then(function() {
+      appl.def('loading', false)
+      appl.notify('Successfully deleted template.')
+      appl.redirect('/nonprofits/' + app.nonprofit_id + '/campaign_templates')
+    })
+  }
 })

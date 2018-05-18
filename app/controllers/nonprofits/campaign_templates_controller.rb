@@ -7,12 +7,20 @@ module Nonprofits
 
     def index
       @templates = CampaignTemplate.all
+      @nonprofit = current_nonprofit
     end
 
     def create
-      puts params
+      template = CampaignTemplate.create(params[:campaign_template])
 
-      render :status_ok
+      json_saved template
+    end
+
+    def destroy
+      campaign = CampaignTemplate.find(params[:id])
+      campaign.destroy
+
+      render json: {}, status: :no_content
     end
   end
 end

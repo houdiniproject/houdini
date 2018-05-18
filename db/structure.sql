@@ -356,7 +356,8 @@ CREATE TABLE public.campaign_templates (
     summary text,
     body text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    nonprofit_id integer
 );
 
 
@@ -4332,3 +4333,6 @@ INSERT INTO schema_migrations (version) VALUES ('201810202124317');
 INSERT INTO schema_migrations (version) VALUES ('201810202124318');
 
 INSERT INTO schema_migrations (version) VALUES ('201810202124319');
+
+INSERT INTO schema_migrations (version) VALUES ('201810202124320');
+

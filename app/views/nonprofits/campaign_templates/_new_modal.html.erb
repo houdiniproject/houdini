@@ -18,7 +18,7 @@
 
 			<form parsley-validate>
         <!--= on 'submit' (def 'new_campaign_template' form_object) (wizard.advance 'new_campaign_template_wiz') -->
-				<input type='hidden' name='campaign_template[profile_id]' value='<%= current_user.profile.id %>'>
+				<input type='hidden' name='campaign_template[nonprofit_id]' value='<%= @nonprofit.id %>'>
 
 				<fieldset>
 					<label>Template Name</label>

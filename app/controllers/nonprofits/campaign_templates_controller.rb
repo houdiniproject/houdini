@@ -6,8 +6,8 @@ module Nonprofits
   	before_filter :authenticate_nonprofit_user!, only: [:index, :show]
 
     def index
-      @templates = CampaignTemplate.all
       @nonprofit = current_nonprofit
+      @templates = @nonprofit.campaign_templates
     end
 
     def create

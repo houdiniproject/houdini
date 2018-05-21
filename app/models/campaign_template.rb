@@ -17,7 +17,8 @@ class CampaignTemplate < ActiveRecord::Base
 		:summary,
 		:body,
     :end_datetime,
-    :goal_customizable
+    :goal_customizable,
+    :nonprofit_id
 
   attr_accessor :goal_amount_dollars
   attr_accessor :goal_customizable

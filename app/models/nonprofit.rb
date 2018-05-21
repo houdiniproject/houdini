@@ -62,6 +62,7 @@ class Nonprofit < ActiveRecord::Base
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations
   has_many :campaigns, dependent: :destroy
+  has_many :campaign_templates, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :tickets, through: :events
   has_many :users, through: :roles

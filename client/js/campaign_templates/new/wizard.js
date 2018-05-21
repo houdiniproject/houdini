@@ -72,3 +72,34 @@ appl.def('delete_template', function(id) {
     })
   }
 })
+
+
+appl.def('create_campaign', function(campaign_params) {
+  appl.def('loading', true)
+
+  var url = '/nonprofits/' + app.nonprofit_id + '/campaigns'
+  var params = new Object
+  params.campaign = JSON.parse(campaign_params)
+  params.campaign.profile_id = app.profile_id
+
+  return new Promise(function(resolve, reject) {
+    var req = new XMLHttpRequest()
+    req.open("POST", url)
+    req.setRequestHeader('X-CSRF-Token', window._csrf)
+    req.setRequestHeader('Content-Type', 'application/json')
+    req.send(JSON.stringify(params))
+    req.onload = function(ev) {
+      if(req.status === 200) resolve(req)
+      else reject(req)
+    }
+  }).then(function(req) {
+    appl.def('loading', false)
+    appl.notify('Redirecting you to your campaign…')
+    var campaign_id = JSON.parse(req.response).id
+    appl.redirect(url + '/' + campaign_id)
+  })
+  .catch(function(req) {
+    appl.def('loading', false)
+    appl.notify(req.responseText)
+  })
+})

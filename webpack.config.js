@@ -4,7 +4,10 @@ const WebpackSweetEntry = require('webpack-sweet-entry');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const StringReplacePlugin = require("string-replace-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const ProvidePlugin = require('webpack').ProvidePlugin
+const webpack = require("webpack");
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const merge = require('webpack-merge');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const config_button=require('./config/settings.json');
 
@@ -14,7 +17,22 @@ const translationPath = path.join(__dirname, 'public/javascripts/_final.js')
 const reactEntrySourcePath = path.join(__dirname, 'javascripts')
 const reactEntryOutputPath = path.join(__dirname, 'public')
 
-var common_rules= [
+let inProduction = process.env.NODE_ENV === 'production'
+
+let devToProdLibraries = {
+  react:{
+    debug: "node_modules/react/umd/react.development.js",
+    production: "node_modules/react/umd/react.production.min.js"
+  },
+  reactDom: {
+    debug: "node_modules/react-dom/umd/react-dom.development.js",
+    production: "node_modules/react-dom/umd/react-dom.production.min.js"
+  }
+}
+
+
+
+let common_rules= [
 
         // configure replacements for file patterns
         {
@@ -39,7 +57,9 @@ var common_rules= [
         { test: /\.js$/, exclude: /node_modules|froala/, loader: "babel-loader" },
         { test: /\.es6$/, exclude: /node_modules/, loader: "babel-loader" }
 ]
-module.exports = {
+
+
+let targets = {
     base: {
         module:{
             rules: common_rules
@@ -54,17 +74,6 @@ module.exports = {
             ]
     }
     ,
-    // translations: {
-    //     module:{
-    //         rules: common_rules
-    //     },
-    //     entry: path.resolve(sourcePath, 'js/translations/translations.js'),
-    //     output: {
-    //         path: path.resolve(buildPath, 'js/nonprofits/donate/'),
-    //         filename: 'i18n.js'
-    //     },
-
-    // },
     button: {
         module:{
             rules: common_rules
@@ -117,11 +126,21 @@ module.exports = {
             new CleanWebpackPlugin([path.resolve(buildPath, 'css')])
         ]
     },
+    bootstrap: {
+        entry: ['bootstrap-loader'],
+        output: {
+          path: path.resolve(buildPath, 'css'),
+          filename: 'bootstrap.css'
+        },
+      plugins: [
+        new ExtractTextPlugin('bootstrap.css')
+      ]
+    },
     react: {
         module:{
             rules: common_rules
         },
-        entry: WebpackSweetEntry(path.resolve(reactEntrySourcePath, "app/*.ts"), 'ts', 'app'),
+        entry: WebpackSweetEntry(path.resolve(reactEntrySourcePath, "app/*.tsx"), 'ts', 'app'),
         output: {
             path: path.resolve(reactEntryOutputPath, 'app'),
             filename: '[name].js'
@@ -130,7 +149,37 @@ module.exports = {
             extensions: [".ts", ".tsx", ".js", ".json"],
         },
         plugins: [
-            new CleanWebpackPlugin([path.resolve(reactEntryOutputPath, 'app')])
-        ]
+            new CleanWebpackPlugin([path.resolve(reactEntryOutputPath, 'app')]),
+            new webpack.optimize.CommonsChunkPlugin({
+                name: 'vendor',
+            }),
+            new CopyWebpackPlugin([{from: inProduction ? devToProdLibraries.react.production : devToProdLibraries.react.debug, to: path.resolve('public', 'app', 'react.js')}]),
+            new CopyWebpackPlugin([{from: inProduction ? devToProdLibraries.reactDom.production : devToProdLibraries.reactDom.debug, to:path.resolve('public', 'app', 'react-dom.js')}])
+
+        ],
+        externals: {
+            'react': 'React',
+            'react-dom': 'ReactDOM',
+            'i18n': 'I18n'
+        }
     }
 }
+
+let mergeToTargets = {
+  devtool: 'inline-source-map',
+}
+
+if (inProduction)
+    mergeToTargets = {
+        plugins: [
+            new CompressionPlugin({
+              asset: '[path].gz'
+            })
+          ]}
+let output = []
+for(let name in targets){
+  output.push(merge(targets[name], mergeToTargets));
+}
+
+
+module.exports = output

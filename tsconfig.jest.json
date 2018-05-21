@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./target/",
+    "sourceMap": false,
+    "inlineSourceMap": true,
+    "inlineSources": true
+  }
+}

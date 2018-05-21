@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WizardPanel shallow render 1`] = `
+<AriaTabPanel-TabPanel
+  active={true}
+  className="wizard-step"
+  tabId="tab1"
+  tag="div"
+>
+  <hr />
+</AriaTabPanel-TabPanel>
+`;

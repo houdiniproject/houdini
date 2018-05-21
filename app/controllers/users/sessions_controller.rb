@@ -1,13 +1,13 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::SessionsController < Devise::SessionsController
 
-	def create  
+	def create
 		respond_to do |format|  
 			format.html { super }  
 			format.json {  
 				warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")  
 				render :status => 200, :json => { :status => "Success" }  
-			}  
+			}
 		end  
 	end  
 

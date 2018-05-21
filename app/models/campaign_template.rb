@@ -94,4 +94,11 @@ class CampaignTemplate < ActiveRecord::Base
     # self.total_supporters = 1
     # self.published = false if self.published.nil?
   end
+
+  def create_campaign_params
+    excluded = %w(
+      id template_name created_at updated_at
+    )
+    attributes.except!(*excluded)
+  end
 end

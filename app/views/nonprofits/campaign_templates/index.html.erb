@@ -7,6 +7,7 @@
   <script>
 		app.current_nonprofit_user = "<%= current_nonprofit_user? %>"
     app.nonprofit_id = <%= @nonprofit.id %>
+    app.profile_id = '<%= raw current_user.profile.id %>'
   </script>
 	<%= IncludeAsset.js '/client/js/campaign_templates/index/page.js' %>
 <% end %>
@@ -51,6 +52,9 @@
               <p class='u-marginBottom--15'>
                 <small>Customizable attributes: <%= template.customizable_attributes_list %></small>
               </p>
+
+              <a class="button">Create campaign from template</a>
+              <!--= on 'click' (create_campaign '<%= raw(template.create_campaign_params.to_json) %>') -->
 
               <a class="button red">Delete template</a>
               <!--= on 'click' (delete_template <%= template.id %>) -->

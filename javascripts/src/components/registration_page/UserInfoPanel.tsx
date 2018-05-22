@@ -35,11 +35,8 @@ class UserInfoPanel extends React.Component<UserInfoPanelProps & InjectedIntlPro
   }
 
   render() {
-    let parentForm = this.form.container() || this.form.state.form
-    let submitting = parentForm.submitting
-
     return <WizardPanel
-                        tab={this.wizardTab} key={this.wizardTab.tabName}
+                        tab={this.wizardTab} key={this.tabName}
     >
       <UserInfoForm form={this.form} buttonText={this.props.buttonText}/>
 

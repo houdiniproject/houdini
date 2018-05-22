@@ -164,11 +164,6 @@ class Campaign < ActiveRecord::Base
     (self.end_datetime.to_date - Date.today).to_i
 	end
 
-  def self.create_from_template(template_id)
-    # building params handled by another object
-    # not sure this method is needed eventually
-  end
-
   def customizable_attributes_list
     campaign_template.customizable_attributes_list if campaign_template
   end

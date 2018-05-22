@@ -6,6 +6,7 @@ import {Field} from "mobx-react-form";
 import {computed} from 'mobx';
 import {WizardPanel, WizardTabPanelProps} from "../common/wizard/WizardPanel";
 import {WizardTabPanelState} from "../common/wizard/wizard_state";
+import UserInfoForm from "./UserInfoForm";
 
 export interface UserInfoPanelProps extends WizardTabPanelProps {
   buttonText: string
@@ -40,7 +41,7 @@ class UserInfoPanel extends React.Component<UserInfoPanelProps & InjectedIntlPro
     return <WizardPanel
                         tab={this.wizardTab} key={this.wizardTab.tabName}
     >
-
+      <UserInfoForm form={this.form} buttonText={this.props.buttonText}/>
 
     </WizardPanel>;
   }

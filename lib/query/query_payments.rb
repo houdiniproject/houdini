@@ -254,7 +254,7 @@ module QueryPayments
       .concat([[]])
       .concat(
         Qx.select([
-          "to_char(payments.date, 'MM/DD/YYY HH24:MIam') AS \"Date\"",
+          "to_char(payments.date, 'MM/DD/YYYY HH24:MIam') AS \"Date\"",
           "(payments.gross_amount/100.0)::money::text AS \"Gross Amount\"",
           "(payments.fee_total / 100.0)::money::text AS \"Fee Total\"",
           "(payments.net_amount / 100.0)::money::text AS \"Net Amount\"",
@@ -281,7 +281,7 @@ module QueryPayments
         .add_left_join(:campaign_gifts, "donations.id=campaign_gifts.donation_id")
         .add_left_join(:campaign_gift_options, "campaign_gift_options.id=campaign_gifts.campaign_gift_option_id")
         .add_left_join(tickets_subquery, "tickets.payment_id=payments.id")
-        .add_left_join(:events, "events.id=tickets.event_id")
+        .add_left_join(:events, "events.id=tickets.event_id OR (events.id = donations.event_id)")
         .where("payouts.id=$id", id: payout_id)
         .and_where("payments.nonprofit_id=$id", id: npo_id)
         .order_by("payments.date DESC, payments.id")

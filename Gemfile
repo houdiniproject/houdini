@@ -118,7 +118,6 @@ group :development do
   gem 'capistrano', '~> 3.10.2'
   gem 'capistrano-rails', '~> 1.3.1'
   gem 'capistrano3-puma', '~> 3.1.1'
-  gem 'capistrano-npm', '~> 1.0.2'
 end
 
 group :development, :test do

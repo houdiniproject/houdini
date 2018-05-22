@@ -22,10 +22,10 @@ set :deploy_to, "/home/houdini/houdini"
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", ".env", "config/settings.yml"
+append :linked_files, "config/database.yml", ".env"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "node_modules"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -38,23 +38,3 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
-
-set :npm_flags, '--silent --no-progress'
-set :npm_env_variables, {'RAILS_ENV': 'production'}
-
-after 'npm:install', 'npm:build'
-
-namespace :npm do
-  task :build do
-    on roles fetch(:npm_roles) do
-      within fetch(:npm_target_path, release_path) do
-        with fetch(:npm_env_variables, {}) do
-          # fix uglifyjs-webpack-plugin
-          execute :npm, 'install --silent --no-progress --save uglifyjs-webpack-plugin@1.2.5'
-
-          execute :npm, 'run build', fetch(:npm_flags)
-        end
-      end
-    end
-  end
-end

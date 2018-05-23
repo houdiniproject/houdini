@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StandardFieldComponent sets error message properly 1`] = `
+<div>
+  <input
+    className="form-control"
+    key=".0"
+  />
+  <div
+    className="help-block"
+    role="alert"
+  >
+    Something more
+  </div>
+</div>
+`;
+
+exports[`StandardFieldComponent works with a child 1`] = `
+<div>
+  <input
+    className="form-control"
+    key=".0"
+  />
+</div>
+`;
+
+exports[`StandardFieldComponent works with no children 1`] = `<div />`;

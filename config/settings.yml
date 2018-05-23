@@ -48,7 +48,7 @@ page_editor:
   editor: 'quill'
 
 language: 'en'
-available_locales: ['en']
+available_locales: ['en', 'de']
 
 intntl:
   currencies: ["usd"]

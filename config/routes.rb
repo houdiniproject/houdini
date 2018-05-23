@@ -1,12 +1,15 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Commitchange::Application.routes.draw do
+  mount Houdini::API => '/api'
 
   if Rails.env == 'development'
 		get '/button_debug/embedded' => 'button_debug#embedded'
 		get '/button_debug/button' => 'button_debug#button'
 		get '/button_debug/embedded/:id' => 'button_debug#embedded'
 		get '/button_debug/button/:id' => 'button_debug#button'
-	end
+  end
+  get 'onboard' => 'onboard#index'
+
 	resources(:emails, {only: [:create]})
 	resources(:settings, {only: [:index]})
 	resources(:pricing, {only: [:index]})

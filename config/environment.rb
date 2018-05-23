@@ -8,13 +8,14 @@ Encoding.default_internal = Encoding::UTF_8
 require 'dotenv'
 Dotenv.load ".env"
 @env = Rails.env || 'development'
-puts "config files .env .env.#{@env} ./config/settings.#{@env}.yml#{ @env != 'test' ? " ./config/#{ENV.fetch('ORG_NAME')}.yml": " "}  #{ @env != 'test' ? " ./config/#{ENV.fetch('ORG_NAME')}.#{@env}.yml": " "} #{ @env == 'test' ? "./config/settings.test.yml" : ""}"
+@org_name = ENV['ORG_NAME'] || 'default_organization'
+puts "config files .env .env.#{@env} ./config/settings.#{@env}.yml#{ @env != 'test' ? " ./config/#{@org_name}.yml": " "}  #{ @env != 'test' ? " ./config/#{@org_name}.#{@env}.yml": " "} #{ @env == 'test' ? "./config/settings.test.yml" : ""}"
 Dotenv.load ".env.#{@env}" if File.file?(".env.#{@env}")
 if Rails.env == 'test'
   Settings.add_source!("./config/settings.test.yml")
 else
-  Settings.add_source!("./config/#{ENV.fetch('ORG_NAME')}.yml")
-  Settings.add_source!("./config/#{ENV.fetch('ORG_NAME')}.#{Rails.env}.yml")
+  Settings.add_source!("./config/#{@org_name}.yml")
+  Settings.add_source!("./config/#{@org_name}.#{Rails.env}.yml")
 end
 
 

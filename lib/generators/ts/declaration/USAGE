@@ -1,0 +1,8 @@
+Description:
+    Creates a new Typescript declaration file for modules which don't have them
+
+Example:
+    rails generate ts:declaration module_name
+
+    This will create:
+        A new basic Typescript declaration file at 'types/module_name/index.d.ts'

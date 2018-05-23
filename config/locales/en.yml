@@ -139,3 +139,31 @@ en:
           twitter: "Tweet"
           twitter_message: "Join me in supporting"
         finish: "Finish"
+  registration:
+    get_started:
+      header: "Get started"
+      description: "Let's get started with Houdini. To begin, fill out your initial info nonprofit and user info."
+    wizard:
+      tabs:
+        nonprofit: "Nonprofit"
+        contact: "Contact"
+      nonprofit:
+         name: "Organization Name"
+         website: "Website URL"
+         email: "Org Email (public)"
+         phone: "Org Phone (public)"
+         city: "City"
+         state: "State"
+         zip: "Zip Code"
+      contact:
+        name: "Your Name"
+        email: "Your Email (used for login)"
+        password: "New Password"
+        password_confirmation: "Retype Password"
+        phone: "Your Phone (for account recovery)"
+      save_and_finish: "Save & Finish"
+      next: "Next"
+
+
+
+

@@ -105,6 +105,8 @@ RSpec.shared_context :shared_user_context do
     expect(response.status).to eq 302
   end
 
+  alias_method :redirects_to, :reject
+
   def fix_args( *args)
     replacements = {
         __our_np: nonprofit.id,

@@ -8,6 +8,7 @@ const webpack = require("webpack");
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const merge = require('webpack-merge');
 const CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const config_button=require('./config/settings.json');
 
@@ -16,6 +17,7 @@ const buildPath = path.join(__dirname, 'public/client');
 const translationPath = path.join(__dirname, 'public/javascripts/_final.js')
 const reactEntrySourcePath = path.join(__dirname, 'javascripts')
 const reactEntryOutputPath = path.join(__dirname, 'public')
+
 
 let inProduction = process.env.NODE_ENV === 'production'
 
@@ -136,6 +138,17 @@ let targets = {
         new ExtractTextPlugin('bootstrap.css')
       ]
     },
+    loading_indicator: {
+      module:{
+        rules: common_rules
+      },
+      entry: path.resolve(reactEntrySourcePath, "app", "loading_indicator.ts"),
+      output: {
+        path: path.resolve(reactEntryOutputPath, 'app'),
+        filename: 'loading_indicator.js'
+      },
+
+    },
     react: {
         module:{
             rules: common_rules
@@ -172,6 +185,7 @@ let mergeToTargets = {
 if (inProduction)
     mergeToTargets = {
         plugins: [
+            new UglifyJsPlugin(),
             new CompressionPlugin({
               asset: '[path].gz'
             })

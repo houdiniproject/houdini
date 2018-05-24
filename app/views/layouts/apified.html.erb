@@ -12,16 +12,19 @@
       window._csrf = "<%= form_authenticity_token %>"
   </script>
 
-  <%= IncludeAsset.js 'app/react.js' %>
-  <%= IncludeAsset.js 'app/react-dom.js' %>
-  <%= IncludeAsset.js 'app/vendor.js' %>
-  <%= yield :javascripts %>
+
   <%= render 'layouts/stylesheets' %>
   <%= IncludeAsset.css 'client/css/global/page.css' %>
   <%= IncludeAsset.css 'client/css/bootstrap.css' %>
 </head>
 <body>
+<%= IncludeAsset.js 'app/loading_indicator.js' %>
+<%= IncludeAsset.js 'app/react.js' %>
+<%= IncludeAsset.js 'app/react-dom.js' %>
+<%= IncludeAsset.js 'app/vendor.js' %>
+<%= yield :javascripts %>
   <%= yield %>
+
 
 </body>
 </html>

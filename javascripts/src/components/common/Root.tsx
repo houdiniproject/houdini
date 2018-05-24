@@ -25,6 +25,13 @@ export default class Root extends React.Component<RootProps, {}> {
 
   apiManager: ApiManager
 
+  componentDidMount(){
+    let pageProgress = (window as any).pageProgress
+    if (pageProgress && pageProgress.finishPageLoad){
+      pageProgress.finishPageLoad()
+    }
+
+  }
   render() {
     if (!this.apiManager){
       this.apiManager = new ApiManager(APIS.concat(CustomAPIS.APIS as Array<any>), CSRFInterceptor)

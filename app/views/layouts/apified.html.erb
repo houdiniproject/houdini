@@ -16,15 +16,21 @@
   <%= render 'layouts/stylesheets' %>
   <%= IncludeAsset.css 'client/css/global/page.css' %>
   <%= IncludeAsset.css 'client/css/bootstrap.css' %>
+  <style>
+    body {padding-left: 0}
+  </style>
 </head>
 <body>
+<%= render 'layouts/apified_header' %>
 <%= IncludeAsset.js 'app/loading_indicator.js' %>
 <%= IncludeAsset.js 'app/react.js' %>
 <%= IncludeAsset.js 'app/react-dom.js' %>
 <%= IncludeAsset.js 'app/vendor.js' %>
 <%= yield :javascripts %>
+<div class="site-content">
   <%= yield %>
-
+</div>
+<%= render 'layouts/apified_footer' %>
 
 </body>
 </html>

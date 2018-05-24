@@ -1,0 +1,40 @@
+.minimalHeader {
+  background-color: whitesmoke;
+  height: 90px;
+
+  .container {
+    display: flex;
+    height: 100%;
+
+    img {
+      opacity: 0.5;
+      max-height: 50px;
+      margin: auto 0;
+    }
+  }
+}
+
+.minimalFooter {
+  background-color: whitesmoke;
+  height:70px;
+  .container {
+    display: flex;
+    height: 100%;
+
+    * {
+      opacity: 0.5;
+      margin: auto 0;
+      margin-right:10px;
+    }
+  }
+}
+
+.site-content {
+  flex: 1;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}

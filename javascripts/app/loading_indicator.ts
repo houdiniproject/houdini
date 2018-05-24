@@ -1,6 +1,4 @@
 // License: LGPL-3.0-or-later
-
-
 class PageProgressBar {
   template: HTMLTemplateElement
 

@@ -61,8 +61,6 @@ describe SlugP2pCampaignNamingAlgorithm do
             })
           }
         end
-
-
       end
     end
   end

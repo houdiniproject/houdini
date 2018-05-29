@@ -34,7 +34,8 @@ class Campaign < ActiveRecord::Base
     :receipt_message, # text
     :hide_custom_amounts, # boolean
     :parent_campaign_id,
-    :reason_for_supporting
+    :reason_for_supporting,
+    :default_reason_for_supporting
 
   validate  :end_datetime_cannot_be_in_past, :on => :create
 	validates :profile, :presence => true
@@ -176,5 +177,13 @@ class Campaign < ActiveRecord::Base
     )
     excluded_for_peer_to_peer.push(customizable_attributes_list)
     attributes.except(*excluded_for_peer_to_peer)
+  end
+
+  def user_reason_for_supporting
+    if reason_for_supporting.present?
+      reason_for_supporting
+    else
+      default_reason_for_supporting
+    end
   end
 end

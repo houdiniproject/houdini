@@ -38,17 +38,15 @@
         </div>
 
         <div class='group'>
-          <fieldset class='field col-4'>
-            <label>Add a profile image</label>
-            <div class='image-upload u-margin--0' style='background-image: url("<%= @profile.picture %>");'>
+          <fieldset class='field col-12'>
+            <label>
+              Add a profile image
+            </label>
+            <small>Uploading your picture will greatly increase the chances of a successful campaign.</small>
+            <div class='image-upload u-marginTop--15' style='background-image: url("<%= @profile.picture %>");'>
               <span><i class='fa fa-image'></i> Upload</span>
               <input type='file' name='profile[picture]' >
             </div>
-          </fieldset>
-
-          <fieldset class='col-right-8'>
-            <label>What's your reason for supporting <%= @campaign.name %>?</label>
-            <textarea rows='4' name='campaign[reason_for_supporting]' placeholder='' required></textarea>
           </fieldset>
         </div>
 
@@ -64,6 +62,13 @@
 				<!--= log new_p2p_campaign -->
 
           <div class='u-margin--auto'>
+            <fieldset class='col-right-12'>
+              <label>What's your reason for supporting <%= @campaign.name %>?</label>
+              <small>Be concise and honest about your intentions.</small>
+
+              <textarea class='u-marginTop--15' rows='4' name='campaign[reason_for_supporting]' value='campaign[reason_for_supporting]' required></textarea>
+            </fieldset>
+
 						<fieldset class='group u-marginBottom--0'>
 							<label class='u-paddingTop--5'>Goal Amount</label>
 							<div class='prepend--dollar'>

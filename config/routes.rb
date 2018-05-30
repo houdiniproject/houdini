@@ -148,8 +148,6 @@ Commitchange::Application.routes.draw do
 			resources(:campaign_gift_options, {only: [:index, :show, :create, :update, :destroy]}) do
         put(:update_order, {on: :collection})
       end
-
-      get 'custom_layout', controller: 'campaigns', action: 'custom_layout'
 		end
 
 		resource(:billing_subscription, {only: [:create]}) do
@@ -227,7 +225,6 @@ Commitchange::Application.routes.draw do
 	# Campaigns
 	match ':state_code/:city/:name/campaigns' => 'campaigns#index'
 	match ':state_code/:city/:name/campaigns/:campaign_slug' => 'campaigns#show', :as => :campaign_loc
-	match ':state_code/:city/:name/campaigns/:campaign_slug/custom_layout' => 'campaigns#custom_layout', :as => :campaign_loc
 	match ':state_code/:city/:name/campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', :as => :campaign_loc
   match '/peer-to-peer' => 'campaigns#peer_to_peer'
 

@@ -6,6 +6,11 @@
 
 
 <header class="container fundraisingHeader--plain" <%= css_style.html_safe %> id='js-fundraisingHeader'>
+  <% if banner_image_url %>
+    <div class='campaign-banner'>
+      <img src='<%= banner_image_url %>'>
+    </div>
+  <% end %>
 	<div class='fundraisingHeader--image-container' id='js-fundraisingHeader-image' style='display: none;'>
 		<img class='fundraisingHeader--image-aspectRatio' src="<%= asset_path 'graphics/10x6.jpg' %>">
 	</div>

@@ -64,14 +64,14 @@
 	image_url: @campaign_background_image,
 	is_editor: current_campaign_editor?,
 	hide_title:  @campaign.hide_title && @campaign_background_image,
-	header_content_partial: 'header_content' %>
+	header_content_partial: 'header_content',
+  banner_image_url: @campaign.banner_image&.url %>
 
 <%= render 'components/preview_mode_notification' %>
 
 <div class="container u-marginTop--15 <%=  @brand_color ? 'is-branded' : '' %>" data-id='<%= @campaign.id %>'>
 
-
-	<section class='box'>
+  <section class='box'>
 		<%= render 'campaign_media' %>
 	</section>
 
@@ -83,6 +83,14 @@
         <!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
         <i class='fa fa-gift'></i> Manage Gift Options
       </button>
+    <% end %>
+
+    <% if !@campaign.parent_campaign %>
+      <aside class='u-marginBottom--15 pastelBox--grey'>
+        <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
+          Start Your Own Campaign for <%= @nonprofit.name %>
+        </a>
+      </aside>
     <% end %>
 
     <!-- flimflam gift options javascript gets rendered into this div: -->
@@ -104,6 +112,20 @@
     <% end %>
 
 	</section>
+
+  <% if @campaign.parent_campaign %>
+    <%= render 'components/fundraising_pages/campaigner_profile',
+        profile: @campaign.profile,
+        campaign_name: @campaign.name,
+        reason_for_supporting: @campaign.reason_for_supporting
+     %>
+
+    <section class='box'>
+      <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
+        Start Your Own Campaign for <%= @nonprofit.name %>
+      </a>
+    </section>
+  <% end %>
 
 	<section class='box'>
 

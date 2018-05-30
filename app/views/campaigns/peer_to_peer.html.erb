@@ -116,29 +116,36 @@
       </li>
 
       <li>
-        <p class='strong u-marginBottom--15'>Start your campaign</p>
-        <span class='annot'>5 minutes</span>
-        <div class='u-paddingLeft--20 u-maxWidth--500'>
-          <p>Use our simple wizard to create your campaign for
-            <strong>
-              <!--= show_if selected_result -->
-              <!--= put selected_result.name -->.
-            </strong>
-            <strong>
-              <!--= hide_if selected_result -->
-              your favorite nonprofit.
-            </strong>
-          </p>
-          <p><small>If you need any further help setting up your campaign, check out <a target='_blank' href='/help/peer-to-peer-campaigns-essentials-package-feature'>this handy article</a>.</small></p>
-          <div class='u-centered u-padding--15'>
-            <button class='button orange'>
-              <!--= show_if (all is_logged_in is_confirmed selected_result) -->
-              <!--= on 'click' (open_modal selected_result.modal_id) -->
-              Start Campaign
-            </button>
+        <% if !@child_campaign %>
+          <p class='strong u-marginBottom--15'>Start your campaign</p>
+          <span class='annot'>5 minutes</span>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <p>Use our simple wizard to create your campaign for
+              <strong>
+                <!--= show_if selected_result -->
+                <!--= put selected_result.name -->.
+              </strong>
+              <strong>
+                <!--= hide_if selected_result -->
+                your favorite nonprofit.
+              </strong>
+            </p>
+            <p><small>If you need any further help setting up your campaign, check out <a target='_blank' href='/help/peer-to-peer-campaigns-essentials-package-feature'>this handy article</a>.</small></p>
+            <div class='u-centered u-padding--15'>
+              <button class='button orange'>
+                <!--= show_if (all is_logged_in is_confirmed selected_result) -->
+                <!--= on 'click' (open_modal selected_result.modal_id) -->
+                Start Campaign
+              </button>
+            </div>
           </div>
-        </div>
+        <% else %>
+          <p>
+            Seems like you already have a campaign for that cause! <%= link_to "Click here to see it", @child_campaign.url %>.
+          </p>
+        <% end %>
       </li>
+
     </ul>
   </div>
 </main>

@@ -111,6 +111,10 @@ class CampaignsController < ApplicationController
     session[:donor_signup_url] = request.env["REQUEST_URI"]
     @nonprofit = Nonprofit.find_by_id(params[:npo_id])
     @parent_campaign = Campaign.find_by_id(params[:campaign_id])
+    @child_campaign = Campaign.where(
+      profile_id: current_user.profile.id,
+      parent_campaign_id: @parent_campaign.id
+    ).first if @parent_campaign
     @profile = current_user.profile if current_user
   end
 

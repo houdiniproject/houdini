@@ -13,8 +13,8 @@ class Campaign < ActiveRecord::Base
 		:remove_main_image, # for carrierwave
 		:background_image,
 		:remove_background_image, #bool carrierwave
-    :custom_banner,
-    :remove_custom_banner,
+    :banner_image,
+    :remove_banner_image,
 		:published,
 		:video_url, #str
 		:vimeo_video_id,
@@ -52,7 +52,7 @@ class Campaign < ActiveRecord::Base
 
 	mount_uploader :main_image, CampaignMainImageUploader
 	mount_uploader :background_image, CampaignBackgroundImageUploader
-	mount_uploader :custom_banner, CampaignCustomBannerUploader
+	mount_uploader :banner_image, CampaignBannerImageUploader
 
 	has_many :donations
 	has_many :charges, through: :donations

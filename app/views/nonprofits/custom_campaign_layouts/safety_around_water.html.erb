@@ -63,9 +63,10 @@
 <% hide_title = @campaign.hide_title && @campaign_background_image ? true : false %>
 <% css_style = current_campaign_editor? ? "style='margin-top: 0'" : '' %>
 
-<div class='ymca-banner'></div>
-
 <main class="custom-campaign-layout" id="safety-around-water">
+  <div class='ymca-banner'>
+    <img src='<%= @campaign.banner_image.url %>' height=120>
+  </div>
 
   <%= render 'components/fundraising_pages/header',
   	image_url: @campaign_background_image,
@@ -167,6 +168,10 @@
 		end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
 		image_url: @campaign_background_image,
 		input_name: 'campaign[background_image]' %>
+  <%= render 'components/upload_banner_image',
+		end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
+		image_url: @campaign.banner_image.url,
+		input_name: 'campaign[banner_image]' %>
   <%= render 'components/custom_receipt_modal',
     title: 'Campaign Receipt Message',
     type: 'campaign',

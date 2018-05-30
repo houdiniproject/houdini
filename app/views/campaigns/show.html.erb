@@ -77,7 +77,7 @@
 
 	<section class='box-r'>
 
-    <% if current_campaign_editor? %>
+    <% if current_campaign_editor? && !@campaign.child_campaign? %>
       <!-- Campaign editor gift option management modal -->
       <button class='button edit u-width--full u-marginBottom--15'>
         <!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
@@ -85,7 +85,7 @@
       </button>
     <% end %>
 
-    <% if !@campaign.parent_campaign %>
+    <% if !@campaign.child_campaign? %>
       <aside class='u-marginBottom--15 pastelBox--grey'>
         <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
           Start Your Own Campaign for <%= @nonprofit.name %>
@@ -113,7 +113,7 @@
 
 	</section>
 
-  <% if @campaign.parent_campaign %>
+  <% if @campaign.child_campaign? %>
     <%= render 'components/fundraising_pages/campaigner_profile',
         profile: @campaign.profile,
         campaign_name: @campaign.name,

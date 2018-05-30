@@ -4,6 +4,19 @@
 	<%= render 'common/modal_header', title: 'Campaign Settings' %>
 
   <form class='form--flatFields' autosubmit action='/nonprofits/<%=@nonprofit.id%>/campaigns/<%=@campaign.id%>' method='put' data-reload parsley-validate>
+    <% if @campaign.child_campaign? %>
+    <div class='modal-body'>
+      <section class='layout--three'>
+        <fieldset>
+          <label>Goal</label>
+          <div class='prepend--dollar u-inlineBlock'>
+            <input type='number' parsley-type='number' class='input--150' name='campaign[goal_amount_dollars]' value='<%= sprintf("%.2f", @campaign.goal_amount / 100.0) %>'>
+          </div>
+        </fieldset>
+      </section>
+    </div>
+
+    <% else %>
   	<div class='modal-body'>
 			<section class='layout--two'>
 				<fieldset>
@@ -38,156 +51,204 @@
       </section>
 
       <hr>
-
-      <%= render 'components/forms/slug_field', fundraiser: @campaign, url: @nonprofit.url + '/campaigns'  %>
-
-			<hr>
-
-      <section class='layout--three u-overflow--hidden'>
-        <fieldset>
-          <label>Main Image <small>(at least 500x400)</small></label>
-          <p><small>Used for previews and social media</small></p>
-          <div class='image-upload u-inlineBlock' style='background-image: url("<%= @campaign.main_image_url(:thumb) %>");'>
-            <span><i class='fa  fa-pencil'></i> Edit</span>
-            <input type='file' name='campaign[main_image]'>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <label>Header Image <small>(1000x600)</small></label>
-          <p><small>Used at top of campaign page</small></p>
-          <% if  @campaign_background_image %>
-          <div class='image-upload u-inlineBlock' style='background-image:url(<%=  @campaign_background_image %>)'>
-            <!--= on 'click' (open_modal 'uploadBackgroundImage') -->
-            <span><i class='fa  fa-pencil'></i> Edit</span>
-          </div>
-          <% else %>
-            <a class='button edit'>
-              <!--= on 'click' (open_modal 'uploadBackgroundImage')   -->
-              <i class='fa fa-plus'></i> Add Image </i>
-            </a>
-          <% end %>
-        </fieldset>
-
-        <fieldset>
-          <label>Campaign Video </label>
-          <p><small>Videos are optional but recommended</small></p>
-          <% if @campaign.vimeo_video_id || @campaign.youtube_video_id%>
-            <% if @campaign.vimeo_video_id %>
-              <div class='image-upload u-inlineBlock'>
-                <!--= set_attr 'style' vimeo_image_url -->
-                <!--= on 'click' (open_modal 'videoModal') -->
-                <span> <i class='fa fa-pencil'></i> Edit</span>
-              </div>
-            <% else%>
-              <div class='image-upload u-inlineBlock' style="background-image:url('http://img.youtube.com/vi/<%=@campaign.youtube_video_id%>/0.jpg')">
-                <!--= on 'click' (open_modal 'videoModal') -->
-                <span> <i class='fa fa-pencil'></i> Edit</span>
-              </div>
-            <% end %>
-          <% else %>
-            <a class='button edit'><i class='fa fa-plus'></i> Add Video</a>
-            <!--= on 'click' (open_modal 'videoModal') -->
-          <% end %>
-        </fieldset>
-      </section>
-
-      <hr>
-      <section class='layout--one'>
-        <fieldset>
-          <label>Banner <small>(1000x120)</small></label>
-          <p><small>Custom image at the very top of the campaign page</small></p>
-          <% if @campaign.banner_image_url.present? %>
-            <div class='image-upload image-upload--banner u-inlineBlock u-marginBottom--15' style='background-image:url(<%= @campaign.banner_image_url %>)'>
-              <!--= on 'click' (open_modal 'uploadBannerImage') -->
-              <span><i class='fa  fa-pencil'></i> Edit</span>
-            </div>
-          <% else %>
-            <a class='button edit u-marginBottom--15'>
-              <!--= on 'click' (open_modal 'uploadBannerImage')   -->
-              <i class='fa fa-plus'></i> Add Image </i>
-            </a>
-          <% end %>
-        </fieldset>
-      </section>
-
-      <% if @campaign.parent_campaign.blank? %>
-        <hr>
-        <section class='layout--two'>
+      <div class='modal-body'>
+        <section class='layout--three'>
           <fieldset>
-            <label>Default reason for peer-to-peer campaigns</label>
-            <p><small>Use it to suggest a good, pre-filled reason for campaigners</small></p>
-            <textarea class='u-marginTop--15' rows='4' name='campaign[default_reason_for_supporting]'><%= @campaign.default_reason_for_supporting %></textarea>
+            <label>Goal</label>
+            <div class='prepend--dollar u-inlineBlock'>
+              <input type='number' parsley-type='number' class='input--150' name='campaign[goal_amount_dollars]' value='<%= sprintf("%.2f", @campaign.goal_amount / 100.0) %>'>
+            </div>
           </fieldset>
         </section>
-      <% end %>
-
-			<hr>
-
-      <section class='layout--two'>
-        <fieldset>
-          <input type='hidden' name='campaign[published]' value='false'>
-          <input id='campaign-published-input' type='checkbox' name='campaign[published]' <%= @campaign.published ? "checked='checked'" : '' %>>
-          <label class='u-marginBottom--10' for='campaign-published-input'>Published?</label>
-        </fieldset>
-
-        <fieldset>
-          <input type='hidden' value='false' name='campaign[show_total_raised]'>
-          <input id='show_total_raised-checkbox' type='checkbox' name='campaign[show_total_raised]' <%= @campaign.show_total_raised ? 'checked="checked"' : '' %>>
-          <label class='u-marginBottom--10' for='show_total_raised-checkbox'>Show total dollars raised?</label>
-        </fieldset>
-
-        <fieldset>
-          <input type='hidden' value='false' name='campaign[show_total_count]'>
-          <input id='show_total_count-checkbox' type='checkbox' name='campaign[show_total_count]' <%= @campaign.show_total_count ? 'checked="checked"' : '' %>>
-          <label class='u-marginBottom--10' for='show_total_count-checkbox'>Show total supporters?</label>
-        </fieldset>
-
-        <fieldset>
-          <input type='hidden' value='false' name='campaign[hide_goal]'>
-          <input id='hide_goal-checkbox' type='checkbox' name='campaign[hide_goal]' <%= @campaign.hide_goal ? 'checked="checked"' : '' %>>
-          <label class='u-marginBottom--10' for='hide_goal-checkbox'>Hide goal amount?</label>
-        </fieldset>
+      </div>
 
 
-        <fieldset>
-          <input type='hidden' value='false' name='campaign[hide_thermometer]'>
-          <input id='hide_thermometer-checkbox' type='checkbox' name='campaign[hide_thermometer]' <%= @campaign.hide_thermometer ? 'checked="checked"' : '' %>>
-          <label class='u-marginBottom--10' for='hide_thermometer-checkbox'>Hide thermometer?</label>
-        </fieldset>
+      <div class='modal-body'>
+  			<section class='layout--two'>
+  				<fieldset>
+            <label>Title </label>
+  					<input type='text' class='u-marginBottom--0' name='campaign[name]' value='<%= @campaign.name %>'>
+  				</fieldset>
 
-        <fieldset>
-          <input type='hidden' value='false' name='campaign[hide_activity_feed]'>
-          <input id='hide_activity_feed-checkbox' type='checkbox' name='campaign[hide_activity_feed]' <%= @campaign.hide_activity_feed ? 'checked="checked"' : '' %>>
-          <label class='u-marginBottom--10' for='hide_activity_feed-checkbox'>Hide activity feed?</label>
-        </fieldset>
+  				<fieldset>
+  					<label class='u-block'>Tagline</label>
+  					<input type='text' name='campaign[tagline]' value='<%= @campaign.tagline %>'>
+  				</fieldset>
+  			</section>
 
-        <% if @campaign_background_image  %>
+  			<hr>
+
+  			<section class='layout--three'>
+  				<fieldset>
+  					<label>Goal</label>
+  					<div class='prepend--dollar u-inlineBlock'>
+  						<input type='number' parsley-type='number' class='input--150' name='campaign[goal_amount_dollars]' value='<%= sprintf("%.2f", @campaign.goal_amount / 100.0) %>'>
+  					</div>
+  				</fieldset>
+
           <fieldset>
-            <input type='hidden' value='false' name='campaign[hide_title]'>
-            <input id='hide_title-checkbox' type='checkbox' name='campaign[hide_title]' <%= @campaign.hide_title ? 'checked="checked"' : '' %>>
-            <label for='hide_title-checkbox'>Hide main title?</label>
+  					<label>End Date & Time</label>
+            <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
+              <input class='u-width--200 u-bold u-inlineBlock' type='text' name='campaign[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@campaign.end_datetime, @nonprofit.timezone) %>'>
+              <a class='button edit u-inlineBlock'>Set</a>
+            </div>
+  				</fieldset>
+        </section>
+
+        <hr>
+
+        <%= render 'components/forms/slug_field', fundraiser: @campaign, url: @nonprofit.url + '/campaigns'  %>
+
+  			<hr>
+
+        <section class='layout--three u-overflow--hidden'>
+          <fieldset>
+            <label>Main Image <small>(at least 500x400)</small></label>
+            <p><small>Used for previews and social media</small></p>
+            <div class='image-upload u-inlineBlock' style='background-image: url("<%= @campaign.main_image_url(:thumb) %>");'>
+              <span><i class='fa  fa-pencil'></i> Edit</span>
+              <input type='file' name='campaign[main_image]'>
+            </div>
           </fieldset>
+
+          <fieldset>
+            <label>Header Image <small>(1000x600)</small></label>
+            <p><small>Used at top of campaign page</small></p>
+            <% if  @campaign_background_image %>
+            <div class='image-upload u-inlineBlock' style='background-image:url(<%=  @campaign_background_image %>)'>
+              <!--= on 'click' (open_modal 'uploadBackgroundImage') -->
+              <span><i class='fa  fa-pencil'></i> Edit</span>
+            </div>
+            <% else %>
+              <a class='button edit'>
+                <!--= on 'click' (open_modal 'uploadBackgroundImage')   -->
+                <i class='fa fa-plus'></i> Add Image </i>
+              </a>
+            <% end %>
+          </fieldset>
+
+          <fieldset>
+            <label>Campaign Video </label>
+            <p><small>Videos are optional but recommended</small></p>
+            <% if @campaign.vimeo_video_id || @campaign.youtube_video_id%>
+              <% if @campaign.vimeo_video_id %>
+                <div class='image-upload u-inlineBlock'>
+                  <!--= set_attr 'style' vimeo_image_url -->
+                  <!--= on 'click' (open_modal 'videoModal') -->
+                  <span> <i class='fa fa-pencil'></i> Edit</span>
+                </div>
+              <% else%>
+                <div class='image-upload u-inlineBlock' style="background-image:url('http://img.youtube.com/vi/<%=@campaign.youtube_video_id%>/0.jpg')">
+                  <!--= on 'click' (open_modal 'videoModal') -->
+                  <span> <i class='fa fa-pencil'></i> Edit</span>
+                </div>
+              <% end %>
+            <% else %>
+              <a class='button edit'><i class='fa fa-plus'></i> Add Video</a>
+              <!--= on 'click' (open_modal 'videoModal') -->
+            <% end %>
+          </fieldset>
+        </section>
+
+        <hr>
+        <section class='layout--one'>
+          <fieldset>
+            <label>Banner <small>(1000x120)</small></label>
+            <p><small>Custom image at the very top of the campaign page</small></p>
+            <% if @campaign.banner_image_url.present? %>
+              <div class='image-upload image-upload--banner u-inlineBlock u-marginBottom--15' style='background-image:url(<%= @campaign.banner_image_url %>)'>
+                <!--= on 'click' (open_modal 'uploadBannerImage') -->
+                <span><i class='fa  fa-pencil'></i> Edit</span>
+              </div>
+            <% else %>
+              <a class='button edit u-marginBottom--15'>
+                <!--= on 'click' (open_modal 'uploadBannerImage')   -->
+                <i class='fa fa-plus'></i> Add Image </i>
+              </a>
+            <% end %>
+          </fieldset>
+        </section>
+
+        <% if !@campaign.child_campaign? %>
+          <hr>
+          <section class='layout--two'>
+            <fieldset>
+              <label>Default reason for peer-to-peer campaigns</label>
+              <p><small>Use it to suggest a good, pre-filled reason for campaigners</small></p>
+              <textarea class='u-marginTop--15' rows='4' name='campaign[default_reason_for_supporting]'><%= @campaign.default_reason_for_supporting %></textarea>
+            </fieldset>
+          </section>
         <% end %>
 
+  			<hr>
+
+        <section class='layout--two'>
+          <fieldset>
+            <input type='hidden' name='campaign[published]' value='false'>
+            <input id='campaign-published-input' type='checkbox' name='campaign[published]' <%= @campaign.published ? "checked='checked'" : '' %>>
+            <label class='u-marginBottom--10' for='campaign-published-input'>Published?</label>
+          </fieldset>
+
+          <fieldset>
+            <input type='hidden' value='false' name='campaign[show_total_raised]'>
+            <input id='show_total_raised-checkbox' type='checkbox' name='campaign[show_total_raised]' <%= @campaign.show_total_raised ? 'checked="checked"' : '' %>>
+            <label class='u-marginBottom--10' for='show_total_raised-checkbox'>Show total dollars raised?</label>
+          </fieldset>
+
+          <fieldset>
+            <input type='hidden' value='false' name='campaign[show_total_count]'>
+            <input id='show_total_count-checkbox' type='checkbox' name='campaign[show_total_count]' <%= @campaign.show_total_count ? 'checked="checked"' : '' %>>
+            <label class='u-marginBottom--10' for='show_total_count-checkbox'>Show total supporters?</label>
+          </fieldset>
+
+          <fieldset>
+            <input type='hidden' value='false' name='campaign[hide_goal]'>
+            <input id='hide_goal-checkbox' type='checkbox' name='campaign[hide_goal]' <%= @campaign.hide_goal ? 'checked="checked"' : '' %>>
+            <label class='u-marginBottom--10' for='hide_goal-checkbox'>Hide goal amount?</label>
+          </fieldset>
+
+
+          <fieldset>
+            <input type='hidden' value='false' name='campaign[hide_thermometer]'>
+            <input id='hide_thermometer-checkbox' type='checkbox' name='campaign[hide_thermometer]' <%= @campaign.hide_thermometer ? 'checked="checked"' : '' %>>
+            <label class='u-marginBottom--10' for='hide_thermometer-checkbox'>Hide thermometer?</label>
+          </fieldset>
+
+          <fieldset>
+            <input type='hidden' value='false' name='campaign[hide_activity_feed]'>
+            <input id='hide_activity_feed-checkbox' type='checkbox' name='campaign[hide_activity_feed]' <%= @campaign.hide_activity_feed ? 'checked="checked"' : '' %>>
+            <label class='u-marginBottom--10' for='hide_activity_feed-checkbox'>Hide activity feed?</label>
+          </fieldset>
+
+          <% if @campaign_background_image  %>
+            <fieldset>
+              <input type='hidden' value='false' name='campaign[hide_title]'>
+              <input id='hide_title-checkbox' type='checkbox' name='campaign[hide_title]' <%= @campaign.hide_title ? 'checked="checked"' : '' %>>
+              <label for='hide_title-checkbox'>Hide main title?</label>
+            </fieldset>
+          <% end %>
+
+          <fieldset>
+            <!--= show_if length gift_options.data -->
+            <input type='hidden' value='false' name='campaign[hide_custom_amounts]'>
+            <input id='hide_custom_amounts' type='checkbox' name='campaign[hide_custom_amounts]' <%= @campaign.hide_custom_amounts ? 'checked="checked"' : '' %>>
+            <label class='u-marginBottom--10' for='hide_custom_amounts'>Disallow regular contributions during campaign?</label>
+          </fieldset>
+
+        </section>
+
+  			<hr>
+
         <fieldset>
-          <!--= show_if length gift_options.data -->
-          <input type='hidden' value='false' name='campaign[hide_custom_amounts]'>
-          <input id='hide_custom_amounts' type='checkbox' name='campaign[hide_custom_amounts]' <%= @campaign.hide_custom_amounts ? 'checked="checked"' : '' %>>
-          <label class='u-marginBottom--10' for='hide_custom_amounts'>Disallow regular contributions during campaign?</label>
+          <label>Short Description <small>(used for sharing on social media)</small></label>
+          <textarea rows='4' name='campaign[summary]'><%= @campaign.summary %></textarea>
         </fieldset>
 
-      </section>
+        <div><p class='error'></p></div>
+  	  </div>
+    </div>
+    <% end %>
 
-			<hr>
-
-      <fieldset>
-        <label>Short Description <small>(used for sharing on social media)</small></label>
-        <textarea rows='4' name='campaign[summary]'><%= @campaign.summary %></textarea>
-      </fieldset>
-
-      <div><p class='error'></p></div>
-	  </div>
 
     <footer class='modal-footer u-padding--15 layout--two'>
       <span>

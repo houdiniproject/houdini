@@ -19,11 +19,12 @@
 					<!--= on 'submit' (def 'new_p2p_campaign' form_object) (wizard.advance 'new_p2p_campaign_wiz') -->
 				<input type='hidden' name='campaign[profile_id]' value='<%= current_user.profile.id %>'>
 				<input type='hidden' name='campaign[parent_campaign_id]' value='<%= @campaign.id %>'>
+        <p>Personalize your campaign page with your name and photo to greatly increase the success of your campaign.</p>
 
         <div class='layout--three'>
           <fieldset>
             <label>Name</label>
-            <input type='text' name='profile[name]' placeholder='Your Name' value='<%= @profile.name %>'>
+            <input type='text' name='profile[name]' placeholder='Your Name' value='<%= @profile.name %>' required>
           </fieldset>
 
           <fieldset>
@@ -42,7 +43,6 @@
             <label>
               Add a profile image
             </label>
-            <small>Uploading your picture will greatly increase the chances of a successful campaign.</small>
             <div class='image-upload u-marginTop--15' style='background-image: url("<%= @profile.picture %>");'>
               <span><i class='fa fa-image'></i> Upload</span>
               <input type='file' name='profile[picture]' >
@@ -64,9 +64,9 @@
           <div class='u-margin--auto'>
             <fieldset class='col-right-12'>
               <label>What's your reason for supporting <%= @campaign.name %>?</label>
-              <small>Be concise and honest about your intentions.</small>
+              <p>Your passion is contagious! Inspire giving by telling your network why you’re getting involved in this campaign.</p>
 
-              <textarea class='u-marginTop--15' rows='4' name='campaign[reason_for_supporting]' value='campaign[reason_for_supporting]' required></textarea>
+              <textarea class='u-marginTop--15' rows='4' name='campaign[reason_for_supporting]' required><%= @campaign.default_reason_for_supporting %></textarea>
             </fieldset>
 
 						<fieldset class='group u-marginBottom--0'>

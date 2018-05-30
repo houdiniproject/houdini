@@ -182,12 +182,4 @@ class Campaign < ActiveRecord::Base
   def child_campaign?
     true if parent_campaign.present?
   end
-
-  def user_reason_for_supporting
-    if reason_for_supporting.present?
-      reason_for_supporting
-    else
-      default_reason_for_supporting
-    end
-  end
 end

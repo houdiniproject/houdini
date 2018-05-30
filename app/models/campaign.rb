@@ -179,6 +179,10 @@ class Campaign < ActiveRecord::Base
     attributes.except(*excluded_for_peer_to_peer)
   end
 
+  def child_campaign?
+    true if parent_campaign.present?
+  end
+
   def user_reason_for_supporting
     if reason_for_supporting.present?
       reason_for_supporting

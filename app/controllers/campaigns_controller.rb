@@ -36,7 +36,7 @@ class CampaignsController < ApplicationController
     @nonprofit = current_nonprofit
     @url = Format::Url.concat(root_url, @campaign.url)
 
-    if @campaign.parent_campaign
+    if @campaign.child_campaign?
       @parent_campaign = @campaign.parent_campaign
       @peer_to_peer_campaign_param = @parent_campaign.id
     else

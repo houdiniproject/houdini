@@ -3,7 +3,7 @@
 
 <div class='modal' id='newPeerToPeerCampaign'>
 
-	<%= render 'common/modal_header', title: @campaign.name %>
+	<%= render 'common/modal_header', title: @parent_campaign.name %>
 
 	<div class='wizard-steps' style='display:none;'>
 		<!--= wizard.init 'new_p2p_campaign_wiz' -->
@@ -18,7 +18,7 @@
 			<form parsley-validate>
 					<!--= on 'submit' (def 'new_p2p_campaign' form_object) (wizard.advance 'new_p2p_campaign_wiz') -->
 				<input type='hidden' name='campaign[profile_id]' value='<%= current_user.profile.id %>'>
-				<input type='hidden' name='campaign[parent_campaign_id]' value='<%= @campaign.id %>'>
+				<input type='hidden' name='campaign[parent_campaign_id]' value='<%= @parent_campaign.id %>'>
         <p>Personalize your campaign page with your name and photo to greatly increase the success of your campaign.</p>
 
         <div class='layout--three'>
@@ -63,10 +63,10 @@
 
           <div class='u-margin--auto'>
             <fieldset class='col-right-12'>
-              <label>What's your reason for supporting <%= @campaign.name %>?</label>
+              <label>What's your reason for supporting <%= @parent_campaign.name %>?</label>
               <p>Your passion is contagious! Inspire giving by telling your network why you’re getting involved in this campaign.</p>
 
-              <textarea class='u-marginTop--15' rows='4' name='campaign[reason_for_supporting]' required><%= @campaign.default_reason_for_supporting %></textarea>
+              <textarea class='u-marginTop--15' rows='4' name='campaign[reason_for_supporting]' required><%= @parent_campaign.default_reason_for_supporting %></textarea>
             </fieldset>
 
 						<fieldset class='group u-marginBottom--0'>

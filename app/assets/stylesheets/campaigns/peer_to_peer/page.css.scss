@@ -12,11 +12,11 @@ body {
 	background: $fog;
 }
 
-body > .ymca-banner {
+body > .campaign-banner {
   margin: auto;
-  width: 100vw;
-  height: 120px;
-  background-color: #01a490;
+  width: 980px;
+  max-height: 120px;
+  text-align: center;
 }
 
 main {

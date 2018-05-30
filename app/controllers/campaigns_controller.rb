@@ -109,8 +109,8 @@ class CampaignsController < ApplicationController
 
   def peer_to_peer
     session[:donor_signup_url] = request.env["REQUEST_URI"]
-    @npo = Nonprofit.find_by_id(params[:npo_id])
-    @campaign = Campaign.find_by_id(params[:campaign_id])
+    @nonprofit = Nonprofit.find_by_id(params[:npo_id])
+    @parent_campaign = Campaign.find_by_id(params[:campaign_id])
     @profile = current_user.profile if current_user
   end
 

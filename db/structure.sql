@@ -1471,8 +1471,7 @@ CREATE TABLE nonprofits (
     card_failure_message_bottom text,
     fields_needed text,
     autocomplete_supporter_address boolean DEFAULT false,
-    currency character varying(255) DEFAULT 'eur'::character varying,
-    custom_layout character varying(255)
+    currency character varying(255) DEFAULT 'eur'::character varying
 );
 
 

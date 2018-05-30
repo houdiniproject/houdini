@@ -44,14 +44,6 @@ class CampaignsController < ApplicationController
     end
 
     @campaign_background_image = FetchBackgroundImage.with_model(@campaign)
-
-    if @nonprofit.custom_layout.blank?
-      respond_to do |format|
-        format.html
-      end
-    else
-      render template: "nonprofits/custom_campaign_layouts/" + @nonprofit.custom_layout
-    end
   end
 
   def activities
@@ -122,29 +114,6 @@ class CampaignsController < ApplicationController
     @profile = current_user.profile if current_user
   end
 
-  def custom_layout
-    @campaign = current_campaign
-    @timezone = Format::Timezone.to_proxy(current_nonprofit.timezone)
-    if @campaign.deleted && !current_campaign_editor?
-      redirect_to nonprofit_path(current_nonprofit)
-      flash[:notice] = "Sorry, we couldn't find that campaign"
-      return
-    end
-    @nonprofit = current_nonprofit
-    @url = Format::Url.concat(root_url, @campaign.url)
-
-    if @campaign.parent_campaign
-      @parent_campaign = @campaign.parent_campaign
-      @peer_to_peer_campaign_param = @parent_campaign.id
-    else
-      @peer_to_peer_campaign_param = @campaign.id
-    end
-
-    @campaign_background_image = FetchBackgroundImage.with_model(@campaign)
-
-    render template: "nonprofits/custom_campaign_layouts/safety_around_water"
-  end
-
   private
 
   def check_nonprofit_status
@@ -160,7 +129,7 @@ class CampaignsController < ApplicationController
 
     p2p_params = params.except(:nonprofit_id, :summary,:goal_amount)
     p2p_params.merge!(parent_campaign.child_params)
-  
+
     base_slug = Format::Url.convert_to_slug "#{p2p_params[:name]}-#{profile.name}"
     algo = SlugP2pCampaignNamingAlgorithm.new(p2p_params[:nonprofit_id])
     p2p_params[:slug]  = algo.create_copy_name(base_slug)

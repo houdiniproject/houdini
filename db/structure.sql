@@ -423,7 +423,8 @@ CREATE TABLE campaigns (
     campaign_template_id integer,
     parent_campaign_id integer,
     reason_for_supporting text,
-    default_reason_for_supporting text
+    default_reason_for_supporting text,
+    banner_image character varying(255)
 );
 
 
@@ -4335,4 +4336,6 @@ INSERT INTO schema_migrations (version) VALUES ('201810202124319');
 INSERT INTO schema_migrations (version) VALUES ('201810202124320');
 
 INSERT INTO schema_migrations (version) VALUES ('201810202124321');
+
+INSERT INTO schema_migrations (version) VALUES ('201810202124322');
 

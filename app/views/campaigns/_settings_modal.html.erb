@@ -91,20 +91,25 @@
         </fieldset>
       </section>
 
-      <% if @nonprofit.custom_layout %>
-        <hr>
-
-        <section class='layout--one u-overflow--hidden'>
+      <hr>
+      <section class='layout--two u-overflow--hidden'>
+        <% if @nonprofit.custom_layout %>
           <fieldset>
-            <label>Banner <small>(1200x120)</small></label>
+            <label>Banner <small>(1000x120)</small></label>
             <p><small>Custom image at the very top of the campaign page</small></p>
-            <div class='image-upload u-inlineBlock' style='background-image: url("<%= @campaign.custom_banner_url %>");'>
-              <span><i class='fa  fa-pencil'></i> Edit</span>
-              <input type='file' name='campaign[custom_banner]'>
-            </div>
+            <% if @campaign.banner_image_url.present? %>
+              <div class='image-upload u-inlineBlock' style='background-image:url(<%= @campaign.banner_image_url %>)'>
+                <!--= on 'click' (open_modal 'uploadBannerImage') -->
+                <span><i class='fa  fa-pencil'></i> Edit</span>
+              </div>
+            <% else %>
+              <a class='button edit'>
+                <!--= on 'click' (open_modal 'uploadBannerImage')   -->
+                <i class='fa fa-plus'></i> Add Image </i>
+              </a>
+            <% end %>
           </fieldset>
-        </section>
-      <% end %>
+        <% end %>
 
 			<hr>
 

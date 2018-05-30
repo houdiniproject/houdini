@@ -10,27 +10,27 @@
 
 <% content_for :javascripts do %>
 	<script>
-    <% if @npo %>
+    <% if @nonprofit %>
       appl.def('selected_result', {
-        name: '<%= @npo.name.html_safe %>',
-        id: <%= @npo.id %>,
+        name: '<%= @nonprofit.name.html_safe %>',
+        id: <%= @nonprofit.id %>,
         modal_id: 'newCampaign'
       })
-      app.nonprofit_id = <%= @npo.id %>
-    <% elsif @campaign %>
+      app.nonprofit_id = <%= @nonprofit.id %>
+    <% elsif @parent_campaign %>
       appl.def('selected_result', {
-        name: '<%= @campaign.nonprofit.name.html_safe %>',
-        parent_campaign_id: <%= @campaign.id %>,
-        campaign_name: '<%= @campaign.name %>',
+        name: '<%= @parent_campaign.nonprofit.name.html_safe %>',
+        parent_campaign_id: <%= @parent_campaign.id %>,
+        campaign_name: '<%= @parent_campaign.name %>',
         modal_id: 'newPeerToPeerCampaign'
       })
-      app.nonprofit_id = <%= @campaign.nonprofit.id %>
+      app.nonprofit_id = <%= @parent_campaign.nonprofit.id %>
     <% end %>
     <% if current_user %>
       appl.def('is_logged_in', true)
       appl.def('is_confirmed', <%= !current_user.confirmed_at.nil? %>)
       appl.def('user', {
-        name: '<%= current_user.profile.name %>',
+        name: '<%= current_user.profile.name || current_user.email %>',
         id: <%= current_user.id %>
       })
     <% end %>
@@ -38,8 +38,11 @@
   <%= IncludeAsset.js '/client/js/campaigns/peer_to_peer/page.js' %>
 <% end %>
 
-<div class='ymca-banner'></div>
-
+<% if @parent_campaign.banner_image_url %>
+  <div class='campaign-banner u-margin'>
+    <img src='<%= @parent_campaign.banner_image_url %>'>
+  </div>
+<% end %>
 
 <main>
   <header class='u-paddingX--15 container'>
@@ -59,14 +62,14 @@
     </tr></table>
 
     <ul class='u-paddingLeft--10 timeline--checklist'>
-      <% if @campaign.present? %>
+      <% if @parent_campaign.present? %>
         <li>
           <!--= set_attr_if selected_result 'class' 'is-complete' -->
           <span class='annot'>10 seconds</span>
           <p class='strong u-marginBottom--15'>My campaign</p>
           <div class='u-paddingLeft--20 u-maxWidth--500'>
-            <h4><%= @campaign.name %></h4>
-            <p>See our other <%= link_to 'active campaigns', @campaign.nonprofit.url %>.</p>
+            <h4><%= @parent_campaign.name %></h4>
+            <p>See our other <%= link_to 'active campaigns', @parent_campaign.nonprofit.url || @nonprofit.url %>.</p>
           </div>
         </li>
       <% else %>
@@ -141,9 +144,9 @@
 </main>
 
 <% if current_user %>
-  <% if @npo.present? %>
+  <% if @nonprofit.present? %>
     <%= render 'campaigns/new_modal' %>
-  <% elsif @campaign.present? %>
+  <% elsif @parent_campaign.present? %>
     <%= render 'campaigns/new_peer_to_peer_modal' %>
   <% end %>
 <% end %>

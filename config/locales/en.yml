@@ -163,7 +163,6 @@ en:
         phone: "Your Phone (for account recovery)"
       save_and_finish: "Save & Finish"
       next: "Next"
-
-
-
-
+  footer:
+    terms_and_privacy: "Terms & Privacy"
+    about: "About"

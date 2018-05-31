@@ -1,5 +1,41 @@
 <% # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later %>
 
+/* Open Sans */
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('<%= asset_path('Open_Sans/opensans-regular-webfont.eot') %>');
+  src: url('<%= asset_path('Open_Sans/opensans-regular-webfont.eot?#iefix') %>') format('embedded-opentype'),
+  url('<%= asset_path('Open_Sans/opensans-regular-webfont.woff') %>') format('woff'),
+  url('<%= asset_path('Open_Sans/opensans-regular-webfont.ttf') %>') format('truetype'),
+  url('<%= asset_path('Open_Sans/opensans-regular-webfont.svg#open_sansregular') %>') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('<%= asset_path('Open_Sans/opensans-light-webfont.eot') %>');
+  src: url('<%= asset_path('Open_Sans/opensans-light-webfont.eot?#iefix') %>') format('embedded-opentype'),
+  url('<%= asset_path('Open_Sans/opensans-light-webfont.woff') %>') format('woff'),
+  url('<%= asset_path('Open_Sans/opensans-light-webfont.ttf') %>') format('truetype'),
+  url('<%= asset_path('Open_Sans/opensans-light-webfont.svg#open_sanslight') %>') format('svg');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('<%= asset_path('Open_Sans/opensans-bold-webfont.eot') %>');
+  src: url('<%= asset_path('Open_Sans/opensans-bold-webfont.eot?#iefix') %>') format('embedded-opentype'),
+  url('<%= asset_path('Open_Sans/opensans-bold-webfont.woff') %>') format('woff'),
+  url('<%= asset_path('Open_Sans/opensans-bold-webfont.ttf') %>') format('truetype'),
+  url('<%= asset_path('Open_Sans/opensans-bold-webfont.svg#open_sansbold') %>') format('svg');
+  font-weight: bold;
+  font-style: normal;
+}
+
+
 /* Bitter */
 
 $condensed: '<%= asset_path('Open_Sans_Condensed') %>';
@@ -38,37 +74,4 @@ $condensed: '<%= asset_path('Open_Sans_Condensed') %>';
 	font-style: normal;
 }
 
-/* Open Sans */
 
-@font-face {
-	font-family: 'Open Sans';
-	src: url('<%= asset_path('Open_Sans/opensans-regular-webfont.eot') %>');
-	src: url('<%= asset_path('Open_Sans/opensans-regular-webfont.eot?#iefix') %>') format('embedded-opentype'),
-		url('<%= asset_path('Open_Sans/opensans-regular-webfont.woff') %>') format('woff'),
-		url('<%= asset_path('Open_Sans/opensans-regular-webfont.ttf') %>') format('truetype'),
-		url('<%= asset_path('Open_Sans/opensans-regular-webfont.svg#open_sansregular') %>') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'Open Sans';
-	src: url('<%= asset_path('Open_Sans/opensans-light-webfont.eot') %>');
-	src: url('<%= asset_path('Open_Sans/opensans-light-webfont.eot?#iefix') %>') format('embedded-opentype'),
-		url('<%= asset_path('Open_Sans/opensans-light-webfont.woff') %>') format('woff'),
-		url('<%= asset_path('Open_Sans/opensans-light-webfont.ttf') %>') format('truetype'),
-		url('<%= asset_path('Open_Sans/opensans-light-webfont.svg#open_sanslight') %>') format('svg');
-	font-weight: 200;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: 'Open Sans';
-	src: url('<%= asset_path('Open_Sans/opensans-bold-webfont.eot') %>');
-	src: url('<%= asset_path('Open_Sans/opensans-bold-webfont.eot?#iefix') %>') format('embedded-opentype'),
-		url('<%= asset_path('Open_Sans/opensans-bold-webfont.woff') %>') format('woff'),
-		url('<%= asset_path('Open_Sans/opensans-bold-webfont.ttf') %>') format('truetype'),
-		url('<%= asset_path('Open_Sans/opensans-bold-webfont.svg#open_sansbold') %>') format('svg');
-	font-weight: bold;
-	font-style: normal;
-}

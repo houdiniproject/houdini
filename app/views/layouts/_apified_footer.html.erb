@@ -3,9 +3,9 @@
 <% if @theme == 'minimal' %>
   <div class="minimalFooter">
     <div class="container">
-      <span>&copy; 2018 <%= Settings.general.name %></span>
+      <span>&copy; <%= Time.current.year %> <%= Settings.general.name %></span>
       <span>About</span>
-      <span>Terms &amp; Privacy</span>
+      <span><%= link_to( t("footer.terms_and_privacy"), controller: :static, action: :terms_and_privacy) %></span>
     </div>
 
   </div>

@@ -28,6 +28,8 @@ Config.schema do
   required(:general).schema do
     # the name of your website. Default in Settings is "Houdini Project"
     required(:name).filled(:str?)
+
+
   end
 
   required(:default).schema do
@@ -220,6 +222,29 @@ Config.schema do
 
   # whether nonprofits must be vetted before they can use the service.
   optional(:nonprofits_must_be_vetted).filled(:bool?)
+
+  optional(:terms_and_privacy).schema do
+    # the url to the terms of use of this Houdini Project instance
+    optional(:terms_url).filled(:str?)
+
+    # the url to the privacy policy of this Houdini Project instance
+    optional(:privacy_url).filled(:str?)
+  end
+
+  # complete, corresponding source
+  optional(:ccs).schema do
+    optional(:ccs_method).value(included_in?: %w(local_tar_gz github))
+
+    # only used for github
+    # NOTE: for github you need to have the hash of the corresponding source in $RAILS_ROOT/CCS_HASH
+    optional(:options).schema do
+      # the account of the repository to find the code
+      required(:account).filled(:str?)
+      # the name of the repo to find the code
+      required(:repo).filled(:str?)
+    end
+  end
+
 end
 
 Settings.reload!

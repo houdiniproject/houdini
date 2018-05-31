@@ -140,6 +140,13 @@ class CampaignsController < ApplicationController
 
     campaign = Campaign.create(p2p_params)
 
+    # campaign.remote_main_image_url = parent_campaign.main_image_url unless !parent_campaign.main_image rescue AWS::S3::Errors::NoSuchKey
+    # campaign.remote_background_image_url = parent_campaign.background_image_url unless !parent_campaign.background_image rescue AWS::S3::Errors::NoSuchKey
+    # campaign.remote_banner_image_url = parent_campaign.background_image_url unless !parent_campaign.background_image rescue AWS::S3::Errors::NoSuchKey
+
+    campaign.published = true
+    campaign.save
+
     return campaign unless campaign.errors.empty?
 
     gift_option_params = []

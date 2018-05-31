@@ -3,16 +3,6 @@
 
 <html>
 <head>
-
-
-  <%= IncludeAsset.js '/client/js/i18n.js' %>
-  <script>
-      I18n.defaultLocale = "<%= I18n.default_locale %>"
-      I18n.locale = "<%= I18n.locale %>"
-      window._csrf = "<%= form_authenticity_token %>"
-  </script>
-
-
   <%= render 'layouts/stylesheets' %>
   <%= IncludeAsset.css '/client/css/global/page.css' %>
   <%= IncludeAsset.css '/client/css/bootstrap.css' %>
@@ -22,11 +12,6 @@
 </head>
 <body>
 <%= render 'layouts/apified_header' %>
-<%= IncludeAsset.js '/app/loading_indicator.js' %>
-<%= IncludeAsset.js '/app/react.js' %>
-<%= IncludeAsset.js '/app/react-dom.js' %>
-<%= IncludeAsset.js '/app/vendor.js' %>
-<%= yield :javascripts %>
 <div class="site-content">
   <%= yield %>
 </div>

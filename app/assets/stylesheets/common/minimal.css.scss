@@ -21,12 +21,16 @@
     display: flex;
     height: 100%;
 
-    * {
+    > * {
       opacity: 0.5;
-      margin: auto 0;
-      margin-right:10px;
+      margin: auto 10px auto 0;
     }
   }
+
+  a {
+    color:$charcoal
+  }
+
 }
 
 .site-content {

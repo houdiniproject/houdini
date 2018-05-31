@@ -255,6 +255,9 @@ Commitchange::Application.routes.draw do
   post '/webhooks/stripe_subscription_payment' => 'webhooks#subscription_payment'
   post '/webhooks/stripe' => 'webhooks#stripe'
 
+  get '/static/terms_and_privacy' => 'static#terms_and_privacy'
+	get '/static/ccs' => 'static#ccs'
+
 
 
 	root :to => 'front#index'

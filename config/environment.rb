@@ -220,6 +220,21 @@ Config.schema do
 
   # whether nonprofits must be vetted before they can use the service.
   optional(:nonprofits_must_be_vetted).filled(:bool?)
+
+  optional(:terms_and_privacy).schema do
+    # the url to the terms of use of this Houdini Project instance
+    optional(:terms_url).filled(:str?)
+
+    # the url to the privacy policy of this Houdini Project instance
+    optional(:privacy_url).filled(:str?)
+  end
+
+  # complete, corresponding source
+  optional(:ccs).schema do
+    optional(:ccs_method).value(included_in?: %w(local_tar_gz github))
+    optional(:options)
+  end
+
 end
 
 Settings.reload!

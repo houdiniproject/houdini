@@ -28,6 +28,8 @@ Config.schema do
   required(:general).schema do
     # the name of your website. Default in Settings is "Houdini Project"
     required(:name).filled(:str?)
+
+
   end
 
   required(:default).schema do
@@ -232,7 +234,15 @@ Config.schema do
   # complete, corresponding source
   optional(:ccs).schema do
     optional(:ccs_method).value(included_in?: %w(local_tar_gz github))
-    optional(:options)
+
+    # only used for github
+    # NOTE: for github you need to have the hash of the corresponding source in $RAILS_ROOT/CCS_HASH
+    optional(:options).schema do
+      # the account of the repository to find the code
+      required(:account).filled(:str?)
+      # the name of the repo to find the code
+      required(:repo).filled(:str?)
+    end
   end
 
 end

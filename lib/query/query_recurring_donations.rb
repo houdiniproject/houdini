@@ -328,4 +328,23 @@ module QueryRecurringDonations
   def self.is_failed_clause(field_for_rd)
     "coalesce(#{field_for_rd}.n_failures, 0) >= 3"
   end
+
+  def self.last_charge
+    Qexpr.new.select(:donation_id, "MAX(created_at) AS created_at")
+        .from(:charges)
+        .where("status != 'failed'")
+        .group_by("donation_id")
+        .as("last_charge")
+  end
+
+  def self.export_for_transfer(nonprofit_id)
+    items = RecurringDonation.where("nonprofit_id = ?", nonprofit_id).active.includes('supporter').includes('card').to_a
+    output = items.map{|i| {supporter: i.supporter.id,
+                            supporter_name: i.supporter.name,
+                            supporter_email: i.supporter.email,
+                            amount: i.amount,
+    paydate: i.paydate,
+    card: i.card.stripe_card_id}}
+    return output.to_a
+  end
 end

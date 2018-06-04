@@ -3191,6 +3191,13 @@ CREATE INDEX index_source_tokens_on_tokenizable_id_and_tokenizable_type ON publi
 
 
 --
+-- Name: index_supporter_notes_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_supporter_notes_on_supporter_id ON public.supporter_notes USING btree (supporter_id);
+
+
+--
 -- Name: index_supporters_on_deleted; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4261,6 +4268,8 @@ INSERT INTO schema_migrations (version) VALUES ('20180213191755');
 INSERT INTO schema_migrations (version) VALUES ('20180214124311');
 
 INSERT INTO schema_migrations (version) VALUES ('20180215124311');
+
+INSERT INTO schema_migrations (version) VALUES ('20180216064311');
 
 INSERT INTO schema_migrations (version) VALUES ('20180216124311');
 

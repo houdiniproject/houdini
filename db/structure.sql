@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.8
+-- Dumped by pg_dump version 9.6.9
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -4258,11 +4258,11 @@ INSERT INTO schema_migrations (version) VALUES ('20180202181929');
 
 INSERT INTO schema_migrations (version) VALUES ('20180213191755');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124312');
+INSERT INTO schema_migrations (version) VALUES ('20180214124311');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124313');
+INSERT INTO schema_migrations (version) VALUES ('20180215124311');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124314');
+INSERT INTO schema_migrations (version) VALUES ('20180216124311');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124315');
+INSERT INTO schema_migrations (version) VALUES ('20180217124311');
 

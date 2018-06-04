@@ -80,7 +80,7 @@ There are a number of steps for configuring your Houdini instance for startup
 - `STRIPE_API_PUBLIC` with your Stripe PUBLIC key
 
 ##### You SHOULD set your AMAZON s3 information (optional but STRONGLY recommended)
-If you don't file uploads WILL NOT WORK but it's not required.
+If you don't, file uploads WILL NOT WORK but it's not required.
 
 ##### In console 2,  install npm packages
 `./run npm install`

@@ -12,13 +12,10 @@ Commitchange::Application.routes.draw do
 
 	resources(:emails, {only: [:create]})
 	resources(:settings, {only: [:index]})
-	resources(:pricing, {only: [:index]})
-	resources(:successes, {only: [:index]})
 	resources(:campaign_gifts, {only: [:create]})
 	resource(:cards, {only: [:create, :update, :destroy]})
 	resource(:direct_debit_details, {path: 'sepa', controller: :direct_debit_details, only: [:create]})
  # resources(:activities, {only: [:create]})
-
 
   # Creating presigned posts for direct-to-S3 upload
   resources(:aws_presigned_posts, {only: [:create]})

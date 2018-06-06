@@ -27,7 +27,7 @@
 <%= IncludeAsset.js '/app/react-dom.js' %>
 <%= IncludeAsset.js '/app/vendor.js' %>
 <%= yield :javascripts %>
-<div class="site-content">
+<div class="site-content" role="main">
   <%= yield %>
 </div>
 <%= render 'layouts/apified_footer' %>

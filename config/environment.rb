@@ -120,6 +120,11 @@ Config.schema do
     # the map provider to use. Currently that's just Google Maps or nothing
     # Default is nil
     optional(:provider).value(included_in?:['google', nil])
+
+    optional(:options).schema do
+      #key for your google maps instance
+      optional(:key).filled(:str?)
+    end
   end
 
   required(:page_editor).schema do

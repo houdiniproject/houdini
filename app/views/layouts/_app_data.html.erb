@@ -19,6 +19,7 @@ var app = {
 , autocomplete: <%= @nonprofit ? @nonprofit.autocomplete_supporter_address : 'undefined'%> 
 , facebook_app_id: "<%= ENV['FACEBOOK_APP_ID'] %>"
 , map_provider: "<%= Settings.maps&.provider %>"
+  , map_provider_options: <%= Settings.maps&.options ? raw(Settings.maps.options.to_json) : {} %>
 , editor: "<%= Settings.page_editor.editor%>"
 <% if Settings&.page_editor&.editor == 'froala' and Settings&.page_editor&.editor_options&.froala_key %>, froala_key: "<%= Settings.page_editor.editor_options.froala_key %>"<% end %>
 };

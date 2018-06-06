@@ -4,7 +4,7 @@
   <div class="minimalFooter">
     <div class="container">
       <span>&copy; <%= Time.current.year %> <%= Settings.general.name %></span>
-      <span>About</span>
+      <% if Settings.terms_and_privacy&.about_url %><span><%= link_to("About", Settings.terms_and_privacy.about_url) %></span><% end %>
       <span><%= link_to( t("footer.terms_and_privacy"), controller: :static, action: :terms_and_privacy) %></span>
     </div>
 

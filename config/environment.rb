@@ -234,6 +234,12 @@ Config.schema do
 
     # the url to the privacy policy of this Houdini Project instance
     optional(:privacy_url).filled(:str?)
+
+    # the url to the help page of this Houdini Project instance
+    optional(:help_url).filled(:str?)
+
+    # the url to the about page of this Houdini Project instance
+    optional(:about_url).filled(:str?)
   end
 
   # complete, corresponding source

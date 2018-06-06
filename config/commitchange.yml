@@ -1,6 +1,6 @@
 # License: CC0-1.0
 general:
-  name: Houdini Project
+  name: CommitChange
   logo: "logos/houdini_project_bug.svg"
   logo_full: "logos/houdini_project_full.svg"
 
@@ -17,19 +17,12 @@ aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: us-west-1
-  bucket: commitchange
+  bucket: commitchange-test-bucket
 
 mailer:
-  delivery_method: "sendmail"
-  address: "localhost"
-  port: 25
   host: "http://localhost"
   default_from: "CommitChange Team <support@commitchange.com>"
   email: "support@commitchange.com"
-
-cdn:
-  url: "http://localhost"
-  port: 5000
 
 payment_provider:
   stripe_connect: true
@@ -42,7 +35,12 @@ default_bp:
   percentage_fee: 0.020
 
 devise:
-  mailer_sender: 'fake@fake.fake'
+  mailer_sender: "support@commitchange.com"
+
+maps:
+  provider: "google"
+  options:
+    key: "<%= ENV['GOOGLE_API_KEY'] %>"
 
 page_editor:
   editor: 'froala'
@@ -51,6 +49,7 @@ page_editor:
 
 language: 'en'
 available_locales: ['en']
+show_state_field: true
 
 intntl:
   currencies: ["usd"]
@@ -68,5 +67,5 @@ source_tokens:
     time_after_event: 1728000
     max_uses: 20
 
-nonprofits_must_be_vetted: false
+nonprofits_must_be_vetted: true
 

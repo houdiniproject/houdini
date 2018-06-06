@@ -1,0 +1,8 @@
+mailer:
+  delivery_method: "sendmail"
+  address: "localhost"
+  port: 25
+
+cdn:
+  url: "http://localhost"
+  port: 5000

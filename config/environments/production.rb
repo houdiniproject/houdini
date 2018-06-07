@@ -4,7 +4,7 @@ Commitchange::Application.configure do
 
 	# Code is not reloaded between requests
 	config.cache_classes = true
-        config.cache_store = Settings.default.cache_store.to_sym
+  config.cache_store = Settings.default.cache_store.to_sym
 
 	# Full error reports are disabled and caching is turned on
 	config.consider_all_requests_local = false
@@ -18,7 +18,7 @@ Commitchange::Application.configure do
 
 	# Generate digests for assets URLs
 	config.assets.digest = true
-        config.assets.compile = true
+  config.assets.compile = false
 
 	# Defaults to nil and saved in location specified by config.assets.prefix
 	# config.assets.manifest = YOUR_PATH

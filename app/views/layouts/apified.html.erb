@@ -3,7 +3,7 @@
 
 <html lang="<%= I18n.locale %>">
 <head>
-
+  <title><%= "#{yield(:title)} - #{Settings.general.name}" %></title>
 
   <%= IncludeAsset.js '/client/js/i18n.js' %>
   <script>
@@ -16,6 +16,7 @@
   <%= render 'layouts/stylesheets' %>
   <%= IncludeAsset.css '/client/css/global/page.css' %>
   <%= IncludeAsset.css '/client/css/bootstrap.css' %>
+
   <style>
     body {padding-left: 0}
   </style>

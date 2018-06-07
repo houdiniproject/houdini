@@ -29,6 +29,14 @@ Config.schema do
     # the name of your website. Default in Settings is "Houdini Project"
     required(:name).filled(:str?)
 
+    # the relative path from asset_host root where your small logo (bug-sized logo) is set
+    required(:logo).filled(:str?)
+
+    # the relative path from asset_host root where your big logo
+    required(:logo_full).filled(:str?)
+
+    # the relative path from asset_host root to your poweredby email logo (PNG, 150px wide)
+    required(:poweredby_logo).filled(:str?)
 
   end
 
@@ -41,7 +49,7 @@ Config.schema do
       required(:nonprofit).filled(:str?)
 
       #the path on your image.host to your default campaign background image
-      required(:nonprofit).filled(:str?)
+      required(:campaign).filled(:str?)
     end
 
     # the cache stor you're using. Must be the name of caching store for rails

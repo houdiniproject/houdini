@@ -10,7 +10,6 @@
     "build": "npm run export-button-config && npm run export-i18n && npm run generate-api-js && NODE_ENV=production npx webpack -p",
     "build-all": "script/compile-assets.sh && npm run build",
     "test": "rake spec && npm run build && npx jest",
-    "test-browser": "zuul --local --ui mocha-qunit spec/js/index.js",
     "export-button-config": "bundle exec rake settings:generate_json",
     "export-i18n": "bundle exec rake settings:combine_translations",
     "generate-openapi": "rake oapi:gen",

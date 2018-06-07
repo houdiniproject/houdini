@@ -3,6 +3,7 @@ general:
   name: CommitChange
   logo: "logos/commitchange_logo_bug.svg"
   logo_full: "logos/commitchange_logo_full.svg"
+  poweredby_logo: "logos/commitchange-logo-rectangle-color-150.png"
 
 default:
   image:
@@ -68,4 +69,7 @@ source_tokens:
     max_uses: 20
 
 nonprofits_must_be_vetted: true
+
+terms_and_privacy:
+  help_url: "https://help.commitchange.com"
 

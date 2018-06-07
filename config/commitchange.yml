@@ -75,8 +75,7 @@ terms_and_privacy:
 
 
 ccs:
-  ccs_method: 'github',
+  ccs_method: 'github'
   options:
-    account: 'CommitChange',
+    account: 'CommitChange'
     repo: 'houdini'
-

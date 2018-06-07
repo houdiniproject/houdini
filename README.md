@@ -181,6 +181,7 @@ For this to work though, the following characteristics must be true:
 #### New frontend code
 - All new front end code should be written in Typescript 
 and React (using TSX files). Please use the React Generators for creation.
+- 2 spaces for tabs
 
 #### Legacy Javascript
 - 2 spaces for tabs

@@ -73,3 +73,10 @@ nonprofits_must_be_vetted: true
 terms_and_privacy:
   help_url: "https://help.commitchange.com"
 
+
+ccs:
+  ccs_method: 'github',
+  options:
+    account: 'CommitChange',
+    repo: 'houdini'
+

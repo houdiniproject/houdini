@@ -1,8 +1,8 @@
 # License: CC0-1.0
 general:
   name: CommitChange
-  logo: "logos/houdini_project_bug.svg"
-  logo_full: "logos/houdini_project_full.svg"
+  logo: "logos/commitchange_logo_bug.svg"
+  logo_full: "logos/commitchange_logo_full.svg"
 
 default:
   image:

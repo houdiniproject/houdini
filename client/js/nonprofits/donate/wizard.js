@@ -192,18 +192,16 @@ const headerDesignation = state => {
 }
 
 const wizardWrapper = state => {
-  // return h('div.wizard-steps.donation-steps', [
-  //   wizard.view(R.merge(state.wizard, {
-  //     steps: [
-  //       {name: I18n.t('nonprofits.donate.amount.label'),   body: amountStep.view(state.amountStep)}
-  //     , {name: I18n.t('nonprofits.donate.info.label'),     body: infoStep.view(state.infoStep)}
-  //     , {name: I18n.t('nonprofits.donate.payment.label'),  body: paymentStep.view(state.paymentStep)}
-  //     ]
-  //   , followup: followupStep.view(state)
-  //   }))
-  // ])
-
-  return h('div.wizard-steps.donation-steps', 'Donation widget should be here.')
+  return h('div.wizard-steps.donation-steps', [
+    wizard.view(R.merge(state.wizard, {
+      steps: [
+        {name: I18n.t('nonprofits.donate.amount.label'),   body: amountStep.view(state.amountStep)}
+      , {name: I18n.t('nonprofits.donate.info.label'),     body: infoStep.view(state.infoStep)}
+      , {name: I18n.t('nonprofits.donate.payment.label'),  body: paymentStep.view(state.paymentStep)}
+      ]
+    , followup: followupStep.view(state)
+    }))
+  ])
 }
 
 module.exports = {view, init}

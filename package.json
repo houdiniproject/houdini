@@ -85,6 +85,7 @@
   },
   "dependencies": {
     "@types/jsdom": "^11.0.4",
+    "@types/react-autocomplete": "^1.8.1",
     "@types/sinon": "^4.3.3",
     "attr-binder": "0.3.1",
     "aws-sdk": "2.2.39",

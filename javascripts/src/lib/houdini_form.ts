@@ -78,10 +78,24 @@ export class HoudiniField extends Field {
     return (this.$serverError && this.$serverError !== null && this.$serverError !== "")
   }
 
-
-
-
-
+  bindings() {
+    return {
+      Autocomplete: {
+        id: 'inputProps.id',
+        name: 'inputProps.name',
+        type: 'inputProps.type',
+        value: 'value',
+        label: 'label',
+        placeholder: 'inputProps.placeholder',
+        disabled: 'inputProps.disabled',
+        error: 'errorText',
+        onChange: 'onChange',
+        onBlur: 'inputProps.onBlur',
+        onFocus: 'inputProps.onFocus',
+        autoFocus: 'inputProps.autoFocus'
+      }
+    }
+  }
 }
 
 

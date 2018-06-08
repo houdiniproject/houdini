@@ -3,14 +3,13 @@
   "private": "true",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CommitChange/commitchange.com"
+    "url": "https://github.com/houdiniproject/houdini"
   },
   "scripts": {
     "watch": "npm run export-button-config && npm run export-i18n && npm run generate-api-js && npx webpack --watch",
     "build": "npm run export-button-config && npm run export-i18n && npm run generate-api-js && NODE_ENV=production npx webpack -p",
     "build-all": "script/compile-assets.sh && npm run build",
     "test": "rake spec && npm run build && npx jest",
-    "test-browser": "zuul --local --ui mocha-qunit spec/js/index.js",
     "export-button-config": "bundle exec rake settings:generate_json",
     "export-i18n": "bundle exec rake settings:combine_translations",
     "generate-openapi": "rake oapi:gen",
@@ -82,8 +81,7 @@
     "validator": "^9.4.1",
     "webpack": "^3",
     "webpack-merge": "^4.1.2",
-    "webpack-sweet-entry": "^1.1.4",
-    "zuul": "3.11.0"
+    "webpack-sweet-entry": "^1.1.4"
   },
   "dependencies": {
     "@types/jsdom": "^11.0.4",

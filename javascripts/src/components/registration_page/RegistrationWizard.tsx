@@ -11,6 +11,7 @@ import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
 import {WizardState} from "../common/wizard/wizard_state";
 import UserInfoPanel, * as UserInfo from "./UserInfoPanel";
 import {
+  Nonprofit,
   NonprofitApi,
   PostNonprofit,
   ValidationErrorsException
@@ -27,7 +28,15 @@ import * as UserInfoForm from "./UserInfoForm";
 export interface RegistrationWizardProps {
   ApiManager?: ApiManager
 }
-
+const setTourCookies = (nonprofit:Nonprofit) => {
+  document.cookie = `tour_dashboard=${nonprofit.id};path=/`
+  document.cookie = `tour_campaign=${nonprofit.id};path=/`
+  document.cookie = `tour_event=${nonprofit.id};path=/`
+  document.cookie = `tour_profile=${nonprofit.id};path=/`
+  document.cookie = `tour_transactions=${nonprofit.id};path=/`
+  document.cookie = `tour_supporters=${nonprofit.id};path=/`
+  document.cookie = `tour_subscribers=${nonprofit.id};path=/`
+}
 
 export class RegistrationPageForm extends HoudiniForm {
   converter: StaticFormToErrorAndBackConverter<PostNonprofit>
@@ -71,7 +80,7 @@ export class RegistrationPageForm extends HoudiniForm {
 
         try {
           let r = await this.nonprofitApi.postNonprofit(input)
-
+          setTourCookies(r)
           await this.signinApi.postLogin({email: input.user.email, password: input.user.password})
           window.location.href = `/nonprofits/${r.id}/dashboard`
 

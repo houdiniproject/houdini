@@ -3,8 +3,8 @@ module React
   class PackrootGenerator < Rails::Generators::NamedBase
     source_root File.expand_path('../templates', __FILE__)
     def copy_file_to_app
-      template 'page.ts.erb', "javascripts/app/#{file_name.underscore}.ts"
-      generate 'react:component', "#{file_name.underscore}/#{file_name.underscore}"
+      template 'page.tsx.erb', "javascripts/app/#{file_name.underscore}.tsx"
+      generate 'react:component', "#{file_name.underscore}/#{file_name.camelize}"
     end
   end
 end

@@ -1,14 +1,12 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
-<% content_for(:footer_hidden) {'hidden'} %>
+<% content_for :title, t("login.header") %>
+<% content_for :javascripts do %>
+  <%= IncludeAsset.js '/app/session_login_pagex.js' %>
+<% end %>
+<% content_for :stylesheets do %>
+  <%= stylesheet_link_tag 'users/page' %>
+<% end %>
 
-<div class='u-verticallyCenterAbs u-width--full'>
-  <div class='u-padding--20 u-centered u-maxWidth--300 u-margin--auto'>
-    <h2>Login</h2>
-    <%= render 'users/email_login_form' %>
-    <p class='u-marginTop--10 u-bold'>
-      <%= link_to "Forgot your password?", new_password_path(resource_name)%>
-    </p>
-    <p>Don't have an account? <a open-modal='chooseRoleModal' class='u-bold'>Sign up.</a></p>
-  </div>
-</div>
+<div id="outlet"></div>
 
+<script>LoadReactPage(document.getElementById('outlet'))</script>

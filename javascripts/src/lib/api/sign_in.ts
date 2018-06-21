@@ -72,7 +72,7 @@ export class WebUserSignInOut {
       (xhr: JQueryXHR, textStatus: string, errorThrown: string) => {
 
 
-          dfd.reject(errorThrown)
+          dfd.reject(xhr.responseJSON)
 
       }
     );
@@ -80,7 +80,7 @@ export class WebUserSignInOut {
   }
 }
 
-interface WebLoginModel {
+export interface WebLoginModel {
   email:string
   password:string
 }

@@ -1,9 +1,17 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::SessionsController < Devise::SessionsController
+	layout 'layouts/apified', only: :new
+
+
+  def new
+    @theme = 'minimal'
+    super
+  end
 
 	def create
-		respond_to do |format|  
-			format.html { super }  
+    @theme = 'minimal'
+
+		respond_to do |format|
 			format.json {  
 				warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")  
 				render :status => 200, :json => { :status => "Success" }  

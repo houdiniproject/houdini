@@ -195,7 +195,7 @@ Commitchange::Application.routes.draw do
 			:confirmations => 'users/confirmations'
 		}
 	devise_scope :user do
-		match '/signin' => 'devise/sessions#new'
+		match '/sign_in' => 'users/sessions#new'
 		match '/signup' => 'devise/registrations#new'
 		post '/confirm' => 'users/confirmations#confirm'
     match '/users/is_confirmed' => 'users/confirmations#is_confirmed'

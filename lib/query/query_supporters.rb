@@ -245,16 +245,35 @@ module QuerySupporters
     if query[:campaign_id].present?
       expr = expr.add_join("donations", "donations.supporter_id=supporters.id AND donations.campaign_id=#{query[:campaign_id].to_i}")
     end
+
     if query[:event_id].present?
+      select_tickets_supporters = Qx.select("event_ticket_supporters.supporter_id")
+                                     .from(
+                                         "#{Qx.select("MAX(tickets.event_id) AS event_id", "tickets.supporter_id")
+                                             .from(:tickets)
+                                             .where("event_id = $event_id", event_id: query[:event_id])
+                                             .group_by(:supporter_id).as('event_ticket_supporters').parse}"
+                                     )
+
+      select_donation_supporters =
+          Qx.select("event_donation_supporters.supporter_id")
+              .from(
+                  "#{Qx.select("MAX(donations.event_id) AS event_id", "donations.supporter_id")
+                      .from(:donations)
+                      .where("event_id = $event_id", event_id: query[:event_id] )
+                      .group_by(:supporter_id).as('event_donation_supporters').parse}")
+
+      union_expr = "(
+#{select_tickets_supporters.parse}
+UNION DISTINCT
+#{select_donation_supporters.parse}
+) AS event_supporters"
+
       expr = expr
-        .add_join(
-          Qx.select("MAX(tickets.event_id) AS event_id", "tickets.supporter_id")
-            .from(:tickets)
-            .group_by(:supporter_id)
-            .as(:tickets),
-          "tickets.supporter_id=supporters.id"
-        )
-        .and_where("tickets.event_id=$id", id: query[:event_id])
+                 .add_join(
+                     union_expr,
+                     "event_supporters.supporter_id=supporters.id"
+                 )
     end
     if ['asc', 'desc'].include? query[:sort_name]
       expr = expr.order_by(["supporters.name", query[:sort_name]])

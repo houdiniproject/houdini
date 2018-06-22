@@ -81,8 +81,7 @@ Commitchange::Application.configure do
 	# with SQLite, MySQL, and PostgreSQL)
 	# config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-	# Facebook application ID and secret auth token. Found in the CommitChange
-	# app dashboard.
+  config.assets.compile = false
 
 	# Compress json
 	# config.middleware.use Rack::Deflater

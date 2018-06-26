@@ -173,7 +173,7 @@ class Campaign < ActiveRecord::Base
     excluded_for_peer_to_peer = %w(
       id created_at updated_at slug profile_id campaign_template_id url
       total_raised show_recurring_amount external_identifier parent_campaign_id
-      reason_for_supporting
+      reason_for_supporting metadata
     )
     excluded_for_peer_to_peer.push(customizable_attributes_list)
     attributes.except(*excluded_for_peer_to_peer)

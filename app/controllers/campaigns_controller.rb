@@ -57,13 +57,12 @@ class CampaignsController < ApplicationController
 
     if !params[:campaign][:parent_campaign_id]
       campaign = current_nonprofit.campaigns.create params[:campaign]
+      json_saved campaign, 'Campaign created! Well done.'
     else
       profile_id = params[:campaign][:profile_id]
       Profile.find(profile_id).update_attributes params[:profile]
-      campaign = create_peer_to_peer_campaign params[:campaign], profile_id
+      render json: CreatePeerToPeerCampaign.create(params[:campaign], profile_id)
     end
-
-    json_saved campaign, 'Campaign created! Well done.'
   end
 
   def update
@@ -120,41 +119,10 @@ class CampaignsController < ApplicationController
 
   private
 
+  # TODO: test if this can be passed by p2p campaign editor
   def check_nonprofit_status
     if !current_role?(:super_admin) && !current_nonprofit.published
       raise ActionController::RoutingError.new('Not Found')
     end
-  end
-
-  # TODO: refactor
-  def create_peer_to_peer_campaign(params, profile_id)
-    parent_campaign = Campaign.find(params[:parent_campaign_id])
-    profile = Profile.find(profile_id)
-
-    p2p_params = params.except(:nonprofit_id, :summary,:goal_amount)
-    p2p_params.merge!(parent_campaign.child_params)
-
-    base_slug = Format::Url.convert_to_slug "#{p2p_params[:name]}-#{profile.name}"
-    algo = SlugP2pCampaignNamingAlgorithm.new(p2p_params[:nonprofit_id])
-    p2p_params[:slug]  = algo.create_copy_name(base_slug)
-
-    campaign = Campaign.create(p2p_params)
-
-    # campaign.remote_main_image_url = parent_campaign.main_image_url unless !parent_campaign.main_image rescue AWS::S3::Errors::NoSuchKey
-    # campaign.remote_background_image_url = parent_campaign.background_image_url unless !parent_campaign.background_image rescue AWS::S3::Errors::NoSuchKey
-    # campaign.remote_banner_image_url = parent_campaign.background_image_url unless !parent_campaign.background_image rescue AWS::S3::Errors::NoSuchKey
-
-    campaign.published = true
-    campaign.save
-
-    return campaign unless campaign.errors.empty?
-
-    gift_option_params = []
-    parent_campaign.campaign_gift_options.each do |option|
-      excluded_for_peer_to_peer = %w(id campaign_id created_at updated_at)
-      campaign.campaign_gift_options.create option.attributes.except(*excluded_for_peer_to_peer)
-    end
-
-    campaign
   end
 end

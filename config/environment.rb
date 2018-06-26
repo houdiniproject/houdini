@@ -4,13 +4,17 @@ require File.expand_path('../application', __FILE__)
 
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
-
-require 'dotenv'
-Dotenv.load ".env"
+@ignore_dotenv = ENV['IGNORE_DOTENV']
+unless (@ignore_dotenv)
+  require 'dotenv'
+  Dotenv.load ".env"
+end
 @env = Rails.env || 'development'
 @org_name = ENV['ORG_NAME'] || 'default_organization'
 puts "config files .env .env.#{@env} ./config/settings.#{@env}.yml#{ @env != 'test' ? " ./config/#{@org_name}.yml": " "}  #{ @env != 'test' ? " ./config/#{@org_name}.#{@env}.yml": " "} #{ @env == 'test' ? "./config/settings.test.yml" : ""}"
-Dotenv.load ".env.#{@env}" if File.file?(".env.#{@env}")
+unless @ignore_dotenv
+  Dotenv.load ".env.#{@env}" if File.file?(".env.#{@env}")
+end
 if Rails.env == 'test'
   Settings.add_source!("./config/settings.test.yml")
 else

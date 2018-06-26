@@ -1,0 +1,10 @@
+mailer:
+  host: "https://commitchange-test.herokuapp.com"
+
+mailer:
+  delivery_method: "sendmail"
+  address: "localhost"
+  port: 25
+
+cdn:
+  url: "https://commitchange-test.herokuapp.com"

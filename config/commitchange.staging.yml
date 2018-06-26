@@ -1,5 +1,5 @@
 mailer:
-  host: "http://commitchange-test.herokuapp.com"
+  host: "https://commitchange-test.herokuapp.com"
 
 mailer:
   delivery_method: "sendmail"
@@ -7,4 +7,4 @@ mailer:
   port: 25
 
 cdn:
-  url: "http://commitchange-test.herokuapp.com"
+  url: "https://commitchange-test.herokuapp.com"

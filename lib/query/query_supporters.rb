@@ -143,8 +143,18 @@ module QuerySupporters
 
   # Perform all filters and search for /nonprofits/id/supporters dashboard and export
   def self.full_filter_expr(np_id, query)
-    payments_subquery = Qx.select("supporter_id", "SUM(gross_amount)", "MAX(date) AS max_date", "MIN(date) AS min_date", "COUNT(*) AS count")
-      .from(:payments)
+    payments_subquery =
+        Qx.select("supporter_id", "SUM(gross_amount)", "MAX(date) AS max_date", "MIN(date) AS min_date", "COUNT(*) AS count")
+      .from(
+          Qx.select("supporter_id", "date", "gross_amount")
+              .from(:payments)
+              .join(Qx.select('id')
+                        .from(:supporters)
+                        .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
+                        .as("payments_to_supporters"),  "payments_to_supporters.id = payments.supporter_id"
+              )
+              .as("outer_from_payment_to_supporter")
+              .parse)
       .group_by(:supporter_id)
       .as(:payments)
 

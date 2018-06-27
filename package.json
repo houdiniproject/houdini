@@ -6,8 +6,8 @@
     "url": "https://github.com/houdiniproject/houdini"
   },
   "scripts": {
-    "watch": "npm run export-button-config && npm run export-i18n && npm run generate-api-js && npx webpack --watch",
-    "build": "npm run export-button-config && npm run export-i18n && npm run generate-api-js && NODE_ENV=production npx webpack -p",
+    "watch": "HOUDINI_WATCH=1 script/build.sh",
+    "build": "script/build.sh",
     "build-all": "script/compile-assets.sh && npm run build",
     "test": "rake spec && npm run build && npx jest",
     "export-button-config": "bundle exec rake settings:generate_json",

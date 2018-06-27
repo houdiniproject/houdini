@@ -4,6 +4,7 @@ import { TabPanel } from "react-aria-tabpanel";
 import { observer } from 'mobx-react'
 import { WizardTabPanelState} from './wizard_state';
 import {computed} from 'mobx';
+import * as _ from 'lodash'
 
 
 export interface WizardTabPanelProps {
@@ -26,9 +27,9 @@ export class WizardPanel extends React.Component<WizardPanelProps, {}> {
     }
     render() {
 
-        let props = this.props.props ? this.props.props : {}
-        return <TabPanel tabId={this.tab.id} active={this.isActive}
-        {...props} className="wizard-step">
+        let props = _.omit(this.props, ['tab'])
+        return <TabPanel {...props} tabId={this.tab.id} active={this.isActive}
+         className="wizard-step">
           {this.props.children}
         </TabPanel>
     }

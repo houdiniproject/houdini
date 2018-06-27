@@ -25,6 +25,17 @@ describe('ProgressableButton', () => {
     expect(toJson(output)).toMatchSnapshot()
   })
 
+  test('Title is kept on progress if no titleOnProgress is set', () => {
+    let output = mount(
+      <ProgressableButton onClick={() => console.log('alert!')}
+                          title={"nothing"}
+                          data-label="button"
+                          inProgress={true}
+
+      />)
+    expect(toJson(output)).toMatchSnapshot()
+  })
+
   test('Progress means we change the title, disable and do turn on spinner', () => {
     let output = mount(
       <ProgressableButton onClick={() => console.log('alert!')}

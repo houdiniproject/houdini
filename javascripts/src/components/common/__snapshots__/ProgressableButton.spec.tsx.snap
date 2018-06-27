@@ -110,3 +110,25 @@ exports[`ProgressableButton Progress means we change the title, dont disable and
   </button>
 </ProgressableButton>
 `;
+
+exports[`ProgressableButton Title is kept on progress if no titleOnProgress is set 1`] = `
+<ProgressableButton
+  data-label="button"
+  inProgress={true}
+  onClick={[Function]}
+  title="nothing"
+>
+  <button
+    className="button"
+    data-label="button"
+    onClick={[Function]}
+  >
+    <span>
+      <i
+        className="fa fa-spin fa-spinner"
+      />
+      nothing
+    </span>
+  </button>
+</ProgressableButton>
+`;

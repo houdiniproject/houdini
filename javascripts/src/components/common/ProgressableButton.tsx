@@ -24,7 +24,7 @@ class ProgressableButton extends React.Component<ProgressableButtonProps, {}> {
     }
 
     if (this.props.inProgress){
-      ourData.title = this.props.titleOnProgress
+      ourData.title = this.props.titleOnProgress || this.props.title
       ourData.disabled = ourData.disabled || this.props.disableOnProgress
       ourData.prefix = <i className='fa fa-spin fa-spinner'></i>
     }

@@ -14,13 +14,13 @@ exports[`ProgressableButton Basic title button works 1`] = `
 
 exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when NOT in progress 1`] = `
 <ProgressableButton
+  buttonText="nothing"
+  buttonTextOnProgress="onProgress"
   data-label="button"
   disableOnProgress={true}
   disabled={true}
   inProgress={false}
   onClick={[Function]}
-  title="nothing"
-  titleOnProgress="onProgress"
 >
   <button
     className="button"
@@ -37,13 +37,13 @@ exports[`ProgressableButton Disabled manually set overrides whether we disable o
 
 exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when in progress 1`] = `
 <ProgressableButton
+  buttonText="nothing"
+  buttonTextOnProgress="onProgress"
   data-label="button"
   disableOnProgress={false}
   disabled={true}
   inProgress={true}
   onClick={[Function]}
-  title="nothing"
-  titleOnProgress="onProgress"
 >
   <button
     className="button"
@@ -52,9 +52,12 @@ exports[`ProgressableButton Disabled manually set overrides whether we disable o
     onClick={[Function]}
   >
     <span>
-      <i
-        className="fa fa-spin fa-spinner"
-      />
+      <span>
+        <i
+          className="fa fa-spin fa-spinner"
+        />
+         
+      </span>
       onProgress
     </span>
   </button>
@@ -63,12 +66,12 @@ exports[`ProgressableButton Disabled manually set overrides whether we disable o
 
 exports[`ProgressableButton Progress means we change the title, disable and do turn on spinner 1`] = `
 <ProgressableButton
+  buttonText="nothing"
+  buttonTextOnProgress="onProgress"
   data-label="button"
   disableOnProgress={true}
   inProgress={true}
   onClick={[Function]}
-  title="nothing"
-  titleOnProgress="onProgress"
 >
   <button
     className="button"
@@ -77,9 +80,12 @@ exports[`ProgressableButton Progress means we change the title, disable and do t
     onClick={[Function]}
   >
     <span>
-      <i
-        className="fa fa-spin fa-spinner"
-      />
+      <span>
+        <i
+          className="fa fa-spin fa-spinner"
+        />
+         
+      </span>
       onProgress
     </span>
   </button>
@@ -88,12 +94,12 @@ exports[`ProgressableButton Progress means we change the title, disable and do t
 
 exports[`ProgressableButton Progress means we change the title, dont disable and do turn on spinner 1`] = `
 <ProgressableButton
+  buttonText="nothing"
+  buttonTextOnProgress="onProgress"
   data-label="button"
   disableOnProgress={false}
   inProgress={true}
   onClick={[Function]}
-  title="nothing"
-  titleOnProgress="onProgress"
 >
   <button
     className="button"
@@ -102,9 +108,12 @@ exports[`ProgressableButton Progress means we change the title, dont disable and
     onClick={[Function]}
   >
     <span>
-      <i
-        className="fa fa-spin fa-spinner"
-      />
+      <span>
+        <i
+          className="fa fa-spin fa-spinner"
+        />
+         
+      </span>
       onProgress
     </span>
   </button>
@@ -113,10 +122,10 @@ exports[`ProgressableButton Progress means we change the title, dont disable and
 
 exports[`ProgressableButton Title is kept on progress if no titleOnProgress is set 1`] = `
 <ProgressableButton
+  buttonText="nothing"
   data-label="button"
   inProgress={true}
   onClick={[Function]}
-  title="nothing"
 >
   <button
     className="button"
@@ -124,9 +133,12 @@ exports[`ProgressableButton Title is kept on progress if no titleOnProgress is s
     onClick={[Function]}
   >
     <span>
-      <i
-        className="fa fa-spin fa-spinner"
-      />
+      <span>
+        <i
+          className="fa fa-spin fa-spinner"
+        />
+         
+      </span>
       nothing
     </span>
   </button>

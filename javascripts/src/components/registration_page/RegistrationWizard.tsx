@@ -197,7 +197,7 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
                            buttonText="registration.wizard.next"/>
 
       <UserInfoPanel tab={this.registrationWizardState.tabsByName['userTab']}
-                     buttonText="registration.wizard.save_and_finish" inProgressTitle="registration.wizard.saving"/>
+                     buttonText="registration.wizard.save_and_finish" buttonTextInProgress="registration.wizard.saving"/>
     </Wizard>
   }
 }

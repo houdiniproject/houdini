@@ -72,7 +72,8 @@ class NonprofitInfoForm extends React.Component<NonprofitInfoFormProps & Injecte
          <BasicField field={this.props.form.$('state')}/>
          <BasicField field={this.props.form.$('zip')}/>
        </ThreeColumnFields>
-       <ProgressableButton onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid} title={this.props.intl.formatMessage({id: this.props.buttonText})} inProgress={this.props.form.submitting || this.props.form.container().submitting} disableOnProgress={true}/>
+       <ProgressableButton onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid} buttonText={this.props.intl.formatMessage({id: this.props.buttonText})}
+                           inProgress={this.props.form.submitting || this.props.form.container().submitting} disableOnProgress={true}/>
      </fieldset>
   }
 }

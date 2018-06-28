@@ -6,8 +6,8 @@ import {InjectedIntlProps, injectIntl} from 'react-intl';
 
 export interface ProgressableButtonProps
 {
-  title:string
-  titleOnProgress?:string
+  buttonText:string
+  buttonTextOnProgress?:string
   inProgress?:boolean
   disableOnProgress?:boolean
   disabled?:boolean
@@ -18,18 +18,18 @@ export interface ProgressableButtonProps
 class ProgressableButton extends React.Component<ProgressableButtonProps, {}> {
   render() {
     let ourData: {title: string, disabled: boolean, prefix: JSX.Element|null}= {
-      title:this.props.title,
+      title:this.props.buttonText,
       disabled:this.props.disabled,
       prefix: null
     }
 
     if (this.props.inProgress){
-      ourData.title = this.props.titleOnProgress || this.props.title
+      ourData.title = this.props.buttonTextOnProgress || this.props.buttonText
       ourData.disabled = ourData.disabled || this.props.disableOnProgress
       ourData.prefix = <span><i className='fa fa-spin fa-spinner'></i> </span>
     }
 
-    let props = _.omit(this.props, ['title', 'disableOnProgress', 'titleOnProgress', 'inProgress'])
+    let props = _.omit(this.props, ['buttonText', 'disableOnProgress', 'buttonTextOnProgress', 'inProgress'])
 
 
     return <button {...props} className="button" disabled={ourData.disabled}>

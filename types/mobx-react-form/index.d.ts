@@ -79,7 +79,7 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     clear();
 
-    container(): Form
+    container(): Form |Field
 
     del(key: any);
 

@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import {Form} from "mobx-react-form";
+import {Field, Form} from "mobx-react-form";
 import {action, runInAction} from 'mobx'
 import validator = require("validator")
 import * as _ from 'lodash'
@@ -15,6 +15,20 @@ export class HoudiniForm extends Form {
     };
   }
 }
+
+
+export function areWeOrAnyParentSubmitting(f:Field|Form ) : boolean
+{
+  let currentItem: Field|Form = f
+  let isSubmitting:boolean = f.submitting
+  while (!isSubmitting && currentItem && !(currentItem instanceof Form)){
+    currentItem = currentItem.container()
+    isSubmitting = currentItem.submitting
+  }
+
+  return isSubmitting
+}
+
 
 
 
@@ -85,3 +99,5 @@ export class StaticFormToErrorAndBackConverter<T> {
     })
   }
 }
+
+

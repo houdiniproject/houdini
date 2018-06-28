@@ -6,6 +6,7 @@ import {Field, FieldDefinition} from "../../../../types/mobx-react-form";
 import {BasicField} from "../common/fields";
 import {ThreeColumnFields, TwoColumnFields} from "../common/layout";
 import {Validations} from "../../lib/vjf_rules";
+import ProgressableButton from "../common/ProgressableButton";
 
 export interface NonprofitInfoFormProps
 {
@@ -71,8 +72,7 @@ class NonprofitInfoForm extends React.Component<NonprofitInfoFormProps & Injecte
          <BasicField field={this.props.form.$('state')}/>
          <BasicField field={this.props.form.$('zip')}/>
        </ThreeColumnFields>
-       <button onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid || this.props.form.submitting}>
-         {this.props.intl.formatMessage({id: this.props.buttonText})}</button>
+       <ProgressableButton onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid} title={this.props.intl.formatMessage({id: this.props.buttonText})} inProgress={this.props.form.submitting || this.props.form.container().submitting} disableOnProgress={true}/>
      </fieldset>
   }
 }

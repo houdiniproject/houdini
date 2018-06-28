@@ -6,6 +6,8 @@ import {Validations} from "../../lib/vjf_rules";
 import {Field, FieldDefinition} from "mobx-react-form";
 import {TwoColumnFields} from "../common/layout";
 import {BasicField} from "../common/fields";
+import ProgressableButton from "../common/ProgressableButton";
+import {areWeOrAnyParentSubmitting} from "../../lib/houdini_form";
 
 export const FieldDefinitions : Array<FieldDefinition> = [
   {
@@ -53,9 +55,12 @@ class UserInfoForm extends React.Component<UserInfoFormProps & InjectedIntlProps
       <BasicField field={this.props.form.$('password_confirmation')}/>
 
 
-      <button onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid || this.props.form.submitting}>
-        {this.props.intl.formatMessage({id: this.props.buttonText})}
-      </button>
+      <ProgressableButton onClick={this.props.form.onSubmit}
+                          className="button"
+                          disabled={!this.props.form.isValid}
+                          title={this.props.intl.formatMessage({id: this.props.buttonText})}
+                          inProgress={areWeOrAnyParentSubmitting(this.props.form)}
+                          disableOnProgress={true}/>
     </fieldset>;
   }
 }

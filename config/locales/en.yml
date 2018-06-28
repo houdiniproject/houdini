@@ -162,6 +162,7 @@ en:
         password_confirmation: "Retype Password"
         phone: "Your Phone (for account recovery)"
       save_and_finish: "Save & Finish"
+      saving: "Saving..."
       next: "Next"
   footer:
     terms_and_privacy: "Terms & Privacy"

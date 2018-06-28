@@ -39,6 +39,7 @@ export interface UserInfoFormProps
 {
   form: Field
   buttonText:string
+  inProgressTitle?:string
 }
 
 
@@ -60,6 +61,7 @@ class UserInfoForm extends React.Component<UserInfoFormProps & InjectedIntlProps
                           disabled={!this.props.form.isValid}
                           title={this.props.intl.formatMessage({id: this.props.buttonText})}
                           inProgress={areWeOrAnyParentSubmitting(this.props.form)}
+                          titleOnProgress={this.props.intl.formatMessage({id: this.props.inProgressTitle})}
                           disableOnProgress={true}/>
     </fieldset>;
   }

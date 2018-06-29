@@ -1,20 +1,90 @@
 // License: LGPL-3.0-or-later
 import {Field, Form} from "mobx-react-form";
-import {action, runInAction} from 'mobx'
+import {observable, action, runInAction, computed, IValueDidChange} from 'mobx'
 import validator = require("validator")
 import * as _ from 'lodash'
 import {ValidationErrorsException} from "../../api";
+import {initializationDefinition} from "../../../types/mobx-react-form";
 
 
 export class HoudiniForm extends Form {
+
+
+  @observable
+  private $serverError:string
+
   plugins() {
     return {
       vjf: validator
-
-
     };
   }
+
+  public makeField(key:any, path:any, data:any, props:any, update:boolean, state:any) {
+    return new HoudiniField(key, path, data, props, update, state);
+  }
+
+  @computed
+  public get serverError():string {
+    return this.$serverError
+  }
+
+  @computed
+  public get hasServerError():boolean{
+    return (this.$serverError && this.$serverError !== null && this.$serverError !== "") &&
+        !this.submitting
+  }
+
+  @action
+  invalidateFromServer(message:string) {
+    this.invalidate()
+    this.$serverError = message
+  }
 }
+
+
+export class HoudiniField extends Field {
+  constructor(...props:any[]) {
+    super(...props)
+
+
+    this.observe({
+      key: 'areWeOrAnyParentSubmitting', call: (obj: { form: HoudiniForm,
+        field: HoudiniField,
+        change: IValueDidChange<boolean> }) => {
+        if (obj.change.newValue) {
+          this.$serverError = null
+        }
+      }
+    })
+  }
+
+  @observable private $serverError:string
+
+  @action
+  invalidateFromServer(message:string) {
+    this.$serverError = message
+  }
+
+  @computed
+  public get serverError():string {
+    return this.$serverError
+  }
+
+  @computed get areWeOrAnyParentSubmitting() :boolean {
+    return areWeOrAnyParentSubmitting(this)
+  }
+
+  @computed
+  public get hasServerError():boolean{
+    return (this.$serverError && this.$serverError !== null && this.$serverError !== "")
+  }
+
+
+
+
+
+}
+
 
 
 export function areWeOrAnyParentSubmitting(f:Field|Form ) : boolean
@@ -66,13 +136,14 @@ export class StaticFormToErrorAndBackConverter<T> {
     this.formToPath = _.invert(pathToForm)
   }
 
-  convertFormToObject(form: Form): T {
+  convertFormToObject(form: HoudiniForm|Form): T {
     let output = {}
+    let hForm = form as HoudiniForm
     for (let pathToFormKey in this.pathToForm) {
       if (this.pathToForm.hasOwnProperty(pathToFormKey)) {
         let formPath = this.pathToForm[pathToFormKey]
-        if (form.$(formPath).value && _.trim(form.$(formPath).value) !== "")
-          _.set(output, pathToFormKey,  form.$(formPath).value)
+        if (hForm.$(formPath).value && _.trim(hForm.$(formPath).value) !== "")
+          _.set(output, pathToFormKey,  hForm.$(formPath).value)
       }
 
     }
@@ -82,13 +153,15 @@ export class StaticFormToErrorAndBackConverter<T> {
   }
 
   @action.bound
-  convertErrorToForm(errorException: ValidationErrorsException, form: Form): void {
+  convertErrorToForm(errorException: ValidationErrorsException, form: HoudiniForm|Form): void {
     runInAction(() => {
+      let hForm = form as HoudiniForm
       _.forEach(errorException.item.errors, (error) => {
         let message = error.messages.join(", ")
         _.forEach(error.params, (p) => {
-          if (this.pathToForm[p])
-            form.$(this.pathToForm[p]).invalidate(message)
+          if (this.pathToForm[p]) {
+            (hForm.$(this.pathToForm[p]) as HoudiniField).invalidateFromServer(message)
+          }
           else {
             console.warn(`We couldn't find a form element for path: "${p}"`)
           }

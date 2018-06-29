@@ -31,6 +31,7 @@ interface FieldHooks{
 interface Base extends SharedFieldFormMethods, SharedFormFieldProperties{}
 
 export declare class Field implements Base, FieldProperties, FieldMethods, FieldHandlers {
+    constructor(...props:any[])
     readonly bindings: string;
     readonly changed: boolean;
     readonly default: boolean;
@@ -144,8 +145,6 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     sync(e: Field): any;
 
-    
-   
    
 }
 
@@ -256,7 +255,6 @@ interface initializationDefinition {
     fields?:FieldDefinitions[]
 }
 
-
 export class Form implements Base {
 
     
@@ -290,7 +288,7 @@ export class Form implements Base {
 
     intercept(obj: any);
 
-    invalidate(msg: string);
+    invalidate(msg?: string);
 
     map(callback: (i: Field) => void);
 
@@ -306,6 +304,8 @@ export class Form implements Base {
     update(obj: any): void;
 
     readonly submitting: boolean;
+
+    protected validator :any
     
 }
 

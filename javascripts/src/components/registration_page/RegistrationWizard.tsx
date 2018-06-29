@@ -90,6 +90,8 @@ export class RegistrationPageForm extends HoudiniForm {
           if (e instanceof ValidationErrorsException) {
             this.converter.convertErrorToForm(e, f)
           }
+
+          this.invalidateFromServer(e['error'])
           //set error to the form
         }
       }

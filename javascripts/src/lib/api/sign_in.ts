@@ -1,7 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as $ from 'jquery';
-
-import * as models from "../../../api/model/models";
 import {Configuration} from "../../../api/configuration";
 
 export class WebUserSignInOut {

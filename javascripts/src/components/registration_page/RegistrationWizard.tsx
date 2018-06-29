@@ -21,7 +21,6 @@ import {initializationDefinition} from "../../../../types/mobx-react-form";
 import {ApiManager} from "../../lib/api_manager";
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
 import {WebUserSignInOut} from "../../lib/api/sign_in";
-import {Validations} from "../../lib/vjf_rules";
 import * as NonprofitInfoForm from "./NonprofitInfoForm";
 import * as UserInfoForm from "./UserInfoForm";
 

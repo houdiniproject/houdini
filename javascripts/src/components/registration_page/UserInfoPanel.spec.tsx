@@ -3,11 +3,11 @@ import * as React from 'react';
 import 'jest';
 
 
-import {Field, FieldDefinition, Form} from "mobx-react-form";
+import {Form} from "mobx-react-form";
 
-import {mountWithIntl, shallowWithIntl} from "../../lib/tests/helpers";
+import {shallowWithIntl} from "../../lib/tests/helpers";
 import {HoudiniForm} from "../../lib/houdini_form";
-import {WizardState, WizardTabPanelState} from "../common/wizard/wizard_state";
+import {WizardState} from "../common/wizard/wizard_state";
 import UserInfoPanel from "./UserInfoPanel";
 import toJson from 'enzyme-to-json';
 

@@ -4,7 +4,6 @@ import * as RAT from "react-aria-tabpanel";
 import {TabManager} from "./manager";
 var PropTypes = require('prop-types');
 
-var innerCreateManager = require('react-aria-tabpanel/lib/createManager');
 var specialAssign = require('react-aria-tabpanel/lib/specialAssign');
 
 interface AddManagerInterface {
@@ -31,12 +30,6 @@ export class ManagedWrapper extends RAT.Wrapper<AddManagerInterface>
 
       if (props.manager)
           this.manager = this.props.manager
-  }
-
-  componentWillMount(){
-
-       console.log('seomte')
-
   }
 
   render() {

@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import * as _ from 'lodash'
-import { observer } from 'mobx-react';
+import {observer} from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
 
 export interface ProgressableButtonProps

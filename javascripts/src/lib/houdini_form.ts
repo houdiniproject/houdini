@@ -1,10 +1,9 @@
 // License: LGPL-3.0-or-later
 import {Field, Form} from "mobx-react-form";
-import {observable, action, runInAction, computed, IValueDidChange} from 'mobx'
-import validator = require("validator")
+import {action, computed, IValueDidChange, observable, runInAction} from 'mobx'
 import * as _ from 'lodash'
 import {ValidationErrorsException} from "../../api";
-import {initializationDefinition} from "../../../types/mobx-react-form";
+import validator = require("validator");
 
 
 export class HoudiniForm extends Form {

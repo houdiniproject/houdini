@@ -1,9 +1,8 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import StandardFieldComponent from "./StandardFieldComponent";
-import { observer } from 'mobx-react';
-import {Field} from "../../../../types/mobx-react-form";
-import {injectIntl, InjectedIntl} from 'react-intl';
+import {observer} from 'mobx-react';
+import {InjectedIntl, injectIntl} from 'react-intl';
 
 
 export interface LabeledFieldComponentProps

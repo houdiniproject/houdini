@@ -1,16 +1,17 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { observer, Provider } from 'mobx-react';
-import { IntlProvider, addLocaleData} from 'react-intl';
-const enLocaleData = require('react-intl/locale-data/en');
-const deLocaleData = require('react-intl/locale-data/de');
-const I18n = require('i18n')
+import {observer, Provider} from 'mobx-react';
+import {addLocaleData, IntlProvider} from 'react-intl';
 import {convert} from 'dotize'
 import {ApiManager} from "../../lib/api_manager";
 import {APIS} from "../../../api";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 
 import * as CustomAPIS from "../../lib/apis"
+
+const enLocaleData = require('react-intl/locale-data/en');
+const deLocaleData = require('react-intl/locale-data/de');
+const I18n = require('i18n')
 
 addLocaleData([...enLocaleData, ...deLocaleData])
 

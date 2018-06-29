@@ -3,7 +3,7 @@ import * as React from 'react';
 import 'jest';
 import ProgressableButton from './ProgressableButton'
 import toJson from 'enzyme-to-json';
-import {shallow, mount} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 
 describe('ProgressableButton', () => {
   test('Basic title button works', () => {

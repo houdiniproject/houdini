@@ -3,11 +3,8 @@ import * as React from 'react';
 import 'jest';
 jest.useFakeTimers()
 import NonprofitInfoForm, * as NIF from './NonprofitInfoForm'
-import {runInAction} from 'mobx'
 import {Field, FieldDefinition, Form} from "mobx-react-form";
-import {mount, ReactWrapper} from 'enzyme'
-import * as Component from "./NonprofitInfoPanel";
-import {mountWithIntl} from "../../lib/tests/helpers";
+import { ReactWrapper} from 'enzyme'
 import {HoudiniForm} from "../../lib/houdini_form";
 
 

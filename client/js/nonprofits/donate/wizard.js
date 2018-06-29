@@ -27,7 +27,6 @@ renderStyles()(brandedWizard(null))
 
 // pass in a stream of configuration parameters
 const init = params$ => {
-  console.log(params$())
   var state = {
     error$: flyd.stream()
   , loading$: flyd.stream()

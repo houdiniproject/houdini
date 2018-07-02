@@ -32,7 +32,7 @@ interface Base extends SharedFieldFormMethods, SharedFormFieldProperties{}
 
 export declare class Field implements Base, FieldProperties, FieldMethods, FieldHandlers {
     constructor(...props:any[])
-    readonly bindings: string;
+    readonly bindings: any;
     readonly changed: boolean;
     readonly default: boolean;
     readonly disabled: boolean;

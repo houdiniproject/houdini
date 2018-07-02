@@ -19,21 +19,36 @@ export const BasicField = injectIntl(observer((props:{field:Field, intl?:Injecte
         <input {...props.field.bind()} className="form-control"/>
     </LabeledFieldComponent>
 }))
-
+export function matchStateToTerm(state:{name:string}, value:string) {
+  return (
+    state.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
+  )
+}
 export const AutocompleteField = injectIntl(observer((props:{field:Field, intl?:InjectedIntl, wrapperClassName?:string, items: any[]}) =>{
 
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={props.field.label} inError={props.field.hasError} error={props.field.error} className={props.wrapperClassName} >
 
     <Autocomplete items={props.items} getItemValue={(item) => item.name}
-                  renderItem={(item, isHighlighted) => (
+                  shouldItemRender={matchStateToTerm}
+                  renderItem={(item, isHighlighted:boolean) => (
                     <div
                       className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
                       key={item.name}
                     >{item.name}</div>)}
         value={props.field.value}
-        inputProps={{className:"form-control"}}
-        onSelect={(value) => props.field.set(value)}
-        {...props.field.bind()}/>
+        inputProps={{className:"form-control", type: 'text'}}
+        onSelect={(value) => props.field.set(value)} menuStyle={{
+      borderRadius: '3px',
+      boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+      background: 'rgba(255, 255, 255, 0.9)',
+      padding: '2px',
+      fontSize: '90%',
+      position: 'fixed',
+      overflow: 'auto',
+      maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
+      marginTop: '-12px'
+    }}
+    wrapperStyle={{}} {...props.field.bind()}/>
   </LabeledFieldComponent>
 }))

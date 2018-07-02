@@ -32,7 +32,7 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
       requires :name, type:String, desc: 'Organization Name', allow_blank: false, documentation: { param_type: 'body' }
       optional :url, type:String, desc: 'Organization website URL', allow_blank:true, regexp: URI::regexp, documentation: { param_type: 'body' }
       requires :zip_code, type:String, allow_blank: false, desc: "Organization Address ZIP Code", documentation: { param_type: 'body' }
-      requires :state_code, type:String, allow_blank: false, desc: "Organization Address State Code", documentation: { param_type: 'body' }
+      requires :state_code, type:String, allow_blank: false, desc: "Organization Address Region Code", documentation: { param_type: 'body' }, values: Settings.nonprofit_regions || nil
       requires :city, type:String, allow_blank: false, desc: "Organization Address City", documentation: { param_type: 'body' }
       optional :email, type:String, desc: 'Organization email (public)', regexp: Email::Regex, documentation: { param_type: 'body' }
       optional :phone, type:String, desc: 'Organization phone (public)', documentation: { param_type: 'body' }

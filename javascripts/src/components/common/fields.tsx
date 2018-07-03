@@ -25,7 +25,18 @@ export function matchStateToTerm(state:{name:string}, value:string) {
   )
 }
 export const AutocompleteField = injectIntl(observer((props:{field:Field, intl?:InjectedIntl, wrapperClassName?:string, items: any[]}) =>{
-
+  let menuStyle:React.CSSProperties = {
+    borderRadius: '3px',
+      boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
+    background: 'rgba(255, 255, 255, 0.9)',
+    padding: '2px',
+    fontSize: '90%',
+    position: 'absolute',
+    overflow: 'auto',
+    maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
+    marginTop: '-12px'
+  }
+  let wrapperStyle:React.CSSProperties = {}
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={props.field.label} inError={props.field.hasError} error={props.field.error} className={props.wrapperClassName} >
 
@@ -38,17 +49,11 @@ export const AutocompleteField = injectIntl(observer((props:{field:Field, intl?:
                     >{item.name}</div>)}
         value={props.field.value}
         inputProps={{className:"form-control", type: 'text'}}
-        onSelect={(value) => props.field.set(value)} menuStyle={{
-      borderRadius: '3px',
-      boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
-      background: 'rgba(255, 255, 255, 0.9)',
-      padding: '2px',
-      fontSize: '90%',
-      position: 'fixed',
-      overflow: 'auto',
-      maxHeight: '50%', // TODO: don't cheat, let it flow to the bottom
-      marginTop: '-12px'
-    }}
-    wrapperStyle={{}} {...props.field.bind()}/>
+                  renderMenu={(items, value) =>{
+    return <div style={menuStyle} children={items}/>
+  }}
+        onSelect={(value) => props.field.set(value)}
+                  wrapperStyle={wrapperStyle}
+     {...props.field.bind()}/>
   </LabeledFieldComponent>
 }))

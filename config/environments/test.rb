@@ -39,4 +39,6 @@ Commitchange::Application.configure do
   config.assets.debug = true
 
   config.log_level = :debug
+
+  config.action_controller.allow_forgery_protection = false
 end

@@ -22,7 +22,23 @@ class SupportersController < ApplicationController
 				send_data(Format::Csv.from_vectors(supporters), filename: "supporters-#{file_date}.csv")
 			end
 		end
-	end
+  end
+
+  def export
+    begin
+      @nonprofit = current_nonprofit
+      @user = current_user_id
+      ExportSupporters::initiate_export(@nonprofit.id, params, @user)
+    rescue => e
+      e
+    end
+    if e.nil?
+      flash[:notice] = "Your export was successfully initiated and you'll be emailed at #{current_user.email} as soon as it's available. Feel free to use the site in the meantime."
+      render json: {}, status: :ok
+    else
+      render json: e, status: :ok
+    end
+  end
 
   def index_metrics
     render_json do
@@ -86,7 +102,7 @@ class SupportersController < ApplicationController
       requires(:supporter_ids).as_array
     }.when_valid{|params|
       params[:supporter][:nonprofit_id] = params[:nonprofit_id]
-      MergeSupporters.selected(params[:supporter], params[:supporter_ids])
+      MergeSupporters.selected(params[:supporter], params[:supporter_ids], params[:nonprofit_id], current_user.id)
     }
 	end
 

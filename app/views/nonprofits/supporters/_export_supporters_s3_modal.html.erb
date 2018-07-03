@@ -1,0 +1,46 @@
+<div class='modal skinny' id='exportSupportersS3Modal'>
+  <%= render 'common/modal_header', title: 'Export Supporters' %>
+  <div class='modal-body'>
+    <div class='u-marginBottom--10'>
+      <!--= show_if supporters.filter_count -->
+      <p class="filteringBy">
+        Filtering by:
+        <!--= put (readable_filter_names supporters.query) -->
+      </p>
+      <hr>
+    </div>
+    <div class='u-overflow--hidden'>
+      <!--= if show_fields_in_export (remove_class 'u-hide') (add_class 'u-hide') -->
+      <p>
+        Select which custom fields you want to export:
+      </p>
+      <p>
+        <!--= repeat custom_fields.masters.data -->
+        <input type='checkbox' class='checkbox'>
+        <!--= set_attr 'value' this.id -->
+        <!--= set_attr 'id' (cat 'checkbox-export-custom-fields-' this.i -->
+        <!--= on 'change' set_export_custom_fields -->
+        <label>
+          <!--= set_attr 'for' (cat 'checkbox-export-custom-fields-' this.i) -->
+          <!--= put this.name -->
+        </label>
+      </p>
+
+    </div>
+
+    <p>
+      <a> Export custom fields </a>
+      <!--= on 'click' (toggle 'show_fields_in_export' true) -->
+    </p>
+
+    <form autosubmit method="POST" data-success-message="Your export was successfully initiated and you'll be emailed as soon as it's available. Feel free to use the site in the meantime." data-reload>
+      <!--= set_attr 'action' (cat '/nonprofits/<%= @nonprofit.id %>/supporters/export.json' (obj_to_url_params supporters.query)) -->
+      <div class='u-centered'>
+        <p class='error'></p>
+        <button id='csv-export-button' class='button--small' type='submit' data-loading='Initiating Download'>
+          <i class='fa fa-cloud-download'></i> Download as CSV
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

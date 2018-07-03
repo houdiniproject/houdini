@@ -1,0 +1,8 @@
+<% content_for :title, t("registration.get_started.header") %>
+<% content_for :javascripts do %>
+  <%= IncludeAsset.js 'app/registration_pagex.js' %>
+<% end %>
+
+<div id="outlet"></div>
+
+<script>LoadReactPage(document.getElementById('outlet'))</script>

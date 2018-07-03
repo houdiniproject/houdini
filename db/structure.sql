@@ -3200,6 +3200,13 @@ CREATE INDEX index_charges_on_payment_id ON charges USING btree (payment_id);
 
 
 --
+-- Name: index_donations_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_donations_on_event_id ON public.donations USING btree (event_id);
+
+
+--
 -- Name: index_exports_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3249,6 +3256,13 @@ CREATE INDEX index_source_tokens_on_tokenizable_id_and_tokenizable_type ON sourc
 
 
 --
+-- Name: index_supporter_notes_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_supporter_notes_on_supporter_id ON public.supporter_notes USING btree (supporter_id);
+
+
+--
 -- Name: index_supporters_on_deleted; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3267,6 +3281,20 @@ CREATE INDEX index_supporters_on_import_id ON supporters USING btree (import_id)
 --
 
 CREATE INDEX index_supporters_on_name ON supporters USING btree (name);
+
+
+--
+-- Name: index_tickets_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tickets_on_event_id ON public.tickets USING btree (event_id);
+
+
+--
+-- Name: index_tickets_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tickets_on_supporter_id ON public.tickets USING btree (supporter_id);
 
 
 --
@@ -4316,13 +4344,19 @@ INSERT INTO schema_migrations (version) VALUES ('20180202181929');
 
 INSERT INTO schema_migrations (version) VALUES ('20180213191755');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124312');
+INSERT INTO schema_migrations (version) VALUES ('20180214124311');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124313');
+INSERT INTO schema_migrations (version) VALUES ('20180215124311');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124314');
+INSERT INTO schema_migrations (version) VALUES ('20180216064311');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124315');
+INSERT INTO schema_migrations (version) VALUES ('20180216124311');
+
+INSERT INTO schema_migrations (version) VALUES ('20180217124311');
+
+INSERT INTO schema_migrations (version) VALUES ('20180608205049');
+
+INSERT INTO schema_migrations (version) VALUES ('20180608212658');
 
 INSERT INTO schema_migrations (version) VALUES ('201810202124316');
 

@@ -83,7 +83,7 @@ class Nonprofit < ActiveRecord::Base
   validates :city, presence: true
   validates :state_code, presence: true
   validates :email, format: { with: Email::Regex }, allow_blank: true
-  validates_uniqueness_of :slug, scope: [:city, :state_code]
+  validates_uniqueness_of :slug, scope: [:city_slug, :state_code_slug]
   validates_presence_of :slug
 
   scope :vetted, -> {where(vetted: true)}
@@ -141,9 +141,16 @@ class Nonprofit < ActiveRecord::Base
   end
 
   def set_slugs
-    self.slug = Format::Url.convert_to_slug self.name
-    self.city_slug = Format::Url.convert_to_slug self.city
-    self.state_code_slug = Format::Url.convert_to_slug self.state_code
+    unless (self.slug)
+      self.slug = Format::Url.convert_to_slug self.name
+    end
+    unless (self.city_slug)
+      self.city_slug = Format::Url.convert_to_slug self.city
+    end
+
+    unless (self.state_code_slug)
+      self.state_code_slug = Format::Url.convert_to_slug self.state_code
+    end
     self
   end
 

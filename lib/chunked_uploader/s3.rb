@@ -3,7 +3,7 @@ module ChunkedUploader
   class S3
     MINIMUMBUFFER_SIZE = 5.megabytes
 
-    S3_BUCKET_NAME = ENV['S3_BUCKET_NAME']
+    S3_BUCKET_NAME = Settings.aws.bucket_name
 
     # Upload a string to s3 using chunks instead of all as one string. This is useful reducing memory usage on huge files
     # @param [Enumerable<String>] chunk_enum an enumerable of strings.

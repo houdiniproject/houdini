@@ -39,7 +39,7 @@ class CopyNamingAlgorithm
       end
     }
 
-    raise ArgumentError.new("It's not possible to generate a UNIQUE name using name_to_copy: #{name_to_copy} copy_addition: #{self.copy_addition} separator_before_copy_number: #{self.separator_before_copy_number} max_copy_num: #{self.max_copies}  max_length: #{self.max_length}")
+    raise UnableToCreateNameCopyError.new("It's not possible to generate a UNIQUE name using name_to_copy: #{name_to_copy} copy_addition: #{self.copy_addition} separator_before_copy_number: #{self.separator_before_copy_number} max_copy_num: #{self.max_copies}  max_length: #{self.max_length}")
   end
 
   def generate_name(name_to_copy, copy_num)
@@ -47,7 +47,7 @@ class CopyNamingAlgorithm
 
     # is what_to_add longer than max length? If so, it's not possible to create a copy
     if (what_to_add.length > self.max_length)
-      raise ArgumentError.new("It's not possible to generate a name using name_to_copy: #{name_to_copy} copy_addition: #{self.copy_addition} separator_before_copy_number: #{self.separator_before_copy_number} copy_num: #{copy_num} max_length: #{self.max_length}")
+      raise UnableToCreateNameCopyError.new("It's not possible to generate a name using name_to_copy: #{name_to_copy} copy_addition: #{self.copy_addition} separator_before_copy_number: #{self.separator_before_copy_number} copy_num: #{copy_num} max_length: #{self.max_length}")
     end
     max_length_for_name_to_copy = self.max_length - what_to_add.length
     name_to_copy[0..max_length_for_name_to_copy-1] + what_to_add
@@ -57,5 +57,9 @@ class CopyNamingAlgorithm
     number_of_digits = Math.log10(self.max_copies).floor + 1
     "%0#{number_of_digits}d" % unprefixed_copy_number
   end
+
+end
+
+class UnableToCreateNameCopyError < ArgumentError
 
 end

@@ -1,0 +1,27 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<% content_for :title, "Terms and Privacy" %>
+<div class="container"><h1>Terms and Privacy</h1>
+
+<% if Settings.terms_and_privacy&.terms_url %>
+  <h2><a href="<%= Settings.terms_and_privacy.terms_url  %>">Terms of Use</a></h2>
+<% end %>
+
+<% if Settings.terms_and_privacy&.privacy_url %>
+  <h2><a href="<%= Settings.terms_and_privacy.privacy_url  %>">Privacy Policy</a></h2>
+<% end %>
+
+<h2>Software Licensing</h2>
+This site uses software from the Houdini Project. In compliance with the requirements of the Houdini Project's licenses, you may access the source code corresponding to the current
+version of this site <%= link_to "here", action: :ccs %>.
+
+<hr/>
+
+<p>The Houdini Project is released under a set of free and open source software licenses. The full details of
+  what code is released under which license can be reviewed in source code in <a href="https://github.com/houdiniproject/houdini">the Houdini Project repository</a> and
+  in its <a href="https://github.com/houdiniproject/houdini/blob/master/LICENSE">LICENSE</a> file.</p>
+
+<p>Please look above for any additional permissions or restrictions for this instance of the Houdini Project.</p>
+
+
+
+</div>

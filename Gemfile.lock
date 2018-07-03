@@ -23,6 +23,24 @@ GIT
       multi_json (~> 1.0)
       stripe (>= 1.31.0, <= 1.58.0)
 
+GIT
+  remote: https://github.com/ericschultz/grape_devise.git
+  revision: f1cdf2576476f0f9bf0b4f5c3e7cf07295933871
+  specs:
+    grape_devise (0.1.1)
+      devise (>= 2.2.8, < 4)
+      grape (> 0.7)
+      rails (> 3.2, < 5)
+
+GIT
+  remote: https://github.com/ruby-grape/grape-entity.git
+  revision: 0e04aa561373b510c2486282979085eaef2ae663
+  ref: 0e04aa561373b510c2486282979085eaef2ae663
+  specs:
+    grape-entity (0.7.1)
+      activesupport (>= 3.0.0)
+      multi_json (>= 1.3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -71,7 +89,11 @@ GEM
       mail (> 2.2.5)
       mime-types
       xml-simple
-    bcrypt (3.1.10)
+    axiom-types (0.1.1)
+      descendants_tracker (~> 0.0.4)
+      ice_nine (~> 0.11.0)
+      thread_safe (~> 0.3, >= 0.3.1)
+    bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootsnap (1.1.7)
@@ -95,6 +117,8 @@ GEM
       simplecov
       url
     coderay (1.1.2)
+    coercible (1.0.0)
+      descendants_tracker (~> 0.0.1)
     colorize (0.8.1)
     concurrent-ruby (1.0.5)
     config (1.7.0)
@@ -115,7 +139,7 @@ GEM
     database_cleaner (1.6.1)
     debase (0.2.2)
       debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.2)
+    debase-ruby_core_source (0.10.3)
     debug_inspector (0.0.2)
     deep_merge (1.2.1)
     delayed_job (4.1.2)
@@ -123,7 +147,9 @@ GEM
     delayed_job_active_record (4.1.1)
       activerecord (>= 3.0, < 5.1)
       delayed_job (>= 3.0, < 5)
-    devise (3.4.1)
+    descendants_tracker (0.0.4)
+      thread_safe (~> 0.3, >= 0.3.1)
+    devise (3.5.10)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -166,6 +192,7 @@ GEM
       dry-equalizer (~> 0.2)
       dry-logic (~> 0.4, >= 0.4.0)
       dry-types (~> 0.12.0)
+    equalizer (0.0.11)
     erubis (2.7.0)
     execjs (2.5.2)
     factory_bot (4.8.2)
@@ -190,6 +217,23 @@ GEM
       plissken
     geocoder (1.2.11)
     get_process_mem (0.2.1)
+    grape (1.0.3)
+      activesupport
+      builder
+      mustermann-grape (~> 1.0.0)
+      rack (>= 1.3.0)
+      rack-accept
+      virtus (>= 1.0.0)
+    grape-swagger (0.28.0)
+      grape (>= 0.16.2)
+    grape-swagger-entity (0.2.3)
+      grape-entity (>= 0.5.0)
+      grape-swagger (>= 0.20.4)
+    grape_logging (1.8.0)
+      grape
+      rack
+    grape_url_validator (1.0.0)
+      grape (>= 0.12.0)
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     hashie (3.4.1)
@@ -201,10 +245,12 @@ GEM
     httparty (0.13.3)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
-    i18n (0.8.6)
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
     i18n-js (3.0.2)
       i18n (~> 0.6, >= 0.6.6)
     i18n_data (0.8.0)
+    ice_nine (0.11.2)
     inflecto (0.0.2)
     journey (1.0.4)
     json (1.8.6)
@@ -226,9 +272,12 @@ GEM
     money (6.10.0)
       i18n (>= 0.6.4, < 1.0)
     msgpack (1.2.0)
-    multi_json (1.12.1)
+    multi_json (1.13.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    mustermann (1.0.2)
+    mustermann-grape (1.0.0)
+      mustermann (~> 1.0.0)
     nearest_time_zone (0.0.4)
       andand
       kdtree
@@ -258,9 +307,11 @@ GEM
     rabl (0.11.6)
       activesupport (>= 2.3.14)
     rack (1.4.7)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
     rack-attack (4.2.0)
       rack
-    rack-cache (1.7.0)
+    rack-cache (1.7.2)
       rack (>= 0.4)
     rack-ssl (1.3.4)
       rack
@@ -292,7 +343,7 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (12.0.0)
+    rake (12.3.1)
     rdoc (3.12.2)
       json (~> 1.4)
     require_all (1.3.2)
@@ -329,7 +380,7 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    ruby-debug-ide (0.6.0)
+    ruby-debug-ide (0.6.1)
       rake (>= 0.8.1)
     ruby-prof (0.15.9)
     safe_yaml (1.0.4)
@@ -359,7 +410,7 @@ GEM
     test-unit (3.2.7)
       power_assert
     thor (0.19.4)
-    thread_safe (0.3.5)
+    thread_safe (0.3.6)
     tilt (1.4.1)
     timecop (0.7.3)
     traceroute (0.5.0)
@@ -367,7 +418,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.53)
+    tzinfo (0.3.54)
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -377,7 +428,12 @@ GEM
     unicode_utils (1.4.0)
     url (0.3.2)
     vcr (2.9.3)
-    warden (1.2.3)
+    virtus (1.0.5)
+      axiom-types (~> 0.1)
+      coercible (~> 1.0)
+      descendants_tracker (~> 0.0, >= 0.0.3)
+      equalizer (~> 0.0, >= 0.0.9)
+    warden (1.2.7)
       rack (>= 1.0)
     webmock (1.21.0)
       addressable (>= 2.3.6)
@@ -418,6 +474,13 @@ DEPENDENCIES
   foreman
   fullcontact
   geocoder
+  grape
+  grape-entity!
+  grape-swagger
+  grape-swagger-entity
+  grape_devise!
+  grape_logging
+  grape_url_validator
   hamster
   heroku-deflater
   httparty
@@ -446,7 +509,7 @@ DEPENDENCIES
   roadie-rails
   rspec
   rspec-rails
-  ruby-debug-ide (= 0.6.0)
+  ruby-debug-ide
   ruby-prof (= 0.15.9)
   sass (= 3.2.19)
   sass-rails (= 3.2.6)

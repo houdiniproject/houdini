@@ -5,6 +5,8 @@ var request = require("superagent")
 var moment = require('moment-timezone')
 var client = require('./client')
 var appl = require('view-script')
+const on_ios11 = require('./on-ios11')
+const noScroll = require('no-scroll')
 
 module.exports = appl
 
@@ -24,8 +26,14 @@ appl.def("is_at_least_plan", function(tier) {
 // Open a modal given by its modal id (uses the modal div's 'id' attribute)
 appl.def('open_modal', function(modalId) {
 	$('.modal').removeClass('inView')
+
+    //$('body').scrollTop(0)
 	$('#' + modalId).addClass('inView')
+
 	$('body').addClass('is-showingModal')
+    if (on_ios11()){
+        noScroll.on()
+    }
 	return appl
 })
 
@@ -33,6 +41,9 @@ appl.def('open_modal', function(modalId) {
 appl.def('close_modal', function() {
 	$('.modal').removeClass('inView')
 	$('body').removeClass('is-showingModal')
+    if (on_ios11()) {
+        noScroll.off()
+    }
 	return appl
 })
 

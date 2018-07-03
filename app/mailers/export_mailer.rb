@@ -30,4 +30,16 @@ class ExportMailer < BaseMailer
 
     mail(to: @export.user.email, subject: 'Your recurring donations export has failed')
   end
+
+  def export_supporters_completed_notification(export)
+    @export = export
+
+    mail(to: @export.user.email, subject: 'Your supporters export is available!')
+  end
+
+  def export_supporters_failed_notification(export)
+    @export = export
+
+    mail(to: @export.user.email, subject: 'Your supporters export has failed')
+  end
 end

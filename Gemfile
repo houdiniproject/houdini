@@ -112,7 +112,7 @@ gem 'countries'
 group :development do
   gem 'traceroute'
   gem 'debase'
-  gem 'ruby-debug-ide', '0.6.0'
+  gem 'ruby-debug-ide'
 end
 
 group :development, :test do
@@ -155,3 +155,11 @@ gem 'foreman'
 group :production do
   gem 'rails_autoscale_agent'
 end
+
+gem 'grape'
+gem 'grape-entity', git: 'https://github.com/ruby-grape/grape-entity.git', ref: '0e04aa561373b510c2486282979085eaef2ae663'
+gem 'grape-swagger'
+gem 'grape-swagger-entity'
+gem 'grape_url_validator'
+gem 'grape_logging'
+gem 'grape_devise', git: 'https://github.com/ericschultz/grape_devise.git'

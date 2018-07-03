@@ -2,7 +2,7 @@
 @import 'mixins';
 
 @mixin basicInputs {
-	input[type="text"], input, input[type="email"], input[type="number"], input[type="password"], select {
+	input[type="text"], input, input[type="email"], input[type="number"], input[type="password"], input[type="tel"], select {
 		@content;
 	}
 }

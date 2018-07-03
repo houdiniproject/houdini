@@ -4,17 +4,22 @@ require File.expand_path('../application', __FILE__)
 
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
-
-require 'dotenv'
-Dotenv.load ".env"
+@ignore_dotenv = ENV['IGNORE_DOTENV']
+unless (@ignore_dotenv)
+  require 'dotenv'
+  Dotenv.load ".env"
+end
 @env = Rails.env || 'development'
-puts "config files .env .env.#{@env} ./config/settings.#{@env}.yml#{ @env != 'test' ? " ./config/#{ENV.fetch('ORG_NAME')}.yml": " "}  #{ @env != 'test' ? " ./config/#{ENV.fetch('ORG_NAME')}.#{@env}.yml": " "} #{ @env == 'test' ? "./config/settings.test.yml" : ""}"
-Dotenv.load ".env.#{@env}" if File.file?(".env.#{@env}")
+@org_name = ENV['ORG_NAME'] || 'default_organization'
+puts "config files .env .env.#{@env} ./config/settings.#{@env}.yml#{ @env != 'test' ? " ./config/#{@org_name}.yml": " "}  #{ @env != 'test' ? " ./config/#{@org_name}.#{@env}.yml": " "} #{ @env == 'test' ? "./config/settings.test.yml" : ""}"
+unless @ignore_dotenv
+  Dotenv.load ".env.#{@env}" if File.file?(".env.#{@env}")
+end
 if Rails.env == 'test'
   Settings.add_source!("./config/settings.test.yml")
 else
-  Settings.add_source!("./config/#{ENV.fetch('ORG_NAME')}.yml")
-  Settings.add_source!("./config/#{ENV.fetch('ORG_NAME')}.#{Rails.env}.yml")
+  Settings.add_source!("./config/#{@org_name}.yml")
+  Settings.add_source!("./config/#{@org_name}.#{Rails.env}.yml")
 end
 
 
@@ -27,6 +32,16 @@ Config.schema do
   required(:general).schema do
     # the name of your website. Default in Settings is "Houdini Project"
     required(:name).filled(:str?)
+
+    # the relative path from asset_host root where your small logo (bug-sized logo) is set
+    required(:logo).filled(:str?)
+
+    # the relative path from asset_host root where your big logo
+    required(:logo_full).filled(:str?)
+
+    # the relative path from asset_host root to your poweredby email logo (PNG, 150px wide)
+    required(:poweredby_logo).filled(:str?)
+
   end
 
   required(:default).schema do
@@ -38,7 +53,7 @@ Config.schema do
       required(:nonprofit).filled(:str?)
 
       #the path on your image.host to your default campaign background image
-      required(:nonprofit).filled(:str?)
+      required(:campaign).filled(:str?)
     end
 
     # the cache stor you're using. Must be the name of caching store for rails
@@ -117,6 +132,11 @@ Config.schema do
     # the map provider to use. Currently that's just Google Maps or nothing
     # Default is nil
     optional(:provider).value(included_in?:['google', nil])
+
+    optional(:options).schema do
+      #key for your google maps instance
+      optional(:key).filled(:str?)
+    end
   end
 
   required(:page_editor).schema do
@@ -219,6 +239,35 @@ Config.schema do
 
   # whether nonprofits must be vetted before they can use the service.
   optional(:nonprofits_must_be_vetted).filled(:bool?)
+
+  optional(:terms_and_privacy).schema do
+    # the url to the terms of use of this Houdini Project instance
+    optional(:terms_url).filled(:str?)
+
+    # the url to the privacy policy of this Houdini Project instance
+    optional(:privacy_url).filled(:str?)
+
+    # the url to the help page of this Houdini Project instance
+    optional(:help_url).filled(:str?)
+
+    # the url to the about page of this Houdini Project instance
+    optional(:about_url).filled(:str?)
+  end
+
+  # complete, corresponding source
+  optional(:ccs).schema do
+    optional(:ccs_method).value(included_in?: %w(local_tar_gz github))
+
+    # only used for github
+    # NOTE: for github you need to have the hash of the corresponding source in $RAILS_ROOT/CCS_HASH
+    optional(:options).schema do
+      # the account of the repository to find the code
+      required(:account).filled(:str?)
+      # the name of the repo to find the code
+      required(:repo).filled(:str?)
+    end
+  end
+
 end
 
 Settings.reload!

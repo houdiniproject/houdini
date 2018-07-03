@@ -12,7 +12,7 @@ The Houdini Project is free and open source fundraising infrastructure. It inclu
 - Nonprofit org user account management
 - Simple donation management for donors
 
-This is a Rails 3.2 app; we are not opposed to upgrading.
+This is a Rails 3.2 app; [we want to upgrade](https://github.com/houdiniproject/houdini/issues/47).
 
 Much of the business logic is in `/lib`. 
 
@@ -68,11 +68,11 @@ There are a number of steps for configuring your Houdini instance for startup
    cp .env.template .env
    ```
 ##### In console 2, run the following and copy the output to you .env file to set you `DEVISE_SECRET_KEY` environment variable.   
-`docker-compose run web rake secret # copy this result into your DEVISE_SECRET_KEY`
+`./run rake secret # copy this result into your DEVISE_SECRET_KEY`
 
 ##### In console 2, , run the following and copy the output to you .env file to set you `SECRET_TOKEN` environment variable.
 ```
-docker-compose run web rake secret # copy this result into your SECRET_TOKEN
+./run rake secret # copy this result into your SECRET_TOKEN
 ```
 
 ##### Set the following secrets in your .env file with your Stripe account information
@@ -80,13 +80,13 @@ docker-compose run web rake secret # copy this result into your SECRET_TOKEN
 - `STRIPE_API_PUBLIC` with your Stripe PUBLIC key
 
 ##### You SHOULD set your AMAZON s3 information (optional but STRONGLY recommended)
-If you don't file uploads WILL NOT WORK but it's not required.
+If you don't, file uploads WILL NOT WORK but it's not required.
 
 ##### In console 2,  install npm packages
-`docker-compose run web npm install`
+`./run npm install`
 
 ##### In console 2, fill the db
-`docker-compose run web rake db:create db:structure:load db:seed test:prepare` 
+`./run rake db:create db:structure:load db:seed test:prepare` 
 
 ##### Set up mailer info 
 You can set this in `config/default_organization.yml` or better yet, make a copy with your own org name and add that to your .env file as `ORG_NAME`
@@ -99,7 +99,7 @@ If you need help setting up your mailer, visit `config/environment.rb` where the
 `docker-compose up`
 
 ##### In console 2, run:
-`docker-compose run web npm run watch`
+`./run npm run watch`
 
 ##### You can go to http://localhost:5000
 
@@ -155,6 +155,23 @@ Each component should have its own file.
 ### react:lib
 This generator creates a basic Typescript module along with a test file.
 
+### Providing the complete corresponding source code
+
+**Note: This is not legal advice and provides a suggestion which may be compliant. You should talk with your legal counsel if you have
+questions or concerns with how to comply with the various licenses of Houdini**
+
+Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licensed used by Houdini. There are two methods for doing so right now:
+
+1. Providing a tarball of the current running code
+2. Providing a link to Github where the code is pulled from
+
+The easiest method is to provide a tarball. Houdini automatically provides a link on the Terms & Privacy page which generates a tarball for the current running code at runtime.
+For this to work though, the following characteristics must be true:
+
+* Your have to have committed any changes you made to the project in `HEAD` in your git repository
+* The `.git` folder for your repository must be a direct subfolder of your `$RAILS_ROOT`
+* Your web server must be able to run `git archive`.
+
 
 ### Style
 
@@ -164,6 +181,7 @@ This generator creates a basic Typescript module along with a test file.
 #### New frontend code
 - All new front end code should be written in Typescript 
 and React (using TSX files). Please use the React Generators for creation.
+- 2 spaces for tabs
 
 #### Legacy Javascript
 - 2 spaces for tabs

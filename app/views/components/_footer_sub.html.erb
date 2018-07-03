@@ -8,17 +8,17 @@
 
 				<span>
 
-					<span class='globalFooter-sub-item'>&copy; <%= Time.current.year %> CommitChange</span>
+					<span class='globalFooter-sub-item'>&copy; <%= Time.current.year %> <%= Settings.general.name %></span>
 
 					<span class='globalFooter-sub-item'>
 						<% if current_user %>
-							HELP SHOULD BE HERE
+							<% if Settings.terms_and_privacy&.help_url %><span><%= link_to("Help", Settings.terms_and_privacy.help_url) %></span><% end %>
 						<% else %>
-							<a href='/about'>About</a>
+							<% if Settings.terms_and_privacy&.about_url %><span><%= link_to("About", Settings.terms_and_privacy.about_url) %></span><% end %>
 						<% end %>
 					</span>
 					<span class='globalFooter-sub-item'>
-						<%= link_to "Terms & Privacy", Format::Url.concat(root_url, "help/terms-of-service-and-privacy-policy") %>
+						<%= link_to( t("footer.terms_and_privacy"), controller: :static, action: :terms_and_privacy) %>
 					</span>
 				</span>
 			</span>

@@ -3,6 +3,7 @@ general:
   name: Houdini Project
   logo: "logos/houdini_project_bug.svg"
   logo_full: "logos/houdini_project_full.svg"
+  poweredby_logo: "logos/houdini_project_rectangle_150.png"
 
 default:
   image:
@@ -47,7 +48,7 @@ page_editor:
   editor: 'quill'
 
 language: 'en'
-available_locales: ['en']
+available_locales: ['en', 'de']
 
 intntl:
   currencies: ["usd"]

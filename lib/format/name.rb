@@ -11,7 +11,7 @@ module Format
 
     # Format a nonprofit name into an email <from> header
     def self.email_from_np(np_name)
-      "#{np_name.gsub(',', '')} <#{Settings.mailer.email}>"
+			"\"#{np_name.gsub(',', '').gsub("\"", '')}\" <#{Settings.mailer.email}>"
     end
 	end
 end

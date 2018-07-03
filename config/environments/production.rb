@@ -4,7 +4,7 @@ Commitchange::Application.configure do
 
 	# Code is not reloaded between requests
 	config.cache_classes = true
-        config.cache_store = Settings.default.cache_store.to_sym
+  config.cache_store = Settings.default.cache_store.to_sym
 
 	# Full error reports are disabled and caching is turned on
 	config.consider_all_requests_local = false
@@ -18,7 +18,7 @@ Commitchange::Application.configure do
 
 	# Generate digests for assets URLs
 	config.assets.digest = true
-        config.assets.compile = true
+  config.assets.compile = false
 
 	# Defaults to nil and saved in location specified by config.assets.prefix
 	# config.assets.manifest = YOUR_PATH
@@ -81,8 +81,7 @@ Commitchange::Application.configure do
 	# with SQLite, MySQL, and PostgreSQL)
 	# config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-	# Facebook application ID and secret auth token. Found in the CommitChange
-	# app dashboard.
+  config.assets.compile = false
 
 	# Compress json
 	# config.middleware.use Rack::Deflater

@@ -1,21 +1,21 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Commitchange::Application.routes.draw do
+  mount Houdini::API => '/api'
 
   if Rails.env == 'development'
 		get '/button_debug/embedded' => 'button_debug#embedded'
 		get '/button_debug/button' => 'button_debug#button'
 		get '/button_debug/embedded/:id' => 'button_debug#embedded'
 		get '/button_debug/button/:id' => 'button_debug#button'
-	end
+  end
+  get 'onboard' => 'onboard#index'
+
 	resources(:emails, {only: [:create]})
 	resources(:settings, {only: [:index]})
-	resources(:pricing, {only: [:index]})
-	resources(:successes, {only: [:index]})
 	resources(:campaign_gifts, {only: [:create]})
 	resource(:cards, {only: [:create, :update, :destroy]})
 	resource(:direct_debit_details, {path: 'sepa', controller: :direct_debit_details, only: [:create]})
  # resources(:activities, {only: [:create]})
-
 
   # Creating presigned posts for direct-to-S3 upload
   resources(:aws_presigned_posts, {only: [:create]})
@@ -86,6 +86,7 @@ Commitchange::Application.routes.draw do
 			resources(:custom_field_joins, {only: [:index, :destroy]})
 			resources(:supporter_notes, {only: [:create, :update, :destroy]})
       resources(:activities, {only: [:index]})
+			post(:export, {on: :collection})
 			put :bulk_delete, on: :collection
 			post :merge, on: :collection
 			get :merge_data, on: :collection
@@ -253,6 +254,9 @@ Commitchange::Application.routes.draw do
   # Webhooks
   post '/webhooks/stripe_subscription_payment' => 'webhooks#subscription_payment'
   post '/webhooks/stripe' => 'webhooks#stripe'
+
+  get '/static/terms_and_privacy' => 'static#terms_and_privacy'
+	get '/static/ccs' => 'static#ccs'
 
 
 

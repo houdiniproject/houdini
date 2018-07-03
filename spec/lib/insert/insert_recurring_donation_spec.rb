@@ -11,12 +11,35 @@ describe InsertRecurringDonation do
 
     it 'does recurring donation validation' do
       expect {InsertRecurringDonation.with_stripe(amount: 1, nonprofit_id: 1, supporter_id: 1, token: fake_uuid,
-                                                  recurring_donation: {interval: "not number", start_date: "not_date", time_unit: 4})}.to raise_error {|e|
+                                                  recurring_donation: {interval: "not number", start_date: "not_date", time_unit: 4, paydate: "faf"})}.to raise_error {|e|
         expect(e).to be_a ParamValidation::ValidationError
         expect_validation_errors(e.data, [
             {key: :interval, name: :is_integer},
             {key: :start_date, name: :can_be_date},
-            {key: :time_unit, name: :included_in}
+            {key: :time_unit, name: :included_in},
+            {key: :paydate, name: :is_integer}
+        ])
+
+      }
+    end
+
+    it 'does paydate validation min' do
+      expect {InsertRecurringDonation.with_stripe(amount: 1, nonprofit_id: 1, supporter_id: 1, token: fake_uuid,
+                                                  recurring_donation: {paydate: "0"})}.to raise_error {|e|
+        expect(e).to be_a ParamValidation::ValidationError
+        expect_validation_errors(e.data, [
+            {key: :paydate, name: :min}
+        ])
+
+      }
+    end
+
+    it 'does paydate validation max' do
+      expect {InsertRecurringDonation.with_stripe(amount: 1, nonprofit_id: 1, supporter_id: 1, token: fake_uuid,
+                                                  recurring_donation: {paydate: "29"})}.to raise_error {|e|
+        expect(e).to be_a ParamValidation::ValidationError
+        expect_validation_errors(e.data, [
+            {key: :paydate, name: :max}
         ])
 
       }

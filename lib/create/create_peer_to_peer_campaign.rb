@@ -18,13 +18,13 @@ module CreatePeerToPeerCampaign
 
     campaign = Campaign.create(p2p_params)
 
-    # campaign.remote_main_image_url = parent_campaign.main_image_url unless !parent_campaign.main_image rescue AWS::S3::Errors::NoSuchKey
-    # campaign.remote_background_image_url = parent_campaign.background_image_url unless !parent_campaign.background_image rescue AWS::S3::Errors::NoSuchKey
-    # campaign.remote_banner_image_url = parent_campaign.background_image_url unless !parent_campaign.background_image rescue AWS::S3::Errors::NoSuchKey
-
     campaign.published = true
     campaign.profile = profile
     campaign.save
+
+    campaign.update_attribute(:main_image, parent_campaign.main_image) unless !parent_campaign.main_image rescue AWS::S3::Errors::NoSuchKey
+    campaign.update_attribute(:background_image, parent_campaign.background_image) unless !parent_campaign.background_image rescue AWS::S3::Errors::NoSuchKey
+    campaign.update_attribute(:banner_image, parent_campaign.banner_image) unless !parent_campaign.banner_image rescue AWS::S3::Errors::NoSuchKey
 
     return { errors: campaign.errors.messages }.as_json unless campaign.errors.empty?
 

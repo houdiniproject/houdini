@@ -4,6 +4,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 -- Dumped from database version 9.6.5
 -- Dumped by pg_dump version 9.6.10
 =======
@@ -14,12 +15,17 @@
 -- Dumped from database version 10.1
 -- Dumped by pg_dump version 10.1
 >>>>>>> wip
+=======
+-- Dumped from database version 9.6.8
+-- Dumped by pg_dump version 9.6.9
+>>>>>>> Fix structure.sql
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET row_security = off;
@@ -66,8 +72,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
-SET search_path = public, pg_catalog;
-
 --
 -- Name: is_valid_json(text); Type: FUNCTION; Schema: public; Owner: -
 --
@@ -88,7 +92,7 @@ $$;
 -- Name: update_supporter_assoc_search_vectors(); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION update_supporter_assoc_search_vectors() RETURNS trigger
+CREATE FUNCTION public.update_supporter_assoc_search_vectors() RETURNS trigger
     LANGUAGE plpgsql
     AS $$ BEGIN
       IF pg_trigger_depth() <> 1 THEN RETURN new; END IF;
@@ -108,14 +112,14 @@ SELECT supporters.id, concat_ws(' '
         , payments.kind
         , payments.towards
         ) AS search_blob
-FROM supporters
+FROM supporters 
 LEFT OUTER JOIN payments
-  ON payments.supporter_id=supporters.id
+  ON payments.supporter_id=supporters.id 
 LEFT OUTER JOIN donations
-  ON donations.supporter_id=supporters.id
+  ON donations.supporter_id=supporters.id 
 LEFT OUTER JOIN (
 SELECT string_agg(value::text, ' ') AS value, supporter_id
-FROM custom_field_joins
+FROM custom_field_joins 
 GROUP BY supporter_id) AS custom_field_joins
   ON custom_field_joins.supporter_id=supporters.id
 WHERE (supporters.id=NEW.supporter_id)) AS data
@@ -132,7 +136,7 @@ SET default_with_oids = false;
 -- Name: activities; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE activities (
+CREATE TABLE public.activities (
     id integer NOT NULL,
     supporter_id integer,
     host_id integer,
@@ -155,7 +159,7 @@ CREATE TABLE activities (
 -- Name: activities_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE activities_id_seq
+CREATE SEQUENCE public.activities_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -167,14 +171,14 @@ CREATE SEQUENCE activities_id_seq
 -- Name: activities_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE activities_id_seq OWNED BY activities.id;
+ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
 
 
 --
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE ar_internal_metadata (
+CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
     created_at timestamp without time zone NOT NULL,
@@ -186,7 +190,7 @@ CREATE TABLE ar_internal_metadata (
 -- Name: bank_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE bank_accounts (
+CREATE TABLE public.bank_accounts (
     id integer NOT NULL,
     name character varying(255),
     account_number character varying(255),
@@ -208,7 +212,7 @@ CREATE TABLE bank_accounts (
 -- Name: bank_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE bank_accounts_id_seq
+CREATE SEQUENCE public.bank_accounts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -220,14 +224,14 @@ CREATE SEQUENCE bank_accounts_id_seq
 -- Name: bank_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE bank_accounts_id_seq OWNED BY bank_accounts.id;
+ALTER SEQUENCE public.bank_accounts_id_seq OWNED BY public.bank_accounts.id;
 
 
 --
 -- Name: billing_plans; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE billing_plans (
+CREATE TABLE public.billing_plans (
     id integer NOT NULL,
     name character varying(255),
     stripe_plan_id character varying(255),
@@ -244,7 +248,7 @@ CREATE TABLE billing_plans (
 -- Name: billing_plans_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE billing_plans_id_seq
+CREATE SEQUENCE public.billing_plans_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -256,14 +260,14 @@ CREATE SEQUENCE billing_plans_id_seq
 -- Name: billing_plans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE billing_plans_id_seq OWNED BY billing_plans.id;
+ALTER SEQUENCE public.billing_plans_id_seq OWNED BY public.billing_plans.id;
 
 
 --
 -- Name: billing_subscriptions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE billing_subscriptions (
+CREATE TABLE public.billing_subscriptions (
     id integer NOT NULL,
     nonprofit_id integer,
     billing_plan_id integer,
@@ -278,7 +282,7 @@ CREATE TABLE billing_subscriptions (
 -- Name: billing_subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE billing_subscriptions_id_seq
+CREATE SEQUENCE public.billing_subscriptions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -290,14 +294,14 @@ CREATE SEQUENCE billing_subscriptions_id_seq
 -- Name: billing_subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE billing_subscriptions_id_seq OWNED BY billing_subscriptions.id;
+ALTER SEQUENCE public.billing_subscriptions_id_seq OWNED BY public.billing_subscriptions.id;
 
 
 --
 -- Name: campaign_gift_options; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE campaign_gift_options (
+CREATE TABLE public.campaign_gift_options (
     id integer NOT NULL,
     amount_one_time integer,
     description text,
@@ -318,7 +322,7 @@ CREATE TABLE campaign_gift_options (
 -- Name: campaign_gift_options_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE campaign_gift_options_id_seq
+CREATE SEQUENCE public.campaign_gift_options_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -330,14 +334,14 @@ CREATE SEQUENCE campaign_gift_options_id_seq
 -- Name: campaign_gift_options_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE campaign_gift_options_id_seq OWNED BY campaign_gift_options.id;
+ALTER SEQUENCE public.campaign_gift_options_id_seq OWNED BY public.campaign_gift_options.id;
 
 
 --
 -- Name: campaign_gifts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE campaign_gifts (
+CREATE TABLE public.campaign_gifts (
     id integer NOT NULL,
     donation_id integer,
     campaign_gift_option_id integer,
@@ -351,7 +355,7 @@ CREATE TABLE campaign_gifts (
 -- Name: campaign_gifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE campaign_gifts_id_seq
+CREATE SEQUENCE public.campaign_gifts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -363,14 +367,14 @@ CREATE SEQUENCE campaign_gifts_id_seq
 -- Name: campaign_gifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE campaign_gifts_id_seq OWNED BY campaign_gifts.id;
+ALTER SEQUENCE public.campaign_gifts_id_seq OWNED BY public.campaign_gifts.id;
 
 
 --
 -- Name: campaign_templates; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE campaign_templates (
+CREATE TABLE public.campaign_templates (
     id integer NOT NULL,
     template_name character varying(255) NOT NULL,
     name character varying(255),
@@ -392,8 +396,7 @@ CREATE TABLE campaign_templates (
 -- Name: campaign_templates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE campaign_templates_id_seq
-    AS integer
+CREATE SEQUENCE public.campaign_templates_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -405,14 +408,14 @@ CREATE SEQUENCE campaign_templates_id_seq
 -- Name: campaign_templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE campaign_templates_id_seq OWNED BY campaign_templates.id;
+ALTER SEQUENCE public.campaign_templates_id_seq OWNED BY public.campaign_templates.id;
 
 
 --
 -- Name: campaigns; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE campaigns (
+CREATE TABLE public.campaigns (
     id integer NOT NULL,
     name character varying(255),
     url character varying(255),
@@ -458,7 +461,7 @@ CREATE TABLE campaigns (
 -- Name: campaigns_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE campaigns_id_seq
+CREATE SEQUENCE public.campaigns_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -470,14 +473,14 @@ CREATE SEQUENCE campaigns_id_seq
 -- Name: campaigns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE campaigns_id_seq OWNED BY campaigns.id;
+ALTER SEQUENCE public.campaigns_id_seq OWNED BY public.campaigns.id;
 
 
 --
 -- Name: cards; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE cards (
+CREATE TABLE public.cards (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
@@ -502,7 +505,7 @@ CREATE TABLE cards (
 -- Name: cards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE cards_id_seq
+CREATE SEQUENCE public.cards_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -514,14 +517,14 @@ CREATE SEQUENCE cards_id_seq
 -- Name: cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE cards_id_seq OWNED BY cards.id;
+ALTER SEQUENCE public.cards_id_seq OWNED BY public.cards.id;
 
 
 --
 -- Name: charges; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE charges (
+CREATE TABLE public.charges (
     id integer NOT NULL,
     amount integer,
     stripe_charge_id character varying(255),
@@ -546,7 +549,7 @@ CREATE TABLE charges (
 -- Name: charges_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE charges_id_seq
+CREATE SEQUENCE public.charges_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -558,14 +561,14 @@ CREATE SEQUENCE charges_id_seq
 -- Name: charges_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE charges_id_seq OWNED BY charges.id;
+ALTER SEQUENCE public.charges_id_seq OWNED BY public.charges.id;
 
 
 --
 -- Name: comments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE comments (
+CREATE TABLE public.comments (
     id integer NOT NULL,
     profile_id integer,
     body text,
@@ -580,7 +583,7 @@ CREATE TABLE comments (
 -- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE comments_id_seq
+CREATE SEQUENCE public.comments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -592,14 +595,14 @@ CREATE SEQUENCE comments_id_seq
 -- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
+ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 
 --
 -- Name: custom_field_joins; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE custom_field_joins (
+CREATE TABLE public.custom_field_joins (
     id integer NOT NULL,
     custom_field_master_id integer,
     supporter_id integer,
@@ -613,7 +616,7 @@ CREATE TABLE custom_field_joins (
 -- Name: custom_field_joins_backup; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE custom_field_joins_backup (
+CREATE TABLE public.custom_field_joins_backup (
     id integer NOT NULL,
     custom_field_master_id integer,
     supporter_id integer,
@@ -628,7 +631,7 @@ CREATE TABLE custom_field_joins_backup (
 -- Name: custom_field_joins_backup_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE custom_field_joins_backup_id_seq
+CREATE SEQUENCE public.custom_field_joins_backup_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -640,14 +643,14 @@ CREATE SEQUENCE custom_field_joins_backup_id_seq
 -- Name: custom_field_joins_backup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE custom_field_joins_backup_id_seq OWNED BY custom_field_joins_backup.id;
+ALTER SEQUENCE public.custom_field_joins_backup_id_seq OWNED BY public.custom_field_joins_backup.id;
 
 
 --
 -- Name: custom_field_joins_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE custom_field_joins_id_seq
+CREATE SEQUENCE public.custom_field_joins_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -659,14 +662,14 @@ CREATE SEQUENCE custom_field_joins_id_seq
 -- Name: custom_field_joins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE custom_field_joins_id_seq OWNED BY custom_field_joins.id;
+ALTER SEQUENCE public.custom_field_joins_id_seq OWNED BY public.custom_field_joins.id;
 
 
 --
 -- Name: custom_field_masters; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE custom_field_masters (
+CREATE TABLE public.custom_field_masters (
     id integer NOT NULL,
     name character varying(255),
     nonprofit_id integer,
@@ -680,7 +683,7 @@ CREATE TABLE custom_field_masters (
 -- Name: custom_field_masters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE custom_field_masters_id_seq
+CREATE SEQUENCE public.custom_field_masters_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -692,14 +695,14 @@ CREATE SEQUENCE custom_field_masters_id_seq
 -- Name: custom_field_masters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE custom_field_masters_id_seq OWNED BY custom_field_masters.id;
+ALTER SEQUENCE public.custom_field_masters_id_seq OWNED BY public.custom_field_masters.id;
 
 
 --
 -- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE delayed_jobs (
+CREATE TABLE public.delayed_jobs (
     id integer NOT NULL,
     priority integer DEFAULT 0 NOT NULL,
     attempts integer DEFAULT 0 NOT NULL,
@@ -719,7 +722,7 @@ CREATE TABLE delayed_jobs (
 -- Name: delayed_jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE delayed_jobs_id_seq
+CREATE SEQUENCE public.delayed_jobs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -731,14 +734,14 @@ CREATE SEQUENCE delayed_jobs_id_seq
 -- Name: delayed_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
+ALTER SEQUENCE public.delayed_jobs_id_seq OWNED BY public.delayed_jobs.id;
 
 
 --
 -- Name: direct_debit_details; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE direct_debit_details (
+CREATE TABLE public.direct_debit_details (
     id integer NOT NULL,
     iban character varying(255),
     account_holder_name character varying(255),
@@ -753,7 +756,7 @@ CREATE TABLE direct_debit_details (
 -- Name: direct_debit_details_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE direct_debit_details_id_seq
+CREATE SEQUENCE public.direct_debit_details_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -765,14 +768,14 @@ CREATE SEQUENCE direct_debit_details_id_seq
 -- Name: direct_debit_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE direct_debit_details_id_seq OWNED BY direct_debit_details.id;
+ALTER SEQUENCE public.direct_debit_details_id_seq OWNED BY public.direct_debit_details.id;
 
 
 --
 -- Name: disputes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE disputes (
+CREATE TABLE public.disputes (
     id integer NOT NULL,
     gross_amount integer,
     charge_id integer,
@@ -789,7 +792,7 @@ CREATE TABLE disputes (
 -- Name: disputes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE disputes_id_seq
+CREATE SEQUENCE public.disputes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -801,14 +804,14 @@ CREATE SEQUENCE disputes_id_seq
 -- Name: disputes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE disputes_id_seq OWNED BY disputes.id;
+ALTER SEQUENCE public.disputes_id_seq OWNED BY public.disputes.id;
 
 
 --
 -- Name: donations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE donations (
+CREATE TABLE public.donations (
     id integer NOT NULL,
     amount integer,
     profile_id integer,
@@ -843,7 +846,7 @@ CREATE TABLE donations (
 -- Name: donations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE donations_id_seq
+CREATE SEQUENCE public.donations_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -855,14 +858,14 @@ CREATE SEQUENCE donations_id_seq
 -- Name: donations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE donations_id_seq OWNED BY donations.id;
+ALTER SEQUENCE public.donations_id_seq OWNED BY public.donations.id;
 
 
 --
 -- Name: donations_payment_imports; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE donations_payment_imports (
+CREATE TABLE public.donations_payment_imports (
     donation_id integer,
     payment_import_id integer
 );
@@ -872,7 +875,7 @@ CREATE TABLE donations_payment_imports (
 -- Name: email_lists; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE email_lists (
+CREATE TABLE public.email_lists (
     id integer NOT NULL,
     nonprofit_id integer NOT NULL,
     tag_master_id integer NOT NULL,
@@ -887,7 +890,7 @@ CREATE TABLE email_lists (
 -- Name: email_lists_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE email_lists_id_seq
+CREATE SEQUENCE public.email_lists_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -899,14 +902,14 @@ CREATE SEQUENCE email_lists_id_seq
 -- Name: email_lists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE email_lists_id_seq OWNED BY email_lists.id;
+ALTER SEQUENCE public.email_lists_id_seq OWNED BY public.email_lists.id;
 
 
 --
 -- Name: email_settings; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE email_settings (
+CREATE TABLE public.email_settings (
     id integer NOT NULL,
     user_id integer,
     nonprofit_id integer,
@@ -922,7 +925,7 @@ CREATE TABLE email_settings (
 -- Name: email_settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE email_settings_id_seq
+CREATE SEQUENCE public.email_settings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -934,14 +937,14 @@ CREATE SEQUENCE email_settings_id_seq
 -- Name: email_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE email_settings_id_seq OWNED BY email_settings.id;
+ALTER SEQUENCE public.email_settings_id_seq OWNED BY public.email_settings.id;
 
 
 --
 -- Name: event_discounts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE event_discounts (
+CREATE TABLE public.event_discounts (
     id integer NOT NULL,
     name character varying(255),
     code character varying(255),
@@ -956,7 +959,7 @@ CREATE TABLE event_discounts (
 -- Name: event_discounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE event_discounts_id_seq
+CREATE SEQUENCE public.event_discounts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -968,14 +971,14 @@ CREATE SEQUENCE event_discounts_id_seq
 -- Name: event_discounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE event_discounts_id_seq OWNED BY event_discounts.id;
+ALTER SEQUENCE public.event_discounts_id_seq OWNED BY public.event_discounts.id;
 
 
 --
 -- Name: events; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE events (
+CREATE TABLE public.events (
     id integer NOT NULL,
     name character varying(255),
     tagline character varying(255),
@@ -1015,7 +1018,7 @@ CREATE TABLE events (
 -- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE events_id_seq
+CREATE SEQUENCE public.events_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1027,14 +1030,14 @@ CREATE SEQUENCE events_id_seq
 -- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE events_id_seq OWNED BY events.id;
+ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 
 --
 -- Name: exports; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE exports (
+CREATE TABLE public.exports (
     id integer NOT NULL,
     user_id integer,
     nonprofit_id integer,
@@ -1053,7 +1056,7 @@ CREATE TABLE exports (
 -- Name: exports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE exports_id_seq
+CREATE SEQUENCE public.exports_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1065,14 +1068,14 @@ CREATE SEQUENCE exports_id_seq
 -- Name: exports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE exports_id_seq OWNED BY exports.id;
+ALTER SEQUENCE public.exports_id_seq OWNED BY public.exports.id;
 
 
 --
 -- Name: full_contact_infos; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE full_contact_infos (
+CREATE TABLE public.full_contact_infos (
     id integer NOT NULL,
     email character varying(255),
     full_name character varying(255),
@@ -1096,7 +1099,7 @@ CREATE TABLE full_contact_infos (
 -- Name: full_contact_infos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE full_contact_infos_id_seq
+CREATE SEQUENCE public.full_contact_infos_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1108,14 +1111,14 @@ CREATE SEQUENCE full_contact_infos_id_seq
 -- Name: full_contact_infos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE full_contact_infos_id_seq OWNED BY full_contact_infos.id;
+ALTER SEQUENCE public.full_contact_infos_id_seq OWNED BY public.full_contact_infos.id;
 
 
 --
 -- Name: full_contact_jobs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE full_contact_jobs (
+CREATE TABLE public.full_contact_jobs (
     id integer NOT NULL,
     supporter_id integer
 );
@@ -1125,7 +1128,7 @@ CREATE TABLE full_contact_jobs (
 -- Name: full_contact_jobs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE full_contact_jobs_id_seq
+CREATE SEQUENCE public.full_contact_jobs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1137,14 +1140,14 @@ CREATE SEQUENCE full_contact_jobs_id_seq
 -- Name: full_contact_jobs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE full_contact_jobs_id_seq OWNED BY full_contact_jobs.id;
+ALTER SEQUENCE public.full_contact_jobs_id_seq OWNED BY public.full_contact_jobs.id;
 
 
 --
 -- Name: full_contact_orgs; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE full_contact_orgs (
+CREATE TABLE public.full_contact_orgs (
     id integer NOT NULL,
     is_primary boolean,
     name character varying(255),
@@ -1162,7 +1165,7 @@ CREATE TABLE full_contact_orgs (
 -- Name: full_contact_orgs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE full_contact_orgs_id_seq
+CREATE SEQUENCE public.full_contact_orgs_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1174,14 +1177,14 @@ CREATE SEQUENCE full_contact_orgs_id_seq
 -- Name: full_contact_orgs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE full_contact_orgs_id_seq OWNED BY full_contact_orgs.id;
+ALTER SEQUENCE public.full_contact_orgs_id_seq OWNED BY public.full_contact_orgs.id;
 
 
 --
 -- Name: full_contact_photos; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE full_contact_photos (
+CREATE TABLE public.full_contact_photos (
     id integer NOT NULL,
     full_contact_info_id integer,
     type_id character varying(255),
@@ -1196,7 +1199,7 @@ CREATE TABLE full_contact_photos (
 -- Name: full_contact_photos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE full_contact_photos_id_seq
+CREATE SEQUENCE public.full_contact_photos_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1208,14 +1211,14 @@ CREATE SEQUENCE full_contact_photos_id_seq
 -- Name: full_contact_photos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE full_contact_photos_id_seq OWNED BY full_contact_photos.id;
+ALTER SEQUENCE public.full_contact_photos_id_seq OWNED BY public.full_contact_photos.id;
 
 
 --
 -- Name: full_contact_social_profiles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE full_contact_social_profiles (
+CREATE TABLE public.full_contact_social_profiles (
     id integer NOT NULL,
     full_contact_info_id integer,
     type_id character varying(255),
@@ -1234,7 +1237,7 @@ CREATE TABLE full_contact_social_profiles (
 -- Name: full_contact_social_profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE full_contact_social_profiles_id_seq
+CREATE SEQUENCE public.full_contact_social_profiles_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1246,14 +1249,14 @@ CREATE SEQUENCE full_contact_social_profiles_id_seq
 -- Name: full_contact_social_profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE full_contact_social_profiles_id_seq OWNED BY full_contact_social_profiles.id;
+ALTER SEQUENCE public.full_contact_social_profiles_id_seq OWNED BY public.full_contact_social_profiles.id;
 
 
 --
 -- Name: full_contact_topics; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE full_contact_topics (
+CREATE TABLE public.full_contact_topics (
     id integer NOT NULL,
     provider character varying(255),
     value character varying(255),
@@ -1267,7 +1270,7 @@ CREATE TABLE full_contact_topics (
 -- Name: full_contact_topics_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE full_contact_topics_id_seq
+CREATE SEQUENCE public.full_contact_topics_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1279,14 +1282,14 @@ CREATE SEQUENCE full_contact_topics_id_seq
 -- Name: full_contact_topics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE full_contact_topics_id_seq OWNED BY full_contact_topics.id;
+ALTER SEQUENCE public.full_contact_topics_id_seq OWNED BY public.full_contact_topics.id;
 
 
 --
 -- Name: image_attachments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE image_attachments (
+CREATE TABLE public.image_attachments (
     id integer NOT NULL,
     file character varying(255),
     parent_id integer,
@@ -1300,7 +1303,7 @@ CREATE TABLE image_attachments (
 -- Name: image_attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE image_attachments_id_seq
+CREATE SEQUENCE public.image_attachments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1312,14 +1315,14 @@ CREATE SEQUENCE image_attachments_id_seq
 -- Name: image_attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE image_attachments_id_seq OWNED BY image_attachments.id;
+ALTER SEQUENCE public.image_attachments_id_seq OWNED BY public.image_attachments.id;
 
 
 --
 -- Name: imports; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE imports (
+CREATE TABLE public.imports (
     id integer NOT NULL,
     row_count integer,
     date timestamp without time zone,
@@ -1335,7 +1338,7 @@ CREATE TABLE imports (
 -- Name: imports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE imports_id_seq
+CREATE SEQUENCE public.imports_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1347,14 +1350,14 @@ CREATE SEQUENCE imports_id_seq
 -- Name: imports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE imports_id_seq OWNED BY imports.id;
+ALTER SEQUENCE public.imports_id_seq OWNED BY public.imports.id;
 
 
 --
 -- Name: miscellaneous_np_infos; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE miscellaneous_np_infos (
+CREATE TABLE public.miscellaneous_np_infos (
     id integer NOT NULL,
     donate_again_url character varying(255),
     nonprofit_id integer,
@@ -1368,8 +1371,7 @@ CREATE TABLE miscellaneous_np_infos (
 -- Name: miscellaneous_np_infos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE miscellaneous_np_infos_id_seq
-    AS integer
+CREATE SEQUENCE public.miscellaneous_np_infos_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1381,14 +1383,14 @@ CREATE SEQUENCE miscellaneous_np_infos_id_seq
 -- Name: miscellaneous_np_infos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE miscellaneous_np_infos_id_seq OWNED BY miscellaneous_np_infos.id;
+ALTER SEQUENCE public.miscellaneous_np_infos_id_seq OWNED BY public.miscellaneous_np_infos.id;
 
 
 --
 -- Name: nonprofit_keys; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE nonprofit_keys (
+CREATE TABLE public.nonprofit_keys (
     id integer NOT NULL,
     nonprofit_id integer,
     mailchimp_token text,
@@ -1401,7 +1403,7 @@ CREATE TABLE nonprofit_keys (
 -- Name: nonprofit_keys_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE nonprofit_keys_id_seq
+CREATE SEQUENCE public.nonprofit_keys_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1413,14 +1415,14 @@ CREATE SEQUENCE nonprofit_keys_id_seq
 -- Name: nonprofit_keys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE nonprofit_keys_id_seq OWNED BY nonprofit_keys.id;
+ALTER SEQUENCE public.nonprofit_keys_id_seq OWNED BY public.nonprofit_keys.id;
 
 
 --
 -- Name: nonprofits; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE nonprofits (
+CREATE TABLE public.nonprofits (
     id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
@@ -1471,7 +1473,7 @@ CREATE TABLE nonprofits (
     card_failure_message_bottom text,
     fields_needed text,
     autocomplete_supporter_address boolean DEFAULT false,
-    currency character varying(255) DEFAULT 'eur'::character varying
+    currency character varying(255) DEFAULT 'usd'::character varying
 );
 
 
@@ -1479,7 +1481,7 @@ CREATE TABLE nonprofits (
 -- Name: nonprofits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE nonprofits_id_seq
+CREATE SEQUENCE public.nonprofits_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1491,14 +1493,14 @@ CREATE SEQUENCE nonprofits_id_seq
 -- Name: nonprofits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE nonprofits_id_seq OWNED BY nonprofits.id;
+ALTER SEQUENCE public.nonprofits_id_seq OWNED BY public.nonprofits.id;
 
 
 --
 -- Name: offsite_payments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE offsite_payments (
+CREATE TABLE public.offsite_payments (
     id integer NOT NULL,
     gross_amount integer,
     kind character varying(255),
@@ -1518,7 +1520,7 @@ CREATE TABLE offsite_payments (
 -- Name: offsite_payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE offsite_payments_id_seq
+CREATE SEQUENCE public.offsite_payments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1530,14 +1532,14 @@ CREATE SEQUENCE offsite_payments_id_seq
 -- Name: offsite_payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE offsite_payments_id_seq OWNED BY offsite_payments.id;
+ALTER SEQUENCE public.offsite_payments_id_seq OWNED BY public.offsite_payments.id;
 
 
 --
 -- Name: payment_imports; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE payment_imports (
+CREATE TABLE public.payment_imports (
     id integer NOT NULL,
     user_id integer,
     nonprofit_id integer,
@@ -1550,8 +1552,7 @@ CREATE TABLE payment_imports (
 -- Name: payment_imports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE payment_imports_id_seq
-    AS integer
+CREATE SEQUENCE public.payment_imports_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1563,14 +1564,14 @@ CREATE SEQUENCE payment_imports_id_seq
 -- Name: payment_imports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE payment_imports_id_seq OWNED BY payment_imports.id;
+ALTER SEQUENCE public.payment_imports_id_seq OWNED BY public.payment_imports.id;
 
 
 --
 -- Name: payment_payouts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE payment_payouts (
+CREATE TABLE public.payment_payouts (
     id integer NOT NULL,
     donation_id integer,
     payout_id integer,
@@ -1586,7 +1587,7 @@ CREATE TABLE payment_payouts (
 -- Name: payment_payouts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE payment_payouts_id_seq
+CREATE SEQUENCE public.payment_payouts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1598,14 +1599,14 @@ CREATE SEQUENCE payment_payouts_id_seq
 -- Name: payment_payouts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE payment_payouts_id_seq OWNED BY payment_payouts.id;
+ALTER SEQUENCE public.payment_payouts_id_seq OWNED BY public.payment_payouts.id;
 
 
 --
 -- Name: payments; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE payments (
+CREATE TABLE public.payments (
     id integer NOT NULL,
     gross_amount integer,
     refund_total integer,
@@ -1627,7 +1628,7 @@ CREATE TABLE payments (
 -- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE payments_id_seq
+CREATE SEQUENCE public.payments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1639,14 +1640,14 @@ CREATE SEQUENCE payments_id_seq
 -- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE payments_id_seq OWNED BY payments.id;
+ALTER SEQUENCE public.payments_id_seq OWNED BY public.payments.id;
 
 
 --
 -- Name: payouts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE payouts (
+CREATE TABLE public.payouts (
     id integer NOT NULL,
     net_amount integer,
     nonprofit_id integer,
@@ -1671,7 +1672,7 @@ CREATE TABLE payouts (
 -- Name: payouts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE payouts_id_seq
+CREATE SEQUENCE public.payouts_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1683,14 +1684,14 @@ CREATE SEQUENCE payouts_id_seq
 -- Name: payouts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE payouts_id_seq OWNED BY payouts.id;
+ALTER SEQUENCE public.payouts_id_seq OWNED BY public.payouts.id;
 
 
 --
 -- Name: profiles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE profiles (
+CREATE TABLE public.profiles (
     id integer NOT NULL,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
@@ -1717,7 +1718,7 @@ CREATE TABLE profiles (
 -- Name: profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE profiles_id_seq
+CREATE SEQUENCE public.profiles_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1729,14 +1730,14 @@ CREATE SEQUENCE profiles_id_seq
 -- Name: profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE profiles_id_seq OWNED BY profiles.id;
+ALTER SEQUENCE public.profiles_id_seq OWNED BY public.profiles.id;
 
 
 --
 -- Name: recurring_donations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE recurring_donations (
+CREATE TABLE public.recurring_donations (
     id integer NOT NULL,
     active boolean,
     paydate integer,
@@ -1768,7 +1769,7 @@ CREATE TABLE recurring_donations (
 -- Name: recurring_donations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE recurring_donations_id_seq
+CREATE SEQUENCE public.recurring_donations_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1780,14 +1781,14 @@ CREATE SEQUENCE recurring_donations_id_seq
 -- Name: recurring_donations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE recurring_donations_id_seq OWNED BY recurring_donations.id;
+ALTER SEQUENCE public.recurring_donations_id_seq OWNED BY public.recurring_donations.id;
 
 
 --
 -- Name: refunds; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE refunds (
+CREATE TABLE public.refunds (
     id integer NOT NULL,
     amount integer,
     comment text,
@@ -1806,7 +1807,7 @@ CREATE TABLE refunds (
 -- Name: refunds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE refunds_id_seq
+CREATE SEQUENCE public.refunds_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1818,14 +1819,14 @@ CREATE SEQUENCE refunds_id_seq
 -- Name: refunds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE refunds_id_seq OWNED BY refunds.id;
+ALTER SEQUENCE public.refunds_id_seq OWNED BY public.refunds.id;
 
 
 --
 -- Name: roles; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE roles (
+CREATE TABLE public.roles (
     id integer NOT NULL,
     name character varying(255),
     user_id integer,
@@ -1840,7 +1841,7 @@ CREATE TABLE roles (
 -- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE roles_id_seq
+CREATE SEQUENCE public.roles_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1852,14 +1853,14 @@ CREATE SEQUENCE roles_id_seq
 -- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
+ALTER SEQUENCE public.roles_id_seq OWNED BY public.roles.id;
 
 
 --
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE schema_migrations (
+CREATE TABLE public.schema_migrations (
     version character varying(255) NOT NULL
 );
 
@@ -1868,7 +1869,7 @@ CREATE TABLE schema_migrations (
 -- Name: sessions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE sessions (
+CREATE TABLE public.sessions (
     id integer NOT NULL,
     session_id character varying(255) NOT NULL,
     data text,
@@ -1881,7 +1882,7 @@ CREATE TABLE sessions (
 -- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE sessions_id_seq
+CREATE SEQUENCE public.sessions_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1893,14 +1894,14 @@ CREATE SEQUENCE sessions_id_seq
 -- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE sessions_id_seq OWNED BY sessions.id;
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
 
 
 --
 -- Name: source_tokens; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE source_tokens (
+CREATE TABLE public.source_tokens (
     token uuid NOT NULL,
     expiration timestamp without time zone,
     tokenizable_id integer,
@@ -1917,7 +1918,7 @@ CREATE TABLE source_tokens (
 -- Name: supporter_emails; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE supporter_emails (
+CREATE TABLE public.supporter_emails (
     id integer NOT NULL,
     "to" text,
     "from" character varying(255),
@@ -1937,7 +1938,7 @@ CREATE TABLE supporter_emails (
 -- Name: supporter_emails_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE supporter_emails_id_seq
+CREATE SEQUENCE public.supporter_emails_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1949,14 +1950,14 @@ CREATE SEQUENCE supporter_emails_id_seq
 -- Name: supporter_emails_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE supporter_emails_id_seq OWNED BY supporter_emails.id;
+ALTER SEQUENCE public.supporter_emails_id_seq OWNED BY public.supporter_emails.id;
 
 
 --
 -- Name: supporter_notes; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE supporter_notes (
+CREATE TABLE public.supporter_notes (
     id integer NOT NULL,
     content text,
     supporter_id integer,
@@ -1971,7 +1972,7 @@ CREATE TABLE supporter_notes (
 -- Name: supporter_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE supporter_notes_id_seq
+CREATE SEQUENCE public.supporter_notes_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1983,14 +1984,14 @@ CREATE SEQUENCE supporter_notes_id_seq
 -- Name: supporter_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE supporter_notes_id_seq OWNED BY supporter_notes.id;
+ALTER SEQUENCE public.supporter_notes_id_seq OWNED BY public.supporter_notes.id;
 
 
 --
 -- Name: supporters; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE supporters (
+CREATE TABLE public.supporters (
     id integer NOT NULL,
     profile_id integer,
     nonprofit_id integer,
@@ -2030,7 +2031,7 @@ CREATE TABLE supporters (
 -- Name: supporters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE supporters_id_seq
+CREATE SEQUENCE public.supporters_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2042,14 +2043,14 @@ CREATE SEQUENCE supporters_id_seq
 -- Name: supporters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE supporters_id_seq OWNED BY supporters.id;
+ALTER SEQUENCE public.supporters_id_seq OWNED BY public.supporters.id;
 
 
 --
 -- Name: tag_joins; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE tag_joins (
+CREATE TABLE public.tag_joins (
     id integer NOT NULL,
     tag_master_id integer,
     supporter_id integer,
@@ -2062,7 +2063,7 @@ CREATE TABLE tag_joins (
 -- Name: tag_joins_backup; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE tag_joins_backup (
+CREATE TABLE public.tag_joins_backup (
     id integer NOT NULL,
     tag_master_id integer,
     supporter_id integer,
@@ -2076,7 +2077,7 @@ CREATE TABLE tag_joins_backup (
 -- Name: tag_joins_backup_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE tag_joins_backup_id_seq
+CREATE SEQUENCE public.tag_joins_backup_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2088,14 +2089,14 @@ CREATE SEQUENCE tag_joins_backup_id_seq
 -- Name: tag_joins_backup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE tag_joins_backup_id_seq OWNED BY tag_joins_backup.id;
+ALTER SEQUENCE public.tag_joins_backup_id_seq OWNED BY public.tag_joins_backup.id;
 
 
 --
 -- Name: tag_joins_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE tag_joins_id_seq
+CREATE SEQUENCE public.tag_joins_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2107,14 +2108,14 @@ CREATE SEQUENCE tag_joins_id_seq
 -- Name: tag_joins_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE tag_joins_id_seq OWNED BY tag_joins.id;
+ALTER SEQUENCE public.tag_joins_id_seq OWNED BY public.tag_joins.id;
 
 
 --
 -- Name: tag_masters; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE tag_masters (
+CREATE TABLE public.tag_masters (
     id integer NOT NULL,
     name character varying(255),
     nonprofit_id integer,
@@ -2128,7 +2129,7 @@ CREATE TABLE tag_masters (
 -- Name: tag_masters_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE tag_masters_id_seq
+CREATE SEQUENCE public.tag_masters_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2140,14 +2141,14 @@ CREATE SEQUENCE tag_masters_id_seq
 -- Name: tag_masters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE tag_masters_id_seq OWNED BY tag_masters.id;
+ALTER SEQUENCE public.tag_masters_id_seq OWNED BY public.tag_masters.id;
 
 
 --
 -- Name: ticket_levels; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE ticket_levels (
+CREATE TABLE public.ticket_levels (
     id integer NOT NULL,
     event_id integer,
     amount integer,
@@ -2168,7 +2169,7 @@ CREATE TABLE ticket_levels (
 -- Name: ticket_levels_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE ticket_levels_id_seq
+CREATE SEQUENCE public.ticket_levels_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2180,14 +2181,14 @@ CREATE SEQUENCE ticket_levels_id_seq
 -- Name: ticket_levels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE ticket_levels_id_seq OWNED BY ticket_levels.id;
+ALTER SEQUENCE public.ticket_levels_id_seq OWNED BY public.ticket_levels.id;
 
 
 --
 -- Name: tickets; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE tickets (
+CREATE TABLE public.tickets (
     id integer NOT NULL,
     ticket_level_id integer,
     charge_id integer,
@@ -2212,7 +2213,7 @@ CREATE TABLE tickets (
 -- Name: tickets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE tickets_id_seq
+CREATE SEQUENCE public.tickets_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2224,14 +2225,14 @@ CREATE SEQUENCE tickets_id_seq
 -- Name: tickets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE tickets_id_seq OWNED BY tickets.id;
+ALTER SEQUENCE public.tickets_id_seq OWNED BY public.tickets.id;
 
 
 --
 -- Name: trackings; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE trackings (
+CREATE TABLE public.trackings (
     id integer NOT NULL,
     utm_campaign character varying(255),
     utm_medium character varying(255),
@@ -2247,7 +2248,7 @@ CREATE TABLE trackings (
 -- Name: trackings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE trackings_id_seq
+CREATE SEQUENCE public.trackings_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2259,14 +2260,14 @@ CREATE SEQUENCE trackings_id_seq
 -- Name: trackings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE trackings_id_seq OWNED BY trackings.id;
+ALTER SEQUENCE public.trackings_id_seq OWNED BY public.trackings.id;
 
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE users (
+CREATE TABLE public.users (
     id integer NOT NULL,
     email character varying(255) DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -2308,7 +2309,7 @@ CREATE TABLE users (
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE users_id_seq
+CREATE SEQUENCE public.users_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -2320,385 +2321,392 @@ CREATE SEQUENCE users_id_seq
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE users_id_seq OWNED BY users.id;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
 -- Name: activities id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY activities ALTER COLUMN id SET DEFAULT nextval('activities_id_seq'::regclass);
+ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.activities_id_seq'::regclass);
 
 
 --
 -- Name: bank_accounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY bank_accounts ALTER COLUMN id SET DEFAULT nextval('bank_accounts_id_seq'::regclass);
+ALTER TABLE ONLY public.bank_accounts ALTER COLUMN id SET DEFAULT nextval('public.bank_accounts_id_seq'::regclass);
 
 
 --
 -- Name: billing_plans id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY billing_plans ALTER COLUMN id SET DEFAULT nextval('billing_plans_id_seq'::regclass);
+ALTER TABLE ONLY public.billing_plans ALTER COLUMN id SET DEFAULT nextval('public.billing_plans_id_seq'::regclass);
 
 
 --
 -- Name: billing_subscriptions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY billing_subscriptions ALTER COLUMN id SET DEFAULT nextval('billing_subscriptions_id_seq'::regclass);
+ALTER TABLE ONLY public.billing_subscriptions ALTER COLUMN id SET DEFAULT nextval('public.billing_subscriptions_id_seq'::regclass);
 
 
 --
 -- Name: campaign_gift_options id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaign_gift_options ALTER COLUMN id SET DEFAULT nextval('campaign_gift_options_id_seq'::regclass);
+ALTER TABLE ONLY public.campaign_gift_options ALTER COLUMN id SET DEFAULT nextval('public.campaign_gift_options_id_seq'::regclass);
 
 
 --
 -- Name: campaign_gifts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaign_gifts ALTER COLUMN id SET DEFAULT nextval('campaign_gifts_id_seq'::regclass);
+ALTER TABLE ONLY public.campaign_gifts ALTER COLUMN id SET DEFAULT nextval('public.campaign_gifts_id_seq'::regclass);
 
 
 --
 -- Name: campaign_templates id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaign_templates ALTER COLUMN id SET DEFAULT nextval('campaign_templates_id_seq'::regclass);
+ALTER TABLE ONLY public.campaign_templates ALTER COLUMN id SET DEFAULT nextval('public.campaign_templates_id_seq'::regclass);
 
 
 --
 -- Name: campaigns id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaigns ALTER COLUMN id SET DEFAULT nextval('campaigns_id_seq'::regclass);
+ALTER TABLE ONLY public.campaigns ALTER COLUMN id SET DEFAULT nextval('public.campaigns_id_seq'::regclass);
 
 
 --
 -- Name: cards id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cards ALTER COLUMN id SET DEFAULT nextval('cards_id_seq'::regclass);
+ALTER TABLE ONLY public.cards ALTER COLUMN id SET DEFAULT nextval('public.cards_id_seq'::regclass);
 
 
 --
 -- Name: charges id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY charges ALTER COLUMN id SET DEFAULT nextval('charges_id_seq'::regclass);
+ALTER TABLE ONLY public.charges ALTER COLUMN id SET DEFAULT nextval('public.charges_id_seq'::regclass);
 
 
 --
 -- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY comments ALTER COLUMN id SET DEFAULT nextval('comments_id_seq'::regclass);
+ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
 
 
 --
 -- Name: custom_field_joins id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY custom_field_joins ALTER COLUMN id SET DEFAULT nextval('custom_field_joins_id_seq'::regclass);
+ALTER TABLE ONLY public.custom_field_joins ALTER COLUMN id SET DEFAULT nextval('public.custom_field_joins_id_seq'::regclass);
 
 
 --
 -- Name: custom_field_joins_backup id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY custom_field_joins_backup ALTER COLUMN id SET DEFAULT nextval('custom_field_joins_backup_id_seq'::regclass);
+ALTER TABLE ONLY public.custom_field_joins_backup ALTER COLUMN id SET DEFAULT nextval('public.custom_field_joins_backup_id_seq'::regclass);
 
 
 --
 -- Name: custom_field_masters id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY custom_field_masters ALTER COLUMN id SET DEFAULT nextval('custom_field_masters_id_seq'::regclass);
+ALTER TABLE ONLY public.custom_field_masters ALTER COLUMN id SET DEFAULT nextval('public.custom_field_masters_id_seq'::regclass);
 
 
 --
 -- Name: delayed_jobs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
+ALTER TABLE ONLY public.delayed_jobs ALTER COLUMN id SET DEFAULT nextval('public.delayed_jobs_id_seq'::regclass);
 
 
 --
 -- Name: direct_debit_details id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY direct_debit_details ALTER COLUMN id SET DEFAULT nextval('direct_debit_details_id_seq'::regclass);
+ALTER TABLE ONLY public.direct_debit_details ALTER COLUMN id SET DEFAULT nextval('public.direct_debit_details_id_seq'::regclass);
 
 
 --
 -- Name: disputes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY disputes ALTER COLUMN id SET DEFAULT nextval('disputes_id_seq'::regclass);
+ALTER TABLE ONLY public.disputes ALTER COLUMN id SET DEFAULT nextval('public.disputes_id_seq'::regclass);
 
 
 --
 -- Name: donations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY donations ALTER COLUMN id SET DEFAULT nextval('donations_id_seq'::regclass);
+ALTER TABLE ONLY public.donations ALTER COLUMN id SET DEFAULT nextval('public.donations_id_seq'::regclass);
 
 
 --
 -- Name: email_lists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY email_lists ALTER COLUMN id SET DEFAULT nextval('email_lists_id_seq'::regclass);
+ALTER TABLE ONLY public.email_lists ALTER COLUMN id SET DEFAULT nextval('public.email_lists_id_seq'::regclass);
 
 
 --
 -- Name: email_settings id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY email_settings ALTER COLUMN id SET DEFAULT nextval('email_settings_id_seq'::regclass);
+ALTER TABLE ONLY public.email_settings ALTER COLUMN id SET DEFAULT nextval('public.email_settings_id_seq'::regclass);
 
 
 --
 -- Name: event_discounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY event_discounts ALTER COLUMN id SET DEFAULT nextval('event_discounts_id_seq'::regclass);
+ALTER TABLE ONLY public.event_discounts ALTER COLUMN id SET DEFAULT nextval('public.event_discounts_id_seq'::regclass);
 
 
 --
 -- Name: events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
+ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
 
 
 --
 -- Name: exports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY exports ALTER COLUMN id SET DEFAULT nextval('exports_id_seq'::regclass);
+ALTER TABLE ONLY public.exports ALTER COLUMN id SET DEFAULT nextval('public.exports_id_seq'::regclass);
 
 
 --
 -- Name: full_contact_infos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_infos ALTER COLUMN id SET DEFAULT nextval('full_contact_infos_id_seq'::regclass);
+ALTER TABLE ONLY public.full_contact_infos ALTER COLUMN id SET DEFAULT nextval('public.full_contact_infos_id_seq'::regclass);
 
 
 --
 -- Name: full_contact_jobs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_jobs ALTER COLUMN id SET DEFAULT nextval('full_contact_jobs_id_seq'::regclass);
+ALTER TABLE ONLY public.full_contact_jobs ALTER COLUMN id SET DEFAULT nextval('public.full_contact_jobs_id_seq'::regclass);
 
 
 --
 -- Name: full_contact_orgs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_orgs ALTER COLUMN id SET DEFAULT nextval('full_contact_orgs_id_seq'::regclass);
+ALTER TABLE ONLY public.full_contact_orgs ALTER COLUMN id SET DEFAULT nextval('public.full_contact_orgs_id_seq'::regclass);
 
 
 --
 -- Name: full_contact_photos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_photos ALTER COLUMN id SET DEFAULT nextval('full_contact_photos_id_seq'::regclass);
+ALTER TABLE ONLY public.full_contact_photos ALTER COLUMN id SET DEFAULT nextval('public.full_contact_photos_id_seq'::regclass);
 
 
 --
 -- Name: full_contact_social_profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_social_profiles ALTER COLUMN id SET DEFAULT nextval('full_contact_social_profiles_id_seq'::regclass);
+ALTER TABLE ONLY public.full_contact_social_profiles ALTER COLUMN id SET DEFAULT nextval('public.full_contact_social_profiles_id_seq'::regclass);
 
 
 --
 -- Name: full_contact_topics id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_topics ALTER COLUMN id SET DEFAULT nextval('full_contact_topics_id_seq'::regclass);
+ALTER TABLE ONLY public.full_contact_topics ALTER COLUMN id SET DEFAULT nextval('public.full_contact_topics_id_seq'::regclass);
 
 
 --
 -- Name: image_attachments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY image_attachments ALTER COLUMN id SET DEFAULT nextval('image_attachments_id_seq'::regclass);
+ALTER TABLE ONLY public.image_attachments ALTER COLUMN id SET DEFAULT nextval('public.image_attachments_id_seq'::regclass);
 
 
 --
 -- Name: imports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY imports ALTER COLUMN id SET DEFAULT nextval('imports_id_seq'::regclass);
+ALTER TABLE ONLY public.imports ALTER COLUMN id SET DEFAULT nextval('public.imports_id_seq'::regclass);
 
 
 --
 -- Name: miscellaneous_np_infos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY miscellaneous_np_infos ALTER COLUMN id SET DEFAULT nextval('miscellaneous_np_infos_id_seq'::regclass);
+ALTER TABLE ONLY public.miscellaneous_np_infos ALTER COLUMN id SET DEFAULT nextval('public.miscellaneous_np_infos_id_seq'::regclass);
 
 
 --
 -- Name: nonprofit_keys id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY nonprofit_keys ALTER COLUMN id SET DEFAULT nextval('nonprofit_keys_id_seq'::regclass);
+ALTER TABLE ONLY public.nonprofit_keys ALTER COLUMN id SET DEFAULT nextval('public.nonprofit_keys_id_seq'::regclass);
 
 
 --
 -- Name: nonprofits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY nonprofits ALTER COLUMN id SET DEFAULT nextval('nonprofits_id_seq'::regclass);
+ALTER TABLE ONLY public.nonprofits ALTER COLUMN id SET DEFAULT nextval('public.nonprofits_id_seq'::regclass);
 
 
 --
 -- Name: offsite_payments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY offsite_payments ALTER COLUMN id SET DEFAULT nextval('offsite_payments_id_seq'::regclass);
+ALTER TABLE ONLY public.offsite_payments ALTER COLUMN id SET DEFAULT nextval('public.offsite_payments_id_seq'::regclass);
 
 
 --
 -- Name: payment_imports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_imports ALTER COLUMN id SET DEFAULT nextval('payment_imports_id_seq'::regclass);
+ALTER TABLE ONLY public.payment_imports ALTER COLUMN id SET DEFAULT nextval('public.payment_imports_id_seq'::regclass);
 
 
 --
 -- Name: payment_payouts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_payouts ALTER COLUMN id SET DEFAULT nextval('payment_payouts_id_seq'::regclass);
+ALTER TABLE ONLY public.payment_payouts ALTER COLUMN id SET DEFAULT nextval('public.payment_payouts_id_seq'::regclass);
 
 
 --
 -- Name: payments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payments ALTER COLUMN id SET DEFAULT nextval('payments_id_seq'::regclass);
+ALTER TABLE ONLY public.payments ALTER COLUMN id SET DEFAULT nextval('public.payments_id_seq'::regclass);
 
 
 --
 -- Name: payouts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payouts ALTER COLUMN id SET DEFAULT nextval('payouts_id_seq'::regclass);
+ALTER TABLE ONLY public.payouts ALTER COLUMN id SET DEFAULT nextval('public.payouts_id_seq'::regclass);
 
 
 --
 -- Name: profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY profiles ALTER COLUMN id SET DEFAULT nextval('profiles_id_seq'::regclass);
+ALTER TABLE ONLY public.profiles ALTER COLUMN id SET DEFAULT nextval('public.profiles_id_seq'::regclass);
 
 
 --
 -- Name: recurring_donations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY recurring_donations ALTER COLUMN id SET DEFAULT nextval('recurring_donations_id_seq'::regclass);
+ALTER TABLE ONLY public.recurring_donations ALTER COLUMN id SET DEFAULT nextval('public.recurring_donations_id_seq'::regclass);
 
 
 --
 -- Name: refunds id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY refunds ALTER COLUMN id SET DEFAULT nextval('refunds_id_seq'::regclass);
+ALTER TABLE ONLY public.refunds ALTER COLUMN id SET DEFAULT nextval('public.refunds_id_seq'::regclass);
 
 
 --
 -- Name: roles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
+ALTER TABLE ONLY public.roles ALTER COLUMN id SET DEFAULT nextval('public.roles_id_seq'::regclass);
 
 
 --
 -- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sessions ALTER COLUMN id SET DEFAULT nextval('sessions_id_seq'::regclass);
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
 
 
 --
 -- Name: supporter_emails id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY supporter_emails ALTER COLUMN id SET DEFAULT nextval('supporter_emails_id_seq'::regclass);
+ALTER TABLE ONLY public.supporter_emails ALTER COLUMN id SET DEFAULT nextval('public.supporter_emails_id_seq'::regclass);
 
 
 --
 -- Name: supporter_notes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY supporter_notes ALTER COLUMN id SET DEFAULT nextval('supporter_notes_id_seq'::regclass);
+ALTER TABLE ONLY public.supporter_notes ALTER COLUMN id SET DEFAULT nextval('public.supporter_notes_id_seq'::regclass);
 
 
 --
 -- Name: supporters id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY supporters ALTER COLUMN id SET DEFAULT nextval('supporters_id_seq'::regclass);
+ALTER TABLE ONLY public.supporters ALTER COLUMN id SET DEFAULT nextval('public.supporters_id_seq'::regclass);
 
 
 --
 -- Name: tag_joins id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tag_joins ALTER COLUMN id SET DEFAULT nextval('tag_joins_id_seq'::regclass);
+ALTER TABLE ONLY public.tag_joins ALTER COLUMN id SET DEFAULT nextval('public.tag_joins_id_seq'::regclass);
 
 
 --
 -- Name: tag_joins_backup id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tag_joins_backup ALTER COLUMN id SET DEFAULT nextval('tag_joins_backup_id_seq'::regclass);
+ALTER TABLE ONLY public.tag_joins_backup ALTER COLUMN id SET DEFAULT nextval('public.tag_joins_backup_id_seq'::regclass);
 
 
 --
 -- Name: tag_masters id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tag_masters ALTER COLUMN id SET DEFAULT nextval('tag_masters_id_seq'::regclass);
+ALTER TABLE ONLY public.tag_masters ALTER COLUMN id SET DEFAULT nextval('public.tag_masters_id_seq'::regclass);
 
 
 --
 -- Name: ticket_levels id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ticket_levels ALTER COLUMN id SET DEFAULT nextval('ticket_levels_id_seq'::regclass);
+ALTER TABLE ONLY public.ticket_levels ALTER COLUMN id SET DEFAULT nextval('public.ticket_levels_id_seq'::regclass);
 
 
 --
 -- Name: tickets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tickets ALTER COLUMN id SET DEFAULT nextval('tickets_id_seq'::regclass);
+ALTER TABLE ONLY public.tickets ALTER COLUMN id SET DEFAULT nextval('public.tickets_id_seq'::regclass);
+
+
+--
+-- Name: trackings id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.trackings ALTER COLUMN id SET DEFAULT nextval('public.trackings_id_seq'::regclass);
 
 
 --
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ar_internal_metadata
+ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
 
 
@@ -2706,7 +2714,7 @@ ALTER TABLE ONLY ar_internal_metadata
 -- Name: billing_plans billing_plan_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY billing_plans
+ALTER TABLE ONLY public.billing_plans
     ADD CONSTRAINT billing_plan_pkey PRIMARY KEY (id);
 
 
@@ -2714,7 +2722,7 @@ ALTER TABLE ONLY billing_plans
 -- Name: billing_subscriptions billing_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY billing_subscriptions
+ALTER TABLE ONLY public.billing_subscriptions
     ADD CONSTRAINT billing_subscriptions_pkey PRIMARY KEY (id);
 
 
@@ -2722,7 +2730,7 @@ ALTER TABLE ONLY billing_subscriptions
 -- Name: activities campaign_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY activities
+ALTER TABLE ONLY public.activities
     ADD CONSTRAINT campaign_activities_pkey PRIMARY KEY (id);
 
 
@@ -2730,7 +2738,7 @@ ALTER TABLE ONLY activities
 -- Name: comments campaign_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY comments
+ALTER TABLE ONLY public.comments
     ADD CONSTRAINT campaign_comments_pkey PRIMARY KEY (id);
 
 
@@ -2738,7 +2746,7 @@ ALTER TABLE ONLY comments
 -- Name: campaign_gift_options campaign_gift_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaign_gift_options
+ALTER TABLE ONLY public.campaign_gift_options
     ADD CONSTRAINT campaign_gift_options_pkey PRIMARY KEY (id);
 
 
@@ -2746,7 +2754,7 @@ ALTER TABLE ONLY campaign_gift_options
 -- Name: campaign_gifts campaign_gifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaign_gifts
+ALTER TABLE ONLY public.campaign_gifts
     ADD CONSTRAINT campaign_gifts_pkey PRIMARY KEY (id);
 
 
@@ -2754,7 +2762,7 @@ ALTER TABLE ONLY campaign_gifts
 -- Name: campaign_templates campaign_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaign_templates
+ALTER TABLE ONLY public.campaign_templates
     ADD CONSTRAINT campaign_templates_pkey PRIMARY KEY (id);
 
 
@@ -2762,7 +2770,7 @@ ALTER TABLE ONLY campaign_templates
 -- Name: campaigns campaigns_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY campaigns
+ALTER TABLE ONLY public.campaigns
     ADD CONSTRAINT campaigns_pkey PRIMARY KEY (id);
 
 
@@ -2770,7 +2778,7 @@ ALTER TABLE ONLY campaigns
 -- Name: charges charges_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY charges
+ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
 
 
@@ -2778,7 +2786,7 @@ ALTER TABLE ONLY charges
 -- Name: custom_field_joins_backup custom_field_joins_backup_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY custom_field_joins_backup
+ALTER TABLE ONLY public.custom_field_joins_backup
     ADD CONSTRAINT custom_field_joins_backup_pkey PRIMARY KEY (id);
 
 
@@ -2786,7 +2794,7 @@ ALTER TABLE ONLY custom_field_joins_backup
 -- Name: custom_field_joins custom_field_joins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY custom_field_joins
+ALTER TABLE ONLY public.custom_field_joins
     ADD CONSTRAINT custom_field_joins_pkey PRIMARY KEY (id);
 
 
@@ -2794,7 +2802,7 @@ ALTER TABLE ONLY custom_field_joins
 -- Name: custom_field_masters custom_field_masters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY custom_field_masters
+ALTER TABLE ONLY public.custom_field_masters
     ADD CONSTRAINT custom_field_masters_pkey PRIMARY KEY (id);
 
 
@@ -2802,7 +2810,7 @@ ALTER TABLE ONLY custom_field_masters
 -- Name: delayed_jobs delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY delayed_jobs
+ALTER TABLE ONLY public.delayed_jobs
     ADD CONSTRAINT delayed_jobs_pkey PRIMARY KEY (id);
 
 
@@ -2810,7 +2818,7 @@ ALTER TABLE ONLY delayed_jobs
 -- Name: direct_debit_details direct_debit_details_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY direct_debit_details
+ALTER TABLE ONLY public.direct_debit_details
     ADD CONSTRAINT direct_debit_details_pkey PRIMARY KEY (id);
 
 
@@ -2818,7 +2826,7 @@ ALTER TABLE ONLY direct_debit_details
 -- Name: disputes disputes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY disputes
+ALTER TABLE ONLY public.disputes
     ADD CONSTRAINT disputes_pkey PRIMARY KEY (id);
 
 
@@ -2826,7 +2834,7 @@ ALTER TABLE ONLY disputes
 -- Name: payment_payouts donation_disbursals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_payouts
+ALTER TABLE ONLY public.payment_payouts
     ADD CONSTRAINT donation_disbursals_pkey PRIMARY KEY (id);
 
 
@@ -2834,7 +2842,7 @@ ALTER TABLE ONLY payment_payouts
 -- Name: donations donations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY donations
+ALTER TABLE ONLY public.donations
     ADD CONSTRAINT donations_pkey PRIMARY KEY (id);
 
 
@@ -2842,7 +2850,7 @@ ALTER TABLE ONLY donations
 -- Name: profiles donor_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY profiles
+ALTER TABLE ONLY public.profiles
     ADD CONSTRAINT donor_profiles_pkey PRIMARY KEY (id);
 
 
@@ -2850,7 +2858,7 @@ ALTER TABLE ONLY profiles
 -- Name: email_settings email_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY email_settings
+ALTER TABLE ONLY public.email_settings
     ADD CONSTRAINT email_settings_pkey PRIMARY KEY (id);
 
 
@@ -2858,7 +2866,7 @@ ALTER TABLE ONLY email_settings
 -- Name: event_discounts event_discounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY event_discounts
+ALTER TABLE ONLY public.event_discounts
     ADD CONSTRAINT event_discounts_pkey PRIMARY KEY (id);
 
 
@@ -2866,7 +2874,7 @@ ALTER TABLE ONLY event_discounts
 -- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY events
+ALTER TABLE ONLY public.events
     ADD CONSTRAINT events_pkey PRIMARY KEY (id);
 
 
@@ -2874,7 +2882,7 @@ ALTER TABLE ONLY events
 -- Name: exports exports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY exports
+ALTER TABLE ONLY public.exports
     ADD CONSTRAINT exports_pkey PRIMARY KEY (id);
 
 
@@ -2882,7 +2890,7 @@ ALTER TABLE ONLY exports
 -- Name: full_contact_infos full_contact_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_infos
+ALTER TABLE ONLY public.full_contact_infos
     ADD CONSTRAINT full_contact_infos_pkey PRIMARY KEY (id);
 
 
@@ -2890,7 +2898,7 @@ ALTER TABLE ONLY full_contact_infos
 -- Name: full_contact_jobs full_contact_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_jobs
+ALTER TABLE ONLY public.full_contact_jobs
     ADD CONSTRAINT full_contact_jobs_pkey PRIMARY KEY (id);
 
 
@@ -2898,7 +2906,7 @@ ALTER TABLE ONLY full_contact_jobs
 -- Name: full_contact_orgs full_contact_orgs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_orgs
+ALTER TABLE ONLY public.full_contact_orgs
     ADD CONSTRAINT full_contact_orgs_pkey PRIMARY KEY (id);
 
 
@@ -2906,7 +2914,7 @@ ALTER TABLE ONLY full_contact_orgs
 -- Name: full_contact_photos full_contact_photos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_photos
+ALTER TABLE ONLY public.full_contact_photos
     ADD CONSTRAINT full_contact_photos_pkey PRIMARY KEY (id);
 
 
@@ -2914,7 +2922,7 @@ ALTER TABLE ONLY full_contact_photos
 -- Name: full_contact_social_profiles full_contact_social_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_social_profiles
+ALTER TABLE ONLY public.full_contact_social_profiles
     ADD CONSTRAINT full_contact_social_profiles_pkey PRIMARY KEY (id);
 
 
@@ -2922,7 +2930,7 @@ ALTER TABLE ONLY full_contact_social_profiles
 -- Name: full_contact_topics full_contact_topics_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY full_contact_topics
+ALTER TABLE ONLY public.full_contact_topics
     ADD CONSTRAINT full_contact_topics_pkey PRIMARY KEY (id);
 
 
@@ -2930,7 +2938,7 @@ ALTER TABLE ONLY full_contact_topics
 -- Name: image_attachments image_attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY image_attachments
+ALTER TABLE ONLY public.image_attachments
     ADD CONSTRAINT image_attachments_pkey PRIMARY KEY (id);
 
 
@@ -2938,7 +2946,7 @@ ALTER TABLE ONLY image_attachments
 -- Name: imports imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY imports
+ALTER TABLE ONLY public.imports
     ADD CONSTRAINT imports_pkey PRIMARY KEY (id);
 
 
@@ -2946,7 +2954,7 @@ ALTER TABLE ONLY imports
 -- Name: email_lists mailchimp_email_lists_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY email_lists
+ALTER TABLE ONLY public.email_lists
     ADD CONSTRAINT mailchimp_email_lists_pkey PRIMARY KEY (id);
 
 
@@ -2954,7 +2962,7 @@ ALTER TABLE ONLY email_lists
 -- Name: miscellaneous_np_infos miscellaneous_np_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY miscellaneous_np_infos
+ALTER TABLE ONLY public.miscellaneous_np_infos
     ADD CONSTRAINT miscellaneous_np_infos_pkey PRIMARY KEY (id);
 
 
@@ -2962,7 +2970,7 @@ ALTER TABLE ONLY miscellaneous_np_infos
 -- Name: bank_accounts nonprofit_bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY bank_accounts
+ALTER TABLE ONLY public.bank_accounts
     ADD CONSTRAINT nonprofit_bank_accounts_pkey PRIMARY KEY (id);
 
 
@@ -2970,7 +2978,7 @@ ALTER TABLE ONLY bank_accounts
 -- Name: payouts nonprofit_credits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payouts
+ALTER TABLE ONLY public.payouts
     ADD CONSTRAINT nonprofit_credits_pkey PRIMARY KEY (id);
 
 
@@ -2978,7 +2986,7 @@ ALTER TABLE ONLY payouts
 -- Name: nonprofit_keys nonprofit_keys_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY nonprofit_keys
+ALTER TABLE ONLY public.nonprofit_keys
     ADD CONSTRAINT nonprofit_keys_pkey PRIMARY KEY (id);
 
 
@@ -2986,7 +2994,7 @@ ALTER TABLE ONLY nonprofit_keys
 -- Name: nonprofits npos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY nonprofits
+ALTER TABLE ONLY public.nonprofits
     ADD CONSTRAINT npos_pkey PRIMARY KEY (id);
 
 
@@ -2994,7 +3002,7 @@ ALTER TABLE ONLY nonprofits
 -- Name: offsite_payments offsite_payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY offsite_payments
+ALTER TABLE ONLY public.offsite_payments
     ADD CONSTRAINT offsite_payments_pkey PRIMARY KEY (id);
 
 
@@ -3002,7 +3010,7 @@ ALTER TABLE ONLY offsite_payments
 -- Name: payment_imports payment_imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payment_imports
+ALTER TABLE ONLY public.payment_imports
     ADD CONSTRAINT payment_imports_pkey PRIMARY KEY (id);
 
 
@@ -3010,7 +3018,7 @@ ALTER TABLE ONLY payment_imports
 -- Name: cards payment_methods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY cards
+ALTER TABLE ONLY public.cards
     ADD CONSTRAINT payment_methods_pkey PRIMARY KEY (id);
 
 
@@ -3018,7 +3026,7 @@ ALTER TABLE ONLY cards
 -- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY payments
+ALTER TABLE ONLY public.payments
     ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
 
 
@@ -3026,7 +3034,7 @@ ALTER TABLE ONLY payments
 -- Name: recurring_donations recurring_donations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY recurring_donations
+ALTER TABLE ONLY public.recurring_donations
     ADD CONSTRAINT recurring_donations_pkey PRIMARY KEY (id);
 
 
@@ -3034,7 +3042,7 @@ ALTER TABLE ONLY recurring_donations
 -- Name: refunds refunds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY refunds
+ALTER TABLE ONLY public.refunds
     ADD CONSTRAINT refunds_pkey PRIMARY KEY (id);
 
 
@@ -3042,7 +3050,7 @@ ALTER TABLE ONLY refunds
 -- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY roles
+ALTER TABLE ONLY public.roles
     ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
 
 
@@ -3050,7 +3058,7 @@ ALTER TABLE ONLY roles
 -- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY sessions
+ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
 
 
@@ -3058,7 +3066,7 @@ ALTER TABLE ONLY sessions
 -- Name: supporters supporter_data_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY supporters
+ALTER TABLE ONLY public.supporters
     ADD CONSTRAINT supporter_data_pkey PRIMARY KEY (id);
 
 
@@ -3066,7 +3074,7 @@ ALTER TABLE ONLY supporters
 -- Name: supporter_emails supporter_emails_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY supporter_emails
+ALTER TABLE ONLY public.supporter_emails
     ADD CONSTRAINT supporter_emails_pkey PRIMARY KEY (id);
 
 
@@ -3074,7 +3082,7 @@ ALTER TABLE ONLY supporter_emails
 -- Name: supporter_notes supporter_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY supporter_notes
+ALTER TABLE ONLY public.supporter_notes
     ADD CONSTRAINT supporter_notes_pkey PRIMARY KEY (id);
 
 
@@ -3082,7 +3090,7 @@ ALTER TABLE ONLY supporter_notes
 -- Name: tag_joins_backup tag_joins_backup_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tag_joins_backup
+ALTER TABLE ONLY public.tag_joins_backup
     ADD CONSTRAINT tag_joins_backup_pkey PRIMARY KEY (id);
 
 
@@ -3090,7 +3098,7 @@ ALTER TABLE ONLY tag_joins_backup
 -- Name: tag_joins tag_joins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tag_joins
+ALTER TABLE ONLY public.tag_joins
     ADD CONSTRAINT tag_joins_pkey PRIMARY KEY (id);
 
 
@@ -3098,7 +3106,7 @@ ALTER TABLE ONLY tag_joins
 -- Name: tag_masters tag_masters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tag_masters
+ALTER TABLE ONLY public.tag_masters
     ADD CONSTRAINT tag_masters_pkey PRIMARY KEY (id);
 
 
@@ -3106,7 +3114,7 @@ ALTER TABLE ONLY tag_masters
 -- Name: ticket_levels ticket_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY ticket_levels
+ALTER TABLE ONLY public.ticket_levels
     ADD CONSTRAINT ticket_levels_pkey PRIMARY KEY (id);
 
 
@@ -3114,7 +3122,7 @@ ALTER TABLE ONLY ticket_levels
 -- Name: tickets tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY tickets
+ALTER TABLE ONLY public.tickets
     ADD CONSTRAINT tickets_pkey PRIMARY KEY (id);
 
 
@@ -3122,7 +3130,7 @@ ALTER TABLE ONLY tickets
 -- Name: trackings trackings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY trackings
+ALTER TABLE ONLY public.trackings
     ADD CONSTRAINT trackings_pkey PRIMARY KEY (id);
 
 
@@ -3130,7 +3138,7 @@ ALTER TABLE ONLY trackings
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY users
+ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
@@ -3138,91 +3146,91 @@ ALTER TABLE ONLY users
 -- Name: custom_field_join_supporter_unique_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX custom_field_join_supporter_unique_idx ON custom_field_joins USING btree (custom_field_master_id, supporter_id);
+CREATE UNIQUE INDEX custom_field_join_supporter_unique_idx ON public.custom_field_joins USING btree (custom_field_master_id, supporter_id);
 
 
 --
 -- Name: custom_field_joins_custom_field_master_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX custom_field_joins_custom_field_master_id ON custom_field_joins USING btree (custom_field_master_id);
+CREATE INDEX custom_field_joins_custom_field_master_id ON public.custom_field_joins USING btree (custom_field_master_id);
 
 
 --
 -- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
+CREATE INDEX delayed_jobs_priority ON public.delayed_jobs USING btree (priority, run_at);
 
 
 --
 -- Name: donations_amount; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX donations_amount ON donations USING btree (amount);
+CREATE INDEX donations_amount ON public.donations USING btree (amount);
 
 
 --
 -- Name: donations_campaign_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX donations_campaign_id ON donations USING btree (campaign_id);
+CREATE INDEX donations_campaign_id ON public.donations USING btree (campaign_id);
 
 
 --
 -- Name: donations_designation; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX donations_designation ON donations USING btree (lower(designation));
+CREATE INDEX donations_designation ON public.donations USING btree (lower(designation));
 
 
 --
 -- Name: donations_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX donations_event_id ON donations USING btree (event_id);
+CREATE INDEX donations_event_id ON public.donations USING btree (event_id);
 
 
 --
 -- Name: donations_supporter_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX donations_supporter_id ON donations USING btree (supporter_id);
+CREATE INDEX donations_supporter_id ON public.donations USING btree (supporter_id);
 
 
 --
 -- Name: index_activities_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_activities_on_nonprofit_id ON activities USING btree (nonprofit_id);
+CREATE INDEX index_activities_on_nonprofit_id ON public.activities USING btree (nonprofit_id);
 
 
 --
 -- Name: index_activities_on_supporter_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_activities_on_supporter_id ON activities USING btree (supporter_id);
+CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (supporter_id);
 
 
 --
 -- Name: index_campaign_gifts_on_campaign_gift_option_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_campaign_gifts_on_campaign_gift_option_id ON campaign_gifts USING btree (campaign_gift_option_id);
+CREATE INDEX index_campaign_gifts_on_campaign_gift_option_id ON public.campaign_gifts USING btree (campaign_gift_option_id);
 
 
 --
 -- Name: index_cards_on_id_and_holder_type_and_holder_id_and_inactive; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_cards_on_id_and_holder_type_and_holder_id_and_inactive ON cards USING btree (id, holder_type, holder_id, inactive);
+CREATE INDEX index_cards_on_id_and_holder_type_and_holder_id_and_inactive ON public.cards USING btree (id, holder_type, holder_id, inactive);
 
 
 --
 -- Name: index_charges_on_payment_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_charges_on_payment_id ON charges USING btree (payment_id);
+CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_id);
 
 
 --
@@ -3236,14 +3244,14 @@ CREATE INDEX index_donations_on_event_id ON public.donations USING btree (event_
 -- Name: index_exports_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_exports_on_nonprofit_id ON exports USING btree (nonprofit_id);
+CREATE INDEX index_exports_on_nonprofit_id ON public.exports USING btree (nonprofit_id);
 
 
 --
 -- Name: index_exports_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_exports_on_user_id ON exports USING btree (user_id);
+CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 
 
 --
@@ -3264,35 +3272,35 @@ CREATE INDEX index_refunds_on_payment_id ON public.refunds USING btree (payment_
 -- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_sessions_on_session_id ON sessions USING btree (session_id);
+CREATE INDEX index_sessions_on_session_id ON public.sessions USING btree (session_id);
 
 
 --
 -- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_sessions_on_updated_at ON sessions USING btree (updated_at);
+CREATE INDEX index_sessions_on_updated_at ON public.sessions USING btree (updated_at);
 
 
 --
 -- Name: index_source_tokens_on_expiration; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_source_tokens_on_expiration ON source_tokens USING btree (expiration);
+CREATE INDEX index_source_tokens_on_expiration ON public.source_tokens USING btree (expiration);
 
 
 --
 -- Name: index_source_tokens_on_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_source_tokens_on_token ON source_tokens USING btree (token);
+CREATE UNIQUE INDEX index_source_tokens_on_token ON public.source_tokens USING btree (token);
 
 
 --
 -- Name: index_source_tokens_on_tokenizable_id_and_tokenizable_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_source_tokens_on_tokenizable_id_and_tokenizable_type ON source_tokens USING btree (tokenizable_id, tokenizable_type);
+CREATE INDEX index_source_tokens_on_tokenizable_id_and_tokenizable_type ON public.source_tokens USING btree (tokenizable_id, tokenizable_type);
 
 
 --
@@ -3306,21 +3314,21 @@ CREATE INDEX index_supporter_notes_on_supporter_id ON public.supporter_notes USI
 -- Name: index_supporters_on_deleted; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_supporters_on_deleted ON supporters USING btree (deleted);
+CREATE INDEX index_supporters_on_deleted ON public.supporters USING btree (deleted);
 
 
 --
 -- Name: index_supporters_on_import_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_supporters_on_import_id ON supporters USING btree (import_id);
+CREATE INDEX index_supporters_on_import_id ON public.supporters USING btree (import_id);
 
 
 --
 -- Name: index_supporters_on_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_supporters_on_name ON supporters USING btree (name);
+CREATE INDEX index_supporters_on_name ON public.supporters USING btree (name);
 
 
 --
@@ -3348,147 +3356,147 @@ CREATE INDEX index_tickets_on_supporter_id ON public.tickets USING btree (suppor
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_confirmation_token ON users USING btree (confirmation_token);
+CREATE UNIQUE INDEX index_users_on_confirmation_token ON public.users USING btree (confirmation_token);
 
 
 --
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
 
 
 --
 -- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
 
 
 --
 -- Name: payments_date; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_date ON payments USING btree (date);
+CREATE INDEX payments_date ON public.payments USING btree (date);
 
 
 --
 -- Name: payments_donation_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_donation_id ON payments USING btree (donation_id);
+CREATE INDEX payments_donation_id ON public.payments USING btree (donation_id);
 
 
 --
 -- Name: payments_gross_amount; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_gross_amount ON payments USING btree (gross_amount);
+CREATE INDEX payments_gross_amount ON public.payments USING btree (gross_amount);
 
 
 --
 -- Name: payments_kind; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_kind ON payments USING btree (kind);
+CREATE INDEX payments_kind ON public.payments USING btree (kind);
 
 
 --
 -- Name: payments_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_nonprofit_id ON payments USING btree (nonprofit_id);
+CREATE INDEX payments_nonprofit_id ON public.payments USING btree (nonprofit_id);
 
 
 --
 -- Name: payments_search_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_search_idx ON payments USING gin (search_vectors);
+CREATE INDEX payments_search_idx ON public.payments USING gin (search_vectors);
 
 
 --
 -- Name: payments_supporter_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_supporter_id ON payments USING btree (supporter_id);
+CREATE INDEX payments_supporter_id ON public.payments USING btree (supporter_id);
 
 
 --
 -- Name: payments_towards; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX payments_towards ON payments USING btree (lower((towards)::text));
+CREATE INDEX payments_towards ON public.payments USING btree (lower((towards)::text));
 
 
 --
 -- Name: supporters_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX supporters_created_at ON supporters USING btree (created_at) WHERE (deleted <> true);
+CREATE INDEX supporters_created_at ON public.supporters USING btree (created_at) WHERE (deleted <> true);
 
 
 --
 -- Name: supporters_email; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX supporters_email ON supporters USING btree (lower((email)::text)) WHERE (deleted <> true);
+CREATE INDEX supporters_email ON public.supporters USING btree (lower((email)::text)) WHERE (deleted <> true);
 
 
 --
 -- Name: supporters_general_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX supporters_general_idx ON supporters USING gin (to_tsvector('english'::regconfig, (((COALESCE(name, ''::character varying))::text || ' '::text) || (COALESCE(email, ''::character varying))::text)));
+CREATE INDEX supporters_general_idx ON public.supporters USING gin (to_tsvector('english'::regconfig, (((COALESCE(name, ''::character varying))::text || ' '::text) || (COALESCE(email, ''::character varying))::text)));
 
 
 --
 -- Name: supporters_lower_name; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX supporters_lower_name ON supporters USING btree (lower((name)::text)) WHERE (deleted <> true);
+CREATE INDEX supporters_lower_name ON public.supporters USING btree (lower((name)::text)) WHERE (deleted <> true);
 
 
 --
 -- Name: supporters_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX supporters_nonprofit_id ON supporters USING btree (nonprofit_id) WHERE (deleted <> true);
+CREATE INDEX supporters_nonprofit_id ON public.supporters USING btree (nonprofit_id) WHERE (deleted <> true);
 
 
 --
 -- Name: supporters_search_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX supporters_search_idx ON supporters USING gin (search_vectors);
+CREATE INDEX supporters_search_idx ON public.supporters USING gin (search_vectors);
 
 
 --
 -- Name: tag_join_supporter_unique_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX tag_join_supporter_unique_idx ON tag_joins USING btree (tag_master_id, supporter_id);
+CREATE UNIQUE INDEX tag_join_supporter_unique_idx ON public.tag_joins USING btree (tag_master_id, supporter_id);
 
 
 --
 -- Name: tag_joins_supporter_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX tag_joins_supporter_id ON tag_joins USING btree (supporter_id);
+CREATE INDEX tag_joins_supporter_id ON public.tag_joins USING btree (supporter_id);
 
 
 --
 -- Name: tag_joins_tag_master_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX tag_joins_tag_master_id ON tag_joins USING btree (tag_master_id);
+CREATE INDEX tag_joins_tag_master_id ON public.tag_joins USING btree (tag_master_id);
 
 
 --
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
 
 
 --
@@ -4405,6 +4413,7 @@ INSERT INTO schema_migrations (version) VALUES ('20180608205049');
 
 INSERT INTO schema_migrations (version) VALUES ('20180608212658');
 
+<<<<<<< HEAD
 INSERT INTO schema_migrations (version) VALUES ('20180713213748');
 
 INSERT INTO schema_migrations (version) VALUES ('20180713215825');
@@ -4418,14 +4427,17 @@ INSERT INTO schema_migrations (version) VALUES ('20181003212559');
 INSERT INTO schema_migrations (version) VALUES ('201810202124316');
 
 INSERT INTO schema_migrations (version) VALUES ('201810202124317');
+=======
+INSERT INTO schema_migrations (version) VALUES ('20180703165400');
+>>>>>>> Fix structure.sql
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124318');
+INSERT INTO schema_migrations (version) VALUES ('20180703165401');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124319');
+INSERT INTO schema_migrations (version) VALUES ('20180703165402');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124320');
+INSERT INTO schema_migrations (version) VALUES ('20180703165403');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124321');
+INSERT INTO schema_migrations (version) VALUES ('20180703165404');
 
-INSERT INTO schema_migrations (version) VALUES ('201810202124322');
+INSERT INTO schema_migrations (version) VALUES ('20180703165405');
 

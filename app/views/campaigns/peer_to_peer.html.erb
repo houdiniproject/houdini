@@ -38,7 +38,7 @@
   <%= IncludeAsset.js '/client/js/campaigns/peer_to_peer/page.js' %>
 <% end %>
 
-<% if @parent_campaign.banner_image_url %>
+<% if @parent_campaign && @parent_campaign.banner_image_url %>
   <div class='campaign-banner u-margin'>
     <img src='<%= @parent_campaign.banner_image_url %>'>
   </div>

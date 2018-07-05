@@ -152,6 +152,10 @@
 		end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
 		image_url: @campaign_background_image,
 		input_name: 'campaign[background_image]' %>
+  <%= render 'components/upload_banner_image',
+    end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
+		image_url: @campaign.banner_image_url,
+		input_name: 'campaign[banner_image]' %>
   <%= render 'components/custom_receipt_modal',
     title: 'Campaign Receipt Message',
     type: 'campaign',

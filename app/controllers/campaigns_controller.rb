@@ -110,16 +110,22 @@ class CampaignsController < ApplicationController
     session[:donor_signup_url] = request.env["REQUEST_URI"]
     @nonprofit = Nonprofit.find_by_id(params[:npo_id])
     @parent_campaign = Campaign.find_by_id(params[:campaign_id])
-    @child_campaign = Campaign.where(
-      profile_id: current_user.profile.id,
-      parent_campaign_id: @parent_campaign.id
-    ).first if @parent_campaign
-    @profile = current_user.profile if current_user
+
+    if params[:campaign_id].present? && !@parent_campaign
+      raise ActionController::RoutingError.new('Not Found')
+    end
+
+    if current_user
+      @profile = current_user.profile
+      @child_campaign = Campaign.where(
+        profile_id: @profile.id,
+        parent_campaign_id: @parent_campaign.id
+      ).first
+    end
   end
 
   private
 
-  # TODO: test if this can be passed by p2p campaign editor
   def check_nonprofit_status
     if !current_role?(:super_admin) && !current_nonprofit.published
       raise ActionController::RoutingError.new('Not Found')

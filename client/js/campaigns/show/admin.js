@@ -34,8 +34,17 @@ editable($('#js-customReceipt'), {
 var path = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
 
 
-appl.def('remove_this_image', function() {
-	appl.remove_background_image(path, 'campaign')
+appl.def('remove_banner_image', function() {
+	var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
+	var notification = 'Removing banner image...'
+	var payload = {remove_banner_image : true}
+	appl.remove_image(url, 'campaign', notification, payload)
+})
+
+appl.def('remove_background_image', function(url, resource) {
+	var notification = 'Removing background image...'
+	var payload = {remove_background_image : true}
+	appl.remove_image(url, resource, notification, payload)
 })
 
 appl.def('count_story_words', function() {

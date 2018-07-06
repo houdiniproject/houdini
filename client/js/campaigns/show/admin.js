@@ -17,10 +17,12 @@ require('../../components/ajax/toggle_soft_delete')(url, 'campaign')
 
 // Initialize the froala wysiwyg
 var editable = require('../../common/editable')
-editable($('#js-campaignBody'), {
-	sticky: true,
-	placeholder: "Add your campaign's story here. We strongly recommend that this section is filled out with at least 250 words. It will be saved automatically as you type. You can add images, videos and custom HTML too."
-})
+if (app.is_parent_campaign) {
+  editable($('#js-campaignBody'), {
+    sticky: true,
+    placeholder: "Add your campaign's story here. We strongly recommend that this section is filled out with at least 250 words. It will be saved automatically as you type. You can add images, videos and custom HTML too."
+  })
+}
 
 editable($('#js-customReceipt'), {
   button: ["bold", "italic", "formatBlock", "align", "createLink",

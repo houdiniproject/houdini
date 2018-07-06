@@ -16,14 +16,14 @@
 		app.days_remaining = '<%= @campaign.days_left %>'
 		app.recurring_fund = <%= @campaign.recurring_fund? %>
     app.vimeo_id = "<%= @campaign.vimeo_video_id ? @campaign.vimeo_video_id : '' %>"
-		app.current_campaign_editor = <%= current_campaign_editor? %>
+    app.current_campaign_editor = <%= current_campaign_editor? %>
+    app.is_parent_campaign = <%= @campaign.parent_campaign? %>
 		appl.def('has_video', <%= @campaign.video_url.present? %>)
     appl.def('campaign_is_deleted', <%= @campaign.deleted || false %>)
-		appl.def('has_main_image', <%= @campaign.main_image.file.present? %>)
-	</script>
-  <%= render 'schema', campaign: @campaign, url: @url %>
-	<%= render 'common/froala' if current_campaign_editor? %>
+    appl.def('has_main_image', <%= @campaign.main_image.file.present? %>)
+  </script>
 
+  <%= render 'schema', campaign: @campaign, url: @url %>
 	<%= IncludeAsset.js '/client/js/campaigns/show/page.js' %>
 <% end %>
 

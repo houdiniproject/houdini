@@ -180,6 +180,14 @@ class Campaign < ActiveRecord::Base
   end
 
   def child_campaign?
-    true if parent_campaign.present?
+    if parent_campaign.present?
+      true
+    else
+      false
+    end
+  end
+
+  def parent_campaign?
+    !child_campaign?
   end
 end

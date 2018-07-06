@@ -14,6 +14,6 @@ export const BasicField = injectIntl(observer((props:{field:Field, intl?:Injecte
         inStickyError={field.hasServerError} stickyError={field.serverError}
         className={props.wrapperClassName} >
 
-        <input {...props.field.bind()} className="form-control"/>
+        <input {...props.field.bind()} placeholder={field.placeholder ? props.intl.formatMessage({id:field.placeholder}) : undefined} className="form-control"/>
     </LabeledFieldComponent>
 }))

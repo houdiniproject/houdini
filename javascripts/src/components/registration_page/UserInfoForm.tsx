@@ -12,24 +12,26 @@ import {areWeOrAnyParentSubmitting} from "../../lib/houdini_form";
 export const FieldDefinitions : Array<FieldDefinition> = [
   {
     name: 'name',
-    label: 'registration.wizard.contact.name',
+    label: 'registration.wizard.contact.name.label',
+    placeholder: 'registration.wizard.contact.name.placeholder',
     validators: [Validations.isFilled]
   },
   {
     name: 'email',
-    label: 'registration.wizard.contact.email',
+    label: 'registration.wizard.contact.email.label',
+    placeholder: 'registration.wizard.contact.email.placeholder',
     validators: [Validations.isEmail]
   },
   {
     name: 'password',
-    label: 'registration.wizard.contact.password',
+    label: 'registration.wizard.contact.password.label',
     type: 'password',
     validators: [Validations.isFilled],
     related: ['userTab.password_confirmation']
   },
   {
     name: 'password_confirmation',
-    label: 'registration.wizard.contact.password_confirmation',
+    label: 'registration.wizard.contact.password_confirmation.label',
     type: 'password',
     validators: [Validations.shouldBeEqualTo("userTab.password")]
   }

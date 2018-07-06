@@ -148,19 +148,41 @@ en:
         nonprofit: "Nonprofit"
         contact: "Contact"
       nonprofit:
-         name: "Organization Name"
-         website: "Website URL"
-         email: "Org Email (public)"
-         phone: "Org Phone (public)"
-         city: "City"
-         state: "State"
-         zip: "Zip Code"
+        name:
+          label: "Organization Name"
+          placeholder: "Ending Poverty in the Fox Valley Inc."
+        website:
+          label: "Website URL"
+          placeholder: "http://www.endpovertyinthefoxvalleyinc.org"
+        email:
+          label: "Org Email (public)"
+          placeholder: "contact@endpovertyinthefoxvalleyinc.org"
+        phone:
+          label: "Org Phone (public)"
+          placeholder: "(555) 555-5555"
+        city:
+          label: "City"
+          placeholder: "Appleton"
+        state:
+          label: "State"
+          placeholder: "WI"
+        zip:
+          label: "Zip Code"
+          placeholder: "54915"
       contact:
-        name: "Your Name"
-        email: "Your Email (used for login)"
-        password: "New Password"
-        password_confirmation: "Retype Password"
-        phone: "Your Phone (for account recovery)"
+        name:
+          label: "Your Name"
+          placeholder: "Penelope Schultz"
+        email:
+          label: "Your Email (used for login)"
+          placeholder: "penelope@endpovertyinthefoxvalleyinc.org"
+        password:
+          label: "New Password"
+        password_confirmation:
+          label: "Retype Password"
+        phone:
+          label: "Your Phone (for account recovery)"
+          placeholder: "(555) 555-5555"
       save_and_finish: "Save & Finish"
       saving: "Saving..."
       next: "Next"

@@ -17,40 +17,47 @@ export interface NonprofitInfoFormProps
 export const FieldDefinitions : Array<FieldDefinition> = [
   {
     name: 'organization_name',
-    label: 'registration.wizard.nonprofit.name',
+    label: 'registration.wizard.nonprofit.name.label',
+    placeholder: 'registration.wizard.nonprofit.name.placeholder',
     type: 'text',
     validators: [Validations.isFilled]
   },
   {
     name: 'website',
-    label: 'registration.wizard.nonprofit.website',
+    label: 'registration.wizard.nonprofit.website.label',
+    placeholder: 'registration.wizard.nonprofit.website.placeholder',
     validators: [Validations.optional(Validations.isUrl)]
   },
   {
     name: 'org_email',
-    label: 'registration.wizard.nonprofit.email',
+    label: 'registration.wizard.nonprofit.email.label',
+    placeholder: 'registration.wizard.nonprofit.email.placeholder',
     validators: [Validations.optional(Validations.isEmail)]
   },
   {
     name: 'org_phone',
-    label: 'registration.wizard.nonprofit.phone',
+    label: 'registration.wizard.nonprofit.phone.label',
+    placeholder: 'registration.wizard.nonprofit.phone.placeholder',
     type: "tel"
   },
   {
     name: 'city',
-    label: 'registration.wizard.nonprofit.city',
+    label: 'registration.wizard.nonprofit.city.label',
+    placeholder: 'registration.wizard.nonprofit.city.placeholder',
     validators: [Validations.isFilled]
   },
   {
     name: 'state',
-    label: 'registration.wizard.nonprofit.state',
+    label: 'registration.wizard.nonprofit.state.label',
+    placeholder: 'registration.wizard.nonprofit.state.placeholder',
     type: 'text',
     validators: [Validations.isFilled]
 
   },
   {
     name: 'zip',
-    label: 'registration.wizard.nonprofit.zip',
+    label: 'registration.wizard.nonprofit.zip.label',
+    placeholder: 'registration.wizard.nonprofit.zip.placeholder',
     validators: [Validations.isFilled]
   }
 ]

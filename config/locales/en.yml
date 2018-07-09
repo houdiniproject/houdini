@@ -142,7 +142,7 @@ en:
   registration:
     get_started:
       header: "Get started"
-      description: "Let's get started with Houdini. To begin, fill out your initial info nonprofit and user info."
+      description: "Let's get started with Houdini. To begin, fill out your initial nonprofit and info."
     wizard:
       tabs:
         nonprofit: "Nonprofit"

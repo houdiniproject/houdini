@@ -72,6 +72,8 @@ nonprofits_must_be_vetted: true
 
 terms_and_privacy:
   help_url: "https://help.commitchange.com"
+  privacy_url: "https://commitchange.com/privacy-terms/#privacy_policy"
+  terms_url: "https://commitchange.com/privacy-terms/"
 
 
 ccs:

@@ -41,7 +41,7 @@ export interface UserInfoFormProps
 {
   form: Field
   buttonText:string
-  buttonTextInProgress?:string
+  buttonTextOnProgress?:string
 }
 
 
@@ -63,7 +63,7 @@ class UserInfoForm extends React.Component<UserInfoFormProps & InjectedIntlProps
                           disabled={!this.props.form.isValid}
                           buttonText={this.props.intl.formatMessage({id: this.props.buttonText})}
                           inProgress={areWeOrAnyParentSubmitting(this.props.form)}
-                          buttonTextOnProgress={this.props.intl.formatMessage({id: this.props.buttonTextInProgress})}
+                          buttonTextOnProgress={this.props.intl.formatMessage({id: this.props.buttonTextOnProgress})}
                           disableOnProgress={true}/>
     </fieldset>;
   }

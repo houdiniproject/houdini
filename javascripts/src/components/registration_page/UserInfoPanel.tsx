@@ -10,7 +10,7 @@ import UserInfoForm from "./UserInfoForm";
 
 export interface UserInfoPanelProps extends WizardTabPanelProps {
   buttonText: string
-  buttonTextInProgress?:string
+  buttonTextOnProgress?:string
 }
 
 class UserInfoPanel extends React.Component<UserInfoPanelProps & InjectedIntlProps, {}> {
@@ -39,7 +39,7 @@ class UserInfoPanel extends React.Component<UserInfoPanelProps & InjectedIntlPro
     return <WizardPanel
                         tab={this.wizardTab} key={this.tabName}
     >
-      <UserInfoForm form={this.form} buttonText={this.props.buttonText} buttonTextInProgress={this.props.buttonTextInProgress}/>
+      <UserInfoForm form={this.form} buttonText={this.props.buttonText} buttonTextOnProgress={this.props.buttonTextOnProgress}/>
 
     </WizardPanel>;
   }

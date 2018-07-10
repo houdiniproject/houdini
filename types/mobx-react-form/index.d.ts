@@ -306,6 +306,9 @@ export class Form implements Base {
     readonly submitting: boolean;
 
     protected validator :any
+
+    readonly isValid :boolean;
+
     
 }
 

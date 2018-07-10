@@ -8,7 +8,7 @@ describe Format::Name do
 
     it 'gives the name, minus commas, with our email in brackets' do
       result = Format::Name.email_from_np("Test, X, Y")
-      expect(result).to eq("Test X Y <support@commitchange.com>")
+      expect(result).to eq("\"Test X Y\" <support@commitchange.com>")
     end
   end
 end

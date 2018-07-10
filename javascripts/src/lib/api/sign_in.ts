@@ -1,7 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as $ from 'jquery';
-
-import * as models from "../../../api/model/models";
 import {Configuration} from "../../../api/configuration";
 
 export class WebUserSignInOut {
@@ -74,7 +72,7 @@ export class WebUserSignInOut {
       (xhr: JQueryXHR, textStatus: string, errorThrown: string) => {
 
 
-          dfd.reject(errorThrown)
+          dfd.reject(xhr.responseJSON)
 
       }
     );
@@ -82,7 +80,7 @@ export class WebUserSignInOut {
   }
 }
 
-interface WebLoginModel {
+export interface WebLoginModel {
   email:string
   password:string
 }

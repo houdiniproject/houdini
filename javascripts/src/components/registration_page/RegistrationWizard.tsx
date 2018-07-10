@@ -21,7 +21,6 @@ import {initializationDefinition} from "../../../../types/mobx-react-form";
 import {ApiManager} from "../../lib/api_manager";
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
 import {WebUserSignInOut} from "../../lib/api/sign_in";
-import {Validations} from "../../lib/vjf_rules";
 import * as NonprofitInfoForm from "./NonprofitInfoForm";
 import * as UserInfoForm from "./UserInfoForm";
 
@@ -90,6 +89,8 @@ export class RegistrationPageForm extends HoudiniForm {
           if (e instanceof ValidationErrorsException) {
             this.converter.convertErrorToForm(e, f)
           }
+
+          this.invalidateFromServer(e['error'])
           //set error to the form
         }
       }
@@ -176,17 +177,17 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
 
     //set up labels
     let label: {[props:string]: string} = {
-      'nonprofitTab[organization_name]': "registration.wizard.nonprofit.name",
-      "nonprofitTab[website]": 'registration.wizard.nonprofit.website',
-      "nonprofitTab[org_email]": 'registration.wizard.nonprofit.email',
-      'nonprofitTab[org_phone]': 'registration.wizard.nonprofit.phone',
-      'nonprofitTab[city]': 'registration.wizard.nonprofit.city',
-      'nonprofitTab[state]': 'registration.wizard.nonprofit.state',
-      'nonprofitTab[zip]': 'registration.wizard.nonprofit.zip',
-      'userTab[name]': 'registration.wizard.contact.name',
-      'userTab[email]': 'registration.wizard.contact.email',
-      'userTab[password]': 'registration.wizard.contact.password',
-      'userTab[password_confirmation]': 'registration.wizard.contact.password_confirmation'
+      'nonprofitTab[organization_name]': "registration.wizard.nonprofit.name.label",
+      "nonprofitTab[website]": 'registration.wizard.nonprofit.website.label',
+      "nonprofitTab[org_email]": 'registration.wizard.nonprofit.email.label',
+      'nonprofitTab[org_phone]': 'registration.wizard.nonprofit.phone.label',
+      'nonprofitTab[city]': 'registration.wizard.nonprofit.city.label',
+      'nonprofitTab[state]': 'registration.wizard.nonprofit.state.label',
+      'nonprofitTab[zip]': 'registration.wizard.nonprofit.zip.label',
+      'userTab[name]': 'registration.wizard.contact.name.label',
+      'userTab[email]': 'registration.wizard.contact.email.label',
+      'userTab[password]': 'registration.wizard.contact.password.label',
+      'userTab[password_confirmation]': 'registration.wizard.contact.password_confirmation.label'
     }
     for (let key in label){
        this.form.$(key).set('label', this.props.intl.formatMessage({id: label[key]}))
@@ -197,7 +198,7 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
                            buttonText="registration.wizard.next"/>
 
       <UserInfoPanel tab={this.registrationWizardState.tabsByName['userTab']}
-                     buttonText="registration.wizard.save_and_finish"/>
+                     buttonText="registration.wizard.save_and_finish" buttonTextOnProgress="registration.wizard.saving"/>
     </Wizard>
   }
 }

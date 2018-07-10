@@ -1,8 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import 'jest';
-import {shallow,render} from 'enzyme'
-const TestRenderer = require('react-test-renderer')
+import {shallow} from 'enzyme'
 import StandardFieldComponent from './StandardFieldComponent'
 import toJson from 'enzyme-to-json';
 

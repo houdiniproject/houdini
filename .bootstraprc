@@ -5,7 +5,8 @@
   "styles": {
     "mixins": true,
     "grid": true,
-    "forms": true
+    "forms": true,
+    "responsive-utilities":true
   },
 
   "scripts": false

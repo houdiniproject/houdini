@@ -2,7 +2,6 @@
 import * as React from 'react';
 import RegistrationWizard from "./RegistrationWizard";
 
-import {configure} from 'mobx'
 import {observer} from 'mobx-react';
 import {InjectedIntlProps, injectIntl, InjectedIntl, FormattedMessage} from 'react-intl';
 

@@ -28,7 +28,7 @@ describe('WizardPanel', () => {
       ws.addTab('something', 'something label',{} )
       ws.initialize()
 
-      const tree = shallow(<Component.WizardPanel tab={ws.tabsByName['something']}><hr/></Component.WizardPanel>)
+      const tree = shallow(<Component.WizardPanel tab={ws.tabsByName['something']} anotherProp={false}><hr/></Component.WizardPanel>)
         
         
       expect(toJson(tree)).toMatchSnapshot()

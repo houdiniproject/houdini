@@ -3,6 +3,7 @@
 
 <html lang="<%= I18n.locale %>">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= "#{yield(:title)} - #{Settings.general.name}" %></title>
 
   <%= IncludeAsset.js '/client/js/i18n.js' %>

@@ -1,9 +1,8 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import StandardFieldComponent from "./StandardFieldComponent";
-import { observer } from 'mobx-react';
-import {Field} from "../../../../types/mobx-react-form";
-import {injectIntl, InjectedIntl} from 'react-intl';
+import {observer} from 'mobx-react';
+import {InjectedIntl, injectIntl} from 'react-intl';
 
 
 export interface LabeledFieldComponentProps
@@ -12,19 +11,29 @@ export interface LabeledFieldComponentProps
     labelText: string
     inError:boolean
     error?:string
+    inStickyError?:boolean
+    stickyError?:string
     className?:string
 }
 
 @observer
 export default class LabeledFieldComponent extends React.Component<LabeledFieldComponentProps, {}> {
   render() {
-     let className = this.props.className || ""
-     let inError = this.props.inError && this.props.error !== null && this.props.error !== "";
-     className += " form-group"
-      className += inError ? " has-error" : ""
-     return <fieldset className={className}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
-         <StandardFieldComponent inError={inError} error={this.props.error} >{this.props.children}</StandardFieldComponent>
-     </fieldset>;
+    let classNames:string[] = []
+    if (this.props.className)
+      classNames.push(this.props.className)
+
+    let inError = this.props.inError && this.props.error !== null && this.props.error !== "";
+    let inStickyError = this.props.inStickyError && this.props.stickyError !== null && this.props.stickyError !== ""
+
+    classNames.push("form-group")
+    if(inError || inStickyError){
+       classNames.push("has-error")
+    }
+
+    return <fieldset className={classNames.join(" ")}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
+       <StandardFieldComponent inError={inError} error={this.props.error} inStickyError={inStickyError} stickyError={this.props.stickyError}>{this.props.children}</StandardFieldComponent>
+    </fieldset>;
   }
 }
 

@@ -5,7 +5,7 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
   key="tab1"
   tab={
     WizardTabPanelState {
-      "form": Field {
+      "form": HoudiniField {
         "$bindings": "default",
         "$changed": false,
         "$clearing": false,
@@ -29,6 +29,7 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
         "$related": Array [],
         "$resetting": false,
         "$rules": null,
+        "$serverError": undefined,
         "$submitting": false,
         "$touched": false,
         "$validatedWith": "value",
@@ -91,11 +92,14 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
           },
           "disposers": Object {
             "interceptor": Object {},
-            "observer": Object {},
+            "observer": Object {
+              "areWeOrAnyParentSubmitting@tab1": [Function],
+            },
           },
           "form": HoudiniForm {
             "$handlers": Object {},
             "$hooks": Object {},
+            "$serverError": undefined,
             "$submitting": false,
             "$validating": true,
             "debouncedValidation": [Function],
@@ -356,13 +360,14 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
         "form": HoudiniForm {
           "$handlers": Object {},
           "$hooks": Object {},
+          "$serverError": undefined,
           "$submitting": false,
           "$validating": true,
           "debouncedValidation": [Function],
           "execHandler": [Function],
           "execHook": [Function],
           "fields": Object {
-            "tab1": Field {
+            "tab1": HoudiniField {
               "$bindings": "default",
               "$changed": false,
               "$clearing": false,
@@ -386,6 +391,7 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
               "$related": Array [],
               "$resetting": false,
               "$rules": null,
+              "$serverError": undefined,
               "$submitting": false,
               "$touched": false,
               "$validatedWith": "value",
@@ -448,7 +454,9 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
                 },
                 "disposers": Object {
                   "interceptor": Object {},
-                  "observer": Object {},
+                  "observer": Object {
+                    "areWeOrAnyParentSubmitting@tab1": [Function],
+                  },
                 },
                 "form": [Circular],
                 "initial": Object {
@@ -529,7 +537,9 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
             },
             "disposers": Object {
               "interceptor": Object {},
-              "observer": Object {},
+              "observer": Object {
+                "areWeOrAnyParentSubmitting@tab1": [Function],
+              },
             },
             "form": [Circular],
             "initial": Object {
@@ -790,13 +800,14 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
       "parentForm": HoudiniForm {
         "$handlers": Object {},
         "$hooks": Object {},
+        "$serverError": undefined,
         "$submitting": false,
         "$validating": true,
         "debouncedValidation": [Function],
         "execHandler": [Function],
         "execHook": [Function],
         "fields": Object {
-          "tab1": Field {
+          "tab1": HoudiniField {
             "$bindings": "default",
             "$changed": false,
             "$clearing": false,
@@ -820,6 +831,7 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
             "$related": Array [],
             "$resetting": false,
             "$rules": null,
+            "$serverError": undefined,
             "$submitting": false,
             "$touched": false,
             "$validatedWith": "value",
@@ -882,7 +894,9 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
               },
               "disposers": Object {
                 "interceptor": Object {},
-                "observer": Object {},
+                "observer": Object {
+                  "areWeOrAnyParentSubmitting@tab1": [Function],
+                },
               },
               "form": [Circular],
               "initial": Object {
@@ -963,7 +977,9 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
           },
           "disposers": Object {
             "interceptor": Object {},
-            "observer": Object {},
+            "observer": Object {
+              "areWeOrAnyParentSubmitting@tab1": [Function],
+            },
           },
           "form": [Circular],
           "initial": Object {
@@ -1193,7 +1209,7 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
   <InjectIntl(NonprofitInfoForm)
     buttonText="Text"
     form={
-      Field {
+      HoudiniField {
         "$bindings": "default",
         "$changed": false,
         "$clearing": false,
@@ -1217,6 +1233,7 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
         "$related": Array [],
         "$resetting": false,
         "$rules": null,
+        "$serverError": undefined,
         "$submitting": false,
         "$touched": false,
         "$validatedWith": "value",
@@ -1279,11 +1296,14 @@ exports[`NonprofitInfoPanel includes correct elements and attributes 1`] = `
           },
           "disposers": Object {
             "interceptor": Object {},
-            "observer": Object {},
+            "observer": Object {
+              "areWeOrAnyParentSubmitting@tab1": [Function],
+            },
           },
           "form": HoudiniForm {
             "$handlers": Object {},
             "$hooks": Object {},
+            "$serverError": undefined,
             "$submitting": false,
             "$validating": true,
             "debouncedValidation": [Function],

@@ -10,7 +10,8 @@ export interface ReactFormProps
 }
 
 ///Mostly useless class but, at some point, will replace all our form elements
-class ReactForm extends React.Component<ReactFormProps, {}> {
+@observer
+export class ReactForm extends React.Component<ReactFormProps, {}> {
 
 
 
@@ -43,7 +44,6 @@ class ReactForm extends React.Component<ReactFormProps, {}> {
   }
 }
 
-export default observer(ReactForm)
 
 
 

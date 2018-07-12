@@ -3,11 +3,11 @@ import * as React from 'react';
 import 'jest';
 import ReactInput from './ReactInput'
 import {Form} from "mobx-react-form";
-import ReactForm from "./ReactForm";
 import {mount} from 'enzyme';
 import {toJS, observable, action, runInAction} from 'mobx';
 import {observer} from 'mobx-react';
 import {InputHTMLAttributes} from 'react';
+import {ReactForm} from "./ReactForm";
 
 
 
@@ -99,7 +99,9 @@ describe('ReactInput', () => {
 
       let res = mount(<TestChange/>)
 
-      let f = res.find('ReactForm').instance() as ReactForm
+      // The two casts are needed because Typescript was going blowing up without the 'any' first.
+      // Why was it? *shrugs*
+      let f = res.find('ReactForm').instance() as any as ReactForm
       expect(f.form.size).toEqual(1)
 
       res.find('input').simulate('change',  {target: { value: 'something' } })
@@ -146,7 +148,7 @@ describe('ReactInput', () => {
       let res = mount(<TestChange>
         <WrappedInput/>
       </TestChange>)
-      let f = res.find('ReactForm').instance() as ReactForm
+      let f = res.find('ReactForm').instance() as any as ReactForm
       res.find('input').simulate('change',  {target: { value: 'something' } })
 
       expect(f.form.$('name').value).toEqual('something')

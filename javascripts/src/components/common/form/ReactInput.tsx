@@ -6,12 +6,13 @@ import {Field} from "mobx-react-form";
 import {observable, action, toJS, runInAction} from 'mobx';
 import {InputHTMLAttributes} from 'react';
 
+
+
 export interface ReactInputProps
 {
   field:Field
   label?:string
   placeholder?:string
-  children: React.ReactElement<InputHTMLAttributes<HTMLInputElement>>
 }
 
 function castToNullIfUndef(i:any){

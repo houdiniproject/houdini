@@ -311,6 +311,7 @@ export class Form implements Base {
     protected validator :any
 
     readonly isValid :boolean;
+    readonly size:number
 
     
 }

@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import {Field, Form} from "mobx-react-form";
+import {Field, FieldDefinition, Form, initializationDefinition} from "mobx-react-form";
 import {action, computed, IValueDidChange, observable, runInAction} from 'mobx'
 import * as _ from 'lodash'
 import {ValidationErrorsException} from "../../api";
@@ -7,7 +7,20 @@ import validator = require("validator");
 
 
 export class HoudiniForm extends Form {
-
+  constructor(definition?:initializationDefinition, options?:any){
+    //correct the bug where field initializations with just names don't work
+    if (definition && definition.fields){
+      definition.fields = definition.fields.map((i:FieldDefinition) =>
+      {
+        if (_.entries(i).length == 1)
+        {
+          i.extra = null
+        }
+        return i
+      })
+    }
+    super(definition, options)
+  }
 
   @observable
   private $serverError:string

@@ -2,7 +2,7 @@
 
 exports[`LabeledFieldComponent In Error with Children 1`] = `
 <fieldset
-  className=" form-group has-error"
+  className="form-group has-error"
 >
   <label
     className="control-label"
@@ -39,7 +39,7 @@ exports[`LabeledFieldComponent add extra classNames 1`] = `
 
 exports[`LabeledFieldComponent has error checked but no message so not really in error 1`] = `
 <fieldset
-  className=" form-group"
+  className="form-group"
 >
   <label
     className="control-label"
@@ -58,7 +58,7 @@ exports[`LabeledFieldComponent has error checked but no message so not really in
 
 exports[`LabeledFieldComponent no error 1`] = `
 <fieldset
-  className=" form-group"
+  className="form-group"
 >
   <label
     className="control-label"

@@ -23,13 +23,11 @@ export interface SessionLoginFormProps
 export const FieldDefinitions : Array<FieldDefinition> = [
   {
     name: 'email',
-    label: 'email',
     type: 'text',
     validators: [Validations.isFilled]
   },
   {
     name: 'password',
-    label: 'password',
     type: 'password',
     validators: [Validations.isFilled]
   }
@@ -100,20 +98,14 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
     if(!this.form.signinApi){
       this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
     }
-    let label: {[props:string]: string} = {
-      'email': "login.email",
-      "password": 'login.password',
-    }
-
-    for (let key in label){
-      this.form.$(key).set('label', this.props.intl.formatMessage({id: label[key]}))
-    }
 
     let errorDiv = !this.form.isValid ? <div className="form-group has-error"><div className="help-block" role="alert">{(this.form as any).error}</div></div> : ''
 
     return <form onSubmit={this.form.onSubmit}>
-      <BasicField field={this.form.$('email')}/>
-      <BasicField field={this.form.$('password')}/>
+      <BasicField field={this.form.$('email')}
+        label={this.props.intl.formatMessage({id: 'login.email'})}/>
+      <BasicField field={this.form.$('password')}
+                  label={this.props.intl.formatMessage({id: 'login.password'})}/>
       {errorDiv}
       <div className={'form-group'}>
         <ProgressableButton onClick={this.form.onSubmit} className="button" disabled={!this.form.isValid || this.form.submitting} inProgress={this.form.submitting}

@@ -12,8 +12,6 @@ import {areWeOrAnyParentSubmitting} from "../../lib/houdini_form";
 export const FieldDefinitions : Array<FieldDefinition> = [
   {
     name: 'name',
-    label: 'registration.wizard.contact.name.label',
-    placeholder: 'registration.wizard.contact.name.placeholder',
     validators: [Validations.isFilled]
   },
   {
@@ -24,14 +22,12 @@ export const FieldDefinitions : Array<FieldDefinition> = [
   },
   {
     name: 'password',
-    label: 'registration.wizard.contact.password.label',
     type: 'password',
     validators: [Validations.isFilled],
     related: ['userTab.password_confirmation']
   },
   {
     name: 'password_confirmation',
-    label: 'registration.wizard.contact.password_confirmation.label',
     type: 'password',
     validators: [Validations.shouldBeEqualTo("userTab.password")]
   }
@@ -50,12 +46,22 @@ class UserInfoForm extends React.Component<UserInfoFormProps & InjectedIntlProps
   render() {
     return <fieldset>
       <TwoColumnFields>
-        <BasicField field={this.props.form.$("name")}/>
-        <BasicField field={this.props.form.$('email')}/>
+        <BasicField field={this.props.form.$("name")}
+            label={
+              this.props.intl.formatMessage({id: "registration.wizard.contact.name.label"})}
+            placeholder={this.props.intl.formatMessage({id: "registration.wizard.contact.name.placeholder"})}/>
+        <BasicField field={this.props.form.$('email')}
+          label={this.props.intl.formatMessage({id: "registration.wizard.contact.email.label"})}
+          placeholder={this.props.intl.formatMessage({id: "registration.wizard.contact.email.placeholder"})}
+        />
       </TwoColumnFields>
 
-      <BasicField field={this.props.form.$('password')}/>
-      <BasicField field={this.props.form.$('password_confirmation')}/>
+      <BasicField field={this.props.form.$('password')}
+                  label={this.props.intl.formatMessage({id:'registration.wizard.contact.password.label'})}
+                  />
+      <BasicField field={this.props.form.$('password_confirmation')}
+                  label={this.props.intl.formatMessage({id:'registration.wizard.contact.password_confirmation.label'})}
+      />
 
 
       <ProgressableButton onClick={this.props.form.onSubmit}

@@ -72,7 +72,7 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     $(fieldName: string): Field;
 
-    add(obj: any): any;
+    add(obj:{FieldDefinition}): any;
 
     bind(): object;
 
@@ -82,7 +82,7 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     container(): Form |Field
 
-    del(key: any);
+    del(path?: string);
 
     each(callback: (i: Field) => void);
 
@@ -173,6 +173,7 @@ interface FieldHandlers {
 
 interface FieldDefinition {
     name: string
+    key?: string
     label?: string
     value?: any
     default?: any
@@ -253,12 +254,13 @@ interface FormInitializer{
 
 interface initializationDefinition {
     fields?:FieldDefinitions[]
+    hooks?: FormHooks
 }
 
 export class Form implements Base {
 
     
-    constructor(definition:initializationDefinition, options?:any)
+    constructor(definition?:initializationDefinition, options?:any)
     plugins(): void
     setup(): any
     onInit(): void
@@ -269,7 +271,7 @@ export class Form implements Base {
 
     $(fieldName: string): Field;
 
-    add(obj: any): any;
+    add(obj:FieldDefinition): any;
 
     check(computed: string, deep?: boolean): boolean;
 
@@ -292,7 +294,7 @@ export class Form implements Base {
 
     map(callback: (i: Field) => void);
 
-    observe(obj: any);
+    observe(...obj: any)
 
     select(path: string): Field;
 
@@ -304,10 +306,12 @@ export class Form implements Base {
     update(obj: any): void;
 
     readonly submitting: boolean;
+    readonly isValid:boolean;
 
     protected validator :any
 
     readonly isValid :boolean;
+    readonly size:number
 
     
 }
@@ -327,7 +331,7 @@ interface SharedFieldFormMethods {
     has(key:string):boolean
     map(callback:(i:Field) => void)
     each(callback:(i:Field) => void)
-    add(obj:any):any
+    add(obj:FieldDefinition): any;
     del(key:any)
     observe(obj:any)
     intercept(obj:any)

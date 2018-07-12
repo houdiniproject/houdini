@@ -17,47 +17,31 @@ export interface NonprofitInfoFormProps
 export const FieldDefinitions : Array<FieldDefinition> = [
   {
     name: 'organization_name',
-    label: 'registration.wizard.nonprofit.name.label',
-    placeholder: 'registration.wizard.nonprofit.name.placeholder',
-    type: 'text',
     validators: [Validations.isFilled]
   },
   {
     name: 'website',
-    label: 'registration.wizard.nonprofit.website.label',
-    placeholder: 'registration.wizard.nonprofit.website.placeholder',
     validators: [Validations.optional(Validations.isUrl)]
   },
   {
     name: 'org_email',
-    label: 'registration.wizard.nonprofit.email.label',
-    placeholder: 'registration.wizard.nonprofit.email.placeholder',
     validators: [Validations.optional(Validations.isEmail)]
   },
   {
     name: 'org_phone',
-    label: 'registration.wizard.nonprofit.phone.label',
-    placeholder: 'registration.wizard.nonprofit.phone.placeholder',
     type: "tel"
   },
   {
     name: 'city',
-    label: 'registration.wizard.nonprofit.city.label',
-    placeholder: 'registration.wizard.nonprofit.city.placeholder',
     validators: [Validations.isFilled]
   },
   {
     name: 'state',
-    label: 'registration.wizard.nonprofit.state.label',
-    placeholder: 'registration.wizard.nonprofit.state.placeholder',
-    type: 'text',
     validators: [Validations.isFilled]
 
   },
   {
     name: 'zip',
-    label: 'registration.wizard.nonprofit.zip.label',
-    placeholder: 'registration.wizard.nonprofit.zip.placeholder',
     validators: [Validations.isFilled]
   }
 ]
@@ -67,17 +51,33 @@ class NonprofitInfoForm extends React.Component<NonprofitInfoFormProps & Injecte
 
   render() {
      return <fieldset >
-       <BasicField field={this.props.form.$("organization_name")}/>
-       <BasicField field={this.props.form.$('website')}/>
+       <BasicField field={this.props.form.$("organization_name")}
+                   label={this.props.intl.formatMessage({id:'registration.wizard.nonprofit.name.label' })}
+                   placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.name.placeholder'})}
+       />
+
+       <BasicField field={this.props.form.$('website')}
+                   label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.website.label'})}
+                   placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.website.placeholder'})}/>
        <TwoColumnFields>
-         <BasicField field={this.props.form.$('org_email')}/>
-         <BasicField field={this.props.form.$('org_phone')}/>
+         <BasicField field={this.props.form.$('org_email')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.email.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.email.placeholder'})}/>
+         <BasicField field={this.props.form.$('org_phone')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.phone.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.phone.placeholder'})}/>
        </TwoColumnFields>
 
        <ThreeColumnFields>
-         <BasicField field={this.props.form.$('city')}/>
-         <BasicField field={this.props.form.$('state')}/>
-         <BasicField field={this.props.form.$('zip')}/>
+         <BasicField field={this.props.form.$('city')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.city.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.city.placeholder'})}/>
+         <BasicField field={this.props.form.$('state')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.state.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.state.placeholder'})}/>
+         <BasicField field={this.props.form.$('zip')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.zip.label' })}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.zip.placeholder'})}/>
        </ThreeColumnFields>
        <ProgressableButton onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid} buttonText={this.props.intl.formatMessage({id: this.props.buttonText})}
                            inProgress={this.props.form.submitting || this.props.form.container().submitting} disableOnProgress={true}/>

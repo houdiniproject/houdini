@@ -175,24 +175,6 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
       this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
     }
 
-    //set up labels
-    let label: {[props:string]: string} = {
-      'nonprofitTab[organization_name]': "registration.wizard.nonprofit.name.label",
-      "nonprofitTab[website]": 'registration.wizard.nonprofit.website.label',
-      "nonprofitTab[org_email]": 'registration.wizard.nonprofit.email.label',
-      'nonprofitTab[org_phone]': 'registration.wizard.nonprofit.phone.label',
-      'nonprofitTab[city]': 'registration.wizard.nonprofit.city.label',
-      'nonprofitTab[state]': 'registration.wizard.nonprofit.state.label',
-      'nonprofitTab[zip]': 'registration.wizard.nonprofit.zip.label',
-      'userTab[name]': 'registration.wizard.contact.name.label',
-      'userTab[email]': 'registration.wizard.contact.email.label',
-      'userTab[password]': 'registration.wizard.contact.password.label',
-      'userTab[password_confirmation]': 'registration.wizard.contact.password_confirmation.label'
-    }
-    for (let key in label){
-       this.form.$(key).set('label', this.props.intl.formatMessage({id: label[key]}))
-    }
-
     return <Wizard wizardState={this.registrationWizardState} disableTabs={this.form.submitting}>
       <NonprofitInfoPanel tab={this.registrationWizardState.tabsByName['nonprofitTab']}
                            buttonText="registration.wizard.next"/>

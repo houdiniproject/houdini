@@ -21,9 +21,9 @@ cc_map.init = function(endpoint, options_obj, query) {
                     script.id = 'google_maps'
 										let key = ""
 										if (app.map_provider_options && app.map_provider_options.key) {
-                      key = `api_key=${app.map_provider_options.key}&`
+                      key = `key=${app.map_provider_options.key}&`
                     }
-                    script.src = `https://maps.googleapis.com/maps/api/js?${key}sensor=false&callback=draw_map`
+                    script.src = `https://maps.googleapis.com/maps/api/js?${key}callback=draw_map`
                     document.body.appendChild(script)
                     set_extra_options(options_obj)
                 } else {

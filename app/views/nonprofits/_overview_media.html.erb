@@ -16,9 +16,9 @@
       script.id = 'google_maps'
       let key = ""
       if (app.map_provider_options && app.map_provider_options.key) {
-        key = `api_key=${app.map_provider_options.key}&`
+        key = `key=${app.map_provider_options.key}&`
       }
-      script.src = `https://maps.googleapis.com/maps/api/js?${key}v=3.exp&sensor=false&libraries=places`
+      script.src = `https://maps.googleapis.com/maps/api/js?${key}v=3.exp&libraries=places`
       document.body.appendChild(script)
     </script>
 		<% npo_full_address = Format::Address.full_address(@nonprofit.address, @nonprofit.city, @nonprofit.state_code, @nonprofit.zip_code) %>

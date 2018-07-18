@@ -68,10 +68,10 @@ export class SessionPageForm extends HoudiniForm {
         }
         catch(e){
           if (e.error) {
-            f.invalidate(e.error)
+            f.invalidateFromServer(e.error)
           }
           else {
-            f.invalidate(e)
+            f.invalidateFromServer(e)
           }
         }
       }
@@ -99,7 +99,7 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
       this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
     }
 
-    let errorDiv = !this.form.isValid ? <div className="form-group has-error"><div className="help-block" role="alert">{(this.form as any).error}</div></div> : ''
+    let errorDiv = !this.form.isValid || this.form.hasServerError ? <div className="form-group has-error"><div className="help-block" role="alert">{this.form.serverError}</div></div> : ''
 
     return <form onSubmit={this.form.onSubmit}>
       <BasicField field={this.form.$('email')}

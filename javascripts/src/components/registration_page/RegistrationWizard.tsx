@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import {observer, inject} from 'mobx-react'
 import NonprofitInfoPanel from './NonprofitInfoPanel'
-import {action,  observable, computed} from 'mobx';
+import {action,  observable, computed, runInAction} from 'mobx';
 import {Wizard} from '../common/wizard/Wizard'
 
 import {Form} from 'mobx-react-form';
@@ -165,15 +165,16 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
     this.registrationWizardState.initialize()
   }
 
+  componentWillMount()
+  {
+    runInAction(() => {
+      this.form.nonprofitApi = this.props.ApiManager.get(NonprofitApi)
+      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
+    })
+  }
+
 
   render() {
-    if (!this.form.nonprofitApi) {
-      this.form.nonprofitApi = this.props.ApiManager.get(NonprofitApi)
-
-    }
-    if(!this.form.signinApi){
-      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
-    }
 
     return <Wizard wizardState={this.registrationWizardState} disableTabs={this.form.submitting}>
       <NonprofitInfoPanel tab={this.registrationWizardState.tabsByName['nonprofitTab']}

@@ -7,7 +7,7 @@ import {Validations} from "../../lib/vjf_rules";
 import {WebLoginModel, WebUserSignInOut} from "../../lib/api/sign_in";
 
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
-import {observable, action} from 'mobx'
+import {observable, action, runInAction} from 'mobx'
 import {ApiManager} from "../../lib/api_manager";
 import {BasicField} from "../common/fields";
 import ProgressableButton from "../common/ProgressableButton";
@@ -91,13 +91,15 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
     this.form = new SessionPageForm({fields: FieldDefinitions})
   }
 
+  componentWillMount(){
+    runInAction(() => {
+      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
+    })
+  }
+
   @observable form: SessionPageForm
 
   render() {
-
-    if(!this.form.signinApi){
-      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
-    }
 
     let errorDiv = !this.form.isValid || this.form.hasServerError ? <div className="form-group has-error"><div className="help-block" role="alert">{this.form.serverError}</div></div> : ''
 

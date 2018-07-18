@@ -239,6 +239,10 @@ GEM
     hashie (3.4.1)
     heroku-deflater (0.5.3)
       rack (>= 1.4.5)
+    heroku_rails_deflate (1.0.3)
+      actionpack (>= 3.2.13)
+      activesupport (>= 3.2.13)
+      rack (>= 1.4.5)
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -483,6 +487,7 @@ DEPENDENCIES
   grape_url_validator
   hamster
   heroku-deflater
+  heroku_rails_deflate
   httparty
   i18n-js
   lograge

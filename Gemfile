@@ -154,6 +154,7 @@ gem 'foreman'
 
 group :production do
   gem 'rails_autoscale_agent'
+  gem 'heroku_rails_deflate'
 end
 
 gem 'grape'

@@ -16,8 +16,6 @@ export const FieldDefinitions : Array<FieldDefinition> = [
   },
   {
     name: 'email',
-    label: 'registration.wizard.contact.email.label',
-    placeholder: 'registration.wizard.contact.email.placeholder',
     validators: [Validations.isEmail]
   },
   {

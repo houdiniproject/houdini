@@ -12,6 +12,7 @@ Commitchange::Application.configure do
 
 	# Disable Rails's static asset server (Apache or nginx will already do this)
 	config.serve_static_assets = true
+	config.static_cache_control = "public, max-age=3600"
 
 	# Compress JavaScripts and CSS
 	config.assets.compress = true
@@ -84,5 +85,5 @@ Commitchange::Application.configure do
   config.assets.compile = false
 
 	# Compress json
-	# config.middleware.use Rack::Deflater
+  config.middleware.use Rack::Deflater
 end

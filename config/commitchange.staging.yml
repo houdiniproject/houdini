@@ -7,7 +7,7 @@ mailer:
   port: 25
 
 cdn:
-  url: "https://commitchange-test.herokuapp.com"
+  url: "https://d1kiu7z4pkqkyu.cloudfront.net"
 
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>

@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 	def redirect_to_maintenance
 		if (Settings&.maintenance&.maintenance_mode && !current_user)
 			unless (self.class == Users::SessionsController &&
-							(params[:maintenance_token] == Settings.maintenance.maintenance_token || params[:format] == 'json'))
+							((Settings.maintenance.maintenance_token && params[:maintenance_token] == Settings.maintenance.maintenance_token) || params[:format] == 'json'))
 				redirect_to Settings.maintenance.maintenance_page
 			end
 		end

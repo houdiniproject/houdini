@@ -90,6 +90,24 @@ describe 'Maintenance Mode' do
       end
     end
 
+    describe 'in maintenance without maintenance_token set' do
+      before(:each) do
+        @request.env["devise.mapping"] = Devise.mappings[:user]
+      end
+      before(:each) do
+        Settings.merge!({maintenance:
+                             {maintenance_mode: true,
+                              maintenance_token: nil,
+                              maintenance_page: page}})
+      end
+
+      it 'redirects sign_in if the token is nil' do
+        get(:new)
+        expect(response.code).to eq "302"
+        expect(response.location).to eq page
+      end
+    end
+
   end
 
   # it 'redirect to general user' do

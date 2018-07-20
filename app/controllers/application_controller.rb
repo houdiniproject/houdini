@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class ApplicationController < ActionController::Base
-	before_filter :set_locale
+	before_filter :set_locale, :redirect_to_maintenance
 
 	protect_from_forgery
 
@@ -16,6 +16,15 @@ class ApplicationController < ActionController::Base
 			I18n.locale = params[:locale]
 		else
 	  	I18n.locale = Settings.language
+		end
+	end
+
+	def redirect_to_maintenance
+		if (Settings&.maintenance&.maintenance_mode && !current_user)
+			unless (self.class == Users::SessionsController &&
+							((Settings.maintenance.maintenance_token && params[:maintenance_token] == Settings.maintenance.maintenance_token) || params[:format] == 'json'))
+				redirect_to Settings.maintenance.maintenance_page
+			end
 		end
 	end
 

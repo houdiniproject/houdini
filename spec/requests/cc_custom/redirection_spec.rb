@@ -1,8 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-StateCodes = [ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY' ]
-
+StateCodes = Set.new([ 'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'PR', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY' ])
+ActualStateCodes = ["ny", "la", "ca", "va", "nh", "oh", "fl", "wa", "nj", "nd", "il", "vt", "al", "tx", "state", "dc", "co", "mo", "ab", "mi", "ma", "de", "nv", "pa", "ct", "ar", "az", "in", "ky", "md", "nc", "ne", "ut", "ok", "ks", "ak", "wi", "ga", "or", "mn", "tn", "mt", "wv", "me", "ms", "tat", "bc", "nm", "ri", "sc", "sd", "india", "hi", "id", "california", "british-columbia", "utah", "lagos", "arkansas", "albany", "greater-accra-region", "new-york-ny", "west-bengal", "colombp", "yemen", "illinois", "sthlm", "massachusetts", "pichincha", "sp", "nt", "et", "paris", "ha-ti", "tanzania", "western-cape", "florida", "uttarakhand", "washington", "nevada", "louisiana", "germany", "michigan", "bru", "wb", "ab-alberta", "qc---quebec", "nsw", "sa", "ir", "on", "texas", "harare", "no", "usa", "america"].map{|i| i.upcase}
 OtherRedirects = ['nonprofits', 'events', 'recurring_donations', 'profiles', 'js', 'css', 'assets']
 StartDomain = "https://commitchange.mystagingwebsite.com/"
 EndDomain = "https://us.commitchange.com/"
@@ -14,9 +14,8 @@ describe 'redirections', type: :request do
     WebMock.disable_net_connect!
   }
   it 'states are successful' do
-    StateCodes.each do |state|
+    StateCodes.merge(ActualStateCodes).each do |state|
       runRedirectionTest(state.downcase)
-      runRedirectionTest(state.upcase)
     end
   end
 

@@ -20,7 +20,7 @@ Your invoice for the month of <%= @month_name %> has been paid and the receipt i
   <tbody>
   <tr>
     <td><strong>Total Amount</strong></td>
-    <td> <%= print_currency(@payment.gross_amount) %></td>
+    <td> <%= print_currency(@payment.gross_amount, @payment.nonprofit.currency_symbol) %></td>
   </tr>
   <tr>
     <td><strong>Transaction Date</strong></td>

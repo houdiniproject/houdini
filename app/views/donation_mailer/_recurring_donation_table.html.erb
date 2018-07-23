@@ -10,7 +10,7 @@
 	<tbody>
 		<tr>
 			<td><strong>Recurring Amount</strong></td>
-			<td> <%= print_currency(donation.amount) %></td>
+			<td> <%= print_currency(donation.amount, donation.nonprofit.currency_symbol) %></td>
 		</tr>
 
     <tr>

@@ -22,7 +22,7 @@
         <% end %>
         <% if campaign.show_total_raised %>
           <span class='pastelBox--white u-padding--3'>
-            $<%= print_currency campaign.total_raised, false %> <small>raised</small>
+            <%= print_currency campaign.total_raised, campaign.nonprofit.currency_symbol %> <small>raised</small>
           </span>
         <% end %>
       </td>

@@ -1,6 +1,6 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <p>
-Your recurring donation of <strong><%= print_currency(@recurring_donation.amount) %></strong> towards <strong><%= @recurring_donation.nonprofit.name %></strong> is now cancelled.
+Your recurring donation of <strong><%= print_currency(@recurring_donation.amount, @recurring_donation.nonprofit.currency_symbol) %></strong> towards <strong><%= @recurring_donation.nonprofit.name %></strong> is now cancelled.
 </p>
 
 <%= render :partial => 'emails/nonprofit_sig', :locals => {:nonprofit => @recurring_donation.nonprofit} %>

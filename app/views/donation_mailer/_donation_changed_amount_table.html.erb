@@ -18,12 +18,12 @@
   </tr>
   <tr>
     <td><strong>New Amount</strong></td>
-    <td> <%= print_currency(donation.amount) %></td>
+    <td> <%= print_currency(donation.amount, donation.nonprofit.currency_symbol) %></td>
   </tr>
 
   <tr>
     <td><strong>Previous Amount</strong></td>
-    <td> <%= print_currency(previous_amount) %></td>
+    <td> <%= print_currency(previous_amount, donation.nonprofit.currency_symbol) %></td>
   </tr>
 
   <% if donation.campaign %>

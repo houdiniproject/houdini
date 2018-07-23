@@ -16,7 +16,7 @@ module ApplicationHelper
 	def print_currency(cents, unit="EUR", sign=true)
             
 		dollars = cents.to_f / 100.0
-		dollars = number_to_currency(dollars, :unit => "#{unit} ", :precision => (dollars.round == dollars) ? 0 : 2)
+		dollars = number_to_currency(dollars, :unit => "#{unit}", :precision => (dollars.round == dollars) ? 0 : 2)
 		dollars = dollars[1..-1] if !sign
 		dollars
 	end

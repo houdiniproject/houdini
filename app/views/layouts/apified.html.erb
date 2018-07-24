@@ -23,7 +23,7 @@
     body {padding-left: 0}
   </style>
 </head>
-<body>
+<body class="<%= @theme == 'minimal' ? 'minimal' : nil %>">
 <%= render 'layouts/apified_header' %>
 <%= IncludeAsset.js '/app/loading_indicator.js' %>
 <%= IncludeAsset.js '/app/react.js' %>

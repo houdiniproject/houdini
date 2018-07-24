@@ -282,6 +282,11 @@ Config.schema do
 
   end
 
+  #the url for your button. As a default, it takes what's in CDN.url
+  optional(:button_domain).schema do
+    required(:url).filled?(:str)
+  end
+
 end
 
 Settings.reload!

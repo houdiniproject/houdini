@@ -109,15 +109,5 @@ describe 'Maintenance Mode' do
     end
 
   end
-
-  # it 'redirect to general user' do
-  #   nonprofit
-  #   unauth_user.create_profile
-  #   sign_in unauth_user
-  #   get(:index)
-  #   expect(response).to redirect_to profile_url(unauth_user.profile.id)
-  # end
-
-
 end
 

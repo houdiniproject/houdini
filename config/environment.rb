@@ -268,6 +268,25 @@ Config.schema do
     end
   end
 
+  # the settings to get into maintenance_mode
+  optional(:maintenance).schema do
+    # true if you want to be in maintenance mode, otherwise false
+    required(:maintenance_mode).filled(:bool?)
+
+    # the token you pass into /users/sign_in to actually get to
+    # a signin page during maintenance mode
+    optional(:maintenance_token).filled(:str?)
+
+    # the url, absolute or relative, that visitors should be redirected to
+    optional(:maintenance_page).filled(:str?)
+
+  end
+
+  #the url for your button. As a default, it takes what's in CDN.url
+  optional(:button_domain).schema do
+    required(:url).filled?(:str)
+  end
+
 end
 
 Settings.reload!

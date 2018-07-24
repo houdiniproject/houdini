@@ -271,7 +271,7 @@ Config.schema do
   # the settings to get into maintenance_mode
   optional(:maintenance).schema do
     # true if you want to be in maintenance mode, otherwise false
-    required(:maintenance_mode).filled(:bool?)
+    optional(:maintenance_mode).filled(:bool?)
 
     # the token you pass into /users/sign_in to actually get to
     # a signin page during maintenance mode

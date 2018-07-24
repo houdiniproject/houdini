@@ -107,7 +107,7 @@ function view(state) {
   , customFields(state.params$().custom_fields)
   , dedicationLink(state)
   , app.nonprofit.no_anon ? '' : anonField(state)
-  , h('fieldset.u-inlineBlock.u-marginTop--10', paymentMethodButtons(["card", "sepa"], state))
+  , h('div', paymentMethodButtons(["card"], state))
   ])
   return h('div.wizard-step.info-step.u-padding--10', [
     form
@@ -120,8 +120,7 @@ function view(state) {
 
 function paymentMethodButtons(paymentMethods, state){
   return h('section.group'), [
-      paymentButton({error$: state.errors$, buttonText: I18n.t('nonprofits.donate.payment.tabs.sepa')}, sepaTab, state)
-    , paymentButton({error$: state.errors$, buttonText: I18n.t('nonprofits.donate.payment.tabs.card')}, cardTab, state)
+    paymentButton({error$: state.errors$, buttonText: 'Next'}, cardTab, state)
     ]
 }
 
@@ -132,7 +131,7 @@ function paymentButton(options, label, state){
   let btnclass={ 'ff-button--loading': options.loading$() };
   btnclass[label]=true;
 
-  return h('div.ff-buttonWrapper.u-floatL.u-marginBottom--10', {
+  return h('div.ff-buttonWrapper.u-centered.u-marginTop--10', {
     class: { 'ff-buttonWrapper--hasError': options.error$() }
   }, [
     h('p.ff-button-error', {style: {display: options.error$() ? 'block' : 'none'}} , options.error$())

@@ -3,6 +3,7 @@
 
 <html lang="<%= I18n.locale %>">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= "#{yield(:title)} - #{Settings.general.name}" %></title>
   <%= render 'layouts/stylesheets' %>
   <%= IncludeAsset.css '/client/css/global/page.css' %>
@@ -12,7 +13,7 @@
   </style>
   <%= favicon_link_tag %>
 </head>
-<body>
+<body class="<%= @theme == 'minimal' ? 'minimal' : nil %>">
 <%= render 'layouts/apified_header' %>
 <div class="site-content">
   <%= yield %>

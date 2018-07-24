@@ -142,7 +142,7 @@ en:
   registration:
     get_started:
       header: "Get started"
-      description: "Let's get started with Houdini. To begin, fill out your initial nonprofit and info."
+      description: "Let's get started with CommitChange. To begin, fill out your nonprofit's info as well as your own, as the first admin for your nonprofit."
     wizard:
       tabs:
         nonprofit: "Nonprofit"

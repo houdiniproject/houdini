@@ -6,14 +6,6 @@ GIT
       chronic
 
 GIT
-  remote: https://github.com/commitchange/ruby-qx.git
-  revision: 3582c9a3c5d03f23480bc9b8ff1948a351ed8d6c
-  specs:
-    qx (0.1.1)
-      activerecord (>= 3.0)
-      colorize (~> 0.8)
-
-GIT
   remote: https://github.com/commitchange/stripe-ruby-mock.git
   revision: ee4471a8f654672d5596218c2b68a2913ea3f4cc
   branch: 2.4.1
@@ -31,6 +23,14 @@ GIT
       devise (>= 2.2.8, < 4)
       grape (> 0.7)
       rails (> 3.2, < 5)
+
+GIT
+  remote: https://github.com/ericschultz/ruby-qx.git
+  revision: 179467cd4a8c791beb36428975c287acc11b98b2
+  specs:
+    qx (0.1.1)
+      activerecord (>= 3.0)
+      colorize (~> 0.8)
 
 GIT
   remote: https://github.com/ruby-grape/grape-entity.git

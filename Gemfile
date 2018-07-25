@@ -42,7 +42,7 @@ gem 'font_assets'
 
 # Database (postgres)
 gem 'pg' # Postgresql
-gem 'qx', git: 'https://github.com/commitchange/ruby-qx.git'
+gem 'qx', git: 'https://github.com/ericschultz/ruby-qx.git'
 gem 'dalli'
 gem 'memcachier'
 

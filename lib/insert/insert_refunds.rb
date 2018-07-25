@@ -16,7 +16,7 @@ module InsertRefunds
   def self.with_stripe(charge, h)
     ParamValidation.new(charge, { 
       payment_id: {required: true, is_integer: true},
-      stripe_charge_id: {required: true, format: /^ch_.*$/},
+      stripe_charge_id: {required: true, format: /^(test_)?ch_.*$/},
       amount: {required: true, is_integer: true, min: 1},
       id: {required: true, is_integer: true},
       nonprofit_id: {required: true, is_integer: true},

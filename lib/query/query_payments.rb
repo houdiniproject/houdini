@@ -105,12 +105,48 @@ module QueryPayments
   end
 
 
+  # we must provide payments.*, supporters.*, donations.*, associated event_id, associated campaign_id
   def self.full_search_expr(npo_id, query)
     expr = Qexpr.new.from('payments')
     .left_outer_join('supporters', "supporters.id=payments.supporter_id")
     .left_outer_join('donations', 'donations.id=payments.donation_id' )
-    .where('payments.nonprofit_id=$id', id: npo_id.to_i)
+    .join("(#{select_to_filter_search(npo_id, query)}) AS \"filtered_payments\"", 'payments.id = filtered_payments.id')
     .order_by('payments.date DESC')
+
+    if ['asc', 'desc'].include? query[:sort_amount]
+      expr = expr.order_by("payments.gross_amount #{query[:sort_amount]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_date]
+      expr = expr.order_by("payments.date #{query[:sort_date]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_name]
+      expr = expr.order_by("coalesce(NULLIF(supporters.name, ''), NULLIF(supporters.email, '')) #{query[:sort_name]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_type]
+      expr = expr.order_by("payments.kind #{query[:sort_type]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_towards]
+      expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
+    end
+
+    return expr
+  end
+
+  # perform the search but only get the relevant payment_ids
+  def self.select_to_filter_search(npo_id, query)
+
+    inner_donation_search = Qexpr.new.select('donations.*').from('donations')
+    if (query[:event_id].present?)
+      inner_donation_search = inner_donation_search.where('donations.event_id=$id', id: query[:event_id])
+    end
+    if (query[:campaign_id].present?)
+      inner_donation_search = inner_donation_search.where('donations.campaign_id=$id', id: query[:campaign_id])
+    end
+    expr = Qexpr.new.select('payments.id').from('payments')
+               .left_outer_join('supporters', "supporters.id=payments.supporter_id")
+               .left_outer_join(inner_donation_search.as('donations'), 'donations.id=payments.donation_id' )
+               .where('payments.nonprofit_id=$id', id: npo_id.to_i)
+
 
     if query[:search].present?
       expr = SearchVector.query(query[:search], expr)
@@ -156,16 +192,105 @@ module QueryPayments
     end
     if query[:campaign_id].present?
       expr = expr
-        .left_outer_join("campaigns", "campaigns.id=donations.campaign_id" )
-        .where("campaigns.id=$id", id: query[:campaign_id])
+                 .left_outer_join("campaigns", "campaigns.id=donations.campaign_id" )
+                 .where("campaigns.id=$id", id: query[:campaign_id])
     end
     if query[:event_id].present?
-      tickets_subquery = Qexpr.new.select("payment_id", "MAX(event_id) AS event_id").from("tickets").group_by("payment_id").as("tix")
+      tickets_subquery = Qexpr.new.select("payment_id", "MAX(event_id) AS event_id").from("tickets").where('tickets.event_id=$event_id', event_id: query[:event_id]).group_by("payment_id").as("tix")
       expr = expr
-        .left_outer_join(tickets_subquery, "tix.payment_id=payments.id")
-        .where("tix.event_id=$id OR donations.event_id=$id", id: query[:event_id])
+                 .left_outer_join(tickets_subquery, "tix.payment_id=payments.id")
+                 .where("tix.event_id=$id OR donations.event_id=$id", id: query[:event_id])
+
     end
-    return expr
+
+    expr = expr
+
+    #we have the first part of the search. We need to create the second in certain situations
+    filtered_payment_id_search = expr.parse
+
+    if query[:event_id].present? || query[:campaign_id].present?
+      filtered_payment_id_search = filtered_payment_id_search + " UNION DISTINCT " + create_reverse_select(npo_id, query).parse
+    end
+
+
+
+    filtered_payment_id_search
+  end
+
+  # we use this when we need to get the refund info
+  def self.create_reverse_select(npo_id,  query)
+    inner_donation_search = Qexpr.new.select('donations.*').from('donations')
+    if (query[:event_id].present?)
+      inner_donation_search = inner_donation_search.where('donations.event_id=$id', id: query[:event_id])
+    end
+    if (query[:campaign_id].present?)
+      inner_donation_search = inner_donation_search.where('donations.campaign_id=$id', id: query[:campaign_id])
+    end
+    expr = Qexpr.new.select('payments.id').from('payments')
+               .left_outer_join('supporters', "supporters.id=payments.supporter_id")
+                .left_outer_join('refunds', 'payments.id=refunds.payment_id')
+              .left_outer_join('charges', 'refunds.charge_id=charges.id')
+              .left_outer_join('payments AS payments_orig', 'payments_orig.id=charges.payment_id')
+               .left_outer_join(inner_donation_search.as('donations'), 'donations.id=payments_orig.donation_id' )
+               .where('payments.nonprofit_id=$id', id: npo_id.to_i)
+
+
+    if query[:search].present?
+      expr = SearchVector.query(query[:search], expr)
+    end
+    if ['asc', 'desc'].include? query[:sort_amount]
+      expr = expr.order_by("payments.gross_amount #{query[:sort_amount]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_date]
+      expr = expr.order_by("payments.date #{query[:sort_date]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_name]
+      expr = expr.order_by("coalesce(NULLIF(supporters.name, ''), NULLIF(supporters.email, '')) #{query[:sort_name]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_type]
+      expr = expr.order_by("payments.kind #{query[:sort_type]}")
+    end
+    if ['asc', 'desc'].include? query[:sort_towards]
+      expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
+    end
+    if query[:after_date].present?
+      expr = expr.where('payments.date >= $date', date: query[:after_date])
+    end
+    if query[:before_date].present?
+      expr = expr.where('payments.date <= $date', date: query[:before_date])
+    end
+    if query[:amount_greater_than].present?
+      expr = expr.where('payments.gross_amount >= $amt', amt: query[:amount_greater_than].to_i * 100)
+    end
+    if query[:amount_less_than].present?
+      expr = expr.where('payments.gross_amount <= $amt', amt: query[:amount_less_than].to_i * 100)
+    end
+    if query[:year].present?
+      expr = expr.where("to_char(payments.date, 'YYYY')=$year", year: query[:year])
+    end
+    if query[:designation].present?
+      expr = expr.where("donations.designation @@ $s", s: "#{query[:designation]}")
+    end
+    if query[:dedication].present?
+      expr = expr.where("donations.dedication @@ $s", s: "#{query[:dedication]}")
+    end
+    if query[:donation_type].present?
+      expr = expr.where('payments.kind IN ($kinds)', kinds: query[:donation_type].split(','))
+    end
+    if query[:campaign_id].present?
+      expr = expr
+                 .left_outer_join("campaigns", "campaigns.id=donations.campaign_id" )
+                 .where("campaigns.id=$id", id: query[:campaign_id])
+    end
+    if query[:event_id].present?
+      tickets_subquery = Qexpr.new.select("payment_id", "MAX(event_id) AS event_id").from("tickets").where('tickets.event_id=$event_id', event_id: query[:event_id]).group_by("payment_id").as("tix")
+      expr = expr
+                 .left_outer_join(tickets_subquery, "tix.payment_id=payments_orig.id")
+                 .where("tix.event_id=$id OR donations.event_id=$id", id: query[:event_id])
+
+    end
+
+    expr
   end
 
   def self.for_export_enumerable(npo_id, query, chunk_limit=35000)

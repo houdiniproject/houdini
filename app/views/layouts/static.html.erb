@@ -15,7 +15,6 @@
   <%= favicon_link_tag %>
 </head>
 <body class="<%= @theme == 'minimal' ? 'minimal' : nil %>">
-<%= IncludeAsset.js '/app/polyfill.js' %>
 <%= render 'layouts/apified_header' %>
 <div class="site-content">
   <%= yield %>

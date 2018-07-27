@@ -4,7 +4,7 @@
   height: 90px;
 
   .container {
-    display: flex;
+    padding-top: 20px;
     height: 100%;
 
     img {
@@ -19,7 +19,7 @@
   background-color: whitesmoke;
   height:70px;
   .container {
-    display: flex;
+    padding-top: 24px;
     height: 100%;
 
     > * {
@@ -35,7 +35,7 @@
 }
 
 .site-content {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 body.minimal {

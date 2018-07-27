@@ -1,16 +1,18 @@
 mailer:
-  host: "https://commitchange-test.herokuapp.com"
+  host: "https://us.commitchange.com"
 
 mailer:
-  delivery_method: "sendmail"
-  address: "localhost"
-  port: 25
+  delivery_method: "aws_ses"
+  host: "commitchange.com"
 
 cdn:
-  url: "https://commitchange-test.herokuapp.com"
+  url: "https://dmnsmycmdpaix.cloudfront.net"
 
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   region: us-west-1
   bucket: commitchange
+
+button_config:
+  url: "https://us.commitchange.com"

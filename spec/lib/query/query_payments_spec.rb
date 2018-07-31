@@ -164,4 +164,235 @@ describe QueryPayments do
 
     end
   end
+
+  describe '.full_search' do
+
+    include_context :shared_rd_donation_value_context
+    before(:each) {
+      nonprofit.stripe_account_id = Stripe::Account.create()['id']
+      nonprofit.save!
+      card.stripe_customer_id = 'some other id'
+      cust = Stripe::Customer.create()
+      card.stripe_customer_id = cust['id']
+      card.save!
+      expect(Stripe::Charge).to receive(:create).exactly(3).times.and_wrap_original {|m, *args| a = m.call(*args);
+      @stripe_charge_id = a['id']
+      a
+      }
+
+      allow(QueueDonations).to receive(:execute_for_donation)
+
+    }
+
+    let(:charge_amount_small) { 200}
+    let(:charge_amount_medium) { 400}
+    let(:charge_amount_large) { 600}
+
+    def generate_donation(h)
+      token = h[:token]
+      date = h[:date]
+      amount = h[:amount]
+
+      input = {amount: amount,
+               nonprofit_id: nonprofit.id,
+               supporter_id: supporter.id,
+               token: token,
+
+               date: date,
+               dedication: 'dedication',
+               designation: 'designation'}
+      if h[:event_id]
+        input[:event_id] = h[:event_id]
+      end
+
+      if h[:campaign_id]
+        input[:campaign_id] = h[:campaign_id]
+      end
+
+      InsertDonation.with_stripe(input)
+    end
+
+    describe 'general donations' do
+      let(:donation_result_yesterday) {
+          generate_donation(amount: charge_amount_small,
+
+                                     token: source_tokens[0].token,
+                                     date: (Time.now - 1.day).to_s)
+
+
+      }
+
+      let(:donation_result_today) {
+
+          generate_donation(amount:  charge_amount_medium,
+
+                                     token: source_tokens[1].token,
+
+                                     date: (Time.now).to_s
+                             )
+      }
+
+      let(:donation_result_tomorrow) {
+
+          generate_donation(amount: charge_amount_large,
+
+                                     token: source_tokens[2].token,
+                                     date: (Time.now - 1.day).to_s
+                            )
+
+      }
+
+      let (:first_refund_of_yesterday) {
+        charge =  donation_result_yesterday['charge']
+
+          InsertRefunds.with_stripe(charge.attributes, {amount: 100}.with_indifferent_access)
+
+      }
+
+      let(:second_refund_of_yesterday) {
+        charge =  donation_result_yesterday['charge']
+
+        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.with_indifferent_access)
+
+      }
+
+
+      it 'empty filter returns all' do
+        donation_result_yesterday
+        donation_result_today
+        donation_result_tomorrow
+        first_refund_of_yesterday
+        second_refund_of_yesterday
+
+        result = QueryPayments::full_search(nonprofit.id, {})
+
+        expect(result[:data].count).to eq 5
+      end
+
+
+
+
+
+
+
+    end
+
+    describe 'event donations' do
+      let(:donation_result_yesterday) {
+        generate_donation(amount: charge_amount_small,
+                          event_id: event.id,
+                          token: source_tokens[0].token,
+                          date: (Time.now - 1.day).to_s)
+
+
+      }
+
+      let(:donation_result_today) {
+
+        generate_donation(amount:  charge_amount_medium,
+                          event_id: event.id,
+                          token: source_tokens[1].token,
+
+                          date: (Time.now).to_s
+        )
+      }
+
+      let(:donation_result_tomorrow) {
+
+        generate_donation(amount: charge_amount_large,
+
+                          token: source_tokens[2].token,
+                          date: (Time.now - 1.day).to_s
+        )
+
+      }
+
+      let (:first_refund_of_yesterday) {
+        charge =  donation_result_yesterday['charge']
+
+        InsertRefunds.with_stripe(charge.attributes, {amount: 100}.with_indifferent_access)
+
+      }
+
+      let(:second_refund_of_yesterday) {
+        charge =  donation_result_yesterday['charge']
+
+        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.with_indifferent_access)
+
+      }
+
+      it 'search includes refunds for that event ' do
+        donation_result_yesterday
+        donation_result_today
+        donation_result_tomorrow
+        first_refund_of_yesterday
+        second_refund_of_yesterday
+
+        result = QueryPayments::full_search(nonprofit.id, {event_id: event.id})
+
+        expect(result[:data].count).to eq 4
+        expect(result[:data]).to_not satisfy {|i| i.any?{|j| j['id'] == donation_result_tomorrow['payment']['id']}}
+      end
+    end
+
+    describe 'campaign donations' do
+      let(:donation_result_yesterday) {
+        generate_donation(amount: charge_amount_small,
+                          campaign_id:campaign.id,
+                          token: source_tokens[0].token,
+                          date: (Time.now - 1.day).to_s)
+
+
+      }
+
+      let(:donation_result_today) {
+
+        generate_donation(amount:  charge_amount_medium,
+                          campaign_id:campaign.id,
+                          token: source_tokens[1].token,
+
+                          date: (Time.now).to_s
+        )
+      }
+
+      let(:donation_result_tomorrow) {
+
+        generate_donation(amount: charge_amount_large,
+
+                          token: source_tokens[2].token,
+                          date: (Time.now - 1.day).to_s
+        )
+
+      }
+
+      let (:first_refund_of_yesterday) {
+        charge =  donation_result_yesterday['charge']
+
+        InsertRefunds.with_stripe(charge.attributes, {amount: 100}.with_indifferent_access)
+
+      }
+
+      let(:second_refund_of_yesterday) {
+        charge =  donation_result_yesterday['charge']
+
+        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.with_indifferent_access)
+
+      }
+
+
+      it 'search includes refunds for that campaign ' do
+        donation_result_yesterday
+        donation_result_today
+        donation_result_tomorrow
+        first_refund_of_yesterday
+        second_refund_of_yesterday
+
+        result = QueryPayments::full_search(nonprofit.id, {campaign_id: campaign.id})
+
+        expect(result[:data].count).to eq 4
+        expect(result[:data]).to_not satisfy {|i| i.any?{|j| j['id'] == donation_result_tomorrow['payment']['id']}}
+      end
+    end
+
+  end
 end

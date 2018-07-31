@@ -3163,6 +3163,20 @@ CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 
 
 --
+-- Name: index_refunds_on_charge_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_refunds_on_charge_id ON public.refunds USING btree (charge_id);
+
+
+--
+-- Name: index_refunds_on_payment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_refunds_on_payment_id ON public.refunds USING btree (payment_id);
+
+
+--
 -- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3230,6 +3244,13 @@ CREATE INDEX index_supporters_on_name ON public.supporters USING btree (name);
 --
 
 CREATE INDEX index_tickets_on_event_id ON public.tickets USING btree (event_id);
+
+
+--
+-- Name: index_tickets_on_payment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tickets_on_payment_id ON public.tickets USING btree (payment_id);
 
 
 --
@@ -4299,4 +4320,10 @@ INSERT INTO schema_migrations (version) VALUES ('20180217124311');
 INSERT INTO schema_migrations (version) VALUES ('20180608205049');
 
 INSERT INTO schema_migrations (version) VALUES ('20180608212658');
+
+INSERT INTO schema_migrations (version) VALUES ('20180713213748');
+
+INSERT INTO schema_migrations (version) VALUES ('20180713215825');
+
+INSERT INTO schema_migrations (version) VALUES ('20180713220028');
 

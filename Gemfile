@@ -9,7 +9,7 @@ gem 'stripe'
 
 # Compression of assets on heroku
 # https://github.com/romanbsd/heroku-deflater
-gem 'heroku-deflater', :group => :production
+#gem 'heroku-deflater', :group => :production
 
 # json serialization
 # https://github.com/nesquena/rabl

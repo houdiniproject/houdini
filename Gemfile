@@ -157,7 +157,7 @@ group :production do
 end
 
 group :production, :staging do
- # gem 'heroku_rails_deflate'
+ #so,  gem 'heroku_rails_deflate'
 end
 
 gem 'grape'

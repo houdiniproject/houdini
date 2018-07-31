@@ -85,5 +85,5 @@ Commitchange::Application.configure do
   config.assets.compile = false
 
 	# Compress json
-  config.middleware.use Rack::Deflater
+  #config.middleware.use Rack::Deflater
 end

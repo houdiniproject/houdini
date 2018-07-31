@@ -7,10 +7,6 @@ gem 'rails_12factor'
 # https://stripe.com/docs/api
 gem 'stripe'
 
-# Compression of assets on heroku
-# https://github.com/romanbsd/heroku-deflater
-#gem 'heroku-deflater', :group => :production
-
 # json serialization
 # https://github.com/nesquena/rabl
 gem 'rabl'
@@ -157,7 +153,7 @@ group :production do
 end
 
 group :production, :staging do
- #so,  gem 'heroku_rails_deflate'
+  gem 'heroku_rails_deflate'
 end
 
 gem 'grape'

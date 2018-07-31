@@ -6,7 +6,7 @@ mailer:
   host: "commitchange.com"
 
 cdn:
-  url: "https://dmnsmycmdpaix.cloudfront.net"
+  url: "https://d2e5we1j08b82a.cloudfront.net"
 
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>

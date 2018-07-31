@@ -13,9 +13,9 @@ class Houdini::V1::API < Grape::API
 	mount Houdini::V1::Nonprofit => '/nonprofit'
 	# Additional mounts are added via generators above this line
   # DON'T REMOVE THIS OR THE PREVIOUS LINES!!!
-	uriForHost = URI.parse(Settings.cdn.url)
+	uriForHost = URI.parse('https://us.commitchange.com')
 	add_swagger_documentation \
-		host: "#{uriForHost.host}#{Settings.cdn.port ? ":#{Settings.cdn.port}" : ""}",
+		host: "#{uriForHost.host}",
 		schemes: [uriForHost.scheme],
 		base_path: '/api/v1'
 end

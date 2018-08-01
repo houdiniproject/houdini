@@ -2,7 +2,7 @@
 const color = require('color')
 
 module.exports = (brand_color = null) => {
-    brandColor = brand_color || '#5FB88D'
+    let brandColor = brand_color || '#5FB88D'
     return {
         lightest: color(brandColor).lighten(0.8).hexString()
         , lighter: color(brandColor).lighten(0.7).hexString()

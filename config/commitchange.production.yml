@@ -3,7 +3,7 @@ mailer:
 
 mailer:
   delivery_method: "aws_ses"
-  host: "commitchange.com"
+  host: "us.commitchange.com"
 
 cdn:
   url: "https://d2e5we1j08b82a.cloudfront.net"

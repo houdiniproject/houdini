@@ -34,7 +34,7 @@ gem 'sprockets'
 
 # for serving fonts on cdn
 # https://github.com/ericallam/font_assets
-gem 'font_assets'
+gem 'font_assets', "~> 0.1.14"
 
 # Database (postgres)
 gem 'pg' # Postgresql

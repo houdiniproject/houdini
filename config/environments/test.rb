@@ -41,4 +41,6 @@ Commitchange::Application.configure do
   config.log_level = :debug
 
   config.action_controller.allow_forgery_protection = false
+  config.cache_store = :memory_store
+  config.middleware.use Rack::Attack
 end

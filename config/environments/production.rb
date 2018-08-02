@@ -86,4 +86,5 @@ Commitchange::Application.configure do
 
 	# Compress json
   #config.middleware.use Rack::Deflater
+  config.middleware.use Rack::Attack
 end

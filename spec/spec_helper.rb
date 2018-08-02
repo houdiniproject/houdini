@@ -109,11 +109,13 @@ RSpec.configure do |config|
 
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation, reset_ids: true)
+    Rails.cache.clear
   end
 
   config.around(:each) do |example|
     DatabaseCleaner.cleaning do
       example.run
+      Rails.cache.clear
     end
   end
 end

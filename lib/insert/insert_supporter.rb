@@ -6,6 +6,9 @@ require 'i18n'
 module InsertSupporter
 
   def self.create_or_update(np_id, data, update=false)
+    if (BLOCKED_SUPPORTERS.include(data[:email]))
+      raise "Blocked supporter"
+    end
     ParamValidation.new(data.merge(np_id: np_id), {
       np_id: {required: true, is_integer: true}
     })

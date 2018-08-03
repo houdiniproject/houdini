@@ -68,7 +68,7 @@ state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.
     resp => request({
       method: 'put'
     , path: rdPath
-    , send: {edit_token: token, card_id: resp.id, card_name: resp.name}
+    , send: {edit_token: token, token: resp.token, card_name: resp.name}
     }).load
   , state.cardForm.saved$
   )

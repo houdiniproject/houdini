@@ -27,8 +27,8 @@ en:
         subject: "Donation receipt for %{nonprofit_name}"
         transfer_info_html: "This transfer will appear on your bank statement as %{label}"
         transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
-        oneoff_donation_html: "Thank you for your donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
-        recurring_donation_html: "Thank you for your regular donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
+        oneoff_donation_html: "Your donation towards <strong>%{nonprofit_name}</strong> was successful!"
+        recurring_donation_html: "Your recurring donation towards <strong>%{nonprofit_name}</strong>, started on %{start_date}, has been successfully paid."
       donor_direct_debit_notification:
         subject: "Donation receipt for %{nonprofit_name}"
         transfer_info_html: "This transfer will appear on your bank statement as %{label}"

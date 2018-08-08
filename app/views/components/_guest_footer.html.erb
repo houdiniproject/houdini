@@ -16,8 +16,10 @@
 	</ul>
 
 	<ul class='col-4 u-noClear u-margin--0'>
+    <% if Settings.terms_and_privacy&.help_url %>
+		<li><%= link_to("Help", Settings.terms_and_privacy.help_url) %></li>
+      <% end %>
 
-		<li><a href='/help'>Help</a></li>
 	</ul>
 
 	<%# <div class='globalFooter-mailingListCol'> %>

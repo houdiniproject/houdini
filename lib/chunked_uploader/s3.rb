@@ -15,8 +15,9 @@ module ChunkedUploader
       object = bucket.objects[path]
       io = StringIO.new('', 'w')
       content_type = metadata[:content_type] ?  metadata[:content_type] : nil
+      content_disposition = metadata[:content_disposition] ?  metadata[:content_disposition] : nil
       begin
-        object.multipart_upload(:acl => :public_read, :content_type => content_type) do |upload|
+        object.multipart_upload(:acl => :public_read, :content_type => content_type, content_disposition: content_disposition) do |upload|
           chunk_enum.each  do |chunk|
             export_returned = io.write(chunk)
             if (io.size >= MINIMUMBUFFER_SIZE)

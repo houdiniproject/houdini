@@ -48,6 +48,7 @@ class Supporter < ActiveRecord::Base
   has_many :tag_masters, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
+  has_many :addresses
 
   validates :nonprofit, :presence => true
   scope :not_deleted, -> {where(deleted: false)}

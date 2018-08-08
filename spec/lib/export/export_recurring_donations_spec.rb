@@ -194,6 +194,7 @@ describe ExportRecurringDonations do
           expect(csv[0]).to eq MockHelpers.recurring_donation_export_headers
 
           expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
+          expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
           expect(@user).to have_received_email(subject: "Your recurring donations export is available!")
         end
       end

@@ -9,6 +9,6 @@
 		 Once you've started completing these tasks, you'll see your dashboard come to life with helpful data and reminders.
 	</span>
 
-		If you need help with any these tasks, visit our <a href='/help'>Help Center</a>.
+    <% if Settings.terms_and_privacy&.help_url %><span><%= link_to("Help", Settings.terms_and_privacy.help_url) %></span><% end %>
 	</p>
 </div>

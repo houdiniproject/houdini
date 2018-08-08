@@ -192,6 +192,7 @@ describe ExportPayments do
           expect(csv[0]).to eq MockHelpers.payment_export_headers
 
           expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
+          expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
           expect(user).to have_received_email(subject: "Your payment export is available!")
         end
       end

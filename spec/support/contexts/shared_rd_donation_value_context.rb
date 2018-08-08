@@ -6,7 +6,13 @@ RSpec.shared_context :shared_rd_donation_value_context do
   let(:fake_uuid) {"53a6bc06-0789-11e8-bb3f-f34cac607737"}
   let(:valid_uuid) {'fcf61bac-078a-11e8-aa53-cba5bdb8dcdd'}
   let(:other_uuid) {'a713018c-078f-11e8-ae3b-bf5007844fea'}
-  let(:source_token) {force_create(:source_token, tokenizable: card, expiration: Time.now + 1.day, max_uses: 1, token: valid_uuid)}
+  let(:source_token) {force_create(:source_token, tokenizable: card, expiration: Time.now + 1.day, max_uses: 1, token: valid_uuid) }
+  let(:source_tokens) {
+    (0..10).map { |i|
+        force_create(:source_token, tokenizable: card, expiration: Time.now + 1.day, max_uses: 1, token: SecureRandom.uuid)
+    }
+  }
+
   let(:other_source_token) {force_create(:source_token, tokenizable: card_for_other_supporter, expiration: Time.now + 1.day, max_uses: 1, token: other_uuid)}
 
   let(:charge_amount) {100}
@@ -144,6 +150,11 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
     end
 
+    result
+  end
+
+  def generate_expected_refund(data={})
+    result = {}.with_indifferent_access
     result
   end
 
@@ -382,6 +393,24 @@ RSpec.shared_context :shared_rd_donation_value_context do
     end
   end
 
+  def before_each_successful_refund()
+    expect(InsertRefund).to receive(:with_stripe).and_wrap_original do |m, *args|
+      result = m.call(*args);
+      @all_refunds&.push(result) || @all_refunds = [result]
+      @fifo_refunds&.unshift(result) || @fifo_refunds = [ result]
+
+      result
+    end
+
+    expect(Stripe::Refund).to receive(:create).and_wrap_original  do |m, *args|
+      a = m.call(*args);
+      @stripe_refund_ids&.unshift(a['id']) || @stripe_refund_ids = [a['id']];
+      a
+    end
+
+  end
+
+
   def before_each_sepa_success()
     expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
       result = m.call(*args);
@@ -406,6 +435,8 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if (data[:recurring_donation])
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
+
+    return result
   end
 
   def process_campaign_donation(data = {})
@@ -422,6 +453,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if (data[:recurring_donation])
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
+    return result
   end
 
   def process_general_donation(data = {})
@@ -447,6 +479,17 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if (data[:recurring_donation])
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
+    return result
+  end
+
+  def process_general_refund(data = {})
+    result = yield
+
+    expected = generate_expected_refund()
+
+    expect(result['payment']).to eq expected[:payment]
+    expect(result['refund']).to eq expected[:refund]
+    return result
   end
 
   def nil_or_true(item)

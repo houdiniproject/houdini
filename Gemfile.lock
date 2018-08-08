@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/commitchange/ruby-qx.git
-  revision: 3582c9a3c5d03f23480bc9b8ff1948a351ed8d6c
+  revision: 3c7fbb9c844e3ea86c9faea204058aa76e5ea35d
   specs:
     qx (0.1.1)
       activerecord (>= 3.0)

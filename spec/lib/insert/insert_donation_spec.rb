@@ -8,6 +8,10 @@ describe InsertDonation do
         Settings.payment_provider.stripe_connect = true
     }
 
+    after(:each) {
+      Settings.reload!
+    }
+
     include_context :shared_rd_donation_value_context
 
     describe 'param validation' do

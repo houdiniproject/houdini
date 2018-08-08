@@ -43,6 +43,7 @@ class Donation < ActiveRecord::Base
 	belongs_to :nonprofit
 	belongs_to :campaign
 	belongs_to :event
+	belongs_to :address
 
 	scope :anonymous, -> {where(anonymous: true)}
 end

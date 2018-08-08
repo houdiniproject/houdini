@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Campaigns
 class DonationsController < ApplicationController
-	include CampaignHelper
+	include Controllers::CampaignHelper
 
 	before_filter :authenticate_campaign_editor!, only: [:index]
 

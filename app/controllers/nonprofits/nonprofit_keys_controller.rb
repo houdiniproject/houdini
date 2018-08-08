@@ -2,7 +2,7 @@
 
 module Nonprofits
 class NonprofitKeysController < ApplicationController
-  include NonprofitHelper
+  include Controllers::NonprofitHelper
   before_filter :authenticate_nonprofit_user!
 
   # get /nonprofits/:nonprofit_id/nonprofit_keys

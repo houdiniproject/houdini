@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Nonprofits
   class MiscellaneousNpInfosController < ApplicationController
-    include NonprofitHelper
+    include Controllers::NonprofitHelper
 
     helper_method :current_nonprofit_user?
     before_filter :authenticate_nonprofit_user!

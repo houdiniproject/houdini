@@ -2,7 +2,7 @@
 module Nonprofits
 	class CustomFieldJoinsController < ApplicationController
 
-		include NonprofitHelper
+		include Controllers::NonprofitHelper
 		before_filter :authenticate_nonprofit_user!
 
 		def index

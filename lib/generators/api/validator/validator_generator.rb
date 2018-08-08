@@ -1,4 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+require 'rails/generators'
 class Api::ValidatorGenerator < Rails::Generators::NamedBase
   source_root File.expand_path('../templates', __FILE__)
 

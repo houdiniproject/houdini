@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
  class NonprofitsController < ApplicationController
-	include NonprofitHelper
+	include Controllers::NonprofitHelper
 
 	helper_method :current_nonprofit_user?
 	before_filter :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update, :verify_identity]

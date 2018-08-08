@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TicketsController < ApplicationController
-	include EventHelper
+	include Controllers::EventHelper
 
 	helper_method :current_event_admin?, :current_event_editor?
 	before_filter :authenticate_event_editor!, :except => [:create, :add_note]

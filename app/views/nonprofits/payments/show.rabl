@@ -65,8 +65,14 @@ child :tickets, object_root: false do
 end
 
 child :supporter do
-	attributes :name, :email, :city, :state_code, :address, :zip_code, :phone, :id, :country
+	attributes :name, :email, :phone, :id
 
+
+end
+
+# this could be the ticket address or the donation address
+child :address do
+    attributes :city, :state_code, :address, :zip_code,  :country
 end
 
 child :nonprofit do

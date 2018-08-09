@@ -40,6 +40,18 @@ module Houdini::V1::Helpers::ApplicationHelper
   #
   #     end
   # end
+  #
+  #
+  def current_role?(role_names, host_id = nil)
+    return false unless current_user
+    role_names = Array(role_names)
+    key = "current_role_user_#{current_user_id}_names_#{role_names.join("_")}_host_#{host_id}"
+    QueryRoles.user_has_role?(current_user.id, role_names, host_id)
+  end
+
+  def current_user
+    @current_user
+  end
 
 end
 

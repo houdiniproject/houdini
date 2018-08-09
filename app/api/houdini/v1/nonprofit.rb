@@ -23,7 +23,8 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
     success Houdini::V1::Entities::Nonprofit
 
     #this needs to be a validation an array
-    failure [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors}]
+    failure [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors},
+            {code:401, message: 'Not authorized or authenticated'}]
   end
 
   params do
@@ -84,32 +85,37 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
         u = User.new(declared_params[:user])
         u.save!
 
-        role = u.roles.build(host: np, name: 'nonprofit_admin')
-        role.save!
+      np = Nonprofit.new(OnboardAccounts.set_nonprofit_defaults(params[:nonprofit]))
 
-        billing_plan = BillingPlan.find(Settings.default_bp.id)
-        b_sub = np.build_billing_subscription(billing_plan: billing_plan, status: 'active')
-        b_sub.save!
+      begin
+        np.save!
       rescue ActiveRecord::RecordInvalid => e
-        class_to_name = {Nonprofit => 'nonprofit', User => 'user'}
-        if class_to_name[e.record.class]
-          errors = e.record.errors.keys.map {|k|
+        if (e.record.errors[:slug])
+          begin
+            slug = SlugNonprofitNamingAlgorithm.new(np.state_code_slug, np.city_slug).create_copy_name(np.slug)
+            np.slug = slug
+            np.save!
+          rescue UnableToCreateNameCopyError
+            raise Grape::Exceptions::ValidationErrors.new(errors:[Grape::Exceptions::Validation.new(
 
-            errors = e.record.errors[k].uniq
-            errors.map{|error| Grape::Exceptions::Validation.new(
-
-                params: ["#{class_to_name[e.record.class]}[#{k.to_s}]"],
-                message: error
-
-            )}
-          }
-
-          raise Grape::Exceptions::ValidationErrors.new(errors:errors.flatten)
+                params: ["nonprofit[name]"],
+                message: "has an invalid slug. Contact support for help."
+            )])
+          end
         else
           raise e
         end
-
       end
+
+      u = User.new(params[:user])
+      u.save!
+
+      role = u.roles.build(host: np, name: 'nonprofit_admin')
+      role.save!
+
+      billing_plan = BillingPlan.find(Settings.default_bp.id)
+      b_sub = np.build_billing_subscription(billing_plan: billing_plan, status: 'active')
+      b_sub.save!
     end
     #onboard callback
     present np, with: Houdini::V1::Entities::Nonprofit

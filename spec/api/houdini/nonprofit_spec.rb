@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-
+require 'controllers/support/shared_user_context'
 describe Houdini::V1::Nonprofit, :type => :controller do
   describe :get do
 
@@ -47,16 +47,24 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       }.with_indifferent_access
     }
     describe 'authorization' do
-      around {|e|
-        Rails.configuration.action_controller.allow_forgery_protection = true
-        e.run
-        Rails.configuration.action_controller.allow_forgery_protection = false
-      }
-      it 'rejects csrf' do
+      include_context :request_access_verifier
+      describe 'csrf' do
+        around {|e|
+          Rails.configuration.action_controller.allow_forgery_protection = true
+          e.run
+          Rails.configuration.action_controller.allow_forgery_protection = false
+        }
+        it 'rejects csrf' do
 
-        xhr :post, '/api/v1/nonprofit'
-        expect(response.code).to eq "401"
+          xhr :post, '/api/v1/nonprofit'
+          expect(response.code).to eq "401"
+        end
       end
+
+      describe 'open no user' do
+        include_context :open_to_no_user_only, method: :post, action: '/api/v1/nonprofit'
+      end
+
     end
     it 'validates nothing' do
       input = {}

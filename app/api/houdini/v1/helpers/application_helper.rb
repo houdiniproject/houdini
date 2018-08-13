@@ -45,12 +45,60 @@ module Houdini::V1::Helpers::ApplicationHelper
   def current_role?(role_names, host_id = nil)
     return false unless current_user
     role_names = Array(role_names)
-    key = "current_role_user_#{current_user_id}_names_#{role_names.join("_")}_host_#{host_id}"
+    key = "current_role_user_#{current_user.id}_names_#{role_names.join("_")}_host_#{host_id}"
     QueryRoles.user_has_role?(current_user.id, role_names, host_id)
+  end
+  #
+  # def authenticated
+  #   return true if warden.authenticated?
+  #   params[:access_token] && @user = User.find_by_authentication_token(params[:access_token])
+  # end
+  #
+  #
+  # def warden
+  #   env['warden']
+  # end
+  #
+  #
+  # def current_user
+  #   warden.user || @user
+  # end
+  #
+
+  delegate :session, to: :request
+
+  def auth_options
+    {scope: resource_name}
+  end
+
+  # Gets the actual resource stored in the instance variable
+  def resource
+    instance_variable_get(:"@#{resource_name}")
+  end
+
+  # Proxy to devise map name
+  def resource_name
+    devise_mapping.name
+  end
+
+  alias :scope_name :resource_name
+
+  # Proxy to devise map class
+  def resource_class
+    devise_mapping.to
+  end
+
+  # Attempt to find the mapped route for devise based on request path
+  def devise_mapping
+    @devise_mapping ||= env['devise.mapping']
+  end
+
+  def warden
+    env['warden']
   end
 
   def current_user
-    @current_user
+    warden.user
   end
 
 end

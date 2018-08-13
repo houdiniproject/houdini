@@ -5,6 +5,9 @@ class Houdini::V1::Address < Grape::API
           Houdini::V1::Helpers::NonprofitHelper
 
   before do
+
+    ##env['devise.mapping'] = ::Devise::Mapping.find_by_path!(request.path)
+
     protect_against_forgery
     #make sure logged in user can handle this!
   end

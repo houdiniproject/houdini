@@ -2,9 +2,11 @@
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
+
 describe FrontController, :type => :controller do
   describe 'authorization' do
-    include_context :shared_user_context
+    include_context :controller_access_verifier
+    #let (:verifier) { create_verifier()}
     describe 'accept all' do
       describe 'index' do
           include_context :open_to_all, :get, :index

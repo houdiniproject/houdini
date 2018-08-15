@@ -1,13 +1,21 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Address < ActiveRecord::Base
   attr_accessible :address, :city, :country,
-                  :deleted, :name, :state_code,
+                  :state_code,
                   :supporter,
-                  :zip_code
+                  :zip_code,
+                  :calculated_hash
   belongs_to :supporter
 
-  has_many :donations
-  has_many :tickets
+  before_save :update_calculated_hash
 
-  scope :not_deleted, -> {where(deleted: false)}
+  def update_calculated_hash(record)
+    record.calculated_hash = OpenSSL::Digest::SHA224.digest(
+        safely_delimited_address_string(address, city, state_code, zip_code, country))
+  end
+
+
+  def safely_delimited_address_string(*address_parts)
+    address_parts.map{|i| i || ""}.join("𒀁")
+  end
 end

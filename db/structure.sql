@@ -167,12 +167,14 @@ CREATE TABLE public.addresses (
     id integer NOT NULL,
     name character varying(255),
     supporter_id integer,
-    deleted boolean,
     address character varying(255),
     city character varying(255),
     zip_code character varying(255),
     country character varying(255),
     state_code character varying(255),
+    type character varying(255),
+    calculated_hash character varying(255),
+    deleted boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -819,8 +821,7 @@ CREATE TABLE public.donations (
     date timestamp without time zone,
     queued_for_import_at timestamp without time zone,
     direct_debit_detail_id integer,
-    payment_provider character varying(255),
-    address_id integer
+    payment_provider character varying(255)
 );
 
 
@@ -2187,8 +2188,7 @@ CREATE TABLE public.tickets (
     note text,
     event_discount_id integer,
     deleted boolean,
-    source_token_id uuid,
-    address_id integer
+    source_token_id uuid
 );
 
 
@@ -3196,6 +3196,13 @@ CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (
 
 
 --
+-- Name: index_addresses_on_calculated_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_addresses_on_calculated_hash ON public.addresses USING btree (calculated_hash);
+
+
+--
 -- Name: index_addresses_on_deleted; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3214,6 +3221,13 @@ CREATE INDEX index_addresses_on_name ON public.addresses USING btree (name);
 --
 
 CREATE INDEX index_addresses_on_supporter_id ON public.addresses USING btree (supporter_id);
+
+
+--
+-- Name: index_addresses_on_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_addresses_on_type ON public.addresses USING btree (type);
 
 
 --
@@ -3249,13 +3263,6 @@ CREATE INDEX index_cards_on_id_and_holder_type_and_holder_id_and_inactive ON pub
 --
 
 CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_id);
-
-
---
--- Name: index_donations_on_address_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_donations_on_address_id ON public.donations USING btree (address_id);
 
 
 --
@@ -3368,13 +3375,6 @@ CREATE INDEX index_supporters_on_import_id ON public.supporters USING btree (imp
 --
 
 CREATE INDEX index_supporters_on_name ON public.supporters USING btree (name);
-
-
---
--- Name: index_tickets_on_address_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_tickets_on_address_id ON public.tickets USING btree (address_id);
 
 
 --
@@ -4494,5 +4494,6 @@ INSERT INTO schema_migrations (version) VALUES ('20180808213858');
 INSERT INTO schema_migrations (version) VALUES ('20180808214318');
 
 INSERT INTO schema_migrations (version) VALUES ('20180808214449');
+
 
 

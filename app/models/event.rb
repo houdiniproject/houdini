@@ -90,7 +90,6 @@ class Event < ActiveRecord::Base
 		user = self.profile.user
 		Role.create(name: :event_editor, user_id: user.id, host: self)
 		EventMailer.delay.creation_followup(self)
-		NonprofitAdminMailer.delay.supporter_fundraiser(self) unless QueryRoles.is_nonprofit_user?(user.id, self.nonprofit_id)
 		self
 	end
 

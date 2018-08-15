@@ -49,6 +49,7 @@ class Supporter < ActiveRecord::Base
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
   has_many :addresses
+  has_many :address_tags
 
   validates :nonprofit, :presence => true
   scope :not_deleted, -> {where(deleted: false)}
@@ -81,6 +82,10 @@ class Supporter < ActiveRecord::Base
 
   def full_address
     Format::Address.full_address(self.address, self.city, self.state_code)
+  end
+
+  def default_address
+    address_tags.where('name = ?', 'default').first&.address
   end
 
 end

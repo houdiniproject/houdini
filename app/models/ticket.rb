@@ -12,7 +12,7 @@ class Ticket < ActiveRecord::Base
 	belongs_to :card
 	belongs_to :payment
 	belongs_to :source_token
-	belongs_to :address
+	has_one :transaction_address, as: :transaction_entity
 	has_one :nonprofit, through: :event
 	has_many :activities, as: :attachment, dependent: :destroy
 

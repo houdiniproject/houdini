@@ -5,17 +5,17 @@ class Address < ActiveRecord::Base
                   :supporter,
                   :zip_code,
                   :calculated_hash
+
   belongs_to :supporter
+  has_many :address_tags
 
   before_save :update_calculated_hash
 
-  def update_calculated_hash(record)
-    record.calculated_hash = OpenSSL::Digest::SHA224.digest(
-        safely_delimited_address_string(address, city, state_code, zip_code, country))
-  end
+  validates_presence_of :supporter
 
+  private
 
-  def safely_delimited_address_string(*address_parts)
-    address_parts.map{|i| i || ""}.join("𒀁")
+  def update_calculated_hash
+    self.calculated_hash = AddressComparisons.calculate_hash(self.address, self.city, self.state_code, zip_code, self.country)
   end
 end

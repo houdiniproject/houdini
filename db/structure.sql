@@ -160,6 +160,39 @@ ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
 
 
 --
+-- Name: address_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.address_tags (
+    id integer NOT NULL,
+    name character varying(255),
+    address_id integer,
+    supporter_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: address_tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.address_tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: address_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.address_tags_id_seq OWNED BY public.address_tags.id;
+
+
+--
 -- Name: addresses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -175,6 +208,8 @@ CREATE TABLE public.addresses (
     type character varying(255),
     calculated_hash character varying(255),
     deleted boolean,
+    transaction_entity_id integer,
+    transaction_entity_type character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -2315,6 +2350,13 @@ ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.a
 
 
 --
+-- Name: address_tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address_tags ALTER COLUMN id SET DEFAULT nextval('public.address_tags_id_seq'::regclass);
+
+
+--
 -- Name: addresses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2683,6 +2725,14 @@ ALTER TABLE ONLY public.trackings ALTER COLUMN id SET DEFAULT nextval('public.tr
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: address_tags address_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address_tags
+    ADD CONSTRAINT address_tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -3193,6 +3243,13 @@ CREATE INDEX index_activities_on_nonprofit_id ON public.activities USING btree (
 --
 
 CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (supporter_id);
+
+
+--
+-- Name: index_address_on_transaction_entity; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_address_on_transaction_entity ON public.addresses USING btree (transaction_entity_id, transaction_entity_type);
 
 
 --

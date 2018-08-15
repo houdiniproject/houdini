@@ -17,7 +17,7 @@ describe CardsController, type: :request do
       assert_response 429
 
       Timecop.freeze(61) do
-        post '/nonprofits/1/supporters',  {card:{holder_type:'Supporter', holder_id: 1}}.to_json, {"CONTENT_TYPE" => "application/json" }
+        post '/cards',  {card:{holder_type:'Supporter', holder_id: 1}}.to_json, {"CONTENT_TYPE" => "application/json" }
         expect(@response.status).to_not eq 429
       end
 

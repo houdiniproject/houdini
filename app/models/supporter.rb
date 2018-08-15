@@ -64,13 +64,6 @@ class Supporter < ActiveRecord::Base
     end
   end
 
-  def self.find_by_columns(data, bool='and')
-    bool = options[:boolean] == 'and' ? 'AND' : 'OR'
-    query_cols = options[:merge_with].reduce({}){|result, sym| result.merge({sym => h[sym]})}
-    existing = np.supporters.where(query_cols)
-  end
-
-
   # params = {:id, :nonprofit_id, :name, :email}
   def self.fetch_with_params(np, h)
     if h[:id].present?

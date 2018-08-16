@@ -38,7 +38,7 @@ RSpec.shared_context :shared_donation_charge_context do
 
   let(:supporter_address) {force_create(:address, supporter:supporter, name: "address - first", address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
   let(:supporter_address_2) {force_create(:address, supporter:supporter, name: "address - another", address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
-  let(:other_supporter_address) {force_create(:address, supporter:other_supporter, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
+  let(:other_supporter_address) {force_create(:address, supporter:other_nonprofit_supporter, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
 
   let(:stripe_helper) { StripeMock.create_test_helper }
 

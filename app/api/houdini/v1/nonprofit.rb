@@ -30,7 +30,13 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
 
     requires :nonprofit, type: Hash  do
       requires :name, type:String, desc: 'Organization Name', allow_blank: false, documentation: { param_type: 'body' }
-      optional :url, type:String, desc: 'Organization website URL', allow_blank:true, regexp: URI::regexp, documentation: { param_type: 'body' }
+      optional :website, type:String, desc: 'Organization website URL', allow_blank:true, regexp: URI::regexp, documentation: { param_type: 'body' }, coerce_with: ->(url) {
+        coerced_url = url
+        unless (url =~ /\Ahttp:\/\/.*/i || url =~ /\Ahttps:\/\/.*/i)
+          coerced_url = 'http://'+ coerced_url
+        end
+        coerced_url
+      }
       requires :zip_code, type:String, allow_blank: false, desc: "Organization Address ZIP Code", documentation: { param_type: 'body' }
       requires :state_code, type:String, allow_blank: false, desc: "Organization Address State Code", documentation: { param_type: 'body' }
       requires :city, type:String, allow_blank: false, desc: "Organization Address City", documentation: { param_type: 'body' }

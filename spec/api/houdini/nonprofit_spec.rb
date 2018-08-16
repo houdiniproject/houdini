@@ -70,14 +70,14 @@ describe Houdini::V1::Nonprofit, :type => :controller do
           nonprofit: {
               email: "noemeila",
               phone: "notphone",
-              url: "noturl"
+              url: ""
           }}
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
       expected = create_errors("user")
       expected[:errors].push(h(params:["nonprofit[email]"], messages: gr_e("regexp")))
       #expected[:errors].push(h(params:["nonprofit[phone]"], messages: gr_e("regexp")))
-      expected[:errors].push(h(params:["nonprofit[url]"], messages: gr_e("regexp")))
+      #expected[:errors].push(h(params:["nonprofit[url]"], messages: gr_e("regexp")))
 
       expect_validation_errors(JSON.parse(response.body), expected)
     end
@@ -130,7 +130,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
     it "succeeds" do
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       input = {
-          nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915},
+          nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c'},
           user: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
       }
 
@@ -150,7 +150,8 @@ describe Houdini::V1::Nonprofit, :type => :controller do
           zip_code: "54915",
           state_code_slug: "wi",
           city_slug: "appleton",
-          slug: "n-00"
+          slug: "n-00",
+          website: 'http://www.cs.c'
       }.with_indifferent_access
 
       expected_np = our_np.attributes.with_indifferent_access.merge(expected_np)

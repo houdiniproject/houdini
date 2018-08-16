@@ -64,16 +64,6 @@ class Supporter < ActiveRecord::Base
     end
   end
 
-  # params = {:id, :nonprofit_id, :name, :email}
-  def self.fetch_with_params(np, h)
-    if h[:id].present?
-      return np.supporters.find_by_id(h[:id])
-    else
-      return np.supporters.where(name: h[:name], email: h[:email]).first
-    end
-  end
-
-
   def profile_picture size=:normal
     return unless self.profile
     self.profile.get_profile_picture(size)

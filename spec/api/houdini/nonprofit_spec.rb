@@ -130,7 +130,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
     it "succeeds" do
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       input = {
-          nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c'},
+          nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c', website: 'www.cs.c'},
           user: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
       }
 

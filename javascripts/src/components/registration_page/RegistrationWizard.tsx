@@ -59,7 +59,7 @@ export class RegistrationPageForm extends HoudiniForm {
 
   inputToForm = {
     'nonprofit[name]': 'nonprofitTab.organization_name',
-    'nonprofit[url]': 'nonprofitTab.website',
+    'nonprofit[website]': 'nonprofitTab.website',
     'nonprofit[email]': 'nonprofitTab.org_email',
     'nonprofit[phone]': 'nonprofitTab.org_phone',
     'nonprofit[city]': 'nonprofitTab.city',

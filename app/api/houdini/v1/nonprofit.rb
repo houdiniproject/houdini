@@ -54,11 +54,12 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
 
   end
   post do
+    declared_params = declared(params)
     np = nil
     u = nil
     Qx.transaction do
       begin
-        np = Nonprofit.new(OnboardAccounts.set_nonprofit_defaults(params[:nonprofit]))
+        np = Nonprofit.new(OnboardAccounts.set_nonprofit_defaults(declared_params[:nonprofit]))
 
         begin
           np.save!
@@ -80,7 +81,7 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
           end
         end
 
-        u = User.new(params[:user])
+        u = User.new(declared_params[:user])
         u.save!
 
         role = u.roles.build(host: np, name: 'nonprofit_admin')

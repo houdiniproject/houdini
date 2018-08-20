@@ -1,15 +1,17 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import 'jest';
-import * as Component from './Wizard'
+import {Wizard} from './Wizard'
 import {WizardState, WizardTabPanelState} from "./wizard_state";
 import {Form} from "mobx-react-form";
-import {computed, observable, action} from 'mobx';
-import {Wizard} from "./Wizard";
-import {shallow} from 'enzyme';
+import {action, computed, observable} from 'mobx';
+import {ReactWrapper} from 'enzyme';
 import {WizardPanel} from "./WizardPanel";
-import toJson from 'enzyme-to-json';
 
+import {mountForMobxWithIntl, runTestsOnConditions, TriggerAndAction} from "../test/react_test_helpers";
+import {UniqueIdMock} from "../tests/unique_id_mock";
+
+let uniqueIdMock = new UniqueIdMock();
 class MockableTabPanelState extends WizardTabPanelState
 {
   @observable
@@ -35,6 +37,16 @@ class EasyWizardState extends WizardState{
     return new Form(i)
   }
 
+  uniqueIdFunction(prefix?:string) {
+    return uniqueIdMock.uniqueId.bind(uniqueIdMock)(prefix);
+  }
+
+  focusFunction(panel:MockableTabPanelState){
+    this.wrapperForFocus.find(`#${panel.id}`).hostNodes().prop('onFocus')(null)
+  }
+
+  wrapperForFocus: ReactWrapper;
+
 }
 
 describe('Wizard', () => {
@@ -59,53 +71,146 @@ describe('Wizard', () => {
 
     }
 
+  beforeEach(() => {
+    uniqueIdMock.reset()
+  });
+
+
+
   let state:EasyWizardState = null
   let tab1: MockableTabPanelState, tab2: MockableTabPanelState, tab3 : MockableTabPanelState = null
+  let wrapper: ReactWrapper;
+  let disabledTabs: boolean = false
 
   beforeEach(() => {
     state = new EasyWizardState()
-    state.addTab(data.tab1.tabName, data.tab1.label, data.tab1.subFormDef)
-    state.addTab(data.tab2.tabName, data.tab2.label, data.tab2.subFormDef)
-    state.addTab(data.tab3.tabName, data.tab3.label, data.tab3.subFormDef)
+    state.addTab({tabName: data.tab1.tabName, label: data.tab1.label, tabFieldDefinition: data.tab1.subFormDef});
+    state.addTab({tabName: data.tab2.tabName, label: data.tab2.label, tabFieldDefinition: data.tab2.subFormDef});
+    state.addTab({tabName: data.tab3.tabName, label: data.tab3.label, tabFieldDefinition: data.tab3.subFormDef});
     state.initialize()
     tab1 = (state.tabsByName[data.tab1.tabName] as MockableTabPanelState)
     tab1.setValid(true)
     tab2 = (state.tabsByName[data.tab2.tabName] as MockableTabPanelState)
     tab2.setValid(true)
     tab3 = (state.tabsByName[data.tab3.tabName] as MockableTabPanelState)
+    wrapper = mountForMobxWithIntl({state:state, disabledTabs: disabledTabs}, (props) => {
+      return <Wizard wizardState={props.state} disableTabs={props.disabledTabs}>
+        {
+          props.state.panels.map((tab) => {
+            return <WizardPanel tab={tab}>
+              <button onClick={tab.parent.moveToNextTab}/>
+            </WizardPanel>
+          })
+        }
+      </Wizard>
+
+    })
+    state.wrapperForFocus = wrapper
+
   })
 
-  function createWizard(disabledTabs:boolean) {
-    return <Wizard wizardState={state} disableTabs={disabledTabs}>
-      <WizardPanel tab={tab1} />
-      <WizardPanel tab={tab2} />
-      <WizardPanel tab={tab3} />
-    </Wizard>
+  it('first tab is active', (done) => {
+    //if disabledTabs changed, we change
+    runTestsOnConditions(new TriggerAndAction(
+      () => disabledTabs || !disabledTabs,
+      () => {
+        wrapper.instance().forceUpdate();
+        wrapper.update();
+        expect(wrapper.debug()).toMatchSnapshot();
+        done();
+      }))
+    disabledTabs = false
 
-  }
-
-  test('Mounts the first item only', () => {
-    const tree = shallow(createWizard(false) )
-    let panels = tree.find(WizardPanel)
-    expect(panels.length).toBe(1)
-    expect(panels.first().props().tab).toBe(tab1)
   })
 
-  test('Mounts the second tab only', () => {
-    state.activateTab(tab2)
-    const tree = shallow(createWizard(false) )
-    let panels = tree.find(WizardPanel)
-    expect(panels.length).toBe(1)
-    expect(panels.first().props().tab).toBe(tab2)
+  describe('go to the second tab', () => {
+    let commonCondition:any
+    beforeEach(() => {
+      commonCondition = (done: Function) => {
+        runTestsOnConditions(new TriggerAndAction(
+          () => state.activeTab.tabName == data.tab2.tabName,
+          () => {
+            wrapper.instance().forceUpdate();
+            wrapper.update();
+            expect(wrapper.debug()).toMatchSnapshot();
+            done();
+          }))
+      }
+    })
+
+    it('set via tab click', (done) => {
+      commonCondition(done);
+      let secondTab = wrapper.find('#tab2');
+
+      secondTab.hostNodes().simulate('focus');
+    })
+
+    it('set via next click', (done) => {
+      commonCondition(done);
+      let button = wrapper.find('button').at(0);
+      button.hostNodes().simulate('click');
+    })
+
+    it('go to next via backend', (done) => {
+      commonCondition(done);
+      state.moveToTab(state.tabsByName[data.tab2.tabName].id);
+
+    })
   })
 
-  test('Mounts the third tab only', () => {
-    state.activateTab(tab2)
-    state.activateTab(tab3)
-    const tree = shallow(createWizard(false) )
-    let panels = tree.find(WizardPanel)
-    expect(panels.length).toBe(1)
-    expect(panels.first().props().tab).toBe(tab3)
+  describe('Move back on disabled', () => {
+
+    function waitingOnWhatTabName(tabName:string, done:any){
+      runTestsOnConditions({
+          finishCondition: () => state.activeTab.tabName == data.tab3.tabName,
+          action: () => {
+            wrapper.instance().forceUpdate();
+            wrapper.update();
+          }
+        },
+        {
+          finishCondition: () => state.activeTab.tabName == tabName,
+          action: () => {
+            wrapper.instance().forceUpdate();
+            wrapper.update();
+            expect(wrapper.debug()).toMatchSnapshot();
+            done();
+          }
+        })
+    }
+
+
+    it('make second invalid so move back there', (done) => {
+      waitingOnWhatTabName(data.tab2.tabName, done)
+      tab1 = (state.tabsByName[data.tab1.tabName] as MockableTabPanelState)
+      tab1.setValid(true)
+      tab2 = (state.tabsByName[data.tab2.tabName] as MockableTabPanelState)
+      tab2.setValid(true)
+      tab3 = (state.tabsByName[data.tab3.tabName] as MockableTabPanelState)
+
+      state.focusTab(state.tabsByName[data.tab3.tabName].id)
+
+      tab2.setValid(false)
+    })
+
+    it('make first invalid so move back there', (done) => {
+      waitingOnWhatTabName(data.tab1.tabName, done)
+      tab1 = (state.tabsByName[data.tab1.tabName] as MockableTabPanelState)
+      tab1.setValid(true)
+      tab2 = (state.tabsByName[data.tab2.tabName] as MockableTabPanelState)
+      tab2.setValid(true)
+      tab3 = (state.tabsByName[data.tab3.tabName] as MockableTabPanelState)
+
+      state.focusTab(state.tabsByName[data.tab3.tabName].id)
+      wrapper.instance().forceUpdate();
+      wrapper.update();
+      expect(state.activeTab.tabName).toEqual(data.tab3.tabName)
+      tab1.setValid(false)
+      wrapper.instance().forceUpdate();
+      wrapper.update();
+      expect(wrapper.debug()).toMatchSnapshot();
+
+    })
   })
 
 })

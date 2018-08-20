@@ -1,15 +1,15 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import WizardTab from './WizardTab';
-import { TabList } from 'react-aria-tabpanel';
 import {observer} from 'mobx-react';
 import {WizardState} from "./wizard_state";
+import {TabList} from "./RAT/TabList";
 
 
 export interface WizardTabListProps
 {
   wizardState: WizardState
-  disableTabs: boolean
+  disableTabs?: boolean
 }
 
 @observer

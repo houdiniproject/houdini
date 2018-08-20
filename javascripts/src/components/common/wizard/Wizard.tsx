@@ -3,8 +3,8 @@ import * as React from 'react';
 import {observer} from "mobx-react"
 import WizardTabList from "./WizardTabList";
 import {WizardState} from './wizard_state';
-import {ManagedWrapper} from "./ManagedWrapper";
 import {WizardTabPanelProps} from "./WizardPanel";
+import {Wrapper} from "./RAT/Wrapper";
 
 export interface WizardProps
 {
@@ -18,26 +18,22 @@ export interface WizardProps
 export class Wizard extends React.Component<WizardProps, {}> {
 
   render() {
-     return <ManagedWrapper onChange={this.props.wizardState.handleTabChange}
-                         letterNavigation={true}
-                         activeTabId={this.props.wizardState.activeTab.id}
+     return <Wrapper manager={this.props.wizardState}
                          tag="section"
-                         style={{display: 'table'}} className="wizard-steps" manager={this.props.wizardState.manager}>
+                         style={{display: 'table'}} className="wizard-steps">
          <WizardTabList wizardState={this.props.wizardState} disableTabs={this.props.disableTabs}>
          </WizardTabList>
          <div className="modal-body">
 
             <form onSubmit={this.props.wizardState.form.onSubmit} >
 
-              {this.props.children.filter((i) =>
-                i.props.tab == this.props.wizardState.activeTab
-              )}
+              {this.props.children}
 
             </form>
 
          </div>
          
-     </ManagedWrapper>;
+     </Wrapper>;
   }
 }
 

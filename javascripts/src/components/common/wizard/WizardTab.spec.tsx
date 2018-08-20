@@ -10,7 +10,7 @@ describe('WizardTab', () => {
       let tab = {active:active, enabled: enabled, label: "A label", id: "our_id"}
       let result =   shallowWithIntl(<WizardTab  widthPercentage={widthPercentage} tab={tab}/>)
 
-      let ourWrapper = result.find(Tab).first()
+      let ourWrapper = result.find("Tab").first()
       expect(ourWrapper.prop('id')).toEqual("our_id")
       let classes = ourWrapper.prop('className').split(' ')
       expect(classes).toContain("wizard-index-label")

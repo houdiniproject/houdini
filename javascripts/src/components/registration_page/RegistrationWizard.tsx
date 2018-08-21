@@ -8,7 +8,7 @@ import {Wizard} from '../common/wizard/Wizard'
 
 import {Form} from 'mobx-react-form';
 import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
-import {WizardState} from "../common/wizard/wizard_state";
+import {WizardState, WizardTabPanelState} from "../common/wizard/wizard_state";
 import UserInfoPanel, * as UserInfo from "./UserInfoPanel";
 import {
   Nonprofit,
@@ -100,6 +100,9 @@ export class RegistrationPageForm extends HoudiniForm {
 }
 
 class RegistrationWizardState extends WizardState {
+  constructor(){
+    super(WizardTabPanelState)
+  }
   @action.bound
   createForm(i: any): Form {
     return new RegistrationPageForm(i)
@@ -134,31 +137,15 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
 
   @action.bound
   createForm() {
-    this.registrationWizardState.addTab("nonprofitTab", 'registration.wizard.tabs.nonprofit', {
+    this.registrationWizardState.addTab({tabName:"nonprofitTab", label:'registration.wizard.tabs.nonprofit', tabFieldDefinition:{
       fields:
-        NonprofitInfoForm.FieldDefinitions,
-      hooks: {
-        onError: (f: any) => {
-          console.log(f)
-        },
-        onSuccess: (f: any) => {
-          console.log(f)
-        }
+        NonprofitInfoForm.FieldDefinitions
+    }}
+    )
 
-      }
-    })
-
-    this.registrationWizardState.addTab("userTab", 'registration.wizard.tabs.contact', {
+    this.registrationWizardState.addTab({tabName: "userTab", label: 'registration.wizard.tabs.contact', tabFieldDefinition:{
       fields:
-        UserInfoForm.FieldDefinitions,
-      hooks: {
-        onError: (f: any) => {
-
-        },
-        onSuccess: (f: any) => {
-
-        }
-
+        UserInfoForm.FieldDefinitions
       }
     })
 

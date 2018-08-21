@@ -1,9 +1,9 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { Tab } from 'react-aria-tabpanel';
 import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
 import {observer} from 'mobx-react';
 import {WizardTabPanelState} from "./wizard_state";
+import {Tab} from "./RAT/Tab";
 
 interface MiniTabInfo{
   active:boolean

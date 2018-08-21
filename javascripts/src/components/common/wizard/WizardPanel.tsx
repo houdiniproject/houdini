@@ -1,10 +1,10 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { TabPanel } from "react-aria-tabpanel";
 import { observer } from 'mobx-react'
 import { WizardTabPanelState} from './wizard_state';
 import {computed} from 'mobx';
 import * as _ from 'lodash'
+import {TabPanel} from "./RAT/TabPanel";
 
 
 export interface WizardTabPanelProps {

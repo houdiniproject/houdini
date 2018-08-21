@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WizardPanel shallow render 1`] = `
-<AriaTabPanel-TabPanel
+<TabPanel
   active={true}
   anotherProp={false}
   className="wizard-step"
@@ -9,5 +9,5 @@ exports[`WizardPanel shallow render 1`] = `
   tag="div"
 >
   <hr />
-</AriaTabPanel-TabPanel>
+</TabPanel>
 `;

@@ -3,7 +3,11 @@
 --
 
 -- Dumped from database version 9.6.5
+<<<<<<< HEAD
 -- Dumped by pg_dump version 9.6.11
+=======
+-- Dumped by pg_dump version 9.6.10
+>>>>>>> Add default address strategy to nonprofit
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1381,7 +1385,8 @@ CREATE TABLE public.miscellaneous_np_infos (
     nonprofit_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    change_amount_message text
+    change_amount_message text,
+    supporter_default_address_strategy text
 );
 
 
@@ -3344,6 +3349,7 @@ CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 
 
 --
+<<<<<<< HEAD
 -- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3355,6 +3361,12 @@ CREATE INDEX index_payments_on_created_at ON public.payments USING btree (create
 --
 
 CREATE INDEX index_recurring_donations_on_donation_id ON public.recurring_donations USING btree (donation_id);
+=======
+-- Name: index_miscellaneous_np_infos_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_miscellaneous_np_infos_on_nonprofit_id ON public.miscellaneous_np_infos USING btree (nonprofit_id);
+>>>>>>> Add default address strategy to nonprofit
 
 
 --
@@ -4552,5 +4564,6 @@ INSERT INTO schema_migrations (version) VALUES ('20180808214318');
 
 INSERT INTO schema_migrations (version) VALUES ('20180808214449');
 
+INSERT INTO schema_migrations (version) VALUES ('20180821210256');
 
 

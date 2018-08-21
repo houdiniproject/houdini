@@ -24,6 +24,28 @@ exports[`Wrapper .createTab 1`] = `
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -41,14 +63,24 @@ exports[`Wrapper .createTab 1`] = `
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -156,6 +188,28 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -277,14 +331,24 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -520,6 +584,28 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -641,14 +727,24 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -1028,6 +1124,28 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -1149,14 +1267,24 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -1392,6 +1520,28 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -1513,14 +1663,24 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -1900,6 +2060,28 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -2021,14 +2203,24 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -2264,6 +2456,28 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -2385,14 +2599,24 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -2772,6 +2996,28 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -2841,14 +3087,24 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -3084,6 +3340,28 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -3153,14 +3431,24 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -3540,6 +3828,28 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -3609,14 +3919,24 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -3852,6 +4172,28 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -3921,14 +4263,24 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -4308,6 +4660,28 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -4377,14 +4751,24 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -4620,6 +5004,28 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -4689,14 +5095,24 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -5076,6 +5492,28 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -5171,14 +5609,24 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -5414,6 +5862,28 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -5509,14 +5979,24 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -5896,6 +6376,28 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -5991,14 +6493,24 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -6234,6 +6746,28 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -6329,14 +6863,24 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -6716,6 +7260,28 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -6811,14 +7377,24 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -7054,6 +7630,28 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -7149,14 +7747,24 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -7536,6 +8144,28 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -7654,14 +8284,24 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -7894,6 +8534,28 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -8012,14 +8674,24 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -8394,6 +9066,28 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -8486,14 +9180,24 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -8726,6 +9430,28 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -8818,14 +9544,24 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -9200,6 +9936,28 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -9229,14 +9987,24 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -9408,6 +10176,28 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -9437,14 +10227,24 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -9715,6 +10515,28 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -9744,14 +10566,24 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -9923,6 +10755,28 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -9952,14 +10806,24 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,
@@ -10230,6 +11094,28 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
+        "_keybindingsLookup": Array [
+          Object {
+            "action": "next",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+          Object {
+            "action": "prev",
+            "eventMatcher": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
+        ],
         "_members": Array [
           Object {
             "node": <div
@@ -10259,14 +11145,24 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
         ],
         "_searchString": "",
         "_settings": Object {
-          "backArrows": Array [
-            "up",
-            "left",
-          ],
-          "forwardArrows": Array [
-            "down",
-            "right",
-          ],
+          "keybindings": Object {
+            "first": undefined,
+            "last": undefined,
+            "next": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 40,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+            "prev": Object {
+              "altKey": false,
+              "ctrlKey": false,
+              "keyCode": 38,
+              "metaKey": false,
+              "shiftKey": false,
+            },
+          },
           "stringSearch": true,
           "stringSearchDelay": 800,
           "wrap": true,
@@ -10438,6 +11334,28 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
+          "_keybindingsLookup": Array [
+            Object {
+              "action": "next",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+            Object {
+              "action": "prev",
+              "eventMatcher": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
+          ],
           "_members": Array [
             Object {
               "node": <div
@@ -10467,14 +11385,24 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
           ],
           "_searchString": "",
           "_settings": Object {
-            "backArrows": Array [
-              "up",
-              "left",
-            ],
-            "forwardArrows": Array [
-              "down",
-              "right",
-            ],
+            "keybindings": Object {
+              "first": undefined,
+              "last": undefined,
+              "next": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 40,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+              "prev": Object {
+                "altKey": false,
+                "ctrlKey": false,
+                "keyCode": 38,
+                "metaKey": false,
+                "shiftKey": false,
+              },
+            },
             "stringSearch": true,
             "stringSearchDelay": 800,
             "wrap": true,

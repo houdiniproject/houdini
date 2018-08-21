@@ -3,9 +3,9 @@ import * as React from 'react'
 import {ReactNode} from 'react'
 import {TabManagerParent} from "./abstract_tabcomponent_state";
 import {observer} from 'mobx-react';
+import specialAssign from "./specialAssign";
 
-const PropTypes = require('prop-types');
-const specialAssign = require('react-aria-tabpanel/lib/specialAssign');
+import PropTypes = require('prop-types');
 
 interface WrapperProps {
   manager: TabManagerParent

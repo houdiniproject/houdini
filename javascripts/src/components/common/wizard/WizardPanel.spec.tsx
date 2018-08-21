@@ -6,10 +6,8 @@ import * as Component from './WizardPanel'
 
 import {Form, Field} from 'mobx-react-form';
 import { shallow, render } from 'enzyme';
-import {TabPanel, Wrapper} from 'react-aria-tabpanel'
 import toJson from 'enzyme-to-json';
 import {WizardState, WizardTabPanelState} from "./wizard_state";
-const TestRenderer = require('react-test-renderer')
 
 class EasyWizardState extends WizardState{
   constructor(){

@@ -2,7 +2,6 @@
 import * as React from 'react';
 import 'jest';
 import WizardTab from './WizardTab'
-import { Tab } from 'react-aria-tabpanel';
 import {shallowWithIntl} from "../../../lib/tests/helpers";
 
 describe('WizardTab', () => {

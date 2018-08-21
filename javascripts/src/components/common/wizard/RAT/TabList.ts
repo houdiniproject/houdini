@@ -1,4 +1,4 @@
-//MIT based on https://github.com/davidtheclark/react-aria-tabpanel/blob/master/lib/Tab.js
+//MIT based on https://github.com/davidtheclark/react-aria-tabpanel/blob/master/lib/TabList.js
 import * as React from 'react'
 import specialAssign from "./specialAssign";
 import {observer} from 'mobx-react';

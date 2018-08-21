@@ -1,4 +1,4 @@
-//MIT based on https://github.com/davidtheclark/react-aria-tabpanel/blob/master/lib/Tab.js
+//MIT based on https://github.com/davidtheclark/react-aria-tabpanel/blob/master/lib/TabPanel.js
 import * as React from 'react'
 import specialAssign from "./specialAssign";
 import {TabManagerParent} from "./abstract_tabcomponent_state";

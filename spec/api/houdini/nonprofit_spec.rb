@@ -46,6 +46,12 @@ describe Houdini::V1::Nonprofit, :type => :controller do
 
       }.with_indifferent_access
     }
+
+    valid_input = {
+        nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c', website: 'www.cs.c'},
+        user: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
+    }
+
     describe 'authorization' do
       include_context :request_access_verifier
       describe 'csrf' do
@@ -62,7 +68,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       end
 
       describe 'open no user' do
-        include_context :open_to_no_user_only, method: :post, action: '/api/v1/nonprofit'
+        include_context :open_to_no_user_only, method: :post, action: '/api/v1/nonprofit', params:valid_input
       end
 
     end

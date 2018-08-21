@@ -44,23 +44,23 @@ describe Houdini::V1::Address, :type => :request do
         end
 
         it 'rejects other admin' do
-          reject(user_to_signin:user_as_other_np_admin, method:method, action:action, args:fixed_args)
+          reject(user_to_signin:user_as_other_np_admin, method:method, action:action, args:fixed_args, status:401)
         end
 
         it 'rejects other associate' do
-          reject(user_to_signin:user_as_other_np_associate, method:method, action:action, args:fixed_args)
+          reject(user_to_signin:user_as_other_np_associate, method:method, action:action, args:fixed_args, status:401)
         end
 
         it 'rejects campaign editor' do
-          reject(user_to_signin:campaign_editor, method:method, action:action, args:fixed_args)
+          reject(user_to_signin:campaign_editor, method:method, action:action, args:fixed_args, status:401)
         end
 
         it 'rejects confirmed user' do
-          reject(user_to_signin:confirmed_user, method:method, action:action, args:fixed_args)
+          reject(user_to_signin:confirmed_user, method:method, action:action, args:fixed_args, status:401)
         end
 
         it 'reject event editor' do
-          reject(user_to_signin:event_editor, method:method, action:action, args:fixed_args)
+          reject(user_to_signin:event_editor, method:method, action:action, args:fixed_args, status:401)
         end
 
         it 'accepts super admin' do
@@ -68,7 +68,7 @@ describe Houdini::V1::Address, :type => :request do
         end
 
         it 'rejects profile user' do
-          reject(user_to_signin:user_with_profile, method:method, action:action, args:fixed_args)
+          reject(user_to_signin:user_with_profile, method:method, action:action, args:fixed_args, status:401)
         end
 
         #include_context :open_to_np_associate, :get, "/api/v1/address/#{supporter_address.id}}"

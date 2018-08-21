@@ -5,11 +5,35 @@
 RSpec.shared_context :shared_user_context do
 
 
-  let(:authorization_nonprofit) {nonprofit || force_create(:nonprofit, published:true)}
-  let(:other_authorization_nonprofit) { other_nonprofit || force_create(:nonprofit)}
-  let(:authorization_campaign) {campaign ||force_create(:campaign, nonprofit: authorization_nonprofit)}
+  let(:authorization_nonprofit) {
+    if (defined? nonprofit)
+      nonprofit
+
+      else
+        force_create(:nonprofit, published:true)
+    end
+  }
+
+  let(:other_authorization_nonprofit) {
+    if (defined? other_nonprofit)
+      other_nonprofit
+    else
+      force_create(:nonprofit)
+    end
+  }
+  let(:authorization_campaign) {
+    if (defined? campaign)
+      campaign
+    else
+      force_create(:campaign, nonprofit: authorization_nonprofit)
+    end
+  }
   let(:authorization_event) {
-    event || force_create(:event, nonprofit: authorization_nonprofit)
+    if (defined? event)
+      event
+    else
+      force_create(:event, nonprofit: authorization_nonprofit)
+    end
   }
 
   let(:user_as_np_admin) {
@@ -726,14 +750,14 @@ RSpec.shared_context :open_to_no_user_only do |*arguments|
     reject(user_to_signin:campaign_editor, method:parsed_method, action:action, args: fixed_args, **extended_args)
   end
 
-  it 'accepts confirmed user' do
+  it 'rejects confirmed user' do
     reject(user_to_signin:confirmed_user, method:parsed_method, action:action, args: fixed_args, **extended_args)
   end
 
   it 'reject event editor' do
     reject(user_to_signin:event_editor, method:parsed_method, action:action, args: fixed_args, **extended_args)
   end
-  it 'accepts super admin' do
+  it 'rejects super admin' do
     reject(user_to_signin:super_admin, method:parsed_method, action:action, args: fixed_args, **extended_args)
   end
 

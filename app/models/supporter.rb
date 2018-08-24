@@ -85,7 +85,11 @@ class Supporter < ActiveRecord::Base
   end
 
   def default_address
-    address_tags.where('name = ?', 'default').first&.address
+    default_address_tag&.address
+  end
+
+  def default_address_tag
+    address_tags.where('name = ?', 'default').first
   end
 
 end

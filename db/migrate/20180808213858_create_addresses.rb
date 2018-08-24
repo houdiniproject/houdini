@@ -11,8 +11,6 @@ class CreateAddresses < ActiveRecord::Migration
       t.string :type
       t.string :calculated_hash
       t.boolean :deleted
-      t.references :transaction_entity, polymorphic: true
-
       t.timestamps
     end
     add_index :addresses, :name
@@ -20,7 +18,13 @@ class CreateAddresses < ActiveRecord::Migration
     add_index :addresses, :type
     add_index :addresses, :calculated_hash
     add_index :addresses, :deleted
-    add_index :addresses, [:transaction_entity_id, :transaction_entity_type], name: "index_address_on_transaction_entity"
+    add_index :addresses, :updated_at
+
+
+    add_column :donations, :transaction_address_id, :integer
+    add_index :donations, :transaction_address_id
+    add_column :tickets, :transaction_address_id, :integer
+    add_index :tickets, :transaction_address_id
 
 
     create_table :address_tags do |t|

@@ -67,8 +67,12 @@ describe Houdini::V1::Nonprofit, :type => :controller do
         end
       end
 
+      nope = 0
+      before(:each) {
+        nope = 55000
+      }
       describe 'open no user' do
-        include_context :open_to_no_user_only, method: :post, action: '/api/v1/nonprofit', params:valid_input
+        it_behaves_like :open_to_no_user_only, method: :post, action: '/api/v1/nonprofit', params:valid_input, np: nope
       end
 
     end

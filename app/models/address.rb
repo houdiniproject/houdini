@@ -13,6 +13,9 @@ class Address < ActiveRecord::Base
 
   validates_presence_of :supporter
 
+  # really only makes sense for CustomAddress
+  scope :not_deleted, -> {where(deleted: false)}
+
   private
 
   def update_calculated_hash

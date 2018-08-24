@@ -212,8 +212,6 @@ CREATE TABLE public.addresses (
     type character varying(255),
     calculated_hash character varying(255),
     deleted boolean,
-    transaction_entity_id integer,
-    transaction_entity_type character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -860,7 +858,8 @@ CREATE TABLE public.donations (
     date timestamp without time zone,
     queued_for_import_at timestamp without time zone,
     direct_debit_detail_id integer,
-    payment_provider character varying(255)
+    payment_provider character varying(255),
+    transaction_address_id integer
 );
 
 
@@ -2228,7 +2227,8 @@ CREATE TABLE public.tickets (
     note text,
     event_discount_id integer,
     deleted boolean,
-    source_token_id uuid
+    source_token_id uuid,
+    transaction_address_id integer
 );
 
 
@@ -3251,13 +3251,6 @@ CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (
 
 
 --
--- Name: index_address_on_transaction_entity; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_address_on_transaction_entity ON public.addresses USING btree (transaction_entity_id, transaction_entity_type);
-
-
---
 -- Name: index_addresses_on_calculated_hash; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3290,6 +3283,13 @@ CREATE INDEX index_addresses_on_supporter_id ON public.addresses USING btree (su
 --
 
 CREATE INDEX index_addresses_on_type ON public.addresses USING btree (type);
+
+
+--
+-- Name: index_addresses_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_addresses_on_updated_at ON public.addresses USING btree (updated_at);
 
 
 --
@@ -3332,6 +3332,13 @@ CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_
 --
 
 CREATE INDEX index_donations_on_event_id ON public.donations USING btree (event_id);
+
+
+--
+-- Name: index_donations_on_transaction_address_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_donations_on_transaction_address_id ON public.donations USING btree (transaction_address_id);
 
 
 --
@@ -3465,6 +3472,13 @@ CREATE INDEX index_tickets_on_payment_id ON public.tickets USING btree (payment_
 --
 
 CREATE INDEX index_tickets_on_supporter_id ON public.tickets USING btree (supporter_id);
+
+
+--
+-- Name: index_tickets_on_transaction_address_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tickets_on_transaction_address_id ON public.tickets USING btree (transaction_address_id);
 
 
 --

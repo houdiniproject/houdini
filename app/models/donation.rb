@@ -36,7 +36,7 @@ class Donation < ActiveRecord::Base
 	has_one :payment
 	has_one :offsite_payment
 	has_one :tracking
-	has_one :transaction_address, as: :transaction_entity
+	belongs_to :transaction_address
 	belongs_to :supporter
 	belongs_to :card
 	belongs_to :direct_debit_detail

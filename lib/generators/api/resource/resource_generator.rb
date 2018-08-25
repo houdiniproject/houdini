@@ -4,7 +4,11 @@ class Api::ResourceGenerator < Rails::Generators::NamedBase
     template 'resource.rb.erb', File.join("app/api/houdini/v1", "#{name.underscore}.rb")
   end
 
+  def copy_to_spec
+    template 'spec.rb.erb', File.join("spec/api/houdini/", "#{name.underscore}_spec.rb")
+  end
+
   def add_to_root_api
-    inject_into_file "app/api/houdini/v1/api.rb", "\tmount Houdini::V1::#{ name.camelcase}\n", after: "class Houdini::V1::API < Grape::API\n"
+    inject_into_file "app/api/houdini/v1/api.rb", "mount Houdini::V1::#{ name.camelcase} => \"/#{name.underscore}\"\n  ", before:"# Additional mounts are added via generators above this line"
   end
 end

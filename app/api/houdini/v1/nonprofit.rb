@@ -24,7 +24,7 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
 
     #this needs to be a validation an array
     failure [{code: 400, message: 'Validation Errors', model: Houdini::V1::Entities::ValidationErrors},
-             {code: 401, message: 'Not authorized or authenticated'}]
+             {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
   end
 
   params do

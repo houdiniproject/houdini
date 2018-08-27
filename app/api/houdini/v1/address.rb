@@ -25,7 +25,7 @@ class Houdini::V1::Address < Grape::API
         error!('Unauthorized', 401)
       end
 
-      present address, as: Houdini::V1::Entities::Address
+      present address, with: Houdini::V1::Entities::Address
     end
 
     put do

@@ -4,7 +4,7 @@ require 'controllers/support/shared_user_context'
 
 describe Houdini::V1::Address, :type => :request do
   include_context :shared_donation_charge_context
-
+  include_context :request_access_verifier
   describe :get do
     it '404s on invalid address' do
       xhr :get, '/api/v1/address/410595'
@@ -12,7 +12,7 @@ describe Houdini::V1::Address, :type => :request do
     end
 
     describe 'authorization properly' do
-      include_context :request_access_verifier
+
       describe '401s properly' do
         let (:action){
           "/api/v1/address/#{supporter_address.id}"
@@ -73,6 +73,28 @@ describe Houdini::V1::Address, :type => :request do
 
         #include_context :open_to_np_associate, :get, "/api/v1/address/#{supporter_address.id}}"
       end
+    end
+
+
+    it 'returns address' do
+      sign_in user_as_np_admin
+      xhr :get, "/api/v1/address/#{supporter_address.id}"
+
+      expect(response.status).to eq 200
+      json_response = JSON.parse(response.body)
+
+      expected = { name: supporter_address.name,
+      address: supporter_address.address,
+      city: supporter_address.city,
+      state_code: supporter_address.state_code,
+      zip_code: supporter_address.zip_code,
+      country: supporter_address.country,
+      supporter: {
+          id: supporter_address.supporter.id
+      }.with_indifferent_access}.with_indifferent_access
+
+      expect(json_response).to eq expected
+
     end
   end
 end

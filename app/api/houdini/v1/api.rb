@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'houdini/v1/validations'
 class Houdini::V1::API < Grape::API
 	logger.formatter = GrapeLogging::Formatters::Rails.new

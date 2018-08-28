@@ -3,8 +3,8 @@ require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
 describe Houdini::V1::Address, :type => :request do
-  include_context :shared_donation_charge_context
-  include_context :request_access_verifier
+  # include_context :shared_donation_charge_context
+  # include_context :request_access_verifier
   describe :get do
     it '404s on invalid address' do
       xhr :get, '/api/v1/address/410595'
@@ -83,7 +83,9 @@ describe Houdini::V1::Address, :type => :request do
       expect(response.status).to eq 200
       json_response = JSON.parse(response.body)
 
-      expected = { name: supporter_address.name,
+      expected = {
+          id: supporter_address.id,
+          name: supporter_address.name,
       address: supporter_address.address,
       city: supporter_address.city,
       state_code: supporter_address.state_code,

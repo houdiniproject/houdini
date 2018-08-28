@@ -197,6 +197,39 @@ ALTER SEQUENCE public.address_tags_id_seq OWNED BY public.address_tags.id;
 
 
 --
+-- Name: address_to_transaction_relations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.address_to_transaction_relations (
+    id integer NOT NULL,
+    address_id integer,
+    transactionable_id integer,
+    transactionable_type character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: address_to_transaction_relations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.address_to_transaction_relations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: address_to_transaction_relations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.address_to_transaction_relations_id_seq OWNED BY public.address_to_transaction_relations.id;
+
+
+--
 -- Name: addresses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -210,7 +243,7 @@ CREATE TABLE public.addresses (
     country character varying(255),
     state_code character varying(255),
     type character varying(255),
-    calculated_hash character varying(255),
+    fingerprint character varying(255),
     deleted boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -858,8 +891,7 @@ CREATE TABLE public.donations (
     date timestamp without time zone,
     queued_for_import_at timestamp without time zone,
     direct_debit_detail_id integer,
-    payment_provider character varying(255),
-    transaction_address_id integer
+    payment_provider character varying(255)
 );
 
 
@@ -2227,8 +2259,7 @@ CREATE TABLE public.tickets (
     note text,
     event_discount_id integer,
     deleted boolean,
-    source_token_id uuid,
-    transaction_address_id integer
+    source_token_id uuid
 );
 
 
@@ -2359,6 +2390,13 @@ ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.a
 --
 
 ALTER TABLE ONLY public.address_tags ALTER COLUMN id SET DEFAULT nextval('public.address_tags_id_seq'::regclass);
+
+
+--
+-- Name: address_to_transaction_relations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address_to_transaction_relations ALTER COLUMN id SET DEFAULT nextval('public.address_to_transaction_relations_id_seq'::regclass);
 
 
 --
@@ -2738,6 +2776,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.address_tags
     ADD CONSTRAINT address_tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: address_to_transaction_relations address_to_transaction_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address_to_transaction_relations
+    ADD CONSTRAINT address_to_transaction_relations_pkey PRIMARY KEY (id);
 
 
 --
@@ -3251,17 +3297,17 @@ CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (
 
 
 --
--- Name: index_addresses_on_calculated_hash; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_addresses_on_calculated_hash ON public.addresses USING btree (calculated_hash);
-
-
---
 -- Name: index_addresses_on_deleted; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_addresses_on_deleted ON public.addresses USING btree (deleted);
+
+
+--
+-- Name: index_addresses_on_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_addresses_on_fingerprint ON public.addresses USING btree (fingerprint);
 
 
 --
@@ -3332,13 +3378,6 @@ CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_
 --
 
 CREATE INDEX index_donations_on_event_id ON public.donations USING btree (event_id);
-
-
---
--- Name: index_donations_on_transaction_address_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_donations_on_transaction_address_id ON public.donations USING btree (transaction_address_id);
 
 
 --
@@ -3472,13 +3511,6 @@ CREATE INDEX index_tickets_on_payment_id ON public.tickets USING btree (payment_
 --
 
 CREATE INDEX index_tickets_on_supporter_id ON public.tickets USING btree (supporter_id);
-
-
---
--- Name: index_tickets_on_transaction_address_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_tickets_on_transaction_address_id ON public.tickets USING btree (transaction_address_id);
 
 
 --

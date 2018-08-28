@@ -10,7 +10,7 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
     success Houdini::V1::Entities::Nonprofit
   end
   params do
-    requires :id, type: Integer, desc: 'Status id.'
+    requires :id, type: Integer, desc: 'Nonprofit id'
   end
   route_param :id do
     get do

@@ -30,12 +30,12 @@ module DefaultAddressStrategies
     # @return [AddressTag] the default address tag
     def on_remove(supporter, removed_address)
       Qx.transaction do
-        if (!supporter.default_address)
+        if (!supporter.default_address_tag)
           return nil
         end
 
         if (supporter.default_address_tag.address_id == removed_address.id)
-          supporter.default_address.destroy
+          supporter.default_address_tag.destroy
           return nil
         end
       end

@@ -4,12 +4,13 @@ class Address < ActiveRecord::Base
                   :state_code,
                   :supporter,
                   :zip_code,
-                  :calculated_hash
+                  :fingerprint
 
   belongs_to :supporter
   has_many :address_tags
 
-  before_save :update_calculated_hash
+
+  before_save :update_fingerprint
 
   validates_presence_of :supporter
 
@@ -18,7 +19,7 @@ class Address < ActiveRecord::Base
 
   private
 
-  def update_calculated_hash
-    self.calculated_hash = AddressComparisons.calculate_hash(self.address, self.city, self.state_code, zip_code, self.country)
+  def update_fingerprint
+    self.fingerprint = AddressComparisons.calculate_hash(self.address, self.city, self.state_code, zip_code, self.country)
   end
 end

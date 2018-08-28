@@ -7,6 +7,10 @@ class Houdini::V1::Entities::Address < Grape::Entity
   expose :state_code, documentation: { type: String }
   expose :zip_code, documentation: { type: String }
   expose :country, documentation: { type: String }
-  expose :supporter, using: Houdini::V1::Entities::Supporter,
-         documentation: {type: 'Houdini::V1::Entities::Supporter'}
+  expose :type, documentation: { type: String }
+  expose :fingerprint, documentation: { type: String }
+  expose :supporter do
+    expose :id, documentation: { type: Integer }
+  end
+
 end

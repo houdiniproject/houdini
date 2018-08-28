@@ -13,7 +13,7 @@ module UpdateTransactionAddress
                                                  input[:country])
 
     TransactionAddress
-        .where(:calculated_hash => new_hash_for_input, :supporter_id =>t_address.supporter_id)
+        .where(:fingerprint => new_hash_for_input, :supporter_id =>t_address.supporter_id)
         .first_or_create!(address:input[:address],
                           city: input[:city],
                           state_code: input[:state_code],

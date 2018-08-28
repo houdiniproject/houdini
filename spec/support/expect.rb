@@ -24,4 +24,13 @@ module Expect
   def expect_email_queued
     expect(EmailJobQueue).to receive(:queue)
   end
+
+
+  def h(h = {})
+    h.with_indifferent_access
+  end
+
+  module APIErrors
+
+  end
 end

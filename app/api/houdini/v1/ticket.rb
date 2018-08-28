@@ -1,6 +1,6 @@
-
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Houdini::V1::Ticket < Grape::API
+  helpers Houdini::V1::Helpers::ApplicationHelper, Houdini::V1::Helpers::RescueHelper
   before do
 
     protect_against_forgery

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'controllers/support/general_shared_user_context'
 RSpec.shared_context :api_shared_user_verification do
@@ -5,6 +6,7 @@ RSpec.shared_context :api_shared_user_verification do
   let(:user_as_np_admin) {
     __create_admin(nonprofit)
   }
+
 
   let(:user_as_other_np_admin) {
     __create_admin(other_nonprofit)
@@ -102,7 +104,6 @@ RSpec.shared_context :api_shared_user_verification do
   def sign_in(user_to_signin)
     post_via_redirect 'users/sign_in', 'user[email]' => user_to_signin.email, 'user[password]' => user_to_signin.password, format: "json"
   end
-
   def sign_out
     send(:get, 'users/sign_out')
   end

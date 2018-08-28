@@ -4,7 +4,6 @@ require 'controllers/support/shared_user_context'
 
 describe ImageAttachmentsController, :type => :controller do
   describe 'authorization' do
-    include_context :controller_access_verifier
     describe 'rejects unauthorized users' do
       describe 'create' do
         include_context :open_to_confirmed_users, :post, :create

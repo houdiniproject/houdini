@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'controllers/support/general_shared_user_context'
 RSpec.shared_context :api_shared_user_verification do

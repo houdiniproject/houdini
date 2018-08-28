@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'api/support/api_shared_user_verification'
 require 'support/api_errors'
-describe Houdini::V1::Nonprofit, :type => :controller do
+describe Houdini::V1::Nonprofit, :type => :request do
   describe :get do
 
   end

@@ -13,10 +13,10 @@ describe AddressComparisons do
 
   describe '.calculate_hash' do
     it 'creates a fun hash!' do
-      expected = "cd5be5c5bfcdedd207f90a3a89292dfa9d284a574b06fb6ce6663651"
-      result = AddressComparisons.calculate_hash('.rw',
+      expected = "e106e376fb461cfbf4c19d3d5433e71e1b339b0f632131d17ea71e49"
+      result = AddressComparisons.calculate_hash("supporter_id", '.rw',
                                                  "wf #{AddressComparisons::DELIMITER} www",
-                                                 "!I53    ")
+                                                 "!I53    ", "zip", "country")
       expect(result).to eq expected
     end
   end

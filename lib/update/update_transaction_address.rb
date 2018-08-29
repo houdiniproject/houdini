@@ -6,7 +6,7 @@ module UpdateTransactionAddress
   def self.from_input(input, original_address)
     t_address = cast_to_transaction_address(original_address)
 
-    new_hash_for_input = AddressComparisons.calculate_hash(input[:address],
+    new_hash_for_input = AddressComparisons.calculate_hash(t_address.supporter_id, input[:address],
                                                  input[:city],
                                                  input[:state_code],
                                                  input[:zip_code],

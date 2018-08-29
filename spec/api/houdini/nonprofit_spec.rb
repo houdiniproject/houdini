@@ -41,7 +41,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
     describe 'authorization' do
       include_context :shared_donation_charge_context
-      include_context :shared_api_user_context
+      include_context :api_shared_user_verification
       describe 'csrf' do
         around {|e|
           Rails.configuration.action_controller.allow_forgery_protection = true
@@ -62,7 +62,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
       describe 'open no user' do
         it 'accessibility tests' do
 
-          run_accessibility_tests({method: :post, successful_users: [nil], action: '/api/v1/nonprofit'}) do ||
+          run_authorization_tests({method: :post, successful_users: [nil], action: '/api/v1/nonprofit'}) do ||
             valid_input
           end
         end

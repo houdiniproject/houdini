@@ -1,10 +1,10 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-require 'controllers/support/shared_user_context'
-
+require 'api/support/api_shared_user_verification'
+require 'support/api_errors'
 describe Houdini::V1::Donation, :type => :request do
    include_context :shared_donation_charge_context
-  # include_context :request_access_verifier
+   include_context :api_shared_user_verification
   let(:transaction_address) do
     create(:address,
              supporter:supporter,
@@ -24,70 +24,14 @@ describe Houdini::V1::Donation, :type => :request do
 
     describe 'authorize properly' do
 
-      describe '401s properly' do
-        let (:action){
-          "/api/v1/donation/#{donation.id}"
-        }
-        let(:method){
-          :get
-        }
-
-        let (:fixed_args) {
-            Array.new()
-        }
-
-
-
-        it 'rejects no user' do
-          reject(user_to_signin:nil, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects user with no roles' do
-          reject(user_to_signin:unauth_user, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'accepts nonprofit admin' do
-          accept(user_to_signin:user_as_np_admin, method:method, action:action, args:fixed_args)
-        end
-
-        it 'accepts nonprofit associate' do
-          accept(user_to_signin:user_as_np_associate, method:method, action:action, args:fixed_args)
-        end
-
-        it 'rejects other admin' do
-          reject(user_to_signin:user_as_other_np_admin, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects other associate' do
-          reject(user_to_signin:user_as_other_np_associate, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects campaign editor' do
-          reject(user_to_signin:campaign_editor, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects confirmed user' do
-          reject(user_to_signin:confirmed_user, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'reject event editor' do
-          reject(user_to_signin:event_editor, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'accepts super admin' do
-          accept(user_to_signin:super_admin, method:method, action:action, args:fixed_args)
-        end
-
-        it 'rejects profile user' do
-          reject(user_to_signin:user_with_profile, method:method, action:action, args:fixed_args, status:401)
-        end
-
+      it '401s properly' do
+        run_authorization_tests({method: :get, action: "/api/v1/donation/#{donation.id}",
+                                 successful_users:  roles__open_to_np_associate})
 
       end
     end
 
-
-    it 'returns donation' do
+    it 'returns donation with address' do
       donation.address = transaction_address
       donation.save!
 
@@ -118,6 +62,23 @@ describe Houdini::V1::Donation, :type => :request do
       expect(json_response).to eq expected.to_hash
 
     end
+
+    it 'returns donation without address' do
+
+      sign_in user_as_np_admin
+      xhr :get, "/api/v1/donation/#{donation.id}"
+
+      expect(response.status).to eq 200
+      json_response = JSON.parse(response.body)
+
+      expected = {
+          id: donation.id,
+          address: nil
+      }.with_indifferent_access
+
+      expect(json_response).to eq expected.to_hash
+
+    end
   end
 
   describe :put do
@@ -128,66 +89,14 @@ describe Houdini::V1::Donation, :type => :request do
 
     describe 'authorize properly' do
 
-      describe '401s properly' do
-        let (:action){
-          "/api/v1/donation/#{donation.id}"
-        }
-        let(:method){
-          :put
-        }
-
-        let (:fixed_args) {
-          Array.new()
-        }
-
-
-
-        it 'rejects no user' do
-          reject(user_to_signin:nil, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects user with no roles' do
-          reject(user_to_signin:unauth_user, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'accepts nonprofit admin' do
-          accept(user_to_signin:user_as_np_admin, method:method, action:action, args:fixed_args)
-        end
-
-        it 'accepts nonprofit associate' do
-          accept(user_to_signin:user_as_np_associate, method:method, action:action, args:fixed_args)
-        end
-
-        it 'rejects other admin' do
-          reject(user_to_signin:user_as_other_np_admin, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects other associate' do
-          reject(user_to_signin:user_as_other_np_associate, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects campaign editor' do
-          reject(user_to_signin:campaign_editor, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'rejects confirmed user' do
-          reject(user_to_signin:confirmed_user, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'reject event editor' do
-          reject(user_to_signin:event_editor, method:method, action:action, args:fixed_args, status:401)
-        end
-
-        it 'accepts super admin' do
-          accept(user_to_signin:super_admin, method:method, action:action, args:fixed_args)
-        end
-
-        it 'rejects profile user' do
-          reject(user_to_signin:user_with_profile, method:method, action:action, args:fixed_args, status:401)
-        end
-
+      it '401s properly' do
+        run_authorization_tests({method: :put, action: "/api/v1/donation/#{donation.id}",
+                                 successful_users:  roles__open_to_np_associate})
 
       end
+
+
+
     end
 
     it 'param validation' do

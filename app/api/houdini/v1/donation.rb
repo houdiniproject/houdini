@@ -52,7 +52,7 @@ class Houdini::V1::Donation < Grape::API
           error!('Unauthorized', 401)
         end
 
-        hash = AddressComparisons.calculate_hash(address_key_value[:address], address_key_value[:city], address_key_value[:state_code],
+        hash = AddressComparisons.calculate_hash(donation.supporter.id, address_key_value[:address], address_key_value[:city], address_key_value[:state_code],
                                                  address_key_value[:zip_code], address_key_value[:country])
 
         identical_address = TransactionAddress.where(fingerprint: hash).first

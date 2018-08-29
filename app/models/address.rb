@@ -20,6 +20,6 @@ class Address < ActiveRecord::Base
   private
 
   def update_fingerprint
-    self.fingerprint = AddressComparisons.calculate_hash(self.address, self.city, self.state_code, zip_code, self.country)
+    self.fingerprint = AddressComparisons.calculate_hash(self.supporter.id, self.address, self.city, self.state_code, self.zip_code, self.country)
   end
 end

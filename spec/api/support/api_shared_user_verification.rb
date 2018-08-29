@@ -2,6 +2,7 @@
 require 'controllers/support/general_shared_user_context'
 RSpec.shared_context :api_shared_user_verification do
   include_context :general_shared_user_context
+
   let(:user_as_np_admin) {
     __create_admin(nonprofit)
   }
@@ -103,6 +104,10 @@ RSpec.shared_context :api_shared_user_verification do
   def sign_in(user_to_signin)
     post_via_redirect 'users/sign_in', 'user[email]' => user_to_signin.email, 'user[password]' => user_to_signin.password, format: "json"
   end
+  def sign_out
+    send(:get, 'users/sign_out')
+  end
+
   def sign_out
     send(:get, 'users/sign_out')
   end

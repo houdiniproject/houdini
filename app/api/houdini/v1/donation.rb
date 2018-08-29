@@ -51,7 +51,7 @@ class Houdini::V1::Donation < Grape::API
         unless current_nonprofit_user?(donation.supporter.nonprofit)
           error!('Unauthorized', 401)
         end
-
+        address_key_value = declared_params[:donation][:address]
         hash = AddressComparisons.calculate_hash(donation.supporter.id, address_key_value[:address], address_key_value[:city], address_key_value[:state_code],
                                                  address_key_value[:zip_code], address_key_value[:country])
 

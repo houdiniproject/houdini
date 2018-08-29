@@ -99,13 +99,65 @@ describe Houdini::V1::Donation, :type => :request do
 
     end
 
-    it 'param validation' do
-      input = {}
-      xhr :put, "/api/v1/donation/#{donation.id}", input
+    describe 'param validation' do
 
-      expect(response.status).to eq 400
+      before(:each) do
+        sign_in user_as_np_admin
 
+      end
+      it 'donation is the root element' do
+
+        xhr :put, "/api/v1/donation/#{donation.id}", {}
+        expect(response.status).to eq 400
+
+        expected_errors = {
+            errors:
+                [
+                    h(params: ["donation"], messages: grape_error("presence"))
+                ]
+
+
+        }
+        expect_validation_errors(JSON.parse(response.body), expected_errors)
+      end
+
+
+      it 'address is invalid' do
+
+        xhr :put, "/api/v1/donation/#{donation.id}", {donation:{address: 'something'}}
+        expect(response.status).to eq 400
+        expected_errors = {
+            errors:
+                [
+                    h(params: ["donation[address]"], messages: grape_error("coerce"))
+                ]
+
+
+        }
+        expect_validation_errors(JSON.parse(response.body), expected_errors)
+      end
+
+      it 'address details are invalid' do
+
+        xhr :put, "/api/v1/donation/#{donation.id}",
+            {
+              donation:
+                  {
+                      address:
+                          {
+                            address: [""], city: [""], state_code: [""], zip_code: [""], country: [""]
+                          }
+                  }
+            }
+        expect(response.status).to eq 400
+        expected_errors = {
+            errors:
+            %w(address city state_code zip_code country).map {|i| h(params: ["donation[address][#{i}]"], messages: grape_error("coerce"))}
+        }
+        expect_validation_errors(JSON.parse(response.body), expected_errors)
+      end
     end
+
 
     describe 'update donations' do
       it 'no address already' do

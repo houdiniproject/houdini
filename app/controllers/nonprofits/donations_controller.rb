@@ -3,7 +3,8 @@ module Nonprofits
 	class DonationsController < ApplicationController
 		include NonprofitHelper
 
-		before_filter :authenticate_nonprofit_user!, only: [:index, :update, :create_offsite]
+		before_filter :authenticate_nonprofit_user!, only: [:index, :update]
+		before_filter :authenticate_campaign_editor!, only: [:create_offsite]
 
 		# get /nonprofit/:nonprofit_id/donations
 		def index
@@ -60,5 +61,24 @@ module Nonprofits
 			json_saved UpdateDonation.from_followup(donation, params[:donation])
 		end
 
+		# this is a special, weird case
+		private
+
+		def current_campaign
+			if !@campaign && params[:donation] && params[:donation][:campaign_id]
+				@campaign = Campaign.where('id = ? ', params[:donation][:campaign_id]).first
+			end
+			return @campaign
+		end
+
+		def current_campaign_editor?
+			!params[:preview] && (current_nonprofit_user? || (current_campaign && current_role?(:campaign_editor, current_campaign.id)) || current_role?(:super_admin))
+		end
+
+		def authenticate_campaign_editor!
+			unless current_campaign_editor?
+				block_with_sign_in 'You need to be a campaign editor to do that.'
+			end
+		end
 	end
 end

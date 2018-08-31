@@ -154,8 +154,8 @@ const view = state => {
   }, [
     h('img.closeButton', {
       props: {src: '/assets/ui_components/close.svg'}
-    , on: {click: ev => state.params$().offsite ? parent.postMessage('commitchange:close', '*') : null}
-    , class: {'u-hide': !state.params$().offsite}
+      , on: {click: ev => state.params$().offsite && !state.params$().embedded ? parent.postMessage('commitchange:close', '*') : null}
+      , class: {'u-hide': !state.params$().offsite || !state.params$().embedded}
     })
   , h('div.titleRow', [
       h('img', {props: {src: app.nonprofit.logo.normal.url}})

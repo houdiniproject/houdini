@@ -11,7 +11,7 @@ describe Nonprofits::DonationsController, :type => :controller do
       include_context :shared_user_context
       include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
     end
-    
+
     describe 'update' do
       include_context :shared_user_context
       include_context :open_to_np_associate, :put, :update, nonprofit_id: :__our_np

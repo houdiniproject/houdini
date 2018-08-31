@@ -31,13 +31,13 @@ class Houdini::V1::Donation < Grape::API
                {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
     end
     params do
-      requires :donation, type: Hash do
-        optional :address, type: Hash do
-          optional :address, type:String
-          optional :city, type:String
-          optional :state_code, type:String
-          optional :zip_code, type:String
-          optional :country, type:String
+      requires :donation, type: Hash, documentation: {param_type: 'body'} do
+        optional :address, type: Hash, documentation: {param_type: 'body'} do
+          optional :address, type:String, documentation: {param_type: 'body'}
+          optional :city, type:String, documentation: {param_type: 'body'}
+          optional :state_code, type:String, documentation: {param_type: 'body'}
+          optional :zip_code, type:String, documentation: {param_type: 'body'}
+          optional :country, type:String, documentation: {param_type: 'body'}
         end
       end
     end
@@ -52,11 +52,10 @@ class Houdini::V1::Donation < Grape::API
           error!('Unauthorized', 401)
         end
         address_key_value = declared_params[:donation][:address]
-        hash = AddressComparisons.calculate_hash(donation.supporter.id, address_key_value[:address], address_key_value[:city], address_key_value[:state_code],
-                                                 address_key_value[:zip_code], address_key_value[:country])
 
-        identical_address = TransactionAddress.where(fingerprint: hash).first
-        strategy = CalculateDefaultAddressStrategy
+        identical_address_from_one_submitted = TransactionAddress.where(fingerprint: AddressComparisons.calculate_hash(donation.supporter.id, address_key_value[:address], address_key_value[:city], address_key_value[:state_code],
+                                                                                                                       address_key_value[:zip_code], address_key_value[:country])).first
+        default_address_strategy = CalculateDefaultAddressStrategy
                        .find_strategy(donation
                                           .supporter.nonprofit
                                           .miscellaneous_np_info
@@ -64,28 +63,38 @@ class Houdini::V1::Donation < Grape::API
                                           .to_sym)
 
 
-        current_address = donation.address
+        address_prior_to_change = donation.address
 
-        if identical_address
-          donation.address = identical_address
+        # did we find the address already in the system?
+        if identical_address_from_one_submitted
+          # we did, let's use that for the donation
+          donation.address = identical_address_from_one_submitted
         else
-          donation.address = TransactionAddress.create!(declared_params)
+          # we didn't, we'll create it
+          donation.address = TransactionAddress.create!({supporter: donation.supporter}.merge(address_key_value))
         end
 
-        # if the address was already used, let's make sure it is used elsewhere. if not, we delete!
-        if current_address
-          is_address_used = AddressToTransactionRelation.where('address_id = ? ', current_address.id).any?
+        # did we have an address on the donation prior to the change?
+        if address_prior_to_change
+          # we did, let's check if it's still used by anything else
+          is_prior_address_still_used = AddressToTransactionRelation.where('address_id = ? ', address_prior_to_change.id).any?
 
-          unless is_address_used
-            current_address.destroy
-            strategy.on_remove(current_address)
+          # is it still in use?
+          unless is_prior_address_still_used
+            # it's not, let's destroy it
+            address_prior_to_change.destroy
+            # notify the default address strategy of the change so it can do whatever is necessary
+            default_address_strategy.on_remove(donation.supporter,address_prior_to_change)
           end
         end
 
-        if identical_address
-          strategy.on_use(donation.supporter, donation.address)
+        #  did we find the address already in the system?
+        if identical_address_from_one_submitted
+          # we did, let's notify the Default address strategy that we're using this address
+          default_address_strategy.on_use(donation.supporter, donation.address)
         else
-          strategy.on_add(donation.supporter, donation.address)
+          # we didn't, let's notify the default address strategy that we're adding a new address
+          default_address_strategy.on_add(donation.supporter, donation.address)
         end
 
         donation.save!

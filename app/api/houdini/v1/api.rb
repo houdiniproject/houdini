@@ -13,7 +13,6 @@ class Houdini::V1::API < Grape::API
 	end
 
   mount Houdini::V1::Supporter => '/supporter'
-	mount Houdini::V1::Address => '/address'
 	mount Houdini::V1::Nonprofit => '/nonprofit'
   mount Houdini::V1::Donation => '/donation'
   mount Houdini::V1::Ticket => '/ticket'

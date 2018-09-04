@@ -3,8 +3,8 @@ require 'rails_helper'
 require 'api/support/api_shared_user_verification'
 require 'support/api_errors'
 describe Houdini::V1::Donation, :type => :request do
-   include_context :shared_donation_charge_context
-   include_context :api_shared_user_verification
+  include_context :shared_donation_charge_context
+  include_context :api_shared_user_verification
   let(:transaction_address) do
     create(:address,
              supporter:supporter,

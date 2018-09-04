@@ -43,7 +43,64 @@ class Houdini::V1::Ticket < Grape::API
       end
     end
     put do
+        declared_params = declared(params)
+        Qx.transaction do
 
+          ticket = Ticket.includes(:supporter => [:nonprofit => :miscellaneous_np_info] ).find(params[:id])
+
+          #authenticate
+          unless current_nonprofit_user?(ticket.supporter.nonprofit)
+            error!('Unauthorized', 401)
+          end
+          address_key_value = declared_params[:donation][:address]
+
+          identical_address_from_one_submitted = TransactionAddress.where(fingerprint: AddressComparisons.calculate_hash(ticket.supporter.id, address_key_value[:address], address_key_value[:city], address_key_value[:state_code],
+                                                                                                                         address_key_value[:zip_code], address_key_value[:country])).first
+          default_address_strategy = CalculateDefaultAddressStrategy
+                                         .find_strategy(ticket
+                                                            .supporter.nonprofit
+                                                            .miscellaneous_np_info
+                                                            .supporter_default_address_strategy
+                                                            .to_sym)
+
+
+          address_prior_to_change = ticket.address
+
+          # did we find the address already in the system?
+          if identical_address_from_one_submitted
+            # we did, let's use that for the donation
+            ticket.address = identical_address_from_one_submitted
+          else
+            # we didn't, we'll create it
+            ticket.address = TransactionAddress.create!({supporter: ticket.supporter}.merge(address_key_value))
+          end
+
+          # did we have an address on the donation prior to the change?
+          if address_prior_to_change
+            # we did, let's check if it's still used by anything else
+            is_prior_address_still_used = AddressToTransactionRelation.where('address_id = ? ', address_prior_to_change.id).any?
+
+            # is it still in use?
+            unless is_prior_address_still_used
+              # it's not, let's destroy it
+              address_prior_to_change.destroy
+              # notify the default address strategy of the change so it can do whatever is necessary
+              default_address_strategy.on_remove(ticket.supporter,address_prior_to_change)
+            end
+          end
+
+          #  did we find the address already in the system?
+          if identical_address_from_one_submitted
+            # we did, let's notify the Default address strategy that we're using this address
+            default_address_strategy.on_use(ticket.supporter, ticket.address)
+          else
+            # we didn't, let's notify the default address strategy that we're adding a new address
+            default_address_strategy.on_add(ticket.supporter, ticket.address)
+          end
+
+          ticket.save!
+          present ticket, with: Houdini::V1::Entities::Ticket
+        end
     end
   end
 end

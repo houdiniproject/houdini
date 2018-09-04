@@ -270,23 +270,6 @@ describe Houdini::V1::Donation, :type => :request do
           expect(Address.where(id: pre_input_address.id).any?).to be_truthy
         end
       end
-      it 'address already set exists but identical' do
-
-
-        original_address = TransactionAddress.create!({supporter: donation.supporter}.merge(input_address))
-        donation.address = original_address
-        donation.address.save!
-        donation.save!
-
-        # make sure on add is called
-        expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
-        make_call_and_verify_response()
-
-
-        donation.reload
-        expect(donation.address).to eq original_address
-
-      end
     end
 
 

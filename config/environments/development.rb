@@ -52,6 +52,7 @@ Commitchange::Application.configure do
 
 	config.log_level = :debug
 
+  config.threadsafe!
 	# Turn this on if you want to mess with code inside /node_modules
 	# config.browserify_rails.evaluate_node_modules = true
 

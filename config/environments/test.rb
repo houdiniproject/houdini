@@ -43,4 +43,7 @@ Commitchange::Application.configure do
   config.action_controller.allow_forgery_protection = false
   config.cache_store = :memory_store
   config.middleware.use Rack::Attack
+
+  config.threadsafe!
+
 end

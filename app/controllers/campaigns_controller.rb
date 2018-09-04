@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class CampaignsController < ApplicationController
-  include CampaignHelper
+  include Controllers::CampaignHelper
 
   helper_method :current_campaign_editor?
   before_filter :authenticate_confirmed_user!, only: [:create, :name_and_id, :duplicate]

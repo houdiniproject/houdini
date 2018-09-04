@@ -84,6 +84,8 @@ Commitchange::Application.configure do
 
   config.assets.compile = false
 
+	config.threadsafe!
+	config.dependency_loading = true if $rails_rake_task
 	# Compress json
   #config.middleware.use Rack::Deflater
 	config.middleware.insert_before 'Rack::Cache', Rack::Attack

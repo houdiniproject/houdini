@@ -12,5 +12,6 @@ class Houdini::V1::Entities::Address < Grape::Entity
   expose :supporter, using: Houdini::V1::Entities::SupporterStub,
          documentation: {type: 'Houdini::V1::Entities::SupporterStub'}
 
+
 end
 

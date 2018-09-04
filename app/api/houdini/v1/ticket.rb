@@ -21,7 +21,7 @@ class Houdini::V1::Ticket < Grape::API
         error!('Unauthorized', 401)
       end
 
-      present ticket, as: Houdini::V1::Entities::Ticket
+      present ticket, with: Houdini::V1::Entities::Ticket
     end
 
 

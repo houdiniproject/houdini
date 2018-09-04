@@ -21,9 +21,12 @@ class Houdini::V1::Supporter < Grape::API
       end
       # add the default address
 
-      present supporter, as: Houdini::V1::Entities::Supporter
+      present supporter, with: Houdini::V1::Entities::Supporter
     end
 
+    desc 'Return a supporter.' do
+      success Houdini::V1::Entities::Supporter
+    end
     put do
       declared_params = declared(params)
       supporter = Supporter.includes(:nonprofit).find(params[:id])
@@ -38,7 +41,7 @@ class Houdini::V1::Supporter < Grape::API
         # set the default address
       end
 
-      present supporter, as: Houdini::V1::Entities::Supporter
+      present supporter, with: Houdini::V1::Entities::Supporter
     end
 
 

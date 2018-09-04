@@ -15,7 +15,7 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
   route_param :id do
     get do
       np = Nonprofit.find(params[:id])
-      present np, as: Houdini::V1::Entities::Nonprofit
+      present np, with: Houdini::V1::Entities::Nonprofit
     end
   end
 

@@ -82,6 +82,17 @@ RSpec.shared_context :api_shared_user_verification do
     ]
   end
 
+  let(:roles__open_to_event_editor) do
+    [:user_as_np_admin,
+
+     :user_as_np_associate,
+     :event_editor,
+
+     :super_admin
+
+    ]
+  end
+
   def __create(name, host)
     u = force_create(:user)
     force_create(:role, user: u, name: name, host:host)

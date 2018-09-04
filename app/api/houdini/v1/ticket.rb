@@ -1,6 +1,9 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Houdini::V1::Ticket < Grape::API
-  helpers Houdini::V1::Helpers::ApplicationHelper, Houdini::V1::Helpers::RescueHelper
+  helpers Houdini::V1::Helpers::ApplicationHelper,
+          Houdini::V1::Helpers::RescueHelper,
+          Houdini::V1::Helpers::NonprofitHelper,
+          Houdini::V1::Helpers::EventHelper
   before do
 
     protect_against_forgery
@@ -14,10 +17,10 @@ class Houdini::V1::Ticket < Grape::API
                {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
     end
     get do
-      ticket = Ticket.includes(:supporter => [:nonprofit]).find(params[:id])
+      ticket = Ticket.includes(:event, :supporter => [:nonprofit]).find(params[:id])
 
       #authenticate
-      unless current_nonprofit_user?(ticket.supporter.nonprofit)
+      unless current_event_editor?(ticket.event)
         error!('Unauthorized', 401)
       end
 
@@ -31,14 +34,13 @@ class Houdini::V1::Ticket < Grape::API
                {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
     end
     params do
-      requires :ticket, type: Hash do
-
-        optional :address, type: Hash do
-          optional :address
-          optional :city
-          optional :state_code
-          optional :zip_code
-          optional :country
+      requires :ticket, type: Hash, documentation: {param_type: 'body'} do
+        optional :address, type: Hash, documentation: {param_type: 'body'} do
+          optional :address, type:String, documentation: {param_type: 'body'}
+          optional :city, type:String, documentation: {param_type: 'body'}
+          optional :state_code, type:String, documentation: {param_type: 'body'}
+          optional :zip_code, type:String, documentation: {param_type: 'body'}
+          optional :country, type:String, documentation: {param_type: 'body'}
         end
       end
     end
@@ -46,13 +48,13 @@ class Houdini::V1::Ticket < Grape::API
         declared_params = declared(params)
         Qx.transaction do
 
-          ticket = Ticket.includes(:supporter => [:nonprofit => :miscellaneous_np_info] ).find(params[:id])
+          ticket = Ticket.includes(:event, :supporter => [:nonprofit => :miscellaneous_np_info]).find(params[:id])
 
           #authenticate
-          unless current_nonprofit_user?(ticket.supporter.nonprofit)
+          unless current_event_editor?(ticket.event)
             error!('Unauthorized', 401)
           end
-          address_key_value = declared_params[:donation][:address]
+          address_key_value = declared_params[:ticket][:address]
 
           identical_address_from_one_submitted = TransactionAddress.where(fingerprint: AddressComparisons.calculate_hash(ticket.supporter.id, address_key_value[:address], address_key_value[:city], address_key_value[:state_code],
                                                                                                                          address_key_value[:zip_code], address_key_value[:country])).first

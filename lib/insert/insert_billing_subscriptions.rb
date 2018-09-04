@@ -3,7 +3,6 @@ require 'qx'
 require 'delayed_job_helper'
 require 'active_support/core_ext'
 
-Delayed::Worker.delay_jobs = false
 
 module InsertBillingSubscriptions
 

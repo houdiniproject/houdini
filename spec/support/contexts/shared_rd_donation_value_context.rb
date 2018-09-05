@@ -192,6 +192,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
           {key: :event_id, name: :is_reference},
           {key: :token, name: :required},
           {key: :token, name: :format},
+          {key: :address, name: :is_hash}
       ])
     }
   end
@@ -424,6 +425,19 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
   def process_event_donation(data = {})
     pay_method = data[:sepa] ? direct_debit_detail : card
+    address = data[:address]
+    if address
+      input_address = {
+          address: address.address,
+          city: address.city,
+          state_code: address.state_code,
+          zip_code: address.zip_code,
+          country: address.country
+      }
+      expect(QueryTransactionAddress).to receive(:add_or_use).with(supporter, input_address).and_return(address)
+    else
+      expect(QueryTransactionAddress).to receive(:add_or_use).with(supporter, nil).and_return(nil)
+    end
     result = yield
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, event: event, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])
 
@@ -434,6 +448,10 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expect(result['payment'].attributes).to eq expected[:payment]
     if (data[:recurring_donation])
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
+    end
+
+    if (address)
+      expect(Donation.find(result['donation']['id']).address).to eq address
     end
 
     return result

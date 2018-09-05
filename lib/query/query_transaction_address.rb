@@ -11,7 +11,7 @@ module QueryTransactionAddress
                                    .find_strategy(supporter.nonprofit
                                                       .miscellaneous_np_info
                                                       .supporter_default_address_strategy
-                                                      .to_sym)
+                                                       .to_sym)
 
     if identical_address
       default_address_strategy.on_use(supporter, identical_address)

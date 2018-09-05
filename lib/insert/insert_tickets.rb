@@ -24,7 +24,8 @@ module InsertTickets
       event_discount_id: {is_reference: true},
       kind: {included_in: ['free', 'charge', 'offsite']},
       token: {format: UUID::Regex},
-      offsite_payment: {is_hash: true}
+      offsite_payment: {is_hash: true},
+      address: {is_hash:true}
     })
 
     data[:tickets].each {|t|
@@ -45,6 +46,8 @@ module InsertTickets
     QueryTicketLevels.verify_tickets_available(data[:tickets])
 
     gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id])
+
+    ## get address in here:
 
     result = {}
 
@@ -91,7 +94,7 @@ module InsertTickets
     # Generate the bid ids
     data['tickets'] = generate_bid_ids(entities[:event_id].id, tl_entities)
 
-    result['tickets'] = generated_ticket_entities(data['tickets'], result, entities)
+    result['tickets'] = generated_ticket_entities(data['tickets'], result, entities, data[:address])
 
     # Create the activity rows for the tickets
     InsertActivities.for_tickets(result['tickets'].map{|t| t.id})
@@ -115,7 +118,7 @@ module InsertTickets
   end
 
   #not really needed but used for breaking into the unit test and getting the IDs
-  def self.generated_ticket_entities(ticket_data, result, entities)
+  def self.generated_ticket_entities(ticket_data, result, entities, address)
     ticket_data.map{|ticket_request|
       t = Ticket.new
       t.quantity = ticket_request['quantity']
@@ -126,6 +129,7 @@ module InsertTickets
       t.charge = result['charge']
       t.bid_id = ticket_request['bid_id']
       t.event_discount = entities[:event_discount_id]
+      t.address = QueryTransactionAddress.add_or_use(t.supporter, address)
       t.save!
       t
     }.to_a

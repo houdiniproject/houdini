@@ -1,7 +1,10 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module QueryTransactionAddress
 
-  def self.add_or_use(supporter, address_hash)
+  def self.add_or_use(supporter, address_hash=nil)
+    if (address_hash.nil?)
+      return nil
+    end
     identical_address = TransactionAddress.where(fingerprint: AddressComparisons.calculate_hash(supporter.id, address_hash[:address], address_hash[:city], address_hash[:state_code],
                                                                                                                    address_hash[:zip_code], address_hash[:country])).first
     default_address_strategy = CalculateDefaultAddressStrategy

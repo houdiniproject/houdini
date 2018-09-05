@@ -9,11 +9,8 @@ module InsertSupporter
     ParamValidation.new(data.merge(np_id: np_id), {
       np_id: {required: true, is_integer: true}
     })
-    address_keys = ['name', 'address', 'city', 'country', 'state_code']
-    custom_fields = data['customFields']
-    data = HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data, address_keys))
-      .except(:customFields)
 
+    custom_fields = data['customFields']
     supporter = Qx.select("*").from(:supporters)
       .where("name = $n AND email = $e", n: data[:name], e: data[:email])
       .and_where("nonprofit_id=$id", id: np_id)

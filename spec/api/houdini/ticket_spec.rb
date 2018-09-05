@@ -259,7 +259,7 @@ describe Houdini::V1::Ticket, :type => :request do
 
         it 'used by another transaction so we dont delete the original address' do
 
-          AddressToTransactionRelation.create!(address: pre_input_address)
+          AddressToTransactionRelation.create!(address: pre_input_address, transactionable_id: 541254, transactionable_type: 'Ticket')
           expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
           expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to_not receive(:on_remove)
           make_call_and_verify_response()

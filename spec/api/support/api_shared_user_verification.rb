@@ -169,18 +169,20 @@ RSpec.shared_context :api_shared_user_verification do
     @block_to_get_arguments_to_run = block || ->(_) {} #no-op
     accept_test_for_nil = false
     all_users.each do |k,v|
-      os = OpenStruct.new
-      os.key = k
-      os.value = v
+      Qx.transaction do
+        os = OpenStruct.new
+        os.key = k
+        os.value = v
 
-      if k.nil?
-        accept(user_to_signin: nil, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
-        accept_test_for_nil = true
-      end
-      if @successful_users.include? k
-        accept(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
-      else
-        reject(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+        if k.nil?
+          accept(user_to_signin: nil, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+          accept_test_for_nil = true
+        end
+        if @successful_users.include? k
+          accept(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+        else
+          reject(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+        end
       end
     end
 

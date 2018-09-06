@@ -5,7 +5,7 @@ require 'rails/all'
 
 Bundler.require *Rails.groups(:assets) if defined?(Bundler)
 
-require File.expand_path('lib/htp') # Hamster Table Print
+#require File.expand_path('lib/htp') # Hamster Table Print
 
 module Commitchange
 	class Application < Rails::Application

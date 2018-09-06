@@ -9,4 +9,4 @@ before_install:
 - docker-compose -f docker/build/docker-compose.yml build
 
 script:
-- docker-compose -f docker/build/docker-compose.yml up
+- docker-compose -f docker/build/docker-compose.yml run build script/test.sh

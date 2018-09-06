@@ -7,11 +7,7 @@ module QueryTransactionAddress
     end
     identical_address = TransactionAddress.where(fingerprint: AddressComparisons.calculate_hash(supporter.id, address_hash[:address], address_hash[:city], address_hash[:state_code],
                                                                                                                    address_hash[:zip_code], address_hash[:country])).first
-    default_address_strategy = CalculateDefaultAddressStrategy
-                                   .find_strategy(supporter.nonprofit
-                                                      .miscellaneous_np_info
-                                                      .supporter_default_address_strategy
-                                                       .to_sym)
+    default_address_strategy = supporter.nonprofit.default_address_strategy
 
     if identical_address
       default_address_strategy.on_use(supporter, identical_address)
@@ -31,11 +27,7 @@ module QueryTransactionAddress
 
   def self.remove_address_if_hanging(transaction)
     address_prior_to_change = transaction.address
-    default_address_strategy = CalculateDefaultAddressStrategy
-                                   .find_strategy(transaction.supporter.nonprofit
-                                                      .miscellaneous_np_info
-                                                      .supporter_default_address_strategy
-                                                      .to_sym)
+    default_address_strategy = transaction.supporter.nonprofit.default_address_strategy
 
     # did we have an address on the donation prior to the change?
     if address_prior_to_change

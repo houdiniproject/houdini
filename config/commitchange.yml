@@ -28,8 +28,7 @@ mailer:
   email: "support@commitchange.com"
 
 cdn:
-  url: "http://localhost"
-  port: 5000
+  url: "http://localhost:5000"
 
 payment_provider:
   stripe_connect: true

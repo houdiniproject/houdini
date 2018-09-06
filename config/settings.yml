@@ -30,8 +30,7 @@ mailer:
   host: "http://localhost"
 
 cdn:
-  url: "http://localhost"
-  port: 5000
+  url: "http://localhost:5000"
 
 payment_provider:
   stripe_connect: false

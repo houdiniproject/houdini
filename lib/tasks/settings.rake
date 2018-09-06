@@ -14,7 +14,6 @@ namespace :settings do
   task :generate_json => :environment do
 
     cdn_url= URI(Settings.cdn.url)
-    cdn_url.port = Settings.cdn.port if Settings.cdn.port
     cdn_url = cdn_url.to_s
     if (Settings.button_config&.url)
       cdn_url= URI(Settings.button_config.url).to_s

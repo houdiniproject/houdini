@@ -101,11 +101,8 @@ Config.schema do
 
   required(:cdn).schema do
     # URL for your CDN for assets. Usually this is just your url
-    # Default is http://localhost
+    # Default is http://localhost:8080
     required(:url).filled(:str?)
-
-    # the port for your cdn. Default is 8080
-    optional(:port).filled(:int?)
   end
 
   required(:payment_provider).schema do

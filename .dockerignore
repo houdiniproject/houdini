@@ -3,4 +3,7 @@
 !Gemfile.lock
 !package.json
 !package-lock.json
-!script/debian_setup.sh
+!script/build/debian/*.sh
+!Rakefile
+!config/*
+!db/*

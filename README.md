@@ -56,6 +56,7 @@ You will likely need to logout and log back in again.
 #### Build your docker-container and start it up for initial set up.
 We'll keep this running in the console we'll call **console 1**
 ```
+cd docker/debug
 docker-compose build
 docker-compose up
 ```

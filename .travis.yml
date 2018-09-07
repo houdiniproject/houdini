@@ -10,4 +10,4 @@ before_install:
 - cp .env.template .env
 
 script:
-- docker-compose -f docker/build/docker-compose.yml -e RACK_ENV=ci -e RAILS_ENV=ci run build script/test.sh
+- docker-compose -f docker/build/docker-compose.yml run -e RACK_ENV=ci -e RAILS_ENV=ci build script/test.sh

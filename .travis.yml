@@ -7,15 +7,7 @@ services:
 
 before_install:
 - docker-compose -f docker/build/docker-compose.yml build
+- cp .env.template .env
 
 script:
 - docker-compose -f docker/build/docker-compose.yml run build script/test.sh
-
-env:
-  - DEVISE_SECRET_KEY='-- secret string --'
-  - SECRET_TOKEN='-- secret string --'
-  - STRIPE_API_KEY='REPLACE'
-  - STRIPE_API_PUBLIC='REPLACE'
-  - S3_BUCKET_NAME='REPLACE'
-  - AWS_ACCESS_KEY='REPLACE'
-  - AWS_SECRET_ACCESS_KEY='REPLACE'

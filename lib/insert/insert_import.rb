@@ -82,6 +82,8 @@ module InsertImport
       # Create supporter record
       if table_data['supporter']
         table_data['supporter'] = InsertSupporter.defaults(table_data['supporter'])
+
+        # TODO Handle addresses
         table_data['supporter']['imported_at'] = Time.current
         table_data['supporter']['import_id'] = import['id']
         table_data['supporter']['nonprofit_id'] = data[:nonprofit_id]

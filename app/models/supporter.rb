@@ -52,7 +52,7 @@ class Supporter < ActiveRecord::Base
   has_many :address_tags
 
   validates :nonprofit, :presence => true
-  scope :not_deleted, -> {where(deleted: false)}
+  scope :not_deleted, -> {where("COALESCE(deleted, FALSE) = FALSE")}
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude do |obj, results|

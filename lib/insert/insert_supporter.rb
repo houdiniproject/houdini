@@ -5,44 +5,57 @@ require 'i18n'
 
 module InsertSupporter
 
-  def self.create_or_update(np_id, data, update=false)
+  def self.create_or_update(np_id, data={})
+    data = data.with_indifferent_access
     ParamValidation.new(data.merge(np_id: np_id), {
       np_id: {required: true, is_integer: true}
     })
 
-    custom_fields = data['customFields']
-    supporter = Qx.select("*").from(:supporters)
-      .where("name = $n AND email = $e", n: data[:name], e: data[:email])
-      .and_where("nonprofit_id=$id", id: np_id)
-      .and_where("coalesce(deleted, FALSE)=FALSE")
-      .execute.last
-		if supporter and update
-      supporter = Qx.update(:supporters)
-        .set(defaults(data))
-        .where("id=$id", id: supporter['id'])
-        .returning('*')
-        .timestamps
-        .execute.last
-		else
-      supporter = Qx.insert_into(:supporters)
-        .values(defaults(data).merge(nonprofit_id: np_id))
-        .returning('*')
-        .timestamps
-        .execute.last
-		end
+    Qx.transaction do
+      np = Nonprofit.find(np_id)
+      custom_fields = data['customFields']
 
-    if custom_fields
-      InsertCustomFieldJoins.find_or_create(np_id, [supporter['id']],  custom_fields)
+      data['name'] = data['name'] ? data['name'].strip.downcase : ""
+      data['email'] = data['email'] ? data['email'].strip.downcase : ""
+      if (data['name'].empty? && data['name'].empty?)
+        supporter = Supporter.create!(defaults(data).merge(nonprofit:np))
+      end
+
+      unless supporter
+        supporter = np.supporters.not_deleted
+            .where("trim(lower(supporters.name)) = ?
+                    AND trim(lower(supporters.email)) = ?",
+                   data['name'], data['email']
+            ).first
+
+        if supporter
+          supporter.update_attributes(defaults(data))
+        else
+          supporter = Supporter.create!(defaults(data).merge(nonprofit:np))
+        end
+      end
+
+      if custom_fields
+        InsertCustomFieldJoins.find_or_create(np_id, [supporter.id],  custom_fields)
+      end
+
+      #GeocodeModel.delay.supporter(supporter['id'])
+      InsertFullContactInfos.enqueue([supporter.id])
+
+      return supporter
     end
-
-    #GeocodeModel.delay.supporter(supporter['id'])
-    InsertFullContactInfos.enqueue([supporter['id']])
-
-    return supporter
   end
 
 
 	def self.defaults(h)
+    h = h.slice('name',
+       'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'organization',
+        'anonymous',
+        'profile_id')
     h = h.except('profile_id') unless h['profile_id'].present?
 		if h['first_name'].present? || h['last_name'].present?
 			h['name'] = h['first_name'] || h['last_name']
@@ -53,11 +66,6 @@ module InsertSupporter
 
     h['email_unsubscribe_uuid'] = SecureRandom.uuid
 
-    if h['address'].present? && h['address_line2'].present?
-      h['address'] += ' ' + h['address_line2']
-    end
-
-    h = h.except('address_line2')
 
 		return h
 	end

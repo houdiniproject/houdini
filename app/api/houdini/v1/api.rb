@@ -23,7 +23,6 @@ class Houdini::V1::API < Grape::API
 	content_type :json, 'application/json'
 	default_format :json
 
-
 	uri_for_host = URI.parse(Settings.api_domain&.url || Settings.cdn.url)
 	add_swagger_documentation \
 		host: "#{uri_for_host.host}#{uri_for_host.port ? ":#{uri_for_host.port}" : ""}",

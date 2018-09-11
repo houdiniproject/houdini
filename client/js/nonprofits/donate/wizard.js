@@ -75,6 +75,7 @@ const init = params$ => {
   , donation$: state.donation$
   , dedicationData$: state.infoStep.dedicationData$
   , activePaymentTab$: state.selectedPayment$
+  , address$: state.infoStep.address$
   , params$: state.params$
   })
 

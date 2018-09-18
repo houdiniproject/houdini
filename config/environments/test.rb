@@ -45,6 +45,4 @@ Commitchange::Application.configure do
   config.threadsafe!
   config.middleware.use Rack::Attack
 
-
-
 end

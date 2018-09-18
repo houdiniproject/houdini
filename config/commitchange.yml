@@ -25,6 +25,9 @@ mailer:
   default_from: "CommitChange Team <support@commitchange.com>"
   email: "support@commitchange.com"
 
+cdn:
+  url: "http://localhost:5000"
+
 payment_provider:
   stripe_connect: true
   stripe_public_key: <%= ENV['STRIPE_API_PUBLIC'] %>

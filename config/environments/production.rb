@@ -46,7 +46,6 @@ Commitchange::Application.configure do
 	# Enable serving of images, stylesheets, and JavaScripts from an asset server
 
   cdn_url= URI(Settings.cdn.url)
-  cdn_url.port = Settings.cdn.port if Settings.cdn.port
   cdn_url = cdn_url.to_s
 	config.action_controller.asset_host = cdn_url
 	config.action_mailer.asset_host = cdn_url

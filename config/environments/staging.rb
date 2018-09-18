@@ -88,4 +88,5 @@ Commitchange::Application.configure do
 	# Compress json
 	# config.middleware.use Rack::Deflater
 	config.middleware.insert_before 'Rack::Cache', Rack::Attack
+
 end

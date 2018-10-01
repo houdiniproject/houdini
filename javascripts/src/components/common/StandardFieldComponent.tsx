@@ -30,7 +30,7 @@ export default class StandardFieldComponent extends React.Component<StandardFiel
     let stickyErrorDiv = this.props.inStickyError ? <div className="help-block" role="alert">{stickyErrorMessage}</div> : ""
 
     return <div>
-        {this.renderChildren()}
+        {this.props.children}
         {errorDiv}
         {stickyErrorDiv }
       </div>

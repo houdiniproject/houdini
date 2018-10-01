@@ -112,6 +112,16 @@ appl.def('update_donation', function(donation) {
 		})
 })
 
+appl.def('start_loading', function(){
+  appl.def('loading', true)
+})
+
+appl.def('update_donation__success', function() {
+  appl.ajax_payment_details.fetch(appl.payment_details.data.id)
+  appl.def('loading', false)
+  appl.notify('Donation successfully updated!')
+})
+
 appl.def('delete_offline_donation', function() {
 	var payment = appl.payment_details.data
 	request

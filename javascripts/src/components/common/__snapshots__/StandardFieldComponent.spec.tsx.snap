@@ -2,10 +2,7 @@
 
 exports[`StandardFieldComponent sets error message properly 1`] = `
 <div>
-  <input
-    className="form-control"
-    key=".0"
-  />
+  <input />
   <div
     className="help-block"
     role="alert"
@@ -17,10 +14,7 @@ exports[`StandardFieldComponent sets error message properly 1`] = `
 
 exports[`StandardFieldComponent works with a child 1`] = `
 <div>
-  <input
-    className="form-control"
-    key=".0"
-  />
+  <input />
 </div>
 `;
 

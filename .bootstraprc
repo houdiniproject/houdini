@@ -6,8 +6,11 @@
     "mixins": true,
     "grid": true,
     "forms": true,
-    "responsive-utilities":true
+    "responsive-utilities":true,
+    "panels": true,
+    "type": true
   },
 
-  "scripts": false
+  "scripts": false,
+  "styleNamespace": ".tw-bs"
 }

@@ -11,11 +11,11 @@ export interface SessionLoginPageProps
 
 class SessionLoginPage extends React.Component<SessionLoginPageProps & InjectedIntlProps, {}> {
   render() {
-     return <div className="container"><div className="row"><div className={'col-sm-6'}>
+     return <div className="tw-bs"><div className="container"><div className="row"><div className={'col-sm-6'}>
        <h1><FormattedMessage id="login.header"/></h1>
        <SessionLoginForm buttonText="login.login" buttonTextOnProgress="login.logging_in"/>
      </div></div>
-     </div>;
+     </div></div>;
   }
 }
 

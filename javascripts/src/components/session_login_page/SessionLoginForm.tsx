@@ -105,9 +105,9 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
 
     return <form onSubmit={this.form.onSubmit}>
       <BasicField field={this.form.$('email')}
-        label={this.props.intl.formatMessage({id: 'login.email'})}/>
+        label={this.props.intl.formatMessage({id: 'login.email'})} inputClassNames={"input-lg"}/>
       <BasicField field={this.form.$('password')}
-                  label={this.props.intl.formatMessage({id: 'login.password'})}/>
+                  label={this.props.intl.formatMessage({id: 'login.password'})} inputClassNames={"input-lg"}/>
       {errorDiv}
       <div className={'form-group'}>
         <ProgressableButton onClick={this.form.onSubmit} className="button" disabled={!this.form.isValid || this.form.submitting} inProgress={this.form.submitting}

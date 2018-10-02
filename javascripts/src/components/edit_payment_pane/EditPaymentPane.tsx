@@ -269,7 +269,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
       <tr className='test-grossAmount'>
         <td>Gross Amount</td>
         <td>
-          $ {centsToDollars(this.props.data.gross_amount)}
+          ${centsToDollars(this.props.data.gross_amount)}
         </td>
       </tr>
 

@@ -13,7 +13,7 @@ import {UpdateDonationModel, PutDonation} from "../../lib/api/put_donation";
 import {ApiManager} from "../../lib/api_manager";
 import * as CustomAPIS from "../../lib/apis";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
-import {BasicField, SelectField, TextareaField} from '../common/fields';
+import {BasicField, CurrencyField, SelectField, TextareaField} from '../common/fields';
 import ReactTextarea from "../common/form/ReactTextarea";
 import {TwoColumnFields} from "../common/layout";
 import {Validations} from "../../lib/vjf_rules";
@@ -345,8 +345,8 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
     let offsitePayment = this.props.data.kind === "OffsitePayment" ? (<div>
 
       <TwoColumnFields>
-        <BasicField field={this.form.$('gross_amount')} label={"Gross Amount"}/>
-        <BasicField field={this.form.$('fee_total')} label={"Processing Fees"}/>
+        <CurrencyField field={this.form.$('gross_amount')} label={"Gross Amount"} currencySymbol={"$"}/>
+        <CurrencyField field={this.form.$('fee_total')} label={"Processing Fees"}/>
 
       </TwoColumnFields>
 

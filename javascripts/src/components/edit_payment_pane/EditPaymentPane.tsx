@@ -391,7 +391,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
             <TextareaField field={this.form.$('designation')} label={"Designation"} rows={3} />
 
             <div className="panel panel-default">
-              <div className="panel-heading"><label>Dedication <small> (optional)</small></label></div>
+              <div className="panel-heading"><label>Dedication</label></div>
               <div className="panel-body">
                 <SelectField field={this.form.$('dedication.type')} label={"Dedication Type"} options={[{id: null, name: ''}, {id: 'honor', name: 'In honor of'}, {id:'memory', name: 'In memory of'}]} />
 

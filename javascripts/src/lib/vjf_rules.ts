@@ -55,7 +55,7 @@ export class Validations  {
   {
     return ({field, validator}:ValidationInput) => {
       return [
-        parseFloat(field.value) >= value,
+        parseFloat(field.get('value')) >= value,
         `${field.label} must be at least ${value}`
       ]
     }
@@ -64,7 +64,7 @@ export class Validations  {
   static isLessThanOrEqualTo(value:number, flip:boolean=false) : ({field, validator}:ValidationInput) => StringBoolTuple
   {
     return ({field, validator}:ValidationInput) => {
-      let float = parseFloat(field.value)
+      let float = field.get('value')
       return [
         (flip ? -1 * float : float) <= value,
         `${field.label} must be no more than ${value}`

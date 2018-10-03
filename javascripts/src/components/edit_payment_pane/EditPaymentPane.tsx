@@ -19,11 +19,13 @@ import {TwoColumnFields} from "../common/layout";
 import {Validations} from "../../lib/vjf_rules";
 import _ = require("lodash");
 import {Dedication, parseDedication, serializeDedication} from '../../lib/dedication';
+import blacklist = require("validator/lib/blacklist");
+import {createFieldDefinition} from "../../lib/mobx_utils";
+
 
 interface Charge {
   status: string
 }
-
 
 interface RecurringDonation {
   interval?: number
@@ -78,7 +80,6 @@ export interface FundraiserInfo {
 }
 
 class EditPaymentPanelForm extends HoudiniForm {
-
 
 }
 
@@ -160,9 +161,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
 
   }
 
-   createDefinition<TInputType>(fieldDef:FieldDefinition<TInputType>) : FieldDefinition<TInputType> {
-    return fieldDef;
-  }
+  
 
   @action.bound
   loadFormFromData() {
@@ -171,18 +170,24 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
     let params: {[name:string]:FieldDefinition} = {
       'event': {name: 'event', label: 'Event', value: eventId},
       'campaign':  {name: 'campaign', label: 'Campaign', value: campaignId},
-      'gross_amount': {name: 'gross_amount', label: 'Gross Amount', value: centsToDollars(this.props.data.gross_amount)},
-    'fee_total': {name: 'fee_total', label: 'Fees', value: centsToDollars(this.props.data.fee_total)},
-    'date': this.createDefinition({name: 'date', label: 'Date',
+      'gross_amount': createFieldDefinition({name: 'gross_amount', label: 'Gross Amount', value: this.props.data.gross_amount,
+        input: (amount:number) => centsToDollars(amount),
+        output: (dollarString:string) => parseFloat(blacklist(dollarString, '$,'))
+      }),
+    'fee_total': createFieldDefinition({name: 'fee_total', label: 'Fees', value: this.props.data.fee_total,
+      input: (amount:number) => centsToDollars(amount),
+      output: (dollarString:string) => parseFloat(blacklist(dollarString, '$,'))
+    }),
+    'date': createFieldDefinition({name: 'date', label: 'Date',
       value: this.props.data.date,
       input: (isoTime:string) => this.nonprofitTimezonedDates.readable_date(isoTime),
       output:(date:string) =>  this.nonprofitTimezonedDates.readable_date_time_to_iso(date)}),
     'dedication': {name: 'dedication', label: 'Dedication', fields: [
-        this.createDefinition({name:'type', label: 'Dedication Type', value: this.dedication.type}),
-        this.createDefinition({name: 'supporter_id', type: 'hidden', value: this.dedication.supporter_id}),
-        this.createDefinition({name:'name', label:'Person dedicated for', value: this.dedication.name}),
-        this.createDefinition({name: 'contact', type: 'hidden', value: this.dedication.contact}),
-        this.createDefinition({name: 'note',  value: this.dedication.note})
+        createFieldDefinition({name:'type', label: 'Dedication Type', value: this.dedication.type}),
+        createFieldDefinition({name: 'supporter_id', type: 'hidden', value: this.dedication.supporter_id}),
+        createFieldDefinition({name:'name', label:'Person dedicated for', value: this.dedication.name}),
+        createFieldDefinition({name: 'contact', type: 'hidden', value: this.dedication.contact}),
+        createFieldDefinition({name: 'note',  value: this.dedication.note})
       ]},
     'designation': {name: 'designation', label: 'Designation', value: this.props.data.donation.designation},
     'comment': {name: 'comment', label: 'Note', value: this.props.data.donation.comment}
@@ -201,7 +206,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
 
     return new EditPaymentPanelForm({fields: _.values(params)}, {
       hooks: {
-        onSubmit: async (e: Field) => {
+        onSuccess: async (e: Field) => {
           await this.updateDonation()
         }
       }
@@ -346,7 +351,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
 
       <TwoColumnFields>
         <CurrencyField field={this.form.$('gross_amount')} label={"Gross Amount"} currencySymbol={"$"}/>
-        <CurrencyField field={this.form.$('fee_total')} label={"Processing Fees"}/>
+        <CurrencyField field={this.form.$('fee_total')} label={"Processing Fees"} mustBeNegative={true}/>
 
       </TwoColumnFields>
 

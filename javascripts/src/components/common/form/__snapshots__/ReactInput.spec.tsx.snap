@@ -7,11 +7,3 @@ exports[`ReactInput gets removed properly 1`] = `
   />
 </form>
 `;
-
-exports[`ReactInput no children passed in gets removed properly 1`] = `
-<form>
-  <button
-    onClick={[Function]}
-  />
-</form>
-`;

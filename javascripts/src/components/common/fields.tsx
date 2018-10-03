@@ -8,6 +8,8 @@ import {HoudiniField} from "../../lib/houdini_form";
 import ReactInput from "./form/ReactInput";
 import ReactSelect from './form/ReactSelect';
 import ReactTextarea from "./form/ReactTextarea";
+import ReactMaskedInput from "./form/ReactMaskedInput";
+import createNumberMask from "../../lib/createNumberMask";
 
 
 export const BasicField = observer((props:{field:Field, placeholder?:string, label?:string, wrapperClassName?:string, inputClassNames?:string}) =>{
@@ -44,17 +46,26 @@ export const TextareaField = observer((props:{field:Field, placeholder?:string, 
   </LabeledFieldComponent>
 })
 
-export const CurrencyField = observer((props:{field:Field,placeholder?:string, label?:string, currencySymbol?:string, wrapperClassName?:string, inputClassNames?:string}) => {
+export const CurrencyField = observer((props:{field:Field,placeholder?:string, label?:string, currencySymbol?:string, wrapperClassName?:string, inputClassNames?:string, mustBeNegative?:boolean, allowNegative?:boolean}) => {
   let field = props.field as HoudiniField
-  let currencySymbolId = props.field.id + "_____currency_symbol"
+  let currencySymbol = props.mustBeNegative ? "-$" : "$"
+  let allowNegative = props.allowNegative || !props.mustBeNegative
   return <LabeledFieldComponent
   inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
   inStickyError={field.hasServerError} stickyError={field.serverError}
   className={props.wrapperClassName} >
-    <div className="input-group">
-      <span className="input-group-addon" id={currencySymbolId}>{props.currencySymbol}</span>
-      <ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} aria-describedby={currencySymbolId}/>
-    </div>
+
+      <ReactMaskedInput field={field} label={props.label} placeholder={props.placeholder}
+                        className={`form-control ${props.inputClassNames}`} guide={true}
+                        mask={createNumberMask({allowDecimal:true,
+                          requireDecimal:true,
+                          prefix:currencySymbol,
+                          allowNegative:allowNegative,
+                          fixedDecimalScale:true
+                        })}
+                        showMask={true} placeholderChar={'0'}
+      />
+
   </LabeledFieldComponent>
 
 

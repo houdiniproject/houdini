@@ -89,29 +89,6 @@ appl.def('get_payment_purchase_object', function(payment) {
 	}
 })
 
-appl.def('update_donation', function(donation) {
-	if(!donation) return
-  appl.def('loading', true)
-  donation.gross_amount = format.dollarsToCents(donation.gross_amount)
-  donation.fee_total = format.dollarsToCents(donation.fee_total)
-  var formattedDate = appl.readable_date_time_to_iso(donation.date) 
-  if(formattedDate && formattedDate != "Invalid date") {
-    donation.date = formattedDate 
-  } else {
-    appl.notify('Please enter a valid date')
-    appl.def('loading', false)
-    return
-  }
-	request.put('/nonprofits/' + app.nonprofit_id + '/donations/' + donation.id)
-		.send({donation: donation})
-		.end(function(err, resp) {
-			appl.ajax_payment_details.fetch(appl.payment_details.data.id)
-      appl.def('loading', false)
-      appl.close_modal()
-      appl.notify('Donation successfully updated!')
-		})
-})
-
 appl.def('start_loading', function(){
   appl.def('loading', true)
 })

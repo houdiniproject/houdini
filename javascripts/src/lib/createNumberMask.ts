@@ -1,5 +1,6 @@
 // License: Unlicense
 // from: https://github.com/text-mask/text-mask/pull/760/commits/f66c81b62c4894b7da43862bee5943f659dc7537
+
 const dollarSign = '$'
 const emptyString = ''
 const comma = ','

@@ -25,7 +25,6 @@ interface NumberMaskProps {
   allowNegative?: boolean
   allowLeadingZeroes?: boolean
   fixedDecimalScale?:boolean
-  alwaysNegative?: boolean
 }
 
 export default function createNumberMask({
@@ -40,8 +39,7 @@ export default function createNumberMask({
                                            allowNegative = false,
                                            allowLeadingZeroes = false,
                                            fixedDecimalScale = false,
-                                           integerLimit = null,
-                                           alwaysNegative = false
+                                           integerLimit = null
                                          }:NumberMaskProps = {}) {
   const prefixLength = prefix && prefix.length || 0
   const suffixLength = suffix && suffix.length || 0

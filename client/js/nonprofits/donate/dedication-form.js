@@ -21,7 +21,7 @@ function view(state) {
       , type: 'radio'
       , id: radioId1
       , value: 'honor'
-      , selected: data.dedication_type === 'honor'
+      , selected: !data.dedication_type || data.dedication_type === 'honor'
       }})
     , h('label', {props: {htmlFor: radioId1}}, I18n.t('nonprofits.donate.dedication.in_honor_label'))
     ])

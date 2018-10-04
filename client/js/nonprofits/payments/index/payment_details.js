@@ -148,14 +148,17 @@ appl.def('format_dedication', function(dedic, node) {
     var json
     try { json = JSON.parse(dedic) } catch(e) {}
     if(json) {
+    	let supporter_link = (json.supporter_id && json.supporter_id != '') ?
+        `<a href='/nonprofits/${app.nonprofit_id}/supporters?sid=${json.supporter_id}'>${json.name}</a>` :
+				json.name
       inner = `
-        Donation made in ${dedic.type || 'honor'} of 
-        <a href='/nonprofits/${app.nonprofit_id}/supporters?sid=${json.supporter_id}'>${json.name}</a>.
+        Donation made in ${json.type || 'honor'} of 
+        ${supporter_link}.
         ${json.note ? `<br>Note: <em>${json.note}</em>.` : ''}
       `
     } else {
       // Print plaintext dedication
-      inner = dedic
+      inner = ''
     }
   }
   td.innerHTML = inner

@@ -16,33 +16,12 @@ language plpgsql
 immutable;
     SQL
 
-    result = Qx.select('id', 'dedication').from(:donations)
-                 .where("dedication IS NOT NULL AND dedication != ''")
-                 .and_where("NOT is_valid_json(dedication)").ex
-    result.map do |i|
-      output = {id: i['id']}
-      if i['dedication'] =~ /(((in (loving )?)?memory of|in memorium)\:? )(.+)/i
-        output[:dedication] = JSON.generate({type: 'memory', note: $+ })
-      elsif i['dedication'] =~ /((in honor of|honor of)\:? )(.+)/i
-        output[:dedication] = JSON.generate({type: 'honor', note: $+ })
-      else
-        output[:dedication] = JSON.generate({type: 'honor', note: i['dedication'] })
-      end
-      output
-    end.each do |i|
-      Qx.update(:donations).where('id = $id', {id: i[:id]}).set({dedication: i[:dedication]}).ex
-    end
+    dedications = MaintainDedications.retrieve_non_json_dedications
 
-    #
-    # result = Qx.select('id', 'dedication').from(:donations)
-    #              .where("id IN ($ids)", ids: result.map{|i| i['id']}).ex
-    #
-    # puts result
+    MaintainDedications.create_json_dedications_from_plain_text(dedications)
 
-
-    execute <<-SQL
-    drop function is_valid_json(text);
-    SQL
+    dedications = MaintainDedications.retrieve_json_dedications
+    MaintainDedications.add_honor_to_any_json_dedications_without_type(dedications)
   end
 
   def down

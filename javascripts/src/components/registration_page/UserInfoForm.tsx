@@ -47,18 +47,22 @@ class UserInfoForm extends React.Component<UserInfoFormProps & InjectedIntlProps
         <BasicField field={this.props.form.$("name")}
             label={
               this.props.intl.formatMessage({id: "registration.wizard.contact.name.label"})}
-            placeholder={this.props.intl.formatMessage({id: "registration.wizard.contact.name.placeholder"})}/>
+            placeholder={this.props.intl.formatMessage({id: "registration.wizard.contact.name.placeholder"})}
+                    inputClassNames={"input-lg"}/>
         <BasicField field={this.props.form.$('email')}
           label={this.props.intl.formatMessage({id: "registration.wizard.contact.email.label"})}
           placeholder={this.props.intl.formatMessage({id: "registration.wizard.contact.email.placeholder"})}
+                    inputClassNames={"input-lg"}
         />
       </TwoColumnFields>
 
       <BasicField field={this.props.form.$('password')}
                   label={this.props.intl.formatMessage({id:'registration.wizard.contact.password.label'})}
+                  inputClassNames={"input-lg"}
                   />
       <BasicField field={this.props.form.$('password_confirmation')}
                   label={this.props.intl.formatMessage({id:'registration.wizard.contact.password_confirmation.label'})}
+                  inputClassNames={"input-lg"}
       />
 
 

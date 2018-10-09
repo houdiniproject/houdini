@@ -22,4 +22,10 @@
 <br>
 <%= render 'donation_mailer/donation_payment_table', donation: @donation, charge: @donation.charges.last %>
 
+<% if @donation.recurring_donation %>
+<p>
+  <%= t('mailer.donations.donor_receipt.recurring_donation_cancel_modify_html', management_url: edit_recurring_donation_url(@donation.recurring_donation, {t: @donation.recurring_donation.edit_token}))%>
+</p>
+<% end %>
+
 <%= render 'emails/powered_by' %>

@@ -10,6 +10,8 @@ en:
         body: 'Comment content'
   organization:
     name: "Organisation"
+  organization_page:
+    promote: "Promote this organization"
   donation:
    amount: "Total Amount"
    date: "Transaction Date"

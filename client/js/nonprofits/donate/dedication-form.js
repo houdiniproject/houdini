@@ -21,7 +21,7 @@ function view(state) {
       , type: 'radio'
       , id: radioId1
       , value: 'honor'
-      , selected: !data.dedication_type || data.dedication_type === 'honor'
+      , checked: !data.dedication_type || data.dedication_type === 'honor'
       }})
     , h('label', {props: {htmlFor: radioId1}}, I18n.t('nonprofits.donate.dedication.in_honor_label'))
     ])
@@ -31,7 +31,7 @@ function view(state) {
       , type: 'radio'
       , value: 'memory'
       , id: radioId2
-      , selected: data.dedication_type === 'memory'
+      , checked: data.dedication_type === 'memory'
       }})
     , h('label', {props: {htmlFor: radioId2}}, I18n.t('nonprofits.donate.dedication.in_memory_label'))
     ])

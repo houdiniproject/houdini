@@ -3,7 +3,6 @@ import * as React from 'react';
 import {observer} from "mobx-react";
 import {Field} from "../../../../types/mobx-react-form";
 import LabeledFieldComponent from "./LabeledFieldComponent";
-import {injectIntl, InjectedIntl} from 'react-intl';
 import {HoudiniField} from "../../lib/houdini_form";
 import ReactInput from "./form/ReactInput";
 import ReactSelect from './form/ReactSelect';

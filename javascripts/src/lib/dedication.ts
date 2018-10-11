@@ -3,7 +3,11 @@ export interface Dedication {
   type?:'honor'|'memory',
   supporter_id?: number,
   name?:string
-  contact?: string,
+  contact?: {
+    email?: string,
+    phone?:string
+    address?:string
+  }
   note?:string
 }
 

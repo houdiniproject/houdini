@@ -9,7 +9,7 @@ import {ReactWrapper} from 'enzyme';
 import {WizardPanel} from "./WizardPanel";
 
 import {mountForMobxWithIntl, runTestsOnConditions, TriggerAndAction} from "../test/react_test_helpers";
-import {UniqueIdMock} from "../tests/unique_id_mock";
+import {UniqueIdMock} from "../test/unique_id_mock";
 
 let uniqueIdMock = new UniqueIdMock();
 class MockableTabPanelState extends WizardTabPanelState

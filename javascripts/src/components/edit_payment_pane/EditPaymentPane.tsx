@@ -2,25 +2,25 @@
 import * as React from 'react';
 import {observer} from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
-import {action, computed, observable, runInAction} from "mobx";
-import {Field, FieldDefinition, Form} from "../../../../types/mobx-react-form";
+import {action, computed} from "mobx";
+import {FieldDefinition} from "mobx-react-form";
 import {HoudiniForm} from "../../lib/houdini_form";
 import ProgressableButton from "../common/ProgressableButton";
-import AriaModal = require('react-aria-modal');
 import {centsToDollars, dollarsToCents, readableInterval, readableKind} from "../../lib/format";
-import {NonprofitTimezonedDates, readable_date} from '../../lib/date';
+import {NonprofitTimezonedDates} from '../../lib/date';
 import {UpdateDonationModel, PutDonation} from "../../lib/api/put_donation";
 import {ApiManager} from "../../lib/api_manager";
 import * as CustomAPIS from "../../lib/apis";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 import {BasicField, CurrencyField, SelectField, TextareaField} from '../common/fields';
-import ReactTextarea from "../common/form/ReactTextarea";
 import {TwoColumnFields} from "../common/layout";
 import {Validations} from "../../lib/vjf_rules";
 import _ = require("lodash");
 import {Dedication, parseDedication, serializeDedication} from '../../lib/dedication';
 import blacklist = require("validator/lib/blacklist");
 import {createFieldDefinition} from "../../lib/mobx_utils";
+import Modal from "../common/Modal";
+import ReactInput from "../common/form/ReactInput";
 
 
 interface Charge {
@@ -40,7 +40,7 @@ interface Donation {
   campaign?: { id: number }
   dedication?: string
   recurring_donation?: RecurringDonation
-  id:number
+  id: number
 }
 
 interface PaymentData {
@@ -55,7 +55,7 @@ interface PaymentData {
   net_amount: number
   origin_url?: string
   charge?: Charge,
-  nonprofit: {id:number}
+  nonprofit: { id: number }
 }
 
 interface OffsitePayment {
@@ -67,11 +67,14 @@ export interface EditPaymentPaneProps {
   data: PaymentData
   events: FundraiserInfo[]
   campaigns: FundraiserInfo[]
+
+  nonprofitTimezone?: string
+  preupdateDonationAction: () => void
+  postUpdateSuccess: () => void
+
+  //from ModalProps
   onClose: () => void
   modalActive: boolean
-  nonprofitTimezone?: string
-  preupdateDonationAction:() => void
-  postUpdateSuccess: () => void
 }
 
 export interface FundraiserInfo {
@@ -79,7 +82,7 @@ export interface FundraiserInfo {
   name: string
 }
 
-class EditPaymentPanelForm extends HoudiniForm {
+class EditPaymentPaneForm extends HoudiniForm {
 
 }
 
@@ -89,23 +92,23 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
 
   constructor(props: EditPaymentPaneProps & InjectedIntlProps) {
     super(props);
-    this.putDonation = new ApiManager(CustomAPIS.APIS as Array<any>, CSRFInterceptor).get(PutDonation)
+    this.putDonation = new ApiManager(CustomAPIS.APIS as Array<any>, CSRFInterceptor).get(PutDonation);
 
     this.loadFormFromData()
 
   }
 
   @computed
-  get nonprofitTimezonedDates():NonprofitTimezonedDates {
+  get nonprofitTimezonedDates(): NonprofitTimezonedDates {
     return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
   }
 
   @computed
-  get dedication(): Dedication|null {
-    return parseDedication(this.props.data.donation && this.props.data.donation.dedication)
+  get dedication(): Dedication | null {
+    return parseDedication(this.props.data && this.props.data.donation && this.props.data.donation.dedication)
   }
 
-  putDonation : PutDonation
+  putDonation: PutDonation;
 
   @action.bound
   async updateDonation() {
@@ -114,106 +117,130 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
     }
 
 
-    let updateData:UpdateDonationModel = {
-        id: Number(this.props.data.donation.id),
-        donation: {
-          designation: this.form.$('designation').value,
-          comment: this.form.$('comment').value,
-          campaign_id: this.form.$('campaign').value,
-          event_id: this.form.$('event').value,
-          gross_amount: dollarsToCents(this.form.$('gross_amount').get('value')),
-          fee_total: dollarsToCents(this.form.$('fee_total').get('value')),
+    let updateData: UpdateDonationModel = {
+      id: Number(this.props.data.donation.id),
+      donation: {
+        designation: this.form.$('designation').value,
+        comment: this.form.$('comment').value,
+        campaign_id: this.form.$('campaign').value,
+        event_id: this.form.$('event').value,
+        gross_amount: dollarsToCents(this.form.$('gross_amount').get('value')),
+        fee_total: dollarsToCents(this.form.$('fee_total').get('value')),
 
-          date: this.form.$('date').get('value')
-        }
-    }
+        date: this.form.$('date').get('value')
+      }
+    };
 
     if (this.form.$('dedication.type').get('value') != '') {
+      const nameToValueForContact = ['full_address', 'phone', 'email'].map((i) => {
+        return {
+          name: i, value: this.form.$(`dedication.${i}`).get('value')
+        }
+      });
+      const contact = _.some(nameToValueForContact, (i) => i.value && i.value != "") ?
+        _.reduce(nameToValueForContact, (result: any, i) => {
+          result[i.name] = i.value;
+          return result;
+        }, {}) : undefined;
+
       updateData.donation.dedication = serializeDedication({
         type: this.form.$('dedication.type').get('value'),
         supporter_id: this.form.$('dedication.supporter_id').get('value'),
-        name:  this.form.$('dedication.name').get('value'),
-        contact:this.form.$('dedication.contact').get('value'),
+        name: this.form.$('dedication.name').get('value'),
+        contact: contact,
         note: this.form.$('dedication.note').get('value')
-      })
+      });
     }
     else {
-      updateData.donation.dedication = ""
+      updateData.donation.dedication = "";
     }
 
-    if (this.form.has('check_number'))
-    {
+    if (this.form.has('check_number')) {
       updateData.donation.check_number = this.form.$('check_number').value
     }
 
 
-    await this.putDonation.putDonation(updateData, this.props.data.nonprofit.id)
+    await this.putDonation.putDonation(updateData, this.props.data.nonprofit.id);
 
 
-    if(this.props.postUpdateSuccess){
+    if (this.props.postUpdateSuccess) {
       try {
         this.props.postUpdateSuccess()
       }
-      catch {}
+      catch {
+      }
     }
 
     this.props.onClose()
 
   }
 
-  
 
   @action.bound
   loadFormFromData() {
     const eventId = this.props.data.donation.event && this.props.data.donation.event.id;
     const campaignId = this.props.data.donation.campaign && this.props.data.donation.campaign.id;
-    let params: {[name:string]:FieldDefinition} = {
+    let params: { [name: string]: FieldDefinition } = {
       'event': {name: 'event', label: 'Event', value: eventId},
-      'campaign':  {name: 'campaign', label: 'Campaign', value: campaignId},
-      'gross_amount': createFieldDefinition({name: 'gross_amount', label: 'Gross Amount', value: this.props.data.gross_amount,
-        input: (amount:number) => centsToDollars(amount),
-        output: (dollarString:string) => parseFloat(blacklist(dollarString, '$,'))
+      'campaign': {name: 'campaign', label: 'Campaign', value: campaignId},
+      'gross_amount': createFieldDefinition({
+        name: 'gross_amount', label: 'Gross Amount', value: this.props.data.gross_amount,
+        input: (amount: number) => centsToDollars(amount),
+        output: (dollarString: string) => parseFloat(blacklist(dollarString, '$,'))
       }),
-    'fee_total': createFieldDefinition({name: 'fee_total', label: 'Fees', value: this.props.data.fee_total,
-      input: (amount:number) => centsToDollars(amount),
-      output: (dollarString:string) => parseFloat(blacklist(dollarString, '$,'))
-    }),
-    'date': createFieldDefinition({name: 'date', label: 'Date',
-      value: this.props.data.date,
-      input: (isoTime:string) => this.nonprofitTimezonedDates.readable_date(isoTime),
-      output:(date:string) =>  this.nonprofitTimezonedDates.readable_date_time_to_iso(date)}),
-    'dedication': {name: 'dedication', label: 'Dedication', fields: [
-        createFieldDefinition({name:'type', label: 'Dedication Type', value: this.dedication.type}),
-        createFieldDefinition({name: 'supporter_id', type: 'hidden', value: this.dedication.supporter_id}),
-        createFieldDefinition({name:'name', label:'Person dedicated for', value: this.dedication.name}),
-        createFieldDefinition({name: 'contact', type: 'hidden', value: this.dedication.contact}),
-        createFieldDefinition({name: 'note',  value: this.dedication.note})
-      ]},
-    'designation': {name: 'designation', label: 'Designation', value: this.props.data.donation.designation},
-    'comment': {name: 'comment', label: 'Note', value: this.props.data.donation.comment}
+      'fee_total': createFieldDefinition({
+        name: 'fee_total', label: 'Fees', value: this.props.data.fee_total,
+        input: (amount: number) => centsToDollars(amount),
+        output: (dollarString: string) => parseFloat(blacklist(dollarString, '$,'))
+      }),
+      'date': createFieldDefinition({
+        name: 'date', label: 'Date',
+        value: this.props.data.date,
+        input: (isoTime: string) => this.nonprofitTimezonedDates.readable_date(isoTime),
+        output: (date: string) => this.nonprofitTimezonedDates.readable_date_time_to_iso(date)
+      }),
+      'dedication': {
+        name: 'dedication', label: 'Dedication', fields: [
+          createFieldDefinition({name: 'type', label: 'Dedication Type', value: this.dedication && this.dedication.type}),
+          createFieldDefinition({name: 'supporter_id', type: 'hidden', value: this.dedication && this.dedication.supporter_id}),
+          createFieldDefinition({name: 'name', label: 'Person dedicated for', value: this.dedication && this.dedication.name}),
+          createFieldDefinition({name: 'full_address', label: 'Full address', value: this.dedication && this.dedication.contact && this.dedication.contact.address}),
+          createFieldDefinition({name: 'phone', label: 'Phone', value: this.dedication && this.dedication.contact && this.dedication.contact.phone}),
+          createFieldDefinition({name: 'email', label: 'email', value: this.dedication && this.dedication.contact && this.dedication.contact.email}),
+          createFieldDefinition({name: 'note', value: this.dedication && this.dedication.note})
+        ]
+      },
+      'designation': {name: 'designation', label: 'Designation', value: this.props.data.donation.designation},
+      'comment': {name: 'comment', label: 'Note', value: this.props.data.donation.comment}
     };
 
 
+
+
     if (this.props.data.kind == 'OffsitePayment') {
-      params.check_number = {name: 'check_number', label: 'Check Number', value: this.props.data.offsite_payment.check_number}
+      params.check_number = {
+        name: 'check_number',
+        label: 'Check Number',
+        value: this.props.data.offsite_payment.check_number
+      };
 
-      params.date.validators = [Validations.isDate('MM/DD/YYYY')]
+      params.date.validators = [Validations.isDate('MM/DD/YYYY')];
 
-      params.gross_amount.validators  = [Validations.isGreaterThanOrEqualTo(0.01)];
-      params.fee_total.validators  = [Validations.optional(Validations.isLessThanOrEqualTo(0))];
+      params.gross_amount.validators = [Validations.isGreaterThanOrEqualTo(0.01)];
+      params.fee_total.validators = [Validations.optional(Validations.isLessThanOrEqualTo(0))];
 
     }
 
-    return new EditPaymentPanelForm({fields: _.values(params)}, {
+    return new EditPaymentPaneForm({fields: _.values(params)}, {
       hooks: {
-        onSuccess: async (e: Field) => {
+        onSuccess: async () => {
           await this.updateDonation()
         }
       }
     })
   }
 
-  @computed get form(): EditPaymentPanelForm {
+  @computed get form(): EditPaymentPaneForm {
     //add this.props because we need to reload on prop change
     return this.props && this.loadFormFromData()
   }
@@ -222,9 +249,9 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
     return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
   }
 
-  render() {
-
-    let rd = this.props.data.donation && this.props.data.donation.recurring_donation;
+  @action.bound
+  innerRender() {
+    let rd = this.props.data && this.props.data.donation && this.props.data.donation.recurring_donation;
     let initialTable = <table className='table--small u-marginBottom--10'>
 
       <thead>
@@ -355,85 +382,112 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
 
       </TwoColumnFields>
 
-      <BasicField field={this.form.$('date')} label={"Date"} />
+      <BasicField field={this.form.$('date')} label={"Date"}/>
 
 
       {checkNumber}
     </div>) : undefined;
+    return <div className={"tw-bs"}>
+      <div>
+        {initialTable}
 
-    const modal = this.props.modalActive ?
-      <AriaModal mounted={this.props.modalActive} titleText={'Edit Donation'} focusDialog={true}
-                 onExit={this.props.onClose} dialogStyle={{minWidth:'768px'}}>
-        <header className='modal-header'>
-          <h4 className='modal-header-title'>Edit Donation</h4>
-        </header>
-        <div className="modal-body">
-          <div className={"tw-bs"}>
-            <div>
-          {initialTable}
+        <form className='u-marginTop--20'>
 
-          <form className='u-marginTop--20'>
-
-            {offsitePayment}
+          {offsitePayment}
 
 
-            <SelectField field={this.form.$('campaign')}
-                         label={"Campaign"}
-                         options={this.props.campaigns}/>
+          <SelectField field={this.form.$('campaign')}
+                       label={"Campaign"}
+                       options={this.props.campaigns}/>
 
 
-            <SelectField field={this.form.$('event')}
-                         label={"Event"}
-                         options={this.props.events} />
+          <SelectField field={this.form.$('event')}
+                       label={"Event"}
+                       options={this.props.events}/>
 
 
+          <TextareaField field={this.form.$('designation')} label={"Designation"} rows={3}/>
 
-            <TextareaField field={this.form.$('designation')} label={"Designation"} rows={3} />
+          <div className="panel panel-default">
+            <div className="panel-heading"><label>Dedication</label></div>
+            <div className="panel-body">
+              <SelectField field={this.form.$('dedication.type')} label={"Dedication Type"}
+                           options={[{id: null, name: ''}, {id: 'honor', name: 'In honor of'}, {
+                             id: 'memory',
+                             name: 'In memory of'
+                           }]}/>
 
-            <div className="panel panel-default">
-              <div className="panel-heading"><label>Dedication</label></div>
-              <div className="panel-body">
-                <SelectField field={this.form.$('dedication.type')} label={"Dedication Type"} options={[{id: null, name: ''}, {id: 'honor', name: 'In honor of'}, {id:'memory', name: 'In memory of'}]} />
+              {this.form.$('dedication.type').get('value') != '' ? <div>
+                  <div className={"panel panel-default"}>
+                    <div className="panel-heading"><label>Dedicated to:</label></div>
+                    <div className={'panel-body'}>
+                      <table className='table--small u-marginBottom--10'>
+                        <tbody>
+                        <tr>
+                          <th>Name</th>
+                          <td><ReactInput field={this.form.$('dedication.name')} label={'Name'} className={"form-control"}/></td>
+                        </tr>
+                        <tr>
+                          <th> Supporter
+                            ID
+                          </th>
+                          <td>{this.dedication.supporter_id}<input {...this.form.$('dedication.supporter_id').bind()}/>
+                          </td>
+                        </tr>
 
-                { this.form.$('dedication.type').get('value') != '' ? <div> <div className={"panel panel-default"}>
-                  <div className="panel-heading"><label>Dedicated to:</label></div>
-                  <div className={'panel-body'}>
-                    <table className='table--small u-marginBottom--10'>
-                      <tr>
-                        <th>Name</th>
-                        <td><input {...this.form.$('dedication.name').bind()}/></td>
-                      </tr>
-                      <tr>
-                      <th > Supporter
-                   ID</th>
-                    <td>{this.dedication.supporter_id}<input {...this.form.$('dedication.supporter_id').bind()}/></td>
-                    </tr>
-                    </table>
+                        <tr>
+                          <th>Full Address
+                          </th>
+                          <td><ReactInput field={this.form.$('dedication.full_address')}  className={"form-control"}/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Phone Number
+                          </th>
+                          <td><ReactInput field={this.form.$('dedication.phone')} className={"form-control"}/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th>Email Address
+                          </th>
+                          <td><ReactInput field={this.form.$('dedication.email')}  className={"form-control"}/>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
-                    <TextareaField rows={3} placeholder={"Dedication"} field={this.form.$('dedication.note')} label={"Dedication Note"}/></div>
-                  : undefined }
-              </div>
+                  <TextareaField rows={3} placeholder={"Dedication"} field={this.form.$('dedication.note')}
+                                 label={"Dedication Note"}/></div>
+                : undefined}
             </div>
-
-
-            <TextareaField field={this.form.$('comment')} label={"Notes"} rows={3} />
-
-
-            <ProgressableButton buttonText={'Save'}
-                                buttonTextOnProgress={'Updating...'} className={'button'}
-                                inProgress={this.form.submitting}
-                                disabled={!this.form.isValid}
-                                disableOnProgress={true} onClick={this.form.onSubmit}/>
-
-
-          </form>
-        </div>
           </div>
-        </div>
-      </AriaModal> : false;
 
-    return (<div>{modal}</div>)
+
+          <TextareaField field={this.form.$('comment')} label={"Notes"} rows={3}/>
+
+
+          <ProgressableButton buttonText={'Save'}
+                              buttonTextOnProgress={'Updating...'} className={'button'}
+                              inProgress={this.form.submitting}
+                              disabled={!this.form.isValid}
+                              disableOnProgress={true} onClick={this.form.onSubmit}/>
+
+
+        </form>
+      </div>
+    </div>
+  }
+
+  render() {
+
+
+
+    const modal =
+      <Modal modalActive={this.props.modalActive} titleText={'Edit Donation'} focusDialog={true}
+             onClose={this.props.onClose} dialogStyle={{minWidth: '768px'}} childGenerator={() => this.innerRender()}/>
+
+    return modal;
   }
 }
 

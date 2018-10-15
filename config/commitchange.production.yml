@@ -8,6 +8,9 @@ mailer:
 cdn:
   url: "https://d2e5we1j08b82a.cloudfront.net"
 
+api_domain:
+  url: 'https://us.commitchange.com'
+
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>

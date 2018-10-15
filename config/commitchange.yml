@@ -35,8 +35,8 @@ payment_provider:
   stripe_proprietary_v2_js: true
 
 default_bp:
-  id: 40
-  percentage_fee: 0.020
+  id: 42
+  percentage_fee: 0.030
 
 devise:
   mailer_sender: "support@commitchange.com"

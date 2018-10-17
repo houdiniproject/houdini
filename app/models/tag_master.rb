@@ -12,6 +12,7 @@ class TagMaster < ActiveRecord::Base
 
 	belongs_to :nonprofit
 	has_many :tag_joins, dependent: :destroy
+	has_one :email_list
 
 	scope :not_deleted, ->{where(deleted: [nil,false])}
 

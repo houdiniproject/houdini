@@ -8,6 +8,7 @@ class TagJoin < ActiveRecord::Base
 	validates :tag_master, presence: true
 
 	belongs_to :tag_master
+	belongs_to :supporter
 
 	def name; self.tag_master.name; end
 

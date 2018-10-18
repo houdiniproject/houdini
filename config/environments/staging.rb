@@ -4,7 +4,7 @@ Commitchange::Application.configure do
 
 	# Code is not reloaded between requests
 	config.cache_classes = true
-	config.cache_store = Settings.default.cache_store.to_sym, {:expires_in => 1.min, :compress => true }
+	config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 4.hours, :compress => true }
 
 	# Full error reports are disabled and caching is turned on
 	config.consider_all_requests_local = false

@@ -203,11 +203,21 @@ module Mailchimp
   def self.get_list_mailchimp_subscribers(email_list)
     mailchimp_token = get_mailchimp_token(email_list.tag_master.nonprofit.id)
     uri = base_uri(mailchimp_token)
-    result = get(uri + "/lists/#{email_list.mailchimp_list_id}/members",  {
+    result = get(uri + "/lists/#{email_list.mailchimp_list_id}/members?count=1000000000",  {
       basic_auth: {username: "CommitChange", password: mailchimp_token},
       headers: {'Content-Type' => 'application/json'}})
     members = result['members'].map do |i| 
       {id: i['id'], email_address: i['email_address']}
     end.to_a    
+  end
+
+  def self.get_email_lists(nonprofit)
+    mailchimp_token = get_mailchimp_token(nonprofit.id)
+    uri = base_uri(mailchimp_token)
+    result = get(uri + "/lists",  {
+      basic_auth: {username: "CommitChange", password: mailchimp_token},
+      headers: {'Content-Type' => 'application/json'}})
+    result['lists']
+    
   end
 end

@@ -96,6 +96,7 @@ appl.def('start_loading', function(){
 appl.def('update_donation__success', function() {
   appl.ajax_payment_details.fetch(appl.payment_details.data.id)
   appl.def('loading', false)
+	// appl.close_modal()
   appl.notify('Donation successfully updated!')
 })
 

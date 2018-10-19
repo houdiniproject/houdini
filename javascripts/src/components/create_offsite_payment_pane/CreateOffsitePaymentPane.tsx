@@ -180,6 +180,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
   }
 
   render() {
+    this.form.values()
     const modal =
       <Modal modalActive={this.props.modalActive} titleText={'Edit Donation'} focusDialog={true}
              onClose={this.props.onClose} dialogStyle={{minWidth:'768px'}} childGenerator={() => {

@@ -10,7 +10,7 @@ export interface ModalProps
   titleText?: string
   focusDialog?:boolean
   dialogStyle?:any
-  childGenerator:() => JSX.Element
+  childGenerator:() => any
 }
 
 class Modal extends React.Component<ModalProps, {}> {

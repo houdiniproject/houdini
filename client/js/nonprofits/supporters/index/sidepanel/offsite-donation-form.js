@@ -16,7 +16,7 @@ function init(parentState) {
   var state = {
     submit$: flyd.stream()
   , supporter$: parentState.supporter$
-  , saved$: flyd.stream(Math.random())
+  , saved$: flyd.stream()
   }
   
 

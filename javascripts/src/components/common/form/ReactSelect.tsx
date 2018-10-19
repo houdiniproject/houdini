@@ -23,14 +23,9 @@ class ReactSelect extends React.Component<InputTypes, {}> {
     super(props)
   }
 
-  @observable
-  field:Field
-
 
   @action.bound
   componentWillMount(){
-
-    this.field = this.props.field
 
 
     this.updateProps()
@@ -46,8 +41,8 @@ class ReactSelect extends React.Component<InputTypes, {}> {
 
   @action.bound
   updateProps() {
-    this.field.set('label', castToNullIfUndef(this.props.label))
-    this.field.set('placeholder', castToNullIfUndef(this.props.placeholder))
+    this.props.field.set('label', castToNullIfUndef(this.props.label))
+    this.props.field.set('placeholder', castToNullIfUndef(this.props.placeholder))
   }
 
 
@@ -64,7 +59,7 @@ class ReactSelect extends React.Component<InputTypes, {}> {
 
   render() {
 
-    return <select {...this.winnowProps()} {...this.field.bind()}>
+    return <select {...this.winnowProps()} {...this.props.field.bind()}>
       { this.props.options ? this.props.options.map(option =>
         <option key={option.id} value={option.id}>{option.name}</option>
       ) : this.props.children

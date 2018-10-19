@@ -275,12 +275,12 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
           {readableKind(this.props.data.kind)}
 
           {
-            this.props.data.offsite_payment && this.props.data.offsite_payment ?
+            this.props.data.offsite_payment && this.props.data.offsite_payment && this.props.data.offsite_payment.kind ?
 
               <span>
 
                 &nbsp; ({this.props.data.offsite_payment.kind})
-              </span> : false
+              </span> : undefined
 
           }
         </td>
@@ -481,7 +481,8 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
 
   render() {
 
-
+    //force it to check the form values so this updates
+    this.form.values()
 
     const modal =
       <Modal modalActive={this.props.modalActive} titleText={'Edit Donation'} focusDialog={true}

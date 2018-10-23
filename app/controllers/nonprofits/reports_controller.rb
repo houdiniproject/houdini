@@ -22,10 +22,13 @@ module Nonprofits
             name_description = params[:year]
           elsif (params[:start])
             name_description = "from-#{params[:start]}"
+            if (params[:end])
+              name_description += "-to-#{params[:end]}"
+            end
           end
 
-          filename = "end-of-year-report-#{name_description}.csv"
-          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {:year => params[:year], :start => params[:start]})
+          filename = "aggregate-report-#{name_description}.csv"
+          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {:year => params[:year], :start => params[:start], :end => params[:end]})
           send_data(Format::Csv.from_array(data), filename: filename)
         end
       end

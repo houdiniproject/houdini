@@ -22,6 +22,7 @@ import blacklist = require("validator/lib/blacklist");
 import * as _ from 'lodash'
 import moment = require('moment');
 import { castToUndefinedIfBlank } from '../../lib/utils';
+import ReactInput from "../common/form/ReactInput";
 
 export interface CreateOffsitePaymentPaneProps
 {
@@ -84,11 +85,22 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
     }
 
     if (this.form.$('dedication.type').get('value') != '') {
+      const nameToValueForContact = ['full_address', 'phone', 'email'].map((i) => {
+        return {
+          name: i, value: this.form.$(`dedication.${i}`).get('value')
+        }
+      });
+      const contact = _.some(nameToValueForContact, (i) => i.value && i.value != "") ?
+        _.reduce(nameToValueForContact, (result: any, i) => {
+          result[i.name] = i.value;
+          return result;
+        }, {}) : undefined;
+
       postData.dedication = serializeDedication({
         type: this.form.$('dedication.type').get('value'),
         supporter_id: this.form.$('dedication.supporter_id').get('value'),
         name:  this.form.$('dedication.name').get('value'),
-        contact:this.form.$('dedication.contact').get('value'),
+        contact: contact,
         note: this.form.$('dedication.note').get('value')
       })
     }
@@ -145,8 +157,10 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
           createFieldDefinition({name:'type', label: 'Dedication Type'}),
           createFieldDefinition({name: 'supporter_id', type: 'hidden'}),
           createFieldDefinition({name:'name', label:'Person dedicated for'}),
-          createFieldDefinition({name: 'contact', type: 'hidden'}),
-          createFieldDefinition({name: 'note'})
+          createFieldDefinition({name: 'full_address', label: 'Full address'}),
+          createFieldDefinition({name: 'phone', label: 'Phone'}),
+          createFieldDefinition({name: 'email', label: 'Email'}),
+          createFieldDefinition({name: 'note', label: 'Dedication Note', type: 'textarea'})
         ]},
       'designation': {name: 'designation', label: 'Designation'},
       'comment': {name: 'comment', label: 'Note'}
@@ -182,7 +196,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
   render() {
     this.form.values()
     const modal =
-      <Modal modalActive={this.props.modalActive} titleText={'Edit Donation'} focusDialog={true}
+      <Modal modalActive={this.props.modalActive} titleText={'Create Offsite Donation'} focusDialog={true}
              onClose={this.props.onClose} dialogStyle={{minWidth:'768px'}} childGenerator={() => {
         return <div className={"tw-bs"}>
           <form className='u-marginTop--20'>
@@ -206,21 +220,48 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
             <div className="panel panel-default">
               <div className="panel-heading"><label>Dedication <small> (optional)</small></label></div>
               <div className="panel-body">
-                <SelectField field={this.form.$('dedication.type')} label={"Dedication Type"} options={[{id: null, name: ''}, {id: 'honor', name: 'In honor of'}, {id:'memory', name: 'In memory of'}]} />
+                <SelectField field={this.form.$('dedication.type')} label={"Dedication Type"}
+                             options={[{id: null, name: ''}, {id: 'honor', name: 'In honor of'}, {
+                               id: 'memory',
+                               name: 'In memory of'
+                             }]}/>
 
-                { this.form.$('dedication.type').get('value') != '' ? <div> <div className={"panel panel-default"}>
-                    <div className="panel-heading"><label>Dedicated to:</label></div>
-                    <div className={'panel-body'}>
-                      <table className='table--small u-marginBottom--10'>
-                        <tr>
-                          <th>Name</th>
-                          <td><input {...this.form.$('dedication.name').bind()}/></td>
-                        </tr>
-                      </table>
+                {this.form.$('dedication.type').get('value') != '' ? <div>
+                    <div className={"panel panel-default"}>
+                      <div className="panel-heading"><label>Dedicated to:</label></div>
+                      <div className={'panel-body'}>
+                        <table className='table--small u-marginBottom--10'>
+                          <tbody>
+                          <tr>
+                            <th>Name</th>
+                            <td><ReactInput field={this.form.$('dedication.name')} label={'Name'} className={"form-control"}/></td>
+                          </tr>
+
+                          <tr>
+                            <th>Full Address
+                            </th>
+                            <td><ReactInput field={this.form.$('dedication.full_address')}  className={"form-control"}/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>Phone Number
+                            </th>
+                            <td><ReactInput field={this.form.$('dedication.phone')} className={"form-control"}/>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>Email Address
+                            </th>
+                            <td><ReactInput field={this.form.$('dedication.email')}  className={"form-control"}/>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                  </div>
-                    <TextareaField rows={3} placeholder={"Dedication"} field={this.form.$('dedication.note')} label={"Dedication Note"}/></div>
-                  : undefined }
+                    <TextareaField rows={3} placeholder={"Dedication"} field={this.form.$('dedication.note')}
+                                   label={"Dedication Note"}/></div>
+                  : undefined}
               </div>
             </div>
 

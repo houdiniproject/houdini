@@ -1,42 +1,37 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import 'jest';
-import ReactInput from './ReactInput'
 import {Form} from "mobx-react-form";
-import {mount} from 'enzyme';
-import {toJS, observable, action, runInAction} from 'mobx';
-import {observer} from 'mobx-react';
 import {ReactForm} from "./ReactForm";
+import {action, observable, toJS} from 'mobx';
+import ReactTextarea from './ReactTextarea';
+import {observer} from 'mobx-react';
+import {mount} from 'enzyme';
 
 
 @observer
-class TestChange extends React.Component {
+class TestChange extends React.Component{
   @observable
-  remove: boolean
+  remove:boolean
   @observable
   form: Form
 
   @action.bound
-  componentWillMount() {
-    this.form = new Form({
-      fields: [{
+  componentWillMount(){
+    this.form = new Form({fields:[{
         name: 'name',
-        extra: null
-      }
-      ]
-    })
+        extra: null}
+      ]})
   }
-
 
   @action.bound
-  onClick() {
+  onClick(){
     this.remove = true
   }
-
   render() {
-    let reactInput = !this.remove ? <ReactInput field={this.form.$('name')} label={'label1'} placeholder={"holder"}>
+    let reactInput = !this.remove ?  <ReactTextarea field={this.form.$('name')} label={'label1'} placeholder={"holder"} rows={3}>
 
-    </ReactInput> : undefined
+    </ReactTextarea> : undefined
 
     return <ReactForm form={this.form}>
 
@@ -46,8 +41,7 @@ class TestChange extends React.Component {
   }
 }
 
-describe('ReactInput', () => {
-
+describe('ReactTextarea', () => {
   let form: Form
   beforeEach(() => {
     form = new Form({
@@ -62,8 +56,8 @@ describe('ReactInput', () => {
 
   test('gets added properly', () => {
     let res = mount(<ReactForm form={form}>
-      <ReactInput field={form.$('name')} label={"label"}
-                  placeholder={"holder"} value={'snapshot'} aria-required={true}/>
+      <ReactTextarea field={form.$('name')} label={"label"}
+                  placeholder={"holder"} value={'snapshot'} aria-required={true} rows={3}/>
 
     </ReactForm>)
 
@@ -74,8 +68,9 @@ describe('ReactInput', () => {
     expect(form.$('name').value).toEqual('')
 
     //is the aria attribute passted through to the input
-    let input = res.find('input')
+    let input = res.find('textarea')
     expect(input.prop('aria-required')).toEqual(true)
+    expect(input.prop('rows')).toEqual(3)
 
 
     // is the input properly bound?
@@ -92,7 +87,7 @@ describe('ReactInput', () => {
     let f = res.find('ReactForm').instance() as any as ReactForm
     expect(f.form.size).toEqual(1)
 
-    res.find('input').simulate('change', {target: {value: 'something'}})
+    res.find('textarea').simulate('change', {target: {value: 'something'}})
 
     expect(f.form.$('name').value).toEqual('something')
 

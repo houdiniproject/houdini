@@ -1,20 +1,17 @@
 // License: LGPL-3.0-or-later
-import  * as React from 'react';
-import { observer, inject, Provider } from 'mobx-react';
+import * as React from 'react';
+import { observer } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
-import {Field} from "mobx-react-form";
-import {observable, action, toJS, runInAction} from 'mobx';
-import {InputHTMLAttributes} from 'react';
+import {Field} from "../../../../../types/mobx-react-form";
+import {InputHTMLAttributes, ReactText, TextareaHTMLAttributes} from "react";
+import {action, observable} from "mobx";
 import {ReactInputProps} from "./react_input_props";
-import {SelectHTMLAttributes} from "react";
-import {ReactSelectProps} from "./ReactSelect";
 import {castToNullIfUndef} from "../../../lib/utils";
 
+type InputTypes = ReactInputProps & TextareaHTMLAttributes<HTMLTextAreaElement>
 
-type InputTypes = ReactInputProps &
-  InputHTMLAttributes<HTMLInputElement>
 
-class ReactInput extends React.Component<InputTypes, {}> {
+class ReactTextarea extends React.Component<InputTypes, {}> {
 
   constructor(props:InputTypes){
     super(props)
@@ -43,8 +40,8 @@ class ReactInput extends React.Component<InputTypes, {}> {
 
   @action.bound
   updateProps() {
-      this.field.set('label', castToNullIfUndef(this.props.label))
-      this.field.set('placeholder', castToNullIfUndef(this.props.placeholder))
+    this.field.set('label', castToNullIfUndef(this.props.label))
+    this.field.set('placeholder', castToNullIfUndef(this.props.placeholder))
   }
 
   ///Removes the properties we don't want to put into the input element
@@ -58,11 +55,11 @@ class ReactInput extends React.Component<InputTypes, {}> {
   }
 
   render() {
-      return <input {...this.winnowProps()} {...this.field.bind()}/>
+    return <textarea {...this.winnowProps()} {...this.field.bind()}/>
   }
 }
 
-export default observer(ReactInput)
+export default observer(ReactTextarea)
 
 
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ReactInput gets removed properly 1`] = `
+exports[`ReactTextarea gets removed properly 1`] = `
 <form>
   <button
     onClick={[Function]}

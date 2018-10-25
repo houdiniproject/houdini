@@ -1,3 +1,5 @@
+import { values } from "mobx";
+
 // License: LGPL-3.0-or-later
 
 interface ValidationInput {
@@ -315,6 +317,7 @@ export class Form implements Base {
     readonly isValid :boolean;
     readonly size:number
 
+    values(): {[fields:string] : ValuesResponse|string}
     
 }
 

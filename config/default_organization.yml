@@ -27,3 +27,6 @@ intntl:
     symbol: "€"
     abbv: "eur"
     format: "%n%u"
+
+api_domain:
+  url: "http://localhost:5000"

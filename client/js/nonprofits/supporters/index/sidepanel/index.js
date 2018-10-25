@@ -31,6 +31,7 @@ const init = _ => {
   , newNote$: flyd.stream()
   , editNote$: flyd.stream()
   , deleteNote$: flyd.stream()
+  , newDonation$: flyd.stream()
   }
 
   const supporterID$ = R.compose(
@@ -95,7 +96,6 @@ const init = _ => {
   , flyd.map(()=> 'replyGmailModal', state.threadId$)
   , flyd.map(()=> 'newSupporterNoteModal', state.editNoteData$)
   , flyd.map(()=> null, state.gmail.sendResponse$)
-  , flyd.map(()=> null, state.offsiteDonationForm.saved$)
   , flyd.map(()=> null, state.supporterNoteForm.saved$)
   ])
 
@@ -143,7 +143,7 @@ const view = state => {
   , activities.view(state)
   , composeModal(state)
   , notification.view(state.notification)
-  , offsiteDonationForm.view(R.merge(state.offsiteDonationForm, {modalID$: state.modalID$}))
+  , offsiteDonationForm.view(R.merge(state.offsiteDonationForm))
   , supporterNoteForm.view(R.merge(state.supporterNoteForm, {modalID$: state.modalID$}))
   , replyModal(state)
   , confirm.view(state.confirmDelete, 'Are you sure you want to delete this note?')

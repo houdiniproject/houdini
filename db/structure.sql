@@ -58,6 +58,22 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 
 --
+-- Name: is_valid_json(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.is_valid_json(p_json text) RETURNS boolean
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+begin
+  return (p_json::json is not null);
+exception
+  when others then
+     return false;
+end;
+$$;
+
+
+--
 -- Name: update_supporter_assoc_search_vectors(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -4326,4 +4342,8 @@ INSERT INTO schema_migrations (version) VALUES ('20180713213748');
 INSERT INTO schema_migrations (version) VALUES ('20180713215825');
 
 INSERT INTO schema_migrations (version) VALUES ('20180713220028');
+
+INSERT INTO schema_migrations (version) VALUES ('20181002160627');
+
+INSERT INTO schema_migrations (version) VALUES ('20181003212559');
 

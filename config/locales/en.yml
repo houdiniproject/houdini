@@ -10,6 +10,8 @@ en:
         body: 'Comment content'
   organization:
     name: "Organisation"
+  organization_page:
+    promote: "Promote this organization"
   donation:
    amount: "Total Amount"
    date: "Transaction Date"
@@ -29,6 +31,7 @@ en:
         transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
         oneoff_donation_html: "Your donation towards <strong>%{nonprofit_name}</strong> was successful!"
         recurring_donation_html: "Your recurring donation towards <strong>%{nonprofit_name}</strong>, started on %{start_date}, has been successfully paid."
+        recurring_donation_cancel_modify_html: "If you need to update your card or cancel your recurring donation, please follow this link: <a href=\"%{management_url}\">%{management_url}</a>"
       donor_direct_debit_notification:
         subject: "Donation receipt for %{nonprofit_name}"
         transfer_info_html: "This transfer will appear on your bank statement as %{label}"

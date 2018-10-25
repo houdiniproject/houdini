@@ -1,3 +1,5 @@
+import { values } from "mobx";
+
 // License: LGPL-3.0-or-later
 
 interface ValidationInput {
@@ -171,7 +173,7 @@ interface FieldHandlers {
     onError?(e:Field):any
 }
 
-interface FieldDefinition {
+interface FieldDefinition<TInputType=any> {
     name: string
     key?: string
     label?: string
@@ -190,6 +192,8 @@ interface FieldDefinition {
     rules?: string
     id?:string,
     validators?: Validation | Array<Validation>
+    input?: (input:TInputType) => string
+    output?: (value:string) => TInputType
 }
 
 
@@ -313,6 +317,7 @@ export class Form implements Base {
     readonly isValid :boolean;
     readonly size:number
 
+    values(): {[fields:string] : ValuesResponse|string}
     
 }
 

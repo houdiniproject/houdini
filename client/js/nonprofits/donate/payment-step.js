@@ -166,7 +166,7 @@ function view(state) {
     ])
   , weekly
   , dedic && (dedic.first_name || dedic.last_name)
-      ? h('p.u-centered', `${dedic.dedication_type === 'memory' ? I18n.t('nonprofits.donate.dedication.in_memory_label') : I18n.t('nonprofits.donate.dedication.in_honor_label')} ` + `${dedic.first_name} ${dedic.last_name}`)
+      ? h('p.u-centered', `${dedic.dedication_type === 'memory' ? I18n.t('nonprofits.donate.dedication.in_memory_label') : I18n.t('nonprofits.donate.dedication.in_honor_label')} ` + `${dedic.first_name || ''} ${dedic.last_name || ''}`)
       : ''
   , paymentTabs(state)
   ])

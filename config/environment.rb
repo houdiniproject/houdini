@@ -284,6 +284,11 @@ Config.schema do
     required(:url).filled?(:str)
   end
 
+  # the domain for your api. Usually will be your CDN.url
+  optional(:api_domain).schema do
+    required(:url).filled?(:str)
+  end
+
 end
 
 Settings.reload!

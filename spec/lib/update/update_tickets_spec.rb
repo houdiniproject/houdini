@@ -188,6 +188,15 @@ describe UpdateTickets do
       expect(ticket.attributes).to eq expected
     end
 
+    it 'success editing checked_in as a boolean' do
+      result = UpdateTickets.update(basic_valid_ticket_input.merge(checked_in:true))
+      expected = general_expected.merge(checked_in: true)
+
+      expect(result.attributes).to eq expected
+      ticket.reload
+      expect(ticket.attributes).to eq expected
+    end
+
     it 'success editing token' do
       result = UpdateTickets.update(basic_valid_ticket_input.merge(token:source_token.token))
       expected = general_expected.merge(source_token_id: source_token.id)

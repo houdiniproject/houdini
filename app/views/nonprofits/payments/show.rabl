@@ -19,13 +19,13 @@ child :donation, object_root: false do
 
 
   child :campaign, object_root: false do
-  	attributes :name, :url
+  	attributes :name, :url, :id
   end
 
   node(:campaign_gift){|d| {name: d.campaign_gifts.any? ? d.campaign_gifts.last.campaign_gift_option.name : nil}}
 
   child :event, object_root: false do
-    attributes :name, :url
+    attributes :name, :url, :id
   end
 
 	child :recurring_donation, object_root: false do
@@ -49,7 +49,7 @@ end
 node(:ticket) do |payment|
   event = GetData.obj(payment.tickets.last, :event)
   h = {
-    event: {name: GetData.obj(event, :name), url: GetData.obj(event, :url)},
+    event: {name: GetData.obj(event, :name), url: GetData.obj(event, :url), id: GetData.obj(event, :id)},
     levels: payment.tickets.map{|t| "#{GetData.chain(t.ticket_level, :name)} (#{t.quantity}x)"}.join(", "),
     discount: payment.tickets.map{|t| t.event_discount ? "#{t.event_discount.name} (#{t.event_discount.percent}%)" : nil}.compact.join(", ")
   }
@@ -67,4 +67,8 @@ end
 child :supporter do
 	attributes :name, :email, :city, :state_code, :address, :zip_code, :phone, :id, :country
 
+end
+
+child :nonprofit do
+    attributes :id
 end

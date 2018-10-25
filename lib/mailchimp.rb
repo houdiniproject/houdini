@@ -154,4 +154,70 @@ module Mailchimp
       .execute.map{|h| h['mailchimp_list_id']}
   end
 
+
+  # @param [Nonprofit] nonprofit
+  def self.hard_sync_lists(nonprofit)
+    return if !nonprofit
+
+    nonprofit.tag_masters.not_deleted.each do |i|
+      if (i.email_list)
+        hard_sync_list(i.email_list)
+      end
+    end
+  end
+
+  # @param [EmailList] email_list
+  def self.hard_sync_list(email_list)
+    ops = generate_batch_ops_for_hard_sync(email_list)
+    perform_batch_operations(email_list.nonprofit.id, ops)
+    
+  end
+
+  def self.generate_batch_ops_for_hard_sync(email_list)
+    #get the subscribers from mailchimp
+    mailchimp_subscribers = get_list_mailchimp_subscribers(email_list)
+    #get our subscribers
+    our_supporters = email_list.tag_master.tag_joins.map{|i| i.supporter}
+
+    #split them as follows:
+    # on both lists, on our list, on the mailchimp list
+    in_both, in_mailchimp_only = mailchimp_subscribers.partition do |mc_sub|
+      our_supporters.any?{|s| s.email.downcase == mc_sub[:email_address].downcase}
+    end
+ 
+    _, in_our_side_only = our_supporters.partition do |s|
+      mailchimp_subscribers.any?{|mc_sub| s.email.downcase == mc_sub[:email_address].downcase}
+    end
+
+    # if on our list, add to mailchimp
+    output = in_our_side_only.map{|i|
+      {method: 'POST', path: "lists/#{email_list.mailchimp_list_id}/members", body: {email_address: i.email, status: 'subscribed'}.to_json}
+    }
+
+    # if on mailchimp list, delete from mailchimp
+    output = output.concat(in_mailchimp_only.map{|i| {method: 'DELETE', path: "lists/#{email_list.mailchimp_list_id}/members/#{i[:id]}"}})
+
+    return output
+  end
+
+  def self.get_list_mailchimp_subscribers(email_list)
+    mailchimp_token = get_mailchimp_token(email_list.tag_master.nonprofit.id)
+    uri = base_uri(mailchimp_token)
+    result = get(uri + "/lists/#{email_list.mailchimp_list_id}/members?count=1000000000",  {
+      basic_auth: {username: "CommitChange", password: mailchimp_token},
+      headers: {'Content-Type' => 'application/json'}})
+    members = result['members'].map do |i| 
+      {id: i['id'], email_address: i['email_address']}
+    end.to_a    
+  end
+
+  def self.get_email_lists(nonprofit)
+    mailchimp_token = get_mailchimp_token(nonprofit.id)
+    uri = base_uri(mailchimp_token)
+    result = get(uri + "/lists",  {
+      basic_auth: {username: "CommitChange", password: mailchimp_token},
+      headers: {'Content-Type' => 'application/json'}})
+    result['lists']
+    
+  end
 end

@@ -9,7 +9,7 @@ module UpdateTickets
         bid_id: {is_integer: true},
         #note: nothing to check?
 
-        checked_in: {included_in: ['true', 'false']}
+        checked_in: {included_in: ['true', 'false', true, false]}
 
     })
 
@@ -40,7 +40,7 @@ module UpdateTickets
       edited = true
     end
 
-    if data[:checked_in]
+    unless data[:checked_in].nil?
       entities[:ticket_id].checked_in = data[:checked_in]
       edited = true
     end

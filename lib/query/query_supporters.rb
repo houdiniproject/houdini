@@ -630,16 +630,13 @@ UNION DISTINCT
         end
       end
       if (time_range_params[:start])
-        wip = time_range_params[:start].is_a?(DateTime) ? time_range_params[:start] : nil
-        if (wip.nil? && time_range_params[:start].is_a?(Date))
-          wip = time_range_params[:start].to_datetime
-        end
-        if(wip.nil? && time_range_params[:start].is_a?(String))
-          wip = DateTime.parse(time_range_params[:start])
+        start = parse_convert_datetime(time_range_params[:start])
+        if (time_range_params[:end])
+          end_datetime = parse_convert_datetime(time_range_params[:end])
         end
 
-        unless wip.nil?
-          return wip, wip + 1.year
+        unless start.nil?
+          return start, end_datetime ? end_datetime : start + 1.year
         end
       end
       raise ArgumentError.new("no valid time range provided")
@@ -671,6 +668,18 @@ UNION DISTINCT
   def self.find_supporters_with_multiple_active_recurring_donations_evil_way(npo_id)
     supporters = Supporter.where('supporters.nonprofit_id = ?', npo_id).includes(:recurring_donations)
     supporters.select{|s| s.recurring_donations.select{|rd| rd.active }.length > 1}
+  end
+
+  def self.parse_convert_datetime(date)
+    if (date.is_a?(DateTime))
+      return date
+    end
+    if (date.is_a?(Date))
+      return date.to_datetime
+    end
+    if(date.is_a?(String))
+      return DateTime.parse(date)
+    end
   end
 end
 

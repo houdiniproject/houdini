@@ -9,7 +9,7 @@
     "watch": "export HOUDINI_WATCH=1; script/build.sh",
     "build": "script/build.sh",
     "build-all": "npm ci && script/compile-assets.sh && npm run build",
-    "test": "rake spec && npm run build && npx jest",
+    "test": "rake -v spec  && npm run build && npx jest",
     "export-button-config": "bundle exec rake settings:generate_json",
     "export-i18n": "bundle exec rake settings:combine_translations",
     "generate-openapi": "rake oapi:gen",

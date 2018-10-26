@@ -13,5 +13,5 @@ WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
-CMD rake db:create db:structure:load test:prepare && rake spec && npx jest && npm run build-all
+CMD rake -T
 

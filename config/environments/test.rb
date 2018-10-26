@@ -38,11 +38,18 @@ Commitchange::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.log_level = :debug
+  config.log_level = :none
 
   config.action_controller.allow_forgery_protection = false
 
   config.cache_store = :memory_store
   config.threadsafe!
+  config.after_initialize do
+    ActiveRecord::Base.logger = nil
+    ActionController::Base.logger =  nil
+    ActionMailer::Base.logger = nil
+  end
+
+
 
 end

@@ -58,4 +58,5 @@ Commitchange::Application.configure do
 	# config.browserify_rails.evaluate_node_modules = true
 
 	config.middleware.use I18n::JS::Middleware
+
 end

@@ -33,7 +33,7 @@ test:
 ci:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_test
+  database: commitchange_development
   pool: 5
   username: admin
   password: password

@@ -109,13 +109,13 @@ gem 'i18n-js'
 gem 'countries'
 
 
-group :development do
+group :development, :ci do
   gem 'traceroute'
   gem 'debase'
   gem 'ruby-debug-ide'
 end
 
-group :development, :test do
+group :development, :ci, :test do
 	gem 'timecop'
 	gem 'pry'
 	#gem 'pry-byebug'

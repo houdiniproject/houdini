@@ -3,6 +3,7 @@ import * as React from 'react';
 import StandardFieldComponent from "./StandardFieldComponent";
 import {observer} from 'mobx-react';
 import {InjectedIntl, injectIntl} from 'react-intl';
+import {CSSProperties} from "react";
 
 
 export interface LabeledFieldComponentProps
@@ -14,6 +15,7 @@ export interface LabeledFieldComponentProps
     inStickyError?:boolean
     stickyError?:string
     className?:string
+    style?:CSSProperties
 }
 
 @observer
@@ -31,7 +33,7 @@ export default class LabeledFieldComponent extends React.Component<LabeledFieldC
        classNames.push("has-error")
     }
 
-    return <fieldset className={classNames.join(" ")}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
+    return <fieldset className={classNames.join(" ")} style={this.props.style}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
        <StandardFieldComponent inError={inError} error={this.props.error} inStickyError={inStickyError} stickyError={this.props.stickyError}>{this.props.children}</StandardFieldComponent>
     </fieldset>;
   }

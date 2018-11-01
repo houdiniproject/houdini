@@ -2,6 +2,7 @@
 import * as Regex from './regex'
 import {Field, Form} from "mobx-react-form";
 import moment = require("moment");
+import _ = require('lodash');
 
 
 interface ValidationInput {
@@ -59,6 +60,28 @@ export class Validations  {
         `${field.label} must be at least ${value}`
       ]
     }
+  }
+
+  static isInteger({field, validator}:ValidationInput):StringBoolTuple {
+    return [
+      _.isInteger(parseFloat(field.get('value'))),
+      `${field.label} must be a whole number, ex: 1, 50, 100, etc.`
+    ]
+  }
+
+  static isFloat({field, validator}:ValidationInput):StringBoolTuple {
+    return [
+      parseFloat(field.get('value')) !== NaN,
+      `${field.label} must be a number.`
+    ]
+  }
+
+  static isZeroOrMoreInteger(): Validation[] {
+    return [Validations.isGreaterThanOrEqualTo(0), Validations.isInteger]
+  }
+
+  static isPositiveInteger(): Validation[] {
+    return [Validations.isGreaterThanOrEqualTo(1), Validations.isInteger]
   }
 
   static isLessThanOrEqualTo(value:number, flip:boolean=false) : ({field, validator}:ValidationInput) => StringBoolTuple

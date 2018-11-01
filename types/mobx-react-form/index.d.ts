@@ -76,7 +76,7 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     add(obj:{FieldDefinition}): any;
 
-    bind(): object;
+    bind(...args): object;
 
     check(computed: string, deep?: boolean): boolean;
 

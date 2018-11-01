@@ -25,11 +25,22 @@
 	<%= render 'common/froala' if current_campaign_editor? %>
 
 	<%= IncludeAsset.js '/client/js/campaigns/show/page.js' %>
+
+  <% if  current_campaign_editor? %>
+    <%= IncludeAsset.js '/app/react.js' %>
+    <%= IncludeAsset.js '/app/react-dom.js' %>
+    <%= IncludeAsset.js '/app/vendor.js' %>
+    <%= IncludeAsset.js '/app/campaign_goal_selectorx.js' %>
+    <script>LoadCampaignCustomization()</script>
+  <% end %>
 <% end %>
 
 <%= content_for :stylesheets do %>
 	<%= stylesheet_link_tag 'campaigns/show/page' %>
 	<%= stylesheet_link_tag 'campaigns/edit/page' %>
+  <% if  current_campaign_editor? %>
+    <%= IncludeAsset.css '/client/css/bootstrap.css' %>
+  <%end %>
   <style>
     .force-
     .ios-force-absolute-positioning {

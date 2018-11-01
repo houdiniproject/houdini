@@ -9,26 +9,63 @@ import ReactSelect from './form/ReactSelect';
 import ReactTextarea from "./form/ReactTextarea";
 import ReactMaskedInput from "./form/ReactMaskedInput";
 import createNumberMask from "../../lib/createNumberMask";
+import {CSSProperties} from "react";
 
 
-export const BasicField = observer((props:{field:Field, placeholder?:string, label?:string, wrapperClassName?:string, inputClassNames?:string}) =>{
+function wrapInInputGroupWhenNeeded(input:JSX.Element, prefixInputAddon?:JSX.Element, postfixInputAddon?:JSX.Element) : JSX.Element
+{
+  if (prefixInputAddon || postfixInputAddon){
+    return <div className="input-group">
+      {prefixInputAddon}
+      {input}
+      {postfixInputAddon}
+    </div>
+  }
+  else {
+    return input
+  }
+}
+
+export const BasicField = observer((props:{
+  field:Field,
+  placeholder?:string,
+  label?:string,
+  wrapperClassName?:string,
+  inputClassNames?:string,
+  inputStyle?: CSSProperties,
+  wrapperStyle?: CSSProperties,
+  prefixInputAddon?: JSX.Element
+}) =>{
     let field = props.field as HoudiniField
+
+
+
     return <LabeledFieldComponent
         inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
         inStickyError={field.hasServerError} stickyError={field.serverError}
-        className={props.wrapperClassName} >
-        <ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames || ''}`}/>
+        className={props.wrapperClassName}  style={props.wrapperStyle}>
+      {wrapInInputGroupWhenNeeded(<ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames || ''}`}
+                    style={props.inputStyle}/>, props.prefixInputAddon)}
     </LabeledFieldComponent>
 })
 
-export const SelectField = observer((props:{field:Field, placeholder?:string, label?:string, wrapperClassName?:string, inputClassNames?:string,  options?:Array<{id:any, name:string}>}) =>{
+export const SelectField = observer((props:{
+  field:Field,
+  placeholder?:string,
+  label?:string,
+  wrapperClassName?:string,
+  inputClassNames?:string,
+  options?:Array<{id:any, name:string}>,
+  inputStyle?: CSSProperties,
+  wrapperStyle?: CSSProperties,
+}) =>{
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
     inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.wrapperClassName} >
+    className={props.wrapperClassName} style={props.wrapperStyle}>
 
-    <ReactSelect field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} options={props.options}/>
+    <ReactSelect field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} options={props.options} style={props.inputStyle}/>
 
   </LabeledFieldComponent>
 })
@@ -45,14 +82,25 @@ export const TextareaField = observer((props:{field:Field, placeholder?:string, 
   </LabeledFieldComponent>
 })
 
-export const CurrencyField = observer((props:{field:Field,placeholder?:string, label?:string, currencySymbol?:string, wrapperClassName?:string, inputClassNames?:string, mustBeNegative?:boolean, allowNegative?:boolean}) => {
+export const CurrencyField = observer((props:{
+  field:Field,
+  placeholder?:string,
+  label?:string,
+  currencySymbol?:string,
+  wrapperClassName?:string,
+  inputClassNames?:string,
+  mustBeNegative?:boolean,
+  allowNegative?:boolean,
+  inputStyle?: CSSProperties,
+  wrapperStyle?: CSSProperties,
+}) => {
   let field = props.field as HoudiniField
   let currencySymbol = props.mustBeNegative ? "-$" : "$"
   let allowNegative = props.allowNegative || !props.mustBeNegative
   return <LabeledFieldComponent
   inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
   inStickyError={field.hasServerError} stickyError={field.serverError}
-  className={props.wrapperClassName} >
+  className={props.wrapperClassName} style={props.wrapperStyle} >
 
       <ReactMaskedInput field={field} label={props.label} placeholder={props.placeholder}
                         className={`form-control ${props.inputClassNames}`} guide={true}
@@ -62,7 +110,7 @@ export const CurrencyField = observer((props:{field:Field,placeholder?:string, l
                           allowNegative:allowNegative,
                           fixedDecimalScale:true
                         })}
-                        showMask={true} placeholderChar={'0'}
+                        showMask={true} placeholderChar={'0'} style={props.inputStyle}
       />
 
   </LabeledFieldComponent>

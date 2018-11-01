@@ -52,7 +52,6 @@ class ReactInput extends React.Component<InputTypes, {}> {
   winnowProps(): InputTypes {
     let ourProps = {...this.props}
     delete ourProps.field
-    delete ourProps.value
     return ourProps
 
   }

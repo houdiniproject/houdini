@@ -40,6 +40,7 @@ const metrics = state => {
 
 const totalSupporters = state => {
   if(!app.campaign.show_total_count) return ''
+  if (state.metrics$().goal_is_in_supporters) return ''
   return h('div', [
     h('h4', [
       state.loading$() ? h('i.fa.fa-spin.fa-spinner') : format.numberWithCommas(state.metrics$().supporters_count)
@@ -50,15 +51,29 @@ const totalSupporters = state => {
 
 const totalRaised = state => {
   if(!app.campaign.show_total_raised) return ''
+
+  let currentText = ""
+  let goalText = ""
+  if (state.metrics$().goal_is_in_supporters) {
+    const currentAmount = (state.metrics$().starting_point || 0) + state.metrics$().supporters_count;
+    currentText = `${currentAmount}`
+    goalText = ` of ${state.metrics$().goal_amount} supporter goal`
+  }
+  else {
+    currentText = '$' + format.centsToDollars(state.metrics$().total_raised, {noCents: true})
+    goalText = ' of $' + format.centsToDollars(app.campaign.goal_amount) + ' goal'
+  }
+
   return h('div', [
     h('h4', [
-      state.loading$() ? h('i.fa.fa-spin.fa-spinner') : '$' + format.centsToDollars(state.metrics$().total_raised, {noCents: true})
+      state.loading$() ? h('i.fa.fa-spin.fa-spinner') : currentText
+        
     ])
   , h('p', [
-      'raised'
+    state.metrics$().goal_is_in_supporters ? '' : 'raised'
     , app.campaign.hide_goal
       ? ''
-      : ' of $' + format.centsToDollars(app.campaign.goal_amount) + ' goal'
+      : goalText
     ])
   ])
 }
@@ -80,12 +95,20 @@ const endedMessage = state => {
 
 const progressBar = state => {
   if(app.campaign.hide_thermometer) return ''
+  let current_status = 0
+  if (state.metrics$().goal_is_in_supporters){
+    current_status = (state.metrics$().starting_point || 0) + state.metrics$().supporters_count;
+  }
+  else {
+    current_status = state.metrics$().total_raised;
+  }
+
   return h('div.progressBar--medium.u-marginBottom--15', [
     h('div.progressBar--medium-fill', {
       style: {
         width: R.clamp(1,100, format.percent(
           state.metrics$().goal_amount
-        , state.metrics$().total_raised
+        , current_status
         ) + '%')
       , 'background-color': branding.light
       , transition: 'width 1s'

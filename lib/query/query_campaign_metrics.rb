@@ -10,14 +10,13 @@ module QueryCampaignMetrics
         "campaigns.goal_amount",
         "campaigns.show_total_count",
         "campaigns.show_total_raised",
-        "campaigns_customizations.starting_point",
-        "campaigns_customizations.show_supporters"
+        "campaigns.starting_point",
+        "campaigns.goal_is_in_supporters"
         )
       .from("campaigns")
       .left_join(
         ["donations", "donations.campaign_id=campaigns.id"],
-        ["payments", "payments.donation_id=donations.id"],
-        ["campaign_customizations", "campaign_customizations.campaign_id=campaigns.id"]
+        ["payments", "payments.donation_id=donations.id"]
       )
       .where("campaigns.id=$id", id: campaign_id)
       .group_by('campaigns.id')

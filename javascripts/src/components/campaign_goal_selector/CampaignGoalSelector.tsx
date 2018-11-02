@@ -106,14 +106,14 @@ class CampaignGoalSelector extends React.Component<CampaignGoalSelectorProps & I
             <CurrencyField label={"Amount"} field={this.form.$('goal_in_cents')} wrapperStyle={{marginBottom: 0}}/>
 
 
-            <CurrencyField label={"Starting point"} field={this.form.$('starting_point_cents')} wrapperStyle={{marginBottom: 0}}/>
+            <CurrencyField label={"Starting point (optional)"} field={this.form.$('starting_point_cents')} wrapperStyle={{marginBottom: 0}}/>
           </div>
           : <div>
             <BasicField label={"Number of donors"} field={this.form.$('goal_in_supporters')}  wrapperStyle={{marginBottom: '12px'}} prefixInputAddon={
               <span className="input-group-addon"><span className="glyphicon glyphicon-user"/></span>}/>
 
 
-            <BasicField label={"Starting point"} field={this.form.$('starting_point_supporters')}  wrapperStyle={{marginBottom: '12px'}} prefixInputAddon={
+            <BasicField label={"Starting point (optional)"} field={this.form.$('starting_point_supporters')}  wrapperStyle={{marginBottom: '12px'}} prefixInputAddon={
               <span className="input-group-addon"><span className="glyphicon glyphicon-user"/></span>}/>
           </div>
         }

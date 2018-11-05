@@ -60,6 +60,7 @@ class CampaignsController < ApplicationController
       params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
     end
     current_campaign.update_attributes params[:campaign]
+
     json_saved current_campaign, 'Successfully updated!'
   end
 

@@ -10,6 +10,8 @@
 		app.current_nonprofit_user = <%= current_nonprofit_user? %>
   </script>
 	<%= IncludeAsset.js '/client/js/campaigns/index/page.js' %>
+
+
 <% end %>
 
 <%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>

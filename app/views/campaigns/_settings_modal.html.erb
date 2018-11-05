@@ -1,4 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+
 <div class='modal fullScreen campaignSettings' id='campaignSettings'>
 
 	<%= render 'common/modal_header', title: 'Campaign Settings' %>
@@ -20,13 +21,9 @@
 			<hr>
 
 			<section class='layout--three'>
-				<fieldset>
-					<label>Goal</label>
-					<div class='prepend--dollar u-inlineBlock'>
-						<input type='number' parsley-type='number' class='input--150' name='campaign[goal_amount_dollars]' value='<%= sprintf("%.2f", @campaign.goal_amount / 100.0) %>'>
-          </div>
-					</fieldset>
-				</fieldset>
+        <div id="campaign_modal_setting"></div>
+
+        <div><br/></div>
 
         <fieldset>
 					<label>End Date & Time</label>
@@ -159,6 +156,38 @@
       <div><p class='error'></p></div>
 	  </div>
 
+    <input type="hidden" name="campaign[goal_is_in_supporters]" id="hidden_show_supporters" value="<%= @campaign.goal_is_in_supporters ? true : false  %>" />
+    <input type="hidden" name="campaign[starting_point]"  id="hidden_starting_point" value="<%= @campaign.starting_point || 0  %>" />
+    <input type="hidden" name="campaign[goal_amount]"  id="hidden_goal" value="<%=@campaign.goal_amount%>"/>
+
+    <script>
+
+      const onChange = function(input) {
+
+        const showSupporter = document.getElementById('hidden_show_supporters')
+        const startingPoint = document.getElementById('hidden_starting_point')
+        const goalAmount = document.getElementById('hidden_goal')
+
+        showSupporter.value = input.goalIsInSupporters
+        startingPoint.value = input.startingPoint
+        goalAmount.value = input.goal
+
+      }
+      let input = <%= {
+      goalIsInSupporters: @campaign.goal_is_in_supporters ? true : false,
+      goal:  @campaign.goal_amount,
+      startingPoint: @campaign.starting_point
+      }.to_json.html_safe %>
+
+      input.onChange= onChange;
+
+      function LoadCampaignCustomization() {
+        LoadCampaignGoalSelector(document.getElementById('campaign_modal_setting'),
+          input)
+      }
+
+
+    </script>
     <footer class='modal-footer u-padding--15 layout--two'>
       <span>
         <button type='submit' data-loading='Updating...' class='button '>Update Campaign</button>

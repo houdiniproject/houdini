@@ -129,6 +129,12 @@ let targets = {
         ]
     },
     bootstrap: {
+      module:{
+        rules: [
+            { test: /\.(woff2?|svg)$/, loader: 'url-loader?limit=10000' },
+            { test: /\.(ttf|eot)$/, loader: 'file-loader' },
+        ]
+      },
         entry: ['bootstrap-loader'],
         output: {
           path: path.resolve(buildPath, 'css'),

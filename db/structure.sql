@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.9
+-- Dumped by pg_dump version 9.6.10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -55,6 +55,22 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 --
 
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
+--
+-- Name: is_valid_json(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.is_valid_json(p_json text) RETURNS boolean
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
+begin
+  return (p_json::json is not null);
+exception
+  when others then
+     return false;
+end;
+$$;
 
 
 --
@@ -376,7 +392,9 @@ CREATE TABLE public.campaigns (
     hide_custom_amounts boolean,
     show_recurring_amount boolean DEFAULT false,
     end_datetime timestamp without time zone,
-    external_identifier character varying(255)
+    external_identifier character varying(255),
+    goal_is_in_supporters boolean,
+    starting_point integer
 );
 
 
@@ -4326,4 +4344,10 @@ INSERT INTO schema_migrations (version) VALUES ('20180713213748');
 INSERT INTO schema_migrations (version) VALUES ('20180713215825');
 
 INSERT INTO schema_migrations (version) VALUES ('20180713220028');
+
+INSERT INTO schema_migrations (version) VALUES ('20181002160627');
+
+INSERT INTO schema_migrations (version) VALUES ('20181003212559');
+
+INSERT INTO schema_migrations (version) VALUES ('20181026175740');
 

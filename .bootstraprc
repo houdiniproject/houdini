@@ -4,8 +4,10 @@
   "extractStyles": true,
   "styles": {
     "mixins": true,
+    "glyphicons": true,
     "grid": true,
     "forms": true,
+    "input-groups": true,
     "responsive-utilities":true,
     "panels": true,
     "type": true

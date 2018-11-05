@@ -3,7 +3,7 @@ import * as React from 'react';
 import 'jest';
 import {AbstractWizardState, AbstractWizardTabPanelState} from './abstract_wizard_state'
 import {observable, action, computed} from 'mobx'
-import {UniqueIdMock} from "../tests/unique_id_mock";
+import {UniqueIdMock} from "../test/unique_id_mock";
 
 let uniqueIdMock = new UniqueIdMock();
 

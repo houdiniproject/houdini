@@ -71,6 +71,8 @@ describe InsertDuplicate do
       :video_url => nil,
       :vimeo_video_id => nil,
       :youtube_video_id => nil,
+      starting_point: 0,
+      goal_is_in_supporters: nil,
       name: copy_name,
 
       slug: copy_slug,

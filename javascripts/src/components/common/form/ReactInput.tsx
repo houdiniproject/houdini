@@ -5,24 +5,18 @@ import {InjectedIntlProps, injectIntl} from 'react-intl';
 import {Field} from "mobx-react-form";
 import {observable, action, toJS, runInAction} from 'mobx';
 import {InputHTMLAttributes} from 'react';
+import {ReactInputProps} from "./react_input_props";
+import {SelectHTMLAttributes} from "react";
+import {ReactSelectProps} from "./ReactSelect";
+import {castToNullIfUndef} from "../../../lib/utils";
 
 
+type InputTypes = ReactInputProps &
+  InputHTMLAttributes<HTMLInputElement>
 
-export interface ReactInputProps
-{
-  field:Field
-  label?:string
-  placeholder?:string
-}
+class ReactInput extends React.Component<InputTypes, {}> {
 
-function castToNullIfUndef(i:any){
-  return i === undefined ? null : i
-}
-
-
-class ReactInput extends React.Component<ReactInputProps & InputHTMLAttributes<HTMLInputElement>, {}> {
-
-  constructor(props:ReactInputProps){
+  constructor(props:InputTypes){
     super(props)
   }
 
@@ -43,7 +37,7 @@ class ReactInput extends React.Component<ReactInputProps & InputHTMLAttributes<H
   }
 
 
-  componentDidUpdate(prevProps: Readonly<ReactInputProps>, prevState: Readonly<{}>): void {
+  componentDidUpdate(prevProps: Readonly<InputTypes>, prevState: Readonly<{}>): void {
     this.updateProps()
   }
 
@@ -53,34 +47,17 @@ class ReactInput extends React.Component<ReactInputProps & InputHTMLAttributes<H
       this.field.set('placeholder', castToNullIfUndef(this.props.placeholder))
   }
 
-  @action.bound
-  renderChildren(){
-    let ourProps = this.winnowProps()
-    let elem =  React.cloneElement(this.props.children as React.ReactElement<any>,
-      {...ourProps, ...this.field.bind() })
-    return elem
-
-  }
-
   ///Removes the properties we don't want to put into the input element
   @action.bound
-  winnowProps(): ReactInputProps & InputHTMLAttributes<HTMLInputElement> {
+  winnowProps(): InputTypes {
     let ourProps = {...this.props}
     delete ourProps.field
-    delete ourProps.value
     return ourProps
 
   }
 
   render() {
-
-    if (this.props.children)
-    {
-      return this.renderChildren()
-    }
-    else {
       return <input {...this.winnowProps()} {...this.field.bind()}/>
-    }
   }
 }
 

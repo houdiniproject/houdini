@@ -263,7 +263,7 @@ describe UpdateDonation do
 
 
           expected_donation = donation.attributes.merge({
-              date: new_date.to_time_in_current_zone,
+              date: new_date,
               amount: new_amount,
 
               designation: new_designation,
@@ -279,7 +279,7 @@ describe UpdateDonation do
           donation.reload
           expect(donation.attributes).to eq expected_donation
 
-          expected_p1 = payment.attributes.merge({towards: new_dedication, updated_at: Time.now, date: new_date, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
+          expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now, date: new_date, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
           payment.reload
           expect(payment.attributes).to eq expected_p1
 
@@ -367,7 +367,7 @@ describe UpdateDonation do
             donation.reload
             expect(donation.attributes).to eq expected_donation
 
-            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now, date: new_date, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
+            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now, date: new_date.to_time_in_current_zone, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
             payment.reload
             expect(payment.attributes).to eq expected_p1
 

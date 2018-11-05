@@ -32,18 +32,27 @@ class Campaign < ActiveRecord::Base
     :receipt_message, # text
     :hide_custom_amounts # boolean
 
+
   validate  :end_datetime_cannot_be_in_past, :on => :create
 	validates :profile, :presence => true
 	validates :nonprofit, :presence => true
 	validates :goal_amount,
-		:presence => true,
-		:numericality => {:only_integer => true, :greater_than => 99}
+		:presence => true, numericality: {
+          only_integer: true
+      }
+	validate :validate_goal_amount
 	validates :name,
 		:presence => true,
 		:length => {:maximum => 60}
   validates :slug, uniqueness: {scope: :nonprofit_id, message: 'You already have a campaign with that URL.'}, presence: true
 
+	validates :starting_point, :presence => true,
+						:numericality => { :only_integer => true, :greater_than_or_equal_to => 0 }
+
   attr_accessor :goal_amount_dollars
+
+	attr_accessible :starting_point, #integer, number of donors to start with
+								:goal_is_in_supporters #boolean, true if you want to measure success based on donors instead of amount
 
 	mount_uploader :main_image, CampaignMainImageUploader
 	mount_uploader :background_image, CampaignBackgroundImageUploader
@@ -71,6 +80,10 @@ class Campaign < ActiveRecord::Base
 	before_validation do
 		if self.goal_amount_dollars.present?
 			self.goal_amount = (self.goal_amount_dollars.gsub(',','').to_f * 100).to_i
+		end
+
+		unless (self.starting_point)
+			self.starting_point = 0
 		end
 		self
 	end
@@ -153,6 +166,20 @@ class Campaign < ActiveRecord::Base
 	def days_left
     return 0 if self.end_datetime.nil?
     (self.end_datetime.to_date - Date.today).to_i
+	end
+
+	def validate_goal_amount
+
+		goal_amount = self.goal_amount || 0
+		if (self.goal_is_in_supporters)
+			if (goal_amount < 1)
+				errors.add(:goal_amount, "must be greater than or equal to 1")
+			end
+		else
+			if (goal_amount < 99)
+				errors.add(:goal_amount, "must be greater than or equal to 99 cents.")
+			end
+		end
 	end
 
 end

@@ -9,7 +9,7 @@ import {TabList} from "./TabList";
 import {TabPanel} from "./TabPanel";
 import {Tab} from "./Tab";
 import toJson from 'enzyme-to-json';
-import {UniqueIdMock} from "../../tests/unique_id_mock";
+import {UniqueIdMock} from "../../test/unique_id_mock";
 import {mountForMobx, runTestsOnConditions, TriggerAndAction} from '../../test/react_test_helpers';
 
 let uniqueIdMock = new UniqueIdMock();

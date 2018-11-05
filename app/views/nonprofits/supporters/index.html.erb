@@ -2,10 +2,42 @@
 <% content_for(:dont_load_optimizely) {'true'} %>
 <% content_for(:footer_hidden) {'hidden'} %>
 
-<%= content_for(:stylesheets) {stylesheet_link_tag 'nonprofits/supporters/index/page'} %>
+<% content_for(:stylesheets) do %>
+  <%= stylesheet_link_tag 'nonprofits/supporters/index/page' %>
+  <%= IncludeAsset.css '/client/css/bootstrap.css' %>
+<% end %>
 <%= content_for :javascripts do %>
 	<%= IncludeAsset.js '/client/js/nonprofits/supporters/index/page.js' %>
 	<%= render 'common/froala' %>
+	<%= IncludeAsset.js '/app/react.js' %>
+  <%= IncludeAsset.js '/app/react-dom.js' %>
+  <%= IncludeAsset.js '/app/vendor.js' %>
+  <%= IncludeAsset.js '/app/create_new_offsite_payment_panex.js' %>
+
+  <script>
+    appl.def('open_donation_modal', function(supporter_id, donation_finish_successful_state_fn) {
+      $('.modal').removeClass('inView')
+
+      function SetupLoadCreateOffsiteDonationPane(modalActive){
+        LoadReactCreateOffsiteDonationPane(document.getElementById('react-vdom-hack'),
+          appl.campaigns.data,
+          appl.events.data,
+          app.nonprofit_id,
+          supporter_id,
+          () => {}, //appl.start_loading,
+          donation_finish_successful_state_fn, //appl.update_donation__success,
+          () => {SetupLoadCreateOffsiteDonationPane(false)},
+          modalActive,
+          ENV.nonprofitTimezone)
+      }
+
+      SetupLoadCreateOffsiteDonationPane(true)
+
+
+      return appl
+    })
+
+  </script>
 <% end %>
 
 <%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
@@ -58,3 +90,5 @@
 <%= render 'donations/new_offline_modal' %>
 
 <div id='js-vdomParty'></div>
+
+<div id="react-vdom-hack"></div>

@@ -30,6 +30,7 @@
     "@types/react-dom": "^16.0.5",
     "@types/react-intl": "^2.3.7",
     "@types/react-test-renderer": "^16.0.1",
+    "@types/react-text-mask": "^5.4.2",
     "@types/sinon": "^4.3.3",
     "@types/validator": "^9.4.1",
     "babel-core": "^6.26.0",

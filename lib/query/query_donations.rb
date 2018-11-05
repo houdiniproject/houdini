@@ -14,7 +14,16 @@ module QueryDonations
       ].concat(QuerySupporters.supporter_export_selections)
        .concat([
 				 "supporters.id AS \"Supporter ID\"",
-       ])
+       ]).concat([
+                            "coalesce(donations.designation, 'None') AS designation",
+                            "#{QueryPayments.get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
+                            "#{QueryPayments.get_dedication_or_empty('name')}::text AS \"Dedicated To: Name\"",
+                            "#{QueryPayments.get_dedication_or_empty('supporter_id')}::text AS \"Dedicated To: Supporter ID\"",
+                            "#{QueryPayments.get_dedication_or_empty('contact', 'email')}::text AS \"Dedicated To: Email\"",
+                            "#{QueryPayments.get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
+                            "#{QueryPayments.get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
+                            "#{QueryPayments.get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
+                 ])
     ).from(:donations)
      .join(:supporters, "supporters.id=donations.supporter_id")
      .left_outer_join(:campaign_gifts, "campaign_gifts.donation_id=donations.id")

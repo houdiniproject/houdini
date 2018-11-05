@@ -1,3 +1,5 @@
+import { values } from "mobx";
+
 // License: LGPL-3.0-or-later
 
 interface ValidationInput {
@@ -74,7 +76,7 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     add(obj:{FieldDefinition}): any;
 
-    bind(): object;
+    bind(...args): object;
 
     check(computed: string, deep?: boolean): boolean;
 
@@ -315,6 +317,7 @@ export class Form implements Base {
     readonly isValid :boolean;
     readonly size:number
 
+    values(): {[fields:string] : ValuesResponse|string}
     
 }
 

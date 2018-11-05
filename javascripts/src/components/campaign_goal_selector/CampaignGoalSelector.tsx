@@ -2,14 +2,12 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
-import {Tab, TabList, TabPanel, Wrapper} from "react-aria-tabpanel";
 import {BasicField, CurrencyField, SelectField} from "../common/fields";
 import {action, autorun, computed, observable, reaction} from "mobx";
-import {FieldDefinition} from "../../../../types/mobx-react-form";
+import {FieldDefinition} from "mobx-react-form";
 import {createFieldDefinition} from "../../lib/mobx_utils";
 import {centsToDollars, dollarsToCents} from "../../lib/format";
-import {Validations} from "../../lib/vjf_rules";
-import {HoudiniField, HoudiniForm} from "../../lib/houdini_form";
+import {HoudiniForm} from "../../lib/houdini_form";
 import blacklist = require("validator/lib/blacklist");
 import * as _ from 'lodash';
 
@@ -28,8 +26,6 @@ export interface CampaignGoalSelectorReturnProperties {
   goalIsInSupporters:boolean
   goal:number
   startingPoint:number
-
-
 }
 
 class CampaignGoalSelectorForm extends HoudiniForm {

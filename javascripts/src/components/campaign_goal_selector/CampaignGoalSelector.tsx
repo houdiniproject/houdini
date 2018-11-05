@@ -56,7 +56,7 @@ class CampaignGoalSelector extends React.Component<CampaignGoalSelectorProps & I
       }),
 
       'goal_in_supporters': createFieldDefinition<number>({
-        name: 'goal_in_supporters', label: 'Goal Amount', value: this.props.goalIsInSupporters ? this.props.goal : 0
+        name: 'goal_in_supporters', label: 'Number of donors', value: this.props.goalIsInSupporters ? this.props.goal : 0
       }),
 
       'starting_point_supporters' : createFieldDefinition<number>({
@@ -98,12 +98,12 @@ class CampaignGoalSelector extends React.Component<CampaignGoalSelectorProps & I
   render() {
     return <div className={'tw-bs'}>
 
-      <SelectField field={this.form.$('goal_is_in_supporters')} options={[{id: GoalTypes.IN_CENTS, name: "Goal as Money"}, {id: GoalTypes.IN_SUPPORTERS, name: "Goal as supporters"}]} label={"Goals"} wrapperStyle={{marginBottom: 0}}/>
+      <SelectField field={this.form.$('goal_is_in_supporters')} options={[{id: GoalTypes.IN_CENTS, name: "Goal in dollars"}, {id: GoalTypes.IN_SUPPORTERS, name: "Goal as supporters"}]} label={"Goals"} wrapperStyle={{marginBottom: 0}}/>
 
 
         {this.form.$('goal_is_in_supporters').get('value') === GoalTypes.IN_CENTS ?
           <div>
-            <CurrencyField label={"Amount"} field={this.form.$('goal_in_cents')} wrapperStyle={{marginBottom: 0}}/>
+            <CurrencyField label={"Goal Amount"} field={this.form.$('goal_in_cents')} wrapperStyle={{marginBottom: 0}}/>
 
 
             <CurrencyField label={"Starting point (optional)"} field={this.form.$('starting_point_cents')} wrapperStyle={{marginBottom: 0}}/>

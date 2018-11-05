@@ -2,23 +2,8 @@
 -- PostgreSQL database dump
 --
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 -- Dumped from database version 9.6.5
 -- Dumped by pg_dump version 9.6.10
-=======
--- Dumped from database version 9.6.8
--- Dumped by pg_dump version 9.6.8
->>>>>>> Add CampaignTemplate
-=======
--- Dumped from database version 10.1
--- Dumped by pg_dump version 10.1
->>>>>>> wip
-=======
--- Dumped from database version 9.6.8
--- Dumped by pg_dump version 9.6.9
->>>>>>> Fix structure.sql
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -4413,23 +4398,7 @@ INSERT INTO schema_migrations (version) VALUES ('20180608205049');
 
 INSERT INTO schema_migrations (version) VALUES ('20180608212658');
 
-<<<<<<< HEAD
-INSERT INTO schema_migrations (version) VALUES ('20180713213748');
-
-INSERT INTO schema_migrations (version) VALUES ('20180713215825');
-
-INSERT INTO schema_migrations (version) VALUES ('20180713220028');
-
-INSERT INTO schema_migrations (version) VALUES ('20181002160627');
-
-INSERT INTO schema_migrations (version) VALUES ('20181003212559');
-
-INSERT INTO schema_migrations (version) VALUES ('201810202124316');
-
-INSERT INTO schema_migrations (version) VALUES ('201810202124317');
-=======
 INSERT INTO schema_migrations (version) VALUES ('20180703165400');
->>>>>>> Fix structure.sql
 
 INSERT INTO schema_migrations (version) VALUES ('20180703165401');
 
@@ -4440,4 +4409,14 @@ INSERT INTO schema_migrations (version) VALUES ('20180703165403');
 INSERT INTO schema_migrations (version) VALUES ('20180703165404');
 
 INSERT INTO schema_migrations (version) VALUES ('20180703165405');
+
+INSERT INTO schema_migrations (version) VALUES ('20180713213748');
+
+INSERT INTO schema_migrations (version) VALUES ('20180713215825');
+
+INSERT INTO schema_migrations (version) VALUES ('20180713220028');
+
+INSERT INTO schema_migrations (version) VALUES ('20181002160627');
+
+INSERT INTO schema_migrations (version) VALUES ('20181003212559');
 

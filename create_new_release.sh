@@ -3,7 +3,7 @@ current_commit=$( git rev-parse HEAD )
 
 git checkout PRIVATE_MASTER
 
-git merge --no-commit master
+git merge --no-commit $current_commit
 
 echo $current_commit > CCS_HASH
 git add CCS_HASH

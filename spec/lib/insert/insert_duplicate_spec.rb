@@ -114,7 +114,9 @@ describe InsertDuplicate do
         expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
             {
                 id: result.id,
-                end_datetime: nil
+                end_datetime: nil,
+                banner_image: nil,
+                campaign_template_id: nil
             }).with_indifferent_access)
         validate_cgo(result)
       end

@@ -38,18 +38,6 @@
           </fieldset>
         </div>
 
-        <div class='group'>
-          <fieldset class='field col-12'>
-            <label>
-              Add a profile image
-            </label>
-            <div class='image-upload u-marginTop--15' style='background-image: url("<%= @profile.picture %>");'>
-              <span><i class='fa fa-image'></i> Upload</span>
-              <input type='file' name='profile[picture]' >
-            </div>
-          </fieldset>
-        </div>
-
 				<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_p2p_campaign_wiz', branded: true %>
 			</form>
 		</div>

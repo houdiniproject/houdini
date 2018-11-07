@@ -54,7 +54,7 @@
               </p>
 
               <a class="button">Create campaign from template</a>
-              <!--= on 'click' (create_campaign_from_template '<%= raw(template.create_campaign_params.to_json) %>') -->
+              <!--= on 'click' (create_campaign_from_template '<%= raw({'campaign_template_id' => template.id}.to_json) %>') -->
 
               <a class="button red">Delete template</a>
               <!--= on 'click' (delete_template <%= template.id %>) -->

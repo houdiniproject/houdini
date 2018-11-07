@@ -79,8 +79,8 @@ appl.def('create_campaign_from_template', function(campaign_params) {
 
   var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/create_from_template'
   var params = new Object
-  params.campaign = JSON.parse(campaign_params)
-  params.campaign.profile_id = app.profile_id
+  params = JSON.parse(campaign_params)
+  params.profile_id = app.profile_id
 
   return new Promise(function(resolve, reject) {
     var req = new XMLHttpRequest()
@@ -96,7 +96,7 @@ appl.def('create_campaign_from_template', function(campaign_params) {
     appl.def('loading', false)
     appl.notify('Redirecting you to your campaign…')
     var campaign_id = JSON.parse(req.response).id
-    appl.redirect(url + '/' + campaign_id)
+    appl.redirect('/nonprofits/' + app.nonprofit_id + '/campaigns/' + campaign_id)
   })
   .catch(function(req) {
     appl.def('loading', false)

@@ -5,6 +5,7 @@ class CampaignsController < ApplicationController
   helper_method :current_campaign_editor?
   before_filter :authenticate_confirmed_user!, only: [:create, :name_and_id, :duplicate]
   before_filter :authenticate_campaign_editor!, only: [:update, :soft_delete]
+  before_filter :authenticate_nonprofit_user!, only: [:create_via_template]
   before_filter :check_nonprofit_status, only: [:index, :show]
 
   def index
@@ -62,6 +63,23 @@ class CampaignsController < ApplicationController
       profile_id = params[:campaign][:profile_id]
       Profile.find(profile_id).update_attributes params[:profile]
       render json: CreatePeerToPeerCampaign.create(params[:campaign], profile_id)
+    end
+  end
+
+  def create_from_template
+    Qx.transaction do
+      campaign_template = current_nonprofit.campaign_templates.find(params[:campaign_template_id])
+
+      save_params = campaign_template.create_campaign_params
+
+      save_params['slug'] = SlugCopyNamingAlgorithm.new(Campaign, current_nonprofit.id).create_copy_name(Format::Url.convert_to_slug(save_params['name']))
+
+      save_params['name'] = NameCopyNamingAlgorithm.new(Campaign, current_nonprofit.id).create_copy_name(save_params['name'])
+      save_params['profile_id'] = params[:profile_id]
+      campaign  = current_nonprofit.campaigns.create save_params
+      campaign.update_attribute(:main_image, campaign_template.main_image) unless !campaign_template.main_image rescue AWS::S3::Errors::NoSuchKey
+
+      json_saved campaign, 'Campaign created! Well done.'
     end
   end
 

@@ -74,10 +74,10 @@ appl.def('delete_template', function(id) {
 })
 
 
-appl.def('create_campaign', function(campaign_params) {
+appl.def('create_campaign_from_template', function(campaign_params) {
   appl.def('loading', true)
 
-  var url = '/nonprofits/' + app.nonprofit_id + '/campaigns'
+  var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/create_from_template'
   var params = new Object
   params.campaign = JSON.parse(campaign_params)
   params.campaign.profile_id = app.profile_id
@@ -103,3 +103,5 @@ appl.def('create_campaign', function(campaign_params) {
     appl.notify(req.responseText)
   })
 })
+
+

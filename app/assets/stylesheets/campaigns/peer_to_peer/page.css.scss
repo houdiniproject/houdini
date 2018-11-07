@@ -6,18 +6,13 @@
 @import 'components/simple_tabs';
 @import 'pikaday';
 @import 'common/image_uploader';
+@import '../common';
 
 body {
 	padding: 0;
 	background: $fog;
 }
 
-body > .campaign-banner {
-  margin: auto;
-  width: 980px;
-  max-height: 120px;
-  text-align: center;
-}
 
 main {
 	display: block;

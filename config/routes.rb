@@ -110,9 +110,7 @@ Commitchange::Application.routes.draw do
 			post(:send_code)
 		end
 
-    resources(:campaign_templates, {only: [:index, :create, :show, :destroy]}) do
-      post :create_from_template, on: :collection
-    end
+    resources(:campaign_templates, {only: [:index, :create, :show, :destroy]})
 
 		post 'tracking', controller: 'trackings', action: 'create'
 	end
@@ -148,6 +146,7 @@ Commitchange::Application.routes.draw do
       get(:activities, {on: :member})
       put(:soft_delete, {on: :member})
       get(:name_and_id, {on: :collection})
+			post :create_from_template, on: :collection
 			resources(:campaign_gift_options, {only: [:index, :show, :create, :update, :destroy]}) do
         put(:update_order, {on: :collection})
       end

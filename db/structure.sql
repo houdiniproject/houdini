@@ -356,47 +356,6 @@ ALTER SEQUENCE public.campaign_gifts_id_seq OWNED BY public.campaign_gifts.id;
 
 
 --
--- Name: campaign_templates; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.campaign_templates (
-    id integer NOT NULL,
-    template_name character varying(255) NOT NULL,
-    name character varying(255),
-    tagline character varying(255),
-    goal_amount integer,
-    main_image character varying(255),
-    video_url text,
-    vimeo_video_id character varying(255),
-    youtube_video_id character varying(255),
-    summary text,
-    body text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    nonprofit_id integer
-);
-
-
---
--- Name: campaign_templates_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.campaign_templates_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: campaign_templates_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.campaign_templates_id_seq OWNED BY public.campaign_templates.id;
-
-
---
 -- Name: campaigns; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2352,13 +2311,6 @@ ALTER TABLE ONLY public.campaign_gifts ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- Name: campaign_templates id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.campaign_templates ALTER COLUMN id SET DEFAULT nextval('public.campaign_templates_id_seq'::regclass);
-
-
---
 -- Name: campaigns id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2741,14 +2693,6 @@ ALTER TABLE ONLY public.campaign_gift_options
 
 ALTER TABLE ONLY public.campaign_gifts
     ADD CONSTRAINT campaign_gifts_pkey PRIMARY KEY (id);
-
-
---
--- Name: campaign_templates campaign_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.campaign_templates
-    ADD CONSTRAINT campaign_templates_pkey PRIMARY KEY (id);
 
 
 --

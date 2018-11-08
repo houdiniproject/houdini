@@ -69,7 +69,6 @@
           <p class='strong u-marginBottom--15'>My campaign</p>
           <div class='u-paddingLeft--20 u-maxWidth--500'>
             <h4><%= @parent_campaign.name %></h4>
-            <p>See our other <%= link_to 'active campaigns', @parent_campaign.nonprofit.url || @nonprofit.url %>.</p>
           </div>
         </li>
       <% else %>

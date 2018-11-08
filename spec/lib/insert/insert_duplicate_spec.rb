@@ -115,8 +115,7 @@ describe InsertDuplicate do
             {
                 id: result.id,
                 end_datetime: nil,
-                banner_image: nil,
-                campaign_template_id: nil
+                banner_image: nil
             }).with_indifferent_access)
         validate_cgo(result)
       end

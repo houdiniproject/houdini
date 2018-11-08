@@ -66,23 +66,6 @@ class CampaignsController < ApplicationController
     end
   end
 
-  def create_from_template
-    Qx.transaction do
-      campaign_template = current_nonprofit.campaign_templates.find(params[:campaign_template_id])
-
-      save_params = campaign_template.create_campaign_params
-
-      save_params['slug'] = SlugCopyNamingAlgorithm.new(Campaign, current_nonprofit.id).create_copy_name(Format::Url.convert_to_slug(save_params['name']))
-
-      save_params['name'] = NameCopyNamingAlgorithm.new(Campaign, current_nonprofit.id).create_copy_name(save_params['name'])
-      save_params['profile_id'] = params[:profile_id]
-      campaign  = current_nonprofit.campaigns.create save_params
-      campaign.update_attribute(:main_image, campaign_template.main_image) unless !campaign_template.main_image rescue AWS::S3::Errors::NoSuchKey
-
-      json_saved campaign, 'Campaign created! Well done.'
-    end
-  end
-
   def update
     Time.use_zone(current_nonprofit.timezone || 'UTC') do
       params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
@@ -90,7 +73,6 @@ class CampaignsController < ApplicationController
     current_campaign.update_attributes params[:campaign]
     json_saved current_campaign, 'Successfully updated!'
   end
-
 
   # post 'nonprofits/:np_id/campaigns/:campaign_id/duplicate'
   def duplicate

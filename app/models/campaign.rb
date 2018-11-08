@@ -66,6 +66,7 @@ class Campaign < ActiveRecord::Base
 	has_many :activities,   as: :host, dependent: :destroy
 	belongs_to :profile
 	belongs_to :nonprofit
+  belongs_to :campaign_template
 
   belongs_to :parent_campaign, class_name: 'Campaign'
   has_many :children_campaigns, class_name: 'Campaign', foreign_key: 'parent_campaign_id'
@@ -179,7 +180,11 @@ class Campaign < ActiveRecord::Base
   end
 
   def child_campaign?
-    parent_campaign.present?
+    if parent_campaign.present?
+      true
+    else
+      false
+    end
   end
 
   def parent_campaign?

@@ -110,8 +110,6 @@ Commitchange::Application.routes.draw do
 			post(:send_code)
 		end
 
-    resources(:campaign_templates, {only: [:index, :create, :show, :destroy]})
-
 		post 'tracking', controller: 'trackings', action: 'create'
 	end
 

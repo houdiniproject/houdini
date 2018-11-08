@@ -34,6 +34,7 @@
 
 <% if yield(:footer_hidden) != 'hidden' %>
 	<footer class='globalFooter'>
+		<%= render 'components/guest_footer' unless current_user %>
 		<%= render 'components/footer_sub' %>
 	</footer>
 <% end %>

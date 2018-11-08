@@ -393,7 +393,6 @@ CREATE TABLE public.campaigns (
     show_recurring_amount boolean DEFAULT false,
     end_datetime timestamp without time zone,
     external_identifier character varying(255),
-    campaign_template_id integer,
     parent_campaign_id integer,
     reason_for_supporting text,
     default_reason_for_supporting text,

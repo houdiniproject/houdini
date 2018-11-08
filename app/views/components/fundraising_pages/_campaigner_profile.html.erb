@@ -1,23 +1,26 @@
-<section class='box'>
-  <section class="campaigner-profile">
-    <figure>
-      <div class="avatar">
-        <img src='<%= profile.picture %>' />
-      </div>
-      <figcaption>
-        <p><%= profile.name %></p>
-        <p><%= profile.city %></p>
-        <% if profile.state_code && profile.city %>
-          <p><%= profile.city_state %> <%= profile.state_code %></p>
-        <% end %>
-      </figcaption>
-    </figure>
+<section class='box' style="font-style:italic">
+  <div class="well">
+  <h4><%= profile.name %> <small>(<%= profile.city %><% if profile.state_code && profile.city %><%= profile.city_state %> <%= profile.state_code %><% end %>)</small></h4>
+    <blockquote><p>"<%= reason_for_supporting %>"</p></blockquote></div>
+<!--  <section class="campaigner-profile">-->
+<!--    <figure>-->
+<!--      <div class="avatar">-->
+<!--        <img src='<%#= profile.picture %>' />-->
+<!--      </div>-->
+<!--      <figcaption>-->
+<!--        <p><%#= profile.name %></p>-->
+<!--        <p><%#= profile.city %></p>-->
+        <%# if profile.state_code && profile.city %>
+<!--          <p><%#= profile.city_state %> <%#= profile.state_code %></p>-->
+        <%# end %>
+<!--      </figcaption>-->
+<!--    </figure>-->
 
-    <section class='u-marginBottom--15 pastelBox--grey'>
-      <header>What's your reason for supporting <%= campaign_name %>?</header>
-      <div class='pastelBox-body'>
-        <%= reason_for_supporting %>
-      </div>
-    </section>
-  </section>
+<!--    <section class='u-marginBottom--15 pastelBox--grey'>-->
+<!--      <header>What's your reason for supporting <%#= campaign_name %>?</header>-->
+<!--      <div class='pastelBox-body'>-->
+        <%#= reason_for_supporting %>
+<!--      </div>-->
+<!--    </section>-->
+<!--  </section>-->
 </section>

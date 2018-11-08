@@ -25,10 +25,6 @@
 
 	<% unless current_role?([:nonprofit_admin,:nonprofit_associate]) %>
 		<section class='sideNav-section'>
-			<a class='sideNav-link' href='/explore'>
-				<i class='sideNav-icon icon-binocular'></i>
-				<span class='sideNav-text'>Explore</span> 
-			</a>
       <% if Settings.terms_and_privacy&.help_url %>
         <a class='sideNav-link' href="<%=Settings.terms_and_privacy.help_url %>">
           <i class='sideNav-icon icon-bubble-ask-2'></i>

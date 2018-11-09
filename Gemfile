@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.7'
 gem 'rake'
-gem 'rails', '3.2.22.5'
+gem 'rails', '~> 4.1'
 gem 'rails_12factor'
 # https://stripe.com/docs/api
 gem 'stripe'
@@ -26,8 +26,7 @@ gem 'test-unit', '~> 3.0'
 gem 'hamster'
 
 gem 'aws-ses'
-gem 'aws-sdk'
-
+gem 'aws-sdk', '~> 1'
 # for blocking ip addressses
 gem 'rack-attack'
 
@@ -91,7 +90,7 @@ gem 'table_print'
 
 gem 'bunny', '>= 2.6.3'
 
-gem 'rails-i18n', '~> 3.0.0' # For 3.x
+gem 'rails-i18n', '~> 4.0' # For 3.x
 gem 'i18n-js'
 gem 'countries'
 
@@ -125,7 +124,7 @@ end
 
 # Gems used for asset compilation
 gem 'sass', '3.2.19'
-gem 'sass-rails', '3.2.6'
+gem 'sass-rails'
 gem 'uglifier'
 
 # make logging less terrible in rails
@@ -137,7 +136,7 @@ gem 'dry-validation' # used only for config validation
 gem 'foreman'
 
 gem 'grape', '~> 1.1.0'
-gem 'grape-entity', git: 'https://github.com/ruby-grape/grape-entity.git', ref: '0e04aa561373b510c2486282979085eaef2ae663'
+gem 'grape-entity'
 gem 'grape-swagger'
 gem 'grape-swagger-entity'
 gem 'grape_url_validator'

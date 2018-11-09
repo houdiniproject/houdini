@@ -57,18 +57,7 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    Time.use_zone(current_nonprofit.timezone || 'UTC') do
-      params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
-    end
-
-    if !params[:campaign][:parent_campaign_id]
-      campaign = current_nonprofit.campaigns.create params[:campaign]
-      json_saved campaign, 'Campaign created! Well done.'
-    else
-      profile_id = params[:campaign][:profile_id]
-      Profile.find(profile_id).update_attributes params[:profile]
-      render json: CreatePeerToPeerCampaign.create(params[:campaign], profile_id)
-    end
+    render json: CreateCampaign.create(params, current_nonprofit)
   end
 
   def update

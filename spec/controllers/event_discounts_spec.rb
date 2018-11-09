@@ -11,11 +11,11 @@ describe EventDiscountsController, :type => :controller do
       end
       
       describe 'update' do
-          include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, event_id: :__our_event
+          include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, event_id: :__our_event, id: '2'
       end
       
       describe 'destroy' do
-          include_context :open_to_event_editor, :delete, :destroy, nonprofit_id: :__our_np, event_id: :__our_event
+          include_context :open_to_event_editor, :delete, :destroy, nonprofit_id: :__our_np, event_id: :__our_event, id: '2'
       end
       
       
@@ -23,7 +23,7 @@ describe EventDiscountsController, :type => :controller do
     
     describe 'open to all' do
       describe 'index' do
-          include_context :open_to_all, :get, :index, nonprofit_id: :__our_np, event_id: :__our_event
+          include_context :open_to_all, :get, :index, nonprofit_id: :__our_np, event_id: :__our_event, id: "2"
       end
     end
   end

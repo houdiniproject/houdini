@@ -14,15 +14,15 @@ describe Nonprofits::RecurringDonationsController, :type => :controller do
     end
 
     describe 'show' do
-      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1'
     end
 
     describe 'destroy' do
-      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np, id: '1'
     end
 
     describe 'update' do
-      include_context :open_to_np_associate, :put, :update, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :put, :update, nonprofit_id: :__our_np, id: '1'
     end
 
 

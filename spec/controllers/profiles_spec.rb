@@ -21,7 +21,7 @@ describe ProfilesController, :type => :controller do
 
     describe 'open to all' do
       describe 'show' do
-        include_context :open_to_all, :get, :show, nonprofit_id: :__our_np
+        include_context :open_to_all, :get, :show, id: :__our_np
       end
     end
   end

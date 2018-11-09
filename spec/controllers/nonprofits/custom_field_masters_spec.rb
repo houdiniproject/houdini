@@ -14,7 +14,7 @@ describe Nonprofits::CustomFieldMastersController, :type => :controller do
     end
 
     describe 'destroy' do
-      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np, id: '1'
     end
   end
 end

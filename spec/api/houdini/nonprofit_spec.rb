@@ -1,18 +1,18 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe Houdini::V1::Nonprofit, :type => :controller do
-  describe :get do
+describe Houdini::V1::Nonprofit, :type => :request do
+  describe 'get' do
 
   end
 
-  describe :post do
-    around {|e|
+  describe 'post' do
+    around(:each) do |example|
       @old_bp =Settings.default_bp
-      e.run
+      example.run
       Settings.default_bp = @old_bp
 
-    }
+    end
     def expect_validation_errors(actual, input)
       expected_errors = input.with_indifferent_access[:errors]
       expect(actual["errors"]).to match_array expected_errors
@@ -47,7 +47,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       }.with_indifferent_access
     }
     describe 'authorization' do
-      around {|e|
+      around(:each) {|e|
         Rails.configuration.action_controller.allow_forgery_protection = true
         e.run
         Rails.configuration.action_controller.allow_forgery_protection = false

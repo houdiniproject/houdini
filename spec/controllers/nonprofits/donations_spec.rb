@@ -9,14 +9,14 @@ describe Nonprofits::DonationsController, :type => :controller do
   describe 'rejects unauthenticated users' do
     describe 'index' do
       include_context :shared_user_context
-      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, id: "1"
     end
 
 
 
     describe 'update' do
       include_context :shared_user_context
-      include_context :open_to_np_associate, :put, :update, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :put, :update, nonprofit_id: :__our_np, id: "1"
     end
 
 
@@ -27,7 +27,7 @@ describe Nonprofits::DonationsController, :type => :controller do
     end
 
     describe 'follow up' do
-      include_context :open_to_all, :put, :followup, nonprofit_id: :__our_np
+      include_context :open_to_all, :put, :followup, nonprofit_id: :__our_np, id: "1"
     end
   end
 end

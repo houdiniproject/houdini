@@ -14,23 +14,23 @@ describe Nonprofits::SupportersController, :type => :controller do
     end
 
     describe 'show' do
-      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1'
     end
 
     describe 'email_address' do
-      include_context :open_to_np_associate, :get, :email_address, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :email_address, nonprofit_id: :__our_np, id: '1'
     end
 
     describe 'full_contact' do
-      include_context :open_to_np_associate, :get, :full_contact, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :full_contact, nonprofit_id: :__our_np, id: '1'
     end
 
     describe 'info_card' do
-      include_context :open_to_np_associate, :get, :info_card, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :info_card, nonprofit_id: :__our_np, id: '1'
     end
 
     describe 'update' do
-      include_context :open_to_np_associate, :put, :update, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :put, :update, nonprofit_id: :__our_np, id: '1'
     end
 
     describe 'bulk_delete' do

@@ -7,7 +7,7 @@ describe Nonprofits::ActivitiesController, :type => :controller do
     include_context :shared_user_context
     describe 'rejects unauthorized users' do
       describe 'get' do
-        include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+        include_context :open_to_np_associate, :get, :index, id: :__our_np
       end
     end
   end

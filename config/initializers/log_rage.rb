@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-Commitchange::Application.configure do
+Rails.application.configure do
   if (Rails.env != 'test')
 
 

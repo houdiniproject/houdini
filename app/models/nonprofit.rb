@@ -73,7 +73,8 @@ class Nonprofit < ActiveRecord::Base
   has_many :email_settings
   has_many :cards, as: :holder
 
-  has_one :bank_account, dependent: :destroy, conditions: "COALESCE(deleted, false) = false"
+  has_one :bank_account, -> { where("COALESCE(deleted, false) = false") },
+          dependent: :destroy
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info

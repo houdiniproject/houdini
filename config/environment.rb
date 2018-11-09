@@ -298,4 +298,4 @@ end
 Settings.reload!
 
 # Initialize the rails application
-Commitchange::Application.initialize!
+Rails.application.initialize!

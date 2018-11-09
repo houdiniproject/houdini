@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-Commitchange::Application.routes.draw do
+Rails.application.routes.draw do
   mount Houdini::API => '/api'
 
   if Rails.env == 'development'
@@ -196,47 +196,47 @@ Commitchange::Application.routes.draw do
 			:confirmations => 'users/confirmations'
 		}
 	devise_scope :user do
-		match '/sign_in' => 'users/sessions#new'
-		match '/signup' => 'devise/registrations#new'
-		post '/confirm' => 'users/confirmations#confirm'
-    match '/users/is_confirmed' => 'users/confirmations#is_confirmed'
-    match '/users/exists' => 'users/confirmations#exists'
-		post '/users/confirm_auth', action: :confirm_auth, controller: 'users/sessions'
+		match '/sign_in' => 'users/sessions#new', via: [:get, :post]
+		match '/signup' => 'devise/registrations#new', via: [:get, :post]
+		post '/confirm' => 'users/confirmations#confirm', via: [:get]
+    match '/users/is_confirmed' => 'users/confirmations#is_confirmed', via: [:get, :post]
+    match '/users/exists' => 'users/confirmations#exists', via: [:get]
+		post '/users/confirm_auth', action: :confirm_auth, controller: 'users/sessions', via: [:get, :post]
 	end
 
 	# Super admin
-  match '/admin' => 'super_admins#index', :as => 'admin'
-  match '/admin/search-nonprofits' => 'super_admins#search_nonprofits'
-  match '/admin/search-profiles' => 'super_admins#search_profiles'
-  match '/admin/search-fullcontact' => 'super_admins#search_fullcontact'
-  match '/admin/recurring-donations-without-cards' => 'super_admins#recurring_donations_without_cards'
-  match '/admin/export_supporters_with_rds' => 'super_admins#export_supporters_with_rds'
-  match '/admin/resend_user_confirmation' => 'super_admins#resend_user_confirmation'
+  match '/admin' => 'super_admins#index', :as => 'admin', via: [:get, :post]
+  match '/admin/search-nonprofits' => 'super_admins#search_nonprofits', via: [:get, :post]
+  match '/admin/search-profiles' => 'super_admins#search_profiles', via: [:get, :post]
+  match '/admin/search-fullcontact' => 'super_admins#search_fullcontact', via: [:get, :post]
+  match '/admin/recurring-donations-without-cards' => 'super_admins#recurring_donations_without_cards', via: [:get, :post]
+  match '/admin/export_supporters_with_rds' => 'super_admins#export_supporters_with_rds', via: [:get, :post]
+  match '/admin/resend_user_confirmation' => 'super_admins#resend_user_confirmation', via: [:get, :post]
 
   # Events
-  match '/events' => 'events#index'
-  match '/events/:event_slug' => 'events#show'
+  match '/events' => 'events#index', via: [:get]
+  match '/events/:event_slug' => 'events#show', via: [:get, :post]
 
 	# Nonprofits
-	match ':state_code/:city/:name' => 'nonprofits#show', :as => :nonprofit_location
-	match ':state_code/:city/:name/donate' => 'nonprofits#donate', :as => :nonprofit_donation
-	match ':state_code/:city/:name/button' => 'nonprofits/button#guided'
+	match ':state_code/:city/:name' => 'nonprofits#show', :as => :nonprofit_location, via: [:get, :post]
+	match ':state_code/:city/:name/donate' => 'nonprofits#donate', :as => :nonprofit_donation, via: [:get, :post]
+	match ':state_code/:city/:name/button' => 'nonprofits/button#guided', via: [:get, :post]
 
 	# Campaigns
-	match ':state_code/:city/:name/campaigns' => 'campaigns#index'
-	match ':state_code/:city/:name/campaigns/:campaign_slug' => 'campaigns#show', :as => :campaign_loc
-	match ':state_code/:city/:name/campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', :as => :campaign_loc
-  match '/peer-to-peer' => 'campaigns#peer_to_peer'
+	match ':state_code/:city/:name/campaigns' => 'campaigns#index', via: [:get, :post]
+	match ':state_code/:city/:name/campaigns/:campaign_slug' => 'campaigns#show', via: [:get, :post]
+	match ':state_code/:city/:name/campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', via: [:get, :post]
+  match '/peer-to-peer' => 'campaigns#peer_to_peer', via: [:get, :post]
 
 	# Events
-	match ':state_code/:city/:name/events' => 'events#index'
-	match ':state_code/:city/:name/events/:event_slug' => 'events#show'
-	match ':state_code/:city/:name/events/:event_slug/stats' => 'events#stats'
-	match ':state_code/:city/:name/events/:event_slug/tickets' => 'tickets#index'
+	match ':state_code/:city/:name/events' => 'events#index', via: [:get, :post]
+	match ':state_code/:city/:name/events/:event_slug' => 'events#show', via: [:get, :post]
+	match ':state_code/:city/:name/events/:event_slug/stats' => 'events#stats', via: [:get, :post]
+	match ':state_code/:city/:name/events/:event_slug/tickets' => 'tickets#index', via: [:get, :post]
 	# get '/events' => 'events#index'
 
 	# Dashboard
-	match ':state_code/:city/:name/dashboard' => 'nonprofits#dashboard', as: :np_dashboard
+	match ':state_code/:city/:name/dashboard' => 'nonprofits#dashboard', as: :np_dashboard, via: [:get, :post]
 
 	# Misc
 	get '/pages/wp-plugin', to: redirect('/help/wordpress-plugin') #temporary, until WP plugin updated
@@ -248,7 +248,7 @@ Commitchange::Application.routes.draw do
 	get '/maps/specific-npo-supporters' => 'maps#specific_npo_supporters'
 
 	# Mailchimp Landing
-  match '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
+  match '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing', via: [:get, :post]
 
   # Webhooks
   post '/webhooks/stripe_subscription_payment' => 'webhooks#subscription_payment'

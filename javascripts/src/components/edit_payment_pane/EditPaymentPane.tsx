@@ -371,7 +371,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
     </table>;
 
 
-    let checkNumber = this.props.data.offsite_payment && this.props.data.offsite_payment.check_number ?
+    let checkNumber = this.props.data.offsite_payment ?
       <BasicField field={this.form.$('check_number')} label={"Check or Payment Number/ID"}/> : false;
 
     let offsitePayment = this.props.data.kind === "OffsitePayment" ? (<div>

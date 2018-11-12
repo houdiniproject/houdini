@@ -117,10 +117,12 @@ class CampaignsController < ApplicationController
 
     if current_user
       @profile = current_user.profile
-      @child_campaign = Campaign.where(
-        profile_id: @profile.id,
-        parent_campaign_id: @parent_campaign.id
-      ).first
+      if (@parent_campaign)
+        @child_campaign = Campaign.where(
+          profile_id: @profile.id,
+          parent_campaign_id: @parent_campaign.id
+        ).first
+      end
     end
   end
 

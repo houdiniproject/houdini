@@ -103,7 +103,7 @@
 			</div>
 		</aside>
 
-    <% unless current_campaign_editor? %>
+    <% unless current_campaign_editor? || @campaign.child_campaign? %>
       <aside class='u-marginTop--15'>
         <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?npo_id=<%=@nonprofit.id %>'>
           Start Your Own Campaign for <%= @nonprofit.name %>
@@ -120,8 +120,8 @@
         reason_for_supporting: @campaign.reason_for_supporting
      %>
 
-    <section class='box'>
-      <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
+    <section class='box u-centered' style="margin-top:20px; margin-bottom:20px;">
+      <a class='button--jumbo' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
         Start Your Own Campaign for <%= @nonprofit.name %>
       </a>
     </section>

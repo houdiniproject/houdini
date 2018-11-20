@@ -7,9 +7,6 @@ module QueryCampaignMetrics
     result = Qx.select(
         "COALESCE(COUNT(DISTINCT donations.id), 0) AS supporters_count",
         "COALESCE(SUM(payments.gross_amount), 0) AS total_raised"
-        # "campaigns.goal_amount",
-        # "campaigns.show_total_count",
-        # "campaigns.show_total_raised"
          )
       .from("campaigns")
       .join(

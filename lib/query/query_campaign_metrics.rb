@@ -13,8 +13,9 @@ module QueryCampaignMetrics
         ["donations", "donations.campaign_id=campaigns.id"],
         ["payments", "payments.donation_id=donations.id"]
       )
-      .where("campaigns.id IN (#{Qx.select("id").from('campaigns')
-                    .where("campaigns.id = $id OR campaigns.parent_campaign_id=$id", id: campaign_id).parse
+      .where("campaigns.id IN (#{QueryCampaigns
+                                     .get_campaign_and_children(campaign_id)
+                                     .parse
       })")
       .execute
       .last

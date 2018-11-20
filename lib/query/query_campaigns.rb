@@ -73,5 +73,12 @@ module QueryCampaigns
     )
   end
 
+  def self.get_campaign_and_children(campaign_id)
+    Qx.select("id")
+        .from('campaigns')
+        .where("campaigns.id = $id OR campaigns.parent_campaign_id=$id",
+               id: campaign_id)
+  end
+
 
 end

@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.10
+-- Dumped by pg_dump version 9.6.11
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -3148,6 +3148,13 @@ CREATE INDEX index_campaign_gifts_on_campaign_gift_option_id ON public.campaign_
 
 
 --
+-- Name: index_campaigns_on_parent_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_campaigns_on_parent_campaign_id ON public.campaigns USING btree (parent_campaign_id);
+
+
+--
 -- Name: index_cards_on_id_and_holder_type_and_holder_id_and_inactive; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4362,4 +4369,6 @@ INSERT INTO schema_migrations (version) VALUES ('20180713220028');
 INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
+
+INSERT INTO schema_migrations (version) VALUES ('20181120182105');
 

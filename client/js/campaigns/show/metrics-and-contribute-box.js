@@ -55,9 +55,9 @@ const totalRaised = state => {
   let currentText = ""
   let goalText = ""
   if (state.metrics$().goal_is_in_supporters) {
-    const currentAmount = (state.metrics$().starting_point || 0) + state.metrics$().supporters_count;
+    const currentAmount = format.numberWithCommas((state.metrics$().starting_point || 0) + state.metrics$().supporters_count);
     currentText = `${currentAmount}`
-    goalText = ` of ${state.metrics$().goal_amount} supporter goal`
+    goalText = ` of ${format.numberWithCommas(state.metrics$().goal_amount)} supporter goal`
   }
   else {
     currentText = '$' + format.centsToDollars(state.metrics$().total_raised, {noCents: true})

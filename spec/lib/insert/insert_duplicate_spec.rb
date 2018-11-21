@@ -44,6 +44,8 @@ describe InsertDuplicate do
     let(:common_result_attributes) {
       {
       nonprofit_id: nonprofit.id,
+      parent_campaign_id: nil,
+      reason_for_supporting: nil,
       profile_id: profile.id,
       :background_image => nil,
       :body => nil,
@@ -71,6 +73,8 @@ describe InsertDuplicate do
       :video_url => nil,
       :vimeo_video_id => nil,
       :youtube_video_id => nil,
+      banner_image: nil,
+      default_reason_for_supporting: nil,
       name: copy_name,
 
       slug: copy_slug,

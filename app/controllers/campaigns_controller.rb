@@ -48,7 +48,8 @@ class CampaignsController < ApplicationController
   end
 
   def activities
-    render json: QueryDonations.for_campaign_activities(params[:id])
+    @campaign = current_campaign
+    render json: QueryDonations.for_campaign_activities(@campaign.id)
   end
 
   def create

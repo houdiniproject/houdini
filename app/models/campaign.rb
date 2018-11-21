@@ -164,17 +164,13 @@ class Campaign < ActiveRecord::Base
     (self.end_datetime.to_date - Date.today).to_i
 	end
 
-  def customizable_attributes_list
-    campaign_template.customizable_attributes_list if campaign_template
-  end
 
   def child_params
     excluded_for_peer_to_peer = %w(
-      id created_at updated_at slug profile_id campaign_template_id url
+      id created_at updated_at slug profile_id  url
       total_raised show_recurring_amount external_identifier parent_campaign_id
       reason_for_supporting metadata
     )
-    excluded_for_peer_to_peer.push(customizable_attributes_list)
     attributes.except(*excluded_for_peer_to_peer)
   end
 

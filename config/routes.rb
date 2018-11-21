@@ -144,6 +144,7 @@ Commitchange::Application.routes.draw do
       get(:activities, {on: :member})
       put(:soft_delete, {on: :member})
       get(:name_and_id, {on: :collection})
+			post :create_from_template, on: :collection
 			resources(:campaign_gift_options, {only: [:index, :show, :create, :update, :destroy]}) do
         put(:update_order, {on: :collection})
       end

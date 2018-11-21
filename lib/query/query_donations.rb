@@ -28,7 +28,9 @@ module QueryDonations
      .join(:supporters, "supporters.id=donations.supporter_id")
      .left_outer_join(:campaign_gifts, "campaign_gifts.donation_id=donations.id")
      .left_outer_join(:campaign_gift_options, "campaign_gift_options.id=campaign_gifts.campaign_gift_option_id")
-     .where("donations.campaign_id=$id", id: campaign_id)
+     .where("donations.campaign_id IN (#{QueryCampaigns
+                                            .get_campaign_and_children(campaign_id)
+                                            .parse})")
      .group_by("donations.id", "supporters.id")
      .order_by("donations.date")
     )
@@ -36,7 +38,9 @@ module QueryDonations
 
   def self.for_campaign_activities(id)
     QueryDonations.activities_expression(['donations.recurring'])
-      .where('donations.campaign_id=$id', id: id)
+      .where("donations.campaign_id IN (#{QueryCampaigns
+                                             .get_campaign_and_children(id)
+                                             .parse})")
       .execute
   end
 

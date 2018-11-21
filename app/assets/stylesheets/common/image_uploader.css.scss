@@ -19,6 +19,11 @@
   width: 192px;
 }
 
+.image-upload--banner {
+  width: 100%;
+  height: auto;
+}
+
 .image-upload span {
 	margin-top: 30px;
 	padding: 5px;
@@ -26,6 +31,11 @@
 	background: rgba(white, 0.95);
 	color: $logo-blue;
 	@include basicShadow;
+}
+
+.image-upload--banner span {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .image-upload--large span {

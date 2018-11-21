@@ -16,14 +16,14 @@
 		app.days_remaining = '<%= @campaign.days_left %>'
 		app.recurring_fund = <%= @campaign.recurring_fund? %>
     app.vimeo_id = "<%= @campaign.vimeo_video_id ? @campaign.vimeo_video_id : '' %>"
-		app.current_campaign_editor = <%= current_campaign_editor? %>
+    app.current_campaign_editor = <%= current_campaign_editor? %>
+    app.is_parent_campaign = <%= @campaign.parent_campaign? %>
 		appl.def('has_video', <%= @campaign.video_url.present? %>)
     appl.def('campaign_is_deleted', <%= @campaign.deleted || false %>)
-		appl.def('has_main_image', <%= @campaign.main_image.file.present? %>)
-	</script>
-  <%= render 'schema', campaign: @campaign, url: @url %>
-	<%= render 'common/froala' if current_campaign_editor? %>
+    appl.def('has_main_image', <%= @campaign.main_image.file.present? %>)
+  </script>
 
+  <%= render 'schema', campaign: @campaign, url: @url %>
 	<%= IncludeAsset.js '/client/js/campaigns/show/page.js' %>
 
   <% if  current_campaign_editor? %>
@@ -75,27 +75,35 @@
 	image_url: @campaign_background_image,
 	is_editor: current_campaign_editor?,
 	hide_title:  @campaign.hide_title && @campaign_background_image,
-	header_content_partial: 'header_content' %>
+	header_content_partial: 'header_content',
+  banner_image_url: @campaign.banner_image&.url %>
 
 <%= render 'components/preview_mode_notification' %>
 
 <div class="container u-marginTop--15 <%=  @brand_color ? 'is-branded' : '' %>" data-id='<%= @campaign.id %>'>
 
-
-	<section class='box'>
+  <section class='box'>
 		<%= render 'campaign_media' %>
 	</section>
 
 	<section class='box-r'>
 
-    <% if current_campaign_editor? %>
+    <% if current_campaign_editor? && !@campaign.child_campaign? %>
       <!-- Campaign editor gift option management modal -->
       <button class='button edit u-width--full u-marginBottom--15'>
         <!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
         <i class='fa fa-gift'></i> Manage Gift Options
       </button>
     <% end %>
- 
+
+    <% if !@campaign.child_campaign? %>
+      <aside class='u-marginBottom--15 pastelBox--grey'>
+        <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
+          Start Your Own Campaign for <%= @nonprofit.name %>
+        </a>
+      </aside>
+    <% end %>
+
     <!-- flimflam gift options javascript gets rendered into this div: -->
     <div class='ff-sidebar'></div>
 
@@ -106,15 +114,21 @@
 			</div>
 		</aside>
 
-    <% unless current_campaign_editor? %>
-      <aside class='u-marginTop--15'>
-        <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?npo_id=<%=@nonprofit.id %>'>
-          Start Your Own Campaign for <%= @nonprofit.name %>
-        </a>
-      </aside>
-    <% end %>
-
 	</section>
+
+  <% if @campaign.child_campaign? %>
+    <%= render 'components/fundraising_pages/campaigner_profile',
+        profile: @campaign.profile,
+        campaign_name: @campaign.name,
+        reason_for_supporting: @campaign.reason_for_supporting
+     %>
+
+    <section class='box u-centered' style="margin-top:20px; margin-bottom:20px;">
+      <a class='button--jumbo' target='_blank' if-branded='background-color, dark' href='/peer-to-peer?campaign_id=<%= @peer_to_peer_campaign_param %>'>
+        Start Your Own Campaign for <%= @nonprofit.name %>
+      </a>
+    </section>
+  <% end %>
 
 	<section class='box'>
 
@@ -141,6 +155,10 @@
 		end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
 		image_url: @campaign_background_image,
 		input_name: 'campaign[background_image]' %>
+  <%= render 'components/upload_banner_image',
+    end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
+		image_url: @campaign.banner_image_url,
+		input_name: 'campaign[banner_image]' %>
   <%= render 'components/custom_receipt_modal',
     title: 'Campaign Receipt Message',
     type: 'campaign',
@@ -152,4 +170,3 @@
 
 <%= render 'components/share_modal', name: @campaign.name, type: 'campaign' %>
 <%= render 'common/email_share_modal', fundraiser: @campaign.name, fundraiser_url: @url  %>
-

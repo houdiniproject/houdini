@@ -1,13 +1,12 @@
 // License: LGPL-3.0-or-later
+require('../new/peer_to_peer_wizard')
+require('../../common/image_uploader')
 
-require('../new/wizard')
 var request = require("../../common/client")
-
-require('../../common/onboard')
 
 // setting up some default values
 appl.def('is_signing_up', true)
-    .def('selected_result_index', -1)
+  .def('selected_result_index', -1)
 
 
 appl.def('search_nonprofits', function(value){
@@ -23,8 +22,8 @@ appl.def('search_nonprofits', function(value){
 
   // if the the input is empty, it clears the dropdown
   if (!value) {
-      appl.def('search_results', [])
-      return
+    appl.def('search_results', [])
+    return
   }
 
   // logic for controlling the dropdown options with up
@@ -67,12 +66,12 @@ function setIndexWithArrows(dir) {
   if(dir === 'down') {
     var search_length =  appl.search_results.length -1
     appl.def('selected_result_index', appl.selected_result_index === search_length
-    ?  search_length
-    : appl.selected_result_index += 1)
+      ?  search_length
+      : appl.selected_result_index += 1)
   } else {
     appl.def('selected_result_index', appl.selected_result_index === 0
-    ? 0
-    : appl.selected_result_index -= 1)
+      ? 0
+      : appl.selected_result_index -= 1)
   }
 }
 

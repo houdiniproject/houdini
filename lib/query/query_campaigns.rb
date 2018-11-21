@@ -50,7 +50,7 @@ module QueryCampaigns
         ["payments AS onetime", "onetime.id=payments.id AND onetime.kind='Donation'"],
         ["payments AS offsite", "offsite.id=payments.id AND offsite.kind='OffsitePayment'"],
         ["payments AS recurring", "recurring.id=payments.id AND recurring.kind='RecurringDonation'"])
-      .where("donations.campaign_id" => campaign_id)
+      .where("donations.campaign_id IN (#{QueryCampaigns.get_campaign_and_children(campaign_id).parse})")
   end
 
 
@@ -62,15 +62,25 @@ module QueryCampaigns
 
 
   def self.name_and_id(npo_id)
-    Psql.execute(
-      Qexpr.new.select(
-        "campaigns.name",
-        "campaigns.id")
-        .from("campaigns")
-        .where("campaigns.nonprofit_id=$id", id: npo_id)
-        .where("campaigns.deleted='f' OR campaigns.deleted IS NULL")
-        .order_by("campaigns.name ASC")
-    )
+
+    np = Nonprofit.find(npo_id)
+    campaigns = np.campaigns.not_deleted.includes(:profile).order('campaigns.name ASC')
+    output = campaigns.map do |i|
+      {
+          'name' => i.name,
+          'id' => i.id,
+          'isChildCampaign' => i.child_campaign?,
+          'creator' => i.profile&.name || "user ##{i.profile.id}"
+      }
+    end
+    output
+  end
+
+  def self.get_campaign_and_children(campaign_id)
+    Qx.select("id")
+        .from('campaigns')
+        .where("campaigns.id = $id OR campaigns.parent_campaign_id=$id",
+               id: campaign_id)
   end
 
 

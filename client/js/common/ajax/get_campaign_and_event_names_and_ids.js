@@ -7,7 +7,17 @@ module.exports = function(npo_id) {
 
   request.get(campaignsPath).end(function(err, resp){
     resp.body.unshift(false)
-    appl.def('campaigns.data', resp.body)
+    let campaign_id_names = resp.body.map((i) => {
+      if (i.isChildCampaign)
+      {
+        return {id: i.id, name: i.name + " - " + i.creator}
+      }
+      else
+      {
+        return {id: i.id, name: i.name}
+      }
+    })
+    appl.def('campaigns.data', campaign_id_names)
   })
   request.get(eventsPath).end(function(err, resp){
     resp.body.unshift(false)

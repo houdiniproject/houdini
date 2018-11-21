@@ -20,6 +20,8 @@ appl.def('create_campaign', function(el) {
 	form_data = utils.mergeFormData(form_data, appl.new_campaign)
 	appl.def('new_campaign_wiz.loading', true)
 
+// TODO: for p2p capmaigns, merge with preset campaing params
+
 	post_campaign(form_data)
 		.then(function(req) {
 			appl.notify("Redirecting to your campaign...")

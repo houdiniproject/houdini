@@ -14,7 +14,9 @@ module QuerySupporters
      .left_outer_join('campaign_gifts', 'donations.id=campaign_gifts.donation_id')
      .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
      .where("supporters.nonprofit_id=$id", id: np_id)
-     .where("donations.campaign_id=$id", id: campaign_id)
+     .where("donations.campaign_id IN (#{QueryCampaigns
+                                             .get_campaign_and_children(campaign_id)
+                                             .parse})")
      .group_by('supporters.id')
      .order_by('MAX(donations.date) DESC')
 
@@ -253,7 +255,9 @@ module QuerySupporters
       expr = expr.and_where("tags.ids @> ARRAY[$tag_ids]", tag_ids: tag_ids)
     end
     if query[:campaign_id].present?
-      expr = expr.add_join("donations", "donations.supporter_id=supporters.id AND donations.campaign_id=#{query[:campaign_id].to_i}")
+      expr = expr.add_join("donations", "donations.supporter_id=supporters.id AND donations.campaign_id IN (#{QueryCampaigns
+      .get_campaign_and_children(query[:campaign_id].to_i)
+           .parse})")
     end
 
     if query[:event_id].present?

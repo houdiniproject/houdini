@@ -10,15 +10,27 @@
 
 <% content_for :javascripts do %>
 	<script>
-    <% if @npo %>
-    appl.def('selected_result', {name: '<%= @npo.name.html_safe %>', id: <%= @npo.id %>})
-    app.nonprofit_id = <%= @npo.id %>
+    <% if @nonprofit %>
+      appl.def('selected_result', {
+        name: '<%= @nonprofit.name.html_safe %>',
+        id: <%= @nonprofit.id %>,
+        modal_id: 'newCampaign'
+      })
+      app.nonprofit_id = <%= @nonprofit.id %>
+    <% elsif @parent_campaign %>
+      appl.def('selected_result', {
+        name: '<%= @parent_campaign.nonprofit.name.html_safe %>',
+        parent_campaign_id: <%= @parent_campaign.id %>,
+        campaign_name: '<%= @parent_campaign.name %>',
+        modal_id: 'newPeerToPeerCampaign'
+      })
+      app.nonprofit_id = <%= @parent_campaign.nonprofit.id %>
     <% end %>
     <% if current_user %>
       appl.def('is_logged_in', true)
       appl.def('is_confirmed', <%= !current_user.confirmed_at.nil? %>)
       appl.def('user', {
-        name: '<%= current_user.profile.name %>',
+        name: '<%= current_user.profile.name || current_user.email %>',
         id: <%= current_user.id %>
       })
     <% end %>
@@ -26,13 +38,15 @@
   <%= IncludeAsset.js '/client/js/campaigns/peer_to_peer/page.js' %>
 <% end %>
 
-<%= render 'layouts/top_nav' %>
+<% if @parent_campaign && @parent_campaign.banner_image_url %>
+  <div class='campaign-banner u-margin'>
+    <img src='<%= @parent_campaign.banner_image_url %>'>
+  </div>
+<% end %>
 
 <main>
   <header class='u-paddingX--15 container'>
-    <h1>Start a campaign</h1>
-    <h4>Start raising funds for your favorite nonprofit in less than 10 minutes.</h4>
-    </div>
+    <h1>Start my campaign</h1>
   </header>
 
   <hr>
@@ -43,19 +57,39 @@
         <i class='icon icon-bicycle u-fontSize--50'></i>
       </td>
       <td>
-        <h5 class='u-paddingLeft--20'>Below is a roadmap to get you started on your campaign</h5>
+        <h5 class='u-paddingLeft--20'>Below is a roadmap to get you started with your campaign</h5>
       </td>
     </tr></table>
 
     <ul class='u-paddingLeft--10 timeline--checklist'>
-      <li>
-        <!--= set_attr_if selected_result 'class' 'is-complete' -->
-        <span class='annot'>10 seconds</span>
-        <p class='strong u-marginBottom--15'>Search for a nonprofit that you want to fundraise for</p>
-        <div class='u-paddingLeft--20 u-maxWidth--500'>
-          <%= render 'search_for_npo' %>
-        </div>
-      </li>
+      <% if @parent_campaign.present? %>
+        <li>
+          <!--= set_attr_if selected_result 'class' 'is-complete' -->
+          <span class='annot'>10 seconds</span>
+          <p class='strong u-marginBottom--15'>My campaign</p>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <h4><%= @parent_campaign.name %></h4>
+          </div>
+        </li>
+      <% elsif @nonprofit.present?%>
+        <li>
+          <!--= set_attr_if selected_result 'class' 'is-complete' -->
+          <span class='annot'>10 seconds</span>
+          <p class='strong u-marginBottom--15'>My nonprofit</p>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <h4><%= @nonprofit.name %></h4>
+          </div>
+        </li>
+      <% else %>
+        <li>
+          <!--= set_attr_if selected_result 'class' 'is-complete' -->
+          <span class='annot'>10 seconds</span>
+          <p class='strong u-marginBottom--15'>Search for a nonprofit that you want to fundraise for</p>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <%= render 'search_for_npo' %>
+          </div>
+        </li>
+      <% end %>
 
       <li>
         <!--= set_attr_if is_logged_in 'class' 'is-complete' -->
@@ -81,6 +115,8 @@
           <p>
             <!--= hide_if is_confirmed -->
             Simply click the confirmation link in the email we sent you when you created your <%= Settings.general.name %> account.
+            <br/><br/>
+            Once you've clicked the confirmation link, come back here and <a href="javascript:window.location.reload(true)">reload this page</a>.
           </p>
           <p class='pastelBox--green u-padding--5'>
             <!--= show_if is_confirmed -->
@@ -90,33 +126,44 @@
       </li>
 
       <li>
-        <p class='strong u-marginBottom--15'>Start your campaign</p>
-        <span class='annot'>5 minutes</span>
-        <div class='u-paddingLeft--20 u-maxWidth--500'>
-          <p>Use our simple wizard to create your campaign for
-            <strong>
-              <!--= show_if selected_result -->
-              <!--= put selected_result.name -->.
-            </strong>
-            <strong>
-              <!--= hide_if selected_result -->
-              your favorite nonprofit.
-            </strong>
-          </p>
-          <p><small>If you need any further help setting up your campaign, check out <a target='_blank' href='/help/peer-to-peer-campaigns-essentials-package-feature'>this handy article</a>.</small></p>
-          <div class='u-centered u-padding--15'>
-            <button class='button orange'>
-              <!--= show_if (all is_logged_in is_confirmed selected_result) -->
-              <!--= on 'click' (open_modal 'newCampaign') -->
-              Start Campaign
-            </button>
+        <% if !@child_campaign %>
+          <p class='strong u-marginBottom--15'>Start your campaign</p>
+          <span class='annot'>5 minutes</span>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <p>Use our simple wizard to create your campaign for
+              <strong>
+                <!--= show_if selected_result -->
+                <!--= put selected_result.name -->.
+              </strong>
+              <strong>
+                <!--= hide_if selected_result -->
+                your favorite nonprofit.
+              </strong>
+            </p>
+            <p><small>If you need any further help setting up your campaign, check out <a target='_blank' href='/help/peer-to-peer-campaigns-essentials-package-feature'>this handy article</a>.</small></p>
+            <div class='u-centered u-padding--15'>
+              <button class='button orange'>
+                <!--= show_if (all is_logged_in is_confirmed selected_result) -->
+                <!--= on 'click' (open_modal selected_result.modal_id) -->
+                Start Campaign
+              </button>
+            </div>
           </div>
-        </div>
+        <% else %>
+          <p>
+            Seems like you already have a campaign for that cause! <%= link_to "Click here to see it", @child_campaign.url %>.
+          </p>
+        <% end %>
       </li>
+
     </ul>
   </div>
 </main>
 
 <% if current_user %>
-	<%= render 'campaigns/new_modal' %>
+  <% if @nonprofit.present? %>
+    <%= render 'campaigns/new_modal' %>
+  <% elsif @parent_campaign.present? %>
+    <%= render 'campaigns/new_peer_to_peer_modal' %>
+  <% end %>
 <% end %>

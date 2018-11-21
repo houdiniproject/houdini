@@ -71,6 +71,15 @@
             <h4><%= @parent_campaign.name %></h4>
           </div>
         </li>
+      <% elsif @nonprofit.present?%>
+        <li>
+          <!--= set_attr_if selected_result 'class' 'is-complete' -->
+          <span class='annot'>10 seconds</span>
+          <p class='strong u-marginBottom--15'>My nonprofit</p>
+          <div class='u-paddingLeft--20 u-maxWidth--500'>
+            <h4><%= @nonprofit.name %></h4>
+          </div>
+        </li>
       <% else %>
         <li>
           <!--= set_attr_if selected_result 'class' 'is-complete' -->

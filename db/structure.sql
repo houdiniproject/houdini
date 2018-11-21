@@ -394,7 +394,11 @@ CREATE TABLE public.campaigns (
     end_datetime timestamp without time zone,
     external_identifier character varying(255),
     goal_is_in_supporters boolean,
-    starting_point integer
+    starting_point integer,
+    parent_campaign_id integer,
+    reason_for_supporting text,
+    default_reason_for_supporting text,
+    banner_image character varying(255)
 );
 
 
@@ -3146,6 +3150,13 @@ CREATE INDEX index_campaign_gifts_on_campaign_gift_option_id ON public.campaign_
 
 
 --
+-- Name: index_campaigns_on_parent_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_campaigns_on_parent_campaign_id ON public.campaigns USING btree (parent_campaign_id);
+
+
+--
 -- Name: index_cards_on_id_and_holder_type_and_holder_id_and_inactive; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4339,6 +4350,14 @@ INSERT INTO schema_migrations (version) VALUES ('20180608205049');
 
 INSERT INTO schema_migrations (version) VALUES ('20180608212658');
 
+INSERT INTO schema_migrations (version) VALUES ('20180703165401');
+
+INSERT INTO schema_migrations (version) VALUES ('20180703165402');
+
+INSERT INTO schema_migrations (version) VALUES ('20180703165404');
+
+INSERT INTO schema_migrations (version) VALUES ('20180703165405');
+
 INSERT INTO schema_migrations (version) VALUES ('20180713213748');
 
 INSERT INTO schema_migrations (version) VALUES ('20180713215825');
@@ -4350,4 +4369,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
 
 INSERT INTO schema_migrations (version) VALUES ('20181026175740');
+
+INSERT INTO schema_migrations (version) VALUES ('20181120182105');
 

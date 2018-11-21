@@ -28,12 +28,6 @@ module CreatePeerToPeerCampaign
 
     return { errors: campaign.errors.messages }.as_json unless campaign.errors.empty?
 
-    gift_option_params = []
-    parent_campaign.campaign_gift_options.each do |option|
-      excluded_for_peer_to_peer = %w(id campaign_id created_at updated_at)
-      campaign.campaign_gift_options.create option.attributes.except(*excluded_for_peer_to_peer)
-    end
-
     campaign.as_json
   end
 end

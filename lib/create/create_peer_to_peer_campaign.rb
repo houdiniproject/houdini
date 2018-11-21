@@ -16,6 +16,8 @@ module CreatePeerToPeerCampaign
     algo = SlugP2pCampaignNamingAlgorithm.new(p2p_params[:nonprofit_id])
     p2p_params[:slug] = algo.create_copy_name(base_slug)
 
+    #child campaigns are always in dollars, not supporters
+    p2p_params[:goal_is_in_supporters] = false
     campaign = Campaign.create(p2p_params)
 
     campaign.published = true

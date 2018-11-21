@@ -335,6 +335,11 @@ module QueryPayments
     }
   end
 
+
+  def self.get_dedication_or_empty(*path)
+    "json_extract_path_text(coalesce(nullif(trim(both from donations.dedication), ''), '{}')::json, #{path.map{|i| "'#{i}'"}.join(',')})"
+  end
+
   def self.export_selects
     ["to_char(payments.date::timestamptz, 'YYYY-MM-DD HH24:MI:SS TZ') AS date",
      '(payments.gross_amount / 100.0)::money::text AS gross_amount',
@@ -344,7 +349,13 @@ module QueryPayments
     .concat(QuerySupporters.supporter_export_selections)
     .concat([
      "coalesce(donations.designation, 'None') AS designation",
-     'donations.dedication AS "Honorarium/Memorium"',
+     "#{get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
+     "#{get_dedication_or_empty('name')}::text AS \"Dedicated To: Name\"",
+     "#{get_dedication_or_empty('supporter_id')}::text AS \"Dedicated To: Supporter ID\"",
+     "#{get_dedication_or_empty('contact', 'email')}::text AS \"Dedicated To: Email\"",
+     "#{get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
+     "#{get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
+     "#{get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
      'donations.anonymous',
      'donations.comment',
      "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS campaign",

@@ -167,6 +167,3 @@ const patch = snabbdom.init([
 
 render({state: init(), view, patch, container: document.querySelector('.ff-sidebar')})
 
-// Init the metrics
-appl.def('metrics.path_prefix', '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id + '/')
-appl.ajax_metrics.index()

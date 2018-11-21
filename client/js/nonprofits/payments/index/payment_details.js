@@ -89,27 +89,15 @@ appl.def('get_payment_purchase_object', function(payment) {
 	}
 })
 
-appl.def('update_donation', function(donation) {
-	if(!donation) return
+appl.def('start_loading', function(){
   appl.def('loading', true)
-  donation.gross_amount = format.dollarsToCents(donation.gross_amount)
-  donation.fee_total = format.dollarsToCents(donation.fee_total)
-  var formattedDate = appl.readable_date_time_to_iso(donation.date) 
-  if(formattedDate && formattedDate != "Invalid date") {
-    donation.date = formattedDate 
-  } else {
-    appl.notify('Please enter a valid date')
-    appl.def('loading', false)
-    return
-  }
-	request.put('/nonprofits/' + app.nonprofit_id + '/donations/' + donation.id)
-		.send({donation: donation})
-		.end(function(err, resp) {
-			appl.ajax_payment_details.fetch(appl.payment_details.data.id)
-      appl.def('loading', false)
-      appl.close_modal()
-      appl.notify('Donation successfully updated!')
-		})
+})
+
+appl.def('update_donation__success', function() {
+  appl.ajax_payment_details.fetch(appl.payment_details.data.id)
+  appl.def('loading', false)
+	// appl.close_modal()
+  appl.notify('Donation successfully updated!')
 })
 
 appl.def('delete_offline_donation', function() {
@@ -161,14 +149,17 @@ appl.def('format_dedication', function(dedic, node) {
     var json
     try { json = JSON.parse(dedic) } catch(e) {}
     if(json) {
+    	let supporter_link = (json.supporter_id && json.supporter_id != '') ?
+        `<a href='/nonprofits/${app.nonprofit_id}/supporters?sid=${json.supporter_id}'>${json.name}</a>` :
+				json.name
       inner = `
-        Donation made in ${dedic.type || 'honor'} of 
-        <a href='/nonprofits/${app.nonprofit_id}/supporters?sid=${json.supporter_id}'>${json.name}</a>.
+        Donation made in ${json.type || 'honor'} of 
+        ${supporter_link}.
         ${json.note ? `<br>Note: <em>${json.note}</em>.` : ''}
       `
     } else {
       // Print plaintext dedication
-      inner = dedic
+      inner = ''
     }
   }
   td.innerHTML = inner

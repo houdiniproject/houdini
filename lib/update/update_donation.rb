@@ -91,7 +91,7 @@ module UpdateDonation
       # edits_to_payments
       if is_offsite
         #if offline, set date, gross_amount, fee_total, net_amount
-        existing_payment.towards = data[:dedication] if data[:dedication]
+        existing_payment.towards = data[:designation] if data[:designation]
         existing_payment.date = data[:date] if data[:date]
         existing_payment.gross_amount = data[:gross_amount] if data[:gross_amount]
         existing_payment.fee_total = data[:fee_total] if data[:fee_total]

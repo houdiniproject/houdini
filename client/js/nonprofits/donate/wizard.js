@@ -127,7 +127,9 @@ const setDonationDedication = (don, dedication) => {
   , JSON.stringify({
       supporter_id: dedication.supporter.id
     , name: dedication.supporter.name
-    , contact: R.join(" - ", [dedication.supporter.email, dedication.supporter.phone, dedication.supporter.address])
+    , contact: {email: dedication.supporter.email,
+        phone: dedication.supporter.phone,
+        address: dedication.supporter.address}
     , note: dedication.note
     , type: dedication.type
     })

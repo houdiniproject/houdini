@@ -5,7 +5,6 @@ class CampaignsController < ApplicationController
   helper_method :current_campaign_editor?
   before_filter :authenticate_confirmed_user!, only: [:create, :name_and_id, :duplicate]
   before_filter :authenticate_campaign_editor!, only: [:update, :soft_delete]
-  before_filter :authenticate_nonprofit_user!, only: [:create_via_template]
   before_filter :check_nonprofit_status, only: [:index, :show]
 
   def index

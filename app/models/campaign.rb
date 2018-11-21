@@ -177,6 +177,9 @@ class Campaign < ActiveRecord::Base
     (self.end_datetime.to_date - Date.today).to_i
 	end
 
+	def finished?
+		self.end_datetime && self.end_datetime < Time.now
+	end
 
 	def validate_goal_amount
 

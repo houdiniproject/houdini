@@ -99,10 +99,10 @@ const init = params$ => {
     (ev, params) => {
       if(!parent) return
       if(params.redirect) parent.postMessage(`commitchange:redirect:${params.redirect}`, '*')
-      else if(params.mode !== 'embedded'){ 
+      else if(params.mode !== 'embedded'){
         parent.postMessage('commitchange:close', '*');
       } else {
-        if (window.parent) {window.parent.postMessage('commitchange:close', '*');}; 
+        if (window.parent) {window.parent.postMessage('commitchange:close', '*');};
       }
     }
   , state.clickFinish$, state.params$ )

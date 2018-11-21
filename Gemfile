@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.6'
+ruby '~> 2.3.6'
 gem 'rake'
 gem 'rails', '3.2.22.5'
 gem 'rails_12factor'
@@ -27,7 +27,7 @@ gem 'hamster'
 
 gem 'aws-ses'
 gem 'aws-sdk'
- 
+
 # for blocking ip addressses
 gem 'rack-attack'
 

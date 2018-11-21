@@ -17,10 +17,10 @@ $('.image-upload input').change(function(e) {
 	}
 })
 
-appl.def('remove_background_image', function(url, resource) {
+appl.def('remove_image', function(url, resource, notification, payload) {
 	var data = {}
-	data[resource] = {remove_background_image: true}
-	appl.notify('Removing background image...')
+	data[resource] = payload
+	appl.notify(notification)
 	appl.def('loading', true)
 	$.ajax({
 		type: 'put',

@@ -39,43 +39,13 @@
 
         <div><br/></div>
         <fieldset>
-          <label>Goal</label>
-          <div class='prepend--dollar u-inlineBlock'>
-            <input type='number' parsley-type='number' class='input--150' name='campaign[goal_amount_dollars]' value='<%= sprintf("%.2f", @campaign.goal_amount / 100.0) %>'>
+          <label>End Date & Time</label>
+          <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
+            <input class='u-width--200 u-bold u-inlineBlock' type='text' name='campaign[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@campaign.end_datetime, @nonprofit.timezone) %>'>
+            <a class='button edit u-inlineBlock'>Set</a>
           </div>
         </fieldset>
       </section>
-  			<section class='layout--two'>
-  				<fieldset>
-            <label>Title </label>
-  					<input type='text' class='u-marginBottom--0' name='campaign[name]' value='<%= @campaign.name %>'>
-  				</fieldset>
-
-  				<fieldset>
-  					<label class='u-block'>Tagline</label>
-  					<input type='text' name='campaign[tagline]' value='<%= @campaign.tagline %>'>
-  				</fieldset>
-  			</section>
-
-  			<hr>
-
-  			<section class='layout--three'>
-  				<fieldset>
-  					<label>Goal</label>
-  					<div class='prepend--dollar u-inlineBlock'>
-  						<input type='number' parsley-type='number' class='input--150' name='campaign[goal_amount_dollars]' value='<%= sprintf("%.2f", @campaign.goal_amount / 100.0) %>'>
-  					</div>
-  				</fieldset>
-
-          <fieldset>
-  					<label>End Date & Time</label>
-            <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
-              <input class='u-width--200 u-bold u-inlineBlock' type='text' name='campaign[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM' value='<%= Format::Date.full(@campaign.end_datetime, @nonprofit.timezone) %>'>
-              <a class='button edit u-inlineBlock'>Set</a>
-            </div>
-  				</fieldset>
-        </section>
-
         <hr>
 
         <%= render 'components/forms/slug_field', fundraiser: @campaign, url: @nonprofit.url + '/campaigns'  %>

@@ -1,5 +1,6 @@
 // License: LGPL-3.0-or-later
 require('../new/peer_to_peer_wizard')
+require('../new/wizard.js')
 require('../../common/image_uploader')
 
 var request = require("../../common/client")

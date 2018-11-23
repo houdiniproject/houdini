@@ -24,6 +24,7 @@
   </script>
 
   <%= render 'schema', campaign: @campaign, url: @url %>
+  <%= render 'common/froala' if current_campaign_editor? %>
 	<%= IncludeAsset.js '/client/js/campaigns/show/page.js' %>
 
   <% if  current_campaign_editor? %>

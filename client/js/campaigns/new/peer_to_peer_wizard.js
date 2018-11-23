@@ -1,3 +1,6 @@
+// License: LGPL-3.0-or-later
+
+//This is used for federated p2p campaigns
 require('../../components/wizard')
 var format_err = require('../../common/format_response_error')
 
@@ -13,7 +16,7 @@ appl.def('create_p2p_campaign', function(el) {
 	form_data = utils.mergeFormData(form_data, appl.new_p2p_campaign)
 	appl.def('new_p2p_campaign_wiz.loading', true)
 
-	post_campaign(form_data)
+	post_p2p_campaign(form_data)
 		.then(function(req) {
 			appl.notify("Redirecting to your campaign...")
 			appl.redirect(JSON.parse(req.response).url)
@@ -25,7 +28,7 @@ appl.def('create_p2p_campaign', function(el) {
 })
 
 // Using the bare-bones XMLHttpRequest API so we can post form data and upload the image
-function post_campaign(form_data) {
+function post_p2p_campaign(form_data) {
 	return new Promise(function(resolve, reject) {
 		var req = new XMLHttpRequest()
 		req.open("POST", '/nonprofits/' + app.nonprofit_id + '/campaigns')

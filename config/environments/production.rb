@@ -4,7 +4,7 @@ Commitchange::Application.configure do
 
 	# Code is not reloaded between requests
 	config.cache_classes = true
-  config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 4.hours, :compress => true }
+  config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true }
 
 	# Full error reports are disabled and caching is turned on
 	config.consider_all_requests_local = false
@@ -12,7 +12,7 @@ Commitchange::Application.configure do
 
 	# Disable Rails's static asset server (Apache or nginx will already do this)
 	config.serve_static_assets = true
-	config.static_cache_control = "public, max-age=3600"
+	config.static_cache_control = "public, max-age=86400"
 
 	# Compress JavaScripts and CSS
 	config.assets.compress = true

@@ -36,14 +36,14 @@ module CreateCampaignGift
 
 		if ((donation.recurring_donation != nil) && (campaign_gift_option.amount_recurring != nil && campaign_gift_option.amount_recurring > 0))
 			# it's a recurring_donation. Is it enough? for the gift level?
-			unless donation.recurring_donation.amount >= (campaign_gift_option.amount_recurring)
+			unless donation.recurring_donation.amount == (campaign_gift_option.amount_recurring)
 				AdminMailer.delay.notify_failed_gift(donation, campaign_gift_option)
-				raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} gift options requires a recurring donation of at least #{campaign_gift_option.amount_recurring} for donation #{donation.id}", {:key => :campaign_gift_option_id})
+				raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} gift options requires a recurring donation of #{campaign_gift_option.amount_recurring} for donation #{donation.id}", {:key => :campaign_gift_option_id})
 			end
 		else
-			unless donation.amount >= (campaign_gift_option.amount_one_time)
+			unless donation.amount == (campaign_gift_option.amount_one_time)
 				AdminMailer.delay.notify_failed_gift(donation, campaign_gift_option)
-				raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} gift options requires a donation of at least #{campaign_gift_option.amount_one_time} for donation #{donation.id}", {:key => :campaign_gift_option_id})
+				raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} gift options requires a donation of #{campaign_gift_option.amount_one_time} for donation #{donation.id}", {:key => :campaign_gift_option_id})
 			end
 		end
 
@@ -65,11 +65,11 @@ module CreateCampaignGift
 		campaign_gift_option = cg.campaign_gift_option
 		if ((donation.recurring_donation != nil) && (campaign_gift_option.amount_recurring != nil && campaign_gift_option.amount_recurring > 0))
 			# it's a recurring_donation. Is it enough? for the gift level?
-			unless donation.recurring_donation.amount >= (campaign_gift_option.amount_recurring)
+			unless donation.recurring_donation.amount == (campaign_gift_option.amount_recurring)
 				raise ParamValidation::ValidationError.new("#{campaign_gift_option.id} gift options requires a recurring donation of at least #{campaign_gift_option.amount_recurring}", {:key => :campaign_gift_option_id})
 			end
 		else
-			unless donation.amount >= (campaign_gift_option.amount_one_time)
+			unless donation.amount == (campaign_gift_option.amount_one_time)
 				raise ParamValidation::ValidationError.new("#{campaign_gift_option.id} gift options requires a donation of at least #{campaign_gift_option.amount_one_time}", {:key => :campaign_gift_option_id})
 			end
 		end

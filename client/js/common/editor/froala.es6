@@ -107,7 +107,8 @@ var froala = function($el, options) {
                 refresh: function () {
                 }
             },
-        }
+        },
+      videoAllowedAttrs: ["src","width","height","frameborder","allowfullscreen","webkitallowfullscreen","mozallowfullscreen","href","target","id","controls","value","name", "autoplay", "loop", "muted"]
     })
 
     $('.froala-popup').parents('.froala-editor').css('z-index', 99999)

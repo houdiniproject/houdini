@@ -8,7 +8,7 @@ module QueryDonations
     Psql.execute_vectors(
       Qexpr.new.select([
         'donations.created_at',
-				'(donations.amount/100.00)::money::text AS amount',
+				'(payments.gross_amount/100.00)::money::text AS amount',
 				"COUNT(recurring_donations.id) > 0 AS recurring",
 				"STRING_AGG(campaign_gift_options.name, ',') AS campaign_gift_names"
       ].concat(QuerySupporters.supporter_export_selections)
@@ -29,11 +29,12 @@ module QueryDonations
      .left_outer_join(:campaign_gifts, "campaign_gifts.donation_id=donations.id")
      .left_outer_join(:campaign_gift_options, "campaign_gift_options.id=campaign_gifts.campaign_gift_option_id")
       .left_outer_join(:recurring_donations, "recurring_donations.donation_id = donations.id")
+    .join(:payments, "payments.donation_id=donations.id")
      .where("donations.campaign_id IN (#{QueryCampaigns
                                             .get_campaign_and_children(campaign_id)
                                             .parse})")
-     .group_by("donations.id", "supporters.id")
-     .order_by("donations.date")
+     .group_by("donations.id", "supporters.id", "payments.id")
+     .order_by("donations.date, payments.created_at")
     )
 	end
 

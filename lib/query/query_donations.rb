@@ -29,12 +29,16 @@ module QueryDonations
      .left_outer_join(:campaign_gifts, "campaign_gifts.donation_id=donations.id")
      .left_outer_join(:campaign_gift_options, "campaign_gift_options.id=campaign_gifts.campaign_gift_option_id")
       .left_outer_join(:recurring_donations, "recurring_donations.donation_id = donations.id")
-    .join(:payments, "payments.donation_id=donations.id")
+    .join_lateral(:payments, Qx
+                                 .select('payments.id, payments.gross_amount').from(:payments)
+                                    .where('payments.donation_id = donations.id')
+                                    .order_by('payments.created_at ASC')
+                                    .limit(1).parse, true)
      .where("donations.campaign_id IN (#{QueryCampaigns
                                             .get_campaign_and_children(campaign_id)
                                             .parse})")
-     .group_by("donations.id", "supporters.id", "payments.id")
-     .order_by("donations.date, payments.created_at")
+     .group_by("donations.id", "supporters.id", "payments.id", "payments.gross_amount")
+     .order_by("donations.date")
     )
 	end
 

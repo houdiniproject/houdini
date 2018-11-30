@@ -69,15 +69,16 @@ module QueryCampaignGifts
 	end
 
 	def self.get_corresponding_payments(campaign_id, recurring_clauses, where_clauses="")
-		%Q(SELECT donations.id, array_to_string(array(SELECT gross_amount FROM payments ORDER BY created_at ASC LIMIT 1), ',')::integer AS amount
+		%Q(SELECT donations.id, payments.gross_amount AS amount
 			FROM (#{donations_for_campaign(campaign_id).parse}) donations
 				#{recurring_clauses}
-			JOIN (SELECT payments.id, payments.gross_amount, payments.donation_id, payments.created_at FROM payments) as payments
-				ON payments.donation_id = donations.id
+			JOIN LATERAL (
+				SELECT payments.id, payments.gross_amount, payments.donation_id, payments.created_at FROM payments
+				WHERE payments.donation_id = donations.id
+				ORDER BY payments.created_at ASC
+				LIMIT 1
+			) payments ON true
 			#{where_clauses}
-
-
-			GROUP BY donations.id
 		)
 	end
 end

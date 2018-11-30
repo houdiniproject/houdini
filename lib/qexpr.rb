@@ -159,6 +159,12 @@ class Qexpr
       .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nLEFT OUTER JOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
   end
 
+  def join_lateral(join_name, select_statement, success_condition=true, data={})
+    select_statement = Qexpr.interpolate_expr(select_statement, data)
+    return Qexpr.new @tree
+             .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\n JOIN LATERAL".bold.light_blue + " (#{select_statement})\n  #{join_name} ".blue + "ON".bold.light_blue + " #{success_condition}".blue))
+  end
+
 
   def as(name)
     return Qexpr.new @tree.put(:as, name)

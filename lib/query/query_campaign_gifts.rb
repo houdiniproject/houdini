@@ -15,31 +15,6 @@ module QueryCampaignGifts
 	# Includes the overall sum as well as the donations without gift options
 	def self.report_metrics(campaign_id)
 
-		donations_with_recurring = Qx.select('donations.id')
-																	 .from(:donations)
-																	 .where('donations.campaign_id = $id', {id: campaign_id})
-																	 .add_join('recurring_donations', 'recurring_donations.donation_id = donations.id')
-
-		donations_without_recurring = Qx.select('donations.id')
-																			.from(:donations)
-																			.where('donations.campaign_id = $id', {id: campaign_id})
-																			.and_where("donations.id NOT IN (#{donations_with_recurring.parse})")
-		Qx.select('donations.id')
-				.from(:donations)
-				.where('donations.campaign_id = $id', {id: campaign_id})
-				.from(:recurring_donations)
-				.where('recurring_donations')
-
-
-		Qx.select('campaign_gift_options.name',
-							'COUNT(*) AS total_donations',
-							'SUM(ds_one_time.amount) AS total_one_time',
-							'SUM(ds_recurring.amount) AS total_recurring'
-							)
-				.from('donations AS ds')
-				.left_join
-
-
 
 		data = Psql.execute(%Q(
 			SELECT campaign_gift_options.name

@@ -18,8 +18,9 @@ describe QueryCampaignMetrics do
     let(:payment2) { force_create(:payment, donation: donation2, gross_amount:2000)}
 
 
-    let(:donation3) { force_create(:donation, campaign: campaign_child, amount: 4000)}
-    let(:payment3) { force_create(:payment, donation: donation3, gross_amount:4000)}
+    let(:donation3) { force_create(:donation, campaign: campaign_child, amount: 2000)}
+    let(:payment3) { force_create(:payment, donation: donation3, gross_amount:4000, kind:'RecurringPayment')}
+    let(:payment3_1) { force_create(:payment, donation: donation3, gross_amount:2000, kind:'RecurringPayment')}
 
     let(:donation4) { force_create(:donation, campaign: campaign_child_2, amount: 8000)}
     let(:payment4) { force_create(:payment, donation: donation4, gross_amount:8000)}
@@ -30,6 +31,7 @@ describe QueryCampaignMetrics do
       payment
       payment2
       payment3
+      payment3_1
       payment4
     end
     let (:campaign_metric) do

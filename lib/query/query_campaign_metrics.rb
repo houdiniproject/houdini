@@ -4,21 +4,19 @@ module QueryCampaignMetrics
   def self.on_donations(campaign_id)
     campaign = Campaign.find(campaign_id)
 
-    result = Qx.select(
-        "COALESCE(COUNT(DISTINCT donations.id), 0) AS supporters_count",
-        "COALESCE(SUM(payments.gross_amount), 0) AS total_raised"
-         )
-      .from("campaigns")
-      .join(
-        ["donations", "donations.campaign_id=campaigns.id"],
-        ["payments", "payments.donation_id=donations.id"]
-      )
-      .where("campaigns.id IN (#{QueryCampaigns
-                                     .get_campaign_and_children(campaign_id)
-                                     .parse
-      })")
-      .execute
-      .last
+    result = Psql.execute(
+      Qexpr.new.select("COALESCE(COUNT(DISTINCT donations.id), 0) AS supporters_count",
+                       "COALESCE(SUM(payments.gross_amount), 0) AS total_raised")
+        .from("campaigns")
+        .join(
+          "donations", "donations.campaign_id=campaigns.id"
+        )
+        .join_lateral("payments", QueryDonations.get_first_payment_for_donation.parse, true)
+        .where("campaigns.id IN (#{QueryCampaigns
+                                       .get_campaign_and_children(campaign_id)
+                                       .parse
+        })")
+    ).last
 
     return {
         'supporters_count' => result['supporters_count'],

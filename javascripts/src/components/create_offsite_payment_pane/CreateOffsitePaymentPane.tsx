@@ -172,7 +172,6 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
       params.date.validators = [Validations.isDate('MM/DD/YYYY')]
 
       params.gross_amount.validators  = [Validations.isGreaterThanOrEqualTo(0.01)];
-      // params.fee_total.validators  = [Validations.optional(Validations.isLessThanOrEqualTo(0))];
 
 
 
@@ -205,6 +204,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
             {/* <CurrencyField field={this.form.$('fee_total')} label={"Processing Fees"} mustBeNegative={true}/> */}
 
           <BasicField field={this.form.$('date')} label={"Date"} />
+            <BasicField field={this.form.$('check_number')} label={"Check or Payment Number/ID"}/>
             <SelectField field={this.form.$('campaign')}
                          label={"Campaign"}
                          options={this.props.campaigns}/>

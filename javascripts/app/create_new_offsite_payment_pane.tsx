@@ -11,8 +11,8 @@ export interface FundraiserInfo {
   name: string
 }
 
-function LoadReactPage(element:HTMLElement, events: FundraiserInfo[],
-  campaigns: FundraiserInfo[],
+function LoadReactPage(element:HTMLElement, campaigns: FundraiserInfo[],
+                       events: FundraiserInfo[],
   nonprofitId: number,
   supporterId:number,
   preupdateDonationAction:() => void,

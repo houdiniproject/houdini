@@ -140,7 +140,8 @@ module QueryPayments
       inner_donation_search = inner_donation_search.where('donations.event_id=$id', id: query[:event_id])
     end
     if (query[:campaign_id].present?)
-      inner_donation_search = inner_donation_search.where('donations.campaign_id=$id', id: query[:campaign_id])
+      campaign_search = campaign_and_child_query_as_raw_string
+      inner_donation_search = inner_donation_search.where("donations.campaign_id IN (#{campaign_search})", id: query[:campaign_id])
     end
     expr = Qexpr.new.select('payments.id').from('payments')
                .left_outer_join('supporters', "supporters.id=payments.supporter_id")
@@ -191,9 +192,10 @@ module QueryPayments
       expr = expr.where('payments.kind IN ($kinds)', kinds: query[:donation_type].split(','))
     end
     if query[:campaign_id].present?
+      campaign_search = campaign_and_child_query_as_raw_string
       expr = expr
                  .left_outer_join("campaigns", "campaigns.id=donations.campaign_id" )
-                 .where("campaigns.id=$id", id: query[:campaign_id])
+                 .where("campaigns.id IN (#{campaign_search})", id: query[:campaign_id])
     end
     if query[:event_id].present?
       tickets_subquery = Qexpr.new.select("payment_id", "MAX(event_id) AS event_id").from("tickets").where('tickets.event_id=$event_id', event_id: query[:event_id]).group_by("payment_id").as("tix")
@@ -224,7 +226,8 @@ module QueryPayments
       inner_donation_search = inner_donation_search.where('donations.event_id=$id', id: query[:event_id])
     end
     if (query[:campaign_id].present?)
-      inner_donation_search = inner_donation_search.where('donations.campaign_id=$id', id: query[:campaign_id])
+      campaign_search = campaign_and_child_query_as_raw_string
+      inner_donation_search = inner_donation_search.where("donations.campaign_id IN (#{campaign_search})", id: query[:campaign_id])
     end
     expr = Qexpr.new.select('payments.id').from('payments')
                .left_outer_join('supporters', "supporters.id=payments.supporter_id")
@@ -278,9 +281,10 @@ module QueryPayments
       expr = expr.where('payments.kind IN ($kinds)', kinds: query[:donation_type].split(','))
     end
     if query[:campaign_id].present?
+      campaign_search = campaign_and_child_query_as_raw_string
       expr = expr
                  .left_outer_join("campaigns", "campaigns.id=donations.campaign_id" )
-                 .where("campaigns.id=$id", id: query[:campaign_id])
+                 .where("campaigns.id IN (#{campaign_search})", id: query[:campaign_id])
     end
     if query[:event_id].present?
       tickets_subquery = Qexpr.new.select("payment_id", "MAX(event_id) AS event_id").from("tickets").where('tickets.event_id=$event_id', event_id: query[:event_id]).group_by("payment_id").as("tix")
@@ -445,5 +449,9 @@ module QueryPayments
       end
 
     }
+  end
+
+  def self.campaign_and_child_query_as_raw_string
+    "SELECT c_temp.id from campaigns c_temp where c_temp.id=$id OR c_temp.parent_campaign_id=$id"
   end
 end

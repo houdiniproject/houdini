@@ -30,7 +30,7 @@ function init(giftsNeedRefresh$, parentState) {
   state.giftOptions$ = flyd.mergeAll([
     pageloadGifts$
   , refreshedGifts$
-  , flyd.stream([]) // default before ajax loads 
+  , flyd.stream([]) // default before ajax loads
   ])
   return state
 }
@@ -59,7 +59,7 @@ const giftBox = state => gift => {
     , h('p.u-marginBottom--15', gift.description)
     , h('div', [ giftButton(state, gift) ])
     ])
-  , app.current_campaign_editor // Show edit button only if the current user is a campaign editor
+  , (app.current_campaign_editor && app.is_parent_campaign) // Show edit button only if the current user is a parent campaign editor
     ? h('button.button--tiny.absolute.edit.hasShadow', {
         on: {click: ev => state.openEditGiftModal$(gift)}
       }, [
@@ -79,4 +79,3 @@ const totalContributions = gift => {
 }
 
 module.exports = {view, init}
-

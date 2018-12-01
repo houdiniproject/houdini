@@ -13,6 +13,8 @@ class Campaign < ActiveRecord::Base
 		:remove_main_image, # for carrierwave
 		:background_image,
 		:remove_background_image, #bool carrierwave
+    :banner_image,
+    :remove_banner_image,
 		:published,
 		:video_url, #str
 		:vimeo_video_id,
@@ -30,7 +32,10 @@ class Campaign < ActiveRecord::Base
 		:hide_thermometer, #bool
 		:hide_title, # bool
     :receipt_message, # text
-    :hide_custom_amounts # boolean
+    :hide_custom_amounts, # boolean
+    :parent_campaign_id,
+    :reason_for_supporting,
+    :default_reason_for_supporting
 
   validate  :end_datetime_cannot_be_in_past, :on => :create
 	validates :profile, :presence => true
@@ -47,6 +52,7 @@ class Campaign < ActiveRecord::Base
 
 	mount_uploader :main_image, CampaignMainImageUploader
 	mount_uploader :background_image, CampaignBackgroundImageUploader
+	mount_uploader :banner_image, CampaignBannerImageUploader
 
 	has_many :donations
 	has_many :charges, through: :donations
@@ -60,6 +66,9 @@ class Campaign < ActiveRecord::Base
 	has_many :activities,   as: :host, dependent: :destroy
 	belongs_to :profile
 	belongs_to :nonprofit
+
+  belongs_to :parent_campaign, class_name: 'Campaign'
+  has_many :children_campaigns, class_name: 'Campaign', foreign_key: 'parent_campaign_id'
 
 	scope :published, ->   {where(:published => true)}
   scope :active, ->      {where(:published => true).where("end_datetime IS NULL OR end_datetime >= ?", Date.today)}
@@ -155,4 +164,24 @@ class Campaign < ActiveRecord::Base
     (self.end_datetime.to_date - Date.today).to_i
 	end
 
+	def finished?
+		self.end_datetime && self.end_datetime < Time.now
+	end
+
+  def child_params
+    excluded_for_peer_to_peer = %w(
+      id created_at updated_at slug profile_id  url
+      total_raised show_recurring_amount external_identifier parent_campaign_id
+      reason_for_supporting metadata
+    )
+    attributes.except(*excluded_for_peer_to_peer)
+  end
+
+  def child_campaign?
+    parent_campaign.present?
+  end
+
+  def parent_campaign?
+    !child_campaign?
+  end
 end

@@ -17,10 +17,12 @@ require('../../components/ajax/toggle_soft_delete')(url, 'campaign')
 
 // Initialize the froala wysiwyg
 var editable = require('../../common/editable')
-editable($('#js-campaignBody'), {
-	sticky: true,
-	placeholder: "Add your campaign's story here. We strongly recommend that this section is filled out with at least 250 words. It will be saved automatically as you type. You can add images, videos and custom HTML too."
-})
+if (app.is_parent_campaign) {
+  editable($('#js-campaignBody'), {
+    sticky: true,
+    placeholder: "Add your campaign's story here. We strongly recommend that this section is filled out with at least 250 words. It will be saved automatically as you type. You can add images, videos and custom HTML too."
+  })
+}
 
 editable($('#js-customReceipt'), {
   button: ["bold", "italic", "formatBlock", "align", "createLink",
@@ -34,8 +36,17 @@ editable($('#js-customReceipt'), {
 var path = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
 
 
-appl.def('remove_this_image', function() {
-	appl.remove_background_image(path, 'campaign')
+appl.def('remove_banner_image', function() {
+	var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
+	var notification = 'Removing banner image...'
+	var payload = {remove_banner_image : true}
+	appl.remove_image(url, 'campaign', notification, payload)
+})
+
+appl.def('remove_background_image', function(url, resource) {
+	var notification = 'Removing background image...'
+	var payload = {remove_background_image : true}
+	appl.remove_image(url, resource, notification, payload)
 })
 
 appl.def('count_story_words', function() {

@@ -102,7 +102,7 @@ describe CreateCampaignGift do
           expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
             expect(error).to be_a(ParamValidation::ValidationError)
             expect_validation_errors(error.data, {:key => :campaign_gift_option_id})
-            expect(error.message).to eq ("#{campaign_gift_option.id} gift options requires a donation of at least 300 for donation #{donation.id}")
+            expect(error.message).to eq ("#{campaign_gift_option.id} gift options requires a donation of 300 for donation #{donation.id}")
           }
         end
 
@@ -121,7 +121,7 @@ describe CreateCampaignGift do
           expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
             expect(error).to be_a(ParamValidation::ValidationError)
             expect_validation_errors(error.data, {:key => :campaign_gift_option_id})
-            expect(error.message).to eq ("#{campaign_gift_option.id} gift options requires a recurring donation of at least 300 for donation #{donation.id}")
+            expect(error.message).to eq ("#{campaign_gift_option.id} gift options requires a recurring donation of 300 for donation #{donation.id}")
           }
         end
 

@@ -30,6 +30,16 @@ test:
   username: admin
   password: password
   host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+ci:
+  adapter: postgresql
+  encoding: unicode
+  database: commitchange_development
+  pool: 5
+  username: admin
+  password: password
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+
+
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have

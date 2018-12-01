@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.3.6'
+ruby '2.3.7'
 gem 'rake'
 gem 'rails', '3.2.22.5'
 gem 'rails_12factor'
@@ -109,13 +109,13 @@ gem 'i18n-js'
 gem 'countries'
 
 
-group :development do
+group :development, :ci do
   gem 'traceroute'
   gem 'debase'
   gem 'ruby-debug-ide'
 end
 
-group :development, :test do
+group :development, :ci, :test do
 	gem 'timecop'
 	gem 'pry'
 	#gem 'pry-byebug'

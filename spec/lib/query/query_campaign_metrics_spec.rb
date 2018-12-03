@@ -1,9 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-
 describe QueryCampaignMetrics do
-
   describe 'calculates your metrics plus children' do
     let(:nonprofit) {force_create(:nonprofit)}
     let(:campaign) {force_create(:campaign, nonprofit:nonprofit, show_total_count:false, show_total_raised: false, goal_amount: 16000)}
@@ -17,15 +15,12 @@ describe QueryCampaignMetrics do
     let(:donation2) { force_create(:donation, campaign: campaign, amount: 2000)}
     let(:payment2) { force_create(:payment, donation: donation2, gross_amount:2000)}
 
-
     let(:donation3) { force_create(:donation, campaign: campaign_child, amount: 2000)}
     let(:payment3) { force_create(:payment, donation: donation3, gross_amount:4000, kind:'RecurringPayment')}
     let(:payment3_1) { force_create(:payment, donation: donation3, gross_amount:2000, kind:'RecurringPayment')}
 
     let(:donation4) { force_create(:donation, campaign: campaign_child_2, amount: 8000)}
     let(:payment4) { force_create(:payment, donation: donation4, gross_amount:8000)}
-
-
 
     let(:payments) do
       payment
@@ -34,13 +29,10 @@ describe QueryCampaignMetrics do
       payment3_1
       payment4
     end
+
     let (:campaign_metric) do
-
-
       payments
-
       QueryCampaignMetrics.on_donations(campaign.id)
-
     end
 
     let(:campaign_child_metric) do
@@ -77,7 +69,5 @@ describe QueryCampaignMetrics do
       expect(campaign_child_2_metric['show_total_count']).to eq true
       expect(campaign_child_2_metric['show_total_raised']).to eq true
     end
-
   end
-
 end

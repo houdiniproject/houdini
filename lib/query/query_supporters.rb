@@ -13,6 +13,11 @@ module QuerySupporters
      .left_outer_join('donations', 'donations.supporter_id=supporters.id')
      .left_outer_join('campaign_gifts', 'donations.id=campaign_gifts.donation_id')
      .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
+    .join_lateral(:payments,  Qx
+                                  .select('payments.id, payments.gross_amount').from(:payments)
+                                  .where('payments.donation_id = donations.id')
+                                  .order_by('payments.created_at ASC')
+                                  .limit(1).parse, true)
      .where("supporters.nonprofit_id=$id", id: np_id)
      .where("donations.campaign_id IN (#{QueryCampaigns
                                              .get_campaign_and_children(campaign_id)
@@ -41,7 +46,7 @@ module QuerySupporters
         'supporters.id',
         'supporters.name',
         'supporters.email',
-        'SUM(donations.amount) AS total_raised',
+        'SUM(payments.gross_amount) AS total_raised',
         'ARRAY_AGG(DISTINCT campaign_gift_options.name) AS campaign_gift_names',
         'DATE(MAX(donations.created_at)) AS latest_gift',
       ).limit(limit).offset(offset)

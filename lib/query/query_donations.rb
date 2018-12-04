@@ -8,8 +8,8 @@ module QueryDonations
     Psql.execute_vectors(
       Qexpr.new.select([
         'donations.created_at',
-				'(donations.amount/100.00)::money::text AS amount',
-				"COALESCE(donations.recurring, FALSE) AS recurring",
+				'(payments.gross_amount/100.00)::money::text AS amount',
+				"COUNT(recurring_donations.id) > 0 AS recurring",
 				"STRING_AGG(campaign_gift_options.name, ',') AS campaign_gift_names"
       ].concat(QuerySupporters.supporter_export_selections)
        .concat([
@@ -19,10 +19,13 @@ module QueryDonations
      .join(:supporters, "supporters.id=donations.supporter_id")
      .left_outer_join(:campaign_gifts, "campaign_gifts.donation_id=donations.id")
      .left_outer_join(:campaign_gift_options, "campaign_gift_options.id=campaign_gifts.campaign_gift_option_id")
+     .left_outer_join(:recurring_donations, "recurring_donations.donation_id = donations.id")
+     .join_lateral(:payments,
+                   get_first_payment_for_donation.parse, true)
      .where("donations.campaign_id IN (#{QueryCampaigns
                                             .get_campaign_and_children(campaign_id)
                                             .parse})")
-     .group_by("donations.id", "supporters.id")
+     .group_by("donations.id", "supporters.id", "payments.id", "payments.gross_amount")
      .order_by("donations.date")
     )
 	end
@@ -67,6 +70,13 @@ module QueryDonations
       .group_by("donations.supporter_id", "donations.amount", "donations.date")
       .having("COUNT(donations.id) > 1")
     )[1..-1].map(&:flatten)
+  end
+
+  def self.get_first_payment_for_donation(table_selector='donations')
+    Qx.select('payments.id, payments.gross_amount').from(:payments)
+        .where("payments.donation_id = #{table_selector}.id")
+        .order_by('payments.created_at ASC')
+        .limit(1)
   end
 
 end

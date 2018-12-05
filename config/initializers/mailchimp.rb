@@ -2,5 +2,6 @@
 require 'mailchimp'
 
 Mailchimp.config({
-	:api_key => ENV['MAILCHIMP_API_KEY']
+	:api_key => ENV['MAILCHIMP_API_KEY'],
+	:username => ENV['MAILCHIMP_USERNAME']
 })

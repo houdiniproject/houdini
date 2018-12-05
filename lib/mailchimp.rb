@@ -109,7 +109,7 @@ module Mailchimp
     mailchimp_token = get_mailchimp_token(npo_id)
     uri = base_uri(mailchimp_token)
     batch_job_id = post(uri + '/batches',  {
-      basic_auth: {username: "CommitChange", password: mailchimp_token},
+      basic_auth: {username: @username, password: mailchimp_token},
       headers: {'Content-Type' => 'application/json'},
       body: {operations: post_data}.to_json
     })['id']
@@ -120,7 +120,7 @@ module Mailchimp
     mailchimp_token = get_mailchimp_token(npo_id)
     uri = base_uri(mailchimp_token)
     batch_status = get(uri+'/batches/'+batch_job_id, {
-      basic_auth: {username: "CommitChange", password: mailchimp_token},
+      basic_auth: {username: @username, password: mailchimp_token},
       headers: {'Content-Type' => 'application/json'}
     })
   end
@@ -204,7 +204,7 @@ module Mailchimp
     mailchimp_token = get_mailchimp_token(email_list.tag_master.nonprofit.id)
     uri = base_uri(mailchimp_token)
     result = get(uri + "/lists/#{email_list.mailchimp_list_id}/members?count=1000000000",  {
-      basic_auth: {username: "CommitChange", password: mailchimp_token},
+      basic_auth: {username: @username, password: mailchimp_token},
       headers: {'Content-Type' => 'application/json'}})
     members = result['members'].map do |i| 
       {id: i['id'], email_address: i['email_address']}
@@ -215,7 +215,7 @@ module Mailchimp
     mailchimp_token = get_mailchimp_token(nonprofit.id)
     uri = base_uri(mailchimp_token)
     result = get(uri + "/lists",  {
-      basic_auth: {username: "CommitChange", password: mailchimp_token},
+      basic_auth: {username: @username, password: mailchimp_token},
       headers: {'Content-Type' => 'application/json'}})
     result['lists']
     

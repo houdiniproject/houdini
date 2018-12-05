@@ -22,7 +22,7 @@ describe Mailchimp do
 			expect{ Mailchimp.generate_batch_ops_for_hard_sync(email_list)}.to raise_error
 		end
 
-		it 'passes' do
+		it 'passes without delete' do
 			tag_join
 			tag_join2
 			email_list
@@ -36,12 +36,31 @@ describe Mailchimp do
 					method: 'POST', 
 					path: 'lists/list_id/members', 
 					body: {email_address:  supporter_on_local.email, status: 'subscribed'}.to_json
-				},
-				{
-					method: 'DELETE',
-					path: 'lists/list_id/members/on_mailchimp'
 				})
+    end
+
+		it 'passes with delete' do
+			tag_join
+			tag_join2
+			email_list
+
+			expect(Mailchimp).to receive(:get_list_mailchimp_subscribers).with(email_list).and_return(ret_val)
+
+			result = Mailchimp.generate_batch_ops_for_hard_sync(email_list, true)
+
+			expect(result).to contain_exactly(
+														{
+																method: 'POST',
+																path: 'lists/list_id/members',
+																body: {email_address:  supporter_on_local.email, status: 'subscribed'}.to_json
+														},
+														{
+																method: 'DELETE',
+																path: 'lists/list_id/members/on_mailchimp'
+														})
 		end
-	end
+  end
+
+
 
 end

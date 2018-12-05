@@ -156,24 +156,27 @@ module Mailchimp
 
 
   # @param [Nonprofit] nonprofit
-  def self.hard_sync_lists(nonprofit)
+  # @param [Boolean] delete_from_mailchimp do you want to delete extra items on mailchimp, defaults to false
+  def self.hard_sync_lists(nonprofit, delete_from_mailchimp=false)
     return if !nonprofit
 
     nonprofit.tag_masters.not_deleted.each do |i|
       if (i.email_list)
-        hard_sync_list(i.email_list)
+        hard_sync_list(i.email_list, delete_from_mailchimp)
       end
     end
   end
 
   # @param [EmailList] email_list
-  def self.hard_sync_list(email_list)
-    ops = generate_batch_ops_for_hard_sync(email_list)
+  # @param [Boolean] delete_from_mailchimp do you want to delete extra items on mailchimp, defaults to false
+  def self.hard_sync_list(email_list, delete_from_mailchimp=false)
+    ops = generate_batch_ops_for_hard_sync(email_list, delete_from_mailchimp)
     perform_batch_operations(email_list.nonprofit.id, ops)
     
   end
 
-  def self.generate_batch_ops_for_hard_sync(email_list)
+  # @param [Boolean] delete_from_mailchimp do you want to delete extra items on mailchimp, defaults to false
+  def self.generate_batch_ops_for_hard_sync(email_list, delete_from_mailchimp=false)
     #get the subscribers from mailchimp
     mailchimp_subscribers = get_list_mailchimp_subscribers(email_list)
     #get our subscribers
@@ -194,8 +197,10 @@ module Mailchimp
       {method: 'POST', path: "lists/#{email_list.mailchimp_list_id}/members", body: {email_address: i.email, status: 'subscribed'}.to_json}
     }
 
-    # if on mailchimp list, delete from mailchimp
-    output = output.concat(in_mailchimp_only.map{|i| {method: 'DELETE', path: "lists/#{email_list.mailchimp_list_id}/members/#{i[:id]}"}})
+    if delete_from_mailchimp
+      # if on mailchimp list, delete from mailchimp
+      output = output.concat(in_mailchimp_only.map{|i| {method: 'DELETE', path: "lists/#{email_list.mailchimp_list_id}/members/#{i[:id]}"}})
+    end
 
     return output
   end

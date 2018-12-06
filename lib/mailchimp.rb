@@ -219,10 +219,19 @@ module Mailchimp
   def self.get_email_lists(nonprofit)
     mailchimp_token = get_mailchimp_token(nonprofit.id)
     uri = base_uri(mailchimp_token)
-    result = get(uri + "/lists",  {
+    result = get(uri + "/lists?count=1000000000",  {
       basic_auth: {username: @username, password: mailchimp_token},
       headers: {'Content-Type' => 'application/json'}})
     result['lists']
     
+  end
+
+  def self.get_list(nonprofit, list_id)
+    mailchimp_token = get_mailchimp_token(nonprofit.id)
+    uri = base_uri(mailchimp_token)
+    result = get(uri + "/lists/#{list_id}",  {
+        basic_auth: {username: @username, password: mailchimp_token},
+        headers: {'Content-Type' => 'application/json'}})
+    result
   end
 end

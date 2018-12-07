@@ -45,21 +45,60 @@ todo
 
 ## Export
 
+* Nonprofit
+* Requestor
+* Payments (when finished)
+* Export
+
 ## Import
 
-
+* Nonprofit
+* Requestor
+* Payments (when finished)
+* Import
 
 ## Nonprofit
 
+* Nonprofit
+* 
+
 ### Create
 
-### Verification
+
+
 
 ## Payout
 
+* Nonprofit
+* Bank Account
+* Payout
+* Payments related
+* Supporters
+
+(This one might be difficult to provide all information in message)
+
 ## Recurring Donation
 
+* Donation
+* Recurring Donation
+* Payments for the donations
+* Nonprofit
+* Supporter
+* Payment Method (card)
+
 ## Refund
+
+* Donation
+* Refund
+* Payments for the donations and refunds
+* Nonprofit
+* Supporter
+* Payment Method (card)
+
+## Roles
+* Host (nonprofit, event, campaign)
+* Role Itself
+* User
 
 ## Supporter
 
@@ -69,12 +108,14 @@ todo
 
 ## Tag
 
-
-
-## Ticket
+## Ticket (This should be split into Ticket and Ticket purchase)
 
 
 ## User
+
+* User
+* User Profile
+
 
 # Subscribers
 

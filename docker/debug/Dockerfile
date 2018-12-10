@@ -23,6 +23,8 @@ COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
 RUN chown -R $USER /myapp/Gemfile
 RUN chgrp -R $USER /myapp/Gemfile.lock
+RUN chown -R $USER /usr/local/bundle
+RUN chgrp -R $USER /usr/local/bundle
 USER $USER
 EXPOSE 5000
 CMD foreman start

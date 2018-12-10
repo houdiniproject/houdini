@@ -2,6 +2,7 @@
 require 'rails_helper'
 require 'api/support/api_shared_user_verification'
 require 'support/api_errors'
+include ExpectApi
 describe Houdini::V1::Nonprofit, :type => :request do
   describe :get do
 
@@ -54,26 +55,12 @@ describe Houdini::V1::Nonprofit, :type => :request do
           expect(response.code).to eq "401"
         end
       end
-
-      nope = 0
-      before(:each) {
-        nope = 55000
-      }
-      describe 'open no user' do
-        it 'accessibility tests' do
-
-          run_authorization_tests({method: :post, successful_users: [nil], action: '/api/v1/nonprofit'}) do ||
-            valid_input
-          end
-        end
-      end
-
     end
     it 'validates nothing' do
       input = {}
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
-      expect_validation_errors(JSON.parse(response.body), create_errors(totally_empty_errors, "nonprofit", "user"))
+      expect_api_validation_errors(JSON.parse(response.body), create_errors(totally_empty_errors, "nonprofit", "user"))
     end
 
     it 'validates url, email, phone ' do
@@ -90,7 +77,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
       #expected[:errors].push(h(params:["nonprofit[phone]"], messages: gr_e("regexp")))
       #expected[:errors].push(h(params:["nonprofit[url]"], messages: gr_e("regexp")))
 
-      expect_validation_errors(JSON.parse(response.body), expected)
+      expect_api_validation_errors(JSON.parse(response.body), expected)
     end
 
     it 'should reject unmatching passwords ' do
@@ -121,7 +108,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
 
-      expect_validation_errors(JSON.parse(response.body), {
+      expect_api_validation_errors(JSON.parse(response.body), {
           errors: [
               h(
                   params:["nonprofit[name]"],
@@ -142,7 +129,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
 
-      expect_validation_errors(JSON.parse(response.body), {
+      expect_api_validation_errors(JSON.parse(response.body), {
           errors: [
               h(
                   params:["user[email]"],

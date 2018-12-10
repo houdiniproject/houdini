@@ -129,10 +129,10 @@ group :development, :ci, :test do
   gem 'factory_bot'
 	gem 'factory_bot_rails'
 	gem 'action_mailer_matchers'
+  gem 'simplecov', '~> 0.16.1', require: false
 end
 
 group :test do
-  gem 'codecov', require: false
 	gem 'vcr'
   gem 'webmock'
 end

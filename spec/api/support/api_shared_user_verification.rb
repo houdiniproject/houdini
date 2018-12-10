@@ -156,7 +156,7 @@ RSpec.shared_context :api_shared_user_verification do
     end
     sign_in new_user if new_user
     send(method, action, args)
-    expect(response.status).to eq(401), "expected failure for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes}"
+    expect(response.status).to eq(401), "expected failure for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes} -- expected status of 401, got status #{response.status}"
     sign_out
   end
 

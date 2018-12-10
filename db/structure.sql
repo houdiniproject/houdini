@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.11
+-- Dumped by pg_dump version 9.6.10
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -3391,31 +3391,10 @@ CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 
 
 --
-<<<<<<< HEAD
--- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_payments_on_created_at ON public.payments USING btree (created_at);
-
-
---
 -- Name: index_recurring_donations_on_donation_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_recurring_donations_on_donation_id ON public.recurring_donations USING btree (donation_id);
-=======
--- Name: index_miscellaneous_np_infos_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_miscellaneous_np_infos_on_nonprofit_id ON public.miscellaneous_np_infos USING btree (nonprofit_id);
->>>>>>> Add default address strategy to nonprofit
-
-
---
--- Name: index_refunds_on_charge_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_refunds_on_charge_id ON public.refunds USING btree (charge_id);
 
 
 --
@@ -4588,6 +4567,14 @@ INSERT INTO schema_migrations (version) VALUES ('20180713215825');
 
 INSERT INTO schema_migrations (version) VALUES ('20180713220028');
 
+INSERT INTO schema_migrations (version) VALUES ('20180808213858');
+
+INSERT INTO schema_migrations (version) VALUES ('20180808214318');
+
+INSERT INTO schema_migrations (version) VALUES ('20180808214449');
+
+INSERT INTO schema_migrations (version) VALUES ('20180821210256');
+
 INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
@@ -4599,13 +4586,4 @@ INSERT INTO schema_migrations (version) VALUES ('20181128221143');
 INSERT INTO schema_migrations (version) VALUES ('20181129205652');
 
 INSERT INTO schema_migrations (version) VALUES ('20181129224030');
-
-INSERT INTO schema_migrations (version) VALUES ('20180808213858');
-
-INSERT INTO schema_migrations (version) VALUES ('20180808214318');
-
-INSERT INTO schema_migrations (version) VALUES ('20180808214449');
-
-INSERT INTO schema_migrations (version) VALUES ('20180821210256');
-
 

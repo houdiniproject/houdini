@@ -125,7 +125,7 @@ describe Houdini::V1::Ticket, :type => :request do
 
 
         }
-        expect_validation_errors(JSON.parse(response.body), expected_errors)
+        expect_api_validation_errors(JSON.parse(response.body), expected_errors)
       end
 
 
@@ -141,7 +141,7 @@ describe Houdini::V1::Ticket, :type => :request do
 
 
         }
-        expect_validation_errors(JSON.parse(response.body), expected_errors)
+        expect_api_validation_errors(JSON.parse(response.body), expected_errors)
       end
 
       it 'address details are invalid' do
@@ -161,7 +161,7 @@ describe Houdini::V1::Ticket, :type => :request do
             errors:
             %w(address city state_code zip_code country).map {|i| h(params: ["ticket[address][#{i}]"], messages: grape_error("coerce"))}
         }
-        expect_validation_errors(JSON.parse(response.body), expected_errors)
+        expect_api_validation_errors(JSON.parse(response.body), expected_errors)
       end
     end
 

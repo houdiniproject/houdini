@@ -8,17 +8,26 @@ RSpec.describe Address, :type => :model do
                                                   state_code: "swwwi",
                                                   zip_code: "5234980=21jWER",
                                                   country: "UWSSSW"}
-  let(:address){ Address.create address: '341324i890v n \n something',
+  let(:address){ Address.create address: '341324i890v n \n something{',
                                                        city: "cityew",
-                                                       state_code: "swwwi",
+                                                       state_code: "swwwi}",
                                                        zip_code: "5234980=21jWER",
                                                        country: "UWSSSW",
                                                        supporter: supporter
   }
 
+  let(:address2) { Address.create address: '341324i890v n \n something{',
+                                                 city: "cityew",
+                                                 state_code: "swwwi}",
+                                                 zip_code: "5234980=21jWER",
+                                                 country: "UWSSSW",
+                                                 supporter: supporter
+  }
+
   it 'address hash properly added' do
-    expected = "99273fd3ba4c292499373c140bfb27ea2a25ba512533b18efa2564e9"
+    expected = "581337bc8bf5173754d73b795d0a88027fad19c25175c5e5b274358b"
     expect(address.fingerprint).to eq expected
+    expect(address2.fingerprint).to eq expected
   end
 
   it 'validates that supporter is set' do

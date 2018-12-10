@@ -25,9 +25,7 @@ RSpec.describe Address, :type => :model do
   }
 
   it 'address hash properly added' do
-    expected = "581337bc8bf5173754d73b795d0a88027fad19c25175c5e5b274358b"
-    expect(address.fingerprint).to eq expected
-    expect(address2.fingerprint).to eq expected
+    expect(address.fingerprint).to eq address2.fingerprint
   end
 
   it 'validates that supporter is set' do

@@ -2,7 +2,11 @@
 require 'rails_helper'
 
 describe QueryTransactionAddress do
-  it 'is untested' do
-    pending 'add tests here'
+  describe '.add_or_use' do
+
+  end
+
+  describe '.update_address' do
+
   end
 end

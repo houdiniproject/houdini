@@ -4,18 +4,22 @@ require 'address_comparisons'
 describe AddressComparisons do
   describe '.safely_delimited_address_string' do
     it 'mashes address together properly' do
-      result = AddressComparisons.safely_delimited_address_string('.rw',
-                                                                  "wf #{AddressComparisons::DELIMITER} www",
-                                                                  "!I53    ")
-      expect(result).to eq "RW#{AddressComparisons::DELIMITER}WF  WWW#{AddressComparisons::DELIMITER}I53"
+      result = AddressComparisons.safely_delimited_address_string({one:'.rw',
+                                                                  two:"wf {}} www",
+                                                                  three: "!I53    "})
+      result = JSON::parse(result)
+      expect(result.keys.count).to eq 3
+      expect(result['one']).to eq '.rw'
+      expect(result['two']).to eq "wf {}} www"
+      expect(result['three']).to eq "!I53    "
     end
   end
 
   describe '.calculate_hash' do
     it 'creates a fun hash!' do
-      expected = "e106e376fb461cfbf4c19d3d5433e71e1b339b0f632131d17ea71e49"
+      expected = "17dbea0da79c939a6c3835262b22c6fd7dc13aac30972bd83990ab98"
       result = AddressComparisons.calculate_hash("supporter_id", '.rw',
-                                                 "wf #{AddressComparisons::DELIMITER} www",
+                                                 "wf {}} www",
                                                  "!I53    ", "zip", "country")
       expect(result).to eq expected
     end

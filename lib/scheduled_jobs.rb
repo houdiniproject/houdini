@@ -85,7 +85,6 @@ module ScheduledJobs
     end
   end
 
-
   def self.update_pending_payouts
     return Enumerator.new do |yielder|
       Payout.pending.includes(:nonprofit).each do |p|

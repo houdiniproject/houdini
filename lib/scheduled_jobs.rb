@@ -100,4 +100,12 @@ module ScheduledJobs
     end
   end
 
+  def self.delete_expired_source_tokens
+    return Enumerator.new do |yielder|
+      yielder << lambda do
+        tokens_deleted = SourceToken.where("expiration > ?", DateTime.now - 1.day).delete_all
+        "Deleted #{tokens_deleted} source tokens"
+      end
+    end
+  end
 end

@@ -1,6 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module QueryTransactionAddress
 
+  # UPSERT for TransactionAddress
   def self.add_or_use(supporter, address_hash=nil)
     if (address_hash.nil?)
       return nil

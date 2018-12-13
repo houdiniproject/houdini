@@ -82,6 +82,22 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       expect_validation_errors(JSON.parse(response.body), expected)
     end
 
+    it 'should reject unmatching passwords ' do
+      input = {
+
+          user: {
+              email: "wmeil@email.com",
+              name: "name",
+              password: 'password',
+              password_confirmation: 'doesn\'t match'
+          }
+      }
+      xhr :post, '/api/v1/nonprofit', input
+      expect(response.code).to eq "400"
+      expect(JSON.parse(response.body)['errors']).to include(h(params:["user[password]", "user[password_confirmation]"], messages: gr_e("is_equal_to")))
+
+    end
+
     it 'attempts to make a slug copy and returns the proper errors' do
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       input = {

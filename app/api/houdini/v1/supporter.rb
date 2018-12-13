@@ -80,8 +80,6 @@ class Houdini::V1::Supporter < Grape::API
 
       desc 'Create Custom Address' do
         success Houdini::V1::Entities::Addresses
-        failure [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors},
-                 {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
       end
       params do
         requires :address, type: Hash do
@@ -124,8 +122,6 @@ class Houdini::V1::Supporter < Grape::API
 
         desc 'Update a Custom Address' do
           success Houdini::V1::Entities::Address
-          failure [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors},
-                   {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
         end
         params do
           requires :address, type: Hash do

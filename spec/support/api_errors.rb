@@ -11,6 +11,14 @@ module ExpectApi
   end
 
   def grape_error(*keys)
-    keys.map {|i| I18n.translate("grape.errors.messages." + i, locale: 'en')}
+    keys.map do |i|
+      ret = nil
+      if i.is_a? Symbol
+        ret = I18n.translate("grape.errors.messages." + i.to_s, locale: 'en')
+      else
+        ret = I18n.translate("grape.errors.messages." + i[:key].to_s, locale: 'en', **i[:options])
+      end
+      ret
+    end
   end
 end

@@ -94,11 +94,60 @@ describe Houdini::V1::Supporter, :type => :request do
 
               json_response = JSON.parse(response.body)
               expect(response.status).to eq 400
+
+              expect(json_response['errors']).to include(h(params:['page_number'], messages: grape_error({key: :greater_than_or_equal, options: {value: 0}})))
             end
           end
 
+          describe 'page_length' do
+            it 'should be at least 1' do
+              xhr :get, "/api/v1/supporter/#{supporter.id}/address", {page_length: 0}
+
+              json_response = JSON.parse(response.body)
+              expect(response.status).to eq 400
+
+              expect(json_response['errors']).to include(h(params:['page_length'], messages: grape_error({key: :greater_than_or_equal, options: {value: 1}})))
+            end
+
+            it 'should be no more than 100' do
+              xhr :get, "/api/v1/supporter/#{supporter.id}/address", {page_length: 101}
+
+              json_response = JSON.parse(response.body)
+              expect(response.status).to eq 400
+
+              expect(json_response['errors']).to include(h(params:['page_length'], messages: grape_error({key: :less_than_or_equal, options: {value: 100}})))
+            end
+          end
         end
 
+        describe 'type' do
+          it 'should accept ALL' do
+            xhr :get, "/api/v1/supporter/#{supporter.id}/address", {type: 'ALL'}
+
+            json_response = JSON.parse(response.body)
+            expect(response.status).to eq 200
+
+
+          end
+
+          it 'should accept CUSTOM' do
+            xhr :get, "/api/v1/supporter/#{supporter.id}/address", {type: 'CUSTOM'}
+
+            json_response = JSON.parse(response.body)
+            expect(response.status).to eq 200
+
+
+          end
+
+          it 'should reject other values' do
+            xhr :get, "/api/v1/supporter/#{supporter.id}/address", {type: 'INVALID VALUE CUSTOM'}
+
+            json_response = JSON.parse(response.body)
+            expect(response.status).to eq 400
+
+            expect(json_response['errors']).to include(h(params:['type'], messages:grape_error(:values)))
+          end
+        end
       end
       describe 'should validate parameters errors' do
 

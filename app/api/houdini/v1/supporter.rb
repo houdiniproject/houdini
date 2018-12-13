@@ -2,7 +2,8 @@
 class Houdini::V1::Supporter < Grape::API
   helpers Houdini::V1::Helpers::ApplicationHelper,
           Houdini::V1::Helpers::RescueHelper,
-          Houdini::V1::Helpers::NonprofitHelper
+          Houdini::V1::Helpers::NonprofitHelper,
+          Houdini::V1::Helpers::PagingHelper
 
   before do
 
@@ -52,13 +53,10 @@ class Houdini::V1::Supporter < Grape::API
     resource 'address' do
       desc 'Returns addresses' do
         success Houdini::V1::Entities::Addresses
-        failure [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors},
-                 {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
       end
       params do
         optional :type, type:Symbol, values: [:CUSTOM, :ALL], default: :ALL, documentation: { param_type: 'query' }
-        optional :page_length, type:Integer, default:20, greater_than_or_equal: 1, less_than_or_equal:100, documentation: { param_type: 'query' }
-        optional :page_number, type:Integer, default:0, greater_than_or_equal:0, documentation: { param_type: 'query' }
+        use :pagination
       end
       get do
         klazz = declared_params[:type] == :ALL ? Address : CustomAddress
@@ -111,8 +109,6 @@ class Houdini::V1::Supporter < Grape::API
       route_param :custom_address_id, type: Integer do
         desc 'Return a custom Address' do
           success Houdini::V1::Entities::Address
-          failure [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors},
-                   {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
         end
         get do
           supporter = Supporter.includes(:nonprofit).find(params[:id])

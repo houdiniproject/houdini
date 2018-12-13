@@ -149,9 +149,13 @@ describe Houdini::V1::Supporter, :type => :request do
           end
         end
       end
-      describe 'should validate parameters errors' do
 
+      it 'should 404 when the supporter is missing' do
+        xhr :get, "/api/v1/supporter/99999/address"
+        expect(response.status).to eq 404
       end
+
+
     end
   end
 end

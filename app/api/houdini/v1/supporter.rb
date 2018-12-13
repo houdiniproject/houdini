@@ -1,19 +1,24 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Houdini::V1::Supporter < Grape::API
+  helpers Houdini::V1::Helpers::ApplicationHelper,
+          Houdini::V1::Helpers::RescueHelper,
+          Houdini::V1::Helpers::NonprofitHelper
+
   before do
 
     protect_against_forgery
     #make sure logged in user can handle this!
   end
 
-  route_param :id, type:Integer do
+  route_param :supporter_id, type:Integer do
     desc 'Return a supporter.' do
       success Houdini::V1::Entities::Supporter
       failure [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors},
-               {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
+               {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError},
+               {code:404, message: 'Not found'}]
     end
     get do
-      supporter = Supporter.includes(:nonprofit).find(params[:id])
+      supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
 
       #authenticate
       unless current_nonprofit_user?(supporter.nonprofit)
@@ -24,12 +29,12 @@ class Houdini::V1::Supporter < Grape::API
       present supporter, with: Houdini::V1::Entities::Supporter
     end
 
-    desc 'Return a supporter.' do
+    desc 'Update a supporter.' do
       success Houdini::V1::Entities::Supporter
     end
     put do
       declared_params = declared(params)
-      supporter = Supporter.includes(:nonprofit).find(params[:id])
+      supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
 
       #authenticate
       unless current_nonprofit_user?(supporter.nonprofit)
@@ -51,26 +56,28 @@ class Houdini::V1::Supporter < Grape::API
                  {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError}]
       end
       params do
-        optional :type, type:Symbol,  values: [:CUSTOM, :ALL], default: :ALL, documentation: { param_type: 'query' }
-        optional :page_length, type:Integer, default:20, greater_than: 1, less_than_or_equal:100, documentation: { param_type: 'query' }
+        optional :type, type:Symbol, values: [:CUSTOM, :ALL], default: :ALL, documentation: { param_type: 'query' }
+        optional :page_length, type:Integer, default:20, greater_than_or_equal: 1, less_than_or_equal:100, documentation: { param_type: 'query' }
         optional :page_number, type:Integer, default:0, greater_than_or_equal:0, documentation: { param_type: 'query' }
       end
       get do
-
         klazz = declared_params[:type] == :ALL ? Address : CustomAddress
-        supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
+        supporter = Supporter.includes(:nonprofit).find(declared_params[:supporter_id])
 
         #authenticate
         unless current_nonprofit_user?(supporter.nonprofit)
           error!('Unauthorized', 401)
         end
 
-        addresses = klazz.includes(:supporter => [:nonprofit])
-                        .where(supporter:supporter)
-                        .skip(params[:page_length] * params[:page_number])
-                        .limit(params[:page_length])
+        addresses = klazz.includes(:supporter)
+                        .where(supporter_id:supporter.id)
+                        .offset(declared_params[:page_length] * declared_params[:page_number])
+                        .limit(declared_params[:page_length])
 
-        present addresses, with: Houdini::V1::Addresses
+        total_addresses = klazz.includes(:supporter)
+                              .where(supporter_id:supporter.id).count
+
+        present pagify({addresses: addresses}, total_addresses), with: Houdini::V1::Entities::Addresses
       end
 
       desc 'Create Custom Address' do
@@ -88,7 +95,6 @@ class Houdini::V1::Supporter < Grape::API
         end
       end
       post do
-        declared_params = declared(params)
         Qx.transaction do
           supporter = Supporter.includes(:nonprofit).find(params[:id])
           unless current_nonprofit_user?(supporter.nonprofit) # TODO OR USING THAT CUSTOM FORM STUFF
@@ -135,7 +141,6 @@ class Houdini::V1::Supporter < Grape::API
           end
         end
         put do
-          declared_params = declared(params)
           Qx.transaction do
             supporter = Supporter.includes(:nonprofit).find(params[:id])
             address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter:supporter).find(params[:custom_address_id])
@@ -154,7 +159,5 @@ class Houdini::V1::Supporter < Grape::API
         end
       end
     end
-
-
   end
 end

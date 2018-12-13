@@ -49,7 +49,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
           e.run
           Rails.configuration.action_controller.allow_forgery_protection = false
         }
-        it 'rejects csrf' do
+        it 'should rejects with a lack of csrf' do
 
           xhr :post, '/api/v1/nonprofit'
           expect(response.code).to eq "401"
@@ -141,7 +141,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
     end
 
-    it "succeeds" do
+    it "should succeed" do
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       input = {
           nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c', website: 'www.cs.c'},

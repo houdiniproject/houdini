@@ -101,5 +101,16 @@ module Houdini::V1::Helpers::ApplicationHelper
     warden.user
   end
 
+  def pagify(entity, total)
+    entity[:page_length] = declared_params[:page_length]
+    entity[:page_number] = declared_params[:page_number]
+    entity[:total] = total
+    entity
+  end
+
+  def declared_params
+    declared(params)
+  end
+
 end
 

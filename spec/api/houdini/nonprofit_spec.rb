@@ -92,7 +92,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
       }
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
-      expect(JSON.parse(response.body)['errors']).to include(h(params:["user[password]", "user[password_confirmation]"], messages: gr_e("is_equal_to")))
+      expect(JSON.parse(response.body)['errors']).to include(h(params:["user[password]", "user[password_confirmation]"], messages: grape_error("is_equal_to")))
 
     end
 

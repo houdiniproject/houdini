@@ -2,7 +2,6 @@
 module Houdini::V1::Helpers::ApplicationHelper
   extend Grape::API::Helpers
 
-
   def session
         env['rack.session']
   end
@@ -101,16 +100,14 @@ module Houdini::V1::Helpers::ApplicationHelper
     warden.user
   end
 
-  def pagify(entity, total)
-    entity[:page_length] = declared_params[:page_length]
-    entity[:page_number] = declared_params[:page_number]
-    entity[:total] = total
-    entity
-  end
-
   def declared_params
     declared(params)
   end
 
+  def common_failures
+    [{code:400, message:'Validation Errors',  model: Houdini::V1::Entities::ValidationErrors},
+     {code:401, message: 'Not authorized or authenticated', model: Houdini::V1::Entities::NotAuthorizedError},
+     {code:404, message: 'Not found'}]
+  end
 end
 

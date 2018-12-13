@@ -151,11 +151,63 @@ describe Houdini::V1::Supporter, :type => :request do
       end
 
       it 'should 404 when the supporter is missing' do
+        sign_in user_as_np_admin
         xhr :get, "/api/v1/supporter/99999/address"
         expect(response.status).to eq 404
       end
 
+      describe 'list gets correct items' do
+        before(:each) { sign_in user_as_np_admin}
 
+        let(:custom_address) do
+          create(:address,
+                 supporter:supporter,
+                 type: 'CustomAddress',
+                 address: 'address1',
+                 city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+
+        end
+
+        let (:custom_address2) do
+          create(:address,
+                 supporter:supporter,
+                 type: 'CustomAddress',
+                 address: 'address2',
+                 city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+        end
+        let(:transaction_address) do
+          create(:address,
+                 supporter:supporter,
+                 type: 'TransactionAddress',
+                 address: 'address3',
+                 city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+        end
+
+        before(:each) do
+          custom_address
+          custom_address2
+          transaction_address
+        end
+
+        it 'should return all addresses' do
+          xhr :get, "/api/v1/supporter/#{supporter.id}/address", type: "ALL"
+          json_response = JSON.parse(response.body)
+          expect(json_response['page_number']).to eq 0
+          expect(json_response['page_length']).to eq 20
+          expect(json_response['total']).to eq 3
+          expect(json_response['addresses'].count).to eq 3
+        end
+
+        it 'should return custom' do
+          xhr :get, "/api/v1/supporter/#{supporter.id}/address", type: "CUSTOM"
+          json_response = JSON.parse(response.body)
+          expect(json_response['page_number']).to eq 0
+          expect(json_response['page_length']).to eq 20
+          expect(json_response['total']).to eq 2
+          expect(json_response['addresses'].count).to eq 2
+        end
+
+      end
     end
   end
 end

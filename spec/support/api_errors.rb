@@ -13,7 +13,7 @@ module ExpectApi
   def grape_error(*keys)
     keys.map do |i|
       ret = nil
-      if i.is_a? Symbol
+      if i.is_a?(Symbol) || i.is_a?(String)
         ret = I18n.translate("grape.errors.messages." + i.to_s, locale: 'en')
       else
         ret = I18n.translate("grape.errors.messages." + i[:key].to_s, locale: 'en', **i[:options])

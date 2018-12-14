@@ -3,7 +3,10 @@ class Houdini::V1::Supporter < Grape::API
   helpers Houdini::V1::Helpers::ApplicationHelper,
           Houdini::V1::Helpers::RescueHelper,
           Houdini::V1::Helpers::NonprofitHelper,
-          Houdini::V1::Helpers::PagingHelper
+          Houdini::V1::Helpers::PagingHelper,
+          Houdini::V1::Helpers::AddressHelper
+
+
 
   before do
 
@@ -83,11 +86,7 @@ class Houdini::V1::Supporter < Grape::API
       end
       params do
         requires :address, type: Hash do
-          optional :address, type:String, desc: "Address lines", allow_blank: true, documentation: {param_type: 'body'}
-          optional :city, type:String, desc: "address city", allow_blank: true, documentation: {param_type: 'body'}
-          optional :state_code, type:String, desc: "State/Region code",  allow_blank: true, documentation: {param_type: 'body'}
-          optional :zip_code, type:String, desc: "ZIP/Postal code", allow_blank: true, documentation: {param_type: 'body'}
-          optional :country, type:String, desc: "Country", allow_blank: true, documentation: {param_type: 'body'}
+          use :address
         end
       end
       post do
@@ -100,7 +99,7 @@ class Houdini::V1::Supporter < Grape::API
           address = CustomAddress.create!({supporter:supporter}.merge(declared_params[:address]))
 
           supporter.nonprofit.default_address_strategy.on_add(supporter, address)
-          return address
+          present address, with: Houdini::V1::Entities::Address
         end
       end
 
@@ -109,8 +108,8 @@ class Houdini::V1::Supporter < Grape::API
           success Houdini::V1::Entities::Address
         end
         get do
-          supporter = Supporter.includes(:nonprofit).find(params[:id])
-          address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter:supporter).find(params[:custom_address_id])
+          supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
+          address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
 
           #authenticate
           unless current_nonprofit_user?(address.supporter.nonprofit)
@@ -125,30 +124,47 @@ class Houdini::V1::Supporter < Grape::API
         end
         params do
           requires :address, type: Hash do
-            optional :address, type:String, desc: "Address lines", allow_blank: true, documentation: {param_type: 'body'}
-            optional :city, type:String, desc: "address city", allow_blank: true, documentation: {param_type: 'body'}
-            optional :state_code, type:String, desc: "State/Region code",  allow_blank: true, documentation: {param_type: 'body'}
-            optional :zip_code, type:String, desc: "ZIP/Postal code", allow_blank: true, documentation: {param_type: 'body'}
-            optional :country, type:String, desc: "Country", allow_blank: true, documentation: {param_type: 'body'}
+            use :address
           end
         end
         put do
           Qx.transaction do
-            supporter = Supporter.includes(:nonprofit).find(params[:id])
-            address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter:supporter).find(params[:custom_address_id])
+            supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
+            address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
 
             #authenticate
             unless current_nonprofit_user?(address.supporter.nonprofit)
               error!('Unauthorized', 401)
             end
 
-
-            address.update!(declared_params[:address])
+            address.update(declared_params[:address])
+            address.save!
 
             supporter.nonprofit.default_address_strategy.on_use(supporter, address)
-            return address
+
+            present address, with: Houdini::V1::Entities::Address
           end
         end
+
+        desc 'Delete a custom Address' do
+          success Houdini::V1::Entities::Address
+        end
+        delete do
+          supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
+          address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
+
+          #authenticate
+          unless current_nonprofit_user?(address.supporter.nonprofit)
+            error!('Unauthorized', 401)
+          end
+
+          address.destroy
+
+          supporter.nonprofits.default_address_strategy.on_remove(supporter, address)
+
+          present address, with: Houdini::V1::Entities::Address
+        end
+
       end
     end
   end

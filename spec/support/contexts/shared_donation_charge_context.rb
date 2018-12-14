@@ -5,6 +5,7 @@ RSpec.shared_context :shared_donation_charge_context do
   let(:nonprofit) { force_create(:nonprofit, name: "nonprofit name", slug: 'nonprofit_nameo')}
   let(:other_nonprofit) { force_create(:nonprofit)}
   let(:supporter) {force_create(:supporter, :nonprofit => nonprofit, locale: 'locale_one')}
+  let(:other_supporter) {force_create(:supporter, :nonprofit => nonprofit, locale: 'locale_one')}
   let(:other_nonprofit_supporter) { force_create(:supporter, nonprofit: other_nonprofit, locale: 'locale_two')}
   let(:card) {force_create(:card, :holder => supporter)}
   let(:card_for_other_supporter) { force_create(:card, holder: other_nonprofit_supporter)}

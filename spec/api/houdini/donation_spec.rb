@@ -2,6 +2,7 @@
 require 'rails_helper'
 require 'api/support/api_shared_user_verification'
 require 'support/api_errors'
+include ExpectApi
 describe Houdini::V1::Donation, :type => :request do
   include_context :shared_donation_charge_context
   include_context :api_shared_user_verification
@@ -120,7 +121,7 @@ describe Houdini::V1::Donation, :type => :request do
         expected_errors = {
             errors:
                 [
-                    h(params: ["donation"], messages: grape_error("presence"))
+                    h(params: ["donation"], messages: grape_error(:presence))
                 ]
 
 
@@ -136,7 +137,7 @@ describe Houdini::V1::Donation, :type => :request do
         expected_errors = {
             errors:
                 [
-                    h(params: ["donation[address]"], messages: grape_error("coerce"))
+                    h(params: ["donation[address]"], messages: grape_error(:coerce))
                 ]
 
 
@@ -159,7 +160,7 @@ describe Houdini::V1::Donation, :type => :request do
         expect(response.status).to eq 400
         expected_errors = {
             errors:
-            %w(address city state_code zip_code country).map {|i| h(params: ["donation[address][#{i}]"], messages: grape_error("coerce"))}
+            %w(address city state_code zip_code country).map {|i| h(params: ["donation[address][#{i}]"], messages: grape_error(:coerce))}
         }
         expect_api_validation_errors(JSON.parse(response.body), expected_errors)
       end

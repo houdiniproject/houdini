@@ -183,6 +183,8 @@ RSpec.shared_context :api_shared_user_verification do
         else
           reject(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
         end
+
+        raise ActiveRecord::Rollback
       end
     end
 

@@ -58,7 +58,7 @@ describe Houdini::V1::Supporter, :type => :request do
 
   end
 
-  describe :post do
+  describe :post, pending: true do
     it 'should fail' do
       fail
     end
@@ -68,10 +68,6 @@ describe Houdini::V1::Supporter, :type => :request do
     it 'should fail' do
       fail
     end
-  end
-
-  describe :delete do
-
   end
 
   describe "/address" do
@@ -235,95 +231,10 @@ describe Houdini::V1::Supporter, :type => :request do
       end
     end
 
-    describe 'get' do
 
-      let(:address) do
-        create(:address,
-               supporter: supporter,
-               type: 'CustomAddress',
-               address: 'address',
-               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
-      end
-
-
-      let(:transaction_address) do
-        create(:address,
-               supporter: supporter,
-               type: 'TransactionAddress',
-               address: 'address',
-               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
-      end
-
-      let (:other_supporter_address) do
-        create(:address,
-               supporter: other_supporter,
-               type: 'TransactionAddress',
-               address: 'address2',
-               city: "city2", state_code: "wi2", zip_code: "zippy zip2", country: "country2")
-      end
-
-      it 'should allow np associated people through but no one else' do
-        run_authorization_tests({method: :get, action: "/api/v1/supporter/#{supporter.id}/address/#{address.id}",
-                                 successful_users: roles__open_to_np_associate})
-      end
-
-      describe 'missing entity' do
-        it 'should 404 when the supporter is missing' do
-          sign_in user_as_np_admin
-          xhr :get, "/api/v1/supporter/99999/address/9999"
-          expect(response.status).to eq 404
-        end
-
-        it 'should 404 when the address is missing' do
-          sign_in user_as_np_admin
-          xhr :get, "/api/v1/supporter/#{supporter.id}/address/99999"
-          expect(response.status).to eq 404
-        end
-
-        it 'should 404 when the address is for the wrong supporter' do
-          sign_in user_as_np_admin
-          xhr :get, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{other_supporter_address.id}"
-          expect(response.status).to eq 404
-        end
-
-        it 'should 404 when the address is TransactionAddress' do
-          sign_in user_as_np_admin
-          xhr :get, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{transaction_address.id}"
-          expect(response.status).to eq 404
-        end
-      end
-
-      it 'should return the correct address' do
-        sign_in user_as_np_admin
-        xhr :get, "/api/v1/supporter/#{supporter.id}/address/#{address.id}"
-        expect(response.status).to eq 200
-
-        json_response = JSON::parse(response.body)
-
-        expected = h({
-                         id: address.id,
-                         address: address.address,
-                         city: address.city,
-                         state_code: address.state_code,
-                         zip_code: address.zip_code,
-                         country: address.country,
-                         name: address.name,
-                         fingerprint: address.fingerprint,
-                         type: address.type,
-                         supporter: h(
-                             {
-                                          id: supporter.id
-                                      })
-                     })
-
-        expect(json_response).to eq expected
-
-      end
-    end
 
     describe 'post' do
       it 'should allow np associated people through but no one else' do
-        address_strategy_mock
         run_authorization_tests({method: :post, action: "/api/v1/supporter/#{supporter.id}/address",
                                  successful_users: roles__open_to_np_associate}) {{address: {address: 'input'}}}
       end
@@ -376,6 +287,135 @@ describe Houdini::V1::Supporter, :type => :request do
             'type'=> 'CustomAddress'
         })
         expect(json_response).to eq expected
+      end
+    end
+
+    describe '/:custom_address_id' do
+      let(:address) do
+        create(:address,
+               supporter: supporter,
+               type: 'CustomAddress',
+               address: 'address',
+               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+      end
+
+
+      let(:transaction_address) do
+        create(:address,
+               supporter: supporter,
+               type: 'TransactionAddress',
+               address: 'address',
+               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+      end
+
+      let (:other_supporter_address) do
+        create(:address,
+               supporter: other_supporter,
+               type: 'TransactionAddress',
+               address: 'address2',
+               city: "city2", state_code: "wi2", zip_code: "zippy zip2", country: "country2")
+      end
+
+      describe 'get' do
+        it 'should allow np associated people through but no one else' do
+          run_authorization_tests({method: :get, action: "/api/v1/supporter/#{supporter.id}/address/#{address.id}",
+                                   successful_users: roles__open_to_np_associate})
+        end
+
+        describe 'missing entity' do
+          it 'should 404 when the supporter is missing' do
+            sign_in user_as_np_admin
+            xhr :get, "/api/v1/supporter/99999/address/9999"
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is missing' do
+            sign_in user_as_np_admin
+            xhr :get, "/api/v1/supporter/#{supporter.id}/address/99999"
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is for the wrong supporter' do
+            sign_in user_as_np_admin
+            xhr :get, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{other_supporter_address.id}"
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is TransactionAddress' do
+            sign_in user_as_np_admin
+            xhr :get, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{transaction_address.id}"
+            expect(response.status).to eq 404
+          end
+        end
+
+        it 'should return the correct address' do
+          sign_in user_as_np_admin
+          xhr :get, "/api/v1/supporter/#{supporter.id}/address/#{address.id}"
+          expect(response.status).to eq 200
+
+          json_response = JSON::parse(response.body)
+
+          expected = h({
+                           id: address.id,
+                           address: address.address,
+                           city: address.city,
+                           state_code: address.state_code,
+                           zip_code: address.zip_code,
+                           country: address.country,
+                           name: address.name,
+                           fingerprint: address.fingerprint,
+                           type: address.type,
+                           supporter: h(
+                               {
+                                   id: supporter.id
+                               })
+                       })
+
+          expect(json_response).to eq expected
+
+        end
+      end
+      describe 'put' do
+        describe 'missing entity' do
+          it 'should 404 when the supporter is missing' do
+            sign_in user_as_np_admin
+            xhr :put, "/api/v1/supporter/99999/address/99999", address: {address: 'twoehtowit'}
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is missing' do
+            sign_in user_as_np_admin
+            xhr :put, "/api/v1/supporter/#{supporter.id}/address/99999", address: {address: 'twoehtowit'}
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is for the wrong supporter' do
+            sign_in user_as_np_admin
+            xhr :put, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{other_supporter_address.id}", address: {address: 'twoehtowit'}
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is TransactionAddress' do
+            sign_in user_as_np_admin
+            xhr :put, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{transaction_address.id}", address: {address: 'twoehtowit'}
+            expect(response.status).to eq 404
+          end
+        end
+
+        it 'should allow np associated people through but no one else' do
+          run_authorization_tests({method: :put, action: "/api/v1/supporter/#{supporter.id}/address/#{address.id}",
+                                   successful_users: roles__open_to_np_associate})
+        end
+
+        it 'should fail', pending:true do
+          fail
+        end
+      end
+
+      describe 'delete' do
+        it 'should fail', pending: true do
+          fail
+        end
       end
     end
   end

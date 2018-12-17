@@ -436,8 +436,67 @@ describe Houdini::V1::Supporter, :type => :request do
       end
 
       describe 'delete' do
-        it 'should fail', pending: true do
-          fail
+        describe 'missing entity' do
+          it 'should 404 when the supporter is missing' do
+            sign_in user_as_np_admin
+            xhr :delete, "/api/v1/supporter/99999/address/99999"
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is missing' do
+            sign_in user_as_np_admin
+            xhr :delete, "/api/v1/supporter/#{supporter.id}/address/99999"
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is for the wrong supporter' do
+            sign_in user_as_np_admin
+            xhr :delete, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{other_supporter_address.id}"
+            expect(response.status).to eq 404
+          end
+
+          it 'should 404 when the address is TransactionAddress' do
+            sign_in user_as_np_admin
+            xhr :delete, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{transaction_address.id}"
+            expect(response.status).to eq 404
+          end
+        end
+
+        it 'should allow np associated people through but no one else' do
+          run_authorization_tests({method: :delete, action: "/api/v1/supporter/#{supporter.id}/address/#{address.id}",
+                                   successful_users: roles__open_to_np_associate})
+        end
+
+        it 'should delete the address' do
+          address_strategy = double("address_strategy")
+          expect(address_strategy).to receive(:on_remove).once
+          expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
+
+
+
+          sign_in user_as_np_admin
+
+          address
+          xhr :delete, "/api/v1/supporter/#{supporter.id}/address/#{address.id}"
+          expect(response.status).to eq 200
+
+          json_response = JSON::parse(response.body)
+
+          expected = {
+              'id' => address.id,
+                                     'supporter'=> {
+                                         'id'=> supporter.id
+                                     },
+                                     'fingerprint' => address.fingerprint,
+                                     'name' => nil,
+                                     'type'=> 'CustomAddress',
+                                      'address' => address.address,
+                                    'city' => address.city,
+                                     'state_code' => address.state_code,
+                                     'zip_code' => address.zip_code,
+              'country' => address.country
+                                 }
+          expect(json_response).to eq expected
         end
       end
     end

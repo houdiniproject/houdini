@@ -144,7 +144,7 @@ RSpec.shared_context :api_shared_user_verification do
     # allows us to run the helpers but ignore what the controller action does
     #
     send(method, action, args)
-    expect([200,201]).to include(response.status), "expected success for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes}"
+    expect(response.status).to_not eq(401), "expected success for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes}"
     sign_out
   end
 

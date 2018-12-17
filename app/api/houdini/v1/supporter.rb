@@ -136,8 +136,7 @@ class Houdini::V1::Supporter < Grape::API
               error!('Unauthorized', 401)
             end
 
-            address.update(declared_params[:address])
-            address.save!
+            address.update_attributes!(declared_params[:address])
 
             supporter.default_address_strategy.on_use(supporter, address)
 

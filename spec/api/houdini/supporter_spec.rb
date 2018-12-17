@@ -404,11 +404,34 @@ describe Houdini::V1::Supporter, :type => :request do
 
         it 'should allow np associated people through but no one else' do
           run_authorization_tests({method: :put, action: "/api/v1/supporter/#{supporter.id}/address/#{address.id}",
-                                   successful_users: roles__open_to_np_associate})
+                                   successful_users: roles__open_to_np_associate}){{address: {address: 'input'}}}
         end
 
-        it 'should fail', pending:true do
-          fail
+        it 'should update the address' do
+          address_strategy = double("address_strategy")
+          expect(address_strategy).to receive(:on_use).once
+          expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
+
+          input = {'address'=> 'input', 'city'=> 'city', 'state_code'=> 'state_code', 'zip_code'=> 'zip_code', 'country'=>'country place'}
+
+          sign_in user_as_np_admin
+
+          xhr :put, "/api/v1/supporter/#{supporter.id}/address/#{address.id}", address: input
+          expect(response.status).to eq 200
+
+          json_response = JSON::parse(response.body)
+
+
+          expected = input.merge({
+                                     'id'=> address.id,
+                                     'supporter'=> {
+                                         'id'=> supporter.id
+                                     },
+                                     'fingerprint' => CustomAddress.last.fingerprint,
+                                     'name' => nil,
+                                     'type'=> 'CustomAddress'
+                                 })
+          expect(json_response).to eq expected
         end
       end
 

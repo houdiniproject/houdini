@@ -92,4 +92,8 @@ class Supporter < ActiveRecord::Base
     address_tags.where('name = ?', 'default').first
   end
 
+  def default_address_strategy
+    self.nonprofit&.default_address_strategy
+  end
+
 end

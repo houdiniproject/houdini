@@ -139,7 +139,7 @@ class Houdini::V1::Supporter < Grape::API
             address.update(declared_params[:address])
             address.save!
 
-            supporter.nonprofit.default_address_strategy.on_use(supporter, address)
+            supporter.default_address_strategy.on_use(supporter, address)
 
             present address, with: Houdini::V1::Entities::Address
           end
@@ -149,21 +149,22 @@ class Houdini::V1::Supporter < Grape::API
           success Houdini::V1::Entities::Address
         end
         delete do
-          supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-          address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
+          Qx.transaction do
+            supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
+            address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
 
-          #authenticate
-          unless current_nonprofit_user?(address.supporter.nonprofit)
-            error!('Unauthorized', 401)
+            #authenticate
+            unless current_nonprofit_user?(address.supporter.nonprofit)
+              error!('Unauthorized', 401)
+            end
+
+            address.destroy
+
+            supporter.default_address_strategy.on_remove(supporter, address)
+
+            present address, with: Houdini::V1::Entities::Address
           end
-
-          address.destroy
-
-          supporter.nonprofits.default_address_strategy.on_remove(supporter, address)
-
-          present address, with: Houdini::V1::Entities::Address
         end
-
       end
     end
   end

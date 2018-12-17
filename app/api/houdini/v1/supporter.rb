@@ -37,7 +37,6 @@ class Houdini::V1::Supporter < Grape::API
       success Houdini::V1::Entities::Supporter
     end
     put do
-      declared_params = declared(params)
       supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
 
       #authenticate
@@ -91,14 +90,14 @@ class Houdini::V1::Supporter < Grape::API
       end
       post do
         Qx.transaction do
-          supporter = Supporter.includes(:nonprofit).find(params[:id])
+          supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
           unless current_nonprofit_user?(supporter.nonprofit) # TODO OR USING THAT CUSTOM FORM STUFF
             error!('Unauthorized', 401)
           end
 
           address = CustomAddress.create!({supporter:supporter}.merge(declared_params[:address]))
 
-          supporter.nonprofit.default_address_strategy.on_add(supporter, address)
+          supporter.default_address_strategy.on_add(supporter, address)
           present address, with: Houdini::V1::Entities::Address
         end
       end

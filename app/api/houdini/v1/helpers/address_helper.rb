@@ -8,5 +8,6 @@ module Houdini::V1::Helpers::AddressHelper
     optional :state_code, type:String, desc: "State/Region code",  allow_blank: true, documentation: {param_type: 'body'}
     optional :zip_code, type:String, desc: "ZIP/Postal code", allow_blank: true, documentation: {param_type: 'body'}
     optional :country, type:String, desc: "Country", allow_blank: true, documentation: {param_type: 'body'}
+    at_least_one_of :address, :city, :state_code, :zip_code, :country
   end
 end

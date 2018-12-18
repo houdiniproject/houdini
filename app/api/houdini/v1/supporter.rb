@@ -36,17 +36,28 @@ class Houdini::V1::Supporter < Grape::API
     desc 'Update a supporter.' do
       success Houdini::V1::Entities::Supporter
     end
+    params do
+      optional :supporter, type: Hash do
+        optional :default_address, type: Hash do
+          requires :id, type:Integer
+        end
+      end
+    end
     put do
       supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-
+      if params[:supporter] && params[:supporter][:default_address]
+        address = supporter.addresses.find(params[:supporter][:default_address][:id])
+      end
       #authenticate
       unless current_nonprofit_user?(supporter.nonprofit)
         error!('Unauthorized', 401)
       end
 
       Qx.transaction do
-        # set supporter info
-        # set the default address
+        if (address)
+          supporter.default_address_strategy.on_modify_default_request(supporter, address)
+          supporter.reload
+        end
       end
 
       present supporter, with: Houdini::V1::Entities::Supporter

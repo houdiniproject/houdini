@@ -5,16 +5,10 @@ require 'support/api_errors'
 include ExpectApi
 describe Houdini::V1::Supporter, :type => :request do
 
-  describe :post, pending: true do
-    it 'should fail' do
-      fail
-    end
-  end
-
   describe '/:supporter_id' do
+    include_context :shared_donation_charge_context
+    include_context :api_shared_user_verification
     describe :get do
-      include_context :shared_donation_charge_context
-      include_context :api_shared_user_verification
 
       let(:default_address) do
         create(:address,
@@ -64,10 +58,94 @@ describe Houdini::V1::Supporter, :type => :request do
       end
 
     end
-    describe :put, pending: true do
-      
-    end
 
+    describe :put do
+      let(:custom_address) do
+        create(:address,
+               supporter: supporter,
+               type: 'CustomAddress',
+               address: 'address1',
+               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+
+      end
+
+      let (:custom_address2) do
+        create(:address,
+               supporter: other_supporter,
+               type: 'CustomAddress',
+               address: 'address2',
+               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+      end
+      let(:transaction_address) do
+        create(:address,
+               supporter: supporter,
+               type: 'TransactionAddress',
+               address: 'address3',
+               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+      end
+
+      before(:each) do
+        custom_address
+        custom_address2
+        transaction_address
+      end
+
+      it 'should allow np associated people through but no one else' do
+        run_authorization_tests({method: :put, action: "/api/v1/supporter/#{supporter.id}",
+                                 successful_users: roles__open_to_np_associate})
+      end
+
+      describe 'invalid entity check' do
+        it 'should 404 when the supporter is missing' do
+          sign_in user_as_np_admin
+
+          xhr :put, "/api/v1/supporter/99999"
+          expect(response.status).to eq 404
+        end
+
+        it 'should 404 when the default_address set is not valid' do
+          sign_in user_as_np_admin
+          xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: 99999}}
+          expect(response.status).to eq 404
+        end
+
+        it 'should 404 when the default_address set is not from current supporter' do
+          sign_in user_as_np_admin
+          xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: custom_address2.id}}
+          expect(response.status).to eq 404
+        end
+      end
+
+      it 'should update nothing when default_address isnt provided' do
+        sign_in user_as_np_admin
+
+        expect_any_instance_of(Supporter).to_not receive(:default_address_strategy)
+        xhr :put, "/api/v1/supporter/#{supporter.id}"
+
+        expect(response.status).to eq 200
+      end
+
+      it 'should update default_address when provided' do
+        sign_in user_as_np_admin
+
+        address_strategy = double("address_strategy")
+        expect(address_strategy).to receive(:on_modify_default_request)
+
+        expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
+        xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: custom_address.id}}
+
+        expect(response.status).to eq 200
+
+        json_response = JSON::parse(response.body)
+        # the result is dependant on what default_address_strategy is used
+        expected = {
+            'id'=> supporter.id,
+            'default_address'=> nil
+        }
+
+        expect(json_response).to eq expected
+      end
+    end
 
     describe "/address" do
       include_context :shared_donation_charge_context

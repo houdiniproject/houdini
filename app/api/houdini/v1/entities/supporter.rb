@@ -2,4 +2,3 @@
 class Houdini::V1::Entities::Supporter < Houdini::V1::Entities::SupporterStub
   expose :default_address, using: Houdini::V1::Entities::Address, documentation: {type: 'Houdini::V1::Entities::Address'}
 end
-

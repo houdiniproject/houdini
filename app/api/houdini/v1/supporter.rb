@@ -6,8 +6,6 @@ class Houdini::V1::Supporter < Grape::API
           Houdini::V1::Helpers::PagingHelper,
           Houdini::V1::Helpers::AddressHelper
 
-
-
   before do
 
     protect_against_forgery

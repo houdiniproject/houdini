@@ -17,6 +17,11 @@ class Address < ActiveRecord::Base
   # really only makes sense for CustomAddress
   scope :not_deleted, -> {where('COALESCE( deleted,FALSE) = FALSE')}
 
+  def self.find_via_fingerprint(supporter, address, city, state_code, zip_code, country)
+    fingerprint = AddressComparisons.calculate_hash(supporter.id, address, city, state_code, zip_code, country)
+    self.find_by_fingerprint(fingerprint)
+  end
+
   private
 
   def update_fingerprint

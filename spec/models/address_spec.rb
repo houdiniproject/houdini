@@ -31,4 +31,21 @@ RSpec.describe Address, :type => :model do
   it 'validates that supporter is set' do
     expect(address_without_supporter.errors['supporter']).to include('can\'t be blank')
   end
+
+  it 'find_via_fingerprint' do
+    result = Address.find_via_fingerprint(supporter, address.address, address.city, address.state_code, address.zip_code, address.country)
+    expect(result).to eq address
+  end
+
+  it 'cant find via fingerprint' do
+    result = Address.find_via_fingerprint(supporter,
+                                          address.address+"something not in db",
+                                          address.city,
+                                          address.state_code,
+                                          address.zip_code,
+                                          address.country)
+
+    expect(result).to be_nil
+
+  end
 end

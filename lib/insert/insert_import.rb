@@ -83,7 +83,7 @@ module InsertImport
       if table_data['supporter']
         table_data['supporter'] = InsertSupporter.defaults(table_data['supporter'])
 
-        # TODO Handle addresses
+
         table_data['supporter']['imported_at'] = Time.current
         table_data['supporter']['import_id'] = import['id']
         table_data['supporter']['nonprofit_id'] = data[:nonprofit_id]
@@ -170,5 +170,131 @@ module InsertImport
     InsertFullContactInfos.enqueue(supporter_ids) if supporter_ids.any?
     ImportMailer.delay.import_completed_notification(import['id'])
     return import
+  end
+
+
+  def self.from_csv_entity(data)
+    nonprofit = data[:nonprofit]
+  end
+
+  class ImportRun
+    def initialize(nonprofit, user, header_matches)
+      @nonprofit = nonprofit
+      @payments_ids = OrderedSet.new
+      @supporter_ids = OrderedSet.new
+      @row_count = 0
+      @import = nil
+      @user = user
+    end
+
+    def from_csv(csv)
+
+      if csv.is_a? String
+        csv = csv.gsub(/ /, '%20')
+        csv = CSV.new(open(csv), headers: :first_row)
+      end
+      @import = @nonprofit.imports.create!(date: Time.current, user: @user)
+
+
+      csv.each do |row|
+        @row_count += 1
+        # triplet of [header_name, value, import_key]
+        matches = row.map{|key, val| [key, val, data[:header_matches][key]]}
+        next if matches.empty?
+        table_data = matches.reduce({}) do |acc, triplet|
+          key, val, match = triplet
+          if match == 'custom_field'
+            acc['custom_fields'] ||= []
+            acc['custom_fields'].push([key, val])
+          elsif match == 'tag'
+            acc['tags'] ||= []
+            acc['tags'].push(val)
+          else
+            table, col = match.split('.') if match.present?
+            if table.present? && col.present?
+              acc[table] ||= {}
+              acc[table][col] = val
+            end
+          end
+          acc
+
+        end
+
+        #report error here
+        from_row(csv)
+
+      end
+
+      @import.
+
+      ImportMailer.delay.import_completed_notification(@import.id)
+      return @import
+    end
+
+    def from_row(csv)
+
+      if table_data['supporter']
+
+        supporter = InsertSupporter.create_or_update(@nonprofit.id,
+                                                     table_data['supporter'].merge(
+                                                         table_data['custom_fields'] ?
+                                                             {'customFields' => table_data['custom_fields']} :
+                                                             {}
+                                                     )
+        )
+
+        supporter.imported_at = Time.current
+        supporter.import_id = @import.id
+        supporter.save!
+# if address doesn't have a donation, it's a custom address
+        if !table['donation']
+          InsertCustomAddress.find_or_create(supporter, {address: table['address'],
+                                                         city: table['city'],
+                                                         state_code: table['state_code'],
+                                                         zip_code: table['zip_code'],
+                                                         country: table['country']
+          })
+        end
+        @supporter_ids.push(supporter.id)
+        if table_data['tags'] && table_data['tags'].any?
+          # Split tags by semicolons
+          tags = table_data['tags'].select{|t| t.present?}.map{|t| t.split(/[;,]/).map(&:strip)}.flatten
+          InsertTagJoins.find_or_create(data[:nonprofit_id], [supporter.id], tags)
+        end
+      else
+        supporter = @nonprofit.supporters.create!
+        @supporters_id.push(supporter.id)
+      end
+
+      if table_data['donation'] && table_data['donation']['amount'] # must have amount. donation.date without donation.amount is no good
+        donation = {}.with_indifferent_access
+
+        donation[:amount] = (table_data['donation']['amount'].gsub(/[^\d\.]/, '').to_f * 100).to_i
+        donation[:supporter_id] =  supporter.id
+        donation[:nonprofit_id] = @nonprofit.id
+        donation[:date] = Chronic.parse(table_data['donation']['date']) if table_data['donation']['date'].present?
+        donation[:date] ||= Time.current
+        donation[:address] = {
+            'address' => table_data['address'],
+            'city'=> table_data['address'],
+            'state_code' => table_data['state_code'],
+            'zip_code' => table_data['zip_code'],
+            'country' => table_data['country']
+
+        }
+
+        donation[:offsite_payment] = {
+            'check_number' => table_data['offsite_payment']&['check_number'],
+            'kind' => table_data['offsite_payment']&['check_number'] ? 'check' : nil
+        }
+        offsite_donation = InsertDonation.offsite(donation)
+        @payments_ids.push(offsite_donation['payment']['id'])
+      end
+    end
+
+    def self.from_csv(nonprofit, user,  header_matches, csv)
+      ImportRun.new(nonprofit,user, header_matches).from_csv(csv)
+    end
+
   end
 end

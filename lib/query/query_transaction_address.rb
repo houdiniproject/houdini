@@ -11,11 +11,11 @@ module QueryTransactionAddress
     default_address_strategy = supporter.default_address_strategy
 
     if identical_address
-      default_address_strategy.on_use(supporter, identical_address)
+      default_address_strategy.on_use(identical_address)
       return identical_address
     else
       new_address = TransactionAddress.create!({supporter: supporter}.merge(address_hash))
-      default_address_strategy.on_add(supporter, new_address)
+      default_address_strategy.on_add(new_address)
       return new_address
     end
   end
@@ -28,7 +28,6 @@ module QueryTransactionAddress
 
   def self.remove_address_if_hanging(transaction)
     address_prior_to_change = transaction.address
-    default_address_strategy = transaction.supporter.nonprofit.default_address_strategy
 
     # did we have an address on the donation prior to the change?
     if address_prior_to_change
@@ -42,7 +41,7 @@ module QueryTransactionAddress
         # it's not, let's destroy it
         address_prior_to_change.destroy
         # notify the default address strategy of the change so it can do whatever is necessary
-        default_address_strategy.on_remove(transaction.supporter,address_prior_to_change)
+        transaction.supporter.default_address_strategy.on_remove(address_prior_to_change)
       end
     end
 

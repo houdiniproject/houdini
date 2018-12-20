@@ -200,6 +200,7 @@ class Nonprofit < ActiveRecord::Base
   end
 
   def default_address_strategy
-    CalculateDefaultAddressStrategy.find_strategy(self.miscellaneous_np_info.supporter_default_address_strategy.to_sym)
+    CalculateDefaultAddressStrategy
+        .find_strategy(self.miscellaneous_np_info.supporter_default_address_strategy.to_sym)
   end
 end

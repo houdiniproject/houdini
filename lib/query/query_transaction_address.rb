@@ -8,7 +8,7 @@ module QueryTransactionAddress
     end
     identical_address = TransactionAddress.where(fingerprint: AddressComparisons.calculate_hash(supporter.id, address_hash[:address], address_hash[:city], address_hash[:state_code],
                                                                                                                    address_hash[:zip_code], address_hash[:country])).first
-    default_address_strategy = supporter.nonprofit.default_address_strategy
+    default_address_strategy = supporter.default_address_strategy
 
     if identical_address
       default_address_strategy.on_use(supporter, identical_address)

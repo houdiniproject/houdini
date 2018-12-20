@@ -53,7 +53,7 @@ class Houdini::V1::Supporter < Grape::API
 
       Qx.transaction do
         if (address)
-          supporter.default_address_strategy.on_modify_default_request(supporter, address)
+          supporter.default_address_strategy.on_modify_default_request(address)
           supporter.reload
         end
       end
@@ -147,7 +147,7 @@ class Houdini::V1::Supporter < Grape::API
 
             address.update_attributes!(declared_params[:address])
 
-            supporter.default_address_strategy.on_use(supporter, address)
+            supporter.default_address_strategy.on_use(address)
 
             present address, with: Houdini::V1::Entities::Address
           end
@@ -168,7 +168,7 @@ class Houdini::V1::Supporter < Grape::API
 
             address.destroy
 
-            supporter.default_address_strategy.on_remove(supporter, address)
+            supporter.default_address_strategy.on_remove(address)
 
             present address, with: Houdini::V1::Entities::Address
           end

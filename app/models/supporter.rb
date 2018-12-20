@@ -93,7 +93,7 @@ class Supporter < ActiveRecord::Base
   end
 
   def default_address_strategy
-    self.nonprofit&.default_address_strategy
+    self.nonprofit&.default_address_strategy.new(self)
   end
 
 end

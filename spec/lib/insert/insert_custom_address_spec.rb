@@ -36,6 +36,7 @@ describe InsertCustomAddress do
     it 'should get old address' do
       address_strategy = double('address_strategy')
       expect(address_strategy).to_not receive(:on_add)
+      expect(address_strategy).to_not receive(:on_use).once
       allow(supporter).to receive(:default_address_strategy).and_return(address_strategy)
 
       address = CustomAddress.create!({supporter:supporter}.merge(address_data))

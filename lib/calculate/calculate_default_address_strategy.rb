@@ -7,11 +7,11 @@ module CalculateDefaultAddressStrategy
   def self.find_strategy(strategy_key=:manual)
     case strategy_key
     when :manual
-      return DefaultAddressStrategies::ManualStrategy.new
+      return DefaultAddressStrategies::ManualStrategy
     when :always_first
-      return DefaultAddressStrategies::AlwaysFirstStrategy.new
+      return DefaultAddressStrategies::AlwaysFirstStrategy
     when :always_last
-      return DefaultAddressStrategies::AlwaysLastStrategy.new
+      return DefaultAddressStrategies::AlwaysLastStrategy
     else
       raise ArgumentError
     end

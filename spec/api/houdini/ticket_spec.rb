@@ -248,7 +248,7 @@ describe Houdini::V1::Ticket, :type => :request do
         it 'but its not used by anything else' do
 
           expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_remove).with(ticket.supporter, pre_input_address)
+          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_remove).with(pre_input_address)
           make_call_and_verify_response()
 
 

@@ -2,7 +2,7 @@
 module InsertCustomAddress
   def self.create(supporter, address_data)
     address = CustomAddress.create!({supporter:supporter}.merge(address_data))
-    supporter.default_address_strategy.on_add(supporter, address)
+    supporter.default_address_strategy.on_add(address)
     address
   end
 
@@ -10,6 +10,8 @@ module InsertCustomAddress
     address = CustomAddress.find_via_fingerprint(supporter, address_data[:address], address_data[:city], address_data[:state_code], address_data[:zip_code], address_data[:country])
     unless address
       address = create(supporter, address_data)
+    else
+      supporter.default_address_strategy.on_use(address)
     end
     address
   end

@@ -1,13 +1,4 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'qx'
-require 'required_keys'
-require 'open-uri'
-require 'csv'
-require 'insert/insert_supporter'
-require 'insert/insert_full_contact_infos'
-require 'insert/insert_custom_field_joins'
-require 'insert/insert_tag_joins'
-
 module InsertImport
 
   # Wrap the import in a transaction and email any errors
@@ -27,164 +18,40 @@ module InsertImport
     end
   end
 
-  # Insert a bunch of Supporter and related data using a CSV and a bunch of header_matches
-  # See also supporters/import/index.es6 for the front-end piece that generates header_matches
-  # This is a slow function; it is to be delayed-jobbed
-  # data: nonprofit_id, user_email, user_id, file, header_matches
-  # Will send a notification email to user_email when the import is completed
   def self.from_csv(data)
     ParamValidation.new(data, {
-      file_uri: {required: true},
-      header_matches: {required: true},
-      nonprofit_id: {required: true, is_integer: true},
-      user_email: {required: true}
-    })
-
-    import = Qx.insert_into(:imports)
-      .values({
-        date: Time.current,
-        nonprofit_id: data[:nonprofit_id],
-        user_id: data[:user_id]
+        file_uri: {required: true},
+        header_matches: {required: true},
+        nonprofit_id: {required: true, is_integer: true},
+        user_id: {required: true, is_integer: true}
       })
-      .timestamps
-      .returning('*')
-      .execute.first
-    row_count = 0
-    imported_count = 0
-    supporter_ids = []
-    created_payment_ids = []
 
-    # no spaces are allowed by open(). We could URI.encode, but spaces seem to be the only problem and we want to avoid double-encoding a URL
-    data[:file_uri] = data[:file_uri].gsub(/ /, '%20')
-    CSV.new(open(data[:file_uri]), headers: :first_row).each do |row|
-      row_count += 1
-      # triplet of [header_name, value, import_key]
-      matches = row.map{|key, val| [key, val, data[:header_matches][key]]}
-      next if matches.empty?
-      table_data = matches.reduce({}) do |acc, triplet|
-        key, val, match = triplet
-        if match == 'custom_field'
-          acc['custom_fields'] ||= []
-          acc['custom_fields'].push([key, val])
-        elsif match == 'tag'
-          acc['tags'] ||= []
-          acc['tags'].push(val)
-        else
-          table, col = match.split('.') if match.present?
-          if table.present? && col.present?
-            acc[table] ||= {}
-            acc[table][col] = val
-          end
-        end
-        acc
-      end
-
-      # Create supporter record
-      if table_data['supporter']
-        table_data['supporter'] = InsertSupporter.defaults(table_data['supporter'])
-
-
-        table_data['supporter']['imported_at'] = Time.current
-        table_data['supporter']['import_id'] = import['id']
-        table_data['supporter']['nonprofit_id'] = data[:nonprofit_id]
-        table_data['supporter'] = Qx.insert_into(:supporters).values(table_data['supporter']).ts.returning('*').execute.first
-        supporter_ids.push(table_data['supporter']['id'])
-        imported_count += 1
-      else
-        table_data['supporter'] = {}
-      end
-
-      # Create custom fields
-      if table_data['supporter']['id'] && table_data['custom_fields'] && table_data['custom_fields'].any?
-        InsertCustomFieldJoins.find_or_create(data[:nonprofit_id], [table_data['supporter']['id']], table_data['custom_fields'])
-      end
-      
-      # Create new tags
-      if table_data['supporter']['id'] && table_data['tags'] && table_data['tags'].any?
-        # Split tags by semicolons
-        tags = table_data['tags'].select{|t| t.present?}.map{|t| t.split(/[;,]/).map(&:strip)}.flatten
-        InsertTagJoins.find_or_create(data[:nonprofit_id], [table_data['supporter']['id']], tags)
-      end
-
-      # Create donation record
-      if table_data['donation'] && table_data['donation']['amount'] # must have amount. donation.date without donation.amount is no good
-        table_data['donation']['amount'] = (table_data['donation']['amount'].gsub(/[^\d\.]/, '').to_f * 100).to_i
-        table_data['donation']['supporter_id'] = table_data['supporter']['id']
-        table_data['donation']['nonprofit_id'] = data[:nonprofit_id]
-        table_data['donation']['date'] = Chronic.parse(table_data['donation']['date']) if table_data['donation']['date'].present?
-        table_data['donation']['date'] ||= Time.current
-        table_data['donation'] = Qx.insert_into(:donations).values(table_data['donation']).ts.returning('*').execute.first
-        imported_count += 1
-      else
-        table_data['donation'] = {}
-      end
-
-      # Create payment record
-      if table_data['donation'] && table_data['donation']['id']
-        table_data['payment'] = Qx.insert_into(:payments).values({
-          gross_amount: table_data['donation']['amount'],
-          fee_total: 0,
-          net_amount: table_data['donation']['amount'],
-          kind: 'OffsitePayment',
-          nonprofit_id: data[:nonprofit_id],
-          supporter_id: table_data['supporter']['id'],
-          donation_id: table_data['donation']['id'],
-          towards: table_data['donation']['designation'],
-          date: table_data['donation']['date']
-        }).ts.returning('*')
-          .execute.first
-        imported_count += 1
-      else
-        table_data['payment'] = {}
-      end
-
-      # Create offsite payment record
-      if table_data['donation'] && table_data['donation']['id']
-        table_data['offsite_payment'] = Qx.insert_into(:offsite_payments).values({
-          gross_amount: table_data['donation']['amount'],
-          check_number: GetData.chain(table_data['offsite_payment'], 'check_number'),
-          kind: table_data['offsite_payment'] && table_data['offsite_payment']['check_number'] ? 'check' : '',
-          nonprofit_id: data[:nonprofit_id],
-          supporter_id: table_data['supporter']['id'],
-          donation_id: table_data['donation']['id'],
-          payment_id: table_data['payment']['id'],
-          date: table_data['donation']['date']
-        }).ts.returning('*')
-          .execute.first
-        imported_count += 1
-      else
-        table_data['offsite_payment'] = {}
-      end
-
-      created_payment_ids.push(table_data['payment']['id']) if table_data['payment'] && table_data['payment']['id']
-    end
-
-    # Create donation activity records
-    InsertActivities.for_offsite_donations(created_payment_ids) if created_payment_ids.count > 0
-
-    import = Qx.update(:imports)
-      .set(row_count: row_count, imported_count: imported_count)
-      .where(id: import['id'])
-      .returning('*')
-      .execute.first
-    InsertFullContactInfos.enqueue(supporter_ids) if supporter_ids.any?
-    ImportMailer.delay.import_completed_notification(import['id'])
-    return import
+    return ImportExecution.from_csv(
+        Nonprofit.find(data[:nonprofit_id]),
+        User.find(data[:user_id]),
+        data[:header_matches],
+        data[:file_uri])
   end
 
+  # A single execution of an import
+  class ImportExecution
 
-  def self.from_csv_entity(data)
-    nonprofit = data[:nonprofit]
-  end
-
-  class ImportRun
+    # @param [Nonprofit] nonprofit
+    # @param [User] user
+    # @param [Hash] header_matches a hash where the keys are the name of columns in the the csv file (as strings) and
+    # the values are the import_key
     def initialize(nonprofit, user, header_matches)
       @nonprofit = nonprofit
       @payments_ids = OrderedSet.new
       @supporter_ids = OrderedSet.new
+      @header_matches = header_matches
       @row_count = 0
       @import = nil
       @user = user
+    end
+
+    def self.from_csv(nonprofit, user,  header_matches, csv)
+      ImportRun.new(nonprofit,user, header_matches).from_csv(csv)
     end
 
     def from_csv(csv)
@@ -199,7 +66,7 @@ module InsertImport
       csv.each do |row|
         @row_count += 1
         # triplet of [header_name, value, import_key]
-        matches = row.map{|key, val| [key, val, data[:header_matches][key]]}
+        matches = row.map{|key, val| [key, val, @header_matches[key]]}
         next if matches.empty?
         table_data = matches.reduce({}) do |acc, triplet|
           key, val, match = triplet
@@ -221,19 +88,35 @@ module InsertImport
         end
 
         #report error here
-        from_row(csv)
+        from_row(table_data)
 
       end
 
-      @import.
+      @import.row_count = @row_count
+      @import.imported_count = @payments_ids.count + @supporter_ids.count
+      @import.save!
 
-      ImportMailer.delay.import_completed_notification(@import.id)
+      EmailJobQueue.queue(JobTypes::ImportCompleteNotificationJob, @import.id)
       return @import
     end
 
-    def from_row(csv)
+    private
+
+    def from_row(table_data)
 
       if table_data['supporter']
+        if table_data['supporter']['first_name'] || table_data['supporter']['last_name']
+          table_data['supporter']['name'] = ''
+          if table_data['supporter']['first_name']
+            table_data['supporter']['name'] += table_data['supporter']['first_name']
+            table_data['supporter'].delete('first_name')
+          end
+          if table_data['supporter']['last_name']
+            table_data['supporter']['name'] += ' ' + table_data['supporter']['last_name']
+            table_data['supporter'].delete('last_name')
+          end
+          table_data['supporter']['name'].squish!
+        end
 
         supporter = InsertSupporter.create_or_update(@nonprofit.id,
                                                      table_data['supporter'].merge(
@@ -244,26 +127,27 @@ module InsertImport
         )
 
         supporter.imported_at = Time.current
-        supporter.import_id = @import.id
+        supporter.import = @import
         supporter.save!
-# if address doesn't have a donation, it's a custom address
-        if !table['donation']
-          InsertCustomAddress.find_or_create(supporter, {address: table['address'],
-                                                         city: table['city'],
-                                                         state_code: table['state_code'],
-                                                         zip_code: table['zip_code'],
-                                                         country: table['country']
+
+        # if address doesn't have a donation, it's a custom address
+        unless table_data['donation'] && table_data['donation']['amount']
+          InsertCustomAddress.find_or_create(supporter, {address: table_data['supporter']['address'],
+                                                         city: table_data['supporter']['city'],
+                                                         state_code: table_data['supporter']['state_code'],
+                                                         zip_code: table_data['supporter']['zip_code'],
+                                                         country: table_data['supporter']['country']
           })
         end
-        @supporter_ids.push(supporter.id)
+        @supporter_ids.add(supporter.id)
         if table_data['tags'] && table_data['tags'].any?
           # Split tags by semicolons
           tags = table_data['tags'].select{|t| t.present?}.map{|t| t.split(/[;,]/).map(&:strip)}.flatten
-          InsertTagJoins.find_or_create(data[:nonprofit_id], [supporter.id], tags)
+          InsertTagJoins.find_or_create(@nonprofit.id, [supporter.id], tags)
         end
       else
         supporter = @nonprofit.supporters.create!
-        @supporters_id.push(supporter.id)
+        @supporters_id.add(supporter.id)
       end
 
       if table_data['donation'] && table_data['donation']['amount'] # must have amount. donation.date without donation.amount is no good
@@ -272,29 +156,25 @@ module InsertImport
         donation[:amount] = (table_data['donation']['amount'].gsub(/[^\d\.]/, '').to_f * 100).to_i
         donation[:supporter_id] =  supporter.id
         donation[:nonprofit_id] = @nonprofit.id
-        donation[:date] = Chronic.parse(table_data['donation']['date']) if table_data['donation']['date'].present?
-        donation[:date] ||= Time.current
+        donation[:date] = table_data['donation']['date'] if table_data['donation']['date'].present?
         donation[:address] = {
-            'address' => table_data['address'],
-            'city'=> table_data['address'],
-            'state_code' => table_data['state_code'],
-            'zip_code' => table_data['zip_code'],
-            'country' => table_data['country']
+            'address' => table_data['supporter']['address'],
+            'city'=> table_data['supporter']['city'],
+            'state_code' => table_data['supporter']['state_code'],
+            'zip_code' => table_data['supporter']['zip_code'],
+            'country' => table_data['supporter']['country']
 
         }
+
+        donation[:designation] = table_data['donation']['designation']
 
         donation[:offsite_payment] = {
             'check_number' => table_data['offsite_payment']&['check_number'],
             'kind' => table_data['offsite_payment']&['check_number'] ? 'check' : nil
         }
         offsite_donation = InsertDonation.offsite(donation)
-        @payments_ids.push(offsite_donation['payment']['id'])
+        @payments_ids.add(offsite_donation[:json]['payment']['id'])
       end
     end
-
-    def self.from_csv(nonprofit, user,  header_matches, csv)
-      ImportRun.new(nonprofit,user, header_matches).from_csv(csv)
-    end
-
   end
 end

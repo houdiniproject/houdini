@@ -15,9 +15,9 @@ module InsertSupporter
       np = Nonprofit.find(np_id)
       custom_fields = data['customFields']
 
-      data['name'] = data['name'] ? data['name'].strip.downcase : ""
-      data['email'] = data['email'] ? data['email'].strip.downcase : ""
-      if (data['name'].empty? && data['name'].empty?)
+      data['name'] = data['name'] ? data['name'].strip : ""
+      data['email'] = data['email'] ? data['email'].strip : ""
+      if (data['name'].empty? && data['email'].empty?)
         supporter = Supporter.create!(defaults(data).merge(nonprofit:np))
       end
 
@@ -25,7 +25,7 @@ module InsertSupporter
         supporter = np.supporters.not_deleted
             .where("trim(lower(supporters.name)) = ?
                     AND trim(lower(supporters.email)) = ?",
-                   data['name'], data['email']
+                   data['name'].downcase, data['email'].downcase
             ).first
 
         if supporter

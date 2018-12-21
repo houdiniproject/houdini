@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe QueryCampaignGifts do
+describe QuerySupporters do
   GIFT_LEVEL_ONE_TIME = 1111
   GIFT_LEVEL_RECURRING = 5585
   GIFT_LEVEL_CHANGED_RECURRING = 5512

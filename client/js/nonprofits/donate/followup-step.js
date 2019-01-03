@@ -27,7 +27,7 @@ function view(state) {
       }, [h('i.fa.fa-twitter-square'), ` ${I18n.t('nonprofits.donate.followup.share.twitter')}`] )
     ])
     // Show the 'finish' button only if we're in an offsite embedded modal
-  , false && state.params$().offsite
+  , state.params$().offsite
     ? h('div', [
         h('button.button.finish', {on: {click: state.clickFinish$}}, I18n.t('nonprofits.donate.followup.finish'))
       ])

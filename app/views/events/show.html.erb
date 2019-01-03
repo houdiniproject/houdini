@@ -29,6 +29,16 @@
     appl.def('event_is_deleted', <%= @event.deleted || false %>)
 	</script>
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-42665351-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-42665351-1');
+  </script>
+
 	<%= render 'common/froala' if current_event_editor? %>
   <%= render 'schema', event: @event, url: @url %>
 	<%= IncludeAsset.js '/client/js/events/show/page.js' %>

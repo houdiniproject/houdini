@@ -77,7 +77,7 @@ module InsertRecurringDonation
     return result
   end
 
-def self.with_sepa(data)
+  def self.with_sepa(data)
     data = set_defaults(data)
     data = data.merge(payment_provider: payment_provider(data))
     result = {}
@@ -104,6 +104,77 @@ def self.with_sepa(data)
     QueueDonations.delay.execute_for_donation(result['donation']['id'])
 
     { status: 200, json: result }
+  end
+
+  def self.import_with_stripe(data)
+    data = data.with_indifferent_access
+
+    ParamValidation.new(data, InsertDonation.common_param_validations
+                                  .merge(card_id: {required: true, is_reference:true}))
+
+    unless data[:recurring_donation].nil?
+
+      ParamValidation.new(data[:recurring_donation], {
+          interval: {is_integer: true},
+          start_date: {can_be_date: true},
+          time_unit: {included_in: %w(month day week year)},
+          paydate: {is_integer:true}
+      })
+      if (data[:recurring_donation][:paydate])
+        data[:recurring_donation][:paydate] = data[:recurring_donation][:paydate].to_i
+      end
+
+      ParamValidation.new(data[:recurring_donation], {
+          paydate: {min:1, max:28}
+      })
+
+    else
+      data[:recurring_donation] = {}
+    end
+
+    card = Card.find(data['card_id'])
+
+    entities =  RetrieveActiveRecordItems.retrieve_from_keys(data, {Supporter => :supporter_id, Nonprofit => :nonprofit_id})
+
+    entities = entities.merge(RetrieveActiveRecordItems.retrieve_from_keys(data, {Campaign => :campaign_id, Event => :event_id, Profile => :profile_id}, true))
+
+    InsertDonation.validate_entities(entities)
+
+    ## does the card belong to the supporter?
+    if card.holder != entities[:supporter_id]
+      raise ParamValidation::ValidationError.new("Supporter #{entities[:supporter_id].id} does not own card #{card.id}", key: :token)
+    end
+
+    data['card_id'] = card.id
+
+    result = {}
+    data[:date] = Time.now
+    data = data.merge(payment_provider: payment_provider(data))
+    data = data.except(:old_donation).except('old_donation')
+    # if start date is today, make initial charge first
+    test_start_date = get_test_start_date(data)
+    if test_start_date == nil || Time.current >= test_start_date
+      puts "we would have charged on #{data}"
+
+      # result = result.merge(InsertDonation.insert_charge(data))
+      # if result['charge']['status'] == 'failed'
+      #   raise ChargeError.new(result['charge']['failure_message'])
+      # end
+    end
+
+    # Create the donation record
+    result['donation'] = InsertDonation.insert_donation(data, entities)
+    entities[:donation_id] = result['donation']
+    # Create the recurring_donation record
+    result['recurring_donation'] = insert_recurring_donation(data,entities)
+    # Update charge foreign keys
+    if result['payment']
+      InsertDonation.update_donation_keys(result)
+      # Create the activity record
+      result['activity'] = InsertActivities.for_recurring_donations([result['payment'].id])
+    end
+
+    return result
   end
 
 

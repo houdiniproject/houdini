@@ -237,6 +237,7 @@ module QuerySupporters
         .and_where("to_tsvector('english', custom_fields.value) @@ plainto_tsquery('english', $custom_fields)", custom_fields: query[:custom_fields])
     end
     if query[:location].present?
+
       expr = expr.and_where("lower(supporters.city) LIKE $city OR lower(supporters.zip_code) LIKE $zip", city: query[:location].downcase, zip: query[:location].downcase)
     end
     if query[:recurring].present?

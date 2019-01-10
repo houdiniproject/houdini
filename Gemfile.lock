@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/commitchange/ruby-qx.git
-  revision: 3c7fbb9c844e3ea86c9faea204058aa76e5ea35d
-  specs:
-    qx (0.1.1)
-      activerecord (>= 3.0)
-      colorize (~> 0.8)
-
-GIT
   remote: https://github.com/commitchange/stripe-ruby-mock.git
   revision: ee4471a8f654672d5596218c2b68a2913ea3f4cc
   branch: 2.4.1
@@ -39,6 +31,14 @@ PATH
   specs:
     param_validation (0.0.2)
       chronic
+
+PATH
+  remote: gems/ruby-qx
+  specs:
+    qx (0.1.1)
+      activerecord (>= 3.0)
+      colorize (~> 0.8)
+
 
 GEM
   remote: https://rubygems.org/

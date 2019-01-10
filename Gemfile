@@ -42,13 +42,12 @@ gem 'font_assets', '~> 0.1.14'
 
 # Database (postgres)
 gem 'pg' # Postgresql
-gem 'qx', git: 'https://github.com/commitchange/ruby-qx.git'
+gem 'qx', path: 'gems/ruby-qx'
 gem 'dalli'
 gem 'memcachier'
 
 
-gem 'param_validation', git: 'https://github.com/commitchange/ruby-param-validation.git'
-#gem 'param_validation', path: '../ruby-param-validation'
+gem 'param_validation', path: 'gems/ruby-param-validation'
 
 # Print colorized text lol
 gem 'colorize'

@@ -6,4 +6,4 @@
 !script/build/debian/*.sh
 !Rakefile
 !config/*
-!db/*
+!gems/*

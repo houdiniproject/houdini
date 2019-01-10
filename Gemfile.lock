@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/commitchange/ruby-param-validation.git
-  revision: 4269cdef83eb95eea749f05c22a9b747b8f1f256
-  specs:
-    param_validation (0.0.2)
-      chronic
-
-GIT
   remote: https://github.com/commitchange/ruby-qx.git
   revision: 3c7fbb9c844e3ea86c9faea204058aa76e5ea35d
   specs:
@@ -40,6 +33,12 @@ GIT
     grape-entity (0.7.1)
       activesupport (>= 3.0.0)
       multi_json (>= 1.3.2)
+
+PATH
+  remote: gems/ruby-param-validation
+  specs:
+    param_validation (0.0.2)
+      chronic
 
 GEM
   remote: https://rubygems.org/

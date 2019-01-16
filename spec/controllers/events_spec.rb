@@ -15,7 +15,7 @@ describe EventsController, :type => :controller do
         include_context :open_to_event_editor, :post, :duplicate, nonprofit_id: :__our_np, id: :__our_event
     end
     describe 'soft_delete' do
-        include_context :open_to_event_editor, :delete, :soft_delete, nonprofit_id: :__our_np, id: :__our_event
+        include_context :open_to_event_editor, :delete, :soft_delete, nonprofit_id: :__our_np, event_id: :__our_event
     end
     describe 'stats' do
         include_context :open_to_event_editor, :get, :stats, nonprofit_id: :__our_np, id: :__our_event

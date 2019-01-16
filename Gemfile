@@ -47,8 +47,7 @@ gem 'dalli'
 gem 'memcachier'
 
 
-gem 'param_validation', git: 'https://github.com/commitchange/ruby-param-validation.git'
-#gem 'param_validation', path: '../ruby-param-validation'
+gem 'param_validation', path: 'gems/ruby-param-validation'
 
 # Print colorized text lol
 gem 'colorize'

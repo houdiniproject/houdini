@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker-compose -f docker/debug/docker-compose.yml run web $@
+./dc run web $@

@@ -56,9 +56,8 @@ You will likely need to logout and log back in again.
 #### Build your docker-container and start it up for initial set up.
 We'll keep this running in the console we'll call **console 1**
 ```
-cd docker/debug
-docker-compose build
-docker-compose up
+./dc build
+./dc up
 ```
 #### System configuration
 There are a number of steps for configuring your Houdini instance for startup
@@ -97,7 +96,7 @@ If you need help setting up your mailer, visit `config/environment.rb` where the
 ##### Switch back to console 1 and run `Ctrl-c` to end the session.
 
 ##### In console 1, restart the containers
-`docker-compose up`
+`./dc up`
 
 ##### In console 2, run:
 `./run npm run watch`
@@ -115,7 +114,7 @@ nonprofits, which is located at `/admin` url.
   
 To create the super user, go to the rails console by calling:
 
-`docker-compose run web rails console`
+`./dc run web rails console`
 
 In the console, run the following:
  

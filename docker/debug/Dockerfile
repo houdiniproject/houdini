@@ -11,17 +11,15 @@ COPY script/build/debian/java.sh myapp/script/build/debian/java.sh
 RUN myapp/script/build/debian/java.sh
 COPY gems /myapp/gems/
 WORKDIR /myapp
-RUN groupadd -r -g 1000 $USER
-RUN useradd -r -m -g $USER -u 1000 $USER
-RUN chown -R $USER /usr/local/bundle
-RUN chgrp -R $USER /usr/local/bundle
-RUN chown -R $USER /myapp
-RUN chgrp -R $USER /myapp
-RUN chown -R $USER /usr/lib/node_modules
-RUN chgrp -R $USER /usr/lib/node_modules
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
+RUN groupadd -r -g 1000 $USER
+RUN useradd -r -m -g $USER -u 1000 $USER
+RUN chown -R $USER /usr/lib/node_modules
+RUN chgrp -R $USER /usr/lib/node_modules
+RUN chown -R $USER /myapp
+RUN chgrp -R $USER /myapp
 RUN chown -R $USER /myapp/Gemfile
 RUN chgrp -R $USER /myapp/Gemfile.lock
 RUN chown -R $USER /usr/local/bundle

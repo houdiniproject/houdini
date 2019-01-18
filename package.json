@@ -61,7 +61,7 @@
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "lodash": "^4.17.5",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.11.0",
     "phantomjs-prebuilt": "^2.1.16",
     "postcss-cssnext": "^2.9.0",
     "postcss-import": "^9.1.0",

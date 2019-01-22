@@ -28,9 +28,6 @@ module QuerySupporters
             .add_join('profiles', 'profiles.user_id = users.id')
             .as("users").parse, "users.profiles_id=campaigns.profile_id")
      .where("supporters.nonprofit_id=$id", id: np_id)
-     .where("donations.campaign_id IN (#{QueryCampaigns
-                                             .get_campaign_and_children(campaign_id)
-                                             .parse})")
      .group_by('supporters.id')
      .order_by('MAX(donations.date) DESC')
 

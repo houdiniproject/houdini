@@ -14,9 +14,6 @@ module QueryDonations
       ].concat(QuerySupporters.supporter_export_selections)
        .concat([
 				 "supporters.id AS \"Supporter ID\"",
-<<<<<<< HEAD
-       ])
-=======
        ]).concat([
                             "coalesce(donations.designation, 'None') AS designation",
                             "#{QueryPayments.get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
@@ -29,7 +26,6 @@ module QueryDonations
                             "donations.campaign_id AS \"Campaign Id\"",
                             "users.email AS \"Campaign Creator Email\""
                  ])
->>>>>>> 5c0d16c0b... Add campaign_id to export
     ).from(:donations)
      .join(:supporters, "supporters.id=donations.supporter_id")
      .left_outer_join(:campaign_gifts, "campaign_gifts.donation_id=donations.id")

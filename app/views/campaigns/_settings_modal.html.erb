@@ -5,18 +5,6 @@
 
   <form class='form--flatFields' autosubmit action='/nonprofits/<%=@nonprofit.id%>/campaigns/<%=@campaign.id%>' method='put' data-reload parsley-validate>
     <% if @campaign.child_campaign? %>
-<<<<<<< HEAD
-    <div class='modal-body'>
-      <section class='layout--three'>
-        <fieldset>
-          <label>Goal</label>
-          <div class='prepend--dollar u-inlineBlock'>
-            <input type='number' parsley-type='number' class='input--150' name='campaign[goal_amount_dollars]' value='<%= sprintf("%.2f", @campaign.goal_amount / 100.0) %>'>
-          </div>
-        </fieldset>
-      </section>
-    </div>
-=======
       <div class='modal-body'>
         <div class='u-margin--auto'>
           <fieldset class='col-right-12'>
@@ -34,7 +22,6 @@
           </fieldset>
         </div>
       </div>
->>>>>>> c73fcdb13... You can now change your testimonial in your P2P campaign
 
     <% else %>
   	<div class='modal-body'>

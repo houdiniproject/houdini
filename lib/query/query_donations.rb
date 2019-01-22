@@ -23,6 +23,7 @@ module QueryDonations
                             "#{QueryPayments.get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
                             "#{QueryPayments.get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
                             "#{QueryPayments.get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
+                            "donations.campaign_id AS \"Campaign Id\""
                  ])
     ).from(:donations)
      .join(:supporters, "supporters.id=donations.supporter_id")

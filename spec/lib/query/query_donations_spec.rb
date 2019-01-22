@@ -45,6 +45,11 @@ describe QueryDonations do
 
       expect(export.map{|i| i['Amount']}).to match_array(['$10.00', '$20.00', '$40.00', '$80.00'])
     end
+
+     it 'includes the campaign ids' do
+       export = vector_to_hash(campaign_export)
+       expect(export.map{|i| i['Campaign Id']}).to match_array([campaign.id, campaign.id, campaign_child.id, campaign_child_2.id])
+     end
   end
 
   ## move to common area

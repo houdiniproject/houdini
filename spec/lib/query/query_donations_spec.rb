@@ -6,10 +6,27 @@ describe QueryDonations do
   describe :campaign_export do
     let(:nonprofit) {force_create(:nonprofit)}
     let(:supporter) {force_create(:supporter)}
-    let(:campaign) {force_create(:campaign, nonprofit:nonprofit, show_total_count:false, show_total_raised: false, goal_amount: 16000)}
-    let(:campaign_child) {force_create(:campaign, nonprofit:nonprofit, parent_campaign:campaign, show_total_count:true, show_total_raised: true, goal_amount: 8000)}
 
-    let(:campaign_child_2) {force_create(:campaign, nonprofit:nonprofit, parent_campaign:campaign, show_total_count:true, show_total_raised: true, goal_amount: 4000 )}
+    let(:profile_email) {  'something@profile_email.com'}
+    let(:profile) do
+      u = force_create(:user, email: profile_email)
+      profile = force_create(:profile, user: u)
+    end
+    let(:campaign) {force_create(:campaign, nonprofit:nonprofit, show_total_count:false, show_total_raised: false, goal_amount: 16000, profile: profile)}
+
+    let(:profile_email1) {  'something1@profile_email.com'}
+    let(:profile1) {
+      u = force_create(:user, email: profile_email1)
+      profile = force_create(:profile, user: u)
+    }
+    let(:campaign_child) {force_create(:campaign, nonprofit:nonprofit, parent_campaign:campaign, show_total_count:true, show_total_raised: true, goal_amount: 8000, profile: profile1)}
+
+    let(:profile_email2) {  'something2@profile_email.com'}
+    let(:profile2) {
+      u = force_create(:user, email: profile_email2)
+      profile = force_create(:profile, user: u)
+    }
+    let(:campaign_child_2) {force_create(:campaign, nonprofit:nonprofit, parent_campaign:campaign, show_total_count:true, show_total_raised: true, goal_amount: 4000, profile: profile2 )}
 
     let(:donation) { force_create(:donation, campaign: campaign, amount: 1000, supporter:supporter)}
     let(:payment) { force_create(:payment, donation: donation, gross_amount:1000, supporter:supporter)}
@@ -50,6 +67,11 @@ describe QueryDonations do
        export = vector_to_hash(campaign_export)
        expect(export.map{|i| i['Campaign Id']}).to match_array([campaign.id, campaign.id, campaign_child.id, campaign_child_2.id])
      end
+
+    it 'includes user email' do
+      export = vector_to_hash(campaign_export)
+      expect(export.map{|i| i['Campaign Creator Email']}).to match_array([profile_email, profile_email, profile_email1, profile_email2])
+    end
   end
 
   ## move to common area

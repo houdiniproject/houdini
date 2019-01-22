@@ -19,7 +19,8 @@ const root = state => {
 					h('th', 'Name'),
 					h('th', 'Total'),
 					h('th', 'Gift options'),
-					h('th', 'Latest gift')
+					h('th', 'Latest gift'),
+					h('th', 'Campaign creator')
 				]),
 				thunk(trs, supporters.get('data')),
 			]),
@@ -52,6 +53,11 @@ const supporterRow = supporter =>
 	, h('td', '$' + utils.cents_to_dollars(supporter.get('total_raised'))),
 		h('td', supporter.get('campaign_gift_names').toJS().join(', ')),
 		h('td', supporter.get('latest_gift')),
+		h('td', {}, supporter.get('campaign_creator_emails').toJS().map(
+		  function(i, index, array) {
+		    return h('a', {href: `mailto:${i}`},
+          i + ((i < (array.length - 1)) ? ", " : ""))
+		  })),
 	])
 
 module.exports = {

@@ -1,5 +1,12 @@
 <section class='box' style="font-style: italic">
   <div class="well" style="padding-left:16px;">
-  <h4><%= profile.name %> <small>(<%= profile.city %><% if profile.state_code && profile.city %><%= profile.city_state %> <%= profile.state_code %><% end %>)</small></h4>
+  <h4><%= profile.name %> <% if profile.state_code || profile.city -%>
+      <small>(<% if profile.state_code && profile.city -%><%= profile.city %>, <%= profile.state_code -%>
+<% elsif profile.city -%>
+<%= profile.city -%>
+<% else -%>
+<%= profile.state_code -%>
+<% end -%>)</small><% end -%>
+  </h4>
     <blockquote><p>"<%= reason_for_supporting %>"</p></blockquote></div>
 </section>

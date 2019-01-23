@@ -50,6 +50,7 @@ class Supporter < ActiveRecord::Base
   has_many :custom_field_masters, through: :custom_field_joins
   has_many :addresses
   has_many :address_tags
+  belongs_to :merged_into, class_name: 'Supporter', :foreign_key => 'merged_into'
 
   validates :nonprofit, :presence => true
   scope :not_deleted, -> {where("COALESCE(deleted, FALSE) = FALSE")}

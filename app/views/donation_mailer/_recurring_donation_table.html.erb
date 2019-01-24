@@ -26,7 +26,7 @@
 		<% if donation.campaign && donation.campaign.published %>
 		<tr>
 			<td><strong>Campaign</strong></td>
-			<td> <%= donation.campaign.name %></td>
+			<td><a href='<%= nonprofit_campaign_url(donation.nonprofit, donation.campaign) %>'><%= donation.campaign.name %></a><small>(Campaign Id: <%= donation.campaign.id%>, Creator: <a href="mailto:<%= donation.campaign.profile.user.email %>"><%= donation.campaign.profile.user.email %></a>)</small></td>
 		</tr>
 		<% end %>
 

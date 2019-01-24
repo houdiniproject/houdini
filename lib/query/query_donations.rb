@@ -14,7 +14,18 @@ module QueryDonations
       ].concat(QuerySupporters.supporter_export_selections)
        .concat([
 				 "supporters.id AS \"Supporter ID\"",
-       ])
+       ]).concat([
+                            "coalesce(donations.designation, 'None') AS designation",
+                            "#{QueryPayments.get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
+                            "#{QueryPayments.get_dedication_or_empty('name')}::text AS \"Dedicated To: Name\"",
+                            "#{QueryPayments.get_dedication_or_empty('supporter_id')}::text AS \"Dedicated To: Supporter ID\"",
+                            "#{QueryPayments.get_dedication_or_empty('contact', 'email')}::text AS \"Dedicated To: Email\"",
+                            "#{QueryPayments.get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
+                            "#{QueryPayments.get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
+                            "#{QueryPayments.get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
+                            "donations.campaign_id AS \"Campaign Id\"",
+                            "users.email AS \"Campaign Creator Email\""
+                 ])
     ).from(:donations)
      .join(:supporters, "supporters.id=donations.supporter_id")
      .left_outer_join(:campaign_gifts, "campaign_gifts.donation_id=donations.id")
@@ -22,10 +33,16 @@ module QueryDonations
      .left_outer_join(:recurring_donations, "recurring_donations.donation_id = donations.id")
      .join_lateral(:payments,
                    get_first_payment_for_donation.parse, true)
-     .where("donations.campaign_id IN (#{QueryCampaigns
-                                            .get_campaign_and_children(campaign_id)
-                                            .parse})")
-     .group_by("donations.id", "supporters.id", "payments.id", "payments.gross_amount")
+     .join(Qx.select('id, profile_id').from('campaigns')
+              .where("id IN (#{QueryCampaigns
+                                   .get_campaign_and_children(campaign_id)
+                                   .parse})").as('campaigns').parse,
+          'donations.campaign_id=campaigns.id')
+     .join(Qx.select('users.id, profiles.id AS profiles_id, users.email')
+              .from('users')
+              .add_join('profiles', 'profiles.user_id = users.id')
+              .as("users").parse, "users.profiles_id=campaigns.profile_id")
+     .group_by("donations.id", "supporters.id", "payments.id", "payments.gross_amount", "users.email")
      .order_by("donations.date")
     )
 	end

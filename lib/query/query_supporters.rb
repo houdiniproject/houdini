@@ -18,10 +18,16 @@ module QuerySupporters
                                   .where('payments.donation_id = donations.id')
                                   .order_by('payments.created_at ASC')
                                   .limit(1).parse, true)
+    .join(Qx.select('id, profile_id').from('campaigns')
+    .where("id IN (#{QueryCampaigns
+                          .get_campaign_and_children(campaign_id)
+                               .parse})").as('campaigns').parse,
+          'donations.campaign_id=campaigns.id')
+    .join(Qx.select('users.id, profiles.id AS profiles_id, users.email')
+            .from('users')
+            .add_join('profiles', 'profiles.user_id = users.id')
+            .as("users").parse, "users.profiles_id=campaigns.profile_id")
      .where("supporters.nonprofit_id=$id", id: np_id)
-     .where("donations.campaign_id IN (#{QueryCampaigns
-                                             .get_campaign_and_children(campaign_id)
-                                             .parse})")
      .group_by('supporters.id')
      .order_by('MAX(donations.date) DESC')
 
@@ -49,6 +55,7 @@ module QuerySupporters
         'SUM(payments.gross_amount) AS total_raised',
         'ARRAY_AGG(DISTINCT campaign_gift_options.name) AS campaign_gift_names',
         'DATE(MAX(donations.created_at)) AS latest_gift',
+        'ARRAY_AGG(DISTINCT users.email) AS campaign_creator_emails'
       ).limit(limit).offset(offset)
     )
 

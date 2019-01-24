@@ -237,8 +237,8 @@ module QuerySupporters
         .and_where("to_tsvector('english', custom_fields.value) @@ plainto_tsquery('english', $custom_fields)", custom_fields: query[:custom_fields])
     end
     if query[:location].present?
-
-      expr = expr.and_where("lower(supporters.city) LIKE $city OR lower(supporters.zip_code) LIKE $zip", city: query[:location].downcase, zip: query[:location].downcase)
+      expr = expr.join_lateral('addresses', 
+        does_an_address_match(query).parse)
     end
     if query[:recurring].present?
       rec_ps_subquery = Qx.select("payments.count", "payments.supporter_id")
@@ -690,6 +690,15 @@ UNION DISTINCT
     if(date.is_a?(String))
       return DateTime.parse(date)
     end
+  end
+
+  def self.does_an_address_match(query)
+    Qx.select("1 as address_matches")
+        .from(:addresses)
+        .and_where('addresses.supporter_id = supporters.id AND (addresses.city ILIKE $city OR addresses.zip_code ILIKE $zip)', 
+        city: "%" + query[:location].downcase + "%", 
+        zip: "%" + query[:location].downcase + "%")
+        .limit(1)
   end
 end
 

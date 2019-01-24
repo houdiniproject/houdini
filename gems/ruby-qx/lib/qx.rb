@@ -311,7 +311,7 @@ class Qx
   def join_lateral(join_name, select_statement, success_condition=true)
     
     @tree[:JOIN_LATERAL] ||= []
-    @tree[:JOIN_LATERAL] += {name: join_name, select_statement: select_statement, condition: success_condition}
+    @tree[:JOIN_LATERAL].concat([{join_name: join_name, select_statement: select_statement, success_condition: success_condition}])
     self
   end
 

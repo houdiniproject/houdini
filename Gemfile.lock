@@ -39,7 +39,6 @@ PATH
       activerecord (>= 3.0)
       colorize (~> 0.8)
 
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -421,7 +420,6 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode_utils (1.4.0)
-    vcr (2.9.3)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -516,11 +514,10 @@ DEPENDENCIES
   traceroute
   uglifier
   unf
-  vcr
   webmock
 
 RUBY VERSION
    ruby 2.3.7p456
 
 BUNDLED WITH
-   1.16.4
+   1.17.3

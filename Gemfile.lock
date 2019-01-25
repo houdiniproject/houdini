@@ -198,8 +198,6 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
-    fb-channel-file (0.0.2)
-      rails (>= 3.0)
     font_assets (0.1.14)
       rack
     foreman (0.84.0)
@@ -285,11 +283,6 @@ GEM
     plissken (0.2.0)
       symbolize (~> 4.2)
     polyglot (0.3.5)
-    postgres-copy (0.6.0)
-      activerecord (>= 3.0.0)
-      pg
-      rails (>= 3.0.0)
-      responders
     power_assert (1.1.1)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -326,8 +319,6 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
-    rails_autoscale_agent (0.3.1)
-      activesupport (>= 3.2)
     rails_serve_static_assets (0.0.4)
     rails_stdout_logging (0.0.3)
     railties (3.2.22.5)
@@ -460,7 +451,6 @@ DEPENDENCIES
   dry-validation
   factory_bot
   factory_bot_rails
-  fb-channel-file
   font_assets (~> 0.1.14)
   foreman
   fullcontact
@@ -484,7 +474,6 @@ DEPENDENCIES
   parallel
   param_validation!
   pg
-  postgres-copy
   pry
   puma
   puma_worker_killer
@@ -495,7 +484,6 @@ DEPENDENCIES
   rails (= 3.2.22.5)
   rails-i18n (~> 3.0.0)
   rails_12factor
-  rails_autoscale_agent
   rake
   roadie-rails
   rspec
@@ -513,7 +501,6 @@ DEPENDENCIES
   timecop
   traceroute
   uglifier
-  unf
   webmock
 
 RUBY VERSION

@@ -52,9 +52,6 @@ gem 'param_validation', path: 'gems/ruby-param-validation'
 # Print colorized text lol
 gem 'colorize'
 
-# https://github.com/diogob/postgres-copy
-gem 'postgres-copy'
-
 # https://github.com/collectiveidea/delayed_job_active_record
 gem 'delayed_job_active_record'
 
@@ -70,7 +67,6 @@ gem 'chronic'
 gem 'carrierwave'
 gem 'carrierwave-aws' # for uploading images to amazon s3
 gem 'mini_magick'
-gem 'unf'
 
 # https://github.com/jnunemaker/httparty
 gem 'httparty'
@@ -88,11 +84,6 @@ gem 'geocoder' # for adding latitude and longitude to location-based tables
 
 # https://github.com/buytruckload/nearest_time_zone
 gem 'nearest_time_zone' # for detecting timezone from lat/lng
-
-# Facebook
-# inserting a channel file with a long expiration for the FB SDK
-# https://developers.facebook.com/docs/reference/javascript/
-gem 'fb-channel-file'
 
 gem 'mail_view'
 
@@ -147,12 +138,6 @@ gem 'config', '> 1.5'
 gem 'dry-validation' # used only for config validation
 
 gem 'foreman'
-
-
-
-group :production do
-  gem 'rails_autoscale_agent'
-end
 
 gem 'grape', '~> 1.1.0'
 gem 'grape-entity', git: 'https://github.com/ruby-grape/grape-entity.git', ref: '0e04aa561373b510c2486282979085eaef2ae663'

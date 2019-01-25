@@ -85,4 +85,87 @@ describe QuerySupporters do
       
     end
   end
+
+  describe '.get_supporter_by_default_address' do
+    around(:each) do |example|
+      Timecop.freeze(2020, 5, 4) do
+          example.run
+      end
+    end
+    let(:nonprofit) { force_create(:nonprofit)}
+    let(:supporter1) { force_create(:supporter, nonprofit:nonprofit) }
+    let(:supporter2) { force_create(:supporter, nonprofit:nonprofit) }
+
+    let(:supporter_address) {force_create(:address, supporter:supporter1, name: "address - first", address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
+    let(:supporter_address_2) {force_create(:address, supporter:supporter1, name: "address - another", address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
+    let(:other_supporter_address) {force_create(:address, supporter:supporter2, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
+
+    let(:address_tag1)  do
+      force_create(:address_tag, 
+        supporter:supporter1, 
+        address: supporter_address_2,
+        name: 'default'
+        )
+    end
+    
+    let(:address_tag2)  do
+      force_create(:address_tag, 
+        supporter:supporter2, 
+        address: other_supporter_address,
+        name: 'default'
+        )
+    end
+
+    let(:supporters_with_default_address) do
+      QuerySupporters.supporters_with_default_address(np_id: nonprofit.id).execute
+    end
+
+    before(:each) do
+      supporter1
+      supporter2
+      supporter_address
+      supporter_address_2
+      other_supporter_address
+
+      address_tag1
+      address_tag2
+
+     
+    end
+
+    it 'should have two items' do
+      expect(supporters_with_default_address.count).to eq 2
+    end
+
+    it 'should have correct address for supporter1' do
+       supporter1_attribs = supporter1.attributes.to_h.with_indifferent_access
+       supporter1_attribs = supporter1_attribs.merge({
+         'address': supporter_address_2.address,
+         'city': supporter_address_2.city,
+         'state_code': supporter_address_2.state_code,
+         'zip_code': supporter_address_2.zip_code,
+         'country': supporter_address_2.country
+       })
+
+       result = supporters_with_default_address.select{|i| i['id'] == supporter1.id}.first
+
+       expect(result).to eq supporter1_attribs
+    end
+
+    it 'should have correct address for supporter2' do
+      supporter2_attrib = supporter2.attributes.to_h.with_indifferent_access
+      supporter2_attrib = supporter2_attrib.merge({
+        'address': other_supporter_address.address,
+        'city': other_supporter_address.city,
+        'state_code': other_supporter_address.state_code,
+        'zip_code': other_supporter_address.zip_code,
+        'country': other_supporter_address.country
+      })
+
+      result = supporters_with_default_address.select{|i| i['id'] == supporter2.id}.first
+
+      expect(result).to eq supporter2_attrib
+   end
+
+  end
 end

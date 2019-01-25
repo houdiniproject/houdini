@@ -565,7 +565,7 @@ UNION DISTINCT
       "MAX(full_contact_infos.websites) AS fc_websites"]
 
     Qx.select(*QuerySupporters.profile_selects(selects))
-      .from("supporters")
+      .from(supporters_with_default_address(np_id:npo_id, supporter_ids:ids))
       .left_join(
         ["donations", "donations.supporter_id=supporters.id"],
         ["full_contact_infos", "full_contact_infos.supporter_id=supporters.id"],
@@ -580,7 +580,7 @@ UNION DISTINCT
   def self.for_info_card(id)
     selects = ["COALESCE(MAX(payments.sum), 0) AS raised"] 
     Qx.select(*QuerySupporters.profile_selects(selects))
-      .from("supporters")
+      .from(supporters_with_default_address(supporter_id: id))
       .left_join([QuerySupporters.profile_payments_subquery, "payments.supporter_id=supporters.id"])
       .group_by("supporters.id")
       .where("supporters.id=$id", id: id)
@@ -706,6 +706,31 @@ UNION DISTINCT
         city: "%" + query[:location].downcase + "%", 
         zip: "%" + query[:location].downcase + "%")
         .limit(1)
+  end
+
+  def self.supporters_with_default_address(options)
+    ret = Qx.select('supporters.*', 'default_addresses.address AS address', 'default_addresses.city AS city', 'default_addresses.state_code AS state_code', 'default_addresses.zip_code AS zip_code', 'default_addresses.country AS country')
+        .from(:supporters)
+        .add_left_join(
+          Qx.select('addresses.*')
+            .from(:address_tags)
+            .join(:addresses, "addresses.id = address_tags.address_id AND address_tags.name= 'default'")
+            .as('default_addresses'),
+            'default_addresses.supporter_id=supporters.id')
+    if options[:np_id]
+      ret = ret.where('supporters.nonprofit_id = $np_id', 
+        np_id: options[:np_id])
+    end
+
+    if options[:supporter_ids]
+      s_ids = options[:supporter_ids].is_a?(Array) ? 
+              options[:supporter_ids] : 
+              [options[:supporter_ids]]
+      ret = ret.where('supporters.id IN ($supporter_ids)', 
+        supporter_ids: s_ids)
+      
+    end
+    ret
   end
 end
 

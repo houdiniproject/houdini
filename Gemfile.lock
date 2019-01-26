@@ -411,7 +411,6 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     unicode_utils (1.4.0)
-    vcr (2.9.3)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -502,7 +501,6 @@ DEPENDENCIES
   timecop
   traceroute
   uglifier
-  vcr
   webmock
 
 RUBY VERSION

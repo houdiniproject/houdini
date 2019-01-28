@@ -121,11 +121,11 @@ Rails.application.routes.draw do
 
 	resources(:nonprofits, {only: [:show, :create, :update, :destroy]}) do
     post(:onboard, {on: :collection})
-		get(:profile_todos)
-		get(:recurring_donation_stats)
+		get(:profile_todos, {on: :member})
+		get(:recurring_donation_stats, {on: :member})
     get(:search, {on: :collection})
-		get(:dashboard_todos)
-		put(:verify_identity)
+		get(:dashboard_todos, {on: :member})
+		put(:verify_identity, {on: :member})
 
 
 		resources(:roles, {only: [:create, :destroy]})

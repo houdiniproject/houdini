@@ -23,6 +23,11 @@ describe UpdateCharges do
     let!(:refunds) { [force_create(:refund, charge: charges.last, payment: reverse_payment_for_refund, disbursed: true)]}
     before(:each) {
       UpdateCharges.reverse_disburse_all_with_payments([payment_to_reverse.id, payment_to_reverse_2.id, payment_to_reverse_with_refund.id, reverse_payment_for_refund.id])
+
+      payment_to_reverse.reload
+      payment_to_reverse_2.reload
+      payment_to_reverse_with_refund.reload
+      payment_to_ignore.reload
     }
 
     it 'reverses payments it should' do

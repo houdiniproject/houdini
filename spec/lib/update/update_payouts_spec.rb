@@ -65,6 +65,11 @@ describe UpdatePayouts do
         payout.payments.push(payment_to_reverse_with_refund)
         payout.payments.push(reverse_payment_for_refund)
         UpdatePayouts.reverse_with_stripe(payout.id, bad_status, bad_failure_message)
+        payment_to_reverse.reload
+        payment_to_reverse_2.reload
+        payment_to_reverse_with_refund.reload
+        reverse_payment_for_refund.reload
+        payment_to_ignore.reload
       }
 
       it 'reverses proper payments' do

@@ -19,7 +19,7 @@ describe TicketsController, :type => :controller do
       end
 
       describe 'delete_card_for_ticket' do
-          include_context :open_to_np_associate, :post, :delete_card_for_ticket, nonprofit_id: :__our_np, event_id: :__our_event
+          include_context :open_to_np_associate, :post, :delete_card_for_ticket, nonprofit_id: :__our_np, event_id: :__our_event, id: 11111
       end
 
 

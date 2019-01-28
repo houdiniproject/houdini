@@ -285,7 +285,7 @@ describe UpdateDonation do
 
           expect(Payment.count).to eq 1
 
-          expected_offsite_payment= offsite_payment.attributes.merge({check_number:new_check_number, date: new_date.to_time_in_current_zone, gross_amount: new_amount, updated_at: Time.now}).with_indifferent_access
+          expected_offsite_payment= offsite_payment.attributes.merge({check_number:new_check_number, date: new_date.in_time_zone, gross_amount: new_amount, updated_at: Time.now}).with_indifferent_access
 
           offsite_payment.reload
           expect(offsite_payment.attributes).to eq expected_offsite_payment
@@ -351,7 +351,7 @@ describe UpdateDonation do
             result = UpdateDonation.update_payment(donation.id, blank_data)
 
             expected_donation = donation.attributes.merge({
-                                                              date: new_date.to_time_in_current_zone,
+                                                              date: new_date.in_time_zone,
                                                               amount: new_amount,
 
                                                               designation: '',
@@ -367,13 +367,13 @@ describe UpdateDonation do
             donation.reload
             expect(donation.attributes).to eq expected_donation
 
-            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now, date: new_date.to_time_in_current_zone, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
+            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now, date: new_date.in_time_zone, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
             payment.reload
             expect(payment.attributes).to eq expected_p1
 
             expect(Payment.count).to eq 1
 
-            expected_offsite_payment= offsite_payment.attributes.merge({check_number:'', date: new_date.to_time_in_current_zone, gross_amount: new_amount, updated_at: Time.now}).with_indifferent_access
+            expected_offsite_payment= offsite_payment.attributes.merge({check_number:'', date: new_date.in_time_zone, gross_amount: new_amount, updated_at: Time.now}).with_indifferent_access
 
             offsite_payment.reload
             expect(offsite_payment.attributes).to eq expected_offsite_payment

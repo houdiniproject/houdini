@@ -25,7 +25,7 @@ class Donation < ActiveRecord::Base
 	validates :supporter, presence: true
 	validates :nonprofit, presence: true
 	validates_associated :charges
-  validates :payment_provider, inclusion: { in: %(credit_card sepa) }, allow_blank: true
+  validates :payment_provider, inclusion: { in: ["credit_card", "sepa"]}, allow_blank: true
 
 	has_many :charges
 	has_many :campaign_gifts, dependent: :destroy

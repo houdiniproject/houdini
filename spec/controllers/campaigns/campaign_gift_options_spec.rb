@@ -5,9 +5,9 @@ require 'controllers/support/shared_user_context'
 describe Campaigns::CampaignGiftOptionsController, :type => :controller do
   describe 'authorization' do
     include_context :shared_user_context
-    describe 'reject unauthorized users' do
+    describe 'accept all' do
       describe 'index' do
-          include_context :open_to_campaign_editor, :get, :index, nonprofit_id: :__our_np, campaign_id: :__our_campaign
+          include_context :open_to_all, :get, :index, nonprofit_id: :__our_np, campaign_id: :__our_campaign
       end
     end
   end

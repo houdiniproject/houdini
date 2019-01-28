@@ -90,9 +90,9 @@ Rails.application.routes.draw do
 			put :bulk_delete, on: :collection
 			post :merge, on: :collection
 			get :merge_data, on: :collection
-			get :info_card
-			get :email_address
-			get :full_contact
+			get :info_card, on: :member
+			get :email_address, on: :member
+			get :full_contact, on: :member
       get :index_metrics, on: :collection
 		end
 

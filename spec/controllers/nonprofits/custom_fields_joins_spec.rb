@@ -5,8 +5,8 @@ require 'controllers/support/shared_user_context'
 describe Nonprofits::CustomFieldJoinsController, :type => :controller do
   include_context :shared_user_context
   describe 'rejects unauthenticated users' do
-    describe 'index ' do
-      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+    describe 'index' do
+      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, supporter_id: 1
     end
 
     describe 'modify' do
@@ -14,7 +14,7 @@ describe Nonprofits::CustomFieldJoinsController, :type => :controller do
     end
 
     describe 'destroy' do
-      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np, id: "1"
+      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np, id: "1", supporter_id: 1
     end
   end
 end

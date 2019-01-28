@@ -6,7 +6,7 @@ describe Nonprofits::TagJoinsController, :type => :controller do
   describe 'authorization' do
     include_context :shared_user_context
     describe 'index' do
-        include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+        include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, supporter_id: 1
     end
     
     describe 'modify' do
@@ -14,7 +14,7 @@ describe Nonprofits::TagJoinsController, :type => :controller do
     end
     
     describe 'destroy' do
-        include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np, id: '1'
+        include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np, id: '1', supporter_id: 2
     end
     
     

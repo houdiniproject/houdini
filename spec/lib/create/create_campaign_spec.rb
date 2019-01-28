@@ -4,5 +4,6 @@ require 'rails_helper'
 describe CreateCampaign do
   it 'is untested' do
     pending 'add tests here'
+    fail
   end
 end

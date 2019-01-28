@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::SessionsController < Devise::SessionsController
 	layout 'layouts/apified', only: :new
-
+	respond_to :json, only: :new
 
   def new
     @theme = 'minimal'

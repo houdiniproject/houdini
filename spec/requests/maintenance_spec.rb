@@ -85,7 +85,7 @@ describe 'Maintenance Mode' do
 
         it 'allows sign_in.json' do
           get(:new, {maintenance_token: "#{token}", format: 'json'})
-          expect(response.code).to eq '406'
+          expect(response.code).to eq '200'
         end
       end
     end

@@ -79,9 +79,11 @@ module Commitchange
 
 		config.i18n.enforce_available_locales = false
 
+		config.active_record.raise_in_transactional_callbacks = true
+
 		# Add trailing slashes to all routes
 		# config.action_controller.default_url_options = {:trailing_slash => true}
 		#
-		config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
+		# config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 	end
 end

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.7'
+ruby '2.4.5'
 gem 'rake'
 gem 'rails', '~> 4.2.8'
 gem 'rails_12factor'

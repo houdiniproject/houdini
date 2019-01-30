@@ -48,8 +48,6 @@ const init = _ => {
 
   state.supporter$ = flyd.merge(supporterResp$, flyd.stream({}))
 
-  state.composeOrReply$ = flyd.merge(state.clickComposing$, state.threadId$)
-
   
   state.offsiteDonationForm = offsiteDonationForm.init(state)
 

@@ -426,9 +426,9 @@ UNION DISTINCT
 
   def self.supporter_export_selections
     [
-      "substring(supporters.name from '^.+ ([^\s]+)$') AS \"Last Name\"",
-      "substring(supporters.name from '^(.+) [^\s]+$') AS \"First Name\"",
-      "supporters.name AS \"Full Name\"",
+      "substring(trim(both from supporters.name) from '^.+ ([^\s]+)$') AS \"Last Name\"",
+      "substring(trim(both from supporters.name) from '^(.+) [^\s]+$') AS \"First Name\"",
+      "trim(both from supporters.name) AS \"Full Name\"",
       "supporters.organization AS \"Organization\"",
       "supporters.email \"Email\"",
       "supporters.phone \"Phone\"",

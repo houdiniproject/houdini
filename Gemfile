@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.5'
 gem 'rake'
-gem 'rails', '~> 4.2.8'
+gem 'rails', '= 5.0.0'
 gem 'rails_12factor'
 # https://stripe.com/docs/api
 gem 'stripe'
@@ -69,7 +69,7 @@ gem 'httparty'
 
 # User authentication
 # https://github.com/plataformatec/devise
-gem 'devise', '~> 3.5.0'
+gem 'devise', '~> 4.4'
 gem 'devise-async'
 
 # https://github.com/airbrake/airbrake
@@ -90,7 +90,7 @@ gem 'table_print'
 
 gem 'bunny', '>= 2.6.3'
 
-gem 'rails-i18n', '~> 4.0' # For 3.x
+gem 'rails-i18n'
 gem 'i18n-js'
 gem 'countries'
 
@@ -136,10 +136,15 @@ gem 'dry-validation' # used only for config validation
 
 gem 'foreman'
 
-gem 'grape', '~> 1.1.0'
+gem 'grape'
 gem 'grape-entity'
 gem 'grape-swagger'
 gem 'grape-swagger-entity'
 gem 'grape_url_validator'
 gem 'grape_logging'
-gem 'grape_devise', path: 'gems/grape_devise'
+gem 'grape_devise'
+#gem 'grape_devise', git: 'https://github.com/ericschultz/grape_devise.git'
+
+#gem 'protected_attributes'
+
+gem 'rack-ssl'

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.5'
 gem 'rake'
-gem 'rails', '= 5.0.0'
+gem 'rails', '= 5.0.7.1'
 gem 'rails_12factor'
 # https://stripe.com/docs/api
 gem 'stripe'

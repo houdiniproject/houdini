@@ -1,88 +1,34 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-workers Integer(ENV['WEB_CONCURRENCY'] || 1)
-threads 1,1 #not threadsafe yet
+
+# Puma can serve each request in a thread from an internal thread pool.
+# The `threads` method setting takes two numbers a minimum and maximum.
+# Any libraries that use thread pools should be configured to match
+# the maximum value specified for Puma. Default is set to 5 threads for minimum
+# and maximum, this matches the default thread size of Active Record.
+#
+threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i
+threads threads_count, threads_count
+
 preload_app! if ENV['RAILS_ENV'] != 'development'
 
 rackup      DefaultRackup
-port        ENV['PORT']     || 5000
-environment ENV['RAILS_ENV'] || 'development'
+port        ENV.fetch("PORT") { 5000 }
+environment ENV.fetch('RAILS_ENV'{ 'development' }
+
+workers ENV['WEB_CONCURRENCY'].fetch { 1 }
 
 
 
 on_worker_boot do
-  ActiveSupport.on_load(:active_record) do
-    config = ActiveRecord::Base.configurations[Rails.env] ||
-        Rails.application.config.database_configuration[Rails.env]
-    config['pool'] = ENV['RAILS_MAX_THREADS'] || 1
-    ActiveRecord::Base.establish_connection
-  end
-
+  # ActiveSupport.on_load(:active_record) do
+  #   config = ActiveRecord::Base.configurations[Rails.env] ||
+  #       Rails.application.config.database_configuration[Rails.env]
+  #   config['pool'] = ENV['RAILS_MAX_THREADS'] || 1
+  #   ActiveRecord::Base.establish_connection
+  # end
+  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
 end
 
-# rackup      DefaultRackup
-# port        ENV['PORT']     || 8080
-# environment ENV['RAILS_ENV'] || 'development'
-# tag 'commitchange'
-# # workers 2
-# daemonize
-#
-# # Read environment
-# require 'dotenv'
-# Dotenv.load ".env"
-# @env = ENV['RAILS_ENV']
-# # || 'development'
-# Dotenv.load ".env.#{@env}"
-# puts ENV['PORT']
-# puts "----------------------- #{@env} -----------------------------------"
-# @dir = ENV['PUMADIR'] || ENV['PWD']
-# @port = ENV['PORT'] || 10525
-#
-# workers Integer(ENV['WEB_CONCURRENCY'] || 1)
-# threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 1)
-# preload_app! if ENV['RAILS_ENV'] != 'development'
-#
-# if heroku?
-#   threads threads_count, threads_count
-# else
-#   threads 1, threads_count
-# end
-#
-# environment @env || 'development'
-# #environment 'production'
-#
-# before_fork do
-#   require 'puma_worker_killer'
-#   PumaWorkerKiller.enable_rolling_restart # Default is every 6 hours
-# end
-#
-# tmp_dir = File.expand_path("./tmp", @dir)
-# log_dir = File.expand_path("./log", @dir)
-#
-# if @port
-#   port @port
-# else
-#   bind "unix://#{tmp_dir}/sockets/puma.sock"
-# end
-#
-# unless heroku?
-#   # Pid files
-#   pidfile "#{tmp_dir}/pids/puma.pid"
-#   state_path "#{tmp_dir}/pids/puma.state"
-#
-#   # Logging
-#
-#   if ENV['LOG_TO_FILES']
-#     puts "log to files #{log_dir}/puma.[stdout|stderr].#{@env}.log"
-#     stdout_redirect "#{log_dir}/puma.stdout.#{@env}.log", "#{log_dir}/puma.stderr.#{@env}.log", true
-#   end
-# end
-# on_worker_boot do
-#   ActiveSupport.on_load(:active_record) do
-#     config = ActiveRecord::Base.configurations[Rails.env] ||
-#         Rails.application.config.database_configuration[Rails.env]
-#     config['pool'] = ENV['RAILS_MAX_THREADS'] || 1
-#     ActiveRecord::Base.establish_connection
-#   end
-# end
-
+# Allow puma to be restarted by `rails restart` command.
+plugin :tmp_restart
 

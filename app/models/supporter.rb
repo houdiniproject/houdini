@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Supporter < ActiveRecord::Base
+class Supporter < ApplicationRecord
 
   attr_accessible \
     :search_vectors,

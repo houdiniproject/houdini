@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class FullContactSocialProfile < ActiveRecord::Base
+class FullContactSocialProfile < ApplicationRecord
 	attr_accessible \
 		:full_contact_info,
 		:full_contact_info_id,

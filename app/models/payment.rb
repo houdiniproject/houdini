@@ -3,7 +3,7 @@
 # If connected to a charge, this represents money potentially debited to the nonprofit's account
 # If connected to an offsite_payment, this is money the nonprofit is recording for convenience.
 
-class Payment < ActiveRecord::Base
+class Payment < ApplicationRecord
 
   attr_accessible \
     :towards,

@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Coupon < ActiveRecord::Base
+class Coupon < ApplicationRecord
 	attr_accessible \
 		:name,
 		:victim_np_id,

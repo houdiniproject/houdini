@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class FullContactInfo < ActiveRecord::Base
+class FullContactInfo < ApplicationRecord
 	attr_accessible \
 		:email,
 		:full_name,

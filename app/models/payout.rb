@@ -4,7 +4,7 @@
 #
 # These are tied to Stripe transfers
 
-class Payout < ActiveRecord::Base
+class Payout < ApplicationRecord
 
 	attr_accessible \
 		:scheduled, # bool (whether this was made automatically at the beginning of the month)

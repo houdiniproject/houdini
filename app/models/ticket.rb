@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Ticket < ActiveRecord::Base
+class Ticket < ApplicationRecord
   
   attr_accessible :note, :event_discount, :event_discount_id
 

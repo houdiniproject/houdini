@@ -150,9 +150,15 @@
             </div>
           </div>
         <% else %>
-          <p>
-            Seems like you already have a campaign for that cause! <%= link_to "Click here to see it", @child_campaign.url %>.
-          </p>
+          <% if @child_campaign.deleted %>
+            <p>
+              Seems like you already have a campaign for that cause! <%= link_to "Click here to reactivate your campaign", "javascript:appl.undelete_p2p(\"/nonprofits/#{@child_campaign.nonprofit_id}/campaigns/#{@child_campaign.id}\")" %>
+            </p>
+          <% else %>
+            <p>
+              Seems like you already have a campaign for that cause! <%= link_to "Click here to see it", @child_campaign.url %>.
+            </p>
+          <% end %>
         <% end %>
       </li>
 

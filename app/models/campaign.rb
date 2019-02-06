@@ -85,6 +85,7 @@ class Campaign < ActiveRecord::Base
 	scope :unpublished, -> {where(:published => [nil, false])}
 	scope :not_deleted, -> {where(deleted: [nil, false])}
 	scope :deleted, -> {where(deleted: true)}
+	scope :not_a_child, -> {where(parent_campaign_id: nil)}
 
 	before_validation do
 		if self.goal_amount_dollars.present?

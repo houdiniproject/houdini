@@ -19,7 +19,7 @@
 		@profiles = @nonprofit.profiles.order('total_raised DESC').limit(5).includes(:user).uniq
 
     events = @nonprofit.events.not_deleted.order('start_datetime desc')
-    campaigns = @nonprofit.campaigns.not_deleted.order('created_at desc')
+    campaigns = @nonprofit.campaigns.not_deleted.not_a_child.order('created_at desc')
 
 		@events = events.upcoming
 		@any_past_events = events.past.any?

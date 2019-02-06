@@ -5,6 +5,19 @@ require('../../common/image_uploader')
 
 var request = require("../../common/client")
 
+appl.def('undelete_p2p', function (url){
+  appl.def('loading', true)
+  request.put(url + '/soft_delete', {delete: false}).end(function(err, resp) {
+    if (err) {
+      appl.def('loading', false)
+    }
+    else{
+      window.location = url
+    }
+
+  })
+})
+
 // setting up some default values
 appl.def('is_signing_up', true)
   .def('selected_result_index', -1)

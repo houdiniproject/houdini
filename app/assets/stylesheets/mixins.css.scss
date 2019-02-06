@@ -2,15 +2,9 @@
 @import 'common/colors';
 @import 'common/backgrounds';
 
-
 // COMMON EFFECTS:
-
-$box-5: 0 0 5px 0 rgba(0,0,0,0.3);
 $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 
-@mixin glow{
-	@include box-shadow(0 0 20px 0px rgba(white, 0.3));
-}
 @mixin background-size($val) {
 	-webkit-background-size: $val;
 	-moz-background-size: $val;
@@ -90,42 +84,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 	text-overflow: ellipsis;
 }
 
-@mixin skrim-grad-top($color, $height) {
-	&:before {
-		position: absolute;
-		content: '';
-		width: 100%;
-		height: $height;
-		left: 0;
-		top: 0;
-		@include gradient(top, $color, $trans);
-	}
-}
-
-@mixin skrim-grad-top--out($color, $height) {
-	&:before {
-		position: absolute;
-		content: '';
-		width: 100%;
-		height: $height;
-		left: 0;
-		top: - $height;
-		@include gradient(bottom, $color, $trans);
-	}
-}
-
-@mixin skrim-grad-bottom($color, $height) {
-	&:before {
-		position: absolute;
-		content: '';
-		width: 100%;
-		height: $height;
-		left: 0;
-		bottom: 0;
-		@include gradient(bottom, $color, $trans);
-	}
-}
-
 @mixin cornerHoles--bottom($size, $color) {
 	&:before {
 		content: '';
@@ -183,31 +141,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 	user-select: none;
 }
 
-
-@mixin drop-cap {
-	&:first-letter {
-		@include bitter;
-		font-weight: bold;
-		font-size: 180%;
-	}
-	&:first-line {
-		line-height: 1;
-	}
-}
-
-@mixin after-gradient {
-	position: relative;
-	&:after {
-		content: '';
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		@include gradient(top, $trans, #fff);
-		width: 100%;
-		height: 50px;
-	}
-}
-
 @mixin mosaic($topBottomOrBoth, $height){
 	&:after {
 		content: '';
@@ -234,169 +167,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 	}
 }
 
-@mixin border-topBottom($properties...) {
-	border-top: $properties;
-	border-bottom: $properties;
-}
-
-@mixin border-leftRight($properties...) {
-	border-left: $properties;
-	border-right: $properties;
-}
-
-@mixin flag($color, $height, $boolean){
-	$halfHeight: $height/2;
-	$lightColor: lighten($color, 3%);
-	$isLink: $boolean;
-	background: $color;
-	position: relative;
-
-	&:before {
-		content: '';
-		position: absolute;
-		top: 0;
-		width: 0;
-		height: 0;
-		left: -$halfHeight;
-		border-top: $halfHeight solid $color;
-		border-left: $halfHeight solid transparent;
-		border-bottom: $halfHeight solid $color;
-	}
-	@if $isLink {
-		&:hover {
-			background: $lightColor;
-			&:before {
-				border-top: $halfHeight solid $lightColor;
-				border-left: $halfHeight solid transparent;
-				border-bottom: $halfHeight solid $lightColor;
-			}
-		}
-	}
-}
-
-@mixin flag-right($color, $height, $boolean){
-	$halfHeight: $height/2;
-	$lightColor: lighten($color, 3%);
-	$isLink: $boolean;
-	background: $color;
-	position: relative;
-
-	&:before {
-		content: '';
-		position: absolute;
-		top: 0;
-		width: 0;
-		height: 0;
-		right: -$halfHeight;
-		border-top: $halfHeight solid $color;
-		border-right: $halfHeight solid transparent;
-		border-bottom: $halfHeight solid $color;
-	}
-	@if $isLink {
-		&:hover {
-			background: $lightColor;
-			&:before {
-				border-top: $halfHeight solid $lightColor;
-				border-right: $halfHeight solid transparent;
-				border-bottom: $halfHeight solid $lightColor;
-			}
-		}
-	}
-}
-
-@mixin banner($color, $height){
-	$halfHeight: $height/2;
-	background: $color;
-	position: relative;
-
-	&:before {
-		content: '';
-		position: absolute;
-		top: 0;
-		width: 0;
-		height: 0;
-		left: -$halfHeight;
-		border-top: $halfHeight solid $color;
-		border-left: $halfHeight solid transparent;
-		border-bottom: $halfHeight solid $color;
-	};
-
-	&:after {
-		content: '';
-		position: absolute;
-		top: 0;
-		width: 0;
-		height: 0;
-		right: -$halfHeight;
-		border-top: $halfHeight solid $color;
-		border-right: $halfHeight solid transparent;
-		border-bottom: $halfHeight solid $color;
-	}
-}
-
-
-@mixin burst($color, $size){
-  background: $color;
-  width: $size;
-  height: $size;
-  position: relative;
-  text-align: center;
-  display: inline-block;
-
-	&:before, &:after {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: $size;
-		width: $size;
-		background: $color;
-	}
-	&:before {
- 		@include rotate(30deg)
-	}
-	&:after {
-  	@include rotate(60deg)
-	}
-}
-
-
-@mixin tooltip-color($color) {
-	.tooltip.top .tooltip-arrow{
-	    border-top:5px solid $color
-	}
-	.tooltip.left .tooltip-arrow{
-	    border-left:5px solid $color
-	}
-	.tooltip.bottom .tooltip-arrow{
-	    border-bottom:5px solid $color
-	}
-
-	.tooltip.right .tooltip-arrow{
-	    border-right:5px solid $color
-	}
-	.tooltip-inner{
-	    background-color: $color
-	}
-}
-
-@mixin vertically-center {
-	position: relative;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	-moz-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-}
-
-@mixin vertically-center-flex {
-	display: -webkit-flex;
-	-webkit-align-items: center;
-	-webkit-justify-content: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
 
 @mixin logo($px, $color, $is_showing_logo, $should_be_limited){
 	.commitchangeLogo {
@@ -437,13 +207,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
   transition: $properties;
 }
 
-@mixin basic-transition($property) {
-  -webkit-transition: $property 0.25s ease-in-out;
-  -moz-transition: $property 0.25s ease-in-out;
-  -ms-transition: $property 0.25s ease-in-out;
-  transition: $property 0.25s ease-in-out;
-}
-
 @mixin border-radius($val) {
 	@if $val == 50% {
 		-webkit-border-radius: 1000px;
@@ -452,13 +215,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
   -moz-border-radius: $val;
   -ms-border-radius: $val;
   border-radius: $val;
-}
-
-@mixin border-radius-indiv($a, $b, $c, $d) {
-  -webkit-border-radius: $a $b $c $d;
-  -moz-border-radius: $a $b $c $d;
-  -ms-border-radius: $a $b $c $d;
-  border-radius: $a $b $c $d;
 }
 
 @mixin box-shadow($a) {
@@ -475,13 +231,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 	opacity: $val;
 }
 
-@mixin backface-visibility($val) {
-	-webkit-backface-visibility: $val;
-	-moz-backface-visibility: $val;
-	-ms-backface-visibility: $val;
-	backface-visibility: $val;
-}
-
 @mixin open-sans {
 	font-family: 'Open Sans', 'Helvetica Neue', Arial, Verdana, 'Droid Sans', sans-serif;
 }
@@ -493,13 +242,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 
 @mixin bitter {
 	font-family: 'Bitter', serif;
-}
-
-@mixin placeholder {
-	&.placeholder { @content }
-	&::-webkit-input-placeholder { @content }
-	&:-moz-placeholder { @content }
-	&:-ms-placeholder { @content }
 }
 
 @mixin gradient($dir, $from, $to) {
@@ -514,13 +256,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 	$gradientType: 0;
 	@if $dir == 'left' { $gradientType: 1;}
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=#{$gradientType},startColorstr='#{$ie-hex-from}', endColorstr='#{$ie-hex-to}');
-}
-
-@mixin basic-animation($name) {
-  -webkit-animation: $name ease-in-out;
-  -moz-animation: $name ease-in-out;
-  -ms-animation: $name ease-in-out;
-  animation: $name 2s ease-in-out;
 }
 
 @mixin columns($amount) {
@@ -539,14 +274,6 @@ $cubic_bevier: cubic-bezier(.5,1.2,.6,1);
 	vertical-align: top;
 	width: $amount * 8.3333333333333%;
 	display: inline-block;
-}
-
-// General-purpose float-left columns
-@mixin cols($n) {
-	vertical-align: top;
-	width: $n * 8.3333333333333%;
-	float: left;
-	margin: 0;
 }
 
 @mixin no-select {

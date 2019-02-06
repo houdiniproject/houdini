@@ -9,15 +9,6 @@ GIT
       stripe (>= 1.31.0, <= 1.58.0)
 
 GIT
-  remote: https://github.com/ericschultz/grape_devise.git
-  revision: f1cdf2576476f0f9bf0b4f5c3e7cf07295933871
-  specs:
-    grape_devise (0.1.1)
-      devise (>= 2.2.8, < 4)
-      grape (> 0.7)
-      rails (> 3.2, < 5)
-
-GIT
   remote: https://github.com/ruby-grape/grape-entity.git
   revision: 0e04aa561373b510c2486282979085eaef2ae663
   ref: 0e04aa561373b510c2486282979085eaef2ae663
@@ -25,6 +16,14 @@ GIT
     grape-entity (0.7.1)
       activesupport (>= 3.0.0)
       multi_json (>= 1.3.2)
+
+PATH
+  remote: gems/grape_devise
+  specs:
+    grape_devise (0.1.1)
+      devise (>= 2.2.8, < 5)
+      grape (> 0.7)
+      rails (> 3.2, < 6)
 
 PATH
   remote: gems/ruby-param-validation

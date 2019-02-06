@@ -9,14 +9,19 @@ class CampaignsController < ApplicationController
 
   def index
     @nonprofit = current_nonprofit
-    @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.order('created_at desc')
+    if (current_nonprofit_user?)
+      @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.order('created_at desc')
+      @deleted_campaigns = @nonprofit.campaigns.includes(:nonprofit).deleted.order('created_at desc')
+    else
+      @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.not_a_child.order('created_at desc')
+      @deleted_campaigns = @nonprofit.campaigns.includes(:nonprofit).deleted.not_a_child.order('created_at desc')
+    end
 
     respond_to do |format|
       format.html do
         @active_campaigns = @campaigns.active
         @past_campaigns = @campaigns.past
         @unpublished_campaigns = @campaigns.unpublished
-        @deleted_campaigns = @nonprofit.campaigns.deleted.order('created_at desc')
       end
 
       format.json do

@@ -94,4 +94,8 @@ class Supporter < ActiveRecord::Base
     address_tags.where('name = ?', 'default').first
   end
 
+  def default_address_strategy
+    DefaultAddressStrategies::ManualStrategy.new(self)
+  end
+
 end

@@ -13,8 +13,11 @@ module QueryTransactionAddress
   end
 
   def self.update_address(transaction, address_hash)
-  
-    transaction.address.update_attributes(address_hash)
+    if (transaction.address)
+      transaction.address.update_attributes(address_hash)
+    else
+      transaction.create_address!(address_hash.merge({supporter: transaction.supporter}))
+    end
     return transaction
   end
 end

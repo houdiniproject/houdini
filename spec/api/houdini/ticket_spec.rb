@@ -91,10 +91,7 @@ describe Houdini::V1::Ticket, :type => :request do
     describe 'authorize properly' do
 
       it '401s properly' do
-        nonprofit.miscellaneous_np_info = MiscellaneousNpInfo.new(supporter_default_address_strategy: :manual)
-        nonprofit.miscellaneous_np_info.save!
-        nonprofit.save!
-        #nonprofit.miscellaneous_np_info.supporter_default_address_strategy = :manual
+       
         run_authorization_tests({method: :put, action: "/api/v1/ticket/#{ticket.id}",
                                  successful_users:  roles__open_to_event_editor}) do |u|
           {ticket: {address:{address: "heothwohtw"}}}
@@ -168,9 +165,7 @@ describe Houdini::V1::Ticket, :type => :request do
 
     describe 'update tickets' do
 
-      before(:each) { nonprofit.miscellaneous_np_info = MiscellaneousNpInfo.new(supporter_default_address_strategy: :manual)
-      nonprofit.miscellaneous_np_info.save!
-      nonprofit.save!
+      before(:each) { 
       sign_in user_as_np_admin
       }
       let(:input) do
@@ -222,54 +217,54 @@ describe Houdini::V1::Ticket, :type => :request do
         expect(json_response).to eq expected
       end
 
-      it 'no address already' do
+      # it 'no address already' do
 
-        # make sure on add is called
-        expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_add)
-        make_call_and_verify_response()
+      #   # make sure on add is called
+      #   expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_add)
+      #   make_call_and_verify_response()
 
-      end
-
-
-      describe 'an identical address is in the db' do
-
-        let(:address_matching_input) { TransactionAddress.create!({supporter: ticket.supporter}.merge(input_address))}
-
-        let(:pre_input_address) {TransactionAddress.create!({supporter: ticket.supporter}.merge(input_address).merge({country: 'ehtwetioh'})) }
-
-        before(:each) do
-          # just some address we're not going to have any more
-          ticket.address = pre_input_address
-          ticket.address.save!
-          ticket.save!
-          address_matching_input
-        end
-
-        it 'but its not used by anything else' do
-
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_remove).with(pre_input_address)
-          make_call_and_verify_response()
+      # end
 
 
-          ticket.reload
-          expect(ticket.address).to eq address_matching_input
-          expect(Address.where(id: pre_input_address.id).any?).to be_falsey
-        end
+      # describe 'an identical address is in the db' do
 
-        it 'used by another transaction so we dont delete the original address' do
+      #   let(:address_matching_input) { TransactionAddress.create!({supporter: ticket.supporter}.merge(input_address))}
 
-          AddressToTransactionRelation.create!(address: pre_input_address, transactionable_id: 541254, transactionable_type: 'Ticket')
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to_not receive(:on_remove)
-          make_call_and_verify_response()
+      #   let(:pre_input_address) {TransactionAddress.create!({supporter: ticket.supporter, transactionable: ticket}.merge(input_address).merge({country: 'ehtwetioh'})) }
+
+      #   before(:each) do
+      #     # just some address we're not going to have any more
+      #     ticket.address = pre_input_address
+      #     ticket.address.save!
+      #     ticket.save!
+      #     address_matching_input
+      #   end
+
+      #   it 'but its not used by anything else' do
+
+      #     expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
+      #     expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_remove).with(pre_input_address)
+      #     make_call_and_verify_response()
 
 
-          ticket.reload
-          expect(ticket.address).to eq address_matching_input
-          expect(Address.where(id: pre_input_address.id).any?).to be_truthy
-        end
-      end
+      #     ticket.reload
+      #     expect(ticket.address).to eq address_matching_input
+      #     expect(Address.where(id: pre_input_address.id).any?).to be_falsey
+      #   end
+
+      #   it 'used by another transaction so we dont delete the original address' do
+
+      #     AddressToTransactionRelation.create!(address: pre_input_address, transactionable_id: 541254, transactionable_type: 'Ticket')
+      #     expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
+      #     expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to_not receive(:on_remove)
+      #     make_call_and_verify_response()
+
+
+      #     ticket.reload
+      #     expect(ticket.address).to eq address_matching_input
+      #     expect(Address.where(id: pre_input_address.id).any?).to be_truthy
+      #   end
+      # end
     end
 
 

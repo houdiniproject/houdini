@@ -53,7 +53,7 @@ class Houdini::V1::Supporter < Grape::API
 
       Qx.transaction do
         if (address)
-          supporter.default_address_strategy.on_modify_default_request(address)
+          supporter.default_address_strategy.on_set_default(address)
           supporter.reload
         end
       end
@@ -66,11 +66,11 @@ class Houdini::V1::Supporter < Grape::API
         success Houdini::V1::Entities::Addresses
       end
       params do
-        optional :type, type:Symbol, values: [:CUSTOM, :ALL], default: :ALL, documentation: { param_type: 'query' }
+        optional :type, type:Symbol, values: [:CRM, :TRANSACTION], default: :CRM, documentation: { param_type: 'query' }
         use :pagination
       end
       get do
-        klazz = declared_params[:type] == :ALL ? Address : CrmAddress
+        klazz = declared_params[:type] == :CRM ? CrmAddress : TransactionAddress
         supporter = Supporter.includes(:nonprofit).find(declared_params[:supporter_id])
 
         #authenticate
@@ -111,13 +111,13 @@ class Houdini::V1::Supporter < Grape::API
         end
       end
 
-      route_param :custom_address_id, type: Integer do
+      route_param :crm_address_id, type: Integer do
         desc 'Return a custom Address' do
           success Houdini::V1::Entities::Address
         end
         get do
           supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-          address = CrmAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
+          address = CrmAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:crm_address_id])
 
           #authenticate
           unless current_nonprofit_user?(address.supporter.nonprofit)

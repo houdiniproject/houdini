@@ -7,11 +7,10 @@ describe Houdini::V1::Donation, :type => :request do
   include_context :shared_donation_charge_context
   include_context :api_shared_user_verification
   let(:transaction_address) do
-    create(:address,
+    create(:transaction_address,
              supporter:supporter,
-             type: 'TransactionAddress',
              address: 'address',
-             city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+             city: "city", state_code: "wi", zip_code: "zippy zip", country: "country", transactionable:donation)
   end
 
   let(:donation) do
@@ -33,8 +32,7 @@ describe Houdini::V1::Donation, :type => :request do
     end
 
     it 'returns donation with address' do
-      donation.address = transaction_address
-      donation.save!
+      transaction_address
 
       sign_in user_as_np_admin
       xhr :get, "/api/v1/donation/#{donation.id}"
@@ -51,9 +49,7 @@ describe Houdini::V1::Donation, :type => :request do
               state_code:transaction_address.state_code,
               zip_code: transaction_address.zip_code,
               country: transaction_address.country,
-              name: transaction_address.name,
               fingerprint: transaction_address.fingerprint,
-              type: transaction_address.type,
               supporter: {
                   id: supporter.id
               }.with_indifferent_access
@@ -92,10 +88,6 @@ describe Houdini::V1::Donation, :type => :request do
     describe 'authorize properly' do
 
       it '401s properly' do
-        nonprofit.miscellaneous_np_info = MiscellaneousNpInfo.new(supporter_default_address_strategy: :manual)
-        nonprofit.miscellaneous_np_info.save!
-        nonprofit.save!
-        #nonprofit.miscellaneous_np_info.supporter_default_address_strategy = :manual
         run_authorization_tests({method: :put, action: "/api/v1/donation/#{donation.id}",
                                  successful_users:  roles__open_to_np_associate}) do |u|
           {donation: {address:{address: "heothwohtw"}}}
@@ -169,9 +161,7 @@ describe Houdini::V1::Donation, :type => :request do
 
     describe 'update donations' do
 
-      before(:each) { nonprofit.miscellaneous_np_info = MiscellaneousNpInfo.new(supporter_default_address_strategy: :manual)
-      nonprofit.miscellaneous_np_info.save!
-      nonprofit.save!
+      before(:each) {
       sign_in user_as_np_admin
       }
       let(:input) do
@@ -202,8 +192,6 @@ describe Houdini::V1::Donation, :type => :request do
                                                                       input_address[:state_code],
                                                                       input_address[:zip_code],
                                                                       input_address[:country]),
-                       type: "TransactionAddress",
-                       name: nil,
                        supporter: h({id: donation.supporter.id})
                    })
             })
@@ -224,52 +212,14 @@ describe Houdini::V1::Donation, :type => :request do
       end
 
       it 'no address already' do
-
-        # make sure on add is called
-        expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_add)
-        make_call_and_verify_response()
-
+        make_call_and_verify_response
       end
 
+      it 'address is modified' do
+          id = donation.create_address!(address: "something", supporter: donation.supporter).id
+          make_call_and_verify_response
 
-      describe 'an identical address is in the db' do
-
-        let(:address_matching_input) { TransactionAddress.create!({supporter: donation.supporter}.merge(input_address))}
-
-        let(:pre_input_address) {TransactionAddress.create!({supporter: donation.supporter}.merge(input_address).merge({country: 'ehtwetioh'})) }
-
-        before(:each) do
-          # just some address we're not going to have any more
-          donation.address = pre_input_address
-          donation.address.save!
-          donation.save!
-          address_matching_input
-        end
-
-        it 'but its not used by anything else' do
-
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_remove).with(pre_input_address)
-          make_call_and_verify_response()
-
-
-          donation.reload
-          expect(donation.address).to eq address_matching_input
-          expect(Address.where(id: pre_input_address.id).any?).to be_falsey
-        end
-
-        it 'used by another transaction so we dont delete the original address' do
-
-          AddressToTransactionRelation.create!(address: pre_input_address, transactionable_id: 414014, transactionable_type: 'Donation')
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to receive(:on_use)
-          expect_any_instance_of(DefaultAddressStrategies::ManualStrategy).to_not receive(:on_remove)
-          make_call_and_verify_response()
-
-
-          donation.reload
-          expect(donation.address).to eq address_matching_input
-          expect(Address.where(id: pre_input_address.id).any?).to be_truthy
-        end
+          expect(TransactionAddress.last.id).to eq id
       end
     end
 

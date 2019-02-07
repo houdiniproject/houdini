@@ -60,7 +60,7 @@ describe Houdini::V1::Supporter, :type => :request do
     end
 
     describe :put do
-      let(:custom_address) do
+      let(:crm_address) do
         create(:address,
                supporter: supporter,
                type: 'CustomAddress',
@@ -69,7 +69,7 @@ describe Houdini::V1::Supporter, :type => :request do
 
       end
 
-      let (:custom_address2) do
+      let (:crm_address2) do
         create(:address,
                supporter: other_supporter,
                type: 'CustomAddress',
@@ -85,8 +85,8 @@ describe Houdini::V1::Supporter, :type => :request do
       end
 
       before(:each) do
-        custom_address
-        custom_address2
+        crm_address
+        crm_address2
         transaction_address
       end
 
@@ -111,7 +111,7 @@ describe Houdini::V1::Supporter, :type => :request do
 
         it 'should 404 when the default_address set is not from current supporter' do
           sign_in user_as_np_admin
-          xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: custom_address2.id}}
+          xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: crm_address2.id}}
           expect(response.status).to eq 404
         end
       end
@@ -129,15 +129,15 @@ describe Houdini::V1::Supporter, :type => :request do
         sign_in user_as_np_admin
 
         address_strategy = double("address_strategy")
-        expect(address_strategy).to receive(:on_modify_default_request)
+        expect(address_strategy).to receive(:on_set_default)
 
         expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
-        xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: custom_address.id}}
+        xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: crm_address.id}}
 
         expect(response.status).to eq 200
 
         json_response = JSON::parse(response.body)
-        # the result is dependant on what default_address_strategy is used
+      
         expected = {
             'id'=> supporter.id,
             'default_address'=> nil
@@ -257,33 +257,30 @@ describe Houdini::V1::Supporter, :type => :request do
         describe 'list gets correct items' do
           before(:each) {sign_in user_as_np_admin}
 
-          let(:custom_address) do
-            create(:address,
+          let(:crm_address) do
+            create(:crm_address,
                    supporter: supporter,
-                   type: 'CustomAddress',
                    address: 'address1',
                    city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
 
           end
 
-          let (:custom_address2) do
-            create(:address,
+          let (:crm_address2) do
+            create(:crm_address,
                    supporter: supporter,
-                   type: 'CustomAddress',
                    address: 'address2',
                    city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
           end
           let(:transaction_address) do
-            create(:address,
+            create(:transaction_address,
                    supporter: supporter,
-                   type: 'TransactionAddress',
                    address: 'address3',
                    city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
           end
 
           before(:each) do
-            custom_address
-            custom_address2
+            crm_address
+            crm_address2
             transaction_address
           end
 
@@ -366,7 +363,7 @@ describe Houdini::V1::Supporter, :type => :request do
         end
       end
 
-      describe '/:custom_address_id' do
+      describe '/:crm_address_id' do
         let(:address) do
           create(:address,
                  supporter: supporter,

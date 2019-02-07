@@ -33,7 +33,9 @@ function submit_form(form_el, on_success) {
 		contentType: false
 	})
 	.done(function(d) {
-		if(form_el.hasAttribute('data-reload'))
+		if(form_el.hasAttribute('data-reload-with-slug'))
+			window.location = d['url']
+		else if(form_el.hasAttribute('data-reload'))
 			window.location.reload()
 		else if(form_el.hasAttribute('data-redirect')) {
 			var redirect = form_el.getAttribute('data-redirect')

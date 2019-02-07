@@ -4,7 +4,7 @@
 
 	<%= render 'common/modal_header', title: 'Campaign Settings' %>
 
-  <form class='form--flatFields' autosubmit action='/nonprofits/<%=@nonprofit.id%>/campaigns/<%=@campaign.id%>' method='put' data-reload parsley-validate>
+  <form class='form--flatFields' autosubmit action='/nonprofits/<%=@nonprofit.id%>/campaigns/<%=@campaign.id%>' method='put' data-reload-with-slug parsley-validate>
 
     <% if @campaign.child_campaign? %>
       <div class='modal-body'>

@@ -3,12 +3,12 @@ require 'rails_helper'
 
 RSpec.describe Address, :type => :model do
   include_context :shared_donation_charge_context
-  let(:address_without_supporter) {Address.create address: '341324i890v n \n something',
+  let(:address_without_supporter) {CrmAddress.create address: '341324i890v n \n something',
                                                   city: "cityew",
                                                   state_code: "swwwi",
                                                   zip_code: "5234980=21jWER",
                                                   country: "UWSSSW"}
-  let(:address){ Address.create address: '341324i890v n \n something{',
+  let(:address){ CrmAddress.create address: '341324i890v n \n something{',
                                                        city: "cityew",
                                                        state_code: "swwwi}",
                                                        zip_code: "5234980=21jWER",
@@ -16,7 +16,7 @@ RSpec.describe Address, :type => :model do
                                                        supporter: supporter
   }
 
-  let(:address2) { Address.create address: '341324i890v n \n something{',
+  let(:address2) { CrmAddress.create address: '341324i890v n \n something{',
                                                  city: "cityew",
                                                  state_code: "swwwi}",
                                                  zip_code: "5234980=21jWER",
@@ -33,12 +33,12 @@ RSpec.describe Address, :type => :model do
   end
 
   it 'find_via_fingerprint' do
-    result = Address.find_via_fingerprint(supporter, address.address, address.city, address.state_code, address.zip_code, address.country)
+    result = CrmAddress.find_via_fingerprint(supporter, address.address, address.city, address.state_code, address.zip_code, address.country)
     expect(result).to eq address
   end
 
   it 'cant find via fingerprint' do
-    result = Address.find_via_fingerprint(supporter,
+    result = CrmAddress.find_via_fingerprint(supporter,
                                           address.address+"something not in db",
                                           address.city,
                                           address.state_code,

@@ -13,12 +13,10 @@ class AddMultipleAddresses < ActiveRecord::Migration
       t.timestamps
     end
 
-    change_table :crm_addresses do |t|
-      t.index :supporter_id
-      t.index :fingerprint
-      t.index :deleted
-      t.index :updated_at
-    end
+    add_index :crm_addresses, :supporter_id
+    add_index :crm_addresses, :fingerprint
+    add_index :crm_addresses, :deleted
+    add_index :crm_addresses, :updated_at
 
     create_table :address_tags do |t|
       t.string :name
@@ -27,10 +25,8 @@ class AddMultipleAddresses < ActiveRecord::Migration
       t.timestamps
     end
 
-    change_table :address_tags do |t|
-      t.index :crm_address_id
-      t.index :supporter_id
-    end
+    add_index :address_tags, :crm_address_id
+    add_index :address_tags, :supporter_id
 
     create_table :transaction_addresses do |t|
       t.references :supporter
@@ -44,9 +40,8 @@ class AddMultipleAddresses < ActiveRecord::Migration
       t.timestamps
     end
 
-    change_table :transaction_addresses do |t|
-      t.index :fingerprint
-      t.index [:transactionable_id, :transactionable_type], name: "index_transactionable_on_transaction_address"
-    end
+    add_index :transaction_addresses, :fingerprint
+    add_index :transaction_addresses, [:transactionable_id, :transactionable_type], name: "index_transactionable_on_transaction_address"
+
   end
 end

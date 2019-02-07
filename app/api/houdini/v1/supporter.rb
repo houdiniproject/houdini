@@ -70,7 +70,7 @@ class Houdini::V1::Supporter < Grape::API
         use :pagination
       end
       get do
-        klazz = declared_params[:type] == :ALL ? Address : CustomAddress
+        klazz = declared_params[:type] == :ALL ? Address : CrmAddress
         supporter = Supporter.includes(:nonprofit).find(declared_params[:supporter_id])
 
         #authenticate
@@ -104,7 +104,7 @@ class Houdini::V1::Supporter < Grape::API
             error!('Unauthorized', 401)
           end
 
-          address = CustomAddress.create!({supporter:supporter}.merge(declared_params[:address]))
+          address = CrmAddress.create!({supporter:supporter}.merge(declared_params[:address]))
 
           supporter.default_address_strategy.on_add(supporter, address)
           present address, with: Houdini::V1::Entities::Address
@@ -117,7 +117,7 @@ class Houdini::V1::Supporter < Grape::API
         end
         get do
           supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-          address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
+          address = CrmAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
 
           #authenticate
           unless current_nonprofit_user?(address.supporter.nonprofit)
@@ -138,7 +138,7 @@ class Houdini::V1::Supporter < Grape::API
         put do
           Qx.transaction do
             supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-            address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
+            address = CrmAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
 
             #authenticate
             unless current_nonprofit_user?(address.supporter.nonprofit)
@@ -159,7 +159,7 @@ class Houdini::V1::Supporter < Grape::API
         delete do
           Qx.transaction do
             supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-            address = CustomAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
+            address = CrmAddress.includes(:supporter => [:nonprofit]).where(supporter_id:supporter.id).find(params[:custom_address_id])
 
             #authenticate
             unless current_nonprofit_user?(address.supporter.nonprofit)

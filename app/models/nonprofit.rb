@@ -198,9 +198,4 @@ class Nonprofit < ActiveRecord::Base
   def currency_symbol
     Settings.intntl.all_currencies.find{|i| i.abbv.downcase == currency.downcase}&.symbol
   end
-
-  def default_address_strategy
-    CalculateDefaultAddressStrategy
-        .find_strategy(self.miscellaneous_np_info.supporter_default_address_strategy.to_sym)
-  end
 end

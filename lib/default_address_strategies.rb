@@ -1,90 +1,46 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module DefaultAddressStrategies
-  class Strategy
-    attr_reader :supporter
-
-    def initialize(supporter)
-      @supporter = supporter
-    end
+  class ManualStrategy
     # Used when an address is created for the first time
     # @param [Address] new_address
     # @return [AddressTag] the default address tag
-    def on_add(new_address)
+    def on_add(supporter, new_address)
       Qx.transaction do
         # if first always set as default
-        return first_or_create(new_address)
+        return first_or_create(supporter, new_address)
       end
     end
 
-    # Used when changing the default from one address to another
-    # @param [Address] new_address
-    # @return [AddressTag] the default address tag
-    def on_modify_default_request(new_address)
+    def on_set_default(supporter, address)
       Qx.transaction do
-        # if first always set as default
-        return first_or_create(new_address)
+        tag = supporter.default_address_tag
+        if address.supporter == supporter
+          tag.crm_address = address
+          tag.save!
+        end
+        return tag
       end
     end
 
     # Used when an address is removed from the database
     # @param [Address] removed_address
     # @return [AddressTag] the default address tag
-    def on_remove(removed_address)
+    def on_remove(supporter, removed_address)
       Qx.transaction do
-        if (!@supporter.default_address_tag)
+        if (!supporter.default_address_tag)
           return nil
         end
 
-        if (@supporter.default_address_tag.address_id == removed_address.id)
-          @supporter.default_address_tag.destroy
-          return nil
-        end
-      end
-    end
-
-    # Used when an address is used. For example, when a transaction is made
-    # @param [Address] new_address
-    # @return [AddressTag] the default address tag
-    def on_use(new_address)
-      Qx.transaction do
-        # if first always set as default
-        return first_or_create(new_address)
-      end
-    end
-
-    # put me in a transaction please
-    def first_or_create(new_address)
-      @supporter.address_tags.where(name: 'default').first_or_create!(address: new_address)
-    end
-  end
-
-  class ManualStrategy < Strategy
-    def on_modify_default_request(new_address)
-      Qx.transaction do
-        ## if first, always set as default
-        add = first_or_create(new_address)
-
-        # set new_address as default
-        add.address = new_address
-
-        add.save!
-
-        return add
-      end
-    end
-
-    # Used when an address is removed from the database
-    # @param [Address] removed_address
-    # @return [AddressTag] the default address tag
-    def on_remove(removed_address)
-      Qx.transaction do
-        super(removed_address)
+        # if (supporter.default_address_tag.crm_address == removed_address)
+        #   supporter.default_address_tag.destroy
+        #   return nil
+        # end
 
         ## select next newest address
-        address = @supporter.addresses.not_deleted.order('updated_at DESC').first
+        address = supporter.crm_addresses.not_deleted.order('updated_at DESC').first
         if (address)
-          tag = first_or_create(address)
-          tag.address = address
+          tag = first_or_create(supporter, address)
+          tag.crm_address = address
           tag.save!
           return tag
         end
@@ -92,49 +48,10 @@ module DefaultAddressStrategies
         return nil
       end
     end
-  end
-
-  class AlwaysFirstStrategy < DefaultAddressStrategies::Strategy
-    # Used when an address is removed from the database
-    # @param [Address] removed_address
-    # @return [AddressTag] the default address tag
-    def on_remove(removed_address)
-      Qx.transaction do
-        unless (@supporter.default_address && @supporter.default_address == removed_address)
-          @supporter.default_address.destroy
-          return nil
-        else
-          ## select next newest address
-          address = @supporter.addresses.order_by('updated_at ASC').first
-          tag = first_or_create(address)
-          tag.address = address
-          tag.save!
-          return tag
-        end
-
-      end
+    
+    # put me in a transaction please
+    def first_or_create(supporter, new_address)
+      supporter.address_tags.where(name: 'default').first_or_create!(crm_address: new_address)
     end
   end
-
-  class AlwaysLastStrategy < DefaultAddressStrategies::Strategy
-    # @param [Address] new_address
-    # @return [AddressTag] the default address tag
-    def on_add(new_address)
-      Qx.transaction do
-        ## if first, always set as default
-        add = first_or_create(new_address)
-
-        # set new_address as default
-        add.address = new_address
-
-        add.save!
-
-        return add
-      end
-    end
-
-    alias_method :on_use, :on_add
-  end
-
-
 end

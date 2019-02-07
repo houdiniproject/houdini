@@ -48,7 +48,8 @@ class Supporter < ActiveRecord::Base
   has_many :tag_masters, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
-  has_many :addresses
+  has_many :crm_addresses
+  has_many :transaction_addresses
   has_many :address_tags
   belongs_to :merged_into, class_name: 'Supporter', :foreign_key => 'merged_into'
 
@@ -86,15 +87,11 @@ class Supporter < ActiveRecord::Base
   end
 
   def default_address
-    default_address_tag&.address
+    default_address_tag&.crm_address
   end
 
   def default_address_tag
     address_tags.where('name = ?', 'default').first
-  end
-
-  def default_address_strategy
-    self.nonprofit&.default_address_strategy.new(self)
   end
 
 end

@@ -190,7 +190,7 @@ private
     d.campaign = entities[:campaign_id] || nil
     d.event = entities[:event_id] || nil
     d.payment_provider = payment_provider(data).to_s
-    d.address = QueryTransactionAddress.add_or_use(d.supporter, data[:address])
+    d.address = QueryTransactionAddress.add(d.supporter, data[:address])
     d.save!
     d
   end

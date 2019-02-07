@@ -1377,8 +1377,7 @@ CREATE TABLE public.miscellaneous_np_infos (
     nonprofit_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    change_amount_message text,
-    supporter_default_address_strategy text
+    change_amount_message text
 );
 
 
@@ -3395,6 +3394,13 @@ CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 
 
 --
+-- Name: index_miscellaneous_np_infos_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_miscellaneous_np_infos_on_nonprofit_id ON public.miscellaneous_np_infos USING btree (nonprofit_id);
+
+
+--
 -- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4596,8 +4602,6 @@ INSERT INTO schema_migrations (version) VALUES ('20180808214318');
 
 INSERT INTO schema_migrations (version) VALUES ('20180808214449');
 
-INSERT INTO schema_migrations (version) VALUES ('20180821210256');
-
 INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
@@ -4611,4 +4615,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181129205652');
 INSERT INTO schema_migrations (version) VALUES ('20181129224030');
 
 INSERT INTO schema_migrations (version) VALUES ('20190206203313');
+
+INSERT INTO schema_migrations (version) VALUES ('20190206221616');
 

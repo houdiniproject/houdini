@@ -9,7 +9,7 @@ en:
       campaign_comment:
         body: 'Comment content'
   organization:
-    name: "Organisation"
+    name: "Organization"
   organization_page:
     promote: "Promote this organization"
   donation:

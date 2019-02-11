@@ -10,16 +10,16 @@ describe UpdateAddressTags do
 
   it 'properly sets the default when none already set' do
     result = UpdateAddressTags.set_default_address(supporter, supporter_address)
-    expect(result.address).to eq supporter_address
+    expect(result.crm_address).to eq supporter_address
     expect(result.supporter).to eq supporter
     expect(result.name).to eq 'default'
   end
 
   it 'properly sets the default when already set' do
-    AddressTag.create!(supporter:supporter, address: supporter_address, name: 'default')
+    force_create(:address_tag, supporter:supporter, crm_address: supporter_address, name: 'default')
 
     result = UpdateAddressTags.set_default_address(supporter, supporter_address_2)
-    expect(result.address).to eq supporter_address_2
+    expect(result.crm_address).to eq supporter_address_2
     expect(result.supporter).to eq supporter
     expect(result.name).to eq 'default'
 

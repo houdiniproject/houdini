@@ -44,7 +44,7 @@ class Houdini::V1::Supporter < Grape::API
     put do
       supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
       if params[:supporter] && params[:supporter][:default_address]
-        address = supporter.addresses.find(params[:supporter][:default_address][:id])
+        address = supporter.crm_addresses.find(params[:supporter][:default_address][:id])
       end
       #authenticate
       unless current_nonprofit_user?(supporter.nonprofit)

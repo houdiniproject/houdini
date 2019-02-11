@@ -114,7 +114,12 @@ class Campaign < ActiveRecord::Base
 	after_create do
 		user = self.profile.user
 		Role.create(name: :campaign_editor, user_id: user.id, host: self)
-		CampaignMailer.delay.creation_followup(self)
+		if child_campaign?
+			CampaignMailer.delay.federated_creation_followup(self)
+		else
+			CampaignMailer.delay.creation_followup(self)
+		end
+
 		NonprofitAdminMailer.delay.supporter_fundraiser(self) unless QueryRoles.is_nonprofit_user?(user.id, self.nonprofit_id)
 		self
 	end

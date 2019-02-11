@@ -1,12 +1,12 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<%- @location_array = []
+    @location_array.push(profile.city) if profile.city.present?
+    @location_array.push(profile.state_code) if profile.state_code.present?
+-%>
 <section class='box' style="font-style: italic">
   <div class="well" style="padding-left:16px;">
-  <h4><%= profile.name %> <% if profile.state_code || profile.city -%>
-      <small>(<% if profile.state_code && profile.city -%><%= profile.city %>, <%= profile.state_code -%>
-<% elsif profile.city -%>
-<%= profile.city -%>
-<% else -%>
-<%= profile.state_code -%>
-<% end -%>)</small><% end -%>
+  <h4><%= profile.name %><%- if @location_array.any? -%>
+      <small>(<%= @location_array.join(', ') %>)</small><%- end -%>
   </h4>
     <blockquote><p>"<%= reason_for_supporting %>"</p></blockquote></div>
 </section>

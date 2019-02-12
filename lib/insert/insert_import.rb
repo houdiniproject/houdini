@@ -173,11 +173,6 @@ module InsertImport
             'kind' => table_data['offsite_payment']&['check_number'] ? 'check' : nil
         }
         offsite_donation = InsertDonation.offsite(donation)
-        QueryTransactionAddress.add(supporter, offsite_donation[:json]['donation'],  'address' => table_data['supporter']['address'],
-          'city'=> table_data['supporter']['city'],
-          'state_code' => table_data['supporter']['state_code'],
-          'zip_code' => table_data['supporter']['zip_code'],
-          'country' => table_data['supporter']['country'])
         @payments_ids.add(offsite_donation[:json]['payment']['id'])
       end
     end

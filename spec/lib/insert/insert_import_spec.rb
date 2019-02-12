@@ -124,7 +124,7 @@ describe InsertImport::ImportExecution do
       expect(result).to match_array([ ["tag1", 'tag2'], ["tag1", 'tag2'], ["tag1", 'tag2'], ["tag1", 'tag2'], []])
     end
 
-    it 'should have custom address for Penelope' do
+    it 'should have one crm address for Penelope' do
       expect(CrmAddress.where(supporter_id: penelope.id).count).to eq 1
     end
 
@@ -134,6 +134,14 @@ describe InsertImport::ImportExecution do
 
     it 'should have one transaction address' do
       expect(TransactionAddress.count).to eq 5
+    end
+
+    it 'should only have one transaction address per transaction' do
+      count = TransactionAddress.group(:transactionable_type, :transactionable_id).count
+
+      count.each do |k,v|
+        expect(v).to eq 1
+      end
     end
   end
 end

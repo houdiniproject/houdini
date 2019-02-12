@@ -62,9 +62,9 @@ describe QuerySupporters do
     let(:supporter2) { force_create(:supporter, nonprofit:nonprofit) }
 
     describe 'search for by address' do
-      let(:supporter_address) {force_create(:address, supporter:supporter1, name: "address - first", address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
-      let(:supporter_address_2) {force_create(:address, supporter:supporter1, name: "address - another", address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
-      let(:other_supporter_address) {force_create(:address, supporter:supporter2, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
+      let(:supporter_address) {force_create(:crm_address, supporter:supporter1, address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
+      let(:supporter_address_2) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
+      let(:other_supporter_address) {force_create(:crm_address, supporter:supporter2, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
 
       let(:supporter_search_result) {
         supporter_address

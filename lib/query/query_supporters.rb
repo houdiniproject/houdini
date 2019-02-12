@@ -244,7 +244,7 @@ module QuerySupporters
         .and_where("to_tsvector('english', custom_fields.value) @@ plainto_tsquery('english', $custom_fields)", custom_fields: query[:custom_fields])
     end
     if query[:location].present?
-      expr = expr.join_lateral('addresses', 
+      expr = expr.join_lateral('crm_addresses', 
         does_an_address_match(query).parse)
     end
     if query[:recurring].present?
@@ -701,8 +701,8 @@ UNION DISTINCT
 
   def self.does_an_address_match(query)
     Qx.select("1 as address_matches")
-        .from(:addresses)
-        .and_where('addresses.supporter_id = supporters.id AND (addresses.city ILIKE $city OR addresses.zip_code ILIKE $zip)', 
+        .from(:crm_addresses)
+        .and_where('crm_addresses.supporter_id = supporters.id AND (crm_addresses.city ILIKE $city OR crm_addresses.zip_code ILIKE $zip)', 
         city: "%" + query[:location].downcase + "%", 
         zip: "%" + query[:location].downcase + "%")
         .limit(1)

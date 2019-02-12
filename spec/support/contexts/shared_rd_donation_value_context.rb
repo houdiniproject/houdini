@@ -428,11 +428,11 @@ RSpec.shared_context :shared_rd_donation_value_context do
     address = data[:address]
     if address
       input_address = {
-          address: address.address,
-          city: address.city,
-          state_code: address.state_code,
-          zip_code: address.zip_code,
-          country: address.country
+          address: address[:address],
+          city: address[:city],
+          state_code: address[:state_code],
+          zip_code: address[:zip_code],
+          country: address[:country]
       }
     end
     result = yield
@@ -448,7 +448,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
     end
 
     if (address)
-      expect(Donation.find(result['donation']['id']).address).to eq address
+      expect(Donation.find(result['donation']['id']).address&.attributes.slice('address', 'state_code', 'city', 'zip_code', 'country')).to eq h(address)
     end
 
     return result

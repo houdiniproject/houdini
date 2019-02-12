@@ -11,9 +11,8 @@ describe Houdini::V1::Supporter, :type => :request do
     describe :get do
 
       let(:default_address) do
-        create(:address,
+        create(:crm_address,
                supporter: supporter,
-               type: 'TransactionAddress',
                address: 'address',
                city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
       end
@@ -45,9 +44,7 @@ describe Houdini::V1::Supporter, :type => :request do
                 state_code: default_address.state_code,
                 zip_code: default_address.zip_code,
                 country: default_address.country,
-                name: default_address.name,
                 fingerprint: default_address.fingerprint,
-                type: default_address.type,
                 supporter: {
                     id: supporter.id
                 }.with_indifferent_access
@@ -61,27 +58,24 @@ describe Houdini::V1::Supporter, :type => :request do
 
     describe :put do
       let(:crm_address) do
-        create(:address,
+        create(:crm_address,
                supporter: supporter,
-               type: 'CustomAddress',
                address: 'address1',
                city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
 
       end
 
       let (:crm_address2) do
-        create(:address,
+        create(:crm_address,
                supporter: other_supporter,
-               type: 'CustomAddress',
                address: 'address2',
                city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
       end
       let(:transaction_address) do
-        create(:address,
+        create(:transaction_address,
                supporter: supporter,
-               type: 'TransactionAddress',
                address: 'address3',
-               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+               city: "city", state_code: "wi", zip_code: "zippy zip", country: "country", transactionable: force_create(:donation))
       end
 
       before(:each) do
@@ -219,8 +213,8 @@ describe Houdini::V1::Supporter, :type => :request do
           end
 
           describe 'type' do
-            it 'should accept ALL' do
-              xhr :get, "/api/v1/supporter/#{supporter.id}/address", {type: 'ALL'}
+            it 'should accept TRANSACTION' do
+              xhr :get, "/api/v1/supporter/#{supporter.id}/address", {type: 'TRANSACTION'}
 
               json_response = JSON.parse(response.body)
               expect(response.status).to eq 200
@@ -228,8 +222,8 @@ describe Houdini::V1::Supporter, :type => :request do
 
             end
 
-            it 'should accept CUSTOM' do
-              xhr :get, "/api/v1/supporter/#{supporter.id}/address", {type: 'CUSTOM'}
+            it 'should accept CRM' do
+              xhr :get, "/api/v1/supporter/#{supporter.id}/address", {type: 'CRM'}
 
               json_response = JSON.parse(response.body)
               expect(response.status).to eq 200
@@ -275,7 +269,7 @@ describe Houdini::V1::Supporter, :type => :request do
             create(:transaction_address,
                    supporter: supporter,
                    address: 'address3',
-                   city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+                   city: "city", state_code: "wi", zip_code: "zippy zip", country: "country", transactionable: force_create(:donation))
           end
 
           before(:each) do
@@ -284,17 +278,17 @@ describe Houdini::V1::Supporter, :type => :request do
             transaction_address
           end
 
-          it 'should return all addresses' do
-            xhr :get, "/api/v1/supporter/#{supporter.id}/address", type: "ALL"
+          it 'should return transaction addresses' do
+            xhr :get, "/api/v1/supporter/#{supporter.id}/address", type: "TRANSACTION"
             json_response = JSON.parse(response.body)
             expect(json_response['page_number']).to eq 0
             expect(json_response['page_length']).to eq 20
-            expect(json_response['total']).to eq 3
-            expect(json_response['addresses'].count).to eq 3
+            expect(json_response['total']).to eq 1
+            expect(json_response['addresses'].count).to eq 1
           end
 
-          it 'should return custom' do
-            xhr :get, "/api/v1/supporter/#{supporter.id}/address", type: "CUSTOM"
+          it 'should return crm' do
+            xhr :get, "/api/v1/supporter/#{supporter.id}/address", type: "CRM"
             json_response = JSON.parse(response.body)
             expect(json_response['page_number']).to eq 0
             expect(json_response['page_length']).to eq 20
@@ -335,7 +329,7 @@ describe Houdini::V1::Supporter, :type => :request do
           end
         end
 
-        it 'should create and return a new CustomAddress' do
+        it 'should create and return a new CrmAddress' do
           address_strategy = double("address_strategy")
           expect(address_strategy).to receive(:on_add).once
           expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
@@ -351,13 +345,11 @@ describe Houdini::V1::Supporter, :type => :request do
 
 
           expected = input.merge({
-                                     'id' => CustomAddress.last.id,
+                                     'id' => CrmAddress.last.id,
                                      'supporter' => {
                                          'id' => supporter.id
                                      },
-                                     'fingerprint' => CustomAddress.last.fingerprint,
-                                     'name' => nil,
-                                     'type' => 'CustomAddress'
+                                     'fingerprint' => CrmAddress.last.fingerprint
                                  })
           expect(json_response).to eq expected
         end
@@ -365,26 +357,23 @@ describe Houdini::V1::Supporter, :type => :request do
 
       describe '/:crm_address_id' do
         let(:address) do
-          create(:address,
+          create(:crm_address,
                  supporter: supporter,
-                 type: 'CustomAddress',
                  address: 'address',
                  city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
         end
 
 
         let(:transaction_address) do
-          create(:address,
+          force_create(:transaction_address,
                  supporter: supporter,
-                 type: 'TransactionAddress',
                  address: 'address',
                  city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
         end
 
         let (:other_supporter_address) do
-          create(:address,
+          create(:crm_address,
                  supporter: other_supporter,
-                 type: 'TransactionAddress',
                  address: 'address2',
                  city: "city2", state_code: "wi2", zip_code: "zippy zip2", country: "country2")
         end
@@ -435,9 +424,7 @@ describe Houdini::V1::Supporter, :type => :request do
                              state_code: address.state_code,
                              zip_code: address.zip_code,
                              country: address.country,
-                             name: address.name,
                              fingerprint: address.fingerprint,
-                             type: address.type,
                              supporter: h(
                                  {
                                      id: supporter.id
@@ -481,10 +468,6 @@ describe Houdini::V1::Supporter, :type => :request do
           end
 
           it 'should update the address' do
-            address_strategy = double("address_strategy")
-            expect(address_strategy).to receive(:on_use).once
-            expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
-
             input = {'address' => 'input', 'city' => 'city', 'state_code' => 'state_code', 'zip_code' => 'zip_code', 'country' => 'country place'}
 
             sign_in user_as_np_admin
@@ -500,9 +483,7 @@ describe Houdini::V1::Supporter, :type => :request do
                                        'supporter' => {
                                            'id' => supporter.id
                                        },
-                                       'fingerprint' => CustomAddress.last.fingerprint,
-                                       'name' => nil,
-                                       'type' => 'CustomAddress'
+                                       'fingerprint' => CrmAddress.last.fingerprint,
                                    })
             expect(json_response).to eq expected
           end
@@ -541,11 +522,6 @@ describe Houdini::V1::Supporter, :type => :request do
           end
 
           it 'should delete the address' do
-            address_strategy = double("address_strategy")
-            expect(address_strategy).to receive(:on_remove).once
-            expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
-
-
             sign_in user_as_np_admin
 
             address
@@ -560,8 +536,6 @@ describe Houdini::V1::Supporter, :type => :request do
                     'id' => supporter.id
                 },
                 'fingerprint' => address.fingerprint,
-                'name' => nil,
-                'type' => 'CustomAddress',
                 'address' => address.address,
                 'city' => address.city,
                 'state_code' => address.state_code,
@@ -569,6 +543,8 @@ describe Houdini::V1::Supporter, :type => :request do
                 'country' => address.country
             }
             expect(json_response).to eq expected
+
+            expect(CrmAddress.where(id: address.id).first).to be_nil
           end
         end
       end

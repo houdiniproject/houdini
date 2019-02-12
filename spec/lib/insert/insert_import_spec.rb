@@ -43,7 +43,6 @@ describe InsertImport::ImportExecution do
 
     before(:each) {
       allow(QueueDonations).to receive(:execute_for_donation)
-      nonprofit.create_miscellaneous_np_info(supporter_default_address_strategy: :manual)
       expect_email_queued.with(JobTypes::ImportCompleteNotificationJob,
                                kind_of(Numeric))
       load_from_file

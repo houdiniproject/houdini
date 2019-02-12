@@ -119,8 +119,7 @@ describe InsertTickets do
   describe '.create' do
 
     let (:transaction_address) do
-      create(:transaction_address, supporter: supporter,
-             address: 'address 1', city: "city 1", state_code: "state_code1", zip_code: "zip codessss", country: "country we use")
+      h({address: 'address 1', city: "city 1", state_code: "state_code1", zip_code: "zip codessss", country: "country we use"})
     end
     it 'does basic validation' do
       expect {InsertTickets.create(event_discount_id: 'etheht',
@@ -374,8 +373,7 @@ describe InsertTickets do
 
         it 'succeeds with address' do
           success( {},
-                        {address: transaction_address.address, city: transaction_address.city, state_code: transaction_address.state_code,
-                             zip_code: transaction_address.zip_code, country: transaction_address.country})
+                       transaction_address)
         end
 
 
@@ -413,11 +411,11 @@ describe InsertTickets do
           stripe_charge_id = a['id']
           a}
 
-          if (address)
-            expect(QueryTransactionAddress).to receive(:add_or_use).twice.with(supporter, address).and_return(transaction_address)
-          else
-            expect(QueryTransactionAddress).to receive(:add_or_use).twice.with(supporter, address).and_return(nil)
-          end
+          # if (address)
+          #   expect(QueryTransactionAddress).to receive(:add).twice.with(supporter, address).and_call_original
+          # else
+          #   expect(QueryTransactionAddress).to receive(:add).twice.with(supporter, address).and_call_original
+          # end
 
           result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id).merge(address: address))
           expected = generate_expected_tickets(
@@ -446,7 +444,7 @@ describe InsertTickets do
           expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
 
           # verify that the ticket address are set properly
-          result['tickets'].each{|i| expect(Ticket.find(i).address).to eq(address ? transaction_address : nil) }
+          result['tickets'].each{|i| expect(Ticket.find(i)&.address&.attributes&.slice('address', 'city', 'state_code', 'zip_code', 'country' )).to eq(address ? transaction_address : nil) }
 
         end
       end

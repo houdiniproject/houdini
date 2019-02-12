@@ -434,9 +434,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
           zip_code: address.zip_code,
           country: address.country
       }
-      expect(QueryTransactionAddress).to receive(:add_or_use).with(supporter, input_address).and_return(address)
-    else
-      expect(QueryTransactionAddress).to receive(:add_or_use).with(supporter, nil).and_return(nil)
     end
     result = yield
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, event: event, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])

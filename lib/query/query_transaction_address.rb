@@ -1,13 +1,11 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module QueryTransactionAddress
-
-  # UPSERT for TransactionAddress
-  def self.add(supporter, address_hash=nil)
+  def self.add(supporter, transaction, address_hash=nil)
     if (address_hash.nil?)
       return nil
     end
   
-    new_address = TransactionAddress.create!({supporter: supporter}.merge(address_hash))
+    new_address = TransactionAddress.create!({transactionable: transaction, supporter: supporter}.merge(address_hash))
     InsertCrmAddress.find_or_create(supporter, address_hash)
     return new_address
   end

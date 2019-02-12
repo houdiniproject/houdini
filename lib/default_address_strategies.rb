@@ -17,8 +17,8 @@ module DefaultAddressStrategies
 
     def on_set_default(address)
       Qx.transaction do
-        tag = @supporter.default_address_tag
         if address.supporter == @supporter
+          tag = @supporter.address_tags.where(name: 'default').first_or_create!(crm_address: address)
           tag.crm_address = address
           tag.save!
         end

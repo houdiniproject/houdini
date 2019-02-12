@@ -6,11 +6,10 @@ describe Houdini::V1::Ticket, :type => :request do
   include_context :shared_donation_charge_context
   include_context :api_shared_user_verification
   let(:transaction_address) do
-    create(:address,
+    create(:transaction_address,
              supporter:supporter,
-             type: 'TransactionAddress',
              address: 'address',
-             city: "city", state_code: "wi", zip_code: "zippy zip", country: "country")
+             city: "city", state_code: "wi", zip_code: "zippy zip", country: "country", transactionable: ticket)
   end
 
   let(:ticket) do
@@ -32,8 +31,7 @@ describe Houdini::V1::Ticket, :type => :request do
     end
 
     it 'returns ticket with address' do
-      ticket.address = transaction_address
-      ticket.save!
+      transaction_address
 
       sign_in user_as_np_admin
       xhr :get, "/api/v1/ticket/#{ticket.id}"
@@ -41,23 +39,21 @@ describe Houdini::V1::Ticket, :type => :request do
       expect(response.status).to eq 200
       json_response = JSON.parse(response.body)
 
-      expected = {
+      expected = h({
           id: ticket.id,
-          address: {
+          address: h({
               id: transaction_address.id,
               address: transaction_address.address,
               city: transaction_address.city,
               state_code:transaction_address.state_code,
               zip_code: transaction_address.zip_code,
               country: transaction_address.country,
-              name: transaction_address.name,
               fingerprint: transaction_address.fingerprint,
-              type: transaction_address.type,
-              supporter: {
+              supporter: h({
                   id: supporter.id
-              }.with_indifferent_access
-          }.with_indifferent_access
-      }.with_indifferent_access
+              })
+          })
+      })
 
       expect(json_response).to eq expected.to_hash
 

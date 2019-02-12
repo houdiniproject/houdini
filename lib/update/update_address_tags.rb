@@ -4,20 +4,7 @@ module UpdateAddressTags
   # @param [Address] address
   def self.set_default_address(supporter, address)
     # let's make sure it belongs to the supporter
-    supporter.addresses.find(address.id)
-
-    result = supporter
-        .address_tags
-        .where(:name => 'default')
-
-    first = result.first
-    if first
-      first.address = address
-      first.save!
-      return first
-    else
-     i = result.create!(address: address)
-     return i
-    end
+    address = supporter.crm_addresses.find(address.id)
+    supporter.default_address_strategy.on_set_default(address)
   end
 end

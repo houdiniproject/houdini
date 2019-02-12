@@ -96,14 +96,14 @@ describe QuerySupporters do
     let(:supporter1) { force_create(:supporter, nonprofit:nonprofit) }
     let(:supporter2) { force_create(:supporter, nonprofit:nonprofit) }
 
-    let(:supporter_address) {force_create(:address, supporter:supporter1, name: "address - first", address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
-    let(:supporter_address_2) {force_create(:address, supporter:supporter1, name: "address - another", address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
-    let(:other_supporter_address) {force_create(:address, supporter:supporter2, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
+    let(:supporter_address) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
+    let(:supporter_address_2) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
+    let(:other_supporter_address) {force_create(:crm_address, supporter:supporter2, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
 
     let(:address_tag1)  do
       force_create(:address_tag, 
         supporter:supporter1, 
-        address: supporter_address_2,
+        crm_address: supporter_address_2,
         name: 'default'
         )
     end
@@ -111,7 +111,7 @@ describe QuerySupporters do
     let(:address_tag2)  do
       force_create(:address_tag, 
         supporter:supporter2, 
-        address: other_supporter_address,
+        crm_address: other_supporter_address,
         name: 'default'
         )
     end

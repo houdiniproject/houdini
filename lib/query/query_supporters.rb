@@ -712,9 +712,9 @@ UNION DISTINCT
     ret = Qx.select('supporters.*', 'default_addresses.address AS address', 'default_addresses.city AS city', 'default_addresses.state_code AS state_code', 'default_addresses.zip_code AS zip_code', 'default_addresses.country AS country')
         .from(:supporters)
         .add_left_join(
-          Qx.select('addresses.*')
+          Qx.select('crm_addresses.*')
             .from(:address_tags)
-            .join(:addresses, "addresses.id = address_tags.address_id AND address_tags.name= 'default'")
+            .join(:crm_addresses, "crm_addresses.id = address_tags.crm_address_id AND address_tags.name= 'default'")
             .as('default_addresses'),
             'default_addresses.supporter_id=supporters.id')
     if options[:np_id]

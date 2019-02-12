@@ -132,7 +132,7 @@ module InsertImport
 
         # if address doesn't have a donation, it's a custom address
         unless table_data['donation'] && table_data['donation']['amount']
-          InsertCustomAddress.find_or_create(supporter, {address: table_data['supporter']['address'],
+          InsertCrmAddress.find_or_create(supporter, {address: table_data['supporter']['address'],
                                                          city: table_data['supporter']['city'],
                                                          state_code: table_data['supporter']['state_code'],
                                                          zip_code: table_data['supporter']['zip_code'],
@@ -173,6 +173,11 @@ module InsertImport
             'kind' => table_data['offsite_payment']&['check_number'] ? 'check' : nil
         }
         offsite_donation = InsertDonation.offsite(donation)
+        QueryTransactionAddress.add(supporter, offsite_donation[:json]['donation'],  'address' => table_data['supporter']['address'],
+          'city'=> table_data['supporter']['city'],
+          'state_code' => table_data['supporter']['state_code'],
+          'zip_code' => table_data['supporter']['zip_code'],
+          'country' => table_data['supporter']['country'])
         @payments_ids.add(offsite_donation[:json]['payment']['id'])
       end
     end

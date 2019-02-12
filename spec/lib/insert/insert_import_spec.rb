@@ -24,7 +24,7 @@ describe InsertImport::ImportExecution do
     }
   }
 
-  let (:file_uri) {"#{ENV['PWD']}/spec/fixtures/test_import.csv"}
+  let (:file_uri) {(Rails.root + 'spec/fixtures/test_import.csv').to_s}
   let (:penelope) {Supporter.where(name: 'Penelope Schultz').first}
 
   describe '.from_csv' do
@@ -125,17 +125,16 @@ describe InsertImport::ImportExecution do
     end
 
     it 'should have custom address for Penelope' do
-      expect(CustomAddress.where(supporter_id: penelope.id).count).to eq 1
+      expect(CrmAddress.where(supporter_id: penelope.id).count).to eq 1
     end
 
-    it 'should have one custom address' do
-      expect(CustomAddress.count).to eq 1
+    it 'should have two custom address' do
+      expect(CrmAddress.count).to eq 5
     end
 
-    it 'should handle second address for Penelope' do
-      expect(penelope.addresses.count).to eq 2
+    it 'should have one transaction address' do
+      expect(TransactionAddress.count).to eq 5
     end
-
   end
 end
 

@@ -27,6 +27,8 @@ services:
     environment:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "password"
+    volumes:
+    - ../../database/:/var/lib/postgresql/data
   memcached:
     image: memcached
 

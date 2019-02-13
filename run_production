@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker-compose run -e RAILS_ENV=production web $@
+./dc run -e RAILS_ENV=production web $@

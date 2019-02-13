@@ -13,10 +13,21 @@ module QuerySupporters
      .left_outer_join('donations', 'donations.supporter_id=supporters.id')
      .left_outer_join('campaign_gifts', 'donations.id=campaign_gifts.donation_id')
      .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
+    .join_lateral(:payments,  Qx
+                                  .select('payments.id, payments.gross_amount').from(:payments)
+                                  .where('payments.donation_id = donations.id')
+                                  .order_by('payments.created_at ASC')
+                                  .limit(1).parse, true)
+    .join(Qx.select('id, profile_id').from('campaigns')
+    .where("id IN (#{QueryCampaigns
+                          .get_campaign_and_children(campaign_id)
+                               .parse})").as('campaigns').parse,
+          'donations.campaign_id=campaigns.id')
+    .join(Qx.select('users.id, profiles.id AS profiles_id, users.email')
+            .from('users')
+            .add_join('profiles', 'profiles.user_id = users.id')
+            .as("users").parse, "users.profiles_id=campaigns.profile_id")
      .where("supporters.nonprofit_id=$id", id: np_id)
-     .where("donations.campaign_id IN (#{QueryCampaigns
-                                             .get_campaign_and_children(campaign_id)
-                                             .parse})")
      .group_by('supporters.id')
      .order_by('MAX(donations.date) DESC')
 
@@ -41,9 +52,10 @@ module QuerySupporters
         'supporters.id',
         'supporters.name',
         'supporters.email',
-        'SUM(donations.amount) AS total_raised',
+        'SUM(payments.gross_amount) AS total_raised',
         'ARRAY_AGG(DISTINCT campaign_gift_options.name) AS campaign_gift_names',
         'DATE(MAX(donations.created_at)) AS latest_gift',
+        'ARRAY_AGG(DISTINCT users.email) AS campaign_creator_emails'
       ).limit(limit).offset(offset)
     )
 
@@ -414,9 +426,9 @@ UNION DISTINCT
 
   def self.supporter_export_selections
     [
-      "substring(supporters.name from '^.+ ([^\s]+)$') AS \"Last Name\"",
-      "substring(supporters.name from '^(.+) [^\s]+$') AS \"First Name\"",
-      "supporters.name AS \"Full Name\"",
+      "substring(trim(both from supporters.name) from '^.+ ([^\s]+)$') AS \"Last Name\"",
+      "substring(trim(both from supporters.name) from '^(.+) [^\s]+$') AS \"First Name\"",
+      "trim(both from supporters.name) AS \"Full Name\"",
       "supporters.organization AS \"Organization\"",
       "supporters.email \"Email\"",
       "supporters.phone \"Phone\"",
@@ -597,11 +609,11 @@ UNION DISTINCT
     aggregate_dons = %Q(
       array_to_string(
         array_agg(
-          payments.created_at::date || ' ' ||
+          payments.date::date || ' ' ||
           (payments.gross_amount / 100)::text::money || ' ' ||
           coalesce(payments.kind, '') || ' ' ||
           coalesce(payments.towards, '')
-          ORDER BY payments.created_at DESC
+          ORDER BY payments.date DESC
         ),
         '\n'
       ) AS "Payment History"

@@ -6,4 +6,4 @@ if [ $current_branch == "PRIVATE_PROD_DEPLOY" ]; then
     exit 1;
 fi
 
-docker-compose run web $@
+./dc run web $@

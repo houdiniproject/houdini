@@ -1,0 +1,7 @@
+# License: CC0-1.0
+# grape validation errors require a very specific format for their translation messages. Why? *shrug*
+en:
+  grape:
+    errors:
+      messages:
+        is_equal_to: "must be the same"

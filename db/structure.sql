@@ -3148,6 +3148,13 @@ CREATE INDEX index_campaign_gifts_on_campaign_gift_option_id ON public.campaign_
 
 
 --
+-- Name: index_campaign_gifts_on_donation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_campaign_gifts_on_donation_id ON public.campaign_gifts USING btree (donation_id);
+
+
+--
 -- Name: index_campaigns_on_parent_campaign_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3187,6 +3194,20 @@ CREATE INDEX index_exports_on_nonprofit_id ON public.exports USING btree (nonpro
 --
 
 CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
+
+
+--
+-- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_payments_on_created_at ON public.payments USING btree (created_at);
+
+
+--
+-- Name: index_recurring_donations_on_donation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recurring_donations_on_donation_id ON public.recurring_donations USING btree (donation_id);
 
 
 --
@@ -4371,4 +4392,10 @@ INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
 
 INSERT INTO schema_migrations (version) VALUES ('20181120182105');
+
+INSERT INTO schema_migrations (version) VALUES ('20181128221143');
+
+INSERT INTO schema_migrations (version) VALUES ('20181129205652');
+
+INSERT INTO schema_migrations (version) VALUES ('20181129224030');
 

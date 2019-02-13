@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.3.6'
+ruby '2.3.7'
 gem 'rake'
 gem 'rails', '3.2.22.5'
 gem 'rails_12factor'
@@ -38,19 +38,15 @@ gem 'font_assets', "~> 0.1.14"
 
 # Database (postgres)
 gem 'pg' # Postgresql
-gem 'qx', git: 'https://github.com/commitchange/ruby-qx.git'
+gem 'qx', path: 'gems/ruby-qx'
 gem 'dalli'
 gem 'memcachier'
 
 
-gem 'param_validation', git: 'https://github.com/commitchange/ruby-param-validation.git'
-#gem 'param_validation', path: '../ruby-param-validation'
+gem 'param_validation', path: 'gems/ruby-param-validation'
 
 # Print colorized text lol
 gem 'colorize'
-
-# https://github.com/diogob/postgres-copy
-gem 'postgres-copy'
 
 # https://github.com/collectiveidea/delayed_job_active_record
 gem 'delayed_job_active_record'
@@ -67,7 +63,6 @@ gem 'chronic'
 gem 'carrierwave'
 gem 'carrierwave-aws' # for uploading images to amazon s3
 gem 'mini_magick'
-gem 'unf'
 
 # https://github.com/jnunemaker/httparty
 gem 'httparty'
@@ -86,11 +81,6 @@ gem 'geocoder' # for adding latitude and longitude to location-based tables
 # https://github.com/buytruckload/nearest_time_zone
 gem 'nearest_time_zone' # for detecting timezone from lat/lng
 
-# Facebook
-# inserting a channel file with a long expiration for the FB SDK
-# https://developers.facebook.com/docs/reference/javascript/
-gem 'fb-channel-file'
-
 gem 'mail_view'
 
 gem 'fullcontact' # Full Contact API; includes #Hashie::Mash
@@ -105,13 +95,13 @@ gem 'i18n-js'
 gem 'countries'
 
 
-group :development do
+group :development, :ci do
   gem 'traceroute'
   gem 'debase'
   gem 'ruby-debug-ide'
 end
 
-group :development, :test do
+group :development, :ci, :test do
 	gem 'timecop'
 	gem 'pry'
 	#gem 'pry-byebug'
@@ -125,11 +115,10 @@ group :development, :test do
   gem 'factory_bot'
 	gem 'factory_bot_rails'
 	gem 'action_mailer_matchers'
+  gem 'simplecov', '~> 0.16.1', require: false
 end
 
 group :test do
-  gem 'codecov', require: false
-	gem 'vcr'
   gem 'webmock'
 end
 
@@ -163,4 +152,4 @@ gem 'grape-swagger'
 gem 'grape-swagger-entity'
 gem 'grape_url_validator'
 gem 'grape_logging'
-gem 'grape_devise', git: 'https://github.com/ericschultz/grape_devise.git'
+gem 'grape_devise', path: 'gems/grape_devise'

@@ -47,20 +47,8 @@ describe SlugCopyNamingAlgorithm do
           expect(algo.create_copy_name(@name2)).to eq short_slug_copy_today_plus_1
         end
 
-        it 'errors when at max copies' do
-          @name = short_slug
-          @copy_base = copy_base
-          event
-          events_at_max_copies
-
-          expect{ algo.create_copy_name(@name) }.to(raise_error{|error|
-            expect(error).to be_a ArgumentError
-          })
-          events_at_max_copies.each {|i|
-            expect {algo.create_copy_name(i.slug)}.to(raise_error{|error|
-              expect(error).to be_a ArgumentError
-            })
-          }
+        it 'has 30 as max copies' do
+          expect(algo.max_copies).to eq 30
         end
 
       end
@@ -91,20 +79,8 @@ describe SlugCopyNamingAlgorithm do
           expect(algo.create_copy_name(@name2)).to eq short_slug_copy_today_plus_1
         end
 
-        it 'errors when at max copies' do
-          @name = short_slug
-          @copy_base = copy_base
-          campaign
-          campaigns_at_max_copies
-
-          expect{ algo.create_copy_name(@name) }.to(raise_error{|error|
-            expect(error).to be_a ArgumentError
-          })
-          campaigns_at_max_copies.each {|i|
-            expect {algo.create_copy_name(i.slug)}.to(raise_error{|error|
-              expect(error).to be_a ArgumentError
-            })
-          }
+        it 'has 30 as max copies' do
+          expect(algo.max_copies).to eq 30
         end
 
 

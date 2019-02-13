@@ -3,10 +3,6 @@
    - Donor Fundraisers (P2P)
 <% end %>
 
-<% content_for :javascripts do %>
-  <%= IncludeAsset.js '/client/js/profiles/fundraisers/page.js' %>
-<% end %>
-
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <% content_for :stylesheets do %>
@@ -28,8 +24,6 @@
 </header>
 
 <div class='container u-padding--15 u-marginBottom--50'>
-  <h3 class='u-centered u-marginTop--20 u-marginBottom--30'>Managed Events</h3>
-  <div id='js-eventsListing'></div>
 
   <h3 class='u-centered u-marginTop--30'>Managed Campaigns</h3>
   <% if @edited_campaigns.any? %>

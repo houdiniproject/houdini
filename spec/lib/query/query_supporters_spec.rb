@@ -120,6 +120,36 @@ describe QuerySupporters do
       QuerySupporters.supporters_with_default_address(np_id: nonprofit.id).execute
     end
 
+    let(:supporter1_attribs)  do
+      supporter1.attributes.slice(
+        'id', 
+        'name',
+        'email',
+        'organization',
+        'phone',
+        'created_at',
+        'imported_at',
+        'anonymous',
+        'is_unsubscribed_from_emails',
+        'nonprofit_id'
+         )
+    end
+
+    let(:supporter2_attribs) do
+      supporter2.attributes.slice(
+        'id', 
+        'name',
+        'email',
+        'organization',
+        'phone',
+        'created_at',
+        'imported_at',
+        'anonymous',
+        'is_unsubscribed_from_emails',
+        'nonprofit_id'
+         )
+    end
+
     before(:each) do
       supporter1
       supporter2
@@ -138,8 +168,7 @@ describe QuerySupporters do
     end
 
     it 'should have correct address for supporter1' do
-       supporter1_attribs = supporter1.attributes.to_h.with_indifferent_access
-       supporter1_attribs = supporter1_attribs.merge({
+       attribs = supporter1_attribs.merge({
          'address': supporter_address_2.address,
          'city': supporter_address_2.city,
          'state_code': supporter_address_2.state_code,
@@ -149,12 +178,12 @@ describe QuerySupporters do
 
        result = supporters_with_default_address.select{|i| i['id'] == supporter1.id}.first
 
-       expect(result).to eq supporter1_attribs
+       expect(h(result)).to eq h(attribs)
     end
 
     it 'should have correct address for supporter2' do
-      supporter2_attrib = supporter2.attributes.to_h.with_indifferent_access
-      supporter2_attrib = supporter2_attrib.merge({
+      
+      attribs = supporter2_attribs.merge({
         'address': other_supporter_address.address,
         'city': other_supporter_address.city,
         'state_code': other_supporter_address.state_code,
@@ -164,8 +193,140 @@ describe QuerySupporters do
 
       result = supporters_with_default_address.select{|i| i['id'] == supporter2.id}.first
 
-      expect(result).to eq supporter2_attrib
+      expect(h(result)).to eq h(attribs)
    end
 
+  end
+
+  describe '.for_info_card' do
+    let(:nonprofit) { force_create(:nonprofit)}
+    let(:supporter1) { force_create(:supporter, nonprofit:nonprofit) }
+    let(:supporter2) { force_create(:supporter, nonprofit:nonprofit) }
+
+    let(:supporter_address) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
+    let(:supporter_address_2) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
+    let(:other_supporter_address) {force_create(:crm_address, supporter:supporter2, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
+
+
+    let(:address_tag1)  do
+      force_create(:address_tag, 
+        supporter:supporter1, 
+        crm_address: supporter_address_2,
+        name: 'default'
+        )
+    end
+    
+    let(:address_tag2)  do
+      force_create(:address_tag, 
+        supporter:supporter2, 
+        crm_address: other_supporter_address,
+        name: 'default'
+        )
+    end
+    
+    let(:payments) do 
+      force_create(:payment, gross_amount: 111, supporter: supporter1)
+      force_create(:payment, gross_amount: 111, supporter: supporter2)
+      force_create(:payment, gross_amount: 111, supporter: supporter1)
+    end
+
+    let(:info_card) do 
+      supporter_address
+      supporter_address_2
+      other_supporter_address
+      address_tag1
+      address_tag2
+      payments
+      QuerySupporters.for_info_card(supporter1.id)
+    end
+
+    it 'should have a raised of 222' do
+      expect(info_card['raised']).to eq 222
+    end
+
+    it 'should have an address of 515325 something st.' do
+      expect(info_card['address']).to eq '515325 something st.'
+    end
+
+    it 'should have an state_code of il' do
+      expect(info_card['state_code']).to eq 'il'
+    end
+
+    it 'should have a country USA' do
+      expect(info_card['country']).to eq 'USA'
+    end
+
+    it 'should have a zip_code of 5215890-RD' do
+      expect(info_card['zip_code']).to eq '5215890-RD'
+    end
+
+  end
+
+
+  describe '.for_crm_profile' do
+    let(:nonprofit) { force_create(:nonprofit)}
+    let(:supporter1) { force_create(:supporter, nonprofit:nonprofit) }
+    let(:supporter2) { force_create(:supporter, nonprofit:nonprofit) }
+
+    let(:supporter_address) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
+    let(:supporter_address_2) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
+    let(:other_supporter_address) {force_create(:crm_address, supporter:supporter2, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
+
+
+    let(:address_tag1)  do
+      force_create(:address_tag, 
+        supporter:supporter1, 
+        crm_address: supporter_address_2,
+        name: 'default'
+        )
+    end
+    
+    let(:address_tag2)  do
+      force_create(:address_tag, 
+        supporter:supporter2, 
+        crm_address: other_supporter_address,
+        name: 'default'
+        )
+    end
+    
+    let(:payments) do 
+      force_create(:payment, gross_amount: 111, supporter: supporter1)
+      force_create(:payment, gross_amount: 111, supporter: supporter2)
+      force_create(:payment, gross_amount: 111, supporter: supporter1)
+    end
+
+    let(:crm_profile) do 
+      supporter_address
+      supporter_address_2
+      other_supporter_address
+      address_tag1
+      address_tag2
+      payments
+      QuerySupporters.for_crm_profile(nonprofit.id, [supporter1.id])
+    end
+
+    let(:supporter1_profile) do
+      crm_profile[0]
+    end
+
+    it 'should have a raised of 222' do
+      expect(supporter1_profile['raised']).to eq 222
+    end
+
+    it 'should have an address of 515325 something st.' do
+      expect(supporter1_profile['address']).to eq '515325 something st.'
+    end
+
+    it 'should have an state_code of il' do
+      expect(supporter1_profile['state_code']).to eq 'il'
+    end
+
+    it 'should have a country USA' do
+      expect(supporter1_profile['country']).to eq 'USA'
+    end
+
+    it 'should have a zip_code of 5215890-RD' do
+      expect(supporter1_profile['zip_code']).to eq '5215890-RD'
+    end
   end
 end

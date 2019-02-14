@@ -2,6 +2,7 @@
 version: '2'
 services:
   build:
+    image: test.image.for.caching
     build:
       context: ../..
       dockerfile: docker/build/Dockerfile

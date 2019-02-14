@@ -15,6 +15,4 @@ before_script:
 script:
   - docker-compose -f docker/build/docker-compose.yml run -e RACK_ENV=ci -e RAILS_ENV=ci -e BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development build script/test.sh
 
-cache:
-  directories: 
-    ~/docker-images
+

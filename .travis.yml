@@ -3,17 +3,17 @@ sudo: required
 language: minimal
 
 services:
-- docker
+  - docker
 
 before_script:
-- mkdir -p ~/docker-images
-- [[ -f ~/docker-images/testenv.tgz ]] && docker load -i ~/docker-images/testenv.tgz
-- cp .env.test .env
-- docker-compose -f docker/build/docker-compose.yml build
-- docker save test.image.for.caching | gzip -c > ~/docker-images/testenv.t
+  - mkdir -p ~/docker-images
+  - [[ -f ~/docker-images/testenv.tgz ]] && docker load -i ~/docker-images/testenv.tgz
+  - cp .env.test .env
+  - docker-compose -f docker/build/docker-compose.yml build
+  - docker save test.image.for.caching | gzip -c > ~/docker-images/testenv.t
 
 script:
-- docker-compose -f docker/build/docker-compose.yml run -e RACK_ENV=ci -e RAILS_ENV=ci -e BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development build script/test.sh
+  - docker-compose -f docker/build/docker-compose.yml run -e RACK_ENV=ci -e RAILS_ENV=ci -e BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development build script/test.sh
 
 cache:
   directories: ~/docker-images

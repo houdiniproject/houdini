@@ -7,7 +7,7 @@ services:
 
 before_script:
   - mkdir -p ~/docker-images
-  - [[ -f ~/docker-images/testenv.tgz ]] && docker load -i ~/docker-images/testenv.tgz
+  - "[[ -f ~/docker-images/testenv.tgz ]] && docker load -i ~/docker-images/testenv.tgz"
   - cp .env.test .env
   - docker-compose -f docker/build/docker-compose.yml build
   - docker save test.image.for.caching | gzip -c > ~/docker-images/testenv.tg

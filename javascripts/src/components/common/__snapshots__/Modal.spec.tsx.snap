@@ -1,32 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Modal active modal displays 1`] = `
-<Displaced
-  dialogStyle={
+<VelocityTransitionGroup
+  enter={
     Object {
-      "minWidth": "768px",
+      "animation": "fadeIn",
+      "style": Object {
+        "left": "0px",
+        "position": "fixed",
+        "top": "0px",
+        "zIndex": "5000",
+      },
     }
   }
-  focusDialog={true}
-  mounted={true}
-  onExit={[Function]}
-  titleText="title text"
+  enterHideStyle={
+    Object {
+      "display": "none",
+    }
+  }
+  enterShowStyle={
+    Object {
+      "display": "",
+    }
+  }
+  leave={
+    Object {
+      "animation": "fadeOut",
+      "style": Object {
+        "left": "0px",
+        "position": "fixed",
+        "top": "0px",
+        "zIndex": "5000",
+      },
+    }
+  }
+  runOnMount={true}
 >
-  <header
-    className="modal-header"
+  <Displaced
+    dialogStyle={
+      Object {
+        "minWidth": "768px",
+      }
+    }
+    focusDialog={true}
+    mounted={true}
+    onExit={[Function]}
+    titleText="title text"
   >
-    <h4
-      className="modal-header-title"
+    <header
+      className="modal-header"
     >
-      title text
-    </h4>
-  </header>
-  <div
-    className="modal-body"
-  >
-    <div />
-  </div>
-</Displaced>
+      <h4
+        className="modal-header-title"
+      >
+        title text
+      </h4>
+    </header>
+    <div
+      className="modal-body"
+    >
+      <div />
+    </div>
+  </Displaced>
+</VelocityTransitionGroup>
 `;
 
-exports[`Modal nothing displayed if inactive 1`] = `""`;
+exports[`Modal nothing displayed if inactive 1`] = `
+<VelocityTransitionGroup
+  enter={
+    Object {
+      "animation": "fadeIn",
+      "style": Object {
+        "left": "0px",
+        "position": "fixed",
+        "top": "0px",
+        "zIndex": "5000",
+      },
+    }
+  }
+  enterHideStyle={
+    Object {
+      "display": "none",
+    }
+  }
+  enterShowStyle={
+    Object {
+      "display": "",
+    }
+  }
+  leave={
+    Object {
+      "animation": "fadeOut",
+      "style": Object {
+        "left": "0px",
+        "position": "fixed",
+        "top": "0px",
+        "zIndex": "5000",
+      },
+    }
+  }
+  runOnMount={true}
+/>
+`;

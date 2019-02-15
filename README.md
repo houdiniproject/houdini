@@ -160,7 +160,7 @@ This generator creates a basic Typescript module along with a test file.
 **Note: This is not legal advice and provides a suggestion which may be compliant. You should talk with your legal counsel if you have
 questions or concerns with how to comply with the various licenses of Houdini**
 
-Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licensed used by Houdini. There are two methods for doing so right now:
+Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licenses used by Houdini. There are two methods for doing so right now:
 
 1. Providing a tarball of the current running code
 2. Providing a link to Github where the code is pulled from

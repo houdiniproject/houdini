@@ -21,7 +21,7 @@ class SlugP2pCampaignNamingAlgorithm < CopyNamingAlgorithm
 
   def get_already_used_name_entities(base_name)
     end_name = "\\_\\d{3}"
-    Campaign.where('slug SIMILAR TO ? AND nonprofit_id = ? AND (deleted IS NULL OR deleted = false)', base_name + end_name, nonprofit_id).select('slug')
+    Campaign.where('slug SIMILAR TO ? AND nonprofit_id = ?', base_name + end_name, nonprofit_id).select('slug')
   end
 
 end

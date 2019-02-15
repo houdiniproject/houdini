@@ -24,7 +24,7 @@ describe SlugP2pCampaignNamingAlgorithm do
 
 
     describe 'campaigns' do
-      let(:campaign) {force_create(:campaign, :slug => @name, nonprofit: nonprofit)}
+      let(:campaign) {force_create(:campaign, :slug => @name, nonprofit: nonprofit, deleted:true)}
       let(:campaign2) {force_create(:campaign, :slug => @name2, nonprofit:nonprofit)}
       let(:campaigns_at_max_copies) { (0..999).collect{|i|
         force_create(:campaign, slug: "#{@copy_base}_#{"%03d" % i}", nonprofit:nonprofit)

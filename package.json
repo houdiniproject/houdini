@@ -48,8 +48,8 @@
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.10",
     "cssnano": "3.10.0",
-    "enzyme": "^3.4.2",
-    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.9.1",
     "enzyme-to-json": "^3.3.3",
     "exports-loader": "^0.7.0",
     "expose-loader": "^0.7.5",
@@ -61,7 +61,7 @@
     "jsdom": "^11.10.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.11",
     "node-sass": "^4.11.0",
     "phantomjs-prebuilt": "^2.1.16",
     "postcss-cssnext": "^2.9.0",
@@ -83,8 +83,9 @@
     "webpack-sweet-entry": "^1.1.4"
   },
   "dependencies": {
+    "@types/velocity-animate": "^1.2.33",
     "attr-binder": "0.3.1",
-    "aws-sdk": "2.2.39",
+    "aws-sdk": "^2.402.0",
     "chart.js": "2.1.4",
     "color": "0.11.3",
     "colors": "1.1.2",
@@ -146,6 +147,7 @@
     "uuid": "2.0.2",
     "validator": "^9.4.1",
     "vdom-thunk": "3.0.0",
+    "velocity-react": "^1.4.1",
     "view-script": "0.3.6",
     "virtual-dom": "2.1.1",
     "vvvview": "0.4.3"

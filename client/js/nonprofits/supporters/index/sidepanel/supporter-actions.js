@@ -13,7 +13,7 @@ const button = (text, stream) =>
 const view = state => 
   h('section.timeline-actions.u-padding--10', [
     button('Note', state.newNote$)
-  , button('Email', state.clickComposing$)
+  , button('Email', () => { window.open(`mailto:${state.supporter$().email}`)})
   , button('Donation', () => appl.open_donation_modal(state.supporter$().id,
     () => {state.offsiteDonationForm.saved$(Math.random())}
     )

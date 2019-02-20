@@ -4,11 +4,11 @@ import { observer, inject } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
 import * as _ from 'lodash';
 import { action, observable } from 'mobx';
-import { HoudiniForm } from '../../lib/houdini_form';
-import { FieldDefinition, Field } from 'mobx-react-form';
+import { HoudiniForm, StaticFormToErrorAndBackConverter } from '../../lib/houdini_form';
+import { FieldDefinition, Field, initializationDefinition, Form } from 'mobx-react-form';
 import { Address } from '../../../api/model/Address';
 import { ApiManager } from '../../lib/api_manager';
-import { SupporterApi } from '../../../api';
+import { SupporterApi, PostSupporterSupporterIdAddress, PutSupporterSupporterIdAddress, ValidationErrorsException } from '../../../api';
 
 
 export interface AddressPaneProps
@@ -20,11 +20,37 @@ export interface AddressPaneProps
   ApiManager:ApiManager
 }
 
+export class AddressPaneForm extends HoudiniForm {
+  converter: StaticFormToErrorAndBackConverter<PostSupporterSupporterIdAddress| PutSupporterSupporterIdAddress>
+
+  constructor(definition: initializationDefinition, options?: any) {
+    super(definition, options)
+    this.converter = new StaticFormToErrorAndBackConverter<PostSupporterSupporterIdAddress>(this.inputToForm)
+  }
+
+  inputToForm = {
+    'nonprofit[name]': 'nonprofitTab.organization_name',
+    'nonprofit[website]': 'nonprofitTab.website',
+    'nonprofit[email]': 'nonprofitTab.org_email',
+    'nonprofit[phone]': 'nonprofitTab.org_phone',
+    'nonprofit[city]': 'nonprofitTab.city',
+    'nonprofit[state_code]': 'nonprofitTab.state',
+    'nonprofit[zip_code]': 'nonprofitTab.zip',
+    'user[name]': 'userTab.name',
+    'user[email]': 'userTab.email',
+    'user[password]': 'userTab.password',
+    'user[password_confirmation]': 'userTab.password_confirmation'
+  }
+}
+
+
 @inject('ApiManager')
 class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, {}> {
+
+  form: AddressPaneForm
   constructor(props:AddressPaneProps & InjectedIntlProps){
     super(props)
-    this.form = this.initialize()
+    this.form = this.initialize(props.initialAddress)
     this.supporterApi = this.props.ApiManager.get(SupporterApi)
   }
 
@@ -41,28 +67,46 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
       'country': {name:'country', value: this.shouldAdd ? undefined: initialAddress.country}
     }
     let hooks = {
-      onSuccess: async (e: Field) => {
+      onSuccess: async (f: Form) => {
         if (this.shouldAdd)
-          await this.add
+          await this.add()
         else
-          await this.update
+          await this.update()
       }
     }
 
-    return new HoudiniForm({fields: _.values(params), hooks:hooks})
+    return new AddressPaneForm({fields: _.values(params), hooks:hooks})
   }
 
   async add() {
-    this.
+    try {
+      await this.supporterApi.postSupporterSupporterIdAddress
+    }
+    catch (e) {
+      console.log(e)
+      if (e instanceof ValidationErrorsException) {
+        this.form.converter.convertErrorToForm(e)
+      }
+
+      this.form.invalidateFromServer(e['error'])
+      //set error to the form
+    }
   }
 
   async update() {
+    try {
+      await this.supporterApi.putSupporterSupporterIdAddressCrmAddressId
+    }
+    catch (e) {
+      console.log(e)
+      if (e instanceof ValidationErrorsException) {
+        this.form.converter.convertErrorToForm(e)
+      }
 
+      this.form.invalidateFromServer(e['error'])
+      //set error to the form
+    }
   }
-
-  
-  @observable
-  form:HoudiniForm
 
   @action
   closePane() {

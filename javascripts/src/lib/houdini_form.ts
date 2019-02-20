@@ -139,23 +139,30 @@ type FormFieldToPath = PathToFormField
  */
 export class StaticFormToErrorAndBackConverter<T> {
 
-  pathToForm: PathToFormField
-  formToPath: FormFieldToPath
+  pathToForm: () => PathToFormField
+  formToPath: () => FormFieldToPath
+  form: HoudiniForm
 
 
-  constructor(pathToForm: PathToFormField) {
-    this.pathToForm = pathToForm
-    this.formToPath = _.invert(pathToForm)
+  constructor(pathToForm: PathToFormField|(() => PathToFormField), form:Form) {
+    if (typeof pathToForm !== 'function') {
+      this.pathToForm = () => pathToForm
+      this.formToPath = () => _.invert(pathToForm)
+    }
+    else {
+      this.pathToForm = pathToForm
+      this.formToPath = () => _.invert(pathToForm())
+    }
+      
   }
 
-  convertFormToObject(form: HoudiniForm|Form): T {
+  convertFormToObject(): T {
     let output = {}
-    let hForm = form as HoudiniForm
     for (let pathToFormKey in this.pathToForm) {
       if (this.pathToForm.hasOwnProperty(pathToFormKey)) {
-        let formPath = this.pathToForm[pathToFormKey]
-        if (hForm.$(formPath).value && _.trim(hForm.$(formPath).value) !== "")
-          _.set(output, pathToFormKey,  hForm.$(formPath).value)
+        let formPath = this.pathToForm()[pathToFormKey]
+        if (this.form.$(formPath).value && _.trim(this.form.$(formPath).value) !== "")
+          _.set(output, pathToFormKey,  this.form.$(formPath).value)
       }
 
     }
@@ -165,14 +172,13 @@ export class StaticFormToErrorAndBackConverter<T> {
   }
 
   @action.bound
-  convertErrorToForm(errorException: ValidationErrorsException, form: HoudiniForm|Form): void {
+  convertErrorToForm(errorException: ValidationErrorsException): void {
     runInAction(() => {
-      let hForm = form as HoudiniForm
       _.forEach(errorException.item.errors, (error) => {
         let message = error.messages.join(", ")
         _.forEach(error.params, (p) => {
-          if (this.pathToForm[p]) {
-            (hForm.$(this.pathToForm[p]) as HoudiniField).invalidateFromServer(message)
+          if (this.pathToForm()[p]) {
+            (this.form.$(this.pathToForm()[p]) as HoudiniField).invalidateFromServer(message)
           }
           else {
             console.warn(`We couldn't find a form element for path: "${p}"`)

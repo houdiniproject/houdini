@@ -156,7 +156,7 @@ export class StaticFormToErrorAndBackConverter<T> {
       
   }
 
-  convertFormToObject(): T {
+  convertFormToObject<U extends T=T>(): U {
     let output = {}
     for (let pathToFormKey in this.pathToForm) {
       if (this.pathToForm.hasOwnProperty(pathToFormKey)) {
@@ -167,7 +167,7 @@ export class StaticFormToErrorAndBackConverter<T> {
 
     }
 
-    return output as T
+    return output as U
 
   }
 

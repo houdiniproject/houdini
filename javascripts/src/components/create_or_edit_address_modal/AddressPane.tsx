@@ -3,7 +3,7 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
 import * as _ from 'lodash';
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
 import { HoudiniForm, StaticFormToErrorAndBackConverter } from '../../lib/houdini_form';
 import { FieldDefinition, Field, initializationDefinition, Form } from 'mobx-react-form';
 import { Address } from '../../../api/model/Address';
@@ -25,8 +25,18 @@ export class AddressPaneForm extends HoudiniForm {
 
   constructor(definition: initializationDefinition, options?: any) {
     super(definition, options)
-    this.converter = new StaticFormToErrorAndBackConverter<PostSupporterSupporterIdAddress>(this.inputToForm)
+    this.converter = new StaticFormToErrorAndBackConverter<PostSupporterSupporterIdAddress| PutSupporterSupporterIdAddress>(this.inputToForm, this)
   }
+
+  inputToForm(): PathToFormField {
+    return null;
+  }
+
+  @computed
+  get isAdd() : boolean {
+    return !(this.has("id") && this.get('id').value)
+  }
+
 
   inputToForm = {
     'nonprofit[name]': 'nonprofitTab.organization_name',

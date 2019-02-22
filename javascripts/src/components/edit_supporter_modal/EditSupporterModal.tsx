@@ -5,15 +5,15 @@ import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Modal from '../common/Modal';
 import { TwoColumnFields } from '../common/layout';
 import { BasicField } from '../common/fields';
-import { observable, action, computed, reaction, Reaction, IReactionDisposer } from 'mobx';
+import { observable, action, computed, reaction, IReactionDisposer } from 'mobx';
 import { Address } from '../../../api/model/Address';
 import AddressPane, { AddressAction } from './AddressPane';
-import { SupporterApi, PutSupporterSupporterDefaultAddress, PutSupporter, Supporter, PostSupporterSupporterIdAddress, PutSupporterSupporter, PutSupporterSupporterIdAddress } from '../../../api';
+import { SupporterApi, PutSupporter, Supporter } from '../../../api';
 import { HoudiniForm, StaticFormToErrorAndBackConverter } from '../../lib/houdini_form';
 import { initializationDefinition, FieldDefinition } from '../../../../types/mobx-react-form';
 import _ = require('lodash');
 
-export interface CreateOrEditAddressModalProps {
+export interface EditSupporterModalProps {
   //from ModalProps
   onClose: () => void
   modalActive: boolean
@@ -43,14 +43,14 @@ export class EditSupporterForm extends HoudiniForm {
 }
 
 @inject('SupporterApi')
-class CreateOrEditAddressModal extends React.Component<CreateOrEditAddressModalProps & InjectedIntlProps, {}> {
+class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
 
-  constructor(props:CreateOrEditAddressModalProps & InjectedIntlProps) {
+  constructor(props:EditSupporterModalProps & InjectedIntlProps) {
     super(props)
     this.form = this.createNewForm()
     this.updateValuesFormReaction = reaction(
         () => this.supporter, 
-        (s, r) => { this.updateForm(s)}
+        (s) => { this.updateForm(s)}
       )
     
   }
@@ -243,7 +243,7 @@ class CreateOrEditAddressModal extends React.Component<CreateOrEditAddressModalP
   }
 }
 
-export default injectIntl(observer(CreateOrEditAddressModal))
+export default injectIntl(observer(EditSupporterModal))
 
 
 

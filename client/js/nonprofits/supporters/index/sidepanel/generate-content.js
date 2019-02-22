@@ -100,16 +100,15 @@ exports.SupporterNote = (data, state) => {
 
 exports.SupporterEmail = (data, state) => {
   var jd = data.json_data
-  var canView = jd.from === state.gmail.from$()
+  var canView = false
   var body = [h('span', `Subject: ${jd.subject}`), h('br')]
   var thread =  h('a', {props: {href: '#'}, on: {click: [state.threadId$, jd.gmail_thread_id]}}, 'View thread')
-  var signIn = h('small', [
-    h('a', {props: {href: '#'}, on: {click: state.gmail.newSignIn$}}, 'Sign in')
-  , ` as ${jd.from} to view thread`])
+  
   return {
     title: `Email thread started by ${jd.from}`
   , icon: 'fa-envelope'
-  , body: canView ? R.concat(body, thread) : R.concat(body, signIn)
+  , body: body
+ // , body: canView ? R.concat(body, thread) : R.concat(body, signIn)
   }
 }
 

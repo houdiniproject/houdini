@@ -49,7 +49,7 @@ end
 node(:ticket) do |payment|
   event = payment&.tickets&.last&.event
   h = {
-    event: {name: event&.name, url: event&.url), id: event&.id)},
+    event: {name: event&.name, url: event&.url, id: event&.id},
     levels: payment.tickets.map{|t| "#{GetData.chain(t.ticket_level, :name)} (#{t.quantity}x)"}.join(", "),
     discount: payment.tickets.map{|t| t.event_discount ? "#{t.event_discount.name} (#{t.event_discount.percent}%)" : nil}.compact.join(", ")
   }

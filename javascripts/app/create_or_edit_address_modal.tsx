@@ -6,9 +6,21 @@ import CreateOrEditAddressModal from "../src/components/create_or_edit_address_m
 import * as ReactDOM from 'react-dom'
 import * as React from 'react'
 
-function LoadReactPage(element:HTMLElement) {
-  ReactDOM.render(<Root><CreateOrEditAddressModal/></Root>, element)
+function LoadReactPage(element:HTMLElement,
+    nonprofitId: number,
+  supporterId:number,
+  //from ModalProps
+  onClose: () => void,
+  modalActive: boolean
+  ) {
+  ReactDOM.render(<Root><CreateOrEditAddressModal
+    nonprofitId={nonprofitId}
+    supporterId={supporterId}
+    modalActive={modalActive}
+    onClose={onClose}
+
+  /></Root>, element)
 }
 
 
-(window as any).LoadReactPage = LoadReactPage
+(window as any).LoadReactCreateOrEditAddressModal = LoadReactPage

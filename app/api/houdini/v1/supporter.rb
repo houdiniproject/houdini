@@ -7,7 +7,6 @@ class Houdini::V1::Supporter < Grape::API
           Houdini::V1::Helpers::AddressHelper
 
   before do
-
     protect_against_forgery
     #make sure logged in user can handle this!
   end
@@ -36,6 +35,11 @@ class Houdini::V1::Supporter < Grape::API
     end
     params do
       optional :supporter, type: Hash do
+        optional :name, type:String, desc: "Supporter name", allow_blank: true, documentation: {param_type: 'body'}
+        optional :email_address, type:String, desc: "Supporter email", regexp: Email::Regex, allow_blank: true, documentation: {param_type: 'body'}
+        optional :phone, type:String, desc: "Supporter phone", allow_blank: 
+        true, documentation: {param_type: 'body'}
+        optional :organization, type:String, desc: "Supporter organization", allow_blank: true, documentation: {param_type: 'body'}
         optional :default_address, type: Hash do
           requires :id, type:Integer
         end
@@ -46,12 +50,14 @@ class Houdini::V1::Supporter < Grape::API
       if params[:supporter] && params[:supporter][:default_address]
         address = supporter.crm_addresses.find(params[:supporter][:default_address][:id])
       end
+     
       #authenticate
       unless current_nonprofit_user?(supporter.nonprofit)
         error!('Unauthorized', 401)
       end
 
       Qx.transaction do
+        supporter.update_attributes!(declared_params[:supporter])
         if (address)
           supporter.default_address_strategy.on_set_default(address)
           supporter.reload
@@ -90,7 +96,7 @@ class Houdini::V1::Supporter < Grape::API
       end
 
       desc 'Create Custom Address' do
-        success Houdini::V1::Entities::Addresses
+        success Houdini::V1::Entities::Address
       end
       params do
         requires :address, type: Hash do

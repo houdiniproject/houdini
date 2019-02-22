@@ -38,7 +38,7 @@ export class SessionPageForm extends HoudiniForm {
 
   constructor(definition: initializationDefinition, options?: any) {
     super(definition, options)
-    this.converter = new StaticFormToErrorAndBackConverter<WebLoginModel>(this.inputToForm)
+    this.converter = new StaticFormToErrorAndBackConverter<WebLoginModel>(this.inputToForm, this)
   }
 
   signinApi: WebUserSignInOut
@@ -60,7 +60,7 @@ export class SessionPageForm extends HoudiniForm {
   hooks() {
     return {
       onSuccess: async (f:SessionPageForm) => {
-        let input = this.converter.convertFormToObject(f)
+        let input = this.converter.convertFormToObject()
 
         try{
           let r = await this.signinApi.postLogin(input)

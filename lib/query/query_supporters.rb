@@ -609,11 +609,11 @@ UNION DISTINCT
     aggregate_dons = %Q(
       array_to_string(
         array_agg(
-          payments.created_at::date || ' ' ||
+          payments.date::date || ' ' ||
           (payments.gross_amount / 100)::text::money || ' ' ||
           coalesce(payments.kind, '') || ' ' ||
           coalesce(payments.towards, '')
-          ORDER BY payments.created_at DESC
+          ORDER BY payments.date DESC
         ),
         '\n'
       ) AS "Payment History"

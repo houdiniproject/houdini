@@ -14,11 +14,8 @@ const notification = require('ff-core/notification')
 const request = require('../../../../common/request')
 const confirm = require('../../../../components/confirmation-modal')
 
-const gmail = require('./gmail')
 const actions = require('./supporter-actions')
 const activities = require('./supporter-activities')
-const replyModal = require('./gmail/reply-modal')
-const composeModal = require('./gmail/compose-modal')
 const offsiteDonationForm = require('./offsite-donation-form')
 const supporterNoteForm = require('./supporter-note-form')
 
@@ -51,9 +48,6 @@ const init = _ => {
 
   state.supporter$ = flyd.merge(supporterResp$, flyd.stream({}))
 
-  state.composeOrReply$ = flyd.merge(state.clickComposing$, state.threadId$)
-
-  state.gmail = gmail.init(state)
   
   state.offsiteDonationForm = offsiteDonationForm.init(state)
 
@@ -77,7 +71,6 @@ const init = _ => {
   // All streams that we want to trigger a refresh of the supporter timeline
   const fetchActivitiesWith$ = mergeAll([
     state.pathPrefix$
-  , state.gmail.saveResult$
   , state.offsiteDonationForm.saved$
   , state.supporterNoteForm.saved$
   , deleteNoteResp$
@@ -92,22 +85,12 @@ const init = _ => {
   state.activities = activities.init(state)
 
   state.modalID$ = mergeAll([
-    flyd.map(()=> 'composeGmailModal', state.clickComposing$)
-  , flyd.map(()=> 'replyGmailModal', state.threadId$)
   , flyd.map(()=> 'newSupporterNoteModal', state.editNoteData$)
-  , flyd.map(()=> null, state.gmail.sendResponse$)
   , flyd.map(()=> null, state.supporterNoteForm.saved$)
-  ])
-
-  state.loading$ = mergeAll([
-    flyd.map(R.always(true), state.gmail.composeForm.validData$)
-  , flyd.map(R.always(true), state.gmail.replyForm.validData$)
-  , flyd.map(R.always(false), state.gmail.sendResponse$)
   ])
 
 
   const message$ = mergeAll([
-    flyd.map(()=> 'Email sent', state.gmail.sendResponse$)
   , flyd.map(()=> 'Successfully created a new offsite contribution', state.offsiteDonationForm.saved$)
   , flyd.map(()=> `Successfully ${noteMsg(state.noteAjaxMethod$)} supporter note`, state.supporterNoteForm.saved$)
   , flyd.map(()=> 'Successfully deleted supporter note', deleteNoteResp$)
@@ -141,11 +124,9 @@ const view = state => {
   return h('div', [
     actions.view(state)
   , activities.view(state)
-  , composeModal(state)
   , notification.view(state.notification)
   , offsiteDonationForm.view(R.merge(state.offsiteDonationForm))
   , supporterNoteForm.view(R.merge(state.supporterNoteForm, {modalID$: state.modalID$}))
-  , replyModal(state)
   , confirm.view(state.confirmDelete, 'Are you sure you want to delete this note?')
   ])
 }

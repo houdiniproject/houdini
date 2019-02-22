@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.10
+-- Dumped by pg_dump version 9.6.11
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -3378,13 +3378,6 @@ CREATE INDEX payments_search_idx ON public.payments USING gin (search_vectors);
 --
 
 CREATE INDEX payments_supporter_id ON public.payments USING btree (supporter_id);
-
-
---
--- Name: payments_towards; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX payments_towards ON public.payments USING btree (lower((towards)::text));
 
 
 --

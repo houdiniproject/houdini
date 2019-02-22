@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com)
+[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com) [![Build Status](https://travis-ci.com/houdiniproject/houdini.svg?branch=master)](https://travis-ci.com/houdiniproject/houdini)
 
 The Houdini Project is free and open source fundraising infrastructure. It includes...
 - Crowdfunding campaigns
@@ -56,8 +56,8 @@ You will likely need to logout and log back in again.
 #### Build your docker-container and start it up for initial set up.
 We'll keep this running in the console we'll call **console 1**
 ```
-docker-compose build
-docker-compose up
+./dc build
+./dc up
 ```
 #### System configuration
 There are a number of steps for configuring your Houdini instance for startup
@@ -96,7 +96,7 @@ If you need help setting up your mailer, visit `config/environment.rb` where the
 ##### Switch back to console 1 and run `Ctrl-c` to end the session.
 
 ##### In console 1, restart the containers
-`docker-compose up`
+`./dc up`
 
 ##### In console 2, run:
 `./run npm run watch`
@@ -114,7 +114,7 @@ nonprofits, which is located at `/admin` url.
   
 To create the super user, go to the rails console by calling:
 
-`docker-compose run web rails console`
+`./dc run web rails console`
 
 In the console, run the following:
  
@@ -160,7 +160,7 @@ This generator creates a basic Typescript module along with a test file.
 **Note: This is not legal advice and provides a suggestion which may be compliant. You should talk with your legal counsel if you have
 questions or concerns with how to comply with the various licenses of Houdini**
 
-Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licensed used by Houdini. There are two methods for doing so right now:
+Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licenses used by Houdini. There are two methods for doing so right now:
 
 1. Providing a tarball of the current running code
 2. Providing a link to Github where the code is pulled from

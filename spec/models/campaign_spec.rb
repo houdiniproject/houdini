@@ -2,8 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe Campaign, type: :model do
-
-
   describe 'goal_amount' do
     before(:each) do
       @nonprofit = create(:nonprofit)

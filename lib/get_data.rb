@@ -29,22 +29,5 @@ module GetData
 		end
 		return h
   end
-
-  def self.obj(obj, *methods)
-		methods.each do |m|
-			if m.is_a?(Array)
-				params = m[1..-1]
-				m = m[0]
-			end
-
-			if obj != nil && obj.respond_to?(m)
-				obj = obj.send(m, *params)
-			else
-				return nil
-			end
-		end
-		return obj
-  end
-
 end
 

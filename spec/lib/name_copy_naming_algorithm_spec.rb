@@ -61,20 +61,8 @@ describe NameCopyNamingAlgorithm do
           expect(algo.create_copy_name(@name2)).to eq short_name_copy_today
         end
 
-        it 'errors when at max copies' do
-          @name = short_name
-          @copy_base = short_name_copy_today_base
-          event
-          events_at_max_copies
-
-          expect{ algo.create_copy_name(@name) }.to(raise_error{|error|
-            expect(error).to be_a ArgumentError
-          })
-          events_at_max_copies.each {|i|
-            expect {algo.create_copy_name(i.name)}.to(raise_error{|error|
-              expect(error).to be_a ArgumentError
-            })
-          }
+        it 'has 30 as max copies' do
+          expect(algo.max_copies).to eq 30
         end
 
       end
@@ -105,20 +93,8 @@ describe NameCopyNamingAlgorithm do
         end
 
 
-        it 'errors when at max copies' do
-          @name = long_name
-          @copy_base = long_name_copy_today_base
-          event
-          events_at_max_copies
-
-          expect{ algo.create_copy_name(@name) }.to(raise_error{|error|
-            expect(error).to be_a ArgumentError
-          })
-          events_at_max_copies.each {|i|
-            expect {algo.create_copy_name(i.name)}.to(raise_error{|error|
-              expect(error).to be_a ArgumentError
-            })
-          }
+        it 'has 30 as max copies' do
+          expect(algo.max_copies).to eq 30
         end
 
       end

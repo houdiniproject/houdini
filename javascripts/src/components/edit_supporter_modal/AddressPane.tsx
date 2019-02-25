@@ -43,7 +43,7 @@ export class AddressPaneForm extends HoudiniForm {
 }
 
 
-@inject('ApiManager')
+
 class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, {}> {
 
   form: AddressPaneForm
@@ -145,7 +145,7 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
   }
 }
 
-export default injectIntl(observer(AddressPane))
+export default injectIntl(inject('ApiManager')(observer(AddressPane)))
 
 
 

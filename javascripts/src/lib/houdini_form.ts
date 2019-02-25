@@ -144,7 +144,7 @@ export class StaticFormToErrorAndBackConverter<T> {
   form: HoudiniForm
 
 
-  constructor(pathToForm: PathToFormField|(() => PathToFormField), form:Form) {
+  constructor(pathToForm: PathToFormField|(() => PathToFormField), form:HoudiniForm) {
     if (typeof pathToForm !== 'function') {
       this.pathToForm = () => pathToForm
       this.formToPath = () => _.invert(pathToForm)
@@ -153,13 +153,13 @@ export class StaticFormToErrorAndBackConverter<T> {
       this.pathToForm = pathToForm
       this.formToPath = () => _.invert(pathToForm())
     }
-      
+    this.form = form
   }
 
   convertFormToObject<U extends T=T>(): U {
     let output = {}
-    for (let pathToFormKey in this.pathToForm) {
-      if (this.pathToForm.hasOwnProperty(pathToFormKey)) {
+    for (let pathToFormKey in this.pathToForm()) {
+      if (this.pathToForm().hasOwnProperty(pathToFormKey)) {
         let formPath = this.pathToForm()[pathToFormKey]
         if (this.form.$(formPath).value && _.trim(this.form.$(formPath).value) !== "")
           _.set(output, pathToFormKey,  this.form.$(formPath).value)

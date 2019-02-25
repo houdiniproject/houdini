@@ -202,6 +202,7 @@ describe QuerySupporters do
     let(:nonprofit) { force_create(:nonprofit)}
     let(:supporter1) { force_create(:supporter, nonprofit:nonprofit) }
     let(:supporter2) { force_create(:supporter, nonprofit:nonprofit) }
+    let(:supporter3) { force_create(:supporter, nonprofit:nonprofit)}
 
     let(:supporter_address) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
     let(:supporter_address_2) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
@@ -240,6 +241,11 @@ describe QuerySupporters do
       QuerySupporters.for_info_card(supporter1.id)
     end
 
+    let(:info_card_for_3) do
+      info_card
+      QuerySupporters.for_info_card(supporter3.id)
+    end
+
     it 'should have a raised of 222' do
       expect(info_card['raised']).to eq 222
     end
@@ -260,6 +266,10 @@ describe QuerySupporters do
       expect(info_card['zip_code']).to eq '5215890-RD'
     end
 
+    it 'should have an id for the supporter without addresses' do
+      expect(info_card_for_3['id']).to eq supporter3.id
+    end
+
   end
 
 
@@ -267,6 +277,9 @@ describe QuerySupporters do
     let(:nonprofit) { force_create(:nonprofit)}
     let(:supporter1) { force_create(:supporter, nonprofit:nonprofit) }
     let(:supporter2) { force_create(:supporter, nonprofit:nonprofit) }
+    #no default address
+    let(:supporter3) { force_create(:supporter, nonprofit:nonprofit) }
+
 
     let(:supporter_address) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
     let(:supporter_address_2) {force_create(:crm_address, supporter:supporter1,  address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
@@ -309,6 +322,11 @@ describe QuerySupporters do
       crm_profile[0]
     end
 
+    let(:crm_with_no_addreses) do 
+      crm_profile
+      QuerySupporters.for_crm_profile(nonprofit.id, [supporter3.id])
+    end
+
     it 'should have a raised of 222' do
       expect(supporter1_profile['raised']).to eq 222
     end
@@ -327,6 +345,10 @@ describe QuerySupporters do
 
     it 'should have a zip_code of 5215890-RD' do
       expect(supporter1_profile['zip_code']).to eq '5215890-RD'
+    end
+
+    it 'should have a returned value for crm_with_no_addreses[0]' do
+      expect(crm_with_no_addreses.count).to eq 1
     end
   end
 end

@@ -42,7 +42,6 @@ export class EditSupporterForm extends HoudiniForm {
   }
 }
 
-@inject('SupporterApi')
 class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
 
   constructor(props:EditSupporterModalProps & InjectedIntlProps) {
@@ -243,7 +242,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   }
 }
 
-export default injectIntl(observer(EditSupporterModal))
+export default injectIntl(inject('SupporterApi')(observer(EditSupporterModal)))
 
 
 

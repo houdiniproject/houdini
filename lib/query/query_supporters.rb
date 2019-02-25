@@ -726,7 +726,7 @@ UNION DISTINCT
       'default_addresses.zip_code AS zip_code',
       'default_addresses.country AS country')
         .from(:supporters)
-        .join_lateral('default_addresses',
+        .left_join_lateral('default_addresses',
           Qx.select('crm_addresses.*')
           .from(:address_tags)
           .join(:crm_addresses, "address_tags.supporter_id = supporters.id AND crm_addresses.id = address_tags.crm_address_id AND address_tags.name= 'default'")

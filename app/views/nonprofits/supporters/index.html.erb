@@ -13,7 +13,7 @@
   <%= IncludeAsset.js '/app/react-dom.js' %>
   <%= IncludeAsset.js '/app/vendor.js' %>
   <%= IncludeAsset.js '/app/create_new_offsite_payment_panex.js' %>
-  <%= IncludeAsset.js '/app/edit_supporter_modal.js' %>
+  <%= IncludeAsset.js '/app/edit_supporter_modalx.js' %>
 
   <script>
     appl.def('open_donation_modal', function(supporter_id, donation_finish_successful_state_fn) {
@@ -38,15 +38,13 @@
       return appl
     })
 
-    appl.def('open_edit_supporter_modal', function(supporter_id, supporter_finish_successful_state_fn) {
+    appl.def('open_edit_supporter_modal', function(supporter_id) {
       $('.modal').removeClass('inView')
 
       function SetupEditSupporterModal(modalActive){
         LoadReactEditSupporterModal(document.getElementById('react-vdom-hack'),
           app.nonprofit_id,
           supporter_id,
-          () => {}, //appl.start_loading,
-          donation_finish_successful_state_fn, //appl.update_donation__success,
           () => {SetupEditSupporterModal(false)},
           modalActive)
       }

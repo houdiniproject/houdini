@@ -34,6 +34,7 @@
     "@types/react-text-mask": "^5.4.2",
     "@types/sinon": "^4.3.3",
     "@types/validator": "^9.4.1",
+    "@types/velocity-animate": "^1.2.33",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
@@ -83,7 +84,6 @@
     "webpack-sweet-entry": "^1.1.4"
   },
   "dependencies": {
-    "@types/velocity-animate": "^1.2.33",
     "attr-binder": "0.3.1",
     "aws-sdk": "^2.402.0",
     "chart.js": "2.1.4",
@@ -116,7 +116,7 @@
     "jquery.cookie": "1.4.1",
     "marked": "^0.3.18",
     "mobx": "^4.3.1",
-    "mobx-react": "^5.2.3",
+    "mobx-react": "^5.4.3",
     "mobx-react-devtools": "^5.0.1",
     "mobx-react-form": "github:houdiniproject/mobx-react-form#our_fix",
     "mobx-utils": "^5.0.1",

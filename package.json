@@ -117,7 +117,7 @@
     "jquery.cookie": "1.4.1",
     "marked": "^0.3.18",
     "mobx": "^4.3.1",
-    "mobx-react": "^5.2.3",
+    "mobx-react": "^5.4.3",
     "mobx-react-devtools": "^5.0.1",
     "mobx-react-form": "github:houdiniproject/mobx-react-form#our_fix",
     "mobx-utils": "^5.0.1",

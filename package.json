@@ -88,7 +88,6 @@
     "aws-sdk": "^2.402.0",
     "chart.js": "2.1.4",
     "color": "0.11.3",
-    "colors": "1.1.2",
     "commons.css": "0.1.8",
     "cookie": "0.3.1",
     "cropperjs": "1.0.0-beta.2",

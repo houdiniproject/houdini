@@ -25,11 +25,13 @@ class Modal extends React.Component<ModalProps, {}> {
 
     const innerModal = this.props.modalActive ? <AriaModal mounted={this.props.modalActive} titleText={this.props.titleText} focusDialog={this.props.focusDialog}
       onExit={this.props.onClose} dialogStyle={this.props.dialogStyle}>
-      <header className='modal-header'>
+      <header className='modal-header' style={{position:'relative'}}>
         <h4 className='modal-header-title'>{this.props.titleText}</h4>
       </header>
       <div className="modal-body">
-        {this.props.childGenerator()}
+        <div style={{position:'relative'}}>
+          {this.props.childGenerator()}
+        </div>
       </div>
     </AriaModal> : false
 

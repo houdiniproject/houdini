@@ -36,10 +36,23 @@ export class EditSupporterForm extends HoudiniForm {
 
   inputToForm = {
     'name': 'supporter.name',
-    'email': 'supporter.emailAddress',
+    'email': 'supporter.email',
     'organization': 'supporter.organization',
     'phone': 'supporter.phone',
-    'defaultAddress' : 'supporter.defaultAddress.id'
+    'defaultAddress' : 'supporter.default_address.id'
+  }
+
+  @computed
+  get serializeValues() : {name:string, email:string, organization:string, phone:string, default_address:{id:number}}{
+    return {
+      name: this.$('name').value,
+      email: this.$('email').value,
+      organization: this.$('organization').value,
+      phone: this.$('phone').value,
+      default_address: {
+        id: this.$('defaultAddress').value
+      }
+    }
   }
 }
 
@@ -74,23 +87,23 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   selectedAddress:Address
 
   @observable
-  form:HoudiniForm
+  form:EditSupporterForm
 
   @action.bound
   updateForm(s:Supporter)
   {
     this.form.update({
       name: s.name,
-      email: s.emailAddress,
+      email: s.email,
       organization: s.organization,
       phone: s.phone,
-      defaultAddressId: s.defaultAddress
+      defaultAddressId: s.default_address
     })
   }
 
   @computed
   get defaultAddressId():number {
-    return this.supporter && this.supporter.defaultAddress && this.supporter.defaultAddress.id
+    return this.supporter && this.supporter.default_address && this.supporter.default_address.id
   }
 
   isDefaultAddress(address:Address):boolean {
@@ -102,7 +115,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   }
 
   
-  createNewForm() : HoudiniForm
+  createNewForm() : EditSupporterForm
   {
     let params: { [name: string]: FieldDefinition } = {
       'name': { name: 'name', label: 'Name' },
@@ -122,7 +135,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
 
   @action.bound
   async tryToSubmitForm() {
-
+   
   }
   
 
@@ -155,12 +168,16 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
     switch(action.type) {
       case 'add':
         this.handleAddedAddress(action)
+        break;
       case 'deleted':
         this.handleDeletedAddress(action)
+        break;
       case 'update':
         this.handleUpdatedAddress(action)
+        break;
       case 'none':
         this.handleNoAction(action);
+        break;
     }
   }
 
@@ -230,7 +247,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
         return <div className={"tw-bs"}>
           
           {coverpane}
-          <form className='u-marginTop--20'>
+          <form>
              <TwoColumnFields>
               <BasicField field={this.form.$('name')} label={"Name"}/>
               <BasicField field={this.form.$('email')}  label={"Email"}/>
@@ -243,12 +260,12 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
             <hr />
             <button type={"button"} onClick={this.addAddress}>Add Address</button>
             {this.addresses ? this.addresses.map((a) => {
-              return <div>
-                {a.address}, {a.city}, {a.stateCode}, {a.country} <button onClick={() => this.beginModifyAddress(a)}>Modify</button>
+              return <div key={a.id}>
+                {a.address}, {a.city}, {a.state_code}, {a.country} <button onClick={() => this.beginModifyAddress(a)} type={"button"} >Modify</button>
               </div>
             }) : false}
             <hr/>
-            <button type="submit" 
+            <button type={"button"} 
             onClick={() => this.form.submit()}>Save</button>
           </form>
         </div>

@@ -77,6 +77,11 @@ export class HoudiniField extends Field {
     this.$serverError = message
   }
 
+  @action
+  resetServerValidation() {
+    this.$serverError = null;
+  }
+
   @computed
   public get serverError():string {
     return this.$serverError

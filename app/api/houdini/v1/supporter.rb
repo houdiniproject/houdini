@@ -34,16 +34,15 @@ class Houdini::V1::Supporter < Grape::API
       success Houdini::V1::Entities::Supporter
     end
     params do
-      optional :supporter, type: Hash do
-        optional :name, type:String, desc: "Supporter name", allow_blank: true, documentation: {param_type: 'body'}
-        optional :email_address, type:String, desc: "Supporter email", regexp: Email::Regex, allow_blank: true, documentation: {param_type: 'body'}
-        optional :phone, type:String, desc: "Supporter phone", allow_blank: 
-        true, documentation: {param_type: 'body'}
-        optional :organization, type:String, desc: "Supporter organization", allow_blank: true, documentation: {param_type: 'body'}
-        optional :default_address, type: Hash do
-          requires :id, type:Integer
-        end
+      optional :name, type:String, desc: "Supporter name", allow_blank: true, documentation: {param_type: 'body'}
+      optional :email, type:String, desc: "Supporter email", regexp: Email::Regex, allow_blank: true, documentation: {param_type: 'body'}
+      optional :phone, type:String, desc: "Supporter phone", allow_blank: 
+      true, documentation: {param_type: 'body'}
+      optional :organization, type:String, desc: "Supporter organization", allow_blank: true, documentation: {param_type: 'body'}
+      optional :default_address, type: Hash do
+        requires :id, type:Integer
       end
+      
     end
     put do
       supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
@@ -99,9 +98,7 @@ class Houdini::V1::Supporter < Grape::API
         success Houdini::V1::Entities::Address
       end
       params do
-        requires :address, type: Hash do
-          use :address
-        end
+        use :address
       end
       post do
         Qx.transaction do
@@ -110,9 +107,9 @@ class Houdini::V1::Supporter < Grape::API
             error!('Unauthorized', 401)
           end
 
-          address = CrmAddress.create!({supporter:supporter}.merge(declared_params[:address]))
+          address = CrmAddress.create!(declared_params)
 
-          supporter.default_address_strategy.on_add(supporter, address)
+          supporter.default_address_strategy.on_add(address)
           present address, with: Houdini::V1::Entities::Address
         end
       end
@@ -137,9 +134,7 @@ class Houdini::V1::Supporter < Grape::API
           success Houdini::V1::Entities::Address
         end
         params do
-          requires :address, type: Hash do
-            use :address
-          end
+          use :address
         end
         put do
           Qx.transaction do
@@ -151,7 +146,7 @@ class Houdini::V1::Supporter < Grape::API
               error!('Unauthorized', 401)
             end
 
-            address.update_attributes!(declared_params[:address])
+            address.update_attributes!(declared_params.except(:crm_address_id))
 
             present address, with: Houdini::V1::Entities::Address
           end

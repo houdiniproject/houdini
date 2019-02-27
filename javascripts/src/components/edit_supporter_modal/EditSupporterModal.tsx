@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
+import { observer, inject, disposeOnUnmount } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Modal from '../common/Modal';
 import { TwoColumnFields } from '../common/layout';
@@ -8,10 +8,12 @@ import { BasicField } from '../common/fields';
 import { observable, action, computed, reaction, IReactionDisposer } from 'mobx';
 import { Address } from '../../../api/model/Address';
 import AddressPane, { AddressAction } from './AddressPane';
-import { SupporterApi, PutSupporter, Supporter } from '../../../api';
+import { SupporterApi, PutSupporter, Supporter, APIS } from '../../../api';
 import { HoudiniForm, StaticFormToErrorAndBackConverter } from '../../lib/houdini_form';
 import { initializationDefinition, FieldDefinition } from '../../../../types/mobx-react-form';
-import _ = require('lodash');
+import * as _ from 'lodash';
+import { CSRFInterceptor } from '../../lib/csrf_interceptor';
+import { ApiManager } from '../../lib/api_manager';
 
 export interface EditSupporterModalProps {
   //from ModalProps
@@ -19,7 +21,6 @@ export interface EditSupporterModalProps {
   modalActive: boolean
   nonprofitId: number
   supporterId: number
-  SupporterApi?:SupporterApi
 }
 
 // TODO: we only get the first 100 addresses. We will get more in the future (probably with rxjs) but seriously, you shouldn't have that many
@@ -46,19 +47,22 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
 
   constructor(props:EditSupporterModalProps & InjectedIntlProps) {
     super(props)
+    this.ApiManager = new ApiManager(APIS, CSRFInterceptor)
+    this.SupporterApi = this.ApiManager.get(SupporterApi)
     this.form = this.createNewForm()
-    this.updateValuesFormReaction = reaction(
-        () => this.supporter, 
-        (s) => { this.updateForm(s)}
-      )
-    
+   
   }
 
-  componentWillUnmount(){
-    this.updateValuesFormReaction && this.updateValuesFormReaction()
-  }
 
-  updateValuesFormReaction: IReactionDisposer
+  ApiManager: ApiManager
+  SupporterApi: SupporterApi
+  
+  @disposeOnUnmount
+  updateValuesFormReaction: IReactionDisposer = reaction(
+    () => this.supporter, 
+    (s) => { this.updateForm(s)}
+  )
+
 
   @observable
   supporter:Supporter
@@ -71,8 +75,6 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
 
   @observable
   form:HoudiniForm
-  
-  
 
   @action.bound
   updateForm(s:Supporter)
@@ -94,8 +96,6 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   isDefaultAddress(address:Address):boolean {
     return address.id && address.id === this.defaultAddressId
   }
-
-
   
   componentDidMount(){
    this.loadSupporterAndAddress()
@@ -105,20 +105,26 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   createNewForm() : HoudiniForm
   {
     let params: { [name: string]: FieldDefinition } = {
-      'name': { name: 'name' },
-      'email': { name: 'email'},
-      'phone': {name: 'phone'},
-      'organization': {name: 'organization'},
+      'name': { name: 'name', label: 'Name' },
+      'email': { name: 'email', label: 'Email'},
+      'phone': {name: 'phone', label: 'Phone'},
+      'organization': {name: 'organization', label: 'Organization'},
       'defaultAddress': {name:' defaultAddress'}
     }
 
-    return new EditSupporterForm({ fields: _.values(params)}, {hooks: {onSuccess: this.tryToSubmitForm}})
+    return new EditSupporterForm({ fields: _.values(params)}, 
+    {
+      hooks: () =>  {
+        return {onSuccess: this.tryToSubmitForm}
+      }
+    })
   }
 
   @action.bound
   async tryToSubmitForm() {
 
   }
+  
 
   
 
@@ -126,7 +132,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   async loadSupporterAndAddress() {
     this.loadSupporter()
     
-    const addresses = await this.props.SupporterApi.getSupporterSupporterIdAddress(this.props.supporterId, 'CRM', PageLength)
+    const addresses = await this.SupporterApi.getSupporterSupporterIdAddress(this.props.supporterId, 'CRM', PageLength)
 
     this.addresses = addresses.addresses
     
@@ -135,7 +141,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   
   @action.bound
   async loadSupporter(){ 
-    this.supporter = await this.props.SupporterApi.getSupporterSupporterId(this.props.supporterId)
+    this.supporter = await this.SupporterApi.getSupporterSupporterId(this.props.supporterId)
   }
 
   @action.bound
@@ -154,7 +160,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       case 'update':
         this.handleUpdatedAddress(action)
       case 'none':
-        break;
+        this.handleNoAction(action);
     }
   }
 
@@ -164,14 +170,14 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
     await this.loadSupporter()
     if (action.setToDefault)
       this.form.$('defaultAddress').set(action.address.id)
+    this.selectedAddress = null
   }
-
-  
 
   @action.bound
   async handleDeletedAddress(action:AddressAction) {
     _.remove(this.addresses, (a) => a.id === action.address.id)
     await this.loadSupporter()
+    this.selectedAddress = null
   }
 
   @action.bound
@@ -179,10 +185,17 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
     const index = _.findIndex(this.addresses, (a) => a.id === action.address.id)
     this.addresses.splice(index, 1, action.address)
     await this.loadSupporter()
+    this.selectedAddress = null
 
     if (action.setToDefault)
       this.form.$('defaultAddress').set(action.address.id)
   }
+
+  @action.bound
+  handleNoAction(action:AddressAction) {
+    this.selectedAddress = null
+  }
+  
 
   @action.bound
   beginModifyAddress(address:Address) {
@@ -191,47 +204,49 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
 
   render() {
 
-    let coverpane = this.selectedAddress ? <AddressPane 
-      nonprofitId={this.props.nonprofitId} 
-      onClose={this.handleAddressAction}
-      initialAddress={this.selectedAddress}
-      isDefault={this.isDefaultAddress(this.selectedAddress)}
-      >
+    let coverpane = this.selectedAddress ? <div style={{
+      position:'absolute',
+      zIndex:100,
+      top:'0px',
+      left:'0px',
+      height:'100%',
+      width:'100%'
+      }}><AddressPane 
+        nonprofitId={this.props.nonprofitId} 
+        onClose={this.handleAddressAction}
+        initialAddress={this.selectedAddress}
+        isDefault={this.isDefaultAddress(this.selectedAddress)} ApiManager={this.ApiManager}
+        >
 
-    </AddressPane> : false
+    </AddressPane> </div>: false
 
     return <Modal 
       modalActive={this.props.modalActive} 
       titleText={'Create Offsite Donation'}
       focusDialog={true}
       onClose={this.props.onClose}
-      dialogStyle={{ minWidth: '768px' }} 
+      dialogStyle={{ minWidth: '768px', position:'relative' }} 
       childGenerator={() => {
         return <div className={"tw-bs"}>
-          <div style={{
-            position:'absolute',
-            zIndex:100,
-            top:'0px',
-            left:'0px',
-            height:'100%',
-            width:'100%'
-          }}>
+          
           {coverpane}
-          </div>
           <form className='u-marginTop--20'>
              <TwoColumnFields>
-              <BasicField field={this.form.$('name')} />
-              <BasicField field={this.form.$('email')} />
-              <BasicField field={this.form.$('phone')} />
-              <BasicField field={this.form.$('organization')} />
+              <BasicField field={this.form.$('name')} label={"Name"}/>
+              <BasicField field={this.form.$('email')}  label={"Email"}/>
+             
             </TwoColumnFields> 
+            <TwoColumnFields>
+              <BasicField field={this.form.$('phone')}  label={"Phone"}/>
+              <BasicField field={this.form.$('organization')} label={"Organization"}/>
+            </TwoColumnFields>
             <hr />
-            <button onClick={this.addAddress}>Add Address</button>
-            {this.addresses.map((a) => {
+            <button type={"button"} onClick={this.addAddress}>Add Address</button>
+            {this.addresses ? this.addresses.map((a) => {
               return <div>
                 {a.address}, {a.city}, {a.stateCode}, {a.country} <button onClick={() => this.beginModifyAddress(a)}>Modify</button>
               </div>
-            })}
+            }) : false}
             <hr/>
             <button type="submit" 
             onClick={() => this.form.submit()}>Save</button>
@@ -242,7 +257,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   }
 }
 
-export default injectIntl(inject('SupporterApi')(observer(EditSupporterModal)))
+export default injectIntl(observer(EditSupporterModal))
 
 
 

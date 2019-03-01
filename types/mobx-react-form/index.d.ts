@@ -310,12 +310,14 @@ export class Form implements Base {
     update(obj: any): void;
 
     readonly submitting: boolean;
-    readonly isValid:boolean;
 
     protected validator :any
 
     readonly isValid :boolean;
     readonly size:number
+
+    readonly isPristine :boolean;
+    readonly isDirty :boolean;
 
     values(): {[fields:string] : ValuesResponse|string}
     

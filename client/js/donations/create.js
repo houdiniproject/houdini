@@ -29,7 +29,7 @@ function create_donation(donation) {
     donation.amount = format.dollarsToCents(donation.dollars)
     delete donation.dollars
   }
-	return request.post(path).send({donation: donation}).perform()
+	return request.post(path).set('Content-Type', 'application/json').send( donation).perform()
 		// Reset the card form ui
 		.then(function(resp) {
 			appl.def('card_form', {status: '', error: false})

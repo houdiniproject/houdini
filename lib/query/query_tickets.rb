@@ -99,7 +99,7 @@ module QueryTickets
 
 
   def self.for_export(event_id, query)
-    Psql.execute_vectors(
+    data = Psql.execute_vectors(
       attendees_expr(event_id, query)
       .select([
         "tickets.bid_id AS id",
@@ -110,9 +110,21 @@ module QueryTickets
         "tickets.checked_in AS \"Checked In?\"",
         "tickets.note",
         "CASE WHEN event_discounts.id IS NULL THEN 'None' ELSE concat(event_discounts.name, ' (', event_discounts.percent, '%)') END AS \"Discount\"",
-        "CASE WHEN tickets.card_id IS NULL OR tickets.card_id = 0 THEN '' ELSE 'YES' END AS \"Card Saved?\""
+        "tickets.source_token_id"
       ].concat(QuerySupporters.supporter_export_selections))
     )
+
+    data[0].push('Card Saved?')
+    data.drop(1).each{|i|
+      source_token_id = i[8]
+      if (source_token_id && QuerySourceToken.source_token_unexpired?(SourceToken.find(source_token_id)))
+        i.push("Yes")
+      else
+        i.push("")
+      end
+    }
+
+    data
   end
 
 

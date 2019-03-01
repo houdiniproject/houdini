@@ -1,2 +1,0 @@
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-#ERROR_HANDLER = ENV['ERROR_HANDLER_CLASS'] ? ENV['ERROR_HANDLER_CLASS'].constantize : ErrorHandler::NullErrorHandler

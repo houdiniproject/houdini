@@ -14,7 +14,6 @@ module JobTypes
    end
 
    def error(job, exception)
-     Airbrake.notify(exception)
    end
 
    def reschedule_at(current_time, attempts)

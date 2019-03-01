@@ -8,7 +8,7 @@ import { HoudiniForm, StaticFormToErrorAndBackConverter, HoudiniField } from '..
 import { FieldDefinition, Field, initializationDefinition, Form } from 'mobx-react-form';
 import { Address } from '../../../api/model/Address';
 import { ApiManager } from '../../lib/api_manager';
-import { SupporterApi, PostSupporterSupporterIdAddress, PutSupporterSupporterIdAddress, ValidationErrorsException } from '../../../api';
+import { SupporterApi, ValidationErrorsException } from '../../../api';
 import { BasicField } from '../common/fields';
 
 
@@ -41,7 +41,7 @@ interface ServerErrorInput {
   address?:Array<string>
   city?:Array<string>
   state_code?:Array<string>
-  zip_ode?:Array<string>
+  zip_code?:Array<string>
   country?:Array<string>
 }
 export class AddressPaneForm extends HoudiniForm {
@@ -80,6 +80,10 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
 
   form: AddressPaneForm
 
+  public getForm() : AddressPaneForm {
+    return this.form;
+  }
+
   
   constructor(props: AddressPaneProps & InjectedIntlProps) {
     super(props)
@@ -107,7 +111,9 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
       'city': { name: 'city', value: this.shouldAdd ? undefined : initialAddress.city },
       'state_code': { name: 'state_code', value: this.shouldAdd ? undefined : initialAddress.state_code },
       'zip_code': { name: 'zip_code', value: this.shouldAdd ? undefined : initialAddress.zip_code },
-      'country': { name: 'country', value: this.shouldAdd ? undefined : initialAddress.country }
+      'country': { name: 'country', value: this.shouldAdd ? undefined : initialAddress.country },
+
+      'is_default': { name: 'isDefault', value: this.props.isDefault}
     }
 
     return new AddressPaneForm({ fields: _.values(params)}, {
@@ -126,11 +132,11 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
   @action.bound
   async delete() {
     try{
-      await this.supporterApi.deleteSupporterSupporterIdAddressCrmAddressId(this.props.initialAddress.supporter.id, this.props.initialAddress.id)
+      await this.supporterApi.deleteCrmAddress(this.props.initialAddress.supporter.id, this.props.initialAddress.id)
       this.close({type: 'deleted', address:this.props.initialAddress})
     }
     catch(e){
-      //handle
+      // notify of error
     }
   }
 
@@ -141,11 +147,11 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
 
     try {
       if (this.isAdd) {
-        const address  = await this.supporterApi.postSupporterSupporterIdAddress(this.supporterId, input)
+        const address  = await this.supporterApi.createCrmAddress(this.supporterId, input)
         this.close({type: 'add', address:address })
       }
       else {
-        const address = await this.supporterApi.putSupporterSupporterIdAddressCrmAddressId(this.supporterId, f.$('id').get('value'), input)
+        const address = await this.supporterApi.updateCrmAddress(this.supporterId, f.$('id').get('value'), input)
 
         this.close({type: 'update', address:address})
       }
@@ -192,7 +198,7 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
 
         {this.shouldAdd ?
           <>
-            <button onClick={() => this.form.submit()}  className="button">Add</button>
+            <button onClick={() => this.form.submit()} className="button" disabled={this.form.isPristine}>Add</button>
           </> :
           <>
             <button onClick={() => this.form.submit()}  className="button">Save</button>

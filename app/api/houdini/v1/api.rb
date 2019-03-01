@@ -12,6 +12,10 @@ class Houdini::V1::API < Grape::API
 		rescue_ar_invalid(e)
 	end
 
+	rescue_from ActiveRecord::RecordNotFound do |e|
+		rescue_ar_not_found(e)
+	end
+
   mount Houdini::V1::Supporter => '/supporter'
 	mount Houdini::V1::Nonprofit => '/nonprofit'
   mount Houdini::V1::Donation => '/donation'

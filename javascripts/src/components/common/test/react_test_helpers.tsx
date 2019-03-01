@@ -49,6 +49,8 @@ export function mountForMobxWithIntl<TProps>(props:TProps,
 }
 
 
+
+
 export function waitForMobxCondition(
   finishCondition:() => any,
   effect: () => any,

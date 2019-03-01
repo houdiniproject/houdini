@@ -7,7 +7,7 @@ declare var $ : any;
 import * as $ from 'jquery';
 {{/jqueryAlreadyImported}}
 import * as models from '../model/models';
-import { COLLECTION_FORMATS } from '../variables';
+import { COLLECTION_FORMATS, TimeoutError } from '../variables';
 import { Configuration } from '../configuration';
 
 /* tslint:disable:no-unused-variable member-ordering */
@@ -237,7 +237,9 @@ export class {{classname}} {
             (data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}any{{/returnType}}, textStatus: string, jqXHR: JQueryXHR) =>
                 dfd.resolve(jqXHR, data),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) => {
-                    if(false){}
+                    if(textStatus === 'timeout'){
+                        dfd.reject(new TimeoutError())
+                    }
                 {{#responses}}
                     else if (xhr.status == {{{code}}} && {{{code}}} >= 400)
                     {
@@ -245,6 +247,7 @@ export class {{classname}} {
                     }
 
                 {{/responses}}
+                    
                     else
                     {
 

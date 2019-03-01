@@ -145,7 +145,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   async loadSupporterAndAddress() {
     this.loadSupporter()
     
-    const addresses = await this.SupporterApi.getSupporterSupporterIdAddress(this.props.supporterId, 'CRM', PageLength)
+    const addresses = await this.SupporterApi.getCrmAddresses(this.props.supporterId, 'CRM', PageLength)
 
     this.addresses = addresses.addresses
     
@@ -154,7 +154,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
   
   @action.bound
   async loadSupporter(){ 
-    this.supporter = await this.SupporterApi.getSupporterSupporterId(this.props.supporterId)
+    this.supporter = await this.SupporterApi.getSupporter(this.props.supporterId)
   }
 
   @action.bound

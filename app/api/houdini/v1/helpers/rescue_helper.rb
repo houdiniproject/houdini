@@ -21,6 +21,11 @@ module Houdini::V1::Helpers::RescueHelper
     end
   end
 
+  def rescue_ar_not_found(error)
+    output = {}
+    error! output, 404
+  end
+
   def validation_errors_output(error)
     output = {errors: error}
     error! output, 400

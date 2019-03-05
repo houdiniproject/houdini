@@ -65,7 +65,6 @@ module InsertCharge
       unless card.holder == supporter
         if (data[:old_donation])
           #these are not new donations so we let them fly (for now)
-          Airbrake.notify(ParamValidation::ValidationError.new("#{data[:card_id]} does not belong to this supporter #{supporter.id} as warning", {:key => :card_id}))
         else
           raise ParamValidation::ValidationError.new("#{data[:card_id]} does not belong to this supporter #{supporter.id}", {:key => :card_id})
         end
@@ -77,7 +76,6 @@ module InsertCharge
         stripe_customer_id = card.stripe_customer_id
         stripe_account_id = StripeAccount.find_or_create(data[:nonprofit_id])
       rescue => e
-        Airbrake.notify(e, other_data: data)
         raise e
       end
       nonprofit_currency = Qx.select(:currency).from(:nonprofits).where("id=$id", id: data[:nonprofit_id]).execute.first['currency']
@@ -117,10 +115,8 @@ module InsertCharge
         stripe_charge = Stripe::Charge.create(*params)
       rescue Stripe::CardError => e
         failure_message = "There was an error with your card: #{e.json_body[:error][:message]}"
-        Airbrake.notify(e)
       rescue Stripe::StripeError => e
         failure_message = "We're sorry, but something went wrong. We've been notified about this issue."
-        Airbrake.notify(e)
       end
 
 
@@ -163,7 +159,6 @@ module InsertCharge
 
       return result
     rescue => e
-      Airbrake.notify(e)
       raise e
     end
   end

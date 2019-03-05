@@ -111,10 +111,8 @@ module InsertCard
     rescue ActiveRecord::ActiveRecordError => e
       return {json: {error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
     rescue e
-      Airbrake.notify(e)
       return {json: {error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
     rescue e
-      Airbrake.notify(e)
       return {json: {error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
     end
 

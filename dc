@@ -4,4 +4,4 @@ current_commit=$( git rev-parse HEAD )
 current_branch=$( git rev-parse --abbrev-ref HEAD )
 
 
-docker-compose -f docker/debug/docker-compose.yml -p "${PWD}_-_-${current_branch}" $@
+docker-compose -f docker/debug/docker-compose.yml -p "${PWD}-${current_branch}" $@

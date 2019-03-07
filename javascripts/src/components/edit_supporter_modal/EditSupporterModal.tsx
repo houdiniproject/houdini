@@ -14,6 +14,9 @@ import { initializationDefinition, FieldDefinition } from '../../../../types/mob
 import * as _ from 'lodash';
 import { CSRFInterceptor } from '../../lib/csrf_interceptor';
 import { ApiManager } from '../../lib/api_manager';
+import SelectableTableRow from '../common/SelectableTableRow';
+import Star from '../common/icons/Star';
+import Button from '../common/form/Button';
 
 export interface EditSupporterModalProps {
   //from ModalProps
@@ -122,7 +125,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       'email': { name: 'email', label: 'Email'},
       'phone': {name: 'phone', label: 'Phone'},
       'organization': {name: 'organization', label: 'Organization'},
-      'defaultAddress': {name:' defaultAddress'}
+      'defaultAddressId': {name:' defaultAddressId'}
     }
 
     return new EditSupporterForm({ fields: _.values(params)}, 
@@ -169,7 +172,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       case 'add':
         this.handleAddedAddress(action)
         break;
-      case 'deleted':
+      case 'delete':
         this.handleDeletedAddress(action)
         break;
       case 'update':
@@ -186,7 +189,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
     this.addresses.push(action.address)
     await this.loadSupporter()
     if (action.setToDefault)
-      this.form.$('defaultAddress').set(action.address.id)
+      this.form.$('defaultAddressId').set(action.address.id)
     this.selectedAddress = null
   }
 
@@ -205,7 +208,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
     this.selectedAddress = null
 
     if (action.setToDefault)
-      this.form.$('defaultAddress').set(action.address.id)
+      this.form.$('defaultAddressId').set(action.address.id)
   }
 
   @action.bound
@@ -221,33 +224,14 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
 
   render() {
 
-    let coverpane = this.selectedAddress ? <div style={{
-      position:'absolute',
-      zIndex:100,
-      top:'0px',
-      left:'0px',
-      height:'100%',
-      width:'100%'
-      }}><AddressPane 
+    let coverpane = this.selectedAddress ? <AddressPane 
         nonprofitId={this.props.nonprofitId} 
         onClose={this.handleAddressAction}
         initialAddress={this.selectedAddress}
         isDefault={this.isDefaultAddress(this.selectedAddress)} ApiManager={this.ApiManager}
         >
 
-    </AddressPane> </div>: false
-
-    return <Modal 
-      modalActive={this.props.modalActive} 
-      titleText={'Create Offsite Donation'}
-      focusDialog={true}
-      onClose={this.props.onClose}
-      dialogStyle={{ minWidth: '768px', position:'relative' }} 
-      childGenerator={() => {
-        return <div className={"tw-bs"}>
-          
-          {coverpane}
-          <form>
+    </AddressPane>: <form>
              <TwoColumnFields>
               <BasicField field={this.form.$('name')} label={"Name"}/>
               <BasicField field={this.form.$('email')}  label={"Email"}/>
@@ -257,17 +241,42 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
               <BasicField field={this.form.$('phone')}  label={"Phone"}/>
               <BasicField field={this.form.$('organization')} label={"Organization"}/>
             </TwoColumnFields>
-            <hr />
-            <button type={"button"} onClick={this.addAddress}>Add Address</button>
-            {this.addresses ? this.addresses.map((a) => {
-              return <div key={a.id}>
-                {a.address}, {a.city}, {a.state_code}, {a.country} <button onClick={() => this.beginModifyAddress(a)} type={"button"} >Modify</button>
-              </div>
-            }) : false}
-            <hr/>
-            <button type={"button"} 
-            onClick={() => this.form.submit()}>Save</button>
+        
+            {/* <div style={{textAlign: "right"}}><Button onClick={this.addAddress}  buttonSize="tiny">Add Address</Button></div> */}
+            {this.addresses ? 
+            <table className={"clickable table--plaid"}>
+              <thead>
+                <th>Address</th>
+                <th>Default?</th> 
+              </thead>
+              <tbody>
+                {this.addresses.map((a) => {
+                  return <SelectableTableRow onSelect={() => this.beginModifyAddress(a)} key={a.id}>
+                    <td>{a.address}, {a.city}, {a.state_code}, {a.country}</td>
+                    <td style={{textAlign:"center"}}>{this.isDefaultAddress(a) ?  <Star/> : false}</td>
+                  </SelectableTableRow> 
+                })
+              }
+              
+              <SelectableTableRow onSelect={this.addAddress}>
+              <td><Button onClick={this.addAddress}  buttonSize="tiny">Add Address</Button></td>
+              </SelectableTableRow>
+              </tbody>
+            </table> : false}
+
+            <Button
+            onClick={() => this.form.submit()}>Save</Button>
           </form>
+
+    return <Modal 
+      modalActive={this.props.modalActive} 
+      titleText={'Create Offsite Donation'}
+      focusDialog={true}
+      onClose={this.props.onClose}
+      dialogStyle={{ minWidth: '768px', position:'relative'}} 
+      childGenerator={() => {
+        return <div className={"tw-bs"}>
+          {coverpane}      
         </div>
       }}>
     </Modal>

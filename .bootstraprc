@@ -11,6 +11,7 @@
     "panels": true,
     "type": true
   },
+  "appStyles": 'app/assets/stylesheets/_bootstrap_hacks.css.scss',
 
   "scripts": false,
   "styleNamespace": ".tw-bs"

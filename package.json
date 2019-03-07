@@ -106,6 +106,7 @@
     "flyd-url": "0.0.1",
     "flyd-zip": "0.0.1",
     "focus-group": "^0.3.1",
+    "focus-trap-react": "^6.0.0",
     "form-serialize": "0.7.0",
     "format-number": "2.0.2",
     "i18n-js": "^3.0.3",

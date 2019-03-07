@@ -132,6 +132,18 @@ module UpdateDonation
     end
   end
 
+  #
+  # Change the dedication on a donation and its payment(s)
+  #
+  # @param [Donation] donation
+  # @param [string] new_dedication The new dedication
+  #
+  def self.redesignate_donation(donation, new_designation)
+    donation.designation = new_designation
+    donation.payments.each{|i| i.towards = new_designation; i.save!}
+    donation.save!
+  end
+
   def self.correct_donations_when_date_and_payments_are_off(id)
     Qx.transaction do
       @payments_corrected = []

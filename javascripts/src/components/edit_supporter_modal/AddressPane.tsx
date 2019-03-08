@@ -141,9 +141,13 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
 
     try {
       if (this.attemptDelete){
+        try{
         await this.supporterApi.deleteCrmAddress(this.props.initialAddress.supporter.id, this.props.initialAddress.id)
         this.close({ type: 'delete', address: this.props.initialAddress })
-      
+        }
+        finally {
+          this.attemptDelete = false;
+        }
       }
       else
       {
@@ -183,27 +187,22 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
   
   @computed
   get modifiedEnoughToSubmit() : boolean {
-    return this.form.isDirty && (this.form.$('address').isDirty 
-    || this.form.$('city').isDirty 
-    || this.form.$('state_code').isDirty 
-    || this.form.$('zip_code').isDirty 
-    || this.form.$('country').isDirty)
+    //needs to NOT just be is_default
+    return this.form.isDirty && !(
+      this.form.$('is_default').isDirty && (this.form.$('address').isEmpty 
+      && this.form.$('city').isEmpty 
+      && this.form.$('state_code').isEmpty 
+      && this.form.$('zip_code').isEmpty 
+      && this.form.$('country').isEmpty 
+      )
+    )
   }
 
   
 
   render() {
-    return <div style={{
-      // position: 'absolute',
-      // width: '100%',
-      // height: '100%',
-      // right: '0px',
-      // top: '0px',
-      // backgroundColor: 'white',
-      // display: 'flex',
-      // flexDirection: 'column'
-    }}>
-      <div style={{ flex: 'auto' }}>
+    return <div>
+      <div>
         <form>
           <BasicField field={this.form.$('address')} label={"Address"} />
           <BasicField field={this.form.$('city')} label={"City"} />
@@ -233,7 +232,7 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
   }
 }
 
-export default injectIntl(observer(AddressPane))
+export default injectIntl(inject('ApiManager')(observer(AddressPane)))
 
 
 

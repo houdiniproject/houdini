@@ -7,22 +7,7 @@ import * as _ from 'lodash';
 import { NotFoundErrorException } from '../../../api/model/NotFoundError';
 import { waitForMobxCondition } from '../common/test/react_test_helpers';
 import { ReactWrapper } from 'enzyme';
-import { ApiManager } from '../../lib/api_manager';
-import { mountWithIntl } from '../../lib/tests/helpers';
-
-function createMockApiManager(types: [{ type: any, mockApi: Function }]) {
-  return jest.fn<ApiManager>(() => {
-    return {
-      get: jest.fn(
-        (c) => {
-          return _.find(types, (i) => i.type === c)
-        }
-      )
-    }
-  })
-}
-
-
+import { mountWithIntl, createMockApiManager, createMockApi } from '../../lib/tests/helpers';
 
 describe('AddressPane', () => {
   let supporters: number[]
@@ -30,76 +15,60 @@ describe('AddressPane', () => {
   const TIMEOUT_CAUSING_ID = 999999
   const TIMEOUT_CAUSING_STREET = 'time outer'
 
-  function createApiManager(types: [{ type: any, mockApi: Function }]) {
-
-    return jest.fn<ApiManager>(() => {
-      return {
-        get: jest.fn(
-          (c) => {
-            return _.find(types, (i) => i.type === c).mockApi()
-          }
-        )
-      }
-    })
-  }
-
   function apiManagerCreator() {
-    return createApiManager([{
-      type: SupporterApi,
-      mockApi: () => {
-        return {
-          deleteCrmAddress:
-            jest.fn<JQueryPromise<Address>>(
-              (supporter_id: number, crm_address_id: number) => {
-                return new Promise((resolve, reject) => {
-                  if (crm_address_id === TIMEOUT_CAUSING_ID)
-                    reject(new TimeoutError())
-                  else {
-                    const address = _.find(addresses, (i) => i.id === crm_address_id)
-                    if (!address) {
-                      reject(new NotFoundErrorException({}))
-                    }
-                    else {
-                      resolve(address)
-                    }
+    return createMockApiManager(createMockApi(SupporterApi, () => {
+      return {
+        deleteCrmAddress:
+          jest.fn<JQueryPromise<Address>>(
+            (supporter_id: number, crm_address_id: number) => {
+              return new Promise((resolve, reject) => {
+                if (crm_address_id === TIMEOUT_CAUSING_ID)
+                  reject(new TimeoutError())
+                else {
+                  const address = _.find(addresses, (i) => i.id === crm_address_id)
+                  if (!address) {
+                    reject(new NotFoundErrorException({}))
                   }
-                })
-              }),
-          createCrmAddress:
-            jest.fn<JQueryPromise<Address>>(
-              (supporter_id: number, address: PostSupporterSupporterIdAddress) => {
-                return new Promise((resolve, reject) => {
-                  if (address.address === TIMEOUT_CAUSING_STREET) {
-                    reject(new TimeoutError())
-                  }
-
                   else {
                     resolve(address)
                   }
-                })
-              }),
-
-          updateCrmAddress:
-            jest.fn<JQueryPromise<Address>>(
-              (supporter_id: number, crm_address_id: number, putCommand: PutSupporterSupporterIdAddress) => {
-                return new Promise((resolve, reject) => {
-                  if (putCommand.address === TIMEOUT_CAUSING_STREET)
-                    reject(new TimeoutError())
-                  else {
-                    const address = _.find(addresses, (i) => i.id === crm_address_id)
-                    if (!address) {
-                      reject(new NotFoundErrorException({}))
-                    }
-
-                    else {
-                      resolve({ ...putCommand, ...{ id: crm_address_id } })
-                    }
-                  }
-                })
+                }
               })
-        }
+            }),
+        createCrmAddress:
+          jest.fn<JQueryPromise<Address>>(
+            (supporter_id: number, address: PostSupporterSupporterIdAddress) => {
+              return new Promise((resolve, reject) => {
+                if (address.address === TIMEOUT_CAUSING_STREET) {
+                  reject(new TimeoutError())
+                }
+
+                else {
+                  resolve(address)
+                }
+              })
+            }),
+
+        updateCrmAddress:
+          jest.fn<JQueryPromise<Address>>(
+            (supporter_id: number, crm_address_id: number, putCommand: PutSupporterSupporterIdAddress) => {
+              return new Promise((resolve, reject) => {
+                if (putCommand.address === TIMEOUT_CAUSING_STREET)
+                  reject(new TimeoutError())
+                else {
+                  const address = _.find(addresses, (i) => i.id === crm_address_id)
+                  if (!address) {
+                    reject(new NotFoundErrorException({}))
+                  }
+
+                  else {
+                    resolve({ ...putCommand, ...{ id: crm_address_id } })
+                  }
+                }
+              })
+            })
       }
-    }])()
+    }))()
   }
 
 
@@ -130,25 +99,31 @@ describe('AddressPane', () => {
       return (address.find("AddressPane").instance() as any).getForm()
     }
 
+    function findButton(buttonText:string) {
+      let buttons = address.find('button')
+
+      return buttons.filterWhere((button: ReactWrapper) => button.text() === buttonText)
+    }
+
 
     it('has an add button', () => {
 
       let buttons = address.find('button')
 
-      expect(buttons.filterWhere((button: ReactWrapper) => button.text() === 'Add').exists()).toBeTruthy()
+      expect(findButton('Add').exists()).toBeTruthy()
 
     })
 
     it('has close button', () => {
       let buttons = address.find('button')
 
-      expect(buttons.filterWhere((button: ReactWrapper) => button.text() === 'Close').exists()).toBeTruthy()
+      expect(findButton('Close').exists()).toBeTruthy()
     })
 
     it('has no delete button', () => {
       let buttons = address.find('button')
 
-      expect(buttons.filterWhere((button: ReactWrapper) => button.text() === 'Delete').exists()).toBeFalsy()
+      expect(findButton('Delete').exists()).toBeFalsy()
     })
 
     it('has a default address button', () => {
@@ -160,41 +135,27 @@ describe('AddressPane', () => {
 
 
     it('has a close button which closes with nothing', () => {
-      let closeButton = address.find('button').filterWhere((button: ReactWrapper) => button.text() === 'Close')
-
-      closeButton.simulate('click')
+      findButton('Close').simulate('click')
 
       expect(addressAction).toBeCalledWith({ type: 'none' })
     })
 
 
     it('has a disabled add button when nothing entered', () => {
-
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Add'
-          )
-      }
-
-      let getDisabledProp = (address: any) => {
-        const buttons = address.find('button')
-        return findButton(buttons).prop('disabled')
-      };
       address.render()
 
-      expect(getDisabledProp(address)).toBeTruthy()
+      expect(findButton('Add').prop('disabled')).toBeTruthy()
 
       let form = (address.find("AddressPane").instance() as any).getForm()
       let address_field = form.$('address')
 
       address_field.set("sinethung")
       address.update()
-      expect(getDisabledProp(address)).toBeFalsy()
+      expect(findButton('Add').prop('disabled')).toBeFalsy()
 
       address_field.set("")
       address.update()
-      expect(getDisabledProp(address)).toBeTruthy();
+      expect(findButton('Add').prop('disabled')).toBeTruthy();
     })
 
     it('has disabled add button when set as default address is selected but nothing else', () => {
@@ -203,14 +164,7 @@ describe('AddressPane', () => {
       is_default.set(true)
       address.update()
 
-      let addButton = address.find('button')
-        .filterWhere(
-          (button: ReactWrapper) => button.text() === 'Add'
-        )
-
-      expect(addButton.prop('disabled')).toBeTruthy()
-
-
+      expect(findButton('Add').prop('disabled')).toBeTruthy()
     })
 
     it('handles timeout properly', (done) => {
@@ -219,16 +173,9 @@ describe('AddressPane', () => {
       let address_field = form.$('address')
       address_field.set(TIMEOUT_CAUSING_STREET)
 
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Add'
-          )
-      }
-
       address.update()
 
-      findButton(address.find('button')).simulate('click')
+      findButton('Add').simulate('click')
 
       //we're waiting for the submit to finish before updating and checking
       waitForMobxCondition(() => !form.submitting && form.serverError, () => {
@@ -246,16 +193,9 @@ describe('AddressPane', () => {
       let address_field = form.$('address')
       address_field.set('good values')
 
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Add'
-          )
-      }
-
       address.update()
 
-      findButton(address.find('button')).simulate('click')
+      findButton('Add').simulate('click')
 
       waitForMobxCondition(() => !form.submitting, () => {
         address.update()
@@ -273,18 +213,9 @@ describe('AddressPane', () => {
       let is_default = form.$('is_default')
       is_default.set(true)
 
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Add'
-          )
-      }
-
-
-
       address.update()
 
-      findButton(address.find('button')).simulate('click')
+      findButton('Add').simulate('click')
 
       waitForMobxCondition(() => !form.submitting, () => {
         address.update()
@@ -321,32 +252,38 @@ describe('AddressPane', () => {
       return (address.find("AddressPane").instance() as any).getForm()
     }
 
+    function findButton(buttonText:string) {
+      let buttons = address.find('button')
+
+      return buttons.filterWhere((button: ReactWrapper) => button.text() === buttonText)
+    }
+
 
     it('has no add button', () => {
 
       let buttons = address.find('button')
 
-      expect(buttons.filterWhere((button: ReactWrapper) => button.text() === 'Add').exists()).toBeFalsy()
+      expect(findButton('Add').exists()).toBeFalsy()
 
     })
 
     it('has close button', () => {
       let buttons = address.find('button')
 
-      expect(buttons.filterWhere((button: ReactWrapper) => button.text() === 'Close').exists()).toBeTruthy()
+      expect(findButton('Close').exists()).toBeTruthy()
     })
 
     it('has a delete button', () => {
       let buttons = address.find('button')
 
-      expect(buttons.filterWhere((button: ReactWrapper) => button.text() === 'Delete').exists()).toBeTruthy()
+      expect(findButton('Delete').exists()).toBeTruthy()
     })
 
     it('has an update button', () => {
 
       let buttons = address.find('button')
 
-      expect(buttons.filterWhere((button: ReactWrapper) => button.text() === 'Save').exists()).toBeTruthy()
+      expect(findButton('Save').exists()).toBeTruthy()
 
     })
 
@@ -359,41 +296,31 @@ describe('AddressPane', () => {
 
 
     it('has a close button which closes with nothing', () => {
-      let closeButton = address.find('button').filterWhere((button: ReactWrapper) => button.text() === 'Close')
+     
 
-      closeButton.simulate('click')
+      findButton('Close').simulate('click')
 
       expect(addressAction).toBeCalledWith({ type: 'none' })
     })
 
 
     it('has a disabled update button when nothing entered', () => {
+      const saveButton = findButton('Save')
 
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Save'
-          )
-      }
-
-      let getDisabledProp = (address: any) => {
-        const buttons = address.find('button')
-        return findButton(buttons).prop('disabled')
-      };
       address.render()
 
-      expect(getDisabledProp(address)).toBeTruthy()
+      expect(saveButton.prop('disabled')).toBeTruthy()
 
       let form = (address.find("AddressPane").instance() as any).getForm()
       let address_field = form.$('address')
 
       address_field.set("sinethung")
       address.update()
-      expect(getDisabledProp(address)).toBeFalsy()
+      expect(findButton('Save').prop('disabled')).toBeFalsy()
 
       address_field.set("")
       address.update()
-      expect(getDisabledProp(address)).toBeTruthy();
+      expect(saveButton.prop('disabled')).toBeTruthy();
     })
 
     it('has disabled update button when set as default address is selected but nothing else', () => {
@@ -401,32 +328,15 @@ describe('AddressPane', () => {
       let is_default = form.$('is_default')
       is_default.set(true)
       address.update()
-
-      let addButton = address.find('button')
-        .filterWhere(
-          (button: ReactWrapper) => button.text() === 'Save'
-        )
-
-      expect(addButton.prop('disabled')).toBeTruthy()
-
+      expect(findButton('Save').prop('disabled')).toBeTruthy()
     })
 
     it('handles timeout properly', (done) => {
-
       let form = (address.find("AddressPane").instance() as any).getForm()
       let address_field = form.$('address')
       address_field.set(TIMEOUT_CAUSING_STREET)
-
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Save'
-          )
-      }
-
       address.update()
-
-      findButton(address.find('Button')).simulate('click')
+      findButton('Save').simulate('click')
 
       //we're waiting for the submit to finish before updating and checking
       waitForMobxCondition(() => !form.submitting && form.serverError, () => {
@@ -442,20 +352,58 @@ describe('AddressPane', () => {
     it('deletes properly', (done) => {
 
       let form = getForm()
-
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Delete'
-          )
-      }
-
-      findButton(address.find('button')).simulate('click')
+      findButton('Delete').simulate('click')
 
       waitForMobxCondition(() => !form.submitting, () => {
-
+        
         expect(addressAction).toBeCalledWith({ type: 'delete', address: { id: 1, supporter: { id: 1 } } })
+        expect((address.instance() as any).attemptDelete).toBeFalsy()
         done()
+      })
+    })
+
+    describe('handles timeout on delete', () => {
+      let address: ReactWrapper
+      let addressAction = jest.fn()
+      beforeEach(() => {
+        const apiManager = apiManagerCreator()
+        address = mountWithIntl(<AddressPane
+          nonprofitId={0}
+          initialAddress={{
+            id: TIMEOUT_CAUSING_ID,
+            supporter: {
+              id: 1
+            }
+          }}
+          ApiManager={apiManager}
+          onClose={addressAction}
+        />
+        )
+      })
+
+      function getForm() {
+        return (address.find("AddressPane").instance() as any).getForm()
+      }
+  
+      function findButton(buttonText:string) {
+        let buttons = address.find('button')
+  
+        return buttons.filterWhere((button: ReactWrapper) => button.text() === buttonText)
+      }
+
+      it('it handles delete properly', (done) => {
+        let form = getForm()
+        findButton('Delete').simulate('click')
+
+        waitForMobxCondition(() => !form.submitting && form.serverError, () => {
+          address.update()
+          expect(address.find("FormNotificationBlock").prop('message')).toBe(
+            "The website couldn't be contacted. Make sure you're connected to the internet and try again in a few seconds.")
+          
+          expect((address.instance() as any).attemptDelete).toBeFalsy()
+          done()
+        })
+      
       })
     })
 
@@ -464,16 +412,9 @@ describe('AddressPane', () => {
       let address_field = form.$('address')
       address_field.set('good values')
 
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Save'
-          )
-      }
-
       address.update()
 
-      findButton(address.find('button')).simulate('click')
+      findButton('Save').simulate('click')
 
       waitForMobxCondition(() => !form.submitting, () => {
         address.update()
@@ -491,18 +432,9 @@ describe('AddressPane', () => {
       let is_default = form.$('is_default')
       is_default.set(true)
 
-      let findButton = (buttons: any) => {
-        return buttons
-          .filterWhere(
-            (button: ReactWrapper) => button.text() === 'Save'
-          )
-      }
-
-
-
       address.update()
 
-      findButton(address.find('button')).simulate('click')
+      findButton('Save').simulate('click')
 
       waitForMobxCondition(() => !form.submitting, () => {
         address.update()

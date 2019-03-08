@@ -2,6 +2,8 @@
 import * as React from 'react';
 import {IntlProvider, intlShape} from 'react-intl';
 import {mount, MountRendererProps, shallow, ShallowRendererProps, ShallowWrapper} from 'enzyme';
+import { ApiManager } from '../api_manager';
+import _ = require('lodash');
 
 // Create the IntlProvider to retrieve context for wrapping around.
 const intlProvider = new IntlProvider({ locale: 'en'}, {});
@@ -122,4 +124,32 @@ export function shallowUntilTargetWithIntl(node:any, TargetComponent:any, option
   ...options,
     context: (Object as any).assign({}, context, {intl})
   }})
+}
+
+interface MockApi<T=any> {
+  type: { new(): T },
+  mockApi: () => Partial<T>
+}
+
+export function createMockApi<T>(
+  type:{ new(): T }, mockApi: () => Partial<T>) : MockApi<T>
+{
+  return {type: type, mockApi: mockApi}
+}
+
+
+export function createMockApiManager(types: MockApi[]|MockApi) : jest.Mock<ApiManager>{
+  let mocks:MockApi[]
+  if (!(types instanceof Array)) {
+    mocks = [types]
+  }
+  return jest.fn<ApiManager>(() => {
+    return {
+      get: jest.fn(
+        (c) => {
+          return _.find(mocks, (i) => i.type === c).mockApi()
+        }
+      )
+    }
+  })
 }

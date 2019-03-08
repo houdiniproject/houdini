@@ -41,7 +41,7 @@ class Houdini::V1::Supporter < Grape::API
       }
     params do
       optional :name, type:String, desc: "Supporter name", allow_blank: true, documentation: {param_type: 'body'}
-      optional :email, type:String, desc: "Supporter email", regexp: Email::Regex, allow_blank: true, documentation: {param_type: 'body'}
+      optional :email, type:String, desc: "Supporter email", allow_blank: true, documentation: {param_type: 'body'}
       optional :phone, type:String, desc: "Supporter phone", allow_blank: 
       true, documentation: {param_type: 'body'}
       optional :organization, type:String, desc: "Supporter organization", allow_blank: true, documentation: {param_type: 'body'}
@@ -52,8 +52,8 @@ class Houdini::V1::Supporter < Grape::API
     end
     put do
       supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-      if params[:supporter] && params[:supporter][:default_address]
-        address = supporter.crm_addresses.find(params[:supporter][:default_address][:id])
+      if declared_params[:default_address]
+        address = supporter.crm_addresses.find(declared_params[:default_address][:id])
       end
      
       #authenticate
@@ -62,7 +62,7 @@ class Houdini::V1::Supporter < Grape::API
       end
 
       Qx.transaction do
-        supporter.update_attributes!(declared_params[:supporter])
+        supporter.update_attributes!(declared_params.except(:supporter_id, :default_address))
         if (address)
           supporter.default_address_strategy.on_set_default(address)
           supporter.reload

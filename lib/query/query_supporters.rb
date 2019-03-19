@@ -372,7 +372,7 @@ UNION DISTINCT
                                  .as("supporter_note_query")
 
       expr.add_left_join(supporter_note_query, 'supporter_note_query.supporter_id=supporters.id')
-      selects = selects.concat(["supporter_note_query.notes AS notes"])
+      selects = selects.concat(["supporter_note_query.notes AS notes"]).concat(["ARRAY_TO_STRING(tags.names, ',') as tags"])
 
 
       expr.select(selects)

@@ -45,8 +45,8 @@ class Houdini::V1::Supporter < Grape::API
       optional :phone, type:String, desc: "Supporter phone", allow_blank: 
       true, documentation: {param_type: 'body'}
       optional :organization, type:String, desc: "Supporter organization", allow_blank: true, documentation: {param_type: 'body'}
-      optional :default_address, type: Hash do
-        requires :id, type:Integer
+      optional :default_address, type: Hash, documentation: {param_type: 'body'} do
+        requires :id, type:Integer, documentation: {param_type: 'body'}
       end
       
     end

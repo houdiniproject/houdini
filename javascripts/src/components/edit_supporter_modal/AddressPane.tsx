@@ -13,6 +13,7 @@ import { BasicField } from '../common/fields';
 import ReactCheckbox from '../common/form/ReactCheckbox';
 import FormNotificationBlock from '../common/form/FormNotificationBlock';
 import Button from '../common/form/Button';
+import { TwoColumnFields } from '../common/layout';
 
 
 
@@ -204,11 +205,17 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
     return <div>
       <div>
         <form>
-          <BasicField field={this.form.$('address')} label={"Address"} />
-          <BasicField field={this.form.$('city')} label={"City"} />
-          <BasicField field={this.form.$('state_code')} label={"State Code/Region"} />
-          <BasicField field={this.form.$('zip_code')} label={"Postal/Zip Code"} />
-          <BasicField field={this.form.$('country')} label={"Country"} />
+          <TwoColumnFields>
+            <BasicField field={this.form.$('address')} label={"Address"} />
+            <BasicField field={this.form.$('city')} label={"City"} />
+          </TwoColumnFields>
+          <TwoColumnFields>
+            <BasicField field={this.form.$('state_code')} label={"State Code/Region"} />
+            <BasicField field={this.form.$('zip_code')} label={"Postal/Zip Code"} />
+          </TwoColumnFields>
+          <TwoColumnFields>
+            <BasicField field={this.form.$('country')} label={"Country"} />
+          </TwoColumnFields>
           <ReactCheckbox field={this.form.$('is_default')} label={"Set as Default Address"}/>
           
           {this.form.serverError ? <FormNotificationBlock 
@@ -220,11 +227,11 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
         <Button onClick={() => this.close({ type: 'none' })}>Close</Button>
         {this.shouldAdd ?
           <>
-            <Button onClick={() => this.form.submit()} disabled={!this.modifiedEnoughToSubmit}>Add</Button>
+            <Button onClick={this.form.onSubmit} disabled={!this.modifiedEnoughToSubmit} type="submit">Add</Button>
           </> :
           <>
-            <Button onClick={() => this.form.submit()} disabled={!this.modifiedEnoughToSubmit}>Save</Button>
-            <Button onClick={() => {this.attemptDelete = true; this.form.submit();}}>Delete</Button>
+            <Button onClick={this.form.onSubmit} disabled={!this.modifiedEnoughToSubmit}  type="submit">Save</Button>
+            <Button onClick={(...a:any[]) => {this.attemptDelete = true; this.form.onSubmit(...a)}}>Delete</Button>
           </>
         }
       </div>

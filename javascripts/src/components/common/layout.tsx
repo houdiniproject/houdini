@@ -3,12 +3,17 @@ import * as React from 'react';
 import {observer} from "mobx-react";
 import * as _ from 'lodash'
 
-export const TwoColumnFields = observer((props:{children:Array<React.ReactElement<any>>}) => {
+function arrayify<T>(items: Array<T>|T){
+  return items instanceof Array ? items : [items]
+}
+
+export const TwoColumnFields = observer((props:{children:Array<React.ReactElement<any>>|React.ReactElement<any>}) => {
+    const children = arrayify(props.children)
     return <div className="row">
         {
-            _.take(props.children, 2).map((i:React.ReactElement<any>) => {
+            children.map((i:React.ReactElement<any>) => {
                 let className = "col-sm-6"
-                if (_.last(props.children) !== i){
+                if (_.last(children) !== i){
                     className += " u-paddingRight--10"
                 }
                 if (i.props['className']){
@@ -20,12 +25,13 @@ export const TwoColumnFields = observer((props:{children:Array<React.ReactElemen
     </div>
 })
 
-export const ThreeColumnFields = observer((props:{children:React.ReactElement<any>[]}) => {
+export const ThreeColumnFields = observer((props:{children:Array<React.ReactElement<any>>|React.ReactElement<any>}) => {
+  const children = arrayify(props.children)
     return <div className="row">
         {
-          _.take(props.children, 3).map((i:React.ReactElement<any>) => {
+          children.map((i:React.ReactElement<any>) => {
                 let className = "col-sm-4"
-                if (_.last(props.children) !== i){
+                if (_.last(children) !== i){
                     className += " u-paddingRight--10"
                 }
                 if (i.props['className']){

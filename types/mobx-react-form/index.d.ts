@@ -156,7 +156,7 @@ interface FormHooks {
     onReset?(e:Field): any
     onAdd?(e:Field): any
     onDel?(e:Field): any
-    onSuccess?(e:Field):any
+    onSuccess?(e:Field):void
     onError?(e:Field):any
 }
 

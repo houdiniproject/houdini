@@ -22,7 +22,7 @@ module InsertSupporter
       .and_where("nonprofit_id=$id", id: np_id)
       .and_where("coalesce(deleted, FALSE)=FALSE")
       .execute.last
-		if supporter and update
+		if supporter && update
       supporter = Qx.update(:supporters)
         .set(defaults(data))
         .where("id=$id", id: supporter['id'])

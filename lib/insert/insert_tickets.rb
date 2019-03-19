@@ -14,7 +14,7 @@ module InsertTickets
   #   offsite_payment: {kind, check_number},
   #   kind (offsite, charge, or free)
   # }
-  def self.create(data)
+  def self.create(data, skip_notifications=false)
     data = data.with_indifferent_access
     ParamValidation.new(data, {
       tickets: {required: true, is_array: true},
@@ -99,8 +99,11 @@ module InsertTickets
     ticket_ids = result['tickets'].map{|t| t.id}
     charge_id =  result['charge'] ? result['charge'].id : nil
 
-    EmailJobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, ticket_ids)
-    EmailJobQueue.queue(JobTypes::TicketMailerFollowupJob, ticket_ids, charge_id)
+    unless skip_notifications
+      EmailJobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, ticket_ids)
+      EmailJobQueue.queue(JobTypes::TicketMailerFollowupJob, ticket_ids, charge_id)
+    end
+    
 		return result
 	end
 

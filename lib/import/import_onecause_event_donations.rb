@@ -70,9 +70,8 @@ module ImportOnecauseEventDonations
         
         notes = ticket['note'] ? ticket['note'] + '\n' + notes : notes
         # edit the ticket.notes for the supporter
-        UpdateTickets.update({event_id: event.id, ticket_id: ticket['id'], notes: notes})
+        UpdateTickets.update({event_id: event.id, ticket_id: ticket['id'], note: notes})
       end
-      raise
     end
   end
 

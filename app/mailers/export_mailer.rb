@@ -42,4 +42,14 @@ class ExportMailer < BaseMailer
 
     mail(to: @export.user.email, subject: 'Your supporters export has failed')
   end
+
+  def export_supporter_notes_completed_notification(export)
+    @export = export
+    mail(to: @export.user.email, subject: 'Your supporter notes export is available!')
+  end
+
+  def export_supporter_notes_failed_notification(export)
+    @export = export
+    mail(to: @export.user.email, subject: 'Your supporter notes export has failed.')
+  end
 end

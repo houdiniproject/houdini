@@ -1,0 +1,12 @@
+<p>Your export from <%= Format::Date.simple @export.created_at %> did not succeed due to a technical error.</p>
+<p>While CommitChange engineers have been notified, don't hesitate to contact
+  <a href="mailto:<%= Settings.mailer.email %>"><%= Settings.mailer.email %></a> with the following information:</p>
+
+<ul>
+  <li>Export ID: <%= @export.id %></li>
+  <li>User ID: <%= @export.user_id %></li>
+  <li>Nonprofit ID: <%= @export.nonprofit_id %></li>
+  <li>Exception: <%= @export.exception %></li>
+</ul>
+
+<%= render 'emails/sig' %>

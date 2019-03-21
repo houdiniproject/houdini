@@ -10,7 +10,7 @@ describe ExportSupporters do
     @supporters = 2.times { force_create(:supporter, nonprofit: @nonprofit)}
     CHUNKED_UPLOADER.clear
   end
-  let(:export_header) { "Last Name,First Name,Full Name,Organization,Email,Phone,Address,City,State,Postal Code,Country,Anonymous?,Supporter Id,Total Contributed,Id,Last Payment Received,Notes".split(',')}
+  let(:export_header) { "Last Name,First Name,Full Name,Organization,Email,Phone,Address,City,State,Postal Code,Country,Anonymous?,Supporter Id,Total Contributed,Id,Last Payment Received,Notes,Tags".split(',')}
 
   context '.initiate_export' do
     context 'param verification' do

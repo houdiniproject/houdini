@@ -22,6 +22,30 @@ describe QuerySupporters do
   let(:campaign_gift2) { force_create(:campaign_gift, campaign_gift_option: campaign_gift_option, donation: donation2)}
   let(:recurring) {force_create(:recurring_donation, donation: donation2, amount: GIFT_LEVEL_CHANGED_RECURRING)}
 
+  let(:note_content_1) do
+    "CONTENT1"
+  end
+
+  let(:note_content_2) do
+    "CONTENT2"
+  end
+
+  let(:note_content_3) do
+    "CONTENT3"
+  end
+
+  let(:supporter_note_for_s1) do
+    force_create(:supporter_note, supporter: supporter1, created_at: DateTime.new(2018,1,5), content: note_content_1)
+  end
+
+  let(:supporter_note_1_for_s2) do
+    force_create(:supporter_note, supporter: supporter2, created_at: DateTime.new(2018,2,5), content: note_content_2)
+  end
+
+  let(:supporter_note_2_for_s2) do
+    force_create(:supporter_note, supporter: supporter2, created_at: DateTime.new(2020,4, 5),  content: note_content_3)
+  end
+
 
   let(:init_all) {
     np
@@ -40,16 +64,34 @@ describe QuerySupporters do
     QuerySupporters.campaign_list(np.id, campaign.id, {page: 0})
   }
 
-  before(:each) {
-    init_all
-  }
-
   it 'counts gift donations properly' do
+    init_all
     glm = campaign_list
 
     data = glm[:data]
 
     expect(data.map{|i| i['total_raised']}).to match_array([GIFT_LEVEL_ONE_TIME, GIFT_LEVEL_RECURRING])
 
+  end
+
+  describe '.supporter_note_export_enumerable' do 
+    let(:lazy_enumerable) do
+      supporter_note_for_s1
+      supporter_note_1_for_s2
+      supporter_note_2_for_s2
+      QuerySupporters.supporter_note_export_enumerable(np.id, {})
+    end
+
+    it 'is a lazy enumerable' do
+      expect(lazy_enumerable).to be_a Enumerator::Lazy
+    end
+
+    it 'is three items long' do
+      expect(lazy_enumerable.to_a.count).to eq 4
+    end
+
+    it 'has correct headers' do
+      expect(lazy_enumerable.to_a.first).to eq ['Id', 'Email', 'Note Created At', 'Note Contents']
+    end
   end
 end

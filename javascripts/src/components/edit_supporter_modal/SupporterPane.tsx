@@ -104,7 +104,9 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
         createFieldDefinition({ name: 'name', label: 'Name', value: supporter.name }),
         createFieldDefinition({ name: 'email', label: 'Email', value: supporter.email }),
         createFieldDefinition({ name: 'phone', label: 'Phone', value: supporter.phone }),
-        createFieldDefinition({ name: 'organization', label: 'Organization', value: supporter.organization })
+        createFieldDefinition({ name: 'organization', label: 'Organization', value: supporter.organization }),
+
+        createFieldDefinition({name: 'defaultAddressId', type:'hidden', value: (supporter.default_address && supporter.default_address.id) || null})
       ]
 
 
@@ -191,7 +193,9 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
           <BasicField field={this.form.$('organization')} label={"Organization"} />
         </TwoColumnFields>
 
-        <input {...this.form.$('defaultAddressId').bind()} /> <!--- ethwoithio isn't working because defaultAddressId is not set properly -->
+        <input {...this.form.$('defaultAddressId').bind()} /> 
+        
+        {/* <!--- ethwoithio isn't working because defaultAddressId is not set properly --> */}
         {this.props.SupporterAddressController.addresses ?
           <table className={"clickable table--plaid"}>
             <thead>

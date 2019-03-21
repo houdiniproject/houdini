@@ -52,7 +52,7 @@ class Houdini::V1::Supporter < Grape::API
     end
     put do
       supporter = Supporter.includes(:nonprofit).find(params[:supporter_id])
-      if declared_params[:default_address]
+      if declared_params[:default_address] && declared_params[:default_address][:id]
         address = supporter.crm_addresses.find(declared_params[:default_address][:id])
       end
      

@@ -363,7 +363,7 @@ module QueryPayments
      'donations.anonymous',
      'donations.comment',
      "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS campaign",
-     "campaigns_for_export.id AS campaign_id",
+     "campaigns_for_export.id AS \"Campaign Id\"",
      "coalesce(nullif(campaigns_for_export.creator_email, ''), '') AS campaign_creator_email",
      "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS campaign_gift_level",
      'events_for_export.name AS event_name',

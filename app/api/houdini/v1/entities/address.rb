@@ -9,5 +9,7 @@ class Houdini::V1::Entities::Address < Grape::Entity
   expose :fingerprint, documentation: { type: String }
   expose :supporter, using: Houdini::V1::Entities::SupporterStub,
          documentation: {type: 'Houdini::V1::Entities::SupporterStub'}
+
+  expose :updated_at, documentation: {type: DateTime}
 end
 

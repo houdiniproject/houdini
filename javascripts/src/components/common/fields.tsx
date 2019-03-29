@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import {observer} from "mobx-react";
-import {Field} from "../../../../types/mobx-react-form";
+import {Field} from "mobx-react-form";
 import LabeledFieldComponent from "./LabeledFieldComponent";
 import {HoudiniField} from "../../lib/houdini_form";
 import ReactInput from "./form/ReactInput";

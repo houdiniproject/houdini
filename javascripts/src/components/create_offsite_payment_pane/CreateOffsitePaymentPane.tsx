@@ -9,7 +9,7 @@ import {BasicField, CurrencyField, SelectField, TextareaField} from "../common/f
 import ProgressableButton from "../common/ProgressableButton";
 import {action, computed} from "mobx";
 import {NonprofitTimezonedDates} from "../../lib/date";
-import {Field, FieldDefinition} from "../../../../types/mobx-react-form";
+import {Field, FieldDefinition} from "mobx-react-form";
 import {createFieldDefinition} from "../../lib/mobx_utils";
 import {centsToDollars, dollarsToCents} from "../../lib/format";
 import {Validations} from "../../lib/vjf_rules";

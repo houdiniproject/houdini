@@ -17,7 +17,7 @@ import {
   ValidationErrorsException
 } from "../../../api";
 
-import {initializationDefinition} from "../../../../types/mobx-react-form";
+import {initializationDefinition} from "mobx-react-form";
 import {ApiManager} from "../../lib/api_manager";
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
 import {WebUserSignInOut} from "../../lib/api/sign_in";

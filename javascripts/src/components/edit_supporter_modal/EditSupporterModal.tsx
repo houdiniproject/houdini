@@ -4,10 +4,8 @@ import { observer, Provider } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Modal from '../common/Modal';
 import SupporterPane from './SupporterPane';
-import { ApiManager } from '../../lib/api_manager';
-import { CSRFInterceptor } from '../../lib/csrf_interceptor';
-import { APIS } from '../../../api/api/api';
-import { SupporterAddressController } from './supporter_address_controller';
+import { LocalRootStore } from './local_root_store';
+import { RootStore } from '../../lib/stores/root_store';
 
 
 export interface EditSupporterModalProps {
@@ -18,19 +16,19 @@ export interface EditSupporterModalProps {
   supporterId: number
 }
 
-
-
 class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
-  apiManager: ApiManager
-  controller:SupporterAddressController
-  constructor(props:EditSupporterModalProps & InjectedIntlProps){
+
+  rootStore: RootStore
+  localRootStore: LocalRootStore;
+
+  constructor(props: EditSupporterModalProps & InjectedIntlProps) {
     super(props)
-    this.apiManager = new ApiManager(APIS, CSRFInterceptor)
-    this.controller = new SupporterAddressController(props.supporterId, this.apiManager)
+    this.rootStore = new RootStore()
+    this.localRootStore = new LocalRootStore(props.supporterId, this.rootStore)
   }
 
-  
-  
+
+
   render() {
     return <Modal
       modalActive={this.props.modalActive}
@@ -39,7 +37,10 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       onClose={this.props.onClose}
       dialogStyle={{ minWidth: '768px', position: 'relative' }}
       childGenerator={() => {
-        return <Provider ApiManager={this.apiManager}><SupporterPane nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onSave={this.props.onClose} key={1} SupporterAddressController={this.controller}/>
+        return <Provider RootStore={this.rootStore}>
+          <Provider LocalRootStore={this.localRootStore}>
+            <SupporterPane nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onSave={this.props.onClose} key={1} />
+          </Provider>
         </Provider>
       }}>
     </Modal>

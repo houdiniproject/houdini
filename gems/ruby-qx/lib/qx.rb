@@ -40,6 +40,8 @@ class Qx
     str += expr[:LEFT_JOIN].map { |from, cond| " LEFT JOIN #{from} ON #{cond}" }.join if expr[:LEFT_JOIN]
     str += expr[:LEFT_OUTER_JOIN].map { |from, cond| " LEFT OUTER JOIN #{from} ON #{cond}" }.join if expr[:LEFT_OUTER_JOIN]
     str += expr[:JOIN_LATERAL].map {|i| " JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}"}.join if expr[:JOIN_LATERAL]
+
+    str += expr[:LEFT_JOIN_LATERAL].map {|i| " LEFT JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}"}.join if expr[:LEFT_JOIN_LATERAL]
     str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ') if expr[:WHERE]
     str += ' GROUP BY ' + expr[:GROUP_BY].join(', ') if expr[:GROUP_BY]
     str += ' HAVING ' + expr[:HAVING].map { |h| "(#{h})" }.join(' AND ') if expr[:HAVING]
@@ -312,6 +314,14 @@ class Qx
     
     @tree[:JOIN_LATERAL] ||= []
     @tree[:JOIN_LATERAL].concat([{join_name: join_name, select_statement: select_statement, success_condition: success_condition}])
+    self
+  end
+
+
+  def left_join_lateral(join_name, select_statement, success_condition=true)
+    
+    @tree[:LEFT_JOIN_LATERAL] ||= []
+    @tree[:LEFT_JOIN_LATERAL].concat([{join_name: join_name, select_statement: select_statement, success_condition: success_condition}])
     self
   end
 

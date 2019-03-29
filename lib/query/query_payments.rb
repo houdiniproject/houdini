@@ -313,7 +313,7 @@ module QueryPayments
                .select(*export_selects)
                .left_outer_join('campaign_gifts', 'campaign_gifts.donation_id=donations.id')
                .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-               .left_outer_join('campaigns campaigns_for_export', 'donations.campaign_id=campaigns_for_export.id')
+               .left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
                .left_outer_join(tickets_subquery, 'tickets.payment_id=payments.id')
                .left_outer_join('events events_for_export', 'events_for_export.id=tickets.event_id OR donations.event_id=events_for_export.id')
                .left_outer_join('offsite_payments', 'offsite_payments.payment_id=payments.id')
@@ -332,7 +332,7 @@ module QueryPayments
                  .select(*export_selects)
                  .left_outer_join('campaign_gifts', 'campaign_gifts.donation_id=donations.id')
                  .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-                 .left_outer_join('campaigns campaigns_for_export', 'donations.campaign_id=campaigns_for_export.id')
+                 .left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
                  .left_outer_join(tickets_subquery, 'tickets.payment_id=payments.id')
                  .left_outer_join('events events_for_export', 'events_for_export.id=tickets.event_id OR donations.event_id=events_for_export.id')
                  .left_outer_join('offsite_payments', 'offsite_payments.payment_id=payments.id')
@@ -363,6 +363,8 @@ module QueryPayments
      'donations.anonymous',
      'donations.comment',
      "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS campaign",
+     "campaigns_for_export.id AS \"Campaign Id\"",
+     "coalesce(nullif(campaigns_for_export.creator_email, ''), '') AS campaign_creator_email",
      "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS campaign_gift_level",
      'events_for_export.name AS event_name',
      'payments.id AS payment_id',
@@ -453,5 +455,9 @@ module QueryPayments
 
   def self.campaign_and_child_query_as_raw_string
     "SELECT c_temp.id from campaigns c_temp where c_temp.id=$id OR c_temp.parent_campaign_id=$id"
+  end
+
+  def self.campaigns_with_creator_email
+    Qexpr.new.select('campaigns.*, users.email AS creator_email').from(:campaigns).left_outer_join(:profiles, "profiles.id = campaigns.profile_id").left_outer_join(:users, 'users.id = profiles.user_id')
   end
 end

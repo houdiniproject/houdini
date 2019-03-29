@@ -372,14 +372,37 @@ UNION DISTINCT
                                  .as("supporter_note_query")
 
       expr.add_left_join(supporter_note_query, 'supporter_note_query.supporter_id=supporters.id')
-      selects = selects.concat(["supporter_note_query.notes AS notes"])
+      selects = selects.concat(["supporter_note_query.notes AS notes"]).concat(["ARRAY_TO_STRING(tags.names, ',') as tags"])
 
 
       expr.select(selects)
     end
   end
 
+  def self.supporter_note_export_enumerable(npo_id, query, chunk_limit=35000)
+    ParamValidation.new({npo_id: npo_id, query:query}, {npo_id: {required: true, is_int: true},
+                                                        query: {required:true, is_hash: true}})
 
+    return QxQueryChunker.for_export_enumerable(chunk_limit) do |offset, limit, skip_header|
+      get_chunk_of_supporter_note_export(npo_id, query, offset, limit, skip_header)
+    end
+
+  end
+
+  def self.get_chunk_of_supporter_note_export(np_id, query, offset=nil, limit=nil, skip_header=false)
+    return QxQueryChunker.get_chunk_of_query(offset, limit, skip_header)  do
+      expr = full_filter_expr(np_id, query)
+      supporter_note_select = [
+        'supporters.id',
+        'supporters.email',
+        'supporter_notes.created_at as "Note Created At"',
+        'supporter_notes.content "Note Contents"'
+      ]
+      expr.add_join(:supporter_notes, 'supporter_notes.supporter_id = supporters.id')
+
+      expr.select(supporter_note_select)
+    end
+  end
 
   # Give supp data for csv
   def self.for_export(np_id, query)

@@ -27,7 +27,9 @@ class Supporter < ActiveRecord::Base
     :anonymous,
     :deleted, # bool (flag for soft delete)
     :email_unsubscribe_uuid, #string
-    :is_unsubscribed_from_emails #bool
+    :is_unsubscribed_from_emails, #bool
+    :id,
+    :created_at
 
   belongs_to :profile
   belongs_to :nonprofit

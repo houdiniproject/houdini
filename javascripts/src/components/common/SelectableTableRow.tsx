@@ -1,8 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer, Provider } from 'mobx-react';
-import {InjectedIntlProps, injectIntl} from 'react-intl';
-import { computed } from 'mobx';
 
 export interface SelectableTableRowProps
 {

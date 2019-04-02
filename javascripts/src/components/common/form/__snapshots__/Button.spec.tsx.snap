@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button default 1`] = `
+<Button
+  buttonSize="default"
+>
+  <button
+    className="button"
+  />
+</Button>
+`;
+
+exports[`Button jumbo 1`] = `
+<Button
+  buttonSize="jumbo"
+  className="anotherName Name"
+>
+  <button
+    className="button--jumbo anotherName Name"
+  >
+    value
+  </button>
+</Button>
+`;
+
+exports[`Button large 1`] = `
+<Button
+  buttonSize="large"
+  className="anotherName Name"
+>
+  <button
+    className="button--large anotherName Name"
+  />
+</Button>
+`;
+
+exports[`Button tiny 1`] = `
+<Button
+  buttonSize="tiny"
+>
+  <button
+    className="button--tiny"
+  />
+</Button>
+`;

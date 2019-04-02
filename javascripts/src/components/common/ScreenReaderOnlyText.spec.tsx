@@ -2,9 +2,12 @@
 import * as React from 'react';
 import 'jest';
 import ScreenReaderOnlyText from './ScreenReaderOnlyText'
+import toJson from 'enzyme-to-json';
+import { shallow } from 'enzyme';
 
 describe('ScreenReaderOnlyText', () => {
-  test('your test here', () => {
-    expect(false).toBe(true)
+  it('renders properly', () => {
+    let text = shallow(<ScreenReaderOnlyText>Test</ScreenReaderOnlyText>)
+    expect(toJson(text)).toMatchSnapshot()
   })
 })

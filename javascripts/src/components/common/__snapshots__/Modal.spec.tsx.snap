@@ -49,6 +49,11 @@ exports[`Modal active modal displays 1`] = `
   >
     <header
       className="modal-header"
+      style={
+        Object {
+          "position": "relative",
+        }
+      }
     >
       <h4
         className="modal-header-title"
@@ -59,7 +64,15 @@ exports[`Modal active modal displays 1`] = `
     <div
       className="modal-body"
     >
-      <div />
+      <div
+        style={
+          Object {
+            "position": "relative",
+          }
+        }
+      >
+        <div />
+      </div>
     </div>
   </Displaced>
 </VelocityTransitionGroup>

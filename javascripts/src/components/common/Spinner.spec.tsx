@@ -2,9 +2,19 @@
 import * as React from 'react';
 import 'jest';
 import Spinner from './Spinner'
+import { mount } from 'enzyme';
+import toJson from 'enzyme-to-json';
 
 describe('Spinner', () => {
-  test('your test here', () => {
-    expect(false).toBe(true)
+  test('is small', () => {
+    expect(toJson(mount(<Spinner size="small"/>))).toMatchSnapshot()
+  })
+
+  test('is normal', () => {
+    expect(toJson(mount(<Spinner size="normal"/>))).toMatchSnapshot()
+  })
+
+  test('is large', () => {
+    expect(toJson(mount(<Spinner size="large"/>))).toMatchSnapshot()
   })
 })

@@ -2,14 +2,9 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
-export interface FormNotificationBlockProps
-{
- message:string
-}
-
-class FormNotificationBlock extends React.Component<FormNotificationBlockProps, {}> {
+class FormNotificationBlock extends React.Component<{}, {}> {
   render() {
-     return <div className="help-block" role="alert">{this.props.message}</div>;
+     return <div className="help-block" role="alert">{this.props.children}</div>;
   }
 }
 

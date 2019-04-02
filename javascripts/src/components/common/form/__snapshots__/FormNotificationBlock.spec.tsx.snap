@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormNotificationBlock displays correctly 1`] = `
+<div
+  className="help-block"
+  role="alert"
+>
+  a test 
+</div>
+`;

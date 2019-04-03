@@ -2,10 +2,10 @@
 import { action, computed, observable } from "mobx";
 import { Address } from "../../../api";
 import { FieldDefinition } from "mobx-react-form";
-import { AddressPaneForm } from "./address_pane_form";
+import { AddressPaneForm, FormOutput } from "./address_pane_form";
 import * as _ from 'lodash';
 import { SupporterAddressStore } from "./supporter_address_store";
-import { FormOutput, AddressAction } from "./AddressPane";
+import { AddressAction } from "./AddressPane";
 
 export class AddressPaneState {
   constructor(
@@ -49,7 +49,6 @@ export class AddressPaneState {
     return !this.initialAddress || !this.initialAddress.id;
   }
   
-
   @computed
   get modifiedEnoughToSubmit(): boolean {
     //needs to NOT just be is_default

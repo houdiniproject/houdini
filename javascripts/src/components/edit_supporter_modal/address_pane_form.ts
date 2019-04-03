@@ -1,9 +1,25 @@
 import { action, computed } from 'mobx';
 import { HoudiniForm, HoudiniField } from '../../lib/houdini_form';
 import { initializationDefinition } from 'mobx-react-form';
-import { FormOutput, ServerErrorInput } from './AddressPane';
 import * as _  from 'lodash';
 import { ValidationErrorsException, TimeoutError, ValidationError, ValidationErrors } from '../../../api';
+
+export interface FormOutput {
+  address?: string
+  city?: string
+  state_code?: string
+  zip_code?: string
+  country?: string
+}
+
+export interface ServerErrorInput {
+  address?: Array<string>
+  city?: Array<string>
+  state_code?: Array<string>
+  zip_code?: Array<string>
+  country?: Array<string>
+}
+
 
 export class AddressPaneForm extends HoudiniForm {
   submissionFunction: (serializedValues:FormOutput) => void;

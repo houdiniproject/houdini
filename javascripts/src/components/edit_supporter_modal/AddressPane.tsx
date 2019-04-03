@@ -23,22 +23,8 @@ export interface AddressPaneProps {
   isDefault?: boolean
   onClose?: (action: AddressAction) => void
   LocalRootStore?: LocalRootStore
-}
-
-export interface FormOutput {
-  address?: string
-  city?: string
-  state_code?: string
-  zip_code?: string
-  country?: string
-}
-
-export interface ServerErrorInput {
-  address?: Array<string>
-  city?: Array<string>
-  state_code?: Array<string>
-  zip_code?: Array<string>
-  country?: Array<string>
+  //Only used for testing
+  addressPaneState?:AddressPaneState
 }
 
 class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, {}> {
@@ -46,7 +32,7 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
 
   constructor(props: AddressPaneProps & InjectedIntlProps) {
     super(props)
-    this.addressPaneState = new AddressPaneState(props.initialAddress, props.isDefault, props.LocalRootStore, props.onClose)
+    this.addressPaneState = props.addressPaneState || new AddressPaneState(props.initialAddress, props.isDefault, props.LocalRootStore, props.onClose)
   }
 
   addressPaneState: AddressPaneState
@@ -68,8 +54,7 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
           </TwoColumnFields>
           <ReactCheckbox field={this.addressPaneState.form.$('is_default')} label={"Set as Default Address"} />
 
-          {this.addressPaneState.form.serverError ? <FormNotificationBlock
-            message={this.addressPaneState.form.serverError} /> : ""}
+          {this.addressPaneState.form.serverError ? <FormNotificationBlock>{this.addressPaneState.form.serverError}</FormNotificationBlock> : ""}
         </form>
       </div>
       <div>

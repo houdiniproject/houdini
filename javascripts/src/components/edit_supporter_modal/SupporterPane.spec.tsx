@@ -3,58 +3,32 @@ import * as React from 'react';
 import 'jest';
 import SupporterPane from './SupporterPane'
 import { ReactWrapper } from 'enzyme';
-import { mountWithIntl, createMockApiManager, createMockApi } from '../../lib/tests/helpers';
+import { mountWithIntl } from '../../lib/tests/helpers';
 import { Supporter } from '../../../api';
 import { Provider } from 'mobx-react';
-import { SupporterApi } from '../../../api/api/SupporterApi';
 import { LocalRootStore } from './local_root_store';
 import { SupporterAddressStore } from './supporter_address_store';
 import { SupporterPaneStore } from './supporter_pane_store';
 import _ = require('lodash');
 
 describe('SupporterPane', () => {
-  let onCloseAction: any
 
-  let defaultSupporter: Supporter = { id: 1, name: 'fake name', email: 'ema2l@cc', phone: '93912345' }
-
-  beforeEach(() => {
-    onCloseAction = jest.fn()
-  })
-
-  it('handle loading error', () => {
-    let supporter = jest.fn<LocalRootStore>(() => {
-      return {
-        supporterPaneStore: {
-          loading: false,
-          loadFailure: true
-        }
-
-      }
-    })()
-
-    let modal: ReactWrapper = mountWithIntl(<SupporterPane nonprofitId={1} supporterId={2} onSave={null} LocalRootStore={supporter} />)
-
-    expect(modal.find('FailedToLoad').exists()).toBeTruthy
-  })
-
-  describe('non-loading error', () => {
-    
-  function generateRootStore(paneStore?:Partial<SupporterPaneStore>): LocalRootStore {
+  function generateRootStore(paneStore?: Partial<SupporterPaneStore>): LocalRootStore {
     let supporterPaneStore = {
-      attemptInit: () => { },
+      attemptInit: jest.fn(async () => { return }),
       loaded: true,
       form: SupporterPaneStore.initializeSupporterForm(updateSupporter, {}),
       get defaultAddressId() {
         return defaultAddressId
       },
-      handleAddressAction: async (...args: any[]) => {
+      handleAddressAction: async () => {
         defaultAddressId = 1
       },
-      isDefaultAddress: (i:any) => { return i === defaultAddressId },
-      addAddress:addButtonClick,
-      editAddress:editButtonClick
+      isDefaultAddress: (i: any) => { return i === defaultAddressId },
+      addAddress: addButtonClick,
+      editAddress: editButtonClick
     }
-    if (paneStore){
+    if (paneStore) {
       _.merge(supporterPaneStore, paneStore)
     }
 
@@ -70,24 +44,48 @@ describe('SupporterPane', () => {
     })()
   }
 
-    let defaultAddressId: number = null
-    let updateSupporter: any
-    let localRootStore: LocalRootStore
-    let addButtonClick:any
-    let editButtonClick:any
-    beforeEach(() => {
-      updateSupporter = jest.fn();
-      addButtonClick = jest.fn();
-      editButtonClick = jest.fn();
-      localRootStore = generateRootStore()
+  let onCloseAction: any
 
-    })
+  let defaultSupporter: Supporter = { id: 1, name: 'fake name', email: 'ema2l@cc', phone: '93912345' }
 
+  let defaultAddressId: number = null
+  let updateSupporter: any
+  let addButtonClick: any
+  let editButtonClick: any
+
+
+  beforeEach(() => {
+    onCloseAction = jest.fn()
+    updateSupporter = jest.fn();
+    addButtonClick = jest.fn();
+    editButtonClick = jest.fn();
+  })
+
+  it('handle loading error', () => {
+    let supporter = jest.fn<LocalRootStore>(() => {
+      return {
+        supporterPaneStore: {
+          loading: false,
+          loadFailure: true,
+          attemptInit: jest.fn(async () => { return })
+        }
+
+      }
+    })()
+
+    let modal: ReactWrapper = mountWithIntl(<SupporterPane nonprofitId={1} supporterId={2} onSave={null} LocalRootStore={supporter} />)
+
+    expect(modal.find('FailedToLoad').exists()).toBeTruthy
+  })
+
+
+
+  describe('non-loading error', () => {
     describe('address selection', () => {
       let modal: ReactWrapper
-      let instance: any
 
       beforeEach(() => {
+        let localRootStore = generateRootStore()
         modal = mountWithIntl(
           <SupporterPane
             nonprofitId={0} supporterId={1}
@@ -95,12 +93,10 @@ describe('SupporterPane', () => {
           />
         )
 
-        instance = modal.find('SupporterPane').instance() as any
-        modal.update()
       })
 
       it('runs add address properly', () => {
-        modal.update()
+
         let buttons = modal.find('button')
 
         buttons.filterWhere((e) =>
@@ -111,81 +107,63 @@ describe('SupporterPane', () => {
 
       })
 
-      describe('addressPane is on', () => {
-        beforeEach(() => {
-          localRootStore = generateRootStore({addressToEdit: {supporter:{id:1}}, editingAddress: true})
-          
-          modal = mountWithIntl(
-            <Provider LocalRootStore={localRootStore}>
-            <SupporterPane
-              nonprofitId={0} supporterId={1}
-              onSave={onCloseAction} LocalRootStore={localRootStore}
-            />
-            </Provider>
-          )
-  
-          instance = modal.find('SupporterPane').instance() as any
-          modal.update()
-        })
-        it('has addressPane on', () => {
-          modal.update()
-          expect(modal.find('AddressPane').exists()).toBeTruthy()
-        })
-      })
-
       it('changes on update address properly', () => {
         modal.update()
         modal.find('SelectableTableRow').filterWhere((e) => { return e.key() === '1' }).simulate('click')
-
-       
-
-        expect(editButtonClick).toBeCalledWith({id: 1, address: 'ehtowhetoweit'})
-      })
-
-      it('changes back on update address', async (done) => {
-        modal.update()
-        let buttons = modal.find('button')
-
-        buttons.filterWhere((e) =>
-          e.text() === 'Add Address'
-        ).simulate('click')
-
-        modal.update()
-
-        await instance.handleAddressPaneClose({ type: 'none' })
-
-        modal.update()
-
-        expect(modal.find('AddressPane').exists()).toBeFalsy()
-        done()
-
+        expect(editButtonClick).toBeCalledWith({ id: 1, address: 'ehtowhetoweit' })
       })
 
     })
   })
+
+  describe('addressPane is on', () => {
+    let modal: any;
+    beforeEach(() => {
+      let localRootStore = generateRootStore({ addressToEdit: { supporter: { id: 1 } }, editingAddress: true })
+
+      modal = mountWithIntl(
+        <Provider LocalRootStore={localRootStore}>
+          <SupporterPane
+            nonprofitId={0} supporterId={1}
+            onSave={onCloseAction} LocalRootStore={localRootStore}
+          />
+        </Provider>
+      )
+    })
+    it('has addressPane on', () => {
+      modal.update()
+      expect(modal.find('AddressPane').exists()).toBeTruthy()
+    })
+  })
+
+  describe('verify default address is properly selected', () => {
+    let modal: ReactWrapper;
+    beforeEach(() => {
+      let localRootStore = generateRootStore()
+
+      defaultAddressId = 1
+
+      modal = mountWithIntl(
+        <Provider LocalRootStore={localRootStore}>
+          <SupporterPane
+            nonprofitId={0} supporterId={1}
+            onSave={onCloseAction} LocalRootStore={localRootStore}
+          />
+        </Provider>
+      )
+
+    })
+
+    it('has the proper address selected', () => {
+      let ourTableRow = modal.find('SelectableTableRow').filterWhere((i) => i.key() === "1")
+
+      expect(ourTableRow.find('Star').exists()).toBeTruthy()
+
+    })
+
+    it('does not have invalid table row selected', () => {
+      let ourTableRow = modal.find('SelectableTableRow').filterWhere((i) => i.key() !== "1")
+      expect(ourTableRow.find('Star').exists()).toBeFalsy()
+    })
+  })
 })
-
-  //   describe('handleDefaultAddressChange', () => {
-  //     let modal: ReactWrapper
-  //     let instance:any
-  //     beforeAll(() => {
-  //       modal = mountWithIntl(<Provider ApiManager={createMockApiManager(createMockApi(SupporterApi, () => { return {}}))()}><SupporterPane
-  //         nonprofitId={0} supporterId={1}
-  //         onSave={onCloseAction}
-  //         SupporterAddressController={supporterController()}
-  //       /></Provider>)
-  //       instance = modal.find('SupporterPane').instance() as any
-  //     })
-
-  //     it('properly denotes the default', async (done) => {
-  //       await instance.handleAddressPaneClose({type:'none'})
-
-  //       modal.update()
-
-  //       expect(modal.find('Star').exists()).toBeTruthy()
-  //       done()
-  //     })
-
-  //   })
-  // })
-// })

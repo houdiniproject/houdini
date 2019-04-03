@@ -73,7 +73,7 @@ describe('SupporterPane', () => {
       }
     })()
 
-    let modal: ReactWrapper = mountWithIntl(<SupporterPane nonprofitId={1} supporterId={2} onSave={null} LocalRootStore={supporter} />)
+    let modal: ReactWrapper = mountWithIntl(<SupporterPane nonprofitId={1} supporterId={2} onClose={null} LocalRootStore={supporter} />)
 
     expect(modal.find('FailedToLoad').exists()).toBeTruthy
   })
@@ -89,7 +89,7 @@ describe('SupporterPane', () => {
         modal = mountWithIntl(
           <SupporterPane
             nonprofitId={0} supporterId={1}
-            onSave={onCloseAction} LocalRootStore={localRootStore}
+            onClose={onCloseAction} LocalRootStore={localRootStore}
           />
         )
 
@@ -125,7 +125,7 @@ describe('SupporterPane', () => {
         <Provider LocalRootStore={localRootStore}>
           <SupporterPane
             nonprofitId={0} supporterId={1}
-            onSave={onCloseAction} LocalRootStore={localRootStore}
+            onClose={onCloseAction} LocalRootStore={localRootStore}
           />
         </Provider>
       )
@@ -147,7 +147,7 @@ describe('SupporterPane', () => {
         <Provider LocalRootStore={localRootStore}>
           <SupporterPane
             nonprofitId={0} supporterId={1}
-            onSave={onCloseAction} LocalRootStore={localRootStore}
+            onClose={onCloseAction} LocalRootStore={localRootStore}
           />
         </Provider>
       )

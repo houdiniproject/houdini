@@ -19,7 +19,7 @@ import { LocalRootStore } from './local_root_store';
 export interface SupporterPaneProps {
   nonprofitId: number
   supporterId: number
-  onSave: () => void
+  onClose: () => void
   LocalRootStore?: LocalRootStore
 }
 class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlProps, {}> {
@@ -90,6 +90,9 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
               </SelectableTableRow>
             </tbody>
           </table> : false}
+
+        <Button type={'button'} onClick={this.props.onClose}>Close</Button>
+
 
         <Button type={'submit'}
           onClick={this.supporterPaneStore.form.onSubmit} >Save</Button>

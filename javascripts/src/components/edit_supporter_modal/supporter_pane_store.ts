@@ -34,9 +34,22 @@ export class SupporterPaneStore {
   @observable
   form: EditSupporterForm
 
+  @observable
+  anAddressWasEdited: boolean
+
   @computed
   get loading(): boolean {
     return !this.loaded
+  }
+
+  /**
+   * Shown when an address was modified/added OR the supporter details changed
+   * @return boolean 
+   * @memberof SupporterPaneStore
+   */
+  @computed
+  supporterChangeWasMade():boolean {
+
   }
 
   @computed
@@ -98,9 +111,14 @@ export class SupporterPaneStore {
     return new EditSupporterForm(updateSupporter, { fields: params })
   }
 
+  @action.bound
   handleAddressAction(action: AddressAction) {
     this.editAddress = null;
     this.defaultAddressStrategy.handleAddressAction(action)
+    if (action.type !== 'none')
+    {
+      this.anAddressWasEdited = true;
+    }
   }
   
   isDefaultAddress(address: Address | number): boolean {

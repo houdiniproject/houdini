@@ -39,7 +39,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       childGenerator={() => {
         return <Provider RootStore={this.rootStore}>
           <Provider LocalRootStore={this.localRootStore}>
-            <SupporterPane nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onSave={this.props.onClose} key={1} />
+            <SupporterPane nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onClose={this.props.onClose} key={1} />
           </Provider>
         </Provider>
       }}>

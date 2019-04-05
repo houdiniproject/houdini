@@ -2,6 +2,7 @@
 import { observable, computed, action } from "mobx";
 import { Address, PutSupporterSupporterIdAddress, PostSupporterSupporterIdAddress, SupporterApi } from "../../../api";
 import { ApiManager } from "../api_manager";
+import _ = require("lodash");
 
 export class AddressStore {
 
@@ -15,7 +16,7 @@ export class AddressStore {
   @observable addressRegistry = observable.map<number, Address>();
 
   @computed get addresses(): ReadonlyArray<Address> {
-    return new Array(this.addressRegistry.values())
+    return _.values(this.addressRegistry.toPOJO())
   }
 
   @action.bound
@@ -23,7 +24,7 @@ export class AddressStore {
     this.isLoading = true;
     try {
       const addresses = await this.supporterApi.getCrmAddresses(supporterId)
-      addresses.addresses.forEach((a) => this.addressRegistry.set(a.id, a))
+      addresses.addresses.forEach((a:any) => this.addressRegistry.set(a.id, a))
     }
     finally {
       this.isLoading = false;

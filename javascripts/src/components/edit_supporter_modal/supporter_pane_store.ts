@@ -42,16 +42,6 @@ export class SupporterPaneStore {
     return !this.loaded
   }
 
-  /**
-   * Shown when an address was modified/added OR the supporter details changed
-   * @return boolean 
-   * @memberof SupporterPaneStore
-   */
-  @computed
-  supporterChangeWasMade():boolean {
-
-  }
-
   @computed
   get editingAddress(): boolean {
     return !!this.addressToEdit;
@@ -72,6 +62,7 @@ export class SupporterPaneStore {
     this.addressToEdit = address || { supporter: { id: this.supporterAddressStore.supporter.id } }
   }
 
+  @action.bound
   addAddress() {
     this.editAddress();
   }

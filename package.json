@@ -109,6 +109,7 @@
     "focus-trap-react": "^6.0.0",
     "form-serialize": "0.7.0",
     "format-number": "2.0.2",
+    "formik": "^1.5.2",
     "i18n-js": "^3.0.3",
     "iban": "0.0.8",
     "imagesloaded": "4.1.1",

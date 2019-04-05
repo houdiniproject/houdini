@@ -16,7 +16,7 @@ export class SupporterStore {
   @observable supporterRegistry = observable.map<number, Supporter>();
 
   @computed get supporters(): ReadonlyArray<Supporter> {
-    return new Array(this.supporterRegistry.values())
+    return _.values(this.supporterRegistry.toPOJO())
   }
 
   @action.bound

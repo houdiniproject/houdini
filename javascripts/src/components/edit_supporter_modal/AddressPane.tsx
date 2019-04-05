@@ -3,7 +3,7 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import * as _ from 'lodash';
-import { Address, TimeoutError, ValidationErrorsException } from '../../../api';
+import { Address, TimeoutError, ValidationErrorsException, ValidationError, ValidationErrors } from '../../../api';
 import { BasicField } from '../common/fields';
 import ReactCheckbox from '../common/form/ReactCheckbox';
 import FormNotificationBlock from '../common/form/FormNotificationBlock';
@@ -18,6 +18,7 @@ import FormikBasicField from '../common/FormikBasicField';
 import { FieldCreator } from '../common/form/FieldCreator';
 import { FormikCheckbox } from '../common/form/FormikCheckbox';
 import { action } from 'mobx';
+import { ServerErrorInput } from './address_pane_form';
 
 export interface AddressAction {
   type: 'none' | 'delete' | 'add' | 'update'
@@ -63,6 +64,37 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
   initialValues: any
   shouldAdd: boolean
 
+  convertValidationErrorToServerErrorInput<Values>(errors:ValidationErrorsException|ValidationErrors|Array<ValidationError>) : FormikErrors<Values> {
+    let errorArray:Array<ValidationError>
+    if (errors instanceof ValidationErrorsException)
+    {
+      errorArray = errors.item.errors
+    }
+    else if (errors instanceof Array)
+    {
+      errorArray = errors
+    }
+    else {
+      errorArray = errors.errors
+    }
+
+    let output:FormikErrors<Values> = {}
+    errorArray.forEach(error => {
+      error.params.forEach(p => {
+        if(!_.has(output, p))
+        {
+          _.set(output, p, new Array<string>())
+        }
+        error.messages.forEach(m => {
+          (_.get(output, p) as string[]).push(m)
+        })
+      })
+      
+    });
+
+    return output;
+
+  }
 
 
   @action.bound
@@ -74,12 +106,13 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
     try {
       if (this.shouldAdd) {
         const address = await this.props.LocalRootStore.supporterAddressStore.createAddress(input)
-
+        action.setStatus()
         this.props.onClose({ type: 'add', address: address, setToDefault: values['is_default'] })
       }
       else {
         const address = await this.props.LocalRootStore.supporterAddressStore.updateAddress(values['id'], input)
 
+        action.setStatus()
         this.props.onClose({ type: 'update', address: address, setToDefault: values['is_default'] })
       }
 
@@ -100,17 +133,25 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
     }
   }
 
+  isDirty<Values>(path:string, props:FormikProps<Values> ){
+    return _.get(props.initialValues, path) === _.get(props.values, path)
+  }
+
+  isEmpty(value:string) {
+    return !value ||  _.trim(value) === ''
+  }
+
   render() {
     return <Formik initialValues={this.initialValues as Address & { isDefault?: boolean }} onSubmit={this.tryToSubmitForm} render={(props: FormikProps<Address & { isDefault?: boolean }>) => {
-      props.touched.isDefault &&
-        (this.form.$('is_default').isDirty && (this.form.$('address').isEmpty
-          && this.form.$('city').isEmpty
-          && this.form.$('state_code').isEmpty
-          && this.form.$('zip_code').isEmpty
-          && this.form.$('country').isEmpty)
+     const modifiedEnoughToSubmit = props.dirty &&
+      !(this.isDirty('isDefault', props) && this.isEmpty(props.values.address)
+          && this.isEmpty(props.values.city)
+          && this.isEmpty(props.values.state_code)
+          && this.isEmpty(props.values.zip_code)
+          && this.isEmpty(props.values.country))
 
       return (
-        <form onSubmit={i.handleSubmit} onReset={i.handleReset}>
+        <form onSubmit={props.handleSubmit} onReset={props.handleReset}>
           <div>
             <TwoColumnFields>
               <FieldCreator component={FormikBasicField} name={'address'} label={'Address'} />
@@ -125,10 +166,10 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
             <TwoColumnFields>
               <FieldCreator component={FormikBasicField} name={'country'} label={'Country'} />
             </TwoColumnFields>
-            <FieldCreator component={FormikCheckbox} name={'is_default'} label={"Set as Default Address"} />
+            <FieldCreator component={FormikCheckbox} name={'isDefault'} label={"Set as Default Address"} />
 
             {
-              (i.status && i.status.form) ? <FormNotificationBlock>{i.status.form}</FormNotificationBlock> : ""
+              (props.status && props.status.form) ? <FormNotificationBlock>{props.status.form}</FormNotificationBlock> : ""
             }
           </div>
           <div>
@@ -136,10 +177,10 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
             <Button onClick={() => this.props.onClose({ type: 'none' })}>Close</Button>
             {this.shouldAdd ?
               <>
-                <Button type="submit">Add</Button>
+                <Button type="submit" disabled={!modifiedEnoughToSubmit}>Add</Button>
               </> :
               <>
-                <Button type="submit">Save</Button>
+                <Button type="submit" disabled={!modifiedEnoughToSubmit}>Save</Button>
                 <Button type="submit">Delete</Button>
               </>
             }

@@ -83,32 +83,6 @@ export const addressPaneFormSubmission = async ({values, action, supporterAddres
 
 
 class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, {}> {
-
-
-  constructor(props: AddressPaneProps & InjectedIntlProps) {
-    super(props)
-    // this.addressPaneState = props.addressPaneState || new AddressPaneState(props.initialAddress, props.isDefault, props.LocalRootStore, props.onClose)
-    this.initialize(props.initialAddress, props.isDefault)
-  }
-
-
-
-
-  initialize(initialAddress: Address, isDefault: boolean) {
-    const shouldAdd = (!initialAddress || !initialAddress.id)
-    this.initialValues = shouldAdd ? {} : {
-      'id': initialAddress.id,
-      'address': initialAddress.address,
-      'city': initialAddress.city,
-      'state_code': initialAddress.state_code,
-      'zip_code': initialAddress.zip_code,
-      'country': initialAddress.country,
-      'isDefault': isDefault
-    }
-  }
-
-  @observable
-  initialValues: AddressPaneFormikInputProps
   
   @action.bound
   close(){
@@ -116,7 +90,18 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
   }
   
   render() {
-    return <HoudiniFormik initialValues={this.initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => {addressPaneFormSubmission({values:values, action:action, supporterAddressStore:this.props.LocalRootStore.supporterAddressStore, onClose: this.props.onClose})}}
+    const shouldAdd = (!this.props.initialAddress || !this.props.initialAddress.id)
+    const initialValues:AddressPaneFormikInputProps = shouldAdd ? {} : {
+      'id': this.props.initialAddress.id,
+      'address': this.props.initialAddress.address,
+      'city': this.props.initialAddress.city,
+      'state_code': this.props.initialAddress.state_code,
+      'zip_code': this.props.initialAddress.zip_code,
+      'country': this.props.initialAddress.country,
+      'isDefault': this.props.isDefault
+    }
+
+    return <HoudiniFormik initialValues={initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => {addressPaneFormSubmission({values:values, action:action, supporterAddressStore:this.props.LocalRootStore.supporterAddressStore, onClose: this.props.onClose})}}
     render={(props: HoudiniFormikProps<AddressPaneFormikInputProps>) => {
       const modifiedEnoughToSubmit = props.dirty && !(
         FormikHelpers.isEmpty(props.values.address)

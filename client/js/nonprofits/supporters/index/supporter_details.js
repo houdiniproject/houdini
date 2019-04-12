@@ -62,6 +62,16 @@ appl.def('ajax_supporter', {
 		})
 	},
 
+	post_update: function(id) {
+		appl.def('loading', true)
+		appl.ajax.fetch('supporter_details', id).then(function(resp) {
+			appl.def('loading', false)
+			appl.supporters.index()
+			appl.find_and_set('supporters.data', {id: resp.id}, resp)
+			appl.notify('Supporter updated!')
+		})
+	},
+
 	fetch: function(id) {
 		appl.def('loading', true)
 		appl.ajax.fetch('supporter_details', id).then(function(resp) {

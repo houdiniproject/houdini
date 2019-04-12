@@ -13,7 +13,7 @@ export class FormikCheckbox extends React.Component<{field: {
 
         return <fieldset className="form-group reactCheckbox">
         <label>
-          <input type="checkbox" {...props} {...this.props.field} /><span className='cr'/>{this.props.label}
+          <input type="checkbox" {...props} {...this.props.field} checked={this.props.field.value}/><span className='cr'/>{this.props.label}
         </label>
       </fieldset>
     }

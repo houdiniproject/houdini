@@ -48,7 +48,7 @@
           (supporterId) => {
             SetupEditSupporterModal(false);
             if (supporterId){
-              location.reload();
+              appl.ajax_supporter.post_update(supporterId)
             }
           },
           modalActive)

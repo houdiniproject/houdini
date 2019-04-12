@@ -67,7 +67,7 @@ export class AddressStore {
   async deleteCrmAddress(supporterId:number, id: number) {
     this.addressRegistry.delete(id)
     try {
-      await this.supporterApi.deleteCrmAddress(supporterId, id)
+      return await this.supporterApi.deleteCrmAddress(supporterId, id)
     }
     catch(e) {
       this.loadCrmAddresses(supporterId)

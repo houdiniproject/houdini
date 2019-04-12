@@ -1,8 +1,8 @@
-import { FieldProps, FormikHandlers } from "formik";
+import { FormikHandlers } from "formik";
 import React = require("react");
 import _ = require("lodash");
 
-export class FormikField<T> extends React.Component<{field: {
+export class FormikInput<T> extends React.Component<{field: {
     onChange: FormikHandlers['handleChange'],
     onBlur: FormikHandlers['handleBlur'],
     value: any,

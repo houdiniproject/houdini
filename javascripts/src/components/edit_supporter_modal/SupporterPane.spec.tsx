@@ -1,47 +1,39 @@
 // License: LGPL-3.0-or-later
-import * as React from 'react';
-import 'jest';
-import SupporterPane from './SupporterPane'
 import { ReactWrapper } from 'enzyme';
-import { mountWithIntl } from '../../lib/tests/helpers';
+import 'jest';
+import * as React from 'react';
 import { Supporter } from '../../../api';
-import { Provider } from 'mobx-react';
-import { LocalRootStore } from './local_root_store';
-import { SupporterAddressStore } from './supporter_address_store';
-import { SupporterPaneStore } from './supporter_pane_store';
+import { mountWithIntl } from '../../lib/tests/helpers';
+import FormikBasicField from '../common/FormikBasicField';
+import FormikHiddenField from '../common/FormikHiddenField';
+import { HoudiniFormikProps } from '../common/HoudiniFormik';
+import SupporterPane from './SupporterPane';
 import _ = require('lodash');
-
+jest.mock('../common/form/FieldCreator')
+jest.mock('../common/HoudiniFormik')
 describe('SupporterPane', () => {
 
-  function generateRootStore(paneStore?: Partial<SupporterPaneStore>): LocalRootStore {
-    let supporterPaneStore = {
-      attemptInit: jest.fn(async () => { return }),
-      loaded: true,
-      form: SupporterPaneStore.initializeSupporterForm(updateSupporter, {}),
-      get defaultAddressId() {
-        return defaultAddressId
-      },
-      handleAddressAction: async () => {
-        defaultAddressId = 1
-      },
-      isDefaultAddress: (i: any) => { return i === defaultAddressId },
-      addAddress: addButtonClick,
-      editAddress: editButtonClick
-    }
-    if (paneStore) {
-      _.merge(supporterPaneStore, paneStore)
-    }
+  function getButtonWithText(wrapper:ReactWrapper, text:string){
+    let buttons = wrapper.find('button')
 
-    return jest.fn<LocalRootStore>(() => {
-      return {
-        supporterPaneStore: supporterPaneStore,
-        supporterAddressStore: {
-          supporter: defaultSupporter,
-          addresses: [{ id: 1, address: 'ehtowhetoweit' }]
-        } as SupporterAddressStore
-      }
+    return buttons.filterWhere((e) =>
+      e.text() === text
+    )
+  }
 
-    })()
+  function getAddButton(wrapper:ReactWrapper)
+  {
+    return getButtonWithText(wrapper, 'Add Address')
+  }
+
+  function getCloseButton(wrapper:ReactWrapper)
+  {
+    return getButtonWithText(wrapper, 'Close')
+  }
+
+  function getSaveButton(wrapper:ReactWrapper)
+  {
+    return getButtonWithText(wrapper, 'Save')
   }
 
   let onCloseAction: any
@@ -52,117 +44,116 @@ describe('SupporterPane', () => {
   let updateSupporter: any
   let addButtonClick: any
   let editButtonClick: any
+  let handleSubmit: any
 
+  function createFormik(): HoudiniFormikProps<any> {
+    return {
+      handleSubmit: handleSubmit
+    } as HoudiniFormikProps<any>
+  }
 
   beforeEach(() => {
     onCloseAction = jest.fn()
     updateSupporter = jest.fn();
     addButtonClick = jest.fn();
     editButtonClick = jest.fn();
+    handleSubmit = jest.fn();
+
   })
 
-  it('handle loading error', () => {
-    let supporter = jest.fn<LocalRootStore>(() => {
-      return {
-        supporterPaneStore: {
-          loading: false,
-          loadFailure: true,
-          attemptInit: jest.fn(async () => { return })
-        }
-
-      }
-    })()
-
-    let modal: ReactWrapper = mountWithIntl(<SupporterPane nonprofitId={1} supporterId={2} onClose={null} LocalRootStore={supporter} />)
-
-    expect(modal.find('FailedToLoad').exists()).toBeTruthy
-  })
-
-
-
-  describe('non-loading error', () => {
-    describe('address selection', () => {
-      let modal: ReactWrapper
-
-      beforeEach(() => {
-        let localRootStore = generateRootStore()
-        modal = mountWithIntl(
-          <SupporterPane
-            nonprofitId={0} supporterId={1}
-            onClose={onCloseAction} LocalRootStore={localRootStore}
-          />
-        )
-
-      })
-
-      it('runs add address properly', () => {
-
-        let buttons = modal.find('button')
-
-        buttons.filterWhere((e) =>
-          e.text() === 'Add Address'
-        ).simulate('click')
-
-        expect(addButtonClick as jest.Mock<{}>).toBeCalled()
-
-      })
-
-      it('changes on update address properly', () => {
-        modal.update()
-        modal.find('SelectableTableRow').filterWhere((e) => { return e.key() === '1' }).simulate('click')
-        expect(editButtonClick).toBeCalledWith({ id: 1, address: 'ehtowhetoweit' })
-      })
-
-    })
-  })
-
-  describe('addressPane is on', () => {
-    let modal: any;
+  describe('load proper fields', () => {
+    let pane: ReactWrapper
     beforeEach(() => {
-      let localRootStore = generateRootStore({ addressToEdit: { supporter: { id: 1 } }, editingAddress: true })
-
-      modal = mountWithIntl(
-        <Provider LocalRootStore={localRootStore}>
-          <SupporterPane
-            nonprofitId={0} supporterId={1}
-            onClose={onCloseAction} LocalRootStore={localRootStore}
-          />
-        </Provider>
-      )
+      pane = mountWithIntl(
+        <SupporterPane addAddress={addButtonClick} editAddress={editButtonClick} formik={createFormik()}
+          onClose={onCloseAction} addresses={[{ id: 1, address: 'ehtowhetoweit' }]} isDefaultAddress={() => true}
+        />)
     })
-    it('has addressPane on', () => {
-      modal.update()
-      expect(modal.find('AddressPane').exists()).toBeTruthy()
+
+    function runFieldTest(component: any, name: string) {
+      let fc = pane.find('FieldCreator').filterWhere((w) => w.prop('name') == name)
+      expect(fc.prop('component')).toBe(component)
+      return fc
+    }
+
+    function runBasicFieldTest(component: any, name: string, label?: string) {
+      let fc = runFieldTest(component, name)
+      if (label)
+        expect(fc.prop('label')).toBe(label)
+      expect(fc.prop('inputId')).toBe(`1--${name}`)
+    }
+
+    function runHiddenFieldTest(component: any, name: string, label?: string) {
+      let fc = runFieldTest(component, name)
+    }
+
+    it('has correct properties for name', () => {
+      runBasicFieldTest(FormikBasicField, 'name', 'Name')
+    })
+
+    it('has correct properties for email', () => {
+      runBasicFieldTest(FormikBasicField, 'email', 'Email')
+    })
+
+    it('has correct properties for phone', () => {
+      runBasicFieldTest(FormikBasicField, 'phone', 'Phone')
+    })
+
+    it('has correct properties for organization', () => {
+      runBasicFieldTest(FormikBasicField, 'organization', 'Organization')
+    })
+
+    it('has correct properties for default_id', () => {
+      runHiddenFieldTest(FormikHiddenField, 'default_address.id')
+    })
+
+    it('will call onClose using the Close button', () => {
+      getCloseButton(pane).simulate('click')
+
+      expect(onCloseAction).toBeCalled()
+    })
+
+    it('has save button with type submit', () => {
+      const button = getSaveButton(pane)
+
+      expect(button.props().type).toBe('submit')
+      expect(button.props().disabled).toBeFalsy()
     })
   })
 
-  describe('verify default address is properly selected', () => {
-    let modal: ReactWrapper;
+  describe('addresses', () => {
+    let pane: ReactWrapper
+
     beforeEach(() => {
-      let localRootStore = generateRootStore()
+      pane = mountWithIntl(
+        <SupporterPane addAddress={addButtonClick} editAddress={editButtonClick} formik={createFormik()}
+          onClose={onCloseAction} addresses={[{ id: 1, address: 'ehtowhetoweit' }]} isDefaultAddress={(a) => a === 1}
+        />)
 
-      defaultAddressId = 1
+    })
 
-      modal = mountWithIntl(
-        <Provider LocalRootStore={localRootStore}>
-          <SupporterPane
-            nonprofitId={0} supporterId={1}
-            onClose={onCloseAction} LocalRootStore={localRootStore}
-          />
-        </Provider>
-      )
+    it('runs add address properly', () => {
+      getAddButton(pane).simulate('click')
 
+      expect(addButtonClick as jest.Mock<{}>).toBeCalled()
+    })
+
+
+    it('changes on update address properly', () => {
+      pane.update()
+      pane.find('SelectableTableRow').filterWhere((e) => { return e.key() === '1' }).simulate('click')
+      expect(editButtonClick).toBeCalledWith({ id: 1, address: 'ehtowhetoweit' })
     })
 
     it('has the proper address selected', () => {
-      let ourTableRow = modal.find('SelectableTableRow').filterWhere((i) => i.key() === "1")
+      let ourTableRow = pane.find('SelectableTableRow').filterWhere((i) => i.key() === "1")
 
       expect(ourTableRow.find('Star').exists()).toBeTruthy()
 
     })
 
     it('does not have invalid table row selected', () => {
-      let ourTableRow = modal.find('SelectableTableRow').filterWhere((i) => i.key() !== "1")
+      let ourTableRow = pane.find('SelectableTableRow').filterWhere((i) => i.key() !== "1")
       expect(ourTableRow.find('Star').exists()).toBeFalsy()
     })
   })

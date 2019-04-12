@@ -3,8 +3,7 @@ import * as React from 'react';
 import { FieldProps } from 'formik';
 import _ = require('lodash');
 import FormikLabeledFieldComponent from './FormikLabeledFieldComponent';
-import { FormikField } from './form/FormikField';
-
+import { FormikInput } from './form/FormikInput';
 
 export interface FormikBasicFieldProps<T> extends FieldProps<T> {
   placeholder?:string
@@ -23,7 +22,7 @@ export default class FormikBasicField<T> extends React.Component<FormikBasicFiel
         inputId={this.props.inputId}
         labelText={this.props.label}
         className={this.props.wrapperClassName} >
-        <FormikField field={this.props.field} placeholder={this.props.placeholder} className={`form-control ${this.props.inputClassNames || ''}`}
+        <FormikInput field={this.props.field} placeholder={this.props.placeholder} className={`form-control ${this.props.inputClassNames || ''}`} id={this.props.inputId}
         />
     </FormikLabeledFieldComponent>
   }

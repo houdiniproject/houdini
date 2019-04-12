@@ -4,8 +4,9 @@ import { SupporterStore } from "../../lib/stores/supporter_store";
 import { AddressStore } from "../../lib/stores/address_store";
 import * as _ from "lodash";
 import { Supporter, PutSupporter, Address, PostSupporterSupporterIdAddress } from "../../../api";
+import { boundMethod } from "autobind-decorator";
 
-export class SupporterAddressStore {
+export class SupporterEntity {
   constructor(
     private supporterId?: number,
     private supporterStore?: SupporterStore,
@@ -38,8 +39,9 @@ export class SupporterAddressStore {
     return this.supporterStore.loadSupporter(this.supporterId, { acceptCached })
   }
 
-  updateSupporter(supporter: PutSupporter): Promise<Supporter> {
-    return this.supporterStore.updateSupporter(this.supporterId, supporter);
+  @boundMethod
+  updateSupporter(supporter: PutSupporter|Supporter): Promise<Supporter> {
+    return this.supporterStore.updateSupporter(this.supporterId, supporter as PutSupporter);
   }
 
   loadAddresses() {
@@ -59,6 +61,6 @@ export class SupporterAddressStore {
   }
 
   deleteAddress(id: number) {
-    this.addressStore.deleteCrmAddress(this.supporterId, id);
+    return this.addressStore.deleteCrmAddress(this.supporterId, id);
   }
 }

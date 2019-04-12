@@ -61,6 +61,7 @@ export class SessionPageForm extends HoudiniForm {
         let input = this.converter.convertFormToObject()
 
         try {
+          let r = await this.signinApi.postLogin(input)
           window.location.reload()
         }
         catch (e) {

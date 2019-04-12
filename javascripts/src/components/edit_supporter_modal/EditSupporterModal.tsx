@@ -3,14 +3,14 @@ import * as React from 'react';
 import { observer, Provider } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Modal from '../common/Modal';
-import SupporterPane from './SupporterPane';
+import SupporterModalBase, { OnCloseType } from './SupporterModalBase';
 import { LocalRootStore } from './local_root_store';
 import { RootStore } from '../../lib/stores/root_store';
 
 
 export interface EditSupporterModalProps {
   //from ModalProps
-  onClose: () => void
+  onClose: OnCloseType
   modalActive: boolean
   nonprofitId: number
   supporterId: number
@@ -39,7 +39,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       childGenerator={() => {
         return <Provider RootStore={this.rootStore}>
           <Provider LocalRootStore={this.localRootStore}>
-            <SupporterPane nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onClose={this.props.onClose} key={1} />
+            <SupporterModalBase nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onClose={this.props.onClose} key={1} />
           </Provider>
         </Provider>
       }}>

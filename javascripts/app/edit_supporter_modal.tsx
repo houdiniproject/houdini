@@ -10,7 +10,7 @@ function LoadReactPage(element:HTMLElement,
     nonprofitId: number,
   supporterId:number,
   //from ModalProps
-  onClose: () => void,
+  onClose: (supporterId?:number) => void,
   modalActive: boolean
   ) {
   ReactDOM.render(<Root><EditSupporterModal

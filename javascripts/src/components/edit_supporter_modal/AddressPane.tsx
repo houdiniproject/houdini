@@ -3,22 +3,18 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import * as _ from 'lodash';
-import { Address, TimeoutError, ValidationErrorsException, ValidationError, ValidationErrors } from '../../../api';
-import { BasicField } from '../common/fields';
-import ReactCheckbox from '../common/form/ReactCheckbox';
+import { Address, TimeoutError, ValidationErrorsException, ValidationError } from '../../../api';
 import FormNotificationBlock from '../common/form/FormNotificationBlock';
 import Button from '../common/form/Button';
 import { TwoColumnFields } from '../common/layout';
 import { LocalRootStore } from './local_root_store';
-import { AddressPaneState } from './address_pane_state';
-import { Formik, Form, FormikFormProps, Field, FieldProps, FieldAttributes, FormikHandlers, FormikActions, FormikErrors, FormikProps } from 'formik'
-import { FormikField } from '../common/form/FormikField';
-import FormikBasicFieldComponent from '../common/FormikBasicField';
 import FormikBasicField from '../common/FormikBasicField';
 import { FieldCreator } from '../common/form/FieldCreator';
 import { FormikCheckbox } from '../common/form/FormikCheckbox';
-import { action } from 'mobx';
-import { ServerErrorInput } from './address_pane_form';
+import { action, observable } from 'mobx';
+import HoudiniFormik, { HoudiniFormikActions, HoudiniFormikProps, HoudiniFormikServerStatus, FormikHelpers } from '../common/HoudiniFormik';
+import { SupporterEntity } from './supporter_entity';
+import { FormikActions } from 'formik';
 
 export interface AddressAction {
   type: 'none' | 'delete' | 'add' | 'update'
@@ -29,10 +25,60 @@ export interface AddressAction {
 export interface AddressPaneProps {
   initialAddress: Address
   isDefault?: boolean
-  onClose?: (action: AddressAction) => void
+  onClose: (action: AddressAction) => void
   LocalRootStore?: LocalRootStore
-  //Only used for testing
-  addressPaneState?: AddressPaneState
+}
+
+type AddressPaneFormikInputProps = Address & { isDefault?: boolean, shouldDelete?:boolean }
+
+export const TIMEOUT_ERROR_MESSAGE = "The website couldn't be contacted. Make sure you're connected to the internet and try again in a few seconds."
+
+export const addressPaneFormSubmission = async ({values, action, supporterAddressStore, onClose}:{values: AddressPaneFormikInputProps, action: FormikActions<AddressPaneFormikInputProps>, supporterAddressStore:SupporterEntity, onClose: (action: AddressAction) => void}) =>  {
+  let input:AddressPaneFormikInputProps = values
+
+  let status: HoudiniFormikServerStatus<AddressPaneFormikInputProps> = {}
+  try {
+    if (values.shouldDelete){
+      try{
+        const address = await supporterAddressStore.deleteAddress(values.id)
+        action.setStatus({} )
+        onClose({ type: 'delete', address: address })
+      
+      }
+      finally{
+        action.setFieldValue('shouldDelete', false)
+      }
+    }
+    else {
+      const shouldAdd = !input.id
+      if (shouldAdd) {
+        const address = await supporterAddressStore.createAddress(input)
+        action.setStatus({})
+        onClose({ type: 'add', address: address, setToDefault: values.isDefault })
+      }
+      else {
+        const address = await supporterAddressStore.updateAddress(values.id, input)
+
+        action.setStatus({})
+        onClose({ type: 'update', address: address, setToDefault: values.isDefault })
+      }
+    }
+
+  }
+  catch (e) {
+    if (e instanceof TimeoutError) {
+      status.form = "The website couldn't be contacted. Make sure you're connected to the internet and try again in a few seconds."
+    }
+    else {
+      if (e instanceof ValidationErrorsException) {
+        status.fields = FormikHelpers.convertServerValidationToFieldStatus(e)
+      }
+
+      status.form = e['error']
+    }
+
+    action.setStatus(status)
+  }
 }
 
 
@@ -49,176 +95,78 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
 
 
   initialize(initialAddress: Address, isDefault: boolean) {
-    this.shouldAdd = (!initialAddress || !initialAddress.id)
-    this.initialValues = this.shouldAdd ? {} : {
-      'id': initialAddress.address,
+    const shouldAdd = (!initialAddress || !initialAddress.id)
+    this.initialValues = shouldAdd ? {} : {
+      'id': initialAddress.id,
       'address': initialAddress.address,
       'city': initialAddress.city,
       'state_code': initialAddress.state_code,
       'zip_code': initialAddress.zip_code,
       'country': initialAddress.country,
-      'is_default': isDefault
+      'isDefault': isDefault
     }
   }
 
-  initialValues: any
-  shouldAdd: boolean
-
-  convertValidationErrorToServerErrorInput<Values>(errors:ValidationErrorsException|ValidationErrors|Array<ValidationError>) : FormikErrors<Values> {
-    let errorArray:Array<ValidationError>
-    if (errors instanceof ValidationErrorsException)
-    {
-      errorArray = errors.item.errors
-    }
-    else if (errors instanceof Array)
-    {
-      errorArray = errors
-    }
-    else {
-      errorArray = errors.errors
-    }
-
-    let output:FormikErrors<Values> = {}
-    errorArray.forEach(error => {
-      error.params.forEach(p => {
-        if(!_.has(output, p))
-        {
-          _.set(output, p, new Array<string>())
-        }
-        error.messages.forEach(m => {
-          (_.get(output, p) as string[]).push(m)
-        })
-      })
-      
-    });
-
-    return output;
-
-  }
-
-
+  @observable
+  initialValues: AddressPaneFormikInputProps
+  
   @action.bound
-  async tryToSubmitForm<Values>(values: any, action: FormikActions<Values>) {
-    let input = values
-
-    let status: { form?: string, fields?: FormikErrors<Values> } = {}
-
-    try {
-      if (this.shouldAdd) {
-        const address = await this.props.LocalRootStore.supporterAddressStore.createAddress(input)
-        action.setStatus()
-        this.props.onClose({ type: 'add', address: address, setToDefault: values['is_default'] })
-      }
-      else {
-        const address = await this.props.LocalRootStore.supporterAddressStore.updateAddress(values['id'], input)
-
-        action.setStatus()
-        this.props.onClose({ type: 'update', address: address, setToDefault: values['is_default'] })
-      }
-
-    }
-    catch (e) {
-      if (e instanceof TimeoutError) {
-        status.form = "The website couldn't be contacted. Make sure you're connected to the internet and try again in a few seconds."
-      }
-      else {
-        if (e instanceof ValidationErrorsException) {
-          status.fields = this.convertValidationErrorToServerErrorInput(e)
-        }
-
-        status.form = e['error']
-      }
-
-      action.setStatus(status)
-    }
+  close(){
+    this.props.onClose({ type: 'none' })
   }
-
-  isDirty<Values>(path:string, props:FormikProps<Values> ){
-    return _.get(props.initialValues, path) === _.get(props.values, path)
-  }
-
-  isEmpty(value:string) {
-    return !value ||  _.trim(value) === ''
-  }
-
+  
   render() {
-    return <Formik initialValues={this.initialValues as Address & { isDefault?: boolean }} onSubmit={this.tryToSubmitForm} render={(props: FormikProps<Address & { isDefault?: boolean }>) => {
-     const modifiedEnoughToSubmit = props.dirty &&
-      !(this.isDirty('isDefault', props) && this.isEmpty(props.values.address)
-          && this.isEmpty(props.values.city)
-          && this.isEmpty(props.values.state_code)
-          && this.isEmpty(props.values.zip_code)
-          && this.isEmpty(props.values.country))
+    return <HoudiniFormik initialValues={this.initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => {addressPaneFormSubmission({values:values, action:action, supporterAddressStore:this.props.LocalRootStore.supporterAddressStore, onClose: this.props.onClose})}}
+    render={(props: HoudiniFormikProps<AddressPaneFormikInputProps>) => {
+      const modifiedEnoughToSubmit = props.dirty && !(
+        FormikHelpers.isEmpty(props.values.address)
+           && FormikHelpers.isEmpty(props.values.city)
+           && FormikHelpers.isEmpty(props.values.state_code)
+           && FormikHelpers.isEmpty(props.values.zip_code)
+           && FormikHelpers.isEmpty(props.values.country)
+      )
 
+      const shouldAdd = !props.values.id
       return (
         <form onSubmit={props.handleSubmit} onReset={props.handleReset}>
           <div>
             <TwoColumnFields>
-              <FieldCreator component={FormikBasicField} name={'address'} label={'Address'} />
-              <FieldCreator component={FormikBasicField} name={'city'} label={'City'} />
+              <FieldCreator component={FormikBasicField} name={'address'} label={'Address'} inputId={FormikHelpers.createId(props, 'address')}/>
+              <FieldCreator component={FormikBasicField} name={'city'} label={'City'}  inputId={FormikHelpers.createId(props, 'city')}/>
 
             </TwoColumnFields>
             <TwoColumnFields>
-              <FieldCreator component={FormikBasicField} name={'state_code'} label={'State/Region Code'} />
-              <FieldCreator component={FormikBasicField} name={'zip_code'} label={'Postal/Zip Code'} />
+              <FieldCreator component={FormikBasicField} name={'state_code'} label={'State/Region Code'} inputId={FormikHelpers.createId(props, 'state_code')}/>
+              <FieldCreator component={FormikBasicField} name={'zip_code'} label={'Postal/Zip Code'} inputId={FormikHelpers.createId(props, 'zip_code')}/>
 
             </TwoColumnFields>
             <TwoColumnFields>
-              <FieldCreator component={FormikBasicField} name={'country'} label={'Country'} />
+              <FieldCreator component={FormikBasicField} name={'country'} label={'Country'} inputId={FormikHelpers.createId(props, 'country')} />
             </TwoColumnFields>
-            <FieldCreator component={FormikCheckbox} name={'isDefault'} label={"Set as Default Address"} />
+            <FieldCreator component={FormikCheckbox} name={'isDefault'} label={"Set as Default Address"} id={FormikHelpers.createId(props, 'isDefault')}/>
 
             {
               (props.status && props.status.form) ? <FormNotificationBlock>{props.status.form}</FormNotificationBlock> : ""
             }
+
+            
           </div>
           <div>
 
-            <Button onClick={() => this.props.onClose({ type: 'none' })}>Close</Button>
-            {this.shouldAdd ?
+            <Button type="button" onClick={this.close}>Close</Button>
+            {shouldAdd ?
               <>
                 <Button type="submit" disabled={!modifiedEnoughToSubmit}>Add</Button>
               </> :
               <>
                 <Button type="submit" disabled={!modifiedEnoughToSubmit}>Save</Button>
-                <Button type="submit">Delete</Button>
+                <Button type="submit" onClick={() => {props.setFieldValue('shouldDelete', true); props.submitForm()}}>Delete</Button>
               </>
             }
           </div>
         </form>)
     }
     } />
-
-    {/* <TwoColumnFields>
-            <BasicField field={this.addressPaneState.form.$('address')} label={"Address"} />
-            <BasicField field={this.addressPaneState.form.$('city')} label={"City"} />
-          </TwoColumnFields>
-          <TwoColumnFields>
-            <BasicField field={this.addressPaneState.form.$('state_code')} label={"State Code/Region"} />
-            <BasicField field={this.addressPaneState.form.$('zip_code')} label={"Postal/Zip Code"} />
-          </TwoColumnFields>
-          <TwoColumnFields>
-            <BasicField field={this.addressPaneState.form.$('country')} label={"Country"} />
-          </TwoColumnFields>
-          <ReactCheckbox field={this.addressPaneState.form.$('is_default')} label={"Set as Default Address"} />
-
-          {this.addressPaneState.form.serverError ? <FormNotificationBlock>{this.addressPaneState.form.serverError}</FormNotificationBlock> : ""}
-        </form>
-      </div> */}
-    {/* <div>
-
-        <Button onClick={() => this.addressPaneState.close({ type: 'none' })}>Close</Button>
-        {this.addressPaneState.shouldAdd ?
-          <>
-            <Button onClick={this.addressPaneState.form.onSubmit} disabled={!this.addressPaneState.modifiedEnoughToSubmit} type="submit">Add</Button>
-          </> :
-          <>
-            <Button onClick={this.addressPaneState.form.onSubmit} disabled={!this.addressPaneState.modifiedEnoughToSubmit} type="submit">Save</Button>
-            <Button onClick={this.addressPaneState.delete}>Delete</Button>
-          </>
-        }
-      </div> */}
-
   }
 }
 

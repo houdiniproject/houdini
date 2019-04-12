@@ -1,26 +1,21 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import StandardFieldComponent from "./StandardFieldComponent";
 import {observer} from 'mobx-react';
 import { FieldProps } from 'formik';
 import _ = require('lodash');
 import FormikStandardFieldComponent from './FormikStandardFieldComponent';
 
 
-export interface LabeledFieldComponentProps<T>  extends FieldProps<T> 
+export interface FormikLabeledFieldComponentProps<T>  extends FieldProps<T> 
 {
   labelText:string
   inputId: string
-    // labelText: string
-    // inError:boolean
-    // error?:string
-    // inStickyError?:boolean
-    // stickyError?:string
-    className?:string
+
+  className?:string
 }
 
 @observer
-export default class FormikLabeledFieldComponent<T> extends React.Component<LabeledFieldComponentProps<T>, {}> {
+export default class FormikLabeledFieldComponent<T> extends React.Component<FormikLabeledFieldComponentProps<T>, {}> {
   render() {
     let error = _.get(this.props.form.errors, this.props.field.name)
     let serverError = _.get(this.props.form.status, `fields.${this.props.field.name}`)

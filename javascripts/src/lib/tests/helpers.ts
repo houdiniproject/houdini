@@ -102,6 +102,7 @@ export function shallowUntilTarget<T>(componentInstance:React.ReactElement<any>,
     }
     // Unwrap the next component in the hierarchy.
     root = root.dive();
+    
   }
 
   throw new Error(`Could not find ${TargetComponent} in rendered

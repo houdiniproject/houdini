@@ -1,4 +1,4 @@
-import { FieldProps, FormikHandlers } from "formik";
+import { FormikHandlers } from "formik";
 import React = require("react");
 import _ = require("lodash");
 

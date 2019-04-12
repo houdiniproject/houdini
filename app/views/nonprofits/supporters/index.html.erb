@@ -45,7 +45,12 @@
         LoadReactEditSupporterModal(document.getElementById('react-vdom-hack'),
           app.nonprofit_id,
           supporter_id,
-          () => {SetupEditSupporterModal(false)},
+          (supporterId) => {
+            SetupEditSupporterModal(false);
+            if (supporterId){
+              location.reload();
+            }
+          },
           modalActive)
       }
 

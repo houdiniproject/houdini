@@ -1,20 +1,19 @@
 // License: LGPL-3.0-or-later
+import { FormikActions } from 'formik';
+import { action } from 'mobx';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import * as _ from 'lodash';
-import { Address, TimeoutError, ValidationErrorsException, ValidationError } from '../../../api';
-import FormNotificationBlock from '../common/form/FormNotificationBlock';
+import { Address, TimeoutError, ValidationErrorsException } from '../../../api';
 import Button from '../common/form/Button';
-import { TwoColumnFields } from '../common/layout';
-import { LocalRootStore } from './local_root_store';
-import FormikBasicField from '../common/FormikBasicField';
 import { FieldCreator } from '../common/form/FieldCreator';
 import { FormikCheckbox } from '../common/form/FormikCheckbox';
-import { action, observable } from 'mobx';
-import HoudiniFormik, { HoudiniFormikActions, HoudiniFormikProps, HoudiniFormikServerStatus, FormikHelpers } from '../common/HoudiniFormik';
+import FormNotificationBlock from '../common/form/FormNotificationBlock';
+import FormikBasicField from '../common/FormikBasicField';
+import HoudiniFormik, { FormikHelpers, HoudiniFormikProps, HoudiniFormikServerStatus } from '../common/HoudiniFormik';
+import { TwoColumnFields } from '../common/layout';
+import { LocalRootStore } from './local_root_store';
 import { SupporterEntity } from './supporter_entity';
-import { FormikActions } from 'formik';
 
 export interface AddressAction {
   type: 'none' | 'delete' | 'add' | 'update'

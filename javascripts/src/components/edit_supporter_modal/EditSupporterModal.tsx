@@ -6,6 +6,8 @@ import Modal from '../common/Modal';
 import SupporterModalBase, { OnCloseType } from './SupporterModalBase';
 import { LocalRootStore } from './local_root_store';
 import { RootStore } from '../../lib/stores/root_store';
+import EditSupporterModalStateHolder from './EditSupporterModalStateHolder';
+import { tsParenthesizedType } from '@babel/types';
 
 
 export interface EditSupporterModalProps {
@@ -18,17 +20,6 @@ export interface EditSupporterModalProps {
 
 class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
 
-  rootStore: RootStore
-  localRootStore: LocalRootStore;
-
-  constructor(props: EditSupporterModalProps & InjectedIntlProps) {
-    super(props)
-    this.rootStore = new RootStore()
-    this.localRootStore = new LocalRootStore(props.supporterId, this.rootStore)
-  }
-
-
-
   render() {
     return <Modal
       modalActive={this.props.modalActive}
@@ -37,11 +28,8 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       onClose={this.props.onClose}
       dialogStyle={{ minWidth: '768px', position: 'relative' }}
       childGenerator={() => {
-        return <Provider RootStore={this.rootStore}>
-          <Provider LocalRootStore={this.localRootStore}>
-            <SupporterModalBase nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onClose={this.props.onClose} key={1} />
-          </Provider>
-        </Provider>
+        return <EditSupporterModalStateHolder nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId}
+        onClose={this.props.onClose}  />  
       }}>
     </Modal>
   }

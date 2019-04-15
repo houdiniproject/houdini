@@ -5,6 +5,7 @@ import AriaModal = require('react-aria-modal');
 import { VelocityTransitionGroup } from 'velocity-react';
 import 'velocity-animate';
 import 'velocity-animate/velocity.ui';
+import { DefaultCloseButton } from './CloseButton';
 
 export interface ModalProps {
   onClose?: () => void // if you want your modal to close, this needs to set modalActive to false
@@ -26,7 +27,7 @@ class Modal extends React.Component<ModalProps, {}> {
     const innerModal = this.props.modalActive ? <AriaModal mounted={this.props.modalActive} titleText={this.props.titleText} focusDialog={this.props.focusDialog}
       onExit={this.props.onClose} dialogStyle={this.props.dialogStyle}>
       <header className='modal-header' style={{position:'relative'}}>
-        <h4 className='modal-header-title'>{this.props.titleText}</h4>
+        <h4 className='modal-header-title'>{this.props.titleText}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <DefaultCloseButton onClick={() => window.alert('clicked!')}/></h4>
       </header>
       <div className="modal-body">
         <div style={{position:'relative'}}>

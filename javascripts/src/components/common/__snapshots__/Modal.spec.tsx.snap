@@ -1,81 +1,418 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Modal active modal displays 1`] = `
-<VelocityTransitionGroup
-  enter={
+exports[`Modal active modal displays matches snapshot 1`] = `
+<Modal
+  childGenerator={[Function]}
+  dialogStyle={
     Object {
-      "animation": "fadeIn",
-      "style": Object {
-        "left": "0px",
-        "position": "fixed",
-        "top": "0px",
-        "zIndex": "5000",
-      },
+      "minWidth": "768px",
     }
   }
-  enterHideStyle={
-    Object {
-      "display": "none",
-    }
-  }
-  enterShowStyle={
-    Object {
-      "display": "",
-    }
-  }
-  leave={
-    Object {
-      "animation": "fadeOut",
-      "style": Object {
-        "left": "0px",
-        "position": "fixed",
-        "top": "0px",
-        "zIndex": "5000",
-      },
-    }
-  }
-  runOnMount={true}
+  focusDialog={true}
+  modalActive={true}
+  onClose={[Function]}
+  showCloseButton={true}
+  titleText="title text"
 >
-  <Displaced
-    dialogStyle={
+  <VelocityTransitionGroup
+    enter={
       Object {
-        "minWidth": "768px",
+        "animation": "fadeIn",
+        "style": Object {
+          "left": "0px",
+          "position": "fixed",
+          "top": "0px",
+          "zIndex": "5000",
+        },
       }
     }
-    focusDialog={true}
-    mounted={true}
-    onExit={[Function]}
-    titleText="title text"
-  >
-    <header
-      className="modal-header"
-      style={
-        Object {
-          "position": "relative",
-        }
+    enterHideStyle={
+      Object {
+        "display": "none",
       }
+    }
+    enterShowStyle={
+      Object {
+        "display": "",
+      }
+    }
+    leave={
+      Object {
+        "animation": "fadeOut",
+        "style": Object {
+          "left": "0px",
+          "position": "fixed",
+          "top": "0px",
+          "zIndex": "5000",
+        },
+      }
+    }
+    runOnMount={true}
+  >
+    <TransitionGroup
+      childFactory={[Function]}
+      component="div"
     >
-      <h4
-        className="modal-header-title"
-      >
-        title text
-      </h4>
-    </header>
-    <div
-      className="modal-body"
-    >
-      <div
-        style={
-          Object {
-            "position": "relative",
+      <div>
+        <Displaced
+          dialogStyle={
+            Object {
+              "minWidth": "768px",
+            }
           }
-        }
-      >
-        <div />
+          focusDialog={true}
+          in={true}
+          key=".0"
+          mounted={true}
+          onExit={[Function]}
+          onExited={[Function]}
+          titleText="title text"
+        >
+          <Portal
+            containerInfo={
+              <div>
+                <div>
+                  <div
+                    style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 1050; overflow-x: hidden; overflow-y: auto; text-align: center; background: rgba(0, 0, 0, 0.5); cursor: pointer;"
+                  >
+                    <div
+                      aria-label="title text"
+                      id="react-aria-modal-dialog"
+                      role="dialog"
+                      style="display: inline-block; text-align: left; top: 0px; max-width: 100%; cursor: default; outline: 0; min-width: 768px;"
+                      tabindex="-1"
+                    >
+                      <div
+                        class="tw-bs"
+                      >
+                        <header
+                          class="modal-header"
+                          style="position: relative; padding: 12px 10px 12px 20px;"
+                        >
+                          <div
+                            class="row"
+                          >
+                            <h3
+                              class="col-xs-11 modal-header-title"
+                              style="margin: 0px;"
+                            >
+                              title text
+                            </h3>
+                            <div
+                              class="col-xs-1 "
+                              style="text-align: right;"
+                            >
+                              <a
+                                class="focusable_item"
+                                tabindex="0"
+                              >
+                                <svg
+                                  height="24"
+                                  version="1.1"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                >
+                                  <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="10.65625"
+                                    style="stroke: #969696; fill: #FFFFFF;"
+                                  />
+                                  <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="9.25"
+                                    style="fill: #969696;"
+                                  />
+                                  <path
+                                    d="M 7.130438,16.869562 16.869562,7.130438"
+                                    style="stroke: #ffffff; stroke-width: 1.375; stroke-linecap: square;"
+                                  />
+                                  <path
+                                    d="M 16.869562,16.869562 7.130438,7.130438"
+                                    style="stroke: #ffffff; stroke-width: 1.375; stroke-linecap: square;"
+                                  />
+                                </svg>
+                                <span
+                                  style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); border: 0px;"
+                                >
+                                  Close modal
+                                </span>
+                              </a>
+                            </div>
+                          </div>
+                        </header>
+                        <div
+                          class="modal-body"
+                        >
+                          <div
+                            style="position: relative;"
+                          >
+                            <div />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+          >
+            <Modal
+              dialogId="react-aria-modal-dialog"
+              dialogStyle={
+                Object {
+                  "minWidth": "768px",
+                }
+              }
+              escapeExits={true}
+              focusDialog={true}
+              focusTrapPaused={false}
+              in={true}
+              includeDefaultStyles={true}
+              mounted={true}
+              onExit={[Function]}
+              onExited={[Function]}
+              scrollDisabled={true}
+              titleText="title text"
+              underlayClickExits={true}
+              underlayColor="rgba(0,0,0,0.5)"
+              underlayProps={Object {}}
+            >
+              <FocusTrap
+                _createFocusTrap={[Function]}
+                active={true}
+                focusTrapOptions={
+                  Object {
+                    "escapeDeactivates": true,
+                    "initialFocus": "#react-aria-modal-dialog",
+                  }
+                }
+                paused={false}
+                tag="div"
+              >
+                <div>
+                  <div
+                    onMouseDown={[Function]}
+                    style={
+                      Object {
+                        "WebkitOverflowScrolling": "touch",
+                        "background": "rgba(0,0,0,0.5)",
+                        "cursor": "pointer",
+                        "height": "100%",
+                        "left": 0,
+                        "overflowX": "hidden",
+                        "overflowY": "auto",
+                        "position": "fixed",
+                        "textAlign": "center",
+                        "top": 0,
+                        "width": "100%",
+                        "zIndex": 1050,
+                      }
+                    }
+                  >
+                    <div
+                      aria-label="title text"
+                      id="react-aria-modal-dialog"
+                      key="b"
+                      role="dialog"
+                      style={
+                        Object {
+                          "cursor": "default",
+                          "display": "inline-block",
+                          "maxWidth": "100%",
+                          "minWidth": "768px",
+                          "outline": 0,
+                          "textAlign": "left",
+                          "top": 0,
+                        }
+                      }
+                      tabIndex="-1"
+                    >
+                      <BootstrapWrapper>
+                        <div
+                          className="tw-bs"
+                        >
+                          <header
+                            className="modal-header"
+                            style={
+                              Object {
+                                "padding": "12px 10px 12px 20px",
+                                "position": "relative",
+                              }
+                            }
+                          >
+                            <Row>
+                              <div
+                                className="row"
+                              >
+                                <Column
+                                  breakSize="xs"
+                                  colSpan={11}
+                                >
+                                  <h3
+                                    className="col-xs-11 modal-header-title"
+                                    style={
+                                      Object {
+                                        "margin": 0,
+                                      }
+                                    }
+                                  >
+                                    title text
+                                  </h3>
+                                </Column>
+                                <Column
+                                  breakSize="xs"
+                                  colSpan={1}
+                                >
+                                  <div
+                                    className="col-xs-1 "
+                                    style={
+                                      Object {
+                                        "textAlign": "right",
+                                      }
+                                    }
+                                  >
+                                    <DefaultCloseButton
+                                      onClick={[Function]}
+                                    >
+                                      <Transition
+                                        appear={false}
+                                        enter={true}
+                                        exit={true}
+                                        in={false}
+                                        mountOnEnter={false}
+                                        onEnter={[Function]}
+                                        onEntered={[Function]}
+                                        onEntering={[Function]}
+                                        onExit={[Function]}
+                                        onExited={[Function]}
+                                        onExiting={[Function]}
+                                        timeout={250}
+                                        unmountOnExit={false}
+                                      >
+                                        <a
+                                          className="focusable_item"
+                                          onClick={[Function]}
+                                          onKeyDown={[Function]}
+                                          onMouseEnter={[Function]}
+                                          onMouseLeave={[Function]}
+                                          tabIndex={0}
+                                        >
+                                          <Component
+                                            backgroundCircleStyle={
+                                              Object {
+                                                "fill": "#FFFFFF",
+                                                "stroke": "#969696",
+                                              }
+                                            }
+                                            foregroundCircleStyle={
+                                              Object {
+                                                "fill": "#969696",
+                                              }
+                                            }
+                                          >
+                                            <svg
+                                              height="24"
+                                              version="1.1"
+                                              viewBox="0 0 24 24"
+                                              width="24"
+                                            >
+                                              <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="10.65625"
+                                                style={
+                                                  Object {
+                                                    "fill": "#FFFFFF",
+                                                    "stroke": "#969696",
+                                                  }
+                                                }
+                                              />
+                                              <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="9.25"
+                                                style={
+                                                  Object {
+                                                    "fill": "#969696",
+                                                  }
+                                                }
+                                              />
+                                              <path
+                                                d="M 7.130438,16.869562 16.869562,7.130438"
+                                                style={
+                                                  Object {
+                                                    "stroke": "#ffffff",
+                                                    "strokeLinecap": "square",
+                                                    "strokeWidth": 1.375,
+                                                  }
+                                                }
+                                              />
+                                              <path
+                                                d="M 16.869562,16.869562 7.130438,7.130438"
+                                                style={
+                                                  Object {
+                                                    "stroke": "#ffffff",
+                                                    "strokeLinecap": "square",
+                                                    "strokeWidth": 1.375,
+                                                  }
+                                                }
+                                              />
+                                            </svg>
+                                          </Component>
+                                          <ScreenReaderOnlyText>
+                                            <span
+                                              style={
+                                                Object {
+                                                  "border": 0,
+                                                  "clip": "rect(0,0,0,0)",
+                                                  "height": "1px",
+                                                  "margin": "-1px",
+                                                  "overflow": "hidden",
+                                                  "padding": 0,
+                                                  "position": "absolute",
+                                                  "width": "1px",
+                                                }
+                                              }
+                                            >
+                                              Close modal
+                                            </span>
+                                          </ScreenReaderOnlyText>
+                                        </a>
+                                      </Transition>
+                                    </DefaultCloseButton>
+                                  </div>
+                                </Column>
+                              </div>
+                            </Row>
+                          </header>
+                          <div
+                            className="modal-body"
+                          >
+                            <div
+                              style={
+                                Object {
+                                  "position": "relative",
+                                }
+                              }
+                            >
+                              <div />
+                            </div>
+                          </div>
+                        </div>
+                      </BootstrapWrapper>
+                    </div>
+                  </div>
+                </div>
+              </FocusTrap>
+            </Modal>
+          </Portal>
+        </Displaced>
       </div>
-    </div>
-  </Displaced>
-</VelocityTransitionGroup>
+    </TransitionGroup>
+  </VelocityTransitionGroup>
+</Modal>
 `;
 
 exports[`Modal nothing displayed if inactive 1`] = `

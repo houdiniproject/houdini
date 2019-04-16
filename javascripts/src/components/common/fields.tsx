@@ -11,48 +11,48 @@ import ReactMaskedInput from "./form/ReactMaskedInput";
 import createNumberMask from "../../lib/createNumberMask";
 
 
-export const BasicField = observer((props:{field:Field, placeholder?:string, label?:string, wrapperClassName?:string, inputClassNames?:string}) =>{
+export const BasicField = observer((props:{field:Field, placeholder?:string, label?:string, className?:string, inputClassNames?:string}) =>{
     let field = props.field as HoudiniField
     return <LabeledFieldComponent
         inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
         inStickyError={field.hasServerError} stickyError={field.serverError}
-        className={props.wrapperClassName} >
+        className={props.className} >
         <ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames || ''}`}/>
     </LabeledFieldComponent>
 })
 
-export const SelectField = observer((props:{field:Field, placeholder?:string, label?:string, wrapperClassName?:string, inputClassNames?:string,  options?:Array<{id:any, name:string}>}) =>{
+export const SelectField = observer((props:{field:Field, placeholder?:string, label?:string, className?:string, inputClassNames?:string,  options?:Array<{id:any, name:string}>}) =>{
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
     inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.wrapperClassName} >
+    className={props.className} >
 
     <ReactSelect field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} options={props.options}/>
 
   </LabeledFieldComponent>
 })
 
-export const TextareaField = observer((props:{field:Field, placeholder?:string, label?:string, wrapperClassName?:string, inputClassNames?:string, rows?:number}) =>{
+export const TextareaField = observer((props:{field:Field, placeholder?:string, label?:string, className?:string, inputClassNames?:string, rows?:number}) =>{
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
     inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.wrapperClassName} >
+    className={props.className} >
 
     <ReactTextarea field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} rows={props.rows}/>
 
   </LabeledFieldComponent>
 })
 
-export const CurrencyField = observer((props:{field:Field,placeholder?:string, label?:string, currencySymbol?:string, wrapperClassName?:string, inputClassNames?:string, mustBeNegative?:boolean, allowNegative?:boolean}) => {
+export const CurrencyField = observer((props:{field:Field,placeholder?:string, label?:string, currencySymbol?:string, className?:string, inputClassNames?:string, mustBeNegative?:boolean, allowNegative?:boolean}) => {
   let field = props.field as HoudiniField
   let currencySymbol = props.mustBeNegative ? "-$" : "$"
   let allowNegative = props.allowNegative || !props.mustBeNegative
   return <LabeledFieldComponent
   inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
   inStickyError={field.hasServerError} stickyError={field.serverError}
-  className={props.wrapperClassName} >
+  className={props.className} >
 
       <ReactMaskedInput field={field} label={props.label} placeholder={props.placeholder}
                         className={`form-control ${props.inputClassNames}`} guide={true}

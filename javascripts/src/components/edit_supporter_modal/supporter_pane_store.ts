@@ -29,7 +29,6 @@ export class SupporterPaneStore {
       this.loaded = true;
     }
     catch (e) {
-      console.error(e)
       this.loadFailure = true;
     }
   }

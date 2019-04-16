@@ -8,6 +8,3 @@ class FailedToLoad extends React.Component<{}, {}> {
 }
 
 export default observer(FailedToLoad)
-
-
-

@@ -2,9 +2,9 @@
 import * as React from 'react';
 import 'jest';
 import Modal, {ModalProps} from './Modal'
-import {shallow} from "enzyme";
-import {toJS} from "mobx";
+import {shallow, mount, ReactWrapper} from "enzyme";
 import toJson from "enzyme-to-json";
+import { DefaultCloseButton } from './DefaultCloseButton';
 
 describe('Modal', () => {
   test('nothing displayed if inactive', () => {
@@ -13,16 +13,47 @@ describe('Modal', () => {
     expect(toJson(modal)).toMatchSnapshot()
   })
 
-  test('active modal displays', () => {
+  describe('active modal displays', () => {
     let onCloseWasCalled = false
-    let modal = shallow(<Modal titleText={"title text"}
+    let modal:ReactWrapper
+    beforeEach(() => {
+      onCloseWasCalled = false;
+      modal = mount(<Modal titleText={"title text"}
+      focusDialog={true}
+      modalActive={true}
+      onClose={() => { onCloseWasCalled = true}}
+      childGenerator={() => <div/>}/>)
+    })
+
+    it('matches snapshot', () => {
+      expect(toJson(modal)).toMatchSnapshot()
+    })
+
+    it('closes on modal component close', () => {
+      let modalComponent = modal.instance() as React.Component<ModalProps, {}> //casting to modal didn't work for reasons?
+      modalComponent.props.onClose()
+      expect(onCloseWasCalled).toBeTruthy()
+    })
+
+    it('closes on closeButtonClick', () => {
+      let closeButton = modal.find('DefaultCloseButton')
+      let instanceButton = closeButton.instance() as DefaultCloseButton
+      instanceButton.props.onClick();
+      expect(onCloseWasCalled).toBeTruthy()
+    })
+  })
+
+
+  it('doesnt have a close button if we ask for none', () => {
+    let onCloseWasCalled = false
+    let modal = mount(<Modal titleText={"title text"}
                                focusDialog={true}
                                modalActive={true}
+                               showCloseButton={false}
                                onClose={() => { onCloseWasCalled = true}}
-                               childGenerator={() => <div/>}/>)
-    expect(toJson(modal)).toMatchSnapshot()
-    let modalComponent = modal.instance() as React.Component<ModalProps, {}> //casting to modal didn't work for reasons?
-    modalComponent.props.onClose()
-    expect(onCloseWasCalled).toBeTruthy()
+                               childGenerator={() => <div/>}
+                                />)
+    expect(modal.find('DefaultCloseButton').exists()).toBeFalsy()
   })
+  
 })

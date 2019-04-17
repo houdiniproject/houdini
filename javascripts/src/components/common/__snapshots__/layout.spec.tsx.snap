@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`layout Row renders multiple children properly 1`] = `
+<Row>
+  <div
+    className="row"
+  >
+    <SimpleCheckerComponent>
+      <div />
+    </SimpleCheckerComponent>
+    <SimpleCheckerComponent>
+      <div />
+    </SimpleCheckerComponent>
+  </div>
+</Row>
+`;
+
+exports[`layout Row renders single child properly 1`] = `
+<Row>
+  <div
+    className="row"
+  >
+    <SimpleCheckerComponent>
+      <div />
+    </SimpleCheckerComponent>
+  </div>
+</Row>
+`;
+
+exports[`layout ThreeColumnFields renders multiple children properly 1`] = `
+<ThreeColumnFields>
+  <Row>
+    <div
+      className="row"
+    >
+      <Column
+        breakSize="sm"
+        colSpan={4}
+      >
+        <SimpleCheckerComponent
+          className="col-sm-4  u-paddingRight--10"
+        >
+          <div />
+        </SimpleCheckerComponent>
+      </Column>
+      <Column
+        breakSize="sm"
+        colSpan={4}
+      >
+        <SimpleCheckerComponent
+          className="col-sm-4  u-paddingRight--10"
+        >
+          <div />
+        </SimpleCheckerComponent>
+      </Column>
+      <Column
+        breakSize="sm"
+        colSpan={4}
+      >
+        <SimpleCheckerComponent
+          className="col-sm-4 "
+        >
+          <div />
+        </SimpleCheckerComponent>
+      </Column>
+    </div>
+  </Row>
+</ThreeColumnFields>
+`;
+
+exports[`layout ThreeColumnFields renders single child properly 1`] = `
+<ThreeColumnFields>
+  <Row>
+    <div
+      className="row"
+    >
+      <Column
+        breakSize="sm"
+        colSpan={4}
+      >
+        <SimpleCheckerComponent
+          className="col-sm-4 "
+        >
+          <div />
+        </SimpleCheckerComponent>
+      </Column>
+    </div>
+  </Row>
+</ThreeColumnFields>
+`;
+
+exports[`layout TwoColumnFields renders multiple children properly 1`] = `
+<TwoColumnFields>
+  <Row>
+    <div
+      className="row"
+    >
+      <Column
+        breakSize="sm"
+        colSpan={6}
+      >
+        <SimpleCheckerComponent
+          className="col-sm-6  u-paddingRight--10"
+        >
+          <div />
+        </SimpleCheckerComponent>
+      </Column>
+      <Column
+        breakSize="sm"
+        colSpan={6}
+      >
+        <SimpleCheckerComponent
+          className="col-sm-6 "
+        >
+          <div />
+        </SimpleCheckerComponent>
+      </Column>
+    </div>
+  </Row>
+</TwoColumnFields>
+`;
+
+exports[`layout TwoColumnFields renders single child properly 1`] = `
+<TwoColumnFields>
+  <Row>
+    <div
+      className="row"
+    >
+      <Column
+        breakSize="sm"
+        colSpan={6}
+      >
+        <SimpleCheckerComponent
+          className="col-sm-6 "
+        >
+          <div />
+        </SimpleCheckerComponent>
+      </Column>
+    </div>
+  </Row>
+</TwoColumnFields>
+`;

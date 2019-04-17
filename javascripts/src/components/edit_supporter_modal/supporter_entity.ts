@@ -6,6 +6,26 @@ import * as _ from "lodash";
 import { Supporter, PutSupporter, Address, PostSupporterSupporterIdAddress } from "../../../api";
 import { boundMethod } from "autobind-decorator";
 
+export function toFormSupporter(s:Supporter):Supporter {
+  if (!s)
+    return s;
+  
+  s = _.cloneDeep(s)
+  return  _.mapValues(s, (i) => {
+    return _.isNull(i) ? "" : i
+  }) as Supporter
+}
+
+export function fromFormSupporter(s:Supporter):PutSupporter {
+  if (!s)
+    return s as PutSupporter;
+  
+  s = _.cloneDeep(s)
+  return  _.mapValues(s, (i) => {
+    return _.isEmpty(i) ? undefined : i
+  }) as PutSupporter
+}
+
 export class SupporterEntity {
   constructor(
     private supporterId?: number,
@@ -63,4 +83,5 @@ export class SupporterEntity {
   deleteAddress(id: number) {
     return this.addressStore.deleteCrmAddress(this.supporterId, id);
   }
+
 }

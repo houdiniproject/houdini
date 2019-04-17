@@ -92,11 +92,11 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
     const shouldAdd = (!this.props.initialAddress || !this.props.initialAddress.id)
     const initialValues:AddressPaneFormikInputProps = shouldAdd ? {} : {
       'id': this.props.initialAddress.id,
-      'address': this.props.initialAddress.address,
-      'city': this.props.initialAddress.city,
-      'state_code': this.props.initialAddress.state_code,
-      'zip_code': this.props.initialAddress.zip_code,
-      'country': this.props.initialAddress.country,
+      'address': this.props.initialAddress.address || "",
+      'city': this.props.initialAddress.city || "",
+      'state_code': this.props.initialAddress.state_code || "",
+      'zip_code': this.props.initialAddress.zip_code || "",
+      'country': this.props.initialAddress.country || "",
       'isDefault': this.props.isDefault
     }
 

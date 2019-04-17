@@ -11,7 +11,7 @@ import Spinner from '../common/Spinner';
 import FailedToLoad from './FailedToLoad';
 import LoadedPaneFormik from './LoadedPaneFormik';
 import { LocalRootStore } from './local_root_store';
-import { SupporterEntity } from './supporter_entity';
+import { SupporterEntity, toFormSupporter, fromFormSupporter } from './supporter_entity';
 import { SupporterPaneStore } from './supporter_pane_store';
 import {boundMethod} from 'autobind-decorator'
 
@@ -23,7 +23,6 @@ export interface SupporterModalBaseProps {
   onClose: OnCloseType
   LocalRootStore?: LocalRootStore
 }
-
 
 export async function onSubmit(
     values:Supporter, 
@@ -69,7 +68,7 @@ class SupporterModalBase extends React.Component<SupporterModalBaseProps & Injec
 
   @boundMethod
   async onSubmit(values:Supporter, action:FormikActions<Supporter>){
-    await onSubmit(values, action, this.supporterAddressStore.updateSupporter, this.props.onClose)
+    await onSubmit(fromFormSupporter(values), action, this.supporterAddressStore.updateSupporter, this.props.onClose)
   }
 
   render() {
@@ -81,7 +80,7 @@ class SupporterModalBase extends React.Component<SupporterModalBaseProps & Injec
       const addresses = this.supporterAddressStore.addresses
       pane = <LoadedPaneFormik
        addresses={addresses}
-        initialValues={this.supporterAddressStore.supporter}
+        initialValues={toFormSupporter(this.supporterAddressStore.supporter)}
         onClose={this.props.onClose}
         onSubmit={this.onSubmit}
         supporterId={this.props.supporterId}/>

@@ -2,6 +2,13 @@
 require 'rails_helper'
 require 'api/support/api_shared_user_verification'
 require 'support/api_errors'
+
+# class DateTimeEqualable
+#   def initialize(time)
+    
+#   end
+# end
+
 describe Houdini::V1::Ticket, :type => :request do
   include_context :shared_donation_charge_context
   include_context :api_shared_user_verification
@@ -51,11 +58,12 @@ describe Houdini::V1::Ticket, :type => :request do
               fingerprint: transaction_address.fingerprint,
               supporter: h({
                   id: supporter.id
-              })
+              }),
+              updated_at: Time.now
           })
       })
 
-      expect(json_response).to eq expected.to_hash
+      expect(expected.to_hash).to eq json_response
 
     end
 
@@ -210,7 +218,7 @@ describe Houdini::V1::Ticket, :type => :request do
         expected = generate_expected
 
 
-        expect(json_response).to eq expected
+        expect(expected).to eq json_response
       end
 
       # it 'no address already' do

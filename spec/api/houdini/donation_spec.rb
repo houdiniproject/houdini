@@ -52,11 +52,12 @@ describe Houdini::V1::Donation, :type => :request do
               fingerprint: transaction_address.fingerprint,
               supporter: {
                   id: supporter.id
-              }.with_indifferent_access
+              }.with_indifferent_access,
+              updated_at: Time.now
           }.with_indifferent_access
       }.with_indifferent_access
 
-      expect(json_response).to eq expected.to_hash
+      expect(expected.to_hash).to eq json_response
 
     end
 
@@ -192,7 +193,8 @@ describe Houdini::V1::Donation, :type => :request do
                                                                       input_address[:state_code],
                                                                       input_address[:zip_code],
                                                                       input_address[:country]),
-                       supporter: h({id: donation.supporter.id})
+                       supporter: h({id: donation.supporter.id}),
+                       updated_at: Time.now
                    })
             })
 
@@ -208,7 +210,7 @@ describe Houdini::V1::Donation, :type => :request do
         expected = generate_expected
 
 
-        expect(json_response).to eq expected
+        expect(expected).to eq json_response
       end
 
       it 'no address already' do

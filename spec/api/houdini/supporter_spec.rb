@@ -47,11 +47,12 @@ describe Houdini::V1::Supporter, :type => :request do
                 fingerprint: default_address.fingerprint,
                 supporter: {
                     id: supporter.id
-                }.with_indifferent_access
+                }.with_indifferent_access,
+                updated_at: Time.now
             }.with_indifferent_access
         }.with_indifferent_access
 
-        expect(json_response).to eq expected.to_hash
+        expect(expected.to_hash).to eq json_response
       end
 
     end
@@ -349,7 +350,8 @@ describe Houdini::V1::Supporter, :type => :request do
                                      'supporter' => {
                                          'id' => supporter.id
                                      },
-                                     'fingerprint' => CrmAddress.last.fingerprint
+                                     'fingerprint' => CrmAddress.last.fingerprint,
+                                     'updated_at' => DateTime.now
                                  })
           expect(json_response).to eq expected
         end
@@ -428,10 +430,11 @@ describe Houdini::V1::Supporter, :type => :request do
                              supporter: h(
                                  {
                                      id: supporter.id
-                                 })
+                                 }),
+                            updated_at: DateTime.now
                          })
 
-            expect(json_response).to eq expected
+            expect(expected).to eq json_response
 
           end
         end
@@ -484,6 +487,7 @@ describe Houdini::V1::Supporter, :type => :request do
                                            'id' => supporter.id
                                        },
                                        'fingerprint' => CrmAddress.last.fingerprint,
+                                       updated_at: DateTime.now
                                    })
             expect(json_response).to eq expected
           end
@@ -540,9 +544,10 @@ describe Houdini::V1::Supporter, :type => :request do
                 'city' => address.city,
                 'state_code' => address.state_code,
                 'zip_code' => address.zip_code,
-                'country' => address.country
+                'country' => address.country,
+                'updated_at' => DateTime.now
             }
-            expect(json_response).to eq expected
+            expect(expected).to eq json_response
 
             expect(CrmAddress.where(id: address.id).first).to be_nil
           end

@@ -10,8 +10,22 @@ import ReactTextarea from "./form/ReactTextarea";
 import ReactMaskedInput from "./form/ReactMaskedInput";
 import createNumberMask from "../../lib/createNumberMask";
 
+export interface ClassNameable {
+  className?:string
+}
 
-export const BasicField = observer((props:{field:Field, placeholder?:string, label?:string, className?:string, inputClassNames?:string}) =>{
+interface FieldProps extends ClassNameable{
+  field:Field,
+  placeholder?:string,
+  label?:string
+  inputClassNames?:string
+}
+
+interface BasicFieldProps extends FieldProps {
+
+}
+
+export const BasicField = observer((props:BasicFieldProps) =>{
     let field = props.field as HoudiniField
     return <LabeledFieldComponent
         inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
@@ -21,7 +35,11 @@ export const BasicField = observer((props:{field:Field, placeholder?:string, lab
     </LabeledFieldComponent>
 })
 
-export const SelectField = observer((props:{field:Field, placeholder?:string, label?:string, className?:string, inputClassNames?:string,  options?:Array<{id:any, name:string}>}) =>{
+interface SelectFieldProps extends FieldProps {
+  options?:Array<{id:any, name:string}>
+}
+
+export const SelectField = observer((props:SelectFieldProps) =>{
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
@@ -33,7 +51,11 @@ export const SelectField = observer((props:{field:Field, placeholder?:string, la
   </LabeledFieldComponent>
 })
 
-export const TextareaField = observer((props:{field:Field, placeholder?:string, label?:string, className?:string, inputClassNames?:string, rows?:number}) =>{
+interface TextareaFieldProps extends FieldProps {
+    rows?:number
+}
+
+export const TextareaField = observer((props:TextareaFieldProps) =>{
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
@@ -45,7 +67,14 @@ export const TextareaField = observer((props:{field:Field, placeholder?:string, 
   </LabeledFieldComponent>
 })
 
-export const CurrencyField = observer((props:{field:Field,placeholder?:string, label?:string, currencySymbol?:string, className?:string, inputClassNames?:string, mustBeNegative?:boolean, allowNegative?:boolean}) => {
+interface CurrencyFieldProps extends FieldProps {
+  currencySymbol?:string, 
+  mustBeNegative?:boolean, 
+  allowNegative?:boolean
+}
+
+
+export const CurrencyField = observer((props:CurrencyFieldProps) => {
   let field = props.field as HoudiniField
   let currencySymbol = props.mustBeNegative ? "-$" : "$"
   let allowNegative = props.allowNegative || !props.mustBeNegative

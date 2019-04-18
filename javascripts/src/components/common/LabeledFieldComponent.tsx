@@ -3,7 +3,6 @@ import * as React from 'react';
 import StandardFieldComponent from "./StandardFieldComponent";
 import {observer} from 'mobx-react';
 import {InjectedIntl, injectIntl} from 'react-intl';
-import {CSSProperties} from "react";
 
 
 export interface LabeledFieldComponentProps
@@ -15,7 +14,7 @@ export interface LabeledFieldComponentProps
     inStickyError?:boolean
     stickyError?:string
     className?:string
-    style?:CSSProperties
+    style?:React.CSSProperties
 }
 
 @observer

@@ -2,22 +2,25 @@
 import * as React from 'react';
 import {observer} from "mobx-react";
 import * as _ from 'lodash'
+import { ClassNameable } from './fields';
 
-function arrayify<T>(items: Array<T>|T){
+function arrayify<T>(items: T[]|T){
   return items instanceof Array ? items : [items]
 }
 
-export const TwoColumnFields: React.StatelessComponent<{}> = (props:{children:Array<React.ReactElement<any>>|React.ReactElement<any>}) => {
+type ClassNameableChildren = React.ReactElement<ClassNameable>[]|React.ReactElement<ClassNameable>
+
+export const TwoColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
     const children = arrayify(props.children)
     return <Row>
         {
-            children.map((i:React.ReactElement<any>) => {
+            children.map((i:React.ReactElement<ClassNameable>) => {
                 let className = ""
                 if (_.last(children) !== i){
                     className += " u-paddingRight--10"
                 }
-                if (i.props['className']){
-                    className += i.props['className']
+                if (i.props.className){
+                    className += i.props.className
                 }
                 return <Column colSpan={6} breakSize={'sm'}>
                  {React.cloneElement(i, {className: className})}
@@ -28,17 +31,17 @@ export const TwoColumnFields: React.StatelessComponent<{}> = (props:{children:Ar
 
 TwoColumnFields.displayName = 'TwoColumnFields'
 
-export const ThreeColumnFields: React.StatelessComponent<{}> = (props:{children:Array<React.ReactElement<any>>|React.ReactElement<any>}) => {
+export const ThreeColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
   const children = arrayify(props.children)
     return <Row>
         {
-          children.map((i:React.ReactElement<any>) => {
+          children.map((i:React.ReactElement<ClassNameable>) => {
                 let className = ""
                 if (_.last(children) !== i){
                     className += " u-paddingRight--10"
                 }
-                if (i.props['className']){
-                    className += i.props['className']
+                if (i.props.className){
+                    className += i.props.className
                 }
                 return <Column colSpan={4} breakSize={'sm'}>
                     {React.cloneElement(i, {className: className})}
@@ -50,7 +53,7 @@ export const ThreeColumnFields: React.StatelessComponent<{}> = (props:{children:
 ThreeColumnFields.displayName = 'ThreeColumnFields'
 
 
-export const Row: React.StatelessComponent<{}> = (props:{children:Array<React.ReactElement<any>>|React.ReactElement<any>}) => {
+export const Row: React.StatelessComponent<{}> = (props:{children:React.ReactElement<any>[]|React.ReactElement<any>}) => {
     return <div className="row">
         {props.children}
     </div>

@@ -94,23 +94,23 @@ class CampaignGoalSelector extends React.Component<CampaignGoalSelectorProps & I
   render() {
     return <div className={'tw-bs'}>
 
-      <SelectField field={this.form.$('goal_is_in_supporters')} options={[{id: GoalTypes.IN_CENTS, name: "Goal in dollars"}, {id: GoalTypes.IN_SUPPORTERS, name: "Goal as supporters"}]} label={"Goals"} wrapperStyle={{marginBottom: 0}}/>
+      <SelectField field={this.form.$('goal_is_in_supporters')} options={[{id: GoalTypes.IN_CENTS, name: "Goal in dollars"}, {id: GoalTypes.IN_SUPPORTERS, name: "Goal as supporters"}]} label={"Goals"} style={{marginBottom: 0}}/>
 
 
         {this.form.$('goal_is_in_supporters').get('value') === GoalTypes.IN_CENTS ?
           <div>
-            <CurrencyField label={"Goal Amount"} field={this.form.$('goal_in_cents')} wrapperStyle={{marginBottom: 0}}/>
+            <CurrencyField label={"Goal Amount"} field={this.form.$('goal_in_cents')} style={{marginBottom: 0}}/>
 
 
-            <CurrencyField label={"Starting point (optional)"} field={this.form.$('starting_point_cents')} wrapperStyle={{marginBottom: 0}}/>
+            <CurrencyField label={"Starting point (optional)"} field={this.form.$('starting_point_cents')} style={{marginBottom: 0}}/>
           </div>
           : <div>
-            <BasicField label={"Number of donors"} field={this.form.$('goal_in_supporters')}  wrapperStyle={{marginBottom: '12px'}} prefixInputAddon={
-              <span className="input-group-addon"><span className="glyphicon glyphicon-user"/></span>}/>
+            <BasicField label={"Number of donors"} field={this.form.$('goal_in_supporters')}  style={{marginBottom: '12px'}} prefixInputAddon={
+              <span className="glyphicon glyphicon-user"/>}/>
 
 
-            <BasicField label={"Starting point (optional)"} field={this.form.$('starting_point_supporters')}  wrapperStyle={{marginBottom: '12px'}} prefixInputAddon={
-              <span className="input-group-addon"><span className="glyphicon glyphicon-user"/></span>}/>
+            <BasicField label={"Starting point (optional)"} field={this.form.$('starting_point_supporters')}  style={{marginBottom: '12px'}} prefixInputAddon={
+              <span className="glyphicon glyphicon-user"/>}/>
           </div>
         }
    </div>;

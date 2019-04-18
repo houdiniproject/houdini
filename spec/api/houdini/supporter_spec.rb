@@ -104,13 +104,13 @@ describe Houdini::V1::Supporter, :type => :request do
 
         it 'should 404 when the default_address set is not valid' do
           sign_in user_as_np_admin
-          xhr :put, "/api/v1/supporter/#{supporter.id}", {supporter: {default_address: {id: 99999}}}
+          xhr :put, "/api/v1/supporter/#{supporter.id}", {default_address: {id: 99999}}
           expect(response.status).to eq 404
         end
 
         it 'should 404 when the default_address set is not from current supporter' do
           sign_in user_as_np_admin
-          xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: crm_address2.id}}
+          xhr :put, "/api/v1/supporter/#{supporter.id}",  {default_address: {id: crm_address2.id}}
           expect(response.status).to eq 404
         end
       end
@@ -131,7 +131,7 @@ describe Houdini::V1::Supporter, :type => :request do
         expect(address_strategy).to receive(:on_set_default)
 
         expect_any_instance_of(Supporter).to receive(:default_address_strategy).and_return(address_strategy)
-        xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: crm_address.id}}
+        xhr :put, "/api/v1/supporter/#{supporter.id}", {default_address: {id: crm_address.id}}
 
         expect(response.status).to eq 200
 

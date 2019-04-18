@@ -312,7 +312,7 @@ describe Houdini::V1::Supporter, :type => :request do
       describe 'post' do
         it 'should allow np associated people through but no one else' do
           run_authorization_tests({method: :post, action: "/api/v1/supporter/#{supporter.id}/address",
-                                   successful_users: roles__open_to_np_associate}) {{address: {address: 'input'}}}
+                                   successful_users: roles__open_to_np_associate}) {{address: 'input'}}
         end
 
         it 'should require at least one of the fields to be filled' do
@@ -474,7 +474,7 @@ describe Houdini::V1::Supporter, :type => :request do
 
           it 'should allow np associated people through but no one else' do
             run_authorization_tests({method: :put, action: "/api/v1/supporter/#{supporter.id}/address/#{address.id}",
-                                     successful_users: roles__open_to_np_associate}) {{address: {address: 'input'}}}
+                                     successful_users: roles__open_to_np_associate}) {{address: 'input'}}
           end
 
           it 'should update the address' do

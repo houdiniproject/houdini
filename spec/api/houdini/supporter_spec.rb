@@ -37,6 +37,10 @@ describe Houdini::V1::Supporter, :type => :request do
 
         expected = {
             id: supporter.id,
+            name: "Fake Supporter Name",
+            organization: nil,
+            phone: nil,
+            email: nil,
             default_address: {
                 id: default_address.id,
                 address: default_address.address,
@@ -100,7 +104,7 @@ describe Houdini::V1::Supporter, :type => :request do
 
         it 'should 404 when the default_address set is not valid' do
           sign_in user_as_np_admin
-          xhr :put, "/api/v1/supporter/#{supporter.id}", supporter: {default_address: {id: 99999}}
+          xhr :put, "/api/v1/supporter/#{supporter.id}", {supporter: {default_address: {id: 99999}}}
           expect(response.status).to eq 404
         end
 
@@ -135,7 +139,11 @@ describe Houdini::V1::Supporter, :type => :request do
       
         expected = {
             'id'=> supporter.id,
-            'default_address'=> nil
+            'default_address'=> nil,
+            'email' => nil,
+            'name' => nil,
+            'organization' => nil,
+            'phone' => nil
         }
 
         expect(json_response).to eq expected
@@ -314,9 +322,8 @@ describe Houdini::V1::Supporter, :type => :request do
 
           json_response = JSON::parse(response.body)
 
-          expected = [h(params: ["address"], messages: grape_error("presence")),
-                      h(params: ["address[address]", "address[city]", "address[state_code]", "address[zip_code]", "address[country]"], messages: grape_error("at_least_one")),
-          ]
+          expected =  [h(params: ["address", "city", "state_code", "zip_code", "country"], messages: grape_error("at_least_one"))]
+          
 
           expect(json_response['errors']).to eq expected
         end
@@ -325,7 +332,7 @@ describe Houdini::V1::Supporter, :type => :request do
           it 'should 404 when the supporter is missing' do
             sign_in user_as_np_admin
 
-            xhr :post, "/api/v1/supporter/99999/address", address: {address: 'input'}
+            xhr :post, "/api/v1/supporter/99999/address",  {address: 'input'}
             expect(response.status).to eq 404
           end
         end
@@ -339,7 +346,7 @@ describe Houdini::V1::Supporter, :type => :request do
 
           sign_in user_as_np_admin
 
-          xhr :post, "/api/v1/supporter/#{supporter.id}/address", address: input
+          xhr :post, "/api/v1/supporter/#{supporter.id}/address",  input
           expect(response.status).to eq 201
 
           json_response = JSON::parse(response.body)
@@ -353,7 +360,7 @@ describe Houdini::V1::Supporter, :type => :request do
                                      'fingerprint' => CrmAddress.last.fingerprint,
                                      'updated_at' => DateTime.now
                                  })
-          expect(json_response).to eq expected
+          expect(expected).to eq json_response
         end
       end
 
@@ -442,25 +449,25 @@ describe Houdini::V1::Supporter, :type => :request do
           describe 'missing entity' do
             it 'should 404 when the supporter is missing' do
               sign_in user_as_np_admin
-              xhr :put, "/api/v1/supporter/99999/address/99999", address: {address: 'twoehtowit'}
+              xhr :put, "/api/v1/supporter/99999/address/99999", {address: 'twoehtowit'}
               expect(response.status).to eq 404
             end
 
             it 'should 404 when the address is missing' do
               sign_in user_as_np_admin
-              xhr :put, "/api/v1/supporter/#{supporter.id}/address/99999", address: {address: 'twoehtowit'}
+              xhr :put, "/api/v1/supporter/#{supporter.id}/address/99999", {address: 'twoehtowit'}
               expect(response.status).to eq 404
             end
 
             it 'should 404 when the address is for the wrong supporter' do
               sign_in user_as_np_admin
-              xhr :put, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{other_supporter_address.id}", address: {address: 'twoehtowit'}
+              xhr :put, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{other_supporter_address.id}", {address: 'twoehtowit'}
               expect(response.status).to eq 404
             end
 
             it 'should 404 when the address is TransactionAddress' do
               sign_in user_as_np_admin
-              xhr :put, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{transaction_address.id}", address: {address: 'twoehtowit'}
+              xhr :put, "/api/v1/supporter/#{other_nonprofit_supporter.id}/address/#{transaction_address.id}", {'address' => 'twoehtowit'}
               expect(response.status).to eq 404
             end
           end
@@ -475,7 +482,7 @@ describe Houdini::V1::Supporter, :type => :request do
 
             sign_in user_as_np_admin
 
-            xhr :put, "/api/v1/supporter/#{supporter.id}/address/#{address.id}", address: input
+            xhr :put, "/api/v1/supporter/#{supporter.id}/address/#{address.id}", input
             expect(response.status).to eq 200
 
             json_response = JSON::parse(response.body)
@@ -487,9 +494,9 @@ describe Houdini::V1::Supporter, :type => :request do
                                            'id' => supporter.id
                                        },
                                        'fingerprint' => CrmAddress.last.fingerprint,
-                                       updated_at: DateTime.now
+                                       'updated_at' =>  Time.now
                                    })
-            expect(json_response).to eq expected
+            expect(expected).to eq json_response
           end
         end
 

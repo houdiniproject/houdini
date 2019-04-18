@@ -41,7 +41,9 @@ interface FieldProps extends ClassNameable {
   field: Field,
   placeholder?: string,
   label?: string
-  inputClassNames?: string
+  inputClassNames?: string,
+  style?: React.CSSProperties
+  inputStyle?: React.CSSProperties
 }
 
 interface BasicFieldProps extends FieldProps {
@@ -54,8 +56,8 @@ export const BasicField = observer((props: BasicFieldProps) => {
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
     inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.className} >
-    {wrapInInputGroupWhenNeeded({ input: <ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames || ''}`} />, prefixInputAddon: props.prefixInputAddon, postfixInputAddon: props.postfixInputAddon })}
+    className={props.className} style={props.style}>
+    {wrapInInputGroupWhenNeeded({ input: <ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames || ''}`} style={props.inputStyle}/>, prefixInputAddon: props.prefixInputAddon, postfixInputAddon: props.postfixInputAddon })}
   </LabeledFieldComponent>
 })
 
@@ -68,9 +70,9 @@ export const SelectField = observer((props: SelectFieldProps) => {
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
     inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.className} >
+    className={props.className} style={props.style}>
 
-    <ReactSelect field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} options={props.options} />
+    <ReactSelect field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} options={props.options} style={props.inputStyle}/>
 
   </LabeledFieldComponent>
 })
@@ -84,9 +86,9 @@ export const TextareaField = observer((props: TextareaFieldProps) => {
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
     inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.className} >
+    className={props.className} style={props.style}>
 
-    <ReactTextarea field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} rows={props.rows} />
+    <ReactTextarea field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} rows={props.rows} style={props.inputStyle}/>
 
   </LabeledFieldComponent>
 })
@@ -105,7 +107,7 @@ export const CurrencyField = observer((props: CurrencyFieldProps) => {
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
     inStickyError={field.hasServerError} stickyError={field.serverError}
-    className={props.className}>
+    className={props.className} style={props.style}>
 
       <ReactMaskedInput field={field} label={props.label} placeholder={props.placeholder}
                         className={`form-control ${props.inputClassNames}`} guide={true}
@@ -115,7 +117,7 @@ export const CurrencyField = observer((props: CurrencyFieldProps) => {
                           allowNegative:allowNegative,
                           fixedDecimalScale:true
                         })}
-                        showMask={true} placeholderChar={'0'}
+                        showMask={true} placeholderChar={'0'} style={props.inputStyle}
       />
 
   </LabeledFieldComponent>

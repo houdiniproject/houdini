@@ -159,6 +159,9 @@
     "testEnvironmentOptions": {
       "enzymeAdapter": "react16"
     },
+    "testPathIgnorePatterns": ["/node_modules/", "/database/", "/postgres-data/"],
+    "watchPathIgnorePatterns": ["/database/*", "/postgres-data/*"],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/database/", "/postgres-data/"],
     "globals": {
       "ts-jest": {
         "babelConfig": false

@@ -14,6 +14,7 @@ export interface LabeledFieldComponentProps
     inStickyError?:boolean
     stickyError?:string
     className?:string
+    style?:React.CSSProperties
 }
 
 @observer
@@ -31,7 +32,7 @@ export default class LabeledFieldComponent extends React.Component<LabeledFieldC
        classNames.push("has-error")
     }
 
-    return <fieldset className={classNames.join(" ")}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
+    return <fieldset className={classNames.join(" ")} style={this.props.style}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
        <StandardFieldComponent inError={inError} error={this.props.error} inStickyError={inStickyError} stickyError={this.props.stickyError}>{this.props.children}</StandardFieldComponent>
     </fieldset>;
   }

@@ -18,7 +18,7 @@ describe('Spinner', () => {
     expect(toJson(mount(<Spinner size="large"/>))).toMatchSnapshot()
   })
 
-  test('has customcolor ', () => {
+  test('has custom color ', () => {
     expect(toJson(mount(<Spinner size="small" color={"#ffffff"}/>))).toMatchSnapshot()
   })
 })

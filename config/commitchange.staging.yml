@@ -17,3 +17,9 @@ aws:
 
 button_config:
   url: "https://commitchange-test.herokuapp.com"
+
+image:
+  host: "https://dmnsmycmdpaix.cloudfront.net"
+
+api_domain:
+  url: "https://commitchange-test.herokuapp.com"

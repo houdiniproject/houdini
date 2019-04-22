@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spinner has custom color  1`] = `
+<Spinner
+  color="#ffffff"
+  size="small"
+>
+  <VelocityComponent
+    animation={
+      Object {
+        "rotateZ": 360,
+      }
+    }
+    duration={750}
+    easing="linear"
+    interruptBehavior="stop"
+    loop={true}
+    runOnMount={true}
+    targetQuerySelector={null}
+  >
+    <div
+      role="status"
+      style={
+        Object {
+          "border": "3px solid #ffffff",
+          "borderRadius": "50%",
+          "borderRightColor": "transparent",
+          "display": "inline-block",
+          "height": "25px",
+          "verticalAlign": "text-bottom",
+          "width": "25px",
+        }
+      }
+    >
+      <ScreenReaderOnlyText>
+        <span
+          style={
+            Object {
+              "border": 0,
+              "clip": "rect(0,0,0,0)",
+              "height": "1px",
+              "margin": "-1px",
+              "overflow": "hidden",
+              "padding": 0,
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Loading...
+        </span>
+      </ScreenReaderOnlyText>
+    </div>
+  </VelocityComponent>
+</Spinner>
+`;
+
+exports[`Spinner is large 1`] = `
+<Spinner
+  color="currentcolor"
+  size="large"
+>
+  <VelocityComponent
+    animation={
+      Object {
+        "rotateZ": 360,
+      }
+    }
+    duration={750}
+    easing="linear"
+    interruptBehavior="stop"
+    loop={true}
+    runOnMount={true}
+    targetQuerySelector={null}
+  >
+    <div
+      role="status"
+      style={
+        Object {
+          "border": "3px solid currentcolor",
+          "borderRadius": "50%",
+          "borderRightColor": "transparent",
+          "display": "inline-block",
+          "height": "100px",
+          "verticalAlign": "text-bottom",
+          "width": "100px",
+        }
+      }
+    >
+      <ScreenReaderOnlyText>
+        <span
+          style={
+            Object {
+              "border": 0,
+              "clip": "rect(0,0,0,0)",
+              "height": "1px",
+              "margin": "-1px",
+              "overflow": "hidden",
+              "padding": 0,
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Loading...
+        </span>
+      </ScreenReaderOnlyText>
+    </div>
+  </VelocityComponent>
+</Spinner>
+`;
+
+exports[`Spinner is normal 1`] = `
+<Spinner
+  color="currentcolor"
+  size="normal"
+>
+  <VelocityComponent
+    animation={
+      Object {
+        "rotateZ": 360,
+      }
+    }
+    duration={750}
+    easing="linear"
+    interruptBehavior="stop"
+    loop={true}
+    runOnMount={true}
+    targetQuerySelector={null}
+  >
+    <div
+      role="status"
+      style={
+        Object {
+          "border": "3px solid currentcolor",
+          "borderRadius": "50%",
+          "borderRightColor": "transparent",
+          "display": "inline-block",
+          "height": "50px",
+          "verticalAlign": "text-bottom",
+          "width": "50px",
+        }
+      }
+    >
+      <ScreenReaderOnlyText>
+        <span
+          style={
+            Object {
+              "border": 0,
+              "clip": "rect(0,0,0,0)",
+              "height": "1px",
+              "margin": "-1px",
+              "overflow": "hidden",
+              "padding": 0,
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Loading...
+        </span>
+      </ScreenReaderOnlyText>
+    </div>
+  </VelocityComponent>
+</Spinner>
+`;
+
+exports[`Spinner is small 1`] = `
+<Spinner
+  color="currentcolor"
+  size="small"
+>
+  <VelocityComponent
+    animation={
+      Object {
+        "rotateZ": 360,
+      }
+    }
+    duration={750}
+    easing="linear"
+    interruptBehavior="stop"
+    loop={true}
+    runOnMount={true}
+    targetQuerySelector={null}
+  >
+    <div
+      role="status"
+      style={
+        Object {
+          "border": "3px solid currentcolor",
+          "borderRadius": "50%",
+          "borderRightColor": "transparent",
+          "display": "inline-block",
+          "height": "25px",
+          "verticalAlign": "text-bottom",
+          "width": "25px",
+        }
+      }
+    >
+      <ScreenReaderOnlyText>
+        <span
+          style={
+            Object {
+              "border": 0,
+              "clip": "rect(0,0,0,0)",
+              "height": "1px",
+              "margin": "-1px",
+              "overflow": "hidden",
+              "padding": 0,
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          Loading...
+        </span>
+      </ScreenReaderOnlyText>
+    </div>
+  </VelocityComponent>
+</Spinner>
+`;

@@ -17,6 +17,7 @@ export interface ModalProps {
   dialogStyle?: any
   showCloseButton?: boolean
   childGenerator: () => any
+  buttons?: React.ReactElement<any>[]
 }
 
 class Modal extends React.Component<ModalProps, {}> {
@@ -52,6 +53,18 @@ class Modal extends React.Component<ModalProps, {}> {
             {this.props.childGenerator()}
           </div>
         </div>
+
+        {this.props.buttons && this.props.buttons.length > 0 ?  <footer className={'modal-footer'} style={{textAlign: 'right'}}>
+            {
+              this.props.buttons.map((e:React.ReactElement<any>, index:number, array) => {
+                const onLastItem = array.length -1 == index;
+                const style = onLastItem ? {} : {marginRight: '10px'}
+                return <span style={style}>
+                  {e}
+                </span>
+            })
+          }
+        </footer> : false} 
       </BootstrapWrapper>
     </AriaModal> : false
 

@@ -1,15 +1,18 @@
 // License: LGPL-3.0-or-later
+import { Color } from 'csstype';
 import * as React from 'react';
-import { observer } from 'mobx-react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
-import ScreenReaderOnlyText from './ScreenReaderOnlyText';
 import { VelocityComponent } from 'velocity-react';
+import ScreenReaderOnlyText from './ScreenReaderOnlyText';
 
 export interface SpinnerProps {
   size: 'small' | 'normal' | 'large'
+  color?: Color
 }
 
 class Spinner extends React.Component<SpinnerProps, {}> {
+  static defaultProps = {
+    color: 'currentcolor'
+  }
 
   generateStyle(): React.CSSProperties {
     let spinnerDimension: number
@@ -31,7 +34,7 @@ class Spinner extends React.Component<SpinnerProps, {}> {
       width: `${spinnerDimension}px`,
       height: `${spinnerDimension}px`,
       verticalAlign: 'text-bottom',
-      border: `${spinnerBorderWidth}px solid currentColor`,
+      border: `${spinnerBorderWidth}px solid ${this.props.color}`,
       borderRightColor: 'transparent',
       borderRadius: '50%',
     }

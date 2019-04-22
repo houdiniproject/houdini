@@ -1,12 +1,10 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer, Provider } from 'mobx-react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
-import Modal from '../common/Modal';
+import { InjectedIntlProps } from 'react-intl';
 import SupporterModalBase, { OnCloseType } from './SupporterModalBase';
 import { LocalRootStore } from './local_root_store';
 import { RootStore } from '../../lib/stores/root_store';
-
 
 export interface EditSupporterModalStateHolderProps {
   //from ModalProps

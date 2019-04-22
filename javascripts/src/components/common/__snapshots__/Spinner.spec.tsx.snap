@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spinner has customcolor  1`] = `
+exports[`Spinner has custom color  1`] = `
 <Spinner
   color="#ffffff"
   size="small"

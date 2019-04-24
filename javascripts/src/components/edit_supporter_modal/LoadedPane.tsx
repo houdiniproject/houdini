@@ -9,6 +9,7 @@ import { Address, Supporter } from '../../../api';
 import _ = require('lodash');
 import { DefaultAddressStrategy } from './default_address_strategy';
 import SupporterPane from './SupporterPane';
+import AddressModal from './AddressModal';
 
 export interface LoadedPaneProps {
   formik: HoudiniFormikProps<Supporter>
@@ -48,6 +49,10 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
 
   @action.bound
   isDefaultAddress(address: Address | number): boolean {
+    if (!address )
+    {
+      return false;
+    }
     let addressId = address
     if (typeof address !== 'number') {
       addressId = address.id
@@ -59,17 +64,16 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
 
   render() {
       const editAddress = this.addressToEdit
-      if (editAddress) {
-        return <AddressPane
+      return <>
+        <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress} onClose={this.props.onClose} /> 
+        <AddressModal 
+        titleText={"Edit Address"}
+        modalActive={!!editAddress}
           onClose={(action:AddressAction) => { this.handleAddressAction(action, this.props.formik, this.props.addresses, _.get(this.props.formik.values, "default_address.id"))
           }}
           initialAddress={this.addressToEdit}
           isDefault={this.isDefaultAddress(this.addressToEdit)} />
-      }
-      else {
-         return <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress} onClose={this.props.onClose} /> 
-      }
-
+      </>
   }
 }
 

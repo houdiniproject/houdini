@@ -58,7 +58,7 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
             }
 
             <SelectableTableRow onSelect={this.props.addAddress}>
-              <td colSpan={2}><Button onClick={this.props.addAddress} buttonSize="tiny">Add Address</Button></td>
+              <td colSpan={2}><Button type="button" onClick={this.props.addAddress} buttonSize="tiny">Add Address</Button></td>
             </SelectableTableRow>
           </tbody>
         </table> : false}

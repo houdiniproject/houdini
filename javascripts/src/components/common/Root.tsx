@@ -8,6 +8,7 @@ import {APIS} from "../../../api";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 
 import * as CustomAPIS from "../../lib/apis"
+import { ConfirmationManager, ConfirmationWrapper } from './Confirmation';
 
 const enLocaleData = require('react-intl/locale-data/en');
 const deLocaleData = require('react-intl/locale-data/de');
@@ -25,6 +26,7 @@ interface RootProps
 export default class Root extends React.Component<RootProps, {}> {
 
   apiManager: ApiManager
+  confirmationManager: ConfirmationManager
 
   componentDidMount(){
     let pageProgress = (window as any).pageProgress
@@ -37,12 +39,18 @@ export default class Root extends React.Component<RootProps, {}> {
     if (!this.apiManager){
       this.apiManager = new ApiManager(APIS.concat(CustomAPIS.APIS as Array<any>), CSRFInterceptor)
     }
+    if(!this.confirmationManager)
+      this.confirmationManager = new ConfirmationManager();
 
     return <IntlProvider locale={I18n.locale} defaultLocale={I18n.defaultLocale} messages={convert(I18n.translations[I18n.locale])}>
-       <Provider ApiManager={this.apiManager}>
+      <>
+       <Provider ApiManager={this.apiManager} ConfirmationManager={this.confirmationManager}>
           {this.props.children}
        </Provider>
+       <ConfirmationWrapper confirmationAccessor={this.confirmationManager}/>
+       </>
       </IntlProvider>
+     
   }
 }
 

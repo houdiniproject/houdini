@@ -73,18 +73,17 @@ interface shallowUntilTargetProps {
  * The `TargetComponent` parameter is the React class (or function) that
  * you want to retrieve from the component tree.
  */
-export function shallowUntilTarget<T>(componentInstance:React.ReactElement<any>, TargetComponent:{new(): T}, props:shallowUntilTargetProps): ShallowWrapper<T> {
+export function shallowUntilTarget<T>(componentInstance:React.ReactElement<any>, TargetComponent:{new(): T}|string, {
+  maxTries = 10,
+  shallowOptions,
+  _shallow = shallow,
+}:shallowUntilTargetProps = {}): ShallowWrapper<T> {
   if (!componentInstance) {
     throw new Error('componentInstance parameter is required');
   }
   if (!TargetComponent) {
     throw new Error('TargetComponent parameter is required');
   }
-
-
-  let maxTries = props.maxTries || 10
-  let shallowOptions = props.shallowOptions || null
-  let _shallow = props._shallow || shallow
 
   let root = _shallow(componentInstance, shallowOptions);
 

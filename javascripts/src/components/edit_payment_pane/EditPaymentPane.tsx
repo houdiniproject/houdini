@@ -19,7 +19,7 @@ import _ = require("lodash");
 import {Dedication, parseDedication, serializeDedication} from '../../lib/dedication';
 import blacklist = require("validator/lib/blacklist");
 import {createFieldDefinition} from "../../lib/mobx_utils";
-import Modal from "../common/Modal";
+import Modal from "../common/modal/Modal";
 import ReactInput from "../common/form/ReactInput";
 
 

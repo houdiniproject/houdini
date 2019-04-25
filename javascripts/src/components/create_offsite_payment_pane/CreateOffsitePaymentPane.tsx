@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
-import Modal from "../common/Modal";
+import Modal from "../common/modal/Modal";
 import { FundraiserInfo} from "../edit_payment_pane/EditPaymentPane";
 import {HoudiniForm} from "../../lib/houdini_form";
 import {BasicField, CurrencyField, SelectField, TextareaField} from "../common/fields";

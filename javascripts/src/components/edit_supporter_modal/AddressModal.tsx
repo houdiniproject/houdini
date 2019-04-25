@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import AddressPane, { AddressAction } from './AddressPane';
 import { Address } from '../../../api/model/Address';
 import { LocalRootStore } from './local_root_store';
-import Modal from '../common/Modal';
+import Modal from '../common/modal/Modal';
 import { observable, action } from 'mobx';
 import Button from '../common/form/Button';
 
@@ -17,6 +17,7 @@ export interface AddressModalProps
   modalActive: boolean
 }
 
+
 class AddressModal extends React.Component<AddressModalProps, {}> {
 
   @observable buttons:Button[] = null
@@ -26,9 +27,8 @@ class AddressModal extends React.Component<AddressModalProps, {}> {
   }
 
   render() {
-     return <Modal titleText={this.props.titleText} childGenerator={() => {
-       return <AddressPane initialAddress={this.props.initialAddress} isDefault={this.props.isDefault} onClose={this.props.onClose} setButtons={this.setButtons} />
-
+     return <Modal titleText={this.props.titleText} modalActive={this.props.modalActive} childGenerator={() => {
+       return <AddressPane initialAddress={this.props.initialAddress} isDefault={this.props.isDefault} onClose={this.props.onClose} />
      }}/>
   }
 }

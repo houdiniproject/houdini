@@ -4,7 +4,7 @@ import 'jest';
 import Modal, { ModalProps } from './Modal'
 import { shallow, mount, ReactWrapper } from "enzyme";
 import toJson from "enzyme-to-json";
-import { DefaultCloseButton } from './DefaultCloseButton';
+import { DefaultCloseButton } from '../DefaultCloseButton';
 
 describe('Modal', () => {
   test('nothing displayed if inactive', () => {

@@ -14,7 +14,10 @@ import HoudiniFormik, { FormikHelpers, HoudiniFormikProps, HoudiniFormikServerSt
 import { TwoColumnFields } from '../common/layout';
 import { LocalRootStore } from './local_root_store';
 import { SupporterEntity } from './supporter_entity';
-import { Confirmer } from '../common/Confirmation';
+import { Confirmer } from '../common/modal/Confirmation';
+import { connect as connectModal } from '../common/modal/connect';
+import { ModalContext } from '../common/modal/Modal';
+import ModalButtonHolder from '../common/modal/ModalButtonHolder';
 
 export interface AddressAction {
   type: 'none' | 'delete' | 'add' | 'update'
@@ -26,7 +29,6 @@ export interface AddressPaneProps {
   initialAddress: Address
   isDefault?: boolean
   onClose: (action: AddressAction) => void
-  setButtons: (buttons: Button[]) => void
   LocalRootStore?: LocalRootStore
   ConfirmationManager?: Confirmer
 }
@@ -84,18 +86,21 @@ export const addressPaneFormSubmission = async ({ values, action, supporterAddre
 }
 
 
-class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, {}> {
+class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps &{modal:ModalContext}, {}> {
 
   @action.bound
-  async close(dirty: boolean) : Promise<void> {
-    if (!dirty || await this.props.ConfirmationManager.confirm({
+  async canClose(dirty: boolean) : Promise<boolean> {
+    return !dirty || await this.props.ConfirmationManager.confirm({
       titleText: 'Unsaved changes',
       confirmationText: "You have unsaved changes. Are you sure you'd like to discard it?",
       confirmButtonText: "Yes, discard changes",
       abortButtonText: "No, keep editing"
-    })) {
-      this.props.onClose({ type: 'none' })
-    }
+    })
+  }
+
+  @action.bound
+  cancelAction() {
+    this.props.onClose({type:'none'})
   }
 
   render() {
@@ -120,9 +125,13 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
           && FormikHelpers.isEmpty(props.values.country)
         )
 
-        const close= this.close
+        const close= this.canClose
         const shouldAdd = !props.values.id
+        this.props.modal.setCancelAction(this.cancelAction)
+
+          this.props.modal.setCanClose(async () => {return await close(props.dirty)})
         return (
+          <>
           <form onSubmit={props.handleSubmit} onReset={props.handleReset}>
             <div>
               <TwoColumnFields>
@@ -146,26 +155,26 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps, 
 
 
             </div>
-            <div>
-
-              <Button type="button" onClick={async () => {await close(props.dirty)}}>Close</Button>
-              {shouldAdd ?
-                <>
-                  <Button type="submit" disabled={!modifiedEnoughToSubmit}>Add</Button>
-                </> :
-                <>
-                  <Button type="submit" disabled={!modifiedEnoughToSubmit}>Save</Button>
-                  <Button type="submit" onClick={() => { props.setFieldValue('shouldDelete', true); props.submitForm() }}>Delete</Button>
-                </>
-              }
-            </div>
-          </form>)
+          </form>
+          <ModalButtonHolder>
+            <Button type="button" onClick={async () => {await this.props.modal.cancel()}}>Close</Button>
+            {shouldAdd ?
+              <>
+                <Button type="submit" disabled={!modifiedEnoughToSubmit}>Add</Button>
+              </> :
+              <>
+                <Button type="submit" disabled={!modifiedEnoughToSubmit}>Save</Button>
+                <Button type="submit" onClick={() => { props.setFieldValue('shouldDelete', true); props.submitForm() }}>Delete</Button>
+              </>
+          }
+          </ModalButtonHolder>
+          </>)
       }
       } />
   }
 }
 
-export default injectIntl(inject('LocalRootStore')(inject('ConfirmationManager')(observer(AddressPane))))
+export default connectModal(injectIntl(inject('LocalRootStore')(inject('ConfirmationManager')(observer(AddressPane)))))
 
 
 

@@ -1,11 +1,10 @@
 // License: LGPL-3.0-or-later
 import React = require("react");
-import { observable, IObservableArray, action } from "mobx";
-import _ = require("lodash");
+import { action, IObservableArray, observable } from "mobx";
 import { observer } from "mobx-react";
-import { boundMethod } from "autobind-decorator";
+import Button from "../form/Button";
 import Modal from "./Modal";
-import Button from "./form/Button";
+import _ = require("lodash");
 
 interface ConfirmationDescription {
   titleText:string
@@ -32,8 +31,8 @@ export interface Confirmer {
   confirm(confirmDescription: ConfirmationDescription):Promise<boolean>
 }
 
-export class ModalManager implements ConfirmationAccessor, Confirmer {
-  confirmations = observable.array<ModalController>()
+export class ConfirmationManager implements ConfirmationAccessor, Confirmer {
+  confirmations = observable.array<Confirmation>()
 
   async confirm(confirmDescription: ConfirmationDescription): Promise<boolean> {
     //create new Promise
@@ -53,21 +52,19 @@ export class ModalManager implements ConfirmationAccessor, Confirmer {
   }
 
   @action.bound
-  private addModal(confirmationDesc:ConfirmationWithPromise) :string {
+  private addConfirmation(confirmationDesc:ConfirmationWithPromise) :string {
     const key = _.uniqueId()
     this.confirmations.push({...confirmationDesc, key: key})
     return key
 
   }
 
-  private updateModal()
-
   @action.bound
   removeConfirmation(key:string){
     const confItem = this.confirmations.find((i) => i.key === key)
 
     this.confirmations.remove(confItem)
-  }r
+  }
 }
 
 interface ConfirmationWrapperProps{
@@ -75,7 +72,7 @@ interface ConfirmationWrapperProps{
 }
 
 @observer
-export class ModalWrapper extends React.Component<ConfirmationWrapperProps, {}> {
+export class ConfirmationWrapper extends React.Component<ConfirmationWrapperProps, {}> {
   render() {
     return this.props.confirmationAccessor.confirmations.map((i) => {
       return <ConfirmationModal confirmation={i} key={i.key}/>
@@ -112,27 +109,6 @@ export class ConfirmationModal extends React.Component<ConfirmationModalProps, {
     <Button onClick={this.abort}>{this.props.confirmation.abortButtonText}</Button>]}  childGenerator={() => {
       {this.props.confirmation.confirmationText}
     }}/>
-  }
-
-  
-}
-
-interface ModalSpaceComponentProps {
-  ModalManager?:ModalManager
-}
-
-class ModalSpaceComponent extends React.Component<ModalSpaceComponent, {}>
-{
-  @observable modalKey:string
-  componentDidUpdate() {
-
-  }
-
-  componentDidMount(){
-    ModalManager.create
-  }
-  render() {
-    return <></>
   }
 }
 

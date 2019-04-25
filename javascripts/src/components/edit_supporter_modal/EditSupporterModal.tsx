@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { observer, Provider } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import Modal from '../common/Modal';
+import Modal from '../common/modal/Modal';
 import SupporterModalBase, { OnCloseType } from './SupporterModalBase';
 import { LocalRootStore } from './local_root_store';
 import { RootStore } from '../../lib/stores/root_store';

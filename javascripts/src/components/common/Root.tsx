@@ -8,7 +8,8 @@ import {APIS} from "../../../api";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 
 import * as CustomAPIS from "../../lib/apis"
-import { ConfirmationManager, ConfirmationWrapper } from './Confirmation';
+import { ConfirmationManager, ConfirmationWrapper } from './modal/Confirmation';
+import { ModalManager, ModalManagerInterface } from './modal/modal_manager';
 
 const enLocaleData = require('react-intl/locale-data/en');
 const deLocaleData = require('react-intl/locale-data/de');
@@ -21,12 +22,21 @@ interface RootProps
 
 }
 
+const RootWrapper:React.StatelessComponent<{children: React.ReactNode[]|React.ReactNode, confirmationManager:ConfirmationManager}> = (props) => {
+  return <>
+            {props.children}
+            <ConfirmationWrapper confirmationAccessor={props.confirmationManager}/>
+  </>
+}
+
+RootWrapper.displayName = "RootWrapper"
 
 @observer
 export default class Root extends React.Component<RootProps, {}> {
 
   apiManager: ApiManager
   confirmationManager: ConfirmationManager
+  modalManager:ModalManagerInterface
 
   componentDidMount(){
     let pageProgress = (window as any).pageProgress
@@ -41,14 +51,15 @@ export default class Root extends React.Component<RootProps, {}> {
     }
     if(!this.confirmationManager)
       this.confirmationManager = new ConfirmationManager();
+    if(!this.modalManager)
+      this.modalManager = new ModalManager()
 
     return <IntlProvider locale={I18n.locale} defaultLocale={I18n.defaultLocale} messages={convert(I18n.translations[I18n.locale])}>
-      <>
-       <Provider ApiManager={this.apiManager} ConfirmationManager={this.confirmationManager}>
-          {this.props.children}
+       <Provider ApiManager={this.apiManager} ConfirmationManager={this.confirmationManager} ModalManager={this.modalManager}>
+         <RootWrapper confirmationManager={this.confirmationManager}>
+            {this.props.children}
+         </RootWrapper>
        </Provider>
-       <ConfirmationWrapper confirmationAccessor={this.confirmationManager}/>
-       </>
       </IntlProvider>
      
   }

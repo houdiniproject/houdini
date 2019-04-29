@@ -1,13 +1,10 @@
 // License: LGPL-3.0-or-later
+import { observer } from 'mobx-react';
 import * as React from 'react';
-import { observer, Provider } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Modal from '../common/modal/Modal';
-import SupporterModalBase, { OnCloseType } from './SupporterModalBase';
-import { LocalRootStore } from './local_root_store';
-import { RootStore } from '../../lib/stores/root_store';
 import EditSupporterModalStateHolder from './EditSupporterModalStateHolder';
-import { tsParenthesizedType } from '@babel/types';
+import { OnCloseType } from './SupporterModalBase';
 
 
 export interface EditSupporterModalProps {
@@ -21,16 +18,18 @@ export interface EditSupporterModalProps {
 class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
 
   render() {
+    const children = {
+      body: <EditSupporterModalStateHolder nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId}
+      onClose={this.props.onClose}  /> 
+    }
+
     return <Modal
       modalActive={this.props.modalActive}
       titleText={'Edit Supporter'}
       focusDialog={true}
       onClose={this.props.onClose}
       dialogStyle={{ minWidth: '768px', position: 'relative' }}
-      childGenerator={() => {
-        return <EditSupporterModalStateHolder nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId}
-        onClose={this.props.onClose}  />  
-      }}>
+      >{children}
     </Modal>
   }
 }

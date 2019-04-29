@@ -1,92 +1,62 @@
 // License: LGPL-3.0-or-later
-import { FormikActions } from 'formik';
-import { action } from 'mobx';
-import { inject, observer } from 'mobx-react';
+import { action, computed, reaction } from 'mobx';
+import { disposeOnUnmount, inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { Address, TimeoutError, ValidationErrorsException } from '../../../api';
-import Button from '../common/form/Button';
 import { FieldCreator } from '../common/form/FieldCreator';
 import { FormikCheckbox } from '../common/form/FormikCheckbox';
 import FormNotificationBlock from '../common/form/FormNotificationBlock';
 import FormikBasicField from '../common/FormikBasicField';
-import HoudiniFormik, { FormikHelpers, HoudiniFormikProps, HoudiniFormikServerStatus } from '../common/HoudiniFormik';
+import { FormikHelpers, HoudiniFormikProps } from '../common/HoudiniFormik';
 import { TwoColumnFields } from '../common/layout';
-import { LocalRootStore } from './local_root_store';
-import { SupporterEntity } from './supporter_entity';
-import { Confirmer } from '../common/modal/Confirmation';
+import { Confirmer } from '../common/modal/confirmation/types';
 import { connect as connectModal } from '../common/modal/connect';
 import { ModalContext } from '../common/modal/Modal';
-import ModalButtonHolder from '../common/modal/ModalButtonHolder';
-
-export interface AddressAction {
-  type: 'none' | 'delete' | 'add' | 'update'
-  address?: Address
-  setToDefault?: boolean
-}
+import { AddressModalState } from './AddressModal';
+import { AddressAction, AddressPaneFormikInputProps } from './AddressModalForm';
+import { LocalRootStore } from './local_root_store';
 
 export interface AddressPaneProps {
-  initialAddress: Address
-  isDefault?: boolean
   onClose: (action: AddressAction) => void
   LocalRootStore?: LocalRootStore
   ConfirmationManager?: Confirmer
+  formik:HoudiniFormikProps<AddressPaneFormikInputProps>
+  addressModalState: AddressModalState
 }
-
-type AddressPaneFormikInputProps = Address & { isDefault?: boolean, shouldDelete?: boolean }
-
-export const TIMEOUT_ERROR_MESSAGE = "The website couldn't be contacted. Make sure you're connected to the internet and try again in a few seconds."
-
-export const addressPaneFormSubmission = async ({ values, action, supporterAddressStore, onClose }: { values: AddressPaneFormikInputProps, action: FormikActions<AddressPaneFormikInputProps>, supporterAddressStore: SupporterEntity, onClose: (action: AddressAction) => void }) => {
-  let input: AddressPaneFormikInputProps = values
-
-  let status: HoudiniFormikServerStatus<AddressPaneFormikInputProps> = {}
-  try {
-    if (values.shouldDelete) {
-      try {
-        const address = await supporterAddressStore.deleteAddress(values.id)
-        action.setStatus({})
-        onClose({ type: 'delete', address: address })
-
-      }
-      finally {
-        action.setFieldValue('shouldDelete', false)
-      }
-    }
-    else {
-      const shouldAdd = !input.id
-      if (shouldAdd) {
-        const address = await supporterAddressStore.createAddress(input)
-        action.setStatus({})
-        onClose({ type: 'add', address: address, setToDefault: values.isDefault })
-      }
-      else {
-        const address = await supporterAddressStore.updateAddress(values.id, input)
-
-        action.setStatus({})
-        onClose({ type: 'update', address: address, setToDefault: values.isDefault })
-      }
-    }
-
-  }
-  catch (e) {
-    if (e instanceof TimeoutError) {
-      status.form = "The website couldn't be contacted. Make sure you're connected to the internet and try again in a few seconds."
-    }
-    else {
-      if (e instanceof ValidationErrorsException) {
-        status.fields = FormikHelpers.convertServerValidationToFieldStatus(e)
-      }
-
-      status.form = e['error']
-    }
-
-    action.setStatus(status)
-  }
-}
-
 
 class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps &{modal:ModalContext}, {}> {
+
+  @disposeOnUnmount
+  reactOnChanges = reaction(() => 
+  this.props.formik.dirty || 
+  this.props.onClose ||
+  this.modifiedEnoughToSubmit ||
+  this.isAdd, () => {
+    this.props.modal.canClose = async () => {return await this.canClose(this.props.formik.dirty)}
+    this.props.modal.handleCancel = () => this.props.onClose({type:'none'})
+    this.props.addressModalState.disabledAddSave = this.modifiedEnoughToSubmit
+    this.props.addressModalState.showDelete = this.isAdd
+    this.props.addressModalState.deleteAction = () => {this.props.formik.setFieldValue('shouldDelete', true); this.props.formik.submitForm(); }
+    this.props.addressModalState.saveAddAction = () => this.props.formik.submitForm()
+  })
+
+ 
+
+  @computed
+  get modifiedEnoughToSubmit():boolean {
+    return this.props.formik.dirty && !(
+      FormikHelpers.isEmpty(this.props.formik.values.address)
+      && FormikHelpers.isEmpty(this.props.formik.values.city)
+      && FormikHelpers.isEmpty(this.props.formik.values.state_code)
+      && FormikHelpers.isEmpty(this.props.formik.values.zip_code)
+      && FormikHelpers.isEmpty(this.props.formik.values.country)
+    )
+  }
+
+  @computed
+  get isAdd() {
+    return !this.props.formik.values.id
+  }
 
   @action.bound
   async canClose(dirty: boolean) : Promise<boolean> {
@@ -98,79 +68,36 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps &
     })
   }
 
-  @action.bound
-  cancelAction() {
-    this.props.onClose({type:'none'})
-  }
-
   render() {
-    const shouldAdd = (!this.props.initialAddress || !this.props.initialAddress.id)
-    const initialValues: AddressPaneFormikInputProps = shouldAdd ? {} : {
-      'id': this.props.initialAddress.id,
-      'address': this.props.initialAddress.address || "",
-      'city': this.props.initialAddress.city || "",
-      'state_code': this.props.initialAddress.state_code || "",
-      'zip_code': this.props.initialAddress.zip_code || "",
-      'country': this.props.initialAddress.country || "",
-      'isDefault': this.props.isDefault
-    }
-
-    return <HoudiniFormik initialValues={initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => { addressPaneFormSubmission({ values: values, action: action, supporterAddressStore: this.props.LocalRootStore.supporterAddressStore, onClose: this.props.onClose }) }}
-      render={(props: HoudiniFormikProps<AddressPaneFormikInputProps>) => {
-        const modifiedEnoughToSubmit = props.dirty && !(
-          FormikHelpers.isEmpty(props.values.address)
-          && FormikHelpers.isEmpty(props.values.city)
-          && FormikHelpers.isEmpty(props.values.state_code)
-          && FormikHelpers.isEmpty(props.values.zip_code)
-          && FormikHelpers.isEmpty(props.values.country)
-        )
-
-        const close= this.canClose
-        const shouldAdd = !props.values.id
-        this.props.modal.setCancelAction(this.cancelAction)
-
-          this.props.modal.setCanClose(async () => {return await close(props.dirty)})
         return (
-          <>
-          <form onSubmit={props.handleSubmit} onReset={props.handleReset}>
+          
+          <form onSubmit={this.props.formik.handleSubmit} onReset={this.props.formik.handleReset}>
             <div>
               <TwoColumnFields>
-                <FieldCreator component={FormikBasicField} name={'address'} label={'Address'} inputId={FormikHelpers.createId(props, 'address')} />
-                <FieldCreator component={FormikBasicField} name={'city'} label={'City'} inputId={FormikHelpers.createId(props, 'city')} />
+                <FieldCreator component={FormikBasicField} name={'address'} label={'Address'} inputId={FormikHelpers.createId(this.props.formik, 'address')} />
+                <FieldCreator component={FormikBasicField} name={'city'} label={'City'} inputId={FormikHelpers.createId(this.props.formik, 'city')} />
 
               </TwoColumnFields>
               <TwoColumnFields>
-                <FieldCreator component={FormikBasicField} name={'state_code'} label={'State/Region Code'} inputId={FormikHelpers.createId(props, 'state_code')} />
-                <FieldCreator component={FormikBasicField} name={'zip_code'} label={'Postal/Zip Code'} inputId={FormikHelpers.createId(props, 'zip_code')} />
+                <FieldCreator component={FormikBasicField} name={'state_code'} label={'State/Region Code'} inputId={FormikHelpers.createId(this.props.formik, 'state_code')} />
+                <FieldCreator component={FormikBasicField} name={'zip_code'} label={'Postal/Zip Code'} inputId={FormikHelpers.createId(this.props.formik, 'zip_code')} />
 
               </TwoColumnFields>
               <TwoColumnFields>
-                <FieldCreator component={FormikBasicField} name={'country'} label={'Country'} inputId={FormikHelpers.createId(props, 'country')} />
+                <FieldCreator component={FormikBasicField} name={'country'} label={'Country'} inputId={FormikHelpers.createId(this.props.formik, 'country')} />
               </TwoColumnFields>
-              <FieldCreator component={FormikCheckbox} name={'isDefault'} label={"Set as Default Address"} id={FormikHelpers.createId(props, 'isDefault')} />
+              <FieldCreator component={FormikCheckbox} name={'isDefault'} label={"Set as Default Address"} id={FormikHelpers.createId(this.props.formik, 'isDefault')} />
 
               {
-                (props.status && props.status.form) ? <FormNotificationBlock>{props.status.form}</FormNotificationBlock> : ""
+                (this.props.formik.status && this.props.formik.status.form) ? <FormNotificationBlock>{this.props.formik.status.form}</FormNotificationBlock> : ""
               }
 
 
             </div>
           </form>
-          <ModalButtonHolder>
-            <Button type="button" onClick={async () => {await this.props.modal.cancel()}}>Close</Button>
-            {shouldAdd ?
-              <>
-                <Button type="submit" disabled={!modifiedEnoughToSubmit}>Add</Button>
-              </> :
-              <>
-                <Button type="submit" disabled={!modifiedEnoughToSubmit}>Save</Button>
-                <Button type="submit" onClick={() => { props.setFieldValue('shouldDelete', true); props.submitForm() }}>Delete</Button>
-              </>
-          }
-          </ModalButtonHolder>
-          </>)
-      }
-      } />
+          
+        )
+ 
   }
 }
 

@@ -3,13 +3,13 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { action, observable } from 'mobx';
-import AddressPane, { AddressAction } from './AddressPane';
 import { HoudiniFormikProps } from '../common/HoudiniFormik';
 import { Address, Supporter } from '../../../api';
 import _ = require('lodash');
 import { DefaultAddressStrategy } from './default_address_strategy';
 import SupporterPane from './SupporterPane';
 import AddressModal from './AddressModal';
+import { AddressAction } from './AddressModalForm';
 
 export interface LoadedPaneProps {
   formik: HoudiniFormikProps<Supporter>

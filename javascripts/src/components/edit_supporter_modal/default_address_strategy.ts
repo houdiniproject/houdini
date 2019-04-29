@@ -1,7 +1,8 @@
 // License: LGPL-3.0-or-later
-import { Address } from "../../../api";
-import { AddressAction } from "./AddressPane";
 import * as _ from "lodash";
+import { Address } from "../../../api";
+import { AddressAction } from "./AddressModalForm";
+
 
 /**
  * Does this remind you of DefaultAddressStrategy::ManualStrategy?

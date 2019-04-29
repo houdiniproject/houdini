@@ -8,7 +8,8 @@ import {APIS} from "../../../api";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 
 import * as CustomAPIS from "../../lib/apis"
-import { ConfirmationManager, ConfirmationWrapper } from './modal/Confirmation';
+import { ConfirmationWrapper } from "./modal/confirmation/ConfirmationWrapper";
+import { ConfirmationManager } from "./modal/confirmation/confirmation_manager";
 import { ModalManager, ModalManagerInterface } from './modal/modal_manager';
 
 const enLocaleData = require('react-intl/locale-data/en');

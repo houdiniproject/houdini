@@ -1,15 +1,19 @@
 // License: LGPL-3.0-or-later
+import { action, observable, reaction } from 'mobx';
+import { disposeOnUnmount, observer } from 'mobx-react';
 import * as React from 'react';
-import { observer, Provider } from 'mobx-react';
-import AriaModal = require('react-aria-modal');
-import { DefaultCloseButton } from '../DefaultCloseButton';
-import BootstrapWrapper from '../BootstrapWrapper';
-import { Row, Column } from '../layout';
 import { Transition } from 'react-transition-group';
-import ModalPrimitive from './ModalPrimitive';
-import { observable, action, IObservableArray } from 'mobx';
+import BootstrapWrapper from '../BootstrapWrapper';
+import { DefaultCloseButton } from '../DefaultCloseButton';
+import { Column, Row } from '../layout';
 import { ModalProvider } from './connect';
+import ModalPrimitive from './ModalPrimitive';
 import _ = require('lodash');
+
+export interface ModalChildren {
+  body:React.ReactElement<any>,
+  footer?:React.ReactElement<any>
+}
 
 export interface ModalProps {
   onClose?: () => void // if you want your modal to close, this needs to set modalActive to false
@@ -18,76 +22,49 @@ export interface ModalProps {
   focusDialog?: boolean
   dialogStyle?: any
   showCloseButton?: boolean
-  childGenerator: () => any
+  
   buttons?: React.ReactElement<any>[]
   alert?: boolean
   escapeExits?: boolean
   underlayClickExits?: boolean
+  children:ModalChildren
 }
 
-export interface ModalContext {
-  titleText:string
+export class ModalContext  {
+  @observable titleText:string
   cancel:() =>void
-  setButtons(buttons:React.ReactElement<any>[]): void
-  setTitleText(titleText:string):void
-  setCanClose(canClose:() => Promise<boolean>| boolean):void
-  setCancelAction(cancelAction:() =>void):void
+  @observable canClose:() => Promise<boolean>| boolean
+  @observable handleCancel: () => void
 }
 
-class Modal extends React.Component<ModalProps, {buttons:React.ReactElement<any>[]}> {
+class Modal extends React.Component<ModalProps> {
+
+  constructor(props:ModalProps){
+    super(props)
+    this.modalState.cancel = () => this.onCancel()
+  }
 
   static defaultProps = {
     dialogStyle: { minWidth: '768px' },
     showCloseButton: true
   }
 
-  @observable cancelAction: () => void
-  @observable canClose: () => Promise<boolean>| boolean
-  @observable titleText:string
-  buttons:IObservableArray<React.ReactElement<any>> = observable.array<React.ReactElement<any>>()
+  @disposeOnUnmount
+  reactor = reaction(() => this.props.titleText, (text) => {this.modalState.titleText = text});
+  
+  @observable modalState = new ModalContext()
+  
 
   @action.bound
   async onCancel() {
-    if(!this.canClose || await this.canClose())
+    if(!this.modalState.canClose || await this.modalState.canClose())
     {
-      if(this.cancelAction)
-        this.cancelAction()
+      if(this.modalState.handleCancel)
+        this.modalState.handleCancel()
 
       if(this.props.onClose) {
         this.props.onClose()
       }
-    }
-  }
- 
-
-  @action.bound
-  setCanClose(canClose:() => boolean):void {
-    this.canClose = canClose
-  }
-
-  @action.bound
-  setButtons(buttons:React.ReactElement<any>[]):void {
-    this.buttons.replace(buttons)
-  }
-
-  @action.bound
-  setTitleText(titleText:string):void {
-    this.titleText = titleText
-  }
-
-  @action.bound
-  setCancelAction(cancelAction:() =>void) {
-    this.cancelAction = cancelAction
-  }
-  
-  createModalContext():ModalContext {
-    return {
-      titleText: this.titleText,
-      cancel: this.onCancel,
-      setCanClose: this.setCanClose,
-      setButtons: this.setButtons,
-      setTitleText: this.setTitleText,
-      setCancelAction:this.setCancelAction
     }
   }
 
@@ -108,7 +85,7 @@ class Modal extends React.Component<ModalProps, {buttons:React.ReactElement<any>
       exiting:  { opacity: 0 },
       exited:  { opacity: 0 },
     };
-    const buttons = this.buttons.peek()
+
     const modal =
       <Transition in={this.props.modalActive} timeout={300} unmountOnExit={true}>
         {(state) => {
@@ -121,7 +98,7 @@ class Modal extends React.Component<ModalProps, {buttons:React.ReactElement<any>
               }}>
                 <Row>
                   <Column colSpan={11} breakSize={'xs'}>
-                    <h3 className='modal-header-title' style={{ margin: 0 }}>{this.titleText}</h3>
+                    <h3 className='modal-header-title' style={{ margin: 0 }}>{this.modalState.titleText}</h3>
                   </Column>
                   {this.props.showCloseButton ?
                     <Column colSpan={1} breakSize={'xs'}>
@@ -134,23 +111,13 @@ class Modal extends React.Component<ModalProps, {buttons:React.ReactElement<any>
               </header>
               <div className="modal-body">
                 <div style={{ position: 'relative' }}>
-                  <ModalProvider value={this.createModalContext()}>
-                    {this.props.childGenerator()}
+                  <ModalProvider value={this.modalState}>
+                    {this.props.children.body}
                   </ModalProvider>
                 </div>
               </div>
 
-              {buttons && buttons.length > 0 ? <footer className={'modal-footer'} style={{ textAlign: 'right' }}>
-                {
-                  buttons.map((e: React.ReactElement<any>, index: number, array) => {
-                    const onLastItem = array.length - 1 == index;
-                    const style = onLastItem ? {} : { marginRight: '10px' }
-                    return <span style={style} key={e.key}>
-                      {e}
-                    </span>
-                  })
-                }
-              </footer> : false}
+              {this.props.children.footer ? this.props.children.footer : false}
             </BootstrapWrapper>
           </ModalPrimitive>
           

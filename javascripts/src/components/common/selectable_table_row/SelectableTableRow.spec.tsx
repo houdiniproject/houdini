@@ -3,30 +3,32 @@ import * as React from 'react';
 import 'jest';
 import SelectableTableRow from './SelectableTableRow'
 import { ReactWrapper, mount } from 'enzyme';
-import { inject } from 'mobx-react';
+import { connectTableRowSelectHandler, TableRowSelectHandlerContext } from './connect';
 
-@inject('SelectHandler')
-class TestReceivedProviderComponent extends React.Component<{SelectHandler?:any}, {}>{
+
+class TestReceivedProviderComponent extends React.Component<{m:string} & TableRowSelectHandlerContext, {}>{
   render() {
     return <td></td>;
   }
 }
 
+const ReceivedComponent  = connectTableRowSelectHandler(TestReceivedProviderComponent)
+
 describe('SelectableTableRow', () => {
   let providerAndRow: ReactWrapper
-  let onSelect:any;
+  let onSelect: any;
   beforeEach(() => {
     onSelect = jest.fn()
     providerAndRow = mount(<table><tbody><SelectableTableRow onSelect={onSelect}>
-      <TestReceivedProviderComponent/>
+      <ReceivedComponent m={"something"}/>
     </SelectableTableRow></tbody></table>)
   })
 
-  function getTr() : ReactWrapper{
+  function getTr(): ReactWrapper {
     return providerAndRow.find('tr')
   }
 
-  function getProviderComponent() : TestReceivedProviderComponent{
+  function getProviderComponent() {
     return providerAndRow.find('TestReceivedProviderComponent').instance() as any
   }
 
@@ -38,8 +40,7 @@ describe('SelectableTableRow', () => {
 
   it('sends the provider down', () => {
     const c = getProviderComponent()
-    expect(c.props.SelectHandler).toBeTruthy()
-    expect(c.props.SelectHandler['onSelect']).toBe(onSelect)
-
+    expect(c.props.selectHandler.onSelect).toBeTruthy()
+    expect(c.props.selectHandler.onSelect).toBe(onSelect)
   })
 })

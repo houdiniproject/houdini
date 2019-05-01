@@ -5,6 +5,7 @@ import { InjectedIntlProps, injectIntl } from 'react-intl';
 import Modal from '../common/modal/Modal';
 import EditSupporterModalStateHolder from './EditSupporterModalStateHolder';
 import { OnCloseType } from './SupporterModalBase';
+import ModalBody from '../common/modal/ModalBody';
 
 
 export interface EditSupporterModalProps {
@@ -18,10 +19,6 @@ export interface EditSupporterModalProps {
 class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
 
   render() {
-    const children = {
-      body: <EditSupporterModalStateHolder nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId}
-      onClose={this.props.onClose}  /> 
-    }
 
     return <Modal
       modalActive={this.props.modalActive}
@@ -29,8 +26,12 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       focusDialog={true}
       onClose={this.props.onClose}
       dialogStyle={{ minWidth: '768px', position: 'relative' }}
-      >{children}
-    </Modal>
+    >
+     <ModalBody>
+        <EditSupporterModalStateHolder nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId}
+          onClose={this.props.onClose} />
+      </ModalBody></Modal>
+     
   }
 }
 

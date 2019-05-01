@@ -56,6 +56,12 @@ class ModalPrimitive extends React.Component<ModalPrimitiveProps, {}> {
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.ModalManager.remove(this.key) && this.props.onExit) {
+      this.props.onExit()
+    }
+  }
+
   render() {
     const additionalProps:AriaModal.ModalProps = {
       onEnter: this.onEnter,

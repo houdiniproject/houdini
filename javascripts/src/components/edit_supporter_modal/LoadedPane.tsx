@@ -6,10 +6,10 @@ import { action, observable } from 'mobx';
 import { HoudiniFormikProps } from '../common/HoudiniFormik';
 import { Address, Supporter } from '../../../api';
 import _ = require('lodash');
-import { DefaultAddressStrategy } from './default_address_strategy';
+import { DefaultAddressStrategy } from './address/default_address_strategy';
 import SupporterPane from './SupporterPane';
-import AddressModal from './AddressModal';
-import { AddressAction } from './AddressModalForm';
+import AddressModal from './address/AddressModal';
+import { AddressAction } from './address/AddressModalForm';
 
 export interface LoadedPaneProps {
   formik: HoudiniFormikProps<Supporter>
@@ -19,10 +19,13 @@ export interface LoadedPaneProps {
 }
 
 class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}> {
-  
+
   @action.bound
   editAddress(address?: Address) {
+    
     this.addressToEdit = address || { supporter: { id: this.props.supporterId } }
+    this.isDefault = this.isDefaultAddress(this.addressToEdit)
+    this.modalOpen = true;
   }
 
   @action.bound
@@ -30,13 +33,17 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
     this.editAddress();
   }
 
+  @observable modalOpen: boolean;
+
   @observable
   addressToEdit: Address
+  
+  @observable isDefault:boolean
 
   @action.bound
-  handleAddressAction(action: AddressAction,  formik:HoudiniFormikProps<Supporter>, addresses:Address[], addressId:number) {
-    this.addressToEdit = null;
-    
+  handleAddressAction(action: AddressAction, formik: HoudiniFormikProps<Supporter>, addresses: Address[], addressId: number) {
+    this.modalOpen = false
+
     const addressStrategy = new DefaultAddressStrategy(
       () => addresses,
       () => addressId,
@@ -49,8 +56,7 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
 
   @action.bound
   isDefaultAddress(address: Address | number): boolean {
-    if (!address )
-    {
+    if (!address) {
       return false;
     }
     let addressId = address
@@ -63,17 +69,18 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
   }
 
   render() {
-      const editAddress = this.addressToEdit
-      return <>
-        <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress} onClose={this.props.onClose} /> 
-        <AddressModal 
+    
+    return <>
+      <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress} onClose={this.props.onClose} />
+      <AddressModal
         titleText={"Edit Address"}
-        modalActive={!!editAddress}
-          onClose={(action:AddressAction) => { this.handleAddressAction(action, this.props.formik, this.props.addresses, _.get(this.props.formik.values, "default_address.id"))
-          }}
-          initialAddress={this.addressToEdit}
-          isDefault={this.isDefaultAddress(this.addressToEdit)} />
-      </>
+        modalActive={this.modalOpen}
+        onClose={(action: AddressAction) => {
+          this.handleAddressAction(action, this.props.formik, this.props.addresses, _.get(this.props.formik.values, "default_address.id"))
+        }}
+        initialAddress={this.addressToEdit}
+        isDefault={this.isDefault} />
+    </>
   }
 }
 

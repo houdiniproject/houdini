@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import { action, observable, reaction } from 'mobx';
+import { action, observable, reaction, computed, runInAction } from 'mobx';
 import { disposeOnUnmount, observer } from 'mobx-react';
 import * as React from 'react';
 import { Transition } from 'react-transition-group';
@@ -10,36 +10,159 @@ import { ModalProvider } from './connect';
 import ModalPrimitive from './ModalPrimitive';
 import _ = require('lodash');
 
-export interface ModalChildren {
-  body:React.ReactElement<any>,
-  footer?:React.ReactElement<any>
-}
 
 export interface ModalProps {
-  onClose?: () => void // if you want your modal to close, this needs to set modalActive to false
+
+  /**
+   * The action to take when the modal is closed from an action
+   * inside the modal
+   * 
+   * If you expect your modal to close, you need to set the modalActive prop to false
+   * @memberof ModalProps
+   */
+  onClose?: () => void
+
+  /**
+   * Whether the modal is opened. Open if true, closed if false
+   * @type boolean
+   * @memberof ModalProps
+   */
   modalActive?: boolean
+
+  /**
+   * The text in the header of the modal window. Can also be set via the the setTitleText funtion from the ModalContext object
+   * @type string
+   * @memberof ModalProps
+   */
   titleText?: string
+
+
+  /**
+   * Can the dialog window itself be focusable.
+   * @type boolean
+   * @memberof ModalProps
+   */
   focusDialog?: boolean
-  dialogStyle?: any
+
+
+  /**
+   * Set the style for the modal div itself. Default is {
+   * minWidth: 768px}
+   * @type React.CSSProperties
+   * @memberof ModalProps
+   */
+  dialogStyle?: React.CSSProperties
+
+
+  /**
+   * Show the close button on the modal window
+   * @type boolean
+   * @memberof ModalProps
+   */
   showCloseButton?: boolean
-  
-  buttons?: React.ReactElement<any>[]
+
+
+  /**
+   * Whether the window is an alert window. In particular, what means
+   * modal role=alertdialog instead of dialog
+   * @type boolean
+   * @memberof ModalProps
+   */
   alert?: boolean
+
+  /**
+   * Does pressing the escape key attempt to exit the modal
+   * @type boolean
+   * @memberof ModalProps
+   */
   escapeExits?: boolean
+
+  /**
+   * Does pressing the modal underlay attempt to exit the modal
+   * @type boolean
+   * @memberof ModalProps
+   */
   underlayClickExits?: boolean
-  children:ModalChildren
 }
 
-export class ModalContext  {
-  @observable titleText:string
-  cancel:() =>void
-  @observable canClose:() => Promise<boolean>| boolean
-  @observable handleCancel: () => void
+/**
+ * A context object for manipulating the modal from its children
+ * @export
+ * @class ModalContext
+ */
+export class ModalContext {
+  @observable private innerTitleText: string
+  /**
+   * The title text of the modal
+   * @readonly
+   * @type string
+   * @memberof ModalContext
+   */
+  @computed get titleText(): string {
+    return this.innerTitleText;
+  }
+
+  /**
+   * Change the title text. Can also be changed from the
+   * modal property
+   * @param  {string} titleText 
+   * @return {void}
+   * @memberof ModalContext
+   */
+  @action.bound
+  setTitleText(titleText: string) {
+    this.innerTitleText = titleText;
+  }
+
+  /**
+   * Function to call to attempt to cancel/close the modal window
+   * @memberof ModalContext
+   */
+  cancel: () => void
+
+  @observable private innerCanClose: () => Promise<boolean> | boolean
+
+  /**
+   * A condition to check whether it is possible to close a modal.
+   * This is used to prevent a modal from closing if, for example, data
+   * has not been saved.
+   * @readonly
+   * @memberof ModalContext
+   */
+  @computed get canClose(): () => Promise<boolean> | boolean {
+    return this.innerCanClose;
+  }
+
+  /**
+   * Set the function checking whether closing a modal is allowed
+   * @param  {(() => Promise<boolean> | boolean)} condition 
+   * @return {void}@memberof ModalContext
+   */
+  @action.bound
+  setCanClose(condition: () => Promise<boolean> | boolean) {
+    this.innerCanClose = condition
+  }
+
+  @observable private innerHandleCancel: () => void
+
+  /**
+   * In some cases, the modal's children need to combine the onClose passed into the modal with their own logic. This overrides the normal onClose and likely use the onClose itself
+   * @readonly
+   * @memberof ModalContext
+   */
+  @computed get handleCancel(): () => void {
+    return this.innerHandleCancel
+  }
+
+  @action.bound
+  setHandleCancel(cancelAction: () => void) {
+    this.innerHandleCancel = cancelAction;
+  }
 }
 
 class Modal extends React.Component<ModalProps> {
 
-  constructor(props:ModalProps){
+  constructor(props: ModalProps) {
     super(props)
     this.modalState.cancel = () => this.onCancel()
   }
@@ -48,21 +171,26 @@ class Modal extends React.Component<ModalProps> {
     dialogStyle: { minWidth: '768px' },
     showCloseButton: true
   }
+  @observable modalState = new ModalContext()
 
   @disposeOnUnmount
-  reactor = reaction(() => this.props.titleText, (text) => {this.modalState.titleText = text});
-  
-  @observable modalState = new ModalContext()
-  
+  reactor = reaction(() => this.props.titleText, (text) => { this.modalState.setTitleText(text) }, { fireImmediately: true });
+
+
+
+  componentDidMount() {
+    runInAction(() => this.modalState.setTitleText(this.props.titleText))
+  }
 
   @action.bound
   async onCancel() {
-    if(!this.modalState.canClose || await this.modalState.canClose())
-    {
-      if(this.modalState.handleCancel)
+    if (!this.modalState.canClose || await this.modalState.canClose()) {
+      if (this.modalState.handleCancel) {
         this.modalState.handleCancel()
+        return;
+      }
 
-      if(this.props.onClose) {
+      if (this.props.onClose) {
         this.props.onClose()
       }
     }
@@ -79,18 +207,18 @@ class Modal extends React.Component<ModalProps> {
       opacity: 0,
     }
 
-    const transitionStyles: {[state: string]: any}  = {
+    const transitionStyles: { [state: string]: any } = {
       entering: { opacity: 1 },
-      entered:  { opacity: 1 },
-      exiting:  { opacity: 0 },
-      exited:  { opacity: 0 },
+      entered: { opacity: 1 },
+      exiting: { opacity: 0 },
+      exited: { opacity: 0 },
     };
 
     const modal =
       <Transition in={this.props.modalActive} timeout={300} unmountOnExit={true}>
         {(state) => {
           return <ModalPrimitive mounted={true} titleText={this.props.titleText} focusDialog={this.props.focusDialog} alert={this.props.alert} escapeExits={this.props.escapeExits} underlayClickExits={this.props.underlayClickExits}
-            onExit={this.onCancel} dialogStyle={{...this.props.dialogStyle }} underlayStyle={{...defaultStyle, ...transitionStyles[state]}}>
+            onExit={this.onCancel} dialogStyle={{ ...this.props.dialogStyle }} underlayStyle={{ ...defaultStyle, ...transitionStyles[state] }}>
             <BootstrapWrapper>
               <header className='modal-header' style={{
                 position: 'relative',
@@ -109,18 +237,14 @@ class Modal extends React.Component<ModalProps> {
                   }
                 </Row>
               </header>
-              <div className="modal-body">
-                <div style={{ position: 'relative' }}>
-                  <ModalProvider value={this.modalState}>
-                    {this.props.children.body}
-                  </ModalProvider>
-                </div>
-              </div>
 
-              {this.props.children.footer ? this.props.children.footer : false}
+              <ModalProvider value={this.modalState}>
+                {this.props.children}
+              </ModalProvider>
+
             </BootstrapWrapper>
           </ModalPrimitive>
-          
+
         }}
       </Transition>
 

@@ -6,10 +6,15 @@ export default class ModalFooter extends React.Component<{ children: React.React
   render() {
     return <footer className={'modal-footer'} style={{ textAlign: 'right' }}>
       {
-        this.props.children.map((e: React.ReactElement<any>, index: number, array) => {
+        this.props.children.filter(i => i).map((e: React.ReactElement<any>, index: number, array) => {
           const onLastItem = array.length - 1 == index;
           const style = onLastItem ? {} : { marginRight: '10px' }
-          return <span style={style} key={e.key}>
+          let props:any = {style:style}
+          if (e.key) {
+            props = {...props, ...{key: e.key}}
+          }
+          
+          return <span {...props}>
             {e}
           </span>
         })

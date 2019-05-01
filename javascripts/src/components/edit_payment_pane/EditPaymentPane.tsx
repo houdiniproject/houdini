@@ -485,8 +485,9 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
     this.form.values()
 
     const modal =
-      <Modal modalActive={this.props.modalActive} titleText={'Edit Donation'} focusDialog={true}
-             onClose={this.props.onClose} dialogStyle={{minWidth: '768px'}} childGenerator={() => this.innerRender()}/>
+      <Modal modalActive={this.props.modalActive} titleText={'Edit Donation'}
+             onClose={this.props.onClose} dialogStyle={{minWidth: '768px'}} >
+             {this.innerRender()}</Modal>
 
     return modal;
   }

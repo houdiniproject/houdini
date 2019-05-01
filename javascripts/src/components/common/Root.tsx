@@ -11,6 +11,7 @@ import * as CustomAPIS from "../../lib/apis"
 import { ConfirmationWrapper } from "./modal/confirmation/ConfirmationWrapper";
 import { ConfirmationManager } from "./modal/confirmation/confirmation_manager";
 import { ModalManager, ModalManagerInterface } from './modal/modal_manager';
+import { ConfirmationManagerProvider } from './modal/confirmation/connect';
 
 const enLocaleData = require('react-intl/locale-data/en');
 const deLocaleData = require('react-intl/locale-data/de');
@@ -56,9 +57,11 @@ export default class Root extends React.Component<RootProps, {}> {
       this.modalManager = new ModalManager()
 
     return <IntlProvider locale={I18n.locale} defaultLocale={I18n.defaultLocale} messages={convert(I18n.translations[I18n.locale])}>
-       <Provider ApiManager={this.apiManager} ConfirmationManager={this.confirmationManager} ModalManager={this.modalManager}>
+       <Provider ApiManager={this.apiManager} ModalManager={this.modalManager}>
          <RootWrapper confirmationManager={this.confirmationManager}>
+          <ConfirmationManagerProvider value={this.confirmationManager}>
             {this.props.children}
+          </ConfirmationManagerProvider>
          </RootWrapper>
        </Provider>
       </IntlProvider>

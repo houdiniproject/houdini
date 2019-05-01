@@ -50,9 +50,9 @@ describe('ModalPrimitive', () => {
         remove: remove,
         top: '1'
       }
-      modal  = mount(<ModalPrimitive ModalManager={modalManager} titleText={"whee"}>
+      modal  = mount(<MountPasser><ModalPrimitive ModalManager={modalManager} titleText={"whee"}>
       <button></button>
-      </ModalPrimitive>)
+      </ModalPrimitive></MountPasser>)
     })
 
     it('has escapeExit set', () => {
@@ -87,16 +87,18 @@ describe('ModalPrimitive', () => {
   describe('Modal is not top', () => {  
     beforeEach(() => {
       push = jest.fn(),
-      remove = jest.fn()
+      remove = jest.fn().mockReturnValue(true)
       onEnter = jest.fn()
+      onExit = jest.fn()
       let modalManager = {
         push: push,
         remove: remove,
         top: '2'
       }
-      modal  = mount(<ModalPrimitive ModalManager={modalManager} titleText={"whee"} onEnter={onEnter}>
+      
+      modal  = mount(<MountPasser><ModalPrimitive ModalManager={modalManager} titleText={"whee"} onEnter={onEnter} onExit={onExit}>
       <button></button>
-      </ModalPrimitive>)
+      </ModalPrimitive></MountPasser>)
     })
 
     it('has escapeExit set', () => {
@@ -130,13 +132,28 @@ describe('ModalPrimitive', () => {
     it('didnt call remove', () => {
       expect(remove).not.toBeCalled();
     })
+
+    it('fires onExit on an unmount', () => {
+      modal.unmount()
+      expect(onExit).toBeCalled()
+      expect(remove).toBeCalled();
+    })
   })
 
   describe('Modal is unmounted', () => {  
-    
+    let called:boolean
     beforeEach(() => {
+      called= false
       push = jest.fn(),
-      remove = jest.fn()
+      remove = jest.fn(() => {
+        if (called){
+          return false;
+        }
+        else {
+          called = true;
+          return true;
+        }
+      })
       onExit = jest.fn()
       onEnter = jest.fn()
       let modalManager = {
@@ -163,11 +180,17 @@ describe('ModalPrimitive', () => {
     })
 
     it('called onExit', () => {
-      expect(onExit).toBeCalled()
+      expect(onExit).toHaveBeenCalledTimes(1)
     })
 
     it('called remove', () => {
       expect(remove).toBeCalledWith("1")
+    })
+
+    it('unmounts and is called one time', () => {
+      modal.unmount()
+      expect(remove).toHaveBeenCalledTimes(2)
+      expect(onExit).toHaveBeenCalledTimes(1)
     })
   })
 

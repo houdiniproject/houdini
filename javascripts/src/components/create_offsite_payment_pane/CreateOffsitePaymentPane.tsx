@@ -23,6 +23,7 @@ import * as _ from 'lodash'
 import moment = require('moment');
 import { castToUndefinedIfBlank } from '../../lib/utils';
 import ReactInput from "../common/form/ReactInput";
+import ModalBody from '../common/modal/ModalBody';
 
 export interface CreateOffsitePaymentPaneProps
 {
@@ -196,8 +197,8 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
     this.form.values()
     const modal =
       <Modal modalActive={this.props.modalActive} titleText={'Create Offsite Donation'} focusDialog={true}
-             onClose={this.props.onClose} dialogStyle={{minWidth:'768px'}} childGenerator={() => {
-        return <div className={"tw-bs"}>
+             onClose={this.props.onClose} dialogStyle={{minWidth:'768px'}} >
+        <ModalBody>
           <form className='u-marginTop--20'>
           
             <CurrencyField field={this.form.$('gross_amount')} label={"Gross Amount"} currencySymbol={"$"}/>
@@ -275,8 +276,8 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
                                 disabled={!this.form.isValid}
                                 disableOnProgress={true} onClick={this.form.onSubmit}/>
           </form>
-        </div>
-        }} />
+        </ModalBody>
+      </Modal>
      return <div>{modal}</div>;
   }
 }

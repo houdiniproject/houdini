@@ -5,10 +5,12 @@ import Modal, { ModalProps } from './Modal'
 import { shallow, mount, ReactWrapper } from "enzyme";
 import toJson from "enzyme-to-json";
 import { DefaultCloseButton } from '../DefaultCloseButton';
+import { ModalManager } from './modal_manager';
+import { Provider } from 'mobx-react';
 
 describe('Modal', () => {
   test('nothing displayed if inactive', () => {
-    let modal = shallow(<Modal childGenerator={() => <div />} />)
+    let modal = shallow(<Modal><div/></Modal>)
 
     expect(toJson(modal)).toMatchSnapshot()
   })
@@ -18,11 +20,12 @@ describe('Modal', () => {
     let modal: ReactWrapper
     beforeEach(() => {
       onCloseWasCalled = false;
-      modal = mount(<Modal titleText={"title text"}
+      let modalManager = new ModalManager();
+      modal = mount(<Provider ModalManager={modalManager}><Modal titleText={"title text"}
         focusDialog={true}
         modalActive={true}
         onClose={() => { onCloseWasCalled = true }}
-        childGenerator={() => <div />} />)
+        ><div/></Modal></Provider>)
     })
 
     it('matches snapshot', () => {
@@ -30,7 +33,7 @@ describe('Modal', () => {
     })
 
     it('closes on modal component close', () => {
-      let modalComponent = modal.instance() as React.Component<ModalProps, {}> //casting to modal didn't work for reasons?
+      let modalComponent = modal.find('Modal').first().instance() as React.Component<ModalProps, {}> //casting to modal didn't work for reasons?
       modalComponent.props.onClose()
       expect(onCloseWasCalled).toBeTruthy()
     })
@@ -47,44 +50,17 @@ describe('Modal', () => {
     })
   })
 
-  describe('modal button support', () => {
-    let modal: ReactWrapper
-    beforeEach(() => {
-      modal = mount(<Modal titleText={"title text"}
-        focusDialog={true}
-        modalActive={true}
-        onClose={() => { }}
-        childGenerator={() => <div />}
-        buttons={[<i>something</i>, <i>somethingelse</i>]} />)
-    })
-
-    it('has two modal buttons', () => {
-      expect(modal.find('i').length).toBe(2)
-    })
-
-    it('has a margin right on the first button', () => {
-      const firstChild = modal.find('footer').childAt(0)
-
-      expect(firstChild.prop('style')['marginRight']).toBe('10px')
-    })
-
-    it('has no margin on the last button', () => {
-      const lastChild = modal.find('footer').childAt(1)
-
-      expect(lastChild.prop('style')['marginRight']).toBeFalsy()
-    })
-  })
-
 
   it('doesnt have a close button if we ask for none', () => {
     let onCloseWasCalled = false
-    let modal = mount(<Modal titleText={"title text"}
+    let modalManager = new ModalManager();
+    let modal = mount(<Provider ModalManager={modalManager}>
+    <Modal titleText={"title text"}
       focusDialog={true}
       modalActive={true}
       showCloseButton={false}
       onClose={() => { onCloseWasCalled = true }}
-      childGenerator={() => <div />}
-    />)
+    ><div/></Modal></Provider>)
     expect(modal.find('DefaultCloseButton').exists()).toBeFalsy()
   })
 

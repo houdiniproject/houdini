@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as _ from "lodash";
-import { Address } from "../../../api";
+import { Address } from "../../../../api";
 import { AddressAction } from "./AddressModalForm";
 
 

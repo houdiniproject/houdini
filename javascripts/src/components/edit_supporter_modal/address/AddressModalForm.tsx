@@ -2,12 +2,12 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
-import HoudiniFormik, { HoudiniFormikServerStatus, FormikHelpers } from '../common/HoudiniFormik';
+import HoudiniFormik, { HoudiniFormikServerStatus, FormikHelpers } from '../../common/HoudiniFormik';
 import AddressPane from './AddressPane';
-import { Address, TimeoutError, ValidationErrorsException } from '../../../api';
+import { Address, TimeoutError, ValidationErrorsException } from '../../../../api';
 import { FormikActions } from 'formik';
-import { SupporterEntity } from './supporter_entity';
-import { LocalRootStore } from './local_root_store';
+import { SupporterEntity } from '../supporter_entity';
+import { LocalRootStore } from '../local_root_store';
 import { AddressModalState } from './AddressModal';
 
 export type AddressPaneFormikInputProps = Address & { isDefault?: boolean, shouldDelete?: boolean }
@@ -81,7 +81,7 @@ export interface AddressModalFormProps
 class AddressModalForm extends React.Component<AddressModalFormProps & InjectedIntlProps, {}> {
   render() {
   
-    const initialValues: AddressPaneFormikInputProps = this.props.initialAddress.id && this.props.initialAddress.id !== 0 ? {} : {
+    const initialValues: AddressPaneFormikInputProps = this.props.initialAddress && this.props.initialAddress.id && this.props.initialAddress.id !== 0 ? {
       'id': this.props.initialAddress.id,
       'address': this.props.initialAddress.address || "",
       'city': this.props.initialAddress.city || "",
@@ -89,9 +89,10 @@ class AddressModalForm extends React.Component<AddressModalFormProps & InjectedI
       'zip_code': this.props.initialAddress.zip_code || "",
       'country': this.props.initialAddress.country || "",
       'isDefault': this.props.isDefault
-    }
+    } : {}
+    
      return <HoudiniFormik initialValues={initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => { addressPaneFormSubmission({ values: values, action: action, supporterAddressStore: this.props.LocalRootStore.supporterAddressStore, onClose: this.props.onClose }) }} render={(props) => 
-       <AddressPane formik={props} onClose={this.props.onClose} addressModalState={this.props.addressModalState}/>
+       <AddressPane formik={props} addressModalState={this.props.addressModalState}/>
      }/>
   }
 }

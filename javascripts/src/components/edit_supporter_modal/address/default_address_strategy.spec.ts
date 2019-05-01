@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import 'jest';
 import { DefaultAddressStrategy } from './default_address_strategy';
-import { Address } from '../../../api';
+import { Address } from '../../../../api';
 
 describe('DefaultAddressHandler', () => {
 

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import SelectableTableRow from '../common/SelectableTableRow';
+import SelectableTableRow from '../common/selectable_table_row/SelectableTableRow';
 import Star from '../common/icons/Star';
 import Button from '../common/form/Button';
 import { TwoColumnFields } from '../common/layout';

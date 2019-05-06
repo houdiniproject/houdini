@@ -86,7 +86,7 @@ class Profile < ActiveRecord::Base
 	end
 
 	def get_profile_picture(size=:normal)
-		# Can be, in order of precedence: your uploaded photo, facebook picture, or
+		# Can be, in order of precedence: your uploaded photo or
 		# default image
 		if self.picture?
 			return self.picture_url(size)

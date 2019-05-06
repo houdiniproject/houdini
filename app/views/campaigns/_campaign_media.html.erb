@@ -5,7 +5,7 @@
 
 	<% if @campaign.vimeo_video_id %>
 		<div class='campaignMedia-video' if-branded='background, lightest'>
-			<iframe src="//player.vimeo.com/video/<%= @campaign.vimeo_video_id %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<iframe src="https://player.vimeo.com/video/<%= @campaign.vimeo_video_id %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 		</div>
 	<% elsif @campaign.youtube_video_id %>
 		<div class='campaignMedia-video' if-branded='background, lightest'>

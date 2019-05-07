@@ -20,7 +20,7 @@ export interface HoudiniStatus<Values> extends HoudiniFormikServerStatus<Values>
 export type HoudiniFormikActions<Values> = ObjectDiff<FormikActions<Values>, {'setStatus':any}> ;
 
 export interface HoudiniFormikState<Values> extends FormikState<Values> {
-  status?: HoudiniFormikServerStatus<Values>;
+  status?: HoudiniStatus<Values>;
 }
 
 export interface HoudiniFormikConfig<Values> extends FormikConfig<Values> {
@@ -98,6 +98,10 @@ export const FormikHelpers = {
 
   createId<V>(props:HoudiniFormikProps<V>, path:string):string {
     return FormikHelpers.getIdBase(props) + "---" + path
+  },
+
+  createFormId<V>(props:HoudiniFormikProps<V>):string {
+    return "form---" + FormikHelpers.getIdBase(props)
   }
 }
 

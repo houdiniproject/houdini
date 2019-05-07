@@ -1,15 +1,8 @@
 // License: LGPL-3.0-or-later
 import 'jest';
-import { Address, PostSupporterSupporterIdAddress, TimeoutError, PutSupporterSupporterIdAddress } from '../../../api';
-import * as _ from 'lodash';
-import { NotFoundErrorException } from '../../../api/model/NotFoundError';
-import { waitForMobxCondition } from '../common/test/react_test_helpers';
 import { SupporterEntity } from './supporter_entity';
 import { SupporterPaneStore } from './supporter_pane_store';
 
-function createMockStore<T>(type: { new(): T }, mockApi: () => Partial<T>) {
-  return mockApi
-}
 
 describe('SupporterPaneStore', () => {
  

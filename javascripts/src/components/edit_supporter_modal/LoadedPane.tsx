@@ -1,8 +1,8 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
+import { observer, inject, disposeOnUnmount } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import { action, observable } from 'mobx';
+import { action, observable, reaction } from 'mobx';
 import { HoudiniFormikProps } from '../common/HoudiniFormik';
 import { Address, Supporter } from '../../../api';
 import _ = require('lodash');
@@ -10,15 +10,37 @@ import { DefaultAddressStrategy } from './address/default_address_strategy';
 import SupporterPane from './SupporterPane';
 import AddressModal from './address/AddressModal';
 import { AddressAction } from './address/AddressModalForm';
+import { LocalRootStore } from './local_root_store';
+import { SupporterModalState } from './EditSupporterModal';
+import { FormikHelpers } from '../common/HoudiniFormik';
 
 export interface LoadedPaneProps {
   formik: HoudiniFormikProps<Supporter>
   supporterId: number
   addresses: Address[]
   onClose: () => void
+  LocalRootStore?: LocalRootStore
+  supporterModalState:SupporterModalState
 }
 
 class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}> {
+  
+  @disposeOnUnmount
+  reactOnSubmit = reaction(() => this.props.formik.isSubmitting, () => this.updateSupporterModalStoreValues(), {fireImmediately:true})
+
+  @disposeOnUnmount
+  reactOnDirty = reaction(() => this.props.formik.dirty, () => this.updateSupporterModalStoreValues(), {fireImmediately:true})
+
+  @disposeOnUnmount
+  reactOnId = reaction(() => this.props.formik.status && this.props.formik.status.id, () => this.updateSupporterModalStoreValues(), {fireImmediately:true})
+  
+  updateSupporterModalStoreValues(){
+    this.props.supporterModalState.setDisableSave(this.props.formik.isSubmitting || !this.props.formik.dirty)
+
+    this.props.supporterModalState.setDisableClose(this.props.formik.isSubmitting)
+    
+    this.props.supporterModalState.setFormId(FormikHelpers.createFormId(this.props.formik))
+  }
 
   @action.bound
   editAddress(address?: Address) {
@@ -71,7 +93,7 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
   render() {
     
     return <>
-      <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress} onClose={this.props.onClose} />
+      <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress} supporterModalState={this.props.supporterModalState}/>
       <AddressModal
         titleText={"Edit Address"}
         modalActive={this.modalOpen}
@@ -79,7 +101,7 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
           this.handleAddressAction(action, this.props.formik, this.props.addresses, _.get(this.props.formik.values, "default_address.id"))
         }}
         initialAddress={this.addressToEdit}
-        isDefault={this.isDefault} />
+        isDefault={this.isDefault} supporterEntity={this.props.LocalRootStore.supporterEntity} />
     </>
   }
 }

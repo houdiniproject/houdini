@@ -12,6 +12,8 @@ import FormikBasicField from '../common/FormikBasicField';
 import { FieldCreator } from '../common/form/FieldCreator';
 import FormikHiddenField from '../common/FormikHiddenField';
 import { Address } from '../../../api';
+import { SupporterModalState } from './EditSupporterModal';
+import HoudiniFormikForm from '../common/form/HoudiniFormikForm';
 
 export interface SupporterPaneProps {
   formik: HoudiniFormikProps<any>
@@ -19,14 +21,14 @@ export interface SupporterPaneProps {
   editAddress: (address?: Address) => void
   isDefaultAddress: (addressId:number) => boolean
   addAddress: () => void
-  onClose: () => void
+  supporterModalState:SupporterModalState
 }
 class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlProps, {}> {
 
   render() {
     const formik = this.props.formik
 
-    return <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+    return <HoudiniFormikForm formik={formik}>
       <TwoColumnFields>
         <FieldCreator component={FormikBasicField} name={'name'} label={'Name'} inputId={FormikHelpers.createId(formik, 'name')} />
         <FieldCreator component={FormikBasicField} name={'email'} label={'Email'} inputId={FormikHelpers.createId(formik, 'email')} />
@@ -62,11 +64,7 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
             </SelectableTableRow>
           </tbody>
         </table> : false}
-
-      <Button type={'button'} onClick={() => this.props.onClose()}>Close</Button>
-
-      <Button type={'submit'}>Save</Button>
-    </form>
+    </HoudiniFormikForm>
 
   }
 }

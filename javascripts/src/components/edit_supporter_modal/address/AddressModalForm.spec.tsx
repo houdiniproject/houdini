@@ -1,88 +1,66 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import 'jest';
-import AddressModalForm, { addressPaneFormSubmission, TIMEOUT_ERROR_MESSAGE } from './AddressModalForm'
-import { Address, TimeoutError, PostSupporterSupporterIdAddress, PutSupporterSupporterIdAddress, NotFoundErrorException } from '../../../api';
+import AddressModalForm, { addressPaneFormSubmission, TIMEOUT_ERROR_MESSAGE, AddressModalFormProps } from './AddressModalForm'
+import { Address, TimeoutError, PostSupporterSupporterIdAddress, PutSupporterSupporterIdAddress, NotFoundErrorException } from '../../../../api';
 import _ = require('lodash');
-import { SupporterEntity } from './supporter_entity';
+import { SupporterEntity } from '../supporter_entity';
+import { supporterEntity, TIMEOUT_CAUSING_STREET, TIMEOUT_CAUSING_ID } from './supporter_entity_mock';
+import { ReactWrapper } from 'enzyme';
+import { Provider } from 'mobx-react';
+import { ModalManager } from '../../common/modal/modal_manager';
+import { mountWithIntl } from '../../../lib/tests/helpers';
+import { AddressModalState } from './AddressModal';
+import { ModalProvider } from '../../common/modal/connect';
+import { ModalContext } from '../../common/modal/Modal';
+import { InnerAddressPane } from './AddressPane';
+import FormNotificationBlock from '../../common/form/FormNotificationBlock';
+import { simulateChange } from '../../../lib/tests/helpers/mounted';
 
 describe('AddressModalForm', () => {
   let onClose: jest.Mock<{}>
+  let pane: ReactWrapper
   const serverErrorText = "some server error is errored"
+  let setDisableAddSave: jest.Mock
+  let setShowDelete: jest.Mock
+  let setSaveAddAction: jest.Mock
+  let setDeleteAction: jest.Mock
+  let setDisableCloseButton: jest.Mock
+  let setDisableDeleteButton: jest.Mock
+  let setCanClose: jest.Mock
+
+  function reinitStateFunctions() {
+    setDisableAddSave = jest.fn()
+    setShowDelete = jest.fn()
+    setSaveAddAction = jest.fn()
+    setDeleteAction = jest.fn()
+    setDisableCloseButton = jest.fn()
+    setDisableDeleteButton = jest.fn()
+    setCanClose = jest.fn()
+  }
+
+  function createModalState(): ModalContext {
+    return {
+      setCanClose: setCanClose
+    } as any
+  }
+
+  function createAddressModalState(): AddressModalState {
+    return {
+      setDisableAddSave: setDisableAddSave,
+      setShowDelete: setShowDelete,
+      setSaveAddAction: setSaveAddAction,
+      setDeleteAction: setDeleteAction,
+      setDisableCloseButton: setDisableCloseButton,
+      setDisableDeleteButton: setDisableDeleteButton
+    } as any
+  }
+
   beforeEach(() => {
+    reinitStateFunctions()
     onClose = jest.fn()
   })
 
-  let supporters: number[] = [1]
-  let addresses: Address[] = [{ id: 1 }, { id: 2 }]
-  const TIMEOUT_CAUSING_ID = 999999
-  const TIMEOUT_CAUSING_STREET = 'time outer'
-
-  function createMockStore<T>(type: { new(): T }, mockApi: () => Partial<T>) {
-    return mockApi
-  }
-  function mockStoreCreator() {
-
-    return createMockStore(SupporterEntity, () => {
-      return {
-        deleteAddress:
-          jest.fn<JQueryPromise<Address>>(
-            (crm_address_id: number) => {
-              return new Promise((resolve, reject) => {
-                if (crm_address_id === TIMEOUT_CAUSING_ID)
-                  reject(new TimeoutError())
-                else {
-                  const address = _.find(addresses, (i) => i.id === crm_address_id)
-                  if (!address) {
-                    reject(new NotFoundErrorException({}))
-                  }
-                  else {
-                    resolve(address)
-                  }
-                }
-              })
-            }),
-        createAddress:
-          jest.fn<JQueryPromise<Address>>(
-            (address: PostSupporterSupporterIdAddress) => {
-              return new Promise((resolve, reject) => {
-                if (address.address === TIMEOUT_CAUSING_STREET) {
-                  reject(new TimeoutError())
-                }
-
-                else {
-                  resolve(address)
-                }
-              })
-            }),
-
-        updateAddress:
-          jest.fn<JQueryPromise<Address>>(
-            (crm_address_id: number, putCommand: PutSupporterSupporterIdAddress) => {
-              return new Promise((resolve, reject) => {
-                if (putCommand.address === TIMEOUT_CAUSING_STREET)
-                  reject(new TimeoutError())
-                else {
-                  const address = _.find(addresses, (i) => i.id === crm_address_id)
-                  if (!address) {
-                    reject(new NotFoundErrorException({}))
-                  }
-
-                  else {
-                    resolve({ ...putCommand, ...{ id: crm_address_id } })
-                  }
-                }
-              })
-            })
-      }
-    })()
-  }
-
-  function rootStore() {
-    return {
-      supporterAddressStore: mockStoreCreator()
-    }
-  }
 
   describe('addressPaneFormSubmission', () => {
 
@@ -93,10 +71,11 @@ describe('AddressModalForm', () => {
     beforeEach(() => {
       setFieldValue = jest.fn()
       setStatus = jest.fn()
-      let store = rootStore()
+      let store = supporterEntity()
       commonValues = {
         action: jest.fn(() => { return { setFieldValue: setFieldValue, setStatus: setStatus } })(),
-        supporterAddressStore: jest.fn(() => store.supporterAddressStore)(), onClose: onClose
+        supporterEntity: jest.fn(() => store)(),
+        onClose: onClose
       }
 
     })
@@ -116,27 +95,27 @@ describe('AddressModalForm', () => {
 
         it('has set status with correct id', (done) => {
           expect(setStatus).toBeCalled()
-          expect(setStatus).toBeCalledWith({ })
+          expect(setStatus).toBeCalledWith({})
           done()
         })
       })
 
       describe('timed out', () => {
-        let values = {address: TIMEOUT_CAUSING_STREET}
+        let values = { address: TIMEOUT_CAUSING_STREET }
         beforeEach(() => {
           addressPaneFormSubmission({ values: values, ...commonValues })
         })
-        
+
         it('error is properly set', (done) => {
           expect(setStatus).toBeCalled()
-          expect(setStatus).toBeCalledWith({form: TIMEOUT_ERROR_MESSAGE})
+          expect(setStatus).toBeCalledWith({ form: TIMEOUT_ERROR_MESSAGE })
           done()
         })
       })
     })
 
     describe('update address', () => {
-      
+
       describe('has succeeded', () => {
         const values = { address: '', id: 1 }
         beforeEach(() => {
@@ -156,14 +135,14 @@ describe('AddressModalForm', () => {
         })
       })
       describe('timed out', () => {
-        let values = {id: TIMEOUT_CAUSING_ID, address:TIMEOUT_CAUSING_STREET}
+        let values = { id: TIMEOUT_CAUSING_ID, address: TIMEOUT_CAUSING_STREET }
         beforeEach(() => {
           addressPaneFormSubmission({ values: values, ...commonValues })
         })
 
         it('error is properly set', (done) => {
           expect(setStatus).toBeCalled()
-          expect(setStatus).toBeCalledWith({id:undefined, form: TIMEOUT_ERROR_MESSAGE})
+          expect(setStatus).toBeCalledWith({ id: undefined, form: TIMEOUT_ERROR_MESSAGE })
           done()
         })
       })
@@ -177,7 +156,7 @@ describe('AddressModalForm', () => {
         })
 
         it('has fired onClose', () => {
-          
+
         })
 
         it('has fired onClose with the delete object', (done) => {
@@ -199,7 +178,7 @@ describe('AddressModalForm', () => {
       })
 
       describe('timed out', () => {
-        let values = {id: TIMEOUT_CAUSING_ID, shouldDelete:true}
+        let values = { id: TIMEOUT_CAUSING_ID, shouldDelete: true }
         beforeEach(() => {
           addressPaneFormSubmission({ values: values, ...commonValues })
         })
@@ -208,13 +187,316 @@ describe('AddressModalForm', () => {
           expect(setFieldValue).toBeCalledWith('shouldDelete', false)
           done()
         })
-        
+
         it('error is properly set', (done) => {
           expect(setStatus).toBeCalled()
-          expect(setStatus).toBeCalledWith({id:undefined, form: TIMEOUT_ERROR_MESSAGE})
+          expect(setStatus).toBeCalledWith({ id: undefined, form: TIMEOUT_ERROR_MESSAGE })
           done()
         })
       })
     })
+  })
+
+  describe('handles an add', () => {
+    const initialAddress = {}
+    let onClose: jest.Mock
+    let modalState: ModalContext;
+    let addressModalState: AddressModalState
+    let innerPane: InnerAddressPane
+    beforeEach(() => {
+      onClose = jest.fn()
+      let entity = supporterEntity()
+      modalState = createModalState()
+      addressModalState = createAddressModalState()
+      pane = mountWithIntl(<Provider ModalManager={new ModalManager()}
+      ><ModalProvider value={modalState}>
+          <AddressModalForm initialAddress={initialAddress}
+            onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
+          /></ModalProvider></Provider>)
+      innerPane = pane.find('InnerAddressPane').instance() as any
+    })
+
+    it("nothing has been incorrectly fired", () => {
+      expect(addressModalState.setDisableAddSave).toBeCalledWith(true)
+      expect(addressModalState.setDisableCloseButton).toBeCalledWith(false)
+      expect(addressModalState.setShowDelete).toBeCalledWith(false)
+    })
+
+    it("modifying an input does make save button work", () => {
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+
+      expect(addressModalState.setDisableAddSave).toBeCalledWith(false)
+    })
+
+    it('is successful', async (done) => {
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+      pane.update()
+
+      await innerPane.handleSaveAddAction()
+      let values = { address: 'me' }
+
+      expect(onClose).toBeCalled()
+      expect(onClose).toBeCalledWith({ type: 'add', address: values })
+      done()
+    })
+
+    it('is successful with default added', async (done) => {
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'isDefault'), true)
+      pane.update()
+
+      await innerPane.handleSaveAddAction()
+      //isDefault here for test purposes
+      let values = { address: 'me', isDefault: true }
+
+      expect(onClose).toBeCalled()
+      expect(onClose).toBeCalledWith({ type: 'add', address: values, setToDefault: true })
+      done()
+    })
+
+    describe('timed out', () => {
+      const initialAddress = {}
+      let onClose: jest.Mock
+      let modalState: ModalContext;
+      let addressModalState: AddressModalState
+      let innerAddressPane: InnerAddressPane
+
+      beforeEach(async (done) => {
+        onClose = jest.fn()
+        let entity = supporterEntity()
+        modalState = createModalState()
+        addressModalState = createAddressModalState()
+        pane = mountWithIntl(<Provider ModalManager={new ModalManager()}
+        ><ModalProvider value={modalState}>
+            <AddressModalForm initialAddress={initialAddress}
+              onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
+            /></ModalProvider></Provider>)
+
+        innerAddressPane = pane.find('InnerAddressPane').instance() as InnerAddressPane
+        let address = pane.find('InnerAddressPane').find('input').filterWhere(i => i.prop('name') === 'address')
+        simulateChange(address, TIMEOUT_CAUSING_STREET)
+        pane.update()
+        await innerAddressPane.handleSaveAddAction()
+        pane.update()
+        done()
+      })
+
+      it('shouldDelete was never set', (done) => {
+        const shouldDelete = innerAddressPane.props.formik.values.shouldDelete
+        expect(shouldDelete).toBeFalsy()
+        done()
+      })
+
+      it('error is properly set', (done) => {
+        const block = pane.find('InnerAddressPane').find('FormNotificationBlock').instance() as React.Component<{}, {}>
+
+        expect(block.props.children).toBe(TIMEOUT_ERROR_MESSAGE)
+        done()
+      })
+
+      it('form notification was removed onsuccessful call', async (done) => {
+        pane.update()
+        const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
+
+        expect(block().instance().props.children).toBe(TIMEOUT_ERROR_MESSAGE)
+        await innerAddressPane.handleSaveAddAction()
+        pane.update()
+
+        expect(block().exists()).toBeFalsy()
+        done()
+      })
+    })
+  })
+
+  describe('handles a modify', () => {
+    const initialAddress = { id: 2 }
+    let onClose: jest.Mock
+    let modalState: ModalContext;
+    let addressModalState: AddressModalState
+    let innerPane: InnerAddressPane
+    beforeEach(() => {
+      onClose = jest.fn()
+      let entity = supporterEntity()
+      modalState = createModalState()
+      addressModalState = createAddressModalState()
+      pane = mountWithIntl(<Provider ModalManager={new ModalManager()}
+      ><ModalProvider value={modalState}>
+          <AddressModalForm initialAddress={initialAddress}
+            onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
+          /></ModalProvider></Provider>)
+
+      innerPane = pane.find('InnerAddressPane').instance() as InnerAddressPane
+    })
+
+    it("nothing has been incorrectly fired", () => {
+      expect(addressModalState.setDisableAddSave).toBeCalledWith(true)
+      expect(addressModalState.setDisableCloseButton).toBeCalledWith(false)
+      expect(addressModalState.setShowDelete).toBeCalledWith(true)
+      expect(addressModalState.setDeleteAction).toBeCalledWith(innerPane.handleDelete)
+      expect(addressModalState.setSaveAddAction).toBeCalledWith(innerPane.handleSaveAddAction)
+    })
+
+    it("modifying an input does make save button work", () => {
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+
+      expect(addressModalState.setDisableAddSave).toBeCalledWith(false)
+    })
+
+    it('is successful', async (done) => {
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+      pane.update()
+
+      await innerPane.handleSaveAddAction()
+      let values = { address: 'me', id: 2, city:"", country:"", zip_code:"", state_code: "" }
+
+      expect(onClose).toBeCalled()
+      expect(onClose).toBeCalledWith({ type: 'update', address: values })
+      done()
+    })
+
+    it('is successful with default added', async (done) => {
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'isDefault'), true)
+      pane.update()
+
+      await innerPane.handleSaveAddAction()
+      //isDefault here for test purposes
+      let values = { address: 'me', id: 2, city:"", country:"", zip_code:"", state_code: "", isDefault:true}
+
+      expect(onClose).toBeCalled()
+      expect(onClose).toBeCalledWith({ type: 'update', address: values, setToDefault: true })
+      done()
+    })
+    
+
+
+    describe('timed out', () => {
+      const initialAddress = { id: TIMEOUT_CAUSING_ID }
+      let onClose: jest.Mock
+      let modalState: ModalContext;
+      let addressModalState: AddressModalState
+      let innerAddressPane: InnerAddressPane
+
+      beforeEach(async (done) => {
+        onClose = jest.fn()
+        let entity = supporterEntity()
+        modalState = createModalState()
+        addressModalState = createAddressModalState()
+        pane = mountWithIntl(<Provider ModalManager={new ModalManager()}
+        ><ModalProvider value={modalState}>
+            <AddressModalForm initialAddress={initialAddress}
+              onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
+            /></ModalProvider></Provider>)
+
+        innerAddressPane = pane.find('InnerAddressPane').instance() as InnerAddressPane
+        let address = pane.find('InnerAddressPane').find('input').filterWhere(i => i.prop('name') === 'address')
+        simulateChange(address, TIMEOUT_CAUSING_STREET)
+        pane.update()
+        await innerAddressPane.handleSaveAddAction()
+        pane.update()
+        done()
+      })
+
+      it('shouldDelete was never set', (done) => {
+        const shouldDelete = innerAddressPane.props.formik.values.shouldDelete
+        expect(shouldDelete).toBeFalsy()
+        done()
+      })
+
+      it('error is properly set', (done) => {
+        const block = pane.find('InnerAddressPane').find('FormNotificationBlock').instance() as React.Component<{}, {}>
+
+        expect(block.props.children).toBe(TIMEOUT_ERROR_MESSAGE)
+        done()
+      })
+
+      it('form notification was removed onsuccessful call', async (done) => {
+        pane.update()
+        const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
+
+        expect(block().instance().props.children).toBe(TIMEOUT_ERROR_MESSAGE)
+        await innerAddressPane.handleSaveAddAction()
+        pane.update()
+
+        expect(block().exists()).toBeFalsy()
+        done()
+      })
+
+
+    })
+
+
+
+    describe('delete address', () => {
+
+
+      describe('has successed', () => {
+        beforeEach(async (done) => {
+          await innerPane.handleDelete()
+          done()
+        })
+
+        it('has fired onClose with the delete object', (done) => {
+          expect(onClose).toBeCalled()
+          expect(onClose).toBeCalledWith({ type: 'delete', address: { id: 2 } })
+          done()
+        })
+      })
+
+      describe('timed out', () => {
+        const initialAddress = { id: TIMEOUT_CAUSING_ID }
+        let onClose: jest.Mock
+        let modalState: ModalContext;
+        let addressModalState: AddressModalState
+        let innerAddressPane: InnerAddressPane
+
+        beforeEach(async (done) => {
+          onClose = jest.fn()
+          let entity = supporterEntity()
+          modalState = createModalState()
+          addressModalState = createAddressModalState()
+          pane = mountWithIntl(<Provider ModalManager={new ModalManager()}
+          ><ModalProvider value={modalState}>
+              <AddressModalForm initialAddress={initialAddress}
+                onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
+              /></ModalProvider></Provider>)
+
+          innerAddressPane = pane.find('InnerAddressPane').instance() as InnerAddressPane
+          await innerAddressPane.handleDelete()
+          pane.update()
+          done()
+        })
+
+        it('shouldDelete was properly reset', (done) => {
+          pane.update()
+          const shouldDelete = innerAddressPane.props.formik.values.shouldDelete
+          expect(shouldDelete).toBe(false)
+          done()
+        })
+
+        it('error is properly set', (done) => {
+          pane.update()
+          const block = pane.find('InnerAddressPane').find('FormNotificationBlock').instance() as React.Component<{}, {}>
+
+          expect(block.props.children).toBe(TIMEOUT_ERROR_MESSAGE)
+          done()
+        })
+
+        it('form notification was removed onsuccessful call', async (done) => {
+          pane.update()
+          const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
+
+          expect(block().instance().props.children).toBe(TIMEOUT_ERROR_MESSAGE)
+          await innerAddressPane.handleDelete()
+          pane.update()
+
+          expect(block().exists()).toBeFalsy()
+          done()
+        })
+      })
+    })
+
   })
 })

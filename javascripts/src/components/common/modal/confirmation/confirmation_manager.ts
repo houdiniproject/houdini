@@ -28,12 +28,4 @@ export class ConfirmationManager implements ConfirmationAccessor, Confirmer {
     this.confirmations.push({ ...confirmationDesc, key: key, isOpen:true });
     return key;
   }
-  
-  // @action.bound
-  // removeConfirmation(key: string) {
-  //   const confIndex = this.confirmations.findIndex((i) => i.key === key);
-  //   let  confirmation  = this.confirmations[confIndex]
-  //   confirmation.isOpen = false;
-  //   this.confirmations.splice(confIndex, 1, confirmation)
-  // }
 }

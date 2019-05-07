@@ -12,22 +12,22 @@ import { TwoColumnFields } from '../../common/layout';
 import { ConfirmationManagerContextProps, connectConfirmationManager } from '../../common/modal/confirmation/connect';
 import { connect as connectModal } from '../../common/modal/connect';
 import { ModalContext } from '../../common/modal/Modal';
-import { LocalRootStore } from './../local_root_store';
 import { AddressModalState } from './AddressModal';
 import { AddressPaneFormikInputProps } from './AddressModalForm';
+import { boundMethod } from 'autobind-decorator';
+import HoudiniFormikForm from '../../common/form/HoudiniFormikForm';
 
 export interface AddressPaneProps {
-  LocalRootStore?: LocalRootStore
   formik: HoudiniFormikProps<AddressPaneFormikInputProps>
   addressModalState: AddressModalState
 }
 
-class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps & { modal: ModalContext } & ConfirmationManagerContextProps, {}> {
+export class InnerAddressPane extends React.Component<AddressPaneProps & InjectedIntlProps & { modal: ModalContext } & ConfirmationManagerContextProps, {}> {
 
   @disposeOnUnmount
   reactOnDirty = reaction(() =>
     this.props.formik.dirty,
-    () => this.setModalState())
+    () => this.setModalState(), {fireImmediately:true})
 
   @disposeOnUnmount
   reactOnModified = reaction(() =>
@@ -38,6 +38,18 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps &
   reactOnAdd = reaction(() =>
     this.isAdd,
     () => this.setModalState())
+
+  @disposeOnUnmount
+  reactOnSubmitting = reaction(() => {
+    this.props.formik.isSubmitting}, 
+    () => this.setModalState()
+  )
+
+  @disposeOnUnmount
+  reactOnId = reaction(() => {
+    this.props.formik.status && this.props.formik.status.id}, 
+    () => this.setModalState()
+  )
 
 
   @computed
@@ -58,29 +70,35 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps &
 
   @action.bound
   setModalState() {
-    this.props.modal.setCanClose(async () => { return await this.canClose(this.props.formik.dirty) })
+    this.props.modal.setCanClose(this.canClose)
 
-    this.props.addressModalState.setDisabledAddSave(this.modifiedEnoughToSubmit)
+    this.props.addressModalState.setDisableAddSave(this.props.formik.isSubmitting || !this.modifiedEnoughToSubmit)
 
+    this.props.addressModalState.setDisableDeleteButton(this.props.formik.isSubmitting)
+    
     this.props.addressModalState.setShowDelete(!this.isAdd)
 
-    this.props.addressModalState.setDeleteAction(async () => {
-      //if we don't set shouldValidate to false, the submit gets cancelled in the next step for some reason
-      this.props.formik.setFieldValue('shouldDelete', true, false);
-      await this.props.formik.submitForm();
-    })
+    this.props.addressModalState.setDeleteAction(this.handleDelete)
 
-    this.props.addressModalState.setSaveAddAction(async () => await this.props.formik.submitForm())
+    this.props.addressModalState.setDisableCloseButton(this.props.formik.isSubmitting)
+
+    this.props.addressModalState.setFormId(FormikHelpers.createFormId(this.props.formik))
   }
-
-  @action.bound
-  async canClose(dirty: boolean): Promise<boolean> {
-    return !dirty || await this.props.confirmation.confirm({
+  
+  @boundMethod
+  async canClose(): Promise<boolean> {
+    return !this.props.formik.dirty || await this.props.confirmation.confirm({
       titleText: 'Unsaved changes',
       confirmationText: "You have unsaved changes. Are you sure you'd like to discard it?",
       confirmButtonText: "Yes, discard changes",
       abortButtonText: "No, keep editing"
     })
+  }
+
+  @boundMethod
+  async handleDelete(): Promise<void> {
+    this.props.formik.setFieldValue('shouldDelete', true, false);
+    await this.props.formik.submitForm();
   }
 
   componentDidMount() {
@@ -89,7 +107,7 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps &
 
   render() {
     return (
-      <form onSubmit={this.props.formik.handleSubmit} onReset={this.props.formik.handleReset}>
+      <HoudiniFormikForm formik={this.props.formik}>
         <div>
           <TwoColumnFields>
             <FieldCreator component={FormikBasicField} name={'address'} label={'Address'} inputId={FormikHelpers.createId(this.props.formik, 'address')} />
@@ -112,14 +130,14 @@ class AddressPane extends React.Component<AddressPaneProps & InjectedIntlProps &
 
 
         </div>
-      </form>
+      </HoudiniFormikForm>
 
     )
 
   }
 }
 
-export default connectConfirmationManager(connectModal(injectIntl(inject('LocalRootStore')(observer(AddressPane)))))
+export default connectConfirmationManager(connectModal(injectIntl(observer(InnerAddressPane))))
 
 
 

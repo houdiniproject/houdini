@@ -4,8 +4,6 @@ import React = require("react");
 import hoistNonReactStatics = require('hoist-non-react-statics');
 import { ModalContext } from "./Modal";
 
-
-
 export const {
     Provider: ModalProvider,
     Consumer: ModalConsumer,

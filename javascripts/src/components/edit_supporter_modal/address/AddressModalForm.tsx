@@ -20,14 +20,14 @@ export interface AddressAction {
 
 export const TIMEOUT_ERROR_MESSAGE = "The website couldn't be contacted. Make sure you're connected to the internet and try again in a few seconds."
 
-export const addressPaneFormSubmission = async ({ values, action, supporterAddressStore, onClose }: { values: AddressPaneFormikInputProps, action: FormikActions<AddressPaneFormikInputProps>, supporterAddressStore: SupporterEntity, onClose: (action: AddressAction) => void }) => {
+export const addressPaneFormSubmission = async ({ values, action, supporterEntity, onClose }: { values: AddressPaneFormikInputProps, action: FormikActions<AddressPaneFormikInputProps>, supporterEntity: SupporterEntity, onClose: (action: AddressAction) => void }) => {
   let input: AddressPaneFormikInputProps = values
 
   let status: HoudiniFormikServerStatus<AddressPaneFormikInputProps> = {}
   try {
     if (values.shouldDelete) {
       try {
-        const address = await supporterAddressStore.deleteAddress(values.id)
+        const address = await supporterEntity.deleteAddress(values.id)
         action.setStatus({})
         onClose({ type: 'delete', address: address })
 
@@ -39,12 +39,12 @@ export const addressPaneFormSubmission = async ({ values, action, supporterAddre
     else {
       const shouldAdd = !input.id
       if (shouldAdd) {
-        const address = await supporterAddressStore.createAddress(input)
+        const address = await supporterEntity.createAddress(input)
         action.setStatus({})
         onClose({ type: 'add', address: address, setToDefault: values.isDefault })
       }
       else {
-        const address = await supporterAddressStore.updateAddress(values.id, input)
+        const address = await supporterEntity.updateAddress(values.id, input)
 
         action.setStatus({})
         onClose({ type: 'update', address: address, setToDefault: values.isDefault })
@@ -68,13 +68,12 @@ export const addressPaneFormSubmission = async ({ values, action, supporterAddre
   }
 }
 
-
 export interface AddressModalFormProps
 {
   initialAddress: Address
   isDefault?: boolean
   onClose: (action: AddressAction) => void
-  LocalRootStore?: LocalRootStore
+  supporterEntity:SupporterEntity
   addressModalState:AddressModalState
 }
 
@@ -91,10 +90,10 @@ class AddressModalForm extends React.Component<AddressModalFormProps & InjectedI
       'isDefault': this.props.isDefault
     } : {}
     
-     return <HoudiniFormik initialValues={initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => { addressPaneFormSubmission({ values: values, action: action, supporterAddressStore: this.props.LocalRootStore.supporterAddressStore, onClose: this.props.onClose }) }} render={(props) => 
+     return <HoudiniFormik initialValues={initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => { addressPaneFormSubmission({ values: values, action: action, supporterEntity: this.props.supporterEntity, onClose: this.props.onClose }) }} render={(props) => 
        <AddressPane formik={props} addressModalState={this.props.addressModalState}/>
      }/>
   }
 }
 
-export default injectIntl(inject('LocalRootStore')(observer(AddressModalForm)))
+export default injectIntl(observer(AddressModalForm))

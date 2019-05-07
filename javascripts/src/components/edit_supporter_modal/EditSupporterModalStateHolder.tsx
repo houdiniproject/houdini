@@ -5,12 +5,14 @@ import { InjectedIntlProps } from 'react-intl';
 import SupporterModalBase, { OnCloseType } from './SupporterModalBase';
 import { LocalRootStore } from './local_root_store';
 import { RootStore } from '../../lib/stores/root_store';
+import { SupporterModalState } from './EditSupporterModal';
 
 export interface EditSupporterModalStateHolderProps {
   //from ModalProps
   onClose: OnCloseType
   nonprofitId: number
-  supporterId: number
+  supporterId: number,
+  supporterModalState:SupporterModalState
 }
 
 class EditSupporterModalStateHolder extends React.Component<EditSupporterModalStateHolderProps, {}> {
@@ -27,7 +29,7 @@ class EditSupporterModalStateHolder extends React.Component<EditSupporterModalSt
   render() {
     return <Provider RootStore={this.rootStore}>
       <Provider LocalRootStore={this.localRootStore}>
-        <SupporterModalBase nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onClose={this.props.onClose} key={1} />
+        <SupporterModalBase nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} onClose={this.props.onClose} key={1} supporterModalState={this.props.supporterModalState} />
       </Provider>
     </Provider>
   }

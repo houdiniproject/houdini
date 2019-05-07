@@ -14,6 +14,7 @@ import { LocalRootStore } from './local_root_store';
 import { SupporterEntity, toFormSupporter, fromFormSupporter } from './supporter_entity';
 import { SupporterPaneStore } from './supporter_pane_store';
 import {boundMethod} from 'autobind-decorator'
+import { SupporterModalState } from './EditSupporterModal';
 
 export type OnCloseType = (supporterId?:number) => void
 
@@ -22,6 +23,7 @@ export interface SupporterModalBaseProps {
   supporterId: number
   onClose: OnCloseType
   LocalRootStore?: LocalRootStore
+  supporterModalState:SupporterModalState
 }
 
 export async function onSubmit(
@@ -55,7 +57,7 @@ export async function onSubmit(
 class SupporterModalBase extends React.Component<SupporterModalBaseProps & InjectedIntlProps, {}> {
 
   @computed get supporterAddressStore(): SupporterEntity {
-    return this.props.LocalRootStore.supporterAddressStore;
+    return this.props.LocalRootStore.supporterEntity;
   }
 
   @computed get supporterPaneStore(): SupporterPaneStore {
@@ -83,7 +85,7 @@ class SupporterModalBase extends React.Component<SupporterModalBaseProps & Injec
         initialValues={toFormSupporter(this.supporterAddressStore.supporter)}
         onClose={this.props.onClose}
         onSubmit={this.onSubmit}
-        supporterId={this.props.supporterId}/>
+        supporterId={this.props.supporterId} supporterModalState={this.props.supporterModalState}/>
     }
     else {
       pane = <Spinner size="normal">Loading...</Spinner>

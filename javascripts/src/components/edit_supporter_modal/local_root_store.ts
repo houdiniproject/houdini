@@ -5,11 +5,11 @@ import { SupporterEntity } from "./supporter_entity";
 import { SupporterPaneStore } from "./supporter_pane_store";
 
 export class LocalRootStore {
-    readonly supporterAddressStore: SupporterEntity;
+    readonly supporterEntity: SupporterEntity;
     readonly supporterPaneStore: SupporterPaneStore;
     
     constructor(supporterId:number, rootStore:{supporterStore:SupporterStore, addressStore:AddressStore}) {
-        this.supporterAddressStore = new SupporterEntity(supporterId, rootStore.supporterStore, rootStore.addressStore);
-        this.supporterPaneStore = new SupporterPaneStore(this.supporterAddressStore)
+        this.supporterEntity = new SupporterEntity(supporterId, rootStore.supporterStore, rootStore.addressStore);
+        this.supporterPaneStore = new SupporterPaneStore(this.supporterEntity)
     }
 }

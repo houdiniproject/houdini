@@ -73,7 +73,7 @@ describe('SupporterModalBase', () => {
             loading: false,
             attemptInit: async () => { }
           },
-          supporterAddressStore: {
+          supporterEntity: {
             supporter: { id: 1 },
             addresses: [{ id: 11 }]
           }

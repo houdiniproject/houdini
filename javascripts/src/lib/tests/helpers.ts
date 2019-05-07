@@ -12,7 +12,7 @@ const { intl } = intlProvider.getChildContext();
 /**
  * When using React-Intl `injectIntl` on components, props.intl is required.
  */
-function nodeWithIntlProp(node:any) {
+export function nodeWithIntlProp(node:any) {
   return React.cloneElement(node, { intl });
 }
 

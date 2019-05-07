@@ -136,10 +136,11 @@ export class ModalContext {
   /**
    * Set the function checking whether closing a modal is allowed
    * @param  {(() => Promise<boolean> | boolean)} condition 
-   * @return {void}@memberof ModalContext
+   * @return {void}
+   * @memberof ModalContext
    */
   @action.bound
-  setCanClose(condition: () => Promise<boolean> | boolean) {
+  setCanClose(condition: () => Promise<boolean> | boolean): void {
     this.innerCanClose = condition
   }
 
@@ -175,7 +176,6 @@ class Modal extends React.Component<ModalProps> {
 
   @disposeOnUnmount
   reactor = reaction(() => this.props.titleText, (text) => { this.modalState.setTitleText(text) }, { fireImmediately: true });
-
 
 
   componentDidMount() {
@@ -225,11 +225,12 @@ class Modal extends React.Component<ModalProps> {
                 padding: '12px 10px 12px 20px'
               }}>
                 <Row>
-                  <Column colSpan={11} breakSize={'xs'}>
+                  {/* TODO: This only really works if the modal is above a certain size. We should use flex box here to be more reliable */}
+                  <Column colSpan={10} breakSize={'xs'}>
                     <h3 className='modal-header-title' style={{ margin: 0 }}>{this.modalState.titleText}</h3>
                   </Column>
                   {this.props.showCloseButton ?
-                    <Column colSpan={1} breakSize={'xs'}>
+                    <Column colSpan={2} breakSize={'xs'}>
                       <div style={{ textAlign: 'right' }}>
                         <DefaultCloseButton onClick={() => this.onCancel()} />
                       </div>

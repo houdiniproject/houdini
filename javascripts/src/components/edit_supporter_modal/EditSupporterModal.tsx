@@ -147,7 +147,7 @@ class EditSupporterModal extends React.Component<EditSupporterModalProps & Injec
       titleText={'Edit Supporter'}
       focusDialog={true}
       onClose={this.props.onClose}
-      dialogStyle={{ maxWidth: '600px', position: 'relative' }}
+      dialogStyle={{ width: '600px', position: 'relative' }}
     >
     
       <EditSupporterModalChildren onClose={this.props.onClose} nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} supporterModalState={this.supporterModalState} />

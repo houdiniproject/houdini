@@ -11,6 +11,7 @@ export interface FormikBasicFieldProps<T> extends FieldProps<T> {
   className?:string
   inputClassNames?:string
   inputId?:string
+  disabled?:boolean
 }
 
 export default class FormikBasicField<T> extends React.Component<FormikBasicFieldProps<T>, {}> {
@@ -22,7 +23,7 @@ export default class FormikBasicField<T> extends React.Component<FormikBasicFiel
         inputId={this.props.inputId}
         labelText={this.props.label}
         className={this.props.className} >
-        <FormikInput field={this.props.field} placeholder={this.props.placeholder} className={`form-control ${this.props.inputClassNames || ''}`} id={this.props.inputId}
+        <FormikInput field={this.props.field} placeholder={this.props.placeholder} className={`form-control ${this.props.inputClassNames || ''}`} id={this.props.inputId} disabled={this.props.disabled}
         />
     </FormikLabeledFieldComponent>
   }

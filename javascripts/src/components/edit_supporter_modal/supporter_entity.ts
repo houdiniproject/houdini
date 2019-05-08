@@ -1,10 +1,10 @@
 // License: LGPL-3.0-or-later
-import { observable, computed, action } from "mobx";
-import { SupporterStore } from "../../lib/stores/supporter_store";
-import { AddressStore } from "../../lib/stores/address_store";
-import * as _ from "lodash";
-import { Supporter, PutSupporter, Address, PostSupporterSupporterIdAddress } from "../../../api";
 import { boundMethod } from "autobind-decorator";
+import * as _ from "lodash";
+import { computed } from "mobx";
+import { Address, PostSupporterSupporterIdAddress, PutSupporter, Supporter } from "../../../api";
+import { AddressStore } from "../../lib/stores/address_store";
+import { SupporterStore } from "../../lib/stores/supporter_store";
 
 export function toFormSupporter(s:Supporter):Supporter {
   if (!s)

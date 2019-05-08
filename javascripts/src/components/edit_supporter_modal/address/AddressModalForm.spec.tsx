@@ -1,21 +1,19 @@
 // License: LGPL-3.0-or-later
-import * as React from 'react';
-import 'jest';
-import AddressModalForm, { addressPaneFormSubmission, TIMEOUT_ERROR_MESSAGE, AddressModalFormProps } from './AddressModalForm'
-import { Address, TimeoutError, PostSupporterSupporterIdAddress, PutSupporterSupporterIdAddress, NotFoundErrorException } from '../../../../api';
-import _ = require('lodash');
-import { SupporterEntity } from '../supporter_entity';
-import { supporterEntity, TIMEOUT_CAUSING_STREET, TIMEOUT_CAUSING_ID } from './supporter_entity_mock';
 import { ReactWrapper } from 'enzyme';
+import 'jest';
 import { Provider } from 'mobx-react';
-import { ModalManager } from '../../common/modal/modal_manager';
+import * as React from 'react';
 import { mountWithIntl } from '../../../lib/tests/helpers';
-import { AddressModalState } from './AddressModal';
+import { simulateChange } from '../../../lib/tests/helpers/mounted';
 import { ModalProvider } from '../../common/modal/connect';
 import { ModalContext } from '../../common/modal/Modal';
+import { ModalManager } from '../../common/modal/modal_manager';
+import { SupporterEntity } from '../supporter_entity';
+import { AddressModalState } from './AddressModal';
+import AddressModalForm, { addressPaneFormSubmission, TIMEOUT_ERROR_MESSAGE } from './AddressModalForm';
 import { InnerAddressPane } from './AddressPane';
-import FormNotificationBlock from '../../common/form/FormNotificationBlock';
-import { simulateChange } from '../../../lib/tests/helpers/mounted';
+import { supporterEntity, TIMEOUT_CAUSING_ID, TIMEOUT_CAUSING_STREET } from './supporter_entity_mock';
+import _ = require('lodash');
 
 describe('AddressModalForm', () => {
   let onClose: jest.Mock<{}>

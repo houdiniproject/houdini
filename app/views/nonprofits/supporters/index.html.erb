@@ -14,6 +14,7 @@
   <%= IncludeAsset.js '/app/vendor.js' %>
   <%= IncludeAsset.js '/app/create_new_offsite_payment_panex.js' %>
   <%= IncludeAsset.js '/app/edit_supporter_modalx.js' %>
+  <%= IncludeAsset.js '/app/create_supporter_modalx.js' %>
 
   <script>
     appl.def('open_donation_modal', function(supporter_id, donation_finish_successful_state_fn) {
@@ -78,7 +79,7 @@
 <div id='js-main'></div>
 
 <%= render 'merge_modal' %>
-<%= render 'new_modal' %>
+<%# <%= render 'new_modal' %> %>
 <%= render 'edit_modal' %>
 
 <%= render 'settings_modal' %>

@@ -1,25 +1,20 @@
 // License: LGPL-3.0-or-later
-import { observer, disposeOnUnmount } from 'mobx-react';
 import * as React from 'react';
-import { InjectedIntlProps, injectIntl } from 'react-intl';
-import Modal, { ModalContext } from '../common/modal/Modal';
-import EditSupporterModalStateHolder from './EditSupporterModalStateHolder';
-import { OnCloseType } from './SupporterModalBase';
-import ModalBody from '../common/modal/ModalBody';
-import { observable, computed, action, runInAction, reaction } from 'mobx';
-import ModalFooter from '../common/modal/ModalFooter';
+import { observer, disposeOnUnmount, inject } from 'mobx-react';
+import {InjectedIntlProps, injectIntl} from 'react-intl';
 import { boundMethod } from 'autobind-decorator';
+import { runInAction, action, observable, computed } from 'mobx';
+import ModalBody from '../common/modal/ModalBody';
+import ModalFooter from '../common/modal/ModalFooter';
 import Button from '../common/form/Button';
 import { connect, ModalContextProps } from '../common/modal/connect';
+import Modal, { ModalContext } from '../common/modal/Modal';
+import { OnCloseType } from '../edit_supporter_modal/SupporterModalBase';
+import CreateSupporterFormik from './CreateSupporterFormik';
+import { RootStore } from '../../lib/stores/root_store';
+import { ApiManager } from '../../lib/api_manager';
 
 
-export interface EditSupporterModalProps {
-  //from ModalProps
-  onClose: OnCloseType
-  modalActive: boolean
-  nonprofitId: number
-  supporterId: number
-}
 export class SupporterModalState {
 
   @observable
@@ -85,16 +80,19 @@ export class SupporterModalState {
 
 export interface EditSupporterModalChildrenProps {
   //from ModalProps
-  onClose: OnCloseType
   nonprofitId: number
-  supporterId: number
   supporterModalState: SupporterModalState
+  onClose: OnCloseType
+  ApiManager?:ApiManager
 }
 
-class InnerEditSupporterModalChildren extends React.Component<EditSupporterModalChildrenProps & ModalContextProps>{
+class InnerCreateSupporterModalChildren extends React.Component<EditSupporterModalChildrenProps & ModalContextProps>{
 
-  @disposeOnUnmount
-  reactOnClose = reaction(() => this.props.onClose, () => this.props.modal.setHandleCancel(() => this.props.onClose()), {fireImmediately:true})
+  constructor(props: EditSupporterModalChildrenProps & ModalContextProps){
+    super(props)
+    this.rootStore = new RootStore(this.props.ApiManager)
+  }
+  private rootStore:RootStore
 
   @boundMethod
   cancel() {
@@ -104,8 +102,8 @@ class InnerEditSupporterModalChildren extends React.Component<EditSupporterModal
   render() {
     return <>
       <ModalBody>
-        <EditSupporterModalStateHolder nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId}
-          onClose={this.props.onClose} supporterModalState={this.props.supporterModalState} />
+        <CreateSupporterFormik nonprofitId={this.props.nonprofitId}
+          onClose={this.props.onClose} supporterModalState={this.props.supporterModalState} modal={this.props.modal} rootStore={this.rootStore}/>
       </ModalBody>
       <ModalFooter>
         <Button type="button" onClick={this.cancel} disabled={this.props.supporterModalState.disableCloseButton}>
@@ -119,26 +117,33 @@ class InnerEditSupporterModalChildren extends React.Component<EditSupporterModal
   }
 }
 
-const EditSupporterModalChildren = connect(observer(InnerEditSupporterModalChildren))
+const CreateSupporterModalChildren = connect(inject('ApiManager')(observer(InnerCreateSupporterModalChildren)))
 
-class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
+
+export interface CreateSupporterModalProps
+{
+  nonprofitId:number
+  modalActive: boolean
+  onClose: OnCloseType
+}
+
+class CreateSupporterModal extends React.Component<CreateSupporterModalProps & InjectedIntlProps, {}> {
   supporterModalState = new SupporterModalState()
   render() {
 
     return <Modal
       modalActive={this.props.modalActive}
-      titleText={`Edit Supporter #${this.props.supporterId}`}
-      focusDialog={true}
+      titleText={`Create Supporter`}
       onClose={this.props.onClose}
       dialogStyle={{ width: '600px', position: 'relative' }}
     >
     
-      <EditSupporterModalChildren onClose={this.props.onClose} nonprofitId={this.props.nonprofitId} supporterId={this.props.supporterId} supporterModalState={this.supporterModalState} />
+      <CreateSupporterModalChildren onClose={this.props.onClose} nonprofitId={this.props.nonprofitId} supporterModalState={this.supporterModalState} />
     </Modal>
   }
 }
 
-export default injectIntl(observer(EditSupporterModal))
+export default injectIntl(observer(CreateSupporterModal))
 
 
 

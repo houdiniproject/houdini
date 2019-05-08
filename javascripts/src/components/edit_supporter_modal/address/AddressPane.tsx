@@ -10,8 +10,7 @@ import FormikBasicField from '../../common/FormikBasicField';
 import { FormikHelpers, HoudiniFormikProps } from '../../common/HoudiniFormik';
 import { TwoColumnFields } from '../../common/layout';
 import { ConfirmationManagerContextProps, connectConfirmationManager } from '../../common/modal/confirmation/connect';
-import { connect as connectModal } from '../../common/modal/connect';
-import { ModalContext } from '../../common/modal/Modal';
+import { connect as connectModal, ModalContextProps } from '../../common/modal/connect';
 import { AddressModalState } from './AddressModal';
 import { AddressPaneFormikInputProps } from './AddressModalForm';
 import { boundMethod } from 'autobind-decorator';
@@ -22,7 +21,7 @@ export interface AddressPaneProps {
   addressModalState: AddressModalState
 }
 
-export class InnerAddressPane extends React.Component<AddressPaneProps & InjectedIntlProps & { modal: ModalContext } & ConfirmationManagerContextProps, {}> {
+export class InnerAddressPane extends React.Component<AddressPaneProps & InjectedIntlProps & ModalContextProps & ConfirmationManagerContextProps, {}> {
 
   @disposeOnUnmount
   reactOnDirty = reaction(() =>
@@ -89,7 +88,7 @@ export class InnerAddressPane extends React.Component<AddressPaneProps & Injecte
   async canClose(): Promise<boolean> {
     return !this.props.formik.dirty || await this.props.confirmation.confirm({
       titleText: 'Unsaved changes',
-      confirmationText: "You have unsaved changes. Are you sure you'd like to discard it?",
+      confirmationText: "You have unsaved changes. Are you sure you'd like to discard them?",
       confirmButtonText: "Yes, discard changes",
       abortButtonText: "No, keep editing"
     })

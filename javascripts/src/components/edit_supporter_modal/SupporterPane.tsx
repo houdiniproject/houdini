@@ -44,8 +44,8 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
         <table className={"clickable table--plaid"}>
           <thead>
             <tr>
-              <th>Address</th>
-              <th style={{ textAlign: 'center' }}>Default?</th>
+              <th>Address <Button type="button" onClick={this.props.addAddress} buttonSize="tiny">Add Address</Button></th>
+              {this.props.addresses.length > 0 ? <th style={{ textAlign: 'center' }}>Default?</th> : undefined }
             </tr>
           </thead>
 
@@ -58,10 +58,6 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
               </SelectableTableRow>
             })
             }
-
-            <SelectableTableRow onSelect={this.props.addAddress}>
-              <td colSpan={2}><Button type="button" onClick={this.props.addAddress} buttonSize="tiny">Add Address</Button></td>
-            </SelectableTableRow>
           </tbody>
         </table> : false}
     </HoudiniFormikForm>

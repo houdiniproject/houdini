@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
+import { boundMethod } from 'autobind-decorator';
 import { FormikActions } from 'formik';
-import { action, computed } from 'mobx';
+import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
@@ -8,13 +9,13 @@ import { PutSupporter, Supporter, TimeoutError, ValidationErrorsException } from
 import BootstrapWrapper from '../common/BootstrapWrapper';
 import { FormikHelpers, HoudiniFormikServerStatus } from '../common/HoudiniFormik';
 import Spinner from '../common/Spinner';
+import { SupporterModalState } from './EditSupporterModal';
 import FailedToLoad from './FailedToLoad';
 import LoadedPaneFormik from './LoadedPaneFormik';
 import { LocalRootStore } from './local_root_store';
-import { SupporterEntity, toFormSupporter, fromFormSupporter } from './supporter_entity';
+import { SupporterEntity, toFormSupporter } from './supporter_entity';
 import { SupporterPaneStore } from './supporter_pane_store';
-import {boundMethod} from 'autobind-decorator'
-import { SupporterModalState } from './EditSupporterModal';
+import * as yup from 'yup'
 
 export type OnCloseType = (supporterId?:number) => void
 
@@ -53,7 +54,25 @@ export async function onSubmit(
   }
 }
 
-
+export function createYup({name, organization, email, phone}: {name:string, organization:string, email:string, phone: string})  {
+  return yup.object().shape({
+    id: yup.number().required(),
+    name: yup.string().label(name),
+    organization: yup.string().label(organization),
+    email: yup.string().email().label(email),
+    phone: yup.string().label(phone),
+    default_address: yup.mixed().transform((value:any) => {
+      if (typeof value === 'string'){
+        return undefined
+      }
+      else if (typeof value === 'object' && !value.id) {
+        return undefined;
+      }
+      else
+        return value
+    })
+  })
+}
 class SupporterModalBase extends React.Component<SupporterModalBaseProps & InjectedIntlProps, {}> {
 
   @computed get supporterAddressStore(): SupporterEntity {
@@ -69,8 +88,8 @@ class SupporterModalBase extends React.Component<SupporterModalBaseProps & Injec
   }
 
   @boundMethod
-  async onSubmit(values:Supporter, action:FormikActions<Supporter>){
-    await onSubmit(fromFormSupporter(values), action, this.supporterAddressStore.updateSupporter, this.props.onClose)
+  async onSubmit(values:Supporter, action:FormikActions<Supporter>, schema:ReturnType<typeof createYup>){
+    await onSubmit(schema.cast(values), action, this.supporterAddressStore.updateSupporter, this.props.onClose)
   }
 
   render() {
@@ -80,12 +99,13 @@ class SupporterModalBase extends React.Component<SupporterModalBaseProps & Injec
       pane = <FailedToLoad />
     else if (!this.supporterPaneStore.loading) {
       const addresses = this.supporterAddressStore.addresses
+      const schema = createYup({name: 'Name', organization: "Organization", email: "Email", phone: "Phone"})
       pane = <LoadedPaneFormik
        addresses={addresses}
         initialValues={toFormSupporter(this.supporterAddressStore.supporter)}
         onClose={this.props.onClose}
-        onSubmit={this.onSubmit}
-        supporterId={this.props.supporterId} supporterModalState={this.props.supporterModalState}/>
+        onSubmit={(values, action) => this.onSubmit(values, action, schema)}
+        supporterId={this.props.supporterId} supporterModalState={this.props.supporterModalState} validationSchema={schema}/>
     }
     else {
       pane = <Spinner size="normal">Loading...</Spinner>

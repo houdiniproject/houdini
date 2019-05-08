@@ -9,13 +9,16 @@ export const {
     Consumer: ModalConsumer,
   } = React.createContext<ModalContext>({} as any);
 
+export interface ModalContextProps {
+  modal: ModalContext
+}
 
 /**
  * Connect any component to Formik context, and inject as a prop called `modal`;
  * @param Comp React Component
  */
 export function connect<OuterProps>(
-    Comp: React.ComponentType<OuterProps & { modal: ModalContext }>
+    Comp: React.ComponentType<OuterProps & ModalContextProps>
   ) {
     const C: React.SFC<OuterProps> = (props: OuterProps) => (
       <ModalConsumer>
@@ -36,6 +39,6 @@ export function connect<OuterProps>(
   
     return hoistNonReactStatics(
       C,
-      Comp as React.ComponentClass<OuterProps & { modal: ModalContext }> // cast type to ComponentClass (even if SFC)
+      Comp as React.ComponentClass<OuterProps & ModalContextProps> // cast type to ComponentClass (even if SFC)
     );
   }

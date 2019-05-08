@@ -5,7 +5,7 @@ import { Address } from '../../../../api/model/Address';
 import Modal, { ModalContext } from '../../common/modal/Modal';
 import { observable, action, runInAction, computed} from 'mobx';
 import Button from '../../common/form/Button';
-import { connect } from '../../common/modal/connect';
+import { connect, ModalContextProps } from '../../common/modal/connect';
 import AddressModalForm, { AddressAction } from './AddressModalForm';
 import ModalFooter from '../../common/modal/ModalFooter';
 import ModalBody from '../../common/modal/ModalBody';
@@ -23,7 +23,7 @@ interface AddressModalChildrenProps {
   supporterEntity:SupporterEntity
 }
 
-class InnerAddressModalChildren extends React.Component<AddressModalChildrenProps & { modal: ModalContext }>{
+class InnerAddressModalChildren extends React.Component<AddressModalChildrenProps & ModalContextProps>{
   componentDidMount(){
     runInAction(() => 
       this.props.modal.setHandleCancel(() => this.props.onClose({type:'none'}))

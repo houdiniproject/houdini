@@ -7,8 +7,9 @@ import BootstrapWrapper from '../BootstrapWrapper';
 import { DefaultCloseButton } from '../DefaultCloseButton';
 import { Column, Row } from '../layout';
 import { ModalProvider } from './connect';
-import ModalPrimitive from './ModalPrimitive';
+import ModalPrimitive, { ModalPrimitiveProps } from './ModalPrimitive';
 import _ = require('lodash');
+import { connectModalManager, ModalManagerContextProps } from './connect_modal_manager';
 
 
 export interface ModalProps {
@@ -83,6 +84,8 @@ export interface ModalProps {
    * @memberof ModalProps
    */
   underlayClickExits?: boolean
+
+  handleExited?: () => void
 }
 
 /**
@@ -161,12 +164,15 @@ export class ModalContext {
   }
 }
 
-class Modal extends React.Component<ModalProps> {
+class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
+  key: string;
 
-  constructor(props: ModalProps) {
+  constructor(props: ModalProps & ModalManagerContextProps) {
     super(props)
     this.modalState.cancel = () => this.onCancel()
+    this.key = _.uniqueId()
   }
+  
 
   static defaultProps = {
     dialogStyle: { minWidth: '768px' },
@@ -176,7 +182,6 @@ class Modal extends React.Component<ModalProps> {
 
   @disposeOnUnmount
   reactor = reaction(() => this.props.titleText, (text) => { this.modalState.setTitleText(text) }, { fireImmediately: true });
-
 
   componentDidMount() {
     runInAction(() => this.modalState.setTitleText(this.props.titleText))
@@ -196,6 +201,29 @@ class Modal extends React.Component<ModalProps> {
     }
   }
 
+  @computed
+    get isTopModal():boolean {
+      return this.props.modalManager.top === this.key
+    }
+
+    @action.bound
+    onEnter() {
+      this.props.modalManager.push(this.key)
+    }
+
+    @action.bound
+    onExit() {
+      this.props.modalManager.remove(this.key)
+      if (this.props.handleExited){
+        this.props.handleExited()
+      }
+    }
+
+    componentWillUnmount(){
+      //it's possible we're unmounting but onClose wasn't run. In that case, we make sure the modalManager is the correct state.
+      this.props.modalManager.remove(this.key)
+    }
+
   render() {
 
     const defaultStyle = {
@@ -214,11 +242,27 @@ class Modal extends React.Component<ModalProps> {
       exited: { opacity: 0 },
     };
 
+    
+
     const modal =
-      <Transition in={this.props.modalActive} timeout={300} unmountOnExit={true}>
+      <Transition in={this.props.modalActive} timeout={300} unmountOnExit={true} onEnter={this.onEnter} onExited={this.onExit} mountOnEnter={true} appear={true}>
         {(state) => {
-          return <ModalPrimitive mounted={true} titleText={this.props.titleText} focusDialog={this.props.focusDialog} alert={this.props.alert} escapeExits={this.props.escapeExits} underlayClickExits={this.props.underlayClickExits}
-            onExit={this.onCancel} dialogStyle={{ ...this.props.dialogStyle }} underlayStyle={{ ...defaultStyle, ...transitionStyles[state] }}>
+          const additionalProps:ModalPrimitiveProps = {
+            'aria-hidden': !this.isTopModal,
+            escapeExits: this.isTopModal && this.props.escapeExits,
+            underlayClickExits: this.isTopModal && this.props.underlayClickExits,
+            scrollDisabled: this.isTopModal,
+            dialogId: `react-aria-modal-dialog-${this.key}`,
+            titleText: this.props.titleText,
+            focusDialog: this.props.focusDialog, 
+            alert:this.props.alert,
+            onExit: this.onCancel,
+            dialogStyle:{ ...this.props.dialogStyle },
+            underlayStyle: { ...defaultStyle, ...transitionStyles[state] }
+          }
+
+
+          return <ModalPrimitive mounted={true} {...additionalProps} >
             <BootstrapWrapper>
               <header className='modal-header' style={{
                 position: 'relative',
@@ -255,7 +299,7 @@ class Modal extends React.Component<ModalProps> {
 }
 
 
-export default observer(Modal)
+export default connectModalManager(observer(Modal))
 
 
 

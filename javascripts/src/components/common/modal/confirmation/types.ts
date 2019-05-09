@@ -20,6 +20,7 @@ export interface Confirmation extends ConfirmationWithPromise {
 
 export interface ConfirmationAccessor {
   confirmations: IObservableArray<Confirmation>
+  confirmationExited: (confirmation:Confirmation) => void
 }
 
 export interface Confirmer {
@@ -32,6 +33,7 @@ export interface ConfirmationWrapperProps {
 
 export interface ConfirmationModalProps {
   confirmation: ConfirmationWithPromise
+  handleExited?:() => void
 }
 
 

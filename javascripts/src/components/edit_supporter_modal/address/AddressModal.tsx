@@ -5,7 +5,7 @@ import { Address } from '../../../../api/model/Address';
 import Modal, { ModalContext } from '../../common/modal/Modal';
 import { observable, action, runInAction, computed} from 'mobx';
 import Button from '../../common/form/Button';
-import { connect, ModalContextProps } from '../../common/modal/connect';
+import { connectModal, ModalContextProps } from '../../common/modal/connect';
 import AddressModalForm, { AddressAction } from './AddressModalForm';
 import ModalFooter from '../../common/modal/ModalFooter';
 import ModalBody from '../../common/modal/ModalBody';
@@ -62,7 +62,7 @@ class InnerAddressModalChildren extends React.Component<AddressModalChildrenProp
   }
 }
 
-const AddressModalChildren = connect(observer(InnerAddressModalChildren))
+const AddressModalChildren = connectModal(observer(InnerAddressModalChildren))
 
 
 export class AddressModalState {

@@ -85,7 +85,11 @@ export interface ModalProps {
    */
   underlayClickExits?: boolean
 
-  handleExited?: () => void
+  /**
+   * Callback for when the modal is completely exited, i.e. the close
+   * transition has finished completed.
+   */
+  onExited?: () => void
 }
 
 /**
@@ -174,10 +178,15 @@ class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
   }
   
 
-  static defaultProps = {
+  static defaultProps:ModalProps = {
     dialogStyle: { minWidth: '768px' },
-    showCloseButton: true
+    showCloseButton: true,
+    underlayClickExits: true,
+    escapeExits: true
   }
+
+  static displayName = 'HoudiniModal'
+
   @observable modalState = new ModalContext()
 
   @disposeOnUnmount
@@ -214,8 +223,8 @@ class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
     @action.bound
     onExit() {
       this.props.modalManager.remove(this.key)
-      if (this.props.handleExited){
-        this.props.handleExited()
+      if (this.props.onExited){
+        this.props.onExited()
       }
     }
 
@@ -241,8 +250,6 @@ class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
       exiting: { opacity: 0 },
       exited: { opacity: 0 },
     };
-
-    
 
     const modal =
       <Transition in={this.props.modalActive} timeout={300} unmountOnExit={true} onEnter={this.onEnter} onExited={this.onExit} mountOnEnter={true} appear={true}>

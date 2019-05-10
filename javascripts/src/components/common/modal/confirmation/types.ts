@@ -33,7 +33,7 @@ export interface ConfirmationWrapperProps {
 
 export interface ConfirmationModalProps {
   confirmation: ConfirmationWithPromise
-  handleExited?:() => void
+  onExited?:() => void
 }
 
 

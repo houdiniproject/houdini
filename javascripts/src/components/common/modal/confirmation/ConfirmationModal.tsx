@@ -30,7 +30,7 @@ export class ConfirmationModal extends React.Component<ConfirmationModalProps, {
 
     return <Modal titleText={this.props.confirmation.titleText}
       showCloseButton={false} escapeExits={false} alert={true}
-      underlayClickExits={false} modalActive={this.modalActive} handleExited={this.props.handleExited}
+      underlayClickExits={false} modalActive={this.modalActive} onExited={this.props.onExited}
      
     >
      <><ModalBody>

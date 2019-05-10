@@ -8,7 +8,7 @@ import { ConfirmationModal } from "./ConfirmationModal";
 export class ConfirmationWrapper extends React.Component<ConfirmationWrapperProps, {}> {
   render() {
     return this.props.confirmationAccessor.confirmations.map((i) => {
-      return <ConfirmationModal confirmation={i} key={i.key} handleExited={() => {
+      return <ConfirmationModal confirmation={i} key={i.key} onExited={() => {
         this.props.confirmationAccessor.confirmationExited(i);
       }} />;
     });

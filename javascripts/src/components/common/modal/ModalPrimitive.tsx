@@ -14,16 +14,6 @@ export interface ModalPrimitiveProps extends AriaModal.ModalProps
 @observer
 class ModalPrimitive extends React.Component<ModalPrimitiveProps, {}> {
 
-  static defaultProps = {
-    underlayProps: {},
-    underlayClickExits: true,
-    escapeExits: true,
-    underlayColor: 'rgba(0,0,0,0.5)',
-    includeDefaultStyles: true,
-    focusTrapPaused: false,
-    scrollDisabled: true
-  };
-
 
   render() {
 

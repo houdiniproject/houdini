@@ -14,10 +14,10 @@ export interface ModalContextProps {
 }
 
 /**
- * Connect any component to Formik context, and inject as a prop called `modal`;
+ * Connect any component to Modal context from a parent and inject as a prop called `modal`;
  * @param Comp React Component
  */
-export function connect<OuterProps>(
+export function connectModal<OuterProps>(
     Comp: React.ComponentType<OuterProps & ModalContextProps>
   ) {
     const C: React.SFC<OuterProps> = (props: OuterProps) => (

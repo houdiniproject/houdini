@@ -33,7 +33,7 @@ describe('ModalPrimitive', () => {
   let onEnter: jest.Mock
   let onExit: jest.Mock
   function getAriaModalWrapper() {
-    return modal.find('Modal')
+    return modal.find('Modal').find('Modal')
   }
 
   function getAriaModalInstance(): AriaModal
@@ -191,54 +191,6 @@ describe('ModalPrimitive', () => {
       modal.unmount()
       expect(remove).toHaveBeenCalledTimes(2)
       expect(onExit).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('Modal is not top', () => {  
-    beforeEach(() => {
-      push = jest.fn(),
-      remove = jest.fn()
-      onEnter = jest.fn()
-      let modalManager = {
-        push: push,
-        remove: remove,
-        top: '2'
-      }
-      modal  = mount(<ModalPrimitive ModalManager={modalManager} titleText={"whee"} onEnter={onEnter}>
-      <button></button>
-      </ModalPrimitive>)
-    })
-
-    it('has escapeExit set', () => {
-      expect(getAriaModalInstance().props.escapeExits).toBeFalsy()
-    })
-
-    it('has underlayClickExits set', () => {
-      expect(getAriaModalInstance().props.underlayClickExits).toBeFalsy()
-    })
-
-    it('has scrollDisabled set', () => {
-      expect(getAriaModalInstance().props.scrollDisabled).toBeFalsy()
-    })
-
-    it('has correct Id', () => {
-      expect(getAriaModalInstance().props.dialogId).toBe('react-aria-modal-dialog-1')
-    })
-
-    it('doesnt have aria-hidden set', () => {
-      expect(getAriaModalInstance().props['aria-hidden']).toBeTruthy()
-    })
-
-    it('called push', () => {
-      expect(push).toBeCalledWith("1")
-    })
-
-    it('called onEnter', () => {
-      expect(onEnter).toBeCalled()
-    })
-
-    it('didnt call remove', () => {
-      expect(remove).not.toBeCalled();
     })
   })
 })

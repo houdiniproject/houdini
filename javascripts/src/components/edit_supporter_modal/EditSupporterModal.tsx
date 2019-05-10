@@ -10,7 +10,7 @@ import { observable, computed, action, runInAction, reaction } from 'mobx';
 import ModalFooter from '../common/modal/ModalFooter';
 import { boundMethod } from 'autobind-decorator';
 import Button from '../common/form/Button';
-import { connect, ModalContextProps } from '../common/modal/connect';
+import { connectModal, ModalContextProps } from '../common/modal/connect';
 
 
 export interface EditSupporterModalProps {
@@ -119,7 +119,7 @@ class InnerEditSupporterModalChildren extends React.Component<EditSupporterModal
   }
 }
 
-const EditSupporterModalChildren = connect(observer(InnerEditSupporterModalChildren))
+const EditSupporterModalChildren = connectModal(observer(InnerEditSupporterModalChildren))
 
 class EditSupporterModal extends React.Component<EditSupporterModalProps & InjectedIntlProps, {}> {
   supporterModalState = new SupporterModalState()

@@ -7,7 +7,7 @@ import { runInAction, action, observable, computed } from 'mobx';
 import ModalBody from '../common/modal/ModalBody';
 import ModalFooter from '../common/modal/ModalFooter';
 import Button from '../common/form/Button';
-import { connect, ModalContextProps } from '../common/modal/connect';
+import { connectModal, ModalContextProps } from '../common/modal/connect';
 import Modal, { ModalContext } from '../common/modal/Modal';
 import { OnCloseType } from '../edit_supporter_modal/SupporterModalBase';
 import CreateSupporterFormik from './CreateSupporterFormik';
@@ -117,7 +117,7 @@ class InnerCreateSupporterModalChildren extends React.Component<EditSupporterMod
   }
 }
 
-const CreateSupporterModalChildren = connect(inject('ApiManager')(observer(InnerCreateSupporterModalChildren)))
+const CreateSupporterModalChildren = connectModal(inject('ApiManager')(observer(InnerCreateSupporterModalChildren)))
 
 
 export interface CreateSupporterModalProps

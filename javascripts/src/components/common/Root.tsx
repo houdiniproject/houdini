@@ -58,7 +58,7 @@ export default class Root extends React.Component<RootProps, {}> {
       this.modalManager = new ModalManager()
 
     return <IntlProvider locale={I18n.locale} defaultLocale={I18n.defaultLocale} messages={convert(I18n.translations[I18n.locale])}>
-       <Provider ApiManager={this.apiManager} ModalManager={this.modalManager}>
+       <Provider ApiManager={this.apiManager}>
          <ModalManagerProvider value={this.modalManager}>
           <RootWrapper confirmationManager={this.confirmationManager}>
             <ConfirmationManagerProvider value={this.confirmationManager}>

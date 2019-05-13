@@ -1,23 +1,39 @@
 // License: LGPL-3.0-or-later
-import * as React from 'react';
+import { mount, ReactWrapper } from "enzyme";
 import 'jest';
-import Modal, { ModalProps } from './Modal'
-import { shallow, mount, ReactWrapper } from "enzyme";
-import toJson from "enzyme-to-json";
+import { action, observable } from 'mobx';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { Transition } from 'react-transition-group';
 import { DefaultCloseButton } from '../DefaultCloseButton';
+import { connectModal, ModalContextProps } from './connect';
+import { ModalManagerProvider } from './connect_modal_manager';
+import Modal, { ModalProps } from './Modal';
+import ModalBody from './ModalBody';
 import { ModalManager } from './modal_manager';
-import { Provider, observer } from 'mobx-react';
-import { observable, action } from 'mobx';
+import AriaModal = require('react-aria-modal')
+
+jest.useFakeTimers()
+
+let uniqueIdValue = 1
+let idIsIncreasable = false
+//lodash mocking
 jest.mock('lodash', () => ({
   ...(jest as any).requireActual('lodash'),
-  uniqueId: () => "1",
+  uniqueId: () => {
+
+    const ret = uniqueIdValue;
+    if (idIsIncreasable) {
+      uniqueIdValue++;
+    }
+    return `${ret}`;
+  },
 }));
-import AriaModal = require('react-aria-modal')
-import ModalBody from './ModalBody';
-import { ModalManagerProvider, connectModalManager, ModalManagerContextProps } from './connect_modal_manager';
-import { Transition } from 'react-transition-group';
-import { ModalContextProps, connectModal } from './connect';
-jest.useFakeTimers()
+
+//window.scroll to shut up
+(global as any).scroll = jest.fn()
+
+
 @observer
 class MountPasser extends React.Component<{ children: React.ReactElement<any> }, {}>{
   @observable
@@ -37,6 +53,11 @@ describe('Modal', () => {
   let modal: ReactWrapper
   let push: jest.Mock
   let remove: jest.Mock
+
+  beforeEach(() => {
+    uniqueIdValue = 1
+    idIsIncreasable = false
+  })
 
   function getAriaModalWrapper() {
     return modal.find('Modal')
@@ -137,7 +158,7 @@ describe('Modal', () => {
   })
 
   interface Props {
-    result: () => boolean |Promise<boolean>
+    result: () => boolean | Promise<boolean>
 
   }
   class InnerCanCloseSetter extends React.Component<Props & ModalContextProps> {
@@ -179,7 +200,7 @@ describe('Modal', () => {
       })
 
       it('canClose as Promise function', async (done) => {
-        let canClose = jest.fn(async () => await false )
+        let canClose = jest.fn(async () => await false)
 
         modal = mount(<ModalManagerProvider value={modalManager}>
           <MountPasser><Modal titleText={"whee"} onClose={onClose} modalActive={true}>
@@ -207,7 +228,7 @@ describe('Modal', () => {
       push = jest.fn()
       remove = jest.fn()
       onExited = jest.fn()
-      
+
 
       let modalManager = {
         push: push,
@@ -231,7 +252,7 @@ describe('Modal', () => {
       })
 
       it('canClose as Promise function', async (done) => {
-        let canClose = jest.fn(async () => await false )
+        let canClose = jest.fn(async () => await false)
 
         modal = mount(<ModalManagerProvider value={modalManager}>
           <MountPasser><Modal titleText={"whee"} onClose={onClose} onExited={onExited} modalActive={true}>
@@ -325,7 +346,7 @@ describe('Modal', () => {
     beforeEach(() => {
       called = false
       push = jest.fn(),
-      onClose = jest.fn()
+        onClose = jest.fn()
       onExited = jest.fn()
       remove = jest.fn(() => {
         if (called) {
@@ -373,5 +394,83 @@ describe('Modal', () => {
 
     verifyTransitionProperties()
 
+  })
+
+  //we do this because if you mount a child modal below a parent modal on first render, then the state of the whole modal system is messed up. Yes, this is bad.
+  class ChangableModalBody extends React.Component<{}, {showChildModal:boolean}> {
+    constructor(props:{}){
+      super(props)
+      this.state = {showChildModal:false}
+    }
+    render() {
+      return  <ModalBody>
+       {this.state.showChildModal ? <Modal modalActive={true} titleText={"title2"} escapeExits={true} underlayClickExits={true}>
+              <br />
+            </Modal> : 
+       <button onClick={() => this.setState({showChildModal: true})}/> }
+      </ModalBody>
+    }
+  }
+
+  describe('Make sure stacked modals have the correct props', () => {
+    beforeEach(() => {
+      idIsIncreasable = true
+      const modalManager = new ModalManager();
+      modal = mount(
+        <ModalManagerProvider value={modalManager}>
+          <Modal modalActive={true} titleText={"title"} escapeExits={true} underlayClickExits={true}>
+          <ChangableModalBody/>
+          </Modal></ModalManagerProvider>)
+      jest.runAllTimers()
+
+      modal.find('button').simulate('click')
+      jest.runAllTimers()
+    })
+
+    function getOuterAriaModal() {
+      return modal.find('Modal')
+        .filterWhere((w) => (w.instance().props as any).titleText === "title")
+    }
+
+    function getInnerAriaModal() {
+      return modal.find('Modal')
+        .filterWhere((w) => (w.instance().props as any).titleText === "title2")
+    }
+
+    function outerAriaModalProps() {
+      return getOuterAriaModal().instance().props as any
+    }
+
+    function innerAriaModalProps() {
+      return getInnerAriaModal().instance().props as any
+    }
+
+    describe('outer aria modal', () => {
+      it('is aria-hidden', () => {
+        expect(outerAriaModalProps()['aria-hidden']).toBeTruthy()
+      })
+  
+      it('has no escapeExit', () => {
+        expect(outerAriaModalProps().escapeExits).toBeFalsy()
+      })
+  
+      it('has no underlayClickExits', () => {
+        expect(outerAriaModalProps().underlayClickExits).toBeFalsy()
+      })
+    })
+
+    describe('inner aria modal', () => {
+      it('has no aria-hidden', () => {
+        expect(innerAriaModalProps()['aria-hidden']).toBeFalsy()
+      })
+  
+      it('has escapeExit', () => {
+        expect(innerAriaModalProps().escapeExits).toBeTruthy()
+      })
+
+      it('has no underlayClickExits', () => {
+        expect(innerAriaModalProps().underlayClickExits).toBeTruthy()
+      })
+    })
   })
 })

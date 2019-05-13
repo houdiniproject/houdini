@@ -35,7 +35,7 @@ export interface ModalProps {
    * @type string
    * @memberof ModalProps
    */
-  titleText?: string
+  titleText: string
 
 
   /**
@@ -178,7 +178,7 @@ class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
   }
   
 
-  static defaultProps:ModalProps = {
+  static defaultProps:Partial<ModalProps> = {
     dialogStyle: { minWidth: '768px' },
     showCloseButton: true,
     underlayClickExits: true,
@@ -250,24 +250,29 @@ class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
       exiting: { opacity: 0 },
       exited: { opacity: 0 },
     };
-
+    // the funciton inside the transition wasn't updating so we're making sure 
+    // all the observables are correctly touched
+    this.isTopModal;
+    this.modalState;
+    
+    
     const modal =
       <Transition in={this.props.modalActive} timeout={300} unmountOnExit={true} onEnter={this.onEnter} onExited={this.onExit} mountOnEnter={true} appear={true}>
         {(state) => {
-          const additionalProps:ModalPrimitiveProps = {
-            'aria-hidden': !this.isTopModal,
-            escapeExits: this.isTopModal && this.props.escapeExits,
-            underlayClickExits: this.isTopModal && this.props.underlayClickExits,
-            scrollDisabled: this.isTopModal,
-            dialogId: `react-aria-modal-dialog-${this.key}`,
-            titleText: this.props.titleText,
-            focusDialog: this.props.focusDialog, 
-            alert:this.props.alert,
-            onExit: this.onCancel,
-            dialogStyle:{ ...this.props.dialogStyle },
-            underlayStyle: { ...defaultStyle, ...transitionStyles[state] }
-          }
-
+            let additionalProps:ModalPrimitiveProps = {
+              'aria-hidden': !this.isTopModal,
+              escapeExits: this.isTopModal && this.props.escapeExits,
+              underlayClickExits: this.isTopModal && this.props.underlayClickExits,
+              scrollDisabled: this.isTopModal,
+              dialogId: `react-aria-modal-dialog-${this.key}`,
+              titleText: this.props.titleText,
+              focusDialog: this.props.focusDialog, 
+              alert:this.props.alert,
+              onExit: this.onCancel,
+              dialogStyle:{ ...this.props.dialogStyle },
+              underlayStyle: { ...defaultStyle, ...transitionStyles[state] }
+            }
+          
 
           return <ModalPrimitive mounted={true} {...additionalProps} >
             <BootstrapWrapper>
@@ -296,7 +301,6 @@ class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
 
             </BootstrapWrapper>
           </ModalPrimitive>
-
         }}
       </Transition>
 

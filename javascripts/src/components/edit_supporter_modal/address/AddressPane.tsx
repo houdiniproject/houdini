@@ -10,7 +10,7 @@ import FormikBasicField from '../../common/FormikBasicField';
 import { FormikHelpers, HoudiniFormikProps } from '../../common/HoudiniFormik';
 import { TwoColumnFields } from '../../common/layout';
 import { ConfirmationManagerContextProps, connectConfirmationManager } from '../../common/modal/confirmation/connect';
-import { connect as connectModal, ModalContextProps } from '../../common/modal/connect';
+import { connectModal as connectModal, ModalContextProps } from '../../common/modal/connect';
 import { AddressModalState } from './AddressModal';
 import { AddressPaneFormikInputProps } from './AddressModalForm';
 import { boundMethod } from 'autobind-decorator';

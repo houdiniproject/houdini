@@ -159,7 +159,6 @@ export class CreateSupporterFormikState {
 }
 
 
-
 class CreateSupporterFormik extends React.Component<CreateSupporterFormikProps & InjectedIntlProps, {}> {
 
   createSupporterFormikState = new CreateSupporterFormikState()

@@ -9,6 +9,7 @@ export interface ModalManagerInterface {
 }
 
 export class ModalManager implements ModalManagerInterface {
+  @observable
   modals = observable.array<string>()
 
   @computed

@@ -7,9 +7,19 @@ import AddressModal, { AddressModalProps } from './AddressModal';
 import { ReactWrapper } from 'enzyme';
 import { ModalProps } from '../../common/modal/Modal';
 import { ModalManager } from '../../common/modal/modal_manager';
-import { Provider } from 'mobx-react';
+
 import { supporterEntity } from './supporter_entity_mock';
 import { SupporterEntity } from '../supporter_entity';
+import { ModalManagerProvider } from '../../common/modal/connect_modal_manager';
+import { simulateChange } from '../../../lib/tests/helpers/mounted';
+
+jest.mock('lodash', () => ({
+  ...(jest as any).requireActual('lodash'),
+  uniqueId: () => "1",
+}));
+
+jest.useFakeTimers()
+
 
 
 describe('AddressModal', () => {
@@ -20,7 +30,7 @@ describe('AddressModal', () => {
   }
 
   function modalComponent(): React.Component<ModalProps, {}> {
-    return pane.find('Modal').first().instance()
+    return pane.find('HoudiniModal').first().instance() as React.Component<ModalProps, {}>
   }
   
   function getSaveButton(): ReactWrapper {
@@ -46,13 +56,13 @@ describe('AddressModal', () => {
     beforeEach(() => {
       onClose = jest.fn()
       let entity = supporterEntity()
-      pane = mountWithIntl(<Provider ModalManager={new ModalManager()}><AddressModal initialAddress={initialAddress}
+      pane = mountWithIntl(<ModalManagerProvider value={new ModalManager()}>><AddressModal initialAddress={initialAddress}
         onClose={onClose} modalActive={true} titleText={titleText} supporterEntity={entity as SupporterEntity}
-      /></Provider>)
+      /></ModalManagerProvider>)
       pane.mount()
     })
 
-    it("modal title text is EditAddress", () => {
+    it("modal title text is Edit Address", () => {
       expect(modalComponent().props.titleText).toBe(titleText)
     })
 
@@ -77,9 +87,23 @@ describe('AddressModal', () => {
       expect(getSaveButton().prop('disabled')).toBeTruthy()
     })
 
-    it("modifying an input does make save button work", () => {
-      pane.find('input').filterWhere((w) => w.prop('name') === 'address').simulate('change', {target: {name: 'address', value: 'me'}})
+    describe('save button', () => {
+      it('is pointing at correct form', () =>{
+        expect(getSaveButton().prop('form')).toBe('form---1')
+      })
 
+      it('is a submit button', () => {
+        expect(getSaveButton().prop('type')).toBe("submit")
+      })
+
+      it('doesnt have an onClick set (if onClick set were overriding default form)', () => {
+        expect(getSaveButton().prop('onClick')).toBeFalsy()
+      })
+    })
+
+  it("modifying an input does make save button work", () => {
+      simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+// 
       expect(getSaveButton().prop('disabled')).toBeFalsy()
     })
 

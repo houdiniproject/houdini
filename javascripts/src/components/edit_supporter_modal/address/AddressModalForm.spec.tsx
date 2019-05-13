@@ -26,6 +26,7 @@ describe('AddressModalForm', () => {
   let setDisableCloseButton: jest.Mock
   let setDisableDeleteButton: jest.Mock
   let setCanClose: jest.Mock
+  let setFormId: jest.Mock
 
   function reinitStateFunctions() {
     setDisableAddSave = jest.fn()
@@ -35,6 +36,7 @@ describe('AddressModalForm', () => {
     setDisableCloseButton = jest.fn()
     setDisableDeleteButton = jest.fn()
     setCanClose = jest.fn()
+    setFormId = jest.fn()
   }
 
   function createModalState(): ModalContext {
@@ -50,7 +52,8 @@ describe('AddressModalForm', () => {
       setSaveAddAction: setSaveAddAction,
       setDeleteAction: setDeleteAction,
       setDisableCloseButton: setDisableCloseButton,
-      setDisableDeleteButton: setDisableDeleteButton
+      setDisableDeleteButton: setDisableDeleteButton,
+      setFormId: setFormId,
     } as any
   }
 
@@ -206,11 +209,10 @@ describe('AddressModalForm', () => {
       let entity = supporterEntity()
       modalState = createModalState()
       addressModalState = createAddressModalState()
-      pane = mountWithIntl(<Provider ModalManager={new ModalManager()}
-      ><ModalProvider value={modalState}>
+      pane = mountWithIntl(<ModalProvider value={modalState}>
           <AddressModalForm initialAddress={initialAddress}
             onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
-          /></ModalProvider></Provider>)
+          /></ModalProvider>)
       innerPane = pane.find('InnerAddressPane').instance() as any
     })
 
@@ -230,7 +232,7 @@ describe('AddressModalForm', () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
       pane.update()
 
-      await innerPane.handleSaveAddAction()
+      await innerPane.props.formik.submitForm()
       let values = { address: 'me' }
 
       expect(onClose).toBeCalled()
@@ -244,7 +246,7 @@ describe('AddressModalForm', () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'isDefault'), true)
       pane.update()
 
-      await innerPane.handleSaveAddAction()
+      await innerPane.props.formik.submitForm()
       //isDefault here for test purposes
       let values = { address: 'me', isDefault: true }
 
@@ -275,7 +277,7 @@ describe('AddressModalForm', () => {
         let address = pane.find('InnerAddressPane').find('input').filterWhere(i => i.prop('name') === 'address')
         simulateChange(address, TIMEOUT_CAUSING_STREET)
         pane.update()
-        await innerAddressPane.handleSaveAddAction()
+        await innerAddressPane.props.formik.submitForm()
         pane.update()
         done()
       })
@@ -298,7 +300,7 @@ describe('AddressModalForm', () => {
         const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
 
         expect(block().instance().props.children).toBe(TIMEOUT_ERROR_MESSAGE)
-        await innerAddressPane.handleSaveAddAction()
+        await innerAddressPane.props.formik.submitForm()
         pane.update()
 
         expect(block().exists()).toBeFalsy()
@@ -332,7 +334,6 @@ describe('AddressModalForm', () => {
       expect(addressModalState.setDisableCloseButton).toBeCalledWith(false)
       expect(addressModalState.setShowDelete).toBeCalledWith(true)
       expect(addressModalState.setDeleteAction).toBeCalledWith(innerPane.handleDelete)
-      expect(addressModalState.setSaveAddAction).toBeCalledWith(innerPane.handleSaveAddAction)
     })
 
     it("modifying an input does make save button work", () => {
@@ -345,7 +346,7 @@ describe('AddressModalForm', () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
       pane.update()
 
-      await innerPane.handleSaveAddAction()
+      await innerPane.props.formik.submitForm()
       let values = { address: 'me', id: 2, city:"", country:"", zip_code:"", state_code: "" }
 
       expect(onClose).toBeCalled()
@@ -359,7 +360,7 @@ describe('AddressModalForm', () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'isDefault'), true)
       pane.update()
 
-      await innerPane.handleSaveAddAction()
+      await innerPane.props.formik.submitForm()
       //isDefault here for test purposes
       let values = { address: 'me', id: 2, city:"", country:"", zip_code:"", state_code: "", isDefault:true}
 
@@ -392,7 +393,7 @@ describe('AddressModalForm', () => {
         let address = pane.find('InnerAddressPane').find('input').filterWhere(i => i.prop('name') === 'address')
         simulateChange(address, TIMEOUT_CAUSING_STREET)
         pane.update()
-        await innerAddressPane.handleSaveAddAction()
+        await innerAddressPane.props.formik.submitForm()
         pane.update()
         done()
       })
@@ -415,7 +416,7 @@ describe('AddressModalForm', () => {
         const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
 
         expect(block().instance().props.children).toBe(TIMEOUT_ERROR_MESSAGE)
-        await innerAddressPane.handleSaveAddAction()
+        await innerAddressPane.props.formik.submitForm()
         pane.update()
 
         expect(block().exists()).toBeFalsy()

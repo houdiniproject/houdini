@@ -21,7 +21,6 @@ export interface SupporterPaneProps {
   editAddress: (address?: Address) => void
   isDefaultAddress: (addressId:number) => boolean
   addAddress: () => void
-  supporterModalState:SupporterModalState
 }
 class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlProps, {}> {
 

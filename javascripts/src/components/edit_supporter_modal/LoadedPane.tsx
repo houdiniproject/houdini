@@ -93,7 +93,7 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
   render() {
     
     return <>
-      <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress} supporterModalState={this.props.supporterModalState}/>
+      <SupporterPane formik={this.props.formik} addresses={this.props.addresses} addAddress={this.addAddress} editAddress={this.editAddress} isDefaultAddress={this.isDefaultAddress}/>
       <AddressModal
         titleText={"Edit Address"}
         modalActive={this.modalOpen}

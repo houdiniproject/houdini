@@ -86,19 +86,6 @@ export class AddressModalState {
   setShowDelete(showDelete:boolean) {
     this.innerShowDelete = showDelete;
   }
-
-
-  @observable private innerSaveAddAction: () => void
-
-  @computed get saveAddAction(): () => void
-  {
-    return this.innerSaveAddAction;
-  }
-
-  @action.bound
-  setSaveAddAction(action:() => void){
-    this.innerSaveAddAction = action;
-  }
   
   @observable private innerDeleteAction?: () => void
 

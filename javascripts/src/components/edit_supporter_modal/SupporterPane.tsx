@@ -1,19 +1,18 @@
 // License: LGPL-3.0-or-later
+import { observer } from 'mobx-react';
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
 import { InjectedIntlProps, injectIntl } from 'react-intl';
-import SelectableTableRow from '../common/selectable_table_row/SelectableTableRow';
-import Star from '../common/icons/Star';
-import Button from '../common/form/Button';
-import { TwoColumnFields } from '../common/layout';
-import { isFilled } from '../../lib/utils';
-import { HoudiniFormikProps, FormikHelpers } from '../common/HoudiniFormik';
-import FormikBasicField from '../common/FormikBasicField';
-import { FieldCreator } from '../common/form/FieldCreator';
-import FormikHiddenField from '../common/FormikHiddenField';
 import { Address } from '../../../api';
-import { SupporterModalState } from './EditSupporterModal';
+import { isFilled } from '../../lib/utils';
+import Button from '../common/form/Button';
+import { FieldCreator } from '../common/form/FieldCreator';
 import HoudiniFormikForm from '../common/form/HoudiniFormikForm';
+import FormikBasicField from '../common/FormikBasicField';
+import FormikHiddenField from '../common/FormikHiddenField';
+import { FormikHelpers, HoudiniFormikProps } from '../common/HoudiniFormik';
+import Star from '../common/icons/Star';
+import { TwoColumnFields } from '../common/layout';
+import SelectableTableRow from '../common/selectable_table_row/SelectableTableRow';
 
 export interface SupporterPaneProps {
   formik: HoudiniFormikProps<any>

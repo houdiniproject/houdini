@@ -21,8 +21,14 @@ export function fromFormSupporter(s:Supporter):PutSupporter {
     return s as PutSupporter;
   
   s = _.cloneDeep(s)
-  return  _.mapValues(s, (i) => {
-    return _.isEmpty(i) ? undefined : i
+  return _.pickBy(s, (v, k) => {
+    if (k === 'default_address'){
+      let addr = v as Address
+      return !_.isEmpty(addr.id)
+    }
+    else {
+      return !_.isEmpty(v) 
+    }
   }) as PutSupporter
 }
 

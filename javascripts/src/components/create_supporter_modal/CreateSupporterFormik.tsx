@@ -18,6 +18,8 @@ import CreateSupporterPane from './CreateSupporterPane';
 import _ = require('lodash');
 import { RootStore } from '../../lib/stores/root_store';
 import { isEmpty } from 'lodash';
+import CreateSupporterPaneStateManager from './CreateSupporterPaneStateManager';
+import { isBlank } from '../../lib/utils';
 
 export const validationSchema = yup.object()
 
@@ -63,6 +65,14 @@ export enum SubmitPhase {
   HAVE_SUPPORTER_AND_ADDRESS
 }
 
+export function areAnyOfAddressFilled(possibleAddressValues:Partial<ReturnType<typeof filterToAddressValues>>) : boolean {
+  return _.some(['address', 'city', 'state_code', 'zip_code', 'country'], (i) => {
+    const a = !isBlank(_.get(possibleAddressValues, i))
+    return a; 
+  });
+
+}
+
 export async function onSubmit(
   values: any,
   action: FormikActions<any>,
@@ -83,8 +93,8 @@ export async function onSubmit(
       const supporter = createSupporterFormikState.supporter
       //supporter is set
       const addressValues = filterToAddressValues(values)
-      if (_.some(['address', 'city', 'state_code', 'zip_code', 'country'], (i) => {!isEmpty(_.get(addressValues, i))})) {
-        const address = await addAddress(supporter.id, filterToAddressValues(values))
+      if (areAnyOfAddressFilled(addressValues)) {
+        const address = await addAddress(supporter.id, addressValues)
       }
       action.setStatus({})
       createSupporterFormikState.setPhase(SubmitPhase.HAVE_SUPPORTER_AND_ADDRESS)
@@ -183,7 +193,7 @@ class CreateSupporterFormik extends React.Component<CreateSupporterFormikProps &
 
   render() {
     return <HoudiniFormik initialValues={{}} onSubmit={this.onSubmit} validationSchema={validationSchema} render={(props) => {
-      return <CreateSupporterPane formik={props} supporterModalState={this.props.supporterModalState} modal={this.props.modal} createSupporterFormikState={this.createSupporterFormikState} onClose={this.props.onClose}/>
+      return <CreateSupporterPaneStateManager formik={props} supporterModalState={this.props.supporterModalState} modal={this.props.modal} createSupporterFormikState={this.createSupporterFormikState} onClose={this.props.onClose}/>
     }} />;
   }
 }

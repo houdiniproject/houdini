@@ -92,6 +92,14 @@ class SupporterModalBase extends React.Component<SupporterModalBaseProps & Injec
     await onSubmit(schema.cast(values), action, this.supporterAddressStore.updateSupporter, this.props.onClose)
   }
 
+  @boundMethod
+  async innerOnSubmit(values:Supporter, action:FormikActions<Supporter>) {
+    return this.onSubmit(values, action, this.schema)
+  }
+
+
+  schema = createYup({name: 'Name', organization: "Organization", email: "Email", phone: "Phone"})
+
   render() {
     let pane;
 
@@ -99,13 +107,13 @@ class SupporterModalBase extends React.Component<SupporterModalBaseProps & Injec
       pane = <FailedToLoad />
     else if (!this.supporterPaneStore.loading) {
       const addresses = this.supporterAddressStore.addresses
-      const schema = createYup({name: 'Name', organization: "Organization", email: "Email", phone: "Phone"})
+      
       pane = <LoadedPaneFormik
        addresses={addresses}
         initialValues={toFormSupporter(this.supporterAddressStore.supporter)}
         onClose={this.props.onClose}
-        onSubmit={(values, action) => this.onSubmit(values, action, schema)}
-        supporterId={this.props.supporterId} supporterModalState={this.props.supporterModalState} validationSchema={schema}/>
+        onSubmit={this.innerOnSubmit}
+        supporterId={this.props.supporterId} supporterModalState={this.props.supporterModalState} validationSchema={this.schema}/>
     }
     else {
       pane = <Spinner size="normal">Loading...</Spinner>

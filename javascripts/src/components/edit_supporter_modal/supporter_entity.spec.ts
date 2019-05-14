@@ -19,38 +19,38 @@ describe('SupporterEntity', () => {
         organization: ""
       }
 
-      expect(fromFormSupporter(input)).toBe({
-        id: 2, 
+      expect(fromFormSupporter(input)).toEqual({
+        id: "2", 
         name: 'come'
       })
     })
 
     it('clones correctly when s has a default_address.id', () => {
-      const input:Supporter = {
-        id: 2,
+      const input:any = {
+        id: "2",
         name: 'come',
         organization: "",
-        default_address: {id: 1}
+        default_address: {id: "1"}
       }
 
-      expect(fromFormSupporter(input)).toBe({
-        id: 2, 
+      expect(fromFormSupporter(input)).toEqual({
+        id: "2", 
         name: 'come', 
         default_address: {
-          id: 1
+          id: "1"
         }})
     })
 
     it('clones correctly when s has a default_address but no id', () => {
       const input:any = {
-        id: 2,
+        id: "2",
         name: 'come',
         organization: "",
         default_address: {id: ""}
       }
 
-      expect(fromFormSupporter(input)).toBe({
-        id: 2, 
+      expect(fromFormSupporter(input)).toEqual({
+        id: "2", 
         name: 'come', 
       })
     })

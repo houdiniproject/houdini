@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import { ReactWrapper } from "enzyme";
 
 export function simulateChange(wrapper:ReactWrapper, value:any) {

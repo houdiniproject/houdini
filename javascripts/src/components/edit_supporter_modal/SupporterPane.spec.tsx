@@ -66,7 +66,7 @@ describe('SupporterPane', () => {
     beforeEach(() => {
       pane = mountWithIntl(
         <SupporterPane addAddress={addButtonClick} editAddress={editButtonClick} formik={createFormik()}
-          onClose={onCloseAction} addresses={[{ id: 1, address: 'ehtowhetoweit' }]} isDefaultAddress={() => true}
+          addresses={[{ id: 1, address: 'ehtowhetoweit' }]} isDefaultAddress={() => true}
         />)
     })
 
@@ -106,19 +106,6 @@ describe('SupporterPane', () => {
     it('has correct properties for default_id', () => {
       runHiddenFieldTest(FormikHiddenField, 'default_address.id')
     })
-
-    it('will call onClose using the Close button', () => {
-      getCloseButton(pane).simulate('click')
-
-      expect(onCloseAction).toBeCalled()
-    })
-
-    it('has save button with type submit', () => {
-      const button = getSaveButton(pane)
-
-      expect(button.props().type).toBe('submit')
-      expect(button.props().disabled).toBeFalsy()
-    })
   })
 
   describe('addresses', () => {
@@ -127,7 +114,7 @@ describe('SupporterPane', () => {
     beforeEach(() => {
       pane = mountWithIntl(
         <SupporterPane addAddress={addButtonClick} editAddress={editButtonClick} formik={createFormik()}
-          onClose={onCloseAction} addresses={[{ id: 1, address: 'ehtowhetoweit' }]} isDefaultAddress={(a) => a === 1}
+          addresses={[{ id: 1, address: 'ehtowhetoweit' }]} isDefaultAddress={(a) => a === 1}
         />)
 
     })

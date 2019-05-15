@@ -46,7 +46,7 @@
     <td>
       <!--= put address_with_commas this.address this.city this.state_code -->
       <!--= put this.zip_code -->
-      <!--= put this.country -->
+      <!--= put this.country --><!--= show_if (this.total_addresses > 1) --><a><small><!--= on 'click' (open_edit_supporter_modal supporter_details.data.id) --> and <!--= put (this.total_addresses - 1) --> other addresses</small></a>
     </td>
 	</tr>
 	<tr>

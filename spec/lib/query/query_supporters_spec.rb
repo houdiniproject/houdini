@@ -198,7 +198,8 @@ describe QuerySupporters do
          'city': supporter_address_2.city,
          'state_code': supporter_address_2.state_code,
          'zip_code': supporter_address_2.zip_code,
-         'country': supporter_address_2.country
+         'country': supporter_address_2.country,
+         'total_addresses': 2
        })
 
        result = supporters_with_default_address.select{|i| i['id'] == supporter1.id}.first
@@ -213,7 +214,8 @@ describe QuerySupporters do
         'city': other_supporter_address.city,
         'state_code': other_supporter_address.state_code,
         'zip_code': other_supporter_address.zip_code,
-        'country': other_supporter_address.country
+        'country': other_supporter_address.country,
+        'total_addresses': 1
       })
 
       result = supporters_with_default_address.select{|i| i['id'] == supporter2.id}.first
@@ -370,6 +372,10 @@ describe QuerySupporters do
 
     it 'should have a zip_code of 5215890-RD' do
       expect(supporter1_profile['zip_code']).to eq '5215890-RD'
+    end
+
+    it 'should have total number of addresses of 2 for supporter addresses' do
+      expect(supporter1_profile['total_addresses']).to eq 2
     end
 
     it 'should have a returned value for crm_with_no_addreses[0]' do

@@ -585,7 +585,9 @@ UNION DISTINCT
       "MAX(full_contact_infos.full_name) AS fc_full_name",
       "MAX(full_contact_infos.age) AS fc_age",
       "MAX(full_contact_infos.location_general) AS fc_location_general",
-      "MAX(full_contact_infos.websites) AS fc_websites"]
+      "MAX(full_contact_infos.websites) AS fc_websites",
+      "MAX(total_addresses) as total_addresses"
+    ]
 
     Qx.select(*QuerySupporters.profile_selects(selects))
       .from(supporters_with_default_address(np_id:npo_id, supporter_ids:ids).as('supporters'))
@@ -747,7 +749,8 @@ UNION DISTINCT
       'default_addresses.city AS city',
       'default_addresses.state_code AS state_code',
       'default_addresses.zip_code AS zip_code',
-      'default_addresses.country AS country')
+      'default_addresses.country AS country',
+      'address_stats.total_addresses AS total_addresses')
         .from(:supporters)
         .left_join_lateral('default_addresses',
           Qx.select('crm_addresses.*')
@@ -755,6 +758,11 @@ UNION DISTINCT
           .join(:crm_addresses, "address_tags.supporter_id = supporters.id AND crm_addresses.id = address_tags.crm_address_id AND address_tags.name= 'default'")
           .limit(1).parse,
         true)
+        .left_join_lateral('address_stats',
+          Qx.select('COUNT(crm_addresses.id) AS total_addresses')
+          .from('crm_addresses')
+          .where('crm_addresses.supporter_id = supporters.id').parse,
+          true)
        
     if options[:np_id]
       ret = ret.where('supporters.nonprofit_id = $np_id', 

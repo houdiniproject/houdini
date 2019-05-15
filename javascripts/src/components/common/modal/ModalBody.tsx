@@ -14,10 +14,4 @@ class ModalBody extends React.Component<{}> {
   }
 }
 
-
-
-
 export default observer(ModalBody)
-
-
-

@@ -15,7 +15,7 @@ export const {
 
 
 /**
- * Connect any component to Formik context, and inject as a prop called `modal`;
+ * Connect any component to ConfirmationManager context, and inject as a prop called `confirmation`;
  * @param Comp React Component
  */
 export function connectConfirmationManager<OuterProps>(

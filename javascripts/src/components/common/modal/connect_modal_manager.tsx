@@ -14,7 +14,7 @@ export interface ModalManagerContextProps {
 }
 
 /**
- * Connect any component to Formik context, and inject as a prop called `modal`;
+ * Connect any component to ModalManagerInterface context from a parent, and inject as a prop called `modalManager`;
  * @param Comp React Component
  */
 export function connectModalManager<OuterProps>(

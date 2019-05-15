@@ -3,7 +3,6 @@ import {observer} from "mobx-react";
 import * as _ from 'lodash'
 import { ReactWrapper, mount } from 'enzyme';
 import { when } from 'mobx';
-import { resolve } from 'path';
 import {mountWithIntl} from "../../../lib/tests/helpers";
 
 @observer

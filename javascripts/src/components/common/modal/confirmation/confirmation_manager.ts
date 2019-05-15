@@ -4,7 +4,6 @@ import _ = require("lodash");
 import { ConfirmationAccessor, Confirmer, Confirmation, ConfirmationDescription, ConfirmationWithPromise } from "./types";
 
 export class ConfirmationManager implements ConfirmationAccessor, Confirmer {
-  
 
   confirmations = observable.array<Confirmation>();
 

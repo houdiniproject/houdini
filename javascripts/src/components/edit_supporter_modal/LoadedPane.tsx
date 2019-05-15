@@ -13,6 +13,9 @@ import { AddressAction } from './address/AddressModalForm';
 import { LocalRootStore } from './local_root_store';
 import { SupporterModalState } from './EditSupporterModal';
 import { FormikHelpers } from '../common/HoudiniFormik';
+import { connectModal, ModalContextProps } from '../common/modal/connect';
+import { connectConfirmationManager, ConfirmationManagerContextProps } from '../common/modal/confirmation/connect';
+import { boundMethod } from 'autobind-decorator';
 
 export interface LoadedPaneProps {
   formik: HoudiniFormikProps<Supporter>
@@ -23,7 +26,7 @@ export interface LoadedPaneProps {
   supporterModalState:SupporterModalState
 }
 
-class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}> {
+class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps & ModalContextProps & ConfirmationManagerContextProps, {}> {
   
   @disposeOnUnmount
   reactOnSubmit = reaction(() => this.props.formik.isSubmitting, () => this.updateSupporterModalStoreValues(), {fireImmediately:true})
@@ -40,6 +43,19 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
     this.props.supporterModalState.setDisableClose(this.props.formik.isSubmitting)
     
     this.props.supporterModalState.setFormId(FormikHelpers.createFormId(this.props.formik))
+
+    this.props.modal.setCanClose(this.canClose)
+  }
+
+  @boundMethod
+  async canClose(){
+    const confirmButtonText:string = this.props.intl.formatMessage({id: "edit_supporter_modal.confirmation.yes_discard_changes"})
+    const abortButtonText:string = this.props.intl.formatMessage({id: "edit_supporter_modal.confirmation.no_keep_editing"})
+    const titleText = this.props.intl.formatMessage({id: "edit_supporter_modal.confirmation.discard_changes"})
+
+    var confirmationText:string = this.props.intl.formatMessage({id:"edit_supporter_modal.confirmation.confirmation_text"})
+
+    return !this.props.formik.dirty || await this.props.confirmation.confirm({titleText:titleText, confirmationText: confirmationText, confirmButtonText:confirmButtonText, abortButtonText: abortButtonText})
   }
 
   @action.bound
@@ -72,8 +88,13 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
       (addressId: number) => {
         formik.setFieldValue('default_address.id', addressId)
       });
-
+    
     addressStrategy.handleAddressAction(action)
+
+    if (action.type !== 'none')
+    {
+      formik.setFieldValue('address_has_changed', true)
+    }
   }
 
   @action.bound
@@ -106,7 +127,7 @@ class LoadedPane extends React.Component<LoadedPaneProps & InjectedIntlProps, {}
   }
 }
 
-export default injectIntl(inject('LocalRootStore')(observer(LoadedPane)))
+export default injectIntl(connectConfirmationManager(connectModal(inject('LocalRootStore')(observer(LoadedPane)))))
 
 
 

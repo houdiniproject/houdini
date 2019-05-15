@@ -207,4 +207,10 @@ en:
       no_keep_editing: "No, keep editing"
       confirmation_text: "You have unsaved changes. Are you sure you'd like to discard them?"
       confirmation_text_after_supporter_saved: "Your supporter has been created but we haven't been able to create the address. Would you like to discard the address?"
+  edit_supporter_modal:
+    confirmation: 
+      discard_changes: "Discard changes?"
+      yes_discard_changes: "Yes, discard changes"
+      no_keep_editing: "No, keep editing"
+      confirmation_text: "You have unsaved changes. Are you sure you'd like to discard them?"
 

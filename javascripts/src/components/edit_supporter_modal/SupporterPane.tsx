@@ -37,6 +37,7 @@ class SupporterPane extends React.Component<SupporterPaneProps & InjectedIntlPro
       </TwoColumnFields>
 
       <FieldCreator component={FormikHiddenField} name="default_address.id"/>
+      <FieldCreator component={FormikHiddenField} name="address_has_changed"/>
 
       {this.props.addresses ?
         <table className={"clickable table--plaid"}>

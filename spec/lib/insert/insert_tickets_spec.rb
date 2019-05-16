@@ -411,11 +411,11 @@ describe InsertTickets do
           stripe_charge_id = a['id']
           a}
 
-          # if (address)
-          #   expect(QueryTransactionAddress).to receive(:add).twice.with(supporter, address).and_call_original
-          # else
-          #   expect(QueryTransactionAddress).to receive(:add).twice.with(supporter, address).and_call_original
-          # end
+          if (address)
+            expect(QueryTransactionAddress).to receive(:add).twice.with(supporter, instance_of(Ticket), address).and_call_original
+          else
+            expect(QueryTransactionAddress).to_not receive(:add)
+          end
 
           result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id).merge(address: address))
           expected = generate_expected_tickets(

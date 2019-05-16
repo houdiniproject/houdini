@@ -130,8 +130,10 @@ module InsertTickets
       t.bid_id = ticket_request['bid_id']
       t.event_discount = entities[:event_discount_id]
       t.save!
-      t.address = QueryTransactionAddress.add(t.supporter, t, address)
-      t.save!
+      if (address)
+        t.address = QueryTransactionAddress.add(t.supporter, t, address)
+        t.save!
+      end
       t
     }.to_a
   end

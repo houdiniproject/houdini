@@ -191,8 +191,10 @@ private
     d.event = entities[:event_id] || nil
     d.payment_provider = payment_provider(data).to_s
     d.save!
-    d.address = QueryTransactionAddress.add(d.supporter, d, data[:address])
-    d.save!
+    if (data[:address])
+      d.address = QueryTransactionAddress.add(d.supporter, d, data[:address])
+      d.save!
+    end
     d
   end
 

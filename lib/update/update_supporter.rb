@@ -16,9 +16,4 @@ module UpdateSupporter
       .returning('id')
       .execute
   end
-
-  def self.general_info(supporter_id, data)
-    Qx.update(:supporters).set(data).where(id: supporter_id).returning('*').ex.last
-  end
-
 end

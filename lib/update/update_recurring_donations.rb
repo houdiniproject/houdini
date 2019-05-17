@@ -160,5 +160,22 @@ module UpdateRecurringDonations
     end
   end
 
+
+  def self.update_supporter_and_address(rd_id, supporter_id, supporter_data)
+    Qx.transaction do 
+      rd = RecurringDonation.find(rd_id)
+      supporter = Supporter.find(supporter_id)
+      supporter.name = supporter_data[:name]
+      supporter.save!
+
+      address_items = supporter_data.slice(:address, :city, :state_code, :zip_code, :country)
+      unless (rd.donation.address)
+        rd.donation.create_address(address_items.merge({supporter:supporter}))
+      else
+        rd.donation.address.update_attributes(address_items)
+      end
+    end
+  end
+
 end
 

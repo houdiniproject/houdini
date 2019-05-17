@@ -39,11 +39,18 @@ module QueryRecurringDonations
 
     nonprofit = Nonprofit.find(recurring_donation['nonprofit_id'])
 
-    return {
+    output =  {
       'recurring_donation' => recurring_donation,
       'supporter' => supporter,
       'nonprofit' => nonprofit
     }
+
+    rd_entity = RecurringDonation.find(recurring_donation['id'])
+    if (rd_entity.donation.address)
+      output = output.merge({'address' => rd_entity.donation.address})
+    end
+
+    return output
   end
 
 

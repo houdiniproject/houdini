@@ -1,9 +1,7 @@
 // License: LGPL-3.0-or-later
-// npm
 const flyd = require('flyd')
 const mergeAll = require('flyd/module/mergeall')
 const flatMap = require('flyd/module/flatmap')
-const lift = require('flyd/module/lift')
 const snabbdom = require('snabbdom')
 const h = require('snabbdom/h')
 const R = require('ramda')
@@ -18,6 +16,7 @@ const readableInterval = require('../../nonprofits/recurring_donations/readable_
 const format = require('../../common/format')
 const supporterAddressForm = require('../../components/supporter-address-form.es6')
 const changeAmountWizard = require('./change-amount-wizard.es6')
+const _ = require('lodash')
 
 
 function init() {
@@ -33,6 +32,7 @@ function init() {
   const token = utils.get_param('t')
   state.donate_again_url = app.pageLoadData.miscellaneous_np_info.donate_again_url;
 
+  const pageLoadSupporter = _.merge(_.pick(app.pageLoadData.supporter, ['id', 'email', 'name']), _.pick(app.pageLoadData.address, ['address', 'city', 'state_code', 'zip_code', 'country']))
   // Paydate update and cancellation streams
   const updatePaydate$ = flatMap(updatePaydate(rdPath), state.submitPaydate$)
   const cancellation$  = flatMap(reqCancel(rdPath), state.confirmCancel$)
@@ -45,7 +45,7 @@ state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.
   state.cardForm = cardForm.init({
     card: {
       name: app.pageLoadData.supporter.name
-    , address_zip: app.pageLoadData.supporter.zip_code
+    , address_zip: pageLoadSupporter.zip_code
     }
   , path: '/cards'
   , payload: {
@@ -56,7 +56,7 @@ state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.
   })
 
   state.addressForm = supporterAddressForm.init({
-    supporter: app.pageLoadData.supporter
+    supporter: pageLoadSupporter
   , path: rdPath
   , payload: { edit_token: token }
   })

@@ -3,7 +3,7 @@ class Address < ActiveRecord::Base
   self.abstract_class = true
   attr_accessible :address, :city, :country,
                   :state_code,
-                  :supporter,
+                :supporter,
                   :zip_code,
                   :fingerprint
 

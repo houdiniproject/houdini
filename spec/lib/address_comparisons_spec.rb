@@ -17,10 +17,18 @@ describe AddressComparisons do
 
   describe '.calculate_hash' do
     it 'creates a fun hash!' do
-      expected = "17dbea0da79c939a6c3835262b22c6fd7dc13aac30972bd83990ab98"
+      expected = "97be0163ff2b5eadf7cd17a687e1be18681989bd444c6abf5161742d"
       result = AddressComparisons.calculate_hash("supporter_id", '.rw',
                                                  "wf {}} www",
                                                  "!I53    ", "zip", "country")
+      expect(result).to eq expected
+    end
+
+    it 'creates a case insensitive hash!' do
+      expected = "97be0163ff2b5eadf7cd17a687e1be18681989bd444c6abf5161742d"
+      result = AddressComparisons.calculate_hash("supporter_id", '.RW',
+                                                 "wf {}} wWw",
+                                                 "!I53    ", "zip", "couNtry")
       expect(result).to eq expected
     end
   end

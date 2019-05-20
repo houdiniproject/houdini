@@ -23,9 +23,8 @@ module InsertSupporter
 
       unless supporter
         supporter = np.supporters.not_deleted
-            .where("trim(lower(supporters.name)) = ?
-                    AND trim(lower(supporters.email)) = ?",
-                   data['name'].downcase, data['email'].downcase
+            .where("trim(lower(supporters.email)) = ?",
+                   data['email'].downcase
             ).first
 
         if supporter

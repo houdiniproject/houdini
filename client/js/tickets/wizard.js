@@ -78,6 +78,13 @@ appl.def('ticket_wiz', {
 			.then(function(res) {
         appl.ticket_wiz.supporter = res.body
         appl.ticket_wiz.post_data.supporter_id = res.body.id
+        appl.ticket_wiz.post_data.address = {
+          address: form_obj.address,
+          city: form_obj.city,
+          state_code: form_obj.state_code,
+          zip_code: form_obj.zip_code,
+          country: form_obj.country,
+        }
         return res.body
       })
 			.catch(show_err)

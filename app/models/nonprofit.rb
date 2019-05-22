@@ -77,6 +77,7 @@ class Nonprofit < ActiveRecord::Base
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
+  has_one :nonprofit_deactivation
 
   validates :name, presence: true
   validates :city, presence: true
@@ -99,6 +100,10 @@ class Nonprofit < ActiveRecord::Base
   serialize :categories, Array
 
   geocoded_by :full_address
+
+
+  scope :activated, -> { includes(:nonprofit_deactivation).where('nonprofit_deactivations.nonprofit_id IS NULL OR NOT COALESCE(nonprofit_deactivations.deactivated, false)')}
+  scope :deactivated, -> { includes(:nonprofit_deactivation).where('nonprofit_deactivations.deactivated = true')}
 
   before_validation(on: :create) do
     self.set_slugs

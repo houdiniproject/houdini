@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.11
+-- Dumped by pg_dump version 9.6.12
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -393,6 +393,8 @@ CREATE TABLE public.campaigns (
     show_recurring_amount boolean DEFAULT false,
     end_datetime timestamp without time zone,
     external_identifier character varying(255),
+    goal_is_in_supporters boolean,
+    starting_point integer,
     parent_campaign_id integer,
     reason_for_supporting text,
     default_reason_for_supporting text,
@@ -1327,6 +1329,38 @@ CREATE SEQUENCE public.miscellaneous_np_infos_id_seq
 --
 
 ALTER SEQUENCE public.miscellaneous_np_infos_id_seq OWNED BY public.miscellaneous_np_infos.id;
+
+
+--
+-- Name: nonprofit_deactivations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.nonprofit_deactivations (
+    id integer NOT NULL,
+    nonprofit_id integer,
+    deactivated boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: nonprofit_deactivations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.nonprofit_deactivations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: nonprofit_deactivations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.nonprofit_deactivations_id_seq OWNED BY public.nonprofit_deactivations.id;
 
 
 --
@@ -2485,6 +2519,13 @@ ALTER TABLE ONLY public.miscellaneous_np_infos ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: nonprofit_deactivations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_deactivations ALTER COLUMN id SET DEFAULT nextval('public.nonprofit_deactivations_id_seq'::regclass);
+
+
+--
 -- Name: nonprofit_keys id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2908,6 +2949,14 @@ ALTER TABLE ONLY public.bank_accounts
 
 ALTER TABLE ONLY public.payouts
     ADD CONSTRAINT nonprofit_credits_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nonprofit_deactivations nonprofit_deactivations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_deactivations
+    ADD CONSTRAINT nonprofit_deactivations_pkey PRIMARY KEY (id);
 
 
 --
@@ -3376,13 +3425,6 @@ CREATE INDEX payments_search_idx ON public.payments USING gin (search_vectors);
 --
 
 CREATE INDEX payments_supporter_id ON public.payments USING btree (supporter_id);
-
-
---
--- Name: payments_towards; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX payments_towards ON public.payments USING btree (lower((towards)::text));
 
 
 --
@@ -4369,13 +4411,9 @@ INSERT INTO schema_migrations (version) VALUES ('20180608205049');
 
 INSERT INTO schema_migrations (version) VALUES ('20180608212658');
 
-INSERT INTO schema_migrations (version) VALUES ('20180703165400');
-
 INSERT INTO schema_migrations (version) VALUES ('20180703165401');
 
 INSERT INTO schema_migrations (version) VALUES ('20180703165402');
-
-INSERT INTO schema_migrations (version) VALUES ('20180703165403');
 
 INSERT INTO schema_migrations (version) VALUES ('20180703165404');
 
@@ -4391,6 +4429,8 @@ INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
 
+INSERT INTO schema_migrations (version) VALUES ('20181026175740');
+
 INSERT INTO schema_migrations (version) VALUES ('20181120182105');
 
 INSERT INTO schema_migrations (version) VALUES ('20181128221143');
@@ -4398,4 +4438,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181128221143');
 INSERT INTO schema_migrations (version) VALUES ('20181129205652');
 
 INSERT INTO schema_migrations (version) VALUES ('20181129224030');
+
+INSERT INTO schema_migrations (version) VALUES ('20190522162746');
 

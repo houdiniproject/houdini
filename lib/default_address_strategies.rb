@@ -50,7 +50,10 @@ module DefaultAddressStrategies
     
     # put me in a transaction please
     def first_or_create(new_address)
-      @supporter.address_tags.where(name: 'default').first_or_create!(crm_address: new_address)
+      tag = @supporter.address_tags.where(name: 'default').first_or_create!(crm_address: new_address)
+      tag.crm_address = new_address
+      tag.save!
+      tag
     end
   end
 end

@@ -28,6 +28,10 @@ module InsertPayout
     })
     options ||= {}
     entities = RetrieveActiveRecordItems.retrieve_from_keys(bigger_data, Nonprofit => :np_id)
+    if (entities[:np_id].nonprofit_deactivation&.deactivated)
+      raise ArgumentError.new("Sorry, this account has been deactivated.")
+    end
+
     payment_ids = QueryPayments.ids_for_payout(np_id, options)
     if payment_ids.count < 1
       raise ArgumentError.new("No payments are available for disbursal on this account.")

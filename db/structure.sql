@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.11
+-- Dumped by pg_dump version 9.6.12
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1332,6 +1332,38 @@ ALTER SEQUENCE public.miscellaneous_np_infos_id_seq OWNED BY public.miscellaneou
 
 
 --
+-- Name: nonprofit_deactivations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.nonprofit_deactivations (
+    id integer NOT NULL,
+    nonprofit_id integer,
+    deactivated boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: nonprofit_deactivations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.nonprofit_deactivations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: nonprofit_deactivations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.nonprofit_deactivations_id_seq OWNED BY public.nonprofit_deactivations.id;
+
+
+--
 -- Name: nonprofit_keys; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2487,6 +2519,13 @@ ALTER TABLE ONLY public.miscellaneous_np_infos ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: nonprofit_deactivations id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_deactivations ALTER COLUMN id SET DEFAULT nextval('public.nonprofit_deactivations_id_seq'::regclass);
+
+
+--
 -- Name: nonprofit_keys id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2910,6 +2949,14 @@ ALTER TABLE ONLY public.bank_accounts
 
 ALTER TABLE ONLY public.payouts
     ADD CONSTRAINT nonprofit_credits_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nonprofit_deactivations nonprofit_deactivations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_deactivations
+    ADD CONSTRAINT nonprofit_deactivations_pkey PRIMARY KEY (id);
 
 
 --
@@ -4391,4 +4438,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181128221143');
 INSERT INTO schema_migrations (version) VALUES ('20181129205652');
 
 INSERT INTO schema_migrations (version) VALUES ('20181129224030');
+
+INSERT INTO schema_migrations (version) VALUES ('20190522162746');
 

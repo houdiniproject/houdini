@@ -35,6 +35,15 @@ describe InsertPayout do
           expect_validation_errors(error.data, [{key: :np_id}])
         })
       end
+
+      it 'errors when the nonprofit is deactivated' do
+        np = force_create(:nonprofit, name: 'np')
+        force_create(:nonprofit_deactivation, nonprofit: np, deactivated: true)
+        expect { InsertPayout.with_stripe(np.id, {:stripe_account_id => 'valid', :email => 'valid', user_ip: 'valid', bank_name: 'valid'}, nil) }.to(raise_error { |error|
+          expect(error).to be_a ArgumentError
+          expect(error.message).to eq "Sorry, this account has been deactivated."
+        })
+      end
     end
 
     context 'when valid' do
@@ -52,6 +61,8 @@ describe InsertPayout do
 
       it 'handles no charges to payout' do
         np = force_create(:nonprofit)
+        #we have a deactivation record but no deactivate set
+        force_create(:nonprofit_deactivation, nonprofit: np)
         expect {InsertPayout.with_stripe(np.id, {:stripe_account_id => 'valid', :email => 'valid', user_ip: 'valid', bank_name: 'valid'}, nil)}.to(raise_error {|error|
           expect(error).to be_a ArgumentError
           expect(error.message).to eq "No payments are available for disbursal on this account."
@@ -149,6 +160,8 @@ describe InsertPayout do
         end
 
         it 'fails properly when Stripe payout call fails' do
+          #we have a deactivation record but deactivate set to false
+          force_create(:nonprofit_deactivation, nonprofit: np, deactivated: false)
           StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_transfer)
 
           all_payments

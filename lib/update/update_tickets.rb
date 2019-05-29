@@ -96,4 +96,35 @@ module UpdateTickets
       raise ParamValidation::ValidationError.new("Ticket ID #{entities[:ticket_id].id} does not belong to event #{entities[:event_id].id}", key: :ticket_id)
     end
   end
+
+
+  def self.discount_ticket(ticket, discount)
+    if (ticket.class != Ticket)
+      ticket = Ticket.find(ticket)
+    end
+
+    if (discount > 1 || discount < 0 )
+      raise ArgumentError.new("Discount must be between 0 and 1. Value was #{discount}")
+    end
+
+    Qx.transaction do 
+      payment = ticket.payment
+      payment.gross_amount = payment.gross_amount * (1-discount)
+      payment.net_amount = payment.net_amount * (1-discount)
+      payment.save!
+
+      op = payment.offsite_payment
+      op.gross_amount = op.gross_amount * (1-discount)
+      op.save!
+
+      activities = ticket.activities.select{|i| i.action_type == 'created'}
+      activities.each do |a|
+        data = JSON::parse(a.json_data)
+        data['gross_amount'] = Integer(data['gross_amount'] * (1-discount))
+        a.json_data = JSON::generate(data)
+        a.save!
+      end
+    end
+
+  end
 end

@@ -21,6 +21,9 @@ import blacklist = require("validator/lib/blacklist");
 import {createFieldDefinition} from "../../lib/mobx_utils";
 import Modal from "../common/modal/Modal";
 import ReactInput from "../common/form/ReactInput";
+import { connectModal, ModalContextProps } from '../common/modal/connect';
+import ModalBody from '../common/modal/ModalBody';
+import { boundMethod } from 'autobind-decorator';
 
 
 interface Charge {
@@ -486,11 +489,43 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedInt
 
     const modal =
       <Modal modalActive={this.props.modalActive} titleText={'Edit Donation'}
-             onClose={this.props.onClose} dialogStyle={{minWidth: '768px'}} >
-             {this.innerRender()}</Modal>
+             onClose={this.props.onClose} dialogStyle={{minWidth: '768px', position:'relative'}} >
+              <EditPaymentPaneModalChildren/>
+      </Modal>
 
     return modal;
   }
 }
+
+interface EditPaymentPaneModalChildrenProps {
+  
+}
+
+class InnerEditPaymentPaneModalChildren extends React.Component< EditPaymentPaneModalChildrenProps& ModalContextProps>{
+
+  constructor(props: EditPaymentPaneModalChildrenProps & ModalContextProps){
+    super(props)
+ 
+  }
+ 
+
+  @boundMethod
+  cancel() {
+    this.props.modal.cancel()
+  }
+
+  render() {
+    return <>
+      <ModalBody>
+        <CreateSupporterFormik nonprofitId={this.props.nonprofitId}
+          onClose={this.props.onClose} supporterModalState={this.props.supporterModalState} modal={this.props.modal} rootStore={this.rootStore}/>
+      </ModalBody>
+    </>
+  }
+}
+
+const EditPaymentPaneModalChildren = connectModal((observer(InnerEditPaymentPaneModalChildren))
+
+
 
 export default injectIntl(observer(EditPaymentPane))

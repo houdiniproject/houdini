@@ -57,6 +57,7 @@ function create_card(holder, card_obj, options) {
 
 	// First, tokenize the card with Stripe.js
 	return tokenize_with_stripe(card_obj)
+		.catch(display_stripe_err)
 		// Then, save a Card record in our db
 		.then(function(stripe_resp) {
 			appl.def('card_form', statuses.before_create)
@@ -110,5 +111,19 @@ function display_err(resp) {
       progress_width: '0%'
     })
     appl.def('loading', false)
+  }
+}
+
+function display_stripe_err(resp) {
+  if(resp && resp.error) {
+    appl.def('card_form', {
+      loading: false,
+      error: true,
+      status: resp.error.message,
+      progress_width: '0%'
+    })
+		appl.def('loading', false)
+		
+		throw new Error()
   }
 }

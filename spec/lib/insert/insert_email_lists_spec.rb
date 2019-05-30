@@ -16,6 +16,12 @@ describe InsertEmailLists  do
       force_create(:email_list, nonprofit: nonprofit, tag_master: TagMaster.where(name: 'with_list').first, mailchimp_list_id: "with_list__mc_list", list_name: "with_list__mc_list__name"),
       force_create(:email_list, nonprofit: other_nonprofit, tag_master: TagMaster.where(name: 'other__with_list').first, mailchimp_list_id: "other__with_list__mc_list", list_name: "other__with_list__mc_list__name")
   ]}
+  let(:added_correctly) { "added correctly" }
+  let(:list_name) {"list name" }
+  let(:list_id){ "list id"}
+
+  let(:tag_master_id) { tag_masters[1].id}
+  let(:inserted_result) { [{name: list_name, id: list_id, tag_master_id: tag_master_id}]}
 
   before(:each) {tag_masters; email_lists }
 
@@ -32,17 +38,13 @@ describe InsertEmailLists  do
   end
 
   it 'add lists but not delete' do
-    ADDED_CORRECTLY = "added correctly"
-    LIST_NAME = "list name"
-    LIST_ID = "list id"
-    TAG_MASTER_ID = tag_masters[1].id
-    INSERTED_RESULT = [{name: LIST_NAME, id: LIST_ID, tag_master_id: TAG_MASTER_ID}]
+    
     expect(Mailchimp).to receive(:delete_mailchimp_lists).with(nonprofit.id, []).and_return([])
 
-    expect(Mailchimp).to receive(:create_mailchimp_lists).with(nonprofit.id, [TAG_MASTER_ID]).and_return(INSERTED_RESULT)
-    result  = InsertEmailLists.for_mailchimp(nonprofit.id, [email_lists[0].tag_master.id, TAG_MASTER_ID])
+    expect(Mailchimp).to receive(:create_mailchimp_lists).with(nonprofit.id, [tag_master_id]).and_return(inserted_result)
+    result  = InsertEmailLists.for_mailchimp(nonprofit.id, [email_lists[0].tag_master.id, tag_master_id])
 
-    el = EmailList.where(list_name: LIST_NAME).first
+    el = EmailList.where(list_name: list_name).first
 
     expected = {
       deleted: [],
@@ -50,13 +52,13 @@ describe InsertEmailLists  do
       inserted_lists: [{
         id: el.id,
         nonprofit_id: nonprofit.id,
-        tag_master_id: TAG_MASTER_ID,
-        list_name: LIST_NAME,
-        mailchimp_list_id: LIST_ID,
+        tag_master_id: tag_master_id,
+        list_name: list_name,
+        mailchimp_list_id: list_id,
         created_at: el.created_at,
         updated_at: el.updated_at
       }.with_indifferent_access],
-      inserted_result: INSERTED_RESULT
+      inserted_result: inserted_result
     }
 
     expect(result).to eq expected
@@ -65,29 +67,26 @@ describe InsertEmailLists  do
   end
 
   it 'add lists and delete' do
-    ADDED_CORRECTLY = "added correctly"
-    LIST_NAME = "list name"
-    LIST_ID = "list id"
-    TAG_MASTER_ID = tag_masters[1].id
+    
 
-    TAG_MASTER_LIST_TO_DELETE = email_lists[0].mailchimp_list_id
-    INSERTED_RESULT = [{name: LIST_NAME, id: LIST_ID, tag_master_id: TAG_MASTER_ID}]
-    expect(Mailchimp).to receive(:delete_mailchimp_lists).with(nonprofit.id, [TAG_MASTER_LIST_TO_DELETE]).and_return "deleted correctly"
+    tag_master_list_to_delete = email_lists[0].mailchimp_list_id
+    inserted_result = [{name: list_name, id: list_id, tag_master_id: tag_master_id}]
+    expect(Mailchimp).to receive(:delete_mailchimp_lists).with(nonprofit.id, [tag_master_list_to_delete]).and_return "deleted correctly"
 
-    expect(Mailchimp).to receive(:create_mailchimp_lists).with(nonprofit.id, [TAG_MASTER_ID]).and_return(INSERTED_RESULT)
-    result  = InsertEmailLists.for_mailchimp(nonprofit.id, [ TAG_MASTER_ID, email_lists[1].tag_master.id])
-    el = EmailList.where(list_name: LIST_NAME).first
+    expect(Mailchimp).to receive(:create_mailchimp_lists).with(nonprofit.id, [tag_master_id]).and_return(inserted_result)
+    result  = InsertEmailLists.for_mailchimp(nonprofit.id, [ tag_master_id, email_lists[1].tag_master.id])
+    el = EmailList.where(list_name: list_name).first
     expected = {
         inserted_lists: [{
                              id: el.id,
                              nonprofit_id: nonprofit.id,
-                             tag_master_id: TAG_MASTER_ID,
-                             list_name: LIST_NAME,
-                             mailchimp_list_id: LIST_ID,
+                             tag_master_id: tag_master_id,
+                             list_name: list_name,
+                             mailchimp_list_id: list_id,
                              created_at: el.created_at,
                              updated_at: el.updated_at
                          }.with_indifferent_access],
-        inserted_result: INSERTED_RESULT,
+        inserted_result: inserted_result,
         deleted: [{"mailchimp_list_id" => 'with_list__mc_list'}],
         deleted_result: "deleted correctly"
     }

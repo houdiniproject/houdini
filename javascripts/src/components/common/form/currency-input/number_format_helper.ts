@@ -1,9 +1,8 @@
-import { boundMethod } from "autobind-decorator";
-
 // License: LGPL-3.0-or-later
 // from: https://github.com/jsillitoe/react-currency-input/blob/master/src/mask.js
-
-
+import { boundMethod } from "autobind-decorator";
+import _ = require("lodash");
+const regexEscapeRegex = /[-[\]{}()*+?.,\\^$|#\s]/g;
 interface MaskedAndRawValues {
   value: number,
   maskedValue: string
@@ -11,12 +10,11 @@ interface MaskedAndRawValues {
 
 
 
-export class NumberFormatHelper  {
-  
-  constructor(readonly numberFormat: Intl.NumberFormat) {}
+export class NumberFormatHelper {
 
-  static initializeFromProps(locales?: string | string[], options?: Intl.NumberFormatOptions) : NumberFormatHelper
-  {
+  constructor(readonly numberFormat: Intl.NumberFormat) { }
+
+  public static initializeFromProps(locales?: string | string[], options?: Intl.NumberFormatOptions): NumberFormatHelper {
     return new NumberFormatHelper(new Intl.NumberFormat(locales, options))
   }
 
@@ -47,18 +45,35 @@ export class NumberFormatHelper  {
       let decimalRegexpString = "\\d"
       const hasDecimalSeparator = decimal && decimal != '';
       if (hasDecimalSeparator) {
-        decimalRegexpString += "|["+ decimal + "]"
+        decimalRegexpString += "|" + decimal.replace(regexEscapeRegex, '\\$&')
       }
       const decimalRegexp = new RegExp(decimalRegexpString, 'g')
-      const items = value.match(decimalRegexp) || ['0'];
-      if (hasDecimalSeparator && !items.some(n => n === decimal)) {
-        //we need to add in the decimal point 
-        if (items.length <= this.numberFormat.resolvedOptions().minimumFractionDigits) {
-          items.unshift(decimal)
+      let items = value.match(decimalRegexp) || ['0'];
+      if (hasDecimalSeparator) {
+        if (!items.some(n => n === decimal)) {
+          //we need to add in the decimal point 
+          if (items.length <= this.numberFormat.resolvedOptions().minimumFractionDigits) {
+            items.unshift('.')
+          }
+          else {
+            items.splice(items.length - this.numberFormat.resolvedOptions().minimumFractionDigits, 0, '.')
+          }
         }
         else {
-          items.splice(items.length - this.numberFormat.resolvedOptions().minimumFractionDigits, 0, decimal)
+          //we have a decimal and we need to convert it to a period
+          items = items.map((i) => {
+            if (i === decimal)
+              return '.'
+            else
+              return i
+          });
         }
+      }
+
+      //find negatives
+      let isNegative = (value.match(/-/g) || []).length % 2 === 1
+      if (isNegative){
+        items.unshift('-')
       }
       const parsedValue = parseFloat(items.join('').trim())
 
@@ -69,16 +84,13 @@ export class NumberFormatHelper  {
     }
   }
 
-
   @boundMethod
   getDecimalSeparator() {
     // a number with a decimal
     let number = 11456456.0222,
-      fmt_local: any = this.numberFormat,
-      parts_local = fmt_local.formatToParts(number),
       decimal = '';
 
-    parts_local.forEach(function (i: any) {
+    this.formatToParts(number).forEach(function (i: any) {
       switch (i.type) {
         case 'decimal':
           decimal = i.value;
@@ -90,7 +102,76 @@ export class NumberFormatHelper  {
 
     return decimal;
   }
+
+  @boundMethod
+  getGroupSeparator() {
+    // a number with a decimal
+    let number = 11456456.0222,
+      group = '';
+
+    this.formatToParts(number).forEach(function (i: any) {
+      switch (i.type) {
+        case 'group':
+          group = i.value;
+          break;
+        default:
+          break;
+      }
+    });
+
+    return group;
+  }
+
+
+  @boundMethod
+  getPrefix():string {
+    const parts = this.formatToParts();
+    
+    let finished = false
+    let prefix = ''
+    parts.forEach((i) => {
+      if (!finished) {
+        if (i.type == 'nan'){
+          finished = true
+        }
+        else {
+          prefix += i.value
+        }
+      }
+    })
+
+    return prefix;
+  }
+
+  @boundMethod
+  getSuffix():string {
+    const parts = this.formatToParts();
+    let startedNan = false
+    let suffix = ''
+    parts.forEach((i) => {
+      if (i.type == 'nan'){
+        startedNan = true
+      }
+      else if (startedNan) {
+        suffix += i.value
+      }
+    })
+
+    return suffix
+  }
+
+  @boundMethod
+  formatToParts(number?: Number):Array<{type:string, value:string}> {
+    // a number with a decimal
+    let fmt_local: any = this.numberFormat
+
+    return fmt_local.formatToParts(number)
+  }
+
 }
+
+
+
 
 // export default function mask(value?: number | string): MaskedAndRawValues {
 

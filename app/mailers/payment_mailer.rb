@@ -9,6 +9,8 @@ class PaymentMailer < BaseMailer
       return Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(payment.donation.id, user_id)
     elsif payment.kind == 'Ticket'
       return TicketMailer.receipt_admin(payment.donation.id, user_id).deliver
+    elsif payment.kind == 'Refund'
+      return Delayed::Job.enqueue JobTypes::NonprofitRefundNotificationJob.new(payment.refund.id, user_id)
     end
   end
 
@@ -20,6 +22,8 @@ class PaymentMailer < BaseMailer
       Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(payment.donation.id)
     elsif payment.kind == 'Ticket'
       return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge.id).deliver
+    elsif payment.kind == 'Refund'
+      return Delayed::Job.enqueue JobTypes::DonorRefundNotificationJob.new(payment.refund.id)
     end
   end
 

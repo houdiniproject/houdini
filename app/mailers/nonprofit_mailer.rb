@@ -13,12 +13,17 @@ class NonprofitMailer < BaseMailer
     mail(to: @emails, subject: "Verification successful on #{Settings.general.name}!")
   end
 
-	def refund_notification(refund_id)
+	def refund_notification(refund_id, user_id=nil)
 		@refund = Refund.find(refund_id)
 		@charge = @refund.charge
 		@nonprofit = @refund.payment.nonprofit
-    @supporter = @refund.payment.supporter
+    	@supporter = @refund.payment.supporter
 		@emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payments')
+		if user_id
+			em = User.find(user_id).email
+			return unless @emails.include?(em)
+			@emails = [em]
+		end
 		mail(to: @emails, subject: "A new refund has been made for $#{Format::Currency.cents_to_dollars(@refund.amount)}")
 	end
 

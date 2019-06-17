@@ -17,3 +17,23 @@ export function castToUndefinedIfBlank(i:null|undefined|string) :
     string | undefined {
   return isBlank(i) ? undefined : i;
 }
+
+export function createSiblingPath(path:string, siblingName:string): string {
+  if (isBlank(path)){
+    throw new TypeError("path must not be blank")
+  }
+
+  if (isBlank(siblingName)) {
+    throw new TypeError("siblingName must not be blank")
+  }
+
+  const splitPath = path.split('.')
+  
+  if (splitPath.length > 0){
+    splitPath.splice(splitPath.length -1, 1)
+  }
+
+  splitPath.push(siblingName)
+
+  return splitPath.join('.')  
+}

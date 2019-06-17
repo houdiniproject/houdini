@@ -1,12 +1,11 @@
-import { FormikHandlers } from "formik";
+import { FormikHandlers, FieldProps } from "formik";
 import React = require("react");
 import _ = require("lodash");
 import IntlCurrencyInput, { IntlCurrencyInputProps } from "./IntlCurrencyInput";
-import { HoudiniFormikProps } from "../HoudiniFormik";
-import { HoudiniFormikField } from "./HoudiniFormikField";
 import { boundMethod } from "autobind-decorator";
 import I18nCurrencyInput from "@houdiniproject/react-i18n-currency-input";
 import { Money } from "../../../lib/money";
+import { Omit } from "../../../lib/types";
 
 
 declare type NumberFormatHelperOptions = {
@@ -25,23 +24,11 @@ declare type NumberFormatHelperOptions = {
 };
 
 
-export class FormikCurrencyInput<T> extends React.Component<React.InputHTMLAttributes<HTMLInputElement> & Partial<IntlCurrencyInputProps> & Partial<NumberFormatHelperOptions> & { name: string }>{
-  render() {
+type FormikCurrencyInputProps = FieldProps<any> & Omit<React.InputHTMLAttributes<HTMLInputElement>,'form'|'value'> &
+Omit<IntlCurrencyInputProps, 'value'> & 
+Partial<NumberFormatHelperOptions>
 
-    const maskedValueField = `${this.props.name}`
-
-    return <HoudiniFormikField {...this.props} name={maskedValueField} component={InnerMaskedValueFormikCurrencyInput} />
-  }
-}
-
-class InnerMaskedValueFormikCurrencyInput extends React.Component<React.InputHTMLAttributes<HTMLInputElement> & IntlCurrencyInputProps & Partial<NumberFormatHelperOptions> & {
-  field: {
-    onChange: FormikHandlers['handleChange'],
-    onBlur: FormikHandlers['handleBlur'],
-    value: any,
-    name: string
-  }
-} & { form: HoudiniFormikProps<any> }> {
+export class FormikCurrencyInput extends React.Component<FormikCurrencyInputProps> {
 
 
   @boundMethod
@@ -54,9 +41,8 @@ class InnerMaskedValueFormikCurrencyInput extends React.Component<React.InputHTM
   }
 
   @boundMethod
-  onBlurEvent(instance: I18nCurrencyInput, value:Money){
+  onBlurEvent(_instance: I18nCurrencyInput, _value:Money){
     this.props.form.handleBlur(this.props.field.name)
-    
   }
 
   render() {

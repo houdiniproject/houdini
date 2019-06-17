@@ -3,7 +3,6 @@ import * as React from 'react';
 import { FieldProps } from 'formik';
 import _ = require('lodash');
 import FormikLabeledFieldComponent from './FormikLabeledFieldComponent';
-import { FormikInput } from './form/FormikInput';
 import { FormikCurrencyInput } from './form/FormikCurrencyInput';
 
 export interface FormikCurrencyFieldProps<T> extends FieldProps<T> {
@@ -24,7 +23,7 @@ export default class FormikCurrencyField<T> extends React.Component<FormikCurren
         inputId={this.props.inputId}
         labelText={this.props.label}
         className={this.props.className} >
-        <FormikCurrencyInput field={this.props.field} className={`form-control ${this.props.inputClassNames || ''}`} id={this.props.inputId} disabled={this.props.disabled}
+        <FormikCurrencyInput form={this.props.form} field={this.props.field} className={`form-control ${this.props.inputClassNames || ''}`} id={this.props.inputId} disabled={this.props.disabled}
         />
     </FormikLabeledFieldComponent>
   }

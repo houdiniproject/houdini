@@ -2,25 +2,25 @@
 // based upon https://github.com/davidkalosi/js-money
 import * as lodash from 'lodash'
 
-var assertSameCurrency = function (left: any, right: any) {
+const assertSameCurrency = function (left: any, right: any) {
   if (left.currency !== right.currency)
     throw new Error('Different currencies');
 };
 
-var assertType = function (other: any) {
+const assertType = function (other: any) {
   if (!(other instanceof Money))
     throw new TypeError('Instance of Money required');
 };
 
-var assertOperand = function (operand: any) {
+const assertOperand = function (operand: any) {
   if (isNaN(parseFloat(operand)) && !isFinite(operand))
     throw new TypeError('Operand must be a number');
 };
 
-
 export class Money {
 
   readonly currency:string
+
   protected constructor(readonly amountInCents: number, currency: string) {
     this.currency = currency.toLowerCase()
     Object.freeze(this);

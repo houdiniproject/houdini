@@ -70,11 +70,10 @@ export interface IntlCurrencyInputProps {
 
 declare type NumberFormatHelperOptions = {
   /**
-   * Do we want to allow negative numbers? If false, we strip negative signs.
-   * @default true
+   * Do we want to require positive numbers? If true, we strip negative signs.
    * @type boolean
    */
-  allowNegative: boolean;
+  requirePositive: boolean;
 } | {
   /**
    * Should numbers always be negative (other than 0)? If so, we make all non-zero numbers negative.
@@ -90,25 +89,25 @@ class IntlCurrencyInput extends React.Component<IntlCurrencyInputProps & Partial
     this.i18nRef = React.createRef();
   }
 
-  static defaultProps = {
-    value: Money.fromDecimal(0, 'USD')
+  public static defaultProps = {
+    value: Money.fromCents(0, 'USD')
   }
 
   i18nRef: React.RefObject<I18nCurrencyInput>
 
   @boundMethod
   onBlur(instance: I18nCurrencyInput) {
-    this.props.onBlur && this.props.onBlur(instance, Money.fromCents(this.i18nRef.current.state.valueInCents, this.props.value.currency))
+    this.props.onBlur && this.props.onBlur(instance, Money.fromCents(this.i18nRef.current.state.valueInCents, this.props.value.currency || 'USD'))
   }
 
   @boundMethod
   onChange(instance: I18nCurrencyInput, _maskedValue: string, _value: number, valueInCents:number) {
-    this.props.onChange && this.props.onChange(instance, Money.fromCents(valueInCents, this.props.value.currency))
+    this.props.onChange && this.props.onChange(instance, Money.fromCents(valueInCents, this.props.value.currency || 'USD'))
   }
 
   render() {
     const props = _.omit(this.props, 'intl')
-    return <I18nCurrencyInput ref={this.i18nRef} {...props} value={this.props.value.amountInCents.toString()} currency={this.props.value.currency} onBlur={this.onBlur} onChange={this.onChange} locale={this.props.intl.locale} />
+    return <I18nCurrencyInput ref={this.i18nRef} {...props} value={this.props.value.amountInCents && this.props.value.amountInCents.toString()} currency={this.props.value.currency || 'USD'} onBlur={this.onBlur} onChange={this.onChange} locale={this.props.intl.locale} requirePositive={this.props.requirePositive} requireNegative={this.props.requireNegative}/>
   }
 }
 

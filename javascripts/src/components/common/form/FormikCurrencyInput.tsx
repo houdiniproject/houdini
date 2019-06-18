@@ -10,11 +10,10 @@ import { Omit } from "../../../lib/types";
 
 declare type NumberFormatHelperOptions = {
   /**
-   * Do we want to allow negative numbers? If false, we strip negative signs.
-   * @default true
+   * Do we want to require positive numbers? If true, we strip negative signs.
    * @type boolean
    */
-  allowNegative: boolean;
+  requirePositive: boolean;
 } | {
   /**
    * Should numbers always be negative (other than 0)? If so, we make all non-zero numbers negative.

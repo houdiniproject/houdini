@@ -24,11 +24,6 @@ export class Money {
     Object.freeze(this);
   }
 
-  static fromDecimal(amount: number, currency: string): Money {
-    amount = parseInt(amount.toString().replace('.', ''))
-    return new Money(amount, currency)
-  }
-
   static fromCents(amountInCents: number, currency: string): Money {
     return new Money(amountInCents, currency)
   }
@@ -82,7 +77,7 @@ export class Money {
    * @param {(x:number) => number} [fn=Math.round]
    * @returns {Money}
    */
-  multiply(multiplier: number, fn: Function): Money {
+  multiply(multiplier: number, fn?: Function): Money {
     if (!lodash.isFunction(fn))
       fn = Math.round;
 
@@ -99,7 +94,7 @@ export class Money {
    * @param {(x:number) => number} [fn=Math.round]
    * @returns {Money}
    */
-  divide(divisor: number, fn: (x: number) => number): Money {
+  divide(divisor: number, fn?: (x: number) => number): Money {
     if (!lodash.isFunction(fn))
       fn = Math.round;
 

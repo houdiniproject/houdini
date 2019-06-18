@@ -20,7 +20,9 @@ var assertOperand = function (operand: any) {
 
 export class Money {
 
-  protected constructor(readonly amountInCents: number, readonly currency: string) {
+  readonly currency:string
+  protected constructor(readonly amountInCents: number, currency: string) {
+    this.currency = currency.toLowerCase()
     Object.freeze(this);
   }
 

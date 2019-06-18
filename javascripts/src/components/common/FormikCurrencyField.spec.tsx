@@ -2,9 +2,9 @@
 import * as React from 'react';
 import 'jest';
 import FormikCurrencyField from './FormikCurrencyField'
-import { mount, ReactWrapper } from 'enzyme';
+import { ReactWrapper } from 'enzyme';
 import { mountWithIntl } from '../../lib/tests/helpers';
-import HoudiniFormik, { FormikHelpers } from './HoudiniFormik';
+import HoudiniFormik from './HoudiniFormik';
 import { Formik } from 'formik';
 import { FieldCreator } from './form/FieldCreator';
 import { Money } from '../../lib/money';
@@ -76,7 +76,7 @@ describe('FormikCurrencyField', () => {
     })
 
     it('has a currency of amount of EUR in the formik value', () => {
-      expect(houdiniFormikComponent.state.values.test.currency).toBe("EUR")
+      expect(houdiniFormikComponent.state.values.test.currency).toBe("eur")
     })
   })
 

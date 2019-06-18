@@ -41,6 +41,28 @@
 
 	<%= render 'common/froala' if current_event_editor? %>
   <%= render 'schema', event: @event, url: @url %>
+	<script>
+				var ticketPaymentCard = stripeV3.elements({
+        fonts: [
+            { cssSrc: "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300" }
+        ]
+      }).create('card', {
+        style: {
+            base: {
+                color: '#494949',
+                fontFamily: "'Open Sans', 'Helvetica Neue', Arial, Verdana, 'Droid Sans', sans-serif",
+                fontSmoothing: 'antialiased',
+                fontSize: '16px'
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+
+        }
+    })
+				ticketPaymentCard.mount("#ticketPaymentCard")
+		</script>
 	<%= IncludeAsset.js '/client/js/events/show/page.js' %>
 <% end %>
 

@@ -321,3 +321,29 @@ input[type='checkbox'] + label:hover:before {
 		font-size: 13px;
 	}
 }
+.StripeElement {
+    color: $charcoal;
+	padding: 4px 8px;
+	font-size: 16px; // inputs should all be 16px to prevent zooming on mobile
+	@include border-radius(0);
+	@include transition(border-color 0.2s ease-out);
+	border-top: 1px solid lighten($grey, 35%);
+	border-right: 1px solid lighten($grey, 35%);
+	border-left: 1px solid lighten($grey, 35%);
+	border-bottom: 2px solid lighten($grey, 35%);
+	margin-bottom: 12px;
+	background-color: white
+  }
+  
+  .StripeElement--focus {
+    border-bottom: 2px solid lighten($grey, 15%);
+  }
+  
+  .StripeElement--invalid {
+    border-color: #ff4f4f;
+  }
+  
+  .StripeElement--webkit-autofill {
+    background-color: #fefde5 !important;
+  }
+

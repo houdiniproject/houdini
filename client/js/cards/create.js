@@ -41,22 +41,23 @@ var statuses = {
 // Tokenize with stripe, then save to our db.
 // The first argument must be a holder object that has 'type' and 'id' keys.
 // eg: {holder: {type: 'Nonprofit', id: 1}}
-function create_card(holder, card_obj, options) {
+// This is the a Card object from Stripe v3
+function create_card(holder, card_obj, cardholderName, options ) {
   options = options || {}
 	if(appl.card_form.loading) return
 	appl.def('card_form', { loading: true, error: false })
 	appl.def('card_form', statuses.before_tokenization)
 
-  // Delete the cvc key from card_obj if
-  // the value of cvc is a blank string.
-  // Otherwise, Stripe will return an error for
-  // incorrect security code.
-  if(card_obj.cvc === '') {
-    delete card_obj['cvc']
-  }
+  // // Delete the cvc key from card_obj if
+  // // the value of cvc is a blank string.
+  // // Otherwise, Stripe will return an error for
+  // // incorrect security code.
+  // if(card_obj.cvc === '') {
+  //   delete card_obj['cvc']
+  // }
 
 	// First, tokenize the card with Stripe.js
-	return tokenize_with_stripe(card_obj)
+	return tokenize_with_stripe(window[card_obj], cardholderName)
 		.catch(display_stripe_err)
 		// Then, save a Card record in our db
 		.then(function(stripe_resp) {
@@ -71,11 +72,11 @@ function create_card(holder, card_obj, options) {
 }
 
 // Post to stripe to get back a stripe_card_token
-function tokenize_with_stripe(card_obj) {
+function tokenize_with_stripe(card_obj, cardholderName) {
 	return new Promise(function(resolve, reject) {
-		Stripe.card.createToken(card_obj, function(status, resp) {
+		stripeV3.createToken(card_obj, {name:cardholderName}).then( function(resp) {
 			if(resp.error) reject(resp)
-			else resolve(resp)
+			else resolve(resp.token)
 		})
 	})
 }
@@ -103,7 +104,7 @@ function create_record(holder, stripe_resp, options={}) {
 
 // Set UI state to display an error in the card form.
 function display_err(resp) {
-  if(resp && resp.body) {
+  if(resp && resp.error) {
     appl.def('card_form', {
       loading: false,
       error: true,

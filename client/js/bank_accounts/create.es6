@@ -30,7 +30,7 @@ function confirm_auth(form_data) {
 // Post to stripe to get back a stripe_bank_account_token
 function tokenize_with_stripe(data) {
     return new Promise(function(resolve, reject) {
-        Stripe.bankAccount.createToken(data.form, function(status, resp) {
+        stripeV3.createToken('bank_account', data.form).then((resp) => {
             data.stripe_resp = resp
             if(resp.error) reject(resp.error.message)
             else resolve(data)
@@ -45,9 +45,9 @@ function create_record(data) {
         .send({
             pw_token: data.token,
             bank_account: {
-                stripe_bank_account_token: data.stripe_resp.id,
-                stripe_bank_account_id: data.stripe_resp.bank_account.id,
-                name: data.stripe_resp.bank_account.bank_name + ' *' + data.stripe_resp.bank_account.last4,
+                stripe_bank_account_token: data.stripe_resp.token.id,
+                stripe_bank_account_id: data.stripe_resp.token.bank_account.id,
+                name: data.stripe_resp.token.bank_account.bank_name + ' *' + data.stripe_resp.token.bank_account.last4,
                 email: app.user.email
             }
         })

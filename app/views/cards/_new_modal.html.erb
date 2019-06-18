@@ -15,12 +15,24 @@
 
 		<form class='cardForm'>
 			<!--= on 'submit' (create_card form_object) -->
+			<fieldset>
+				<input type='text' class='input-medium' name='name'
+				required
+				parsley-trigger='change'
+				placeholder="Cardholders' Name">
+				<!--= set_value donate_wiz.supporter.name -->
+				<!--= set_value card_form.preset_name -->
+				<!--= set_value selected_supporter.name -->
+			</fieldset>
 
-			<%= render 'cards/fields' %>
+
+			<div id="donationPaymentCard">
+
+			</div>
 
 			<input type='hidden' name='supporter_id'> <!--= set_attr 'value' selected_supporter.id -->
 
-      <input type='hidden' name='event_id'><!--= set_attr 'value' selected_event.id -->
+      		<input type='hidden' name='event_id'><!--= set_attr 'value' selected_event.id -->
 			<%= render 'components/forms/submit_button' %>
 		</form>
 	</div>

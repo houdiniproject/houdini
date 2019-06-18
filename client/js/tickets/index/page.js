@@ -13,6 +13,8 @@ require('../../common/restful_resource')
 require('../../components/tables/filtering/apply_filter')('tickets')
 require('./delete-ticket')
 
+
+
 function metricsFetch() {
   appl.def('loading_metrics', true)
   request.get('/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/metrics')
@@ -149,18 +151,15 @@ appl.def('create_donation', function(el) {
 
 
 // Create a new card on behalf of a selected supporter
-appl.def('create_card', function(card_obj, el) {
+appl.def('create_card', function(form_obj, el) {
 	appl.def('new_card_form.error', '')
 	appl.def('loading', true)
-	create_card({type: 'Supporter', id: appl.selected_supporter.id, email: appl.selected_supporter.email}, card_obj, {event_id: appl.event_id})
+	create_card({type: 'Supporter', id: appl.selected_supporter.id, email: appl.selected_supporter.email}, 'donationPaymentCard', form_obj.name, {event_id: appl.event_id})
 		.then(function(card) {
 			appl.prev_elem(el).reset()
 			appl.notify("Card successfully saved for " + appl.selected_supporter.name)
 			return appl.ajax.update('tickets', appl.selected_ticket.id, {token: card.token})
 		})
-		.then(function() {
-      return fetch()
-    })
 		.then(appl.not_loading)
 		.then(appl.close_modal)
     .then(() => location.reload())

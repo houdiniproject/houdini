@@ -84,8 +84,10 @@
 					<p class='tip'>Enter the donor's credit card to use for this recurring donation</p>
 
 					<form class='cardForm u-centered'>
-						<!--= on 'submit' (rd_wizard.send_payment form_object) -->
-						<%= render 'cards/fields' %>
+						<!--= on 'submit' (rd_wizard.send_payment 'recurringSupporterPaymentCard') -->
+						<div id="recurringSupporterPaymentCard">
+
+						</div>
 						<%= render 'cards/form_footer' %>
 					</form>
 				</div>

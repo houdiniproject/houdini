@@ -94,17 +94,18 @@ appl.def('ticket_wiz', {
     appl.def('ticket_wiz.post_data.offsite_payment.kind', op_kind)
   },
 
-  send_payment: function(form_obj) {
+  send_payment: function(item_name, form_obj) {
     appl.def('loading', true)
     return appl.ticket_wiz.save_supporter_promise
       .then(function(supporter) {
-        return create_card({type: 'Supporter', id: supporter.id, email: supporter.email}, form_obj)
+        return create_card({type: 'Supporter', id: supporter.id, email: supporter.email}, item_name, form_obj.name)
       })
       .catch(show_err)
       .then(function(card) {
         appl.ticket_wiz.post_data.token = card.token
       })
       .then(appl.ticket_wiz.create_tickets)
+      .then(() => {appl.ticketPaymentCard.clear()})
   },
 
   create_tickets: function() {

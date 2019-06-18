@@ -64,3 +64,5 @@ javascripts/api
 !public/css/donate-button.v2.css
 !public/svgs
 !public/svgs/*
+
+/database

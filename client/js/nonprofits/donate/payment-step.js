@@ -20,7 +20,7 @@ function init(state) {
     flyd.stream({})
   , flyd.map(supp => ({name: supp.name, address_zip: supp.zip_code}), state.supporter$)) 
 
-  state.cardForm = cardForm.init({ path: '/cards', card$, payload$ }) 
+  state.cardForm = cardForm.init({ path: '/cards', card$, payload$}) 
   state.sepaForm = sepaForm.init({ supporter: supporterID$ } )
 
   // Set the card ID into the donation object when it is saved
@@ -144,10 +144,11 @@ const payWithSepaTab = state => {
 }
 
 const payWithCardTab = state => {
-  return h('div.u-marginBottom--10', [
+  var result = h('div.u-marginBottom--10', [
     cardForm.view(R.merge(state.cardForm, {error$: state.error$, hideButton: state.loading$()}))
   , progressBar(state.progress$())
   ])
+  return result
 }
 
 function view(state) {

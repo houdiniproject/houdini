@@ -6,6 +6,10 @@
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <%= content_for :javascripts do %>
+	<script>
+				var recurringSupporterPaymentCard = stripeV3.elements().create('card')
+				recurringSupporterPaymentCard.mount("#recurringSupporterPaymentCard")
+		</script>
 	<%= IncludeAsset.js '/client/js/nonprofits/recurring_donations/index/page.js' %>
 <% end %>
 

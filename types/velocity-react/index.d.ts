@@ -11,11 +11,10 @@ interface VelocityComponentProps
   animation: Animation
   runOnMount?: boolean
   targetQuerySelector?: TargetQuerySelector
-
 }
 
 
-export declare class VelocityComponent extends React.Component<VelocityComponentProps, {}>
+export declare class VelocityComponent extends React.Component<VelocityComponentProps & jquery.velocity.Options, {}>
 {
     runAnimation():void
 }

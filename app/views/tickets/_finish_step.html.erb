@@ -34,32 +34,46 @@
 			<hr class='diamonds'>
 			<p class='u-centered u-marginY--10'>Please select a payment method:</p>
 			<div class='u-margin--auto u-maxWidth--200 u-marginBottom--20'>
-        <input type="radio" id="radio_charge" name="kind" value='' data-ticket-kind="charge" checked='checked'>
-        <!--= on 'change' ticket_wiz.set_kind -->
-        <label for="radio_charge">Credit Card</label>
-        <br>
-        <input type="radio" id="radio_check" name="kind" value="check" data-ticket-kind="offsite">
-        <!--= on 'change' ticket_wiz.set_kind -->
-        <label for="radio_check">Check</label>
-        <br>
-        <input type="radio" id="radio_cash" name="kind" value="cash" data-ticket-kind="offsite">
-        <!--= on 'change' ticket_wiz.set_kind -->
-        <label for="radio_cash">Cash</label>
+				<input type="radio" id="radio_charge" name="kind" value='' data-ticket-kind="charge" checked='checked'>
+				<!--= on 'change' ticket_wiz.set_kind -->
+				<label for="radio_charge">Credit Card</label>
+				<br>
+				<input type="radio" id="radio_check" name="kind" value="check" data-ticket-kind="offsite">
+				<!--= on 'change' ticket_wiz.set_kind -->
+				<label for="radio_check">Check</label>
+				<br>
+				<input type="radio" id="radio_cash" name="kind" value="cash" data-ticket-kind="offsite">
+				<!--= on 'change' ticket_wiz.set_kind -->
+				<label for="radio_cash">Cash</label>
 			</div>
 		<% end %>
 
 		<form class='cardForm'>
 			<!--= show_if (eq ticket_wiz.post_data.kind 'charge') -->
-			<!--= on 'submit' (ticket_wiz.send_payment form_object) -->
+			<!--= on 'submit' (ticket_wiz.send_payment 'ticketPaymentCard' form_object) -->
+			<div class='u-background--grey u-padding--10'>
+				<fieldset>
+					<input type='text' class='input-medium' name='name'
+					required
+					parsley-trigger='change'
+					placeholder="Cardholders' Name">
+					<!--= set_value donate_wiz.supporter.name -->
+					<!--= set_value card_form.preset_name -->
+					<!--= set_value selected_supporter.name -->
+				</fieldset>
 
-			<%= render 'cards/fields' %>
 
-      <div class='u-background--grey u-padding--10'>
-        <!--= show_if (length discounts.data) -->
-        <label><small>Discount Code (optional)</small></label>
-        <input type='text' class='u-width--200'>
-        <!--= on 'keyup' discounts.apply -->
-      </div>
+				<div id="ticketPaymentCard">
+
+				</div>
+
+				<fieldset>
+				<!--= show_if (length discounts.data) -->
+				<label><small>Discount Code (optional)</small></label>
+				<input type='text' class='u-width--200'>
+				<!--= on 'keyup' discounts.apply -->
+				</fieldset>
+			</div>
 
 			<div class='u-marginTop--15 u-centered'>
 				<% save_card_uid = SecureRandom.uuid %>

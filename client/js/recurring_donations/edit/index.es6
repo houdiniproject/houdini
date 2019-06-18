@@ -43,10 +43,10 @@ state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.
         custom_amounts: app.pageLoadData.change_amount_suggestions});
   
   state.cardForm = cardForm.init({
-    card: {
+    card: flyd.stream({
       name: app.pageLoadData.supporter.name
     , address_zip: app.pageLoadData.supporter.zip_code
-    }
+    })
   , path: '/cards'
   , payload: {
       edit_token: token

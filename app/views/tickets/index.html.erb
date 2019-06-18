@@ -7,7 +7,57 @@
 		appl.def("event_name", '<%= @event.name %>')
 	</script>
 
+    <script>
+    
+      //we can't use the import because we're in the template and *sobs*
+			var ticketPaymentCard = stripeV3.elements({
+        fonts: [
+            { cssSrc: "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300" }
+        ]
+      }).create('card', {
+        style: {
+            base: {
+                color: '#494949',
+                fontFamily: "'Open Sans', 'Helvetica Neue', Arial, Verdana, 'Droid Sans', sans-serif",
+                fontSmoothing: 'antialiased',
+                fontSize: '16px'
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+
+        }
+    })
+        
+    appl.def('ticketPaymentCard', ticketPaymentCard)
+    appl.ticketPaymentCard.mount("#ticketPaymentCard")  
+        
+
+        var donationPaymentCard = stripeV3.elements({
+        fonts: [
+            { cssSrc: "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300" }
+        ]
+      }).create('card', {
+        style: {
+            base: {
+                color: '#494949',
+                fontFamily: "'Open Sans', 'Helvetica Neue', Arial, Verdana, 'Droid Sans', sans-serif",
+                fontSmoothing: 'antialiased',
+                fontSize: '16px'
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+
+        }
+    })
+
+    donationPaymentCard.mount("#donationPaymentCard")
+		</script>
 	<%= IncludeAsset.js '/client/js/tickets/index/page.js' %>
+  
 <% end %>
 
 <% content_for :head do %>

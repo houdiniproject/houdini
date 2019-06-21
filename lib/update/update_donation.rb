@@ -70,6 +70,8 @@ module UpdateDonation
       end
     end
 
+    correctedAddressAttributes = data[:address] ? data[:address].slice(:address, :city, :state_code, :zip_code, :country) : {}
+
     Qx.transaction do
 
       donation = existing_payment.donation
@@ -81,6 +83,17 @@ module UpdateDonation
       donation.event = nil if data[:event_id] == ''
       donation.campaign = campaign if campaign
       donation.campaign = nil if data[:campaign_id] == ''
+      unless (correctedAddressAttributes.any?)
+        if( donation.address)
+          donation.address.delete
+        end
+      else 
+        if (donation.address) 
+          donation.address.update_attributes(correctedAddressAttributes)
+        else 
+          donation.create_address(correctedAddressAttributes, supporter: donation.supporter)
+        end
+      end
 
       if is_offsite
         donation.amount = data[:gross_amount] if data[:gross_amount]

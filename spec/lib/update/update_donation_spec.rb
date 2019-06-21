@@ -28,6 +28,7 @@ describe UpdateDonation do
                                net_amount: initial_amount - initial_fee,
                                supporter: supporter
   )}
+
   let(:offsite_payment) {force_create(:offsite_payment, payment: payment, nonprofit: np, donation: donation,
                                       check_number: initial_check_number,
                                       gross_amount: initial_amount,
@@ -65,6 +66,8 @@ describe UpdateDonation do
   let(:new_check_number) {"new check number"}
 
   let(:initial_time) {Time.now}
+
+  let(:address) { force_create(:transaction_address, transactionable: donation, city: 'city', state_code: 'state_code', address: 'address', zip_code: 'zip', country: 'country', supporter: supporter)}
 
 
   let(:payment2_date) {initial_date + 10.days}
@@ -218,10 +221,12 @@ describe UpdateDonation do
                        gross_amount: new_amount,
                        fee_total: new_fee,
                        check_number: new_check_number,
-                       date: new_date_input
+                       date: new_date_input,
+                       address: {id:3333, city: 's'}
       }}
       it 'online donation' do
         payment2
+        address
         Timecop.freeze(1.day) do
           result = UpdateDonation.update_payment(donation.id, new_data)
 

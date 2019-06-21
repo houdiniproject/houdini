@@ -39,3 +39,19 @@ describe('createSiblingPath', () => {
     expect(Utils.createSiblingPath('foo.bar.baz', 'test')).toBe('foo.bar.test')
   })
 })
+
+describe('convertObject', () => {
+
+  it('returns an empty output for empty input', () => {
+    expect(Utils.convertObject(null, {'home': 'bah'})).toEqual({})
+  })
+
+  it('returns converted output', () => {
+    expect(Utils.convertObject(
+      {
+        'foo': {
+          'bar': 'baz'
+        }
+      }, {'foo.bar': 'bar.foo'})).toEqual({bar: {foo: 'baz'}})
+  })
+})

@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as $ from 'jquery';
 import {Configuration} from "../../../api/configuration";
+import { Address } from '../../../api';
 
 export class PutDonation {
   protected basePath = '/';
@@ -92,6 +93,7 @@ interface UpdateDonationModelData {
   fee_total?: number
   check_number?:string
   date?:string
+  address?:Address
 }
 
 export interface UpdateDonationModel {

@@ -213,4 +213,10 @@ en:
       yes_discard_changes: "Yes, discard changes"
       no_keep_editing: "No, keep editing"
       confirmation_text: "You have unsaved changes. Are you sure you'd like to discard them?"
+  edit_payment_modal:
+    confirmation:
+      discard_changes: "Discard changes?"
+      yes_discard_changes: "Yes, discard changes"
+      no_keep_editing: "No, keep editing"
+      confirmation_text: "You have unsaved changes. Are you sure you'd like to discard them?"
 

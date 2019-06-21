@@ -90,6 +90,8 @@ export interface ModalProps {
    * transition has finished completed.
    */
   onExited?: () => void
+
+  render?:(modal:ModalContext) => JSX.Element
 }
 
 /**
@@ -296,7 +298,7 @@ class Modal extends React.Component<ModalProps & ModalManagerContextProps> {
               </header>
 
               <ModalProvider value={this.modalState}>
-                {this.props.children}
+                {this.props.render ?  this.props.render(this.modalState) : this.props.children}
               </ModalProvider>
 
             </BootstrapWrapper>

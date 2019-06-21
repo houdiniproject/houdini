@@ -37,3 +37,19 @@ export function createSiblingPath(path:string, siblingName:string): string {
 
   return splitPath.join('.')  
 }
+
+export function convertObject(input:any, converter:{[from:string]:string}){
+  let output = {}
+  if (!input){
+    return {};
+  }
+  
+  _.keys(converter).forEach((i) => {
+    let value = _.get(input, i)
+    if (value){
+      _.set(output, converter[i], value)
+    }
+  })
+
+  return output;
+}

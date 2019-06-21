@@ -1,33 +1,34 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Supporter < ApplicationRecord
 
-  attr_accessible \
-    :search_vectors,
-    :profile_id, :profile,
-    :nonprofit_id, :nonprofit,
-    :full_contact_info, :full_contact_info_id,
-    :import_id, :import,
-    :name,
-    :first_name,
-    :last_name,
-    :email,
-    :address,
-    :city,
-    :state_code,
-    :country,
-    :phone,
-    :organization,
-    :latitude,
-    :locale,
-    :longitude,
-    :zip_code,
-    :total_raised,
-    :notes,
-    :fields,
-    :anonymous,
-    :deleted, # bool (flag for soft delete)
-    :email_unsubscribe_uuid, #string
-    :is_unsubscribed_from_emails #bool
+  #TODO
+  # attr_accessible \
+  #   :search_vectors,
+  #   :profile_id, :profile,
+  #   :nonprofit_id, :nonprofit,
+  #   :full_contact_info, :full_contact_info_id,
+  #   :import_id, :import,
+  #   :name,
+  #   :first_name,
+  #   :last_name,
+  #   :email,
+  #   :address,
+  #   :city,
+  #   :state_code,
+  #   :country,
+  #   :phone,
+  #   :organization,
+  #   :latitude,
+  #   :locale,
+  #   :longitude,
+  #   :zip_code,
+  #   :total_raised,
+  #   :notes,
+  #   :fields,
+  #   :anonymous,
+  #   :deleted, # bool (flag for soft delete)
+  #   :email_unsubscribe_uuid, #string
+  #   :is_unsubscribed_from_emails #bool
 
   belongs_to :profile
   belongs_to :nonprofit

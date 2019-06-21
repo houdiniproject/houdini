@@ -3,54 +3,55 @@ class Nonprofit < ApplicationRecord
 
   Categories = ["Public Benefit", "Human Services", "Education", "Civic Duty", "Human Rights", "Animals", "Environment", "Health", "Arts, Culture, Humanities", "International", "Children", "Religion", "LGBTQ", "Women's Rights", "Disaster Relief", "Veterans"]
 
-  attr_accessible \
-    :name, # str
-    :stripe_account_id, # str
-    :summary, # text: paragraph-sized organization summary
-    :tagline, # str
-    :email, # str: public organization contact email
-    :phone, # str: public org contact phone
-    :main_image, # str: url of featured image - first image in profile carousel
-    :second_image, # str: url of 2nd image in carousel
-    :third_image, # str: url of 3rd image in carousel
-    :background_image,  # str: url of large profile background
-    :remove_background_image, #bool carrierwave
-    :logo, # str: small logo image url for searching
-    :zip_code, # int
-    :website, # str: their own website url
-    :categories, # text [str]: see the constant Categories
-    :achievements, # text [str]: highlights about this org
-    :full_description, # text
-    :state_code, # str: two-letter state code (eg. CA)
-    :statement, # str: bank statement for donations towards the nonprofit
-    :city, # str
-    :slug, # str
-    :city_slug, #str
-    :state_code_slug, #str
-    :ein, # str: employee identification number
-    :published, # boolean; whether to display this profile
-    :vetted, # bool: Whether a super admin (one of CommitChange's employees) have approved this org
-    :verification_status, # str (either 'pending', 'unverified', 'escalated', 'verified' -- whether the org has submitted the identity verification form and it has been approved)
-    :latitude, # float: geocoder gem
-    :longitude, # float: geocoder gem
-    :timezone, # str
-    :address, # text
-    :thank_you_note, # text
-    :referrer, # str
-    :no_anon, # bool: whether to allow anonymous donations
-    :roles_attributes,
-    :brand_font, #string (lowercase key eg. 'helvetica')
-    :brand_color, #string (hex color value)
-    :hide_activity_feed, # bool
-    :tracking_script,
-    :facebook, #string (url)
-    :twitter, #string (url)
-    :youtube, #string (url)
-    :instagram, #string (url)
-    :blog, #string (url)
-    :card_failure_message_top, # text
-    :card_failure_message_bottom, # text
-    :autocomplete_supporter_address # boolean
+  #TODO
+  # attr_accessible \
+  #   :name, # str
+  #   :stripe_account_id, # str
+  #   :summary, # text: paragraph-sized organization summary
+  #   :tagline, # str
+  #   :email, # str: public organization contact email
+  #   :phone, # str: public org contact phone
+  #   :main_image, # str: url of featured image - first image in profile carousel
+  #   :second_image, # str: url of 2nd image in carousel
+  #   :third_image, # str: url of 3rd image in carousel
+  #   :background_image,  # str: url of large profile background
+  #   :remove_background_image, #bool carrierwave
+  #   :logo, # str: small logo image url for searching
+  #   :zip_code, # int
+  #   :website, # str: their own website url
+  #   :categories, # text [str]: see the constant Categories
+  #   :achievements, # text [str]: highlights about this org
+  #   :full_description, # text
+  #   :state_code, # str: two-letter state code (eg. CA)
+  #   :statement, # str: bank statement for donations towards the nonprofit
+  #   :city, # str
+  #   :slug, # str
+  #   :city_slug, #str
+  #   :state_code_slug, #str
+  #   :ein, # str: employee identification number
+  #   :published, # boolean; whether to display this profile
+  #   :vetted, # bool: Whether a super admin (one of CommitChange's employees) have approved this org
+  #   :verification_status, # str (either 'pending', 'unverified', 'escalated', 'verified' -- whether the org has submitted the identity verification form and it has been approved)
+  #   :latitude, # float: geocoder gem
+  #   :longitude, # float: geocoder gem
+  #   :timezone, # str
+  #   :address, # text
+  #   :thank_you_note, # text
+  #   :referrer, # str
+  #   :no_anon, # bool: whether to allow anonymous donations
+  #   :roles_attributes,
+  #   :brand_font, #string (lowercase key eg. 'helvetica')
+  #   :brand_color, #string (hex color value)
+  #   :hide_activity_feed, # bool
+  #   :tracking_script,
+  #   :facebook, #string (url)
+  #   :twitter, #string (url)
+  #   :youtube, #string (url)
+  #   :instagram, #string (url)
+  #   :blog, #string (url)
+  #   :card_failure_message_top, # text
+  #   :card_failure_message_bottom, # text
+  #   :autocomplete_supporter_address # boolean
 
   has_many :payouts
   has_many :charges

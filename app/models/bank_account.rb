@@ -1,18 +1,19 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class BankAccount < ApplicationRecord
 
-	attr_accessible \
-	:name, # str (readable bank name identifier, eg. "Wells Fargo *1234")
-	:confirmation_token, # str (randomly generated private token for email confirmation)
-	:account_number, # str (last digits only)
-	:bank_name, # str
-	:pending_verification, # bool (whether this bank account is still awaiting email confirmation)
-	:status, # str
-	:email, # str (contact email associated with the user who created this bank account)
-	:deleted, # bool (soft delete flag)
-	:stripe_bank_account_token, # str
-	:stripe_bank_account_id, # str
-	:nonprofit_id, :nonprofit
+	#TODO
+	# attr_accessible \
+	# :name, # str (readable bank name identifier, eg. "Wells Fargo *1234")
+	# :confirmation_token, # str (randomly generated private token for email confirmation)
+	# :account_number, # str (last digits only)
+	# :bank_name, # str
+	# :pending_verification, # bool (whether this bank account is still awaiting email confirmation)
+	# :status, # str
+	# :email, # str (contact email associated with the user who created this bank account)
+	# :deleted, # bool (soft delete flag)
+	# :stripe_bank_account_token, # str
+	# :stripe_bank_account_id, # str
+	# :nonprofit_id, :nonprofit
 
 	#validates :stripe_bank_account_token, presence: true, uniqueness: true
 	# validates :stripe_bank_account_id, presence: true, uniqueness: true

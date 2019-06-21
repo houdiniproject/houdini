@@ -10,10 +10,11 @@ class Role < ApplicationRecord
 		:event_editor          # //
 	]
 
-	attr_accessible \
-		:name,
-		:user_id, :user,
-		:host, :host_id, :host_type # nil, "Nonprofit", "Campaign", "Event"
+	# TODO:
+	# attr_accessible \
+	# 	:name,
+	# 	:user_id, :user,
+	# 	:host, :host_id, :host_type # nil, "Nonprofit", "Campaign", "Event"
 
 	belongs_to :user
 	belongs_to :host, polymorphic: true

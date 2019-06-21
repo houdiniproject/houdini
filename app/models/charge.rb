@@ -3,11 +3,12 @@
 
 class Charge < ApplicationRecord
 
-	attr_accessible \
-		:amount,
-		:fee,
-		:stripe_charge_id,
-		:status
+	#TODO
+	# attr_accessible \
+	# 	:amount,
+	# 	:fee,
+	# 	:stripe_charge_id,
+	# 	:status
 
 
 	has_one :campaign, through: :donation

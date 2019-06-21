@@ -6,20 +6,21 @@
 
 class Payout < ApplicationRecord
 
-	attr_accessible \
-		:scheduled, # bool (whether this was made automatically at the beginning of the month)
-		:count, # int (number of donations for this payout)
-		:ach_fee, # int (in cents, the total fee for the payout itself)
-		:gross_amount, # int (in cents, total amount before fees)
-		:fee_total, # int (in cents, total amount of fees)
-		:net_amount, # int (in cents, total amount after fees for this payout)
-		:email, # str (cache of user email who issued this)
-		:user_ip, # str (ip address of the user who made this payout)
-		:status, # str ('pending', 'paid', 'canceled', or 'failed')
-		:failure_message, # str
-		:bank_name, # str: cache of the nonprofit's bank name
-		:stripe_transfer_id, # str
-		:nonprofit_id, :nonprofit
+	#TODO
+	# attr_accessible \
+	# 	:scheduled, # bool (whether this was made automatically at the beginning of the month)
+	# 	:count, # int (number of donations for this payout)
+	# 	:ach_fee, # int (in cents, the total fee for the payout itself)
+	# 	:gross_amount, # int (in cents, total amount before fees)
+	# 	:fee_total, # int (in cents, total amount of fees)
+	# 	:net_amount, # int (in cents, total amount after fees for this payout)
+	# 	:email, # str (cache of user email who issued this)
+	# 	:user_ip, # str (ip address of the user who made this payout)
+	# 	:status, # str ('pending', 'paid', 'canceled', or 'failed')
+	# 	:failure_message, # str
+	# 	:bank_name, # str: cache of the nonprofit's bank name
+	# 	:stripe_transfer_id, # str
+	# 	:nonprofit_id, :nonprofit
 
 	belongs_to :nonprofit
 	has_one    :bank_account, through: :nonprofit

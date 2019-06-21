@@ -1,11 +1,12 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TagMaster < ApplicationRecord
 
-	attr_accessible \
-		:nonprofit, :nonprofit_id,
-		:name,
-		:deleted,
-		:created_at
+	#TODO:
+	# attr_accessible \
+	# 	:nonprofit, :nonprofit_id,
+	# 	:name,
+	# 	:deleted,
+	# 	:created_at
 
 	validates :name, presence: true
 	validate :no_dupes, on: :create

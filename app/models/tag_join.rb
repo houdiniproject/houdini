@@ -1,9 +1,10 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TagJoin < ApplicationRecord
 
-	attr_accessible \
-		:supporter, :supporter_id,
-		:tag_master, :tag_master_id
+	#TODO
+	# attr_accessible \
+	# 	:supporter, :supporter_id,
+	# 	:tag_master, :tag_master_id
 
 	validates :tag_master, presence: true
 

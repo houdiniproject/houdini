@@ -1,21 +1,22 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class RecurringDonation < ApplicationRecord
 
-  attr_accessible \
-    :amount, # int (cents)
-    :active, # bool (whether this recurring donation should still be paid)
-    :paydate, # int (fixed date of the month for monthly recurring donations)
-    :interval, # int (interval of time, ie the '3' in '3 months')
-    :time_unit, # str ('month', 'day', 'week', or 'year')
-    :start_date, # date (when to start this recurring donation)
-    :end_date, # date (when to deactivate this recurring donation)
-    :n_failures, # int (how many times the charge has failed)
-    :edit_token, # str / uuid to validate the editing page, linked from their email client
-    :cancelled_by, # str email of user/supporter who made the cancellation
-    :cancelled_at, # datetime of user/supporter who made the cancellation
-    :donation_id, :donation,
-    :nonprofit_id, :nonprofit,
-    :supporter_id #used because things are messed up in the datamodel
+  #TODO:
+  # attr_accessible \
+  #   :amount, # int (cents)
+  #   :active, # bool (whether this recurring donation should still be paid)
+  #   :paydate, # int (fixed date of the month for monthly recurring donations)
+  #   :interval, # int (interval of time, ie the '3' in '3 months')
+  #   :time_unit, # str ('month', 'day', 'week', or 'year')
+  #   :start_date, # date (when to start this recurring donation)
+  #   :end_date, # date (when to deactivate this recurring donation)
+  #   :n_failures, # int (how many times the charge has failed)
+  #   :edit_token, # str / uuid to validate the editing page, linked from their email client
+  #   :cancelled_by, # str email of user/supporter who made the cancellation
+  #   :cancelled_at, # datetime of user/supporter who made the cancellation
+  #   :donation_id, :donation,
+  #   :nonprofit_id, :nonprofit,
+  #   :supporter_id #used because things are messed up in the datamodel
 
   scope :active,   -> {where(active: true)}
   scope :inactive, -> {where(active: [false,nil])}

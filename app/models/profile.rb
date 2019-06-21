@@ -1,23 +1,24 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Profile < ApplicationRecord
 
-	attr_accessible \
-		:registered, # bool
-		:mini_bio,
-		:first_name, # str
-		:last_name, # str
-		:name,
-		:phone, # str
-		:address, # str
-		:email, # str
-		:city, # str
-		:state_code, # str (eg. CA)
-		:zip_code, # str
-		:privacy_settings, # text [str]: XXX deprecated
-		:picture, # str: either their social network pic or a stored pic on S3
-		:anonymous, # bool: negates all privacy_settings
-		:city_state,
-		:user_id
+	#TODO
+	# attr_accessible \
+	# 	:registered, # bool
+	# 	:mini_bio,
+	# 	:first_name, # str
+	# 	:last_name, # str
+	# 	:name,
+	# 	:phone, # str
+	# 	:address, # str
+	# 	:email, # str
+	# 	:city, # str
+	# 	:state_code, # str (eg. CA)
+	# 	:zip_code, # str
+	# 	:privacy_settings, # text [str]: XXX deprecated
+	# 	:picture, # str: either their social network pic or a stored pic on S3
+	# 	:anonymous, # bool: negates all privacy_settings
+	# 	:city_state,
+	# 	:user_id
 
 	validates :email, format: {with: Email::Regex}, allow_blank: true
 

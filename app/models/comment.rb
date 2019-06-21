@@ -1,10 +1,11 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Comment < ApplicationRecord
 
-	attr_accessible \
-		:host_id, :host_type, #parent: Event, Campaign, nil
-		:profile_id,
-		:body
+	#TODO
+	# attr_accessible \
+	# 	:host_id, :host_type, #parent: Event, Campaign, nil
+	# 	:profile_id,
+	# 	:body
 
 	validates :profile, :presence => true
 	validates :body, :presence => true, :length => {:maximum => 200}

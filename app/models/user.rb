@@ -1,29 +1,30 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class User < ApplicationRecord
 
-	attr_accessible \
-		:email, # str: balidated with Devise
-		:password, # str: hashed with bcrypt
-    :phone, # str
-		:location,
-		:city,
-		:state_code,
-		:password_confirmation, # accessor: used on registration
-		:remember_me, # bool: don't sign user out for a while
-		:provider, # str: OAuth provider
-		:uid, # str: OAuth user ID
-		:pending_password, # bool: User registered with oauth and did not set a password
-		:name, # str: created with oauth
-		:auto_generated, # bool: flag whether a password was auto-generated for this account
-		:referer, # str: ID of the user who referred this account
-		:latitude,
-		:longitude,
-		:reset_password_token,
-		:reset_password_sent_at,
-		:picture, # str: url for fb or twitter pic
-		:current_password, # accessor: for updating pass
-		:profile_attributes,
-    :phone
+	#TODO:
+	# attr_accessible \
+	# 	:email, # str: balidated with Devise
+	# 	:password, # str: hashed with bcrypt
+    # :phone, # str
+	# 	:location,
+	# 	:city,
+	# 	:state_code,
+	# 	:password_confirmation, # accessor: used on registration
+	# 	:remember_me, # bool: don't sign user out for a while
+	# 	:provider, # str: OAuth provider
+	# 	:uid, # str: OAuth user ID
+	# 	:pending_password, # bool: User registered with oauth and did not set a password
+	# 	:name, # str: created with oauth
+	# 	:auto_generated, # bool: flag whether a password was auto-generated for this account
+	# 	:referer, # str: ID of the user who referred this account
+	# 	:latitude,
+	# 	:longitude,
+	# 	:reset_password_token,
+	# 	:reset_password_sent_at,
+	# 	:picture, # str: url for fb or twitter pic
+	# 	:current_password, # accessor: for updating pass
+	# 	:profile_attributes,
+    # :phone
 
 	geocoded_by :location
 

@@ -1,38 +1,39 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Event < ApplicationRecord
 
-	attr_accessible \
-		:deleted, #bool for soft-delete
-		:name, # str
-		:tagline, # str
-		:summary, # text
-		:body, # text (html)
-    :end_datetime,
-    :start_datetime,
-		:latitude, # float
-		:longitude, # float
-		:location, # str
-		:city, # str
-		:state_code, # str
-		:address, # str
-		:zip_code, # str
-		:main_image, # str
-		:remove_main_image, # for carrierwave
-		:background_image, # str
-		:remove_background_image, # bool carrierwave
-		:published, # bool
-		:slug, # str
-		:directions, # text
-		:venue_name, # str
-		:profile_id, # creator
-		:ticket_levels_attributes,
-		:show_total_raised, # bool
-		:show_total_count, # bool
-		:hide_activity_feed, # bool
-		:nonprofit_id, # host
-		:hide_title,  # bool
-    :organizer_email, # string
-    :receipt_message # text
+	#TODO
+	# attr_accessible \
+	# 	:deleted, #bool for soft-delete
+	# 	:name, # str
+	# 	:tagline, # str
+	# 	:summary, # text
+	# 	:body, # text (html)
+    # :end_datetime,
+    # :start_datetime,
+	# 	:latitude, # float
+	# 	:longitude, # float
+	# 	:location, # str
+	# 	:city, # str
+	# 	:state_code, # str
+	# 	:address, # str
+	# 	:zip_code, # str
+	# 	:main_image, # str
+	# 	:remove_main_image, # for carrierwave
+	# 	:background_image, # str
+	# 	:remove_background_image, # bool carrierwave
+	# 	:published, # bool
+	# 	:slug, # str
+	# 	:directions, # text
+	# 	:venue_name, # str
+	# 	:profile_id, # creator
+	# 	:ticket_levels_attributes,
+	# 	:show_total_raised, # bool
+	# 	:show_total_count, # bool
+	# 	:hide_activity_feed, # bool
+	# 	:nonprofit_id, # host
+	# 	:hide_title,  # bool
+    # :organizer_email, # string
+    # :receipt_message # text
 
 	validates :name, :presence => true
   validates :end_datetime, :presence => true

@@ -13,11 +13,12 @@
 
 class PaymentPayout < ApplicationRecord
 
-	attr_accessible \
-		:payment_id, :payment,
-		:charge_id, :charge, # deprecated
-		:payout_id, :payout,
-		:total_fees # int (cents)
+	#TODO
+	# attr_accessible \
+	# 	:payment_id, :payment,
+	# 	:charge_id, :charge, # deprecated
+	# 	:payout_id, :payout,
+	# 	:total_fees # int (cents)
 
 	belongs_to :charge # deprecated
 	belongs_to :payment

@@ -5,13 +5,14 @@
 
 class Payment < ApplicationRecord
 
-  attr_accessible \
-    :towards,
-		:gross_amount,
-		:refund_total,
-		:fee_total,
-		:kind,
-		:date
+#TODO
+#   attr_accessible \
+#     :towards,
+# 		:gross_amount,
+# 		:refund_total,
+# 		:fee_total,
+# 		:kind,
+# 		:date
 
 	belongs_to :supporter
 	belongs_to :nonprofit

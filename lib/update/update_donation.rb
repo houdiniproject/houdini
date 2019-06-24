@@ -83,15 +83,18 @@ module UpdateDonation
       donation.event = nil if data[:event_id] == ''
       donation.campaign = campaign if campaign
       donation.campaign = nil if data[:campaign_id] == ''
-      unless (correctedAddressAttributes.any?)
+      unless (correctedAddressAttributes.any? && correctedAddressAttributes.keys.any?{|k| correctedAddressAttributes[k].present?})
         if( donation.address)
           donation.address.delete
         end
       else 
-        if (donation.address) 
+        if (donation.address)
+          correctedAddressAttributes = {city: correctedAddressAttributes[:city] || nil, state_code: correctedAddressAttributes[:state_code] || nil, zip_code: correctedAddressAttributes[:zip_code] || nil, 
+          country: correctedAddressAttributes[:country]|| nil,
+          address: correctedAddressAttributes[:address] || nil}
           donation.address.update_attributes(correctedAddressAttributes)
         else 
-          donation.create_address(correctedAddressAttributes, supporter: donation.supporter)
+          donation.create_address(correctedAddressAttributes.merge(supporter: donation.supporter))
         end
       end
 

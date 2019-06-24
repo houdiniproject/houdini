@@ -18,14 +18,14 @@ describe DefaultAddressStrategies do
 
       it 'no default' do
         result = inited_strategy.on_add( supporter_address)
-
+        
         expected_default(result, supporter_address)
 
       end
 
       it 'already default' do
         inited_strategy.on_add( supporter_address_2)
-
+        supporter.reload
         result = inited_strategy.on_add( supporter_address)
 
         expected_default(result, supporter_address_2)

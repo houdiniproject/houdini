@@ -45,9 +45,9 @@ export class FormikCurrencyInput extends React.Component<FormikCurrencyInputProp
   }
 
   render() {
-    let props = _.omit(this.props, ['field', 'form'])
+    const {field, form, ...props}  = this.props
 
-    return <IntlCurrencyInput {...props} {...this.props.field} onChange={this.onChangeEvent} onBlur={this.onBlurEvent}/>
+    return <IntlCurrencyInput {...props} {...field} onChange={this.onChangeEvent} onBlur={this.onBlurEvent}/>
   }
 }
 

@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { observer } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
 import FormikSelect from './form/FormikSelect';
 import { FieldProps } from 'formik';
@@ -13,8 +12,7 @@ export interface FormikSelectFieldProps<T> extends FieldProps<T>
   inputId?:string
   disabled?:boolean
   inputClassName?:string
-  options?:{id:string, name:string}[]
-  
+  options?:{value:any, label:string}[] 
 }
 
 class FormikSelectField<T> extends React.Component<FormikSelectFieldProps<T> & InjectedIntlProps, {}> {

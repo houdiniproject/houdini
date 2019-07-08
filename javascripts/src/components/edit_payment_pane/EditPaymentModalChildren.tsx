@@ -68,10 +68,10 @@ InjectedIntlProps, EditPaymentModalChildrenState> {
 
   createModalController() : EditPaymentModalController {
     return {...this.state,
-      setCanClose: (canClose:() => boolean|Promise<boolean>) => this.props.modal.setCanClose(canClose),
-      setFormId: (formId:string) => this.setState({formId}),
-      setDisableSave: (disableSave:boolean) => this.setState({disableSave}),
-      setDisableClose: (disableClose:boolean) => this.setState({disableClose})
+      setCanClose: (canClose:() => boolean|Promise<boolean>) => {this.props.modal.setCanClose(canClose)},
+      setFormId: (formId:string) => {this.setState({formId})},
+      setDisableSave: (disableSave:boolean) => {this.setState({disableSave})},
+      setDisableClose: (disableClose:boolean) => {this.setState({disableClose})}
     }
   }
 

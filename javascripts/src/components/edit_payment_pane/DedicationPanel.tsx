@@ -8,6 +8,7 @@ import TableLabeledBasicField from './TableLabeledBasicField';
 import FormikTextareaField from '../common/FormikTextareaField';
 import FormikHiddenField from '../common/FormikHiddenField';
 import Panel from '../common/bootstrap/Panel';
+import { isFilled } from '../../lib/utils';
 
 export interface DedicationPanelProps {
 
@@ -41,10 +42,10 @@ class DedicationPanel extends React.Component<DedicationPropType & InjectedIntlP
   render() {
     return <Panel headerRender={() => <label>Dedication</label>}
       render={() => <>
-        <FieldCreator component={FormikSelectField} label={"Dedication Type"} name={"dedication.type"} options={[{ id: null, name: '' }, { id: 'honor', name: 'In honor of' }, {
-          id: 'memory',
-          name: 'In memory of'
-        }]} />
+        <FieldCreator component={FormikSelectField} label={"Dedication Type"} name={"dedication.type"} options={[{ value: null, label: '' }, { value: 'honor', label: 'In honor of' }, {
+          value: 'memory',
+          label: 'In memory of'
+        }]} inputId={FormikHelpers.createId(this.props.formik, 'dedication.type')}/>
         <ConditionalDedicationDetails formik={this.props.formik} />
       </>
       } />
@@ -54,13 +55,13 @@ class DedicationPanel extends React.Component<DedicationPropType & InjectedIntlP
 class ConditionalDedicationDetails extends React.Component<DedicationPropType>{
 
   render() {
-    if (this.props.formik.values.dedication.type != '') {
+    if (isFilled(this.props.formik.values.dedication.type)) {
       const formikType = this.props.formik as HoudiniFormikProps<SelectedDedicationValues>
       return <DedicationDetails formik={formikType} />
 
     }
     else {
-      return undefined;
+      return null;
     }
   }
 }
@@ -71,22 +72,22 @@ class DedicationDetails extends React.Component<SelectedDedicationPropType> {
       render={() => <>
         <table className='table--small u-marginBottom--10'>
           <tbody>
-            <FieldCreator component={TableLabeledBasicField} name={'dedication.name'} label={'Name'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.name')} />
+            <FieldCreator component={TableLabeledBasicField} name={'dedication.dedication.name'} label={'Name'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.dedication.name')} />
             <tr>
 
               <th> Supporter
                 ID
                   </th>
-              <td>{this.props.formik.values.dedication.supporter_id}<FieldCreator component={FormikHiddenField} name={'dedication.supporter_id'} /></td>
+              <td>{this.props.formik.values.dedication.supporter_id}<FieldCreator component={FormikHiddenField} name={'dedication.dedication.supporter_id'} /></td>
             </tr>
 
-            <FieldCreator component={TableLabeledBasicField} name={'dedication.full_address'} label={'Full address'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.name')} />
-            <FieldCreator component={TableLabeledBasicField} name={'dedication.phone'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.phone')} />
-            <FieldCreator component={TableLabeledBasicField} name={'dedication.email'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.email')} />
+            <FieldCreator component={TableLabeledBasicField} name={'dedication.dedication.full_address'} label={'Full address'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.dedication.full_address')} />
+            <FieldCreator component={TableLabeledBasicField} name={'dedication.dedication.phone'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.dedication.phone')} />
+            <FieldCreator component={TableLabeledBasicField} name={'dedication.dedication.email'} inputId={FormikHelpers.createId(this.props.formik, 'dedication.dedication.email')} />
           </tbody>
         </table>
 
-        <FieldCreator component={FormikTextareaField} placeholder={'Dedication'} name={'dedication.note'} label={"Dedication Note"} rows={3} inputId={FormikHelpers.createId(this.props.formik, 'dedication.note')} />
+        <FieldCreator component={FormikTextareaField} placeholder={'Dedication'} name={'dedication.dedication.note'} label={"Dedication Note"} rows={3} inputId={FormikHelpers.createId(this.props.formik, 'dedication.dedication.note')} />
       </>
       } />
 

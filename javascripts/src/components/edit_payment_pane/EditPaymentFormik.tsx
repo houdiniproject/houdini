@@ -273,11 +273,8 @@ class EditPaymentFormik extends React.Component<EditPaymentFormikProps & Injecte
 
     const initialValues = this.loadFormFromData(this.props, timezoned)
     const paymentData = convertToPaymentDataWithMoney(this.props.data)
-    const events = this.props.events.map(i => { return { id: i.id.toString(), name: i.name } })
-
-    const campaigns = this.props.campaigns.map(i => { return { id: i.id.toString(), name: i.name } })
     return <HoudiniFormik initialValues={initialValues} onSubmit={(values, actions) => this.onSubmit(values, actions, timezoned)} validationSchema={validationSchema} render={(props) => {
-      return <EditPaymentForm formik={props} initialPaymentData={paymentData} dateFormatter={timezoned} events={events} campaigns={campaigns} editPaymentModalController={this.props.editPaymentModalController} />
+      return <EditPaymentForm formik={props} initialPaymentData={paymentData} dateFormatter={timezoned} events={this.props.events} campaigns={this.props.campaigns} editPaymentModalController={this.props.editPaymentModalController} />
     }} />;
   }
 

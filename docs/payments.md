@@ -1,28 +1,73 @@
+# Definitions
+
+## Instance
+A copy of Houdini running. An organization with a server running Houdini is running their own instance.
+
+## Instance owner
+The entity responsible for running an instance of Houdini. In cases of a Houdini hosted service, like CommitChange, this is an organization independent of the nonprofits using this instance of Houdini. In other cases, this may be an organization with some sort of oversight of all of the nonprofits on their instance of Houdini, such as a fiscal sponsor. In some cases, a single nonprofit may also be their own instance owner. The instance owner has access to the superuser role which gives them access to the information of ALL of the nonprofits on their instance.
+
+## Nonprofit
+Short hand for an organization registered on an instance of Houdini. The nonprofit doesn't have to formally be a nonprofit or NGO but they often are.
+
+## Payment
+A payment represents a description of a non-expense, transaction that the user of Houdini cares about. It can be of positive or negative value. Money could have changed hands through Houdini, like via Stripe or Paypal, or offline, via paper check. It's, more or less, like a checkbook entry but the money could be handled outside of Houdini. Notably, expenses are NEVER handled through Houdini. Houdini only cares about contributions to an organization (such as a donation, ticket purchase, etc) and any disputes, refunds, or fees related to those contributions.
+
+## Merchant Provider Plugin (MPP)
+A Merchant Provider Plugin (or TPP) is used for making online transactions through a merchant provider. A MPP, which is provided to Houdini as a Rails engine, handles the transaction flow for a given merchant provider, both on the backend and the front end. Additionally, it keeps any necessary state used by the transaction flow. This could include ids used for different transaction sources that are meaningful to a transaction provider, records of transactions in different states, the current balance for a given nonprofit, etc. A MPP may also need to handle events created by their merchant provider, such as notification of a dispute, a change in status of a transaction, etc.
+
+## Merchant provider
+The service, system or source used for making transactions. In the case of a service like Stripe, there might be specific accounts related to the service for both the Instance Owner and the Nonprofit (depending on setup, they could differ or not). In the case of cryptocurrency, the transaction provider could relate to transfers between wallets and the instance owner and nonprofits may have wallet addresses.
+
+## Transaction source
+The database and data entity which contains an transaction source id. Each one has a source type, since they're only meaningful for a given transaction source type on a particular merchant provider.
+
+## Transaction source ID
+A identification of an account belonging to a supporter which can make transactions. This could be an address for a cryptocurrency wallet, a Stripe card identifier or, in the case where the Houdini instance works with a raw merchant account, the credit card number and expiration date. This is something the supporter has given to the nonprofit for making transactions. Stored by the MPP in an entry source.
+
+## Supporter
+An individual who is in the nonprofit's CRM in Houdini. A supporter, if they have any payments with the nonprofit, may have a 
+
+## Transaction
+The logical process of making money change hands from a supporter to a nonprofit as well as in the reverse direction for disputes, refunds, etc. happens. If a transaction completes, money changes hands.
 
 # Payments
-A payment represents a description of a transaction that the user of Houdini cares about. It can be of positive or negative value. 
-
-Notably, a payment object may be associated with a charge, refund, dispute or fee handled through a payment processor. If a payment does not have an associated transaction through a payment processor, no money has changed hands and the "offsite payment" is simply included for the preferences of the user. As an example, if a nonprofit receives a paper check, they may wish to record it Houdini but have no interest in having it processed through Houdini. 
+A payment object may be associated with a charge, refund, dispute or fee, etc. handled through a merchant processor plugin (MPP) as well as a supporter. If a payment does not have an associated transaction through an MPP, no money has changed hands and the "offsite payment" is simply included for the convenience of the nonprofit. As an example, if a nonprofit receives a paper check from a supporter, they may wish to recorded in Houdini.
 
 Payment processing in Houdini V2 is modular. No assumptions should be made in the base of Houdini about what payment processing mechanisms are used.
 
-## Sources
-Payment sources correspond to some sort of account number or identifier belonging to a supporter which can be used by a payment processor to transfer money from a supporter to a nonprofit. As an example, it might represent the ACH information necessary for transferring from a supporter's checking account. A source record in the database has the following properties:
+## Transaction sources
+A transaction source is partially maintained through the MPP and partially through core. At a minimum the source will have:
 
-* an generated ID
-* a pointer to a supporter
-* a pointer to a payment processor payment source (polymorphic)
-* a readable name (optional)
+In the core database tables:
+* an generated ID, used for making new transactions
+* a reference to the transaction source's supporter
+* a reference to the transaction source's entity in MPP's database tables (polymorphic)
+* a human-readable description
+
 
 ### Source creation
 Sources are created using using a POST request to `api/v1/supporters/:id/sources`. The post request will include a body as follows:
 ```json
 {
-    payment_processor_source_type: <symbol corresponding to a payment processor source type (registered by plugin)>,
-    payment_processor_source_object: <object corresponding to the information needed by payment processor source>
+    description: <a short description of the transaction source>,
+    transaction_source_type: <symbol corresponding to a transaction source type (registered by MPP)>,
+    transaction_source_object: <object corresponding to the transaction source>
+
 }
 ```
-In the case of an ACH payment processor, the payment_processor_source_object might include the account and routing number. In the case of a 
+#### Example
+Let's say an MPP, IbanMpp, handles IBAN transactions directly (not through a system like Stripe). On registration, IbanMpp registers a transaction source type of 'iban' corresponding to an Iban account. The supporter has an id of '1'. An example POST call made to api/v1/supporters/1/sources is:
+```json
+{
+    description: 'DE*3000'
+    transaction_source_type: 'iban',
+    transaction_source_object: {
+        iban_number: 'DE89370400440532013000'
+    }
+}
+```
+
+# Transaction plugin
 
 # Payment process
 
@@ -33,11 +78,11 @@ Payments start with a POST request to `api/v1/nonprofits/:id/payment`. The post 
 ```json
 {
     supporter_id: <supporter.id>,
+    source_id: <transaction_source.id>
     address_id: <address.id>,
-    amount: <amount in cents (or lowest denomination of currency)>,
+    amount: <amount in lowest denomination of currency)>,
     currency: <currency symbol. Must match nonprofit's currency symbol>,
-    payment_processor?: <symbol corresponding to the payment processor (registered by plugin)>,
-    payment_processing_object?: <object corresponding to the information needed by the payment method. This will include the source ID or a source token>,
+    payment_processing_object?: <object corresponding to the information needed by MPP to make a transaction with the given transaction>,
     payment_type_object: <object corresponding to a donation, recurring donation, ticket sale, campaign gift, etc. each registered as plugin>
 }
 ```
@@ -49,9 +94,11 @@ def payment(input)
     
     verify_supporter_belongs_to_nonprofit(input)
     verify_currency_is_valid_for_nonprofit(input)
+    verify_supporter_owns_transaction_source(input)
+    transaction_source_plugin = get_plugin_for_transaction_source(input)
 
     # Here we reserve the number of items requested. As an example, if there tickets being requested, we make sure enough are available. If there are, we reserve them. Otherwise we throw and tell the supporter that we don't have any
-    item_request = payment_type_plugin.reserve_limited_items(input)
+    item_request = reserve_limited_items(input)
     
     fire_event(:begin_payment)
     
@@ -59,12 +106,13 @@ def payment(input)
         start_transaction do   
             #payment processor performs the charges. This could succeed or fail for a lot of reasons.
             
-            payment_result = payment_processor.process(input)
+            payment_result = transaction_source_plugin.process(input)
             # here's where recurring donations and other objects get set up.
-            payment_type_plugin.process(input)
-        
+            setup_recurring_donations(input)
             save_payment(payment_result, input)
-            payment_type_plugin.finalized_limited_items(item_request)
+
+            # If we have reserved items, we need to convert them to a purchased items.
+            finalized_limited_items(item_request)
         end
         fire_event(:payment_completed)
     rescue => e

@@ -103,7 +103,7 @@ describe('AddressModal', () => {
 
   it("modifying an input does make save button work", () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
-// 
+ 
       expect(getSaveButton().prop('disabled')).toBeFalsy()
     })
 

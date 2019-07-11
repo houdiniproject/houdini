@@ -156,7 +156,7 @@ class AddressModal extends React.Component<AddressModalProps, {}> {
   }
 }
 
-export default observer(AddressModal)
+export default AddressModal
 
 
 

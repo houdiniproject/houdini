@@ -1,13 +1,12 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
-import {InjectedIntlProps, injectIntl} from 'react-intl';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import HoudiniFormik, { HoudiniFormikServerStatus, FormikHelpers } from '../../common/HoudiniFormik';
 import AddressPane from './AddressPane';
 import { Address, TimeoutError, ValidationErrorsException } from '../../../../api';
 import { FormikActions } from 'formik';
 import { SupporterEntity } from '../supporter_entity';
-import { LocalRootStore } from '../local_root_store';
 import { AddressModalState } from './AddressModal';
 
 export type AddressPaneFormikInputProps = Address & { isDefault?: boolean, shouldDelete?: boolean }
@@ -39,9 +38,12 @@ export const addressPaneFormSubmission = async ({ values, action, supporterEntit
     else {
       const shouldAdd = !input.id
       if (shouldAdd) {
-        const address = await supporterEntity.createAddress(input)
+        const addressPromise = supporterEntity.createAddress(input)
+        const address = await addressPromise
         action.setStatus({})
         onClose({ type: 'add', address: address, setToDefault: values.isDefault })
+
+
       }
       else {
         const address = await supporterEntity.updateAddress(values.id, input)
@@ -66,20 +68,22 @@ export const addressPaneFormSubmission = async ({ values, action, supporterEntit
 
     action.setStatus(status)
   }
+  finally {
+    action.setSubmitting(false)
+  }
 }
 
-export interface AddressModalFormProps
-{
+export interface AddressModalFormProps {
   initialAddress: Address
   isDefault?: boolean
   onClose: (action: AddressAction) => void
-  supporterEntity:SupporterEntity
-  addressModalState:AddressModalState
+  supporterEntity: SupporterEntity
+  addressModalState: AddressModalState
 }
 
 class AddressModalForm extends React.Component<AddressModalFormProps & InjectedIntlProps, {}> {
   render() {
-  
+
     const initialValues: AddressPaneFormikInputProps = this.props.initialAddress && this.props.initialAddress.id && this.props.initialAddress.id !== 0 ? {
       'id': this.props.initialAddress.id,
       'address': this.props.initialAddress.address || "",
@@ -89,11 +93,11 @@ class AddressModalForm extends React.Component<AddressModalFormProps & InjectedI
       'country': this.props.initialAddress.country || "",
       'isDefault': this.props.isDefault
     } : {}
-    
-     return <HoudiniFormik initialValues={initialValues as AddressPaneFormikInputProps} onSubmit={(values, action) => { addressPaneFormSubmission({ values: values, action: action, supporterEntity: this.props.supporterEntity, onClose: this.props.onClose }) }} render={(props) => 
-       <AddressPane formik={props} addressModalState={this.props.addressModalState}/>
-     }/>
+
+    return <HoudiniFormik initialValues={initialValues as AddressPaneFormikInputProps} onSubmit={async (values, action) => { return addressPaneFormSubmission({ values: values, action: action, supporterEntity: this.props.supporterEntity, onClose: this.props.onClose }) }} render={(props) =>
+      <AddressPane formik={props} addressModalState={this.props.addressModalState} />
+    } />
   }
 }
 
-export default injectIntl(observer(AddressModalForm))
+export default injectIntl(AddressModalForm)

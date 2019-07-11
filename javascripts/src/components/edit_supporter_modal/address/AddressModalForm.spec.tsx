@@ -14,6 +14,8 @@ import AddressModalForm, { addressPaneFormSubmission, TIMEOUT_ERROR_MESSAGE } fr
 import { InnerAddressPane } from './AddressPane';
 import { supporterEntity, TIMEOUT_CAUSING_ID, TIMEOUT_CAUSING_STREET } from './supporter_entity_mock';
 import _ = require('lodash');
+import { Supporter } from '../../../../api';
+import waitForExpect from 'wait-for-expect'
 
 describe('AddressModalForm', () => {
   let onClose: jest.Mock<{}>
@@ -57,6 +59,11 @@ describe('AddressModalForm', () => {
     } as any
   }
 
+  function toPromise(func: any): Promise<void> {
+    return func as Promise<void>
+  }
+
+
   beforeEach(() => {
     reinitStateFunctions()
     onClose = jest.fn()
@@ -68,13 +75,15 @@ describe('AddressModalForm', () => {
     let setFieldValue: jest.Mock<{}>
 
     let setStatus: jest.Mock<{}>
+    let setSubmitting: jest.Mock
     let commonValues: any
     beforeEach(() => {
       setFieldValue = jest.fn()
       setStatus = jest.fn()
+      setSubmitting = jest.fn()
       let store = supporterEntity()
       commonValues = {
-        action: jest.fn(() => { return { setFieldValue: setFieldValue, setStatus: setStatus } })(),
+        action: jest.fn(() => { return { setFieldValue, setStatus, setSubmitting} })(),
         supporterEntity: jest.fn(() => store)(),
         onClose: onClose
       }
@@ -84,17 +93,15 @@ describe('AddressModalForm', () => {
     describe('new address', () => {
       const values = { address: '' }
       describe('has succeeded', () => {
-        beforeEach(() => {
-          addressPaneFormSubmission({ values: values, ...commonValues })
-        })
-
-        it('has fired onClose with the new object', (done) => {
+        it('has fired onClose with the new object', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(onClose).toBeCalled()
           expect(onClose).toBeCalledWith({ type: 'add', address: values })
           done()
         })
 
-        it('has set status with correct id', (done) => {
+        it('has set status with correct id', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(setStatus).toBeCalled()
           expect(setStatus).toBeCalledWith({})
           done()
@@ -103,11 +110,9 @@ describe('AddressModalForm', () => {
 
       describe('timed out', () => {
         let values = { address: TIMEOUT_CAUSING_STREET }
-        beforeEach(() => {
-          addressPaneFormSubmission({ values: values, ...commonValues })
-        })
 
-        it('error is properly set', (done) => {
+        it('error is properly set', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(setStatus).toBeCalled()
           expect(setStatus).toBeCalledWith({ form: TIMEOUT_ERROR_MESSAGE })
           done()
@@ -119,29 +124,27 @@ describe('AddressModalForm', () => {
 
       describe('has succeeded', () => {
         const values = { address: '', id: 1 }
-        beforeEach(() => {
-          addressPaneFormSubmission({ values: values, ...commonValues })
-        })
 
-        it('has fired onClose with the updated object', (done) => {
+        it('has fired onClose with the updated object', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(onClose).toBeCalled()
           expect(onClose).toBeCalledWith({ type: 'update', address: values })
           done()
         })
 
-        it('has set status with correct id', (done) => {
+        it('has set status with correct id', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(setStatus).toBeCalled()
           expect(setStatus).toBeCalledWith({})
           done()
         })
       })
+
       describe('timed out', () => {
         let values = { id: TIMEOUT_CAUSING_ID, address: TIMEOUT_CAUSING_STREET }
-        beforeEach(() => {
-          addressPaneFormSubmission({ values: values, ...commonValues })
-        })
 
-        it('error is properly set', (done) => {
+        it('error is properly set', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(setStatus).toBeCalled()
           expect(setStatus).toBeCalledWith({ id: undefined, form: TIMEOUT_ERROR_MESSAGE })
           done()
@@ -180,16 +183,15 @@ describe('AddressModalForm', () => {
 
       describe('timed out', () => {
         let values = { id: TIMEOUT_CAUSING_ID, shouldDelete: true }
-        beforeEach(() => {
-          addressPaneFormSubmission({ values: values, ...commonValues })
-        })
 
-        it('shouldDelete was properly reset', (done) => {
+        it('shouldDelete was properly reset', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(setFieldValue).toBeCalledWith('shouldDelete', false)
           done()
         })
 
-        it('error is properly set', (done) => {
+        it('error is properly set', async (done) => {
+          await addressPaneFormSubmission({ values: values, ...commonValues })
           expect(setStatus).toBeCalled()
           expect(setStatus).toBeCalledWith({ id: undefined, form: TIMEOUT_ERROR_MESSAGE })
           done()
@@ -200,20 +202,20 @@ describe('AddressModalForm', () => {
 
   describe('handles an add', () => {
     const initialAddress = {}
-    let onClose: jest.Mock
     let modalState: ModalContext;
     let addressModalState: AddressModalState
     let innerPane: InnerAddressPane
     beforeEach(() => {
-      onClose = jest.fn()
       let entity = supporterEntity()
       modalState = createModalState()
       addressModalState = createAddressModalState()
       pane = mountWithIntl(<ModalProvider value={modalState}>
-          <AddressModalForm initialAddress={initialAddress}
-            onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
-          /></ModalProvider>)
+        <AddressModalForm initialAddress={initialAddress}
+          onClose={onClose} supporterEntity={entity as SupporterEntity} addressModalState={addressModalState}
+        /></ModalProvider>)
       innerPane = pane.find('InnerAddressPane').instance() as any
+
+
     })
 
     it("nothing has been incorrectly fired", () => {
@@ -228,19 +230,20 @@ describe('AddressModalForm', () => {
       expect(addressModalState.setDisableAddSave).toBeCalledWith(false)
     })
 
-    it('is successful', async (done) => {
+    it('is successful', async () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
+
       pane.update()
 
       await innerPane.props.formik.submitForm()
       let values = { address: 'me' }
 
-      expect(onClose).toBeCalled()
-      expect(onClose).toBeCalledWith({ type: 'add', address: values })
-      done()
+      await waitForExpect(() =>
+        expect(onClose).toBeCalledWith({ type: 'add', address: values }))
+
     })
 
-    it('is successful with default added', async (done) => {
+    it('with default added there is success', async () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
 
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'isDefault'), true)
@@ -250,9 +253,7 @@ describe('AddressModalForm', () => {
       //isDefault here for test purposes
       let values = { address: 'me', isDefault: true }
 
-      expect(onClose).toBeCalled()
-      expect(onClose).toBeCalledWith({ type: 'add', address: values, setToDefault: true })
-      done()
+      await waitForExpect(() => expect(onClose).toBeCalledWith({ type: 'add', address: values, setToDefault: true }))
     })
 
     describe('timed out', () => {
@@ -262,7 +263,7 @@ describe('AddressModalForm', () => {
       let addressModalState: AddressModalState
       let innerAddressPane: InnerAddressPane
 
-      beforeEach(async (done) => {
+      beforeEach(() => {
         onClose = jest.fn()
         let entity = supporterEntity()
         modalState = createModalState()
@@ -277,34 +278,36 @@ describe('AddressModalForm', () => {
         let address = pane.find('InnerAddressPane').find('input').filterWhere(i => i.prop('name') === 'address')
         simulateChange(address, TIMEOUT_CAUSING_STREET)
         pane.update()
+      })
+
+      it('shouldDelete was never set', async () => {
         await innerAddressPane.props.formik.submitForm()
         pane.update()
-        done()
+        await waitForExpect(() => {expect(innerAddressPane.props.formik.values.shouldDelete).toBeFalsy()})
       })
 
-      it('shouldDelete was never set', (done) => {
-        const shouldDelete = innerAddressPane.props.formik.values.shouldDelete
-        expect(shouldDelete).toBeFalsy()
-        done()
-      })
-
-      it('error is properly set', (done) => {
+      it('error is properly set', async() => {
+        await innerAddressPane.props.formik.submitForm()
+        await waitForExpect(() => expect(innerAddressPane.props.formik.isSubmitting).toBeFalsy())
+        pane.update()
         const block = pane.find('InnerAddressPane').find('FormNotificationBlock').instance() as React.Component<{}, {}>
 
-        expect(block.props.children).toBe(TIMEOUT_ERROR_MESSAGE)
-        done()
+        await waitForExpect(() =>expect(block.props.children).toBe(TIMEOUT_ERROR_MESSAGE))
       })
 
-      it('form notification was removed onsuccessful call', async (done) => {
+      it('form notification was removed onsuccessful call', async () => {
+        await innerAddressPane.props.formik.submitForm()
+        await waitForExpect(() => expect(innerAddressPane.props.formik.isSubmitting).toBeFalsy())
         pane.update()
         const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
 
         expect(block().instance().props.children).toBe(TIMEOUT_ERROR_MESSAGE)
         await innerAddressPane.props.formik.submitForm()
+        await waitForExpect(() => expect(innerAddressPane.props.formik.isSubmitting).toBeFalsy())
         pane.update()
 
         expect(block().exists()).toBeFalsy()
-        done()
+      
       })
     })
   })
@@ -338,23 +341,23 @@ describe('AddressModalForm', () => {
 
     it("modifying an input does make save button work", () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
-
+      pane.update()
       expect(addressModalState.setDisableAddSave).toBeCalledWith(false)
     })
 
-    it('is successful', async (done) => {
+    it('is successful', async () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
       pane.update()
 
       await innerPane.props.formik.submitForm()
+
       let values = { address: 'me', id: 2, city:"", country:"", zip_code:"", state_code: "" }
 
-      expect(onClose).toBeCalled()
-      expect(onClose).toBeCalledWith({ type: 'update', address: values })
-      done()
+      await waitForExpect(() =>
+        expect(onClose).toBeCalledWith({ type: 'update', address: values }))
     })
 
-    it('is successful with default added', async (done) => {
+    it('is successful with default added', async () => {
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'address'), 'me')
 
       simulateChange(pane.find('input').filterWhere((w) => w.prop('name') === 'isDefault'), true)
@@ -363,12 +366,11 @@ describe('AddressModalForm', () => {
       await innerPane.props.formik.submitForm()
       //isDefault here for test purposes
       let values = { address: 'me', id: 2, city:"", country:"", zip_code:"", state_code: "", isDefault:true}
+      await waitForExpect(() =>
 
-      expect(onClose).toBeCalled()
-      expect(onClose).toBeCalledWith({ type: 'update', address: values, setToDefault: true })
-      done()
+      expect(onClose).toBeCalledWith({ type: 'update', address: values, setToDefault: true }));
     })
-    
+
 
 
     describe('timed out', () => {
@@ -378,7 +380,7 @@ describe('AddressModalForm', () => {
       let addressModalState: AddressModalState
       let innerAddressPane: InnerAddressPane
 
-      beforeEach(async (done) => {
+      beforeEach(async () => {
         onClose = jest.fn()
         let entity = supporterEntity()
         modalState = createModalState()
@@ -393,34 +395,43 @@ describe('AddressModalForm', () => {
         let address = pane.find('InnerAddressPane').find('input').filterWhere(i => i.prop('name') === 'address')
         simulateChange(address, TIMEOUT_CAUSING_STREET)
         pane.update()
-        await innerAddressPane.props.formik.submitForm()
-        pane.update()
-        done()
+        
+
       })
 
-      it('shouldDelete was never set', (done) => {
+      it('shouldDelete was never set', async () => {
+        await innerAddressPane.props.formik.submitForm()
+        
+        await waitForExpect(() => expect(innerAddressPane.props.formik.isSubmitting).toBeFalsy())
         const shouldDelete = innerAddressPane.props.formik.values.shouldDelete
         expect(shouldDelete).toBeFalsy()
-        done()
       })
 
-      it('error is properly set', (done) => {
+      it('error is properly set', async() => {
+        await innerAddressPane.props.formik.submitForm()
+        
+        await waitForExpect(() => expect(innerAddressPane.props.formik.isSubmitting).toBeFalsy())
+        pane.update()
         const block = pane.find('InnerAddressPane').find('FormNotificationBlock').instance() as React.Component<{}, {}>
 
         expect(block.props.children).toBe(TIMEOUT_ERROR_MESSAGE)
-        done()
+     
       })
 
-      it('form notification was removed onsuccessful call', async (done) => {
+      it('form notification was removed onsuccessful call', async () => {
+        await innerAddressPane.props.formik.submitForm()
+        await waitForExpect(() => expect(innerAddressPane.props.formik.isSubmitting).toBeFalsy())
         pane.update()
         const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
 
         expect(block().instance().props.children).toBe(TIMEOUT_ERROR_MESSAGE)
         await innerAddressPane.props.formik.submitForm()
+    
+        await waitForExpect(() => expect(innerAddressPane.props.formik.isSubmitting).toBeFalsy())
         pane.update()
 
         expect(block().exists()).toBeFalsy()
-        done()
+
       })
 
 
@@ -431,16 +442,11 @@ describe('AddressModalForm', () => {
     describe('delete address', () => {
 
 
-      describe('has successed', () => {
-        beforeEach(async (done) => {
-          await innerPane.handleDelete()
-          done()
-        })
+      describe('has succeeded', () => {
 
-        it('has fired onClose with the delete object', (done) => {
-          expect(onClose).toBeCalled()
+        it('has fired onClose with the delete object', async () => {
+          await innerPane.handleDelete()
           expect(onClose).toBeCalledWith({ type: 'delete', address: { id: 2 } })
-          done()
         })
       })
 
@@ -451,7 +457,7 @@ describe('AddressModalForm', () => {
         let addressModalState: AddressModalState
         let innerAddressPane: InnerAddressPane
 
-        beforeEach(async (done) => {
+        beforeEach(async () => {
           onClose = jest.fn()
           let entity = supporterEntity()
           modalState = createModalState()
@@ -463,27 +469,26 @@ describe('AddressModalForm', () => {
               /></ModalProvider></Provider>)
 
           innerAddressPane = pane.find('InnerAddressPane').instance() as InnerAddressPane
-          await innerAddressPane.handleDelete()
-          pane.update()
-          done()
+         
         })
 
-        it('shouldDelete was properly reset', (done) => {
+        it('shouldDelete was properly reset', async () => {
+          await innerAddressPane.handleDelete()
           pane.update()
           const shouldDelete = innerAddressPane.props.formik.values.shouldDelete
           expect(shouldDelete).toBe(false)
-          done()
         })
 
-        it('error is properly set', (done) => {
+        it('error is properly set', async () => {
+          await innerAddressPane.handleDelete()
           pane.update()
           const block = pane.find('InnerAddressPane').find('FormNotificationBlock').instance() as React.Component<{}, {}>
 
           expect(block.props.children).toBe(TIMEOUT_ERROR_MESSAGE)
-          done()
         })
 
-        it('form notification was removed onsuccessful call', async (done) => {
+        it('form notification was removed onsuccessful call', async () => {
+          await innerAddressPane.handleDelete()
           pane.update()
           const block = () => pane.find('InnerAddressPane').find('FormNotificationBlock')
 
@@ -492,7 +497,6 @@ describe('AddressModalForm', () => {
           pane.update()
 
           expect(block().exists()).toBeFalsy()
-          done()
         })
       })
     })

@@ -16,23 +16,23 @@ export default class TableLabeledFieldComponent<T> extends React.Component<Table
   render() {
     let error = _.get(this.props.form.errors, this.props.field.name)
     let serverError = _.get(this.props.form.status, `fields.${this.props.field.name}`)
+
     let classNames: string[] = []
     if (this.props.className)
       classNames.push(this.props.className)
 
-    classNames.push("form-group")
     if (error || serverError) {
       classNames.push("has-error")
     }
 
-    return <fieldset className={classNames.join(" ")}>
+    return <tr className={classNames.join(' ')}>
       <th>
         <label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
       </th>
       <td>
         <TableStandardFieldComponent form={this.props.form} field={this.props.field} id={this.props.inputId}>{this.props.children}</TableStandardFieldComponent>
       </td>
-    </fieldset>;
+    </tr>
   }
 }
 

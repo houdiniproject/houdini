@@ -18,8 +18,7 @@ export interface TableLabeledBasicFieldProps<T> extends FieldProps<T> {
 export default class FormikBasicField<T> extends React.Component<TableLabeledBasicFieldProps<T>> {
   render() {
 
-    return <tr>
-      <TableLabeledFieldComponent
+    return <TableLabeledFieldComponent
         form={this.props.form}
         field={this.props.field}
         inputId={this.props.inputId}
@@ -28,7 +27,6 @@ export default class FormikBasicField<T> extends React.Component<TableLabeledBas
         <FormikInput field={this.props.field} placeholder={this.props.placeholder} className={`form-control ${this.props.inputClassNames || ''}`} id={this.props.inputId} disabled={this.props.disabled}
         />
       </TableLabeledFieldComponent>
-    </tr>
   }
 }
 

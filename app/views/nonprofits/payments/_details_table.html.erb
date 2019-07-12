@@ -130,6 +130,16 @@
         <!--= put payment_details.data.donation.comment -->
       </td>
     </tr>
+    <tr>
+      <!--= show_if (all payment_details.data.donation.address (any payment_details.data.donation.address.address payment_details.data.donation.address.city  payment_details.data.donation.address.state_code payment_details.data.donation.address.zip_code
+      payment_details.data.donation.address.country)) -->
+      <td>Donation Address</td>
+      <td>
+        <!--= put address_with_commas payment_details.data.donation.address.address payment_details.data.donation.address.city payment_details.data.donation.address.state_code -->
+        <!--= put payment_details.data.donation.address.zip_code -->
+        <!--= put payment_details.data.donation.address.country -->
+      </td>
+    </tr>
 
 	</tbody>
 </table>
@@ -191,19 +201,17 @@
 			<td>Phone </td>
 			<td><!--= put this.supporter.phone --></td>
 		</tr>
-
-		<tr>
-			<!--= show_if (any this.supporter.address this.supporter.city_and_state) -->
-			<td>Address  </td>
-			<td class='addressTd'>
-				<p><!--= put this.supporter.address --></p>
-				<p><!--= put this.supporter.city --> <!--= put this.supporter.state_code --> <!--= put this.supporter.zip_code --></p>
-				<p><!--= put this.supporter.country --></p>
-			</td>
-		</tr>
     <tr>
       <td>Anonymous?</td>
       <td><!--= if payment_details.data.supporter.anonymous (put 'Yes') (put 'No') --></td>
+    </tr>
+    <tr>
+			<!--= show_if (any this.address this.city this.state_code this.zip_code this.country) -->
+    <td><i class='fa fa-map-marker u-color--grey'></i></td>
+    <td>
+      <!--= put address_with_commas this.address this.city this.state_code -->
+      <!--= put this.zip_code -->
+      <!--= put this.country -->
     </tr>
 	</tbody>
 </table>

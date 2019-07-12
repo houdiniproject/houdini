@@ -16,4 +16,7 @@ class Ticket < ActiveRecord::Base
 	has_one :nonprofit, through: :event
 	has_many :activities, as: :attachment, dependent: :destroy
 
+	def related_tickets
+		payment.tickets.where('id != ?', self.id)
+	end
 end

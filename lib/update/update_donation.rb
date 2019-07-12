@@ -29,8 +29,8 @@ module UpdateDonation
         designation: {is_a: String},
         dedication: {is_a: String},
         comment: {is_a: String},
-        campaign_id: {is_reference: true, required:true},
-        event_id: {is_reference: true, required: true}
+        campaign_id: {is_reference: true },
+        event_id: {is_reference: true}
     }
 
     if is_offsite
@@ -43,7 +43,7 @@ module UpdateDonation
     end
 
     ParamValidation.new(data, validations)
-    set_to_nil = {campaign: data[:campaign_id] == '', event: data[:event_id] == ''}
+    set_to_nil = {campaign: !data[:campaign_id] || data[:campaign_id] == '' , event: !data[:event_id] || data[:event_id] == ''}
 
     # validate campaign and event ids if there and if they belong to nonprofit
     if (set_to_nil[:campaign])

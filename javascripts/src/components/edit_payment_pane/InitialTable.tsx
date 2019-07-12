@@ -63,7 +63,7 @@ class InitialTable extends React.Component<InitialTableProps & InjectedIntlProps
             </tr> : false
         }
 
-        <tr className='test-grossAmount'>
+        <tr>
           <td>Gross Amount</td>
           <td>
             <MoneyToString value={this.props.data.gross_amount} />

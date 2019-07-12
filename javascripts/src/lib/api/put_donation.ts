@@ -86,9 +86,8 @@ interface UpdateDonationModelData {
   designation?:string
   dedication?:string
   comment?:string
-  campaign_id:string
-  event_id: string
-
+  campaign_id?:string
+  event_id?: string
   gross_amount?: number
   fee_total?: number
   check_number?:string

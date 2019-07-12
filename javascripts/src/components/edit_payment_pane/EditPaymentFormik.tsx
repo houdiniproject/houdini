@@ -20,56 +20,7 @@ import { EditPaymentModalController } from './EditPaymentModalChildren';
 import { convertObject } from '../../lib/utils';
 import { ApiManager } from '../../lib/api_manager';
 import { inject } from 'mobx-react';
-
-
-
-
-
-// export interface FundraiserInfo {
-//   id: number
-//   name: string
-// }
-
-
-// interface Charge {
-//   status: string
-// }
-
-// interface RecurringDonation {
-//   interval?: number
-//   time_unit?: string
-//   created_at: string
-// }
-
-// interface Donation {
-//   designation?: string
-//   comment?: string
-//   event?: { id: number }
-//   campaign?: { id: number }
-//   dedication?: string
-//   recurring_donation?: RecurringDonation
-//   id: number
-// }
-
-// interface PaymentData {
-//   gross_amount: number
-//   fee_total: number
-//   date: string
-//   offsite_payment: OffsitePayment
-//   donation: Donation
-//   kind: string
-//   id: string
-//   refund_total: number
-//   net_amount: number
-//   origin_url?: string
-//   charge?: Charge,
-//   nonprofit: { id: number }
-// }
-
-// interface OffsitePayment {
-//   check_number: string
-//   kind: string
-// }
+import ControlledPropUpdates from '../common/ControlledPropUpdates';
 
 function convertToPaymentDataWithMoney(data: PaymentData): PaymentDataWithMoney {
   return {
@@ -83,25 +34,25 @@ function convertToPaymentDataWithMoney(data: PaymentData): PaymentDataWithMoney 
 
 interface AdditionalSubmitInfo {
   putDonation: (donation: UpdateDonationModel, nonprofitId: number) => Promise<any>,
-  nonprofitTimezonedDates:NonprofitTimezonedDates
+  nonprofitTimezonedDates: NonprofitTimezonedDates
   nonprofitId: number,
   paymentId: number,
   onClose: () => void
   preupdateDonationAction?: () => void,
   postUpdateSuccess?: () => void,
 
-  
+
 }
 
 
 export async function onSubmit(
   values: FormData,
   action: FormikActions<FormData>,
-  {putDonation, nonprofitTimezonedDates, nonprofitId, paymentId, onClose, preupdateDonationAction, postUpdateSuccess}:AdditionalSubmitInfo
+  { putDonation, nonprofitTimezonedDates, nonprofitId, paymentId, onClose, preupdateDonationAction, postUpdateSuccess }: AdditionalSubmitInfo
 ) {
 
   let status: HoudiniFormikServerStatus<FormData> = {}
-  if (preupdateDonationAction ){
+  if (preupdateDonationAction) {
     preupdateDonationAction();
   }
 
@@ -110,15 +61,19 @@ export async function onSubmit(
     donation: {
       designation: values.designation,
       comment: values.comment,
-      campaign_id: values.campaign.toString(),
-      event_id: values.event.toString(),
       gross_amount: values.gross_amount.amountInCents,
       fee_total: values.fee_total.amountInCents,
-
       date: nonprofitTimezonedDates.readable_date_time_to_iso(values.date),
       address: values.address
     }
   };
+
+  if (values.campaign) {
+    updateData.donation.campaign_id = values.campaign.toString()
+  }
+  if (values.event) {
+    updateData.donation.event_id = values.event.toString()
+  }
 
   if (values.dedication && values.dedication.type) {
     const nameToValueForContact = ['full_address', 'phone', 'email'].map((i) => {
@@ -186,6 +141,9 @@ export async function onSubmit(
 
     action.setStatus(status)
   }
+  finally {
+    action.setSubmitting(false)
+  }
 }
 
 
@@ -204,7 +162,7 @@ export interface FormData {
   designation?: string,
   comment?: string,
   check_number?: string
-  address?:Address
+  address?: Address
 }
 
 export interface EditPaymentFormikProps {
@@ -222,15 +180,16 @@ export interface EditPaymentFormikProps {
 
 class EditPaymentFormik extends React.Component<EditPaymentFormikProps & InjectedIntlProps, {}> {
   readonly putDonation: (donation: UpdateDonationModel, nonprofitId: number, extraJQueryAjaxSettings?: JQueryAjaxSettings) => Promise<any>
-  
+
   constructor(props: EditPaymentFormikProps & InjectedIntlProps) {
     super(props)
 
-    this.putDonation = this.props.ApiManager.get(PutDonation).putDonation
+    const putDonationManager = this.props.ApiManager.get(PutDonation)
+    this.putDonation = putDonationManager.putDonation.bind(putDonationManager)
   }
 
   @boundMethod
-  async onSubmit(values: any, action: FormikActions<any>, nonprofitTimezonedDates:NonprofitTimezonedDates) {
+  async onSubmit(values: any, action: FormikActions<any>, nonprofitTimezonedDates: NonprofitTimezonedDates) {
     await onSubmit(values, action, {
       nonprofitTimezonedDates,
       putDonation: this.putDonation,
@@ -242,24 +201,29 @@ class EditPaymentFormik extends React.Component<EditPaymentFormikProps & Injecte
     })
   }
 
-  loadFormFromData(props: EditPaymentFormikProps, nonprofitTimezonedDates:NonprofitTimezonedDates): FormData {
-    const eventId = props.data.donation.event && props.data.donation.event.id;
-    const campaignId = props.data.donation.campaign && props.data.donation.campaign.id;
-    
-    const dedication = parseDedication(props.data && props.data.donation && props.data.donation.dedication)
+  loadFormFromData(props: EditPaymentFormikProps, nonprofitTimezonedDates: NonprofitTimezonedDates): FormData | {} {
+    let output = {}
+    if (props.data) {
+      if (props.data.donation) {
+        output = {
+          ...output,
+          eventId: props.data.donation.event && props.data.donation.event.id,
+          campaignId: props.data.donation.campaign && props.data.donation.campaign.id,
+          designation: props.data.donation.designation,
+          comment: props.data.donation.comment,
+          address: props.data.donation.address,
+          dedication: parseDedication(props.data.donation.dedication)
+        }
+      }
 
-    return {
-      event: eventId,
-      campaign: campaignId,
-      gross_amount: amountToMoney(props.data.gross_amount),
-      fee_total: amountToMoney(props.data.fee_total),
-      date: nonprofitTimezonedDates.readable_date(props.data.date),
-      dedication: dedication,
-      designation: props.data.donation.designation,
-      comment: props.data.donation.comment,
-      address: props.data.donation.address,
+      return {
+        ...output,
+        gross_amount: amountToMoney(props.data.gross_amount),
+        fee_total: amountToMoney(props.data.fee_total),
+        date: nonprofitTimezonedDates.readable_date(props.data.date)
+      }
     }
-
+    return {}
   }
 
   render() {
@@ -272,10 +236,12 @@ class EditPaymentFormik extends React.Component<EditPaymentFormikProps & Injecte
     const timezoned = new NonprofitTimezonedDates(this.props.nonprofitTimezone)
 
     const initialValues = this.loadFormFromData(this.props, timezoned)
-    const paymentData = convertToPaymentDataWithMoney(this.props.data)
-    return <HoudiniFormik initialValues={initialValues} onSubmit={(values, actions) => this.onSubmit(values, actions, timezoned)} validationSchema={validationSchema} render={(props) => {
-      return <EditPaymentForm formik={props} initialPaymentData={paymentData} dateFormatter={timezoned} events={this.props.events} campaigns={this.props.campaigns} editPaymentModalController={this.props.editPaymentModalController} />
-    }} />;
+    const paymentData = this.props.data && convertToPaymentDataWithMoney(this.props.data)
+    return <ControlledPropUpdates initialValues={paymentData} render={(paymentData) => {
+      return <HoudiniFormik initialValues={initialValues} onSubmit={(values, actions) => this.onSubmit(values, actions, timezoned)} validationSchema={validationSchema} render={(props) => {
+        return <EditPaymentForm formik={props} initialPaymentData={paymentData} dateFormatter={timezoned} events={this.props.events} campaigns={this.props.campaigns} editPaymentModalController={this.props.editPaymentModalController} />
+      }} />;
+    }} />
   }
 
 }

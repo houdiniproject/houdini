@@ -80,9 +80,9 @@ class EditPaymentForm extends React.Component<EditPaymentFormProps & InjectedInt
         dateFormatter={this.props.dateFormatter} />
       <ConditionalOffsitePayment initialPaymentData={this.props.initialPaymentData} formik={formik} />
       <TwoColumnFields>
-        <FieldCreator component={FormikSelectField} name={'campaign'} label={"Campaign"} options={campaigns} inputId={FormikHelpers.createId(this.props.formik, 'campaign')}/>
+        <FieldCreator component={FormikSelectField} name={'campaignId'} label={"Campaign"} options={campaigns} inputId={FormikHelpers.createId(this.props.formik, 'campaign')}/>
 
-        <FieldCreator component={FormikSelectField} name={'event'} label={"Event"} options={events} inputId={FormikHelpers.createId(this.props.formik, 'event')}/>
+        <FieldCreator component={FormikSelectField} name={'eventId'} label={"Event"} options={events} inputId={FormikHelpers.createId(this.props.formik, 'event')}/>
       </TwoColumnFields>
       <FieldCreator component={FormikTextareaField} name={'designation'} label={'designation'} rows={3} inputId={FormikHelpers.createId(this.props.formik, 'designation')}/>
 

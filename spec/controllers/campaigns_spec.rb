@@ -60,7 +60,7 @@ describe CampaignsController, :type => :controller do
 
   describe 'routes' do
     it "routes campaigns#index" do
-      expect(:get => "/nonprofits/5/campaigns/4").to(route_to(:controller => "campaigns", :action => "show", nonprofit_id: "5", id: "4"))
+      expect(get: "/nonprofits/5/campaigns/4").to(route_to(controller: "campaigns", action: "show", nonprofit_id: "5", id: "4"))
     end
   end
 end

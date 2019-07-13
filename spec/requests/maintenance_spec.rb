@@ -60,7 +60,7 @@ describe 'Maintenance Mode' do
         end
 
         it 'redirects sign_in if the token is wrong' do
-          get(:new, {maintenance_token: "#{token}3"})
+          get(:new, params: { maintenance_token: "#{token}3" })
           expect(response.code).to eq "302"
           expect(response.location).to eq page
         end
@@ -73,18 +73,18 @@ describe 'Maintenance Mode' do
 
 
         it 'redirects sign_in if the token is passed in wrong param' do
-          get(:new, {maintnancerwrwer_token: "#{token}"})
+          get(:new, params: { maintnancerwrwer_token: "#{token}" })
           expect(response.code).to eq "302"
           expect(response.location).to eq page
         end
 
         it 'allows sign_in if the token is passed' do
-          get(:new, {maintenance_token: "#{token}"})
+          get(:new, params: { maintenance_token: "#{token}" })
           expect(response.code).to eq '200'
         end
 
         it 'allows sign_in.json' do
-          get(:new, {maintenance_token: "#{token}", format: 'json'})
+          get(:new, params: { maintenance_token: "#{token}", format: 'json' })
           expect(response.code).to eq '200'
         end
       end

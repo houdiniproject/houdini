@@ -95,17 +95,21 @@ RSpec.shared_context :shared_user_context do
     #
     expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
     expect_any_instance_of(described_class).to receive(:render).and_return(nil)
-    send(method, action, *args)
+    send(method, action, reduce_params(*args))
     expect(response.status).to eq 200
   end
 
   def reject(user_to_signin, method, action, *args)
     sign_in user_to_signin if user_to_signin
-    send(method, action, *args)
+    send(method, action, reduce_params(*args))
     expect(response.status).to eq 302
   end
 
   alias_method :redirects_to, :reject
+
+  def reduce_params(*args)
+    { params: args.reduce({}, :merge) }
+  end
 
   def fix_args( *args)
     replacements = {

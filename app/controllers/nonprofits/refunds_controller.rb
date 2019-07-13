@@ -3,7 +3,7 @@ module Nonprofits
 	class RefundsController < ApplicationController
 		include Controllers::NonprofitHelper
 
-		before_filter :authenticate_nonprofit_user!
+		before_action :authenticate_nonprofit_user!
 
 		# post /charges/:charge_id/refunds
 		def create

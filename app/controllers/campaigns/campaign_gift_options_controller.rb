@@ -2,7 +2,7 @@
 module Campaigns; class CampaignGiftOptionsController < ApplicationController
 	include Controllers::CampaignHelper
 
-	before_filter :authenticate_campaign_editor!, only: [:create, :destroy, :update, :update_order, :report]
+	before_action :authenticate_campaign_editor!, only: [:create, :destroy, :update, :update_order, :report]
 
 	def report
 		respond_to do |format|

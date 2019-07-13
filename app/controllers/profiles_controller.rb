@@ -3,7 +3,7 @@ class ProfilesController < ApplicationController
 
   helper_method :authenticate_profile_owner!
 
-	before_filter :authenticate_profile_owner!, only: [:update, :fundraisers, :donations_history]
+	before_action :authenticate_profile_owner!, only: [:update, :fundraisers, :donations_history]
 
 	# get /profiles/:id
 	# public profile

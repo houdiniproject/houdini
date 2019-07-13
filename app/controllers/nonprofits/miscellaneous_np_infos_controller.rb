@@ -4,7 +4,7 @@ module Nonprofits
     include Controllers::NonprofitHelper
 
     helper_method :current_nonprofit_user?
-    before_filter :authenticate_nonprofit_user!
+    before_action :authenticate_nonprofit_user!
 
     def show
       respond_to do |format|

@@ -2,7 +2,7 @@
 class CampaignGiftOptionsController < ApplicationController
 	include Controllers::CampaignHelper
 
-	before_filter :authenticate_campaign_editor!, only: [:create, :destroy, :update, :update_order]
+	before_action :authenticate_campaign_editor!, only: [:create, :destroy, :update, :update_order]
 
 	def index
 		@gift_options = current_campaign.campaign_gift_options.order('"order", amount_recurring, amount_one_time')

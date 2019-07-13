@@ -3,7 +3,7 @@ module Nonprofits
 	class ChargesController < ApplicationController
 		include Controllers::NonprofitHelper
 
-		before_filter :authenticate_nonprofit_user!, only: :index
+		before_action :authenticate_nonprofit_user!, only: :index
 
 		# get /nonprofit/:nonprofit_id/charges
 		def index

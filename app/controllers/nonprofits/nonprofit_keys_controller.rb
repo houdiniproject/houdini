@@ -3,7 +3,7 @@
 module Nonprofits
 class NonprofitKeysController < ApplicationController
   include Controllers::NonprofitHelper
-  before_filter :authenticate_nonprofit_user!
+  before_action :authenticate_nonprofit_user!
 
   # get /nonprofits/:nonprofit_id/nonprofit_keys
   # pass in the :select query param, which is the name of the column of the specific token you want

@@ -13,9 +13,9 @@ preload_app! if ENV['RAILS_ENV'] != 'development'
 
 rackup      DefaultRackup
 port        ENV.fetch("PORT") { 5000 }
-environment ENV.fetch('RAILS_ENV'{ 'development' }
+environment ENV.fetch('RAILS_ENV'){ 'development' }
 
-workers ENV['WEB_CONCURRENCY'].fetch { 1 }
+workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 
 
 

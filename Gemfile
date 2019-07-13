@@ -19,6 +19,7 @@ gem 'parallel'
 gem 'puma'
 gem 'bootsnap', require: false
 gem 'rack-timeout'
+gem 'rack-ssl'
 gem 'puma_worker_killer'
 
 gem 'test-unit', '~> 3.0'

@@ -93,7 +93,7 @@ RSpec.shared_context :shared_user_context do
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does
     #
-    expect_any_instance_of(described_class).to receive(action).and_return(ActionController::TestResponse.new(200))
+    expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
     expect_any_instance_of(described_class).to receive(:render).and_return(nil)
     send(method, action, *args)
     expect(response.status).to eq 200

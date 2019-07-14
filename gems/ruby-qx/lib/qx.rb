@@ -455,7 +455,7 @@ class Qx
   # Quote a string for use in sql to prevent injection or weird errors
   # Always use this for all values!
   # Just uses double-dollar quoting universally. Should be generally safe and easy.
-  # Will return an unquoted value it it's a Fixnum
+  # Will return an unquoted value it it's a Integer
   def self.quote(val)
     if val.is_a?(Qx)
       val.parse

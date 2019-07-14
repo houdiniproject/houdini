@@ -5,7 +5,7 @@ describe UpdateTickets do
 
   
   let(:ticket) {
-    Event.any_instance.stub(:geocode).and_return([1,1])
+    allow_any_instance_of(Event).to receive(:geocode).and_return([1,1])
     create(:ticket, :has_card, :has_event)
   }
 

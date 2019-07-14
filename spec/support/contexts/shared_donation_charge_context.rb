@@ -17,11 +17,11 @@ RSpec.shared_context :shared_donation_charge_context do
   let(:campaign) {force_create(:campaign, nonprofit: nonprofit, goal_amount: 500)}
   let(:other_campaign) {force_create(:campaign, nonprofit: other_nonprofit)}
   let(:event) {
-    Event.any_instance.stub(:geocode).and_return([1,1])
+    allow_any_instance_of(Event).to receive(:geocode).and_return([1,1])
     force_create(:event, nonprofit: nonprofit)
   }
   let(:other_event) {
-    Event.any_instance.stub(:geocode).and_return([1,1])
+    allow_any_instance_of(Event).to receive(:geocode).and_return([1,1])
     force_create(:event, nonprofit: other_nonprofit)
   }
   let(:event_discount) {force_create(:event_discount, event: event, percent: 20)}

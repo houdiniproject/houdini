@@ -57,7 +57,7 @@ class Campaign < ApplicationRecord
 
 	has_many :donations
 	has_many :charges, through: :donations
-	has_many :payments, through: :donations
+	has_many :payments, { through: :donations, source: "payment" }
 	has_many :campaign_gift_options
 	has_many :campaign_gifts, through: :campaign_gift_options
 	has_many :supporters, :through => :donations

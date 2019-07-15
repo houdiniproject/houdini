@@ -91,10 +91,13 @@ module InsertTickets
       end
     end
 
+    # generate ticket order
+    result['ticket_order'] = create_ticket_order(entities, data['address'])
+
     # Generate the bid ids
     data['tickets'] = generate_bid_ids(entities[:event_id].id, tl_entities)
 
-    result['tickets'] = generated_ticket_entities(data['tickets'], result, entities, data[:address])
+    result['tickets'] = generated_ticket_entities(data['tickets'], result, entities)
 
     # Create the activity rows for the tickets
     InsertActivities.for_tickets(result['tickets'].map{|t| t.id})
@@ -118,7 +121,7 @@ module InsertTickets
   end
 
   #not really needed but used for breaking into the unit test and getting the IDs
-  def self.generated_ticket_entities(ticket_data, result, entities, address)
+  def self.generated_ticket_entities(ticket_data, result, entities)
     ticket_data.map{|ticket_request|
       t = Ticket.new
       t.quantity = ticket_request['quantity']
@@ -129,11 +132,8 @@ module InsertTickets
       t.charge = result['charge']
       t.bid_id = ticket_request['bid_id']
       t.event_discount = entities[:event_discount_id]
+      t.ticket_order = result['ticket_order']
       t.save!
-      if (address)
-        t.address = QueryTransactionAddress.add(t.supporter, t, address)
-        t.save!
-      end
       t
     }.to_a
   end
@@ -209,5 +209,16 @@ module InsertTickets
     p.check_number = data['offsite_payment']['check_number']
     p.save!
     p
+  end
+
+  def self.create_ticket_order(entities, address)
+    to = TicketOrder.new
+    to.supporter = entities[:supporter_id]
+    to.save!
+    if (address)
+      to.address = QueryTransactionAddress.add(to.supporter, to, address)
+      to.save!
+    end
+    to
   end
 end

@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.11
+-- Dumped by pg_dump version 9.6.13
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,6 +12,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -2199,6 +2200,37 @@ ALTER SEQUENCE public.ticket_levels_id_seq OWNED BY public.ticket_levels.id;
 
 
 --
+-- Name: ticket_orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticket_orders (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    supporter_id integer
+);
+
+
+--
+-- Name: ticket_orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticket_orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticket_orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticket_orders_id_seq OWNED BY public.ticket_orders.id;
+
+
+--
 -- Name: tickets; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2219,7 +2251,8 @@ CREATE TABLE public.tickets (
     note text,
     event_discount_id integer,
     deleted boolean,
-    source_token_id uuid
+    source_token_id uuid,
+    ticket_order_id integer
 );
 
 
@@ -2742,6 +2775,13 @@ ALTER TABLE ONLY public.ticket_levels ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: ticket_orders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_orders ALTER COLUMN id SET DEFAULT nextval('public.ticket_orders_id_seq'::regclass);
+
+
+--
 -- Name: tickets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3194,6 +3234,14 @@ ALTER TABLE ONLY public.ticket_levels
 
 
 --
+-- Name: ticket_orders ticket_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_orders
+    ADD CONSTRAINT ticket_orders_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tickets tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3503,6 +3551,13 @@ CREATE INDEX index_tickets_on_payment_id ON public.tickets USING btree (payment_
 --
 
 CREATE INDEX index_tickets_on_supporter_id ON public.tickets USING btree (supporter_id);
+
+
+--
+-- Name: index_tickets_on_ticket_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tickets_on_ticket_order_id ON public.tickets USING btree (ticket_order_id);
 
 
 --
@@ -4617,4 +4672,6 @@ INSERT INTO schema_migrations (version) VALUES ('20181129224030');
 INSERT INTO schema_migrations (version) VALUES ('20190206203313');
 
 INSERT INTO schema_migrations (version) VALUES ('20190206221616');
+
+INSERT INTO schema_migrations (version) VALUES ('20190712210155');
 

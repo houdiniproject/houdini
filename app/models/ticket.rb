@@ -12,11 +12,10 @@ class Ticket < ActiveRecord::Base
 	belongs_to :card
 	belongs_to :payment
 	belongs_to :source_token
-	has_one :address, as: :transactionable, class_name: 'TransactionAddress'
+	belongs_to :ticket_order
+	
 	has_one :nonprofit, through: :event
 	has_many :activities, as: :attachment, dependent: :destroy
-
-	def related_tickets
-		payment.tickets.where('id != ?', self.id)
-	end
+	has_many :tickets_on_order, through: :ticket_order, class_name: 'Ticket', source: :tickets
+	has_one :address, through: :ticket_order
 end

@@ -74,6 +74,11 @@ describe InsertTickets do
             ticket_id: nil
         }
       end
+      result[:ticket_order] = {
+        id: data[:ticket_order_id],
+        address_id: data[:address],
+        supporter_id: data[:supporter].id
+      }
 
       result[:tickets] = data[:tickets].map.with_index{|item, i|
         {
@@ -93,7 +98,8 @@ describe InsertTickets do
           profile_id: nil,
           note: nil,
           deleted: nil,
-          source_token_id: nil
+          source_token_id: nil,
+          ticket_order_id: item[:ticket_order_id]
         }.with_indifferent_access
       }
 
@@ -290,10 +296,13 @@ describe InsertTickets do
                                     tickets: [{
                                                   id: result['tickets'][0]['id'],
                                                   quantity: 1,
-                                                  ticket_level_id: ticket_level.id}])
+                                                  ticket_level_id: ticket_level.id,
+                                                  ticket_order_id: TicketOrder.last.id}])
           expect(result['payment'].attributes).to eq expected[:payment]
           expect(result['offsite_payment'].attributes).to eq expected[:offsite_payment]
           expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
+
+          expect(result['ticket_order'].attributes).to eq(h({'id': TicketOrder.last.id, 'supporter_id': supporter.id, updated_at: Time.now, created_at:Time.now}))
         end
       end
 
@@ -412,7 +421,7 @@ describe InsertTickets do
           a}
 
           if (address)
-            expect(QueryTransactionAddress).to receive(:add).twice.with(supporter, instance_of(Ticket), address).and_call_original
+            expect(QueryTransactionAddress).to receive(:add).once.with(supporter, instance_of(TicketOrder), address).and_call_original
           else
             expect(QueryTransactionAddress).to_not receive(:add)
           end
@@ -432,11 +441,14 @@ describe InsertTickets do
               tickets: [{
                             id: result['tickets'][0]['id'],
                             quantity: 1,
-                            ticket_level_id: ticket_level.id},
+                            ticket_level_id: ticket_level.id,
+                            ticket_order_id: TicketOrder.last.id
+                          },
                         {
                             id: result['tickets'][0]['id'],
                             quantity: 2,
-                            ticket_level_id: ticket_level2.id
+                            ticket_level_id: ticket_level2.id,
+                            ticket_order_id: TicketOrder.last.id
                         }]}.merge(other_elements))
 
           expect(result['payment'].attributes).to eq expected[:payment]
@@ -444,7 +456,7 @@ describe InsertTickets do
           expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
 
           # verify that the ticket address are set properly
-          result['tickets'].each{|i| expect(Ticket.find(i)&.address&.attributes&.slice('address', 'city', 'state_code', 'zip_code', 'country' )).to eq(address ? transaction_address : nil) }
+          expect(TicketOrder.find(result['ticket_order'].id)&.address&.attributes&.slice('address', 'city', 'state_code', 'zip_code', 'country' )).to eq(address ? transaction_address : nil)
 
         end
       end

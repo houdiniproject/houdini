@@ -101,8 +101,8 @@ describe UpdateDonation do
             designation: 1,
             dedication: 1,
             comment: 1,
-            campaign_id: nil,
-            event_id: nil}}
+            campaign_id: '5312l5j2',
+            event_id: '23555ff2353'}}
 
         let(:expanded_invalid_arguments) {
           initial_invalid_arguments.merge({
@@ -117,9 +117,7 @@ describe UpdateDonation do
             {key: :dedication, name: :is_a},
             {key: :comment, name: :is_a},
             {key: :campaign_id, name: :is_reference},
-            {key: :campaign_id, name: :required},
             {key: :event_id, name: :is_reference},
-            {key: :event_id, name: :required}
         ]}
         it 'for offsite donations' do
           offsite_payment

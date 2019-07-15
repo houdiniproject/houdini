@@ -19,7 +19,7 @@ class Houdini::V1::API < Grape::API
   mount Houdini::V1::Supporter => '/supporter'
 	mount Houdini::V1::Nonprofit => '/nonprofit'
   mount Houdini::V1::Donation => '/donation'
-  mount Houdini::V1::Ticket => '/ticket'
+  mount Houdini::V1::TicketOrder => '/ticket_order'
 	# Additional mounts are added via generators above this line
   # DON'T REMOVE THIS OR THE PREVIOUS LINES!!!
 	logger.formatter = GrapeLogging::Formatters::Rails.new

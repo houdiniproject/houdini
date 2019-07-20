@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.4.5'
+ruby '2.5.1'
 gem 'rake'
-gem 'rails', '= 5.0.7.1'
+gem 'rails', '= 5.2.3'
 # https://stripe.com/docs/api
 gem 'stripe'
 

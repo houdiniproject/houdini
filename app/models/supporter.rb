@@ -51,6 +51,7 @@ class Supporter < ActiveRecord::Base
   has_many :crm_addresses
   has_many :transaction_addresses
   has_many :address_tags
+  has_many :ticket_orders
   belongs_to :merged_into, class_name: 'Supporter', :foreign_key => 'merged_into'
 
   validates :nonprofit, :presence => true

@@ -90,13 +90,21 @@ RSpec.shared_context :shared_user_context do
   end
 
   def accept(user_to_signin, method, action, *args)
+    without_json_response = [:cancellation, :all_npos].include?(action)
+    request.accept = "application/json" unless without_json_response
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does
-    #
-    expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
-    expect_any_instance_of(described_class).to receive(:render).and_return(nil)
-    send(method, action, reduce_params(*args))
-    expect(response.status).to eq 200
+
+    if without_json_response
+      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
+      expect_any_instance_of(described_class).to receive(:render).and_return(nil)
+      send(method, action, reduce_params(*args))
+      expect(response.status).to eq 200
+    else
+      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(204))
+      send(method, action, reduce_params(*args))
+      expect(response.status).to eq 204
+    end
   end
 
   def reject(user_to_signin, method, action, *args)
@@ -111,7 +119,7 @@ RSpec.shared_context :shared_user_context do
     { params: args.reduce({}, :merge) }
   end
 
-  def fix_args( *args)
+  def fix_args(*args)
     replacements = {
         __our_np: nonprofit.id,
         __our_campaign: campaign.id,
@@ -198,7 +206,7 @@ end
 RSpec.shared_context :open_to_np_associate do |method, action, *args|
   include_context :shared_user_context
   let(:fixed_args){
-    fix_args( *args)
+    fix_args(*args)
   }
 
   it 'rejects no user' do

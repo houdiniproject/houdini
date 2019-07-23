@@ -30,7 +30,7 @@
 
 		respond_to do |format|
 			format.html
-			format.json {render json: @nonprofit}
+			format.json {@nonprofit}
 		end
 	end
 

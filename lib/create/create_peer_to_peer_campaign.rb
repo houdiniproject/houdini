@@ -28,6 +28,6 @@ module CreatePeerToPeerCampaign
 
     return { errors: campaign.errors.messages }.as_json unless campaign.errors.empty?
 
-    campaign.as_json
+    campaign.as_json['campaign']
   end
 end

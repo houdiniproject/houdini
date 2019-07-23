@@ -35,6 +35,9 @@ Visit the Internationalization channel on Houdini Zulip and discuss
 #### Get the code  
 `git clone https://github.com/HoudiniProject/houdini`
 
+#### Mac Setup
+If you have a Mac and don't want to run the `docker` configuration, see [how to get started](docs/GETTING_STARTED.MD) with the project.
+
 #### Docker install (if you don't have docker and docker-compose installed)
 ##### install Docker and Docker compose
 You need to install Docker and Docker Compose.

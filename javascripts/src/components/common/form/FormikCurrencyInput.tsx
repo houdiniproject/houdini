@@ -41,13 +41,13 @@ export class FormikCurrencyInput extends React.Component<FormikCurrencyInputProp
 
   @boundMethod
   onBlurEvent(_instance: I18nCurrencyInput, _value:Money){
-    this.props.form.handleBlur(this.props.field.name)
+    this.props.form.setFieldTouched(this.props.field.name, true)
   }
 
   render() {
     const {field, form, ...props}  = this.props
-
-    return <IntlCurrencyInput {...props} {...field} onChange={this.onChangeEvent} onBlur={this.onBlurEvent}/>
+    const {onBlur, onChange, ...restOfField} = field
+    return <IntlCurrencyInput {...props} {...restOfField} onChange={this.onChangeEvent} onBlur={this.onBlurEvent}/>
   }
 }
 

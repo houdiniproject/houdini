@@ -19,12 +19,15 @@ export default class FormikLabeledFieldComponent<T> extends React.Component<Form
   render() {
     let error = _.get(this.props.form.errors, this.props.field.name)
     let serverError = _.get(this.props.form.status, `fields.${this.props.field.name}`)
+
+    let touched = _.get(this.props.form.touched, this.props.field.name)
+
     let classNames:string[] = []
     if (this.props.className)
       classNames.push(this.props.className)
 
     classNames.push("form-group")
-    if(error || serverError){
+    if((error && touched) || serverError){
        classNames.push("has-error")
     }
 

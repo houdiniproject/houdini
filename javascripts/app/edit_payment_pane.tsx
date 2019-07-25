@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 // require a root component here. This will be treated as the root of a webpack package
 import Root from "../src/components/common/Root"
-import {FundraiserInfo} from "../src/components/edit_payment_pane/EditPaymentPane"
+import {FundraiserInfo} from "../src/components/edit_payment_pane/types"
 
 import * as ReactDOM from 'react-dom'
 import * as React from 'react'

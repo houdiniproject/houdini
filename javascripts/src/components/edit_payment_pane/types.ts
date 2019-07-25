@@ -1,6 +1,5 @@
-import { Money } from "../../lib/money";
-
 // License: LGPL-3.0-or-later
+import { Money } from "../../lib/money";
 
 export interface FundraiserInfo {
     id: number

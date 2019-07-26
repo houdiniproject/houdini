@@ -229,6 +229,20 @@ describe UpdateRecurringDonations do
         expect(address.address).to eq 'address 1'
         expect(address.transactionable_id).to_not eq 342345234
       end
+
+      it 'deletes address when nothing passed in' do 
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {})
+
+        recurring_donation.donation.reload
+        expect(recurring_donation.donation.address).to be_nil
+      end
+
+      it 'deletes address when name passed in' do 
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {name: 'something'})
+
+        recurring_donation.donation.reload
+        expect(recurring_donation.donation.address).to be_nil
+      end
     end
 
     describe 'no address saved' do

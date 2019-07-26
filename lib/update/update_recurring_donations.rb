@@ -169,10 +169,16 @@ module UpdateRecurringDonations
       supporter.save!
 
       address_items = supporter_data.slice(:address, :city, :state_code, :zip_code, :country)
-      unless (rd.donation.address)
-        rd.donation.create_address(address_items.merge({supporter:supporter}))
+      if (address_items.all?{|i| i.blank?})
+        if(rd.donation.address)
+          rd.donation.address.destroy
+        end
       else
-        rd.donation.address.update_attributes(address_items)
+        unless (rd.donation.address)
+          rd.donation.create_address(address_items.merge({supporter:supporter}))
+        else
+          rd.donation.address.update_attributes(address_items)
+        end
       end
     end
   end

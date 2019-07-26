@@ -145,7 +145,6 @@
     "ramda": "^0.21.0",
     "react": "^16.8.6",
     "react-aria-modal": "^4.0.0",
-    "react-autocomplete": "^1.8.1",
     "react-dom": "^16.8.6",
     "react-intl": "^2.4.0",
     "react-transition-group": "^2.9.0",

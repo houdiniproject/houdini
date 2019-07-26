@@ -138,7 +138,6 @@
     "ramda": "^0.21.0",
     "react": "^16.2.0",
     "react-aria-modal": "^3.0.1",
-    "react-autocomplete": "^1.8.1",
     "react-dom": "^16.3.1",
     "react-intl": "^2.4.0",
     "react-text-mask": "^5.3.0",

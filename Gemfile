@@ -37,8 +37,10 @@ gem 'sprockets'
 gem 'font_assets', '~> 0.1.14'
 
 # Database (postgres)
-gem 'pg' # Postgresql
+
+gem 'pg', '~> 0.11'
 gem 'qx', path: 'gems/ruby-qx'
+
 gem 'dalli'
 gem 'memcachier'
 
@@ -71,9 +73,6 @@ gem 'httparty'
 # https://github.com/plataformatec/devise
 gem 'devise', '~> 4.4'
 gem 'devise-async'
-
-# https://github.com/airbrake/airbrake
-gem 'airbrake', '~> 8.0.1'
 
 # http://www.rubygeocoder.com/
 gem 'geocoder' # for adding latitude and longitude to location-based tables
@@ -142,9 +141,4 @@ gem 'grape-swagger'
 gem 'grape-swagger-entity'
 gem 'grape_url_validator'
 gem 'grape_logging'
-gem 'grape_devise'
-#gem 'grape_devise', git: 'https://github.com/ericschultz/grape_devise.git'
-
-#gem 'protected_attributes'
-
-gem 'rack-ssl'
+gem 'grape_devise', path: 'gems/grape_devise'

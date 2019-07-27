@@ -168,4 +168,14 @@ module MaintainTicketValidity
     ticket.save!
 
   end
+
+  def self.find_ticket_groups
+    payments = Ticket.select('payment_id').where('payment_id IS NOT NULL').group('payment_id').map{|i| i.payment_id}
+
+    payments.select do |p| 
+      tickets = Ticket.where('payment_id = ? ', p)
+      supporter = tickets.first.supporter_id
+      !tickets.all? {|t| t.supporter_id == supporter}
+    end
+  end
 end

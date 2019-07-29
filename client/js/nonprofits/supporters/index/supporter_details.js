@@ -62,6 +62,16 @@ appl.def('ajax_supporter', {
 		})
 	},
 
+	post_update: function(id) {
+		appl.def('loading', true)
+		appl.ajax.fetch('supporter_details', id).then(function(resp) {
+			appl.def('loading', false)
+			appl.supporters.index()
+			appl.find_and_set('supporters.data', {id: resp.id}, resp)
+			appl.notify('Supporter updated!')
+		})
+	},
+
 	fetch: function(id) {
 		appl.def('loading', true)
 		appl.ajax.fetch('supporter_details', id).then(function(resp) {
@@ -95,21 +105,25 @@ function fetch_full_contact(id){
 		})
 }
 
+appl.def('open_create_supporter_modal', function() {
+	$('.modal').removeClass('inView')
 
-appl.ajax_supporter.create = function(form_obj, node) {
-	appl.def('supporter_details', {loading: true, error: ''})
-	return request.post('/nonprofits/' + app.nonprofit_id + '/supporters').send({supporter: form_obj}).perform()
-		.then(function() {
-			appl.def('supporter_details', {loading: false})
-			appl.close_modal()
-			appl.notify("Supporter successfully created!")
-			appl.supporters.index()
-			appl.prev_elem(node).reset()
-		})
-		.catch(function(resp) {
-			appl.def('supporter_details', {error: format_err(resp), loading: false})
-		})
-}
+	function SetupCreateSupporterModal(modalActive){
+		LoadCreateSupporterModal(document.getElementById('react-vdom-hack'),
+			app.nonprofit_id,
+			(supporterId) => {
+				SetupCreateSupporterModal(false);
+				if (supporterId)
+				{
+					appl.notify("Supporter successfully created!")
+					appl.supporters.index()
+				}
+			},
+			modalActive)
+	}
+
+	SetupCreateSupporterModal(true)
+})
 
 
 appl.def('supporter_details.tags', {

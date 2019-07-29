@@ -191,6 +191,10 @@ private
     d.event = entities[:event_id] || nil
     d.payment_provider = payment_provider(data).to_s
     d.save!
+    if (data[:address])
+      d.address = QueryTransactionAddress.add(d.supporter, d, data[:address])
+      d.save!
+    end
     d
   end
 
@@ -227,6 +231,7 @@ def self.parse_date(date)
         dedication: {is_a: String},
         campaign_id: {is_reference: true},
         event_id: {is_reference: true},
+        address: {is_hash:true}
     }
   end
 

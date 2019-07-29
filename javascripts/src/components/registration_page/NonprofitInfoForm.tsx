@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import {InjectedIntlProps, injectIntl} from 'react-intl';
-import {Field, FieldDefinition} from "../../../../types/mobx-react-form";
+import {Field, FieldDefinition} from "mobx-react-form";
 import {BasicField} from "../common/fields";
 import {ThreeColumnFields, TwoColumnFields} from "../common/layout";
 import {Validations} from "../../lib/vjf_rules";

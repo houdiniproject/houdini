@@ -5,7 +5,6 @@ import SelectableTableRow from './SelectableTableRow'
 import { ReactWrapper, mount } from 'enzyme';
 import { connectTableRowSelectHandler, TableRowSelectHandlerContext } from './connect';
 
-
 class TestReceivedProviderComponent extends React.Component<{m:string} & TableRowSelectHandlerContext, {}>{
   render() {
     return <td></td>;

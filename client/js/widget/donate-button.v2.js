@@ -69,7 +69,7 @@ commitchange.hideDonation = () => {
   commitchange.open_iframe = undefined
 }
 
-const fullHost = 'REPLACE_FULL_HOST' 
+const fullHost = 'https://us.commitchange.com' 
 
 commitchange.overlay = () => {
   let div = document.createElement('div')
@@ -186,12 +186,71 @@ commitchange.appendMarkup = () => {
   } // end for loop
 }
 
+commitchange.forceReappendMarkup = function() {
+  let script = document.getElementById('commitchange-donation-script') || document.getElementById('commitchange-script')
+  const nonprofitID = script.getAttribute('data-npo-id')
+  const baseSource = fullHost + "/nonprofits/" + nonprofitID + "/donate?offsite=t"
+  let elems = document.querySelectorAll('.commitchange-donate')
+
+  for(let i = 0; i < elems.length; ++i) {
+    let elem = elems[i]
+    let source = baseSource
+
+    let optionsButton = commitchange.getParamsFromButton(elem)
+    let options = commitchange.getParamsFromUrl(["utm_campaign","utm_content","utm_source","utm_medium","first_name","last_name","country","postal_code","address","city"])
+    for (var attr in optionsButton) { options[attr] = optionsButton[attr]; }
+    let params = []
+    for(let key in options) {
+      params.push(key + '=' + options[key])
+    }
+    source += "&" + params.join("&")
+
+    if(elem.hasAttribute('data-embedded')) {
+      source += '&mode=embedded'
+      let iframe = commitchange.createIframe(source)
+      elem.appendChild(iframe)
+      iframe.setAttribute('class', 'commitchange-iframe-embedded')
+      commitchange.iframes.push(iframe)
+    } else {
+      // Show the CommitChange-branded button if it's not set to custom.
+      if(!elem.hasAttribute('data-custom') && !elem.hasAttribute('data-custom-button')) {
+        let btn_iframe = document.createElement('iframe')
+        let btn_src = fullHost + "/nonprofits/" + nonprofitID + "/btn"
+        if(elem.hasAttribute('data-fixed')) { btn_src += '?fixed=t' }
+        btn_iframe.src = btn_src
+        btn_iframe.className = 'commitchange-btn-iframe'
+        btn_iframe.setAttribute('scrolling', 'no')
+        btn_iframe.setAttribute('seamless', 'seamless')
+        elem.appendChild(btn_iframe)
+        btn_iframe.onclick = commitchange.openDonationModal(iframe, overlay)
+      }
+      // Create the iframe overlay for this button
+      let modal = document.createElement('div')
+      modal.className = 'commitchange-modal'
+      let overlay = commitchange.overlay()
+      let iframe
+      if(commitchange.modalIframe) {
+        iframe = commitchange.modalIframe
+      } else {
+        iframe = commitchange.createIframe(source)
+        commitchange.iframes.push(iframe)
+        commitchange.modalIframe = iframe
+      }
+      modal.appendChild(overlay)
+      document.body.appendChild(iframe)
+      elem.parentNode.appendChild(modal)
+      overlay.onclick = commitchange.hideDonation
+      elem.onclick = commitchange.openDonationModal(iframe, overlay)
+  }
+}
+}
+
 // Load the CSS for the parent page element from our AWS server
 commitchange.loadStylesheet = () => {
   if(commitchange.alreadyStyled) return
   else commitchange.alreadyStyled = true
   let stylesheet = document.createElement('link')
-  stylesheet.href = "REPLACE_CSS_URL"
+  stylesheet.href = "https://us.commitchange.com/css/donate-button.v2.css"
   stylesheet.rel  = 'stylesheet'
   stylesheet.type = 'text/css'
   document.getElementsByTagName('head')[0].appendChild(stylesheet)

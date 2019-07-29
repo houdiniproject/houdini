@@ -47,6 +47,13 @@
       <!--= put address_with_commas this.address this.city this.state_code -->
       <!--= put this.zip_code -->
       <!--= put this.country -->
+      <span>
+      <!--= show_if (> this.total_addresses 1) -->
+      <a>
+        <!--= on 'click' (open_edit_supporter_modal supporter_details.data.id) -->
+        <small> and <!--= put (sub this.total_addresses 1) --> other addresses</small>
+      </a>
+      </span>
     </td>
 	</tr>
 	<tr>
@@ -91,7 +98,7 @@
 </table>
 
 <button class='button--tiny edit u-marginBottom--20'>
-  <!--= on 'click' (open_modal 'editSupporterModal') -->
+  <!--= on 'click' (open_edit_supporter_modal supporter_details.data.id) -->
   <i class='fa fa-pencil'></i> Edit Supporter
 </button>
 

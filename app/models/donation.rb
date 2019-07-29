@@ -36,6 +36,7 @@ class Donation < ActiveRecord::Base
 	has_one :payment
 	has_one :offsite_payment
 	has_one :tracking
+	has_one :address, as: :transactionable, class_name: 'TransactionAddress'
 	belongs_to :supporter
 	belongs_to :card
 	belongs_to :direct_debit_detail
@@ -43,6 +44,7 @@ class Donation < ActiveRecord::Base
 	belongs_to :nonprofit
 	belongs_to :campaign
 	belongs_to :event
+
 
 	scope :anonymous, -> {where(anonymous: true)}
 end

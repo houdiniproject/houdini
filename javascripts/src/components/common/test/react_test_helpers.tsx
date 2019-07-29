@@ -3,7 +3,6 @@ import {observer} from "mobx-react";
 import * as _ from 'lodash'
 import { ReactWrapper, mount } from 'enzyme';
 import { when } from 'mobx';
-import { resolve } from 'path';
 import {mountWithIntl} from "../../../lib/tests/helpers";
 
 @observer
@@ -47,6 +46,8 @@ export function mountForMobxWithIntl<TProps>(props:TProps,
   return mountWithIntl(<OuterWrapper {...props}
                                      __childrenCreator={rootComponentCreator} />)
 }
+
+
 
 
 export function waitForMobxCondition(

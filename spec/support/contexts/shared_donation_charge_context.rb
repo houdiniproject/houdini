@@ -5,6 +5,7 @@ RSpec.shared_context :shared_donation_charge_context do
   let(:nonprofit) { force_create(:nonprofit, name: "nonprofit name", slug: 'nonprofit_nameo')}
   let(:other_nonprofit) { force_create(:nonprofit)}
   let(:supporter) {force_create(:supporter, :nonprofit => nonprofit, locale: 'locale_one')}
+  let(:other_supporter) {force_create(:supporter, :nonprofit => nonprofit, locale: 'locale_one')}
   let(:other_nonprofit_supporter) { force_create(:supporter, nonprofit: other_nonprofit, locale: 'locale_two')}
   let(:card) {force_create(:card, :holder => supporter)}
   let(:card_for_other_supporter) { force_create(:card, holder: other_nonprofit_supporter)}
@@ -36,6 +37,9 @@ RSpec.shared_context :shared_donation_charge_context do
   let(:donation_for_rd) {force_create(:donation, recurring: true, nonprofit: nonprofit, supporter: supporter, card: card_with_valid_stripe_id, amount: 500)}
   let(:recurring_donation) {force_create(:recurring_donation, donation: donation_for_rd, nonprofit: nonprofit, supporter:supporter, start_date: Time.now, interval: 1, time_unit: 'month')}
 
+  let(:supporter_address) {force_create(:crm_address, supporter:supporter, address: "515325 something st.", city:"Appleton", state_code: "WI", country: nil)}
+  let(:supporter_address_2) {force_create(:crm_address, supporter:supporter, address: "515325 something st.", city:"Appleton", state_code: "il", country: "USA", zip_code: "5215890-RD")}
+  let(:other_supporter_address) {force_create(:crm_address, supporter:other_nonprofit_supporter, address: nil, city: "Chicago", state_code: "AZ", country: "Ireland")}
 
   let(:stripe_helper) { StripeMock.create_test_helper }
 

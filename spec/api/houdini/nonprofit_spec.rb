@@ -1,68 +1,66 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-
-describe Houdini::V1::Nonprofit, :type => :controller do
+require 'api/support/api_shared_user_verification'
+require 'support/api_errors'
+include ExpectApi
+describe Houdini::V1::Nonprofit, :type => :request do
   describe :get do
 
   end
 
   describe :post do
     around {|e|
-      @old_bp =Settings.default_bp
       e.run
-      Settings.default_bp = @old_bp
-
+      Settings.reload!
     }
-    def expect_validation_errors(actual, input)
-      expected_errors = input.with_indifferent_access[:errors]
-      expect(actual["errors"]).to match_array expected_errors
-    end
 
-    def create_errors(*wrapper_params)
-      output = totally_empty_errors
-      wrapper_params.each {|i| output[:errors].push(h(params: [i], messages: gr_e('presence')))}
-      output
-    end
 
-    def h(h = {})
-      h.with_indifferent_access
-    end
 
     let(:totally_empty_errors) {
       {
         errors:
             [
-                h(params: ["nonprofit[name]"], messages: gr_e("presence", "blank")),
-                h(params: ["nonprofit[zip_code]"], messages: gr_e("presence", "blank")),
-                h(params: ["nonprofit[state_code]"], messages: gr_e("presence", "blank")),
-                h(params: ["nonprofit[city]"], messages: gr_e("presence", "blank")),
+                h(params: ["nonprofit[name]"], messages: grape_error("presence", "blank")),
+                h(params: ["nonprofit[zip_code]"], messages: grape_error("presence", "blank")),
+                h(params: ["nonprofit[state_code]"], messages: grape_error("presence", "blank")),
+                h(params: ["nonprofit[city]"], messages: grape_error("presence", "blank")),
 
-                h(params: ["user[name]"], messages: gr_e("presence", "blank")),
-                h(params: ["user[email]"], messages: gr_e("presence", "blank")),
-                h(params: ["user[password]"], messages: gr_e("presence", "blank")),
-                h(params: ["user[password_confirmation]"], messages: gr_e("presence", "blank")),
+                h(params: ["user[name]"], messages: grape_error("presence", "blank")),
+                h(params: ["user[email]"], messages: grape_error("presence", "blank")),
+                h(params: ["user[password]"], messages: grape_error("presence", "blank")),
+                h(params: ["user[password_confirmation]"], messages: grape_error("presence", "blank")),
             ]
 
 
       }.with_indifferent_access
     }
-    describe 'authorization' do
-      around {|e|
-        Rails.configuration.action_controller.allow_forgery_protection = true
-        e.run
-        Rails.configuration.action_controller.allow_forgery_protection = false
-      }
-      it 'rejects csrf' do
 
-        xhr :post, '/api/v1/nonprofit'
-        expect(response.code).to eq "401"
+    valid_input = {
+        nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c', website: 'www.cs.c'}.with_indifferent_access,
+        user: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}.with_indifferent_access
+    }
+
+    describe 'authorization' do
+      include_context :shared_donation_charge_context
+      include_context :api_shared_user_verification
+      describe 'csrf' do
+        around {|e|
+          Rails.configuration.action_controller.allow_forgery_protection = true
+          e.run
+          Rails.configuration.action_controller.allow_forgery_protection = false
+        }
+        it 'should rejects with a lack of csrf' do
+
+          xhr :post, '/api/v1/nonprofit'
+          expect(response.code).to eq "401"
+        end
       end
     end
     it 'validates nothing' do
       input = {}
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
-      expect_validation_errors(JSON.parse(response.body), create_errors("nonprofit", "user"))
+      expect_api_validation_errors(JSON.parse(response.body), create_errors(totally_empty_errors, "nonprofit", "user"))
     end
 
     it 'validates url, email, phone ' do
@@ -74,12 +72,12 @@ describe Houdini::V1::Nonprofit, :type => :controller do
           }}
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
-      expected = create_errors("user")
-      expected[:errors].push(h(params:["nonprofit[email]"], messages: gr_e("regexp")))
+      expected = create_errors(totally_empty_errors,"user")
+      expected[:errors].push(h(params:["nonprofit[email]"], messages: grape_error("regexp")))
       #expected[:errors].push(h(params:["nonprofit[phone]"], messages: gr_e("regexp")))
       #expected[:errors].push(h(params:["nonprofit[url]"], messages: gr_e("regexp")))
 
-      expect_validation_errors(JSON.parse(response.body), expected)
+      expect_api_validation_errors(JSON.parse(response.body), expected)
     end
 
     it 'should reject unmatching passwords ' do
@@ -94,7 +92,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       }
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
-      expect(JSON.parse(response.body)['errors']).to include(h(params:["user[password]", "user[password_confirmation]"], messages: gr_e("is_equal_to")))
+      expect(JSON.parse(response.body)['errors']).to include(h(params:["user[password]", "user[password_confirmation]"], messages: grape_error(:is_equal_to)))
 
     end
 
@@ -110,7 +108,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
 
-      expect_validation_errors(JSON.parse(response.body), {
+      expect_api_validation_errors(JSON.parse(response.body), {
           errors: [
               h(
                   params:["nonprofit[name]"],
@@ -131,7 +129,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
 
-      expect_validation_errors(JSON.parse(response.body), {
+      expect_api_validation_errors(JSON.parse(response.body), {
           errors: [
               h(
                   params:["user[email]"],
@@ -143,7 +141,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
 
     end
 
-    it "succeeds" do
+    it "should succeed" do
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       input = {
           nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c', website: 'www.cs.c'},
@@ -199,16 +197,4 @@ describe Houdini::V1::Nonprofit, :type => :controller do
 end
 
 
-def find_error_message(json, field_name)
-  errors = json['errors']
 
-  error = errors.select {|i| i["params"].any? {|j| j == field_name}}.first
-  return error if !error
-  return error["messages"]
-
-end
-
-def gr_e(*keys)
-  keys.map {|i| I18n.translate("grape.errors.messages." + i, locale: 'en')}
-
-end

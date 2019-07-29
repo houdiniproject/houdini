@@ -2,6 +2,12 @@
 require 'rails_helper'
 
 describe InsertDonation do
+  let(:transaction_address) { {
+                                     address: 'addres1',
+                                     city: 'city',
+                                     state_code: 'stateeee',
+                                     zip_code: "twtwth",
+                                     country: "country z"} }
   describe '.with_stripe' do
 
     before(:each) {
@@ -14,9 +20,10 @@ describe InsertDonation do
 
     include_context :shared_rd_donation_value_context
 
+
     describe 'param validation' do
       it 'does basic validation' do
-        validation_basic_validation { InsertDonation.with_stripe({designation: 34124, dedication: 35141, event_id: "bad", campaign_id: 'bad'}) }
+        validation_basic_validation { InsertDonation.with_stripe({designation: 34124, dedication: 35141, event_id: "bad", campaign_id: 'bad', address: 'bad'}) }
       end
 
       it 'errors out if token is invalid' do
@@ -92,15 +99,23 @@ describe InsertDonation do
     end
 
     describe 'success' do
+
       before(:each) {
         before_each_success
       }
       it 'process event donation' do
-       process_event_donation {InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
+       process_event_donation(address:transaction_address) {InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', address: {
+           address: transaction_address[:address],
+           city: transaction_address[:city],
+           state_code: transaction_address[:state_code],
+           zip_code: transaction_address[:zip_code],
+           country: transaction_address[:country]
+                 })}
       end
 
       it 'process campaign donation' do
-        process_campaign_donation {InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
+        process_campaign_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
+
       end
 
       it 'processes general donation' do
@@ -129,7 +144,13 @@ describe '#with_sepa' do
        before_each_sepa_success
      }
      it 'process event donation' do
-       process_event_donation(sepa: true) {InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
+       process_event_donation(sepa: true, address:transaction_address) {InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', address: {
+           address: transaction_address[:address],
+           city: transaction_address[:city],
+           state_code: transaction_address[:state_code],
+           zip_code: transaction_address[:zip_code],
+           country: transaction_address[:country]
+                  })}
      end
 
      it 'process campaign donation' do

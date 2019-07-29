@@ -24,7 +24,8 @@ module InsertTickets
       event_discount_id: {is_reference: true},
       kind: {included_in: ['free', 'charge', 'offsite']},
       token: {format: UUID::Regex},
-      offsite_payment: {is_hash: true}
+      offsite_payment: {is_hash: true},
+      address: {is_hash:true}
     })
 
     data[:tickets].each {|t|
@@ -45,6 +46,8 @@ module InsertTickets
     QueryTicketLevels.verify_tickets_available(data[:tickets])
 
     gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id])
+
+    ## get address in here:
 
     result = {}
 
@@ -88,6 +91,9 @@ module InsertTickets
       end
     end
 
+    # generate ticket order
+    result['ticket_order'] = create_ticket_order(entities, data['address'])
+
     # Generate the bid ids
     data['tickets'] = generate_bid_ids(entities[:event_id].id, tl_entities)
 
@@ -126,6 +132,7 @@ module InsertTickets
       t.charge = result['charge']
       t.bid_id = ticket_request['bid_id']
       t.event_discount = entities[:event_discount_id]
+      t.ticket_order = result['ticket_order']
       t.save!
       t
     }.to_a
@@ -202,5 +209,16 @@ module InsertTickets
     p.check_number = data['offsite_payment']['check_number']
     p.save!
     p
+  end
+
+  def self.create_ticket_order(entities, address)
+    to = TicketOrder.new
+    to.supporter = entities[:supporter_id]
+    to.save!
+    if (address)
+      to.address = QueryTransactionAddress.add(to.supporter, to, address)
+      to.save!
+    end
+    to
   end
 end

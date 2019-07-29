@@ -1,109 +1,148 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe InsertImport, :pending => true  do
-  before(:all) do
-    #@data = PsqlFixtures.init
-  end
+describe InsertImport::ImportExecution do
+  include_context :shared_rd_donation_value_context
+
+  let(:header_matches) {
+    {
+        "Date" => "donation.date",
+        "Program" => "donation.designation",
+        "Amount" => "donation.amount",
+        "Business or organization name" => "supporter.organization",
+        "First Name" => "supporter.first_name",
+        "Last Name" => "supporter.last_name",
+        "Address" => "supporter.address",
+        "City" => "supporter.city",
+        "State" => "supporter.state_code",
+        "Zip Code" => "supporter.zip_code",
+        "EMAIL" => "supporter.email",
+        "notes" => "donation.comment",
+        "Field Guy" => "custom_field",
+        "Tag 1" => "tag",
+        "Tag 2" => "tag"
+    }
+  }
+
+  let (:file_uri) {(Rails.root + 'spec/fixtures/test_import.csv').to_s}
+  let (:penelope) {Supporter.where(name: 'Penelope Schultz').first}
 
   describe '.from_csv' do
-    before(:all) do
-      # @row_count = 4
-      # @args = {
-      #   nonprofit_id: @data['np']['id'],
-      #   user_email: @data['np_admin']['email'],
-      #   user_id: @data['np_admin']['id'],
-      #   file_uri: "#{ENV['PWD']}/spec/fixtures/test_import.csv",
-      #   header_matches: {
-      #     "Date" => "donation.date",
-      #     "Program" => "donation.designation",
-      #     "Amount" => "donation.amount",
-      #     "Business or organization name" => "supporter.organization",
-      #     "First Name" => "supporter.first_name",
-      #     "Last Name" => "supporter.last_name",
-      #     "Address" => "supporter.address",
-      #     "City" => "supporter.city",
-      #     "State" => "supporter.state_code",
-      #     "Zip Code" => "supporter.zip_code",
-      #     "EMAIL" => "supporter.email",
-      #     "notes" => "donation.comment",
-      #     "Field Guy" => "custom_field",
-      #     "Tag 1" => "tag",
-      #     "Tag 2" => "tag"
-      #   }
-      # }
-      # @result = InsertImport.from_csv(@args)
-      # @supporters = Psql.execute("SELECT * FROM supporters WHERE import_id = #{@result['id']}")
-      # @supporter_ids = @supporters.map{|h| h['id']}
-      # @donations = Psql.execute("SELECT * FROM donations WHERE supporter_id IN (#{@supporter_ids.join(",")})")
+
+    let(:executor) do
+      InsertImport::ImportExecution.new(nonprofit, user, header_matches)
     end
 
-    it 'creates an import table with all the correct data' do
-      expect(@result['nonprofit_id']).to eq(@data['np']['id'])
-      expect(@result['id']).to be_present
-      expect(@result['row_count']).to eq @row_count
-      expect(@result['date']).to eq(@result['created_at'])
-      expect(@result['user_id']).to eq(@data['np_admin']['id'])
-      expect(@result['imported_count']).to eq(16)
+    let(:load_from_file) do
+      executor.from_csv(file_uri)
+    end
+
+    let (:payments) {Payment.all}
+
+    let(:default_addresses) { Supporter.all.map{|s| s.default_address}}
+
+    before(:each) {
+      allow(QueueDonations).to receive(:execute_for_donation)
+      expect_email_queued.with(JobTypes::ImportCompleteNotificationJob,
+                               kind_of(Numeric))
+      load_from_file
+    }
+
+    it 'should create supporters with correct name' do
+      result = Supporter.pluck(:name)
+      expect(result).to match_array(["Robert Norris", "Angie Vaughn", "Bill Waddell", "Bubba Thurmond", "Penelope Schultz"])
+    end
+
+    it 'should create 5 payments' do
+      expect(payments.count).to eq 5
+    end
+
+    it 'should create 5 TransactionAddresses' do
+      expect(TransactionAddress.count).to eq 5
+    end
+
+    it 'should create with correct emails' do
+      result = Supporter.pluck(:email)
+      expect(result).to match_array(['user@example1.com', 'user@example2.com',
+                                     'user@example.com',
+                                     'bubba@example.com',
+                                     'penelope@penelope.home.com'
+                                    ])
+    end
+
+    it 'should creates all the supporters with correct organizations' do
+      result = Supporter.pluck(:organization)
+      expect(result).to match_array(["Jet-Pep", "Klein Drug Shoppe, Inc.", "River City Equipment Rental and Sales", "Somewhere LLC", nil])
+    end
+
+    it 'should have correct default cities' do
+      result = default_addresses.map{|a| a.city}
+      expect(result).to match_array(["Decatur", "Guntersville", "Holly Pond", "Snead", 'Guntersville'])
+    end
+
+    it 'should have correct default address' do
+      result = default_addresses.map{|a| a.address}
+      expect(result).to match_array(["3370 Alabama Highway 69",
+                                     "649 Finley Island Road",
+                                     "P.O. Box 143",
+                                     "P.O. Box 611",
+                                     '5555105 Fun'])
+    end
+
+    it 'should create all the supporters with correct zip_codes' do
+      result = default_addresses.map{|a| a.zip_code}
+      expect(result).to match_array(["35601", "35806", "35952", "35976", "35976"])
+    end
+
+    it 'should create all the supporters with correct state_codes' do
+      result = default_addresses.map{|a| a.state_code}
+      expect(result).to match_array(["AL", "AL", "AL", "AL", "AL"])
     end
 
 
-    it 'creates all the supporters with correct names' do
-      names = @supporters.map{|s| s['name']}
-      expect(names.sort).to eq(Hamster::Vector["Robert Norris", "Angie Vaughn", "Bill Waddell", "Bubba Thurmond"].sort)
+    it 'should create all the donations with correct amounts' do
+      result = payments.map{|i| i.gross_amount}
+      expect(result).to match_array([1000, 1000, 1000, 1000, 2000])
     end
 
-    it 'creates all the supporters with correct emails' do
-      emails = @supporters.map{|s| s['email']}
-      expect(emails.sort).to eq(Hamster::Vector["user@example.com", "user@example.com", "user@example.com", "user@example.com"].sort)
+    it 'should create all the donations with correct designations' do
+      desigs = payments.map{|p| p.donation}.map{|d| d.designation}
+      expect(desigs).to match_array(["third party event", "third party event", "third party event", "third party event", nil])
     end
 
-    it 'creates all the supporters with correct organizations' do
-      orgs = @supporters.map{|s| s['organization']}
-      expect(orgs.sort).to eq(Hamster::Vector["Jet-Pep", "Klein Drug Shoppe, Inc.", "River City Equipment Rental and Sales", "Somewhere LLC"].sort)
+    it 'should create the correct custom fields values' do
+      result = Supporter.all.map{|s| s.custom_field_joins.first}.map{|cfj| cfj ? cfj.value : nil}
+      expect(result).to match_array(["custfield","custfield","custfield","custfield",nil])
     end
 
-    it 'creates all the supporters with correct cities' do
-      cities = @supporters.map{|s| s['city']}
-      expect(cities.sort).to eq(Hamster::Vector["Decatur", "Guntersville", "Holly Pond", "Snead"].sort)
+    it 'should have the correct custom field' do
+      expect(CustomFieldMaster.count).to eq 1
     end
 
-    it 'creates all the supporters with correct addresses' do
-      addresses = @supporters.map{|s| s['address']}
-      expect(addresses.sort).to eq(Hamster::Vector["3370 Alabama Highway 69", "649 Finley Island Road", "P.O. Box 143", "P.O. Box 611"].sort)
+    it 'should have the correct tags' do
+      result = Supporter.all.map{|t| t.tag_joins}.map{|i| i.map{|m| m.name}}
+      expect(result).to match_array([ ["tag1", 'tag2'], ["tag1", 'tag2'], ["tag1", 'tag2'], ["tag1", 'tag2'], []])
     end
 
-    it 'creates all the supporters with correct zip_codes' do
-      zips = @supporters.map{|s| s['zip_code']}
-      expect(zips.sort).to eq(Hamster::Vector["35601", "35806", "35952", "35976"].sort)
+    it 'should have one crm address for Penelope' do
+      expect(CrmAddress.where(supporter_id: penelope.id).count).to eq 1
     end
 
-    it 'creates all the supporters with correct state_codes' do
-      states = @supporters.map{|s| s['state_code']}
-      expect(states.sort).to eq(Hamster::Vector["AL", "AL", "AL", "AL"])
+    it 'should have two custom address' do
+      expect(CrmAddress.count).to eq 5
     end
 
-    it 'creates all the donations with correct amounts' do
-      amounts = @donations.map{|d| d['amount']}
-      expect(amounts.sort).to eq(Hamster::Vector[1000, 1000, 1000, 1000])
+    it 'should have one transaction address' do
+      expect(TransactionAddress.count).to eq 5
     end
 
-    it 'creates all the donations with correct designations' do
-      desigs = @donations.map{|d| d['designation']}
-      expect(desigs.sort).to eq(Hamster::Vector["third party event", "third party event", "third party event", "third party event"])
-    end
+    it 'should only have one transaction address per transaction' do
+      count = TransactionAddress.group(:transactionable_type, :transactionable_id).count
 
-    it 'inserts custom fields' do
-      vals = Psql.execute("SELECT value FROM custom_field_joins ORDER BY id DESC LIMIT 4").map{|h| h['value']}
-      expect(vals).to eq(Hamster::Vector["custfield", "custfield", "custfield", "custfield"])
+      count.each do |k,v|
+        expect(v).to eq 1
+      end
     end
-
-    it 'inserts tags' do
-      ids = @supporters.map{|h| h['id']}.join(", ")
-      names = Psql.execute("SELECT tag_masters.name FROM tag_joins JOIN tag_masters ON tag_masters.id=tag_joins.tag_master_id WHERE tag_joins.supporter_id IN (#{ids})")
-        .map{|h| h['name']}
-      expect(Hamster.to_ruby(names).sort).to eq(["tag1", "tag1", "tag1", "tag1", "tag2", "tag2", "tag2", "tag2"])
-    end
-
   end
 end
+

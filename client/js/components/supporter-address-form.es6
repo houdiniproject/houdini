@@ -17,14 +17,13 @@ function init(state) {
   state = state || {}
   state = R.merge({
     submit$: flyd.stream()
-  , supporter$: flyd.stream(state.supporter || {})
   , error$: flyd.stream()
   }, state)
 
   state.updated$ = flyd.map(
     ev => {
       ev.preventDefault()
-      return serializeForm(ev.target, {hash: true})
+      return serializeForm(ev.target, {hash: true, empty:true})
     }
   , state.submit$ )
 
@@ -33,7 +32,7 @@ function init(state) {
   state.response$ = flyd.flatMap(
     supporter => flyd.map(R.prop('body'), request({
       method: 'put'
-    , path: state.path || `/nonprofits/${app.nonprofit_id}/supporters`
+    , path: state.path 
     , send: R.merge({supporter}, state.payload || {})
     }).load)
   , state.updated$ )

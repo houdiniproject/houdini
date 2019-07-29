@@ -16,9 +16,14 @@ const cardTab = 'credit_card'
 function init(state) {
   const payload$ = flyd.map(supp => ({card: {holder_id: supp.id, holder_type: 'Supporter'}}), state.supporter$)
   const supporterID$ = flyd.map(supp => supp.id, state.supporter$)
-  const card$ = flyd.merge(
-    flyd.stream({})
-  , flyd.map(supp => ({name: supp.name, address_zip: supp.zip_code}), state.supporter$)) 
+  const card$ = flyd.immediate(
+    flyd.combine((supporter, address) => {
+      return {
+       name: supporter() ? supporter().name : undefined,
+        address_zip: address() ? address().zip_code : undefined
+      }
+    }, [state.supporter$, state.address$]
+  ))
 
   state.cardForm = cardForm.init({ path: '/cards', card$, payload$ }) 
   state.sepaForm = sepaForm.init({ supporter: supporterID$ } )
@@ -32,13 +37,18 @@ function init(state) {
   const donationWithSepaId$ = flyd.lift(R.assoc('direct_debit_detail_id'), sepaId$, state.donation$)
 
   state.donationParams$ = flyd.immediate(
-    flyd.combine((sepaParams, cardParams, activeTab) => {
+    flyd.combine((sepaParams, cardParams, activeTab, address) => {
+      let donationParams = {};
       if(activeTab() == sepaTab) {
-        return sepaParams()
+        donationParams = sepaParams()
       } else if(activeTab() == cardTab) {
-        return cardParams()
+        donationParams = cardParams()
       }
-    }, [donationWithSepaId$, donationWithCardToken$, state.activePaymentTab$])
+      if (address() && donationParams){
+        donationParams.address = address()
+      }
+      return donationParams
+    }, [donationWithSepaId$, donationWithCardToken$, state.activePaymentTab$, state.address$])
   )
   const donationResp$ = flyd.flatMap(postDonation, state.donationParams$)
 

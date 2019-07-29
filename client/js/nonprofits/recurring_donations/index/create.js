@@ -3,9 +3,10 @@ require('../../../components/wizard')
 var format_err = require('../../../common/format_response_error')
 var format = require('../../../common/format')
 var request = require('../../../common/super-agent-promise')
-var create_donation = require('../../../donations/create')
 var create_card = require('../../../cards/create')
 var formToObj = require('../../../common/form-to-object')
+const _ = require('lodash')
+var utils = require('../../../../../javascripts/src/lib/utils.ts')
 
 var wiz = {}
 
@@ -34,6 +35,7 @@ wiz.save_supporter = function(form_obj) {
 	appl.rd_wizard.save_supporter_promise = request.post('/nonprofits/' + ENV.nonprofitID + '/supporters')
 		.send({supporter: form_obj}).perform()
 		.then(set_supporter_data)
+		.then((resp) => set_address_data(resp, form_obj))
 		.catch(show_err)
 }
 
@@ -69,6 +71,18 @@ function set_supporter_data(resp) {
 		supporter_id: resp.body.id
 	})
 	return resp.body
+}
+
+function set_address_data(resp, form_obj) {
+	const props = _.filter(['address', 'city', 'state_code', 'zip_code', 'country'], (i) => utils.isFilled(form_obj[i]))
+	if (props.length > 0) {
+		const address = _.fromPairs(_.map(props, (i) => [i, form_obj[i]]))
+		appl.rd_wizard.donation.address = address
+	}
+	else {
+		console.log('no address!')
+	}
+	return resp
 }
 
 // Set a general error on the wizard from an ajax response, displayed on any step

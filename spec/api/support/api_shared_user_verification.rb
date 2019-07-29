@@ -1,7 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'controllers/support/general_shared_user_context'
+require 'support/contexts/general_shared_user_context'
 RSpec.shared_context :api_shared_user_verification do
   include_context :general_shared_user_context
+
   let(:user_as_np_admin) {
     __create_admin(nonprofit)
   }
@@ -81,6 +82,17 @@ RSpec.shared_context :api_shared_user_verification do
     ]
   end
 
+  let(:roles__open_to_event_editor) do
+    [:user_as_np_admin,
+
+     :user_as_np_associate,
+     :event_editor,
+
+     :super_admin
+
+    ]
+  end
+
   def __create(name, host)
     u = force_create(:user)
     force_create(:role, user: u, name: name, host:host)
@@ -101,6 +113,9 @@ RSpec.shared_context :api_shared_user_verification do
 
   def sign_in(user_to_signin)
     post_via_redirect 'users/sign_in', 'user[email]' => user_to_signin.email, 'user[password]' => user_to_signin.password, format: "json"
+  end
+  def sign_out
+    send(:get, 'users/sign_out')
   end
 
   def sign_out
@@ -129,7 +144,7 @@ RSpec.shared_context :api_shared_user_verification do
     # allows us to run the helpers but ignore what the controller action does
     #
     send(method, action, args)
-    expect(response.status).to eq(200), "expcted success for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes}"
+    expect(response.status).to_not eq(401), "expected success for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes}"
     sign_out
   end
 
@@ -141,7 +156,7 @@ RSpec.shared_context :api_shared_user_verification do
     end
     sign_in new_user if new_user
     send(method, action, args)
-    expect(response.status).to eq(401), "expected failure for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes}"
+    expect(response.status).to eq(401), "expected failure for user: #{(user_to_signin.is_a?(OpenStruct) ? user_to_signin.key.to_s + ":" : "")} #{new_user&.attributes} -- expected status of 401, got status #{response.status}"
     sign_out
   end
 
@@ -154,18 +169,22 @@ RSpec.shared_context :api_shared_user_verification do
     @block_to_get_arguments_to_run = block || ->(_) {} #no-op
     accept_test_for_nil = false
     all_users.each do |k,v|
-      os = OpenStruct.new
-      os.key = k
-      os.value = v
+      Qx.transaction do
+        os = OpenStruct.new
+        os.key = k
+        os.value = v
 
-      if k.nil?
-        accept(user_to_signin: nil, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
-        accept_test_for_nil = true
-      end
-      if @successful_users.include? k
-        accept(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
-      else
-        reject(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+        if k.nil?
+          accept(user_to_signin: nil, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+          accept_test_for_nil = true
+        end
+        if @successful_users.include? k
+          accept(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+        else
+          reject(user_to_signin: os, method:@method, action: @action, args: @block_to_get_arguments_to_run.call(v))
+        end
+
+        raise ActiveRecord::Rollback
       end
     end
 

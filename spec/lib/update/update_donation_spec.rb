@@ -28,6 +28,7 @@ describe UpdateDonation do
                                net_amount: initial_amount - initial_fee,
                                supporter: supporter
   )}
+
   let(:offsite_payment) {force_create(:offsite_payment, payment: payment, nonprofit: np, donation: donation,
                                       check_number: initial_check_number,
                                       gross_amount: initial_amount,
@@ -66,6 +67,8 @@ describe UpdateDonation do
 
   let(:initial_time) {Time.now}
 
+  let(:address) { force_create(:transaction_address, transactionable: donation, city: 'city', state_code: 'state_code', address: 'address', zip_code: 'zip', country: 'country', supporter: supporter)}
+
 
   let(:payment2_date) {initial_date + 10.days}
 
@@ -98,8 +101,8 @@ describe UpdateDonation do
             designation: 1,
             dedication: 1,
             comment: 1,
-            campaign_id: nil,
-            event_id: nil}}
+            campaign_id: '5312l5j2',
+            event_id: '23555ff2353'}}
 
         let(:expanded_invalid_arguments) {
           initial_invalid_arguments.merge({
@@ -114,9 +117,7 @@ describe UpdateDonation do
             {key: :dedication, name: :is_a},
             {key: :comment, name: :is_a},
             {key: :campaign_id, name: :is_reference},
-            {key: :campaign_id, name: :required},
             {key: :event_id, name: :is_reference},
-            {key: :event_id, name: :required}
         ]}
         it 'for offsite donations' do
           offsite_payment
@@ -218,10 +219,13 @@ describe UpdateDonation do
                        gross_amount: new_amount,
                        fee_total: new_fee,
                        check_number: new_check_number,
-                       date: new_date_input
+                       date: new_date_input,
+                       # 'id' should by the update so we're making sure it is!
+                       address: {id:3333, city: 's'}
       }}
       it 'online donation' do
         payment2
+        address
         Timecop.freeze(1.day) do
           result = UpdateDonation.update_payment(donation.id, new_data)
 
@@ -235,6 +239,9 @@ describe UpdateDonation do
 
           donation.reload
           expect(donation.attributes).to eq expected_donation
+          expect(donation.address).to_not be_nil, 'expected address to be set since it was passed in but it wasnt'
+          expect(donation.address).to_not eq(3333), 'an address id of 3333 was passed in but it should have been ignored on save. It wasnt'
+          expect(donation.address.attributes.slice('city', 'state_code', 'address', 'zip_code', "country")).to eq({'city'=> 's', 'state_code'=> nil, 'address'=> nil, 'zip_code'=> nil, 'country'=> nil}), 'we should have replaced all of the address attributes with nil, except city, but we didnt'
 
           expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now}).with_indifferent_access
           payment.reload
@@ -279,6 +286,9 @@ describe UpdateDonation do
           donation.reload
           expect(donation.attributes).to eq expected_donation
 
+          expect(donation.address).to_not be_nil, 'expected an address to be created but it wasnt'
+          expect(donation.address.city).to eq('s'), 'expected the address to have a city called \'s\' but we didnt'
+
           expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now, date: new_date, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
           payment.reload
           expect(payment.attributes).to eq expected_p1
@@ -306,10 +316,12 @@ describe UpdateDonation do
                          gross_amount: new_amount,
                          fee_total: new_fee,
                          check_number: '',
-                         date: new_date_input
+                         date: new_date_input,
+                         address: {address: '', city: '', state_code: '', zip_code: '', country: ''}
         }}
 
         it 'online donation' do
+          address
           payment2
           Timecop.freeze(1.day) do
             UpdateDonation.update_payment(donation.id, new_data)
@@ -322,8 +334,9 @@ describe UpdateDonation do
                                                           event_id: nil,
                                                           updated_at: Time.now}).with_indifferent_access
             donation.reload
-
             expect(donation.attributes).to eq expected_donation
+            expect(donation.address).to be_nil, "expected donation address to be nil when we passed in blank address details"
+            expect{address.reload}.to raise_error(ActiveRecord::RecordNotFound), "expected address to be deleted when we passed in blank address details but it wasn't"
 
             expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now}).with_indifferent_access
             payment.reload

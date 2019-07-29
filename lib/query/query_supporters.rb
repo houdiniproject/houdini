@@ -244,7 +244,8 @@ module QuerySupporters
         .and_where("to_tsvector('english', custom_fields.value) @@ plainto_tsquery('english', $custom_fields)", custom_fields: query[:custom_fields])
     end
     if query[:location].present?
-      expr = expr.and_where("lower(supporters.city) LIKE $city OR lower(supporters.zip_code) LIKE $zip", city: query[:location].downcase, zip: query[:location].downcase)
+      expr = expr.join_lateral('crm_addresses', 
+        does_an_address_match(query).parse)
     end
     if query[:recurring].present?
       rec_ps_subquery = Qx.select("payments.count", "payments.supporter_id")
@@ -549,15 +550,15 @@ UNION DISTINCT
   # used for merging supporters, crm profile and info card
   def self.profile_selects(arr = [])
      ["supporters.id",
-      "supporters.name",
-      "supporters.email",
-      "supporters.address",
-      "supporters.state_code",
-      "supporters.city",
-      "supporters.zip_code",
-      "supporters.country",
-      "supporters.organization",
-      "supporters.phone"] + arr
+      "MAX(supporters.name) AS name",
+      "MAX(supporters.email) AS email",
+      "MAX(supporters.address) AS address",
+      "MAX(supporters.state_code) AS state_code",
+      "MAX(supporters.city) AS city",
+      "MAX(supporters.zip_code) AS zip_code",
+      "MAX(supporters.country) AS country",
+      "MAX(supporters.organization) AS organization",
+      "MAX(supporters.phone) AS phone"] + arr
   end
 
 
@@ -574,20 +575,22 @@ UNION DISTINCT
   # the side panel details of the supporter listing after clicking a row.
   def self.for_crm_profile(npo_id, ids)
     selects = [
-      "supporters.created_at",
-      "supporters.imported_at",
-      "supporters.anonymous AS anon",
-      "supporters.is_unsubscribed_from_emails",
+      "MAX(supporters.created_at) as created_at",
+      "MAX(supporters.imported_at) as imported_at",
+      "BOOL_OR(supporters.anonymous) AS anonymous",
+      "BOOL_OR(supporters.is_unsubscribed_from_emails) AS is_unsubscribed_from_emails",
       "COALESCE(MAX(payments.sum), 0) AS raised",
       "COALESCE(MAX(payments.count), 0) AS payments_count",
       "COALESCE(COUNT(recurring_donations.active), 0) AS recurring_donations_count",
       "MAX(full_contact_infos.full_name) AS fc_full_name",
       "MAX(full_contact_infos.age) AS fc_age",
       "MAX(full_contact_infos.location_general) AS fc_location_general",
-      "MAX(full_contact_infos.websites) AS fc_websites"]
+      "MAX(full_contact_infos.websites) AS fc_websites",
+      "MAX(total_addresses) as total_addresses"
+    ]
 
     Qx.select(*QuerySupporters.profile_selects(selects))
-      .from("supporters")
+      .from(supporters_with_default_address(np_id:npo_id, supporter_ids:ids).as('supporters'))
       .left_join(
         ["donations", "donations.supporter_id=supporters.id"],
         ["full_contact_infos", "full_contact_infos.supporter_id=supporters.id"],
@@ -599,10 +602,11 @@ UNION DISTINCT
       .execute
   end
 
+  # gets supporter information with the amount of money they've donated to date
   def self.for_info_card(id)
     selects = ["COALESCE(MAX(payments.sum), 0) AS raised"] 
     Qx.select(*QuerySupporters.profile_selects(selects))
-      .from("supporters")
+      .from(supporters_with_default_address(supporter_id: id).as(:supporters))
       .left_join([QuerySupporters.profile_payments_subquery, "payments.supporter_id=supporters.id"])
       .group_by("supporters.id")
       .where("supporters.id=$id", id: id)
@@ -719,6 +723,61 @@ UNION DISTINCT
     if(date.is_a?(String))
       return DateTime.parse(date)
     end
+  end
+
+  def self.does_an_address_match(query)
+    Qx.select("1 as address_matches")
+        .from(:crm_addresses)
+        .and_where('crm_addresses.supporter_id = supporters.id AND (crm_addresses.city ILIKE $city OR crm_addresses.zip_code ILIKE $zip)', 
+        city: "%" + query[:location].downcase + "%", 
+        zip: "%" + query[:location].downcase + "%")
+        .limit(1)
+  end
+
+  def self.supporters_with_default_address(options)
+    ret = Qx.select('supporters.id', 
+      'supporters.name', 
+      'supporters.email',
+      'supporters.organization',
+      'supporters.phone', 
+      'supporters.created_at',
+      'supporters.imported_at',
+      'supporters.anonymous',
+      'supporters.is_unsubscribed_from_emails',
+      'supporters.nonprofit_id',
+      'default_addresses.address AS address', 
+      'default_addresses.city AS city',
+      'default_addresses.state_code AS state_code',
+      'default_addresses.zip_code AS zip_code',
+      'default_addresses.country AS country',
+      'address_stats.total_addresses AS total_addresses')
+        .from(:supporters)
+        .left_join_lateral('default_addresses',
+          Qx.select('crm_addresses.*')
+          .from(:address_tags)
+          .join(:crm_addresses, "address_tags.supporter_id = supporters.id AND crm_addresses.id = address_tags.crm_address_id AND address_tags.name= 'default'")
+          .limit(1).parse,
+        true)
+        .left_join_lateral('address_stats',
+          Qx.select('COUNT(crm_addresses.id) AS total_addresses')
+          .from('crm_addresses')
+          .where('crm_addresses.supporter_id = supporters.id').parse,
+          true)
+       
+    if options[:np_id]
+      ret = ret.where('supporters.nonprofit_id = $np_id', 
+        np_id: options[:np_id])
+    end
+
+    if options[:supporter_ids]
+      s_ids = options[:supporter_ids].is_a?(Array) ? 
+              options[:supporter_ids] : 
+              [options[:supporter_ids]]
+      ret = ret.where('supporters.id IN ($supporter_ids)', 
+        supporter_ids: s_ids)
+      
+    end
+    ret
   end
 end
 

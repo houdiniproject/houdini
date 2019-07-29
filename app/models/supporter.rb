@@ -48,10 +48,14 @@ class Supporter < ActiveRecord::Base
   has_many :tag_masters, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
+  has_many :crm_addresses
+  has_many :transaction_addresses
+  has_many :address_tags
+  has_many :ticket_orders
   belongs_to :merged_into, class_name: 'Supporter', :foreign_key => 'merged_into'
 
   validates :nonprofit, :presence => true
-  scope :not_deleted, -> {where(deleted: false)}
+  scope :not_deleted, -> {where("COALESCE(deleted, FALSE) = FALSE")}
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
@@ -81,6 +85,18 @@ class Supporter < ActiveRecord::Base
 
   def full_address
     Format::Address.full_address(self.address, self.city, self.state_code)
+  end
+
+  def default_address
+    default_address_tag&.crm_address
+  end
+
+  def default_address_tag
+    address_tags.where('name = ?', 'default').first
+  end
+
+  def default_address_strategy
+    DefaultAddressStrategies::ManualStrategy.new(self)
   end
 
 end

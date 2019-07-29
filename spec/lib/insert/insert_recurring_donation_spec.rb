@@ -6,7 +6,7 @@ describe InsertRecurringDonation do
     include_context :shared_rd_donation_value_context
 
     it 'does basic validation' do
-      validation_basic_validation {InsertRecurringDonation.with_stripe({designation: 34124, dedication: 35141, event_id: "bad", campaign_id: 'bad'})}
+      validation_basic_validation {InsertRecurringDonation.with_stripe({designation: 34124, dedication: 35141, event_id: "bad", campaign_id: 'bad', address: 'useless'})}
     end
 
     it 'does recurring donation validation' do

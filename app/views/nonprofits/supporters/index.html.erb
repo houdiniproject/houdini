@@ -12,29 +12,48 @@
 	<%= IncludeAsset.js '/app/react.js' %>
   <%= IncludeAsset.js '/app/react-dom.js' %>
   <%= IncludeAsset.js '/app/vendor.js' %>
-  <%= IncludeAsset.js '/app/create_new_offsite_payment_panex.js' %>
+  <%= IncludeAsset.js '/app/supporter_pagex.js' %>
 
   <script>
     appl.def('open_donation_modal', function(supporter_id, donation_finish_successful_state_fn) {
       $('.modal').removeClass('inView')
 
-      function SetupLoadCreateOffsiteDonationPane(modalActive){
-        LoadReactCreateOffsiteDonationPane(document.getElementById('react-vdom-hack'),
+      function SetupLoadCreateOffsitePaymentModal(modalActive){
+        LoadReactCreateOffsitePaymentModal(document.getElementById('react-vdom-hack'),
           appl.campaigns.data,
           appl.events.data,
           app.nonprofit_id,
           supporter_id,
           () => {}, //appl.start_loading,
           donation_finish_successful_state_fn, //appl.update_donation__success,
-          () => {SetupLoadCreateOffsiteDonationPane(false)},
+          () => {SetupLoadCreateOffsitePaymentModal(false)},
           modalActive,
           ENV.nonprofitTimezone)
       }
 
-      SetupLoadCreateOffsiteDonationPane(true)
+      SetupLoadCreateOffsitePaymentModal(true)
 
 
       return appl
+    })
+
+    appl.def('open_edit_supporter_modal', function(supporter_id) {
+      $('.modal').removeClass('inView')
+
+      function SetupEditSupporterModal(modalActive){
+        LoadReactEditSupporterModal(document.getElementById('react-vdom-hack'),
+          app.nonprofit_id,
+          supporter_id,
+          (supporterId) => {
+            SetupEditSupporterModal(false);
+            if (supporterId){
+              appl.ajax_supporter.post_update(supporterId)
+            }
+          },
+          modalActive)
+      }
+
+      SetupEditSupporterModal(true)
     })
 
   </script>
@@ -58,7 +77,7 @@
 <div id='js-main'></div>
 
 <%= render 'merge_modal' %>
-<%= render 'new_modal' %>
+<%# <%= render 'new_modal' %> %>
 <%= render 'edit_modal' %>
 
 <%= render 'settings_modal' %>

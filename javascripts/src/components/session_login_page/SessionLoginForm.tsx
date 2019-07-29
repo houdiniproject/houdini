@@ -1,26 +1,24 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { observer, inject} from 'mobx-react';
-import {InjectedIntlProps, injectIntl, FormattedMessage} from 'react-intl';
-import {Field, FieldDefinition, Form, initializationDefinition} from "../../../../types/mobx-react-form";
-import {Validations} from "../../lib/vjf_rules";
-import {WebLoginModel, WebUserSignInOut} from "../../lib/api/sign_in";
-
-import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
-import {observable, action, runInAction} from 'mobx'
-import {ApiManager} from "../../lib/api_manager";
-import {BasicField} from "../common/fields";
+import { observer, inject } from 'mobx-react';
+import { InjectedIntlProps, injectIntl, FormattedMessage } from 'react-intl';
+import { FieldDefinition, initializationDefinition } from "mobx-react-form";
+import { Validations } from "../../lib/vjf_rules";
+import { WebLoginModel, WebUserSignInOut } from "../../lib/api/sign_in";
+import { HoudiniForm, StaticFormToErrorAndBackConverter } from "../../lib/houdini_form";
+import { observable, action, runInAction } from 'mobx'
+import { ApiManager } from "../../lib/api_manager";
+import { BasicField } from "../common/fields";
 import ProgressableButton from "../common/ProgressableButton";
 
-export interface SessionLoginFormProps
-{
+export interface SessionLoginFormProps {
 
-  buttonText:string
-  buttonTextOnProgress:string
+  buttonText: string
+  buttonTextOnProgress: string
   ApiManager?: ApiManager
 }
 
-export const FieldDefinitions : Array<FieldDefinition> = [
+export const FieldDefinitions: Array<FieldDefinition> = [
   {
     name: 'email',
     type: 'text',
@@ -38,7 +36,7 @@ export class SessionPageForm extends HoudiniForm {
 
   constructor(definition: initializationDefinition, options?: any) {
     super(definition, options)
-    this.converter = new StaticFormToErrorAndBackConverter<WebLoginModel>(this.inputToForm)
+    this.converter = new StaticFormToErrorAndBackConverter<WebLoginModel>(this.inputToForm, this)
   }
 
   signinApi: WebUserSignInOut
@@ -59,14 +57,14 @@ export class SessionPageForm extends HoudiniForm {
 
   hooks() {
     return {
-      onSuccess: async (f:SessionPageForm) => {
-        let input = this.converter.convertFormToObject(f)
+      onSuccess: async (f: SessionPageForm) => {
+        let input = this.converter.convertFormToObject()
 
-        try{
+        try {
           let r = await this.signinApi.postLogin(input)
           window.location.reload()
         }
-        catch(e){
+        catch (e) {
           if (e.error) {
             f.invalidateFromServer(e.error)
           }
@@ -88,10 +86,10 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
 
   @action.bound
   createForm() {
-    this.form = new SessionPageForm({fields: FieldDefinitions})
+    this.form = new SessionPageForm({ fields: FieldDefinitions })
   }
 
-  componentWillMount(){
+  componentWillMount() {
     runInAction(() => {
       this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
     })
@@ -105,18 +103,18 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
 
     return <form onSubmit={this.form.onSubmit}>
       <BasicField field={this.form.$('email')}
-        label={this.props.intl.formatMessage({id: 'login.email'})} inputClassNames={"input-lg"}/>
+        label={this.props.intl.formatMessage({ id: 'login.email' })} inputClassNames={"input-lg"} />
       <BasicField field={this.form.$('password')}
-                  label={this.props.intl.formatMessage({id: 'login.password'})} inputClassNames={"input-lg"}/>
+        label={this.props.intl.formatMessage({ id: 'login.password' })} inputClassNames={"input-lg"} />
       {errorDiv}
       <div className={'form-group'}>
         <ProgressableButton onClick={this.form.onSubmit} className="button" disabled={!this.form.isValid || this.form.submitting} inProgress={this.form.submitting}
-                          buttonText={this.props.intl.formatMessage({id: this.props.buttonText})}
-                          buttonTextOnProgress={this.props.intl.formatMessage({id: this.props.buttonTextOnProgress})}></ProgressableButton>
+          buttonText={this.props.intl.formatMessage({ id: this.props.buttonText })}
+          buttonTextOnProgress={this.props.intl.formatMessage({ id: this.props.buttonTextOnProgress })}></ProgressableButton>
       </div>
       <div className={'row'}>
-        <div className={'col-xs-12 col-sm-6 login-bottom-link'}><a href={'/users/password/new'}><FormattedMessage id={"login.forgot_password"}/></a></div>
-        <div className={'col-xs-12 col-sm-6 login-bottom-link'}><a href={'/onboard'}><div className={'visible-xs-block'}><FormattedMessage id={"login.get_started"}/></div><div className={"hidden-xs"} style={{"textAlign":"right"}}><FormattedMessage id={"login.get_started"}/></div></a></div>
+        <div className={'col-xs-12 col-sm-6 login-bottom-link'}><a href={'/users/password/new'}><FormattedMessage id={"login.forgot_password"} /></a></div>
+        <div className={'col-xs-12 col-sm-6 login-bottom-link'}><a href={'/onboard'}><div className={'visible-xs-block'}><FormattedMessage id={"login.get_started"} /></div><div className={"hidden-xs"} style={{ "textAlign": "right" }}><FormattedMessage id={"login.get_started"} /></div></a></div>
       </div>
     </form>;
   }
@@ -124,8 +122,8 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
 
 export default injectIntl(
   inject('ApiManager')
-  (observer( InnerSessionLoginForm)
-  )
+    (observer(InnerSessionLoginForm)
+    )
 )
 
 

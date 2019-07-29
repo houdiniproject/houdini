@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.11
+-- Dumped by pg_dump version 9.6.13
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,6 +12,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -157,6 +158,39 @@ CREATE SEQUENCE public.activities_id_seq
 --
 
 ALTER SEQUENCE public.activities_id_seq OWNED BY public.activities.id;
+
+
+--
+-- Name: address_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.address_tags (
+    id integer NOT NULL,
+    name character varying(255),
+    crm_address_id integer,
+    supporter_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: address_tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.address_tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: address_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.address_tags_id_seq OWNED BY public.address_tags.id;
 
 
 --
@@ -539,6 +573,44 @@ CREATE SEQUENCE public.comments_id_seq
 --
 
 ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
+
+
+--
+-- Name: crm_addresses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.crm_addresses (
+    id integer NOT NULL,
+    supporter_id integer,
+    address character varying(255),
+    city character varying(255),
+    zip_code character varying(255),
+    country character varying(255),
+    state_code character varying(255),
+    fingerprint character varying(255),
+    deleted boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crm_addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.crm_addresses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crm_addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.crm_addresses_id_seq OWNED BY public.crm_addresses.id;
 
 
 --
@@ -2128,6 +2200,37 @@ ALTER SEQUENCE public.ticket_levels_id_seq OWNED BY public.ticket_levels.id;
 
 
 --
+-- Name: ticket_orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticket_orders (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    supporter_id integer
+);
+
+
+--
+-- Name: ticket_orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.ticket_orders_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ticket_orders_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.ticket_orders_id_seq OWNED BY public.ticket_orders.id;
+
+
+--
 -- Name: tickets; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2148,7 +2251,8 @@ CREATE TABLE public.tickets (
     note text,
     event_discount_id integer,
     deleted boolean,
-    source_token_id uuid
+    source_token_id uuid,
+    ticket_order_id integer
 );
 
 
@@ -2204,6 +2308,45 @@ CREATE SEQUENCE public.trackings_id_seq
 --
 
 ALTER SEQUENCE public.trackings_id_seq OWNED BY public.trackings.id;
+
+
+--
+-- Name: transaction_addresses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transaction_addresses (
+    id integer NOT NULL,
+    supporter_id integer,
+    address character varying(255),
+    city character varying(255),
+    zip_code character varying(255),
+    country character varying(255),
+    state_code character varying(255),
+    fingerprint character varying(255),
+    transactionable_id integer,
+    transactionable_type character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: transaction_addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.transaction_addresses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: transaction_addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.transaction_addresses_id_seq OWNED BY public.transaction_addresses.id;
 
 
 --
@@ -2275,6 +2418,13 @@ ALTER TABLE ONLY public.activities ALTER COLUMN id SET DEFAULT nextval('public.a
 
 
 --
+-- Name: address_tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address_tags ALTER COLUMN id SET DEFAULT nextval('public.address_tags_id_seq'::regclass);
+
+
+--
 -- Name: bank_accounts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2335,6 +2485,13 @@ ALTER TABLE ONLY public.charges ALTER COLUMN id SET DEFAULT nextval('public.char
 --
 
 ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.comments_id_seq'::regclass);
+
+
+--
+-- Name: crm_addresses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crm_addresses ALTER COLUMN id SET DEFAULT nextval('public.crm_addresses_id_seq'::regclass);
 
 
 --
@@ -2618,6 +2775,13 @@ ALTER TABLE ONLY public.ticket_levels ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: ticket_orders id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_orders ALTER COLUMN id SET DEFAULT nextval('public.ticket_orders_id_seq'::regclass);
+
+
+--
 -- Name: tickets id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2632,10 +2796,25 @@ ALTER TABLE ONLY public.trackings ALTER COLUMN id SET DEFAULT nextval('public.tr
 
 
 --
+-- Name: transaction_addresses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transaction_addresses ALTER COLUMN id SET DEFAULT nextval('public.transaction_addresses_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Name: address_tags address_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.address_tags
+    ADD CONSTRAINT address_tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -2708,6 +2887,14 @@ ALTER TABLE ONLY public.campaigns
 
 ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crm_addresses crm_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.crm_addresses
+    ADD CONSTRAINT crm_addresses_pkey PRIMARY KEY (id);
 
 
 --
@@ -3047,6 +3234,14 @@ ALTER TABLE ONLY public.ticket_levels
 
 
 --
+-- Name: ticket_orders ticket_orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_orders
+    ADD CONSTRAINT ticket_orders_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tickets tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3060,6 +3255,14 @@ ALTER TABLE ONLY public.tickets
 
 ALTER TABLE ONLY public.trackings
     ADD CONSTRAINT trackings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transaction_addresses transaction_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transaction_addresses
+    ADD CONSTRAINT transaction_addresses_pkey PRIMARY KEY (id);
 
 
 --
@@ -3141,6 +3344,20 @@ CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (
 
 
 --
+-- Name: index_address_tags_on_crm_address_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_address_tags_on_crm_address_id ON public.address_tags USING btree (crm_address_id);
+
+
+--
+-- Name: index_address_tags_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_address_tags_on_supporter_id ON public.address_tags USING btree (supporter_id);
+
+
+--
 -- Name: index_campaign_gifts_on_campaign_gift_option_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3176,6 +3393,34 @@ CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_
 
 
 --
+-- Name: index_crm_addresses_on_deleted; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crm_addresses_on_deleted ON public.crm_addresses USING btree (deleted);
+
+
+--
+-- Name: index_crm_addresses_on_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crm_addresses_on_fingerprint ON public.crm_addresses USING btree (fingerprint);
+
+
+--
+-- Name: index_crm_addresses_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crm_addresses_on_supporter_id ON public.crm_addresses USING btree (supporter_id);
+
+
+--
+-- Name: index_crm_addresses_on_updated_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_crm_addresses_on_updated_at ON public.crm_addresses USING btree (updated_at);
+
+
+--
 -- Name: index_donations_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3197,6 +3442,13 @@ CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 
 
 --
+-- Name: index_miscellaneous_np_infos_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_miscellaneous_np_infos_on_nonprofit_id ON public.miscellaneous_np_infos USING btree (nonprofit_id);
+
+
+--
 -- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3208,13 +3460,6 @@ CREATE INDEX index_payments_on_created_at ON public.payments USING btree (create
 --
 
 CREATE INDEX index_recurring_donations_on_donation_id ON public.recurring_donations USING btree (donation_id);
-
-
---
--- Name: index_refunds_on_charge_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_refunds_on_charge_id ON public.refunds USING btree (charge_id);
 
 
 --
@@ -3306,6 +3551,27 @@ CREATE INDEX index_tickets_on_payment_id ON public.tickets USING btree (payment_
 --
 
 CREATE INDEX index_tickets_on_supporter_id ON public.tickets USING btree (supporter_id);
+
+
+--
+-- Name: index_tickets_on_ticket_order_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tickets_on_ticket_order_id ON public.tickets USING btree (ticket_order_id);
+
+
+--
+-- Name: index_transaction_addresses_on_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transaction_addresses_on_fingerprint ON public.transaction_addresses USING btree (fingerprint);
+
+
+--
+-- Name: index_transactionable_on_transaction_address; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transactionable_on_transaction_address ON public.transaction_addresses USING btree (transactionable_id, transactionable_type);
 
 
 --
@@ -4387,6 +4653,10 @@ INSERT INTO schema_migrations (version) VALUES ('20180713215825');
 
 INSERT INTO schema_migrations (version) VALUES ('20180713220028');
 
+INSERT INTO schema_migrations (version) VALUES ('20180808214318');
+
+INSERT INTO schema_migrations (version) VALUES ('20180808214449');
+
 INSERT INTO schema_migrations (version) VALUES ('20181002160627');
 
 INSERT INTO schema_migrations (version) VALUES ('20181003212559');
@@ -4398,4 +4668,10 @@ INSERT INTO schema_migrations (version) VALUES ('20181128221143');
 INSERT INTO schema_migrations (version) VALUES ('20181129205652');
 
 INSERT INTO schema_migrations (version) VALUES ('20181129224030');
+
+INSERT INTO schema_migrations (version) VALUES ('20190206203313');
+
+INSERT INTO schema_migrations (version) VALUES ('20190206221616');
+
+INSERT INTO schema_migrations (version) VALUES ('20190712210155');
 

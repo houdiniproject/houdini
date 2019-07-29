@@ -74,6 +74,11 @@ describe InsertTickets do
             ticket_id: nil
         }
       end
+      result[:ticket_order] = {
+        id: data[:ticket_order_id],
+        address_id: data[:address],
+        supporter_id: data[:supporter].id
+      }
 
       result[:tickets] = data[:tickets].map.with_index{|item, i|
         {
@@ -93,7 +98,8 @@ describe InsertTickets do
           profile_id: nil,
           note: nil,
           deleted: nil,
-          source_token_id: nil
+          source_token_id: nil,
+          ticket_order_id: item[:ticket_order_id]
         }.with_indifferent_access
       }
 
@@ -117,10 +123,14 @@ describe InsertTickets do
 
   end
   describe '.create' do
+
+    let (:transaction_address) do
+      h({address: 'address 1', city: "city 1", state_code: "state_code1", zip_code: "zip codessss", country: "country we use"})
+    end
     it 'does basic validation' do
       expect {InsertTickets.create(event_discount_id: 'etheht',
                                    kind: 'blah',
-                                   token: 'none')}.to raise_error {|error|
+                                   token: 'none', address: 'ehtoewhtwn')}.to raise_error {|error|
         expect(error).to be_a ParamValidation::ValidationError
         expect_validation_errors(error.data, [
             {key: :tickets, name: :required},
@@ -134,6 +144,7 @@ describe InsertTickets do
             {key: :token, name: :format},
             {key: :event_id, name: :is_reference},
             {key: :event_id, name: :required},
+            {key: :address, name: :is_hash},
         ])
       }
 
@@ -188,23 +199,6 @@ describe InsertTickets do
         ])
       }
     end
-
-    # it 'errors out if token is invalid' do
-    #   validation_invalid_token {InsertRecurringDonation.with_stripe(amount: 1, nonprofit_id: 1, supporter_id: 1, token: fake_uuid)}
-    # end
-    #
-    # it 'errors out if token is unauthorized' do
-    #   validation_unauthorized {InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: 1, supporter_id: 1, token: fake_uuid)}
-    # end
-    #
-    # it 'errors out if token is expired' do
-    #   validation_expired {InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: 1, supporter_id: 1, token: fake_uuid)}
-    # end
-    #
-    # it 'card doesnt belong to supporter' do
-    #         validation_card_not_with_supporter {InsertTickets.create(tickets:[{quantity: 1, ticket_level_id: ticket_level.id}, {quantity: 2, ticket_level_id: ticket_level2.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: other_source_token.token, event_id: event.id)}
-    #       end
-
 
     describe 'errors during find if' do
       it 'supporter is invalid' do
@@ -302,10 +296,13 @@ describe InsertTickets do
                                     tickets: [{
                                                   id: result['tickets'][0]['id'],
                                                   quantity: 1,
-                                                  ticket_level_id: ticket_level.id}])
+                                                  ticket_level_id: ticket_level.id,
+                                                  ticket_order_id: TicketOrder.last.id}])
           expect(result['payment'].attributes).to eq expected[:payment]
           expect(result['offsite_payment'].attributes).to eq expected[:offsite_payment]
           expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
+
+          expect(result['ticket_order'].attributes).to eq(h({'id': TicketOrder.last.id, 'supporter_id': supporter.id, updated_at: Time.now, created_at:Time.now}))
         end
       end
 
@@ -379,15 +376,21 @@ describe InsertTickets do
           handle_charge_failed {InsertTickets.create(include_valid_token)}
         end
 
-        it 'succeeds' do
+        it 'succeeds without address' do
           success()
         end
+
+        it 'succeeds with address' do
+          success( {},
+                       transaction_address)
+        end
+
 
         it 'succeeds if offsite_donation is there with empty kind' do
           success({offsite_donation: {kind: nil}})
         end
 
-        def success(other_elements={})
+        def success(other_elements={}, address=nil)
           nonprofit.stripe_account_id = Stripe::Account.create()['id']
           nonprofit.save!
           card.stripe_customer_id = 'some other id'
@@ -416,7 +419,14 @@ describe InsertTickets do
                                                           }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original{|m, *args| a= m.call(*args);
           stripe_charge_id = a['id']
           a}
-          result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id))
+
+          if (address)
+            expect(QueryTransactionAddress).to receive(:add).once.with(supporter, instance_of(TicketOrder), address).and_call_original
+          else
+            expect(QueryTransactionAddress).to_not receive(:add)
+          end
+
+          result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id).merge(address: address))
           expected = generate_expected_tickets(
               {gross_amount: 1600,
               payment_fee_total: 66,
@@ -431,16 +441,23 @@ describe InsertTickets do
               tickets: [{
                             id: result['tickets'][0]['id'],
                             quantity: 1,
-                            ticket_level_id: ticket_level.id},
+                            ticket_level_id: ticket_level.id,
+                            ticket_order_id: TicketOrder.last.id
+                          },
                         {
                             id: result['tickets'][0]['id'],
                             quantity: 2,
-                            ticket_level_id: ticket_level2.id
+                            ticket_level_id: ticket_level2.id,
+                            ticket_order_id: TicketOrder.last.id
                         }]}.merge(other_elements))
 
           expect(result['payment'].attributes).to eq expected[:payment]
           expect(result['charge'].attributes).to eq expected[:charge]
           expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
+
+          # verify that the ticket address are set properly
+          expect(TicketOrder.find(result['ticket_order'].id)&.address&.attributes&.slice('address', 'city', 'state_code', 'zip_code', 'country' )).to eq(address ? transaction_address : nil)
+
         end
       end
 

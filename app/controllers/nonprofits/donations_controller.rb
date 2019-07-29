@@ -15,7 +15,12 @@ module Nonprofits
 		def create
 
 		if params[:token]
-					params[:donation][:token] = params[:token]
+			params[:donation][:token] = params[:token]
+			# hackily add the address if we don't have one
+			if !(params[:donation][:address]) && params[:address]
+				params[:donation][:address] = params[:address]
+			end
+
 			return render_json{ InsertDonation.with_stripe(params[:donation], current_user) }
 		elsif params[:direct_debit_detail_id]
 				render JsonResp.new(params[:donation]){|data|

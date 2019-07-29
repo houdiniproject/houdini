@@ -31,7 +31,7 @@ class RecurringDonationsController < ApplicationController
   def update
     data = QueryRecurringDonations.fetch_for_edit params[:id]
     if data && params[:edit_token] == data['recurring_donation']['edit_token']
-      data['supporter'] = UpdateSupporter.general_info(params[:supporter][:id], params[:supporter]) if params[:supporter]
+      data['supporter'] = UpdateRecurringDonations.update_supporter_and_address(params[:id], params[:supporter][:id], params[:supporter]) if params[:supporter]
       data['recurring_donation'] ||= {}
       data['recurring_donation'] = UpdateRecurringDonations.update_card_id(data['recurring_donation'], params[:token]) if params[:token]
       data['recurring_donation'] = UpdateRecurringDonations.update_paydate(data['recurring_donation'], params[:paydate]) if params[:paydate]

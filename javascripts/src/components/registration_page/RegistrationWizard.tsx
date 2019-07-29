@@ -17,7 +17,7 @@ import {
   ValidationErrorsException
 } from "../../../api";
 
-import {initializationDefinition} from "../../../../types/mobx-react-form";
+import {initializationDefinition} from "mobx-react-form";
 import {ApiManager} from "../../lib/api_manager";
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
 import {WebUserSignInOut} from "../../lib/api/sign_in";
@@ -42,7 +42,7 @@ export class RegistrationPageForm extends HoudiniForm {
 
   constructor(definition: initializationDefinition, options?: any) {
     super(definition, options)
-    this.converter = new StaticFormToErrorAndBackConverter<PostNonprofit>(this.inputToForm)
+    this.converter = new StaticFormToErrorAndBackConverter<PostNonprofit>(this.inputToForm, this)
   }
 
   nonprofitApi: NonprofitApi
@@ -74,7 +74,7 @@ export class RegistrationPageForm extends HoudiniForm {
   hooks() {
     return {
       onSuccess: async (f: Form) => {
-        let input = this.converter.convertFormToObject(f)
+        let input = this.converter.convertFormToObject()
 
 
         try {
@@ -87,7 +87,7 @@ export class RegistrationPageForm extends HoudiniForm {
         catch (e) {
           console.log(e)
           if (e instanceof ValidationErrorsException) {
-            this.converter.convertErrorToForm(e, f)
+            this.converter.convertErrorToForm(e)
           }
 
           this.invalidateFromServer(e['error'])

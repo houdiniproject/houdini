@@ -1,0 +1,34 @@
+
+
+      .reactCheckbox input[type='checkbox'] {
+        display: none;
+    }
+      
+      .reactCheckbox .cr {
+        vertical-align: text-bottom;
+        display: inline-block;
+        background: #fbfbfb;;
+        border: 1px #ccc solid;
+        margin-right: 5px;
+        float: none;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        padding: 0;
+        text-align: center;
+        font-family: 'FontAwesome';
+        color: #669092;
+        font-size: 15px;
+      }
+
+      .reactCheckbox .cr::before{
+        content: '';
+      }
+
+      .reactCheckbox label:hover > .cr, .reactCheckbox input[type='checkbox']:focus > .cr {
+        background-color: #E9F5E8;
+      }
+
+      .reactCheckbox input[type='checkbox']:checked + .cr::before {
+        content: '\f00c';
+      }

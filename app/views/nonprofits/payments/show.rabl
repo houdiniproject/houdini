@@ -17,6 +17,9 @@ end
 child :donation, object_root: false do
     attributes :designation, :dedication, :origin_url, :id, :comment
 
+  node(:address) do |d|
+    {address: d.address&.address, city: d.address&.city, state_code: d.address&.state_code, zip_code: d.address&.zip_code, country: d.address&.country, fingerprint:d.address&.fingerprint}
+  end
 
   child :campaign, object_root: false do
   	attributes :name, :url, :id
@@ -65,9 +68,21 @@ child :tickets, object_root: false do
 end
 
 child :supporter do
-	attributes :name, :email, :city, :state_code, :address, :zip_code, :phone, :id, :country
+	attributes :name, :email, :phone, :id
+
 
 end
+
+
+# node(:address) do |payment|
+#   ret = nil
+#   if (payment&.donation&.address)
+#     address = payment.donation.address
+#     ret = {address: address.address, city: address.city, state_code: address.state_code, zip_code: address.zip_code, country: address.country}
+#   end
+
+#   ret
+# end
 
 child :nonprofit do
     attributes :id

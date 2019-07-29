@@ -1,19 +1,33 @@
 module Houdini::V1::Helpers::RescueHelper
-  require 'active_support/concern'
+  extend Grape::API::Helpers
 
-  extend ActiveSupport::Concern
-  include Grape::DSL::Configuration
-  module ClassMethods
-    def rescue_ar_invalid( *class_to_hash)
-    rescue_with ActiveRecord::RecordInvalid do |error|
-      output = []
-      error.record.errors do |attr,message|
-        output.push({params: "#{class_to_hash[error.record.class]}['#{attr}']",
-                     message: message})
-      end
-      raise Grape::Exceptions::ValidationErrors.new(output)
+  def rescue_ar_invalid(error, class_to_param=nil)
+    param_name = class_to_param ? class_to_param[error.record.class] : error.record.class.name.downcase
+    if (param_name)
+      errors = error.record.errors.keys.map {|k|
 
+        errors = error.record.errors[k].uniq
+        errors.map{|error| Grape::Exceptions::Validation.new(
+
+            params: ["#{param_name}[#{k.to_s}]"],
+            message: error
+
+        )}
+      }
+      validation_errors = Grape::Exceptions::ValidationErrors.new(errors:errors.flatten)
+      validation_errors_output(validation_errors)
+    else
+      raise error
     end
   end
+
+  def rescue_ar_not_found(error)
+    output = {}
+    error! output, 404
+  end
+
+  def validation_errors_output(error)
+    output = {errors: error}
+    error! output, 400
   end
 end

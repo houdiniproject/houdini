@@ -29,8 +29,8 @@ module UpdateDonation
         designation: {is_a: String},
         dedication: {is_a: String},
         comment: {is_a: String},
-        campaign_id: {is_reference: true, required:true},
-        event_id: {is_reference: true, required: true}
+        campaign_id: {is_reference: true },
+        event_id: {is_reference: true}
     }
 
     if is_offsite
@@ -43,7 +43,7 @@ module UpdateDonation
     end
 
     ParamValidation.new(data, validations)
-    set_to_nil = {campaign: data[:campaign_id] == '', event: data[:event_id] == ''}
+    set_to_nil = {campaign: !data[:campaign_id] || data[:campaign_id] == '' , event: !data[:event_id] || data[:event_id] == ''}
 
     # validate campaign and event ids if there and if they belong to nonprofit
     if (set_to_nil[:campaign])
@@ -70,6 +70,8 @@ module UpdateDonation
       end
     end
 
+    correctedAddressAttributes = data[:address] ? data[:address].slice(:address, :city, :state_code, :zip_code, :country) : {}
+
     Qx.transaction do
 
       donation = existing_payment.donation
@@ -81,6 +83,20 @@ module UpdateDonation
       donation.event = nil if data[:event_id] == ''
       donation.campaign = campaign if campaign
       donation.campaign = nil if data[:campaign_id] == ''
+      unless (correctedAddressAttributes.any? && correctedAddressAttributes.keys.any?{|k| correctedAddressAttributes[k].present?})
+        if( donation.address)
+          donation.address.delete
+        end
+      else 
+        if (donation.address)
+          correctedAddressAttributes = {city: correctedAddressAttributes[:city] || nil, state_code: correctedAddressAttributes[:state_code] || nil, zip_code: correctedAddressAttributes[:zip_code] || nil, 
+          country: correctedAddressAttributes[:country]|| nil,
+          address: correctedAddressAttributes[:address] || nil}
+          donation.address.update_attributes(correctedAddressAttributes)
+        else 
+          donation.create_address(correctedAddressAttributes.merge(supporter: donation.supporter))
+        end
+      end
 
       if is_offsite
         donation.amount = data[:gross_amount] if data[:gross_amount]

@@ -189,6 +189,86 @@ describe UpdateRecurringDonations do
     end
   end
 
+  describe '.update_supporter_and_address' do 
+    include_context :shared_donation_charge_context
+    let(:address_for_rd) do
+      recurring_donation.donation.create_address({address: '1', supporter: supporter})
+    end
+
+    let(:supporter_before_saving) { supporter.attributes }
+    
+    before(:each) do
+      supporter_before_saving
+    end
+
+    describe 'address already saved' do
+      before(:each)  do
+        address_for_rd
+      end
+
+      it 'only passes correct info to supporter' do
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {name: 'new supporter name', phone: 'oweoeroejwr', email: 'something more', address: nil})
+
+        supporter.reload
+
+        expect(supporter.attributes).to eq h(supporter.attributes.merge({name: 'new supporter name'}))
+        recurring_donation.donation.address.reload
+
+        expect(recurring_donation.donation.address.address).to eq(nil)
+
+        expect(recurring_donation.donation.address.id).to eq address_for_rd.id
+      end
+
+      it 'only passes correct info to address' do
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {transactionable_id: 342345234, fingerprint: 22222, address: 'address 1'})
+
+        address = recurring_donation.donation.address
+        address.reload
+        expect(address.id).to eq address_for_rd.id
+        expect(address.fingerprint).to_not eq 22222
+        expect(address.address).to eq 'address 1'
+        expect(address.transactionable_id).to_not eq 342345234
+      end
+
+      it 'deletes address when nothing passed in' do 
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {})
+
+        recurring_donation.donation.reload
+        expect(recurring_donation.donation.address).to be_nil
+      end
+
+      it 'deletes address when name passed in' do 
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {name: 'something'})
+
+        recurring_donation.donation.reload
+        expect(recurring_donation.donation.address).to be_nil
+      end
+    end
+
+    describe 'no address saved' do
+      it 'only passes correct info to supporter' do
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {name: 'new supporter name', phone: 'oweoeroejwr', email: 'something more', address: nil})
+
+        supporter.reload
+
+        expect(supporter.attributes).to eq h(supporter.attributes.merge({name: 'new supporter name'}))
+
+        
+        expect(recurring_donation.donation.address.address).to eq nil
+      end
+
+      it 'only passes correct info to address' do
+        UpdateRecurringDonations.update_supporter_and_address(recurring_donation.id, supporter.id, {transactionable_id: 342345234, fingerprint: 22222, address: 'address 1'})
+
+        address = recurring_donation.donation.address
+        address.reload
+        expect(address.fingerprint).to_not eq 22222
+        expect(address.address).to eq 'address 1'
+        expect(address.transactionable_id).to_not eq 342345234
+      end
+    end
+  end
+
   def find_error_recurring_donation
     expect {yield()}.to raise_error {|e|
       expect(e).to be_a ParamValidation::ValidationError

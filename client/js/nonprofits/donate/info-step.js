@@ -45,6 +45,16 @@ function init(donation$, parentState) {
   )
   const changedDedication$ = flyd.merge(state.dedicationData$, state.savedDedicatee$)
   state.supporter$ = flyd.merge(flyd.stream({}), state.savedSupp$)
+  state.address$ = flyd.merge(flyd.stream({}),
+    flyd.map( supporter => {
+    return {
+      address: supporter.address,
+      city: supporter.city,
+      zip_code: supporter.zip_code,
+      state_code: supporter.state_code,
+      country: supporter.country
+    }
+  }, flyd.map(formatFormData, state.submitSupporter$)))
 
   return state
 }

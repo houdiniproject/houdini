@@ -44,6 +44,16 @@ The last secrets you'll need are related to AWS. You can learn how to [create an
 
 Run `rake db:setup` to run all the db tasks within one command. This will create the dbs for each environment, load the `structure.sql`, run pending migrations and will also run the seed functionality.
 
+-------
+
+**Known problems**
+If you encounter `database doesnt exist in rake db create` after running both `rake db:setup` and `rake db:create`, you'll need to comment out the lines these lines at `pg_type_map.rb`
+```
+Qx.config(type_map: PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection.raw_connection))
+Qx.execute("SET TIME ZONE utc")
+```
+
+
 ### How to run
 You'll need 2 consoles to run the project. One for the rails env and another one to run the asset pipeline through [webpack](https://webpack.js.org) , since it's *not incorporated yet* into the rails asset pipeline.
 

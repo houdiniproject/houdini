@@ -6,7 +6,7 @@
 
 You'll need to have in your Mac the following dependencies installed, if you don't want to use the provided Docker containers.
 
-* Ruby `2.4.5`
+* Ruby `2.5.1`
 * Rails `5.0.7.1`
 * Node `11.12.0`
 

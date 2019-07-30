@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import {observer} from 'mobx-react';
 import { FieldProps } from 'formik';
 import _ = require('lodash');
 import FormikStandardFieldComponent from './FormikStandardFieldComponent';
@@ -12,9 +11,10 @@ export interface FormikLabeledFieldComponentProps<T>  extends FieldProps<T>
   inputId: string
 
   className?:string
+  style?:React.CSSProperties
 }
 
-@observer
+
 export default class FormikLabeledFieldComponent<T> extends React.Component<FormikLabeledFieldComponentProps<T>, {}> {
   render() {
     let error = _.get(this.props.form.errors, this.props.field.name)
@@ -31,7 +31,7 @@ export default class FormikLabeledFieldComponent<T> extends React.Component<Form
        classNames.push("has-error")
     }
 
-    return <fieldset className={classNames.join(" ")}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
+    return <fieldset className={classNames.join(" ")} style={this.props.style}><label htmlFor={this.props.inputId} className="control-label">{this.props.labelText}</label>
        <FormikStandardFieldComponent form={this.props.form} field={this.props.field} id={this.props.inputId}>{this.props.children}</FormikStandardFieldComponent>
     </fieldset>;
   }

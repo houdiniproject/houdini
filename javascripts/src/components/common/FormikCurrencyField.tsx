@@ -14,6 +14,7 @@ export interface FCFieldProps<T> extends FieldProps<T> {
   inputId?:string
   disabled?:boolean
   prefix?: string
+  style: React.CSSProperties
 
 }
 
@@ -30,7 +31,8 @@ export default class FormikCurrencyField<T> extends React.Component<FormikCurren
         field={this.props.field}
         inputId={this.props.inputId}
         labelText={this.props.label}
-        className={this.props.className} >
+        className={this.props.className} 
+        style={this.props.style}>
         <FormikCurrencyInput form={this.props.form} field={this.props.field} className={`form-control ${this.props.inputClassNames || ''}`} id={this.props.inputId} disabled={this.props.disabled} requireNegative={this.props.requireNegative} requirePositive={this.props.requirePositive}
         />
     </FormikLabeledFieldComponent>

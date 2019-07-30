@@ -11,7 +11,8 @@ export interface HoudiniFormikFormProps<T> extends React.FormHTMLAttributes<HTML
 
 class HoudiniFormikForm<T> extends React.Component<HoudiniFormikFormProps<T>, {}> {
   render() {
-     return <form onSubmit={this.props.formik.handleSubmit} onReset={this.props.formik.handleReset} id={FormikHelpers.createFormId(this.props.formik)}>{this.props.children}</form>;
+     const {formik, children, ...props} = this.props
+     return <form {...props} onSubmit={this.props.formik.handleSubmit} onReset={this.props.formik.handleReset} id={FormikHelpers.createFormId(this.props.formik)}>{this.props.children}</form>;
   }
 }
 

@@ -1,7 +1,9 @@
-# Configure Rails Environment
-ENV["RAILS_ENV"] = "test"
+# frozen_string_literal: true
 
-require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+# Configure Rails Environment
+ENV['RAILS_ENV'] = 'test'
+
+require File.expand_path('dummy/config/environment.rb', __dir__)
 require 'rspec'
 require 'rspec/rails'
 require 'factory_girl'
@@ -16,7 +18,7 @@ Rails.backtrace_cleaner.remove_silencers!
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   # == Mock Framework

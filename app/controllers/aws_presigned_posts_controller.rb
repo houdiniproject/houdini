@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AwsPresignedPostsController < ApplicationController
   before_action :authenticate_user!
@@ -7,12 +9,12 @@ class AwsPresignedPostsController < ApplicationController
   # http://docs.aws.amazon.com/AWSRubySDK/latest/AWS/S3/PresignedPost.html
   def create
     uuid = SecureRandom.uuid
-    p = S3Bucket.presigned_post({
+    p = S3Bucket.presigned_post(
       key: "tmp/#{uuid}/${filename}",
       success_action_status: 201,
       acl: 'public-read',
       expiration: 30.days.from_now
-    })
+    )
 
     render json: {
       s3_presigned_post: p.fields.to_json,
@@ -20,5 +22,4 @@ class AwsPresignedPostsController < ApplicationController
       s3_uuid: uuid
     }
   end
-
 end

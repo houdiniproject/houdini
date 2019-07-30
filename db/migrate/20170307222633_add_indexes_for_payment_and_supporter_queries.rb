@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AddIndexesForPaymentAndSupporterQueries < ActiveRecord::Migration
   def up
     Qx.transaction do
-      Qx.execute(%Q(
+      Qx.execute(%(
         CREATE INDEX IF NOT EXISTS payments_date ON payments (date);
         CREATE INDEX IF NOT EXISTS payments_gross_amount ON payments (gross_amount);
         CREATE INDEX IF NOT EXISTS payments_kind ON payments (kind);
@@ -29,28 +31,28 @@ class AddIndexesForPaymentAndSupporterQueries < ActiveRecord::Migration
   end
 
   def down
-      Qx.execute(%Q(
-        DROP INDEX IF EXISTS payments_date;
-        DROP INDEX IF EXISTS payments_gross_amount;
-        DROP INDEX IF EXISTS payments_kind;
-        DROP INDEX IF EXISTS payments_towards;
-        DROP INDEX IF EXISTS payments_supporter_id;
-        DROP INDEX IF EXISTS payments_nonprofit_id;
+    Qx.execute(%(
+      DROP INDEX IF EXISTS payments_date;
+      DROP INDEX IF EXISTS payments_gross_amount;
+      DROP INDEX IF EXISTS payments_kind;
+      DROP INDEX IF EXISTS payments_towards;
+      DROP INDEX IF EXISTS payments_supporter_id;
+      DROP INDEX IF EXISTS payments_nonprofit_id;
 
-        DROP INDEX IF EXISTS supporters_created_at;
-        DROP INDEX IF EXISTS supporters_name;
-        DROP INDEX IF EXISTS supporters_email;
-        DROP INDEX IF EXISTS supporters_nonprofit_id;
-        DROP INDEX IF EXISTS supporters_donation_id;
+      DROP INDEX IF EXISTS supporters_created_at;
+      DROP INDEX IF EXISTS supporters_name;
+      DROP INDEX IF EXISTS supporters_email;
+      DROP INDEX IF EXISTS supporters_nonprofit_id;
+      DROP INDEX IF EXISTS supporters_donation_id;
 
-        DROP INDEX IF EXISTS donations_amount;
-        DROP INDEX IF EXISTS donations_designation;
-        DROP INDEX IF EXISTS donations_supporter_id;
+      DROP INDEX IF EXISTS donations_amount;
+      DROP INDEX IF EXISTS donations_designation;
+      DROP INDEX IF EXISTS donations_supporter_id;
 
-        DROP INDEX IF EXISTS tag_joins_supporter_id;
-        DROP INDEX IF EXISTS tag_joins_tag_master_id;
+      DROP INDEX IF EXISTS tag_joins_supporter_id;
+      DROP INDEX IF EXISTS tag_joins_tag_master_id;
 
-        DROP INDEX IF EXISTS custom_field_joins_custom_field_master_id;
-      ))
+      DROP INDEX IF EXISTS custom_field_joins_custom_field_master_id;
+    ))
   end
 end

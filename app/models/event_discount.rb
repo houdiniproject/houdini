@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class EventDiscount < ApplicationRecord
-  #TODO
+  # TODO
   # attr_accessible \
   #   :code,
   #   :event_id,
@@ -9,5 +11,4 @@ class EventDiscount < ApplicationRecord
 
   belongs_to :event
   has_many :tickets
-
 end

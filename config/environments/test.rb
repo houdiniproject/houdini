@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Commitchange::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -39,7 +41,7 @@ Commitchange::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  config.action_mailer.default_url_options = {host: 'houdiniproject.test'}
+  config.action_mailer.default_url_options = { host: 'houdiniproject.test' }
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

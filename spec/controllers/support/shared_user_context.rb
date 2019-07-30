@@ -1,97 +1,92 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
-
 RSpec.shared_context :shared_user_context do
+  let(:nonprofit) { force_create(:nonprofit, published: true) }
+  let(:other_nonprofit) { force_create(:nonprofit) }
 
-
-  let(:nonprofit) {force_create(:nonprofit, published:true)}
-  let(:other_nonprofit) { force_create(:nonprofit)}
-
-
-  let(:user_as_np_admin) {
+  let(:user_as_np_admin) do
     __create_admin(nonprofit)
-  }
+  end
 
-
-  let(:user_as_other_np_admin) {
+  let(:user_as_other_np_admin) do
     __create_admin(other_nonprofit)
-  }
+  end
 
-  let(:user_as_np_associate){
+  let(:user_as_np_associate) do
     __create_associate(nonprofit)
-  }
+  end
 
-  let(:user_as_other_np_associate){
+  let(:user_as_other_np_associate) do
     __create_associate(other_nonprofit)
-  }
+  end
 
-  let(:unauth_user) {
+  let(:unauth_user) do
     force_create(:user)
-  }
+  end
 
-  let(:campaign) {force_create(:campaign, nonprofit: nonprofit)}
-  let(:campaign_editor) {
+  let(:campaign) { force_create(:campaign, nonprofit: nonprofit) }
+  let(:campaign_editor) do
     __create(:campaign_editor, campaign)
-  }
+  end
 
-  let(:confirmed_user){
+  let(:confirmed_user)  do
     force_create(:user, confirmed_at: Time.current)
-  }
+  end
 
-  let(:event) {
+  let(:event) do
     force_create(:event, nonprofit: nonprofit)
-  }
+  end
 
-  let(:event_editor) {
-    __create(:event_editor,event)
-  }
+  let(:event_editor) do
+    __create(:event_editor, event)
+  end
 
-  let(:super_admin) {
-      __create(:super_admin, other_nonprofit)
-  }
+  let(:super_admin) do
+    __create(:super_admin, other_nonprofit)
+  end
 
-  let(:user_with_profile) {
+  let(:user_with_profile) do
     u = force_create(:user)
     force_create(:profile, user: u)
     u
-  }
-
-
+  end
 
   def __create(name, host)
     u = force_create(:user)
-    force_create(:role, user: u, name: name, host:host)
+    force_create(:role, user: u, name: name, host: host)
     u
   end
 
   def __create_admin(host)
     u = force_create(:user)
-    force_create(:role, user: u, name: :nonprofit_admin, host:host)
+    force_create(:role, user: u, name: :nonprofit_admin, host: host)
     u
   end
 
   def __create_associate(host)
     u = force_create(:user)
-    force_create(:role, user: u, name: :nonprofit_associate, host:host)
+    force_create(:role, user: u, name: :nonprofit_associate, host: host)
     u
   end
 
   def send(method, *args)
     case method
-      when :get
-        return get(*args)
-      when :post
-        return post(*args)
-      when :delete
-        return delete(*args)
-      when :put
-        return put(*args)
+    when :get
+      get(*args)
+    when :post
+      post(*args)
+    when :delete
+      delete(*args)
+    when :put
+      put(*args)
     end
   end
 
   def accept(user_to_signin, method, action, *args)
-    without_json_response = [:cancellation, :all_npos].include?(action)
-    request.accept = "application/json" unless without_json_response
+    without_json_response = %i[cancellation all_npos confirmation peer_to_peer].include?(action)
+    request.accept = 'application/json' unless without_json_response
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does
 
@@ -121,42 +116,38 @@ RSpec.shared_context :shared_user_context do
 
   def fix_args(*args)
     replacements = {
-        __our_np: nonprofit.id,
-        __our_campaign: campaign.id,
-        __our_event: event.id,
-        __our_profile: user_with_profile.profile.id
+      __our_np: nonprofit.id,
+      __our_campaign: campaign.id,
+      __our_event: event.id,
+      __our_profile: user_with_profile.profile.id
     }
 
-    args.collect{|i|
+    args.collect do |i|
       ret = i
 
       if replacements[i]
         ret = replacements[i]
 
       elsif i.is_a? Hash
-        ret = i.collect{|k,v |
+        ret = i.collect do |k, v|
           ret_v = v
-          if replacements[v]
-            ret_v = replacements[v]
-          end
+          ret_v = replacements[v] if replacements[v]
 
-          [k,ret_v]
-        }.to_h
+          [k, ret_v]
+        end.to_h
       end
 
       ret
-    }.to_a
+    end.to_a
   end
-
-
 end
 
 RSpec.shared_context :open_to_all do |method, action, *args|
   include_context :shared_user_context
 
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
   it 'accepts no user' do
     accept(nil, method, action, *fixed_args)
   end
@@ -200,14 +191,13 @@ RSpec.shared_context :open_to_all do |method, action, *args|
   it 'accept profile user' do
     accept(user_with_profile, method, action, *fixed_args)
   end
-
 end
 
 RSpec.shared_context :open_to_np_associate do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
+  let(:fixed_args) do
     fix_args(*args)
-  }
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)
@@ -254,12 +244,11 @@ RSpec.shared_context :open_to_np_associate do |method, action, *args|
   end
 end
 
-
 RSpec.shared_context :open_to_np_admin do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)
@@ -307,9 +296,9 @@ end
 
 RSpec.shared_context :open_to_registered do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)
@@ -355,12 +344,11 @@ RSpec.shared_context :open_to_registered do |method, action, *args|
   end
 end
 
-
 RSpec.shared_context :open_to_campaign_editor do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)
@@ -404,14 +392,13 @@ RSpec.shared_context :open_to_campaign_editor do |method, action, *args|
   it 'rejects profile user' do
     reject(user_with_profile, method, action, *fixed_args)
   end
-
 end
 
 RSpec.shared_context :open_to_confirmed_users do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)
@@ -455,14 +442,13 @@ RSpec.shared_context :open_to_confirmed_users do |method, action, *args|
   it 'rejects profile user' do
     reject(user_with_profile, method, action, *fixed_args)
   end
-
 end
 
 RSpec.shared_context :open_to_event_editor do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)
@@ -509,9 +495,9 @@ end
 
 RSpec.shared_context :open_to_super_admin do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)
@@ -558,12 +544,11 @@ RSpec.shared_context :open_to_super_admin do |method, action, *args|
   end
 end
 
-
 RSpec.shared_context :open_to_profile_owner do |method, action, *args|
   include_context :shared_user_context
-  let(:fixed_args){
-    fix_args( *args)
-  }
+  let(:fixed_args) do
+    fix_args(*args)
+  end
 
   it 'rejects no user' do
     reject(nil, method, action, *fixed_args)

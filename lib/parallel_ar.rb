@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'parallel'
 
 module ParallelAr
-
   def self.reduce(arr, accum, &block)
     Parallel.each(arr, in_threads: 8) do |elem|
       ActiveRecord::Base.connection_pool.with_connection do
@@ -11,7 +12,6 @@ module ParallelAr
         end
       end
     end
-    return accum
+    accum
   end
-
 end

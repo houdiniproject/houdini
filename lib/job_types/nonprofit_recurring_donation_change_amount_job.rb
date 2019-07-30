@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module JobTypes
   class NonprofitRecurringDonationChangeAmountJob < EmailJob
     attr_reader :donation_id, :previous_amount
 
-    def initialize(donation_id, previous_amount=nil)
+    def initialize(donation_id, previous_amount = nil)
       @donation_id = donation_id
       @previous_amount = previous_amount
     end

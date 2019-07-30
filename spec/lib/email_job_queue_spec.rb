@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require "rails_helper"
+require 'rails_helper'
 
 describe EmailJobQueue do
-
-  let(:klass) { class_double("FakeClass")}
+  let(:klass) { class_double('FakeClass') }
   let(:fake_object) { instance_double('FakeClass') }
   it 'handles empty args' do
     expect(klass).to receive(:new).and_return(fake_object)

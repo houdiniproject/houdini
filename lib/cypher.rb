@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'openssl'
 
@@ -8,31 +10,30 @@ require 'openssl'
 # .iv, .auth_tag both are stored with the encrypted data
 
 module Cypher
-
   def self.encrypt(data)
     cipher = create_cipher
     cipher.encrypt
     cipher.key = Base64.decode64(ENV['CYPHER_KEY'])
     iv = cipher.random_iv
     encrypted = cipher.update(data) + cipher.final
-    return {iv: Base64.encode64(iv), key: Base64.encode64(encrypted)}
+    { iv: Base64.encode64(iv), key: Base64.encode64(encrypted) }
   end
 
   # hash must have properties for :iv and :key
   def self.decrypt(hash)
-    iv, encrypted = [Base64.decode64(hash['iv']), Base64.decode64(hash['key'])]
+    iv = Base64.decode64(hash['iv'])
+    encrypted = Base64.decode64(hash['key'])
     decipher = create_cipher
     decipher.decrypt
     decipher.key = Base64.decode64(ENV['CYPHER_KEY'])
     decipher.iv = iv
 
-    return decipher.update(encrypted) + decipher.final
+    decipher.update(encrypted) + decipher.final
   end
 
-private
+  private
 
   def self.create_cipher
     OpenSSL::Cipher::AES256.new(:CBC)
   end
-
 end

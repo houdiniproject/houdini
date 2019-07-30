@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '2.5.1'
-gem 'rake'
 gem 'rails', '= 5.2.3'
+gem 'rake'
 # https://stripe.com/docs/api
 gem 'stripe'
 
 # Compression of assets on heroku
 # https://github.com/romanbsd/heroku-deflater
-gem 'heroku-deflater', :group => :production
+gem 'heroku-deflater', group: :production
 
 # json serialization
 # https://github.com/nesquena/rabl
@@ -16,17 +18,17 @@ gem 'rabl'
 
 gem 'parallel'
 
-gem 'puma'
 gem 'bootsnap', require: false
-gem 'rack-timeout'
-gem 'rack-ssl'
+gem 'puma'
 gem 'puma_worker_killer'
+gem 'rack-ssl'
+gem 'rack-timeout'
 
-gem 'test-unit', '~> 3.0'
 gem 'hamster'
+gem 'test-unit', '~> 3.0'
 
-gem 'aws-ses'
 gem 'aws-sdk', '~> 1'
+gem 'aws-ses'
 # for blocking ip addressses
 gem 'rack-attack'
 
@@ -43,7 +45,6 @@ gem 'qx', path: 'gems/ruby-qx'
 
 gem 'dalli'
 gem 'memcachier'
-
 
 gem 'param_validation', path: 'gems/ruby-param-validation'
 
@@ -89,33 +90,32 @@ gem 'table_print'
 
 gem 'bunny', '>= 2.6.3'
 
-gem 'rails-i18n'
-gem 'i18n-js'
 gem 'countries'
-
+gem 'i18n-js'
+gem 'rails-i18n'
 
 group :development, :ci do
-  gem 'traceroute'
   gem 'debase'
   gem 'ruby-debug-ide'
+  gem 'traceroute'
 end
 
 group :development, :ci, :test do
-	gem 'timecop'
-	gem 'pry'
-	#gem 'pry-byebug'
-	gem 'binding_of_caller'
-  gem 'rspec'
-	gem 'rspec-rails'
-	gem 'database_cleaner'
+  gem 'pry'
+  gem 'timecop'
+  # gem 'pry-byebug'
+  gem 'action_mailer_matchers'
+  gem 'binding_of_caller'
+  gem 'database_cleaner'
   gem 'dotenv-rails'
-  gem 'ruby-prof', '0.15.9'
-	gem 'stripe-ruby-mock', '~> 2.4.1', :require => 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', :branch => '2.4.1'
   gem 'factory_bot'
-	gem 'factory_bot_rails'
-	gem 'action_mailer_matchers'
+  gem 'factory_bot_rails'
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'ruby-prof', '0.15.9'
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'solargraph'
+  gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
 end
 
 group :test do
@@ -139,6 +139,6 @@ gem 'grape'
 gem 'grape-entity'
 gem 'grape-swagger'
 gem 'grape-swagger-entity'
-gem 'grape_url_validator'
-gem 'grape_logging'
 gem 'grape_devise', path: 'gems/grape_devise'
+gem 'grape_logging'
+gem 'grape_url_validator'

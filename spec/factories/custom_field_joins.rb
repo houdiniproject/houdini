@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 FactoryBot.define do
   factory :custom_field_join do
@@ -12,6 +14,5 @@ FactoryBot.define do
         cfj.value = "Value#{cfj.id}"
       end
     end
-
   end
 end

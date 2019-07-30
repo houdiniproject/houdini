@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Nonprofit < ApplicationRecord
+  Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
 
-  Categories = ["Public Benefit", "Human Services", "Education", "Civic Duty", "Human Rights", "Animals", "Environment", "Health", "Arts, Culture, Humanities", "International", "Children", "Religion", "LGBTQ", "Women's Rights", "Disaster Relief", "Veterans"]
-
-  #TODO
+  # TODO
   # attr_accessible \
   #   :name, # str
   #   :stripe_account_id, # str
@@ -74,7 +75,7 @@ class Nonprofit < ApplicationRecord
   has_many :email_settings
   has_many :cards, as: :holder
 
-  has_one :bank_account, -> { where("COALESCE(deleted, false) = false") },
+  has_one :bank_account, -> { where('COALESCE(deleted, false) = false') },
           dependent: :destroy
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
@@ -84,12 +85,12 @@ class Nonprofit < ApplicationRecord
   validates :city, presence: true
   validates :state_code, presence: true
   validates :email, format: { with: Email::Regex }, allow_blank: true
-  validates_uniqueness_of :slug, scope: [:city_slug, :state_code_slug]
+  validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
   validates_presence_of :slug
 
-  scope :vetted, -> {where(vetted: true)}
-  scope :identity_verified, -> {where(verification_status: 'verified')}
-  scope :published, -> {where(published: true)}
+  scope :vetted, -> { where(vetted: true) }
+  scope :identity_verified, -> { where(verification_status: 'verified') }
+  scope :published, -> { where(published: true) }
 
   mount_uploader :main_image, NonprofitUploader
   mount_uploader :second_image, NonprofitUploader
@@ -103,20 +104,19 @@ class Nonprofit < ApplicationRecord
   geocoded_by :full_address
 
   before_validation(on: :create) do
-    self.set_slugs
+    set_slugs
     self
   end
 
   # Register (create) a nonprofit with an initial admin
   def self.register(user, params)
-    np = self.create ConstructNonprofit.construct(user, params)
+    np = create ConstructNonprofit.construct(user, params)
     role = Role.create(user: user, name: 'nonprofit_admin', host: np) if np.valid?
-    return np
+    np
   end
 
-
   def nonprofit_personnel_emails
-    self.roles.nonprofit_personnel.joins(:user).pluck('users.email')
+    roles.nonprofit_personnel.joins(:user).pluck('users.email')
   end
 
   def total_recurring
@@ -125,62 +125,59 @@ class Nonprofit < ApplicationRecord
 
   def donation_history_monthly
     donation_history_monthly = []
-    donations.order("created_at")
-      .group_by{|d| d.created_at.beginning_of_month}
-      .each{|_, ds| donation_history_monthly.push(ds.map(&:amount).sum)}
+    donations.order('created_at')
+             .group_by { |d| d.created_at.beginning_of_month }
+             .each { |_, ds| donation_history_monthly.push(ds.map(&:amount).sum) }
     donation_history_monthly
   end
 
   def as_json(options = {})
     h = super(options)
-    h[:url] = self.url
+    h[:url] = url
     h
   end
 
   def url
-    "/#{self.state_code_slug}/#{self.city_slug}/#{self.slug}"
+    "/#{state_code_slug}/#{city_slug}/#{slug}"
   end
 
   def set_slugs
-    unless (self.slug)
-      self.slug = Format::Url.convert_to_slug self.name
-    end
-    unless (self.city_slug)
-      self.city_slug = Format::Url.convert_to_slug self.city
-    end
+    self.slug = Format::Url.convert_to_slug name unless slug
+    self.city_slug = Format::Url.convert_to_slug city unless city_slug
 
-    unless (self.state_code_slug)
-      self.state_code_slug = Format::Url.convert_to_slug self.state_code
+    unless state_code_slug
+      self.state_code_slug = Format::Url.convert_to_slug state_code
     end
     self
   end
 
   def full_address
-    Format::Address.full_address(self.address, self.city, self.state_code)
+    Format::Address.full_address(address, city, state_code)
   end
 
   def total_raised
-    QueryPayments.get_payout_totals( QueryPayments.ids_for_payout(self.id))['net_amount']
+    QueryPayments.get_payout_totals(QueryPayments.ids_for_payout(id))['net_amount']
   end
 
   def can_make_payouts
-    self.vetted &&
-    self.verification_status == 'verified' &&
-    self.bank_account &&
-    !self.bank_account.pending_verification
+    vetted &&
+      verification_status == 'verified' &&
+      bank_account &&
+      !bank_account.pending_verification
   end
 
   def active_cards
-    cards.where("COALESCE(cards.inactive, FALSE) = FALSE")
+    cards.where('COALESCE(cards.inactive, FALSE) = FALSE')
   end
 
   # @param [Card] card the new active_card
   def active_card=(card)
     unless card.class == Card
-      raise ArgumentError.new "Pass a card to active_card or else"
+      raise ArgumentError, 'Pass a card to active_card or else'
     end
+
     Card.transaction do
-      active_cards.update_all :inactive => true
+      active_cards.update_all inactive: true
       return cards << card
     end
   end
@@ -190,14 +187,15 @@ class Nonprofit < ApplicationRecord
   end
 
   def create_active_card(card_data)
-    if (card_data[:inactive])
-      raise ArgumentError.new "This method is for creating active cards only"
+    if card_data[:inactive]
+      raise ArgumentError, 'This method is for creating active cards only'
     end
-    active_cards.update_all :inactive => true
-    return cards.create(card_data)
+
+    active_cards.update_all inactive: true
+    cards.create(card_data)
   end
 
   def currency_symbol
-    Settings.intntl.all_currencies.find{|i| i.abbv.downcase == currency.downcase}&.symbol
+    Settings.intntl.all_currencies.find { |i| i.abbv.casecmp(currency).zero? }&.symbol
   end
 end

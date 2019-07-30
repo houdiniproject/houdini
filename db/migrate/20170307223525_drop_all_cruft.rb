@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class DropAllCruft < ActiveRecord::Migration
   def change
-    Qx.execute(%Q(
+    Qx.execute(%(
       DROP FUNCTION IF EXISTS update_payment_donations_search_vectors();
       DROP FUNCTION IF EXISTS supporters_insert_trigger();
       DROP FUNCTION IF EXISTS update_payment_search_vectors();
@@ -22,7 +24,7 @@ class DropAllCruft < ActiveRecord::Migration
   end
 
   def down
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE FUNCTION update_payment_donations_search_vectors() RETURNS trigger
     LANGUAGE plpgsql
     AS $$ BEGIN
@@ -42,9 +44,9 @@ SELECT payments.id, concat_ws(' '
         , donations.designation
         , donations.dedication
         ) AS search_blob
-FROM payments 
+FROM payments
 LEFT OUTER JOIN supporters
-  ON payments.supporter_id=supporters.id 
+  ON payments.supporter_id=supporters.id
 LEFT OUTER JOIN donations
   ON payments.donation_id=donations.id
 WHERE (payments.donation_id=NEW.id)) AS data
@@ -53,7 +55,7 @@ WHERE (payments.donation_id=NEW.id)) AS data
     END $$;
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE FUNCTION supporters_insert_trigger() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
@@ -63,7 +65,7 @@ CREATE FUNCTION supporters_insert_trigger() RETURNS trigger
   END; $$;
 ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE FUNCTION update_payment_search_vectors() RETURNS trigger
     LANGUAGE plpgsql
     AS $$ BEGIN
@@ -83,9 +85,9 @@ SELECT payments.id, concat_ws(' '
         , donations.designation
         , donations.dedication
         ) AS search_blob
-FROM payments 
+FROM payments
 LEFT OUTER JOIN supporters
-  ON payments.supporter_id=supporters.id 
+  ON payments.supporter_id=supporters.id
 LEFT OUTER JOIN donations
   ON payments.donation_id=donations.id
 WHERE (payments.id=NEW.id)) AS data
@@ -95,7 +97,7 @@ WHERE (payments.id=NEW.id)) AS data
 
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE FUNCTION update_payment_supporters_search_vectors() RETURNS trigger
     LANGUAGE plpgsql
     AS $$ BEGIN
@@ -115,9 +117,9 @@ SELECT payments.id, concat_ws(' '
         , donations.designation
         , donations.dedication
         ) AS search_blob
-FROM payments 
+FROM payments
 LEFT OUTER JOIN supporters
-  ON payments.supporter_id=supporters.id 
+  ON payments.supporter_id=supporters.id
 LEFT OUTER JOIN donations
   ON payments.donation_id=donations.id
 WHERE (payments.supporter_id=NEW.id)) AS data
@@ -126,8 +128,7 @@ WHERE (payments.supporter_id=NEW.id)) AS data
     END $$;
     ))
 
-
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE FUNCTION update_supporter_search_vectors() RETURNS trigger
     LANGUAGE plpgsql
     AS $$ BEGIN
@@ -148,14 +149,14 @@ SELECT supporters.id, concat_ws(' '
         , payments.kind
         , payments.towards
         ) AS search_blob
-FROM supporters 
+FROM supporters
 LEFT OUTER JOIN payments
-  ON payments.supporter_id=supporters.id 
+  ON payments.supporter_id=supporters.id
 LEFT OUTER JOIN donations
-  ON donations.supporter_id=supporters.id 
+  ON donations.supporter_id=supporters.id
 LEFT OUTER JOIN (
 SELECT string_agg(value::text, ' ') AS value, supporter_id
-FROM custom_field_joins 
+FROM custom_field_joins
 GROUP BY supporter_id) AS custom_field_joins
   ON custom_field_joins.supporter_id=supporters.id
 WHERE (supporters.id=NEW.id)) AS data
@@ -164,8 +165,7 @@ WHERE (supporters.id=NEW.id)) AS data
     END $$;
     ))
 
-
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE billing_customers (
     id integer NOT NULL,
     card_name character varying(255),
@@ -177,7 +177,7 @@ CREATE TABLE billing_customers (
 
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE coupons (
     id integer NOT NULL,
     name character varying(255),
@@ -189,7 +189,7 @@ CREATE TABLE coupons (
 );
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE dedications (
     id integer NOT NULL,
     donation_id integer,
@@ -199,7 +199,7 @@ CREATE TABLE dedications (
 );
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE email_drafts (
     id integer NOT NULL,
     nonprofit_id integer,
@@ -211,7 +211,7 @@ CREATE TABLE email_drafts (
 );
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE image_points (
     id integer NOT NULL,
     image_name character varying(255),
@@ -226,7 +226,7 @@ CREATE TABLE image_points (
 );
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE pg_search_documents (
     id integer NOT NULL,
     content text,
@@ -238,7 +238,7 @@ CREATE TABLE pg_search_documents (
 
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE prospect_events (
     id integer NOT NULL,
     event character varying(255),
@@ -249,7 +249,7 @@ CREATE TABLE prospect_events (
 );
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE prospect_visit_params (
     id integer NOT NULL,
     key character varying(255),
@@ -258,7 +258,7 @@ CREATE TABLE prospect_visit_params (
 );
     ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE prospect_visits (
     id integer NOT NULL,
     pathname text,
@@ -268,7 +268,7 @@ CREATE TABLE prospect_visits (
 );
 ))
 
-    Qx.execute(%Q(
+    Qx.execute(%(
     CREATE TABLE prospects (
     id integer NOT NULL,
     ip_address character varying(255),
@@ -282,8 +282,7 @@ CREATE TABLE prospect_visits (
 );
                ))
 
-
-    Qx.execute(%Q(
+    Qx.execute(%(
 CREATE TABLE recommendations (
     id integer NOT NULL,
     nonprofit_id integer,
@@ -293,9 +292,5 @@ CREATE TABLE recommendations (
     updated_at timestamp without time zone NOT NULL
 );
                ))
-
-
-
   end
-
 end

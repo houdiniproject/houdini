@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class EmailSetting < ApplicationRecord
-
-  #TODO
+  # TODO
   # attr_accessible \
   #   :user_id, :user,
   #   :nonprofit_id, :nonprofit,
@@ -13,5 +14,4 @@ class EmailSetting < ApplicationRecord
 
   belongs_to :nonprofit
   belongs_to :user
-
 end

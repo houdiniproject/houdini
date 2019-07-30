@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
@@ -20,8 +22,8 @@ Rails.application.configure do
   # config.action_mailer.default_url_options = { host: 'commitchange.com' }
   config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
   config.action_mailer.smtp_settings = { address: Settings.mailer.address, port: Settings.mailer.port }
-  config.action_mailer.smtp_settings['user_name']= Settings.mailer.username if Settings.mailer.username
-  config.action_mailer.smtp_settings['password']= Settings.mailer.password if Settings.mailer.password
+  config.action_mailer.smtp_settings['user_name'] = Settings.mailer.username if Settings.mailer.username
+  config.action_mailer.smtp_settings['password'] = Settings.mailer.password if Settings.mailer.password
 
   config.action_mailer.default_url_options = { host: Settings.mailer.host }
 

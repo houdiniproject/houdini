@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddParentCampaignIdToCampaigns < ActiveRecord::Migration
   def change
     add_column :campaigns, :parent_campaign_id, :integer

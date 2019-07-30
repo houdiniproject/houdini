@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AddDirectDebitDetail < ActiveRecord::Migration
   def change
@@ -11,9 +13,9 @@ class AddDirectDebitDetail < ActiveRecord::Migration
     end
 
     add_column :donations,
-              :direct_debit_detail_id,
-              :integer,
-              index: true,
-              references: :direct_debit_details
+               :direct_debit_detail_id,
+               :integer,
+               index: true,
+               references: :direct_debit_details
   end
 end

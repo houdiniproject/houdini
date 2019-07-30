@@ -1,9 +1,9 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
 module ExportRecurringDonations
-
   def self.initiate_export(npo_id, params, user_id)
-
     ParamValidation.new({ npo_id: npo_id, params: params, user_id: user_id },
                         npo_id: { required: true, is_integer: true },
                         params: { required: true, is_hash: true },
@@ -12,6 +12,7 @@ module ExportRecurringDonations
     unless npo
       raise ParamValidation::ValidationError.new("Nonprofit #{npo_id} doesn't exist!", key: :npo_id)
     end
+
     user = User.where('id = ?', user_id).first
     unless user
       raise ParamValidation::ValidationError.new("User #{user_id} doesn't exist!", key: :user_id)
@@ -30,7 +31,7 @@ module ExportRecurringDonations
                         user_id: { required: true, is_integer: true },
                         export_id: { required: true, is_integer: true })
 
-    params = JSON.parse(params, :object_class=> HashWithIndifferentAccess)
+    params = JSON.parse(params, object_class: HashWithIndifferentAccess)
     # verify that it's also a hash since we can't do that at once
     ParamValidation.new({ params: params },
                         params: { is_hash: true })
@@ -45,22 +46,23 @@ module ExportRecurringDonations
     unless Nonprofit.exists?(npo_id)
       raise ParamValidation::ValidationError.new("Nonprofit #{npo_id} doesn't exist!", key: :npo_id)
     end
+
     user = User.where('id = ?', user_id).first
     unless user
       raise ParamValidation::ValidationError.new("User #{user_id} doesn't exist!", key: :user_id)
     end
 
-    file_date = Time.now.getutc().strftime('%m-%d-%Y--%H-%M-%S')
+    file_date = Time.now.getutc.strftime('%m-%d-%Y--%H-%M-%S')
     filename = "tmp/csv-exports/recurring_donations-#{file_date}.csv"
 
-    url = CHUNKED_UPLOADER.upload(filename, QueryRecurringDonations.for_export_enumerable(npo_id, params, 30000).map{|i| i.to_csv}, :content_type => 'text/csv', content_disposition: 'attachment')
+    url = CHUNKED_UPLOADER.upload(filename, QueryRecurringDonations.for_export_enumerable(npo_id, params, 30_000).map(&:to_csv), content_type: 'text/csv', content_disposition: 'attachment')
     export.url = url
     export.status = :completed
     export.ended = Time.now
     export.save!
 
     ExportMailer.delay.export_recurring_donations_completed_notification(export)
-  rescue => e
+  rescue StandardError => e
     if export
       export.status = :failed
       export.exception = e.to_s

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 CarrierWave.configure do |config|
   config.ignore_integrity_errors = false
@@ -38,8 +40,8 @@ Rails.application.configure do
   # config.action_mailer.default_url_options = { host: 'commitchange.com' }
   config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
   config.action_mailer.smtp_settings = { address: Settings.mailer.address, port: Settings.mailer.port }
-  config.action_mailer.smtp_settings['user_name']= Settings.mailer.username if Settings.mailer.username
-  config.action_mailer.smtp_settings['password']= Settings.mailer.password if Settings.mailer.password
+  config.action_mailer.smtp_settings['user_name'] = Settings.mailer.username if Settings.mailer.username
+  config.action_mailer.smtp_settings['password'] = Settings.mailer.password if Settings.mailer.password
 
   config.action_mailer.default_url_options = { host: Settings.mailer.host }
 
@@ -82,5 +84,4 @@ Rails.application.configure do
   config.dependency_loading = true if $rails_rake_task
 
   config.middleware.use I18n::JS::Middleware
-
 end

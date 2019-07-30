@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TicketLevel < ApplicationRecord
-
-  #TODO
+  # TODO
   # attr_accessible \
   #   :amount, #integer
   #   :amount_dollars, #accessor, string
@@ -19,14 +20,13 @@ class TicketLevel < ApplicationRecord
   has_many :tickets
   belongs_to :event
 
-  validates :name, :presence => true
-  validates :event_id, :presence => true
+  validates :name, presence: true
+  validates :event_id, presence: true
 
-  scope :not_deleted, ->{where(deleted: [false,nil])}
+  scope :not_deleted, -> { where(deleted: [false, nil]) }
 
   before_validation do
-    self.amount = Format::Currency.dollars_to_cents(self.amount_dollars) if self.amount_dollars.present?
-    self.amount = 0 if self.amount.nil?
+    self.amount = Format::Currency.dollars_to_cents(amount_dollars) if amount_dollars.present?
+    self.amount = 0 if amount.nil?
   end
-
 end

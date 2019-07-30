@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
-describe RecurringDonationsController, :type => :controller do
+describe RecurringDonationsController, type: :controller do
   describe 'authorization' do
     include_context :shared_user_context
     describe 'open to all (note: edit token is checked inside methods)' do

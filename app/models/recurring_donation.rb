@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
 class RecurringDonation < ApplicationRecord
-
-  #TODO:
+  # TODO:
   # attr_accessible \
   #   :amount, # int (cents)
   #   :active, # bool (whether this recurring donation should still be paid)
@@ -19,10 +20,10 @@ class RecurringDonation < ApplicationRecord
   #   :nonprofit_id, :nonprofit,
   #   :supporter_id #used because things are messed up in the datamodel
 
-  scope :active,   -> {where(active: true)}
-  scope :inactive, -> {where(active: [false,nil])}
-  scope :monthly,  -> {where(time_unit: 'month', interval: 1)}
-  scope :annual,   -> {where(time_unit: 'year', interval: 1)}
+  scope :active,   -> { where(active: true) }
+  scope :inactive, -> { where(active: [false, nil]) }
+  scope :monthly,  -> { where(time_unit: 'month', interval: 1) }
+  scope :annual,   -> { where(time_unit: 'year', interval: 1) }
 
   belongs_to :donation
   belongs_to :nonprofit
@@ -30,37 +31,30 @@ class RecurringDonation < ApplicationRecord
   has_one :card, through: :donation
   has_one :supporter, through: :donation
 
-  validates :paydate, numericality: {less_than: 29}, allow_blank: true
+  validates :paydate, numericality: { less_than: 29 }, allow_blank: true
   validates :donation_id, presence: true
   validates :nonprofit_id, presence: true
   validates :start_date, presence: true
-  validates :interval, presence: true, numericality: {greater_than: 0}
-  validates :time_unit, presence: true, inclusion: {in: Timespan::Units}
+  validates :interval, presence: true, numericality: { greater_than: 0 }
+  validates :time_unit, presence: true, inclusion: { in: Timespan::Units }
   validates_associated :donation
 
   def most_recent_charge
-    if (self.charges)
-      return self.charges.sort_by { |c| c.created_at }.last()
-    end
+    charges&.max_by(&:created_at)
   end
 
   def most_recent_paid_charge
-    if (self.charges)
-      return self.charges.find_all {|c| c.paid?}.sort_by { |c| c.created_at }.last()
-    end
+    charges&.find_all(&:paid?)&.max_by(&:created_at)
   end
 
   def total_given
-    if (self.charges)
-      return self.charges.find_all(&:paid?).sum(&:amount)
-    end
-
+    return charges.find_all(&:paid?).sum(&:amount) if charges
   end
 
   # XXX let's make these monthly_totals a query
   # Or just push it into the front-end
   def self.monthly_total
-    self.all.map(&:monthly_total).sum
+    all.map(&:monthly_total).sum
   end
 
   def monthly_total
@@ -68,8 +62,7 @@ class RecurringDonation < ApplicationRecord
       'week' => 4,
       'day' => 30,
       'year' => 0.0833
-    }[self.interval] || 1
-    return self.donation.amount * multiple
+    }[interval] || 1
+    donation.amount * multiple
   end
-
 end

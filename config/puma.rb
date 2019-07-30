@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
 # Puma can serve each request in a thread from an internal thread pool.
@@ -6,18 +8,16 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum, this matches the default thread size of Active Record.
 #
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i
+threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }.to_i
 threads threads_count, threads_count
 
 preload_app! if ENV['RAILS_ENV'] != 'development'
 
 rackup      DefaultRackup
-port        ENV.fetch("PORT") { 5000 }
-environment ENV.fetch('RAILS_ENV'){ 'development' }
+port        ENV.fetch('PORT') { 5000 }
+environment ENV.fetch('RAILS_ENV') { 'development' }
 
 workers Integer(ENV['WEB_CONCURRENCY'] || 1)
-
-
 
 on_worker_boot do
   # ActiveSupport.on_load(:active_record) do
@@ -31,4 +31,3 @@ end
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
-

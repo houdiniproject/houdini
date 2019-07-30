@@ -1,50 +1,50 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 require 'support/test_chunked_uploader'
 
 describe ExportSupporterNotes do
   before(:each) do
-    stub_const('CHUNKED_UPLOADER',TestChunkedUploader)
+    stub_const('CHUNKED_UPLOADER', TestChunkedUploader)
     supporter_note_for_s1
     supporter_note_1_for_s2
     supporter_note_2_for_s2
     CHUNKED_UPLOADER.clear
-
   end
 
-  let(:nonprofit) { force_create(:nonprofit)}
-  let(:supporter1) { force_create(:supporter, nonprofit: nonprofit)}
-  let(:supporter2) { force_create(:supporter, nonprofit: nonprofit)}
+  let(:nonprofit) { force_create(:nonprofit) }
+  let(:supporter1) { force_create(:supporter, nonprofit: nonprofit) }
+  let(:supporter2) { force_create(:supporter, nonprofit: nonprofit) }
 
   let(:user) { force_create(:user, email: email) }
-  let(:email) {'example@example.com'}
+  let(:email) { 'example@example.com' }
 
-  let(:export_header) { ['Id', 'Email', 'Note Created At', 'Note Contents']}
+  let(:export_header) { ['Id', 'Email', 'Note Created At', 'Note Contents'] }
 
   let(:note_content_1) do
-    "CONTENT1"
+    'CONTENT1'
   end
 
   let(:note_content_2) do
-    "CONTENT2"
+    'CONTENT2'
   end
 
   let(:note_content_3) do
-    "CONTENT3"
+    'CONTENT3'
   end
 
   let(:supporter_note_for_s1) do
-    force_create(:supporter_note, supporter: supporter1, created_at: DateTime.new(2018,1,5), content: note_content_1)
+    force_create(:supporter_note, supporter: supporter1, created_at: DateTime.new(2018, 1, 5), content: note_content_1)
   end
 
   let(:supporter_note_1_for_s2) do
-    force_create(:supporter_note, supporter: supporter2, created_at: DateTime.new(2018,2,5), content: note_content_2)
+    force_create(:supporter_note, supporter: supporter2, created_at: DateTime.new(2018, 2, 5), content: note_content_2)
   end
 
   let(:supporter_note_2_for_s2) do
-    force_create(:supporter_note, supporter: supporter2, created_at: DateTime.new(2020,4, 5),  content: note_content_3)
+    force_create(:supporter_note, supporter: supporter2, created_at: DateTime.new(2020, 4, 5), content: note_content_3)
   end
-
 
   context '.initiate_export' do
     context 'param verification' do
@@ -81,14 +81,13 @@ describe ExportSupporterNotes do
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
         DelayedJobHelper = double('delayed')
-        params =  { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
+        params = { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
 
-        expect(Export).to receive(:create).and_wrap_original {|m, *args|
+        expect(Export).to receive(:create).and_wrap_original { |m, *args|
           e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportSupporterNotes, :run_export, [nonprofit.id, params.to_json, user.id, e.id])  #add the enqueue
+          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportSupporterNotes, :run_export, [nonprofit.id, params.to_json, user.id, e.id]) # add the enqueue
           e
         }
-
 
         ExportSupporterNotes.initiate_export(nonprofit.id, params, user.id)
         export = Export.first
@@ -128,8 +127,8 @@ describe ExportSupporterNotes do
         expect { ExportSupporterNotes.run_export(1, [{ item: '' }, { item: '' }].to_json, 1, 1) }.to(raise_error do |error|
           expect(error).to be_a(ParamValidation::ValidationError)
           expect_validation_errors(error, [
-              { key: :params, name: :is_hash }
-          ])
+                                     { key: :params, name: :is_hash }
+                                   ])
         end)
       end
 
@@ -155,7 +154,6 @@ describe ExportSupporterNotes do
               expect(@export.exception).to eq error.to_s
               expect(@export.ended).to eq Time.now
               expect(@export.updated_at).to eq Time.now
-
             end)
           end
         end
@@ -196,8 +194,6 @@ describe ExportSupporterNotes do
             expect(@export.exception).to eq error.to_s
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
-
-
           end)
         end
       end
@@ -208,7 +204,7 @@ describe ExportSupporterNotes do
         @export = create(:export, user: user, created_at: Time.now, updated_at: Time.now)
         expect_email_queued.with(JobTypes::ExportSupporterNotesCompletedJob, @export)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
-          ExportSupporterNotes.run_export(nonprofit.id, {:root_url => "https://localhost:8080/"}.to_json, user.id, @export.id)
+          ExportSupporterNotes.run_export(nonprofit.id, { root_url: 'https://localhost:8080/' }.to_json, user.id, @export.id)
 
           @export.reload
 
@@ -218,13 +214,12 @@ describe ExportSupporterNotes do
           expect(@export.ended).to eq Time.now
           expect(@export.updated_at).to eq Time.now
           csv = CSV.parse(TestChunkedUploader.output)
-          expect(csv.length).to eq (4)
+          expect(csv.length).to eq 4
 
           expect(csv[0]).to eq export_header
 
           expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
           expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
-
         end
       end
     end

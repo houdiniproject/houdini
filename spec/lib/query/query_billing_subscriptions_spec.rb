@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 require 'insert/insert_billing_subscriptions'
 require 'query/query_billing_subscriptions'
 
-describe QueryBillingSubscriptions, :pending => true do
-
+describe QueryBillingSubscriptions, pending: true do
   before(:each) do
     # Qx.delete_from(:billing_plans).where("stripe_plan_id = $id", id: 'stripe_bp').execute
     # Qx.delete_from(:billing_subscriptions).where("nonprofit_id = $id", id: 3624).execute
@@ -13,64 +14,61 @@ describe QueryBillingSubscriptions, :pending => true do
   end
 
   describe '.days_left_in_trial' do
-
     it 'gives days left in trial, rounded down' do
       expect(QueryBillingSubscriptions.days_left_in_trial(3624)).to eq(9)
-      fail
+      raise
     end
 
     it 'gives 0 if not trialing' do
-      Qx.update(:billing_subscriptions).set(status: 'active').where("id = $id", id: @sub['id']).execute
+      Qx.update(:billing_subscriptions).set(status: 'active').where('id = $id', id: @sub['id']).execute
       expect(QueryBillingSubscriptions.days_left_in_trial(3624)).to eq(0)
-      fail
+      raise
     end
-    
+
     it 'gives negative if past expiration' do
-      Qx.update(:billing_subscriptions).set(status: 'trialing', created_at: 20.days.ago).where("id = $id", id: @sub['id']).execute
+      Qx.update(:billing_subscriptions).set(status: 'trialing', created_at: 20.days.ago).where('id = $id', id: @sub['id']).execute
       expect(QueryBillingSubscriptions.days_left_in_trial(3624)).to eq(-11)
-      fail
+      raise
     end
   end
 
   describe '.plan_tier' do
-
     it 'gives tier 2 if status=trialing' do
-      Qx.update(:billing_subscriptions).set(status: 'trialing').where("id = $id", id: @sub['id']).execute
+      Qx.update(:billing_subscriptions).set(status: 'trialing').where('id = $id', id: @sub['id']).execute
       expect(QueryBillingSubscriptions.plan_tier(3624)).to eq(2)
     end
     it 'gives tier 0 if status=inactive' do
-      Qx.update(:billing_subscriptions).set(status: 'inactive').where("id = $id", id: @sub['id']).execute
+      Qx.update(:billing_subscriptions).set(status: 'inactive').where('id = $id', id: @sub['id']).execute
       expect(QueryBillingSubscriptions.plan_tier(3624)).to eq(0)
-      fail
+      raise
     end
     it 'gives tier 0 if no subscription' do
       expect(QueryBillingSubscriptions.plan_tier(666)).to eq(0)
-      fail
+      raise
     end
     it 'gives tier 2 if status=active' do
-      Qx.update(:billing_subscriptions).set(status: 'active').where("id = $id", id: @sub['id']).execute
+      Qx.update(:billing_subscriptions).set(status: 'active').where('id = $id', id: @sub['id']).execute
       expect(QueryBillingSubscriptions.plan_tier(3624)).to eq(2)
-      fail
+      raise
     end
   end
 
   describe '.currently_in_trial?' do
-
     it 'gives true if status=trialing' do
-      Qx.update(:billing_subscriptions).set(status: 'trialing').where("id = $id", id: @sub['id']).execute
+      Qx.update(:billing_subscriptions).set(status: 'trialing').where('id = $id', id: @sub['id']).execute
       expect(QueryBillingSubscriptions.currently_in_trial?(3624)).to eq(true)
-      fail
+      raise
     end
 
     it 'gives false if status!=trialing' do
-      Qx.update(:billing_subscriptions).set(status: 'active').where("id = $id", id: @sub['id']).execute
+      Qx.update(:billing_subscriptions).set(status: 'active').where('id = $id', id: @sub['id']).execute
       expect(QueryBillingSubscriptions.currently_in_trial?(3624)).to eq(false)
-      fail
+      raise
     end
 
     it 'gives false if no subscription' do
       expect(QueryBillingSubscriptions.currently_in_trial?(666)).to be_falsey
-      fail
+      raise
     end
   end
 end

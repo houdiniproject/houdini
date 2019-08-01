@@ -102,24 +102,24 @@ end
 
 group :development, :ci, :test do
   gem 'pry'
-  gem 'timecop'
   # gem 'pry-byebug'
-  gem 'action_mailer_matchers'
   gem 'binding_of_caller'
-  gem 'database_cleaner'
   gem 'dotenv-rails'
-  gem 'factory_bot'
-  gem 'factory_bot_rails'
-  gem 'rspec'
-  gem 'rspec-rails'
   gem 'ruby-prof', '0.15.9'
-  gem 'simplecov', '~> 0.16.1', require: false
   gem 'solargraph'
-  gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
 end
 
-group :test do
+group :ci, :test do
+  gem 'timecop'
   gem 'webmock'
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'factory_bot'
+  gem 'factory_bot_rails'
+  gem 'simplecov', '~> 0.16.1', require: false
+  gem 'database_cleaner'
+  gem 'action_mailer_matchers'
+  gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
 end
 
 # Gems used for asset compilation

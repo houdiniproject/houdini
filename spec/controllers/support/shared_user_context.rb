@@ -85,7 +85,7 @@ RSpec.shared_context :shared_user_context do
   end
 
   def accept(user_to_signin, method, action, *args)
-    without_json_response = %i[cancellation all_npos confirmation peer_to_peer].include?(action)
+    without_json_response = %i[cancellation all_npos edit confirmation peer_to_peer].include?(action)
     request.accept = 'application/json' unless without_json_response
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does

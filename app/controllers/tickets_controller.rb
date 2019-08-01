@@ -29,6 +29,7 @@ class TicketsController < ApplicationController
     @panels_layout = true
     @nonprofit = current_nonprofit
     @event = current_event
+
     respond_to do |format|
       format.html
       format.csv do

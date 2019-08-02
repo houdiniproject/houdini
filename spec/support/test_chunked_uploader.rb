@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TestChunkedUploader
   TEST_ERROR_MESSAGE = 'test exception thrown'
@@ -13,7 +11,7 @@ class TestChunkedUploader
     @@output
   end
 
-  ## use this to throw an exception instead of finishing
+  # use this to throw an exception instead of finishing
   def self.raise_error
     @@raise_error = true
   end

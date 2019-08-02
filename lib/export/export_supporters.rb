@@ -31,8 +31,7 @@ module ExportSupporters
 
     params = JSON.parse(params, object_class: HashWithIndifferentAccess)
     # verify that it's also a hash since we can't do that at once
-    ParamValidation.new({ params: params },
-                        params: { is_hash: true })
+    ParamValidation.new({ params: params }, params: { is_hash: true })
     begin
       export = Export.find(export_id)
     rescue ActiveRecord::RecordNotFound

@@ -29,7 +29,7 @@ Timespan = Struct.new(:interval, :time_unit) do
   # timespan(1, 'minute') -> 60
   # timespan(1, 'month') -> 2592000
   def self.create(interval, time_unit)
-    raise(ArgumentError, "time_unit must be one of: #{Units}") unless Units.include?(time_unit)
+    raise(ArgumentError, "time_unit must be one of: #{self::Units}") unless self::Units.include?(time_unit)
 
     interval.send(time_unit.to_sym)
   end

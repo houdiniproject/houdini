@@ -30,11 +30,11 @@ describe CampaignsController, type: :controller do
     end
     describe 'open to all' do
       describe 'index' do
-        include_context :open_to_all, :get, :index, nonprofit_id: :__our_np
+        include_context :open_to_all, :get, :index, nonprofit_id: :__our_np, without_json_view: true
       end
 
       describe 'show' do
-        include_context :open_to_all, :get, :show, nonprofit_id: :__our_np, id: :__our_campaign
+        include_context :open_to_all, :get, :show, nonprofit_id: :__our_np, id: :__our_campaign, without_json_view: true
       end
 
       describe 'activities' do
@@ -54,7 +54,7 @@ describe CampaignsController, type: :controller do
       end
 
       describe 'peer_to_peer' do
-        include_context :open_to_all, :get, :peer_to_peer, nonprofit_id: :__our_np
+        include_context :open_to_all, :get, :peer_to_peer, nonprofit_id: :__our_np, without_json_view: true
       end
     end
   end

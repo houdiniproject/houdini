@@ -13,7 +13,7 @@ describe NonprofitsController, type: :controller do
       end
 
       describe 'dashboard' do
-        include_context :open_to_np_associate, :get, :dashboard, id: :__our_np
+        include_context :open_to_np_associate, :get, :dashboard, id: :__our_np, without_json_view: true
       end
 
       describe 'dashboard_metrics' do
@@ -47,7 +47,7 @@ describe NonprofitsController, type: :controller do
 
     describe 'open to all' do
       describe 'show' do
-        include_context :open_to_all, :get, :show, id: :__our_np
+        include_context :open_to_all, :get, :show, id: :__our_np, without_json_view: true
       end
 
       describe 'create' do
@@ -55,11 +55,11 @@ describe NonprofitsController, type: :controller do
       end
 
       describe 'btn' do
-        include_context :open_to_all, :get, :btn, id: :__our_np
+        include_context :open_to_all, :get, :btn, id: :__our_np, without_json_view: true
       end
 
       describe 'supporter_form' do
-        include_context :open_to_all, :get, :supporter_form, id: :__our_np
+        include_context :open_to_all, :get, :supporter_form, id: :__our_np, without_json_view: true
       end
 
       describe 'custom_supporter' do
@@ -67,7 +67,7 @@ describe NonprofitsController, type: :controller do
       end
 
       describe 'donate' do
-        include_context :open_to_all, :get, :donate, id: :__our_np
+        include_context :open_to_all, :get, :donate, id: :__our_np, without_json_view: true
       end
 
       describe 'search' do

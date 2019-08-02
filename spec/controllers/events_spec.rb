@@ -20,7 +20,7 @@ describe EventsController, type: :controller do
       include_context :open_to_event_editor, :delete, :soft_delete, nonprofit_id: :__our_np, event_id: :__our_event
     end
     describe 'stats' do
-      include_context :open_to_event_editor, :get, :stats, nonprofit_id: :__our_np, id: :__our_event
+      include_context :open_to_event_editor, :get, :stats, nonprofit_id: :__our_np, id: :__our_event, without_json_view: true
     end
 
     describe 'name_and_id' do
@@ -30,7 +30,7 @@ describe EventsController, type: :controller do
 
   describe 'open to all' do
     describe 'index' do
-      include_context :open_to_all, :get, :index, nonprofit_id: :__our_np
+      include_context :open_to_all, :get, :index, nonprofit_id: :__our_np, without_json_view: true
     end
 
     describe 'listings' do
@@ -38,7 +38,7 @@ describe EventsController, type: :controller do
     end
 
     describe 'show' do
-      include_context :open_to_all, :get, :show, nonprofit_id: :__our_np, id: :__our_event
+      include_context :open_to_all, :get, :show, nonprofit_id: :__our_np, id: :__our_event, without_json_view: true
     end
 
     describe 'activities' do

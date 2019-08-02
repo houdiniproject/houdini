@@ -8,7 +8,7 @@ describe Nonprofits::PaymentsController, type: :controller do
   include_context :shared_user_context
   describe 'rejects unauthenticated users' do
     describe 'get payments' do
-      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, without_json_view: true
     end
 
     describe 'export payments' do
@@ -16,7 +16,7 @@ describe Nonprofits::PaymentsController, type: :controller do
     end
 
     describe 'show payments' do
-      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1'
+      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1', without_json_view: true
     end
 
     describe 'update' do

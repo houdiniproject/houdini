@@ -9,7 +9,7 @@ describe RecurringDonationsController, type: :controller do
     include_context :shared_user_context
     describe 'open to all (note: edit token is checked inside methods)' do
       describe 'edit' do
-        include_context :open_to_all, :get, :edit, nonprofit_id: :__our_np, id: '1'
+        include_context :open_to_all, :get, :edit, nonprofit_id: :__our_np, id: '1', without_json_view: true
       end
 
       describe 'destroy' do

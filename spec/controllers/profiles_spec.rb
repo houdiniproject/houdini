@@ -13,17 +13,17 @@ describe ProfilesController, type: :controller do
       end
 
       describe 'fundraisers' do
-        include_context :open_to_profile_owner, :get, :fundraisers, id: :__our_profile
+        include_context :open_to_profile_owner, :get, :fundraisers, id: :__our_profile, without_json_view: true
       end
 
       describe 'donations_history' do
-        include_context :open_to_profile_owner, :get, :donations_history, id: :__our_profile
+        include_context :open_to_profile_owner, :get, :donations_history, id: :__our_profile, without_json_view: true
       end
     end
 
     describe 'open to all' do
       describe 'show' do
-        include_context :open_to_all, :get, :show, id: :__our_np
+        include_context :open_to_all, :get, :show, id: :__our_np, without_json_view: true
       end
     end
   end

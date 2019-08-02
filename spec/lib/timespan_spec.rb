@@ -38,7 +38,9 @@ describe Timespan do
 
   describe '#create' do
     it 'returns the correct number of seconds constituting a timespan' do
-      expect(Timespan.create(1, 'month').to_i).to eq(2_592_000)
+      Timecop.freeze(2018, 3, 25) do
+        expect(Timespan.create(1, 'month').to_i).to eq(2_629_746)
+      end
     end
 
     it 'raises err when given an invalid time unit' do

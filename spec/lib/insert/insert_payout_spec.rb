@@ -113,8 +113,8 @@ describe InsertPayout do
             user_ip: user_ip,
             ach_fee: 0,
             bank_name: bank_name,
-            updated_at: Time.now,
-            created_at: Time.now
+            updated_at: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+            created_at: Time.now.strftime('%Y-%m-%d %H:%M:%S')
           }.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
@@ -167,8 +167,8 @@ describe InsertPayout do
             user_ip: user_ip,
             ach_fee: 0,
             bank_name: bank_name,
-            updated_at: Time.now,
-            created_at: Time.now
+            updated_at: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+            created_at: Time.now.strftime('%Y-%m-%d %H:%M:%S')
           }.with_indifferent_access
 
           expect(Payout.count).to eq 1
@@ -242,8 +242,8 @@ describe InsertPayout do
             user_ip: user_ip,
             ach_fee: 0,
             bank_name: bank_name,
-            updated_at: Time.now,
-            created_at: Time.now
+            updated_at: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+            created_at: Time.now.strftime('%Y-%m-%d %H:%M:%S')
           }.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
@@ -292,8 +292,8 @@ describe InsertPayout do
             user_ip: user_ip,
             ach_fee: 0,
             bank_name: bank_name,
-            updated_at: Time.now,
-            created_at: Time.now
+            updated_at: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+            created_at: Time.now.strftime('%Y-%m-%d %H:%M:%S')
           }.with_indifferent_access
 
           expect(Payout.count).to eq 1

@@ -23,7 +23,7 @@ describe UpdateRecurringDonations do
     end
 
     it 'sets cancelled_at to today' do
-      expect(rd['cancelled_at'].end_of_day).to eq(Time.current.end_of_day)
+      expect(rd['cancelled_at'].to_date.end_of_day).to eq(Time.now.end_of_day)
     end
 
     it 'sets the cancelled_by to the given email' do
@@ -168,16 +168,22 @@ describe UpdateRecurringDonations do
       orig_donation = recurring_donation.donation.attributes.with_indifferent_access
 
       result = UpdateRecurringDonations.update_card_id({ id: recurring_donation.id }, source_token.token)
-      expectations = {
 
+      expectations = {
         donation: orig_donation.merge(card_id: card.id),
-        recurring_donation: orig_rd.merge(n_failures: 0, start_date: Time.now.to_date)
+        recurring_donation: orig_rd.merge(n_failures: 0, start_date: DateTime.now)
       }
 
       expectations[:result] = expectations[:recurring_donation].merge(nonprofit_name: nonprofit.name, card_name: card.name)
-      expect(result).to eq expectations[:result]
+      expectations[:result][:created_at] = expectations[:result]["start_date"].to_s
+      expectations[:result][:created_at] = expectations[:result]["created_at"].to_date.strftime('%Y-%m-%d %H:%M:%S')
+      expectations[:result][:updated_at] = expectations[:result]["updated_at"].to_date.strftime('%Y-%m-%d %H:%M:%S')
+      
+      expect(result).to match expectations[:result]
+      
       donation_for_rd.reload
       recurring_donation.reload
+      
       expect(recurring_donation.attributes).to eq expectations[:recurring_donation]
       expect(donation_for_rd.attributes).to eq expectations[:donation]
     end

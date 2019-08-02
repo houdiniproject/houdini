@@ -5,8 +5,8 @@
 # Relies on activesupport
 
 Timespan = Struct.new(:interval, :time_unit) do
-  Units = %w[week day month year].freeze
-  TimeUnits = {
+  self::Units = %w[week day month year].freeze
+  self::TimeUnits = {
     '1_week' => 1.week.ago,
     '2_weeks' => 2.weeks.ago,
     '1_month' => 1.month.ago,

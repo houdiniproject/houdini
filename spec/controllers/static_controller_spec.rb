@@ -26,17 +26,24 @@ RSpec.describe StaticController, type: :controller do
       end
     end
 
-    it 'setup github' do
-      Settings[:ccs] = {
-        ccs_method: 'github',
-        options: {
-          account: 'account',
-          repo: 'repo'
-        }
-      }
-      expect(File).to receive(:read).with("#{Rails.root}/CCS_HASH").and_return("hash\n")
-      get('ccs')
-      expect(response).to redirect_to 'https://github.com/account/repo/tree/hash'
+    describe 'github' do
+      before (:each) do
+        Settings.merge!(
+          ccs: {
+            ccs_method: 'github',
+            options: {
+              account: 'account',
+              repo: 'repo'
+            }
+          }
+        )
+      end
+
+      it 'setup github' do
+        expect(File).to receive(:read).with("#{Rails.root}/CCS_HASH").and_return("hash\n")
+        get('ccs')
+        expect(response).to redirect_to 'https://github.com/account/repo/tree/hash'
+      end
     end
   end
 end

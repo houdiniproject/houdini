@@ -85,8 +85,7 @@ RSpec.shared_context :shared_user_context do
   end
 
   def accept(user_to_signin, method, action, *args)
-    # TODO: Extract into method args verification
-    without_json_response = method_has_json_view?(args)
+    without_json_response = method_without_json_view?(args)
     request.accept = 'application/json' unless without_json_response
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does
@@ -115,7 +114,7 @@ RSpec.shared_context :shared_user_context do
     { params: args.reduce({}, :merge) }
   end
 
-  def method_has_json_view?(*args)
+  def method_without_json_view?(*args)
     args.collect do |items|
       if items.kind_of?(Array)
         items.each do |k, v|

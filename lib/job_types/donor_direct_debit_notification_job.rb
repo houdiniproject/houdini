@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module JobTypes
   class DonorDirectDebitNotificationJob < EmailJob
     attr_reader :donation_id
 
-    def initialize(donation_id, locale=I18n.locale)
+    def initialize(donation_id, locale = I18n.locale)
       @donation_id = donation_id
       @locale = locale
     end

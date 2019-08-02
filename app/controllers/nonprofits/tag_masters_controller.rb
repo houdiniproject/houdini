@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Nonprofits
   class TagMastersController < ApplicationController
     include Controllers::NonprofitHelper
-    before_filter :authenticate_nonprofit_user!
+    before_action :authenticate_nonprofit_user!
 
     def index
-      render json: {data: 
-        Qx.select('id', 'name', 'created_at') 
+      render json: { data:
+        Qx.select('id', 'name', 'created_at')
           .from('tag_masters')
           .where(
             ['tag_masters.nonprofit_id = $id', id: current_nonprofit.id],
-            ["coalesce(deleted, FALSE) = FALSE"])
-          .execute 
-        }
+            ['coalesce(deleted, FALSE) = FALSE']
+          )
+          .execute }
     end
 
     def create
@@ -25,7 +27,5 @@ module Nonprofits
       tag_master.tag_joins.destroy_all
       render json: {}, status: :ok
     end
-
   end
 end
-

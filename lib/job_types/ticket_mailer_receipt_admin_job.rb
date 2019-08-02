@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module JobTypes
   class TicketMailerReceiptAdminJob < EmailJob
     attr_reader :ticket_ids
 
-    def initialize(ticket_ids, user_id=nil)
+    def initialize(ticket_ids, user_id = nil)
       @ticket_ids = ticket_ids
       @user_id = user_id
     end

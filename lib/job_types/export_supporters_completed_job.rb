@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JobTypes
   class ExportSupportersCompletedJob < EmailJob
     attr_reader :export

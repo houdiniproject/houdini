@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
 describe CreatePeerToPeerCampaign do
   describe '.create' do
-    let!(:profile) { force_create(:profile,  :user => force_create(:user)) }
+    let!(:profile) { force_create(:profile, user: force_create(:user)) }
     let!(:parent_campaign) { force_create(:campaign, name: 'Parent campaign') }
 
     context 'on success' do
       it 'returns a hash' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
 
@@ -17,7 +19,7 @@ describe CreatePeerToPeerCampaign do
       end
 
       it 'returns created peer-to-peer campaign' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
 
@@ -28,7 +30,7 @@ describe CreatePeerToPeerCampaign do
       end
 
       it 'assigns proper slug' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
 
@@ -38,7 +40,7 @@ describe CreatePeerToPeerCampaign do
       end
 
       it 'saves campaign' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           expect { CreatePeerToPeerCampaign.create(campaign_params, profile.id) }.to change(Campaign, :count).by 1
         end

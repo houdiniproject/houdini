@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper.rb'
 
 describe JobTypes::ExportSupportersCompletedJob do
   describe '.perform' do
     it 'calls the correct active mailer' do
       input = 1
-      expect(ExportMailer).to receive(:export_supporters_completed_notification).with(input).and_wrap_original{|m, *args|  mailer = double('object'); expect(mailer).to receive(:deliver).and_return(nil); mailer}
+      expect(ExportMailer).to receive(:export_supporters_completed_notification).with(input).and_wrap_original { |_m, *_args| mailer = double('object'); expect(mailer).to receive(:deliver).and_return(nil); mailer }
 
       job = JobTypes::ExportSupportersCompletedJob.new(input)
       job.perform

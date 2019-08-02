@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class CampaignsController < ApplicationController
   include Controllers::CampaignHelper
 
   helper_method :current_campaign_editor?
-  before_filter :authenticate_confirmed_user!, only: [:create, :name_and_id, :duplicate]
-  before_filter :authenticate_campaign_editor!, only: [:update, :soft_delete]
-  before_filter :check_nonprofit_status, only: [:index, :show]
+  before_action :authenticate_confirmed_user!, only: %i[create name_and_id duplicate]
+  before_action :authenticate_campaign_editor!, only: %i[update soft_delete]
+  before_action :check_nonprofit_status, only: %i[index show]
 
   def index
     @nonprofit = current_nonprofit
-    if (current_nonprofit_user?)
+    if current_nonprofit_user?
       @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.order('created_at desc')
       @deleted_campaigns = @nonprofit.campaigns.includes(:nonprofit).deleted.order('created_at desc')
     else
@@ -57,18 +59,7 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    Time.use_zone(current_nonprofit.timezone || 'UTC') do
-      params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
-    end
-
-    if !params[:campaign][:parent_campaign_id]
-      campaign = current_nonprofit.campaigns.create params[:campaign]
-      json_saved campaign, 'Campaign created! Well done.'
-    else
-      profile_id = params[:campaign][:profile_id]
-      Profile.find(profile_id).update_attributes params[:profile]
-      render json: CreatePeerToPeerCampaign.create(params[:campaign], profile_id)
-    end
+    render json: CreateCampaign.create(params, current_nonprofit)
   end
 
   def update
@@ -81,13 +72,10 @@ class CampaignsController < ApplicationController
 
   # post 'nonprofits/:np_id/campaigns/:campaign_id/duplicate'
   def duplicate
-
-    render_json {
+    render_json do
       InsertDuplicate.campaign(current_campaign.id, current_user.profile.id)
-    }
-
+    end
   end
-
 
   def soft_delete
     current_campaign.update_attribute(:deleted, params[:delete])
@@ -112,17 +100,17 @@ class CampaignsController < ApplicationController
   end
 
   def peer_to_peer
-    session[:donor_signup_url] = request.env["REQUEST_URI"]
+    session[:donor_signup_url] = request.env['REQUEST_URI']
     @nonprofit = Nonprofit.find_by_id(params[:npo_id])
     @parent_campaign = Campaign.find_by_id(params[:campaign_id])
 
     if params[:campaign_id].present? && !@parent_campaign
-      raise ActionController::RoutingError.new('Not Found')
+      raise ActionController::RoutingError, 'Not Found'
     end
 
     if current_user
       @profile = current_user.profile
-      if (@parent_campaign)
+      if @parent_campaign
         @child_campaign = Campaign.where(
           profile_id: @profile.id,
           parent_campaign_id: @parent_campaign.id
@@ -135,7 +123,7 @@ class CampaignsController < ApplicationController
 
   def check_nonprofit_status
     if !current_role?(:super_admin) && !current_nonprofit.published
-      raise ActionController::RoutingError.new('Not Found')
+      raise ActionController::RoutingError, 'Not Found'
     end
   end
 end

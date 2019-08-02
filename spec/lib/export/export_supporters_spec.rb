@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 require 'support/test_chunked_uploader'
 
 describe ExportSupporters do
   before(:each) do
-    stub_const('CHUNKED_UPLOADER',TestChunkedUploader)
+    stub_const('CHUNKED_UPLOADER', TestChunkedUploader)
     @nonprofit = force_create(:nonprofit)
     @email = 'example@example.com'
     @user = force_create(:user, email: @email)
-    @supporters = 2.times { force_create(:supporter, nonprofit: @nonprofit)}
+    @supporters = 2.times { force_create(:supporter, nonprofit: @nonprofit) }
     CHUNKED_UPLOADER.clear
   end
-  let(:export_header) { "Last Name,First Name,Full Name,Organization,Email,Phone,Address,City,State,Postal Code,Country,Anonymous?,Supporter Id,Total Contributed,Id,Last Payment Received,Notes,Tags".split(',')}
+  let(:export_header) { 'Last Name,First Name,Full Name,Organization,Email,Phone,Address,City,State,Postal Code,Country,Anonymous?,Supporter Id,Total Contributed,Id,Last Payment Received,Notes,Tags'.split(',') }
 
   context '.initiate_export' do
     context 'param verification' do
@@ -48,14 +50,13 @@ describe ExportSupporters do
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
         DelayedJobHelper = double('delayed')
-        params =  { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
+        params = { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
 
-        expect(Export).to receive(:create).and_wrap_original {|m, *args|
+        expect(Export).to receive(:create).and_wrap_original { |m, *args|
           e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportSupporters, :run_export, [@nonprofit.id, params.to_json, @user.id, e.id])  #add the enqueue
+          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportSupporters, :run_export, [@nonprofit.id, params.to_json, @user.id, e.id]) # add the enqueue
           e
         }
-
 
         ExportSupporters.initiate_export(@nonprofit.id, params, @user.id)
         export = Export.first
@@ -94,8 +95,8 @@ describe ExportSupporters do
         expect { ExportSupporters.run_export(1, [{ item: '' }, { item: '' }].to_json, 1, 1) }.to(raise_error do |error|
           expect(error).to be_a(ParamValidation::ValidationError)
           expect_validation_errors(error, [
-              { key: :params, name: :is_hash }
-          ])
+                                     { key: :params, name: :is_hash }
+                                   ])
         end)
       end
 
@@ -121,7 +122,6 @@ describe ExportSupporters do
               expect(@export.exception).to eq error.to_s
               expect(@export.ended).to eq Time.now
               expect(@export.updated_at).to eq Time.now
-
             end)
           end
         end
@@ -162,8 +162,6 @@ describe ExportSupporters do
             expect(@export.exception).to eq error.to_s
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
-
-
           end)
         end
       end
@@ -174,7 +172,7 @@ describe ExportSupporters do
         @export = create(:export, user: @user, created_at: Time.now, updated_at: Time.now)
         expect_email_queued.with(JobTypes::ExportSupportersCompletedJob, @export)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
-          ExportSupporters.run_export(@nonprofit.id, {:root_url => "https://localhost:8080/"}.to_json, @user.id, @export.id)
+          ExportSupporters.run_export(@nonprofit.id, { root_url: 'https://localhost:8080/' }.to_json, @user.id, @export.id)
 
           @export.reload
 
@@ -184,16 +182,14 @@ describe ExportSupporters do
           expect(@export.ended).to eq Time.now
           expect(@export.updated_at).to eq Time.now
           csv = CSV.parse(TestChunkedUploader.output)
-          expect(csv.length).to eq (3)
+          expect(csv.length).to eq 3
 
           expect(csv[0]).to eq export_header
 
           expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
           expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
-
         end
       end
     end
   end
-
 end

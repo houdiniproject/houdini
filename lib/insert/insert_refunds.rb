@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'format/currency'
 require 'validation_error'
@@ -10,30 +12,28 @@ require 'param_validation'
 require 'insert/insert_activities'
 
 module InsertRefunds
-
   # Refund a given charge, up to its net amount
   # params: amount, donation obj
   def self.with_stripe(charge, h)
-    ParamValidation.new(charge, { 
-      payment_id: {required: true, is_integer: true},
-      stripe_charge_id: {required: true, format: /^(test_)?ch_.*$/},
-      amount: {required: true, is_integer: true, min: 1},
-      id: {required: true, is_integer: true},
-      nonprofit_id: {required: true, is_integer: true},
-      supporter_id: {required: true, is_integer: true}
-    })
-    ParamValidation.new(h, { amount: {required: true, is_integer: true, min: 1} })
-    
-    original_payment = Qx.select("*").from("payments").where(id: charge['payment_id']).execute.first
-    raise ActiveRecord::RecordNotFound.new("Cannot find original payment for refund on charge #{charge['id']}") if original_payment.nil?
+    ParamValidation.new(charge,
+                        payment_id: { required: true, is_integer: true },
+                        stripe_charge_id: { required: true, format: /^(test_)?ch_.*$/ },
+                        amount: { required: true, is_integer: true, min: 1 },
+                        id: { required: true, is_integer: true },
+                        nonprofit_id: { required: true, is_integer: true },
+                        supporter_id: { required: true, is_integer: true })
+    ParamValidation.new(h, amount: { required: true, is_integer: true, min: 1 })
+
+    original_payment = Qx.select('*').from('payments').where(id: charge['payment_id']).execute.first
+    raise ActiveRecord::RecordNotFound, "Cannot find original payment for refund on charge #{charge['id']}" if original_payment.nil?
 
     if original_payment['refund_total'].to_i + h['amount'].to_i > original_payment['gross_amount'].to_i
-      raise RuntimeError.new("Refund amount must be less than the net amount of the payment (for charge #{charge['id']})")
+      raise "Refund amount must be less than the net amount of the payment (for charge #{charge['id']})"
     end
 
     stripe_charge = Stripe::Charge.retrieve(charge['stripe_charge_id'])
 
-    refund_post_data = {'amount' => h['amount'], 'refund_application_fee' => true, 'reverse_transfer' => true}
+    refund_post_data = { 'amount' => h['amount'], 'refund_application_fee' => true, 'reverse_transfer' => true }
     refund_post_data['reason'] = h['reason'] unless h['reason'].blank? # Stripe will error on blank reason field
     stripe_refund = stripe_charge.refunds.create(refund_post_data)
     h['stripe_refund_id'] = stripe_refund.id
@@ -45,19 +45,19 @@ module InsertRefunds
     fees = (h['amount'] * -original_payment['fee_total'] / original_payment['gross_amount']).ceil
     net = gross + fees
     # Create a corresponding negative payment record
-    payment_row = Qx.insert_into(:payments).values({
-        gross_amount: gross,
-        fee_total: fees,
-        net_amount: net,
-        kind: 'Refund',
-        towards: original_payment['towards'],
-        date: refund_row['created_at'],
-        nonprofit_id: charge['nonprofit_id'],
-        supporter_id: charge['supporter_id']
-      })
-      .timestamps
-      .returning('*')
-      .execute.first
+    payment_row = Qx.insert_into(:payments).values(
+      gross_amount: gross,
+      fee_total: fees,
+      net_amount: net,
+      kind: 'Refund',
+      towards: original_payment['towards'],
+      date: refund_row['created_at'],
+      nonprofit_id: charge['nonprofit_id'],
+      supporter_id: charge['supporter_id']
+    )
+                    .timestamps
+                    .returning('*')
+                    .execute.first
 
     InsertActivities.for_refunds([payment_row['id']])
 
@@ -68,8 +68,6 @@ module InsertRefunds
     # Send the refund receipts in a delayed job
     Delayed::Job.enqueue JobTypes::DonorRefundNotificationJob.new(refund_row['id'])
     Delayed::Job.enqueue JobTypes::NonprofitRefundNotificationJob.new(refund_row['id'])
-    return {'payment' => payment_row, 'refund' => refund_row}
+    { 'payment' => payment_row, 'refund' => refund_row }
   end
-
 end
-

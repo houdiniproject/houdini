@@ -1,89 +1,91 @@
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-Commitchange::Application.configure do
-	# Settings specified here will take precedence over those in config/application.rb
+# frozen_string_literal: true
 
-	# Code is not reloaded between requests
-	config.cache_classes = true
-  config.cache_store = Settings.default.cache_store.to_sym
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
 
-	# Full error reports are disabled and caching is turned on
-	config.consider_all_requests_local = false
-	config.action_controller.perform_caching = true
+  # Code is not reloaded between requests.
+  config.cache_classes = true
 
-	# Disable Rails's static asset server (Apache or nginx will already do this)
-	config.serve_static_assets = true
+  # Eager load code on boot. This eager loads most of Rails and
+  # your application in memory, allowing both threaded web servers
+  # and those relying on copy on write to perform better.
+  # Rake tasks automatically ignore this option for performance.
+  config.eager_load = true
 
-	# Compress JavaScripts and CSS
-	config.assets.compress = true
+  # Full error reports are disabled and caching is turned on.
+  config.consider_all_requests_local       = false
+  config.action_controller.perform_caching = true
 
-	# Generate digests for assets URLs
-	config.assets.digest = true
+  # Enable Rack::Cache to put a simple HTTP cache in front of your application
+  # Add `rack-cache` to your Gemfile before enabling this.
+  # For large-scale production use, consider using a caching reverse proxy like nginx, varnish or squid.
+  # config.action_dispatch.rack_cache = true
+
+  # Disable serving static files from thne `/public` folder by default since
+  # Apache or NGINX already handles this.
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+
+  # Compress JavaScripts and CSS.
+  config.assets.js_compressor = :uglifier
+  # config.assets.css_compressor = :sass
+
+  # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
-	# Defaults to nil and saved in location specified by config.assets.prefix
-	# config.assets.manifest = YOUR_PATH
+  # Generate digests for assets URLs.
+  config.assets.digest = true
 
-	# Specifies the header that your server uses for sending files
-	# config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
-	config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
+  # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
-	# Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-	config.force_ssl = true
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+  # config.action_controller.asset_host = 'http://assets.example.com'
 
-	# See everything in the log (default is :info)
-	config.log_level = :debug
+  # Specifies the header that your server uses for sending files.
+  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
+  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for Nginx
 
-	# Prepend all log lines with the following tags
-	# config.log_tags = [ :subdomain, :uuid ]
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  config.force_ssl = true
 
-	# Use a different logger for distributed setups
-	# config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  # Set to :debug to see everything in the log.
+  config.log_level = :info
 
-	# Use a different cache store in production
-	# config.cache_store = :mem_cache_store
+  # Prepend all log lines with the following tags.
+  config.log_tags = [:request_id]
 
-	# Enable serving of images, stylesheets, and JavaScripts from an asset server
+  # Use a different cache store in production.
+  # config.cache_store = :mem_cache_store
 
-  cdn_url= URI(Settings.cdn.url)
-  cdn_url = cdn_url.to_s
-	config.action_controller.asset_host = cdn_url
-	config.action_mailer.asset_host = cdn_url
-	config.font_assets.origin = '*'
+  # Use a real queuing backend for Active Job (and separate queues per environment)
+  # config.active_job.queue_adapter     = :resque
+  # config.active_job.queue_name_prefix = "commitchange_#{Rails.env}"
 
-	# Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+  config.action_mailer.perform_caching = false
 
-	# Disable delivery errors, bad email addresses will be ignored
-	# config.action_mailer.raise_delivery_errors = false
-	config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
-	config.action_mailer.default_url_options = { host: Settings.mailer.host }
-        # Precompile all "page" files, it needs to be set here so the proper env is setup
-        config.assets.precompile << Proc.new do |path|
-	  if path =~ /.*page\.(css|js)/
-	    puts "Compiling asset: " + path
-            true
-          else
-            false
-          end
-        end
+  # Ignore bad email addresses and do not raise email delivery errors.
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # config.action_mailer.raise_delivery_errors = false
 
-	# Enable threaded mode
-	# config.threadsafe!
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  config.i18n.fallbacks = true
 
-	# Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-	# the I18n.default_locale when a translation can not be found)
-	config.i18n.fallbacks = true
+  # Send deprecation notices to registered listeners.
+  config.active_support.deprecation = :notify
 
-	# Send deprecation notices to registered listeners
-	config.active_support.deprecation = :notify
+  # Use default logging formatter so that PID and timestamp are not suppressed.
+  config.log_formatter = ::Logger::Formatter.new
 
-	# Log the query plan for queries taking more than this (works
-	# with SQLite, MySQL, and PostgreSQL)
-	# config.active_record.auto_explain_threshold_in_seconds = 0.5
+  # Use a different logger for distributed setups.
+  # require 'syslog/logger'
+  # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  config.assets.compile = false
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
 
-	config.threadsafe!
-	config.dependency_loading = true if $rails_rake_task
-	# Compress json
-	# config.middleware.use Rack::Deflater
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
 end

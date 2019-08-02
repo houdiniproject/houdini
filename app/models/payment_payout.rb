@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 # charge_payouts are a join table between charges and payouts
 #
@@ -11,19 +13,18 @@
 # It's also nice to keep a historical records of fees for individual donations
 # since our fees will continue to change as our transaction volume increases
 
-class PaymentPayout < ActiveRecord::Base
+class PaymentPayout < ApplicationRecord
+  # TODO
+  # attr_accessible \
+  #   :payment_id, :payment,
+  #   :charge_id, :charge, # deprecated
+  #   :payout_id, :payout,
+  #   :total_fees # int (cents)
 
-	attr_accessible \
-		:payment_id, :payment,
-		:charge_id, :charge, # deprecated
-		:payout_id, :payout,
-		:total_fees # int (cents)
+  belongs_to :charge # deprecated
+  belongs_to :payment
+  belongs_to :payout
 
-	belongs_to :charge # deprecated
-	belongs_to :payment
-	belongs_to :payout
-
-	validates :payment, presence: true
-	validates :payout, presence: true
+  validates :payment, presence: true
+  validates :payout, presence: true
 end
-

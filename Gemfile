@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-ruby '2.3.7'
+ruby '2.5.1'
+gem 'rails', '= 5.2.3'
 gem 'rake'
-gem 'rails', '3.2.22.5'
-gem 'rails_12factor'
 # https://stripe.com/docs/api
 gem 'stripe'
 
 # Compression of assets on heroku
 # https://github.com/romanbsd/heroku-deflater
-gem 'heroku-deflater', :group => :production
+gem 'heroku-deflater', group: :production
 
 # json serialization
 # https://github.com/nesquena/rabl
@@ -17,23 +18,20 @@ gem 'rabl'
 
 gem 'parallel'
 
-gem 'puma'
 gem 'bootsnap', require: false
-gem 'rack-timeout'
+gem 'puma'
 gem 'puma_worker_killer'
+gem 'rack-ssl'
+gem 'rack-timeout'
 
-gem 'test-unit', '~> 3.0'
 gem 'hamster'
+gem 'test-unit', '~> 3.0'
 
+gem 'aws-sdk', '~> 1'
 gem 'aws-ses'
-gem 'aws-sdk'
-
 # for blocking ip addressses
 gem 'rack-attack'
 
-# For modularizing javascript
-# https://github.com/browserify-rails/browserify-rails
-gem 'browserify-rails'
 gem 'sprockets'
 
 # for serving fonts on cdn
@@ -41,11 +39,12 @@ gem 'sprockets'
 gem 'font_assets', '~> 0.1.14'
 
 # Database (postgres)
-gem 'pg' # Postgresql
+
+gem 'pg', '~> 0.11'
 gem 'qx', path: 'gems/ruby-qx'
+
 gem 'dalli'
 gem 'memcachier'
-
 
 gem 'param_validation', path: 'gems/ruby-param-validation'
 
@@ -73,7 +72,7 @@ gem 'httparty'
 
 # User authentication
 # https://github.com/plataformatec/devise
-gem 'devise'
+gem 'devise', '~> 4.4'
 gem 'devise-async'
 
 # http://www.rubygeocoder.com/
@@ -91,41 +90,41 @@ gem 'table_print'
 
 gem 'bunny', '>= 2.6.3'
 
-gem 'rails-i18n', '~> 3.0.0' # For 3.x
-gem 'i18n-js'
 gem 'countries'
-
+gem 'i18n-js'
+gem 'rails-i18n'
 
 group :development, :ci do
-  gem 'traceroute'
   gem 'debase'
   gem 'ruby-debug-ide'
+  gem 'traceroute'
 end
 
 group :development, :ci, :test do
-	gem 'timecop'
-	gem 'pry'
-	#gem 'pry-byebug'
-	gem 'binding_of_caller'
-  gem 'rspec'
-	gem 'rspec-rails'
-	gem 'database_cleaner'
+  gem 'pry'
+  # gem 'pry-byebug'
+  gem 'binding_of_caller'
   gem 'dotenv-rails'
   gem 'ruby-prof', '0.15.9'
-	gem 'stripe-ruby-mock', '~> 2.4.1', :require => 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', :branch => '2.4.1'
-  gem 'factory_bot'
-	gem 'factory_bot_rails'
-	gem 'action_mailer_matchers'
-  gem 'simplecov', '~> 0.16.1', require: false
+  gem 'solargraph'
 end
 
-group :test do
+group :ci, :test do
+  gem 'timecop'
   gem 'webmock'
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'factory_bot'
+  gem 'factory_bot_rails'
+  gem 'simplecov', '~> 0.16.1', require: false
+  gem 'database_cleaner'
+  gem 'action_mailer_matchers'
+  gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
 end
 
 # Gems used for asset compilation
 gem 'sass', '3.2.19'
-gem 'sass-rails', '3.2.6'
+gem 'sass-rails'
 gem 'uglifier'
 
 # make logging less terrible in rails
@@ -136,10 +135,10 @@ gem 'dry-validation' # used only for config validation
 
 gem 'foreman'
 
-gem 'grape', '~> 1.1.0'
-gem 'grape-entity', git: 'https://github.com/ruby-grape/grape-entity.git', ref: '0e04aa561373b510c2486282979085eaef2ae663'
+gem 'grape'
+gem 'grape-entity'
 gem 'grape-swagger'
 gem 'grape-swagger-entity'
-gem 'grape_url_validator'
-gem 'grape_logging'
 gem 'grape_devise', path: 'gems/grape_devise'
+gem 'grape_logging'
+gem 'grape_url_validator'

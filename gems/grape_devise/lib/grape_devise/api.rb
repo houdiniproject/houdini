@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'devise'
 
 module GrapeDevise::API
   extend ActiveSupport::Concern
   include Devise::Controllers::SignInOut
-  
-  def self.define_helpers mapping
+
+  def self.define_helpers(mapping)
     mapping = mapping.name.to_s
 
     class_eval <<-METHODS, __FILE__, __LINE__ + 1
@@ -33,5 +35,4 @@ module GrapeDevise::API
           end
     METHODS
   end
-
 end

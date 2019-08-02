@@ -1,7 +1,9 @@
-require File.expand_path('../boot', __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path('boot', __dir__)
 
 require 'rails/all'
-#require '../..app/models/user'
+# require '../..app/models/user'
 
 Bundler.require(*Rails.groups)
 
@@ -11,4 +13,3 @@ module Dummy
     config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
   end
 end
-

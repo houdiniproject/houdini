@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe InsertDisputes, :pending => true do
+describe InsertDisputes, pending: true do
   before(:all) do
-    #@data = PsqlFixtures.init
+    # @data = PsqlFixtures.init
   end
 
   describe '.create_record' do
@@ -15,8 +17,8 @@ describe InsertDisputes, :pending => true do
     end
 
     it 'raises an error when the stripe charge id not found' do
-      expect{InsertDisputes.create_record('x', 'y')}.to raise_exception(ArgumentError)
-      fail
+      expect { InsertDisputes.create_record('x', 'y') }.to raise_exception(ArgumentError)
+      raise
     end
 
     it 'creates a valid payment record' do
@@ -27,7 +29,7 @@ describe InsertDisputes, :pending => true do
       expect(@result[:payment]['gross_amount']).to eq(-@ch['amount'])
       expect(@result[:payment]['net_amount']).to eq(-(@payment['gross_amount']) - @payment['fee_total'] - 1500)
       expect(@result[:payment]['donation_id']).to be_present
-      fail
+      raise
     end
 
     it 'creates a valid dispute record' do
@@ -37,7 +39,7 @@ describe InsertDisputes, :pending => true do
       expect(@result[:dispute]['payment_id']).to eq(@result[:payment]['id'])
       expect(@result[:dispute]['reason']).to eq('unrecognized')
       expect(@result[:dispute]['stripe_dispute_id']).to eq(@dispute_id)
-      fail
+      raise
     end
   end
 end

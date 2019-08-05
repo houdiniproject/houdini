@@ -40,6 +40,35 @@ describe MergeSupporters do
     let(:cfj_on_3) {force_create(:custom_field_join, supporter:old_supporter1, custom_field_master: custom_field_master3, value: 'old_cfj')}
     let(:cfj_on_4) {force_create(:custom_field_join, supporter:old_supporter2, custom_field_master: custom_field_master3, value: 'new_cfj', created_at: Time.now + 1.day)}
 
+
+    let(:transaction_address_for_supporter1) do 
+      force_create(:transaction_address, supporter: old_supporter1)
+    end
+
+    let(:transaction_address_for_supporter2) do
+      force_create(:transaction_address, supporter: old_supporter2)
+    end
+
+    let(:crm_address_for_supporter1) do
+      force_create(:crm_address, supporter: old_supporter1)
+    end
+
+    let(:crm_address_2_for_supporter1) do
+      force_create(:crm_address, supporter: old_supporter1)
+    end
+
+    let(:crm_address_for_supporter2) do
+      force_create(:crm_address, supporter: old_supporter2)
+    end
+
+    let(:default_address_for_supporter1) do
+      force_create(:address_tag, supporter:old_supporter1, name: 'default', crm_address: crm_address_2_for_supporter1, updated_at: Time.now - 2.hours)
+    end
+
+    let(:default_address_for_supporter2) do 
+      force_create(:address_tag, supporter:old_supporter2, name: 'default', crm_address: crm_address_for_supporter2)
+    end
+
     let(:profile) {force_create(:profile)}
 
     before(:each){
@@ -137,6 +166,47 @@ describe MergeSupporters do
       expect(old_supporter2.custom_field_joins.count).to eq 0
       expect(new_supporter.custom_field_joins.count).to eq 0
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
+    end
+    
+    it 'merges TransactionAddresses' do
+      transaction_address_for_supporter1
+      transaction_address_for_supporter2
+      MergeSupporters.update_associations([old_supporter1.id, old_supporter2.id], new_supporter.id, np.id, profile.id)
+      old_supporter1.reload
+      old_supporter2.reload
+      new_supporter.reload
+      transaction_address_for_supporter1.reload
+      transaction_address_for_supporter2.reload
+
+      expect(old_supporter1.transaction_addresses).to be_empty
+      expect(old_supporter2.transaction_addresses).to be_empty
+      expect(new_supporter.transaction_addresses).to match_array([transaction_address_for_supporter1, transaction_address_for_supporter2])
+
+      expect(TransactionAddress.count).to eq 2
+    end
+    
+    it 'merges CrmAddresses' do 
+      crm_address_for_supporter1
+      crm_address_2_for_supporter1
+      crm_address_for_supporter2
+
+      default_address_for_supporter1
+      default_address_for_supporter2
+
+      MergeSupporters.update_associations([old_supporter1.id, old_supporter2.id], new_supporter.id, np.id, profile.id)
+
+      old_supporter1.reload
+      old_supporter2.reload
+      new_supporter.reload
+      crm_address_for_supporter1.reload
+      crm_address_2_for_supporter1.reload
+      crm_address_for_supporter2.reload
+      default_address_for_supporter2.reload
+
+      expect(new_supporter.default_address).to eq crm_address_for_supporter2
+      expect(default_address_for_supporter2.supporter).to eq new_supporter
+      expect(AddressTag.count).to eq 1
+      
     end
   end
 end

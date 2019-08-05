@@ -3,7 +3,7 @@ module MigrateTicketOrder
     def self.from_ticket_to_orders
         # create ticket order
         tickets_without_payment = Ticket.includes(:supporter).where('payment_id IS NULL')
-        tickets_without_payment.each{|i| 
+        tickets_without_payment.find_each(batch_size: 10000) do |i| 
             Qx.transaction do
                 to = TicketOrder.create!(supporter: i.supporter)
                 i.ticket_order = to
@@ -20,13 +20,14 @@ module MigrateTicketOrder
                 end
             end
 
-        }
+        end
         
-        payments_for_tickets = Ticket.includes(:supporter).where('payment_id IS NOT NULL').select('payment_id').group('payment_id').map{|t| t.payment_id}
+        payments_for_tickets = Ticket.includes(:supporter).where('payment_id IS NOT NULL').select('payment_id').group('payment_id').find_each(batch_size: 10000).map{|t| t.payment_id}
 
-        payments_for_tickets.each{|p|
+        payments_for_tickets.find_each(batch_size: 10000) do |p|
+            p = p.payment_id
             Qx.transaction do
-                tickets = Ticket.where(payment_id: p)
+                tickets = Ticket.includes(:supporter).where(payment_id: p)
 
                 supporter = tickets.first.supporter
                 to = TicketOrder.create!(supporter: supporter)
@@ -50,7 +51,7 @@ module MigrateTicketOrder
                     end
                 end
             end
-        }
+        end
 
 
     end

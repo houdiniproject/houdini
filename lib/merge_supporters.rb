@@ -4,7 +4,7 @@
   # For supporters that have been merged, we want to update all their child tables to the new supporter_id
   def self.update_associations(old_supporter_ids, new_supporter_id, np_id, profile_id)
     # The new supporter needs to have the following tables from the merged supporters:
-    associations = [:activities, :donations, :recurring_donations, :offsite_payments, :payments, :tickets,  :supporter_notes, :supporter_emails, :full_contact_infos]
+    associations = [:activities, :donations, :recurring_donations, :offsite_payments, :payments, :tickets,  :supporter_notes, :supporter_emails, :full_contact_infos, :transaction_addresses, :crm_addresses]
     
     associations.each do |table_name|
       Qx.update(table_name).set(supporter_id: new_supporter_id).where("supporter_id IN ($ids)", ids: old_supporter_ids).timestamps.execute
@@ -12,6 +12,16 @@
 
     old_supporters = Supporter.includes(:tag_joins).includes(:custom_field_joins).where('id in (?)', old_supporter_ids)
     old_tags = old_supporters.map{|i| i.tag_joins.map{|j| j.tag_master}}.flatten.uniq
+
+    new_default_address = AddressTag.where("name = ? AND supporter_id IN (?)", 'default', old_supporters.map{|i| i.id}).order("updated_at DESC").limit(1).first
+
+    if (new_default_address)
+      new_default_address.supporter_id = new_supporter_id
+      new_default_address.save!
+    end
+
+    #delete old default address tags
+    AddressTag.where("name = ? AND supporter_id IN (?)", 'default', old_supporters.map{|i| i.id}).destroy_all
 
     #delete old tags
     InsertTagJoins.in_bulk(np_id, profile_id, old_supporter_ids,
@@ -62,7 +72,7 @@
         # Get all column data from every supporter
         all_data = Psql.execute(
           Qexpr.new.from(:supporters)
-          .select(:email, :name, :phone, :address, :city, :state_code, :zip_code, :organization, :country, :created_at)
+          .select(:email, :name, :phone, :created_at)
           .where("id IN ($ids)", ids: ids)
           .order_by("created_at ASC")
         )

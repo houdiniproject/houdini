@@ -35,7 +35,7 @@ appl.def('merge.init', function(){
     .end(function(err, res) {
       appl.def('loading', false)
       appl.def('merge.data.supporters', res.body)
-      appl.merge.has_any(['name', 'email', 'phone', 'address'])
+      appl.merge.has_any(['name', 'email', 'phone'])
       appl.open_modal('mergeModal')
     })
 })
@@ -43,15 +43,6 @@ appl.def('merge.init', function(){
 appl.def('merge.set', function(form_obj, node) {
   var supp = appl.merge.data.new_supporter
   appl.def('merge.data.new_supporter', R.merge(supp, form_obj))
-})
-
-appl.def('merge.select_address', function(supp, node) {
-	appl
-		.def('merge.data.new_supporter.address', supp.address)
-		.def('merge.data.new_supporter.city', supp.city)
-		.def('merge.data.new_supporter.state_code', supp.state_code)
-		.def('merge.data.new_supporter.zip_code', supp.zip_code )
-		.def('merge.data.new_supporter.country', supp.country )
 })
 
 appl.def('merge.submit', function(form_object, node){

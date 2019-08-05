@@ -83,6 +83,7 @@ end
 
 group :development, :ci, :test do
   gem 'binding_of_caller', '~> 0.8.0'
+  gem 'byebug', '~> 11.0', '>= 11.0.1'
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
   gem 'mail_view', '~> 2.0'
   gem 'pry', '~> 0.12.2'

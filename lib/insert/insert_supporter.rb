@@ -90,6 +90,10 @@ module InsertSupporter
     InsertTagJoins.delay.find_or_create(np_id, [supporter['id']], tags) if tags.any?
     InsertCustomFieldJoins.delay.find_or_create(np_id, [supporter['id']], fields) if fields.any?
 
+    address_data = data.slice(:address, :city, :state_code, :zip_code, :country)
+
+    InsertCrmAddress.find_or_create(supporter, address_data)
+
     return supporter
   end
 

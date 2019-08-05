@@ -84,4 +84,8 @@ Rails.application.configure do
   config.dependency_loading = true if $rails_rake_task
 
   config.middleware.use I18n::JS::Middleware
+
+  # SASS Helpers
+  config.sass.inline_source_maps = true
+  config.sass.line_comments = false
 end

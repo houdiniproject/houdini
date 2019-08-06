@@ -17,14 +17,14 @@ class CampaignGiftOptionsController < ApplicationController
 
   def create
     campaign = current_campaign
-    json_saved CreateCampaignGiftOption.create(campaign, params[:campaign_gift_option]),
+    json_saved CreateCampaignGiftOption.create(campaign, campaign_gift_option_params),
                'Gift option successfully created!'
   end
 
   def update
     @campaign = current_campaign
     gift_option = @campaign.campaign_gift_options.find params[:id]
-    json_saved UpdateCampaignGiftOption.update(gift_option, params[:campaign_gift_option]), 'Successfully updated'
+    json_saved UpdateCampaignGiftOption.update(gift_option, campaign_gift_option_params), 'Successfully updated'
   end
 
   # put /nonprofits/:nonprofit_id/campaigns/:campaign_id/campaign_gift_options/update_order
@@ -38,5 +38,11 @@ class CampaignGiftOptionsController < ApplicationController
     @campaign = current_campaign
 
     render_json { DeleteCampaignGiftOption.delete(@campaign, params[:id]) }
+  end
+
+  private
+
+  def campaign_gift_option_params
+    params.require(:campaign_gift_option).permit(:amount_one_time, :amount_recurring, :amount_dollars, :description, :name, :campaign, :quantity, :to_ship, :order, :hide_contributions)
   end
 end

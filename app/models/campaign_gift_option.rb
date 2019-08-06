@@ -2,18 +2,16 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class CampaignGiftOption < ApplicationRecord
-  # TODO
-  # attr_accessible \
-  #   :amount_one_time, #int (cents)
-  #   :amount_recurring, #int (cents)
-  #   :amount_dollars, #str, gets converted to amount
-  #   :description, # text
-  #   :name, # str
-  #   :campaign, #assocation
-  #   :quantity, #int (optional)
-  #   :to_ship, #boolean
-  #   :order, #int (optional)
-  #   :hide_contributions #boolean (optional)
+  # :amount_one_time, #int (cents)
+  # :amount_recurring, #int (cents)
+  # :amount_dollars, #str, gets converted to amount
+  # :description, # text
+  # :name, # str
+  # :campaign, #assocation
+  # :quantity, #int (optional)
+  # :to_ship, #boolean
+  # :order, #int (optional)
+  # :hide_contributions #boolean (optional)
 
   belongs_to :campaign
   has_many :campaign_gifts

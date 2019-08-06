@@ -2,12 +2,10 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class BillingSubscription < ApplicationRecord
-  # TODO
-  # attr_accessible \
-  #   :nonprofit_id, :nonprofit,
-  #   :billing_plan_id, :billing_plan,
-  #   :stripe_subscription_id,
-  #   :status # trialing, active, past_due, canceled, or unpaid
+  # :nonprofit_id, :nonprofit,
+  # :billing_plan_id, :billing_plan,
+  # :stripe_subscription_id,
+  # :status # trialing, active, past_due, canceled, or unpaid
 
   attr_accessor :stripe_plan_id, :manual
   belongs_to :nonprofit

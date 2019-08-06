@@ -45,7 +45,7 @@ module Nonprofits
 
     def update
       @payment = current_nonprofit.payments.find(params[:id])
-      @payment.update_attributes(params[:payment])
+      @payment.update_attributes(payment_params)
       json_saved @payment
     end
 
@@ -75,6 +75,12 @@ module Nonprofits
     def resend_admin_receipt
       PaymentMailer.resend_admin_receipt(params[:id], current_user.id)
       render json: {}
+    end
+
+    private
+
+    def payment_params
+      params.require(:payment).permit(:towards, :gross_amount, :refund_total, :fee_total, :kind, :date)
     end
   end # class PaymentsController
 end # module Nonprofits

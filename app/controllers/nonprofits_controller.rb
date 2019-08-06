@@ -50,12 +50,12 @@ class NonprofitsController < ApplicationController
 
   def create
     current_user ||= User.find(params[:user_id])
-    json_saved Nonprofit.register(current_user, params[:nonprofit])
+    json_saved Nonprofit.register(current_user, nonprofit_params)
   end
 
   def update
     flash[:notice] = 'Update successful!'
-    current_nonprofit.update_attributes params[:nonprofit].except(:verification_status)
+    current_nonprofit.update_attributes nonprofit_params.except(:verification_status)
     json_saved current_nonprofit
   end
 
@@ -141,5 +141,57 @@ class NonprofitsController < ApplicationController
     else
       all_countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
     end
+  end
+
+  def nonprofit_params
+    params.require(:nonprofit).permit(
+      :name,
+      :stripe_account_id,
+      :summary,
+      :tagline,
+      :email,
+      :phone,
+      :main_image,
+      :second_image,
+      :third_image,
+      :background_image,
+      :remove_background_image,
+      :logo,
+      :zip_code,
+      :website,
+      :categories,
+      :achievements,
+      :full_description,
+      :state_code,
+      :statement,
+      :city,
+      :slug,
+      :city_slug,
+      :state_code_slug,
+      :ein,
+      :published,
+      :vetted,
+      :verification_status,
+      :latitude,
+      :longitude,
+      :timezone,
+      :address,
+      :thank_you_note,
+      :referrer,
+      :no_anon,
+      :roles_attributes,
+      :brand_font,
+      :brand_color,
+      :hide_activity_feed,
+      :tracking_script,
+      :facebook,
+      :twitter,
+      :youtube,
+      :instagram,
+      :blog,
+      :card_failure_message_top,
+      :card_failure_message_bottom,
+      :autocomplete_supporter_address
+    )
   end
 end

@@ -61,5 +61,11 @@ module Nonprofits
       NonprofitMailer.delay.new_bank_account_notification(ba) if ba.valid?
       respond_to { |format| format.json { render json: {} } }
     end
+
+    private
+
+    def required_params
+      params.permit(:name, :confirmation_token, :account_number, :bank_name, :pending_verification, :status, :email, :deleted, :stripe_bank_account_token, :stripe_bank_account_id, :nonprofit_id)
+    end
   end
 end

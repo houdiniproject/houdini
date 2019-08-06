@@ -4,12 +4,10 @@
 # A Charge represents a potential debit to a nonprofit's account on a credit card donation action.
 
 class Charge < ApplicationRecord
-  # TODO
-  # attr_accessible \
-  #   :amount,
-  #   :fee,
-  #   :stripe_charge_id,
-  #   :status
+  # :amount,
+  # :fee,
+  # :stripe_charge_id,
+  # :status
 
   has_one :campaign, through: :donation
   has_one :recurring_donation, through: :donation

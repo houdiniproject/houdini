@@ -72,7 +72,7 @@ describe InsertImport::ImportExecution do
 
     it 'should creates all the supporters with correct organizations' do
       result = Supporter.pluck(:organization)
-      expect(result).to match_array(["Jet-Pep", "Klein Drug Shoppe, Inc.", "River City Equipment Rental and Sales", "Somewhere LLC", nil])
+      expect(result).to match_array(["Jet-Pep", "Klein Drug Shoppe, Inc.", "River City Equipment Rental and Sales", "Somewhere LLC", "Somewhere LLC"])
     end
 
     it 'should have correct default cities' do

@@ -32,6 +32,17 @@ describe InsertSupporter do
       result = InsertSupporter.create_or_update(nonprofit.id, {name: " WTEWn   ", email:"email@email.com "})
       expect(original_supporter).to eq result
     end
+
+    it 'only updates non original fields of the supporter' do 
+      original_supporter = force_create(:supporter, nonprofit: nonprofit, name: "a name", organization: 'org', email: " email@email.com")
+
+      result = InsertSupporter.create_or_update(nonprofit.id, {email:"email@email.com "})
+
+      expect(original_supporter).to eq result
+      original_supporter.reload
+
+      expect(original_supporter.attributes.slice('name', 'organization', 'phone')).to eq({'name' => 'a name', "organization" => "org", "phone" =>  nil})
+    end
   end
 end
 

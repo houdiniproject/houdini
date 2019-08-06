@@ -15,9 +15,8 @@ module InsertSupporter
       np = Nonprofit.find(np_id)
       custom_fields = data['customFields']
 
-      data['name'] = data['name'] ? data['name'].strip : ""
       data['email'] = data['email'] ? data['email'].strip : ""
-      if (data['name'].empty? && data['email'].empty?)
+      if (data['email'].empty?)
         supporter = Supporter.create!(defaults(data).merge(nonprofit:np))
       end
 
@@ -28,7 +27,8 @@ module InsertSupporter
             ).first
 
         if supporter
-          supporter.update_attributes(defaults(data))
+          attributes = defaults(data).reject{|key, value| value.nil? || value.blank?}
+          supporter.update_attributes(attributes)
         else
           supporter = Supporter.create!(defaults(data).merge(nonprofit:np))
         end

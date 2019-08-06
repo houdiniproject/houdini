@@ -2,18 +2,16 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TicketLevel < ApplicationRecord
-  # TODO
-  # attr_accessible \
-  #   :amount, #integer
-  #   :amount_dollars, #accessor, string
-  #   :name, #string
-  #   :description, #text
-  #   :quantity, #integer
-  #   :deleted, #bool for soft delete
-  #   :event_id,
-  #   :admin_only, #bool, only admins can create tickets for this level
-  #   :limit, #int: for limiting the number of tickets to be sold
-  #   :order #int: order in which to be displayed
+  # :amount, #integer
+  # :amount_dollars, #accessor, string
+  # :name, #string
+  # :description, #text
+  # :quantity, #integer
+  # :deleted, #bool for soft delete
+  # :event_id,
+  # :admin_only, #bool, only admins can create tickets for this level
+  # :limit, #int: for limiting the number of tickets to be sold
+  # :order #int: order in which to be displayed
 
   attr_accessor :amount_dollars
 

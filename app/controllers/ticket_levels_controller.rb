@@ -16,12 +16,12 @@ class TicketLevelsController < ApplicationController
   end
 
   def create
-    ticket_level = current_event.ticket_levels.create params[:ticket_level]
+    ticket_level = current_event.ticket_levels.create ticket_level_params
     json_saved ticket_level, 'Ticket level created!'
   end
 
   def update
-    current_ticket_level.update_attributes params[:ticket_level]
+    current_ticket_level.update_attributes ticket_level_params
     json_saved current_ticket_level, 'Ticket level updated'
   end
 
@@ -41,5 +41,9 @@ class TicketLevelsController < ApplicationController
 
   def current_ticket_level
     @ticket_level ||= current_event.ticket_levels.find params[:id]
+  end
+
+  def ticket_level_params
+    params.require(:ticket_level).permit(:amount, :amount_dollars, :name, :description, :quantity, :deleted, :event_id, :admin_only, :limit, :order)
   end
 end

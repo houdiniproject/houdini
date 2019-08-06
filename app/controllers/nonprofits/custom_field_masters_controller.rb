@@ -23,5 +23,11 @@ module Nonprofits
       custom_field_master.custom_field_joins.destroy_all
       render json: {}, status: :ok
     end
+
+    private
+
+    def custom_field_master_params
+      params.require(:custom_field_master).permit(:nonprofit, :nonprofit_id, :name, :deleted, :created_at)
+    end
   end
 end

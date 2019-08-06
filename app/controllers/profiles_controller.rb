@@ -47,7 +47,7 @@ class ProfilesController < ApplicationController
                else
                  current_user.profile
                end
-    @profile.update_attributes(params[:profile])
+    @profile.update_attributes(profile_params)
     json_saved @profile, 'Profile updated'
   end
 
@@ -68,5 +68,11 @@ class ProfilesController < ApplicationController
       flash[:notice] = "Sorry, you don't have access to that page"
       redirect_to root_url
     end
+  end
+
+  private
+
+  def profile_params
+    params.require(:profile).permit(:registered, :mini_bio, :first_name, :last_name, :name, :phone, :address, :email, :city, :state_code, :zip_code, :privacy_settings, :picture, :anonymous, :city_state, :user_id)
   end
 end

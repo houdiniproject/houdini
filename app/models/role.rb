@@ -11,11 +11,9 @@ class Role < ApplicationRecord
     :event_editor          # //
   ].freeze
 
-  # TODO:
-  # attr_accessible \
-  #   :name,
-  #   :user_id, :user,
-  #   :host, :host_id, :host_type # nil, "Nonprofit", "Campaign", "Event"
+  # :name,
+  # :user_id, :user,
+  # :host, :host_id, :host_type # nil, "Nonprofit", "Campaign", "Event"
 
   belongs_to :user
   belongs_to :host, polymorphic: true

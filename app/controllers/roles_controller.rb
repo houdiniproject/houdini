@@ -7,7 +7,7 @@ class RolesController < ApplicationController
   before_action :authenticate_nonprofit_admin!
 
   def create
-    role = Role.create_for_nonprofit(params[:role][:name].to_sym, params[:role][:email], FetchNonprofit.with_params(params))
+    role = Role.create_for_nonprofit(role_params[:name].to_sym, role_params[:email], FetchNonprofit.with_params(params))
     json_saved role, 'User successfully added!'
   end
 
@@ -21,5 +21,11 @@ class RolesController < ApplicationController
       flash[:notice] = 'User successfully removed'
       render json: {}
      end
+  end
+
+  private
+
+  def role_params
+    params.require(:role).permit(:name, :email)
   end
 end

@@ -18,9 +18,9 @@ class TicketsController < ApplicationController
   end
 
   def update
-    params[:ticket][:ticket_id] = params[:id]
-    params[:ticket][:event_id] = params[:event_id]
-    render_json { UpdateTickets.update(params[:ticket], current_user) }
+    ticket_params[:ticket_id] = params[:id]
+    ticket_params[:event_id] = params[:event_id]
+    render_json { UpdateTickets.update(ticket_params, current_user) }
   end
 
   # Attendees dashboard
@@ -47,7 +47,7 @@ class TicketsController < ApplicationController
 
   # PUT nonprofits/:nonprofit_id/events/:event_id/tickets/:id/add_note
   def add_note
-    current_nonprofit.tickets.find(params[:id]).update_attributes(note: params[:ticket][:note])
+    current_nonprofit.tickets.find(params[:id]).update_attributes(note: ticket_params[:note])
     render json: {}
   end
 
@@ -61,5 +61,11 @@ class TicketsController < ApplicationController
   def delete_card_for_ticket
     @event = current_event
     render json: UpdateTickets.delete_card_for_ticket(@event.id, params[:id])
+  end
+
+  private
+
+  def ticket_params
+    params.require(:ticket).permit(:ticket_id, :event_id, :note, :event_discount, :event_discount_id)
   end
 end

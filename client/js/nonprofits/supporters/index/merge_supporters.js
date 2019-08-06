@@ -58,8 +58,11 @@ appl.def('merge.submit', function(form_object, node){
       if(resp.ok) {
         appl
         .def('supporters.selected', [])
-        .notify('Supporters successfully merged.')
-        .supporters.index()
+		.notify('Supporters successfully merged. Navigating to supporter...')
+		setTimeout(() => {
+			window.location.href = "/nonprofits/" + resp.body.nonprofit_id + "/supporters?sid=" + resp.body.id
+		}, 3000)
+        
       } else {
         appl.notify('Error: ' + formatErr(resp))
       }

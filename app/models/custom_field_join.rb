@@ -2,11 +2,11 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class CustomFieldJoin < ApplicationRecord
-  # TODO
-  # attr_accessible \
-  #   :supporter, :supporter_id,
-  #   :custom_field_master, :custom_field_master_id,
-  #   :value
+  # :supporter,
+  # :supporter_id,
+  # :custom_field_master,
+  # :custom_field_master_id,
+  # :value
 
   validates :custom_field_master, presence: true
 

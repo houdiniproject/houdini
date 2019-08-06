@@ -65,15 +65,15 @@ module Nonprofits
 
     def update
       json_saved UpdateRecurringDonations
-        .update(current_recurring_donation, params[:recurring_donation])
+        .update(current_recurring_donation, recurring_donation_params)
     end
 
     # post /nonprofits/:nonprofit_id/recurring_donations
     def create
-      if params[:recurring_donation][:token]
-        render_json { InsertRecurringDonation.with_stripe(params[:recurring_donation]) }
-      elsif params[:recurring_donation][:direct_debit_detail_id]
-        render JsonResp.new(params[:recurring_donation]) do |_data|
+      if recurring_donation_params[:token]
+        render_json { InsertRecurringDonation.with_stripe(recurring_donation_params) }
+      elsif recurring_donation_params[:direct_debit_detail_id]
+        render JsonResp.new(recurring_donation_params) do |_data|
           requires(:amount).as_int
           requires(:supporter_id, :nonprofit_id, :direct_debit_detail_id).as_int
           optional(:dedication, :designation).as_string
@@ -86,10 +86,14 @@ module Nonprofits
       end
     end
 
-      private
+    private
 
     def current_recurring_donation
       @recurring_donation ||= current_nonprofit.recurring_donations.find params[:id]
     end
+
+    def recurring_donation_params
+      params.require(:recurring_donation).permit(:amount, :active, :paydate, :interval, :time_unit, :start_date, :end_date, :n_failures, :edit_token, :cancelled_by, :cancelled_at, :donation_id, :nonprofit_id, :supporter_id)
     end
+  end
 end

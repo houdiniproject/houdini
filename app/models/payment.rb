@@ -6,14 +6,12 @@
 # If connected to an offsite_payment, this is money the nonprofit is recording for convenience.
 
 class Payment < ApplicationRecord
-  # TODO
-  #   attr_accessible \
-  #     :towards,
-  #     :gross_amount,
-  #     :refund_total,
-  #     :fee_total,
-  #     :kind,
-  #     :date
+  # :towards,
+  # :gross_amount,
+  # :refund_total,
+  # :fee_total,
+  # :kind,
+  # :date
 
   belongs_to :supporter
   belongs_to :nonprofit

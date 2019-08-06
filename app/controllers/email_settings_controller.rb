@@ -15,6 +15,12 @@ class EmailSettingsController < ApplicationController
   # post /nonprofits/:nonprofit_id/users/:user_id/email_settings for current_user
   def create
     user = current_role?(:super_admin) ? User.find(params[:user_id]) : current_user
-    render json: UpdateEmailSettings.save(params[:nonprofit_id], user.id, params[:email_settings])
+    render json: UpdateEmailSettings.save(params[:nonprofit_id], user.id, email_settings_params)
+  end
+
+  private
+
+  def email_settings_params
+    params.require(:email_settings).permit(:notify_payments, :notify_campaigns, :notify_events, :notify_payouts, :notify_recurring_donations)
   end
 end

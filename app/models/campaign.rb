@@ -2,37 +2,35 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Campaign < ApplicationRecord
-  # TODO
-  # attr_accessible \
-  #   :name,
-  #   :tagline,
-  #   :slug, # str: url name
-  #   :total_supporters,
-  #   :goal_amount,
-  #   :nonprofit_id,
-  #   :profile_id,
-  #   :main_image,
-  #   :remove_main_image, # for carrierwave
-  #   :background_image,
-  #   :remove_background_image, #bool carrierwave
+  # :name,
+  # :tagline,
+  # :slug, # str: url name
+  # :total_supporters,
+  # :goal_amount,
+  # :nonprofit_id,
+  # :profile_id,
+  # :main_image,
+  # :remove_main_image, # for carrierwave
+  # :background_image,
+  # :remove_background_image, #bool carrierwave
   # :banner_image,
   # :remove_banner_image,
-  #   :published,
-  #   :video_url, #str
-  #   :vimeo_video_id,
-  #   :youtube_video_id,
-  #   :summary,
-  #   :recurring_fund, # bool: whether this is a recurring campaign
-  #   :body,
-  #   :goal_amount_dollars, #accessor: translated into goal_amount (cents)
-  #   :show_total_raised, # bool
-  #   :show_total_count, # bool
-  #   :hide_activity_feed, # bool
+  # :published,
+  # :video_url, #str
+  # :vimeo_video_id,
+  # :youtube_video_id,
+  # :summary,
+  # :recurring_fund, # bool: whether this is a recurring campaign
+  # :body,
+  # :goal_amount_dollars, #accessor: translated into goal_amount (cents)
+  # :show_total_raised, # bool
+  # :show_total_count, # bool
+  # :hide_activity_feed, # bool
   # :end_datetime,
-  #   :deleted, #bool (soft delete)
-  #   :hide_goal, # bool
-  #   :hide_thermometer, #bool
-  #   :hide_title, # bool
+  # :deleted, #bool (soft delete)
+  # :hide_goal, # bool
+  # :hide_thermometer, #bool
+  # :hide_title, # bool
   # :receipt_message, # text
   # :hide_custom_amounts, # boolean
   # :parent_campaign_id,

@@ -64,9 +64,9 @@ class CampaignsController < ApplicationController
 
   def update
     Time.use_zone(current_nonprofit.timezone || 'UTC') do
-      params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
+      campaign_params[:end_datetime] = Chronic.parse(campaign_params[:end_datetime]) if campaign_params[:end_datetime].present?
     end
-    current_campaign.update_attributes params[:campaign]
+    current_campaign.update_attributes campaign_params
     json_saved current_campaign, 'Successfully updated!'
   end
 
@@ -125,5 +125,9 @@ class CampaignsController < ApplicationController
     if !current_role?(:super_admin) && !current_nonprofit.published
       raise ActionController::RoutingError, 'Not Found'
     end
+  end
+
+  def campaign_params
+    params.require(:campaign).permit(:name, :tagline, :slug, :total_supporters, :goal_amount, :nonprofit_id, :profile_id, :main_image, :remove_main_image, :background_image, :remove_background_image, :banner_image, :remove_banner_image, :published, :video_url, :vimeo_video_id, :youtube_video_id, :summary, :recurring_fund, :body, :goal_amount_dollars, :show_total_raised, :show_total_count, :hide_activity_feed, :end_datetime, :deleted, :hide_goal, :hide_thermometer, :hide_title, :receipt_message, :hide_custom_amounts, :parent_campaign_id, :reason_for_supporting, :default_reason_for_supporting)
   end
 end

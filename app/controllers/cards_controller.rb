@@ -6,7 +6,7 @@ class CardsController < ApplicationController
 
   # post /cards
   def create
-    acct = Supporter.find(params[:card][:holder_id]).nonprofit.stripe_account_id
+    acct = Supporter.find(card_params[:holder_id]).nonprofit.stripe_account_id
     render(
       JsonResp.new(params) do |_d|
         requires(:card).nested do
@@ -18,5 +18,11 @@ class CardsController < ApplicationController
         InsertCard.with_stripe(d[:card], acct, params[:event_id], current_user)
       end
     )
+  end
+
+  private
+
+  def card_params
+    params.require(:card).permit(:cardholders_name, :email, :name, :failure_message, :status, :stripe_card_token, :stripe_card_id, :stripe_customer_id, :holder, :inactive)
   end
 end

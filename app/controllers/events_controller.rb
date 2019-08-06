@@ -31,21 +31,21 @@ class EventsController < ApplicationController
   def create
     render_json do
       Time.use_zone(current_nonprofit.timezone || 'UTC') do
-        params[:event][:start_datetime] = Chronic.parse(params[:event][:start_datetime]) if params[:event][:start_datetime].present?
-        params[:event][:end_datetime] = Chronic.parse(params[:event][:end_datetime]) if params[:event][:end_datetime].present?
+        event_params[:start_datetime] = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
+        event_params[:end_datetime] = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
       end
       flash[:notice] = 'Your draft event has been created! Well done.'
-      ev = current_nonprofit.events.create(params[:event])
+      ev = current_nonprofit.events.create(event_params)
       { url: "/events/#{ev.slug}", event: ev }
     end
   end
 
   def update
     Time.use_zone(current_nonprofit.timezone || 'UTC') do
-      params[:event][:start_datetime] = Chronic.parse(params[:event][:start_datetime]) if params[:event][:start_datetime].present?
-      params[:event][:end_datetime] = Chronic.parse(params[:event][:end_datetime]) if params[:event][:end_datetime].present?
+      event_params[:start_datetime] = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
+      event_params[:end_datetime] = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
     end
-    current_event.update_attributes(params[:event])
+    current_event.update_attributes(event_params)
     json_saved current_event, 'Successfully updated'
   end
 
@@ -76,5 +76,11 @@ class EventsController < ApplicationController
 
   def name_and_id
     render json: QueryEvents.name_and_id(current_nonprofit.id)
+  end
+
+  private
+
+  def event_params
+    params.require(:event).permit(:deleted, :name, :tagline, :summary, :body, :end_datetime, :start_datetime, :latitude, :longitude, :location, :city, :state_code, :address, :zip_code, :main_image, :remove_main_image, :background_image, :remove_background_image, :published, :slug, :directions, :venue_name, :profile_id, :ticket_levels_attributes, :show_total_raised, :show_total_count, :hide_activity_feed, :nonprofit_id, :hide_title, :organizer_email, :receipt_message)
   end
 end

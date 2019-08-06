@@ -16,10 +16,10 @@ module Nonprofits
     # post /nonprofits/:nonprofit_id/donations
     def create
       if params[:token]
-        params[:donation][:token] = params[:token]
-        render_json { InsertDonation.with_stripe(params[:donation], current_user) }
+        donations_params[:token] = params[:token]
+        render_json { InsertDonation.with_stripe(donations_params, current_user) }
       elsif params[:direct_debit_detail_id]
-        render JsonResp.new(params[:donation]) do |_data|
+        render JsonResp.new(donations_params) do |_data|
           requires(:amount).as_int
           requires(:supporter_id, :nonprofit_id)
           # TODO
@@ -35,7 +35,7 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/donations/create_offsite
     def create_offsite
-      render JsonResp.new(params[:donation]) do |_data|
+      render JsonResp.new(donations_params) do |_data|
         requires(:amount).as_int.min(1)
         requires(:supporter_id, :nonprofit_id).as_int
         optional(:dedication, :designation).as_string
@@ -49,7 +49,7 @@ module Nonprofits
     end
 
     def update
-      render_json { UpdateDonation.update_payment(params[:id], params[:donation]) }
+      render_json { UpdateDonation.update_payment(params[:id], donations_params) }
     end
 
     # put /nonprofits/:nonprofit_id/donations/:id
@@ -57,15 +57,15 @@ module Nonprofits
     def followup
       nonprofit = Nonprofit.find(params[:nonprofit_id])
       donation = nonprofit.donations.find(params[:id])
-      json_saved UpdateDonation.from_followup(donation, params[:donation])
+      json_saved UpdateDonation.from_followup(donation, donations_params)
     end
 
     # this is a special, weird case
     private
 
     def current_campaign
-      if !@campaign && params[:donation] && params[:donation][:campaign_id]
-        @campaign = Campaign.where('id = ? ', params[:donation][:campaign_id]).first
+      if !@campaign && donations_params && donations_params[:campaign_id]
+        @campaign = Campaign.where('id = ? ', donations_params[:campaign_id]).first
       end
       @campaign
     end
@@ -78,6 +78,12 @@ module Nonprofits
       unless current_campaign_editor?
         block_with_sign_in 'You need to be a campaign editor to do that.'
       end
+    end
+
+    private
+
+    def donations_params
+      params.require(:donation).permit(:date, :amount, :recurring, :anonymous, :email, :designation, :dedication, :comment, :origin_url, :nonprofit_id, :card_id, :supporter_id, :profile_id, :campaign_id, :payment_id, :event_id, :direct_debit_detail_id, :payment_provider)
     end
   end
 end

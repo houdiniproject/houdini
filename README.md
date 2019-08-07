@@ -124,6 +124,9 @@ admin=User.find(1) #or the id of the user you want to add the role
 role=Role.create(user:admin,name: "super_admin")
 ```
 
+## Known Issues
+For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
+
 
 ## To run in production
 

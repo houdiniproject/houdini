@@ -12,8 +12,6 @@ The Houdini Project is free and open source fundraising infrastructure. It inclu
 - Nonprofit org user account management
 - Simple donation management for donors
 
-This is a Rails 3.2 app; [we want to upgrade](https://github.com/houdiniproject/houdini/issues/47).
-
 Much of the business logic is in `/lib`. 
 
 The frontend is written in a few custom frameworks, the largest of which is called Flimflam. 

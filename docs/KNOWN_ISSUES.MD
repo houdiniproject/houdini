@@ -1,5 +1,6 @@
 ## Byebug or Pry won't start - image not found readline.bundle
 ----------
+Error reported.
 ```bash
 pry
 # Sorry, you can't use byebug without Readline. To solve this, you need to
@@ -7,16 +8,16 @@ pry
 # install libreadline-dev` and then reinstall your Ruby.
 ```
 
-I use rvm to manage my ruby versions. You can use rvm to recompile ruby from source to solve the problem. There are a few other work arounds as well, but this seemed like the correct solution and it worked for me.
+If **you use rvm to manage my ruby versions**. You can use rvm to recompile ruby from source to solve the problem.
 
-Sounds like we should generally rebuild ruby as a best practice after macOS upgrades. In this case it was macOS Mojave + brew updates that triggered this new awareness for me.
+You'll need to rebuild `ruby` as a best practice after `macOS` upgrades.
 
 ### Steps to rebuild ruby via **RVM**
-It's a good idea to make sure you've installed the latest Xcode + tools before proceeding; check App Store for updates. Be sure to accept the Xcode License before proceeding!
+Make sure you've installed the latest Xcode + tools before proceeding; check App Store for updates. Be sure to accept the Xcode License before proceeding!
 
 Update Xcode and accept the license:
 * Update Xcode to latest via App Store, be sure to update the Xcode Tools as well.
-* In a terminal window, exec this command: sudo xcodebuild -license accept
+* In a terminal window, exec this command: `sudo xcodebuild -license accept`
 
 Make sure you have the **readline** lib installed:
 
@@ -35,6 +36,5 @@ Reinstall Ruby, with a rebuild of sources:
 
 #### After completing these steps I did two more things:
 
-Since I happened to be in a project directory in a terminal window when I started this process, I had to `cd ..` up a level and then `cd project-folder` back into my project so that RVM would reactivate my gemset.
-I ran `gem install bundler` and then `bundle install` to re-hydrate the gems for my project.
-and then I was good to go again.
+If you're in the project directory running a terminal window when finished this process, You'll had to `cd ..` up a level and then `cd project-folder` back into the project so that RVM would reactivate your gemset.
+Run `gem install bundler` and then `bundle install` to re-hydrate the gems for the project.

@@ -7,12 +7,15 @@ pry
 # rebuild Ruby with Readline support. If using Ubuntu, try `sudo apt-get
 # install libreadline-dev` and then reinstall your Ruby.
 ```
+### What's the problem?
+Ruby installation with gems, specifically the `readline` gem already installed on a system that had a macOS upgrade.
 
-If **you use rvm to manage my ruby versions**. You can use rvm to recompile ruby from source to solve the problem.
+### How to solve it?
+If **you use `rvm` to manage your ruby versions**. You can use `rvm` to recompile ruby from source to solve the problem.
 
-You'll need to rebuild `ruby` as a best practice after `macOS` upgrades.
+_Note:_ You'll need to rebuild `ruby` as a best practice after `macOS` upgrades.
 
-### Steps to rebuild ruby via **RVM**
+#### Steps to rebuild ruby via **RVM**
 Make sure you've installed the latest Xcode + tools before proceeding; check App Store for updates. Be sure to accept the Xcode License before proceeding!
 
 Update Xcode and accept the license:
@@ -34,7 +37,5 @@ Reinstall Ruby, with a rebuild of sources:
 * Change the specified version (2.5.1 in my case) to match your needs.
 * **I ended up using the second syntax for a completely fresh start.**
 
-#### After completing these steps I did two more things:
-
-If you're in the project directory running a terminal window when finished this process, You'll had to `cd ..` up a level and then `cd project-folder` back into the project so that RVM would reactivate your gemset.
+_Gotchas:_ If you're in the project directory running a terminal window when finished this process, You'll had to `cd ..` up a level and then `cd project-folder` back into the project so that RVM would reactivate your gemset.
 Run `gem install bundler` and then `bundle install` to re-hydrate the gems for the project.

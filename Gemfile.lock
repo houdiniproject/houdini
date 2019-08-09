@@ -250,6 +250,8 @@ GEM
     grape_logging (1.8.1)
       grape
       rack
+    grape_on_rails_routes (0.3.2)
+      rails (>= 3.1.1)
     grape_url_validator (1.0.0)
       grape (>= 0.12.0)
     hamster (3.0.0)
@@ -538,6 +540,7 @@ DEPENDENCIES
   grape-swagger-entity (~> 0.3.3)
   grape_devise!
   grape_logging (~> 1.8, >= 1.8.1)
+  grape_on_rails_routes (~> 0.3.2)
   grape_url_validator (~> 1.0)
   hamster (~> 3.0)
   heroku-deflater (~> 0.6.3)

@@ -78,6 +78,10 @@ group :production do
   gem 'rack-timeout', '~> 0.5.1'
 end
 
+group :development do
+  gem 'grape_on_rails_routes', '~> 0.3.2'
+end
+
 group :development, :ci do
   gem 'debase', '~> 0.2.3'
   gem 'ruby-debug-ide', '~> 0.7.0'

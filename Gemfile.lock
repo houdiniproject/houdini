@@ -323,6 +323,9 @@ GEM
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
+    pry-byebug (3.7.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     public_suffix (3.1.1)
     puma (4.1.0)
       nio4r (~> 2.0)
@@ -549,6 +552,7 @@ DEPENDENCIES
   param_validation!
   pg (~> 0.11)
   pry (~> 0.12.2)
+  pry-byebug (~> 3.7.0)
   puma (~> 4.0, >= 4.0.1)
   puma_worker_killer (~> 0.1.1)
   qx!

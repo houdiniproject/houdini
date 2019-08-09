@@ -22,7 +22,6 @@ gem 'ffi', '~> 1.11', '>= 1.11.1'
 gem 'httparty', '~> 0.17.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
-gem 'rack-timeout', '~> 0.5.1'
 gem 'sprockets', '~> 3.7'
 
 # AWS services
@@ -75,6 +74,10 @@ gem 'grape-swagger-entity', '~> 0.3.3'
 gem 'grape-swagger', '~> 0.33.0'
 gem 'grape', '~> 1.2', '>= 1.2.4'
 
+group :production do
+  gem 'rack-timeout', '~> 0.5.1'
+end
+
 group :development, :ci do
   gem 'debase', '~> 0.2.3'
   gem 'ruby-debug-ide', '~> 0.7.0'
@@ -87,6 +90,7 @@ group :development, :ci, :test do
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
   gem 'mail_view', '~> 2.0'
   gem 'pry', '~> 0.12.2'
+  gem 'pry-byebug', '~> 3.7.0'
   gem 'ruby-prof', '0.15.9'
   gem 'solargraph', '~> 0.35.1'
   gem 'standard', '~> 0.1.2'

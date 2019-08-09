@@ -12,8 +12,6 @@ The Houdini Project is free and open source fundraising infrastructure. It inclu
 - Nonprofit org user account management
 - Simple donation management for donors
 
-This is a Rails 3.2 app; [we want to upgrade](https://github.com/houdiniproject/houdini/issues/47).
-
 Much of the business logic is in `/lib`. 
 
 The frontend is written in a few custom frameworks, the largest of which is called Flimflam. 
@@ -125,6 +123,9 @@ In the console, run the following:
 admin=User.find(1) #or the id of the user you want to add the role
 role=Role.create(user:admin,name: "super_admin")
 ```
+
+## Known Issues
+For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
 
 
 ## To run in production

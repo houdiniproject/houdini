@@ -4,10 +4,6 @@
 class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
   helpers Houdini::V1::Helpers::ApplicationHelper, Houdini::V1::Helpers::RescueHelper
 
-  before do
-    protect_against_forgery
-  end
-
   desc 'Return a nonprofit.' do
     success Houdini::V1::Entities::Nonprofit
   end
@@ -16,7 +12,7 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
   end
   route_param :id do
     get do
-      np = Nonprofit.find(params[:id])
+      np = ::Nonprofit.find(params[:id])
       present np, as: Houdini::V1::Entities::Nonprofit
     end
   end
@@ -57,7 +53,7 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
     np = nil
     u = nil
     Qx.transaction do
-      np = Nonprofit.new(OnboardAccounts.set_nonprofit_defaults(declared_params[:nonprofit]))
+      np = ::Nonprofit.new(OnboardAccounts.set_nonprofit_defaults(declared_params[:nonprofit]))
 
       begin
         np.save!

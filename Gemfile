@@ -42,7 +42,7 @@ gem 'i18n-js', '~> 3.3'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone
 gem 'rails-i18n', '~> 5.1', '>= 5.1.3'
-gem 'roadie-rails', '~> 2.1' # email generation helpers 
+gem 'roadie-rails', '~> 2.1' # email generation helpers
 gem 'table_print', '~> 1.5', '>= 1.5.6' # Nice table printing of data for the console
 
 # Database and Events
@@ -89,6 +89,7 @@ group :development, :ci, :test do
   gem 'pry', '~> 0.12.2'
   gem 'ruby-prof', '0.15.9'
   gem 'solargraph', '~> 0.35.1'
+  gem 'standard', '~> 0.1.2'
 end
 
 group :ci, :test do

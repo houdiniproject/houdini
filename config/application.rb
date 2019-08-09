@@ -72,6 +72,9 @@ module Commitchange
       end
     end
 
+    # add fonts to assets pipeline
+    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+
     # Version of your assets, change this If you want to expire all your assets
     # config.assets.version = '1.0'
 

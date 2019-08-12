@@ -22,7 +22,6 @@ gem 'ffi', '~> 1.11', '>= 1.11.1'
 gem 'httparty', '~> 0.17.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
-gem 'rack-timeout', '~> 0.5.1'
 gem 'sprockets', '~> 3.7'
 
 # AWS services
@@ -42,7 +41,7 @@ gem 'i18n-js', '~> 3.3'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone
 gem 'rails-i18n', '~> 5.1', '>= 5.1.3'
-gem 'roadie-rails', '~> 2.1' # email generation helpers 
+gem 'roadie-rails', '~> 2.1' # email generation helpers
 gem 'table_print', '~> 1.5', '>= 1.5.6' # Nice table printing of data for the console
 
 # Database and Events
@@ -75,6 +74,10 @@ gem 'grape-swagger-entity', '~> 0.3.3'
 gem 'grape-swagger', '~> 0.33.0'
 gem 'grape', '~> 1.2', '>= 1.2.4'
 
+group :development do
+  gem 'grape_on_rails_routes', '~> 0.3.2'
+end
+
 group :development, :ci do
   gem 'debase', '~> 0.2.3'
   gem 'ruby-debug-ide', '~> 0.7.0'
@@ -87,8 +90,10 @@ group :development, :ci, :test do
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
   gem 'mail_view', '~> 2.0'
   gem 'pry', '~> 0.12.2'
+  gem 'pry-byebug', '~> 3.7.0'
   gem 'ruby-prof', '0.15.9'
   gem 'solargraph', '~> 0.35.1'
+  gem 'standard', '~> 0.1.2'
 end
 
 group :ci, :test do
@@ -109,4 +114,5 @@ group :production do
   # Compression of assets on heroku
   # https://github.com/romanbsd/heroku-deflater
   gem 'heroku-deflater', '~> 0.6.3'
+  gem 'rack-timeout', '~> 0.5.1'
 end

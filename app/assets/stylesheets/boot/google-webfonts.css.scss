@@ -1,0 +1,79 @@
+// License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later %>
+
+/* Open Sans */
+
+@font-face {
+  font-family: "Open Sans";
+  src: font-url("Open_Sans/opensans-regular-webfont.eot");
+  src: font-url("Open_Sans/opensans-regular-webfont.eot?#iefix"),
+    format("embedded-opentype"),
+    font-url("Open_Sans/opensans-regular-webfont.woff") format("woff"),
+    font-url("Open_Sans/opensans-regular-webfont.ttf") format("truetype"),
+    font-url("Open_Sans/opensans-regular-webfont.svg#open_sansregular")
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: font-url("Open_Sans/opensans-light-webfont.eot");
+  src: font-url("Open_Sans/opensans-light-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    font-url("Open_Sans/opensans-light-webfont.woff") format("woff"),
+    font-url("Open_Sans/opensans-light-webfont.ttf") format("truetype"),
+    font-url("Open_Sans/opensans-light-webfont.svg#open_sanslight")
+      format("svg");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: font-url("Open_Sans/opensans-bold-webfont.eot");
+  src: font-url("Open_Sans/opensans-bold-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    font-url("Open_Sans/opensans-bold-webfont.woff") format("woff"),
+    font-url("Open_Sans/opensans-bold-webfont.ttf") format("truetype"),
+    font-url("Open_Sans/opensans-bold-webfont.svg#open_sansbold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Bitter */
+
+@font-face {
+  font-family: "OpenSansCondensed";
+  src: font-url("Open_Sans_Condensed/opensans-condbold-webfont.eot");
+  src: font-url("Open_Sans_Condensed/opensans-condbold-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    font-url("Open_Sans_Condensed/opensans-condbold-webfont.woff")
+      format("woff"),
+    font-url("Open_Sans_Condensed/opensans-condbold-webfont.ttf")
+      format("truetype"),
+    font-url("Open_Sans_Condensed/opensans-condbold-webfont.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bitter";
+  src: font-url("Bitter/Bitter-Regular.eot");
+  src: font-url("Bitter/Bitter-Regular.eot?#iefix") format("embedded-opentype"),
+    font-url("Bitter/Bitter-Regular.woff") format("woff"),
+    font-url("Bitter/Bitter-Regular.ttf") format("truetype"),
+    font-url("Bitter/Bitter-Regular.svg#bitterregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bitter";
+  src: font-url("Bitter/Bitter-Bold.eot");
+  src: font-url("Bitter/Bitter-Bold.eot?#iefix") format("embedded-opentype"),
+    font-url("Bitter/Bitter-Bold.woff") format("woff"),
+    font-url("Bitter/Bitter-Bold.ttf") format("truetype"),
+    font-url("Bitter/Bitter-Bold.svg#bitterbold") format("svg");
+  font-weight: bold;
+  font-style: normal;
+}

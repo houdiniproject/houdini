@@ -74,10 +74,6 @@ gem 'grape-swagger-entity', '~> 0.3.3'
 gem 'grape-swagger', '~> 0.33.0'
 gem 'grape', '~> 1.2', '>= 1.2.4'
 
-group :production do
-  gem 'rack-timeout', '~> 0.5.1'
-end
-
 group :development do
   gem 'grape_on_rails_routes', '~> 0.3.2'
 end
@@ -118,4 +114,5 @@ group :production do
   # Compression of assets on heroku
   # https://github.com/romanbsd/heroku-deflater
   gem 'heroku-deflater', '~> 0.6.3'
+  gem 'rack-timeout', '~> 0.5.1'
 end

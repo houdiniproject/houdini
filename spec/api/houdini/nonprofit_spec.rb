@@ -54,7 +54,7 @@ describe Houdini::V1::Nonprofit, type: :request do
 
       it 'rejects csrf' do
         post '/api/v1/nonprofit', params: {}, xhr: true
-        expect(response.code).to eq '401'
+        expect(response.code).to eq '400'
       end
     end
 

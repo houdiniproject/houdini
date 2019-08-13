@@ -1,6 +1,11 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 workers Integer(ENV['WEB_CONCURRENCY'] || 1)
-threads 1,1 #not threadsafe yet
+threads_count = Integer(ENV['MAX_THREADS'] || 5)
+
+
+threads threads_count, threads_count
+
+
 preload_app! if ENV['RAILS_ENV'] != 'development'
 
 rackup      DefaultRackup
@@ -13,7 +18,7 @@ on_worker_boot do
   ActiveSupport.on_load(:active_record) do
     config = ActiveRecord::Base.configurations[Rails.env] ||
         Rails.application.config.database_configuration[Rails.env]
-    config['pool'] = ENV['RAILS_MAX_THREADS'] || 1
+    config['pool'] = threads_count || 1
     ActiveRecord::Base.establish_connection
   end
 

@@ -63,7 +63,6 @@ describe('StripeFeeStructure', () => {
     it('entering 10000 gets proper fee', () => {
       const tenThousand = Money.fromCents(10000, 'USD')
       let calcFee = feeStructure.reverseCalculateFee(tenThousand)
-
       expect(feeStructure.calculateFee(calcFee.add(tenThousand))).toEqual(calcFee)
     })
   })

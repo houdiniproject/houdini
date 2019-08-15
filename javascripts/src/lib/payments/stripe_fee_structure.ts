@@ -2,18 +2,19 @@
 import {boundMethod} from 'autobind-decorator'
 import { Money } from "../money";
 import _ = require('lodash');
+import { FeeStructure } from './fee_structure';
 
-type FeeStructureProps = {flatFee?:number, percentFee?:number}
+type StripeFeeStructureProps = {flatFee?:number, percentFee?:number}
 
-export class StripeFeeStructure {
+export class StripeFeeStructure implements FeeStructure{
 
-    constructor(readonly props:FeeStructureProps)
+    constructor(readonly props:StripeFeeStructureProps)
     {
         if (!props.flatFee && !props.percentFee) {
             throw Error(`flatFee or percentFee must be passed`)
         }
 
-        const def:FeeStructureProps = {
+        const def:StripeFeeStructureProps = {
             flatFee: 0,
             percentFee: 0
         }

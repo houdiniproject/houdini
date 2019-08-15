@@ -1,7 +1,8 @@
-import { StripeFeeStructure } from "../../../../javascripts/src/lib/payments/stripe_fee_structure";
+// License: LGPL-3.0-or-later
+import { FeeStructure } from "../../../../javascripts/src/lib/payments/fee_structure";
 import { Money } from "../../../../javascripts/src/lib/money";
 
-function calculateTotal(donation:{feeCovering?:boolean, amount:number}, s:StripeFeeStructure):number {
+function calculateTotal(donation:{feeCovering?:boolean, amount:number}, s:FeeStructure):number {
     if (!donation.feeCovering)
         return donation.amount
     else

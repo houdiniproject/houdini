@@ -1,7 +1,7 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <%= content_for(:title_prefix) { "#{@campaign.name} - #{@campaign.nonprofit.name} | ".html_safe } %>
 <% content_for(:fixed_position_cta_hidden) {'hidden'} %>
-<%= content_for(:meta_description) {raw @campaign.summary} %>
+<%= content_for(:meta_description) {@campaign.summary} %>
 <% @brand_color = @nonprofit.brand_color ? @nonprofit.brand_color : nil %>
 
 <%= content_for :javascripts do %>
@@ -44,14 +44,14 @@
 <% end %>
 
 <%= content_for :facebook_tags do %>
-	<meta property="og:title" content="<%= raw @campaign.name %>">
-	<meta property="og:description" content="<%= @campaign.summary.present? ? raw(@campaign.summary) : raw(@campaign.name) %>">
+	<meta property="og:title" content="<%= @campaign.name %>">
+	<meta property="og:description" content="<%= @campaign.summary.present? ? @campaign.summary : @campaign.name %>">
 	<meta property="og:image" content="<%= @campaign.main_image_url(:normal) %>">
 <% end %>
 
 <%= content_for :twitter_tags do %>
-	<meta property="twitter:title" content="<%= raw @campaign.name %>">
-	<meta property="twitter:description" content="<%= raw @campaign.summary %>">
+	<meta property="twitter:title" content="<%= @campaign.name %>">
+	<meta property="twitter:description" content="<%= @campaign.summary %>">
 	<meta property="twitter:image" content="<%= @campaign.main_image_url(:normal) %>">
 <% end %>
 

@@ -6,7 +6,7 @@
 
 <% description = "Robust and user-friendly nonprofit fundraising tools. Campaigns, donor management, donation processing and event ticketing." %>
 
-<title><%= yield :title_prefix %><%= Settings.general.name %> <%= content_for?(:title_suffix) ? yield(:title_suffix) : "| #{title}" %>
+<title><%= yield :title_prefix %> <%= Settings.general.name %> <%= content_for?(:title_suffix) ? yield(:title_suffix) : "| #{title}" %>
 </title>
 
 <% if content_for?(:meta_description) %>

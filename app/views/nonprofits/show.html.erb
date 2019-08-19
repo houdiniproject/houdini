@@ -1,17 +1,17 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <% content_for(:title_prefix) {"#{@nonprofit.name} - #{@nonprofit.city}, #{@nonprofit.state_code} | ".html_safe} %>
 <% content_for(:fixed_position_cta_hidden) {'hidden'} %>
-<% content_for(:meta_description) {raw @nonprofit.summary} %>
+<% content_for(:meta_description) {@nonprofit.summary} %>
 <% @brand_color = @nonprofit.brand_color ? @nonprofit.brand_color : nil %>
 
 <%= content_for :facebook_tags do %>
-	<meta property="og:title" content="<%= raw @nonprofit.name %>" />
-	<meta property="og:description" content="<%= raw @nonprofit.tagline %>" />
+	<meta property="og:title" content="<%= @nonprofit.name %>" />
+	<meta property="og:description" content="<%= @nonprofit.tagline %>" />
 	<meta property="og:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
 <% end %>
 <%= content_for :twitter_tags do %>
-	<meta property="twitter:title" content="<%= raw @nonprofit.name %>" />
-	<meta property="twitter:description" content="<%= raw @nonprofit.tagline %>" />
+	<meta property="twitter:title" content="<%= @nonprofit.name %>" />
+	<meta property="twitter:description" content="<%= @nonprofit.tagline %>" />
 	<meta property="twitter:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
 <% end %>
 

@@ -23,7 +23,12 @@ const format = require('../../common/format')
 const brandedWizard = require('../../components/styles/branded-wizard')
 const renderStyles = require('../../components/styles/render-styles')
 
+const calculateTotal = require('./calculate-total.ts')
+
 renderStyles()(brandedWizard(null))
+
+//assume window.nonprofit.feeStructure
+
 
 // pass in a stream of configuration parameters
 const init = params$ => {
@@ -59,6 +64,14 @@ const init = params$ => {
   }, state.params$())
 
   state.selectedPayment$ = flyd.stream('sepa')
+  state.donationTotal$ = flyd.map((donation) => {
+    // const feeStructure = app.nonprofit.feeStructure
+    // if (!feeStructure) {
+    //   throw new Error("billing Plan isn't found!")
+    // }
+    // return calculateTotal(donation.amount, feeStructure)
+    return donation.amount
+  }, state.amountStep.donation$)
 
   state.amountStep = amountStep.init(donationDefaults, state.params$)
   state.infoStep = infoStep.init(state.amountStep.donation$, state)

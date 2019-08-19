@@ -19,6 +19,7 @@ function init(donationDefaults, params$) {
   , designation: state.params$().designation
   , recurring: state.params$().type === 'recurring'
   , weekly: (typeof state.params$().weekly !== 'undefined')
+  , feeCovering: false
   })
   // Apply R.evolve using every value on the evolveDonation$ stream, starting with the defaults
   state.donation$ = flyd.scanMerge([
@@ -48,12 +49,14 @@ const setDonationFromParams = (donation, params) => {
 
 function view(state) {
     const isRecurring = state.donation$().recurring
+    const isFeeCovered = state.donation$().feeCovering
     return h('div.wizard-step.amount-step', [
         chooseDesignation(state)
         , recurringCheckbox(isRecurring, state)
         , recurringMessage(isRecurring, state)
         , amountFields(state)
         , showSingleAmount(isRecurring, state)
+        , feeCoverageField(isFeeCovered, state)
     ])
 }
 
@@ -193,6 +196,24 @@ function showSingleAmount(isRecurring, state) {
     ])
   , h('button.button.u-marginBottom--20', {on: {click: [state.currentStep$, 1]}}, I18n.t('nonprofits.donate.amount.next'))
   ])
+}
+
+function feeCoverageField(isFeeCovered, state) {
+  return h('section.donate-feeCoverageCheckbox.u-paddingX--5 u-marginBottom--10', [
+    h('div.u-padding--8.u-background--grey.u-centered', {
+      class: {highlight: isFeeCovered}
+    }, [
+      h('input.u-margin--0.donationWizard-amount-input', {
+        props: {type: 'checkbox', selected: isFeeCovered, id: 'checkbox-feeCoverage'}
+      , on: {change: ev => state.evolveDonation$({feeCoverage: t => !t})}
+      })
+    , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, composeTranslation(
+          I18n.t('nonprofits.donate.amount.sustaining')
+        , I18n.t('nonprofits.donate.amount.sustaining_bold')
+        )
+      )
+    ])
+    ])
 }
 
 module.exports = {view, init}

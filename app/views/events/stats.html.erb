@@ -1,19 +1,19 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <%= content_for(:title) {"#{@event.name} - #{@event.nonprofit.name}".html_safe} %>
-<%= content_for(:meta_description) {raw @event.summary} %>
+<%= content_for(:meta_description) {@event.summary} %>
 <%= content_for(:stylesheets) {stylesheet_link_tag 'events/stats/page'} %>
 <% content_for(:footer_hidden) {'hidden'} %>
 <% content_for(:fixed_position_cta_hidden) {'hidden'} %>
 
 <%= content_for :facebook_tags do %>
-  <meta property="og:title" content="<%= raw @event.name %>" />
-  <meta property="og:description" content="<%= raw @event.summary %>" />
+  <meta property="og:title" content="<%= @event.name %>" />
+  <meta property="og:description" content="<%= @event.summary %>" />
   <meta property="og:image" content="<%= @event.main_image_url(:normal) %>" />
 <% end %>
 
 <%= content_for :twitter_tags do %>
-  <meta property="twitter:title" content="<%= raw @event.name %>" />
-  <meta property="twitter:description" content="<%= raw @event.summary %>" />
+  <meta property="twitter:title" content="<%= @event.name %>" />
+  <meta property="twitter:description" content="<%= @event.summary %>" />
   <meta property="twitter:image" content="<%= @event.main_image_url(:normal) %>" />
 <% end %>
 

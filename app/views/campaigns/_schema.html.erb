@@ -1,23 +1,27 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
-<script type="application/ld+json">
-{
+
+<% schema = {
   "@context": "http://schema.org",
   "@type": "Event",
-  "name": "<%= @campaign.name %>",
-  "description": "<%= @campaign.summary.present? ? @campaign.summary : @campaign.name %>",
-  "url": "<%= url %>",
+  "name": @campaign.name ,
+  "description": @campaign.summary.present? ? @campaign.summary : @campaign.name ,
+  "url": url ,
   "location": {
     "@type": "Place",
-    "name": "<%= @campaign.name %>",
+    "name": @campaign.name ,
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "<%= @nonprofit.city %>",
-      "addressRegion": "<%= @nonprofit.state_code %>",
-      "postalCode": "<%= @nonprofit.zip_code %>",
-      "streetAddress": "<%= @nonprofit.address %>"
+      "addressLocality": @nonprofit.city,
+      "addressRegion": @nonprofit.state_code,
+      "postalCode": @nonprofit.zip_code ,
+      "streetAddress":  @nonprofit.address
     }
   },
-  "startDate": "<%= @campaign.created_at %>"
-}
+  "startDate": @campaign.created_at
+} 
+%>
+
+<script type="application/ld+json">
+  <%= raw(JSON::generate(schema)) %>
 </script>
 

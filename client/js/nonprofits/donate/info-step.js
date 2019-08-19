@@ -22,6 +22,7 @@ function init(donation$, parentState) {
   , params$: parentState.params$
   , currentStep$: flyd.stream()
   , selectedPayment$: parentState.selectedPayment$
+  , donationTotal$: parentState.donationTotal$
   }
 
 

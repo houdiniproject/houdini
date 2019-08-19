@@ -2,11 +2,10 @@
 import { FeeStructure } from "../../../../javascripts/src/lib/payments/fee_structure";
 import { Money } from "../../../../javascripts/src/lib/money";
 
-function calculateTotal(donation:{feeCovering?:boolean, amount:number}, s:FeeStructure):number {
+function calculateTotal(donation: { feeCovering?: boolean, amount: number }, s: FeeStructure): number {
     if (!donation.feeCovering)
         return donation.amount
-    else
-    {
+    else {
         const originalAmount = Money.fromCents(donation.amount, 'usd')
         const reverseFee = s.reverseCalculateFee(originalAmount)
         const fullAmount = reverseFee.add(originalAmount)
@@ -14,4 +13,4 @@ function calculateTotal(donation:{feeCovering?:boolean, amount:number}, s:FeeStr
     }
 }
 
-export {calculateTotal};
+export { calculateTotal };

@@ -3,7 +3,6 @@ import {boundMethod} from 'autobind-decorator'
 import { Money } from "../money";
 import _ = require('lodash');
 import { FeeStructure } from './fee_structure';
-import { platform } from 'os';
 
 type CommitchangeStripeFeeStructureProps = {flatFee:number, percentFee:number}
 /**

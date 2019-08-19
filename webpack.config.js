@@ -73,7 +73,10 @@ let targets = {
         },
         plugins: [
                  new CleanWebpackPlugin([path.resolve(buildPath, 'js')])
-            ]
+            ],
+        resolve: {
+            extensions: ['.ts', '.tsx', '.js', '.es6']
+        },
     }
     ,
     button: {

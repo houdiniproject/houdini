@@ -25,7 +25,12 @@ function init(state) {
 
   // Set the card ID into the donation object when it is saved
   const cardToken$ = flyd.map(R.prop('token'), state.cardForm.saved$)
-  const donationWithCardToken$ = flyd.lift(R.assoc('token'), cardToken$, state.donation$)
+  const donationWithAmount$ =  flyd.combine((donation, donationTotal) => {
+    const d = donation()
+    d.amount = donationTotal()
+    return d;
+  }, [state.donation$, state.donationTotal$])
+  const donationWithCardToken$ = flyd.lift(R.assoc('token'), cardToken$, donationWithAmount$)
 
   // Set the sepa transfer details ID into the donation object when it is saved
   const sepaId$ = flyd.map(R.prop('id'), state.sepaForm.saved$)
@@ -114,13 +119,12 @@ const postTracking = (utmParams, donationResponse) => {
 
 var posting = false // hack switch to prevent any kind of charge double post
 // Post either a recurring or one-time donation
-const postDonation = (donation, donationTotal) => {
+const postDonation = (donation) => {
   if (posting) return flyd.stream()
   else posting = true
   var prefix = `/nonprofits/${app.nonprofit_id}/`
   var postfix = donation.recurring ? 'recurring_donations' : 'donations'
 
-  donation.amount = donationTotal
   if (donation.weekly) {
     donation.amount = Math.round(4.3 * donation.amount);
   }
@@ -156,6 +160,13 @@ const payWithCardTab = state => {
   return result
 }
 
+const payFees = (state) => {
+  return h('div.u-padding--8.u-background--grey', [
+    h('h4', 'Make your contribution go further'),
+    h('div', 'By adding $1.68 to your contribution gives more money to CommitChange')
+  ])
+}
+
 function view(state) {
   var isRecurring = state.donation$().recurring
   var dedic = state.dedicationData$()
@@ -175,6 +186,7 @@ function view(state) {
       ? h('p.u-centered', `${dedic.dedication_type === 'memory' ? I18n.t('nonprofits.donate.dedication.in_memory_label') : I18n.t('nonprofits.donate.dedication.in_honor_label')} ` + `${dedic.first_name || ''} ${dedic.last_name || ''}`)
       : ''
     , paymentTabs(state)
+    , payFees(state)
   ])
 }
 

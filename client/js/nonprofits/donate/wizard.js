@@ -23,12 +23,13 @@ const format = require('../../common/format')
 const brandedWizard = require('../../components/styles/branded-wizard')
 const renderStyles = require('../../components/styles/render-styles')
 
-const calculateTotal = require('./calculate-total.ts')
+const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
+const {calculateTotal} = require('./calculate-total')
 
 renderStyles()(brandedWizard(null))
 
 //assume window.nonprofit.feeStructure
-
+app.nonprofit.feeStructure = new CommitchangeStripeFeeStructure({flatFee: 30, percentFee:.047})
 
 // pass in a stream of configuration parameters
 const init = params$ => {
@@ -64,16 +65,17 @@ const init = params$ => {
   }, state.params$())
 
   state.selectedPayment$ = flyd.stream('sepa')
-  state.donationTotal$ = flyd.map((donation) => {
-    // const feeStructure = app.nonprofit.feeStructure
-    // if (!feeStructure) {
-    //   throw new Error("billing Plan isn't found!")
-    // }
-    // return calculateTotal(donation.amount, feeStructure)
-    return donation.amount
-  }, state.amountStep.donation$)
+  
 
   state.amountStep = amountStep.init(donationDefaults, state.params$)
+  
+  state.donationTotal$ = flyd.map((donation) => {
+    const feeStructure = app.nonprofit.feeStructure
+    if (!feeStructure) {
+      throw new Error("billing Plan isn't found!")
+    }
+    return calculateTotal({feeCovering: donation.feeCovering, amount: donation.amount}, feeStructure)
+  }, state.amountStep.donation$)
   state.infoStep = infoStep.init(state.amountStep.donation$, state)
 
   state.donation$ = scanMerge([
@@ -89,6 +91,7 @@ const init = params$ => {
   , dedicationData$: state.infoStep.dedicationData$
   , activePaymentTab$: state.selectedPayment$
   , params$: state.params$
+  , donationTotal$: state.donationTotal$
   })
 
   const currentStep$ = flyd.mergeAll([

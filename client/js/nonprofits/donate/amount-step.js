@@ -145,7 +145,7 @@ function composeTranslation(full, bold) {
 // All the buttons and the custom input for the amounts to select
 function amountFields(state) {
   if(state.params$().single_amount) return ''
-  return h('div.u-inline.fieldsetLayout--three--evenPadding', [
+  return h('div.fieldsetLayout--three--evenPadding', [
     h('span',
       R.map(
         amt => h('fieldset', [
@@ -205,12 +205,9 @@ function feeCoverageField(isFeeCovered, state) {
     }, [
       h('input.u-margin--0.donationWizard-amount-input', {
         props: {type: 'checkbox', selected: isFeeCovered, id: 'checkbox-feeCoverage'}
-      , on: {change: ev => state.evolveDonation$({feeCoverage: t => !t})}
+      , on: {change: ev => state.evolveDonation$({feeCovering: t => !t})}
       })
-    , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, composeTranslation(
-          I18n.t('nonprofits.donate.amount.sustaining')
-        , I18n.t('nonprofits.donate.amount.sustaining_bold')
-        )
+    , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, I18n.t('nonprofits.donate.amount.feeCoverage', {organization_possessive: app.nonprofit.name + "'s"})
       )
     ])
     ])

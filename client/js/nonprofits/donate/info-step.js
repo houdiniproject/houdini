@@ -22,7 +22,7 @@ function init(donation$, parentState) {
   , params$: parentState.params$
   , currentStep$: flyd.stream()
   , selectedPayment$: parentState.selectedPayment$
-  , donationTotal$: parentState.donationTotal$
+  , donationAmount$: parentState.donationAmount$
   }
 
 
@@ -84,12 +84,12 @@ function recurringMessage(state){
   var weekly= "";
   if (state.donation$().weekly) {
     amountLabel =   amountLabel.replace(I18n.t('nonprofits.donate.amount.monthly'),I18n.t('nonprofits.donate.amount.weekly')) + "*";
-    weekly= h('div.u-centered.notice',[h("small",I18n.t('nonprofits.donate.amount.weekly_notice',{amount:(format.weeklyToMonthly(state.donationTotal$())/100.0),currency:app.currency_symbol}))]);
+    weekly= h('div.u-centered.notice',[h("small",I18n.t('nonprofits.donate.amount.weekly_notice',{amount:(format.weeklyToMonthly(state.donationAmount$())/100.0),currency:app.currency_symbol}))]);
 
   }
   return h('div', [
     h('p.u-fontSize--18 u.marginBottom--0.u-centered.amount', [
-      h('span', app.currency_symbol + format.centsToDollars(state.donationTotal$()))
+      h('span', app.currency_symbol + format.centsToDollars(state.donationAmount$()))
     , h('strong', amountLabel)
     ])
   , weekly]

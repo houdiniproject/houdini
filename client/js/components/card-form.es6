@@ -119,6 +119,15 @@ const view = state => {
   if (state.formAddressMerged$()){
     state.element.update({ value: { postalCode: state.formAddressMerged$()} })
   }
+
+  
+
+  // const payFees = (state) => {
+  //   return h('div.u-padding--8.u-background--grey', [
+  //     h('div', 'Yes, make your contribution go further'),
+  //     h('div', `By adding <strong>${state}</strong> to your contribution gives more money to CommitChange`)
+  //   ])
+  // }
   
   var field = validatedForm.field(state.form)
   return validatedForm.form(state.form, h('form.cardForm', [
@@ -129,6 +138,7 @@ const view = state => {
         remove: () => unmount(state)
       }})
       , profileInput(field, app.profile_id)
+      , feeCoverageField(state)
     ])
   , h('div.u-centered.u-marginTop--20', [
       state.hideButton ? '' : button({
@@ -140,6 +150,23 @@ const view = state => {
      , h('p.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey', [ h('i.fa.fa-lock'), ` ${I18n.t('nonprofits.donate.payment.card.secure_info')}`])
     ])
   ]) )
+}
+
+function feeCoverageField(state) {
+  return h('section.donate-feeCoverageCheckbox.u-paddingX--5 u-marginBottom--10', [
+    h('div.u-padding--8.u-background--grey.u-centered', {
+      class: {highlight: state.coverFees$()}
+    }, [
+      h('input.u-margin--0.donationWizard-amount-input', {
+        props: {type: 'checkbox', selected: state.coverFees$(), id: 'checkbox-feeCoverage'}
+      , on: {change: ev => {
+        state.coverFees$(!state.coverFees$())
+      }}
+      })
+    , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, I18n.t('nonprofits.donate.amount.feeCoverage', {organization_possessive: app.nonprofit.name + "'s"})
+      )
+    ])
+    ])
 }
 
 const nameInput = (field, name) => 

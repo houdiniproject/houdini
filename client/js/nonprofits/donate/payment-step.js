@@ -9,6 +9,8 @@ const cardForm = require('../../components/card-form.es6')
 const sepaForm = require('../../components/sepa-form.es6')
 const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
+const {calculateFee, calculateTotal} = require('./calculate-total')
+const _ = require('lodash')
 
 const sepaTab = 'sepa'
 const cardTab = 'credit_card'
@@ -20,13 +22,31 @@ function init(state) {
     flyd.stream({})
     , flyd.map(supp => ({ name: supp.name, address_zip: supp.zip_code }), state.supporter$))
 
-  state.cardForm = cardForm.init({ path: '/cards', card$, payload$ })
+  const coverFees$ = flyd.stream(false)
+  const potentialFees$ = flyd.map((donation) => {
+    const feeStructure = app.nonprofit.feeStructure
+    if (!feeStructure) {
+       throw new Error("billing Plan isn't found!")
+     }
+     return calculateFee(donation.amount, feeStructure)
+  }, state.donation$)
+
+  state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
+    const feeStructure = app.nonprofit.feeStructure
+    if (!feeStructure) {
+       throw new Error("billing Plan isn't found!")
+     }
+     return calculateTotal({feeCovering: coverFees$(), amount: donation$().amount}, feeStructure);
+  }, [state.donation$, coverFees$])
+  
+
+  state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$})
   state.sepaForm = sepaForm.init({ supporter: supporterID$ })
 
   // Set the card ID into the donation object when it is saved
   const cardToken$ = flyd.map(R.prop('token'), state.cardForm.saved$)
   const donationWithAmount$ =  flyd.combine((donation, donationTotal) => {
-    const d = donation()
+    const d = _.cloneDeep(donation())
     d.amount = donationTotal()
     return d;
   }, [state.donation$, state.donationTotal$])
@@ -160,13 +180,6 @@ const payWithCardTab = state => {
   return result
 }
 
-const payFees = (state) => {
-  return h('div.u-padding--8.u-background--grey', [
-    h('h4', 'Make your contribution go further'),
-    h('div', 'By adding $1.68 to your contribution gives more money to CommitChange')
-  ])
-}
-
 function view(state) {
   var isRecurring = state.donation$().recurring
   var dedic = state.dedicationData$()
@@ -186,7 +199,6 @@ function view(state) {
       ? h('p.u-centered', `${dedic.dedication_type === 'memory' ? I18n.t('nonprofits.donate.dedication.in_memory_label') : I18n.t('nonprofits.donate.dedication.in_honor_label')} ` + `${dedic.first_name || ''} ${dedic.last_name || ''}`)
       : ''
     , paymentTabs(state)
-    , payFees(state)
   ])
 }
 

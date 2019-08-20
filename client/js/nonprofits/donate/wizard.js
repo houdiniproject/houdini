@@ -65,17 +65,19 @@ const init = params$ => {
   }, state.params$())
 
   state.selectedPayment$ = flyd.stream('sepa')
-  
 
   state.amountStep = amountStep.init(donationDefaults, state.params$)
   
-  state.donationTotal$ = flyd.map((donation) => {
-    const feeStructure = app.nonprofit.feeStructure
-    if (!feeStructure) {
-      throw new Error("billing Plan isn't found!")
-    }
-    return calculateTotal({feeCovering: donation.feeCovering, amount: donation.amount}, feeStructure)
-  }, state.amountStep.donation$)
+
+  
+  // state.donationTotal$ = flyd.map((donation) => {
+  //   const feeStructure = app.nonprofit.feeStructure
+  //   if (!feeStructure) {
+  //     throw new Error("billing Plan isn't found!")
+  //   }
+  //   return calculateTotal({feeCovering: donation.feeCovering, amount: donation.amount}, feeStructure)
+  // }, state.amountStep.donation$)
+  state.donationAmount$ = flyd.map((donation) => { return donation.amount}, state.amountStep.donation$)
   state.infoStep = infoStep.init(state.amountStep.donation$, state)
 
   state.donation$ = scanMerge([
@@ -91,7 +93,6 @@ const init = params$ => {
   , dedicationData$: state.infoStep.dedicationData$
   , activePaymentTab$: state.selectedPayment$
   , params$: state.params$
-  , donationTotal$: state.donationTotal$
   })
 
   const currentStep$ = flyd.mergeAll([

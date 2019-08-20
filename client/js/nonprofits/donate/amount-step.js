@@ -49,14 +49,13 @@ const setDonationFromParams = (donation, params) => {
 
 function view(state) {
     const isRecurring = state.donation$().recurring
-    const isFeeCovered = state.donation$().feeCovering
     return h('div.wizard-step.amount-step', [
         chooseDesignation(state)
         , recurringCheckbox(isRecurring, state)
         , recurringMessage(isRecurring, state)
         , amountFields(state)
         , showSingleAmount(isRecurring, state)
-        , feeCoverageField(isFeeCovered, state)
+        //, feeCoverageField(isFeeCovered, state)
     ])
 }
 

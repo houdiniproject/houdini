@@ -13,4 +13,10 @@ function calculateTotal(donation: { feeCovering?: boolean, amount: number }, s: 
     }
 }
 
-export { calculateTotal };
+function calculateFee(amount: number, s: FeeStructure): number {
+    const originalAmount = Money.fromCents(amount, 'usd')
+    const reverseFee = s.reverseCalculateFee(originalAmount)
+    return reverseFee.amountInCents;
+}
+
+export { calculateTotal, calculateFee };

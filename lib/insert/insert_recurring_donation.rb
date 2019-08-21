@@ -224,6 +224,12 @@ module InsertRecurringDonation
     end
 
     rd.save!
+
+    
+    misc = rd.misc_recurring_donation_info || rd.create_misc_recurring_donation_info
+    misc.fee_covered = data[:fee_covered]
+    misc.save!
+    
     rd
   end
 def self.get_test_start_date(data)

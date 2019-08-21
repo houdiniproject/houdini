@@ -125,16 +125,41 @@ describe InsertRecurringDonation do
           before_each_success
         }
         it 'process event donation' do
-          process_event_donation(recurring_donation: {paydate: nil, interval: 1, time_unit: 'year', start_date: Time.current.beginning_of_day}) {InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: {time_unit: 'year'})}
+          process_event_donation(recurring_donation: {paydate: nil, interval: 1, time_unit: 'year', start_date: Time.current.beginning_of_day}) {
+            
+            result = InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: {time_unit: 'year'}, fee_covered: false)
+
+            p = Payment.find(result['payment']['id'])
+            rd = RecurringDonation.find(result['recurring_donation']['id'])
+            expect(p.misc_payment_info.fee_covered).to eq false
+            expect(rd.misc_recurring_donation_info.fee_covered).to eq false
+            result
+          }
         end
 
         it 'process campaign donation' do
-          process_campaign_donation(recurring_donation: {paydate: nil, interval: 2, time_unit: 'month', start_date: Time.current.beginning_of_day}) {InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: {interval: 2})}
+          process_campaign_donation(recurring_donation: {paydate: nil, interval: 2, time_unit: 'month', start_date: Time.current.beginning_of_day}) {
+            result = InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: {interval: 2}, fee_covered: true)
+
+
+          p = Payment.find(result['payment']['id'])
+          rd = RecurringDonation.find(result['recurring_donation']['id'])
+          expect(p.misc_payment_info.fee_covered).to eq true
+          expect(rd.misc_recurring_donation_info.fee_covered).to eq true
+          result
+        
+        }
         end
 
         it 'processes general donation with no recurring donation hash' do
           process_general_donation(recurring_donation: {paydate: Time.now.day, interval: 1, time_unit: 'month', start_date: Time.now.beginning_of_day}) {
-            InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: Time.now.to_s, dedication: 'dedication', designation: 'designation')}
+            result = InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: Time.now.to_s, dedication: 'dedication', designation: 'designation')
+            p = Payment.find(result['payment']['id'])
+            rd = RecurringDonation.find(result['recurring_donation']['id'])
+            expect(p.misc_payment_info.fee_covered).to be_nil
+            expect(rd.misc_recurring_donation_info.fee_covered).to be_nil
+            result
+          }
         end
       end
 
@@ -145,7 +170,23 @@ describe InsertRecurringDonation do
 
         it 'processes general donation' do
           process_general_donation(expect_payment: false, expect_charge: false, recurring_donation: {paydate: (Time.now + 5.days).day, interval: 1, time_unit: 'month', start_date: (Time.now + 5.days).beginning_of_day}) {
-            InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: { start_date: (Time.now + 5.days).to_s})}
+            result = InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', 
+            recurring_donation: { start_date: (Time.now + 5.days).to_s})
+            
+            rd = RecurringDonation.find(result['recurring_donation']['id'])
+            expect(rd.misc_recurring_donation_info.fee_covered).to be_nil
+            result
+          }
+        end
+
+        it 'includes fee covering' do
+          process_general_donation(expect_payment: false, expect_charge: false, recurring_donation: {paydate: (Time.now + 5.days).day, interval: 1, time_unit: 'month', start_date: (Time.now + 5.days).beginning_of_day}) {
+            result = InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: { start_date: (Time.now + 5.days).to_s}, fee_covered: true)
+
+            rd = RecurringDonation.find(result['recurring_donation']['id'])
+            expect(rd.misc_recurring_donation_info.fee_covered).to eq true
+            result
+          }
         end
       end
     end

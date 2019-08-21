@@ -25,5 +25,6 @@ class Payment < ActiveRecord::Base
 	has_many :events, through: :tickets
 	has_many :payment_payouts
 	has_many :charges
+	has_one :misc_payment_info
 
 end

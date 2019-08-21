@@ -67,7 +67,7 @@ module PayRecurringDonation
         }
     })
 
-    rd = RecurringDonation.where('id = ?', rd_id).first
+    rd = RecurringDonation.includes(:misc_recurring_donation_info).where('id = ?', rd_id).first
 
     unless rd
       raise ParamValidation::ValidationError.new("#{rd_id} is not a valid recurring donation", {:key => :rd_id})
@@ -89,7 +89,8 @@ module PayRecurringDonation
       'nonprofit_id' => donation['nonprofit_id'],
       'donation_id' => donation['id'],
       'supporter_id' => donation['supporter_id'],
-      'old_donation' => true
+      'old_donation' => true,
+      'fee_covered' => rd.misc_recurring_donation_info&.fee_covered
     }))
     if result['charge']['status'] != 'failed'
       result['recurring_donation'] = Psql.execute(

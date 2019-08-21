@@ -153,6 +153,13 @@ module InsertCharge
         payment.date = data[:date] || result['charge'].created_at
         payment.save!
 
+        
+        misc =  payment.misc_payment_info || payment.create_misc_payment_info
+
+        misc.fee_covered = data[:fee_covered]
+        misc.save!
+        
+
 
         result['payment'] = payment
 

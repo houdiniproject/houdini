@@ -138,7 +138,8 @@ private
         nonprofit_id: data['nonprofit_id'],
         supporter_id: data['supporter_id'],
         card_id: data['card_id'],
-        old_donation: data['old_donation'] ? true : false
+        old_donation: data['old_donation'] ? true : false,
+        fee_covered: data['fee_covered']
       })
     elsif payment_provider == :sepa
       return InsertCharge.with_sepa({

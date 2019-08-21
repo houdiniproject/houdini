@@ -27,6 +27,7 @@ class RecurringDonation < ActiveRecord::Base
   has_many :charges, through: :donation
   has_one :card, through: :donation
   has_one :supporter, through: :donation
+  has_one :misc_recurring_donation_info
 
   validates :paydate, numericality: {less_than: 29}, allow_blank: true
   validates :donation_id, presence: true

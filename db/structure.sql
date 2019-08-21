@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.11
+-- Dumped by pg_dump version 9.6.13
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -12,6 +12,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -1299,6 +1300,70 @@ ALTER SEQUENCE public.imports_id_seq OWNED BY public.imports.id;
 
 
 --
+-- Name: misc_payment_infos; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.misc_payment_infos (
+    id integer NOT NULL,
+    payment_id integer,
+    fee_covered boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: misc_payment_infos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.misc_payment_infos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: misc_payment_infos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.misc_payment_infos_id_seq OWNED BY public.misc_payment_infos.id;
+
+
+--
+-- Name: misc_recurring_donation_infos; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.misc_recurring_donation_infos (
+    id integer NOT NULL,
+    recurring_donation_id integer,
+    fee_covered boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: misc_recurring_donation_infos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.misc_recurring_donation_infos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: misc_recurring_donation_infos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.misc_recurring_donation_infos_id_seq OWNED BY public.misc_recurring_donation_infos.id;
+
+
+--
 -- Name: miscellaneous_np_infos; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2512,6 +2577,20 @@ ALTER TABLE ONLY public.imports ALTER COLUMN id SET DEFAULT nextval('public.impo
 
 
 --
+-- Name: misc_payment_infos id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_payment_infos ALTER COLUMN id SET DEFAULT nextval('public.misc_payment_infos_id_seq'::regclass);
+
+
+--
+-- Name: misc_recurring_donation_infos id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_recurring_donation_infos ALTER COLUMN id SET DEFAULT nextval('public.misc_recurring_donation_infos_id_seq'::regclass);
+
+
+--
 -- Name: miscellaneous_np_infos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2928,6 +3007,22 @@ ALTER TABLE ONLY public.email_lists
 
 
 --
+-- Name: misc_payment_infos misc_payment_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_payment_infos
+    ADD CONSTRAINT misc_payment_infos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: misc_recurring_donation_infos misc_recurring_donation_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_recurring_donation_infos
+    ADD CONSTRAINT misc_recurring_donation_infos_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: miscellaneous_np_infos miscellaneous_np_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3243,6 +3338,20 @@ CREATE INDEX index_exports_on_nonprofit_id ON public.exports USING btree (nonpro
 --
 
 CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
+
+
+--
+-- Name: index_misc_payment_infos_on_payment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_misc_payment_infos_on_payment_id ON public.misc_payment_infos USING btree (payment_id);
+
+
+--
+-- Name: index_misc_recurring_donation_infos_on_recurring_donation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_misc_recurring_donation_infos_on_recurring_donation_id ON public.misc_recurring_donation_infos USING btree (recurring_donation_id);
 
 
 --
@@ -4440,4 +4549,8 @@ INSERT INTO schema_migrations (version) VALUES ('20181129205652');
 INSERT INTO schema_migrations (version) VALUES ('20181129224030');
 
 INSERT INTO schema_migrations (version) VALUES ('20190522162746');
+
+INSERT INTO schema_migrations (version) VALUES ('20190820205820');
+
+INSERT INTO schema_migrations (version) VALUES ('20190820205841');
 

@@ -55,7 +55,8 @@ module UpdateRecurringDonations
   # @param [RecurringDonation] rd
   # @param [String] token
   # @param [Integer] amount
-  def self.update_amount(rd, token, amount)
+  # @param [Boolean] fee_covered
+  def self.update_amount(rd, token, amount, fee_covered=false)
     ParamValidation.new({amount: amount, rd: rd, token: token},
                         {amount: {is_integer: true,  min: 50, required:true},
                                   rd: {required:true, is_a: RecurringDonation},
@@ -77,6 +78,9 @@ module UpdateRecurringDonations
       donation.amount = amount
       rd.save!
       donation.save!
+      misc = rd.misc_recurring_donation_info || rd.create_misc_recurring_donation_info
+      misc.fee_covered = fee_covered
+      misc.save!
     end
     EmailJobQueue.queue(JobTypes::NonprofitRecurringDonationChangeAmountJob, rd.id, previous_amount)
     EmailJobQueue.queue(JobTypes::DonorRecurringDonationChangeAmountJob,rd.id, previous_amount)

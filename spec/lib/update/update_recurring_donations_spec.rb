@@ -113,6 +113,37 @@ describe UpdateRecurringDonations do
 
       expect(recurring_donation.attributes).to eq  expectations[:recurring_donation]
       expect(donation_for_rd.attributes).to eq expectations[:donation]
+
+      expect(recurring_donation.misc_recurring_donation_info.fee_covered).to eq false
+    end
+
+    it 'changes amount properly and marks as fee_covered' do
+
+      recurring_donation.n_failures = 2
+      recurring_donation.save!
+
+      orig_rd = recurring_donation.attributes.with_indifferent_access
+      orig_donation = recurring_donation.donation.attributes.with_indifferent_access
+
+
+      expect_email_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
+      expect_email_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
+
+      result = UpdateRecurringDonations.update_amount(recurring_donation, source_token.token, 1000, true)
+
+      expectations = {
+          donation: orig_donation.merge(amount: 1000, card_id: source_token.tokenizable.id),
+          recurring_donation: orig_rd.merge(amount: 1000, n_failures: 0, start_date: Time.current.to_date)
+      }
+
+      expect(result.attributes).to eq expectations[:recurring_donation]
+
+      recurring_donation.reload
+      donation_for_rd.reload
+
+      expect(recurring_donation.attributes).to eq  expectations[:recurring_donation]
+      expect(recurring_donation.misc_recurring_donation_info.fee_covered).to eq true
+      expect(donation_for_rd.attributes).to eq expectations[:donation]
     end
   end
 

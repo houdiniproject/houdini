@@ -380,11 +380,21 @@ describe InsertTickets do
         end
 
         it 'succeeds' do
-          success()
+          result = success()
+          p = Payment.find(result['payment']['id'])
+          expect(p.misc_payment_info&.fee_covered).to be_nil
         end
 
         it 'succeeds if offsite_donation is there with empty kind' do
-          success({offsite_donation: {kind: nil}})
+          result = success({offsite_donation: {kind: nil}})
+          p = Payment.find(result['payment']['id'])
+          expect(p.misc_payment_info&.fee_covered).to be_nil
+        end
+
+        it 'succeeds if fee is covered' do
+          result = success({fee_covered:true})
+          p = Payment.find(result['payment']['id'])
+          expect(p.misc_payment_info&.fee_covered).to eq true
         end
 
         def success(other_elements={})
@@ -394,16 +404,21 @@ describe InsertTickets do
           card.save!
 
           success_expectations
-          expect(InsertCharge).to receive(:with_stripe).with({
-                                                                 kind: "Ticket",
-                                                                 towards: event.name,
-                                                                 metadata: {kind: "Ticket", event_id: event.id, nonprofit_id: nonprofit.id},
-                                                                 statement: "Tickets #{event.name}",
-                                                                 amount: 1600,
-                                                                 nonprofit_id: nonprofit.id,
-                                                                 supporter_id: supporter.id,
-                                                                 card_id: card.id
-                                                             }).and_call_original
+          
+          insert_charge_expectation = {
+            kind: "Ticket",
+            towards: event.name,
+            metadata: {kind: "Ticket", event_id: event.id, nonprofit_id: nonprofit.id},
+            statement: "Tickets #{event.name}",
+            amount: 1600,
+            nonprofit_id: nonprofit.id,
+            supporter_id: supporter.id,
+            card_id: card.id,
+            fee_covered: other_elements[:fee_covered]
+          }
+
+          expect(InsertCharge).to receive(:with_stripe)
+            .with(insert_charge_expectation).and_call_original
 
           stripe_charge_id = nil
           expect(Stripe::Charge).to receive(:create).with({application_fee: 66,
@@ -416,7 +431,7 @@ describe InsertTickets do
                                                           }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original{|m, *args| a= m.call(*args);
           stripe_charge_id = a['id']
           a}
-          result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id))
+          result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id).merge(fee_covered: other_elements[:fee_covered]))
           expected = generate_expected_tickets(
               {gross_amount: 1600,
               payment_fee_total: 66,
@@ -441,6 +456,8 @@ describe InsertTickets do
           expect(result['payment'].attributes).to eq expected[:payment]
           expect(result['charge'].attributes).to eq expected[:charge]
           expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
+
+          return result
         end
       end
 

@@ -78,7 +78,8 @@ module InsertTickets
           amount: gross_amount,
           nonprofit_id: entities[:nonprofit_id].id,
           supporter_id: entities[:supporter_id].id,
-          card_id: tokenizable.id
+          card_id: tokenizable.id,
+          fee_covered:data[:fee_covered]
         }))
         if result['charge']['status'] == 'failed'
           raise ChargeError.new(result['charge']['failure_message'])

@@ -130,9 +130,9 @@ GEM
     dalli (2.7.6)
     dante (0.2.0)
     database_cleaner (1.6.1)
-    debase (0.2.2)
+    debase (0.2.4)
       debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.3)
+    debase-ruby_core_source (0.10.5)
     debug_inspector (0.0.2)
     deep_merge (1.2.1)
     delayed_job (4.1.2)
@@ -446,7 +446,7 @@ DEPENDENCIES
   countries
   dalli
   database_cleaner
-  debase
+  debase (~> 0.2.3)
   delayed_job_active_record
   devise
   devise-async

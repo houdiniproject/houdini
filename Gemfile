@@ -97,7 +97,7 @@ gem 'countries'
 
 group :development, :ci do
   gem 'traceroute'
-  gem 'debase'
+  gem 'debase', '~> 0.2.3'
   gem 'ruby-debug-ide'
 end
 

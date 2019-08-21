@@ -12,5 +12,13 @@ module CalculateFees
     (amount * fee).ceil.to_i + PerTransaction
   end
 
+  def self.reverse_for_single_amount(amount, platform_fee=0.0)
+    ParamValidation.new({fee: platform_fee, amount: amount}, {
+      amount: {min: 0, is_integer: true},
+      fee: {min: 0.0, is_float: true}
+    })
+   (((amount + PerTransaction) / (1 - (BaseFeeRate+ platform_fee) ))).ceil.to_i - amount
+  end
+
 end
 

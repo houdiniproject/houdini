@@ -158,8 +158,6 @@ module InsertCharge
 
         misc.fee_covered = data[:fee_covered]
         misc.save!
-        
-
 
         result['payment'] = payment
 

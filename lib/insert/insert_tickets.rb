@@ -70,12 +70,15 @@ module InsertTickets
         if tokenizable.holder != entities[:supporter_id]
           raise ParamValidation::ValidationError.new("Supporter #{entities[:supporter_id].id} does not own card #{tokenizable.id}", key: :token)
         end
+
+        total = data[:fee_covered] ? gross_amount + CalculateFees.reverse_for_single_amount(gross_amount, BillingPlans.get_percentage_fee(entities[:nonprofit_id].id)) : gross_amount
+
         result = result.merge(InsertCharge.with_stripe({
           kind: "Ticket",
           towards: entities[:event_id].name,
           metadata: {kind: "Ticket", event_id: entities[:event_id].id, nonprofit_id: entities[:nonprofit_id].id},
           statement: "Tickets #{entities[:event_id].name}",
-          amount: gross_amount,
+          amount: total,
           nonprofit_id: entities[:nonprofit_id].id,
           supporter_id: entities[:supporter_id].id,
           card_id: tokenizable.id,

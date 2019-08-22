@@ -404,13 +404,16 @@ describe InsertTickets do
           card.save!
 
           success_expectations
-          
+
+          total_expected = other_elements[:fee_covered] ? 1667 : 1600
+          fee_total = other_elements[:fee_covered] ? 67 : 66
+
           insert_charge_expectation = {
             kind: "Ticket",
             towards: event.name,
             metadata: {kind: "Ticket", event_id: event.id, nonprofit_id: nonprofit.id},
             statement: "Tickets #{event.name}",
-            amount: 1600,
+            amount: total_expected,
             nonprofit_id: nonprofit.id,
             supporter_id: supporter.id,
             card_id: card.id,
@@ -421,9 +424,9 @@ describe InsertTickets do
             .with(insert_charge_expectation).and_call_original
 
           stripe_charge_id = nil
-          expect(Stripe::Charge).to receive(:create).with({application_fee: 66,
+          expect(Stripe::Charge).to receive(:create).with({application_fee: fee_total,
                                                            customer: card.stripe_customer_id,
-                                                           amount: 1600,
+                                                           amount: total_expected,
                                                            currency: 'usd',
                                                            description: 'Tickets The event of Wonders',
                                                            statement_descriptor: 'Tickets The event of W',
@@ -433,8 +436,8 @@ describe InsertTickets do
           a}
           result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id).merge(fee_covered: other_elements[:fee_covered]))
           expected = generate_expected_tickets(
-              {gross_amount: 1600,
-              payment_fee_total: 66,
+              {gross_amount: total_expected,
+              payment_fee_total: fee_total,
               payment_id: result['payment'].id,
               nonprofit: nonprofit,
               supporter: supporter,

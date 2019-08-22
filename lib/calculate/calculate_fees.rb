@@ -17,7 +17,7 @@ module CalculateFees
       amount: {min: 0, is_integer: true},
       fee: {min: 0.0, is_float: true}
     })
-   (((amount + PerTransaction) / (1 - (BaseFeeRate+ platform_fee) ))).ceil.to_i - amount
+   ((amount + PerTransaction) / (1 - (BaseFeeRate+ platform_fee) )).ceil.to_i - amount
   end
 
 end

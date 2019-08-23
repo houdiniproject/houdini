@@ -46,11 +46,12 @@ function init(state) {
 
   // Set the card ID into the donation object when it is saved
   const cardToken$ = flyd.map(R.prop('token'), state.cardForm.saved$)
-  const donationWithAmount$ =  flyd.combine((donation, donationTotal) => {
+  const donationWithAmount$ =  flyd.combine((donation, donationTotal, coverFees$) => {
     const d = _.cloneDeep(donation())
     d.amount = donationTotal()
+    d.fee_covered = coverFees$()
     return d;
-  }, [state.donation$, state.donationTotal$])
+  }, [state.donation$, state.donationTotal$, coverFees$])
   const donationWithCardToken$ = flyd.lift(R.assoc('token'), cardToken$, donationWithAmount$)
 
   // Set the sepa transfer details ID into the donation object when it is saved

@@ -9,6 +9,10 @@ node(:consider_donation_anonymous) do |p|
     !!d_anonymous || !!p.supporter.anonymous
 end
 
+node(:fee_covered) do |p|
+  !!p.misc_payment_info&.fee_covered
+end
+
 
 child :charge do
 	attributes :created_at, :id, :status

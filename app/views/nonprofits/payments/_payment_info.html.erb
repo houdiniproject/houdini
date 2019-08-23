@@ -50,7 +50,9 @@
     <tr>
       <td>Processing Fees </td>
       <td>
-        $<!--= put (cents_to_dollars this.fee_total) -->
+        $<!--= put (cents_to_dollars this.fee_total) --><span>
+        <!--= show_if this.fee_covered -->
+        <em>(Donor covered fee)</em></span>
       </td>
     </tr>
 

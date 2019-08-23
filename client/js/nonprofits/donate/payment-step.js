@@ -10,6 +10,7 @@ const sepaForm = require('../../components/sepa-form.es6')
 const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
 const {calculateFee, calculateTotal} = require('./calculate-total')
+const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
 const _ = require('lodash')
 
 const sepaTab = 'sepa'
@@ -28,7 +29,7 @@ function init(state) {
     if (!feeStructure) {
        throw new Error("billing Plan isn't found!")
      }
-     return calculateFee(donation.amount, feeStructure)
+     return calculateFee(donation.amount, new CommitchangeStripeFeeStructure(feeStructure))
   }, state.donation$)
 
   state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
@@ -36,7 +37,7 @@ function init(state) {
     if (!feeStructure) {
        throw new Error("billing Plan isn't found!")
      }
-     return calculateTotal({feeCovering: coverFees$(), amount: donation$().amount}, feeStructure);
+     return calculateTotal({feeCovering: coverFees$(), amount: donation$().amount}, new CommitchangeStripeFeeStructure(feeStructure));
   }, [state.donation$, coverFees$])
   
 

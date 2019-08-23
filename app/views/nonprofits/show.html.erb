@@ -36,6 +36,12 @@
     app.countriesList = <%= raw (@countries_translations).to_json %>
     app.show_state_field = <%= Settings.show_state_field %>
 		appl.def('current_nonprofit_user', <%= current_nonprofit_user? %>)
+		app.nonprofit = app.nonprofit || {}
+
+	app.nonprofit.feeStructure = {
+		flatFee: 30,
+		percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+	}
 	</script>
   <%= render 'schema', npo: @nonprofit %>
 	<%= render 'common/froala' if current_nonprofit_user? %>

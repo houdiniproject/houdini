@@ -21,6 +21,12 @@
 		appl.def('has_video', <%= @campaign.video_url.present? %>)
     appl.def('campaign_is_deleted', <%= @campaign.deleted || false %>)
     appl.def('has_main_image', <%= @campaign.main_image.file.present? %>)
+    app.nonprofit = app.nonprofit || {}
+
+    app.nonprofit.feeStructure = {
+      flatFee: 30,
+      percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+    }
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

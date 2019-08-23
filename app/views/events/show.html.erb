@@ -26,7 +26,13 @@
 		app.header_image_url = '<%= @event_background_image %>'
 		app.current_event_editor = <%= current_event_editor? %>
 		app.event_url = '<%= nonprofit_event_path(@nonprofit, @event) %>'
-    appl.def('event_is_deleted', <%= @event.deleted || false %>)
+	appl.def('event_is_deleted', <%= @event.deleted || false %>)
+	app.nonprofit = app.nonprofit || {}
+
+	app.nonprofit.feeStructure = {
+		flatFee: 30,
+		percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+	}
 	</script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

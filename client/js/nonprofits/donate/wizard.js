@@ -23,13 +23,7 @@ const format = require('../../common/format')
 const brandedWizard = require('../../components/styles/branded-wizard')
 const renderStyles = require('../../components/styles/render-styles')
 
-const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
-const {calculateTotal} = require('./calculate-total')
-
 renderStyles()(brandedWizard(null))
-
-//assume window.nonprofit.feeStructure
-app.nonprofit.feeStructure = new CommitchangeStripeFeeStructure({flatFee: 30, percentFee:.047})
 
 // pass in a stream of configuration parameters
 const init = params$ => {

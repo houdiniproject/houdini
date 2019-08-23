@@ -21,12 +21,12 @@
 			<strong><!--= put (pluralize ticket_wiz.total_quantity 'tickets') --></strong>
 			totalling
       <strong>
-        <!--= hide_if ticket_wiz.discounted_total_amount --> 
+        <!--= hide_if ticket_wiz.calculated_total_amount --> 
         $<!--= put (cents_to_dollars ticket_wiz.total_amount) -->
       </strong>
       <strong>
-        <!--= show_if ticket_wiz.discounted_total_amount -->
-        $<!--= put (cents_to_dollars ticket_wiz.discounted_total_amount) --> (discounted)
+        <!--= show_if ticket_wiz.calculated_total_amount -->
+        $<!--= put (cents_to_dollars ticket_wiz.calculated_total_amount) --> (discounted)
       </strong>
 		</p>
 
@@ -69,10 +69,18 @@
 
 				<fieldset>
 				<!--= show_if (length discounts.data) -->
-				<label><small>Discount Code (optional)</small></label>
-				<input type='text' class='u-width--200'>
+				<% discount_code_id = SecureRandom.uuid %>
+				<label for='<%= discount_code_id %>'><small>Discount Code (optional)</small></label>
+				<input type='text' class='u-width--200' id='<%= discount_code_id %>'>
 				<!--= on 'keyup' discounts.apply -->
 				</fieldset>
+			</div>
+
+			<div class='u-background--grey u-padding--10'>
+				<% fee_covered_id = SecureRandom.uuid %>
+				<input type='checkbox' id='<%= fee_covered_id %>' name='fee_covered'>
+				<!--= on 'change' fee_covered.apply) -->
+				<label for='<%= fee_covered_id %>'> Cover Fees </label>
 			</div>
 
 			<div class='u-marginTop--15 u-centered'>

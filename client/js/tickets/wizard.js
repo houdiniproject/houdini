@@ -8,6 +8,64 @@ var create_card = require('../cards/create')
 var format_err = require('../common/format_response_error')
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/tickets'
 
+const calc = require('../nonprofits/donate/calculate-total')
+const CommitchangeStripeFeeStructure = require('../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
+const R = require('ramda')
+
+
+
+appl.def('discounts.apply', function(node){
+  var code = appl.prev_elem(node).value
+  var codes = R.pluck('code', appl.discounts.data)
+  if (!R.contains(code, codes)) {
+    appl.def('ticket_wiz.discount_obj',false)
+    appl.def('ticket_wiz.post_data.event_discount_id', false)
+    recalculateTheTotal()
+    return
+  }
+
+  appl.def('ticket_wiz.discount_obj', R.find(R.propEq('code', code), appl.discounts.data))
+  appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
+
+  recalculateTheTotal()
+  
+ 
+  if(appl.ticket_wiz.calculated_total_amount === 0){
+    appl.def('ticket_wiz.post_data.kind', 'free')
+  }
+
+  appl.notify('Discount successfully applied') 
+  appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
+})
+
+appl.def('fee_covered.apply', function (node) {
+  var fee_covered = appl.prev_elem(node).checked
+  appl.def('ticket_wiz.fee_covered', fee_covered)
+  
+  recalculateTheTotal()
+})
+
+
+function recalculateTheTotal(){
+  var ticket_price = appl.ticket_wiz.total_amount
+  if (appl.ticket_wiz.discount_obj) {
+    let discount_mult = Number(appl.ticket_wiz.discount_obj.percent) / 100
+    ticket_price = ticket_price - Math.round(ticket_price *  discount_mult)
+  }
+
+  if (appl.ticket_wiz.fee_covered) {
+    if (!app.nonprofit.feeStructure) {
+      throw new Error("billing Plan isn't found!")
+    }
+
+    ticket_price = calc.calculateTotal(
+      {feeCovering: true, amount:ticket_price}, 
+      new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
+  }
+  
+  appl.def('ticket_wiz.calculated_total_amount', ticket_price) 
+}
+
 appl.def('ticket_wiz', {
 
 	// Placeholder for a callback that is evaluated after the tickets are redeemed
@@ -103,6 +161,9 @@ appl.def('ticket_wiz', {
       .catch(show_err)
       .then(function(card) {
         appl.ticket_wiz.post_data.token = card.token
+      })
+      .then(function () { 
+        appl.ticket_wiz.post_data.fee_covered = form_obj.fee_covered || false
       })
       .then(appl.ticket_wiz.create_tickets)
       .then(() => {appl.ticketPaymentCard.clear()})

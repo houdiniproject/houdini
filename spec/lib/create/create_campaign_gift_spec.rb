@@ -63,9 +63,15 @@ describe CreateCampaignGift do
         let(:campaign) { force_create(:campaign, :profile => profile, nonprofit: nonprofit)}
         let(:bad_campaign) {force_create(:campaign, :profile => profile, nonprofit: nonprofit)}
 
+        let(:billing_plan) { force_create(:billing_plan, percentage_fee: 0.05)}
+        let(:billing_subscription) {force_create(:billing_subscription, nonprofit: nonprofit, billing_plan: billing_plan)}
+        
+
         it 'rejects adding multiple gift options' do
-					donation = force_create(:donation)
+					donation = force_create(:donation,nonprofit: nonprofit )
           campaign_gift_option = force_create(:campaign_gift_option, campaign: campaign)
+
+          billing_subscription
 
           force_create(:campaign_gift, :donation => donation)
           expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
@@ -77,12 +83,12 @@ describe CreateCampaignGift do
 
         it 'rejects adding a gift option when the gift option campaign and donation campaign dont match' do
 
-          donation = force_create(:donation, :campaign => campaign)
+          donation = force_create(:donation, nonprofit: nonprofit, :campaign => campaign)
           campaign_gift_option = force_create(:campaign_gift_option, :campaign => bad_campaign)
           profile
           campaign
           bad_campaign
-
+          billing_subscription
           expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
             expect(error).to be_a(ParamValidation::ValidationError)
             expect_validation_errors(error.data, {:key => :campaign_gift_option_id})
@@ -94,8 +100,8 @@ describe CreateCampaignGift do
 
         it 'rejects associations when the donation amount is too low' do
           adm = double(AdminMailer)
-
-          donation = force_create(:donation, :campaign => campaign, :amount => 299)
+          billing_subscription
+          donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 299)
           campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_one_time => 300, :name=> "name")
           expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
           expect(AdminMailer).to receive(:delay).and_return(adm)
@@ -110,9 +116,29 @@ describe CreateCampaignGift do
 
           adm = double(AdminMailer)
 
-
-          donation = force_create(:donation, :campaign => campaign, :amount => 299, :recurring=> true)
+          billing_subscription
+          donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 299, :recurring=> true)
           rd = force_create(:recurring_donation, :amount => 299, :donation => donation)
+          campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :name=> "name")
+
+
+          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
+          expect(AdminMailer).to receive(:delay).and_return(adm)
+          expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
+            expect(error).to be_a(ParamValidation::ValidationError)
+            expect_validation_errors(error.data, {:key => :campaign_gift_option_id})
+            expect(error.message).to eq ("#{campaign_gift_option.id} gift options requires a recurring donation of 300 for donation #{donation.id}")
+          }
+        end
+
+
+        it 'rejects associations when the recurring donation amount is not correct' do
+
+          adm = double(AdminMailer)
+
+          billing_subscription
+          donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 500, :recurring=> true)
+          rd = force_create(:recurring_donation, :amount => 500, :donation => donation)
           campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :name=> "name")
 
 
@@ -128,8 +154,8 @@ describe CreateCampaignGift do
         it 'rejects association when the there are no gifts available' do
           adm = double(AdminMailer)
 
-
-          donation = force_create(:donation, :campaign => campaign, :amount => 300, :recurring=> true)
+          billing_subscription
+          donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 300, :recurring=> true)
           rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
 
           campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :quantity => 1)
@@ -150,16 +176,20 @@ describe CreateCampaignGift do
     end
 
     describe 'successful insert' do
-
+      let(:nonprofit) {force_create(:nonprofit)}
       let(:profile) {force_create(:profile,  :user => force_create(:user))}
       let(:campaign) { force_create(:campaign, :profile => profile)}
+      let(:billing_plan) { force_create(:billing_plan, percentage_fee: 0.05)}
+      let(:billing_subscription) {force_create(:billing_subscription, nonprofit: nonprofit, billing_plan: billing_plan)}
+
 
       describe 'insert with no option quantity limit' do
         let(:campaign_gift_option) {  force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :amount_one_time => 5000)}
 
         it 'inserts non_recurring properly' do
           Timecop.freeze(2020, 4, 5) do
-            donation = force_create(:donation, :campaign => campaign, :amount => 5000)
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
             expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
             expect(result.attributes).to eq expected
@@ -170,7 +200,8 @@ describe CreateCampaignGift do
 
         it 'inserts recurring properly' do
           Timecop.freeze(2020, 4, 5) do
-            donation = force_create(:donation, :campaign => campaign, :amount => 300)
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 300)
             rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
             expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
@@ -186,7 +217,8 @@ describe CreateCampaignGift do
 
         it 'inserts non_recurring properly' do
           Timecop.freeze(2020, 4, 5) do
-            donation = force_create(:donation, :campaign => campaign, :amount => 5000)
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
             expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
             expect(result.attributes).to eq expected
@@ -197,7 +229,8 @@ describe CreateCampaignGift do
 
         it 'inserts recurring properly' do
           Timecop.freeze(2020, 4, 5) do
-            donation = force_create(:donation, :campaign => campaign, :amount => 300)
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 300)
             rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
             expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
@@ -213,7 +246,8 @@ describe CreateCampaignGift do
 
         it 'inserts non_recurring properly' do
           Timecop.freeze(2020, 4, 5) do
-            donation = force_create(:donation, :campaign => campaign, :amount => 5000)
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
             expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
             expect(result.attributes).to eq expected
@@ -224,7 +258,8 @@ describe CreateCampaignGift do
 
         it 'inserts recurring properly' do
           Timecop.freeze(2020, 4, 5) do
-            donation = force_create(:donation, :campaign => campaign, :amount => 300)
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 300)
             rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
             expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
@@ -235,8 +270,34 @@ describe CreateCampaignGift do
         end
       end
 
+      describe 'insert when option quantity is 0' do
+        let(:campaign_gift_option) {  force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :amount_one_time => 5000, :quantity => 0)}
 
+        it 'inserts non_recurring properly' do
+          Timecop.freeze(2020, 4, 5) do
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
+            result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
+            expect(result.attributes).to eq expected
+            expect(CampaignGift.first.attributes).to eq expected
+            expect(Campaign.count).to eq 1
+          end
+        end
 
+        it 'inserts when using fee coverage properly' do
+          Timecop.freeze(2020, 4, 5) do
+            billing_subscription
+            donation = force_create(:donation, :campaign => campaign, :amount => 356, :nonprofit => nonprofit)
+            rd = force_create(:recurring_donation, :amount => 356, :donation => donation)
+            result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.with_indifferent_access
+            expect(result.attributes).to eq expected
+            expect(CampaignGift.first.attributes).to eq expected
+            expect(Campaign.count).to eq 1
+          end
+        end
+      end
     end
 	end
 end

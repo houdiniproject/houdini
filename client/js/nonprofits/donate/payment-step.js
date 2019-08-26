@@ -69,14 +69,28 @@ function init(state) {
   )
   const donationResp$ = flyd.flatMap(postDonation, state.donationParams$)
 
+// Post the gift option, if necessary
+const paramsWithGift$ = flyd.filter(params => params.gift_option_id || params.gift_option && params.gift_option.id, state.params$)
+const paidWithGiftArgs$ = flyd.lift(R.pair, paramsWithGift$, donationResp$)
+const paidWithGift$ = flyd.map(
+  R.apply((params, result) => {
+    if (result.error) {
+      return result
+    }
+    else
+      return postGiftOption(params.gift_option_id || params.gift_option.id, result)
+  })
+  , paidWithGiftArgs$
+)
+
   state.error$ = flyd.mergeAll([
-    flyd.map(R.prop('error'), flyd.filter(resp => resp.error, donationResp$))
+    flyd.map(R.prop('error'), flyd.filter(resp => resp.error, paidWithGift$))
     , flyd.map(R.always(undefined), state.cardForm.form.submit$)
     , flyd.map(R.always(undefined), state.sepaForm.form.submit$)
     , state.cardForm.error$
     , state.sepaForm.error$
   ])
-  state.paid$ = flyd.filter(resp => !resp.error, donationResp$)
+  state.paid$ = flyd.filter(resp => !resp.error, paidWithGift$)
 
   // Control progress bar for card payment
   state.progress$ = flyd.scanMerge([
@@ -94,14 +108,6 @@ function init(state) {
     , flyd.map(R.always(false), state.sepaForm.error$)
     , flyd.map(R.always(false), state.error$)
   ])
-
-  // Post the gift option, if necessary
-  const paramsWithGift$ = flyd.filter(params => params.gift_option_id || params.gift_option && params.gift_option.id, state.params$)
-  const paidWithGift$ = flyd.lift(R.pair, paramsWithGift$, state.paid$)
-  flyd.map(
-    R.apply((params, result) => postGiftOption(params.gift_option_id || params.gift_option.id, result))
-    , paidWithGift$
-  )
 
   // post utm tracking details after donation is saved
   flyd.map(

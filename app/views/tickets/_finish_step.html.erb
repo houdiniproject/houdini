@@ -71,15 +71,16 @@
 				<!--= show_if (length discounts.data) -->
 				<% discount_code_id = SecureRandom.uuid %>
 				<label for='<%= discount_code_id %>'><small>Discount Code (optional)</small></label>
-				<input type='text' class='u-width--200' id='<%= discount_code_id %>'>
+				<input type='text' class='u-width--200' id='<%= discount_code_id %>' autocomplete="off">
 				<!--= on 'keyup' discounts.apply -->
 				</fieldset>
 			</div>
 
 			<div class='u-background--grey u-padding--10'>
 				<% fee_covered_id = SecureRandom.uuid %>
-				<input type='checkbox' id='<%= fee_covered_id %>' name='fee_covered'>
+				<input type='checkbox' id='<%= fee_covered_id %>' name='fee_covered' autocomplete="off">
 				<!--= on 'change' fee_covered.apply) -->
+				<!--= set_attr_if ticket_wiz.fee_covered 'checked' true -->
 				<label for='<%= fee_covered_id %>'> Cover Fees </label>
 			</div>
 

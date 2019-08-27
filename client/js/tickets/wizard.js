@@ -20,17 +20,23 @@ appl.def('discounts.apply', function(node){
   if (!R.contains(code, codes)) {
     appl.def('ticket_wiz.discount_obj',false)
     appl.def('ticket_wiz.post_data.event_discount_id', false)
-    recalculateTheTotal()
+    appl.def('ticket_wiz', {
+      total_amount: recalculateTheTotal(),
+      total_quantity: appl.ticket_wiz.total_quantity
+    })
     return
   }
 
   appl.def('ticket_wiz.discount_obj', R.find(R.propEq('code', code), appl.discounts.data))
   appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
 
-  recalculateTheTotal()
+  appl.def('ticket_wiz', {
+    total_amount: recalculateTheTotal(),
+    total_quantity: appl.ticket_wiz.total_quantity
+  })
   
  
-  if(appl.ticket_wiz.calculated_total_amount === 0){
+  if(appl.ticket_wiz.total_amount === 0){
     appl.def('ticket_wiz.post_data.kind', 'free')
   }
 
@@ -41,13 +47,20 @@ appl.def('discounts.apply', function(node){
 appl.def('fee_covered.apply', function (node) {
   var fee_covered = appl.prev_elem(node).checked
   appl.def('ticket_wiz.fee_covered', fee_covered)
-  
-  recalculateTheTotal()
+  appl.def('ticket_wiz', {
+    total_amount: recalculateTheTotal(),
+    total_quantity: appl.ticket_wiz.total_quantity
+  })
 })
 
 
 function recalculateTheTotal(){
-  var ticket_price = appl.ticket_wiz.total_amount
+
+  var ticket_price = 0
+  appl.ticket_wiz.post_data.tickets.forEach((i) => {
+    ticket_price += i.quantity * i.amount
+  })
+  
   if (appl.ticket_wiz.discount_obj) {
     let discount_mult = Number(appl.ticket_wiz.discount_obj.percent) / 100
     ticket_price = ticket_price - Math.round(ticket_price *  discount_mult)
@@ -62,8 +75,9 @@ function recalculateTheTotal(){
       {feeCovering: true, amount:ticket_price}, 
       new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
   }
-  
-  appl.def('ticket_wiz.calculated_total_amount', ticket_price) 
+
+  return ticket_price
+
 }
 
 appl.def('ticket_wiz', {
@@ -93,18 +107,20 @@ appl.def('ticket_wiz', {
       ticket.quantity = Number(ticket.quantity)
       ticket.amount = Number(ticket.amount)
       total_quantity += ticket.quantity
-      total_amount += ticket.quantity * ticket.amount
-			if(ticket.quantity > 0) tickets.push({ticket_level_id: ticket.ticket_level_id, quantity: ticket.quantity})
+			if(ticket.quantity > 0) tickets.push({ticket_level_id: ticket.ticket_level_id, quantity: ticket.quantity, amount: ticket.amount})
 		}
-		appl.def('ticket_wiz.post_data.tickets', tickets)
-
+    appl.def('ticket_wiz.post_data.tickets', tickets)
+    if (appl.ticket_wiz.fee_covered === undefined) {
+      appl.def('ticket_wiz.fee_covered', true)
+    }
+    
 		// Calculate total quantity and total charge amount
 		appl.def('ticket_wiz', {
-			total_amount: total_amount,
+      total_amount: recalculateTheTotal(),
 			total_quantity: total_quantity
 		})
 
-    if(total_amount === 0) {
+    if(appl.ticket_wiz.total_amount === 0) {
       appl.def('ticket_wiz.post_data.kind', 'free')
     } else {
       appl.def('ticket_wiz.post_data.kind', 'charge')

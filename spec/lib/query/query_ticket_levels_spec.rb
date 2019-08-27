@@ -4,30 +4,46 @@ require 'rails_helper'
 describe QueryTicketLevels do
   include_context :shared_donation_charge_context
   describe '.gross_amount_from_tickets' do
+    let(:bp) {force_create(:billing_plan, percentage_fee: 0.05)}
+    let(:bs) {force_create(:billing_subscription, nonprofit:nonprofit, billing_plan: bp)}
+
     it 'handles free tickets only properly' do
-      result = QueryTicketLevels.gross_amount_from_tickets(['ticket_level_id' => free_ticket_level.id, 'quantity'=> 5], nil)
+      bs
+      result = QueryTicketLevels.gross_amount_from_tickets(['ticket_level_id' => free_ticket_level.id, 'quantity'=> 5], nil, nil, nonprofit.id)
       expect(result).to eq 0
     end
 
     it 'handles nonfree tickets only properly' do
-      result = QueryTicketLevels.gross_amount_from_tickets(['ticket_level_id' => ticket_level.id, 'quantity'=> 5], nil)
+      bs
+      result = QueryTicketLevels.gross_amount_from_tickets(['ticket_level_id' => ticket_level.id, 'quantity'=> 5], nil, false, nonprofit.id)
       expect(result).to eq 2000
     end
 
     it 'handles mix of tickets properly' do
+      bs
       result = QueryTicketLevels.gross_amount_from_tickets(
           [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
            {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
-           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], nil)
-      expect(result).to eq 3000
+           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], nil, true, nonprofit.id)
+      expect(result).to eq 3266
     end
 
     it 'handles mix of tickets properly with discount code properly' do
+      bs
       result = QueryTicketLevels.gross_amount_from_tickets(
           [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
            {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
-           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id)
+           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, false, nonprofit.id)
       expect(result).to eq 2400
+    end
+
+    it 'handles mix of tickets properly with discount code and fee covered properly' do
+      bs
+      result = QueryTicketLevels.gross_amount_from_tickets(
+          [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+           {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, true, nonprofit.id)
+      expect(result).to eq 2619
     end
   end
 

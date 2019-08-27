@@ -11,55 +11,65 @@ describe PayRecurringDonation  do
 
 	let(:today) {Time.current.to_date}
 
-	describe '.with_donation', :pending => true do
-    # describe 'create a valid charge and payment when due' do
-    #
-    # end
-    # it 'creates a new valid charge and payment when due' do
-    #   h = Timecop.freeze(Time.parse("2020-02-02").utc) do
-    #     VCR.use_cassette('PayRecurringDonation/h1') do
-    #       PayRecurringDonation.with_stripe(@result['recurring_donation']['id'])
-    #     end
-    #   end
-    #   expect(h['charge']['stripe_charge_id']).to be_present
-    #   expect(h['charge']['card_id']).to eq(@data['donor']['card']['id'])
-    #   expect(h['charge']['supporter_id']).to eq(@data['donor']['supporter']['id'])
-    #   expect(h['charge']['amount']).to eq(@data['recurring_donation']['recurring_donation']['amount'])
-    #   expect(h['charge']['donation_id']).to eq(@result['donation']['id'])
-    #   expect(h['charge']['nonprofit_id']).to eq(@data['np']['id'])
-    #   expect(h['charge']['status']).to eq('pending')
-    #   expect(h['charge']['payment_id']).to eq(h['payment']['id'])
-    #   expect(h['payment']['nonprofit_id']).to eq(@data['np']['id'])
-    #   expect(h['payment']['date']).to eq(h['payment']['created_at'])
-    #   expect(h['payment']['supporter_id']).to eq(@data['donor']['supporter']['id'])
-    #   expect(h['payment']['donation_id']).to eq(@result['donation']['id'])
-    #   expect(h['payment']['gross_amount']).to eq(@data['recurring_donation']['recurring_donation']['amount'])
-    #   expect(h['payment']['kind']).to eq('RecurringDonation')
-    #   # Wipe out data for other tests
-    #   Psql.execute("DELETE FROM charges  WHERE id = #{h['charge']['id']}")
-    #   Psql.execute("DELETE FROM payments WHERE id = #{h['payment']['id']}")
-    # end
-    #
-    # it 'returns a failed charge without a payment when the card is declined, increments n_failures, and is still due' do
-    #   Psql.execute("UPDATE donations SET card_id=#{@data['donor']['bad_card']['id']} WHERE id=#{@result['donation']['id']}")
-    #   h = Timecop.freeze(Time.parse("2020-02-01").utc) do
-    #     VCR.use_cassette('PayRecurringDonation/bad_card') do
-    #       PayRecurringDonation.with_stripe(@result['recurring_donation']['id'])
-    #     end
-    #   end
-    #   expect(h['charge']['status']).to eq 'failed'
-    #   expect(h['recurring_donation']['n_failures']).to eq 1
-    #   Timecop.freeze(Time.parse("2020-02-01").utc) do
-    #     expect(QueryRecurringDonations.is_due?(h['recurring_donation']['id'])).to be true
-    #   end
-    #   Psql.execute("UPDATE donations SET card_id=#{@data['donor']['card']['id']} WHERE id=#{@result['donation']['id']}")
-    # end
-    #
-    # it 'returns false when not due' do
-    #   Timecop.freeze(Time.parse("2020-01-01").utc) do
-    #     expect(PayRecurringDonation.with_stripe(@result['recurring_donation']['id'])).to be false
-    #   end
-    # end
+  describe '.with_donation' do
+    let(:stripe_helper) { StripeMock.create_test_helper }
+    
+    around (:each)  do |example|
+      StripeMock.start
+        example.run
+      StripeMock.stop
+    end
+
+    let(:nonprofit) { force_create(:nonprofit, statement:'swhtowht', name: 'atata')}
+    let(:supporter) {force_create(:supporter, nonprofit:nonprofit)}
+    let(:card) {force_create(:card, holder: supporter, stripe_customer_id: 'cust_id_1')}
+    let(:donation) {force_create(:donation, supporter: supporter, amount: 300, card: card, nonprofit: nonprofit)}
+    let(:recurring_donation) { force_create(:recurring_donation, donation: donation, start_date: Time.now - 1.day, active:true, nonprofit: nonprofit, n_failures: 0)}
+    let(:misc_recurring_donation_info__covered) {
+      force_create(:misc_recurring_donation_info, recurring_donation: recurring_donation, fee_covered: true)
+    }
+
+    let(:successful_charge_argument) { 
+      {
+        customer:'cust_id_1',
+        amount:300,
+        currency:'usd',
+        description:'Donation swhtowht',
+        statement_descriptor:'Donation swhtowht',
+        metadata: {
+          kind: 'RecurringDonation',
+          nonprofit_id: nonprofit.id
+        },
+        application_fee:37
+      }
+    }
+
+    let(:covered_result) {
+      misc_recurring_donation_info__covered
+      PayRecurringDonation.with_stripe(recurring_donation.id) 
+    }
+
+    let(:uncovered_result) {
+      PayRecurringDonation.with_stripe(recurring_donation.id)
+    }
+
+    it 'covered_result doesnt return false' do
+      expect(covered_result).to_not eq false
+    end
+
+    it 'uncovered_result doesnt return false' do
+      expect(uncovered_result).to_not eq false
+    end
+
+    it 'marks the payment as covering fees' do 
+      res = covered_result
+      expect(donation.payments.first.misc_payment_info.fee_covered).to eq true
+    end
+
+    it 'marks the payment as not covering fees' do 
+      res = uncovered_result
+      expect(donation.payments.first.misc_payment_info&.fee_covered).to be_falsey
+    end
 
 	end
 

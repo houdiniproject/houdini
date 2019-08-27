@@ -44,7 +44,7 @@ module InsertTickets
     #verify that enough tickets_available
     QueryTicketLevels.verify_tickets_available(data[:tickets])
 
-    gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id])
+    gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id], data[:fee_covered], entities[:nonprofit_id].id)
 
     result = {}
 

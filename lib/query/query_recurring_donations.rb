@@ -54,6 +54,8 @@ module QueryRecurringDonations
       .left_outer_join('supporters', 'supporters.id=recurring_donations.supporter_id')
       .join('donations', 'donations.id=recurring_donations.donation_id')
       .left_outer_join('charges paid_charges', 'paid_charges.donation_id=donations.id')
+      .left_outer_join('misc_recurring_donation_infos',
+      'misc_recurring_donation_infos.recurring_donation_id = recurring_donations.id')
       .where('recurring_donations.nonprofit_id=$id', id: np_id.to_i)
 
     failed_or_active_clauses = []
@@ -156,12 +158,14 @@ module QueryRecurringDonations
             'MAX(cards.name) AS card_name',
             'recurring_donations.id AS "Recurring Donation ID"',
             'MAX(donations.id) AS "Donation ID"',
+            'BOOL_OR(misc_recurring_donation_infos.fee_covered) AS "Fee Covered by Donor"',
             "CASE WHEN #{is_cancelled_clause('recurring_donations')} THEN 'true' ELSE 'false' END AS Cancelled",
             "CASE WHEN #{is_failed_clause('recurring_donations')} THEN 'true' ELSE 'false' END AS Failed",
             'recurring_donations.cancelled_at AS "Cancelled At"',
             "CASE WHEN #{is_active_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\"")
             .left_outer_join('campaigns' , 'campaigns.id=donations.campaign_id')
             .left_outer_join('cards', 'cards.id=donations.card_id')
+            # .left_outer_join('misc_recurring_donation_infos', 'recurring_donations.id = misc_recurring_donation_infos.recurring_donation_id')
     }
   end
 

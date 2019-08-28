@@ -17,7 +17,8 @@
 			<table class='table--small'>
 			<tr>
 				<td>Amount:</td>
-				<td>$<!--= put (cents_to_dollars this.donation.amount) --></td>
+				<td><span>$<!--= put (cents_to_dollars this.donation.amount) --></span> 
+        		 <em><!--= show_if this.fee_covered -->(Donor covered fee)</em></td>
 			</tr>
 			<tr>
 			 <td>Donor: </td>

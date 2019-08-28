@@ -71,16 +71,17 @@ function init(state) {
 
 // Post the gift option, if necessary
 const paramsWithGift$ = flyd.filter(params => params.gift_option_id || params.gift_option && params.gift_option.id, state.params$)
-const paidWithGiftArgs$ = flyd.lift(R.pair, paramsWithGift$, donationResp$)
 const paidWithGift$ = flyd.map(
-  R.apply((params, result) => {
-    if (result.error) {
+  (result) => {
+    const hasParamsWithGift = paramsWithGift$() && (paramsWithGift$().gift_option_id || paramsWithGift$().gift_option.id)
+    if (result.error || !hasParamsWithGift) {
       return result
     }
-    else
-      return postGiftOption(params.gift_option_id || params.gift_option.id, result)
-  })
-  , paidWithGiftArgs$
+    else {
+      return postGiftOption(paramsWithGift$().gift_option_id || paramsWithGift$().gift_option.id, result)
+    }
+  }
+  , donationResp$
 )
 
   state.error$ = flyd.mergeAll([

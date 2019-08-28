@@ -336,6 +336,7 @@ module QueryPayments
                  .left_outer_join(tickets_subquery, 'tickets.payment_id=payments.id')
                  .left_outer_join('events events_for_export', 'events_for_export.id=tickets.event_id OR donations.event_id=events_for_export.id')
                  .left_outer_join('offsite_payments', 'offsite_payments.payment_id=payments.id')
+                 .left_outer_join('misc_payment_infos', 'payments.id = misc_payment_infos.payment_id')
     }
   end
 

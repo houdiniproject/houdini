@@ -88,7 +88,8 @@ function set_defaults() {
 				interval: 1,
 				time_unit: 'month'
 			}
-		}
+		},
+		fee_covered: false
 	})
 }
 

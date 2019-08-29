@@ -23,14 +23,8 @@ function init(state) {
     flyd.stream({})
     , flyd.map(supp => ({ name: supp.name, address_zip: supp.zip_code }), state.supporter$))
 
-  const coverFees$ = flyd.stream(false)
-  const potentialFees$ = flyd.map((donation) => {
-    const feeStructure = app.nonprofit.feeStructure
-    if (!feeStructure) {
-       throw new Error("billing Plan isn't found!")
-     }
-     return calculateFee(donation.amount, new CommitchangeStripeFeeStructure(feeStructure))
-  }, state.donation$)
+  const coverFees$ = flyd.stream(true)
+
 
   state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
     const feeStructure = app.nonprofit.feeStructure
@@ -40,8 +34,15 @@ function init(state) {
      return calculateTotal({feeCovering: coverFees$(), amount: donation$().amount}, new CommitchangeStripeFeeStructure(feeStructure));
   }, [state.donation$, coverFees$])
   
+  state.potentialFees$ = flyd.map((donation) => {
+    const feeStructure = app.nonprofit.feeStructure
+    if (!feeStructure) {
+       throw new Error("billing Plan isn't found!")
+     }
+     return calculateFee(donation.amount, new CommitchangeStripeFeeStructure(feeStructure))
+  }, state.donation$)
 
-  state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$})
+  state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$})
   state.sepaForm = sepaForm.init({ supporter: supporterID$ })
 
   // Set the card ID into the donation object when it is saved

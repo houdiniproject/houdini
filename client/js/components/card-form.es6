@@ -16,6 +16,8 @@ const createCardStream = require('../cards/create-frp.es6')
 
 const create_card_element = require('../../../javascripts/src/lib/create_card_element.ts')
 
+const {centsToDollars} = require('../../../javascripts/src/lib/format')
+
 // A component for filling out card data, validating it, saving the card to
 // stripe, and then saving a tokenized copy to our servers.
 
@@ -158,12 +160,12 @@ function feeCoverageField(state) {
       class: {highlight: state.coverFees$()}
     }, [
       h('input.u-margin--0.donationWizard-amount-input', {
-        props: {type: 'checkbox', selected: state.coverFees$(), id: 'checkbox-feeCoverage'}
+        props: {type: 'checkbox', checked: state.coverFees$(), id: 'checkbox-feeCoverage'}
       , on: {change: ev => {
         state.coverFees$(!state.coverFees$())
       }}
       })
-    , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, I18n.t('nonprofits.donate.amount.feeCoverage', {organization_possessive: app.nonprofit.name + "'s"})
+    , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, I18n.t('nonprofits.donate.amount.feeCoverage', {organization: app.nonprofit.name, potentialFees: '$' + centsToDollars(state.potentialFees$())})
       )
     ])
     ])

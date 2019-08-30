@@ -34,15 +34,15 @@
 			<hr class='diamonds'>
 			<p class='u-centered u-marginY--10'>Please select a payment method:</p>
 			<div class='u-margin--auto u-maxWidth--200 u-marginBottom--20'>
-				<input type="radio" id="radio_charge" name="kind" value='' data-ticket-kind="charge" checked='checked'>
+				<input type="radio" id="radio_charge" name="kind" value='' data-ticket-kind="charge" checked='checked' autocomplete='off'>
 				<!--= on 'change' ticket_wiz.set_kind -->
 				<label for="radio_charge">Credit Card</label>
 				<br>
-				<input type="radio" id="radio_check" name="kind" value="check" data-ticket-kind="offsite">
+				<input type="radio" id="radio_check" name="kind" value="check" data-ticket-kind="offsite" autocomplete='off'>
 				<!--= on 'change' ticket_wiz.set_kind -->
 				<label for="radio_check">Check</label>
 				<br>
-				<input type="radio" id="radio_cash" name="kind" value="cash" data-ticket-kind="offsite">
+				<input type="radio" id="radio_cash" name="kind" value="cash" data-ticket-kind="offsite" autocomplete='off'>
 				<!--= on 'change' ticket_wiz.set_kind -->
 				<label for="radio_cash">Cash</label>
 			</div>

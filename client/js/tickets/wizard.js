@@ -71,9 +71,12 @@ function recalculateTheTotal(){
       throw new Error("billing Plan isn't found!")
     }
 
-    ticket_price = calc.calculateTotal(
-      {feeCovering: true, amount:ticket_price}, 
-      new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
+    if (appl.ticket_wiz.post_data.kind != 'free' && appl.ticket_wiz.post_data.kind != 'offsite')
+    {
+      ticket_price = calc.calculateTotal(
+        {feeCovering: true, amount:ticket_price}, 
+        new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
+    }
   }
 
   return ticket_price
@@ -90,7 +93,7 @@ appl.def('ticket_wiz', {
     appl.def('ticket_wiz.post_data', {
 			nonprofit_id: app.nonprofit_id,
       tickets: [],
-      kind: "",
+      kind: "charge",
       supporter_id: "",
     })
 	},
@@ -117,7 +120,7 @@ appl.def('ticket_wiz', {
 		// Calculate total quantity and total charge amount
 		appl.def('ticket_wiz', {
       total_amount: recalculateTheTotal(),
-			total_quantity: total_quantity
+      total_quantity: total_quantity
 		})
 
     if(appl.ticket_wiz.total_amount === 0) {
@@ -166,6 +169,11 @@ appl.def('ticket_wiz', {
     var ticket_kind = appl.prev_elem(node).getAttribute('data-ticket-kind')
     appl.def('ticket_wiz.post_data.kind', ticket_kind)
     appl.def('ticket_wiz.post_data.offsite_payment.kind', op_kind)
+    
+    appl.def('ticket_wiz', {
+      total_amount: recalculateTheTotal(),
+      total_quantity: appl.ticket_wiz.total_quantity
+    })
   },
 
   send_payment: function(item_name, form_obj) {

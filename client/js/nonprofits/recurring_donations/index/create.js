@@ -3,9 +3,10 @@ require('../../../components/wizard')
 var format_err = require('../../../common/format_response_error')
 var format = require('../../../common/format')
 var request = require('../../../common/super-agent-promise')
-var create_donation = require('../../../donations/create')
 var create_card = require('../../../cards/create')
 var formToObj = require('../../../common/form-to-object')
+const calc = require('../../../nonprofits/donate/calculate-total')
+const CommitchangeStripeFeeStructure = require('../../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
 
 var wiz = {}
 
@@ -20,10 +21,14 @@ wiz.set_donation = function(node) {
   if(rd.end_date) {
     rd.end_date = format.date.toStandard(rd.end_date)
   }
-  if(data.dollars) {
-    data.amount = format.dollarsToCents(data.dollars)
-    delete data.dollars
-  }
+  
+	if (appl.rd_wizard.total)
+	{
+		data.amount = appl.rd_wizard.total
+	}
+	if (data.dollars) {
+		delete data.dollars
+	}
 	appl.def('rd_wizard.donation', data)
 	appl.wizard.advance('rd_wizard')
 }
@@ -53,6 +58,39 @@ wiz.send_payment = function(card_obj) {
 		.then(complete_wizard)
 		.catch(show_err)
 }
+
+wiz.apply_amount_change = function() {
+	//handle change
+	const amount = Math.round((appl.rd_wizard.amount || 0) * 100)
+	
+	const feeCovering = appl.rd_wizard.fee_covered
+	if (!app.nonprofit.feeStructure) {
+		throw new Error("billing Plan isn't found!")
+	}
+	
+	if (amount === 0){
+		appl.rd_wizard.total = 0
+	} else { 
+		appl.rd_wizard.total = calc.calculateTotal({feeCovering, amount}, new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
+	}
+}
+
+wiz.fee_covered__apply = function(node) {
+	const item = appl.prev_elem(node).checked
+	appl.rd_wizard.fee_covered = item || false
+	wiz.apply_amount_change()
+}
+
+wiz.amount_changed__apply = function(node) {
+	const value = appl.prev_elem(node).value
+	if (parseFloat(value) !== NaN) {
+		appl.rd_wizard.amount = parseFloat(value)
+		wiz.apply_amount_change()
+	}
+	
+}
+
+
 
 // To be called on payment completion and a new recurring donation was successfully created
 function complete_wizard() {
@@ -89,7 +127,9 @@ function set_defaults() {
 				time_unit: 'month'
 			}
 		},
-		fee_covered: false
+		fee_covered: false,
+		amount: 0,
+		total: 0
 	})
 }
 

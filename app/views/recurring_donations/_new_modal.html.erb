@@ -16,7 +16,9 @@
 
 						<div class='fieldsLayout--three'>
 							<div class='field prepend--dollar'>
-								<input name='dollars' parsley-type='number' type='text' parsley-min='0' required parsley-trigger='change'>
+								<input name='dollars' parsley-type='number' type='text' parsley-min='0' required parsley-trigger='change' autocomplete='off'>
+								<!--= on 'change' rd_wizard.amount_changed__apply) -->
+								<!--= on 'keyup' rd_wizard.amount_changed__apply) -->
 							</div>
 							<div class='field u-centered'>
 								<span>Every </span><input class='input--50' required name='recurring_donation.interval' type='text' parsley-type='number' value='1'>
@@ -33,6 +35,15 @@
 						<div class='field'>
 							<label>Designation (optional)</label>
 							<textarea name='designation'></textarea>
+						</div>
+
+						<div class='u-marginTop--10'>
+						<% fee_covered_id = SecureRandom.uuid %>
+						<input type='checkbox' id='fee_covered-<%= fee_covered_id%>' name="fee_covered"/>
+						<!--= on 'change' rd_wizard.fee_covered__apply) -->
+						<!--= checked_if rd_wizard.fee_covered -->
+						<label id='anonLabel' for='fee_covered-<%= fee_covered_id %>'>Donor would like to cover the donation fee
+						</label>
 						</div>
 
 						<%= render 'components/forms/submit_button', button_text: 'Next', loading_text: 'Saving...', scope: 'rd_wizard' %>

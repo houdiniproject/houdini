@@ -57,7 +57,13 @@
     donationPaymentCard.mount("#donationPaymentCard")
 		</script>
 	<%= IncludeAsset.js '/client/js/tickets/index/page.js' %>
-  
+  <script>
+
+		app.nonprofit.feeStructure = {
+			flatFee: 30,
+			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+		}
+	</script>
 <% end %>
 
 <% content_for :head do %>

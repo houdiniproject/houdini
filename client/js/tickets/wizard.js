@@ -66,7 +66,7 @@ function recalculateTheTotal(){
     ticket_price = ticket_price - Math.round(ticket_price *  discount_mult)
   }
 
-  if (appl.ticket_wiz.fee_covered) {
+  if (ticket_price > 0 && appl.ticket_wiz.fee_covered) {
     if (!app.nonprofit.feeStructure) {
       throw new Error("billing Plan isn't found!")
     }

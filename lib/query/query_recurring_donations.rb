@@ -158,7 +158,7 @@ module QueryRecurringDonations
             'MAX(cards.name) AS card_name',
             'recurring_donations.id AS "Recurring Donation ID"',
             'MAX(donations.id) AS "Donation ID"',
-            'BOOL_OR(misc_recurring_donation_infos.fee_covered) AS "Fee Covered by Donor"',
+            'BOOL_OR(misc_recurring_donation_infos.fee_covered) AS "Fee Covered by Supporter"',
             "CASE WHEN #{is_cancelled_clause('recurring_donations')} THEN 'true' ELSE 'false' END AS Cancelled",
             "CASE WHEN #{is_failed_clause('recurring_donations')} THEN 'true' ELSE 'false' END AS Failed",
             'recurring_donations.cancelled_at AS "Cancelled At"',

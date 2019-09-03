@@ -370,7 +370,8 @@ module QueryPayments
      'events_for_export.name AS event_name',
      'payments.id AS payment_id',
      'offsite_payments.check_number AS check_number',
-     'donations.comment AS donation_note'
+     'donations.comment AS donation_note',
+     'coalesce(nullif(misc_payment_infos.fee_covered, false), false) AS "Fee Covered by Supporter"'
     ])
   end
 

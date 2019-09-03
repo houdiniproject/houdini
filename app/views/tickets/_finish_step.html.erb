@@ -76,24 +76,27 @@
 				</fieldset>
 			</div>
 
-			<div class='u-background--grey u-padding--10'>
-				<% fee_covered_id = SecureRandom.uuid %>
-				<input type='checkbox' id='<%= fee_covered_id %>' name='fee_covered' autocomplete="off">
-				<!--= on 'change' fee_covered.apply) -->
-				<!--= set_attr_if ticket_wiz.fee_covered 'checked' true -->
-				<label for='<%= fee_covered_id %>'> Cover Fees </label>
-			</div>
+			
 
 			<div class='u-marginTop--15 u-centered'>
 				<% save_card_uid = SecureRandom.uuid %>
 				<input type='checkbox' id='<%= save_card_uid %>' name='save_card' checked='checked'>
 				<label for='<%= save_card_uid %>'> Save this card for purchases at the event </label>
+
+				<div class='u-background--grey u-padding--10'>
+				<% fee_covered_id = SecureRandom.uuid %>
+				<input type='checkbox' id='<%= fee_covered_id %>' name='fee_covered' autocomplete="off"%>
+				<!--= on 'change' fee_covered.apply) -->
+				<!--= set_attr_if ticket_wiz.fee_covered 'checked' <%= fee_covered_id %> -->
+				<label for='<%= fee_covered_id %>'> Cover Fees </label>
+				</div>
 				<div class='u-marginTop--15'>
 					<%= render 'cards/form_footer', hide_dedication: true  %>
 				</div>
 			</div>
 		</form>
-
+		
+		
     <form>
       <!--= show_if (eq ticket_wiz.post_data.offsite_payment.kind 'cash') -->
       <!--= on 'submit' ticket_wiz.create_tickets -->

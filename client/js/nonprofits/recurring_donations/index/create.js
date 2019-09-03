@@ -69,10 +69,17 @@ wiz.apply_amount_change = function() {
 	}
 	
 	if (amount === 0){
-		appl.rd_wizard.total = 0
-	} else { 
-		appl.rd_wizard.total = calc.calculateTotal({feeCovering, amount}, new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
+		appl.def('rd_wizard.total', 0)
+		appl.def('rd_wizard.fee_amount', 0)
+	} else {
+		const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
+
+	
+		appl.def('rd_wizard.total', calc.calculateTotal({feeCovering, amount}, feeStructure))
+		appl.def('rd_wizard.fee_amount', calc.calculateFee(amount, feeStructure))
 	}
+
+	appl.def('rd_wizard.written_fee_amount', format.centsToDollars(appl.rd_wizard.fee_amount))
 }
 
 wiz.fee_covered__apply = function(node) {
@@ -129,7 +136,9 @@ function set_defaults() {
 		},
 		fee_covered: false,
 		amount: 0,
-		total: 0
+		total: 0,
+		fee_amount: "0",
+		written_fee_amount: "0"
 	})
 }
 

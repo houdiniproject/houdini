@@ -6,7 +6,6 @@
 <% title ||= 'Get tickets' %>
 <% show_payment_options ||= false %>
 <% unrequire_email ||= false %>
-
 <div class='modal modal--wizard modal--flush' id='newTicketModal'>
 	<%= render 'common/modal_header', title: title %>
 	<%= render 'components/wizard/step_index', wizard_name: 'ticket_wiz' %>
@@ -22,7 +21,7 @@
 			<!--= wizard.init 'ticket_wiz' -->
 			<%= render 'tickets/ticket_step' %>
 			<%= render 'tickets/info_step', profile: profile, unrequire_email: unrequire_email %>
-			<%= render 'tickets/finish_step', show_payment_options: show_payment_options %>
+			<%= render 'tickets/finish_step', show_payment_options: show_payment_options, unprefill_fee_coverage: true %>
 		</div>
 
   </div>

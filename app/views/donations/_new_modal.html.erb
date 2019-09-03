@@ -28,12 +28,34 @@
 				<label>Amount</label>
 
 				<div class='prepend--dollar'>
-					<input type='number' step='any' min='0' class='input--100' name='dollars' required>
-					<!--= on 'change' (set 'dollars' get_value) -->
+					<input type='number' step='any' min='0' class='input--100' name='input_dollars' required autocomplete='off'>
+					<!--= on 'change' input_dollars__apply -->
+					<!--= on 'keyup' input_dollars__apply -->
 				</div>
-			</fieldset>
 
+				
+			</fieldset>
+			<div class='u-marginTop--10'>
+						<% fee_covered_id = SecureRandom.uuid %>
+						<input type='checkbox' id='fee_covered-<%= fee_covered_id%>' name="fee_covered"  autocomplete='off' >
+						<!--= on 'change' fee_covered__apply) -->
+						<!--= checked_if donation_info.fee_covered -->
+						<label for='fee_covered-<%= fee_covered_id %>'>
+						<span>
+						<!--=  show_if (eq donation_info.written_amount "0") -->
+						Donor would like to cover the donation fee
+						</span>
+						<span> 
+						<!--= show_if (not (eq donation_info.written_amount "0")) -->
+						Donor would like to cover the $<!--= put donation_info.written_fee_amount --> donation fee
+						</span>
+						</label>
+						</div>
 			<input type='hidden' name='nonprofit_id' value='<%= @nonprofit.id %>'>
+
+			<input type='hidden' name='amount'>
+				<!--= set_value donation_info.amount -->
+
 			<% if @event %><input type='hidden' name='event_id' value='<%= @event.id %>'><% end %>
 
 
@@ -63,7 +85,7 @@
     <table class='table--striped u-marginBottom--20'>
       <tr>
         <td class='strong'>Amount</td>
-        <td>$<!--= put new_donation.dollars  --></td>
+        <td>$<!--= put donation_info.written_amount   --></td>
       </tr>
       <tr>
         <td class='strong'>Supporter</td>

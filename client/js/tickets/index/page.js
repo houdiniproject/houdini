@@ -13,6 +13,8 @@ require('../../common/restful_resource')
 require('../../components/tables/filtering/apply_filter')('tickets')
 require('./delete-ticket')
 
+const CommitchangeStripeFeeStructure = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
+const calc = require('../../nonprofits/donate/calculate-total')
 
 
 function metricsFetch() {
@@ -135,6 +137,7 @@ appl.def('show_new_card', function(supporter_id, supporter_name, supporter_email
 appl.def('create_donation', function(el) {
 	appl.def('error', '')
   appl.def('loading', true)
+  appl.def('new_donation.amount', parseInt(appl.new_donation.amount))
 	create_donation(appl.new_donation)
 		.then(function() {
       return fetch()
@@ -188,6 +191,65 @@ appl.def('remove_card', function(ticket_id, elm) {
       })
   }
 })
+
+const initialDonationInfo = {
+  fee_covered: false,
+  input_dollars: 0,
+  amount: 0, 
+  fee_amount: 0,
+  written_amount : "0", 
+  written_fee_amount: "0",
+}
+
+appl.def('donation_info', initialDonationInfo)
+
+
+appl.def('reset_donation_info', () => {
+  appl.donation_info = initialDonationInfo
+})
+
+
+appl.def('input_dollars__apply', (node) => {
+  appl.def('donation_info.input_dollars', appl.prev_elem(node).value)
+
+  appl.recalc_total_and_fee()
+})
+
+appl.def('fee_covered__apply', (elm) => {
+  appl.def('donation_info.fee_covered', !appl.donation_info.fee_covered)
+  appl.recalc_total_and_fee()
+})
+
+appl.def('recalc_total_and_fee', () => {
+  let possibleDollars = parseFloat(appl.donation_info.input_dollars)
+  if (possibleDollars === NaN) {
+    possibleDollars = 0
+  }
+
+  if (possibleDollars === 0) {
+    appl.def('donation_info.fee_amount', 0)
+    appl.def('donation_info.amount',0)
+  }
+  else {
+    if (!app.nonprofit.feeStructure) {
+      throw new Error("billing Plan isn't found!")
+    }
+
+    const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
+    const amount = possibleDollars * 100
+    const feeCovering = appl.donation_info.fee_covered
+
+
+
+    appl.def('donation_info.amount',calc.calculateTotal({feeCovering, amount},feeStructure))
+    appl.def('donation_info.fee_amount', calc.calculateFee(amount, feeStructure))
+  }
+
+  appl.def('donation_info.written_fee_amount', format.centsToDollars(appl.donation_info.fee_amount))
+  appl.def('donation_info.written_amount', format.centsToDollars(appl.donation_info.amount))
+
+})
+
 
 
 fetch()

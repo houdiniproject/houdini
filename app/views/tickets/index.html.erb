@@ -64,6 +64,9 @@
 			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
 		}
 	</script>
+  <script>
+      appl.ticket_wiz.fee_covered = false
+    </script>
 <% end %>
 
 <% content_for :head do %>
@@ -295,6 +298,6 @@
   </div>
 </main>
 
-<%= render 'tickets/new_modal', title: "Add attendee", show_payment_options: true, profile: nil, unrequire_email: true %>
+<%= render 'tickets/new_modal', title: "Add attendee", show_payment_options: true, profile: nil, unrequire_email: true, unprefill_fee_coverage: true %>
 <%= render 'donations/new_modal' %>
 <%= render 'cards/new_modal' %>

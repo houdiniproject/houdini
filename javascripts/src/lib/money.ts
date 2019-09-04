@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 // based upon https://github.com/davidkalosi/js-money
 import * as lodash from 'lodash'
+import { boundMethod } from 'autobind-decorator';
 
 const assertSameCurrency = function (left: any, right: any) {
   if (left.currency !== right.currency)
@@ -17,18 +18,56 @@ const assertOperand = function (operand: any) {
     throw new TypeError('Operand must be a number');
 };
 
+/**
+ * Represents a monetary amount. For safety, all Money objects are immutable. All of the functions in this class create a new Money object.
+ * 
+ * To create a new Money object is to use the `fromCents` function.
+ * @export
+ * @class Money
+ */
 export class Money {
 
   readonly currency:string
 
   protected constructor(readonly amountInCents: number, currency: string) {
     this.currency = currency.toLowerCase()
+    Object.bind(this.equals)
+    Object.bind(this.add)
+    Object.bind(this.subtract)
+    Object.bind(this.multiply)
+    Object.bind(this.divide)
+    Object.bind(this.allocate)
+    Object.bind(this.compare)
+    Object.bind(this.greaterThan)
+    Object.bind(this.greaterThanOrEqual)
+    Object.bind(this.lessThan)
+    Object.bind(this.lessThanOrEqual)
+    Object.bind(this.isZero)
+    Object.bind(this.isPositive)
+    Object.bind(this.isNegative)
+    Object.bind(this.toJSON)
+
     Object.freeze(this);
   }
 
+  /**
+   * Create a `Money` object with the given number of cents and the ISO currency unit
+   * @static
+   * @param  {number} amountInCents 
+   * @param  {string} currency 
+   * @return Money 
+   * @memberof Money
+   */
   static fromCents(amountInCents: number, currency: string): Money {
     return new Money(amountInCents, currency)
   }
+
+  /**
+   * Create a `Money` object with the given number if smallest monetary units and the ISO currency. Another name for the `fromCents` function.
+   * @static
+   * @memberof Money
+   */
+  static fromSMU=Money.fromCents
 
   /**
   * Returns true if the two instances of Money are equal, false otherwise.
@@ -226,9 +265,9 @@ export class Money {
    *
    * @returns {{amount: number, currency: string}}
    */
-  toJSON(): { amount: number; currency: string; } {
+  toJSON(): { amountInCents: number; currency: string; } {
     return {
-      amount: this.amountInCents,
+      amountInCents: this.amountInCents,
       currency: this.currency
     };
   };

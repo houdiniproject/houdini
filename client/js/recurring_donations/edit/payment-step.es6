@@ -8,6 +8,8 @@ const request = require('../../common/request')
 const cardForm = require('./card-form.es6')
 const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
+const {calculateTotal, calculateFee} = require('../../nonprofits/donate/calculate-total')
+const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
 
 function init(params$, donation$) {
     var state = { params$: params$, donation$: donation$ }
@@ -20,8 +22,26 @@ function init(params$, donation$) {
     const card$ = flyd.merge(
         flyd.stream({})
         , flyd.map(supp => ({name: supp.name, address_zip: supp.zip_code}), flyd.stream(state.params$().supporter)))
+    const coverFees$ = flyd.stream(true)
 
-    state.cardForm = cardForm.init({path: '/cards', card$, payload$: cardPayload$, outerError$: state.error$})
+    state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
+        const feeStructure = app.nonprofit.feeStructure
+        if (!feeStructure) {
+           throw new Error("billing Plan isn't found!")
+         }
+         return calculateTotal({feeCovering: coverFees$(), amount: donation$().amount}, new CommitchangeStripeFeeStructure(feeStructure));
+      }, [state.donation$, coverFees$])
+      
+      state.potentialFees$ = flyd.map((donation) => {
+        const feeStructure = app.nonprofit.feeStructure
+        if (!feeStructure) {
+           throw new Error("billing Plan isn't found!")
+         }
+         return calculateFee(donation.amount, new CommitchangeStripeFeeStructure(feeStructure))
+      }, state.donation$)
+
+
+    state.cardForm = cardForm.init({path: '/cards', card$, payload$: cardPayload$, outerError$: state.error$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$})
     state.supporter$ = state.params$().supporter
     // // Set the card ID into the donation object when it is saved
     const cardToken$ = flyd.map(R.prop('token'), state.cardForm.saved$)
@@ -33,7 +53,7 @@ function init(params$, donation$) {
             return request({
             method: 'put'
             , path: state.rdUpdateAmountPath
-            , send: {edit_token: state.token, token: cardToken$(), amount: donation$().amount}
+            , send: {edit_token: state.token, token: cardToken$(), amount: state.donationTotal$(), fee_covered: coverFees$()}
         }).load}
         , cardToken$
     )
@@ -89,7 +109,7 @@ function view(state) {
   var dedic =  {}
   return h('div.wizard-step.payment-step', [
     h('p.u-fontSize--18 u.marginBottom--0.u-centered', [
-      h('span', '$' + format.centsToDollars(state.donation$().amount))
+    h('span', app.currency_symbol + format.centsToDollars(state.donationTotal$()))
     , h('strong', isRecurring ? ' monthly recurring' : ' one-time ')
     ])
   , dedic && (dedic.first_name || dedic.last_name)

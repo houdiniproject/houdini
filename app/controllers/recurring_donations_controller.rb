@@ -45,8 +45,8 @@ class RecurringDonationsController < ApplicationController
     rd = RecurringDonation.where('id = ?', params[:id]).first
     if rd && params[:edit_token] == rd['edit_token']
       begin
-        amount_response =  UpdateRecurringDonations.update_amount(rd, params[:token], params[:amount])
-        flash[:notice] = "Your recurring donation amount has been successfully changed to $#{(amount_response.amount/100).to_i}"
+        amount_response =  UpdateRecurringDonations.update_amount(rd, params[:token], params[:amount], params[:fee_covered])
+        flash[:notice] = "Your recurring donation amount has been successfully changed to #{print_currency(amount_response.amount, '$')}"
         render_json { amount_response }
       rescue => e
         render_json { raise e }
@@ -55,5 +55,15 @@ class RecurringDonationsController < ApplicationController
       render json: {error: 'Invalid token'}, status: :unprocessable_entity
     end
   end
+
+  private
+
+  def print_currency(cents, unit="EUR", sign=true)
+            
+		dollars = cents.to_f / 100.0
+		dollars = view_context.number_to_currency(dollars, :unit => "#{unit}", :precision => (dollars.round == dollars) ? 0 : 2)
+		dollars = dollars[1..-1] if !sign
+		dollars
+	end
 
 end

@@ -59,7 +59,7 @@ en:
           label: "Designation:"
           choose: "Choose a designation (optional)"
           most_needed: "Use my donation where most needed"
-        feeCoverage: "Make my donation go further for %{organization}! Cover the %{potentialFees} processing fee"
+        feeCoverage: "Boost my donation by giving all of it to %{organization}"
         next: "Next"
       info:
         label: "Info"

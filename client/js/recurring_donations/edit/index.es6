@@ -13,7 +13,7 @@ const notification = require('ff-core/notification')
 const button = require('ff-core/button')
 const request = require('../../common/request')
 // local
-const cardForm = require('../../components/card-form.es6')
+const cardForm = require('./card-form.es6')
 const readableInterval = require('../../nonprofits/recurring_donations/readable_interval')
 const format = require('../../common/format')
 const supporterAddressForm = require('../../components/supporter-address-form.es6')
@@ -42,6 +42,13 @@ state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.
         supporter: app.pageLoadData.supporter,
         custom_amounts: app.pageLoadData.change_amount_suggestions});
   
+        state.addressForm = supporterAddressForm.init({
+          supporter: app.pageLoadData.supporter
+        , path: rdPath
+        , payload: { edit_token: token }
+        })
+
+
   state.cardForm = cardForm.init({
     card: flyd.stream({
       name: app.pageLoadData.supporter.name
@@ -55,11 +62,7 @@ state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.
     }
   })
 
-  state.addressForm = supporterAddressForm.init({
-    supporter: app.pageLoadData.supporter
-  , path: rdPath
-  , payload: { edit_token: token }
-  })
+  
 
   // Card update streams
   // update the card id on the recurring donation after the card has been saved on CC

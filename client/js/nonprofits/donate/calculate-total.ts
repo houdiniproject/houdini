@@ -7,16 +7,8 @@ function calculateTotal(donation: { feeCovering?: boolean, amount: number }, s: 
         return donation.amount
     else {
         const originalAmount = Money.fromCents(donation.amount, 'usd')
-        const reverseFee = s.reverseCalculateFee(originalAmount)
-        const fullAmount = reverseFee.add(originalAmount)
-        return fullAmount.amountInCents
+        return s.calcFromNet(originalAmount).gross.amountInCents
     }
 }
 
-function calculateFee(amount: number, s: FeeStructure): number {
-    const originalAmount = Money.fromCents(amount, 'usd')
-    const reverseFee = s.reverseCalculateFee(originalAmount)
-    return reverseFee.amountInCents;
-}
-
-export { calculateTotal, calculateFee };
+export { calculateTotal };

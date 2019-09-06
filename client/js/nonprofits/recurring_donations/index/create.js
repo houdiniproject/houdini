@@ -76,7 +76,7 @@ wiz.apply_amount_change = function() {
 
 	
 		appl.def('rd_wizard.total', calc.calculateTotal({feeCovering, amount}, feeStructure))
-		appl.def('rd_wizard.fee_amount', calc.calculateFee(amount, feeStructure))
+		appl.def('rd_wizard.fee_amount', feeStructure.calcFromNet(amount))
 	}
 
 	appl.def('rd_wizard.written_fee_amount', format.centsToDollars(appl.rd_wizard.fee_amount))

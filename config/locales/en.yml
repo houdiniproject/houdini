@@ -59,7 +59,9 @@ en:
           label: "Designation:"
           choose: "Choose a designation (optional)"
           most_needed: "Use my donation where most needed"
-        feeCoverage: "Boost my donation by giving all of it to %{organization}"
+        feeCoverage:
+          header: "Boost your contribution"
+          amount: "Cover <strong>%{amount}</strong> of credit card fees"
         next: "Next"
       info:
         label: "Info"

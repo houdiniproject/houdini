@@ -8,7 +8,7 @@ const request = require('../../common/request')
 const cardForm = require('./card-form.es6')
 const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
-const {calculateTotal, calculateFee} = require('../../nonprofits/donate/calculate-total')
+const {calculateTotal} = require('../../nonprofits/donate/calculate-total')
 const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
 
 function init(params$, donation$) {
@@ -37,7 +37,8 @@ function init(params$, donation$) {
         if (!feeStructure) {
            throw new Error("billing Plan isn't found!")
          }
-         return calculateFee(donation.amount, new CommitchangeStripeFeeStructure(feeStructure))
+         const ccFeeStruct = new CommitchangeStripeFeeStructure(feeStructure)
+         ccFeeStruct.calcFromNet(donation.amount).fee
       }, state.donation$)
 
 

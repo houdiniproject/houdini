@@ -242,7 +242,7 @@ appl.def('recalc_total_and_fee', () => {
 
 
     appl.def('donation_info.amount',calc.calculateTotal({feeCovering, amount},feeStructure))
-    appl.def('donation_info.fee_amount', calc.calculateFee(amount, feeStructure))
+    appl.def('donation_info.fee_amount', feeStructure.calcFromNet(amount).fee)
   }
 
   appl.def('donation_info.written_fee_amount', format.centsToDollars(appl.donation_info.fee_amount))

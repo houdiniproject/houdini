@@ -25,7 +25,7 @@ const create_card_element = require('../../../javascripts/src/lib/create_card_el
 
 // Form validation constraints, validator functions, and error messages:
 var constraints = {
-  name: {required: true}
+  name: { required: true }
 }
 var validators = {}
 var messages = {
@@ -41,44 +41,44 @@ const init = (state) => {
   // set defaults
   state = R.merge({
     payload$: flyd.stream(state.payload || {})
-  , path$: flyd.stream(state.path || '/cards')
+    , path$: flyd.stream(state.path || '/cards')
   }, state)
 
   state.cardAreaId = uniqueId('ff_card_area_id-')
 
   state.form = validatedForm.init({ constraints, validators, messages })
   state.element = create_card_element.createElement()
-  
+
   var formAddressZip$ = flyd.stream()
   state.element.on('change', (payload) => {
     formAddressZip$(payload.value['postalCode'])
   })
   state.card$ = flyd.merge(state.card$ || flyd.stream({}), state.form.validData$)
 
-  state.formAddressMerged$ = flyd.merge(flyd.map(r => r.address_zip, state.card$),formAddressZip$) 
+  state.formAddressMerged$ = flyd.merge(flyd.map(r => r.address_zip, state.card$), formAddressZip$)
 
   state.elementMounted = false
   // streams of stripe tokenization responses
   const stripeResp$ = flyd.flatMap((i) => {
-  return createCardStream(state.element, state.form.validData$().name)
+    return createCardStream(state.element, state.form.validData$().name)
   }, state.form.validData$)
-  state.stripeRespOk$  = flyd.filter(r => !r.error, stripeResp$)
-  const stripeError$ = flyd.map(r => r.error.message, flyd.filter(r =>  r.error, stripeResp$))
- 
+  state.stripeRespOk$ = flyd.filter(r => !r.error, stripeResp$)
+  const stripeError$ = flyd.map(r => r.error.message, flyd.filter(r => r.error, stripeResp$))
+
   // Save the card as a card table on our own db
   // streams of responses
   state.resp$ = flyd.flatMap(
     resp => saveCard(state.payload$(), state.path$(), resp) // cheating on the streams here..
-  , state.stripeRespOk$ )
+    , state.stripeRespOk$)
 
   const ccError$ = flyd.map(R.prop('error'), flyd.filter(resp => resp.error, state.resp$))
-  state.saved$ = flyd.filter(resp => !resp.error, state.resp$) 
+  state.saved$ = flyd.filter(resp => !resp.error, state.resp$)
   state.error$ = flyd.merge(stripeError$, ccError$)
 
   state.loading$ = scanMerge([
     [state.form.validSubmit$, R.always(true)]
-  , [state.error$, R.always(false)]
-  , [state.saved$, R.always(false)]
+    , [state.error$, R.always(false)]
+    , [state.saved$, R.always(false)]
   ], false)
 
   return state
@@ -116,11 +116,11 @@ const unmount = state => {
 // -- Virtual DOM
 
 const view = state => {
-  if (state.formAddressMerged$()){
-    state.element.update({ value: { postalCode: state.formAddressMerged$()} })
+  if (state.formAddressMerged$()) {
+    state.element.update({ value: { postalCode: state.formAddressMerged$() } })
   }
 
-  
+
 
   // const payFees = (state) => {
   //   return h('div.u-padding--8.u-background--grey', [
@@ -128,59 +128,85 @@ const view = state => {
   //     h('div', `By adding <strong>${state}</strong> to your contribution gives more money to CommitChange`)
   //   ])
   // }
-  
+
   var field = validatedForm.field(state.form)
   return validatedForm.form(state.form, h('form.cardForm', [
     h('div', [
       nameInput(field, state.card$().name)
-      , h(`div#${state.cardAreaId}`, {hook: {
-        insert: () => mount(state),
-        remove: () => unmount(state)
-      }})
+      , h(`div#${state.cardAreaId}`, {
+        hook: {
+          insert: () => mount(state),
+          remove: () => unmount(state)
+        }
+      })
       , profileInput(field, app.profile_id)
       , feeCoverageField(state)
     ])
-  , h('div.u-centered.u-marginTop--20', [
+    , h('div.u-centered.u-marginTop--20', [
       state.hideButton ? '' : button({
         error$: state.hideErrors ? flyd.stream() : state.error$
-      , loading$: state.loading$
-      , buttonText: I18n.t('nonprofits.donate.payment.card.submit')
-      , loadingText: ` ${I18n.t('nonprofits.donate.payment.card.loading')}`
+        , loading$: state.loading$
+        , buttonText: I18n.t('nonprofits.donate.payment.card.submit')
+        , loadingText: ` ${I18n.t('nonprofits.donate.payment.card.loading')}`
       })
-     , h('p.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey', [ h('i.fa.fa-lock'), ` ${I18n.t('nonprofits.donate.payment.card.secure_info')}`])
+      , h('p.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey', [h('i.fa.fa-lock'), ` ${I18n.t('nonprofits.donate.payment.card.secure_info')}`])
     ])
-  ]) )
+  ]))
 }
 
 function feeCoverageField(state) {
-  return h('section.donate-feeCoverageCheckbox.u-paddingX--5 u-marginBottom--10', [
-    h('div.u-padding--8.u-background--grey.u-centered', {
-      class: {highlight: state.coverFees$()}
+  return h('section.donate-feeCoverageCheckbox.u-marginBottom--10.u-marginTop--20', [
+    h('div', {
+      //class: { highlight: state.coverFees$() }
     }, [
       h('input.u-margin--0.donationWizard-amount-input', {
-        props: {type: 'checkbox', checked: state.coverFees$(), id: 'checkbox-feeCoverage'}
-      , on: {change: ev => {
-        state.coverFees$(!state.coverFees$())
-      }}
+        props: { type: 'checkbox', checked: state.coverFees$(), id: 'checkbox-feeCoverage' }
+        , on: {
+          change: ev => {
+            state.coverFees$(!state.coverFees$())
+          }
+        }
       })
-    , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, I18n.t('nonprofits.donate.amount.feeCoverage', {organization: app.nonprofit.name})
+      , h('label.checkbox-feeCoverage-label', { props: { htmlFor: 'checkbox-feeCoverage', type: 'checkbox' } },
+        [h('div',
+          [
+            h('div',
+              { },
+               [
+                h('small', [I18n.t('nonprofits.donate.amount.feeCoverage.header') + "! Cover ",
+                h('strong', state.potentialFees$()),
+                " of processing fees"])
+              ]
+            )
+            // h('small', ["Cover ",
+            //   h('strong', state.potentialFees$()),
+            //   " of processing fees"])
+            // h('div',
+            //   h('small', I18n.t('nonprofits.donate.amount.feeCoverage.amount', { amount: state.potentialFees$() })
+            //   )
+            // )
+          ])
+        ]
+
       )
     ])
-    ])
+  ])
 }
 
-const nameInput = (field, name) => 
-  h('fieldset', [ field(h('input', { props: { name: 'name' , value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } })) ])
+const nameInput = (field, name) =>
+  h('fieldset', [field(h('input', { props: { name: 'name', value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } }))])
 
 
 const profileInput = (field, profile_id) =>
   field(h('input'
-  , { props: {
-      type: 'hidden'
-    , name: 'profile_id'
-    , value: profile_id || ''
-    }} 
+    , {
+      props: {
+        type: 'hidden'
+        , name: 'profile_id'
+        , value: profile_id || ''
+      }
+    }
   ))
 
-module.exports = {view, init, mount}
+module.exports = { view, init, mount }
 

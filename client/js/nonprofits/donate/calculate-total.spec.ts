@@ -11,12 +11,22 @@ const z = Money.fromCents(1024, 'usd')
 const x_plus_z = Money.fromCents(1536, 'usd')
 class TestFeeStructure implements FeeStructure
 {
-    calculateFee(_x: Money): Money {
-        return y;
+    calc(x: Money) {
+        return {
+            gross:x,
+            fee: x.subtract(y),
+            net: y
+        }
+        
     }    
     
-    reverseCalculateFee(_x: Money): Money {
-        return z
+    calcFromNet(x: Money) {
+        return {
+            gross: z,
+            fee: z.subtract(x),
+            net: x
+
+        }
     }
 }
 
@@ -30,6 +40,6 @@ describe('calculateTotal', () => {
     })
 
     it('explicitly fee covering', () => {
-        expect(calculateTotal({amount:x.amountInCents, feeCovering: true}, new TestFeeStructure)).toBe(x_plus_z.amountInCents)
+        expect(calculateTotal({amount:x.amountInCents, feeCovering: true}, new TestFeeStructure)).toBe(z.amountInCents)
     })
 });

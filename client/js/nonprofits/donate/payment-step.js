@@ -9,8 +9,10 @@ const cardForm = require('../../components/card-form.es6')
 const sepaForm = require('../../components/sepa-form.es6')
 const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
-const {calculateFee, calculateTotal} = require('./calculate-total')
 const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
+const {calculateTotal} = require('./calculate-total')
+const {Money} = require('../../../../javascripts/src/lib/money')
+const {centsToDollars} = require('../../common/format')
 const _ = require('lodash')
 
 const sepaTab = 'sepa'
@@ -31,7 +33,8 @@ function init(state) {
     if (!feeStructure) {
        throw new Error("billing Plan isn't found!")
      }
-     return calculateTotal({feeCovering: coverFees$(), amount: donation$().amount}, new CommitchangeStripeFeeStructure(feeStructure));
+    const ccFeeStructure = new CommitchangeStripeFeeStructure(feeStructure);
+    return calculateTotal({feeCovering: coverFees$(), amount:donation$().amount}, ccFeeStructure)
   }, [state.donation$, coverFees$])
   
   state.potentialFees$ = flyd.map((donation) => {
@@ -39,7 +42,9 @@ function init(state) {
     if (!feeStructure) {
        throw new Error("billing Plan isn't found!")
      }
-     return calculateFee(donation.amount, new CommitchangeStripeFeeStructure(feeStructure))
+     const ccFeeStructure = new CommitchangeStripeFeeStructure(feeStructure)
+     const fee = ccFeeStructure.calcFromNet(Money.fromCents(donation.amount, 'usd')).fee
+     return "$" + centsToDollars(fee.amountInCents)
   }, state.donation$)
 
   state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$})

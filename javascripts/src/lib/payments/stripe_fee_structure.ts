@@ -39,12 +39,23 @@ export class StripeFeeStructure implements FeeStructure{
     }
     
     @boundMethod
-    calculateFee(x:Money) : Money {
-        return Money.fromCents(Math.round(x.amountInCents - (x.amountInCents - this.props.flatFee - (x.amountInCents * this.props.percentFee))), x.currency);
+    calc(gross:Money) : FeeStructure.CalculationResult {
+        const fee = Money.fromCents(Math.round(gross.amountInCents - (gross.amountInCents - this.props.flatFee - (gross.amountInCents * this.props.percentFee))), gross.currency);
+        return {
+            gross,
+            fee,
+            net: gross.subtract(fee)
+        }
     }
 
     @boundMethod
-    reverseCalculateFee(x:Money):Money {
-        return Money.fromCents(Math.round(((x.amountInCents + this.props.flatFee) / (1 - this.props.percentFee) - x.amountInCents)), x.currency)
+    calcFromNet(net:Money) : FeeStructure.CalculationResult {
+        const fee = Money.fromCents(Math.round(((net.amountInCents + this.props.flatFee) / (1 - this.props.percentFee) - net.amountInCents)), net.currency)
+
+        return {
+            gross: net.add(fee),
+            fee,
+            net
+        }
     }
 }

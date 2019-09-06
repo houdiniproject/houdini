@@ -157,7 +157,6 @@ const view = state => {
 function feeCoverageField(state) {
   return h('section.donate-feeCoverageCheckbox.u-marginBottom--10.u-marginTop--20', [
     h('div', {
-      //class: { highlight: state.coverFees$() }
     }, [
       h('input.u-margin--0.donationWizard-amount-input', {
         props: { type: 'checkbox', checked: state.coverFees$(), id: 'checkbox-feeCoverage' }
@@ -178,17 +177,8 @@ function feeCoverageField(state) {
                 " of processing fees"])
               ]
             )
-            // h('small', ["Cover ",
-            //   h('strong', state.potentialFees$()),
-            //   " of processing fees"])
-            // h('div',
-            //   h('small', I18n.t('nonprofits.donate.amount.feeCoverage.amount', { amount: state.potentialFees$() })
-            //   )
-            // )
           ])
-        ]
-
-      )
+        ])
     ])
   ])
 }

@@ -10,6 +10,8 @@ const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
 const {calculateTotal} = require('../../nonprofits/donate/calculate-total')
 const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
+const {Money} = require('../../../../javascripts/src/lib/money')
+const {centsToDollars} = require('../../common/format')
 
 function init(params$, donation$) {
     var state = { params$: params$, donation$: donation$ }
@@ -37,8 +39,9 @@ function init(params$, donation$) {
         if (!feeStructure) {
            throw new Error("billing Plan isn't found!")
          }
-         const ccFeeStruct = new CommitchangeStripeFeeStructure(feeStructure)
-         ccFeeStruct.calcFromNet(donation.amount).fee
+         const ccFeeStructure = new CommitchangeStripeFeeStructure(feeStructure)
+         const fee = ccFeeStructure.calcFromNet(Money.fromCents(donation.amount, 'usd')).fee
+         return "$" + centsToDollars(fee.amountInCents)
       }, state.donation$)
 
 
@@ -110,7 +113,7 @@ function view(state) {
   var dedic =  {}
   return h('div.wizard-step.payment-step', [
     h('p.u-fontSize--18 u.marginBottom--0.u-centered', [
-    h('span', app.currency_symbol + format.centsToDollars(state.donationTotal$()))
+    h('span', '$' + format.centsToDollars(state.donationTotal$()))
     , h('strong', isRecurring ? ' monthly recurring' : ' one-time ')
     ])
   , dedic && (dedic.first_name || dedic.last_name)

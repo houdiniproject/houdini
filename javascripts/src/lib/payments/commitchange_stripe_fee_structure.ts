@@ -42,14 +42,25 @@ export class CommitchangeStripeFeeStructure implements FeeStructure {
     }
     
     @boundMethod
-    calculateFee(x:Money) : Money {
-        const cents= x.amountInCents;
-        return Money.fromCents(Math.ceil(cents * this.props.percentFee) + this.props.flatFee, x.currency);
+    calc(gross:Money) : FeeStructure.CalculationResult {
+        const cents= gross.amountInCents;
+        const fee = Money.fromCents(Math.ceil(cents * this.props.percentFee) + this.props.flatFee, gross.currency);
+        return {
+            gross,
+            fee,
+            net: gross.subtract(fee)
+        }
+        
     }
 
     @boundMethod
-    reverseCalculateFee(x:Money):Money {
-        return Money.fromCents(Math.ceil(((x.amountInCents + this.props.flatFee) / (1 - this.props.percentFee) - x.amountInCents)), x.currency)
+    calcFromNet(net:Money): FeeStructure.CalculationResult {
+        const fee = Money.fromCents(Math.ceil(((net.amountInCents + this.props.flatFee) / (1 - this.props.percentFee) - net.amountInCents)), net.currency)
+        return {
+            gross: net.add(fee),
+            fee,
+            net
+        }
     }
 
     static createWithPlatformFee(props:CommitchangeStripeFeeStructureProps & {platformFee:number}) : CommitchangeStripeFeeStructure {

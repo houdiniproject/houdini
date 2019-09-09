@@ -7,6 +7,7 @@ var create_card = require('../../../cards/create')
 var formToObj = require('../../../common/form-to-object')
 const calc = require('../../../nonprofits/donate/calculate-total')
 const CommitchangeStripeFeeStructure = require('../../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
+const {Money} = require('../../../../../javascripts/src/lib/money')
 
 var wiz = {}
 
@@ -76,7 +77,7 @@ wiz.apply_amount_change = function() {
 
 	
 		appl.def('rd_wizard.total', calc.calculateTotal({feeCovering, amount}, feeStructure))
-		appl.def('rd_wizard.fee_amount', feeStructure.calcFromNet(amount))
+		appl.def('rd_wizard.fee_amount', feeStructure.calcFromNet(Money.fromCents(amount, 'usd')).fee.amountInCents)
 	}
 
 	appl.def('rd_wizard.written_fee_amount', format.centsToDollars(appl.rd_wizard.fee_amount))

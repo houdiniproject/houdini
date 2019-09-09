@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-if(app.autocomplete) {
+if (app.autocomplete) {
   require('../components/address-autocomplete')
 }
 require('../cards/create')
@@ -12,17 +12,21 @@ const calc = require('../nonprofits/donate/calculate-total')
 const CommitchangeStripeFeeStructure = require('../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
 const R = require('ramda')
 
+const {Money} = require('../../../javascripts/src/lib/money')
 
 
-appl.def('discounts.apply', function(node){
+
+appl.def('discounts.apply', function (node) {
   var code = appl.prev_elem(node).value
   var codes = R.pluck('code', appl.discounts.data)
   if (!R.contains(code, codes)) {
-    appl.def('ticket_wiz.discount_obj',false)
+    appl.def('ticket_wiz.discount_obj', false)
     appl.def('ticket_wiz.post_data.event_discount_id', false)
+    const total_amount  =  recalculateTheTotal()
     appl.def('ticket_wiz', {
-      total_amount: recalculateTheTotal(),
-      total_quantity: appl.ticket_wiz.total_quantity
+      total_amount,
+      total_quantity: appl.ticket_wiz.total_quantity,
+      total_fee: recalculateTheFee(total_amount)
     })
     return
   }
@@ -30,40 +34,44 @@ appl.def('discounts.apply', function(node){
   appl.def('ticket_wiz.discount_obj', R.find(R.propEq('code', code), appl.discounts.data))
   appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
 
-  appl.def('ticket_wiz', {
-    total_amount: recalculateTheTotal(),
-    total_quantity: appl.ticket_wiz.total_quantity
-  })
-  
- 
-  if(appl.ticket_wiz.total_amount === 0){
+  const total_amount  =  recalculateTheTotal()
+    appl.def('ticket_wiz', {
+      total_amount,
+      total_quantity: appl.ticket_wiz.total_quantity,
+      total_fee: recalculateTheFee(total_amount)
+    })
+
+
+  if (appl.ticket_wiz.total_amount === 0) {
     appl.def('ticket_wiz.post_data.kind', 'free')
   }
 
-  appl.notify('Discount successfully applied') 
+  appl.notify('Discount successfully applied')
   appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
 })
 
 appl.def('fee_covered.apply', function (node) {
   var fee_covered = appl.prev_elem(node).checked
   appl.def('ticket_wiz.fee_covered', fee_covered)
-  appl.def('ticket_wiz', {
-    total_amount: recalculateTheTotal(),
-    total_quantity: appl.ticket_wiz.total_quantity
-  })
+  const total_amount  =  recalculateTheTotal()
+    appl.def('ticket_wiz', {
+      total_amount,
+      total_quantity: appl.ticket_wiz.total_quantity,
+      total_fee: recalculateTheFee(total_amount)
+    })
 })
 
 
-function recalculateTheTotal(){
+function recalculateTheTotal() {
 
   var ticket_price = 0
   appl.ticket_wiz.post_data.tickets.forEach((i) => {
     ticket_price += i.quantity * i.amount
   })
-  
+
   if (appl.ticket_wiz.discount_obj) {
     let discount_mult = Number(appl.ticket_wiz.discount_obj.percent) / 100
-    ticket_price = ticket_price - Math.round(ticket_price *  discount_mult)
+    ticket_price = ticket_price - Math.round(ticket_price * discount_mult)
   }
 
   if (ticket_price > 0 && appl.ticket_wiz.fee_covered) {
@@ -71,10 +79,9 @@ function recalculateTheTotal(){
       throw new Error("billing Plan isn't found!")
     }
 
-    if (appl.ticket_wiz.post_data.kind != 'free' && appl.ticket_wiz.post_data.kind != 'offsite')
-    {
+    if (appl.ticket_wiz.post_data.kind != 'free' && appl.ticket_wiz.post_data.kind != 'offsite') {
       ticket_price = calc.calculateTotal(
-        {feeCovering: true, amount:ticket_price}, 
+        { feeCovering: true, amount: ticket_price },
         new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
     }
   }
@@ -83,85 +90,107 @@ function recalculateTheTotal(){
 
 }
 
+function recalculateTheFee(currentTotal) {
+
+
+  if (currentTotal > 0) {
+    if (!app.nonprofit.feeStructure) {
+      throw new Error("billing Plan isn't found!")
+    }
+
+    
+    const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
+
+    const {fee} = feeStructure.calcFromNet(Money.fromCents(currentTotal, 'usd'))
+        
+    return fee.amountInCents;
+    
+  }
+
+  return 0;
+
+}
+
 appl.def('ticket_wiz', {
 
-	// Placeholder for a callback that is evaluated after the tickets are redeemed
-	on_complete: function() {},
+  // Placeholder for a callback that is evaluated after the tickets are redeemed
+  on_complete: function () { },
 
-	// Set all the wizard's default data
-	set_defaults: function() {
+  // Set all the wizard's default data
+  set_defaults: function () {
     appl.def('ticket_wiz.post_data', {
-			nonprofit_id: app.nonprofit_id,
+      nonprofit_id: app.nonprofit_id,
       tickets: [],
       kind: "charge",
       supporter_id: "",
     })
-	},
+  },
 
 
-	// Set/process all the ticket data after submitting the "Tickets" step form
-	set_tickets: function(form_obj) {
-		hide_err()
-		var tickets = []
+  // Set/process all the ticket data after submitting the "Tickets" step form
+  set_tickets: function (form_obj) {
+    hide_err()
+    var tickets = []
     var total_amount = 0
     var total_quantity = 0
-		for(var key in form_obj.tickets) {
-			var ticket = form_obj.tickets[key]
+    for (var key in form_obj.tickets) {
+      var ticket = form_obj.tickets[key]
       ticket.quantity = Number(ticket.quantity)
       ticket.amount = Number(ticket.amount)
       total_quantity += ticket.quantity
-			if(ticket.quantity > 0) tickets.push({ticket_level_id: ticket.ticket_level_id, quantity: ticket.quantity, amount: ticket.amount})
-		}
+      if (ticket.quantity > 0) tickets.push({ ticket_level_id: ticket.ticket_level_id, quantity: ticket.quantity, amount: ticket.amount })
+    }
     appl.def('ticket_wiz.post_data.tickets', tickets)
     if (appl.ticket_wiz.fee_covered === undefined) {
       appl.def('ticket_wiz.fee_covered', true)
     }
-    
-		// Calculate total quantity and total charge amount
-		appl.def('ticket_wiz', {
-      total_amount: recalculateTheTotal(),
-      total_quantity: total_quantity
-		})
 
-    if(appl.ticket_wiz.total_amount === 0) {
+    const calculatedAmount =  recalculateTheTotal()
+    appl.def('ticket_wiz', {
+      total_amount:calculatedAmount,
+      total_quantity: total_quantity,
+      total_fee: recalculateTheFee(calculatedAmount)
+    })
+
+    if (appl.ticket_wiz.total_amount === 0) {
       appl.def('ticket_wiz.post_data.kind', 'free')
     } else {
       appl.def('ticket_wiz.post_data.kind', 'charge')
     }
 
-		if(total_quantity > 0) {
-			appl.wizard.advance('ticket_wiz')
-		} else {
-			appl.notify('Please choose at least one ticket.')
-		}
-	},
+    if (total_quantity > 0) {
+      appl.wizard.advance('ticket_wiz')
+    } else {
+      appl.notify('Please choose at least one ticket.')
+    }
+  },
 
 
-	check_if_any_ticket_levels: function(i, name, node) {
-		var ticket_level_remainder = appl.ticket_levels.data[i].remaining
-		var value = appl.prev_elem(node).value
-		if(value >= ticket_level_remainder) {
-			appl.notify("There are only " + ticket_level_remainder + " tickets remaining for '"
-				+  name + "'.")
-			appl.prev_elem(node).value = ticket_level_remainder
-		}
-	},
+  check_if_any_ticket_levels: function (i, name, node) {
+    var ticket_level_remainder = appl.ticket_levels.data[i].remaining
+    var value = appl.prev_elem(node).value
+    if (value >= ticket_level_remainder) {
+      appl.notify("There are only " + ticket_level_remainder + " tickets remaining for '"
+        + name + "'.")
+      appl.prev_elem(node).value = ticket_level_remainder
+    }
+  },
 
 
-	save_supporter: function(form_obj) {
-		appl.ticket_wiz.save_supporter_promise = request
+  save_supporter: function (form_obj) {
+    appl.ticket_wiz.save_supporter_promise = request
       .post('/nonprofits/' + app.nonprofit_id + '/supporters')
-			.send({supporter: form_obj}).perform()
-			.then(function(res) {
+      .send({ supporter: form_obj }).perform()
+      .then(function (res) {
         appl.ticket_wiz.supporter = res.body
         appl.ticket_wiz.post_data.supporter_id = res.body.id
         return res.body
       })
-			.catch(show_err)
-		appl.wizard.advance('ticket_wiz')
-	},
+      .catch(show_err)
+    appl.wizard.advance('ticket_wiz')
+  },
 
-  set_kind: function(node) {
+  set_kind: function (node) {
     // Tickets creations have a kind of free, offsite, or charge
     // OffsitePayments have a kind of check or cash
     // We need to save each separately
@@ -169,36 +198,38 @@ appl.def('ticket_wiz', {
     var ticket_kind = appl.prev_elem(node).getAttribute('data-ticket-kind')
     appl.def('ticket_wiz.post_data.kind', ticket_kind)
     appl.def('ticket_wiz.post_data.offsite_payment.kind', op_kind)
-    
+
+    const total_amount  =  recalculateTheTotal()
     appl.def('ticket_wiz', {
-      total_amount: recalculateTheTotal(),
-      total_quantity: appl.ticket_wiz.total_quantity
+      total_amount,
+      total_quantity: appl.ticket_wiz.total_quantity,
+      total_fee: recalculateTheFee(total_amount)
     })
   },
 
-  send_payment: function(item_name, form_obj) {
+  send_payment: function (item_name, form_obj) {
     appl.def('loading', true)
     return appl.ticket_wiz.save_supporter_promise
-      .then(function(supporter) {
-        return create_card({type: 'Supporter', id: supporter.id, email: supporter.email}, item_name, form_obj.name)
+      .then(function (supporter) {
+        return create_card({ type: 'Supporter', id: supporter.id, email: supporter.email }, item_name, form_obj.name)
       })
       .catch(show_err)
-      .then(function(card) {
+      .then(function (card) {
         appl.ticket_wiz.post_data.token = card.token
       })
-      .then(function () { 
+      .then(function () {
         appl.ticket_wiz.post_data.fee_covered = form_obj.fee_covered || false
       })
       .then(appl.ticket_wiz.create_tickets)
-      .then(() => {appl.ticketPaymentCard.clear()})
+      .then(() => { appl.ticketPaymentCard.clear() })
   },
 
-  create_tickets: function() {
+  create_tickets: function () {
     appl.def('loading', true)
     return request.post(path)
       .send(appl.ticket_wiz.post_data).perform()
-			.then(complete_wizard)
-			.then(appl.ticket_wiz.on_complete)
+      .then(complete_wizard)
+      .then(appl.ticket_wiz.on_complete)
       .catch(show_err)
   },
 
@@ -210,10 +241,10 @@ appl.def('ticket_wiz', {
 function complete_wizard(resp) {
   appl.def('created_ticket_id', resp.body.tickets[0].id)
   appl.def('loading', false)
-	appl.open_modal('confirmTicketsModal')
-	appl.ticket_wiz.set_defaults()
-	appl.wizard.reset("ticket_wiz")
-	hide_err()
+  appl.open_modal('confirmTicketsModal')
+  appl.ticket_wiz.set_defaults()
+  appl.wizard.reset("ticket_wiz")
+  hide_err()
 }
 
 
@@ -222,15 +253,15 @@ function complete_wizard(resp) {
 // The card form step is a special case, it needs some extra state to be set
 function show_err(resp) {
   appl.def('loading', false)
-	appl.def('error', format_err(resp))
-  appl.def('card_form', {error: true, status: format_err(resp), loading: false, progress_width: '0%'})
+  appl.def('error', format_err(resp))
+  appl.def('card_form', { error: true, status: format_err(resp), loading: false, progress_width: '0%' })
 }
 
 // Hide any errors in the wizard
 function hide_err() {
   appl.def('loading', false)
-	appl.def('error', '')
-  appl.def('card_form', {status: '', error: false, loading: false})
+  appl.def('error', '')
+  appl.def('card_form', { status: '', error: false, loading: false })
 }
 
 appl.ticket_wiz.set_defaults()

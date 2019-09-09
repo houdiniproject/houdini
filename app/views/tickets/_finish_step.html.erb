@@ -79,17 +79,22 @@
 			
 
 			<div class='u-marginTop--15 u-centered'>
+			<div class="donate-feeCoverageCheckbox u-marginBottom--10 u-marginTop--20">
 				<% save_card_uid = SecureRandom.uuid %>
-				<input type='checkbox' id='<%= save_card_uid %>' name='save_card' checked='checked'>
-				<label for='<%= save_card_uid %>'> Save this card for purchases at the event </label>
+				<input class="u-margin--0 donationWizard-amount-input" type="checkbox" id='<%= save_card_uid %>' name='save_card' checked='checked'>
+				<label class="checkbox-feeCoverage-label"for='<%= save_card_uid %>'><div><small>Save this card for purchases at the event</small></div></label>
 
-				<div class='u-background--grey u-padding--10'>
+			<div class="donate-feeCoverageCheckbox u-marginBottom--10 u-marginTop--20">
 				<% fee_covered_id = SecureRandom.uuid %>
-				<input type='checkbox' id='<%= fee_covered_id %>' name='fee_covered' autocomplete="off"%>
+				<input class="u-margin--0 donationWizard-amount-input" type="checkbox" id="<%=fee_covered_id%>">
 				<!--= on 'change' fee_covered.apply) -->
-				<!--= set_attr_if ticket_wiz.fee_covered 'checked' <%= fee_covered_id %> -->
-				<label for='<%= fee_covered_id %>'> Cover Fees </label>
-				</div>
+							<!--= set_attr_if ticket_wiz.fee_covered 'checked' <%= fee_covered_id %> -->
+				<label class="checkbox-feeCoverage-label" for="<%=fee_covered_id%>">
+					<div><small>Boost your contribution! Cover <strong><!--= put ticket_wiz.total_fee --></strong> of processing fees</small></div>
+				</label>
+			</div>
+
+				
 				<div class='u-marginTop--15'>
 					<%= render 'cards/form_footer', hide_dedication: true  %>
 				</div>

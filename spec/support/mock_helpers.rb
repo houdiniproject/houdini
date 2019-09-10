@@ -7,11 +7,11 @@ module MockHelpers
         "Dedicated To: Email",
         "Dedicated To: Phone",
         "Dedicated To: Address",
-        "Dedicated To: Note",	'Anonymous','Comment','Campaign',	'Campaign Id', 'Campaign Creator Email', 'Campaign Gift Level',	'Event Name',	'Payment',	'Check Number', 'Donation Note']
+        "Dedicated To: Note",	'Anonymous','Comment','Campaign',	'Campaign Id', 'Campaign Creator Email', 'Campaign Gift Level',	'Event Name',	'Payment',	'Check Number', 'Donation Note', "Fee Covered By Supporter"]
   end
 
   def self.recurring_donation_export_headers()
-    ["Created At","Amount","Interval","Total Contributed","Campaign Name","Supporter Name","Supporter Email","Phone","Address","City","State","Zip Code","Card Name","Recurring Donation Id","Donation Id", "Cancelled","Failed", "Cancelled At", "Donation Management Url"]
+    ["Created At","Amount","Interval","Total Contributed","Campaign Name","Supporter Name","Supporter Email","Phone","Address","City","State","Zip Code","Card Name","Recurring Donation Id","Donation Id",  "Fee Covered By Supporter", "Cancelled","Failed", "Cancelled At", "Donation Management Url"]
   end
 
   def self.generate_expected_rd_management_url(root_url, rd)

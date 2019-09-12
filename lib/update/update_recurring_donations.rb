@@ -125,6 +125,12 @@ module UpdateRecurringDonations
       params = params.except(:donation)
     end
 
+    fee_covered = params[:fee_covered]
+    misc = rd.misc_recurring_donation_info || rd.create_misc_recurring_donation_info
+    misc.fee_covered = fee_covered
+    misc.save!
+    
+    params = params.except(:fee_covered)
     rd.update_attributes(params)
     return rd
   end

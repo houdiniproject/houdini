@@ -12,8 +12,13 @@
       <label>Select the amount and frequency below</label>
 
 			<span class='prepend--dollar'>
-				<input step='any' class='u-width--100' type='number' name='donation.dollars'>
-				<!--= set_value (cents_to_dollars this.donation.amount) -->
+				<input step='any' class='u-width--100' type='number' name='dollars'>
+				<!--= set_value (cents_to_dollars recurring_donation_details.amount) -->
+				<!--= on 'change' recurring_donation_details.amount_changed__apply -->
+				<!--= on 'keyup' recurring_donation_details.amount_changed__apply -->
+
+				<input name="donation.dollars" type='hidden'>
+				<!--= set_value (cents_to_dollars recurring_donation_details.total) -->
 			</span>
 
       <span> every </span>
@@ -31,6 +36,18 @@
 				<option value='year'>Year(s)</option>
 			</select>
 
+			<div class='u-marginTop--10'>
+						<% fee_covered_id = SecureRandom.uuid %>
+						<input type='checkbox' id='fee_covered-<%= fee_covered_id%>' name="fee_covered"/>
+						<!--= on 'change' recurring_donation_details.fee_covered__apply -->
+						<!--= checked_if recurring_donation_details.fee_covered -->
+						<label for='fee_covered-<%= fee_covered_id %>'>
+						<span><!--= show_if (eq recurring_donation_details.written_fee_amount "0")-->Donor would like to cover the donation fee</span>
+						<span>
+						<!--= show_if (not (eq recurring_donation_details.written_fee_amount "0"))-->
+						Donor would like to cover the $<!--= put recurring_donation_details.written_fee_amount --> donation fee</span>
+						</label>
+						</div>
 			<fieldset>
 				<label>
           End Date <br>

@@ -36,16 +36,16 @@
 				<option value='year'>Year(s)</option>
 			</select>
 
-			<div class='u-marginTop--10'>
+			<div class='u-marginBottom--10'>
 						<% fee_covered_id = SecureRandom.uuid %>
 						<input type='checkbox' id='fee_covered-<%= fee_covered_id%>' name="fee_covered"/>
 						<!--= on 'change' recurring_donation_details.fee_covered__apply -->
 						<!--= checked_if recurring_donation_details.fee_covered -->
 						<label for='fee_covered-<%= fee_covered_id %>'>
-						<span><!--= show_if (eq recurring_donation_details.written_fee_amount "0")-->Donor would like to cover the donation fee</span>
-						<span>
+						<small><!--= show_if (eq recurring_donation_details.written_fee_amount "0")-->Donor would like to cover the donation fee</small>
+						<small>
 						<!--= show_if (not (eq recurring_donation_details.written_fee_amount "0"))-->
-						Donor would like to cover the $<!--= put recurring_donation_details.written_fee_amount --> donation fee</span>
+						Donor would like to cover the <strong>$<!--= put recurring_donation_details.written_fee_amount --></strong> donation fee</small>
 						</label>
 						</div>
 			<fieldset>

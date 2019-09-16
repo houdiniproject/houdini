@@ -21,12 +21,11 @@
 			<strong><!--= put (pluralize ticket_wiz.total_quantity 'tickets') --></strong>
 			totalling
       <strong>
-        <!--= hide_if ticket_wiz.calculated_total_amount --> 
         $<!--= put (cents_to_dollars ticket_wiz.total_amount) -->
       </strong>
       <strong>
-        <!--= show_if ticket_wiz.calculated_total_amount -->
-        $<!--= put (cents_to_dollars ticket_wiz.calculated_total_amount) --> (discounted)
+        <!--= show_if ticket_wiz.discount_obj -->
+    	(discounted)
       </strong>
 		</p>
 

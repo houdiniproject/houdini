@@ -10,6 +10,11 @@ appl.def('ajax_details', {
 			appl.notify('Successfully updated!')
 			appl.close_modal()
 			appl.ajax_details.fetch(appl.recurring_donation_details.id)
+		}).catch((reason) => {
+			appl.def('loading', false)
+			if (reason.body[0]) {
+				appl.notify(reason.body[0])
+			}
 		})
 	}
 })

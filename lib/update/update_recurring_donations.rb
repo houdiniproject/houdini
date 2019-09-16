@@ -6,6 +6,12 @@ require 'format/currency'
 
 module UpdateRecurringDonations
 
+  class UpdateModel
+    include ActiveModel::Validations
+    attr_accessor :amount
+    validates :amount, :presence => true,  :numericality => {:greater_than_or_equal_to => 0.75}
+  end
+
   # Update the card id and name for a given recurring donation (provide rd['donation_id'])
   def self.update_card_id(rd, token)
     rd = rd&.with_indifferent_access
@@ -118,6 +124,15 @@ module UpdateRecurringDonations
 
 
   def self.update(rd, params)
+    model = UpdateRecurringDonations::UpdateModel.new
+
+    model.amount = params[:donation] && params[:donation][:dollars]
+
+    model_valid = model.valid?
+    if !model_valid
+      return model
+    end
+    
     params = set_defaults(params)
     if params[:donation]
       rd.donation.update_attributes(params[:donation])

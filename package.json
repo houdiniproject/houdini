@@ -8,14 +8,16 @@
   "scripts": {
     "watch": "export HOUDINI_WATCH=1; script/build.sh",
     "build": "script/build.sh",
-    "build-all": "npm ci && script/compile-assets.sh && npm run build",
-    "ci-build-all": "script/compile-assets.sh && npm run build",
+    "build-all": "script/compile-assets.sh && npm run build",
+    "ci-build-all": "script/compile-assets.sh && npm ci && npm run build",
     "test": "rake -v spec  && npm run build && npx jest",
     "export-button-config": "bundle exec rake settings:generate_json",
     "export-i18n": "bundle exec rake settings:combine_translations",
     "generate-openapi": "rake oapi:gen",
     "get-codegen-cli": "script/download_codegen_cli.sh",
-    "generate-api-js": "rm -rf javascripts/api && npm run get-codegen-cli && npm run generate-openapi && java -jar .bin/swagger-codegen-cli.jar generate -l 'typescript-jquery' -i tmp/openapi.json -o javascripts/api  --config 'swagger.json' -t lib/swagger-typescript-jquery"
+    "generate-api-js": "rm -rf javascripts/api && npm run get-codegen-cli && npm run generate-openapi && java -jar .bin/swagger-codegen-cli.jar generate -l 'typescript-jquery' -i tmp/openapi.json -o javascripts/api  --config 'swagger.json' -t lib/swagger-typescript-jquery",
+    "webpack": "webpack",
+    "jest": "jest"
   },
   "devDependencies": {
     "@types/color": "^3.0.0",
@@ -83,6 +85,7 @@
     "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^1.0.1",
     "webpack": "^3",
+    "webpack-cli": "^3.3.8",
     "webpack-merge": "^4.1.2",
     "webpack-sweet-entry": "^1.1.4"
   },

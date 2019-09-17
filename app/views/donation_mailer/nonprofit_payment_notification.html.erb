@@ -14,6 +14,7 @@
 <%= render 'components/email/supporter_table', supporter: @donation.supporter %>
 <br>
 
+<% @show_campaign_creator = true%>
 <%= render 'donation_mailer/donation_payment_table', donation: @donation, charge: @charge %>
 
 <% if @donation.recurring_donation %>

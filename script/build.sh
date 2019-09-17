@@ -12,9 +12,9 @@ npm run export-button-config && npm run export-i18n && npm run generate-api-js
 if [ -n "$HOUDINI_WATCH" ];
 then
     echo "we're gonna watch!!!"
-    npx webpack --watch
+    $(npm bin)/webpack  --watch
 else
     echo "we're gonna build!!!"
-    NODE_ENV=production npx webpack -p
+    NODE_ENV=production $(npm bin)/webpack -p
 fi
 )

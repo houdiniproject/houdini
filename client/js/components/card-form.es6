@@ -171,7 +171,7 @@ function feeCoverageField(state) {
             [
               h('small', [I18n.t('nonprofits.donate.amount.feeCoverage.header') + "! Cover ",
               h('strong', state.potentialFees$()),
-                " of processing fees"])
+                " in processing fees"])
             ]
           )
         ])

@@ -119,7 +119,7 @@
     "iban": "0.0.8",
     "imagesloaded": "4.1.1",
     "immutable": "3.7.5",
-    "jquery": "1.11.1",
+    "jquery": "3.4.0",
     "jquery.cookie": "1.4.1",
     "marked": "^0.7.0",
     "mobx": "^4.3.1",

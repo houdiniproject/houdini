@@ -12,7 +12,7 @@ const calc = require('../nonprofits/donate/calculate-total')
 const CommitchangeStripeFeeStructure = require('../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
 const R = require('ramda')
 
-const {Money} = require('../../../javascripts/src/lib/money')
+const { Money } = require('../../../javascripts/src/lib/money')
 
 
 
@@ -21,12 +21,12 @@ appl.def('discounts.apply', function (node) {
   var codes = R.pluck('code', appl.discounts.data)
   if (!R.contains(code, codes)) {
     appl.def('ticket_wiz.discount_obj', false)
-    appl.def('ticket_wiz.post_data.event_discount_id', false)
-    const total_amount  =  recalculateTheTotal()
+    appl.def('ticket_wiz.post_data.event_discount_id', undefined)
+    const calced = recalculateTheTotal()
     appl.def('ticket_wiz', {
-      total_amount,
+      total_amount: calced.total_amount,
       total_quantity: appl.ticket_wiz.total_quantity,
-      total_fee: recalculateTheFee(total_amount)
+      total_fee: calced.fee
     })
     return
   }
@@ -34,12 +34,12 @@ appl.def('discounts.apply', function (node) {
   appl.def('ticket_wiz.discount_obj', R.find(R.propEq('code', code), appl.discounts.data))
   appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
 
-  const total_amount  =  recalculateTheTotal()
-    appl.def('ticket_wiz', {
-      total_amount,
-      total_quantity: appl.ticket_wiz.total_quantity,
-      total_fee: recalculateTheFee(total_amount)
-    })
+  const { total_amount, fee } = recalculateTheTotal()
+  appl.def('ticket_wiz', {
+    total_amount,
+    total_quantity: appl.ticket_wiz.total_quantity,
+    total_fee: fee
+  })
 
 
   if (appl.ticket_wiz.total_amount === 0) {
@@ -47,20 +47,19 @@ appl.def('discounts.apply', function (node) {
   }
 
   appl.notify('Discount successfully applied')
-  appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
+  // appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
 })
 
 appl.def('fee_covered.apply', function (node) {
   var fee_covered = appl.prev_elem(node).checked
   appl.def('ticket_wiz.fee_covered', fee_covered)
-  const total_amount  =  recalculateTheTotal()
-    appl.def('ticket_wiz', {
-      total_amount,
-      total_quantity: appl.ticket_wiz.total_quantity,
-      total_fee: recalculateTheFee(total_amount)
-    })
+  const { total_amount, fee } = recalculateTheTotal()
+  appl.def('ticket_wiz', {
+    total_amount,
+    total_quantity: appl.ticket_wiz.total_quantity,
+    total_fee: fee
+  })
 })
-
 
 function recalculateTheTotal() {
 
@@ -74,40 +73,29 @@ function recalculateTheTotal() {
     ticket_price = ticket_price - Math.round(ticket_price * discount_mult)
   }
 
-  if (ticket_price > 0 && appl.ticket_wiz.fee_covered) {
-    if (!app.nonprofit.feeStructure) {
-      throw new Error("billing Plan isn't found!")
-    }
-
-    if (appl.ticket_wiz.post_data.kind != 'free' && appl.ticket_wiz.post_data.kind != 'offsite') {
-      ticket_price = calc.calculateTotal(
-        { feeCovering: true, amount: ticket_price },
-        new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure))
-    }
+  if (!app.nonprofit.feeStructure) {
+    throw new Error("billing Plan isn't found!")
   }
 
-  return ticket_price
+  const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
 
-}
+  let total_amount = ticket_price
+  let fee = 0
 
-function recalculateTheFee(currentTotal) {
+  if (ticket_price > 0) {
 
-
-  if (currentTotal > 0) {
-    if (!app.nonprofit.feeStructure) {
-      throw new Error("billing Plan isn't found!")
+    if (appl.ticket_wiz.fee_covered && appl.ticket_wiz.post_data.kind != 'free' && appl.ticket_wiz.post_data.kind != 'offsite') {
+      total_amount = calc.calculateTotal(
+        { feeCovering: true, amount: ticket_price }, feeStructure
+      )
     }
 
-    
-    const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
+    const feeResult = feeStructure.calcFromNet(Money.fromCents(ticket_price, 'usd'))
 
-    const {fee} = feeStructure.calcFromNet(Money.fromCents(currentTotal, 'usd'))
-        
-    return fee.amountInCents;
-    
+    fee = feeResult.fee.amountInCents
   }
 
-  return 0;
+  return { total_amount, fee }
 
 }
 
@@ -123,7 +111,13 @@ appl.def('ticket_wiz', {
       tickets: [],
       kind: "charge",
       supporter_id: "",
+      event_discount_id: undefined,
+      
     })
+
+    appl.def('ticket_wiz.discount_obj', false)
+    appl.def('ticket_wiz.fee_covered', true)
+
   },
 
 
@@ -145,11 +139,11 @@ appl.def('ticket_wiz', {
       appl.def('ticket_wiz.fee_covered', true)
     }
 
-    const calculatedAmount =  recalculateTheTotal()
+    const calcTotal = recalculateTheTotal()
     appl.def('ticket_wiz', {
-      total_amount:calculatedAmount,
+      total_amount: calcTotal.total_amount,
       total_quantity: total_quantity,
-      total_fee: recalculateTheFee(calculatedAmount)
+      total_fee: calcTotal.fee
     })
 
     if (appl.ticket_wiz.total_amount === 0) {
@@ -199,11 +193,11 @@ appl.def('ticket_wiz', {
     appl.def('ticket_wiz.post_data.kind', ticket_kind)
     appl.def('ticket_wiz.post_data.offsite_payment.kind', op_kind)
 
-    const total_amount  =  recalculateTheTotal()
+    const calcTotal = recalculateTheTotal()
     appl.def('ticket_wiz', {
-      total_amount,
+      total_amount: calcTotal.totalAmount,
       total_quantity: appl.ticket_wiz.total_quantity,
-      total_fee: recalculateTheFee(total_amount)
+      total_fee: calcTotal.fee
     })
   },
 
@@ -218,7 +212,7 @@ appl.def('ticket_wiz', {
         appl.ticket_wiz.post_data.token = card.token
       })
       .then(function () {
-        appl.ticket_wiz.post_data.fee_covered = form_obj.fee_covered || false
+        appl.ticket_wiz.post_data.fee_covered = appl.ticket_wiz.fee_covered || false
       })
       .then(appl.ticket_wiz.create_tickets)
       .then(() => { appl.ticketPaymentCard.clear() })

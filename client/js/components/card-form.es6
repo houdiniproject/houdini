@@ -120,15 +120,6 @@ const view = state => {
     state.element.update({ value: { postalCode: state.formAddressMerged$() } })
   }
 
-
-
-  // const payFees = (state) => {
-  //   return h('div.u-padding--8.u-background--grey', [
-  //     h('div', 'Yes, make your contribution go further'),
-  //     h('div', `By adding <strong>${state}</strong> to your contribution gives more money to CommitChange`)
-  //   ])
-  // }
-
   var field = validatedForm.field(state.form)
   return validatedForm.form(state.form, h('form.cardForm', [
     h('div', [

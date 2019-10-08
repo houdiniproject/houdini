@@ -15,7 +15,7 @@ require('./delete-ticket')
 
 const CommitchangeStripeFeeStructure = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
 const calc = require('../../nonprofits/donate/calculate-total')
-
+const Money = require('../../../../javascripts/src/lib/money').Money
 
 function metricsFetch() {
   appl.def('loading_metrics', true)
@@ -242,7 +242,7 @@ appl.def('recalc_total_and_fee', () => {
 
 
     appl.def('donation_info.amount',calc.calculateTotal({feeCovering, amount},feeStructure))
-    appl.def('donation_info.fee_amount', feeStructure.calcFromNet(amount).fee)
+    appl.def('donation_info.fee_amount', feeStructure.calcFromNet(Money.fromCents(amount, 'usd')).fee.amountInCents)
   }
 
   appl.def('donation_info.written_fee_amount', format.centsToDollars(appl.donation_info.fee_amount))

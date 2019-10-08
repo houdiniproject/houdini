@@ -222,7 +222,7 @@ appl.def('fee_covered__apply', (elm) => {
 
 appl.def('recalc_total_and_fee', () => {
   let possibleDollars = parseFloat(appl.donation_info.input_dollars)
-  if (possibleDollars === NaN) {
+  if (Number.isNaN(possibleDollars)) {
     possibleDollars = 0
   }
 

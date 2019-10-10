@@ -82,6 +82,7 @@
 				<% save_card_uid = SecureRandom.uuid %>
 				<input class="u-margin--0 donationWizard-amount-input" type="checkbox" id='<%= save_card_uid %>' name='save_card' checked='checked'>
 				<label class="checkbox-feeCoverage-label"for='<%= save_card_uid %>'><div><small>Save this card for purchases at the event</small></div></label>
+				</div>
 
 			<div class="donate-feeCoverageCheckbox u-marginBottom--10 u-marginTop--20">
 				<% fee_covered_id = SecureRandom.uuid %>
@@ -100,8 +101,7 @@
 			</div>
 		</form>
 		
-		
-    <form>
+		<form>
       <!--= show_if (eq ticket_wiz.post_data.offsite_payment.kind 'cash') -->
       <!--= on 'submit' ticket_wiz.create_tickets -->
       <%= render 'components/forms/submit_button', branded: true %>
@@ -118,6 +118,7 @@
 			</div>
       <%= render 'components/forms/submit_button', branded: true %>
 		</form>
+    
 	</div>
 
 </section>

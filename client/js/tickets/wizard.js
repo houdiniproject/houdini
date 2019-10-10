@@ -195,7 +195,7 @@ appl.def('ticket_wiz', {
 
     const calcTotal = recalculateTheTotal()
     appl.def('ticket_wiz', {
-      total_amount: calcTotal.totalAmount,
+      total_amount: calcTotal.total_amount,
       total_quantity: appl.ticket_wiz.total_quantity,
       total_fee: calcTotal.fee
     })

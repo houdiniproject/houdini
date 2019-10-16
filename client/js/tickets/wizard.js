@@ -116,7 +116,9 @@ appl.def('ticket_wiz', {
     })
 
     appl.def('ticket_wiz.discount_obj', false)
-    appl.def('ticket_wiz.fee_covered', true)
+    if (!appl.reload_on_completion){
+      appl.def('ticket_wiz.fee_covered', true)
+    }
 
   },
 
@@ -203,25 +205,29 @@ appl.def('ticket_wiz', {
 
   send_payment: function (item_name, form_obj) {
     appl.def('loading', true)
+    let post_data = { ...appl.ticket_wiz.post_data}
     return appl.ticket_wiz.save_supporter_promise
       .then(function (supporter) {
         return create_card({ type: 'Supporter', id: supporter.id, email: supporter.email }, item_name, form_obj.name)
       })
       .catch(show_err)
       .then(function (card) {
-        appl.ticket_wiz.post_data.token = card.token
+        post_data.token = card.token
       })
       .then(function () {
-        appl.ticket_wiz.post_data.fee_covered = appl.ticket_wiz.fee_covered || false
+        post_data.fee_covered = appl.ticket_wiz.fee_covered || false
       })
-      .then(appl.ticket_wiz.create_tickets)
+      .then(() => appl.ticket_wiz.create_tickets(post_data))
       .then(() => { appl.ticketPaymentCard.clear() })
   },
 
-  create_tickets: function () {
+  create_tickets: function (post_data=null) {
     appl.def('loading', true)
+    if (!post_data) {
+      post_data = {...appl.ticket_wiz.post_data}
+    }
     return request.post(path)
-      .send(appl.ticket_wiz.post_data).perform()
+      .send(post_data).perform()
       .then(complete_wizard)
       .then(appl.ticket_wiz.on_complete)
       .catch(show_err)
@@ -233,12 +239,17 @@ appl.def('ticket_wiz', {
 // To be called when either a free or purchased ticket was successfully
 // redeemed; will show a success/thank-you modal
 function complete_wizard(resp) {
-  appl.def('created_ticket_id', resp.body.tickets[0].id)
-  appl.def('loading', false)
-  appl.open_modal('confirmTicketsModal')
-  appl.ticket_wiz.set_defaults()
-  appl.wizard.reset("ticket_wiz")
-  hide_err()
+  if (appl.reload_on_completion){
+    window.location.reload()
+  }
+  else {
+    appl.def('created_ticket_id', resp.body.tickets[0].id)
+    appl.def('loading', false)
+    appl.open_modal('confirmTicketsModal')
+    appl.ticket_wiz.set_defaults()
+    appl.wizard.reset("ticket_wiz")
+    hide_err()
+  }
 }
 
 

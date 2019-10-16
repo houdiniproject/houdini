@@ -70,6 +70,9 @@
 				ticketPaymentCard.mount("#ticketPaymentCard")
 		</script>
 	<%= IncludeAsset.js '/client/js/events/show/page.js' %>
+	<script>
+	appl.def('ticketPaymentCard', ticketPaymentCard)
+	</script>
 <% end %>
 
 <%= content_for :head do %>

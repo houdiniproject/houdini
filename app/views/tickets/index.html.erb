@@ -30,8 +30,8 @@
         }
     })
         
-    appl.def('ticketPaymentCard', ticketPaymentCard)
-    appl.ticketPaymentCard.mount("#ticketPaymentCard")  
+    
+    ticketPaymentCard.mount("#ticketPaymentCard")  
         
 
         var donationPaymentCard = stripeV3.elements({
@@ -58,14 +58,15 @@
 		</script>
 	<%= IncludeAsset.js '/client/js/tickets/index/page.js' %>
   <script>
-
+    appl.def('ticketPaymentCard', ticketPaymentCard)
 		app.nonprofit.feeStructure = {
 			flatFee: 30,
 			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
 		}
 	</script>
   <script>
-      appl.ticket_wiz.fee_covered = false
+      appl.def('ticket_wiz.fee_covered', false)
+      appl.reload_on_completion = true
     </script>
 <% end %>
 

@@ -8,7 +8,7 @@
 		<h5 class='u-centered'>Your tickets are free!</h5>
 
 		<form>
-			<!--= on 'submit' ticket_wiz.create_tickets -->
+			<!--= on 'submit' (ticket_wiz.create_tickets null) -->
 			<%= render 'components/forms/submit_button', button_text: 'Get Tickets', loading_text: 'Redeeming...', branded: true %>
 		</form>
 	</div>
@@ -86,8 +86,8 @@
 
 			<div class="donate-feeCoverageCheckbox u-marginBottom--10 u-marginTop--20">
 				<% fee_covered_id = SecureRandom.uuid %>
-				<input class="u-margin--0 donationWizard-amount-input" type="checkbox" id="<%=fee_covered_id%>">
-				<!--= on 'change' fee_covered.apply) -->
+				<input class="u-margin--0 donationWizard-amount-input" type="checkbox" id="<%=fee_covered_id%>" autocomplete="off">
+				<!--= on 'change' fee_covered.apply -->
 							<!--= set_attr_if ticket_wiz.fee_covered 'checked' <%= fee_covered_id %> -->
 				<label class="checkbox-feeCoverage-label" for="<%=fee_covered_id%>">
 					<div><small>Boost your contribution! Cover <strong>$<!--= put (cents_to_dollars ticket_wiz.total_fee) --></strong> in processing fees</small></div>
@@ -103,14 +103,14 @@
 		
 		<form>
       <!--= show_if (eq ticket_wiz.post_data.offsite_payment.kind 'cash') -->
-      <!--= on 'submit' ticket_wiz.create_tickets -->
+      <!--= on 'submit' (ticket_wiz.create_tickets null) -->
       <%= render 'components/forms/submit_button', branded: true %>
     </form>
 
 
 		<form>
       <!--= show_if (eq ticket_wiz.post_data.offsite_payment.kind 'check') -->
-      <!--= on 'submit' ticket_wiz.create_tickets -->
+      <!--= on 'submit' (ticket_wiz.create_tickets null) -->
 
 			<div class='u-maxWidth--200 u-margin--auto'>
 				<label>Check Number</label>

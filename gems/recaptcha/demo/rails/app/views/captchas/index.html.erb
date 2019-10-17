@@ -1,0 +1,51 @@
+<% if params[:multi] %>
+  <script type="text/javascript">
+    var verifyCallback = function(response) {
+      alert(response);
+    };
+    var widgetId1;
+    var widgetId2;
+    var onloadCallback = function() {
+      // Renders the HTML element with id 'example1' as a reCAPTCHA widget.
+      // The id of the reCAPTCHA widget is assigned to 'widgetId1'.
+      widgetId1 = grecaptcha.render('example1', {
+        'sitekey' : "<%= Recaptcha.configuration.site_key %>",
+        'theme' : 'light'
+      });
+      widgetId2 = grecaptcha.render(document.getElementById('example2'), {
+        'sitekey' : "<%= Recaptcha.configuration.site_key %>"
+      });
+      grecaptcha.render('example3', {
+        'sitekey' : "<%= Recaptcha.configuration.site_key %>",
+        'callback' : verifyCallback,
+        'theme' : 'dark'
+      });
+    };
+  </script>
+
+  <%= form_tag "/captchas" do |f| %>
+    <div id="example1"></div>
+    <%= submit_tag %>
+  <% end %>
+  <%= form_tag "/captchas" do %>
+    <div id="example2"></div>
+    <%= submit_tag %>
+  <% end %>
+  <%= form_tag "/captchas" do %>
+    <div id="example3"></div>
+    <%= submit_tag %>
+  <% end %>
+  <script src="<%= Recaptcha.configuration.api_server_url %>?onload=onloadCallback&render=explicit" async defer></script>
+<% elsif params[:invisible] %>
+  <%= form_tag "/captchas", id: "invisible-recaptcha-form" do %>
+    <%= invisible_recaptcha_tags text: 'Save changes' %>
+  <% end %>
+<% else %>
+  <%= form_tag "/captchas" do %>
+    <%= recaptcha_tags %>
+    <%= submit_tag %>
+  <% end %>
+<% end %>
+<%= link_to 'Single ?', '?' if params[:multi] or params[:invisible] %>
+<%= link_to 'Multi ?', '?multi=1' unless params[:multi] %>
+<%= link_to 'Invisible ?', '?invisible=1' unless params[:invisible] %>

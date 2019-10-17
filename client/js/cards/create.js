@@ -9,6 +9,7 @@
 
 var request = require('../common/super-agent-promise')
 var format_err = require('../common/format_response_error')
+const grecaptcha_during_payment = require('../../../javascripts/src/lib/grecaptcha_during_payment').default
 
 module.exports = create_card
 
@@ -62,7 +63,12 @@ function create_card(holder, card_obj, cardholderName, options ) {
 		// Then, save a Card record in our db
 		.then(function(stripe_resp) {
 			appl.def('card_form', statuses.before_create)
-			return create_record(holder, stripe_resp, options)
+			return stripe_resp
+		})
+		.then(grecaptcha_during_payment)
+		.catch(display_grecaptcha_err)
+		.then(function(args) {
+			return create_record(holder, args.stripe_resp, args.recaptcha_token, options)
 		})
 		.then(function(resp) {
 			appl.def('card_form', statuses.on_complete)
@@ -82,7 +88,7 @@ function tokenize_with_stripe(card_obj, cardholderName) {
 }
 
 // Save a record of the card in our own db
-function create_record(holder, stripe_resp, options={}) {
+function create_record(holder, stripe_resp, recaptcha_token, options={}) {
 	var output = {card: {
             holder_type: holder.type,
             holder_id: holder.id,
@@ -91,7 +97,11 @@ function create_record(holder, stripe_resp, options={}) {
             name: stripe_resp.card.brand + ' *' + stripe_resp.card.last4,
             stripe_card_token: stripe_resp.id,
             stripe_card_id: stripe_resp.card.id
-        }}
+		}}
+	
+	if (recaptcha_token){
+		output['g-recaptcha-response']= recaptcha_token
+	}
 	if (options['event_id'])
 	{
 		output['event_id'] = options['event_id']
@@ -128,3 +138,20 @@ function display_stripe_err(resp) {
 		throw new Error()
   }
 }
+
+function display_grecaptcha_err(resp) {
+	if(resp && resp.message) {
+		if (_paq) {
+			_paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service']);
+		}
+	  appl.def('card_form', {
+		loading: false,
+		error: true,
+		status: resp.message,
+		progress_width: '0%'
+	  })
+		  appl.def('loading', false)
+		  
+		  throw new Error()
+	}
+  }

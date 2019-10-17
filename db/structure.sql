@@ -1776,6 +1776,37 @@ ALTER SEQUENCE public.profiles_id_seq OWNED BY public.profiles.id;
 
 
 --
+-- Name: recaptcha_rejections; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.recaptcha_rejections (
+    id integer NOT NULL,
+    details text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: recaptcha_rejections_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.recaptcha_rejections_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: recaptcha_rejections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.recaptcha_rejections_id_seq OWNED BY public.recaptcha_rejections.id;
+
+
+--
 -- Name: recurring_donations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2661,6 +2692,13 @@ ALTER TABLE ONLY public.profiles ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
+-- Name: recaptcha_rejections id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recaptcha_rejections ALTER COLUMN id SET DEFAULT nextval('public.recaptcha_rejections_id_seq'::regclass);
+
+
+--
 -- Name: recurring_donations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3100,6 +3138,14 @@ ALTER TABLE ONLY public.cards
 
 ALTER TABLE ONLY public.payments
     ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recaptcha_rejections recaptcha_rejections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recaptcha_rejections
+    ADD CONSTRAINT recaptcha_rejections_pkey PRIMARY KEY (id);
 
 
 --
@@ -4553,4 +4599,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190522162746');
 INSERT INTO schema_migrations (version) VALUES ('20190820205820');
 
 INSERT INTO schema_migrations (version) VALUES ('20190820205841');
+
+INSERT INTO schema_migrations (version) VALUES ('20191001174129');
 

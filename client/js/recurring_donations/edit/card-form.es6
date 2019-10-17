@@ -16,6 +16,8 @@ const createCardStream = require('../../cards/create-frp.es6')
 
 const create_card_element = require('../../../../javascripts/src/lib/create_card_element.ts')
 
+const grecaptchaPromised = require('../../../../javascripts/src/lib/grecaptcha_during_payment').default
+
 // A component for filling out card data, validating it, saving the card to
 // stripe, and then saving a tokenized copy to our servers.
 
@@ -64,16 +66,27 @@ const init = (state) => {
   }, state.form.validData$)
   state.stripeRespOk$  = flyd.filter(r => !r.error, stripeResp$)
   const stripeError$ = flyd.map(r => r.error.message, flyd.filter(r =>  r.error, stripeResp$))
- 
+  const recaptchaKey$ = flyd.flatMap((resp) => {
+    return flyd.stream(grecaptchaPromised(resp))
+  }, state.stripeRespOk$)
+
+  const recaptchaKeyOk$ = flyd.filter(r => !r.message, recaptchaKey$)
+
   // Save the card as a card table on our own db
   // streams of responses
-  state.resp$ = flyd.flatMap(
-    resp => saveCard(state.payload$(), state.path$(), resp) // cheating on the streams here..
-  , state.stripeRespOk$ )
+  state.resp$ = flyd.flatMap((resp) => {
+
+    //handle cases where the recaptcha is in error
+    return saveCard(state.payload$(), state.path$(), resp.stripe_resp, resp.recaptcha_token)
+  }, recaptchaKeyOk$)
+
+  const recaptchaError$ = flyd.map(R.prop('message'), flyd.filter(resp => {
+    return   resp.message
+  }, recaptchaKey$))
 
   const ccError$ = flyd.map(R.prop('error'), flyd.filter(resp => resp.error, state.resp$))
   state.saved$ = flyd.filter(resp => !resp.error, state.resp$) 
-  state.error$ = flyd.merge(stripeError$, ccError$)
+  state.error$ = flyd.merge(stripeError$, flyd.merge(ccError$, recaptchaError$))
 
   state.loading$ = scanMerge([
     [state.form.validSubmit$, R.always(true)]
@@ -138,7 +151,15 @@ const view = state => {
       , buttonText: I18n.t('nonprofits.donate.payment.card.submit')
       , loadingText: ` ${I18n.t('nonprofits.donate.payment.card.loading')}`
       })
-     , h('p.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey', [ h('i.fa.fa-lock'), ` ${I18n.t('nonprofits.donate.payment.card.secure_info')}`])
+      , state.hideButton ? '' : h('div.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey.u-security-notification', [h('i.fa.fa-lock.u-security-icon'),
+      h('div',
+        [h('span', 'Transactions secured with 256-bit SSL and protected by ReCAPTCHA. The ReCAPTCHA and Google '),
+          h('a', {props: { href: 'https://policies.google.com/privacy', target:"_new", style:"color: grey!important; text-decoration:underline;" }}, 'Privacy Policy'),
+          h('span',' and '),
+          h('a', {props: { href: 'https://policies.google.com/terms', target:"_new", style:"color: grey!important; text-decoration:underline;"  }}, 'Terms of Service'),
+          h('span', ' apply.')]
+      )
+      ])
     ])
   ]) )
 }

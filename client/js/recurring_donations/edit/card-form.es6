@@ -67,7 +67,7 @@ const init = (state) => {
   state.stripeRespOk$  = flyd.filter(r => !r.error, stripeResp$)
   const stripeError$ = flyd.map(r => r.error.message, flyd.filter(r =>  r.error, stripeResp$))
   const recaptchaKey$ = flyd.flatMap((resp) => {
-    return flyd.stream(grecaptchaPromised(resp))
+    return flyd.stream(grecaptchaPromised(resp).catch(i => i))
   }, state.stripeRespOk$)
 
   const recaptchaKeyOk$ = flyd.filter(r => !r.message, recaptchaKey$)
@@ -81,11 +81,17 @@ const init = (state) => {
   }, recaptchaKeyOk$)
 
   const recaptchaError$ = flyd.map(R.prop('message'), flyd.filter(resp => {
-    return   resp.message
+    return resp.message
   }, recaptchaKey$))
 
+  flyd.map(() => {
+    if (_paq) {
+      _paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service']);
+    }
+  }, recaptchaError$)
+
   const ccError$ = flyd.map(R.prop('error'), flyd.filter(resp => resp.error, state.resp$))
-  state.saved$ = flyd.filter(resp => !resp.error, state.resp$) 
+  state.saved$ = flyd.filter(resp => !resp.error, state.resp$)
   state.error$ = flyd.merge(stripeError$, flyd.merge(ccError$, recaptchaError$))
 
   state.loading$ = scanMerge([
@@ -101,7 +107,11 @@ const init = (state) => {
 // -- Stream-related functions
 
 // Save the card to our own servers, and return a response stream
-const saveCard = (send, path, resp) => {
+const saveCard = (send, path, resp, recaptcha_token) => {
+  send = R.merge(send, {
+    'g-recaptcha-response': recaptcha_token
+  });
+  
   send.card = R.merge(send.card, {
     cardholders_name: resp.name
     , name: `${resp.token.card.brand} *${resp.token.card.last4}`

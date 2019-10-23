@@ -19,14 +19,15 @@ const sepaTab = 'sepa'
 const cardTab = 'credit_card'
 
 function init(state) {
+  const params$ =  (state && state.params$) || flyd.stream({});
+  
   const payload$ = flyd.map(supp => ({ card: { holder_id: supp.id, holder_type: 'Supporter' } }), state.supporter$)
   const supporterID$ = flyd.map(supp => supp.id, state.supporter$)
   const card$ = flyd.merge(
     flyd.stream({})
     , flyd.map(supp => ({ name: supp.name, address_zip: supp.zip_code }), state.supporter$))
 
-  const coverFees$ = flyd.stream(true)
-
+  const coverFees$ = flyd.map(params => params.manual_cover_fees ? false : true, params$)
 
   state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
     const feeStructure = app.nonprofit.feeStructure

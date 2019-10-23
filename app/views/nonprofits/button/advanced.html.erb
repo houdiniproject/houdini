@@ -116,6 +116,12 @@
       <p>You can set the <strong>data-custom-fields</strong> attribute to add custom fields to the info step of the donate form. Each custom field attribute is comprised of two parts separated by an colon character (example: "shirt size: T-shirt size"). The first part is the name of the custom field and the second part is the text to display on the input. If the second part isn't provided, the name of the custom field will be displayed on the input. Each custom field should be separated by a comma. If the custom field doesn't already exist it will be created.</p>
       <textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-custom-fields='shirt size: T-shirt size, company: Company name'></a></textarea>
 
+	  <h5>Don't pre-check the cover fees checkbox</h5>
+
+		<p>By default, we automatically select the checkbox for the donor to cover transaction processing fees. If you'd prefer the cover fees checkbox not be selected by default, add the <strong>data-manual-cover-fees</strong> attribute.</p>
+
+		<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-manual-cover-fees></a></textarea>
+
 		</div><!-- .yes-js -->
 	</section>
 </div>

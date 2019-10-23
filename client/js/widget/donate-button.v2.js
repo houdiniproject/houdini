@@ -103,6 +103,7 @@ commitchange.getParamsFromButton = (elem) => {
   , designation: elem.getAttribute('data-designation')
   , multiple_designations: elem.getAttribute('data-multiple-designations')
   , hide_dedication: elem.getAttribute('data-hide-dedication')? true : false
+  , manual_cover_fees: elem.getAttribute('data-manual-cover-fees') !== null ? true : false
   , designations_prompt: elem.getAttribute('data-designations-prompt')
   , single_amount: elem.getAttribute('data-single-amount')
   , designation_desc: elem.getAttribute('data-designation-desc') || elem.getAttribute('data-description')

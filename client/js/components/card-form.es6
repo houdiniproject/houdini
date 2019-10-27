@@ -82,7 +82,7 @@ const init = (state) => {
   }, recaptchaKeyOk$)
 
   const recaptchaError$ = flyd.map(R.prop('message'), flyd.filter(resp => {
-    return resp.message
+    return resp.message;
   }, recaptchaKey$))
 
   flyd.map(() => {

@@ -4,12 +4,14 @@
 
 <%= render 'layouts/app_data' %>
 <% if Settings.payment_provider.stripe_proprietary_v2_js %>
+  <%# <script type="text/javascript" src="https://js.stripe.com/v2/"></script> %>
   <script src="https://js.stripe.com/v3/"></script>
 <% else %>
   <%= IncludeAsset.js "/client/js/stripe_wrapper/page.js" %>
 <% end %>
 
 <script>
+//Stripe.setPublishableKey("<%= Settings.payment_provider.stripe_public_key %>");
 var stripeV3 = Stripe("<%= Settings.payment_provider.stripe_public_key %>");
 window._csrf = "<%= form_authenticity_token %>";
 </script>
@@ -21,8 +23,6 @@ window._csrf = "<%= form_authenticity_token %>";
     I18n.defaultLocale = "<%= I18n.default_locale %>"
     I18n.locale = "<%= I18n.locale %>"
 </script>
-
-<script defer src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %>"></script>
 
 
 <%= yield :javascripts %>

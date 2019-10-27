@@ -23,7 +23,6 @@ var app = {
 , editor: "<%= Settings.page_editor.editor%>"
 <% if Settings&.page_editor&.editor == 'froala' and Settings&.page_editor&.editor_options&.froala_key %>, froala_key: "<%= Settings.page_editor.editor_options.froala_key %>"<% end %>
   <%if @nonprofit&.currency_symbol %>, currency_symbol: "<%= @nonprofit.currency_symbol%>"<% end %>
-  , recaptcha_site_key: "<%= ENV['RECAPTCHA_SITE_KEY'] %>"
 };
 
 var ENV = {

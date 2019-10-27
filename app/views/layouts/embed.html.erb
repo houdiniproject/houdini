@@ -6,6 +6,7 @@
 	<title><%= yield(:title) || "Donate with #{Settings.general.name}" %></title>
 
 	<%= render 'layouts/stylesheets' %>
+  <%= yield :stylesheets %>
 
 	<%= favicon_link_tag %>
 	<%= csrf_meta_tags %>
@@ -19,6 +20,9 @@
 <%= yield %>
 
 <%= render 'layouts/javascripts' %>
+<%= yield :javascripts %>
+
+<span data-parsley-namespace='parsley-'></span>
 
 
 </body>

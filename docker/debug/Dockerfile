@@ -1,4 +1,4 @@
-FROM ruby:2.4.5-stretch
+FROM ruby:2.5.1-stretch
 ARG USER
 RUN mkdir /myapp
 COPY script/build/debian/prebuild.sh myapp/script/build/debian/prebuild.sh

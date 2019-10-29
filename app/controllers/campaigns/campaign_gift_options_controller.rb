@@ -26,20 +26,20 @@ module Campaigns
 
     def create
       campaign = current_campaign
-      json_saved CreateCampaignGiftOption.create(campaign, params[:campaign_gift_option]),
+      json_saved CreateCampaignGiftOption.create(campaign, campaign_gift_option_params),
                  'Gift option successfully created!'
     end
 
     def update
       @campaign = current_campaign
       gift_option = @campaign.campaign_gift_options.find params[:id]
-      json_saved UpdateCampaignGiftOption.update(gift_option, params[:campaign_gift_option]), 'Successfully updated'
+      json_saved UpdateCampaignGiftOption.update(gift_option, campaign_gift_option_params), 'Successfully updated'
     end
 
     # put /nonprofits/:nonprofit_id/campaigns/:campaign_id/campaign_gift_options/update_order
     # Pass in {data: [{id: 1, order: 1}]}
     def update_order
-      updated_gift_options = UpdateOrder.with_data('campaign_gift_options', params[:data])
+      updated_gift_options = UpdateOrder.with_data('campaign_gift_options', update_order_params)
       render json: updated_gift_options
     end
 
@@ -48,4 +48,14 @@ module Campaigns
 
       render_json { DeleteCampaignGiftOption.delete(@campaign, params[:id]) }
     end
-end; end
+
+private 
+    def campaign_gift_option_params
+      params.require(:campaign_gift_option).permit(:name, :amount_one_time, :amount_recurring, :description, :quantity, :to_ship, :order, :hide_contributions)
+    end
+
+    def update_order_params
+      params.require(:data)
+    end
+end
+end

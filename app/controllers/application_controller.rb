@@ -2,7 +2,7 @@
 class ApplicationController < ActionController::Base
 	before_filter :set_locale, :redirect_to_maintenance
 
-	protect_from_forgery
+	protect_from_forgery with: :exception
 
 	helper_method \
 		:current_role?,
@@ -171,4 +171,11 @@ private
 		current_user && current_user.id
 	end
 
+	 # Overload handle_unverified_request to ensure that
+  # exception is raised each time a request does not
+  # pass validation.
+  def handle_unverified_request
+	Airbrake.notify(ActionController::InvalidAuthenticityToken, params: params)
+    
+  end
 end

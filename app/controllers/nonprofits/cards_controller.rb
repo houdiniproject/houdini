@@ -29,7 +29,7 @@ module Nonprofits
     end
 
     def required_params
-      params.require(:nonprofit_id, card: [:name, :stripe_card_token, :stripe_card_id, :holder_id, :holder_type] )
+      params.require(:nonprofit_id, card: [:name, :stripe_card_token, :stripe_card_id, :holder_id, :holder_type])
     end
   end
 end

@@ -49,7 +49,8 @@ module Campaigns
       render_json { DeleteCampaignGiftOption.delete(@campaign, params[:id]) }
     end
 
-private 
+    private
+
     def campaign_gift_option_params
       params.require(:campaign_gift_option).permit(:name, :amount_one_time, :amount_recurring, :description, :quantity, :to_ship, :order, :hide_contributions)
     end
@@ -57,5 +58,5 @@ private
     def update_order_params
       params.require(:data)
     end
-end
+  end
 end

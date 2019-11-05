@@ -14,7 +14,7 @@ module Nonprofits
                                           email: current_user.email,
                                           user_ip: current_user.current_sign_in_ip,
                                           bank_name: current_nonprofit.bank_account.name
-                                        }, before_date: params[:before_date])
+                                        }, before_date: payout_params[:before_date])
 
       if payout['failure_message'].present?
         flash[:notice] = "The payout failed: #{payout['failure_message']}"
@@ -46,5 +46,12 @@ module Nonprofits
         end
       end
     end
+
+    private
+
+    def payout_params
+      params.permit(:before_date)
+    end
+
     end
 end

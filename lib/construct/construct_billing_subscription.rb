@@ -8,11 +8,9 @@ module ConstructBillingSubscription
   def self.with_stripe(np, billing_plan)
     raise ArgumentError, 'Billing plan not found' if billing_plan.nil?
 
-    trial_end = QueryBillingSubscriptions.currently_in_trial?(np.id) ? (np.created_at + 15.days).to_i : nil
     customer = Stripe::Customer.retrieve np.active_card.stripe_customer_id
     stripe_subscription = customer.subscriptions.create(
-      plan: billing_plan.stripe_plan_id,
-      trial_end: trial_end
+      plan: billing_plan.stripe_plan_id
     )
     {
       billing_plan_id: billing_plan.id,

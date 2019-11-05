@@ -5,7 +5,7 @@ class BillingSubscription < ApplicationRecord
   # :nonprofit_id, :nonprofit,
   # :billing_plan_id, :billing_plan,
   # :stripe_subscription_id,
-  # :status # trialing, active, past_due, canceled, or unpaid
+  # :status # active, past_due, canceled, or unpaid
 
   attr_accessor :stripe_plan_id, :manual
   belongs_to :nonprofit

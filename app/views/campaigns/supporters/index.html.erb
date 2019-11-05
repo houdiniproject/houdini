@@ -15,8 +15,6 @@
   <%= stylesheet_link_tag 'campaigns/supporters/index/page' %>
 <% end %>
 
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
-
 <header class='header'>
 	<div class='container'>
 		<i class='icon-check-list header-icon'></i>

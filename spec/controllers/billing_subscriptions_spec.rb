@@ -7,9 +7,6 @@ require 'controllers/support/shared_user_context'
 describe BillingSubscriptionsController, type: :controller do
   describe 'authorization' do
     include_context :shared_user_context
-    describe 'create_trial' do
-      include_context :open_to_np_admin, :post, :create_trial, nonprofit_id: :__our_np
-    end
 
     describe 'create' do
       include_context :open_to_np_admin, :post, :create, nonprofit_id: :__our_np

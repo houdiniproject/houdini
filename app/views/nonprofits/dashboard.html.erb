@@ -10,8 +10,6 @@
 	<%= IncludeAsset.js '/client/js/nonprofits/dashboard/page.js' %>
 <% end %>
 
-<%= render '/components/trial_bar' if nonprofit_in_trial? %>
-
 <%= render 'components/header',
 	icon_class: 'icon-camera-graph-2',
 	title: 'Dashboard',

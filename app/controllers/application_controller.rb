@@ -9,8 +9,7 @@ class ApplicationController < ActionController::Base
   helper_method \
     :current_role?,
     :current_nonprofit_user?,
-    :administered_nonprofit,
-    :current_plan_tier # int
+    :administered_nonprofit
 
   def set_locale
     if params[:locale] && Settings.available_locales.include?(params[:locale])

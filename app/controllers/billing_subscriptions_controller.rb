@@ -25,10 +25,4 @@ class BillingSubscriptionsController < ApplicationController
     @billing_plan = @nonprofit.billing_plan
     @billing_subscription = @nonprofit.billing_subscription
   end
-
-  private
-
-  def required_params
-    params.permit(:nonprofit_id, :billing_plan_id, :stripe_subscription_id, :status)
-  end
 end

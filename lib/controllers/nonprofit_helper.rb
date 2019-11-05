@@ -12,12 +12,6 @@ module Controllers::NonprofitHelper
     block_with_sign_in 'Please sign in' unless current_nonprofit_admin?
   end
 
-  def authenticate_min_nonprofit_plan(plan_tier)
-    unless current_nonprofit_user? && current_plan_tier >= plan_tier
-      block_with_sign_in 'Please sign in'
-    end
-  end
-
   def current_nonprofit_user?
     return false if params[:preview]
     return false unless current_nonprofit_without_exception

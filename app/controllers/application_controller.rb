@@ -124,16 +124,6 @@ class ApplicationController < ActionController::Base
     QueryRoles.user_has_role?(current_user.id, role_names, host_id)
   end
 
-  def current_plan_tier(npo_id = nil)
-    return 0 if !npo_id && !administered_nonprofit
-
-    npo_id ||= administered_nonprofit.id
-    return 2 if current_role?(:super_admin)
-
-    key = "plan_tier_user_#{current_user_id}_nonprofit_#{npo_id}"
-    administered_nonprofit ? QueryBillingSubscriptions.plan_tier(npo_id) : 0
-  end
-
   def administered_nonprofit
     return nil unless current_user
 

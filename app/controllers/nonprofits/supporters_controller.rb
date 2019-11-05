@@ -6,7 +6,6 @@ module Nonprofits
     include Controllers::NonprofitHelper
 
     before_action :authenticate_nonprofit_user!, except: %i[new create]
-    # before_action(except: [:create, :mailchimp_landing]){authenticate_min_nonprofit_plan(2)}
 
     # get /nonprofit/:nonprofit_id/supporters
     def index

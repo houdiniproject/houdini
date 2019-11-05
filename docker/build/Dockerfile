@@ -14,6 +14,5 @@ WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
 RUN bundle install
-ENV NODE_ICU_DATA=/usr/lib/node_modules/icu4c-data
 CMD rake -T
 

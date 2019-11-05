@@ -26,5 +26,4 @@ RUN chown -R $USER /usr/local/bundle
 RUN chgrp -R $USER /usr/local/bundle
 USER $USER
 EXPOSE 5000
-ENV NODE_ICU_DATA=/usr/lib/node_modules/icu4c-data
 CMD foreman start

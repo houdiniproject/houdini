@@ -66,7 +66,7 @@ bundle exec rails server
 
 ```bash
 # Console two (2)
-npm run watch
+yarn watch
 # #### Notes ####
 # If you get errors from running this command.
 # You'll need to manually run the following commands.

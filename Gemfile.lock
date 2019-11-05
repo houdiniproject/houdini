@@ -290,6 +290,8 @@ GEM
     rack (2.0.9)
     rack-attack (5.4.2)
       rack (>= 1.0, < 3)
+    rack-proxy (0.6.5)
+      rack
     rack-ssl (1.4.1)
       rack
     rack-test (1.1.0)
@@ -426,6 +428,10 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    webpacker (4.0.7)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -485,7 +491,6 @@ DEPENDENCIES
   puma_worker_killer (~> 0.1.1)
   qx!
   rabl (~> 0.14.1)
-  rack (~> 2.0.9)
   rack-attack (~> 5.2)
   rack-ssl (~> 1.4)
   rack-timeout (~> 0.5.1)
@@ -510,6 +515,7 @@ DEPENDENCIES
   traceroute (~> 0.8.0)
   uglifier (~> 4.1, >= 4.1.20)
   webmock (~> 3.6, >= 3.6.2)
+  webpacker (~> 4.x)
   wisper (~> 2.0)
   wisper-activejob (~> 1.0.0)
   wisper-rspec (~> 1.1.0)

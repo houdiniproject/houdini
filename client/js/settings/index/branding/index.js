@@ -15,7 +15,7 @@ const colorPicker = require('../../../components/color-picker.es6')
 const view = require('./view')
 
 function init() {
-  var np = R.merge(app.nonprofit, {tier: app.current_plan_tier})
+  var np = R.merge(app.nonprofit, {})
   var state = {
     nonprofit: np
   , font$: flyd.stream({

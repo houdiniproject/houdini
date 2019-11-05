@@ -52,7 +52,6 @@ const fontRow = R.curry((state, key, font) =>
 )
 
 const form = state => {
-  var tier = state.nonprofit.tier
   var btn = button({ buttonText: 'Save Branding' , loading$: state.loading$ })
 
   return h('form.branding-form', {

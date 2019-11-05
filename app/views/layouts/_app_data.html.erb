@@ -7,7 +7,6 @@ var app = {
 , current_admin: <%= !!(current_user && current_role?(:super_admin)) %>
 , nonprofit: <%= @nonprofit ? raw(@nonprofit.to_json) : 'undefined' %>
 , nonprofit_id : <%= @nonprofit ? @nonprofit.id : 'undefined' %>
-, current_plan_tier: <%= @nonprofit ? current_plan_tier(@nonprofit.id) : 'undefined' %>
 , user: <%= current_user ? raw(current_user.to_json) : 'undefined' %>
 , user_id: <%= current_user ? current_user.id : 'undefined' %>
 , profile: <%= current_user ? raw(current_user.profile.to_json) : 'undefined' %>

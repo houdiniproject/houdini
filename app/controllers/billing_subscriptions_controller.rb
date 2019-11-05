@@ -6,15 +6,6 @@ class BillingSubscriptionsController < ApplicationController
 
   before_action :authenticate_nonprofit_admin!
 
-  def create_trial
-    render JsonResp.new(params) do |_params|
-      requires(:nonprofit_id).as_int
-      requires(:stripe_plan_id).as_string
-    end.when_valid do |params|
-      InsertBillingSubscriptions.trial(params[:nonprofit_id], params[:stripe_plan_id])
-    end
-  end
-
   def create
     @nonprofit ||= Nonprofit.find(params[:nonprofit_id])
     @subscription = BillingSubscription.create_with_stripe(@nonprofit, params[:billing_subscription])

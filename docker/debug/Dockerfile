@@ -13,6 +13,7 @@ COPY gems /myapp/gems/
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
+RUN gem install bundler -v "~>1.0"
 RUN bundle install
 RUN groupadd -r -g 1000 $USER
 RUN useradd -r -m -g $USER -u 1000 $USER

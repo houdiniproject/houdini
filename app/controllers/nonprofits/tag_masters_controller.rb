@@ -18,7 +18,7 @@ module Nonprofits
     end
 
     def create
-      json_saved CreateTagMaster.create(current_nonprofit, params[:tag_master])
+      json_saved(current_nonprofit.tag_masters.create(tag_master_params[:tag_master]))
     end
 
     def destroy
@@ -26,6 +26,14 @@ module Nonprofits
       tag_master.update_attribute(:deleted, true)
       tag_master.tag_joins.destroy_all
       render json: {}, status: :ok
+    end
+
+    private
+
+    def tag_master_params
+      params.require(:tag_master).permit(:name).tap do |tag_params|
+        tag_params.require(:name) # SAFER
+      end
     end
   end
 end

@@ -83,8 +83,8 @@ There are a number of steps for configuring your Houdini instance for startup
 ##### You SHOULD set your AMAZON s3 information (optional but STRONGLY recommended)
 If you don't, file uploads WILL NOT WORK but it's not required.
 
-##### In console 2,  install npm packages
-`./run npm install`
+##### In console 2,  install yarn
+`./run yarn`
 
 ##### In console 2, fill the db
 `./run rake db:create db:structure:load db:seed test:prepare` 
@@ -100,7 +100,7 @@ If you need help setting up your mailer, visit `config/environment.rb` where the
 `./dc up`
 
 ##### In console 2, run:
-`./run npm run watch`
+`./run yarn watch`
 
 ##### You can go to http://localhost:5000
 

@@ -85,10 +85,12 @@
     "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^1.0.1",
     "webpack": "^3",
+    "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.1.2",
     "webpack-sweet-entry": "^1.1.4"
   },
   "dependencies": {
+    "@rails/webpacker": "^4.0.7",
     "attr-binder": "0.3.1",
     "aws-sdk": "^2.402.0",
     "chart.js": "2.1.4",

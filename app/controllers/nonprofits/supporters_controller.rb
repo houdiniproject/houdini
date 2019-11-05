@@ -71,13 +71,13 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/supporters
     def create
-      render_json { InsertSupporter.create_or_update(params[:nonprofit_id], params[:supporter]) }
+      render_json { InsertSupporter.create_or_update(create_supporter_params[:nonprofit_id], params[:supporter]) }
     end
 
     # put /nonprofits/:nonprofit_id/supporters/:id
     def update
       @supporter = current_nonprofit.supporters.find(params[:id])
-      json_saved UpdateSupporter.from_info(@supporter, params[:supporter])
+      json_saved UpdateSupporter.from_info(@supporter, update_supporter_params[:supporter])
     end
 
     def bulk_delete
@@ -103,12 +103,17 @@ module Nonprofits
         requires(:supporter_ids).as_array
       end.when_valid do |params|
         params[:supporter][:nonprofit_id] = params[:nonprofit_id]
-        MergeSupporters.selected(params[:supporter], params[:supporter_ids], params[:nonprofit_id], current_user.id)
+        MergeSupporters.selected(update_supporter_params[:supporter], params[:supporter_ids], params[:nonprofit_id], current_user.id)
       end
     end
 
-      # def new
-      #   @nonprofit = current_nonprofit
-      # end
+    private
+
+    def create_supporter_params
+      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :first_name, :last_name, :custom_fields)
+    end
+
+    def update_supporter_params
+      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2)
     end
 end

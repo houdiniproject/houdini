@@ -55,10 +55,6 @@ Config.schema do
       # the path on your image.host to your default campaign background image
       required(:campaign).filled(:str?)
     end
-
-    # the cache stor you're using. Must be the name of caching store for rails
-    # Default is dalli_store
-    required(:cache_store).filled(:str?)
   end
 
   required(:aws).schema do

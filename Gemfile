@@ -46,8 +46,6 @@ gem 'table_print', '~> 1.5', '>= 1.5.6' # Nice table printing of data for the co
 
 # Database and Events
 gem 'bunny', '~> 2.14', '>= 2.14.2' # RabittMQ
-gem 'dalli', '~> 2.7'
-gem 'memcachier', '~> 0.0.2'
 gem 'pg', '~> 0.11'
 
 gem 'param_validation', path: 'gems/ruby-param-validation'

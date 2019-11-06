@@ -1,0 +1,1 @@
+require('../legacy/super-admin/page.js')

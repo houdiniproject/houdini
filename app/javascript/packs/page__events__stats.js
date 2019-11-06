@@ -1,0 +1,1 @@
+require('../legacy/events/stats/page.js')

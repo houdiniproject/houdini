@@ -1,0 +1,1 @@
+require('../legacy/tickets/index/page.js')

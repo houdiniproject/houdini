@@ -1,0 +1,1 @@
+require('../legacy/campaigns/index/page.js')

@@ -1,0 +1,1 @@
+require('../legacy/events/index/page.js')

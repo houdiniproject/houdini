@@ -1,0 +1,1 @@
+require('../legacy/settings/index/page.js')

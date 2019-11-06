@@ -1,3 +1,5 @@
+import { NotifyReporter } from "@jest/reporters";
+
 const donate_css = require('../../assets/stylesheets/donate-button/donate-button.v2.css');
 
 const iframeHost = 'https://us.commitchange.com'
@@ -10,13 +12,14 @@ function on_ios11() {
     return has11 && hasMacOS;
   }
   
-  window.commitchange = {
+  const windowAsAny = window as any;
+  windowAsAny.commitchange = {
     iframes: []
   , modalIframe: null
   }
-  
-  commitchange.getParamsFromUrl = (whitelist) => {
-      var result = {},
+  const commitchange = windowAsAny.commitchange;
+  commitchange.getParamsFromUrl = (whitelist:any) => {
+      var result:any = {},
           tmp = [];
       var items = location.search.substr(1).split("&");
       for (var index = 0; index < items.length; index++) {
@@ -26,8 +29,8 @@ function on_ios11() {
       return result;
   }
   
-  commitchange.openDonationModal = (iframe, overlay) => {
-    return (event) => {
+  commitchange.openDonationModal = (iframe:HTMLIFrameElement, overlay:HTMLElement) => {
+    return (event:Event) => {
       overlay.className = 'commitchange-overlay commitchange-open'
       iframe.className = 'commitchange-iframe commitchange-open'
       if (on_ios11()) {
@@ -44,7 +47,7 @@ function on_ios11() {
   }
   
   // Dynamically set the params of the appended iframe donate window
-  commitchange.setParams = (params, iframe) => {
+  commitchange.setParams = (params:any, iframe:HTMLIFrameElement) => {
     params.command = 'setDonationParams'
     params.sender = 'commitchange'
     iframe.contentWindow.postMessage(JSON.stringify(params), fullHost)
@@ -69,7 +72,7 @@ function on_ios11() {
     return div
   }
   
-  commitchange.createIframe = (source) => {
+  commitchange.createIframe = (source:string) => {
     let i = document.createElement('iframe')
     const url = document.location.href
     i.setAttribute('class', 'commitchange-closed commitchange-iframe')
@@ -79,8 +82,8 @@ function on_ios11() {
   
   // Given a button with a bunch of data parameters
   // return an object of key/vals corresponing to each param
-  commitchange.getParamsFromButton = (elem) => {
-    let options = {
+  commitchange.getParamsFromButton = (elem:HTMLElement) => {
+    let options: {[props:string]:any} = {
       offsite: 't'
     , type: elem.getAttribute('data-type')
     , custom_amounts: elem.getAttribute('data-custom-amounts') || elem.getAttribute('data-amounts')
@@ -126,7 +129,7 @@ function on_ios11() {
     let elems = document.querySelectorAll('.commitchange-donate')
   
     for(let i = 0; i < elems.length; ++i) {
-      let elem = elems[i]
+      let elem:any = elems[i]
       let source = baseSource
   
       let optionsButton = commitchange.getParamsFromButton(elem)
@@ -145,6 +148,8 @@ function on_ios11() {
         iframe.setAttribute('class', 'commitchange-iframe-embedded')
         commitchange.iframes.push(iframe)
       } else {
+        let overlay = commitchange.overlay()
+        let iframe
         // Show the CommitChange-branded button if it's not set to custom.
         if(!elem.hasAttribute('data-custom') && !elem.hasAttribute('data-custom-button')) {
           let btn_iframe = document.createElement('iframe')
@@ -160,8 +165,7 @@ function on_ios11() {
         // Create the iframe overlay for this button
         let modal = document.createElement('div')
         modal.className = 'commitchange-modal'
-        let overlay = commitchange.overlay()
-        let iframe
+        
         if(commitchange.modalIframe) {
           iframe = commitchange.modalIframe
         } else {
@@ -211,8 +215,8 @@ function on_ios11() {
       commitchange.loadStylesheet()
       commitchange.appendMarkup()
     })
-  } else if(window.jQuery) {
-    window.jQuery(document).ready(() => {
+  } else if(windowAsAny.jQuery) {
+    windowAsAny.jQuery(document).ready(() => {
       commitchange.loadStylesheet()
       commitchange.appendMarkup()
     })

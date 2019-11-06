@@ -1,0 +1,1 @@
+require('../legacy/nonprofits/edit/page.js')

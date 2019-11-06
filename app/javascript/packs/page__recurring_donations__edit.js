@@ -1,0 +1,1 @@
+require('../legacy/recurring_donations/edit/page.js')

@@ -1,0 +1,1 @@
+require('../legacy/campaigns/supporters/index/page.js')

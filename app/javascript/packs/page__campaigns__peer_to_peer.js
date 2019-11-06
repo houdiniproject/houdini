@@ -1,0 +1,1 @@
+require('../legacy/campaigns/peer_to_peer/page.js')

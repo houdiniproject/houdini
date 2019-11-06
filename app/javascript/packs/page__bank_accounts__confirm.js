@@ -1,0 +1,1 @@
+require('../legacy/bank_accounts/confirm/page.js')

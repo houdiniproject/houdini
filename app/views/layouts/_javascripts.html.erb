@@ -14,8 +14,6 @@ Stripe.setPublishableKey("<%= Settings.payment_provider.stripe_public_key %>");
 window._csrf = "<%= form_authenticity_token %>";
 </script>
 
-<%= IncludeAsset.js "/client/js/page.js" %>
-
 <%= IncludeAsset.js '/client/js/i18n.js' %>
 <script>
     I18n.defaultLocale = "<%= I18n.default_locale %>"

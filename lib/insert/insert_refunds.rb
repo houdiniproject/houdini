@@ -67,7 +67,6 @@ module InsertRefunds
     Qx.update(:payments).set("refund_total=refund_total + #{h['amount'].to_i}").ts.where(id: original_payment['id']).execute
     # Send the refund receipts in a delayed job
     RefundNotificationJob.perform_later Refund.find(refund_row['id'])
-    Delayed::Job.enqueue JobTypes::NonprofitRefundNotificationJob.new(refund_row['id'])
     { 'payment' => payment_row, 'refund' => refund_row }
   end
 end

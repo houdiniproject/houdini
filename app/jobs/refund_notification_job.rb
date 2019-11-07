@@ -3,6 +3,6 @@ class RefundNotificationJob < ApplicationJob
 
   def perform(refund)
     RefundNotificationJobDonorEmail.perform_later(refund)
-    RefundNotificationJobNonprofitEmail.perform_later(refund)
+    RefundNotificationNonprofitEmailJob.perform_later(refund)
   end
 end

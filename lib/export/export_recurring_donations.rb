@@ -69,7 +69,7 @@ module ExportRecurringDonations
       export.ended = Time.now
       export.save!
       if user
-        ExportMailer.delay.export_recurring_donations_failed_notification(export)
+        ExportRecurringDonationsFailedJob.perform_later(export)
       end
       raise e
     end

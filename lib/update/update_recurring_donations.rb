@@ -73,8 +73,8 @@ module UpdateRecurringDonations
       rd.save!
       donation.save!
     end
+    RecurringDonationChangeAmountJob.perform_later(rd, previous_amount)
     EmailJobQueue.queue(JobTypes::NonprofitRecurringDonationChangeAmountJob, rd.id, previous_amount)
-    EmailJobQueue.queue(JobTypes::DonorRecurringDonationChangeAmountJob, rd.id, previous_amount)
     rd
   end
 

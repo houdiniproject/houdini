@@ -100,8 +100,8 @@ module InsertTickets
     ticket_ids = result['tickets'].map(&:id)
     charge_id =  result['charge'] ? result['charge'].id : nil
 
+    TicketCreateJob.perform_later(ticket_ids, charge_id && Charge.find(result['charge']&.id))
     EmailJobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, ticket_ids)
-    EmailJobQueue.queue(JobTypes::TicketMailerFollowupJob, ticket_ids, charge_id)
     result
   end
 

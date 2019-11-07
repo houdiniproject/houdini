@@ -106,8 +106,6 @@ describe InsertTickets do
       ticket_ids = tickets.map(&:id)
       expect(InsertActivities).to receive(:for_tickets).with(ticket_ids)
       expect_email_queued.with(JobTypes::TicketMailerReceiptAdminJob, ticket_ids).once
-      # TODO: the `anything` should be the charge_id but don't have an obvious way of getting that now.
-      expect_email_queued.with(JobTypes::TicketMailerFollowupJob, ticket_ids, anything).once
       tickets
     }
   end
@@ -287,7 +285,10 @@ describe InsertTickets do
         it 'succeeds' do
           success_expectations
           expect(QueryRoles).to receive(:is_authorized_for_nonprofit?).with(user.id, nonprofit.id).and_return true
-          result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
+          result = nil
+          expect {
+            result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
+          }.to have_enqueued_job(TicketCreateJob)
           expected = generate_expected_tickets(payment_id: result['payment'].id,
                                                nonprofit: nonprofit,
                                                supporter: supporter,

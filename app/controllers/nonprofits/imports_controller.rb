@@ -9,13 +9,7 @@ module Nonprofits
     # post /nonprofits/:nonprofit_id/imports
     def create
       render_json do
-        InsertImport.delay.from_csv_safe(
-          nonprofit_id: import_params[:nonprofit_id],
-          user_id: current_user.id,
-          user_email: current_user.email,
-          file_uri: import_params[:file_uri],
-          header_matches: import_params[:header_matches]
-        )
+        ImportCreationJob.perform_later(import_params, current_user)
       end
     end
 

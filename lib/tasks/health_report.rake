@@ -8,5 +8,5 @@ task send_health_report: :environment do
   GenericMailer.admin_notice(
     body: HealthReport.format_data(HealthReport.query_data),
     subject: "CommitChange activity report #{Format::Date.to_readable(Time.now)}"
-  ).deliver
+  ).deliver_later
 end

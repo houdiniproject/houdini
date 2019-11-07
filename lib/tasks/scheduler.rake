@@ -18,8 +18,8 @@ task :heroku_scheduled_job, [:name] => :environment do |_t, args|
   rescue Exception => e
     results += "Failure: #{e}\n"
   end
-  GenericMailer.delay.admin_notice(
+  GenericMailer.admin_notice(
     subject: "Scheduled job results on CommitChange for '#{job_name}'",
     body: results.empty? ? 'No jobs to run today.' : results
-  )
+  ).deliver_later
 end

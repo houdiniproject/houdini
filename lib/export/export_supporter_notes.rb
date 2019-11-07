@@ -67,7 +67,7 @@ module ExportSupporterNotes
       export.ended = Time.now
       export.save!
       if user
-        EmailJobQueue.queue(JobTypes::ExportSupporterNotesFailedJob, export)
+        ExportSupporterNotesFailedJob.perform_later export
       end
       raise e
     end

@@ -182,9 +182,9 @@ describe ExportSupporterNotes do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: user)
-        expect_email_queued.with(JobTypes::ExportSupporterNotesFailedJob, @export)
         CHUNKED_UPLOADER.raise_error
         Timecop.freeze(2020, 4, 6) do
+          expect {
           expect { ExportSupporterNotes.run_export(nonprofit.id, {}.to_json, user.id, @export.id) }.to(raise_error do |error|
             expect(error).to be_a StandardError
             expect(error.message).to eq TestChunkedUploader::TEST_ERROR_MESSAGE
@@ -195,6 +195,7 @@ describe ExportSupporterNotes do
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
           end)
+        }.to have_enqueued_job(ExportSupporterNotesFailedJob).with(@export)
         end
       end
     end

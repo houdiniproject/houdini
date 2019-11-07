@@ -5,12 +5,6 @@ require 'rails_helper'
 
 describe CreateCampaignGift do
   describe '.create' do
-    before(:each) do
-      # #stub out the mailing stuff used by campaign creation
-      cm = double(CampaignMailer)
-      allow(cm).to receive(:creation_followup)
-      allow(CampaignMailer).to receive(:delay).and_return(cm)
-    end
     describe 'param validation' do
       let (:donation) { force_create(:donation) }
       it 'basic validation' do

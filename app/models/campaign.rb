@@ -99,12 +99,7 @@ class Campaign < ApplicationRecord
   after_create do
     user = profile.user
     Role.create(name: :campaign_editor, user_id: user.id, host: self)
-    if child_campaign?
-      CampaignMailer.delay.federated_creation_followup(self)
-    else
-      CampaignMailer.delay.creation_followup(self)
-    end
-
+    CampaignCreateJob.perform_later(self)
     SupporterFundraiserCreateJob.perform_later(self) unless QueryRoles.is_nonprofit_user?(user.id, nonprofit_id)
     self
   end

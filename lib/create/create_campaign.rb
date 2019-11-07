@@ -16,7 +16,7 @@ module CreateCampaign
       # do notifications
       user = campaign.profile.user
       Role.create(name: :campaign_editor, user_id: user.id, host: self)
-      CampaignMailer.delay.creation_followup(self)
+      CampaignCreateJob.perform_later(self)
       SupporterFundraiserCreateJob.perform_later(self) unless QueryRoles.is_nonprofit_user?(user.id, nonprofit_id)
 
       return { errors: campaign.errors.messages }.as_json unless campaign.errors.empty?

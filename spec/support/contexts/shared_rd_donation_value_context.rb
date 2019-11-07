@@ -370,8 +370,9 @@ RSpec.shared_context :shared_rd_donation_value_context do
   end
 
   def before_each_sepa_success
-    expect {
+    
       expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
+        expect {
         expect {
           result = m.call(*args)
         }.to have_enqueued_job(DirectDebitCreateJob).with(result.id, supporter.local)

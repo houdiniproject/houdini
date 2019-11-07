@@ -94,7 +94,7 @@ module InsertRecurringDonation
 
     InsertDonation.update_donation_keys(result) if result['payment']
 
-    DonorDirectDebitNotificationJob.perform_later(Donation.find(result['donation']['id']), locale_for_supporter(result['donation']['supporter_id']);
+    DonorDirectDebitNotificationJob.perform_later(Donation.find(result['donation']['id']), locale_for_supporter(result['donation']['supporter_id']));
 
     WeMoveExecuteForDonationsJob.perform_later(result['donation'])
 

@@ -204,7 +204,9 @@ describe ExportSupporterNotes do
         @export = create(:export, user: user, created_at: Time.now, updated_at: Time.now)
         expect_email_queued.with(JobTypes::ExportSupporterNotesCompletedJob, @export)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
+          expect {
           ExportSupporterNotes.run_export(nonprofit.id, { root_url: 'https://localhost:8080/' }.to_json, user.id, @export.id)
+          }.to have_enqueued_job(ExportSupporterNotesCompletedJob).with(@export)
 
           @export.reload
 

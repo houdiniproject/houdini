@@ -59,8 +59,7 @@ module ExportSupporterNotes
     export.status = :completed
     export.ended = Time.now
     export.save!
-
-    EmailJobQueue.queue(JobTypes::ExportSupporterNotesCompletedJob, export)
+    ExportSupporterNotesCompletedJob.perform_later(export)
   rescue StandardError => e
     if export
       export.status = :failed

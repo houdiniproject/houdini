@@ -68,7 +68,7 @@ module ExportPayments
       export.exception = e.to_s
       export.ended = Time.now
       export.save!
-      ExportMailer.delay.export_payments_failed_notification(export) if user
+      ExportPaymentsFailedJob.perform_later(export) if user
       raise e
     end
     raise e

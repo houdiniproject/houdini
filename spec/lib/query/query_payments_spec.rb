@@ -168,8 +168,6 @@ describe QueryPayments do
         @stripe_charge_id = a['id']
         a
       }
-
-      allow(QueueDonations).to receive(:execute_for_donation)
     end
 
     let(:charge_amount_small) { 200 }

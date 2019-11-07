@@ -44,7 +44,7 @@ module InsertDonation
     update_donation_keys(result)
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
     PaymentNotificationJob.perform_later result['donation'], entities[:supporter_id].locale
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
+    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     result
   end
 
@@ -85,7 +85,7 @@ module InsertDonation
                        ]).returning('*')
     ).first
     result['activity'] = InsertActivities.for_offsite_donations([result['payment']['id']])
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
+    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     { status: 200, json: result }
   end
 
@@ -107,7 +107,7 @@ module InsertDonation
 
     DirectDebitCreateJob.perform_later(result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
 
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
+    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     # do this for making test consistent
     result['activity'] = {}
     result

@@ -328,11 +328,11 @@ RSpec.shared_context :shared_rd_donation_value_context do
   def before_each_success(expect_charge = true)
     expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
       expect {
-        result = m.call(*args)
-      }.to have_enqueued_job(PaymentNotificationJob).with(result, supporter.local)
+        expect {
+          result = m.call(*args)
+        }.to have_enqueued_job(PaymentNotificationJob).with(result, supporter.local)
+      }.to have_enqueued_job(WeMoveExecuteForDonationsJob)
       @donation_id = result.id
-
-      expect(QueueDonations).to receive(:execute_for_donation).with(@donation_id)
 
       result
     end
@@ -370,14 +370,13 @@ RSpec.shared_context :shared_rd_donation_value_context do
   end
 
   def before_each_sepa_success
-    expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
-      expect {
-        result = m.call(*args)
-      }.to have_enqueued_job(DirectDebitCreateJob).with(result.id, supporter.local)
-      
-
+    expect {
+      expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
+        expect {
+          result = m.call(*args)
+        }.to have_enqueued_job(DirectDebitCreateJob).with(result.id, supporter.local)
+    }.to have_enqueued_job(WeMoveExecuteForDonationsJob)
       @donation_id = result.id
-      expect(QueueDonations).to receive(:execute_for_donation).with(@donation_id)
       result
     end
   end

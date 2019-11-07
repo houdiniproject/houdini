@@ -34,7 +34,6 @@ module UpdatePayouts
       payout.failure_message = failure_message
       payout.save!
 
-      # NonprofitMailer.delay.pending_payout_notification(payout['id'].to_i)
       payout
     end
   end

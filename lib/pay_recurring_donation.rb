@@ -94,7 +94,7 @@ module PayRecurringDonation
         Qexpr.new.update(:recurring_donations, n_failures: 0)
           .where('id=$id', id: rd_id).returning('*')
       ).first
-      Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(rd['donation_id'])
+      PaymentNotificationJob.perform_later donation, donation&.supporter&.locale || 'en'
       Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
@@ -146,6 +146,7 @@ module PayRecurringDonation
           Qexpr.new.update(:recurring_donations, n_failures: 0)
               .where('id=$id', id: rd_id).returning('*')
         ).first
+        ## add PaymentNotificationJobHere
         Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(rd['donation_id'])
         Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
         InsertActivities.for_recurring_donations([result['payment']['id']])

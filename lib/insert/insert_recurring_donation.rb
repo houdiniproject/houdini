@@ -71,7 +71,7 @@ module InsertRecurringDonation
     end
     # Send receipts
     EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
-    EmailJobQueue.queue(JobTypes::DonorPaymentNotificationJob, result['donation'].id, entities[:supporter_id].locale)
+    PaymentNotificationJob.perform_later result['donation'], entities[:supporter_id].locale
     QueueDonations.delay.execute_for_donation(result['donation']['id'])
     result
   end

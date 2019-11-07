@@ -18,7 +18,7 @@ class PaymentMailer < BaseMailer
   def resend_donor_receipt(payment_id)
     payment = Payment.find(payment_id)
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
-      Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(payment.donation.id)
+      PaymentNotificationEmailDonorJob.perform_later payment.donation
     elsif payment.kind == 'Ticket'
       return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge.id).deliver
     end

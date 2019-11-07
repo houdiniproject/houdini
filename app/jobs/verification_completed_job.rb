@@ -1,0 +1,7 @@
+class VerificationCompletedJob < ApplicationJob
+  queue_as :default
+
+  def perform(nonprofit)
+    NonprofitMailer.successful_verification_notice(nonprofit).deliver_now
+  end
+end

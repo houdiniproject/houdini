@@ -61,7 +61,7 @@ module ScheduledJobs
           verified = acct.transfers_enabled && acct.verification.fields_needed.count == 0
           np.verification_status = verified ? 'verified' : np.verification_status
           VerificationFailedJob.perform_later(np) if np.verification_status != 'verified'
-          NonprofitMailer.successful_verification_notice(np).deliver if np.verification_status == 'verified'
+          VerificationCompletedJob.perform_later(np) if np.verification_status == 'verified'
           np.save
           "Status updated for NP #{np.id} as '#{np.verification_status}'"
         end

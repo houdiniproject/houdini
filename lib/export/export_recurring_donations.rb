@@ -20,7 +20,7 @@ module ExportRecurringDonations
 
     e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportRecurringDonations', parameters: params.to_json)
 
-    DelayedJobHelper.enqueue_job(ExportRecurringDonations, :run_export, [npo_id, params.to_json, user_id, e.id])
+    RecurringDonationsExportCreateJob.perform_later(npo_id, params.to_json, user_id, e.id)
   end
 
   def self.run_export(npo_id, params, user_id, export_id)

@@ -53,16 +53,11 @@ describe ExportRecurringDonations do
 
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
-        stub_const('DelayedJobHelper', double('delayed'))
         params = { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
 
-        expect(Export).to receive(:create).and_wrap_original { |m, *args|
-          e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportRecurringDonations, :run_export, [@nonprofit.id, params.to_json, @user.id, e.id]) # add the enqueue
-          e
-        }
-
+        expect {
         ExportRecurringDonations.initiate_export(@nonprofit.id, params, @user.id)
+        }.to have_enqueued_job(RecurringDonationExportCreateJob)
         export = Export.first
         expected_export = { id: export.id,
                             user_id: @user.id,

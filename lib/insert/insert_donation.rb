@@ -106,8 +106,8 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
 
+    DirectDebitCreateJob.perform_later(result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
     EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
-    EmailJobQueue.queue(JobTypes::DonorDirectDebitNotificationJob, result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
 
     QueueDonations.delay.execute_for_donation(result['donation'].id)
     # do this for making test consistent

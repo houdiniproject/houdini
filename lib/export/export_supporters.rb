@@ -65,7 +65,7 @@ module ExportSupporters
       export.exception = e.to_s
       export.ended = Time.now
       export.save!
-      EmailJobQueue.queue(JobTypes::ExportSupportersFailedJob, export) if user
+      ExportSupportersFailedJob.perform_later(export) if user
       raise e
     end
     raise e

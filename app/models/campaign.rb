@@ -105,7 +105,7 @@ class Campaign < ApplicationRecord
       CampaignMailer.delay.creation_followup(self)
     end
 
-    NonprofitAdminMailer.delay.supporter_fundraiser(self) unless QueryRoles.is_nonprofit_user?(user.id, nonprofit_id)
+    SupporterFundraiserCreateJob.perform_later(self) unless QueryRoles.is_nonprofit_user?(user.id, nonprofit_id)
     self
   end
 

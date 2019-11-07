@@ -9,10 +9,7 @@ describe CreateCampaignGift do
       # #stub out the mailing stuff used by campaign creation
       cm = double(CampaignMailer)
       allow(cm).to receive(:creation_followup)
-      nam = double(NonprofitAdminMailer)
-      allow(nam).to receive(:supporter_fundraiser)
       allow(CampaignMailer).to receive(:delay).and_return(cm)
-      allow(NonprofitAdminMailer).to receive(:delay).and_return(nam)
     end
     describe 'param validation' do
       let (:donation) { force_create(:donation) }

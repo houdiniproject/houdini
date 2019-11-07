@@ -60,7 +60,7 @@ module ScheduledJobs
           acct = Stripe::Account.retrieve(np.stripe_account_id)
           verified = acct.transfers_enabled && acct.verification.fields_needed.count == 0
           np.verification_status = verified ? 'verified' : np.verification_status
-          NonprofitMailer.failed_verification_notice(np).deliver if np.verification_status != 'verified'
+          VerificationFailedJob.perform_later(np) if np.verification_status != 'verified'
           NonprofitMailer.successful_verification_notice(np).deliver if np.verification_status == 'verified'
           np.save
           "Status updated for NP #{np.id} as '#{np.verification_status}'"

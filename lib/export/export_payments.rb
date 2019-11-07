@@ -61,7 +61,7 @@ module ExportPayments
     export.ended = Time.now
     export.save!
 
-    ExportMailer.delay.export_payments_completed_notification(export)
+    ExportPaymentsCompletedJob.perform_later(export)
   rescue StandardError => e
     if export
       export.status = :failed

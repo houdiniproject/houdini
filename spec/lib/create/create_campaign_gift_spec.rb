@@ -78,53 +78,48 @@ describe CreateCampaignGift do
         end
 
         it 'rejects associations when the donation amount is too low' do
-          adm = double(AdminMailer)
-
           donation = force_create(:donation, campaign: campaign, amount: 299)
           campaign_gift_option = force_create(:campaign_gift_option, campaign: campaign, amount_one_time: 300, name: 'name')
-          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
-          expect(AdminMailer).to receive(:delay).and_return(adm)
-          expect { CreateCampaignGift.create(donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id) }.to raise_error { |error|
-            expect(error).to be_a(ParamValidation::ValidationError)
-            expect_validation_errors(error.data, key: :campaign_gift_option_id)
-            expect(error.message).to eq "#{campaign_gift_option.id} gift options requires a donation of 300 for donation #{donation.id}"
-          }
+          expect {
+            expect { CreateCampaignGift.create(donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id) }.to raise_error { |error|
+              expect(error).to be_a(ParamValidation::ValidationError)
+              expect_validation_errors(error.data, key: :campaign_gift_option_id)
+              expect(error.message).to eq "#{campaign_gift_option.id} gift options requires a donation of 300 for donation #{donation.id}"
+            }
+          }.to have_enqueued_job(AdminFailedGiftJob).with(donation,campaign_gift_option)
         end
 
         it 'rejects associations when the recurring donation amount is too low' do
-          adm = double(AdminMailer)
-
           donation = force_create(:donation, campaign: campaign, amount: 299, recurring: true)
           rd = force_create(:recurring_donation, amount: 299, donation: donation)
           campaign_gift_option = force_create(:campaign_gift_option, campaign: campaign, amount_recurring: 300, name: 'name')
 
-          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
-          expect(AdminMailer).to receive(:delay).and_return(adm)
-          expect { CreateCampaignGift.create(donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id) }.to raise_error { |error|
+          expect {
+            expect { CreateCampaignGift.create(donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id) }.to raise_error { |error|
             expect(error).to be_a(ParamValidation::ValidationError)
             expect_validation_errors(error.data, key: :campaign_gift_option_id)
             expect(error.message).to eq "#{campaign_gift_option.id} gift options requires a recurring donation of 300 for donation #{donation.id}"
           }
+        }.to have_enqueued_job(AdminFailedGiftJob).with(donation,campaign_gift_option)
         end
 
         it 'rejects association when the there are no gifts available' do
-          adm = double(AdminMailer)
 
           donation = force_create(:donation, campaign: campaign, amount: 300, recurring: true)
           rd = force_create(:recurring_donation, amount: 300, donation: donation)
 
           campaign_gift_option = force_create(:campaign_gift_option, campaign: campaign, amount_recurring: 300, quantity: 1)
-          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
-          expect(AdminMailer).to receive(:delay).and_return(adm)
 
           campaign_gift = force_create(:campaign_gift, campaign_gift_option: campaign_gift_option)
 
-          expect { CreateCampaignGift.create(donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id) }.to raise_error { |error|
-            expect(error).to be_a(ParamValidation::ValidationError)
-            expect_validation_errors(error.data, [{ key: :campaign_gift_option_id }])
-            expect(error.message).to eq "#{campaign_gift_option.id} has no more inventory"
-            expect(CampaignGift.count).to eq 1
-          }
+          expect {
+            expect { CreateCampaignGift.create(donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id) }.to raise_error { |error|
+              expect(error).to be_a(ParamValidation::ValidationError)
+              expect_validation_errors(error.data, [{ key: :campaign_gift_option_id }])
+              expect(error.message).to eq "#{campaign_gift_option.id} has no more inventory"
+              expect(CampaignGift.count).to eq 1
+            }
+          }.to have_enqueued_job(AdminFailedGiftJob).with(donation,campaign_gift_option)
         end
       end
     end

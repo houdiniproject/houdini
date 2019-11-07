@@ -86,7 +86,7 @@ class Event < ApplicationRecord
   after_create do
     user = profile.user
     Role.create(name: :event_editor, user_id: user.id, host: self)
-    EventMailer.delay.creation_followup(self)
+    EventCreateJob.perform_later self
     self
   end
 

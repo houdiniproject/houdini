@@ -4,7 +4,6 @@
 require 'insert/insert_donation'
 require 'insert/insert_supporter_notes'
 require 'timespan'
-require 'delayed_job_helper'
 
 module PayRecurringDonation
   # Pay ALL recurring donations that are currently due; each payment gets a queued delayed_job

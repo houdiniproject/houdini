@@ -82,8 +82,8 @@ module InsertSupporter
     supp_cols = data.select { |key, _val| !key.match(/^field_/) && !key.match(/^tag_/) }
     supporter = create_or_update(np_id, supp_cols)
 
-    InsertTagJoins.delay.find_or_create(np_id, [supporter['id']], tags) if tags.any?
-    InsertCustomFieldJoins.delay.find_or_create(np_id, [supporter['id']], fields) if fields.any?
+    InsertTagJoins.find_or_create(np_id, [supporter['id']], tags) if tags.any?
+    InsertCustomFieldJoins.find_or_create(np_id, [supporter['id']], fields) if fields.any?
 
     supporter
   end

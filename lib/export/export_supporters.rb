@@ -18,7 +18,7 @@ module ExportSupporters
 
     e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportSupporters', parameters: params.to_json)
 
-    DelayedJobHelper.enqueue_job(ExportSupporters, :run_export, [npo_id, params.to_json, user_id, e.id])
+    SupportersExportCreateJob.perform_later(npo_id, params.to_json, user_id, e.id)
   end
 
   def self.run_export(npo_id, params, user_id, export_id)

@@ -15,21 +15,7 @@ module PayRecurringDonation
       QueryRecurringDonations._all_that_are_due
     )[1..-1].flatten
 
-    jobs = ids.map do |id|
-      { handler: DelayedJobHelper.create_handler(PayRecurringDonation, :with_stripe, [id]) }
-    end
-
-    Psql.execute(Qexpr.new.insert(:delayed_jobs, jobs,
-                                  common_data: {
-                                    run_at: Time.current,
-                                    attempts: 0,
-                                    failed_at: nil,
-                                    last_error: nil,
-                                    locked_at: nil,
-                                    locked_by: nil,
-                                    priority: 0,
-                                    queue: 'rec-don-payments'
-                                  }))
+    PayRecurringDonationsJob.perform_later(*id)
     ids
   end
 

@@ -331,7 +331,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
         result = m.call(*args)
       }.to have_enqueued_job(PaymentNotificationJob).with(result, supporter.local)
       @donation_id = result.id
-      expect_email_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id)
 
       expect(QueueDonations).to receive(:execute_for_donation).with(@donation_id)
 
@@ -378,7 +377,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
       
 
       @donation_id = result.id
-      expect_email_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id)
       expect(QueueDonations).to receive(:execute_for_donation).with(@donation_id)
       result
     end

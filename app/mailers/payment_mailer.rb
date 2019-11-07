@@ -7,7 +7,7 @@ class PaymentMailer < BaseMailer
   def resend_admin_receipt(payment_id, user_id)
     payment = Payment.find(payment_id)
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
-      return Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(payment.donation.id, user_id)
+      PaymentNotificationEmailNonprofitJob.perform_later(payment.donation, User.find(user_id))
     elsif payment.kind == 'Ticket'
       return TicketMailer.receipt_admin(payment.donation.id, user_id).deliver
     end

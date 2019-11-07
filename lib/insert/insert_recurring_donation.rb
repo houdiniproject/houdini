@@ -70,7 +70,6 @@ module InsertRecurringDonation
       result['activity'] = InsertActivities.for_recurring_donations([result['payment'].id])
     end
     # Send receipts
-    EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
     PaymentNotificationJob.perform_later result['donation'], entities[:supporter_id].locale
     QueueDonations.delay.execute_for_donation(result['donation']['id'])
     result
@@ -95,8 +94,7 @@ module InsertRecurringDonation
 
     InsertDonation.update_donation_keys(result) if result['payment']
 
-    DonationMailer.delay.nonprofit_payment_notification(result['donation']['id'])
-    DonationMailer.delay.donor_direct_debit_notification(result['donation']['id'], locale_for_supporter(result['donation']['supporter_id']))
+    DonorDirectDebitNotificationJob.perform_later(Donation.find(result['donation']['id']), locale_for_supporter(result['donation']['supporter_id']);
 
     QueueDonations.delay.execute_for_donation(result['donation']['id'])
 

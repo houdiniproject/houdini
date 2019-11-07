@@ -95,7 +95,6 @@ module PayRecurringDonation
           .where('id=$id', id: rd_id).returning('*')
       ).first
       PaymentNotificationJob.perform_later donation, donation&.supporter&.locale || 'en'
-      Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
       result['recurring_donation'] = Psql.execute(
@@ -147,8 +146,6 @@ module PayRecurringDonation
               .where('id=$id', id: rd_id).returning('*')
         ).first
         ## add PaymentNotificationJobHere
-        Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(rd['donation_id'])
-        Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
         InsertActivities.for_recurring_donations([result['payment']['id']])
       else
         result['recurring_donation'] = Psql.execute(

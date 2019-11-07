@@ -9,7 +9,7 @@ class PaymentMailer < BaseMailer
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
       PaymentNotificationEmailNonprofitJob.perform_later(payment.donation, User.find(user_id))
     elsif payment.kind == 'Ticket'
-      return TicketMailer.receipt_admin(payment.donation.id, user_id).deliver
+      return TicketMailer.receipt_admin(payment.donation.id, user_id).deliver_later
     end
   end
 
@@ -20,7 +20,7 @@ class PaymentMailer < BaseMailer
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
       PaymentNotificationEmailDonorJob.perform_later payment.donation
     elsif payment.kind == 'Ticket'
-      return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge.id).deliver
+      return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge).deliver_later
     end
   end
 end

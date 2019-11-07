@@ -105,7 +105,6 @@ describe InsertTickets do
       tickets = m.call(*args)
       ticket_ids = tickets.map(&:id)
       expect(InsertActivities).to receive(:for_tickets).with(ticket_ids)
-      expect_email_queued.with(JobTypes::TicketMailerReceiptAdminJob, ticket_ids).once
       tickets
     }
   end

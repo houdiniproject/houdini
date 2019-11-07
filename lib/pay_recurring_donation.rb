@@ -101,9 +101,9 @@ module PayRecurringDonation
         Qexpr.new.update(:recurring_donations, n_failures: rd['n_failures'] + 1)
           .where('id=$id', id: rd_id).returning('*')
       ).first
-      DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
+     FailedRecurringDonationPaymentDonorEmailJob.perform_later Donation.find(rd['donation_id'])
       if rd['n_failures'] >= 3
-        DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
+        FailedRecurringDonationPaymentNonprofitEmailJob.perform_later Donation.find(rd['donation_id'])
       end
       InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540 }])
     end
@@ -115,9 +115,9 @@ module PayRecurringDonation
       Qexpr.new.update(:recurring_donations, n_failures: 3)
           .where('id=$id', id: rd['id']).returning('*')
     ).first
-    DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
+    FailedRecurringDonationPaymentDonorEmailJob.perform_later Donation.find(rd['donation_id'])
     if notify_nonprofit
-      DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
+      FailedRecurringDonationPaymentNonprofitEmailJob.perform_later Donation.find(rd['donation_id'])
     end
     InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd['id']}", supporter_id: donation['supporter_id'], user_id: 540 }])
     recurring_donation
@@ -152,9 +152,9 @@ module PayRecurringDonation
           Qexpr.new.update(:recurring_donations, n_failures: rd['n_failures'] + 1)
               .where('id=$id', id: rd_id).returning('*')
         ).first
-        DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
+        FailedRecurringDonationPaymentDonorEmailJob.perform_later Donation.find(rd['donation_id'])
         if rd['n_failures'] >= 3
-          DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
+          FailedRecurringDonationPaymentNonprofitEmailJob.perform_later Donation.find(rd['donation_id'])
         end
         InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540 }])
       end

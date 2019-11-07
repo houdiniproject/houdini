@@ -61,7 +61,7 @@ module ExportRecurringDonations
     export.ended = Time.now
     export.save!
 
-    ExportMailer.delay.export_recurring_donations_completed_notification(export)
+    ExportRecurringDonationsCompletedJob.perform_later(export)
   rescue StandardError => e
     if export
       export.status = :failed

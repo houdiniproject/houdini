@@ -60,16 +60,11 @@ describe ExportPayments do
 
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
-        stub_const('DelayedJobHelper', double('delayed'))
         params = { param1: 'pp' }.with_indifferent_access
-
-        expect(Export).to receive(:create).and_wrap_original { |m, *args|
-          e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportPayments, :run_export, [nonprofit.id, params.to_json, user.id, e.id]) # add the enqueue
-          e
-        }
-
-        ExportPayments.initiate_export(nonprofit.id, params, user.id)
+        expect{
+          ExportPayments.initiate_export(nonprofit.id, params, user.id)
+        }.to have_enqueued_job(PaymentExportCreateJob)
+        
         export = Export.first
         expected_export = { id: export.id,
                             user_id: user.id,

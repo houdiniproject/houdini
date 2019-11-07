@@ -98,7 +98,7 @@ module UpdateRecurringDonations
     rd = QueryRecurringDonations.fetch_for_edit(rd_id)['recurring_donation']
     InsertSupporterNotes.create([{ supporter_id: rd['supporter_id'], content: "This supporter's recurring donation for $#{Format::Currency.cents_to_dollars(rd['amount'])} was cancelled by #{rd['cancelled_by']} on #{Format::Date.simple(rd['cancelled_at'])}", user_id: 540 }])
     unless dont_notify_nonprofit
-      DonationMailer.delay.nonprofit_recurring_donation_cancellation(rd['donation_id'])
+      RecurringDonationCancelledJob.perform_later(Donation.find(rd['donation_id']))
     end
     rd
   end

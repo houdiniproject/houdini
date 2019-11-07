@@ -58,7 +58,7 @@ module Nonprofits
     def resend_confirmation
       npo = current_nonprofit
       ba = npo.bank_account
-      NonprofitMailer.delay.new_bank_account_notification(ba) if ba.valid?
+      BankAccountCreateJob.perform_later(ba) if ba.valid?
       respond_to { |format| format.json { render json: {} } }
     end
 

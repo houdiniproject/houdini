@@ -93,8 +93,6 @@ describe UpdateRecurringDonations do
       orig_rd = recurring_donation.attributes.with_indifferent_access
       orig_donation = recurring_donation.donation.attributes.with_indifferent_access
 
-      expect_email_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
-
       result = nil
       expect {
       result = UpdateRecurringDonations.update_amount(recurring_donation, 

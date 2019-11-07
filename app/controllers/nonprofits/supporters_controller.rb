@@ -115,4 +115,5 @@ module Nonprofits
     def update_supporter_params
       params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2)
     end
+  end
 end

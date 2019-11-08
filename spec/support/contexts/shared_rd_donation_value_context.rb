@@ -327,13 +327,8 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
   def before_each_success(expect_charge = true)
     expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
-      expect {
-        expect {
-          result = m.call(*args)
-        }.to have_enqueued_job(PaymentNotificationJob).with(result, supporter.local)
-      }.to have_enqueued_job(WeMoveExecuteForDonationsJob)
+      result = m.call(*args)
       @donation_id = result.id
-
       result
     end
 
@@ -370,13 +365,8 @@ RSpec.shared_context :shared_rd_donation_value_context do
   end
 
   def before_each_sepa_success
-    
       expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
-        expect {
-        expect {
-          result = m.call(*args)
-        }.to have_enqueued_job(DirectDebitCreateJob).with(result.id, supporter.local)
-    }.to have_enqueued_job(WeMoveExecuteForDonationsJob)
+      result = m.call(*args)
       @donation_id = result.id
       result
     end
@@ -395,6 +385,12 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if data[:recurring_donation]
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
+    if (data[:sepa])
+      expect(DirectDebitCreateJob).to have_been_enqueued.with(result['donation']['id'], supporter.locale)
+    else
+      expect(PaymentNotificationJob).to have_been_enqueued.with(result['donation'], supporter.locale)
+    end
+    expect(WeMoveExecuteForDonationsJob).to have_been_enqueued
 
     result
   end
@@ -412,6 +408,12 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if data[:recurring_donation]
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
+    if (data[:sepa])
+      
+    else
+      expect(PaymentNotificationJob).to have_been_enqueued.with(result['donation'], supporter.locale)
+    end
+    expect(WeMoveExecuteForDonationsJob).to have_been_enqueued
     result
   end
 
@@ -436,6 +438,13 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if data[:recurring_donation]
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
+
+    if (data[:sepa])
+      
+    else
+      expect(PaymentNotificationJob).to have_been_enqueued.with(result['donation'], supporter.locale)
+    end
+    expect(WeMoveExecuteForDonationsJob).to have_been_enqueued
     result
   end
 

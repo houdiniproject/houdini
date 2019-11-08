@@ -97,7 +97,7 @@ describe UpdateRecurringDonations do
       expect {
       result = UpdateRecurringDonations.update_amount(recurring_donation, 
         source_token.token, 1000)
-      }.to have_enqueue_with(RecurringDonationChangeAmountJob).with(recurring_donation, orig_rd['amount'])
+      }.to have_enqueued_job(RecurringDonationChangeAmountJob).with(recurring_donation, orig_rd['amount'])
 
       expectations = {
         donation: orig_donation.merge(amount: 1000, card_id: source_token.tokenizable.id),

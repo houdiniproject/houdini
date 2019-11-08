@@ -15,14 +15,16 @@ RSpec.describe Campaign, type: :model do
                    goal_amount_dollars: '1000', nonprofit: nonprofit)
     end
 
-    it 'parent campaign sends out general campaign email' do
-      expect { parent_campaign }.to change { ActionMailer::Base.deliveries.count }.by(1)
-      expect(ActionMailer::Base.deliveries.last.body.include?('Create one-time or recurring')).to be_truthy
+    it 'parent campaign sends out a create job' do
+      parent_campaign
+      expect(CampaignCreateJob).to have_been_enqueued.exactly(:once)
     end
 
-    it 'child campaign sends out federated campaign email' do
-      expect { child_campaign }.to change { ActionMailer::Base.deliveries.count }.by(2)
-      expect(ActionMailer::Base.deliveries.last.body.include?('including a testimonial')).to be_truthy
+    it 'child campaign sends out federated create job' do
+      parent_campaign
+      expect(CampaignCreateJob).to have_been_enqueued.exactly(:once)
+      child_campaign
+      expect(CampaignCreateJob).to have_been_enqueued.exactly(:twice)
     end
   end
 end

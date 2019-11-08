@@ -1,8 +1,8 @@
 class PaymentNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform(donation, locale)
+  def perform(donation, locale, user=nil)
     PaymentNotificationEmailDonorJob.perform_later donation, locale
-    PaymentNotificaitonEmailNonprofitJob.
+    PaymentNotificationEmailNonprofitJob.perform_later donation, user
   end
 end

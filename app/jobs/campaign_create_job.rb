@@ -8,6 +8,6 @@ class CampaignCreateJob < ApplicationJob
       CampaignMailer.creation_followup(campaign).deliver_later
     end
 
-    FundraiserCreateJob.perform_later(campaign)
+    SupporterFundraiserCreateJob.perform_later(campaign)
   end
 end

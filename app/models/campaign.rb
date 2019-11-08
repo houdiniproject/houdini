@@ -100,7 +100,6 @@ class Campaign < ApplicationRecord
     user = profile.user
     Role.create(name: :campaign_editor, user_id: user.id, host: self)
     CampaignCreateJob.perform_later(self)
-    SupporterFundraiserCreateJob.perform_later(self) unless QueryRoles.is_nonprofit_user?(user.id, nonprofit_id)
     self
   end
 

@@ -81,7 +81,7 @@ module InsertTagJoins
     # activities = Psql.execute( Qexpr.new.insert(:activities, activity_data) )
 
     # Sync mailchimp lists, if present
-    MailchimpSupporterSyncJob.perform_later(np_id, supporter_ids, tag_data)
+    MailchimpSupporterSyncJob.perform_later(np_id, supporter_ids, tag_data.as_json)
 
     { json: { inserted_count: tags.count, removed_count: deleted.count }, status: :ok }
   end

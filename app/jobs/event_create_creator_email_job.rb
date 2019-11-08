@@ -1,5 +1,4 @@
-class EventCreateCreatorEmailJob < ApplicationJob
-  queue_as :default
+class EventCreateCreatorEmailJob < EmailJob
 
   def perform(event)
     EventMailer.creation_followup(event).deliver_now

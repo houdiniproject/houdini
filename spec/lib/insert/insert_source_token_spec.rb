@@ -61,14 +61,12 @@ describe InsertSourceToken do
           ouruuid = nil
 
           tokenizable = Card.create!
-          expect(SecureRandom).to receive(:uuid).and_wrap_original { |m| ouruuid = m.call; ouruuid }
 
           result = InsertSourceToken.create_record(tokenizable, event: event)
 
           expected = {
             tokenizable_id: tokenizable.id,
             tokenizable_type: 'Card',
-            token: ouruuid,
             expiration: Time.now + 1.day + 20.days,
             created_at: Time.now,
             updated_at: Time.now,
@@ -77,9 +75,11 @@ describe InsertSourceToken do
             event_id: event.id
           }.with_indifferent_access
 
-          expect(result.attributes).to eq expected
+          expect(result.attributes.except('token')).to eq expected
 
-          expect(SourceToken.last.attributes).to eq expected
+          expect(SourceToken.last.attributes.except('token')).to eq expected
+
+          expect(result[:token]).to be_a String
         end
       end
     end
@@ -89,13 +89,11 @@ describe InsertSourceToken do
           ouruuid = nil
 
           tokenizable = Card.create!
-          expect(SecureRandom).to receive(:uuid).and_wrap_original { |m| ouruuid = m.call; ouruuid }
 
           result = InsertSourceToken.create_record(tokenizable, max_uses: 50, expiration_time: 3600)
 
           expected = { tokenizable_id: tokenizable.id,
                        tokenizable_type: 'Card',
-                       token: ouruuid,
                        expiration: Time.now.since(1.hour),
                        created_at: Time.now,
                        updated_at: Time.now,
@@ -103,8 +101,11 @@ describe InsertSourceToken do
                        max_uses: 50,
                        event_id: nil }.with_indifferent_access
 
-          expect(result.attributes.with_indifferent_access).to eq expected
-          expect(SourceToken.last.attributes).to eq expected
+          expect(result.attributes.with_indifferent_access.except(:token)).to eq expected
+
+         
+          expect(SourceToken.last.attributes.except('token')).to eq expected
+          expect(result.token).to be_a String
         end
       end
 
@@ -113,14 +114,12 @@ describe InsertSourceToken do
           ouruuid = nil
 
           tokenizable = Card.create!
-          expect(SecureRandom).to receive(:uuid).and_wrap_original { |m| ouruuid = m.call; ouruuid }
 
           result = InsertSourceToken.create_record(tokenizable, max_uses: 50, expiration_time: 3600, event: event)
 
           expected = {
             tokenizable_id: tokenizable.id,
             tokenizable_type: 'Card',
-            token: ouruuid,
             expiration: Time.now.since(1.day).since(1.hour),
             created_at: Time.now,
             updated_at: Time.now,
@@ -129,8 +128,9 @@ describe InsertSourceToken do
             event_id: event.id
           }.with_indifferent_access
 
-          expect(result.attributes.with_indifferent_access).to eq expected
-          expect(SourceToken.last.attributes).to eq expected
+          expect(result.attributes.with_indifferent_access.except(:token)).to eq expected
+          expect(SourceToken.last.attributes.except('token')).to eq expected
+          expect(result.token).to be_a String
         end
       end
     end

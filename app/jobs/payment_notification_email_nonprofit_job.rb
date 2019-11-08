@@ -1,5 +1,4 @@
-class PaymentNotificationEmailNonprofitJob < ApplicationJob
-  queue_as :default
+class PaymentNotificationEmailNonprofitJob < EmailJob
 
   def perform(donation, user=nil)
     DonationMailer.nonprofit_payment_notification(donation.id, user&.id).deliver_now

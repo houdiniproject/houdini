@@ -1,7 +1,6 @@
-class NonprofitCreateJob < ApplicationJob
-  queue_as :default
+class NonprofitCreateJob < EmailJob
 
   def perform(nonprofit)
-    NonprofitMailer.welcome(nonprofit.id).deliver
+    NonprofitMailer.welcome(nonprofit.id).deliver_now
   end
 end

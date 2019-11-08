@@ -1,5 +1,4 @@
-class RefundNotificationNonprofitEmailJob < ApplicationJob
-  queue_as :default
+class RefundNotificationNonprofitEmailJob < EmailJob
 
   def perform(refund)
     NonprofitMailer.refund_notification(refund.id).deliver_now

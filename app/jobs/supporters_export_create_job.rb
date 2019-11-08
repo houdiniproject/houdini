@@ -1,5 +1,4 @@
-class SupportersExportCreateJob < ApplicationJob
-  queue_as :default
+class SupportersExportCreateJob < EmailJob
 
   def perform(*args)
     ExportSupporters.run_export(*args)

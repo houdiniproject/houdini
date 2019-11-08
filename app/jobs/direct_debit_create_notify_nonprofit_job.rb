@@ -1,5 +1,4 @@
-class DirectDebitCreateNotifyNonprofitJob < ApplicationJob
-  queue_as :default
+class DirectDebitCreateNotifyNonprofitJob < EmailJob
 
   def perform(*args)
     # Do something later

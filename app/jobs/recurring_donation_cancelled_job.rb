@@ -1,7 +1,6 @@
-class RecurringDonationCancelledJob < ApplicationJob
-  queue_as :default
+class RecurringDonationCancelledJob < EmailJob
 
   def perform(donation)
-    DonationMailer.nonprofit_recurring_donation_cancellation(donation.id).deliver_later
+    DonationMailer.nonprofit_recurring_donation_cancellation(donation.id).deliver_now
   end
 end

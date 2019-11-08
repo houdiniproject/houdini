@@ -3,9 +3,9 @@ class CampaignCreateJob < ApplicationJob
 
   def perform(campaign)
     if campaign.child_campaign?
-      CampaignMailer.federated_creation_followup(campaign).deliver_later
+      CampaignCreationFederatedEmailJob.perform_later(campaign)
     else
-      CampaignMailer.creation_followup(campaign).deliver_later
+      CampaignCreationEmailFollowupJob.perform_later(campaign)
     end
 
     SupporterFundraiserCreateJob.perform_later(campaign)

@@ -1,4 +1,4 @@
-class SupporterNotesExportCreateJob < ApplicationJob
+class SupporterNotesExportCreateJob < EmailJob
   queue_as :default
 
   def perform(npo_id, params, user_id, export_id)

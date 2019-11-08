@@ -1,5 +1,4 @@
-class RefundNotificationJob < ApplicationJob
-  queue_as :default
+class RefundNotificationJob < EmailJob
 
   def perform(refund)
     RefundNotificationDonorEmailJob.perform_later(refund)

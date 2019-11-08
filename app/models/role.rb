@@ -47,9 +47,9 @@ end
     return role unless role.valid?
 
     if user.confirmed?
-      NonprofitAdminMailer.delay.existing_invite(role)
+      RoleAddedJob.perform_later role
     else
-      NonprofitAdminMailer.delay.new_invite(role, user.make_confirmation_token!)
+      UserInviteCreateJob.perform_later role, user.make_confirmation_token!
     end
     role
   end

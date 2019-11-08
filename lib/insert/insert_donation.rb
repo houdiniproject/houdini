@@ -43,9 +43,8 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
-    EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
-    EmailJobQueue.queue(JobTypes::DonorPaymentNotificationJob, result['donation'].id, entities[:supporter_id].locale)
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
+    PaymentNotificationJob.perform_later result['donation'], entities[:supporter_id].locale
+    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     result
   end
 
@@ -86,7 +85,7 @@ module InsertDonation
                        ]).returning('*')
     ).first
     result['activity'] = InsertActivities.for_offsite_donations([result['payment']['id']])
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
+    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     { status: 200, json: result }
   end
 
@@ -106,10 +105,9 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
 
-    EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
-    EmailJobQueue.queue(JobTypes::DonorDirectDebitNotificationJob, result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
+    DirectDebitCreateJob.perform_later(result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
 
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
+    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     # do this for making test consistent
     result['activity'] = {}
     result

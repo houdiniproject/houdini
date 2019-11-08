@@ -20,7 +20,6 @@ module Nonprofits
         return
       end
 
-      DelayedJobHelper.enqueue_job(EmailSupporters, :deliver, [ids, params[:supporter_email]])
       render json: { count: ids.count }, status: :ok
     end
 

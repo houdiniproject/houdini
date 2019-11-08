@@ -60,16 +60,11 @@ describe ExportPayments do
 
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
-        stub_const('DelayedJobHelper', double('delayed'))
         params = { param1: 'pp' }.with_indifferent_access
-
-        expect(Export).to receive(:create).and_wrap_original { |m, *args|
-          e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportPayments, :run_export, [nonprofit.id, params.to_json, user.id, e.id]) # add the enqueue
-          e
-        }
-
-        ExportPayments.initiate_export(nonprofit.id, params, user.id)
+        expect{
+          ExportPayments.initiate_export(nonprofit.id, params, user.id)
+        }.to have_enqueued_job(PaymentExportCreateJob)
+        
         export = Export.first
         expected_export = { id: export.id,
                             user_id: user.id,
@@ -174,9 +169,8 @@ describe ExportPayments do
             expect(@export.exception).to eq error.to_s
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
-
-            expect(user).to have_received_email(subject: 'Your payment export has failed')
           end)
+          expect(ExportPaymentsFailedJob).to have_been_enqueued.with(@export)
         end
       end
     end
@@ -186,7 +180,7 @@ describe ExportPayments do
         @export = create(:export, user: user, created_at: Time.now, updated_at: Time.now)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
           ExportPayments.run_export(nonprofit.id, {}.to_json, user.id, @export.id)
-
+          expect(ExportPaymentsCompletedJob).to have_been_enqueued.with(@export)
           @export.reload
 
           expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/payments-04-06-2020--01-02-03.csv'
@@ -201,7 +195,6 @@ describe ExportPayments do
 
           expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
           expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
-          expect(user).to have_received_email(subject: 'Your payment export is available!')
         end
       end
     end

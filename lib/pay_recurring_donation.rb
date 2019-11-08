@@ -4,7 +4,6 @@
 require 'insert/insert_donation'
 require 'insert/insert_supporter_notes'
 require 'timespan'
-require 'delayed_job_helper'
 
 module PayRecurringDonation
   # Pay ALL recurring donations that are currently due; each payment gets a queued delayed_job
@@ -15,21 +14,7 @@ module PayRecurringDonation
       QueryRecurringDonations._all_that_are_due
     )[1..-1].flatten
 
-    jobs = ids.map do |id|
-      { handler: DelayedJobHelper.create_handler(PayRecurringDonation, :with_stripe, [id]) }
-    end
-
-    Psql.execute(Qexpr.new.insert(:delayed_jobs, jobs,
-                                  common_data: {
-                                    run_at: Time.current,
-                                    attempts: 0,
-                                    failed_at: nil,
-                                    last_error: nil,
-                                    locked_at: nil,
-                                    locked_by: nil,
-                                    priority: 0,
-                                    queue: 'rec-don-payments'
-                                  }))
+    PayRecurringDonationsJob.perform_later(*id)
     ids
   end
 
@@ -94,17 +79,16 @@ module PayRecurringDonation
         Qexpr.new.update(:recurring_donations, n_failures: 0)
           .where('id=$id', id: rd_id).returning('*')
       ).first
-      Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(rd['donation_id'])
-      Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
+      PaymentNotificationJob.perform_later donation, donation&.supporter&.locale || 'en'
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
       result['recurring_donation'] = Psql.execute(
         Qexpr.new.update(:recurring_donations, n_failures: rd['n_failures'] + 1)
           .where('id=$id', id: rd_id).returning('*')
       ).first
-      DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
+     FailedRecurringDonationPaymentDonorEmailJob.perform_later Donation.find(rd['donation_id'])
       if rd['n_failures'] >= 3
-        DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
+        FailedRecurringDonationPaymentNonprofitEmailJob.perform_later Donation.find(rd['donation_id'])
       end
       InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540 }])
     end
@@ -116,9 +100,9 @@ module PayRecurringDonation
       Qexpr.new.update(:recurring_donations, n_failures: 3)
           .where('id=$id', id: rd['id']).returning('*')
     ).first
-    DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
+    FailedRecurringDonationPaymentDonorEmailJob.perform_later Donation.find(rd['donation_id'])
     if notify_nonprofit
-      DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
+      FailedRecurringDonationPaymentNonprofitEmailJob.perform_later Donation.find(rd['donation_id'])
     end
     InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd['id']}", supporter_id: donation['supporter_id'], user_id: 540 }])
     recurring_donation
@@ -146,17 +130,16 @@ module PayRecurringDonation
           Qexpr.new.update(:recurring_donations, n_failures: 0)
               .where('id=$id', id: rd_id).returning('*')
         ).first
-        Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(rd['donation_id'])
-        Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
+        ## add PaymentNotificationJobHere
         InsertActivities.for_recurring_donations([result['payment']['id']])
       else
         result['recurring_donation'] = Psql.execute(
           Qexpr.new.update(:recurring_donations, n_failures: rd['n_failures'] + 1)
               .where('id=$id', id: rd_id).returning('*')
         ).first
-        DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
+        FailedRecurringDonationPaymentDonorEmailJob.perform_later Donation.find(rd['donation_id'])
         if rd['n_failures'] >= 3
-          DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
+          FailedRecurringDonationPaymentNonprofitEmailJob.perform_later Donation.find(rd['donation_id'])
         end
         InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540 }])
       end

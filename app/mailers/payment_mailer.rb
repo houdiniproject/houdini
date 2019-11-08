@@ -7,9 +7,9 @@ class PaymentMailer < BaseMailer
   def resend_admin_receipt(payment_id, user_id)
     payment = Payment.find(payment_id)
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
-      return Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(payment.donation.id, user_id)
+      PaymentNotificationEmailNonprofitJob.perform_later(payment.donation, User.find(user_id))
     elsif payment.kind == 'Ticket'
-      return TicketMailer.receipt_admin(payment.donation.id, user_id).deliver
+      return TicketMailer.receipt_admin(payment.donation.id, user_id).deliver_later
     end
   end
 
@@ -18,9 +18,9 @@ class PaymentMailer < BaseMailer
   def resend_donor_receipt(payment_id)
     payment = Payment.find(payment_id)
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
-      Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(payment.donation.id)
+      PaymentNotificationEmailDonorJob.perform_later payment.donation
     elsif payment.kind == 'Ticket'
-      return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge.id).deliver
+      return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge).deliver_later
     end
   end
 end

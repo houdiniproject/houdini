@@ -69,7 +69,7 @@ module InsertPayout
         ).first
         # Create PaymentPayout records linking all the payments to the payout
         pps = Psql.execute(Qexpr.new.insert('payment_payouts', payment_ids.map { |id| { payment_id: id.to_i } }, common_data: { payout_id: payout['id'].to_i }))
-        NonprofitMailer.delay.pending_payout_notification(payout['id'].to_i)
+        PayoutPendingJob.perform_later(Payout.find(payout['id'].to_i))
         return payout
       end
     rescue Stripe::StripeError => e

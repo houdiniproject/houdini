@@ -20,7 +20,7 @@ module ExportRecurringDonations
 
     e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportRecurringDonations', parameters: params.to_json)
 
-    DelayedJobHelper.enqueue_job(ExportRecurringDonations, :run_export, [npo_id, params.to_json, user_id, e.id])
+    RecurringDonationsExportCreateJob.perform_later(npo_id, params.to_json, user_id, e.id)
   end
 
   def self.run_export(npo_id, params, user_id, export_id)
@@ -61,7 +61,7 @@ module ExportRecurringDonations
     export.ended = Time.now
     export.save!
 
-    ExportMailer.delay.export_recurring_donations_completed_notification(export)
+    ExportRecurringDonationsCompletedJob.perform_later(export)
   rescue StandardError => e
     if export
       export.status = :failed
@@ -69,7 +69,7 @@ module ExportRecurringDonations
       export.ended = Time.now
       export.save!
       if user
-        ExportMailer.delay.export_recurring_donations_failed_notification(export)
+        ExportRecurringDonationsFailedJob.perform_later(export)
       end
       raise e
     end

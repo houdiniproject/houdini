@@ -124,7 +124,7 @@ module OnboardAccounts
   # user_data and extra_info are additional data hashes sent from the onboarding form
   def self.send_onboard_email(np, nonprofit_data, user_data, extra_info)
     # Send the welcome email to the nonprofit
-    NonprofitMailer.welcome(np['id']).deliver
+    NonprofitCreateJob.perform_later(Nonprofit.find(np['id']))
     # Send an email notifying people internal folks of the new nonporfit, with the above info and extra_info
     to_emails = ['support@commitchange.com']
     message = %(

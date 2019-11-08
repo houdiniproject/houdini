@@ -80,16 +80,12 @@ describe ExportSupporterNotes do
 
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
-        DelayedJobHelper = double('delayed')
+        
         params = { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
 
-        expect(Export).to receive(:create).and_wrap_original { |m, *args|
-          e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportSupporterNotes, :run_export, [nonprofit.id, params.to_json, user.id, e.id]) # add the enqueue
-          e
-        }
-
-        ExportSupporterNotes.initiate_export(nonprofit.id, params, user.id)
+        expect{
+          ExportSupporterNotes.initiate_export(nonprofit.id, params, user.id)
+        }.to have_enqueued_job(SupporterNotesExportCreateJob)
         export = Export.first
         expected_export = { id: export.id,
                             user_id: user.id,
@@ -182,9 +178,9 @@ describe ExportSupporterNotes do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: user)
-        expect_email_queued.with(JobTypes::ExportSupporterNotesFailedJob, @export)
         CHUNKED_UPLOADER.raise_error
         Timecop.freeze(2020, 4, 6) do
+          expect {
           expect { ExportSupporterNotes.run_export(nonprofit.id, {}.to_json, user.id, @export.id) }.to(raise_error do |error|
             expect(error).to be_a StandardError
             expect(error.message).to eq TestChunkedUploader::TEST_ERROR_MESSAGE
@@ -195,6 +191,7 @@ describe ExportSupporterNotes do
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
           end)
+        }.to have_enqueued_job(ExportSupporterNotesFailedJob).with(@export)
         end
       end
     end
@@ -202,9 +199,10 @@ describe ExportSupporterNotes do
     it 'uploads as expected' do
       Timecop.freeze(2020, 4, 5) do
         @export = create(:export, user: user, created_at: Time.now, updated_at: Time.now)
-        expect_email_queued.with(JobTypes::ExportSupporterNotesCompletedJob, @export)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
+          expect {
           ExportSupporterNotes.run_export(nonprofit.id, { root_url: 'https://localhost:8080/' }.to_json, user.id, @export.id)
+          }.to have_enqueued_job(ExportSupporterNotesCompletedJob).with(@export)
 
           @export.reload
 

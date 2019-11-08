@@ -18,7 +18,7 @@ module ExportSupporters
 
     e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportSupporters', parameters: params.to_json)
 
-    DelayedJobHelper.enqueue_job(ExportSupporters, :run_export, [npo_id, params.to_json, user_id, e.id])
+    SupportersExportCreateJob.perform_later(npo_id, params.to_json, user_id, e.id)
   end
 
   def self.run_export(npo_id, params, user_id, export_id)
@@ -58,14 +58,14 @@ module ExportSupporters
     export.ended = Time.now
     export.save!
 
-    EmailJobQueue.queue(JobTypes::ExportSupportersCompletedJob, export)
+    ExportSupportersCompletedJob.perform_later export
   rescue StandardError => e
     if export
       export.status = :failed
       export.exception = e.to_s
       export.ended = Time.now
       export.save!
-      EmailJobQueue.queue(JobTypes::ExportSupportersFailedJob, export) if user
+      ExportSupportersFailedJob.perform_later(export) if user
       raise e
     end
     raise e

@@ -17,6 +17,8 @@
 require 'support/expect'
 require 'support/mock_helpers'
 require 'action_mailer_matchers'
+require 'active_job'
+include ActiveJob::TestHelper
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -108,5 +110,6 @@ RSpec.configure do |config|
     DatabaseCleaner.cleaning do
       example.run
     end
+    clear_enqueued_jobs
   end
 end

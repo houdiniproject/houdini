@@ -4,15 +4,6 @@
 require 'rails_helper'
 
 describe DeleteCampaignGiftOption do
-  before(:each) do
-    # #stub out the mailing stuff used by campaign creation
-    cm = double(CampaignMailer)
-    allow(cm).to receive(:creation_followup)
-    nam = double(NonprofitAdminMailer)
-    allow(nam).to receive(:supporter_fundraiser)
-    allow(CampaignMailer).to receive(:delay).and_return(cm)
-    allow(NonprofitAdminMailer).to receive(:delay).and_return(nam)
-  end
   describe '.delete' do
     let(:profile) { force_create(:profile, user: force_create(:user)) }
     let(:campaign) { force_create(:campaign, profile: profile) }

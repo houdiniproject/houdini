@@ -36,7 +36,7 @@ module InsertEmailLists
                        .returning('*')
                        .execute
 
-    UpdateEmailLists.delay.populate_lists_on_mailchimp(npo_id)
+    EmailListCreateJob.perform_later(npo_id)
 
     { deleted: deleted, deleted_result: result, inserted_lists: inserted_lists, inserted_result: lists }
   end

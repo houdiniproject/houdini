@@ -20,7 +20,7 @@ module ExportPayments
 
     e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportPayments', parameters: params.to_json)
 
-    DelayedJobHelper.enqueue_job(ExportPayments, :run_export, [npo_id, params.to_json, user_id, e.id])
+    PaymentExportCreateJob.perform_later(npo_id, params.to_json, user_id, e.id)
   end
 
   def self.run_export(npo_id, params, user_id, export_id)
@@ -61,14 +61,14 @@ module ExportPayments
     export.ended = Time.now
     export.save!
 
-    ExportMailer.delay.export_payments_completed_notification(export)
+    ExportPaymentsCompletedJob.perform_later(export)
   rescue StandardError => e
     if export
       export.status = :failed
       export.exception = e.to_s
       export.ended = Time.now
       export.save!
-      ExportMailer.delay.export_payments_failed_notification(export) if user
+      ExportPaymentsFailedJob.perform_later(export) if user
       raise e
     end
     raise e

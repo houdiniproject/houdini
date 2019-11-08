@@ -54,7 +54,7 @@ describe CancelBillingSubscription do
   end
   context 'processing the billing subscription' do
     before(:each) do
-      bp = create(:billing_plan, amount: 133_333, percentage_fee: 0.33, tier: 1, name: 'fake plan')
+      bp = create(:billing_plan, amount: 133_333, percentage_fee: 0.33, name: 'fake plan')
       @stripe_customer = Stripe::Customer.create
       @plan = Stripe::Plan.create(id: 'test_str_plan', amount: 0, currency: 'USD', interval: 'year', name: 'test PLan')
 

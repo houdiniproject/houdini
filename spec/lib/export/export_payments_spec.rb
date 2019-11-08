@@ -169,9 +169,8 @@ describe ExportPayments do
             expect(@export.exception).to eq error.to_s
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
-
-            expect(user).to have_received_email(subject: 'Your payment export has failed')
           end)
+          expect(ExportPaymentsFailedJob).to have_been_enqueued.with(@export)
         end
       end
     end
@@ -181,7 +180,7 @@ describe ExportPayments do
         @export = create(:export, user: user, created_at: Time.now, updated_at: Time.now)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
           ExportPayments.run_export(nonprofit.id, {}.to_json, user.id, @export.id)
-
+          expect(ExportPaymentsCompletedJob).to have_been_enqueued.with(@export)
           @export.reload
 
           expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/payments-04-06-2020--01-02-03.csv'
@@ -196,7 +195,6 @@ describe ExportPayments do
 
           expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
           expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
-          expect(user).to have_received_email(subject: 'Your payment export is available!')
         end
       end
     end

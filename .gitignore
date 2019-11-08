@@ -30,9 +30,11 @@ custom_plan.rb
 # Ignore VCR cassettes
 spec/fixtures/vcr_cassettes
 
+#dev files
 .env
 .idea/
 .vscode
+.byebug_history
 
 # Jasmine specs build file
 spec/javascripts/bundle.js

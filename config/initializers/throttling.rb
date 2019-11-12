@@ -41,6 +41,25 @@ if ENV['THROTTLE_CARD_L2_LIMIT'] && ENV['THROTTLE_CARD_L2_PERIOD']
   end
 end
 
+if ENV['THROTTLE_CARD_FINGERPRINT_L2_LIMIT'] && ENV['THROTTLE_CARD_FINGERPRINT_L2_PERIOD']
+  Rack::Attack.throttle('post to add card by token LEVEL 2', limit:ENV['THROTTLE_CARD_FINGERPRINT_L2_LIMIT'].to_i, period: ENV['THROTTLE_CARD_FINGERPRINT_L2_PERIOD'].to_i) do |req|
+    ret = nil
+    if run_throttle? && req.path == '/cards' && req.post?
+      begin
+        json = JSON.parse(req.body.string)
+        if json['card']['stripe_card_token']
+          token = Stripe::Token.retrieve(json['card']['stripe_card_token'])
+          ret = token.card.fingerprint
+        end
+      rescue
+        req.body.rewind
+      end
+    end
+
+    ret
+  end
+end
+
 
 Rack::Attack.throttle('post to supporter', limit:10, period: 60) do |req|
   ret = nil

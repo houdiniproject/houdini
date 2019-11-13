@@ -4,7 +4,9 @@
 
 <% content_for(:title) {"Donate to #{@nonprofit.name }"} %>
 
-
+<% content_for :head do %>
+  <meta name="viewport" content="width=device-width"/>
+<% end %>
 
 <% content_for :javascripts do %>
   <script>
@@ -34,6 +36,7 @@
 
 <% content_for :stylesheets do %>
 	<%= stylesheet_link_tag 'nonprofits/donate/page' %>
+ 
 <% end %>
 
 <%= content_for :facebook_tags do %>
@@ -54,5 +57,3 @@
   <div class='donate-popup donationWizard'>
     <div class='js-donateForm'> </div>
   </div>
-<%= render 'layouts/javascripts' %>
-<%= yield :javascripts %>

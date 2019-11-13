@@ -24,11 +24,13 @@
 
 	<div class='u-marginTop--10'>
 		<!--= hide_if card_form.loading -->
-		<p>
+		<div class="u-fontSize--12 u-marginBottom--0 u-marginTop--10 u-color--grey u-security-notification">
 			<!--= hide_if card_form.loading -->
-			<small><i class='fa fa-lock'></i> 256-bit encrypted</small>
-		</p>
-
+			<i class="fa fa-lock u-security-icon"></i>
+			<div>
+				<span>Transactions secured with 256-bit SSL and protected by ReCAPTCHA. The ReCAPTCHA and Google <a href="https://policies.google.com/privacy" target="_new" style="color: grey!important; text-decoration:underline;">Privacy Policy</a> and <a href='https://policies.google.com/terms' target="_new" style="color: grey!important; text-decoration:underline;">Terms of Service</a> apply.</span>
+			</div>
+		</div>
 	  <% unless hide_dedication %>
 		<p class='highlight u-marginBottom--0 u-centered'>
       <!--= hide_if is_hiding_dedication -->

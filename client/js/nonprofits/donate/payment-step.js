@@ -52,7 +52,9 @@ function init(state) {
   state.sepaForm = sepaForm.init({ supporter: supporterID$ })
 
   // Set the card ID into the donation object when it is saved
-  const cardToken$ = flyd.map(R.prop('token'), state.cardForm.saved$)
+  const cardToken$ = flyd.map((i) => {
+    return i['token']
+  }, state.cardForm.saved$)
   const donationWithAmount$ =  flyd.combine((donation, donationTotal, coverFees$) => {
     const d = _.cloneDeep(donation())
     d.amount = donationTotal()

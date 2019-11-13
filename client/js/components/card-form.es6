@@ -16,6 +16,8 @@ const createCardStream = require('../cards/create-frp.es6')
 
 const create_card_element = require('../../../javascripts/src/lib/create_card_element.ts')
 
+const grecaptchaPromised = require('../../../javascripts/src/lib/grecaptcha_during_payment').default
+
 // A component for filling out card data, validating it, saving the card to
 // stripe, and then saving a tokenized copy to our servers.
 
@@ -65,15 +67,33 @@ const init = (state) => {
   state.stripeRespOk$ = flyd.filter(r => !r.error, stripeResp$)
   const stripeError$ = flyd.map(r => r.error.message, flyd.filter(r => r.error, stripeResp$))
 
+  const recaptchaKey$ = flyd.flatMap((resp) => {
+    return flyd.stream(grecaptchaPromised(resp).catch(i => i))
+  }, state.stripeRespOk$)
+
+  const recaptchaKeyOk$ = flyd.filter(r => !r.message, recaptchaKey$)
+
   // Save the card as a card table on our own db
   // streams of responses
-  state.resp$ = flyd.flatMap(
-    resp => saveCard(state.payload$(), state.path$(), resp) // cheating on the streams here..
-    , state.stripeRespOk$)
+  state.resp$ = flyd.flatMap((resp) => {
+
+    //handle cases where the recaptcha is in error
+    return saveCard(state.payload$(), state.path$(), resp.stripe_resp, resp.recaptcha_token)
+  }, recaptchaKeyOk$)
+
+  const recaptchaError$ = flyd.map(R.prop('message'), flyd.filter(resp => {
+    return resp.message
+  }, recaptchaKey$))
+
+  flyd.map(() => {
+    if (_paq) {
+      _paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service']);
+    }
+  }, recaptchaError$)
 
   const ccError$ = flyd.map(R.prop('error'), flyd.filter(resp => resp.error, state.resp$))
   state.saved$ = flyd.filter(resp => !resp.error, state.resp$)
-  state.error$ = flyd.merge(stripeError$, ccError$)
+  state.error$ = flyd.merge(stripeError$, flyd.merge(ccError$, recaptchaError$))
 
   state.loading$ = scanMerge([
     [state.form.validSubmit$, R.always(true)]
@@ -87,14 +107,19 @@ const init = (state) => {
 
 // -- Stream-related functions
 
+
 // Save the card to our own servers, and return a response stream
-const saveCard = (send, path, resp) => {
+const saveCard = (send, path, resp, recaptcha_token) => {
+  send = R.merge(send, {
+    'g-recaptcha-response': recaptcha_token
+  });
   send.card = R.merge(send.card, {
     cardholders_name: resp.name
     , name: `${resp.token.card.brand} *${resp.token.card.last4}`
     , stripe_card_token: resp.token.id
     , stripe_card_id: resp.token.card.id
   })
+
   return flyd.map(R.prop('body'), request({ path, send, method: 'post' }).load)
 }
 
@@ -140,34 +165,42 @@ const view = state => {
         , buttonText: I18n.t('nonprofits.donate.payment.card.submit')
         , loadingText: ` ${I18n.t('nonprofits.donate.payment.card.loading')}`
       })
-      , h('p.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey', [h('i.fa.fa-lock'), ` ${I18n.t('nonprofits.donate.payment.card.secure_info')}`])
+      , state.hideButton ? '' : h('div.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey.u-security-notification', [h('i.fa.fa-lock.u-security-icon'),
+      h('div',
+        [h('span', 'Transactions secured with 256-bit SSL and protected by ReCAPTCHA. The ReCAPTCHA and Google '),
+          h('a', {props: { href: 'https://policies.google.com/privacy', target:"_new", style:"color: grey!important; text-decoration:underline;" }}, 'Privacy Policy'),
+          h('span',' and '),
+          h('a', {props: { href: 'https://policies.google.com/terms', target:"_new", style:"color: grey!important; text-decoration:underline;"  }}, 'Terms of Service'),
+          h('span', ' apply.')]
+      )
+      ])
     ])
   ]))
 }
 
 function feeCoverageField(state) {
   return h('section.donate-feeCoverageCheckbox.u-marginBottom--10.u-marginTop--20', [
-      h('input.u-margin--0.donationWizard-amount-input', {
-        props: { type: 'checkbox', checked: state.coverFees$(), id: 'checkbox-feeCoverage' }
-        , on: {
-          change: ev => {
-            state.coverFees$(!state.coverFees$())
-          }
+    h('input.u-margin--0.donationWizard-amount-input', {
+      props: { type: 'checkbox', checked: state.coverFees$(), id: 'checkbox-feeCoverage' }
+      , on: {
+        change: ev => {
+          state.coverFees$(!state.coverFees$())
         }
-      })
-      , h('label.checkbox-feeCoverage-label', { props: { htmlFor: 'checkbox-feeCoverage', type: 'checkbox' } },
-        [
-          h('div',
-            {},
-            [
-              h('small', [I18n.t('nonprofits.donate.amount.feeCoverage.header') + "! Cover ",
-              h('strong', state.potentialFees$()),
-                " in processing fees"])
-            ]
-          )
-        ])
+      }
+    })
+    , h('label.checkbox-feeCoverage-label', { props: { htmlFor: 'checkbox-feeCoverage', type: 'checkbox' } },
+      [
+        h('div',
+          {},
+          [
+            h('small', [I18n.t('nonprofits.donate.amount.feeCoverage.header') + "! Cover ",
+            h('strong', state.potentialFees$()),
+              " in processing fees"])
+          ]
+        )
+      ])
 
-    
+
   ])
 }
 

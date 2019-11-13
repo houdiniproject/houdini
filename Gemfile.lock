@@ -26,6 +26,12 @@ PATH
       rails (> 3.2, < 6)
 
 PATH
+  remote: gems/recaptcha
+  specs:
+    recaptcha (5.2.1)
+      json
+
+PATH
   remote: gems/ruby-param-validation
   specs:
     param_validation (0.0.2)
@@ -489,6 +495,7 @@ DEPENDENCIES
   rails_12factor
   rails_autoscale_agent
   rake
+  recaptcha!
   roadie-rails
   rspec
   rspec-rails

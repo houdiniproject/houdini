@@ -403,6 +403,15 @@
   bottom: 0;
 }
 
+.u-security-notification {
+  display:flex;
+  text-align: left;
+  .u-security-icon {
+    padding-right:5px;
+    padding-top:1px;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .u-hideIf--600 {display: none;}
 }

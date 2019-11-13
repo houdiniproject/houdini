@@ -40,6 +40,21 @@ if ENV['THROTTLE_CARD_L2_LIMIT'] && ENV['THROTTLE_CARD_L2_PERIOD']
     ret
   end
 end
+Rack::Attack.blacklist("block access to something") do |req|
+  ret = nil
+  # Requests are blocked if the return value is truthy
+  if run_throttle? && req.path =~ /\/nonprofits\/(.*)\/supporters/ && req.post?
+    begin
+      json = JSON.parse(req.body.string)
+      ret = json['email'] =~ /.*@itymail.com/
+    rescue
+      req.body.rewind
+    end
+  end
+
+  ret
+end
+
 
 
 Rack::Attack.throttle('post to supporter', limit:10, period: 60) do |req|

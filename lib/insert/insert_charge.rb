@@ -87,7 +87,7 @@ module InsertCharge
         amount: data[:amount],
         currency: nonprofit_currency,
         description: data[:statement],
-        statement_descriptor: data[:statement][0..21].gsub(/[<>"']/,''),
+        statement_descriptor_suffix: data[:statement][0..21].gsub(/[<>"']/,''),
         metadata: data[:metadata]
      }
 
@@ -104,8 +104,9 @@ module InsertCharge
         begin
           stripe_cust = Stripe::Customer.retrieve(stripe_customer_id)
           params = [stripe_charge_data.merge(destination: stripe_account_id), {}]
-        rescue
-          params = [stripe_charge_data, {stripe_account: stripe_account_id}]
+        rescue => e
+          Airbrake.notify(e, other_data: {reason: 'a payment that should never happen'})
+          raise e
         end
       else
         fee=0

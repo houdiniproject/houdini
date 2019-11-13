@@ -106,6 +106,7 @@ GEM
     builder (3.0.4)
     bunny (2.7.1)
       amq-protocol (>= 2.2.0)
+    byebug (11.0.1)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -444,6 +445,7 @@ DEPENDENCIES
   bootsnap
   browserify-rails
   bunny (>= 2.6.3)
+  byebug
   carrierwave
   carrierwave-aws
   chronic

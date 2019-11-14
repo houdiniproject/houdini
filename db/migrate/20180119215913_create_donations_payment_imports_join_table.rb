@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class CreateDonationsPaymentImportsJoinTable < ActiveRecord::Migration
+class CreateDonationsPaymentImportsJoinTable < ActiveRecord::Migration[4.2]
   def change
     create_table :donations_payment_imports, id: false do |t|
       t.references :donation

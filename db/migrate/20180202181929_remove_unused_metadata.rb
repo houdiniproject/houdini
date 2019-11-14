@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class RemoveUnusedMetadata < ActiveRecord::Migration
+class RemoveUnusedMetadata < ActiveRecord::Migration[4.2]
   TABLES = %i[
     campaign_gift_options
     campaign_gifts

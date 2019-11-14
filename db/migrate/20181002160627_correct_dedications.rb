@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CorrectDedications < ActiveRecord::Migration
+class CorrectDedications < ActiveRecord::Migration[4.2]
   def up
     execute <<~SQL
           create or replace function is_valid_json(p_json text)

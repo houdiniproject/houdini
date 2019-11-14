@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class AddDonationCampaignIdIndex < ActiveRecord::Migration
+class AddDonationCampaignIdIndex < ActiveRecord::Migration[4.2]
   def up
     Qx.execute(%(
       CREATE INDEX IF NOT EXISTS donations_campaign_id ON donations (campaign_id);

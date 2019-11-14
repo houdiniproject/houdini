@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class AddInactiveToCard < ActiveRecord::Migration
+class AddInactiveToCard < ActiveRecord::Migration[4.2]
   class Card < ActiveRecord::Base
     attr_accessible :inactive
   end

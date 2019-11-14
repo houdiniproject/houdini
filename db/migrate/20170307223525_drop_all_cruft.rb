@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class DropAllCruft < ActiveRecord::Migration
+class DropAllCruft < ActiveRecord::Migration[4.2]
   def change
     Qx.execute(%(
       DROP FUNCTION IF EXISTS update_payment_donations_search_vectors();

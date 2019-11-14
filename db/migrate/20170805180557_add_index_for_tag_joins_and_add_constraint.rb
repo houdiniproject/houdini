@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class AddIndexForTagJoinsAndAddConstraint < ActiveRecord::Migration
+class AddIndexForTagJoinsAndAddConstraint < ActiveRecord::Migration[4.2]
   def up
     ids = DeleteTagJoins.find_multiple_tag_joins
     DeleteTagJoins.copy_and_delete(ids)

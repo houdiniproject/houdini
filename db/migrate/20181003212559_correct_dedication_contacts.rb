@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CorrectDedicationContacts < ActiveRecord::Migration
+class CorrectDedicationContacts < ActiveRecord::Migration[4.2]
   def up
     json_dedications = Qx.select('id', 'dedication').from(:donations)
                          .where("dedication IS NOT NULL AND dedication != ''")

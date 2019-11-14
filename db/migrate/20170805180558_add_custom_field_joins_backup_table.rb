@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class AddCustomFieldJoinsBackupTable < ActiveRecord::Migration
+class AddCustomFieldJoinsBackupTable < ActiveRecord::Migration[4.2]
   def change
     create_table :custom_field_joins_backup do |t|
       t.integer 'custom_field_master_id'

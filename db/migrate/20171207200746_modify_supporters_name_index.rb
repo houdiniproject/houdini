@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class ModifySupportersNameIndex < ActiveRecord::Migration
+class ModifySupportersNameIndex < ActiveRecord::Migration[4.2]
   def up
     rename_index :supporters, :supporters_name, :supporters_lower_name
   end

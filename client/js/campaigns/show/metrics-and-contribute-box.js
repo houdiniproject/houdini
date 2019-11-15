@@ -60,7 +60,7 @@ const totalRaised = state => {
     goalText = ` of ${format.numberWithCommas(state.metrics$().goal_amount)} supporter goal`
   }
   else {
-    currentText = '$' + format.centsToDollars(state.metrics$().total_raised, {noCents: true})
+    currentText = '$' + format.centsToDollars((state.metrics$().starting_point || 0) + state.metrics$().total_raised, {noCents: true})
     goalText = ' of $' + format.centsToDollars(app.campaign.goal_amount) + ' goal'
   }
 
@@ -100,7 +100,7 @@ const progressBar = state => {
     current_status = (state.metrics$().starting_point || 0) + state.metrics$().supporters_count;
   }
   else {
-    current_status = state.metrics$().total_raised;
+    current_status = (state.metrics$().starting_point || 0) + state.metrics$().total_raised;
   }
 
   return h('div.progressBar--medium.u-marginBottom--15', [

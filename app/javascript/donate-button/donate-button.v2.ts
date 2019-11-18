@@ -1,8 +1,6 @@
-import { NotifyReporter } from "@jest/reporters";
-
 const donate_css = require('../../assets/stylesheets/donate-button/donate-button.v2.css');
 
-const iframeHost = 'https://us.commitchange.com'
+const iframeHost = require('./details.js.erb')
 
 function on_ios11() {
     var userAgent = window.navigator.userAgent;

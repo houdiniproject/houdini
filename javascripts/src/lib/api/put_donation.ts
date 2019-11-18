@@ -76,7 +76,7 @@ export class PutDonation {
 
       }
     );
-    return dfd.promise();
+    return dfd.promise() as any;
   }
 }
 

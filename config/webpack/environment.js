@@ -6,6 +6,4 @@ environment.loaders.prepend('typescript', typescript)
 
 environment.loaders.prepend('erb', erb)
 
-environment.loaders.delete('nodeModules')
-
 module.exports = environment

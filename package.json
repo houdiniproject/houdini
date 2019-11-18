@@ -148,8 +148,6 @@
     "uuid": "2.0.2",
     "validator": "^9.4.1",
     "vdom-thunk": "3.0.0",
-    "velocity": "^0.7.2",
-    "velocity-react": "^1.4.1",
     "view-script": "0.3.6",
     "virtual-dom": "2.1.1",
     "vvvview": "0.4.3"

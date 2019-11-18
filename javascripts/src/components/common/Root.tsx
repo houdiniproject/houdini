@@ -12,7 +12,7 @@ import * as CustomAPIS from "../../lib/apis"
 const enLocaleData = require('react-intl/locale-data/en');
 const I18n = require('../../../../app/javascript/i18n.js.erb')
 const localeData = [...enLocaleData]
-I18n.translations.keys().filter((i:string) => i !== 'en').each((i:string) => {
+Object.keys(I18n.translations).filter((i:string) => i !== 'en').forEach((i:string) => {
   const data  = [...require(`react-intl/locale-data/${i}`)]
   localeData.concat(data)
 })

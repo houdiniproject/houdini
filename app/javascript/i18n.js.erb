@@ -2,7 +2,6 @@ const I18n = require('i18n-js');
 
 I18n.translations = I18n.translations || {};
 <% I18n::JS::translations.each do |k,v| %>
-<% byebug %>
 I18n.translations['<%= k %>'] = I18n.extend((I18n.translations['<%= k %>'] || {}),<%= JSON.generate(v) %>);
 <% end %>
 module.exports = I18n;

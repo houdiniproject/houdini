@@ -108,7 +108,9 @@ function init() {
   const donateParam$ = flyd.scanMerge([
     [state.metrics.clickContribute$, resetDonateForm]
   , [giftOption$, setGiftOption]
-  ], {campaign_id: app.campaign.id} )
+  ], {campaign_id: app.campaign.id, 
+    manual_cover_fees: app && app.manual_cover_fees,
+  } )
 
   state.donateWiz = donateWiz.init(donateParam$)
 

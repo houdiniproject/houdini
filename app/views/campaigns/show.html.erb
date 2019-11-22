@@ -27,6 +27,8 @@
       flatFee: 30,
       percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
     }
+    
+    app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

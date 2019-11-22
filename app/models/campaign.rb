@@ -75,6 +75,7 @@ class Campaign < ActiveRecord::Base
 	has_many :activities,   as: :host, dependent: :destroy
 	belongs_to :profile
 	belongs_to :nonprofit
+	has_one :misc_campaign_info, dependent: :destroy
 
   belongs_to :parent_campaign, class_name: 'Campaign'
   has_many :children_campaigns, class_name: 'Campaign', foreign_key: 'parent_campaign_id'

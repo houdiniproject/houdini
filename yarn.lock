@@ -2511,7 +2511,7 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-"bootstrap-loader@github:houdiniproject/bootstrap-loader#compiled_namespaced":
+"bootstrap-loader@github:houdiniproject/bootstrap-loader#compiled_namespaced_3":
   version "3.0.1"
   resolved "https://codeload.github.com/houdiniproject/bootstrap-loader/tar.gz/183389534c3ad27a3f6a12bcfc526a5cbb1ab956"
   dependencies:

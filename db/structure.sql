@@ -1300,6 +1300,38 @@ ALTER SEQUENCE public.imports_id_seq OWNED BY public.imports.id;
 
 
 --
+-- Name: misc_campaign_infos; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.misc_campaign_infos (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    campaign_id integer,
+    manual_cover_fees boolean
+);
+
+
+--
+-- Name: misc_campaign_infos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.misc_campaign_infos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: misc_campaign_infos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.misc_campaign_infos_id_seq OWNED BY public.misc_campaign_infos.id;
+
+
+--
 -- Name: misc_payment_infos; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2608,6 +2640,13 @@ ALTER TABLE ONLY public.imports ALTER COLUMN id SET DEFAULT nextval('public.impo
 
 
 --
+-- Name: misc_campaign_infos id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_campaign_infos ALTER COLUMN id SET DEFAULT nextval('public.misc_campaign_infos_id_seq'::regclass);
+
+
+--
 -- Name: misc_payment_infos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3045,6 +3084,14 @@ ALTER TABLE ONLY public.email_lists
 
 
 --
+-- Name: misc_campaign_infos misc_campaign_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_campaign_infos
+    ADD CONSTRAINT misc_campaign_infos_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: misc_payment_infos misc_payment_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3384,6 +3431,13 @@ CREATE INDEX index_exports_on_nonprofit_id ON public.exports USING btree (nonpro
 --
 
 CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
+
+
+--
+-- Name: index_misc_campaign_infos_on_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_misc_campaign_infos_on_campaign_id ON public.misc_campaign_infos USING btree (campaign_id);
 
 
 --
@@ -4601,4 +4655,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190820205820');
 INSERT INTO schema_migrations (version) VALUES ('20190820205841');
 
 INSERT INTO schema_migrations (version) VALUES ('20191001174129');
+
+INSERT INTO schema_migrations (version) VALUES ('20191122173716');
 

@@ -85,9 +85,9 @@ const init = (state) => {
     return resp.message
   }, recaptchaKey$))
 
-  flyd.map(() => {
+  flyd.map((error) => {
     if (_paq) {
-      _paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service']);
+      _paq.push(['trackEvent', 'failure', 'recaptcha:contact_service', error]);
     }
   }, recaptchaError$)
 

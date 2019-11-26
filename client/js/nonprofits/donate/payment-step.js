@@ -125,6 +125,11 @@ const paidWithGift$ = flyd.map(
     , state.paid$
   )
 
+  flyd.map(
+    R.apply((donationResponse) => postSuccess(donationResp$))
+    , state.paid$
+  )
+
   return state
 }
 
@@ -152,6 +157,13 @@ const postTracking = (utmParams, donationResponse) => {
       , method: 'post'
       , send: params
     }).load)
+  }
+}
+
+const postSuccess = (donationResponse) => {
+  if (_paq) {
+    const resp = donationResponse()
+    _paq.push(['trackEvent', 'payment_succeeded', 'payment', resp && resp.charge && resp.charge.amount]);
   }
 }
 

@@ -86,7 +86,7 @@ const init = (state) => {
 
   flyd.map(() => {
     if (_paq) {
-      _paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service']);
+      _paq.push(['trackEvent', 'failure', 'recaptcha:contact_service', recaptchaError$]);
     }
   }, recaptchaError$)
 

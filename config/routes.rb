@@ -259,5 +259,8 @@ Rails.application.routes.draw do
 
   get '/js/donate-button.v2.js' => 'widget#v2'
   get '/js/i18n.js' => 'widget#i18n'
+  get '/css/donate-button.css' => 'widget#v1_css'
+  get '/css/donate-button.v2.css' => 'widget#v2_css'
+
   root to: 'front#index'
 end

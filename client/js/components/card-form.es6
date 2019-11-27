@@ -86,8 +86,8 @@ const init = (state) => {
   }, recaptchaKey$))
 
   flyd.map((error) => {
-    if (_paq) {
-      _paq.push(['trackEvent', 'failure', 'recaptcha:contact_service', error]);
+    if (window._paq) {
+      window._paq.push(['trackEvent', 'failure', 'recaptcha:contact_service', error]);
     }
   }, recaptchaError$)
 

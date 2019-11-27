@@ -141,8 +141,8 @@ function display_stripe_err(resp) {
 
 function display_grecaptcha_err(resp) {
 	if(resp && resp.message) {
-		if (_paq) {
-			_paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service']);
+		if (window._paq) {
+			window._paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service']);
 		}
 	  appl.def('card_form', {
 		loading: false,

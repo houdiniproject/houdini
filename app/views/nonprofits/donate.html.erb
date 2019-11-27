@@ -7,6 +7,7 @@
 
 
 <% content_for :javascripts do %>
+  <%= javascript_pack_tag 'i18n', 'page__nonprofits__donate' %>
   <script>
     app.referer_url = "<%= @referer %>"
     app.campaign = <%= raw (@campaign || {}).to_json %>
@@ -23,7 +24,6 @@
     I18n.defaultLocale = "<%=  I18n.default_locale %>"
     I18n.locale = "<%=  I18n.locale %>"
   </script>
-  <%= IncludeAsset.js '/client/js/nonprofits/donate/page.js' %>
 <% end %>
 
 <% content_for :stylesheets do %>

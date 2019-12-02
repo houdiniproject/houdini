@@ -22,7 +22,7 @@ window._csrf = "<%= form_authenticity_token %>";
     I18n.locale = "<%= I18n.locale %>"
 </script>
 
-<script defer src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %>"></script>
+<script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %>"></script>
 
 
 <%= yield :javascripts %>

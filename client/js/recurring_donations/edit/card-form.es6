@@ -84,11 +84,11 @@ const init = (state) => {
     return resp.message
   }, recaptchaKey$))
 
-  flyd.map((error) => {
-    if (window._paq) {
-      window._paq.push(['trackEvent', 'failure', 'recaptcha:contact_service', error]);
-    }
-  }, recaptchaError$)
+  // flyd.map((error) => {
+  //   if (window._paq) {
+  //     window._paq.push(['trackEvent', 'failure', 'recaptcha:contact_service', error]);
+  //   }
+  // }, recaptchaError$)
 
   const ccError$ = flyd.map(R.prop('error'), flyd.filter(resp => resp.error, state.resp$))
   state.saved$ = flyd.filter(resp => !resp.error, state.resp$)

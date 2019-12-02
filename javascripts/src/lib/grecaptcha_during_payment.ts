@@ -11,7 +11,11 @@ function stripeRespToGRecaptcha(resp:any) {
         stripe_resp: resp
       };
     }).catch(i => {
-      throw new Error("We were unable to contact ReCAPTCHA. Make sure you're connected to the internet and try again.");
+      const paq = (window as any)['_paq']
+      if (paq) {
+        paq.push(['trackEvent', 'failure', 'recaptcha:contact_service', i]);
+      }
+      throw new Error("We were unable to contact ReCAPTCHA. Make sure you're connected to the internet then reload the page and try again.");
     })
 }
 

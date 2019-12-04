@@ -27,7 +27,7 @@ function init(state) {
     flyd.stream({})
     , flyd.map(supp => ({ name: supp.name, address_zip: supp.zip_code }), state.supporter$))
 
-  const coverFees$ = flyd.map(params => params.manual_cover_fees ? false : true, params$)
+  const coverFees$ = flyd.map(params => (params.manual_cover_fees || params.hide_cover_fees_option) ? false : true, params$)
 
   state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
     const feeStructure = app.nonprofit.feeStructure

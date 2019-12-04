@@ -110,6 +110,7 @@ function init() {
   , [giftOption$, setGiftOption]
   ], {campaign_id: app.campaign.id, 
     manual_cover_fees: app && app.manual_cover_fees,
+    hide_cover_fees_option: app && app.hide_cover_fees_option
   } )
 
   state.donateWiz = donateWiz.init(donateParam$)

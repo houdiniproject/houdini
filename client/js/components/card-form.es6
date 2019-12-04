@@ -51,6 +51,8 @@ const init = (state) => {
   state.form = validatedForm.init({ constraints, validators, messages })
   state.element = create_card_element.createElement()
 
+  state.hide_cover_fees_option = app.hide_cover_fees_option;
+
   var formAddressZip$ = flyd.stream()
   state.element.on('change', (payload) => {
     formAddressZip$(payload.value['postalCode'])
@@ -156,7 +158,7 @@ const view = state => {
         }
       })
       , profileInput(field, app.profile_id)
-      , feeCoverageField(state)
+      , !state.hide_cover_fees_option ? feeCoverageField(state) : ''
     ])
     , h('div.u-centered.u-marginTop--20', [
       state.hideButton ? '' : button({

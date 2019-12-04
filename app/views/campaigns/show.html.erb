@@ -28,7 +28,8 @@
       percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
     }
     
-    app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>
+    app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>;
+    app.hide_cover_fees_option = <%= @campaign&.misc_campaign_info&.hide_cover_fees_option || false %>
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

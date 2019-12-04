@@ -40,8 +40,7 @@
   <%= render 'schema', npo: @nonprofit %>
 	<%= render 'common/froala' if current_nonprofit_user? %>
 
-	<%= IncludeAsset.js '/client/js/nonprofits/show/page.js' %>
-	<%= IncludeAsset.js '/client/js/nonprofits/edit/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__show', 'page__nonprofits__edit' %>
   <% # needs to be after the page load because that's when I18n is included %>
   <script>
       var I18n = I18n || {}

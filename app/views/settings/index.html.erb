@@ -11,7 +11,7 @@
     app.current_user_id = <%= @user.id %>
   </script>
 	<%= render 'common/froala' if current_nonprofit_user? %>
-	<%= IncludeAsset.js '/client/js/settings/index/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__settings__index' %>
 <% end %>
 
 <header class='header stripe--mosaic'>

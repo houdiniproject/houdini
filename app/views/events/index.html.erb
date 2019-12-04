@@ -9,7 +9,7 @@
   <script>
 		app.current_nonprofit_user = <%= current_nonprofit_user? %>
   </script>
-	<%= IncludeAsset.js '/client/js/events/index/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__events__index' %>
 <% end %>
 
 <%= render 'components/header',

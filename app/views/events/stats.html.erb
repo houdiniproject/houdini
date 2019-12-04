@@ -23,7 +23,7 @@
     app.hide_activities = <%= @event.hide_activity_feed %>
     app.event_background_image = '<%= @event_background_image %>'
   </script>
-  <%= IncludeAsset.js '/client/js/events/stats/page.js' %>
+  <%= javascript_pack_tag 'i18n', 'page__events__stats' %>
 <% end %>
 
 <%= content_for :head do %>

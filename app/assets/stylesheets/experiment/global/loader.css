@@ -1,0 +1,24 @@
+/* License: LGPL-3.0-or-later */
+.loader {
+  height: 2px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.loader:before{
+  transform: translateZ(0);
+  position: absolute;
+  content: "";
+  height: 100%;
+  background: var(--green);
+  animation: loader 1s linear infinite;
+}
+
+@keyframes loader {
+  from {left: -10%; width: 10%}
+  50% {width: 60%; left: 40%;}
+  to {left: 130%; width: 10%}
+}

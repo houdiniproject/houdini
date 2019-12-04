@@ -8,7 +8,7 @@
     , subscription: <%= raw(@nonprofit.billing_subscription.to_json) %>
     }
 	</script>
-	<%= IncludeAsset.js '/client/js/nonprofits/cards/edit/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__cards__edit' %>
 <% end %>
 
 <div id='js-main'></div>

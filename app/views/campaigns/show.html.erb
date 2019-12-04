@@ -25,7 +25,7 @@
 
   <%= render 'schema', campaign: @campaign, url: @url %>
   <%= render 'common/froala' if current_campaign_editor? %>
-	<%= IncludeAsset.js '/client/js/campaigns/show/page.js' %>
+<%= javascript_pack_tag 'i18n', 'page__campaigns' %>
 <% end %>
 
 <%= content_for :stylesheets do %>

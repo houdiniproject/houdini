@@ -4,7 +4,7 @@
 
 <%= content_for :javascripts do %>
   <script>ENV.campaignID = <%= @campaign.id %></script>
-  <%= IncludeAsset.js '/client/js/campaigns/supporters/index/page.js' %>
+  <%= javascript_pack_tag 'i18n', 'page__campaigns__supporters' %>
 <% end %>
 
 <% content_for :head do %>

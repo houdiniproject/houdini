@@ -399,7 +399,8 @@ CREATE TABLE public.campaigns (
     parent_campaign_id integer,
     reason_for_supporting text,
     default_reason_for_supporting text,
-    banner_image character varying(255)
+    banner_image character varying(255),
+    hide_cover_fees_option boolean
 );
 
 
@@ -4657,4 +4658,6 @@ INSERT INTO schema_migrations (version) VALUES ('20190820205841');
 INSERT INTO schema_migrations (version) VALUES ('20191001174129');
 
 INSERT INTO schema_migrations (version) VALUES ('20191122173716');
+
+INSERT INTO schema_migrations (version) VALUES ('20191204021126');
 

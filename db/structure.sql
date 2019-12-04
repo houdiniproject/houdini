@@ -399,8 +399,7 @@ CREATE TABLE public.campaigns (
     parent_campaign_id integer,
     reason_for_supporting text,
     default_reason_for_supporting text,
-    banner_image character varying(255),
-    hide_cover_fees_option boolean
+    banner_image character varying(255)
 );
 
 
@@ -1309,7 +1308,8 @@ CREATE TABLE public.misc_campaign_infos (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     campaign_id integer,
-    manual_cover_fees boolean
+    manual_cover_fees boolean,
+    hide_cover_fees_option boolean
 );
 
 

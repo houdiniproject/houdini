@@ -61,7 +61,7 @@ const postSupporter = supporter =>
   , request({
       method: 'post'
     , path: `/nonprofits/${app.nonprofit_id}/supporters`
-    , send: R.merge(supporter, {locale: I18n.locale})
+    , send: {supporter: R.merge(supporter, {locale: I18n.locale})}
     }).load
   )
 

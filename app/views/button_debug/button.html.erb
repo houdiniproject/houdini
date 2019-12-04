@@ -3,7 +3,7 @@
     (function() {
         if(document.querySelector('.commitchange-donate[data-fixed]')) return;
         var cc_donate = document.createElement('div');
-        cc_donate.innerHTML = "<a data-fixed class='commitchange-donate'></a>";
+        cc_donate.innerHTML = "<a data-fixed class='commitchange-donate' data-custom-fields='shirt sizer: T-shirt size, company: Company name'></a>";
         document.body.appendChild(cc_donate);
         var npo = 1;
         var script = document.createElement('script');

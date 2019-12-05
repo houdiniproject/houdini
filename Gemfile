@@ -157,4 +157,4 @@ gem 'grape_devise', path: 'gems/grape_devise'
 
 gem 'recaptcha', path: 'gems/recaptcha'
 
-gem 'rbtrace', require: false
+gem 'rbtrace'

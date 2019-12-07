@@ -8,6 +8,10 @@
   <meta name="viewport" content="width=device-width"/>
 <% end %>
 
+<%= content_for :recaptcha_js do %>
+	<script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
+<% end %>
+
 <% content_for :javascripts do %>
   <script>
     app.referer_url = "<%= @referer %>"

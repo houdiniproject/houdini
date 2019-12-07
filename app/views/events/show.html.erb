@@ -18,6 +18,10 @@
 	<meta property="twitter:image" content="<%= @event.main_image_url(:normal) %>" />
 <% end %>
 
+<%= content_for :recaptcha_js do %>
+	<script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
+<% end %>
+
 <%= content_for :javascripts do %>
 	<script>
 		app.event_id = <%= @event.id %>

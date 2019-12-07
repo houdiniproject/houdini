@@ -78,6 +78,10 @@
 	<%= stylesheet_link_tag 'tickets/index/page' %>
 <% end %>
 
+<%= content_for :recaptcha_js  do %>
+	<script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
+<% end %>
+
 <%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
 
 <header class='header'>

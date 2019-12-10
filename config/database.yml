@@ -17,7 +17,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: commitchange_development
-  pool: 5
+  pool: 20
   username: houdini_user
   password: password
   host: <%= ENV['DATABASE_HOST']  || 'localhost' %>

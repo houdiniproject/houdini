@@ -163,7 +163,7 @@ const postTracking = (utmParams, donationResponse) => {
 const postSuccess = (donationResponse) => {
   if (window._paq) {
     const resp = donationResponse()
-    window._paq.push(['trackEvent', 'success', 'payment_succeeded', 'payment', resp && resp.charge && resp.charge.amount]);
+    window._paq.push(['trackEvent', 'success', 'payment_succeeded', 'payment', resp && resp.charge && resp.charge.amount && (resp.charge.amount / 100)]);
   }
 }
 

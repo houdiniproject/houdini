@@ -103,7 +103,8 @@ module InsertCharge
       # Otherwise, charge directly to the connected account
         begin
           stripe_cust = Stripe::Customer.retrieve(stripe_customer_id)
-          params = [stripe_charge_data.merge(destination: stripe_account_id), {}]
+          transfer_data = {transfer_data: { destination: stripe_account_id}, on_behalf_of: stripe_account_id}
+          params = [stripe_charge_data.merge(transfer_data), {stripe_version: "2019-09-09"}]
         rescue => e
           Airbrake.notify(e, other_data: {reason: 'a payment that should never happen'})
           raise e

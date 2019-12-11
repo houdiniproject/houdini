@@ -96,7 +96,7 @@ module InsertCharge
         # Get the percentage fee on the nonprofit's billing plan
         platform_fee = BillingPlans.get_percentage_fee(data[:nonprofit_id])
         fee = CalculateFees.for_single_amount(data[:amount], platform_fee)
-        stripe_charge_data[:application_fee]= fee
+        stripe_charge_data[:application_fee_amount]= fee
 
       # For backwards compatibility, see if the customer exists in the primary or the connected account
       # If it's a legacy customer, charge to the primary account and transfer with .destination

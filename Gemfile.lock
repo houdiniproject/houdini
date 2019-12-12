@@ -1,14 +1,4 @@
 GIT
-  remote: https://github.com/commitchange/stripe-ruby-mock.git
-  revision: ee4471a8f654672d5596218c2b68a2913ea3f4cc
-  branch: 2.4.1
-  specs:
-    stripe-ruby-mock (2.4.1)
-      dante (>= 0.2.0)
-      multi_json (~> 1.0)
-      stripe (>= 1.31.0, <= 1.58.0)
-
-GIT
   remote: https://github.com/ruby-grape/grape-entity.git
   revision: 0e04aa561373b510c2486282979085eaef2ae663
   ref: 0e04aa561373b510c2486282979085eaef2ae663
@@ -125,6 +115,7 @@ GEM
       activesupport (>= 3.0)
       deep_merge (~> 1.2.1)
       dry-validation (>= 0.10.4)
+    connection_pool (2.2.2)
     countries (2.1.2)
       i18n_data (~> 0.8.0)
       money (~> 6.9)
@@ -200,6 +191,8 @@ GEM
     factory_bot_rails (4.8.2)
       factory_bot (~> 4.8.2)
       railties (>= 3.0.0)
+    faraday (0.17.3)
+      multipart-post (>= 1.2, < 3)
     ffi (1.11.3)
     font_assets (0.1.14)
       rack
@@ -266,6 +259,7 @@ GEM
     msgpack (1.2.0)
     multi_json (1.13.1)
     multi_xml (0.5.5)
+    multipart-post (2.1.1)
     mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
@@ -273,6 +267,8 @@ GEM
       andand
       kdtree
       require_all
+    net-http-persistent (3.1.0)
+      connection_pool (~> 2.2)
     netrc (0.11.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
@@ -389,8 +385,13 @@ GEM
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    stripe (1.49.0)
-      rest-client (>= 1.4, < 3.0)
+    stripe (4.24.0)
+      faraday (~> 0.13)
+      net-http-persistent (~> 3.0)
+    stripe-ruby-mock (2.5.8)
+      dante (>= 0.2.0)
+      multi_json (~> 1.0)
+      stripe (>= 2.0.3)
     table_print (1.5.4)
     test-unit (3.2.7)
       power_assert
@@ -499,8 +500,8 @@ DEPENDENCIES
   sass-rails (= 3.2.6)
   simplecov (~> 0.16.1)
   sprockets
-  stripe
-  stripe-ruby-mock (~> 2.4.1)!
+  stripe (~> 4)
+  stripe-ruby-mock (~> 2.5.1)
   table_print
   test-unit (~> 3.0)
   timecop

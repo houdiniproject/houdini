@@ -5,7 +5,7 @@ gem 'rake'
 gem 'rails', '3.2.22.5'
 gem 'rails_12factor'
 # https://stripe.com/docs/api
-gem 'stripe'
+gem 'stripe', '~> 4'
 
 # json serialization
 # https://github.com/nesquena/rabl
@@ -112,7 +112,7 @@ group :development, :ci, :test do
 	gem 'database_cleaner'
   gem 'dotenv-rails'
   gem 'ruby-prof', '0.15.9'
-	gem 'stripe-ruby-mock', '~> 2.4.1', :require => 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', :branch => '2.4.1'
+	gem 'stripe-ruby-mock', '~> 2.5.1', :require => 'stripe_mock'
   gem 'factory_bot'
 	gem 'factory_bot_rails'
 	gem 'action_mailer_matchers'

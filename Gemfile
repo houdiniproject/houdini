@@ -84,7 +84,7 @@ gem 'nearest_time_zone' # for detecting timezone from lat/lng
 
 gem 'mail_view'
 
-gem 'fullcontact' # Full Contact API; includes #Hashie::Mash
+gem 'rest-client' # recommended for fullcontact
 
 # Nice table printing of data for the console
 gem 'table_print'

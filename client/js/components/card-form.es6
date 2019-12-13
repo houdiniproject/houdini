@@ -53,13 +53,13 @@ const init = (state) => {
 
   state.hide_cover_fees_option = app.hide_cover_fees_option;
 
-  var formAddressZip$ = flyd.stream()
-  state.element.on('change', (payload) => {
-    formAddressZip$(payload.value['postalCode'])
-  })
+  // var formAddressZip$ = flyd.stream()
+  // state.element.on('change', (payload) => {
+  //   formAddressZip$(payload.value['postalCode'])
+  // })
   state.card$ = flyd.merge(state.card$ || flyd.stream({}), state.form.validData$)
 
-  state.formAddressMerged$ = flyd.merge(flyd.map(r => r.address_zip, state.card$), formAddressZip$)
+  // state.formAddressMerged$ = flyd.merge(flyd.map(r => r.address_zip, state.card$), formAddressZip$)
 
   state.elementMounted = false
   // streams of stripe tokenization responses
@@ -137,9 +137,9 @@ const unmount = state => {
 // -- Virtual DOM
 
 const view = state => {
-  if (state.formAddressMerged$()) {
-    state.element.update({ value: { postalCode: state.formAddressMerged$() } })
-  }
+  // if (state.formAddressMerged$()) {
+  //   state.element.update({ value: { postalCode: state.formAddressMerged$() } })
+  // }
 
   var field = validatedForm.field(state.form)
   return validatedForm.form(state.form, h('form.cardForm', [

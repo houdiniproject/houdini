@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'qx'
-
+require 'rest-client'
 module InsertFullContactInfos
 
 
@@ -37,33 +37,34 @@ module InsertFullContactInfos
   # Fetch and persist a single full contact record for a single supporter
   # return an exception if 404 or something else went poop
   def self.single(supporter_id)
-    supp = Qx.select('email').from('supporters').where(id: supporter_id).execute.first
+    supp = Qx.select('email', 'nonprofit_id').from('supporters').where(id: supporter_id).execute.first
     return if supp.nil? || supp['email'].blank?
 
     begin
-      result = FullContact.person(email: supp['email']).to_h
+      response = RestClient.post("https://api.fullcontact.com/v3/person.enrich",
+        {
+          "email" => supp['email'],
+        }.to_json,
+        {
+          :authorization => "Bearer #{FULL_CONTACT_KEY}",
+          "Reporting-Key" => supp['nonprofit_id']
+        })
+      result = JSON.parse(response.body)
     rescue Exception => e
       return e
     end
 
-    if result['status'] == 202 # Queued for search
-      # self.enqueue([supporter_id])
-      return result
-    end
-
+    location = result['location'] && result['details']['locations'] && result['details']['locations'][0]
     existing = Qx.select('id').from('full_contact_infos').where(supporter_id: supporter_id).ex.first
     info_data = {
-      full_name: GetData.hash(result, 'contact_info', 'full_name'),
-      gender: GetData.hash(result, 'demographics', 'gender'),
-      city: GetData.hash(result, 'demographics', 'location_deduced', 'city', 'name'),
-      county: GetData.hash(result, 'demographics', 'location_deduced', 'county', 'name'),
-      state_code: GetData.hash(result, 'demographics', 'location_deduced', 'state', 'code'),
-      country: GetData.hash(result, 'demographics', 'location_deduced', 'country', 'name'),
-      continent: GetData.hash(result, 'demographics', 'location_deduced', 'continent', 'name'),
-      age: GetData.hash(result, 'demographics', 'age'),
-      age_range: GetData.hash(result, 'demographics', 'age_range'),
-      location_general: GetData.hash(result, 'demographics', 'location_general'),
-      websites: (GetData.hash(result, 'contact_info', 'websites') || []).map{|h| h.url}.join(','),
+      full_name: result['fullName'],
+      gender: result['gender'],
+      city: location && location['city'],
+      state_code: location && location['regionCode'],
+      country: location && location['countryCode'],
+      age_range: result['ageRange'],
+      location_general: result['location'],
+      websites: ((result['details'] && result['details']['urls']) || []).map{|h| h['value']}.join(','),
       supporter_id: supporter_id
     }
 
@@ -82,8 +83,8 @@ module InsertFullContactInfos
         .execute.first
     end
 
-    if result['photos'].present?
-      photo_data = result['photos'].map{|h| {type_id: h.type_id, url: h.url, is_primary: h.is_primary}}
+    if result['details']['photos'].present?
+      photo_data = result['details']['photos'].map{|h| {type_id: h['label'], url: h['value']}}
       Qx.delete_from("full_contact_photos")
         .where(full_contact_info_id: full_contact_info['id'])
         .execute
@@ -95,8 +96,8 @@ module InsertFullContactInfos
         .execute
     end
 
-    if result['social_profiles'].present?
-      profile_data = result['social_profiles'].map{|h| {type_id: h.type_id, username: h.username, uid: h.id, bio: h.bio, url: h.url, followers: h.followers, following: h.following} }
+    if result['details']['profiles'].present?
+      profile_data = result['details']['profiles'].map{|k,v| {type_id: v['service'], username: v['username'], uid: v['userid'], bio: v['bio'], url: v['url'], followers: v['followers'], following: v['following']} }
       Qx.delete_from("full_contact_social_profiles")
         .where(full_contact_info_id: full_contact_info['id'])
         .execute
@@ -108,50 +109,21 @@ module InsertFullContactInfos
         .execute
     end
 
-    if result['digital_footprint'] && result['digital_footprint']['topics'].present?
-      profile_data = result['social_profiles']
-        .map{|h| {
-          type_id: h.type_id,
-          username: h.username,
-          uid: h.id,
-          bio: h.bio,
-          url: h.url,
-          followers: h.followers,
-          following: h.following
-        } }
-      
-      vals = result['digital_footprint']['topics'].map{|h| h.value}
-      existing_vals = Qx.select('value').from('full_contact_topics')
-        .where("value IN ($vals)", vals: vals)
-        .and_where("full_contact_info_id=$id", id: full_contact_info['id'])
-        .execute.map{|h| h['value']}
-
-      topic_data = result['digital_footprint']['topics']
-        .reject{|h| existing_vals.include?(h.value)}
-        .map{|h| {value: h.value, provider: h.provider}}
-
-      if topic_data.any?
-        full_contact_topics = Qx.insert_into(:full_contact_topics)
-          .values(topic_data)
-          .common_values(full_contact_info_id: full_contact_info['id'])
-          .timestamps
-          .returning('*')
-          .execute
-      end
-    end
-
-
-    if result['organizations'].present?
+    if result['details'].present? && result['details']['employment'].present?
       Qx.delete_from('full_contact_orgs')
         .where(full_contact_info_id: full_contact_info['id'])
         .execute
-      org_data = result['organizations'].map{|h| {
-          is_primary: h.is_primary,
-          name: h.name,
-          start_date: h.start_date,
-          end_date: h.end_date,
-          title: h.title,
-          current: h.current
+      org_data = result['details']['employment'].map{|h| 
+        start_date = nil
+      end_date = nil
+        start_date = h['start'] && [h['start']['year'], h['start']['month'], h['start']['day']].select{|i| i.present?}.join('-')
+        end_date = h['end'] && [h['end']['year'], h['end']['month'], h['end']['day']].select{|i| i.present?}.join('-')
+        {
+          name: h['name'],
+          start_date: start_date,
+          end_date: end_date,
+          title: h['title'],
+          current: h['current']
         } }
         .map{|h| h[:end_date] = Format::Date.parse_partial_str(h[:end_date]); h}
         .map{|h| h[:start_date] = Format::Date.parse_partial_str(h[:start_date]); h}
@@ -168,7 +140,6 @@ module InsertFullContactInfos
       'full_contact_info' => full_contact_info,
       'full_contact_photos' => full_contact_photos,
       'full_contact_social_profiles' => full_contact_social_profiles,
-      'full_contact_topics' => full_contact_topics,
       'full_contact_orgs' => full_contact_orgs
     }
   end

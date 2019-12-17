@@ -226,6 +226,7 @@ GEM
       grape (>= 0.12.0)
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
+    hashie (4.0.0)
     heroku_rails_deflate (1.0.3)
       actionpack (>= 3.2.13)
       activesupport (>= 3.2.13)
@@ -462,6 +463,7 @@ DEPENDENCIES
   grape_logging
   grape_url_validator
   hamster
+  hashie
   heroku_rails_deflate
   httparty
   i18n-js

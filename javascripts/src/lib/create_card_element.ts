@@ -3,7 +3,8 @@
 declare const stripeV3: stripe.Stripe;
 
 
-export function createElement() {
+export function createElement(props?:{hidePostalCode?:boolean}) {
+    const hidePostalCode = props && props.hidePostalCode
     return stripeV3.elements({
         fonts: [
             { cssSrc: "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300" }
@@ -21,7 +22,8 @@ export function createElement() {
                 iconColor: '#fa755a'
             }
 
-        }
+        },
+        hidePostalCode: hidePostalCode
     })
 }
 

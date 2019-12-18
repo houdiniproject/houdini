@@ -27,7 +27,6 @@ const grecaptchaPromised = require('../../../javascripts/src/lib/grecaptcha_duri
 
 // Form validation constraints, validator functions, and error messages:
 var constraints = {
-  address_zip: {required: true},
   name: { required: true }
 }
 var validators = {}

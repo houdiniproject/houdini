@@ -49,19 +49,16 @@ const init = (state) => {
   state.cardAreaId = uniqueId('ff_card_area_id-')
 
   state.form = validatedForm.init({ constraints, validators, messages })
-  state.element = create_card_element.createElement()
+  state.element = create_card_element.createElement({hidePostalCode: true})
   
-  var formAddressZip$ = flyd.stream()
-  state.element.on('change', (payload) => {
-    formAddressZip$(payload.value['postalCode'])
-  })
   state.card$ = flyd.merge(state.card$ || flyd.stream({}), state.form.validData$)
-
-  state.formAddressMerged$ = flyd.merge(flyd.map(r => r.address_zip, state.card$),formAddressZip$) 
 
   state.elementMounted = false
   // streams of stripe tokenization responses
   const stripeResp$ = flyd.flatMap((i) => {
+    if (state.form.validData$().address_zip) {
+      state.element.update({ value: { postalCode: state.form.validData$().address_zip } })
+    }
   return createCardStream(state.element, state.form.validData$().name)
   }, state.form.validData$)
   state.stripeRespOk$  = flyd.filter(r => !r.error, stripeResp$)
@@ -139,14 +136,14 @@ const unmount = state => {
 // -- Virtual DOM
 
 const view = state => {
-  if (state.formAddressMerged$()){
-    state.element.update({ value: { postalCode: state.formAddressMerged$()} })
-  }
-  
+
   var field = validatedForm.field(state.form)
   return validatedForm.form(state.form, h('form.cardForm', [
     h('div', [
+      h('section.group', [
       nameInput(field, state.card$().name)
+      , zipInput(field, state.card$().address_zip)
+    ])
       , h(`div#${state.cardAreaId}`, {hook: {
         insert: () => mount(state),
         remove: () => unmount(state)
@@ -203,9 +200,21 @@ function feeCoverageField(state) {
   ])
 }
 
-const nameInput = (field, name) => 
-  h('fieldset', [ field(h('input', { props: { name: 'name' , value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } })) ])
+const nameInput = (field, name) =>
+  h('fieldset.col-7', [field(h('input', { props: { name: 'name', value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } }))])
 
+
+const zipInput = (field, zip) => 
+  h('fieldset.col-right-5', [
+    field(h('input'
+    , { props: {
+        type: 'text'
+      , name: 'address_zip'
+      , value: zip || ''
+      , placeholder: I18n.t('nonprofits.donate.payment.card.postal_code')
+      }} 
+    ))
+  ])
 
 const profileInput = (field, profile_id) =>
   field(h('input'

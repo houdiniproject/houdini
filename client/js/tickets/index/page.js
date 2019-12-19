@@ -157,7 +157,7 @@ appl.def('create_donation', function(el) {
 appl.def('create_card', function(form_obj, el) {
 	appl.def('new_card_form.error', '')
 	appl.def('loading', true)
-	create_card({type: 'Supporter', id: appl.selected_supporter.id, email: appl.selected_supporter.email}, 'donationPaymentCard', form_obj.name, {event_id: appl.event_id})
+	create_card({type: 'Supporter', id: appl.selected_supporter.id, email: appl.selected_supporter.email}, 'donationPaymentCard', form_obj.cardholder_name, form_obj.cardholder_zip, {event_id: appl.event_id})
 		.then(function(card) {
 			appl.prev_elem(el).reset()
 			appl.notify("Card successfully saved for " + appl.selected_supporter.name)

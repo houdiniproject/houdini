@@ -16,7 +16,7 @@
 		<form class='cardForm'>
 			<!--= on 'submit' (create_card form_object) -->
 			<fieldset>
-				<input type='text' class='input-medium' name='name'
+				<input type='text' class='input-medium' name='cardholder_name'
 				required
 				parsley-trigger='change'
 				placeholder="Cardholders' Name">
@@ -25,6 +25,12 @@
 				<!--= set_value selected_supporter.name -->
 			</fieldset>
 
+				<fieldset>
+							<input type='text' class='input-medium' name='cardholder_zip'
+							parsley-trigger='change'
+							placeholder="Cardholders' Postal/ZIP Code">
+							<!--= set_value form_object.cardholder_zip -->
+					</fieldset>
 
 			<div id="donationPaymentCard">
 

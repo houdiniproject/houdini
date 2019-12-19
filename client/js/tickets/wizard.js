@@ -208,7 +208,7 @@ appl.def('ticket_wiz', {
     let post_data = { ...appl.ticket_wiz.post_data}
     return appl.ticket_wiz.save_supporter_promise
       .then(function (supporter) {
-        return create_card({ type: 'Supporter', id: supporter.id, email: supporter.email }, item_name, form_obj.name)
+        return create_card({ type: 'Supporter', id: supporter.id, email: supporter.email }, item_name, form_obj.cardholder_name, form_obj.cardholder_zip)
       })
       .catch(show_err)
       .then(function (card) {

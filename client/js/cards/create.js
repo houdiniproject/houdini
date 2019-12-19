@@ -43,7 +43,7 @@ var statuses = {
 // The first argument must be a holder object that has 'type' and 'id' keys.
 // eg: {holder: {type: 'Nonprofit', id: 1}}
 // This is the a Card object from Stripe v3
-function create_card(holder, card_obj, cardholderName, options ) {
+function create_card(holder, card_obj, cardholderName, postalCode, options ) {
   options = options || {}
 	if(appl.card_form.loading) return
 	appl.def('card_form', { loading: true, error: false })
@@ -58,7 +58,7 @@ function create_card(holder, card_obj, cardholderName, options ) {
   // }
 
 	// First, tokenize the card with Stripe.js
-	return tokenize_with_stripe(window[card_obj], cardholderName)
+	return tokenize_with_stripe(window[card_obj], cardholderName, postalCode)
 		.catch(display_stripe_err)
 		// Then, save a Card record in our db
 		.then(function(stripe_resp) {
@@ -78,9 +78,9 @@ function create_card(holder, card_obj, cardholderName, options ) {
 }
 
 // Post to stripe to get back a stripe_card_token
-function tokenize_with_stripe(card_obj, cardholderName) {
+function tokenize_with_stripe(card_obj, cardholderName, postalCode) {
 	return new Promise(function(resolve, reject) {
-		stripeV3.createToken(card_obj, {name:cardholderName}).then( function(resp) {
+		stripeV3.createToken(card_obj, {name:cardholderName, address_zip: postalCode}).then( function(resp) {
 			if(resp.error) reject(resp)
 			else resolve(resp.token)
 		})

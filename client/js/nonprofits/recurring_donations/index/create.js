@@ -44,12 +44,12 @@ wiz.save_supporter = function(form_obj) {
 }
 
 // Resume on the supporter post promise, create a card, then create the donation with nested recurring donation
-wiz.send_payment = function(card_obj) {
+wiz.send_payment = function(card_obj, card_form) {
 	if(appl.rd_wizard.loading) return
 	appl.def('rd_wizard', {loading: true, error: ''})
 	return appl.rd_wizard.save_supporter_promise
 		.then(function(supporter) {
-			return create_card({type: 'Supporter', id: supporter.id}, card_obj)
+			return create_card({type: 'Supporter', id: supporter.id}, card_obj, card_form.cardholder_name, card_form.cardholder_zip)
 		})
 		.then(function(card) {
 			appl.rd_wizard.donation.token = card.token

@@ -99,7 +99,22 @@
 					<p class='tip'>Enter the donor's credit card to use for this recurring donation</p>
 
 					<form class='cardForm u-centered'>
-						<!--= on 'submit' (rd_wizard.send_payment 'recurringSupporterPaymentCard') -->
+						<!--= on 'submit' (rd_wizard.send_payment 'recurringSupporterPaymentCard' form_object) -->
+					<fieldset>
+							<input type='text' class='input-medium' name='cardholder_name'
+							required
+							parsley-trigger='change'
+							placeholder="Cardholders' Name">
+							<!--= set_value form_object.cardholder_name -->
+					</fieldset>
+
+					<fieldset>
+							<input type='text' class='input-medium' name='cardholder_zip'
+							parsley-trigger='change'
+							placeholder="Cardholders' Postal/ZIP Code">
+							<!--= set_value form_object.cardholder_zip -->
+					</fieldset>
+
 						<div id="recurringSupporterPaymentCard">
 
 						</div>

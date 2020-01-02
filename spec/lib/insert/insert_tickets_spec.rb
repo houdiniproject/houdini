@@ -430,8 +430,7 @@ describe InsertTickets do
                                                            statement_descriptor_suffix: 'Tickets The event of W',
                                                            metadata: {kind: 'Ticket', event_id: event.id, nonprofit_id: nonprofit.id},
                                                            transfer_data:{destination: "test_acct_1"},
-                                                           on_behalf_of:"test_acct_1",
-                                                            
+                                                           on_behalf_of:"test_acct_1"
                                                           }, {stripe_version: "2019-09-09"}).and_wrap_original{|m, *args| a= m.call(*args);
           stripe_charge_id = a['id']
           a}

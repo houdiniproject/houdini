@@ -22,7 +22,13 @@ describe PayRecurringDonation  do
 
     let(:nonprofit) { force_create(:nonprofit, statement:'swhtowht', name: 'atata')}
     let(:supporter) {force_create(:supporter, nonprofit:nonprofit)}
-    let(:card) {force_create(:card, holder: supporter, stripe_customer_id: 'cust_id_1')}
+
+    let(:stripe_cust_id) { customer = Stripe::Customer.create();
+    customer.id}
+    let(:card) {
+      
+      force_create(:card, holder: supporter, stripe_customer_id: stripe_cust_id)
+    }
     let(:donation) {force_create(:donation, supporter: supporter, amount: 300, card: card, nonprofit: nonprofit)}
     let(:recurring_donation) { force_create(:recurring_donation, donation: donation, start_date: Time.now - 1.day, active:true, nonprofit: nonprofit, n_failures: 0)}
     let(:misc_recurring_donation_info__covered) {
@@ -31,7 +37,7 @@ describe PayRecurringDonation  do
 
     let(:successful_charge_argument) { 
       {
-        customer:'cust_id_1',
+        customer:stripe_cust_id,
         amount:300,
         currency:'usd',
         description:'Donation swhtowht',

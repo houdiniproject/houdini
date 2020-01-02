@@ -400,7 +400,8 @@ describe InsertTickets do
         def success(other_elements={})
           nonprofit.stripe_account_id = Stripe::Account.create()['id']
           nonprofit.save!
-          card.stripe_customer_id = 'some other id'
+          c = Stripe::Customer.create
+          card.stripe_customer_id = c.id
           card.save!
 
           success_expectations
@@ -421,14 +422,17 @@ describe InsertTickets do
             .with(insert_charge_expectation).and_call_original
 
           stripe_charge_id = nil
-          expect(Stripe::Charge).to receive(:create).with({application_fee: 66,
-                                                           customer: card.stripe_customer_id,
+          expect(Stripe::Charge).to receive(:create).with({application_fee_amount: 66,
+                                                           customer: c.id,
                                                            amount: 1600,
                                                            currency: 'usd',
                                                            description: 'Tickets The event of Wonders',
-                                                           statement_descriptor: 'Tickets The event of W',
-                                                           metadata: {kind: 'Ticket', event_id: event.id, nonprofit_id: nonprofit.id}
-                                                          }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original{|m, *args| a= m.call(*args);
+                                                           statement_descriptor_suffix: 'Tickets The event of W',
+                                                           metadata: {kind: 'Ticket', event_id: event.id, nonprofit_id: nonprofit.id},
+                                                           transfer_data:{destination: "test_acct_1"},
+                                                           on_behalf_of:"test_acct_1",
+                                                            
+                                                          }, {stripe_version: "2019-09-09"}).and_wrap_original{|m, *args| a= m.call(*args);
           stripe_charge_id = a['id']
           a}
           result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id).merge(fee_covered: other_elements[:fee_covered]))

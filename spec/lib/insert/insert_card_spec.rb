@@ -184,7 +184,13 @@ describe InsertCard do
     end
 
     it 'handle card errors' do
-      StripeMock.prepare_error(Stripe::CardError.new('card error', nil, nil, 300,{},{error: {message: 'a message'}}), :new_customer)
+      StripeMock.prepare_error(
+        Stripe::CardError.new('card error', 
+          300, 
+          nil, 
+          json_body:{error: {message: 'a message'}}
+        ), 
+          :new_customer)
       card_data = { :holder_type => 'Nonprofit', :holder_id => nonprofit.id, :stripe_card_id => 'card_88888', :stripe_card_token => stripe_card_token, :name => "card_name" }
 
       card_ret = InsertCard::with_stripe(card_data);
@@ -194,7 +200,7 @@ describe InsertCard do
     end
 
     it 'handle stripe errors' do
-      StripeMock.prepare_error(Stripe::StripeError.new('card error', nil, nil), :new_customer)
+      StripeMock.prepare_error(Stripe::StripeError.new('card error'), :new_customer)
       card_data = { :holder_type => 'Nonprofit', :holder_id => nonprofit.id, :stripe_card_id => 'card_88888', :stripe_card_token => stripe_card_token, :name => "card_name" }
 
       card_ret = InsertCard::with_stripe(card_data);

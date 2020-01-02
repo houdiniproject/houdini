@@ -341,15 +341,16 @@ describe InsertCharge do
 
 
       def create_expected_charge_args(expected_card)
-        [{application_fee: 33,
+        [{application_fee_amount: 33,
           customer: expected_card.stripe_customer_id,
           amount: 100,
           currency: 'usd',
           description: 'our statement<> blah-no-way',
-          statement_descriptor: 'our statement blah-n',
+          statement_descriptor_suffix: 'our statement blah-n',
           metadata: nil,
-          destination: nonprofit.stripe_account_id
-         }, {}]
+          :transfer_data=>{:destination=>nonprofit.stripe_account_id},
+          :on_behalf_of=> nonprofit.stripe_account_id
+         }, {:stripe_version=>"2019-09-09"}]
       end
 
       it 'handles card error' do

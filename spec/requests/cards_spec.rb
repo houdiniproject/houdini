@@ -9,7 +9,6 @@ describe CardsController, type: :request do
     it 'test number of card throttle' do
       6.times {
          post '/cards',  {card:{holder_type:'Supporter', holder_id: 1}}.to_json, {"CONTENT_TYPE" => "application/json" }
-
       }
 
       assert_response 429

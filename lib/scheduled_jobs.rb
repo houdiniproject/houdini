@@ -90,9 +90,16 @@ module ScheduledJobs
       Payout.pending.includes(:nonprofit).each do |p|
         yielder << lambda do
           err = false
-          p.status = Stripe::Transfer.retrieve(p.stripe_transfer_id, {
-            stripe_account: p.nonprofit.stripe_account_id
-          }).status
+          if p.transfer_type == :transfer
+            p.status = Stripe::Transfer.retrieve(p.stripe_transfer_id, {
+              stripe_account: p.nonprofit.stripe_account_id
+            }).status
+          elsif p.transfer_type == :payout
+            p.status = Stripe::Payout.retrieve(p.stripe_transfer_id, {
+              stripe_account: p.nonprofit.stripe_account_id
+            }).status
+          end
+          
           p.save
           "Updated status for NP #{p.nonprofit.id}, payout # #{p.id}"
         end

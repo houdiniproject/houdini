@@ -58,7 +58,7 @@ module InsertPayout
           net_amount: totals['net_amount'],
           nonprofit_id: np_id,
             failure_message: stripe_transfer['failure_message'],
-          status: stripe_transfer.status,
+          status: stripe_transfer['status'],
           fee_total: totals['fee_total'],
           gross_amount: totals['gross_amount'],
           email: data[:email],

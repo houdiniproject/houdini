@@ -38,6 +38,14 @@ class Payout < ActiveRecord::Base
 	scope :pending, -> {where(status: 'pending')}
 	scope :paid,    -> {where(status: ['paid', 'succeeded'])}
 
+	# Older transfers use the Stripe::Transfer object, newer use Stripe::Payout object
+	def transfer_type
+		if (stripe_transfer_id.start_with?('tr_') || stripe_transfer_id.start_with?('test_tr_'))
+			return :transfer
+		elsif (stripe_transfer_id.start_with?('po_') || stripe_transfer_id.start_with?('test_po_'))
+			return :payout
+		end
+	end
 
 	def bank_account_must_be_confirmed
 		if self.bank_account && self.bank_account.pending_verification

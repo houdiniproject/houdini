@@ -14,10 +14,9 @@ module StripeUtils
 	end
 
 	def self.create_transfer(net_amount, stripe_account_id, currency)
-		Stripe::Transfer.create({
+		Stripe::Payout.create({
 			amount: net_amount,
-			currency: currency || Settings.intntl.currencies[0],
-			recipient: 'self'
+			currency: currency || Settings.intntl.currencies[0]
 		}, {
 			stripe_account: stripe_account_id
 		})

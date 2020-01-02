@@ -96,12 +96,12 @@ describe InsertPayout do
         let(:expected_totals) {{gross_amount: 5500, fee_total: -1200, net_amount: 4300, count: 8}}
         it 'works without a date provided' do
           stripe_transfer_id = nil
-          expect(Stripe::Transfer).to receive(:create).with({amount: expected_totals[:net_amount],
-                                                             currency: 'usd',
-                                                             recipient: 'self'
+          expect(Stripe::Payout).to receive(:create).with({amount: expected_totals[:net_amount],
+                                                             currency: 'usd'
                                                             }, {
                                                                 stripe_account: np.stripe_account_id})
                                           .and_wrap_original {|m, *args|
+                                            args[0]['status'] = 'pending'
                                             i = m.call(*args)
                                             stripe_transfer_id = i['id'];
                                             i
@@ -162,7 +162,7 @@ describe InsertPayout do
         it 'fails properly when Stripe payout call fails' do
           #we have a deactivation record but deactivate set to false
           force_create(:nonprofit_deactivation, nonprofit: np, deactivated: false)
-          StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_transfer)
+          StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
 
           all_payments
           result = InsertPayout.with_stripe(np.id, {stripe_account_id: np.stripe_account_id,
@@ -232,12 +232,12 @@ describe InsertPayout do
         let(:expected_totals) {{gross_amount: 3500, fee_total: -800, net_amount: 2700, count: 7}}
         it 'works with date provided' do
           stripe_transfer_id = nil
-          expect(Stripe::Transfer).to receive(:create).with({amount: expected_totals[:net_amount],
+          expect(Stripe::Payout).to receive(:create).with({amount: expected_totals[:net_amount],
                                                              currency: 'usd',
-                                                             recipient: 'self'
                                                             }, {
                                                                 stripe_account: np.stripe_account_id})
                                           .and_wrap_original {|m, *args|
+                                            args[0]['status'] = 'pending'
                                             i = m.call(*args)
                                             stripe_transfer_id = i['id'];
                                             i
@@ -291,7 +291,7 @@ describe InsertPayout do
         end
 
         it 'fails properly when Stripe payout call fails' do
-          StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_transfer)
+          StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
 
           all_payments
           result = InsertPayout.with_stripe(np.id, {stripe_account_id: np.stripe_account_id,

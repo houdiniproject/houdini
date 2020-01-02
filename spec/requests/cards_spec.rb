@@ -2,14 +2,12 @@
 require 'rails_helper'
 
 describe CardsController, type: :request do
-
-
   describe 'throttling' do
     before(:each) do
       FORCE_THROTTLE = true
     end
     it 'test number of card throttle' do
-      5.times {
+      6.times {
          post '/cards',  {card:{holder_type:'Supporter', holder_id: 1}}.to_json, {"CONTENT_TYPE" => "application/json" }
 
       }

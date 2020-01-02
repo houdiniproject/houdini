@@ -66,3 +66,4 @@ javascripts/api
 !public/svgs/*
 
 /database
+.byebug_history

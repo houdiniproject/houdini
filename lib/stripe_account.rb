@@ -22,28 +22,38 @@ module StripeAccount
   def self.create(np)
 		ParamValidation.new({:np => np}, {:np => {:required=> true, :is_a => Nonprofit}})
 		params = {
-				managed: true,
+				type: 'custom',
 				email: np['email'].present? ? np['email'] : np.roles.nonprofit_admins.order('created_at ASC').first.user.email,
-				business_name: np['name'],
-				legal_entity: {
-						type: 'company',
+				business_type: 'company',
+				company: {
+						name: np['name'],
 						address: {
 								city: np['city'],
 								state: np['state_code'],
 								postal_code: np['zip_code'],
 								country: 'US'
-						},
-						business_name: np['name'],
+						}
 				},
-				product_description: 'Nonprofit donations',
-				transfer_schedule: { interval: 'manual' }
+				settings: {
+					payouts: {
+						schedule: {
+							interval: 'manual' 
+						}
+					}
+				},
+				requested_capabilities: [
+					'legacy_payments',
+				  ],
+				business_profile: {
+					product_description: 'Nonprofit donations'
+				}
 		}
 
 		if np['website'] && np['website'] =~ URI::regexp
-			params[:business_url] = np['website']
+			params[:business_profile][:url] = np['website']
 		end
 
-		acct = Stripe::Account.create(params)
+		acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
     Qx.update(:nonprofits).set(stripe_account_id: acct.id).where(id: np['id']).execute
     NonprofitMailer.delay.setup_verification(np['id'])
     return acct.id

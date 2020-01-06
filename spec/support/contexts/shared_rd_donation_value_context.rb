@@ -374,6 +374,9 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
   def process_event_donation(data = {})
     pay_method = data[:sepa] ? direct_debit_detail : card
+    
+    expect(HoudiniEventPublisher).to receive(:call).with(:donation_create,instance_of(Donation), supporter.locale )
+    
     result = yield
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, event: event, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])
 
@@ -385,18 +388,15 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if data[:recurring_donation]
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
-    if (data[:sepa])
-      expect(DirectDebitCreateJob).to have_been_enqueued.with(result['donation']['id'], supporter.locale)
-    else
-      expect(PaymentNotificationJob).to have_been_enqueued.with(result['donation'], supporter.locale)
-    end
-    expect(WeMoveExecuteForDonationsJob).to have_been_enqueued
 
     result
   end
 
   def process_campaign_donation(data = {})
     pay_method = data[:sepa] ? direct_debit_detail : card
+
+    expect(HoudiniEventPublisher).to receive(:call).with(:donation_create,instance_of(Donation), supporter.locale )
+    
     result = yield
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, campaign: campaign, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])
 
@@ -408,17 +408,12 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if data[:recurring_donation]
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
-    if (data[:sepa])
-      
-    else
-      expect(PaymentNotificationJob).to have_been_enqueued.with(result['donation'], supporter.locale)
-    end
-    expect(WeMoveExecuteForDonationsJob).to have_been_enqueued
     result
   end
 
   def process_general_donation(data = {})
     pay_method = data[:sepa] ? direct_debit_detail : card
+    expect(HoudiniEventPublisher).to receive(:call).with(:donation_create,instance_of(Donation), supporter.locale )
     result = yield
     expect_payment = nil_or_true(data[:expect_payment])
     expect_charge = nil_or_true(data[:expect_charge])
@@ -439,12 +434,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
 
-    if (data[:sepa])
-      
-    else
-      expect(PaymentNotificationJob).to have_been_enqueued.with(result['donation'], supporter.locale)
-    end
-    expect(WeMoveExecuteForDonationsJob).to have_been_enqueued
     result
   end
 

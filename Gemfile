@@ -70,6 +70,8 @@ gem 'grape-entity', '~> 0.7.1'
 gem 'grape-swagger-entity', '~> 0.3.3'
 gem 'grape-swagger', '~> 0.33.0'
 gem 'grape', '~> 1.2', '>= 1.2.4'
+gem 'wisper', '~> 2.0'
+gem 'wisper-activejob', '~> 1.0.0'
 
 group :development do
   gem 'grape_on_rails_routes', '~> 0.3.2'
@@ -91,6 +93,8 @@ group :development, :ci, :test do
   gem 'ruby-prof', '0.15.9'
   gem 'solargraph', '~> 0.35.1'
   gem 'standard', '~> 0.1.2'
+  gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
+  gem 'rspec', '~> 3.8'
 end
 
 group :ci, :test do
@@ -98,13 +102,12 @@ group :ci, :test do
   gem 'database_cleaner', '~> 1.7'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
-  gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
-  gem 'rspec', '~> 3.8'
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.3'
   gem 'timecop', '~> 0.9.1'
   gem 'webmock', '~> 3.6', '>= 3.6.2'
+  gem 'wisper-rspec', '~> 1.1.0'
 end
 
 group :production do

@@ -1,0 +1,2 @@
+class SupporterMailerListener
+end

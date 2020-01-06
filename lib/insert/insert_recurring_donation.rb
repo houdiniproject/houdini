@@ -71,7 +71,6 @@ module InsertRecurringDonation
     end
     # Send receipts
     PaymentNotificationJob.perform_later result['donation'], entities[:supporter_id].locale
-    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     result
   end
 
@@ -95,8 +94,6 @@ module InsertRecurringDonation
     InsertDonation.update_donation_keys(result) if result['payment']
 
     DonorDirectDebitNotificationJob.perform_later(Donation.find(result['donation']['id']), locale_for_supporter(result['donation']['supporter_id']));
-
-    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
 
     { status: 200, json: result }
     end

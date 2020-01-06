@@ -492,6 +492,11 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
+    wisper (2.0.1)
+    wisper-activejob (1.0.0)
+      activejob (>= 4.0.0)
+      wisper
+    wisper-rspec (1.1.0)
     xml-simple (1.1.5)
     yard (0.9.20)
 
@@ -575,6 +580,9 @@ DEPENDENCIES
   traceroute (~> 0.8.0)
   uglifier (~> 4.1, >= 4.1.20)
   webmock (~> 3.6, >= 3.6.2)
+  wisper (~> 2.0)
+  wisper-activejob (~> 1.0.0)
+  wisper-rspec (~> 1.1.0)
 
 RUBY VERSION
    ruby 2.5.1p57

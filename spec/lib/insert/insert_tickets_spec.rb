@@ -285,9 +285,9 @@ describe InsertTickets do
           success_expectations
           expect(QueryRoles).to receive(:is_authorized_for_nonprofit?).with(user.id, nonprofit.id).and_return true
           result = nil
-          expect {
-            result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
-          }.to have_enqueued_job(TicketCreateJob)
+          expect(HoudiniEventPublisher).to receive(:call).with(:ticket_create, any_args)
+          result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
+          
           expected = generate_expected_tickets(payment_id: result['payment'].id,
                                                nonprofit: nonprofit,
                                                supporter: supporter,

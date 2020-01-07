@@ -16,4 +16,5 @@ class CreditCardPaymentListener
     def refund_create(refund)
       RefundNotificationJob.perform_later refund
     end
+    
 end

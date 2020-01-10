@@ -2021,6 +2021,78 @@ CREATE TABLE public.source_tokens (
 
 
 --
+-- Name: stripe_accounts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.stripe_accounts (
+    id integer NOT NULL,
+    stripe_account_id character varying(255) NOT NULL,
+    object jsonb NOT NULL,
+    charges_enabled boolean,
+    payouts_enabled boolean,
+    disabled_reason character varying(255),
+    eventually_due jsonb,
+    currently_due jsonb,
+    past_due jsonb,
+    pending_verification jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: stripe_accounts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.stripe_accounts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: stripe_accounts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.stripe_accounts_id_seq OWNED BY public.stripe_accounts.id;
+
+
+--
+-- Name: stripe_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.stripe_events (
+    id integer NOT NULL,
+    object_id character varying(255),
+    event_id character varying(255),
+    event_time timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: stripe_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.stripe_events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: stripe_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.stripe_events_id_seq OWNED BY public.stripe_events.id;
+
+
+--
 -- Name: supporter_emails; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2767,6 +2839,20 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
+-- Name: stripe_accounts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stripe_accounts ALTER COLUMN id SET DEFAULT nextval('public.stripe_accounts_id_seq'::regclass);
+
+
+--
+-- Name: stripe_events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stripe_events ALTER COLUMN id SET DEFAULT nextval('public.stripe_events_id_seq'::regclass);
+
+
+--
 -- Name: supporter_emails id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3229,6 +3315,22 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: stripe_accounts stripe_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stripe_accounts
+    ADD CONSTRAINT stripe_accounts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stripe_events stripe_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stripe_events
+    ADD CONSTRAINT stripe_events_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: supporters supporter_data_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3516,6 +3618,34 @@ CREATE UNIQUE INDEX index_source_tokens_on_token ON public.source_tokens USING b
 --
 
 CREATE INDEX index_source_tokens_on_tokenizable_id_and_tokenizable_type ON public.source_tokens USING btree (tokenizable_id, tokenizable_type);
+
+
+--
+-- Name: index_stripe_accounts_on_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_stripe_accounts_on_id ON public.stripe_accounts USING btree (id);
+
+
+--
+-- Name: index_stripe_accounts_on_stripe_account_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_stripe_accounts_on_stripe_account_id ON public.stripe_accounts USING btree (stripe_account_id);
+
+
+--
+-- Name: index_stripe_events_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_stripe_events_on_event_id ON public.stripe_events USING btree (event_id);
+
+
+--
+-- Name: index_stripe_events_on_object_id_and_event_time; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_stripe_events_on_object_id_and_event_time ON public.stripe_events USING btree (object_id, event_time);
 
 
 --
@@ -4660,4 +4790,8 @@ INSERT INTO schema_migrations (version) VALUES ('20191001174129');
 INSERT INTO schema_migrations (version) VALUES ('20191122173716');
 
 INSERT INTO schema_migrations (version) VALUES ('20191204021126');
+
+INSERT INTO schema_migrations (version) VALUES ('20200107212543');
+
+INSERT INTO schema_migrations (version) VALUES ('20200108213844');
 

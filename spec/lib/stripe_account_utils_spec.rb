@@ -3,7 +3,7 @@ require 'rails_helper'
 require 'stripe'
 require 'stripe_mock'
 
-describe StripeAccount do
+describe StripeAccountUtils do
   let(:stripe_helper) { StripeMock.create_test_helper }
   before(:each) { StripeMock.start}
   after(:each) { StripeMock.stop}
@@ -12,7 +12,7 @@ describe StripeAccount do
   describe '.find_or_create' do
     describe 'param validation' do
       it 'basic param validation' do
-        expect { StripeAccount.find_or_create(nil)}.to(raise_error{|error|
+        expect { StripeAccountUtils.find_or_create(nil)}.to(raise_error{|error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{:key => :nonprofit_id, :name => :required},
                                                 {:key => :nonprofit_id, :name => :is_integer}])
@@ -20,7 +20,7 @@ describe StripeAccount do
       end
 
       it 'validate np' do
-        expect { StripeAccount.find_or_create(5555)}.to(raise_error{|error|
+        expect { StripeAccountUtils.find_or_create(5555)}.to(raise_error{|error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{:key => :nonprofit_id}])
         })
@@ -28,7 +28,7 @@ describe StripeAccount do
     end
     # basically the same as running create
     describe 'creates new Stripe Account if none is set exists' do
-      let!(:result) {StripeAccount.find_or_create(nonprofit.id)}
+      let!(:result) {StripeAccountUtils.find_or_create(nonprofit.id)}
 
       it 'returns a Stripe acct id' do
         expect(result).to_not be_blank
@@ -53,7 +53,7 @@ describe StripeAccount do
         nonprofit.slug = "slug"
         nonprofit.save!
         nonprofit.reload
-        StripeAccount.find_or_create(nonprofit.id)
+        StripeAccountUtils.find_or_create(nonprofit.id)
       }
 
       it 'returns the expected id' do
@@ -66,7 +66,7 @@ describe StripeAccount do
 
   describe '.create' do
     it 'param validation' do
-      expect { StripeAccount.create(nil)}.to(raise_error{|error|
+      expect { StripeAccountUtils.create(nil)}.to(raise_error{|error|
         expect(error).to be_a ParamValidation::ValidationError
         expect_validation_errors(error.data, [{:key => :np, :name => :required},
                                                                   {:key => :np, :name => :is_a}])
@@ -77,7 +77,7 @@ describe StripeAccount do
   describe 'testing with valid nonprofit' do
     it 'handles Stripe errors properly' do
       StripeMock.prepare_error(Stripe::StripeError.new, :new_account)
-      expect { StripeAccount.create(nonprofit)}.to(raise_error{|error|
+      expect { StripeAccountUtils.create(nonprofit)}.to(raise_error{|error|
         expect(error).to be_a Stripe::StripeError
         expect(nonprofit.stripe_account_id).to be_blank
 
@@ -86,7 +86,7 @@ describe StripeAccount do
 
     describe 'saves properly without org email' do
 
-      let!(:result) { StripeAccount.create(nonprofit)}
+      let!(:result) { StripeAccountUtils.create(nonprofit)}
 
       it 'returns a Stripe acct id' do
         expect(result).to_not be_blank
@@ -117,7 +117,7 @@ describe StripeAccount do
       let(:role) { force_create(:role, user: user, host: nonprofit, name: :nonprofit_admin)}
 
 
-      let(:result) { StripeAccount.create(nonprofit)}
+      let(:result) { StripeAccountUtils.create(nonprofit)}
 
       it 'returns a Stripe acct id' do
 

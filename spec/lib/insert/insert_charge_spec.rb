@@ -121,7 +121,7 @@ describe InsertCharge do
       end
     end
 
-    describe 'handle StripeAccount Find and Create failure' do
+    describe 'handle StripeAccountUtils Find and Create failure' do
       before(:each){
         StripeMock.prepare_error(Stripe::StripeError.new("chaos"), :new_account)
       }

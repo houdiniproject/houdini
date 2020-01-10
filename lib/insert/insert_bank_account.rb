@@ -30,7 +30,7 @@ module InsertBankAccount
       raise ArgumentError.new "#{nonprofit.id} is not vetted."
     end
 
-    stripe_acct = Stripe::Account.retrieve(StripeAccount.find_or_create(nonprofit.id))
+    stripe_acct = Stripe::Account.retrieve(StripeAccountUtils.find_or_create(nonprofit.id))
     nonprofit.reload
     #this shouldn't be possible but we'll check any who
     if (nonprofit.stripe_account_id.blank?)

@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
-module StripeAccount
+module StripeAccountUtils
 
   # Returns the stripe account ID string
   def self.find_or_create(nonprofit_id)

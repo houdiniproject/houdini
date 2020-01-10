@@ -78,6 +78,7 @@ class Nonprofit < ActiveRecord::Base
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
   has_one :nonprofit_deactivation
+  has_one :stripe_account, foreign_key: :stripe_account_id, primary_key: :stripe_account_id
 
   validates :name, presence: true
   validates :city, presence: true

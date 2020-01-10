@@ -75,7 +75,7 @@ module InsertCharge
       # Catch errors thrown by the stripe gem so we can respond with a 422 with an error message rather than 500
       begin
         stripe_customer_id = card.stripe_customer_id
-        stripe_account_id = StripeAccount.find_or_create(data[:nonprofit_id])
+        stripe_account_id = StripeAccountUtils.find_or_create(data[:nonprofit_id])
       rescue => e
         Airbrake.notify(e, other_data: data)
         raise e
@@ -92,7 +92,7 @@ module InsertCharge
      }
 
       if Settings.payment_provider.stripe_connect
-        stripe_account_id = StripeAccount.find_or_create(data[:nonprofit_id])
+        stripe_account_id = StripeAccountUtils.find_or_create(data[:nonprofit_id])
         # Get the percentage fee on the nonprofit's billing plan
         platform_fee = BillingPlans.get_percentage_fee(data[:nonprofit_id])
         fee = CalculateFees.for_single_amount(data[:amount], platform_fee)

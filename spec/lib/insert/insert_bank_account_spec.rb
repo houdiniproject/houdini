@@ -62,8 +62,8 @@ describe InsertBankAccount do
 
     describe 'exceptions in main function' do
       before (:each) { nonprofit.vetted = true}
-      it 'StripeAccount.find_or_create fails' do
-        expect(StripeAccount).to receive(:find_or_create).and_raise(StandardError.new)
+      it 'StripeAccountUtils.find_or_create fails' do
+        expect(StripeAccountUtils).to receive(:find_or_create).and_raise(StandardError.new)
 
         expect { InsertBankAccount.with_stripe(nonprofit, user, {:stripe_bank_account_token => 'blah'})}.to(raise_error{|error|
           expect(error).to be_a StandardError
@@ -71,7 +71,7 @@ describe InsertBankAccount do
       end
 
       it 'Stripe::Account.retrieve fails' do
-        expect(StripeAccount).to receive(:find_or_create).and_return("account_id")
+        expect(StripeAccountUtils).to receive(:find_or_create).and_return("account_id")
         StripeMock.prepare_error(Stripe::StripeError.new("some error happened"), :get_account )
 
         expect { InsertBankAccount.with_stripe(nonprofit, user, {:stripe_bank_account_token => 'blah'})}.to(raise_error{|error|

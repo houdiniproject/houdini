@@ -1,5 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Commitchange::Application.routes.draw do
+  post "stripe_webhook/receive", format: :json
+
   mount Houdini::API => '/api'
 
   if Rails.env == 'development'
@@ -32,6 +34,13 @@ Commitchange::Application.routes.draw do
 
 
 	namespace(:nonprofits, {path: 'nonprofits/:nonprofit_id'}) do
+		resource(:stripe_account, only: [:index]) do
+			get :index, format: :json
+			get :verify
+			post :account_link, format: :json
+			get :confirm
+		end
+		
 		resources(:payouts, {only: [:create, :index, :show]})
 		resources(:imports, {only: [:create]})
     resources(:nonprofit_keys, {only: [:index]}) do

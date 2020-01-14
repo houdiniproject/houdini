@@ -24,6 +24,11 @@ on_worker_boot do
 
 end
 
+before_fork do
+  require 'puma_worker_killer'
+  PumaWorkerKiller.enable_rolling_restart # Default is every 6 hours
+end
+
 # rackup      DefaultRackup
 # port        ENV['PORT']     || 8080
 # environment ENV['RAILS_ENV'] || 'development'

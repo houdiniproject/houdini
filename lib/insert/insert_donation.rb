@@ -44,7 +44,6 @@ module InsertDonation
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
     EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
     EmailJobQueue.queue(JobTypes::DonorPaymentNotificationJob, result['donation'].id, entities[:supporter_id].locale)
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
     result
   end
 
@@ -85,7 +84,6 @@ module InsertDonation
       ]).returning('*')
     ).first
     result['activity'] = InsertActivities.for_offsite_donations([result['payment']['id']])
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
     return {status: 200, json: result}
   end
 
@@ -107,8 +105,6 @@ module InsertDonation
 
     EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
     EmailJobQueue.queue(JobTypes::DonorDirectDebitNotificationJob, result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
-
-    QueueDonations.delay.execute_for_donation(result['donation'].id)
     # do this for making test consistent
     result['activity'] = {}
     result

@@ -89,8 +89,6 @@ gem 'rest-client' # recommended for fullcontact
 # Nice table printing of data for the console
 gem 'table_print'
 
-gem 'bunny', '>= 2.6.3'
-
 gem 'rails-i18n', '~> 3.0.0' # For 3.x
 gem 'i18n-js'
 gem 'countries'

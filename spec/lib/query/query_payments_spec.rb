@@ -180,8 +180,6 @@ describe QueryPayments do
       a
       }
 
-      allow(QueueDonations).to receive(:execute_for_donation)
-
     }
 
     let(:charge_amount_small) { 200}

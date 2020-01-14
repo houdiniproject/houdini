@@ -73,7 +73,6 @@ module InsertRecurringDonation
     # Send receipts
     EmailJobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
     EmailJobQueue.queue(JobTypes::DonorPaymentNotificationJob, result['donation'].id, entities[:supporter_id].locale)
-    QueueDonations.delay.execute_for_donation(result['donation']['id'])
     return result
   end
 
@@ -100,8 +99,6 @@ module InsertRecurringDonation
 
     DonationMailer.delay.nonprofit_payment_notification(result['donation']['id'])
     DonationMailer.delay.donor_direct_debit_notification(result['donation']['id'], locale_for_supporter(result['donation']['supporter_id']))
-
-    QueueDonations.delay.execute_for_donation(result['donation']['id'])
 
     { status: 200, json: result }
   end

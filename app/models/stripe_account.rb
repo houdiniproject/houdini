@@ -53,7 +53,6 @@ class StripeAccount < ActiveRecord::Base
     self.payouts_enabled = !!object_json['payouts_enabled']
     requirements = object_json['requirements'] || []
     self.disabled_reason =  requirements['disabled_reason']
-    puts "to currently due"
     self.currently_due = JSON.generate(requirements['currently_due'] || [])
     self.past_due =  JSON.generate(requirements['past_due'] || [])
     self.eventually_due =  JSON.generate(requirements['eventually_due'] || [])

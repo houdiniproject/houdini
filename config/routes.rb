@@ -36,7 +36,7 @@ Commitchange::Application.routes.draw do
 	namespace(:nonprofits, {path: 'nonprofits/:nonprofit_id'}) do
 		resource(:stripe_account, only: [:index]) do
 			get :index, format: :json
-			get :verify
+			get :verification
 			post :account_link, format: :json
 			get :confirm
 		end

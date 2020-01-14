@@ -1,0 +1,7 @@
+<% content_for :javascripts do %>
+  <%= IncludeAsset.js '/app/stripe_account_verificationx.js' %>
+<% end %>
+
+<div id="outlet"></div>
+
+<script>LoadReactPage(document.getElementById('outlet'), <%= @current_nonprofit.id %>)</script>

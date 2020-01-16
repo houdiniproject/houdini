@@ -4,7 +4,6 @@ module Nonprofits
         before_filter :authenticate_nonprofit_admin!
 
         layout 'layouts/apified'
-        @theme = 'minimal'
 
         def index
             render_json { (current_nonprofit.stripe_account || {}).to_json( except: [:object, :id, :created_at, :updated_at])}
@@ -12,17 +11,20 @@ module Nonprofits
 
         # this is the start page when someone needs to verify their nonprofit
         def verification
+            @theme = 'minimal'
             @current_nonprofit = current_nonprofit
         end
 
         # html page where we check repeatedly whether we received a verification update
         def confirm
+            @theme = 'minimal'
             @current_nonprofit = current_nonprofit
         end
 
         # html page when a link failed
         def retry
-
+            @theme = 'minimal'
+            @current_nonprofit = current_nonprofit
         end
 
         def account_link

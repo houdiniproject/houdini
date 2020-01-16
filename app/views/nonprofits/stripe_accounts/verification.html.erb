@@ -4,4 +4,8 @@
 
 <div id="outlet"></div>
 
-<script>LoadReactPage(document.getElementById('outlet'), <%= @current_nonprofit.id %>)</script>
+<script>LoadReactPage(
+  document.getElementById('outlet'), 
+  <%= @current_nonprofit.id -%>, 
+  '<%= dashboard_nonprofit_url @current_nonprofit  -%>' 
+  )</script>

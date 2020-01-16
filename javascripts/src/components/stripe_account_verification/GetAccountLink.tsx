@@ -3,7 +3,6 @@ import * as React from 'react';
 import AccountLinkContext, { AccountLinkContextData } from './account_link_context';
 
 export interface GetAccountLinkProps {
-
 }
 
 interface FullGetAccountLinkProps extends GetAccountLinkProps {
@@ -12,7 +11,7 @@ interface FullGetAccountLinkProps extends GetAccountLinkProps {
 
 function GetAccountLink(props: GetAccountLinkProps) {
   return <AccountLinkContext.Consumer>
-    {accountLinkData => <InnerGetAccountLink accountLinkData={accountLinkData}></InnerGetAccountLink>}
+    {accountLinkData => <InnerGetAccountLink accountLinkData={accountLinkData} ></InnerGetAccountLink>}
   </AccountLinkContext.Consumer>
 }
 

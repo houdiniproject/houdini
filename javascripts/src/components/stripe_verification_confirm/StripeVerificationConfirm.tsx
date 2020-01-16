@@ -7,6 +7,7 @@ import InnerStripeVerificationConfirm from './InnerStripeVerificationConfirm';
 
 export interface StripeVerificationConfirmProps {
   nonprofit_id: number
+  dashboard_link: string
 }
 
 export default function StripeVerificationConfirm(props: StripeVerificationConfirmProps) {
@@ -14,7 +15,7 @@ export default function StripeVerificationConfirm(props: StripeVerificationConfi
   return <ApiManager>
     <AccountLinkManager nonprofitId={props.nonprofit_id}>
       <StripeVerificationConfirmActor nonprofitId={props.nonprofit_id}>
-        <InnerStripeVerificationConfirm />
+        <InnerStripeVerificationConfirm dashboardLink={props.dashboard_link}/>
       </StripeVerificationConfirmActor>
       
     </AccountLinkManager>

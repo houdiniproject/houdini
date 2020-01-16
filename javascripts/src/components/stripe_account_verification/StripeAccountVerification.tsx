@@ -15,7 +15,7 @@ export interface StripeAccountVerificationProps {
 export default function StripeAccountVerification(props:StripeAccountVerificationProps) {
   return <ApiManager>
     <AccountLinkManager nonprofitId={props.nonprofit_id}>
-      <InnerStripeAccountVerification/>
+      <InnerStripeAccountVerification dashboardLink={props.dashboard_link} />
     </AccountLinkManager>
   </ApiManager>
 }

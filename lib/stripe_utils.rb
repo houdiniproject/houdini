@@ -4,15 +4,6 @@ require 'calculate/calculate_fees'
 
 module StripeUtils
 
-	# Get the verification status from a stripe object
-	# Some of our accounts seem to be marked 'Unverified,' but have no
-	# fields_needed set and have transfers_enabled set to true. So for our system,
-	# that practically means they are verified.
-	def self.get_verification_status(stripe_acct)
-		return 'verified' if stripe_acct.transfers_enabled
-		return stripe_acct.legal_entity.verification.status
-	end
-
 	def self.create_transfer(net_amount, stripe_account_id, currency)
 		Stripe::Payout.create({
 			amount: net_amount,

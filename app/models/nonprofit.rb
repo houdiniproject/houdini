@@ -87,7 +87,6 @@ class Nonprofit < ActiveRecord::Base
   validates_presence_of :slug
 
   scope :vetted, -> {where(vetted: true)}
-  scope :identity_verified, -> {where(verification_status: 'verified')}
   scope :published, -> {where(published: true)}
 
   mount_uploader :main_image, NonprofitUploader

@@ -8,6 +8,7 @@ import InnerStripeAccountVerification from './InnerStripeAccountVerification';
 
 export interface StripeAccountVerificationProps {
   nonprofit_id: number
+  dashboard_link:string
 }
 
 

@@ -1,6 +1,5 @@
 class StripeAccount < ActiveRecord::Base
   attr_accessible  :object
-  attr_readonly :currently_due, :past_due, :eventually_due, :pending_verification
   has_one :nonprofit, primary_key: :stripe_account_id
 
   def object=(input)
@@ -32,6 +31,10 @@ class StripeAccount < ActiveRecord::Base
       result = :verified
     end
     result
+  end
+
+  def needs_more_validation_info
+    [self.currently_due, self.past_due, self.eventually_due].map{|i| i || []}.any?{|i| i.all?{|j| j.starts_with('external_account')}}
   end
 
   private 

@@ -43,6 +43,8 @@ module StripeAccountUtils
 				},
 				requested_capabilities: [
 					'legacy_payments',
+					'card_payments',
+					'transfers'
 				  ],
 				business_profile: {
 					product_description: 'Nonprofit donations'

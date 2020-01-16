@@ -37,8 +37,8 @@ Commitchange::Application.routes.draw do
 		resource(:stripe_account, only: [:index]) do
 			get :index, format: :json
 			get :verification
-			post :account_link, format: :json
 			get :confirm
+			post :account_link, format: :json
 		end
 		
 		resources(:payouts, {only: [:create, :index, :show]})

@@ -28,6 +28,9 @@ module Nonprofits
         end
 
         def account_link
+            stripe_account_for_nonprofit = StripeAccountUtils.find_or_create(current_nonprofit.id)
+            current_nonprofit.reload
+
             if (current_nonprofit.stripe_account_id)
                 render json: Stripe::AccountLink.create({
                     account:current_nonprofit.stripe_account_id,
@@ -37,7 +40,7 @@ module Nonprofits
                     collect: 'eventually_due'
                 }).to_json, status: 200
             else
-                render json:{error: "No Stripe account for Nonprofit."}, status: 400
+                render json:{error: "No Stripe account could not be found or created. Please contact support@commitchange.com for assistance."}, status: 400
             end
         end
     end

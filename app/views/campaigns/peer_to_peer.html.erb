@@ -12,16 +12,16 @@
 	<script>
     <% if @nonprofit %>
       appl.def('selected_result', {
-        name: '<%= @nonprofit.name.html_safe %>',
+        name: '<%= j(@nonprofit.name) %>',
         id: <%= @nonprofit.id %>,
         modal_id: 'newCampaign'
       })
       app.nonprofit_id = <%= @nonprofit.id %>
     <% elsif @parent_campaign %>
       appl.def('selected_result', {
-        name: '<%= @parent_campaign.nonprofit.name.html_safe %>',
+        name: '<%= j(@parent_campaign.nonprofit.name) %>',
         parent_campaign_id: <%= @parent_campaign.id %>,
-        campaign_name: '<%= @parent_campaign.name %>',
+        campaign_name: '<%= j(@parent_campaign.name) %>',
         modal_id: 'newPeerToPeerCampaign'
       })
       app.nonprofit_id = <%= @parent_campaign.nonprofit.id %>

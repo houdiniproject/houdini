@@ -30,7 +30,7 @@
       appl.def('is_logged_in', true)
       appl.def('is_confirmed', <%= !current_user.confirmed_at.nil? %>)
       appl.def('user', {
-        name: '<%= current_user.profile.name || current_user.email %>',
+        name: '<%= j(current_user.profile.name || current_user.email) %>',
         id: <%= current_user.id %>
       })
     <% end %>

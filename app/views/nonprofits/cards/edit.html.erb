@@ -1,5 +1,8 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <% content_for(:footer_hidden) {'hidden'} %>
+<%= content_for :recaptcha_js do %>
+	<script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
+<% end %>
 <%= content_for :javascripts do %>
 	<script>
     var pageLoadData = {
@@ -7,6 +10,17 @@
     , plan: <%= raw(@nonprofit.billing_plan.to_json) %>
     , subscription: <%= raw(@nonprofit.billing_subscription.to_json) %>
     , daysLeft : <%= QueryBillingSubscriptions.days_left_in_trial(@nonprofit.id) %>
+    }
+    var app = {
+      profile: {
+        name: '<%= j(@profile&.name) %>'
+      },
+      hide_cover_fees_option: true,
+      nonprofit_id: <%= @nonprofit.id %>,
+      nonprofit: {
+        zip_code: '<%= j(@nonprofit.zip_code) %>'
+      },
+      recaptcha_site_key: "<%= ENV['RECAPTCHA_SITE_KEY'] %>"
     }
 	</script>
 	<%= IncludeAsset.js '/client/js/nonprofits/cards/edit/page.js' %>

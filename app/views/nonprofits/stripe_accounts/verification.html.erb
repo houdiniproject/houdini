@@ -3,6 +3,14 @@
   <%= IncludeAsset.js '/app/stripe_account_verificationx.js' %>
 <% end %>
 
+<% content_for :stylesheets do %>
+ <style>
+ul {list-style-type: disc;}
+ul ul {list-style-type: circle;}
+</style> 
+
+<% end %>
+
 <div id="outlet"></div>
 
 <script>LoadReactPage(

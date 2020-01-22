@@ -2,7 +2,7 @@
 import * as React from 'react';
 import ApiManagerContext, { ApiManagerContextData } from '../stripe_account_verification/api_manager_context';
 import { verifyStripeIsValidated } from '../../lib/payments/verify_stripe_account';
-import { StripeAccountVerification, StripeAccount } from '../../lib/api/stripe_account_verification';
+import { StripeAccountVerification, StripeAccount, RecordNotFoundError } from '../../lib/api/stripe_account_verification';
 import { delay } from 'q';
 
 
@@ -68,10 +68,14 @@ class StripeVerificationConfirmActor extends React.Component<FullStripeVerificat
       }
     }
     catch(e){
-      this.setState({lastStatus: 'unknown_error'})
+      if (e instanceof RecordNotFoundError) {
+        this.setState({lastStatus:'needmore'})
+      }
+      else {
+        this.setState({lastStatus:'unknown_error'})
+      }
     }
     finally {
-      
       this.setState({verifying:false})
     }
   }

@@ -6,9 +6,12 @@ module Nonprofits
         layout 'layouts/apified'
 
         def index
-            render_json { 
-                return StripeAccount.find(nonprofit: current_nonprofit).to_json( except: [:object, :id, :created_at, :updated_at])
-            }
+            render_json do
+
+                raise RecordNotFoundException unless current_nonprofit.stripe_account
+                
+                current_nonprofit.stripe_account.to_json( except: [:object, :id, :created_at, :updated_at])
+            end
         end
 
         # this is the start page when someone needs to verify their nonprofit

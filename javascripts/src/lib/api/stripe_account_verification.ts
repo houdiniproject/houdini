@@ -66,8 +66,12 @@ export class StripeAccountVerification {
         dfd.resolve(jqXHR, data),
       (xhr: JQueryXHR, textStatus: string, errorThrown: string) => {
         
-
+        if (xhr.status == 404) {
+          dfd.reject(new RecordNotFoundError())
+        }
+        else{        
           dfd.reject(xhr.responseJSON)
+        }
 
       }
     );
@@ -147,4 +151,8 @@ export interface StripeAccountLink {
     "created": number,
     "expires_at": number,
     "url": string
+}
+
+export class RecordNotFoundError extends Error {
+
 }

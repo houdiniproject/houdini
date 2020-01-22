@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import AccountLinkContext, { AccountLinkContextData } from './account_link_context';
+import ProgressableButton from '../common/ProgressableButton';
 
 export interface GetAccountLinkProps {
 }
@@ -30,12 +31,13 @@ class InnerGetAccountLink extends React.Component<FullGetAccountLinkProps, { fin
 
   render() {
     const props = this.props;
+
+    const inProgress = props.accountLinkData.gettingAccountLink || this.state.finished;
     return <>
       {props.accountLinkData.error ? <p>THere was an error: {props.accountLinkData.error}</p> : ""}
 
-      {props.accountLinkData.gettingAccountLink || this.state.finished ? <p>Loading</p> :
-        <button onClick={this.props.accountLinkData.getAccountLink}>Complete verification</button>
-      }
+      
+      <ProgressableButton disableOnProgress={true} inProgress={inProgress} buttonText="Complete verification" buttonTextOnProgress={"Preparing verification"}  onClick={this.props.accountLinkData.getAccountLink}/>
     </>
   }
 }

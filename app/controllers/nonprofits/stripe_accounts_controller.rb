@@ -6,7 +6,9 @@ module Nonprofits
         layout 'layouts/apified'
 
         def index
-            render_json { (current_nonprofit.stripe_account || {}).to_json( except: [:object, :id, :created_at, :updated_at])}
+            render_json { 
+                return StripeAccount.find(nonprofit: current_nonprofit).to_json( except: [:object, :id, :created_at, :updated_at])
+            }
         end
 
         # this is the start page when someone needs to verify their nonprofit
@@ -40,7 +42,7 @@ module Nonprofits
                     collect: 'eventually_due'
                 }).to_json, status: 200
             else
-                render json:{error: "No Stripe account could not be found or created. Please contact support@commitchange.com for assistance."}, status: 400
+                render json:{error: "No Stripe account could be found or created. Please contact support@commitchange.com for assistance."}, status: 400
             end
         end
     end

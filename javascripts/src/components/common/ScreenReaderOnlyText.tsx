@@ -5,10 +5,8 @@ export interface ScreenReaderOnlyTextProps
 {
 }
 
-class ScreenReaderOnlyText extends React.Component<ScreenReaderOnlyTextProps, {}> {
-
-
-  render() {
+const ScreenReaderOnlyText
+  :React.StatelessComponent<ScreenReaderOnlyTextProps> =  (props) => {
     const style:React.CSSProperties = {
       position: 'absolute',
       width: '1px',
@@ -19,9 +17,10 @@ class ScreenReaderOnlyText extends React.Component<ScreenReaderOnlyTextProps, {}
       clip: 'rect(0,0,0,0)',
       border: 0
     }
-    return <span style={style}>{this.props.children}</span>
-  }
+    return <span style={style}>{props.children}</span>
 }
+
+ScreenReaderOnlyText.displayName = 'ScreenReaderOnlyText'
 
 export default ScreenReaderOnlyText;
 

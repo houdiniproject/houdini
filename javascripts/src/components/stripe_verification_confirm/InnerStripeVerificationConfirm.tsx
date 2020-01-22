@@ -63,7 +63,7 @@ class ReallyInnerStripeVerificationConfirm extends React.Component<FullStripeVer
     return <div className="tw-bs">
       <div className="container">
         <div className="row">
-          <div className={'col-sm-6'}>
+          <div className={'col-sm-12'}>
             <h1>Checking... verification</h1>
             <div>
               {

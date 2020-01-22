@@ -13,7 +13,7 @@ export interface ProgressableButtonProps
 }
 
 
-function ProgressableButton(props:ProgressableButtonProps) : JSX.Element{
+const ProgressableButton:React.StatelessComponent<ProgressableButtonProps> = (props) => {
     const ourData: {title: string, disabled: boolean, prefix: JSX.Element|null}= {
       title:props.buttonText,
       disabled:props.disabled,
@@ -32,6 +32,8 @@ function ProgressableButton(props:ProgressableButtonProps) : JSX.Element{
     return <button {...selectedProps} className="button" disabled={ourData.disabled}>
       <span>{ourData.prefix}{ourData.title}</span></button>;
 }
+
+ProgressableButton.displayName = "ProgressableButton"
 
 export default ProgressableButton
 

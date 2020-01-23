@@ -16,5 +16,6 @@ ul ul {list-style-type: circle;}
 <script>LoadReactPage(
   document.getElementById('outlet'), 
   <%= @current_nonprofit.id -%>, 
-  '<%= dashboard_nonprofit_url @current_nonprofit  -%>' 
+  '<%= dashboard_nonprofit_url @current_nonprofit  -%>',
+  '<%= nonprofit_payouts_url @current_nonprofit  -%>'
   )</script>

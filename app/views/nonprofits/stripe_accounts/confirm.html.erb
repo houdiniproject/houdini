@@ -5,4 +5,5 @@
 <div id="outlet"></div>
 
 <script>LoadReactPage(document.getElementById('outlet'), <%= @current_nonprofit.id %>,
-'<%= dashboard_nonprofit_url @current_nonprofit  -%>')</script>
+'<%= dashboard_nonprofit_url @current_nonprofit  -%>',
+'<%= nonprofits_payouts_url @current_nonprofit  -%>')</script>

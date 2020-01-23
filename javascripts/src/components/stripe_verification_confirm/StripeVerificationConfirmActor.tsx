@@ -30,9 +30,8 @@ interface StripeVerificationConfirmActorState {
   verifying:boolean,
   lastStatus?:'completed'|'needmore'|'still_pending'|'unknown_error'
   disabledReason?:string
+  needBankAccount?:boolean
 }
-
-
 
 class StripeVerificationConfirmActor extends React.Component<FullStripeVerificationConfirmActorProps , StripeVerificationConfirmActorState> {
   constructor(props:FullStripeVerificationConfirmActorProps){
@@ -51,9 +50,15 @@ class StripeVerificationConfirmActor extends React.Component<FullStripeVerificat
     try {
       await delay(1500)
       const stripeValidated:StripeAccount = await verifyStripeIsValidated(this.props.apis.apis.get(StripeAccountVerification), this.props.nonprofitId) as StripeAccount;
+      const past_due = stripeValidated.past_due || []
+      const currently_due = stripeValidated.currently_due || []
+      const eventually_due = stripeValidated.eventually_due || []
 
-      const needMore = (stripeValidated.past_due || []).filter(i => i !== 'external_account').length > 0 || (stripeValidated.currently_due || []).filter(i => i !== 'external_account').length > 0 || (stripeValidated.eventually_due || []).filter(i => i !== 'external_account').length > 0
+      const needMore = past_due.filter(i => i !== 'external_account').length > 0 || currently_due.filter(i => i !== 'external_account').length > 0 || eventually_due.filter(i => i !== 'external_account').length > 0
 
+      const needBankAccount = [past_due, currently_due, eventually_due].some((array) => array.some(i => i === 'external_account'))
+
+      this.setState({needBankAccount})
       if (!needMore)
       {
         this.setState({lastStatus: 'completed'})

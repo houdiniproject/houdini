@@ -6,8 +6,8 @@ import StripeVerificationConfirm from "../src/components/stripe_verification_con
 import * as ReactDOM from 'react-dom'
 import * as React from 'react'
 
-function LoadReactPage(element:HTMLElement, nonprofit_id:number, dashboard_link:string) {
-  ReactDOM.render(<Root><StripeVerificationConfirm nonprofit_id={nonprofit_id} dashboard_link={dashboard_link}/></Root>, element)
+function LoadReactPage(element:HTMLElement, nonprofit_id:number, dashboard_link:string, payout_link:string) {
+  ReactDOM.render(<Root><StripeVerificationConfirm nonprofit_id={nonprofit_id} dashboard_link={dashboard_link} payout_link={payout_link}/></Root>, element)
 }
 
 

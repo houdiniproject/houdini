@@ -34,13 +34,14 @@ module Nonprofits
 
         def account_link
             stripe_account_for_nonprofit = StripeAccountUtils.find_or_create(current_nonprofit.id)
+
             current_nonprofit.reload
 
             if (current_nonprofit.stripe_account_id)
                 render json: Stripe::AccountLink.create({
                     account:current_nonprofit.stripe_account_id,
-                    failure_url: nonprofits_stripe_account_url(current_nonprofit.id),
-                    success_url: confirm_nonprofits_stripe_account_url(current_nonprofit.id),
+                    failure_url: nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
+                    success_url: confirm_nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
                     type: 'custom_account_verification',
                     collect: 'eventually_due'
                 }).to_json, status: 200

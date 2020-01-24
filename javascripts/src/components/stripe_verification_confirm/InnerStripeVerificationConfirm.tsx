@@ -3,6 +3,7 @@ import * as React from 'react';
 import AccountLinkContext, { AccountLinkContextData } from '../stripe_account_verification/account_link_context';
 import GetAccountLink from '../stripe_account_verification/GetAccountLink';
 import Spinner from '../common/Spinner';
+import ReturnLocation from '../stripe_account_verification/return_location';
 
 
 
@@ -11,8 +12,9 @@ export interface StripeVerificationConfirmProps {
   lastStatus?: 'completed' | 'needmore' | 'still_pending' | 'unknown_error'
   disabledReason?: string
   dashboardLink?: string
-  payoutLink?: string
+  payoutsLink?: string
   needBankAccount?: boolean
+  return_location?: string
   retry?: () => void;
 }
 
@@ -26,6 +28,10 @@ function InnerStripeVerificationConfirm(props: StripeVerificationConfirmProps) {
   </AccountLinkContext.Consumer>
 }
 
+function YourLink(props:FullStripeVerificationConfirmProps) {
+  return ReturnLocation(props.return_location) === 'dashboard' ? <a href={props.dashboardLink}>your dashboard</a> : <a href={props.payoutsLink}>your payouts</a>
+}
+
 
 function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
   switch (props.lastStatus) {
@@ -34,9 +40,9 @@ function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
         <p>Congratulations, you're now able to accept credit cards on CommitChange!</p> 
 
         {props.needBankAccount ? <>
-        <p>Before you can payout received donations, you'll need to <a href={props.payoutLink}>provide your bank account</a>.</p> 
+        <p>Before you can payout received donations, you'll need to <a href={props.payoutsLink}>provide your bank account</a>.</p> 
         <p>If you'd like to do that later, you can return to <a href={props.dashboardLink}>your dashboard.</a></p>
-        </>: <p>You can now return to <a href={props.dashboardLink}>your dashboard.</a></p>}
+        </>: <p>You can now return to <YourLink {...props}/>.</p>}
 
       </>
     }
@@ -52,7 +58,7 @@ function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
       return <>
         <h1>Still verifying</h1>
         <p>Stripe is still verifying your information. Occasionally, this verification will take more than a few minutes. This is normal. We'll email you when when the verification process is complete or if you need to submit more information.</p>
-        <p><a href={props.dashboardLink}>Return to dashboard</a></p>
+        <p>Return to <YourLink {...props} />.</p>
       </>
     }
     case 'unknown_error': {
@@ -72,7 +78,7 @@ function PaneOnVerification(props: FullStripeVerificationConfirmProps) {
       <h1>Verifying...</h1>
       <Spinner size="large" />
       <p>Verification can take a few minutes to complete. Depending on Stripe's automated verification process, you may be asked to complete additional verification. This is normal.</p>
-      <p>If you do not want to wait, you can return to <a href={props.dashboardLink}>your dashboard</a> we'll email you when the verification process is complete or if you need to submit more information.</p>
+      <p>If you do not want to wait, you can return to <YourLink {...props} />. We'll email you when the verification process is complete or if you need to submit more information.</p>
     </>
 
   }

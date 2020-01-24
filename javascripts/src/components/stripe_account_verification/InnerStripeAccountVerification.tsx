@@ -1,9 +1,12 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import GetAccountLink from './GetAccountLink';
+import ReturnLocation from './return_location';
 
 export interface StripeAccountVerificationProps {
   dashboardLink: string
+  payoutsLink: string
+  returnLocation?: string
 }
 
 class StripeAccountVerification extends React.Component<StripeAccountVerificationProps, {}> {
@@ -27,7 +30,13 @@ class StripeAccountVerification extends React.Component<StripeAccountVerificatio
                   </ul>
                 </li>
               </ul>
-                <p>If you do not complete this verification in a timely manner, you will not be able to accept credit card payments on CommitChange. Alternatively, you can complete the verification at a later time and go to back to <a href={props.dashboardLink}>your dashboard <small><em>(not recommended)</em></small></a></p>
+                <p>If you do not complete this verification in a timely manner, you will not be able to accept credit card payments on CommitChange. Alternatively, you can complete the verification at a later time and go to back to {
+                
+                ReturnLocation(props.returnLocation) === 'dashboard' ? 
+                <a href={props.dashboardLink}>your dashboard <small><em>(not recommended)</em></small></a> :
+                <a href={props.payoutsLink}>your payouts <small><em>(not recommended)</em></small></a>
+  }
+                </p>
             <GetAccountLink />
           </div>
         </div>

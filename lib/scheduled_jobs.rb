@@ -62,7 +62,7 @@ module ScheduledJobs
       Nonprofit.where(verification_status: 'pending').each do |np|
         yielder << lambda do
           acct = Stripe::Account.retrieve(np.stripe_account_id)
-          verified = acct.transfers_enabled && acct.verification.fields_needed.count == 0
+          verified = acct.payouts_enabled && acct.verification.fields_needed.count == 0
           np.verification_status = verified ? 'verified' : np.verification_status
           NonprofitMailer.failed_verification_notice(np).deliver if np.verification_status != 'verified'
           NonprofitMailer.successful_verification_notice(np).deliver if np.verification_status == 'verified'

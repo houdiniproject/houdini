@@ -4,6 +4,7 @@ import AccountLinkContext, { AccountLinkContextData } from '../stripe_account_ve
 import GetAccountLink from '../stripe_account_verification/GetAccountLink';
 import Spinner from '../common/Spinner';
 import ReturnLocation from '../stripe_account_verification/return_location';
+import ProgressBarAndStatus from '../common/ProgressBarAndStatus';
 
 
 
@@ -76,9 +77,9 @@ function PaneOnVerification(props: FullStripeVerificationConfirmProps) {
   if (props.verifying) {
     return <>
       <h1>Verifying...</h1>
-      <Spinner size="large" />
       <p>Verification can take a few minutes to complete. Depending on Stripe's automated verification process, you may be asked to complete additional verification. This is normal.</p>
-      <p>If you do not want to wait, you can return to <YourLink {...props} />. We'll email you when the verification process is complete or if you need to submit more information.</p>
+      <ProgressBarAndStatus percentage={100}/>
+      <p><small>If you do not want to wait, you can return to <YourLink {...props} />. We'll email you when the verification process is complete or if you need to submit more information.</small></p>
     </>
 
   }

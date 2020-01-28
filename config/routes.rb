@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Commitchange::Application.routes.draw do
-  post "stripe_webhook/receive", format: :json
+ 
 
   mount Houdini::API => '/api'
 
@@ -225,6 +225,8 @@ Commitchange::Application.routes.draw do
   # Events
   match '/events' => 'events#index'
   match '/events/:event_slug' => 'events#show'
+  match "/webhooks/stripe/receive" => "webhooks/stripe#receive",  format: :json	  
+  
 
 	# Nonprofits
 	match ':state_code/:city/:name' => 'nonprofits#show', :as => :nonprofit_location
@@ -260,9 +262,8 @@ Commitchange::Application.routes.draw do
   match '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
 
   # Webhooks
-  post '/webhooks/stripe_subscription_payment' => 'webhooks#subscription_payment'
-  post '/webhooks/stripe' => 'webhooks#stripe'
-
+  
+	
   get '/static/terms_and_privacy' => 'static#terms_and_privacy'
 	get '/static/ccs' => 'static#ccs'
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe StripeWebhookController, :type => :controller do
+RSpec.describe Webhooks::StripeController, :type => :controller do
 
   describe "POST #receive" do
     # describe 'authorization' do

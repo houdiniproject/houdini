@@ -53,23 +53,31 @@ class StripeVerificationConfirmActor extends React.Component<FullStripeVerificat
       const past_due = stripeValidated.past_due || []
       const currently_due = stripeValidated.currently_due || []
       const eventually_due = stripeValidated.eventually_due || []
+      const pending_verification = stripeValidated.pending_verification || []
 
       const needMore = past_due.filter(i => i !== 'external_account').length > 0 || currently_due.filter(i => i !== 'external_account').length > 0 || eventually_due.filter(i => i !== 'external_account').length > 0
+
+      const stillPending = pending_verification.length > 0
 
       const needBankAccount = [past_due, currently_due, eventually_due].some((array) => array.some(i => i === 'external_account'))
 
       this.setState({needBankAccount})
-      if (!needMore)
+      if (stillPending)
       {
-        this.setState({lastStatus: 'completed'})
+        this.setState({disabledReason: stripeValidated.disabled_reason})
+        this.setState({lastStatus:'still_pending'})
       }
       else {
-        this.setState({disabledReason: stripeValidated.disabled_reason})
-
-        if (needMore)
+        if (needMore) {
+          this.setState({disabledReason: stripeValidated.disabled_reason})
           this.setState({lastStatus:'needmore'})
-        else
-          this.setState({lastStatus:'still_pending'})
+        }
+        else {
+          this.setState({disabledReason: null})
+          this.setState({lastStatus: 'completed'})
+        }
+        
+          
       }
     }
     catch(e){

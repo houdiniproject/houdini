@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import grecaptchaPromised from './grecaptcha'
-import delay from 'delay'
 import pRetry from './p-retry'
 
 declare const app: any
@@ -28,8 +27,8 @@ async function stripeRespToGRecaptcha(resp: any) {
     {
       onFailedAttempt: async (error:Error) => {
         errors.push(error)
-        await delay(5000)
       },
+      minTimeout: 5000,
       retries: 2
     })
   }

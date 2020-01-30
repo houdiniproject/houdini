@@ -29,7 +29,7 @@ function InnerStripeVerificationConfirm(props: StripeVerificationConfirmProps) {
   </AccountLinkContext.Consumer>
 }
 
-function YourLink(props:FullStripeVerificationConfirmProps) {
+function YourLink(props: FullStripeVerificationConfirmProps) {
   return ReturnLocation(props.return_location) === 'dashboard' ? <a href={props.dashboardLink}>your dashboard</a> : <a href={props.payoutsLink}>your payouts</a>
 }
 
@@ -38,12 +38,12 @@ function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
   switch (props.lastStatus) {
     case 'completed': {
       return <><h1>Verification Complete</h1>
-        <p>Congratulations, you're now able to accept credit cards on CommitChange!</p> 
+        <p>Congratulations, you're now able to accept credit cards on CommitChange!</p>
 
         {props.needBankAccount ? <>
-        <p>Before you can payout received donations, you'll need to <a href={props.payoutsLink}>provide your bank account</a>.</p> 
-        <p>If you'd like to do that later, you can return to <a href={props.dashboardLink}>your dashboard.</a></p>
-        </>: <p>You can now return to <YourLink {...props}/>.</p>}
+          <p>Before you can payout received donations, you'll need to <a href={props.payoutsLink}>provide your bank account</a>.</p>
+          <p>If you'd like to do that later, you can return to <a href={props.dashboardLink}>your dashboard.</a></p>
+        </> : <p>You can now return to <YourLink {...props} />.</p>}
 
       </>
     }
@@ -78,8 +78,21 @@ function PaneOnVerification(props: FullStripeVerificationConfirmProps) {
     return <>
       <h1>Verifying...</h1>
       <p>Verification can take a few minutes to complete. Depending on Stripe's automated verification process, you may be asked to complete additional verification. This is normal.</p>
-      <ProgressBarAndStatus percentage={100}/>
-      <p><small>If you do not want to wait, you can return to <YourLink {...props} />. We'll email you when the verification process is complete or if you need to submit more information.</small></p>
+      <div className="row">
+        <div className="col-xs-10 col-xs-offset-1">
+          <div className="row">
+            <div className="col-xs-12" style={{paddingTop: '50px'}}><ProgressBarAndStatus percentage={100} />
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      <div className="row">
+            <div className="col-xs-12" style={{paddingTop: '100px'}}><p><small>If you'd prefer not to wait, you can return to <YourLink {...props} />. We'll email you when the verification process is complete or if you need to submit more information.</small></p>
+            </div>
+          </div>
+
     </>
 
   }

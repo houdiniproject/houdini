@@ -1,9 +1,14 @@
 // License: LGPL-3.0-or-later
-import delay from 'delay'
 import pRetry from '../p-retry'
 import { StripeAccountVerification, StripeAccount } from '../api/stripe_account_verification';
+import setPrototypeOf = require('setprototypeof')
 
-declare const app: any
+class StillPendingError extends Error {
+  constructor(public readonly result:StripeAccount){
+      super()
+      setPrototypeOf(this, StillPendingError.prototype);
+  }
+}
 
 async function verifyStripeIsValidatedOnce(api:StripeAccountVerification, nonprofitId:number):Promise<StripeAccount> {
   try {
@@ -24,11 +29,7 @@ async function verifyStripeIsValidatedOnce(api:StripeAccountVerification, nonpro
   }
 }
 
-class StillPendingError extends Error {
-    constructor(public readonly result:StripeAccount){
-        super()
-    }
-}
+
 
 
 export async function verifyStripeIsValidated(api:StripeAccountVerification, nonprofitId:number) {
@@ -36,11 +37,11 @@ export async function verifyStripeIsValidated(api:StripeAccountVerification, non
     try {
         return await pRetry(() => verifyStripeIsValidatedOnce(api, nonprofitId), 
         {
-        onFailedAttempt: async (error:Error) => {
-            errors.push(error)
-            await delay(5000)
-        },
-        retries: 10
+          onFailedAttempt:  (error:Error) => {
+              errors.push(error)
+          },
+          retries: 10,
+          minTimeout: 5000
         })
     }
     catch(e) {

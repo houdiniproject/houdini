@@ -33,6 +33,7 @@ const pRetry = (input:any, options:any) => new Promise((resolve, reject) => {
 	options = {
 		onFailedAttempt: () => {},
 		retries: 10,
+		factor: 1,
 		...options
 	};
 

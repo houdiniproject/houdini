@@ -39,6 +39,7 @@ Commitchange::Application.routes.draw do
 			get :verification
 			get :confirm
 			post :account_link, format: :json
+			post :begin_verification, format: :json
 		end
 		
 		resources(:payouts, {only: [:create, :index, :show]})

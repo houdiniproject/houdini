@@ -26,6 +26,20 @@ module Nonprofits
             @current_nonprofit = current_nonprofit
         end
 
+        def begin_verification
+            status = current_nonprofit.nonprofit_verification_process_status
+            unless status
+                status = current_nonprofit.build_nonprofit_verification_process_status
+            end
+
+            unless status.started_at
+                status.started_at = DateTime.now
+            end
+
+            status.save! if status.changed?
+            render json:{}, status: :ok
+        end
+
         # html page when a link failed
         def retry
             @theme = 'minimal'

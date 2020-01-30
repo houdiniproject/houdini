@@ -134,7 +134,7 @@ export class StripeAccountVerification {
 
 
 
-public getAccountLink(nonprofitId: number, returnLocation?:string, extraJQueryAjaxSettings?: JQueryAjaxSettings): Promise<StripeAccountLink> {
+public postAccountLink(nonprofitId: number, returnLocation?:string, extraJQueryAjaxSettings?: JQueryAjaxSettings): Promise<StripeAccountLink> {
     let localVarPath = `${this.basePath}nonprofits/${nonprofitId}/stripe_account/account_link`;
 
     let queryParameters: any = {};

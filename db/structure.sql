@@ -1494,6 +1494,38 @@ ALTER SEQUENCE public.nonprofit_keys_id_seq OWNED BY public.nonprofit_keys.id;
 
 
 --
+-- Name: nonprofit_verification_process_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.nonprofit_verification_process_statuses (
+    id integer NOT NULL,
+    nonprofit_id integer,
+    started_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: nonprofit_verification_process_statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.nonprofit_verification_process_statuses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: nonprofit_verification_process_statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.nonprofit_verification_process_statuses_id_seq OWNED BY public.nonprofit_verification_process_statuses.id;
+
+
+--
 -- Name: nonprofits; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2755,6 +2787,13 @@ ALTER TABLE ONLY public.nonprofit_keys ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: nonprofit_verification_process_statuses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_verification_process_statuses ALTER COLUMN id SET DEFAULT nextval('public.nonprofit_verification_process_statuses_id_seq'::regclass);
+
+
+--
 -- Name: nonprofits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3232,6 +3271,14 @@ ALTER TABLE ONLY public.nonprofit_deactivations
 
 ALTER TABLE ONLY public.nonprofit_keys
     ADD CONSTRAINT nonprofit_keys_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nonprofit_verification_process_statuses nonprofit_verification_process_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_verification_process_statuses
+    ADD CONSTRAINT nonprofit_verification_process_statuses_pkey PRIMARY KEY (id);
 
 
 --
@@ -4794,4 +4841,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191204021126');
 INSERT INTO schema_migrations (version) VALUES ('20200107212543');
 
 INSERT INTO schema_migrations (version) VALUES ('20200108213844');
+
+INSERT INTO schema_migrations (version) VALUES ('20200130222233');
 

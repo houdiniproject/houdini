@@ -1,6 +1,6 @@
 class NonprofitVerificationProcessStatus < ActiveRecord::Base
-  attr_accessible :started_at
+  attr_accessible :started_at, :last_changed_from_pending_to_more_needed
 
-  belongs_to :nonprofit
+  belongs_to :stripe_account, foreign_key: :stripe_account_id
 
 end

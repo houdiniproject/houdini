@@ -1499,8 +1499,9 @@ ALTER SEQUENCE public.nonprofit_keys_id_seq OWNED BY public.nonprofit_keys.id;
 
 CREATE TABLE public.nonprofit_verification_process_statuses (
     id integer NOT NULL,
-    nonprofit_id integer,
+    stripe_account_id integer NOT NULL,
     started_at timestamp without time zone,
+    last_changed_from_pending_to_more_needed timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -3602,6 +3603,13 @@ CREATE INDEX index_misc_payment_infos_on_payment_id ON public.misc_payment_infos
 --
 
 CREATE INDEX index_misc_recurring_donation_infos_on_recurring_donation_id ON public.misc_recurring_donation_infos USING btree (recurring_donation_id);
+
+
+--
+-- Name: index_nonprofit_verification_to_stripe; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_nonprofit_verification_to_stripe ON public.nonprofit_verification_process_statuses USING btree (stripe_account_id);
 
 
 --

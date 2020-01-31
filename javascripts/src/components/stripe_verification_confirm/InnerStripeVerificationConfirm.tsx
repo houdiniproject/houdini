@@ -81,7 +81,7 @@ function PaneOnVerification(props: FullStripeVerificationConfirmProps) {
       <div className="row">
         <div className="col-xs-10 col-xs-offset-1">
           <div className="row">
-            <div className="col-xs-12" style={{paddingTop: '50px'}}><ProgressBarAndStatus percentage={100} />
+            <div className="col-xs-12" style={{paddingTop: '50px', textAlign: 'center'}}><Spinner size="extralarge"/>
             </div>
           </div>
           

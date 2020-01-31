@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as $ from 'jquery';
 import {Configuration} from "../../../api/configuration";
+import setPrototypeOf = require('setprototypeof')
 
 export class StripeAccountVerification {
   protected basePath = '/';
@@ -212,5 +213,8 @@ export interface StripeAccountLink {
 }
 
 export class RecordNotFoundError extends Error {
-
+  constructor(){
+    super()
+    setPrototypeOf(this, RecordNotFoundError.prototype);
+  }
 }

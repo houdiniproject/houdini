@@ -16,7 +16,7 @@ export interface StripeAccountVerificationProps {
 
 export default function StripeAccountVerification(props:StripeAccountVerificationProps) {
   return <ApiManager>
-    <AccountLinkManager nonprofitId={props.nonprofit_id} returnLocation={props.return_location}>
+    <AccountLinkManager nonprofitId={props.nonprofit_id} returnLocation={props.return_location} beginVerification={true}>
       <InnerStripeAccountVerification dashboardLink={props.dashboard_link} payoutsLink={props.payouts_link} returnLocation={props.return_location}/>
     </AccountLinkManager>
   </ApiManager>

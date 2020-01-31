@@ -1499,7 +1499,7 @@ ALTER SEQUENCE public.nonprofit_keys_id_seq OWNED BY public.nonprofit_keys.id;
 
 CREATE TABLE public.nonprofit_verification_process_statuses (
     id integer NOT NULL,
-    stripe_account_id integer NOT NULL,
+    stripe_account_id character varying(255) NOT NULL,
     started_at timestamp without time zone,
     last_changed_from_pending_to_more_needed timestamp without time zone,
     created_at timestamp without time zone NOT NULL,

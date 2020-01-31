@@ -8,7 +8,7 @@ module Nonprofits
         def index
             render_json do
 
-                raise RecordNotFoundException unless current_nonprofit.stripe_account
+                raise ActiveRecord::RecordNotFound unless current_nonprofit.stripe_account
                 
                 current_nonprofit.stripe_account.to_json( except: [:object, :id, :created_at, :updated_at])
             end
@@ -27,9 +27,12 @@ module Nonprofits
         end
 
         def begin_verification
-            status = current_nonprofit.nonprofit_verification_process_status
+            stripe_account_for_nonprofit = StripeAccountUtils.find_or_create(current_nonprofit.id)
+            current_nonprofit.reload
+
+            status = NonprofitVerificationProcessStatus.where('stripe_account_id = ?', current_nonprofit.stripe_account_id).first
             unless status
-                status = current_nonprofit.build_nonprofit_verification_process_status
+                status = NonprofitVerificationProcessStatus.new(stripe_account_id: current_nonprofit.stripe_account_id)
             end
 
             unless status.started_at

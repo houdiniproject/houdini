@@ -40,7 +40,7 @@ export async function verifyStripeIsValidated(api:StripeAccountVerification, non
           onFailedAttempt:  (error:Error) => {
               errors.push(error)
           },
-          retries: 10,
+          retries: 18,
           minTimeout: 5000
         })
     }

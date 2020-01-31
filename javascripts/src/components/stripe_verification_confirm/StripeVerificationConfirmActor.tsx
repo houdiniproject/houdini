@@ -48,7 +48,7 @@ class StripeVerificationConfirmActor extends React.Component<FullStripeVerificat
   async verify() {
     this.setState({verifying:true});
     try {
-      await delay(1500)
+      await delay(15000)
       const stripeValidated:StripeAccount = await verifyStripeIsValidated(this.props.apis.apis.get(StripeAccountVerification), this.props.nonprofitId) as StripeAccount;
       const past_due = stripeValidated.past_due || []
       const currently_due = stripeValidated.currently_due || []

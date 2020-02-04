@@ -26,10 +26,10 @@ class StripeAccount < ActiveRecord::Base
   end
 
   def verification_status
-    if eventually_due.any? || currently_due.any? || past_due.any?
-      result = :unverified
-    elsif (pending_verification.any?)
+    if pending_verification.any?
       result = :pending
+    elsif needs_more_validation_info
+      result = :unverified
     else
       result = :verified
     end
@@ -54,10 +54,9 @@ class StripeAccount < ActiveRecord::Base
       write_attribute(:object, input)
       object_json = JSON::parse(input)
     end
-
     self.charges_enabled = !!object_json['charges_enabled']
     self.payouts_enabled = !!object_json['payouts_enabled']
-    requirements = object_json['requirements'] || []
+    requirements = object_json['requirements'] || {}
     self.disabled_reason =  requirements['disabled_reason']
     self.currently_due = JSON.generate(requirements['currently_due'] || [])
     self.past_due =  JSON.generate(requirements['past_due'] || [])

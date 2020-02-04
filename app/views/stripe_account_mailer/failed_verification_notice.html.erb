@@ -10,7 +10,7 @@
 
 <p><strong><a href='<%= root_url + "/nonprofits/#{@nonprofit.id}/payouts" %>'>Visit your payouts page to get everything sorted out.</a></strong></p>
 
-<p>As always, if you have any questions, please send us a note at <%= Settings.devise.mailer_sender %></p>
+<p>As always, if you have any questions, please send us a note at <a href="mailto:<%= Settings.devise.mailer_sender %>"><%= Settings.devise.mailer_sender %></a></p>
 
 <%= render 'emails/sig' %>
 

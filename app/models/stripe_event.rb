@@ -41,12 +41,11 @@ class StripeEvent < ActiveRecord::Base
 
               account.object = object
               account.save!
-
-              byebug
+              
               if !account.needs_more_validation_info
                 status.destroy if status.persisted?
                 #send validation email
-                StripeAccountMailer.delay.verified(account)
+                StripeAccountMailer.delay.conditionally_send_verified(account)
               else 
                 status.email_to_send_guid = SecureRandom.uuid
                 
@@ -59,7 +58,6 @@ class StripeEvent < ActiveRecord::Base
                 status.save!
               end
             end
-          
         end
       end
     end

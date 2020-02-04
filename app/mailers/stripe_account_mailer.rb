@@ -53,7 +53,7 @@ class StripeAccountMailer < BaseMailer
         .with_lock("FOR UPDATE") do
           if (stripe_account.nonprofit_verification_process_status
             .email_to_send_guid == email_to_send_guid)
-            block(stripe_account)
+            block.call(stripe_account)
           end
         end
     end

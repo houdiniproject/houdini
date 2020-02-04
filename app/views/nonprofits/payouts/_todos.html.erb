@@ -42,7 +42,7 @@
 		</li>
 
 
-		<li class="<%= @nonprofit.verification_status == 'verified' ? 'is-done' : '' %>">
+		<li class="<%= @nonprofit&.stripe_account&.payouts_enabled ? 'is-done' : '' %>">
 			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
 			<span class='name'>
 				<% if @nonprofit.verification_status == 'pending' %>
@@ -50,8 +50,8 @@
 				<% else %>
 					After you have connected your bank account, please complete the
 
-					<% if @nonprofit.bank_account && @nonprofit.vetted && @nonprofit.verification_status != 'verified' %>
-						<a class='js-openVerificationModal'> <strong>identity verification form.</strong></a>
+					<% if @nonprofit.bank_account && @nonprofit.vetted && !@nonprofit&.stripe_account&.payouts_enabled %>
+						<a href="<%= verification_nonprofits_stripe_account_url(@nonprofit, {return_location: 'payouts'})%>"> <strong>identity verification form.</strong></a>
 					<% else %> identity verification form. <% end %>
 
 				<% end %>

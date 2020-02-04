@@ -1,7 +1,9 @@
 class StripeAccount < ActiveRecord::Base
-  attr_accessible  :object
+  attr_accessible  :object, :stripe_account_id
   has_one :nonprofit, primary_key: :stripe_account_id
   has_one :nonprofit_verification_process_status, primary_key: :stripe_account_id
+
+  after_save
 
   def object=(input)
     serialize_on_update(input)
@@ -35,7 +37,7 @@ class StripeAccount < ActiveRecord::Base
   end
 
   def needs_more_validation_info
-    [self.currently_due, self.past_due, self.eventually_due].map{|i| i || []}.any?{|i| i.all?{|j| j.starts_with('external_account')}}
+    ![self.currently_due, self.past_due, self.eventually_due].map{|i| i || []}.any?{|i| i.all?{|j| j.starts_with?('external_account')}}
   end
 
   private 

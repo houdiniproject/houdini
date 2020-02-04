@@ -8,7 +8,6 @@ import ApiManagerContext, { ApiManagerContextData } from './api_manager_context'
 export interface AccountLinkManagerProps {
   nonprofitId: number;
   returnLocation: string;
-  beginVerification?: boolean;
 }
 
 export interface FullAccountLinkManagerProps extends AccountLinkManagerProps
@@ -38,9 +37,7 @@ class AccountLinkManager extends React.Component<FullAccountLinkManagerProps, Ac
     this.setState({gettingAccountLink: true})
     const stripeAccountVerification = this.props.apis.apis.get(StripeAccountVerification)
     try {
-      if (this.props.beginVerification) {
-        await stripeAccountVerification.postBeginVerificationLink(this.props.nonprofitId)
-      }
+      await stripeAccountVerification.postBeginVerificationLink(this.props.nonprofitId)
       const accountLinkData = await stripeAccountVerification.postAccountLink(this.props.nonprofitId, this.props.returnLocation)
 
       this.setState({accountLink: accountLinkData.url})

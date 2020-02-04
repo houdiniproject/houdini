@@ -1501,7 +1501,7 @@ CREATE TABLE public.nonprofit_verification_process_statuses (
     id integer NOT NULL,
     stripe_account_id character varying(255) NOT NULL,
     started_at timestamp without time zone,
-    last_changed_from_pending_to_more_needed timestamp without time zone,
+    email_to_send_guid character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -3686,7 +3686,7 @@ CREATE INDEX index_stripe_accounts_on_id ON public.stripe_accounts USING btree (
 -- Name: index_stripe_accounts_on_stripe_account_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_stripe_accounts_on_stripe_account_id ON public.stripe_accounts USING btree (stripe_account_id);
+CREATE UNIQUE INDEX index_stripe_accounts_on_stripe_account_id ON public.stripe_accounts USING btree (stripe_account_id);
 
 
 --

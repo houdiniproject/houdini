@@ -23,16 +23,43 @@ class StripeEvent < ActiveRecord::Base
           # we have a later event so we don't need to process this anymore
           unless later_event
 
-            stripe_accounts = StripeAccount.where("stripe_account_id = ?", object.id).lock(true)
+            account = StripeAccount.where("stripe_account_id = ?", object.id).first
+             if account
+              account.lock!('FOR UPDATE')
+             else
+              account = StripeAccount.new(stripe_account_id: object.id)
+             end
 
-            account = stripe_accounts.first
-            unless account
-              account = StripeAccount.new
+              status = NonprofitVerificationProcessStatus.where(stripe_account_id: object.id).first
+              unless status 
+                puts "#{account.nonprofit_verification_process_status}"
+                status = account.build_nonprofit_verification_process_status
+              end
+
+              previous_verification_status = account.verification_status
+              
+
+              account.object = object
+              account.save!
+
+              byebug
+              if !account.needs_more_validation_info
+                status.destroy if status.persisted?
+                #send validation email
+                StripeAccountMailer.delay.verified(account)
+              else 
+                status.email_to_send_guid = SecureRandom.uuid
+                
+                if previous_verification_status == :pending
+                  StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_more_info_needed(account, status.email_to_send_guid)
+                else
+                  StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_not_completed(account, status.email_to_send_guid)
+                end
+
+                status.save!
+              end
             end
-
-            account.object = object
-            account.save!
-          end
+          
         end
       end
     end

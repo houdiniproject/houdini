@@ -39,7 +39,8 @@ module Nonprofits
                 status.started_at = DateTime.now
             end
 
-            status.save! if status.changed?
+            status.save!
+
             render json:{}, status: :ok
         end
 
@@ -51,7 +52,6 @@ module Nonprofits
 
         def account_link
             stripe_account_for_nonprofit = StripeAccountUtils.find_or_create(current_nonprofit.id)
-
             current_nonprofit.reload
 
             if (current_nonprofit.stripe_account_id)

@@ -15,6 +15,6 @@ class CreateStripeAccounts < ActiveRecord::Migration
     end
 
     add_index :stripe_accounts, :id
-    add_index :stripe_accounts, :stripe_account_id
+    add_index :stripe_accounts, :stripe_account_id, unique: true
   end
 end

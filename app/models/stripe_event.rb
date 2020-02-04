@@ -22,10 +22,11 @@ class StripeEvent < ActiveRecord::Base
 
           # we have a later event so we don't need to process this anymore
           unless later_event
-
+            previous_verification_status = nil
             account = StripeAccount.where("stripe_account_id = ?", object.id).first
              if account
               account.lock!('FOR UPDATE')
+              account.verification_status
              else
               account = StripeAccount.new(stripe_account_id: object.id)
              end
@@ -36,7 +37,7 @@ class StripeEvent < ActiveRecord::Base
                 status = account.build_nonprofit_verification_process_status
               end
 
-              previous_verification_status = account.verification_status
+              
               
 
               account.object = object

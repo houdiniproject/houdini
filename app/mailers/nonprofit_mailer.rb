@@ -118,39 +118,5 @@ class NonprofitMailer < BaseMailer
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
     mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support", subject: "A hearty welcome from the #{Settings.general.name} team")
   end
-
-  def verification_not_finished(np_id)
-	@nonprofit = np
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "You haven't completed verification #{Settings.general.name}")
-  end
-
-  def verification_more_info_needed(np_id)
-	@nonprofit = np
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "You haven't completed verification #{Settings.general.name}")
-  end
-
-  def maybe_send_verification_not_finished(np, email_to_send_guid)
-	sa = np.stripe_account
-	if sa.nonprofit_verification_status_process
-		sa.nonprofit_verification_status_process.with_lock("FOR UPDATE") do
-			if (sa.nonprofit_verification_status_process.email_to_send_guid == email_to_send_guid)
-				verification_not_finished(np.id).deliver
-			end
-		end
-	end
-  end
-
-  def maybe_send_verification_more_info_needed(np, email_to_send_guid)
-	sa = np.stripe_account
-	if sa.nonprofit_verification_status_process
-		sa.nonprofit_verification_status_process.with_lock("FOR UPDATE") do
-			if (sa.nonprofit_verification_status_process.email_to_send_guid == email_to_send_guid)
-				verification_more_info_needed(np.id).deliver
-			end
-		end
-	end
-  end
 end
 

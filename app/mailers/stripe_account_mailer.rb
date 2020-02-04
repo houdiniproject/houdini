@@ -46,12 +46,12 @@ class StripeAccountMailer < BaseMailer
   def conditionally_send(stripe_account, email_to_send_guid, &block)
     if stripe_account.nonprofit && 
       stripe_account
-      .nonprofit_verification_status_process
+      .nonprofit_verification_process_status
 
       stripe_account
-        .nonprofit_verification_status_process
+        .nonprofit_verification_process_status
         .with_lock("FOR UPDATE") do
-          if (stripe_account.nonprofit_verification_status_process
+          if (stripe_account.nonprofit_verification_process_status
             .email_to_send_guid == email_to_send_guid)
             block(stripe_account)
           end

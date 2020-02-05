@@ -32,28 +32,27 @@ class StripeEvent < ActiveRecord::Base
              end
 
               status = NonprofitVerificationProcessStatus.where(stripe_account_id: object.id).first
-              unless status 
-                puts "#{account.nonprofit_verification_process_status}"
-                status = account.build_nonprofit_verification_process_status
-              end
               
               account.object = object
               account.save!
               
-              if !account.needs_more_validation_info
-                status.destroy if status.persisted?
-                #send validation email
-                StripeAccountMailer.delay.conditionally_send_verified(account)
-              else 
-                status.email_to_send_guid = SecureRandom.uuid
-                
-                if previous_verification_status == :pending
-                  StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_more_info_needed(account, status.email_to_send_guid)
-                else
-                  StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_not_completed(account, status.email_to_send_guid)
-                end
 
-                status.save!
+              unless status.nil?
+                if account.verification_status == :verified
+                  status.destroy if status.persisted?
+                  #send validation email
+                  StripeAccountMailer.delay.conditionally_send_verified(account)
+                else
+                  status.email_to_send_guid = SecureRandom.uuid
+                  
+                  if previous_verification_status == :pending
+                    StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_more_info_needed(account, status.email_to_send_guid)
+                  else
+                    StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_not_completed(account, status.email_to_send_guid)
+                  end
+
+                  status.save!
+                end
               end
             end
         end

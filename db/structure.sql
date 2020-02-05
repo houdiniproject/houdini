@@ -3686,7 +3686,7 @@ CREATE INDEX index_stripe_accounts_on_id ON public.stripe_accounts USING btree (
 -- Name: index_stripe_accounts_on_stripe_account_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_stripe_accounts_on_stripe_account_id ON public.stripe_accounts USING btree (stripe_account_id);
+CREATE INDEX index_stripe_accounts_on_stripe_account_id ON public.stripe_accounts USING btree (stripe_account_id);
 
 
 --

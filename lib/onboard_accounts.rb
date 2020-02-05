@@ -107,7 +107,6 @@ module OnboardAccounts
 
   def self.set_nonprofit_defaults(data)
     data = data.merge({
-      verification_status: 'unverified',
       published: true,
       vetted: Settings.nonprofits_must_be_vetted ? false : true,
       statement: data[:name][0..16],

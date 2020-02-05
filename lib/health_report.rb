@@ -22,11 +22,10 @@ module HealthReport
       .ex.last
 
     # Info about disabled nonprofit accounts due to ident verification
-    disabled_nps = Qx.select("nonprofits.id", "nonprofits.name", "nonprofits.stripe_account_id")
-      .from("nonprofits")
-      .where("verification_status != 'verified'")
-      .and_where("created_at > $d", d: 3.months.ago)
-      .ex(format: 'csv')
+    disabled_nps = Nonprofit.includes(:stripe_account)
+    .where('stripe_accounts.verification_status = ?', :verified)
+    .where('created_at > ?', 3.months.ago)
+    .map{|np| {id: np.id, name: np.name, stripe_account_id: np.stripe_account_id}}
 
     return {
       charges_count: charges['count'],
@@ -40,7 +39,7 @@ module HealthReport
 
   # Given a hash of data, formats it into a multi-line string
   def self.format_data data
-    disabled_nps = Format::Csv.from_array(data[:recently_disabled_nps])
+    disabled_nps = Format::Csv.from_data(data[:recently_disabled_nps])
 
     return %Q(
 Transaction Metrics for the last 24hrs:

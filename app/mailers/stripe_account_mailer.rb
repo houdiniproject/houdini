@@ -17,7 +17,7 @@ class StripeAccountMailer < BaseMailer
   def more_info_needed(nonprofit)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "More info needed on #{Settings.general.name}!")
+    mail(to: @emails, subject: "Urgent: More Info Needed for Your #{Settings.general.name} Verification")
   end
 
   def conditionally_send_more_info_needed(stripe_account)
@@ -31,7 +31,7 @@ class StripeAccountMailer < BaseMailer
   def not_completed(nonprofit)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "More info needed on #{Settings.general.name}!")
+    mail(to: @emails, subject: "Please Complete Your #{Settings.general.name} Account Verification")
   end
 
   def conditionally_send_not_completed(stripe_account, email_to_send_guid)

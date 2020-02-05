@@ -1,18 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class NonprofitMailer < BaseMailer
 
-  def failed_verification_notice(np)
-    @nonprofit = np
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "We need some further account verification on #{Settings.general.name}")
-  end
-
-  def successful_verification_notice(np)
-    @nonprofit = np
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "Verification successful on #{Settings.general.name}!")
-  end
-
 	def refund_notification(refund_id, user_id=nil)
 		@refund = Refund.find(refund_id)
 		@charge = @refund.charge

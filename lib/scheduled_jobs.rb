@@ -58,19 +58,19 @@ module ScheduledJobs
   end
 
   def self.update_verification_statuses
-    return Enumerator.new do |yielder|
-      Nonprofit.where(verification_status: 'pending').each do |np|
-        yielder << lambda do
-          acct = Stripe::Account.retrieve(np.stripe_account_id)
-          verified = acct.payouts_enabled && acct.verification.fields_needed.count == 0
-          np.verification_status = verified ? 'verified' : np.verification_status
-          NonprofitMailer.failed_verification_notice(np).deliver if np.verification_status != 'verified'
-          NonprofitMailer.successful_verification_notice(np).deliver if np.verification_status == 'verified'
-          np.save
-          "Status updated for NP #{np.id} as '#{np.verification_status}'"
-        end
-      end
-    end
+    # return Enumerator.new do |yielder|
+    #   Nonprofit.where(verification_status: 'pending').each do |np|
+    #     yielder << lambda do
+    #       acct = Stripe::Account.retrieve(np.stripe_account_id)
+    #       verified = acct.payouts_enabled && acct.verification.fields_needed.count == 0
+    #       np.verification_status = verified ? 'verified' : np.verification_status
+    #       NonprofitMailer.failed_verification_notice(np).deliver if np.verification_status != 'verified'
+    #       NonprofitMailer.successful_verification_notice(np).deliver if np.verification_status == 'verified'
+    #       np.save
+    #       "Status updated for NP #{np.id} as '#{np.verification_status}'"
+    #     end
+    #   end
+    # end
   end
 
   def self.update_np_balances

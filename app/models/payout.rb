@@ -54,7 +54,7 @@ class Payout < ActiveRecord::Base
 	end
 
 	def nonprofit_must_have_identity_verified
-		self.errors.add(:nonprofit, "must be verified") unless self.nonprofit && self.nonprofit.verification_status == 'verified'
+		self.errors.add(:nonprofit, "must be verified") unless self.nonprofit && self.nonprofit&.stripe_account&.payouts_enabled
 	end
 
 	def nonprofit_must_be_vetted

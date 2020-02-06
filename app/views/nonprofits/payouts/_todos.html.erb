@@ -45,7 +45,7 @@
 		<li class="<%= @nonprofit&.stripe_account&.payouts_enabled ? 'is-done' : '' %>">
 			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
 			<span class='name'>
-				<% if @nonprofit.verification_status == 'pending' %>
+				<% if @nonprofit&.stripe_account&.verification_status == :pending %>
 					Your verification data has been submitted and is pending approval. It should complete within 24 hours.
 				<% else %>
 					After you have connected your bank account, please complete the

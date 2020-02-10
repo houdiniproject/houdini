@@ -50,7 +50,6 @@ module QueryNonprofits
       'nonprofits.email',
       'nonprofits.state_code',
       'nonprofits.created_at::date::text AS created_at',
-      'stripe_accounts.verification_status',
       'nonprofits.vetted',
       'nonprofits.stripe_account_id',
       'coalesce(events.count, 0) AS events_count', 
@@ -101,7 +100,16 @@ module QueryNonprofits
       ), search: '%' + params[:search] + '%')
      end
 
-     return expr.execute
+     results = expr.execute
+     results.map do |i| 
+      np = Nonprofit.includes(:stripe_account).find(i["id"])
+      if np.stripe_account
+        i['verification_status'] = np.stripe_account.verification_status
+      else
+        i['verification_status'] = :unverified
+      end
+      i
+    end
   end
 
   def self.find_nonprofits_with_no_payments()

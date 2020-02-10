@@ -50,7 +50,7 @@ function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
     case 'needmore': {
       return <>
         <h1>More information required</h1>
-        <p>Stripe requires additional information in order to complete verification. This is normal. Please press the button below to continue verification.</p>
+        <p>Stripe requires additional information in order to complete verification. This is normal. Please press the button below to continue verification using Stripe's secure form. As a reminder, this data is only used by Stripe for verification purposes and CommitChange never receives your sensitive data.</p>
         <p>Alternatively, you can return to <a href={props.dashboardLink}>your dashboard</a> but if you do not complete your verification before <strong>March 15</strong>, you will not be able to accept payments through CommitChange.</p>
         <GetAccountLink />
       </>
@@ -63,7 +63,7 @@ function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
       </>
     }
     case 'unknown_error': {
-      return <p>An unknown error occurred. Yikes!</p>
+      return <p>An unknown error occurred. Yikes! Please contact <a href="mailto:support@commitchange.com">support@commitchange.com</a> so we can get you up and running as soon as possible.</p>
     }
     default:
       {
@@ -78,6 +78,7 @@ function PaneOnVerification(props: FullStripeVerificationConfirmProps) {
     return <>
       <h1>Verifying...</h1>
       <p>Verification can take a few minutes to complete. Wait on this page and we'll let you know the result. Depending on Stripe's automated verification process, you may be asked to complete additional verification. This is normal.</p>
+      <p>In some rare cases, verification can take up to a few days. In that case, we'll let you know and have you come back later.</p>
       <div className="row">
         <div className="col-xs-10 col-xs-offset-1">
           <div className="row">
@@ -117,6 +118,3 @@ const FullInnerStripeVerificationConfirm: React.StatelessComponent<FullStripeVer
 }
 
 export default InnerStripeVerificationConfirm;
-
-
-

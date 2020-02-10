@@ -409,7 +409,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expect(result.count).to eq expected.count
     expect(result['donation'].attributes).to eq expected[:donation]
     expect(result['charge'].attributes).to eq expected[:charge]
-    # expect(result[:json]['activity']).to eq expected[:activity]
     expect(result['payment'].attributes).to eq expected[:payment]
     if data[:recurring_donation]
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]

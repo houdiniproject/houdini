@@ -131,6 +131,7 @@ describe InsertRecurringDonation do
         end
 
         it 'process campaign donation' do
+          expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args)
           process_campaign_donation(recurring_donation: { paydate: nil, interval: 2, time_unit: 'month', start_date: Time.current.beginning_of_day }) { InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: { interval: 2 }) }
         end
 

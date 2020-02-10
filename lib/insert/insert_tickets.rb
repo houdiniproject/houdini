@@ -100,7 +100,7 @@ module InsertTickets
     ticket_ids = result['tickets'].map(&:id)
     charge_id =  result['charge'] ? result['charge'].id : nil
 
-    TicketCreateJob.perform_later(ticket_ids, charge_id && Charge.find(result['charge']&.id))
+    HoudiniEventPublisher.announce(:ticket_create, result['tickets'], result['charge'])
     result
   end
 

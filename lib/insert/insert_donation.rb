@@ -43,8 +43,7 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
-    PaymentNotificationJob.perform_later result['donation'], entities[:supporter_id].locale
-    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
+    HoudiniEventPublisher.announce(:donation_create, result['donation'], result['donation'].supporter.locale)
     result
   end
 
@@ -105,9 +104,8 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
 
-    DirectDebitCreateJob.perform_later(result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
+    HoudiniEventPublisher.announce(:donation_create, result['donation'], locale_for_supporter(result['donation'].supporter.id))
 
-    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     # do this for making test consistent
     result['activity'] = {}
     result

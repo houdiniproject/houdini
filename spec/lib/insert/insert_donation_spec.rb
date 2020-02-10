@@ -98,6 +98,7 @@ describe InsertDonation do
       end
 
       it 'process campaign donation' do
+        expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args)
         process_campaign_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
       end
 
@@ -108,18 +109,6 @@ describe InsertDonation do
   end
 
   describe '#with_sepa' do
-    # let!(:nonprofit) { Nonprofit.create(name: 'new', city: 'NY', state_code: 'NY') }
-    # let(:supporter) { Supporter.create(nonprofit: nonprofit) }
-    # let(:direct_debit) { DirectDebitDetail.create(supporter_id: supporter.id, account_holder_name: 'name', iban: 'de1234561234561234', bic: 'yxz') }
-    # let(:data) do
-    #   {
-    #     'amount' => 2000,
-    #     'supporter_id' => supporter.id,
-    #     'nonprofit_id' => nonprofit.id,
-    #     'recurring' => false,
-    #     'direct_debit_detail_id' => direct_debit.id
-    #   }
-    # end
     include_context :shared_rd_donation_value_context
 
     describe 'saves donation' do
@@ -131,6 +120,7 @@ describe InsertDonation do
       end
 
       it 'process campaign donation' do
+        expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args)
         process_campaign_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
       end
 

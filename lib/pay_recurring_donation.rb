@@ -75,21 +75,16 @@ module PayRecurringDonation
                             'old_donation' => true
                           ))
     if result['charge']['status'] != 'failed'
-      result['recurring_donation'] = Psql.execute(
-        Qexpr.new.update(:recurring_donations, n_failures: 0)
-          .where('id=$id', id: rd_id).returning('*')
-      ).first
-      PaymentNotificationJob.perform_later donation, donation&.supporter&.locale || 'en'
+      rd.update_attributes(n_failures: 0)
+      result['recurring_donation'] =  rd
+      HoudiniEventPublisher.announce(:recurring_donation_payment_succeeded, donation, donation&.supporter&.locale || 'en')
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
-      result['recurring_donation'] = Psql.execute(
-        Qexpr.new.update(:recurring_donations, n_failures: rd['n_failures'] + 1)
-          .where('id=$id', id: rd_id).returning('*')
-      ).first
-     FailedRecurringDonationPaymentDonorEmailJob.perform_later Donation.find(rd['donation_id'])
-      if rd['n_failures'] >= 3
-        FailedRecurringDonationPaymentNonprofitEmailJob.perform_later Donation.find(rd['donation_id'])
-      end
+      
+      rd.n_failures += 1
+      rd.save!
+      result['recurring_donation'] = rd
+      HoudiniEventPublisher.announce(:recurring_donation_payment_failed, donation)
       InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540 }])
     end
     result

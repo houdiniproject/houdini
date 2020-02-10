@@ -99,7 +99,7 @@ class Campaign < ApplicationRecord
   after_create do
     user = profile.user
     Role.create(name: :campaign_editor, user_id: user.id, host: self)
-    CampaignCreateJob.perform_later(self)
+    HoudiniEventPublisher.announce(:campaign_create, self)
     self
   end
 

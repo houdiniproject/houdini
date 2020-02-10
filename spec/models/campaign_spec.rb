@@ -16,15 +16,14 @@ RSpec.describe Campaign, type: :model do
     end
 
     it 'parent campaign sends out a create job' do
+      expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args).exactly(:once)
       parent_campaign
-      expect(CampaignCreateJob).to have_been_enqueued.exactly(:once)
     end
 
     it 'child campaign sends out federated create job' do
+       expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args).exactly(:twice)
       parent_campaign
-      expect(CampaignCreateJob).to have_been_enqueued.exactly(:once)
       child_campaign
-      expect(CampaignCreateJob).to have_been_enqueued.exactly(:twice)
     end
   end
 end

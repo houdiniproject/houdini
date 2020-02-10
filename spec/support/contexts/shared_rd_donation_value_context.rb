@@ -376,9 +376,9 @@ RSpec.shared_context :shared_rd_donation_value_context do
     pay_method = data[:sepa] ? direct_debit_detail : card
     
     unless (data[:recurring_donation])
-      expect(HoudiniEventPublisher).to receive(:call).with(:donation_create,instance_of(Donation), supporter.locale )
+      expect(HoudiniEventPublisher).to receive(:announce).with(:donation_create,instance_of(Donation), supporter.locale )
     else
-      expect(HoudiniEventPublisher).to receive(:call).with(:recurring_donation_create,instance_of(Donation), supporter.locale )
+      expect(HoudiniEventPublisher).to receive(:announce).with(:recurring_donation_create,instance_of(Donation), supporter.locale )
     end
     result = yield
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, event: event, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])
@@ -399,9 +399,9 @@ RSpec.shared_context :shared_rd_donation_value_context do
     pay_method = data[:sepa] ? direct_debit_detail : card
 
     unless (data[:recurring_donation])
-      expect(HoudiniEventPublisher).to receive(:call).with(:donation_create,instance_of(Donation), supporter.locale )
+      expect(HoudiniEventPublisher).to receive(:announce).with(:donation_create,instance_of(Donation), supporter.locale )
     else
-      expect(HoudiniEventPublisher).to receive(:call).with(:recurring_donation_create,instance_of(Donation), supporter.locale )
+      expect(HoudiniEventPublisher).to receive(:announce).with(:recurring_donation_create,instance_of(Donation), supporter.locale )
     end
     result = yield
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, campaign: campaign, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])
@@ -420,9 +420,9 @@ RSpec.shared_context :shared_rd_donation_value_context do
   def process_general_donation(data = {})
     pay_method = data[:sepa] ? direct_debit_detail : card
     unless (data[:recurring_donation])
-      expect(HoudiniEventPublisher).to receive(:call).with(:donation_create,instance_of(Donation), supporter.locale )
+      expect(HoudiniEventPublisher).to receive(:announce).with(:donation_create,instance_of(Donation), supporter.locale )
     else
-      expect(HoudiniEventPublisher).to receive(:call).with(:recurring_donation_create,instance_of(Donation), supporter.locale )
+      expect(HoudiniEventPublisher).to receive(:announce).with(:recurring_donation_create,instance_of(Donation), supporter.locale )
     end
     result = yield
     expect_payment = nil_or_true(data[:expect_payment])

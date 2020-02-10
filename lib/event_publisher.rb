@@ -4,7 +4,7 @@
 class EventPublisher
     include Wisper::Publisher
 
-    def call(event, *args)
+    def announce(event, *args)
         broadcast(event, *args)
     end
 

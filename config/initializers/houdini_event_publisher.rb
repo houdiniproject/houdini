@@ -4,7 +4,8 @@
 HoudiniEventPublisher = EventPublisher.new
 
 Rails.application.config.to_prepare do
-    HoudiniEventPublisher.clear if Rails.env.development?
-
-    HoudiniEventPublisher.subscribe_async(NonprofitMailerListener.new)
+    Wisper.clear if Rails.env.development?
+    [NonprofitMailerListener, CreditCardPaymentListener, SepaPaymentListener, TicketListener].each do |listener|
+        HoudiniEventPublisher.subscribe_async(listener)
+    end
 end

@@ -1,4 +1,4 @@
-class WemoveListener
+class WemoveListener < ApplicationListener
     def donation_create(donation)
       WeMoveExecuteForDonationsJob.perform_later(donation)
     end

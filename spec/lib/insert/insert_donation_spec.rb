@@ -98,6 +98,7 @@ describe InsertDonation do
       end
 
       it 'process campaign donation' do
+        expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args)
         process_campaign_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
       end
 
@@ -131,6 +132,7 @@ describe InsertDonation do
       end
 
       it 'process campaign donation' do
+        expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args)
         process_campaign_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
       end
 

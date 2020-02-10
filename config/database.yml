@@ -18,7 +18,7 @@ development:
   encoding: unicode
   database: commitchange_development
   pool: 5
-  username: admin
+  username: houdini_user
   password: password
   host: <%= ENV['DATABASE_HOST']  || 'localhost' %>
 
@@ -27,7 +27,7 @@ test:
   encoding: unicode
   database: commitchange_test
   pool: 5
-  username: admin
+  username: houdini_user
   password: password
   host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
 ci:
@@ -35,7 +35,7 @@ ci:
   encoding: unicode
   database: commitchange_ci
   pool: 5
-  username: admin
+  username: houdini_user
   password: password
   host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
 

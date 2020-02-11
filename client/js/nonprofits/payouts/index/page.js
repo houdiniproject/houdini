@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 var create_payout = require('../create')
 var format_err = require('../../../common/format_response_error')
-appl.verify_identity = require('./verify_identity')
 appl.create_bank_account = require('../../../bank_accounts/create.es6')
 require('../../../bank_accounts/resend_confirmation_email')
 
@@ -23,5 +22,3 @@ var new_payout_ui = {
 		appl.def('error', format_err(resp))
 	}
 }
-
-require('./identity-verification-form.es6')

@@ -13,7 +13,8 @@ module QueryNonprofits
         "'192.168.0.1' AS user_ip",
         "bank_accounts.name"
       ).from(:nonprofits)
-      .where("nonprofits.verification_status='verified'")
+      .join(:stripe_accounts, "stripe_accounts.stripe_account_id= nonprofits.stripe_account_id")
+      .where("stripe_accounts.verification_status='verified'")
       .join(:bank_accounts, "bank_accounts.nonprofit_id=nonprofits.id")
       .where("bank_accounts.pending_verification='f'")
       .join(
@@ -49,7 +50,6 @@ module QueryNonprofits
       'nonprofits.email',
       'nonprofits.state_code',
       'nonprofits.created_at::date::text AS created_at',
-      'nonprofits.verification_status',
       'nonprofits.vetted',
       'nonprofits.stripe_account_id',
       'coalesce(events.count, 0) AS events_count', 
@@ -59,6 +59,7 @@ module QueryNonprofits
       'charges.total_processed',
       'charges.total_fees'
     ).from(:nonprofits)
+     .add_left_join(:stripe_accounts, "nonprofits.stripe_account_id=stripe_accounts.stripe_account_id")
      .add_left_join(:cards, "cards.holder_id=nonprofits.id AND cards.holder_type='Nonprofit'")
      .add_left_join(:billing_subscriptions, "billing_subscriptions.nonprofit_id=nonprofits.id")
      .add_left_join(:billing_plans, "billing_subscriptions.billing_plan_id=billing_plans.id")
@@ -99,7 +100,16 @@ module QueryNonprofits
       ), search: '%' + params[:search] + '%')
      end
 
-     return expr.execute
+     results = expr.execute
+     results.map do |i| 
+      np = Nonprofit.includes(:stripe_account).find(i["id"])
+      if np.stripe_account
+        i['verification_status'] = np.stripe_account.verification_status
+      else
+        i['verification_status'] = :unverified
+      end
+      i
+    end
   end
 
   def self.find_nonprofits_with_no_payments()

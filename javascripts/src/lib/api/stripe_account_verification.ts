@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as $ from 'jquery';
 import {Configuration} from "../../../api/configuration";
+import setPrototypeOf = require('setprototypeof')
 
 export class StripeAccountVerification {
   protected basePath = '/';
@@ -78,8 +79,63 @@ export class StripeAccountVerification {
     return dfd.promise();
   }
 
+  public postBeginVerificationLink(nonprofitId: number, extraJQueryAjaxSettings?: JQueryAjaxSettings): Promise<StripeAccountLink> {
+    let localVarPath = `${this.basePath}nonprofits/${nonprofitId}/stripe_account/begin_verification`;
 
-public getAccountLink(nonprofitId: number, returnLocation?:string, extraJQueryAjaxSettings?: JQueryAjaxSettings): Promise<StripeAccountLink> {
+    let queryParameters: any = {};
+    let headerParams: any = {};
+    
+
+
+    localVarPath = localVarPath + "?" + $.param(queryParameters);
+    // to determine the Content-Type header
+    let consumes: string[] = [
+      'application/json'
+    ];
+
+    // to determine the Accept header
+    let produces: string[] = [
+      'application/json'
+    ];
+
+
+    headerParams['Content-Type'] = 'application/json';
+
+    let requestOptions: JQueryAjaxSettings = {
+      url: localVarPath,
+      type: 'POST',
+      headers: headerParams,
+      processData: false
+    };
+    if (headerParams['Content-Type']) {
+      requestOptions.contentType = headerParams['Content-Type'];
+    }
+
+    if (extraJQueryAjaxSettings) {
+      requestOptions = (<any>Object).assign(requestOptions, extraJQueryAjaxSettings);
+    }
+
+    if (this.defaultExtraJQueryAjaxSettings) {
+      requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
+    }
+
+    let dfd = $.Deferred();
+    $.ajax(requestOptions).then(
+      (data: any, textStatus: string, jqXHR: JQueryXHR) =>
+        dfd.resolve(jqXHR, data),
+      (xhr: JQueryXHR, textStatus: string, errorThrown: string) => {
+        
+
+          dfd.reject(xhr.responseJSON)
+
+      }
+    );
+    return dfd.promise();
+  }
+
+
+
+public postAccountLink(nonprofitId: number, returnLocation?:string, extraJQueryAjaxSettings?: JQueryAjaxSettings): Promise<StripeAccountLink> {
     let localVarPath = `${this.basePath}nonprofits/${nonprofitId}/stripe_account/account_link`;
 
     let queryParameters: any = {};
@@ -157,5 +213,8 @@ export interface StripeAccountLink {
 }
 
 export class RecordNotFoundError extends Error {
-
+  constructor(){
+    super()
+    setPrototypeOf(this, RecordNotFoundError.prototype);
+  }
 }

@@ -1494,6 +1494,39 @@ ALTER SEQUENCE public.nonprofit_keys_id_seq OWNED BY public.nonprofit_keys.id;
 
 
 --
+-- Name: nonprofit_verification_process_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.nonprofit_verification_process_statuses (
+    id integer NOT NULL,
+    stripe_account_id character varying(255) NOT NULL,
+    started_at timestamp without time zone,
+    email_to_send_guid character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: nonprofit_verification_process_statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.nonprofit_verification_process_statuses_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: nonprofit_verification_process_statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.nonprofit_verification_process_statuses_id_seq OWNED BY public.nonprofit_verification_process_statuses.id;
+
+
+--
 -- Name: nonprofits; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2755,6 +2788,13 @@ ALTER TABLE ONLY public.nonprofit_keys ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: nonprofit_verification_process_statuses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_verification_process_statuses ALTER COLUMN id SET DEFAULT nextval('public.nonprofit_verification_process_statuses_id_seq'::regclass);
+
+
+--
 -- Name: nonprofits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3235,6 +3275,14 @@ ALTER TABLE ONLY public.nonprofit_keys
 
 
 --
+-- Name: nonprofit_verification_process_statuses nonprofit_verification_process_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_verification_process_statuses
+    ADD CONSTRAINT nonprofit_verification_process_statuses_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: nonprofits npos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3555,6 +3603,13 @@ CREATE INDEX index_misc_payment_infos_on_payment_id ON public.misc_payment_infos
 --
 
 CREATE INDEX index_misc_recurring_donation_infos_on_recurring_donation_id ON public.misc_recurring_donation_infos USING btree (recurring_donation_id);
+
+
+--
+-- Name: index_nonprofit_verification_to_stripe; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_nonprofit_verification_to_stripe ON public.nonprofit_verification_process_statuses USING btree (stripe_account_id);
 
 
 --
@@ -4794,4 +4849,6 @@ INSERT INTO schema_migrations (version) VALUES ('20191204021126');
 INSERT INTO schema_migrations (version) VALUES ('20200107212543');
 
 INSERT INTO schema_migrations (version) VALUES ('20200108213844');
+
+INSERT INTO schema_migrations (version) VALUES ('20200130222233');
 

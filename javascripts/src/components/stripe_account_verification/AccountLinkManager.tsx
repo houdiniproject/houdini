@@ -37,8 +37,8 @@ class AccountLinkManager extends React.Component<FullAccountLinkManagerProps, Ac
     this.setState({gettingAccountLink: true})
     const stripeAccountVerification = this.props.apis.apis.get(StripeAccountVerification)
     try {
-
-      const accountLinkData = await stripeAccountVerification.getAccountLink(this.props.nonprofitId, this.props.returnLocation)
+      await stripeAccountVerification.postBeginVerificationLink(this.props.nonprofitId)
+      const accountLinkData = await stripeAccountVerification.postAccountLink(this.props.nonprofitId, this.props.returnLocation)
 
       this.setState({accountLink: accountLinkData.url})
     }

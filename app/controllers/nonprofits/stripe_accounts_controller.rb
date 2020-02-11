@@ -8,7 +8,7 @@ module Nonprofits
         def index
             render_json do
 
-                raise RecordNotFoundException unless current_nonprofit.stripe_account
+                raise ActiveRecord::RecordNotFound unless current_nonprofit.stripe_account
                 
                 current_nonprofit.stripe_account.to_json( except: [:object, :id, :created_at, :updated_at])
             end
@@ -26,6 +26,24 @@ module Nonprofits
             @current_nonprofit = current_nonprofit
         end
 
+        def begin_verification
+            stripe_account_for_nonprofit = StripeAccountUtils.find_or_create(current_nonprofit.id)
+            current_nonprofit.reload
+
+            status = NonprofitVerificationProcessStatus.where('stripe_account_id = ?', current_nonprofit.stripe_account_id).first
+            unless status
+                status = NonprofitVerificationProcessStatus.new(stripe_account_id: current_nonprofit.stripe_account_id)
+            end
+
+            unless status.started_at
+                status.started_at = DateTime.now
+            end
+
+            status.save!
+
+            render json:{}, status: :ok
+        end
+
         # html page when a link failed
         def retry
             @theme = 'minimal'
@@ -34,7 +52,6 @@ module Nonprofits
 
         def account_link
             stripe_account_for_nonprofit = StripeAccountUtils.find_or_create(current_nonprofit.id)
-
             current_nonprofit.reload
 
             if (current_nonprofit.stripe_account_id)

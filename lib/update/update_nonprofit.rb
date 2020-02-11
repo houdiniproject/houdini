@@ -3,48 +3,6 @@ require 'query/query_payments'
 require 'fetch/stripe/fetch_stripe_account'
 module UpdateNonprofit
 
-  # See the stripe docs for reference: => https://stripe.com/docs/connect/identity-verification
-  def self.verify_identity(np_id, legal_entity, tos=nil)
-    np = Qx.select("*").from(:nonprofits).where(id: np_id).execute.first
-    legal_entity[:address][:country] = 'US' if legal_entity[:address]
-    acct = FetchStripeAccount.with_account_id(np['stripe_account_id'])
-    acct.legal_entity.phone_number = acct.support_phone = legal_entity[:phone_number] if legal_entity[:phone_number]
-    acct.legal_entity.business_tax_id = legal_entity[:business_tax_id] if legal_entity[:business_tax_id]
-    acct.legal_entity.address = legal_entity[:address] if legal_entity[:address]
-    acct.legal_entity.first_name = legal_entity[:first_name] if legal_entity[:first_name]
-    acct.legal_entity.last_name = legal_entity[:last_name] if legal_entity[:last_name]
-    acct.legal_entity.dob = legal_entity[:dob] if legal_entity[:dob]
-    acct.legal_entity.ssn_last_4 = legal_entity[:ssn_last_4] if legal_entity[:ssn_last_4]
-    acct.legal_entity.personal_id_number = legal_entity[:personal_id_number] if legal_entity[:personal_id_number]
-    acct.legal_entity.type = 'company'
-    acct.legal_entity.business_name = np['name']
-    if tos
-      acct.tos_acceptance = tos
-    end
-    acct.save
-
-    # Might as well update the nonprofit info
-    if legal_entity[:address] && legal_entity[:business_tax_id]
-      np = Qx.update(:nonprofits).set({
-          address: legal_entity[:address][:line1],
-          city: legal_entity[:address][:city],
-          state_code: legal_entity[:address][:state],
-          zip_code: legal_entity[:address][:postal_code],
-          ein: legal_entity[:business_tax_id],
-          verification_status: 'pending',
-          phone: legal_entity[:phone_number]
-        })
-        .where(id: np_id)
-        .returning('*')
-        .execute.first
-    else
-      np = Qx.update(:nonprofits).set(verification_status: 'pending').where(id: np_id).returning('*').first
-    end
-
-    return np
-  end
-
-
   # Update charges from pending to available if the nonprofit's balance on stripe can accommodate them
   # First, get net balance on Stripe, then get net balance on CC
   # Take the difference of those two, and mark as many oldest pending charges as 'available' as are less than or equal to that difference

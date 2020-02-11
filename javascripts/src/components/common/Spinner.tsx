@@ -5,11 +5,11 @@ import { VelocityComponent } from 'velocity-react';
 import ScreenReaderOnlyText from './ScreenReaderOnlyText';
 
 export interface SpinnerProps {
-  size: 'small' | 'normal' | 'large'
+  size: 'small' | 'normal' | 'large' | 'extralarge'
   color?: Color
 }
 
-function generateStyle(size:'small'|'normal'|'large', color:string): React.CSSProperties {
+function generateStyle(size:'small'|'normal'|'large'|'extralarge', color:string): React.CSSProperties {
   let spinnerDimension: number
   let spinnerBorderWidth: number = 3
   switch (size) {
@@ -21,6 +21,9 @@ function generateStyle(size:'small'|'normal'|'large', color:string): React.CSSPr
       break;
     case 'large':
       spinnerDimension = 100
+      break;
+    case 'extralarge':
+      spinnerDimension = 200
       break;
   }
 

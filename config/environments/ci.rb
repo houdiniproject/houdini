@@ -56,5 +56,5 @@ Commitchange::Application.configure do
   config.after_initialize do
     ActiveRecord::Base.logger = nil
   end
-
+  NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 5.minutes
 end

@@ -1,0 +1,12 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<p>Dear <%= @nonprofit.name %>,</p>
+
+<p>It looks like you started Stripe’s updated verification process but have not completed it. Completed verification for your account is required for you to continue to use CommitChange’s Donate Button, campaign, and event features. The deadline for finishing the verification process for your CommitChange account is <strong>March 15</strong>.</p>
+
+<p>You can continue verification by following this link: <a href="<%= root_url + "/nonprofits/#{@nonprofit.id}/stripe_accounts/confirm" %>"><%= root_url + "/nonprofits/#{@nonprofit.id}/stripe_accounts/confirm" %></a></p>
+
+<p>We appreciate the honor of serving all of our nonprofit and social venture organizations; if you have any questions about the new process or need help completing your form before the deadline, please reach out to the support team at <a href="mailto:<%= Settings.devise.mailer_sender %>"><%= Settings.devise.mailer_sender %></a>.</p>
+
+
+<%= render 'emails/sig' %>
+

@@ -22,17 +22,39 @@ class StripeEvent < ActiveRecord::Base
 
           # we have a later event so we don't need to process this anymore
           unless later_event
+            previous_verification_status = nil
+            account = StripeAccount.where("stripe_account_id = ?", object.id).first
+             if account
+              account.lock!('FOR UPDATE')
+              previous_verification_status = account.verification_status
+             else
+              account = StripeAccount.new(stripe_account_id: object.id)
+             end
 
-            stripe_accounts = StripeAccount.where("stripe_account_id = ?", object.id).lock(true)
+              status = NonprofitVerificationProcessStatus.where(stripe_account_id: object.id).first
+              
+              account.object = object
+              account.save!
+              
 
-            account = stripe_accounts.first
-            unless account
-              account = StripeAccount.new
+              unless status.nil?
+                if account.verification_status == :verified
+                  status.destroy if status.persisted?
+                  #send validation email
+                  StripeAccountMailer.delay.conditionally_send_verified(account)
+                else
+                  status.email_to_send_guid = SecureRandom.uuid
+                  
+                  if previous_verification_status == :pending
+                    StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_more_info_needed(account, status.email_to_send_guid)
+                  else
+                    StripeAccountMailer.delay(run_at: DateTime.now + NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY).conditionally_send_not_completed(account, status.email_to_send_guid)
+                  end
+
+                  status.save!
+                end
+              end
             end
-
-            account.object = object
-            account.save!
-          end
         end
       end
     end

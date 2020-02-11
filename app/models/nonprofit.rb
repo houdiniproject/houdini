@@ -167,10 +167,8 @@ class Nonprofit < ActiveRecord::Base
   end
 
   def can_make_payouts
-    self.vetted &&
-    self.verification_status == 'verified' &&
-    self.bank_account &&
-    !self.bank_account.pending_verification
+    self.vetted && self.bank_account && 
+    !self.bank_account.pending_verification && self.stripe_account && self.stripe_account.payouts_enabled
   end
 
   def active_cards

@@ -59,4 +59,6 @@ Commitchange::Application.configure do
 	config.middleware.use I18n::JS::Middleware
 
   config.middleware.use Rack::Attack
+
+  NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 5.minutes
 end

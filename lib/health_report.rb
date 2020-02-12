@@ -23,8 +23,7 @@ module HealthReport
 
     # Info about disabled nonprofit accounts due to ident verification
     disabled_nps = Nonprofit.includes(:stripe_account)
-    .where('stripe_accounts.verification_status = ?', :verified)
-    .where('created_at > ?', 3.months.ago)
+    .where('created_at > ?', 3.months.ago).select{|i| i.stripe_account.verification_status != :verified}
     .map{|np| {id: np.id, name: np.name, stripe_account_id: np.stripe_account_id}}
 
     return {

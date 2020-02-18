@@ -1,5 +1,30 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
+class Rack::Attack
+  def self.reset_throttle(name, discriminator)
+    if (throttle = (@throttles.detect { |t| t.first == name })[1])
+      throttle.reset(discriminator)
+    end
+  end
+end
+
+class Rack::Attack::Throttle
+  def reset(discriminator)
+    current_period = period.respond_to?(:call) ? period.call(req) : period
+    cache.reset_count "#{name}:#{discriminator}", current_period
+  end
+end
+
+class Rack::Attack::Cache
+  def reset_count(unprefixed_key, period)
+    epoch_time = Time.now.to_i
+    # Add 1 to expires_in to avoid timing error: http://git.io/i1PHXA
+    expires_in = period - (epoch_time % period) + 1
+    key = "#{prefix}:#{(epoch_time/period).to_i}:#{unprefixed_key}"
+    store.write(key, 0, :expires_in => expires_in)
+  end
+end
+
 def run_throttle?
   Rails.env != 'test' || (defined? FORCE_THROTTLE && FORCE_THROTTLE)
 end

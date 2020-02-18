@@ -17,7 +17,15 @@
     "name": "<%= event.venue_name %>",
     "url": "http://maps.google.com/?q=<%= Format::Address.full_address(@event.address, @event.city, @event.state_code, @event.zip_code) %>"
   },
-  "startDate": "<%= Format::Date.full(@event.start_datetime, @event.nonprofit.timezone) %>",
+  "startDate": "<%= 
+  date = nil
+  begin
+    date = Format::Date.full(@event.start_datetime, @event.nonprofit.timezone) 
+  rescue => e
+    date = Format::Date.full(@event.start_datetime)
+  end
+  date
+  %>",
   "url": "<%= url %>"
 }
 </script>

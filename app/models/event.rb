@@ -57,7 +57,7 @@ class Event < ActiveRecord::Base
 	has_many :roles,           as: :host, dependent: :destroy
 	has_many :comments,        as: :host, dependent: :destroy
 	has_many :activities,      as: :host, dependent: :destroy
-
+	has_one :misc_event_info
 
 	geocoded_by :full_address
 

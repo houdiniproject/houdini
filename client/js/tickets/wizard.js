@@ -116,7 +116,7 @@ appl.def('ticket_wiz', {
     })
 
     appl.def('ticket_wiz.discount_obj', false)
-    if (!appl.reload_on_completion){
+    if (!appl.reload_on_completion && !appl.hide_cover_fees_option){
       appl.def('ticket_wiz.fee_covered', true)
     }
 

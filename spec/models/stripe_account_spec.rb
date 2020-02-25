@@ -22,6 +22,33 @@ RSpec.describe StripeAccount, :type => :model do
     end
     
   end
+
+
+  describe "account goes from verified to unverified" do
+    let(:json_verified) do
+      event =StripeMock.mock_webhook_event('account.updated.with-verified')
+      event['data']['object']
+    end
+
+    let(:json_unverified) do
+      event =StripeMock.mock_webhook_event('account.updated.with-unverified-from-verified')
+      event['data']['object']
+    end
+
+    let(:sa) do
+      sa = StripeAccount.new
+      sa.object = json_verified
+      sa.save!
+      sa.object = json_unverified
+      sa.save!
+      sa
+    end
+
+    it 'is unverified' do
+      expect(sa.verification_status).to eq :unverified
+    end
+  end
+
   describe 'account should be unverified' do
     let(:json) do
       event =StripeMock.mock_webhook_event('account.updated.with-unverified')

@@ -37,7 +37,12 @@ class StripeAccount < ActiveRecord::Base
   end
 
   def needs_more_validation_info
-    ![self.currently_due, self.past_due, self.eventually_due].map{|i| i || []}.any?{|i| i.all?{|j| j.starts_with?('external_account')}}
+    validation_arrays = [self.currently_due, self.past_due, self.eventually_due].map{|i| i || []}
+    validation_arrays.any? do |i| 
+      !i.none? && !i.all? do |j| 
+        j.starts_with?('external_account')
+      end
+    end
   end
 
   private 

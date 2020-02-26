@@ -36,6 +36,15 @@ class StripeAccount < ActiveRecord::Base
     result
   end
 
+  def deadline
+    obj = JSON::parse(object)
+
+    if obj['requirements'] && obj['requirements']['current_deadline'] && obj['requirements']['current_deadline'].to_i != 0
+      return Time.at(obj['requirements']['current_deadline'].to_i)
+    end
+    nil
+  end
+
   def needs_more_validation_info
     validation_arrays = [self.currently_due, self.past_due, self.eventually_due].map{|i| i || []}
     validation_arrays.any? do |i| 

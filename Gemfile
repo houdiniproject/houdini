@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.3.7'
-gem 'rake'
+gem 'rake', '~> 12.3.3'
 gem 'rails', '3.2.22.5'
 gem 'rails_12factor'
 # https://stripe.com/docs/api

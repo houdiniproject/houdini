@@ -53,6 +53,10 @@ class StripeEvent < ActiveRecord::Base
 
                   status.save!
                 end
+              else
+                if previous_verification_status == :verified &&  account.verification_status == :unverified 
+                  StripeAccountMailer.delay.conditionally_send_no_longer_verified(account)
+                end
               end
             end
         end

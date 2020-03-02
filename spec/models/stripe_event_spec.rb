@@ -170,7 +170,7 @@ RSpec.describe StripeEvent, :type => :model do
     describe 'handles unverified' do
       let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified')}
       let(:last_event) { StripeEvent.last}
-      let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4', currently_due: ['something'])}
+      let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4', currently_due: JSON::generate(['something']))}
 
       describe 'when in verification process' do
         before(:each) do
@@ -204,7 +204,10 @@ RSpec.describe StripeEvent, :type => :model do
       describe 'when not in verification process' do
         before(:each) do
           last_account
+          last_account.currently_due = JSON::generate(['something'])
+          last_account.save!
           previous_event_object
+          # byebug
           expect(StripeAccountMailer).to_not receive(:delay)
           StripeEvent.handle(event_json)
         end
@@ -408,7 +411,39 @@ RSpec.describe StripeEvent, :type => :model do
         end
       end
     end
-  end
 
-  
+    describe 'handles verified to unverified' do
+      let(:deadline) { Time.utc(2020, 2, 28, 22, 27, 35)}
+      let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified-from-verified')}
+      let(:last_event) { StripeEvent.last}
+      let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
+
+      describe 'when not in verification process' do
+        before(:each) do
+          last_account
+          previous_event_object
+          sam = double(StripeAccountMailer)
+          expect(sam).to receive(:conditionally_send_no_longer_verified).with(last_account)
+          expect(StripeAccountMailer).to receive(:delay).and_return(sam)
+          expect(last_account.verification_status).to eq :verified
+          StripeEvent.handle(event_json)
+        end
+
+        it 'saved the event' do
+          expect(last_event.event_id).to eq 'test_evt_1'
+          expect(last_event.object_id).to eq 'acct_1G8Y94CcxDUSisy4'
+          expect(last_event.event_time).to eq Time.now
+        end
+
+        it 'saves StripeAccount' do 
+          last_account.reload
+          expect(last_account.verification_status).to eq :unverified
+        end
+
+        it 'doesnt add a NonprofitVerificationProcessStatus' do
+          expect(NonprofitVerificationProcessStatus.count).to eq 0
+        end
+      end
+    end
+  end
 end

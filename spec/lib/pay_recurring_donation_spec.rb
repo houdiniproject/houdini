@@ -40,8 +40,7 @@ describe PayRecurringDonation  do
         customer:stripe_cust_id,
         amount:300,
         currency:'usd',
-        description:'Donation swhtowht',
-        statement_descriptor:'Donation swhtowht',
+        statement_descriptor_suffix:'Donation swhtowht',
         metadata: {
           kind: 'RecurringDonation',
           nonprofit_id: nonprofit.id

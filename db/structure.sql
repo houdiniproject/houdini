@@ -443,7 +443,8 @@ CREATE TABLE public.cards (
     holder_type character varying(255),
     stripe_customer_id character varying(255),
     deleted boolean,
-    inactive boolean
+    inactive boolean,
+    country character varying(255)
 );
 
 
@@ -4900,4 +4901,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200108213844');
 INSERT INTO schema_migrations (version) VALUES ('20200130222233');
 
 INSERT INTO schema_migrations (version) VALUES ('20200213200444');
+
+INSERT INTO schema_migrations (version) VALUES ('20200304225530');
 

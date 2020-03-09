@@ -17,7 +17,8 @@ describe InsertCard do
       expiration_month: nil,
       expiration_year: nil,
       email:nil,
-      supporter_id: nil
+      supporter_id: nil,
+      country: nil
     }
   }
 

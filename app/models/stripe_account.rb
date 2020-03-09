@@ -3,8 +3,6 @@ class StripeAccount < ActiveRecord::Base
   has_one :nonprofit, primary_key: :stripe_account_id
   has_one :nonprofit_verification_process_status, primary_key: :stripe_account_id
 
-  after_save
-
   def object=(input)
     serialize_on_update(input)
   end

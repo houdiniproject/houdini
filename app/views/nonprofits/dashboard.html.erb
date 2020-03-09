@@ -19,7 +19,9 @@
 	has_mosaic: 'true' %>
 
 <main class='container'>
-
+	<% if  @verification_status == :unverified -%>
+	<%= render 'nonprofits/verification_box', nonprofit:@nonprofit, return_location: 'dashboard', deadline: @deadline || "March 15, 2020", admin: current_role?(:nonprofit_admin) -%>
+	<% end -%>
 	<section>
 		<div class='u-padding--20 u-noSelect'>
       <%= render 'nonprofits/dashboard/payments_chart' %>

@@ -1,0 +1,17 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+
+
+<%- if admin -%>
+<a class='u-padding--10 u-marginTop--10 u-marginBottom--10 pastelBox--red' style="display:inline-flex; color:#494949" href="<%= verification_nonprofits_stripe_account_url(nonprofit, {return_location: return_location}) %>">
+<%- else -%>
+<div class='u-padding--10 u-marginTop--10 u-marginBottom--10 pastelBox--red' style="display:inline-flex; color:#494949">
+<%- end -%>
+    <div class="u-marginRight--10" style="align-self: center;"><i class='fa fa-exclamation-circle' style="font-size: 36px" ></i></div><div>Stripe has requested that <%= admin ? 'you' : 'your nonprofit admin'%> provide additional information about your organization or account representative. If you do not complete additional verification <%if deadline -%>
+    by <strong><%= deadline %></strong><% else -%>
+    <strong>as soon as possible</strong><% end -%>, you will not be able to make payouts or accept charges on CommitChange. <%= admin ? "Click here to complete verification." : "Please ask your nonprofit admin to login and complete verification." %> </div>
+
+<%- if admin -%>
+</a>
+<%- else -%>
+</div>
+<%- end -%>

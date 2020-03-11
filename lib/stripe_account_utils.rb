@@ -54,8 +54,15 @@ module StripeAccountUtils
 		if np['website'] && np['website'] =~ URI::regexp
 			params[:business_profile][:url] = np['website']
 		end
-
-		acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
+		begin
+			acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
+			#byebug
+		rescue Stripe::InvalidRequestError => e
+			#byebug
+			[:state, :postal_code].each {|i| params[:company][:address].delete(i)}
+			params[:business_profile].delete(:url)
+			acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
+		end
     Qx.update(:nonprofits).set(stripe_account_id: acct.id).where(id: np['id']).execute
     NonprofitMailer.delay.setup_verification(np['id'])
     return acct.id

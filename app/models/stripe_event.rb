@@ -38,7 +38,7 @@ class StripeEvent < ActiveRecord::Base
               
 
               unless status.nil?
-                if account.verification_status == :verified
+                if [:verified, :temporarily_verified].include?(account.verification_status)
                   status.destroy if status.persisted?
                   #send validation email
                   StripeAccountMailer.delay.conditionally_send_verified(account)

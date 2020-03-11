@@ -1,7 +1,9 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <p>Dear <%= @nonprofit.name %>,</p>
 
-<p>It looks like you started Stripe’s updated verification process but have not completed it. Completed verification for your account is required for you to continue to use CommitChange’s Donate Button, campaign, and event features. The deadline for finishing the verification process for your CommitChange account is <strong>March 15</strong>.</p>
+<p>It looks like you started Stripe’s updated verification process but have not completed it. Completed verification for your account is required for you to continue to use CommitChange’s Donate Button, campaign, and event features. T<% if @deadline -%>
+The deadline for finishing the verification process for your CommitChange account is <strong><%=  @deadline %></strong>. <% else -%>
+You are advised to complete this verification as soon as possible.<% end -%></p>
 
 <p>You can continue verification by following this link: <a href="<%= root_url + "/nonprofits/#{@nonprofit.id}/stripe_accounts/confirm" %>"><%= root_url + "/nonprofits/#{@nonprofit.id}/stripe_accounts/confirm" %></a></p>
 

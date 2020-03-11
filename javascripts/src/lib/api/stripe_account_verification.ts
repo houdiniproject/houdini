@@ -203,6 +203,7 @@ export interface StripeAccount {
   charges_enabled:boolean
   payouts_enabled:boolean
   disabled_reason:string
+  verification_status:string
 }
 
 export interface StripeAccountLink {

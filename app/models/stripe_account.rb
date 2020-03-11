@@ -26,8 +26,10 @@ class StripeAccount < ActiveRecord::Base
   def verification_status
     if pending_verification.any?
       result = :pending
-    elsif needs_more_validation_info
+    elsif needs_immediate_validation_info
       result = :unverified
+    elsif needs_more_validation_info
+      result = :temporarily_verified
     else
       result = :verified
     end
@@ -46,6 +48,15 @@ class StripeAccount < ActiveRecord::Base
   def needs_more_validation_info
     validation_arrays = [self.currently_due, self.past_due, self.eventually_due].map{|i| i || []}
     validation_arrays.any? do |i| 
+      !i.none? && !i.all? do |j| 
+        j.starts_with?('external_account')
+      end
+    end
+  end
+
+  def needs_immediate_validation_info
+    validation_arrays = [self.currently_due, self.past_due].map{|i| i || []}
+    deadline || validation_arrays.any? do |i| 
       !i.none? && !i.all? do |j| 
         j.starts_with?('external_account')
       end

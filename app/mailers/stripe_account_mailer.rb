@@ -14,9 +14,10 @@ class StripeAccountMailer < BaseMailer
     end
   end
 
-  def more_info_needed(nonprofit)
+  def more_info_needed(nonprofit, deadline)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
+    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline
     mail(to: @emails, subject: "Urgent: More Info Needed for Your #{Settings.general.name} Verification")
   end
 
@@ -28,9 +29,10 @@ class StripeAccountMailer < BaseMailer
     end
   end
 
-  def not_completed(nonprofit)
+  def not_completed(nonprofit, deadline)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
+    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline
     mail(to: @emails, subject: "Please Complete Your #{Settings.general.name} Account Verification")
   end
 

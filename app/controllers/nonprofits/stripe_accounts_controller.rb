@@ -9,8 +9,8 @@ module Nonprofits
             render_json do
 
                 raise ActiveRecord::RecordNotFound unless current_nonprofit.stripe_account
-                
-                current_nonprofit.stripe_account.to_json( except: [:object, :id, :created_at, :updated_at])
+
+                current_nonprofit.stripe_account.to_json( except: [:object, :id, :created_at, :updated_at], methods: :verification_status)
             end
         end
 

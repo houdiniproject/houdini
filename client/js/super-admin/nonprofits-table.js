@@ -50,7 +50,7 @@ const row = (data={}, i) => {
         h('span', {class: { 'color-green' : data.vetted }}
           , data.vetted ? 'vetted' : 'not vetted')
       , h('span.color-grey.mx-1', ' | ')
-      , h('span', {class: { 'color-green' : data.verification_status === 'verified' }} 
+      , h('span', {class: { 'color-green' : data.verification_status === 'verified' || data.verification_status === 'temporarily_verified' }} 
           , data.verification_status || '')
       ])
     , h('div.md-hide.lg-hide', [

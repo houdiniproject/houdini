@@ -9,4 +9,7 @@
   <p>Be sure to connect and verify your bank account so that you can withdraw your available balance of donations in the future. <a href='<%= root_url + "/nonprofits/#{@nonprofit.id}/payouts" %>'>Visit your payout page to learn more.</a></p>
 <% end %>
 
+<% if @nonprofit.stripe_account.verification_status == :temporarily_verified %>
+<p>Stripe may ask you to complete additional verification in the future. We'll contact you if that happens and ensure it's as quick and easy as possible to complete.</p>
+<% end%>
 <%= render 'emails/sig' %>

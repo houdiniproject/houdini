@@ -14,7 +14,7 @@ async function verifyStripeIsValidatedOnce(api:StripeAccountVerification, nonpro
   try {
     
     const result = await api.getStripeAccount(nonprofitId);
-    if (result.pending_verification && result.pending_verification.length > 0)
+    if (result.verification_status === 'pending')
     {
         throw new StillPendingError(result);
     }

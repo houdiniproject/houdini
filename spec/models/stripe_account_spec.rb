@@ -99,4 +99,48 @@ RSpec.describe StripeAccount, :type => :model do
       expect(sa.deadline).to be_nil
     end
   end
+
+  describe 'account should be temporarily verified' do
+    let(:json) do
+      event =StripeMock.mock_webhook_event('account.updated.with-temporarily_verified')
+      event['data']['object']
+    end
+
+    let(:sa) do 
+      sa = StripeAccount.new
+      sa.object = json
+      sa.save!
+      sa
+    end
+
+    it 'is verified' do
+      expect(sa.verification_status).to eq :temporarily_verified
+    end
+
+    it 'has nil deadline' do
+      expect(sa.deadline).to be_nil
+    end
+  end
+
+  describe 'account should be unverified because of deadline' do
+    let(:json) do
+      event =StripeMock.mock_webhook_event('account.updated.with-temporarily_verified-with-deadline')
+      event['data']['object']
+    end
+
+    let(:sa) do 
+      sa = StripeAccount.new
+      sa.object = json
+      sa.save!
+      sa
+    end
+
+    it 'is verified' do
+      expect(sa.verification_status).to eq :unverified
+    end
+
+    it 'has nil deadline' do
+      expect(sa.deadline).to eq Time.at(1580858639)
+    end
+  end
 end

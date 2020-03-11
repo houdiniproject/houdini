@@ -31,7 +31,7 @@
 } // used for donation related
 .pastelBox--orange {
 	@include pastelBox;
-	background: rgb(255, 247, 243);
+	background: #FFF7F3;
 } // used for donor related
 .pastelBox--blue {
 	@include pastelBox;
@@ -56,4 +56,8 @@
 .pastelBox--looseleaf {
 	@include pastelBox;
 	background: $looseleaf;
+}
+.pastelBox--red {
+	@include pastelBox;
+	background: #FFE0E0
 }

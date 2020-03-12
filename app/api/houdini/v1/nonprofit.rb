@@ -90,6 +90,8 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
         billing_plan = BillingPlan.find(Settings.default_bp.id)
         b_sub = np.build_billing_subscription(billing_plan: billing_plan, status: 'active')
         b_sub.save!
+
+        Delayed::Job.enqueue JobTypes::NonprofitCreateJob.new(nonprofit.id)
       rescue ActiveRecord::RecordInvalid => e
         class_to_name = {Nonprofit => 'nonprofit', User => 'user'}
         if class_to_name[e.record.class]

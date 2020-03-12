@@ -8,7 +8,7 @@ module JobTypes
     end
 
     def perform
-      fail
+      Delayed::Job.enqueue JobTypes::NonprofitWelcomeJob.new nonprofit_id
     end
   end
 end

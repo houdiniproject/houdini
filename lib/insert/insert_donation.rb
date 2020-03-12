@@ -42,8 +42,7 @@ module InsertDonation
     result['donation'] = self.insert_donation(data, entities)
     update_donation_keys(result)
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
-    JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
-    JobQueue.queue(JobTypes::DonorPaymentNotificationJob, result['donation'].id, entities[:supporter_id].locale)
+    JobQueue.queue(JobTypes::DonationPaymentCreateJob, result['donation'].id, entities[:supporter_id].locale)
     result
   end
 

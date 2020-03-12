@@ -97,8 +97,7 @@ module PayRecurringDonation
         Qexpr.new.update(:recurring_donations, {n_failures: 0})
           .where("id=$id", id: rd_id).returning('*')
       ).first
-      Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(rd['donation_id'])
-      Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
+      JobQueue.queue(JobTypes::DonationPaymentCreateJob, rd['donation_id'])
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
       result['recurring_donation'] = Psql.execute(
@@ -150,8 +149,7 @@ module PayRecurringDonation
             Qexpr.new.update(:recurring_donations, {n_failures: 0})
                 .where("id=$id", id: rd_id).returning('*')
         ).first
-        Delayed::Job.enqueue JobTypes::DonorPaymentNotificationJob.new(rd['donation_id'])
-        Delayed::Job.enqueue JobTypes::NonprofitPaymentNotificationJob.new(rd['donation_id'])
+        JobQueue.queue(JobTypes::DonationPaymentCreateJob, rd['donation_id'])
         InsertActivities.for_recurring_donations([result['payment']['id']])
       else
         result['recurring_donation'] = Psql.execute(

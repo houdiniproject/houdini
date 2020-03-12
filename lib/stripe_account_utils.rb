@@ -64,7 +64,6 @@ module StripeAccountUtils
 			acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
 		end
     Qx.update(:nonprofits).set(stripe_account_id: acct.id).where(id: np['id']).execute
-    NonprofitMailer.delay.setup_verification(np['id'])
     return acct.id
 	end
 end

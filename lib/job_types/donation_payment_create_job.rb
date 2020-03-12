@@ -11,6 +11,7 @@ module JobTypes
     def perform
       JobQueue.queue(JobTypes::DonorPaymentNotificationJob, donation_id, locale)
       JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, donation_id)
+      JobQueue.queue(JobTypes::NonprofitFirstDonationPaymentJob, donation_id)
     end
   end
 end

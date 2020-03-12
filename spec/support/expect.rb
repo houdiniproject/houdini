@@ -24,4 +24,8 @@ module Expect
   def expect_job_queued
     expect(JobQueue).to receive(:queue)
   end
+
+  def expect_job_not_queued
+    expect(JobQueue).to_not receive(:queue)
+  end
 end

@@ -88,8 +88,8 @@ module UpdateRecurringDonations
       misc.fee_covered = fee_covered
       misc.save!
     end
-    EmailJobQueue.queue(JobTypes::NonprofitRecurringDonationChangeAmountJob, rd.id, previous_amount)
-    EmailJobQueue.queue(JobTypes::DonorRecurringDonationChangeAmountJob,rd.id, previous_amount)
+    JobQueue.queue(JobTypes::NonprofitRecurringDonationChangeAmountJob, rd.id, previous_amount)
+    JobQueue.queue(JobTypes::DonorRecurringDonationChangeAmountJob,rd.id, previous_amount)
     rd
   end
 

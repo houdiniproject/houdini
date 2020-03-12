@@ -101,8 +101,8 @@ module InsertTickets
     charge_id =  result['charge'] ? result['charge'].id : nil
 
     unless skip_notifications
-      EmailJobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, ticket_ids)
-      EmailJobQueue.queue(JobTypes::TicketMailerFollowupJob, ticket_ids, charge_id)
+      JobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, ticket_ids)
+      JobQueue.queue(JobTypes::TicketMailerFollowupJob, ticket_ids, charge_id)
     end
     
 		return result

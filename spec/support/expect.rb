@@ -21,7 +21,7 @@ module Expect
     }
   end
 
-  def expect_email_queued
-    expect(EmailJobQueue).to receive(:queue)
+  def expect_job_queued
+    expect(JobQueue).to receive(:queue)
   end
 end

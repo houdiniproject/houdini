@@ -370,9 +370,9 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
       result = m.call(*args);
       @donation_id = result.id
-      expect_email_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id)
+      expect_job_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id)
 
-      expect_email_queued.with(JobTypes::DonorPaymentNotificationJob, @donation_id, supporter.locale)
+      expect_job_queued.with(JobTypes::DonorPaymentNotificationJob, @donation_id, supporter.locale)
 
       result
     end
@@ -414,8 +414,8 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
       result = m.call(*args);
       @donation_id = result.id
-      expect_email_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id)
-      expect_email_queued.with(JobTypes::DonorDirectDebitNotificationJob, @donation_id, supporter.locale)
+      expect_job_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id)
+      expect_job_queued.with(JobTypes::DonorDirectDebitNotificationJob, @donation_id, supporter.locale)
       result
     end
   end

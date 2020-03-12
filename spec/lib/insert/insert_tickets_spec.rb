@@ -109,9 +109,9 @@ describe InsertTickets do
       tickets = m.call(*args);
       ticket_ids = tickets.map{|t| t.id}
       expect(InsertActivities).to receive(:for_tickets).with(ticket_ids)
-      expect_email_queued.with(JobTypes::TicketMailerReceiptAdminJob, ticket_ids).once
+      expect_job_queued.with(JobTypes::TicketMailerReceiptAdminJob, ticket_ids).once
       # TODO the `anything` should be the charge_id but don't have an obvious way of getting that now.
-      expect_email_queued.with(JobTypes::TicketMailerFollowupJob, ticket_ids, anything).once
+      expect_job_queued.with(JobTypes::TicketMailerFollowupJob, ticket_ids, anything).once
       tickets
     }
 

@@ -96,8 +96,8 @@ describe UpdateRecurringDonations do
       orig_donation = recurring_donation.donation.attributes.with_indifferent_access
 
 
-      expect_email_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
-      expect_email_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
+      expect_job_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
+      expect_job_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
 
       result = UpdateRecurringDonations.update_amount(recurring_donation, source_token.token, 1000)
 
@@ -126,8 +126,8 @@ describe UpdateRecurringDonations do
       orig_donation = recurring_donation.donation.attributes.with_indifferent_access
 
 
-      expect_email_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
-      expect_email_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
+      expect_job_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
+      expect_job_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
 
       result = UpdateRecurringDonations.update_amount(recurring_donation, source_token.token, 1000, true)
 

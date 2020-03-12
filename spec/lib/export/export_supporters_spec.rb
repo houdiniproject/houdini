@@ -150,7 +150,7 @@ describe ExportSupporters do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: @user)
-        expect_email_queued.with(JobTypes::ExportSupportersFailedJob, @export)
+        expect_job_queued.with(JobTypes::ExportSupportersFailedJob, @export)
         CHUNKED_UPLOADER.raise_error
         Timecop.freeze(2020, 4, 6) do
           expect { ExportSupporters.run_export(@nonprofit.id, {}.to_json, @user.id, @export.id) }.to(raise_error do |error|
@@ -172,7 +172,7 @@ describe ExportSupporters do
     it 'uploads as expected' do
       Timecop.freeze(2020, 4, 5) do
         @export = create(:export, user: @user, created_at: Time.now, updated_at: Time.now)
-        expect_email_queued.with(JobTypes::ExportSupportersCompletedJob, @export)
+        expect_job_queued.with(JobTypes::ExportSupportersCompletedJob, @export)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
           ExportSupporters.run_export(@nonprofit.id, {:root_url => "https://localhost:8080/"}.to_json, @user.id, @export.id)
 

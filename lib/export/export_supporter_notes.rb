@@ -57,7 +57,7 @@ module ExportSupporterNotes
         export.ended = Time.now
         export.save!
     
-         EmailJobQueue.queue(JobTypes::ExportSupporterNotesCompletedJob, export)
+         JobQueue.queue(JobTypes::ExportSupporterNotesCompletedJob, export)
       rescue => e
         if export
           export.status = :failed
@@ -65,7 +65,7 @@ module ExportSupporterNotes
           export.ended = Time.now
           export.save!
           if user
-            EmailJobQueue.queue(JobTypes::ExportSupporterNotesFailedJob, export)
+            JobQueue.queue(JobTypes::ExportSupporterNotesFailedJob, export)
           end
           raise e
         end

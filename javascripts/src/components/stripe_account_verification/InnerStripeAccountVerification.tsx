@@ -30,7 +30,7 @@ class StripeAccountVerification extends React.Component<StripeAccountVerificatio
                   </ul>
                 </li>
               </ul>
-                <p>If you do not complete this verification by <strong>March 15</strong>, you will not be able to accept payments through CommitChange. Alternatively, you can complete the verification at a later time and go to back to {
+                <p>If you do not complete this verification <strong>immediately</strong>, you will not be able to accept payments through CommitChange. Alternatively, you can complete the verification at a later time and go to back to {
                 
                 ReturnLocation(props.returnLocation) === 'dashboard' ? 
                 <a href={props.dashboardLink}>your dashboard <small><em>(not recommended)</em></small></a> :

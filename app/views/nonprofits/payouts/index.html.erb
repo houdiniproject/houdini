@@ -37,7 +37,7 @@
 
 <div class='panelsLayout container--wide'>
 	<% if @can_make_payouts && @verification_status == :unverified %>
-		<%= render 'nonprofits/verification_box', nonprofit:@nonprofit, return_location: 'payouts', deadline: @deadline || "March 15, 2020", admin: current_role?(:nonprofit_admin) %>
+		<%= render 'nonprofits/verification_box', nonprofit:@nonprofit, return_location: 'payouts', deadline: @deadline, admin: current_role?(:nonprofit_admin) %>
 	<% end %>
 
 	<section class='u-padding--10 u-marginTop--10'>

@@ -14,7 +14,7 @@ class StripeAccountMailer < BaseMailer
     end
   end
 
-  def more_info_needed(nonprofit, deadline)
+  def more_info_needed(nonprofit, deadline=nil)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
     @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline
@@ -29,7 +29,7 @@ class StripeAccountMailer < BaseMailer
     end
   end
 
-  def not_completed(nonprofit, deadline)
+  def not_completed(nonprofit, deadline=nil)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
     @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline
@@ -44,7 +44,7 @@ class StripeAccountMailer < BaseMailer
     end
   end
 
-  def no_longer_verified(nonprofit, deadline)
+  def no_longer_verified(nonprofit, deadline=nil)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
     @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline

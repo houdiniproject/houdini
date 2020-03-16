@@ -1,6 +1,6 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 
-<p>Welcome to <%= Settings.general.name %>! We’re excited to have you on board.</p>
+<p>Welcome to <%= Settings.general.name %>! We're excited to have you on board.</p>
 
 <br>
 <p>
@@ -17,9 +17,7 @@ Before we get into the good stuff, we'd like you to click this link to verify yo
 </small>
 </p>
 
-<br>
-<p>
-Here are a few things you can do right away to get up and running:
+<p>Next, you'll want to <%= link_to 'verify your account', verification_nonprofits_stripe_account_url(@nonprofit)%>, through our payment processor, Stripe. <small>(direct URL: <%=verification_nonprofits_stripe_account_url(@nonprofit)%>)</small> You'll need to complete verification to be able to accept online donations; once you're verified, here are a few things you can do right away to get up and running:
 </p>
 
 <ul>
@@ -35,3 +33,4 @@ If you need help or have any questions, our support team is just a phone call or
 </p>
 
 <%= render 'emails/sig' %>
+

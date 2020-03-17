@@ -11,12 +11,8 @@
      		 flatFee: 30,
 			percentFee: .022 + <%= @data['nonprofit'].billing_plan.percentage_fee %>
 		}
+		app.nonprofit.email = '<%= @data['nonprofit'].email.blank? ? @data['nonprofit'].users.first.email : @data['nonprofit'].email %>'
 		app.pageLoadData = <%= raw @data.to_json %>
-		//app.nonprofit ||= {}
-		// app.nonprofit.feeStructure = {
-     	// 	 flatFee: 30,
-		// 	percentFee: .022 + <%= @data['nonprofit'].billing_plan.percentage_fee %>
-    	// }
 	</script>
 	<%= IncludeAsset.js '/client/js/recurring_donations/edit/page.js' %>
 <% end %>

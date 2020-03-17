@@ -300,9 +300,13 @@ const cancelModal = state =>
     thisID: 'cancelRecDonModal'
   , id$: state.modalID$
   , body: h('div.u-marginTop--30.u-centered', [
-      h('p.u-marginBottom--20', 'Cancelling your recurring donation will prevent any future charges for this donation.')
+      h('p.u-marginBottom--20.u-strong', [
+        h('span', `If you need to pause your donation due to financial hardship, please contact ${String(state.recDon$().nonprofit_name)} by sending them an email at `),
+        h('a', {props: {href: `mailto:${app.nonprofit.email}`}}, String(app.nonprofit.email)),
+        h('span', ' with how long you would like the pause to occur.')
+      ])
     , h('hr.diamonds.u-marginBottom--40')
-    , h('p.u-strong', state.recDon$().nonprofit_name + ' will miss your support!')
+    , h('p.u-strong', 'Cancelling your recurring donation will prevent any future charges for this donation.')
     , h('hr.diamonds')
     , h('div.u-marginTop--30', [confirmCancelBtn(state)])
     ])

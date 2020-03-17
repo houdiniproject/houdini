@@ -24,6 +24,11 @@
 
 <% if @donation.recurring_donation %>
 <p>
+<strong>
+If you need to pause your donation due to financial hardship, please contact <%= @nonprofit.name %> by sending them an email at <%= link_to @reply_to, "mailto:#{@reply_to}" %> with how long you would like the pause to occur.
+</strong>
+</p>
+<p>
   <%= t('mailer.donations.donor_receipt.recurring_donation_cancel_modify_html', management_url: edit_recurring_donation_url(@donation.recurring_donation, {t: @donation.recurring_donation.edit_token}))%>
 </p>
 <% end %>

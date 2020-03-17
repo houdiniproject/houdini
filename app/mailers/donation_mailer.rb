@@ -12,13 +12,13 @@ class DonationMailer < BaseMailer
       @thank_you_note = Format::Interpolate.with_hash(@nonprofit.thank_you_note, {'NAME' => @donation.supporter.name})
     end
     @charge = @donation.charges.last
-		reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+		@reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
     from = Format::Name.email_from_np(@nonprofit.name)
     I18n.with_locale(locale) do
   		mail(
                   to: @donation.supporter.email, 
                   from: from, 
-                  reply_to: reply_to, 
+                  reply_to: @reply_to, 
                   subject: I18n.t('mailer.donations.donor_direct_debit_notification.subject', nonprofit_name: @nonprofit.name))
     end
   end

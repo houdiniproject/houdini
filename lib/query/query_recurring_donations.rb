@@ -245,6 +245,7 @@ module QueryRecurringDonations
     .where("coalesce(recurring_donations.n_failures, 0) < 3")
     .where("recurring_donations.start_date IS NULL OR recurring_donations.start_date <= $now", now: now)
     .where("recurring_donations.end_date IS NULL OR recurring_donations.end_date > $now", now: now)
+    .where("(recurring_donation_holds.id IS NULL OR recurring_donation_holds.end_date IS NULL OR (recurring_donation_holds.end_date IS NOT NULL AND recurring_donation_holds.end_date <= $now))", now: now)
     .join('donations','recurring_donations.donation_id=donations.id and (donations.payment_provider IS NULL OR donations.payment_provider!=\'sepa\')')
     .left_outer_join( # Join the most recent paid charge
       Qexpr.new.select(:donation_id, "MAX(created_at) AS created_at")
@@ -254,6 +255,7 @@ module QueryRecurringDonations
       .as("last_charge"),
       "last_charge.donation_id=recurring_donations.donation_id"
     )
+    .left_outer_join('recurring_donation_holds', 'recurring_donation_holds.recurring_donation_id = recurring_donations.id')
     .where(%Q(
       last_charge.donation_id IS NULL
       OR (

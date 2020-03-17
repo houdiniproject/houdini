@@ -153,6 +153,36 @@ describe QueryRecurringDonations do
         expect(QueryRecurringDonations.is_due?(rd['id'])).to be true
       end
     end
+
+    it 'is due when monthly AND there is a recurring_donation_hold but no end_date' do
+      rd = create_recdon({})
+      rd.create_recurring_donation_hold!
+      Timecop.freeze(1.month.from_now) do
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be true
+      end
+    end
+
+    it 'is due when monthly AND there is a recurring_donation_hold but end_date has passed' do
+      rd = create_recdon({})
+      rd.create_recurring_donation_hold end_date: 1.week.from_now
+      Timecop.freeze(1.month.from_now) do
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be true
+      end
+    end
+
+    it 'is due when monthly AND there is a recurring_donation_hold and end_date has passed but were still in the current month' do
+      rd = create_recdon({})
+      rd.create_recurring_donation_hold end_date: 1.month.from_now + 1.day
+      Timecop.freeze(1.month.from_now + 2.days) do
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be true
+      end
+    end
+
+    it 'is not due when monthly AND there is a recurring_donation_hold and end_date hasnt passed' do
+      rd = create_recdon({})
+      rd.create_recurring_donation_hold end_date: 1.week.from_now
+      expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
+    end
   end
 
   describe '.for_export_enumerable' do

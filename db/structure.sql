@@ -1906,6 +1906,38 @@ ALTER SEQUENCE public.recaptcha_rejections_id_seq OWNED BY public.recaptcha_reje
 
 
 --
+-- Name: recurring_donation_holds; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.recurring_donation_holds (
+    id integer NOT NULL,
+    recurring_donation_id integer,
+    end_date timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: recurring_donation_holds_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.recurring_donation_holds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: recurring_donation_holds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.recurring_donation_holds_id_seq OWNED BY public.recurring_donation_holds.id;
+
+
+--
 -- Name: recurring_donations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2891,6 +2923,13 @@ ALTER TABLE ONLY public.recaptcha_rejections ALTER COLUMN id SET DEFAULT nextval
 
 
 --
+-- Name: recurring_donation_holds id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_donation_holds ALTER COLUMN id SET DEFAULT nextval('public.recurring_donation_holds_id_seq'::regclass);
+
+
+--
 -- Name: recurring_donations id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3376,6 +3415,14 @@ ALTER TABLE ONLY public.payments
 
 ALTER TABLE ONLY public.recaptcha_rejections
     ADD CONSTRAINT recaptcha_rejections_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recurring_donation_holds recurring_donation_holds_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.recurring_donation_holds
+    ADD CONSTRAINT recurring_donation_holds_pkey PRIMARY KEY (id);
 
 
 --
@@ -4903,4 +4950,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200130222233');
 INSERT INTO schema_migrations (version) VALUES ('20200213200444');
 
 INSERT INTO schema_migrations (version) VALUES ('20200304225530');
+
+INSERT INTO schema_migrations (version) VALUES ('20200316165956');
 

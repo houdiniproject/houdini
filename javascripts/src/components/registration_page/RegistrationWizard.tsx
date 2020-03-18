@@ -81,7 +81,7 @@ export class RegistrationPageForm extends HoudiniForm {
           let r = await this.nonprofitApi.postNonprofit(input)
           setTourCookies(r)
           await this.signinApi.postLogin({email: input.user.email, password: input.user.password})
-          window.location.href = `/nonprofits/${r.id}/dashboard`
+          window.location.href = `/nonprofits/${r.id}/stripe_account/verification`
 
         }
         catch (e) {
@@ -168,7 +168,7 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
                            buttonText="registration.wizard.next"/>
 
       <UserInfoPanel tab={this.registrationWizardState.tabsByName['userTab']}
-                     buttonText="registration.wizard.save_and_finish" buttonTextOnProgress="registration.wizard.saving"/>
+                     buttonText="Save & Verify Organization" buttonTextOnProgress="Saving"/>
     </Wizard>
   }
 }

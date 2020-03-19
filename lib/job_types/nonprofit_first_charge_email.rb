@@ -9,7 +9,7 @@ module JobTypes
     end
 
     def perform
-      NonprofitMailer.setup_verification(nonprofit_id).deliver
+      NonprofitMailer.first_charge_email(nonprofit_id).deliver
     end
   end
 end

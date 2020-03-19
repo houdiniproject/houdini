@@ -93,10 +93,10 @@ class NonprofitMailer < BaseMailer
 		mail(to: args[:supporter_email], reply_to: args[:from_email], from: from, subject: args[:subject])
 	end
 
-  def setup_verification(np_id)
+  def first_charge_email(np_id)
     @nonprofit = Nonprofit.find(np_id)
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
-    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support", subject: "Set up automatic payouts on #{Settings.general.name}")
+    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support", subject: "Congratulations on your first charge on #{Settings.general.name}!")
   end
 
   def welcome(np_id)

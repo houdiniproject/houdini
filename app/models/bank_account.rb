@@ -38,4 +38,8 @@ class BankAccount < ActiveRecord::Base
 		@not_valid = true
 	end
 
+	def allows_payout?
+		!pending_verification && !deleted
+	end
+
 end

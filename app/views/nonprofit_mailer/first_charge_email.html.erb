@@ -6,7 +6,7 @@ Congratulations on receiving your first transaction on <%= Settings.general.name
 <p>
 Whenever you receive money on <%= Settings.general.name %>, it will go into your account’s balance. Payouts are made to your organization’s bank account automatically at the beginning of each month, or at any time with the click of a button.
 </p>
-<% unless @nonprofit.bank_account&.allows_payout? %>
+<% unless @nonprofit.bank_account&.allows_payout? -%>
 <br>
 <p>
 <strong>Before you can make a payout</strong>, you need to connect your organization's bank account for withdrawals, allowing money to transfer from your account balance on <%= Settings.general.name %> directly to your organization.
@@ -17,11 +17,11 @@ Whenever you receive money on <%= Settings.general.name %>, it will go into your
 
 <br>
 <h4> 
-  <% url = nonprofits_payouts_url(@nonprofit) %>
+  <% url = nonprofits_payouts_url(@nonprofit) -%>
   <a href="<%= url %>"> <%= url %> </a>
 </h4>
 <br>
-<% end %>
+<% end -%>
 <% unless @nonprofit.stripe_account&.payouts_enabled -%>
 <p>Stripe is requested additional verification before funds can be paid out. You can access your secure verification form here: <%= link_to url, url %>.</p> 
 <% end -%>

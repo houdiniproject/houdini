@@ -1439,7 +1439,8 @@ CREATE TABLE public.miscellaneous_np_infos (
     nonprofit_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    change_amount_message text
+    change_amount_message text,
+    first_charge_email_sent boolean
 );
 
 
@@ -4952,4 +4953,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200213200444');
 INSERT INTO schema_migrations (version) VALUES ('20200304225530');
 
 INSERT INTO schema_migrations (version) VALUES ('20200316165956');
+
+INSERT INTO schema_migrations (version) VALUES ('20200319203257');
 

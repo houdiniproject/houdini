@@ -1,0 +1,23 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<li class="<%= (status == :valid_bank_account || status == :pending_bank_account) ? 'is-done' : '' %>">
+	<span class='checkbox-outer'><i class='icon-check-1'></i></span>
+	<span class='name'>
+			Please <% if status != :valid_bank_account -%><a>
+				<!--= on 'click' (open_modal 'newBankModal') -->
+				<strong>connect your bank account.</strong>
+			</a><% else -%>connect your bank account.<% end %>
+	</span>
+</li>
+
+
+<li class='<%= status == :valid_bank_account ? 'is-done' : '' %>'>
+	<span class='checkbox-outer'><i class='icon-check-1'></i></span>
+	<span class='name'>
+		After your bank account has been submitted, please confirm it with your email account by clicking the confirmation link that was sent to your inbox.
+		<% if status == :pending_bank_account %>
+			If you can't find this email, you can <a class='js-event-resendBankConfirmEmail' href='#'><strong>resend bank account confirmation email for <%= @nonprofit.bank_account.name %></strong></a>.
+		<% end %>
+	</span>
+</li>
+
+

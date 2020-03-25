@@ -1,63 +1,15 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <div class='pastelBox--yellow u-padding--10 u-marginBottom--15'>
-	<p>Before you can make payouts, we ask that you follow a two step verification process, which helps us prevent fraud.  Once the following steps are completed, you'll be able to make a payout any time with the click of a button and automatically receive deposits on the first of every month.</p>
+	<p>Before you can <%unless [:temporarily_verified, :verified].include? @steps_to_payout[0][:status]-%>accept payments or <%end%>make payouts, we ask that you follow a short verification process, which helps us prevent fraud. Once the following steps are completed, you'll be able to make a payout any time with the click of a button and automatically receive deposits on the first of every month.</p>
 
-	<p >Please note that the verification process with our donation processor (<a href='https://stripe.com/' target='_blank'>Stripe</a>), can take up to a day.  If you don't see the todo list items getting crossed off like you expect them to, please check back in a day.</p>
+	<p>Please note that the verification process with our donation processor (<a href='https://stripe.com/' target='_blank'>Stripe</a>) usually completes in less than 15 minutes. </p>
 </div>
 
 <section class='todos'>
 	<ul>
-		<li class="<%= @nonprofit.vetted ? 'is-done' : '' %>">
-			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
-			<span class='name'>
-				Get your nonprofit status vetted by our team.  This process usually takes 1-2 days.
-			</span>
-		</li>
-
-
-		<li class="<%= @nonprofit.bank_account && @nonprofit.vetted ? 'is-done' : '' %>">
-			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
-			<span class='name'>
-					After your nonprofit status has been vetted, you can
-					<% if @nonprofit.vetted %>
-					<a>
-						<!--= on 'click' (open_modal 'newBankModal') -->
-						connect your bank account.
-					</a>
-					<% else %>
-						connect your bank account.
-					<% end %>
-			</span>
-		</li>
-
-
-		<li class='<%= @nonprofit.bank_account && !@nonprofit.bank_account.pending_verification ? 'is-done' : '' %>'>
-			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
-			<span class='name'>
-				After your bank account has been submitted, please confirm it with your email account by clicking the confirmation link that was sent to your inbox.
-				<% if @nonprofit.bank_account && @nonprofit.bank_account.pending_verification %>
-					If you can't find this email, you can <a class='js-event-resendBankConfirmEmail' href='#'><strong>resend bank account confirmation email for <%= @nonprofit.bank_account.name %></strong></a>.
-				<% end %>
-			</span>
-		</li>
-
-
-		<li class="<%= @nonprofit&.stripe_account&.payouts_enabled ? 'is-done' : '' %>">
-			<span class='checkbox-outer'><i class='icon-check-1'></i></span>
-			<span class='name'>
-				<% if @nonprofit&.stripe_account&.verification_status == :pending %>
-					Your verification data has been submitted and is pending approval. It should complete within 24 hours.
-				<% else %>
-					After you have connected your bank account, please complete the
-
-					<% if @nonprofit.bank_account && @nonprofit.vetted && !@nonprofit&.stripe_account&.payouts_enabled %>
-						<a href="<%= verification_nonprofits_stripe_account_url(@nonprofit, {return_location: 'payouts'})%>"> <strong>identity verification form.</strong></a>
-					<% else %> identity verification form. <% end %>
-
-				<% end %>
-
-			</span>
-		</li>
+		<% @steps_to_payout.each do |step|%>
+			<%= render "nonprofits/payouts/#{step[:name].to_s}", status: step[:status] %>
+		<% end %>
 	</ul>
 </section>
 

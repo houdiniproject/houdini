@@ -90,6 +90,8 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
         billing_plan = BillingPlan.find(Settings.default_bp.id)
         b_sub = np.build_billing_subscription(billing_plan: billing_plan, status: 'active')
         b_sub.save!
+        StripeAccountUtils.find_or_create(np.id)
+        np.reload
 
         Delayed::Job.enqueue JobTypes::NonprofitCreateJob.new(np.id)
       rescue ActiveRecord::RecordInvalid => e

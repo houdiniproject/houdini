@@ -51,17 +51,17 @@ describe InsertBankAccount do
         })
       end
 
-      it 'validates whether vetted' do
-        expect { InsertBankAccount.with_stripe(nonprofit, user, {:stripe_bank_account_token => 'blah'})}.to(raise_error{|error|
-          expect(error).to be_a ArgumentError
-          expect(error.message).to include("vetted")
-        })
-      end
+      # it 'validates whether vetted' do
+      #   expect { InsertBankAccount.with_stripe(nonprofit, user, {:stripe_bank_account_token => 'blah'})}.to(raise_error{|error|
+      #     expect(error).to be_a ArgumentError
+      #     expect(error.message).to include("vetted")
+      #   })
+      # end
 
     end
 
     describe 'exceptions in main function' do
-      before (:each) { nonprofit.vetted = true}
+      # before (:each) { nonprofit.vetted = true}
       it 'StripeAccountUtils.find_or_create fails' do
         expect(StripeAccountUtils).to receive(:find_or_create).and_raise(StandardError.new)
 

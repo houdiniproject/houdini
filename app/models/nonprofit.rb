@@ -166,9 +166,12 @@ class Nonprofit < ActiveRecord::Base
     QueryPayments.get_payout_totals( QueryPayments.ids_for_payout(self.id))['net_amount']
   end
 
-  def can_make_payouts
-    self.vetted && self.bank_account && 
-    !self.bank_account.pending_verification && self.stripe_account && self.stripe_account.payouts_enabled
+  def can_make_payouts?
+    !!(vetted && bank_account && 
+    !bank_account.deleted &&
+    !bank_account.pending_verification && 
+    stripe_account&.payouts_enabled && 
+    !(nonprofit_deactivation&.deactivated))
   end
 
   def active_cards
@@ -200,5 +203,36 @@ class Nonprofit < ActiveRecord::Base
 
   def currency_symbol
     Settings.intntl.all_currencies.find{|i| i.abbv.downcase == currency.downcase}&.symbol
+  end
+
+  def steps_to_payout
+    ret = []
+    
+    ret.push({name: :verification, 
+      status: stripe_account&.verification_status || 
+        :unverified})
+
+    bank_status = nil
+    no_bank_account = !bank_account || bank_account.deleted
+
+    pending_bank_account = bank_account&.pending_verification
+
+    valid_bank_account = bank_account && bank_account.pending_verification
+
+    if (no_bank_account)
+      bank_status= :no_bank_account
+    elsif(pending_bank_account)
+      bank_status=:pending_bank_account
+    else
+      bank_status=:valid_bank_account
+    end
+    
+    ret.push({name: :bank_account, status: bank_status})
+
+    ret.push({
+      name: :vetted, 
+      status: vetted
+    })
+    ret
   end
 end

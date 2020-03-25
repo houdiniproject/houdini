@@ -32,6 +32,10 @@ module InsertPayout
       raise ArgumentError.new("Sorry, this account has been deactivated.")
     end
 
+    unless (entities[:np_id].can_make_payouts?)
+      raise ArgumentError.new("Sorry, this account can't make payouts right now.")
+    end
+
     payment_ids = QueryPayments.ids_for_payout(np_id, options)
     if payment_ids.count < 1
       raise ArgumentError.new("No payments are available for disbursal on this account.")

@@ -47,4 +47,77 @@ RSpec.describe Nonprofit, type: :model do
       expect(nonprofit.currency_symbol).to eq euro
     end
   end
+
+  describe '.can_make_payouts?' do 
+    let(:np) {force_create(:nonprofit, stripe_account_id: '1')}
+    let(:np_vetted) {force_create(:nonprofit, vetted:true,  stripe_account_id: '1')}
+    let(:bank_account) {force_create(:bank_account, nonprofit: np_vetted)}
+    let(:bank_account_deleted) {force_create(:bank_account, deleted: true)}
+    let(:bank_account_pending) {force_create(:bank_account, pending_verification:true)}
+
+    let(:stripe_account) { force_create(:stripe_account, stripe_account_id: '1')}
+    let(:stripe_account_payouts_enabled) { force_create(:stripe_account, stripe_account_id: '1', payouts_enabled: true)}
+
+    let(:nonprofit_deactivation) {force_create(:nonprofit_deactivation, nonprofit: np_vetted)}
+    let(:nonprofit_deactivation_deactivated) {force_create(:nonprofit_deactivation, deactivated: true, nonprofit: np_vetted)}
+
+
+    it 'is false on unvetted' do
+      np
+      expect(np.can_make_payouts?).to be false
+    end
+
+    it 'is false on no bank account' do
+      np_vetted
+      expect(np_vetted.can_make_payouts?).to be false
+    end
+
+    it 'is false on deleted bank account' do
+      np_vetted
+      bank_account_deleted
+      expect(np_vetted.can_make_payouts?).to be false
+    end
+
+    it 'is false on pending bank account' do
+      np_vetted
+      bank_account_pending
+      expect(np_vetted.can_make_payouts?).to be false
+    end
+
+    it 'is false on no stripe_account' do
+      np_vetted
+      bank_account
+      expect(np_vetted.can_make_payouts?).to be false
+    end
+
+    it 'is false on stripe_account without payouts_enabled' do
+      np_vetted
+      bank_account
+      stripe_account
+      expect(np_vetted.can_make_payouts?).to be false
+    end
+
+    it 'is false on deactivated nonprofit' do
+      np_vetted
+      bank_account
+      stripe_account_payouts_enabled
+      nonprofit_deactivation_deactivated
+      expect(np_vetted.can_make_payouts?).to be false
+    end
+
+    it 'is true when no nonprofit_deactivaton record exists' do
+      np_vetted
+      bank_account
+      stripe_account_payouts_enabled
+      expect(np_vetted.can_make_payouts?).to be true
+    end
+
+    it 'is true when nonprofit_deactivaton record exists but not deactivated' do
+      np_vetted
+      bank_account
+      stripe_account_payouts_enabled
+      nonprofit_deactivation
+      expect(np_vetted.can_make_payouts?).to be true
+    end
+  end
 end

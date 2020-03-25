@@ -44,6 +44,14 @@ describe InsertPayout do
           expect(error.message).to eq "Sorry, this account has been deactivated."
         })
       end
+
+      it 'errors when the nonprofit cant make a payout' do
+        np = force_create(:nonprofit, name: 'np', vetted: false)
+        expect { InsertPayout.with_stripe(np.id, {:stripe_account_id => 'valid', :email => 'valid', user_ip: 'valid', bank_name: 'valid'}, nil) }.to(raise_error { |error|
+          expect(error).to be_a ArgumentError
+          expect(error.message).to eq "Sorry, this account can't make payouts right now."
+        })
+      end
     end
 
     context 'when valid' do
@@ -59,15 +67,37 @@ describe InsertPayout do
         Timecop.return
       }
 
-      it 'handles no charges to payout' do
-        np = force_create(:nonprofit)
-        #we have a deactivation record but no deactivate set
-        force_create(:nonprofit_deactivation, nonprofit: np)
-        expect {InsertPayout.with_stripe(np.id, {:stripe_account_id => 'valid', :email => 'valid', user_ip: 'valid', bank_name: 'valid'}, nil)}.to(raise_error {|error|
-          expect(error).to be_a ArgumentError
-          expect(error.message).to eq "No payments are available for disbursal on this account."
-        })
+      context 'no charges to payout' do 
+        include_context 'payments for a payout' do
+          let(:np) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
+          let(:date_for_marking) {Time.now}
+          let(:ba) do
+            ba = InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+            ba.pending_verification = false
+            ba.save!
+            ba
+          end
+            let(:stripe_account) do 
+              force_create(:stripe_account, stripe_account_id: np.stripe_account_id, payouts_enabled: true)
+            end
+
+        end
+
+        before(:each) {
+          ba
+          stripe_account
+        }
+
+        it 'handles no charges to payout' do
+          #we have a deactivation record but no deactivate set
+          force_create(:nonprofit_deactivation, nonprofit: np)
+          expect {InsertPayout.with_stripe(np.id, {:stripe_account_id => 'valid', :email => 'valid', user_ip: 'valid', bank_name: 'valid'}, nil)}.to(raise_error {|error|
+            expect(error).to be_a ArgumentError
+            expect(error.message).to eq "No payments are available for disbursal on this account."
+          })
+        end
       end
+      
       let(:user) {force_create(:user)}
 
       # Test one basic charge, one charge with a partial refund, and one charge with a full refund
@@ -86,12 +116,20 @@ describe InsertPayout do
         include_context 'payments for a payout' do
           let(:np) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
           let(:date_for_marking) {Time.now}
-          let(:ba) {
-            InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})}
+          let(:ba) do
+            ba = InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+            ba.pending_verification = false
+            ba.save!
+            ba
+          end
+          let(:stripe_account) do 
+            force_create(:stripe_account, stripe_account_id: np.stripe_account_id, payouts_enabled: true)
+          end
         end
 
         before(:each) {
           ba
+          stripe_account
         }
         let(:expected_totals) {{gross_amount: 5500, fee_total: -1200, net_amount: 4300, count: 8}}
         it 'works without a date provided' do
@@ -223,10 +261,19 @@ describe InsertPayout do
         include_context 'payments for a payout' do
           let(:np) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
           let(:date_for_marking) {Time.now - 1.day}
-          let(:ba) {InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})}
+          let(:ba) do
+            ba = InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+            ba.pending_verification = false
+            ba.save!
+            ba
+          end
+          let(:stripe_account) do 
+            force_create(:stripe_account, stripe_account_id: np.stripe_account_id, payouts_enabled: true)
+          end
         end
         before(:each) {
             ba
+            stripe_account
         }
 
         let(:expected_totals) {{gross_amount: 3500, fee_total: -800, net_amount: 2700, count: 7}}

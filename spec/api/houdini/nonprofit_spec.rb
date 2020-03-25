@@ -144,6 +144,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
     end
 
     it "succeeds" do
+      StripeMock.start
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       input = {
           nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c', website: 'www.cs.c'},
@@ -175,6 +176,8 @@ describe Houdini::V1::Nonprofit, :type => :controller do
 
       expect(our_np.billing_subscription.billing_plan).to eq bp
 
+      expect(our_np.stripe_account_id).to_not be_nil
+
       response_body = {
           id: our_np.id
       }.with_indifferent_access
@@ -191,7 +194,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
       expect(our_np.roles.nonprofit_admins.count).to eq 1
       expect(our_np.roles.nonprofit_admins.first.user.attributes).to eq expected_user
 
-
+      StripeMock.stop
     end
 
 

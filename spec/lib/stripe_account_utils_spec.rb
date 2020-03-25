@@ -151,5 +151,4 @@ describe StripeAccountUtils do
       end
     end
   end
-
 end

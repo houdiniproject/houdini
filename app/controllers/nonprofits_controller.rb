@@ -5,6 +5,7 @@
 	helper_method :current_nonprofit_user?
 	before_filter :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update, :verify_identity]
 	before_filter :authenticate_super_admin!, only: [:destroy]
+  caches_page :btn
 
 	# get /nonprofits/:id
 	# get /:state_code/:city/:name
@@ -54,6 +55,7 @@
 	def update
 		flash[:notice] = 'Update successful!'
     current_nonprofit.update_attributes params[:nonprofit].except(:verification_status)
+    expire_page :action => :btn
 		json_saved current_nonprofit
 	end
 

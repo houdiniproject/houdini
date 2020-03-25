@@ -4,7 +4,7 @@
 </header>
 
 <section class='pane-inner'>
-	<% if @nonprofit.can_make_payouts %>
+	<% if @nonprofit.can_make_payouts? %>
 		<p>Your connected bank account is <strong><%= @nonprofit.bank_account && @nonprofit.bank_account.name %></strong>. 
 		<% if current_role?(:nonprofit_admin) %>
 			<a class='button--micro edit'>

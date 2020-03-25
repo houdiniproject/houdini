@@ -42,7 +42,6 @@ module StripeAccountUtils
 					}
 				},
 				requested_capabilities: [
-					'legacy_payments',
 					'card_payments',
 					'transfers'
 				  ],

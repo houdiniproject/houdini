@@ -144,6 +144,11 @@ describe StripeAccountUtils do
         np = Nonprofit.find(nonprofit.id)
         expect(np.stripe_account_id).to eq result
       end
+
+      it 'sets the requested_capabilities to card_payments and transfers' do
+        saved_account = Stripe::Account.retrieve(result)
+        expect(saved_account.requested_capabilities).to eq ['card_payments', 'transfers']
+      end
     end
   end
 

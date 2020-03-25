@@ -63,7 +63,7 @@ production:
   adapter: postgresql
   encoding: unicode
   database: commitchange_production
-  pool: 5
+  pool: 8
   username: admin
   password: password
 

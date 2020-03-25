@@ -4,7 +4,6 @@ class SupportersController < ApplicationController
 	include Controllers::NonprofitHelper
 
 	before_filter :authenticate_nonprofit_user!, except: [:new, :create]
-	#before_filter(except: [:create, :mailchimp_landing]){authenticate_min_nonprofit_plan(2)}
 
 	# get /nonprofit/:nonprofit_id/supporters
 	def index

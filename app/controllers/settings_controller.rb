@@ -24,6 +24,8 @@ class SettingsController < ApplicationController
 
 		if @nonprofit
 			@miscellaneous_np_info = FetchMiscellaneousNpInfo.fetch(@nonprofit.id)
+
+			@steps_to_payout = @nonprofit.steps_to_payout
 		end
 
 	end

@@ -22,6 +22,7 @@ class RecurringDonation < ActiveRecord::Base
   scope :monthly,  -> {where(time_unit: 'month', interval: 1)}
   scope :annual,   -> {where(time_unit: 'year', interval: 1)}
   scope :failed, -> {where('n_failures >= 3')}
+  scope :unfailed, -> {where('n_failures < 3')}
 
   belongs_to :donation
   belongs_to :nonprofit

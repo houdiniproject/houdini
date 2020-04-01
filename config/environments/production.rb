@@ -6,6 +6,11 @@ Commitchange::Application.configure do
 	config.cache_classes = true
   config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true }
 
+  	config.session_store = :redis_store,
+		server: ENV['OPENREDIS_SECURE_URL'],
+		expire_after: 4.days,
+		key: "_#{Rails.application.class.parent_name.downcase}_session"
+
 	# Full error reports are disabled and caching is turned on
 	config.consider_all_requests_local = false
 	config.action_controller.perform_caching = true

@@ -222,6 +222,7 @@ GEM
       activesupport (>= 3.2.13)
       rack (>= 1.4.5)
     hike (1.2.3)
+    hiredis (0.6.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     httparty (0.13.3)
@@ -328,6 +329,16 @@ GEM
       optimist (>= 3.0.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    redis (4.1.3)
+    redis-actionpack (3.2.4)
+      actionpack (~> 3.2.0)
+      redis-rack (~> 1.4.4)
+      redis-store (~> 1.1.4)
+    redis-rack (1.4.4)
+      rack (~> 1.4.0)
+      redis-store (~> 1.1.4)
+    redis-store (1.1.7)
+      redis (>= 2.2)
     require_all (1.3.2)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
@@ -462,6 +473,7 @@ DEPENDENCIES
   hamster
   hashie
   heroku_rails_deflate
+  hiredis (~> 0.6.0)
   httparty
   i18n-js
   lograge
@@ -486,6 +498,8 @@ DEPENDENCIES
   rake (~> 12.3.3)
   rbtrace
   recaptcha!
+  redis (>= 3.2.0)
+  redis-actionpack
   rest-client
   roadie-rails
   rspec

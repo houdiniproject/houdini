@@ -64,4 +64,29 @@ describe CampaignsController, type: :controller do
       expect(get: '/nonprofits/5/campaigns/4').to(route_to(controller: 'campaigns', action: 'show', nonprofit_id: '5', id: '4'))
     end
   end
+
+  describe 'index' do
+    render_views
+    let(:nonprofit) { force_create(:nonprofit, published: true)}
+    let(:campaign) { force_create(:campaign, nonprofit: nonprofit, name: "simplename", goal_amount: 444)}
+    before(:each) do
+
+      campaign
+      get(:index, params: {nonprofit_id: nonprofit.id, format: :json})
+    end
+
+    it 'has ok status' do
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'has correct items' do
+      body = JSON::parse(response.body)
+      expect(body).to eq({data: [{id: campaign.id, 
+        name: 'simplename',
+        total_raised: 0,
+        goal_amount: 444,
+        url: "///sluggy-sluggo/campaigns/slug_#{campaign.id}"
+        }]}.with_indifferent_access)
+    end
+  end
 end

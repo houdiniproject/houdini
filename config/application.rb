@@ -83,5 +83,7 @@ module Commitchange
 		# config.action_controller.default_url_options = {:trailing_slash => true}
 		#
 		config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
+
+		config.session_store ActionDispatch::Session::CacheStore, :expire_after => 4.days
 	end
 end

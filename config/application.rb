@@ -84,6 +84,6 @@ module Commitchange
 		#
 		config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 
-		config.session_store ActionDispatch::Session::CacheStore, :expire_after => 4.days
+		config.session_store ActionDispatch::Session::CacheStore, :expire_after => 12.hours
 	end
 end

@@ -7,7 +7,7 @@ Commitchange::Application.configure do
 	config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 4.hours, :compress => true }
 
 	config.session_store :redis_store, servers: [ENV['OPENREDIS_URL']], 
-		expire_after: 4.days,
+		expire_after: 12.hours,
 		namespace: "_#{Rails.application.class.parent_name.downcase}_session"
 
 

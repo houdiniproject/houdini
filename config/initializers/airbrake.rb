@@ -51,9 +51,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
     # https://github.com/airbrake/airbrake-ruby#blacklist_keys
     c.blacklist_keys = [/password/i, /authorization/i]
 
-    # Alternatively, you can integrate with Rails' filter_parameters.
-    # Read more: https://goo.gl/gqQ1xS
-    # c.blacklist_keys = Rails.application.config.filter_parameters
+    c.performance_stats = true
   end
 
   # A filter that collects request body information. Enable it if you are sure you

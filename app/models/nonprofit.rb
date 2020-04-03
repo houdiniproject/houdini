@@ -235,4 +235,36 @@ class Nonprofit < ActiveRecord::Base
     })
     ret
   end
+
+
+  def clear_cache
+    Nonprofit::clear_caching(id, state_code_slug, city_slug, slug)
+  end
+
+  def self.clear_caching(id, state_code, city, name)
+    Rails.cache.delete(create_cache_key_for_id(id))
+    Rails.cache.delete(create_cache_key_for_location(state_code, city, name))
+  end
+
+  def self.find_via_cached_id(id)
+    key = create_cache_key_for_id(id)
+    Rails.cache.fetch(key, expires_in: 4.hours) do
+      Nonprofit.find(id)
+    end
+  end
+
+  def self.find_via_cached_key_for_location(state_code, city, name)
+    key = create_cache_key_for_location(state_code, city, name)
+    Rails.cache.fetch(key, expires_in: 4.hours) do
+      Nonprofit.where(:state_code_slug => state_code, :city_slug => city, :slug => name).last
+    end
+  end
+
+  def self.create_cache_key_for_id(id)
+    "nonprofit__CACHE_KEY__ID___#{id}"
+  end
+
+  def self.create_cache_key_for_location(state_code,city, name)
+    "nonprofit__CACHE_KEY__LOCATION___#{state_code}____#{city}___#{name}"
+  end
 end

@@ -43,7 +43,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
     # unwanted environments such as :test.
     # NOTE: This option *does not* work if you don't set the 'environment' option.
     # https://github.com/airbrake/airbrake-ruby#ignore_environments
-    c.ignore_environments = %w(test)
+    c.ignore_environments = %w(test development staging)
 
     # A list of parameters that should be filtered out of what is sent to
     # Airbrake. By default, all "password" attributes will have their contents
@@ -51,7 +51,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
     # https://github.com/airbrake/airbrake-ruby#blacklist_keys
     c.blacklist_keys = [/password/i, /authorization/i]
 
-    c.performance_stats = true
+    c.performance_stats = !!ENV['CHECK_PERFORMANCE']
   end
 
   # A filter that collects request body information. Enable it if you are sure you

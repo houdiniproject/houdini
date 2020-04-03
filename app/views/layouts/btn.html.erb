@@ -3,7 +3,7 @@
 <html>
 <head>
 
-	<title><%= yield(:title) || "Donate with #{Settings.general.name}" %></title>
+	<title></title>
 	<script>
 		var app = {
 			nonprofit: <%=raw(@nonprofit.attributes.slice('brand_color', 'brand_font').to_json)%>
@@ -12,7 +12,6 @@
 	<%= render 'layouts/stylesheets' %>
 	
 	<%= favicon_link_tag %>
-	<%= csrf_meta_tags %>
 	<meta name="Description" content="Intelligent fundraising for nonprofits.">
 
 </head>

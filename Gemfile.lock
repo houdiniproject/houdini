@@ -451,6 +451,7 @@ DEPENDENCIES
   chronic
   colorize
   config (> 1.5)
+  connection_pool
   countries
   dalli
   database_cleaner

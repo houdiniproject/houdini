@@ -162,3 +162,5 @@ gem 'recaptcha', path: 'gems/recaptcha'
 gem 'rbtrace'
 
 gem 'hashie'
+
+gem 'connection_pool'

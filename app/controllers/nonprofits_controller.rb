@@ -77,7 +77,7 @@
 
 	def btn
 		@nonprofit = current_nonprofit
-		respond_to { |format| format.html{render layout: 'layouts/embed'} }
+		respond_to { |format| format.html{render layout: 'layouts/btn'} }
 	end
 
   # get /nonprofits/:id/supporter_form

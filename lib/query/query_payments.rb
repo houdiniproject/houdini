@@ -462,4 +462,41 @@ module QueryPayments
   def self.campaigns_with_creator_email
     Qexpr.new.select('campaigns.*, users.email AS creator_email').from(:campaigns).left_outer_join(:profiles, "profiles.id = campaigns.profile_id").left_outer_join(:users, 'users.id = profiles.user_id')
   end
+
+  def self.query_payout_info(npo_id, payout_id)
+    tickets_subquery = Qx.select("payment_id", "MAX(event_id) AS event_id").from("tickets").group_by("payment_id").as("tickets")
+    supporters_subq = Qx.select(QuerySupporters.supporter_export_selections)
+    Qx.select([
+      "to_char(payments.date, 'MM/DD/YYYY HH24:MIam') AS \"Date\"",
+      "(payments.gross_amount/100.0)::money::text AS \"Gross Amount\"",
+      "(payments.fee_total / 100.0)::money::text AS \"Fee Total\"",
+      "(payments.net_amount / 100.0)::money::text AS \"Net Amount\"",
+      "payments.kind AS \"Type\"",
+      "payments.id AS \"Payment ID\""
+     ].concat(QuerySupporters.supporter_export_selections)
+      .concat([
+        "coalesce(donations.designation, 'None') AS \"Designation\"",
+        "donations.dedication AS \"Honorarium/Memorium\"",
+        "donations.anonymous AS \"Anonymous?\"",
+        "donations.comment AS \"Comment\"",
+        "coalesce(nullif(campaigns.name, ''), 'None') AS \"Campaign\"",
+        "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS \"Campaign Gift Level\"",
+        "coalesce(events.name, 'None') AS \"Event\""
+      ])
+    )
+    .distinct_on('payments.date, payments.id')
+    .from(:payments)
+    .join(:payment_payouts, "payment_payouts.payment_id=payments.id")
+    .add_join(:payouts, "payouts.id=payment_payouts.payout_id")
+    .left_join(:supporters, "payments.supporter_id=supporters.id")
+    .add_left_join(:donations, "donations.id=payments.donation_id")
+    .add_left_join(:campaigns, "donations.campaign_id=campaigns.id")
+    .add_left_join(:campaign_gifts, "donations.id=campaign_gifts.donation_id")
+    .add_left_join(:campaign_gift_options, "campaign_gift_options.id=campaign_gifts.campaign_gift_option_id")
+    .add_left_join(tickets_subquery, "tickets.payment_id=payments.id")
+    .add_left_join(:events, "events.id=tickets.event_id OR (events.id = donations.event_id)")
+    .where("payouts.id=$id", id: payout_id)
+    .and_where("payments.nonprofit_id=$id", id: npo_id)
+    .order_by("payments.date DESC, payments.id")
+  end
 end

@@ -45,6 +45,9 @@
   end
 
   def self.selected(merged_data, supporter_ids,np_id, profile_id)
+    old_supporters = Nonprofit.find(np_id).supporters.where('id IN (?)', supporter_ids)
+    merged_data['anonymous'] = old_supporters.any?{|i| i.anonymous}
+    merged_data['nonprofit_id'] = np_id
     new_supporter = Supporter.new(merged_data)
     new_supporter.save!
     # Update merged supporters as deleted

@@ -1,13 +1,17 @@
 require "rails_helper"
 
 describe MergeSupporters do
-  describe '.update_associations' do
 
-    around(:each){|e|
-      Timecop.freeze(2020, 3, 4) do
-        e.run
-      end
-    }
+  let(:np) {force_create(:nonprofit)}
+  let(:old_supporter1) { force_create(:supporter, nonprofit: np)}
+  let(:old_supporter2) {force_create(:supporter, nonprofit:np )}
+  around(:each) do |e|
+    Timecop.freeze(2020, 3, 4) do
+      e.run
+    end
+  end
+  
+  describe '.update_associations' do
     #one unique tag for 1
     # one unique tag for 2
     # one common tag on both
@@ -16,9 +20,6 @@ describe MergeSupporters do
     # one unique custom field on 2
     # one common field on both and keep the value of the most common
 
-    let(:np) {force_create(:nonprofit)}
-    let(:old_supporter1) { force_create(:supporter, nonprofit: np)}
-    let(:old_supporter2) {force_create(:supporter, nonprofit:np )}
     let(:new_supporter) {force_create(:supporter, nonprofit:np)}
 
     let(:supporter_note) {force_create(:supporter_note, supporter: old_supporter1, content: "feoatheoiath")}
@@ -137,6 +138,32 @@ describe MergeSupporters do
       expect(old_supporter2.custom_field_joins.count).to eq 0
       expect(new_supporter.custom_field_joins.count).to eq 0
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
+    end
+  end
+
+  describe '.selected' do
+
+    it 'new supporter is anonymous if any of the old supporters are.' do
+      old_supporter1.anonymous = true
+      old_supporter1.save!
+      result = MergeSupporters.selected({name: 'Penelope Schultz'}.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
+      expect(result[:json][:anonymous]).to eq true
+      expect(result[:json][:name]).to eq 'Penelope Schultz'
+      expect(result[:json][:nonprofit_id]).to eq np.id
+    end
+
+    it 'new supporter is not anonymous if none of the old supporters are' do
+      result = MergeSupporters.selected({name: 'Penelope Schultz'}.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
+      expect(result[:json][:anonymous]).to eq false
+      expect(result[:json][:name]).to eq 'Penelope Schultz'
+      expect(result[:json][:nonprofit_id]).to eq np.id
+    end
+
+    it 'new supporter matches passed in np even if the merged_data says otherwise' do
+      result = MergeSupporters.selected({name: 'Penelope Schultz', nonprofit_id: 3333333}.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
+      expect(result[:json][:anonymous]).to eq false
+      expect(result[:json][:nonprofit_id]).to eq np.id
+      expect(result[:json][:name]).to eq 'Penelope Schultz'
     end
   end
 end

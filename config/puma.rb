@@ -18,7 +18,7 @@ on_worker_boot do
   ActiveSupport.on_load(:active_record) do
     config = ActiveRecord::Base.configurations[Rails.env] ||
         Rails.application.config.database_configuration[Rails.env]
-    config['pool'] = threads_count || 1
+    config['pool'] = ENV["DB_POOL"] || threads_count || 1
     ActiveRecord::Base.establish_connection
   end
 

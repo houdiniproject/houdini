@@ -1,4 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+require 'barnes'
 workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 threads_count = Integer(ENV['MAX_THREADS'] || 5)
 
@@ -25,6 +26,7 @@ on_worker_boot do
 end
 
 before_fork do
+  Barnes.start
   require 'puma_worker_killer'
   PumaWorkerKiller.config do |config|
     config.ram           = 1024 # mb

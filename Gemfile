@@ -164,3 +164,5 @@ gem 'rbtrace'
 gem 'hashie'
 
 gem 'connection_pool'
+
+gem "barnes"

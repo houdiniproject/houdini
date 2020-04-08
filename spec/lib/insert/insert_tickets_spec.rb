@@ -92,7 +92,7 @@ describe InsertTickets do
         card_id: nil,
           profile_id: nil,
           note: nil,
-          deleted: nil,
+          deleted: false,
           source_token_id: nil
         }.with_indifferent_access
       }

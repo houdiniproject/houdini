@@ -9,7 +9,7 @@ module QueryEvents
         "events.id")
         .from("events")
         .where("events.nonprofit_id=$id", id: npo_id)
-        .where("events.deleted='f' OR events.deleted IS NULL")
+        .where("NOT events.deleted")
         .order_by("events.name ASC")
     )
   end

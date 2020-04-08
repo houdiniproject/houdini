@@ -190,7 +190,7 @@ CREATE TABLE public.bank_accounts (
     status character varying(255),
     stripe_bank_account_token character varying(255),
     stripe_bank_account_id character varying(255),
-    deleted boolean
+    deleted boolean DEFAULT false
 );
 
 
@@ -385,7 +385,7 @@ CREATE TABLE public.campaigns (
     show_total_raised boolean DEFAULT true,
     show_total_count boolean DEFAULT true,
     hide_activity_feed boolean,
-    deleted boolean,
+    deleted boolean DEFAULT false,
     hide_title boolean,
     hide_thermometer boolean,
     hide_goal boolean,
@@ -442,7 +442,7 @@ CREATE TABLE public.cards (
     holder_id integer,
     holder_type character varying(255),
     stripe_customer_id character varying(255),
-    deleted boolean,
+    deleted boolean DEFAULT false,
     inactive boolean,
     country character varying(255)
 );
@@ -620,7 +620,7 @@ CREATE TABLE public.custom_field_masters (
     id integer NOT NULL,
     name character varying(255),
     nonprofit_id integer,
-    deleted boolean,
+    deleted boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -953,7 +953,7 @@ CREATE TABLE public.events (
     show_total_count boolean DEFAULT false,
     hide_activity_feed boolean,
     hide_title boolean,
-    deleted boolean,
+    deleted boolean DEFAULT false,
     receipt_message text,
     organizer_email character varying(255),
     start_datetime timestamp without time zone,
@@ -2241,7 +2241,7 @@ CREATE TABLE public.supporter_notes (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     user_id integer,
-    deleted boolean
+    deleted boolean DEFAULT false
 );
 
 
@@ -2396,7 +2396,7 @@ CREATE TABLE public.tag_masters (
     id integer NOT NULL,
     name character varying(255),
     nonprofit_id integer,
-    deleted boolean,
+    deleted boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -2434,7 +2434,7 @@ CREATE TABLE public.ticket_levels (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted boolean,
+    deleted boolean DEFAULT false,
     "limit" integer,
     event_discount_id integer,
     admin_only boolean,
@@ -2481,7 +2481,7 @@ CREATE TABLE public.tickets (
     payment_id integer,
     note text,
     event_discount_id integer,
-    deleted boolean,
+    deleted boolean DEFAULT false,
     source_token_id uuid
 );
 
@@ -3828,6 +3828,20 @@ CREATE INDEX index_supporters_on_name ON public.supporters USING btree (name);
 
 
 --
+-- Name: index_tag_joins_on_tag_master_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tag_joins_on_tag_master_id ON public.tag_joins USING btree (tag_master_id);
+
+
+--
+-- Name: index_tag_masters_on_deleted; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_tag_masters_on_deleted ON public.tag_masters USING btree (deleted);
+
+
+--
 -- Name: index_tickets_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4955,4 +4969,10 @@ INSERT INTO schema_migrations (version) VALUES ('20200304225530');
 INSERT INTO schema_migrations (version) VALUES ('20200316165956');
 
 INSERT INTO schema_migrations (version) VALUES ('20200319203257');
+
+INSERT INTO schema_migrations (version) VALUES ('20200408192744');
+
+INSERT INTO schema_migrations (version) VALUES ('20200408194203');
+
+INSERT INTO schema_migrations (version) VALUES ('20200408194348');
 

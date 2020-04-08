@@ -13,7 +13,7 @@ describe InsertCard do
       profile_id: nil,
       status: nil,
       inactive: nil,
-      deleted: nil,
+      deleted: false,
       expiration_month: nil,
       expiration_year: nil,
       email:nil,

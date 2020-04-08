@@ -105,7 +105,7 @@ describe InsertBankAccount do
                     updated_at: Time.now(),
                     status: nil, #doesn't seem to be used
                     id: 1,
-                    deleted: nil,
+                    deleted: false,
                     account_number: nil, #doesn't seem to be used
                     nonprofit_id: nonprofit.id,
                     bank_name: nil
@@ -126,7 +126,7 @@ describe InsertBankAccount do
       let(:stripe_acct) {Stripe::Account.create(managed: true, country: 'US', display_name: "test_display_name")}
       let(:stripe_bank_account_token) { StripeMock.generate_bank_token(country: "US", routing_number: "110000000", account_number: "000123456789") }
 
-      let(:old_bank_account_nil) { force_create(:bank_account, nonprofit: nonprofit, deleted: nil)}
+      let(:old_bank_account_nil) { force_create(:bank_account, nonprofit: nonprofit, deleted: false)}
       let(:old_bank_account_false) { force_create(:bank_account, nonprofit: nonprofit, deleted: false)}
       let(:old_bank_account_true) { force_create(:bank_account, nonprofit: nonprofit, deleted: true)}
 
@@ -143,7 +143,7 @@ describe InsertBankAccount do
                     updated_at: Time.now(),
                     status: nil, #doesn't seem to be used
                     id: result['id'],
-                    deleted: nil,
+                    deleted: false,
                     account_number: nil, #doesn't seem to be used
                     nonprofit_id: nonprofit.id,
                     bank_name: nil

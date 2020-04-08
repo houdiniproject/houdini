@@ -175,7 +175,7 @@ module QuerySupporters
     tags_subquery = Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
       .from(:tag_joins)
       .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
-      .where("tag_masters.deleted IS NULL")
+      .where("NOT tag_masters.deleted")
       .group_by("tag_joins.supporter_id")
       .as(:tags)
 
@@ -472,7 +472,7 @@ UNION DISTINCT
     Qx.select("ARRAY_AGG(id) AS ids")
       .from(:supporters)
       .where("nonprofit_id=$id", id: np_id)
-      .and_where("deleted='f' OR deleted IS NULL")
+      .and_where("NOT deleted")
       .having('COUNT(id) > 1')
   end
 

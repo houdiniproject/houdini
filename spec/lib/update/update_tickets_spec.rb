@@ -38,7 +38,7 @@ describe UpdateTickets do
           card_id: nil,
           profile_id: nil,
           note: nil,
-          deleted: nil,
+          deleted: false,
           source_token_id: nil,
           ticket_level_id: nil
       }
@@ -59,7 +59,7 @@ describe UpdateTickets do
           card_id: nil,
           profile_id: nil,
           note: nil,
-          deleted: nil,
+          deleted: false,
           source_token_id: nil,
           event_id: event.id,
           ticket_level_id: nil

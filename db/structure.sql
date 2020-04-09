@@ -3611,6 +3611,13 @@ CREATE INDEX donations_supporter_id ON public.donations USING btree (supporter_i
 
 
 --
+-- Name: events_nonprofit_id_not_deleted_and_published_endtime; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX events_nonprofit_id_not_deleted_and_published_endtime ON public.events USING btree (nonprofit_id, deleted, published, end_datetime);
+
+
+--
 -- Name: index_activities_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3678,6 +3685,20 @@ CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_
 --
 
 CREATE INDEX index_donations_on_event_id ON public.donations USING btree (event_id);
+
+
+--
+-- Name: index_events_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_nonprofit_id ON public.events USING btree (nonprofit_id);
+
+
+--
+-- Name: index_events_on_nonprofit_id_and_deleted_and_published; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_events_on_nonprofit_id_and_deleted_and_published ON public.events USING btree (nonprofit_id, deleted, published);
 
 
 --
@@ -4988,4 +5009,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200409160802');
 INSERT INTO schema_migrations (version) VALUES ('20200409165524');
 
 INSERT INTO schema_migrations (version) VALUES ('20200409171035');
+
+INSERT INTO schema_migrations (version) VALUES ('20200409191419');
 

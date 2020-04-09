@@ -3625,6 +3625,20 @@ CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (
 
 
 --
+-- Name: index_billing_subscriptions_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_billing_subscriptions_on_nonprofit_id ON public.billing_subscriptions USING btree (nonprofit_id);
+
+
+--
+-- Name: index_billing_subscriptions_on_nonprofit_id_and_billing_plan_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_billing_subscriptions_on_nonprofit_id_and_billing_plan_id ON public.billing_subscriptions USING btree (nonprofit_id, billing_plan_id);
+
+
+--
 -- Name: index_campaign_gifts_on_campaign_gift_option_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4975,4 +4989,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200408192744');
 INSERT INTO schema_migrations (version) VALUES ('20200408194203');
 
 INSERT INTO schema_migrations (version) VALUES ('20200408194348');
+
+INSERT INTO schema_migrations (version) VALUES ('20200409160802');
 

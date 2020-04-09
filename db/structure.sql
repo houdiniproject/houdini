@@ -3842,13 +3842,6 @@ CREATE INDEX index_tag_joins_on_tag_master_id ON public.tag_joins USING btree (t
 
 
 --
--- Name: index_tag_masters_on_deleted; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_tag_masters_on_deleted ON public.tag_masters USING btree (deleted);
-
-
---
 -- Name: index_tickets_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4000,6 +3993,13 @@ CREATE INDEX tag_joins_supporter_id ON public.tag_joins USING btree (supporter_i
 --
 
 CREATE INDEX tag_joins_tag_master_id ON public.tag_joins USING btree (tag_master_id);
+
+
+--
+-- Name: tag_masters_nonprofit_id_not_deleted; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX tag_masters_nonprofit_id_not_deleted ON public.tag_masters USING btree (nonprofit_id, deleted) WHERE (NOT deleted);
 
 
 --
@@ -4986,4 +4986,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200408194348');
 INSERT INTO schema_migrations (version) VALUES ('20200409160802');
 
 INSERT INTO schema_migrations (version) VALUES ('20200409165524');
+
+INSERT INTO schema_migrations (version) VALUES ('20200409171035');
 

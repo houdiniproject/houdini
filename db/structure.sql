@@ -3821,13 +3821,6 @@ CREATE INDEX index_supporter_notes_on_supporter_id ON public.supporter_notes USI
 
 
 --
--- Name: index_supporters_on_deleted; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_supporters_on_deleted ON public.supporters USING btree (deleted);
-
-
---
 -- Name: index_supporters_on_import_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4991,4 +4984,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200408194203');
 INSERT INTO schema_migrations (version) VALUES ('20200408194348');
 
 INSERT INTO schema_migrations (version) VALUES ('20200409160802');
+
+INSERT INTO schema_migrations (version) VALUES ('20200409165524');
 

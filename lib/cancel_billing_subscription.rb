@@ -30,6 +30,7 @@ module CancelBillingSubscription
       status: 'active'
     })
 
+    BillingSubscription::clear_cache(nonprofit)
     return {json:{}, status: :ok}
 	end
 end

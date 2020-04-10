@@ -15,4 +15,21 @@ class BillingPlan < ActiveRecord::Base
 
 	validates :name, :presence => true
 	validates :amount, :presence => true
+
+	def self.clear_cache(np)
+		Rails.cache.delete(BillingPlan.create_cache_key(np))
+	end
+
+	def self.find_via_cached_np_id(np)
+		np = Nonprofit.find_via_cached_id(np.id) unless np.is_a? Nonprofit
+		key = BillingPlan.create_cache_key(np)
+		Rails.cache.fetch(key, expires_in: 4.hours) do
+			np.billing_plan
+		end
+	  end
+
+	def self.create_cache_key(np)
+		np = np.id if np.is_a? Nonprofit
+		"billing_plan_nonprofit_id_#{np}"
+	end
 end

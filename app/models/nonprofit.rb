@@ -110,6 +110,11 @@ class Nonprofit < ActiveRecord::Base
     self
   end
 
+  after_save do
+    self.clear_cache
+    return true
+  end
+
   # Register (create) a nonprofit with an initial admin
   def self.register(user, params)
     np = self.create ConstructNonprofit.construct(user, params)
@@ -242,8 +247,10 @@ class Nonprofit < ActiveRecord::Base
   end
 
   def self.clear_caching(id, state_code, city, name)
-    Rails.cache.delete(create_cache_key_for_id(id))
-    Rails.cache.delete(create_cache_key_for_location(state_code, city, name))
+    Rails.cache.delete(Nonprofit::create_cache_key_for_id(id))
+    Rails.cache.delete(Nonprofit::create_cache_key_for_location(state_code, city, name))
+    BillingSubscription.clear_cache(id)
+    BillingPlan.clear_cache(id)
   end
 
   def self.find_via_cached_id(id)

@@ -14,7 +14,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 # require "action_cable/engine"
 # require "sprockets/railtie"
-# require "rails/test_unit/railtie"
+require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -24,6 +24,7 @@ Bundler.require(*Rails.groups)
 
 module Commitchange
   class Application < Rails::Application
+    config.load_defaults '5.0'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -32,9 +33,9 @@ module Commitchange
     # config.autoload_paths += %W(#{config.root}/extras)
     config.eager_load_paths += Dir["#{config.root}/lib/**/", ""]
 
-    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    # config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.paths.add File.join('app', 'listeners'), glob: File.join('**', '*.rb')
-    config.eager_load_paths += Dir[Rails.root.join('app', 'api', '*'), Rails.root.join('app', 'listeners', '*')]
+    # config.eager_load_paths += Dir[Rails.root.join('app', 'api', '*'), Rails.root.join('app', 'listeners', '*')]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.

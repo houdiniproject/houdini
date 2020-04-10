@@ -1,9 +1,15 @@
-# frozen_string_literal: true
-
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe 'HOUDINI NOnprofit_spec', type: :request do
+describe Api::NonprofitsController, type: :request do
+    it 'do things' do
+     
+        post '/api/nonprofits', params: {nonprofit: {name: 'hathatoh'}, user: {email: 'thoahtoa'}}
+     
+        byebug
+        expect(response.code).to eq 400
+    end
+
+
   describe 'get' do
   end
 
@@ -53,14 +59,14 @@ describe 'HOUDINI NOnprofit_spec', type: :request do
       end
 
       it 'rejects csrf' do
-        post '/api/nonprofits', params: {}, xhr: true
+        post :create, params: {}, xhr: true
         expect(response.code).to eq '400'
       end
     end
 
     it 'validates nothing' do
       input = {}
-      post '/api/nonprofits', params: input, xhr: true
+      post :create, params: input, xhr: true
       expect(response.code).to eq '400'
       expect_validation_errors(JSON.parse(response.body), create_errors('nonprofit', 'user'))
     end
@@ -73,7 +79,7 @@ describe 'HOUDINI NOnprofit_spec', type: :request do
           url: ''
         }
       }
-      post '/api/nonprofits', params: input, xhr: true
+      post :create, params: input, xhr: true
       expect(response.code).to eq '400'
       expected = create_errors('user')
       expected[:errors].push(h(params: ['nonprofit[email]'], messages: gr_e('regexp')))
@@ -93,13 +99,13 @@ describe 'HOUDINI NOnprofit_spec', type: :request do
           password_confirmation: 'doesn\'t match'
         }
       }
-      post '/api/nonprofits', params: input, xhr: true
+      post :create, params: input, xhr: true
       expect(response.code).to eq '400'
       expect(JSON.parse(response.body)['errors']).to include(h(params: ['user[password]', 'user[password_confirmation]'], messages: gr_e('is_equal_to')))
     end
 
     it 'attempts to make a slug copy and returns the proper errors' do
-      force_create(:nm_justice, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
+      force_create(:nonprofit, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
       input = {
         nonprofit: { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915 },
         user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }
@@ -107,7 +113,7 @@ describe 'HOUDINI NOnprofit_spec', type: :request do
 
       expect_any_instance_of(SlugNonprofitNamingAlgorithm).to receive(:create_copy_name).and_raise(UnableToCreateNameCopyError.new)
 
-      post '/api/nonprofits', params: input, xhr: true
+      post :create, params: input, xhr: true
       expect(response.code).to eq '400'
 
       expect_validation_errors(JSON.parse(response.body),
@@ -127,7 +133,13 @@ describe 'HOUDINI NOnprofit_spec', type: :request do
         user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }
       }
 
-      post '/api/nonprofits', params: input, xhr: true
+      expect do
+        post :create, params: input, xhr: true
+      end.to raise_error {|error|
+        
+        expect(error).to be_a Errors::MessageInvalid
+    }
+        byebug
       expect(response.code).to eq '400'
 
       expect_validation_errors(JSON.parse(response.body),
@@ -140,7 +152,7 @@ describe 'HOUDINI NOnprofit_spec', type: :request do
     end
 
     it 'succeeds' do
-      force_create(:nm_justice, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
+      force_create(:nonprofit, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
       input = {
         nonprofit: { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915, url: 'www.cs.c', website: 'www.cs.c' },
         user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }
@@ -151,7 +163,7 @@ describe 'HOUDINI NOnprofit_spec', type: :request do
 
       # expect(Houdini::V1::Nonprofit).to receive(:sign_in)
 
-      post '/api/nonprofits', params: input, xhr: true
+      post :create, params: input, xhr: true
       expect(response.code).to eq '201'
 
       our_np = Nonprofit.all[1]
@@ -202,3 +214,5 @@ end
 def gr_e(*keys)
   keys.map { |i| I18n.translate('grape.errors.messages.' + i, locale: 'en') }
 end
+
+

@@ -2,7 +2,6 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Rails.application.routes.draw do
-  mount Houdini::API => '/api'
 
   if Rails.env == 'development'
     get '/button_debug/embedded' => 'button_debug#embedded'
@@ -11,6 +10,10 @@ Rails.application.routes.draw do
     get '/button_debug/button/:id' => 'button_debug#button'
   end
   get 'onboard' => 'onboard#index'
+
+  namespace(:api) do
+    resources(:nonprofits)
+  end
 
   resources(:emails, only: [:create])
   resources(:settings, only: [:index])
@@ -253,6 +256,8 @@ Rails.application.routes.draw do
 
   get '/static/terms_and_privacy' => 'static#terms_and_privacy'
   get '/static/ccs' => 'static#ccs'
+
+
 
   root to: 'front#index'
 end

@@ -106,6 +106,10 @@ class Nonprofit < ApplicationRecord
     self
   end
 
+  after_validation(on: :create) do
+    correct_nonunique_slug
+  end
+
   # Register (create) a nonprofit with an initial admin
   def self.register(user, params)
     np = create ConstructNonprofit.construct(user, params)
@@ -147,6 +151,16 @@ class Nonprofit < ApplicationRecord
       self.state_code_slug = Format::Url.convert_to_slug state_code
     end
     self
+  end
+  
+  def correct_nonunique_slug
+    if errors[:slug]
+      begin
+          slug = SlugNonprofitNamingAlgorithm.new(self.state_code_slug, self.city_slug).create_copy_name(self.slug)
+          self.slug = slug
+      rescue UnableToCreateNameCopyError
+      end
+    end
   end
 
   def full_address

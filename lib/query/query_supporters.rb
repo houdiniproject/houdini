@@ -246,6 +246,11 @@ module QuerySupporters
     if query[:location].present?
       expr = expr.and_where("lower(supporters.city) LIKE $city OR lower(supporters.zip_code) LIKE $zip", city: query[:location].downcase, zip: query[:location].downcase)
     end
+
+    if query[:anonymous].present?
+      exprt = expr.and_where('COALESCE(supporters.anonymous, false)')
+    end
+    
     if query[:recurring].present?
       rec_ps_subquery = Qx.select("payments.count", "payments.supporter_id")
         .from(:payments)

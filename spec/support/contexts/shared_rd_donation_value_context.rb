@@ -86,8 +86,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
           supporter_id: supporter.id,
           towards: 'designation',
           created_at: Time.now,
-          updated_at: Time.now,
-          search_vectors: nil
+          updated_at: Time.now
       }
       result[:charge] = {
           id: charge_id || 55555,

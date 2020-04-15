@@ -3989,6 +3989,13 @@ CREATE INDEX supporters_nonprofit_id ON public.supporters USING btree (nonprofit
 
 
 --
+-- Name: supporters_nonprofit_id_not_deleted; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX supporters_nonprofit_id_not_deleted ON public.supporters USING btree (nonprofit_id, deleted) WHERE (NOT deleted);
+
+
+--
 -- Name: supporters_search_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5031,4 +5038,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200409191419');
 INSERT INTO schema_migrations (version) VALUES ('20200415170547');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415202723');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415212209');
 

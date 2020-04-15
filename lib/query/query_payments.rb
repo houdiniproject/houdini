@@ -108,12 +108,8 @@ module QueryPayments
   # we must provide payments.*, supporters.*, donations.*, associated event_id, associated campaign_id
   def self.full_search_expr(npo_id, query)
     expr = Qexpr.new.from('payments')
-    if (query[:inner_join])
-      expr = expr.inner_join('supporters', "supporters.id=payments.supporter_id")
-    else
-      expr = expr.left_outer_join('supporters', "supporters.id=payments.supporter_id")
-    end
-    expr = expr.left_outer_join('donations', 'donations.id=payments.donation_id' )
+          .inner_join('supporters', "supporters.id=payments.supporter_id")
+          .left_outer_join('donations', 'donations.id=payments.donation_id' )
     .join("(#{select_to_filter_search(npo_id, query)}) AS \"filtered_payments\"", 'payments.id = filtered_payments.id')
     .order_by('payments.date DESC')
 
@@ -148,14 +144,9 @@ module QueryPayments
       inner_donation_search = inner_donation_search.where("donations.campaign_id IN (#{campaign_search})", id: query[:campaign_id])
     end
     expr = Qexpr.new.select('payments.id').from('payments')
-
-    if query[:inner_join]
-    expr = expr.inner_join('supporters', "supporters.id=payments.supporter_id")
-    else
-      expr = expr.left_outer_join('supporters', "supporters.id=payments.supporter_id")
-    end
-    expr = expr.left_outer_join(inner_donation_search.as('donations'), 'donations.id=payments.donation_id' )
-    .where('payments.nonprofit_id=$id', id: npo_id.to_i)
+          .inner_join('supporters', "supporters.id=payments.supporter_id")
+          .left_outer_join(inner_donation_search.as('donations'), 'donations.id=payments.donation_id' )
+          .where('payments.nonprofit_id=$id', id: npo_id.to_i)
 
 
     if query[:search].present?
@@ -239,12 +230,8 @@ module QueryPayments
       inner_donation_search = inner_donation_search.where("donations.campaign_id IN (#{campaign_search})", id: query[:campaign_id])
     end
     expr = Qexpr.new.select('payments.id').from('payments')
-    if query[:inner_join]
-      expr = expr.inner_join('supporters', "supporters.id=payments.supporter_id")
-    else
-      expr = expr.left_outer_join('supporters', "supporters.id=payments.supporter_id")
-    end
-    expr = expr.left_outer_join('refunds', 'payments.id=refunds.payment_id')
+          .inner_join('supporters', "supporters.id=payments.supporter_id")
+          .left_outer_join('refunds', 'payments.id=refunds.payment_id')
               .left_outer_join('charges', 'refunds.charge_id=charges.id')
               .left_outer_join('payments AS payments_orig', 'payments_orig.id=charges.payment_id')
                .left_outer_join(inner_donation_search.as('donations'), 'donations.id=payments_orig.donation_id' )
@@ -325,12 +312,8 @@ module QueryPayments
     expr = full_search_expr(npo_id, query)
                .select(*export_selects)
                .left_outer_join('campaign_gifts', 'campaign_gifts.donation_id=donations.id')
-    if query[:inner_query]
-      expr = expr.inner_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-    else
-      expr = expr.left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-    end
-              expr = expr.left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
+               .inner_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
+              .left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
                .left_outer_join(tickets_subquery, 'tickets.payment_id=payments.id')
                .left_outer_join('events events_for_export', 'events_for_export.id=tickets.event_id OR donations.event_id=events_for_export.id')
                .left_outer_join('offsite_payments', 'offsite_payments.payment_id=payments.id')
@@ -348,12 +331,8 @@ module QueryPayments
       expr = full_search_expr(npo_id, query)
                  .select(*export_selects)
                  .left_outer_join('campaign_gifts', 'campaign_gifts.donation_id=donations.id')
-      if query[:inner_query]
-        expr = expr.inner_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-      else
-        expr = expr.left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-      end
-      expr = expr.left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
+                .inner_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
+                .left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
                  .left_outer_join(tickets_subquery, 'tickets.payment_id=payments.id')
                  .left_outer_join('events events_for_export', 'events_for_export.id=tickets.event_id OR donations.event_id=events_for_export.id')
                  .left_outer_join('offsite_payments', 'offsite_payments.payment_id=payments.id')

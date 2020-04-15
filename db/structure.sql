@@ -4031,6 +4031,22 @@ CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING b
 
 
 --
+-- Name: campaign_gifts campaign_gifts_to_option_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.campaign_gifts
+    ADD CONSTRAINT campaign_gifts_to_option_fk FOREIGN KEY (campaign_gift_option_id) REFERENCES public.campaign_gift_options(id);
+
+
+--
+-- Name: payments payments_supporter_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_supporter_fk FOREIGN KEY (supporter_id) REFERENCES public.supporters(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -5011,4 +5027,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200409165524');
 INSERT INTO schema_migrations (version) VALUES ('20200409171035');
 
 INSERT INTO schema_migrations (version) VALUES ('20200409191419');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415170547');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415202723');
 

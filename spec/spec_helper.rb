@@ -115,4 +115,7 @@ RSpec.configure do |config|
   end
 
   config.include(Wisper::RSpec::BroadcastMatcher)
+
+   # mute noise for parallel tests
+   config.silence_filter_announcements = true if ENV['TEST_ENV_NUMBER']
 end

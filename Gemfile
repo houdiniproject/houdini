@@ -95,6 +95,7 @@ group :development, :ci, :test do
   gem 'standard', '~> 0.1.2'
   gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
   gem 'rspec', '~> 3.8'
+  gem 'parallel_tests', '~> 2.32'
 end
 
 group :ci, :test do

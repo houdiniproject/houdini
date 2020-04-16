@@ -17,7 +17,7 @@ describe MergeSupporters do
     # one unique custom field on 2
     # one common field on both and keep the value of the most common
 
-    let(:np) { force_create(:nonprofit) }
+    let(:np) { force_create(:nm_justice) }
     let(:old_supporter1) { force_create(:supporter, nonprofit: np) }
     let(:old_supporter2) { force_create(:supporter, nonprofit: np) }
     let(:new_supporter) { force_create(:supporter, nonprofit: np) }

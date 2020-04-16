@@ -6,13 +6,11 @@ require 'rails_helper'
 RSpec.describe Nonprofit, type: :model do
   describe 'with cards' do
     before(:each) do
-      @nonprofit = create(:nonprofit_with_cards)
-    end
-    before (:each) do
-      cards = @nonprofit.cards.to_ary
-      @card1 = cards.first { |i| i.name == 'card1' }
-      @card2 = cards.first { |i| i.name == 'card2' }
-      @card3 = cards.first { |i| i.name == 'card3' }
+      @nonprofit = create(:nm_justice)
+
+      @card1 = create(:card, holder: @nonprofit, name: 'card1')
+      @card2 = create(:card, holder: @nonprofit, name: 'card2')
+      @card3 = create(:card, holder: @nonprofit, name: 'card3', inactive:true)
     end
     describe '.active_cards' do
       it 'should return all cards' do
@@ -38,7 +36,7 @@ RSpec.describe Nonprofit, type: :model do
   end
 
   describe '.currency_symbol' do
-    let(:nonprofit) { force_create(:nonprofit, currency: 'eur') }
+    let(:nonprofit) { force_create(:nm_justice, currency: 'eur') }
     let(:euro) { '€' }
 
     it 'finds correct currency symbol for nonprofit' do

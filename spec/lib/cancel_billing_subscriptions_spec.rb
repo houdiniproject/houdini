@@ -9,7 +9,7 @@ describe CancelBillingSubscription do
   before(:each) do
     StripeMock.start
     @card_token = StripeMock.generate_card_token(last4: '9191', exp_year: 2011)
-    @np = force_create(:nonprofit)
+    @np = force_create(:nm_justice)
   end
   after { StripeMock.stop }
 
@@ -26,9 +26,6 @@ describe CancelBillingSubscription do
     end
 
     context 'with db' do
-      before(:each) do
-        @np = create(:nonprofit)
-      end
 
       it 'nonprofit valid but no card or billing_subscription' do
         result = CancelBillingSubscription.with_stripe(@np)

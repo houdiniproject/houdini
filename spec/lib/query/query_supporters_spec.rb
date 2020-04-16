@@ -9,7 +9,7 @@ describe QuerySupporters do
   let(:gift_level_changed_recurring) { 5512 }
   let(:campaign_gift_option_name) { 'theowthoinv' }
 
-  let(:np) { force_create(:nonprofit) }
+  let(:np) { force_create(:nm_justice) }
   let(:supporter1) { force_create(:supporter, nonprofit: np) }
   let(:supporter2) { force_create(:supporter, nonprofit: np) }
   let(:campaign) { force_create(:campaign, nonprofit: np, slug: 'slug stuff') }

@@ -24,7 +24,7 @@ describe FetchMiscellaneousNpInfo do
 
     describe 'with valid nonprofit' do
       before(:each) do
-        @np = force_create(:nonprofit)
+        @np = force_create(:nm_justice)
       end
 
       it 'returns hash with empty misc settings' do

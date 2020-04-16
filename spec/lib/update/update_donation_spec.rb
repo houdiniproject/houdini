@@ -11,7 +11,7 @@ describe UpdateDonation do
   after do
     Timecop.return
   end
-  let(:np) { force_create(:nonprofit) }
+  let(:np) { force_create(:nm_justice) }
   let(:supporter) { force_create(:supporter, nonprofit: np) }
   let(:donation) do
     force_create(:donation, nonprofit: np,

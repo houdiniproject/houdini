@@ -3,8 +3,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 
 RSpec.shared_context :shared_user_context do
-  let(:nonprofit) { force_create(:nonprofit, published: true) }
-  let(:other_nonprofit) { force_create(:nonprofit) }
+  let(:nonprofit) { force_create(:nm_justice, published: true) }
+  let(:other_nonprofit) { force_create(:fv_poverty) }
 
   let(:user_as_np_admin) do
     __create_admin(nonprofit)

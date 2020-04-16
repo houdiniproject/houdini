@@ -52,7 +52,7 @@ describe InsertPayout do
       end
 
       it 'handles no charges to payout' do
-        np = force_create(:nonprofit)
+        np = force_create(:nm_justice)
         expect { InsertPayout.with_stripe(np.id, { stripe_account_id: 'valid', email: 'valid', user_ip: 'valid', bank_name: 'valid' }, nil) }.to(raise_error do |error|
           expect(error).to be_a ArgumentError
           expect(error.message).to eq 'No payments are available for disbursal on this account.'
@@ -73,7 +73,7 @@ describe InsertPayout do
 
       context 'no date provided' do
         include_context 'payments for a payout' do
-          let(:np) { force_create(:nonprofit, stripe_account_id: Stripe::Account.create['id'], vetted: true) }
+          let(:np) { force_create(:nm_justice, stripe_account_id: Stripe::Account.create['id'], vetted: true) }
           let(:date_for_marking) { Time.now }
           let(:ba) do
             InsertBankAccount.with_stripe(np, user, stripe_bank_account_token: StripeMock.generate_bank_token, name: bank_name)
@@ -204,7 +204,7 @@ describe InsertPayout do
 
       context 'previous date provided' do
         include_context 'payments for a payout' do
-          let(:np) { force_create(:nonprofit, stripe_account_id: Stripe::Account.create['id'], vetted: true) }
+          let(:np) { force_create(:nm_justice, stripe_account_id: Stripe::Account.create['id'], vetted: true) }
           let(:date_for_marking) { Time.now - 1.day }
           let(:ba) { InsertBankAccount.with_stripe(np, user, stripe_bank_account_token: StripeMock.generate_bank_token, name: bank_name) }
         end

@@ -21,7 +21,7 @@ describe 'InsertTagJoins.in_bulk' do
     end
     context 'requiring db' do
       before do
-        @nonprofit = force_create(:nonprofit)
+        @nonprofit = force_create(:nm_justice)
         @profile = force_create(:profile)
       end
 
@@ -46,12 +46,12 @@ describe 'InsertTagJoins.in_bulk' do
 
   context 'supporters tags' do
     before(:each) do
-      @nonprofit = force_create(:nonprofit)
+      @nonprofit = force_create(:nm_justice)
       @profile = force_create(:profile)
+      @other_nonprofit = force_create(:fv_poverty)
+      @random_supporter = create(:supporter, nonprofit: @other_nonprofit)
 
-      @random_supporter = create(:supporter)
-
-      @other_nonprofit = force_create(:nonprofit)
+      
       @delete_tags = [20, 40, 60]
       @add_tags = [25, 35]
 

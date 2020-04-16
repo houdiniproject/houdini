@@ -7,7 +7,7 @@ require 'support/test_chunked_uploader'
 describe ExportSupporters do
   before(:each) do
     stub_const('CHUNKED_UPLOADER', TestChunkedUploader)
-    @nonprofit = force_create(:nonprofit)
+    @nonprofit = force_create(:nm_justice)
     @email = 'example@example.com'
     @user = force_create(:user, email: @email)
     @supporters = 2.times { force_create(:supporter, nonprofit: @nonprofit) }

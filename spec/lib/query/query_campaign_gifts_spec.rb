@@ -8,7 +8,7 @@ describe QueryCampaignGifts do
   GIFT_LEVEL_RECURRING = 5585
   GIFT_LEVEL_CHANGED_RECURRING = 5512
   CAMPAIGN_GIFT_OPTION_NAME = 'theowthoinv'
-  let(:np) { force_create(:nonprofit) }
+  let(:np) { force_create(:nm_justice) }
   let(:supporter1) { force_create(:supporter, nonprofit: np) }
   let(:supporter2) { force_create(:supporter, nonprofit: np) }
   let(:campaign) { force_create(:campaign, nonprofit: np, slug: 'slug stuff') }

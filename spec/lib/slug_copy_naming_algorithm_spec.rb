@@ -21,7 +21,7 @@ describe SlugCopyNamingAlgorithm do
     let(:short_slug_copy_today_plus_1) { 'slug_name_copy_01' }
     let(:copy_base) { 'slug_name_copy' }
 
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
 
     describe 'events' do
       let(:event) { force_create(:event, slug: @name, nonprofit: nonprofit) }

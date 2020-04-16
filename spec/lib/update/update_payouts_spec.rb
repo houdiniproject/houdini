@@ -49,7 +49,7 @@ describe UpdatePayouts do
 
       let!(:refunds) { [force_create(:refund, charge: charges.last, payment: reverse_payment_for_refund, disbursed: true)] }
 
-      let(:np) { force_create(:nonprofit) }
+      let(:np) { force_create(:nm_justice) }
       let!(:bank_account) { force_create(:bank_account, nonprofit: np) }
       let!(:payout) do
         force_create(:payout, status: 'paid', failure_message: 'all good',

@@ -11,7 +11,7 @@ describe InsertDuplicate do
   after(:all) do
     Timecop.return
   end
-  let(:nonprofit) { force_create(:nonprofit) }
+  let(:nonprofit) { force_create(:nm_justice) }
   let(:profile) { force_create(:profile) }
   let(:dates) do
     {

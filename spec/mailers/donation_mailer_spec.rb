@@ -5,7 +5,7 @@ require 'rails_helper'
 
 RSpec.describe DonationMailer, type: :mailer do
   describe 'donor_recurring_donation_change_amount' do
-    let(:np) { force_create(:nonprofit, name: 'nonprofit', email: 'blah') }
+    let(:np) { force_create(:nm_justice, name: 'nonprofit', email: 'blah') }
     let(:s) { force_create(:supporter, email: 'supporter.email@mail.teha') }
     let(:oldcard) { force_create(:card) }
     let(:donation)  { create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount: 999) }

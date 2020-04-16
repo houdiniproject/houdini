@@ -5,7 +5,7 @@ require 'rails_helper'
 
 RSpec.describe AdminMailer, type: :mailer do
   describe 'notify_failed_gift' do
-    let!(:np) { force_create(:nonprofit, name: 'nonprofit', email: 'blah', timezone: 'UTC') }
+    let!(:np) { force_create(:nm_justice, name: 'nonprofit', email: 'blah', timezone: 'UTC') }
     let!(:s) { force_create(:supporter, email: 'supporter.email@mail.teha') }
     let!(:oldcard) { force_create(:card) }
     let!(:donation)  { force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount: 999) }

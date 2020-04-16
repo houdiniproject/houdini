@@ -9,7 +9,7 @@ describe StripeAccount do
   let(:stripe_helper) { StripeMock.create_test_helper }
   before(:each) { StripeMock.start }
   after(:each) { StripeMock.stop }
-  let(:nonprofit) { force_create(:nonprofit) }
+  let(:nonprofit) { force_create(:nm_justice) }
 
   describe '.find_or_create' do
     describe 'param validation' do

@@ -22,7 +22,7 @@ describe InsertCard do
       }
     end
 
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
     let(:user) do
       user = force_create(:user)
       force_create(:role, name: :nonprofit_admin, host: nonprofit, user: user)

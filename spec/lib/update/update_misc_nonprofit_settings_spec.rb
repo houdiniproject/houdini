@@ -25,7 +25,7 @@ describe UpdateMiscellaneousNpInfo do
     end
 
     describe 'main' do
-      let!(:np) { force_create(:nonprofit) }
+      let!(:np) { force_create(:nm_justice) }
       let (:working_message) { '<p>working message</p>' }
       it 'sets change_amount_message to nil if empty tags' do
         expect(MiscellaneousNpInfo.count).to eq 0

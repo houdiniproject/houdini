@@ -67,7 +67,7 @@ describe CampaignsController, type: :controller do
 
   describe 'index' do
     render_views
-    let(:nonprofit) { force_create(:nonprofit, published: true)}
+    let(:nonprofit) { force_create(:nm_justice, published: true)}
     let(:campaign) { force_create(:campaign, nonprofit: nonprofit, name: "simplename", goal_amount: 444)}
     before(:each) do
 
@@ -85,7 +85,7 @@ describe CampaignsController, type: :controller do
         name: 'simplename',
         total_raised: 0,
         goal_amount: 444,
-        url: "///sluggy-sluggo/campaigns/slug_#{campaign.id}"
+        url: "/nm/albuquerque/new_mexican_equality/campaigns/slug_#{campaign.id}"
         }]}.with_indifferent_access)
     end
   end

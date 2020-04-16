@@ -86,7 +86,7 @@ shared_context 'payments for a payout' do
   end
 
   let(:other_np_payment) do
-    p = create_payment(nonprofit: force_create(:nonprofit))
+    p = create_payment(nonprofit: force_create(:nm_justice))
     create_charge(payment: p, amount: 2000, fee: -400, status: 'available')
     return p
   end

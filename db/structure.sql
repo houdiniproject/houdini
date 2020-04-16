@@ -3625,6 +3625,13 @@ CREATE INDEX index_cards_on_id_and_holder_type_and_holder_id_and_inactive ON pub
 
 
 --
+-- Name: index_charges_on_donation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_charges_on_donation_id ON public.charges USING btree (donation_id);
+
+
+--
 -- Name: index_charges_on_payment_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4972,4 +4979,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200415230146');
 INSERT INTO schema_migrations (version) VALUES ('20200416163347');
 
 INSERT INTO schema_migrations (version) VALUES ('20200416163530');
+
+INSERT INTO schema_migrations (version) VALUES ('20200416173740');
 

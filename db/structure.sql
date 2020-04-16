@@ -520,40 +520,6 @@ CREATE TABLE public.custom_field_joins (
 
 
 --
--- Name: custom_field_joins_backup; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.custom_field_joins_backup (
-    id integer NOT NULL,
-    custom_field_master_id integer,
-    supporter_id integer,
-    metadata text,
-    value text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: custom_field_joins_backup_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.custom_field_joins_backup_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: custom_field_joins_backup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.custom_field_joins_backup_id_seq OWNED BY public.custom_field_joins_backup.id;
-
-
---
 -- Name: custom_field_joins_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2664,13 +2630,6 @@ ALTER TABLE ONLY public.custom_field_joins ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- Name: custom_field_joins_backup id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.custom_field_joins_backup ALTER COLUMN id SET DEFAULT nextval('public.custom_field_joins_backup_id_seq'::regclass);
-
-
---
 -- Name: custom_field_masters id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3104,14 +3063,6 @@ ALTER TABLE ONLY public.campaigns
 
 ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
-
-
---
--- Name: custom_field_joins_backup custom_field_joins_backup_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.custom_field_joins_backup
-    ADD CONSTRAINT custom_field_joins_backup_pkey PRIMARY KEY (id);
 
 
 --
@@ -3930,13 +3881,6 @@ CREATE INDEX payments_nonprofit_id ON public.payments USING btree (nonprofit_id)
 --
 
 CREATE INDEX payments_supporter_id ON public.payments USING btree (supporter_id);
-
-
---
--- Name: supporters_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX supporters_created_at ON public.supporters USING btree (created_at) WHERE (deleted <> true);
 
 
 --
@@ -5024,4 +4968,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200415222354');
 INSERT INTO schema_migrations (version) VALUES ('20200415223903');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415230146');
+
+INSERT INTO schema_migrations (version) VALUES ('20200416163347');
+
+INSERT INTO schema_migrations (version) VALUES ('20200416163530');
 

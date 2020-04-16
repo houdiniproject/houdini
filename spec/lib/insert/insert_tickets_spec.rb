@@ -24,8 +24,7 @@ describe InsertTickets do
               supporter_id: data[:supporter].id,
               towards: data[:event].name,
               created_at: Time.now,
-              updated_at: Time.now,
-              search_vectors: nil
+              updated_at: Time.now
           }
       }.with_indifferent_access
 

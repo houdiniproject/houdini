@@ -2,7 +2,6 @@
 class Supporter < ActiveRecord::Base
 
   attr_accessible \
-    :search_vectors,
     :profile_id, :profile,
     :nonprofit_id, :nonprofit,
     :full_contact_info, :full_contact_info_id,

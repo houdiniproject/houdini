@@ -292,8 +292,7 @@ describe InsertCharge do
                                        refund_total: 0,
                                        date: Time.now,
                                        created_at: Time.now,
-                                       updated_at: Time.now,
-                                       search_vectors: nil
+                                       updated_at: Time.now
             }.with_indifferent_access
 
             expect(finished_result['payment'].attributes).to eq common_payment_expected
@@ -335,8 +334,7 @@ describe InsertCharge do
                                        refund_total: 0,
                                        date: date,
                                        created_at: Time.now,
-                                       updated_at: Time.now,
-                                       search_vectors: nil
+                                       updated_at: Time.now
             }.with_indifferent_access
 
             expect(finished_result['payment'].attributes).to eq common_payment_expected

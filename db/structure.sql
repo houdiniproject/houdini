@@ -74,46 +74,6 @@ end;
 $$;
 
 
---
--- Name: update_supporter_assoc_search_vectors(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.update_supporter_assoc_search_vectors() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$ BEGIN
-      IF pg_trigger_depth() <> 1 THEN RETURN new; END IF;
-      UPDATE supporters
-        SET search_vectors=to_tsvector('english', data.search_blob)
-        FROM (
-SELECT supporters.id, concat_ws(' '
-        , custom_field_joins.value
-        , supporters.name
-        , supporters.organization
-        , supporters.id
-        , supporters.email
-        , supporters.city
-        , supporters.state_code
-        , donations.designation
-        , donations.dedication
-        , payments.kind
-        , payments.towards
-        ) AS search_blob
-FROM supporters 
-LEFT OUTER JOIN payments
-  ON payments.supporter_id=supporters.id 
-LEFT OUTER JOIN donations
-  ON donations.supporter_id=supporters.id 
-LEFT OUTER JOIN (
-SELECT string_agg(value::text, ' ') AS value, supporter_id
-FROM custom_field_joins 
-GROUP BY supporter_id) AS custom_field_joins
-  ON custom_field_joins.supporter_id=supporters.id
-WHERE (supporters.id=NEW.supporter_id)) AS data
-        WHERE data.id=supporters.id;
-      RETURN new;
-    END $$;
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -1528,6 +1488,35 @@ ALTER SEQUENCE public.nonprofit_keys_id_seq OWNED BY public.nonprofit_keys.id;
 
 
 --
+-- Name: nonprofit_verification_backups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.nonprofit_verification_backups (
+    id integer NOT NULL,
+    verification_status character varying(255)
+);
+
+
+--
+-- Name: nonprofit_verification_backups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.nonprofit_verification_backups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: nonprofit_verification_backups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.nonprofit_verification_backups_id_seq OWNED BY public.nonprofit_verification_backups.id;
+
+
+--
 -- Name: nonprofit_verification_process_statuses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1592,7 +1581,6 @@ CREATE TABLE public.nonprofits (
     zip_code character varying(255),
     latitude double precision,
     longitude double precision,
-    pending_balance integer,
     state_code_slug character varying(255),
     city_slug character varying(255),
     referrer character varying(255),
@@ -1603,7 +1591,6 @@ CREATE TABLE public.nonprofits (
     brand_color character varying(255),
     brand_font character varying(255),
     stripe_account_id character varying(255),
-    verification_status character varying(255),
     hide_activity_feed boolean,
     tracking_script text DEFAULT ''::text,
     facebook character varying(255),
@@ -1761,8 +1748,7 @@ CREATE TABLE public.payments (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     donation_id integer,
-    date timestamp without time zone,
-    search_vectors tsvector
+    date timestamp without time zone
 );
 
 
@@ -2294,7 +2280,6 @@ CREATE TABLE public.supporters (
     import_id integer,
     email_unsubscribe_uuid character varying(255),
     is_unsubscribed_from_emails boolean,
-    search_vectors tsvector,
     merged_into integer,
     merged_at timestamp without time zone,
     region character varying(255),
@@ -2861,6 +2846,13 @@ ALTER TABLE ONLY public.nonprofit_keys ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: nonprofit_verification_backups id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_verification_backups ALTER COLUMN id SET DEFAULT nextval('public.nonprofit_verification_backups_id_seq'::regclass);
+
+
+--
 -- Name: nonprofit_verification_process_statuses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3363,6 +3355,14 @@ ALTER TABLE ONLY public.nonprofit_keys
 
 
 --
+-- Name: nonprofit_verification_backups nonprofit_verification_backups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_verification_backups
+    ADD CONSTRAINT nonprofit_verification_backups_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: nonprofit_verification_process_statuses nonprofit_verification_process_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3744,13 +3744,6 @@ CREATE UNIQUE INDEX index_nonprofit_verification_to_stripe ON public.nonprofit_v
 
 
 --
--- Name: index_payments_on_created_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_payments_on_created_at ON public.payments USING btree (created_at);
-
-
---
 -- Name: index_recurring_donations_on_donation_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3839,13 +3832,6 @@ CREATE INDEX index_stripe_events_on_object_id_and_event_time ON public.stripe_ev
 --
 
 CREATE INDEX index_supporter_notes_on_supporter_id ON public.supporter_notes USING btree (supporter_id);
-
-
---
--- Name: index_supporters_on_import_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_supporters_on_import_id ON public.supporters USING btree (import_id);
 
 
 --
@@ -3940,13 +3926,6 @@ CREATE INDEX payments_nonprofit_id ON public.payments USING btree (nonprofit_id)
 
 
 --
--- Name: payments_search_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX payments_search_idx ON public.payments USING gin (search_vectors);
-
-
---
 -- Name: payments_supporter_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3993,13 +3972,6 @@ CREATE INDEX supporters_nonprofit_id ON public.supporters USING btree (nonprofit
 --
 
 CREATE INDEX supporters_nonprofit_id_not_deleted ON public.supporters USING btree (nonprofit_id, deleted) WHERE (NOT deleted);
-
-
---
--- Name: supporters_search_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX supporters_search_idx ON public.supporters USING gin (search_vectors);
 
 
 --
@@ -5040,4 +5012,16 @@ INSERT INTO schema_migrations (version) VALUES ('20200415170547');
 INSERT INTO schema_migrations (version) VALUES ('20200415202723');
 
 INSERT INTO schema_migrations (version) VALUES ('20200415212209');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415214804');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415220410');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415220722');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415222354');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415223903');
+
+INSERT INTO schema_migrations (version) VALUES ('20200415230146');
 

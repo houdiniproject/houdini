@@ -331,7 +331,11 @@ GEM
       puma (>= 2.7, < 5)
     rabl (0.14.1)
       activesupport (>= 2.3.14)
+<<<<<<< HEAD
     rack (2.0.9)
+=======
+    rack (2.2.2)
+>>>>>>> Update to Rack
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (5.4.2)

@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.5.1'
+ruby '2.6.6'
 gem 'rails', '~> 5.2.3'
 gem 'bootsnap', '~> 1.4', require: false # Large rails application booting enhancer
 gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets

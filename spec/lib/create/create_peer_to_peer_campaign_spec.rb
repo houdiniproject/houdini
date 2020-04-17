@@ -6,7 +6,7 @@ require 'rails_helper'
 describe CreatePeerToPeerCampaign do
   describe '.create' do
     let!(:profile) { force_create(:profile, user: force_create(:user)) }
-    let!(:parent_campaign) { force_create(:campaign, name: 'Parent campaign') }
+    let!(:parent_campaign) { force_create(:campaign, name: 'Parent campaign', nonprofit: force_create(:nm_justice)) }
 
     context 'on success' do
       it 'returns a hash' do

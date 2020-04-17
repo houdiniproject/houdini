@@ -6,8 +6,6 @@ require 'rails_helper'
 describe UpdateRecurringDonations do
   # deactivate a recurring donation
   describe '.cancel' do
-    before(:each) do
-    end
 
     let(:np) { force_create(:nm_justice) }
     let(:s) { force_create(:supporter) }

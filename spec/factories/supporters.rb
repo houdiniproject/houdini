@@ -4,7 +4,7 @@
 FactoryBot.define do
   factory :supporter do
     name { 'Fake Supporter Name' }
-    association :nonprofit, factory: :nm_justice
+    nonprofit_id { 55352 }
     trait :has_a_card do
       after(:create) do |supporter|
         create(:active_card_1, holder: supporter)

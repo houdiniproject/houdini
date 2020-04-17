@@ -3,6 +3,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 FactoryBot.define do
   factory :nm_justice, class: Nonprofit do
+    id { 55352 }
     name { 'New Mexico Justice' }
     city { 'Albuquerque' }
     state_code { 'NM' }
@@ -11,21 +12,10 @@ FactoryBot.define do
     slug { 'new_mexican_equality' }
     state_code_slug { 'nm'}
     city_slug { 'albuquerque'}
-
-    # factory :nonprofit_with_cards do
-    #   after(:create) do |nonprofit, _evaluator|
-    #     create(:active_card_1, holder: nonprofit)
-    #     create(:active_card_2, holder: nonprofit)
-    #     create(:inactive_card, holder: nonprofit)
-    #   end
-    # end
-
-    # after(:create) do |nonprofit, _evaluator|
-    #   create(:supporter, nonprofit: nonprofit)
-    # end
   end
 
   factory :fv_poverty, class: Nonprofit do
+    id { 22352 }
     name { 'Ending Poverty in the Fox Valley Inc.' }
     city { 'Appleton' }
     state_code { 'WI' }
@@ -36,5 +26,4 @@ FactoryBot.define do
     state_code_slug { 'wi'}
     city_slug { 'appleton'}
   end
-
 end

@@ -10,7 +10,7 @@ FactoryBot.define do
     city { 'Appleton' }
     state_code { 'WI' }
     slug { 'event-of-wonders' }
-    association :nonprofit, factory: :nm_justice
+    nonprofit_id { 55352 }
     profile
   end
 end

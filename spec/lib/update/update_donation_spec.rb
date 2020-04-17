@@ -12,7 +12,7 @@ describe UpdateDonation do
     Timecop.return
   end
   let(:np) { force_create(:nm_justice) }
-  let(:supporter) { force_create(:supporter, nonprofit: np) }
+  let(:supporter) { force_create(:supporter) }
   let(:donation) do
     force_create(:donation, nonprofit: np,
                             dedication: initial_dedication,
@@ -48,10 +48,10 @@ describe UpdateDonation do
                            fee_total: initial_fee,
                            net_amount: initial_amount - initial_fee)
   end
-  let(:campaign) { force_create(:campaign, nonprofit: np) }
-  let(:event) { force_create(:event, nonprofit: np) }
-  let(:other_campaign) { force_create(:campaign) }
-  let(:other_event) { force_create(:event) }
+  let(:campaign) { force_create(:campaign) }
+  let(:event) { force_create(:event) }
+  let(:other_campaign) { force_create(:campaign, nonprofit: force_create(:fv_poverty)) }
+  let(:other_event) { force_create(:event, nonprofit: force_create(:fv_poverty)) }
 
   let(:initial_date) { Date.new(2020, 4, 5).to_time }
   let(:initial_dedication) { 'initial dedication' }

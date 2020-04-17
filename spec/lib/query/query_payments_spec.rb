@@ -6,7 +6,7 @@ require 'support/payments_for_a_payout'
 
 describe QueryPayments do
   before :each do
-    @nonprofit = force_create(:nm_justice, name: 'npo1')
+    @nonprofit = force_create(:nm_justice, name: 'npo1', id: 515152)
     @supporters = [force_create(:supporter, name: 'supporter-0', nonprofit: @nonprofit),
                    force_create(:supporter, name: 'supporter-1', nonprofit: @nonprofit)]
 

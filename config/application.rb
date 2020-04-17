@@ -102,5 +102,8 @@ module Commitchange
     # config.action_controller.default_url_options = {:trailing_slash => true}
     #
     # config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
+
+    # we don't require belongs_to associations to be required for historical reasons.
+    config.active_record.belongs_to_required_by_default = false
   end
 end

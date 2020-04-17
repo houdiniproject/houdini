@@ -22,7 +22,7 @@ describe InsertCard do
       }
     end
 
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
     let(:user) do
       user = force_create(:user)
       force_create(:role, name: :nonprofit_admin, host: nonprofit, user: user)
@@ -396,7 +396,7 @@ describe InsertCard do
       end
 
       it 'should return proper error when event doesnt match the supporters nonprofit' do
-        supporter2 = force_create(:supporter)
+        supporter2 = force_create(:supporter, nonprofit: force_create(:fv_poverty))
         ret = InsertCard.with_stripe({ holder_id: supporter2.id, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name' }, nil, event.id, user_not_from_nonprofit)
         expect(ret).to eq(status: :unprocessable_entity, json: { error: "Oops! There was an error: Event #{event.id} is not for the same nonprofit as supporter #{supporter2.id}" })
       end

@@ -5,8 +5,8 @@ require 'rails_helper'
 
 describe InsertCustomFieldJoins do
   describe '.find_or_create' do
-    let(:nonprofit) { force_create(:nonprofit) }
-    let(:other_nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
+    let(:other_nonprofit) { force_create(:fv_poverty) }
     let(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
     let(:other_supporter) { force_create(:supporter, nonprofit: other_nonprofit) }
 
@@ -95,8 +95,8 @@ describe InsertCustomFieldJoins do
       end
       context 'requiring db' do
         before(:each) do
-          @nonprofit = force_create(:nonprofit)
-          @bad_nonprofit = force_create(:nonprofit, id: 50)
+          @nonprofit = force_create(:nm_justice)
+          @bad_nonprofit = force_create(:fv_poverty, id: 50)
         end
         it 'nonprofit must be valid' do
           response = InsertCustomFieldJoins.in_bulk(@nonprofit.id + 1, [], [])
@@ -118,11 +118,11 @@ describe InsertCustomFieldJoins do
 
     context 'main testing' do
       before(:each) do
-        @nonprofit = force_create(:nonprofit)
+        @nonprofit = force_create(:nm_justice)
+        @other_nonprofit = force_create(:fv_poverty)
+        @random_supporter = create(:supporter, nonprofit: @other_nonprofit)
 
-        @random_supporter = create(:supporter)
-
-        @other_nonprofit = force_create(:nonprofit)
+        
         @delete_cfm = [20, 40, 60]
         @add_cfm = [25, 35]
 

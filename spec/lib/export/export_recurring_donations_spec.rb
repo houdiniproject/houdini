@@ -9,7 +9,7 @@ describe ExportRecurringDonations do
     stub_const('CHUNKED_UPLOADER', TestChunkedUploader)
     @email = 'example@example.com'
     @user = force_create(:user, email: @email)
-    @nonprofit = force_create(:nonprofit)
+    @nonprofit = force_create(:nm_justice)
     @supporters = [force_create(:supporter, name: 'supporter-0', nonprofit: @nonprofit),
                    force_create(:supporter, name: 'supporter-1', nonprofit: @nonprofit)]
     @donations = [force_create(:donation, nonprofit: @nonprofit, supporter: @supporters[0]),

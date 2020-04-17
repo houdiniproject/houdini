@@ -99,7 +99,7 @@ describe Houdini::V1::Nonprofit, type: :request do
     end
 
     it 'attempts to make a slug copy and returns the proper errors' do
-      force_create(:nonprofit, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
+      force_create(:nm_justice, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
       input = {
         nonprofit: { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915 },
         user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }
@@ -140,7 +140,7 @@ describe Houdini::V1::Nonprofit, type: :request do
     end
 
     it 'succeeds' do
-      force_create(:nonprofit, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
+      force_create(:nm_justice, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
       input = {
         nonprofit: { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915, url: 'www.cs.c', website: 'www.cs.c' },
         user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }

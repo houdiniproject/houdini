@@ -5,7 +5,7 @@ require 'rails_helper'
 
 RSpec.describe Campaign, type: :model do
   describe 'sends correct email based on type of campaign' do
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
     let(:parent_campaign) { force_create(:campaign, name: 'Parent campaign', nonprofit: nonprofit) }
     let(:child_campaign) do
       force_create(:campaign,

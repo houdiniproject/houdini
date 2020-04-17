@@ -21,7 +21,7 @@ describe SlugP2pCampaignNamingAlgorithm do
     let(:short_slug_copy_today_plus_1) { 'slug_name_001' }
     let(:copy_base) { 'slug_name' }
 
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
 
     describe 'campaigns' do
       let(:campaign) { force_create(:campaign, slug: @name, nonprofit: nonprofit, deleted: true) }

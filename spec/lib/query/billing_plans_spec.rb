@@ -10,7 +10,7 @@ describe BillingPlans do
   end
 
   let(:nonprofit) do
-    force_create(:nonprofit)
+    force_create(:nm_justice)
   end
 
   describe '.get_percentage_fee' do

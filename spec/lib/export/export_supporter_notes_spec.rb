@@ -13,7 +13,7 @@ describe ExportSupporterNotes do
     CHUNKED_UPLOADER.clear
   end
 
-  let(:nonprofit) { force_create(:nonprofit) }
+  let(:nonprofit) { force_create(:nm_justice) }
   let(:supporter1) { force_create(:supporter, nonprofit: nonprofit) }
   let(:supporter2) { force_create(:supporter, nonprofit: nonprofit) }
 

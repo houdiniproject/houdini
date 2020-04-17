@@ -47,7 +47,7 @@ describe CreateCampaignGift do
 
       describe 'donation and campaign gift option exist so we validate the details' do
         let(:profile) { force_create(:profile, user: force_create(:user)) }
-        let(:nonprofit) { force_create(:nonprofit) }
+        let(:nonprofit) { force_create(:nm_justice) }
         let(:campaign) { force_create(:campaign, profile: profile, nonprofit: nonprofit) }
         let(:bad_campaign) { force_create(:campaign, profile: profile, nonprofit: nonprofit) }
 

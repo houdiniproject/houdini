@@ -27,7 +27,7 @@ describe NameCopyNamingAlgorithm do
     let(:long_name_copy_today_plus_1) { "#{long_name_copy_today_base} 01" }
     let(:long_name_copy_yesterday) { 'campaign_name is so long that it must b (2020-05-03 copy) 00' }
     let(:long_name_copy_today_base) { 'campaign_name is so long that it must b (2020-05-04 copy)' }
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
 
     describe 'events' do
       let(:event) { force_create(:event, name: @name, nonprofit: nonprofit) }

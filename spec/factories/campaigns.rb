@@ -4,7 +4,7 @@
 FactoryBot.define do
   factory :campaign do
     profile
-    nonprofit
+    nonprofit_id { 55352 }
     sequence(:name) { |i| "name #{i}" }
     sequence(:slug) { |i| "slug_#{i}" }
   end

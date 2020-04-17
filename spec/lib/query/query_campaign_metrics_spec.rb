@@ -5,7 +5,7 @@ require 'rails_helper'
 
 describe QueryCampaignMetrics do
   describe 'calculates your metrics plus children' do
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
     let(:campaign) { force_create(:campaign, nonprofit: nonprofit, show_total_count: false, show_total_raised: false, goal_amount: 16_000) }
     let(:campaign_child) { force_create(:campaign, nonprofit: nonprofit, parent_campaign: campaign, show_total_count: true, show_total_raised: true, goal_amount: 8000) }
 

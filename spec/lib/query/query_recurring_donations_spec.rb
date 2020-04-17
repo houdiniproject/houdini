@@ -30,7 +30,7 @@ describe QueryRecurringDonations do
   end
 
   describe '.is_due?' do
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
     let(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
     let(:donation)  do
       force_create(:donation, amount: 1000, supporter: supporter, recurring: true, nonprofit: nonprofit)
@@ -156,7 +156,7 @@ describe QueryRecurringDonations do
 
   describe '.for_export_enumerable' do
     before :each do
-      @nonprofit = force_create(:nonprofit, name: 'npo1')
+      @nonprofit = force_create(:nm_justice, name: 'npo1')
       @supporters = [force_create(:supporter, name: 'supporter-0', nonprofit: @nonprofit),
                      force_create(:supporter, name: 'supporter-1', nonprofit: @nonprofit)]
 

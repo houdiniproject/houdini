@@ -11,7 +11,7 @@ describe QuerySourceToken do
     let(:expired_uuid) { '061124ca-05f1-11e8-8730-57558ad1064d' }
     let(:overused_uuid) { '0ac67006-05f1-11e8-902c-035df51dbc79' }
 
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
     let(:event) { force_create(:event, nonprofit: nonprofit) }
     let(:user) do
       u = force_create(:user)

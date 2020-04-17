@@ -14,7 +14,7 @@ describe InsertBankAccount do
     Timecop.return
   end
 
-  let(:nonprofit) { force_create(:nonprofit) }
+  let(:nonprofit) { force_create(:nm_justice) }
   let(:user) { force_create(:user, email: 'x@example.com') }
 
   describe '.with_stripe' do

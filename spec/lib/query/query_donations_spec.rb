@@ -5,7 +5,7 @@ require 'rails_helper'
 
 describe QueryDonations do
   describe 'campaign_export' do
-    let(:nonprofit) { force_create(:nonprofit) }
+    let(:nonprofit) { force_create(:nm_justice) }
     let(:supporter) { force_create(:supporter) }
 
     let(:profile_email) { 'something@profile_email.com' }

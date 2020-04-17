@@ -160,7 +160,7 @@ describe InsertRecurringDonation do
     describe 'wonderful testing Eric' do
       before(:each) { Timecop.freeze(2020, 4, 29) }
       after(:each) { Timecop.return }
-      let(:nonprofit) { force_create(:nonprofit, state_code_slug: 'wi', city_slug: 'city', slug: 'sluggster') }
+      let(:nonprofit) { force_create(:nm_justice, state_code_slug: 'wi', city_slug: 'city', slug: 'sluggster') }
       let(:profile) { force_create(:profile, user: force_create(:user)) }
       let(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
       let(:card) { force_create(:card, holder: supporter) }
@@ -224,7 +224,7 @@ describe InsertRecurringDonation do
     describe 'test for earlier in the month' do
       before(:each) { Timecop.freeze(2020, 4, 5) }
       after(:each) { Timecop.return }
-      let(:nonprofit) { force_create(:nonprofit, state_code_slug: 'wi', city_slug: 'city', slug: 'sluggster') }
+      let(:nonprofit) { force_create(:nm_justice, state_code_slug: 'wi', city_slug: 'city', slug: 'sluggster') }
       let(:profile) { force_create(:profile, user: force_create(:user)) }
       let(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
       let(:card) { force_create(:card, holder: supporter) }

@@ -13,7 +13,7 @@ describe ExportPayments do
 
   let(:email) { 'example@example.com' }
   let(:user) { force_create(:user, email: email) }
-  let(:nonprofit) { force_create(:nonprofit) }
+  let(:nonprofit) { force_create(:nm_justice) }
   let(:supporters) do
     [force_create(:supporter, name: 'supporter-0', nonprofit: nonprofit),
      force_create(:supporter, name: 'supporter-1', nonprofit: nonprofit)]

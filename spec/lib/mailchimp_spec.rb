@@ -10,7 +10,7 @@ describe Mailchimp do
        { id: 'on_mailchimp', email_address: 'on_mailchimp@email.com' }]
     end
 
-    let(:np) { force_create(:nonprofit) }
+    let(:np) { force_create(:nm_justice) }
     let(:tag_master) { force_create(:tag_master, nonprofit: np) }
     let(:email_list) { force_create(:email_list, mailchimp_list_id: 'list_id', tag_master: tag_master, nonprofit: np, list_name: 'temp') }
     let(:supporter_on_both) { force_create(:supporter, nonprofit: np, email: 'on_BOTH@email.com') }

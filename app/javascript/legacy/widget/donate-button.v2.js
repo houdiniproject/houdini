@@ -81,7 +81,7 @@ commitchange.createIframe = (source) => {
   let i = document.createElement('iframe')
   const url = document.location.href
   i.setAttribute('class', 'commitchange-closed commitchange-iframe')
-  i.src = source + "&origin=" + url
+  i.src = encodeURI(source + "&origin=" + url)
   return i
 }
 
@@ -158,7 +158,7 @@ commitchange.appendMarkup = () => {
         let btn_iframe = document.createElement('iframe')
         let btn_src = fullHost + "/nonprofits/" + nonprofitID + "/btn"
         if(elem.hasAttribute('data-fixed')) { btn_src += '?fixed=t' }
-        btn_iframe.src = btn_src
+        btn_iframe.src = encodeURI(btn_src)
         btn_iframe.className = 'commitchange-btn-iframe'
         btn_iframe.setAttribute('scrolling', 'no')
         btn_iframe.setAttribute('seamless', 'seamless')

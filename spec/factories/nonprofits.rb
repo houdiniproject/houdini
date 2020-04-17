@@ -12,6 +12,7 @@ FactoryBot.define do
     slug { 'new_mexican_equality' }
     state_code_slug { 'nm'}
     city_slug { 'albuquerque'}
+    register_np_only { true }
   end
 
   factory :fv_poverty, class: Nonprofit do
@@ -25,5 +26,6 @@ FactoryBot.define do
     slug { 'end_poverty_in_the_fox_valley_inc' }
     state_code_slug { 'wi'}
     city_slug { 'appleton'}
+    register_np_only { true }
   end
 end

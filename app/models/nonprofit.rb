@@ -2,6 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Nonprofit < ApplicationRecord
+  attr_accessor :register_np_only, :user
   Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
 
   # :name, # str
@@ -79,12 +80,18 @@ class Nonprofit < ApplicationRecord
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
 
+  ##only meaningful on registration
+  has_one :user
+
   validates :name, presence: true
   validates :city, presence: true
   validates :state_code, presence: true
   validates :email, format: { with: Email::Regex }, allow_blank: true
   validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
   validates_presence_of :slug
+  
+  validates_presence_of :user, on: :create, unless: -> {register_np_only}
+  validate :user_registerable_as_admin, on: :create, unless: -> {register_np_only}
 
   scope :vetted, -> { where(vetted: true) }
   scope :identity_verified, -> { where(verification_status: 'verified') }
@@ -109,6 +116,8 @@ class Nonprofit < ApplicationRecord
   after_validation(on: :create) do
     correct_nonunique_slug
   end
+
+  after_create :build_admin_role, unless: -> {register_np_only}
 
   # Register (create) a nonprofit with an initial admin
   def self.register(user, params)
@@ -209,5 +218,22 @@ class Nonprofit < ApplicationRecord
 
   def currency_symbol
     Settings.intntl.all_currencies.find { |i| i.abbv.casecmp(currency).zero? }&.symbol
+  end
+
+  def user_registerable_as_admin
+    if user && user.roles.nonprofit_admins.any?
+      errors.add(:user, "cannot already be an admin for a nonprofit.")
+    end
+  end
+private 
+  def build_admin_role 
+    role = user.roles.build(host: self, name: 'nonprofit_admin')
+    role.save!
+  end
+
+  def add_billing_subscription
+    billing_plan = BillingPlan.find(Settings.default_bp.id)
+    b_sub = build_billing_subscription(billing_plan: billing_plan, status: 'active')
+    b_sub.save!
   end
 end

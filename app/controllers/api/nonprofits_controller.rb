@@ -1,5 +1,5 @@
 class Api::NonprofitsController < ApplicationController
-    
+    rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_rescue
     # requires :nonprofit, type: Hash do
     #     requires :name, type: String, desc: 'Organization Name', allow_blank: false, documentation: { param_type: 'body' }
     #     requires :zip_code, type: String, allow_blank: false, desc: 'Organization Address ZIP Code', documentation: { param_type: 'body' }
@@ -12,13 +12,11 @@ class Api::NonprofitsController < ApplicationController
     #     requires :email, type: String, desc: 'Username', allow_blank: false, documentation: { param_type: 'body' }
     #     requires :password, type: String, desc: 'Password', allow_blank: false, is_equal_to: :password_confirmation, documentation: { param_type: 'body' }
     def create
-        model = CreateModel.new(clean_params)
-        np = nil
-        u = nil
-        raise ActiveRecord::RecordInvalid
+        #model = CreateModel.new(clean_params)
         Qx.transaction do
-          raise Errors::MessageInvalid.new(model) unless model.valid?
-          model.save!
+         # raise Errors::MessageInvalid.new(model) unless model.valid?
+          nonprofit = Nonprofit.new(clean_params)
+          nonprofit.save!
         end
         # Qx.transaction do
         #   byebug
@@ -70,6 +68,34 @@ class Api::NonprofitsController < ApplicationController
         #     raise e
         #   end
         # end
+    end
+
+    private
+    def record_invalid_rescue(error)
+        render json:{errors: error.record.errors.messages}, status: :unprocessable_entity
+    end
+
+    def change_to_errors(message)
+        message.model.errors.keys.map do |k|
+                  errors = e.record.errors[k].uniq
+                  errors.map do |error|
+                    Grape::Exceptions::Validation.new(
+                      params: ["#{class_to_name[e.record.class]}[#{k}]"],
+                      message: error
+                    )
+                  end
+                end
+    end
+
+    def flatten_errors(hash_or_array, parent=nil)
+        if hash_or_array.keys
+            result = hash_or_array.keys.map{|i|
+                param = !parent ? i : "#{parent}[#{i}]"
+                
+            }
+        else
+            return hash_or_array;
+        end
     end
 
     def clean_params

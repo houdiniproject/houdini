@@ -66,9 +66,9 @@ describe Api::NonprofitsController, type: :request do
 
     it 'validates nothing' do
       input = {}
-      post :create, params: input, xhr: true
-      expect(response.code).to eq '400'
-      expect_validation_errors(JSON.parse(response.body), create_errors('nonprofit', 'user'))
+      post '/api/nonprofits', params: input, xhr: true
+      expect(response).to have_http_status :unprocessable_entity
+      expect(response.parsed_body['errors'].keys).to match_array ['name', 'city', 'state_code', 'slug', 'user']
     end
 
     it 'validates url, email, phone ' do

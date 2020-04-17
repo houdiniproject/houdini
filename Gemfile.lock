@@ -331,7 +331,7 @@ GEM
       puma (>= 2.7, < 5)
     rabl (0.14.1)
       activesupport (>= 2.3.14)
-    rack (2.0.7)
+    rack (2.0.9)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (5.4.2)
@@ -558,6 +558,7 @@ DEPENDENCIES
   puma_worker_killer (~> 0.1.1)
   qx!
   rabl (~> 0.14.1)
+  rack (~> 2.0.9)
   rack-attack (~> 5.2)
   rack-ssl (~> 1.4)
   rack-timeout (~> 0.5.1)

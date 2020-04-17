@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Nonprofit < ApplicationRecord
-  attr_accessor :register_np_only, :user
+  attr_accessor :register_np_only, :user_id, :user
   Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
 
   # :name, # str
@@ -80,9 +80,6 @@ class Nonprofit < ApplicationRecord
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
 
-  ##only meaningful on registration
-  has_one :user
-
   validates :name, presence: true
   validates :city, presence: true
   validates :state_code, presence: true
@@ -90,7 +87,8 @@ class Nonprofit < ApplicationRecord
   validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
   validates_presence_of :slug
   
-  validates_presence_of :user, on: :create, unless: -> {register_np_only}
+  validates_presence_of :user_id, on: :create, unless: -> {register_np_only}
+  validate :user_is_valid, on: :create, unless: -> {register_np_only}
   validate :user_registerable_as_admin, on: :create, unless: -> {register_np_only}
 
   scope :vetted, -> { where(vetted: true) }
@@ -110,11 +108,8 @@ class Nonprofit < ApplicationRecord
 
   before_validation(on: :create) do
     set_slugs
+    set_user
     self
-  end
-
-  after_validation(on: :create) do
-    correct_nonunique_slug
   end
 
   after_create :build_admin_role, unless: -> {register_np_only}
@@ -159,17 +154,30 @@ class Nonprofit < ApplicationRecord
     unless state_code_slug
       self.state_code_slug = Format::Url.convert_to_slug state_code
     end
+    if Nonprofit.where(slug: slug, city_slug: city_slug, state_code_slug: state_code_slug).any?
+      correct_nonunique_slug
+    end
     self
   end
   
   def correct_nonunique_slug
-    if errors[:slug]
-      begin
-          slug = SlugNonprofitNamingAlgorithm.new(self.state_code_slug, self.city_slug).create_copy_name(self.slug)
-          self.slug = slug
-      rescue UnableToCreateNameCopyError
-      end
+    begin
+        slug = SlugNonprofitNamingAlgorithm.new(self.state_code_slug, self.city_slug).create_copy_name(self.slug)
+        self.slug = slug
+    rescue UnableToCreateNameCopyError
+      errors.add(:slug, "another nonprofit admin")
     end
+  end
+
+  def set_user
+    if (user_id && User.where(id: user_id).any?)
+      @user = User.find(user_id)
+    end
+    self
+  end
+
+  def user_is_valid
+    (user && user.is_a?(User)) || errors.add(:user_id, "is not a valid user")
   end
 
   def full_address
@@ -222,7 +230,7 @@ class Nonprofit < ApplicationRecord
 
   def user_registerable_as_admin
     if user && user.roles.nonprofit_admins.any?
-      errors.add(:user, "cannot already be an admin for a nonprofit.")
+      errors.add(:user_id, "cannot already be an admin for a nonprofit.")
     end
   end
 private 

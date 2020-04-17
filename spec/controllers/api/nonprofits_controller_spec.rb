@@ -1,15 +1,14 @@
 require 'rails_helper'
 
 describe Api::NonprofitsController, type: :request do
-    it 'do things' do
-     
-        post '/api/nonprofits', params: {nonprofit: {name: 'hathatoh'}, user: {email: 'thoahtoa'}}
-     
-        byebug
-        expect(response.code).to eq 400
-    end
 
-
+  let(:user) { create(:user)}
+  let(:nonprofit_admin_role) do
+     role = user.roles.build(host: nonprofit, name: 'nonprofit_admin')
+     role.save!
+     role
+  end
+  let(:nonprofit) {create(:nm_justice)}
   describe 'get' do
   end
 
@@ -34,23 +33,6 @@ describe Api::NonprofitsController, type: :request do
       h.with_indifferent_access
     end
 
-    let(:totally_empty_errors) do
-      {
-        errors:
-            [
-              h(params: ['nonprofit[name]'], messages: gr_e('presence', 'blank')),
-              h(params: ['nonprofit[zip_code]'], messages: gr_e('presence', 'blank')),
-              h(params: ['nonprofit[state_code]'], messages: gr_e('presence', 'blank')),
-              h(params: ['nonprofit[city]'], messages: gr_e('presence', 'blank')),
-
-              h(params: ['user[name]'], messages: gr_e('presence', 'blank')),
-              h(params: ['user[email]'], messages: gr_e('presence', 'blank')),
-              h(params: ['user[password]'], messages: gr_e('presence', 'blank')),
-              h(params: ['user[password_confirmation]'], messages: gr_e('presence', 'blank'))
-            ]
-
-      }.with_indifferent_access
-    end
     describe 'authorization' do
       around(:each) do |e|
         Rails.configuration.action_controller.allow_forgery_protection = true
@@ -89,21 +71,6 @@ describe Api::NonprofitsController, type: :request do
       expect_validation_errors(JSON.parse(response.body), expected)
     end
 
-    it 'should reject unmatching passwords ' do
-      input = {
-
-        user: {
-          email: 'wmeil@email.com',
-          name: 'name',
-          password: 'password',
-          password_confirmation: 'doesn\'t match'
-        }
-      }
-      post :create, params: input, xhr: true
-      expect(response.code).to eq '400'
-      expect(JSON.parse(response.body)['errors']).to include(h(params: ['user[password]', 'user[password_confirmation]'], messages: gr_e('is_equal_to')))
-    end
-
     it 'attempts to make a slug copy and returns the proper errors' do
       force_create(:nonprofit, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
       input = {
@@ -125,30 +92,14 @@ describe Api::NonprofitsController, type: :request do
                                ])
     end
 
-    it 'errors on attempt to add user with email that already exists' do
-      force_create(:user, email: 'em@em.com')
-
-      input = {
-        nonprofit: { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915 },
-        user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }
-      }
-
-      expect do
-        post :create, params: input, xhr: true
-      end.to raise_error {|error|
-        
-        expect(error).to be_a Errors::MessageInvalid
-    }
-        byebug
-      expect(response.code).to eq '400'
-
-      expect_validation_errors(JSON.parse(response.body),
-                               errors: [
-                                 h(
-                                   params: ['user[email]'],
-                                   messages: ['has already been taken']
-                                 )
-                               ])
+    it 'errors on attempt to add the user to a second nonprofit' do
+      nonprofit_admin_role
+      input =  { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915, user_id: user.id }
+      post '/api/nonprofits', params: input, xhr:true
+      expect(response).to have_http_status :unprocessable_entity
+      expect(response.parsed_body['errors'].keys).to match_array 'user'
+      byebug
+      expect(response.parsed_body['errors']['user'].first).to has_include? 'nonprofit admin'
     end
 
     it 'succeeds' do

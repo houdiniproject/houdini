@@ -43,4 +43,45 @@ RSpec.describe Nonprofit, type: :model do
       expect(nonprofit.currency_symbol).to eq euro
     end
   end
+
+  describe 'create' do
+    describe 'validates on parameters' do
+      let(:nonprofit) { Nonprofit.new()}
+      let(:nonprofit_with_invalid_user) { Nonprofit.new(user_id: 3333)}
+      let(:nonprofit_with_user_who_already_admin) {nonprofit_admin_role; Nonprofit.new(user_id: user.id)}
+      let(:user) { create(:user)}
+      let(:nonprofit_admin_role) do
+        role = user.roles.build(host: nonprofit, name: 'nonprofit_admin')
+        role.save!
+        role
+      end
+      let(:nm_justice) {create(:nm_justice)}
+
+      before(:each) { nonprofit.valid?; nonprofit_with_invalid_user.valid?; nonprofit_with_user_who_already_admin.valid?}
+      it 'has an error for no name' do
+        expect(nonprofit.errors['name'].first).to match /.*blank.*/
+      end
+
+      it 'has an error for no user' do
+        expect(nonprofit.errors['user_id'].first).to match /.*blank.*/
+      end
+
+      it 'has an error for no city' do
+        expect(nonprofit.errors['city'].first).to match /.*blank.*/
+      end
+
+      it 'has an error for no state' do
+        expect(nonprofit.errors['state_code'].first).to match /.*blank.*/
+      end
+
+      it 'rejects an invalid user' do 
+        expect(nonprofit_with_invalid_user.errors['user_id'].first).to match /.*not a valid user.*/
+      end
+
+      it 'rejects a user who is already an admin' do
+        byebug
+        expect(nonprofit_with_user_who_already_admin.errors['user_id'].first).to match /.*admin.*/
+      end
+    end
+  end
 end

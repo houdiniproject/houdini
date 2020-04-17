@@ -139,6 +139,7 @@ gem 'foreman'
 
 group :production do
   gem 'rails_autoscale_agent'
+  gem 'tunemygc'
 end
 
 

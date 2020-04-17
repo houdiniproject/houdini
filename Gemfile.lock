@@ -418,6 +418,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    tunemygc (1.0.71)
     tzinfo (0.3.54)
     uglifier (2.7.1)
       execjs (>= 0.3.0)
@@ -524,6 +525,7 @@ DEPENDENCIES
   test-unit (~> 3.0)
   timecop
   traceroute
+  tunemygc
   uglifier
   webmock
 

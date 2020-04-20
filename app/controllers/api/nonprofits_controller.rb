@@ -99,7 +99,7 @@ class Api::NonprofitsController < ApplicationController
     end
 
     def clean_params
-        params.permit(nonprofit: [:name, :zip_code, :state_code, :city], user: [:name, :email, :password])
+        params.permit(:name, :zip_code, :state_code, :city, :user)
     end
 
 end

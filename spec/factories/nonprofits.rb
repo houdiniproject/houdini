@@ -9,7 +9,7 @@ FactoryBot.define do
     state_code { 'NM' }
     zip_code { 55_555 }
     email { 'nmj@gmail.com' }
-    slug { 'new_mexican_equality' }
+    slug { 'new-mexico-equality' }
     state_code_slug { 'nm'}
     city_slug { 'albuquerque'}
     register_np_only { true }
@@ -23,7 +23,7 @@ FactoryBot.define do
     zip_code { 54915 }
     email { 'contact@endpovertyinthefoxvalleyinc.org' }
     website {'https://endpovertyinthefoxvalleyinc.org'}
-    slug { 'end_poverty_in_the_fox_valley_inc' }
+    slug { 'end-poverty-in-the-fox-valley-inc' }
     state_code_slug { 'wi'}
     city_slug { 'appleton'}
     register_np_only { true }

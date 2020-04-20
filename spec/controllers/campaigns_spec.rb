@@ -85,7 +85,7 @@ describe CampaignsController, type: :controller do
         name: 'simplename',
         total_raised: 0,
         goal_amount: 444,
-        url: "/nm/albuquerque/new_mexican_equality/campaigns/slug_#{campaign.id}"
+        url: "/nm/albuquerque/new-mexico-equality/campaigns/slug_#{campaign.id}"
         }]}.with_indifferent_access)
     end
   end

@@ -3800,6 +3800,13 @@ CREATE INDEX index_supporters_on_name ON public.supporters USING btree (name);
 
 
 --
+-- Name: index_supporters_on_nonprofit_id_and_imported_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_supporters_on_nonprofit_id_and_imported_at ON public.supporters USING btree (nonprofit_id, imported_at);
+
+
+--
 -- Name: index_tag_joins_on_tag_master_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4981,4 +4988,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200416163347');
 INSERT INTO schema_migrations (version) VALUES ('20200416163530');
 
 INSERT INTO schema_migrations (version) VALUES ('20200416173740');
+
+INSERT INTO schema_migrations (version) VALUES ('20200421185917');
 

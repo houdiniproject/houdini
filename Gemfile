@@ -65,19 +65,8 @@ gem 'devise', '~> 4.4'
 gem 'config', '> 1.5'
 gem 'dry-validation', '~> 0.13.3' # used only for config validation
 gem 'foreman', '~> 0.85.0'
-gem 'grape_devise', path: 'gems/grape_devise'
-gem 'grape_logging', '~> 1.8', '>= 1.8.1'
-gem 'grape_url_validator', '~> 1.0'
-gem 'grape-entity', '~> 0.7.1'
-gem 'grape-swagger-entity', '~> 0.3.3'
-gem 'grape-swagger', '~> 0.33.0'
-gem 'grape', '~> 1.2', '>= 1.2.4'
 gem 'wisper', '~> 2.0'
 gem 'wisper-activejob', '~> 1.0.0'
-
-group :development do
-  gem 'grape_on_rails_routes', '~> 0.3.2'
-end
 
 group :development, :ci do
   gem 'debase', '~> 0.2.3'

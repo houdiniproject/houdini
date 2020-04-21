@@ -1,9 +1,0 @@
-Description:
-    Generates a new entity to be returned by the API
-
-Example:
-    rails generate api:entity EntityName
-
-    This will create:
-        A new subclass of Grape::Entity called Houdini::V1::Entities::EntityName
-        in app/api/houdini/v1/entities/entity_name.rb

@@ -83,10 +83,11 @@ class Nonprofit < ApplicationRecord
   validates :name, presence: true
   validates :city, presence: true
   validates :state_code, presence: true
-  validates :email, format: { with: Email::Regex }, allow_blank: true
-  validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
+  validates_format_of :email,  with: Email::Regex, allow_nil: true
+  validates_format_of :website, with: URI.regexp(['https', 'http']), allow_nil: true
   validates_presence_of :slug
-  
+  validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
+
   validates_presence_of :user_id, on: :create, unless: -> {register_np_only}
   validate :user_is_valid, on: :create, unless: -> {register_np_only}
   validate :user_registerable_as_admin, on: :create, unless: -> {register_np_only}
@@ -165,7 +166,7 @@ class Nonprofit < ApplicationRecord
         slug = SlugNonprofitNamingAlgorithm.new(self.state_code_slug, self.city_slug).create_copy_name(self.slug)
         self.slug = slug
     rescue UnableToCreateNameCopyError
-      errors.add(:slug, "another nonprofit admin")
+      errors.add(:slug, "could not be created.")
     end
   end
 
@@ -174,10 +175,6 @@ class Nonprofit < ApplicationRecord
       @user = User.find(user_id)
     end
     self
-  end
-
-  def user_is_valid
-    (user && user.is_a?(User)) || errors.add(:user_id, "is not a valid user")
   end
 
   def full_address
@@ -228,11 +225,6 @@ class Nonprofit < ApplicationRecord
     Settings.intntl.all_currencies.find { |i| i.abbv.casecmp(currency).zero? }&.symbol
   end
 
-  def user_registerable_as_admin
-    if user && user.roles.nonprofit_admins.any?
-      errors.add(:user_id, "cannot already be an admin for a nonprofit.")
-    end
-  end
 private 
   def build_admin_role 
     role = user.roles.build(host: self, name: 'nonprofit_admin')
@@ -244,4 +236,15 @@ private
     b_sub = build_billing_subscription(billing_plan: billing_plan, status: 'active')
     b_sub.save!
   end
+
+  def user_registerable_as_admin
+    if user && user.roles.nonprofit_admins.any?
+      errors.add(:user_id, "cannot already be an admin for a nonprofit.")
+    end
+  end
+
+  def user_is_valid
+    (user && user.is_a?(User)) || errors.add(:user_id, "is not a valid user")
+  end
+
 end

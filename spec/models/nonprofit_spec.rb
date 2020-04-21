@@ -53,6 +53,8 @@ RSpec.describe Nonprofit, type: :model do
       let(:nonprofit_with_same_name) { Nonprofit.new({name: "New Mexico Equality", state_code: nm_justice.state_code, city: nm_justice.city, user_id: user.id})}
       let(:nonprofit_with_same_name_but_different_state) { Nonprofit.new({name: "New Mexico Equality", state_code: 'mn', city: nm_justice.city, user_id: user.id })}
 
+      let(:nonprofit_with_bad_email_and_website) { Nonprofit.new({email: 'not_email', website: 'not_website'})}
+
       let(:user) { create(:user)}
       let(:nonprofit_admin_role) do
         role = user.roles.build(host: nonprofit, name: 'nonprofit_admin')
@@ -61,7 +63,15 @@ RSpec.describe Nonprofit, type: :model do
       end
       let(:nm_justice) {create(:nm_justice)}
 
-      before(:each) { nonprofit.valid?; nonprofit_with_invalid_user.valid?; nonprofit_with_user_who_already_admin.valid?; nonprofit_with_same_name.valid?; nonprofit_with_same_name_but_different_state.valid?}
+      before(:each) do
+        nonprofit.valid?
+        nonprofit_with_invalid_user.valid?
+        nonprofit_with_user_who_already_admin.valid?
+        nonprofit_with_same_name.valid?
+        nonprofit_with_same_name_but_different_state.valid?
+        nonprofit_with_bad_email_and_website.valid?
+      end
+
       it 'has an error for no name' do
         expect(nonprofit.errors['name'].first).to match /.*blank.*/
       end
@@ -91,9 +101,24 @@ RSpec.describe Nonprofit, type: :model do
         expect(nonprofit_with_same_name.slug).to eq "#{nm_justice.slug}-00"
       end
 
-      it 'does nothing to a slug when it tries to save' do
+      it 'does nothing to a slug when a slug was provided' do
         expect(nonprofit_with_same_name_but_different_state.errors['slug']).to be_empty
         expect(nonprofit_with_same_name_but_different_state.slug).to eq "#{nm_justice.slug}"
+      end
+
+      it 'marks email as having errors if they do' do 
+        expect(nonprofit_with_bad_email_and_website.errors['email'].first).to match /.*invalid.*/ 
+      end
+
+      it 'marks website as having errors if they do' do 
+        expect(nonprofit_with_bad_email_and_website.errors['website'].first).to match /.*invalid.*/
+      end
+
+      it 'marks an nonprofit as invalid when no slug could be created ' do
+        nonprofit = Nonprofit.new({name: nm_justice.name, city: nm_justice.city, state_code: nm_justice.state_code, slug: nm_justice.slug})
+        expect_any_instance_of(SlugNonprofitNamingAlgorithm).to receive(:create_copy_name).and_raise(UnableToCreateNameCopyError.new)
+        nonprofit.valid?
+        expect(nonprofit.errors['slug'].first).to match /.*could not be created.*/
       end
     end
   end

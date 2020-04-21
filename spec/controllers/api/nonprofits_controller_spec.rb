@@ -9,115 +9,35 @@ describe Api::NonprofitsController, type: :request do
      role
   end
   let(:nonprofit) {create(:nm_justice)}
+
   describe 'get' do
   end
 
-  describe 'post' do
+  describe 'create' do
     around(:each) do |example|
       @old_bp = Settings.default_bp
       example.run
       Settings.default_bp = @old_bp
     end
-    def expect_validation_errors(actual, input)
-      expected_errors = input.with_indifferent_access[:errors]
-      expect(actual['errors']).to match_array expected_errors
-    end
 
-    def create_errors(*wrapper_params)
-      output = totally_empty_errors
-      wrapper_params.each { |i| output[:errors].push(h(params: [i], messages: gr_e('presence'))) }
-      output
-    end
-
-    def h(h = {})
-      h.with_indifferent_access
-    end
-
-    describe 'authorization' do
-      around(:each) do |e|
-        Rails.configuration.action_controller.allow_forgery_protection = true
-        e.run
-        Rails.configuration.action_controller.allow_forgery_protection = false
-      end
-
-      it 'rejects csrf' do
-        post :create, params: {}, xhr: true
-        expect(response.code).to eq '400'
-      end
-    end
-
-    it 'validates nothing' do
+    it 'validates and returns correct errors' do
       input = {}
       post '/api/nonprofits', params: input, xhr: true
       expect(response).to have_http_status :unprocessable_entity
-      expect(response.parsed_body['errors'].keys).to match_array ['name', 'city', 'state_code', 'slug', 'user']
-    end
-
-    it 'validates url, email, phone ' do
-      input = {
-        nonprofit: {
-          email: 'noemeila',
-          phone: 'notphone',
-          url: ''
-        }
-      }
-      post :create, params: input, xhr: true
-      expect(response.code).to eq '400'
-      expected = create_errors('user')
-      expected[:errors].push(h(params: ['nonprofit[email]'], messages: gr_e('regexp')))
-      # expected[:errors].push(h(params:["nonprofit[phone]"], messages: gr_e("regexp")))
-      # expected[:errors].push(h(params:["nonprofit[url]"], messages: gr_e("regexp")))
-
-      expect_validation_errors(JSON.parse(response.body), expected)
-    end
-
-    it 'attempts to make a slug copy and returns the proper errors' do
-      force_create(:nonprofit, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
-      input = {
-        nonprofit: { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915 },
-        user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }
-      }
-
-      expect_any_instance_of(SlugNonprofitNamingAlgorithm).to receive(:create_copy_name).and_raise(UnableToCreateNameCopyError.new)
-
-      post :create, params: input, xhr: true
-      expect(response.code).to eq '400'
-
-      expect_validation_errors(JSON.parse(response.body),
-                               errors: [
-                                 h(
-                                   params: ['nonprofit[name]'],
-                                   messages: ['has an invalid slug. Contact support for help.']
-                                 )
-                               ])
-    end
-
-    it 'errors on attempt to add the user to a second nonprofit' do
-      nonprofit_admin_role
-      input =  { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915, user_id: user.id }
-      post '/api/nonprofits', params: input, xhr:true
-      expect(response).to have_http_status :unprocessable_entity
-      expect(response.parsed_body['errors'].keys).to match_array 'user'
-      byebug
-      expect(response.parsed_body['errors']['user'].first).to has_include? 'nonprofit admin'
+      expect(response.parsed_body['errors'].keys).to match_array ['name', 'city', 'state_code', 'slug', 'user_id']
     end
 
     it 'succeeds' do
-      force_create(:nonprofit, slug: 'n', state_code_slug: 'wi', city_slug: 'appleton')
-      input = {
-        nonprofit: { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915, url: 'www.cs.c', website: 'www.cs.c' },
-        user: { name: 'Name', email: 'em@em.com', password: '12345678', password_confirmation: '12345678' }
-      }
-
+      input =  { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915, user_id: user.id, phone: '920-555-5555' }
+      sign_in user
       bp = force_create(:billing_plan)
       Settings.default_bp.id = bp.id
 
-      # expect(Houdini::V1::Nonprofit).to receive(:sign_in)
+      sign_in user
 
-      post :create, params: input, xhr: true
-      expect(response.code).to eq '201'
+      post '/api/nonprofits', params: input, xhr: true
+      expect(response).to have_http_status :created
 
-      our_np = Nonprofit.all[1]
       expected_np = {
         name: 'n',
         state_code: 'WI',
@@ -125,45 +45,17 @@ describe Api::NonprofitsController, type: :request do
         zip_code: '54915',
         state_code_slug: 'wi',
         city_slug: 'appleton',
-        slug: 'n-00',
-        website: 'http://www.cs.c'
+        slug: 'n',
+        phone: '920-555-5555',
+        email: nil,
+        website: nil,
+        urls: {plain_url: "http://www.example.com/nonprofits/1", slug_url: "http://www.example.com/wi/appleton/n"}
       }.with_indifferent_access
-
-      expected_np = our_np.attributes.with_indifferent_access.merge(expected_np)
-      expect(our_np.attributes).to eq expected_np
-
-      expect(our_np.billing_subscription.billing_plan).to eq bp
-
-      response_body = {
-        id: our_np.id
-      }.with_indifferent_access
-
-      expect(JSON.parse(response.body)).to eq response_body
-
-      user = User.first
-      expected_user = {
-        email: 'em@em.com',
-        name: 'Name'
-      }
-
-      expected_user = user.attributes.with_indifferent_access.merge(expected_user)
-      expect(our_np.roles.nonprofit_admins.count).to eq 1
-      expect(our_np.roles.nonprofit_admins.first.user.attributes).to eq expected_user
+      
+      expect(response.parsed_body['id']).to be > 0
+      expect(response.parsed_body.except('id')).to eq expected_np
     end
   end
-end
-
-def find_error_message(json, field_name)
-  errors = json['errors']
-
-  error = errors.select { |i| i['params'].any? { |j| j == field_name } }.first
-  return error unless error
-
-  error['messages']
-end
-
-def gr_e(*keys)
-  keys.map { |i| I18n.translate('grape.errors.messages.' + i, locale: 'en') }
 end
 
 

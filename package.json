@@ -6,17 +6,10 @@
     "url": "https://github.com/houdiniproject/houdini"
   },
   "scripts": {
-    "watch": "export HOUDINI_WATCH=1; script/build.sh",
-    "build": "script/build.sh",
     "build-all": "yarn ci && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
     "test": "rake -v spec  && yarn build && yarn jest",
-    "export-button-config": "bundle exec rake settings:generate_json",
-    "generate-openapi": "rake oapi:gen",
-    "get-codegen-cli": "script/download_codegen_cli.sh",
-    "generate-api-js": "rm -rf javascripts/api && yarn get-codegen-cli && yarn generate-openapi && java -jar .bin/swagger-codegen-cli.jar generate -l 'typescript-jquery' -i tmp/openapi.json -o javascripts/api  --config 'swagger.json' -t lib/swagger-typescript-jquery",
-    "jest": "jest",
-    "webpack": "webpack"
+    "jest": "jest"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.7.1",

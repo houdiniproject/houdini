@@ -12,9 +12,12 @@ import {WizardState, WizardTabPanelState} from "../common/wizard/wizard_state";
 import UserInfoPanel, * as UserInfo from "./UserInfoPanel";
 import {
   Nonprofit,
-  NonprofitApi,
+  NonprofitsApi,
   PostNonprofit,
-  ValidationErrorsException
+  ValidationErrorsException,
+  UsersApi,
+  PostUser,
+  PostNonprofitUser
 } from "../../../api";
 
 import {initializationDefinition} from "../../../../types/mobx-react-form";
@@ -36,16 +39,22 @@ const setTourCookies = (nonprofit:Nonprofit) => {
   document.cookie = `tour_supporters=${nonprofit.id};path=/`
   document.cookie = `tour_subscribers=${nonprofit.id};path=/`
 }
+/** this is just here to allow compilation. */
+interface TemporaryHackyInterface {
+  nonprofit: PostNonprofit
+  user: PostNonprofitUser
+}
 
 export class RegistrationPageForm extends HoudiniForm {
-  converter: StaticFormToErrorAndBackConverter<PostNonprofit>
+  converter: StaticFormToErrorAndBackConverter<TemporaryHackyInterface>
 
   constructor(definition: initializationDefinition, options?: any) {
     super(definition, options)
-    this.converter = new StaticFormToErrorAndBackConverter<PostNonprofit>(this.inputToForm)
+    this.converter = new StaticFormToErrorAndBackConverter<TemporaryHackyInterface>(this.inputToForm)
   }
 
-  nonprofitApi: NonprofitApi
+  nonprofitApi: NonprofitsApi
+  usersApi: UsersApi
   signinApi: WebUserSignInOut
 
   options() {
@@ -78,9 +87,11 @@ export class RegistrationPageForm extends HoudiniForm {
 
 
         try {
-          let r = await this.nonprofitApi.postNonprofit(input)
+          const userMessage = {user: input.user}
+          let user = await this.usersApi.postUser(userMessage)
+          this.signinApi.postLogin({email: input.user.email, password: input.user.password})
+          let r = await this.nonprofitApi.postNonprofit(input.nonprofit)
           setTourCookies(r)
-          await this.signinApi.postLogin({email: input.user.email, password: input.user.password})
           window.location.href = `/nonprofits/${r.id}/dashboard`
 
         }
@@ -155,8 +166,9 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
   componentWillMount()
   {
     runInAction(() => {
-      this.form.nonprofitApi = this.props.ApiManager.get(NonprofitApi)
+      this.form.nonprofitApi = this.props.ApiManager.get(NonprofitsApi)
       this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
+      this.form.usersApi = this.props.ApiManager.get(UsersApi)
     })
   }
 

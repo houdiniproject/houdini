@@ -2,9 +2,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import AriaModal = require('react-aria-modal');
-import { VelocityTransitionGroup } from 'velocity-react';
-import 'velocity-animate';
-import 'velocity-animate/velocity.ui';
 import { DefaultCloseButton } from './DefaultCloseButton';
 import BootstrapWrapper from './BootstrapWrapper';
 import { Row, Column } from './layout';
@@ -27,7 +24,7 @@ class Modal extends React.Component<ModalProps, {}> {
   }
 
   render() {
-    const innerModal = this.props.modalActive ? <AriaModal mounted={this.props.modalActive} titleText={this.props.titleText} focusDialog={this.props.focusDialog}
+    const modal = this.props.modalActive ? <AriaModal mounted={this.props.modalActive} titleText={this.props.titleText} focusDialog={this.props.focusDialog}
       onExit={this.props.onClose} dialogStyle={this.props.dialogStyle}>
       <BootstrapWrapper>
         <header className='modal-header' style={{
@@ -54,39 +51,6 @@ class Modal extends React.Component<ModalProps, {}> {
         </div>
       </BootstrapWrapper>
     </AriaModal> : false
-
-    const modal =
-      <VelocityTransitionGroup
-        enter={
-          {
-            animation: 'fadeIn',
-            /* These styles are needed because, for some reason, we're 
-            not able to cover the sidebar otherwise. Why? *shrug*
-            */
-            style: {
-              position: 'fixed',
-              top: '0px',
-              left: '0px',
-              zIndex: '5000'
-            }
-          }
-        }
-
-        leave={
-          {
-            animation: 'fadeOut',
-            style: {
-              position: 'fixed',
-              top: '0px',
-              left: '0px',
-              zIndex: '5000'
-            }
-          }
-        }
-
-        runOnMount={true}>
-        {innerModal}
-      </VelocityTransitionGroup>;
 
     return modal
   }

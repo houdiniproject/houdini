@@ -6,7 +6,7 @@
     "url": "https://github.com/houdiniproject/houdini"
   },
   "scripts": {
-    "build-all": "yarn ci && script/compile-assets.sh && yarn build",
+    "build-all": "yarn install --frozen-lockfile && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
     "test": "rake -v spec  && yarn build && yarn jest",
     "jest": "jest"

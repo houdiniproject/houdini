@@ -88,4 +88,6 @@ Rails.application.configure do
   # SASS Helpers
   config.sass.inline_source_maps = true
   config.sass.line_comments = false
+
+  config.active_storage.service = :local
 end

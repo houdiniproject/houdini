@@ -35,7 +35,6 @@
     "bootstrap": "^3.4.1",
     "bootstrap-loader": "github:houdiniproject/bootstrap-loader#compiled_namespaced_3",
     "bootstrap-sass": "^3.3.7",
-    "compression-webpack-plugin": "^1.1.11",
     "css-loader": "^0.28.10",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",

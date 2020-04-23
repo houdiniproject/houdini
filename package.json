@@ -163,7 +163,10 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testPathIgnorePatterns": ["/node_modules/", "/config/webpack/test.js"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/config/webpack/test.js"
+    ],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",

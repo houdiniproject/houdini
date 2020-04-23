@@ -55,6 +55,7 @@ gem 'qx', path: 'gems/ruby-qx'
 # Images
 gem 'carrierwave', '~> 1.3' # https://github.com/carrierwaveuploader/carrierwave
 gem 'mini_magick', '~> 4.9'
+gem 'image_processing', '~> 1.10.3'
 
 # User authentication
 # https://github.com/plataformatec/devise

@@ -39,7 +39,6 @@
     "bootstrap": "^3.4.1",
     "bootstrap-loader": "github:houdiniproject/bootstrap-loader#compiled_namespaced_3",
     "bootstrap-sass": "^3.3.7",
-    "clean-webpack-plugin": "^0.1.19",
     "compression-webpack-plugin": "^1.1.11",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.10",

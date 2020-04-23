@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
+    "@rails/activestorage": "^6.0.2-2",
     "@rails/webpacker": "~5.0.1",
     "attr-binder": "0.3.1",
     "aws-sdk": "^2.402.0",

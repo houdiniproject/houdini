@@ -10,5 +10,5 @@ class DirectDebitDetail < ApplicationRecord
 
   has_many :donations
   has_many :charges
-  belongs_to :holder, class_name: Supporter.class_name
+  belongs_to :holder, class_name: 'Supporter'
 end

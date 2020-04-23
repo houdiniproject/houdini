@@ -1,0 +1,91 @@
+/* License: LGPL-3.0-or-later */
+[data-ff-wizard-label]:first-of-type:before {
+  display: none;
+}
+
+[data-ff-wizard-label] {
+  opacity: 1;
+  transition: color 200ms ease;
+}
+
+
+
+[data-ff-wizard-label='accessible'] { cursor: pointer; }
+
+[data-ff-wizard-label='inaccessible'] { cursor: default; }
+
+[data-ff-wizard-label] {
+  text-align: center;
+  font-size: .8rem;
+  padding: 1rem .25rem 0 .25rem;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+[data-ff-wizard-label]:after,
+[data-ff-wizard-label]:before {
+  content: '';
+  position: absolute;
+  transition: background 200ms ease;
+}
+
+[data-ff-wizard-label]:after {
+  z-index: 1;
+  top: 0;
+  right: 50%;
+  transform: translateX(.5rem);
+  height: .8rem;
+  width: .8rem;
+  border-radius: 2rem; 
+}
+
+[data-ff-wizard-label]:before {
+  height: .2rem;
+  width: 100%;
+  top: .35rem; 
+  right: 50%;
+}
+
+[data-ff-wizard-label-wrapper='complete'] [data-ff-wizard-label] {
+  color: var(--grey-5);
+  pointer-events: none;
+}
+
+
+[data-ff-wizard-label] {
+  color: var(--grey-5);
+}
+
+[data-ff-wizard-label-wrapper='complete'] [data-ff-wizard-label]:after,
+[data-ff-wizard-label]:after {
+  background: var(--grey-5);
+}
+
+[data-ff-wizard-label-wrapper='complete'] [data-ff-wizard-label]:before,
+[data-ff-wizard-label]:before {
+  background: var(--grey-4);
+}
+
+[data-ff-wizard-label='accessible']:after, 
+[data-ff-wizard-label='current']:after {
+  background: var(--blue);
+}
+
+[data-ff-wizard-label='accessible']:before, 
+[data-ff-wizard-label='current']:before {
+  background: var(--blue-light);
+}
+
+[data-ff-wizard-label-wrapper] {
+  width: 100%;
+  padding: 1rem 1rem .5rem 1rem;
+  background: var(--grey-1);
+}
+
+[data-ff-wizard-label='accessible'], 
+[data-ff-wizard-label='current'] {
+  font-weight: 500;
+  color: var(--blue);
+}
+

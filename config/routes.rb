@@ -257,7 +257,10 @@ Rails.application.routes.draw do
   get '/static/terms_and_privacy' => 'static#terms_and_privacy'
   get '/static/ccs' => 'static#ccs'
 
-
+  get '/js/donate-button.v2.js' => 'widget#v2'
+  get '/js/i18n.js' => 'widget#i18n'
+  get '/css/donate-button.css' => 'widget#v1_css'
+  get '/css/donate-button.v2.css' => 'widget#v2_css'
 
   root to: 'front#index'
 end

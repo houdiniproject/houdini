@@ -76,7 +76,7 @@ export class CreateOffsiteDonation {
 
       }
     );
-    return dfd.promise();
+    return dfd.promise() as any;
   }
 }
 

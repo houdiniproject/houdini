@@ -33,7 +33,7 @@ export function mountForMobx<TProps>(props:TProps,
   
       
       return mount(<OuterWrapper {...props}
-        __childrenCreator={rootComponentCreator} />)
+        __childrenCreator={rootComponentCreator as any} />)
 }
 
 /**
@@ -45,7 +45,7 @@ export function mountForMobx<TProps>(props:TProps,
 export function mountForMobxWithIntl<TProps>(props:TProps,
                                              rootComponentCreator:(props:TProps) => React.ReactNode): ReactWrapper {
   return mountWithIntl(<OuterWrapper {...props}
-                                     __childrenCreator={rootComponentCreator} />)
+                                     __childrenCreator={rootComponentCreator as any} />)
 }
 
 

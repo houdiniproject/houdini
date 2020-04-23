@@ -4,15 +4,10 @@
 
 <% content_for(:stylesheets) do %>
   <%= stylesheet_link_tag 'nonprofits/supporters/index/page' %>
-  <%= IncludeAsset.css '/client/css/bootstrap.css' %>
 <% end %>
 <%= content_for :javascripts do %>
-	<%= IncludeAsset.js '/client/js/nonprofits/supporters/index/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__supporters__index', 'create_new_offsite_payment_pane' %>
 	<%= render 'common/froala' %>
-	<%= IncludeAsset.js '/app/react.js' %>
-  <%= IncludeAsset.js '/app/react-dom.js' %>
-  <%= IncludeAsset.js '/app/vendor.js' %>
-  <%= IncludeAsset.js '/app/create_new_offsite_payment_panex.js' %>
 
   <script>
     appl.def('open_donation_modal', function(supporter_id, donation_finish_successful_state_fn) {

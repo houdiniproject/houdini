@@ -76,7 +76,7 @@ export class WebUserSignInOut {
 
       }
     );
-    return dfd.promise();
+    return dfd.promise() as any;
   }
 }
 

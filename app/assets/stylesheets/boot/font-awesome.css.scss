@@ -6,13 +6,7 @@
 
 @font-face {
   font-family: "FontAwesome";
-  src: font-url("FontAwesome/fontawesome-webfont.eot?v=4.1.0");
-  src: font-url("FontAwesome/fontawesome-webfont.eot?#iefix&v=4.1.0")
-      format("embedded-opentype"),
-    font-url("FontAwesome/fontawesome-webfont.woff?v=4.1.0") format("woff"),
-    font-url("FontAwesome/fontawesome-webfont.ttf?v=4.1.0") format("truetype"),
-    font-url("FontAwesome/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular")
-      format("svg");
+  src: font-url("FontAwesome/fontawesome-webfont.woff?v=4.1.0") format("woff");
   font-weight: normal;
   font-style: normal;
 }

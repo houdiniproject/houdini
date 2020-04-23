@@ -1,0 +1,10 @@
+/* License: LGPL-3.0-or-later */
+pre {
+  white-space: pre-wrap;       
+  word-break: break-all;
+  font-size: .8rem;
+  background: var(--grey-1);
+  padding: 1rem;
+  margin: 0;
+}
+

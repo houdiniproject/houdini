@@ -56,7 +56,7 @@ module Nonprofits
     end
 
     def full_contact
-      fc = FullContactInfo.where("supporter_id=#{params[:supporter_id]}").first
+      fc = FullContactInfo.where("supporter_id=#{params[:id]}").first
       if fc
         render json: { full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id) }
       else
@@ -70,7 +70,7 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/supporters
     def create
-      render_json { InsertSupporter.create_or_update(create_supporter_params[:nonprofit_id], params[:supporter]) }
+      render_json { InsertSupporter.create_or_update(params[:nonprofit_id], create_supporter_params.to_h) }
     end
 
     # put /nonprofits/:nonprofit_id/supporters/:id
@@ -109,7 +109,7 @@ module Nonprofits
     private
 
     def create_supporter_params
-      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :first_name, :last_name, :custom_fields)
+      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :first_name, :last_name, :customFields)
     end
 
     def update_supporter_params

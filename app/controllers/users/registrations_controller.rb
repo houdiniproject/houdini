@@ -10,8 +10,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # this endpoint only creates donor users
   def create
-    params[:user][:referer] = session[:referer_id]
-    user = User.register_donor!(params[:user])
+    clean_params[:user][:referer] = session[:referer_id]
+    user = User.register_donor!(clean_params[:user])
     if user.save
       sign_in user
       render json: user
@@ -50,5 +50,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       render json: { errors: errs }, status: :unprocessable_entity
     end
+  end
+
+  private 
+  def clean_params
+    params.permit(:user => [:name, :email, :password_confirmation, :password])
   end
 end

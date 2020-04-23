@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= "#{yield(:title)} - #{Settings.general.name}" %></title>
   <script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,Intl.~locale.en"></script>
-  <%= IncludeAsset.js '/client/js/i18n.js' %>
   <script>
+      window.I18n = {}
       I18n.defaultLocale = "<%= I18n.default_locale %>"
       I18n.locale = "<%= I18n.locale %>"
       window._csrf = "<%= form_authenticity_token %>"
@@ -15,8 +15,6 @@
 
 
   <%= render 'layouts/stylesheets' %>
-  <%= IncludeAsset.css '/client/css/global/page.css' %>
-  <%= IncludeAsset.css '/client/css/bootstrap.css' %>
   <%= favicon_link_tag %>
 
   <style>
@@ -25,10 +23,6 @@
 </head>
 <body class="<%= @theme == 'minimal' ? 'minimal' : nil %>">
 <%= render 'layouts/apified_header' %>
-<%= IncludeAsset.js '/app/loading_indicator.js' %>
-<%= IncludeAsset.js '/app/react.js' %>
-<%= IncludeAsset.js '/app/react-dom.js' %>
-<%= IncludeAsset.js '/app/vendor.js' %>
 <%= yield :javascripts %>
 <div class="site-content" role="main">
   <%= yield %>

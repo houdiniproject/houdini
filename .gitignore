@@ -48,9 +48,6 @@ config/environments/*.local.yml
 #local bins we use for builds
 .bin
 
-#generated typescript APIs from Grape
-javascripts/api
-
 # thing we want to keep in public
 !public/*.html
 !public/maintenance.html
@@ -66,3 +63,10 @@ javascripts/api
 !public/css/donate-button.v2.css
 !public/svgs
 !public/svgs/*
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

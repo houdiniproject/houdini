@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 import { Color } from 'csstype';
 import * as React from 'react';
-import { VelocityComponent } from 'velocity-react';
 import ScreenReaderOnlyText from './ScreenReaderOnlyText';
 
 export interface SpinnerProps {
@@ -41,11 +40,9 @@ class Spinner extends React.Component<SpinnerProps, {}> {
 
   }
   render() {
-    return <VelocityComponent animation={{ rotateZ: 360 }} duration={750} loop={true} easing={'linear'} runOnMount={true}>
-      <div style={this.generateStyle()} role="status">
+    return <div style={this.generateStyle()} role="status">
         <ScreenReaderOnlyText>Loading...</ScreenReaderOnlyText>
       </div>
-    </VelocityComponent>;
   }
 }
 

@@ -34,7 +34,7 @@ payment_provider:
   stripe_proprietary_v2_js: true
 
 default_bp:
-  id: 40
+  id: 1
   percentage_fee: 0.020
 
 devise:

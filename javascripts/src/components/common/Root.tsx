@@ -10,10 +10,13 @@ import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 import * as CustomAPIS from "../../lib/apis"
 
 const enLocaleData = require('react-intl/locale-data/en');
-const deLocaleData = require('react-intl/locale-data/de');
-const I18n = require('i18n')
-
-addLocaleData([...enLocaleData, ...deLocaleData])
+const I18n = require('../../../../app/javascript/i18n.js.erb')
+const localeData = [...enLocaleData]
+Object.keys(I18n.translations).filter((i:string) => i !== 'en').forEach((i:string) => {
+  const data  = [...require(`react-intl/locale-data/${i}`)]
+  localeData.concat(data)
+})
+addLocaleData(localeData)
 
 interface RootProps
 {

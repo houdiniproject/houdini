@@ -5,7 +5,7 @@
   <head>
     <%= render 'layouts/meta_tags' %>
     <%= yield :head %>
-    <%= IncludeAsset.css '/client/css/global/page.css' %>
+    <%= stylesheet_link_tag 'experiment/global/page' %>
     <%= yield :stylesheets %>
   </head>
 

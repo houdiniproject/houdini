@@ -82,7 +82,6 @@ group :development, :ci, :test do
   gem 'pry', '~> 0.12.2'
   gem 'pry-byebug', '~> 3.7.0'
   gem 'ruby-prof', '0.15.9'
-  gem 'solargraph', '~> 0.35.1'
   gem 'standard', '~> 0.1.2'
   gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
   gem 'rspec', '~> 3.8'

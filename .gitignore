@@ -70,3 +70,6 @@ config/environments/*.local.yml
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# we don't want the file storage directory to be committed
+storage

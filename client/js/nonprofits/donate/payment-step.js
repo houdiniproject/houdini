@@ -29,6 +29,7 @@ function init(state) {
 
   const coverFees$ = flyd.map(params => (params.manual_cover_fees || params.hide_cover_fees_option) ? false : true, params$)
 
+  const hideCoverFeesOption$ = flyd.map(params => params.hide_cover_fees_option, params$)
   state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
     const feeStructure = app.nonprofit.feeStructure
     if (!feeStructure) {
@@ -48,7 +49,8 @@ function init(state) {
      return "$" + centsToDollars(fee.amountInCents)
   }, state.donation$)
 
-  state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$})
+  state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$, 
+  hide_cover_fees_option$: hideCoverFeesOption$})
   state.sepaForm = sepaForm.init({ supporter: supporterID$ })
 
   // Set the card ID into the donation object when it is saved

@@ -58,6 +58,8 @@ const init = params$ => {
   , event_id: app.event_id
   }, state.params$())
 
+  state.hide_cover_fees_option = state.params$().hide_cover_fees_option
+
   state.selectedPayment$ = flyd.stream('sepa')
 
   state.amountStep = amountStep.init(donationDefaults, state.params$)

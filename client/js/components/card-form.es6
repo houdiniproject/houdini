@@ -51,7 +51,6 @@ const init = (state) => {
   state.form = validatedForm.init({ constraints, validators, messages })
   state.element = create_card_element.createElement({hidePostalCode: true})
 
-  state.hide_cover_fees_option = app.hide_cover_fees_option;
 
   state.card$ = flyd.merge(state.card$ || flyd.stream({}), state.form.validData$)
 
@@ -151,7 +150,7 @@ const view = state => {
       })
       
       , profileInput(field, app.profile_id)
-      , !state.hide_cover_fees_option ? feeCoverageField(state) : ''
+      , !state.hide_cover_fees_option$() ? feeCoverageField(state) : ''
     ])
     , h('div.u-centered.u-marginTop--20', [
       state.hideButton ? '' : button({

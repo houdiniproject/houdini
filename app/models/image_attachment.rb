@@ -4,7 +4,7 @@
 class ImageAttachment < ApplicationRecord
   # :parent_id,
   # :file
-  mount_uploader :file, ImageAttachmentUploader
+  has_one_attached :file
 
   # not sure if poly parent is used on this model, as all values are nil in db
   belongs_to :parent, polymorphic: true

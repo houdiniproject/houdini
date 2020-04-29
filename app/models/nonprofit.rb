@@ -97,12 +97,12 @@ class Nonprofit < ApplicationRecord
   scope :identity_verified, -> { where(verification_status: 'verified') }
   scope :published, -> { where(published: true) }
 
-  mount_uploader :main_image, NonprofitUploader
-  mount_uploader :second_image, NonprofitUploader
-  mount_uploader :third_image, NonprofitUploader
-  mount_uploader :background_image, NonprofitBackgroundUploader
-  mount_uploader :logo, NonprofitLogoUploader
-
+  has_one_attached :main_image
+  has_one_attached :second_image
+  has_one_attached :third_image
+  has_one_attached :background_image
+  has_one_attached :logo
+  
   serialize :achievements, Array
   serialize :categories, Array
 

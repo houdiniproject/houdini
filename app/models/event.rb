@@ -61,9 +61,9 @@ class Event < ApplicationRecord
   geocoded_by :full_address
 
   accepts_nested_attributes_for :ticket_levels, allow_destroy: true
-
-  mount_uploader :main_image, EventMainImageUploader
-  mount_uploader :background_image, EventBackgroundImageUploader
+  has_one_attached :main_image
+  has_one_attached :background_image
+  
 
   scope :not_deleted, -> { where(deleted: [nil, false]) }
   scope :deleted, -> { where(deleted: true) }

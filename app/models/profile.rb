@@ -25,7 +25,7 @@ class Profile < ApplicationRecord
 
   serialize :privacy_settings, Array
 
-  mount_uploader :picture, ProfileUploader
+  has_one_attached :picture
 
   belongs_to :user
   has_many :activities # Activities this profile has created

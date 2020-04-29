@@ -50,9 +50,9 @@ class Campaign < ApplicationRecord
 
   attr_accessor :goal_amount_dollars
 
-  mount_uploader :main_image, CampaignMainImageUploader
-  mount_uploader :background_image, CampaignBackgroundImageUploader
-  mount_uploader :banner_image, CampaignBannerImageUploader
+  has_one_attached :main_image
+  has_one_attached :background_image
+  has_one_attached :banner_image
 
   has_many :donations
   has_many :charges, through: :donations

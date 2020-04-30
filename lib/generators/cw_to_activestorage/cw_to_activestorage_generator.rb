@@ -2,6 +2,10 @@
 class CwToActivestorageGenerator < Rails::Generators::Base
   source_root File.expand_path('templates', __dir__)
 
+  def install_activestorage_tables
+    rake 'active_storage:install'
+  end
+  
   def copy_uploaders
     if (!File.exists?('app/uploaders'))
       directory 'uploaders', 'app/uploaders'

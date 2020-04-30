@@ -30,6 +30,11 @@ https://houdini.zulipchat.com
 Visit the Internationalization channel on Houdini Zulip and discuss
 ## Dev Setup
 
+### Create new postgres user
+Run `sudo -u postgres createuser houdini_user -s -P` and then enter a password for the role
+
+## Docker setup
+
 #### Get the code  
 `git clone https://github.com/HoudiniProject/houdini`
 

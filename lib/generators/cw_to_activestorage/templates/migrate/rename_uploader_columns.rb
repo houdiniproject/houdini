@@ -13,7 +13,7 @@ class RenameUploaderColumns < ActiveRecord::Migration[5.2]
     rename_column :nonprofits, :second_image, :second_image_temp
     rename_column :nonprofits, :third_image, :third_image_temp
     rename_column :nonprofits, :background_image, :background_image_temp
-    rename_column :nonprofits, :logo_image, :logo_image_temp
+    rename_column :nonprofits, :logo, :logo_temp
 
     rename_column :profiles, :picture, :picture_temp
 end

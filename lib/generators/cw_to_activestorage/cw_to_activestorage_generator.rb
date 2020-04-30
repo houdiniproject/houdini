@@ -32,7 +32,7 @@ class CwToActivestorageGenerator < Rails::Generators::Base
   def create_column_migration_file
     if (Dir.glob("db/migrate/*_rename_uploader_columns.rb").none?)
       copy_file "migrate/rename_uploader_columns.rb", 
-      "db/migrate/#{DateTime.now.strftime('%Y%m%d%H%M%S')}_rename_uploader_columns.rb"
+      "db/migrate/#{(DateTime.now + 1.second).strftime('%Y%m%d%H%M%S')}_rename_uploader_columns.rb"
     end
   end
 

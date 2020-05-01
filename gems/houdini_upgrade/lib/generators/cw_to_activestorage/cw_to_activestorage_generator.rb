@@ -1,11 +1,9 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class CwToActivestorageGenerator < Rails::Generators::Base
   source_root File.expand_path('templates', __dir__)
+  class_option :aws_bucket, type: :string, required: true
+  class_option :aws_assethost, type: :string, required: false
 
-  def install_activestorage_tables
-    rake 'active_storage:install'
-  end
-  
   def copy_uploaders
     if (!File.exists?('app/uploaders'))
       directory 'uploaders', 'app/uploaders'
@@ -39,5 +37,12 @@ class CwToActivestorageGenerator < Rails::Generators::Base
   def add_carrierwave_gems
     gem "carrierwave", "~> 1"
     gem "carrierwave-aws"
+  end
+
+  def add_carrierwave_template
+    @aws_bucket = options[:aws_bucket]
+    @aws_assethost = options[:aws_assethost] || "https://#{@aws_bucket}.s3.amazonaws.com"
+    
+    template 'initializers/carrierwave.rb', 'config/initializers/carrierwave.rb'
   end
 end

@@ -5,8 +5,9 @@
   Rake::Task["install:migrations"].clear_comments
   desc "Run houdini upgrade to v2"
   task :run  => :environment do
-      Rake::Task["houdini_upgrade:install:migrations"].invoke
-      Rake::Task["houdini_upgrade:run_db_migration"].invoke
+    Rake::Task["houdini_upgrade:install:migrations"].invoke
+    Rake::Task["active_storage:install"].invoke
+    Rake::Task["houdini_upgrade:run_db_migration"].invoke
   end
 
   task :run_db_migration do

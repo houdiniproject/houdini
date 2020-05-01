@@ -86,13 +86,13 @@ group :development, :ci, :test do
   gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
   gem 'rspec', '~> 3.8'
   gem 'parallel_tests', '~> 2.32'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
+  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
 end
 
 group :ci, :test do
   gem 'action_mailer_matchers', '~> 1.2'
   gem 'database_cleaner', '~> 1.7'
-  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.3'

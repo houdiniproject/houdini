@@ -2,7 +2,13 @@
 class CwToActivestorageGenerator < Rails::Generators::Base
   source_root File.expand_path('templates', __dir__)
   class_option :aws_bucket, type: :string, required: true
+  class_option :aws_region, type: :string, required: false
   class_option :aws_assethost, type: :string, required: false
+  
+  def add_carrierwave_gems
+    gem "carrierwave", "~> 1"
+    gem "carrierwave-aws"
+  end
 
   def copy_uploaders
     if (!File.exists?('app/uploaders'))
@@ -34,15 +40,10 @@ class CwToActivestorageGenerator < Rails::Generators::Base
     end
   end
 
-  def add_carrierwave_gems
-    gem "carrierwave", "~> 1"
-    gem "carrierwave-aws"
-  end
-
   def add_carrierwave_template
     @aws_bucket = options[:aws_bucket]
+    @aws_region = options[:aws_region]
     @aws_assethost = options[:aws_assethost] || "https://#{@aws_bucket}.s3.amazonaws.com"
-    
     template 'initializers/carrierwave.rb', 'config/initializers/carrierwave.rb'
   end
 end

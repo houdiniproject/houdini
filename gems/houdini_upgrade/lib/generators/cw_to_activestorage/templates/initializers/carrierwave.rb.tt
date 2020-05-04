@@ -7,11 +7,8 @@ CarrierWave.configure do |config|
     config.aws_bucket = "<%= @aws_bucket %>"
     config.aws_acl    = :public_read
     config.asset_host = "<%= @aws_assethost %>"
-    # config.aws_authenticated_url_expiration = 60 * 60 * 24 * 365
-    # config.aws_credentials = {
-    #   access_key_id: ENV['CARRIERWAVE_AWS_ACCESS_KEY_ID'],
-    #   secret_access_key: ENV['CARRIERWAVE_SECRET_ACCESS_KEY'],
-    #   config: AWS.config(cache_dir: "#{Rails.root}/tmp/uploads", region: ENV['CARRIERWAVE_SECRET_ACCESS_KEY'])
-    # }
+    config.aws_credentials = {
+        region: "<%= @aws_region %>"
+    }
 end
   

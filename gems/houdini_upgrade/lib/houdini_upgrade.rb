@@ -12,11 +12,9 @@ module HoudiniUpgrade
       :background_image, 
       :logo]),
     TableToMigrate.new(:campaigns, [
-      :main_image, 
-      :second_image, 
-      :third_image, 
+      :main_image,  
       :background_image, 
-      :logo
+      :banner_image
     ]),
     TableToMigrate.new(:events, [
       :main_image,

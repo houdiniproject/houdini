@@ -107,14 +107,14 @@ end
   end
 
   task :create_backup_uploader_migration do
-    if (Dir.glob("db/migrate/*_backup_uploader_columns.rb").none?)
+    if (Dir.glob("db/migrate/*_backup_uploader_columns.houdini_upgrade.rb").none?)
       FileUtils.cp __dir__ + "/templates/backup_uploader_columns.rb", 
       "db/migrate/#{(DateTime.now.utc + 1.second).strftime('%Y%m%d%H%M%S')}_backup_uploader_columns.houdini_upgrade.rb"
     end
   end
 
   task :delete_uploader_backup_tables_migration do
-    if (Dir.glob("db/migrate/*_backup_uploader_columns.rb").none?)
+    if (Dir.glob("db/migrate/*_backup_uploader_columns.houdini_upgrade.rb").none?)
       FileUtils.cp __dir + "/templates/delete_uploader_backup_tables.rb", 
       "db/migrate/#{(DateTime.now + 1.second).strftime('%Y%m%d%H%M%S')}_delete_uploader_backup_tables.houdini_upgrade.rb"
     end

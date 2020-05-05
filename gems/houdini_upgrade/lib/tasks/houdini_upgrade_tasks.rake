@@ -107,9 +107,11 @@ end
   end
 
   task :create_backup_uploader_migration do
+    byebug
     if (Dir.glob("db/migrate/*_backup_uploader_columns.rb").none?)
-      FileUtils.cp __dir + "/templates/backup_uploader_columns.rb", 
-      "db/migrate/#{(DateTime.now + 1.second).strftime('%Y%m%d%H%M%S')}_backup_uploader_columns.rb"
+      byebug
+      FileUtils.cp __dir__ + "/templates/backup_uploader_columns.rb", 
+      "db/migrate/#{(DateTime.now.utc + 1.second).strftime('%Y%m%d%H%M%S')}_backup_uploader_columns.rb"
     end
   end
 

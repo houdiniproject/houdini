@@ -34,7 +34,7 @@ class CwToActivestorageGenerator < Rails::Generators::Base
   end
 
   def create_column_migration_file
-    if (Dir.glob("db/migrate/*_rename_uploader_columns.rb").none?)
+    if (Dir.glob("db/migrate/*_rename_uploader_columns.houdini_upgrade.rb").none?)
       copy_file "migrate/rename_uploader_columns.rb", 
       "db/migrate/#{(DateTime.now.utc + 1.second).strftime('%Y%m%d%H%M%S')}_rename_uploader_columns.houdini_upgrade.rb"
     end

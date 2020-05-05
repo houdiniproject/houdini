@@ -35,7 +35,7 @@ end
     Rake::Task["houdini_upgrade:cw_to_activestorage"].invoke(*args)
     sh 'bundle'
     Rake::Task["db:migrate"].invoke
-    Rake::Task["houdini_upgrade:migrate_uploads"].invoke
+    sh "rails houdini_upgrade:migrate_uploads"
     Rake::Task["houdini_upgrade:create_backup_uploader_migration"].invoke
     Rake::Task["db:migrate"].invoke
 

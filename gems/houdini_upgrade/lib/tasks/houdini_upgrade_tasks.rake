@@ -37,7 +37,7 @@ end
     Rake::Task["db:migrate"].invoke
     Rake::Task["houdini_upgrade:migrate_uploads"].invoke
     Rake::Task["houdini_upgrade:create_backup_uploader_migration"].invoke
-    sh 'rails db:migrate'
+    Rake::Task["db:migrate"].invoke
 
   end
 

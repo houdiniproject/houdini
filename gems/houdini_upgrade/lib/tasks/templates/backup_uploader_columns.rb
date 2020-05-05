@@ -2,28 +2,27 @@
 class BackupUploaderColumns < ActiveRecord::Migration[5.2]
     def up
         # copy all 
-        HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each do |table|
-            create_table table.backup_table do |table|
-                table.references table.name, index:true
-                table.fields.each do |f|
+        HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each do |uploader_table|
+            create_table uploader_table.backup_table do |table|
+                table.references uploader_table.name, foreign_key: true, index: { name:  "idx_#{uploader_table.backup_table}_on_fk"}
+                uploader_table.fields.each do |f|
                     table.string f.migrated_name
                 end
             end
         end
+        
         # copy all 
         HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each do |table|
-            
             execute <<-SQL
             INSERT INTO #{table.backup_table} (#{table.foreign_key}, #{table.fields.map(&:migrated_name).join(', ')})
-            VALUES ( SELECT id, #{table.fields.map(&:migrated_name).join(', ')} FROM #{table.name})
-            SQL;
+            ( SELECT id, #{table.fields.map(&:migrated_name).join(', ')} FROM #{table.name})
+            SQL
         end
 
         # delete columns
         HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each do |table|
-           
-            fields.each do |f|
-                drop_column table.name, f.migrated_name
+            table.fields.each do |f|
+                remove_column table.name, f.migrated_name
             end
         end
     end
@@ -31,7 +30,7 @@ class BackupUploaderColumns < ActiveRecord::Migration[5.2]
     def down
         ## readd columns
         HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each do |table|
-            fields.each do |f|
+            table.fields.each do |f|
                 add_column table.name, f.migrated_name, :string
             end
         end
@@ -40,16 +39,13 @@ class BackupUploaderColumns < ActiveRecord::Migration[5.2]
         HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each do |table|
             execute <<-SQL
             UPDATE  #{table.name}  SET (#{table.fields.map(&:migrated_name).join(', ')}) = (
-                SELECT (#{table.fields.map(&:migrated_name).join(', ')}) FROM #{table.backup_table}
+                SELECT #{table.fields.map{|f| table.backup_table + "." + f.migrated_name}.join(', ')} FROM #{table.backup_table}
                 WHERE #{table.backup_table}.#{table.foreign_key} = #{table.name}.id
             )
-
-            SQL;
+            SQL
         end
         # delete tables
-
-        HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each{ |entity, _| drop_table table.backup_table}
+        HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each{ |entity, _| drop_table entity.backup_table}
         
-    
     end
 end

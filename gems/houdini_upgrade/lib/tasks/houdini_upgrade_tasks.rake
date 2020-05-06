@@ -38,7 +38,7 @@ end
     sh "rails houdini_upgrade:migrate_uploads"
     Rake::Task["houdini_upgrade:create_backup_uploader_migration"].invoke
     Rake::Task["db:migrate"].invoke
-
+    Rake::Task["houdini_upgrade:cleanup_upgrade_files"].invoke
   end
 
   task :cw_to_activestorage, [:aws_bucket, :aws_region, :aws_assethost] do |t, args|
@@ -121,11 +121,20 @@ end
   end
 
   task :cleanup_upgrade_files do
-    FileUtils.rm_r "app/uploaders"
-    FileUtils.rm "config/initializers/carrierwave.rb"
+    FileUtils.rm_r "app/uploaders" if (File.exists?("app/uploaders"))
+    FileUtils.rm "config/initializers/carrierwave.rb" if (File.exists?("config/initializers/carrierwave.rb"))
     gemfile_lines = File.readlines("Gemfile").select{|i| !i.include?("gem 'carrierwave'") && !i.include?("gem 'carrierwave-aws'")}
-    File.write('Gemfile', gemfile_lines.join("\n"))
+    File.write('Gemfile', gemfile_lines.join())
     cleanup_model_files
   end
 
+  def cleanup_model_files
+    filename_roots = HoudiniUpgrade::UPLOADERS_TO_MIGRATE.map{|i| i.name.singularize}
+    filename_roots.each do |f|
+      filename = "app/models/#{f}.rb"
+      file_contents = File.read(filename)
+      file_contents = file_contents.sub(/\#\#\#MIGRATION_FIELDS_BEGIN(.*)\#\#\#MIGRATION_FIELDS_END/mx, '')
+      File.write(filename, file_contents)
+    end
+  end
 end

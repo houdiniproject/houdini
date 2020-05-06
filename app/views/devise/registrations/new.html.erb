@@ -8,6 +8,10 @@
 </style>
 <% end %>
 
+<%= content_for :recaptcha_js do %>
+	<script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
+<% end %>
+
 <div class='backgroundColor'>
 </div>
 
@@ -26,9 +30,9 @@
 
 		<div class='u-centered'>
 
-			<form autosubmit action='<%= registration_path(:user) %>' method='post' parsley-validate data-reload>
+			<form autosubmit action='<%= registration_path(:user) %>' method='post' parsley-validate data-reload data-include-recaptcha-response>
 				<%= render 'users/signup_fields_brackets' %>
-
+				
 				<p class='error'></p>
 				<button type='submit' data-loading='Submitting...' class='button--large'>Submit</button>
 			</form>

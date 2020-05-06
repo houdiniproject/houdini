@@ -8,14 +8,32 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # this endpoint only creates donor users
   def create
-    params[:user][:referer] = session[:referer_id]
-    user = User.register_donor!(params[:user])
-    if user.save
-      sign_in user
-      render :json => user
+    recaptcha_result = check_recaptcha(action: 'create_user', minimum_score: ENV['MINIMUM_RECAPTCHA_SCORE'].to_f)
+    if !recaptcha_result[:success]
+      failure_details = {
+        params: params,
+        action: 'create_user',
+        minimum_score_required: ENV['MINIMUM_RECAPTCHA_SCORE'],
+        recaptcha_result: recaptcha_result,
+        recaptcha_value: params['g-recaptcha-response']
+      }
+      failure = RecaptchaRejection.new
+      failure.details_json = failure_details
+      failure.save!
+    end
+    ret = nil
+    if (recaptcha_result[:reply] && recaptcha_result[:reply]['success'])
+      params[:user][:referer] = session[:referer_id]
+      user = User.register_donor!(params[:user])
+      if user.save
+        sign_in user
+        render :json => user
+      else
+        render :json => user.errors.full_messages, :status => :unprocessable_entity
+        clean_up_passwords(user)
+      end
     else
-      render :json => user.errors.full_messages, :status => :unprocessable_entity
-      clean_up_passwords(user)
+      render :json => {error: 'There was an temporary error preventing your registriation. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J'}, :status => :unprocessable_entity
     end
   end
 

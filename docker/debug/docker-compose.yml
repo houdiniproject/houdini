@@ -22,6 +22,8 @@ services:
     depends_on:
     - db
     - memcached
+    
+    env_file: ../../.env
   db:
     image: postgres:9.6
     environment:

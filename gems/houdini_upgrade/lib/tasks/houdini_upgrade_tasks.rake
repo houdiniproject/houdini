@@ -75,7 +75,7 @@ RUBY
   end
 
   desc "Migrate your CarrierWave uploads to activestorage"
-  task :migrate_uploads, [:simulate, :write_out_to_files] => [:environment] do |t, args|
+  task :migrate_uploads, [:write_out_to_files] => [:environment] do |t, args|
     progress_bar = ProgressBar.new(0, "Upload migration progress")
     results = []
     Rails.application.eager_load!

@@ -107,12 +107,12 @@ RUBY
     errors = results.select{|i| !i[:success]}.map{|i| i[:value]}
 
     CSV.open("#{DateTime.now.utc.strftime('%Y%m%d%H%M%S')}_copied.csv", 'wb') do |csv|
-        csv << ['Name', 'Id', "UploaderName", "FileToOpen", "CodeToRun"]
+        csv << ['Class Name', 'Id', "UploaderName", "FileToOpen"]
         copied.each {|row| csv << row}
     end
 
     CSV.open("#{DateTime.now.utc.strftime('%Y%m%d%H%M%S')}_errored.csv", 'wb') do |csv|
-        csv << ['Name', 'Id', "UploaderName", "Error"]
+        csv << ['Class Name', 'Id', "UploaderName", "FileToOpen", "Error"]
         errors.each {|row| csv << row}
     end
 
@@ -121,6 +121,7 @@ RUBY
   end
 
   def process(**args)
+    file_to_open = nil
     begin
       if args[:upload_url]
         filename = File.basename(URI.parse(args[:upload_url]).to_s)
@@ -130,11 +131,11 @@ RUBY
             attachment_relation = args[:record].send("#{args[:attachment_name].to_s}")
             attachment_relation.attach(io: open(file_to_open), filename: filename)
         end
-        return {success: true, value: [args[:record].id,args[:attachment_name],file_to_open]}
+        return {success: true, value: [args[:record].class.name, args[:record].id, args[:attachment_name],file_to_open]}
       end
       return nil
     rescue => e
-      return {success: false, value: [ args[:record].id, args[:attachment_name], e]}
+      return {success: false, value: [args[:record].class.name, args[:record].id, args[:attachment_name], file_to_open, e]}
     end
   end
 

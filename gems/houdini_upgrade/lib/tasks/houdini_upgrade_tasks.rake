@@ -28,18 +28,43 @@ end
 
  namespace :houdini_upgrade do
   Rake::Task["install:migrations"].clear_comments
-  desc "Run houdini upgrade to v2"
-  task :run, [:aws_bucket, :aws_region, :aws_assethost] do |t, args|
-    Rake::Task["houdini_upgrade:install:migrations"].invoke
-    Rake::Task["active_storage:install"].invoke
-    Rake::Task["houdini_upgrade:cw_to_activestorage"].invoke(*args)
-    sh 'bundle'
-    Rake::Task["db:migrate"].invoke
-    sh "rails houdini_upgrade:migrate_uploads"
-    Rake::Task["houdini_upgrade:create_backup_uploader_migration"].invoke
-    sh "rails db:migrate"
-    Rake::Task["houdini_upgrade:cleanup_upgrade_files"].invoke
-    sh 'bundle'
+  desc <<-RUBY
+Run houdini upgrade to v2
+DESC:
+  This task automates some of the process of upgrading to Houdini v2. It does
+  the following:
+  * installs and runs database migrations
+  * migrates images from Carrierwave on AWS to your default ActiveStorage service
+
+USAGE: bin/rails houdini_upgrade:run[aws_bucket,aws_region]
+
+TASK ARGUMENTS:
+  aws_bucket (required): the name of your AWS bucket where all your carrierwave images are hosted
+  aws_region (required): AWS region of your AWS bucket. Carrierwave won\'t work
+    without it.
+  aws_assethost: protocol and domain where your AWS bucket contents can be 
+    accessed. For example, this could be through Cloudfront
+  shorter_test: a testing only argument which cuts down the number of images we copy
+RUBY
+  task :run, [:aws_bucket, :aws_region, :aws_assethost, :shorter_test] do |t, args|
+    if args[:aws_bucket].blank? || args[:aws_region].blank?
+      puts "You must set aws_bucket and aws_region for houdini_upgrade:run like:"
+      puts "  houdini_upgrade:run[aws_bucket,aws_region]"
+      puts ""
+      puts "See the full task description by running `bin/rails -D` or "
+      puts "visit `docs/houdini_upgrade.md`"
+    else
+      Rake::Task["houdini_upgrade:install:migrations"].invoke
+      Rake::Task["active_storage:install"].invoke
+      Rake::Task["houdini_upgrade:cw_to_activestorage"].invoke(*args)
+      sh 'bundle'
+      Rake::Task["db:migrate"].invoke
+      sh "rails houdini_upgrade:migrate_uploads"
+      Rake::Task["houdini_upgrade:create_backup_uploader_migration"].invoke
+      sh "rails db:migrate"
+      Rake::Task["houdini_upgrade:cleanup_upgrade_files"].invoke
+      sh 'bundle'
+    end
   end
 
   task :cw_to_activestorage, [:aws_bucket, :aws_region, :aws_assethost] do |t, args|

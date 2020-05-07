@@ -106,12 +106,12 @@ RUBY
     copied = results.select{|i| i[:success]}.map{|i| i[:value]}
     errors = results.select{|i| !i[:success]}.map{|i| i[:value]}
 
-    CSV.open('copied.csv', 'wb') do |csv|
+    CSV.open("#{DateTime.now.utc.strftime('%Y%m%d%H%M%S')}_copied.csv", 'wb') do |csv|
         csv << ['Name', 'Id', "UploaderName", "FileToOpen", "CodeToRun"]
         copied.each {|row| csv << row}
     end
 
-    CSV.open('errored.csv', 'wb') do |csv|
+    CSV.open("#{DateTime.now.utc.strftime('%Y%m%d%H%M%S')}_errored.csv", 'wb') do |csv|
         csv << ['Name', 'Id', "UploaderName", "Error"]
         errors.each {|row| csv << row}
     end
@@ -148,7 +148,7 @@ RUBY
   task :delete_uploader_backup_tables_migration do
     if (Dir.glob("db/migrate/*_backup_uploader_columns.houdini_upgrade.rb").none?)
       FileUtils.cp __dir + "/templates/delete_uploader_backup_tables.rb", 
-      "db/migrate/#{(DateTime.now + 1.second).strftime('%Y%m%d%H%M%S')}_delete_uploader_backup_tables.houdini_upgrade.rb"
+      "db/migrate/#{(DateTime.now.utc + 1.second).strftime('%Y%m%d%H%M%S')}_delete_uploader_backup_tables.houdini_upgrade.rb"
     end
   end
 

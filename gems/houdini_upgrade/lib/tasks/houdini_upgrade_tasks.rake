@@ -55,7 +55,7 @@ RUBY
       puts "visit `docs/houdini_upgrade.md`"
     else
       Rake::Task["houdini_upgrade:install:migrations"].invoke
-      Rake::Task["active_storage:install"].invoke
+      sh 'rails active_storage:install'
       Rake::Task["houdini_upgrade:cw_to_activestorage"].invoke(*args)
       sh 'bundle'
       Rake::Task["db:migrate"].invoke

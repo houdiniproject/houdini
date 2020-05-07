@@ -39,6 +39,7 @@ end
     Rake::Task["houdini_upgrade:create_backup_uploader_migration"].invoke
     sh "rails db:migrate"
     Rake::Task["houdini_upgrade:cleanup_upgrade_files"].invoke
+    sh 'bundle'
   end
 
   task :cw_to_activestorage, [:aws_bucket, :aws_region, :aws_assethost] do |t, args|

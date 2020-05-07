@@ -75,7 +75,7 @@ RUBY
   end
 
   desc "Migrate your CarrierWave uploads to activestorage"
-  task :migrate_uploads, [:write_out_to_files] => [:environment] do |t, args|
+  task :migrate_uploads => [:environment] do |t, args|
     progress_bar = ProgressBar.new(0, "Upload migration progress")
     results = []
     Rails.application.eager_load!
@@ -98,17 +98,17 @@ RUBY
 
     copied = results.select{|i| i[:success]}.map{|i| i[:value]}
     errors = results.select{|i| !i[:success]}.map{|i| i[:value]}
-    if args.write_out_to_files
-      CSV.open('copied.csv', 'wb') do |csv|
-          csv << ['Name', 'Id', "UploaderName", "FileToOpen", "CodeToRun"]
-          copied.each {|row| csv << row}
-      end
 
-      CSV.open('errored.csv', 'wb') do |csv|
-          csv << ['Name', 'Id', "UploaderName", "Error"]
-          errors.each {|row| csv << row}
-      end
+    CSV.open('copied.csv', 'wb') do |csv|
+        csv << ['Name', 'Id', "UploaderName", "FileToOpen", "CodeToRun"]
+        copied.each {|row| csv << row}
     end
+
+    CSV.open('errored.csv', 'wb') do |csv|
+        csv << ['Name', 'Id', "UploaderName", "Error"]
+        errors.each {|row| csv << row}
+    end
+
     puts "Copied: #{copied.count}"
     puts "Errored: #{errors.count}"
   end

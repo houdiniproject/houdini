@@ -83,7 +83,6 @@ end
           errors.each {|row| csv << row}
       end
     end
-    byebug
     puts "Copied: #{copied.count}"
     puts "Errored: #{errors.count}"
   end

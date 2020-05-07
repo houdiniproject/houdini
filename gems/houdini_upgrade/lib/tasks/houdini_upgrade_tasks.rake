@@ -59,7 +59,11 @@ RUBY
       Rake::Task["houdini_upgrade:cw_to_activestorage"].invoke(*args)
       sh 'bundle'
       Rake::Task["db:migrate"].invoke
-      sh "rails houdini_upgrade:migrate_uploads"
+      migrate_upload_command = "rails houdini_upgrade:migrate_uploads"
+      if args[:shorter_test]
+        migrate_upload_command += "[true]"
+      end
+      sh migrate_upload_command
       Rake::Task["houdini_upgrade:create_backup_uploader_migration"].invoke
       sh "rails db:migrate"
       Rake::Task["houdini_upgrade:cleanup_upgrade_files"].invoke
@@ -75,7 +79,7 @@ RUBY
   end
 
   desc "Migrate your CarrierWave uploads to activestorage"
-  task :migrate_uploads => [:environment] do |t, args|
+  task :migrate_uploads, [:shorter_test] => [:environment] do |t, args|
     progress_bar = ProgressBar.new(0, "Upload migration progress")
     results = []
     Rails.application.eager_load!
@@ -83,6 +87,9 @@ RUBY
     HoudiniUpgrade::UPLOADERS_TO_MIGRATE.each do |table|
       klass = table.class_name.constantize
       items_to_migrate = klass.where(table.fields.map{|i| i.migrated_name + " IS NOT NULL"}.join(" OR "))
+      if args[:shorter_test]
+        items_to_migrate = items_to_migrate.limit(10)
+      end
       progress_bar.increment_total(items_to_migrate.count * table.fields.count)
       items_to_migrate
         .find_each do |record|

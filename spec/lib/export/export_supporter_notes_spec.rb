@@ -2,15 +2,15 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-require 'support/test_chunked_uploader'
+require 'support/test_upload_service'
 
 describe ExportSupporterNotes do
   before(:each) do
-    stub_const('CHUNKED_UPLOADER', TestChunkedUploader)
+    stub_const('CHUNKED_UPLOAD_SERVICE', TestUploadService.new)
     supporter_note_for_s1
     supporter_note_1_for_s2
     supporter_note_2_for_s2
-    CHUNKED_UPLOADER.clear
+    CHUNKED_UPLOAD_SERVICE.clear
   end
 
   let(:nonprofit) { force_create(:nm_justice) }
@@ -178,12 +178,12 @@ describe ExportSupporterNotes do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: user)
-        CHUNKED_UPLOADER.raise_error
+        CHUNKED_UPLOAD_SERVICE.raise_error
         Timecop.freeze(2020, 4, 6) do
           expect {
           expect { ExportSupporterNotes.run_export(nonprofit.id, {}.to_json, user.id, @export.id) }.to(raise_error do |error|
             expect(error).to be_a StandardError
-            expect(error.message).to eq TestChunkedUploader::TEST_ERROR_MESSAGE
+            expect(error.message).to eq TestUploadService::TEST_ERROR_MESSAGE
 
             @export.reload
             expect(@export.status).to eq 'failed'
@@ -211,13 +211,13 @@ describe ExportSupporterNotes do
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now
           expect(@export.updated_at).to eq Time.now
-          csv = CSV.parse(TestChunkedUploader.output)
+          csv = CSV.parse(CHUNKED_UPLOAD_SERVICE.output)
           expect(csv.length).to eq 4
 
           expect(csv[0]).to eq export_header
 
-          expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
-          expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_type]).to eq 'text/csv'
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_disposition]).to eq 'attachment'
         end
       end
     end

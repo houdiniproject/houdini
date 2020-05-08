@@ -52,7 +52,10 @@ module ExportSupporters
     file_date = Time.now.getutc.strftime('%m-%d-%Y--%H-%M-%S')
     filename = "tmp/csv-exports/supporters-#{file_date}.csv"
 
-    url = CHUNKED_UPLOADER.upload(filename, QuerySupporters.for_export_enumerable(npo_id, params, 30_000).map(&:to_csv), content_type: 'text/csv', content_disposition: 'attachment')
+    ChunkedUploader.upload(QuerySupporters.for_export_enumerable(npo_id, params, 30_000).map(&:to_csv)) do |io|
+      CHUNKED_UPLOAD_SERVICE.upload(filename, io, content_type: 'text/csv', content_disposition: 'attachment')
+    end
+    url = CHUNKED_UPLOAD_SERVICE.url(filename)
     export.url = url
     export.status = :completed
     export.ended = Time.now

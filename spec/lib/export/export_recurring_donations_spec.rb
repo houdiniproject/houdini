@@ -19,6 +19,8 @@ describe ExportRecurringDonations do
     CHUNKED_UPLOAD_SERVICE.clear
   end
 
+  let(:export_url_regex) { /http:\/\/fake\.url\/tmp\/csv-exports\/recurring_donations-04-06-2020--01-02-03-#{UUID::Regex}\.csv/}
+  
   context '.initiate_export' do
     context 'param verification' do
       it 'performs initial verification' do
@@ -175,7 +177,7 @@ describe ExportRecurringDonations do
           expect(ExportRecurringDonationsCompletedJob).to have_been_enqueued.with(@export)
           @export.reload
 
-          expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/recurring_donations-04-06-2020--01-02-03.csv'
+          expect(@export.url).to match export_url_regex
           expect(@export.status).to eq 'completed'
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now

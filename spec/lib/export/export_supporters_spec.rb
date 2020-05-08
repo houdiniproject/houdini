@@ -13,6 +13,7 @@ describe ExportSupporters do
     @supporters = 2.times { force_create(:supporter, nonprofit: @nonprofit) }
   end
   let(:export_header) { 'Last Name,First Name,Full Name,Organization,Email,Phone,Address,City,State,Postal Code,Country,Anonymous?,Supporter Id,Total Contributed,Id,Last Payment Received,Notes,Tags'.split(',') }
+  let(:export_url_regex) { /http:\/\/fake\.url\/tmp\/csv-exports\/supporters-04-06-2020--01-02-03-#{UUID::Regex}\.csv/}
 
   context '.initiate_export' do
     context 'param verification' do
@@ -172,7 +173,7 @@ describe ExportSupporters do
 
           @export.reload
 
-          expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/supporters-04-06-2020--01-02-03.csv'
+          expect(@export.url).to match export_url_regex
           expect(@export.status).to eq 'completed'
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now

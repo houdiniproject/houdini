@@ -2,13 +2,11 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-require 'support/test_chunked_uploader'
+require 'support/test_upload_service'
 
 describe ExportPayments do
   before(:each) do
-    stub_const('CHUNKED_UPLOADER', TestChunkedUploader)
-
-    CHUNKED_UPLOADER.clear
+    stub_const('CHUNKED_UPLOAD_SERVICE', TestUploadService.new)
   end
 
   let(:email) { 'example@example.com' }
@@ -158,11 +156,11 @@ describe ExportPayments do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: user)
-        CHUNKED_UPLOADER.raise_error
+        CHUNKED_UPLOAD_SERVICE.raise_error
         Timecop.freeze(2020, 4, 6) do
           expect { ExportPayments.run_export(nonprofit.id, {}.to_json, user.id, @export.id) }.to(raise_error do |error|
             expect(error).to be_a StandardError
-            expect(error.message).to eq TestChunkedUploader::TEST_ERROR_MESSAGE
+            expect(error.message).to eq TestUploadService::TEST_ERROR_MESSAGE
 
             @export.reload
             expect(@export.status).to eq 'failed'
@@ -188,13 +186,13 @@ describe ExportPayments do
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now
           expect(@export.updated_at).to eq Time.now
-          csv = CSV.parse(TestChunkedUploader.output)
+          csv = CSV.parse(CHUNKED_UPLOAD_SERVICE.output)
           expect(csv.length).to eq 3
 
           expect(csv[0]).to eq MockHelpers.payment_export_headers
 
-          expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
-          expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_type]).to eq 'text/csv'
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_disposition]).to eq 'attachment'
         end
       end
     end

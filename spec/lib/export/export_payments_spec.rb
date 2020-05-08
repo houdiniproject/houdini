@@ -21,6 +21,8 @@ describe ExportPayments do
      force_create(:payment, gross_amount: 2000, fee_total: 22, net_amount: 1978, supporter: supporters[1], nonprofit: nonprofit)]
   end
 
+  let(:export_url_regex) { /http:\/\/fake\.url\/tmp\/csv-exports\/payments-04-06-2020--01-02-03-#{UUID::Regex}\.csv/}
+
   before(:each) do
     payments
   end
@@ -181,7 +183,7 @@ describe ExportPayments do
           expect(ExportPaymentsCompletedJob).to have_been_enqueued.with(@export)
           @export.reload
 
-          expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/payments-04-06-2020--01-02-03.csv'
+          expect(@export.url).to match export_url_regex
           expect(@export.status).to eq 'completed'
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now

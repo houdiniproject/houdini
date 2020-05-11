@@ -3,7 +3,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Nonprofits
   class DonationsController < ApplicationController
-    include Controllers::NonprofitHelper
+    include Controllers::Nonprofit::Current
+  include Controllers::Nonprofit::Authorization
 
     before_action :authenticate_nonprofit_user!, only: %i[index update]
     before_action :authenticate_campaign_editor!, only: [:create_offsite]

@@ -2,7 +2,8 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TicketsController < ApplicationController
-  include Controllers::EventHelper
+  include Controllers::Event::Current
+  include Controllers::Event::Authorization
 
   helper_method :current_event_admin?, :current_event_editor?
   before_action :authenticate_event_editor!, except: %i[create add_note]

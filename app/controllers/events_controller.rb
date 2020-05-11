@@ -2,7 +2,8 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class EventsController < ApplicationController
-  include Controllers::EventHelper
+  include Controllers::Event::Current
+  include Controllers::Event::Authorization
 
   helper_method :current_event_editor?
   before_action :authenticate_nonprofit_user!, only: :name_and_id

@@ -2,7 +2,8 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TicketLevelsController < ApplicationController
-  include Controllers::EventHelper
+  include Controllers::Event::Current
+  include Controllers::Event::Authorization
 
   before_action :authenticate_event_editor!, except: %i[index show]
 

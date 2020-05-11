@@ -2,22 +2,10 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class ApplicationController < ActionController::Base
+  include Controllers::Locale
+  include Controllers::Nonprofit::Authorization
   before_action :set_locale, :redirect_to_maintenance
-
   protect_from_forgery
-
-  helper_method \
-    :current_role?,
-    :current_nonprofit_user?,
-    :administered_nonprofit
-
-  def set_locale
-    if params[:locale] && Settings.available_locales.include?(params[:locale])
-      I18n.locale = params[:locale]
-    else
-      I18n.locale = Settings.language
-    end
-  end
 
   def redirect_to_maintenance
     if Settings&.maintenance&.maintenance_mode && !current_user
@@ -72,62 +60,6 @@ class ApplicationController < ActionController::Base
   # Test that within the last 5 minutes, the user has confirmed their password
   def password_was_confirmed(token)
     session[:pw_token] == token && Chronic.parse(session[:pw_timestamp]) >= 5.minutes.ago.utc
-  end
-
-  def store_location
-    referrer = request.fullpath
-    no_redirects = ['/users', '/signup', '/signin', '/users/sign_in', '/users/sign_up', '/users/password', '/users/sign_out', /.*\.json.*/, %r{.*auth/facebook.*}]
-    unless request.format.symbol == :json || no_redirects.map { |p| referrer.match(p) }.any?
-      session[:previous_url] = referrer
-    end
-  end
-
-  def block_with_sign_in(msg = nil)
-    store_location
-    if current_user
-      flash[:notice] = "It looks like you're not allowed to access that page. If this seems like a mistake, please contact #{Settings.mailer.email}"
-      redirect_to root_path
-    else
-      msg ||= 'We need to sign you in before you can do that.'
-      redirect_to new_user_session_path, flash: { error: msg }
-    end
-  end
-
-  def authenticate_user!(_options = {})
-    block_with_sign_in unless current_user
-  end
-
-  def authenticate_confirmed_user!
-    if !current_user
-      block_with_sign_in
-    elsif !current_user.confirmed? && !current_role?(%i[super_associate super_admin])
-      redirect_to new_user_confirmation_path, flash: { error: 'You need to confirm your account to do that.' }
-    end
-  end
-
-  def authenticate_super_associate!
-    unless current_role?(:super_admin) || current_role?(:super_associate)
-      block_with_sign_in 'Please login.'
-    end
-  end
-
-  def authenticate_super_admin!
-    block_with_sign_in 'Please login.' unless current_role?(:super_admin)
-  end
-
-  def current_role?(role_names, host_id = nil)
-    return false unless current_user
-
-    role_names = Array(role_names)
-    key = "current_role_user_#{current_user_id}_names_#{role_names.join('_')}_host_#{host_id}"
-    QueryRoles.user_has_role?(current_user.id, role_names, host_id)
-  end
-
-  def administered_nonprofit
-    return nil unless current_user
-
-    key = "administered_nonprofit_user_#{current_user_id}_nonprofit"
-    Nonprofit.where(id: QueryRoles.host_ids(current_user_id, %i[nonprofit_admin nonprofit_associate])).last
   end
 
   # devise config

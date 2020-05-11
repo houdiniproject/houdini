@@ -2,7 +2,8 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class RolesController < ApplicationController
-  include Controllers::NonprofitHelper
+  include Controllers::Nonprofit::Current
+  include Controllers::Nonprofit::Authorization
 
   before_action :authenticate_nonprofit_admin!
 

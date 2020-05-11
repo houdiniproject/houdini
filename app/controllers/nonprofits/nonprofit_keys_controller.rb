@@ -4,7 +4,8 @@
 
 module Nonprofits
   class NonprofitKeysController < ApplicationController
-    include Controllers::NonprofitHelper
+    include Controllers::Nonprofit::Current
+  include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
 
     # get /nonprofits/:nonprofit_id/nonprofit_keys

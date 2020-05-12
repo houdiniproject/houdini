@@ -5,6 +5,7 @@ class Nonprofit < ApplicationRecord
   attr_accessor :register_np_only, :user_id, :user
   Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
 
+  include Image::AttachmentExtensions
   # :name, # str
   # :stripe_account_id, # str
   # :summary, # text: paragraph-sized organization summary
@@ -102,6 +103,14 @@ class Nonprofit < ApplicationRecord
   has_one_attached :third_image
   has_one_attached :background_image
   has_one_attached :logo
+  
+  # way too wordy
+  has_one_attached_with_sizes(:logo, {small: 30, normal: 100, large: 180})
+  has_one_attached_with_sizes(:background_image, {normal: [1000,600]})
+  has_one_attached_with_sizes(:main_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
+  has_one_attached_with_sizes(:second_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
+  has_one_attached_with_sizes(:third_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
+
   
   serialize :achievements, Array
   serialize :categories, Array

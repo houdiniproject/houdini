@@ -2,6 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Campaign < ApplicationRecord
+  include Image::AttachmentExtensions
   # :name,
   # :tagline,
   # :slug, # str: url name
@@ -53,6 +54,9 @@ class Campaign < ApplicationRecord
   has_one_attached :main_image
   has_one_attached :background_image
   has_one_attached :banner_image
+
+  has_one_attached_with_sizes(:main_image, {normal: [524, 360], thumb: [180,150]})
+  has_one_attached_with_sizes(:background_image, {normal: [1000, 600]})
 
   has_many :donations
   has_many :charges, through: :donations

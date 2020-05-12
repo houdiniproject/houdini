@@ -166,7 +166,7 @@ RUBY
     filename_roots.each do |f|
       filename = "app/models/#{f}.rb"
       file_contents = File.read(filename)
-      file_contents = file_contents.sub(/\#\#\#MIGRATION_FIELDS_BEGIN(.*)\#\#\#MIGRATION_FIELDS_END/mx, '')
+      file_contents = file_contents.sub(/\n\#\#\#MIGRATION_FIELDS_BEGIN(.*)\#\#\#MIGRATION_FIELDS_END/mx, '')
       File.write(filename, file_contents)
     end
   end

@@ -18,16 +18,17 @@ class CwToActivestorageGenerator < Rails::Generators::Base
 
   def include_uploaders
     file_and_search = [
-      ["campaign.rb", "class Campaign < ApplicationRecord\n"],
-      ["profile.rb", "class Profile < ApplicationRecord\n"],
-      ['nonprofit.rb', "class Nonprofit < ApplicationRecord\n"],
-      ['image_attachment.rb', "class ImageAttachment < ApplicationRecord\n"],
-      ['event.rb', "class Event < ApplicationRecord\n"]
+      ["campaign.rb", "class Campaign < ApplicationRecord"],
+      ["profile.rb", "class Profile < ApplicationRecord"],
+      ['nonprofit.rb', "class Nonprofit < ApplicationRecord"],
+      ['image_attachment.rb', "class ImageAttachment < ApplicationRecord"],
+      ['event.rb', "class Event < ApplicationRecord"]
     ]
     file_and_search
-      .select{|filename, _| !File.read("app/models/#{filename}").include?('###MIGRATION_FIELDS_BEGIN')}\
+      .select{|filename, _| !File.read("app/models/#{filename}").include?('###MIGRATION_FIELDS_BEGIN')}
       .each do |filename, find_string|
         gsub_file("app/models/#{filename}",find_string ) do |match|
+          match << "\n"
           match << File.read(Pathname(File.expand_path('templates', __dir__, )) + 'models' + "#{filename}")
       end  
     end

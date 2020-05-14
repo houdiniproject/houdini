@@ -84,14 +84,6 @@ class User < ApplicationRecord
     false
   end
 
-  def as_json(options = {})
-    h = super(options)
-    h[:unconfirmed_email] = unconfirmed_email
-    h[:confirmed] = confirmed?
-    h[:profile] = profile.as_json
-    h
-  end
-
   # This is useful for manually generating a Devise user confirmation token so that we can get the confirmation URL with the correct token from anywhere
   def make_confirmation_token!
     raw, db = Devise.token_generator.generate(User, :confirmation_token)

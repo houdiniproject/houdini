@@ -102,13 +102,6 @@ class Profile < ApplicationRecord
     Rails.application.routes.url_helpers.profile_path(self)
   end
 
-  def as_json(options = {})
-    h = super(options)
-    h[:pic_tiny] = get_profile_picture :tiny
-    h[:url] = url
-    h
-  end
-
   # Cache setters
 
   def set_caches!

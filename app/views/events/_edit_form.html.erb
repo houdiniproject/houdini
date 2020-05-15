@@ -84,7 +84,7 @@
         <fieldset class='u-marginTop--5'>
           <label>Preview Image</label>
           <p><small>Used for sharing on social media</small></p>
-          <div class='image-upload  u-inlineBlock' style='background-image: url("<%= @event.main_image_url(:thumb) %>")'>
+          <div class='image-upload  u-inlineBlock' style='background-image: url("<%= @event.main_image.attached? ? url_for(@event.main_image_by_size(:thumb)) : '' %>")'>
             <span><i class='fa fa-pencil'></i> Edit</span>
             <input type='file' name='event[main_image]'>
           </div>

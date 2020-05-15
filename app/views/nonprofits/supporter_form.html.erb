@@ -16,7 +16,9 @@
 
 
     <br>
-    <%= image_tag @nonprofit.logo_url(:normal).to_s %>
+    <% if @nonprofit.logo.attached? %>
+      <%= image_tag url_for(@nonprofit.logo_by_size(:normal)) %>
+    <% end %>
     <% if params[:title] %>
       <h4><%= params[:title] %></h4>
     <% else %>

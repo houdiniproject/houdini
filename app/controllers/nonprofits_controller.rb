@@ -28,7 +28,9 @@ class NonprofitsController < ApplicationController
     @active_campaigns = campaigns.active
     @any_past_campaigns = campaigns.past.any?
 
-    @nonprofit_background_image = FetchBackgroundImage.with_model(@nonprofit)
+    @nonprofit_background_image = @nonprofit.background_image.attached? ? 
+      url_for(@nonprofit.background_image_by_size(:normal)) : 
+      url_for(Image::DefaultNonprofitUrl)
 
     respond_to do |format|
       format.html

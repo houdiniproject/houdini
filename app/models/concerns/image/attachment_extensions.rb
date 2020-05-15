@@ -1,11 +1,11 @@
 module Image::AttachmentExtensions
     extend ActiveSupport::Concern
     class_methods do
-        def has_one_attached_with_sizes(attribute, sizes)
+        def has_one_attached_with_sizes(attribute_name, sizes)
             if sizes.nil? || !sizes.is_a?(Hash) || !sizes.any?
                 raise ArgumentError, "You must pass a valid hash of sizes"
             end
-            attribute = attribute.to_s
+            attribute = attribute_name.to_s
 
             # clean up sizes
             sizes.keys.each do |key|

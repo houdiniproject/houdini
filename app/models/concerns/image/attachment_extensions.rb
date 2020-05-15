@@ -36,5 +36,15 @@ module Image::AttachmentExtensions
                 end
              RUBY
         end
+
+        def has_one_attached_with_default(attribute_name, default_path, **options)
+            after_save do
+                attribute = send(attribute_name)
+                unless attribute.attached?
+                    attribute.attach(io: File.open(default_path), **options)
+                end
+                self
+            end
+        end
     end
 end

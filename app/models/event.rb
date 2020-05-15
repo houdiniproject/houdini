@@ -67,6 +67,12 @@ class Event < ApplicationRecord
 
   has_one_attached_with_sizes :main_image, {normal: 400, thumb: 100}
   has_one_attached_with_sizes :background_image, {normal: [1000, 600]}
+
+  has_one_attached_with_default(:main_image, Image::DefaultProfileUrl, 
+    filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
+
+  has_one_attached_with_default(:background_image, Image::DefaultCampaignUrl, 
+      filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultCampaignUrl).extname}")
   
 
   scope :not_deleted, -> { where(deleted: [nil, false]) }

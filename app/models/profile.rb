@@ -28,8 +28,6 @@ class Profile < ApplicationRecord
 
   has_one_attached :picture
   has_one_attached_with_sizes(:picture, {normal: 150, medium:100, tiny: 50})
-  has_one_attached_with_default(:picture, Image::DefaultProfileUrl, 
-    filename: "picture_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
 
   belongs_to :user
   has_many :activities # Activities this profile has created

@@ -58,6 +58,9 @@ class Campaign < ApplicationRecord
   has_one_attached_with_sizes(:main_image, {normal: [524, 360], thumb: [180,150]})
   has_one_attached_with_sizes(:background_image, {normal: [1000, 600]})
 
+  has_one_attached_with_default(:main_image, Image::DefaultProfileUrl, 
+    filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
+
   has_many :donations
   has_many :charges, through: :donations
   has_many :payments, through: :donations, source: 'payment'

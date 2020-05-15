@@ -28,9 +28,9 @@
 
 	<table class='table--blank' style='background: rgb(250, 250, 250)'>
 		<tr>
-			<% if @nonprofit.logo_url %>
+			<% if @nonprofit.logo.attached? %>
 			<td style='width: 100px; padding: 10px;'>
-				<img style='border: 1px solid rgba(0,0,0,0.05);' src="<%= @nonprofit.logo_url(:normal).to_s %>">
+				<%= image_tag @nonprofit.logo_by_size(:normal), style:'border: 1px solid rgba(0,0,0,0.05);'%>
 			</td>
 			<% end %>
 

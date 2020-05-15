@@ -5,7 +5,9 @@
     <% metric = QueryCampaignMetrics.on_donations(campaign.id) %>
     <tr>
       <td class='u-padding--0 u-width--200 u-hideIf--400'>
-        <img src='<%= campaign.main_image_url(:normal) %>'>
+      <% if campaign.main_image.attached?%>
+        <%= image_tag campaign.main_image_by_size(:normal) %>
+      <% end %>
       </td>
       <td class='u-padding--10'>
         <% if campaign.end_datetime %>

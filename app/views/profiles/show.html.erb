@@ -14,7 +14,7 @@
 		<table>
 			<tr>
 				<td>
-					<span class='donorProfileHeader-photo' style="background-image: url('<%= @profile.get_profile_picture(:normal) %>');"></span>
+					<span class='donorProfileHeader-photo' style="background-image: url('<%= @profile.picture.attached? && url_for(@profile.picture_by_size(:normal)) %>');"></span>
 				</td>
 				<td class='u-paddingLeft--15'>
 					<% supporter = (@profile.supporters && @profile.supporters.length != 0) ? supporter : false %>

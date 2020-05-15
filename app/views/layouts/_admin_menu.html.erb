@@ -2,7 +2,7 @@
 <% if current_role?([:nonprofit_admin,:nonprofit_associate]) %>
 	<section class='sideNav-section'>
 		<a class='sideNav-link' href='<%= administered_nonprofit.url%>'>
-			<img class='sideNav-profile' src="<%= administered_nonprofit.logo_url(:small) %>">
+			<%= image_tag administered_nonprofit.logo_by_size(:small), class:"sideNav-profile" %>
 			<span class='sideNav-text'><%= administered_nonprofit.name %></span>
 		</a>
 

@@ -4,7 +4,8 @@
 module Controllers::Nonprofit::Current
     extend ActiveSupport::Concern
     included do
-        private
+        helper_method :current_nonprofit_user? 
+
         def current_nonprofit
             @nonprofit = current_nonprofit_without_exception
             raise ActionController::RoutingError, 'Nonprofit not found' if @nonprofit.nil?

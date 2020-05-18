@@ -30,13 +30,13 @@ module InsertDuplicate
       dupe.save!
 
       begin
-        dupe.update_attribute(:main_image, campaign.main_image) if campaign.main_image
+        dupe.main_image.attach(campaign.main_image.blob) if campaign.main_image.attached?
       rescue StandardError
         AWS::S3::Errors::NoSuchKey
       end
 
       begin
-        dupe.update_attribute(:background_image, campaign.background_image) if campaign.background_image
+        dupe.background_image.attach(campaign.background_image.blob) if campaign.background_image.attached?
       rescue StandardError
         AWS::S3::Errors::NoSuchKey
       end
@@ -84,13 +84,13 @@ module InsertDuplicate
       dupe.save!
 
       begin
-        dupe.update_attribute(:main_image, event.main_image) if event.main_image
+        dupe.main_image.attach(event.main_image.blob) if event.main_image.attached?
       rescue StandardError
         AWS::S3::Errors::NoSuchKey
       end
 
       begin
-        dupe.update_attribute(:background_image, event.background_image) if event.background_image
+        dupe.background_image.attach( event.background_image.blob) if event.background_image.attached?
       rescue StandardError
         AWS::S3::Errors::NoSuchKey
       end

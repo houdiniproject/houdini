@@ -1021,6 +1021,11 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
+"@types/activestorage@^5.2.2":
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@types/activestorage/-/activestorage-5.2.2.tgz#82473e47c25f3e1488400dca69b982a1591dbac0"
+  integrity sha512-qsyspA6wVRz8tAN4lYaPXrlcZ1AcqbQyBfNNg/zEmQbMu5/ch8f2rspGLK+A4ZhgoRXG0/ivSPeZ/a+1g10U4w==
+
 "@types/babel__core@^7.1.0":
   version "7.1.7"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.7.tgz#1dacad8840364a57c98d0dd4855c6dd3752c6b89"

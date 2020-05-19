@@ -3,6 +3,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Rails.application.routes.draw do
 
+  require_relative "./state_code_constraint"
   if Rails.env == 'development'
     get '/button_debug/embedded' => 'button_debug#embedded'
     get '/button_debug/button' => 'button_debug#button'
@@ -217,26 +218,32 @@ Rails.application.routes.draw do
   match '/events' => 'events#index', via: [:get]
   match '/events/:event_slug' => 'events#show', via: %i[get post]
 
-  # Nonprofits
-  match ':state_code/:city/:name' => 'nonprofits#show', :as => :nonprofit_location, via: %i[get post]
-  match ':state_code/:city/:name/donate' => 'nonprofits#donate', :as => :nonprofit_donation, via: %i[get post]
-  match ':state_code/:city/:name/button' => 'nonprofits/button#guided', via: %i[get post]
-
   # Campaigns
-  match ':state_code/:city/:name/campaigns' => 'campaigns#index', via: %i[get post]
-  match ':state_code/:city/:name/campaigns/:campaign_slug' => 'campaigns#show', via: %i[get post]
-  match ':state_code/:city/:name/campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', via: %i[get post]
   match '/peer-to-peer' => 'campaigns#peer_to_peer', via: %i[get post]
 
-  # Events
-  match ':state_code/:city/:name/events' => 'events#index', via: %i[get post]
-  match ':state_code/:city/:name/events/:event_slug' => 'events#show', via: %i[get post]
-  match ':state_code/:city/:name/events/:event_slug/stats' => 'events#stats', via: %i[get post]
-  match ':state_code/:city/:name/events/:event_slug/tickets' => 'tickets#index', via: %i[get post]
-  # get '/events' => 'events#index'
+  scope ':state_code/:city/:name' do
+    constraints StateCodeConstraint.new do
+      # Nonprofits
+      match '' => 'nonprofits#show', :as => :nonprofit_location, via: %i[get post]
+      match 'donate' => 'nonprofits#donate', :as => :nonprofit_donation, via: %i[get post]
+      match 'button' => 'nonprofits/button#guided', via: %i[get post]
 
-  # Dashboard
-  match ':state_code/:city/:name/dashboard' => 'nonprofits#dashboard', as: :np_dashboard, via: %i[get post]
+      # Campaigns
+      match 'campaigns' => 'campaigns#index', via: %i[get post]
+      match 'campaigns/:campaign_slug' => 'campaigns#show', via: %i[get post]
+      match 'campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', via: %i[get post]
+
+
+      # Events
+      match 'events' => 'events#index', via: %i[get post]
+      match 'events/:event_slug' => 'events#show', via: %i[get post]
+      match 'events/:event_slug/stats' => 'events#stats', via: %i[get post]
+      match 'events/:event_slug/tickets' => 'tickets#index', via: %i[get post]
+
+      # Dashboard
+      match 'dashboard' => 'nonprofits#dashboard', as: :np_dashboard, via: %i[get post]
+    end
+  end
 
   # Misc
   get '/pages/wp-plugin', to: redirect('/help/wordpress-plugin') # temporary, until WP plugin updated

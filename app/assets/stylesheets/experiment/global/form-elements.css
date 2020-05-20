@@ -1,0 +1,84 @@
+/* License: LGPL-3.0-or-later */
+input[type='checkbox'] + label:before,
+input[type='radio'] + label:before,
+select,
+textarea,
+input {
+  border: 2px solid var(--grey-5);
+}
+
+label {
+  margin-bottom: .25em;
+}
+
+select,
+textarea,
+input {
+  border-radius: 3px;
+}
+
+textarea,
+select,
+input {
+  padding: .25em .5em;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+  border-color: var(--green);
+}
+
+input[type='radio'] + label,
+input[type='checkbox'] + label {
+  font-size: 1rem;
+}
+
+input[type='radio'] + label:before,
+input[type='checkbox'] + label:before {
+  display: inline-block;
+  content: "\E876"; 
+  margin: 0;
+  font-family: 'Material Icons';
+  padding: 0;
+  font-size: .85rem;
+  width: 1.1rem;
+  line-height: 1.1rem;
+}
+
+input[type='radio'] + label:before {
+  border-radius: 50%;
+}
+
+input[type='checkbox']:checked + label:before,
+input[type='radio']:checked + label:before { 
+  border-color: var(--blue);
+  background: var(--blue-light); 
+}
+
+input[type='checkbox']:checked + label:before,
+input[type='radio']:checked + label:before { 
+  color: white; 
+}
+
+select,
+.dollar-input {
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+select {
+  -moz-appearance: none !important;
+  width: initial;
+  background-image: url('/svgs/dropdown.svg');
+  background-position-x: calc(100% - .25rem);
+  padding-right: 2rem;
+}
+
+.dollar-input {
+  background-image: url('/svgs/dollar.svg');
+  background-size: 1.1rem;
+  background-position-x: .25rem;
+  padding-left: 1.5rem;
+}
+

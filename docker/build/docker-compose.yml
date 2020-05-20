@@ -1,0 +1,20 @@
+# License: CC0-1.0
+version: '2'
+services:
+  build:
+    build:
+      context: ../..
+      dockerfile: docker/build/Dockerfile
+    depends_on:
+      - db
+      - memcached
+    environment:
+    - DATABASE_HOST=db
+    volumes:
+    - ../../:/myapp
+  db:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "password"
+

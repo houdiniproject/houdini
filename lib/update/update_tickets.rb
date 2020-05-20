@@ -1,17 +1,16 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module UpdateTickets
+  def self.update(data, current_user = nil)
+    ParamValidation.new(data,
+                        event_id: { required: true, is_reference: true },
+                        ticket_id: { required: true, is_reference: true },
+                        token: { format: UUID::Regex },
+                        bid_id: { is_integer: true },
+                        # note: nothing to check?
 
-  def self.update(data, current_user=nil)
-    ParamValidation.new(data, {
-        event_id: {required:true, is_reference: true},
-        ticket_id: {required: true, is_reference: true},
-        token: {format: UUID::Regex},
-        bid_id: {is_integer: true},
-        #note: nothing to check?
-
-        checked_in: {included_in: ['true', 'false']}
-
-    })
+                        checked_in: { included_in: ['true', 'false', true, false] })
 
     entities = RetrieveActiveRecordItems.retrieve_from_keys(data, Event => :event_id, Ticket => :ticket_id)
     validate_entities(entities)
@@ -40,7 +39,7 @@ module UpdateTickets
       edited = true
     end
 
-    if data[:checked_in]
+    unless data[:checked_in].nil?
       entities[:ticket_id].checked_in = data[:checked_in]
       edited = true
     end
@@ -78,21 +77,21 @@ module UpdateTickets
       return { json: { error: "No ticket with id #{ticket_id} at event with id #{event_id}\n #{e.message}" },
                status: :unprocessable_entity }
     rescue ActiveRecord::ActiveRecordError
-      return { json: { error: "There was a DB error. Please contact support" },
+      return { json: { error: 'There was a DB error. Please contact support' },
                status: :unprocessable_entity }
     end
   end
 
   def self.validate_entities(entities)
-    if (entities[:ticket_id].deleted)
+    if entities[:ticket_id].deleted
       raise ParamValidation::ValidationError.new("Ticket ID #{entities[:ticket_id].id} is deleted", key: :ticket_id)
     end
 
-    if (entities[:event_id].deleted)
+    if entities[:event_id].deleted
       raise ParamValidation::ValidationError.new("Event ID #{entities[:event_id].id} is deleted", key: :event_id)
     end
 
-    if (entities[:ticket_id].event != entities[:event_id])
+    if entities[:ticket_id].event != entities[:event_id]
       raise ParamValidation::ValidationError.new("Ticket ID #{entities[:ticket_id].id} does not belong to event #{entities[:event_id].id}", key: :ticket_id)
     end
   end

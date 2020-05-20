@@ -5,13 +5,11 @@
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <%= content_for :javascripts do %>
-	<%= IncludeAsset.js '/client/js/nonprofits/payouts/index/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__payouts__index' %>
 	<script>
 		appl.def('has_bank', <%= !!@nonprofit.bank_account %>)
 	</script>
 <% end %>
-
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
 
 <%= render 'nonprofits/transaction_title', 
 	active: :payouts, 
@@ -21,10 +19,10 @@
 <section class='table-meta'>
 	<div class='container--wide'>
 		<span class='table-meta-metric'>
-			Pending balance: <%= print_currency @pending_total %>
+			Pending balance: <%= print_currency @pending_total, @nonprofit.currency_symbol %>
 		</span>
 		<span class='table-meta-metric'>
-			Available balance: <%= print_currency @available_total %>
+			Available balance: <%= print_currency @available_total, @nonprofit.currency_symbol %>
 		</span>
 		<% if @can_make_payouts %>
 			<span class='table-meta-metric--blue'>
@@ -70,7 +68,7 @@
 			<% @payouts.each do |payout| %>
 			<tr>
 				<td><%= simple_date(payout.created_at) %></td>
-				<td class='table-bigNum'><%= print_currency(payout.net_amount) %></td>
+				<td class='table-bigNum'><%= print_currency(payout.net_amount, payout.nonprofit.currency_symbol) %></td>
 				<td><%= payout.bank_name %></td>
 				<td>
 					<% if payout.status == 'paid' || payout.status == 'succeeded' %>

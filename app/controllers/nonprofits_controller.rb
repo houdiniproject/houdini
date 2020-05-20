@@ -1,67 +1,71 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
- class NonprofitsController < ApplicationController
-	include NonprofitHelper
+class NonprofitsController < ApplicationController
+  include Controllers::Nonprofit::Current
+  include Controllers::Nonprofit::Authorization
 
-	helper_method :current_nonprofit_user?
-	before_filter :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update, :verify_identity]
-	before_filter :authenticate_super_admin!, only: [:destroy]
+  helper_method :current_nonprofit_user?
+  before_action :authenticate_nonprofit_user!, only: %i[dashboard dashboard_metrics dashboard_todos payment_history profile_todos recurring_donation_stats update verify_identity]
+  before_action :authenticate_super_admin!, only: [:destroy]
 
-	# get /nonprofits/:id
-	# get /:state_code/:city/:name
-	def show
+  # get /nonprofits/:id
+  # get /:state_code/:city/:name
+  def show
     if !current_nonprofit.published && !current_role?(:super_admin)
-       block_with_sign_in
+      block_with_sign_in
       return
     end
-		@nonprofit = current_nonprofit
-		@url = Format::Url.concat(root_url, @nonprofit.url)
-		@supporters = @nonprofit.supporters.not_deleted
-		@profiles = @nonprofit.profiles.order('total_raised DESC').limit(5).includes(:user).uniq
+    @nonprofit = current_nonprofit
+    @url = Format::Url.concat(root_url, @nonprofit.url)
+    @supporters = @nonprofit.supporters.not_deleted
 
     events = @nonprofit.events.not_deleted.order('start_datetime desc')
-    campaigns = @nonprofit.campaigns.not_deleted.order('created_at desc')
+    campaigns = @nonprofit.campaigns.not_deleted.not_a_child.order('created_at desc')
 
-		@events = events.upcoming
-		@any_past_events = events.past.any?
-		@active_campaigns = campaigns.active
-		@any_past_campaigns = campaigns.past.any?
+    @events = events.upcoming
+    @any_past_events = events.past.any?
+    @active_campaigns = campaigns.active
+    @any_past_campaigns = campaigns.past.any?
 
-		@nonprofit_background_image =  FetchBackgroundImage.with_model(@nonprofit)
+    @nonprofit_background_image = @nonprofit.background_image.attached? ? 
+      url_for(@nonprofit.background_image_by_size(:normal)) : 
+      url_for(Image::DefaultNonprofitUrl)
 
-		respond_to do |format|
-			format.html
-			format.json {render json: @nonprofit}
-		end
-	end
+    respond_to do |format|
+      format.html
+      format.json { @nonprofit }
+    end
+  end
 
   def recurring_donation_stats
     render json: QueryRecurringDonations.overall_stats(params[:nonprofit_id])
   end
 
-	def profile_todos
-		render json: FetchTodoStatus.for_profile(current_nonprofit)
-	end
+  def profile_todos
+    render json: FetchTodoStatus.for_profile(current_nonprofit)
+  end
 
-	def dashboard_todos
-		render json: FetchTodoStatus.for_dashboard(current_nonprofit)
-	end
+  def dashboard_todos
+    render json: FetchTodoStatus.for_dashboard(current_nonprofit)
+  end
 
-	def create
+  def create
     current_user ||= User.find(params[:user_id])
-		json_saved Nonprofit.register(current_user, params[:nonprofit])
-	end
+    json_saved Nonprofit.register(current_user, nonprofit_params)
+  end
 
-	def update
-		flash[:notice] = 'Update successful!'
-    current_nonprofit.update_attributes params[:nonprofit].except(:verification_status)
-		json_saved current_nonprofit
-	end
+  def update
+    flash[:notice] = 'Update successful!'
+    current_nonprofit.update_attributes nonprofit_params.except(:verification_status)
+    json_saved current_nonprofit
+  end
 
-	def destroy
-		current_nonprofit.destroy
-		flash[:notice] = 'Nonprofit removed'
-		render json: {}
-	end
+  def destroy
+    current_nonprofit.destroy
+    flash[:notice] = 'Nonprofit removed'
+    render json: {}
+  end
 
   # get /nonprofits/:id/donate
   def donate
@@ -69,18 +73,18 @@
     @referer = params[:origin] || request.env['HTTP_REFERER']
     @campaign = current_nonprofit.campaigns.find_by_id(params[:campaign_id]) if params[:campaign_id]
     @countries_translations = countries_list(I18n.locale)
-    respond_to { |format| format.html{render layout: 'layouts/embed'} }
+    respond_to { |format| format.html { render layout: 'layouts/embed' } }
   end
 
-	def btn
-		@nonprofit = current_nonprofit
-		respond_to { |format| format.html{render layout: 'layouts/embed'} }
-	end
+  def btn
+    @nonprofit = current_nonprofit
+    respond_to { |format| format.html { render layout: 'layouts/embed' } }
+  end
 
   # get /nonprofits/:id/supporter_form
   def supporter_form
-		@nonprofit = current_nonprofit
-		respond_to { |format| format.html{render layout: 'layouts/embed'} }
+    @nonprofit = current_nonprofit
+    respond_to { |format| format.html { render layout: 'layouts/embed' } }
   end
 
   # post /nonprofits/:id/supporter_with_tag
@@ -89,21 +93,21 @@
     render json: InsertSupporter.with_tags_and_fields(@nonprofit.id, params[:supporter])
   end
 
-	def dashboard
-		@nonprofit = current_nonprofit
-		respond_to { |format| format.html }
-	end
+  def dashboard
+    @nonprofit = current_nonprofit
+    respond_to { |format| format.html }
+  end
 
-	def dashboard_metrics
-		render json: Hamster::Hash[data: NonprofitMetrics.all_metrics(current_nonprofit.id)]
-	end
+  def dashboard_metrics
+    render json: Hamster::Hash[data: NonprofitMetrics.all_metrics(current_nonprofit.id)]
+  end
 
-	def payment_history
+  def payment_history
     render json: NonprofitMetrics.payment_history(params)
-	end
+  end
 
-	# put /nonprofits/:id/verify_identity
-	def verify_identity
+  # put /nonprofits/:id/verify_identity
+  def verify_identity
     if params[:legal_entity][:address]
       tos = {
         ip: current_user.current_sign_in_ip,
@@ -111,8 +115,8 @@
         user_agent: request.user_agent
       }
     end
-    render_json{ UpdateNonprofit.verify_identity(params[:nonprofit_id], params[:legal_entity], tos) }
-	end
+    render_json { UpdateNonprofit.verify_identity(params[:nonprofit_id], params[:legal_entity], tos) }
+  end
 
   def search
     render json: QueryNonprofits.by_search_string(params[:npo_name])
@@ -132,13 +136,64 @@
     all_countries = ISO3166::Country.translations(locale)
 
     if Settings.intntl.all_countries
-      countries = all_countries.select{ |code, name| Settings.intntl.all_countries.include? code }
-      countries = countries.map{ |code, name| [code.upcase, name] }.sort{ |a, b| a[1] <=> b[1] }
+      countries = all_countries.select { |code, _name| Settings.intntl.all_countries.include? code }
+      countries = countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
       countries.push([Settings.intntl.other_country.upcase, I18n.t('nonprofits.donate.info.supporter.other_country')]) if Settings.intntl.other_country
       countries
     else
-      all_countries.map{ |code, name| [code.upcase, name] }.sort{ |a, b| a[1] <=> b[1] }
+      all_countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
     end
   end
 
+  def nonprofit_params
+    params.require(:nonprofit).permit(
+      :name,
+      :stripe_account_id,
+      :summary,
+      :tagline,
+      :email,
+      :phone,
+      :main_image,
+      :second_image,
+      :third_image,
+      :background_image,
+      :remove_background_image,
+      :logo,
+      :zip_code,
+      :website,
+      :categories,
+      :achievements,
+      :full_description,
+      :state_code,
+      :statement,
+      :city,
+      :slug,
+      :city_slug,
+      :state_code_slug,
+      :ein,
+      :published,
+      :vetted,
+      :verification_status,
+      :latitude,
+      :longitude,
+      :timezone,
+      :address,
+      :thank_you_note,
+      :referrer,
+      :no_anon,
+      :roles_attributes,
+      :brand_font,
+      :brand_color,
+      :hide_activity_feed,
+      :tracking_script,
+      :facebook,
+      :twitter,
+      :youtube,
+      :instagram,
+      :blog,
+      :card_failure_message_top,
+      :card_failure_message_bottom,
+      :autocomplete_supporter_address
+    )
+  end
 end

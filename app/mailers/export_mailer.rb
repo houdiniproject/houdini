@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class ExportMailer < BaseMailer
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -17,7 +18,6 @@ class ExportMailer < BaseMailer
 
     mail(to: @export.user.email, subject: 'Your payment export has failed')
   end
-
 
   def export_recurring_donations_completed_notification(export)
     @export = export
@@ -41,5 +41,15 @@ class ExportMailer < BaseMailer
     @export = export
 
     mail(to: @export.user.email, subject: 'Your supporters export has failed')
+  end
+
+  def export_supporter_notes_completed_notification(export)
+    @export = export
+    mail(to: @export.user.email, subject: 'Your supporter notes export is available!')
+  end
+
+  def export_supporter_notes_failed_notification(export)
+    @export = export
+    mail(to: @export.user.email, subject: 'Your supporter notes export has failed.')
   end
 end

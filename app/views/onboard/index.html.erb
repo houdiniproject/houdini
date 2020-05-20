@@ -1,6 +1,6 @@
 <% content_for :title, t("registration.get_started.header") %>
 <% content_for :javascripts do %>
-  <%= IncludeAsset.js 'app/registration_pagex.js' %>
+  <%= javascript_pack_tag 'loading_indicator', 'i18n', 'registration_page' %>
 <% end %>
 
 <div id="outlet"></div>

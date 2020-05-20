@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
-describe FrontController, :type => :controller do
+describe FrontController, type: :controller do
   describe 'authorization' do
     include_context :shared_user_context
     describe 'accept all' do
       describe 'index' do
-          include_context :open_to_all, :get, :index
+        include_context :open_to_all, :get, :index
       end
     end
   end
 
   it 'index redirects to onboard with no non-profits' do
-    get( :index)
+    get(:index)
     expect(response).to redirect_to onboard_url
   end
 
@@ -37,6 +39,5 @@ describe FrontController, :type => :controller do
       get(:index)
       expect(response).to redirect_to profile_url(unauth_user.profile.id)
     end
-
   end
 end

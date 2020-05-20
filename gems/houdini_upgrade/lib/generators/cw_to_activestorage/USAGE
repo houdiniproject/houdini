@@ -1,0 +1,8 @@
+Description:
+    Explain the generator
+
+Example:
+    rails generate cw_to_activestorage
+    
+    This will create:
+        what/will/it/create

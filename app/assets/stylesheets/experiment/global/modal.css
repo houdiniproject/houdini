@@ -1,0 +1,92 @@
+/* License: LGPL-3.0-or-later */
+@import 'flimflam/ui/modal/index.css';  /* npm */
+
+[data-ff-modal-backdrop] {
+  z-index: 2;
+  transform: translateZ(0);
+  transition: opacity 200ms ease-out, visibility 200ms ease-out;
+  background: var(--scrim); 
+}
+
+[data-ff-modal-backdrop=hidden] {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}
+
+[data-ff-modal-backdrop=shown] {
+  opacity: 1;
+  visibility: visible;
+}
+
+[data-ff-modal] { 
+  box-shadow: var(--sh-2); 
+}
+
+[data-ff-modal-header] { padding: 1rem 3rem 1rem 1rem; }
+
+[data-ff-modal-body],
+[data-ff-modal-footer] {
+  padding: 1rem;
+}
+
+[data-ff-modal-header] ,
+[data-ff-modal-footer] { 
+  background: var(--grey-1); 
+}
+
+[data-ff-modal-header] h4 { margin: 0; }
+
+[data-ff-modal-close-button] {
+  top: 1rem;
+  right: 1rem;
+}
+
+[data-ff-modal-close-button]:after {
+  line-height: 1;
+  font-size: 1.75rem;
+  color: var(--grey-6);
+  content: '×'; 
+}
+
+.modal-medium [data-ff-modal] {
+  width: 40rem; 
+  margin-left: -20rem;
+}
+[data-ff-confirmation] [data-ff-modal],
+.modal-small [data-ff-modal] {
+  width: 30rem; 
+  margin-left: -15rem;
+}
+
+.modal-large [data-ff-modal] {
+  width: 50rem; 
+  margin-left: -25rem;
+}
+
+@media (max-width: 40rem) {
+  .modal-medium [data-ff-modal] {
+    width: calc(100% - 1rem); 
+    margin-left: -0.5rem; 
+    left: 1rem;
+  }
+}
+
+@media (max-width: 50rem) {
+  .modal-large [data-ff-modal] {
+    width: calc(100% - 1rem); 
+    margin-left: -0.5rem; 
+    left: 1rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  [data-ff-confirmation] [data-ff-modal],
+  .modal-small [data-ff-modal] {
+    width: calc(100% - 1rem); 
+    margin-left: -0.5rem; 
+    left: 1rem;
+  }
+}
+
+

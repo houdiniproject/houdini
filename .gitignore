@@ -7,6 +7,7 @@ client/js/nonprofits/donate/plugins-enabled
 
 
 .DS_Store
+/postgres-data
 
 # Ignore bundler config
 /.bundle
@@ -29,9 +30,11 @@ custom_plan.rb
 # Ignore VCR cassettes
 spec/fixtures/vcr_cassettes
 
+#dev files
 .env
 .idea/
 .vscode
+.byebug_history
 
 # Jasmine specs build file
 spec/javascripts/bundle.js
@@ -44,9 +47,6 @@ config/environments/*.local.yml
 
 #local bins we use for builds
 .bin
-
-#generated typescript APIs from Grape
-javascripts/api
 
 # thing we want to keep in public
 !public/*.html
@@ -63,3 +63,13 @@ javascripts/api
 !public/css/donate-button.v2.css
 !public/svgs
 !public/svgs/*
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# we don't want the file storage directory to be committed
+storage

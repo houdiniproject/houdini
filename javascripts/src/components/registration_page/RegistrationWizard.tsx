@@ -3,25 +3,27 @@ import * as React from 'react';
 
 import {observer, inject} from 'mobx-react'
 import NonprofitInfoPanel from './NonprofitInfoPanel'
-import {action,  observable, computed} from 'mobx';
+import {action,  observable, computed, runInAction} from 'mobx';
 import {Wizard} from '../common/wizard/Wizard'
 
 import {Form} from 'mobx-react-form';
 import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
-import {WizardState} from "../common/wizard/wizard_state";
+import {WizardState, WizardTabPanelState} from "../common/wizard/wizard_state";
 import UserInfoPanel, * as UserInfo from "./UserInfoPanel";
 import {
   Nonprofit,
-  NonprofitApi,
+  NonprofitsApi,
   PostNonprofit,
-  ValidationErrorsException
+  ValidationErrorsException,
+  UsersApi,
+  PostUser,
+  PostNonprofitUser
 } from "../../../api";
 
 import {initializationDefinition} from "../../../../types/mobx-react-form";
 import {ApiManager} from "../../lib/api_manager";
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
 import {WebUserSignInOut} from "../../lib/api/sign_in";
-import {Validations} from "../../lib/vjf_rules";
 import * as NonprofitInfoForm from "./NonprofitInfoForm";
 import * as UserInfoForm from "./UserInfoForm";
 
@@ -37,16 +39,22 @@ const setTourCookies = (nonprofit:Nonprofit) => {
   document.cookie = `tour_supporters=${nonprofit.id};path=/`
   document.cookie = `tour_subscribers=${nonprofit.id};path=/`
 }
+/** this is just here to allow compilation. */
+interface TemporaryHackyInterface {
+  nonprofit: PostNonprofit
+  user: PostNonprofitUser
+}
 
 export class RegistrationPageForm extends HoudiniForm {
-  converter: StaticFormToErrorAndBackConverter<PostNonprofit>
+  converter: StaticFormToErrorAndBackConverter<TemporaryHackyInterface>
 
   constructor(definition: initializationDefinition, options?: any) {
     super(definition, options)
-    this.converter = new StaticFormToErrorAndBackConverter<PostNonprofit>(this.inputToForm)
+    this.converter = new StaticFormToErrorAndBackConverter<TemporaryHackyInterface>(this.inputToForm)
   }
 
-  nonprofitApi: NonprofitApi
+  nonprofitApi: NonprofitsApi
+  usersApi: UsersApi
   signinApi: WebUserSignInOut
 
   options() {
@@ -60,7 +68,7 @@ export class RegistrationPageForm extends HoudiniForm {
 
   inputToForm = {
     'nonprofit[name]': 'nonprofitTab.organization_name',
-    'nonprofit[url]': 'nonprofitTab.website',
+    'nonprofit[website]': 'nonprofitTab.website',
     'nonprofit[email]': 'nonprofitTab.org_email',
     'nonprofit[phone]': 'nonprofitTab.org_phone',
     'nonprofit[city]': 'nonprofitTab.city',
@@ -79,9 +87,11 @@ export class RegistrationPageForm extends HoudiniForm {
 
 
         try {
-          let r = await this.nonprofitApi.postNonprofit(input)
+          const userMessage = {user: input.user}
+          let user = await this.usersApi.postUser(userMessage)
+          this.signinApi.postLogin({email: input.user.email, password: input.user.password})
+          let r = await this.nonprofitApi.postNonprofit(input.nonprofit)
           setTourCookies(r)
-          await this.signinApi.postLogin({email: input.user.email, password: input.user.password})
           window.location.href = `/nonprofits/${r.id}/dashboard`
 
         }
@@ -90,6 +100,8 @@ export class RegistrationPageForm extends HoudiniForm {
           if (e instanceof ValidationErrorsException) {
             this.converter.convertErrorToForm(e, f)
           }
+
+          this.invalidateFromServer(e['error'])
           //set error to the form
         }
       }
@@ -99,6 +111,9 @@ export class RegistrationPageForm extends HoudiniForm {
 }
 
 class RegistrationWizardState extends WizardState {
+  constructor(){
+    super(WizardTabPanelState)
+  }
   @action.bound
   createForm(i: any): Form {
     return new RegistrationPageForm(i)
@@ -133,71 +148,39 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
 
   @action.bound
   createForm() {
-    this.registrationWizardState.addTab("nonprofitTab", 'registration.wizard.tabs.nonprofit', {
+    this.registrationWizardState.addTab({tabName:"nonprofitTab", label:'registration.wizard.tabs.nonprofit', tabFieldDefinition:{
       fields:
-        NonprofitInfoForm.FieldDefinitions,
-      hooks: {
-        onError: (f: any) => {
-          console.log(f)
-        },
-        onSuccess: (f: any) => {
-          console.log(f)
-        }
+        NonprofitInfoForm.FieldDefinitions
+    }}
+    )
 
-      }
-    })
-
-    this.registrationWizardState.addTab("userTab", 'registration.wizard.tabs.contact', {
+    this.registrationWizardState.addTab({tabName: "userTab", label: 'registration.wizard.tabs.contact', tabFieldDefinition:{
       fields:
-        UserInfoForm.FieldDefinitions,
-      hooks: {
-        onError: (f: any) => {
-
-        },
-        onSuccess: (f: any) => {
-
-        }
-
+        UserInfoForm.FieldDefinitions
       }
     })
 
     this.registrationWizardState.initialize()
   }
 
+  componentWillMount()
+  {
+    runInAction(() => {
+      this.form.nonprofitApi = this.props.ApiManager.get(NonprofitsApi)
+      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
+      this.form.usersApi = this.props.ApiManager.get(UsersApi)
+    })
+  }
+
 
   render() {
-    if (!this.form.nonprofitApi) {
-      this.form.nonprofitApi = this.props.ApiManager.get(NonprofitApi)
-
-    }
-    if(!this.form.signinApi){
-      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
-    }
-
-    //set up labels
-    let label: {[props:string]: string} = {
-      'nonprofitTab[organization_name]': "registration.wizard.nonprofit.name",
-      "nonprofitTab[website]": 'registration.wizard.nonprofit.website',
-      "nonprofitTab[org_email]": 'registration.wizard.nonprofit.email',
-      'nonprofitTab[org_phone]': 'registration.wizard.nonprofit.phone',
-      'nonprofitTab[city]': 'registration.wizard.nonprofit.city',
-      'nonprofitTab[state]': 'registration.wizard.nonprofit.state',
-      'nonprofitTab[zip]': 'registration.wizard.nonprofit.zip',
-      'userTab[name]': 'registration.wizard.contact.name',
-      'userTab[email]': 'registration.wizard.contact.email',
-      'userTab[password]': 'registration.wizard.contact.password',
-      'userTab[password_confirmation]': 'registration.wizard.contact.password_confirmation'
-    }
-    for (let key in label){
-       this.form.$(key).set('label', this.props.intl.formatMessage({id: label[key]}))
-    }
 
     return <Wizard wizardState={this.registrationWizardState} disableTabs={this.form.submitting}>
       <NonprofitInfoPanel tab={this.registrationWizardState.tabsByName['nonprofitTab']}
                            buttonText="registration.wizard.next"/>
 
       <UserInfoPanel tab={this.registrationWizardState.tabsByName['userTab']}
-                     buttonText="registration.wizard.save_and_finish"/>
+                     buttonText="registration.wizard.save_and_finish" buttonTextOnProgress="registration.wizard.saving"/>
     </Wizard>
   }
 }

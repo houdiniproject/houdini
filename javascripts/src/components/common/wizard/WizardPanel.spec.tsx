@@ -6,13 +6,13 @@ import * as Component from './WizardPanel'
 
 import {Form, Field} from 'mobx-react-form';
 import { shallow, render } from 'enzyme';
-import {TabPanel, Wrapper} from 'react-aria-tabpanel'
 import toJson from 'enzyme-to-json';
-import {WizardState} from "./wizard_state";
-const TestRenderer = require('react-test-renderer')
+import {WizardState, WizardTabPanelState} from "./wizard_state";
 
 class EasyWizardState extends WizardState{
-
+  constructor(){
+    super(WizardTabPanelState)
+  }
   createForm(i: any): Form {
     return new Form(i)
   }
@@ -25,10 +25,10 @@ describe('WizardPanel', () => {
       const form = new Form({fields});
 
       const ws = new EasyWizardState()
-      ws.addTab('something', 'something label',{} )
+      ws.addTab({tabName:'something', label:'something label',tabFieldDefinition:{} })
       ws.initialize()
 
-      const tree = shallow(<Component.WizardPanel tab={ws.tabsByName['something']}><hr/></Component.WizardPanel>)
+      const tree = shallow(<Component.WizardPanel tab={ws.tabsByName['something']} anotherProp={false}><hr/></Component.WizardPanel>)
         
         
       expect(toJson(tree)).toMatchSnapshot()

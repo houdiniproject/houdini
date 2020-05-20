@@ -1,0 +1,31 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<div class='modal' id='uploadBannerImage'>
+  <%= render 'common/modal_header', title: 'Banner Image' %>
+	<div class='modal-body'>
+
+    <fieldset class='u-centered'>
+			<p>Select and upload a banner image for this page.</p>
+			<p class='u-marginBottom--20'>For best results, the image should be <strong>980px by 120px</strong> in size.</p>
+			<form autosubmit action='<%= end_point %>' method='put' data-reload>
+				<div class='image-upload image-upload--banner' style='background-image:url(<%= image_url ? image_url : '' %>)'>
+					<span><i class='fa fa-image'></i> Select</span>
+					<input type='file' name="<%= input_name %>" required>
+				</div>
+				<p class='u-color--red'>
+					<!--= show_if (length image_upload.error) -->
+					<small><!--= put image_upload.error --></small>
+				</p>
+				<div class='u-width--500 u-margin--auto'>
+					<button type='submit' class='button--small u-width--full u-marginTop--20' data-loading='Uploading...'>
+						Upload <%= image_url ? 'Different Image' : '' %>
+					</button>
+					<a class='button--small red u-marginTop--10 u-width--full' <%= image_url ? '' : 'disabled' %>>
+						<!--= on 'click' (confirm 'Are you sure?' remove_banner_image ) -->
+						Remove Image
+					</a>
+				</div>
+			</form>
+		</fieldset>
+
+	</div> <!-- modal-body -->
+</div>

@@ -9,29 +9,31 @@
 <%= content_for :facebook_tags do %>
 	<meta property="og:title" content="<%= raw @event.name %>" />
 	<meta property="og:description" content="<%= @event.summary.present? ? raw(@event.summary) : raw(@event.name) %>" />
-	<meta property="og:image" content="<%= @event.main_image_url(:normal) %>" />
+	<meta property="og:image" content="<%= @event.main_image.attached? ? @event.main_image_by_size(:normal) : "" %>" />
 <% end %>
 
 <%= content_for :twitter_tags do %>
 	<meta property="twitter:title" content="<%= raw @event.name %>" />
 	<meta property="twitter:description" content="<%= raw @event.summary %>" />
-	<meta property="twitter:image" content="<%= @event.main_image_url(:normal) %>" />
+	<meta property="twitter:image" content="<%= @event.main_image.attached? ? @event.main_image_by_size(:normal) : "" %>" />
 <% end %>
 
 <%= content_for :javascripts do %>
 	<script>
 		app.event_id = <%= @event.id %>
-		appl.def('event_id', <%= @event.id %>)
 		app.hide_activities = <%= @event.hide_activity_feed %>
 		app.header_image_url = '<%= @event_background_image %>'
 		app.current_event_editor = <%= current_event_editor? %>
 		app.event_url = '<%= nonprofit_event_path(@nonprofit, @event) %>'
-    appl.def('event_is_deleted', <%= @event.deleted || false %>)
 	</script>
 
 	<%= render 'common/froala' if current_event_editor? %>
   <%= render 'schema', event: @event, url: @url %>
-	<%= IncludeAsset.js '/client/js/events/show/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__events__show' %>
+	<script>
+		appl.def('event_id', <%= @event.id %>)
+		appl.def('event_is_deleted', <%= @event.deleted || false %>)
+	</script>
 <% end %>
 
 <%= content_for :head do %>
@@ -43,13 +45,12 @@
   <%= render 'admin_top_nav' %>
 <% end %>
 
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
-
 <%= render 'components/fundraising_pages/header',
 	image_url: @event_background_image,
 	is_editor: current_event_editor?,
 	hide_title:  @event.hide_title,
-	header_content_partial: 'header_content' %>
+	header_content_partial: 'header_content',
+  banner_image_url: nil %>
 
 <%= render 'components/preview_mode_notification' %>
 

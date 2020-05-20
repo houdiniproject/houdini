@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { IntlProvider, intlShape } from 'react-intl';
-import { mount, shallow, ShallowRendererProps, MountRendererProps, ShallowWrapper } from 'enzyme';
+import {IntlProvider, intlShape} from 'react-intl';
+import {mount, MountRendererProps, shallow, ShallowRendererProps, ShallowWrapper} from 'enzyme';
 
 // Create the IntlProvider to retrieve context for wrapping around.
 const intlProvider = new IntlProvider({ locale: 'en'}, {});

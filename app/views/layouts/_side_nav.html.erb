@@ -25,18 +25,12 @@
 
 	<% unless current_role?([:nonprofit_admin,:nonprofit_associate]) %>
 		<section class='sideNav-section'>
-			<a class='sideNav-link' href='/explore'>
-				<i class='sideNav-icon icon-binocular'></i>
-				<span class='sideNav-text'>Explore</span> 
-			</a>
-			<a class='sideNav-link' href="/help">
-				<i class='sideNav-icon icon-bubble-ask-2'></i>
-				<span class='sideNav-text'>Help</span>
-			</a>
-			<a class='sideNav-link' href="/blog">
-				<i class='sideNav-icon icon-megaphone-1'></i> 
-				<span class='sideNav-text'>Blog</span>
-			</a>
+      <% if Settings.terms_and_privacy&.help_url %>
+        <a class='sideNav-link' href="<%=Settings.terms_and_privacy.help_url %>">
+          <i class='sideNav-icon icon-bubble-ask-2'></i>
+          <span class='sideNav-text'>Help</span>
+        </a>
+      <% end %>
 		</section>
 	<% end %>
 </nav>

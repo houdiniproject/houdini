@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class EmailSettingsController < ApplicationController
-  include NonprofitHelper
-  before_filter :authenticate_nonprofit_user!
+  include Controllers::Nonprofit::Current
+  include Controllers::Nonprofit::Authorization
+  before_action :authenticate_nonprofit_user!
 
   def index
     user = current_role?(:super_admin) ? User.find(params[:user_id]) : current_user
@@ -13,8 +16,12 @@ class EmailSettingsController < ApplicationController
   # post /nonprofits/:nonprofit_id/users/:user_id/email_settings for current_user
   def create
     user = current_role?(:super_admin) ? User.find(params[:user_id]) : current_user
-    render json: UpdateEmailSettings.save(params[:nonprofit_id], user.id, params[:email_settings])
+    render json: UpdateEmailSettings.save(params[:nonprofit_id], user.id, email_settings_params)
   end
 
-end
+  private
 
+  def email_settings_params
+    params.require(:email_settings).permit(:notify_payments, :notify_campaigns, :notify_events, :notify_payouts, :notify_recurring_donations)
+  end
+end

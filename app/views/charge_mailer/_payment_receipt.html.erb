@@ -10,7 +10,7 @@
 	<tbody>
 		<tr>
 			<td><strong>Total Amount</strong></td>
-			<td> <%= print_currency(charge.amount) %></td>
+			<td> <%= print_currency(charge.amount, charge.nonprofit.currency_symbol) %></td>
 		</tr>
 
 		<% if @event %>

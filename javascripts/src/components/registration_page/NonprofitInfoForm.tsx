@@ -6,6 +6,7 @@ import {Field, FieldDefinition} from "../../../../types/mobx-react-form";
 import {BasicField} from "../common/fields";
 import {ThreeColumnFields, TwoColumnFields} from "../common/layout";
 import {Validations} from "../../lib/vjf_rules";
+import ProgressableButton from "../common/ProgressableButton";
 
 export interface NonprofitInfoFormProps
 {
@@ -16,40 +17,31 @@ export interface NonprofitInfoFormProps
 export const FieldDefinitions : Array<FieldDefinition> = [
   {
     name: 'organization_name',
-    label: 'registration.wizard.nonprofit.name',
-    type: 'text',
     validators: [Validations.isFilled]
   },
   {
     name: 'website',
-    label: 'registration.wizard.nonprofit.website',
     validators: [Validations.optional(Validations.isUrl)]
   },
   {
     name: 'org_email',
-    label: 'registration.wizard.nonprofit.email',
     validators: [Validations.optional(Validations.isEmail)]
   },
   {
     name: 'org_phone',
-    label: 'registration.wizard.nonprofit.phone',
     type: "tel"
   },
   {
     name: 'city',
-    label: 'registration.wizard.nonprofit.city',
     validators: [Validations.isFilled]
   },
   {
     name: 'state',
-    label: 'registration.wizard.nonprofit.state',
-    type: 'text',
     validators: [Validations.isFilled]
 
   },
   {
     name: 'zip',
-    label: 'registration.wizard.nonprofit.zip',
     validators: [Validations.isFilled]
   }
 ]
@@ -59,20 +51,46 @@ class NonprofitInfoForm extends React.Component<NonprofitInfoFormProps & Injecte
 
   render() {
      return <fieldset >
-       <BasicField field={this.props.form.$("organization_name")}/>
-       <BasicField field={this.props.form.$('website')}/>
+
+       <BasicField field={this.props.form.$("organization_name")}
+                   label={this.props.intl.formatMessage({id:'registration.wizard.nonprofit.name.label' })}
+                   placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.name.placeholder'})}
+                   inputClassNames={"input-lg"}
+       />
+
+       <BasicField field={this.props.form.$('website')}
+                   label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.website.label'})}
+                   placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.website.placeholder'})}
+                   inputClassNames={"input-lg"}/>
+
        <TwoColumnFields>
-         <BasicField field={this.props.form.$('org_email')}/>
-         <BasicField field={this.props.form.$('org_phone')}/>
+         <BasicField field={this.props.form.$('org_email')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.email.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.email.placeholder'})}
+                     inputClassNames={"input-lg"}/>
+         <BasicField field={this.props.form.$('org_phone')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.phone.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.phone.placeholder'})}
+                     inputClassNames={"input-lg"}/>
        </TwoColumnFields>
 
        <ThreeColumnFields>
-         <BasicField field={this.props.form.$('city')}/>
-         <BasicField field={this.props.form.$('state')}/>
-         <BasicField field={this.props.form.$('zip')}/>
+         <BasicField field={this.props.form.$('city')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.city.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.city.placeholder'})}
+                     inputClassNames={"input-lg"}/>
+         <BasicField field={this.props.form.$('state')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.state.label'})}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.state.placeholder'})}
+                     inputClassNames={"input-lg"}/>
+         <BasicField field={this.props.form.$('zip')}
+                     label={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.zip.label' })}
+                     placeholder={this.props.intl.formatMessage({id: 'registration.wizard.nonprofit.zip.placeholder'})}
+                     inputClassNames={"input-lg"}/>
        </ThreeColumnFields>
-       <button onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid || this.props.form.submitting}>
-         {this.props.intl.formatMessage({id: this.props.buttonText})}</button>
+
+       <ProgressableButton onClick={this.props.form.onSubmit} className="button" disabled={!this.props.form.isValid} buttonText={this.props.intl.formatMessage({id: this.props.buttonText})}
+                           inProgress={this.props.form.submitting || this.props.form.container().submitting} disableOnProgress={true}/>
      </fieldset>
   }
 }

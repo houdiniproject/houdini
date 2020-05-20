@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com)
+[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com) [![Build Status](https://travis-ci.com/houdiniproject/houdini.svg?branch=master)](https://travis-ci.com/houdiniproject/houdini)
 
 The Houdini Project is free and open source fundraising infrastructure. It includes...
 - Crowdfunding campaigns
@@ -11,8 +11,6 @@ The Houdini Project is free and open source fundraising infrastructure. It inclu
 - Nonprofit supporter relationship management dashboard (CRM)
 - Nonprofit org user account management
 - Simple donation management for donors
-
-This is a Rails 3.2 app; [we want to upgrade](https://github.com/houdiniproject/houdini/issues/47).
 
 Much of the business logic is in `/lib`. 
 
@@ -32,8 +30,16 @@ https://houdini.zulipchat.com
 Visit the Internationalization channel on Houdini Zulip and discuss
 ## Dev Setup
 
+### Create new postgres user
+Run `sudo -u postgres createuser houdini_user -s -P` and then enter a password for the role
+
+## Docker setup
+
 #### Get the code  
 `git clone https://github.com/HoudiniProject/houdini`
+
+#### Mac Setup
+If you have a Mac and don't want to run the `docker` configuration, see [how to get started](docs/GETTING_STARTED.MD) with the project.
 
 #### Docker install (if you don't have docker and docker-compose installed)
 ##### install Docker and Docker compose
@@ -56,8 +62,8 @@ You will likely need to logout and log back in again.
 #### Build your docker-container and start it up for initial set up.
 We'll keep this running in the console we'll call **console 1**
 ```
-docker-compose build
-docker-compose up
+./dc build
+./dc up
 ```
 #### System configuration
 There are a number of steps for configuring your Houdini instance for startup
@@ -82,8 +88,8 @@ There are a number of steps for configuring your Houdini instance for startup
 ##### You SHOULD set your AMAZON s3 information (optional but STRONGLY recommended)
 If you don't, file uploads WILL NOT WORK but it's not required.
 
-##### In console 2,  install npm packages
-`./run npm install`
+##### In console 2,  install yarn
+`./run yarn`
 
 ##### In console 2, fill the db
 `./run rake db:create db:structure:load db:seed test:prepare` 
@@ -96,10 +102,10 @@ If you need help setting up your mailer, visit `config/environment.rb` where the
 ##### Switch back to console 1 and run `Ctrl-c` to end the session.
 
 ##### In console 1, restart the containers
-`docker-compose up`
+`./dc up`
 
 ##### In console 2, run:
-`./run npm run watch`
+`./run yarn watch`
 
 ##### You can go to http://localhost:5000
 
@@ -114,7 +120,7 @@ nonprofits, which is located at `/admin` url.
   
 To create the super user, go to the rails console by calling:
 
-`docker-compose run web rails console`
+`./dc run web rails console`
 
 In the console, run the following:
  
@@ -122,6 +128,9 @@ In the console, run the following:
 admin=User.find(1) #or the id of the user you want to add the role
 role=Role.create(user:admin,name: "super_admin")
 ```
+
+## Known Issues
+For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
 
 
 ## To run in production
@@ -160,7 +169,7 @@ This generator creates a basic Typescript module along with a test file.
 **Note: This is not legal advice and provides a suggestion which may be compliant. You should talk with your legal counsel if you have
 questions or concerns with how to comply with the various licenses of Houdini**
 
-Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licensed used by Houdini. There are two methods for doing so right now:
+Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licenses used by Houdini. There are two methods for doing so right now:
 
 1. Providing a tarball of the current running code
 2. Providing a link to Github where the code is pulled from

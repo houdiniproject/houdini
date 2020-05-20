@@ -10,18 +10,14 @@ default:
 #    profile: "/images/fallback/wemove.min.svg"
 #    nonprofit: "/images/fallback/wemove.min.svg"
 #    campaign: "/fallback/default-campaign-background.jpg"
-    profile: "/images/fallback/default-profile.png"
-    nonprofit: "/images/fallback/default-nonprofit.png"
-    campaign: "/fallback/default-campaign-background.jpg"
-
-
-  cache_store: dalli_store
+    profile: "public/images/fallback/default-profile.png"
+    nonprofit: "public/images/fallback/default-nonprofit.png"
+    campaign: "public/fallback/default-campaign-background.jpg"
 
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  region: test
-  bucket: test
+  bucket: <%= ENV['S3_BUCKET_NAME'] %>
 
 mailer:
   delivery_method: "sendmail"
@@ -30,8 +26,7 @@ mailer:
   host: "http://localhost"
 
 cdn:
-  url: "http://localhost"
-  port: 5000
+  url: "http://localhost:5000"
 
 payment_provider:
   stripe_connect: false
@@ -73,4 +68,7 @@ source_tokens:
     max_uses: 20
 
 nonprofits_must_be_vetted: false
+
+api_domain:
+  url: "http://localhost:5000"
 

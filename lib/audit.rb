@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Audit
-
   # Given a list of pairs of nonprofit ids and stripe_account_ids (eg [[4341, 'acct_arst'], [3624, 'acct_arst']])
   # Find all their available balances on both stripe and CC
   # Give all the ones that dont match up with the difference
@@ -23,9 +24,9 @@ module Audit
     fees = p.payments.sum(:fee_total)
     net = p.payments.sum(:net_amount)
     puts [
-      [p.gross_amount, p.fee_total, p.net_amount].join(", ") + " -- payout columns",
-      [gross, fees, net].join(", ") + " -- summed from payments",
-      [p.gross_amount - gross, p.fee_total - fees, p.net_amount - net].join(", ") + " -- differences"
+      [p.gross_amount, p.fee_total, p.net_amount].join(', ') + ' -- payout columns',
+      [gross, fees, net].join(', ') + ' -- summed from payments',
+      [p.gross_amount - gross, p.fee_total - fees, p.net_amount - net].join(', ') + ' -- differences'
     ].join("\n")
   end
 
@@ -36,20 +37,21 @@ module Audit
     starting_after = nil
     transfers = []
     loop do
-      new_transfers = Stripe::Transfer.all({limit: 100, starting_after: starting_after, destination: acct}).data
+      new_transfers = Stripe::Transfer.all(limit: 100, starting_after: starting_after, destination: acct).data
       break if new_transfers.empty?
+
       transfers += new_transfers
       starting_after = new_transfers.last.id
     end
     ActiveRecord::Base.logger = logger
-    return transfers
+    transfers
   end
 
   # Given a list of Stripe transaction objects, see if any are missing on CommitChange
   def self.find_missing_charges(transfers)
     transfers
-      .map{|t| [t.source_transaction, t.amount]}
-      .select{|id, amount| Charge.where(stripe_charge_id: id, amount: amount).empty?}
+      .map { |t| [t.source_transaction, t.amount] }
+      .select { |id, amount| Charge.where(stripe_charge_id: id, amount: amount).empty? }
   end
 
   # Audit some basic balances for a nonprofit with those on Stripe
@@ -58,7 +60,7 @@ module Audit
     puts "Stripe Dashboard: https://dashboard.stripe.com/#{np.stripe_account_id}"
     puts "CC Payments: https://commitchange.com/nonprofits/#{id}/payments"
     puts "CC Payouts: https://commitchange.com/nonprofits/#{id}/payouts"
-    
+
     begin
       stripe_balances = Stripe::Balance.retrieve(stripe_account: np.stripe_account_id)
       available = stripe_balances['available'].first['amount']
@@ -74,36 +76,35 @@ module Audit
       cc_net: bal['net_amount'],
       diff: bal['net_amount'] - (available + pending)
     }
-    return data
+    data
   end
 
-  # Get the total gross, net 
+  # Get the total gross, net
   # Pretty much duped from QueryPayments
   def self.np_balances(np_id)
     payment_ids_expr = Qx.select('DISTINCT payments.id')
-      .from(:payments)
-      .left_join(
-        [:charges, 'charges.payment_id=payments.id'],
-        [:refunds, 'refunds.payment_id=payments.id'],
-        [:disputes, 'disputes.payment_id=payments.id']
-      )
-      .where('payments.nonprofit_id=$id', id: np_id)
-      .and_where("refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR disputes.payment_id IS NOT NULL")
-      .and_where(%Q(
+                         .from(:payments)
+                         .left_join(
+                           [:charges, 'charges.payment_id=payments.id'],
+                           [:refunds, 'refunds.payment_id=payments.id'],
+                           [:disputes, 'disputes.payment_id=payments.id']
+                         )
+                         .where('payments.nonprofit_id=$id', id: np_id)
+                         .and_where('refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR disputes.payment_id IS NOT NULL')
+                         .and_where(%(
         (refunds.payment_id IS NOT NULL AND (refunds.disbursed IS NULL OR refunds.disbursed='f'))
         OR (charges.status='available' OR charges.status='pending')
         OR (disputes.status='lost')
        ))
-    return Qx.select(
-        'coalesce(SUM(payments.gross_amount), 0) AS gross_amount',
-        'coalesce(SUM(payments.fee_total), 0) AS fee_total',
-        'coalesce(SUM(payments.net_amount), 0) AS net_amount',
-        'COUNT(payments.*) AS count'
-      )
+    Qx.select(
+      'coalesce(SUM(payments.gross_amount), 0) AS gross_amount',
+      'coalesce(SUM(payments.fee_total), 0) AS fee_total',
+      'coalesce(SUM(payments.net_amount), 0) AS net_amount',
+      'COUNT(payments.*) AS count'
+    )
       .from(:payments)
-      .where("payments.id IN ($ids)", ids: payment_ids_expr)
+      .where('payments.id IN ($ids)', ids: payment_ids_expr)
       .execute
       .first
   end
-
 end

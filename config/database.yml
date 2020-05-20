@@ -17,19 +17,29 @@ development:
   adapter: postgresql
   encoding: unicode
   database: commitchange_development
-  pool: 5
-  username: admin
+  pool: 20
+  username: houdini_user
   password: password
   host: <%= ENV['DATABASE_HOST']  || 'localhost' %>
 
 test:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_test
+  database: houdini_test<%= ENV['TEST_ENV_NUMBER'] %>
   pool: 5
-  username: admin
+  username: houdini_user
   password: password
   host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+ci:
+  adapter: postgresql
+  encoding: unicode
+  database: commitchange_ci
+  pool: 5
+  username: houdini_user
+  password: password
+  host: <%= ENV['DATABASE_HOST'] || 'localhost' %>
+
+
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have

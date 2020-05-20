@@ -1,0 +1,9 @@
+<p>Your export from <%= Format::Date.simple @export.created_at %> was completed successfully.</p>
+
+<p>To view your exported CSV, visit: <a href='<%= @export.url %>'>your export.</a></p>
+
+<p>Note: your generated CSV file will be automatically deleted from our servers after seven days. Don't worry; you can always visit your recurring donations panel and export a new CSV file.</p>
+
+<p>If you have any questions about this export, please contact <a href="mailto:<%= Settings.mailer.email %>"><%= Settings.mailer.email %></a>.</p>
+
+<%= render 'emails/sig' %>

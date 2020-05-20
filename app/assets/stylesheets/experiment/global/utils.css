@@ -1,0 +1,5 @@
+/* License: LGPL-3.0-or-later */
+.transition-slow {
+  transition: 300ms ease;
+}
+

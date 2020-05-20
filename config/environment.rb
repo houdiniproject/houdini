@@ -1,34 +1,35 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-# Load the rails application
-require File.expand_path('../application', __FILE__)
+# Load the Rails application
+require_relative 'application'
 
 Encoding.default_external = Encoding::UTF_8
 Encoding.default_internal = Encoding::UTF_8
 @ignore_dotenv = ENV['IGNORE_DOTENV']
-unless (@ignore_dotenv)
-  require 'dotenv'
-  Dotenv.load ".env"
-end
 @env = Rails.env || 'development'
-@org_name = ENV['ORG_NAME'] || 'default_organization'
-puts "config files .env .env.#{@env} ./config/settings.#{@env}.yml#{ @env != 'test' ? " ./config/#{@org_name}.yml": " "}  #{ @env != 'test' ? " ./config/#{@org_name}.#{@env}.yml": " "} #{ @env == 'test' ? "./config/settings.test.yml" : ""}"
 unless @ignore_dotenv
-  Dotenv.load ".env.#{@env}" if File.file?(".env.#{@env}")
+  require 'dotenv'
+  if @env == 'test'
+    Dotenv.load ".env.#{@env}" if File.file?(".env.#{@env}")
+  else
+    Dotenv.load '.env'
+  end
 end
+
+@org_name = ENV['ORG_NAME'] || 'default_organization'
+puts "config files .env .env.#{@env} ./config/settings.#{@env}.yml#{@env != 'test' ? " ./config/#{@org_name}.yml" : ' '}  #{@env != 'test' ? " ./config/#{@org_name}.#{@env}.yml" : ' '} #{@env == 'test' ? './config/settings.test.yml' : ''}"
 if Rails.env == 'test'
-  Settings.add_source!("./config/settings.test.yml")
+  Settings.add_source!('./config/settings.test.yml')
 else
   Settings.add_source!("./config/#{@org_name}.yml")
   Settings.add_source!("./config/#{@org_name}.#{Rails.env}.yml")
 end
 
+# Settings.add_source!("./config/#{@org_name}.#{Rails.env}.yml")
 
-
-#Settings.add_source!("./config/#{@org_name}.#{Rails.env}.yml")
-
-#we load the schema now because we didn't want to do so until we loaded EVERYTHING
+# we load the schema now because we didn't want to do so until we loaded EVERYTHING
 Config.schema do
-
   required(:general).schema do
     # the name of your website. Default in Settings is "Houdini Project"
     required(:name).filled(:str?)
@@ -41,29 +42,24 @@ Config.schema do
 
     # the relative path from asset_host root to your poweredby email logo (PNG, 150px wide)
     required(:poweredby_logo).filled(:str?)
-
   end
 
   required(:default).schema do
     required(:image).schema do
-      #the path on your image.host to your default profile image
+      # the path on your image.host to your default profile image
       required(:profile).filled(:str?)
 
-      #the path on your image.host to your default nonprofit image
+      # the path on your image.host to your default nonprofit image
       required(:nonprofit).filled(:str?)
 
-      #the path on your image.host to your default campaign background image
+      # the path on your image.host to your default campaign background image
       required(:campaign).filled(:str?)
     end
-
-    # the cache stor you're using. Must be the name of caching store for rails
-    # Default is dalli_store
-    required(:cache_store).filled(:str?)
   end
 
   required(:aws).schema do
     # the region your AWS bucket is in
-    required(:region).filled(:str?)
+    optional(:region).filled(:str?)
 
     # the name of your aws bucket
     required(:bucket).filled(:str?)
@@ -76,7 +72,7 @@ Config.schema do
   end
 
   required(:mailer).schema do
-    #an action mailer delivery method
+    # an action mailer delivery method
     # Default is sendmail
     required(:delivery_method).filled(:str?)
 
@@ -101,11 +97,8 @@ Config.schema do
 
   required(:cdn).schema do
     # URL for your CDN for assets. Usually this is just your url
-    # Default is http://localhost
+    # Default is http://localhost:8080
     required(:url).filled(:str?)
-
-    # the port for your cdn. Default is 8080
-    optional(:port).filled(:int?)
   end
 
   required(:payment_provider).schema do
@@ -131,10 +124,10 @@ Config.schema do
   optional(:maps).schema do
     # the map provider to use. Currently that's just Google Maps or nothing
     # Default is nil
-    optional(:provider).value(included_in?:['google', nil])
+    optional(:provider).value(included_in?: ['google', nil])
 
     optional(:options).schema do
-      #key for your google maps instance
+      # key for your google maps instance
       optional(:key).filled(:str?)
     end
   end
@@ -143,10 +136,9 @@ Config.schema do
     # The editor used for editing nonprofit, campaign
     # and event pages and some email templates
     # Default is 'quill'
-    required(:editor).value(included_in?:['quill', 'froala'])
+    required(:editor).value(included_in?: %w[quill froala])
 
     optional(:editor_options).schema do
-
       # Froala Key if your use froala
       # Default is nil (you need to get a key)
       required(:froala_key).filled(:str?)
@@ -162,7 +154,7 @@ Config.schema do
     # Default is 1200 (20 minutes)
     required(:expiration_time).filled(:int?)
 
-    #event donation source tokens are unique.
+    # event donation source tokens are unique.
     # The idea is someone may want to donate multiple times at an event without
     # staff needing to enter their info again. Additionally, they
     # may want to do it after the event without staff
@@ -175,26 +167,24 @@ Config.schema do
       # The time (in seconds) after an event ends that this token can be used.
       # Default is 1728000 (20 days)
       required(:time_after_event).filled(:int?)
-
     end
   end
 
-  #sets the default language for the UI
+  # sets the default language for the UI
   required(:language).filled(:str?)
 
-  #sets the list of locales available
+  # sets the list of locales available
   required(:available_locales).each(:str?)
 
   # your default language needs to be in the available locales
-  rule(make_sure_language_in_locales: [:language, :available_locales]) do |language, available_locales|
+  rule(make_sure_language_in_locales: %i[language available_locales]) do |language, available_locales|
     language.included_in?(available_locales)
   end
 
-  # TODO have a way to validate the available_locales are actually available translations
+  # TODO: have a way to validate the available_locales are actually available translations
 
   # Whether to show state fields in the donation wizard
   optional(:show_state_fields).filled(:bool?)
-
 
   required(:intntl).schema do
     # the supporter currencies for the site as abbreviations
@@ -204,17 +194,16 @@ Config.schema do
     required(:all_currencies).each do
       # each currency must have the following
 
-        # the unit. For 'usd', this would be "dollars"
-        required(:unit).filled(:str?)
-        # the abbreviation of the currency. For 'usd', this would be "usd"
-        required(:abbv).filled(:str?)
-        # the subunit of the currency. For 'usd', this would be "cents"
-        required(:subunit).filled(:str?)
-        # the currency symbol of the currency. For 'usd', this would be "$"
-        required(:symbol).filled(:str?)
+      # the unit. For 'usd', this would be "dollars"
+      required(:unit).filled(:str?)
+      # the abbreviation of the currency. For 'usd', this would be "usd"
+      required(:abbv).filled(:str?)
+      # the subunit of the currency. For 'usd', this would be "cents"
+      required(:subunit).filled(:str?)
+      # the currency symbol of the currency. For 'usd', this would be "$"
+      required(:symbol).filled(:str?)
 
-        required(:format).filled(:str?)
-
+      required(:format).filled(:str?)
     end
 
     # an array of country codes to override the default set of countries
@@ -227,8 +216,6 @@ Config.schema do
 
     # Xavier, I need you document this :)
     optional(:integration)
-
-
   end
 
   required(:default_bp).schema do
@@ -256,7 +243,7 @@ Config.schema do
 
   # complete, corresponding source
   optional(:ccs).schema do
-    optional(:ccs_method).value(included_in?: %w(local_tar_gz github))
+    optional(:ccs_method).value(included_in?: %w[local_tar_gz github])
 
     # only used for github
     # NOTE: for github you need to have the hash of the corresponding source in $RAILS_ROOT/CCS_HASH
@@ -268,10 +255,31 @@ Config.schema do
     end
   end
 
+  # the settings to get into maintenance_mode
+  optional(:maintenance).schema do
+    # true if you want to be in maintenance mode, otherwise false
+    optional(:maintenance_mode).filled(:bool?)
+
+    # the token you pass into /users/sign_in to actually get to
+    # a signin page during maintenance mode
+    optional(:maintenance_token).filled(:str?)
+
+    # the url, absolute or relative, that visitors should be redirected to
+    optional(:maintenance_page).filled(:str?)
+  end
+
+  # the url for your button. As a default, it takes what's in CDN.url
+  optional(:button_domain).schema do
+    required(:url).filled?(:str)
+  end
+
+  # the domain for your api. Usually will be your CDN.url
+  optional(:api_domain).schema do
+    required(:url).filled?(:str)
+  end
 end
 
 Settings.reload!
 
 # Initialize the rails application
-Commitchange::Application.initialize!
-
+Rails.application.initialize!

@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class SlugNonprofitNamingAlgorithm < CopyNamingAlgorithm
+  attr_accessor :state_slug, :city_slug
 
-  attr_accessor  :state_slug, :city_slug
-
-  def initialize( state_slug, city_slug)
-     @state_slug = state_slug
-     @city_slug = city_slug
+  def initialize(state_slug, city_slug)
+    @state_slug = state_slug
+    @city_slug = city_slug
   end
 
   def copy_addition
-    ""
+    ''
   end
 
   def max_copies
@@ -25,8 +26,7 @@ class SlugNonprofitNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def get_already_used_name_entities(base_name)
-    end_name = "\\-\\d{2}"
-    Nonprofit.method(:where).call('slug SIMILAR TO ?  AND state_code_slug = ? AND city_slug = ?', base_name + end_name,  @state_slug, @city_slug).select('slug')
+    end_name = '\\-\\d{2}'
+    Nonprofit.method(:where).call('slug SIMILAR TO ?  AND state_code_slug = ? AND city_slug = ?', base_name + end_name, @state_slug, @city_slug).select('slug')
   end
-
 end

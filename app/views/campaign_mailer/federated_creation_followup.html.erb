@@ -1,0 +1,31 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<% campaign_url = Format::Url.concat(root_url, @campaign.url) %>
+
+<p>Dear <%= @creator_profile.name.blank? ? @creator_profile.user.email : @creator_profile.name %>,</p>
+<br>
+
+<p>Congratulations on creating your campaign to support <%= @campaign.nonprofit.name %>!</p>
+<br>
+
+<p>You can visit it here: <strong><a href='<%= campaign_url %>'><%= campaign_url %></a></strong>.</p>
+<br>
+
+<p>Before you share your campaign with the world, we recommend you personalize
+  your campaign by including a testimonial in your words about why
+  you launched your campaign. You can also set a goal amount to inspire you and your donors.
+  To edit your campaign, <strong><a href="<%= "#{profile_url(@creator_profile)}/fundraisers" %>">visit your fundraisers dashboard</a></strong> (you may be asked to login)
+  and select <strong><a href='<%= campaign_url %>'><%= @campaign.name%></a></strong>.</p>
+<br>
+<p>Make sure to tell your friends and family why they should support your cause and how their contributions will make a difference. Your words and your passion can make a big difference.
+  Share your fundraiser on:</p>
+<ul>
+  <%- if ENV['FACEBOOK_APP_ID'] -%>
+    <li><%= link_to("Facebook", "https://www.facebook.com/dialog/feed?app_id=#{ENV['FACEBOOK_APP_ID']}&display=popup&caption=#{url_encode(@campaign.name)}&link=#{campaign_url}") %></li>
+  <%- end -%>
+  <li><%= link_to("Twitter", "https://twitter.com/intent/tweet?url=#{campaign_url}&via=#{Settings.general.name}&text=#{url_encode("Join me in supporting: #{@campaign.name}")}") %></li>
+  <li>Or copy and paste the link above into an email to your friends and family</li>
+</ul>
+
+<p>If you need some help getting your campaign up and running, don't hesitate to contact <strong><%= Settings.devise.mailer_sender %></strong>.</p>
+
+<%= render 'emails/sig' %>

@@ -1,13 +1,16 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class TicketsController < ApplicationController
-	include EventHelper
+  include Controllers::Event::Current
+  include Controllers::Event::Authorization
 
-	helper_method :current_event_admin?, :current_event_editor?
-	before_filter :authenticate_event_editor!, :except => [:create, :add_note]
-  before_filter :authenticate_nonprofit_user!, only: [:delete_card_for_ticket]
+  helper_method :current_event_admin?, :current_event_editor?
+  before_action :authenticate_event_editor!, except: %i[create add_note]
+  before_action :authenticate_nonprofit_user!, only: [:delete_card_for_ticket]
 
-	# post /nonprofits/:nonprofit_id/events/:event_id/tickets
-	def create
+  # post /nonprofits/:nonprofit_id/events/:event_id/tickets
+  def create
     authenticate_event_editor! if params[:kind] == 'offsite'
     render_json do
       params[:current_user] = current_user
@@ -16,35 +19,36 @@ class TicketsController < ApplicationController
   end
 
   def update
-    params[:ticket][:ticket_id] = params[:id]
-    params[:ticket][:event_id] = params[:event_id]
-    render_json{ UpdateTickets.update(params[:ticket], current_user) }
+    ticket_params[:ticket_id] = params[:id]
+    ticket_params[:event_id] = params[:event_id]
+    render_json { UpdateTickets.update(ticket_params, current_user) }
   end
 
   # Attendees dashboard
-	# get /nonprofits/:nonprofit_id/events/:event_id/tickets
-	def index
-		@panels_layout = true
-		@nonprofit = current_nonprofit
-		@event = current_event
-		respond_to do |format|
-			format.html
+  # get /nonprofits/:nonprofit_id/events/:event_id/tickets
+  def index
+    @panels_layout = true
+    @nonprofit = current_nonprofit
+    @event = current_event
+
+    respond_to do |format|
+      format.html
       format.csv do
-				file_date = Date.today.strftime("%m-%d-%Y")
-				filename = "tickets-#{file_date}"
+        file_date = Date.today.strftime('%m-%d-%Y')
+        filename = "tickets-#{file_date}"
         @tickets = QueryTickets.for_export(@event.id, params)
-				send_data(Format::Csv.from_vectors(@tickets), filename: "#{filename}.csv")
+        send_data(Format::Csv.from_vectors(@tickets), filename: "#{filename}.csv")
       end
 
-			format.json do
+      format.json do
         render json: QueryTickets.attendees_list(@event.id, params)
-			end
-		end
-	end
+      end
+    end
+  end
 
   # PUT nonprofits/:nonprofit_id/events/:event_id/tickets/:id/add_note
   def add_note
-    current_nonprofit.tickets.find(params[:id]).update_attributes(note: params[:ticket][:note])
+    current_nonprofit.tickets.find(params[:id]).update_attributes(note: ticket_params[:note])
     render json: {}
   end
 
@@ -58,5 +62,11 @@ class TicketsController < ApplicationController
   def delete_card_for_ticket
     @event = current_event
     render json: UpdateTickets.delete_card_for_ticket(@event.id, params[:id])
+  end
+
+  private
+
+  def ticket_params
+    params.require(:ticket).permit(:ticket_id, :event_id, :note, :event_discount, :event_discount_id)
   end
 end

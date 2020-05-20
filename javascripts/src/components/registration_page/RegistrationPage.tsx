@@ -2,7 +2,6 @@
 import * as React from 'react';
 import RegistrationWizard from "./RegistrationWizard";
 
-import {configure} from 'mobx'
 import {observer} from 'mobx-react';
 import {InjectedIntlProps, injectIntl, InjectedIntl, FormattedMessage} from 'react-intl';
 
@@ -17,7 +16,7 @@ class RegistrationPage extends React.Component<RegistrationPageProps & InjectedI
 
 
   render() {
-   return <div className="container"><h1><FormattedMessage id="registration.get_started.header"/></h1><p><FormattedMessage id="registration.get_started.description"/></p><RegistrationWizard/></div>
+   return <div className="tw-bs"><div className="container"><h1><FormattedMessage id="registration.get_started.header"/></h1><p><FormattedMessage id="registration.get_started.description"/></p><RegistrationWizard/></div></div>
 
   }
 }

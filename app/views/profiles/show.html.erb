@@ -2,11 +2,9 @@
 <% content_for :title_suffix do %>
    - Donor Profile
 <% end %>
-
-<% content_for :javascripts do %>
-	<%= IncludeAsset.js '/client/js/profiles/show/page.js' %>
+<%= content_for :javascripts do %>
+	<%= javascript_pack_tag 'i18n', 'page__profiles__show'%>
 <% end %>
-
 <% content_for :stylesheets do %>
 	<%= stylesheet_link_tag 'profiles/show/page' %>
 <% end %>
@@ -16,7 +14,7 @@
 		<table>
 			<tr>
 				<td>
-					<span class='donorProfileHeader-photo' style="background-image: url('<%= @profile.get_profile_picture(:normal) %>');"></span>
+					<span class='donorProfileHeader-photo' style="background-image: url('<%= @profile.picture.attached? && url_for(@profile.picture_by_size(:normal)) %>');"></span>
 				</td>
 				<td class='u-paddingLeft--15'>
 					<% supporter = (@profile.supporters && @profile.supporters.length != 0) ? supporter : false %>

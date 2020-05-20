@@ -1,0 +1,48 @@
+// License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later %>
+
+/* Open Sans */
+
+@font-face {
+  font-family: "Open Sans";
+  src: font-url("Open_Sans/opensans-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: font-url("Open_Sans/opensans-light-webfont.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: font-url("Open_Sans/opensans-bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Bitter */
+
+@font-face {
+  font-family: "OpenSansCondensed";
+  src: font-url("Open_Sans_Condensed/opensans-condbold-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bitter";
+  src: font-url("Bitter/Bitter-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Bitter";
+  src: font-url("Bitter/Bitter-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}

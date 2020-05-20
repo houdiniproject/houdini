@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class SlugP2pCampaignNamingAlgorithm < CopyNamingAlgorithm
-
   attr_accessor :nonprofit_id
   # @param [Integer] nonprofit_id
   def initialize(nonprofit_id)
-     @nonprofit_id = nonprofit_id
+    @nonprofit_id = nonprofit_id
   end
 
   def copy_addition
-    ""
+    ''
   end
 
   def max_copies
@@ -20,8 +21,7 @@ class SlugP2pCampaignNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def get_already_used_name_entities(base_name)
-    end_name = "\\_\\d{3}"
-    Campaign.where('slug SIMILAR TO ? AND nonprofit_id = ? AND (deleted IS NULL OR deleted = false)', base_name + end_name, nonprofit_id).select('slug')
+    end_name = '\\_\\d{3}'
+    Campaign.where('slug SIMILAR TO ? AND nonprofit_id = ?', base_name + end_name, nonprofit_id).select('slug')
   end
-
 end

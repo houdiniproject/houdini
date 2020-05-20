@@ -1,33 +1,33 @@
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Supporter < ActiveRecord::Base
+# frozen_string_literal: true
 
-  attr_accessible \
-    :search_vectors,
-    :profile_id, :profile,
-    :nonprofit_id, :nonprofit,
-    :full_contact_info, :full_contact_info_id,
-    :import_id, :import,
-    :name,
-    :first_name,
-    :last_name,
-    :email,
-    :address,
-    :city,
-    :state_code,
-    :country,
-    :phone,
-    :organization,
-    :latitude,
-    :locale,
-    :longitude,
-    :zip_code,
-    :total_raised,
-    :notes,
-    :fields,
-    :anonymous,
-    :deleted, # bool (flag for soft delete)
-    :email_unsubscribe_uuid, #string
-    :is_unsubscribed_from_emails #bool
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+class Supporter < ApplicationRecord
+  # :search_vectors,
+  # :profile_id, :profile,
+  # :nonprofit_id, :nonprofit,
+  # :full_contact_info, :full_contact_info_id,
+  # :import_id, :import,
+  # :name,
+  # :first_name,
+  # :last_name,
+  # :email,
+  # :address,
+  # :city,
+  # :state_code,
+  # :country,
+  # :phone,
+  # :organization,
+  # :latitude,
+  # :locale,
+  # :longitude,
+  # :zip_code,
+  # :total_raised,
+  # :notes,
+  # :fields,
+  # :anonymous,
+  # :deleted, # bool (flag for soft delete)
+  # :email_unsubscribe_uuid, #string
+  # :is_unsubscribed_from_emails #bool
 
   belongs_to :profile
   belongs_to :nonprofit
@@ -48,9 +48,10 @@ class Supporter < ActiveRecord::Base
   has_many :tag_masters, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
+  belongs_to :merged_into, class_name: 'Supporter', foreign_key: 'merged_into'
 
-  validates :nonprofit, :presence => true
-  scope :not_deleted, -> {where(deleted: false)}
+  validates :nonprofit, presence: true
+  scope :not_deleted, -> { where(deleted: false) }
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
@@ -64,39 +65,21 @@ class Supporter < ActiveRecord::Base
     end
   end
 
-  def self.find_by_columns(data, bool='and')
-    bool = options[:boolean] == 'and' ? 'AND' : 'OR'
-    query_cols = options[:merge_with].reduce({}){|result, sym| result.merge({sym => h[sym]})}
-    existing = np.supporters.where(query_cols)
+  def profile_picture(size = :normal)
+    return unless profile
+
+    profile.get_profile_picture(size)
   end
-
-
-  # params = {:id, :nonprofit_id, :name, :email}
-  def self.fetch_with_params(np, h)
-    if h[:id].present?
-      return np.supporters.find_by_id(h[:id])
-    else
-      return np.supporters.where(name: h[:name], email: h[:email]).first
-    end
-  end
-
-
-  def profile_picture size=:normal
-    return unless self.profile
-    self.profile.get_profile_picture(size)
-  end
-
 
   def as_json(options = {})
     h = super(options)
-    h[:pic_tiny] = self.profile_picture(:tiny)
-    h[:pic_normal] = self.profile_picture(:normal)
-    h[:url] = self.profile && Rails.application.routes.url_helpers.profile_path(self.profile)
-    return h
+    h[:pic_tiny] = profile_picture(:tiny)
+    h[:pic_normal] = profile_picture(:normal)
+    h[:url] = profile && Rails.application.routes.url_helpers.profile_path(profile)
+    h
   end
 
   def full_address
-    Format::Address.full_address(self.address, self.city, self.state_code)
+    Format::Address.full_address(address, city, state_code)
   end
-
 end

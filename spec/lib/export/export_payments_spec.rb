@@ -1,25 +1,31 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-require 'support/test_chunked_uploader'
+require 'support/test_upload_service'
 
 describe ExportPayments do
   before(:each) do
-    stub_const('CHUNKED_UPLOADER',TestChunkedUploader)
-   
-    CHUNKED_UPLOADER.clear
+    stub_const('CHUNKED_UPLOAD_SERVICE', TestUploadService.new)
   end
 
-  let(:email) { 'example@example.com'}
-  let(:user) {force_create(:user, email: email)}
-  let(:nonprofit) { force_create(:nonprofit) }
-  let(:supporters) { [ force_create(:supporter, name: "supporter-0", nonprofit: nonprofit),
-                  force_create(:supporter, name: "supporter-1", nonprofit: nonprofit)]}
-  let(:payments)  {[force_create(:payment, gross_amount: 1000, fee_total: 99, net_amount: 901, supporter: supporters[0], nonprofit:nonprofit),
-               force_create(:payment, gross_amount: 2000, fee_total: 22, net_amount: 1978, supporter: supporters[1], nonprofit:nonprofit)]}
+  let(:email) { 'example@example.com' }
+  let(:user) { force_create(:user, email: email) }
+  let(:nonprofit) { force_create(:nm_justice) }
+  let(:supporters) do
+    [force_create(:supporter, name: 'supporter-0', nonprofit: nonprofit),
+     force_create(:supporter, name: 'supporter-1', nonprofit: nonprofit)]
+  end
+  let(:payments) do
+    [force_create(:payment, gross_amount: 1000, fee_total: 99, net_amount: 901, supporter: supporters[0], nonprofit: nonprofit),
+     force_create(:payment, gross_amount: 2000, fee_total: 22, net_amount: 1978, supporter: supporters[1], nonprofit: nonprofit)]
+  end
 
-  before(:each) {
-      payments
-  }
+  let(:export_url_regex) { /http:\/\/fake\.url\/tmp\/csv-exports\/payments-04-06-2020--01-02-03-#{UUID::Regex}\.csv/}
+
+  before(:each) do
+    payments
+  end
   context '.initiate_export' do
     context 'param verification' do
       it 'performs initial verification' do
@@ -54,14 +60,13 @@ describe ExportPayments do
 
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
-        stub_const("DelayedJobHelper", double('delayed'))
-        params =  { param1: 'pp' }.with_indifferent_access
-
-        expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportPayments, :run_export, [nonprofit.id, params.to_json, user.id, 1])
-
-        ExportPayments.initiate_export(nonprofit.id, params, user.id)
+        params = { param1: 'pp' }.with_indifferent_access
+        expect{
+          ExportPayments.initiate_export(nonprofit.id, params, user.id)
+        }.to have_enqueued_job(PaymentExportCreateJob)
+        
         export = Export.first
-        expected_export = { id: 1,
+        expected_export = { id: export.id,
                             user_id: user.id,
                             nonprofit_id: nonprofit.id,
                             status: 'queued',
@@ -124,7 +129,7 @@ describe ExportPayments do
               expect(@export.ended).to eq Time.now
               expect(@export.updated_at).to eq Time.now
 
-              #expect(user).to have_received_email(subject: "Your payment export has failed")
+              # expect(user).to have_received_email(subject: "Your payment export has failed")
             end)
           end
         end
@@ -144,8 +149,6 @@ describe ExportPayments do
               expect(@export.exception).to eq error.to_s
               expect(@export.ended).to eq Time.now
               expect(@export.updated_at).to eq Time.now
-
-
             end)
           end
         end
@@ -155,20 +158,19 @@ describe ExportPayments do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: user)
-        CHUNKED_UPLOADER.raise_error
+        CHUNKED_UPLOAD_SERVICE.raise_error
         Timecop.freeze(2020, 4, 6) do
           expect { ExportPayments.run_export(nonprofit.id, {}.to_json, user.id, @export.id) }.to(raise_error do |error|
             expect(error).to be_a StandardError
-            expect(error.message).to eq TestChunkedUploader::TEST_ERROR_MESSAGE
+            expect(error.message).to eq TestUploadService::TEST_ERROR_MESSAGE
 
             @export.reload
             expect(@export.status).to eq 'failed'
             expect(@export.exception).to eq error.to_s
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
-
-            expect(user).to have_received_email(subject: "Your payment export has failed")
           end)
+          expect(ExportPaymentsFailedJob).to have_been_enqueued.with(@export)
         end
       end
     end
@@ -178,24 +180,23 @@ describe ExportPayments do
         @export = create(:export, user: user, created_at: Time.now, updated_at: Time.now)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
           ExportPayments.run_export(nonprofit.id, {}.to_json, user.id, @export.id)
-
+          expect(ExportPaymentsCompletedJob).to have_been_enqueued.with(@export)
           @export.reload
 
-          expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/payments-04-06-2020--01-02-03.csv'
+          expect(@export.url).to match export_url_regex
           expect(@export.status).to eq 'completed'
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now
           expect(@export.updated_at).to eq Time.now
-          csv = CSV.parse(TestChunkedUploader.output)
-          expect(csv.length).to eq (3)
+          csv = CSV.parse(CHUNKED_UPLOAD_SERVICE.output)
+          expect(csv.length).to eq 3
 
           expect(csv[0]).to eq MockHelpers.payment_export_headers
 
-          expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
-          expect(user).to have_received_email(subject: "Your payment export is available!")
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_type]).to eq 'text/csv'
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_disposition]).to eq 'attachment'
         end
       end
     end
   end
 end
-

@@ -1,3 +1,5 @@
+import { values } from "mobx";
+
 // License: LGPL-3.0-or-later
 
 interface ValidationInput {
@@ -31,6 +33,7 @@ interface FieldHooks{
 interface Base extends SharedFieldFormMethods, SharedFormFieldProperties{}
 
 export declare class Field implements Base, FieldProperties, FieldMethods, FieldHandlers {
+    constructor(...props:any[])
     readonly bindings: string;
     readonly changed: boolean;
     readonly default: boolean;
@@ -71,7 +74,7 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     $(fieldName: string): Field;
 
-    add(obj: any): any;
+    add(obj:{FieldDefinition}): any;
 
     bind(): object;
 
@@ -79,9 +82,9 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     clear();
 
-    container(): Form
+    container(): Form |Field
 
-    del(key: any);
+    del(path?: string);
 
     each(callback: (i: Field) => void);
 
@@ -144,8 +147,6 @@ export declare class Field implements Base, FieldProperties, FieldMethods, Field
 
     sync(e: Field): any;
 
-    
-   
    
 }
 
@@ -172,8 +173,9 @@ interface FieldHandlers {
     onError?(e:Field):any
 }
 
-interface FieldDefinition {
+interface FieldDefinition<TInputType=any> {
     name: string
+    key?: string
     label?: string
     value?: any
     default?: any
@@ -190,6 +192,8 @@ interface FieldDefinition {
     rules?: string
     id?:string,
     validators?: Validation | Array<Validation>
+    input?: (input:TInputType) => string
+    output?: (value:string) => TInputType
 }
 
 
@@ -254,13 +258,13 @@ interface FormInitializer{
 
 interface initializationDefinition {
     fields?:FieldDefinitions[]
+    hooks?: FormHooks
 }
-
 
 export class Form implements Base {
 
     
-    constructor(definition:initializationDefinition, options?:any)
+    constructor(definition?:initializationDefinition, options?:any)
     plugins(): void
     setup(): any
     onInit(): void
@@ -271,7 +275,7 @@ export class Form implements Base {
 
     $(fieldName: string): Field;
 
-    add(obj: any): any;
+    add(obj:FieldDefinition): any;
 
     check(computed: string, deep?: boolean): boolean;
 
@@ -290,11 +294,11 @@ export class Form implements Base {
 
     intercept(obj: any);
 
-    invalidate(msg: string);
+    invalidate(msg?: string);
 
     map(callback: (i: Field) => void);
 
-    observe(obj: any);
+    observe(...obj: any)
 
     select(path: string): Field;
 
@@ -306,6 +310,16 @@ export class Form implements Base {
     update(obj: any): void;
 
     readonly submitting: boolean;
+
+    protected validator :any
+
+    readonly isValid :boolean;
+    readonly size:number
+
+    readonly isPristine :boolean;
+    readonly isDirty :boolean;
+
+    values(): {[fields:string] : ValuesResponse|string}
     
 }
 
@@ -324,7 +338,7 @@ interface SharedFieldFormMethods {
     has(key:string):boolean
     map(callback:(i:Field) => void)
     each(callback:(i:Field) => void)
-    add(obj:any):any
+    add(obj:FieldDefinition): any;
     del(key:any)
     observe(obj:any)
     intercept(obj:any)

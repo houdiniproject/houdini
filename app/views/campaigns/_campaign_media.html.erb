@@ -5,13 +5,13 @@
 
 	<% if @campaign.vimeo_video_id %>
 		<div class='campaignMedia-video' if-branded='background, lightest'>
-			<iframe src="//player.vimeo.com/video/<%= @campaign.vimeo_video_id %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<iframe src="https://player.vimeo.com/video/<%= @campaign.vimeo_video_id %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 		</div>
 	<% elsif @campaign.youtube_video_id %>
 		<div class='campaignMedia-video' if-branded='background, lightest'>
 			<%= render 'components/media/youtube_iframe', id: @campaign.youtube_video_id %>
 		</div>
-	<% elsif @campaign.main_image? %>
-		<img class='campaignMedia-image' src='<%= @campaign.main_image_url(:normal) %>'>
+	<% elsif @campaign.main_image.attached? %>
+		<%= image_tag @campaign.main_image_by_size(:normal), class: 'campaignMedia-image' %>
 	<% end %>
 </div>

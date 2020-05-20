@@ -1,17 +1,13 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import {WizardPanel, WizardPanelProps, WizardTabPanelProps} from "../common/wizard/WizardPanel";
+import {WizardPanel, WizardTabPanelProps} from "../common/wizard/WizardPanel";
 
-import {Form, Field, FieldHooks} from 'mobx-react-form'
+import { Field} from 'mobx-react-form'
 
-import { inject, observer } from 'mobx-react';
-import { action, computed } from 'mobx';
-import {WizardState, WizardTabPanelState} from "../common/wizard/wizard_state";
+import { observer } from 'mobx-react';
+import { computed } from 'mobx';
+import { WizardTabPanelState} from "../common/wizard/wizard_state";
 import {InjectedIntlProps, injectIntl, InjectedIntl} from 'react-intl';
-import {ThreeColumnFields, TwoColumnFields} from "../common/layout";
-
-import {BasicField} from "../common/fields";
-import {Validations} from "../../lib/vjf_rules";
 import NonprofitInfoForm from "./NonprofitInfoForm";
 
 export interface NonprofitInfoPanelProps extends WizardTabPanelProps

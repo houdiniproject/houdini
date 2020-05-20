@@ -160,7 +160,7 @@ const view = state => {
       , class: {'u-hide': !state.params$().offsite || !state.params$().embedded}
     })
   , h('div.titleRow', [
-      h('img', {props: {src: app.nonprofit.logo.normal.url}})
+      h('img', {props: {src: app.nonprofit.logo.normal}})
     , h('div.titleRow-info', [
         h('h2', app.campaign.name || app.nonprofit.name )
       , h('p', [

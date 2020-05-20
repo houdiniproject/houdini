@@ -48,4 +48,6 @@ Commitchange::Application.configure do
 
   #recommended by https://github.com/grosser/parallel_tests/wiki
   config.cache_store = :file_store, Rails.root.join("tmp", "cache", "paralleltests#{ENV['TEST_ENV_NUMBER']}")
+
+  config.active_storage.service = :test
 end

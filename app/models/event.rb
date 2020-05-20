@@ -2,6 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Event < ApplicationRecord
+  include Image::AttachmentExtensions
   # :deleted, #bool for soft-delete
   # :name, # str
   # :tagline, # str
@@ -61,9 +62,18 @@ class Event < ApplicationRecord
   geocoded_by :full_address
 
   accepts_nested_attributes_for :ticket_levels, allow_destroy: true
+  has_one_attached :main_image
+  has_one_attached :background_image
 
-  mount_uploader :main_image, EventMainImageUploader
-  mount_uploader :background_image, EventBackgroundImageUploader
+  has_one_attached_with_sizes :main_image, {normal: 400, thumb: 100}
+  has_one_attached_with_sizes :background_image, {normal: [1000, 600]}
+
+  has_one_attached_with_default(:main_image, Image::DefaultProfileUrl, 
+    filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
+
+  has_one_attached_with_default(:background_image, Image::DefaultCampaignUrl, 
+      filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultCampaignUrl).extname}")
+  
 
   scope :not_deleted, -> { where(deleted: [nil, false]) }
   scope :deleted, -> { where(deleted: true) }

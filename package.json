@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.7.1",
+    "@types/activestorage": "^5.2.2",
     "@types/color": "^3.0.0",
     "@types/enzyme": "^3.1.9",
     "@types/enzyme-to-json": "^1.5.1",
@@ -58,6 +59,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
+    "@rails/activestorage": "^6.0.2-2",
     "@rails/webpacker": "~5.0.1",
     "attr-binder": "0.3.1",
     "aws-sdk": "^2.402.0",

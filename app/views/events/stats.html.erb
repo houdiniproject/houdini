@@ -8,13 +8,13 @@
 <%= content_for :facebook_tags do %>
   <meta property="og:title" content="<%= raw @event.name %>" />
   <meta property="og:description" content="<%= raw @event.summary %>" />
-  <meta property="og:image" content="<%= @event.main_image_url(:normal) %>" />
+  <meta property="og:image" content="<%= @event.main_image.attached? ? @event.main_image_by_size(:normal) : "" %>" />
 <% end %>
 
 <%= content_for :twitter_tags do %>
   <meta property="twitter:title" content="<%= raw @event.name %>" />
   <meta property="twitter:description" content="<%= raw @event.summary %>" />
-  <meta property="twitter:image" content="<%= @event.main_image_url(:normal) %>" />
+  <meta property="twitter:image" content="<%= @event.main_image.attached? ? @event.main_image_by_size(:normal) : "" %>" />
 <% end %>
 
 <%= content_for :javascripts do %>

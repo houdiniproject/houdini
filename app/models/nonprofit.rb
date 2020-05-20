@@ -5,6 +5,7 @@ class Nonprofit < ApplicationRecord
   attr_accessor :register_np_only, :user_id, :user
   Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
 
+  include Image::AttachmentExtensions
   # :name, # str
   # :stripe_account_id, # str
   # :summary, # text: paragraph-sized organization summary
@@ -97,11 +98,29 @@ class Nonprofit < ApplicationRecord
   scope :identity_verified, -> { where(verification_status: 'verified') }
   scope :published, -> { where(published: true) }
 
-  mount_uploader :main_image, NonprofitUploader
-  mount_uploader :second_image, NonprofitUploader
-  mount_uploader :third_image, NonprofitUploader
-  mount_uploader :background_image, NonprofitBackgroundUploader
-  mount_uploader :logo, NonprofitLogoUploader
+  has_one_attached :main_image
+  has_one_attached :second_image
+  has_one_attached :third_image
+  has_one_attached :background_image
+  has_one_attached :logo
+  
+  # way too wordy
+  has_one_attached_with_sizes(:logo, {small: 30, normal: 100, large: 180})
+  has_one_attached_with_sizes(:background_image, {normal: [1000,600]})
+  has_one_attached_with_sizes(:main_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
+  has_one_attached_with_sizes(:second_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
+  has_one_attached_with_sizes(:third_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
+
+  has_one_attached_with_default(:logo, Image::DefaultProfileUrl, 
+    filename: "logo_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
+  has_one_attached_with_default(:background_image, Image::DefaultNonprofitUrl, 
+      filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultNonprofitUrl).extname}")
+  has_one_attached_with_default(:main_image, Image::DefaultProfileUrl, 
+      filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
+  has_one_attached_with_default(:second_image, Image::DefaultProfileUrl, 
+    filename: "second_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
+  has_one_attached_with_default(:third_image, Image::DefaultProfileUrl, 
+    filename: "third_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
 
   serialize :achievements, Array
   serialize :categories, Array

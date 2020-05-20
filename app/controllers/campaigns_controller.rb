@@ -51,7 +51,7 @@ class CampaignsController < ApplicationController
       @peer_to_peer_campaign_param = @campaign.id
     end
 
-    @campaign_background_image = FetchBackgroundImage.with_model(@campaign)
+    @campaign_background_image = @campaign.background_image.attached? && url_for(@campaign.background_image_by_size(:normal))
   end
 
   def activities

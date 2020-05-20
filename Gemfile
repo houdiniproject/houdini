@@ -28,7 +28,6 @@ gem 'sprockets', '~> 3.7'
 # AWS services
 gem 'aws-sdk', '~> 1.67'
 gem 'aws-ses', '~> 0.6.0' # REST email integration API
-gem 'carrierwave-aws', '~> 1.3' # for uploading images to amazon s3
 
 # External Services
 gem 'fullcontact', '~> 0.18.0' # Full Contact API; includes #Hashie::Mash
@@ -53,8 +52,8 @@ gem 'param_validation', path: 'gems/ruby-param-validation'
 gem 'qx', path: 'gems/ruby-qx'
 
 # Images
-gem 'carrierwave', '~> 1.3' # https://github.com/carrierwaveuploader/carrierwave
-gem 'mini_magick', '~> 4.9'
+gem 'mini_magick', '~> 4.10.1'
+gem 'image_processing', '~> 1.10.3'
 
 # User authentication
 # https://github.com/plataformatec/devise

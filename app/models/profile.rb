@@ -2,6 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Profile < ApplicationRecord
+  include Image::AttachmentExtensions
   # :registered, # bool
   # :mini_bio,
   # :first_name, # str
@@ -25,7 +26,8 @@ class Profile < ApplicationRecord
 
   serialize :privacy_settings, Array
 
-  mount_uploader :picture, ProfileUploader
+  has_one_attached :picture
+  has_one_attached_with_sizes(:picture, {normal: 150, medium:100, tiny: 50})
 
   belongs_to :user
   has_many :activities # Activities this profile has created

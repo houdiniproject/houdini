@@ -24,17 +24,17 @@ module CreatePeerToPeerCampaign
     campaign.save
 
     begin
-      campaign.update_attribute(:main_image, parent_campaign.main_image) if parent_campaign.main_image
+      campaign.main_image.attach(parent_campaign.main_image.blob) if parent_campaign.main_image.attached?
     rescue StandardError
       AWS::S3::Errors::NoSuchKey
     end
     begin
-      campaign.update_attribute(:background_image, parent_campaign.background_image) if parent_campaign.background_image
+      campaign.background_image.attach(parent_campaign.background_image.blob) if parent_campaign.background_image.attached?
     rescue StandardError
       AWS::S3::Errors::NoSuchKey
     end
     begin
-      campaign.update_attribute(:banner_image, parent_campaign.banner_image) if parent_campaign.banner_image
+      campaign.banner_image.attach(parent_campaign.banner_image.blob) if parent_campaign.banner_image.attached?
     rescue StandardError
       AWS::S3::Errors::NoSuchKey
     end

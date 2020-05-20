@@ -98,7 +98,7 @@
       <div class='layout--two'>
         <fieldset>
           <label class='u-marginBottom--10'>Logo</label>
-          <div class='image-upload u-margin--0' style='background-image:url("<%= @nonprofit.logo_url(:normal) %>")'>
+          <div class='image-upload u-margin--0' style='background-image:url("<%= @nonprofit.logo.attached? ? url_for(@nonprofit.logo_by_size(:normal)) : '' %>")'>
             <span><i class='fa fa-image'></i> Upload</span>
             <input type='file' name='nonprofit[logo]'>
           </div>

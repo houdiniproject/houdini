@@ -7,12 +7,12 @@
 <%= content_for :facebook_tags do %>
 	<meta property="og:title" content="<%= raw @nonprofit.name %>" />
 	<meta property="og:description" content="<%= raw @nonprofit.tagline %>" />
-	<meta property="og:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
+	<meta property="og:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
 <% end %>
 <%= content_for :twitter_tags do %>
 	<meta property="twitter:title" content="<%= raw @nonprofit.name %>" />
 	<meta property="twitter:description" content="<%= raw @nonprofit.tagline %>" />
-	<meta property="twitter:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
+	<meta property="twitter:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
 <% end %>
 
 <%= content_for :stylesheets do %>
@@ -41,7 +41,6 @@
   <%= render 'schema', npo: @nonprofit %>
 	<%= render 'common/froala' if current_nonprofit_user? %>
 
-	
   <% # needs to be after the page load because that's when I18n is included %>
   <script>
       var I18n = I18n || {}

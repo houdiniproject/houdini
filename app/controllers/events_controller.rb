@@ -19,7 +19,7 @@ class EventsController < ApplicationController
 
   def show
     @event = params[:event_slug] ? Event.find_by_slug!(params[:event_slug]) : Event.find_by_id!(params[:id])
-    @event_background_image = FetchBackgroundImage.with_model(@event)
+    @event_background_image = @event.background_image.attached? && url_for(@event.background_image_by_size(:normal))
     @nonprofit = @event.nonprofit
     if @event.deleted && !current_event_editor?
       redirect_to nonprofit_path(current_nonprofit)
@@ -71,7 +71,7 @@ class EventsController < ApplicationController
   def stats
     @event = current_event
     @url = Format::Url.concat(root_url, @event.url)
-    @event_background_image = FetchBackgroundImage.with_model(@event)
+    @event_background_image = @event.background_image.attached? && url_for(@event.background_image_by_size(:normal))
     render layout: 'layouts/embed'
   end
 

@@ -10,9 +10,9 @@ default:
 #    profile: "/images/fallback/wemove.min.svg"
 #    nonprofit: "/images/fallback/wemove.min.svg"
 #    campaign: "/fallback/default-campaign-background.jpg"
-    profile: "/images/fallback/default-profile.png"
-    nonprofit: "/images/fallback/default-nonprofit.png"
-    campaign: "/fallback/default-campaign-background.jpg"
+    profile: "public/images/fallback/default-profile.png"
+    nonprofit: "public/images/fallback/default-nonprofit.png"
+    campaign: "public/fallback/default-campaign-background.jpg"
 
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>

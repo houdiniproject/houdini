@@ -11,7 +11,7 @@
 		<div class='campaignMedia-video' if-branded='background, lightest'>
 			<%= render 'components/media/youtube_iframe', id: @campaign.youtube_video_id %>
 		</div>
-	<% elsif @campaign.main_image? %>
-		<img class='campaignMedia-image' src='<%= @campaign.main_image_url(:normal) %>'>
+	<% elsif @campaign.main_image.attached? %>
+		<%= image_tag @campaign.main_image_by_size(:normal), class: 'campaignMedia-image' %>
 	<% end %>
 </div>

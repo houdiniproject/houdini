@@ -48,7 +48,7 @@ class TicketsController < ApplicationController
 
   # PUT nonprofits/:nonprofit_id/events/:event_id/tickets/:id/add_note
   def add_note
-    current_nonprofit.tickets.find(params[:id]).update_attributes(note: ticket_params[:note])
+    current_nonprofit.tickets.find(params[:id]).update(note: ticket_params[:note])
     render json: {}
   end
 

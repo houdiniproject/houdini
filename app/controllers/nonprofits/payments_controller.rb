@@ -46,7 +46,7 @@ module Nonprofits
 
     def update
       @payment = current_nonprofit.payments.find(params[:id])
-      @payment.update_attributes(payment_params)
+      @payment.update(payment_params)
       json_saved @payment
     end
 

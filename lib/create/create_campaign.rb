@@ -19,7 +19,7 @@ module CreateCampaign
       # json_saved campaign, 'Campaign created! Well done.'
     else
       profile_id = params[:campaign][:profile_id]
-      Profile.find(profile_id).update_attributes params[:profile]
+      Profile.find(profile_id).update params[:profile]
       return CreatePeerToPeerCampaign.create(params[:campaign], profile_id)
     end
   end

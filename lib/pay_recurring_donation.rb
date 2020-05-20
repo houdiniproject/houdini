@@ -75,7 +75,7 @@ module PayRecurringDonation
                             'old_donation' => true
                           ))
     if result['charge']['status'] != 'failed'
-      rd.update_attributes(n_failures: 0)
+      rd.update(n_failures: 0)
       result['recurring_donation'] =  rd
       HoudiniEventPublisher.announce(:recurring_donation_payment_succeeded, donation, donation&.supporter&.locale || 'en')
       InsertActivities.for_recurring_donations([result['payment']['id']])

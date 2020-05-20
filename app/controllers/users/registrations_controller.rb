@@ -31,7 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if current_user.pending_password && params[:user][:password] && params[:user][:password_confirmation]
         params[:user][:pending_password] = false
       end
-      success = current_user.update_attributes(params[:user])
+      success = current_user.update(params[:user])
       errs = current_user.errors.full_messages
     else
       success = false

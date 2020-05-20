@@ -46,7 +46,7 @@ class EventsController < ApplicationController
       event_params[:start_datetime] = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
       event_params[:end_datetime] = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
     end
-    current_event.update_attributes(event_params)
+    current_event.update(event_params)
     json_saved current_event, 'Successfully updated'
   end
 

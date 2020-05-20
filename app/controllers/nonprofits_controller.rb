@@ -57,7 +57,7 @@ class NonprofitsController < ApplicationController
 
   def update
     flash[:notice] = 'Update successful!'
-    current_nonprofit.update_attributes nonprofit_params.except(:verification_status)
+    current_nonprofit.update nonprofit_params.except(:verification_status)
     json_saved current_nonprofit
   end
 

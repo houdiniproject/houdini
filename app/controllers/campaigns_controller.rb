@@ -67,7 +67,7 @@ class CampaignsController < ApplicationController
     Time.use_zone(current_nonprofit.timezone || 'UTC') do
       campaign_params[:end_datetime] = Chronic.parse(campaign_params[:end_datetime]) if campaign_params[:end_datetime].present?
     end
-    current_campaign.update_attributes campaign_params
+    current_campaign.update campaign_params
     json_saved current_campaign, 'Successfully updated!'
   end
 

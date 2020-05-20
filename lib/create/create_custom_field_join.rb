@@ -22,7 +22,7 @@ module CreateCustomFieldJoin
       custom_fields.each do |custom_field|
         existing = supporter.custom_field_joins.find_by_custom_field_master_id(custom_field[:custom_field_master_id])
         if existing
-          existing.update_attributes(
+          existing.update(
             custom_field_master_id: custom_field[:custom_field_master_id],
             value: custom_field[:value]
           )

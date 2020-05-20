@@ -22,7 +22,7 @@ class TicketLevelsController < ApplicationController
   end
 
   def update
-    current_ticket_level.update_attributes ticket_level_params
+    current_ticket_level.update ticket_level_params
     json_saved current_ticket_level, 'Ticket level updated'
   end
 

@@ -25,7 +25,7 @@ module CancelBillingSubscription
     end
 
     billing_plan_id = Settings.default_bp.id
-    billing_subscription.update_attributes(
+    billing_subscription.update(
       billing_plan_id: billing_plan_id,
       status: 'active'
     )

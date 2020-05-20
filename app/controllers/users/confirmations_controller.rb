@@ -25,7 +25,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   def confirm
     @user = User.find(params[:id])
 
-    if @user.valid? && @user.update_attributes(params[:user].except(:confirmation_token))
+    if @user.valid? && @user.update(params[:user].except(:confirmation_token))
       flash[:notice] = 'Your account is all set!'
       sign_in @user
       redirect_to session[:donor_signup_url] || root_url

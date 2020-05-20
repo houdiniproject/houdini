@@ -105,13 +105,13 @@ module UpdateRecurringDonations
   def self.update(rd, params)
     params = set_defaults(params)
     if params[:donation]
-      rd.donation.update_attributes(params[:donation])
+      rd.donation.update(params[:donation])
       return rd.donation unless rd.donation.valid?
 
       params = params.except(:donation)
     end
 
-    rd.update_attributes(params)
+    rd.update(params)
     rd
   end
 

@@ -1,6 +1,33 @@
-# License: CC0-1.0
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
 
 en:
   hello: "Hello world"
@@ -10,8 +37,6 @@ en:
         body: 'Comment content'
   organization:
     name: "Organisation"
-  organization_page:
-    promote: "Promote this organization"
   donation:
    amount: "Total Amount"
    date: "Transaction Date"
@@ -29,9 +54,8 @@ en:
         subject: "Donation receipt for %{nonprofit_name}"
         transfer_info_html: "This transfer will appear on your bank statement as %{label}"
         transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
-        oneoff_donation_html: "Your donation towards <strong>%{nonprofit_name}</strong> was successful!"
-        recurring_donation_html: "Your recurring donation towards <strong>%{nonprofit_name}</strong>, started on %{start_date}, has been successfully paid."
-        recurring_donation_cancel_modify_html: "If you need to update your card or cancel your recurring donation, please follow this link: <a href=\"%{management_url}\">%{management_url}</a>"
+        oneoff_donation_html: "Thank you for your donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
+        recurring_donation_html: "Thank you for your regular donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
       donor_direct_debit_notification:
         subject: "Donation receipt for %{nonprofit_name}"
         transfer_info_html: "This transfer will appear on your bank statement as %{label}"
@@ -142,61 +166,3 @@ en:
           twitter: "Tweet"
           twitter_message: "Join me in supporting"
         finish: "Finish"
-  registration:
-    get_started:
-      header: "Get started"
-      description: "Let's get started with Houdini. To begin, fill out your initial nonprofit and info."
-    wizard:
-      tabs:
-        nonprofit: "Nonprofit"
-        contact: "Contact"
-      nonprofit:
-        name:
-          label: "Organization Name"
-          placeholder: "Ending Poverty in the Fox Valley Inc."
-        website:
-          label: "Website URL"
-          placeholder: "http://www.endpovertyinthefoxvalleyinc.org"
-        email:
-          label: "Org Email (public)"
-          placeholder: "contact@endpovertyinthefoxvalleyinc.org"
-        phone:
-          label: "Org Phone (public)"
-          placeholder: "(555) 555-5555"
-        city:
-          label: "City"
-          placeholder: "Appleton"
-        state:
-          label: "State"
-          placeholder: "WI"
-        zip:
-          label: "Zip Code"
-          placeholder: "54915"
-      contact:
-        name:
-          label: "Your Name"
-          placeholder: "Penelope Schultz"
-        email:
-          label: "Your Email (used for login)"
-          placeholder: "penelope@endpovertyinthefoxvalleyinc.org"
-        password:
-          label: "New Password"
-        password_confirmation:
-          label: "Retype Password"
-        phone:
-          label: "Your Phone (for account recovery)"
-          placeholder: "(555) 555-5555"
-      save_and_finish: "Save & Finish"
-      saving: "Saving..."
-      next: "Next"
-  footer:
-    terms_and_privacy: "Terms & Privacy"
-    about: "About"
-  login:
-    header: "Login"
-    email: "Email"
-    password: "Password"
-    login: "Login"
-    logging_in: "Logging you in..."
-    forgot_password: "Forgot Password?"
-    get_started: "Get Started"

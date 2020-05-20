@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 ruby '2.6.6'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 6.0.3'
 gem 'jbuilder', '~> 2.10'
 gem 'bootsnap', '~> 1.4', require: false # Large rails application booting enhancer
 gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets
@@ -40,7 +40,7 @@ gem 'geocoder', '~> 1.5' # for adding latitude and longitude to location-based t
 gem 'i18n-js', '~> 3.3'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone
-gem 'rails-i18n', '~> 5.1', '>= 5.1.3'
+gem 'rails-i18n', '~> 6', '~> 6.0.0'
 gem 'roadie-rails', '~> 2.1' # email generation helpers
 gem 'table_print', '~> 1.5', '>= 1.5.6' # Nice table printing of data for the console
 
@@ -58,12 +58,12 @@ gem 'image_processing', '~> 1.10.3'
 # User authentication
 # https://github.com/plataformatec/devise
 gem 'devise-async', '~> 1.0'
-gem 'devise', '~> 4.4'
+gem 'devise', '~> 4.7'
 
 # API Tools
 gem 'config', '> 1.5'
 gem 'dry-validation', '~> 0.13.3' # used only for config validation
-gem 'foreman', '~> 0.85.0'
+gem 'foreman', '~> 0.87.1'
 gem 'wisper', '~> 2.0'
 gem 'wisper-activejob', '~> 1.0.0'
 
@@ -87,6 +87,7 @@ group :development, :ci, :test do
   gem 'parallel_tests', '~> 2.32'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
+  gem 'listen'
 end
 
 group :ci, :test do

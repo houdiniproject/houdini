@@ -1,0 +1,64 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: Ruby
+
+on:
+  push:
+    branches: [ rails-v5 ]
+  pull_request:
+    branches: [ rails-v5 ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+      uses: Daniel-Marynicz/postgresql-action@0.1.0
+      with:
+        postgres_image_tag: 11-alpine
+        app_user: commitchange
+        app_user_password: password
+    - name: Set up Ruby
+    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
+    # change this to (see https://github.com/ruby/setup-ruby#versioning):
+    # uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v1.4.2
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+    - name: bundle install
+      run: |
+        bundle config deployment true
+        bundle config path vendor/bundle
+        bundle install --jobs 4
+    - uses: actions/cache@v1
+      with:
+        path: node_modules
+        key: bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
+    - name: install node packages
+      run: npm install --ci
+    - name: Setup up db
+      run: rake db:create db:structure:load
+    - name: run spec
+      run: bin/rails spec

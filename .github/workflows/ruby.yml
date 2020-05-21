@@ -1,11 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
-# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
-
-name: Ruby
+name: Houdini
 
 on:
   push:
@@ -24,8 +17,8 @@ jobs:
       uses: Daniel-Marynicz/postgresql-action@0.1.0
       with:
         postgres_image_tag: 11-alpine
-        app_user: commitchange
-        app_user_password: password
+        postgres_user: houdini_user
+        postgres_password: password
     - name: Set up Ruby
     # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
     # change this to (see https://github.com/ruby/setup-ruby#versioning):

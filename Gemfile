@@ -36,7 +36,7 @@ gem 'fullcontact', '~> 0.18.0' # Full Contact API; includes #Hashie::Mash
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
 gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
 gem 'countries', '~> 3.0'
-gem 'geocoder', '~> 1.5' # for adding latitude and longitude to location-based tables http://www.rubygeocoder.com/
+gem 'geocoder', '~> 1.6.3' # for adding latitude and longitude to location-based tables http://www.rubygeocoder.com/
 gem 'i18n-js', '~> 3.3'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone

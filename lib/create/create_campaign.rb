@@ -12,11 +12,7 @@ module CreateCampaign
 
     if !params[:campaign][:parent_campaign_id]
       campaign = nonprofit.campaigns.create params[:campaign]
-
-      return { errors: campaign.errors.messages }.as_json unless campaign.errors.empty?
-
-      return campaign.as_json
-      # json_saved campaign, 'Campaign created! Well done.'
+      return campaign
     else
       profile_id = params[:campaign][:profile_id]
       Profile.find(profile_id).update params[:profile]

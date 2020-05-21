@@ -60,7 +60,13 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    render json: CreateCampaign.create(params, current_nonprofit)
+    @campaign = CreateCampaign.create(params, current_nonprofit)
+    if (@campaign.errors.empty?)
+      render 'campaigns/create', campaign: @campaign
+    else
+      render json: { errors: @campaign.errors.messages }.as_json
+    end
+    
   end
 
   def update

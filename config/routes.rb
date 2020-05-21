@@ -230,7 +230,7 @@ Rails.application.routes.draw do
 
       # Campaigns
       match 'campaigns' => 'campaigns#index', via: %i[get post]
-      match 'campaigns/:campaign_slug' => 'campaigns#show', via: %i[get post]
+      match 'campaigns/:campaign_slug' => 'campaigns#show', via: %i[get post], as: :campaign_location
       match 'campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', via: %i[get post]
 
 
@@ -243,6 +243,12 @@ Rails.application.routes.draw do
       # Dashboard
       match 'dashboard' => 'nonprofits#dashboard', as: :np_dashboard, via: %i[get post]
     end
+  end
+
+  direct :campaign_locateable do |model|
+    nonprofit = model.nonprofit
+    {controller: 'campaigns', action: "show", state_code: nonprofit.state_code_slug, city: nonprofit.city_slug, name: nonprofit.slug,
+    campaign_slug: model.slug}
   end
 
   # Misc

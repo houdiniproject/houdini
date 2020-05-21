@@ -58,6 +58,8 @@ jobs:
           bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
     - name: install node packages
       run: npm install --ci
+    - name: copy test
+      run: cp .env.test .env
     - name: Setup up db
       run: rake db:create db:structure:load
     - name: run spec

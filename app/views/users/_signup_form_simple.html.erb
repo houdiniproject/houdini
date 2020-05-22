@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
-<form autosubmit action="/users" method="post" parsley-validate data-reload>
+<form autosubmit action="/users" method="post" parsley-validate data-reload data-include-recaptcha-response>
   <input type="text" name="user[profile_attributes][name]" required placeholder="Name" class="parsley-validated">
 
   <input type="email" name="user[email]" placeholder="Email" required class="parsley-validated">

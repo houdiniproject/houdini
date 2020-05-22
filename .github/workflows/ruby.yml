@@ -6,11 +6,15 @@ on:
   pull_request:
     branches: [ rails-v5 ]
 
+
 jobs:
   test:
-
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [10]
+        ruby: [2.6.1]
     steps:
     - uses: actions/checkout@v2
     - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
@@ -26,12 +30,6 @@ jobs:
       uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
     - name: Setup Node.js environment
       uses: actions/setup-node@v1.4.2
-    - uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
     - uses: actions/cache@v1
       with:
         path: vendor/bundle

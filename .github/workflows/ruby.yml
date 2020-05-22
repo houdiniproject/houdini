@@ -48,7 +48,7 @@ jobs:
         restore-keys: |
           bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
     - name: install node packages
-      run: npm install --ci
+      run: yarn install --frozen-lockfile
     - name: copy test
       run: cp .env.test .env
     - name: Setup up db

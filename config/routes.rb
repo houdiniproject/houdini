@@ -251,6 +251,12 @@ Rails.application.routes.draw do
     campaign_slug: model.slug}
   end
 
+  direct :event_locateable do |model, **opts|
+    nonprofit = model.nonprofit
+    {controller: '/events', action: "show", state_code: nonprofit.state_code_slug, city: nonprofit.city_slug, name: nonprofit.slug,
+    event_slug: model.slug}.merge(**opts)
+  end
+
   # Misc
   get '/pages/wp-plugin', to: redirect('/help/wordpress-plugin') # temporary, until WP plugin updated
 

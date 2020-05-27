@@ -85,12 +85,12 @@ RSpec.shared_context :shared_user_context do
   end
 
   def accept(user_to_signin, method, action, *args)
-    without_json_response = method_without_json_view?(args)
-    request.accept = 'application/json' unless without_json_response
+    test_variables = collect_test_variables(args)
+    request.accept = 'application/json' unless test_variables[:without_json_view]
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does
 
-    if without_json_response
+    if test_variables[:without_json_view]
       expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
       expect_any_instance_of(described_class).to receive(:render).and_return(nil)
       send(method, action, reduce_params(*args))
@@ -98,7 +98,7 @@ RSpec.shared_context :shared_user_context do
     else
       expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(204))
       send(method, action, reduce_params(*args))
-      expect(response.status).to eq 204
+      expect(response.status).to eq(test_variables[:with_status] || 204)
     end
   end
 
@@ -114,15 +114,16 @@ RSpec.shared_context :shared_user_context do
     { params: args.reduce({}, :merge) }
   end
 
-  def method_without_json_view?(*args)
+  def collect_test_variables(*args)
+    test_vars = {}
     args.collect do |items|
       if items.kind_of?(Array)
         items.each do |k, v|
-          return k[:without_json_view] if k.kind_of?(Hash) && k[:without_json_view]
+          test_vars.merge!(k.slice(:without_json_view, :with_status)) if k.kind_of?(Hash)
         end
       end
     end
-    return false
+    return test_vars
   end
 
   def fix_args(*args)

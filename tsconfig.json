@@ -13,6 +13,8 @@
     "paths": { "*": [ "./types/*"], "@rails/activestorage": ["./types/rails__activestorage"] },
     "typeRoots" : [
       "node_modules/@types",
-      "./types"]
+      "./types"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop":true
   }
 }

@@ -56,7 +56,11 @@ module Nonprofits
 
     def show
       @recurring_donation = current_recurring_donation
-      respond_to { |format| format.json }
+      respond_to do |format| 
+        format.json do 
+          render locals: {recurring_donation: @recurring_donation}
+        end
+      end
     end
 
     def destroy

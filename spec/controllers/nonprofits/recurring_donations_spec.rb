@@ -16,7 +16,7 @@ describe Nonprofits::RecurringDonationsController, type: :controller do
     end
 
     describe 'show' do
-      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1', without_json_view: true
+      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1', with_status: 200
     end
 
     describe 'destroy' do

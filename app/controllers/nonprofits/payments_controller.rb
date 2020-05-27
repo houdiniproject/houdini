@@ -42,6 +42,7 @@ module Nonprofits
     def show
       @nonprofit = current_nonprofit
       @payment = @nonprofit.payments.find(params[:id])
+      render locals: {payment: @payment}
     end # def show
 
     def update

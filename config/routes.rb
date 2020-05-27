@@ -245,10 +245,10 @@ Rails.application.routes.draw do
     end
   end
 
-  direct :campaign_locateable do |model|
+  direct :campaign_locateable do |model, **opts|
     nonprofit = model.nonprofit
     {controller: 'campaigns', action: "show", state_code: nonprofit.state_code_slug, city: nonprofit.city_slug, name: nonprofit.slug,
-    campaign_slug: model.slug}
+    campaign_slug: model.slug}.merge(**opts)
   end
 
   direct :event_locateable do |model, **opts|

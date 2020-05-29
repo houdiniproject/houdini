@@ -1,6 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::ConfirmationsController < Devise::ConfirmationsController
-
+	include Controllers::XFrame
+	after_filter :add_x_frame_options
 	# get /confirm
 	def show
 		@user = User.confirm_by_token(params[:confirmation_token])

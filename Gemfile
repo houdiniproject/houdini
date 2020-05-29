@@ -52,7 +52,6 @@ gem 'param_validation', path: 'gems/ruby-param-validation'
 gem 'qx', path: 'gems/ruby-qx'
 
 # Images
-gem 'mini_magick', '~> 4.10.1'
 gem 'image_processing', '~> 1.10.3'
 
 # User authentication

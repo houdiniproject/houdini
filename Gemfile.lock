@@ -486,7 +486,6 @@ DEPENDENCIES
   listen
   lograge (~> 0.11.2)
   mail_view (~> 2.0)
-  mini_magick (~> 4.10.1)
   nearest_time_zone (~> 0.0.4)
   parallel (~> 1.17)
   parallel_tests (~> 2.32)

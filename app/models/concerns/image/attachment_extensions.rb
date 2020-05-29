@@ -27,7 +27,7 @@ module Image::AttachmentExtensions
                     #{sizes.map do |k,v| 
                         <<-INNER
                         when :#{k.to_sym}
-                            return #{attribute}.variant(resize: "#{v[0]}x#{v[1]}")
+                            return #{attribute}.variant(resize_to_limit: [#{v[0]}, #{v[1]}])
                         INNER
                     end.join("\n")}
                      else

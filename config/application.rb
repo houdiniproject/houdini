@@ -108,5 +108,7 @@ module Commitchange
 
     # we don't require belongs_to associations to be required for historical reasons.
     config.active_record.belongs_to_required_by_default = false
+
+    config.active_storage.variant_processor = :vips
   end
 end

@@ -20,6 +20,14 @@ comfort and speed.
 
 All backend code and React components should be TDD.
 
+## Prerequisites
+Houdini is designed and tested to run with the following:
+* Ruby 2.6
+* Node 12
+* Yarn
+* PostgreSQL 11
+* Ubuntu 20.04 or equivalent
+
 ## Get involved
 Houdini's success depends on you!
 
@@ -28,90 +36,98 @@ https://houdini.zulipchat.com
 
 ### Help with translations
 Visit the Internationalization channel on Houdini Zulip and discuss
+
 ## Dev Setup
+#### Tips for specific circumstances
+* Docker: Docker was previously used for development of Houdini. 
+See [docker.md](docs/docker.md) for more info.
+* Mac: Mac dev setup may require some unique configuration. 
+See [mac_getting_started.md](docs/mac_getting_started.md) for more info.
 
-### Create new postgres user
-Run `sudo -u postgres createuser houdini_user -s -P` and then enter a password for the role
+### Installation prep
+Houdini requires a few pieces of software be installed, as well as some optional pieces
+which make development much easier.
 
-## Docker setup
+These include:
 
-#### Get the code  
+* PostgreSQL 12
+* NodeJS 12 LTS
+* Ruby 2.6.2 (NOTE: the default of Ruby 2.7.1 in Debian will likely function but you will receive a ton of deprecation warnings from Ruby)
+* RVM (optional, simplifies managing multiple ruby versions)
+
+#### One-time setup
+
+You'll want to run the next commands as root or via sudo. You could do this by typing `sudo /bin/sh` running the commands from there.
+
+TIP: this is the root shell. There's no restrictions on what you do here so be careful!
+```bash
+apt update
+apt install curl -yy
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+apt update
+apt install git postgresql-12 libpq-dev libjemalloc-dev libvips42 yarn -yy
+```
+
+You'll run the next commands as your normal user.
+
+NOTE: in the case of a production instance, this might be
+your web server's user.
+
+NOTE 2: We use [RVM](https://rvm.io) to have more control over the exact version of Ruby. For development, it's also way easier because you can
+use a consistent version of Ruby (and different sets of installed gems) for different projects. You could also use rbenv
+or simply build ruby from source.
+
+NOTE 3: We don't recommend using Ruby 2.7, the current Ubuntu default at this time. Ruby 2.7 will function but spits out tons
+of deprecation warnings when using Rails applications.
+
+TIP: To get out of the root shell, run `exit`
+
+```bash
+# add rvm keys
+curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+curl -sSL https://get.rvm.io | bash -s stable
+source $HOME/.rvm/scripts/rvm
+echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
+rvm install 2.6.6 --disable-binary --with-jemalloc
+```
+
+ Run the following command as the `postgres` user and then enter your houdini_user
+ password at the prompt.
+
+NOTE: For development, Houdini expects the password to be 'password'. This would be terrible
+for production but for development, it's likely not a huge issue.
+
+TIP: To run this, add `sudo -u postgres ` to the beginning of the following command.
+
+`createuser houdini_user -s -d -P`
+
+Now that we have all of our prerequisites prepared, we need to get the Houdini code.
+
 `git clone https://github.com/HoudiniProject/houdini`
 
-#### Mac Setup
-If you have a Mac and don't want to run the `docker` configuration, see [how to get started](docs/GETTING_STARTED.MD) with the project.
+This will download the latest Houdini code. Change to the 
+`houdini` directory and we can set the rest of Houdini up.
 
-#### Docker install (if you don't have docker and docker-compose installed)
-##### install Docker and Docker compose
-You need to install Docker and Docker Compose.
-* *Note:* Docker and Docker Compose binaries from Docker itself are proprietary software based entirely upon
-free software. If you feel more comfortable, you may build them from source.
+Let's run the Houdini project setup and we'll be ready to go!
 
-* *Note 2:* For Debian, the Docker package is simply too out of date to be usable. 
-Even the version for latest Ubuntu LTS  is too old. For reliability, we strongly
-recommend using the Docker debian feed from docker itself OR making sure you keep your
-own build up to date.
-
-##### Add yourself to the docker group
-Adding yourself as a Docker group user as follows:
-
-`sudo usermod -aG docker $USER`
-
-You will likely need to logout and log back in again.
- 
-#### Build your docker-container and start it up for initial set up.
-We'll keep this running in the console we'll call **console 1**
-```
-./dc build
-./dc up
-```
-#### System configuration
-There are a number of steps for configuring your Houdini instance for startup
-##### Start a new console we'll call **console 2**.
-
-##### In console 2, copy the env template to your .env file
-   ```
-   cp .env.template .env
-   ```
-##### In console 2, run the following and copy the output to you .env file to set you `DEVISE_SECRET_KEY` environment variable.   
-`./run rake secret # copy this result into your DEVISE_SECRET_KEY`
-
-##### In console 2, , run the following and copy the output to you .env file to set you `SECRET_TOKEN` environment variable.
-```
-./run rake secret # copy this result into your SECRET_TOKEN
+```bash
+bin/setup
 ```
 
-##### Set the following secrets in your .env file with your Stripe account information
-- `STRIPE_API_KEY` with your Stripe PRIVATE key
-- `STRIPE_API_PUBLIC` with your Stripe PUBLIC key
+NOTE: The .env file holds your environment variables for development; on production you might
+have these set somewhere else other than this file.
 
-##### You SHOULD set your AMAZON s3 information (optional but STRONGLY recommended)
-If you don't, file uploads WILL NOT WORK but it's not required.
+TIP: On Heroku, the environment variables are set in your Dashboard.
 
-##### In console 2,  install yarn
-`./run yarn`
-
-##### In console 2, fill the db
-`./run rake db:create db:structure:load db:seed test:prepare` 
-
-##### Set up mailer info 
-You can set this in `config/default_organization.yml` or better yet, make a copy with your own org name and add that to your .env file as `ORG_NAME`
-If you need help setting up your mailer, visit `config/environment.rb` where the settings schema is verified and documented.
+Also, you should set the STRIPE_API_KEY and STRIPE_API_PUBLIC environment variables which you'd get from the Stripe dashboard. On your development environment, make sure to use test keys. If you don't, you're
+going to be charged real money!
 
 #### Startup
-##### Switch back to console 1 and run `Ctrl-c` to end the session.
-
-##### In console 1, restart the containers
-`./dc up`
-
-##### In console 2, run:
-`./run yarn watch`
-
-##### You can go to http://localhost:5000
-
-To get started, register your nonprofit using the "Get Started" link.
-
-## Additional info 
+`bin/rails server`
+You can connect to your server at http://localhost:5000
 
 ##### Super admin
 There is a way to set your user as a super_admin. This role lets you access any of the nonprofits

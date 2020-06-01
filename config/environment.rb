@@ -57,7 +57,7 @@ Config.schema do
     end
   end
 
-  required(:aws).schema do
+  optional(:aws).schema do
     # the region your AWS bucket is in
     optional(:region).filled(:str?)
 

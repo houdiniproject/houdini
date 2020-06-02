@@ -53,7 +53,7 @@ class Profile < ApplicationRecord
   def set_defaults
     self.name    ||= user.name    if user
     self.email   ||= user.email   if user
-    self.picture ||= user.picture if user
+    self.picture.attach(user.picture) if user && user.picture.attached?
     picture.attach(io: File.open(Settings.default.image.profile), 
         filename: "profile-image.png") unless self.picture.attached?
     if self.name.blank? && first_name.present? && last_name.present?

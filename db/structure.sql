@@ -95,8 +95,6 @@ WHERE (supporters.id=NEW.supporter_id)) AS data
 
 SET default_tablespace = '';
 
-SET default_with_oids = false;
-
 --
 -- Name: active_storage_attachments; Type: TABLE; Schema: public; Owner: -
 --
@@ -1691,7 +1689,6 @@ CREATE TABLE public.profiles (
     state_code character varying(255),
     city character varying(255),
     privacy_settings text,
-    picture character varying(255),
     phone character varying(255),
     address character varying(255),
     anonymous boolean,

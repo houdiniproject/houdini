@@ -54,6 +54,8 @@ class Profile < ApplicationRecord
     self.name    ||= user.name    if user
     self.email   ||= user.email   if user
     self.picture ||= user.picture if user
+    picture.attach(io: File.open(Settings.default.image.profile), 
+        filename: "profile-image.png") unless self.picture.attached?
     if self.name.blank? && first_name.present? && last_name.present?
       self.name ||= first_name + ' ' + last_name
     end

@@ -163,6 +163,8 @@ module Mailchimp
   end
 
   # @param [EmailList] email_list
+  # Notably, if a supporter unsubscribed on Mailchimp, this will not 
+  # resubscribe them. This is the correct behavior.
   def self.hard_sync_list(email_list)
     ops = generate_batch_ops_for_hard_sync(email_list)
     perform_batch_operations(email_list.nonprofit.id, ops)

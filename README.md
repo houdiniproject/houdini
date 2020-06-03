@@ -1,5 +1,12 @@
 [![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com) [![Build Status](https://travis-ci.com/houdiniproject/houdini.svg?branch=master)](https://travis-ci.com/houdiniproject/houdini)
 
+* NOTE: This is the latest version (pre-2.0) of Houdini and 
+is currently in HEAVY development. You may want
+to use 
+[v1](https://github.com/houdiniproject/houdini/tree/1-0-stable) 
+instead.
+
+
 The Houdini Project is free and open source fundraising infrastructure. It includes...
 - Crowdfunding campaigns
 - Donate widget page and generator
@@ -12,13 +19,11 @@ The Houdini Project is free and open source fundraising infrastructure. It inclu
 - Nonprofit org user account management
 - Simple donation management for donors
 
-Much of the business logic is in `/lib`. 
-
 The frontend is written in a few custom frameworks, the largest of which is called Flimflam. 
 We endeavor to migrate to React as quickly as possible to increase development
 comfort and speed.
 
-All backend code and React components should be TDD.
+All new backend code and React components well tested.
 
 ## Prerequisites
 Houdini is designed and tested to run with the following:
@@ -50,10 +55,24 @@ which make development much easier.
 
 These include:
 
-* PostgreSQL 12
+* PostgreSQL 11
 * NodeJS 12 LTS
-* Ruby 2.6.2 (NOTE: the default of Ruby 2.7.1 in Debian will likely function but you will receive a ton of deprecation warnings from Ruby)
-* RVM (optional, simplifies managing multiple ruby versions)
+* Ruby 2.6.6 (NOTE: the default of Ruby 2.7.1 in Debian should 
+function but you will receive a ton of deprecation
+warnings from Ruby)
+
+There a few optional tools which make working on Houdini
+easiter
+* Ruby Version Manager (RVM) - RVM makes it simple to switch
+between versions of Ruby for different projects. Additionally, you can
+use different "gemsets" per version so you can separate the
+state of a set of different projects. It will also switch
+versions at the console when you change to a directory for
+an project prepared for RVM, like Houdini.
+* Automatic Version Switching for Node (AVN) - similar to RVM, AVN makes it simple to switch between versions of Node. When
+properly configured, it automatically switches version at
+the console whe you change to a directory for a project
+prepared for AVN, like Houdini.
 
 #### One-time setup
 
@@ -67,7 +86,7 @@ curl -sL https://deb.nodesource.com/setup_12.x | bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update
-apt install git postgresql-12 libpq-dev libjemalloc-dev libvips42 yarn -yy
+apt install git postgresql-11 libpq-dev libjemalloc-dev libvips42 yarn -yy
 ```
 
 You'll run the next commands as your normal user.
@@ -81,6 +100,10 @@ or simply build ruby from source.
 
 NOTE 3: We don't recommend using Ruby 2.7, the current Ubuntu default at this time. Ruby 2.7 will function but spits out tons
 of deprecation warnings when using Rails applications.
+
+NOTE 4: We recommend building Ruby with jemalloc support as we 
+do in these instructions. In practice, it manages memory far 
+more efficiently in Rails-based projects.
 
 TIP: To get out of the root shell, run `exit`
 
@@ -122,7 +145,10 @@ have these set somewhere else other than this file.
 
 TIP: On Heroku, the environment variables are set in your Dashboard.
 
-Also, you should set the STRIPE_API_KEY and STRIPE_API_PUBLIC environment variables which you'd get from the Stripe dashboard. On your development environment, make sure to use test keys. If you don't, you're
+Also, you should set the STRIPE_API_KEY and STRIPE_API_PUBLIC 
+environment variables which you'd get from the Stripe 
+dashboard. On your development environment, 
+make sure to use test keys. If you don't, you're
 going to be charged real money!
 
 #### Startup
@@ -136,7 +162,7 @@ nonprofits, which is located at `/admin` url.
   
 To create the super user, go to the rails console by calling:
 
-`./dc run web rails console`
+`bin/rails console`
 
 In the console, run the following:
  
@@ -149,36 +175,19 @@ role=Role.create(user:admin,name: "super_admin")
 For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
 
 
-## To run in production
+## Run in production
+You will likely want to make a few changes in your configuration of Houdini before running in production as you
+would for any Rails project. These include:
 
-##### Docker
-While Docker should be very possible to use for production, the current Docker solution
-is optimized heavily for dev purposes. If you know more about creating a solid production Docker setup, please do
-contribute!
-
-(To be continued)
-- rake assets:precompile
-- if production: make sure memcached is running.
-
-
-## Frontend
-
-Assets get compiled from `/client` to `/public/client`
-
-## React Generators
-If creating new React or Typescript code,  please use the Rails generators with the 'react:' prefix. This include:
-
-### react:packroot
-This generator creates a new entry for Webpack. This is a place where Webpack will start
-when packing a new javascript output file. It also creates a corresponding component for the entry.
-Usually, you will have one of these per page.
-
-### react:component
-This generator creates a React component along with a test file for testing with Jest. 
-Each component should have its own file. 
-
-### react:lib
-This generator creates a basic Typescript module along with a test file.
+* Using a [different ActiveJob backend](https://guides.rubyonrails.org/active_job_basics.html). NOTE: The Sneakers for RabbitMQ doesn't 
+work properly. There are 
+[forks of Sneakers](https://github.com/veeqo/advanced-sneakers-activejob)
+which might work but they haven't been tested. **If you do test
+them please let us know!**
+* Use a [proper cache store](https://guides.rubyonrails.org/caching_with_rails.html#cache-stores). The development uses
+ `memory_store` which isn't shared between processes or server 
+ and clears every time your server software restarts. Memcached 
+ or Redis are good choices here.
 
 ### Providing the complete corresponding source code
 
@@ -196,23 +205,3 @@ For this to work though, the following characteristics must be true:
 * Your have to have committed any changes you made to the project in `HEAD` in your git repository
 * The `.git` folder for your repository must be a direct subfolder of your `$RAILS_ROOT`
 * Your web server must be able to run `git archive`.
-
-
-### Style
-
-#### Ruby
-- 2 spaces for tabs
-
-#### New frontend code
-- All new front end code should be written in Typescript 
-and React (using TSX files). Please use the React Generators for creation.
-- 2 spaces for tabs
-
-#### Legacy Javascript
-- 2 spaces for tabs
-- Comma-led lines
-- ES6 imports
-
-#### Git
-
-- No need to rebase, just merge

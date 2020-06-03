@@ -40,7 +40,7 @@ gem 'geocoder', '~> 1.6.3' # for adding latitude and longitude to location-based
 gem 'i18n-js', '~> 3.3'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone
-gem 'rails-i18n', '~> 6', '~> 6.0.0'
+gem 'rails-i18n', '~> 6.0.0', '~> 6'
 gem 'roadie-rails', '~> 2.1' # email generation helpers
 gem 'table_print', '~> 1.5', '>= 1.5.6' # Nice table printing of data for the console
 

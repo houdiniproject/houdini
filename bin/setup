@@ -19,15 +19,24 @@ FileUtils.chdir APP_ROOT do
   system('bundle check') || system!('bundle install')
 
   puts "\n== Installing dependencies (JS) =="
+  yarn_cmd = 'yarn -s'
+  if ARGV.length > 0 && ARGV[0] == 'ci'
+    yarn_cmd += " --frozen-lockfile"
+  end
   system!('yarn -s')
 
-  puts "\n== Copying env file =="
-  unless File.exist?('.env')
-    FileUtils.cp '.env.template', '.env'
-  end
 
-  puts "\n== Create new secrets =="
-  File.write('.env', File.read('.env').gsub(/-- secret string --/) { SecureRandom.hex(64) })
+  if ARGV.length == 0 || (ARGV.length > 0 && ARGV[0] != 'ci')
+    puts "\n== Copying env file =="
+    unless File.exist?('.env')
+      FileUtils.cp '.env.template', '.env'
+    end
+    puts "\n== Create new secrets =="
+    File.write('.env', File.read('.env').gsub(/-- secret string --/) { SecureRandom.hex(64) })
+  else
+    puts "\n== Copying env file =="
+    FileUtils.cp '.env.test', '.env'
+  end
 
   puts "\n== Preparing database =="
   system! 'bin/rails db:prepare'

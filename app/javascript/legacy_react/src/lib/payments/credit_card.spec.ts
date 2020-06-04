@@ -191,7 +191,7 @@ describe('CreditCardTypeManager', () => {
 
     })
     it('should support year shorthand', () => {
-      expect(cc.validateCardExpiry('05', '20')).toBeTruthy()
+      expect(cc.validateCardExpiry('05', '25')).toBeTruthy()
     })
   })
   describe('Validating a CVC number', () => {

@@ -7,9 +7,9 @@
 
 
 <% content_for :javascripts do %>
+  <%= javascript_pack_tag 'i18n', 'page__nonprofits__donate' %>
   <script>
     app.referer_url = "<%= @referer %>"
-    app.nonprofit.plan_tier = <%= QueryBillingSubscriptions.plan_tier(@nonprofit.id) %>
     app.campaign = <%= raw (@campaign || {}).to_json %>
     app.currency_symbol = "<%= @nonprofit.currency_symbol %>"
     app.utmParams = {
@@ -24,7 +24,6 @@
     I18n.defaultLocale = "<%=  I18n.default_locale %>"
     I18n.locale = "<%=  I18n.locale %>"
   </script>
-  <%= IncludeAsset.js '/client/js/nonprofits/donate/page.js' %>
 <% end %>
 
 <% content_for :stylesheets do %>
@@ -34,13 +33,13 @@
 <%= content_for :facebook_tags do %>
 	<meta property='og:title' content='I support <%= @nonprofit.name %>!'>
 	<meta property='og:description' content='<%= @nonprofit.summary %>'>
-	<meta property='og:image' content='<%= @nonprofit.main_image_url(:nonprofit_carousel) %>'>
+	<meta property='og:image' content='<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>'>
 <% end %>
 
 <%= content_for :twitter_tags do %>
-	<meta property="twitter:title" content="I support <%=  @nonprofit.name %>!">
-	<meta property="twitter:description" content="<%=  @nonprofit.summary %>">
-	<meta property="twitter:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
+	<meta property="twitter:title" content="I support <%= raw @nonprofit.name %>!">
+	<meta property="twitter:description" content="<%= raw @nonprofit.summary %>">
+	<meta property="twitter:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
 <% end %>
 
 <% content_for :body_id do %>donate<% end %>

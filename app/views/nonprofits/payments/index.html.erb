@@ -4,20 +4,15 @@
 
 <% content_for :stylesheets do %>
 			<%= stylesheet_link_tag 'nonprofits/payments/index/page' %>
-      <%= IncludeAsset.css '/client/css/bootstrap.css' %>
 <% end %>
 
 <% content_for :javascripts do %>
 
+
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__payments__index', 'edit_payment_pane' %>
 	<script>
 		appl.def('has_bank', <%= !!@nonprofit.bank_account %>)
 	</script>
-	<%= IncludeAsset.js '/client/js/nonprofits/payments/index/page.js' %>
-  <%= IncludeAsset.js '/app/react.js' %>
-  <%= IncludeAsset.js '/app/react-dom.js' %>
-  <%= IncludeAsset.js '/app/vendor.js' %>
-  <%= IncludeAsset.js '/app/edit_payment_panex.js' %>
-
   <script>
     appl.def('open_donation_modal', function(payment_details) {
 
@@ -41,8 +36,6 @@
 
   </script>
 <% end %>
-
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
 
 <%= render 'nonprofits/transaction_title',
 	active: :payments,

@@ -11,7 +11,6 @@ services:
 
     environment:
     - DATABASE_HOST=db
-    - MEMCACHE_SERVERS=memcached
     - USER=${USER}
 
     volumes:
@@ -21,15 +20,11 @@ services:
     - "5000:5000"
     depends_on:
     - db
-    - memcached
   db:
     image: postgres:9.6
     environment:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "password"
-  memcached:
-    image: memcached
-
 
 
 

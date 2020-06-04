@@ -3,8 +3,8 @@
 
 	<section class='sideNav-section'>
 		<a class='sideNav-link' href='<%= profile_url(current_user.profile) %>'>
-		<% if current_user.profile.picture? %>
-			<img class='sideNav-profile' src="<%= current_user.profile.get_profile_picture(:tiny) %>">
+		<% if current_user.profile.picture.attached? %>
+			<%= image_tag  current_user.profile.picture_by_size(:tiny), class: 'sideNav-profile' %>
 			<% else %>
 				<i class="sideNav-icon icon-user-1"></i>
 			<% end %>

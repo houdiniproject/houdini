@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class SlugCopyNamingAlgorithm < CopyNamingAlgorithm
-
   attr_accessor :klass, :nonprofit_id
   # @param [Class] klass
   def initialize(klass, nonprofit_id)
-     @klass = klass
-     @nonprofit_id = nonprofit_id
+    @klass = klass
+    @nonprofit_id = nonprofit_id
   end
 
   def copy_addition
-    "_copy"
+    '_copy'
   end
 
   def max_copies
@@ -21,8 +22,7 @@ class SlugCopyNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def get_already_used_name_entities(base_name)
-    end_name = "\\_copy\\_\\d{2}"
+    end_name = '\\_copy\\_\\d{2}'
     @klass.method(:where).call('slug SIMILAR TO ? AND nonprofit_id = ? AND (deleted IS NULL OR deleted = false)', base_name + end_name, nonprofit_id).select('slug')
   end
-
 end

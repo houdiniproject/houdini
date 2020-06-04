@@ -1,4 +1,4 @@
-FROM ruby:2.3.7-stretch
+FROM ruby:2.6.6-stretch
 ARG USER
 RUN mkdir /myapp
 COPY script/build/debian/prebuild.sh myapp/script/build/debian/prebuild.sh
@@ -7,16 +7,11 @@ COPY script/build/debian/node.sh myapp/script/build/debian/node.sh
 RUN myapp/script/build/debian/node.sh
 COPY script/build/debian/postgres.sh myapp/script/build/debian/postgres.sh
 RUN myapp/script/build/debian/postgres.sh
-COPY script/build/debian/java.sh myapp/script/build/debian/java.sh
-RUN myapp/script/build/debian/java.sh
 COPY gems /myapp/gems/
 WORKDIR /myapp
 COPY Gemfile /myapp/Gemfile
 COPY Gemfile.lock /myapp/Gemfile.lock
+RUN gem install bundler -v "~>1.0"
 RUN bundle install
-COPY package.json /myapp/package.json
-COPY package-lock.json /myapp/package-lock.json
-ENV NODE_ICU_DATA=/usr/lib/node_modules/icu4c-data
-RUN npm ci
 CMD rake -T
 

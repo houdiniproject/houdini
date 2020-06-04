@@ -1,17 +1,18 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 require 'timecop'
 
-describe PayRecurringDonation  do
-
+describe PayRecurringDonation do
   before(:all) do
-    #@data = PsqlFixtures.init
-   # @result = @data['recurring_donation']
+    # @data = PsqlFixtures.init
+    # @result = @data['recurring_donation']
   end
 
-	let(:today) {Time.current.to_date}
+  let(:today) { Time.current.to_date }
 
-	describe '.with_donation', :pending => true do
+  describe '.with_donation', pending: true do
     # describe 'create a valid charge and payment when due' do
     #
     # end
@@ -60,11 +61,9 @@ describe PayRecurringDonation  do
     #     expect(PayRecurringDonation.with_stripe(@result['recurring_donation']['id'])).to be false
     #   end
     # end
+  end
 
-	end
-
-  describe '.pay_all_due_with_stripe', :pending => true do
-
+  describe '.pay_all_due_with_stripe', pending: true do
     # it 'queues a job to pay each due recurring donation' do
     #   Timecop.freeze(Time.parse("2020-02-01").utc) do
     #     VCR.use_cassette('PayRecurringDonation/pay_all_due_with_stripe') do
@@ -96,6 +95,4 @@ describe PayRecurringDonation  do
       end
     end
   end
-
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if Rails.env.development?
   ActiveSupport::Dependencies.explicitly_unloadable_constants << 'Houdini::V1'
 
@@ -5,7 +7,7 @@ if Rails.env.development?
   api_reloader = ActiveSupport::FileUpdateChecker.new(api_files) do
     Rails.application.reload_routes!
   end
-  ActionDispatch::Callbacks.to_prepare do
+  ActiveSupport::Reloader.to_prepare do
     api_reloader.execute_if_updated
   end
 end

@@ -2,6 +2,9 @@
 <%= content_for :stylesheets do %>
 	<%= stylesheet_link_tag 'nonprofits/button/page' %>
 <% end %>
+<%= content_for :javascripts do %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__button'%>
+<% end %>
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <script>
@@ -21,8 +24,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	})();
 })
 </script>
-
-<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
 
 <header class='header'>
 	<div class='container--mid'>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module QueueDonations
   def self.execute_for_donation(id)
@@ -10,15 +12,17 @@ module QueueDonations
   def self.execute_all
     donations = fetch_donations
     return if donations.empty?
+
     donations_ids = donations.collect(&:id)
 
     execute(donations)
   end
 
   def self.dry_execute_all
-puts "dry push donations to civi"
+    puts 'dry push donations to civi'
     donations = fetch_donations
     return if donations.empty?
+
     donations_ids = donations.collect(&:id)
 
     dry_execute(donations)
@@ -31,18 +35,16 @@ puts "dry push donations to civi"
 
     donations_ids = donations.collect(&:id)
     set_queued_for_import_at(donations_ids)
-
   rescue Bunny::Exception, Bunny::ClientTimeout, Bunny::ConnectionTimeout
     Rails.logger.warn "Bunny error: QueueDonations.execute failed for ids #{donations_ids}"
-    return
+    nil
   end
 
   def self.dry_execute(donations)
     push(donations)
-
   rescue Bunny::Exception, Bunny::ClientTimeout, Bunny::ConnectionTimeout
     Rails.logger.warn "Bunny error: QueueDonations.dry_execute failed for ids #{donations_ids}"
-    return
+    nil
   end
 
   def self.push(donations)
@@ -68,16 +70,16 @@ puts "dry push donations to civi"
 
   def self.set_queued_for_import_at(ids)
     timestamp = Time.current
-    Qx.update(:donations).
-      where('id IN ($ids)', ids: ids).
-      set(queued_for_import_at: timestamp).
-      execute
+    Qx.update(:donations)
+      .where('id IN ($ids)', ids: ids)
+      .set(queued_for_import_at: timestamp)
+      .execute
   end
 
   def self.fetch_donations
-    Donation.
-      where('queued_for_import_at IS null').
-      includes(:supporter, :nonprofit, :tracking, :payment,:recurring_donation)
+    Donation
+      .where('queued_for_import_at IS null')
+      .includes(:supporter, :nonprofit, :tracking, :payment, :recurring_donation)
   end
 
   def self.prepare_donation_params(donation)
@@ -87,7 +89,7 @@ puts "dry push donations to civi"
     recurring = donation.recurring_donation
 
     action_type = :donate
-    action_technical_type = "cc.wemove.eu:donate"
+    action_technical_type = 'cc.wemove.eu:donate'
     action_name = "undefined_#{donation.supporter.locale}"
     external_id = campaign ? campaign.external_identifier : "cc_default_#{nonprofit.id}"
 
@@ -118,7 +120,8 @@ puts "dry push donations to civi"
         { email: supporter.email }
       ],
       addresses: [
-        { zip: supporter.zip_code, country: supporter.country }],
+        { zip: supporter.zip_code, country: supporter.country }
+      ]
     }
   end
 
@@ -128,26 +131,26 @@ puts "dry push donations to civi"
       currency: donation.nonprofit.currency,
       recurring_id: donation.recurring_donation ? "cc_#{donation.recurring_donation.id}" : nil,
       external_identifier: "cc_#{donation.id}",
-      type: donation.recurring ? "recurring" : "single"
+      type: donation.recurring ? 'recurring' : 'single'
     }
 
     if donation.card_id
-      data = common_data.merge({
-        payment_processor: "stripe",
+      data = common_data.merge(
+        payment_processor: 'stripe',
         amount_charged: donation.payment.charge.amount / 100.0,
         transaction_id: donation.payment.charge.stripe_charge_id,
-        status: donation.payment.charge.paid? ? "success" : "not_paid"
-      })
+        status: donation.payment.charge.paid? ? 'success' : 'not_paid'
+      )
     elsif donation.direct_debit_detail_id
-      data = common_data.merge({
-        payment_processor: "sepa",
+      data = common_data.merge(
+        payment_processor: 'sepa',
         amount_charged: 0,
         transaction_id: "cc_#{donation.id}",
         iban: donation.direct_debit_detail.iban,
         bic: donation.direct_debit_detail.bic,
         account_holder: donation.direct_debit_detail.account_holder_name,
-        status: "success"
-      })
+        status: 'success'
+      )
     end
 
     data
@@ -158,9 +161,10 @@ puts "dry push donations to civi"
       id: recurring.id,
       start: recurring.start_date,
       time_unit: recurring.time_unit,
-      active: recurring.active,
+      active: recurring.active
     }
   end
+
   def self.tracking_data(tracking)
     {
       source: tracking.utm_source,

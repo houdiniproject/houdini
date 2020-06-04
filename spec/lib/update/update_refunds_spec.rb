@@ -1,26 +1,29 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
 describe UpdateRefunds do
   describe '.disburse_all_with_payments', pending: true do
     it 'test' do
-      fail
+      raise
     end
   end
 
   describe '.reverse_disburse_all_with_payments' do
-
     let(:payment_to_reverse) { force_create(:payment) }
-    let(:payment_to_ignore) {force_create(:payment)}
-    let!(:refunds) { [
-        force_create(:refund, payment: payment_to_reverse, disbursed:true),
-        force_create(:refund, payment:payment_to_ignore, disbursed:true)
-                          ]}
-    before(:each) {
+    let(:payment_to_ignore) { force_create(:payment) }
+    let!(:refunds) do
+      [
+        force_create(:refund, payment: payment_to_reverse, disbursed: true),
+        force_create(:refund, payment: payment_to_ignore, disbursed: true)
+      ]
+    end
+    before(:each) do
       UpdateRefunds.reverse_disburse_all_with_payments([payment_to_reverse.id])
 
-      refunds.each{|i| i.reload}
-    }
+      refunds.each(&:reload)
+    end
 
     it 'reverses refunds as it should' do
       expect(refunds.first.disbursed).to eq false

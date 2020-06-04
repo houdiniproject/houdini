@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
-curl -sL https://deb.nodesource.com/setup_10.x | bash -
-apt-get update -qq && apt-get install -y nodejs
-npm install npm@^6 -g
-npm install -g icu4c-data@64l
+curl -sL https://deb.nodesource.com/setup_13.x | bash -
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+apt-get update -qq && apt-get install -y nodejs yarn

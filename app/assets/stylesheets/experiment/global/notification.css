@@ -1,0 +1,25 @@
+/* License: LGPL-3.0-or-later */
+[data-ff-notification] {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--sh-2);
+  background: var(--black); 
+  color: white;
+  font-weight: 500;
+  padding: 1rem;
+  z-index: 1;
+  left: 0; 
+  bottom: -50%; 
+  opacity: 0;
+  visibility: hidden;
+  transform: translateZ(0); 
+  transition: 200ms ease;
+}
+
+[data-ff-notification=shown] {
+  opacity: 0.9;
+  visibility: visible;
+  bottom: 0;
+}
+

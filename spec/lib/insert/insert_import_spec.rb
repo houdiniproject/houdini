@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe InsertImport, :pending => true  do
+describe InsertImport, pending: true do
   before(:all) do
-    #@data = PsqlFixtures.init
+    # @data = PsqlFixtures.init
   end
 
   describe '.from_csv' do
@@ -47,63 +49,61 @@ describe InsertImport, :pending => true  do
       expect(@result['imported_count']).to eq(16)
     end
 
-
     it 'creates all the supporters with correct names' do
-      names = @supporters.map{|s| s['name']}
-      expect(names.sort).to eq(Hamster::Vector["Robert Norris", "Angie Vaughn", "Bill Waddell", "Bubba Thurmond"].sort)
+      names = @supporters.map { |s| s['name'] }
+      expect(names.sort).to eq(Hamster::Vector['Robert Norris', 'Angie Vaughn', 'Bill Waddell', 'Bubba Thurmond'].sort)
     end
 
     it 'creates all the supporters with correct emails' do
-      emails = @supporters.map{|s| s['email']}
-      expect(emails.sort).to eq(Hamster::Vector["user@example.com", "user@example.com", "user@example.com", "user@example.com"].sort)
+      emails = @supporters.map { |s| s['email'] }
+      expect(emails.sort).to eq(Hamster::Vector['user@example.com', 'user@example.com', 'user@example.com', 'user@example.com'].sort)
     end
 
     it 'creates all the supporters with correct organizations' do
-      orgs = @supporters.map{|s| s['organization']}
-      expect(orgs.sort).to eq(Hamster::Vector["Jet-Pep", "Klein Drug Shoppe, Inc.", "River City Equipment Rental and Sales", "Somewhere LLC"].sort)
+      orgs = @supporters.map { |s| s['organization'] }
+      expect(orgs.sort).to eq(Hamster::Vector['Jet-Pep', 'Klein Drug Shoppe, Inc.', 'River City Equipment Rental and Sales', 'Somewhere LLC'].sort)
     end
 
     it 'creates all the supporters with correct cities' do
-      cities = @supporters.map{|s| s['city']}
-      expect(cities.sort).to eq(Hamster::Vector["Decatur", "Guntersville", "Holly Pond", "Snead"].sort)
+      cities = @supporters.map { |s| s['city'] }
+      expect(cities.sort).to eq(Hamster::Vector['Decatur', 'Guntersville', 'Holly Pond', 'Snead'].sort)
     end
 
     it 'creates all the supporters with correct addresses' do
-      addresses = @supporters.map{|s| s['address']}
-      expect(addresses.sort).to eq(Hamster::Vector["3370 Alabama Highway 69", "649 Finley Island Road", "P.O. Box 143", "P.O. Box 611"].sort)
+      addresses = @supporters.map { |s| s['address'] }
+      expect(addresses.sort).to eq(Hamster::Vector['3370 Alabama Highway 69', '649 Finley Island Road', 'P.O. Box 143', 'P.O. Box 611'].sort)
     end
 
     it 'creates all the supporters with correct zip_codes' do
-      zips = @supporters.map{|s| s['zip_code']}
-      expect(zips.sort).to eq(Hamster::Vector["35601", "35806", "35952", "35976"].sort)
+      zips = @supporters.map { |s| s['zip_code'] }
+      expect(zips.sort).to eq(Hamster::Vector['35601', '35806', '35952', '35976'].sort)
     end
 
     it 'creates all the supporters with correct state_codes' do
-      states = @supporters.map{|s| s['state_code']}
-      expect(states.sort).to eq(Hamster::Vector["AL", "AL", "AL", "AL"])
+      states = @supporters.map { |s| s['state_code'] }
+      expect(states.sort).to eq(Hamster::Vector['AL', 'AL', 'AL', 'AL'])
     end
 
     it 'creates all the donations with correct amounts' do
-      amounts = @donations.map{|d| d['amount']}
+      amounts = @donations.map { |d| d['amount'] }
       expect(amounts.sort).to eq(Hamster::Vector[1000, 1000, 1000, 1000])
     end
 
     it 'creates all the donations with correct designations' do
-      desigs = @donations.map{|d| d['designation']}
-      expect(desigs.sort).to eq(Hamster::Vector["third party event", "third party event", "third party event", "third party event"])
+      desigs = @donations.map { |d| d['designation'] }
+      expect(desigs.sort).to eq(Hamster::Vector['third party event', 'third party event', 'third party event', 'third party event'])
     end
 
     it 'inserts custom fields' do
-      vals = Psql.execute("SELECT value FROM custom_field_joins ORDER BY id DESC LIMIT 4").map{|h| h['value']}
-      expect(vals).to eq(Hamster::Vector["custfield", "custfield", "custfield", "custfield"])
+      vals = Psql.execute('SELECT value FROM custom_field_joins ORDER BY id DESC LIMIT 4').map { |h| h['value'] }
+      expect(vals).to eq(Hamster::Vector['custfield', 'custfield', 'custfield', 'custfield'])
     end
 
     it 'inserts tags' do
-      ids = @supporters.map{|h| h['id']}.join(", ")
+      ids = @supporters.map { |h| h['id'] }.join(', ')
       names = Psql.execute("SELECT tag_masters.name FROM tag_joins JOIN tag_masters ON tag_masters.id=tag_joins.tag_master_id WHERE tag_joins.supporter_id IN (#{ids})")
-        .map{|h| h['name']}
-      expect(Hamster.to_ruby(names).sort).to eq(["tag1", "tag1", "tag1", "tag1", "tag2", "tag2", "tag2", "tag2"])
+                  .map { |h| h['name'] }
+      expect(Hamster.to_ruby(names).sort).to eq(%w[tag1 tag1 tag1 tag1 tag2 tag2 tag2 tag2])
     end
-
   end
 end

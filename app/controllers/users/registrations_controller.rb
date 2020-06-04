@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :json
@@ -8,13 +10,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # this endpoint only creates donor users
   def create
-    params[:user][:referer] = session[:referer_id]
-    user = User.register_donor!(params[:user])
+    clean_params[:user][:referer] = session[:referer_id]
+    user = User.register_donor!(clean_params[:user])
     if user.save
       sign_in user
-      render :json => user
+      render json: user
     else
-      render :json => user.errors.full_messages, :status => :unprocessable_entity
+      render json: user.errors.full_messages, status: :unprocessable_entity
       clean_up_passwords(user)
     end
   end
@@ -29,11 +31,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if current_user.pending_password && params[:user][:password] && params[:user][:password_confirmation]
         params[:user][:pending_password] = false
       end
-      success = current_user.update_attributes(params[:user])
+      success = current_user.update(params[:user])
       errs = current_user.errors.full_messages
     else
       success = false
-      errs = {:password => :incorrect}
+      errs = { password: :incorrect }
     end
 
     if success
@@ -43,10 +45,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
         flash[:notice] = 'Account updated!'
       end
 
-      sign_in(current_user, :bypass => true)
-      render :json => current_user
+      sign_in(current_user, bypass: true)
+      render json: current_user
     else
-      render :json => {:errors => errs}, :status => :unprocessable_entity
+      render json: { errors: errs }, status: :unprocessable_entity
     end
+  end
+
+  private 
+  def clean_params
+    params.permit(:user => [:name, :email, :password_confirmation, :password])
   end
 end

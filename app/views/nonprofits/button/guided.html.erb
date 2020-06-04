@@ -5,10 +5,8 @@
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <% content_for :javascripts do %>
-<%= IncludeAsset.js '/client/js/nonprofits/button/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__button' %>
 <% end %>
-
-<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
 
 <header class='header'>
 	<div class='container--mid'>

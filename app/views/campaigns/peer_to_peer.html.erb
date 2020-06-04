@@ -35,7 +35,7 @@
       })
     <% end %>
   </script>
-  <%= IncludeAsset.js '/client/js/campaigns/peer_to_peer/page.js' %>
+  <%= javascript_pack_tag 'i18n', 'page__peer_to_peer' %>
 <% end %>
 
 <% if @parent_campaign && @parent_campaign.banner_image_url %>

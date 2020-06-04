@@ -3,7 +3,7 @@
 	<script>
 		app.pageLoadData = <%= raw @data.to_json %>
 	</script>
-	<%= IncludeAsset.js '/client/js/recurring_donations/edit/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__recurring_donations__edit' %>
 <% end %>
 
 <% content_for :stylesheets do %>

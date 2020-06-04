@@ -5,14 +5,14 @@
 <% @brand_color = @nonprofit.brand_color ? @nonprofit.brand_color : nil %>
 
 <%= content_for :facebook_tags do %>
-	<meta property="og:title" content="<%= @nonprofit.name %>" />
-	<meta property="og:description" content="<%= @nonprofit.tagline %>" />
-	<meta property="og:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
+	<meta property="og:title" content="<%= raw @nonprofit.name %>" />
+	<meta property="og:description" content="<%= raw @nonprofit.tagline %>" />
+	<meta property="og:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
 <% end %>
 <%= content_for :twitter_tags do %>
-	<meta property="twitter:title" content="<%= @nonprofit.name %>" />
-	<meta property="twitter:description" content="<%= @nonprofit.tagline %>" />
-	<meta property="twitter:image" content="<%= @nonprofit.main_image_url(:nonprofit_carousel) %>" />
+	<meta property="twitter:title" content="<%= raw @nonprofit.name %>" />
+	<meta property="twitter:description" content="<%= raw @nonprofit.tagline %>" />
+	<meta property="twitter:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
 <% end %>
 
 <%= content_for :stylesheets do %>
@@ -20,6 +20,7 @@
 <% end %>
 
 <%= content_for :javascripts do %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__show', 'page__nonprofits__edit' %>
 	<script>
 		app.header_image_url = '<%= @nonprofit_background_image %>'
 		app.current_nonprofit_user = <%= current_nonprofit_user? %>
@@ -40,8 +41,6 @@
   <%= render 'schema', npo: @nonprofit %>
 	<%= render 'common/froala' if current_nonprofit_user? %>
 
-	<%= IncludeAsset.js '/client/js/nonprofits/show/page.js' %>
-	<%= IncludeAsset.js '/client/js/nonprofits/edit/page.js' %>
   <% # needs to be after the page load because that's when I18n is included %>
   <script>
       var I18n = I18n || {}
@@ -58,8 +57,6 @@
 <% if current_nonprofit_user?  %>
   <%= render 'admin_top_nav' %>
 <% end %>
-
-<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
 
 <%= render 'components/fundraising_pages/header',
 	image_url: @nonprofit_background_image,

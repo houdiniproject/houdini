@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Nonprofits
   class ReportsController < ApplicationController
-    include Controllers::NonprofitHelper
-    before_filter :authenticate_nonprofit_user!
+    include Controllers::Nonprofit::Current
+  include Controllers::Nonprofit::Authorization
+    before_action :authenticate_nonprofit_user!
 
     def end_of_year
       respond_to do |format|
         format.csv do
           filename = "end-of-year-report-#{params[:year]}.csv"
-          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {:year => params[:year]})
+          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], year: params[:year])
           send_data(Format::Csv.from_array(data), filename: filename)
         end
       end
@@ -18,17 +21,15 @@ module Nonprofits
       respond_to do |format|
         format.csv do
           name_description = nil
-          if (params[:year])
+          if params[:year]
             name_description = params[:year]
-          elsif (params[:start])
+          elsif params[:start]
             name_description = "from-#{params[:start]}"
-            if (params[:end])
-              name_description += "-to-#{params[:end]}"
-            end
+            name_description += "-to-#{params[:end]}" if params[:end]
           end
 
           filename = "aggregate-report-#{name_description}.csv"
-          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {:year => params[:year], :start => params[:start], :end => params[:end]})
+          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], year: params[:year], start: params[:start], end: params[:end])
           send_data(Format::Csv.from_array(data), filename: filename)
         end
       end

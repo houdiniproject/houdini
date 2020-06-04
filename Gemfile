@@ -1,146 +1,108 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-ruby '2.3.7'
-gem 'rake', '~> 12.3.3'
-gem 'rails', '3.2.22.5'
-gem 'rails_12factor'
-# https://stripe.com/docs/api
-gem 'stripe'
+ruby '2.6.6'
+gem 'rails', '~> 6.0.3'
+gem 'jbuilder', '~> 2.10'
+gem 'bootsnap', '~> 1.4', require: false # Large rails application booting enhancer
+gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets
+gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
+gem 'parallel', '~> 1.17' # run processes in parallel
+gem 'puma_worker_killer', '~> 0.1.1' # TODO: Investigate why puma workers need to be killed.
+gem 'puma', '~> 4.0', '>= 4.0.1'
+gem 'rabl', '~> 0.14.1' # JSON serialization https://github.com/nesquena/rabl
+gem 'rake', '~> 12.3.2'
+gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
+gem 'sassc', '~> 2.0', '>= 2.0.1'
+gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://stripe.com/docs/api
+gem 'uglifier', '~> 4.1', '>= 4.1.20'
+gem 'ffi', '~> 1.11', '>= 1.11.1'
+gem 'webpacker', '~> 5.1.1'
 
-# Compression of assets on heroku
-# https://github.com/romanbsd/heroku-deflater
-gem 'heroku-deflater', :group => :production
+gem 'httparty', '~> 0.17.0' # https://github.com/jnunemaker/httparty
+gem 'rack-attack', '~> 5.2' # for blocking ip addressses
+gem 'rack-ssl', '~> 1.4'
+gem 'sprockets', '~> 3.7'
 
-# json serialization
-# https://github.com/nesquena/rabl
-gem 'rabl'
+# AWS services
+gem 'aws-sdk', '~> 1.67'
+gem 'aws-ses', '~> 0.6.0' # REST email integration API
 
-gem 'parallel'
+# External Services
+gem 'fullcontact', '~> 0.18.0' # Full Contact API; includes #Hashie::Mash
 
-gem 'puma'
-gem 'bootsnap', require: false
-gem 'rack-timeout'
-gem 'puma_worker_killer'
+# Helpers
+gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
+gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
+gem 'countries', '~> 3.0'
+gem 'geocoder', '~> 1.6.3' # for adding latitude and longitude to location-based tables http://www.rubygeocoder.com/
+gem 'i18n-js', '~> 3.3'
+gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
+gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone
+gem 'rails-i18n', '~> 6.0.0', '~> 6'
+gem 'roadie-rails', '~> 2.1' # email generation helpers
+gem 'table_print', '~> 1.5', '>= 1.5.6' # Nice table printing of data for the console
 
-gem 'test-unit', '~> 3.0'
-gem 'hamster'
-
-gem 'aws-ses'
-gem 'aws-sdk'
-
-# for blocking ip addressses
-gem 'rack-attack'
-
-# For modularizing javascript
-# https://github.com/browserify-rails/browserify-rails
-gem 'browserify-rails'
-gem 'sprockets'
-
-# for serving fonts on cdn
-# https://github.com/ericallam/font_assets
-gem 'font_assets', '~> 0.1.14'
-
-# Database (postgres)
-gem 'pg' # Postgresql
-gem 'qx', path: 'gems/ruby-qx'
-gem 'dalli'
-gem 'memcachier'
-
+# Database and Events
+gem 'bunny', '~> 2.14', '>= 2.14.2' # RabittMQ
+gem 'pg', '~> 0.11'
 
 gem 'param_validation', path: 'gems/ruby-param-validation'
-
-# Print colorized text lol
-gem 'colorize'
-
-# https://github.com/collectiveidea/delayed_job_active_record
-gem 'delayed_job_active_record'
-
-# for styling emails
-# https://github.com/Mange/roadie-rails
-gem 'roadie-rails'
-
-# For nat lang parsing of dates
-gem 'chronic'
+gem 'qx', path: 'gems/ruby-qx'
 
 # Images
-# https://github.com/carrierwaveuploader/carrierwave
-gem 'carrierwave'
-gem 'carrierwave-aws' # for uploading images to amazon s3
-gem 'mini_magick'
-
-# https://github.com/jnunemaker/httparty
-gem 'httparty'
+gem 'image_processing', '~> 1.10.3'
 
 # User authentication
 # https://github.com/plataformatec/devise
-gem 'devise'
-gem 'devise-async'
+gem 'devise-async', '~> 1.0'
+gem 'devise', '~> 4.7'
 
-# http://www.rubygeocoder.com/
-gem 'geocoder' # for adding latitude and longitude to location-based tables
-
-# https://github.com/buytruckload/nearest_time_zone
-gem 'nearest_time_zone' # for detecting timezone from lat/lng
-
-gem 'mail_view'
-
-gem 'fullcontact' # Full Contact API; includes #Hashie::Mash
-
-# Nice table printing of data for the console
-gem 'table_print'
-
-gem 'bunny', '>= 2.6.3'
-
-gem 'rails-i18n', '~> 3.0.0' # For 3.x
-gem 'i18n-js'
-gem 'countries'
-
+# API Tools
+gem 'config', '> 1.5'
+gem 'dry-validation', '~> 0.13.3' # used only for config validation
+gem 'foreman', '~> 0.87.1'
+gem 'wisper', '~> 2.0'
+gem 'wisper-activejob', '~> 1.0.0'
 
 group :development, :ci do
-  gem 'traceroute'
-  gem 'debase'
-  gem 'ruby-debug-ide'
+  gem 'debase', '~> 0.2.3'
+  gem 'ruby-debug-ide', '~> 0.7.0'
+  gem 'traceroute', '~> 0.8.0'
 end
 
 group :development, :ci, :test do
-	gem 'timecop'
-	gem 'pry'
-	#gem 'pry-byebug'
-	gem 'binding_of_caller'
-  gem 'rspec'
-	gem 'rspec-rails'
-	gem 'database_cleaner'
-  gem 'dotenv-rails'
+  gem 'binding_of_caller', '~> 0.8.0'
+  gem 'byebug', '~> 11.0', '>= 11.0.1'
+  gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
+  gem 'mail_view', '~> 2.0'
+  gem 'pry', '~> 0.12.2'
+  gem 'pry-byebug', '~> 3.7.0'
   gem 'ruby-prof', '0.15.9'
-	gem 'stripe-ruby-mock', '~> 2.4.1', :require => 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', :branch => '2.4.1'
-  gem 'factory_bot'
-	gem 'factory_bot_rails'
-	gem 'action_mailer_matchers'
+  gem 'standard', '~> 0.1.2'
+  gem 'rspec-rails', '~> 4.0.0'
+  gem 'rspec', '~> 3.9.0'
+  gem 'parallel_tests', '~> 2.32'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
+  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
+  gem 'listen'
+end
+
+group :ci, :test do
+  gem 'action_mailer_matchers', '~> 1.2'
+  gem 'database_cleaner-active_record'
   gem 'simplecov', '~> 0.16.1', require: false
-  gem 'bundler', require: false
+  gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
+  gem 'test-unit', '~> 3.3'
+  gem 'timecop', '~> 0.9.1'
+  gem 'webmock', '~> 3.6', '>= 3.6.2'
+  gem 'wisper-rspec', '~> 1.1.0'
 end
 
-group :test do
-  gem 'webmock'
+group :production do
+  # Compression of assets on heroku
+  # https://github.com/romanbsd/heroku-deflater
+  gem 'heroku-deflater', '~> 0.6.3'
+  gem 'rack-timeout', '~> 0.5.1'
 end
-
-# Gems used for asset compilation
-gem 'sass', '3.2.19'
-gem 'sass-rails', '3.2.6'
-gem 'uglifier'
-
-# make logging less terrible in rails
-gem 'lograge'
-
-gem 'config', '> 1.5'
-gem 'dry-validation' # used only for config validation
-
-gem 'foreman'
-
-gem 'grape', '~> 1.1.0'
-gem 'grape-entity', git: 'https://github.com/ruby-grape/grape-entity.git', ref: '0e04aa561373b510c2486282979085eaef2ae663'
-gem 'grape-swagger'
-gem 'grape-swagger-entity'
-gem 'grape_url_validator'
-gem 'grape_logging'
-gem 'grape_devise', path: 'gems/grape_devise'

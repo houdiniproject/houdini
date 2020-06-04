@@ -1,44 +1,47 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
 describe CreatePeerToPeerCampaign do
   describe '.create' do
-    let!(:profile) { force_create(:profile,  :user => force_create(:user)) }
-    let!(:parent_campaign) { force_create(:campaign, name: 'Parent campaign') }
+    let!(:profile) { force_create(:profile, user: force_create(:user)) }
+    let!(:parent_campaign) { force_create(:campaign, name: 'Parent campaign', nonprofit: force_create(:nm_justice)) }
 
     context 'on success' do
-      it 'returns a hash' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+      it 'returns a campaign' do
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
 
-          expect(result).to be_kind_of Hash
+          expect(result).to be_kind_of Campaign
         end
       end
 
       it 'returns created peer-to-peer campaign' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
 
-          expect(result).not_to include 'errors'
-          expect(result['parent_campaign_id']).to eq parent_campaign.id
-          expect(result['created_at']).to eq 'Sun, 05 Apr 2020 00:00:00 UTC +00:00'
+          expect(result).to be_kind_of Campaign
+          expect(result.errors.empty?).to be true
+          expect(result.parent_campaign_id).to eq parent_campaign.id
+          expect(result.created_at).to eq 'Sun, 05 Apr 2020 00:00:00 UTC +00:00'
         end
       end
 
       it 'assigns proper slug' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
 
-          expect(result).not_to include 'errors'
-          expect(result['slug']).to eq 'child-campaign_000'
+          expect(result.errors.empty?).to be true
+          expect(result.slug).to eq 'child-campaign_000'
         end
       end
 
       it 'saves campaign' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: "1000" }
+        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
         Timecop.freeze(2020, 4, 5) do
           expect { CreatePeerToPeerCampaign.create(campaign_params, profile.id) }.to change(Campaign, :count).by 1
         end
@@ -61,9 +64,9 @@ describe CreatePeerToPeerCampaign do
         Timecop.freeze(2020, 4, 5) do
           result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
 
-          expect(result).to be_kind_of Hash
-          expect(result).to include 'errors'
-          expect(result['errors']['goal_amount']).to match ["can't be blank", 'is not a number']
+          expect(result).to be_kind_of Campaign
+          expect(result.errors.empty?).to be false
+          expect(result.errors['goal_amount']).to match ["can't be blank", 'is not a number']
         end
       end
 

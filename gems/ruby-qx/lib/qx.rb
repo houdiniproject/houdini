@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_record'
 require 'colorize'
 
@@ -39,9 +41,9 @@ class Qx
     str += expr[:JOIN].map { |from, cond| " JOIN #{from} ON #{cond}" }.join if expr[:JOIN]
     str += expr[:LEFT_JOIN].map { |from, cond| " LEFT JOIN #{from} ON #{cond}" }.join if expr[:LEFT_JOIN]
     str += expr[:LEFT_OUTER_JOIN].map { |from, cond| " LEFT OUTER JOIN #{from} ON #{cond}" }.join if expr[:LEFT_OUTER_JOIN]
-    str += expr[:JOIN_LATERAL].map {|i| " JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}"}.join if expr[:JOIN_LATERAL]
+    str += expr[:JOIN_LATERAL].map { |i| " JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}" }.join if expr[:JOIN_LATERAL]
 
-    str += expr[:LEFT_JOIN_LATERAL].map {|i| " LEFT JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}"}.join if expr[:LEFT_JOIN_LATERAL]
+    str += expr[:LEFT_JOIN_LATERAL].map { |i| " LEFT JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}" }.join if expr[:LEFT_JOIN_LATERAL]
     str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ') if expr[:WHERE]
     str += ' GROUP BY ' + expr[:GROUP_BY].join(', ') if expr[:GROUP_BY]
     str += ' HAVING ' + expr[:HAVING].map { |h| "(#{h})" }.join(' AND ') if expr[:HAVING]
@@ -77,9 +79,9 @@ class Qx
         elsif expr[:ON_CONSTRAINT]
           str += " ON CONSTRAINT #{expr[:ON_CONSTRAINT]}"
         end
-        str += ' DO NOTHING' if !expr[:CONFLICT_UPSERT]
+        str += ' DO NOTHING' unless expr[:CONFLICT_UPSERT]
         if expr[:CONFLICT_UPSERT]
-          set_str = expr[:INSERT_COLUMNS].select{|i| i != 'created_at'}.map{|i| "#{i} = EXCLUDED.#{i}" }
+          set_str = expr[:INSERT_COLUMNS].reject { |i| i == 'created_at' }.map { |i| "#{i} = EXCLUDED.#{i}" }
           str +=  " DO UPDATE SET #{set_str.join(', ')}"
         end
       end
@@ -101,6 +103,7 @@ class Qx
       str += ' ' + expr[:ON_CONFLICT] if expr[:ON_CONFLICT]
       str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
     end
+
     str
   end
 
@@ -121,6 +124,7 @@ class Qx
   # Qx.execute(Qx.select("id").from("table_name"))
   def self.execute(expr, data = {}, options = {})
     return expr.execute(data) if expr.is_a?(Qx)
+
     interpolated = Qx.interpolate_expr(expr, data)
     execute_raw(interpolated, options)
   end
@@ -247,7 +251,7 @@ class Qx
   def order_by(*cols)
     orders = /(asc)|(desc)( nulls (first)|(last))?/i
     # Sanitize out invalid order keywords
-    @tree[:ORDER_BY] = cols.map { |col, order| [col.to_s, order.to_s.downcase.strip.match(order.to_s.downcase) ? order.to_s.upcase : nil] }
+    @tree[:ORDER_BY] = cols.map { |col, order| [col.to_s, order.to_s.downcase.strip.match?(order.to_s.downcase) ? order.to_s.upcase : nil] }
     self
   end
 
@@ -310,18 +314,15 @@ class Qx
     self
   end
 
-  def join_lateral(join_name, select_statement, success_condition=true)
-    
+  def join_lateral(join_name, select_statement, success_condition = true)
     @tree[:JOIN_LATERAL] ||= []
-    @tree[:JOIN_LATERAL].concat([{join_name: join_name, select_statement: select_statement, success_condition: success_condition}])
+    @tree[:JOIN_LATERAL].concat([{ join_name: join_name, select_statement: select_statement, success_condition: success_condition }])
     self
   end
 
-
-  def left_join_lateral(join_name, select_statement, success_condition=true)
-    
+  def left_join_lateral(join_name, select_statement, success_condition = true)
     @tree[:LEFT_JOIN_LATERAL] ||= []
-    @tree[:LEFT_JOIN_LATERAL].concat([{join_name: join_name, select_statement: select_statement, success_condition: success_condition}])
+    @tree[:LEFT_JOIN_LATERAL].concat([{ join_name: join_name, select_statement: select_statement, success_condition: success_condition }])
     self
   end
 
@@ -384,7 +385,7 @@ class Qx
     self
   end
 
-  def on_conflict()
+  def on_conflict
     @tree[:ON_CONFLICT] = true
     self
   end
@@ -399,8 +400,8 @@ class Qx
     self
   end
 
-  def upsert(on_index, columns=nil)
-    @tree[:CONFLICT_UPSERT] = {index: on_index, cols: columns}
+  def upsert(on_index, columns = nil)
+    @tree[:CONFLICT_UPSERT] = { index: on_index, cols: columns }
     self
   end
 
@@ -455,7 +456,7 @@ class Qx
   # Quote a string for use in sql to prevent injection or weird errors
   # Always use this for all values!
   # Just uses double-dollar quoting universally. Should be generally safe and easy.
-  # Will return an unquoted value it it's a Fixnum
+  # Will return an unquoted value it it's a Integer
   def self.quote(val)
     if val.is_a?(Qx)
       val.parse

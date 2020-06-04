@@ -6,10 +6,9 @@
       card: <%= @nonprofit.active_card ? raw(@nonprofit.active_card.to_json) : '{}' %>
     , plan: <%= raw(@nonprofit.billing_plan.to_json) %>
     , subscription: <%= raw(@nonprofit.billing_subscription.to_json) %>
-    , daysLeft : <%= QueryBillingSubscriptions.days_left_in_trial(@nonprofit.id) %>
     }
 	</script>
-	<%= IncludeAsset.js '/client/js/nonprofits/cards/edit/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__nonprofits__cards__edit' %>
 <% end %>
 
 <div id='js-main'></div>

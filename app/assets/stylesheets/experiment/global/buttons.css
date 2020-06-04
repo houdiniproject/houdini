@@ -1,0 +1,40 @@
+/* License: LGPL-3.0-or-later */
+.btn,
+button {
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--blue);
+  color: var(--blue);
+  background: white;
+  transition: color 100ms ease, background 100ms ease, border-color 100ms ease;
+  padding: .25em .5em;
+}
+
+.btn-main,
+.btn:hover,
+button:hover {
+  color: white; 
+  background: var(--blue);
+}
+
+[data-ff-confirmation-button="yes"],
+.btn-danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+[data-ff-confirmation-button="yes"]:hover,
+.btn-danger:hover {
+  background: var(--red);
+}
+
+.btn-main:hover {
+  border-color: color(var(--blue) l(40%));
+  background-color: color(var(--blue) l(40%));
+}
+
+.buttons [class*=btn]:last-of-type, 
+.buttons button:last-of-type {
+  border-radius: 0 3px 3px 0;
+  border-right-width: 2px;
+}

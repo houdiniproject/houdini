@@ -1,22 +1,26 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-require 'support/test_chunked_uploader'
+require 'support/test_upload_service'
 
 describe ExportRecurringDonations do
   before(:each) do
-    stub_const('CHUNKED_UPLOADER',TestChunkedUploader)
+    stub_const('CHUNKED_UPLOAD_SERVICE', TestUploadService.new)
     @email = 'example@example.com'
     @user = force_create(:user, email: @email)
-    @nonprofit = force_create(:nonprofit)
-    @supporters = [ force_create(:supporter, name: "supporter-0", nonprofit: @nonprofit),
-                    force_create(:supporter, name: "supporter-1", nonprofit: @nonprofit)]
+    @nonprofit = force_create(:nm_justice)
+    @supporters = [force_create(:supporter, name: 'supporter-0', nonprofit: @nonprofit),
+                   force_create(:supporter, name: 'supporter-1', nonprofit: @nonprofit)]
     @donations = [force_create(:donation, nonprofit: @nonprofit, supporter: @supporters[0]),
                   force_create(:donation, nonprofit: @nonprofit, supporter: @supporters[1])]
-    @recurring_donations = [force_create(:recurring_donation, donation: @donations[0], nonprofit:@nonprofit, edit_token: 'edit_token_1', active:true),
-                 force_create(:recurring_donation, donation: @donations[1],  supporter: @supporters[1], nonprofit:@nonprofit, edit_token: 'edit_token_2', active:true)]
-    CHUNKED_UPLOADER.clear
+    @recurring_donations = [force_create(:recurring_donation, donation: @donations[0], nonprofit: @nonprofit, edit_token: 'edit_token_1', active: true),
+                            force_create(:recurring_donation, donation: @donations[1], supporter: @supporters[1], nonprofit: @nonprofit, edit_token: 'edit_token_2', active: true)]
+    CHUNKED_UPLOAD_SERVICE.clear
   end
 
+  let(:export_url_regex) { /http:\/\/fake\.url\/tmp\/csv-exports\/recurring_donations-04-06-2020--01-02-03-#{UUID::Regex}\.csv/}
+  
   context '.initiate_export' do
     context 'param verification' do
       it 'performs initial verification' do
@@ -51,17 +55,11 @@ describe ExportRecurringDonations do
 
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
-        stub_const("DelayedJobHelper", double('delayed'))
-        params =  { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
+        params = { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
 
-        expect(Export).to receive(:create).and_wrap_original {|m, *args|
-          e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportRecurringDonations, :run_export, [@nonprofit.id, params.to_json, @user.id, e.id])  #add the enqueue
-          e
-        }
-
-
+        expect {
         ExportRecurringDonations.initiate_export(@nonprofit.id, params, @user.id)
+        }.to have_enqueued_job(RecurringDonationsExportCreateJob)
         export = Export.first
         expected_export = { id: export.id,
                             user_id: @user.id,
@@ -125,8 +123,6 @@ describe ExportRecurringDonations do
               expect(@export.exception).to eq error.to_s
               expect(@export.ended).to eq Time.now
               expect(@export.updated_at).to eq Time.now
-
-              #expect(@user).to have_received_email(subject: "Your payment export has failed")
             end)
           end
         end
@@ -146,8 +142,6 @@ describe ExportRecurringDonations do
               expect(@export.exception).to eq error.to_s
               expect(@export.ended).to eq Time.now
               expect(@export.updated_at).to eq Time.now
-
-
             end)
           end
         end
@@ -157,20 +151,20 @@ describe ExportRecurringDonations do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: @user)
-        CHUNKED_UPLOADER.raise_error
+        CHUNKED_UPLOAD_SERVICE.raise_error
         Timecop.freeze(2020, 4, 6) do
           expect { ExportRecurringDonations.run_export(@nonprofit.id, {}.to_json, @user.id, @export.id) }.to(raise_error do |error|
             expect(error).to be_a StandardError
-            expect(error.message).to eq TestChunkedUploader::TEST_ERROR_MESSAGE
+            expect(error.message).to eq TestUploadService::TEST_ERROR_MESSAGE
 
             @export.reload
             expect(@export.status).to eq 'failed'
             expect(@export.exception).to eq error.to_s
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
-
-            expect(@user).to have_received_email(subject: "Your recurring donations export has failed")
           end)
+
+          expect(ExportRecurringDonationsFailedJob).to have_been_enqueued.with(@export)
         end
       end
     end
@@ -179,26 +173,24 @@ describe ExportRecurringDonations do
       Timecop.freeze(2020, 4, 5) do
         @export = create(:export, user: @user, created_at: Time.now, updated_at: Time.now)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
-          ExportRecurringDonations.run_export(@nonprofit.id, {:root_url => "https://localhost:8080/"}.to_json, @user.id, @export.id)
-
+          ExportRecurringDonations.run_export(@nonprofit.id, { root_url: 'https://localhost:8080/' }.to_json, @user.id, @export.id)
+          expect(ExportRecurringDonationsCompletedJob).to have_been_enqueued.with(@export)
           @export.reload
 
-          expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/recurring_donations-04-06-2020--01-02-03.csv'
+          expect(@export.url).to match export_url_regex
           expect(@export.status).to eq 'completed'
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now
           expect(@export.updated_at).to eq Time.now
-          csv = CSV.parse(TestChunkedUploader.output)
-          expect(csv.length).to eq (3)
+          csv = CSV.parse(CHUNKED_UPLOAD_SERVICE.output)
+          expect(csv.length).to eq 3
 
           expect(csv[0]).to eq MockHelpers.recurring_donation_export_headers
 
-          expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
-          expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
-          expect(@user).to have_received_email(subject: "Your recurring donations export is available!")
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_type]).to eq 'text/csv'
+          expect(CHUNKED_UPLOAD_SERVICE.options[:content_disposition]).to eq 'attachment'
         end
       end
     end
   end
 end
-

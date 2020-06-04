@@ -7,7 +7,7 @@
 		appl.def("event_name", '<%= @event.name %>')
 	</script>
 
-	<%= IncludeAsset.js '/client/js/tickets/index/page.js' %>
+	<%= javascript_pack_tag 'i18n', 'page__tickets__index' %>
 <% end %>
 
 <% content_for :head do %>
@@ -17,8 +17,6 @@
 <%= content_for :stylesheets do %>
 	<%= stylesheet_link_tag 'tickets/index/page' %>
 <% end %>
-
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
 
 <header class='header'>
 	<div class='container'>

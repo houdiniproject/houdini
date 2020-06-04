@@ -1,8 +1,8 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'hash'
 module InsertCard
-
-
   # Create a new card
   # If a stripe_customer_id is present, then update that customer's primary source; otherwise create a new customer
   # @param [ActiveSupport::HashWithIndifferentAccess] card_data card data
@@ -17,60 +17,55 @@ module InsertCard
 
   # @param [String] stripe_account_id not clear what this should do.
   # @param [Integer] event_id id for events with when you want it associated with an event
-    # @param [User] current_user the user making the request. Used for validating that the current_user can make a long term token request
-    def self.with_stripe(card_data, stripe_account_id=nil, event_id=nil, current_user = nil)
-
+  # @param [User] current_user the user making the request. Used for validating that the current_user can make a long term token request
+  def self.with_stripe(card_data, _stripe_account_id = nil, event_id = nil, current_user = nil)
     begin
-      ParamValidation.new(card_data.merge({event_id: event_id}), {
-          holder_type: {required: true, included_in: ['Nonprofit', 'Supporter']},
-          holder_id: {required: true},
-          stripe_card_id: {not_blank: true, required: true},
-          stripe_card_token: {not_blank: true, required: true},
-          name: {not_blank: true, required: true},
-          event_id: {is_reference: true}
-      })
+      ParamValidation.new(card_data.merge(event_id: event_id),
+                          holder_type: { required: true, included_in: %w[Nonprofit Supporter] },
+                          holder_id: { required: true },
+                          stripe_card_id: { not_blank: true, required: true },
+                          stripe_card_token: { not_blank: true, required: true },
+                          name: { not_blank: true, required: true },
+                          event_id: { is_reference: true })
     rescue ParamValidation::ValidationError => e
-      return {json: {error: "Validation error\n #{e.message}", errors: e.data}, status: :unprocessable_entity}
+      return { json: { error: "Validation error\n #{e.message}", errors: e.data }, status: :unprocessable_entity }
     end
-
-
 
     # validate that the user is with the correct nonprofit
 
-    card_data = card_data.keep_keys(:holder_type, :holder_id, :stripe_card_id, :stripe_card_token, :name )
-    holder_types = {'Nonprofit' => :nonprofit, 'Supporter' => :supporter}
+    card_data = card_data.keep_keys(:holder_type, :holder_id, :stripe_card_id, :stripe_card_token, :name)
+    holder_types = { 'Nonprofit' => :nonprofit, 'Supporter' => :supporter }
     holder_type = holder_types[card_data[:holder_type]]
     holder = nil
     begin
       if holder_type == :nonprofit
-        holder = Nonprofit.select("id, email").includes(:cards).find(card_data[:holder_id])
+        holder = Nonprofit.select('id, email').includes(:cards).find(card_data[:holder_id])
       elsif holder_type == :supporter
-        holder = Supporter.select("id, email, nonprofit_id").includes(:cards, :nonprofit).find(card_data[:holder_id])
+        holder = Supporter.select('id, email, nonprofit_id').includes(:cards, :nonprofit).find(card_data[:holder_id])
       end
     rescue ActiveRecord::RecordNotFound
-      return {json: {error: "Sorry, you need to provide a nonprofit or supporter"}, status: :unprocessable_entity}
+      return { json: { error: 'Sorry, you need to provide a nonprofit or supporter' }, status: :unprocessable_entity }
     end
 
     begin
       if holder_type == :supporter && event_id
         event = Event.where('id = ?', event_id).first
         unless event
-          raise ParamValidation::ValidationError.new("#{event_id} is not a valid event", {key: :event_id})
+          raise ParamValidation::ValidationError.new("#{event_id} is not a valid event", key: :event_id)
         end
 
-        if (holder.nonprofit != event.nonprofit )
-          raise ParamValidation::ValidationError.new("Event #{event_id} is not for the same nonprofit as supporter #{holder.id}", {key: :event_id})
+        if holder.nonprofit != event.nonprofit
+          raise ParamValidation::ValidationError.new("Event #{event_id} is not for the same nonprofit as supporter #{holder.id}", key: :event_id)
         end
 
         unless QueryRoles.is_authorized_for_nonprofit?(current_user.id, holder.nonprofit.id)
-          raise AuthenticationError.new
+          raise AuthenticationError
         end
       end
     rescue AuthenticationError
-      return {json: {error: "You're not authorized to perform that action"}, status: :unauthorized}
-    rescue => e
-      return {json: {error: "Oops! There was an error: #{e.message}"}, status: :unprocessable_entity}
-
+      return { json: { error: "You're not authorized to perform that action" }, status: :unauthorized }
+    rescue StandardError => e
+      return { json: { error: "Oops! There was an error: #{e.message}" }, status: :unprocessable_entity }
     end
     stripe_account_hash = {} # stripe_account_id ? {stripe_account: stripe_account_id} : {}
     begin
@@ -84,43 +79,39 @@ module InsertCard
 
       card_data[:stripe_customer_id] = stripe_customer.id
     rescue Stripe::CardError => e
-      return {json: {error: "Oops! #{e.json_body[:error][:message]}"}, status: :unprocessable_entity}
+      return { json: { error: "Oops! #{e.json_body[:error][:message]}" }, status: :unprocessable_entity }
     rescue Stripe::StripeError => e
-      return {json: {error: "Oops! There was an error processing your payment, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
+      return { json: { error: "Oops! There was an error processing your payment, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
     end
 
     card = nil
     source_token = nil
     begin
-      Card.transaction {
-
-        if (holder_type == :nonprofit)
+      Card.transaction do
+        if holder_type == :nonprofit
           # @type [Nonprofit] holder
           card = holder.create_active_card(card_data)
-        elsif (holder_type == :supporter)
+        elsif holder_type == :supporter
           # @type [Supporter] holder
           card = holder.cards.create(card_data)
           params = {}
-          if event
-            params[:event] = event
-          end
+          params[:event] = event if event
           source_token = InsertSourceToken.create_record(card, params).token
         end
         card.save!
-      }
+      end
     rescue ActiveRecord::ActiveRecordError => e
-      return {json: {error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
+      return { json: { error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
     rescue e
-      return {json: {error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
+      return { json: { error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
     rescue e
-      return {json: {error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
+      return { json: { error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
     end
 
-    return { status: :ok, json: card.attributes.with_indifferent_access.merge(token: source_token) }
-  end
+    { status: :ok, json: card.attributes.with_indifferent_access.merge(token: source_token) }
+end
 
   def self.customer_data(holder, card_data)
     { email: holder['email'], metadata: { cardholders_name: card_data[:cardholders_name], holder_id: card_data[:holder_id], holder_type: card_data[:holder_type] } }
   end
-
 end

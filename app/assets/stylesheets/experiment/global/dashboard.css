@@ -1,0 +1,31 @@
+/* License: LGPL-3.0-or-later */
+@import 'ff-dashboard';
+@import './colors.css';
+
+[data-ff-dashboard-header] {
+  background: white;
+  padding: .5rem 1rem;
+  border-bottom: 2px solid var(--grey-4);
+}
+
+[data-ff-dashboard-main-panel] { 
+  background: var(--grey-05); 
+}
+
+[data-ff-dashboard-left-panel],
+[data-ff-dashboard-right-panel] { 
+  background: white; 
+}
+
+[data-ff-dashboard-left-panel] {
+  border-right: 2px solid var(--grey-4);
+}
+
+[data-ff-dashboard-right-panel] {
+  border-left: 2px solid var(--grey-4);
+}
+
+[data-ff-dashboard-panel-body] {
+  overflow-x: auto;
+}
+

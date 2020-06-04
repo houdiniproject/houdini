@@ -10,9 +10,11 @@
     "experimentalDecorators": true,
     "baseUrl": "./",
     "lib": ["dom","es5", "scripthost", "es2015.promise"],
-    "paths": { "*": [ "./types/*"] },
+    "paths": { "*": [ "./types/*"], "@rails/activestorage": ["./types/rails__activestorage"] },
     "typeRoots" : [
       "node_modules/@types",
-      "./types"]
+      "./types"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop":true
   }
 }

@@ -1,5 +1,12 @@
 [![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com) [![Build Status](https://travis-ci.com/houdiniproject/houdini.svg?branch=master)](https://travis-ci.com/houdiniproject/houdini)
 
+* NOTE: This is the latest version (pre-2.0) of Houdini and 
+is currently in HEAVY development. You may want
+to use 
+[v1](https://github.com/houdiniproject/houdini/tree/1-0-stable) 
+instead.
+
+
 The Houdini Project is free and open source fundraising infrastructure. It includes...
 - Crowdfunding campaigns
 - Donate widget page and generator
@@ -12,15 +19,19 @@ The Houdini Project is free and open source fundraising infrastructure. It inclu
 - Nonprofit org user account management
 - Simple donation management for donors
 
-This is a Rails 3.2 app; [we want to upgrade](https://github.com/houdiniproject/houdini/issues/47).
-
-Much of the business logic is in `/lib`. 
-
 The frontend is written in a few custom frameworks, the largest of which is called Flimflam. 
 We endeavor to migrate to React as quickly as possible to increase development
 comfort and speed.
 
-All backend code and React components should be TDD.
+All new backend code and React components well tested.
+
+## Prerequisites
+Houdini is designed and tested to run with the following:
+* Ruby 2.6
+* Node 12
+* Yarn
+* PostgreSQL 11
+* Ubuntu 20.04 or equivalent
 
 ## Get involved
 Houdini's success depends on you!
@@ -30,82 +41,119 @@ https://houdini.zulipchat.com
 
 ### Help with translations
 Visit the Internationalization channel on Houdini Zulip and discuss
-## Dev Setup
 
-#### Get the code  
+## Dev Setup
+#### Tips for specific circumstances
+* Docker: Docker was previously used for development of Houdini. 
+See [docker.md](docs/docker.md) for more info.
+* Mac: Mac dev setup may require some unique configuration. 
+See [mac_getting_started.md](docs/mac_getting_started.md) for more info.
+
+### Installation prep
+Houdini requires a few pieces of software be installed, as well as some optional pieces
+which make development much easier.
+
+These include:
+
+* PostgreSQL 11
+* NodeJS 12 LTS
+* Ruby 2.6.6 (NOTE: the default of Ruby 2.7.1 in Debian should 
+function but you will receive a ton of deprecation
+warnings from Ruby)
+
+There a few optional tools which make working on Houdini
+easiter
+* Ruby Version Manager (RVM) - RVM makes it simple to switch
+between versions of Ruby for different projects. Additionally, you can
+use different "gemsets" per version so you can separate the
+state of a set of different projects. It will also switch
+versions at the console when you change to a directory for
+an project prepared for RVM, like Houdini.
+* Automatic Version Switching for Node (AVN) - similar to RVM, AVN makes it simple to switch between versions of Node. When
+properly configured, it automatically switches version at
+the console whe you change to a directory for a project
+prepared for AVN, like Houdini.
+
+#### One-time setup
+
+You'll want to run the next commands as root or via sudo. You could do this by typing `sudo /bin/sh` running the commands from there.
+
+TIP: this is the root shell. There's no restrictions on what you do here so be careful!
+```bash
+apt update
+apt install curl -yy
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+apt update
+apt install git postgresql-11 libpq-dev libjemalloc-dev libvips42 yarn -yy
+```
+
+You'll run the next commands as your normal user.
+
+NOTE: in the case of a production instance, this might be
+your web server's user.
+
+NOTE 2: We use [RVM](https://rvm.io) to have more control over the exact version of Ruby. For development, it's also way easier because you can
+use a consistent version of Ruby (and different sets of installed gems) for different projects. You could also use rbenv
+or simply build ruby from source.
+
+NOTE 3: We don't recommend using Ruby 2.7, the current Ubuntu default at this time. Ruby 2.7 will function but spits out tons
+of deprecation warnings when using Rails applications.
+
+NOTE 4: We recommend building Ruby with jemalloc support as we 
+do in these instructions. In practice, it manages memory far 
+more efficiently in Rails-based projects.
+
+TIP: To get out of the root shell, run `exit`
+
+```bash
+# add rvm keys
+curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+curl -sSL https://get.rvm.io | bash -s stable
+source $HOME/.rvm/scripts/rvm
+echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
+rvm install 2.6.6 --disable-binary --with-jemalloc
+```
+
+ Run the following command as the `postgres` user and then enter your houdini_user
+ password at the prompt.
+
+NOTE: For development, Houdini expects the password to be 'password'. This would be terrible
+for production but for development, it's likely not a huge issue.
+
+TIP: To run this, add `sudo -u postgres ` to the beginning of the following command.
+
+`createuser houdini_user -s -d -P`
+
+Now that we have all of our prerequisites prepared, we need to get the Houdini code.
+
 `git clone https://github.com/HoudiniProject/houdini`
 
-#### Docker install (if you don't have docker and docker-compose installed)
-##### install Docker and Docker compose
-You need to install Docker and Docker Compose.
-* *Note:* Docker and Docker Compose binaries from Docker itself are proprietary software based entirely upon
-free software. If you feel more comfortable, you may build them from source.
+This will download the latest Houdini code. Change to the 
+`houdini` directory and we can set the rest of Houdini up.
 
-* *Note 2:* For Debian, the Docker package is simply too out of date to be usable. 
-Even the version for latest Ubuntu LTS  is too old. For reliability, we strongly
-recommend using the Docker debian feed from docker itself OR making sure you keep your
-own build up to date.
+Let's run the Houdini project setup and we'll be ready to go!
 
-##### Add yourself to the docker group
-Adding yourself as a Docker group user as follows:
-
-`sudo usermod -aG docker $USER`
-
-You will likely need to logout and log back in again.
- 
-#### Build your docker-container and start it up for initial set up.
-We'll keep this running in the console we'll call **console 1**
-```
-./dc build
-./dc up
-```
-#### System configuration
-There are a number of steps for configuring your Houdini instance for startup
-##### Start a new console we'll call **console 2**.
-
-##### In console 2, copy the env template to your .env file
-   ```
-   cp .env.template .env
-   ```
-##### In console 2, run the following and copy the output to you .env file to set you `DEVISE_SECRET_KEY` environment variable.   
-`./run rake secret # copy this result into your DEVISE_SECRET_KEY`
-
-##### In console 2, , run the following and copy the output to you .env file to set you `SECRET_TOKEN` environment variable.
-```
-./run rake secret # copy this result into your SECRET_TOKEN
+```bash
+bin/setup
 ```
 
-##### Set the following secrets in your .env file with your Stripe account information
-- `STRIPE_API_KEY` with your Stripe PRIVATE key
-- `STRIPE_API_PUBLIC` with your Stripe PUBLIC key
+NOTE: The .env file holds your environment variables for development; on production you might
+have these set somewhere else other than this file.
 
-##### You SHOULD set your AMAZON s3 information (optional but STRONGLY recommended)
-If you don't, file uploads WILL NOT WORK but it's not required.
+TIP: On Heroku, the environment variables are set in your Dashboard.
 
-##### In console 2,  install npm packages
-`./run npm install`
-
-##### In console 2, fill the db
-`./run rake db:create db:structure:load db:seed test:prepare` 
-
-##### Set up mailer info 
-You can set this in `config/default_organization.yml` or better yet, make a copy with your own org name and add that to your .env file as `ORG_NAME`
-If you need help setting up your mailer, visit `config/environment.rb` where the settings schema is verified and documented.
+Also, you should set the STRIPE_API_KEY and STRIPE_API_PUBLIC 
+environment variables which you'd get from the Stripe 
+dashboard. On your development environment, 
+make sure to use test keys. If you don't, you're
+going to be charged real money!
 
 #### Startup
-##### Switch back to console 1 and run `Ctrl-c` to end the session.
-
-##### In console 1, restart the containers
-`./dc up`
-
-##### In console 2, run:
-`./run npm run watch`
-
-##### You can go to http://localhost:5000
-
-To get started, register your nonprofit using the "Get Started" link.
-
-## Additional info 
+`bin/rails server`
+You can connect to your server at http://localhost:5000
 
 ##### Super admin
 There is a way to set your user as a super_admin. This role lets you access any of the nonprofits
@@ -114,7 +162,7 @@ nonprofits, which is located at `/admin` url.
   
 To create the super user, go to the rails console by calling:
 
-`./dc run web rails console`
+`bin/rails console`
 
 In the console, run the following:
  
@@ -123,37 +171,23 @@ admin=User.find(1) #or the id of the user you want to add the role
 role=Role.create(user:admin,name: "super_admin")
 ```
 
-
-## To run in production
-
-##### Docker
-While Docker should be very possible to use for production, the current Docker solution
-is optimized heavily for dev purposes. If you know more about creating a solid production Docker setup, please do
-contribute!
-
-(To be continued)
-- rake assets:precompile
-- if production: make sure memcached is running.
+## Known Issues
+For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
 
 
-## Frontend
+## Run in production
+You will likely want to make a few changes in your configuration of Houdini before running in production as you
+would for any Rails project. These include:
 
-Assets get compiled from `/client` to `/public/client`
-
-## React Generators
-If creating new React or Typescript code,  please use the Rails generators with the 'react:' prefix. This include:
-
-### react:packroot
-This generator creates a new entry for Webpack. This is a place where Webpack will start
-when packing a new javascript output file. It also creates a corresponding component for the entry.
-Usually, you will have one of these per page.
-
-### react:component
-This generator creates a React component along with a test file for testing with Jest. 
-Each component should have its own file. 
-
-### react:lib
-This generator creates a basic Typescript module along with a test file.
+* Using a [different ActiveJob backend](https://guides.rubyonrails.org/active_job_basics.html). NOTE: The Sneakers for RabbitMQ doesn't 
+work properly. There are 
+[forks of Sneakers](https://github.com/veeqo/advanced-sneakers-activejob)
+which might work but they haven't been tested. **If you do test
+them please let us know!**
+* Use a [proper cache store](https://guides.rubyonrails.org/caching_with_rails.html#cache-stores). The development uses
+ `memory_store` which isn't shared between processes or server 
+ and clears every time your server software restarts. Memcached 
+ or Redis are good choices here.
 
 ### Providing the complete corresponding source code
 
@@ -171,23 +205,3 @@ For this to work though, the following characteristics must be true:
 * Your have to have committed any changes you made to the project in `HEAD` in your git repository
 * The `.git` folder for your repository must be a direct subfolder of your `$RAILS_ROOT`
 * Your web server must be able to run `git archive`.
-
-
-### Style
-
-#### Ruby
-- 2 spaces for tabs
-
-#### New frontend code
-- All new front end code should be written in Typescript 
-and React (using TSX files). Please use the React Generators for creation.
-- 2 spaces for tabs
-
-#### Legacy Javascript
-- 2 spaces for tabs
-- Comma-led lines
-- ES6 imports
-
-#### Git
-
-- No need to rebase, just merge

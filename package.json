@@ -154,7 +154,8 @@
     },
     "testPathIgnorePatterns": [
       "/node_modules/",
-      "/config/webpack/test.js"
+      "/config/webpack/test.js",
+      "/vendor/"
     ],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [

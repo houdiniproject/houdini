@@ -8,3 +8,5 @@ controller: app/controllers/**
 mailer: app/mailers/**
 view: app/views/**
 jobs: app/jobs/**
+dependencies: 
+- any: ['gems/**', 'Gemfile.lock', 'yarn.lock']

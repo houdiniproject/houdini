@@ -1,0 +1,17 @@
+ruby: '**/*.rb '
+javascript: 
+- '**/*.js'
+- '**/*.ts*'
+test:
+- 'spec/**'
+- '**/*.spec.js'
+- '**/*.spec.ts*'
+model: 'app/models/**'
+controller: 'app/controllers/**'
+mailer: 'app/mailers/**'
+view: 'app/views/**'
+jobs: 'app/jobs/**'
+dependencies: 
+- 'Gemfile.lock'
+- 'yarn.lock'
+- 'gems/**'

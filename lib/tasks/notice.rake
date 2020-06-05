@@ -19,18 +19,19 @@ namespace :notice do
                 :timeout => 120
             }
             result = HTTParty.post("https://api.clearlydefined.io/notices", @options.merge(body:JSON::generate({coordinates: result})))
+            JSON::parse(result.body)['content']
         end
 
         desc "generating NOTICE-ruby from ClearlyDefined.io"
         task :update do
             result = get_notice_ruby
-            File.write('NOTICE-ruby', result.body)
+            File.write('NOTICE-ruby', result)
         end
         
         desc "checking whether NOTICE-ruby matches the one on ClearlyDefined.io"
         task :verify do
             result = get_notice_ruby
-            raise "NOTICE-ruby is not up to date. Run bin/rails notice:ruby:update to update the file." if result.body != File.read('NOTICE-ruby')
+            raise "NOTICE-ruby is not up to date. Run bin/rails notice:ruby:update to update the file." if result != File.read('NOTICE-ruby')
         end
     end
 

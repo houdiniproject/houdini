@@ -1,11 +1,11 @@
-ruby: '**/*.rb '
+ruby: './**/*.rb '
 javascript: 
-- '**/*.js'
-- '**/*.ts*'
-test:
+- './**/*.js'
+- './**/*.ts*'
+spec:
 - 'spec/**'
-- '**/*.spec.js'
-- '**/*.spec.ts*'
+- './**/*.spec.js'
+- './**/*.spec.ts*'
 model: 'app/models/**'
 controller: 'app/controllers/**'
 mailer: 'app/mailers/**'
@@ -15,3 +15,8 @@ dependencies:
 - 'Gemfile.lock'
 - 'yarn.lock'
 - 'gems/**'
+config:
+- "./config/**"
+widget: 
+- "app/javascript/donate-button/*"
+- "app/assets/stylesheets/donate-button/*"

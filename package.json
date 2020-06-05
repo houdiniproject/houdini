@@ -134,7 +134,8 @@
     "vdom-thunk": "3.0.0",
     "view-script": "0.3.6",
     "virtual-dom": "2.1.1",
-    "vvvview": "0.4.3"
+    "vvvview": "0.4.3",
+    "websocket-extensions": "^0.1.4"
   },
   "jest": {
     "testEnvironment": "enzyme",

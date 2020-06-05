@@ -1,8 +1,13 @@
 name: Houdini build
 on: [push, pull_request]
 jobs:
-  notice_ruby:
-    runs-on: ubuntu-latest
+  install_gems:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [12]
+        ruby: [2.6.6]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -14,20 +19,72 @@ jobs:
         name: Use Gem cache
         with:
           path: vendor/bundle
-          key: bundle-use-ruby-ubuntu-latest-2.6.6-${{ hashFiles('**/Gemfile.lock') }}
+          key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            bundle-use-ruby-ubuntu-latest-2.6.6-
+            bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
       - name: bundle install
         run: |
           bundle config deployment true
           bundle config path vendor/bundle
           bundle install --jobs 4
+  install_yarn:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [12]
+        ruby: [2.6.6]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+      - uses: actions/cache@v1
+        name: Use Node package cache
+        with:
+          path: node_modules
+          key: bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
+      - name: install node packages
+        run: yarn install --frozen-lockfile
+
+  notice_ruby:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [12]
+        ruby: [2.6.6]
+    needs: ['install_gems']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+      # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
+      # change this to (see https://github.com/ruby/setup-ruby#versioning):
+      # uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+      - uses: actions/cache@v1
+        name: Use Gem cache
+        with:
+          path: vendor/bundle
+          key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+      - name: bundle setup
+        run: |
+          bundle config deployment true
+          bundle config path vendor/bundle
       - name: run notice:ruby:verify
         run: |
             bin/rails notice:ruby:verify
   notice_js:
-    runs-on: ubuntu-latest
-    needs: notice_ruby
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [12]
+        ruby: [2.6.6]
+    needs: ['install_gems', 'install_yarn']
     steps:
       - uses: actions/checkout@v2
       - name: Set up Ruby
@@ -41,28 +98,25 @@ jobs:
         name: Use Node package cache
         with:
           path: node_modules
-          key: bundle-use-node-js-ubuntu-latest-12-${{ hashFiles('**/yarn.lock') }}
+          key: bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            bundle-use-node-js-ubuntu-latest-12-
+            bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
       - uses: actions/cache@v1
         name: Use Gem cache
         with:
           path: vendor/bundle
-          key: bundle-use-ruby-ubuntu-latest-2.6.6-${{ hashFiles('**/Gemfile.lock') }}
+          key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            bundle-use-ruby-ubuntu-latest-2.6.6-
-      - name: bundle install
+            bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+      - name: bundle setup
         run: |
           bundle config deployment true
           bundle config path vendor/bundle
-          bundle install --jobs 4
-      - name: install node packages
-        run: yarn install --frozen-lockfile
       - name: run notice:js:verify
         run: |
             bin/rails notice:js:verify
   main_build:
-    needs: [notice_js]
+    needs: ['notice_js', 'notice_ruby']
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -91,11 +145,10 @@ jobs:
         key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
-    - name: bundle install
+    - name: bundle setup
       run: |
         bundle config deployment true
         bundle config path vendor/bundle
-        bundle install --jobs 4
     - uses: actions/cache@v1
       name: Use Node package cache
       with:

@@ -34,6 +34,7 @@ gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone
 gem 'rails-i18n', '~> 6.0.0', '~> 6'
 gem 'roadie-rails', '~> 2.1' # email generation helpers
+gem 'money', '~> 6.13'
 
 # Database and Events
 gem 'bunny', '~> 2.14', '>= 2.14.2' # RabittMQ

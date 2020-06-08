@@ -9,6 +9,12 @@ GIT
       stripe (>= 1.31.0, <= 1.58.0)
 
 PATH
+  remote: gems/bess
+  specs:
+    bess (0.1.0)
+      rails (~> 6.0.3, >= 6.0.3.1)
+
+PATH
   remote: gems/ruby-param-validation
   specs:
     param_validation (0.0.2)
@@ -429,6 +435,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_mailer_matchers (~> 1.2)
+  bess!
   bootsnap (~> 1.4)
   bunny (~> 2.14, >= 2.14.2)
   byebug (~> 11.0, >= 11.0.1)

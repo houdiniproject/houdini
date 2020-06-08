@@ -95,3 +95,5 @@ group :production do
   gem 'heroku-deflater', '~> 0.6.3'
   gem 'rack-timeout', '~> 0.5.1'
 end
+
+gem 'bess', path: 'gems/bess'

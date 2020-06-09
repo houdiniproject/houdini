@@ -75,12 +75,6 @@ Config.schema do
     required(:host).filled(:str?)
   end
 
-  optional(:image).schema do
-    # Your AWS image host url.
-    # Default is https://s3-#{Settings.aws.region}.amazonaws.com/#{Settings.aws.bucket}
-    required(:host).filled(:str?)
-  end
-
   required(:cdn).schema do
     # URL for your CDN for assets. Usually this is just your url
     # Default is http://localhost:8080

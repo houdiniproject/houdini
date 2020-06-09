@@ -353,7 +353,6 @@ Copyright (c) 2008-2015 Sadayuki Furuhashi
 
 ** addressable; version 2.6.0 -- 
 Copyright (c) Bob Aman
-** aws-sdk; version 1.67.0 -- 
 
 
                               Apache License
@@ -1565,35 +1564,6 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** aws-ses; version 0.6.0 -- 
-Copyright (c) 2011 Drew Blas.
-Copyright (c) 2011 Drew V. Blas <drew.blas@gmail.com>
-Copyright (c) 2006-2009 Marcel Molina Jr. <marcel@vernix.org>
-
-
-Copyright (c) 2011 Drew V. Blas <drew.blas@gmail.com>
-Copyright (c) 2006-2009 Marcel Molina Jr. <marcel@vernix.org>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in the
-Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
@@ -4820,8 +4790,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ** json; version 1.8.6 -- 
 (c) 2005-2007 Sam Stephenson
 Copyright 2001-2004 Unicode, Inc.
-** xml-simple; version 1.1.5 -- 
-Copyright (c) 2003-2014 Maik Schmidt
 
 1. You may make and give away verbatim copies of the source form of the software without restriction, provided that you duplicate all of the original copyright notices and associated disclaimers.
 

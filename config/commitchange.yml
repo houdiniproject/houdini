@@ -10,11 +10,6 @@ default:
     nonprofit: "public/images/fallback/default-nonprofit.png"
     campaign: "public/fallback/default-campaign-background.jpg"
 
-aws:
-  access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
-  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-  region: us-west-1
-  bucket: commitchange
 
 mailer:
   delivery_method: "sendmail"

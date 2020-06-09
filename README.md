@@ -33,6 +33,8 @@ Houdini is designed and tested to run with the following:
 * PostgreSQL 11
 * Ubuntu 20.04 or equivalent
 
+It is also known to work with Ubuntu 18.04 with PostgresSQL 10.
+
 ## Get involved
 Houdini's success depends on you!
 
@@ -55,7 +57,7 @@ which make development much easier.
 
 These include:
 
-* PostgreSQL 11
+* PostgreSQL 11 (or 10 in case of Ubuntu 18.04)
 * NodeJS 12 LTS
 * Ruby 2.6.6 (NOTE: the default of Ruby 2.7.1 in Debian should 
 function but you will receive a ton of deprecation
@@ -79,6 +81,8 @@ prepared for AVN, like Houdini.
 You'll want to run the next commands as root or via sudo. You could do this by typing `sudo /bin/sh` running the commands from there.
 
 TIP: this is the root shell. There's no restrictions on what you do here so be careful!
+In an Ubuntu 18.04 environment, change "postgresql-11" below to "postgresql-10" .
+
 ```bash
 apt update
 apt install curl -yy

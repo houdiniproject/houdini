@@ -29,17 +29,10 @@ module InsertDuplicate
 
       dupe.save!
 
-      begin
-        dupe.main_image.attach(campaign.main_image.blob) if campaign.main_image.attached?
-      rescue StandardError
-        AWS::S3::Errors::NoSuchKey
-      end
 
-      begin
-        dupe.background_image.attach(campaign.background_image.blob) if campaign.background_image.attached?
-      rescue StandardError
-        AWS::S3::Errors::NoSuchKey
-      end
+      dupe.main_image.attach(campaign.main_image.blob) if campaign.main_image.attached?
+
+      dupe.background_image.attach(campaign.background_image.blob) if campaign.background_image.attached?
 
       InsertDuplicate.campaign_gift_options(campaign_id, dupe.id)
 
@@ -83,17 +76,10 @@ module InsertDuplicate
 
       dupe.save!
 
-      begin
-        dupe.main_image.attach(event.main_image.blob) if event.main_image.attached?
-      rescue StandardError
-        AWS::S3::Errors::NoSuchKey
-      end
 
-      begin
-        dupe.background_image.attach( event.background_image.blob) if event.background_image.attached?
-      rescue StandardError
-        AWS::S3::Errors::NoSuchKey
-      end
+      dupe.main_image.attach(event.main_image.blob) if event.main_image.attached?
+
+      dupe.background_image.attach( event.background_image.blob) if event.background_image.attached?
 
       InsertDuplicate.ticket_levels(event_id, dupe.id)
       InsertDuplicate.event_discounts(event_id, dupe.id)

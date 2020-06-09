@@ -85,16 +85,6 @@ GEM
     amq-protocol (2.3.0)
     andand (1.3.3)
     ast (2.4.0)
-    aws-sdk (1.67.0)
-      aws-sdk-v1 (= 1.67.0)
-    aws-sdk-v1 (1.67.0)
-      json (~> 1.4)
-      nokogiri (~> 1)
-    aws-ses (0.6.0)
-      builder
-      mail (> 2.2.5)
-      mime-types
-      xml-simple
     bcrypt (3.1.13)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
@@ -446,7 +436,6 @@ GEM
       activejob (>= 4.0.0)
       wisper
     wisper-rspec (1.1.0)
-    xml-simple (1.1.5)
     zeitwerk (2.3.0)
 
 PLATFORMS
@@ -454,8 +443,6 @@ PLATFORMS
 
 DEPENDENCIES
   action_mailer_matchers (~> 1.2)
-  aws-sdk (~> 1.67)
-  aws-ses (~> 0.6.0)
   binding_of_caller (~> 0.8.0)
   bootsnap (~> 1.4)
   bunny (~> 2.14, >= 2.14.2)

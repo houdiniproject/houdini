@@ -25,10 +25,6 @@ gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'
 
-# AWS services
-gem 'aws-sdk', '~> 1.67'
-gem 'aws-ses', '~> 0.6.0' # REST email integration API
-
 # External Services
 gem 'fullcontact', '~> 0.18.0' # Full Contact API; includes #Hashie::Mash
 

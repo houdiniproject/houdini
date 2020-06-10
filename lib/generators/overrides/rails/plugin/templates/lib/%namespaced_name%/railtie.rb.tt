@@ -1,9 +1,106 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 <%= wrap_in_modules <<~rb
   class Railtie < ::Rails::Railtie
+    config.houdini = ActiveSupport::OrderedOptions.new
+        
+    config.houdini.general = ActiveSupport::OrderedOptions.new
+    config.houdini.general.name = "Houdini Project"
+    config.houdini.general.logo = "logos/houdini_project_bug.svg"
+    config.houdini.general.logo_full = "logos/houdini_project_full.svg"
+    config.houdini.general.poweredby_logo = "logos/houdini_project_rectangle_150.png"
+
+    config.houdini.defaults = ActiveSupport::OrderedOptions.new
+    config.houdini.defaults.image = ActiveSupport::OrderedOptions.new
+    config.houdini.defaults.image.profile = "public/images/fallback/default-profile.png"
+    config.houdini.defaults.image.nonprofit = "public/images/fallback/default-nonprofit.png"
+    config.houdini.defaults.image.campaign = "public/fallback/default-campaign-background.jpg"
+    config.houdini.defaults.image.event = "public/fallback/default-campaign-background.jpg"
+
+    config.houdini.payment_providers = ActiveSupport::OrderedOptions.new
+
+    config.houdini.payment_providers.stripe = ActiveSupport::OrderedOptions.new
+    config.houdini.payment_providers.stripe.public_key = ENV['STRIPE_API_PUBLIC']
+    config.houdini.payment_providers.stripe.private_key = ENV['STRIPE_API_KEY']
+    config.houdini.payment_providers.stripe.connect = false
+    config.houdini.payment_providers.stripe.proprietary_v2_js = false
+
+    config.houdini.maps = ActiveSupport::OrderedOptions.new
+
+    config.houdini.default_bp = ActiveSupport::OrderedOptions.new
+    config.houdini.default_bp.id = 1
+
+    config.houdini.page_editor = ActiveSupport::OrderedOptions.new
+    config.houdini.page_editor.editor = 'quill'
+
+    config.houdini.source_tokens = ActiveSupport::OrderedOptions.new
+    config.houdini.source_tokens.max_uses = 1
+    config.houdini.source_tokens.expiration_time = 20.minutes
+    config.houdini.source_tokens.event_donation_source = ActiveSupport::OrderedOptions.new
+    config.houdini.source_tokens.event_donation_source.max_uses = 20
+    config.houdini.source_tokens.event_donation_source.expiration_after_event = 20.days
+
+    config.houdini.show_state_fields = true
+
+    config.houdini.intl = ActiveSupport::OrderedOptions.new
+    config.houdini.intl.language = :en
+    config.houdini.intl.available_locales = [:en, :de, :es, :fr, :it, :nl, :pl, :ro]
+    config.houdini.intl.all_countries = nil
+    config.houdini.intl.currencies = ["usd"]
+    config.houdini.intl.all_currencies = nil
+
+    config.houdini.nonprofits_must_be_vetted = false
+
+    config.houdini.terms_and_privacy = ActiveSupport::OrderedOptions.new
+    
+    config.houdini.ccs = :local_tar_gz
+    config.houdini.ccs_options = nil
+
+    config.houdini.maintenance = ActiveSupport::OrderedOptions.new
+    config.houdini.maintenance.active = false
+
+
+    initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do 
+      config.before_initialize do |app|
+
+        Bess.support_email = app.config.houdini.support_email || ActionMailer::Base.default[:from]
+
+        Bess.button_host = app.config.houdini.button_host || 
+            ActionMailer::Base.default_url_options[:host]
+
+        Bess.payment_providers = Bess::PaymentProvider::Registry.new(app.config.houdini.payment_providers).build_all
+
+        Bess.general = app.config.houdini.general
+        Bess.defaults = app.config.houdini.defaults
+
+        ccs = app.config.houdini.ccs
+        options = app.config.houdini.ccs_options || {}
+        Bess.ccs = Bess::Ccs.build(ccs, 
+            **options)
+        Bess.terms_and_privacy = app.config.houdini.terms_and_privacy
+
+        Bess.intl = Bess::Intl.new(app.config.houdini.intl)
+        Bess.intl.all_countries ||=  ISO3166::Country.all.map(&:alpha2)
+        Bess.intl.all_currencies ||= Money::Currency.table
+        raise("The language #{Bess.intl.language} is not listed \
+in the provided locales: #{Bess.intl.available_locales.join(', ')}") if Bess.intl.available_locales.map(&:to_s)
+                      .none?{|l| l == Bess.intl.language.to_s}
+
+        Bess.maintenance = Bess::Maintenance.new(app.config.houdini.maintenance)
+
+        Bess.source_tokens = app.config.houdini.source_tokens
+
+        Bess.page_editor = app.config.houdini.page_editor
+
+        Bess.maps = app.config.houdini.maps
+
+        Bess.nonprofits_must_be_vetted = app.config.houdini.nonprofits_must_be_vetted
+        Bess.show_state_fields = app.config.houdini.show_state_fields
+        Bess.default_bp = app.config.houdini.default_bp.id
+      end
+    end
   end
 rb
 %>

@@ -18,13 +18,9 @@ require "action_view/railtie"
 # require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
-# Mirror Bess as Houdini
-Houdini = Bess
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
 # require File.expand_path('lib/htp') # Hamster Table Print
 
 module Commitchange
@@ -113,5 +109,7 @@ module Commitchange
     config.active_record.belongs_to_required_by_default = false
 
     config.active_storage.variant_processor = :vips
+
+    config.action_mailer.default_options = {from: "Default Org Team <hi@defaultorg.com>"}
   end
 end

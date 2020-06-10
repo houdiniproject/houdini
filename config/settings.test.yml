@@ -54,7 +54,7 @@ available_locales: ["en"]
 show_state_field: true
 
 payment_provider:
-  stripe_connect: true
+  connect: true
   stripe_proprietary_v2_js: false
 
 

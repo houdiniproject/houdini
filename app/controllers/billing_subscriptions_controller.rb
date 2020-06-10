@@ -10,7 +10,7 @@ class BillingSubscriptionsController < ApplicationController
   def create
     @nonprofit ||= Nonprofit.find(params[:nonprofit_id])
     @subscription = BillingSubscription.create_with_stripe(@nonprofit, params[:billing_subscription])
-    json_saved(@subscription, "Success! You are subscribed to #{Settings.general.name}.")
+    json_saved(@subscription, "Success! You are subscribed to #{Houdini.general.name}.")
   end
 
   # post /nonprofits/:nonprofit_id/billing_subscription/cancel

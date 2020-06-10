@@ -30,7 +30,7 @@ class Users::SessionsController < Devise::SessionsController
       session[:pw_timestamp] = Time.current.to_s
       render json: { token: tok }, status: :ok
     else
-      render json: ["Incorrect password. Please enter your #{Settings.general.name} %> password."], status: :unprocessable_entity
+      render json: ["Incorrect password. Please enter your #{Houdini.general.name} %> password."], status: :unprocessable_entity
     end
   end
 end

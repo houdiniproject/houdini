@@ -65,7 +65,7 @@
 	<%= render 'common/modal_header', title: "Bank Account Confirmation Email Resent" %>
 	<div class='modal-body'>
 		<p>Success! The confirmation email to activate your bank account has been successfully re-sent. Expect it to arrive in your inbox within a few minutes. If you can't find it, be sure to check your spam folder.</p>
-		<p><blockquote>Why do we require this confirmation? It proves that you have access to both your <%= Settings.general.name %> account and your email account, preventing anybody from changing your organization's bank account if you leave your CommitChange account signed in on a shared computer.</blockquote></p>
-		<p>If you still have trouble finding the confirmation email, please contact <a href='mailto:<%= Settings.devise.mailer_sender %>'><%= Settings.devise.mailer_sender %></a>.</p>
+		<p><blockquote>Why do we require this confirmation? It proves that you have access to both your <%= Houdini.general.name %> account and your email account, preventing anybody from changing your organization's bank account if you leave your CommitChange account signed in on a shared computer.</blockquote></p>
+		<p>If you still have trouble finding the confirmation email, please contact <a href='mailto:<%= Houdini.support_email %>'><%= Houdini.support_email %></a>.</p>
 	</div>
 </div>

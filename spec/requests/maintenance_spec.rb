@@ -8,10 +8,6 @@ describe 'Maintenance Mode' do
   page = 'http://commet'
   token = 'thoathioa'
   include_context :shared_user_context
-  around(:each) do |example|
-    example.run
-    Settings.reload!
-  end
 
   describe OnboardController, type: :controller do
     describe '(Onboard is just a basic example controller)'
@@ -22,10 +18,7 @@ describe 'Maintenance Mode' do
 
     describe 'in maintenance' do
       before(:each) do
-        Settings.merge!(maintenance:
-                             { maintenance_mode: true,
-                               maintenance_token: token,
-                               maintenance_page: page })
+        Houdini.maintenance = Houdini::Maintenance.new(active:true, token: token, page: page)
       end
 
       it 'redirects for onboard' do
@@ -42,12 +35,11 @@ describe 'Maintenance Mode' do
   end
 
   describe Users::SessionsController, type: :controller do
+    after(:each) do
+      Houdini.maintenance.active = false
+    end
     describe 'in maintenance' do
       include_context :shared_user_context
-      around(:each) do |example|
-        example.run
-        Settings.reload!
-      end
 
       before(:each) do
         @request.env['devise.mapping'] = Devise.mappings[:user]
@@ -55,10 +47,7 @@ describe 'Maintenance Mode' do
 
       describe 'in maintenance' do
         before(:each) do
-          Settings.merge!(maintenance:
-                               { maintenance_mode: true,
-                                 maintenance_token: token,
-                                 maintenance_page: page })
+          Houdini.maintenance = Houdini::Maintenance.new(active:true, token: token, page: page)
         end
 
         it 'redirects sign_in if the token is wrong' do
@@ -96,10 +85,7 @@ describe 'Maintenance Mode' do
         @request.env['devise.mapping'] = Devise.mappings[:user]
       end
       before(:each) do
-        Settings.merge!(maintenance:
-                             { maintenance_mode: true,
-                               maintenance_token: nil,
-                               maintenance_page: page })
+        Houdini.maintenance = Houdini::Maintenance.new(active:true, token: nil, page: page)
       end
 
       it 'redirects sign_in if the token is nil' do

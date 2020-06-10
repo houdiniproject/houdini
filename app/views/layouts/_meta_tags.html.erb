@@ -6,7 +6,7 @@
 
 <% description = "Robust and user-friendly nonprofit fundraising tools. Campaigns, donor management, donation processing and event ticketing." %>
 
-<title><%= yield :title_prefix %> <%= Settings.general.name %> <%= content_for?(:title_suffix) ? yield(:title_suffix) : "| #{title}" %>
+<title><%= yield :title_prefix %> <%= Houdini.general.name %> <%= content_for?(:title_suffix) ? yield(:title_suffix) : "| #{title}" %>
 </title>
 
 <% if content_for?(:meta_description) %>
@@ -16,16 +16,16 @@
 <% end %>
 
 <meta property="fb:app_id" content="<%= ENV.fetch('FACEBOOK_APP_ID') %>" />
-<meta property="og:site_name" content="<%=Settings.general.name%>" />
+<meta property="og:site_name" content="<%=Houdini.general.name%>" />
 <meta property="og:url" content="<%= request.original_url %>" />
 <meta property="og:type" content="website" />
 
 <% if content_for?(:facebook_tags) %>
   <%= yield :facebook_tags %>
 <% else %>
-  <meta property="og:title" content="<%=Settings.general.name%> | <%= title %>"/>
+  <meta property="og:title" content="<%=Houdini.general.name%> | <%= title %>"/>
   <meta property="og:description" content="<%= description %>">
-  <meta property="og:image" content="<%= Image::DefaultProfileUrl %>" />
+  <meta property="og:image" content="<%= Houdini.defaults.image.profile %>" />
 <% end %>
 
 <meta property="twitter:card" content="summary" />
@@ -34,7 +34,7 @@
 <% if content_for?(:twitter_tags) %>
   <%= yield :twitter_tags %>
 <% else %>
-  <meta property="twitter:title" content="<%=Settings.general.name%> | <%= title %>">
+  <meta property="twitter:title" content="<%=Houdini.general.name%> | <%= title %>">
   <meta property="twitter:description" content="<%= description %>"/>
 <% end %>
 

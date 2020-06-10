@@ -5,13 +5,13 @@ class NonprofitMailer < BaseMailer
   def failed_verification_notice(np)
     @nonprofit = np
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "We need some further account verification on #{Settings.general.name}")
+    mail(to: @emails, subject: "We need some further account verification on #{Houdini.general.name}")
   end
 
   def successful_verification_notice(np)
     @nonprofit = np
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "Verification successful on #{Settings.general.name}!")
+    mail(to: @emails, subject: "Verification successful on #{Houdini.general.name}!")
   end
 
   def refund_notification(refund_id)
@@ -87,7 +87,7 @@ class NonprofitMailer < BaseMailer
     @payment = payment
     @emails = QueryUsers.all_nonprofit_user_emails(@nonprofit.id, [:nonprofit_admin])
     @month_name = Date::MONTHNAMES[payment.date.month]
-    mail(to: @emails, subject: "#{Settings.general.name} Subscription Receipt for #{@month_name}")
+    mail(to: @emails, subject: "#{Houdini.general.name} Subscription Receipt for #{@month_name}")
   end
 
   # pass in all of:
@@ -105,7 +105,7 @@ class NonprofitMailer < BaseMailer
   def setup_verification(np_id)
     @nonprofit = Nonprofit.find(np_id)
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
-    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support", subject: "Set up automatic payouts on #{Settings.general.name}")
+    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Houdini.general.name} Support", subject: "Set up automatic payouts on #{Houdini.general.name}")
   end
 
   def welcome(np_id)
@@ -113,6 +113,6 @@ class NonprofitMailer < BaseMailer
     @user = @nonprofit.users.first
     @token = @user.make_confirmation_token!
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
-    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support", subject: "A hearty welcome from the #{Settings.general.name} team")
+    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Houdini.general.name} Support", subject: "A hearty welcome from the #{Houdini.general.name} team")
   end
 end

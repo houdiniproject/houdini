@@ -4,7 +4,7 @@
 require 'rails_helper'
 
 describe Format::Currency do
-  symbol = Settings.intntl.currencies[0]
+  symbol = Houdini.intl.currencies[0]
 
   describe '.dollars_to_cents' do
     context 'with dollar sign' do

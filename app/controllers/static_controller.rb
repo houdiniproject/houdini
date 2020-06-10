@@ -9,18 +9,16 @@ class StaticController < ApplicationController
   end
 
   def ccs
-    ccs_method = !Settings.ccs ? 'local_tar_gz' : Settings.ccs.ccs_method
-    if ccs_method == 'local_tar_gz'
-      temp_file = "#{Rails.root}/tmp/#{Time.current.to_i}.tar.gz"
-      result = Kernel.system("git archive --format=tar.gz -o #{temp_file} HEAD")
-      if result
-        send_file(temp_file, type: 'application/gzip')
-      else
-        render body: nil, status: 500
+    begin
+      Houdini.ccs.retrieve_ccs do |ccs|
+        if ccs.is_a? String
+          redirect_to ccs
+        else
+          send_data(ccs, type: 'application/gzip')
+        end
       end
-    elsif ccs_method == 'github'
-      git_hash = File.read("#{Rails.root}/CCS_HASH")
-      redirect_to "https://github.com/#{Settings.ccs.options.account}/#{Settings.ccs.options.repo}/tree/#{git_hash}"
+    rescue => e
+      render body: nil, status: 500
     end
   end
 end

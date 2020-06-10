@@ -2,12 +2,12 @@
 <% content_for :title, "Terms and Privacy" %>
 <div class="container"><h1>Terms and Privacy</h1>
 
-<% if Settings.terms_and_privacy&.terms_url %>
-  <h2><a href="<%= Settings.terms_and_privacy.terms_url  %>">Terms of Use</a></h2>
+<% if Houdini.terms_and_privacy&.terms_url %>
+  <h2><a href="<%= Houdini.terms_and_privacy.terms_url  %>">Terms of Use</a></h2>
 <% end %>
 
-<% if Settings.terms_and_privacy&.privacy_url %>
-  <h2><a href="<%= Settings.terms_and_privacy.privacy_url  %>">Privacy Policy</a></h2>
+<% if Houdini.terms_and_privacy&.privacy_url %>
+  <h2><a href="<%= Houdini.terms_and_privacy.privacy_url  %>">Privacy Policy</a></h2>
 <% end %>
 
 <h2>Software Licensing</h2>

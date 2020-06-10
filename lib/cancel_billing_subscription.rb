@@ -24,7 +24,7 @@ module CancelBillingSubscription
       return { json: { error: "Oops! There was an error processing your subscription cancellation. Error: #{e}" }, status: :unprocessable_entity }
     end
 
-    billing_plan_id = Settings.default_bp.id
+    billing_plan_id = Houdini.default_bp
     billing_subscription.update(
       billing_plan_id: billing_plan_id,
       status: 'active'

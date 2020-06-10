@@ -7,7 +7,7 @@ module Format
     # @param [String] units
     # @return [Integer]
     def self.dollars_to_cents(units)
-      (units.delete(',').gsub(Settings.intntl.currencies[0], '').to_f * 100).to_i
+      (units.delete(',').gsub(Houdini.intl.currencies[0], '').to_f * 100).to_i
     end
 
     # Converts currency subunits into units.

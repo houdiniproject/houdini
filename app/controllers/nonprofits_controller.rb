@@ -30,7 +30,7 @@ class NonprofitsController < ApplicationController
 
     @nonprofit_background_image = @nonprofit.background_image.attached? ? 
       url_for(@nonprofit.background_image_by_size(:normal)) : 
-      url_for(Image::DefaultNonprofitUrl)
+      url_for(Houdini.defaults.image.nonprofit)
 
     respond_to do |format|
       format.html
@@ -135,10 +135,10 @@ class NonprofitsController < ApplicationController
   def countries_list(locale)
     all_countries = ISO3166::Country.translations(locale)
 
-    if Settings.intntl.all_countries
-      countries = all_countries.select { |code, _name| Settings.intntl.all_countries.include? code }
+    if Houdini.intl.all_countries
+      countries = all_countries.select { |code, _name| Houdini.intl.all_countries.include? code }
       countries = countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
-      countries.push([Settings.intntl.other_country.upcase, I18n.t('nonprofits.donate.info.supporter.other_country')]) if Settings.intntl.other_country
+      countries.push([Houdini.intl.other_country.upcase, I18n.t('nonprofits.donate.info.supporter.other_country')]) if Houdini.intl.other_country
       countries
     else
       all_countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }

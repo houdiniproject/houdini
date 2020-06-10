@@ -17,7 +17,7 @@ class CreateModel < Base
                     role = user.roles.build(host: nonprofit, name: 'nonprofit_admin')
                     role.save!
 
-                    billing_plan = BillingPlan.find(Settings.default_bp.id)
+                    billing_plan = BillingPlan.find(Houdini.default_bp.id)
                     b_sub = nonprofit.build_billing_subscription(billing_plan: billing_plan, status: 'active')
                     b_sub.save!
                 end

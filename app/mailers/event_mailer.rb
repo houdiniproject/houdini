@@ -9,6 +9,6 @@ class EventMailer < BaseMailer
   def creation_followup(event)
     @creator_profile = event.profile
     @event = event
-    mail(to: @creator_profile.user.email, subject: "Get your new event rolling on #{Settings.general.name}!")
+    mail(to: @creator_profile.user.email, subject: "Get your new event rolling on #{Houdini.general.name}!")
   end
 end

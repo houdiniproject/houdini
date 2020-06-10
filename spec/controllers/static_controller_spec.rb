@@ -5,18 +5,10 @@ require 'rails_helper'
 
 RSpec.describe StaticController, type: :controller do
   describe '.ccs' do
-    around(:each) do |example|
-      example.run
-      Settings.reload!
-    end
 
     describe 'local_tar_gz' do
       before (:each) do
-        Settings.merge!(
-          ccs: {
-            ccs_method: 'local_tar_gz'
-          }
-        )
+        Houdini.ccs = Houdini::Ccs.build('local_tar_gz')
       end
 
       it 'fails on git archive' do
@@ -28,15 +20,7 @@ RSpec.describe StaticController, type: :controller do
 
     describe 'github' do
       before (:each) do
-        Settings.merge!(
-          ccs: {
-            ccs_method: 'github',
-            options: {
-              account: 'account',
-              repo: 'repo'
-            }
-          }
-        )
+        Houdini.ccs = Houdini::Ccs.build('github', account: 'account', repo: 'repo')
       end
 
       it 'setup github' do

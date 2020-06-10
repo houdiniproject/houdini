@@ -59,7 +59,7 @@ describe CancelBillingSubscription do
 
       create(:card, holder: @np, stripe_customer_id: @stripe_customer.id)
       @np.billing_subscription = build(:billing_subscription, billing_plan: bp, stripe_subscription_id: @original_str_subscription.id)
-      @default_plan = create(:billing_plan, id: Settings.default_bp.id)
+      @default_plan = create(:billing_plan, id: Houdini.default_bp)
     end
 
     it 'handles failure of stripe properly' do

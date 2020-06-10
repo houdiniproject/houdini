@@ -22,10 +22,10 @@
   <%- if ENV['FACEBOOK_APP_ID'] -%>
     <li><%= link_to("Facebook", "https://www.facebook.com/dialog/feed?app_id=#{ENV['FACEBOOK_APP_ID']}&display=popup&caption=#{url_encode(@campaign.name)}&link=#{campaign_url}") %></li>
   <%- end -%>
-  <li><%= link_to("Twitter", "https://twitter.com/intent/tweet?url=#{campaign_url}&via=#{Settings.general.name}&text=#{url_encode("Join me in supporting: #{@campaign.name}")}") %></li>
+  <li><%= link_to("Twitter", "https://twitter.com/intent/tweet?url=#{campaign_url}&via=#{Houdini.general.name}&text=#{url_encode("Join me in supporting: #{@campaign.name}")}") %></li>
   <li>Or copy and paste the link above into an email to your friends and family</li>
 </ul>
 
-<p>If you need some help getting your campaign up and running, don't hesitate to contact <strong><%= Settings.devise.mailer_sender %></strong>.</p>
+<p>If you need some help getting your campaign up and running, don't hesitate to contact <strong><%= Houdini.support_email %></strong>.</p>
 
 <%= render 'emails/sig' %>

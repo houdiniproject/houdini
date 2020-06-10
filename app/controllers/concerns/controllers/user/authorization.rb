@@ -22,7 +22,7 @@ module Controllers::User::Authorization
     def block_with_sign_in(msg = nil)
       store_location
       if current_user
-        flash[:notice] = "It looks like you're not allowed to access that page. If this seems like a mistake, please contact #{Settings.mailer.email}"
+        flash[:notice] = "It looks like you're not allowed to access that page. If this seems like a mistake, please contact #{Houdini.support_email}"
         redirect_to root_path
       else
         msg ||= 'We need to sign you in before you can do that.'

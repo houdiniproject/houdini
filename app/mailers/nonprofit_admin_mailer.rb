@@ -7,14 +7,14 @@ class NonprofitAdminMailer < BaseMailer
     @title_with_article = Format::Indefinitize.with_article(role.name.to_s.titleize)
     @nonprofit = role.host
     @token = raw_token
-    mail(to: @user.email, subject: "You're now #{@title_with_article} of #{@nonprofit.name} on #{Settings.general.name}. Let's set your password.")
+    mail(to: @user.email, subject: "You're now #{@title_with_article} of #{@nonprofit.name} on #{Houdini.general.name}. Let's set your password.")
   end
 
   def existing_invite(role)
     @user = role.user
     @title_with_article = Format::Indefinitize.with_article(role.name.to_s.titleize)
     @nonprofit = role.host
-    mail(to: @user.email, subject: "You're now #{@title_with_article} of #{@nonprofit.name} on #{Settings.general.name}.")
+    mail(to: @user.email, subject: "You're now #{@title_with_article} of #{@nonprofit.name} on #{Houdini.general.name}.")
   end
 
   def supporter_fundraiser(event_or_campaign)

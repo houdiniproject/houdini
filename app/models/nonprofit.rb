@@ -111,16 +111,16 @@ class Nonprofit < ApplicationRecord
   has_one_attached_with_sizes(:second_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
   has_one_attached_with_sizes(:third_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
 
-  has_one_attached_with_default(:logo, Image::DefaultProfileUrl, 
-    filename: "logo_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
-  has_one_attached_with_default(:background_image, Image::DefaultNonprofitUrl, 
-      filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultNonprofitUrl).extname}")
-  has_one_attached_with_default(:main_image, Image::DefaultProfileUrl, 
-      filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
-  has_one_attached_with_default(:second_image, Image::DefaultProfileUrl, 
-    filename: "second_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
-  has_one_attached_with_default(:third_image, Image::DefaultProfileUrl, 
-    filename: "third_image_#{SecureRandom.uuid}#{Pathname.new(Image::DefaultProfileUrl).extname}")
+  has_one_attached_with_default(:logo, Houdini.defaults.image.profile, 
+    filename: "logo_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
+  has_one_attached_with_default(:background_image, Houdini.defaults.image.nonprofit, 
+      filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.nonprofit).extname}")
+  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile, 
+      filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
+  has_one_attached_with_default(:second_image, Houdini.defaults.image.profile, 
+    filename: "second_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
+  has_one_attached_with_default(:third_image, Houdini.defaults.image.profile, 
+    filename: "third_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
 
   serialize :achievements, Array
   serialize :categories, Array
@@ -242,7 +242,7 @@ class Nonprofit < ApplicationRecord
   end
 
   def currency_symbol
-    Settings.intntl.all_currencies.find { |i| i.abbv.casecmp(currency).zero? }&.symbol
+    Houdini.intl.all_currencies[currency.downcase.to_sym][:symbol]
   end
 
 private 
@@ -252,7 +252,7 @@ private
   end
 
   def add_billing_subscription
-    billing_plan = BillingPlan.find(Settings.default_bp.id)
+    billing_plan = BillingPlan.find(Houdini.default_bp.id)
     b_sub = build_billing_subscription(billing_plan: billing_plan, status: 'active')
     b_sub.save!
   end

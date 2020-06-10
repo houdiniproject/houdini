@@ -8,7 +8,7 @@
 
   <p> By cancelling your subscription, we will move you onto the <strong>2.0% tier</strong> and your card will no longer get charged. </p>
 
-  <p> Contact <%= Settings.devise.mailer_sender %> if you need any help with exports or migrations. </p>
+  <p> Contact <%= Houdini.support_email %> if you need any help with exports or migrations. </p>
 
   <p>
   <form action="/nonprofits/<%=@nonprofit.id%>/billing_subscription/cancel" method="post">

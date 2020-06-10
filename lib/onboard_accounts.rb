@@ -26,7 +26,7 @@ module OnboardAccounts
                   .returning('*')
                   .execute.last
 
-    billing_plan_id = Settings.default_bp.id
+    billing_plan_id = Houdini.default_bp.id
     billing_subscription = Qx.insert_into(:billing_subscriptions)
                              .values(
                                nonprofit_id: nonprofit['id'],
@@ -76,7 +76,7 @@ module OnboardAccounts
                   .returning('*')
                   .execute.last
     # Create a billing subscription for the 6% fee tier
-    billing_plan_id = Settings.default_bp.id
+    billing_plan_id = Houdini.default_bp.id
     billing_subscription = Qx.insert_into(:billing_subscriptions)
                              .values(
                                nonprofit_id: nonprofit['id'],
@@ -106,7 +106,7 @@ module OnboardAccounts
     data = data.merge(
       verification_status: 'unverified',
       published: true,
-      vetted: Settings.nonprofits_must_be_vetted ? false : true,
+      vetted: Houdini.nonprofits_must_be_vetted ? false : true,
       statement: data[:name][0..16],
       city_slug: Format::Url.convert_to_slug(data[:city]),
       state_code_slug: Format::Url.convert_to_slug(data[:state_code]),

@@ -7,6 +7,6 @@
 
 <p>If you would like to get in touch with your supporter, you can email them at <a href="mailto:<%= @profile.user.email %>"><%= @profile.user.email %></a>.</p><br>
 
-<p>If you need help or have any questions, don't hesitate to contact us at <strong><%= Settings.devise.mailer_sender %></strong>.</p>
+<p>If you need help or have any questions, don't hesitate to contact us at <strong><%= Houdini.support_email %></strong>.</p>
 
 <%= render 'emails/sig' %>

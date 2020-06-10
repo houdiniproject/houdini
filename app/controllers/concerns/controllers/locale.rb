@@ -8,10 +8,10 @@ module Controllers::Locale
         before_action :set_locale
 
         def set_locale
-            if params[:locale] && Settings.available_locales.include?(params[:locale])
+            if params[:locale] && Houdini.intl.available_locales.include?(params[:locale])
               I18n.locale = params[:locale]
             else
-              I18n.locale = Settings.language
+              I18n.locale = Houdini.intl.language
             end
         end
     end

@@ -6,13 +6,9 @@ require 'rails_helper'
 describe InsertDonation do
   describe '.with_stripe' do
     before(:each) do
-      Settings.payment_provider.stripe_connect = true
+      Houdini.payment_providers.stripe.connect = true
     end
-
-    after(:each) do
-      Settings.reload!
-    end
-
+    
     include_context :shared_rd_donation_value_context
 
     describe 'param validation' do

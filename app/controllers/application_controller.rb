@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def redirect_to_maintenance
-    if Settings&.maintenance&.maintenance_mode && !current_user
+    if Houdini.maintenance&.active && !current_user
       unless self.class == Users::SessionsController &&
-             ((Settings.maintenance.maintenance_token && params[:maintenance_token] == Settings.maintenance.maintenance_token) || params[:format] == 'json')
-        redirect_to Settings.maintenance.maintenance_page
+            ((Houdini.maintenance.token && params[:maintenance_token] == Houdini.maintenance.token) || params[:format] == 'json')
+        redirect_to Houdini.maintenance.page
       end
     end
   end

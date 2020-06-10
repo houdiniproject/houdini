@@ -35,7 +35,7 @@
 
 
     app.countriesList = <%= raw (@countries_translations).to_json %>
-    app.show_state_field = <%= Settings.show_state_field %>
+    app.show_state_field = <%= Houdini.show_state_field %>
 		appl.def('current_nonprofit_user', <%= current_nonprofit_user? %>)
 	</script>
   <%= render 'schema', npo: @nonprofit %>

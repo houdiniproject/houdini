@@ -1,7 +1,0 @@
-# License: CC0-1.0
-mailer:
-  delivery_method: "aws_ses"
-  host: "commitchange.com"
-
-cdn:
-  url: "--cloudfront uri--"

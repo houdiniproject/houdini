@@ -6,10 +6,4 @@ namespace :settings do
   task :environment do
     require File.expand_path('../../config/environment.rb', File.dirname(__FILE__))
   end
-
-  desc 'show settings'
-  task show: :environment do
-    require 'pp'
-    pp Settings.to_hash
-  end
 end

@@ -11,7 +11,6 @@ gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'parallel', '~> 1.17' # run processes in parallel
 gem 'puma_worker_killer', '~> 0.1.1' # TODO: Investigate why puma workers need to be killed.
 gem 'puma', '~> 4.0', '>= 4.0.1'
-gem 'rabl', '~> 0.14.1' # JSON serialization https://github.com/nesquena/rabl
 gem 'rake', '~> 12.3.2'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'

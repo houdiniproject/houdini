@@ -353,7 +353,6 @@ Copyright (c) 2008-2015 Sadayuki Furuhashi
 
 ** addressable; version 2.6.0 -- 
 Copyright (c) Bob Aman
-** aws-sdk; version 1.67.0 -- 
 
 
                               Apache License
@@ -672,47 +671,6 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
-------
-
-** ruby-prof; version 0.15.9 -- 
-Copyright (c) 2010-2013 by tyPoland Lukasz Dziedzic
-Copyright (c) 2005,2009 Stefan Kaes skaes@railsexpress.de
-Copyright (c) 2010 - 2014 Stefan Kaes skaes@railsepxress.de
-Copyright (c) 2010, Lukasz Dziedzic (dziedzic@typoland.com)
-Copyright (c) 2010 - 2014 Stefan Kaes <skaes@railsepxress.de>
-(c) 2010-2013 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
-(c) 2013-2013 by tyPoland Lukasz Dziedzic (http://www.typoland.com/)
-Copyright 2010, 2012 Adobe Systems Incorporated (http://www.adobe.com/)
-Copyright (c) 2005 - 2014 Shugo Maeda shugo@ruby-lang.org and Charlie Savage cfis@savagexi.com
-Copyright (c) 2005-2013 Shugo Maeda <shugo@ruby-lang.org> and Charlie Savage <cfis@savagexi.com>
-Copyright (c) 2005 - 2014 Shugo Maeda <shugo@ruby-lang.org> and Charlie Savage <cfis@savagexi.com>
-
-Copyright (C) 2005 - 2014 Shugo Maeda <shugo@ruby-lang.org> and Charlie Savage <cfis@savagexi.com>
-Copyright (C) 2010 - 2014 Stefan Kaes <skaes@railsepxress.de>
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-
-1. Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGE.
 
 ------
 
@@ -1570,35 +1528,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** aws-ses; version 0.6.0 -- 
-Copyright (c) 2011 Drew Blas.
-Copyright (c) 2011 Drew V. Blas <drew.blas@gmail.com>
-Copyright (c) 2006-2009 Marcel Molina Jr. <marcel@vernix.org>
-
-
-Copyright (c) 2011 Drew V. Blas <drew.blas@gmail.com>
-Copyright (c) 2006-2009 Marcel Molina Jr. <marcel@vernix.org>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in the
-Software without restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** globalid; version 0.4.2 -- 
 Copyright (c) 2014-2016 David Heinemeier Hansson
 
@@ -2004,23 +1933,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** binding_of_caller; version 0.8.0 -- 
-(c) John Mair
-(c) 2011 John Mair
-Copyright (c) 2011 John Mair
-Copyright (c) 2012 (John Mair)
-Copyright (c) 2009 Yusuke Endoh
-Copyright (c) 2002-2007 K.Kosako
-Copyright (c) 2002-2008 K.Kosako
-Copyright (c) 2007 Koichi Sasada
-Copyright (c) 2007 Martin Duerst
-Copyright (c) 2009 Koichi Sasada
-Copyright (c) 2010 Shinichiro Hamaji
-Copyright (c) 2004-2007 Koichi Sasada
-Copyright (c) 2004-2008 Koichi Sasada
-Copyright (c) 2011 Yukihiro Matsumoto
-Copyright (c) 1993-2007 Yukihiro Matsumoto
-Copyright (c) 1984, 1989-1990, 2000-2011 Free Software Foundation, Inc.
 ** method_source; version 0.9.2 -- 
 (c) John Mair
 Copyright (c) 2011 John Mair
@@ -3509,35 +3421,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** execjs; version 2.7.0 -- 
-Copyright (c) 2015-2016 Josh Peek
-Copyright (c) 2015-2016 Sam Stephenson
-
-Copyright (c) 2015-2016 Sam Stephenson
-Copyright (c) 2015-2016 Josh Peek
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** activerecord; version 6.0.3.1 -- 
 Copyright (c) 2004-2019 David Heinemeier Hansson
 copyright (c) 2007-2016 Nick Kallen, Bryan Helmkamp, Emilio Tagua, Aaron Patterson
@@ -3545,9 +3428,6 @@ copyright (c) 2007-2016 Nick Kallen, Bryan Helmkamp, Emilio Tagua, Aaron Patters
 Copyright (c) 2005-2012 Kornelius Kalnbach <murphy@rubychan.de>
 ** css_parser; version 1.7.0 -- 
 Copyright (c) 2007-11 Alex Dunae
-** debug_inspector; version 0.0.3 -- 
-Copyright (c) 2012-2013 (John Mair)
-Copyright (c) 1993-2012 Yukihiro Matsumoto
 ** foreman; version 0.87.1 -- 
 Copyright (c) 2003, 2004 Jim Weirich
 Copyright (c) 2010 David Dollar fIhttp://daviddollar
@@ -3571,9 +3451,6 @@ Copyright (c) 2013 Michael Grosser <michael@grosser.it>
 ** parallel_tests; version 2.32.0 -- 
 ** puma_worker_killer; version 0.1.1 -- 
 ** qx; version 0.1.1 -- 
-** rabl; version 0.14.1 -- 
-Copyright (c) 2010 Nathan Esquenazi
-Copyright (c) 2011-2013 Nathan Esquenazi.
 ** rack; version 2.2.2 -- 
 Copyright (c) 2009-2018 Michael Fellinger <m.fellinger@gmail.com>
 Copyright (c) Django Software Foundation and individual contributors.
@@ -3585,8 +3462,6 @@ Copyright Kickstarter, PBC.
 Copyright (c) 2013-2015 Kasper Timm Hansen
 ** rails-html-sanitizer; version 1.3.0 -- 
 Copyright (c) 2013-2015 Rafael Mendonca Franca, Kasper Timm Hansen
-** ruby-debug-ide; version 0.7.0 -- 
-Copyright (c) 2007-2008, debug-commons team
 ** unicode-display_width; version 1.6.0 -- 
 Copyright (c) 2009 Run Paint Run Run
 Copyright (c) 2011, 2015-2019 Jan Lelis
@@ -4282,40 +4157,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** uglifier; version 4.1.20 -- 
-Copyright (c) Ville Lautanala.
-Copyright (c) 2011 Ville Lautanala
-Copyright 2007-2012 Steven Levithan
-Copyright 2011 The Closure Compiler
-Copyright 2011 Mozilla Foundation and contributors
-Copyright 2014 Mozilla Foundation and contributors
-Copyright 2012 (c) Mihai Bazon <mihai.bazon@gmail.com>
-Copyright 2009-2011 Mozilla Foundation and contributors
-
-Copyright (c) 2011 Ville Lautanala
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** require_all; version 2.0.0 -- 
 Copyright (c) Jarmo Pertman
 Copyright (c) 2009 Tony Arcieri
@@ -4820,8 +4661,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ** json; version 1.8.6 -- 
 (c) 2005-2007 Sam Stephenson
 Copyright 2001-2004 Unicode, Inc.
-** xml-simple; version 1.1.5 -- 
-Copyright (c) 2003-2014 Maik Schmidt
 
 1. You may make and give away verbatim copies of the source form of the software without restriction, provided that you duplicate all of the original copyright notices and associated disclaimers.
 
@@ -4852,81 +4691,6 @@ Copyright (c) 2003-2014 Maik Schmidt
    5. The scripts and library files supplied as input to or produced as output from the software do not automatically fall under the copyright of the software, but belong to whomever generated them, and may be sold commercially, and may be aggregated with this software.
 
    6. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-
-------
-
-** debase-ruby_core_source; version 0.10.5 -- 
-Oniguruma (c) K.Kosako
-Copyright (c) 2011 K.Takata
-Copyright 2003 Damien Miller
-(c) 1995 Microsoft Corporation.
-Copyright (c) 2009 Yusuke Endoh
-Copyright (c) 1987, Fujitsu LTD.
-Copyright (c) 2002-2007 K.Kosako
-Copyright (c) 2002-2008 K.Kosako
-Copyright (c) 2002-2013 K.Kosako
-Copyright (c) 2007 Koichi Sasada
-Copyright (c) 2007 Martin Duerst
-Copyright (c) 2009 Koichi Sasada
-Copyright (c) 2011-2012 K.Takata
-Copyright (c) 2011-2014 K.Takata
-Copyright (c) 2011-2016 K.Takata
-Copyright (c) 2017 Koichi Sasada
-Copyright (c) 2018 Koichi Sasada
-Copyright 2000 Aaron D. Gifford.
-Copyright (c) 2012 Gabriel Horner
-Copyright (c) 2010 Shinichiro Hamaji
-Copyright (c) 2004-2007 Koichi Sasada
-Copyright (c) 2004-2008 Koichi Sasada
-Copyright (c) 2011 Yukihiro Matsumoto
-Copyright (c) 2014 Yukihiro Matsumoto
-Copyright (c) 2015 Yukihiro Matsumoto
-Copyright (c) 1993, Intergraph Corporation
-Copyright (c) 1993-2007 Yukihiro Matsumoto
-Copyright (c) 1983, 1995-1997 Eric P. Allman
-Copyright (c) 1999, 2000 Aladdin Enterprises.
-Copyright (c) Katholieke Universiteit Leuven 1996
-Copyright (c) 1991, 2000, 2001 by Lucent Technologies.
-Copyright (c) 2004-2008 David Schultz <das@FreeBSD.ORG>
-Copyright (c) 2017 Vladimir Makarov <vmakarov@redhat.com>
-Copyright (c) 1995, 1996, 1997, 1998, and 1999 WIDE Project.
-Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
-Copyright (c) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura
-Copyright (c) 1992, 93, 94, 95, 96 Free Software Foundation, Inc.
-Copyright (c) 1988, 1993 The Regents of the University of California.
-Copyright (c) 1989, 1993 The Regents of the University of California.
-Copyright (c) 1990, 1993 The Regents of the University of California.
-Copyright (c) 1984, 1989-1990, 2000-2011 Free Software Foundation, Inc.
-Copyright (c) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
-Copyright (c) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
-Copyright (c) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
-Copyright (c) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999 Free Software Foundation, Inc.
-Copyright (c) 1997, 1998 by Gurusamy Sarathy <gsar@umich.edu> and Jan Dubois <jan.dubois@ibm.net>
-Copyright (c) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
-
-The MIT LICENSE
-
-Copyright (c) 2012 Gabriel Horner
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 
 ------
 
@@ -5055,61 +4819,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ** sixarm_ruby_unaccent; version 1.2.0 -- 
 
 Apache-2.0 OR (Artistic-2.0 OR (BSD-3-Clause OR (GPL-3.0 OR (MIT OR MPL-2.0))))
-
-------
-
-** debase; version 0.2.4 -- 
-Copyright (c) 2012, Dennis Ushakov
-Copyright (c) 2007-2008, debug-commons team
-Copyright (c) 2005 Kent Sibilev <ksibilev@yahoo.com>
-
-Copyright (C) 2005  Kent Sibilev <ksibilev@yahoo.com>
-All rights reserved.
- *
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-1. Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
- *
-THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGE.
-
-Copyright (c) 2007-2008, debug-commons team
-Copyright (c) 2012, Dennis Ushakov
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
 
 ------
 

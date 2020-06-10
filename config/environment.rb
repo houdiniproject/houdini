@@ -56,21 +56,7 @@ Config.schema do
       required(:campaign).filled(:str?)
     end
   end
-
-  optional(:aws).schema do
-    # the region your AWS bucket is in
-    optional(:region).filled(:str?)
-
-    # the name of your aws bucket
-    required(:bucket).filled(:str?)
-
-    # your AWS access key. Set from AWS_ACCESS_KEY ENV variable
-    required(:access_key_id).filled(:str?)
-
-    # your AWS secret access key. Set from AWS_SECRET_ACCESS_KEY ENV variable
-    required(:secret_access_key).filled(:str?)
-  end
-
+  
   required(:mailer).schema do
     # an action mailer delivery method
     # Default is sendmail
@@ -86,12 +72,6 @@ Config.schema do
 
     # Default host for links in email
     # Default is http://localhost
-    required(:host).filled(:str?)
-  end
-
-  optional(:image).schema do
-    # Your AWS image host url.
-    # Default is https://s3-#{Settings.aws.region}.amazonaws.com/#{Settings.aws.bucket}
     required(:host).filled(:str?)
   end
 

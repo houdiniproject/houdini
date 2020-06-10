@@ -22,22 +22,13 @@ module CreatePeerToPeerCampaign
     campaign.published = true
     campaign.profile = profile
     campaign.save
+    campaign.main_image.attach(parent_campaign.main_image.blob) if parent_campaign.main_image.attached?
 
-    begin
-      campaign.main_image.attach(parent_campaign.main_image.blob) if parent_campaign.main_image.attached?
-    rescue StandardError
-      AWS::S3::Errors::NoSuchKey
-    end
-    begin
-      campaign.background_image.attach(parent_campaign.background_image.blob) if parent_campaign.background_image.attached?
-    rescue StandardError
-      AWS::S3::Errors::NoSuchKey
-    end
-    begin
-      campaign.banner_image.attach(parent_campaign.banner_image.blob) if parent_campaign.banner_image.attached?
-    rescue StandardError
-      AWS::S3::Errors::NoSuchKey
-    end
+    campaign.background_image.attach(parent_campaign.background_image.blob) if parent_campaign.background_image.attached?
+
+
+    campaign.banner_image.attach(parent_campaign.banner_image.blob) if parent_campaign.banner_image.attached?
+
 
     campaign
   end

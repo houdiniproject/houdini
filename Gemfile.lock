@@ -9,6 +9,12 @@ GIT
       stripe (>= 1.31.0, <= 1.58.0)
 
 PATH
+  remote: gems/bess
+  specs:
+    bess (0.1.0)
+      rails (~> 6.0.3, >= 6.0.3.1)
+
+PATH
   remote: gems/ruby-param-validation
   specs:
     param_validation (0.0.2)
@@ -85,19 +91,7 @@ GEM
     amq-protocol (2.3.0)
     andand (1.3.3)
     ast (2.4.0)
-    aws-sdk (1.67.0)
-      aws-sdk-v1 (= 1.67.0)
-    aws-sdk-v1 (1.67.0)
-      json (~> 1.4)
-      nokogiri (~> 1)
-    aws-ses (0.6.0)
-      builder
-      mail (> 2.2.5)
-      mime-types
-      xml-simple
     bcrypt (3.1.13)
-    binding_of_caller (0.8.0)
-      debug_inspector (>= 0.0.1)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -126,10 +120,6 @@ GEM
     database_cleaner-active_record (1.8.0)
       activerecord
       database_cleaner (~> 1.8.0)
-    debase (0.2.4)
-      debase-ruby_core_source (>= 0.10.2)
-    debase-ruby_core_source (0.10.5)
-    debug_inspector (0.0.3)
     deep_merge (1.2.1)
     devise (4.7.1)
       bcrypt (~> 3.0)
@@ -177,7 +167,6 @@ GEM
       dry-logic (~> 0.5, >= 0.5.0)
       dry-types (~> 0.14.0)
     erubi (1.9.0)
-    execjs (2.7.0)
     factory_bot (5.0.2)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.0.2)
@@ -282,8 +271,6 @@ GEM
     puma_worker_killer (0.1.1)
       get_process_mem (~> 0.2)
       puma (>= 2.7, < 5)
-    rabl (0.14.1)
-      activesupport (>= 2.3.14)
     rack (2.2.2)
     rack-attack (5.4.2)
       rack (>= 1.0, < 3)
@@ -374,9 +361,6 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     rubocop-performance (1.4.1)
       rubocop (>= 0.71.0)
-    ruby-debug-ide (0.7.0)
-      rake (>= 0.8.1)
-    ruby-prof (0.15.9)
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
@@ -420,8 +404,6 @@ GEM
       rails (>= 3.0.0)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
-    uglifier (4.1.20)
-      execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
@@ -446,7 +428,6 @@ GEM
       activejob (>= 4.0.0)
       wisper
     wisper-rspec (1.1.0)
-    xml-simple (1.1.5)
     zeitwerk (2.3.0)
 
 PLATFORMS
@@ -454,9 +435,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_mailer_matchers (~> 1.2)
-  aws-sdk (~> 1.67)
-  aws-ses (~> 0.6.0)
-  binding_of_caller (~> 0.8.0)
+  bess!
   bootsnap (~> 1.4)
   bunny (~> 2.14, >= 2.14.2)
   byebug (~> 11.0, >= 11.0.1)
@@ -465,14 +444,12 @@ DEPENDENCIES
   config (> 1.5)
   countries (~> 3.0)
   database_cleaner-active_record
-  debase (~> 0.2.3)
   devise (~> 4.7)
   devise-async (~> 1.0)
   dotenv-rails (~> 2.7, >= 2.7.5)
   dry-validation (~> 0.13.3)
   factory_bot (~> 5.0, >= 5.0.2)
   factory_bot_rails (~> 5.0, >= 5.0.2)
-  ffi (~> 1.11, >= 1.11.1)
   font_assets (~> 0.1.14)
   foreman (~> 0.87.1)
   fullcontact (~> 0.18.0)
@@ -496,7 +473,6 @@ DEPENDENCIES
   puma (~> 4.0, >= 4.0.1)
   puma_worker_killer (~> 0.1.1)
   qx!
-  rabl (~> 0.14.1)
   rack-attack (~> 5.2)
   rack-ssl (~> 1.4)
   rack-timeout (~> 0.5.1)
@@ -506,8 +482,6 @@ DEPENDENCIES
   roadie-rails (~> 2.1)
   rspec (~> 3.9.0)
   rspec-rails (~> 4.0.0)
-  ruby-debug-ide (~> 0.7.0)
-  ruby-prof (= 0.15.9)
   sassc (~> 2.0, >= 2.0.1)
   sassc-rails (~> 2.1, >= 2.1.2)
   simplecov (~> 0.16.1)
@@ -519,7 +493,6 @@ DEPENDENCIES
   test-unit (~> 3.3)
   timecop (~> 0.9.1)
   traceroute (~> 0.8.0)
-  uglifier (~> 4.1, >= 4.1.20)
   webmock (~> 3.6, >= 3.6.2)
   webpacker (~> 5.1.1)
   wisper (~> 2.0)

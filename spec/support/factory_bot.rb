@@ -10,6 +10,9 @@ module FactoryBotExtensions
 end
 
 RSpec.configure do |config|
+  # require 'factorybot_rails'
+  # FactoryBot.find_definitions
+  # config.before(:suite) { FactoryBot.reload }
   config.include FactoryBot::Syntax::Methods
   config.include FactoryBotExtensions
 end

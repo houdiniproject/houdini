@@ -3,11 +3,11 @@
 
 <%= render 'payout_table', payout: @payout %>
 
-<p>Look for the deposit with in the above net amount with <strong><%= Settings.devise.mailer_sender %></strong> in the statement.</p>
+<p>Look for the deposit with in the above net amount with <strong><%= Houdini.support_email %></strong> in the statement.</p>
 
 <p><%= link_to 'Visit this link', nonprofits_payouts_url(@nonprofit) %> to view your detailed payout history.</p><br>
 
-<p><strong>If anything looks incorrect</strong>, please contact <a href='mailto:<%= Settings.devise.mailer_sender %>'><%= Settings.devise.mailer_sender %></a>.</p>
+<p><strong>If anything looks incorrect</strong>, please contact <a href='mailto:<%= Houdini.support_email %>'><%= Houdini.support_email %></a>.</p>
 
 <%= render 'emails/sig' %>
 

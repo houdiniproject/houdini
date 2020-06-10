@@ -66,6 +66,11 @@ Rails.application.configure do
 
   config.log_level = :debug
 
+  config.action_mailer.default_url_options = {host: 'http://localhost:5000'}
+
+  # don't load factories in development
+  config.factory_bot.definition_file_paths = []
+
   config.dependency_loading = true if $rails_rake_task
 
   config.middleware.use I18n::JS::Middleware

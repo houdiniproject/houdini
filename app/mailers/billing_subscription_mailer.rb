@@ -8,6 +8,6 @@ class BillingSubscriptionMailer < BaseMailer
     @card = @nonprofit.active_card
     @billing_plan = @billing_subscription.billing_plan
     @emails = QueryUsers.all_nonprofit_user_emails(@nonprofit.id)
-    mail(to: @emails, subject: "Action Needed, Please Update Your #{Settings.general.name} Account")
+    mail(to: @emails, subject: "Action Needed, Please Update Your #{Houdini.general.name} Account")
   end
 end

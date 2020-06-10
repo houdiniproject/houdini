@@ -15,9 +15,9 @@ describe Api::NonprofitsController, type: :request do
 
   describe 'create' do
     around(:each) do |example|
-      @old_bp = Settings.default_bp
+      @old_bp = Houdini.default_bp
       example.run
-      Settings.default_bp = @old_bp
+      Houdini.default_bp = @old_bp
     end
 
     it 'validates and returns correct errors' do
@@ -31,7 +31,7 @@ describe Api::NonprofitsController, type: :request do
       input =  { name: 'n', state_code: 'WI', city: 'appleton', zip_code: 54_915, user_id: user.id, phone: '920-555-5555' }
       sign_in user
       bp = force_create(:billing_plan)
-      Settings.default_bp.id = bp.id
+      Houdini.default_bp = bp.id
 
       sign_in user
 

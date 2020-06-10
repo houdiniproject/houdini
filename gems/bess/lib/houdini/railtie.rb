@@ -3,5 +3,102 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module Houdini
   class Railtie < ::Rails::Railtie
+    config.houdini = ActiveSupport::OrderedOptions.new
+        
+    config.houdini.general = ActiveSupport::OrderedOptions.new
+    config.houdini.general.name = "Houdini Project"
+    config.houdini.general.logo = "logos/houdini_project_bug.svg"
+    config.houdini.general.logo_full = "logos/houdini_project_full.svg"
+    config.houdini.general.poweredby_logo = "logos/houdini_project_rectangle_150.png"
+
+    config.houdini.defaults = ActiveSupport::OrderedOptions.new
+    config.houdini.defaults.image = ActiveSupport::OrderedOptions.new
+    config.houdini.defaults.image.profile = "public/images/fallback/default-profile.png"
+    config.houdini.defaults.image.nonprofit = "public/images/fallback/default-nonprofit.png"
+    config.houdini.defaults.image.campaign = "public/fallback/default-campaign-background.jpg"
+    config.houdini.defaults.image.event = "public/fallback/default-campaign-background.jpg"
+
+    config.houdini.payment_providers = ActiveSupport::OrderedOptions.new
+
+    config.houdini.payment_providers.stripe = ActiveSupport::OrderedOptions.new
+    config.houdini.payment_providers.stripe.public_key = ENV['STRIPE_API_PUBLIC']
+    config.houdini.payment_providers.stripe.private_key = ENV['STRIPE_API_KEY']
+    config.houdini.payment_providers.stripe.connect = false
+    config.houdini.payment_providers.stripe.proprietary_v2_js = false
+
+    config.houdini.maps = ActiveSupport::OrderedOptions.new
+
+    config.houdini.default_bp = ActiveSupport::OrderedOptions.new
+    config.houdini.default_bp.id = 1
+
+    config.houdini.page_editor = ActiveSupport::OrderedOptions.new
+    config.houdini.page_editor.editor = 'quill'
+
+    config.houdini.source_tokens = ActiveSupport::OrderedOptions.new
+    config.houdini.source_tokens.max_uses = 1
+    config.houdini.source_tokens.expiration_time = 20.minutes
+    config.houdini.source_tokens.event_donation_source = ActiveSupport::OrderedOptions.new
+    config.houdini.source_tokens.event_donation_source.max_uses = 20
+    config.houdini.source_tokens.event_donation_source.expiration_after_event = 20.days
+
+    config.houdini.show_state_fields = true
+
+    config.houdini.intl = ActiveSupport::OrderedOptions.new
+    config.houdini.intl.language = :en
+    config.houdini.intl.available_locales = [:en, :de, :es, :fr, :it, :nl, :pl, :ro]
+    config.houdini.intl.all_countries = nil
+    config.houdini.intl.currencies = ["usd"]
+    config.houdini.intl.all_currencies = nil
+
+    config.houdini.nonprofits_must_be_vetted = false
+
+    config.houdini.terms_and_privacy = ActiveSupport::OrderedOptions.new
+    
+    config.houdini.ccs = :local_tar_gz
+    config.houdini.ccs_options = nil
+
+    config.houdini.maintenance = ActiveSupport::OrderedOptions.new
+    config.houdini.maintenance.active = false
+
+
+    initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do 
+      config.before_initialize do |app|
+
+        Houdini.support_email = app.config.houdini.support_email || ActionMailer::Base.default[:from]
+
+        Houdini.button_host = app.config.houdini.button_host || 
+            ActionMailer::Base.default_url_options[:host]
+
+        Houdini.payment_providers = Houdini::PaymentProvider::Registry.new(app.config.houdini.payment_providers).build_all
+
+        Houdini.general = app.config.houdini.general
+        Houdini.defaults = app.config.houdini.defaults
+
+        ccs = app.config.houdini.ccs
+        options = app.config.houdini.ccs_options || {}
+        Houdini.ccs = Houdini::Ccs.build(ccs, 
+            **options)
+        Houdini.terms_and_privacy = app.config.houdini.terms_and_privacy
+
+        Houdini.intl = Houdini::Intl.new(app.config.houdini.intl)
+        Houdini.intl.all_countries ||=  ISO3166::Country.all.map(&:alpha2)
+        Houdini.intl.all_currencies ||= Money::Currency.table
+        raise("The language #{Houdini.intl.language} is not listed \
+in the provided locales: #{Houdini.intl.available_locales.join(', ')}") if Houdini.intl.available_locales.map(&:to_s)
+                      .none?{|l| l == Houdini.intl.language.to_s}
+
+        Houdini.maintenance = Houdini::Maintenance.new(app.config.houdini.maintenance)
+
+        Houdini.source_tokens = app.config.houdini.source_tokens
+
+        Houdini.page_editor = app.config.houdini.page_editor
+
+        Houdini.maps = app.config.houdini.maps
+
+        Houdini.nonprofits_must_be_vetted = app.config.houdini.nonprofits_must_be_vetted
+        Houdini.show_state_fields = app.config.houdini.show_state_fields
+        Houdini.default_bp = app.config.houdini.default_bp.id
+      end
+    end
   end
 end

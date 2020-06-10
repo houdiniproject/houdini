@@ -8,13 +8,13 @@
 
 				<span>
 
-					<span class='globalFooter-sub-item'>&copy; <%= Time.current.year %> <%= Settings.general.name %></span>
+					<span class='globalFooter-sub-item'>&copy; <%= Time.current.year %> <%= Houdini.general.name %></span>
 
 					<span class='globalFooter-sub-item'>
 						<% if current_user %>
-							<% if Settings.terms_and_privacy&.help_url %><span><%= link_to("Help", Settings.terms_and_privacy.help_url) %></span><% end %>
+							<% if Houdini.terms_and_privacy&.help_url %><span><%= link_to("Help", Houdini.terms_and_privacy.help_url) %></span><% end %>
 						<% else %>
-							<% if Settings.terms_and_privacy&.about_url %><span><%= link_to("About", Settings.terms_and_privacy.about_url) %></span><% end %>
+							<% if Houdini.terms_and_privacy&.about_url %><span><%= link_to("About", Houdini.terms_and_privacy.about_url) %></span><% end %>
 						<% end %>
 					</span>
 					<span class='globalFooter-sub-item'>

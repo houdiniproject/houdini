@@ -3,14 +3,14 @@
 <script src="https://cdn.polyfill.io/v1/polyfill.min.js"></script>
 
 <%= render 'layouts/app_data' %>
-<% if Settings.payment_provider.stripe_proprietary_v2_js %>
+<% if Houdini.payment_providers.stripe.stripe_proprietary_v2_js %>
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <% else %>
   <%= javascript_pack_tag "page__stripe_wrapper" %>
 <% end %>
 
 <script>
-Stripe.setPublishableKey("<%= Settings.payment_provider.stripe_public_key %>");
+Stripe.setPublishableKey("<%= Houdini.payment_providers.stripe.stripe_public_key %>");
 window._csrf = "<%= form_authenticity_token %>";
 </script>
 

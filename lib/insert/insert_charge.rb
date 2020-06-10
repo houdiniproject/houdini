@@ -8,7 +8,7 @@ require 'stripe'
 require 'get_data'
 require 'active_support/core_ext'
 require 'query/billing_plans'
-require 'stripe_account' if Settings.payment_provider.stripe_connect
+require 'stripe_account' if Houdini.payment_providers[:stripe].connect
 
 module InsertCharge
   # In data, pass in: amount, nonprofit_id, supporter_id, card_id, statement
@@ -88,7 +88,7 @@ module InsertCharge
       metadata: data[:metadata]
     }
 
-    if Settings.payment_provider.stripe_connect
+    if Houdini.payment_providers.stripe.connect
       stripe_account_id = StripeAccount.find_or_create(data[:nonprofit_id])
       # Get the percentage fee on the nonprofit's billing plan
       platform_fee = BillingPlans.get_percentage_fee(data[:nonprofit_id])

@@ -9,7 +9,7 @@ describe InsertCharge do
   let!(:donation) { force_create(:donation, id: 555) }
   describe '.with_stripe' do
     before(:each) do
-      Settings.payment_provider.stripe_connect = true
+      Houdini.payment_providers.stripe.connect = true
     end
     describe 'param validation' do
       it 'does basic validation' do

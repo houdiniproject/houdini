@@ -20,7 +20,7 @@
     }
     app.iframeParams = document.location.search
     app.countriesList = <%= raw (@countries_translations).to_json %>
-    app.show_state_field = <%= Settings.show_state_field %>
+    app.show_state_field = <%= Houdini.show_state_field %>
     I18n.defaultLocale = "<%=  I18n.default_locale %>"
     I18n.locale = "<%=  I18n.locale %>"
   </script>

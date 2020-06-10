@@ -52,8 +52,6 @@ gem 'devise-async', '~> 1.0'
 gem 'devise', '~> 4.7'
 
 # API Tools
-gem 'config', '> 1.5'
-gem 'dry-validation', '~> 0.13.3' # used only for config validation
 gem 'foreman', '~> 0.87.1'
 gem 'wisper', '~> 2.0'
 gem 'wisper-activejob', '~> 1.0.0'
@@ -64,7 +62,7 @@ end
 
 group :development, :ci, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
-  gem 'dotenv-rails', '~> 2.7', '>= 2.7.5'
+  gem 'dotenv-rails', '~> 2.7', '>= 2.7.5', require: 'dotenv/rails-now'
   gem 'mail_view', '~> 2.0'
   gem 'pry', '~> 0.12.2'
   gem 'pry-byebug', '~> 3.7.0'
@@ -75,7 +73,7 @@ group :development, :ci, :test do
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'listen'
-  gem 'table_print', '~> 1.5', '>= 1.5.6' # Nice table printing of data for the console
+  gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
 end
 

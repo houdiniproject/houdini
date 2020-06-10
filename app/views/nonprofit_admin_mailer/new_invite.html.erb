@@ -1,7 +1,7 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
 <p>
 	Congrats! We've added you as <%= @title_with_article %> for
-	<strong><%= @nonprofit.name %></strong> on <%= Settings.general.name %>.
+	<strong><%= @nonprofit.name %></strong> on <%= Houdini.general.name %>.
 </p><br>
 
 <p>Next step: <strong><a href='<%= confirmation_url(@user, confirmation_token: @token) %>'>confirm your email and set your password.</a></strong></p> 

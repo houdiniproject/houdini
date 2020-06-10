@@ -4,7 +4,7 @@
 <html lang="<%= I18n.locale %>">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= "#{yield(:title)} - #{Settings.general.name}" %></title>
+  <title><%= "#{yield(:title)} - #{Houdini.general.name}" %></title>
   <script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,Intl.~locale.en"></script>
   <%= render 'layouts/stylesheets' %>
   <%= IncludeAsset.css '/client/css/global/page.css' %>

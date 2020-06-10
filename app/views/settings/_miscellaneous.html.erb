@@ -9,7 +9,7 @@
 <div class='pane-inner'>
   <p class='pastelBox--yellow u-padding--10 u-marginBottom--30'>
     Our Recurring Donation Management Form includes a link from which donors can make a one-time additional donation. By default, this link goes to
-    your nonprofit's page on <%= Settings.general.name %> (<small><strong><%= url_for(:controller => 'nonprofits', :action => :show, :id=> @nonprofit.id, :only_path => false ) %></strong></small>).
+    your nonprofit's page on <%= Houdini.general.name %> (<small><strong><%= url_for(:controller => 'nonprofits', :action => :show, :id=> @nonprofit.id, :only_path => false ) %></strong></small>).
     Alternatively, you can link to a page on your website.
   </p>
 

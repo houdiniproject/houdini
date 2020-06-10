@@ -18,7 +18,7 @@ module StripeUtils
   def self.create_transfer(net_amount, stripe_account_id, currency)
     Stripe::Transfer.create({
                               amount: net_amount,
-                              currency: currency || Settings.intntl.currencies[0],
+                              currency: currency || Houdini.intl.currencies[0],
                               recipient: 'self'
                             },
                             stripe_account: stripe_account_id)

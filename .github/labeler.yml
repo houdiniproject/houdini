@@ -10,7 +10,7 @@ model: 'app/models/**'
 controller: 'app/controllers/**'
 mailer: 'app/mailers/**'
 view: 'app/views/**'
-jobs: 'app/jobs/**'
+job: 'app/jobs/**'
 dependencies: 
 - 'Gemfile.lock'
 - 'yarn.lock'

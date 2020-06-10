@@ -30,10 +30,8 @@ Houdini is designed and tested to run with the following:
 * Ruby 2.6
 * Node 12
 * Yarn
-* PostgreSQL 11
-* Ubuntu 20.04 or equivalent
-
-It is also known to work with Ubuntu 18.04 with PostgresSQL 10.
+* PostgreSQL 10 or 11
+* Ubuntu 18.04, 20.04 or equivalent
 
 ## Get involved
 Houdini's success depends on you!
@@ -57,7 +55,7 @@ which make development much easier.
 
 These include:
 
-* PostgreSQL 11 (or 10 in case of Ubuntu 18.04)
+* PostgreSQL 10 or 11
 * NodeJS 12 LTS
 * Ruby 2.6.6 (NOTE: the default of Ruby 2.7.1 in Debian should 
 function but you will receive a ton of deprecation
@@ -78,10 +76,7 @@ prepared for AVN, like Houdini.
 
 #### One-time setup
 
-You'll want to run the next commands as root or via sudo. You could do this by typing `sudo /bin/sh` running the commands from there.
-
-TIP: this is the root shell. There's no restrictions on what you do here so be careful!
-In an Ubuntu 18.04 environment, change "postgresql-11" below to "postgresql-10" .
+You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-11" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
 
 ```bash
 apt update
@@ -154,6 +149,28 @@ environment variables which you'd get from the Stripe
 dashboard. On your development environment, 
 make sure to use test keys. If you don't, you're
 going to be charged real money!
+
+#### Testing
+
+To verify everying is set up correctly, you can try running through the test cases:
+
+```bash
+./bin/rails spec
+```
+You should expect to see the output of the test execution,
+including messages about pending test cases, and 
+eventually get the output to the effect of below:
+
+```
+Finished in 6 minutes 25 seconds (files took 10.35 seconds to load)
+2433 examples, 0 failures, 42 pending
+
+Coverage report generated for RSpec to .../houdini/coverage. 10552 / 12716 LOC (82.98%) covered.
+```
+
+The important thing to look for is that the number of 
+failures is zero.
+
 
 #### Startup
 `bin/rails server`

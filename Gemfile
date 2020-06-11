@@ -98,3 +98,5 @@ group :production do
 end
 
 gem 'bess', path: 'gems/bess'
+
+gem 'houdini_full_contact', path: 'gems/houdini_full_contact'

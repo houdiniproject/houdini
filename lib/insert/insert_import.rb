@@ -7,7 +7,6 @@ require 'required_keys'
 require 'open-uri'
 require 'csv'
 require 'insert/insert_supporter'
-require 'insert/insert_full_contact_infos'
 require 'insert/insert_custom_field_joins'
 require 'insert/insert_tag_joins'
 
@@ -164,7 +163,7 @@ module InsertImport
                .where(id: import['id'])
                .returning('*')
                .execute.first
-    InsertFullContactInfos.enqueue(supporter_ids) if supporter_ids.any?
+    Houdini::FullContact::InsertInfos.enqueue(supporter_ids) if supporter_ids.any?
     ImportCompletedJob.perform_later(Import.find(import['id']))
     import
   end

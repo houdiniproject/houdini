@@ -1,4 +1,5 @@
-[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com) [![Build Status](https://travis-ci.com/houdiniproject/houdini.svg?branch=master)](https://travis-ci.com/houdiniproject/houdini)
+[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com)
+![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
 
 * NOTE: This is the latest version (pre-2.0) of Houdini and 
 is currently in HEAVY development. You may want

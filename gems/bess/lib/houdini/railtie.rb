@@ -4,7 +4,9 @@
 module Houdini
   class Railtie < ::Rails::Railtie
     config.houdini = ActiveSupport::OrderedOptions.new
-        
+
+    config.houdini.core_classes = {supporter: 'Supporter', nonprofit: 'Nonprofit'}
+
     config.houdini.general = ActiveSupport::OrderedOptions.new
     config.houdini.general.name = "Houdini Project"
     config.houdini.general.logo = "logos/houdini_project_bug.svg"
@@ -53,7 +55,7 @@ module Houdini
     config.houdini.nonprofits_must_be_vetted = false
 
     config.houdini.terms_and_privacy = ActiveSupport::OrderedOptions.new
-    
+
     config.houdini.ccs = :local_tar_gz
     config.houdini.ccs_options = nil
 
@@ -64,6 +66,7 @@ module Houdini
     initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do 
       config.before_initialize do |app|
 
+        Houdini.core_classes = app.config.houdini.core_classes
         Houdini.support_email = app.config.houdini.support_email || ActionMailer::Base.default[:from]
 
         Houdini.button_host = app.config.houdini.button_host || 

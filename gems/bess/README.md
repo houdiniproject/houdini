@@ -4,12 +4,7 @@ configuration into a separate Gem. We call this support library Bess, in honor o
 Harry Houdini's wife and long-time assistant, Bess Houdini.
 
 ## Usage
-Everything you can get via `Bess` is accessible via `Houdini` in the main houdini app.
-
-As an example, let's say Bess has a string constant named `Bess::PRESTO`. From
-your Houdini app, you can use `Houdini::PRESTO` to access this constant. 
-
-We recommend using this pattern.
+Everything you can get via `Bess` is accessible via the `Houdini` module in the main houdini app. 
 
 ## Installation
 This really should only be used in Houdini itself for now.

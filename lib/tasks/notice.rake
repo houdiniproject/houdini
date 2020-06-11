@@ -2,6 +2,8 @@
 
 # Create notice files for dependencies
 namespace :notice do
+    desc "generate NOTICE-ruby and NOTICE-js"
+    task :update => ['ruby:update', 'js:update']
     namespace :ruby do 
         require 'bundler'
         require 'httparty'

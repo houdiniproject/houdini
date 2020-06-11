@@ -34,7 +34,7 @@ module Houdini
   mattr_accessor :button_host
 
   mattr_accessor :support_email
-  
+
   mattr_accessor :core_classes, default: {supporter: 'Supporter', nonprofit: 'Nonprofit'}
 
   mattr_accessor :event_publisher, default: Houdini::EventPublisher.new

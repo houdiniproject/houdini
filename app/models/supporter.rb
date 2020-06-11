@@ -33,7 +33,7 @@ class Supporter < ApplicationRecord
   belongs_to :profile
   belongs_to :nonprofit
   belongs_to :import
-  has_many :full_contact_infos
+  
   has_many :payments
   has_many :offsite_payments
   has_many :charges
@@ -85,3 +85,5 @@ class Supporter < ApplicationRecord
     Format::Address.full_address(address, city, state_code)
   end
 end
+
+ActiveSupport.run_load_hooks(:houdini_supporter, Supporter)

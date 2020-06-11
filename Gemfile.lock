@@ -17,6 +17,14 @@ PATH
       wisper-activejob (~> 1.0.0)
 
 PATH
+  remote: gems/houdini_full_contact
+  specs:
+    houdini_full_contact (0.1.0)
+      bess
+      qx
+      rails (~> 6.0.3, >= 6.0.3.1)
+
+PATH
   remote: gems/ruby-param-validation
   specs:
     param_validation (0.0.2)
@@ -439,6 +447,7 @@ DEPENDENCIES
   geocoder (~> 1.6.3)
   hamster (~> 3.0)
   heroku-deflater (~> 0.6.3)
+  houdini_full_contact!
   httparty (~> 0.17.0)
   i18n-js (~> 3.3)
   image_processing (~> 1.10.3)

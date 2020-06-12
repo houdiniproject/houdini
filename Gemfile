@@ -53,8 +53,6 @@ gem 'devise', '~> 4.7'
 
 # API Tools
 gem 'foreman', '~> 0.87.1'
-gem 'wisper', '~> 2.0'
-gem 'wisper-activejob', '~> 1.0.0'
 
 group :development, :ci do
   gem 'traceroute', '~> 0.8.0'

@@ -16,12 +16,12 @@ RSpec.describe Campaign, type: :model do
     end
 
     it 'parent campaign sends out a create job' do
-      expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args).exactly(:once)
+      expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, any_args).exactly(:once)
       parent_campaign
     end
 
     it 'child campaign sends out federated create job' do
-       expect(HoudiniEventPublisher).to receive(:announce).with(:campaign_create, any_args).exactly(:twice)
+       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, any_args).exactly(:twice)
       parent_campaign
       child_campaign
     end

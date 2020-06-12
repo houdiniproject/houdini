@@ -77,14 +77,14 @@ module PayRecurringDonation
     if result['charge']['status'] != 'failed'
       rd.update(n_failures: 0)
       result['recurring_donation'] =  rd
-      HoudiniEventPublisher.announce(:recurring_donation_payment_succeeded, donation, donation&.supporter&.locale || 'en')
+      Houdini.event_publisher.announce(:recurring_donation_payment_succeeded, donation, donation&.supporter&.locale || 'en')
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
       
       rd.n_failures += 1
       rd.save!
       result['recurring_donation'] = rd
-      HoudiniEventPublisher.announce(:recurring_donation_payment_failed, donation)
+      Houdini.event_publisher.announce(:recurring_donation_payment_failed, donation)
       InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540 }])
     end
     result

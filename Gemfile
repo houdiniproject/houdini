@@ -43,6 +43,9 @@ gem 'pg', '~> 0.11'
 gem 'param_validation', path: 'gems/ruby-param-validation'
 gem 'qx', path: 'gems/ruby-qx'
 
+# Optimization
+gem 'fast_blank'
+
 # Images
 gem 'image_processing', '~> 1.10.3'
 

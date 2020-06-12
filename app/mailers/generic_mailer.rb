@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class GenericMailer < BaseMailer
   def generic_mail(from_email, from_name, message, subject, to_email, _to_name)
     @from_email = from_email

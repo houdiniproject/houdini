@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module MergeSupporters
   # For supporters that have been merged, we want to update all their child tables to the new supporter_id
   def self.update_associations(old_supporter_ids, new_supporter_id, np_id, profile_id)

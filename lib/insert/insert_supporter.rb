@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 require 'psql'
 require 'qexpr'
 require 'i18n'
@@ -39,7 +40,8 @@ module InsertSupporter
     end
 
     # GeocodeModel.delay.supporter(supporter['id'])
-    InsertFullContactInfos.enqueue([supporter['id']])
+    Houdini.event_publisher.announce(:supporter_create, Supporter.find(supporter['id']))
+    Houdini::FullContact::InsertInfos.enqueue([supporter['id']])
 
     supporter
   end

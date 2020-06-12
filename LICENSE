@@ -2,7 +2,7 @@
 
 The primary license of the Houdini Project is:
 
-   AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+   AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 
 This software's license gives you freedom; you can copy, convey,
 propagate, redistribute and/or modify this program under the terms of
@@ -36,7 +36,7 @@ called "Web-Template-Output-Additional-Permission.txt".  If not, see
 1. Any file in the Houdini repository that does not specific a license, or is
    not discussed explicitly in this toplevel "LICENSE" file is licensed:
 
-   AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+   AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 
    as specified in detail above.
 

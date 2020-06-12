@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module Audit
   # Given a list of pairs of nonprofit ids and stripe_account_ids (eg [[4341, 'acct_arst'], [3624, 'acct_arst']])
   # Find all their available balances on both stripe and CC

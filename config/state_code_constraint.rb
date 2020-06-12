@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class StateCodeConstraint
   US_STATES = %w(AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN 
       IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ 

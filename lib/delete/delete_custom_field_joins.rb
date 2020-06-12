@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module DeleteCustomFieldJoins
   @columns = %w[id custom_field_master_id supporter_id value created_at updated_at metadata]
   def self.find_multiple_custom_field_joins

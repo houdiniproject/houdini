@@ -10,6 +10,7 @@ module Houdini
   autoload :Maintenance
   autoload :Intl
   autoload :PaymentProvider
+  autoload :EventPublisher
 
   mattr_accessor :intl, :maintenance, :ccs
 
@@ -34,4 +35,6 @@ module Houdini
   mattr_accessor :support_email
   
   mattr_accessor :core_classes, default: {supporter: 'Supporter', nonprofit: 'Nonprofit'}
+
+  mattr_accessor :event_publisher, default: Houdini::EventPublisher.new
 end

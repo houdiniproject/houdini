@@ -70,7 +70,7 @@ module InsertRecurringDonation
       result['activity'] = InsertActivities.for_recurring_donations([result['payment'].id])
     end
     # Send receipts
-    HoudiniEventPublisher.announce(:recurring_donation_create, result['donation'], entities[:supporter_id].locale)
+    Houdini.event_publisher.announce(:recurring_donation_create, result['donation'], entities[:supporter_id].locale)
     result
   end
 
@@ -93,7 +93,7 @@ module InsertRecurringDonation
 
     InsertDonation.update_donation_keys(result) if result['payment']
 
-    HoudiniEventPublisher.announce(:recurring_donation_create, result['donation'], entities[:supporter_id].locale)
+    Houdini.event_publisher.announce(:recurring_donation_create, result['donation'], entities[:supporter_id].locale)
 
     { status: 200, json: result }
     end

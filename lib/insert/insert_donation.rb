@@ -43,7 +43,7 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
-    HoudiniEventPublisher.announce(:donation_create, result['donation'], result['donation'].supporter.locale)
+    Houdini.event_publisher.announce(:donation_create, result['donation'], result['donation'].supporter.locale)
     result
   end
 
@@ -104,7 +104,7 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
 
-    HoudiniEventPublisher.announce(:donation_create, result['donation'], locale_for_supporter(result['donation'].supporter.id))
+    Houdini.event_publisher.announce(:donation_create, result['donation'], locale_for_supporter(result['donation'].supporter.id))
 
     # do this for making test consistent
     result['activity'] = {}

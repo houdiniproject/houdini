@@ -62,6 +62,8 @@ module Houdini
     config.houdini.maintenance = ActiveSupport::OrderedOptions.new
     config.houdini.maintenance.active = false
 
+    config.houdini.listeners = []
+
 
     initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do |app|
       app.config.to_prepare do
@@ -100,6 +102,8 @@ in the provided locales: #{Houdini.intl.available_locales.join(', ')}") if Houdi
         Houdini.nonprofits_must_be_vetted = app.config.houdini.nonprofits_must_be_vetted
         Houdini.show_state_fields = app.config.houdini.show_state_fields
         Houdini.default_bp = app.config.houdini.default_bp.id
+
+        Houdini.event_publisher.subscribe_all(app.config.houdini.listeners.flatten)
       end
     end
   end

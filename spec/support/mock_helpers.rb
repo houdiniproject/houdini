@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module MockHelpers
   def self.payment_export_headers
     ['Date', 'Gross Amount',	'Fee Total',	'Net Amount', 'Type',	'Last Name',	'First Name', 'Full Name', 'Organization',	'Email',	'Phone',	'Address',	'City',	'State',	'Postal Code',	'Country',	'Anonymous?',	'Supporter Id',	'Designation', 'Dedication Type',

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class BankAccount < ApplicationRecord
   # :name, # str (readable bank name identifier, eg. "Wells Fargo *1234")
   # :confirmation_token, # str (randomly generated private token for email confirmation)

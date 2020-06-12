@@ -145,6 +145,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.13.1)
       faraday (>= 0.7.4, < 1.0)
+    fast_blank (1.0.0)
     ffi (1.11.1)
     font_assets (0.1.14)
       rack
@@ -419,6 +420,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.7, >= 2.7.5)
   factory_bot (~> 5.0, >= 5.0.2)
   factory_bot_rails (~> 5.0, >= 5.0.2)
+  fast_blank
   font_assets (~> 0.1.14)
   foreman (~> 0.87.1)
   fullcontact (~> 0.18.0)

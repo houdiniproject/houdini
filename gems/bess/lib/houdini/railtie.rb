@@ -63,9 +63,8 @@ module Houdini
     config.houdini.maintenance.active = false
 
 
-    initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do 
-      config.before_initialize do |app|
-
+    initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do |app|
+      app.config.to_prepare do
         Houdini.core_classes = app.config.houdini.core_classes
         Houdini.support_email = app.config.houdini.support_email || ActionMailer::Base.default[:from]
 

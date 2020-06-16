@@ -3281,7 +3281,7 @@ Copyright (c) 2013 Michael Grosser <michael@grosser.it>
 ** parallel_tests; version 2.32.0 -- 
 ** puma_worker_killer; version 0.1.1 -- 
 ** qx; version 0.1.1 -- 
-** rack; version 2.2.2 -- 
+** rack; version 2.2.3 -- 
 Copyright (c) 2009-2018 Michael Fellinger <m.fellinger@gmail.com>
 Copyright (c) Django Software Foundation and individual contributors.
 Copyright (c) 2007-2019 Leah Neukirchen <http://leahneukirchen.org/infopage.html>

@@ -112,5 +112,18 @@ module Commitchange
     config.active_storage.variant_processor = :vips
 
     config.action_mailer.default_options = {from: "Default Org Team <hi@defaultorg.com>"}
+
+    # this works around a bug where the the webpacker proxy
+    # only waits 60 seconds for a compilation to happen. That's not 
+    # fast enough on startup and Webpacker doesn't allow us to override.
+    # 
+    # TODO: figure out how to delete the first instance of DevServerProxy
+    initializer "houdini.webpacker.proxy" do |app|
+      insert_middleware = Webpacker.config.dev_server.present? rescue nil
+      if insert_middleware
+        app.middleware.insert_before 0,
+             Webpacker::DevServerProxy, ssl_verify_none: true, read_timeout: 500
+      end
+    end
   end
 end

@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = "https://houdiniproject.org"
   spec.summary     = "Support library for Houdini"
   spec.description = "Support library for Houdini"
-  spec.license     = "AGPL-3.0-or-later WITH WTO-Additional-Permission-3.0-or-later"
+  spec.license     = "AGPL-3.0-or-later WITH WTO-AP-3.0-or-later"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/houdiniproject/houdini"

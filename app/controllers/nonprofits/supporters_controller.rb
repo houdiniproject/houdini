@@ -58,10 +58,14 @@ module Nonprofits
     end
 
     def full_contact
-      fc = FullContactInfo.where("supporter_id=#{params[:id]}").first
-      if fc
-        render json: { full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id) }
-      else
+      begin 
+        s = Supporter.find params[:id]
+        if s.method_defined? :full_contact_infos && (fc = s.full_contact_infos.first)
+          render json: { full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id) }
+        else
+          render json: { full_contact: nil }
+        end
+      rescue
         render json: { full_contact: nil }
       end
     end

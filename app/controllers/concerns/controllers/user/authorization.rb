@@ -69,7 +69,7 @@ module Controllers::User::Authorization
       return nil unless current_user
   
       key = "administered_nonprofit_user_#{current_user_id}_nonprofit"
-      Nonprofit.where(id: QueryRoles.host_ids(current_user_id, %i[nonprofit_admin nonprofit_associate])).last
+      ::Nonprofit.where(id: QueryRoles.host_ids(current_user_id, %i[nonprofit_admin nonprofit_associate])).last
     end
   end
 end

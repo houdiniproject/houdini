@@ -163,7 +163,9 @@ module InsertImport
                .where(id: import['id'])
                .returning('*')
                .execute.first
-    Houdini::FullContact::InsertInfos.enqueue(supporter_ids) if supporter_ids.any?
+    Supporter.where("supporter.ids IN (?)", supporter_ids).each do |s|
+      Houdini.event_publisher.announce(:supporter_create, s)  
+    end
     ImportCompletedJob.perform_later(Import.find(import['id']))
     import
   end

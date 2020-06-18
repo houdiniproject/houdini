@@ -190,4 +190,9 @@ class Campaign < ApplicationRecord
   def parent_campaign?
     !child_campaign?
   end
+
+  def self.get_campaign_and_children(campaign)
+    where('campaigns.id = ? OR campaigns.parent_campaign_id = ? ',campaign, campaign)
+  end
+
 end

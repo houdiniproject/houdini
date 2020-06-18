@@ -241,7 +241,7 @@ describe QueryRecurringDonations do
       expect(rows[1][1]).to eq("$20.00")
       expect(rows[2][1]).to eq("$4.00")
       expect(rows[1][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[1]))
-      expect(rows[2][-1]).to eq('')
+      expect(rows[2][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[3]))
     end
 
     it 'retrieves not-failed' do

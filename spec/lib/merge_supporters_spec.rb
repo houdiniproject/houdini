@@ -38,7 +38,7 @@ describe MergeSupporters do
 
     let(:cfj_on_1) { force_create(:custom_field_join, supporter:old_supporter1, custom_field_master: custom_field_master, value: 'cfj_on_1')}
     let(:cfj_on_2) { force_create(:custom_field_join, supporter:old_supporter2, custom_field_master: custom_field_master2, value: 'cfj_on_2')}
-    let(:cfj_on_3) {force_create(:custom_field_join, supporter:old_supporter1, custom_field_master: custom_field_master3, value: 'old_cfj')}
+    let(:cfj_on_3) {force_create(:custom_field_join, supporter:old_supporter1, custom_field_master: custom_field_master3, value: 'old_cfj', created_at: Time.now - 1.day)}
     let(:cfj_on_4) {force_create(:custom_field_join, supporter:old_supporter2, custom_field_master: custom_field_master3, value: 'new_cfj', created_at: Time.now + 1.day)}
 
     let(:profile) {force_create(:profile)}

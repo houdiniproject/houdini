@@ -23,9 +23,6 @@ gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'
 
-# External Services
-gem 'fullcontact', '~> 0.18.0' # Full Contact API; includes #Hashie::Mash
-
 # Helpers
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
 gem 'countries', '~> 3.0'

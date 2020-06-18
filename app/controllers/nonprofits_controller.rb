@@ -8,15 +8,11 @@ class NonprofitsController < ApplicationController
 
   helper_method :current_nonprofit_user?
   before_action :authenticate_nonprofit_user!, only: %i[dashboard dashboard_metrics dashboard_todos payment_history profile_todos recurring_donation_stats update verify_identity]
-  before_action :authenticate_super_admin!, only: [:destroy]
+  before_action :authenticate_super_admin!, if: proc {|c| ( c.action_name == "destroy") || (c.action_name == "show" && !current_nonprofit.published) }
 
   # get /nonprofits/:id
   # get /:state_code/:city/:name
   def show
-    if !current_nonprofit.published && !current_role?(:super_admin)
-      block_with_sign_in
-      return
-    end
     @nonprofit = current_nonprofit
     @url = Format::Url.concat(root_url, @nonprofit.url)
     @supporters = @nonprofit.supporters.not_deleted

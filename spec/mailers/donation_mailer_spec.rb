@@ -69,4 +69,89 @@ RSpec.describe DonationMailer, :type => :mailer do
 
 
   end
+
+  describe "donor_payment_notification" do
+    let(:thank_you_note_default) {'thank you Supporter'}
+    let(:thank_you_note_named) {'thank you Penelope'}
+    let(:campaign_custom_default) { 'Supporter'}
+    let(:campaign_custom_named) { 'Penelope'}
+    let(:np) { force_create(:nonprofit, name: "nonprofit", email: 'blah', thank_you_note: 'thank you {{FIRSTNAME}}')}
+    let(:s) { force_create(:supporter, email: 'supporter.email@mail.teha', name: '')}
+    let(:s_with_name) { force_create(:supporter, email: 'supporter.email@mail.teha', name: 'Penelope')}
+    let(:oldcard) { force_create(:card)}
+    let(:donation)  {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999)}
+    let(:donation_with_campaign) {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999, campaign_id: campaign.id)}
+    let(:donation_with_custom_campaign_message) {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_custom_message.id)}
+    let(:donation_with_invalid_custom_campaign_message) {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_invalid_custom_message.id)}
+    
+    let(:donation_named)  {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999)}
+    let(:donation_with_campaign_named) {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999, campaign_id: campaign.id)}
+    let(:donation_with_custom_campaign_message_named) {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_custom_message.id)}
+    let(:donation_with_invalid_custom_campaign_message_named) {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_invalid_custom_message.id)}
+
+
+    let(:campaign) {force_create(:campaign, nonprofit_id: np.id)}
+    let(:campaign_with_custom_message) { force_create(:campaign, nonprofit_id: np.id, receipt_message: "{{FIRSTNAME}}")}
+    let(:campaign_with_invalid_custom_message) { force_create(:campaign, nonprofit_id: np.id, receipt_message: "<html></html>")}
+
+    describe 'no name supporter' do
+      describe 'no campaign' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation.id)}
+        it 'contains default thank you note' do
+          expect(mail.body.encoded).to include thank_you_note_default
+        end
+      end
+
+      describe 'campaign' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_campaign.id)}
+        it 'contains default thank you note' do
+          expect(mail.body.encoded).to include thank_you_note_default
+        end
+      end
+
+      describe 'campaign_with_custom' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_custom_campaign_message.id)}
+        it 'contains default campaign' do
+          expect(mail.body.encoded).to include campaign_custom_default
+        end
+      end
+
+      describe 'campaign with invalid custom' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_invalid_custom_campaign_message.id)}
+        it 'contains default thank you note' do
+          expect(mail.body.encoded).to include thank_you_note_default
+        end
+      end
+    end
+
+    describe 'named supporter' do
+      describe 'no campaign' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation_named.id)}
+        it 'contains named thank you note' do
+          expect(mail.body.encoded).to include thank_you_note_named
+        end
+      end
+
+      describe 'campaign' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_campaign_named.id)}
+        it 'contains named thank you note' do
+          expect(mail.body.encoded).to include thank_you_note_named
+        end
+      end
+
+      describe 'campaign_with_custom' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_custom_campaign_message_named)}
+        it 'contains named campaign' do
+          expect(mail.body.encoded).to include campaign_custom_named
+        end
+      end
+
+      describe 'campaign with invalid custom' do
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_invalid_custom_campaign_message_named.id)}
+        it 'contains named thank you note' do
+          expect(mail.body.encoded).to include thank_you_note_named
+        end
+      end
+    end
+  end
 end

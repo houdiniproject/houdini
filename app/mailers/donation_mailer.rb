@@ -6,10 +6,12 @@ class DonationMailer < BaseMailer
 	def donor_payment_notification(donation_id, locale=I18n.locale)
 		@donation = Donation.find(donation_id)
 		@nonprofit = @donation.nonprofit
-    if  @donation.campaign && ActionView::Base.full_sanitizer.sanitize(@donation.campaign.receipt_message).present?
-      @thank_you_note = @donation.campaign.receipt_message
+
+		interpolation_dict.set_supporter(@donation.supporter)
+    if  @donation.campaign && interpolation_dict.interpolate(@donation.campaign.receipt_message).present?
+      @thank_you_note = interpolation_dict.interpolate(@donation.campaign.receipt_message)
     else
-      @thank_you_note = Format::Interpolate.with_hash(@nonprofit.thank_you_note, {'NAME' => @donation.supporter.name})
+	  @thank_you_note = interpolation_dict.interpolate(@nonprofit.thank_you_note)
     end
     @charge = @donation.charges.last
 		@reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
@@ -25,12 +27,14 @@ class DonationMailer < BaseMailer
 
   def donor_direct_debit_notification(donation_id, locale=I18n.locale)
     @donation = Donation.find(donation_id)
-    @nonprofit = @donation.nonprofit
-
-    if  @donation.campaign && ActionView::Base.full_sanitizer.sanitize(@donation.campaign.receipt_message).present?
-      @thank_you_note = @donation.campaign.receipt_message
+	@nonprofit = @donation.nonprofit
+	
+	interpolation_dict.set_supporter(@donation.supporter)
+	
+    if  @donation.campaign && interpolation_dict.interpolate(@donation.campaign.receipt_message).present?
+      @thank_you_note = interpolation_dict.interpolate(@donation.campaign.receipt_message)
     else
-      @thank_you_note = Format::Interpolate.with_hash(@nonprofit.thank_you_note, {'NAME' => @donation.supporter.name})
+      @thank_you_note = interpolation_dict.interpolate(@nonprofit.thank_you_note)
     end
 
     reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
@@ -96,8 +100,11 @@ class DonationMailer < BaseMailer
 		@donation = RecurringDonation.find(donation_id).donation
 		@nonprofit = @donation.nonprofit
 		reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
-		if @nonprofit.miscellaneous_np_info && ActionView::Base.full_sanitizer.sanitize(@nonprofit.miscellaneous_np_info.change_amount_message).present?
-			@thank_you_note =	@nonprofit.miscellaneous_np_info.change_amount_message
+
+		interpolation_dict.set_supporter(@donation.supporter)
+		
+		if @nonprofit.miscellaneous_np_info && interpolation_dict.interpolate(@nonprofit.miscellaneous_np_info.change_amount_message).present?
+			@thank_you_note = interpolation_dict.interpolate(@nonprofit.miscellaneous_np_info.change_amount_message)
 		else
 			@thank_you_note = nil
 		end
@@ -114,18 +121,8 @@ class DonationMailer < BaseMailer
 		mail(to: @emails, subject:"Recurring donation amount changed for #{@donation.supporter.name || @donation.supporter.email}")
 	end
 
-	def donor_recurring_donation_change_amount(donation_id, previous_amount=nil)
-		@donation = RecurringDonation.find(donation_id).donation
-		@nonprofit = @donation.nonprofit
-		reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
-		if @nonprofit.miscellaneous_np_info && ActionView::Base.full_sanitizer.sanitize(@nonprofit.miscellaneous_np_info.change_amount_message).present?
-			@thank_you_note =	@nonprofit.miscellaneous_np_info.change_amount_message
-		else
-			@thank_you_note = nil
-		end
-		from = Format::Name.email_from_np(@nonprofit.name)
-		@previous_amount = previous_amount
-		mail(to: @donation.supporter.email, from: from, reply_to: reply_to, subject: "Recurring donation amount changed for #{@nonprofit.name}")
+	def interpolation_dict
+		@interpolation_dict ||= SupporterInterpolationDictionary.new({'NAME' => 'Supporter', 'FIRSTNAME' => 'Supporter'})
 	end
 
 end

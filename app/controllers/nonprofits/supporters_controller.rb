@@ -111,7 +111,7 @@ module Nonprofits
     private
 
     def create_supporter_params
-      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :first_name, :last_name, :customFields)
+      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :first_name, :last_name, :customFields, :email)
     end
 
     def update_supporter_params

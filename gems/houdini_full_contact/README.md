@@ -1,8 +1,15 @@
 # FullContact
-An Houdini add-on to use FullContact's Context API
+An Houdini add-on to use FullContact's Enrich API. This add-on provides a few features:
+
+* a event listener for supporter_create which downloads information from the Enrich API.
+* adds a has_many relation on Supporter for every set of data about that Supporter downloaded.
+Each item is an instance of `Houdini::FullContact::Info`
 
 ## Usage
-How to use my plugin.
+You can provide your FullContact API key in one of two ways:
+
+* Setting the `FULL_CONTACT_KEY` environment variable or
+* Setting the `houdini.full_contact.api_key` configuration option
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -16,10 +23,7 @@ And then execute:
 $ bundle
 ```
 
-Or install it yourself as:
+And then install the database migrations for houdini_full_contact:
 ```bash
-$ gem install full_contact
+bin/rails houdini_full_contact:install:migrations
 ```
-
-## Contributing
-Contribution directions go here.

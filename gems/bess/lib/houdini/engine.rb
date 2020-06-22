@@ -104,7 +104,7 @@ in the provided locales: #{Houdini.intl.available_locales.join(', ')}") if Houdi
         Houdini.show_state_fields = app.config.houdini.show_state_fields
         Houdini.default_bp = app.config.houdini.default_bp.id
 
-        Houdini.event_publisher.subscribe_all(app.config.houdini.listeners.flatten)
+        Houdini.event_publisher.subscribe_all(app.config.houdini.listeners)
       end
     end
   end

@@ -7,6 +7,7 @@ module Houdini::FullContact
     config.generators.api_only = true
 
     config.houdini.full_contact = ActiveSupport::OrderedOptions.new
+    config.houdini.full_contact.max_attempts = 5
 
     initializer 'houdini.full_contact.supporter_extension' do 
       ActiveSupport.on_load(:houdini_supporter) do 
@@ -18,6 +19,7 @@ module Houdini::FullContact
       config.before_initialize do |app|
         Houdini::FullContact.api_key = app.config.houdini.full_contact.api_key || 
                 ENV.fetch('FULL_CONTACT_KEY')
+        Houdini::FullContact.max_attempts = app.config.houdini.full_contact.max_attempts
       end
     end
   end

@@ -13,7 +13,7 @@ else
 
 var email_buttons = ["bold", "italic", "formatBlock", "align", "createLink",
     "insertImage", "insertUnorderedList", "insertOrderedList",
-    "undo", "redo", "insert_donate_button", "insert_name", "html"]
+    "undo", "redo", "insert_donate_button", "insert_name", "insert_first_name", "html"]
 
 var froala = function($el, options) {
     $el.editable({
@@ -98,10 +98,23 @@ var froala = function($el, options) {
                 title: 'Insert recipient name',
                 icon: {
                     type: 'txt',
-                    value: 'Name'
+                    value: 'Full Name'
                 },
                 callback: function () {
                     this.insertHTML("{{NAME}}")
+                    this.saveUndoStep()
+                },
+                refresh: function () {
+                }
+            },
+            insert_first_name: {
+                title: 'Insert first name',
+                icon: {
+                    type: 'txt',
+                    value: 'First Name'
+                },
+                callback: function () {
+                    this.insertHTML("{{FIRSTNAME}}")
                     this.saveUndoStep()
                 },
                 refresh: function () {

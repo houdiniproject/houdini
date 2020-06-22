@@ -131,6 +131,7 @@ class Nonprofit < ApplicationRecord
   before_validation(on: :create) do
     set_slugs
     set_user
+    add_billing_subscription
     self
   end
 
@@ -253,9 +254,8 @@ private
   end
 
   def add_billing_subscription
-    billing_plan = BillingPlan.find(Houdini.default_bp.id)
+    billing_plan = BillingPlan.find(Houdini.default_bp)
     b_sub = build_billing_subscription(billing_plan: billing_plan, status: 'active')
-    b_sub.save!
   end
 
   def user_registerable_as_admin

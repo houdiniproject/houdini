@@ -41,7 +41,6 @@ module InsertSupporter
 
     # GeocodeModel.delay.supporter(supporter['id'])
     Houdini.event_publisher.announce(:supporter_create, Supporter.find(supporter['id']))
-    Houdini::FullContact::InsertInfos.enqueue([supporter['id']])
 
     supporter
   end

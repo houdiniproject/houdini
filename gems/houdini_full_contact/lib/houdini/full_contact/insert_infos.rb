@@ -1,60 +1,34 @@
+# frozen_string_literal: true
+
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'qx'
 require 'rest-client'
 module Houdini::FullContact::InsertInfos
-  # Work off of the full_contact_jobs queue
-  def self.work_queue
-    ids = Houdini::FullContact::Job.pluck(:supporter_id)
-    Houdini::FullContact::Job.delete_all
-    self.bulk(ids) if ids.any?
-  end
-
-
-  # Enqueue full contact jobs for a set of supporter ids
-  def self.enqueue(supporter_ids)
-    Qx.insert_into(:full_contact_jobs)
-      .values(supporter_ids.map{|id| {supporter_id: id}})
-      .ex
-  end
-
-
-  # We need to throttle our requests by 10ms since that is our rate limit on FullContact
-  def self.bulk(supporter_ids)
-    created_ids = []
-    supporter_ids.each do |id|
-      now = Time.current
-      result = self.single id
-      created_ids.push(GetData.hash(result, 'full_contact_info', 'id')) if result.is_a?(Hash)
-      interval = 0.1 - (Time.current - now) # account for time taken in .single
-      sleep interval if interval > 0
-    end
-    return created_ids
-  end
-  
-
   # Fetch and persist a single full contact record for a single supporter
   # return an exception if 404 or something else went poop
-  def self.single(supporter_id)
-    supporter = Houdini.core_classes.fetch(:supporter).constantize
-    supp = supporter.find(supporter_id)
-    return if supp.nil? || supp.email.blank?
-
+  # @param supporter Supporter
+  def self.single(supporter)
+    return if supporter.nil? || supporter.email.blank?
     begin
       response = RestClient.post("https://api.fullcontact.com/v3/person.enrich",
         {
-          "email" => supp.email,
+          "email" => supporter.email,
         }.to_json,
         {
           :authorization => "Bearer #{Houdini::FullContact.api_key}",
-          "Reporting-Key" => supp.nonprofit_id
+          "Reporting-Key" => supporter.nonprofit_id
         })
-      result = JSON.parse(response.body)
-    rescue Exception => e
-      return e
+        result = JSON.parse(response.body)
+    rescue RestClient::NotFound => e
+      # this means there's no information about this contact so there's nothing to do.
+      # We just return and end
+
+      # NOTE: We pass on other errors because that means something failed. *shrug*
+      return
     end
 
     location = result['location'] && result['details']['locations'] && result['details']['locations'][0]
-    existing = supp.full_contact_info
+    existing = supporter.full_contact_infos.last
     info_data = {
       full_name: result['fullName'],
       gender: result['gender'],
@@ -64,7 +38,13 @@ module Houdini::FullContact::InsertInfos
       age_range: result['ageRange'],
       location_general: result['location'],
       websites: ((result['details'] && result['details']['urls']) || []).map{|h| h['value']}.join(','),
-      supporter_id: supporter_id
+      supporter_id: supporter.id
+    }
+    return {
+      'full_contact_info' => full_contact_info,
+      'full_contact_photos' => full_contact_photos,
+      'full_contact_social_profiles' => full_contact_social_profiles,
+      'full_contact_orgs' => full_contact_orgs
     }
 
     if existing

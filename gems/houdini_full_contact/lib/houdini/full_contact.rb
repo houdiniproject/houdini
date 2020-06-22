@@ -5,5 +5,5 @@ module Houdini::FullContact
 
     autoload :InsertInfos
 
-    mattr_accessor :api_key
+    mattr_accessor :api_key, :max_attempts
 end

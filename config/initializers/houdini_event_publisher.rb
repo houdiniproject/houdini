@@ -5,7 +5,8 @@
 
 Wisper.clear if Rails.env.development?
 
-Rails.application.config.houdini.listeners << [NonprofitMailerListener, 
-    CreditCardPaymentListener, 
-    SepaPaymentListener, 
-    TicketListener]
+Rails.application.config.houdini.listeners.push(NonprofitMailerListener,
+    CreditCardPaymentListener,
+    SepaPaymentListener,
+    TicketListener
+)

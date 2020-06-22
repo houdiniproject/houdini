@@ -16,6 +16,7 @@ gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'
 gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://stripe.com/docs/api
 gem 'webpacker', '~> 5.1.1'
+gem 'react-rails'
 
 gem 'httparty', '~> 0.17.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses

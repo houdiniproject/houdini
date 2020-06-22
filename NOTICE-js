@@ -552,6 +552,7 @@ Copyright 2015-present Facebook, Inc.
 Copyright 2006 Google Inc. http://code.google.com/p/google-diff-match-patch
 ** fb-watchman; version 2.0.1 -- https://facebook.github.io/watchman/
 Copyright 2014-present Facebook, Inc.
+** react_ujs; version 2.6.1 -- https://github.com/reactjs/react-rails#readme
 ** spdx-correct; version 3.1.1 -- https://github.com/jslicense/spdx-correct.js#readme
 ** true-case-path; version 1.0.3 -- https://github.com/barsh/true-case-path#readme
 ** validate-npm-package-license; version 3.0.4 -- https://github.com/kemitchell/validate-npm-package-license.js#readme

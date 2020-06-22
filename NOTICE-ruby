@@ -371,6 +371,30 @@ Copyright (c) 2008-2015 Sadayuki Furuhashi
 
 ** addressable; version 2.6.0 -- 
 Copyright (c) Bob Aman
+** react-rails; version 2.6.1 -- 
+(c) Sindre Sorhus
+Copyright (c) 2014 Ben Alpert
+Copyright 2013 Facebook, Inc.
+Copyright 2014 Facebook, Inc.
+Copyright 2004-present Facebook.
+Copyright 2011 The Closure Compiler
+Copyright 2013-2015, Facebook, Inc.
+Copyright (c) 2011, The Dojo Foundation
+Copyright (c) 2013-present, Facebook, Inc.
+Copyright (c) 2014-present, Facebook, Inc.
+Copyright (c) Facebook, Inc. and its affiliates.
+Copyright 2011 Mozilla Foundation and contributors
+Copyright (c) 2012 Mathias Bynens <mathias@qiwi.be>
+Copyright Joyent, Inc. and other Node contributors.
+Copyright (c) 2012 Kris Kowal <kris.kowal@cixar.com>
+Copyright (c) 2013 Thaddee Tyl <thaddee.tyl@gmail.com>
+Copyright 2009-2011 Mozilla Foundation and contributors
+Copyright (c) 2012 Yusuke Suzuki <utatane.tea@gmail.com>
+Copyright (c) 2011 Ariya Hidayat <ariya.hidayat@gmail.com>
+Copyright (c) 2012 Ariya Hidayat <ariya.hidayat@gmail.com>
+Copyright (c) 2013 Ariya Hidayat <ariya.hidayat@gmail.com>
+Copyright (c) 2012 Arpad Borsos <arpad.borsos@googlemail.com>
+Copyright (c) 2012 Joost-Wim Boekesteijn <joost-wim@boekesteijn.nl>
 
 
                               Apache License
@@ -1554,6 +1578,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** babel-transpiler; version 0.7.0 -- 
+Copyright (c) 2015 Joshua Peek
+
+Copyright (c) 2015 Joshua Peek
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** rspec-rails; version 4.0.1 -- 
 Copyright (c) 2015 David Chelimsky, Aaron Kromer
 Copyright (c) 2012 David Chelimsky, Andy Lindeman
@@ -1584,6 +1635,33 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** connection_pool; version 2.2.3 -- 
+Copyright (c) 2011 Mike Perham
+
+Copyright (c) 2011 Mike Perham
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -3219,6 +3297,35 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** execjs; version 2.7.0 -- 
+Copyright (c) 2015-2016 Josh Peek
+Copyright (c) 2015-2016 Sam Stephenson
+
+Copyright (c) 2015-2016 Sam Stephenson
+Copyright (c) 2015-2016 Josh Peek
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** actionmailer; version 6.0.3.2 -- 
 Copyright (c) 2004-2019 David Heinemeier Hansson
 ** actionpack; version 6.0.3.2 -- 
@@ -3871,6 +3978,50 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+------
+
+** babel-source; version 5.8.35 -- 
+Copyright (c) 2014, Facebook, Inc.
+Copyright 2011 The Closure Compiler
+Copyright 2014, 2015 Simon Lydell X11
+(c) 2014 Angry Bytes and contributors.
+Copyright (c) 2009 Thomas Robinson <280north.com>
+Copyright (c) 2014 Ivan Nikulin <ifaaan@gmail.com>
+Copyright 2011 Mozilla Foundation and contributors
+Copyright 2014 Mozilla Foundation and contributors
+Copyright Joyent, Inc. and other Node contributors.
+Copyright 2014 Benjamin Tan <https://d10.github.io/>
+Copyright (c) 2013 Olov Lassus <olov.lassus@gmail.com>
+Copyright 2009-2011 Mozilla Foundation and contributors
+Copyright (c) 2013 Yusuke Suzuki <utatane.tea@gmail.com>
+Copyright (c) 2013-2014 Olov Lassus <olov.lassus@gmail.com>
+Copyright (c) 2013-2014 Yusuke Suzuki <utatane.tea@gmail.com>
+Copyright (c) 2014-2015 Sebastian McKenzie <sebmck@gmail.com>
+
+Copyright (c) 2014-2015 Sebastian McKenzie <sebmck@gmail.com>
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------

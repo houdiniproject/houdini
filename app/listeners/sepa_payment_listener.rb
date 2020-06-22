@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class SepaPaymentListener < ApplicationListener
-    def donation_create(donation)
+    def self.donation_create(donation)
       if donation.payment_provider == :sepa
         DirectDebitCreateNotifyNonprofitJob.perform_later(donation.id)
         DirectDebitCreateNotifyDonorJob.perform_later donation.id, locale

@@ -93,6 +93,10 @@ GEM
     amq-protocol (2.3.0)
     andand (1.3.3)
     ast (2.4.0)
+    babel-source (5.8.35)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
     bcrypt (3.1.13)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
@@ -104,6 +108,7 @@ GEM
     coderay (1.1.2)
     colorize (0.8.1)
     concurrent-ruby (1.1.6)
+    connection_pool (2.2.3)
     countries (3.0.0)
       i18n_data (~> 0.8.0)
       sixarm_ruby_unaccent (~> 1.1)
@@ -136,6 +141,7 @@ GEM
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
     erubi (1.9.0)
+    execjs (2.7.0)
     factory_bot (5.0.2)
       activesupport (>= 4.2.0)
     factory_bot_rails (5.0.2)
@@ -287,6 +293,12 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    react-rails (2.6.1)
+      babel-transpiler (>= 0.7.0)
+      connection_pool
+      execjs
+      railties (>= 3.2)
+      tilt
     request_store (1.4.1)
       rack (>= 1.4)
     require_all (2.0.0)
@@ -451,6 +463,7 @@ DEPENDENCIES
   rails (~> 6.0.3, >= 6.0.3.2)
   rails-i18n (~> 6.0.0, ~> 6)
   rake (~> 12.3.2)
+  react-rails
   roadie-rails (~> 2.1)
   rspec (~> 3.9.0)
   rspec-rails (~> 4.0.0)

@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module Houdini
-  class Railtie < ::Rails::Railtie
+  class Engine < ::Rails::Engine
     config.houdini = ActiveSupport::OrderedOptions.new
 
     config.houdini.core_classes = {supporter: 'Supporter', nonprofit: 'Nonprofit'}

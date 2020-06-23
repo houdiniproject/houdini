@@ -54,6 +54,8 @@ describe Api::NonprofitsController, type: :request do
       
       expect(response.parsed_body['id']).to be > 0
       expect(response.parsed_body.except('id')).to eq expected_np
+
+      expect(Nonprofit.find(1).billing_plan).to_not be_nil
     end
   end
 end

@@ -105,6 +105,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation, reset_ids: true)
+    Rails.application.load_seed
   end
 
   config.around(:each) do |example|

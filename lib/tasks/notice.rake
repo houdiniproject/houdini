@@ -41,7 +41,7 @@ namespace :notice do
     namespace :js do 
         require 'fileutils'
         def get_notice_js
-            raise "NOTICE-js could not be retrieved from Clearlydefined.io" unless system('yarn noticeme')
+            raise "NOTICE-js could not be retrieved from Clearlydefined.io" unless system('npx noticeme@https://github.com/houdiniproject/noticeme')
             File.read('NOTICE')
         end
 

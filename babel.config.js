@@ -84,6 +84,17 @@ module.exports = function(api) {
           removeImport: true,
         },
       ],
+      isDevelopmentEnv && [
+        'babel-plugin-transform-imports',
+        {
+          '@material-ui/core': {
+            'preventFullImport': true
+          },
+          '@material-ui/icons': {
+            'preventFullImport': true
+          }
+        }
+      ]
     ].filter(Boolean),
   }
 }

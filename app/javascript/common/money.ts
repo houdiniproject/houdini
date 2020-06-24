@@ -30,10 +30,11 @@ export class Money {
 
   protected constructor(readonly amountInCents: number, currency: string) {
     this.currency = currency.toLowerCase()
-    [this.equals, this.add, this.subtract, this.multiply, this.divide, this.allocate,
+    const methodsToBind = [this.equals, this.add, this.subtract, this.multiply, this.divide, this.allocate,
       this.compare, this.greaterThan, this.greaterThanOrEqual, this.lessThan,
       this.lessThanOrEqual, this.isZero, this.isPositive, this.isNegative,
-      this.toJSON].forEach((func) => Object.bind(func))
+      this.toJSON]
+      methodsToBind.forEach((func:Function) => Object.bind(func))
     
     Object.freeze(this);
   }
@@ -107,7 +108,7 @@ export class Money {
    * @returns {Money}
    */
   multiply(multiplier: number, fn?: Function): Money {
-    if (!lodash.isFunction(fn))
+    if (!isFunction(fn))
       fn = Math.round;
 
     assertOperand(multiplier);
@@ -124,7 +125,7 @@ export class Money {
    * @returns {Money}
    */
   divide(divisor: number, fn?: (x: number) => number): Money {
-    if (!lodash.isFunction(fn))
+    if (!isFunction(fn))
       fn = Math.round;
 
     assertOperand(divisor);

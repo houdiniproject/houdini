@@ -71,6 +71,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^4.9.1",
     "@rails/activestorage": "^6.0.2-2",
     "attr-binder": "0.3.1",
     "chart.js": "2.1.4",
@@ -93,6 +95,7 @@
     "flyd-url": "0.0.1",
     "flyd-zip": "0.0.1",
     "focus-group": "^0.3.1",
+    "fontsource-roboto": "^2.1.4",
     "form-serialize": "0.7.0",
     "format-number": "2.0.2",
     "hoist-non-react-statics": "^3.3.0",

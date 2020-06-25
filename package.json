@@ -46,6 +46,7 @@
     "@types/validator": "^9.4.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-import": "^1.5.4",
+    "babel-plugin-transform-imports": "^2.0.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "bootstrap": "^3.4.1",
     "bootstrap-loader": "github:houdiniproject/bootstrap-loader#compiled_namespaced_3",

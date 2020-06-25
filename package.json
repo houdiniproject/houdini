@@ -99,6 +99,7 @@
     "fontsource-roboto": "^2.1.4",
     "form-serialize": "0.7.0",
     "format-number": "2.0.2",
+    "formik": "^2.1.4",
     "hoist-non-react-statics": "^3.3.0",
     "i18n-js": "^3.0.3",
     "iban": "0.0.8",

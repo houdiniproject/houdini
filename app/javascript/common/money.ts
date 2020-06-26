@@ -1,19 +1,19 @@
 // License: LGPL-3.0-or-later
 // based upon https://github.com/davidkalosi/js-money
-import isFunction from 'lodash/isFunction'
+import isFunction from 'lodash/isFunction';
 
-const assertSameCurrency = function (left: any, right: any) {
+const assertSameCurrency = function (left: Money, right: Money) {
   if (left.currency !== right.currency)
     throw new Error('Different currencies');
 };
 
-const assertType = function (other: any) {
+const assertType = function (other: unknown) {
   if (!(other instanceof Money))
     throw new TypeError('Instance of Money required');
 };
 
-const assertOperand = function (operand: any) {
-  if (isNaN(parseFloat(operand)) && !isFinite(operand))
+const assertOperand = function (operand: unknown) {
+  if (typeof operand !== 'number' || isNaN(operand) && !isFinite(operand))
     throw new TypeError('Operand must be a number');
 };
 
@@ -31,12 +31,12 @@ export class Money {
   readonly currency:string
 
   protected constructor(readonly amount: number, currency: string) {
-    this.currency = currency.toLowerCase()
+    this.currency = currency.toLowerCase();
     const methodsToBind = [this.equals, this.add, this.subtract, this.multiply, this.divide, this.allocate,
       this.compare, this.greaterThan, this.greaterThanOrEqual, this.lessThan,
       this.lessThanOrEqual, this.isZero, this.isPositive, this.isNegative,
-      this.toJSON]
-      methodsToBind.forEach((func:Function) => Object.bind(func))
+      this.toJSON];
+      methodsToBind.forEach((func) => Object.bind(func));
     
     Object.freeze(this);
   }
@@ -60,7 +60,7 @@ export class Money {
     if (amount instanceof Money)
       return new Money(amount.amount, amount.currency);
     else 
-      return new Money(amount.amount, amount.currency)
+      return new Money(amount.amount, amount.currency);
   }
   
 
@@ -78,12 +78,12 @@ export class Money {
   * @returns {Boolean}
   */
   equals(other: Money): boolean {
-    var self = this;
+
     assertType(other);
 
-    return self.amount === other.amount &&
-      self.currency === other.currency;
-  };
+    return this.amount === other.amount &&
+      this.currency === other.currency;
+  }
 
   /**
    * Adds the two objects together creating a new Money instance that holds the result of the operation.
@@ -92,12 +92,12 @@ export class Money {
    * @returns {Money}
    */
   add(other: Money): Money {
-    var self = this;
-    assertType(other);
-    assertSameCurrency(self, other);
 
-    return new Money(self.amount + other.amount, self.currency);
-  };
+    assertType(other);
+    assertSameCurrency(this, other);
+
+    return new Money(this.amount + other.amount, this.currency);
+  }
 
   /**
    * Subtracts the two objects creating a new Money instance that holds the result of the operation.
@@ -106,29 +106,29 @@ export class Money {
    * @returns {Money}
    */
   subtract(other: Money): Money {
-    var self = this;
-    assertType(other);
-    assertSameCurrency(self, other);
 
-    return new Money(self.amount - other.amount, self.currency);
-  };
+    assertType(other);
+    assertSameCurrency(this, other);
+
+    return new Money(this.amount - other.amount, this.currency);
+  }
 
   /**
    * Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
    *
-   * @param {Number} multiplier
+   * @param {number} multiplier
    * @param {(x:number) => number} [fn=Math.round]
    * @returns {Money}
    */
-  multiply(multiplier: number, fn?: Function): Money {
-    if (!isFunction(fn))
-      fn = Math.round;
+  multiply(multiplier: number, roundingFunction: (x:number) => number): Money {
+    if (!isFunction(roundingFunction))
+      roundingFunction = Math.round;
 
     assertOperand(multiplier);
-    var amount = fn(this.amount * multiplier);
+    const amount = roundingFunction(this.amount * multiplier);
 
     return new Money(amount, this.currency);
-  };
+  }
 
   /**
    * Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
@@ -142,10 +142,10 @@ export class Money {
       fn = Math.round;
 
     assertOperand(divisor);
-    var amount = fn(this.amount / divisor);
+    const amount = fn(this.amount / divisor);
 
     return new Money(amount, this.currency);
-  };
+  }
 
   /**
    * Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
@@ -154,28 +154,28 @@ export class Money {
    * @param {Money[]}
    */
   allocate(ratios: number[]): Money[] {
-    var self = this;
-    var remainder = self.amount;
-    var results: Money[] = [];
-    var total = 0;
+
+    let remainder = this.amount;
+    const results: Money[] = [];
+    let total = 0;
 
     ratios.forEach(function (ratio) {
       total += ratio;
     });
 
     ratios.forEach(function (ratio) {
-      var share = Math.floor(self.amount * ratio / total)
-      results.push(new Money(share, self.currency));
+      const share = Math.floor(this.amount * ratio / total);
+      results.push(new Money(share, this.currency));
       remainder -= share;
     });
 
-    for (var i = 0; remainder > 0; i++) {
+    for (let i = 0; remainder > 0; i++) {
       results[i] = new Money(results[i].amount + 1, results[i].currency);
       remainder--;
     }
 
     return results;
-  };
+  }
 
   /**
    * Compares two instances of Money.
@@ -184,16 +184,16 @@ export class Money {
    * @returns {Number}
    */
   compare(other: Money): number {
-    var self = this;
+
 
     assertType(other);
-    assertSameCurrency(self, other);
+    assertSameCurrency(this, other);
 
-    if (self.amount === other.amount)
+    if (this.amount === other.amount)
       return 0;
 
-    return self.amount > other.amount ? 1 : -1;
-  };
+    return this.amount > other.amount ? 1 : -1;
+  }
 
   /**
    * Checks whether the value represented by this object is greater than the other.
@@ -203,7 +203,7 @@ export class Money {
    */
   greaterThan(other: Money): boolean {
     return 1 === this.compare(other);
-  };
+  }
 
   /**
    * Checks whether the value represented by this object is greater or equal to the other.
@@ -213,7 +213,7 @@ export class Money {
    */
   greaterThanOrEqual(other: Money): boolean {
     return 0 <= this.compare(other);
-  };
+  }
 
   /**
    * Checks whether the value represented by this object is less than the other.
@@ -223,7 +223,7 @@ export class Money {
    */
   lessThan(other: Money): boolean {
     return -1 === this.compare(other);
-  };
+  }
 
   /**
    * Checks whether the value represented by this object is less than or equal to the other.
@@ -233,7 +233,7 @@ export class Money {
    */
   lessThanOrEqual(other: Money): boolean {
     return 0 >= this.compare(other);
-  };
+  }
 
   /**
    * Returns true if the amount is zero.
@@ -242,7 +242,7 @@ export class Money {
    */
   isZero(): boolean {
     return this.amount === 0;
-  };
+  }
 
   /**
    * Returns true if the amount is positive.
@@ -251,16 +251,11 @@ export class Money {
    */
   isPositive(): boolean {
     return this.amount > 0;
-  };
+  }
 
-  /**
-   * Returns true if the amount is negative.
-   *
-   * @returns {boolean}
-   */
   isNegative(): boolean {
     return this.amount < 0;
-  };
+  }
 
   /**
    * Returns a serialised version of the instance.
@@ -272,5 +267,5 @@ export class Money {
       amount: this.amount,
       currency: this.currency
     };
-  };
+  }
 }

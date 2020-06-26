@@ -135,6 +135,27 @@ jobs:
           bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
     - name: run jest
       run: yarn jest
+  eslint:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [12]
+    needs: ['install_yarn']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v1.4.2
+      - uses: actions/cache@v1
+        name: Use Node package cache
+        with:
+          path: node_modules
+          key: bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
+      - name: run yarn eslint
+        run: |
+            yarn eslint
   main_build:
     needs: ['install_yarn', 'install_gems']
     runs-on: ${{ matrix.os }}

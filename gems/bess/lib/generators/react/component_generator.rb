@@ -112,7 +112,7 @@ module React
           template_extension = if options[:coffee]
             'js.jsx.coffee'
           elsif options[:ts]
-            'js.jsx.tsx'
+            'js.jsx.tsx.erb'
           elsif options[:es6] || webpacker?
             'es6.jsx'
           else

@@ -17,6 +17,8 @@ const assertOperand = function (operand: any) {
     throw new TypeError('Operand must be a number');
 };
 
+type MoneyAsJson = {amount: number, currency: string}
+
 /**
  * Represents a monetary amount. For safety, all Money objects are immutable. All of the functions in this class create a new Money object.
  * 
@@ -28,7 +30,7 @@ export class Money {
 
   readonly currency:string
 
-  protected constructor(readonly amountInCents: number, currency: string) {
+  protected constructor(readonly amount: number, currency: string) {
     this.currency = currency.toLowerCase()
     const methodsToBind = [this.equals, this.add, this.subtract, this.multiply, this.divide, this.allocate,
       this.compare, this.greaterThan, this.greaterThanOrEqual, this.lessThan,
@@ -42,14 +44,25 @@ export class Money {
   /**
    * Create a `Money` object with the given number of cents and the ISO currency unit
    * @static
-   * @param  {number} amountInCents 
+   * @param  {number} amount 
    * @param  {string} currency 
    * @return Money 
    * @memberof Money
    */
-  static fromCents(amountInCents: number, currency: string): Money {
-    return new Money(amountInCents, currency)
+ 
+  static fromCents(amount:MoneyAsJson): Money;
+  static fromCents(amount:Money): Money;
+  static fromCents(amount: number, currency: string) : Money;
+  static fromCents(amount: number|Money|MoneyAsJson, currency?: string): Money {
+
+    if (typeof amount === 'number')
+      return new Money(amount, currency);
+    if (amount instanceof Money)
+      return new Money(amount.amount, amount.currency);
+    else 
+      return new Money(amount.amount, amount.currency)
   }
+  
 
   /**
    * Create a `Money` object with the given number if smallest monetary units and the ISO currency. Another name for the `fromCents` function.
@@ -68,7 +81,7 @@ export class Money {
     var self = this;
     assertType(other);
 
-    return self.amountInCents === other.amountInCents &&
+    return self.amount === other.amount &&
       self.currency === other.currency;
   };
 
@@ -83,7 +96,7 @@ export class Money {
     assertType(other);
     assertSameCurrency(self, other);
 
-    return new Money(self.amountInCents + other.amountInCents, self.currency);
+    return new Money(self.amount + other.amount, self.currency);
   };
 
   /**
@@ -97,7 +110,7 @@ export class Money {
     assertType(other);
     assertSameCurrency(self, other);
 
-    return new Money(self.amountInCents - other.amountInCents, self.currency);
+    return new Money(self.amount - other.amount, self.currency);
   };
 
   /**
@@ -112,7 +125,7 @@ export class Money {
       fn = Math.round;
 
     assertOperand(multiplier);
-    var amount = fn(this.amountInCents * multiplier);
+    var amount = fn(this.amount * multiplier);
 
     return new Money(amount, this.currency);
   };
@@ -129,7 +142,7 @@ export class Money {
       fn = Math.round;
 
     assertOperand(divisor);
-    var amount = fn(this.amountInCents / divisor);
+    var amount = fn(this.amount / divisor);
 
     return new Money(amount, this.currency);
   };
@@ -142,7 +155,7 @@ export class Money {
    */
   allocate(ratios: number[]): Money[] {
     var self = this;
-    var remainder = self.amountInCents;
+    var remainder = self.amount;
     var results: Money[] = [];
     var total = 0;
 
@@ -151,13 +164,13 @@ export class Money {
     });
 
     ratios.forEach(function (ratio) {
-      var share = Math.floor(self.amountInCents * ratio / total)
+      var share = Math.floor(self.amount * ratio / total)
       results.push(new Money(share, self.currency));
       remainder -= share;
     });
 
     for (var i = 0; remainder > 0; i++) {
-      results[i] = new Money(results[i].amountInCents + 1, results[i].currency);
+      results[i] = new Money(results[i].amount + 1, results[i].currency);
       remainder--;
     }
 
@@ -176,10 +189,10 @@ export class Money {
     assertType(other);
     assertSameCurrency(self, other);
 
-    if (self.amountInCents === other.amountInCents)
+    if (self.amount === other.amount)
       return 0;
 
-    return self.amountInCents > other.amountInCents ? 1 : -1;
+    return self.amount > other.amount ? 1 : -1;
   };
 
   /**
@@ -228,7 +241,7 @@ export class Money {
    * @returns {boolean}
    */
   isZero(): boolean {
-    return this.amountInCents === 0;
+    return this.amount === 0;
   };
 
   /**
@@ -237,7 +250,7 @@ export class Money {
    * @returns {boolean}
    */
   isPositive(): boolean {
-    return this.amountInCents > 0;
+    return this.amount > 0;
   };
 
   /**
@@ -246,7 +259,7 @@ export class Money {
    * @returns {boolean}
    */
   isNegative(): boolean {
-    return this.amountInCents < 0;
+    return this.amount < 0;
   };
 
   /**
@@ -254,12 +267,10 @@ export class Money {
    *
    * @returns {{amount: number, currency: string}}
    */
-  toJSON(): { amountInCents: number; currency: string; } {
+  toJSON(): MoneyAsJson {
     return {
-      amountInCents: this.amountInCents,
+      amount: this.amount,
       currency: this.currency
     };
   };
-
-
 }

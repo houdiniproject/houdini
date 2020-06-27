@@ -16,7 +16,23 @@ module.exports = {
 				'eslint:recommended',
 				'plugin:@typescript-eslint/recommended',
 			]
-		}
+    },
+    {
+            "files": ['**/*.spec.ts'],
+            parser: '@typescript-eslint/parser',
+            plugins: [
+              '@typescript-eslint',
+              'jest'
+            ],
+            extends: [
+              'eslint:recommended',
+              'plugin:@typescript-eslint/recommended',
+              'plugin:jest/all'
+            ],
+            rules:{
+              "jest/lowercase-name": ["error", { "ignore": ["describe"]}]
+            }
+          }
 	],
 	"rules": {
 		"linebreak-style": [

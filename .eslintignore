@@ -332,7 +332,6 @@ config/webpack/test.js
 lib/templates/rails/assets/javascript.js
 postcss.config.js
 setupTests.js
-.eslintrc.js
 
 # old es files
 app/javascript/legacy/bank_accounts/confirm/index.es6

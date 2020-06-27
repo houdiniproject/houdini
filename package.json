@@ -10,7 +10,7 @@
     "ci-build-all": "script/compile-assets.sh && yarn build",
     "test": "rake -v spec  && yarn build && yarn jest",
     "jest": "jest",
-    "eslint": "eslint . --ext .ts",
+    "eslint": "eslint . --ext .ts,.js,.es6",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

@@ -116,7 +116,7 @@ jobs:
         run: |
             bin/rails notice:js:verify
   main_build:
-    needs: ['notice_js', 'notice_ruby']
+    needs: ['install_yarn', 'install_gems']
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

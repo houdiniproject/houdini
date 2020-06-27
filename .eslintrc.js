@@ -43,6 +43,7 @@ module.exports = {
 			"error",
 			"always"
     ],
-    "no-trailing-spaces": ["error"]
+    "no-trailing-spaces": ["error"],
+    "indent": ["error", "tab"], // we use tabs for accessibility
 	}
 };

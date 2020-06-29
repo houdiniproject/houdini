@@ -401,8 +401,6 @@ app/javascript/legacy_react/src/components/common/Modal.tsx
 app/javascript/legacy_react/src/components/common/ProgressableButton.spec.tsx
 app/javascript/legacy_react/src/components/common/ProgressableButton.tsx
 app/javascript/legacy_react/src/components/common/Root.tsx
-app/javascript/legacy_react/src/components/common/ScreenReaderOnlyText.spec.tsx
-app/javascript/legacy_react/src/components/common/ScreenReaderOnlyText.tsx
 app/javascript/legacy_react/src/components/common/selectable_table_row/connect.tsx
 app/javascript/legacy_react/src/components/common/selectable_table_row/SelectableTableRow.spec.tsx
 app/javascript/legacy_react/src/components/common/selectable_table_row/SelectableTableRow.tsx

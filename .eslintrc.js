@@ -13,14 +13,38 @@ const tsSpecBase = {
 		'plugin:@typescript-eslint/recommended',
 		'plugin:jest/all'
 	],
-	rules:{
-		"jest/lowercase-name": ["error", { "ignore": ["describe"]}]
+	rules: {
+		"jest/lowercase-name": ["error", { "ignore": ["describe"] }]
 	}
 };
+
 
 const tsSpec = _.cloneDeep(tsSpecBase);
 tsSpec['files'] = ['**/*.spec.ts'];
 
+const tsxSpec = _.cloneDeep(tsSpecBase);
+tsxSpec['files'] = ['**/*.spec.tsx'];
+tsxSpec['plugins'] = [...tsxSpec['plugins'], "react"];
+tsxSpec['extends'] = [...tsxSpec['extends'], "plugin:react/recommended"];
+
+
+const tsBase = {
+	parser: '@typescript-eslint/parser',
+	plugins: [
+		'@typescript-eslint',
+	],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
+		"plugin:react-hooks/recommended",
+	]
+};
+
+const tsSettings = _.cloneDeep(tsBase);
+tsSettings['files'] = ['**/*.ts'];
+
+const tsxSettings = _.cloneDeep(tsBase);
+tsxSettings['files'] = ['**/*.tsx'];
 
 module.exports = {
 	root: true,
@@ -33,18 +57,10 @@ module.exports = {
 				'plugin:node/recommended'
 			],
 		},
-		{
-			"files": ['**/*.ts'],
-			parser: '@typescript-eslint/parser',
-			plugins: [
-				'@typescript-eslint',
-			],
-			extends: [
-				'eslint:recommended',
-				'plugin:@typescript-eslint/recommended',
-			]
-		},
-		tsSpec
+		tsSpec,
+		tsxSpec,
+		tsSettings,
+		tsxSettings
 	],
 	"rules": {
 		"linebreak-style": [
@@ -57,5 +73,10 @@ module.exports = {
 		],
 		"no-trailing-spaces": ["error"],
 		"indent": ["error", "tab"], // we use tabs for accessibility
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		},
 	}
 };

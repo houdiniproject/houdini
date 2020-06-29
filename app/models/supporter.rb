@@ -50,6 +50,7 @@ class Supporter < ActiveRecord::Base
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
   belongs_to :merged_into, class_name: 'Supporter', :foreign_key => 'merged_into'
+  has_many :merged_from, class_name: 'Supporter', :foreign_key => "merged_into"
 
   validates :nonprofit, :presence => true
   scope :not_deleted, -> {where(deleted: false)}

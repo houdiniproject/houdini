@@ -10,7 +10,7 @@
     "ci-build-all": "script/compile-assets.sh && yarn build",
     "test": "rake -v spec  && yarn build && yarn jest",
     "jest": "jest",
-    "eslint": "eslint . --ext .ts,.js,.es6",
+    "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -62,6 +62,7 @@
     "eslint-plugin-jest": "^23.17.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.2",
+    "eslint-plugin-react-hooks": "^4.0.4",
     "fork-ts-checker-webpack-plugin": "^5.0.4",
     "jest": "^24.1.0",
     "jest-enzyme": "^7.0.1",

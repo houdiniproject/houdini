@@ -3,7 +3,7 @@ import * as React from 'react';
 import RegistrationWizard from "./RegistrationWizard";
 
 import {observer} from 'mobx-react';
-import { injectIntl, InjectedIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage, WrappedComponentProps} from 'react-intl';
 
 
 export interface RegistrationPageProps
@@ -11,7 +11,7 @@ export interface RegistrationPageProps
 
 }
 
-class RegistrationPage extends React.Component<RegistrationPageProps &  {}> {
+class RegistrationPage extends React.Component<RegistrationPageProps & WrappedComponentProps, {}> {
 
 
 

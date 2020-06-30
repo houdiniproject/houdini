@@ -7,7 +7,7 @@ import {action,  observable, computed, runInAction} from 'mobx';
 import {Wizard} from '../common/wizard/Wizard'
 
 import {Form} from 'mobx-react-form';
-import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
+import { injectIntl, WrappedComponentProps} from 'react-intl';
 import {WizardState, WizardTabPanelState} from "../common/wizard/wizard_state";
 import UserInfoPanel, * as UserInfo from "./UserInfoPanel";
 import {
@@ -122,9 +122,9 @@ class RegistrationWizardState extends WizardState {
 
 }
 
-export class InnerRegistrationWizard extends React.Component<RegistrationWizardProps &  {}> {
+export class InnerRegistrationWizard extends React.Component<RegistrationWizardProps & WrappedComponentProps,{}> {
 
-  constructor(props: RegistrationWizardProps & InjectedIntlProps) {
+  constructor(props: RegistrationWizardProps & WrappedComponentProps) {
     super(props)
 
     this.setRegistrationWizardState()

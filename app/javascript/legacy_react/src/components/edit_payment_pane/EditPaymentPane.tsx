@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import {observer} from 'mobx-react';
-import { injectIntl} from 'react-intl';
+import { injectIntl, WrappedComponentProps} from 'react-intl';
 import {action, computed} from "mobx";
 import {FieldDefinition} from "mobx-react-form";
 import {HoudiniForm} from "../../lib/houdini_form";
@@ -88,9 +88,9 @@ class EditPaymentPaneForm extends HoudiniForm {
 
 
 @observer
-class EditPaymentPane extends React.Component<EditPaymentPaneProps &  {}> {
+class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComponentProps,{}> {
 
-  constructor(props: EditPaymentPaneProps & InjectedIntlProps) {
+  constructor(props: EditPaymentPaneProps & WrappedComponentProps) {
     super(props);
     this.putDonation = new ApiManager(CustomAPIS.APIS as Array<any>, CSRFInterceptor).get(PutDonation);
 

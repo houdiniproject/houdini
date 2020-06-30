@@ -2,7 +2,7 @@
 import * as React from 'react';
 import * as _ from 'lodash'
 import {observer} from 'mobx-react';
-import {InjectedIntlProps, injectIntl} from 'react-intl';
+import { injectIntl} from 'react-intl';
 
 export interface ProgressableButtonProps
 {

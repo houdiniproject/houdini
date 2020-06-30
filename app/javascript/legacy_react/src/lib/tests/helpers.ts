@@ -1,12 +1,13 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import {IntlProvider, intlShape} from 'react-intl';
+import {IntlProvider, createIntl, createIntlCache} from 'react-intl';
 import {mount, MountRendererProps, shallow, ShallowRendererProps, ShallowWrapper} from 'enzyme';
 
 // Create the IntlProvider to retrieve context for wrapping around.
-const intlProvider = new IntlProvider({ locale: 'en'}, {});
-const { intl } = intlProvider.getChildContext();
 
+const cache = createIntlCache()
+
+const  intl  = createIntl({ locale: 'en', messages:{}})
 /**
  * When using React-Intl `injectIntl` on components, props.intl is required.
  */
@@ -14,41 +15,28 @@ function nodeWithIntlProp(node:any) {
   return React.cloneElement(node, { intl });
 }
 
-export function shallowWithIntl(node:any, options?:ShallowRendererProps) {
-  let context = {}
 
-  if (options ) {
-    context = options.context
+const defaultLocale = 'en';
+const locale = defaultLocale;
 
-  }
-  return shallow(
-    nodeWithIntlProp(node),
-    {
-      ...options,
-      context: (Object as any).assign({}, context, {intl})
-    }
-  ).dive();
+export function mountWithIntl(node: React.ReactElement) {
+  return mount(node, {
+    wrappingComponent: IntlProvider,
+    wrappingComponentProps: {
+      locale,
+      defaultLocale,
+    },
+  });
 }
 
-
-export function mountWithIntl(node:any, options?:MountRendererProps) {
-  let context = {}
-  let additionalOptions:Array<any> = []
-  let childContextTypes = {}
-
-  if (options) {
-    context = options.context
-    childContextTypes = options.childContextTypes
-  }
-  return mount(
-    nodeWithIntlProp(node),
-    {
-      ...options,
-      context:(Object as any).assign({},context, {intl}),
-      childContextTypes: (Object as any).assign({}, { intl: intlShape }, childContextTypes)
-
-    }
-  );
+export function shallowWithIntl(node: React.ReactElement) {
+  return shallow(node, {
+    wrappingComponent: IntlProvider,
+    wrappingComponentProps: {
+      locale,
+      defaultLocale,
+    },
+  }).dive().dive();
 }
 
 

@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import {InjectedIntlProps, injectIntl} from 'react-intl';
+import { injectIntl} from 'react-intl';
 import Modal from "../common/Modal";
 //import { FundraiserInfo} from "../edit_payment_pane/EditPaymentPane";
 import {HoudiniForm} from "../../lib/houdini_form";
@@ -48,7 +48,7 @@ class CreateOffsitePaymentPaneForm extends HoudiniForm {
 
 }
 
-class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPaneProps & InjectedIntlProps, {}> {
+class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPaneProps &  {}> {
 
   constructor(props: CreateOffsitePaymentPaneProps & InjectedIntlProps) {
     super(props);

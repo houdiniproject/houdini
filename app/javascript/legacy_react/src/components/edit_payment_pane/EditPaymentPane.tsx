@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import {observer} from 'mobx-react';
-import {InjectedIntlProps, injectIntl} from 'react-intl';
+import { injectIntl} from 'react-intl';
 import {action, computed} from "mobx";
 import {FieldDefinition} from "mobx-react-form";
 import {HoudiniForm} from "../../lib/houdini_form";
@@ -88,7 +88,7 @@ class EditPaymentPaneForm extends HoudiniForm {
 
 
 @observer
-class EditPaymentPane extends React.Component<EditPaymentPaneProps & InjectedIntlProps, {}> {
+class EditPaymentPane extends React.Component<EditPaymentPaneProps &  {}> {
 
   constructor(props: EditPaymentPaneProps & InjectedIntlProps) {
     super(props);

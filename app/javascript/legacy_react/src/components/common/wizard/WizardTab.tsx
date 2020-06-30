@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import {FormattedMessage, injectIntl, InjectedIntlProps} from 'react-intl';
+import {injectIntl, WrappedComponentProps} from 'react-intl';
 import {observer} from 'mobx-react';
 import {WizardTabPanelState} from "./wizard_state";
 import {Tab} from "./RAT/Tab";
@@ -21,7 +21,7 @@ export interface WizardTabProps
 }
 
 
-class WizardTab extends React.Component<WizardTabProps & InjectedIntlProps, {}> {
+class WizardTab extends React.Component<WizardTabProps & WrappedComponentProps, {}> {
   render() {
     let percentageToString = this.props.widthPercentage.toString() + "%"
     let style=  {width: percentageToString}

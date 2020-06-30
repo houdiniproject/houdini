@@ -3,6 +3,7 @@ import * as React from 'react';
 import 'jest';
 import WizardTab from './WizardTab'
 import {shallowWithIntl} from "../../../lib/tests/helpers";
+import { shallow } from 'enzyme';
 
 describe('WizardTab', () => {
     function runTest(enabled:boolean, active:boolean, widthPercentage:number){

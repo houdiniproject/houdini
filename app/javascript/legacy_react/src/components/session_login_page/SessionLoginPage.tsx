@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import {InjectedIntlProps, injectIntl, InjectedIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, InjectedIntl, FormattedMessage} from 'react-intl';
 import SessionLoginForm from "./SessionLoginForm";
 
 export interface SessionLoginPageProps
@@ -9,7 +9,7 @@ export interface SessionLoginPageProps
 
 }
 
-class SessionLoginPage extends React.Component<SessionLoginPageProps & InjectedIntlProps, {}> {
+class SessionLoginPage extends React.Component<SessionLoginPageProps &  {}> {
   render() {
      return <div className="tw-bs"><div className="container"><div className="row"><div className={'col-sm-6'}>
        <h1><FormattedMessage id="login.header"/></h1>

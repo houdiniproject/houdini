@@ -7,7 +7,7 @@ import { Field} from 'mobx-react-form'
 import { observer } from 'mobx-react';
 import { computed } from 'mobx';
 import { WizardTabPanelState} from "../common/wizard/wizard_state";
-import {InjectedIntlProps, injectIntl, InjectedIntl} from 'react-intl';
+import { injectIntl, InjectedIntl} from 'react-intl';
 import NonprofitInfoForm from "./NonprofitInfoForm";
 
 export interface NonprofitInfoPanelProps extends WizardTabPanelProps
@@ -15,7 +15,7 @@ export interface NonprofitInfoPanelProps extends WizardTabPanelProps
     buttonText:string
 }
 
-class NonprofitInfoPanel extends React.Component<NonprofitInfoPanelProps & InjectedIntlProps, {}>  {
+class NonprofitInfoPanel extends React.Component<NonprofitInfoPanelProps &  {}>  {
 
   @computed
   get wizardTab(): WizardTabPanelState {

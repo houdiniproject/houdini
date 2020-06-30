@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import  * as React from 'react';
 import { observer, inject, Provider } from 'mobx-react';
-import {InjectedIntlProps, injectIntl} from 'react-intl';
+import {injectIntl} from 'react-intl';
 import {Field} from "mobx-react-form";
 import {observable, action, toJS, runInAction} from 'mobx';
 import {InputHTMLAttributes} from 'react';

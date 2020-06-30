@@ -122,7 +122,7 @@ class RegistrationWizardState extends WizardState {
 
 }
 
-export class InnerRegistrationWizard extends React.Component<RegistrationWizardProps & InjectedIntlProps, {}> {
+export class InnerRegistrationWizard extends React.Component<RegistrationWizardProps &  {}> {
 
   constructor(props: RegistrationWizardProps & InjectedIntlProps) {
     super(props)

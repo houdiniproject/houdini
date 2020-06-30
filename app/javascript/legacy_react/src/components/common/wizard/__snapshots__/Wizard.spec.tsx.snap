@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Wizard Move back on disabled make first invalid so move back there 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
         <WizardTabList wizardState={{...}} disableTabs={false}>
           <TabList tag=\\"div\\" className=\\"wizard-index\\">
             <div role=\\"tablist\\" className=\\"wizard-index\\">
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={true} className=\\"wizard-index-label is-current is-accessible\\" style={{...}} id=\\"tab1\\" role=\\"tab\\">
                     <span id=\\"tab1\\" tabIndex={0} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={true} aria-controls=\\"tab1-panel\\" className=\\"wizard-index-label is-current is-accessible\\" style={{...}}>
@@ -16,8 +16,8 @@ exports[`Wizard Move back on disabled make first invalid so move back there 1`] 
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label\\" style={{...}} id=\\"tab2\\" role=\\"tab\\">
                     <span id=\\"tab2\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab2-panel\\" className=\\"wizard-index-label\\" style={{...}}>
@@ -25,8 +25,8 @@ exports[`Wizard Move back on disabled make first invalid so move back there 1`] 
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label\\" style={{...}} id=\\"tab3\\" role=\\"tab\\">
                     <span id=\\"tab3\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab3-panel\\" className=\\"wizard-index-label\\" style={{...}}>
@@ -34,7 +34,7 @@ exports[`Wizard Move back on disabled make first invalid so move back there 1`] 
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
+              </injectIntl(WizardTab)>
             </div>
           </TabList>
         </WizardTabList>
@@ -70,14 +70,14 @@ exports[`Wizard Move back on disabled make first invalid so move back there 1`] 
 `;
 
 exports[`Wizard Move back on disabled make first invalid so move back there 2`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
         <WizardTabList wizardState={{...}} disableTabs={false}>
           <TabList tag=\\"div\\" className=\\"wizard-index\\">
             <div role=\\"tablist\\" className=\\"wizard-index\\">
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={true} className=\\"wizard-index-label is-current is-accessible\\" style={{...}} id=\\"tab1\\" role=\\"tab\\">
                     <span id=\\"tab1\\" tabIndex={0} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={true} aria-controls=\\"tab1-panel\\" className=\\"wizard-index-label is-current is-accessible\\" style={{...}}>
@@ -85,8 +85,8 @@ exports[`Wizard Move back on disabled make first invalid so move back there 2`] 
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label\\" style={{...}} id=\\"tab2\\" role=\\"tab\\">
                     <span id=\\"tab2\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab2-panel\\" className=\\"wizard-index-label\\" style={{...}}>
@@ -94,8 +94,8 @@ exports[`Wizard Move back on disabled make first invalid so move back there 2`] 
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label\\" style={{...}} id=\\"tab3\\" role=\\"tab\\">
                     <span id=\\"tab3\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab3-panel\\" className=\\"wizard-index-label\\" style={{...}}>
@@ -103,7 +103,7 @@ exports[`Wizard Move back on disabled make first invalid so move back there 2`] 
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
+              </injectIntl(WizardTab)>
             </div>
           </TabList>
         </WizardTabList>
@@ -139,14 +139,14 @@ exports[`Wizard Move back on disabled make first invalid so move back there 2`] 
 `;
 
 exports[`Wizard Move back on disabled make second invalid so move back there 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
         <WizardTabList wizardState={{...}} disableTabs={false}>
           <TabList tag=\\"div\\" className=\\"wizard-index\\">
             <div role=\\"tablist\\" className=\\"wizard-index\\">
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab1\\" role=\\"tab\\">
                     <span id=\\"tab1\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab1-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -154,8 +154,8 @@ exports[`Wizard Move back on disabled make second invalid so move back there 1`]
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={true} className=\\"wizard-index-label is-current is-accessible\\" style={{...}} id=\\"tab2\\" role=\\"tab\\">
                     <span id=\\"tab2\\" tabIndex={0} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={true} aria-controls=\\"tab2-panel\\" className=\\"wizard-index-label is-current is-accessible\\" style={{...}}>
@@ -163,8 +163,8 @@ exports[`Wizard Move back on disabled make second invalid so move back there 1`]
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label\\" style={{...}} id=\\"tab3\\" role=\\"tab\\">
                     <span id=\\"tab3\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab3-panel\\" className=\\"wizard-index-label\\" style={{...}}>
@@ -172,7 +172,7 @@ exports[`Wizard Move back on disabled make second invalid so move back there 1`]
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
+              </injectIntl(WizardTab)>
             </div>
           </TabList>
         </WizardTabList>
@@ -208,14 +208,14 @@ exports[`Wizard Move back on disabled make second invalid so move back there 1`]
 `;
 
 exports[`Wizard first tab is active 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
         <WizardTabList wizardState={{...}} disableTabs={false}>
           <TabList tag=\\"div\\" className=\\"wizard-index\\">
             <div role=\\"tablist\\" className=\\"wizard-index\\">
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={true} className=\\"wizard-index-label is-current is-accessible\\" style={{...}} id=\\"tab1\\" role=\\"tab\\">
                     <span id=\\"tab1\\" tabIndex={0} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={true} aria-controls=\\"tab1-panel\\" className=\\"wizard-index-label is-current is-accessible\\" style={{...}}>
@@ -223,8 +223,8 @@ exports[`Wizard first tab is active 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab2\\" role=\\"tab\\">
                     <span id=\\"tab2\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab2-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -232,8 +232,8 @@ exports[`Wizard first tab is active 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab3\\" role=\\"tab\\">
                     <span id=\\"tab3\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab3-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -241,7 +241,7 @@ exports[`Wizard first tab is active 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
+              </injectIntl(WizardTab)>
             </div>
           </TabList>
         </WizardTabList>
@@ -277,14 +277,14 @@ exports[`Wizard first tab is active 1`] = `
 `;
 
 exports[`Wizard go to the second tab go to next via backend 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
         <WizardTabList wizardState={{...}} disableTabs={false}>
           <TabList tag=\\"div\\" className=\\"wizard-index\\">
             <div role=\\"tablist\\" className=\\"wizard-index\\">
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab1\\" role=\\"tab\\">
                     <span id=\\"tab1\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab1-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -292,8 +292,8 @@ exports[`Wizard go to the second tab go to next via backend 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={true} className=\\"wizard-index-label is-current is-accessible\\" style={{...}} id=\\"tab2\\" role=\\"tab\\">
                     <span id=\\"tab2\\" tabIndex={0} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={true} aria-controls=\\"tab2-panel\\" className=\\"wizard-index-label is-current is-accessible\\" style={{...}}>
@@ -301,8 +301,8 @@ exports[`Wizard go to the second tab go to next via backend 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab3\\" role=\\"tab\\">
                     <span id=\\"tab3\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab3-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -310,7 +310,7 @@ exports[`Wizard go to the second tab go to next via backend 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
+              </injectIntl(WizardTab)>
             </div>
           </TabList>
         </WizardTabList>
@@ -346,14 +346,14 @@ exports[`Wizard go to the second tab go to next via backend 1`] = `
 `;
 
 exports[`Wizard go to the second tab set via next click 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
         <WizardTabList wizardState={{...}} disableTabs={false}>
           <TabList tag=\\"div\\" className=\\"wizard-index\\">
             <div role=\\"tablist\\" className=\\"wizard-index\\">
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab1\\" role=\\"tab\\">
                     <span id=\\"tab1\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab1-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -361,8 +361,8 @@ exports[`Wizard go to the second tab set via next click 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={true} className=\\"wizard-index-label is-current is-accessible\\" style={{...}} id=\\"tab2\\" role=\\"tab\\">
                     <span id=\\"tab2\\" tabIndex={0} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={true} aria-controls=\\"tab2-panel\\" className=\\"wizard-index-label is-current is-accessible\\" style={{...}}>
@@ -370,8 +370,8 @@ exports[`Wizard go to the second tab set via next click 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab3\\" role=\\"tab\\">
                     <span id=\\"tab3\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab3-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -379,7 +379,7 @@ exports[`Wizard go to the second tab set via next click 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
+              </injectIntl(WizardTab)>
             </div>
           </TabList>
         </WizardTabList>
@@ -415,14 +415,14 @@ exports[`Wizard go to the second tab set via next click 1`] = `
 `;
 
 exports[`Wizard go to the second tab set via tab click 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
         <WizardTabList wizardState={{...}} disableTabs={false}>
           <TabList tag=\\"div\\" className=\\"wizard-index\\">
             <div role=\\"tablist\\" className=\\"wizard-index\\">
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab1\\" role=\\"tab\\">
                     <span id=\\"tab1\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab1-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -430,8 +430,8 @@ exports[`Wizard go to the second tab set via tab click 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={true} className=\\"wizard-index-label is-current is-accessible\\" style={{...}} id=\\"tab2\\" role=\\"tab\\">
                     <span id=\\"tab2\\" tabIndex={0} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={true} aria-controls=\\"tab2-panel\\" className=\\"wizard-index-label is-current is-accessible\\" style={{...}}>
@@ -439,8 +439,8 @@ exports[`Wizard go to the second tab set via tab click 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
-              <InjectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
+              </injectIntl(WizardTab)>
+              <injectIntl(WizardTab) tab={{...}} widthPercentage={33.333333333333336} disableTabs={false}>
                 <WizardTab tab={{...}} widthPercentage={33.333333333333336} disableTabs={false} intl={{...}}>
                   <Tab tag=\\"span\\" active={false} className=\\"wizard-index-label is-accessible\\" style={{...}} id=\\"tab3\\" role=\\"tab\\">
                     <span id=\\"tab3\\" tabIndex={-1} onFocus={[Function: bound ]} role=\\"tab\\" aria-selected={false} aria-controls=\\"tab3-panel\\" className=\\"wizard-index-label is-accessible\\" style={{...}}>
@@ -448,7 +448,7 @@ exports[`Wizard go to the second tab set via tab click 1`] = `
                     </span>
                   </Tab>
                 </WizardTab>
-              </InjectIntl(WizardTab)>
+              </injectIntl(WizardTab)>
             </div>
           </TabList>
         </WizardTabList>

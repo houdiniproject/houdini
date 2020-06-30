@@ -24,7 +24,7 @@ interface I<%= component_name %>Props {
 }
 
 
-function <%= component_name %>(props:I<%= component_name %>Props) {
+function <%= component_name %>(props:I<%= component_name %>Props) : JSX.Element {
     return (
       <React.Fragment>
   <% attributes.each do |attribute| -%>

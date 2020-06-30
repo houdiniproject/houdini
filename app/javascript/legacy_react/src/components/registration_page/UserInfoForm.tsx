@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injectIntl} from 'react-intl';
+import { injectIntl, WrappedComponentProps} from 'react-intl';
 import {Validations} from "../../lib/vjf_rules";
 import {Field, FieldDefinition} from "mobx-react-form";
 import {TwoColumnFields} from "../common/layout";
@@ -40,7 +40,7 @@ export interface UserInfoFormProps
 
 
 
-class UserInfoForm extends React.Component<UserInfoFormProps &  {}> {
+class UserInfoForm extends React.Component<UserInfoFormProps & WrappedComponentProps, {}> {
   render() {
     return <fieldset>
       <TwoColumnFields>

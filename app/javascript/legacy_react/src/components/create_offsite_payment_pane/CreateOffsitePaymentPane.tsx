@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injectIntl} from 'react-intl';
+import { injectIntl, WrappedComponentProps} from 'react-intl';
 import Modal from "../common/Modal";
 //import { FundraiserInfo} from "../edit_payment_pane/EditPaymentPane";
 import {HoudiniForm} from "../../lib/houdini_form";
@@ -48,9 +48,9 @@ class CreateOffsitePaymentPaneForm extends HoudiniForm {
 
 }
 
-class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPaneProps &  {}> {
+class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPaneProps & WrappedComponentProps, {}> {
 
-  constructor(props: CreateOffsitePaymentPaneProps & InjectedIntlProps) {
+  constructor(props: CreateOffsitePaymentPaneProps & WrappedComponentProps) {
     super(props);
     this.postOffsiteDonation = new ApiManager(CustomAPIS.APIS as Array<any>, CSRFInterceptor).get(CreateOffsiteDonation)
 

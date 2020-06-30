@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import {observer} from 'mobx-react';
-import { injectIntl} from 'react-intl';
+import { injectIntl, WrappedComponentProps} from 'react-intl';
 import {Field} from "mobx-react-form";
 import {computed} from 'mobx';
 import {WizardPanel, WizardTabPanelProps} from "../common/wizard/WizardPanel";
@@ -13,7 +13,7 @@ export interface UserInfoPanelProps extends WizardTabPanelProps {
   buttonTextOnProgress?:string
 }
 
-class UserInfoPanel extends React.Component<UserInfoPanelProps &  {}> {
+class UserInfoPanel extends React.Component<UserInfoPanelProps & WrappedComponentProps,  {}> {
 
   @computed
   get wizardTab(): WizardTabPanelState {

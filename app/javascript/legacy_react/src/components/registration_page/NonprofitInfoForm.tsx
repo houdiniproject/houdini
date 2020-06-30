@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injectIntl} from 'react-intl';
+import { injectIntl, WrappedComponentProps} from 'react-intl';
 import {Field, FieldDefinition} from "../../../../../../types/mobx-react-form";
 import {BasicField} from "../common/fields";
 import {ThreeColumnFields, TwoColumnFields} from "../common/layout";
@@ -46,7 +46,7 @@ export const FieldDefinitions : Array<FieldDefinition> = [
   }
 ]
 
-class NonprofitInfoForm extends React.Component<NonprofitInfoFormProps &  {}> {
+class NonprofitInfoForm extends React.Component<NonprofitInfoFormProps &  WrappedComponentProps, {}> {
 
 
   render() {

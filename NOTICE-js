@@ -3505,19 +3505,6 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ------
 
-** intl-format-cache; version 2.2.9 -- https://github.com/formatjs/formatjs
-Copyright 2014 Yahoo! Inc.
-Copyright (c) 2014, Yahoo! Inc.
-** react-intl; version 2.9.0 -- https://github.com/yahoo/react-intl
-Copyright 2014 Yahoo Inc.
-Copyright 2015, Yahoo Inc.
-Copyright 2019, Yahoo Inc.
-Copyright 2015, Yahoo! Inc.
-Copyright 2013 Andy Earnshaw
-Copyright (c) 2014, Yahoo! Inc.
-Copyright 2013-2014, Facebook, Inc.
-Copyright 2013-2015, Facebook, Inc.
-Copyright (c) Facebook, Inc. and its affiliates.
 ** serialize-javascript; version 2.1.2 -- https://github.com/yahoo/serialize-javascript
 Copyright 2014 Yahoo! Inc.
 Copyright (c) 2014, Yahoo! Inc.
@@ -3588,6 +3575,45 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+------
+
+** react-intl; version 4.7.5 -- https://formatjs.io/docs/react-intl
+Copyright 2019 Oath Inc.
+Copyright 2015, Yahoo Inc.
+Copyright 2015, Yahoo! Inc.
+Copyright (c) 2014, Yahoo! Inc.
+Copyright 2013-2014, Facebook, Inc.
+Copyright (c) Facebook, Inc. and its affiliates.
+
+Copyright 2019 Oath Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+
+    * Neither the name of the Oath Inc. nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL Oath INC. BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 ------
@@ -3936,6 +3962,54 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
 
+** intl-format-cache; version 4.2.42 -- https://github.com/formatjs/formatjs
+Copyright (c) 2019, Oath Inc.
+Copyright (c) 2014, Yahoo! Inc.
+** intl-messageformat; version 8.4.0 -- https://github.com/formatjs/formatjs
+Copyright (c) 2019, Oath Inc.
+Copyright (c) 2014, Yahoo! Inc.
+** intl-messageformat-parser; version 5.2.0 -- https://github.com/formatjs/formatjs
+Copyright 2015, Yahoo Inc.
+Copyright 2014, Yahoo! Inc.
+Copyright (c) 2019, Oath Inc.
+
+Copyright (c) 2019, Oath Inc.
+
+Licensed under the terms of the New BSD license. See below for terms.
+
+Redistribution and use of this software in source and binary forms,
+with or without modification, are permitted provided that the following
+conditions are met:
+
+- Redistributions of source code must retain the above
+  copyright notice, this list of conditions and the
+  following disclaimer.
+
+- Redistributions in binary form must reproduce the above
+  copyright notice, this list of conditions and the
+  following disclaimer in the documentation and/or other
+  materials provided with the distribution.
+
+- Neither the name of Oath Inc. nor the names of its
+  contributors may be used to endorse or promote products
+  derived from this software without specific prior
+  written permission of Oath Inc.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+------
+
 ** tough-cookie; version 2.5.0 -- https://github.com/salesforce/tough-cookie
 Copyright (c) 2015, Salesforce.com, Inc.
 Copyright (c) 2018, Salesforce.com, Inc.
@@ -4125,55 +4199,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
 
-** intl-relativeformat; version 2.2.0 -- https://github.com/yahoo/intl-relativeformat
-(c) Sasha Koss
-Copyright 2014 Yahoo! Inc.
-Copyright 2013 Andy Earnshaw
-Copyright (c) 2014, Yahoo! Inc.
-Copyright (c) 2012, Andreas Lind Petersen
-
-Copyright 2014 Yahoo! Inc.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-    * Neither the name of the Yahoo! Inc. nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL YAHOO! INC. BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-------------------------------------------------------------------------------
-Pluralization rules built from
-https://github.com/papandreou/node-cldr
-which is licensed under the BSD license and has the following license:
-
-Copyright (c) 2012, Andreas Lind Petersen
-All rights reserved.
-
-See the following for more details:
-https://github.com/papandreou/node-cldr/blob/master/LICENSE
-
-
-------
-
 ** highlight.js; version 9.13.1 -- https://highlightjs.org/
 Copyright 2015
 (c) Visoft, Inc.
@@ -4222,49 +4247,6 @@ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
-------
-
-** intl-messageformat-parser; version 1.4.0 -- https://github.com/yahoo/intl-messageformat-parser
-Copyright 2014 Yahoo! Inc.
-Copyright 2014, Yahoo! Inc.
-Copyright 2014 Alex Sexton Apache License
-
-Copyright 2014 Yahoo! Inc.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-    * Neither the name of the Yahoo! Inc. nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL YAHOO! INC. BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
---------------------------------------------------------------------------------
-
-Inspired by and derived from:
-messageformat.js https://github.com/SlexAxton/messageformat.js
-Copyright 2014 Alex Sexton
-Apache License, Version 2.0
 
 
 ------
@@ -4334,55 +4316,6 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
-------
-
-** intl-messageformat; version 2.2.0 -- https://github.com/yahoo/intl-messageformat
-Copyright 2013 Yahoo! Inc.
-Copyright 2013 Andy Earnshaw
-Copyright (c) 2014, Yahoo! Inc.
-Copyright (c) 2012, Andreas Lind Petersen
-
-Copyright 2013 Yahoo! Inc.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-    * Neither the name of the Yahoo! Inc. nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL YAHOO! INC. BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-------------------------------------------------------------------------------  
-Pluralization rules built from                                                  
-https://github.com/papandreou/node-cldr                                         
-which is licensed under the BSD license and has the following license:          
-                                                                                
-Copyright (c) 2012, Andreas Lind Petersen                                       
-All rights reserved.                                                            
-                                                                                
-See the following for more details:                                             
-https://github.com/papandreou/node-cldr/blob/master/LICENSE                     
- 
 
 
 ------
@@ -11930,6 +11863,32 @@ SOFTWARE.
 
 ------
 
+** @formatjs/intl-datetimeformat; version 1.3.2 -- https://github.com/formatjs/formatjs#readme
+Copyright (c) 2019 FormatJS
+** @formatjs/intl-displaynames; version 2.2.8 -- https://github.com/formatjs/formatjs
+Copyright (c) 2019 FormatJS
+** @formatjs/intl-listformat; version 2.2.8 -- https://github.com/formatjs/formatjs
+Copyright (c) 2019 FormatJS
+** @formatjs/intl-numberformat; version 4.2.10 -- https://github.com/formatjs/formatjs
+Copyright (c) 2019 FormatJS
+** @formatjs/intl-relativetimeformat; version 5.2.10 -- https://github.com/formatjs/formatjs
+Copyright (c) 2019 FormatJS
+** @formatjs/intl-utils; version 3.4.1 -- https://github.com/formatjs/formatjs
+Copyright (c) 2019 FormatJS
+
+MIT License
+
+Copyright (c) 2019 FormatJS
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** http-parser-js; version 0.5.2 -- https://github.com/creationix/http-parser-js#readme
 Copyright Joyent, Inc. and other Node contributors.
 Copyright (c) 2015 Tim Caswell (https://github.com/creationix) and other contributors.
@@ -15462,8 +15421,6 @@ Copyright (c) Microsoft Corporation.
 Copyright (c) Microsoft Corporation.
 ** @types/prop-types; version 15.7.3 -- 
 Copyright (c) Microsoft Corporation.
-** @types/react-intl; version 2.3.18 -- 
-Copyright (c) Microsoft Corporation.
 ** @types/react-syntax-highlighter; version 11.0.4 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/react-test-renderer; version 16.9.2 -- 
@@ -18156,6 +18113,7 @@ IN THE SOFTWARE.
 ------
 
 ** @babel/preset-modules; version 0.1.3 -- 
+** @formatjs/intl-getcanonicallocales; version 1.2.6 -- https://github.com/formatjs/formatjs#readme
 ** @jest/core; version 24.9.0 -- https://jestjs.io/
 Copyright (c) Facebook, Inc. and its affiliates.
 ** @jest/environment; version 24.9.0 -- 
@@ -19203,6 +19161,8 @@ Copyright (c) Microsoft Corporation.
 ** @types/history; version 4.7.6 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/html-minifier-terser; version 5.1.0 -- 
+Copyright (c) Microsoft Corporation.
+** @types/invariant; version 2.2.33 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/istanbul-lib-coverage; version 2.0.3 -- 
 Copyright (c) Microsoft Corporation.
@@ -22235,7 +22195,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** emojis-list; version 2.1.0 -- https://github.com/Kikobeats/emojis-list
+** emojis-list; version 3.0.0 -- https://nidecoc.io/Kikobeats/emojis-list
 Copyright (c) 2015 Kiko Beats
 (c) Kiko Beats (http://www.kikobeats.com)
 
@@ -24457,6 +24417,64 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+------
+
+** cldr-core; version 36.0.0 -- http://cldr.unicode.org
+Copyright (c) 1991-2015 Unicode, Inc.
+
+UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE
+
+    Unicode Data Files include all data files under the directories
+http://www.unicode.org/Public/, http://www.unicode.org/reports/, and
+http://www.unicode.org/cldr/data/. Unicode Data Files do not include PDF
+online code charts under the directory http://www.unicode.org/Public/.
+Software includes any source code published in the Unicode Standard or under
+the directories http://www.unicode.org/Public/,
+http://www.unicode.org/reports/, and http://www.unicode.org/cldr/data/.
+
+    NOTICE TO USER: Carefully read the following legal agreement. BY
+DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S DATA FILES
+("DATA FILES"), AND/OR SOFTWARE ("SOFTWARE"), YOU UNEQUIVOCALLY ACCEPT, AND
+AGREE TO BE BOUND BY, ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT. IF
+YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA
+FILES OR SOFTWARE.
+
+    COPYRIGHT AND PERMISSION NOTICE
+
+    Copyright © 1991-2015 Unicode, Inc. All rights reserved. Distributed under
+the Terms of Use in http://www.unicode.org/copyright.html.
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+copy of the Unicode data files and any associated documentation (the "Data
+Files") or Unicode software and any associated documentation (the "Software")
+to deal in the Data Files or Software without restriction, including without
+limitation the rights to use, copy, modify, merge, publish, distribute, and/or
+sell copies of the Data Files or Software, and to permit persons to whom the
+Data Files or Software are furnished to do so, provided that (a) the above
+copyright notice(s) and this permission notice appear with all copies of the
+Data Files or Software, (b) both the above copyright notice(s) and this
+permission notice appear in associated documentation, and (c) there is clear
+notice in each modified Data File or in the Software as well as in the
+documentation associated with the Data File(s) or Software that the data or
+software has been modified.
+
+    THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD
+PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN
+THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL
+DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
+PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
+ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE
+DATA FILES OR SOFTWARE.
+
+    Except as contained in this notice, the name of a copyright holder shall
+not be used in advertising or otherwise to promote the sale, use or other
+dealings in these Data Files or Software without prior written authorization
+of the copyright holder.
+
 
 
 ------

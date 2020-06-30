@@ -45,10 +45,11 @@ tsSettings['files'] = ['**/*.ts'];
 
 const tsxSettings = _.cloneDeep(tsBase);
 tsxSettings['files'] = ['**/*.tsx'];
+tsxSettings['plugins'] = [...tsxSpec['plugins'], "react"];
+tsxSettings['extends'] = [...tsxSpec['extends'], "plugin:react/recommended"];
 
 module.exports = {
 	root: true,
-
 	overrides: [
 		{
 			"files": ['*.js', 'config/webpack/**/*.js'],
@@ -72,7 +73,7 @@ module.exports = {
 			"always"
 		],
 		"no-trailing-spaces": ["error"],
-		"indent": ["error", "tab"], // we use tabs for accessibility
+		"indent": ["error", "tab", {"SwitchCase": 1}], // we use tabs for accessibility
 	},
 	"settings": {
 		"react": {

@@ -26,5 +26,6 @@ class Payment < ActiveRecord::Base
 	has_many :payment_payouts
 	has_many :charges
 	has_one :misc_payment_info
-
+	
+	has_many :activities, :as => :attachment
 end

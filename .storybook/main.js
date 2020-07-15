@@ -4,9 +4,10 @@ process.env.NODE_ENV = "development";
 const railsWebpackEnv = require("../config/webpack/environment");
 
 module.exports = {
-  stories: ["../app/javascript/stories/*.[tj]s?(x)"],
+  stories: ["../app/javascript/**/*.stories.[tj]s?(x)"],
   addons: ['@storybook/addon-actions', '@storybook/addon-links', 'storybook-addon-intl'],
-  webpackFinal: (config) => ({
+  webpackFinal: (config) => {
+    const result = {
     // do mutation to the config
     ...config,
     resolve: {
@@ -17,12 +18,23 @@ module.exports = {
     module: {
       ...config.module,
       rules: railsWebpackEnv.loaders
-        .filter((i) => i.key !== "nodeModules")
+        .filter((i) => !["nodeModules", //not sure why this is here
+        "moduleCss" // this addresses issues with our webpack config for css not matching what storybook wants
+      ].includes(i.key) )
         .map((i) => i.value),
     },
     plugins: [
       ...config.plugins,
       ...railsWebpackEnv.plugins.map((i) => i.value),
     ],
-  }),
+    
+  };
+
+  result.module.rules.filter((i) => i.test.test('.ttf')).forEach((i) => {
+    i.use=['url-loader']
+  })
+
+
+  return result;
+},
 };

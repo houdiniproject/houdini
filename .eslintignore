@@ -434,3 +434,6 @@ app/javascript/legacy_react/src/components/registration_page/UserInfoPanel.spec.
 app/javascript/legacy_react/src/components/registration_page/UserInfoPanel.tsx
 app/javascript/legacy_react/src/components/session_login_page/SessionLoginForm.tsx
 app/javascript/legacy_react/src/components/session_login_page/SessionLoginPage.tsx
+
+#included code from another package
+app/javascript/common/lodash-joins

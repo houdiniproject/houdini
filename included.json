@@ -4,6 +4,10 @@
         {
             "name": "js-money",
             "version": "0.6.3"
+        },
+        {
+            "name": "lodash-joins",
+            "version": "3.0.1"
         }
     ]
 }

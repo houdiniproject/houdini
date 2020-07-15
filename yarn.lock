@@ -7612,11 +7612,6 @@ form-serialize@^0.7.1:
   resolved "https://registry.yarnpkg.com/form-serialize/-/form-serialize-0.7.2.tgz#b0a2ff0c22026fb6d3d15c9d33f6de6a432e4732"
   integrity sha1-sKL/DCICb7bT0VydM/beakMuRzI=
 
-format-number@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/format-number/-/format-number-2.0.2.tgz#8be2aa6fa6ef5ec43830892b1daee72705f9b462"
-  integrity sha1-i+Kqb6bvXsQ4MIkrHa7nJwX5tGI=
-
 format@^0.2.0:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/format/-/format-0.2.2.tgz#d6170107e9efdc4ed30c9dc39016df942b5cb58b"

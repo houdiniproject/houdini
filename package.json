@@ -22,6 +22,7 @@
     "@babel/preset-typescript": "^7.9.0",
     "@rails/webpacker": "^5.1.1",
     "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-knobs": "^5.3.19",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
     "@storybook/react": "^5.3.19",

@@ -5,7 +5,7 @@ const railsWebpackEnv = require("../config/webpack/environment");
 
 module.exports = {
   stories: ["../app/javascript/stories/*.[tj]s?(x)"],
-  addons: ['@storybook/addon-actions', '@storybook/addon-links'],
+  addons: ['@storybook/addon-actions', '@storybook/addon-links', 'storybook-addon-intl'],
   webpackFinal: (config) => ({
     // do mutation to the config
     ...config,

@@ -57,7 +57,7 @@ which make development much easier.
 These include:
 
 * PostgreSQL 10 or 11
-* NodeJS 12 LTS
+* NodeJS 13 (we require 13 or higher because we want the full internationalization built-in)
 * Ruby 2.6.6 (NOTE: the default of Ruby 2.7.1 in Debian should 
 function but you will receive a ton of deprecation
 warnings from Ruby)
@@ -82,7 +82,7 @@ You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users
 ```bash
 apt update
 apt install curl -yy
-curl -sL https://deb.nodesource.com/setup_12.x | bash -
+curl -sL https://deb.nodesource.com/setup_13.x | bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update

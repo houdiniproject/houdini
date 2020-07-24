@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
         ruby: [2.6.6]
     steps:
       - uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
         ruby: [2.6.6]
     steps:
       - uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
         ruby: [2.6.6]
     needs: ['install_gems']
     steps:
@@ -82,7 +82,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
         ruby: [2.6.6]
     needs: ['install_gems', 'install_yarn']
     steps:
@@ -121,7 +121,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
     steps:
     - uses: actions/checkout@v2
     - name: Setup Node.js environment
@@ -140,7 +140,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
     needs: ['install_yarn']
     steps:
       - uses: actions/checkout@v2
@@ -162,7 +162,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
         ruby: [2.6.6]
     steps:
     - uses: actions/checkout@v2
@@ -207,7 +207,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [12]
+        node: [13.14]
         ruby: [2.6.6]
     steps:
     - uses: actions/checkout@v2

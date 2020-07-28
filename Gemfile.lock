@@ -186,7 +186,7 @@ GEM
     jaro_winkler (1.5.3)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
-    json (1.8.6)
+    json (2.3.1)
     kdtree (0.4)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)

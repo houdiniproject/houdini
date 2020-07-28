@@ -4408,8 +4408,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** json; version 1.8.6 -- 
-(c) 2005-2007 Sam Stephenson
+** json; version 2.3.1 -- 
+Copyright (c) 2014 IETF Trust
 Copyright 2001-2004 Unicode, Inc.
 
 1. You may make and give away verbatim copies of the source form of the software without restriction, provided that you duplicate all of the original copyright notices and associated disclaimers.

@@ -169,7 +169,7 @@ jobs:
     - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
       uses: Daniel-Marynicz/postgresql-action@0.1.0
       with:
-        postgres_image_tag: 11-alpine
+        postgres_image_tag: 12-alpine
         postgres_user: houdini_user
         postgres_password: password
     - name: Set up Ruby

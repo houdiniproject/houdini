@@ -39,25 +39,16 @@ namespace :notice do
     end
 
     namespace :js do 
-        require 'fileutils'
-        def get_notice_js
-            raise "NOTICE-js could not be retrieved from Clearlydefined.io" unless system('npx noticeme@https://github.com/houdiniproject/noticeme')
-            File.read('NOTICE')
-        end
+        notice_cmd = "npx @houdiniproject/noticeme@^1.0.0-pre5 -f NOTICE-js -i included.json"
 
         desc "generating NOTICE-js from ClearlyDefined.io"
         task :update do
-            if (File.exists?('NOTICE'))
-                File.delete('NOTICE')
-            end
-            result = get_notice_js
-            FileUtils.mv('NOTICE', 'NOTICE-js', force: true)
+            raise "NOTICE-js could not be updated" unless system(notice_cmd + " -u")
         end
 
         desc "checking whether NOTICE-js matches the one on ClearlyDefined.io"
         task :verify do
-            result = get_notice_js
-            raise "NOTICE-js is not up to date. Run bin/rails notice:js:update to update the file." if result != File.read('NOTICE-js')
+            raise "NOTICE-js is not up to date. Run bin/rails notice:js:update to update the file" unless system(notice_cmd)
         end
     end
 end

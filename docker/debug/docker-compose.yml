@@ -21,7 +21,7 @@ services:
     depends_on:
     - db
   db:
-    image: postgres:9.6
+    image: postgres:12.0
     environment:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "password"

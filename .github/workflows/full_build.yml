@@ -246,3 +246,5 @@ jobs:
       run: bin/setup ci
     - name: Webpack compile everything
       run: bin/webpack
+    - name: Verify storybook compiles
+      run: npm run build-storybook

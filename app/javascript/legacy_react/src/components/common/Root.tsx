@@ -9,14 +9,7 @@ import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 
 import * as CustomAPIS from "../../lib/apis"
 
-// const enLocaleData = require('react-intl/locale-data/en');
 const I18n = require('../../../../i18n.js.erb')
-// const localeData = [...enLocaleData]
-// Object.keys(I18n.translations).filter((i:string) => i !== 'en').forEach((i:string) => {
-//   const data  = [...require(`react-intl/locale-data/${i}`)]
-//   localeData.concat(data)
-// })
-// addLocaleData(localeData)
 
 interface RootProps
 {
@@ -41,7 +34,7 @@ export default class Root extends React.Component<RootProps, {}> {
       this.apiManager = new ApiManager(APIS.concat(CustomAPIS.APIS as Array<any>), CSRFInterceptor)
     }
 
-    return <IntlProvider locale={I18n.locale} defaultLocale={I18n.defaultLocale} messages={I18n.translations[I18n.locale]}>
+    return <IntlProvider locale={I18n.locale} defaultLocale={I18n.defaultLocale} messages={convert(I18n.translations[I18n.locale]) as any}>
        <Provider ApiManager={this.apiManager}>
           {this.props.children}
        </Provider>

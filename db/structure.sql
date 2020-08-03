@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.5
--- Dumped by pg_dump version 9.6.15
+-- Dumped from database version 9.6.17
+-- Dumped by pg_dump version 9.6.17
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2111,6 +2111,44 @@ ALTER SEQUENCE public.stripe_accounts_id_seq OWNED BY public.stripe_accounts.id;
 
 
 --
+-- Name: stripe_disputes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.stripe_disputes (
+    id integer NOT NULL,
+    object jsonb,
+    balance_transactions jsonb,
+    stripe_dispute_id character varying(255),
+    stripe_charge_id character varying(255),
+    status character varying(255),
+    reason character varying(255),
+    net_change integer,
+    amount integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: stripe_disputes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.stripe_disputes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: stripe_disputes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.stripe_disputes_id_seq OWNED BY public.stripe_disputes.id;
+
+
+--
 -- Name: stripe_events; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2917,6 +2955,13 @@ ALTER TABLE ONLY public.stripe_accounts ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: stripe_disputes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stripe_disputes ALTER COLUMN id SET DEFAULT nextval('public.stripe_disputes_id_seq'::regclass);
+
+
+--
 -- Name: stripe_events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3418,6 +3463,14 @@ ALTER TABLE ONLY public.stripe_accounts
 
 
 --
+-- Name: stripe_disputes stripe_disputes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stripe_disputes
+    ADD CONSTRAINT stripe_disputes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: stripe_events stripe_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3769,6 +3822,27 @@ CREATE INDEX index_stripe_accounts_on_id ON public.stripe_accounts USING btree (
 --
 
 CREATE INDEX index_stripe_accounts_on_stripe_account_id ON public.stripe_accounts USING btree (stripe_account_id);
+
+
+--
+-- Name: index_stripe_disputes_on_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_stripe_disputes_on_id ON public.stripe_disputes USING btree (id);
+
+
+--
+-- Name: index_stripe_disputes_on_stripe_charge_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_stripe_disputes_on_stripe_charge_id ON public.stripe_disputes USING btree (stripe_charge_id);
+
+
+--
+-- Name: index_stripe_disputes_on_stripe_dispute_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_stripe_disputes_on_stripe_dispute_id ON public.stripe_disputes USING btree (stripe_dispute_id);
 
 
 --
@@ -4990,4 +5064,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200416163530');
 INSERT INTO schema_migrations (version) VALUES ('20200416173740');
 
 INSERT INTO schema_migrations (version) VALUES ('20200421185917');
+
+INSERT INTO schema_migrations (version) VALUES ('20200731205823');
 

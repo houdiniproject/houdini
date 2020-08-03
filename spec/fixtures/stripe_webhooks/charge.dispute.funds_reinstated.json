@@ -1,0 +1,125 @@
+{
+  "id": "evt_1Y5j7oBCJIIhvMWmd3CHSKHX",
+  "object": "event",
+  "api_version": "2015-04-07",
+  "created": 1574977390,
+  "data": {
+    "object": {
+      "id": "dp_1Y75JUBCJIIhvMWmSRi5eQbU",
+      "object": "dispute",
+      "amount": 22500,
+      "balance_transaction": "txn_1Y75JVBCJIIhvMWmsnGK1JLD",
+      "balance_transactions": [
+        {
+          "id": "txn_1Y75JVBCJIIhvMWmsnGK1JLD",
+          "object": "balance_transaction",
+          "amount": -22500,
+          "available_on": 1567603760,
+          "created": 1567603760,
+          "currency": "usd",
+          "description": "Chargeback withdrawal for ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "exchange_rate": null,
+          "fee": 1500,
+          "fee_details": [
+            {
+              "amount": 1500,
+              "application": null,
+              "currency": "usd",
+              "description": "Dispute fee",
+              "type": "stripe_fee"
+            }
+          ],
+          "net": -24000,
+          "source": "ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "sourced_transfers": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/transfers?source_transaction=ad_1Y75JUBCJIIhvMWmaeF4Jdnk"
+          },
+          "status": "available",
+          "type": "adjustment"
+        },
+        {
+          "id": "txn_1Y71X0BCJIIhvMWmMmtTY4m1",
+          "object": "balance_transaction",
+          "amount": 22500,
+          "available_on": 1574977390,
+          "created": 1574977390,
+          "currency": "usd",
+          "description": "Chargeback reversal for ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "exchange_rate": null,
+          "fee": -1500,
+          "fee_details": [
+            {
+              "amount": -1500,
+              "application": null,
+              "currency": "usd",
+              "description": null,
+              "type": "stripe_fee"
+            }
+          ],
+          "net": 24000,
+          "source": "ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "sourced_transfers": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/transfers?source_transaction=ad_1Y71X0BCJIIhvMWmKEi1HlmO"
+          },
+          "status": "available",
+          "type": "adjustment"
+        }
+      ],
+      "charge": "ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+      "created": 1567603760,
+      "currency": "usd",
+      "evidence": {
+        "access_activity_log": null,
+        "billing_address": "46037",
+        "cancellation_policy": null,
+        "cancellation_policy_disclosure": null,
+        "cancellation_rebuttal": null,
+        "customer_communication": "file_1Y7lkeBCJIIhvMWmFWMPiSIq",
+        "customer_email_address": "penelope@penelope.yorkie",
+        "customer_name": "Penelope Schultz",
+        "customer_purchase_ip": "1.1.1.1",
+        "customer_signature": null,
+        "duplicate_charge_documentation": null,
+        "duplicate_charge_explanation": null,
+        "duplicate_charge_id": null,
+        "product_description": "This was not a purchase but a reimbursement by Penelope Schultz for a scholarship that was not used. She did not ask for a refund; she was refunding money back to the organization. Documentation to follow in document upload.",
+        "receipt": null,
+        "refund_policy": null,
+        "refund_policy_disclosure": null,
+        "refund_refusal_explanation": "The payment was for a returned scholarship that the customer reimbursed acct_1Y7q1YDnx8ItbN97 for.",
+        "service_date": null,
+        "service_documentation": null,
+        "shipping_address": null,
+        "shipping_carrier": null,
+        "shipping_date": null,
+        "shipping_documentation": null,
+        "shipping_tracking_number": null,
+        "uncategorized_file": null,
+        "uncategorized_text": null
+      },
+      "evidence_details": {
+        "due_by": 1568595599,
+        "has_evidence": true,
+        "past_due": false,
+        "submission_count": 1
+      },
+      "is_charge_refundable": false,
+      "livemode": true,
+      "metadata": {},
+      "reason": "credit_not_processed",
+      "status": "under_review"
+    }
+  },
+  "livemode": true,
+  "pending_webhooks": 0,
+  "request": "req_1Y5U4QjJIHxQz5",
+  "type": "charge.dispute.funds_reinstated"
+}

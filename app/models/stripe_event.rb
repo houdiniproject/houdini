@@ -2,7 +2,35 @@
 class StripeEvent < ActiveRecord::Base
   attr_accessible :event_id, :event_time, :object_id
 
+  def self.process_dispute(event)
+    StripeEvent.transaction do
+      object = event.data.object
+      events_for_object_id = StripeEvent.where('object_id = ?', object.id).lock(true)
 
+      event_record = events_for_object_id.where('event_id = ?', event.id).first
+
+      # if event_record found, we've recorded this event so no processing necessary
+      unless event_record
+        # we record this event!
+        stripe_event = StripeEvent.new(event_id: event.id, event_time: Time.at(event.created).to_datetime, object_id: event.data.object.id)
+        stripe_event.save!
+
+        later_event = events_for_object_id.where('event_time > ?', Time.at(event.created).to_datetime).first
+
+        # we have a later event so we don't need to process this anymore
+        unless later_event
+          dispute = StripeDispute.where("stripe_dispute_id = ?", object.id).first
+          if dispute
+            dispute.lock!('FOR UPDATE')
+          else
+            dispute = StripeDispute.new(stripe_dispute_id: object.id)
+          end
+          dispute.object = object
+          dispute.save!
+        end
+      end
+    end
+  end
   def self.handle(event)
     case event.type
     when 'account.updated'
@@ -61,6 +89,14 @@ class StripeEvent < ActiveRecord::Base
             end
         end
       end
-    end
+    when 'charge.dispute.created'
+      process_dispute(event)
+    when 'charge.dispute.funds_withdrawn'
+      process_dispute(event)
+    when 'charge.dispute.funds_reinstated'
+      process_dispute(event)
+    when 'charge.dispute.closed'
+      process_dispute(event)
+    end  
   end
 end

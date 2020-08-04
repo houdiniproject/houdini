@@ -506,6 +506,37 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 
 --
+-- Name: commitchange_modern_disputes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.commitchange_modern_disputes (
+    id integer NOT NULL,
+    dispute_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: commitchange_modern_disputes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.commitchange_modern_disputes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: commitchange_modern_disputes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.commitchange_modern_disputes_id_seq OWNED BY public.commitchange_modern_disputes.id;
+
+
+--
 -- Name: custom_field_joins; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -657,7 +688,8 @@ CREATE TABLE public.disputes (
     status character varying(255),
     stripe_dispute_id character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    net_amount integer
 );
 
 
@@ -2661,6 +2693,13 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
+-- Name: commitchange_modern_disputes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.commitchange_modern_disputes ALTER COLUMN id SET DEFAULT nextval('public.commitchange_modern_disputes_id_seq'::regclass);
+
+
+--
 -- Name: custom_field_joins id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3108,6 +3147,14 @@ ALTER TABLE ONLY public.campaigns
 
 ALTER TABLE ONLY public.charges
     ADD CONSTRAINT charges_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: commitchange_modern_disputes commitchange_modern_disputes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.commitchange_modern_disputes
+    ADD CONSTRAINT commitchange_modern_disputes_pkey PRIMARY KEY (id);
 
 
 --
@@ -5066,4 +5113,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200416173740');
 INSERT INTO schema_migrations (version) VALUES ('20200421185917');
 
 INSERT INTO schema_migrations (version) VALUES ('20200731205823');
+
+INSERT INTO schema_migrations (version) VALUES ('20200804175447');
+
+INSERT INTO schema_migrations (version) VALUES ('20200804185755');
 

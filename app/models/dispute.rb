@@ -14,6 +14,7 @@ class Dispute < ActiveRecord::Base
 
   belongs_to :charge
   belongs_to :payment
+  has_one :stripe_dispute, foreign_key: :stripe_dispute_id, primary_key: :stripe_dispute_id
 
 end
 

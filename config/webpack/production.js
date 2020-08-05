@@ -1,6 +1,7 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 
 const environment = require('./environment')
+const modifyTerserPlugin = require('./plugins/modifyTerserPlugin');
 environment.splitChunks((config) => {
     const excludeDonateButtonFromSplit = {
         optimization:
@@ -19,4 +20,8 @@ environment.splitChunks((config) => {
     }
     return Object.assign({}, config, excludeDonateButtonFromSplit)
 })
+
+// we don't want terser to print out license headers, we'll handle that ourselves
+environment.config.optimization.minimizer[0].options.extractComments = false;
+
 module.exports = environment.toWebpackConfig()

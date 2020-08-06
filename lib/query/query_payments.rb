@@ -55,7 +55,7 @@ module QueryPayments
   def self.nonprofit_balances(npo_id)
     Psql.execute(
       Qexpr.new.select(
-        'SUM(coalesce(available.amount, 0)) - SUM(coalesce(refunds.amount, 0)) - SUM(coalesce(disputes.gross_amount, 0)) AS available_gross',
+        'SUM(coalesce(available.amount, 0)) - SUM(coalesce(refunds.amount, 0)) + SUM(coalesce(dispute_transactions.net_amount, 0)) AS available_gross',
         'SUM(coalesce(pending.amount, 0)) AS pending_gross',
         'COUNT(available) AS count_available',
         'COUNT(pending) AS count_pending',
@@ -63,9 +63,11 @@ module QueryPayments
         'COUNT(disputes) AS count_disputes')
         .from(:payments)
         .left_outer_join('refunds', "refunds.payment_id=payments.id AND (refunds.disbursed='f' OR refunds.disbursed IS NULL)")
+        .left_outer_join('charges', 'charges.payment_id = payments.id')
         .left_outer_join("charges available", "available.status='available' AND available.payment_id=payments.id")
         .left_outer_join("charges pending", "pending.status='pending' AND pending.payment_id=payments.id")
-        .left_outer_join("disputes", "disputes.status='lost' AND disputes.payment_id=payments.id")
+        .left_outer_join("dispute_transactions", "dispute_transactions.payment_id = payments.id AND (dispute_transactions.disbursed='f')")
+        .left_outer_join("(SELECT disputes.id, disputes.charge_id from disputes INNER JOIN dispute_transactions ON dispute_transactions.dispute_id = disputes.id AND dispute_transactions.disbursed='f' WHERE disputes.status = 'lost') AS disputes", "disputes.charge_id=charges.id")
         .where("payments.nonprofit_id=$id", id: npo_id)
     ).first
   end

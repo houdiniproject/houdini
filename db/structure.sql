@@ -675,6 +675,43 @@ ALTER SEQUENCE public.dispute_payment_backups_id_seq OWNED BY public.dispute_pay
 
 
 --
+-- Name: dispute_transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.dispute_transactions (
+    id integer NOT NULL,
+    dispute_id integer,
+    payment_id integer,
+    gross_amount integer DEFAULT 0,
+    fee_total integer DEFAULT 0,
+    net_amount integer DEFAULT 0,
+    disbursed boolean DEFAULT false,
+    stripe_transaction_id character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: dispute_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.dispute_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: dispute_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.dispute_transactions_id_seq OWNED BY public.dispute_transactions.id;
+
+
+--
 -- Name: disputes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -687,8 +724,7 @@ CREATE TABLE public.disputes (
     stripe_dispute_id character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    net_amount integer,
-    payment_id integer
+    net_amount integer
 );
 
 
@@ -2727,6 +2763,13 @@ ALTER TABLE ONLY public.dispute_payment_backups ALTER COLUMN id SET DEFAULT next
 
 
 --
+-- Name: dispute_transactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dispute_transactions ALTER COLUMN id SET DEFAULT nextval('public.dispute_transactions_id_seq'::regclass);
+
+
+--
 -- Name: disputes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3186,6 +3229,14 @@ ALTER TABLE ONLY public.direct_debit_details
 
 ALTER TABLE ONLY public.dispute_payment_backups
     ADD CONSTRAINT dispute_payment_backups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dispute_transactions dispute_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dispute_transactions
+    ADD CONSTRAINT dispute_transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3738,10 +3789,17 @@ CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_
 
 
 --
--- Name: index_disputes_on_payment_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_dispute_transactions_on_dispute_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_disputes_on_payment_id ON public.disputes USING btree (payment_id);
+CREATE INDEX index_dispute_transactions_on_dispute_id ON public.dispute_transactions USING btree (dispute_id);
+
+
+--
+-- Name: index_dispute_transactions_on_payment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_dispute_transactions_on_payment_id ON public.dispute_transactions USING btree (payment_id);
 
 
 --
@@ -5123,4 +5181,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200731205823');
 INSERT INTO schema_migrations (version) VALUES ('20200804185755');
 
 INSERT INTO schema_migrations (version) VALUES ('20200805214509');
+
+INSERT INTO schema_migrations (version) VALUES ('20200805214543');
 

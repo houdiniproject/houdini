@@ -506,37 +506,6 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 
 --
--- Name: commitchange_modern_disputes; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.commitchange_modern_disputes (
-    id integer NOT NULL,
-    dispute_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: commitchange_modern_disputes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.commitchange_modern_disputes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: commitchange_modern_disputes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.commitchange_modern_disputes_id_seq OWNED BY public.commitchange_modern_disputes.id;
-
-
---
 -- Name: custom_field_joins; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -676,6 +645,36 @@ ALTER SEQUENCE public.direct_debit_details_id_seq OWNED BY public.direct_debit_d
 
 
 --
+-- Name: dispute_payment_backups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.dispute_payment_backups (
+    id integer NOT NULL,
+    dispute_id integer,
+    payment_id integer
+);
+
+
+--
+-- Name: dispute_payment_backups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.dispute_payment_backups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: dispute_payment_backups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.dispute_payment_backups_id_seq OWNED BY public.dispute_payment_backups.id;
+
+
+--
 -- Name: disputes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -683,13 +682,13 @@ CREATE TABLE public.disputes (
     id integer NOT NULL,
     gross_amount integer,
     charge_id integer,
-    payment_id integer,
     reason character varying(255),
     status character varying(255),
     stripe_dispute_id character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    net_amount integer
+    net_amount integer,
+    payment_id integer
 );
 
 
@@ -2693,13 +2692,6 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
--- Name: commitchange_modern_disputes id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.commitchange_modern_disputes ALTER COLUMN id SET DEFAULT nextval('public.commitchange_modern_disputes_id_seq'::regclass);
-
-
---
 -- Name: custom_field_joins id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2725,6 +2717,13 @@ ALTER TABLE ONLY public.delayed_jobs ALTER COLUMN id SET DEFAULT nextval('public
 --
 
 ALTER TABLE ONLY public.direct_debit_details ALTER COLUMN id SET DEFAULT nextval('public.direct_debit_details_id_seq'::regclass);
+
+
+--
+-- Name: dispute_payment_backups id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dispute_payment_backups ALTER COLUMN id SET DEFAULT nextval('public.dispute_payment_backups_id_seq'::regclass);
 
 
 --
@@ -3150,14 +3149,6 @@ ALTER TABLE ONLY public.charges
 
 
 --
--- Name: commitchange_modern_disputes commitchange_modern_disputes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.commitchange_modern_disputes
-    ADD CONSTRAINT commitchange_modern_disputes_pkey PRIMARY KEY (id);
-
-
---
 -- Name: custom_field_joins custom_field_joins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3187,6 +3178,14 @@ ALTER TABLE ONLY public.delayed_jobs
 
 ALTER TABLE ONLY public.direct_debit_details
     ADD CONSTRAINT direct_debit_details_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: dispute_payment_backups dispute_payment_backups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.dispute_payment_backups
+    ADD CONSTRAINT dispute_payment_backups_pkey PRIMARY KEY (id);
 
 
 --
@@ -3736,6 +3735,13 @@ CREATE INDEX index_charges_on_donation_id ON public.charges USING btree (donatio
 --
 
 CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_id);
+
+
+--
+-- Name: index_disputes_on_payment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_disputes_on_payment_id ON public.disputes USING btree (payment_id);
 
 
 --
@@ -5114,7 +5120,7 @@ INSERT INTO schema_migrations (version) VALUES ('20200421185917');
 
 INSERT INTO schema_migrations (version) VALUES ('20200731205823');
 
-INSERT INTO schema_migrations (version) VALUES ('20200804175447');
-
 INSERT INTO schema_migrations (version) VALUES ('20200804185755');
+
+INSERT INTO schema_migrations (version) VALUES ('20200805214509');
 

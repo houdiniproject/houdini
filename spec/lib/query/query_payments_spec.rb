@@ -393,4 +393,141 @@ describe QueryPayments do
     end
 
   end
+
+  describe 'balances and payouts' do 
+    let(:nonprofit) {create(:nonprofit)}
+    let(:charge_available) {  create(:charge, nonprofit: nonprofit, amount: 100, status: 'available', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 100))}
+    let(:charge_paid) {  create(:charge, nonprofit: nonprofit, amount: 200, status: 'paid', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 200))}
+    let(:charge_pending) { create(:charge, nonprofit: nonprofit, amount: 400, status: 'pending', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 400))}
+    let(:refund_disbursed) { create(:refund, amount: 800, disbursed: true, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -800))}
+    let(:refund) { create(:refund, amount: 1600, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -1600))}
+    let(:legacy_dispute_paid) { create(:dispute,  gross_amount: 3200, status: :lost_and_paid, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -3200))}
+    let(:legacy_dispute_won) { create(:dispute, gross_amount: 6400, status: :won)}
+    let(:legacy_dispute_lost) { create(:dispute, gross_amount: 25600, status: :lost, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -25600))}
+    let(:dispute_lost) do 
+      d = create(:dispute, 
+        gross_amount: 12800,
+        net_amount: -14300,
+        status: :lost,
+        payment: create(:payment, 
+          nonprofit: nonprofit, 
+          gross_amount: -12800,
+          fee_total: -1500,
+          net_amount: -14300)
+      )
+
+      d.create_commitchange_modern_dispute
+      d
+    end
+    let(:dispute_won) do 
+      d = create(:dispute, 
+        gross_amount: 51200,
+        net_amount: 0,
+        status: :won,
+        payment: create(:payment, 
+          nonprofit: nonprofit, 
+          gross_amount: -51200,
+          fee_total: -1500,
+          net_amount: -52700)
+        
+      )
+
+      d.create_commitchange_modern_dispute
+      d
+    end
+
+    let(:dispute_paid) do 
+      d = create(:dispute,
+        gross_amount: 102800,
+        net_amount: -104300,
+        status: :lost_and_paid,
+        payment: create(:payment, 
+          nonprofit: nonprofit, 
+          gross_amount: -102800,
+          fee_total: -1500,
+          net_amount: -104300)
+      ) 
+
+      d.create_commitchange_modern_dispute
+      d
+    end
+
+    let(:dispute_under_review) do 
+      d = create(:dispute,
+        gross_amount: 205600,
+        net_amount: -207100,
+        status: :under_review,
+        payment: create(:payment, 
+          nonprofit: nonprofit, 
+          gross_amount: -205600,
+          fee_total: -1500,
+          net_amount: -207100)
+      )
+      d.create_commitchange_modern_dispute
+      d
+    end
+
+    let(:dispute_needs_response) do 
+      d = create(:dispute,
+        gross_amount: 512000,
+        net_amount: -513500,
+        status: :needs_response,
+        payment: create(:payment, 
+          nonprofit: nonprofit, 
+          gross_amount: -512000,
+          fee_total: -1500,
+          net_amount: -513500)
+      )
+      d.create_commitchange_modern_dispute
+      d
+    end
+
+
+    let(:nonprofit_balances) { QueryPayments.nonprofit_balances(nonprofit.id)}
+
+    before(:each) do
+      nonprofit
+      charge_available
+      charge_paid
+      charge_pending
+      refund_disbursed
+      refund
+      legacy_dispute_paid
+      legacy_dispute_lost
+      legacy_dispute_won
+      dispute_lost
+      dispute_won
+      dispute_paid
+      dispute_under_review
+      dispute_needs_response
+    end
+
+    describe ".nonprofit_balances" do 
+      it 'has a pending balance of 400' do
+        expect(nonprofit_balances['pending_gross']).to eq 400
+      end
+
+      it 'has an available balance of -762000' do
+        expect(nonprofit_balances['available_gross']).to eq -762000
+      end
+
+      it 'has one charge  as count_available' do
+        expect(nonprofit_balances['count_available']).to eq 1
+      end
+
+      it 'has one refund as count_refunds' do
+        expect(nonprofit_balances['count_refunds']).to eq 1
+      end
+
+      it 'has four disputes as count_disputes' do
+        expect(nonprofit_balances['count_disputes']).to eq 4
+      end
+    end
+    describe '.ids_for_payouts' do 
+      let(:ids_for_payouts) {QueryPayments.ids_for_payout(nonprofit.id)}
+      it 'contains the proper ids to consider in ids_for_payout' do 
+        expect(ids_for_payouts)
+      end
+    end
+  end
 end

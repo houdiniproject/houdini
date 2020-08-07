@@ -226,7 +226,8 @@ Commitchange::Application.routes.draw do
   # Events
   match '/events' => 'events#index'
   match '/events/:event_slug' => 'events#show'
-  match "/webhooks/stripe/receive" => "webhooks/stripe#receive",  format: :json	  
+	match "/webhooks/stripe/receive" => "webhooks/stripe#receive",  format: :json
+	match "/webhooks/stripe/receive_connect" => "webhooks/stripe#receive_connect",  format: :json	 
   
 
 	# Nonprofits

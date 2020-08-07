@@ -1,7 +1,7 @@
 class DisputeTransaction < ActiveRecord::Base
   belongs_to :dispute
   belongs_to :payment
-  attr_accessible :gross_amount, :disbursed, :payment
+  attr_accessible :gross_amount, :disbursed, :payment, :fee_total
 
   def gross_amount=(gross_amount)
     write_attribute(:gross_amount, gross_amount)

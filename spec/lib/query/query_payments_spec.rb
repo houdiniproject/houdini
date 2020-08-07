@@ -124,34 +124,7 @@ describe QueryPayments do
 
   end
 
-  describe '.for_payout' do
-
-    before(:each) do
-      gross = @payments.map{|h| h['gross_amount']}.sum
-      fees = @payments.map{|h| h['fee_total']}.sum
-      net = @payments.map{|h| h['net_amount']}.sum
-      @payout = force_create(:payout, gross_amount: gross, fee_total: fees, net_amount: net, nonprofit: @nonprofit)
-      @payment_payouts = @payments.map {|p| force_create(:payment_payout, payment: p, payout:@payout)}
-
-      @result = QueryPayments.for_payout(@nonprofit['id'], @payout['id'])
-    end
-
-    it 'sets the correct headers' do
-      expect(@result.first).to eq(["date", "gross_total", "fee_total", "net_total", "bank_name", "status"])
-    end
-
-    it 'sets the correct payout data' do
-      expect(@result[1].count).to eq(6) # TODO
-    end
-    
-    it 'sets the payment headers', :pending => true do
-      expect(@result[3]).to eq(["Date", "Gross Amount", "Fee Total", "Net Amount", "Type", "Payment ID", "Last Name", "First Name", "Full Name", "Organization", "Email", "Phone", "Address", "City", "State", "Postal Code", "Country", "Anonymous?", "Designation", "Honorarium/Memorium", "Comment", "Campaign", "Campaign Gift Level", "Event"])
-    end
-
-    it 'sets the correct payment data', :pending => true do
-      expect(@result[4].count).to eq 24
-    end
-  end
+  
 
   describe '.for_export_enumerable' do
     it 'finishes two payment export' do
@@ -396,59 +369,84 @@ describe QueryPayments do
 
   describe 'balances and payouts' do 
     let(:nonprofit) {create(:nonprofit)}
-    let(:charge_available) {  create(:charge, nonprofit: nonprofit, amount: 100, status: 'available', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 100))}
-    let(:charge_paid) {  create(:charge, nonprofit: nonprofit, amount: 200, status: 'paid', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 200))}
-    let(:charge_pending) { create(:charge, nonprofit: nonprofit, amount: 400, status: 'pending', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 400))}
-    let(:refund_disbursed) { create(:refund, amount: 800, disbursed: true, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -800))}
-    let(:refund) { create(:refund, amount: 1600, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -1600))}
-    let(:legacy_dispute_paid) { create(:dispute,  gross_amount: 3200, status: :lost_and_paid, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -3200))}
+    let(:charge_available) {  create(:charge, nonprofit: nonprofit, amount: 100, status: 'available', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 100, fee_total: 0, net_amount: 100))}
+    let(:charge_paid) {  create(:charge, nonprofit: nonprofit, amount: 200, status: 'paid', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 200, fee_total: 0, net_amount:200))}
+    let(:charge_pending) { create(:charge, nonprofit: nonprofit, amount: 400, status: 'pending', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 400, fee_total: 0, net_amount: 400))}
+    let(:refund_disbursed) { create(:refund, amount: 800, disbursed: true, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -800, fee_total: 0, net_amount:-800))}
+    let(:refund) { create(:refund, amount: 1600, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -1600, fee_total: 0, net_amount: -1600))}
+    let(:legacy_dispute_paid) do 
+      dispute = create(:dispute,  gross_amount: -3200, status: :lost)
+      dispute.dispute_transactions.create(gross_amount: -3200, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -3200, fee_total: 0, net_amount: -3200), disbursed: true)
+      dispute
+    end
     let(:legacy_dispute_won) { create(:dispute, gross_amount: 6400, status: :won)}
-    let(:legacy_dispute_lost) { create(:dispute, gross_amount: 25600, status: :lost, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -25600))}
+    let(:legacy_dispute_lost) do 
+       dispute = create(:dispute, gross_amount: -25600, status: :lost)
+       dispute.dispute_transactions.create(gross_amount: -25600, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -25600,  fee_total: 0, net_amount: -25600))
+       dispute
+    end
+
     let(:dispute_lost) do 
       d = create(:dispute, 
         gross_amount: 12800,
         net_amount: -14300,
-        status: :lost,
-        payment: create(:payment, 
-          nonprofit: nonprofit, 
+        status: :lost
+      )
+
+      d.dispute_transactions.create(gross_amount: -12800, fee_total: -1500, payment: 
+        force_create(:payment, 
+          nonprofit: nonprofit,  
           gross_amount: -12800,
           fee_total: -1500,
           net_amount: -14300)
-      )
-
-      d.create_commitchange_modern_dispute
+        )
       d
     end
     let(:dispute_won) do 
       d = create(:dispute, 
-        gross_amount: 51200,
+        gross_amount: -51200,
         net_amount: 0,
-        status: :won,
-        payment: create(:payment, 
-          nonprofit: nonprofit, 
-          gross_amount: -51200,
-          fee_total: -1500,
-          net_amount: -52700)
-        
+        status: :won
       )
-
-      d.create_commitchange_modern_dispute
+      
+      d.dispute_transactions.create(gross_amount: -51200,
+        fee_total: -1500,   
+        payment: create(:payment, 
+        nonprofit: nonprofit, 
+        gross_amount: -51200,
+        fee_total: -1500,
+        net_amount: -52700))
+      d.dispute_transactions.create(gross_amount: 51200,
+        fee_total: 1500,   
+        payment: create(:payment, 
+        nonprofit: nonprofit, 
+        gross_amount: 51200,
+        fee_total: 1500,
+        net_amount: 52700))
       d
     end
 
     let(:dispute_paid) do 
       d = create(:dispute,
         gross_amount: 102800,
-        net_amount: -104300,
-        status: :lost_and_paid,
+        status: :lost,
         payment: create(:payment, 
           nonprofit: nonprofit, 
           gross_amount: -102800,
           fee_total: -1500,
           net_amount: -104300)
-      ) 
+      )
 
-      d.create_commitchange_modern_dispute
+      d.dispute_transactions.create(gross_amount: -102800,
+        fee_total: -1500,
+        payment: create(:payment, 
+          nonprofit: nonprofit, 
+          gross_amount: -102800,
+          fee_total: -1500,
+          net_amount: -104300),
+        disbursed:true
+      )
+
       d
     end
 
@@ -456,14 +454,13 @@ describe QueryPayments do
       d = create(:dispute,
         gross_amount: 205600,
         net_amount: -207100,
-        status: :under_review,
-        payment: create(:payment, 
-          nonprofit: nonprofit, 
-          gross_amount: -205600,
-          fee_total: -1500,
-          net_amount: -207100)
-      )
-      d.create_commitchange_modern_dispute
+        status: :under_review)
+       
+      d.dispute_transactions.create( gross_amount: -205600, fee_total: -1500, payment: create(:payment, 
+        nonprofit: nonprofit, 
+        gross_amount: -205600,
+        fee_total: -1500,
+        net_amount: -207100))
       d
     end
 
@@ -471,14 +468,14 @@ describe QueryPayments do
       d = create(:dispute,
         gross_amount: 512000,
         net_amount: -513500,
-        status: :needs_response,
-        payment: create(:payment, 
-          nonprofit: nonprofit, 
-          gross_amount: -512000,
-          fee_total: -1500,
-          net_amount: -513500)
+        status: :needs_response
+       
       )
-      d.create_commitchange_modern_dispute
+      d.dispute_transactions.create( gross_amount: -512000, fee_total: -1500, payment: create(:payment, 
+        nonprofit: nonprofit, 
+        gross_amount: -512000,
+        fee_total: -1500,
+        net_amount: -513500))
       d
     end
 
@@ -519,14 +516,59 @@ describe QueryPayments do
         expect(nonprofit_balances['count_refunds']).to eq 1
       end
 
-      it 'has four disputes as count_disputes' do
-        expect(nonprofit_balances['count_disputes']).to eq 4
+      it 'has five disputes as count_disputes' do
+        expect(nonprofit_balances['count_disputes']).to eq 5
       end
     end
-    describe '.ids_for_payouts' do 
-      let(:ids_for_payouts) {QueryPayments.ids_for_payout(nonprofit.id)}
-      it 'contains the proper ids to consider in ids_for_payout' do 
-        expect(ids_for_payouts)
+    
+    describe '.for_payout' do
+      let(:payments) do  
+        [legacy_dispute_paid.dispute_transactions.first.payment, 
+        dispute_paid.dispute_transactions.first.payment,
+        charge_paid.payment,
+        refund_disbursed.payment,
+        ]
+      end
+
+      let(:payout) do
+        force_create(:payout, 
+        gross_amount:payments.sum{|i| i.gross_amount}, 
+        fee_total: payments.sum{|i| i.fee_total}, 
+        net_amount: payments.sum{|i| i.net_amount}, 
+        nonprofit: nonprofit)
+      end
+
+      let(:payment_payouts) do
+        payments.map{|p| force_create(:payment_payout, payment: p, payout:payout)}
+      end
+
+      let(:bank_account) do 
+        force_create(:bank_account, name: "bank", nonprofit: nonprofit)
+      end
+
+      let(:result) do 
+        QueryPayments.for_payout(nonprofit.id, payout.id)
+      end
+      
+      before(:each) do
+        bank_account
+        payment_payouts
+      end
+  
+      it 'sets the correct headers' do
+        expect(result.first).to eq(["date", "gross_total", "fee_total", "net_total", "bank_name", "status"])
+      end
+  
+      it 'sets the correct payout data' do
+        expect(result[1].count).to eq(6) # TODO
+      end
+      
+      it 'sets the payment headers', :pending => true do
+        expect(result[3]).to eq(["Date", "Gross Amount", "Fee Total", "Net Amount", "Type", "Payment ID", "Last Name", "First Name", "Full Name", "Organization", "Email", "Phone", "Address", "City", "State", "Postal Code", "Country", "Anonymous?", "Designation", "Honorarium/Memorium", "Comment", "Campaign", "Campaign Gift Level", "Event"])
+      end
+  
+      it 'sets the correct payment data', :pending => true do
+        expect(result[4].count).to eq 24
       end
     end
   end

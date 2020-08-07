@@ -26,13 +26,13 @@ module QueryPayments
         .from(:payments)
         .left_join(:charges, 'charges.payment_id=payments.id')
         .add_left_join(:refunds, 'refunds.payment_id=payments.id')
-        .add_left_join(:disputes, 'disputes.payment_id=payments.id')
+        .add_left_join(:dispute_transactions, 'dispute_transactions.payment_id=payments.id')
         .where('payments.nonprofit_id=$id', id: npo_id)
-        .and_where("refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR disputes.payment_id IS NOT NULL")
+        .and_where("refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR dispute_transactions.payment_id IS NOT NULL")
         .and_where(%Q(
         ((refunds.payment_id IS NOT NULL AND refunds.disbursed IS NULL) OR refunds.disbursed='f')
         OR (charges.status='available')
-        OR (disputes.status='lost')
+        OR (dispute_transactions.disbursed='f')
        ))
         .and_where("payments.date <= $date", date: options[:date] || end_of_day)
         .execute.map{|h| h['id']}
@@ -60,14 +60,14 @@ module QueryPayments
         'COUNT(available) AS count_available',
         'COUNT(pending) AS count_pending',
         'COUNT(refunds) AS count_refunds',
-        'COUNT(disputes) AS count_disputes')
+        'COUNT(DISTINCT disputes.id) AS count_disputes')
         .from(:payments)
         .left_outer_join('refunds', "refunds.payment_id=payments.id AND (refunds.disbursed='f' OR refunds.disbursed IS NULL)")
         .left_outer_join('charges', 'charges.payment_id = payments.id')
         .left_outer_join("charges available", "available.status='available' AND available.payment_id=payments.id")
         .left_outer_join("charges pending", "pending.status='pending' AND pending.payment_id=payments.id")
         .left_outer_join("dispute_transactions", "dispute_transactions.payment_id = payments.id AND (dispute_transactions.disbursed='f')")
-        .left_outer_join("(SELECT disputes.id, disputes.charge_id from disputes INNER JOIN dispute_transactions ON dispute_transactions.dispute_id = disputes.id AND dispute_transactions.disbursed='f' WHERE disputes.status = 'lost') AS disputes", "disputes.charge_id=charges.id")
+        .left_outer_join("disputes", "disputes.id=dispute_transactions.dispute_id")
         .where("payments.nonprofit_id=$id", id: npo_id)
     ).first
   end

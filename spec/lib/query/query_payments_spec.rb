@@ -55,7 +55,7 @@ describe QueryPayments do
           r.reload()
           payments_for_payout.add(r.payment.id)
         }
-
+        byebug
         expect(result).to match_array(payments_for_payout)
       end
     end

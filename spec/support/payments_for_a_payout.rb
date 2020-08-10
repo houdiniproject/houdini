@@ -74,12 +74,14 @@ shared_context 'payments for a payout' do
     return p
   }
 
+
   #net amount: 0
   let(:paid_out_dispute) {
     p = create_payment
     c = create_charge(payment: p, amount: 2000, status: 'disbursed')
-    dispute_payment = create_payment(gross_amount: -2000, fee_total: 400, net_amount: -1600)
-    dispute = create_dispute(charge: c, payment: dispute_payment, gross_amount: 2000, status: 'lost_and_paid')
+    dispute_payment = 
+    dispute = create_dispute(charge: c, gross_amount: 2000, status: 'lost')
+    dispute.dispute_transactions.create(payment: 
     return p
   }
 

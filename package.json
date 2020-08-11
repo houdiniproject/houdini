@@ -81,6 +81,7 @@
     "sinon": "^5.0.7",
     "storybook-addon-intl": "^2.4.1",
     "style-loader": "^0.21.0",
+    "tiny-warning": "^1.0.3",
     "ts-jest": "^24.0.0",
     "typescript": "^3.9.5",
     "url-loader": "^1.0.1",

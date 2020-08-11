@@ -57,41 +57,35 @@ describe InsertPayout do
     context 'when valid' do
       let(:stripe_helper) {StripeMock.create_test_helper}
 
-      before(:each) {
-        Timecop.freeze(2020, 5, 4)
-        StripeMock.start
-      }
-
-      after {
-        StripeMock.stop
-        Timecop.return
-      }
+      around(:each) do |example|
+        Timecop.freeze(2020, 5, 5) do 
+          StripeMock.start
+          example.run
+          StripeMock.stop
+        end
+      end
 
       context 'no charges to payout' do 
         include_context 'payments for a payout' do
-          let(:np) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
-          let(:date_for_marking) {Time.now}
-          let(:ba) do
-            ba = InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
-            ba.pending_verification = false
-            ba.save!
-            ba
-          end
-            let(:stripe_account) do 
-              force_create(:stripe_account, stripe_account_id: np.stripe_account_id, payouts_enabled: true)
-            end
-
+          let(:nonprofit) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
+        end
+        
+        let!(:ba) do
+          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+          ba.pending_verification = false
+          ba.save!
+          ba
+        end
+        
+        let!(:stripe_account) do 
+          force_create(:stripe_account, stripe_account_id: nonprofit.stripe_account_id, payouts_enabled: true)
         end
 
-        before(:each) {
-          ba
-          stripe_account
-        }
-
+  
         it 'handles no charges to payout' do
           #we have a deactivation record but no deactivate set
-          force_create(:nonprofit_deactivation, nonprofit: np)
-          expect {InsertPayout.with_stripe(np.id, {:stripe_account_id => 'valid', :email => 'valid', user_ip: 'valid', bank_name: 'valid'}, nil)}.to(raise_error {|error|
+          force_create(:nonprofit_deactivation, nonprofit: nonprofit)
+          expect {InsertPayout.with_stripe(nonprofit.id, {:stripe_account_id => 'valid', :email => 'valid', user_ip: 'valid', bank_name: 'valid'}, nil)}.to(raise_error {|error|
             expect(error).to be_a ArgumentError
             expect(error.message).to eq "No payments are available for disbursal on this account."
           })
@@ -114,38 +108,36 @@ describe InsertPayout do
 
       context 'no date provided' do
         include_context 'payments for a payout' do
-          let(:np) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
-          let(:date_for_marking) {Time.now}
-          let(:ba) do
-            ba = InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
-            ba.pending_verification = false
-            ba.save!
-            ba
-          end
-          let(:stripe_account) do 
-            force_create(:stripe_account, stripe_account_id: np.stripe_account_id, payouts_enabled: true)
-          end
+          let(:nonprofit) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
+        end
+        let!(:ba) do
+          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+          ba.pending_verification = false
+          ba.save!
+          ba
+
+        end
+        let!(:stripe_account) do 
+          force_create(:stripe_account, stripe_account_id: nonprofit.stripe_account_id, payouts_enabled: true)
         end
 
-        before(:each) {
-          ba
-          stripe_account
-        }
-        let(:expected_totals) {{gross_amount: 5500, fee_total: -1200, net_amount: 4300, count: 8}}
+        let!(:expected_payments) { available_payments_yesterday}
+        let(:expected_totals) {{gross_amount: 57700, fee_total: -4500, net_amount: 53200, count: 15}}
+        
         it 'works without a date provided' do
           stripe_transfer_id = nil
           expect(Stripe::Payout).to receive(:create).with({amount: expected_totals[:net_amount],
                                                              currency: 'usd'
                                                             }, {
-                                                                stripe_account: np.stripe_account_id})
+                                                                stripe_account: nonprofit.stripe_account_id})
                                           .and_wrap_original {|m, *args|
                                             args[0]['status'] = 'pending'
                                             i = m.call(*args)
                                             stripe_transfer_id = i['id'];
                                             i
                                           }
-          all_payments
-          result = InsertPayout.with_stripe(np.id, {stripe_account_id: np.stripe_account_id,
+          entities_yesterday
+          result = InsertPayout.with_stripe(nonprofit.id, {stripe_account_id: nonprofit.stripe_account_id,
                                                     email: user_email,
                                                     user_ip: user_ip,
                                                     bank_name: bank_name
@@ -153,7 +145,7 @@ describe InsertPayout do
 
           expected_result = {
               net_amount: expected_totals[:net_amount],
-              nonprofit_id: np.id,
+              nonprofit_id: nonprofit.id,
               status: 'pending',
               fee_total: expected_totals[:fee_total],
               gross_amount: expected_totals[:gross_amount],
@@ -173,37 +165,17 @@ describe InsertPayout do
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
           expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
 
-          # validate which charges are makred
-          @expect_marked[:charges].each {|c|
-            c.reload()
-            expect(c.status).to eq 'disbursed'
-          }
-
-
-          # validate which refunds are marked
-
-          @expect_marked[:refunds].each {|r|
-            r.reload()
-            expect(r.disbursed).to eq true
-          }
-
-          # validate which disputes are marked
-          @expect_marked[:disputes].each {|d|
-            d.reload
-            expect(d.status).to eq 'lost_and_paid'
-          }
-          # validate payment payout records
-
-          expect(resulted_payout.payments.pluck('payments.id')).to eq @expect_marked[:payouts_records].collect {|i| i.id}
+          expect(resulted_payout.payments.pluck('payments.id')).to match_array(expected_payments.map{|i| i.id})
         end
 
         it 'fails properly when Stripe payout call fails' do
           #we have a deactivation record but deactivate set to false
-          force_create(:nonprofit_deactivation, nonprofit: np, deactivated: false)
+          force_create(:nonprofit_deactivation, nonprofit: nonprofit, deactivated: false)
           StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
 
-          all_payments
-          result = InsertPayout.with_stripe(np.id, {stripe_account_id: np.stripe_account_id,
+          entities_yesterday
+          expected_payments
+          result = InsertPayout.with_stripe(nonprofit.id, {stripe_account_id: nonprofit.stripe_account_id,
                                                     email: user_email,
                                                     user_ip: user_ip,
                                                     bank_name: bank_name
@@ -211,7 +183,7 @@ describe InsertPayout do
 
           expected_result = {
               net_amount: expected_totals[:net_amount],
-              nonprofit_id: np.id,
+              nonprofit_id: nonprofit.id,
               status: 'failed',
               fee_total: expected_totals[:fee_total],
               gross_amount: expected_totals[:gross_amount],
@@ -232,25 +204,7 @@ describe InsertPayout do
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
           expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
 
-          # validate which charges are makred
-          @expect_marked[:charges].each {|c|
-            c.reload()
-            expect(c.status).to eq 'available'
-          }
-
-
-          # validate which refunds are marked
-
-          @expect_marked[:refunds].each {|r|
-            r.reload()
-            expect(r.disbursed).to be_falsey
-          }
-
-          # validate which disputes are marked
-          @expect_marked[:disputes].each {|d|
-            d.reload
-            expect(d.status).to eq 'lost'
-          }
+          expect(eb_yesterday.available_payments.map{|i| i.id}).to match_array(expected_payments.map{|i| i.id})
           # validate payment payout records
 
           expect(resulted_payout.payments.count).to eq 0
@@ -259,38 +213,41 @@ describe InsertPayout do
 
       context 'previous date provided' do
         include_context 'payments for a payout' do
-          let(:np) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
-          let(:date_for_marking) {Time.now - 1.day}
-          let(:ba) do
-            ba = InsertBankAccount.with_stripe(np, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
-            ba.pending_verification = false
-            ba.save!
-            ba
-          end
-          let(:stripe_account) do 
-            force_create(:stripe_account, stripe_account_id: np.stripe_account_id, payouts_enabled: true)
-          end
+          let(:nonprofit) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
+          
         end
-        before(:each) {
-            ba
-            stripe_account
-        }
 
-        let(:expected_totals) {{gross_amount: 3500, fee_total: -800, net_amount: 2700, count: 7}}
+        let!(:ba) do
+          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+          ba.pending_verification = false
+          ba.save!
+          ba
+        end
+        let!(:stripe_account) do 
+          force_create(:stripe_account, stripe_account_id: nonprofit.stripe_account_id, payouts_enabled: true)
+        end
+
+        before(:each) do 
+          entities_yesterday
+          entities_two_days_ago
+        end
+
+        let!(:expected_payments) { available_payments_two_days_ago}
+        let(:expected_totals) {{gross_amount: 57700, fee_total: -4500, net_amount: 53200, count: 15}}
+
         it 'works with date provided' do
           stripe_transfer_id = nil
           expect(Stripe::Payout).to receive(:create).with({amount: expected_totals[:net_amount],
                                                              currency: 'usd',
                                                             }, {
-                                                                stripe_account: np.stripe_account_id})
+                                                                stripe_account: nonprofit.stripe_account_id})
                                           .and_wrap_original {|m, *args|
                                             args[0]['status'] = 'pending'
                                             i = m.call(*args)
                                             stripe_transfer_id = i['id'];
                                             i
                                           }
-          all_payments
-          result = InsertPayout.with_stripe(np.id, {stripe_account_id: np.stripe_account_id,
+          result = InsertPayout.with_stripe(nonprofit.id, {stripe_account_id: nonprofit.stripe_account_id,
                                                     email: user_email,
                                                     user_ip: user_ip,
                                                     bank_name: bank_name
@@ -298,7 +255,7 @@ describe InsertPayout do
 
           expected_result = {
               net_amount: expected_totals[:net_amount],
-              nonprofit_id: np.id,
+              nonprofit_id: nonprofit.id,
               status: 'pending',
               fee_total: expected_totals[:fee_total],
               gross_amount: expected_totals[:gross_amount],
@@ -316,32 +273,16 @@ describe InsertPayout do
           expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
+          
           expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
 
-          # validate which charges are makred
-          @expect_marked[:charges].each {|c|
-            c.reload()
-            expect(c.status).to(eq('disbursed'), "#{c.attributes.to_s}")
-          }
-
-          # validate which refunds are marked
-          @expect_marked[:refunds].each {|r|
-            r.reload()
-            expect(r.disbursed).to eq true
-          }
-
-          # validate which disputes are marked
-          @expect_marked[:disputes].each {|d|
-            d.reload
-            expect(d.status).to eq 'lost_and_paid'
-          }
+          expect(resulted_payout.payments.pluck('payments.id')).to match_array(expected_payments.map{|i| i.id})
         end
 
         it 'fails properly when Stripe payout call fails' do
           StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
 
-          all_payments
-          result = InsertPayout.with_stripe(np.id, {stripe_account_id: np.stripe_account_id,
+          result = InsertPayout.with_stripe(nonprofit.id, {stripe_account_id: nonprofit.stripe_account_id,
                                                     email: user_email,
                                                     user_ip: user_ip,
                                                     bank_name: bank_name
@@ -349,7 +290,7 @@ describe InsertPayout do
 
           expected_result = {
               net_amount: expected_totals[:net_amount],
-              nonprofit_id: np.id,
+              nonprofit_id: nonprofit.id,
               status: 'failed',
               fee_total: expected_totals[:fee_total],
               gross_amount: expected_totals[:gross_amount],
@@ -369,24 +310,8 @@ describe InsertPayout do
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
           expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
-
-          # validate which charges are makred
-          @expect_marked[:charges].each {|c|
-            c.reload()
-            expect(c.status).to eq 'available'
-          }
-
-          # validate which refunds are marked
-          @expect_marked[:refunds].each {|r|
-            r.reload()
-            expect(r.disbursed).to be_falsey
-          }
-
-          # validate which disputes are marked
-          @expect_marked[:disputes].each {|d|
-            d.reload
-            expect(d.status).to eq 'lost'
-          }
+        
+          expect(eb_two_days_ago.available_payments.map{|i| i.id}).to match_array(expected_payments.map{|i| i.id})
           # validate payment payout records
 
           expect(resulted_payout.payments.count).to eq 0

@@ -12,6 +12,7 @@ class Charge < ActiveRecord::Base
 
 	has_one :campaign, through: :donation
 	has_one :recurring_donation, through: :donation
+	has_one :stripe_dispute, primary_key: :stripe_charge_id, foreign_key: :stripe_charge_id
 	has_many :tickets
 	has_many :events, through: :tickets
 	has_many :refunds

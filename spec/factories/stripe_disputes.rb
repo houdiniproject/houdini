@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :stripe_dispute do
-    object "MyString"
-    balance_transactions "MyString"
-    stripe_dispute_id "MyString"
-    status "MyString"
+    stripe_dispute_id "dispute_test_id"
+    stripe_charge_id "charge_test_id"
   end
 end

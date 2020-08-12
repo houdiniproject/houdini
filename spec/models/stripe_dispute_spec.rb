@@ -189,4 +189,20 @@ RSpec.describe StripeDispute, :type => :model do
       expect(obj.stripe_dispute_id).to eq "dp_1Y75JUBCJIIhvMWmSRi5eQbU"
     end
   end
+
+  describe '.dispute' do
+    let!(:dispute){ force_create(:dispute)}
+    let(:stripe_dispute) { create(:stripe_dispute)}
+    it 'directs to a dispute with the correct Stripe dispute id' do
+      expect(stripe_dispute.dispute).to eq dispute
+    end
+  end
+
+  describe '.charge' do
+    let!(:charge){ force_create(:charge)}
+    let(:stripe_dispute) { create(:stripe_dispute)}
+    it 'directs to a dispute with the correct Stripe charge id' do
+      expect(stripe_dispute.charge).to eq charge
+    end
+  end
 end

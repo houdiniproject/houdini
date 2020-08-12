@@ -1,8 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class StripeDispute < ActiveRecord::Base
   attr_accessible  :object, :stripe_dispute_id
-  has_one :dispute, primary_key: :stripe_dispute_id
-  has_one :charge, primary_key: :charges
+  has_one :dispute, primary_key: :stripe_dispute_id, foreign_key: :stripe_dispute_id
+  has_one :charge, primary_key: :stripe_charge_id, foreign_key: :stripe_charge_id
 
   def object=(input)
     serialize_on_update(input)

@@ -2,14 +2,6 @@
 require 'rails_helper'
 
 RSpec.describe StripeEvent, :type => :model do
-
-  
-
-   
-    
-
-
-
   around(:each) do |example|
     StripeMock.start
     Timecop.freeze(Date.new(2021, 5, 4)) do

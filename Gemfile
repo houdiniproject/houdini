@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.3.8'
 gem 'rake', '~> 12.3.3'
 gem 'rails', '3.2.22.5'
-gem 'rails_12factor'
+
 # https://stripe.com/docs/api
 gem 'stripe', '~> 4'
 
@@ -128,7 +128,7 @@ gem 'sass-rails', '3.2.6'
 gem 'uglifier'
 
 # make logging less terrible in rails
-gem 'lograge'
+# gem 'lograge'
 
 gem 'config', '> 1.5'
 gem 'dry-validation' # used only for config validation
@@ -148,6 +148,7 @@ group :production, :staging do
   gem "hiredis", "~> 0.6.0"
   gem "redis", ">= 3.2.0"
   gem 'redis-actionpack'
+  #gem 'rails_12factor'
 end
 
 gem 'grape', '~> 1.1.0'
@@ -167,3 +168,5 @@ gem 'hashie'
 gem 'connection_pool'
 
 gem "barnes"
+
+gem 'suo'

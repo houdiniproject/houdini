@@ -242,10 +242,6 @@ GEM
     journey (1.0.4)
     json (1.8.6)
     kdtree (0.3)
-    lograge (0.3.6)
-      actionpack (>= 3)
-      activesupport (>= 3)
-      railties (>= 3)
     mail (2.5.5)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -312,13 +308,8 @@ GEM
     rails-i18n (3.0.1)
       i18n (~> 0.5)
       rails (>= 3.0.0, < 4.0.0)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
     rails_autoscale_agent (0.4.1)
       activesupport (>= 3.2)
-    rails_serve_static_assets (0.0.4)
-    rails_stdout_logging (0.0.3)
     railties (3.2.22.5)
       actionpack (= 3.2.22.5)
       activesupport (= 3.2.22.5)
@@ -406,6 +397,10 @@ GEM
       dante (>= 0.2.0)
       multi_json (~> 1.0)
       stripe (>= 2.0.3)
+    suo (0.3.4)
+      dalli
+      msgpack
+      redis
     table_print (1.5.4)
     test-unit (3.2.7)
       power_assert
@@ -485,7 +480,6 @@ DEPENDENCIES
   hiredis (~> 0.6.0)
   httparty
   i18n-js
-  lograge
   mail_view
   memcachier
   mini_magick
@@ -502,7 +496,6 @@ DEPENDENCIES
   rack-timeout
   rails (= 3.2.22.5)
   rails-i18n (~> 3.0.0)
-  rails_12factor
   rails_autoscale_agent
   rake (~> 12.3.3)
   rbtrace
@@ -521,6 +514,7 @@ DEPENDENCIES
   sprockets
   stripe (~> 4)
   stripe-ruby-mock (~> 2.5.1)
+  suo
   table_print
   test-unit (~> 3.0)
   timecop

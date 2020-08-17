@@ -128,7 +128,7 @@ gem 'sass-rails', '3.2.6'
 gem 'uglifier'
 
 # make logging less terrible in rails
-# gem 'lograge'
+gem 'lograge'
 
 gem 'config', '> 1.5'
 gem 'dry-validation' # used only for config validation

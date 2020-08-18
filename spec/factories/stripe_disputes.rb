@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :stripe_dispute do
-    stripe_dispute_id "dispute_test_id"
-    stripe_charge_id "charge_test_id"
+    stripe_dispute_id "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+    stripe_charge_id "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
   end
 end

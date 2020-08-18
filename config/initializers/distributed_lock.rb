@@ -1,14 +1,14 @@
 
 SUO_DALLI_CLIENT = Dalli::Client.new(nil, { :namespace => "locks_v1", :compress => true })
 
-  
+DEFAULT_OPTIONS = 
 class DistributedLock
   DEFAULT_OPTIONS = {
-    acquisition_timeout: 30.seconds,
+    acquisition_timeout: 1.seconds,
     acquisition_delay: 0.01,
     stale_lock_expiration: 1.minute,
     resources: 1,
-    ttl: 5,
+    ttl: 5.seconds,
   }.freeze
 
   attr_accessor :client

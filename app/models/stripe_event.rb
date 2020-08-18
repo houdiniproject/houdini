@@ -19,14 +19,15 @@ class StripeEvent < ActiveRecord::Base
 
         # we have a later event so we don't need to process this anymore
         unless later_event
-          dispute = StripeDispute.where("stripe_dispute_id = ?", object.id).first
-          if dispute
-            dispute.lock!('FOR UPDATE')
-          else
-            dispute = StripeDispute.new(stripe_dispute_id: object.id)
+          DistributedLock.new(object.id).with_lock do
+              object = Stripe::Dispute.retrieve(object.id)
+              dispute = StripeDispute.where("stripe_dispute_id = ?", object.id).first
+              unless dispute
+                dispute = StripeDispute.new(stripe_dispute_id: object.id)
+              end
+              dispute.object = object
+              dispute.save!
           end
-          dispute.object = object
-          dispute.save!
         end
       end
     end

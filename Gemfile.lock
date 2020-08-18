@@ -283,6 +283,9 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
+    pry-byebug (3.7.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     puma (3.12.4)
     puma_worker_killer (0.1.0)
       get_process_mem (~> 0.2)
@@ -312,8 +315,13 @@ GEM
     rails-i18n (3.0.1)
       i18n (~> 0.5)
       rails (>= 3.0.0, < 4.0.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
     rails_autoscale_agent (0.4.1)
       activesupport (>= 3.2)
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (3.2.22.5)
       actionpack (= 3.2.22.5)
       activesupport (= 3.2.22.5)
@@ -493,6 +501,7 @@ DEPENDENCIES
   param_validation!
   pg
   pry
+  pry-byebug
   puma (>= 3.12.2)
   puma_worker_killer
   qx!
@@ -501,6 +510,7 @@ DEPENDENCIES
   rack-timeout
   rails (= 3.2.22.5)
   rails-i18n (~> 3.0.0)
+  rails_12factor
   rails_autoscale_agent
   rake (~> 12.3.3)
   rbtrace

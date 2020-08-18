@@ -11,7 +11,8 @@ class Payment < ActiveRecord::Base
 		:refund_total,
 		:fee_total,
 		:kind,
-		:date
+		:date,
+		:nonprofit
 
 	belongs_to :supporter
 	belongs_to :nonprofit

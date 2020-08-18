@@ -103,7 +103,7 @@ end
 group :development, :ci, :test do
 	gem 'timecop'
 	gem 'pry'
-	#gem 'pry-byebug'
+	gem 'pry-byebug'
 	gem 'binding_of_caller'
   gem 'rspec'
 	gem 'rspec-rails'
@@ -148,7 +148,7 @@ group :production, :staging do
   gem "hiredis", "~> 0.6.0"
   gem "redis", ">= 3.2.0"
   gem 'redis-actionpack'
-  #gem 'rails_12factor'
+  gem 'rails_12factor'
 end
 
 gem 'grape', '~> 1.1.0'

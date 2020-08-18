@@ -37,15 +37,26 @@ child :donation, object_root: false do
 	end
 end
 
-node(:dispute) {|p| p.dispute_transaction && {
-    id: p.dispute_transaction.dispute.id, 
-    status: p.dispute_transaction.dispute.status, 
-    reason: p.dispute_transaction.dispute.reason
-  }
-}
+child :disputes, object_root: false do
+  attributes :id, :status, :reason
+  child :dispute_transactions, object_root: false do 
+    child :payment do 
+      attributes :id, :net_amount, :gross_amount, :fee_total
+      node(:href) {|p| nonprofits_payments_url(p.nonprofit,  pid: p.id)}  
+    end
+  end
+end
 
 child :dispute_transaction do 
-  attribute :id, :date
+  attributes :id, :date
+  child :dispute do 
+    attributes :id, :status, :reason
+    child :original_payment, object_root: false do
+      attributes :id, :net_amount, :gross_amount, :fee_total
+      node(:href) {|p| nonprofits_payments_url(p.nonprofit,  pid: p.id)}  
+    end
+    
+  end
 end
 
 child :refund do

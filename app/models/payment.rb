@@ -21,6 +21,7 @@ class Payment < ActiveRecord::Base
 	has_one :offsite_payment
 	has_one :refund
 	has_one :dispute_transaction
+	has_many :disputes, through: :charge
 	belongs_to :donation
 	has_many :tickets
 	has_one :campaign, through: :donation

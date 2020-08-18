@@ -18,7 +18,7 @@
 </p>
 
 <table class='table--small'>
-  <!--= show_if payment_details.data.dispute -->
+  <!--= show_if payment_details.data.dispute_transaction -->
   <thead>
     <tr>
       <th>Dispute Info</th>
@@ -29,12 +29,56 @@
   <tbody>
     <tr>
       <td>Reason </td>
-      <td> <!--= put payment_details.data.dispute.reason --> </td>
+      <td> <!--= put payment_details.data.dispute_transaction.dispute.reason --> </td>
     </tr>
 
     <tr>
       <td>Status </td>
-      <td> <!--= put payment_details.data.dispute.status --></td>
+      <td> <!--= put payment_details.data.dispute_transaction.dispute.status --></td>
+    </tr>
+
+    <tr>
+      <td>Disputed Payment ID</td>
+      <td><a>
+        <!--= set_attr 'href' payment_details.data.dispute_transaction.dispute.payment.href -->
+        <!--= put payment_details.data.dispute_transaction.dispute.payment.id -->
+      </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class='table--small'>
+  <!--= show_if payment_details.data.disputes -->
+  <!--= repeat payment_details.data.disputes -->
+  <thead>
+    <tr>
+      <th>Dispute Info</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Reason </td>
+      <td> <!--= put this.reason --> </td>
+    </tr>
+
+    <tr>
+      <td>Status </td>
+      <td> <!--= put this.status --></td>
+    </tr>
+
+    <tr>
+      <!--= repeat this.dispute_transactions -->
+      <td>
+      Dispute Transaction
+      </td>
+      <td><a>
+        <!--= set_attr 'href' this.payment.href -->
+        <!--= put this.payment.id -->
+      </a>
+      </td>
     </tr>
   </tbody>
 </table>

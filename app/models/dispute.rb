@@ -17,5 +17,6 @@ class Dispute < ActiveRecord::Base
 
   has_one :supporter, through: :charge
   has_one :nonprofit, through: :charge
+  has_one :original_payment, through: :charge, source: :payment
 end
 

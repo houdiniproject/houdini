@@ -10,6 +10,7 @@ class Payment < ActiveRecord::Base
 		:gross_amount,
 		:refund_total,
 		:fee_total,
+		:net_amount,
 		:kind,
 		:date,
 		:nonprofit

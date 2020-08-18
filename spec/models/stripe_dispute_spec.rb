@@ -142,6 +142,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq -80000}
       specify { expect(subject.fee_total).to eq -1500}
+      specify { expect(subject.net_amount).to eq -81500}
       specify { expect(subject.kind).to eq 'Dispute'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -228,6 +229,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq -80000}
       specify { expect(subject.fee_total).to eq -1500}
+      specify { expect(subject.net_amount).to eq -81500}
       specify { expect(subject.kind).to eq 'Dispute'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -319,6 +321,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq -22500}
       specify { expect(subject.fee_total).to eq -1500}
+      specify { expect(subject.net_amount).to eq -24000}
       specify { expect(subject.kind).to eq 'Dispute'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2019,9,4,13,29,20)}
@@ -330,6 +333,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify {  expect(subject).to be_persisted }
       specify {  expect(subject.gross_amount).to eq 22500 }
       specify {  expect(subject.fee_total).to eq 1500 }
+      specify { expect(subject.net_amount).to eq 24000}
       specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y71X0BCJIIhvMWmMmtTY4m1' }
       specify { expect(subject.date).to eq DateTime.new(2019,11,28,21,43,10)}
       specify { expect(subject.disbursed).to eq false }
@@ -363,11 +367,11 @@ RSpec.describe StripeDispute, :type => :model do
     let(:reinstated_transaction) {dispute.dispute_transactions.order("date").second}
     let(:reinstated_payment) {reinstated_transaction.payment}
 
-    it 'has status of under_review' do 
+    it 'has status of lost' do 
       expect(obj.status).to eq 'lost'
     end
 
-    it 'has reason of credit_not_processed' do 
+    it 'has reason of duplicate' do 
       expect(obj.reason).to eq 'duplicate'
     end
 
@@ -418,6 +422,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq -80000}
       specify { expect(subject.fee_total).to eq -1500}
+      specify { expect(subject.net_amount).to eq -81500}
       specify { expect(subject.kind).to eq 'Dispute'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -515,6 +520,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq -80000}
       specify { expect(subject.fee_total).to eq -1500}
+      specify { expect(subject.net_amount).to eq -81500}
       specify { expect(subject.kind).to eq 'Dispute'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -612,6 +618,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq -80000}
       specify { expect(subject.fee_total).to eq -1500}
+      specify { expect(subject.net_amount).to eq -81500}
       specify { expect(subject.kind).to eq 'Dispute'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -792,6 +799,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq -22500}
       specify { expect(subject.fee_total).to eq -1500}
+      specify { expect(subject.net_amount).to eq -24000 }
       specify { expect(subject.kind).to eq 'Dispute'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2019,8,5,12,29,20)}
@@ -813,6 +821,7 @@ RSpec.describe StripeDispute, :type => :model do
       specify { expect(subject).to be_persisted }
       specify { expect(subject.gross_amount).to eq 22500}
       specify { expect(subject.fee_total).to eq 1500}
+      specify { expect(subject.net_amount).to eq 24000 }
       specify { expect(subject.kind).to eq 'DisputeReversed'}
       specify { expect(subject.nonprofit).to eq supporter.nonprofit}
       specify { expect(subject.date).to eq DateTime.new(2019,10,29,20,43,10)}

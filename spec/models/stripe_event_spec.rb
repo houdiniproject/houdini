@@ -559,175 +559,6 @@ RSpec.describe StripeEvent, :type => :model do
     end
   end
 
-  # describe 'charge.dispute.*' do
-    
-  #   let(:event_object_for_dispute) {
-  #     create(:stripe_event,
-  #       event_id:"test_evt_1", 
-  #       event_time: DateTime.now - 1.minutes, 
-  #       object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
-  #   }
-
-  #   let(:later_event_object) {
-  #     create(:stripe_event,
-  #       event_id:"test_evt_new", 
-  #       event_time: DateTime.now + 1.minutes, 
-  #       object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
-  #   }
-
-  #   let(:previous_event_object) {
-  #     create(:stripe_event,
-  #       event_id:"test_evt_old", 
-  #       event_time: DateTime.now - 1.minutes, 
-  #       object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
-  #   }
-  #   it 'skips processing already processed events' do
-  #     event_object_for_dispute
-  #     StripeEvent.handle(StripeMock.mock_webhook_event('charge.dispute.created'))
-  #     expect(StripeDispute.count).to eq 0
-  #   end
-
-  #   it 'skips processing weve already processed a newer event for object' do
-  #     later_event_object
-  #     StripeEvent.handle(StripeMock.mock_webhook_event('charge.dispute.created'))
-  #     expect(StripeDispute.count).to eq 0
-  #   end
-
-  #   describe 'created' do
-  #     let(:event_json) { StripeMock.mock_webhook_event('charge.dispute.created')}
-
-  #     let(:last_event) { StripeEvent.last}
-  #     let(:last_dispute) { StripeDispute.last}
-      
-  #     before(:each) do
-  #       previous_event_object
-  #       StripeEvent.handle(event_json)
-  #     end
-
-  #     it 'saved the event' do
-  #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
-  #       expect(last_event.event_time).to eq Time.now
-  #     end
-
-  #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
-  #     end
-  #   end
-
-  #   describe 'funds_reinstated' do
-  #     let(:event_json) { StripeMock.mock_webhook_event('charge.dispute.funds_reinstated')}
-
-  #     let(:last_event) { StripeEvent.last}
-  #     let(:last_dispute) { StripeDispute.last}
-  #     let(:previous_event_object) {
-  #       create(:stripe_event,
-  #         event_id:"test_evt_old", 
-  #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'dp_15RsQX2eZvKYlo2C0ERTYUIA')
-  #     }
-      
-  #     before(:each) do
-  #       previous_event_object
-  #       StripeEvent.handle(event_json)
-  #     end
-
-  #     it 'saved the event' do
-  #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
-  #       expect(last_event.event_time).to eq Time.now
-  #     end
-
-  #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
-  #     end
-  #   end
-
-  #   describe 'funds_withdrawn' do
-  #     let(:event_json) { StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')}
-
-  #     let(:last_event) { StripeEvent.last}
-  #     let(:last_dispute) { StripeDispute.last}
-  #     let(:previous_event_object) {
-  #       create(:stripe_event,
-  #         event_id:"test_evt_old", 
-  #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
-  #     }
-      
-  #     before(:each) do
-  #       previous_event_object
-  #       StripeEvent.handle(event_json)
-  #     end
-
-  #     it 'saved the event' do
-  #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
-  #       expect(last_event.event_time).to eq Time.now
-  #     end
-
-  #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
-  #     end
-  #   end
-
-  #   describe 'closed-won' do
-  #     let(:event_json) { StripeMock.mock_webhook_event('charge.dispute.closed-won')}
-
-  #     let(:last_event) { StripeEvent.last}
-  #     let(:last_dispute) { StripeDispute.last}
-  #     let(:previous_event_object) {
-  #       create(:stripe_event,
-  #         event_id:"test_evt_old", 
-  #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'dp_15RsQX2eZvKYlo2C0ERTYUIA')
-  #     }
-      
-  #     before(:each) do
-  #       previous_event_object
-  #       StripeEvent.handle(event_json)
-  #     end
-
-  #     it 'saved the event' do
-  #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
-  #       expect(last_event.event_time).to eq Time.now
-  #     end
-
-  #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
-  #     end
-  #   end
-
-  #   describe 'closed-lost' do
-  #     let(:event_json) { StripeMock.mock_webhook_event('charge.dispute.closed-lost')}
-
-  #     let(:last_event) { StripeEvent.last}
-  #     let(:last_dispute) { StripeDispute.last}
-  #     let(:previous_event_object) {
-  #       create(:stripe_event,
-  #         event_id:"test_evt_old", 
-  #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
-  #     }
-      
-  #     before(:each) do
-  #       previous_event_object
-  #       StripeEvent.handle(event_json)
-  #     end
-
-  #     it 'saved the event' do
-  #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
-  #       expect(last_event.event_time).to eq Time.now
-  #     end
-
-  #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
-  #     end
-  #   end
-  # end
-
   describe 'charge.dispute.*' do 
     describe "dispute.created" do
       let(:json) do
@@ -871,6 +702,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq -80000}
         specify { expect(subject.fee_total).to eq -1500}
+        specify { expect(subject.net_amount).to eq -81500}
         specify { expect(subject.kind).to eq 'Dispute'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -952,6 +784,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify {  expect(subject).to be_persisted }
         specify {  expect(subject.gross_amount).to eq -80000 }
         specify {  expect(subject.fee_total).to eq -1500 }
+        specify { expect(subject.net_amount).to eq -81500}
         specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
         specify {  expect(subject).to be_persisted }
         specify { expect(subject.disbursed).to eq false }
@@ -1053,6 +886,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq -22500}
         specify { expect(subject.fee_total).to eq -1500}
+        specify { expect(subject.net_amount).to eq -24000}
         specify { expect(subject.kind).to eq 'Dispute'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2019,9,4,13,29,20)}
@@ -1074,6 +908,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq 22500}
         specify { expect(subject.fee_total).to eq 1500}
+        specify { expect(subject.net_amount).to eq 24000}
         specify { expect(subject.kind).to eq 'DisputeReversed'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2019,11,28,21,43,10)}
@@ -1154,6 +989,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq -80000}
         specify { expect(subject.fee_total).to eq -1500}
+        specify { expect(subject.net_amount).to eq -81500}
         specify { expect(subject.kind).to eq 'Dispute'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -1250,6 +1086,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq -80000}
         specify { expect(subject.fee_total).to eq -1500}
+        specify { expect(subject.net_amount).to eq -81500}
         specify { expect(subject.kind).to eq 'Dispute'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -1345,6 +1182,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq -80000}
         specify { expect(subject.fee_total).to eq -1500}
+        specify { expect(subject.net_amount).to eq -81500}
         specify { expect(subject.kind).to eq 'Dispute'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -1439,6 +1277,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq -80000}
         specify { expect(subject.fee_total).to eq -1500}
+        specify { expect(subject.net_amount).to eq -81500}
         specify { expect(subject.kind).to eq 'Dispute'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
@@ -1524,6 +1363,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq -22500}
         specify { expect(subject.fee_total).to eq -1500}
+        specify { expect(subject.net_amount).to eq -24000}
         specify { expect(subject.kind).to eq 'Dispute'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2019,8,5,12,29,20)}
@@ -1545,6 +1385,7 @@ RSpec.describe StripeEvent, :type => :model do
         specify { expect(subject).to be_persisted }
         specify { expect(subject.gross_amount).to eq 22500}
         specify { expect(subject.fee_total).to eq 1500}
+        specify { expect(subject.net_amount).to eq 24000}
         specify { expect(subject.kind).to eq 'DisputeReversed'}
         specify { expect(subject.nonprofit).to eq supporter.nonprofit}
         specify { expect(subject.date).to eq DateTime.new(2019,10,29,20,43,10)}

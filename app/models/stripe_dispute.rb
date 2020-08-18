@@ -108,6 +108,7 @@ class StripeDispute < ActiveRecord::Base
       payment: dispute.supporter.payments.create(nonprofit: dispute.nonprofit, 
         gross_amount:gross_amount, 
         fee_total: fee_total,
+        net_amount: gross_amount + fee_total,
         kind: 'Dispute',
         date: Time.at(funds_withdrawn_balance_transaction["created"])
       ),
@@ -126,6 +127,7 @@ class StripeDispute < ActiveRecord::Base
       payment: dispute.supporter.payments.create(nonprofit: dispute.nonprofit, 
         gross_amount:gross_amount, 
         fee_total: fee_total,
+        net_amount: gross_amount + fee_total,
         kind: 'DisputeReversed',
         date: Time.at(funds_reinstated_balance_transaction["created"])
       ),

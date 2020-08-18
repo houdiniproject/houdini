@@ -37,8 +37,15 @@ child :donation, object_root: false do
 	end
 end
 
-child :dispute, object_root: false do
-  attributes :id, :status, :reason
+node(:dispute) {|p| p.dispute_transaction && {
+    id: p.dispute_transaction.dispute.id, 
+    status: p.dispute_transaction.dispute.status, 
+    reason: p.dispute_transaction.dispute.reason
+  }
+}
+
+child :dispute_transaction do 
+  attribute :id, :date
 end
 
 child :refund do

@@ -19,7 +19,7 @@ class StripeEvent < ActiveRecord::Base
 
         # we have a later event so we don't need to process this anymore
         unless later_event
-          DistributedLock.new(object.id).with_lock do
+          LockManager.with_transaction_lock(object.id) do
               object = Stripe::Dispute.retrieve(object.id)
               dispute = StripeDispute.where("stripe_dispute_id = ?", object.id).first
               unless dispute

@@ -9,6 +9,7 @@ RSpec.describe StripeEvent, :type => :model do
     end
     StripeMock.stop
   end
+  let(:stripe_helper) { StripeMock.create_test_helper }
 
   describe "stripe_account.updated" do 
     let(:nonprofit_verification_process_status) do
@@ -564,21 +565,21 @@ RSpec.describe StripeEvent, :type => :model do
   #     create(:stripe_event,
   #       event_id:"test_evt_1", 
   #       event_time: DateTime.now - 1.minutes, 
-  #       object_id: 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef')
+  #       object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
   #   }
 
   #   let(:later_event_object) {
   #     create(:stripe_event,
   #       event_id:"test_evt_new", 
   #       event_time: DateTime.now + 1.minutes, 
-  #       object_id: 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef')
+  #       object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
   #   }
 
   #   let(:previous_event_object) {
   #     create(:stripe_event,
   #       event_id:"test_evt_old", 
   #       event_time: DateTime.now - 1.minutes, 
-  #       object_id: 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef')
+  #       object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
   #   }
   #   it 'skips processing already processed events' do
   #     event_object_for_dispute
@@ -605,12 +606,12 @@ RSpec.describe StripeEvent, :type => :model do
 
   #     it 'saved the event' do
   #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef'
+  #       expect(last_event.object_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
   #       expect(last_event.event_time).to eq Time.now
   #     end
 
   #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef'
+  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
   #     end
   #   end
 
@@ -623,7 +624,7 @@ RSpec.describe StripeEvent, :type => :model do
   #       create(:stripe_event,
   #         event_id:"test_evt_old", 
   #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'dp_1Y75JUBCJIIhvMWmSRi5eQbU')
+  #         object_id: 'dp_15RsQX2eZvKYlo2C0ERTYUIA')
   #     }
       
   #     before(:each) do
@@ -633,12 +634,12 @@ RSpec.describe StripeEvent, :type => :model do
 
   #     it 'saved the event' do
   #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'dp_1Y75JUBCJIIhvMWmSRi5eQbU'
+  #       expect(last_event.object_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
   #       expect(last_event.event_time).to eq Time.now
   #     end
 
   #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_1Y75JUBCJIIhvMWmSRi5eQbU'
+  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
   #     end
   #   end
 
@@ -651,7 +652,7 @@ RSpec.describe StripeEvent, :type => :model do
   #       create(:stripe_event,
   #         event_id:"test_evt_old", 
   #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef')
+  #         object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
   #     }
       
   #     before(:each) do
@@ -661,12 +662,12 @@ RSpec.describe StripeEvent, :type => :model do
 
   #     it 'saved the event' do
   #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef'
+  #       expect(last_event.object_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
   #       expect(last_event.event_time).to eq Time.now
   #     end
 
   #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef'
+  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
   #     end
   #   end
 
@@ -679,7 +680,7 @@ RSpec.describe StripeEvent, :type => :model do
   #       create(:stripe_event,
   #         event_id:"test_evt_old", 
   #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'dp_1Y75JUBCJIIhvMWmSRi5eQbU')
+  #         object_id: 'dp_15RsQX2eZvKYlo2C0ERTYUIA')
   #     }
       
   #     before(:each) do
@@ -689,12 +690,12 @@ RSpec.describe StripeEvent, :type => :model do
 
   #     it 'saved the event' do
   #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'dp_1Y75JUBCJIIhvMWmSRi5eQbU'
+  #       expect(last_event.object_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
   #       expect(last_event.event_time).to eq Time.now
   #     end
 
   #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_1Y75JUBCJIIhvMWmSRi5eQbU'
+  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_15RsQX2eZvKYlo2C0ERTYUIA'
   #     end
   #   end
 
@@ -707,7 +708,7 @@ RSpec.describe StripeEvent, :type => :model do
   #       create(:stripe_event,
   #         event_id:"test_evt_old", 
   #         event_time: DateTime.now - 1.minutes, 
-  #         object_id: 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef')
+  #         object_id: 'dp_05RsQX2eZvKYlo2C0FRTGSSA')
   #     }
       
   #     before(:each) do
@@ -717,12 +718,12 @@ RSpec.describe StripeEvent, :type => :model do
 
   #     it 'saved the event' do
   #       expect(last_event.event_id).to eq 'test_evt_1'
-  #       expect(last_event.object_id).to eq 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef'
+  #       expect(last_event.object_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
   #       expect(last_event.event_time).to eq Time.now
   #     end
 
   #     it 'saves StripeDispute' do 
-  #       expect(last_dispute.stripe_dispute_id).to eq 'du_1Y7pRWBCJIIhvMWmv0ZPR9Ef'
+  #       expect(last_dispute.stripe_dispute_id).to eq 'dp_05RsQX2eZvKYlo2C0FRTGSSA'
   #     end
   #   end
   # end
@@ -730,7 +731,9 @@ RSpec.describe StripeEvent, :type => :model do
   describe 'charge.dispute.*' do 
     describe "dispute.created" do
       let(:json) do
-        StripeMock.mock_webhook_event('charge.dispute.created')
+        json = StripeMock.mock_webhook_event('charge.dispute.created')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
       let(:supporter) { force_create(:supporter)}
       let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC')}
@@ -768,7 +771,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
       end
   
       it 'has a saved dispute' do 
@@ -794,7 +797,9 @@ RSpec.describe StripeEvent, :type => :model do
   
     describe "dispute.funds_withdrawn" do
       let(:json) do
-        StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+        json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
       let(:supporter) { force_create(:supporter)}
       let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: supporter.nonprofit)}
@@ -832,7 +837,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
       end
   
       it 'has a correct charge id ' do 
@@ -878,13 +883,16 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       let(:json_funds_withdrawn) do
-        StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+        json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
   
       let(:supporter) { force_create(:supporter)}
       let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: supporter.nonprofit)}
   
-      let(:obj) { 
+      let(:obj) {
+        json_funds_withdrawn
         StripeEvent.process_dispute(json_created)
         StripeEvent.process_dispute(json_funds_withdrawn)
         StripeDispute.where('stripe_dispute_id = ?', json_funds_withdrawn['data']['object']['id']).first
@@ -920,7 +928,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
       end
   
       it 'has a correct charge id ' do 
@@ -973,7 +981,9 @@ RSpec.describe StripeEvent, :type => :model do
   
     describe "dispute.funds_reinstated" do
       let(:json) do
-        StripeMock.mock_webhook_event('charge.dispute.funds_reinstated')
+        json = StripeMock.mock_webhook_event('charge.dispute.funds_reinstated')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
   
       let(:supporter) { force_create(:supporter)}
@@ -1013,7 +1023,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "dp_1Y75JUBCJIIhvMWmSRi5eQbU"
+        expect(obj.stripe_dispute_id).to eq "dp_15RsQX2eZvKYlo2C0ERTYUIA"
       end
   
       describe "dispute" do
@@ -1072,7 +1082,9 @@ RSpec.describe StripeEvent, :type => :model do
   
     describe "dispute.closed, status = lost" do
       let(:json) do
-        StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        json = StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
       let(:supporter) { force_create(:supporter)}
       let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: supporter.nonprofit)}
@@ -1112,7 +1124,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
       end
   
       describe "dispute" do
@@ -1161,12 +1173,15 @@ RSpec.describe StripeEvent, :type => :model do
         StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
       end
       let(:lost_json) do
-        StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        json = StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
       let(:supporter) { force_create(:supporter)}
       let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: supporter.nonprofit)}
   
       let(:obj) { 
+        lost_json
         StripeEvent.process_dispute(created_json)
         StripeEvent.process_dispute(withdrawn_json)
         StripeEvent.process_dispute(lost_json)
@@ -1205,7 +1220,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
       end
   
       describe "dispute" do
@@ -1253,17 +1268,19 @@ RSpec.describe StripeEvent, :type => :model do
         StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
       end
       let(:lost_json) do
-        StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        json = StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
       let(:supporter) { force_create(:supporter)}
       let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: supporter.nonprofit)}
   
-      let(:obj) { 
+      let(:obj) {
+        lost_json
         StripeEvent.process_dispute(created_json)
         StripeEvent.process_dispute(withdrawn_json)
         StripeEvent.process_dispute(lost_json)
         StripeDispute.where('stripe_dispute_id = ?', lost_json['data']['object']['id']).first
-        obj
       }
   
       let(:dispute) { obj.dispute }
@@ -1273,11 +1290,11 @@ RSpec.describe StripeEvent, :type => :model do
       let(:reinstated_transaction) {dispute.dispute_transactions.order("date").second}
       let(:reinstated_payment) {reinstated_transaction.payment}
   
-      it 'has status of under_review' do 
+      it 'has status of lost' do 
         expect(obj.status).to eq 'lost'
       end
   
-      it 'has reason of credit_not_processed' do 
+      it 'has reason of duplicate' do 
         expect(obj.reason).to eq 'duplicate'
       end
   
@@ -1298,7 +1315,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
       end
   
       describe "dispute" do
@@ -1346,7 +1363,9 @@ RSpec.describe StripeEvent, :type => :model do
         StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
       end
       let(:lost_json) do
-        StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        json = StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
       let(:supporter) { force_create(:supporter)}
       let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: supporter.nonprofit)}
@@ -1390,7 +1409,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "du_1Y7pRWBCJIIhvMWmv0ZPR9Ef"
+        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
       end
   
       describe "dispute" do
@@ -1432,7 +1451,9 @@ RSpec.describe StripeEvent, :type => :model do
   
     describe "dispute.closed, status = won" do
       let(:json) do
-        StripeMock.mock_webhook_event('charge.dispute.closed-won')
+        json = StripeMock.mock_webhook_event('charge.dispute.closed-won')
+        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+        json
       end
   
       let(:supporter) { force_create(:supporter)}
@@ -1473,7 +1494,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
   
       it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "dp_1Y75JUBCJIIhvMWmSRi5eQbU"
+        expect(obj.stripe_dispute_id).to eq "dp_15RsQX2eZvKYlo2C0ERTYUIA"
       end
       
       describe "dispute" do

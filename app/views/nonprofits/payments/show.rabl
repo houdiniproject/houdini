@@ -70,7 +70,7 @@ end
 
 child :supporter do
 	attributes :name, :email, :city, :state_code, :address, :zip_code, :phone, :id, :country
-
+  node(:url) {|s| nonprofits_supporters_url(s.nonprofit, {sid: s.id})}
 end
 
 child :nonprofit do

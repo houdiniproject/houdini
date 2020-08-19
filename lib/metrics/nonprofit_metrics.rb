@@ -55,7 +55,8 @@ module NonprofitMetrics
       "payments.date",
       "payments.id AS payment_id",
       "supporters.name AS supporter_name",
-      "supporters.email AS supporter_email"
+      "supporters.email AS supporter_email",
+      "'/nonprofits/#{np_id}/payments?pid=' || payments.id AS payment_url"
     )
     .from(:payments)
     .join("supporters", "payments.supporter_id=supporters.id")

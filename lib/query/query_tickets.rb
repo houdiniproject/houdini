@@ -68,13 +68,14 @@ module QueryTickets
 
 
   def self.attendees_list(event_id, query)
+    nonprofit = Event.find(event_id).nonprofit
     limit = 30
     offset = Qexpr.page_offset(limit, query[:page])
 
     data = Psql.execute(
       attendees_expr(event_id, query)
       .limit(limit).offset(offset)
-      .select(*attendees_list_selection)
+      .select(*attendees_list_selection(nonprofit))
     )
 
     total_count = Psql.execute(
@@ -128,7 +129,7 @@ module QueryTickets
   end
 
 
-  def self.attendees_list_selection
+  def self.attendees_list_selection(nonprofit)
     ['tickets.id',
      'tickets.bid_id',
      'tickets.checked_in',
@@ -143,6 +144,7 @@ module QueryTickets
      'supporters.id AS supporter_id',
      'supporters.name AS name',
      'supporters.email AS email',
+     "'/nonprofits/#{nonprofit.id}/supporters?sid=' || supporters.id AS supporter_url",
      'coalesce(donations.total_amount, 0) AS total_donations',
      'source_tokens.token AS token',
      'cards.name AS card_name'

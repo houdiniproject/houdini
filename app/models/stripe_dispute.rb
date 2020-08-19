@@ -51,6 +51,9 @@ class StripeDispute < ActiveRecord::Base
     self.amount = object_json['amount']
     self.stripe_dispute_id = object_json['id']
     self.stripe_charge_id = object_json['charge']
+    self.evidence_due_date = (object_json['evidence_details'] && object_json['evidence_details']['due_by']) ? 
+                        Time.at(object_json['evidence_details']['due_by']) :
+                        nil
 
     self.object
   end

@@ -1,0 +1,82 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<table>
+<tr>
+<td>
+<strong>Payment ID:</strong></td>
+<td><%=link_to(@payment.id, nonprofits_payments_url(@nonprofit, {pid: @payment.id})) %></td>
+</tr>
+<tr>
+<td>
+<strong>Payment Date:</strong></td>
+<td><%= @payment.date %></td>
+</tr>
+
+<tr>
+<td>
+<strong>Payment Amount:</strong></td>
+<td><%= print_currency(@payment.gross_amount, "$") %></td>
+</tr>
+
+<tr>
+<td>
+<strong>Dispute Id:</strong></td>
+<td><%= @dispute.id %></td>
+</tr>
+
+<tr>
+<td>
+<strong>Dispute Amount:</strong></td>
+<td><%= print_currency(@dispute.gross_amount, "$") %></td>
+</tr>
+
+<tr>
+<td><strong>Dispute Reason:</strong></td>
+<td><%= @dispute.reason %></td>
+</tr>
+<tr>
+<td>
+<strong>Dispute Status:</strong></td>
+<td><%= @dispute.status %></td>
+</tr>
+
+<tr>
+<td>
+<strong>EVIDENCE DUE DATE:</strong></td>
+<td><%= @stripe_dispute.evidence_due_date %></td>
+</tr>
+
+<% if @dispute.dispute_transactions.any? %>
+  <strong>Withdrawal ID:</strong></td>
+<td><%=link_to(@dispute.dispute_transactions.first.payment.id, nonprofits_payments_url(@nonprofit, {pid: @dispute.dispute_transactions.first.payment.id})) %></td>
+</tr>
+<tr>
+<td>
+<strong>Withdrawal Date:</strong></td>
+<td><%= @dispute.dispute_transactions.first.payment.date %></td>
+</tr>
+
+<tr>
+<td>
+<strong>Withdrawal Amount:</strong></td>
+<td><%= print_currency(@dispute.dispute_transactions.first.payment.net_amount, "$") %></td>
+</tr>
+<% end %>
+
+
+<% if @dispute.dispute_transactions.count == 2 %>
+  <strong>Reinstatement ID:</strong></td>
+<td><%=link_to(@dispute.dispute_transactions.second.payment.id, nonprofits_payments_url(@nonprofit, {pid: @dispute.dispute_transactions.second.payment.id})) %></td>
+</tr>
+<tr>
+<td>
+<strong>Reinstatement Date:</strong></td>
+<td><%= @dispute.dispute_transactions.second.payment.date %></td>
+</tr>
+
+<tr>
+<td>
+<strong>Reinstatement Amount:</strong></td>
+<td><%= print_currency(@dispute.dispute_transactions.second.payment.net_amount, "$") %></td>
+</tr>
+<% end %>
+

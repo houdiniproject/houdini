@@ -203,3 +203,17 @@ en:
     logging_in: "Logging you in..."
     forgot_password: "Forgot Password?"
     get_started: "Get Started"
+  dispute_mailer:
+    created:
+      subject: "New dispute %{dispute_id} for %{nonprofit_name}, evidence due on %{evidence_due_date}"
+    funds_withdrawn:
+      subject: "%{amount} withdrawn for dispute %{dispute_id} for %{nonprofit_name}, evidence due on %{evidence_due_date}"
+    funds_reinstated:
+      subject: "%{amount} reinstated for dispute %{dispute_id} for %{nonprofit_name}"
+    won:
+      subject: "WON dispute %{dispute_id} for %{nonprofit_name}"
+    lost: 
+      subject: "LOST dispute %{dispute_id} for %{nonprofit_name}"
+    updated:
+      subject: "Updated dispute %{dispute_id} for %{nonprofit_name}, evidence due on %{evidence_due_date}"
+    

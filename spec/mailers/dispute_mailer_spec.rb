@@ -21,23 +21,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
   end
 
   describe "funds_withdrawn" do
-    before(:each) do
-      StripeMock.start
-    end
-    let(:nonprofit) { force_create(:nonprofit)}
-    let(:json) do
-      event =StripeMock.mock_webhook_event('charge.dispute.closed-lost')
-      event['data']['object']
-    end
-    let(:supporter) { force_create(:supporter)}
-    let!(:charge) { force_create(:charge, supporter: supporter, 
-      stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: nonprofit, payment:force_create(:payment,
-         supporter:supporter,
-        nonprofit: nonprofit,
-        gross_amount: 80000))}
-  
-    let(:obj) { StripeDispute.create(object:json) }
-    let(:dispute) { obj.dispute }
+    include_context :dispute_funds_withdrawn_context
     let(:mail) { DisputeMailer.funds_withdrawn(dispute) }
 
     it "renders the headers" do

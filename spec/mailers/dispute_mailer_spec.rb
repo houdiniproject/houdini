@@ -45,23 +45,9 @@ RSpec.describe DisputeMailer, :type => :mailer do
   end
 
   describe "won" do
-    before(:each) do
-      StripeMock.start
-    end
-    let(:nonprofit) { force_create(:nonprofit, name: "spec_nonprofit_full")}
-    let(:json) do
-      event =StripeMock.mock_webhook_event('charge.dispute.closed-won')
-      event['data']['object']
-    end
-    let(:supporter) { force_create(:supporter, nonprofit: nonprofit)}
-    let!(:charge) { force_create(:charge, supporter: supporter, 
-      stripe_charge_id: 'ch_1Y7vFYBCJIIhvMWmsdRJWSw5', nonprofit: nonprofit, payment:force_create(:payment,
-         supporter:supporter,
-        nonprofit: nonprofit,
-        gross_amount: 22500))}
+    include_context :dispute_won_context
   
     let(:obj) { StripeDispute.create(object:json) }
-    let(:dispute) { obj.dispute }
     let(:mail) { DisputeMailer.won(dispute) }
 
     it "renders the headers" do

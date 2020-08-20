@@ -22,6 +22,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
 
   describe "funds_withdrawn" do
     include_context :dispute_funds_withdrawn_context
+    let(:obj) { StripeDispute.create(object:json) }
     let(:mail) { DisputeMailer.funds_withdrawn(dispute) }
 
     it "renders the headers" do

@@ -561,69 +561,11 @@ RSpec.describe StripeEvent, :type => :model do
 
   describe 'charge.dispute.*' do 
     describe "dispute.created" do
-      let(:json) do
-        json = StripeMock.mock_webhook_event('charge.dispute.created')
-        stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
-        json
-      end
-      let(:supporter) { force_create(:supporter)}
-      let!(:charge) { force_create(:charge, supporter: supporter, stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC')}
-  
-      let(:obj) { 
-        StripeEvent.process_dispute(json)
-        StripeDispute.where('stripe_dispute_id = ?', json['data']['object']['id']).first
+      include_context :dispute_created_verify_entity_context
+      let(:obj) {
+        StripeEvent.process_dispute(event_json)
+        StripeDispute.where('stripe_dispute_id = ?', json['id']).first
       }
-      let(:dispute) { obj.dispute }
-      let(:dispute_transactions) { dispute.dispute_transactions }
-  
-  
-      it 'has status of needs_response' do 
-        expect(obj.status).to eq 'needs_response'
-      end
-  
-      it 'has reason of duplicate' do 
-        expect(obj.reason).to eq 'duplicate'
-      end
-  
-      it 'has 0 balance transactions' do 
-        expect(obj.balance_transactions.count).to eq 0
-      end
-  
-      it 'has a net_change of 0' do
-        expect(obj.net_change).to eq 0
-      end
-  
-      it 'has an amount of 80000' do
-        expect(obj.amount).to eq 80000
-      end
-  
-      it 'has a correct charge id ' do 
-        expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
-      end
-  
-      it 'has a correct dispute id' do 
-        expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
-      end
-  
-      it 'has a saved dispute' do 
-        expect(dispute).to be_persisted
-      end
-  
-      it 'has a dispute with 80000' do 
-        expect(dispute.gross_amount).to eq 80000
-      end
-  
-      it 'has a dispute with status of needs_response' do 
-        expect(dispute.status).to eq "needs_response"
-      end
-  
-      it 'has a dispute with reason of duplicate' do 
-        expect(dispute.reason).to eq 'duplicate'
-      end
-  
-      it 'has no dispute transactions' do 
-        expect(dispute_transactions).to eq []
-      end
     end
   
     describe "dispute.funds_withdrawn" do

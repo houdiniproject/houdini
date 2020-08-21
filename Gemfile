@@ -113,7 +113,7 @@ group :development, :ci, :test do
 	gem 'stripe-ruby-mock', '~> 2.5.1', :require => 'stripe_mock'
   gem 'factory_bot'
 	gem 'factory_bot_rails'
-	gem 'action_mailer_matchers'
+	gem 'action_mailer_matchers', '~> 1.2.0'
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'byebug'
 end

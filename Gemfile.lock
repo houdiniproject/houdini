@@ -37,7 +37,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    action_mailer_matchers (1.0.0)
+    action_mailer_matchers (1.2.0)
     actionmailer (3.2.22.5)
       actionpack (= 3.2.22.5)
       mail (~> 2.5.4)
@@ -450,7 +450,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  action_mailer_matchers
+  action_mailer_matchers (~> 1.2.0)
   airbrake
   aws-sdk
   aws-ses

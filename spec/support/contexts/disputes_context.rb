@@ -21,6 +21,33 @@ RSpec.shared_context :disputes_context do
   let(:reinstated_payment) {reinstated_transaction.payment}
 end
 
+RSpec.shared_context :disputes_specs do
+  before(:each) do
+    allow(JobQueue).to receive(:queue)
+  end
+  
+  all_events = [:created, :updated, :funds_reinstated, :funds_withdrawn, :won, :lost]
+
+    
+  it 'has correct events in order' do
+    valid_events.each do |t|
+    
+      job_type = ('JobTypes::Dispute' + t.to_s.camelize + "Job").constantize
+      expect(JobQueue).to have_received(:queue).with(
+      job_type, dispute).ordered
+    end
+  end
+
+  it 'does not have invalid events' do 
+    invalid_events = all_events - valid_events
+    invalid_events.each do |t|
+      job_type = ('JobTypes::Dispute' + t.to_s.camelize + "Job").constantize
+      expect(JobQueue).to_not have_received(:queue).with(
+      job_type)
+    end
+  end
+end
+
 RSpec.shared_context :dispute_created_context do 
   include_context :disputes_context do 
 
@@ -40,6 +67,7 @@ end
 
 RSpec.shared_context :dispute_created_specs do
   include_context :dispute_created_context
+  include_context :disputes_specs
 
   it 'has status of needs_response' do 
     expect(obj.status).to eq 'needs_response'
@@ -88,6 +116,8 @@ RSpec.shared_context :dispute_created_specs do
   it 'has no dispute transactions' do 
     expect(dispute_transactions).to eq []
   end
+
+  let(:valid_events) { [:created]}
 end
 
 RSpec.shared_context :dispute_funds_withdrawn_context do 
@@ -110,6 +140,7 @@ end
 
 RSpec.shared_context :dispute_funds_withdrawn_specs do
   include_context :dispute_funds_withdrawn_context
+  include_context :disputes_specs
 
   it 'has status of needs_response' do 
     expect(obj.status).to eq 'needs_response'
@@ -175,6 +206,8 @@ RSpec.shared_context :dispute_funds_withdrawn_specs do
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
     specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
   end
+
+  let(:valid_events) { [:created, :funds_withdrawn]}
 end
 
 RSpec.shared_context :dispute_funds_reinstated_context do
@@ -193,6 +226,7 @@ end
 
 RSpec.shared_context :dispute_funds_reinstated_specs do
   include_context :dispute_funds_reinstated_context
+  include_context :disputes_specs
 
   it 'has status of under_review' do 
     expect(obj.status).to eq 'under_review'
@@ -276,6 +310,8 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
     specify { expect(subject.date).to eq DateTime.new(2019,11,28,21,43,10)}
   end
+
+  let(:valid_events) { [:created, :funds_withdrawn, :funds_reinstated]}
 end
 
 RSpec.shared_context :dispute_lost_context do
@@ -294,6 +330,7 @@ end
 
 RSpec.shared_context :dispute_lost_specs do
   include_context :dispute_lost_context
+  include_context :disputes_specs
 
   it 'has status of under_review' do 
     expect(obj.status).to eq 'lost'
@@ -359,6 +396,8 @@ RSpec.shared_context :dispute_lost_specs do
   it 'has no reinstated transaction' do 
     expect(reinstated_transaction).to be_nil
   end
+
+  let(:valid_events) { [:created, :funds_withdrawn, :lost]}
 end
 
 RSpec.shared_context :dispute_won_context do
@@ -377,6 +416,7 @@ end
 
 RSpec.shared_context :dispute_won_specs do
   include_context :dispute_won_context
+  include_context :disputes_specs
 
   it 'has status of won' do 
     expect(obj.status).to eq 'won'
@@ -460,8 +500,9 @@ RSpec.shared_context :dispute_won_specs do
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
     specify { expect(subject.date).to eq DateTime.new(2019,10,29,20,43,10)}
   end
-end
 
+  let(:valid_events) { [:created, :funds_withdrawn, :funds_reinstated, :won]}
+end
 
 RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_context do 
   include_context :disputes_context
@@ -488,6 +529,7 @@ end
 
 RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
   include_context :dispute_created_and_withdrawn_at_same_time_context
+  include_context :disputes_specs
 
   it 'has status of needs_response' do 
     expect(obj.status).to eq 'needs_response'
@@ -563,8 +605,9 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
     obj
     expect(DisputeTransaction.count).to eq 1
   end
-end
 
+  let(:valid_events) { [:created, :funds_withdrawn]}
+end
 
 RSpec.shared_context :dispute_created_and_withdrawn_in_order_context do 
   include_coptext :dispute_created_and_withdrawn_at_same_time_context
@@ -590,7 +633,6 @@ RSpec.shared_context :dispute_created_and_withdrawn_in_order_context do
       nonprofit: nonprofit,
       gross_amount: 80000))}
 end
-
 
 RSpec.shared_context :dispute_created_and_withdrawn_in_order_specs do
   include_context :dispute_created_and_withdrawn_at_same_time_specs
@@ -631,9 +673,10 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_context do
       gross_amount: 80000))}
 end
 
-
 RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_specs do 
   include_context :dispute_created_withdrawn_and_lost_in_order_context
+  include_context :disputes_specs
+
   it 'has status of lost' do 
     expect(obj.status).to eq 'lost'
   end
@@ -698,6 +741,8 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_specs do
   it 'has no reinstated transaction' do 
     expect(reinstated_transaction).to be_nil
   end
+
+  let(:valid_events) { [:created, :funds_withdrawn, :lost]}
 end
 
 RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_context do
@@ -712,8 +757,8 @@ RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_context d
 end
 
 RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_specs do
-  
   include_context :dispute_created_with_withdrawn_and_lost_in_order_context
+  include_context :disputes_specs
 
   it 'has status of lost' do 
     expect(obj.status).to eq 'lost'
@@ -779,8 +824,9 @@ RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_specs do
   it 'has no reinstated transaction' do 
     expect(reinstated_transaction).to be_nil
   end
-end
 
+  let(:valid_events) { [:created, :funds_withdrawn, :lost]}
+end
 
 RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_context do
   
@@ -823,6 +869,8 @@ end
 
 RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec do
   include_context :dispute_lost_created_and_funds_withdrawn_at_same_time_context
+  include_context :disputes_specs
+
   it 'has status of under_review' do 
     expect(obj.status).to eq 'lost'
   end
@@ -887,4 +935,6 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec
   it 'has no reinstated transaction' do 
     expect(reinstated_transaction).to be_nil
   end
+
+  let(:valid_events) { [:created, :funds_withdrawn, :lost]}
 end

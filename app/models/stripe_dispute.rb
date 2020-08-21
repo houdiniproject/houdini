@@ -28,7 +28,7 @@ class StripeDispute < ActiveRecord::Base
     balance_transactions.count == 2 ? balance_transactions.sort_by{|i| i['created']}[1] : nil
   end
   
-  private 
+  private
   def serialize_on_update(input)
 
     object_json = nil
@@ -60,7 +60,7 @@ class StripeDispute < ActiveRecord::Base
   
   def fire_change_events
     if changed_attributes["object"].nil?
-      dispute_opened_event
+      dispute_created_event
     end
     if balance_transactions_changed?
 
@@ -79,10 +79,12 @@ class StripeDispute < ActiveRecord::Base
           if (balance_transactions_state == :funds_reinstated)
             dispute_funds_reinstated_event
           else
-            #error!
+            raise RuntimeError("Dispute #{dispute.id} previously had a balance_transaction_state of #{old_state} but is now #{balance_transactions_state}. " +
+              "This shouldn't be possible.")
           end
         elsif (balance_transactions_state != :funds_reinstated)
-          #error!
+          raise RuntimeError("Dispute #{dispute.id} previously had a balance_transaction_state of #{old_state} but is now #{balance_transactions_state}. " +
+            "This shouldn't be possible.")
         end
       end
     end
@@ -90,18 +92,26 @@ class StripeDispute < ActiveRecord::Base
     if status_changed?
       if TERMINAL_DISPUTE_STATUSES.include?(changed_attributes['status']) && !TERMINAL_DISPUTE_STATUSES.include?(status)
         # if previous status was won or lost and the new one isn't
-        #error
+        raise RuntimeError("Dispute #{dispute.id} was previously #{changed_attributes['status']} but is now #{status}. " +
+            "This shouldn't be possible")
       elsif (!TERMINAL_DISPUTE_STATUSES.include?(changed_attributes['status']) && TERMINAL_DISPUTE_STATUSES.include?(status))
         # previous status was not won or lost but the new one is
 
         dispute_closed_event
+      else
+        # previous status was not won or lost but the new one still isn't but there were changes!
+        dispute_updated_event
       end
+    elsif (!balance_transactions_changed? && changed_attributes["object"].nil?)
+      dispute_updated_event
     end
   end
 
-  def dispute_opened_event
+  def dispute_created_event
     create_dispute!(charge:charge, status:status, reason: reason, gross_amount:amount)
+    
     # notify folks of the event being opened
+    JobQueue.queue(JobTypes::DisputeCreatedJob, dispute)
   end
 
   def dispute_funds_withdrawn_event
@@ -121,6 +131,7 @@ class StripeDispute < ActiveRecord::Base
 
     # add dispute payment activity
     # notify folks of the withdrawal
+    JobQueue.queue(JobTypes::DisputeFundsWithdrawnJob, dispute)
   end
 
   def dispute_funds_reinstated_event
@@ -139,12 +150,25 @@ class StripeDispute < ActiveRecord::Base
     )
 
     # add dispute payment activity
-    # notify folks of the reinstatement
+    
+    JobQueue.queue(JobTypes::DisputeFundsReinstatedJob, dispute)
   end
 
   def dispute_closed_event
     dispute.status = status
     dispute.save!
+    if (dispute.status == 'won') 
+      JobQueue.queue(JobTypes::DisputeWonJob, dispute)
+    elsif  dispute.status == 'lost'
+      JobQueue.queue(JobTypes::DisputeLostJob, dispute)
+    else
+      raise RuntimeError("Dispute #{dispute.id} was closed " +
+        "but had status of #{dispute.status}")
+    end
+  end
+
+  def dispute_updated_event
+    JobQueue.queue(JobTypes::DisputeUpdatedJob, dispute)
   end
 
   def self.calc_balance_transaction_state(balance_transactions)
@@ -154,5 +178,4 @@ class StripeDispute < ActiveRecord::Base
              :funds_withdrawn :
              :funds_reinstated
   end
-  
 end

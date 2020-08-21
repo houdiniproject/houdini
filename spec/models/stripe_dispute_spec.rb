@@ -6,10 +6,6 @@ RSpec.describe StripeDispute, :type => :model do
     include_context :dispute_created_specs
     
     let(:obj) { StripeDispute.create(object:json) }
-
-    it 'has emailed the proper person' do 
-      expect("support@commitchange.com").to have_received_email(subject: "New dispute dp_05RsQX2eZvKYlo2C0FRTGSSA for Nonprofit Name, evidence due on 2020-08-19 23:59:59 UTC")
-    end
   end
 
   describe "dispute.funds_withdrawn" do

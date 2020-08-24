@@ -97,7 +97,7 @@ CREATE TABLE public.activities (
     user_id integer,
     date timestamp without time zone,
     kind character varying(255),
-    json_data text
+    json_data jsonb
 );
 
 
@@ -1771,7 +1771,7 @@ ALTER SEQUENCE public.payment_payouts_id_seq OWNED BY public.payment_payouts.id;
 CREATE TABLE public.payments (
     id integer NOT NULL,
     gross_amount integer,
-    refund_total integer,
+    refund_total integer DEFAULT 0,
     fee_total integer,
     net_amount integer,
     nonprofit_id integer,
@@ -5184,4 +5184,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200805214509');
 INSERT INTO schema_migrations (version) VALUES ('20200805214543');
 
 INSERT INTO schema_migrations (version) VALUES ('20200819200849');
+
+INSERT INTO schema_migrations (version) VALUES ('20200821192204');
+
+INSERT INTO schema_migrations (version) VALUES ('20200821230919');
 

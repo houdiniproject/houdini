@@ -18,5 +18,52 @@ class Dispute < ActiveRecord::Base
   has_one :supporter, through: :charge
   has_one :nonprofit, through: :charge
   has_one :original_payment, through: :charge, source: :payment
+
+  has_many :activities, as: :attachment do
+    def create(event_type, event_time, attributes=nil, options={}, &block)
+			attributes = proxy_association.owner.build_activity_attributes(event_type, event_time) .merge(attributes || {})
+			proxy_association.create(attributes, options, &block)
+		end
+
+		def build(event_type, event_time, attributes=nil, options={}, &block)
+			attributes = proxy_association.owner.build_activity_attributes(event_type, event_time).merge(attributes || {})
+			proxy_association.build(attributes, options, &block)
+		end
+  end
+  
+  def build_activity_json(event_type)
+		dispute = self
+		original_payment = dispute.original_payment
+		case event_type
+    when 'DisputeCreated', 'DisputeUpdated', 'DisputeLost', 'DisputeWon'
+      return {
+        gross_amount: dispute.gross_amount,
+				reason: dispute.reason,
+				status: dispute.status,
+				original_id: original_payment.id,
+				original_kind: original_payment.kind,
+				original_gross_amount: original_payment.gross_amount,
+				original_date: original_payment.date
+      }
+    else
+      raise RuntimeError, "#{event_type} is not a valid Dispute event type"
+		end
+	end
+
+  def build_activity_attributes(event_type, event_time)
+    dispute = self
+		case event_type
+		when 'DisputeCreated', 'DisputeUpdated', 'DisputeLost', 'DisputeWon'
+      return {
+        kind: event_type,
+        date: event_time,
+        nonprofit: dispute.nonprofit,
+        supporter: dispute.supporter,
+        json_data: build_activity_json(event_type)
+      }
+    else
+      raise RuntimeError, "#{event_type} is not a valid Dispute event type"
+		end
+	end
 end
 

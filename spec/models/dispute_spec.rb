@@ -14,4 +14,53 @@ RSpec.describe Dispute, :type => :model do
       expect(dispute.stripe_dispute).to eq obj
     end
   end
+
+  describe '.activities' do 
+    shared_context :common_specs do
+      let(:activity_json) { activity.json_data}
+      specify { expect(activity.supporter).to eq supporter}
+      specify { expect(activity.nonprofit).to eq nonprofit}
+      specify { expect(activity_json['status']).to eq dispute.status }
+      specify { expect(activity_json['reason']).to eq dispute.reason }
+      specify { expect(activity_json['original_id']).to eq charge.payment.id}
+      specify { expect(activity_json['original_kind']).to eq charge.payment.kind}
+      specify { expect(activity_json['original_gross_amount']).to eq charge.payment.gross_amount}
+      specify { expect(activity_json['original_date']).to eq charge.payment.date}
+      specify { expect(activity_json['gross_amount']).to eq dispute.gross_amount}
+    end
+
+    describe "dispute.created" do
+      include_context :common_specs
+      include_context :dispute_created_context
+      
+      let(:obj) { StripeDispute.create(object:json) }
+      let(:activity) { dispute.activities.build('DisputeCreated', Time.at(event_json.created))}
+
+      specify { expect(activity.kind).to eq 'DisputeCreated'}
+      specify { expect(activity.date).to eq Time.at(event_json.created)}
+    end
+
+    describe "dispute.won" do
+      include_context :common_specs
+      include_context :dispute_won_context
+      
+      let(:obj) { StripeDispute.create(object:json) }
+      let(:activity) { dispute.activities.build('DisputeWon', Time.at(event_json.created)) }
+
+      specify { expect(activity.kind).to eq 'DisputeWon' }
+      specify { expect(activity.date).to eq Time.at(event_json.created) }
+    end
+
+    describe "dispute.lost" do
+      include_context :common_specs
+      include_context :dispute_lost_context
+      
+      let(:obj) { StripeDispute.create(object:json) }
+      let(:activity) { obj.dispute.activities.build('DisputeLost', Time.at(event_json.created))}
+
+      specify { expect(activity.kind).to eq 'DisputeLost'}
+      specify { expect(activity_json['gross_amount']).to eq dispute.gross_amount}
+      specify { expect(activity.date).to eq Time.at(event_json.created)}
+    end
+  end
 end

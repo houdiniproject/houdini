@@ -15,6 +15,13 @@ RSpec.shared_context :disputes_context do
   let(:dispute) { obj.dispute }
   let(:dispute_transactions) { dispute.dispute_transactions }
 
+  # we reload this because we'll get the older version if we don't
+  let(:original_payment) { 
+    obj.dispute.original_payment.reload
+    obj.dispute.original_payment
+
+  }
+
   let(:withdrawal_transaction) {dispute.dispute_transactions.order("date").first}
   let(:withdrawal_payment) {withdrawal_transaction.payment}
   let(:reinstated_transaction) {dispute.dispute_transactions.order("date").second}
@@ -44,6 +51,40 @@ RSpec.shared_context :disputes_specs do
       job_type = ('JobTypes::Dispute' + t.to_s.camelize + "Job").constantize
       expect(JobQueue).to_not have_received(:queue).with(
       job_type)
+    end
+  end
+
+  it 'has valid activities' do 
+    valid_events.each do |t|
+      dispute_kind = "Dispute" + t.to_s.camelize
+      case t
+      when :funds_withdrawn
+        expect(withdrawal_transaction.payment.activities.where(kind: dispute_kind).count).to eq 1
+      when :funds_reinstated
+        expect(reinstated_transaction.payment.activities.where(kind: dispute_kind).count).to eq 1
+      else
+        expect(dispute.activities.where(kind: dispute_kind).count).to eq 1
+      end
+    end
+  end
+
+  it 'does not have invalid activities' do 
+    invalid_events = all_events - valid_events
+    invalid_events.each do |t|
+      dispute_kind = "Dispute" + t.to_s.camelize
+      case t
+      when :funds_withdrawn
+        if (withdrawal_transaction)
+          expect(withdrawal_transaction.payment.activities.where(kind: dispute_kind)).to be_empty, "#{dispute_kind} should not have been here."
+        end
+      when :funds_reinstated
+        if (reinstated_transaction)
+          expect(reinstated_transaction.payment.activities.where(kind: dispute_kind)).to be_empty, "#{dispute_kind} should not have been here."
+        end
+      else
+        #byebug if dispute_kind == "DisputeUpdated" && dispute.activities.where(kind: dispute_kind).any?
+        expect(dispute.activities.where(kind: dispute_kind)).to be_empty, "#{dispute_kind} should not have been here."
+      end
     end
   end
 end
@@ -116,6 +157,8 @@ RSpec.shared_context :dispute_created_specs do
   it 'has no dispute transactions' do 
     expect(dispute_transactions).to eq []
   end
+
+  specify { expect(original_payment.refund_total).to eq 0 }
 
   let(:valid_events) { [:created]}
 end
@@ -206,6 +249,8 @@ RSpec.shared_context :dispute_funds_withdrawn_specs do
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
     specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
   end
+
+  specify { expect(original_payment.refund_total).to eq 80000 }
 
   let(:valid_events) { [:created, :funds_withdrawn]}
 end
@@ -310,6 +355,8 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
     specify { expect(subject.date).to eq DateTime.new(2019,11,28,21,43,10)}
   end
+
+  specify { expect(original_payment.refund_total).to eq 0 }
 
   let(:valid_events) { [:created, :funds_withdrawn, :funds_reinstated]}
 end
@@ -501,6 +548,8 @@ RSpec.shared_context :dispute_won_specs do
     specify { expect(subject.date).to eq DateTime.new(2019,10,29,20,43,10)}
   end
 
+  specify { expect(original_payment.refund_total).to eq 0 }
+
   let(:valid_events) { [:created, :funds_withdrawn, :funds_reinstated, :won]}
 end
 
@@ -605,6 +654,8 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
     obj
     expect(DisputeTransaction.count).to eq 1
   end
+
+  specify { expect(original_payment.refund_total).to eq 80000 }
 
   let(:valid_events) { [:created, :funds_withdrawn]}
 end
@@ -742,6 +793,8 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_specs do
     expect(reinstated_transaction).to be_nil
   end
 
+  specify { expect(original_payment.refund_total).to eq 80000 }
+
   let(:valid_events) { [:created, :funds_withdrawn, :lost]}
 end
 
@@ -824,6 +877,8 @@ RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_specs do
   it 'has no reinstated transaction' do 
     expect(reinstated_transaction).to be_nil
   end
+
+  specify { expect(original_payment.refund_total).to eq 80000 }
 
   let(:valid_events) { [:created, :funds_withdrawn, :lost]}
 end
@@ -935,6 +990,8 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec
   it 'has no reinstated transaction' do 
     expect(reinstated_transaction).to be_nil
   end
+
+  specify { expect(original_payment.refund_total).to eq 80000 }
 
   let(:valid_events) { [:created, :funds_withdrawn, :lost]}
 end

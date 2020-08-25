@@ -926,11 +926,11 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec
   include_context :dispute_lost_created_and_funds_withdrawn_at_same_time_context
   include_context :disputes_specs
 
-  it 'has status of under_review' do 
+  it 'has status of lost' do 
     expect(obj.status).to eq 'lost'
   end
 
-  it 'has reason of credit_not_processed' do 
+  it 'has reason of duplicate' do 
     expect(obj.reason).to eq 'duplicate'
   end
 
@@ -994,4 +994,177 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec
   specify { expect(original_payment.refund_total).to eq 80000 }
 
   let(:valid_events) { [:created, :funds_withdrawn, :lost]}
+end
+
+RSpec.shared_context :__dispute_with_two_partial_disputes_withdrawn_at_same_time_context do
+  include_context :disputes_context
+  let(:event_json_dispute_partial1) do
+    json = StripeMock.mock_webhook_event('charge.dispute.created-with-one-withdrawn--partial1')
+    stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+    json
+  end
+
+  let(:json_partial1) { event_json_dispute_partial1['data']['object']}
+
+  let(:event_json_dispute_partial2) do
+    json = StripeMock.mock_webhook_event('charge.dispute.created-with-one-withdrawn--partial2')
+    stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+    json
+  end
+
+  let(:json_partial2) {event_json_dispute_partial2['data']['object']}
+
+  let!(:charge) { force_create(:charge, supporter: supporter, 
+    stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: nonprofit, payment:force_create(:payment,
+    supporter:supporter,
+    nonprofit: nonprofit,
+    gross_amount: 80000))}
+
+  specify { expect(original_payment.refund_total).to eq 70000 }
+end
+
+RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_spec__partial1 do
+  include_context :__dispute_with_two_partial_disputes_withdrawn_at_same_time_context
+  include_context :disputes_specs
+
+  it 'has status of needs_response' do 
+    expect(obj.status).to eq 'needs_response'
+  end
+
+  it 'has reason of duplicate' do 
+    expect(obj.reason).to eq 'duplicate'
+  end
+
+  it 'has 1 balance transactions' do 
+    expect(obj.balance_transactions.count).to eq 1
+  end
+
+  it 'has a net_change of -41500' do
+    expect(obj.net_change).to eq -41500
+  end
+
+  it 'has an amount of 40000' do
+    expect(obj.amount).to eq 40000
+  end
+
+  it 'has a correct charge id' do 
+    expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
+  end
+
+  it 'has a correct dispute id' do 
+    expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
+  end
+
+  describe "dispute" do
+    subject { dispute }
+    specify { expect(subject).to be_persisted }
+    specify { expect(subject.gross_amount).to eq 40000 }
+    specify { expect(subject.status).to eq "needs_response" }
+    specify { expect(subject.reason).to eq 'duplicate' }
+  end
+
+  it 'has 1 dispute transactions' do
+    expect(dispute_transactions.count).to eq 1
+  end
+
+  describe 'has a withdrawal_transaction' do
+    subject{ withdrawal_transaction }
+    specify { expect(subject).to be_persisted }
+    specify { expect(subject.gross_amount).to eq -40000 }
+    specify { expect(subject.fee_total).to eq -1500 }
+    specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
+    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.disbursed).to eq false }
+  end
+
+  describe 'has a withdrawal_payment' do
+    subject { withdrawal_payment}
+    specify { expect(subject).to be_persisted }
+    specify { expect(subject.gross_amount).to eq -40000}
+    specify { expect(subject.fee_total).to eq -1500}
+    specify { expect(subject.net_amount).to eq -41500}
+    specify { expect(subject.kind).to eq 'Dispute'}
+    specify { expect(subject.nonprofit).to eq supporter.nonprofit}
+    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+  end
+
+  it 'has no reinstated transaction' do 
+    expect(reinstated_transaction).to be_nil
+  end
+
+  let(:valid_events) { [:created, :funds_withdrawn]}
+end
+
+RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_spec__partial2 do
+  include_context :__dispute_with_two_partial_disputes_withdrawn_at_same_time_context
+  include_context :disputes_specs
+
+  it 'has status of needs_response' do 
+    expect(obj.status).to eq 'needs_response'
+  end
+
+  it 'has reason of duplicate' do 
+    expect(obj.reason).to eq 'duplicate'
+  end
+
+  it 'has 1 balance transactions' do 
+    expect(obj.balance_transactions.count).to eq 1
+  end
+
+  it 'has a net_change of -31500' do
+    expect(obj.net_change).to eq -31500
+  end
+
+  it 'has an amount of 30000' do
+    expect(obj.amount).to eq 30000
+  end
+
+  it 'has a correct charge id' do 
+    expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
+  end
+
+  it 'has a correct dispute id' do 
+    expect(obj.stripe_dispute_id).to eq "dp_25RsQX2eZvKYlo2C0ZXCVBNM"
+  end
+
+  describe "dispute" do
+    subject { dispute }
+    specify { expect(subject).to be_persisted }
+    specify { expect(subject.gross_amount).to eq 30000 }
+    specify { expect(subject.status).to eq "needs_response" }
+    specify { expect(subject.reason).to eq 'duplicate' }
+  end
+
+  it 'has 1 dispute transactions' do
+    expect(dispute_transactions.count).to eq 1
+  end
+
+  describe 'has a withdrawal_transaction' do
+    subject{ withdrawal_transaction }
+    specify { expect(subject).to be_persisted }
+    specify { expect(subject.gross_amount).to eq -30000 }
+    specify { expect(subject.fee_total).to eq -1500 }
+    specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
+    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 56)}
+    specify { expect(subject.disbursed).to eq false }
+  end
+
+  describe 'has a withdrawal_payment' do
+    subject { withdrawal_payment}
+    specify { expect(subject).to be_persisted }
+    specify { expect(subject.gross_amount).to eq -30000}
+    specify { expect(subject.fee_total).to eq -1500}
+    specify { expect(subject.net_amount).to eq -31500}
+    specify { expect(subject.kind).to eq 'Dispute'}
+    specify { expect(subject.nonprofit).to eq supporter.nonprofit}
+    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 56)}
+  end
+
+  it 'has no reinstated transaction' do 
+    expect(reinstated_transaction).to be_nil
+  end
+
+  
+
+  let(:valid_events) { [:created, :funds_withdrawn]}
 end

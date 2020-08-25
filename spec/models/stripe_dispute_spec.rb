@@ -171,4 +171,24 @@ RSpec.describe StripeDispute, :type => :model do
     include_context :dispute_won_specs
     let(:obj) { StripeDispute.create(object:json) }
   end
+
+  describe "two disputes on the same transaction" do
+    describe 'partial1' do
+      include_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_spec__partial1
+      let(:obj) do
+        partial1 = StripeDispute.create(object:json_partial1);
+        partial2 = StripeDispute.create(object:json_partial2);
+        partial1
+      end
+    end
+
+    describe 'partial2' do
+      include_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_spec__partial2
+      let(:obj) do
+        partial1 = StripeDispute.create(object:json_partial1);
+        partial2 = StripeDispute.create(object:json_partial2);
+        partial2
+      end
+    end
+  end
 end

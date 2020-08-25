@@ -643,5 +643,25 @@ RSpec.describe StripeEvent, :type => :model do
         StripeDispute.where('stripe_dispute_id = ?', json['id']).first
       end
     end
+
+    describe "two disputes on the same transaction" do
+      describe 'partial1' do
+        include_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_spec__partial1
+        let(:obj) do
+          StripeEvent.process_dispute(event_json_dispute_partial1);
+          StripeEvent.process_dispute(event_json_dispute_partial2);
+          StripeDispute.where(stripe_dispute_id: json_partial1['id']).first
+        end
+      end
+  
+      describe 'partial2' do
+        include_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_spec__partial2
+        let(:obj) do
+          StripeEvent.process_dispute(event_json_dispute_partial1);
+          StripeEvent.process_dispute(event_json_dispute_partial2);
+          StripeDispute.where(stripe_dispute_id: json_partial2['id']).first
+        end
+      end
+    end
   end
 end

@@ -68,6 +68,34 @@ exports.Refund = (data, state) => {
   }
 }
 
+exports.DisputeCreated = (data, state) => {
+  return {
+    title: `This supporter disputed their payment for $${format.centsToDollars(data.json_data.gross_amount)} on ${format.date.toSimple(data.json_data.original_date)}`,
+    body: [
+      h('span', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `),
+      h('br'),
+      h('span', 'Please contact the donor and, if the dispute was made in error, ask them to reverse the dispute with their bank/financial institution.'),
+      h('br'),
+      viewPaymentLink(data),
+    ]
+    , icon: 'fa-ban'
+  };
+}
+
+exports.DisputeFundsWithdrawn = (data, state) => {
+  return {
+    title: `$${format.centsToDollars(data.json_data.gross_amount)} has been withdrawn from your account to cover a dispute issued on This supporter disputed their payment for $${format.centsToDollars(data.json_data.gross_amount)} on ${format.date.toSimple(data.json_data.original_date)}`,
+    body: [
+      h('span', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `),
+      h('br'),
+      h('span', 'If the dispute is won in your favor, the funds will be returned to your account.'),
+      h('br'),
+      viewPaymentLink(data),
+    ],
+    icon: 'fa-ban'
+  };
+}
+
 exports.Dispute = (data, state) => {
   return {
     title: `This supporter disputed (made a charge-back) on their payment for $${format.centsToDollars(data.json_data.gross_amount)} on ${format.date.toSimple(data.json_data.original_date)}`

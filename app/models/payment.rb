@@ -59,7 +59,8 @@ class Payment < ActiveRecord::Base
 				original_id: original_payment.id,
 				original_kind: original_payment.kind,
 				original_gross_amount: original_payment.gross_amount,
-				original_date: original_payment.date
+				original_date: original_payment.date,
+				started_at: dispute.started_at
 			}
 		end
 	end

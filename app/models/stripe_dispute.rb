@@ -54,12 +54,13 @@ class StripeDispute < ActiveRecord::Base
     self.evidence_due_date = (object_json['evidence_details'] && object_json['evidence_details']['due_by']) ? 
                         Time.at(object_json['evidence_details']['due_by']) :
                         nil
+    self.started_at = Time.at(object_json['created'])
 
     self.object
   end
   
   def fire_change_events
-    if changed?
+    if changed? && !dispute&.is_legacy
       if changed_attributes["object"].nil?
         dispute_created_event
       end
@@ -112,10 +113,10 @@ class StripeDispute < ActiveRecord::Base
   end
 
   def dispute_created_event
-    create_dispute!(charge:charge, status:status, reason: reason, gross_amount:amount)
+    create_dispute!(charge:charge, status:status, reason: reason, gross_amount:amount, started_at: started_at)
     
     # notify folks of the event being opened
-    dispute.activities.create('DisputeCreated', Time.now)
+    dispute.activities.create('DisputeCreated', started_at)
     JobQueue.queue(JobTypes::DisputeCreatedJob, dispute)
   end
 

@@ -23,6 +23,22 @@ appl.def("is_at_least_plan", function(tier) {
    return app.current_plan_tier >= tier
 })
 
+appl.def("is_dispute_transaction", function (kind) {
+	return kind === 'Dispute' || kind === 'DisputeReversed'
+})
+
+appl.def("is_not_dispute_transaction", function (kind) {
+	return kind !== 'Dispute' && kind !== 'DisputeReversed'
+})
+
+appl.def("hide_refund_donation_button", function(kind, refund_total, gross_amount) {
+	return kind === undefined || refund_total >= gross_amount ||
+	kind === 'OffsitePayment' || 
+	kind=== 'Refund' ||
+	kind === 'Dispute' ||
+	kind === 'DisputeReversed'
+})
+
 // Open a modal given by its modal id (uses the modal div's 'id' attribute)
 appl.def('open_modal', function(modalId) {
 	$('.modal').removeClass('inView')

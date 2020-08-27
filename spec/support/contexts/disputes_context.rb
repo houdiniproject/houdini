@@ -138,6 +138,10 @@ RSpec.shared_context :dispute_created_specs do
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
+  it 'has a started_at of Time.at(1596429794)' do
+    expect(obj.started_at).to eq Time.at(1596429794)
+  end
+
   it 'has a saved dispute' do 
     expect(dispute).to be_persisted
   end
@@ -152,6 +156,10 @@ RSpec.shared_context :dispute_created_specs do
 
   it 'has a dispute with reason of duplicate' do 
     expect(dispute.reason).to eq 'duplicate'
+  end
+
+  it 'has a dispute with started_at of Time.at(1596429794)' do
+    expect(dispute.started_at).to eq Time.at(1596429794)
   end
 
   it 'has no dispute transactions' do 
@@ -213,8 +221,8 @@ RSpec.shared_context :dispute_funds_withdrawn_specs do
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
-  it 'has a correct charge id ' do 
-    expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
+  it 'has a started_at of Time.at(1596430555)' do
+    expect(obj.started_at).to eq Time.at(1596429794)
   end
 
   describe "dispute" do
@@ -223,6 +231,7 @@ RSpec.shared_context :dispute_funds_withdrawn_specs do
     specify {expect(subject.gross_amount).to eq 80000 }
     specify {expect(subject.status).to eq "needs_response" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794) }
   end
 
   it 'has one dispute transaction' do
@@ -301,12 +310,17 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
     expect(obj.stripe_dispute_id).to eq "dp_15RsQX2eZvKYlo2C0ERTYUIA"
   end
 
+  it 'has a started_at of Time.at(1567603760)' do
+    expect(obj.started_at).to eq Time.at(1567603760)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 22500 }
     specify { expect(subject.status).to eq "under_review" }
     specify { expect(subject.reason).to eq 'credit_not_processed' }
+    specify { expect(subject.started_at).to eq Time.at(1567603760)}
   end
 
   it 'has two dispute transactions' do
@@ -407,12 +421,17 @@ RSpec.shared_context :dispute_lost_specs do
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
+  it 'has a started_at of Time.at(1596430555)' do 
+    expect(obj.started_at).to eq  Time.at(1596429794)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 80000 }
     specify { expect(subject.status).to eq "lost" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794) }
   end
 
   it 'has 1 dispute transactions' do
@@ -493,12 +512,17 @@ RSpec.shared_context :dispute_won_specs do
     expect(obj.stripe_dispute_id).to eq "dp_15RsQX2eZvKYlo2C0ERTYUIA"
   end
   
+  it 'has a started_at of Time.at(1565008160)' do
+    expect(obj.started_at).to eq Time.at(1565008160)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 22500 }
     specify { expect(subject.status).to eq "won" }
     specify { expect(subject.reason).to eq 'credit_not_processed' }
+    specify { expect(subject.started_at).to eq Time.at(1565008160) }
   end
 
   it 'has two dispute transactions' do
@@ -608,8 +632,9 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
-  it 'has a correct charge id ' do 
-    expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
+
+  it 'has a started_at of Time.at(1596430555)' do 
+    expect(obj.started_at).to eq Time.at(1596429794)
   end
 
   describe "dispute" do
@@ -618,6 +643,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
     specify {expect(subject.gross_amount).to eq 80000 }
     specify {expect(subject.status).to eq "needs_response" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794)}
   end
 
   it 'has one dispute transaction' do
@@ -756,12 +782,17 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_specs do
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
+  it 'has a started_at of Time.at(1596429794)' do 
+    expect(obj.started_at).to eq Time.at(1596429794)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 80000 }
     specify { expect(subject.status).to eq "lost" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794)}
   end
 
   it 'has 1 dispute transactions' do
@@ -841,12 +872,17 @@ RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_specs do
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
+  it 'has a started_at of Time.at(1596429794)' do 
+    expect(obj.started_at).to eq Time.at(1596429794)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 80000 }
     specify { expect(subject.status).to eq "lost" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794)}
   end
 
   it 'has 1 dispute transactions' do
@@ -954,12 +990,17 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
+  it 'has a started_at of Time.at(1596429794)' do 
+    expect(obj.started_at).to eq Time.at(1596429794)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 80000 }
     specify { expect(subject.status).to eq "lost" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794)}
   end
 
   it 'has 1 dispute transactions' do
@@ -1055,12 +1096,17 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
+  it 'has a started_at of Time.at(1596429794)' do
+    expect(obj.started_at).to eq Time.at(1596429794)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 40000 }
     specify { expect(subject.status).to eq "needs_response" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794)}
   end
 
   it 'has 1 dispute transactions' do
@@ -1127,12 +1173,17 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     expect(obj.stripe_dispute_id).to eq "dp_25RsQX2eZvKYlo2C0ZXCVBNM"
   end
 
+  it 'has a started_at of Time.at(1596429794)' do
+    expect(obj.started_at).to eq Time.at(1596429794)
+  end
+
   describe "dispute" do
     subject { dispute }
     specify { expect(subject).to be_persisted }
     specify { expect(subject.gross_amount).to eq 30000 }
     specify { expect(subject.status).to eq "needs_response" }
     specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794)}
   end
 
   it 'has 1 dispute transactions' do
@@ -1164,7 +1215,51 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     expect(reinstated_transaction).to be_nil
   end
 
-  
-
   let(:valid_events) { [:created, :funds_withdrawn]}
+end
+
+RSpec.shared_context :legacy_dispute_context do
+  include_context :disputes_context 
+  
+  let(:json) do
+    dispute
+    event_json['data']['object']
+  end
+
+  let!(:dispute) {  dispute = force_create(:dispute,  stripe_dispute_id: event_json['data']['object']['id'], 
+    is_legacy: true, 
+    charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC') 
+    dispute.dispute_transactions.create(gross_amount: -80000, disbursed: true, payment: force_create(:payment, gross_amount: -80000, fee_total: -1500, net_amount: -81500))
+    dispute
+  }
+  
+  let(:dispute_transactions) { dispute.dispute_transactions }
+
+  # we reload this because we'll get the older version if we don't
+  let(:original_payment) { 
+    obj.dispute.original_payment.reload
+    obj.dispute.original_payment
+  }
+
+  let(:withdrawal_transaction) {dispute.dispute_transactions.order("date").first}
+  let(:withdrawal_payment) {withdrawal_transaction.payment}
+  let(:reinstated_transaction) {dispute.dispute_transactions.order("date").second}
+  let(:reinstated_payment) {reinstated_transaction.payment}
+
+  let(:event_json) do
+    json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+    stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
+    json
+  end
+end
+
+RSpec.shared_context :legacy_dispute_specs do
+  include_context :legacy_dispute_context
+  include_context :disputes_specs 
+  it 'has no Dispute.activities' do 
+    dispute.reload
+    expect(dispute.activities).to be_empty
+  end
+
+  let(:valid_events) { []}
 end

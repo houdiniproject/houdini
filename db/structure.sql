@@ -724,7 +724,9 @@ CREATE TABLE public.disputes (
     status character varying(255),
     stripe_dispute_id character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    started_at timestamp without time zone,
+    is_legacy boolean DEFAULT false
 );
 
 
@@ -2193,7 +2195,8 @@ CREATE TABLE public.stripe_disputes (
     amount integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    evidence_due_date timestamp without time zone
+    evidence_due_date timestamp without time zone,
+    started_at timestamp without time zone
 );
 
 
@@ -5180,6 +5183,8 @@ INSERT INTO schema_migrations (version) VALUES ('20200421185917');
 INSERT INTO schema_migrations (version) VALUES ('20200731205823');
 
 INSERT INTO schema_migrations (version) VALUES ('20200805214509');
+
+INSERT INTO schema_migrations (version) VALUES ('20200805214542');
 
 INSERT INTO schema_migrations (version) VALUES ('20200805214543');
 

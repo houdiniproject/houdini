@@ -191,4 +191,11 @@ RSpec.describe StripeDispute, :type => :model do
       end
     end
   end
+
+  describe "legacy dispute specs" do
+    include_context :legacy_dispute_specs
+    let(:obj) do
+      StripeDispute.create(object:json)
+    end
+  end
 end

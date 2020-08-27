@@ -15,7 +15,8 @@ end
 
 
 child :charge do
-	attributes :created_at, :id, :status
+  attributes :created_at, :id
+  node(:status) {|c| c.status.humanize}
 end
 
 child :donation, object_root: false do
@@ -38,7 +39,9 @@ child :donation, object_root: false do
 end
 
 child :disputes, object_root: false do
-  attributes :id, :status, :reason
+  attributes :id
+  node(:status) {|d| d.status.humanize}
+  node(:reason) {|d| d.reason.humanize}
   child :dispute_transactions, object_root: false do 
     child :payment do 
       attributes :id, :net_amount, :gross_amount, :fee_total
@@ -50,7 +53,9 @@ end
 child :dispute_transaction do 
   attributes :id, :date
   child :dispute do 
-    attributes :id, :status, :reason
+    attributes :id
+    node(:status) {|d| d.status.humanize}
+    node(:reason) {|d| d.reason.humanize}
     child :original_payment, object_root: false do
       attributes :id, :net_amount, :gross_amount, :fee_total
       node(:href) {|p| nonprofits_payments_url(p.nonprofit,  pid: p.id)}  

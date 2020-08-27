@@ -29,7 +29,7 @@
       </a>
 
       <a class="button--tiny u-marginLeft--10 test-refundButton">
-        <!--= hide_if (any (eq payment_details.data.refund_total payment_details.data.gross_amount) (eq payment_details.data.kind 'OffsitePayment') (eq payment_details.data.kind 'Refund) (payment_details.data.dispute)) -->
+        <!--= hide_if (hide_refund_donation_button payment_details.data.kind payment_details.data.refund_total payment_details.data.gross_amount) -->
         <!--= on 'click' (open_modal 'refundModal') -->
         <i class='fa fa-reply'></i> Refund Donation
       </a>

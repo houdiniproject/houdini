@@ -663,5 +663,13 @@ RSpec.describe StripeEvent, :type => :model do
         end
       end
     end
+
+    describe "legacy dispute specs" do
+      include_context :legacy_dispute_specs
+      let(:obj) do
+        StripeEvent.process_dispute(event_json)
+        StripeDispute.where('stripe_dispute_id = ?', json['id']).first
+      end
+    end
   end
 end

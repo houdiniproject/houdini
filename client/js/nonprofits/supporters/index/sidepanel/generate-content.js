@@ -76,7 +76,7 @@ exports.DisputeCreated = (data, state) => {
       h('br'),
       h('span', 'Please contact the donor and, if the dispute was made in error, ask them to reverse the dispute with their bank/financial institution.'),
       h('br'),
-      viewPaymentLink(data),
+      h('p', [ h('a', {props: {href: `${pathPrefix}/payments?pid=${data.json_data.original_id}`}}, 'View disputed payment.') ]),
     ]
     , icon: 'fa-ban'
   };
@@ -84,7 +84,7 @@ exports.DisputeCreated = (data, state) => {
 
 exports.DisputeFundsWithdrawn = (data, state) => {
   return {
-    title: `$${format.centsToDollars(data.json_data.gross_amount)} has been withdrawn from your account to cover a dispute issued on This supporter disputed their payment for $${format.centsToDollars(data.json_data.gross_amount)} on ${format.date.toSimple(data.json_data.original_date)}`,
+    title: `$${format.centsToDollars(data.json_data.net_amount * -1)} has been withdrawn from your account to cover a dispute issued on ${format.date.toSimple(data.json_data.started_at)}`,
     body: [
       h('span', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `),
       h('br'),
@@ -96,6 +96,39 @@ exports.DisputeFundsWithdrawn = (data, state) => {
   };
 }
 
+exports.DisputeFundsReinstated = (data, state) => {
+  return {
+    title: `$${format.centsToDollars(data.json_data.net_amount)} has been reinstated to your account in regards to the dispute issued on on ${format.date.toSimple(data.json_data.started_at)}`,
+    body: [
+      viewPaymentLink(data),
+    ],
+    icon: 'fa-ban'
+  };
+}
+
+exports.DisputeLost = (data, state) => {
+  return {
+    title: `The dispute issued on ${format.date.toSimple(data.json_data.started_at)} has been closed and was decided in their favor.`,
+    body: [
+      h('p', [ h('a', {props: {href: `${pathPrefix}/payments?pid=${data.json_data.original_id}`}}, 'View disputed payment.') ]),
+    ],
+    icon: 'fa-ban'
+  };
+}
+
+exports.DisputeWon = (data, state) => {
+  return {
+    title: `The dispute issued on ${format.date.toSimple(data.json_data.started_at)} has been closed and decided in your favor and the disputed`,
+    body: [
+      h('span', 'The disputed funds have been returned to your account.'),
+      h('br'),
+      h('p', [ h('a', {props: {href: `${pathPrefix}/payments?pid=${data.json_data.original_id}`}}, 'View disputed payment.') ]),
+    ],
+    icon: 'fa-ban'
+  };
+}
+
+// we need this for legacy reasons
 exports.Dispute = (data, state) => {
   return {
     title: `This supporter disputed (made a charge-back) on their payment for $${format.centsToDollars(data.json_data.gross_amount)} on ${format.date.toSimple(data.json_data.original_date)}`

@@ -46,8 +46,10 @@
         $<!--= put (cents_to_dollars this.gross_amount) -->
       </td>
     </tr>
-
+    
+    
     <tr>
+    <!--= show_if (is_not_dispute_transaction payment_details.data.kind) -->
       <td>Processing Fees </td>
       <td>
         $<!--= put (cents_to_dollars this.fee_total) --><span>
@@ -56,9 +58,18 @@
       </td>
     </tr>
 
+    
+    <tr>
+    
+      <td>Dispute Fees</td>
+      <td>
+        $<!--= put (cents_to_dollars this.fee_total) -->
+      </td>
+    </tr>
+
     <tr>
       <!--= show_if (> this.refund_total 0) -->
-      <td>Total Refunds </td>
+      <td>Refunded and Disputed</td>
       <td>
         $<!--= put (cents_to_dollars this.refund_total) -->
       </td>

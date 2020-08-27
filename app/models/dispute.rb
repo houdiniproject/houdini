@@ -9,7 +9,8 @@ class Dispute < ActiveRecord::Base
     :gross_amount, # int
     :charge_id, :charge,
     :status,
-    :reason
+    :reason,
+    :started_at
 
   belongs_to :charge
   has_one :stripe_dispute, foreign_key: :stripe_dispute_id, primary_key: :stripe_dispute_id
@@ -43,7 +44,8 @@ class Dispute < ActiveRecord::Base
 				original_id: original_payment.id,
 				original_kind: original_payment.kind,
 				original_gross_amount: original_payment.gross_amount,
-				original_date: original_payment.date
+        original_date: original_payment.date,
+        started_at: dispute.started_at
       }
     else
       raise RuntimeError, "#{event_type} is not a valid Dispute event type"

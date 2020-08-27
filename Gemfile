@@ -168,5 +168,3 @@ gem 'hashie'
 gem 'connection_pool'
 
 gem "barnes"
-
-gem 'suo'

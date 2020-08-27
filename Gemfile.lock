@@ -409,10 +409,6 @@ GEM
       dante (>= 0.2.0)
       multi_json (~> 1.0)
       stripe (>= 2.0.3)
-    suo (0.3.4)
-      dalli
-      msgpack
-      redis
     table_print (1.5.4)
     test-unit (3.2.7)
       power_assert
@@ -529,7 +525,6 @@ DEPENDENCIES
   sprockets
   stripe (~> 4)
   stripe-ruby-mock (~> 2.5.1)
-  suo
   table_print
   test-unit (~> 3.0)
   timecop

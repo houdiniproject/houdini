@@ -34,9 +34,16 @@ appl.def("is_not_dispute_transaction", function (kind) {
 appl.def("hide_refund_donation_button", function(kind, refund_total, gross_amount) {
 	return kind === undefined || refund_total >= gross_amount ||
 	kind === 'OffsitePayment' || 
-	kind=== 'Refund' ||
+	kind === 'Refund' ||
 	kind === 'Dispute' ||
 	kind === 'DisputeReversed'
+})
+
+appl.def("show_receipting", function(kind) {
+	return kind !== undefined &&
+	kind !== 'OffsitePayment' &&
+	kind !== 'Dispute' &&
+	kind !== 'DisputeReversed'
 })
 
 // Open a modal given by its modal id (uses the modal div's 'id' attribute)

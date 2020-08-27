@@ -70,11 +70,21 @@
     </tr>
 
     <tr>
-      <!--= repeat this.dispute_transactions -->
-      <td>Dispute Transaction</td>
+      <!--= show_if this.withdrawal_transaction -->
+      <td>Dispute Withdrawal Transaction</td>
       <td><a>
-        <!--= set_attr 'href' this.payment.href -->
-        <!--= put this.payment.id -->
+        <!--= set_attr 'href' this.withdrawal_transaction.payment.href -->
+        <!--= put this.withdrawal_transaction.payment.id -->
+      </a>
+      </td>
+    </tr>
+
+    <tr>
+      <!--= show_if this.reinstatement_transaction -->
+      <td>Dispute Reversal Transaction</td>
+      <td><a>
+        <!--= set_attr 'href' this.reinstatement_transaction.payment.href -->
+        <!--= put this.reinstatement_transaction.payment.id -->
       </a>
       </td>
     </tr>
@@ -251,7 +261,7 @@
 </table>
 
 <table class='table--small'>
-  <!--= show_if (not (eq payment_details.data.kind 'OffsitePayment')) -->
+  <!--= show_if (show_receipting payment_details.data.kind) -->
   <thead>
     <tr>
       <th>Receipts</th>

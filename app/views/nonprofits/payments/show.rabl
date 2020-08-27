@@ -40,17 +40,47 @@ end
 
 child :disputes, object_root: false do
   attributes :id
-  node(:status) {|d| d.status.humanize}
-  node(:reason) {|d| d.reason.humanize}
-  child :dispute_transactions, object_root: false do 
-    child :payment do 
-      attributes :id, :net_amount, :gross_amount, :fee_total
-      node(:href) {|p| nonprofits_payments_url(p.nonprofit,  pid: p.id)}  
-    end
+  node(:status) {|d| d.status&.humanize}
+  node(:reason) {|d| d.reason&.humanize}
+
+  node(:withdrawal_transaction)  do |d|
+    p = d&.withdrawal_transaction&.payment
+    ret = p ? {
+      payment:{ 
+        id: p.id, 
+        net_amount: p.net_amount, 
+        gross_amount: p.gross_amount,
+        fee_total: p.fee_total,
+        href: nonprofits_payments_url(p.nonprofit,  
+          pid: p.id)
+        }
+      
+    } : nil
+    
+    ret
+
+  end
+
+  node(:reinstatement_transaction)  do |d|
+    p = d&.reinstatement_transaction&.payment
+    ret = p ? {
+      payment:{ 
+        id: p.id, 
+        net_amount: p.net_amount, 
+        gross_amount: p.gross_amount,
+        fee_total: p.fee_total,
+        href: nonprofits_payments_url(p.nonprofit,  
+          pid: p.id)
+        }
+      
+    } : nil
+    
+    ret
+
   end
 end
 
-child :dispute_transaction do 
+child :dispute_transaction, object_root:true do 
   attributes :id, :date
   child :dispute do 
     attributes :id

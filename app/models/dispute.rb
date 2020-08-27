@@ -11,10 +11,14 @@ class Dispute < ActiveRecord::Base
     :status,
     :reason,
     :started_at
+  
+  attr_accessible \
+    :withdrawal_transaction,
+    :reinstatement_transaction
 
   belongs_to :charge
   has_one :stripe_dispute, foreign_key: :stripe_dispute_id, primary_key: :stripe_dispute_id
-  has_many :dispute_transactions
+  has_many :dispute_transactions, order: "date ASC"
 
   has_one :supporter, through: :charge
   has_one :nonprofit, through: :charge
@@ -31,7 +35,17 @@ class Dispute < ActiveRecord::Base
 			proxy_association.build(attributes, options, &block)
 		end
   end
-  
+
+
+  def withdrawal_transaction
+    dispute_transactions&.first
+  end
+
+  def reinstatement_transaction
+    (dispute_transactions&.count == 2) && dispute_transactions[1]
+  end
+
+  private
   def build_activity_json(event_type)
 		dispute = self
 		original_payment = dispute.original_payment

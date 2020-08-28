@@ -42,7 +42,7 @@ class Dispute < ActiveRecord::Base
   end
 
   def reinstatement_transaction
-    (dispute_transactions&.count == 2) && dispute_transactions[1]
+    ((dispute_transactions&.count == 2) && dispute_transactions[1]) || nil
   end
 
   def build_activity_json(event_type)

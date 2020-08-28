@@ -62,7 +62,7 @@ const activityContent = parentState => data => {
       h('div', [
         h('small.u-color--grey', moment(data.date).format("ddd, MMMM Do YYYY"))
       , h('div.u-fontSize--15', [
-          h('strong', content.title)
+          h('div.activity-section', [h('strong', content.title)])
         , h('div', content.body)
         ]) 
       ])

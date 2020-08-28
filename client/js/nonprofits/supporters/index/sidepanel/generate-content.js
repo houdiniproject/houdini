@@ -60,8 +60,7 @@ exports.Refund = (data, state) => {
   return {
     title: `Refunded $${format.centsToDollars(-data.json_data.gross_amount)}`
   , body: [
-      h('span', `Reason: ${format.snake_to_words(data.json_data.reason||'none')}. `)
-    , h('br')
+      h('div.activity-section', `Reason: ${format.snake_to_words(data.json_data.reason||'none')}. `)
     , viewPaymentLink(data)
     ]
   , icon: 'fa-reply'
@@ -72,10 +71,8 @@ exports.DisputeCreated = (data, state) => {
   return {
     title: `This supporter disputed their payment for $${format.centsToDollars(data.json_data.gross_amount)} on ${format.date.toSimple(data.json_data.original_date)}`,
     body: [
-      h('span', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `),
-      h('br'),
-      h('span', 'Please contact the donor and, if the dispute was made in error, ask them to reverse the dispute with their bank/financial institution.'),
-      h('br'),
+      h('div.activity-section', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `),
+      h('div.activity-section', [ h('small', 'Please contact the donor and, if the dispute was made in error, ask them to reverse the dispute with their bank/financial institution.')]),
       h('p', [ h('a', {props: {href: `${pathPrefix}/payments?pid=${data.json_data.original_id}`}}, 'View disputed payment.') ]),
     ]
     , icon: 'fa-ban'
@@ -86,10 +83,8 @@ exports.DisputeFundsWithdrawn = (data, state) => {
   return {
     title: `$${format.centsToDollars(data.json_data.net_amount * -1)} has been withdrawn from your account to cover a dispute issued on ${format.date.toSimple(data.json_data.started_at)}`,
     body: [
-      h('span', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `),
-      h('br'),
-      h('span', 'If the dispute is won in your favor, the funds will be returned to your account.'),
-      h('br'),
+      h('div.activity-section', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `),
+      h('div.activity-section', [ h('small', 'If the dispute is won in your favor, the funds will be returned to your account.')]),
       viewPaymentLink(data),
     ],
     icon: 'fa-ban'
@@ -120,8 +115,7 @@ exports.DisputeWon = (data, state) => {
   return {
     title: `The dispute issued on ${format.date.toSimple(data.json_data.started_at)} has been closed and decided in your favor and the disputed`,
     body: [
-      h('span', 'The disputed funds have been returned to your account.'),
-      h('br'),
+      h('div.activity-section', 'The disputed funds have been returned to your account.'),
       h('p', [ h('a', {props: {href: `${pathPrefix}/payments?pid=${data.json_data.original_id}`}}, 'View disputed payment.') ]),
     ],
     icon: 'fa-ban'
@@ -133,7 +127,7 @@ exports.Dispute = (data, state) => {
   return {
     title: `This supporter disputed (made a charge-back) on their payment for $${format.centsToDollars(data.json_data.gross_amount)} on ${format.date.toSimple(data.json_data.original_date)}`
   , body: [
-      h('span', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `)
+      h('div.activity-section', `Reason given: ${format.snake_to_words(data.json_data.reason||'none')}. `)
     , h('br')
     , viewPaymentLink(data)
     ]
@@ -147,7 +141,7 @@ exports.SupporterNote = (data, state) => {
   return {
     title: `Note ${action}${data.json_data.user_email ? ' by ' + data.json_data.user_email : ''}`
   , body: [
-      h('span', {props: {innerHTML: marked(data.json_data.content ? data.json_data.content : '')}})
+      h('div.activity-section', {props: {innerHTML: marked(data.json_data.content ? data.json_data.content : '')}})
     , canEdit 
       ? h('span', [
           h('a.u-marginRight--10', {on: {click: [state.editNote$, data]}}, 'Edit ')
@@ -162,7 +156,7 @@ exports.SupporterNote = (data, state) => {
 exports.SupporterEmail = (data, state) => {
   var jd = data.json_data
   var canView = false
-  var body = [h('span', `Subject: ${jd.subject}`), h('br')]
+  var body = [h('div.activity-section', `Subject: ${jd.subject}`), h('br')]
   var thread =  h('a', {props: {href: '#'}, on: {click: [state.threadId$, jd.gmail_thread_id]}}, 'View thread')
   
   return {
@@ -178,8 +172,7 @@ exports.OffsitePayment = (data, state) => {
   return {
     title: `Donated $${format.centsToDollars(data.json_data.gross_amount)} (offsite)`
   , body: [
-      h('span', desig)
-    , desig ? h('br') : ''
+      h('div.activity-section', desig)
     , viewPaymentLink(data)
     ]
   , icon: 'fa-money'

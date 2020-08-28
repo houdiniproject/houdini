@@ -67,7 +67,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
   # end
 
   ignore_exceptions = [ActionDispatch::RemoteIp::IpSpoofAttackError, Encoding::CompatibilityError,
-                       EOFError, AWS::SES::ResponseError, [SignalException, lambda {|e| e.signo == Signal.list['TERM']}]]
+                       EOFError, [SignalException, lambda {|e| e.signo == Signal.list['TERM']}]]
   Airbrake.add_filter do |notice|
     ignore_exceptions.each do |type|
       if type.class == Array

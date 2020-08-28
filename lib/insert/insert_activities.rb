@@ -115,30 +115,6 @@ module InsertActivities
       .where("payments.kind='Refund'")
   end
 
-  def self.for_disputes(payment_ids)
-    insert_disputes_expr
-      .and_where("payments.id IN ($ids)", ids: payment_ids)
-      .execute
-  end
-
-  def self.insert_disputes_expr
-    Qx.insert_into(:activities, insert_cols)
-      .select(defaults.concat([
-        "payments.supporter_id",
-        "'Payment' AS attachment_type",
-        "payments.id AS attachment_id",
-        "payments.nonprofit_id",
-        "payments.date",
-        "json_build_object('gross_amount', payments.gross_amount, 'reason', disputes.reason, 'original_kind', other_payment.kind, 'original_date', other_payment.date)",
-        "'Dispute' AS kind"
-      ]))
-      .from(:payments)
-      .join(:disputes, "disputes.payment_id=payments.id")
-      .add_join(:charges, "disputes.charge_id=charges.id")
-      .add_join("payments AS other_payment", "other_payment.id=charges.payment_id")
-      .where("payments.kind='Dispute'")
-  end
-
   def self.for_supporter_emails(ids)
     insert_supporter_emails_expr
       .and_where("supporter_emails.id IN ($ids)", ids: ids)

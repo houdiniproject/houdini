@@ -2,7 +2,7 @@ mailer:
   host: "https://us.commitchange.com"
 
 mailer:
-  delivery_method: "aws_ses"
+  delivery_method: "aws"
   host: "us.commitchange.com"
 
 cdn:

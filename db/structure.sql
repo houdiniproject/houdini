@@ -3807,6 +3807,13 @@ CREATE INDEX index_dispute_transactions_on_payment_id ON public.dispute_transact
 
 
 --
+-- Name: index_disputes_on_stripe_dispute_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_disputes_on_stripe_dispute_id ON public.disputes USING btree (stripe_dispute_id);
+
+
+--
 -- Name: index_donations_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5193,4 +5200,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200819200849');
 INSERT INTO schema_migrations (version) VALUES ('20200821192204');
 
 INSERT INTO schema_migrations (version) VALUES ('20200821230919');
+
+INSERT INTO schema_migrations (version) VALUES ('20200901185347');
 

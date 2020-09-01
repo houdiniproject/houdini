@@ -133,6 +133,8 @@ module QueryPayments
   # perform the search but only get the relevant payment_ids
   def self.select_to_filter_search(npo_id, query)
 
+    
+
     inner_donation_search = Qexpr.new.select('donations.*').from('donations')
     if (query[:event_id].present?)
       inner_donation_search = inner_donation_search.where('donations.event_id=$id', id: query[:event_id])
@@ -146,7 +148,14 @@ module QueryPayments
           .left_outer_join(inner_donation_search.as('donations'), 'donations.id=payments.donation_id' )
           .where('payments.nonprofit_id=$id', id: npo_id.to_i)
 
-
+    if query[:ids].present?
+      if query[:ids].is_a? String
+        query[:ids] = query[:ids].split(',')
+      end
+      if query[:ids].is_a?(Array) && query[:ids].all?{|i| i.to_i != 0}
+        expr = expr.where("payments.id IN ($ids)", ids: query[:ids])
+      end
+    end    
     if query[:search].present?
       expr = SearchVector.query(query[:search], expr)
     end

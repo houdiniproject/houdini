@@ -49,7 +49,7 @@ function init() {
   state.matchedHeaders$ = flyd.map(findHeaderMatches, headers$)
 
   // state.submitImport$ is passed the current component state, and we just want a stream of input node objects for uploadFile
-  const uploaded$ = flyd.flatMap(uploadFile, state.submitImport$)
+  const uploaded$ = flyd.flatMap(uploadFile('/rails/active_storage/direct_uploads'), state.submitImport$)
   
   // The matched headers with a simplified data structure to post to the server
   // data structure is like {header_name => match_name} -- eg {'Donation Amount' => 'donation.amount'}
@@ -98,11 +98,11 @@ function init() {
 
 
 // post to /imports after the file is uploaded to S3
-const postImport = R.curry((headers, file) => {
+const postImport = R.curry((headers, blob) => {
   return flyd.map(R.prop('body'), request({
     method: 'post'
   , path: `/nonprofits/${app.nonprofit_id}/imports`
-  , send: {file_uri: file.uri, header_matches: headers}
+  , send: {import_file: blob.signed_id, header_matches: headers}
   }).load)
 })
 

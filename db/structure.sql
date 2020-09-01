@@ -1307,6 +1307,39 @@ ALTER SEQUENCE public.image_attachments_id_seq OWNED BY public.image_attachments
 
 
 --
+-- Name: import_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.import_requests (
+    id bigint NOT NULL,
+    header_matches jsonb,
+    nonprofit_id bigint,
+    user_email character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: import_requests_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.import_requests_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: import_requests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.import_requests_id_seq OWNED BY public.import_requests.id;
+
+
+--
 -- Name: imports; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2529,6 +2562,13 @@ ALTER TABLE ONLY public.image_attachments ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
+-- Name: import_requests id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.import_requests ALTER COLUMN id SET DEFAULT nextval('public.import_requests_id_seq'::regclass);
+
+
+--
 -- Name: imports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2945,6 +2985,14 @@ ALTER TABLE ONLY public.image_attachments
 
 
 --
+-- Name: import_requests import_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.import_requests
+    ADD CONSTRAINT import_requests_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: imports imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3289,6 +3337,13 @@ CREATE INDEX index_exports_on_nonprofit_id ON public.exports USING btree (nonpro
 --
 
 CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
+
+
+--
+-- Name: index_import_requests_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_import_requests_on_nonprofit_id ON public.import_requests USING btree (nonprofit_id);
 
 
 --
@@ -4035,6 +4090,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181129205652'),
 ('20181129224030'),
 ('20191105200033'),
-('20200423222447');
+('20200423222447'),
+('20200901214156');
 
 

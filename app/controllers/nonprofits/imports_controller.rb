@@ -11,14 +11,15 @@ module Nonprofits
     # post /nonprofits/:nonprofit_id/imports
     def create
       render_json do
-        ImportCreationJob.perform_later(import_params, current_user)
+        request = ImportRequest.create(import_params)
+        ImportCreationJob.perform_later(request, current_user)
       end
     end
 
     private
 
     def import_params
-      params.permit(:nonprofit_id, :file_uri, :header_matches)
+      params.permit(:nonprofit_id, :import_file, header_matches: {})
     end
   end
 end

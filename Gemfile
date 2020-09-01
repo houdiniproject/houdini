@@ -22,8 +22,9 @@ gem 'puma_worker_killer'
 gem 'test-unit', '~> 3.0'
 gem 'hamster'
 
-gem 'aws-ses'
 gem 'aws-sdk'
+gem 'aws-sdk-rails'
+
 
 # for blocking ip addressses
 gem 'rack-attack'

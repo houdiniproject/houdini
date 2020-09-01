@@ -56,7 +56,13 @@ Commitchange::Application.configure do
 	config.font_assets.origin = '*'
 
 	# Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+	creds = Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'])
 
+	Aws::Rails.add_action_mailer_delivery_method(
+		:ses,
+		credentials: creds,
+		region: 'us-east-1'
+	)
 	# Disable delivery errors, bad email addresses will be ignored
 	# config.action_mailer.raise_delivery_errors = false
 	config.action_mailer.delivery_method = :ses

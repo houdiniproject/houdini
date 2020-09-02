@@ -96,7 +96,7 @@ class NonprofitMailer < BaseMailer
   def first_charge_email(np_id)
     @nonprofit = Nonprofit.find(np_id)
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
-    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support", subject: "Congratulations on your first charge on #{Settings.general.name}!")
+    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support <support@commitchange.com>", subject: "Congratulations on your first charge on #{Settings.general.name}!")
   end
 
   def welcome(np_id)
@@ -104,7 +104,7 @@ class NonprofitMailer < BaseMailer
     @user = @nonprofit.users.first
     @token = @user.make_confirmation_token!
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
-    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support", subject: "A hearty welcome from the #{Settings.general.name} team")
+    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Settings.general.name} Support <support@commitchange.com>", subject: "A hearty welcome from the #{Settings.general.name} team")
   end
 end
 

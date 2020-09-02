@@ -16,12 +16,14 @@ class DonationMailer < BaseMailer
     @charge = @donation.charges.last
 		@reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
     from = Format::Name.email_from_np(@nonprofit.name)
-    I18n.with_locale(locale) do
-  		mail(
-                  to: @donation.supporter.email, 
-                  from: from, 
-                  reply_to: @reply_to, 
-                  subject: I18n.t('mailer.donations.donor_direct_debit_notification.subject', nonprofit_name: @nonprofit.name))
+		I18n.with_locale(locale) do
+			unless @donation.supporter.email.blank?
+				mail(
+										to: @donation.supporter.email, 
+										from: from, 
+										reply_to: @reply_to, 
+										subject: I18n.t('mailer.donations.donor_direct_debit_notification.subject', nonprofit_name: @nonprofit.name))
+			end
     end
   end
 

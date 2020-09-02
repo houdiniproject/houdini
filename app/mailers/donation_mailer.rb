@@ -27,9 +27,9 @@ class DonationMailer < BaseMailer
 
   def donor_direct_debit_notification(donation_id, locale=I18n.locale)
     @donation = Donation.find(donation_id)
-	@nonprofit = @donation.nonprofit
+		@nonprofit = @donation.nonprofit
 	
-	interpolation_dict.set_supporter(@donation.supporter)
+		interpolation_dict.set_supporter(@donation.supporter)
 	
     if  @donation.campaign && interpolation_dict.interpolate(@donation.campaign.receipt_message).present?
       @thank_you_note = interpolation_dict.interpolate(@donation.campaign.receipt_message)
@@ -60,7 +60,7 @@ class DonationMailer < BaseMailer
       # return unless @emails.include?(em)
       @emails = [em]
 		end
-		if @emails
+		if @emails.any?
 			mail(to: @emails, subject: "Donation receipt for #{@donation.supporter.name}")
 		end
 	end
@@ -70,7 +70,7 @@ class DonationMailer < BaseMailer
 		@nonprofit = @donation.nonprofit
 		@charge = @donation.charges.last
 		@emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? 'notify_campaigns' : 'notify_payments')
-		if @emails
+		if @emails.any?
 			mail(to: @emails, subject: "Recurring donation payment failure for #{@donation.supporter.name || @donation.supporter.email}")
 		end
   end
@@ -89,7 +89,7 @@ class DonationMailer < BaseMailer
 		@nonprofit = @donation.nonprofit
 		@charge = @donation.charges.last
 		@emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? 'notify_campaigns' : 'notify_payments')
-		if @emails
+		if @emails.any?
 			mail(to: @emails, subject: "Recurring donation cancelled for #{@donation.supporter.name || @donation.supporter.email}")
 		end
 	end
@@ -99,7 +99,7 @@ class DonationMailer < BaseMailer
 		@nonprofit = @donation.nonprofit
 		@emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_recurring_donations')
 		@previous_amount = previous_amount
-		if @emails
+		if @emails.any?
 			mail(to: @emails, subject:"Recurring donation amount changed for #{@donation.supporter.name || @donation.supporter.email}")
 		end
 	end
@@ -126,7 +126,7 @@ class DonationMailer < BaseMailer
 		@nonprofit = @donation.nonprofit
 		@emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_recurring_donations')
 		@previous_amount = previous_amount
-		if @emails
+		if @emails.any?
 			mail(to: @emails, subject:"Recurring donation amount changed for #{@donation.supporter.name || @donation.supporter.email}")
 		end
 	end

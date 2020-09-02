@@ -12,7 +12,9 @@ class TicketMailer < BaseMailer
     @nonprofit = @supporter.nonprofit
     from = Format::Name.email_from_np(@nonprofit.name)
     reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
-    mail(from: from, to: @supporter.email, reply_to: reply_to, subject: "Your tickets#{@charge ?  ' and receipt ' : ' '}for: #{@event.name}")
+    if (@supporter.email)
+      mail(from: from, to: @supporter.email, reply_to: reply_to, subject: "Your tickets#{@charge ?  ' and receipt ' : ' '}for: #{@event.name}")
+    end
   end
 
   def receipt_admin(ticket_ids, user_id=nil)

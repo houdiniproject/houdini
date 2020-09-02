@@ -12,7 +12,7 @@ class TicketMailer < BaseMailer
     @nonprofit = @supporter.nonprofit
     from = Format::Name.email_from_np(@nonprofit.name)
     reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
-    if (@supporter.email)
+    unless @supporter.email.blank?
       mail(from: from, to: @supporter.email, reply_to: reply_to, subject: "Your tickets#{@charge ?  ' and receipt ' : ' '}for: #{@event.name}")
     end
   end
@@ -29,7 +29,9 @@ class TicketMailer < BaseMailer
       return unless recipients.include?(em)
       recipients = [em]
     end
-    mail(to: recipients, subject: "Ticket redeemed for #{@event.name} - #{@supporter.name}")
+    if recipients.any?
+      mail(to: recipients, subject: "Ticket redeemed for #{@event.name} - #{@supporter.name}")
+    end
   end
 
 end

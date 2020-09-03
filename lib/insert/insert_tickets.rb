@@ -44,7 +44,7 @@ module InsertTickets
     #verify that enough tickets_available
     QueryTicketLevels.verify_tickets_available(data[:tickets])
 
-    gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id], data[:fee_covered], entities[:nonprofit_id].id)
+    gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id])
 
     result = {}
 
@@ -70,6 +70,14 @@ module InsertTickets
         if tokenizable.holder != entities[:supporter_id]
           raise ParamValidation::ValidationError.new("Supporter #{entities[:supporter_id].id} does not own card #{tokenizable.id}", key: :token)
         end
+
+        gross_amount = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(data[:tickets], 
+          data[:event_discount_id], 
+          data[:fee_covered],
+          entities[:nonprofit_id].id,
+          tokenizable.stripe_customer_id
+        )
+
         result = result.merge(InsertCharge.with_stripe({
           kind: "Ticket",
           towards: entities[:event_id].name,

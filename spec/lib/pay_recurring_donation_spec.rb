@@ -26,8 +26,8 @@ describe PayRecurringDonation  do
     let(:stripe_cust_id) { customer = Stripe::Customer.create();
     customer.id}
     let(:card) {
-      
-      force_create(:card, holder: supporter, stripe_customer_id: stripe_cust_id)
+      card = Stripe::Customer.create_source(stripe_cust_id, {source: StripeMock.generate_card_token(brand: 'Visa', country: 'US')})
+      force_create(:card, holder: supporter, stripe_customer_id: stripe_cust_id, stripe_card_id: card.id)
     }
     let(:donation) {force_create(:donation, supporter: supporter, amount: 300, card: card, nonprofit: nonprofit)}
     let(:recurring_donation) { force_create(:recurring_donation, donation: donation, start_date: Time.now - 1.day, active:true, nonprofit: nonprofit, n_failures: 0)}
@@ -75,7 +75,6 @@ describe PayRecurringDonation  do
       res = uncovered_result
       expect(donation.payments.first.misc_payment_info&.fee_covered).to be_falsey
     end
-
 	end
 
   describe '.pay_all_due_with_stripe', :pending => true do

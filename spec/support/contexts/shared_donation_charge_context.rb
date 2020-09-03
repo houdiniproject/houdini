@@ -39,6 +39,10 @@ RSpec.shared_context :shared_donation_charge_context do
 
   let(:stripe_helper) { StripeMock.create_test_helper }
 
+  def generate_card_token(brand="Visa", country='US')
+    StripeMock.generate_card_token({brand: brand, country: country})
+  end
+
   around(:each){|example|
     Timecop.freeze(2020, 5, 4) do
       StripeMock.start

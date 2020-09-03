@@ -380,6 +380,8 @@ RSpec.shared_context :shared_rd_donation_value_context do
       card.stripe_customer_id = 'some other id'
       cust = Stripe::Customer.create()
       card.stripe_customer_id = cust['id']
+      source = Stripe::Customer.create_source(cust.id, {source: StripeMock.generate_card_token})
+      card.stripe_card_id = source.id
       card.save!
 
       expect(Stripe::Charge).to receive(:create).and_wrap_original {|m, *args| a = m.call(*args);

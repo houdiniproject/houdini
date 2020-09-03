@@ -13,6 +13,7 @@ describe QueryPayments do
                  force_create(:payment, gross_amount: 2000, fee_total: 22, net_amount: 1978, supporter: @supporters[1], nonprofit:@nonprofit)]
     @bank_account = force_create(:bank_account, name: 'bank1', nonprofit: @nonprofit)
   end
+ 
 
   describe '.ids_for_payout' do
     around(:each) do |example|
@@ -107,19 +108,20 @@ describe QueryPayments do
   describe '.full_search' do
 
     include_context :shared_rd_donation_value_context
-    before(:each) {
+    before(:each) do
       nonprofit.stripe_account_id = Stripe::Account.create()['id']
       nonprofit.save!
-      card.stripe_customer_id = 'some other id'
       cust = Stripe::Customer.create()
-      card.stripe_customer_id = cust['id']
+      card.stripe_customer_id = cust.id
+      source = Stripe::Customer.create_source(cust.id, {source: StripeMock.generate_card_token(brand: 'Visa', country: 'US')})
+      card.stripe_card_id = source.id
       card.save!
       expect(Stripe::Charge).to receive(:create).exactly(3).times.and_wrap_original {|m, *args| a = m.call(*args);
-      @stripe_charge_id = a['id']
-      a
+        @stripe_charge_id = a['id']
+        a
       }
 
-    }
+    end
 
     let(:charge_amount_small) { 200}
     let(:charge_amount_medium) { 400}
@@ -205,12 +207,6 @@ describe QueryPayments do
 
         expect(result[:data].count).to eq 5
       end
-
-
-
-
-
-
 
     end
 

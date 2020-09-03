@@ -93,17 +93,25 @@ module InsertCharge
 
       if Settings.payment_provider.stripe_connect
         stripe_account_id = StripeAccountUtils.find_or_create(data[:nonprofit_id])
-        # Get the percentage fee on the nonprofit's billing plan
-        platform_fee = BillingPlans.get_percentage_fee(data[:nonprofit_id])
-        fee = CalculateFees.for_single_amount(data[:amount], platform_fee)
-        stripe_charge_data[:application_fee_amount]= fee
+     
+        
 
       # For backwards compatibility, see if the customer exists in the primary or the connected account
       # If it's a legacy customer, charge to the primary account and transfer with .destination
       # Otherwise, charge directly to the connected account
         begin
-          stripe_cust = Stripe::Customer.retrieve(stripe_customer_id)
+          stripe_cust = Stripe::Customer.retrieve({id: stripe_customer_id, expand: ['default_source']}, {stripe_version: "2019-09-09"})
           transfer_data = {transfer_data: { destination: stripe_account_id}, on_behalf_of: stripe_account_id}
+          
+          # Get the percentage fee on the nonprofit's billing plan
+          platform_fee = BillingPlans.get_percentage_fee(data[:nonprofit_id])
+          fee = CalculateFees.for_single_amount(data[:amount], {platform_fee: platform_fee, 
+            source: stripe_cust.default_source, 
+            switchover_date: FEE_SWITCHOVER_TIME
+          })
+          
+          stripe_charge_data[:application_fee_amount]= fee
+          
           params = [stripe_charge_data.merge(transfer_data), {stripe_version: "2019-09-09"}]
         rescue => e
           Airbrake.notify(e, other_data: {reason: 'a payment that should never happen'})

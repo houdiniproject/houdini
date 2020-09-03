@@ -132,24 +132,24 @@ describe CreateCampaignGift do
         end
 
 
-        it 'rejects associations when the recurring donation amount is not correct' do
+        # it 'rejects associations when the recurring donation amount is not correct' do
 
-          adm = double(AdminMailer)
+        #   adm = double(AdminMailer)
 
-          billing_subscription
-          donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 500, :recurring=> true)
-          rd = force_create(:recurring_donation, :amount => 500, :donation => donation)
-          campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :name=> "name")
+        #   billing_subscription
+        #   donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 500, :recurring=> true)
+        #   rd = force_create(:recurring_donation, :amount => 500, :donation => donation)
+        #   campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :name=> "name")
 
 
-          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
-          expect(AdminMailer).to receive(:delay).and_return(adm)
-          expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
-            expect(error).to be_a(ParamValidation::ValidationError)
-            expect_validation_errors(error.data, {:key => :campaign_gift_option_id})
-            expect(error.message).to eq ("#{campaign_gift_option.id} gift options requires a recurring donation of 300 for donation #{donation.id}")
-          }
-        end
+        #   expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
+        #   expect(AdminMailer).to receive(:delay).and_return(adm)
+        #   expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
+        #     expect(error).to be_a(ParamValidation::ValidationError)
+        #     expect_validation_errors(error.data, {:key => :campaign_gift_option_id})
+        #     expect(error.message).to eq ("#{campaign_gift_option.id} gift options requires a recurring donation of 300 for donation #{donation.id}")
+        #   }
+        # end
 
         it 'rejects association when the there are no gifts available' do
           adm = double(AdminMailer)

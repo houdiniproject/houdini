@@ -3,48 +3,145 @@ require 'rails_helper'
 
 describe QueryTicketLevels do
   include_context :shared_donation_charge_context
-  describe '.gross_amount_from_tickets' do
+  describe '.gross_amount_from_tickets_with_possible_fee_coverage' do
     let(:bp) {force_create(:billing_plan, percentage_fee: 0.05)}
     let(:bs) {force_create(:billing_subscription, nonprofit:nonprofit, billing_plan: bp)}
-
-    it 'handles free tickets only properly' do
-      bs
-      result = QueryTicketLevels.gross_amount_from_tickets(['ticket_level_id' => free_ticket_level.id, 'quantity'=> 5], nil, nil, nonprofit.id)
-      expect(result).to eq 0
+    let(:stripe_customer_id) do
+      customer = Stripe::Customer.create();
+      card = Stripe::Customer.create_source(customer.id, {source: generate_card_token})
+      customer.id
     end
 
-    it 'handles nonfree tickets only properly' do
-      bs
-      result = QueryTicketLevels.gross_amount_from_tickets(['ticket_level_id' => ticket_level.id, 'quantity'=> 5], nil, false, nonprofit.id)
-      expect(result).to eq 2000
+    let(:switchover_date) { Time.new(2020,10, 1)}
+    before(:each) do
+      stub_const('FEE_SWITCHOVER_TIME', switchover_date)
+    end
+    describe 'before switchover date' do
+      around(:each) do |example|
+        Timecop.freeze(switchover_date - 1.day) do
+          example.run
+        end
+      end
+
+      it 'handles free tickets only properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+          ['ticket_level_id' => free_ticket_level.id, 'quantity'=> 5], nil, nil, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 0
+      end
+  
+      it 'handles nonfree tickets only properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(['ticket_level_id' => ticket_level.id, 'quantity'=> 5], nil, false, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 2000
+      end
+  
+      it 'handles mix of tickets properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], nil, true, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 3266
+      end
+  
+      it 'handles mix of tickets properly with discount code properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, false, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 2400
+      end
+  
+      it 'handles mix of tickets properly with discount code and fee covered properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, true, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 2619
+      end
     end
 
-    it 'handles mix of tickets properly' do
-      bs
-      result = QueryTicketLevels.gross_amount_from_tickets(
-          [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
-           {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
-           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], nil, true, nonprofit.id)
-      expect(result).to eq 3266
+    describe "after switchover" do
+      around(:each) do |example|
+        Timecop.freeze(switchover_date + 1.day) do
+          example.run
+        end
+      end
+      it 'handles free tickets only properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+          ['ticket_level_id' => free_ticket_level.id, 'quantity'=> 5], nil, nil, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 0
+      end
+  
+      it 'handles nonfree tickets only properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(['ticket_level_id' => ticket_level.id, 'quantity'=> 5], nil, false, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 2000
+      end
+  
+      it 'handles mix of tickets properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], nil, true, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 3150
+      end
+  
+      it 'handles mix of tickets properly with discount code properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, false, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 2400
+      end
+  
+      it 'handles mix of tickets properly with discount code and fee covered properly' do
+        bs
+        result = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, true, nonprofit.id, stripe_customer_id)
+        expect(result).to eq 2520
+      end
     end
+  end
 
-    it 'handles mix of tickets properly with discount code properly' do
-      bs
-      result = QueryTicketLevels.gross_amount_from_tickets(
-          [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
-           {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
-           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, false, nonprofit.id)
-      expect(result).to eq 2400
-    end
+  describe '.gross_amount_from_tickets' do
 
-    it 'handles mix of tickets properly with discount code and fee covered properly' do
-      bs
-      result = QueryTicketLevels.gross_amount_from_tickets(
-          [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
-           {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
-           {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id, true, nonprofit.id)
-      expect(result).to eq 2619
-    end
+
+      it 'handles free tickets only properly' do
+        result = QueryTicketLevels.gross_amount_from_tickets(
+          ['ticket_level_id' => free_ticket_level.id, 'quantity'=> 5], nil)
+        expect(result).to eq 0
+      end
+  
+      it 'handles nonfree tickets only properly' do
+        result = QueryTicketLevels.gross_amount_from_tickets(['ticket_level_id' => ticket_level.id, 'quantity'=> 5], nil)
+        expect(result).to eq 2000
+      end
+  
+      it 'handles mix of tickets properly' do
+        result = QueryTicketLevels.gross_amount_from_tickets(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], nil)
+        expect(result).to eq 3000
+      end
+  
+      it 'handles mix of tickets properly with discount code properly' do
+        result = QueryTicketLevels.gross_amount_from_tickets(
+            [{'ticket_level_id' => ticket_level.id, 'quantity'=> 5},
+             {'ticket_level_id' => ticket_level2.id, 'quantity'=> 2},
+             {'ticket_level_id' => free_ticket_level.id, 'quantity'=> 4000}], event_discount.id)
+        expect(result).to eq 2400
+      end
+    
   end
 
   describe '.verify_tickets_available' do

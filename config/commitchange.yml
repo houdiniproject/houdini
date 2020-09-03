@@ -85,3 +85,5 @@ ccs:
   options:
     account: 'CommitChange'
     repo: 'houdini'
+    
+flat_fee_coverage_percent: 0.05

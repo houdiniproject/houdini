@@ -3723,6 +3723,13 @@ CREATE INDEX events_nonprofit_id_not_deleted_and_published_endtime ON public.eve
 
 
 --
+-- Name: index_activities_on_attachment_type_and_attachment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_activities_on_attachment_type_and_attachment_id ON public.activities USING btree (attachment_type, attachment_id);
+
+
+--
 -- Name: index_activities_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5202,4 +5209,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200821192204');
 INSERT INTO schema_migrations (version) VALUES ('20200821230919');
 
 INSERT INTO schema_migrations (version) VALUES ('20200901185347');
+
+INSERT INTO schema_migrations (version) VALUES ('20200903180732');
 

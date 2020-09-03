@@ -80,7 +80,7 @@ module Mailchimp
              city: npo['city'] || '',
              state: npo['state_code'] || '',
              zip: npo['zip_code'] || '',
-             country: npo['state_code'] || '',
+             country: 'US',
              phone: npo['phone'] || ''
            },
            permission_reminder: 'You are a registered supporter of our nonprofit.',

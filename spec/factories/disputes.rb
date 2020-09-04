@@ -2,5 +2,8 @@
 FactoryBot.define do
   factory :dispute do
     stripe_dispute_id "dp_05RsQX2eZvKYlo2C0FRTGSSA"
+    trait :autocreate_dispute do
+      sequence(:stripe_dispute_id, 'a') {|i| "dp_05RsQX2eZvKYlo2C0FRTGSS" + i}
+    end
   end
 end

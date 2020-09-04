@@ -206,7 +206,7 @@ shared_context 'payments for a payout' do
       temp_charge_args = {gross_amount:gross_amount }
       temp_charge_args = temp_charge_args.merge(args[:original_charge_args]) if args[:original_charge_args]
       orig_charge = charge_create(status: 'available', **temp_charge_args)
-      force_create(:dispute, gross_amount: gross_amount, charge: orig_charge, **args.except(:original_charge_args))
+      force_create(:dispute, :autocreate_dispute, gross_amount: gross_amount, charge: orig_charge, **args.except(:original_charge_args))
     end
 
     def dispute_transaction_args_create(gross_amount, fee_total)

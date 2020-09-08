@@ -41,7 +41,7 @@ commitchange.openDonationModal = (iframe, overlay) => {
     if (on_ios11()) {
         iframe.style.position = 'absolute'
     }
-    commitchange.setParams(commitchange.getParamsFromButton(event.currentTarget), iframe)
+    commitchange.setParams(commitchange.getParamsFromButton(event.currentTarget, {modal: 't'}), iframe)
     if (on_ios11()) {
         iframe.scrollIntoView()
     }
@@ -87,7 +87,7 @@ commitchange.createIframe = (source) => {
 
 // Given a button with a bunch of data parameters
 // return an object of key/vals corresponing to each param
-commitchange.getParamsFromButton = (elem) => {
+commitchange.getParamsFromButton = (elem, opts={}) => {
   let options = {
     offsite: 't'
   , type: elem.getAttribute('data-type')
@@ -117,9 +117,9 @@ commitchange.getParamsFromButton = (elem) => {
   , "last_name": elem.getAttribute('data-last_name')
   , "country": elem.getAttribute('data-country')
   , "postal_code": elem.getAttribute('data-postal_code')
-
-
+  , ...opts
   }
+
   // Remove false values from the options
   for(let key in options) {
     if(!options[key]) delete options[key]

@@ -150,6 +150,7 @@ group :production, :staging do
   gem "redis", ">= 3.2.0"
   gem 'redis-actionpack'
   gem 'rails_12factor'
+  gem 'newrelic_rpm'
 end
 
 gem 'grape', '~> 1.1.0'

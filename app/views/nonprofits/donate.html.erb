@@ -30,10 +30,14 @@
     I18n.defaultLocale = "<%=  I18n.default_locale %>"
     I18n.locale = "<%=  I18n.locale %>"
     
-    app.nonprofit.feeStructure = {
-      flatFee: 30,
-      percentFee: .022 + <%= BillingPlan::find_via_cached_np_id(@nonprofit).percentage_fee %>
+    		app.nonprofit.feeStructure = {
+			flatFee: 30,
+			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
     }
+    
+    app.feeSwitchoverTime =  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000%>);
+
+    app.flatFeeCoveragePercent = <%= Settings.flat_fee_coverage_percent %>;
   </script>
   <%= IncludeAsset.js '/client/js/nonprofits/donate/page.js' %>
 <% end %>

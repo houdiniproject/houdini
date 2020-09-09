@@ -33,10 +33,14 @@
 	appl.def('event_is_deleted', <%= @event.deleted || false %>)
 	app.nonprofit = app.nonprofit || {}
 
-	app.nonprofit.feeStructure = {
-		flatFee: 30,
-		percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
-	}
+			app.nonprofit.feeStructure = {
+			flatFee: 30,
+			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+    }
+    
+    app.feeSwitchoverTime =  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>);
+
+    app.flatFeeCoveragePercent = <%= Settings.flat_fee_coverage_percent %>;
 	</script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

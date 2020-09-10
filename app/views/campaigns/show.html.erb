@@ -28,12 +28,11 @@
 
     app.nonprofit.feeStructure = {
 			flatFee: 30,
-			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+      percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>,
+      feeSwitchoverTime:  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>),
+      flatFeeCoveragePercent: <%= Settings.flat_fee_coverage_percent %>
     }
     
-    app.feeSwitchoverTime =  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>);
-
-    app.flatFeeCoveragePercent = <%= Settings.flat_fee_coverage_percent %>;
     
     app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>;
     app.hide_cover_fees_option = <%= @campaign&.misc_campaign_info&.hide_cover_fees_option || false %>

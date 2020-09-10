@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 // based upon https://github.com/davidkalosi/js-money
-import * as lodash from 'lodash'
-import { boundMethod } from 'autobind-decorator';
+import BigNumber from 'bignumber.js';
 
 const assertSameCurrency = function (left: any, right: any) {
   if (left.currency !== right.currency)
@@ -13,9 +12,12 @@ const assertType = function (other: any) {
     throw new TypeError('Instance of Money required');
 };
 
-const assertOperand = function (operand: any) {
-  if (isNaN(parseFloat(operand)) && !isFinite(operand))
-    throw new TypeError('Operand must be a number');
+const assertOperand = function (operand: number|BigNumber) {
+  if (
+    (typeof operand === 'number' && (isNaN(operand)|| !isFinite(operand))) ||
+    (operand instanceof BigNumber && (operand.isNaN() || !operand.isFinite())))
+
+    throw new TypeError('Operand must be a valid number');
 };
 
 /**
@@ -28,15 +30,22 @@ const assertOperand = function (operand: any) {
 export class Money {
 
   readonly currency:string
+  readonly amountInCents:BigNumber
+  protected constructor(amountInCents: number|BigNumber, currency: string) {
 
-  protected constructor(readonly amountInCents: number, currency: string) {
-    this.currency = currency.toLowerCase()
+    if (typeof amountInCents === 'number'){
+      amountInCents = new BigNumber(amountInCents);
+    }
+    if (!amountInCents.isInteger()) {
+      throw new TypeError("Money may only be in whole units");
+    }
+    this.amountInCents = amountInCents;
+    this.currency = currency.toLowerCase();
     Object.bind(this.equals)
     Object.bind(this.add)
     Object.bind(this.subtract)
     Object.bind(this.multiply)
     Object.bind(this.divide)
-    Object.bind(this.allocate)
     Object.bind(this.compare)
     Object.bind(this.greaterThan)
     Object.bind(this.greaterThanOrEqual)
@@ -46,6 +55,7 @@ export class Money {
     Object.bind(this.isPositive)
     Object.bind(this.isNegative)
     Object.bind(this.toJSON)
+    Object.bind(this.toString)
 
     Object.freeze(this);
   }
@@ -58,7 +68,7 @@ export class Money {
    * @return Money 
    * @memberof Money
    */
-  static fromCents(amountInCents: number, currency: string): Money {
+  static fromCents(amountInCents: number|BigNumber, currency: string): Money {
     return new Money(amountInCents, currency)
   }
 
@@ -76,11 +86,10 @@ export class Money {
   * @returns {Boolean}
   */
   equals(other: Money): boolean {
-    var self = this;
     assertType(other);
 
-    return self.amountInCents === other.amountInCents &&
-      self.currency === other.currency;
+    return this.amountInCents.isEqualTo(other.amountInCents) &&
+      this.currency === other.currency;
   };
 
   /**
@@ -89,12 +98,14 @@ export class Money {
    * @param {Money} other
    * @returns {Money}
    */
-  add(other: Money): Money {
-    var self = this;
+  add(other: Money|number): Money {
+    if (typeof other === 'number') {
+      other = Money.fromCents(other, this.currency);
+    }
     assertType(other);
-    assertSameCurrency(self, other);
+    assertSameCurrency(this, other);
 
-    return new Money(self.amountInCents + other.amountInCents, self.currency);
+    return new Money(this.amountInCents.plus(other.amountInCents), this.currency);
   };
 
   /**
@@ -104,26 +115,22 @@ export class Money {
    * @returns {Money}
    */
   subtract(other: Money): Money {
-    var self = this;
     assertType(other);
-    assertSameCurrency(self, other);
+    assertSameCurrency(this, other);
 
-    return new Money(self.amountInCents - other.amountInCents, self.currency);
+    return new Money(this.amountInCents.minus(other.amountInCents), this.currency);
   };
 
   /**
    * Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
    *
    * @param {Number} multiplier
-   * @param {(x:number) => number} [fn=Math.round]
    * @returns {Money}
    */
-  multiply(multiplier: number, fn?: Function): Money {
-    if (!lodash.isFunction(fn))
-      fn = Math.round;
+  multiply(multiplier: number|BigNumber, roundingMode:BigNumber.RoundingMode=BigNumber.ROUND_CEIL): Money {
 
     assertOperand(multiplier);
-    var amount = fn(this.amountInCents * multiplier);
+    const amount = new BigNumber(this.amountInCents.multipliedBy(multiplier).toFixed(0, roundingMode));
 
     return new Money(amount, this.currency);
   };
@@ -132,15 +139,20 @@ export class Money {
    * Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
    *
    * @param {Number} divisor
-   * @param {(x:number) => number} [fn=Math.round]
    * @returns {Money}
    */
-  divide(divisor: number, fn?: (x: number) => number): Money {
-    if (!lodash.isFunction(fn))
-      fn = Math.round;
+  divide(divisor: number|BigNumber|Money, roundingMode: BigNumber.RoundingMode = BigNumber.ROUND_CEIL): Money {
 
+    if (divisor instanceof Money) {
+      assertSameCurrency(this, divisor)
+      divisor = divisor.amountInCents
+    }
+    
     assertOperand(divisor);
-    var amount = fn(this.amountInCents / divisor);
+    const oldRoundingMode = BigNumber.config({})
+    BigNumber.config({ROUNDING_MODE: roundingMode, DECIMAL_PLACES: 0})
+    const amount = this.amountInCents.div(divisor);
+    BigNumber.config({...oldRoundingMode})
 
     return new Money(amount, this.currency);
   };
@@ -151,29 +163,29 @@ export class Money {
    * @param {Array} other
    * @param {Money[]}
    */
-  allocate(ratios: number[]): Money[] {
-    var self = this;
-    var remainder = self.amountInCents;
-    var results: Money[] = [];
-    var total = 0;
+  // allocate(ratios: number[]): Money[] {
+  //   var self = this;
+  //   var remainder = self.amountInCents;
+  //   var results: Money[] = [];
+  //   var total = 0;
 
-    ratios.forEach(function (ratio) {
-      total += ratio;
-    });
+  //   ratios.forEach(function (ratio) {
+  //     total += ratio;
+  //   });
 
-    ratios.forEach(function (ratio) {
-      var share = Math.floor(self.amountInCents * ratio / total)
-      results.push(new Money(share, self.currency));
-      remainder -= share;
-    });
+  //   ratios.forEach(function (ratio) {
+  //     var share = Math.floor(self.amountInCents * ratio / total)
+  //     results.push(new Money(share, self.currency));
+  //     remainder -= share;
+  //   });
 
-    for (var i = 0; remainder > 0; i++) {
-      results[i] = new Money(results[i].amountInCents + 1, results[i].currency);
-      remainder--;
-    }
+  //   for (var i = 0; remainder > 0; i++) {
+  //     results[i] = new Money(results[i].amountInCents + 1, results[i].currency);
+  //     remainder--;
+  //   }
 
-    return results;
-  };
+  //   return results;
+  // };
 
   /**
    * Compares two instances of Money.
@@ -182,15 +194,11 @@ export class Money {
    * @returns {Number}
    */
   compare(other: Money): number {
-    var self = this;
 
     assertType(other);
-    assertSameCurrency(self, other);
+    assertSameCurrency(this, other);
 
-    if (self.amountInCents === other.amountInCents)
-      return 0;
-
-    return self.amountInCents > other.amountInCents ? 1 : -1;
+    return this.amountInCents.comparedTo(other.amountInCents)
   };
 
   /**
@@ -200,7 +208,9 @@ export class Money {
    * @returns {boolean}
    */
   greaterThan(other: Money): boolean {
-    return 1 === this.compare(other);
+    assertType(other);
+    assertSameCurrency(this, other);
+    return this.amountInCents.isGreaterThan(other.amountInCents)
   };
 
   /**
@@ -210,7 +220,9 @@ export class Money {
    * @returns {boolean}
    */
   greaterThanOrEqual(other: Money): boolean {
-    return 0 <= this.compare(other);
+    assertType(other);
+    assertSameCurrency(this, other);
+    return this.amountInCents.isGreaterThanOrEqualTo(other.amountInCents)
   };
 
   /**
@@ -220,7 +232,9 @@ export class Money {
    * @returns {boolean}
    */
   lessThan(other: Money): boolean {
-    return -1 === this.compare(other);
+    assertType(other);
+    assertSameCurrency(this, other);
+    return this.amountInCents.isLessThan(other.amountInCents);
   };
 
   /**
@@ -230,7 +244,7 @@ export class Money {
    * @returns {boolean}
    */
   lessThanOrEqual(other: Money): boolean {
-    return 0 >= this.compare(other);
+    return this.amountInCents.isLessThanOrEqualTo(other.amountInCents)
   };
 
   /**
@@ -239,7 +253,7 @@ export class Money {
    * @returns {boolean}
    */
   isZero(): boolean {
-    return this.amountInCents === 0;
+    return this.amountInCents.isZero();
   };
 
   /**
@@ -248,7 +262,7 @@ export class Money {
    * @returns {boolean}
    */
   isPositive(): boolean {
-    return this.amountInCents > 0;
+    return this.amountInCents.isPositive();
   };
 
   /**
@@ -257,7 +271,7 @@ export class Money {
    * @returns {boolean}
    */
   isNegative(): boolean {
-    return this.amountInCents < 0;
+    return this.amountInCents.isNegative();
   };
 
   /**
@@ -267,10 +281,14 @@ export class Money {
    */
   toJSON(): { amountInCents: number; currency: string; } {
     return {
-      amountInCents: this.amountInCents,
+      amountInCents: this.amountInCents.toNumber(),
       currency: this.currency
     };
   };
 
-
+  toString(): string {
+    return `${this.amountInCents.toNumber().toString()} ${this.currency}`;
+  }
 }
+
+export default Money;

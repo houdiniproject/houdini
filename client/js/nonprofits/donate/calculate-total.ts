@@ -6,8 +6,8 @@ function calculateTotal(donation: { feeCovering?: boolean, amount: number }, s: 
     if (!donation.feeCovering)
         return donation.amount
     else {
-        const originalAmount = Money.fromCents(donation.amount, 'usd')
-        return s.calcFromNet(originalAmount).gross.amountInCents
+        const originalAmount = Money.fromCents(donation.amount || 0, 'usd')
+        return s.calcFromNet(originalAmount).gross.amountInCents.toNumber()
     }
 }
 

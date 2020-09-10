@@ -63,6 +63,7 @@
     "file-loader": "^1.1.11",
     "imports-loader": "^0.8.0",
     "jest": "^24.1.0",
+    "jest-date-mock": "^1.0.8",
     "jest-enzyme": "^7.0.1",
     "jsdom": "^11.10.0",
     "less": "^3.0.4",
@@ -92,6 +93,8 @@
     "attr-binder": "0.3.1",
     "autobind-decorator": "^2.4.0",
     "aws-sdk": "^2.402.0",
+    "bignumber": "^1.1.0",
+    "bignumber.js": "^9.0.0",
     "chart.js": "2.1.4",
     "color": "^3.1.0",
     "commons.css": "0.1.8",
@@ -185,7 +188,8 @@
       }
     },
     "setupFiles": [
-      "<rootDir>/setupTests.js"
+      "<rootDir>/setupTests.js",
+      "jest-date-mock"
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"

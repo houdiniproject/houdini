@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModernStripeFeeStructure constructor returns the expected structure when passing both 1`] = `
+ModernStripeFeeStructure {
+  "props": Object {
+    "flatFee": 30,
+    "flatFeeCoveragePercent": 0,
+    "percentFee": 0.02,
+  },
+}
+`;
+
+exports[`ModernStripeFeeStructure constructor returns the expected structure when passing flatFee 1`] = `
+ModernStripeFeeStructure {
+  "props": Object {
+    "flatFee": 30,
+    "flatFeeCoveragePercent": 0,
+    "percentFee": 0,
+  },
+}
+`;
+
+exports[`ModernStripeFeeStructure constructor returns the expected structure when passing percentFee 1`] = `
+ModernStripeFeeStructure {
+  "props": Object {
+    "flatFee": 0,
+    "flatFeeCoveragePercent": 0,
+    "percentFee": 0.02,
+  },
+}
+`;

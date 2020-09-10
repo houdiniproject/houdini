@@ -63,12 +63,10 @@
     appl.def('ticketPaymentCard', ticketPaymentCard)
 		app.nonprofit.feeStructure = {
 			flatFee: 30,
-			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+      percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>,
+      feeSwitchoverTime:  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>),
+      flatFeeCoveragePercent: <%= Settings.flat_fee_coverage_percent %>
     }
-    
-    app.feeSwitchoverTime =  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>);
-
-    app.flatFeeCoveragePercent = <%= Settings.flat_fee_coverage_percent %>;
 	</script>
   <script>
       appl.def('ticket_wiz.fee_covered', false)

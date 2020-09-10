@@ -32,14 +32,14 @@ class TestFeeStructure implements FeeStructure
 
 describe('calculateTotal', () => {
     it('implicitly no fee covering', () => {
-        expect(calculateTotal({amount:x.amountInCents}, new TestFeeStructure)).toBe(x.amountInCents)
+        expect(calculateTotal({amount:x.amountInCents.toNumber()}, new TestFeeStructure)).toBe(x.amountInCents.toNumber())
     })
 
     it('explicit no fee covering', () => {
-        expect(calculateTotal({amount:x.amountInCents, feeCovering: false}, new TestFeeStructure)).toBe(x.amountInCents)
+        expect(calculateTotal({amount:x.amountInCents.toNumber(), feeCovering: false}, new TestFeeStructure)).toBe(x.amountInCents.toNumber())
     })
 
     it('explicitly fee covering', () => {
-        expect(calculateTotal({amount:x.amountInCents, feeCovering: true}, new TestFeeStructure)).toBe(z.amountInCents)
+        expect(calculateTotal({amount:x.amountInCents.toNumber(), feeCovering: true}, new TestFeeStructure)).toBe(z.amountInCents.toNumber())
     })
 });

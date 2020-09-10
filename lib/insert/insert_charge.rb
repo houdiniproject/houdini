@@ -113,8 +113,8 @@ module InsertCharge
           stripe_charge_data[:application_fee_amount]= fee
           
           params = [stripe_charge_data.merge(transfer_data), {stripe_version: "2019-09-09"}]
-        rescue => e
-          Airbrake.notify(e, other_data: {reason: 'a payment that should never happen'})
+        rescue => e 
+          Airbrake.notify(e,other_data: {reason: 'a payment that should never happen'})
           raise e
         end
       else

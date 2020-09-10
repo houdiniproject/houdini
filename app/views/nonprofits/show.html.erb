@@ -41,14 +41,12 @@
 		appl.def('current_nonprofit_user', <%= current_nonprofit_user? %>)
 		app.nonprofit = app.nonprofit || {}
 
-			app.nonprofit.feeStructure = {
+		app.nonprofit.feeStructure = {
 			flatFee: 30,
-			percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>
+      percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>,
+      feeSwitchoverTime:  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>),
+      flatFeeCoveragePercent: <%= Settings.flat_fee_coverage_percent %>
     }
-    
-    app.feeSwitchoverTime =  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>);
-
-    app.flatFeeCoveragePercent = <%= Settings.flat_fee_coverage_percent %>;
 	</script>
   <%= render 'schema', npo: @nonprofit %>
 	<%= render 'common/froala' if current_nonprofit_user? %>

@@ -40,7 +40,7 @@ function init(params$, donation$) {
            throw new Error("billing Plan isn't found!")
          }
          const ccFeeStructure = new CommitchangeStripeFeeStructure(feeStructure)
-         const fee = ccFeeStructure.calcFromNet(Money.fromCents(donation.amount, 'usd')).fee
+         const fee = ccFeeStructure.calcFromNet(Money.fromCents(donation.amount || 0, 'usd')).fee
          return "$" + centsToDollars(fee.amountInCents)
       }, state.donation$)
 

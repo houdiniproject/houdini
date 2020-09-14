@@ -1,32 +1,107 @@
 // License: LGPL-3.0-or-later
 // based upon https://github.com/davidkalosi/js-money
-import isFunction from 'lodash/isFunction';
+import BigNumber from 'bignumber.js';
 
-const assertSameCurrency = function (left: Money, right: Money) {
-	if (left.currency !== right.currency)
-		throw new Error('Different currencies');
-};
+/**
+ * Forces BigNumber to throw an error if it receives an invalid numerical value.
+ */
+function bigNumberDebug<T>(func: () => T):T {
+	const previousDebug = BigNumber.DEBUG;
+	try {
+		BigNumber.DEBUG = true;
+		return func();
+	}
+	finally {
+		BigNumber.DEBUG = previousDebug;
+	}
+}
 
-const assertType = function (other: unknown) {
-	if (!(other instanceof Money))
-		throw new TypeError('Instance of Money required');
-};
+function assertSameCurrency(left: Money, right: Operand) {
+	if (right instanceof Money && left.currency !== right.currency)
+		throw new TypeError('Different currencies');
+}
 
-const assertOperand = function (operand: unknown) {
-	if (typeof operand !== 'number' || isNaN(operand) && !isFinite(operand))
-		throw new TypeError('Operand must be a number');
-};
+function coerceToBigNumber(operand:unknown, mustBeInteger=false): BigNumber {
+	let bigNumber = null;
+	if (operand instanceof Money) {
+		bigNumber = operand.toBigNumber();
+	}
+	else if (operand instanceof BigNumber) {
+		bigNumber = new BigNumber(operand);
+	}
+	else if (typeof operand === 'object') {
+		//it's MoneyAsJson
+		bigNumber = new BigNumber((operand as MoneyAsJson).amount);
+	}
+	else if(typeof operand === 'string') {
+		bigNumberDebug(() => {
+			bigNumber = new BigNumber(operand);
+		});
+	}
+	else if (typeof operand === 'number') {
+		bigNumberDebug(() => {
+			bigNumber = new BigNumber(operand);
+		});
+	}
+	else {
+		throw new TypeError('Operand must be coercible to a BigNumber');
+	}
 
-type MoneyAsJson = { amount: number, currency: string };
+	if (mustBeInteger && !bigNumber.isInteger()) {
+		throw new TypeError('Operand must be an integer');
+	}
+
+	return bigNumber;
+}
+
+export type MoneyAsJson = { amount: number, currency: string };
+type StringyMoneyAsJson = {amount:string, currency: string};
+
+export type Operand = number | Money | BigNumber | string;
+
+export enum RoundingMode {
+	/** Rounds away from zero. */
+	Up = 0,
+
+	/** Rounds towards zero. */
+	Down,
+
+	/** Rounds towards Infinity. */
+	Ceil,
+
+	/** Rounds towards -Infinity. */
+	Floor,
+
+	/** Rounds towards nearest neighbour. If equidistant, rounds away from zero . */
+	HalfUp,
+
+	/** Rounds towards nearest neighbour. If equidistant, rounds towards zero. */
+	HalfDown,
+
+	/** Rounds towards nearest neighbour. If equidistant, rounds towards even neighbour. */
+	HalfEven,
+
+	/** Rounds towards nearest neighbour. If equidistant, rounds towards Infinity. */
+	HalfCeil,
+
+	/** Rounds towards nearest neighbour. If equidistant, rounds towards -Infinity. */
+	HalfFloor,
+}
 
 /**
  * Represents a monetary amount. For safety, all Money objects are immutable. All of the functions in this class create a new Money object.
+ *
+ * Money always represents a whole number of the smallest monetary unit. It can never be fractional. Multiplication and division always rounds to
+ * and integer (see the `RoundingMode` )
+ *
  *
  * To create a new Money object is to use the `fromCents` function.
  * @export
  * @class Money
  */
 export class Money {
+
+
 
 	/**
 	* Create a `Money` object with the given number if smallest monetary units and the ISO currency. Another name for the `fromCents` function.
@@ -35,11 +110,14 @@ export class Money {
 	*/
 	static fromSMU = Money.fromCents;
 
+	/**
+	 * The currency of the monetary value, always in lower case.
+	 */
 	readonly currency: string;
 
 	protected constructor(readonly amount: number, currency: string) {
 		this.currency = currency.toLowerCase();
-		const methodsToBind = [this.equals, this.add, this.subtract, this.multiply, this.divide, this.allocate,
+		const methodsToBind = [this.equals, this.add, this.subtract, this.multiply, this.divide,
 			this.compare, this.greaterThan, this.greaterThanOrEqual, this.lessThan,
 			this.lessThanOrEqual, this.isZero, this.isPositive, this.isNegative,
 			this.toJSON];
@@ -49,222 +127,210 @@ export class Money {
 	}
 
 	/**
-	* Create a `Money` object with the given number of cents and the ISO currency unit
-	* @static
-	* @param  {number} amount
-	* @param  {string} currency
-	* @return Money
-	* @memberof Money
-	*/
-
+	 * Create a new money object
+	 * @param amount the value of Money as an object of type {amount:number, currency:string}. `amount` must be an integer
+	 * or `TypeError` will be thrown.
+	 */
 	static fromCents(amount: MoneyAsJson): Money;
-	static fromCents(amount: Money): Money;
-	static fromCents(amount: number, currency: string): Money;
-	static fromCents(amount: number | Money | MoneyAsJson, currency?: string): Money {
 
-		if (typeof amount === 'number')
-			return new Money(amount, currency);
-		if (amount instanceof Money)
-			return new Money(amount.amount, amount.currency);
-		else
-			return new Money(amount.amount, amount.currency);
+	/**
+	 * Create a new money object
+	 * @param amount  the value of Money as an object of type {amount:string, currency:string}. `amount` must contain an integer
+	 * or `TypeError` will be thrown.
+	 */
+	static fromCents(amount: StringyMoneyAsJson): Money;
+	/**
+	 * Create a new money object
+	 * @param amount a Money object that will be replicated to create a new Money object
+	 */
+	static fromCents(amount: Money): Money;
+	/**
+	 * Create a new money object.
+	 * @param amount an integer representing the amount of the new Money object. If you pass a non-integer, `TypeError` will be thrown.
+	 * @param currency the currency of the new Money object
+	 */
+	static fromCents(amount: number, currency: string): Money;
+	/**
+	 * Create a new money object
+	 * @param amount a string containing the integer of the amount of the new Money object. If you pass a non-integer, `TypeError` will be thrown.
+	 * @param currency the currency of the new Money object
+	 */
+	static fromCents(amount: string, currency: string): Money;
+	/**
+	 *
+	 * @param amount a BigNumber containing the integer of the amount of the new Money object. If you pass a non-integer, `TypeError` will be thrown.
+	 * @param currency the currency of the new Money object
+	 */
+	static fromCents(amount: BigNumber, currency: string): Money;
+	/**
+	 * The overloaded function that allows all of the previous constructors
+	 */
+	static fromCents(amount: number | BigNumber | Money | MoneyAsJson | string | StringyMoneyAsJson, currency?: string): Money {
+
+		if (!currency && typeof amount === 'object' && !(amount instanceof BigNumber)) {
+			currency = amount.currency;
+		}
+		return new Money(coerceToBigNumber(amount, true).toNumber(), currency);
 	}
 
 	/**
 	* Adds the two objects together creating a new Money instance that holds the result of the operation.
 	*
-	* @param {Money} other
-	* @returns {Money}
+	* @param other an object represented an integer value to add the current Money object. If it's a Money object,
+	* the currency must match or `TypeError` will be thrown. If not, it must be an integer or `TypeError` is thrown.
 	*/
-	add(other: Money): Money {
+	add(other: Operand): Money {
 
-		assertType(other);
+		const bigNumber = coerceToBigNumber(other, true);
 		assertSameCurrency(this, other);
 
-		return new Money(this.amount + other.amount, this.currency);
+		return new Money(this.toBigNumberWithNoDecimals().plus(bigNumber).toNumber(), this.currency);
 	}
 
 	/**
-	* Allocates fund bases on the ratios provided returing an array of objects as a product of the allocation.
+	* Compares another numerical value with this Money object.
 	*
-	* @param {Array} other
-	* @param {Money[]}
+	* @param other the numerical value to compare against this Money object. If `other` is a `Money` object,
+	* the currencies must match or a `TypeError` is thrown.
+	* @returns -1 if smaller than other, 0 if equal to other, 1 if greater than other.
 	*/
-	allocate(ratios: number[]): Money[] {
-
-		let remainder = this.amount;
-		const results: Money[] = [];
-		let total = 0;
-
-		ratios.forEach(function (ratio) {
-			total += ratio;
-		});
-
-		ratios.forEach(function (ratio) {
-			const share = Math.floor(this.amount * ratio / total);
-			results.push(new Money(share, this.currency));
-			remainder -= share;
-		});
-
-		for (let i = 0; remainder > 0; i++) {
-			results[i] = new Money(results[i].amount + 1, results[i].currency);
-			remainder--;
-		}
-
-		return results;
-	}
-
-	/**
-	* Compares two instances of Money.
-	*
-	* @param {Money} other
-	* @returns {Number}
-	*/
-	compare(other: Money): number {
+	compare(other: Operand): number {
 
 
-		assertType(other);
+		const bigNumber = coerceToBigNumber(other);
 		assertSameCurrency(this, other);
 
-		if (this.amount === other.amount)
-			return 0;
-
-		return this.amount > other.amount ? 1 : -1;
+		return this.toBigNumberWithNoDecimals().comparedTo(bigNumber);
 	}
 
 	/**
-	* Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
+	 * Divides the object by the divisor returning a new Money instance that holds the result of the operation.
+	 *
+	 * @param divisor an object represented a numerical value to divide the current Money object by. If it's a Money object,
+	 * the currency must match or `TypeError` will be thrown.
+	 * @param roundingMode the rounding mode to use if the result of the division would otherwise lead to a non-integer Money value. By default,
+	 * we use the `RoundingMode.HalfUp` mode.
+	 */
+	divide(divisor: Operand, roundingMode: RoundingMode = RoundingMode.HalfUp): Money {
+		assertSameCurrency(this, divisor);
+		return new Money(this.toBigNumberWithNoDecimals(roundingMode).dividedBy(coerceToBigNumber(divisor)).toNumber(), this.currency);
+	}
+
+
+	/**
+	* Returns true if the two instances of Money are equal, false otherwise.
 	*
-	* @param {Number} divisor
-	* @param {(x:number) => number} [fn=Math.round]
-	* @returns {Money}
+	* @param other an object represented a numerical value to compare to the current Money object to. If `other` is
+	* a `Money` object, the currency must match for this to return true.
 	*/
-	divide(divisor: number, fn?: (x: number) => number): Money {
-		if (!isFunction(fn))
-			fn = Math.round;
-
-		assertOperand(divisor);
-		const amount = fn(this.amount / divisor);
-
-		return new Money(amount, this.currency);
-	}
-
-
-	/**
-  * Returns true if the two instances of Money are equal, false otherwise.
-  *
-  * @param {Money} other
-  * @returns {Boolean}
-  */
-	equals(other: Money): boolean {
-
-		assertType(other);
-
-		return this.amount === other.amount &&
-			this.currency === other.currency;
+	equals(other: Operand): boolean {
+		return this.toBigNumberWithNoDecimals().isEqualTo(coerceToBigNumber(other)) &&
+			(other instanceof Money ? this.currency === other.currency : false);
 	}
 
 	/**
 	* Checks whether the value represented by this object is greater than the other.
 	*
-	* @param {Money} other
-	* @returns {boolean}
+	* @param other an object represented a numerical value to compare to the current Money object to. If `other`
+	* is a Money instance, the currency must match or `TypeError` will be thrown.
 	*/
-	greaterThan(other: Money): boolean {
-		return 1 === this.compare(other);
+	greaterThan(other: Operand): boolean {
+		assertSameCurrency(this, other);
+		return this.toBigNumberWithNoDecimals().isGreaterThan(coerceToBigNumber(other));
 	}
 
 	/**
 	* Checks whether the value represented by this object is greater or equal to the other.
 	*
-	* @param {Money} other
-	* @returns {boolean}
+	* @param other an object represented a numerical value to compare to the current Money object to. If `other`
+	* is a Money instance, the currency must match or `TypeError` will be thrown.
 	*/
-	greaterThanOrEqual(other: Money): boolean {
-		return 0 <= this.compare(other);
+	greaterThanOrEqual(other: Operand): boolean {
+		assertSameCurrency(this, other);
+		return this.toBigNumberWithNoDecimals().isGreaterThanOrEqualTo(coerceToBigNumber(other));
 	}
 
 	/**
 	 * Returns true if the amount is negative
 	 *
-	 * @returns {boolean}
-	 * @memberof Money
 	 */
 	isNegative(): boolean {
-		return this.amount < 0;
+		return this.toBigNumberWithNoDecimals().isNegative();
 	}
 
 	/**
 	* Returns true if the amount is positive.
 	*
-	* @returns {boolean}
 	*/
 	isPositive(): boolean {
-		return this.amount > 0;
+		return this.toBigNumberWithNoDecimals().isPositive();
 	}
 
 	/**
 	* Returns true if the amount is zero.
-	*
-	* @returns {boolean}
 	*/
 	isZero(): boolean {
-		return this.amount === 0;
+		return this.toBigNumberWithNoDecimals().isZero();
 	}
 
 	/**
 	* Checks whether the value represented by this object is less than the other.
 	*
-	* @param {Money} other
-	* @returns {boolean}
+	* @param other an object represented a numerical value to compare to the current Money object to. If `other`
+	* is a Money instance, the currency must match or `TypeError` will be thrown.
 	*/
-	lessThan(other: Money): boolean {
-		return -1 === this.compare(other);
+	lessThan(other: Operand): boolean {
+
+		assertSameCurrency(this, other);
+		return this.toBigNumberWithNoDecimals().isLessThan(coerceToBigNumber(other));
 	}
 
 	/**
 	* Checks whether the value represented by this object is less than or equal to the other.
 	*
-	* @param {Money} other
-	* @returns {boolean}
+	* @param other an object represented a numerical value to compare to the current Money object to. If `other`
+	* is a Money instance, the currency must match or `TypeError` will be thrown.
 	*/
 	lessThanOrEqual(other: Money): boolean {
-		return 0 >= this.compare(other);
-	}
-
-	/**
-	* Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
-	*
-	* @param {number} multiplier
-	* @param {(x:number) => number} [fn=Math.round]
-	* @returns {Money}
-	*/
-	multiply(multiplier: number, roundingFunction: (x: number) => number): Money {
-		if (!isFunction(roundingFunction))
-			roundingFunction = Math.round;
-
-		assertOperand(multiplier);
-		const amount = roundingFunction(this.amount * multiplier);
-
-		return new Money(amount, this.currency);
-	}
-
-	/**
-	* Subtracts the two objects creating a new Money instance that holds the result of the operation.
-	*
-	* @param {Money} other
-	* @returns {Money}
-	*/
-	subtract(other: Money): Money {
-
-		assertType(other);
 		assertSameCurrency(this, other);
-
-		return new Money(this.amount - other.amount, this.currency);
+		return this.toBigNumberWithNoDecimals().isLessThanOrEqualTo(coerceToBigNumber(other));
 	}
 
 	/**
-	* Returns a serialised version of the instance.
+	 * Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
+	 *
+	 * @param multiplier an object represented a numerical value to multiply the current Money object by. If it's a Money object,
+	 * the currency must match or `TypeError` will be thrown.
+	 * @param roundingMode the rounding mode to use if the result of the multiplication would otherwise lead to a non-integer Money value. By default,
+	 * we use the `RoundingMode.HalfUp` mode.
+	 */
+	multiply(multiplier: Operand, roundingMode: RoundingMode = RoundingMode.HalfUp): Money {
+		assertSameCurrency(this, multiplier);
+		const unrounded = this.toBigNumberWithNoDecimals(roundingMode).multipliedBy(coerceToBigNumber(multiplier));
+
+		return new Money(unrounded.decimalPlaces(0, roundingMode).toNumber(), this.currency);
+	}
+
+	/**
+	 * Subtracts the two objects creating a new Money instance that holds the result of the operation.
+	 *
+	 * @param other an object represented an integer value to subtract from the current Money object. If it's a Money object,
+	 * the currency must match or `TypeError` will be thrown. If not, it must be an integer or `TypeError` is thrown.
+	 */
+	subtract(other: Operand): Money {
+		assertSameCurrency(this, other);
+		return new Money(this.toBigNumberWithNoDecimals().minus(coerceToBigNumber(other, true)).toNumber(), this.currency);
+	}
+
+	/**
+	 * Get the amount of the Money instance as a `BigNumber`.
+	 */
+	toBigNumber() : BigNumber {
+		return new BigNumber(this.amount);
+	}
+
+	/**
+	* Returns a serialized version of the instance.
 	*
 	* @returns {{amount: number, currency: string}}
 	*/
@@ -273,5 +339,17 @@ export class Money {
 			amount: this.amount,
 			currency: this.currency,
 		};
+	}
+
+	private toBigNumberWithNoDecimals(roundingMode?:RoundingMode) : BigNumber {
+		const config:BigNumber.Config = {
+			DECIMAL_PLACES: 0,
+		};
+
+		if (roundingMode) {
+			config.ROUNDING_MODE = roundingMode;
+		}
+
+		return  new (BigNumber.clone(config))(this.toBigNumber());
 	}
 }

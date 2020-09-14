@@ -15,7 +15,9 @@ class Payment < ActiveRecord::Base
 		:net_amount,
 		:kind,
 		:date,
-		:nonprofit
+		:nonprofit,
+		:nonprofit_id,
+		:supporter_id
 
 	belongs_to :supporter
 	belongs_to :nonprofit

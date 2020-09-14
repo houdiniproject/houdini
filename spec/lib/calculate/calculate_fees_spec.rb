@@ -493,4 +493,151 @@ describe CalculateFees do
 			end
 		end
 	end
+
+
+	describe '.for_estimated_stripe_fee_on_date' do
+		
+		RSpec.shared_context :validate_errors_on_for_estimated_stripe_fee_on_date do
+			it 'raises an error with a negative amount' do
+				expect{CalculateFees.for_estimated_stripe_fee_on_date(-10, date, {platform_fee:0.01, source: card, switchover_date: switchover_date})}.to raise_error(RuntimeError)
+			end
+			
+			it 'raises an error with a negative fee' do
+				expect{CalculateFees.for_estimated_stripe_fee_on_date(1000, date, {platform_fee:-0.01, source: card, switchover_date: switchover_date})}.to raise_error(RuntimeError)
+			end
+			
+			it 'raises an error with an empty source' do 
+				expect{CalculateFees.for_estimated_stripe_fee_on_date(1000, date, {platform_fee:0.01, switchover_date: switchover_date})}.to raise_error(RuntimeError)
+			end
+	
+			it 'raises an error with a negative amount' do
+				expect{CalculateFees.for_estimated_stripe_fee_on_date(-10, date, {platform_fee:0.01, source: card})}.to raise_error(RuntimeError)
+			end
+			
+			it 'raises an error with a negative fee' do
+				expect{CalculateFees.for_estimated_stripe_fee_on_date(1000, date, {platform_fee:-0.01, source: card})}.to raise_error(RuntimeError)
+			end
+			
+			it 'raises an error with an empty source' do 
+				expect{CalculateFees.for_estimated_stripe_fee_on_date(1000, date, {platform_fee:0.01})}.to raise_error(RuntimeError)
+			end
+		end
+	
+		RSpec.shared_context :local_visa_result_for_estimated_stripe_fee_on_date do
+			it 'returns 2.2% +30 cents for an online donation' do
+				expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(250)
+			end
+	
+			it 'returns 2.2% + 30 cents on small transaction' do
+				expect(CalculateFees.for_estimated_stripe_fee_on_date(100, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(33)
+			end
+	
+			it 'returns 2.2% +  30 cents for an online donation with no platform fee' do
+				expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {source: card, switchover_date: switchover_date})).to eq(250)
+			end
+			
+			it 'returns 2.2% + 30 cents for an online donation with higher platform fee' do
+				expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee:0.038, source: card, switchover_date: switchover_date})).to eq(250)
+			end
+	
+			include_context :validate_errors_on_for_estimated_stripe_fee_on_date
+		end
+
+		describe 'date before switchover' do
+			let (:date) { switchover_date - 1.day}
+			describe 'with local VISA' do
+				include_context :local_visa_result_for_estimated_stripe_fee_on_date do 
+					let(:card) {visa_us}
+				end
+			end
+			
+			describe 'with foreign VISA' do
+				include_context :local_visa_result_for_estimated_stripe_fee_on_date do 
+					let(:card) {visa_uk}
+				end
+			end
+
+			describe 'with local Amex' do
+				include_context :local_visa_result_for_estimated_stripe_fee_on_date do 
+					let(:card) {amex_us}
+				end
+			end
+
+			describe 'with foreign Amex' do
+				include_context :local_visa_result_for_estimated_stripe_fee_on_date do 
+					let(:card) {amex_uk}
+				end
+			end
+		end
+
+		describe 'date after switchover' do
+			let (:date) { switchover_date + 1.day}
+
+			describe 'with local VISA' do
+				include_context :local_visa_result_for_estimated_stripe_fee_on_date do 
+					let(:card) {visa_us}
+				end
+			end
+			
+			describe 'with foreign VISA' do
+				let(:card) {visa_uk}
+				
+				it 'returns 2.2%  + 1% international + 30 cents for an online donation' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(350)
+				end
+
+				it 'returns 2.2% + 1% international + 30 cents on small transaction' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(100, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(34)
+				end
+		
+				it 'returns 2.2%  + 1% international + 30 cents for an online donation with no platform fee' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {source: card, switchover_date: switchover_date})).to eq(350)
+				end
+				
+				it 'returns 2.2%  + 1% international + 30 cents for an online donation with higher platform fee' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee:0.038, source: card, switchover_date: switchover_date})).to eq(350)
+				end
+			end
+
+			describe 'with local Amex' do
+				let(:card) {amex_us}
+				it 'returns 3.5% for an online donation' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(350)
+				end
+
+				it 'returns 3.5%  on small transaction' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(100, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(4)
+				end
+		
+				it 'returns 3.5% for an online donation with no platform fee' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {source: card, switchover_date: switchover_date})).to eq(350)
+				end
+				
+				it 'returns 3.5% for an online donation with higher platform fee' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee:0.038, source: card, switchover_date: switchover_date})).to eq(350)
+				end
+			
+			end
+
+			describe 'with foreign Amex' do
+				let(:card) {amex_uk}
+
+				it 'returns 3.5% + 1% international  for an online donation' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(450)
+				end
+
+				it 'returns 3.5% + 1% international on small transaction' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(100, date, {platform_fee: 0.018, source: card, switchover_date: switchover_date})).to eq(5)
+				end
+		
+				it 'returns 3.5% + 1% international for an online donation with no platform fee' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {source: card, switchover_date: switchover_date})).to eq(450)
+				end
+				
+				it 'returns 3.5% + 1% international for an online donation with higher platform fee' do
+					expect(CalculateFees.for_estimated_stripe_fee_on_date(10000, date, {platform_fee:0.038, source: card, switchover_date: switchover_date})).to eq(450)
+				end
+			end
+		end
+	end
 end

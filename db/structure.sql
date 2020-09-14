@@ -1425,6 +1425,39 @@ ALTER SEQUENCE public.misc_recurring_donation_infos_id_seq OWNED BY public.misc_
 
 
 --
+-- Name: misc_refund_infos; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.misc_refund_infos (
+    id integer NOT NULL,
+    is_modern boolean,
+    stripe_application_fee_refund_id character varying(255),
+    refund_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: misc_refund_infos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.misc_refund_infos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: misc_refund_infos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.misc_refund_infos_id_seq OWNED BY public.misc_refund_infos.id;
+
+
+--
 -- Name: miscellaneous_np_infos; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2907,6 +2940,13 @@ ALTER TABLE ONLY public.misc_recurring_donation_infos ALTER COLUMN id SET DEFAUL
 
 
 --
+-- Name: misc_refund_infos id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_refund_infos ALTER COLUMN id SET DEFAULT nextval('public.misc_refund_infos_id_seq'::regclass);
+
+
+--
 -- Name: miscellaneous_np_infos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3409,6 +3449,14 @@ ALTER TABLE ONLY public.misc_payment_infos
 
 ALTER TABLE ONLY public.misc_recurring_donation_infos
     ADD CONSTRAINT misc_recurring_donation_infos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: misc_refund_infos misc_refund_infos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.misc_refund_infos
+    ADD CONSTRAINT misc_refund_infos_pkey PRIMARY KEY (id);
 
 
 --
@@ -5220,4 +5268,5 @@ INSERT INTO schema_migrations (version) VALUES ('20200901185347');
 INSERT INTO schema_migrations (version) VALUES ('20200903180732');
 
 INSERT INTO schema_migrations (version) VALUES ('20200918182519');
+INSERT INTO schema_migrations (version) VALUES ('20200914193909');
 

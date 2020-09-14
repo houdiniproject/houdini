@@ -9,10 +9,19 @@ module CalculateFees
     FeeCalculation.new(args).for_single_amount
   end
 
+  def self.for_estimated_stripe_fee_on_date(amount, date, **args)
+    args = DEFAULT.merge(args).merge({amount: amount})
+    FeeCalculation.new(args).for_estimated_stripe_fee_on_date(date)
+  end
+
+  def self.for_estimated_platform_fee_on_date(amount, date, **args)
+    args = DEFAULT.merge(args).merge({amount: amount})
+    FeeCalculation.new(args).for_estimated_platform_fee_on_date(date)
+  end
+
   def self.reverse_for_single_amount(amount, **args)
     args = DEFAULT.merge(args).merge({amount: amount})
     FeeCalculation.new(args).reverse_for_single_amount
-   
   end
 
   class FeeCalculation
@@ -34,6 +43,17 @@ module CalculateFees
     def for_single_amount
       if valid?
         fee_rate, flat_per_transaction_rate = fee_and_per_transaction_rate
+
+        return (fee_rate * BigDecimal.new(amount.to_s)).ceil.to_i + flat_per_transaction_rate
+      else
+        raise "Errors: #{errors.full_messages}"
+      end
+    end
+
+
+    def for_estimated_stripe_fee_on_date(date)
+      if valid?
+        fee_rate, flat_per_transaction_rate = estimated_stripe_fee_rate(date)
 
         return (fee_rate * BigDecimal.new(amount.to_s)).ceil.to_i + flat_per_transaction_rate
       else
@@ -94,8 +114,31 @@ module CalculateFees
       return fee_rate, flat_per_transaction_rate
     end
 
+    def estimated_stripe_fee_rate(charge_date)
+      fee_rate = BigDecimal.new(0)
+      if amex_card? && given_date_after_switchover?(charge_date)
+        fee_rate += 0.035
+      else
+        fee_rate += 0.022
+      end
+      
+      if foreign_card? && given_date_after_switchover?(charge_date)
+        fee_rate += 0.01
+      end
+      flat_per_transaction_rate = 30
+      if amex_card? && given_date_after_switchover?(charge_date)
+        flat_per_transaction_rate = 0
+      end
+
+      return fee_rate, flat_per_transaction_rate
+    end
+
     def after_switchover?
-      !switchover_date || Time.now >= switchover_date
+      given_date_after_switchover?(Time.now)
+    end
+
+    def given_date_after_switchover?(charge_date)
+      !switchover_date || charge_date >= switchover_date
     end
   end
 end

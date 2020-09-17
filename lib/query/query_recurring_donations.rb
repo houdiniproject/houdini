@@ -83,6 +83,9 @@ module QueryRecurringDonations
       expr = expr.where("paid_charges.id IS NULL OR paid_charges.status != 'failed'")
       .group_by('recurring_donations.id')
       .order_by('recurring_donations.created_at')
+    if query[:cancelled_at_gt_or_equal].present?
+      expr = expr.where('recurring_donations.cancelled_at >= $date', date: query[:cancelled_at_gt_or_equal])
+    end
     if query[:search].present?
       matcher = "%#{query[:search].downcase.split(' ').join('%')}%"
       expr = expr.where(%Q((

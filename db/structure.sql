@@ -3779,6 +3779,13 @@ CREATE INDEX index_campaigns_on_parent_campaign_id ON public.campaigns USING btr
 
 
 --
+-- Name: index_cards_on_holder_id_and_holder_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cards_on_holder_id_and_holder_type ON public.cards USING btree (holder_id, holder_type);
+
+
+--
 -- Name: index_cards_on_id_and_holder_type_and_holder_id_and_inactive; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5211,4 +5218,6 @@ INSERT INTO schema_migrations (version) VALUES ('20200821230919');
 INSERT INTO schema_migrations (version) VALUES ('20200901185347');
 
 INSERT INTO schema_migrations (version) VALUES ('20200903180732');
+
+INSERT INTO schema_migrations (version) VALUES ('20200918182519');
 

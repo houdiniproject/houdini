@@ -11,8 +11,10 @@
     "test": "rake -v spec  && yarn build && yarn jest",
     "jest": "jest",
     "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -p 6006 -c .storybook/react",
+    "build-storybook": "build-storybook -c .storybook/react",
+    "html-storybook": "bin/start-html-storybook -p 6007 -c .storybook/html",
+    "build-html-storybook": "bin/build-html-storybook -c .storybook/html"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -23,9 +25,11 @@
     "@babel/preset-typescript": "^7.9.0",
     "@rails/webpacker": "^5.1.1",
     "@storybook/addon-actions": "^6.0.21",
+    "@storybook/addon-essentials": "^6.0.21",
     "@storybook/addon-knobs": "^6.0.21",
     "@storybook/addon-links": "^6.0.21",
     "@storybook/addons": "^6.0.21",
+    "@storybook/html": "^6.0.21",
     "@storybook/react": "^6.0.21",
     "@testing-library/jest-dom": "^5.11.1",
     "@testing-library/react": "^10.4.7",
@@ -77,6 +81,7 @@
     "object-hash": "^2.0.3",
     "phantomjs-prebuilt": "^2.1.16",
     "rails-erb-loader": "^5.5.2",
+    "react-is": "^16.13.1",
     "react-test-renderer": "^16.13.1",
     "resolve-url-loader": "^2.3.0",
     "sass-loader": "^7.0.1",

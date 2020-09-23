@@ -39,7 +39,7 @@ namespace :notice do
     end
 
     namespace :js do 
-        notice_cmd = "npx @houdiniproject/noticeme@^1.0.0-pre5 -f NOTICE-js -i included.json"
+        notice_cmd = "npx @houdiniproject/noticeme@^1.1.0-pre1 -f NOTICE-js -i included.json -s 250"
 
         desc "generating NOTICE-js from ClearlyDefined.io"
         task :update do

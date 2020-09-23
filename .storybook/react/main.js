@@ -1,10 +1,10 @@
 // License: LGPL-3.0-or-later
 // Based on https://github.com/rails/webpacker/issues/1004#issuecomment-628377930
 process.env.NODE_ENV = "development";
-const railsWebpackEnv = require("../config/webpack/environment");
+const railsWebpackEnv = require("../../config/webpack/environment");
 
 module.exports = {
-  stories: ["../app/javascript/**/*.stories.[tj]s?(x)"],
+  stories: ["../../app/javascript/**/*!(--html.)stories.[tj]s?(x)"],
   addons: ['@storybook/addon-actions', '@storybook/addon-links', 'storybook-addon-intl'],
   webpackFinal: (config) => {
     const result = {

@@ -1,5 +1,5 @@
 import { addDecorator } from '@storybook/react';
-import { withIntl, setIntlConfig } from '../app/javascript/components/tests/intl';
+import { withIntl, setIntlConfig } from '../../app/javascript/components/tests/intl';
 
 const messages = {
   'en': { 'button.label': 'Click me!' },

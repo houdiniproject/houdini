@@ -4,8 +4,15 @@ process.env.NODE_ENV = "development";
 const railsWebpackEnv = require("../../config/webpack/environment");
 
 module.exports = {
-  stories: ["../../app/javascript/**/*!(--html).stories.[tj]s?(x)"],
-  addons: ['@storybook/addon-actions', '@storybook/addon-links', 'storybook-addon-intl'],
+  stories: [
+    "../../app/javascript/**/*!(--html).stories.mdx",
+    "../../app/javascript/**/*!(--html).stories.[tj]s?(x)"
+  ],
+  addons: [
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    'storybook-addon-intl'
+  ],
   webpackFinal: (config) => {
     const result = {
     // do mutation to the config

@@ -15,14 +15,7 @@
   </strong><br>
     <em><small>Our processor (Stripe) assesses an additional 2.2% + $0.30 for each online payment.</small></em></p>
 
-  <% if @nonprofit.billing_subscription.status == 'trialing' %>
-    <p>
-      To ensure that your account stays active after your trial,
-      <a href='/nonprofits/<%=@nonprofit.id%>/card/edit'><strong> add a payment method.</strong></a>
-    </p>
-  <% end %>
-
-  <% if @nonprofit.billing_plan.amount > 0 && @nonprofit.billing_subscription.status != 'trialing' %>
+  <% if @nonprofit.billing_plan.amount > 0 %>
     <p><a class='u-color--red u-small' href='/nonprofits/<%=@nonprofit.id%>/billing_subscription/cancellation'>Unsubscribe from plan</a></p>
     
     <p>

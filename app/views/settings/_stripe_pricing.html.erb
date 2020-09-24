@@ -1,0 +1,12 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<!-- settings/_stripe_pricing -->
+<%- if Time.now < FEE_SWITCHOVER_TIME -%>
+<em><small>Our processor (Stripe) assesses an additional 2.2% + $0.30 for each online payment.</small></em>
+<%- else -%>
+<em><small>Our processor (Stripe) assesses the following fees for each online payment:<br>
+<ul>
+<li>* 2.2% + $0.30 for each Visa/Mastercard/Discover payment</li>
+<li>* 3.5% for each American Express payment</li>
+<li>* An additional 1% surcharge for all online payments using a non-US credit card</li>
+</ul></small></em>
+<%- end -%>

@@ -12,8 +12,7 @@
     $<%= Format::Currency.cents_to_dollars @nonprofit.billing_plan.amount %> <%= @nonprofit.billing_plan.interval || 'monthly'%>
     <%= @nonprofit.billing_plan.percentage_fee > 0 ? ', ' + (@nonprofit.billing_plan.percentage_fee * 100).round(2).to_s + '%' : '' %>
     )
-  </strong><br>
-    <em><small>Our processor (Stripe) assesses an additional 2.2% + $0.30 for each online payment.</small></em></p>
+  </strong><br><%= render 'settings/stripe_pricing' %></p>
 
   <% if @nonprofit.billing_plan.amount > 0 %>
     <p><a class='u-color--red u-small' href='/nonprofits/<%=@nonprofit.id%>/billing_subscription/cancellation'>Unsubscribe from plan</a></p>

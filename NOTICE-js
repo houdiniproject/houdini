@@ -879,69 +879,50 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** @storybook/addon-actions; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/addons/actions
+** @storybook/addon-actions; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/addons/actions
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/addon-backgrounds; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/addons/backgrounds
+** @storybook/addon-backgrounds; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/addons/backgrounds
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/addon-controls; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/next/addons/controls
+** @storybook/addon-controls; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/next/addons/controls
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/addon-docs; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/addons/docs
+** @storybook/addon-docs; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/addons/docs
+** @storybook/addon-essentials; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/addons/essentials
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/addon-essentials; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/addons/essentials
+** @storybook/addon-links; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/addons/links
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/addon-links; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/addons/links
+** @storybook/addon-toolbars; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/next/addons/toolbars
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/addon-toolbars; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/next/addons/toolbars
+** @storybook/addon-viewport; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/addons/viewport
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/addon-viewport; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/addons/viewport
-** @storybook/addons; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/addons
+** @storybook/addons; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/addons
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/api; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/api
+** @storybook/api; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/api
+** @storybook/channel-postmessage; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/channel-postmessage
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/channel-postmessage; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/channel-postmessage
-** @storybook/channels; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/channels
+** @storybook/channels; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/channels
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/client-api; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/client-api
+** @storybook/client-api; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/client-api
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/client-logger; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/client-logger
+** @storybook/client-logger; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/client-logger
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/components; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/components
-(c) (c) (r) (R) (tm)
+** @storybook/components; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/components
+** @storybook/core; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/core
+** @storybook/core-events; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/core-events
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/core; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/core
-(c) Object C
-(c) Sindre Sorhus
-copyright copysource cor
-Copyright 2015, Yahoo! Inc.
-Copyright (c) 2017 Jed Watson.
-Copyright (c) 2001 Robert Penner
-Copyright (c) 2014-2017, Jon Schlinkert.
-Copyright (c) 2013-present, Facebook, Inc.
-Copyright (c) 2014-present, Facebook, Inc.
+** @storybook/html; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/app/html
+** @storybook/node-logger; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/node-logger
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-Copyright (c) Facebook, Inc. and its affiliates.
-Copyright (c) 2016 Federico Zivolo and contributors
-Copyright 2010 - 2013 Sami Samhuri <sami@samhuri.net>
-Copyright (c) 2012-2017 Kirollos Risk (http://kiro.me)
-Copyright 2013-2016 by Paul Miller (http://paulmillr.com)
-Copyright KingSora Rene Haas. https://github.com/KingSora
-** @storybook/core-events; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/core-events
+** @storybook/postinstall; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/postinstall
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/html; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/app/html
+** @storybook/react; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/app/react
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/node-logger; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/node-logger
+** @storybook/router; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/router
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/postinstall; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/postinstall
+** @storybook/source-loader; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/source-loader
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/react; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/app/react
+** @storybook/theming; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/theming
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/router; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/router
-Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/source-loader; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/source-loader
-Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/theming; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/theming
-Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
-** @storybook/ui; version 6.0.21 -- https://github.com/storybookjs/storybook/tree/master/lib/ui
+** @storybook/ui; version 6.0.22 -- https://github.com/storybookjs/storybook/tree/master/lib/ui
 Copyright (c) 2017 Kadira Inc. <hello@kadira.io>
 
 The MIT License (MIT)

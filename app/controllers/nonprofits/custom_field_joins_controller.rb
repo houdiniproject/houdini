@@ -8,7 +8,7 @@ module Nonprofits
 		def index
 			@custom_field_joins = current_nonprofit
 				.supporters.find(params[:supporter_id])
-				.custom_field_joins
+				.custom_field_joins.where("custom_field_master_id IN (SELECT id from custom_field_masters WHERE custom_field_masters.nonprofit_id = ?)", current_nonprofit.id)
 				.order('created_at DESC')
 		end
 

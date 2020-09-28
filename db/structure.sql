@@ -3883,6 +3883,13 @@ CREATE INDEX index_donations_on_event_id ON public.donations USING btree (event_
 
 
 --
+-- Name: index_donations_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_donations_on_nonprofit_id ON public.donations USING btree (nonprofit_id);
+
+
+--
 -- Name: index_events_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3908,6 +3915,41 @@ CREATE INDEX index_exports_on_nonprofit_id ON public.exports USING btree (nonpro
 --
 
 CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
+
+
+--
+-- Name: index_full_contact_infos_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_full_contact_infos_on_supporter_id ON public.full_contact_infos USING btree (supporter_id);
+
+
+--
+-- Name: index_full_contact_orgs_on_full_contact_info_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_full_contact_orgs_on_full_contact_info_id ON public.full_contact_orgs USING btree (full_contact_info_id);
+
+
+--
+-- Name: index_full_contact_social_profiles_on_full_contact_info_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_full_contact_social_profiles_on_full_contact_info_id ON public.full_contact_social_profiles USING btree (full_contact_info_id);
+
+
+--
+-- Name: index_full_contact_topics_on_full_contact_info_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_full_contact_topics_on_full_contact_info_id ON public.full_contact_topics USING btree (full_contact_info_id);
+
+
+--
+-- Name: index_full_context_photo_info_primary; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_full_context_photo_info_primary ON public.full_contact_photos USING btree (full_contact_info_id, is_primary);
 
 
 --
@@ -3939,6 +3981,13 @@ CREATE UNIQUE INDEX index_nonprofit_verification_to_stripe ON public.nonprofit_v
 
 
 --
+-- Name: index_offsite_payments_on_payment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_offsite_payments_on_payment_id ON public.offsite_payments USING btree (payment_id);
+
+
+--
 -- Name: index_recurring_donations_on_donation_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3957,6 +4006,13 @@ CREATE INDEX index_refunds_on_charge_id ON public.refunds USING btree (charge_id
 --
 
 CREATE INDEX index_refunds_on_payment_id ON public.refunds USING btree (payment_id);
+
+
+--
+-- Name: index_roles_on_name_and_user_id_and_host_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_roles_on_name_and_user_id_and_host_id ON public.roles USING btree (name, user_id, host_id);
 
 
 --
@@ -5267,6 +5323,15 @@ INSERT INTO schema_migrations (version) VALUES ('20200901185347');
 
 INSERT INTO schema_migrations (version) VALUES ('20200903180732');
 
-INSERT INTO schema_migrations (version) VALUES ('20200918182519');
 INSERT INTO schema_migrations (version) VALUES ('20200914193909');
+
+INSERT INTO schema_migrations (version) VALUES ('20200918182519');
+
+INSERT INTO schema_migrations (version) VALUES ('20200928205836');
+
+INSERT INTO schema_migrations (version) VALUES ('20201001161244');
+
+INSERT INTO schema_migrations (version) VALUES ('20201001161316');
+
+INSERT INTO schema_migrations (version) VALUES ('20201001161338');
 

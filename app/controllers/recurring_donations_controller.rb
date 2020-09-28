@@ -3,7 +3,9 @@ class RecurringDonationsController < ApplicationController
 
   def edit
     @data = QueryRecurringDonations.fetch_for_edit params[:id]
+    
     if @data && params[:t] == @data['recurring_donation']['edit_token']
+      @nonprofit = RecurringDonation.find(params[:id]).nonprofit
       @data['change_amount_suggestions'] = CalculateSuggestedAmounts.calculate(@data['recurring_donation']['amount'])
       @data['miscellaneous_np_info'] = FetchMiscellaneousNpInfo.fetch(@data['nonprofit']['id'])
       if @data['miscellaneous_np_info']['donate_again_url'].blank?

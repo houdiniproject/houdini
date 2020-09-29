@@ -71,7 +71,7 @@ module UpdateDonation
     end
 
     Qx.transaction do
-
+      something_changed = false
       donation = existing_payment.donation
 
       donation.designation = data[:designation] if data[:designation]
@@ -98,6 +98,7 @@ module UpdateDonation
         existing_payment.net_amount = existing_payment.gross_amount - existing_payment.fee_total
 
         if existing_payment.changed?
+          something_changed = true
           existing_payment.save!
         end
       else
@@ -114,14 +115,20 @@ module UpdateDonation
         offsite_payment.gross_amount = data[:gross_amount] if data[:gross_amount]
 
         if offsite_payment.changed?
+          something_changed = true
           offsite_payment.save!
         end
       end
       if donation.changed?
+        something_changed = true
         donation.save!
       end
 
       existing_payment.reload
+
+      if something_changed
+        UpdateActivities.for_one_time_donation(existing_payment)
+      end
 
       ret = donation.attributes
       ret[:payment] = existing_payment.attributes

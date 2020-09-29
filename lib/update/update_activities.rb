@@ -17,6 +17,28 @@ module UpdateActivities
       .where(attachment_id: note[:id])
       .execute
 
-  end 
+  end
+
+  def self.for_one_time_donation(payment) 
+    activity = generate_for_one_time_donation(payment)
+    activity.save! if activity
+  end
+
+  def self.generate_for_one_time_donation(payment)
+    donation = payment.donation
+    activity = payment.activities.first
+    if activity
+      activity.date = payment.date
+      json_data = {
+        'gross_amount': payment.gross_amount,
+        'designation': donation.designation,
+        'dedication': donation.dedication
+      }
+
+      activity.json_data = json_data
+      return activity
+    end
+    return nil
+  end
 end
 

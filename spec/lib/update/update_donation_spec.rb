@@ -26,7 +26,8 @@ describe UpdateDonation do
                                gross_amount: initial_amount,
                                fee_total: initial_fee,
                                net_amount: initial_amount - initial_fee,
-                               supporter: supporter
+                               supporter: supporter,
+                               kind: 'Donation'
   )}
   let(:offsite_payment) {force_create(:offsite_payment, payment: payment, nonprofit: np, donation: donation,
                                       check_number: initial_check_number,
@@ -39,7 +40,7 @@ describe UpdateDonation do
                                date: payment2_date,
                                gross_amount: initial_amount,
                                fee_total: initial_fee,
-                               net_amount: initial_amount - initial_fee
+                               net_amount: initial_amount - initial_fee, kind: 'Donation'
   )}
   let(:campaign) {force_create(:campaign, nonprofit: np)}
   let(:event) {force_create(:event, nonprofit: np)}
@@ -68,6 +69,15 @@ describe UpdateDonation do
 
 
   let(:payment2_date) {initial_date + 10.days}
+  let(:activity1) { 
+    InsertActivities.for_one_time_donations(payment.id)
+    payment.activities.first
+  }
+
+  let(:activity2) {
+    InsertActivities.for_one_time_donations(payment2.id)
+    payment2.activities.first
+  }
 
   before(:each) {
     initial_time
@@ -120,6 +130,7 @@ describe UpdateDonation do
         ]}
         it 'for offsite donations' do
           offsite_payment
+          activity1
           expect {UpdateDonation.update_payment(donation.id, expanded_invalid_arguments)}.to(raise_error {|error|
 
             expect(error).to be_a ParamValidation::ValidationError
@@ -135,6 +146,7 @@ describe UpdateDonation do
         end
 
         it 'for online donation' do
+          activity1
           expect {UpdateDonation.update_payment(donation.id, expanded_invalid_arguments)}.to(raise_error {|error|
 
             expect(error).to be_a ParamValidation::ValidationError
@@ -144,6 +156,7 @@ describe UpdateDonation do
       end
 
       it 'validate campaign_id' do
+        activity1
         expect {UpdateDonation.update_payment(donation.id, {campaign_id: 444, event_id: 444})}.to(raise_error {|error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{key: :campaign_id}])
@@ -151,6 +164,7 @@ describe UpdateDonation do
       end
 
       it 'validate event_id' do
+        activity1
         expect {UpdateDonation.update_payment(donation.id, {event_id: 4444, campaign_id: campaign.id})}.to(raise_error {|error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{key: :event_id}])
@@ -158,11 +172,13 @@ describe UpdateDonation do
       end
 
       it 'validates campaign belongs to payment org' do
+        activity1
         campaign_belongs {UpdateDonation.update_payment(donation.id, {campaign_id: other_campaign.id, event_id: event.id})}
 
       end
 
       it 'validates event belongs to payment org' do
+        activity1
         event_belongs {UpdateDonation.update_payment(donation.id, {event_id: other_event.id, campaign_id:campaign.id})}
       end
 
@@ -172,7 +188,8 @@ describe UpdateDonation do
     describe 'most of the values arent changed if not provided' do
       it 'online donation' do
         payment2
-        result = verify_nothing_changed
+        activity2
+        result = verify_nothing_changed(activity2)
 
 
         expect(result).to eq (donation.attributes.merge({payment: payment2.attributes}))
@@ -180,7 +197,8 @@ describe UpdateDonation do
 
       it 'offsite donation' do
         offsite_payment
-        result = verify_nothing_changed
+        activity1
+        result = verify_nothing_changed(activity1)
 
         p2_attributes = payment2.attributes
         payment2.reload
@@ -192,7 +210,8 @@ describe UpdateDonation do
         expect(result).to eq (donation.attributes.merge({payment: payment.attributes, offsite_payment: offsite_payment.attributes}))
       end
 
-      def verify_nothing_changed
+      def verify_nothing_changed(activity)
+        a_attributes = activity.attributes
         result = UpdateDonation.update_payment(donation.id, {campaign_id: '', event_id: ''})
 
 
@@ -203,6 +222,10 @@ describe UpdateDonation do
         d_attributes = donation.attributes
         donation.reload
         expect(d_attributes).to eq donation.attributes
+
+        
+        activity.reload
+        expect(a_attributes).to eq activity.attributes
 
         result
       end
@@ -222,6 +245,7 @@ describe UpdateDonation do
       }}
       it 'online donation' do
         payment2
+        activity2
         Timecop.freeze(1.day) do
           result = UpdateDonation.update_payment(donation.id, new_data)
 
@@ -251,13 +275,21 @@ describe UpdateDonation do
           expect(offsite_payment.attributes).to eq expected_offsite
 
           expect(result).to eq create_expected_result(donation, payment2)
+          activity = activity2
+          activity.reload
+          expect(activity.date).to eq payment2.date
+          expect(activity.json_data['gross_amount']).to eq donation.amount
+          expect(activity.json_data['dedication']).to eq new_dedication
+          expect(activity.json_data['designation']).to eq new_designation
         end
 
+        
 
       end
 
       it 'offline donation' do
         offsite_payment
+        activity1
         Timecop.freeze(1.day) do
           result = UpdateDonation.update_payment(donation.id, new_data)
 
@@ -292,6 +324,13 @@ describe UpdateDonation do
 
           expect(result).to eq create_expected_result(donation, payment, offsite_payment)
 
+          activity = activity1
+          activity.reload
+          expect(activity.date).to eq payment.date
+          expect(activity.json_data['gross_amount']).to eq donation.amount
+          expect(activity.json_data['dedication']).to eq new_dedication
+          expect(activity.json_data['designation']).to eq new_designation
+
         end
       end
 
@@ -311,6 +350,7 @@ describe UpdateDonation do
 
         it 'online donation' do
           payment2
+          activity2
           Timecop.freeze(1.day) do
             UpdateDonation.update_payment(donation.id, new_data)
             result = UpdateDonation.update_payment(donation.id, blank_data)
@@ -340,12 +380,20 @@ describe UpdateDonation do
             expect(offsite_payment.attributes).to eq expected_offsite
 
             expect(result).to eq create_expected_result(donation, payment2)
-
+           
+            activity = activity2
+            activity.reload
+            expect(activity.date).to eq payment2.date
+          
+            expect(activity.json_data['gross_amount']).to eq donation.amount
+            expect(activity.json_data['dedication']).to eq donation.dedication
+            expect(activity.json_data['designation']).to eq donation.designation
           end
         end
 
         it 'offline donation' do
           offsite_payment
+          activity1
           Timecop.freeze(1.day) do
             UpdateDonation.update_payment(donation.id, new_data)
             result = UpdateDonation.update_payment(donation.id, blank_data)
@@ -379,6 +427,12 @@ describe UpdateDonation do
             expect(offsite_payment.attributes).to eq expected_offsite_payment
 
             expect(result).to eq create_expected_result(donation, payment, offsite_payment)
+            activity = activity1
+            activity.reload
+            expect(activity.date).to eq new_date
+            expect(activity.json_data['gross_amount']).to eq new_amount
+            expect(activity.json_data['dedication']).to eq ''
+            expect(activity.json_data['designation']).to eq ''
           end
         end
       end

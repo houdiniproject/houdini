@@ -29,7 +29,7 @@ describe('formatMoney', () => {
 			[oneEuro,  {currencyDisplay: "name"}, "1.00 euros"],
 			[oneHundredYen,  {}, "¥100"],
 			[oneHundredYen,  {currencyDisplay: 'code'}, `JPY${NBSP}100`],
-			[oneHundredYen,  {currencyDisplay: "name"}, "100 Japanese yen"]
+			[oneHundredYen,  {currencyDisplay: "name"}, "100 Japanese yen"],
 		];
 		it.each(tests)('money representing %j with opts %j returns %s', (money, opts, expected ) => {
 			expect.assertions(1);

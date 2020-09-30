@@ -35,7 +35,7 @@ export function useSerializeMoney(props:UseSerializeMoneyProps) : ReturnType<typ
 
 	const i18n = useI18nCurrencyInput({...other, locale,
 		currency,
-		value:amount
+		value:amount,
 	});
 
 

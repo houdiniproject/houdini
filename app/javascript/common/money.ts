@@ -265,7 +265,7 @@ export class Money {
 	toJSON(): MoneyAsJson {
 		return {
 			amount: this.amount,
-			currency: this.currency
+			currency: this.currency,
 		};
 	}
 }

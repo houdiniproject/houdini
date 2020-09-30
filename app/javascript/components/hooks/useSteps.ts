@@ -232,7 +232,7 @@ export default function useSteps(state: InputStepsState, initOptions: StepsInitO
 		disabled: initOptions.disabled || fromPairs(initialSteps.map((i) => [i, false])),
 		stepKeys: initialSteps,
 		activeStep,
-		activeStepKey: activeStep >= 0 && activeStep < state.steps.length ? state.steps[activeStep].key : null
+		activeStepKey: activeStep >= 0 && activeStep < state.steps.length ? state.steps[activeStep].key : null,
 	};
 	const [stepsState, dispatch] = useReducer(stepsReducer, initialState);
 
@@ -295,7 +295,7 @@ export default function useSteps(state: InputStepsState, initOptions: StepsInitO
 		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		addStep: () => { },
 		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		removeStep: () => { }
+		removeStep: () => { },
 	});
 
 }

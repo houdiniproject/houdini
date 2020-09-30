@@ -39,7 +39,7 @@ function FormikHandler(props: { value: Money, onChange:(args:{value:Money})=> vo
 
 FormikHandler.defaultProps = {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	onChange: () => {}
+	onChange: () => {},
 };
 
 describe('MoneyTextField', () => {

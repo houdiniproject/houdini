@@ -3,7 +3,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import useSteps, { KeyedStep, KeyedStepMap } from './useSteps';
 import fromPairs from 'lodash/fromPairs';
-import { initial } from 'lodash';
 
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -26,7 +25,7 @@ describe('.next', () => {
 	it('nothing changes if next is disabled', async () => {
 		expect.assertions(2);
 		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i' }, { key: '2' }], ...stepActions }, {
-			disabled: { 'i': false, '2': true }
+			disabled: { 'i': false, '2': true },
 		}));
 		const original = result.current;
 		act(() => {
@@ -70,7 +69,7 @@ describe('.back', () => {
 		expect.assertions(2);
 		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i' }, { key: '2' }, { key: 'last' }], ...stepActions }, {
 			activeStep: 2,
-			disabled: { 'i': true, '2': true, 'last': false }
+			disabled: { 'i': true, '2': true, 'last': false },
 		}));
 		const original = result.current;
 		act(() => {
@@ -85,7 +84,7 @@ describe('.back', () => {
 		expect.assertions(2);
 		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i' }, { key: '2' }, { key: 'last' }], ...stepActions }, {
 			activeStep: 1,
-			disabled: { 'i': true, '2': false, 'last': false }
+			disabled: { 'i': true, '2': false, 'last': false },
 		}));
 		const original = result.current;
 		act(() => {
@@ -139,7 +138,7 @@ describe('.goto', () => {
 	it('nothing changes if goto value is disabled', async () => {
 		expect.assertions(2);
 		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i' }, { key: '2' }], ...stepActions }, {
-			disabled: { 'i': false, '2': true }
+			disabled: { 'i': false, '2': true },
 		}));
 		const original = result.current;
 		act(() => {
@@ -154,7 +153,7 @@ describe('.goto', () => {
 		expect.assertions(2);
 		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i' }, { key: '2' }], ...stepActions }, {
 			activeStep: 1,
-			disabled: { 'i': false, '2': true }
+			disabled: { 'i': false, '2': true },
 		}));
 		const original = result.current;
 		act(() => {
@@ -197,7 +196,7 @@ describe('.first', () => {
 		expect.assertions(2);
 		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i' }, { key: '2' }], ...stepActions }, {
 			activeStep: 1,
-			disabled: { 'i': true, '2': false }
+			disabled: { 'i': true, '2': false },
 		}));
 		const original = result.current;
 		act(() => {
@@ -239,7 +238,7 @@ describe('.last', () => {
 	it('changes nothing if last is disabled', async () => {
 		expect.assertions(2);
 		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i' }, { key: '2' }], ...stepActions }, {
-			disabled: { 'i': false, '2': true }
+			disabled: { 'i': false, '2': true },
 		}));
 		const original = result.current;
 		act(() => {
@@ -270,7 +269,7 @@ describe('.disable', () => {
 		[[{ key: 'i' }, { key: '2' }], 1, { i: false, 2: false }, 1, 0, { i: false, 2: true }],
 		[[{ key: 'i' }, { key: '2' }], 0, { i: false, 2: false }, 1, 0, { i: false, 2: true }],
 		[[{ key: 'i' }, { key: '2' }], 1, { i: true, 2: false }, 1, 0, { i: true, 2: true }],
-		[[{ key: 'i' }, { key: '2' }], 0, { i: false, 2: false }, 0, 0, { i: true, 2: false }]
+		[[{ key: 'i' }, { key: '2' }], 0, { i: false, 2: false }, 0, 0, { i: true, 2: false }],
 	])('.disable with keys of %j, activeStep: %d, initial disabled: %j, we disabled index %d', (
 		steps,
 		initialActiveStep,
@@ -309,7 +308,7 @@ describe('.enable', () => {
 		[[{ key: 'i' }, { key: '2' }], 1, { i: false, 2: false }, 1, 1, { i: false, 2: false }],
 		[[{ key: 'i' }, { key: '2' }], 0, { i: false, 2: true }, 1, 0, { i: false, 2: false }],
 		[[{ key: 'i' }, { key: '2' }], 1, { i: true, 2: false }, 1, 1, { i: true, 2: false }],
-		[[{ key: 'i' }, { key: '2' }], 0, { i: true, 2: false }, 0, 0, { i: false, 2: false }]
+		[[{ key: 'i' }, { key: '2' }], 0, { i: true, 2: false }, 0, 0, { i: false, 2: false }],
 	])('.enable with keys of %j, activeStep: %d, initial enabled: %j, we enable index %d', (
 		steps,
 		initialActiveStep,
@@ -368,12 +367,12 @@ describe('modify steps', () => {
 			activeStep: props.initial.activeStep || 0,
 			disabled: props.initial.disabled || fromPairs(props.initial.steps.map(i => [i.key, false])),
 			completed: props.initial.completed || fromPairs(props.initial.steps.map(i => [i.key, false])),
-			...props.expectation
+			...props.expectation,
 		};
 		return [
 			props.initial.steps, props.initial.activeStep, props.initial.disabled, props.initial.completed,
 			props.stepChange,
-			expectation.activeStep, expectation.disabled, expectation.completed
+			expectation.activeStep, expectation.disabled, expectation.completed,
 		];
 	}
 
@@ -382,15 +381,15 @@ describe('modify steps', () => {
 			initial: { steps: [{ key: 'i' }, { key: '2' }] },
 			stepChange: [{ key: 'i' }, { key: '2' }],
 			expectation: {
-			}
+			},
 		}),
 		createTableEntry({
 			initial: { steps: [{ key: 'i' }, { key: '2' }], activeStep: 0 },
 			stepChange: [ { key: '2' }],
 			expectation: {
 				disabled: {2: false},
-				completed: {2: false}
-			}
+				completed: {2: false},
+			},
 		}),
 		createTableEntry({
 			initial: { steps: [{ key: 'i' }, { key: '2' }], activeStep: 1 },
@@ -398,8 +397,8 @@ describe('modify steps', () => {
 			expectation: {
 				activeStep: 0,
 				disabled: {i: false},
-				completed: {i: false}
-			}
+				completed: {i: false},
+			},
 		}),
 		createTableEntry({
 			initial: { steps: [{ key: 'i' }, { key: '2' }, {key: 'last'}], activeStep: 2, disabled: {i: false, 2: true, last:false}},
@@ -407,8 +406,8 @@ describe('modify steps', () => {
 			expectation: {
 				activeStep: 0,
 				disabled: {i: false, 2: true},
-				completed: {i: false, 2: false}
-			}
+				completed: {i: false, 2: false},
+			},
 		}),
 		createTableEntry({
 			initial: { steps: [{ key: 'i' }, { key: '2' }, {key: 'last'}], activeStep: 2, disabled: {i: false, 2: true, last:false}},
@@ -416,19 +415,19 @@ describe('modify steps', () => {
 			expectation: {
 				activeStep: 1,
 				disabled: {i: false, 2: true, last:false},
-				completed: {i: false, 2: false, last: false}
-			}
+				completed: {i: false, 2: false, last: false},
+			},
 		}),
 
 		createTableEntry({
 			initial: { steps: [{ key: 'i' }, { key: '2' }, {key: 'last'}], activeStep: 2, disabled: {i: false, 2: true, last:false}},
-			stepChange: [ {key: 'last'},{ key: 'i' },],
+			stepChange: [ {key: 'last'},{ key: 'i' }],
 			expectation: {
 				activeStep: 0,
 				disabled: {i: false,  last:false},
-				completed: {i: false,  last: false}
-			}
-		})
+				completed: {i: false,  last: false},
+			},
+		}),
 	])('with initial steps %j, active: %d, disabled: %o, completed: %o and change steps to %j', (
 		initialSteps, initialActiveStep, initialDisabled, initialCompleted,
 		stepChange,

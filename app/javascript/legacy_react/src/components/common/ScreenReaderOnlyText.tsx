@@ -13,7 +13,7 @@ class ScreenReaderOnlyText extends React.Component<Record<string,unknown>, Recor
 			margin: '-1px',
 			overflow: 'hidden',
 			clip: 'rect(0,0,0,0)',
-			border: 0
+			border: 0,
 		};
 		return <span style={style}>{this.props.children}</span>;
 	}

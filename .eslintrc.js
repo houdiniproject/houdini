@@ -6,16 +6,16 @@ const tsSpecBase = {
 	parser: '@typescript-eslint/parser',
 	plugins: [
 		'@typescript-eslint',
-		'jest'
+		'jest',
 	],
 	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:jest/all'
+		'plugin:jest/all',
 	],
 	rules: {
-		"jest/lowercase-name": ["error", { "ignore": ["describe"] }]
-	}
+		"jest/lowercase-name": ["error", { "ignore": ["describe"] }],
+	},
 };
 
 
@@ -37,7 +37,7 @@ const tsBase = {
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
 		"plugin:react-hooks/recommended",
-	]
+	],
 };
 
 const tsSettings = _.cloneDeep(tsBase);
@@ -55,29 +55,30 @@ module.exports = {
 			"files": ['*.js', 'config/webpack/**/*.js'],
 			extends: [
 				'eslint:recommended',
-				'plugin:node/recommended'
+				'plugin:node/recommended',
 			],
 		},
 		tsSpec,
 		tsxSpec,
 		tsSettings,
-		tsxSettings
+		tsxSettings,
 	],
 	"rules": {
 		"linebreak-style": [
 			"error",
-			"unix"
+			"unix",
 		],
 		"semi": [
 			"error",
-			"always"
+			"always",
 		],
 		"no-trailing-spaces": ["error"],
 		"indent": ["error", "tab", {"SwitchCase": 1}], // we use tabs for accessibility
+		"comma-dangle": ["error", "always-multiline"],
 	},
 	"settings": {
 		"react": {
-			"version": "detect"
+			"version": "detect",
 		},
-	}
+	},
 };

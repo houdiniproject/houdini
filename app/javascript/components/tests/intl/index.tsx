@@ -12,7 +12,7 @@ class WithIntl extends React.Component<any,any> {
 		super(props);
 
 		this.state = {
-			locale: props.intlConfig.defaultLocale || null
+			locale: props.intlConfig.defaultLocale || null,
 		};
 
 		this.setLocale = this.setLocale.bind(this);
@@ -28,7 +28,7 @@ class WithIntl extends React.Component<any,any> {
 
 	setLocale (locale:string) {
 		this.setState({
-			locale: locale
+			locale: locale,
 		});
 	}
 
@@ -46,7 +46,7 @@ class WithIntl extends React.Component<any,any> {
 			children,
 			getMessages,
 			getFormats,
-			intlConfig
+			intlConfig,
 		} = this.props;
 
 		const { locale } = this.state;
@@ -77,7 +77,7 @@ export const setIntlConfig = (config:any) => {
 	const channel = addons.getChannel();
 	channel.emit(EVENT_SET_CONFIG_ID, {
 		locales: config.locales,
-		defaultLocale: config.defaultLocale
+		defaultLocale: config.defaultLocale,
 	});
 };
 

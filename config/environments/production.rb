@@ -4,7 +4,7 @@ Commitchange::Application.configure do
 
 	# Code is not reloaded between requests
 	config.cache_classes = true
-  config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true, pool_size: 5 }
+  config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true, pool_size: 10 }
 
 	config.session_store :redis_store, servers: [ENV['OPENREDIS_URL']], 
 		expire_after: 12.hours,

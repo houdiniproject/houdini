@@ -3855,6 +3855,13 @@ CREATE INDEX index_charges_on_payment_id ON public.charges USING btree (payment_
 
 
 --
+-- Name: index_custom_field_masters_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_custom_field_masters_on_nonprofit_id ON public.custom_field_masters USING btree (nonprofit_id);
+
+
+--
 -- Name: index_dispute_transactions_on_dispute_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5334,4 +5341,6 @@ INSERT INTO schema_migrations (version) VALUES ('20201001161244');
 INSERT INTO schema_migrations (version) VALUES ('20201001161316');
 
 INSERT INTO schema_migrations (version) VALUES ('20201001161338');
+
+INSERT INTO schema_migrations (version) VALUES ('20201001162737');
 

@@ -17,7 +17,7 @@ import {TwoColumnFields} from "../common/layout";
 import {Validations} from "../../lib/vjf_rules";
 import * as _ from 'lodash'
 import {Dedication, parseDedication, serializeDedication} from '../../lib/dedication';
-import blacklist from "validator/lib/blacklist";
+import blocklist from "validator/lib/blacklist";
 import {createFieldDefinition} from "../../lib/mobx_utils";
 import Modal from "../common/Modal";
 import ReactInput from "../common/form/ReactInput";
@@ -186,12 +186,12 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
       'gross_amount': createFieldDefinition({
         name: 'gross_amount', label: 'Gross Amount', value: this.props.data.gross_amount,
         input: (amount: number) => centsToDollars(amount),
-        output: (dollarString: string) => parseFloat(blacklist(dollarString, '$,'))
+        output: (dollarString: string) => parseFloat(blocklist(dollarString, '$,'))
       }),
       'fee_total': createFieldDefinition({
         name: 'fee_total', label: 'Fees', value: this.props.data.fee_total,
         input: (amount: number) => centsToDollars(amount),
-        output: (dollarString: string) => parseFloat(blacklist(dollarString, '$,'))
+        output: (dollarString: string) => parseFloat(blocklist(dollarString, '$,'))
       }),
       'date': createFieldDefinition({
         name: 'date', label: 'Date',

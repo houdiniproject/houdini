@@ -18,7 +18,7 @@ import {ApiManager} from "../../lib/api_manager";
 import * as CustomAPIS from "../../lib/apis";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 import {CreateOffsiteDonation, CreateOffsiteDonationModel} from "../../lib/api/create_offsite_donation";
-import blacklist from "validator/lib/blacklist";
+import blocklist from "validator/lib/blacklist";
 import * as _ from 'lodash';
 import moment from 'moment';
 import { castToUndefinedIfBlank } from '../../lib/utils';
@@ -140,14 +140,9 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
       'gross_amount': createFieldDefinition({name: 'gross_amount', 
         label: 'Gross Amount',
         input: (amount:number) => centsToDollars(amount),
-        output: (dollarString:string) => parseFloat(blacklist(dollarString, '$,')),
+        output: (dollarString:string) => parseFloat(blocklist(dollarString, '$,')),
         value: 0
       }),
-      // 'fee_total': createFieldDefinition({name: 'fee_total', label: 'Fees',
-      //   input: (amount:number) => centsToDollars(amount),
-      //   output: (dollarString:string) => parseFloat(blacklist(dollarString, '$,')),
-      //   value: 0
-      // }),
       'date': createFieldDefinition({name: 'date', label: 'Date',
         input: (isoTime:string) => this.nonprofitTimezonedDates.readable_date(isoTime),
         output:(date:string) =>  this.nonprofitTimezonedDates.readable_date_time_to_iso(date),

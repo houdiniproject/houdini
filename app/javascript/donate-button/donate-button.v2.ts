@@ -16,13 +16,13 @@ function on_ios11() {
   , modalIframe: null
   }
   const commitchange = windowAsAny.commitchange;
-  commitchange.getParamsFromUrl = (whitelist:any) => {
+  commitchange.getParamsFromUrl = (allowlist:any) => {
       var result:any = {},
           tmp = [];
       var items = location.search.substr(1).split("&");
       for (var index = 0; index < items.length; index++) {
           tmp = items[index].split("=");
-          if (whitelist.indexOf(tmp[0])) result[tmp[0]] = decodeURIComponent(tmp[1]);
+          if (allowlist.indexOf(tmp[0])) result[tmp[0]] = decodeURIComponent(tmp[1]);
       }
       return result;
   }

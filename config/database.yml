@@ -21,6 +21,7 @@ development:
   username: admin
   password: password
   host: <%= ENV['DATABASE_HOST']  || 'localhost' %>
+  min_messages: warning
 
 test:
   adapter: postgresql

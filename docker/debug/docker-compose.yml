@@ -25,7 +25,7 @@ services:
     
     env_file: ../../.env
   db:
-    image: postgres:9.6
+    image: postgres:12.4
     environment:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "password"

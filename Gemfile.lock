@@ -121,7 +121,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     colorize (0.8.1)
-    concurrent-ruby (1.0.5)
+    concurrent-ruby (1.1.7)
     config (1.7.0)
       activesupport (>= 3.0)
       deep_merge (~> 1.2.1)
@@ -270,7 +270,7 @@ GEM
     money (6.10.0)
       i18n (>= 0.6.4, < 1.0)
     msgpack (1.2.0)
-    multi_json (1.13.1)
+    multi_json (1.15.0)
     multi_xml (0.5.5)
     multipart-post (2.1.1)
     mustermann (1.0.3)
@@ -330,8 +330,7 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
-    rails_autoscale_agent (0.4.1)
-      activesupport (>= 3.2)
+    rails_autoscale_agent (0.9.1)
     rails_serve_static_assets (0.0.5)
     rails_stdout_logging (0.0.5)
     railties (3.2.22.5)
@@ -519,7 +518,7 @@ DEPENDENCIES
   rails (= 3.2.22.5)
   rails-i18n (~> 3.0.0)
   rails_12factor
-  rails_autoscale_agent
+  rails_autoscale_agent (>= 0.9.1)
   rake (~> 12.3.3)
   rbtrace
   recaptcha!

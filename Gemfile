@@ -8,7 +8,6 @@ gem 'jbuilder', '~> 2.10'
 gem 'bootsnap', '~> 1.4', require: false # Large rails application booting enhancer
 gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
-gem 'parallel', '~> 1.17' # run processes in parallel
 gem 'puma_worker_killer', '~> 0.1.1' # TODO: Investigate why puma workers need to be killed.
 gem 'puma', '~> 4.0', '>= 4.0.1'
 gem 'rake', '~> 12.3.2'

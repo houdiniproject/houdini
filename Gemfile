@@ -49,9 +49,6 @@ gem 'image_processing', '~> 1.10.3'
 gem 'devise-async', '~> 1.0'
 gem 'devise', '~> 4.7'
 
-# API Tools
-gem 'foreman', '~> 0.87.1'
-
 group :development, :ci do
   gem 'traceroute', '~> 0.8.0'
 end

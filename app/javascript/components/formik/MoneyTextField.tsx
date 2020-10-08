@@ -9,7 +9,7 @@ import { useHoudiniIntl } from "../intl";
 import { useEffect, useRef } from "react";
 
 import {useI18nCurrencyInput, Types} from '@houdiniproject/react-i18n-currency-input';
-
+import '../../common/intl-polyfills/numberFormat';
 
 export interface UseSerializeMoneyProps extends Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale'|'value'> {
 	value:Money

@@ -7,7 +7,8 @@ const messages = {
 setIntlConfig({
   locales: ['en', 'de'],
   defaultLocale: 'en',
-  getMessages: (locale) => messages[locale]
+  // we use this form becuase it allows the story to be viewed in IE11
+  getMessages: function(locale) { return messages[locale]}
 });
 
 addDecorator(withIntl)

@@ -84,3 +84,26 @@ export interface WebLoginModel {
   email:string
   password:string
 }
+let api: WebUserSignInOut = null;
+
+export default function (){
+  return api;
+}
+
+export class SignInError extends Error {
+  public readonly status?: number
+  public readonly data?: {error:string}|{error:string}[]
+  constructor({status, data}: {status?:number, data?:{error:string}|{error:string}[]}) {
+    super(`status: ${status}, data: ${JSON.stringify(data)}`);
+    this.status = status;
+    this.data = data;
+    Object.freeze(this);
+  }
+}
+
+export function initialize(basePath?: string, configuration?: Configuration) : WebUserSignInOut {
+
+  api = new WebUserSignInOut(basePath, configuration);
+  return api;
+
+}

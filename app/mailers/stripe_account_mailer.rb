@@ -4,7 +4,8 @@ class StripeAccountMailer < BaseMailer
   def verified(nonprofit)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: "Verification successful on #{Settings.general.name}!")
+    mail(to: @emails, subject: "Verification successful on #{Settings.general.name}!", 
+      template_name: 'verified')
   end
 
   def conditionally_send_verified(stripe_account)
@@ -18,7 +19,8 @@ class StripeAccountMailer < BaseMailer
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
     @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B %e, %Y at%l:%M:%S %p') if deadline
-    mail(to: @emails, subject: "Urgent: More Info Needed for Your #{Settings.general.name} Verification")
+    mail(to: @emails, subject: "Urgent: More Info Needed for Your #{Settings.general.name} Verification", 
+      template_name: 'more_info_needed')
   end
 
   def conditionally_send_more_info_needed(stripe_account, email_to_send_guid, override=false)
@@ -33,7 +35,8 @@ class StripeAccountMailer < BaseMailer
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
     @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B %e, %Y at%l:%M:%S %p') if deadline
-    mail(to: @emails, subject: "Please Complete Your #{Settings.general.name} Account Verification")
+    mail(to: @emails, subject: "Please Complete Your #{Settings.general.name} Account Verification", 
+      template_name: 'not_completed')
   end
 
   def conditionally_send_not_completed(stripe_account, email_to_send_guid, override=false)
@@ -48,7 +51,8 @@ class StripeAccountMailer < BaseMailer
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
     @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B %e, %Y at%l:%M:%S %p') if deadline
-    mail(to: @emails, subject: "Additional account verification needed for #{Settings.general.name}")
+    mail(to: @emails, subject: "Additional account verification needed for #{Settings.general.name}", 
+      template_name: 'no_longer_verified')
   end
 
   def conditionally_send_no_longer_verified(stripe_account)
@@ -59,22 +63,24 @@ class StripeAccountMailer < BaseMailer
 
   private 
   def conditionally_send(stripe_account, email_to_send_guid, override=false, &block)
+    result = nil
     if stripe_account&.nonprofit && 
       (stripe_account
       &.nonprofit_verification_process_status || override)
 
       if override
-        block.call(stripe_account)
+        result = block.call(stripe_account)
       else 
         stripe_account
           .nonprofit_verification_process_status
           .with_lock("FOR UPDATE") do
             if (stripe_account.nonprofit_verification_process_status
               .email_to_send_guid == email_to_send_guid || override)
-              block.call(stripe_account)
+              result = block.call(stripe_account)
             end
           end
       end
+      result
     end
   end
 

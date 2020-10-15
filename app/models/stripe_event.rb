@@ -35,6 +35,7 @@ class StripeEvent < ActiveRecord::Base
   def self.handle(event)
     case event.type
     when 'account.updated'
+      raise 'cant run right now'
       StripeEvent.transaction do
         object = event.data.object
         events_for_object_id = StripeEvent.where('object_id = ?', object.id).lock(true)

@@ -1,5 +1,5 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class StripeAccountMailer < BaseMailer
-  
 
   def verified(nonprofit)
     @nonprofit = nonprofit
@@ -17,7 +17,7 @@ class StripeAccountMailer < BaseMailer
   def more_info_needed(nonprofit, deadline=nil)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline
+    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B %e, %Y at%l:%M:%S %p') if deadline
     mail(to: @emails, subject: "Urgent: More Info Needed for Your #{Settings.general.name} Verification")
   end
 
@@ -32,7 +32,7 @@ class StripeAccountMailer < BaseMailer
   def not_completed(nonprofit, deadline=nil)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline
+    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B %e, %Y at%l:%M:%S %p') if deadline
     mail(to: @emails, subject: "Please Complete Your #{Settings.general.name} Account Verification")
   end
 
@@ -47,7 +47,7 @@ class StripeAccountMailer < BaseMailer
   def no_longer_verified(nonprofit, deadline=nil)
     @nonprofit = nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B%e, %Y at%l:%M:%S %p') if deadline
+    @deadline = deadline.in_time_zone(@nonprofit.timezone).strftime('%B %e, %Y at%l:%M:%S %p') if deadline
     mail(to: @emails, subject: "Additional account verification needed for #{Settings.general.name}")
   end
 

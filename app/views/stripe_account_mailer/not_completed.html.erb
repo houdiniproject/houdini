@@ -5,7 +5,7 @@
 The deadline for finishing the verification process for your CommitChange account is <strong><%=  @deadline %></strong>. <% else -%>
 You are advised to complete this verification as soon as possible.<% end -%></p>
 
-<p>You can continue verification by following this link: <a href="<%= root_url + "/nonprofits/#{@nonprofit.id}/stripe_accounts/confirm" %>"><%= root_url + "/nonprofits/#{@nonprofit.id}/stripe_accounts/confirm" %></a></p>
+<p>You can continue verification by following this link: <%= link_to(confirm_nonprofits_stripe_account_url(@nonprofit), confirm_nonprofits_stripe_account_url(@nonprofit))%></p>
 
 <p>We appreciate the honor of serving all of our nonprofit and social venture organizations; if you have any questions about the new process or need help completing your form before the deadline, please reach out to the support team at <a href="mailto:<%= Settings.devise.mailer_sender %>"><%= Settings.devise.mailer_sender %></a>.</p>
 

@@ -21,7 +21,7 @@ aws:
   bucket_name: commitchange-test-bucket
 
 mailer:
-  host: "http://localhost"
+  host: "localhost"
   default_from: "CommitChange Team <support@commitchange.com>"
   email: "support@commitchange.com"
 

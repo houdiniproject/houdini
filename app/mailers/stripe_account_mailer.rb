@@ -21,8 +21,8 @@ class StripeAccountMailer < BaseMailer
     mail(to: @emails, subject: "Urgent: More Info Needed for Your #{Settings.general.name} Verification")
   end
 
-  def conditionally_send_more_info_needed(stripe_account, email_to_send_guid)
-    conditionally_send(stripe_account, email_to_send_guid) do |stripe_account|
+  def conditionally_send_more_info_needed(stripe_account, email_to_send_guid, override=false)
+    conditionally_send(stripe_account, email_to_send_guid, override) do |stripe_account|
       if (stripe_account&.nonprofit)
         more_info_needed(stripe_account.nonprofit).deliver
       end
@@ -36,8 +36,8 @@ class StripeAccountMailer < BaseMailer
     mail(to: @emails, subject: "Please Complete Your #{Settings.general.name} Account Verification")
   end
 
-  def conditionally_send_not_completed(stripe_account, email_to_send_guid)
-    conditionally_send(stripe_account, email_to_send_guid) do |stripe_account|
+  def conditionally_send_not_completed(stripe_account, email_to_send_guid, override=false)
+    conditionally_send(stripe_account, email_to_send_guid, override) do |stripe_account|
       if stripe_account&.nonprofit
         more_info_needed(stripe_account.nonprofit).deliver
       end
@@ -58,19 +58,23 @@ class StripeAccountMailer < BaseMailer
   end
 
   private 
-  def conditionally_send(stripe_account, email_to_send_guid, &block)
+  def conditionally_send(stripe_account, email_to_send_guid, override=false, &block)
     if stripe_account&.nonprofit && 
-      stripe_account
-      &.nonprofit_verification_process_status
+      (stripe_account
+      &.nonprofit_verification_process_status || override)
 
-      stripe_account
-        .nonprofit_verification_process_status
-        .with_lock("FOR UPDATE") do
-          if (stripe_account.nonprofit_verification_process_status
-            .email_to_send_guid == email_to_send_guid)
-            block.call(stripe_account)
+      if override
+        block.call(stripe_account)
+      else 
+        stripe_account
+          .nonprofit_verification_process_status
+          .with_lock("FOR UPDATE") do
+            if (stripe_account.nonprofit_verification_process_status
+              .email_to_send_guid == email_to_send_guid || override)
+              block.call(stripe_account)
+            end
           end
-        end
+      end
     end
   end
 

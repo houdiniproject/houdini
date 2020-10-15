@@ -8,13 +8,15 @@
   "scripts": {
     "build-all": "yarn install --frozen-lockfile && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
-    "test": "rake -v spec  && yarn build && yarn jest",
+    "test": "bin/rails spec  && yarn jest",
     "jest": "jest",
     "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
     "storybook": "start-storybook -p 6006 -c .storybook/react",
     "build-storybook": "build-storybook -c .storybook/react",
     "html-storybook": "bin/start-html-storybook -p 6007 -c .storybook/html",
-    "build-html-storybook": "bin/build-html-storybook -c .storybook/html"
+    "build-html-storybook": "bin/build-html-storybook -c .storybook/html",
+    "markdownlint": "npx markdownlint-cli **/*.md --ignore node_modules",
+    "prepare-for-push": "yarn test && yarn markdownlint --fix && bin/rails notice:update"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

@@ -135,7 +135,7 @@ jobs:
           bundle-use-node-js-${{ matrix.os }}-${{ matrix.node }}-
     - name: run jest
       run: yarn jest
-  eslint:
+  lint:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -156,6 +156,9 @@ jobs:
       - name: run yarn eslint
         run: |
             yarn eslint
+      - name: run yarn markdownlint
+        run: |
+            yarn markdownlint
   main_build:
     needs: ['install_yarn', 'install_gems']
     runs-on: ${{ matrix.os }}

@@ -5,8 +5,8 @@ import take from 'lodash/take';
 import fromPairs from 'lodash/fromPairs';
 
 import findLastIndex from 'lodash/findLastIndex';
-import hashLeftAntiJoin from '../../common/lodash-joins/hash/hashLeftAntiJoin';
-import hashRightAntiJoin from '../../common/lodash-joins/hash/hashRightAntiJoin';
+import hashLeftAntiJoin from '../common/lodash-joins/hash/hashLeftAntiJoin';
+import hashRightAntiJoin from '../common/lodash-joins/hash/hashRightAntiJoin';
 
 export interface KeyedStep {
 	key: string;

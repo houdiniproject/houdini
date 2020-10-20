@@ -1,15 +1,10 @@
 // License: LGPL-3.0-or-later
 
 import * as React from "react";
-import { useIntl, FormatNumberOptions, IntlShape, IntlProvider, createIntl} from "react-intl";
+import { useIntl, IntlShape, IntlProvider, createIntl} from "react-intl";
 import { Money } from "../../common/money";
-
-export declare type FormatMoneyOptions = Omit<FormatNumberOptions,'style'|'unit'|'unitDisplay'|'currency'>;
-
-export declare type HoudiniIntlShape = IntlShape & {formatMoney:(amount:Money, opts?:FormatMoneyOptions) => string}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const HoudiniIntlContext = React.createContext<HoudiniIntlShape>(null as any);
+import { HoudiniIntlContext } from "../../hooks/useHoudiniIntl";
+import type {HoudiniIntlShape, FormatMoneyOptions} from '../../hooks/useHoudiniIntl';
 
 function rawFormatMoney(intl:IntlShape, amount:Money, opts?:FormatMoneyOptions) : string  {
 	const formatter =  intl.formatters.getNumberFormat(intl.locale, {...opts,
@@ -21,12 +16,16 @@ function rawFormatMoney(intl:IntlShape, amount:Money, opts?:FormatMoneyOptions) 
 	return formatter.format(adjustedAmount);
 }
 
-export function useHoudiniIntl() : HoudiniIntlShape {
-	const context = React.useContext(HoudiniIntlContext);
-	return context;
-}
-
-export function HoudiniIntlProvider(props:ConstructorParameters<typeof IntlProvider>[0]) : JSX.Element {
+/**
+ * Use this to scope a context to a tree of components.
+ * Works like [IntlProvider}(https://formatjs.io/docs/react-intl/components#intlprovider)
+ * But includes support for formatting money based on the current locale.
+ *
+ * @export
+ * @param {ConstructorParameters<typeof IntlProvider>[0]} props
+ * @returns {JSX.Element}
+ */
+export default function HoudiniIntlProvider(props:ConstructorParameters<typeof IntlProvider>[0]) : JSX.Element {
 	return <IntlProvider {...props}>
 		<InnerProvider>
 			{props.children}
@@ -34,8 +33,7 @@ export function HoudiniIntlProvider(props:ConstructorParameters<typeof IntlProvi
 	</IntlProvider>;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-function InnerProvider({children}:React.PropsWithChildren<{}>) : JSX.Element {
+function InnerProvider({children}:{children:React.ReactNode}) : JSX.Element {
 	const intl = useIntl();
 	const formatMoney = React.useCallback((amount:Money, opts?:FormatMoneyOptions) => {
 		return rawFormatMoney(intl, amount, opts);
@@ -47,9 +45,7 @@ function InnerProvider({children}:React.PropsWithChildren<{}>) : JSX.Element {
 	</HoudiniIntlContext.Provider>;
 }
 
-
 export function createHoudiniIntl(...props:Parameters<typeof createIntl>) : HoudiniIntlShape {
-
 	const intl = createIntl(...props);
 	const formatMoney = (amount:Money, opts?:FormatMoneyOptions) => rawFormatMoney(intl, amount, opts);
 

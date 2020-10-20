@@ -1,10 +1,9 @@
 // License: LGPL-3.0-or-later
-import { createHoudiniIntl, FormatMoneyOptions } from "./HoudiniIntl";
+import { createHoudiniIntl, FormatMoneyOptions } from "./";
 import { Money } from "../../common/money";
 const NBSP = '\xa0';
 
 let tests:Array<[Money,  FormatMoneyOptions, string]>;
-
 
 describe('formatMoney', () => {
 	describe('en', () => {

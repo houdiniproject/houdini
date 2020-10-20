@@ -1,3 +1,7 @@
 // License: LGPL-3.0-or-later
-export {useHoudiniIntl, HoudiniIntlProvider} from './HoudiniIntl';
-export type {HoudiniIntlShape} from './HoudiniIntl';
+import useHoudiniIntlDefault from '../../hooks/useHoudiniIntl';
+import HoudiniIntlProviderDefault from './HoudiniIntl';
+export const useHoudiniIntl = useHoudiniIntlDefault;
+export const HoudiniIntlProvider = HoudiniIntlProviderDefault;
+export type {HoudiniIntlShape, FormatMoneyOptions} from '../../hooks/useHoudiniIntl';
+export {createHoudiniIntl} from './HoudiniIntl';

@@ -62,6 +62,12 @@ module.exports = {
 		tsxSpec,
 		tsSettings,
 		tsxSettings,
+		{
+			"files": ['*.stories.ts', '*.stories.tsx'],
+			"rules": {
+				"@typescript-eslint/explicit-module-boundary-types": ["off"],
+			},
+		},
 	],
 	"rules": {
 		"linebreak-style": [

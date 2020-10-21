@@ -2,7 +2,7 @@
 import React, {PropsWithChildren, useEffect, useState} from 'react';
 import { CurrentUserContext } from '../../hooks/useCurrentUser';
 
-interface MockCurrentUserProviderProps {
+export interface MockCurrentUserProviderProps {
 	/**
 	 * The userId of the currentUser when initializing, if userId is falsy,
 	 * currentUser is null.

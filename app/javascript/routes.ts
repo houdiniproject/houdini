@@ -7,6 +7,14 @@ const routes = {
 	static_terms_and_privacy_path: ():string => {
 		return "/static/terms_and_privacy";
 	},
+	user_session_path: (props:{format:string|null}):string => {
+		return `/users/sign_in${props?.format ? "." + props?.format : ""}`;
+	},
+
+	/** not correct but good enough for testing */
+	user_session_url: (props:{format:string|null}):string => {
+		return `/users/sign_in${props?.format ? "." + props?.format : ""}`;
+	},
 };
 
 export default routes;

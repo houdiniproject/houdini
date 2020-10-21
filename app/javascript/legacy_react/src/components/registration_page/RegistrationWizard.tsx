@@ -23,7 +23,7 @@ import {
 import {initializationDefinition} from "../../../../../../types/mobx-react-form";
 import {ApiManager} from "../../lib/api_manager";
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
-import {WebUserSignInOut} from "../../lib/api/sign_in";
+import WebUserSignInOut from "../../lib/api/sign_in";
 import * as NonprofitInfoForm from "./NonprofitInfoForm";
 import * as UserInfoForm from "./UserInfoForm";
 
@@ -55,7 +55,7 @@ export class RegistrationPageForm extends HoudiniForm {
 
   nonprofitApi: NonprofitsApi
   usersApi: UsersApi
-  signinApi: WebUserSignInOut
+  signinApi: typeof WebUserSignInOut
 
   options() {
     return {
@@ -89,7 +89,7 @@ export class RegistrationPageForm extends HoudiniForm {
         try {
           const userMessage = {user: input.user}
           let user = await this.usersApi.postUser(userMessage)
-          this.signinApi.postLogin({email: input.user.email, password: input.user.password})
+          this.signinApi.postSignIn({email: input.user.email, password: input.user.password})
           let r = await this.nonprofitApi.postNonprofit(input.nonprofit)
           setTourCookies(r)
           window.location.href = `/nonprofits/${r.id}/dashboard`
@@ -167,7 +167,7 @@ export class InnerRegistrationWizard extends React.Component<RegistrationWizardP
   {
     runInAction(() => {
       this.form.nonprofitApi = this.props.ApiManager.get(NonprofitsApi)
-      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
+      this.form.signinApi = WebUserSignInOut
       this.form.usersApi = this.props.ApiManager.get(UsersApi)
     })
   }

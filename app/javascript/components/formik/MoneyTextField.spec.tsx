@@ -29,7 +29,7 @@ function FormikInner(props: { onChange:(args:{value:Money})=> void}) {
 function FormikHandler(props: { value: Money, onChange:(args:{value:Money})=> void}) {
 
 	const {value, ...innerFormikProps} = props;
-	return <HoudiniIntlProvider locale="">
+	return <HoudiniIntlProvider locale="en">
 
 		<Formik initialValues={{ value }} onSubmit={() => { console.log("submitted");}} enableReinitialize={true}>
 			<FormikInner {...innerFormikProps} />
@@ -92,7 +92,7 @@ describe('MoneyTextField', () => {
 		expect(amount).toHaveTextContent("100");
 		expect(currency).toHaveTextContent("usd");
 
-		act(() => {
+		await act(async () => {
 			fireEvent.change(field, {target:{value: "$8.00"}});
 		});
 
@@ -113,7 +113,7 @@ describe('MoneyTextField', () => {
 		expect(amount).toHaveTextContent("800");
 		expect(currency).toHaveTextContent("usd");
 
-		act(() => {
+		await act(async () => {
 			fireEvent.change(field, {target:{value: "$8.000"}});
 		});
 

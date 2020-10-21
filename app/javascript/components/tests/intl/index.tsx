@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import addons from '@storybook/addons';
 import omit  from 'lodash/omit';
-import { HoudiniIntlProvider, HoudiniIntlShape} from '../../intl';
+import { HoudiniIntlProvider} from '../../intl';
 export let _config:any = null;
 
 const EVENT_SET_CONFIG_ID = "intl/set_config";
@@ -71,7 +73,7 @@ class WithIntl extends React.Component<any,any> {
 }
 
 
-export const setIntlConfig = (config:any) => {
+export const setIntlConfig = (config:typeof _config):void => {
 	_config = config;
 
 	const channel = addons.getChannel();
@@ -83,7 +85,7 @@ export const setIntlConfig = (config:any) => {
 
 
 
-export const withIntl = (story:any) => {
+export const withIntl = (story:any):JSX.Element => {
 	const channel = addons.getChannel();
 
 	const intlConfig = omit(_config, ['locales', 'getMessages', 'getFormats']);

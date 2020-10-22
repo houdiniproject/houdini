@@ -38,6 +38,85 @@ const tsBase = {
 		'plugin:@typescript-eslint/recommended',
 		"plugin:react-hooks/recommended",
 	],
+	rules: {
+		'@typescript-eslint/member-ordering': ['error',
+			{
+				// this is the default from @typescript-eslint itself
+				"default": {
+					"memberTypes": [
+						// Index signature
+						"signature",
+
+						// Fields
+						"public-static-field",
+						"protected-static-field",
+						"private-static-field",
+
+						"public-decorated-field",
+						"protected-decorated-field",
+						"private-decorated-field",
+
+						"public-instance-field",
+						"protected-instance-field",
+						"private-instance-field",
+
+						"public-abstract-field",
+						"protected-abstract-field",
+						"private-abstract-field",
+
+						"public-field",
+						"protected-field",
+						"private-field",
+
+						"static-field",
+						"instance-field",
+						"abstract-field",
+
+						"decorated-field",
+
+						"field",
+
+						// Constructors
+						"public-constructor",
+						"protected-constructor",
+						"private-constructor",
+
+						"constructor",
+
+						// Methods
+						"public-static-method",
+						"protected-static-method",
+						"private-static-method",
+
+						"public-decorated-method",
+						"protected-decorated-method",
+						"private-decorated-method",
+
+						"public-instance-method",
+						"protected-instance-method",
+						"private-instance-method",
+
+						"public-abstract-method",
+						"protected-abstract-method",
+						"private-abstract-method",
+
+						"public-method",
+						"protected-method",
+						"private-method",
+
+						"static-method",
+						"instance-method",
+						"abstract-method",
+
+						"decorated-method",
+
+						"method",
+					],
+					"order": "alphabetically",
+				},
+			},
+		],
+	},
 };
 
 const tsSettings = _.cloneDeep(tsBase);
@@ -79,9 +158,9 @@ module.exports = {
 			"always",
 		],
 		"no-trailing-spaces": ["error"],
-		"indent": ["error", "tab", {"SwitchCase": 1}], // we use tabs for accessibility
+		"indent": ["error", "tab", { "SwitchCase": 1 }], // we use tabs for accessibility
 		"comma-dangle": ["error", "always-multiline"],
-		"@typescript-eslint/no-unused-vars": ['error', {"args": "all", "argsIgnorePattern": "^_"}],
+		"@typescript-eslint/no-unused-vars": ['error', { "args": "all", "argsIgnorePattern": "^_" }],
 	},
 	"settings": {
 		"react": {

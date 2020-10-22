@@ -18,43 +18,48 @@ export interface KeyedStepMap<T = unknown> {
 
 interface ReadonlyStepsState {
 	readonly activeStep?: number;
+	readonly activeStepKey: string;
 	readonly completed?: KeyedStepMap<boolean>;
 	readonly disabled?: KeyedStepMap<boolean>;
 	/**
 	 * An internal copy of steps which only includes the key
 	 */
 	readonly stepKeys: readonly string[]
-	readonly activeStepKey: string;
+
 }
 
 function areKeyedStepsDifferent(first: readonly string[], second: readonly string[]) {
 	return first.length != second.length || first.find((value, index) => second[index] != value);
 }
 
-function getIndexAndKeyPair(steps: readonly string[], step: string | number | unknown): {key:string, index:number} | false {
+function getIndexAndKeyPair(steps: readonly string[], step: string | number | unknown): { index: number, key: string } | false {
 
 	if (typeof step === 'string') {
 		const index = steps.findIndex((i) => i === step);
-		if (index){
-			return {key: step, index};
+		if (index) {
+			return { key: step, index };
 		}
 	}
 	else if (typeof step === 'number' && step >= 0 && step < steps.length) {
-		return {key: steps[step], index: step};
+		return { key: steps[step], index: step };
 	}
 	return false;
 }
 
-function getLastEnabledBeforeGivenStep(steps: readonly string[], currentActiveStep:number, disabled:KeyedStepMap<boolean>): {key:string, index:number}{
+function getLastEnabledBeforeGivenStep(
+	steps: readonly string[],
+	currentActiveStep: number,
+	disabled: KeyedStepMap<boolean>
+): { index: number, key: string } {
 	const possibleNewActiveStep = findLastIndex(take(steps, currentActiveStep + 1), (i) => !disabled[i]);
-	const index =  possibleNewActiveStep >= 0 ? possibleNewActiveStep : 0;
-	return {key: steps[index], index};
+	const index = possibleNewActiveStep >= 0 ? possibleNewActiveStep : 0;
+	return { key: steps[index], index };
 }
 
 function reindexState(state: ReadonlyStepsState, incomingSteps: readonly KeyedStep[]): ReadonlyStepsState {
 	const incomingStepKeys = incomingSteps.map(i => i.key);
 	//if true, we've had new steps added or removed
-	if (areKeyedStepsDifferent(state.stepKeys, incomingStepKeys) ) {
+	if (areKeyedStepsDifferent(state.stepKeys, incomingStepKeys)) {
 		const newIndexOfActiveStep = incomingStepKeys.findIndex(v => v === state.activeStepKey);
 		let activeStep = state.activeStep;
 		let activeStepKey = state.activeStepKey;
@@ -101,10 +106,6 @@ function reindexState(state: ReadonlyStepsState, incomingSteps: readonly KeyedSt
 	return state;
 }
 
-
-
-
-
 interface StepsInitOptions {
 	readonly activeStep?: number;
 	readonly completed?: KeyedStepMap<boolean>;
@@ -123,31 +124,31 @@ interface InputStepsMethods {
 
 
 interface MutableStepsObject extends InputStepsMethods {
-	goto: (step: number) => void
 	back: () => void
-	next: () => void
-	first: () => void
-	last: () => void
 	complete: (step: number) => void
-	uncomplete: (step: number) => void
 	disable: (step: number) => void
 	enable: (step: number) => void
-
+	first: () => void
+	goto: (step: number) => void
+	last: () => void
+	next: () => void
+	uncomplete: (step: number) => void
 }
 type StepsObject = Readonly<MutableStepsObject> & Readonly<InputStepsState> & StepsInitOptions & { readonly steps: readonly KeyedStep[] }
 
 type StepTypes = 'goto' | 'first' | 'last' | 'back' | 'next' | 'complete' | 'uncomplete' | 'disable' | 'enable' | 'stepsChanged'
 
 interface StepAction {
-	type: StepTypes, payload?: number | string | readonly KeyedStep[]
+	payload?: number | string | readonly KeyedStep[];
+	type: StepTypes;
 }
 function stepsReducer(state: ReadonlyStepsState, args: StepAction): ReadonlyStepsState {
-	let indexKeyPair:ReturnType<typeof getIndexAndKeyPair> = false;
+	let indexKeyPair: ReturnType<typeof getIndexAndKeyPair> = false;
 	switch (args.type) {
 		case ('goto'):
 			indexKeyPair = getIndexAndKeyPair(state.stepKeys, args.payload);
 			if (indexKeyPair && !state.disabled[indexKeyPair.key]) {
-				return {...state, activeStep:indexKeyPair.index, activeStepKey: indexKeyPair.key};
+				return { ...state, activeStep: indexKeyPair.index, activeStepKey: indexKeyPair.key };
 			}
 			return state;
 		case ('first'):
@@ -157,7 +158,7 @@ function stepsReducer(state: ReadonlyStepsState, args: StepAction): ReadonlyStep
 			}
 			return state;
 		case ('last'):
-			const lastStep = state.stepKeys.length - 1 >=0 ? state.stepKeys.length - 1  : 0 ;
+			const lastStep = state.stepKeys.length - 1 >= 0 ? state.stepKeys.length - 1 : 0;
 			if (state.activeStep != lastStep && !state.disabled[state.stepKeys[lastStep]]) {
 				return { ...state, activeStep: lastStep, activeStepKey: state.stepKeys[lastStep] };
 			}
@@ -195,7 +196,7 @@ function stepsReducer(state: ReadonlyStepsState, args: StepAction): ReadonlyStep
 			if (indexKeyPair) {
 				const disabled = { ...state.disabled };
 				disabled[indexKeyPair.key] = true;
-				let {activeStep, activeStepKey} = state;
+				let { activeStep, activeStepKey } = state;
 				if (state.activeStep == indexKeyPair.index) {
 					const result = getLastEnabledBeforeGivenStep(state.stepKeys, activeStep, disabled);
 					activeStep = result.index;

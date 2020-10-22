@@ -28,12 +28,6 @@ class WithIntl extends React.Component<any,any> {
 		channel.emit(EVENT_GET_LOCALE_ID);
 	}
 
-	setLocale (locale:string) {
-		this.setState({
-			locale: locale,
-		});
-	}
-
 	componentWillUnmount () {
 		this.props.channel.removeListener(EVENT_SET_LOCALE_ID, this.setLocale);
 	}
@@ -69,6 +63,12 @@ class WithIntl extends React.Component<any,any> {
 				{children}
 			</HoudiniIntlProvider>
 		);
+	}
+
+	setLocale (locale:string) {
+		this.setState({
+			locale: locale,
+		});
 	}
 }
 

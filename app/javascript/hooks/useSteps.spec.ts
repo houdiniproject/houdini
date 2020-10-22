@@ -361,7 +361,7 @@ describe('modify steps', () => {
 	): [
 			KeyedStep[], number | undefined, KeyedStepMap<boolean> | undefined, KeyedStepMap<boolean> | undefined, // initial
 			KeyedStep[], //stepChange
-			number | undefined, KeyedStepMap<boolean>, KeyedStepMap<boolean> //expectations
+			number | undefined, KeyedStepMap<boolean>, KeyedStepMap<boolean>, //expectations
 		] {
 		const expectation = {
 			activeStep: props.initial.activeStep || 0,

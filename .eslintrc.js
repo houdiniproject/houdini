@@ -171,7 +171,8 @@ module.exports = {
 		],
 		"no-trailing-spaces": ["error"],
 		"indent": ["error", "tab", { "SwitchCase": 1 }], // we use tabs for accessibility
-		"comma-dangle": ["error", "always-multiline"],
+		"comma-dangle": "off",
+		"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
 		"@typescript-eslint/no-unused-vars": ['error', { "args": "all", "argsIgnorePattern": "^_" }],
 	},
 	"settings": {

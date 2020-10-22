@@ -184,6 +184,12 @@ export class Money {
 		return 0 <= this.compare(other);
 	}
 
+	/**
+	 * Returns true if the amount is negative
+	 *
+	 * @returns {boolean}
+	 * @memberof Money
+	 */
 	isNegative(): boolean {
 		return this.amount < 0;
 	}

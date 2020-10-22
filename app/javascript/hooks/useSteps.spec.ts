@@ -345,18 +345,18 @@ describe('.enable', () => {
 describe('modify steps', () => {
 	function createTableEntry(props: {
 		expectation: {
-			activeStep?: number,
-			completed?: KeyedStepMap<boolean>,
-			disabled?: KeyedStepMap<boolean>,
-		},
+			activeStep?: number;
+			completed?: KeyedStepMap<boolean>;
+			disabled?: KeyedStepMap<boolean>;
+		};
 		initial: {
-			activeStep?: number,
+			activeStep?: number;
 			completed?:
-			KeyedStepMap<boolean>
-			disabled?: KeyedStepMap<boolean>,
-			steps: KeyedStep[],
-		},
-		stepChange: KeyedStep[],
+			KeyedStepMap<boolean>;
+			disabled?: KeyedStepMap<boolean>;
+			steps: KeyedStep[];
+		};
+		stepChange: KeyedStep[];
 	}
 	): [
 			KeyedStep[], number | undefined, KeyedStepMap<boolean> | undefined, KeyedStepMap<boolean> | undefined, // initial

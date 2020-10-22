@@ -116,6 +116,18 @@ const tsBase = {
 				},
 			},
 		],
+		'@typescript-eslint/member-delimiter-style': ['error',
+			{
+				"multiline": {
+					"delimiter": "semi",
+					"requireLast": true,
+				},
+				"singleline": {
+					"delimiter": "comma",
+					"requireLast": false,
+				},
+			},
+		],
 	},
 };
 

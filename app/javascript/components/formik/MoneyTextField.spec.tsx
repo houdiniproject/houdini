@@ -26,7 +26,7 @@ function FormikInner(props: { onChange:(args:{value:Money})=> void}) {
 		<Field component={MoneyTextField} name="value" aria-label="field"/></>;
 }
 
-function FormikHandler(props: { onChange:(args:{value:Money})=> void, value: Money,}) {
+function FormikHandler(props: { onChange:(args:{value:Money})=> void, value: Money}) {
 
 	const {value, ...innerFormikProps} = props;
 	return <HoudiniIntlProvider locale="en">

@@ -12,7 +12,7 @@ import {useI18nCurrencyInput, Types} from '@houdiniproject/react-i18n-currency-i
 import '../../common/intl-polyfills/numberFormat';
 
 export interface UseSerializeMoneyProps extends Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale'|'value'> {
-	value:Money
+	value:Money;
 }
 
 /**

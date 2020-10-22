@@ -13,7 +13,7 @@ export interface KeyedStep {
 }
 
 export interface KeyedStepMap<T = unknown> {
-	[stepKey: string]: T
+	[stepKey: string]: T;
 }
 
 interface ReadonlyStepsState {
@@ -24,7 +24,7 @@ interface ReadonlyStepsState {
 	/**
 	 * An internal copy of steps which only includes the key
 	 */
-	readonly stepKeys: readonly string[]
+	readonly stepKeys: readonly string[];
 
 }
 
@@ -114,25 +114,25 @@ interface StepsInitOptions {
 
 
 interface InputStepsState extends Readonly<InputStepsMethods> {
-	readonly steps: readonly KeyedStep[]
+	readonly steps: readonly KeyedStep[];
 }
 
 interface InputStepsMethods {
-	addStep: (step: KeyedStep, before?: number) => void
-	removeStep: (step: KeyedStep) => void
+	addStep: (step: KeyedStep, before?: number) => void;
+	removeStep: (step: KeyedStep) => void;
 }
 
 
 interface MutableStepsObject extends InputStepsMethods {
-	back: () => void
-	complete: (step: number) => void
-	disable: (step: number) => void
-	enable: (step: number) => void
-	first: () => void
-	goto: (step: number) => void
-	last: () => void
-	next: () => void
-	uncomplete: (step: number) => void
+	back: () => void;
+	complete: (step: number) => void;
+	disable: (step: number) => void;
+	enable: (step: number) => void;
+	first: () => void;
+	goto: (step: number) => void;
+	last: () => void;
+	next: () => void;
+	uncomplete: (step: number) => void;
 }
 type StepsObject = Readonly<MutableStepsObject> & Readonly<InputStepsState> & StepsInitOptions & { readonly steps: readonly KeyedStep[] }
 

@@ -38,7 +38,51 @@ const tsBase = {
 		'plugin:@typescript-eslint/recommended',
 		"plugin:react-hooks/recommended",
 	],
-	rules: {
+};
+
+const tsSettings = _.cloneDeep(tsBase);
+tsSettings['files'] = ['**/*.ts'];
+
+const tsxSettings = _.cloneDeep(tsBase);
+tsxSettings['files'] = ['**/*.tsx'];
+tsxSettings['plugins'] = [...tsxSpec['plugins'], "react"];
+tsxSettings['extends'] = [...tsxSpec['extends'], "plugin:react/recommended"];
+
+module.exports = {
+	root: true,
+	overrides: [
+		{
+			"files": ['*.js', 'config/webpack/**/*.js'],
+			extends: [
+				'eslint:recommended',
+				'plugin:node/recommended',
+			],
+		},
+		tsSpec,
+		tsxSpec,
+		tsSettings,
+		tsxSettings,
+		{
+			"files": ['*.stories.ts', '*.stories.tsx'],
+			"rules": {
+				"@typescript-eslint/explicit-module-boundary-types": ["off"],
+			},
+		},
+	],
+	"rules": {
+		"linebreak-style": [
+			"error",
+			"unix",
+		],
+		"semi": [
+			"error",
+			"always",
+		],
+		"no-trailing-spaces": ["error"],
+		"indent": ["error", "tab", { "SwitchCase": 1 }], // we use tabs for accessibility
+		"comma-dangle": "off",
+		"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+		"@typescript-eslint/no-unused-vars": ['error', { "args": "all", "argsIgnorePattern": "^_" }],
 		'@typescript-eslint/member-ordering': ['error',
 			{
 				// this is the default from @typescript-eslint itself
@@ -128,52 +172,6 @@ const tsBase = {
 				},
 			},
 		],
-	},
-};
-
-const tsSettings = _.cloneDeep(tsBase);
-tsSettings['files'] = ['**/*.ts'];
-
-const tsxSettings = _.cloneDeep(tsBase);
-tsxSettings['files'] = ['**/*.tsx'];
-tsxSettings['plugins'] = [...tsxSpec['plugins'], "react"];
-tsxSettings['extends'] = [...tsxSpec['extends'], "plugin:react/recommended"];
-
-module.exports = {
-	root: true,
-	overrides: [
-		{
-			"files": ['*.js', 'config/webpack/**/*.js'],
-			extends: [
-				'eslint:recommended',
-				'plugin:node/recommended',
-			],
-		},
-		tsSpec,
-		tsxSpec,
-		tsSettings,
-		tsxSettings,
-		{
-			"files": ['*.stories.ts', '*.stories.tsx'],
-			"rules": {
-				"@typescript-eslint/explicit-module-boundary-types": ["off"],
-			},
-		},
-	],
-	"rules": {
-		"linebreak-style": [
-			"error",
-			"unix",
-		],
-		"semi": [
-			"error",
-			"always",
-		],
-		"no-trailing-spaces": ["error"],
-		"indent": ["error", "tab", { "SwitchCase": 1 }], // we use tabs for accessibility
-		"comma-dangle": "off",
-		"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
-		"@typescript-eslint/no-unused-vars": ['error', { "args": "all", "argsIgnorePattern": "^_" }],
 	},
 	"settings": {
 		"react": {

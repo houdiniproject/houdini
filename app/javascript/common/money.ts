@@ -28,6 +28,13 @@ type MoneyAsJson = { amount: number, currency: string }
  */
 export class Money {
 
+	/**
+	* Create a `Money` object with the given number if smallest monetary units and the ISO currency. Another name for the `fromCents` function.
+	* @static
+	* @memberof Money
+	*/
+	static fromSMU = Money.fromCents
+
 	readonly currency: string
 
 	protected constructor(readonly amount: number, currency: string) {
@@ -63,28 +70,6 @@ export class Money {
 			return new Money(amount.amount, amount.currency);
 	}
 
-
-	/**
-	* Create a `Money` object with the given number if smallest monetary units and the ISO currency. Another name for the `fromCents` function.
-	* @static
-	* @memberof Money
-	*/
-	static fromSMU = Money.fromCents
-
-	/**
-  * Returns true if the two instances of Money are equal, false otherwise.
-  *
-  * @param {Money} other
-  * @returns {Boolean}
-  */
-	equals(other: Money): boolean {
-
-		assertType(other);
-
-		return this.amount === other.amount &&
-			this.currency === other.currency;
-	}
-
 	/**
 	* Adds the two objects together creating a new Money instance that holds the result of the operation.
 	*
@@ -97,54 +82,6 @@ export class Money {
 		assertSameCurrency(this, other);
 
 		return new Money(this.amount + other.amount, this.currency);
-	}
-
-	/**
-	* Subtracts the two objects creating a new Money instance that holds the result of the operation.
-	*
-	* @param {Money} other
-	* @returns {Money}
-	*/
-	subtract(other: Money): Money {
-
-		assertType(other);
-		assertSameCurrency(this, other);
-
-		return new Money(this.amount - other.amount, this.currency);
-	}
-
-	/**
-	* Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
-	*
-	* @param {number} multiplier
-	* @param {(x:number) => number} [fn=Math.round]
-	* @returns {Money}
-	*/
-	multiply(multiplier: number, roundingFunction: (x: number) => number): Money {
-		if (!isFunction(roundingFunction))
-			roundingFunction = Math.round;
-
-		assertOperand(multiplier);
-		const amount = roundingFunction(this.amount * multiplier);
-
-		return new Money(amount, this.currency);
-	}
-
-	/**
-	* Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
-	*
-	* @param {Number} divisor
-	* @param {(x:number) => number} [fn=Math.round]
-	* @returns {Money}
-	*/
-	divide(divisor: number, fn?: (x: number) => number): Money {
-		if (!isFunction(fn))
-			fn = Math.round;
-
-		assertOperand(divisor);
-		const amount = fn(this.amount / divisor);
-
-		return new Money(amount, this.currency);
 	}
 
 	/**
@@ -196,6 +133,38 @@ export class Money {
 	}
 
 	/**
+	* Divides the object by the multiplier returning a new Money instance that holds the result of the operation.
+	*
+	* @param {Number} divisor
+	* @param {(x:number) => number} [fn=Math.round]
+	* @returns {Money}
+	*/
+	divide(divisor: number, fn?: (x: number) => number): Money {
+		if (!isFunction(fn))
+			fn = Math.round;
+
+		assertOperand(divisor);
+		const amount = fn(this.amount / divisor);
+
+		return new Money(amount, this.currency);
+	}
+
+
+	/**
+  * Returns true if the two instances of Money are equal, false otherwise.
+  *
+  * @param {Money} other
+  * @returns {Boolean}
+  */
+	equals(other: Money): boolean {
+
+		assertType(other);
+
+		return this.amount === other.amount &&
+			this.currency === other.currency;
+	}
+
+	/**
 	* Checks whether the value represented by this object is greater than the other.
 	*
 	* @param {Money} other
@@ -213,6 +182,28 @@ export class Money {
 	*/
 	greaterThanOrEqual(other: Money): boolean {
 		return 0 <= this.compare(other);
+	}
+
+	isNegative(): boolean {
+		return this.amount < 0;
+	}
+
+	/**
+	* Returns true if the amount is positive.
+	*
+	* @returns {boolean}
+	*/
+	isPositive(): boolean {
+		return this.amount > 0;
+	}
+
+	/**
+	* Returns true if the amount is zero.
+	*
+	* @returns {boolean}
+	*/
+	isZero(): boolean {
+		return this.amount === 0;
 	}
 
 	/**
@@ -236,25 +227,34 @@ export class Money {
 	}
 
 	/**
-	* Returns true if the amount is zero.
+	* Multiplies the object by the multiplier returning a new Money instance that holds the result of the operation.
 	*
-	* @returns {boolean}
+	* @param {number} multiplier
+	* @param {(x:number) => number} [fn=Math.round]
+	* @returns {Money}
 	*/
-	isZero(): boolean {
-		return this.amount === 0;
+	multiply(multiplier: number, roundingFunction: (x: number) => number): Money {
+		if (!isFunction(roundingFunction))
+			roundingFunction = Math.round;
+
+		assertOperand(multiplier);
+		const amount = roundingFunction(this.amount * multiplier);
+
+		return new Money(amount, this.currency);
 	}
 
 	/**
-	* Returns true if the amount is positive.
+	* Subtracts the two objects creating a new Money instance that holds the result of the operation.
 	*
-	* @returns {boolean}
+	* @param {Money} other
+	* @returns {Money}
 	*/
-	isPositive(): boolean {
-		return this.amount > 0;
-	}
+	subtract(other: Money): Money {
 
-	isNegative(): boolean {
-		return this.amount < 0;
+		assertType(other);
+		assertSameCurrency(this, other);
+
+		return new Money(this.amount - other.amount, this.currency);
 	}
 
 	/**

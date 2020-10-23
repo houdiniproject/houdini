@@ -175,7 +175,8 @@
     "view-script": "0.3.6",
     "virtual-dom": "2.1.1",
     "vvvview": "0.4.3",
-    "websocket-extensions": "^0.1.4"
+    "websocket-extensions": "^0.1.4",
+    "yup": "^0.29.3"
   },
   "jest": {
     "testEnvironment": "jest-environment-jsdom-fifteen",

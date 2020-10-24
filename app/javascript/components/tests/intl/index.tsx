@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import addons from '@storybook/addons';
 import omit  from 'lodash/omit';
 import { IntlProvider} from '../../intl';
+const messages = require('../../../i18n.js');
+
 export let _config:any = null;
 
 const EVENT_SET_CONFIG_ID = "intl/set_config";
@@ -100,6 +103,16 @@ export const withIntl = (story:any):JSX.Element => {
 		</WithIntl>
 	);
 };
+
+export default function decorate() {
+	setIntlConfig({
+		locales: Object.keys(messages.translations),
+		defaultLocale: messages.defaultLocale,
+		// we use this form becuase it allows the story to be viewed in IE11
+		getMessages: function(locale:string) { return {...messages.translations[messages.defaultLocale], ...messages.translations[locale]};},
+	});
+	return withIntl;
+}
 
 
 

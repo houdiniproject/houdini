@@ -6039,8 +6039,6 @@ Copyright (c) Facebook, Inc. and its affiliates.
 ** remove-trailing-separator; version 1.1.0 -- https://github.com/darsain/remove-trailing-separator#readme
 ** request-promise-core; version 1.1.4 -- https://github.com/request/promise-core#readme
 ** request-promise-native; version 1.0.9 -- https://github.com/request/request-promise-native#readme
-** require-main-filename; version 2.0.0 -- https://github.com/yargs/require-main-filename#readme
-Copyright (c) 2016
 
 ISC License
 
@@ -6484,6 +6482,7 @@ Copyright (c) 2013-present, Facebook, Inc.
 ** react-element-to-jsx-string; version 14.3.1 -- https://github.com/algolia/react-element-to-jsx-string#readme
 Copyright (c) 2015 Algolia
 Copyright (c) 2014-2017, Jon Schlinkert.
+** react-error-boundary; version 3.0.2 -- https://github.com/bvaughn/react-error-boundary#readme
 ** react-error-overlay; version 6.0.7 -- https://github.com/facebook/create-react-app#readme
 (c) 2019 Denis Pushkarev
 Copyright (c) 2013-present, Facebook, Inc.
@@ -7011,6 +7010,8 @@ For these and/or other purposes and motivations, and without any expectation of 
 
 ------
 
+** require-main-filename; version 2.0.0 -- https://github.com/yargs/require-main-filename#readme
+Copyright (c) 2016
 ** rimraf; version 2.7.1 -- https://github.com/isaacs/rimraf#readme
 Copyright (c) Isaac Z. Schlueter and Contributors
 ** run-queue; version 1.0.3 -- https://npmjs.com/package/run-queue
@@ -7574,8 +7575,6 @@ Copyright (c) 2014 Raynos.
 ** vendors; version 1.0.4 -- https://github.com/wooorm/vendors#readme
 (c) Titus Wormer
 Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
-** verror; version 1.10.0 -- https://github.com/davepacheco/node-verror
-Copyright (c) 2016, Joyent, Inc.
 
 MIT License
 
@@ -7807,6 +7806,8 @@ THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO
 ** js-money; version 0.6.3 -- https://github.com/davidkalosi/js-money#readme
 Copyright (c) 2014 David Kalosi
 Copyright (c) 2014 David Kalosi http://davidkalosi.com/ (http://davidkalosi.com/)
+** verror; version 1.10.0 -- https://github.com/davepacheco/node-verror
+Copyright (c) 2016, Joyent, Inc.
 ** vfile; version 4.2.0 -- https://github.com/vfile/vfile#readme
 ** vfile-location; version 3.1.0 -- https://github.com/vfile/vfile-location#readme
 (c) Titus Wormer

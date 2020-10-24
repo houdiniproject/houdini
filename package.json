@@ -58,6 +58,7 @@
     "@types/react-transition-group": "^2.9.0",
     "@types/sinon": "^4.3.3",
     "@types/validator": "^9.4.1",
+    "@types/yup": "^0.29.8",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
     "babel-loader": "^8.1.0",

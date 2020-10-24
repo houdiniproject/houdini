@@ -3,7 +3,7 @@
 import React from 'react';
 import addons from '@storybook/addons';
 import omit  from 'lodash/omit';
-import { HoudiniIntlProvider} from '../../intl';
+import { IntlProvider} from '../../intl';
 export let _config:any = null;
 
 const EVENT_SET_CONFIG_ID = "intl/set_config";
@@ -59,9 +59,9 @@ class WithIntl extends React.Component<any,any> {
 		}
 
 		return (
-			<HoudiniIntlProvider {...intlConfig} {...customProps}>
+			<IntlProvider {...intlConfig} {...customProps}>
 				{children}
-			</HoudiniIntlProvider>
+			</IntlProvider>
 		);
 	}
 

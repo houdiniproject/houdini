@@ -1,11 +1,11 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import type { FormatNumberOptions, IntlShape } from "react-intl";
+import type { FormatNumberOptions, IntlShape as ParentIntlShape } from "react-intl";
 import { Money } from "../common/money";
 
-export declare type FormatMoneyOptions = Omit<FormatNumberOptions,'style'|'unit'|'unitDisplay'|'currency'>;
+export type FormatMoneyOptions = Omit<FormatNumberOptions,'style'|'unit'|'unitDisplay'|'currency'>;
 
-export declare type HoudiniIntlShape = IntlShape & {
+export type IntlShape = ParentIntlShape & {
 	/**
 	 * Format a monetary value as a string given the locale
 	 *
@@ -16,15 +16,15 @@ export declare type HoudiniIntlShape = IntlShape & {
 	formatMoney(amount: Money, opts?: FormatMoneyOptions): string;
 };
 
-export const HoudiniIntlContext = React.createContext<HoudiniIntlShape>(null as HoudiniIntlShape);
+export const IntlContext = React.createContext<IntlShape>(null as IntlShape);
 
 /**
  * Use just like `useIntl` for getting strings for the current locale.
  *
  * @export
- * @returns {HoudiniIntlShape}
+ * @returns {IntlShape}
  */
-export default function useHoudiniIntl() : HoudiniIntlShape {
-	const context = React.useContext(HoudiniIntlContext);
+export default function useIntl() : IntlShape {
+	const context = React.useContext(IntlContext);
 	return context;
 }

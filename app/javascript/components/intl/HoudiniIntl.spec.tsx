@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import { createHoudiniIntl, FormatMoneyOptions } from "./";
+import { createIntl, FormatMoneyOptions } from "./";
 import { Money } from "../../common/money";
 const NBSP = '\xa0';
 
@@ -7,7 +7,7 @@ let tests:Array<[Money,  FormatMoneyOptions, string]>;
 
 describe('formatMoney', () => {
 	describe('en', () => {
-		const intl = createHoudiniIntl({locale: 'en'});
+		const intl = createIntl({locale: 'en'});
 		const oneDollar = Money.fromCents(100, 'usd');
 		const oneThousandDollars = Money.fromCents(100000, 'usd');
 		const oneThousandDollarsTenCents = Money.fromCents(100010, 'usd');

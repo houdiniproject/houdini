@@ -1,12 +1,16 @@
 // License: LGPL-3.0-or-later
 
 import * as React from "react";
-import { useIntl, IntlShape, IntlProvider, createIntl} from "react-intl";
+import { useIntl as useIntlParent,
+	IntlShape as IntlShapeParent,
+	IntlProvider as IntlProviderParent,
+	createIntl as createIntlParent} from "react-intl";
 import { Money } from "../../common/money";
-import { HoudiniIntlContext } from "../../hooks/useHoudiniIntl";
-import type {HoudiniIntlShape, FormatMoneyOptions} from '../../hooks/useHoudiniIntl';
+import { IntlContext } from "../../hooks/useIntl";
+import type {IntlShape, FormatMoneyOptions} from '../../hooks/useIntl';
 
-function rawFormatMoney(intl:IntlShape, amount:Money, opts?:FormatMoneyOptions) : string  {
+
+function rawFormatMoney(intl:IntlShapeParent, amount:Money, opts?:FormatMoneyOptions) : string  {
 	const formatter =  intl.formatters.getNumberFormat(intl.locale, {...opts,
 		style: 'currency',
 		currency: amount.currency.toUpperCase(),
@@ -22,31 +26,31 @@ function rawFormatMoney(intl:IntlShape, amount:Money, opts?:FormatMoneyOptions) 
  * But includes support for formatting money based on the current locale.
  *
  * @export
- * @param {ConstructorParameters<typeof IntlProvider>[0]} props
+ * @param {ConstructorParameters<typeof IntlProviderParent>[0]} props
  * @returns {JSX.Element}
  */
-export default function HoudiniIntlProvider(props:ConstructorParameters<typeof IntlProvider>[0]) : JSX.Element {
-	return <IntlProvider {...props}>
+export default function IntlProvider(props:ConstructorParameters<typeof IntlProviderParent>[0]) : JSX.Element {
+	return <IntlProviderParent {...props}>
 		<InnerProvider>
 			{props.children}
 		</InnerProvider>
-	</IntlProvider>;
+	</IntlProviderParent>;
 }
 
 function InnerProvider({children}:{children:React.ReactNode}) : JSX.Element {
-	const intl = useIntl();
+	const intl = useIntlParent();
 	const formatMoney = React.useCallback((amount:Money, opts?:FormatMoneyOptions) => {
 		return rawFormatMoney(intl, amount, opts);
 	}, [intl]);
 
 	const houdiniIntl = 	{ ...intl, formatMoney};
-	return <HoudiniIntlContext.Provider value={houdiniIntl}>
+	return <IntlContext.Provider value={houdiniIntl}>
 		{children}
-	</HoudiniIntlContext.Provider>;
+	</IntlContext.Provider>;
 }
 
-export function createHoudiniIntl(...props:Parameters<typeof createIntl>) : HoudiniIntlShape {
-	const intl = createIntl(...props);
+export function createIntl(...props:Parameters<typeof createIntlParent>) : IntlShape {
+	const intl = createIntlParent(...props);
 	const formatMoney = (amount:Money, opts?:FormatMoneyOptions) => rawFormatMoney(intl, amount, opts);
 
 	return {...intl, formatMoney};

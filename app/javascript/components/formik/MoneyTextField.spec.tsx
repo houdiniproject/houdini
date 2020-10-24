@@ -9,9 +9,7 @@ import '@testing-library/jest-dom/extend-expect';
 import {MoneyTextField} from './index';
 import { Field, Formik, useFormikContext } from 'formik';
 import { Money } from '../../common/money';
-import { HoudiniIntlProvider } from '../intl';
-
-
+import { IntlProvider } from '../intl';
 
 
 function FormikInner(props: { onChange:(args:{value:Money})=> void}) {
@@ -29,12 +27,11 @@ function FormikInner(props: { onChange:(args:{value:Money})=> void}) {
 function FormikHandler(props: { onChange:(args:{value:Money})=> void, value: Money}) {
 
 	const {value, ...innerFormikProps} = props;
-	return <HoudiniIntlProvider locale="en">
-
+	return <IntlProvider locale="en">
 		<Formik initialValues={{ value }} onSubmit={() => { console.log("submitted");}} enableReinitialize={true}>
 			<FormikInner {...innerFormikProps} />
 		</Formik>
-	</HoudiniIntlProvider>;
+	</IntlProvider>;
 }
 
 FormikHandler.defaultProps = {

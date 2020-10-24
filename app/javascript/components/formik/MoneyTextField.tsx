@@ -5,7 +5,7 @@ import * as React from "react";
 import MuiTextField from '@material-ui/core/TextField';
 import { fieldToTextField, TextFieldProps } from 'formik-material-ui';
 import { Money } from "../../common/money";
-import { useHoudiniIntl } from "../intl";
+import { useIntl } from "../intl";
 import { useEffect, useRef } from "react";
 
 import {useI18nCurrencyInput, Types} from '@houdiniproject/react-i18n-currency-input';
@@ -28,7 +28,7 @@ export interface UseSerializeMoneyProps extends Omit<Types.UseI18nCurrencyInputP
  * @param setOutputAmount used for passing up output of the Hook
  */
 export function useSerializeMoney(props:UseSerializeMoneyProps) : ReturnType<typeof useI18nCurrencyInput> {
-	const intl = useHoudiniIntl();
+	const intl = useIntl();
 	const {locale} = intl;
 	const {value, ...other} = props;
 	const {amount, currency} = value;

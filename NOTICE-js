@@ -2706,6 +2706,8 @@ Copyright (c) Microsoft Corporation.
 Copyright (c) Microsoft Corporation.
 ** @types/yargs-parser; version 15.0.0 -- 
 Copyright (c) Microsoft Corporation.
+** @types/yup; version 0.29.8 -- 
+Copyright (c) Microsoft Corporation.
 ** @typescript-eslint/eslint-plugin; version 4.3.0 -- https://github.com/typescript-eslint/typescript-eslint#readme
 Copyright (c) 2019 TypeScript ESLint and other contributors
 ** @typescript-eslint/experimental-utils; version 4.3.0 -- https://github.com/typescript-eslint/typescript-eslint#readme
@@ -3087,9 +3089,6 @@ Copyright (c) 2014 Sebastien Balayn
 Copyright (c) 2016 Michael Pratt
 Copyright (c) 2018 Michael Pratt
 Copyright (c) 2015 Alexandre Kirszenberg
-** ccount; version 1.0.5 -- https://github.com/wooorm/ccount#readme
-(c) Titus Wormer
-Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 
 MIT License
 
@@ -3129,8 +3128,6 @@ Copyright (c) 2012, 2011 Ariya Hidayat (http://ariya.ofilabs.com/about) (twitter
 ** ejs; version 3.1.3 -- https://github.com/mde/ejs
 Copyright Joyent, Inc. and other Node contributors.
 ** eslint-visitor-keys; version 1.3.0 -- https://github.com/eslint/eslint-visitor-keys#readme
-** fast-diff; version 1.1.2 -- https://github.com/jhchen/fast-diff#readme
-Copyright 2006 Google Inc. http://code.google.com/p/google-diff-match-patch
 
 Apache License
 
@@ -3417,6 +3414,9 @@ THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO
 
 ------
 
+** ccount; version 1.0.5 -- https://github.com/wooorm/ccount#readme
+(c) Titus Wormer
+Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 ** chalk; version 4.1.0 -- https://github.com/chalk/chalk#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** char-regex; version 1.0.2 -- 
@@ -4023,6 +4023,8 @@ For the general privacy policy governing access to this site, see the Unicode Pr
       4. Severability. If any provision of this Agreement is declared invalid or unenforceable, the remaining provisions of this Agreement shall remain in effect.
 
       5. Entire Agreement. This Agreement constitutes the entire agreement between the parties.
+** fast-diff; version 1.1.2 -- https://github.com/jhchen/fast-diff#readme
+Copyright 2006 Google Inc. http://code.google.com/p/google-diff-match-patch
 ** fb-watchman; version 2.0.1 -- https://facebook.github.io/watchman/
 Copyright 2014-present Facebook, Inc.
 ** filelist; version 1.0.1 -- https://github.com/mde/filelist
@@ -4214,11 +4216,6 @@ Copyright 2012-2015, Yahoo Inc.
 Copyright 2015 Yahoo! Inc.
 Copyright 2015, Yahoo Inc.
 Copyright 2012-2015, Yahoo Inc.
-** istanbul-reports; version 3.0.2 -- https://istanbul.js.org/
-(c) Sindre Sorhus
-Copyright 2012-2015 Yahoo! Inc.
-Copyright 2012-2015, Yahoo Inc.
-Copyright (c) Facebook, Inc. and its affiliates.
 
 Copyright (c) <year> <owner> . All rights reserved.
 
@@ -4950,6 +4947,11 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ------
 
+** istanbul-reports; version 3.0.2 -- https://istanbul.js.org/
+(c) Sindre Sorhus
+Copyright 2012-2015 Yahoo! Inc.
+Copyright 2012-2015, Yahoo Inc.
+Copyright (c) Facebook, Inc. and its affiliates.
 ** js-base64; version 2.5.2 -- https://github.com/dankogai/js-base64#readme
 Copyright (c) 2014, Dan Kogai
 ** lolex; version 2.7.5 -- http://github.com/sinonjs/lolex
@@ -5692,9 +5694,6 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** os-locale; version 3.1.0 -- https://github.com/sindresorhus/os-locale#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-** os-tmpdir; version 1.0.2 -- https://github.com/sindresorhus/os-tmpdir#readme
-(c) Sindre Sorhus (https://sindresorhus.com)
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 
 MIT License
 
@@ -6039,7 +6038,6 @@ Copyright (c) Isaac Z. Schlueter and Contributors
 Copyright (c) 2018, Aleck Greenham
 Copyright (c) Facebook, Inc. and its affiliates.
 ** remove-trailing-separator; version 1.1.0 -- https://github.com/darsain/remove-trailing-separator#readme
-** request-promise-core; version 1.1.4 -- https://github.com/request/promise-core#readme
 
 ISC License
 
@@ -6053,6 +6051,9 @@ THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO
 
 ------
 
+** os-tmpdir; version 1.0.2 -- https://github.com/sindresorhus/os-tmpdir#readme
+(c) Sindre Sorhus (https://sindresorhus.com)
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** overlayscrollbars; version 1.13.0 -- https://kingsora.github.io/OverlayScrollbars
 Copyright (c) 2017 Rene Haas
 Copyright (c) 2001 Robert Penner
@@ -6696,7 +6697,6 @@ Copyright (c) 1991-2017 Unicode, Inc.
 Copyright (c) 2018 The Khronos Group Inc.
 (c) Microsoft Corporation. Zhu Zuo Quan Suo
 Copyright (c) YEAR W3C(r) (MIT, ERCIM, Keio, Beihang). Disclaimers THIS WORK IS PROVIDED AS
-** validate-npm-package-license; version 3.0.4 -- https://github.com/kemitchell/validate-npm-package-license.js#readme
 
 Apache License
 
@@ -7012,6 +7012,7 @@ For these and/or other purposes and motivations, and without any expectation of 
 
 ------
 
+** request-promise-core; version 1.1.4 -- https://github.com/request/promise-core#readme
 ** request-promise-native; version 1.0.9 -- https://github.com/request/request-promise-native#readme
 ** require-main-filename; version 2.0.0 -- https://github.com/yargs/require-main-filename#readme
 Copyright (c) 2016
@@ -7649,6 +7650,7 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 MIT OR (CC0-1.0 AND MIT)
 ** lodash-joins; version 3.0.1 -- https://github.com/mtraynham/lodash-joins#readme
 Copyright (c) Microsoft Corporation.
+** validate-npm-package-license; version 3.0.4 -- https://github.com/kemitchell/validate-npm-package-license.js#readme
 ** walker; version 1.0.7 -- https://github.com/daaku/nodejs-walker
 Copyright 2013 Naitik Shah
 ** websocket-driver; version 0.7.4 -- https://github.com/faye/websocket-driver-node

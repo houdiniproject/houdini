@@ -16,8 +16,8 @@
     "html-storybook": "bin/start-html-storybook -p 6007 -c .storybook/html",
     "build-html-storybook": "bin/build-html-storybook -c .storybook/html",
     "markdownlint": "npx markdownlint-cli **/*.md --ignore node_modules",
-    "prepare-for-push": "yarn test && yarn eslint && yarn markdownlint --fix && bin/rails notice:update",
-    "prepare-for-push-js": "yarn jest && yarn eslint && yarn markdownlint --fix && bin/rails notice:js:update"
+    "prepare-for-push": "yarn test && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:update",
+    "prepare-for-push-js": "yarn jest && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:js:update"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

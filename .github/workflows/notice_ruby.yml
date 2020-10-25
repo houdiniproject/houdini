@@ -1,0 +1,35 @@
+# License: LGPL-3.0-or-later
+name: NOTICE-ruby verification
+on: 
+  push:
+    paths:
+      - Gemfile
+      - Gemfile.lock
+      - NOTICE-ruby
+  pull_request:
+    paths:
+      - Gemfile
+      - Gemfile.lock
+      - NOTICE-ruby
+jobs:
+  notice_ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+        with:
+          ruby-version: 2.6.6
+      - uses: actions/cache@v1
+        name: Use Gem cache
+        with:
+          path: vendor/bundle
+          key: bundle-use-ruby-ubuntu-latest-2.6.6-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            bundle-use-ruby-ubuntu-latest-2.6.6-
+      - run: |
+          bundle config deployment true
+          bundle config path vendor/bundle
+          bundle install --jobs 4
+      - name: run notice:ruby:verify
+        run: |
+            bin/rails notice:ruby:verify

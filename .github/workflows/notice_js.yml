@@ -1,0 +1,33 @@
+# License: LGPL-3.0-or-later
+name: NOTICE-js verification
+on: 
+  push:
+    paths:
+      - yarn.lock
+      - package.json
+      - included.json
+      - NOTICE-js
+  pull_request:
+    paths:
+      - yarn.lock
+      - package.json
+      - included.json
+      - NOTICE-js
+jobs:
+  notice_js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1.4.2
+        with:
+          node-version: 14.6.0
+      - uses: actions/cache@v1
+        name: Use Node package cache
+        with:
+          path: node_modules
+          key: bundle-use-node-js-ubuntu-latest-14.6.0-${{ hashFiles('**/yarn.lock', '**/package.json') }}
+          restore-keys: |
+            bundle-use-node-js-ubuntu-latest-14.6.0-
+      - run: yarn install --frozen-lockfile
+      - name: Verify NOTICE-js
+        run: yarn notice:js

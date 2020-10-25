@@ -11,21 +11,24 @@ on:
       - Gemfile
       - Gemfile.lock
       - NOTICE-ruby
+env:
+  os: ubuntu-latest
+  ruby: 2.6.6
 jobs:
   notice_ruby:
-    runs-on: ubuntu-latest
+    runs-on: ${{ env.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
         with:
-          ruby-version: 2.6.6
-      - uses: actions/cache@v1
+          ruby-version: ${{ env.ruby }}
+      - uses: actions/cache@v2
         name: Use Gem cache
         with:
           path: vendor/bundle
-          key: bundle-use-ruby-ubuntu-latest-2.6.6-${{ hashFiles('**/Gemfile.lock') }}
+          key: bundle-use-ruby-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            bundle-use-ruby-ubuntu-latest-2.6.6-
+            bundle-use-ruby-${{ env.os }}-${{ env.ruby }}-
       - run: |
           bundle config deployment true
           bundle config path vendor/bundle

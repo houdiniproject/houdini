@@ -1,9 +1,0 @@
-# notice_ruby must pass even on builds where it shouldn't run
-# We address this by making a placeholder action
-name: Placeholder for NOTICE-ruby verification
-on: ['push', 'pull_request']
-jobs:
-  notice_ruby:
-    runs-on: ubuntu-latest
-    steps:
-      - run: 'echo "Placeholder for notice_ruby"'

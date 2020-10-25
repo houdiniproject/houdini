@@ -31,6 +31,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-${{ matrix.node }}-
       - run: yarn install --frozen-lockfile
+        if: steps.node-cache.outputs.cache-hit != 'true'
       - name: run eslint
         run: yarn eslint
   jest:
@@ -56,6 +57,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-${{ matrix.node }}-
       - run: yarn install --frozen-lockfile
+        if: steps.node-cache.outputs.cache-hit != 'true'
       - name: run jest
         run: yarn jest
   webpack:
@@ -88,7 +90,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-${{ matrix.node }}-
       - run: yarn install --frozen-lockfile
-
       - uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
         with:
           ruby-version: ${{ matrix.ruby }}

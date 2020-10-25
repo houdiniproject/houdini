@@ -239,3 +239,5 @@ For this to work though, the following characteristics must be true:
 * Your have to have committed any changes you made to the project in `HEAD` in your git repository
 * The `.git` folder for your repository must be a direct subfolder of your `$RAILS_ROOT`
 * Your web server must be able to run `git archive`
+
+fafaf

@@ -19,7 +19,7 @@ gem 'react-rails'
 gem 'httparty', '~> 0.17.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
-gem 'sprockets', '~> 3.7'
+
 
 # Helpers
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates

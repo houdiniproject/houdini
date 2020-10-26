@@ -44,7 +44,7 @@ module Houdini
     config.houdini.source_tokens.event_donation_source.max_uses = 20
     config.houdini.source_tokens.event_donation_source.expiration_after_event = 20.days
 
-    config.houdini.show_state_fields = true
+    config.houdini.show_state_field = true
 
     config.houdini.intl = ActiveSupport::OrderedOptions.new
     config.houdini.intl.language = :en
@@ -101,7 +101,7 @@ in the provided locales: #{Houdini.intl.available_locales.join(', ')}") if Houdi
         Houdini.maps = app.config.houdini.maps
 
         Houdini.nonprofits_must_be_vetted = app.config.houdini.nonprofits_must_be_vetted
-        Houdini.show_state_fields = app.config.houdini.show_state_fields
+        Houdini.show_state_field = app.config.houdini.show_state_field
         Houdini.default_bp = app.config.houdini.default_bp.id
 
         Houdini.event_publisher.subscribe_all(app.config.houdini.listeners)

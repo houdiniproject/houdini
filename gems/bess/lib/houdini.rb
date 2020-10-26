@@ -27,7 +27,7 @@ module Houdini
 
   mattr_accessor :source_tokens, default: {}
 
-  mattr_accessor :show_state_fields, default: true
+  mattr_accessor :show_state_field, default: true
 
   mattr_accessor :nonprofits_must_be_vetted, default: false
   mattr_accessor :terms_and_privacy, default: {}

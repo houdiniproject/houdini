@@ -135,7 +135,6 @@ class NonprofitsController < ApplicationController
     if Houdini.intl.all_countries
       countries = all_countries.select { |code, _name| Houdini.intl.all_countries.include? code }
       countries = countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
-      countries.push([Houdini.intl.other_country.upcase, I18n.t('nonprofits.donate.info.supporter.other_country')]) if Houdini.intl.other_country
       countries
     else
       all_countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }

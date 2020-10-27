@@ -19,14 +19,12 @@ export interface SignInComponentProps {
 	onFailure?:(error:SignInError) =>  void;
 }
 
-// NOTE: Remove this line and next once you start using the props argument
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 function SignInComponent(props:SignInComponentProps) : JSX.Element {
 	const [componentState, setComponentState] = useState<'ready'|'canSubmit'|'submitting'|'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
 
 	const {currentUser, signIn, lastError, failed, submitting}  = useCurrentUserAuth();
-
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);

@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
 import * as EmailValidator from "email-validator"; 
-import { TextField } from 'formik-material-ui/core';
+import { TextField } from 'formik-material-ui/';
 import { Link } from '@material-ui/core';
 
 

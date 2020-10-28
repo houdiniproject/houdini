@@ -8416,12 +8416,12 @@ formidable@1.0.14:
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.0.14.tgz#2b3f4c411cbb5fdd695c44843e2a23514a43231a"
   integrity sha1-Kz9MQRy7X91pXESEPiojUUpDIxo=
 
-formik-material-ui@^3.0.0:
+formik-material-ui@^20.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/formik-material-ui/-/formik-material-ui-3.0.0.tgz#70d987f58dbf51fe11118a4ca26f5f61613133bd"
   integrity sha512-JJ8E/BPFhCxSl1HHgCCEiZqHAPb0lR4xB1Am23530cRKBO+nQy9FmlmWjRhGlkO7g0ak0eDVOR8f2pXton0HsQ==
 
-formik@^2.2.1:
+formik@^2.1.4:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/formik/-/formik-2.2.1.tgz#e09747569e44ffc17263541d2e732cc6568208dc"
   integrity sha512-N/8Q1yGlXHibyrM5CyKtC85V8U+mxY04zSfakpyR1e6KpaIC4+A4yo30NBARRprkFoxoT1EV+yK8bo5tjXxfyg==

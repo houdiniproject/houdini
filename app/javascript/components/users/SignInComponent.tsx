@@ -1,12 +1,22 @@
 // License: LGPL-3.0-or-later
 import React, {useEffect, useState} from "react";
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import {Formik, Form, Field} from 'formik';
 import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
-import * as EmailValidator from "email-validator"; 
-import { TextField } from 'formik-material-ui/';
+import './SignInStyles.css';
+
 import { Link } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import Input from '@material-ui/core/Input';
+import Card from '@material-ui/core/Card';
+import CardMedia from "@material-ui/core/CardMedia";
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
@@ -22,7 +32,7 @@ export interface SignInComponentProps {
 	 *
 	 * @memberof SignInComponentProps
 	 */
-	onFailure?:(error:SignInError) =>  void;
+  onFailure?:(error:SignInError) =>  void;
 }
 
 // NOTE: Remove this line and next once you start using the props argument
@@ -71,7 +81,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 		email: yup.string().required(),
 		password: yup.string()
 		  .required()
-	  });
+    });
 
 	return (
 		<Formik initialValues={{email: ""}}  onSubmit={async (_values, formikHelpers) => {
@@ -93,36 +103,64 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 				return <Form>
 					{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-					<Field
-						component={TextField}
-						name="email"
-						type="email"
-						label="Email"
-					/>
+          <Card 
+          className="card" 
+          variant="outlined" 
+          style={{ borderRadius: 25}} 
+          >
+
+          <CardMedia
+          className="media"
+          image={
+            "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
+          }
+        />
+					<InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
+						<Input
+						id="input-with-icon-adornment"
+						startAdornment={
+							<InputAdornment position="start">
+							<AccountCircle className="icon" />
+							</InputAdornment>
+						}
+						/>
 					<br />
-					<Field
-						component={TextField}
-						type="password"
-						label="Password"
-						name="password"
-					/>
+          <br />
+          <InputLabel htmlFor="input-with-icon-adornment">Password</InputLabel>
+						<Input
+						id="input-with-icon-adornment"
+						startAdornment={
+							<InputAdornment position="start">
+							<LockOpenIcon className="icon"/>
+							</InputAdornment>
+						}
+						/>
+					<br />
+
 					<br />
 					<br />
             <Button data-testid="signInButton" type="submit"
               variant={'contained'}
-              color={'primary'}>{formatMessage({id: 'submit'})}
+              color={'primary'}
+              style={{ borderRadius: 25, marginLeft:55}} 
+              
+              >
+              {formatMessage({id: 'submit'})}
+              
             </Button>
             <br />
             <br />
             <Link
               component="button"
+              style={{ marginLeft:45}} 
               variant="body2"
               onClick={() => {
                 console.info("I'm a button.");
               }}
             >
-              Button Link
+              Forgot Password
           </Link>
+          </Card>
 
 
 					{componentState === 'submitting' ? "" : <>

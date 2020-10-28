@@ -1,0 +1,13 @@
+.card{
+    Width: 20%;
+    padding: 25px;
+    margin: auto;
+    transition: 0.3s;
+    box-shadow: 0 8px 40px -12px rgba(0,0,0,0.3);
+}
+.icon{
+    transform: scale(.7);
+}
+.media{
+    padding-Top: "56.25%";
+}

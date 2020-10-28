@@ -111,9 +111,8 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
           <CardMedia
           className="media"
-          image={
-            "https://image.freepik.com/free-photo/river-foggy-mountains-landscape_1204-511.jpg"
-          }
+          image="app/javascript/components/users/Images/HoudiniLogo.png"
+          title="Contemplative Reptile"
         />
 					<InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
 						<Input

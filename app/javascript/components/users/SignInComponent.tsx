@@ -1,14 +1,20 @@
 // License: LGPL-3.0-or-later
 import React, {useEffect, useState} from "react";
-import {Formik, Form} from 'formik';
+import {Formik, Form, Field} from 'formik';
 import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
+import * as EmailValidator from "email-validator"; 
+import { TextField } from 'formik-material-ui/core';
+import { Link } from '@material-ui/core';
+
 
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { SignInError } from "../../legacy_react/src/lib/api/errors";
 import { useIntl } from "../../components/intl";
 import * as yup from '../../common/yup';
+import { Email } from '../../legacy_react/src/lib/regex';
+
 
 export interface SignInComponentProps {
 	/**
@@ -61,11 +67,11 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 	const { formatMessage } = useIntl();
 
-	// TODO
-	// const validationSchema = yup.object({
-	// 	email: yup.string().required().email(),
-	// 	// TODO:
-	// });
+	const validationSchema= yup.object({
+		email: yup.string().required(),
+		password: yup.string()
+		  .required()
+	  });
 
 	return (
 		<Formik initialValues={{email: ""}}  onSubmit={async (_values, formikHelpers) => {
@@ -87,16 +93,43 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 				return <Form>
 					{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-					<Button data-testid="signInButton" type="submit"
-						variant={'contained'}
-						color={'primary'}>{formatMessage({id: 'hello'})}</Button>
+					<Field
+						component={TextField}
+						name="email"
+						type="email"
+						label="Email"
+					/>
+					<br />
+					<Field
+						component={TextField}
+						type="password"
+						label="Password"
+						name="password"
+					/>
+					<br />
+					<br />
+            <Button data-testid="signInButton" type="submit"
+              variant={'contained'}
+              color={'primary'}>{formatMessage({id: 'submit'})}
+            </Button>
+            <br />
+            <br />
+            <Link
+              component="button"
+              variant="body2"
+              onClick={() => {
+                console.info("I'm a button.");
+              }}
+            >
+              Button Link
+          </Link>
+
 
 					{componentState === 'submitting' ? "" : <>
 						<div data-testid="signInErrorDiv">{ failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>
 						<div data-testid="currentUserDiv">{currentUser ? currentUser.id : ""}</div>
 					</>
 					}
-
 				</Form>;
 			}}
 

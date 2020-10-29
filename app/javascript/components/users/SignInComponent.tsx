@@ -6,8 +6,10 @@ import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
 import './SignInStyles.css';
+import Typography from '@material-ui/core/Typography';
 
-import { Link } from '@material-ui/core';
+
+import { CardContent, Link } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -17,6 +19,7 @@ import Card from '@material-ui/core/Card';
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import logo from './Images/logo.png';
 
 
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
@@ -103,17 +106,26 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 				return <Form>
 					{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-          <Card 
+					<Card 
           className="card" 
           variant="outlined" 
           style={{ borderRadius: 25}} 
           >
+				
+		<CardMedia 
+			className="media"
+        	image={logo}
+			title="Houdini"
+		/>
 
-          <CardMedia
-          className="media"
-          image="app/javascript/components/users/Images/HoudiniLogo.png"
-          title="Contemplative Reptile"
-        />
+					<CardContent>
+						<Typography gutterBottom variant="h5" component="h2">
+							Login
+						</Typography>
+					</CardContent>
+					<br />
+					<br />
+
 					<InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
 						<Input
 						id="input-with-icon-adornment"
@@ -138,28 +150,27 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 					<br />
 					<br />
-            <Button data-testid="signInButton" type="submit"
-              variant={'contained'}
-              color={'primary'}
-              style={{ borderRadius: 25, marginLeft:55}} 
-              
-              >
-              {formatMessage({id: 'submit'})}
-              
-            </Button>
-            <br />
-            <br />
-            <Link
-              component="button"
-              style={{ marginLeft:45}} 
-              variant="body2"
-              onClick={() => {
-                console.info("I'm a button.");
-              }}
-            >
-              Forgot Password
+				<div className="container">
+          <Button data-testid="signInButton" type="submit"
+						variant={'contained'}
+						color={'primary'}
+						style={{ borderRadius: 25}} 
+						>
+						{formatMessage({id: 'submit'})}
+          </Button>
+          <br />
+          <br />
+          <Link 
+						component="button"
+						variant="body2"
+						onClick={() => {
+							console.info("I'm a button.");
+						}}
+						>
+						Forgot Password
           </Link>
-          </Card>
+        </div>
+        </Card>
 
 
 					{componentState === 'submitting' ? "" : <>

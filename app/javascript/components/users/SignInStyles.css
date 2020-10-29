@@ -1,13 +1,19 @@
 .card{
     Width: 20%;
-    padding: 25px;
+    padding: 20px;
     margin: auto;
     transition: 0.3s;
+    text-align: center;
     box-shadow: 0 8px 40px -12px rgba(0,0,0,0.3);
 }
-.icon{
+.icon{ 
     transform: scale(.7);
 }
-.media{
-    height: 140px;
+.container{  
+    text-align: center;  
+}  
+.media {
+    height: 100px;
+    padding-top: '56.25%';
+    size: 200px;
 }

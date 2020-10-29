@@ -73,3 +73,6 @@ yarn-debug.log*
 
 # we don't want the file storage directory to be committed
 storage
+
+# the locales directory in javascript is generated at run time.
+app/javascript/i18n/locales

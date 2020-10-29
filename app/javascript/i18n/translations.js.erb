@@ -1,0 +1,8 @@
+
+const translations = {}
+
+<% I18n::JS::translations.select{|k,v| Houdini.intl.available_locales.map{|i| i.to_s}.include?(k.to_s)}.keys.each do |k| %>
+ translations['<%= k %>'] = require('./locales/<%= k %>.js');
+<% end %>
+
+export default translations;

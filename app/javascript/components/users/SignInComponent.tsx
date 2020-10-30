@@ -52,11 +52,11 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 	const {currentUser, signIn, lastError, failed, submitting}  = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
-	const previousSubmittingValue = usePrevious(submitting);
+  const previousSubmittingValue = usePrevious(submitting);
+  
 
- 
 
-
+  
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 		const wasSubmitting = previousSubmittingValue && !submitting;
@@ -103,8 +103,8 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 		card: {
 			borderRadius: 15,
 			boxShadow: 'rgb(192,192,192) 0px 1px 6px, rgba(255, 0, 0, 0.117647) 0px 1px 4px',
-			variant: "outlined"
-		 },
+      variant: "outlined"
+    },
 		 media: {
 			maxWidth: '50ch',
 		},
@@ -139,7 +139,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 						setIsValid(props.isValid);
 					}, [props.isValid]);
 
-			return <Form>	
+      return <Form>	
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
 			<Grid container
 				direction="column"

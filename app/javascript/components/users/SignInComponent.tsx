@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import React, {useEffect, useState} from "react";
 import { createStyles, Theme, makeStyles, useTheme } from '@material-ui/core/styles';
-import {Formik, Form, Field} from 'formik';
+import {Formik, Form, FormikErrors ,Field, useFormik} from 'formik';
 import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
@@ -54,6 +54,9 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 
+ 
+
+
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 		const wasSubmitting = previousSubmittingValue && !submitting;
@@ -86,10 +89,9 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 	//Yup validation
 	const validationSchema= yup.object({
-		email: yup.string().required(),
-		password: yup.string()
-		  .required()
-	});
+		email: yup.string().required("Invalid Email Format"),
+		password: yup.string().required("Required")
+  });
 
 	//Styling 
 	const useStyles = makeStyles((theme: Theme) => createStyles ({
@@ -112,7 +114,14 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 	const classes = useStyles();
 		
 		return (
-			<Formik initialValues={{email: ""}}  onSubmit={async (_values, formikHelpers) => {
+      <Formik 
+        initialValues={
+          {
+            email: "",
+            password: ""
+          }}
+        validationSchema={validationSchema}
+        onSubmit={async (_values, formikHelpers) => {
 				try {
 					await signIn({email: 'email@ema.com', password: "password"});
 				}
@@ -158,20 +167,23 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 						</CardContent>
 
 						<Box p={1.5}>
-							<InputLabel htmlFor="input-with-icon-adornment">Email</InputLabel>
+							<InputLabel htmlFor="email">Email</InputLabel>
 								<Input 
-									id="input-with-icon-adornment"
+                  id="input-with-icon-adornment"
+                  name="email"
 									startAdornment={
 								<InputAdornment position="start">
 								<AccountCircle fontSize="small"/>
 								</InputAdornment>
 								}
-											/> 
+											/>
 						</Box>
 						<Box p={1.5}>
-							<InputLabel htmlFor="input-with-icon-adornment">Password</InputLabel>
+							<InputLabel htmlFor="password">Password</InputLabel>
 								<Input 
-									id="input-with-icon-adornment"
+                  id="password"
+                  name="password"
+                  type="password"
 									startAdornment={
 									<InputAdornment position="start">
 										<LockOpenIcon fontSize="small"/>
@@ -184,7 +196,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 								data-testid="signInButton" 
 								type="submit"
 								variant={'contained'}
-								color={'primary'}
+                color={'primary'}
 							>
 							{formatMessage({id: 'submit'})}
 							</Button>

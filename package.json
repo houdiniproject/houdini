@@ -9,7 +9,7 @@
     "build-all": "yarn install --frozen-lockfile && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
     "test": "bin/rails spec  && yarn jest",
-    "jest": "jest",
+    "jest": "bin/rails locales:generate && jest",
     "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
     "storybook": "start-storybook -p 6006 -c .storybook/react",
     "build-storybook": "build-storybook -c .storybook/react",

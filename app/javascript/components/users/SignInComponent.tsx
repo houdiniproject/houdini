@@ -11,7 +11,7 @@ import MuiButton from "@material-ui/core/Button";
 import { styled } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import { shadows } from '@material-ui/system';
-import logo from './Images/logo.png';
+import logo from './Images/HoudiniLogo.png';
 
 
 import { CardContent, Link } from '@material-ui/core';
@@ -96,18 +96,19 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 		textField: {
 	  '& .MuiTextField-root': {
 		margin: theme.spacing(1),
-		width: '25ch',
 			},
 		},
 		card: {
 			borderRadius: 15,
 			boxShadow: 'rgb(192,192,192) 0px 1px 6px, rgba(255, 0, 0, 0.117647) 0px 1px 4px',
-		 }
+		 },
+		 media: {
+			maxWidth: '50ch',
+		},
 		}),
 		);
 		
 	const Button = styled(MuiButton)(spacing);
-
 	const classes = useStyles();
 		
 		return (
@@ -139,16 +140,16 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 				<Card classes={{ root: classes.card }}
 					variant="outlined"
 				>
-				<Box p={10}>
+				<Box p={4}>
 					<Grid container
 						direction="column"
 						alignItems="center"
 						justify="center"
 					>
-						<CardMedia 
-							className="media"
-							image={logo}
-							title="Houdini"
+						<CardMedia component="img" 
+							src={logo}
+							title= "Houdini"
+							className={classes.media}
 						/>	
 						<CardContent>
 							<Typography gutterBottom variant="h5" component="h2">

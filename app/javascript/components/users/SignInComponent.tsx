@@ -103,6 +103,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 		card: {
 			borderRadius: 15,
 			boxShadow: 'rgb(192,192,192) 0px 1px 6px, rgba(255, 0, 0, 0.117647) 0px 1px 4px',
+			variant: "outlined"
 		 },
 		 media: {
 			maxWidth: '50ch',
@@ -145,10 +146,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 				alignItems="center"
 				justify="center"
 			>
-			
-				<Card classes={{ root: classes.card }}
-					variant="outlined"
-				>
+				<Card classes={{ root: classes.card }}>
 				<Box p={4}>
 					<Grid container
 						direction="column"

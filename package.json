@@ -9,7 +9,7 @@
     "build-all": "yarn install --frozen-lockfile && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
     "test": "bin/rails spec  && yarn jest",
-    "jest": "jest",
+    "jest": "bin/rails locales:generate && jest",
     "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
     "storybook": "start-storybook -p 6006 -c .storybook/react",
     "build-storybook": "build-storybook -c .storybook/react",
@@ -46,6 +46,7 @@
     "@types/enzyme-to-json": "^1.5.1",
     "@types/es6-promise": "^3.3.0",
     "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/i18n-js": "^3.0.3",
     "@types/jest": "^26.0.14",
     "@types/jquery": "^3.3.1",
     "@types/jsdom": "^11.0.4",
@@ -179,39 +180,5 @@
     "vvvview": "0.4.3",
     "websocket-extensions": "^0.1.4",
     "yup": "^0.29.3"
-  },
-  "jest": {
-    "testEnvironment": "jest-environment-jsdom-fifteen",
-    "testEnvironmentOptions": {
-      "enzymeAdapter": "react16"
-    },
-    "globals": {
-      "ts-jest": {
-        "babelConfig": false
-      }
-    },
-    "setupFiles": [
-      "<rootDir>/setupTests.js"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/config/webpack/test.js",
-      "/vendor/"
-    ],
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
   }
 }

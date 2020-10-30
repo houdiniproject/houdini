@@ -437,3 +437,6 @@ app/javascript/legacy_react/src/components/session_login_page/SessionLoginPage.t
 
 #included code from another package
 app/javascript/common/lodash-joins
+
+#javascript locales
+app/javascript/i18n/locales

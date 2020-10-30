@@ -11,6 +11,7 @@ import MuiButton from "@material-ui/core/Button";
 import { styled } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import { shadows } from '@material-ui/system';
+import logo from './Images/logo.png';
 
 
 import { CardContent, Link } from '@material-ui/core';
@@ -22,7 +23,6 @@ import Input from '@material-ui/core/Input';
 import Card from '@material-ui/core/Card';
 import CardMedia from "@material-ui/core/CardMedia";
 import TextField from '@material-ui/core/TextField';
-// import logo from './Images/logo.png';
 
 
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
@@ -94,9 +94,9 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 	//Styling 
 	const useStyles = makeStyles((theme: Theme) => createStyles ({
 		textField: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-        width: '25ch',
+	  '& .MuiTextField-root': {
+		margin: theme.spacing(1),
+		width: '25ch',
 			},
 		},
 		card: {
@@ -128,7 +128,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 						setIsValid(props.isValid);
 					}, [props.isValid]);
 
-			return <Form>
+			return <Form>	
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
 			<Grid container
 				direction="column"
@@ -145,12 +145,11 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 						alignItems="center"
 						justify="center"
 					>
-							
 						<CardMedia 
-							// className="media"
-							// image={logo}
-							// title="Houdini"
-						/>
+							className="media"
+							image={logo}
+							title="Houdini"
+						/>	
 						<CardContent>
 							<Typography gutterBottom variant="h5" component="h2">
 								Login
@@ -168,7 +167,6 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 								}
 											/> 
 						</Box>
-						
 						<Box p={1.5}>
 							<InputLabel htmlFor="input-with-icon-adornment">Password</InputLabel>
 								<Input 

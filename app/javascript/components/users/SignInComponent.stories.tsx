@@ -11,10 +11,10 @@ import { SignInError } from '../../legacy_react/src/lib/api/errors';
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
 
-const optionsToSignInError:Record<string, {error: string, status:number }> = {
-	'Unknown Error - 500': {status: 500, error: "Error unknown"},
-	'Not Found - 404': {status: 404, error: 'Not Found'},
-	'User or password not valid - 401': {status: 401, error: 'We didn\'t recognize that email or password'},
+const optionsToSignInError:Record<string, { data?: { error: string[]|string }, status?: number }> = {
+	'Unknown Error - 500': {status: 500, data: {error: "Error unknown"}},
+	'Not Found - 404': {status: 404, data: {error: 'Not Found'}},
+	'User or password not valid - 401': {status: 401, data:{ error: 'We didn\'t recognize that email or password'}},
 };
 
 

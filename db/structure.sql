@@ -95,6 +95,8 @@ WHERE (supporters.id=NEW.supporter_id)) AS data
 
 SET default_tablespace = '';
 
+SET default_table_access_method = heap;
+
 --
 -- Name: active_storage_attachments; Type: TABLE; Schema: public; Owner: -
 --

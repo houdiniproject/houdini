@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import React, {useEffect, useState} from "react";
 import { createStyles, Theme, makeStyles, useTheme } from '@material-ui/core/styles';
-import {Formik, Form, FormikErrors ,Field, useFormik} from 'formik';
+import {Formik, Form, FormikErrors ,Field, useFormik, ErrorMessage} from 'formik';
 import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
@@ -89,8 +89,8 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 	//Yup validation
 	const validationSchema= yup.object({
-		email: yup.string().required("Invalid Email Format"),
-		password: yup.string().required("Required")
+		email: yup.string().email('Email is invalid').required('Email is required'),
+		password: yup.string().required("Password Required")
   });
 
 	//Styling 
@@ -122,24 +122,28 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
             password: ""
           }}
         validationSchema={validationSchema}
-        onSubmit={async (_values, formikHelpers) => {
-				try {
-					await signIn({email: 'email@ema.com', password: "password"});
-				}
-				catch (e:unknown) {
-					// NOTE: We're just swallowing the exception here for now. Might we need to do
-					// something different? Don't know!
-				}
-				finally {
-					formikHelpers.setSubmitting(false);
-				}
-			}
-			}>{(props) => {
-					useEffect(() => {
-						setIsValid(props.isValid);
-					}, [props.isValid]);
+        onSubmit={fields => {
+          alert('SUCCESS!! :-)\n\n' + JSON.stringify(fields, null, 4))
+      }}
+      //   onSubmit={async (_values, formikHelpers) => {
+			// 	try {
+			// 		await signIn({email: 'email@ema.com', password: "password"});
+			// 	}
+			// 	catch (e:unknown) {
+			// 		// NOTE: We're just swallowing the exception here for now. Might we need to do
+			// 		// something different? Don't know!
+			// 	}
+			// 	finally {
+			// 		formikHelpers.setSubmitting(false);
+			// 	}
+			// }
+			// }>{(props) => {
+			// 		useEffect(() => {
+			// 			setIsValid(props.isValid);
+			// 		}, [props.isValid]);
 
-      return <Form>	
+      render={({ errors, status, touched, handleChange }) => ( 
+      <Form>	
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
 			<Grid container
 				direction="column"
@@ -166,27 +170,35 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 						<Box p={1.5}>
 							<InputLabel htmlFor="email">Email</InputLabel>
-								<Input 
-                  id="input-with-icon-adornment"
+                <Input
+                  type="text" 
+                  className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} 
+                  id="emal"
                   name="email"
+                  onChange={handleChange}
 									startAdornment={
 								<InputAdornment position="start">
 								<AccountCircle fontSize="small"/>
 								</InputAdornment>
 								}
 											/>
+              <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                
 						</Box>
 						<Box p={1.5}>
 							<InputLabel htmlFor="password">Password</InputLabel>
-								<Input 
+                <Input 
+                  className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}
                   id="password"
                   name="password"
                   type="password"
+                  onChange={handleChange}
 									startAdornment={
 									<InputAdornment position="start">
 										<LockOpenIcon fontSize="small"/>
 									</InputAdornment>
 								}/>
+                <ErrorMessage name="password" component="div" className="invalid-feedback" />
 						</Box>
 						<br />
 						<Box>
@@ -221,9 +233,11 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 						<div data-testid="currentUserDiv">{currentUser ? currentUser.id : ""}</div>
 					</>
 					}
-				</Form>;
-			}}
-		</Formik>
+				</Form>
+      )}
+    />
+    
+      
 		);
 	
 }

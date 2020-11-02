@@ -31,6 +31,7 @@ import * as yup from '../../common/yup';
 
 import Box from '@material-ui/core/Box';
 import { FormatAlignCenter } from "@material-ui/icons";
+import { Email } from '../../legacy_react/src/lib/regex';
 
 
 export interface SignInComponentProps {
@@ -87,8 +88,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 
   //Yup validation
   const validationSchema = yup.object({
-    email: yup.string().email('Email is invalid').required('Email is required'),
-    password: yup.string().required("Password Required")
+    email: yup.string().email().required(),
+    password: yup.string().required()
   });
 
   //Styling 
@@ -159,38 +160,46 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
                         Login
-							</Typography>
+							        </Typography>
                     </CardContent>
 
                     <Box p={1.5}>
                       <InputLabel htmlFor="email">Email</InputLabel>
-                      <Input
+                      <TextField
                         type="text"
                         className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}
                         id="emal"
                         name="email"
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <AccountCircle fontSize="small" />
-                          </InputAdornment>
-                        }
-                      />
-                      <ErrorMessage name="email" component="div" className="invalid-feedback" />
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <AccountCircle fontSize="small" />
+                            </InputAdornment>
+                          ),
+                      }}
+                    />
+                    {/* {errors.email && touched.email ? (
+                        <div>{errors.email}</div>
+                        ) : null}
+                        <ErrorMessage name="email" /> */}
 
                     </Box>
                     <Box p={1.5}>
                       <InputLabel htmlFor="password">Password</InputLabel>
-                      <Input
+                      <TextField
                         className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}
                         id="password"
                         name="password"
                         type="password"
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <LockOpenIcon fontSize="small" />
-                          </InputAdornment>
-                        } />
-                      <ErrorMessage name="password" component="div" className="invalid-feedback" />
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <LockOpenIcon fontSize="small" />
+                            </InputAdornment>
+                        ),
+                      }}
+                    />
+                     
                     </Box>
                     <br />
                     <Box>

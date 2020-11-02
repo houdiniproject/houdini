@@ -32,217 +32,219 @@ import * as yup from '../../common/yup';
 import Box from '@material-ui/core/Box';
 import { FormatAlignCenter } from "@material-ui/icons";
 import { Email } from '../../legacy_react/src/lib/regex';
+import { YupFail } from "../../common/yup";
 
 
 export interface SignInComponentProps {
-  /**
-   * An attempt at signing in failed
-   *
-   * @memberof SignInComponentProps
-   */
-  onFailure?: (error: SignInError) => void;
+	/**
+	 * An attempt at signing in failed
+	 *
+	 * @memberof SignInComponentProps
+	 */
+	onFailure?: (error: SignInError) => void;
 }
 
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
-  const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
-  const [isValid, setIsValid] = useState(false);
+	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
+	const [isValid, setIsValid] = useState(false);
 
-  const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
-  // this keeps track of what the values submitting were the last
-  // time the the component was rendered
-  const previousSubmittingValue = usePrevious(submitting);
-
-
+	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
+	// this keeps track of what the values submitting were the last
+	// time the the component was rendered
+	const previousSubmittingValue = usePrevious(submitting);
 
 
-  useEffect(() => {
-    // was the component previously submitting and now not submitting?
-    const wasSubmitting = previousSubmittingValue && !submitting;
 
-    if (failed && wasSubmitting) {
-      // we JUST failed so we only call onFailure
-      // once
-      props.onFailure(lastError);
-    }
 
-    if (wasSubmitting && !failed) {
-      // we JUST succeeded
-      // TODO
-    }
-  }, [failed, submitting, previousSubmittingValue]);
+	useEffect(() => {
+		// was the component previously submitting and now not submitting?
+		const wasSubmitting = previousSubmittingValue && !submitting;
 
-  useEffect(() => {
-    if (submitting) {
-      setComponentState('submitting');
-    }
-  }, [submitting]);
+		if (failed && wasSubmitting) {
+			// we JUST failed so we only call onFailure
+			// once
+			props.onFailure(lastError);
+		}
 
-  useEffect(() => {
-    if (isValid && componentState == 'ready') {
-      setComponentState('canSubmit');
-    }
-  }, [isValid, componentState]);
+		if (wasSubmitting && !failed) {
+			// we JUST succeeded
+			// TODO
+		}
+	}, [failed, submitting, previousSubmittingValue]);
 
-  const { formatMessage } = useIntl();
+	useEffect(() => {
+		if (submitting) {
+			setComponentState('submitting');
+		}
+	}, [submitting]);
 
-  //Yup validation
-  const validationSchema = yup.object({
-    email: yup.string().email().required(),
-    password: yup.string().required()
-  });
+	useEffect(() => {
+		if (isValid && componentState == 'ready') {
+			setComponentState('canSubmit');
+		}
+	}, [isValid, componentState]);
 
-  //Styling 
-  const useStyles = makeStyles((theme: Theme) => createStyles({
-    textField: {
-      '& .MuiTextField-root': {
-        margin: theme.spacing(1),
-      },
-    },
-    card: {
-      borderRadius: 15,
-      boxShadow: 'rgb(192,192,192) 0px 1px 6px, rgba(255, 0, 0, 0.117647) 0px 1px 4px',
-      variant: "outlined"
-    },
-    media: {
-      maxWidth: '50ch',
-    },
-  }),
-  );
+	const { formatMessage } = useIntl();
 
-  const Button = styled(MuiButton)(spacing);
-  const classes = useStyles();
+	//Yup validation
+	const validationSchema = yup.object({
+		email: yup.string().email().required(),
+		password: yup.string().required()
+	});
 
-  return (
-    <Formik
-      initialValues={
-        {
-          email: "",
-          password: ""
-        }}
-      validationSchema={validationSchema}
-      onSubmit={async (values, formikHelpers) => {
-        try {
-          await signIn(values);
-        }
-        catch (e: unknown) {
-          // NOTE: We're just swallowing the exception here for now. Might we need to do
-          // something different? Don't know!
-        }
-        finally {
-          formikHelpers.setSubmitting(false);
-        }
-      }
-      }>{({ errors, isValid, touched }) => {
-        useEffect(() => {
-          setIsValid(isValid);
-        }, [isValid]);
-        return (
-          <Form>
-            {/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-            <Grid container
-              direction="column"
-              alignItems="center"
-              justify="center"
-            >
-              <Card classes={{ root: classes.card }}>
-                <Box p={4}>
-                  <Grid container
-                    direction="column"
-                    alignItems="center"
-                    justify="center"
-                  >
-                    <CardMedia component="img"
-                      src={logo}
-                      title="Houdini"
-                      className={classes.media}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Login
-							        </Typography>
-                    </CardContent>
+	//Styling 
+	const useStyles = makeStyles((theme: Theme) => createStyles({
+		textField: {
+			'& .MuiTextField-root': {
+				margin: theme.spacing(1),
+			},
+		},
+		card: {
+			borderRadius: 15,
+			boxShadow: 'rgb(192,192,192) 0px 1px 6px, rgba(255, 0, 0, 0.117647) 0px 1px 4px',
+			variant: "outlined"
+		},
+		media: {
+			maxWidth: '50ch',
+		},
+	}),
+	);
 
-                    <Box p={1.5}>
-                      <InputLabel htmlFor="email">Email</InputLabel>
-                      <TextField
-                        type="text"
-                        className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}
-                        id="emal"
-                        name="email"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <AccountCircle fontSize="small" />
-                            </InputAdornment>
-                          ),
-                      }}
-                    />
-                    {/* {errors.email && touched.email ? (
-                        <div>{errors.email}</div>
-                        ) : null}
-                        <ErrorMessage name="email" /> */}
+	const Button = styled(MuiButton)(spacing);
+	const classes = useStyles();
 
-                    </Box>
-                    <Box p={1.5}>
-                      <InputLabel htmlFor="password">Password</InputLabel>
-                      <TextField
-                        className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}
-                        id="password"
-                        name="password"
-                        type="password"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <LockOpenIcon fontSize="small" />
-                            </InputAdornment>
-                        ),
-                      }}
-                    />
-                     
-                    </Box>
-                    <br />
-                    <Box>
-                      <Button
-                        data-testid="signInButton"
-                        type="submit"
-                        variant={'contained'}
-                        color={'primary'}
-                      >
-                        {formatMessage({ id: 'submit' })}
-                      </Button>
-                    </Box>
-                    <br />
-                    <Link
-                      component="button"
-                      variant="body2"
-                      onClick={() => {
-                        console.info("I'm a button.");
-                      }}
-                    >
-                      Forgot Password
+	return (
+		<Formik
+			initialValues={
+				{
+					email: "",
+					password: ""
+				}}
+			validationSchema={validationSchema}
+			onSubmit={async (values, formikHelpers) => {
+				try {
+					await signIn(values);
+				}
+				catch (e: unknown) {
+					// NOTE: We're just swallowing the exception here for now. Might we need to do
+					// something different? Don't know!
+				}
+				finally {
+					formikHelpers.setSubmitting(false);
+				}
+			}
+			}>{({ errors, isValid, touched }) => {
+				useEffect(() => {
+					setIsValid(isValid);
+				}, [isValid]);
+				return (
+					<Form>
+						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
+						<Grid container
+							direction="column"
+							alignItems="center"
+							justify="center"
+						>
+							<Card classes={{ root: classes.card }}>
+								<Box p={4}>
+									<Grid container
+										direction="column"
+										alignItems="center"
+										justify="center"
+									>
+										<CardMedia component="img"
+											src={logo}
+											title="Houdini"
+											className={classes.media}
+										/>
+										<CardContent>
+											<Typography gutterBottom variant="h5" component="h2">
+												Login
+											</Typography>
+										</CardContent>
+
+										<Box p={1.5}>
+											<InputLabel htmlFor="email">Email</InputLabel>
+											<TextField
+												type="text"
+												className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}
+												id="emal"
+												name="email"
+												InputProps={{
+													startAdornment: (
+														<InputAdornment position="start">
+															<AccountCircle fontSize="small" />
+														</InputAdornment>
+													),
+												}}
+											/>
+											<ErrorMessage name="email" >
+												{(errorMessage: any) => {
+													return formatMessage(errorMessage)
+												}}
+											</ErrorMessage>
+
+										</Box>
+										<Box p={1.5}>
+											<InputLabel htmlFor="password">Password</InputLabel>
+											<TextField
+												className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}
+												id="password"
+												name="password"
+												type="password"
+												InputProps={{
+													startAdornment: (
+														<InputAdornment position="start">
+															<LockOpenIcon fontSize="small" />
+														</InputAdornment>
+													),
+												}}
+											/>
+
+										</Box>
+										<br />
+										<Box>
+											<Button
+												data-testid="signInButton"
+												type="submit"
+												variant={'contained'}
+												color={'primary'}
+											>
+												{formatMessage({ id: 'submit' })}
+											</Button>
+										</Box>
+										<br />
+										<Link
+											component="button"
+											variant="body2"
+											onClick={() => {
+												console.info("I'm a button.");
+											}}
+										>
+											Forgot Password
 						</Link>
-                  </Grid>
-                </Box>
-              </Card>
-            </Grid>
+									</Grid>
+								</Box>
+							</Card>
+						</Grid>
 
-            {componentState === 'submitting' ? "" : <>
-              <div data-testid="signInErrorDiv">{failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>
-              <div data-testid="currentUserDiv">{currentUser ? currentUser.id : ""}</div>
-            </>
-            }
-          </Form>
-        )
-      }}
-    </Formik>
-  );
+						{componentState === 'submitting' ? "" : <>
+							<div data-testid="signInErrorDiv">{failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>
+							<div data-testid="currentUserDiv">{currentUser ? currentUser.id : ""}</div>
+						</>
+						}
+					</Form>
+				)
+			}}
+		</Formik>
+	);
 }
 
 SignInComponent.defaultProps = {
-  // default onFailure to noop so you don't have to check whether onFailure is
-  // set inside the component before calling it
-  onFailure: noop,
+	// default onFailure to noop so you don't have to check whether onFailure is
+	// set inside the component before calling it
+	onFailure: noop,
 };
 
 export default SignInComponent;

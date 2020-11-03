@@ -12,6 +12,7 @@ import { styled } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import { shadows } from '@material-ui/system';
 import logo from './Images/HoudiniLogo.png';
+import Paper from '@material-ui/core/Paper';
 
 
 import { CardContent, Link } from '@material-ui/core';
@@ -90,29 +91,32 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 
 	//Error messages
 	const { formatMessage } = useIntl();
-	const label = formatMessage({ id: 'email', defaultMessage: '* Requiered' })
+	const label = formatMessage({ id: 'email', defaultMessage: '* Requiered' });
 
 
 	//Yup validation
 	const validationSchema = yup.object({
 		email: yup.string().email().required(),
-		password: yup.string().required()
+		password: yup.string().required(),
 	});
 
-	//Styling 
+	//Styling
 	const useStyles = makeStyles((theme: Theme) => createStyles({
 		textField: {
 			'& .MuiTextField-root': {
 				margin: theme.spacing(1),
 			},
 		},
-		card: {
+		paper: {
+			maxWidth: 400,
+			margin: `${theme.spacing(1)}px auto`,
+			padding: theme.spacing(2),
 			borderRadius: 15,
-			boxShadow: 'rgb(192,192,192) 0px 1px 6px, rgba(255, 0, 0, 0.117647) 0px 1px 4px',
-			variant: "outlined"
 		},
-		media: {
-			maxWidth: '50ch',
+		box: {
+			justify: "center",
+			alignContent: "center",
+			display: "flex",
 		},
 	}),
 	);
@@ -125,7 +129,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			initialValues={
 				{
 					email: "",
-					password: ""
+					password: "",
 				}}
 			validationSchema={validationSchema}
 			onSubmit={async (values, formikHelpers) => {
@@ -152,9 +156,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							alignItems="center"
 							justify="center"
 						>
-							<Card classes={{ root: classes.card }}>
-								<Box p={4}>
-									<Grid container
+
+							<Paper className={classes.paper} elevation={6}>
+								<Grid container wrap="nowrap" spacing={2}>
+									<Grid item
 										direction="column"
 										alignItems="center"
 										justify="center"
@@ -162,94 +167,97 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										<CardMedia component="img"
 											src={logo}
 											title="Houdini"
-											className={classes.media}
 										/>
-										<CardContent>
+
+										<Box p={3} display="flex" justifyContent="center" alignItems="center">
 											<Typography gutterBottom variant="h5" component="h2">
-												Login
+											Login
 											</Typography>
-										</CardContent>
-
-										<Box p={1.5}>
-											<InputLabel htmlFor="email">Email</InputLabel>
-											<TextField
-												type="text"
-												className={'form-control'}
-												id="emal"
-												name="email"
-												onChange={handleChange}
-												InputProps={{
-													startAdornment: (
-														<InputAdornment position="start">
-															<AccountCircle fontSize="small" />
-														</InputAdornment>
-													),
-												}}
-											/>
-											{errors.email && touched.email ? 
-											<Alert severity="error">
-												<ErrorMessage name="email" >
-													{(errorMessage: any ) => {
-														return label
-													}}
-												</ErrorMessage>
-											</Alert>
-											: null} 
-											
-											
-
 										</Box>
-										<Box p={1.5}>
-											<InputLabel htmlFor="password">Password</InputLabel>
-											<TextField
-												className={'form-control'}
-												id="password"
-												name="password"
-												type="password"
-												onChange={handleChange}
-												InputProps={{
-													startAdornment: (
-														<InputAdornment position="start">
-															<LockOpenIcon fontSize="small" />
-														</InputAdornment>
-													),
-												}}
-											/>
-											{errors.password && touched.password ? 
-											<Alert severity="error">
-												<ErrorMessage name="password" >
-													{(errorMessage: any ) => {
-														return label
+										<Box display="flex" justifyContent="center" alignItems="center">
+											<Box p={1.5}>
+												<InputLabel htmlFor="email">Email</InputLabel>
+												<TextField
+													type="text"
+													className={'form-control'}
+													id="emal"
+													name="email"
+													onChange={handleChange}
+													InputProps={{
+														startAdornment: (
+															<InputAdornment position="start">
+																<AccountCircle fontSize="small" />
+															</InputAdornment>
+														),
 													}}
-												</ErrorMessage>
-											</Alert>
-											: null} 
+												/>
+												{errors.email && touched.email ?
+													<Alert severity="error">
+														<ErrorMessage name="email" >
+															{(errorMessage: any ) => {
+																return label;
+															}}
+														</ErrorMessage>
+													</Alert>
+													: null}
+											</Box>
+										</Box>
+										<Box display="flex" justifyContent="center" alignItems="center">
+											<Box p={1.5}>
+												<InputLabel htmlFor="password">Password</InputLabel>
+												<TextField
+													className={'form-control'}
+													id="password"
+													name="password"
+													type="password"
+													onChange={handleChange}
+													InputProps={{
+														startAdornment: (
+															<InputAdornment position="start">
+																<LockOpenIcon fontSize="small" />
+															</InputAdornment>
+														),
+													}}
+												/>
+												{errors.password && touched.password ?
+													<Alert severity="error">
+														<ErrorMessage name="password" >
+															{(errorMessage: any ) => {
+																return label;
+															}}
+														</ErrorMessage>
+													</Alert>
+													: null}
 
+											</Box>
+										</Box>
+										<Box p={2} display="flex" justifyContent="center" alignItems="center">
+											<Box>
+												<Button
+													data-testid="signInButton"
+													type="submit"
+													variant={'contained'}
+													color={'primary'}
+												>
+													{formatMessage({ id: 'submit' })}
+												</Button>
+											</Box>
 										</Box>
 										<br />
-										<Box>
-											<Button
-												data-testid="signInButton"
-												type="submit"
-												variant={'contained'}
-												color={'primary'}
+										<Box display="flex" justifyContent="center" alignItems="center">
+											<Link
+												component="button"
+												variant="body2"
+												onClick={() => {
+													console.info("I'm a button.");
+												}}
 											>
-												{formatMessage({ id: 'submit' })}
-											</Button>
-										</Box>
-										<br />
-										<Link
-											component="button"
-											variant="body2"
-											onClick={() => {
-												console.info("I'm a button.");
-											}}
-										>
 											Forgot Password
-						</Link>
+											</Link>
+										</Box>
 									</Grid>
-								</Box>
-							</Card>
+								</Grid>
+							</Paper>
 						</Grid>
 
 						{componentState === 'submitting' ? "" : <>
@@ -258,7 +266,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						</>
 						}
 					</Form>
-				)
+				);
 			}}
 		</Formik>
 	);

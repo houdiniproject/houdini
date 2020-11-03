@@ -1,8 +1,7 @@
 // License: LGPL-3.0-or-later
 import React, { useEffect, useState } from "react";
-import { createStyles, Theme, makeStyles, useTheme } from '@material-ui/core/styles';
-import { Formik, Form, FormikErrors, Field, useFormik, ErrorMessage, ErrorMessageProps } from 'formik';
-import Button from '@material-ui/core/Button';
+import { createStyles, Theme, makeStyles} from '@material-ui/core/styles';
+import { Formik, Form, ErrorMessage} from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
 import Typography from '@material-ui/core/Typography';
@@ -10,18 +9,15 @@ import { spacing } from '@material-ui/system';
 import MuiButton from "@material-ui/core/Button";
 import { styled } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
-import { shadows } from '@material-ui/system';
 import logo from './Images/HoudiniLogo.png';
 import Paper from '@material-ui/core/Paper';
 
 
-import { CardContent, Link } from '@material-ui/core';
+import { Link } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import Input from '@material-ui/core/Input';
-import Card from '@material-ui/core/Card';
 import CardMedia from "@material-ui/core/CardMedia";
 import TextField from '@material-ui/core/TextField';
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
@@ -32,10 +28,6 @@ import Alert from '@material-ui/lab/Alert';
 
 
 import Box from '@material-ui/core/Box';
-import { FormatAlignCenter } from "@material-ui/icons";
-import { Email } from '../../legacy_react/src/lib/regex';
-import { YupFail } from "../../common/yup";
-import { any } from "prop-types";
 
 
 export interface SignInComponentProps {

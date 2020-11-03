@@ -25,8 +25,6 @@ import { SignInError } from "../../legacy_react/src/lib/api/errors";
 import { useIntl } from "../../components/intl";
 import * as yup from '../../common/yup';
 import Alert from '@material-ui/lab/Alert';
-
-
 import Box from '@material-ui/core/Box';
 
 

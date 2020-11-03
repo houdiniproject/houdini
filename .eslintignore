@@ -437,3 +437,6 @@ app/javascript/legacy_react/src/components/session_login_page/SessionLoginPage.t
 
 #included code from another package
 app/javascript/common/lodash-joins
+
+# don't check any js in the installed gems on build server
+vendor/bundle

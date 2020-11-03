@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles, useTheme } from '@material-ui/core/styles';
-import { Formik, Form, FormikErrors, Field, useFormik, ErrorMessage } from 'formik';
+import { Formik, Form, FormikErrors, Field, useFormik, ErrorMessage, ErrorMessageProps } from 'formik';
 import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
@@ -33,6 +33,7 @@ import Box from '@material-ui/core/Box';
 import { FormatAlignCenter } from "@material-ui/icons";
 import { Email } from '../../legacy_react/src/lib/regex';
 import { YupFail } from "../../common/yup";
+import { any } from "prop-types";
 
 
 export interface SignInComponentProps {
@@ -85,7 +86,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		}
 	}, [isValid, componentState]);
 
+	//Error messages
 	const { formatMessage } = useIntl();
+	const label = formatMessage({ id: 'email', defaultMessage: '* Requiered' })
+
 
 	//Yup validation
 	const validationSchema = yup.object({
@@ -134,7 +138,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					formikHelpers.setSubmitting(false);
 				}
 			}
-			}>{({ errors, isValid, touched }) => {
+			}>{({ errors, isValid, touched, handleChange }) => {
 				useEffect(() => {
 					setIsValid(isValid);
 				}, [isValid]);
@@ -168,9 +172,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 											<InputLabel htmlFor="email">Email</InputLabel>
 											<TextField
 												type="text"
-												className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')}
+												className={'form-control'}
 												id="emal"
 												name="email"
+												onChange={handleChange}
 												InputProps={{
 													startAdornment: (
 														<InputAdornment position="start">
@@ -179,20 +184,24 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 													),
 												}}
 											/>
-											<ErrorMessage name="email" >
-												{(errorMessage: any) => {
-													return formatMessage(errorMessage)
-												}}
-											</ErrorMessage>
+											{errors.email && touched.email ? 
+												<ErrorMessage name="email" >
+													{(errorMessage: any ) => {
+														return label
+													}}
+												</ErrorMessage>
+											: null} 
+											
 
 										</Box>
 										<Box p={1.5}>
 											<InputLabel htmlFor="password">Password</InputLabel>
 											<TextField
-												className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')}
+												className={'form-control'}
 												id="password"
 												name="password"
 												type="password"
+												onChange={handleChange}
 												InputProps={{
 													startAdornment: (
 														<InputAdornment position="start">
@@ -201,6 +210,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 													),
 												}}
 											/>
+											{errors.password && touched.password ? 
+												<ErrorMessage name="password" >
+													{(errorMessage: any ) => {
+														return label
+													}}
+												</ErrorMessage>
+											: null} 
 
 										</Box>
 										<br />

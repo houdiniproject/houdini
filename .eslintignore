@@ -440,3 +440,5 @@ app/javascript/common/lodash-joins
 
 #javascript locales
 app/javascript/i18n/locales
+# don't check any js in the installed gems on build server
+vendor/bundle

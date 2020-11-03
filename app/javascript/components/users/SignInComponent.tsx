@@ -27,6 +27,7 @@ import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { SignInError } from "../../legacy_react/src/lib/api/errors";
 import { useIntl } from "../../components/intl";
 import * as yup from '../../common/yup';
+import Alert from '@material-ui/lab/Alert';
 
 
 import Box from '@material-ui/core/Box';
@@ -85,6 +86,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('canSubmit');
 		}
 	}, [isValid, componentState]);
+
 
 	//Error messages
 	const { formatMessage } = useIntl();
@@ -185,12 +187,15 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 												}}
 											/>
 											{errors.email && touched.email ? 
+											<Alert severity="error">
 												<ErrorMessage name="email" >
 													{(errorMessage: any ) => {
 														return label
 													}}
 												</ErrorMessage>
+											</Alert>
 											: null} 
+											
 											
 
 										</Box>
@@ -211,11 +216,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 												}}
 											/>
 											{errors.password && touched.password ? 
+											<Alert severity="error">
 												<ErrorMessage name="password" >
 													{(errorMessage: any ) => {
 														return label
 													}}
 												</ErrorMessage>
+											</Alert>
 											: null} 
 
 										</Box>

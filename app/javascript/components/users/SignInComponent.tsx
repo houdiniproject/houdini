@@ -60,7 +60,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		if (failed && wasSubmitting) {
 			// we JUST failed so we only call onFailure
 			// once
-			props.onFailure(lastError);
+			setComponentState('ready');
+			// props.onFailure(lastError);
 		}
 
 		if (wasSubmitting && !failed) {

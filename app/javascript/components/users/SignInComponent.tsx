@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import React, { useEffect, useState } from "react";
-import { createStyles, Theme, makeStyles} from '@material-ui/core/styles';
-import { Formik, Form, ErrorMessage} from 'formik';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import { Formik, Form, ErrorMessage } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/esm/usePrevious';
 import Typography from '@material-ui/core/Typography';
@@ -29,8 +29,6 @@ import { SignInError } from "../../legacy_react/src/lib/api/errors";
 import { useIntl } from "../../components/intl";
 import * as yup from '../../common/yup';
 import Alert from '@material-ui/lab/Alert';
-
-
 import Box from '@material-ui/core/Box';
 
 
@@ -54,9 +52,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const timer = React.useRef<number>();
-
-
-
 
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
@@ -88,10 +83,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	}, [isValid, componentState]);
 
 
-	//Error messages
+	//Setting  messages
 	const { formatMessage } = useIntl();
 	const label = formatMessage({ id: 'email', defaultMessage: '* Requiered' });
-
 
 	//Yup validation
 	const validationSchema = yup.object({
@@ -99,7 +93,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		password: yup.string().required(),
 	});
 
-	//Styling
+	//Styling - Material-UI
 	const useStyles = makeStyles((theme: Theme) => createStyles({
 		textField: {
 			'& .MuiTextField-root': {
@@ -125,9 +119,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
     },
 	}),
 	);
-
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
+
 
 	// const buttonClassname = clsx({
   //   [classes.buttonSuccess]: isValid,
@@ -147,6 +141,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
       }, 2000);
     }
   };
+
+
+	//Formik
 
 	return (
 		<Formik
@@ -168,33 +165,33 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					formikHelpers.setSubmitting(false);
 				}
 			}
+				//Props
 			}>{({ errors, isValid, touched, handleChange }) => {
 				useEffect(() => {
 					setIsValid(isValid);
 				}, [isValid]);
+
+				//Form
 				return (
 					<Form>
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-						<Grid container
-							direction="column"
-							alignItems="center"
-							justify="center"
-						>
 
-							<Paper className={classes.paper} elevation={6}>
-								<Grid container wrap="nowrap" spacing={2}>
-									<Grid item
-										direction="column"
-										alignItems="center"
-										justify="center"
-									>
-										<CardMedia component="img"
-											src={logo}
-											title="Houdini"
-										/>
-
-										<Box p={3} display="flex" justifyContent="center" alignItems="center">
-											<Typography gutterBottom variant="h5" component="h2">
+						{/* Container of the sign-in component */}
+						<Paper className={classes.paper} elevation={6}>
+							<Grid container wrap="nowrap" spacing={2}>
+								<Grid item
+									direction="column"
+									alignItems="center"
+									justify="center"
+								>
+									{/* Display HoudiniLogo */}
+									<CardMedia component="img"
+										src={logo}
+										title="Houdini"
+									/>
+									{/* Display Login title */}
+									<Box p={3} display="flex" justifyContent="center" alignItems="center">
+										<Typography gutterBottom variant="h5" component="h2">
 											Login
 											</Typography>
 										</Box>
@@ -284,15 +281,27 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 												variant="body2"
 												onClick={() => {
 													console.info("I'm a button.");
+
 												}}
-											>
+											/>
+									</Box>
+						
+									{/* Forgot password link */}
+									<Box display="flex" justifyContent="center" alignItems="center">
+										<Link
+											component="button"
+											variant="body2"
+											onClick={() => {
+												console.info("I'm a button.");
+											}}
+										>
 											Forgot Password
-											</Link>
-										</Box>
-									</Grid>
+										</Link>
+									</Box>
 								</Grid>
-							</Paper>
-						</Grid>
+							</Grid>
+						</Paper>
+
 
 						{componentState === 'submitting' ? "" : <>
 							<div data-testid="signInErrorDiv">{failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>

@@ -11,6 +11,10 @@ import { styled } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import logo from './Images/HoudiniLogo.png';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
+import clsx from 'clsx';
 
 
 import { Link } from '@material-ui/core';
@@ -43,11 +47,13 @@ export interface SignInComponentProps {
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
+	const [loading, setLoading] = React.useState(false);
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
+	const timer = React.useRef<number>();
 
 
 
@@ -65,6 +71,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		if (wasSubmitting && !failed) {
 			// we JUST succeeded
 			// TODO
+			setComponentState('success');
 		}
 	}, [failed, submitting, previousSubmittingValue]);
 
@@ -110,11 +117,36 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			alignContent: "center",
 			display: "flex",
 		},
+		// buttonSuccess: {
+		// 	backgroundColor: blue[500],
+		// },
+		buttonProgress: {
+			color: green[500],
+    },
 	}),
 	);
 
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
+
+	// const buttonClassname = clsx({
+  //   [classes.buttonSuccess]: isValid,
+  // });
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+	const handleButtonClick = () => {
+    if (!loading) {
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  };
 
 	return (
 		<Formik
@@ -220,22 +252,32 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 														</ErrorMessage>
 													</Alert>
 													: null}
-
 											</Box>
 										</Box>
 										<Box p={2} display="flex" justifyContent="center" alignItems="center">
-											<Box>
 												<Button
 													data-testid="signInButton"
 													type="submit"
-													variant={'contained'}
-													color={'primary'}
+													color="primary"
+													variant='contained'
+													disabled={!isValid}
+													// className={buttonClassname}
+													onClick={handleButtonClick}
 												>
 													{formatMessage({ id: 'submit' })}
 												</Button>
-											</Box>
 										</Box>
-										<br />
+										
+										{/* Progress Ring */}
+										<Box p={2} display="flex" justifyContent="center" alignItems="center">
+													{loading && <CircularProgress size={24} className={classes.buttonProgress} /> }
+												</Box>
+
+										{/* Message After Success */}
+										<Box p={2} display="flex" justifyContent="center" alignItems="center">
+												{!loading && !failed && !isValid ? <p>Success</p> :null}
+										</Box>
+
 										<Box display="flex" justifyContent="center" alignItems="center">
 											<Link
 												component="button"

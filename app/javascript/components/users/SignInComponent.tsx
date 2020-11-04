@@ -80,7 +80,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		if (isValid && componentState == 'ready') {
 			setComponentState('canSubmit');
 		}
-	}, [isValid, componentState]);
+	}, [isValid, componentState ]);
+
+
 
 
 	//Setting  messages
@@ -256,9 +258,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 													data-testid="signInButton"
 													type="submit"
 													color="primary"
+													value='canSubmit'
 													variant='contained'
-													disabled={!isValid}
-													// className={buttonClassname}
 													onClick={handleButtonClick}
 												>
 													{formatMessage({ id: 'submit' })}
@@ -267,24 +268,16 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										
 										{/* Progress Ring */}
 										<Box p={2} display="flex" justifyContent="center" alignItems="center">
-													{loading && <CircularProgress size={24} className={classes.buttonProgress} /> }
-												</Box>
+												{isValid && touched.email && touched.password && loading?
+                          <CircularProgress disableShrink />	
+                        : null}
+											</Box>
 
 										{/* Message After Success */}
 										<Box p={2} display="flex" justifyContent="center" alignItems="center">
-												{!loading && !failed && !isValid ? <p>Success</p> :null}
+												{!loading && touched.email && touched.password && !failed && isValid && !previousSubmittingValue && !submitting ? 
+												<p>Success</p> :null} 
 										</Box>
-
-										<Box display="flex" justifyContent="center" alignItems="center">
-											<Link
-												component="button"
-												variant="body2"
-												onClick={() => {
-													console.info("I'm a button.");
-
-												}}
-											/>
-									</Box>
 						
 									{/* Forgot password link */}
 									<Box display="flex" justifyContent="center" alignItems="center">
@@ -301,7 +294,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								</Grid>
 							</Grid>
 						</Paper>
-
 
 						{componentState === 'submitting' ? "" : <>
 							<div data-testid="signInErrorDiv">{failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>

@@ -9,7 +9,7 @@ import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 
 import * as CustomAPIS from "../../lib/apis"
 
-const I18n = require('../../../../i18n.js.erb')
+const I18n = require('../../../../i18n').default
 
 interface RootProps
 {

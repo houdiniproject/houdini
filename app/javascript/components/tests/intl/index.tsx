@@ -5,7 +5,7 @@ import React from 'react';
 import addons from '@storybook/addons';
 import omit  from 'lodash/omit';
 import { IntlProvider} from '../../intl';
-const messages = require('../../../i18n.js');
+const messages = require('../../../i18n').default;
 
 export let _config:any = null;
 

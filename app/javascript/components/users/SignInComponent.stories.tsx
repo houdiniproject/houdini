@@ -42,13 +42,18 @@ interface TemplateArgs {
 const Template = (args:TemplateArgs) => {
 
 	if (args.isError ) {
-
-		mockedWebUserSignIn.postSignIn.mockRejectedValue(
-			new SignInError(optionsToSignInError[args.error])
-		);
+		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise((_resolve, reject) => {
+			setTimeout(() => {
+				reject(	new SignInError(optionsToSignInError[args.error]));
+			}, 5000);
+		}));
 	}
 	else {
-		mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 50});
+		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise(resolve => {
+			setTimeout(() => {
+				resolve({id:50});
+			},);
+		}));
 	}
 	return <MockCurrentUserProvider><SignInComponent onFailure={action('onFailure')} /></MockCurrentUserProvider>;
 };

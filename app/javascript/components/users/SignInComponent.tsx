@@ -45,7 +45,7 @@ export interface SignInComponentProps {
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
-	const [loading, setLoading] = React.useState(false);
+	// const [loading, setLoading] = React.useState(false);
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -68,7 +68,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			// TODO
 			setComponentState('success');
 		}
-	}, [failed, submitting, previousSubmittingValue]);
+	}, [failed, submitting, previousSubmittingValue ]);
 
 	useEffect(() => {
 		if (submitting) {
@@ -135,14 +135,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
     };
   }, []);
 
-	const handleButtonClick = () => {
-    if (!loading) {
-      setLoading(true);
-      timer.current = window.setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-    }
-  };
+	// const handleButtonClick = () => {
+  //   if (!loading) {
+  //     setLoading(true);
+  //     timer.current = window.setTimeout(() => {
+  //       setLoading(false);
+  //     }, 2000);
+  //   }
+  // };
 
 
 	//Formik
@@ -258,9 +258,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 													data-testid="signInButton"
 													type="submit"
 													color="primary"
-													value='canSubmit'
 													variant='contained'
-													onClick={handleButtonClick}
+													// onClick={handleButtonClick}
 												>
 													{formatMessage({ id: 'submit' })}
 												</Button>
@@ -268,16 +267,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										
 										{/* Progress Ring */}
 										<Box p={2} display="flex" justifyContent="center" alignItems="center">
-												{isValid && touched.email && touched.password && loading?
+												{componentState === 'submitting' ?
                           <CircularProgress disableShrink />	
                         : null}
-											</Box>
-
-										{/* Message After Success */}
-										<Box p={2} display="flex" justifyContent="center" alignItems="center">
-												{!loading && touched.email && touched.password && !failed && isValid && !previousSubmittingValue && !submitting ? 
-												<p>Success</p> :null} 
-										</Box>
+												{/* Message After Success */}
+												{componentState === 'success' ?
+												<p>Success</p> :null}
+											</Box>	
 						
 									{/* Forgot password link */}
 									<Box display="flex" justifyContent="center" alignItems="center">
@@ -294,6 +290,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								</Grid>
 							</Grid>
 						</Paper>
+
 
 						{componentState === 'submitting' ? "" : <>
 							<div data-testid="signInErrorDiv">{failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>

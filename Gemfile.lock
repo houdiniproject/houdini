@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/houdiniproject/i18n-js.git
-  revision: 7a6a839eb348b7b1e7c5f02a34580b353f642c17
+  revision: a506f9f66de91f9e73715231c6509d252fbb2509
   branch: houdini-tweaks
   specs:
     i18n-js (3.8.0)

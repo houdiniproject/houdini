@@ -10,12 +10,24 @@ import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
 /* NOTE: We're mocking calls to `/user/sign_in` */
 jest.mock('../../legacy_react/src/lib/api/sign_in');
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
+import { IntlProvider } from "../intl";
+import I18n from '../../i18n';
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
+
+function Wrapper(props:React.PropsWithChildren<unknown>) {
+	return <IntlProvider messages={I18n.translations['en'] as any} locale={'en'}>
+		<MockCurrentUserProvider>
+			{props.children}
+		</MockCurrentUserProvider>
+	</IntlProvider>;
+
+}
+
 
 describe('SignInComponent', () => {
 	it('signIn successfully', async() => {
 		expect.assertions(2);
-		const result = render(<MockCurrentUserProvider><SignInComponent/></MockCurrentUserProvider>);
+		const result = render(<Wrapper><SignInComponent/></Wrapper>);
 
 		// we're getting the first element an attribute named 'data-testid' and a
 		// of 'signInButton'
@@ -47,7 +59,7 @@ describe('SignInComponent', () => {
 		// promise which rejects with a SignInError with status: 400 and data of
 		// {error: 'Not Valid'}
 		mockedWebUserSignIn.postSignIn.mockRejectedValueOnce(new SignInError({status: 400, data: {error: 'Not valid'}}));
-		const result = render(<MockCurrentUserProvider><SignInComponent/></MockCurrentUserProvider>);
+		const result = render(<Wrapper><SignInComponent/></Wrapper>);
 
 		const button = result.getByTestId('signInButton');
 		await act(async () => {

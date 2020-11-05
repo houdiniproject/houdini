@@ -25,7 +25,7 @@ import TextField from '@material-ui/core/TextField';
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { useIntl } from "../../components/intl";
-import * as yup from '../../common/yup';
+import useYup from '../../hooks/useYup';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 
@@ -83,8 +83,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
+	const yup = useYup();
 	const label = formatMessage({ id: 'email', defaultMessage: '* Requiered' });
-
+	
 	//Yup validation
 	const validationSchema = yup.object({
 		email: yup.string().email().required(),

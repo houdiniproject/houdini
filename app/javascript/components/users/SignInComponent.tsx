@@ -1,9 +1,10 @@
 // License: LGPL-3.0-or-later
+
 import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Formik, Form, ErrorMessage } from 'formik';
 import noop from "lodash/noop";
-import usePrevious from 'react-use/esm/usePrevious';
+import usePrevious from 'react-use/lib/usePrevious';
 import Typography from '@material-ui/core/Typography';
 import { spacing } from '@material-ui/system';
 import MuiButton from "@material-ui/core/Button";
@@ -246,7 +247,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 											<CircularProgress disableShrink />
 											: null}
 										{/* Message After Success */}
-										{componentState === 'success' && useCurrentUserAuth ?
+										{componentState === 'success' ?
 											<p>Success</p> : null}
 									</Box>
 

@@ -60,6 +60,17 @@ describe('SignInComponent', () => {
 		expect(userId).toBeEmptyDOMElement();
 		expect(error).toHaveTextContent('Not valid');
 	});
+
+  // describe('SignInComponent', () => {
+  //   it('signIn successfully', async() => {
+  //   const initialValues = {
+  //       email: 'houdini@houdini.com',
+  //       password: 'mkamkamkamka',
+  //   };
+
+  //   expect(initialValues).toHaveTextContent("houdini@houdini.com");
+  // });
+  
 });
 
 

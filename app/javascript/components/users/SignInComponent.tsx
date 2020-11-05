@@ -61,7 +61,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			// we JUST failed so we only call onFailure
 			// once
 			setComponentState('ready');
-			// props.onFailure(lastError);
+			props.onFailure(lastError);
 		}
 
 		if (wasSubmitting && !failed) {
@@ -119,7 +119,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		// },
 		buttonProgress: {
 			color: green[500],
-    },
+		},
 	}),
 	);
 	const Button = styled(MuiButton)(spacing);
@@ -127,23 +127,23 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 
 
 	// const buttonClassname = clsx({
-  //   [classes.buttonSuccess]: isValid,
-  // });
+	//   [classes.buttonSuccess]: isValid,
+	// });
 
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
+	React.useEffect(() => {
+		return () => {
+			clearTimeout(timer.current);
+		};
+	}, []);
 
 	// const handleButtonClick = () => {
-  //   if (!loading) {
-  //     setLoading(true);
-  //     timer.current = window.setTimeout(() => {
-  //       setLoading(false);
-  //     }, 2000);
-  //   }
-  // };
+	//   if (!loading) {
+	//     setLoading(true);
+	//     timer.current = window.setTimeout(() => {
+	//       setLoading(false);
+	//     }, 2000);
+	//   }
+	// };
 
 
 	//Formik
@@ -196,86 +196,86 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									<Box p={3} display="flex" justifyContent="center" alignItems="center">
 										<Typography gutterBottom variant="h5" component="h2">
 											Login
-											</Typography>
+										</Typography>
+									</Box>
+									<Box display="flex" justifyContent="center" alignItems="center">
+										<Box p={1.5}>
+											<InputLabel htmlFor="email">Email</InputLabel>
+											<TextField
+												type="text"
+												className={'form-control'}
+												id="emal"
+												name="email"
+												onChange={handleChange}
+												InputProps={{
+													startAdornment: (
+														<InputAdornment position="start">
+															<AccountCircle fontSize="small" />
+														</InputAdornment>
+													),
+												}}
+											/>
+											{errors.email && touched.email ?
+												<Alert severity="error">
+													<ErrorMessage name="email" >
+														{(errorMessage: any ) => {
+															return label;
+														}}
+													</ErrorMessage>
+												</Alert>
+												: null}
 										</Box>
-										<Box display="flex" justifyContent="center" alignItems="center">
-											<Box p={1.5}>
-												<InputLabel htmlFor="email">Email</InputLabel>
-												<TextField
-													type="text"
-													className={'form-control'}
-													id="emal"
-													name="email"
-													onChange={handleChange}
-													InputProps={{
-														startAdornment: (
-															<InputAdornment position="start">
-																<AccountCircle fontSize="small" />
-															</InputAdornment>
-														),
-													}}
-												/>
-												{errors.email && touched.email ?
-													<Alert severity="error">
-														<ErrorMessage name="email" >
-															{(errorMessage: any ) => {
-																return label;
-															}}
-														</ErrorMessage>
-													</Alert>
-													: null}
-											</Box>
+									</Box>
+									<Box display="flex" justifyContent="center" alignItems="center">
+										<Box p={1.5}>
+											<InputLabel htmlFor="password">Password</InputLabel>
+											<TextField
+												className={'form-control'}
+												id="password"
+												name="password"
+												type="password"
+												onChange={handleChange}
+												InputProps={{
+													startAdornment: (
+														<InputAdornment position="start">
+															<LockOpenIcon fontSize="small" />
+														</InputAdornment>
+													),
+												}}
+											/>
+											{errors.password && touched.password ?
+												<Alert severity="error">
+													<ErrorMessage name="password" >
+														{(errorMessage: any ) => {
+															return label;
+														}}
+													</ErrorMessage>
+												</Alert>
+												: null}
 										</Box>
-										<Box display="flex" justifyContent="center" alignItems="center">
-											<Box p={1.5}>
-												<InputLabel htmlFor="password">Password</InputLabel>
-												<TextField
-													className={'form-control'}
-													id="password"
-													name="password"
-													type="password"
-													onChange={handleChange}
-													InputProps={{
-														startAdornment: (
-															<InputAdornment position="start">
-																<LockOpenIcon fontSize="small" />
-															</InputAdornment>
-														),
-													}}
-												/>
-												{errors.password && touched.password ?
-													<Alert severity="error">
-														<ErrorMessage name="password" >
-															{(errorMessage: any ) => {
-																return label;
-															}}
-														</ErrorMessage>
-													</Alert>
-													: null}
-											</Box>
-										</Box>
-										<Box p={2} display="flex" justifyContent="center" alignItems="center">
-												<Button
-													data-testid="signInButton"
-													type="submit"
-													color="primary"
-													variant='contained'
-													// onClick={handleButtonClick}
-												>
-													{formatMessage({ id: 'submit' })}
-												</Button>
-										</Box>
-										
-										{/* Progress Ring */}
-										<Box p={2} display="flex" justifyContent="center" alignItems="center">
-												{componentState === 'submitting' ?
-                          <CircularProgress disableShrink />	
-                        : null}
-												{/* Message After Success */}
-												{componentState === 'success' ?
-												<p>Success</p> :null}
-											</Box>	
-						
+									</Box>
+									<Box p={2} display="flex" justifyContent="center" alignItems="center">
+										<Button
+											data-testid="signInButton"
+											type="submit"
+											color="primary"
+											variant='contained'
+											// onClick={handleButtonClick}
+										>
+											{formatMessage({ id: 'submit' })}
+										</Button>
+									</Box>
+
+									{/* Progress Ring */}
+									<Box p={2} display="flex" justifyContent="center" alignItems="center">
+										{componentState === 'submitting' ?
+											<CircularProgress disableShrink />
+											: null}
+										{/* Message After Success */}
+										{componentState === 'success' ?
+											<p>Success</p> :null}
+									</Box>
+
 									{/* Forgot password link */}
 									<Box display="flex" justifyContent="center" alignItems="center">
 										<Link

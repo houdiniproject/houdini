@@ -13,9 +13,6 @@ import logo from './Images/HoudiniLogo.png';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
-import { blue } from '@material-ui/core/colors';
-import clsx from 'clsx';
-
 
 import { Link } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -25,27 +22,27 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import CardMedia from "@material-ui/core/CardMedia";
 import TextField from '@material-ui/core/TextField';
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
-import { SignInError } from "../../legacy_react/src/lib/api/errors";
+import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { useIntl } from "../../components/intl";
 import * as yup from '../../common/yup';
 import Alert from '@material-ui/lab/Alert';
 import Box from '@material-ui/core/Box';
 
 
+
 export interface SignInComponentProps {
-	/**
-	 * An attempt at signing in failed
-	 *
-	 * @memberof SignInComponentProps
-	 */
-	onFailure?: (error: SignInError) => void;
+  /**
+   * An attempt at signing in failed
+   *
+   * @memberof SignInComponentProps
+   */
+  onFailure?: (error: SignInError) => void;
 }
 
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
-	// const [loading, setLoading] = React.useState(false);
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -69,10 +66,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			// TODO
 			setComponentState('success');
 		}
-	}, [failed, submitting, previousSubmittingValue ]);
+	}, [failed, submitting, previousSubmittingValue]);
 
 	useEffect(() => {
-		if (submitting) {
+		if (isValid && submitting) {
 			setComponentState('submitting');
 		}
 	}, [submitting]);
@@ -81,12 +78,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		if (isValid && componentState == 'ready') {
 			setComponentState('canSubmit');
 		}
-	}, [isValid, componentState ]);
+	}, [isValid, componentState]);
 
-
-
-
-	//Setting  messages
+	//Setting error messages
 	const { formatMessage } = useIntl();
 	const label = formatMessage({ id: 'email', defaultMessage: '* Requiered' });
 
@@ -114,9 +108,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			alignContent: "center",
 			display: "flex",
 		},
-		// buttonSuccess: {
-		// 	backgroundColor: blue[500],
-		// },
 		buttonProgress: {
 			color: green[500],
 		},
@@ -125,29 +116,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
 
-
-	// const buttonClassname = clsx({
-	//   [classes.buttonSuccess]: isValid,
-	// });
-
 	React.useEffect(() => {
 		return () => {
 			clearTimeout(timer.current);
 		};
 	}, []);
 
-	// const handleButtonClick = () => {
-	//   if (!loading) {
-	//     setLoading(true);
-	//     timer.current = window.setTimeout(() => {
-	//       setLoading(false);
-	//     }, 2000);
-	//   }
-	// };
-
-
 	//Formik
-
 	return (
 		<Formik
 			initialValues={
@@ -195,7 +170,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									{/* Display Login title */}
 									<Box p={3} display="flex" justifyContent="center" alignItems="center">
 										<Typography gutterBottom variant="h5" component="h2">
-											Login
+                      Login
 										</Typography>
 									</Box>
 									<Box display="flex" justifyContent="center" alignItems="center">
@@ -218,7 +193,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 											{errors.email && touched.email ?
 												<Alert severity="error">
 													<ErrorMessage name="email" >
-														{(errorMessage: any ) => {
+														{(errorMessage: any) => {
 															return label;
 														}}
 													</ErrorMessage>
@@ -246,7 +221,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 											{errors.password && touched.password ?
 												<Alert severity="error">
 													<ErrorMessage name="password" >
-														{(errorMessage: any ) => {
+														{(errorMessage: any) => {
 															return label;
 														}}
 													</ErrorMessage>
@@ -260,7 +235,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 											type="submit"
 											color="primary"
 											variant='contained'
-											// onClick={handleButtonClick}
 										>
 											{formatMessage({ id: 'submit' })}
 										</Button>
@@ -272,8 +246,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 											<CircularProgress disableShrink />
 											: null}
 										{/* Message After Success */}
-										{componentState === 'success' ?
-											<p>Success</p> :null}
+										{componentState === 'success' && useCurrentUserAuth ?
+											<p>Success</p> : null}
 									</Box>
 
 									{/* Forgot password link */}
@@ -285,18 +259,20 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 												console.info("I'm a button.");
 											}}
 										>
-											Forgot Password
+                      Forgot Password
 										</Link>
 									</Box>
 								</Grid>
 							</Grid>
 						</Paper>
-
-
 						{componentState === 'submitting' ? "" : <>
 							<div data-testid="signInErrorDiv">{failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>
-							<div data-testid="currentUserDiv">{currentUser ? currentUser.id : ""}</div>
+							<div data-testid="currentUserDiv">{currentUser ? <p>You are now signed in. User id: {currentUser.id}</p> : ""}</div>
 						</>
+						}
+						{componentState === 'canSubmit' ?
+							<p>Please enter your login information</p>
+							: null
 						}
 					</Form>
 				);

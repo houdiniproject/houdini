@@ -3,12 +3,11 @@ import React, {useEffect, useState} from "react";
 import {Formik, Form} from 'formik';
 import Button from '@material-ui/core/Button';
 import noop from "lodash/noop";
-import usePrevious from 'react-use/esm/usePrevious';
+import usePrevious from 'react-use/lib/usePrevious';
 
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { SignInError } from "../../legacy_react/src/lib/api/errors";
 import { useIntl } from "../../components/intl";
-import * as yup from '../../common/yup';
 
 export interface SignInComponentProps {
 	/**
@@ -41,7 +40,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 
 		if (wasSubmitting && !failed){
 			// we JUST succeeded
-			// TODO
+			// TODOtestid
 		}
 	}, [failed, submitting, previousSubmittingValue]);
 

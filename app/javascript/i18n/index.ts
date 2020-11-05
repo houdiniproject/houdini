@@ -1,8 +1,7 @@
 
 require('./regenerate.js');
 import I18n from 'i18n-js';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const locales = require('./locales').default;
+import locales from './locales';
 
 I18n.translations = locales;
 

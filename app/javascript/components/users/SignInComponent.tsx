@@ -46,7 +46,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
-  const timer = React.useRef<number>();
   
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
@@ -81,10 +80,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	//Setting error messages
 	const { formatMessage } = useIntl();
 	const yup = useYup();
-	
 	const passwordLabel = formatMessage({id: 'login.password'});
-	const emailLabel = formatMessage({id: 'login.email'});
-
+  const emailLabel = formatMessage({id: 'login.email'});
+  const successLabel = formatMessage({id: 'login.success'});
+  const userIdlabel = formatMessage({id: 'login.user_id'});
+  const forgotPasswordlabel = formatMessage({id: 'login.forgot_password'});
+  const loginHeaderLabel = formatMessage({id: 'login.header'});
+  const emailValidLabel = formatMessage({id: 'login.errors.password_email'});
+  const enterInfoLabel = formatMessage({id: 'login.enter_info'});
 
 	//Yup validation
 	const validationSchema = yup.object({
@@ -172,7 +175,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									{/* Display Login title */}
 									<Box p={3} display="flex" justifyContent="center" alignItems="center">
 										<Typography gutterBottom variant="h5" component="h2">
-											Login
+											<p>{loginHeaderLabel}</p>
 										</Typography>
 									</Box>
 									<Box display="flex" justifyContent="center" alignItems="center">
@@ -204,13 +207,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Box>
                     <Box display="flex" justifyContent="center" alignItems="center">
                       {componentState === 'submitting' ? "" : <>
-							          {failed ? <p>Email or password are invalid.</p> : ""}
+							          {failed ? <p>{emailValidLabel}</p> : ""}
                         </>
                       }
                     </Box>
                     <Box display="flex" justifyContent="center" alignItems="center">
                       {componentState === 'canSubmit' ?
-                        <p>Please enter your login information</p>
+                        <p>{enterInfoLabel}</p>
                         : null
                       }
                     </Box>
@@ -231,8 +234,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 											<CircularProgress disableShrink />
 											: null}
 										{/* Message After Success */}
-										{componentState === 'success' ?
-											<p>Success</p> : null}
+										{componentState === 'success' && currentUser ?
+											<p>{successLabel} {userIdlabel} {currentUser.id}</p>: null}
 									</Box>
 
 									{/* Forgot password link */}
@@ -244,16 +247,12 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 												console.info("I'm a button.");
 											}}
 										>
-											Forgot Password
+											<p>{forgotPasswordlabel}</p>
 										</Link>
 									</Box>
 								</Grid>
 							</Grid>
 						</Paper>
-						{componentState === 'submitting' ? "" : <>
-							<div data-testid="currentUserDiv">{currentUser ? <p>You are now signed in. User id: {currentUser.id}</p> : ""}</div>
-						</>
-						}
 					</Form>
 				);
 			}}

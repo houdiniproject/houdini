@@ -2,7 +2,6 @@
 import * as React from "react";
 import {render, act, fireEvent} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { shallow } from 'enzyme';
 
 import SignInComponent from './SignInComponent';
 import { SignInError } from "../../legacy_react/src/lib/api/errors";
@@ -23,7 +22,6 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 		</MockCurrentUserProvider>
 	</IntlProvider>;
 }
-
 
 describe('SignInComponent', () => {
 	it('signIn successfully', async() => {
@@ -76,38 +74,38 @@ describe('SignInComponent', () => {
 });
 
 /** Test that SignInComponent has email and password input fields, and a submit button  */
-describe('SignInComponent', () => {
-  it('has a login button', () => {
-    const wrapper = shallow(<SignInComponent/>);
-    expect(wrapper.containsMatchingElement(<button type="submit">Submit</button>)).toBeTruthy;
-  });
+// describe('SignInComponent', () => {
+//   it('has a login button', () => {
+//     const wrapper = shallow(<SignInComponent/>);
+//     expect(wrapper.containsMatchingElement(<button type="submit">Submit</button>)).toBeTruthy;
+//   });
 
-  it('has a email input field', () => {
-    const wrapper = shallow(<SignInComponent/>);
-    expect(wrapper.containsMatchingElement(<input type="email" />)).toBeTruthy;
-  });
+//   it('has a email input field', () => {
+//     const wrapper = shallow(<SignInComponent/>);
+//     expect(wrapper.containsMatchingElement(<input type="email" />)).toBeTruthy;
+//   });
 
-  it('has a password input field', () => {
-    const wrapper = shallow(<SignInComponent/>);
-    expect(wrapper.containsMatchingElement(<input type="password" />)).toBeTruthy;
-  });
+//   it('has a password input field', () => {
+//     const wrapper = shallow(<SignInComponent/>);
+//     expect(wrapper.containsMatchingElement(<input type="password" />)).toBeTruthy;
+//   });
 
-  it('passes login information', () => {
-    const email = 'tjgarlick@gmail.com';
-    const password = '123password';
-    const wrapper = shallow(<SignInComponent />);
-      expect(email).toEqual(email);
-      expect(password).toEqual(password);
-    wrapper.find('button').simulate('click');
-  });
-});
+//   it('passes login information', () => {
+//     const email = 'houdini@gmail.com';
+//     const password = '123password';
+//     const wrapper = shallow(<SignInComponent />);
+//       expect(email).toEqual(email);
+//       expect(password).toEqual(password);
+//     wrapper.find('button').simulate('click');
+//   });
+// });
 
 // describe('Form', () => {
 //   it('submit event when click submit', () => {
 //     const callback = spy();
 //     const wrapper = mount(
 //     <Form onSubmit={ callback }>
-//         <TextField id="email" name="email" type="email" />
+//         <Field id="email" name="email" type="email" />
 //         <footer>
 //           <Button caption="Send" display="primary" type="submit" />
 //           <Button caption="Clear" type="reset" />

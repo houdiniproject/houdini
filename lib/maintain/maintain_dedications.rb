@@ -16,9 +16,9 @@ module MaintainDedications
   def self.create_json_dedications_from_plain_text(dedications)
     dedications.map do |i|
       output = {id: i['id']}
-      if i['dedication'] =~ /(((in (loving )?)?memory of|in memorium)\:? )(.+)/i
+      if i['dedication'] =~ /(((in (loving )?)?memory of|in memorium)\:? )(.+)/i || i['dedication'] =~ /(IMO )(.+)/
         output[:dedication] = JSON.generate({type: 'memory', note: $+ })
-      elsif i['dedication'] =~ /((in honor of|honor of)\:? )(.+)/i
+      elsif i['dedication'] =~ /((in honor of|honor of)\:? )(.+)/i || i['dedication'] =~ /(IHO )(.+)/
         output[:dedication] = JSON.generate({type: 'honor', note: $+ })
       else
         output[:dedication] = JSON.generate({type: 'honor', note: i['dedication'] })

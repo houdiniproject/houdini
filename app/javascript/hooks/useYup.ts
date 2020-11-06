@@ -1,6 +1,6 @@
 
 import get from 'lodash/get';
-import cloneDeep from 'lodash/clone';
+import set from 'lodash/set';
 import { useEffect } from 'react';
 import { useIntl } from '../components/intl';
 import type { IntlShape } from '../components/intl';
@@ -15,32 +15,30 @@ import * as yup from 'yup';
  */
 export default function useYup(): typeof yup {
 	const intl = useIntl();
-	const { locale, formatMessage } = intl;
+	const { locale, messages } = intl;
 	useEffect(() => {
-		yup.setLocale(generateYupLocale(formatMessage));
-	}, [locale, formatMessage]);
+		yup.setLocale(generateYupLocale(messages));
+	}, [locale, messages]);
 	return yup;
 }
 
 
-function generateYupLocale(formatMessage: IntlShape['formatMessage']) {
-	const newLocale = cloneDeep(yupValidationMessagesToTranslationKeys);
+function generateYupLocale(messages: IntlShape['messages']) : typeof yupValidationMessagesToTranslationKeys {
+	const newLocale:Partial<typeof yupValidationMessagesToTranslationKeys> = {};
 
-	Object.keys(newLocale).forEach((field) => {
-		const object = get(newLocale, field);
-		Object.keys(object).forEach((k) => {
-			const translationKey = object[k];
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			object[k] = createMessage(({ path, label, value, originalValue, ...other }) => {
-				if (label) {
-					path = label;
-				}
-				return formatMessage({ id: translationKey }, { path, ...other });
-			});
-		});
-	});
+	for (const childKey in yupValidationMessagesToTranslationKeys) {
+		const child = get(yupValidationMessagesToTranslationKeys, childKey);
+		const newChild= {};
+		for (const subchildKey in child) {
+			const subchild = get(child, subchildKey);
+			const result = ((messages[subchild] as string) ||  subchild).replace("{", "${");
+			set(newChild, subchildKey, result);
+		}
 
-	return newLocale;
+		set(newLocale, childKey, newChild);
+	}
+
+	return newLocale as typeof yupValidationMessagesToTranslationKeys;
 }
 
 

@@ -42,17 +42,17 @@ interface TemplateArgs {
 const Template = (args:TemplateArgs) => {
 
 	if (args.isError ) {
-		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise((_resolve, reject) => {
+		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise((_resolve, reject) => {
 			setTimeout(() => {
 				reject(	new SignInError(optionsToSignInError[args.error]));
 			}, 5000);
 		}));
 	}
 	else {
-		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise(resolve => {
+		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise(resolve => {
 			setTimeout(() => {
 				resolve({id:50});
-			},);
+			},5000);
 		}));
 	}
 	return <MockCurrentUserProvider><SignInComponent onFailure={action('onFailure')} /></MockCurrentUserProvider>;

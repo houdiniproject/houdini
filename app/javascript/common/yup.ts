@@ -1,5 +1,6 @@
 export * from 'yup';
-export * from './yup';
+
+import type { LocaleObject, TestMessageParams } from 'yup';
 
 /**
  * NEVER CALL THIS FUNCTION FROM YOUR CODE. IT WILL THROW AN EXCEPTION
@@ -11,3 +12,7 @@ export * from './yup';
 export function setLocale():never {
 	throw new Error('setLocale is handled in `app/javascripts/common/yup/yup.ts`. NEVER call this function from your code');
 }
+
+
+
+

@@ -5,16 +5,28 @@ import '@testing-library/jest-dom/extend-expect';
 
 import SignInPage from "./SignInPage";
 
-jest.mock('../../legacy_react/src/lib/api/sign_in');
-import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
 
+/* NOTE: We're mocking calls to `/user/sign_in` */
+jest.mock('../../legacy_react/src/lib/api/sign_in');
+import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
+import { IntlProvider } from "../intl";
+import I18n from '../../i18n';
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
+
+function Wrapper(props:React.PropsWithChildren<unknown>) {
+	return <IntlProvider messages={I18n.translations['en'] as any} locale={'en'}>
+		<MockCurrentUserProvider>
+			{props.children}
+		</MockCurrentUserProvider>
+	</IntlProvider>;
+
+}
 
 describe('SignInPage', () => {
 	it('signIn successfully', async() => {
 		expect.assertions(1);
-		const result = render(<MockCurrentUserProvider><SignInPage/></MockCurrentUserProvider>);
+		const result = render(<Wrapper><SignInPage/></Wrapper>);
 
 		const button = result.getByTestId('signInButton');
 		// everytime you try to call the User SignIn API in this test, return a
@@ -35,7 +47,7 @@ describe('SignInPage', () => {
 
 	it('signIn failed', async () => {
 		expect.hasAssertions();
-		const result = render(<MockCurrentUserProvider><SignInPage/></MockCurrentUserProvider>);
+		const result = render(<Wrapper><SignInPage/></Wrapper>);
 
 		const button = result.getByTestId('signInButton');
 		// everytime you try to call the User SignIn API in this test, return a

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik, Form,  Field } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
 import Typography from '@material-ui/core/Typography';
@@ -16,20 +16,16 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
 
 import { Link } from '@material-ui/core';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import CardMedia from "@material-ui/core/CardMedia";
-import TextField from '@material-ui/core/TextField';
+import {TextField} from 'formik-material-ui';
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { useIntl } from "../../components/intl";
-import * as yup from '../../common/yup';
-import Alert from '@material-ui/lab/Alert';
+import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
-
-
 
 
 export interface SignInComponentProps {
@@ -84,13 +80,16 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
-	const label = formatMessage({id: 'en.hello'})
+	const yup = useYup();
+	
+	const passwordLabel = formatMessage({id: 'login.password'});
+	const emailLabel = formatMessage({id: 'login.email'});
 
 
 	//Yup validation
 	const validationSchema = yup.object({
-		email: yup.string().email().required(),
-		password: yup.string().required(),
+		email: yup.string().label(emailLabel).email().required(),
+		password: yup.string().label(passwordLabel).required(),
 	});
 
 	//Styling - Material-UI
@@ -178,13 +177,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Box>
 									<Box display="flex" justifyContent="center" alignItems="center">
 										<Box p={1.5}>
-											<InputLabel htmlFor="email">Email</InputLabel>
-											<TextField
-												type="email"
-												className={'form-control'}
-												id="emal"
-												name="email"
-												onChange={handleChange}
+											<Field component={TextField} name="email" type="text"
+												label={emailLabel}
 												InputProps={{
 													startAdornment: (
 														<InputAdornment position="start">
@@ -193,43 +187,19 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 													),
 												}}
 											/>
-											{errors.email && touched.email ?
-												<Alert severity="error">
-													<ErrorMessage name="email" >
-														{(errorMessage: any) => {
-															return label;
-														}}
-													</ErrorMessage>
-												</Alert>
-												: null}
 										</Box>
 									</Box>
 									<Box display="flex" justifyContent="center" alignItems="center">
 										<Box p={1.5}>
-											<InputLabel htmlFor="password">Password</InputLabel>
-											<TextField
-												className={'form-control'}
-												id="password"
-												name="password"
-												type="password"
-												onChange={handleChange}
+											<Field component={TextField} name="password" type="password"
+												label={passwordLabel}
 												InputProps={{
 													startAdornment: (
 														<InputAdornment position="start">
 															<LockOpenIcon fontSize="small" />
 														</InputAdornment>
 													),
-												}}
-											/>
-											{errors.password && touched.password ?
-												<Alert severity="error">
-													<ErrorMessage name="password" >
-														{(errorMessage: any) => {
-															return label;
-														}}
-													</ErrorMessage>
-												</Alert>
-												: null}
+												}} />
 										</Box>
 									</Box>
                     <Box display="flex" justifyContent="center" alignItems="center">

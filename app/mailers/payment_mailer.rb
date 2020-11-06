@@ -8,7 +8,7 @@ class PaymentMailer < BaseMailer
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
       return JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, payment.donation.id, user_id)
     elsif payment.kind == 'Ticket'
-      return TicketMailer.receipt_admin(payment.tickets.pluck(:id), user_id).deliver
+      return JobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, payment.tickets.pluck(:id), user_id)
     elsif payment.kind == 'Refund'
       return Delayed::Job.enqueue JobTypes::NonprofitRefundNotificationJob.new(payment.refund.id, user_id)
     end

@@ -28,14 +28,13 @@ import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 
 
-
 export interface SignInComponentProps {
-  /**
-   * An attempt at signing in failed
-   *
-   * @memberof SignInComponentProps
-   */
-  onFailure?: (error: SignInError) => void;
+	/**
+	 * An attempt at signing in failed
+	 *
+	 * @memberof SignInComponentProps
+	 */
+	onFailure?: (error: SignInError) => void;
 }
 
 
@@ -47,8 +46,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
-	const timer = React.useRef<number>();
-
+  const timer = React.useRef<number>();
+  
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 		const wasSubmitting = previousSubmittingValue && !submitting;
@@ -173,7 +172,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									{/* Display Login title */}
 									<Box p={3} display="flex" justifyContent="center" alignItems="center">
 										<Typography gutterBottom variant="h5" component="h2">
-                      Login
+											Login
 										</Typography>
 									</Box>
 									<Box display="flex" justifyContent="center" alignItems="center">
@@ -203,6 +202,18 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 												}} />
 										</Box>
 									</Box>
+                    <Box display="flex" justifyContent="center" alignItems="center">
+                      {componentState === 'submitting' ? "" : <>
+							          {failed ? <p>Email or password are invalid.</p> : ""}
+                        </>
+                      }
+                    </Box>
+                    <Box display="flex" justifyContent="center" alignItems="center">
+                      {componentState === 'canSubmit' ?
+                        <p>Please enter your login information</p>
+                        : null
+                      }
+                    </Box>
 									<Box p={2} display="flex" justifyContent="center" alignItems="center">
 										<Button
 											data-testid="signInButton"
@@ -233,20 +244,15 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 												console.info("I'm a button.");
 											}}
 										>
-                      Forgot Password
+											Forgot Password
 										</Link>
 									</Box>
 								</Grid>
 							</Grid>
 						</Paper>
 						{componentState === 'submitting' ? "" : <>
-							<div data-testid="signInErrorDiv">{failed ? lastError.data.error.map((i) => i).join('; ') : ""}</div>
 							<div data-testid="currentUserDiv">{currentUser ? <p>You are now signed in. User id: {currentUser.id}</p> : ""}</div>
 						</>
-						}
-						{componentState === 'canSubmit' ?
-							<p>Please enter your login information</p>
-							: null
 						}
 					</Form>
 				);

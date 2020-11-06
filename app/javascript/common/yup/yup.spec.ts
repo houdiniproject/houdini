@@ -24,6 +24,7 @@ describe("yup", () => {
 
 
 			// This is the equivalent of getting errors from the FormikContext
+			/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 			let errors:any = null;
 			try {
 				await validateYupSchema({name: "not 20 chars"}, schema, false);

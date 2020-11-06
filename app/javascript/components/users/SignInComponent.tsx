@@ -121,12 +121,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
 
-	React.useEffect(() => {
-		return () => {
-			clearTimeout(timer.current);
-		};
-	}, []);
-
 	//Formik
 	return (
 		<Formik

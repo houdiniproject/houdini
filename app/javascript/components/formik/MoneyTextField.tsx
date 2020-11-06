@@ -69,7 +69,7 @@ function MoneyTextField({ children, form, field, currencyDisplay, useGrouping, a
 
 		form.setFieldValue(fieldName, Money.fromCents(valueInCents, currency));
 
-	}, [fieldName, valueInCents, currency]);
+	}, [fieldName, valueInCents, currency, form]);
 
 
 	return <MuiTextField {...fieldToTextField({form, field, ...props})} value={maskedValue}

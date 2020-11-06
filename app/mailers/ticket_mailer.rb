@@ -26,7 +26,6 @@ class TicketMailer < BaseMailer
     recipients = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_events')
     if user_id
       em = User.find(user_id).email
-      return unless recipients.include?(em)
       recipients = [em]
     end
     if recipients.any?

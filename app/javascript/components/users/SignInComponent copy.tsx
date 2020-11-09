@@ -26,6 +26,8 @@ import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
+import Grow from '@material-ui/core/Grow';
+import { BluetoothDisabled } from "@material-ui/icons";
 
 
 export interface SignInComponentProps {
@@ -41,6 +43,7 @@ export interface SignInComponentProps {
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
   const [isValid, setIsValid] = useState(false);
+  const [checked, setChecked] = React.useState(false);
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -120,6 +123,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	);
 	const Button = styled(MuiButton)(spacing);
   const classes = useStyles();
+  
+  
+    const handleChange = () => {
+      setChecked((prev) => !prev);
+    };
 
 	//Formik
 	return (

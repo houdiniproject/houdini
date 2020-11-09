@@ -21,7 +21,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
 
-
+import useYup from '../../hooks/useYup';
+import { useIntl } from "../../components/intl";
 import SignInComponent from "./SignInComponent";
 import { Paper } from "@material-ui/core";
 
@@ -61,9 +62,8 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
        },
        logo:{
         alignItems:'center',
-        width: 150,
+        width: 100,
         height: 75,
-  
         justifyContent:"center",
         
        },
@@ -74,14 +74,16 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
         textAlign: "center",
        },
        media: {
-        height: 75,
+        maxWidth: 250,
       },
-      card: {
-      
-        
-      },
+      lowercase: {
+        textTransform: "none",
+    },
+    uppercase: {
+      textTransform: "uppercase",
+  },
       paper: {
-        maxWidth: 325,
+        minWidth: 200,
         margin: `${theme.spacing(1)}px auto`,
         padding: theme.spacing(2),
         borderRadius: 15,
@@ -91,6 +93,13 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 
 	
   const classes = useStyles();
+  const { formatMessage } = useIntl();
+	const yup = useYup();
+  const loginHeaderLabel = formatMessage({id: 'login.header'});
+  const forgotPasswordlabel = formatMessage({id: 'login.forgot_password'});
+  const copyright = formatMessage({id: 'footer.copyright'});
+  const terms = formatMessage({id: 'footer.terms_and_privacy'});
+
 
 
 	return (
@@ -99,61 +108,65 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       <div className={classes.root}>
             <AppBar position="static" color="primary">
             <Toolbar >
-              <Box p={3}>
-                <Typography 
-                  variant="h5"
-                  className={classes.title}
-                  >
-                  <Box letterSpacing={2} fontWeight="fontWeightBold">
-                    SIGN IN PAGE
-                  </Box>
-                </Typography>
-              </Box>
+              <Grid>
+                <CardMedia
+                  className={classes.media}
+                  component="img"
+                  src={logo}
+                  title="Houdini"
+                />
+              </Grid>
             </Toolbar>
             </AppBar>
           </div>
 			</Grid>
      <Grid container spacing={0}>
-       <Grid item xs={12}>
-        <CardMedia
-          className={classes.media}
-          component="img"
-          src={logo}
-          title="Houdini"
-                      
-        />
-      </Grid>
       <Grid container
             xs={6} 
             justify="center">
 
           {/* <Paper className={classes.paper} elevation={6}> */}
             <Grid item xs={6}>
-              <Typography variant="h4" className={classes.text} >
-                <Box letterSpacing={3} fontWeight="fontWeightBold " >
-                  Welcome! 
-                </Box>
-              </Typography>
+              
             </Grid>
-            <Typography className={classes.text} >
-              <Box>
-              Please Login to countinue or select the following options below.
-              </Box>
-            </Typography>
-              <CardActions>
-                    <Button size="large" color="primary">
-                      Forgot Password
-                    </Button>
-                    <Button size="large" color="primary">
-                      Get Started
-                    </Button>
-              </CardActions>
-          {/* </Paper> */}
         </Grid>
 
-        <Grid container xs={5} justify="flex-start">
-          <SignInComponent onFailure={onFailure}/>
-          <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
+        <Grid container xs={12} justify="center">
+        <Box   p={10} display="flex" width="75%" justifyContent="center" alignItems="center">
+        <Paper className={classes.paper} elevation={6}>
+							<Typography gutterBottom variant="h5" component="h2">
+              <Box p={1} 
+                  className={classes.uppercase} 
+                  display="flex" justifyContent="center" 
+                  alignItems="center" 
+                  fontWeight="fontWeightBold"
+                  letterSpacing={1}
+                  >
+
+								<p>{loginHeaderLabel}</p>
+                </Box> 
+							</Typography>
+						    
+            <SignInComponent />
+            <Box display="flex" justifyContent="center">
+              <Button className={classes.lowercase} size="medium" color="primary">
+                <p>{forgotPasswordlabel}</p>
+              </Button>
+              <Button className={classes.lowercase} size="medium" color="primary">
+                <p>Get Started</p>
+              </Button>
+              </Box>
+                    {/* <Button className={classes.lowercase} size="small" color="primary">
+                      Exmaple
+                    </Button>
+                    <Grid container xs={12} justify="center">
+                    <Button className={classes.lowercase} size="small" color="primary">
+                      Example
+                    </Button>
+                    </Grid> */}
+            <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
+          </Paper>
+          </Box>
         </Grid>
       </Grid>
       <Grid item xs={12} >
@@ -161,9 +174,9 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
               <Toolbar>
               <Typography className={classes.link} >
                 <CopyrightIcon fontSize="small" className={classes.wrapIcon} />
-                  {'2020 Houdini Project '}
+                  {copyright}
                 <Link href="" color="inherit">
-                  {'Terms & Privacy'}
+                  {terms}
                 </Link>
                 </Typography>
               </Toolbar>

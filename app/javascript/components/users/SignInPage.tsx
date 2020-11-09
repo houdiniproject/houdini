@@ -19,6 +19,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import lightblue from '@material-ui/core/colors/lightBlue';
 
 
 import useYup from '../../hooks/useYup';
@@ -82,6 +83,9 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
     uppercase: {
       textTransform: "uppercase",
   },
+    appbar: {
+      background: "#03a9f4",
+    },
       paper: {
         minWidth: 200,
         margin: `${theme.spacing(1)}px auto`,
@@ -106,7 +110,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 		<Grid container spacing={0}>
 			<Grid item xs={12}>
       <div className={classes.root}>
-            <AppBar position="static" color="primary">
+            <AppBar position="static" className={classes.appbar}>
             <Toolbar >
               <Grid>
                 <CardMedia
@@ -170,7 +174,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
         </Grid>
       </Grid>
       <Grid item xs={12} >
-              <AppBar position="static">
+              <AppBar position="static" className={classes.appbar}>
               <Toolbar>
               <Typography className={classes.link} >
                 <CopyrightIcon fontSize="small" className={classes.wrapIcon} />

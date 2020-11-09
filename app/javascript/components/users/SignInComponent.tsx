@@ -1,25 +1,17 @@
 // License: LGPL-3.0-or-later
-
 import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Formik, Form,  Field } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
-import Typography from '@material-ui/core/Typography';
 import { spacing } from '@material-ui/system';
 import MuiButton from "@material-ui/core/Button";
 import { styled } from "@material-ui/core/styles";
-import Grid from '@material-ui/core/Grid';
-import logo from './Images/HoudiniLogo.png';
-import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { green } from '@material-ui/core/colors';
-
-import { Link } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import CardMedia from "@material-ui/core/CardMedia";
 import {TextField} from 'formik-material-ui';
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
@@ -84,8 +76,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
   const emailLabel = formatMessage({id: 'login.email'});
   const successLabel = formatMessage({id: 'login.success'});
   const userIdlabel = formatMessage({id: 'login.user_id'});
-  const forgotPasswordlabel = formatMessage({id: 'login.forgot_password'});
-  const loginHeaderLabel = formatMessage({id: 'login.header'});
   const emailValidLabel = formatMessage({id: 'login.errors.password_email'});
   const enterInfoLabel = formatMessage({id: 'login.enter_info'});
 
@@ -152,26 +142,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				return (
 					<Form>
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-
-						{/* Container of the sign-in component */}
-						<Paper className={classes.paper} elevation={6}>
-							<Grid container wrap="nowrap" spacing={2}>
-								<Grid item
-									direction="column"
-									alignItems="center"
-									justify="center"
-								>
-									{/* Display HoudiniLogo */}
-									<CardMedia component="img"
-										src={logo}
-										title="Houdini"
-									/>
-									{/* Display Login title */}
-									<Box p={3} display="flex" justifyContent="center" alignItems="center">
-										<Typography gutterBottom variant="h5" component="h2">
-											<p>{loginHeaderLabel}</p>
-										</Typography>
-									</Box>
 									<Box display="flex" justifyContent="center" alignItems="center">
 										<Box p={1.5}>
 											<Field component={TextField} name="email" type="text"
@@ -242,23 +212,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										{/* Message After Success */}
 										{componentState === 'success' && currentUser ?
 											<p>{successLabel} {userIdlabel} {currentUser.id}</p>: null}
-									</Box>
-
-									{/* Forgot password link */}
-									<Box display="flex" justifyContent="center" alignItems="center">
-										<Link
-											component="button"
-											variant="body2"
-											onClick={() => {
-												console.info("I'm a button.");
-											}}
-										>
-											<p>{forgotPasswordlabel}</p>
-										</Link>
-									</Box>
-								</Grid>
-							</Grid>
-						</Paper>
+									</Box>			
 					</Form>
 				);
 			}}

@@ -105,7 +105,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			display: "flex",
 		},
 		buttonProgress: {
-			color: green[500],
       position: 'absolute',
 		},
     submitButton: {
@@ -218,6 +217,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
                         <p>{successLabel}</p>
                       : null }
                     </Button>
+                     {/* Circular progress on submit button */}
                     {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
 									</Box>
 					</Form>

@@ -19,7 +19,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import lightblue from '@material-ui/core/colors/lightBlue';
+import grey from '@material-ui/core/colors/grey';
 
 
 import useYup from '../../hooks/useYup';
@@ -70,7 +70,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
        },
        text:{
         display:"flex",
-         justifyContent:"center",
+        justifyContent:"center",
         alignItems:"center",
         textAlign: "center",
        },
@@ -84,10 +84,19 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       textTransform: "uppercase",
   },
     appbar: {
-      background: "#03a9f4",
+      background: grey[400],
+    },
+    responsive: {
+      [theme.breakpoints.down('sm')]: {
+        width: "100%",
+        marginTop: 45,
+        marginBottom: 45
+        },
+        [theme.breakpoints.up('lg')]: {
+          margin: 75,
+          },
     },
       paper: {
-        minWidth: 200,
         margin: `${theme.spacing(1)}px auto`,
         padding: theme.spacing(2),
         borderRadius: 15,
@@ -125,18 +134,10 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
           </div>
 			</Grid>
      <Grid container spacing={0}>
-      <Grid container
-            xs={6} 
-            justify="center">
-
-          {/* <Paper className={classes.paper} elevation={6}> */}
-            <Grid item xs={6}>
-              
-            </Grid>
-        </Grid>
+      
 
         <Grid container xs={12} justify="center">
-        <Box   p={10} display="flex" width="75%" justifyContent="center" alignItems="center">
+        <Box   className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
         <Paper className={classes.paper} elevation={6}>
 							<Typography gutterBottom variant="h5" component="h2">
               <Box p={1} 

@@ -33,6 +33,7 @@ export interface SignInComponentProps {
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
   const [isValid, setIsValid] = useState(false);
+  const timer = React.useRef<number>(); //Circular progress timer
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -75,9 +76,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const passwordLabel = formatMessage({id: 'login.password'});
   const emailLabel = formatMessage({id: 'login.email'});
   const successLabel = formatMessage({id: 'login.success'});
-  const userIdlabel = formatMessage({id: 'login.user_id'});
   const emailValidLabel = formatMessage({id: 'login.errors.password_email'});
   const enterInfoLabel = formatMessage({id: 'login.enter_info'});
+  const loginHeaderLabel = formatMessage({id: 'login.header'});
 
 	//Yup validation
 	const validationSchema = yup.object({
@@ -105,11 +106,31 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		},
 		buttonProgress: {
 			color: green[500],
+      position: 'absolute',
 		},
+    submitButton: {
+      height: 40,
+    },
 	}),
 	);
 	const Button = styled(MuiButton)(spacing);
   const classes = useStyles();
+
+//Circular progress timer
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+//Handles submit button
+  const handleButtonClick = () => {
+    if (!submitting) {
+      timer.current = window.setTimeout(() => {
+      }, 2000);
+    }
+  };
+
 
 	//Formik
 	return (
@@ -182,37 +203,23 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
                       }
                     </Box>
 									<Box p={2} display="flex" justifyContent="center" alignItems="center">
-                    {componentState !== 'submitting' && isValid  && !failed && touched.email ? 
-                      <Button
-                        data-testid="signInButton"
-                        type="submit"
-                        color="primary"
-                        variant='contained'
-                      > 
-                        {formatMessage({ id: 'submit' })} 
-                      </Button>
-                    : null }
-                    {componentState !== 'submitting' && failed && isValid ?
-                      <Button
-                        data-testid="signInButton"
-                        type="submit"
-                        color="primary"
-                        variant='contained'
-                      >
-                        {formatMessage({ id: 'submit' })}
-                      </Button>
-                    : null }
+                    <Button className={classes.submitButton}
+                      data-testid="signInButton"
+                      type="submit"
+                      color="primary"
+                      disabled={submitting}
+                      variant='contained'
+                      onClick={handleButtonClick}
+                    > 
+                      {componentState !== 'success' ? 
+                        <p>{loginHeaderLabel}</p>
+                      : null }
+                      {componentState == 'success' && currentUser ?
+                        <p>{successLabel}</p>
+                      : null }
+                    </Button>
+                    {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
 									</Box>
-
-									{/* Progress Ring */}
-									<Box p={2} display="flex" justifyContent="center" alignItems="center">
-										{componentState === 'submitting' ?
-											<CircularProgress disableShrink />
-											: null}
-										{/* Message After Success */}
-										{componentState === 'success' && currentUser ?
-											<p>{successLabel} {userIdlabel} {currentUser.id}</p>: null}
-									</Box>			
 					</Form>
 				);
 			}}

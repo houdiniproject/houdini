@@ -3,25 +3,15 @@
 import React, {useCallback, useState} from "react";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import CopyrightIcon from '@material-ui/icons/Copyright';
 import logo from './Images/HoudiniLogo.png';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import grey from '@material-ui/core/colors/grey';
-
-
 import useYup from '../../hooks/useYup';
 import { useIntl } from "../../components/intl";
 import SignInComponent from "./SignInComponent";
@@ -41,6 +31,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 	}, [setError]);
 
 
+  //Styling of component
 	const useStyles = makeStyles((theme: Theme) =>
 		createStyles({
 			root: {
@@ -80,9 +71,6 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       lowercase: {
         textTransform: "none",
     },
-    uppercase: {
-      textTransform: "uppercase",
-  },
     appbar: {
       background: grey[400],
     },
@@ -104,7 +92,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 		}),
 		);
 
-	
+	//Setting up error messages
   const classes = useStyles();
   const { formatMessage } = useIntl();
 	const yup = useYup();
@@ -112,8 +100,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
   const forgotPasswordlabel = formatMessage({id: 'login.forgot_password'});
   const copyright = formatMessage({id: 'footer.copyright'});
   const terms = formatMessage({id: 'footer.terms_and_privacy'});
-
-
+  const getStartedLabel = formatMessage({id: 'login.get_started'});
 
 	return (
 		<Grid container spacing={0}>
@@ -141,34 +128,38 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
         <Paper className={classes.paper} elevation={6}>
 							<Typography gutterBottom variant="h5" component="h2">
               <Box p={1} 
-                  className={classes.uppercase} 
                   display="flex" justifyContent="center" 
                   alignItems="center" 
-                  fontWeight="fontWeightBold"
-                  letterSpacing={1}
                   >
-
 								<p>{loginHeaderLabel}</p>
                 </Box> 
 							</Typography>
 						    
             <SignInComponent />
+            {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
+            space between links */}
             <Box display="flex" justifyContent="center">
-              <Button className={classes.lowercase} size="medium" color="primary">
-                <p>{forgotPasswordlabel}</p>
-              </Button>
-              <Button className={classes.lowercase} size="medium" color="primary">
-                <p>Get Started</p>
-              </Button>
-              </Box>
-                    {/* <Button className={classes.lowercase} size="small" color="primary">
-                      Exmaple
-                    </Button>
-                    <Grid container xs={12} justify="center">
-                    <Button className={classes.lowercase} size="small" color="primary">
-                      Example
-                    </Button>
-                    </Grid> */}
+              <Link
+                      component="button"
+                      variant="body2"
+                      onClick={() => {
+                        console.info("I'm forgotPassword button.");
+                      }}
+                    >
+                      <p>{forgotPasswordlabel}</p>
+						  </Link>
+            </Box>
+            <Box m={-1.5} display="flex" justifyContent="center">
+              <Link 
+                      component="button"
+                      variant="body2"
+                      onClick={() => {
+                        console.info("I'm getStarted button.");
+                      }}
+                    >
+                      <p>{getStartedLabel}</p>
+						  </Link>
+            </Box>
             <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
           </Paper>
           </Box>
@@ -189,14 +180,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
         
         </Grid>
 		</Grid>
-			
-		
-		
 	);
-	
-	
-	
 }
-
 
 export default SignInPage;

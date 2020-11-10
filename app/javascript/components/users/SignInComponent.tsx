@@ -17,6 +17,9 @@ import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
+import Alert from '@material-ui/lab/Alert';
+
+
 
 
 export interface SignInComponentProps {
@@ -189,13 +192,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Box>
                     <Box display="flex" justifyContent="center" alignItems="center">
                       {componentState === 'submitting' ? "" : <>
-							          {failed ? <p>{emailValidLabel}</p> : ""}
+							          {failed ? <Alert severity="error">{emailValidLabel}</Alert> : ""}
                         </>
                       }
                     </Box>
                     <Box display="flex" justifyContent="center" alignItems="center">
                       {componentState === 'canSubmit' && !touched.email && !touched.password ?
-                        <p>{enterInfoLabel}</p>
+                        <p></p>
                         : null
                       }
                     </Box>

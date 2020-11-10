@@ -223,7 +223,7 @@ en:
     copyright: "2020 Houdini Project"
   login:
     header: "Login"
-    message: "Welcome Back"
+    message: "Please Enter Login Information"
     email: "Email"
     password: "Password"
     logging_in: "Logging you in..."

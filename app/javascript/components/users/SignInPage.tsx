@@ -7,7 +7,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import CopyrightIcon from '@material-ui/icons/Copyright';
 import logo from './Images/HoudiniLogo.png';
 import CardMedia from '@material-ui/core/CardMedia';
 import grey from '@material-ui/core/colors/grey';
@@ -46,17 +45,6 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 			title: {
 			flexGrow: 1,
       },
-      link: {
-        '& > * + *': {
-          marginLeft: theme.spacing(2),
-          color: "#212121",
-        },
-      },
-      wrapIcon: {
-        verticalAlign: 'middle',
-        display: 'inline-flex',
-        color: "#212121"
-       },
        logo:{
         alignItems:'center',
         width: 100,
@@ -100,40 +88,12 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 		}),
 		);
 
-  //Error boundary
-  class ErrorBoundary extends React.Component {
-    constructor(props) {
-      super(props);
-    }
-    state = {
-      errorMessage: 'Something went wrong. Reload the page'
-    }
-    static getDerivedStateFromError(error) {
-      // Update state so the next render will show the fallback UI.
-      return { hasError: true };
-    }
-    componentDidCatch(error, errorInfo) {
-      // You can also log the error to an error reporting service
-      this.logErrorToServices(error, errorInfo);
-    }
-    logErrorToServices = console.log
-    render() {
-      if (this.state.errorMessage) {
-        return (
-          <p>
-            {this.state.errorMessage}
-          </p>
-        )
-      }
-      return this.props.children; 
-    }
-  }
 
 	//Setting up error messages
   const classes = useStyles();
   const { formatMessage } = useIntl();
 	const yup = useYup();
-  const loginHeaderLabel = formatMessage({id: 'login.header'});
+  const loginHeaderLabel = formatMessage({id: 'login.message'});
   const forgotPasswordlabel = formatMessage({id: 'login.forgot_password'});
   const copyright = formatMessage({id: 'footer.copyright'});
   const terms = formatMessage({id: 'footer.terms_and_privacy'});
@@ -176,9 +136,9 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 								<p>{loginHeaderLabel}</p>
                 </Box> 
 							</Typography>
-                <ErrorBoundary>
+                
                   <SignInComponent />
-                </ErrorBoundary>          
+                        
             {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
             space between links */}
             <Box display="flex" justifyContent="center">
@@ -211,15 +171,21 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       <Grid item xs={12} >
               <AppBar position="static" className={classes.appbar}>
               <Toolbar>
-              <Typography className={classes.link} >
-                <CopyrightIcon fontSize="small" className={classes.wrapIcon} />
-                <Link href="" > 
-                {copyright}
-                </Link>
-                <Link href="" >
+              <Box color="text.secondary">
+              <Typography >
+                <Grid container xs={12}>
+                <Box m={1}>
+                 ©{copyright} 
+                </Box>
+                <Box m={1}>
+                <Link href="" color="inherit">
                   {terms}
                 </Link>
-              </Typography>
+                </Box>
+                </Grid>
+                
+               </Typography>
+              </Box>
               </Toolbar>
               </AppBar>
         

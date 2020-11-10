@@ -69,19 +69,16 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       },
       lowercase: {
         textTransform: "none",
-    },
-    uppercase: {
-      textTransform: "uppercase",
-  },
-    appbar: {
-      background: "#03a9f4",
-    },
-      paper: {
-        minWidth: 200,
-        margin: `${theme.spacing(1)}px auto`,
-        padding: theme.spacing(2),
-        borderRadius: 15,
       },
+      appbar: {
+        background: "#03a9f4",
+      },
+        paper: {
+          minWidth: 200,
+          margin: `${theme.spacing(1)}px auto`,
+          padding: theme.spacing(2),
+          borderRadius: 15,
+        },
 		}),
 		);
 
@@ -129,13 +126,9 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
         <Paper className={classes.paper} elevation={6}>
 							<Typography gutterBottom variant="h5" component="h2">
               <Box p={1} 
-                  className={classes.uppercase} 
                   display="flex" justifyContent="center" 
                   alignItems="center" 
-                  fontWeight="fontWeightBold"
-                  letterSpacing={1}
                   >
-
 								<p>{loginHeaderLabel}</p>
                 </Box> 
 							</Typography>

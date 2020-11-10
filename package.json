@@ -161,7 +161,6 @@
     "ramda": "^0.21.0",
     "react": "^16.13.1",
     "react-aria-modal": "^3.0.1",
-    "react-circular-progressbar": "^2.0.3",
     "react-dom": "^16.13.1",
     "react-error-boundary": "^3.0.2",
     "react-intl": "^4",

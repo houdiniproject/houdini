@@ -8,7 +8,6 @@ import { spacing } from '@material-ui/system';
 import MuiButton from "@material-ui/core/Button";
 import { styled } from "@material-ui/core/styles";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { green } from '@material-ui/core/colors';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';

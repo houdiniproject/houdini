@@ -1,4 +1,3 @@
-
 // License: LGPL-3.0-or-later
 import React, {useCallback, useState} from "react";
 import Grid from '@material-ui/core/Grid';
@@ -19,6 +18,8 @@ import SignInComponent from "./SignInComponent";
 import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
+import {ErrorBoundary} from 'react-error-boundary';
+
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
@@ -73,24 +74,24 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       },
       lowercase: {
         textTransform: "none",
-    },
-    avatar: {
-      marginTop: theme.spacing(3),
-      backgroundColor: "#3f51b5",
-    },
-    appbar: {
-      background: grey[200],
-    },
-    responsive: {
-      [theme.breakpoints.down('sm')]: {
-        width: "100%",
-        marginTop: 45,
-        marginBottom: 45
-        },
-        [theme.breakpoints.up('lg')]: {
-          margin: 75,
+      },
+      avatar: {
+        marginTop: theme.spacing(3),
+        backgroundColor: "#3f51b5",
+      },
+      appbar: {
+        background: grey[200],
+      },
+      responsive: {
+        [theme.breakpoints.down('sm')]: {
+          width: "100%",
+          marginTop: 45,
+          marginBottom: 45
           },
-    },
+          [theme.breakpoints.up('lg')]: {
+            margin: 75,
+          },
+      },
       paper: {
         margin: `${theme.spacing(1)}px auto`,
         padding: theme.spacing(2),
@@ -98,6 +99,35 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       },
 		}),
 		);
+
+  //Error boundary
+  class ErrorBoundary extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+    state = {
+      errorMessage: 'Something went wrong. Reload the page'
+    }
+    static getDerivedStateFromError(error) {
+      // Update state so the next render will show the fallback UI.
+      return { hasError: true };
+    }
+    componentDidCatch(error, errorInfo) {
+      // You can also log the error to an error reporting service
+      this.logErrorToServices(error, errorInfo);
+    }
+    logErrorToServices = console.log
+    render() {
+      if (this.state.errorMessage) {
+        return (
+          <p>
+            {this.state.errorMessage}
+          </p>
+        )
+      }
+      return this.props.children; 
+    }
+  }
 
 	//Setting up error messages
   const classes = useStyles();
@@ -146,8 +176,9 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
 								<p>{loginHeaderLabel}</p>
                 </Box> 
 							</Typography>
-						    
-            <SignInComponent />
+                <ErrorBoundary>
+                  <SignInComponent />
+                </ErrorBoundary>          
             {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
             space between links */}
             <Box display="flex" justifyContent="center">

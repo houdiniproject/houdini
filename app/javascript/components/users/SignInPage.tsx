@@ -165,14 +165,6 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
                       <p>{getStartedLabel}</p>
 						  </Link>
             </Box>
-                    {/* <Button className={classes.lowercase} size="small" color="primary">
-                      Exmaple
-                    </Button>
-                    <Grid container xs={12} justify="center">
-                    <Button className={classes.lowercase} size="small" color="primary">
-                      Example
-                    </Button>
-                    </Grid> */}
             <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
           </Paper>
           </Box>

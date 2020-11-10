@@ -48,18 +48,19 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       link: {
         '& > * + *': {
           marginLeft: theme.spacing(2),
+          color: "#212121",
         },
       },
       wrapIcon: {
         verticalAlign: 'middle',
-        display: 'inline-flex'
+        display: 'inline-flex',
+        color: "#212121"
        },
        logo:{
         alignItems:'center',
         width: 100,
         height: 75,
-        justifyContent:"center",
-        
+        justifyContent:"center",   
        },
        text:{
         display:"flex",
@@ -78,7 +79,7 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       backgroundColor: "#3f51b5",
     },
     appbar: {
-      background: grey[400],
+      background: grey[200],
     },
     responsive: {
       [theme.breakpoints.down('sm')]: {
@@ -181,11 +182,13 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
               <Toolbar>
               <Typography className={classes.link} >
                 <CopyrightIcon fontSize="small" className={classes.wrapIcon} />
-                  {copyright}
-                <Link href="" color="inherit">
+                <Link href="" > 
+                {copyright}
+                </Link>
+                <Link href="" >
                   {terms}
                 </Link>
-                </Typography>
+              </Typography>
               </Toolbar>
               </AppBar>
         

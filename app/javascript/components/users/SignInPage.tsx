@@ -12,11 +12,13 @@ import CopyrightIcon from '@material-ui/icons/Copyright';
 import logo from './Images/HoudiniLogo.png';
 import CardMedia from '@material-ui/core/CardMedia';
 import grey from '@material-ui/core/colors/grey';
+import blue from '@material-ui/core/colors/blue';
 import useYup from '../../hooks/useYup';
 import { useIntl } from "../../components/intl";
 import SignInComponent from "./SignInComponent";
 import { Paper } from "@material-ui/core";
-
+import LockIcon from '@material-ui/icons/LockOutlined';
+import Avatar from '@material-ui/core/Avatar';
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
@@ -70,6 +72,10 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
       },
       lowercase: {
         textTransform: "none",
+    },
+    avatar: {
+      marginTop: theme.spacing(3),
+      backgroundColor: "#3f51b5",
     },
     appbar: {
       background: grey[400],
@@ -127,7 +133,12 @@ function SignInPage(_props:SignInPageProps) : JSX.Element {
         <Box   className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
         <Paper className={classes.paper} elevation={6}>
 							<Typography gutterBottom variant="h5" component="h2">
-              <Box p={1} 
+              <Box display="flex" justifyContent="center" alignItems="center" >
+              <Avatar className={classes.avatar}>
+                <LockIcon />
+              </Avatar>
+              </Box>
+              <Box p={0} 
                   display="flex" justifyContent="center" 
                   alignItems="center" 
                   >

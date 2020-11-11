@@ -161,6 +161,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     <p>{forgotPasswordlabel}</p>
                   </Link>
                 </Box>
+                {/* End of link */}
                 <Box m={-1.5} display="flex" justifyContent="center">
                   <Link
                     component="button"
@@ -177,6 +178,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
             </Box>
           </Grid>
         </Grid>
+        {/* Footer */}
         <Grid item xs={12} >
           <AppBar position="static" className={classes.appbar}>
             <Toolbar>
@@ -186,11 +188,15 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     <Box m={1}>
                       ©{copyright}
                     </Box>
+                    {/* Link
+                    To add more links add another box and replace the label, set margin to -1.5 to reduce 
+              space between links */}
                     <Box m={1}>
                       <Link href="" color="inherit">
                         {terms}
                       </Link>
                     </Box>
+                    {/* End of link */}
                   </Grid>
                 </Typography>
               </Box>

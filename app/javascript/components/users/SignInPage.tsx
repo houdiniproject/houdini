@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import logo from './Images/HoudiniLogo.png';
 import CardMedia from '@material-ui/core/CardMedia';
-import grey from '@material-ui/core/colors/grey';
 import useYup from '../../hooks/useYup';
 import { useIntl } from "../../components/intl";
 import SignInComponent from './SignInComponent';
@@ -71,7 +70,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         backgroundColor: "#3f51b5",
       },
       appbar: {
-        background: grey[200],
+        backgroundColor: theme.palette.action.hover, 
       },
       responsive: {
         [theme.breakpoints.down('sm')]: {
@@ -81,6 +80,10 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         },
         [theme.breakpoints.up('lg')]: {
           margin: 75,
+        },
+        [theme.breakpoints.down('md')]: {
+          marginTop: 45,
+          marginBottom: 45
         },
       },
       paper: {
@@ -135,10 +138,8 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                       <LockIcon />
                     </Avatar>
                   </Box>
-                  <Box p={2}
-                    display="flex" justifyContent="center"
-                    alignItems="center"
-                    textAlign="center"
+
+                  <Box display="flex" justifyContent="center" alignItems="center"
                   >
                     <p>{loginHeaderLabel}</p>
                   </Box>

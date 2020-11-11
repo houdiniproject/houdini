@@ -139,7 +139,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     </Avatar>
                   </Box>
 
-                  <Box display="flex" justifyContent="center" alignItems="center"
+                  <Box display="flex" justifyContent="center" alignItems="center" textAlign="center"
                   >
                     <p>{loginHeaderLabel}</p>
                   </Box>

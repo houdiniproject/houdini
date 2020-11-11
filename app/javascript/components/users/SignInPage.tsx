@@ -70,7 +70,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         backgroundColor: "#3f51b5",
       },
       appbar: {
-        background: "inherit",
+        backgroundColor: theme.palette.action.hover, 
       },
       responsive: {
         [theme.breakpoints.down('sm')]: {

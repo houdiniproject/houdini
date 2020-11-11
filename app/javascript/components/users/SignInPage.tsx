@@ -81,6 +81,10 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         [theme.breakpoints.up('lg')]: {
           margin: 75,
         },
+        [theme.breakpoints.down('md')]: {
+          marginTop: 45,
+          marginBottom: 45
+        },
       },
       paper: {
         margin: `${theme.spacing(1)}px auto`,

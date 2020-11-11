@@ -70,3 +70,13 @@ describe('SignInPage', () => {
 		waitFor(() => expect(error).toHaveTextContent("Ermahgerd! We had an error!"));
 	});
 });
+
+describe('<SignInPage>', () => {
+	it('error boundary', () => {
+		function Fallback() {
+			return <div>This is an error</div>
+		}
+	});
+	const error = 'Oh no!';
+	expect(error).toHaveTextContent("This is an error");
+});

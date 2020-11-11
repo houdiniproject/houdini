@@ -233,3 +233,4 @@ en:
     success: "You have successfully signed in."
     errors: 
       password_email: "Please enter a valid email address and password"
+      errorBoundary: "Something went wrong. Please reload the page."

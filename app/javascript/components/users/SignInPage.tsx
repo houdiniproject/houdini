@@ -10,7 +10,6 @@ import Link from '@material-ui/core/Link';
 import logo from './Images/HoudiniLogo.png';
 import CardMedia from '@material-ui/core/CardMedia';
 import grey from '@material-ui/core/colors/grey';
-import blue from '@material-ui/core/colors/blue';
 import useYup from '../../hooks/useYup';
 import { useIntl } from "../../components/intl";
 import SignInComponent from './SignInComponent';
@@ -25,9 +24,9 @@ interface SignInPageProps {
 }
 
 //Error boundary
-function WrapperSignIn(props:SignInPageProps) {
-  return <ErrorBoundary fallback={<div> Something went wrong!</div>}> <SignInPage {...props}/> </ErrorBoundary>
-}
+// function WrapperSignInPa(props:SignInPageProps) {
+//   return <ErrorBoundary FallbackComponent={Fallback}> <SignInPage {...props}/> </ErrorBoundary>
+// }
 
 // NOTE: Remove this line and next once you start using the props argument
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,7 +35,6 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   const onFailure = useCallback(() => {
     setError(true);
   }, [setError]);
-
 
   //Styling of component
   const useStyles = makeStyles((theme: Theme) =>
@@ -92,7 +90,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
       },
     }),
   );
-
+  
   //Setting up error messages
   const classes = useStyles();
   const { formatMessage } = useIntl();
@@ -102,96 +100,102 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   const copyright = formatMessage({ id: 'footer.copyright' });
   const terms = formatMessage({ id: 'footer.terms_and_privacy' });
   const getStartedLabel = formatMessage({ id: 'login.get_started' });
+  const errorBoundaryLabel = formatMessage({ id: 'login.errors.errorBoundary' });
 
-  return (
-    <Grid container spacing={0}>
-      <Grid item xs={12}>
-        <div className={classes.root}>
+  //Error Boundary
+  function Fallback() {
+    return <div>{errorBoundaryLabel}</div>
+  }
+    
+  return <ErrorBoundary FallbackComponent={Fallback}> 
+      <Grid container spacing={0}>
+        <Grid item xs={12}>
+          <div className={classes.root}>
+            <AppBar position="static" className={classes.appbar}>
+              <Toolbar >
+                <Grid>
+                  <CardMedia
+                    className={classes.media}
+                    component="img"
+                    src={logo}
+                    title="Houdini"
+                  />
+                </Grid>
+              </Toolbar>
+            </AppBar>
+          </div>
+        </Grid>
+        <Grid container spacing={0}>
+          <Grid container xs={12} justify="center">
+            <Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
+              <Paper className={classes.paper} elevation={6}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  <Box display="flex" justifyContent="center" alignItems="center" >
+                    <Avatar className={classes.avatar}>
+                      <LockIcon />
+                    </Avatar>
+                  </Box>
+                  <Box p={0}
+                    display="flex" justifyContent="center"
+                    alignItems="center"
+                  >
+                    <p>{loginHeaderLabel}</p>
+                  </Box>
+                </Typography>
+
+                <SignInComponent />
+
+                {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
+              space between links */}
+                <Box display="flex" justifyContent="center">
+                  <Link
+                    component="button"
+                    variant="body2"
+                    onClick={() => {
+                      console.info("I'm forgotPassword button.");
+                    }}
+                  >
+                    <p>{forgotPasswordlabel}</p>
+                  </Link>
+                </Box>
+                <Box m={-1.5} display="flex" justifyContent="center">
+                  <Link
+                    component="button"
+                    variant="body2"
+                    onClick={() => {
+                      console.info("I'm getStarted button.");
+                    }}
+                  >
+                    <p>{getStartedLabel}</p>
+                  </Link>
+                </Box>
+                <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
+              </Paper>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} >
           <AppBar position="static" className={classes.appbar}>
-            <Toolbar >
-              <Grid>
-                <CardMedia
-                  className={classes.media}
-                  component="img"
-                  src={logo}
-                  title="Houdini"
-                />
-              </Grid>
+            <Toolbar>
+              <Box color="text.secondary">
+                <Typography >
+                  <Grid container xs={12}>
+                    <Box m={1}>
+                      ©{copyright}
+                    </Box>
+                    <Box m={1}>
+                      <Link href="" color="inherit">
+                        {terms}
+                      </Link>
+                    </Box>
+                  </Grid>
+                </Typography>
+              </Box>
             </Toolbar>
           </AppBar>
-        </div>
-      </Grid>
-      <Grid container spacing={0}>
-        <Grid container xs={12} justify="center">
-          <Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
-            <Paper className={classes.paper} elevation={6}>
-              <Typography gutterBottom variant="h5" component="h2">
-                <Box display="flex" justifyContent="center" alignItems="center" >
-                  <Avatar className={classes.avatar}>
-                    <LockIcon />
-                  </Avatar>
-                </Box>
-                <Box p={0}
-                  display="flex" justifyContent="center"
-                  alignItems="center"
-                >
-                  <p>{loginHeaderLabel}</p>
-                </Box>
-              </Typography>
-
-              <SignInComponent />
-
-              {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
-            space between links */}
-              <Box display="flex" justifyContent="center">
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={() => {
-                    console.info("I'm forgotPassword button.");
-                  }}
-                >
-                  <p>{forgotPasswordlabel}</p>
-                </Link>
-              </Box>
-              <Box m={-1.5} display="flex" justifyContent="center">
-                <Link
-                  component="button"
-                  variant="body2"
-                  onClick={() => {
-                    console.info("I'm getStarted button.");
-                  }}
-                >
-                  <p>{getStartedLabel}</p>
-                </Link>
-              </Box>
-              <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
-            </Paper>
-          </Box>
         </Grid>
       </Grid>
-      <Grid item xs={12} >
-        <AppBar position="static" className={classes.appbar}>
-          <Toolbar>
-            <Box color="text.secondary">
-              <Typography >
-                <Grid container xs={12}>
-                  <Box m={1}>
-                    ©{copyright}
-                  </Box>
-                  <Box m={1}>
-                    <Link href="" color="inherit">
-                      {terms}
-                    </Link>
-                  </Box>
-                </Grid>
-              </Typography>
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Grid>
-    </Grid>
-  );
+  </ErrorBoundary>
 }
 
 export default SignInPage;

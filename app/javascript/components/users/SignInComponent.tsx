@@ -18,8 +18,6 @@ import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
-import { ErrorBoundary } from 'react-error-boundary';
-
 
 export interface SignInComponentProps {
 	/**
@@ -28,11 +26,6 @@ export interface SignInComponentProps {
 	 * @memberof SignInComponentProps
 	 */
 	onFailure?: (error: SignInError) => void;
-}
-
-//Error boundary
-function WrapperSignInComponent(props: SignInComponentProps) {
-	return <ErrorBoundary fallback={<div> Something went wrong!</div>}> <SignInComponent {...props} /> </ErrorBoundary>
 }
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {

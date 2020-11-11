@@ -136,9 +136,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                       <LockIcon />
                     </Avatar>
                   </Box>
-                  <Box p={0}
-                    display="flex" justifyContent="center"
-                    alignItems="center"
+                  <Box display="flex" justifyContent="center" alignItems="center"
                   >
                     <p>{loginHeaderLabel}</p>
                   </Box>

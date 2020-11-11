@@ -17,6 +17,7 @@ import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
+import { palette } from '@material-ui/system';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -71,7 +72,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         backgroundColor: "#3f51b5",
       },
       appbar: {
-        background: grey[200],
+        background: "inherit",
       },
       responsive: {
         [theme.breakpoints.down('sm')]: {

@@ -129,18 +129,20 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
           <Grid container xs={12} justify="center">
             <Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
               <Paper className={classes.paper} elevation={6}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography variant="h5" component="h2">
                   <Box display="flex" justifyContent="center" alignItems="center" >
                     <Avatar className={classes.avatar}>
                       <LockIcon />
                     </Avatar>
                   </Box>
-                  <Box p={0}
+                  <Box p={2}
                     display="flex" justifyContent="center"
                     alignItems="center"
+                    textAlign="center"
                   >
                     <p>{loginHeaderLabel}</p>
                   </Box>
+                  
                 </Typography>
 
                 <SignInComponent />

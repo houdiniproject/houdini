@@ -78,7 +78,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
   const emailLabel = formatMessage({id: 'login.email'});
   const successLabel = formatMessage({id: 'login.success'});
   const emailValidLabel = formatMessage({id: 'login.errors.password_email'});
-  const enterInfoLabel = formatMessage({id: 'login.enter_info'});
   const loginHeaderLabel = formatMessage({id: 'login.header'});
 
 	//Yup validation
@@ -132,7 +131,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
   };
 
 
-	//Formik
+  //Formik
 	return (
 		<Formik
 			initialValues={
@@ -152,75 +151,76 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				finally {
 					formikHelpers.setSubmitting(false);
 				}
-			}
+			  }
 				//Props
-			}>{({ errors, isValid, touched, handleChange }) => {
-				useEffect(() => {
-					setIsValid(isValid);
-				}, [isValid]);
+        }>{({ errors, isValid, touched, handleChange }) => {
+          useEffect(() => {
+            setIsValid(isValid);
+      }, [isValid]);
 
 				//Form
 				return (
 					<Form>
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-									<Box display="flex" justifyContent="center" alignItems="center">
-										<Box p={1.5}>
-											<Field component={TextField} name="email" type="text"
-												label={emailLabel}
-												InputProps={{
-													startAdornment: (
-														<InputAdornment position="start">
-															<AccountCircle fontSize="small" />
-														</InputAdornment>
-													),
-												}}
-											/>
-										</Box>
-									</Box>
-									<Box display="flex" justifyContent="center" alignItems="center">
-										<Box p={1.5}>
-											<Field component={TextField} name="password" type="password"
-												label={passwordLabel}
-												InputProps={{
-													startAdornment: (
-														<InputAdornment position="start">
-															<LockOpenIcon fontSize="small" />
-														</InputAdornment>
-													),
-												}} />
-										</Box>
-									</Box>
-                    <Box display="flex" justifyContent="center" alignItems="center">
-                      {componentState === 'submitting' ? "" : <>
-							          {failed ? <Alert severity="error">{emailValidLabel}</Alert> : ""}
-                        </>
-                      }
-                    </Box>
-                    <Box display="flex" justifyContent="center" alignItems="center">
-                      {componentState === 'canSubmit' && !touched.email && !touched.password ?
-                        <p></p>
-                        : null
-                      }
-                    </Box>
-									<Box p={2} display="flex" justifyContent="center" alignItems="center">
-                    <Button className={classes.submitButton}
-                      data-testid="signInButton"
-                      type="submit"
-                      color="primary"
-                      disabled={submitting}
-                      variant='contained'
-                      onClick={handleButtonClick}
-                    > 
-                      {componentState !== 'success' ? 
-                        <p>{loginHeaderLabel}</p>
-                      : null }
-                      {componentState == 'success' && currentUser ?
-                        <p>{successLabel}</p>
-                      : null }
-                    </Button>
-                     {/* Circular progress on submit button */}
-                    {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
-									</Box>
+            <Box display="flex" justifyContent="center" alignItems="center">
+            {componentState !== 'success' ? 
+              <Box p={1.5}>
+                <Field component={TextField} name="email" type="text"
+                  label={emailLabel}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountCircle fontSize="small" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+            : null }
+            </Box>
+            <Box display="flex" justifyContent="center" alignItems="center">
+            {componentState !== 'success' ? 
+              <Box p={1.5}>
+                <Field component={TextField} name="password" type="password"
+                  label={passwordLabel}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOpenIcon fontSize="small" />
+                      </InputAdornment>
+                    ),
+                  }} />
+              </Box>
+            : null }
+            </Box>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              {componentState === 'submitting' ? "" : <>
+              {failed ? <Alert severity="error">{emailValidLabel}</Alert> : ""}
+                </>
+              }
+            </Box>
+            {componentState !== 'success' ? 
+              <Box p={2} display="flex" justifyContent="center" alignItems="center">
+                {componentState !== 'submitting' ?
+                  <Button className={classes.submitButton}
+                    data-testid="signInButton"
+                    type="submit"
+                    color="primary"
+                    variant='contained'
+                    onClick={handleButtonClick}
+                  > 
+                      <p>{loginHeaderLabel}</p>
+                </Button>
+                : "" }
+                {/* Circular progress on submit button */}
+                {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+              </Box>
+            : null }
+            <Box p={2} display="flex" justifyContent="center" alignItems="center">
+              {componentState == 'success' && currentUser ?
+                    <p><Alert severity="success">{successLabel}</Alert></p>
+                  : null }
+            </Box>
 					</Form>
 				);
 			}}

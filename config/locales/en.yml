@@ -230,6 +230,6 @@ en:
     forgot_password: "Forgot Password?"
     get_started: "Get Started"
     enter_info: "Please enter your login information"
-    success: "Success"
+    success: "You have successfully signed in."
     errors: 
       password_email: "Please enter a valid email address and password"

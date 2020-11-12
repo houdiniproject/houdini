@@ -16,6 +16,7 @@ const tsSpecBase = {
 	],
 	rules: {
 		"jest/lowercase-name": ["error", { "ignore": ["describe"] }],
+		"react-hooks/exhaustive-deps": 'error',
 	},
 };
 

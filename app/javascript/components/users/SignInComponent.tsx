@@ -18,7 +18,6 @@ import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
-import { ContactSupportOutlined } from "@material-ui/icons";
 
 export interface SignInComponentProps {
 	/**
@@ -222,11 +221,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								{submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
 							</Box>
 							: null}
-						<Box p={2} display="flex" justifyContent="center" alignItems="center">
-							{componentState == 'success' && currentUser ?
-								<p><Alert severity="success">{successLabel}</Alert></p>
-								: null}
-						</Box>
+						{componentState == 'success' && currentUser ?
+							<Box m={13} display="flex" justifyContent="center" alignItems="center">
+								<p><Alert severity="success">{successLabel}</Alert></p> 
+							</Box>
+						: null}
 					</Form>
 				);
 			}}

@@ -16,8 +16,8 @@ import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
-import useEffect from 'react';
-import { CurrentUser } from '../../hooks/useCurrentUser';
+
+var routes = require("./app/routes.js"); 
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -99,6 +99,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         margin: `${theme.spacing(1)}px auto`,
         padding: theme.spacing(2),
         borderRadius: 15,
+        minHeight: 500,
       },
     }),
   );
@@ -195,7 +196,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         <Grid item xs={12} >
           <AppBar position="static" className={classes.appbar}>
             <Toolbar>
-              <Box color="text.secondary">
+              <Box color="text.primary">
                 <Typography >
                   <Grid container xs={12}>
                     <Box m={1}>
@@ -205,7 +206,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
                     <Box m={1}>
-                      <Link href="" color="inherit">
+                      <Link href={routes.static_terms_and_privacy_path} color="inherit">
                         {terms}
                       </Link>
                     </Box>

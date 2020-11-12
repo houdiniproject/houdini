@@ -174,6 +174,7 @@ module.exports = {
 				},
 			},
 		],
+		"react-hooks/exhaustive-deps": 'error',
 	},
 	"settings": {
 		"react": {

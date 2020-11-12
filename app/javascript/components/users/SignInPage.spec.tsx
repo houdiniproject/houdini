@@ -15,6 +15,7 @@ import I18n from '../../i18n';
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
 function Wrapper(props:React.PropsWithChildren<unknown>) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	return <IntlProvider messages={I18n.translations['en'] as any} locale={'en'}>
 		<MockCurrentUserProvider>
 			{props.children}

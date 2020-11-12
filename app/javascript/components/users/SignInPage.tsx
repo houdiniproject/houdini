@@ -18,7 +18,6 @@ import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
 import useEffect from 'react';
 import { CurrentUser } from '../../hooks/useCurrentUser';
-import routes from '../javascript/routes';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

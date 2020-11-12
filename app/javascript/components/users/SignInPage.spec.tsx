@@ -71,6 +71,7 @@ describe('SignInPage', () => {
 	});
 });
 
+//Testing error boundary
 describe('<SignInPage>', () => {
 	it('error boundary', () => {
 		function Fallback() {

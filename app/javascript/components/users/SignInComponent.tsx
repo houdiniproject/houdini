@@ -18,6 +18,7 @@ import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
+import { ContactSupportOutlined } from "@material-ui/icons";
 
 export interface SignInComponentProps {
 	/**
@@ -26,7 +27,10 @@ export interface SignInComponentProps {
 	 * @memberof SignInComponentProps
 	 */
 	onFailure?: (error: SignInError) => void;
+	setLoginState?: (newState: String) => void;
 }
+
+
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
@@ -67,6 +71,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('canSubmit');
 		}
 	}, [isValid, componentState]);
+
+	useEffect(() => {
+		console.log(props.setLoginState);
+		props.setLoginState(componentState);
+	}, [componentState]);
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -229,6 +238,7 @@ SignInComponent.defaultProps = {
 	// default onFailure to noop so you don't have to check whether onFailure is
 	// set inside the component before calling it
 	onFailure: noop,
+	setLoginState: noop,
 };
 
 export default SignInComponent;

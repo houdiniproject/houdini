@@ -16,6 +16,9 @@ import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
+import useEffect from 'react';
+import { CurrentUser } from '../../hooks/useCurrentUser';
+import routes from '../javascript/routes';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -34,6 +37,13 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   const onFailure = useCallback(() => {
     setError(true);
   }, [setError]);
+
+  const [loginState, setLoginState] = useState(null);
+
+  React.useEffect (() => {
+    console.log("loginState, ", loginState)
+  }, [loginState])
+
 
   //Styling of component
   const useStyles = makeStyles((theme: Theme) =>
@@ -132,6 +142,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
           <Grid container xs={12} justify="center">
             <Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
               <Paper className={classes.paper} elevation={6}>
+              {loginState === "success" ? null : 
                 <Typography variant="h5" component="h2">
                   <Box display="flex" justifyContent="center" alignItems="center" >
                     <Avatar className={classes.avatar}>
@@ -142,14 +153,14 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                   <Box display="flex" justifyContent="center" alignItems="center" textAlign="center"
                   >
                     <p>{loginHeaderLabel}</p>
-                  </Box>
-                  
+                  </Box> 
                 </Typography>
-
-                <SignInComponent />
-
+              }
+                <SignInComponent setLoginState={setLoginState}/>
+        
                 {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
+              {loginState === "success" ? null : 
                 <Box display="flex" justifyContent="center">
                   <Link
                     component="button"
@@ -161,7 +172,8 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     <p>{forgotPasswordlabel}</p>
                   </Link>
                 </Box>
-                {/* End of link */}
+              }
+              {loginState === "success" ? null : 
                 <Box m={-1.5} display="flex" justifyContent="center">
                   <Link
                     component="button"
@@ -173,11 +185,13 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     <p>{getStartedLabel}</p>
                   </Link>
                 </Box>
+              }
                 <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
               </Paper>
-            </Box>
+            </Box> 
           </Grid>
         </Grid>
+
         {/* Footer */}
         <Grid item xs={12} >
           <AppBar position="static" className={classes.appbar}>

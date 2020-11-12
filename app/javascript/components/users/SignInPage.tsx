@@ -17,8 +17,6 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
 
-var routes = require("./app/routes.js"); 
-
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
@@ -206,7 +204,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
                     <Box m={1}>
-                      <Link href={routes.static_terms_and_privacy_path} color="inherit">
+                      <Link href='' color="inherit">
                         {terms}
                       </Link>
                     </Box>

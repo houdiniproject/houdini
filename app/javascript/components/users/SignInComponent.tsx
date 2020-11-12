@@ -30,7 +30,6 @@ export interface SignInComponentProps {
 }
 
 
-
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);

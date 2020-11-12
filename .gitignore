@@ -73,3 +73,6 @@ yarn-debug.log*
 
 # we don't want the file storage directory to be committed
 storage
+
+# No package-lock.json file from npm
+package-lock.json

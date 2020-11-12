@@ -12,6 +12,7 @@ const tsSpecBase = {
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:jest/all',
+		'plugin:react-hooks/recommended',
 	],
 	rules: {
 		"jest/lowercase-name": ["error", { "ignore": ["describe"] }],

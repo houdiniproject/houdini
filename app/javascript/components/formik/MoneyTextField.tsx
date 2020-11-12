@@ -54,7 +54,7 @@ export type IMoneyTextFieldProps = Omit<TextFieldProps,'value'> &
  */
 function MoneyTextField({ children, form, field, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, ...props }:IMoneyTextFieldProps) : JSX.Element {
 	const {name:fieldName, value} =  field;
-
+	const {setFieldValue} = form;
 	const inputRef = useRef<HTMLInputElement>();
 
 	const {currency} = value;
@@ -67,9 +67,9 @@ function MoneyTextField({ children, form, field, currencyDisplay, useGrouping, a
 
 	useEffect(() => {
 
-		form.setFieldValue(fieldName, Money.fromCents(valueInCents, currency));
+		setFieldValue(fieldName, Money.fromCents(valueInCents, currency));
 
-	}, [fieldName, valueInCents, currency]);
+	}, [fieldName, valueInCents, currency, setFieldValue]);
 
 
 	return <MuiTextField {...fieldToTextField({form, field, ...props})} value={maskedValue}

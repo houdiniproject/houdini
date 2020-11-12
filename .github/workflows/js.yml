@@ -47,6 +47,7 @@ jobs:
           bundle config deployment true
           bundle config path vendor/bundle
           bundle install --jobs 4
+      - run: bin/setup ci
       - name: run eslint
         run: yarn eslint
   jest:
@@ -86,6 +87,7 @@ jobs:
           bundle config deployment true
           bundle config path vendor/bundle
           bundle install --jobs 4
+      - run: bin/setup ci
       - name: run jest
         run: yarn jest
   webpack:

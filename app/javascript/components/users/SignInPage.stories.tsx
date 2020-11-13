@@ -2,8 +2,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
-import SignInComponent, { } from './SignInComponent';
-import SignInPage, { } from './SignInPage';
+import SignInComponent from './SignInComponent';
+import SignInPage from './SignInPage';
 
 /* it's already mocked in the storybook webpack */
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';

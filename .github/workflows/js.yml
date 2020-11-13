@@ -18,6 +18,12 @@ jobs:
         node: [14.6.0]
     steps:
       - uses: actions/checkout@v2
+      - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+        uses: Daniel-Marynicz/postgresql-action@0.1.0
+        with:
+          postgres_image_tag: 11-alpine
+          postgres_user: houdini_user
+          postgres_password: password
       - uses: actions/setup-node@v1.4.2
         with:
           node-version: ${{ matrix.node }}
@@ -58,6 +64,12 @@ jobs:
         node: [14.6.0]
     steps:
       - uses: actions/checkout@v2
+      - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+        uses: Daniel-Marynicz/postgresql-action@0.1.0
+        with:
+          postgres_image_tag: 11-alpine
+          postgres_user: houdini_user
+          postgres_password: password
       - uses: actions/setup-node@v1.4.2
         with:
           node-version: ${{ matrix.node }}
@@ -96,7 +108,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node: [14.6.0]
-        ruby: [2.6.6]
     steps:
       - uses: actions/checkout@v2
       - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user

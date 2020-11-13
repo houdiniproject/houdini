@@ -18,7 +18,6 @@ import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
 import routes from '../../routes';
 
-
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
@@ -103,9 +102,6 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
       },
     }),
   );
-
-  const termsPath = routes.static_terms_and_privacy_path;
-  
   
   //Setting up error messages
   const classes = useStyles();
@@ -165,11 +161,9 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
               space between links */}
               {loginState === "success" ? null : 
                 <Box display="flex" justifyContent="center">
-                  <Link
-                    component="button"
-                    variant="body2"
+                  <Link href= {`#/..routes/${routes.new_user_password_path}`}
                     onClick={() => {
-                      console.info("I'm forgotPassword button.");
+                      console.info("I'm forgot Password link.");
                     }}
                   >
                     <p>{forgotPasswordlabel}</p>
@@ -182,13 +176,13 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     component="button"
                     variant="body2"
                     onClick={() => {
-                      console.info("I'm getStarted button.");
+                      console.info("I'm getStarted link.");
                     }}
                   >
                     <p>{getStartedLabel}</p>
                   </Link>
                 </Box>
-              }
+              }  
                 <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
               </Paper>
             </Box> 
@@ -209,7 +203,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
                     <Box m={1} color="text.primary">
-                      <Link href='/static/terms_and_privacy' color="inherit">
+                      <Link href={ `#/..routes/${routes.static_terms_and_privacy_path}` }>
                         {terms}
                       </Link>
                     </Box>

@@ -29,7 +29,6 @@ export interface SignInComponentProps {
 	setLoginState?: (newState: String) => void;
 }
 
-
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);

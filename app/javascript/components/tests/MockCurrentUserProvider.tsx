@@ -37,17 +37,17 @@ export interface MockCurrentUserProviderProps {
  * @returns {JSX.Element}
  */
 export default function MockCurrentUserProvider(props:PropsWithChildren<MockCurrentUserProviderProps>) : JSX.Element {
-	const userFromProps = props.initialUserId ? {id: props.initialUserId} : null;
-	const [currentUser, setCurrentUser] = useState(userFromProps);
+	const [currentUser, setCurrentUser] = useState(props.initialUserId ? {id: props.initialUserId} : null);
 	const [alreadyInitialized, setAlreadyInitialized] = useState(false);
+	const {initialUserId, updateAfterInitialize} = props;
 	useEffect(() => {
-		if (!alreadyInitialized || props.updateAfterInitialize) {
-			setCurrentUser(userFromProps);
+		if (!alreadyInitialized || updateAfterInitialize) {
+			setCurrentUser(initialUserId ? {id: initialUserId} : null);
 		}
 		if (!alreadyInitialized) {
 			setAlreadyInitialized(true);
 		}
-	}, [props.initialUserId, props.updateAfterInitialize, alreadyInitialized]);
+	}, [initialUserId, updateAfterInitialize, alreadyInitialized]);
 
 	const values = {currentUser, setCurrentUser};
 	return (<CurrentUserContext.Provider value={values}>

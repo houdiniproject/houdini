@@ -18,6 +18,7 @@ import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary} from 'react-error-boundary';
 import routes from '../../routes';
 
+
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
@@ -78,7 +79,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
         backgroundColor: "#3f51b5",
       },
       appbar: {
-        backgroundColor: theme.palette.action.hover, 
+        backgroundColor: 'inherit', 
       },
       responsive: {
         [theme.breakpoints.down('sm')]: {
@@ -110,12 +111,12 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   const classes = useStyles();
   const { formatMessage } = useIntl();
   const yup = useYup();
-  const loginHeaderLabel = formatMessage({ id: 'login.message' });
+  const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });
   const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });
   const copyright = formatMessage({ id: 'footer.copyright' });
   const terms = formatMessage({ id: 'footer.terms_and_privacy' });
   const getStartedLabel = formatMessage({ id: 'login.get_started' });
-  const errorBoundaryLabel = formatMessage({ id: 'login.errors.errorBoundary' });
+  const errorBoundaryLabel = formatMessage({ id: 'login.errors.error_boundary' });
 
   //Error Boundary
   function Fallback() {
@@ -208,7 +209,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
                     <Box m={1} color="text.primary">
-                      <Link href='' color="inherit">
+                      <Link href='/static/terms_and_privacy' color="inherit">
                         {terms}
                       </Link>
                     </Box>

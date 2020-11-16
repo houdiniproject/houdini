@@ -78,6 +78,7 @@ describe('SignInPage', () => {
 		// function multiple times until it passes (or 5 seconds have passed)
 		waitFor(() => expect(error).toHaveTextContent("Ermahgerd! We had an error!"));
 	});
+
 });
 
 //Testing error boundary
@@ -90,3 +91,5 @@ describe('<SignInPage>', () => {
 		expect(error).toHaveTextContent("Something went wrong. Please reload the page.")
 	})
 });
+
+

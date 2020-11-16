@@ -76,3 +76,5 @@ storage
 
 # the locales directory in javascript is generated at run time.
 app/javascript/i18n/locales
+
+package-lock.json

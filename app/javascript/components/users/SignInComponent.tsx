@@ -123,20 +123,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
 
-	//Circular progress timer
-	React.useEffect(() => {
-		return () => {
-			clearTimeout(timer.current);
-		};
-	}, []);
 
-	//Handles submit button
-	const handleButtonClick = () => {
-		if (!submitting) {
-			timer.current = window.setTimeout(() => {
-			}, 2000);
-		}
-	};
 
 	//Formik
 	return (
@@ -172,7 +159,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState !== 'success' ?
 								<Box p={1.5}>
-									<Field component={TextField} name="email" type="text"
+									<Field component={TextField} name="email" type="text" data-testid="emailInput"
 										label={emailLabel}
 										InputProps={{
 											startAdornment: (
@@ -213,8 +200,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
-										variant='contained'
-										onClick={handleButtonClick}
+                    variant='contained'
+                    disabled={componentState === 'ready'}
 									>
 										<p>{loginHeaderLabel}</p>
 									</Button>

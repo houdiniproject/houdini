@@ -53,7 +53,7 @@ const Template = (args:TemplateArgs) => {
 		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise(resolve => {
 			setTimeout(() => {
 				resolve({id:50});
-			},);
+			},5000);
 		}));
 	}
 	return <MockCurrentUserProvider><SignInPage redirectUrl={'redirectUrl'}/></MockCurrentUserProvider>;

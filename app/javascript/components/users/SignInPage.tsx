@@ -17,11 +17,15 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary, useErrorHandler} from 'react-error-boundary';
 import routes from '../../routes';
+import { SignInError } from '../../legacy_react/src/lib/api/errors';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
   redirectUrl: string;
+  onFailure?: (error: SignInError) => void;
+  onSubmitting?: () => void;
+  onSuccess?: () => void;
 }
 
 //Error Boundary
@@ -40,13 +44,13 @@ function SignInPage(props: SignInPageProps): JSX.Element {
   }, [setError]);
 
   const [loginState, setLoginState] = useState(null);
-
-  React.useEffect (() => {
-    console.log("loginState, ", loginState);
-  }, [loginState])
-
+ 
+  if (loginState === 'submitting') {
+    props.onSubmitting();
+  }
   function onSuccess(){
     window.location.assign(props.redirectUrl)
+    props.onSuccess();
   }
 
   //Styling of component
@@ -117,7 +121,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
   const copyright = formatMessage({ id: 'footer.copyright' });
   const terms = formatMessage({ id: 'footer.terms_and_privacy' });
   const getStartedLabel = formatMessage({ id: 'login.get_started' });
-
 
   return <ErrorBoundary FallbackComponent={Fallback}> 
       <Grid container spacing={0}>
@@ -199,7 +202,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     </Box>
                     {/* Link
                     To add more links add another box and replace the label, set margin to -1.5 to reduce 
-              space between links */}
+                    space between links */}
                     <Box m={1} color="text.primary">
                       <Link href={routes.static_terms_and_privacy_path()}>
                         {terms}
@@ -217,6 +220,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 }
 
 SignInPage.defaultProps = {
-  SignInComponent:SignInComponent
+  SignInComponent:SignInComponent,
 }
 export default SignInPage;

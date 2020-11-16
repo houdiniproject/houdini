@@ -35,7 +35,7 @@ function SignInComponentErrorMock() {
 describe('SignInPage', () => {
 	it('signIn successfully', async() => {
 		expect.assertions(1);
-		const result = render(<Wrapper><SignInPage/></Wrapper>);
+		const result = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 
 		const button = result.getByTestId('signInButton');
 		// everytime you try to call the User SignIn API in this test, return a
@@ -56,7 +56,7 @@ describe('SignInPage', () => {
 
 	it('signIn failed', async () => {
 		expect.hasAssertions();
-		const result = render(<Wrapper><SignInPage/></Wrapper>);
+		const result = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 
 		const button = result.getByTestId('signInButton');
 		// everytime you try to call the User SignIn API in this test, return a
@@ -86,7 +86,7 @@ describe('<SignInPage>', () => {
 	it('handles generic errors from child components', () => {
 		jest.spyOn(global.console, 'error').mockImplementation(() => jest.fn());
 		expect.hasAssertions()
-		const result = render(<Wrapper><SignInPage SignInComponent={SignInComponentErrorMock} /></Wrapper>);
+		const result = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} SignInComponent={SignInComponentErrorMock} /></Wrapper>);
 		const error = result.getByTestId('renderError');
 		expect(error).toHaveTextContent("Something went wrong. Please reload the page.")
 	})

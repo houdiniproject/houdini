@@ -18,6 +18,7 @@ import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
+import { useId } from "@reach/auto-id";
 
 export interface SignInComponentProps {
 	/**
@@ -88,6 +89,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const emailValidLabel = formatMessage({ id: 'login.errors.password_email' });
 	const loginHeaderLabel = formatMessage({ id: 'login.header' });
 
+	const emailId = useId();
+	const passwordId = useId();
+
 	//Yup validation
 	const validationSchema = yup.object({
 		email: yup.string().label(emailLabel).email().required(),
@@ -157,7 +161,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState !== 'success' ?
 								<Box p={1.5}>
-									<Field component={TextField} name="email" type="text" data-testid="emailInput"
+									<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailInput"
 										label={emailLabel}
 										InputProps={{
 											startAdornment: (
@@ -173,7 +177,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState !== 'success' ?
 								<Box p={1.5}>
-									<Field component={TextField} name="password" type="password"
+									<Field component={TextField} name="password" type="password" id={passwordId}
 										label={passwordLabel}
 										InputProps={{
 											startAdornment: (

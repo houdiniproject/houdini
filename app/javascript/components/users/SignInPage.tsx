@@ -15,12 +15,13 @@ import SignInComponent from './SignInComponent';
 import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
-import {ErrorBoundary} from 'react-error-boundary';
+import {ErrorBoundary, useErrorHandler} from 'react-error-boundary';
 import routes from '../../routes';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
+  SignInComponent: React.ElementType
 }
 
 //Error boundary
@@ -30,7 +31,7 @@ interface SignInPageProps {
 
 // NOTE: Remove this line and next once you start using the props argument
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function SignInPage(_props: SignInPageProps): JSX.Element {
+function SignInPage(props: SignInPageProps): JSX.Element {
   const [error, setError] = useState(false);
   const onFailure = useCallback(() => {
     setError(true);
@@ -38,10 +39,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
 
   const [loginState, setLoginState] = useState(null);
 
-  React.useEffect (() => {
-    console.log("loginState, ", loginState)
-  }, [loginState])
-
+  
 
   //Styling of component
   const useStyles = makeStyles((theme: Theme) =>
@@ -119,9 +117,9 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
 
   //Error Boundary
   function Fallback() {
-    return <div>{errorBoundaryLabel}</div>
+    return <div data-testid="renderError">{errorBoundaryLabel}</div>
   }
-    
+  
   return <ErrorBoundary FallbackComponent={Fallback}> 
       <Grid container spacing={0}>
         <Grid item xs={12}>
@@ -158,7 +156,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                   </Box> 
                 </Typography>
               }
-                <SignInComponent setLoginState={setLoginState}/>
+                <props.SignInComponent setLoginState={setLoginState}/>
         
                 {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
@@ -208,7 +206,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
                     <Box m={1} color="text.primary">
-                      <Link href='' color="inherit">
+                      <Link href="" color="inherit">
                         {terms}
                       </Link>
                     </Box>
@@ -223,4 +221,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   </ErrorBoundary>
 }
 
+SignInPage.defaultProps = {
+  SignInComponent:SignInComponent
+}
 export default SignInPage;

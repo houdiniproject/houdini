@@ -2,7 +2,6 @@
 import * as React from "react";
 import { render, fireEvent, act, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
-import {ErrorBoundary, useErrorHandler} from 'react-error-boundary';
 
 
 import SignInPage from "./SignInPage";
@@ -14,7 +13,7 @@ jest.mock('../../legacy_react/src/lib/api/sign_in');
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
-import SignInComponent from "./SignInComponent";
+
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
 function Wrapper(props:React.PropsWithChildren<unknown>) {
@@ -25,12 +24,6 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 	</IntlProvider>;
 
 }
-
-function SignInComponentErrorMock() {
-	const handleError = useErrorHandler()
-	handleError(new Error('err'));
-	return <div></div>;
-  }
 
 describe('SignInPage', () => {
 	it('signIn successfully', async() => {
@@ -79,17 +72,6 @@ describe('SignInPage', () => {
 		waitFor(() => expect(error).toHaveTextContent("Ermahgerd! We had an error!"));
 	});
 
-});
-
-//Testing error boundary
-describe('<SignInPage>', () => {
-	it('handles generic errors from child components', () => {
-		jest.spyOn(global.console, 'error').mockImplementation(() => jest.fn());
-		expect.hasAssertions()
-		const result = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} SignInComponent={SignInComponentErrorMock} /></Wrapper>);
-		const error = result.getByTestId('renderError');
-		expect(error).toHaveTextContent("Something went wrong. Please reload the page.")
-	})
 });
 
 

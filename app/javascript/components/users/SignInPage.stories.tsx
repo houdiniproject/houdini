@@ -8,6 +8,7 @@ import SignInPage from './SignInPage';
 /* it's already mocked in the storybook webpack */
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
+import { SignInComponentProps } from './SignInComponent';
 
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
@@ -53,10 +54,10 @@ const Template = (args:TemplateArgs) => {
 		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise(resolve => {
 			setTimeout(() => {
 				resolve({id:50});
-			},);
+			},5000);
 		}));
 	}
-	return <MockCurrentUserProvider><SignInPage redirectUrl={'redirectUrl'}/></MockCurrentUserProvider>;
+	return <MockCurrentUserProvider><SignInPage redirectUrl={'redirectUrl'} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')}/></MockCurrentUserProvider>;
 };
 
 export const SignInFailed = Template.bind({});

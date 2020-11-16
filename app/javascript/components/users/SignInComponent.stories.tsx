@@ -55,7 +55,7 @@ const Template = (args:TemplateArgs) => {
 			},5000);
 		}));
 	}
-	return <MockCurrentUserProvider><SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmit')} onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
+	return <MockCurrentUserProvider><SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
 };
 
 export const SignInFailed = Template.bind({});

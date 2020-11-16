@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import {render, act, fireEvent} from '@testing-library/react';
+import {render, act, fireEvent, wait, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
@@ -23,6 +23,7 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 	</IntlProvider>;
 }
 
+//Testing email
 describe('SignInComponent', () => {
 	it('signIn successfully', async() => {
 		expect.assertions(2);
@@ -71,6 +72,21 @@ describe('SignInComponent', () => {
 		expect(userId).toBeEmptyDOMElement();
 		expect(error).toHaveTextContent('Not valid');
 	});
+
+	describe('Email', () => {
+		it('Renders', () => {
+			const result = render(<Wrapper><SignInComponent/></Wrapper>);
+		})
+		it('Renders error message on incorrect input', async () => {
+			const { container, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
+			const email = getByLabelText("Email");
+      fireEvent.change(email, { target: { value: 'invalidEmail' } });
+      await wait(() => {
+        expect(getByLabelText("Email")).not.toBe(null);
+        expect(getByLabelText("Email")).toHaveTextContent("Required");
+      });
+    })
+	})
 });
 
 

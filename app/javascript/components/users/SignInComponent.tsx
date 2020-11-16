@@ -26,6 +26,8 @@ export interface SignInComponentProps {
 	 * @memberof SignInComponentProps
 	 */
 	onFailure?: (error: SignInError) => void;
+	onSubmitting?: () => void;
+	onSuccess?: () => void;
 	setLoginState?: (newState: String) => void;
 }
 
@@ -54,12 +56,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			// we JUST succeeded
 			// TODO
 			setComponentState('success');
+			props.onSuccess();
 		}
 	}, [failed, submitting, previousSubmittingValue]);
 
 	useEffect(() => {
 		if (isValid && submitting) {
 			setComponentState('submitting');
+			props.onSubmitting();
 		}
 	}, [submitting]);
 
@@ -73,6 +77,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		console.log(props.setLoginState);
 		props.setLoginState(componentState);
 	}, [componentState]);
+
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -132,7 +137,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			}, 2000);
 		}
 	};
-
 
 	//Formik
 	return (
@@ -236,6 +240,8 @@ SignInComponent.defaultProps = {
 	// set inside the component before calling it
 	onFailure: noop,
 	setLoginState: noop,
+	onSuccess: noop,
+	onSubmitting: noop,
 };
 
 export default SignInComponent;

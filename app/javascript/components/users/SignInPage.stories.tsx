@@ -56,7 +56,7 @@ const Template = (args:TemplateArgs) => {
 			},);
 		}));
 	}
-	return <MockCurrentUserProvider><SignInPage /></MockCurrentUserProvider>;
+	return <MockCurrentUserProvider><SignInPage redirectUrl={'redirectUrl'}/></MockCurrentUserProvider>;
 };
 
 export const SignInFailed = Template.bind({});

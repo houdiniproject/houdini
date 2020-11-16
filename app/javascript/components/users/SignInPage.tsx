@@ -15,7 +15,7 @@ import SignInComponent from './SignInComponent';
 import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
-import {ErrorBoundary} from 'react-error-boundary';
+import {ErrorBoundary, useErrorHandler} from 'react-error-boundary';
 import routes from '../../routes';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
@@ -33,7 +33,7 @@ function Fallback() {
 
 // NOTE: Remove this line and next once you start using the props argument
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function SignInPage(_props: SignInPageProps): JSX.Element {
+function SignInPage(props: SignInPageProps): JSX.Element {
   const [error, setError] = useState(false);
   const onFailure = useCallback(() => {
     setError(true);
@@ -46,9 +46,8 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   }, [loginState])
 
   function onSuccess(){
-    window.location.assign(_props.redirectUrl)
+    window.location.assign(props.redirectUrl)
   }
-
 
   //Styling of component
   const useStyles = makeStyles((theme: Theme) =>
@@ -118,6 +117,8 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   const copyright = formatMessage({ id: 'footer.copyright' });
   const terms = formatMessage({ id: 'footer.terms_and_privacy' });
   const getStartedLabel = formatMessage({ id: 'login.get_started' });
+
+
   return <ErrorBoundary FallbackComponent={Fallback}> 
       <Grid container spacing={0}>
         <Grid item xs={12}>
@@ -155,7 +156,6 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
                 </Typography>
               }
                 <SignInComponent onSuccess={onSuccess} setLoginState={setLoginState}/>
-        
                 {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
               {loginState === "success" ? null : 
@@ -216,4 +216,7 @@ function SignInPage(_props: SignInPageProps): JSX.Element {
   </ErrorBoundary>
 }
 
+SignInPage.defaultProps = {
+  SignInComponent:SignInComponent
+}
 export default SignInPage;

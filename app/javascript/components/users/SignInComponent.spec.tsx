@@ -81,7 +81,7 @@ describe('SignInComponent', () => {
 			const { container, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
       fireEvent.change(email, { target: { value: 'invalidEmail' } });
-      await wait(() => {
+      await waitFor(() => {
         expect(getByLabelText("Email")).not.toBe(null);
         expect(getByLabelText("Email")).toHaveTextContent("Required");
       });

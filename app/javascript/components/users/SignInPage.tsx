@@ -22,6 +22,7 @@ import { SignInError } from '../../legacy_react/src/lib/api/errors';
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
+  SignInComponent:SignInComponent;
   redirectUrl: string;
   onFailure?: (error: SignInError) => void;
   onSubmitting?: () => void;

@@ -23,6 +23,7 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 	</IntlProvider>;
 }
 
+//Testing email
 describe('SignInComponent', () => {
 	it('signIn successfully', async() => {
 		expect.assertions(2);

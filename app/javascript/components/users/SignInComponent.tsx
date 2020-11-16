@@ -157,7 +157,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState !== 'success' ?
 								<Box p={1.5}>
-									<Field component={TextField} name="email" type="text"
+									<Field component={TextField} name="email" type="text" data-testid="emailInput"
 										label={emailLabel}
 										InputProps={{
 											startAdornment: (
@@ -198,7 +198,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
-										variant='contained'
+                    variant='contained'
+                    disabled={componentState === 'ready'}
 									>
 										<p>{loginHeaderLabel}</p>
 									</Button>

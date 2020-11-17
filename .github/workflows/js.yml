@@ -24,7 +24,7 @@ jobs:
           postgres_image_tag: 11-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v1.4.2
+      - uses: actions/setup-node@v1.4.4
         with:
           node-version: ${{ matrix.node }}
       - name: Get yarn cache directory path
@@ -70,7 +70,7 @@ jobs:
           postgres_image_tag: 11-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v1.4.2
+      - uses: actions/setup-node@v1.4.4
         with:
           node-version: ${{ matrix.node }}
       - name: Get yarn cache directory path
@@ -116,7 +116,7 @@ jobs:
           postgres_image_tag: 11-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v1.4.2
+      - uses: actions/setup-node@v1.4.4
         with:
           node-version: ${{ matrix.node }}
       - name: Get yarn cache directory path

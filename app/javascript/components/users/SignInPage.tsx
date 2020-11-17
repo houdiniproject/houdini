@@ -18,6 +18,7 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary, useErrorHandler} from 'react-error-boundary';
 import routes from '../../routes';
+import UseHoster from '../../hooks/useHoster';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -37,19 +38,30 @@ function Fallback() {
 // NOTE: Remove this line and next once you start using the props argument
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function SignInPage(props: SignInPageProps): JSX.Element {
+  const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
   const [loginState, setLoginState] = useState(null);
   const [error, setError] = useState(false);
   const onFailure = useCallback(() => {
     setError(true);
   }, [setError]);
   
-  if (loginState === 'submitting') {
-    props.onSubmitting();
-  }
+  useEffect(() => {
+		if (loginState === 'submitting') {
+			setSignInPageState('submitting');
+			props.onSubmitting();
+		}
+    if (loginState === 'success') {
+      setSignInPageState('success');
+      props.onSuccess();
+    }
+    if (loginState !== 'success') {
+      setSignInPageState('ready');
+    }
+  },);
+
   function onSuccess(){
-    window.location.assign(props.redirectUrl)
-    props.onSuccess();
-  }
+      window.location.assign(props.redirectUrl)
+    }
   
   //Styling of component
   const useStyles = makeStyles((theme: Theme) =>
@@ -148,7 +160,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                       <LockIcon />
                     </Avatar>
                   </Box>
-
                   <Box display="flex" justifyContent="center" alignItems="center" textAlign="center"
                   >
                     <p>{loginHeaderLabel}</p>
@@ -190,7 +201,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                 <Typography >
                   <Grid container xs={12}>
                     <Box m={1}>
-                      ©{copyright}
+                      ©{UseHoster}
                     </Box>
                     {/* Link
                     To add more links add another box and replace the label, set margin to -1.5 to reduce 

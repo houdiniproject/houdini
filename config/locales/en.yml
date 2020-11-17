@@ -220,7 +220,6 @@ en:
   footer:
     terms_and_privacy: "Terms & Privacy"
     about: "About"
-    copyright: "2020 Houdini Project"
   login:
     header: "Login"
     enter_login_information: "Please Enter Login Information"

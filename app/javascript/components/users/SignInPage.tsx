@@ -1,5 +1,6 @@
 // License: LGPL-3.0-or-later
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -17,13 +18,11 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import {ErrorBoundary, useErrorHandler} from 'react-error-boundary';
 import routes from '../../routes';
-import { SignInError } from '../../legacy_react/src/lib/api/errors';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
   redirectUrl: string;
-  onFailure?: (error: SignInError) => void;
   onSubmitting?: () => void;
   onSuccess?: () => void;
 }
@@ -38,13 +37,12 @@ function Fallback() {
 // NOTE: Remove this line and next once you start using the props argument
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function SignInPage(props: SignInPageProps): JSX.Element {
+  const [loginState, setLoginState] = useState(null);
   const [error, setError] = useState(false);
   const onFailure = useCallback(() => {
     setError(true);
   }, [setError]);
-
-  const [loginState, setLoginState] = useState(null);
- 
+  
   if (loginState === 'submitting') {
     props.onSubmitting();
   }
@@ -52,7 +50,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
     window.location.assign(props.redirectUrl)
     props.onSuccess();
   }
-
+  
   //Styling of component
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -144,7 +142,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
           <Grid container xs={12} justify="center">
             <Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
               <Paper className={classes.paper} elevation={6}>
-              {loginState === "success" ? null : 
                 <Typography variant="h5" component="h2">
                   <Box display="flex" justifyContent="center" alignItems="center" >
                     <Avatar className={classes.avatar}>
@@ -157,11 +154,9 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     <p>{loginHeaderLabel}</p>
                   </Box> 
                 </Typography>
-              }
                 <SignInComponent onSuccess={onSuccess} setLoginState={setLoginState}/>
                 {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
-              {loginState === "success" ? null : 
                 <Box display="flex" justifyContent="center">
                   <Link href= {routes.new_user_password_path()}
                     onClick={() => {
@@ -171,8 +166,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     <p>{forgotPasswordlabel}</p>
                   </Link>
                 </Box>
-              }
-              {loginState === "success" ? null : 
                 <Box m={-1.5} display="flex" justifyContent="center">
                   <Link
                     component="button"
@@ -184,7 +177,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     <p>{getStartedLabel}</p>
                   </Link>
                 </Box>
-              }  
                 <Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
               </Paper>
             </Box> 

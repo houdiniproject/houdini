@@ -203,7 +203,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										type="submit"
 										color="primary"
                     variant='contained'
-                    disabled={componentState === 'ready'}
+                    disabled={!touched.email && !touched.password }
 									>
 										<p>{loginHeaderLabel}</p>
 									</Button>

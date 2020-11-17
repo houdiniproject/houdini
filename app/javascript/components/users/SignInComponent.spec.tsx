@@ -54,7 +54,6 @@ describe('SignInComponent', () => {
 
 	it('signIn failed', async () => {
 		expect.assertions(2);
-
 		// everytime you try to call the User SignIn API in this test, return a
 		// promise which rejects with a SignInError with status: 400 and data of
 		// {error: 'Not Valid'}
@@ -83,9 +82,30 @@ describe('SignInComponent', () => {
       fireEvent.change(email, { target: { value: 'invalidEmail' } });
       await waitFor(() => {
         expect(getByLabelText("Email")).not.toBe(null);
-        expect(getByLabelText("Email")).toHaveTextContent("Required");
       });
     })
+	});
+
+	describe('Password', () => {
+		it('Renders', () => {
+			const result = render(<Wrapper><SignInComponent/></Wrapper>);
+		})
+		it('Renders error message if input is empty', async () => {
+			const { container, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
+			const password = getByLabelText("Password");
+      fireEvent.change(password, { target: { value: '' } });
+      await waitFor(() => {
+        expect(getByLabelText("Password")).not.toBe(null);
+      });
+    })
+	});
+
+	describe('submit button', () => {
+		it('is disabled when the form is not complete', () => {
+		  const initialValues = { email: 'houdini@houdini.com' };
+		  const { getByTestId } = render(<Wrapper><SignInComponent/></Wrapper>);
+		  expect(getByTestId('signInButton')).toBeDisabled();
+		});
 	})
 });
 

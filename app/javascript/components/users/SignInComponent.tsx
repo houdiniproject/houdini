@@ -198,12 +198,12 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						{componentState !== 'success' ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
 								{componentState !== 'submitting' ?
-									<Button className={classes.submitButton}
+									<Button className={classes.submitButton} 
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
-                    variant='contained'
-                    disabled={!touched.email && !touched.password }
+                    					variant='contained'
+                    					disabled={!touched.email && !touched.password }
 									>
 										<p>{loginHeaderLabel}</p>
 									</Button>

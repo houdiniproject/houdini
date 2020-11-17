@@ -83,7 +83,7 @@ jobs:
           key: ${{ matrix.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ matrix.os }}-yarn-${{ matrix.node }}-
-            ${{ matrix.os }}-yarn-gi
+            ${{ matrix.os }}-yarn-
       - run: yarn install --frozen-lockfile
       - uses: ruby/setup-ruby@v1
         with:

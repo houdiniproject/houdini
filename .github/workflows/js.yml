@@ -148,7 +148,7 @@ jobs:
       - name: run setup
         run: bin/setup ci
       - name: Webpack compile everything
-        run: bin/webpack
+        run: yarn webpack
       - name: Verify storybook compiles
         run: yarn build-storybook
     

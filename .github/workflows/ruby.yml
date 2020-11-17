@@ -52,7 +52,7 @@ jobs:
             ${{ matrix.os }}-yarn-${{ matrix.node }}-
       - run: yarn install --frozen-lockfile
         if: steps.node-cache.outputs.cache-hit != 'true'
-      - uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
       - uses: actions/cache@v2

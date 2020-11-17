@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import React, { useCallback, useEffect, useState } from "react";
-import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -39,25 +38,10 @@ function Fallback() {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function SignInPage(props: SignInPageProps): JSX.Element {
   const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
-  const [loginState, setLoginState] = useState(null);
   const [error, setError] = useState(false);
   const onFailure = useCallback(() => {
     setError(true);
   }, [setError]);
-  
-  useEffect(() => {
-		if (loginState === 'submitting') {
-			setSignInPageState('submitting');
-			props.onSubmitting();
-		}
-    if (loginState === 'success') {
-      setSignInPageState('success');
-      props.onSuccess();
-    }
-    if (loginState !== 'success') {
-      setSignInPageState('ready');
-    }
-  },);
 
   function onSuccess(){
       window.location.assign(props.redirectUrl)
@@ -165,7 +149,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     <p>{loginHeaderLabel}</p>
                   </Box> 
                 </Typography>
-                <SignInComponent onSuccess={onSuccess} setLoginState={setLoginState}/>
+                <SignInComponent onSuccess={onSuccess}/>
                 {/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce 
               space between links */}
                 <Box display="flex" justifyContent="center">
@@ -198,7 +182,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
           <AppBar position="static" className={classes.appbar}>
             <Toolbar>
               <Box color="text.primary">
-                <Typography >
                   <Grid container xs={12}>
                     <Box m={1}>
                       ©{UseHoster}
@@ -213,7 +196,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     </Box>
                     {/* End of link */}
                   </Grid>
-                </Typography>
               </Box>
             </Toolbar>
           </AppBar>

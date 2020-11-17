@@ -29,13 +29,11 @@ export interface SignInComponentProps {
 	onFailure?: (error: SignInError) => void;
 	onSubmitting?: () => void;
 	onSuccess?: () => void;
-	setLoginState?: (newState: String) => void;
 }
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
-	const timer = React.useRef<number>(); //Circular progress timer
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -73,12 +71,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('canSubmit');
 		}
 	}, [isValid, componentState]);
-
-	useEffect(() => {
-		console.log(props.setLoginState);
-		props.setLoginState(componentState);
-	}, [componentState]);
-
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -203,7 +195,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										type="submit"
 										color="primary"
                     					variant='contained'
-                    					disabled={!touched.email && !touched.password }
+                    					disabled={!isValid}
 									>
 										<p>{loginHeaderLabel}</p>
 									</Button>
@@ -228,7 +220,6 @@ SignInComponent.defaultProps = {
 	// default onFailure to noop so you don't have to check whether onFailure is
 	// set inside the component before calling it
 	onFailure: noop,
-	setLoginState: noop,
 	onSuccess: noop,
 	onSubmitting: noop,
 };

@@ -190,7 +190,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						{componentState !== 'success' ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
 								{componentState !== 'submitting' ?
-									<Button className={classes.submitButton} 
+									<Button className={classes.submitButton}
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
@@ -206,9 +206,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							: null}
 						{componentState == 'success' && currentUser ?
 							<Box m={13} display="flex" justifyContent="center" alignItems="center">
-								<p><Alert severity="success">{successLabel}</Alert></p> 
+								<p><Alert severity="success">{successLabel}</Alert></p>
 							</Box>
-						: null}
+							: null}
 					</Form>
 				);
 			}}

@@ -73,31 +73,31 @@ describe('SignInComponent', () => {
 	});
 
 	describe('Email', () => {
-		it('Renders', () => {
+		it('renders', () => {
 			const result = render(<Wrapper><SignInComponent/></Wrapper>);
-		})
-		it('Renders error message on incorrect input', async () => {
+		});
+		it('renders error message on incorrect input', async () => {
 			const { container, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
-      fireEvent.change(email, { target: { value: 'invalidEmail' } });
-      await waitFor(() => {
-        expect(getByLabelText("Email")).not.toBe(null);
-      });
-    })
+			fireEvent.change(email, { target: { value: 'invalidEmail' } });
+			await waitFor(() => {
+				expect(getByLabelText("Email")).not.toBeNull();
+			});
+		});
 	});
 
 	describe('Password', () => {
-		it('Renders', () => {
+		it('renders', () => {
 			const result = render(<Wrapper><SignInComponent/></Wrapper>);
-		})
-		it('Renders error message if input is empty', async () => {
+		});
+		it('renders error message if input is empty', async () => {
 			const { container, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const password = getByLabelText("Password");
-      fireEvent.change(password, { target: { value: '' } });
-      await waitFor(() => {
-        expect(getByLabelText("Password")).not.toBe(null);
-      });
-    })
+			fireEvent.change(password, { target: { value: '' } });
+			await waitFor(() => {
+				expect(getByLabelText("Password")).not.toBeNull();
+			});
+		});
 	});
 
 	describe('submit button', () => {
@@ -106,7 +106,7 @@ describe('SignInComponent', () => {
 		  const { getByTestId } = render(<Wrapper><SignInComponent/></Wrapper>);
 		  expect(getByTestId('signInButton')).toBeDisabled();
 		});
-	})
+	});
 });
 
 

@@ -82,7 +82,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
         backgroundColor: "#3f51b5",
       },
       appbar: {
-        backgroundColor: 'inherit', 
+        backgroundColor: theme.palette.action.hover,
       },
       responsive: {
         [theme.breakpoints.down('sm')]: {
@@ -120,7 +120,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
       <Grid container spacing={0}>
         <Grid item xs={12}>
           <div className={classes.root}>
-            <AppBar position="static" className={classes.appbar}>
+            <AppBar position="static" className={classes.appbar} elevation={1}>
               <Toolbar >
                 <Grid>
                   <CardMedia
@@ -179,7 +179,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
         </Grid>
         {/* Footer */}
         <Grid item xs={12} >
-          <AppBar position="static" className={classes.appbar}>
+          <AppBar position="static" className={classes.appbar} elevation={1}>
             <Toolbar>
               <Box color="text.primary">
                   <Grid container xs={12}>

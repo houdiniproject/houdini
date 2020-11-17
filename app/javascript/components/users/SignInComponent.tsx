@@ -183,7 +183,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						</Box>
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState === 'submitting' ? "" : <>
-								{failed ? <Alert severity="error">{emailValidLabel}</Alert> : ""}
+								{failed ? lastError.data.error.map((error) => (<Alert severity="error" key={error}>{error}</Alert>)) : ""}
 							</>
 							}
 						</Box>

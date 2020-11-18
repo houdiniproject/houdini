@@ -153,11 +153,14 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 								<p>{loginHeaderLabel}</p>
 							</Box>
 						</Typography>
-						<SignInComponent onSuccess={onSuccess} onSubmitting={onSubmitting}/>
+						<div data-testid="SignInComponent"> 
+							<SignInComponent onSuccess={onSuccess} onSubmitting={onSubmitting} />
+						</div>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
 						<Box display="flex" justifyContent="center">
 							<Link href= {routes.new_user_password_path()}
+								data-testid="passwordTest"
 								onClick={() => {
 									console.info("I'm forgot Password link.");
 								}}
@@ -167,6 +170,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						</Box>
 						<Box m={-1.5} display="flex" justifyContent="center">
 							<Link
+							data-testid="getStartedTest"
 								component="button"
 								variant="body2"
 								onClick={() => {
@@ -193,7 +197,9 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce
                     space between links */}
 								<Box m={1} color="text.primary">
-									<Link href={routes.static_terms_and_privacy_path()}>
+									<Link 
+										data-testid="termsTest"
+										href={routes.static_terms_and_privacy_path()}>
 										{terms}
 									</Link>
 								</Box>

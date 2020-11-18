@@ -2,7 +2,7 @@
 import * as React from "react";
 import { render, fireEvent, act, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
-
+import routes from '../../routes';
 
 import SignInPage from "./SignInPage";
 
@@ -72,6 +72,33 @@ describe('SignInPage', () => {
 		waitFor(() => expect(error).toHaveTextContent("Ermahgerd! We had an error!"));
 	});
 
+	it('Renders signInComponent Correctly', () => {
+		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+		expect(getByTestId("SignInComponent")).toBeTruthy
+	})
+
 });
+
+
+describe('Links', () => {
+	it('Renders forgot password Link', () => {
+		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+		fireEvent.click(getByTestId("passwordTest"));
+		getByTestId('passwordTest').click();
+		expect(getByTestId('passwordTest')).toBeInTheDocument();
+	});
+	it('Renders get started Link', () => {
+		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+		fireEvent.click(getByTestId("getStartedTest"));
+		getByTestId('getStartedTest').click();
+		expect(getByTestId('getStartedTest')).toBeInTheDocument();
+	});
+	it('Renders terms & privacy Link', () => {
+		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+		fireEvent.click(getByTestId("termsTest"));
+		getByTestId('termsTest').click();
+		expect(getByTestId('termsTest')).toBeInTheDocument();
+	});
+})
 
 

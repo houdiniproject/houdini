@@ -17,7 +17,7 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import { ErrorBoundary } from 'react-error-boundary';
 import routes from '../../routes';
-import UseHoster from '../../hooks/useHoster';
+import useHoster, { HosterContext } from '../../hooks/useHoster';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -115,6 +115,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	);
 	//Setting up error messages
 	const classes = useStyles();
+	const {hoster} = useHoster();
 	const { formatMessage } = useIntl();
 	const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });
 	const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });
@@ -191,7 +192,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						<Box color="text.primary">
 							<Grid container>
 								<Box m={1}>
-                      ©{UseHoster}
+                     {hoster ? (<> ©{hoster.legalName}</>) : ""}
 								</Box>
 								{/* Link
                     To add more links add another box and replace the label, set margin to -1.5 to reduce

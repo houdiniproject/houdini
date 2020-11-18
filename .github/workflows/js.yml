@@ -33,7 +33,7 @@ jobs:
             ${{ matrix.os }}-yarn-${{ matrix.node }}-
             ${{ matrix.os }}-yarn-
       - run: yarn install --frozen-lockfile
-      - uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}
       - uses: actions/cache@v2
@@ -72,7 +72,7 @@ jobs:
             ${{ matrix.os }}-yarn-${{ matrix.node }}-
             ${{ matrix.os }}-yarn-
       - run: yarn install --frozen-lockfile
-      - uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}
       - uses: actions/cache@v2
@@ -118,7 +118,7 @@ jobs:
             ${{ matrix.os }}-yarn-${{ matrix.node }}-
             ${{ matrix.os }}-yarn-
       - run: yarn install --frozen-lockfile
-      - uses: ruby/setup-ruby@ec106b438a1ff6ff109590de34ddc62c540232e0
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}
       - uses: actions/cache@v2

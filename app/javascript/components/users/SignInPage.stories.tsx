@@ -5,6 +5,7 @@ import SignInPage from './SignInPage';
 /* it's already mocked in the storybook webpack */
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
+import { Hoster, HosterContext } from '../../hooks/useHoster';
 
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
@@ -27,12 +28,23 @@ export default {
 			control: { type: 'radio', options: Object.keys(optionsToSignInError) },
 			defaultValue: 'User or password not valid - 401',
 		},
+		hasHoster: {
+			type: { name: 'boolean' },
+			defaultValue: false,
+			description: "Set whether the hoster is set",
+		},
+		hoster: {
+			type: {name: 'string'},
+			defaultValue: "Houdini Hoster LLC",
+		},
 	},
 };
 
 interface TemplateArgs {
 	error?: string;
 	isError: boolean;
+	hasHoster?:boolean;
+	hoster: string;
 }
 
 const Template = (args: TemplateArgs) => {
@@ -50,7 +62,20 @@ const Template = (args: TemplateArgs) => {
 			}, 5000);
 		}));
 	}
-	return <MockCurrentUserProvider><SignInPage redirectUrl={'redirectUrl'} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
+
+	let hosterReturnValue:{hoster: Hoster} = {hoster: null};
+	if (args.hasHoster) {
+		hosterReturnValue = {hoster: {legalName:args.hoster}};
+	}
+	else {
+		hosterReturnValue = {hoster: null};
+	}
+
+	return <HosterContext.Provider value={hosterReturnValue}>
+		<MockCurrentUserProvider>
+			<SignInPage redirectUrl={'redirectUrl'} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} />
+		</MockCurrentUserProvider>
+	</HosterContext.Provider>;
 };
 
 export const SignInFailed = Template.bind({});

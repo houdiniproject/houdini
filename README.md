@@ -48,6 +48,10 @@ https://houdini.zulipchat.com
 
 Visit the Internationalization channel on Houdini Zulip and discuss
 
+### Help with usability tests
+
+Check on [contribution_guide_usability_testing.md](docs/contribution_guide_usability_testing.md) and create an issue with your test design or run test sessions for [opened usability testing issues](https://github.com/houdiniproject/houdini/issues?q=is%3Aissue+is%3Aopen+%5BUX%5D+).
+
 ## Dev Setup
 
 #### Tips for specific circumstances

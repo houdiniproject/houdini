@@ -163,7 +163,7 @@ describe('useCurrentUseAuth', () => {
 					const result = await reject();
 
 					expect(result.current.lastError.status).toBe(400);
-					expect(result.current.lastError.data).toStrictEqual([{error: 'Not valid'}]);
+					expect(result.current.lastError.data).toStrictEqual({error: ['Not valid']});
 				});
 
 				it('is failed', async () => {
@@ -193,7 +193,7 @@ describe('useCurrentUseAuth', () => {
 
 						expect(result).toBeInstanceOf(SignInError);
 						expect(result.status).toBe(400);
-						expect(result.data).toStrictEqual([{error: 'Not valid'}]);
+						expect(result.data).toStrictEqual({error: ['Not valid']});
 					});
 				});
 			});
@@ -371,7 +371,7 @@ describe('useCurrentUseAuth', () => {
 					const result = await reject();
 
 					expect(result.current.lastError.status).toBe(400);
-					expect(result.current.lastError.data).toStrictEqual([{error: 'Not valid'}]);
+					expect(result.current.lastError.data).toStrictEqual({error: ['Not valid']});
 				});
 
 				describe('promise rejection', () => {
@@ -394,7 +394,7 @@ describe('useCurrentUseAuth', () => {
 
 						expect(result).toBeInstanceOf(SignInError);
 						expect(result.status).toBe(400);
-						expect(result.data).toStrictEqual([{error: 'Not valid'}]);
+						expect(result.data).toStrictEqual({error: ['Not valid']});
 					});
 				});
 			});

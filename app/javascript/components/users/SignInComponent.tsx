@@ -27,6 +27,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
+	const {onFailure} = props;
 
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
@@ -35,14 +36,14 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 		if (failed && wasSubmitting) {
 			// we JUST failed so we only call onFailure
 			// once
-			props.onFailure(lastError);
+			onFailure(lastError);
 		}
 
 		if (wasSubmitting && !failed){
 			// we JUST succeeded
 			// TODOtestid
 		}
-	}, [failed, submitting, previousSubmittingValue]);
+	}, [failed, submitting, previousSubmittingValue, onFailure, lastError]);
 
 	useEffect(() => {
 		if (submitting) {
@@ -78,6 +79,7 @@ function SignInComponent(props:SignInComponentProps) : JSX.Element {
 			}
 		}
 		}>{(props) => {
+				// eslint-disable-next-line react-hooks/rules-of-hooks
 				useEffect(() => {
 					setIsValid(props.isValid);
 				}, [props.isValid]);

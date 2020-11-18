@@ -44,7 +44,14 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	}, [setError]);
 
 	function onSuccess(){
+		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
+		props.onSuccess();
+	}
+
+	function onSubmitting(){
+		setSignInPageState('submitting');
+		props.onSubmitting();
 	}
 
 	//Styling of component
@@ -109,7 +116,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	//Setting up error messages
 	const classes = useStyles();
 	const { formatMessage } = useIntl();
-	const yup = useYup();
 	const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });
 	const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });
 	const terms = formatMessage({ id: 'footer.terms_and_privacy' });
@@ -147,7 +153,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 								<p>{loginHeaderLabel}</p>
 							</Box>
 						</Typography>
-						<SignInComponent onSuccess={onSuccess}/>
+						<SignInComponent onSuccess={onSuccess} onSubmitting={onSubmitting}/>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
 						<Box display="flex" justifyContent="center">

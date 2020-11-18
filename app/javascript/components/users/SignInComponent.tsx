@@ -78,7 +78,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const passwordLabel = formatMessage({ id: 'login.password' });
 	const emailLabel = formatMessage({ id: 'login.email' });
 	const successLabel = formatMessage({ id: 'login.success' });
-	const emailValidLabel = formatMessage({ id: 'login.errors.password_email' });
 	const loginHeaderLabel = formatMessage({ id: 'login.header' });
 
 	const emailId = useId();

@@ -2,7 +2,7 @@
 name: Usability testing
 about: Propose a usability test to help us
 title: [UX]
-labels: enhacement
+labels: enhancement
 ---
 # Objective
 The test goals. e.g.: Evaluate the account customizations feature and website information placement.

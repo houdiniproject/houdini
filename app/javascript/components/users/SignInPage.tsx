@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -15,16 +15,16 @@ import SignInComponent from './SignInComponent';
 import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
-import {ErrorBoundary, useErrorHandler} from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 import routes from '../../routes';
 import UseHoster from '../../hooks/useHoster';
 
 // NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
-  redirectUrl: string;
-  onSubmitting?: () => void;
+	onSubmitting?: () => void;
   onSuccess?: () => void;
+  redirectUrl: string;
 }
 
 //Error Boundary

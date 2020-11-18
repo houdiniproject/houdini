@@ -104,20 +104,20 @@ describe('SignInComponent', () => {
 		it('is disabled when the form is not complete', async () => {
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 		  const email = getByLabelText("Email");
-      fireEvent.change(email, { target: { value: 'invalidEmail' } });
-      await waitFor(() => {
-        expect(getByTestId('signInButton')).toBeDisabled();
-      })
-    });
-    it('Not disabled when form is complete', async () => {
+			fireEvent.change(email, { target: { value: 'invalidEmail' } });
+			await waitFor(() => {
+				expect(getByTestId('signInButton')).toBeDisabled();
+			});
+		});
+		it('not disabled when form is complete', async () => {
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
-      const email = getByLabelText("Email");
-      const password = getByLabelText("Password");
-      fireEvent.change(email, { target: { value: 'invalidEmail@email.com' } });
-      fireEvent.change(password, { target: { value: 'password' } });
-      await waitFor(() => {
-        expect(getByTestId('signInButton')).not.toBeDisabled();
-      })
+			const email = getByLabelText("Email");
+			const password = getByLabelText("Password");
+			fireEvent.change(email, { target: { value: 'invalidEmail@email.com' } });
+			fireEvent.change(password, { target: { value: 'password' } });
+			await waitFor(() => {
+				expect(getByTestId('signInButton')).not.toBeDisabled();
+			});
 		});
 	});
 });

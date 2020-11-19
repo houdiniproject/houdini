@@ -198,7 +198,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 					<Toolbar>
 						<Box color="text.primary">
 							<Grid container>
-								<Box m={1}>
+								<Box m={1} data-testid="hosterTest">
 									{hoster ? (<> ©{hoster.legalName}</>) : ""}
 								</Box>
 								{/* Link

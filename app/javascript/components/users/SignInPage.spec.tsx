@@ -3,6 +3,7 @@ import * as React from "react";
 import { render, fireEvent, act, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import routes from '../../routes';
+import { Hoster, HosterContext } from '../../hooks/useHoster';
 
 import SignInPage from "./SignInPage";
 
@@ -16,12 +17,18 @@ import I18n from '../../i18n';
 
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
-function Wrapper(props:React.PropsWithChildren<unknown>) {
-	return <IntlProvider messages={I18n.translations['en'] as any} locale={'en'}>
-		<MockCurrentUserProvider>
-			{props.children}
-		</MockCurrentUserProvider>
-	</IntlProvider>;
+interface WrapperProps extends React.PropsWithChildren<unknown> {
+	hoster?:Hoster;
+}
+
+function Wrapper(props:WrapperProps) {
+	return <HosterContext.Provider value={ {hoster: props.hoster || null} }>
+		<IntlProvider messages={I18n.translations['en'] as any} locale={'en'}>
+			<MockCurrentUserProvider>
+				{props.children}
+			</MockCurrentUserProvider>
+		</IntlProvider>
+	</HosterContext.Provider>;
 
 }
 
@@ -98,6 +105,26 @@ describe('Links', () => {
 		fireEvent.click(getByTestId("termsTest"));
 		getByTestId('termsTest').click();
 		expect(getByTestId('termsTest')).toBeInTheDocument();
+	});
+});
+
+
+describe ('useHoster', () => {
+	it ('renders', () => {
+		const { getByTestId } = render (
+			<Wrapper hoster= {null} >
+				<SignInPage redirectUrl={"redirectUrl"}/>
+			</Wrapper>
+		);
+		expect(getByTestId('hosterTest')).toBeInTheDocument();
+	});
+	it ('renders with hoster', () => {
+		const { getByTestId } = render (
+			<Wrapper hoster= {{legalName: 'Houdini Hoster LLC'}}>
+				<SignInPage redirectUrl={"redirectUrl"}/>
+			</Wrapper>
+		);
+		expect(getByTestId('hosterTest')).toBeInTheDocument();
 	});
 });
 

@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-commented-out-tests */
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import {render, act, fireEvent, wait, waitFor} from '@testing-library/react';
+import {render, act, fireEvent, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
@@ -11,7 +11,6 @@ import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
 /* NOTE: We're mocking calls to `/user/sign_in` */
 jest.mock('../../legacy_react/src/lib/api/sign_in');
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
-import useState from 'react';
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
@@ -75,10 +74,11 @@ describe('SignInComponent', () => {
 
 	describe('Email', () => {
 		it('renders', () => {
+			expect.assertions(1);
 			const result = render(<Wrapper><SignInComponent/></Wrapper>);
 		});
 		it('renders error message on incorrect input', async () => {
-			const { container, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
+			const { getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
 			fireEvent.change(email, { target: { value: 'invalidEmail' } });
 			await waitFor(() => {
@@ -89,10 +89,10 @@ describe('SignInComponent', () => {
 
 	describe('Password', () => {
 		it('renders', () => {
-			const result = render(<Wrapper><SignInComponent/></Wrapper>);
+			expect.assertions(1);
 		});
 		it('renders error message if input is empty', async () => {
-			const { container, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
+			const { getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const password = getByLabelText("Password");
 			fireEvent.change(password, { target: { value: '' } });
 			await waitFor(() => {
@@ -114,7 +114,7 @@ describe('SignInComponent', () => {
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
-			fireEvent.change(email, { target: { value: 'invalidEmail@email.com' } });
+			fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
 			fireEvent.change(password, { target: { value: 'password' } });
 			await waitFor(() => {
 				expect(getByTestId('signInButton')).not.toBeDisabled();

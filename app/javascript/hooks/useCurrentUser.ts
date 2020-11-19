@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import {createContext, useContext} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 
 /**
  * A context which provides information about the current user and for setting
@@ -62,11 +62,21 @@ export interface SetCurrentUserReturnType extends UserCurrentUserReturnType {
  */
 function useCurrentUser<TReturnType extends UserCurrentUserReturnType=UserCurrentUserReturnType>(): TReturnType {
 	const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
-	const output:SetCurrentUserReturnType =  {
+
+	const [output, setOutput] = useState<SetCurrentUserReturnType>({
 		currentUser,
 		setCurrentUser,
 		signedIn: !!currentUser,
-	};
+	});
+
+	useEffect(() => {
+		setOutput({
+			currentUser,
+			setCurrentUser,
+			signedIn: !!currentUser,
+		});
+	}, [currentUser, setOutput, setCurrentUser]);
+
 	return output as unknown as TReturnType;
 }
 

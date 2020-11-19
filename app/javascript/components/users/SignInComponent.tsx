@@ -57,7 +57,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('success');
 			props.onSuccess();
 		}
-	}, [failed, submitting, previousSubmittingValue]);
+	}, [failed, submitting, previousSubmittingValue, lastError]);
 
 	useEffect(() => {
 		if (isValid && submitting) {
@@ -164,7 +164,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									/>
 								</Box>
 								: null}
-						</Box>
+						</Box>errors
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState !== 'success' ?
 								<Box p={1.5}>

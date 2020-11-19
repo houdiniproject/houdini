@@ -17,9 +17,7 @@ import I18n from '../../i18n';
 
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
-interface WrapperProps extends React.PropsWithChildren<unknown> {
-	hoster?:Hoster;
-}
+type WrapperProps = React.PropsWithChildren<{hoster?:Hoster}>;
 
 function Wrapper(props:WrapperProps) {
 	return <HosterContext.Provider value={ {hoster: props.hoster || null} }>

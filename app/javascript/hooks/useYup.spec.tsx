@@ -10,6 +10,7 @@ import useYup, {createMessage} from './useYup';
 
 
 function Wrapper(props:React.PropsWithChildren<unknown>) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	return <IntlProvider locale={'en'} messages={I18n.translations['en'] as any}>
 		{props.children}
 	</IntlProvider>;

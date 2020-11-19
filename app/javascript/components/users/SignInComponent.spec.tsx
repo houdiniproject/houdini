@@ -104,7 +104,7 @@ describe('SignInComponent', () => {
 	describe('submit button', () => {
 		it('is disabled when the form is not complete', async () => {
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
-		  const email = getByLabelText("Email");
+			const email = getByLabelText("Email");
 			fireEvent.change(email, { target: { value: 'invalidEmail' } });
 			await waitFor(() => {
 				expect(getByTestId('signInButton')).toBeDisabled();

@@ -141,6 +141,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			}
 				//Props
 			}>{({ errors, isValid, touched, handleChange }) => {
+				// eslint-disable-next-line react-hooks/rules-of-hooks
 				useEffect(() => {
 					setIsValid(isValid);
 				}, [isValid]);
@@ -193,8 +194,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
-                    					variant='contained'
-                    					disabled={!isValid}
+										variant='contained'
+										disabled={!isValid}
 									>
 										<p>{loginHeaderLabel}</p>
 									</Button>

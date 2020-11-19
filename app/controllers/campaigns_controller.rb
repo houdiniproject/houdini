@@ -6,6 +6,7 @@ class CampaignsController < ApplicationController
   before_filter :authenticate_confirmed_user!, only: [:create, :name_and_id, :duplicate]
   before_filter :authenticate_campaign_editor!, only: [:update, :soft_delete]
   before_filter :check_nonprofit_status, only: [:index, :show]
+  after_filter :set_access_control_headers, only: [:metrics]
 
   def index
     @nonprofit = current_nonprofit
@@ -138,5 +139,10 @@ class CampaignsController < ApplicationController
     if !current_role?(:super_admin) && !current_nonprofit.published
       raise ActionController::RoutingError.new('Not Found')
     end
+  end
+
+  def set_access_control_headers
+    headers['Access-Control-Allow-Origin'] = "*"
+    headers['Access-Control-Request-Method'] = %w{GET}.join(",")
   end
 end

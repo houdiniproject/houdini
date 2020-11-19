@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import logo from './Images/HoudiniLogo.png';
 import CardMedia from '@material-ui/core/CardMedia';
-import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { useIntl } from "../../components/intl";
 import SignInComponent from './SignInComponent';
 import { Paper } from "@material-ui/core";
@@ -17,11 +16,9 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import { ErrorBoundary } from 'react-error-boundary';
 import routes from '../../routes';
-import useHoster, { HosterContext } from '../../hooks/useHoster';
+import useHoster from '../../hooks/useHoster';
 
 interface SignInPageProps {
-	onSubmitting?: () => void;
-  onSuccess?: () => void;
   redirectUrl: string;
 }
 
@@ -34,22 +31,14 @@ function Fallback() {
 
 function SignInPage(props: SignInPageProps): JSX.Element {
 	const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
-	const [error, setError] = useState(false);
-	useCallback(() => {
-		setError(true);
-	}, [setError]);
-
-	const { currentUser } = useCurrentUserAuth();
 
 	function onSuccess(){
 		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
-		props.onSuccess();
 	}
 
 	function onSubmitting(){
 		setSignInPageState('submitting');
-		props.onSubmitting();
 	}
 
 	//Styling of component
@@ -147,9 +136,9 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 									<LockIcon />
 								</Avatar>
 							</Box>
-							<Box display="flex" justifyContent="center" alignItems="center" textAlign="center"
+							<Box m={3} display="flex" justifyContent="center" alignItems="center" textAlign="center"
 							>
-								<p>{loginHeaderLabel}</p>
+								{loginHeaderLabel}
 							</Box>
 						</Typography>
 						<div data-testid="SignInComponent">
@@ -157,38 +146,25 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 								onSuccess={onSuccess}
 								onSubmitting={onSubmitting} />
 						</div>
-						{/* Display currentUserId */}
-						<Box display="flex" justifyContent="center">
-							{SignInPageState === 'success' ? "" : <>
-								<div data-testid="currentUserDiv">{currentUser ? currentUser.id : ""}</div>
-							</>
-							}
-						</Box>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
-						<Box display="flex" justifyContent="center">
+						<Box m={1} display="flex" justifyContent="center">
 							<Link href= {routes.new_user_password_path()}
 								data-testid="passwordTest"
-								onClick={() => {
-									console.info("I'm forgot Password link.");
-								}}
 							>
-								<p>{forgotPasswordlabel}</p>
+								{forgotPasswordlabel}
 							</Link>
 						</Box>
-						<Box m={-1.5} display="flex" justifyContent="center">
+						<Box m={1} display="flex" justifyContent="center">
 							<Link
 								data-testid="getStartedTest"
 								component="button"
 								variant="body2"
-								onClick={() => {
-									console.info("I'm getStarted link.");
-								}}
 							>
-								<p>{getStartedLabel}</p>
+								{getStartedLabel}
 							</Link>
 						</Box>
-						<Box color="error.main" data-testid="signInPageError">{error ? "Ermahgerd! We had an error!" : ""}</Box>
+						<Box color="error.main" data-testid="signInPageError"></Box>
 					</Paper>
 				</Box>
 			</Grid>

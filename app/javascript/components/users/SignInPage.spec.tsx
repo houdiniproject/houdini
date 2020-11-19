@@ -72,33 +72,33 @@ describe('SignInPage', () => {
 		waitFor(() => expect(error).toHaveTextContent("Ermahgerd! We had an error!"));
 	});
 
-	it('Renders signInComponent Correctly', () => {
+	it('renders signInComponent Correctly', () => {
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-		expect(getByTestId("SignInComponent")).toBeTruthy
-	})
+		expect(getByTestId("SignInComponent")).toBeTruthy;
+	});
 
 });
 
 
 describe('Links', () => {
-	it('Renders forgot password Link', () => {
+	it('renders forgot password Link', () => {
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		fireEvent.click(getByTestId("passwordTest"));
 		getByTestId('passwordTest').click();
 		expect(getByTestId('passwordTest')).toBeInTheDocument();
 	});
-	it('Renders get started Link', () => {
+	it('renders get started Link', () => {
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		fireEvent.click(getByTestId("getStartedTest"));
 		getByTestId('getStartedTest').click();
 		expect(getByTestId('getStartedTest')).toBeInTheDocument();
 	});
-	it('Renders terms & privacy Link', () => {
+	it('renders terms & privacy Link', () => {
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		fireEvent.click(getByTestId("termsTest"));
 		getByTestId('termsTest').click();
 		expect(getByTestId('termsTest')).toBeInTheDocument();
 	});
-})
+});
 
 

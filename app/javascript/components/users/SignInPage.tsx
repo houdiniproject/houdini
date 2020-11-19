@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import logo from './Images/HoudiniLogo.png';
 import CardMedia from '@material-ui/core/CardMedia';
-import useYup from '../../hooks/useYup';
+import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { useIntl } from "../../components/intl";
 import SignInComponent from './SignInComponent';
 import { Paper } from "@material-ui/core";
@@ -19,8 +19,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 import routes from '../../routes';
 import useHoster, { HosterContext } from '../../hooks/useHoster';
 
-// NOTE: You should remove this line and next when you start adding properties to SignInComponentProps
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SignInPageProps {
 	onSubmitting?: () => void;
   onSuccess?: () => void;
@@ -34,14 +32,14 @@ function Fallback() {
 	return <div>{errorBoundaryLabel}</div>;
 }
 
-// NOTE: Remove this line and next once you start using the props argument
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function SignInPage(props: SignInPageProps): JSX.Element {
 	const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
 	const [error, setError] = useState(false);
 	useCallback(() => {
 		setError(true);
 	}, [setError]);
+
+	const { currentUser } = useCurrentUserAuth();
 
 	function onSuccess(){
 		setSignInPageState("success");
@@ -154,9 +152,18 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 								<p>{loginHeaderLabel}</p>
 							</Box>
 						</Typography>
-						<div data-testid="SignInComponent"> 
-							<SignInComponent onSuccess={onSuccess} onSubmitting={onSubmitting} />
+						<div data-testid="SignInComponent">
+							<SignInComponent
+								onSuccess={onSuccess}
+								onSubmitting={onSubmitting} />
 						</div>
+						{/* Display currentUserId */}
+						<Box display="flex" justifyContent="center">
+							{SignInPageState === 'success' ? "" : <>
+								<div data-testid="currentUserDiv">{currentUser ? currentUser.id : ""}</div>
+							</>
+							}
+						</Box>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
 						<Box display="flex" justifyContent="center">
@@ -171,7 +178,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						</Box>
 						<Box m={-1.5} display="flex" justifyContent="center">
 							<Link
-							data-testid="getStartedTest"
+								data-testid="getStartedTest"
 								component="button"
 								variant="body2"
 								onClick={() => {
@@ -192,13 +199,13 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						<Box color="text.primary">
 							<Grid container>
 								<Box m={1}>
-                     {hoster ? (<> ©{hoster.legalName}</>) : ""}
+									{hoster ? (<> ©{hoster.legalName}</>) : ""}
 								</Box>
 								{/* Link
                     To add more links add another box and replace the label, set margin to -1.5 to reduce
                     space between links */}
 								<Box m={1} color="text.primary">
-									<Link 
+									<Link
 										data-testid="termsTest"
 										href={routes.static_terms_and_privacy_path()}>
 										{terms}

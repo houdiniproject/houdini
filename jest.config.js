@@ -8,6 +8,9 @@ module.exports =  {
 			"babelConfig": false,
 		},
 	},
+	"modulePathIgnorePatterns": [
+		"<rootDir>/vendor", // don't go to the gems vendor folder. EVER.
+	],
 	"setupFiles": [
 		"<rootDir>/setupTests.js",
 	],

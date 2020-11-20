@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import { render, fireEvent, act, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 
 /* NOTE: we're mocking SignInComponent */
@@ -14,20 +14,21 @@ import SignInPage from "./SignInPage";
 
 import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
 
-/* NOTE: We're mocking calls to `/user/sign_in` */
-jest.mock('../../legacy_react/src/lib/api/sign_in');
-import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
-
-const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
+import { HosterContext } from "../../hooks/useHoster";
 
 function Wrapper(props:React.PropsWithChildren<unknown>) {
-	return <IntlProvider messages={I18n.translations['en'] as any} locale={'en'}>
-		<MockCurrentUserProvider>
-			{props.children}
-		</MockCurrentUserProvider>
-	</IntlProvider>;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const translations = I18n.translations['en'] as any;
+
+	return <HosterContext.Provider value={{hoster: null}}>
+		<IntlProvider messages={translations} locale={'en'}>
+			<MockCurrentUserProvider>
+				{props.children}
+			</MockCurrentUserProvider>
+		</IntlProvider>
+	</HosterContext.Provider>;
 
 }
 

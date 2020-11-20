@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { action } from '@storybook/addon-actions';
 import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
 import SignInPage from './SignInPage';
 /* it's already mocked in the storybook webpack */
@@ -42,9 +41,9 @@ export default {
 
 interface TemplateArgs {
 	error?: string;
-	isError: boolean;
-	hasHoster?:boolean;
+	hasHoster?: boolean;
 	hoster: string;
+	isError: boolean;
 }
 
 const Template = (args: TemplateArgs) => {
@@ -73,7 +72,7 @@ const Template = (args: TemplateArgs) => {
 
 	return <HosterContext.Provider value={hosterReturnValue}>
 		<MockCurrentUserProvider>
-			<SignInPage redirectUrl={'redirectUrl'} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} />
+			<SignInPage redirectUrl={'redirectUrl'} />
 		</MockCurrentUserProvider>
 	</HosterContext.Provider>;
 };

@@ -57,7 +57,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('success');
 			props.onSuccess();
 		}
-	}, [failed, submitting, previousSubmittingValue]);
+	}, [failed, submitting, previousSubmittingValue, lastError]);
 
 	useEffect(() => {
 		if (isValid && submitting) {
@@ -79,7 +79,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const emailLabel = formatMessage({ id: 'login.email' });
 	const successLabel = formatMessage({ id: 'login.success' });
 	const loginHeaderLabel = formatMessage({ id: 'login.header' });
-
 	const emailId = useId();
 	const passwordId = useId();
 
@@ -140,7 +139,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				}
 			}
 				//Props
-			}>{({ errors, isValid, touched, handleChange }) => {
+			}>{({ isValid }) => {
+				// eslint-disable-next-line react-hooks/rules-of-hooks
 				useEffect(() => {
 					setIsValid(isValid);
 				}, [isValid]);
@@ -193,10 +193,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
-                    					variant='contained'
-                    					disabled={!isValid}
+										variant='contained'
+										disabled={!isValid}
 									>
-										<p>{loginHeaderLabel}</p>
+										{loginHeaderLabel}
 									</Button>
 									: ""}
 								{/* Circular progress on submit button */}

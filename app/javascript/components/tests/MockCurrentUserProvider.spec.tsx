@@ -7,6 +7,7 @@ import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import MockCurrentUserProvider from './MockCurrentUserProvider';
 import useCurrentUser, { SetCurrentUserReturnType } from '../../hooks/useCurrentUser';
+import usePrevious from 'react-use/lib/usePrevious';
 
 
 interface InnerTestProps {
@@ -23,12 +24,13 @@ interface InnerTestProps {
 
 function InnerTest(props:InnerTestProps) {
 	const user = useCurrentUser<SetCurrentUserReturnType>();
-
+	const {setUserIdFromInside} = props;
+	const lastSetUserIdFromInside = usePrevious(setUserIdFromInside);
 	useEffect(() => {
-		if (props.setUserIdFromInside) {
-			user.setCurrentUser({id:props.setUserIdFromInside});
+		if (setUserIdFromInside && lastSetUserIdFromInside !== setUserIdFromInside) {
+			user.setCurrentUser({id:setUserIdFromInside});
 		}
-	}, [props.setUserIdFromInside]);
+	}, [setUserIdFromInside, user, lastSetUserIdFromInside]);
 	return (<>
 		<div data-testid="userId">{user.currentUser?.id}</div>
 		<div data-testid="signedIn">{user.signedIn.toString()}</div>

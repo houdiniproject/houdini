@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-commented-out-tests */
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import {render, act, fireEvent, waitFor} from '@testing-library/react';
+import {render, act, fireEvent, waitFor, wait} from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
@@ -93,18 +93,23 @@ describe('SignInComponent', () => {
 			const email = getByLabelText("Email");
 			expect(email).toBeInTheDocument();
 		});
+
 		it('renders error message on incorrect input', async () => {
-			expect.assertions(1);
+			// We use hasAssertions() becuase the waitFor could attempt the assertion
+			// toBeInvalid() multiple times waiting for it to update
+			expect.hasAssertions();
 			const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
-			let email = getByLabelText("Email") as HTMLInputElement;
-			const password = getByLabelText("Password");
-			act(() => {
-				email.value = "InvalidEmail";
-				email.click();
-				fireEvent.change(email, { target: { value: 'InvalidEmail' } });
-				password.click();
-			});
-			email = getByLabelText("Email") as HTMLInputElement;
+			const email = getByLabelText("Email") as HTMLInputElement;
+
+			// change changes the value
+			fireEvent.change(email, {target: {value: "InvalidEmails"}});
+			// blur makes the field "touched"
+			fireEvent.blur(email);
+			// just verify the value has been changed by the change event
+			expect(email.value).toBe('InvalidEmails');
+
+			// yup validation is an asynchronous task so we have a "waitFor" to keep
+			// checking for up to 5 seconds. It should complete very quickly.
 			await waitFor(() => {
 				expect(email).toBeInvalid();
 			});

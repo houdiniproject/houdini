@@ -89,14 +89,17 @@ describe('SignInComponent', () => {
 	describe('Email', () => {
 		it('renders', () => {
 			expect.assertions(1);
+			const {getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
+			const email = getByLabelText("Email");
+			expect(email).toBeInTheDocument();
 		});
 		it('renders error message on incorrect input', async () => {
 			expect.assertions(1);
-			const { getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
+			const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
-			fireEvent.change(email, { target: { value: 'invalidEmail' } });
+			fireEvent.change(email, { target: { value: 'InvalidEmail' } });
 			await waitFor(() => {
-				expect(getByLabelText("Email")).not.toBeNull();
+				expect(email).toBeInTheDocument();
 			});
 		});
 	});
@@ -104,6 +107,9 @@ describe('SignInComponent', () => {
 	describe('Password', () => {
 		it('renders', () => {
 			expect.assertions(1);
+			const {getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
+			const password = getByLabelText("Password");
+			expect(password).toBeInTheDocument();
 		});
 		it('renders error message if input is empty', async () => {
 			expect.assertions(1);

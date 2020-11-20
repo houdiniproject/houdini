@@ -164,7 +164,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									/>
 								</Box>
 								: null}
-						</Box>errors
+						</Box>
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState !== 'success' ?
 								<Box p={1.5}>

@@ -41,9 +41,9 @@ export default {
 
 interface TemplateArgs {
 	error?: string;
-	hasHoster?:boolean;
-	isError: boolean;
+	hasHoster?: boolean;
 	hoster: string;
+	isError: boolean;
 }
 
 const Template = (args: TemplateArgs) => {

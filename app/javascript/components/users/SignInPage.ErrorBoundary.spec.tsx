@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import { render, fireEvent, act, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 
 /* NOTE: we're mocking SignInComponent */

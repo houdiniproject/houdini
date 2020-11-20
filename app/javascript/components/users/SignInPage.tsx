@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
@@ -35,10 +35,12 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	function onSuccess(){
 		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
+		SignInPageState;
 	}
 
 	function onSubmitting(){
 		setSignInPageState('submitting');
+		SignInPageState;
 	}
 
 	//Styling of component

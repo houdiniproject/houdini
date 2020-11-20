@@ -75,9 +75,9 @@ describe('SignInComponent', () => {
 	describe('Email', () => {
 		it('renders', () => {
 			expect.assertions(1);
-			const result = render(<Wrapper><SignInComponent/></Wrapper>);
 		});
 		it('renders error message on incorrect input', async () => {
+			expect.assertions(1);
 			const { getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
 			fireEvent.change(email, { target: { value: 'invalidEmail' } });
@@ -92,6 +92,7 @@ describe('SignInComponent', () => {
 			expect.assertions(1);
 		});
 		it('renders error message if input is empty', async () => {
+			expect.assertions(1);
 			const { getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const password = getByLabelText("Password");
 			fireEvent.change(password, { target: { value: '' } });
@@ -103,6 +104,7 @@ describe('SignInComponent', () => {
 
 	describe('submit button', () => {
 		it('is disabled when the form is not complete', async () => {
+			expect.assertions(1);
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
 			fireEvent.change(email, { target: { value: 'invalidEmail' } });
@@ -111,6 +113,7 @@ describe('SignInComponent', () => {
 			});
 		});
 		it('not disabled when form is complete', async () => {
+			expect.assertions(1);
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");

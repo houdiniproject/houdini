@@ -3,7 +3,6 @@ import * as React from "react";
 import { render, fireEvent, act, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import noop from 'lodash/noop';
-import routes from '../../routes';
 import { Hoster, HosterContext } from '../../hooks/useHoster';
 
 import SignInPage from "./SignInPage";
@@ -117,27 +116,30 @@ describe('SignInPage', () => {
 	});
 
 	it('renders signInComponent Correctly', () => {
+		expect.hasAssertions();
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-		expect(getByTestId("SignInComponent")).toBeTruthy;
+		expect(getByTestId("SignInComponent")).toBeInTheDocument();
 	});
 
 });
 
-
 describe('Links', () => {
 	it('renders forgot password Link', () => {
+		expect.assertions(1);
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		fireEvent.click(getByTestId("passwordTest"));
 		getByTestId('passwordTest').click();
 		expect(getByTestId('passwordTest')).toBeInTheDocument();
 	});
 	it('renders get started Link', () => {
+		expect.assertions(1);
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		fireEvent.click(getByTestId("getStartedTest"));
 		getByTestId('getStartedTest').click();
 		expect(getByTestId('getStartedTest')).toBeInTheDocument();
 	});
 	it('renders terms & privacy Link', () => {
+		expect.assertions(1);
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		fireEvent.click(getByTestId("termsTest"));
 		getByTestId('termsTest').click();
@@ -145,9 +147,9 @@ describe('Links', () => {
 	});
 });
 
-
 describe ('useHoster', () => {
 	it ('renders', () => {
+		expect.assertions(1);
 		const { getByTestId } = render (
 			<Wrapper hoster= {null} >
 				<SignInPage redirectUrl={"redirectUrl"}/>
@@ -156,6 +158,7 @@ describe ('useHoster', () => {
 		expect(getByTestId('hosterTest')).toBeInTheDocument();
 	});
 	it ('renders with hoster', () => {
+		expect.assertions(1);
 		const { getByTestId } = render (
 			<Wrapper hoster= {{legalName: 'Houdini Hoster LLC'}}>
 				<SignInPage redirectUrl={"redirectUrl"}/>

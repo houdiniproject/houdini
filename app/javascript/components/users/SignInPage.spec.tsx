@@ -22,13 +22,12 @@ type WrapperProps = React.PropsWithChildren<{hoster?:Hoster}>;
 
 function Wrapper(props:WrapperProps) {
 	return <HosterContext.Provider value={ {hoster: props.hoster || null} }>
-		<IntlProvider messages={I18n.translations['en'] as any} locale={'en'}>
+		<IntlProvider locale={'en'} messages={I18n.translations['en'] as any } > {/* eslint-disable-line @typescript-eslint/no-explicit-any */}
 			<MockCurrentUserProvider>
 				{props.children}
 			</MockCurrentUserProvider>
 		</IntlProvider>
 	</HosterContext.Provider>;
-
 }
 
 /**

@@ -79,10 +79,34 @@ interface Location {
 
 ```
 
-### Properties
+### Inputs
 
-* initialLocation - a Location to prefill the fields (through Formik)
-* enableReinitialize - boolean if true, changes to initialLocation update the
-fields, otherwise, they're not updated
-* onUpdate: a function passed in which takes the updated Location from
-  LocationSelector (returns void)
+#### Properties
+
+```typescript
+
+interface LocationSelectorProps {
+	// a Location to prefill the fields (through Formik)
+	initialLocation: Location
+	// if true, changes to initialLocation update the
+	// fields, otherwise, they're not updated.
+	enableReinitialize: boolean
+	// notifies parent of updated Location
+	onUpdate: (location:Location) => void
+}
+```
+
+##### Default Props
+
+```typescript
+LocationSelector.defaultProps = {
+	initialLocation: {},
+	enableReinitialize: false,
+	onUpdate: noop, //get via `import noop from 'lodash/noop';`
+}
+```
+
+#### Other things you'll need
+
+* `countries` - from `app/javascript/countries.ts`
+

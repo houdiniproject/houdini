@@ -204,8 +204,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							</Box>
 							: null}
 						{componentState == 'success' && currentUser ?
-							<Box m={13} display="flex" justifyContent="center" alignItems="center">
-								<p><Alert severity="success">{successLabel}</Alert></p>
+							<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
+								<p><Alert  severity="success">{successLabel}</Alert></p>
 							</Box>
 							: null}
 					</Form>

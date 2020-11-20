@@ -46,9 +46,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	//Styling of component
 	const useStyles = makeStyles((theme: Theme) =>
 		createStyles({
-			root: {
-				flexGrow: 1,
-			},
 			menuButton: {
 				marginRight: theme.spacing(2),
 			},
@@ -114,20 +111,18 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	return <ErrorBoundary FallbackComponent={Fallback}>
 		<Grid container spacing={0}>
 			<Grid item xs={12}>
-				<div className={classes.root}>
-					<AppBar position="static" className={classes.appbar} elevation={1}>
-						<Toolbar >
-							<Grid>
-								<CardMedia
-									className={classes.media}
-									component="img"
-									src={logo}
-									title="Houdini"
-								/>
-							</Grid>
-						</Toolbar>
-					</AppBar>
-				</div>
+				<AppBar position="static" className={classes.appbar} elevation={1}>
+					<Toolbar >
+						<Grid>
+							<CardMedia
+								className={classes.media}
+								component="img"
+								src={logo}
+								title="Houdini"
+							/>
+						</Grid>
+					</Toolbar>
+				</AppBar>
 			</Grid>
 			<Grid container  justify="center">
 				<Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">

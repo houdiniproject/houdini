@@ -39,10 +39,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
+	const wasSubmitting = previousSubmittingValue && !submitting;
 
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
-		const wasSubmitting = previousSubmittingValue && !submitting;
+
 
 		if (failed && wasSubmitting) {
 			// we JUST failed so we only call onFailure
@@ -57,14 +58,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('success');
 			props.onSuccess();
 		}
-	}, [failed, submitting, previousSubmittingValue, lastError]);
+	}, [failed, submitting, previousSubmittingValue, props, wasSubmitting, lastError]);
 
 	useEffect(() => {
 		if (isValid && submitting) {
 			setComponentState('submitting');
 			props.onSubmitting();
 		}
-	}, [submitting]);
+	}, [submitting, isValid, props]);
 
 	useEffect(() => {
 		if (isValid && componentState == 'ready') {

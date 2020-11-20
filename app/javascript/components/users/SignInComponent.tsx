@@ -153,7 +153,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<Box display="flex" justifyContent="center" alignItems="center">
 							{componentState !== 'success' ?
 								<Box p={1.5}>
-									<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailInput"
+									<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
 										label={emailLabel}
 										InputProps={{
 											startAdornment: (

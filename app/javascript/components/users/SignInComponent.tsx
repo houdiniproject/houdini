@@ -181,12 +181,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								</Box>
 								: null}
 						</Box>
-						<Box display="flex" justifyContent="center" alignItems="center">
-							{componentState === 'submitting' ? "" : <>
-								{failed ? lastError.data.error.map((error) => (<Alert severity="error" key={error}>{error}</Alert>)) : ""}
-							</>
-							}
-						</Box>
+						<div data-testid="errorTest">
+							<Box display="flex" justifyContent="center" alignItems="center">
+								{componentState === 'submitting' ? "" : <>
+									{failed ? lastError.data.error.map((error) => (<Alert aria-labelledby="errorTest" severity="error" key={error}>{error}</Alert>)) : ""}
+								</>
+								}
+							</Box>
+						</div>
 						{componentState !== 'success' ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
 								{componentState !== 'submitting' ?
@@ -204,11 +206,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								{submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
 							</Box>
 							: null}
+						<div data-testid="signInComponentSuccess">
 						{componentState == 'success' && currentUser ?
 							<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
-								<p><Alert  severity="success">{successLabel}</Alert></p>
+								<Alert  severity="success">{successLabel}</Alert>
 							</Box>
 							: null}
+						</div>
 					</Form>
 				);
 			}}

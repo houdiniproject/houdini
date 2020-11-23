@@ -80,11 +80,32 @@ describe('SignInComponent', () => {
 			expect(email).toBeInTheDocument();
 		});
 
-		it('renders error message on incorrect input', async () => {
+		it('Checks email validation on correct input', async () => {
 			// We use hasAssertions() becuase the waitFor could attempt the assertion
 			// toBeInvalid() multiple times waiting for it to update
 			expect.hasAssertions();
 			const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
+			const email = getByLabelText("Email") as HTMLInputElement;
+
+			// change changes the value
+			fireEvent.change(email, {target: {value: "ValidEmail@email.com"}});
+			// blur makes the field "touched"
+			fireEvent.blur(email);
+			// just verify the value has been changed by the change event
+			expect(email.value).toBe('ValidEmail@email.com');
+
+			// yup validation is an asynchronous task so we have a "waitFor" to keep
+			// checking for up to 5 seconds. It should complete very quickly.
+			await waitFor(() => {
+				expect(email).toBeValid();
+			});
+		});
+
+		it('Checks email validation on incorrect input', async () => {
+			// We use hasAssertions() becuase the waitFor could attempt the assertion
+			// toBeInvalid() multiple times waiting for it to update
+			expect.hasAssertions();
+			const { getByLabelText, getByTestId} = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email") as HTMLInputElement;
 
 			// change changes the value
@@ -100,6 +121,30 @@ describe('SignInComponent', () => {
 				expect(email).toBeInvalid();
 			});
 		});
+
+		it('Renders error message on incorrect email', async () => {
+			// We use hasAssertions() becuase the waitFor could attempt the assertion
+			// toBeInvalid() multiple times waiting for it to update
+			expect.hasAssertions();
+			const { getByLabelText, getByTestId} = render(<Wrapper><SignInComponent/></Wrapper>);
+			const email = getByLabelText("Email") as HTMLInputElement;
+			const error = getByTestId("errorTest")
+			const button = getByTestId('signInButton');
+
+			// change changes the value
+			fireEvent.change(email, {target: {value: "InvalidEmails"}});
+			// blur makes the field "touched"
+			fireEvent.blur(email);
+			// just verify the value has been changed by the change event
+			expect(email.value).toBe('InvalidEmails');
+
+			// yup validation is an asynchronous task so we have a "waitFor" to keep
+			// checking for up to 5 seconds. It should complete very quickly.
+			await waitFor(() => {
+				fireEvent.click(button);
+				expect(error).toBeInTheDocument();
+			});
+		});
 	});
 
 	describe('Password', () => {
@@ -109,13 +154,36 @@ describe('SignInComponent', () => {
 			const password = getByLabelText("Password");
 			expect(password).toBeInTheDocument();
 		});
-		it('renders error message if input is empty', async () => {
-			expect.assertions(1);
-			const { getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
-			const password = getByLabelText("Password");
-			fireEvent.change(password, { target: { value: '' } });
+
+		it('Checks if password is valid', async () => {
+			expect.assertions(4);
+			const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
+			const password = getByLabelText("Password") as HTMLInputElement;;
+				// change changes the value
+			fireEvent.change(password, {target: {value: "1234"}});
+				// blur makes the field "touched"
+			fireEvent.blur(password);
+				// just verify the value has been changed by the change event
+			expect(password.value).toBe('1234');
+			fireEvent.click(password)
 			await waitFor(() => {
-				expect(getByLabelText("Password")).not.toBeNull();
+				expect(password).toBeValid();
+			});
+		});
+
+		it('Checks if password is invalid', async () => {
+			expect.assertions(4);
+			const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
+			const password = getByLabelText("Password") as HTMLInputElement;;
+				// change changes the value
+			fireEvent.change(password, {target: {value: ""}});
+				// blur makes the field "touched"
+			fireEvent.blur(password);
+				// just verify the value has been changed by the change event
+			expect(password.value).toBe('');
+			fireEvent.click(password)
+			await waitFor(() => {
+				expect(password).toBeInvalid();
 			});
 		});
 	});

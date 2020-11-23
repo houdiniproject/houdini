@@ -26,64 +26,50 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 //Testing email
 describe('SignInComponent', () => {
 	it('signIn successfully', async() => {
-		expect.assertions(2);
-		// const result = render(<Wrapper><SignInComponent/></Wrapper>);
-
-		// // we're getting the first element an attribute named 'data-testid' and a
-		// // of 'signInButton'
-		// const button = result.getByTestId('signInButton');
-
-		// // everytime you try to call the User SignIn API in this test, return a
-		// // promise which resolves to {id: 1}
-		// mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
-
-		// // act puts all of the related React updates for the click event into a
-		// // single update. Since fireEvent.click calls some promises, we need to make
-		// // the callback a Promise and await on act. If we didn't, our test wouldn't
-		// // wait for all the possible React changes to happen at once.
-		// await act(async () => {
-		// 	fireEvent.click(button);
-		// });
-
-		// const error = result.getByTestId('signInErrorDiv');
-		// const userId = result.getByTestId('currentUserDiv');
-
-		// expect(error).toBeEmptyDOMElement();
-		// expect(userId).toHaveTextContent("1");
-		const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
+		expect.assertions(1);
+		const {getByLabelText, getByTestId} = render(<Wrapper><SignInComponent/></Wrapper>);
+		const success = getByTestId("signInComponentSuccess");
 		const email = getByLabelText("Email");
 		const password = getByLabelText("Password");
-		const button = getByTestId('signInButton');
-		//const success = getByTestId('signInComponentSuccess');
 		fireEvent.change(email, { target: { value: 'validEmail@email.com' } });
 		fireEvent.change(password, { target: { value: 'password' } });
-		await waitFor(() => {
-			expect(email).toBeValid();
-			expect(password).toBeValid();
-			fireEvent.click(button);
-			// expect(success).toBeTruthy();
-		});
+		// we're getting the first element an attribute named 'data-testid' and a
+		// of 'signInButton'
+		const button = getByTestId('signInButton');
 
-	});
-
-	it('signIn failed', async () => {
-		expect.assertions(2);
 		// everytime you try to call the User SignIn API in this test, return a
-		// promise which rejects with a SignInError with status: 400 and data of
-		// {error: 'Not Valid'}
-		mockedWebUserSignIn.postSignIn.mockRejectedValueOnce(new SignInError({status: 400, data: {error: 'Not valid'}}));
-		const result = render(<Wrapper><SignInComponent/></Wrapper>);
+		// promise which resolves to {id: 1}
+		mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
 
-		const button = result.getByTestId('signInButton');
+		// act puts all of the related React updates for the click event into a
+		// single update. Since fireEvent.click calls some promises, we need to make
+		// the callback a Promise and await on act. If we didn't, our test wouldn't
+		// wait for all the possible React changes to happen at once.
 		await act(async () => {
 			fireEvent.click(button);
 		});
 
-		const error = result.getByTestId('signInErrorDiv');
-		const userId = result.getByTestId('currentUserDiv');
+		expect(success).toBeInTheDocument();
+	});
 
-		expect(userId).toBeEmptyDOMElement();
-		expect(error).toHaveTextContent('Not valid');
+	it('signIn failed', async () => {
+		expect.assertions(1);
+		// everytime you try to call the User SignIn API in this test, return a
+		// promise which rejects with a SignInError with status: 400 and data of
+		// {error: 'Not Valid'}
+		mockedWebUserSignIn.postSignIn.mockRejectedValueOnce(new SignInError({status: 400, data: {error: 'Not valid'}}));
+		const {getByLabelText, getByTestId} = render(<Wrapper><SignInComponent/></Wrapper>);
+		const error = getByTestId('errorTest');
+		const email = getByLabelText("Email");
+		const password = getByLabelText("Password");
+		fireEvent.change(email, { target: { value: 'invalidEmail' } });
+		fireEvent.change(password, { target: { value: 'password' } });
+		const button = getByTestId('signInButton');
+		await act(async () => {
+			fireEvent.click(button);
+		});
+	
+		expect(error).toBeInTheDocument();
 	});
 
 	describe('Email', () => {
@@ -136,7 +122,7 @@ describe('SignInComponent', () => {
 
 	describe('submit button', () => {
 		it('is disabled when the form is not complete', async () => {
-			expect.assertions(1);
+			expect.assertions(3);
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
 			fireEvent.change(email, { target: { value: 'invalidEmail' } });
@@ -145,7 +131,7 @@ describe('SignInComponent', () => {
 			});
 		});
 		it('not disabled when form is complete', async () => {
-			expect.assertions(1);
+			expect.assertions(3);
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");

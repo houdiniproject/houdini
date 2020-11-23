@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-commented-out-tests */
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import {render, act, fireEvent, waitFor, wait} from '@testing-library/react';
+import {render, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';

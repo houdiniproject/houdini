@@ -80,7 +80,7 @@ describe('SignInComponent', () => {
 			expect(email).toBeInTheDocument();
 		});
 
-		it('Checks email validation on correct input', async () => {
+		it('checks email validation on correct input', async () => {
 			// We use hasAssertions() becuase the waitFor could attempt the assertion
 			// toBeInvalid() multiple times waiting for it to update
 			expect.hasAssertions();
@@ -101,11 +101,11 @@ describe('SignInComponent', () => {
 			});
 		});
 
-		it('Checks email validation on incorrect input', async () => {
+		it('checks email validation on incorrect input', async () => {
 			// We use hasAssertions() becuase the waitFor could attempt the assertion
 			// toBeInvalid() multiple times waiting for it to update
 			expect.hasAssertions();
-			const { getByLabelText, getByTestId} = render(<Wrapper><SignInComponent/></Wrapper>);
+			const { getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email") as HTMLInputElement;
 
 			// change changes the value
@@ -122,13 +122,13 @@ describe('SignInComponent', () => {
 			});
 		});
 
-		it('Renders error message on incorrect email', async () => {
+		it('renders error message on incorrect email', async () => {
 			// We use hasAssertions() becuase the waitFor could attempt the assertion
 			// toBeInvalid() multiple times waiting for it to update
 			expect.hasAssertions();
 			const { getByLabelText, getByTestId} = render(<Wrapper><SignInComponent/></Wrapper>);
 			const email = getByLabelText("Email") as HTMLInputElement;
-			const error = getByTestId("errorTest")
+			const error = getByTestId("errorTest");
 			const button = getByTestId('signInButton');
 
 			// change changes the value
@@ -155,33 +155,33 @@ describe('SignInComponent', () => {
 			expect(password).toBeInTheDocument();
 		});
 
-		it('Checks if password is valid', async () => {
+		it('checks if password is valid', async () => {
 			expect.assertions(4);
 			const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
-			const password = getByLabelText("Password") as HTMLInputElement;;
-				// change changes the value
+			const password = getByLabelText("Password") as HTMLInputElement;
+			// change changes the value
 			fireEvent.change(password, {target: {value: "1234"}});
-				// blur makes the field "touched"
+			// blur makes the field "touched"
 			fireEvent.blur(password);
-				// just verify the value has been changed by the change event
+			// just verify the value has been changed by the change event
 			expect(password.value).toBe('1234');
-			fireEvent.click(password)
+			fireEvent.click(password);
 			await waitFor(() => {
 				expect(password).toBeValid();
 			});
 		});
 
-		it('Checks if password is invalid', async () => {
+		it('checks if password is invalid', async () => {
 			expect.assertions(4);
 			const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
-			const password = getByLabelText("Password") as HTMLInputElement;;
-				// change changes the value
+			const password = getByLabelText("Password") as HTMLInputElement;
+			// change changes the value
 			fireEvent.change(password, {target: {value: ""}});
-				// blur makes the field "touched"
+			// blur makes the field "touched"
 			fireEvent.blur(password);
-				// just verify the value has been changed by the change event
+			// just verify the value has been changed by the change event
 			expect(password.value).toBe('');
-			fireEvent.click(password)
+			fireEvent.click(password);
 			await waitFor(() => {
 				expect(password).toBeInvalid();
 			});

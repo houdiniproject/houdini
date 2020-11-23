@@ -26,7 +26,11 @@ interface SignInPageProps {
 function Fallback() {
 	const { formatMessage } = useIntl();
 	const errorBoundaryLabel = formatMessage({ id: 'login.errors.error_boundary' });
-	return <div>{errorBoundaryLabel}</div>;
+	return (
+    <Box m={3} display="flex" justifyContent="center" alignItems="center" textAlign="center">
+      <p>{errorBoundaryLabel}</p>
+    </Box>
+  );
 }
 
 function SignInPage(props: SignInPageProps): JSX.Element {

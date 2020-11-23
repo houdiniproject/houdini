@@ -68,7 +68,7 @@ describe('SignInComponent', () => {
 		await act(async () => {
 			fireEvent.click(button);
 		});
-	
+
 		expect(error).toBeInTheDocument();
 	});
 

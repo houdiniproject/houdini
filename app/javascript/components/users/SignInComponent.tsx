@@ -207,11 +207,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">
-						{componentState == 'success' && currentUser ?
-							<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
-								<Alert  severity="success">{successLabel}</Alert>
-							</Box>
-							: null}
+							{componentState == 'success' && currentUser ?
+								<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
+									<Alert  severity="success">{successLabel}</Alert>
+								</Box>
+								: null}
 						</div>
 					</Form>
 				);

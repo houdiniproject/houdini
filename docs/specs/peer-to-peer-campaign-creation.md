@@ -92,7 +92,11 @@ interface LocationSelectorProps {
 	// fields, otherwise, they're not updated.
 	enableReinitialize: boolean
 	// notifies parent of updated Location
-	onUpdate: (location:Location) => void
+	onUpdate?: (location:Location) => void
+
+	required:{
+
+	}
 }
 ```
 
@@ -108,5 +112,13 @@ LocationSelector.defaultProps = {
 
 #### Other things you'll need
 
-* `countries` - from `app/javascript/countries.ts`
+* `getLocalizedCountries` - from `app/javascript/countries.ts`
+* `useIntl` - allows you to get the current locale and the text for the labels
 
+`LocationSelector` Characteristics
+The `LocationSelector` has a four major states: `loadingSubregions`,
+`definedSubregions`, `undefinedSubregions`;
+
+
+
+Use Suspense for setting

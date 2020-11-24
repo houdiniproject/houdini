@@ -323,6 +323,15 @@ const rawCountries: RawCountryAndSubregion[] = [
 	'ZM',
 	'ZW',
 ];
+
+/**
+ * @description function to get list of countriss and their subregionCodes.
+ *
+ * Use this if you don't care about translations of the region and subregion names.
+ * @date 2020-11-23
+ * @export
+ * @returns an array of Country objects
+ */
 export function getCountries() : Country[] {
 	return rawCountries.map((i) => {
 		const code = typeof i === 'string' ? i : i[0];
@@ -334,6 +343,13 @@ export function getCountries() : Country[] {
 	});
 }
 
+/**
+ * @description get all countries and their subregionCodees
+ * @date 2020-11-23
+ * @export
+ * @param locale the locale or locales you want the region and subregions name translated into
+ * @returns a Promise of all the countries as a LocalizedCountry
+ */
 export async function getLocalizedCountries(locale:string|string[]) : Promise<LocalizedCountry[]> {
 	await displaynames(flatten([locale]));
 	const regionNames = new Intl.DisplayNames(locale, { type: 'region' });

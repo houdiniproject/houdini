@@ -18,6 +18,12 @@ jobs:
         node: [14.6.0]
     steps:
       - uses: actions/checkout@v2
+      - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+        uses: Daniel-Marynicz/postgresql-action@0.1.0
+        with:
+          postgres_image_tag: 11-alpine
+          postgres_user: houdini_user
+          postgres_password: password
       - uses: actions/setup-node@v1.4.4
         with:
           node-version: ${{ matrix.node }}
@@ -47,6 +53,7 @@ jobs:
           bundle config deployment true
           bundle config path vendor/bundle
           bundle install --jobs 4
+      - run: bin/setup ci
       - name: run eslint
         run: yarn eslint
   jest:
@@ -57,6 +64,12 @@ jobs:
         node: [14.6.0]
     steps:
       - uses: actions/checkout@v2
+      - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+        uses: Daniel-Marynicz/postgresql-action@0.1.0
+        with:
+          postgres_image_tag: 11-alpine
+          postgres_user: houdini_user
+          postgres_password: password
       - uses: actions/setup-node@v1.4.4
         with:
           node-version: ${{ matrix.node }}
@@ -86,6 +99,7 @@ jobs:
           bundle config deployment true
           bundle config path vendor/bundle
           bundle install --jobs 4
+      - run: bin/setup ci
       - name: run jest
         run: yarn jest
   webpack:
@@ -94,7 +108,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node: [14.6.0]
-        ruby: [2.6.6]
     steps:
       - uses: actions/checkout@v2
       - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
@@ -135,7 +148,7 @@ jobs:
       - name: run setup
         run: bin/setup ci
       - name: Webpack compile everything
-        run: bin/webpack
+        run: yarn webpack
       - name: Verify storybook compiles
         run: yarn build-storybook
     

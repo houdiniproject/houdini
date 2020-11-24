@@ -1,8 +1,0 @@
-/* rails-erb-loader-dependencies ../config/locales/ */
-const I18n = require('i18n-js');
-
-I18n.translations = I18n.translations || {};
-<% I18n::JS::translations.select{|k,v| Houdini.intl.available_locales.map{|i| i.to_s}.include?(k.to_s)}.each do |k,v| %>
-I18n.translations['<%= k %>'] = I18n.extend((I18n.translations['<%= k %>'] || {}),<%= JSON.generate(v) %>);
-<% end %>
-module.exports = I18n;

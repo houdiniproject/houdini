@@ -9,16 +9,17 @@
     "build-all": "yarn install --frozen-lockfile && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
     "test": "bin/rails spec  && yarn jest",
-    "jest": "jest",
+    "jest": "bin/rails i18n:js:export && jest",
     "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
-    "storybook": "start-storybook -p 6006 -c .storybook/react",
-    "build-storybook": "build-storybook -c .storybook/react",
+    "storybook": "bin/rails i18n:js:export && start-storybook -p 6006 -c .storybook/react",
+    "build-storybook": "bin/rails i18n:js:export && build-storybook -c .storybook/react",
     "html-storybook": "bin/start-html-storybook -p 6007 -c .storybook/html",
     "build-html-storybook": "bin/build-html-storybook -c .storybook/html",
     "markdownlint": "npx markdownlint-cli **/*.md --ignore node_modules",
     "prepare-for-push": "yarn test && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:update",
     "prepare-for-push-js": "yarn jest && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:js:update",
-    "notice:js": "npx @houdiniproject/noticeme@^1.1.0-pre1 -f NOTICE-js -i included.json -s 250"
+    "notice:js": "npx @houdiniproject/noticeme@^1.1.0-pre1 -f NOTICE-js -i included.json -s 250",
+    "webpack": "bin/rails i18n:js:export && bin/webpack"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -46,6 +47,7 @@
     "@types/enzyme-to-json": "^1.5.1",
     "@types/es6-promise": "^3.3.0",
     "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/i18n-js": "^3.0.3",
     "@types/jest": "^26.0.14",
     "@types/jquery": "^3.3.1",
     "@types/jsdom": "^11.0.4",
@@ -179,39 +181,5 @@
     "vvvview": "0.4.3",
     "websocket-extensions": "^0.1.4",
     "yup": "^0.29.3"
-  },
-  "jest": {
-    "testEnvironment": "jest-environment-jsdom-fifteen",
-    "testEnvironmentOptions": {
-      "enzymeAdapter": "react16"
-    },
-    "globals": {
-      "ts-jest": {
-        "babelConfig": false
-      }
-    },
-    "setupFiles": [
-      "<rootDir>/setupTests.js"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/config/webpack/test.js",
-      "/vendor/"
-    ],
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
   }
 }

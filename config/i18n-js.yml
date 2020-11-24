@@ -25,7 +25,17 @@
 #   - file: "app/assets/javascripts/i18n/translations.js"
 #     only: "*"
 #
+
+sort_translation_keys: true
+fallbacks: true
 translations:
 - file: 'public/javascripts/translations.js'
   only: '*'
   prefix: "import I18n from 'i18n-js';\n"
+- file: 'app/javascript/i18n/locales/%{locale}.ts'
+  js_extend: false
+  prefix: "// DO NOT MODIFY THIS FILE. MODIFY config/locales INSTEAD\nconst translations:any = {};"
+  suffix: "export default translations;"
+  only: '*'
+  houdini_ts: true
+

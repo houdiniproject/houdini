@@ -58,10 +58,18 @@ const Template = (args:TemplateArgs) => {
 	return <MockCurrentUserProvider><SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
 };
 
+const SignedInTemplate = () => {
+	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
+};
+
 export const SignInFailed = Template.bind({});
 SignInFailed.args = {
 	isError: true,
 	error: 'Unknown Error - 500',
+};
+
+export const SignedInToStart = SignedInTemplate.bind({});
+SignedInToStart.args = {
 };
 
 

@@ -1,6 +1,7 @@
 /* eslint-disable jest/no-commented-out-tests */
 // License: LGPL-3.0-or-later
 import * as React from "react";
+import { action } from '@storybook/addon-actions';
 import {render, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -50,6 +51,33 @@ describe('SignInComponent', () => {
 		});
 
 		expect(success).toBeInTheDocument();
+	});
+
+	it('sign in fields go away after success', async() => {
+		expect.assertions(2);
+		const {getByLabelText, getByTestId} = render(<Wrapper><SignInComponent/></Wrapper>);
+		const email = getByLabelText("Email");
+		const password = getByLabelText("Password");
+		fireEvent.change(email, { target: { value: 'validEmail@email.com' } });
+		fireEvent.change(password, { target: { value: 'password' } });
+		// we're getting the first element an attribute named 'data-testid' and a
+		// of 'signInButton'
+		const button = getByTestId('signInButton');
+
+		// everytime you try to call the User SignIn API in this test, return a
+		// promise which resolves to {id: 1}
+		mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
+
+		// act puts all of the related React updates for the click event into a
+		// single update. Since fireEvent.click calls some promises, we need to make
+		// the callback a Promise and await on act. If we didn't, our test wouldn't
+		// wait for all the possible React changes to happen at once.
+		await act(async () => {
+			fireEvent.click(button);
+		});
+
+		expect(email).not.toBeInTheDocument();
+		expect(password).not.toBeInTheDocument();
 	});
 
 	it('signIn failed', async () => {
@@ -211,6 +239,7 @@ describe('SignInComponent', () => {
 		});
 	});
 });
+
 
 
 

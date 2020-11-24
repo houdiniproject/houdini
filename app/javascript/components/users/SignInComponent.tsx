@@ -40,32 +40,32 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
-
+	const {onSuccess, onFailure, onSubmitting} = props
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
-
 
 		if (failed && wasSubmitting) {
 			// we JUST failed so we only call onFailure
 			// once
 			setComponentState('ready');
-			props.onFailure(lastError);
+			onFailure(lastError);
 		}
-
-		if (wasSubmitting && !failed) {
-			// we JUST succeeded
-			// TODO
+	},[failed, wasSubmitting, lastError, onFailure, setComponentState ]);
+	
+	useEffect(() => {
+		if (currentUser && componentState !== 'success' ) {
+		
 			setComponentState('success');
-			props.onSuccess();
+			onSuccess();
 		}
-	}, [failed, submitting, previousSubmittingValue, props, wasSubmitting, lastError]);
+	}, [currentUser, onSuccess, componentState, setComponentState]);
 
 	useEffect(() => {
 		if (isValid && submitting) {
 			setComponentState('submitting');
-			props.onSubmitting();
+			onSubmitting();
 		}
-	}, [submitting, isValid, props]);
+	}, [submitting, isValid,onSubmitting]);
 
 	useEffect(() => {
 		if (isValid && componentState == 'ready') {

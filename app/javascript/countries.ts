@@ -1,4 +1,3 @@
-
 // License: LGPL-3.0-or-later
 import flatten from 'lodash/flatten';
 

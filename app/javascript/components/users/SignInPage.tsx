@@ -19,7 +19,7 @@ import routes from '../../routes';
 import useHoster from '../../hooks/useHoster';
 
 interface SignInPageProps {
-  redirectUrl: string;
+	redirectUrl: string;
 }
 
 //Error Boundary
@@ -149,13 +149,19 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						</div>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
+						
 						<Box m={1} display="flex" justifyContent="center">
-							<Link href= {routes.new_user_password_path()}
-								data-testid="passwordTest"
-							>
-								{forgotPasswordlabel}
-							</Link>
+							
+							{SignInPageState !== "submitting" ? 
+								<Link href= {routes.new_user_password_path()}
+									data-testid="passwordTest"
+								>
+									{forgotPasswordlabel}
+								</Link>
+							:null }
 						</Box>
+						
+						{/* {SignInPageState !== "submitting" ?  */}
 						<Box m={1} display="flex" justifyContent="center">
 							<Link
 								data-testid="getStartedTest"
@@ -165,6 +171,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 								{getStartedLabel}
 							</Link>
 						</Box>
+						{/* : null } */}
 						<Box color="error.main" data-testid="signInPageError"></Box>
 					</Paper>
 				</Box>

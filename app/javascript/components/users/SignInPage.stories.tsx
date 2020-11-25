@@ -5,6 +5,11 @@ import SignInPage from './SignInPage';
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { Hoster, HosterContext } from '../../hooks/useHoster';
+import { ErrorBoundary } from 'react-error-boundary';
+import   Fallback   from './SignInPage';
+import { fallbacks } from 'i18n-js';
+
+
 
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
@@ -13,6 +18,7 @@ const optionsToSignInError: Record<string, { data?: { error: string[] | string }
 	'Not Found - 404': { status: 404, data: { error: 'Not Found' } },
 	'User or password not valid - 401': { status: 401, data: { error: 'We didn\'t recognize that email or password' } },
 };
+
 
 export default {
 	title: 'users/SignInPage',
@@ -76,6 +82,19 @@ const Template = (args: TemplateArgs) => {
 		</MockCurrentUserProvider>
 	</HosterContext.Provider>;
 };
+//We are working on this
+
+// const ErrorBoundaryTemplate = () => {
+// 	return  <HosterContext.Provider value={{hoster: null}}>
+// 	{/* <ErrorBoundary fallbackRender={Fallback}> */}
+// 		<MockCurrentUserProvider>
+// 		<ErrorBoundary>
+// 			<SignInPage redirectUrl={'redirectUrl'}/>
+// 		</ErrorBoundary>
+// 		</MockCurrentUserProvider>
+// 	{/* </ErrorBoundary> */}
+// </HosterContext.Provider>;
+// };
 
 export const SignInFailed = Template.bind({});
 SignInFailed.args = {
@@ -84,5 +103,10 @@ SignInFailed.args = {
 };
 
 export const SignInSucceeded = Template.bind({});
+
+// export const ShowErrorBoundary = ErrorBoundaryTemplate.bind({});
+// SignInFailed.args = {
+// };
+
 
 

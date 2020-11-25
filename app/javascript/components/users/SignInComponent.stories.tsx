@@ -2,7 +2,7 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
-import SignInComponent, { SignInComponentProps } from './SignInComponent';
+import SignInComponent from './SignInComponent';
 
 /* it's already mocked in the storybook webpack */
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
@@ -42,26 +42,34 @@ interface TemplateArgs {
 const Template = (args:TemplateArgs) => {
 
 	if (args.isError ) {
-		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise((_resolve, reject) => {
+		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise((_resolve, reject) => {
 			setTimeout(() => {
 				reject(	new SignInError(optionsToSignInError[args.error]));
 			}, 5000);
 		}));
 	}
 	else {
-		mockedWebUserSignIn.postSignIn.mockImplementationOnce(() => new Promise(resolve => {
+		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise(resolve => {
 			setTimeout(() => {
 				resolve({id:50});
-			},);
+			},5000);
 		}));
 	}
-	return <MockCurrentUserProvider><SignInComponent onFailure={action('onFailure')} /></MockCurrentUserProvider>;
+	return <MockCurrentUserProvider><SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
+};
+
+const SignedInTemplate = () => {
+	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
 };
 
 export const SignInFailed = Template.bind({});
 SignInFailed.args = {
 	isError: true,
 	error: 'Unknown Error - 500',
+};
+
+export const SignedInToStart = SignedInTemplate.bind({});
+SignedInToStart.args = {
 };
 
 

@@ -22,10 +22,10 @@ class NonprofitMailer < BaseMailer
 		mail(to: @emails, subject: "We need to confirm the new bank account")
 	end
 
-	def pending_payout_notification(payout_id)
+	def pending_payout_notification(payout_id, emails=nil)
 		@payout = Payout.find(payout_id)
 		@nonprofit = @payout.nonprofit
-		@emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
+		@emails = emails || QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
 		mail(to: @emails, subject: "Payout of available balance now pending")
 	end
 

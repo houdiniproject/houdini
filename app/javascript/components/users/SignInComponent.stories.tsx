@@ -59,7 +59,7 @@ const Template = (args:TemplateArgs) => {
 };
 
 const SignedInTemplate = () => {
-	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
+	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
 };
 
 export const SignInFailed = Template.bind({});

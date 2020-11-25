@@ -241,6 +241,17 @@ describe('SignInComponent', () => {
 });
 
 
+describe('Signed in', () => {
+	it('dislays success message if user is already signed in', async () => {
+		expect.assertions(1);
+		const {getByTestId} = render(<Wrapper><SignInComponent onSuccess={action('onSuccess')}/></Wrapper>);
+		const success = getByTestId("signInComponentSuccess");
+		mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
+		expect(success).toBeInTheDocument();
+	});
+});
+
+
 
 
 

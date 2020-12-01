@@ -49,6 +49,8 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 		setSignInPageState("submitting");
 	}
 
+	
+
 
 	//Styling of component
 	const useStyles = makeStyles((theme: Theme) =>
@@ -106,6 +108,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 			},
 		}),
 	);
+	
 	//Setting up error messages
 	const classes = useStyles();
 	const {hoster} = useHoster();
@@ -154,26 +157,21 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						</div>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
-
 						<Box m={1} display="flex" justifyContent="center">
-							{SignInPageState !== "submitting" ?
-								<Link href= {routes.new_user_password_path()}
-									data-testid="passwordTest"
-								>
-									{forgotPasswordlabel}
-								</Link>
-								:null }
+							{SignInPageState === "submitting" ? 
+								<Link data-testid="passwordTest"> {forgotPasswordlabel} </Link>
+							: null }
+							{SignInPageState !== "submitting" ? 
+								<Link href= {routes.new_user_password_path()} data-testid="passwordTest"> {forgotPasswordlabel} </Link>
+							: null }
 						</Box>
 						<Box m={1} display="flex" justifyContent="center">
-							{SignInPageState !== "submitting" ?
-								<Link
-									data-testid="getStartedTest"
-									component="button"
-									variant="body2"
-								>
-									{getStartedLabel}
-								</Link>
-								:null }
+							{SignInPageState === "submitting" ? 
+								<Link data-testid="getStartedTest" > {getStartedLabel} </Link>
+							: null }
+							{SignInPageState !== "submitting" ? 
+								<Link href= {routes.new_user_password_path()} data-testid="getStartedTest" > {getStartedLabel} </Link>
+							: null }
 						</Box>
 						<Box color="error.main" data-testid="signInPageError"></Box>
 					</Paper>
@@ -192,11 +190,12 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce
                     space between links */}
 								<Box m={1} color="text.primary">
-									<Link
-										data-testid="termsTest"
-										href={routes.static_terms_and_privacy_path()}>
-										{terms}
-									</Link>
+									{SignInPageState !== "submitting" ? 
+										<Link data-testid="termsTest" href={routes.static_terms_and_privacy_path()}> {terms} </Link>
+									: null }
+									{SignInPageState === "submitting" ? 
+										<Link data-testid="termsTest"> {terms} </Link>
+									: null }
 								</Box>
 								{/* End of link */}
 							</Grid>

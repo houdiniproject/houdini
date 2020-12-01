@@ -122,6 +122,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		},
 		buttonProgress: {
 			position: 'absolute',
+			color: 'inherit',
 		},
 		submitButton: {
 			height: 40,
@@ -218,7 +219,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								{/* Circular progress on submit button */}
 							{componentState === 'submitting' ?
 							<Backdrop className={classes.backdrop} open={!open} onClick={handleToggle}>
-								 {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+								 {submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
 							</Backdrop>
 							: null }
 							</Box>

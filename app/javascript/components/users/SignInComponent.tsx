@@ -74,12 +74,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		}
 	}, [isValid, componentState]);
 
-	const handleClose = () => {
-    setOpen(false);
-  };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
+	const handleToggle = () => {
+		setOpen(!open);
+	};
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -111,10 +108,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			borderRadius: 15,
 		},
 		backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
+			zIndex: theme.zIndex.drawer + 1,
 			color: '#fff',
 			pointerEvents: 'none',
-    },
+		},
 		box: {
 			justify: "center",
 			alignContent: "center",
@@ -217,11 +214,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Button>
 									: ""}
 								{/* Circular progress on submit button */}
-							{componentState === 'submitting' ?
-							<Backdrop className={classes.backdrop} open={!open} onClick={handleToggle}>
-								 {submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
-							</Backdrop>
-							: null }
+								{componentState === 'submitting' ?
+									<Backdrop className={classes.backdrop} open={!open} onClick={handleToggle}>
+										{submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
+									</Backdrop>
+									: null }
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">

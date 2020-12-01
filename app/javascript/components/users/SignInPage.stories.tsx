@@ -1,5 +1,6 @@
 import * as React from 'react';
 import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
+import fallback from './SignInPage';
 import SignInPage from './SignInPage';
 /* it's already mocked in the storybook webpack */
 import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
@@ -82,6 +83,7 @@ const Template = (args: TemplateArgs) => {
 const ErrorBoundaryTemplate = () => {
 	return  <Fallback/>;
 };
+
 
 export const SignInFailed = Template.bind({});
 SignInFailed.args = {

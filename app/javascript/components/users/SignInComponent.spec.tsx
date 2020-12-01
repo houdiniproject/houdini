@@ -198,6 +198,13 @@ describe('SignInComponent', () => {
 				expect(password).toBeValid();
 			});
 		});
+		it('checks error messages on password', async () => {
+			const { getByLabelText, getByTestId } = render(<Wrapper><SignInComponent/></Wrapper>);
+			const input = getByLabelText('Password');
+			fireEvent.blur(input);
+			const Errors = getByTestId('errorTest');
+			expect(Errors).toBeInTheDocument();
+		});
 
 		it('checks if password is invalid', async () => {
 			expect.assertions(4);

@@ -64,7 +64,8 @@ describe('Links', () => {
 		const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		const getStarted = getByText("Get Started");
 		fireEvent.click(getStarted);
-		expect(getStarted).toHaveAttribute('href', '');
+		// Link will be changed once correct path is available 
+		expect(getStarted).toHaveAttribute('href', '/users/password/new');
 	});
 	it('Terms & privacy Link has correct path', () => {
 		expect.assertions(1);

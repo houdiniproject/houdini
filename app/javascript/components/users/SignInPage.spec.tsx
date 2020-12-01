@@ -14,6 +14,7 @@ import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 import { LocationMock } from '@jedmao/location';
+import { ClickAwayListener } from "@material-ui/core";
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
 type WrapperProps = React.PropsWithChildren<{hoster?:Hoster}>;
@@ -54,9 +55,9 @@ describe('Links', () => {
 	it('renders forgot password Link', () => {
 		expect.assertions(1);
 		const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+		const password = getByTestId("passwordTest");
 		fireEvent.click(getByTestId("passwordTest"));
-		getByTestId('passwordTest').click();
-		expect(getByTestId('passwordTest')).toBeInTheDocument();
+		expect(password).toBeInTheDocument();
 	});
 	it('renders get started Link', () => {
 		expect.assertions(1);

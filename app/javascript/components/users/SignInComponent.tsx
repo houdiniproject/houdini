@@ -19,6 +19,7 @@ import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
+import Backdrop from '@material-ui/core/Backdrop';
 
 export interface SignInComponentProps {
 	/**
@@ -34,6 +35,7 @@ export interface SignInComponentProps {
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
+	const [open, setOpen] = React.useState(false);
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -64,13 +66,20 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('submitting');
 			onSubmitting();
 		}
-	}, [submitting, isValid,onSubmitting]);
+	}, [submitting, isValid, onSubmitting]);
 
 	useEffect(() => {
 		if (isValid && componentState == 'ready') {
 			setComponentState('canSubmit');
 		}
 	}, [isValid, componentState]);
+
+	const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -101,6 +110,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			padding: theme.spacing(2),
 			borderRadius: 15,
 		},
+		backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+			color: '#fff',
+			pointerEvents: 'none',
+    },
 		box: {
 			justify: "center",
 			alignContent: "center",
@@ -202,7 +216,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Button>
 									: ""}
 								{/* Circular progress on submit button */}
-								{submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+							{componentState === 'submitting' ?
+							<Backdrop className={classes.backdrop} open={!open} onClick={handleToggle}>
+								 {submitting && <CircularProgress size={24} className={classes.buttonProgress} />}
+							</Backdrop>
+							: null }
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">

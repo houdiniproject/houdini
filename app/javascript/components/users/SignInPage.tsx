@@ -17,21 +17,22 @@ import Avatar from '@material-ui/core/Avatar';
 import { ErrorBoundary } from 'react-error-boundary';
 import routes from '../../routes';
 import useHoster from '../../hooks/useHoster';
+import Alert from '@material-ui/lab/Alert';
 
 interface SignInPageProps {
 	redirectUrl: string;
 }
 
 //Error Boundary
-function Fallback() {
+export const Fallback = () => {
 	const { formatMessage } = useIntl();
 	const errorBoundaryLabel = formatMessage({ id: 'login.errors.error_boundary' });
 	return (
 		<Box m={3} display="flex" justifyContent="center" alignItems="center" textAlign="center">
-			<p>{errorBoundaryLabel}</p>
+			<Alert severity="error">{errorBoundaryLabel}</Alert>
 		</Box>
 	);
-}
+};
 
 function SignInPage(props: SignInPageProps): JSX.Element {
 	const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
@@ -39,13 +40,15 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	function onSuccess(){
 		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
-		SignInPageState;
 	}
 
-	function onSubmitting(){
-		setSignInPageState('submitting');
-		SignInPageState;
+	function onReady() {
+		setSignInPageState("ready");
 	}
+	function onSubmitting(){
+		setSignInPageState("submitting");
+	}
+
 
 	//Styling of component
 	const useStyles = makeStyles((theme: Theme) =>
@@ -112,6 +115,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	const terms = formatMessage({ id: 'footer.terms_and_privacy' });
 	const getStartedLabel = formatMessage({ id: 'login.get_started' });
 
+
 	return <ErrorBoundary FallbackComponent={Fallback}>
 		<Grid container spacing={0}>
 			<Grid item xs={12}>
@@ -145,33 +149,32 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						<div data-testid="SignInComponent">
 							<SignInComponent
 								onSuccess={onSuccess}
-								onSubmitting={onSubmitting} />
+								onSubmitting={onSubmitting}
+								onFailure={onReady} />
 						</div>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
-						
+
 						<Box m={1} display="flex" justifyContent="center">
-							
-							{SignInPageState !== "submitting" ? 
+							{SignInPageState !== "submitting" ?
 								<Link href= {routes.new_user_password_path()}
 									data-testid="passwordTest"
 								>
 									{forgotPasswordlabel}
 								</Link>
-							:null }
+								:null }
 						</Box>
-						
-						{/* {SignInPageState !== "submitting" ?  */}
 						<Box m={1} display="flex" justifyContent="center">
-							<Link
-								data-testid="getStartedTest"
-								component="button"
-								variant="body2"
-							>
-								{getStartedLabel}
-							</Link>
+							{SignInPageState !== "submitting" ?
+								<Link
+									data-testid="getStartedTest"
+									component="button"
+									variant="body2"
+								>
+									{getStartedLabel}
+								</Link>
+								:null }
 						</Box>
-						{/* : null } */}
 						<Box color="error.main" data-testid="signInPageError"></Box>
 					</Paper>
 				</Box>

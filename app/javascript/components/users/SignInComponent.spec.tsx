@@ -258,6 +258,15 @@ describe('Signed in', () => {
 	});
 });
 
+describe ('Backdrop', () => {
+	it ("renders backdrop", async () => {
+		expect.assertions(1);
+		const {getByTestId} = render(<Wrapper><SignInComponent onSubmitting={action('onSubmitting')}/></Wrapper>);
+		const backdrop = getByTestId('backdropTest');
+		expect(backdrop).toBeInTheDocument();
+	});
+});
+
 
 
 

@@ -42,7 +42,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
-	const {onSuccess, onFailure, onSubmitting} = props;
+	const { onSuccess, onFailure, onSubmitting } = props;
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 
@@ -52,10 +52,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('ready');
 			onFailure(lastError);
 		}
-	},[failed, wasSubmitting, lastError, onFailure, setComponentState ]);
+	}, [failed, wasSubmitting, lastError, onFailure, setComponentState]);
 
 	useEffect(() => {
-		if (currentUser && componentState !== 'success' ) {
+		if (currentUser && componentState !== 'success') {
 			setComponentState('success');
 			onSuccess();
 		}
@@ -74,12 +74,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		}
 	}, [isValid, componentState]);
 
-	const handleClose = () => {
-    setOpen(false);
-  };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
+	const handleToggle = () => {
+		setOpen(open);
+	};
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -111,10 +108,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			borderRadius: 15,
 		},
 		backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
+			zIndex: theme.zIndex.drawer + 1,
 			color: '#fff',
-			pointerEvents: 'none',
-    },
+			// pointerEvents: 'none',
+			cursor: 'none',
+		},
 		box: {
 			justify: "center",
 			alignContent: "center",
@@ -212,22 +210,25 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										color="primary"
 										variant='contained'
 										disabled={!isValid}
+										onClick={handleToggle}
 									>
 										{loginHeaderLabel}
 									</Button>
 									: ""}
 								{/* Circular progress on submit button */}
-							{componentState === 'submitting' ?
-							<Backdrop className={classes.backdrop} open={!open} onClick={handleToggle}>
-								 {submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
-							</Backdrop>
-							: null }
+								<div data-testid='backdropTest'>
+									{componentState === 'submitting' ?
+										<Backdrop className={classes.backdrop} open={!open} >
+											{submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
+										</Backdrop>
+										: null}
+								</div>
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">
 							{componentState == 'success' && currentUser ?
 								<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
-									<Alert  severity="success">{successLabel}</Alert>
+									<Alert severity="success">{successLabel}</Alert>
 								</Box>
 								: null}
 						</div>

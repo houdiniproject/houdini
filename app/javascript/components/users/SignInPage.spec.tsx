@@ -51,25 +51,25 @@ async function locationAssign(input:(locationAssignSpy:jest.SpyInstance<void, [u
 }
 
 describe('Links', () => {
-	it('Forgot Password Link has correct path', async () => {
+	it('forgot Password Link has correct path', async () => {
 		expect.assertions(1);
 		const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		const password = getByText("Forgot Password?");
 		fireEvent.click(password);
 		expect(password).toHaveAttribute('href', '/users/password/new');
 	});
-	it('Get Started Link goes to correct path', () => {
+	it('get Started Link goes to correct path', () => {
 		expect.assertions(1);
 		const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 		const getStarted = getByText("Get Started");
 		fireEvent.click(getStarted);
-		// Link will be changed once correct path is available 
+		// Link will be changed once correct path is available
 		expect(getStarted).toHaveAttribute('href', '/users/password/new');
 	});
-	it('Terms & privacy Link has correct path', () => {
+	it('terms & privacy Link has correct path', () => {
 		expect.assertions(1);
 		const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-		const terms = getByText("Terms & Privacy")
+		const terms = getByText("Terms & Privacy");
 		fireEvent.click(terms);
 		expect(terms).toHaveAttribute('href', '/static/terms_and_privacy');
 	});

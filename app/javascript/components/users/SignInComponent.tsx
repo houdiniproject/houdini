@@ -42,7 +42,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
-	const {onSuccess, onFailure, onSubmitting} = props;
+	const { onSuccess, onFailure, onSubmitting } = props;
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 
@@ -52,10 +52,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('ready');
 			onFailure(lastError);
 		}
-	},[failed, wasSubmitting, lastError, onFailure, setComponentState ]);
+	}, [failed, wasSubmitting, lastError, onFailure, setComponentState]);
 
 	useEffect(() => {
-		if (currentUser && componentState !== 'success' ) {
+		if (currentUser && componentState !== 'success') {
 			setComponentState('success');
 			onSuccess();
 		}
@@ -75,7 +75,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	}, [isValid, componentState]);
 
 	const handleToggle = () => {
-		setOpen(!open);
+		setOpen(open);
 	};
 
 	//Setting error messages
@@ -110,7 +110,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		backdrop: {
 			zIndex: theme.zIndex.drawer + 1,
 			color: '#fff',
-			pointerEvents: 'none',
+			// pointerEvents: 'none',
+			cursor: 'none',
 		},
 		box: {
 			justify: "center",
@@ -209,22 +210,23 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										color="primary"
 										variant='contained'
 										disabled={!isValid}
+										onClick={handleToggle}
 									>
 										{loginHeaderLabel}
 									</Button>
 									: ""}
 								{/* Circular progress on submit button */}
 								{componentState === 'submitting' ?
-									<Backdrop className={classes.backdrop} open={!open} onClick={handleToggle}>
+									<Backdrop data-testid='backdropTest' className={classes.backdrop} open={!open} >
 										{submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
 									</Backdrop>
-									: null }
+									: null}
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">
 							{componentState == 'success' && currentUser ?
 								<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
-									<Alert  severity="success">{successLabel}</Alert>
+									<Alert severity="success">{successLabel}</Alert>
 								</Box>
 								: null}
 						</div>

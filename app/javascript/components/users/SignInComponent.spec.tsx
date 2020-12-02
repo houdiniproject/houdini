@@ -93,11 +93,11 @@ describe('SignInComponent', () => {
 		fireEvent.change(email, { target: { value: 'invalidEmail' } });
 		fireEvent.change(password, { target: { value: 'password' } });
 		const button = getByTestId('signInButton');
+		// Button cannot be clicked if invalid 
 		await act(async () => {
-			fireEvent.click(button);
+			fireEvent.click(email);
 		});
-
-		expect(error).toBeInTheDocument();
+		expect(error).toHaveTextContent("Email must be a valid email")
 	});
 
 	describe('Email', () => {

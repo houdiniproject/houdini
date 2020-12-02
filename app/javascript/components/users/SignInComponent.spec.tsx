@@ -92,12 +92,12 @@ describe('SignInComponent', () => {
 		const password = getByLabelText("Password");
 		fireEvent.change(email, { target: { value: 'invalidEmail' } });
 		fireEvent.change(password, { target: { value: 'password' } });
-		const button = getByTestId('signInButton');
-		// Button cannot be clicked if invalid 
+		// const button = getByTestId('signInButton');		// Button cannot be clicked if invalid
 		await act(async () => {
 			fireEvent.click(email);
 		});
-		expect(error).toHaveTextContent("Email must be a valid email")
+		expect(error).toHaveTextContent("Email must be a valid email");
+
 	});
 
 	describe('Email', () => {
@@ -246,7 +246,6 @@ describe('SignInComponent', () => {
 		});
 	});
 });
-
 
 describe('Signed in', () => {
 	it('dislays success message if user is already signed in', async () => {

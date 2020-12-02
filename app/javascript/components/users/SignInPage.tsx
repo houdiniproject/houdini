@@ -18,6 +18,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import routes from '../../routes';
 import useHoster from '../../hooks/useHoster';
 import Alert from '@material-ui/lab/Alert';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 interface SignInPageProps {
 	redirectUrl: string;
@@ -36,6 +38,7 @@ export const Fallback = (): React.ReactElement => {
 
 function SignInPage(props: SignInPageProps): JSX.Element {
 	const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
+	const [open] = React.useState(false);
 
 	function onSuccess(){
 		setSignInPageState("success");
@@ -49,9 +52,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	function onSubmitting(){
 		setSignInPageState("submitting");
 	}
-
-
-
 
 	//Styling of component
 	const useStyles = makeStyles((theme: Theme) =>
@@ -80,12 +80,21 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 			lowercase: {
 				textTransform: "none",
 			},
+			buttonProgress: {
+				position: 'absolute',
+				color: "inherit",
+			},
 			avatar: {
 				marginTop: theme.spacing(3),
 				backgroundColor: "#3f51b5",
 			},
 			appbar: {
 				backgroundColor: theme.palette.action.hover,
+			},
+			backdrop: {
+				zIndex: theme.zIndex.drawer + 1,
+				color: '#fff',
+				// pointerEvents: 'none',
 			},
 			responsive: {
 				[theme.breakpoints.down('sm')]: {
@@ -118,6 +127,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });
 	const terms = formatMessage({ id: 'footer.terms_and_privacy' });
 	const getStartedLabel = formatMessage({ id: 'login.get_started' });
+	const successLabel = formatMessage({ id: 'login.success' });
 
 
 	return <ErrorBoundary FallbackComponent={Fallback}>
@@ -165,6 +175,18 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 							<Link href= {routes.new_user_password_path()} data-testid="getStartedTest" > {getStartedLabel} </Link>
 						</Box>
 						<Box color="error.main" data-testid="signInPageError"></Box>
+						<div data-testid='backdropTest'>
+							{SignInPageState === 'submitting' ?
+								<Backdrop className={classes.backdrop} open={!open}>
+									<CircularProgress size={50} className={classes.buttonProgress} />
+								</Backdrop>
+								: null}
+							{SignInPageState === 'success' ?
+								<Backdrop className={classes.backdrop} open={!open}>
+									<Alert severity="success">{successLabel}</Alert>
+								</Backdrop>
+								: null}
+						</div>
 					</Paper>
 				</Box>
 			</Grid>

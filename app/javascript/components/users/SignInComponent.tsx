@@ -19,7 +19,7 @@ import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
-import Backdrop from '@material-ui/core/Backdrop';
+
 
 export interface SignInComponentProps {
 	/**
@@ -35,7 +35,8 @@ export interface SignInComponentProps {
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
-	const [open, setOpen] = React.useState(false);
+
+
 
 	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -73,10 +74,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			setComponentState('canSubmit');
 		}
 	}, [isValid, componentState]);
-
-	const handleToggle = () => {
-		setOpen(open);
-	};
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -120,7 +117,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		},
 		buttonProgress: {
 			position: 'absolute',
-			color: 'inherit',
 		},
 		submitButton: {
 			height: 40,
@@ -130,7 +126,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
 
-	//Formik
+	Formik;
 	return (
 		<Formik
 			initialValues={
@@ -210,19 +206,12 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										color="primary"
 										variant='contained'
 										disabled={!isValid}
-										onClick={handleToggle}
 									>
 										{loginHeaderLabel}
 									</Button>
 									: ""}
-								{/* Circular progress on submit button */}
-								<div data-testid='backdropTest'>
-									{componentState === 'submitting' ?
-										<Backdrop className={classes.backdrop} open={!open} >
-											{submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
-										</Backdrop>
-										: null}
-								</div>
+
+								{submitting && <CircularProgress size={25} className={classes.buttonProgress}/>}
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">

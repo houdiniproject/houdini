@@ -77,7 +77,6 @@ const Template = (args: TemplateArgs) => {
 		</MockCurrentUserProvider>
 	</HosterContext.Provider>;
 };
-//We are working on this
 
 const ErrorBoundaryTemplate = () => {
 	return  <Fallback/>;

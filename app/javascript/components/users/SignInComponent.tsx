@@ -216,11 +216,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Button>
 									: ""}
 								{/* Circular progress on submit button */}
-								{componentState === 'submitting' ?
-									<Backdrop data-testid='backdropTest' className={classes.backdrop} open={!open} >
-										{submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
-									</Backdrop>
-									: null}
+								<div data-testid='backdropTest'>
+									{componentState === 'submitting' ?
+										<Backdrop className={classes.backdrop} open={!open} >
+											{submitting && <CircularProgress size={50} className={classes.buttonProgress} />}
+										</Backdrop>
+										: null}
+								</div>
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">

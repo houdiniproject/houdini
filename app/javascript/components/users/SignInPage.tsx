@@ -24,7 +24,7 @@ interface SignInPageProps {
 }
 
 //Error Boundary
-export const Fallback = () => {
+export const Fallback = (): React.ReactElement => {
 	const { formatMessage } = useIntl();
 	const errorBoundaryLabel = formatMessage({ id: 'login.errors.error_boundary' });
 	return (

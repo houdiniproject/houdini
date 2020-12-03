@@ -62,7 +62,7 @@ const Template = (args:TemplateArgs) => {
 	}
 
 	return <MockCurrentUserProvider>
-		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} />
+		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} isProgressAndSuccess={args.isProgressBar}/>
 	</MockCurrentUserProvider>;
 };
 

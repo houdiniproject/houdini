@@ -30,6 +30,7 @@ export interface SignInComponentProps {
 	onFailure?: (error: SignInError) => void;
 	onSubmitting?: () => void;
 	onSuccess?: () => void;
+	isProgressAndSuccess?:  boolean;
 }
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
@@ -43,7 +44,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
-	const { onSuccess, onFailure, onSubmitting } = props;
+	const { onSuccess, onFailure, onSubmitting, isProgressAndSuccess } = props;
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 
@@ -211,11 +212,12 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Button>
 									: ""}
 
-								{submitting && <CircularProgress size={25} className={classes.buttonProgress}/>}
+								{submitting && isProgressAndSuccess
+						 && <CircularProgress size={25} className={classes.buttonProgress}/>}
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">
-							{componentState == 'success' && currentUser ?
+							{componentState == 'success' && currentUser && isProgressAndSuccess ?
 								<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
 									<Alert severity="success">{successLabel}</Alert>
 								</Box>

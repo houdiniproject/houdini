@@ -61,13 +61,13 @@ const Template = (args:TemplateArgs) => {
 		}));
 	}
 
-	return <MockCurrentUserProvider>
+	return <MockCurrentUserProvider >
 		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressBarAndSuccess}/>
 	</MockCurrentUserProvider>;
 };
 
 const SignedInTemplate = () => {
-	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onSuccess={action('onSuccess')} /></MockCurrentUserProvider>;
+	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></MockCurrentUserProvider>;
 };
 
 export const SignInFailed = Template.bind({});
@@ -79,7 +79,6 @@ SignInFailed.args = {
 export const SignedInToStart = SignedInTemplate.bind({});
 SignedInToStart.args = {
 };
-
 
 export const SignInSucceeded = Template.bind({});
 

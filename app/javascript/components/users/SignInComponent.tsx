@@ -27,6 +27,7 @@ export interface SignInComponentProps {
 	 *
 	 * @memberof SignInComponentProps
 	 */
+	isProgressAndSuccess?:  boolean;
 	onFailure?: (error: SignInError) => void;
 	onSubmitting?: () => void;
 	onSuccess?: () => void;

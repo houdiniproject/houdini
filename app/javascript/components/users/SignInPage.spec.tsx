@@ -116,3 +116,12 @@ describe('redirectUrl', () => {
 		});
 	});
 });
+
+describe ('Backdrop', () => {
+	it ("renders backdrop", () => {
+		expect.assertions(4);
+		const {getByTestId} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+		const backdrop = getByTestId('backdropTest');
+		expect(backdrop).toBeInTheDocument();
+	});
+});

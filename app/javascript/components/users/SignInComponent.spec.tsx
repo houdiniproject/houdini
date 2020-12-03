@@ -6,7 +6,6 @@ import {render, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
-import { SignInError } from "../../legacy_react/src/lib/api/errors";
 import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
 
 /* NOTE: We're mocking calls to `/user/sign_in` */
@@ -199,6 +198,7 @@ describe('SignInComponent', () => {
 			});
 		});
 		it('checks error messages on password', async () => {
+			expect.assertions(1);
 			const { getByLabelText, getByTestId } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const input = getByLabelText('Password');
 			fireEvent.blur(input);

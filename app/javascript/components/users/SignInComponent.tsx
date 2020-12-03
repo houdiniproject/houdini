@@ -27,10 +27,10 @@ export interface SignInComponentProps {
 	 *
 	 * @memberof SignInComponentProps
 	 */
+	isProgressAndSuccess?:  boolean;
 	onFailure?: (error: SignInError) => void;
 	onSubmitting?: () => void;
 	onSuccess?: () => void;
-	isProgressAndSuccess?:  boolean;
 }
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
@@ -212,8 +212,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									</Button>
 									: ""}
 
-								{submitting && isProgressAndSuccess
-						 && <CircularProgress size={25} className={classes.buttonProgress}/>}
+								{submitting && isProgressAndSuccess && <CircularProgress size={25} className={classes.buttonProgress}/>}
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">

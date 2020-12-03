@@ -66,13 +66,20 @@ describe('Links', () => {
 		// Link will be changed once correct path is available
 		expect(getStarted).toHaveAttribute('href', '/users/password/new');
 	});
-	it('terms & privacy Link has correct path', () => {
-		expect.assertions(1);
-		const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-		const terms = getByText("Terms & Privacy");
-		fireEvent.click(terms);
-		expect(terms).toHaveAttribute('href', '/static/terms_and_privacy');
-	});
+	// it('terms & privacy Link has correct path', () => {
+	// 	expect.assertions(1);
+	// 	locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
+	// 		mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
+	// 		const {getByTestId, getByLabelText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+	// 		const terms = getByTestId('termsTest');
+	// 		await act(async () => {
+	// 			fireEvent.click(terms);
+	// 		});
+	// 		await waitFor(() => {
+	// 			(expect(locationAssignSpy).toHaveBeenCalledWith('redirectUrl'));
+	// 		});
+	// 	});
+	// });
 });
 
 describe ('useHoster', () => {

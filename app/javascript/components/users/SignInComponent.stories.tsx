@@ -31,9 +31,9 @@ export default {
 			control: {type: 'radio',options: Object.keys(optionsToSignInError)},
 			defaultValue: 'User or password not valid - 401',
 		},
-		isProgressBar: {
+		showProgressBarAndSuccess: {
 			type: {name: 'boolean'},
-			defaultValue: false,
+			defaultValue: true,
 		},
 	},
 };
@@ -41,7 +41,7 @@ export default {
 interface TemplateArgs {
 	error?: string;
 	isError: boolean;
-	isProgressBar?: boolean;
+	showProgressBarAndSuccess?: boolean;
 }
 
 const Template = (args:TemplateArgs) => {
@@ -62,7 +62,7 @@ const Template = (args:TemplateArgs) => {
 	}
 
 	return <MockCurrentUserProvider>
-		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} isProgressAndSuccess={args.isProgressBar}/>
+		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressBarAndSuccess}/>
 	</MockCurrentUserProvider>;
 };
 

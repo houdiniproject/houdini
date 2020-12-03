@@ -79,6 +79,7 @@ describe('SignInComponent', () => {
 		expect(password).not.toBeInTheDocument();
 	});
 
+
 	it('signIn failed', async () => {
 		expect.assertions(1);
 		// everytime you try to call the User SignIn API in this test, return a
@@ -98,6 +99,7 @@ describe('SignInComponent', () => {
 		expect(error).toBe(error);
 
 	});
+
 
 	describe('Email', () => {
 		it('renders', () => {
@@ -257,14 +259,31 @@ describe('Signed in', () => {
 	});
 });
 
-// describe ('Backdrop', () => {
-// 	it ("renders backdrop", async () => {
-// 		expect.assertions(1);
-// 		const {getByTestId} = render(<Wrapper><SignInComponent onSubmitting={action('onSubmitting')}/></Wrapper>);
-// 		const backdrop = getByTestId('backdropTest');
-// 		expect(backdrop).toBeInTheDocument();
-// 	});
-// });
+//Still working on these tests
+describe('Progress bar and success message', () => {
+	it('renders', () => {
+		expect.assertions(2);
+		const {getByTestId} = render(<Wrapper><SignInComponent showProgressAndSuccess/></Wrapper>);
+		const progressBar = getByTestId("progressTest");
+		const successAlert = getByTestId("signInComponentSuccess");
+		expect(progressBar).toBeInTheDocument();
+		expect(successAlert).toBeInTheDocument();
+	});
+	it('does not renders', () => {
+		expect.assertions(1);
+		const {getByTestId, getByLabelText } = render(<Wrapper><SignInComponent onFailure={action('onFailure')} showProgressAndSuccess/></Wrapper>);
+		const button = getByTestId('signInButton');
+		const email = getByLabelText("Email");
+		const password = getByLabelText("Password");
+		fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
+		fireEvent.change(password, { target: { value: 'password' } });
+		const progressBar = getByTestId("progressTest");
+
+		// const successAlert = getByTestId("signInComponentSuccess");
+		fireEvent.click(button);
+		expect(progressBar).not.toBeInTheDocument();
+	});
+});
 
 
 

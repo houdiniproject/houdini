@@ -40,7 +40,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
 	const [open] = React.useState(false);
 
-	function onSuccess(){
+	function onSuccess() {
 		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
 		SignInPageState;
@@ -49,7 +49,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	function onReady() {
 		setSignInPageState("ready");
 	}
-	function onSubmitting(){
+	function onSubmitting() {
 		setSignInPageState("submitting");
 	}
 
@@ -121,7 +121,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 
 	//Setting up error messages
 	const classes = useStyles();
-	const {hoster} = useHoster();
+	const { hoster } = useHoster();
 	const { formatMessage } = useIntl();
 	const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });
 	const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });
@@ -146,7 +146,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 					</Toolbar>
 				</AppBar>
 			</Grid>
-			<Grid container  justify="center">
+			<Grid container justify="center">
 				<Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
 					<Paper className={classes.paper} elevation={6}>
 						<Typography variant="h5" component="h2">
@@ -164,15 +164,16 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 							<SignInComponent
 								onSuccess={onSuccess}
 								onSubmitting={onSubmitting}
-								onFailure={onReady} />
+								onFailure={onReady}
+							/>
 						</div>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
 						<Box m={1} display="flex" justifyContent="center">
-							<Link href= {routes.new_user_password_path()} data-testid="passwordTest"> {forgotPasswordlabel} </Link>
+							<Link href={routes.new_user_password_path()} data-testid="passwordTest"> {forgotPasswordlabel} </Link>
 						</Box>
 						<Box m={1} display="flex" justifyContent="center">
-							<Link href= {routes.new_user_password_path()} data-testid="getStartedTest" > {getStartedLabel} </Link>
+							<Link href={routes.new_user_password_path()} data-testid="getStartedTest" > {getStartedLabel} </Link>
 						</Box>
 						<Box color="error.main" data-testid="signInPageError"></Box>
 						<div data-testid='backdropTest'>

@@ -274,22 +274,8 @@ describe('Progress bar and success message', () => {
 		fireEvent.click(button);
 		expect(progressBar).toBeNull();
 	});
-	it('renders success message', async () => {
-		expect.assertions(1);
-		const {getByTestId, getByLabelText} = render(<Wrapper><SignInComponent onSuccess={action('onSuccess')}/></Wrapper>);
-		const button = getByTestId('signInButton');
-		const email = getByLabelText("Email");
-		const password = getByLabelText("Password");
-		fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
-		fireEvent.change(password, { target: { value: 'password' } });
-		fireEvent.click(button);
-		await waitFor(() => {
-			const successAlert = getByTestId("signInComponentSuccess");
-			expect(successAlert).toBeInTheDocument();
-		});
-	});
-	it('renders progress bar', async () => {
-		expect.assertions(1);
+	it('renders progress bar and success message', async () => {
+		expect.assertions(2);
 		const {getByTestId, getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
 		const button = getByTestId('signInButton');
 		const email = getByLabelText("Email");
@@ -299,6 +285,8 @@ describe('Progress bar and success message', () => {
 		fireEvent.click(button);
 		await waitFor(() => {
 			const progressBar = getByTestId("progressTest");
+			const successAlert = getByTestId("signInComponentSuccess");
+			expect(successAlert).toBeInTheDocument();
 			expect(progressBar).toBeInTheDocument();
 		});
 	});

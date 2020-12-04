@@ -261,29 +261,49 @@ describe('Signed in', () => {
 
 //Still working on these tests
 describe('Progress bar and success message', () => {
-	it('renders', () => {
-		expect.assertions(2);
-		const {getByTestId} = render(<Wrapper><SignInComponent showProgressAndSuccess/></Wrapper>);
-		const progressBar = getByTestId("progressTest");
-		const successAlert = getByTestId("signInComponentSuccess");
-		expect(progressBar).toBeInTheDocument();
-		expect(successAlert).toBeInTheDocument();
-	});
 	it('does not renders', () => {
 		expect.assertions(1);
-		const {getByTestId, getByLabelText } = render(<Wrapper><SignInComponent onFailure={action('onFailure')} showProgressAndSuccess/></Wrapper>);
+		const {queryByTestId, getByLabelText } = render(<Wrapper><SignInComponent hideProgressAndSuccess/></Wrapper>);
+		const button = queryByTestId('signInButton');
+		const email = getByLabelText("Email");
+		const password = getByLabelText("Password");
+		fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
+		fireEvent.change(password, { target: { value: 'password' } });
+		const progressBar = queryByTestId("progressTest");
+		// const successAlert = getByTestId("signInComponentSuccess");
+		fireEvent.click(button);
+		expect(progressBar).toBeNull();
+	});
+	it('renders success message', async () => {
+		expect.assertions(1);
+		const {getByTestId, getByLabelText} = render(<Wrapper><SignInComponent onSuccess={action('onSuccess')}/></Wrapper>);
 		const button = getByTestId('signInButton');
 		const email = getByLabelText("Email");
 		const password = getByLabelText("Password");
 		fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
 		fireEvent.change(password, { target: { value: 'password' } });
-		const progressBar = getByTestId("progressTest");
-
-		// const successAlert = getByTestId("signInComponentSuccess");
 		fireEvent.click(button);
-		expect(progressBar).not.toBeInTheDocument();
+		await waitFor(() => {
+			const successAlert = getByTestId("signInComponentSuccess");
+			expect(successAlert).toBeInTheDocument();
+		});
+	});
+	it('renders progress bar', async () => {
+		expect.assertions(1);
+		const {getByTestId, getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
+		const button = getByTestId('signInButton');
+		const email = getByLabelText("Email");
+		const password = getByLabelText("Password");
+		fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
+		fireEvent.change(password, { target: { value: 'password' } });
+		fireEvent.click(button);
+		await waitFor(() => {
+			const progressBar = getByTestId("progressTest");
+			expect(progressBar).toBeInTheDocument();
+		});
 	});
 });
+
 
 
 

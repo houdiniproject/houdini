@@ -31,7 +31,7 @@ export default {
 			control: {type: 'radio',options: Object.keys(optionsToSignInError)},
 			defaultValue: 'User or password not valid - 401',
 		},
-		showProgressBarAndSuccess: {
+		hideProgressAndSuccess: {
 			type: {name: 'boolean'},
 			defaultValue: true,
 		},
@@ -41,7 +41,7 @@ export default {
 interface TemplateArgs {
 	error?: string;
 	isError: boolean;
-	showProgressBarAndSuccess?: boolean;
+	hideProgressAndSuccess?: boolean;
 }
 
 const Template = (args:TemplateArgs) => {
@@ -62,12 +62,12 @@ const Template = (args:TemplateArgs) => {
 	}
 
 	return <MockCurrentUserProvider >
-		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressBarAndSuccess}/>
+		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} hideProgressAndSuccess={args.hideProgressAndSuccess}/>
 	</MockCurrentUserProvider>;
 };
 
 const SignedInTemplate = () => {
-	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></MockCurrentUserProvider>;
+	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onSuccess={action('onSuccess')} hideProgressAndSuccess /></MockCurrentUserProvider>;
 };
 
 export const SignInFailed = Template.bind({});

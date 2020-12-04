@@ -27,11 +27,10 @@ export interface SignInComponentProps {
 	 *
 	 * @memberof SignInComponentProps
 	 */
-	isProgressAndSuccess?:  boolean;
 	onFailure?: (error: SignInError) => void;
 	onSubmitting?: () => void;
 	onSuccess?: () => void;
-	showProgressAndSuccess?: boolean;
+	hideProgressAndSuccess?: boolean;
 }
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
@@ -43,7 +42,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
-	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
+	const { onSuccess, onFailure, onSubmitting, hideProgressAndSuccess } = props;
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 
@@ -199,32 +198,34 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						</div>
 						{componentState !== 'success' ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
-								{componentState !== 'submitting' || !showProgressAndSuccess ?
+								{componentState !== 'submitting' || hideProgressAndSuccess ?
 									<Button className={classes.submitButton}
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
 										variant='contained'
-										disabled={!isValid || !showProgressAndSuccess && componentState !== "canSubmit"}
+										disabled={!isValid || hideProgressAndSuccess && componentState !== "canSubmit"}
 									>
 										{loginHeaderLabel}
 									</Button>
 									: null}
-								<div data-testid="progressTest">
-									<Box data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
-										{submitting && showProgressAndSuccess
-											&& <CircularProgress size={25} className={classes.buttonProgress} />}
-									</Box>
-								</div>
+								
+						{submitting && !hideProgressAndSuccess && 
+							(<div data-testid="progressTest"> 
+								<Box display="flex" justifyContent="center" alignItems="center">
+									<CircularProgress size={25} className={classes.buttonProgress} /> 
+								</Box>
+							</div>)}
+								
 							</Box>
 							: null}
-						<div data-testid="signInComponentSuccess">
-							{componentState == 'success' && currentUser && showProgressAndSuccess ?
-								<Box m={13} data-testid="signInComponentSuccess" display="flex" justifyContent="center" alignItems="center">
-									<Alert severity="success">{successLabel}</Alert>
-								</Box>
-								: null}
-						</div>
+							<div data-testid="signInComponentSuccess">
+							{componentState === 'success' && currentUser && !hideProgressAndSuccess ?
+									<Box m={13}  display="flex" justifyContent="center" alignItems="center">
+										<Alert severity="success">{successLabel}</Alert>
+									</Box>
+							: null}
+							</div>
 					</Form>
 				);
 			}}

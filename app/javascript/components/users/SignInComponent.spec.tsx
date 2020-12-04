@@ -263,7 +263,7 @@ describe('Signed in', () => {
 describe('Progress bar and success message', () => {
 	it('does not renders', () => {
 		expect.assertions(1);
-		const {queryByTestId, getByLabelText } = render(<Wrapper><SignInComponent hideProgressAndSuccess/></Wrapper>);
+		const {queryByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 		const button = queryByTestId('signInButton');
 		const email = getByLabelText("Email");
 		const password = getByLabelText("Password");
@@ -276,7 +276,7 @@ describe('Progress bar and success message', () => {
 	});
 	it('renders progress bar and success message', async () => {
 		expect.assertions(2);
-		const {getByTestId, getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
+		const {getByTestId, getByLabelText} = render(<Wrapper><SignInComponent showProgressAndSuccess/></Wrapper>);
 		const button = getByTestId('signInButton');
 		const email = getByLabelText("Email");
 		const password = getByLabelText("Password");

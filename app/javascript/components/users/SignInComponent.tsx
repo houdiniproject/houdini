@@ -30,7 +30,7 @@ export interface SignInComponentProps {
 	onFailure?: (error: SignInError) => void;
 	onSubmitting?: () => void;
 	onSuccess?: () => void;
-	hideProgressAndSuccess?: boolean;
+	showProgressAndSuccess?: boolean;
 }
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
@@ -42,7 +42,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
-	const { onSuccess, onFailure, onSubmitting, hideProgressAndSuccess } = props;
+	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 
@@ -198,19 +198,19 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						</div>
 						{componentState !== 'success' ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
-								{componentState !== 'submitting' || hideProgressAndSuccess ?
+								{componentState !== 'submitting' || !showProgressAndSuccess ?
 									<Button className={classes.submitButton}
 										data-testid="signInButton"
 										type="submit"
 										color="primary"
 										variant='contained'
-										disabled={!isValid || hideProgressAndSuccess && componentState !== "canSubmit"}
+										disabled={!isValid || !showProgressAndSuccess && componentState !== "canSubmit"}
 									>
 										{loginHeaderLabel}
 									</Button>
 									: null}
 								
-						{submitting && !hideProgressAndSuccess && 
+						{submitting && showProgressAndSuccess && 
 							(<div data-testid="progressTest"> 
 								<Box display="flex" justifyContent="center" alignItems="center">
 									<CircularProgress size={25} className={classes.buttonProgress} /> 
@@ -220,7 +220,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							</Box>
 							: null}
 							<div data-testid="signInComponentSuccess">
-							{componentState === 'success' && currentUser && !hideProgressAndSuccess ?
+							{componentState === 'success' && currentUser && showProgressAndSuccess ?
 									<Box m={13}  display="flex" justifyContent="center" alignItems="center">
 										<Alert severity="success">{successLabel}</Alert>
 									</Box>

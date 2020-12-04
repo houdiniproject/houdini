@@ -52,7 +52,7 @@ async function locationAssign(input:(locationAssignSpy:jest.SpyInstance<void, [u
 
 describe('Links', () => {
 	it('forgot password Link goes to correct path', async() => {		
-		expect.assertions(1);
+		expect.hasAssertions();
 		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
 			const {getByText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 			const password = getByText("Forgot Password?");
@@ -64,75 +64,69 @@ describe('Links', () => {
 			});
 		});
 	});
+})
 	it('get Started Link goes to correct path', async() => {		
-		expect.assertions(1);
+		expect.hasAssertions();
 		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
-			const {getByText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-			const getStarted = getByText("Get Started");
-			await act(async () => {
-				fireEvent.click(getStarted);
-			});
+		const {getByText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 			await waitFor(() => {
-				// (expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new'));
+				const getStarted = getByText("Get Started");
+				fireEvent.click(getStarted);
+				expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
+			})
+		});
+	});
+	it('terms & privacy Link has correct path', () => {
+		expect.hasAssertions();
+		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
+			const {getByTestId} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+			await waitFor(() => {
+				const terms = getByTestId('termsTest');
+				fireEvent.click(terms);
+				expect(locationAssignSpy).toHaveBeenCalledWith('/static/terms_and_privacy');
 			});
 		});
 	});
-	it('terms & privacy Link has correct path', async() => {
-		expect.assertions(1);
+
+
+describe ('useHoster', () => {
+	it ('renders', async () => {
+		expect.hasAssertions();
+		const { getByTestId } = render (<Wrapper hoster={null} ><SignInPage redirectUrl={"redirectUrl"}/></Wrapper>);
+		await waitFor(() => {
+			expect(getByTestId('hosterTest')).toBeInTheDocument();
+			})
+		});
+	});
+	it ('renders with hoster', async () => {
+		expect.hasAssertions();
+		const { getByTestId } = render (<Wrapper hoster= {{legalName: 'Houdini Hoster LLC'}}><SignInPage redirectUrl={"redirectUrl"}/></Wrapper>);
+		await waitFor(()=> {
+			expect(getByTestId('hosterTest')).toHaveTextContent('Houdini Hoster LLC');
+
+		})
+});
+
+describe('redirectUrl', () => {
+	it('has to redirect', async() => {
+		expect.hasAssertions();
 		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
-			const {getByTestId} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-			const terms = getByTestId('termsTest');
+			mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
+			const {getByTestId, getByLabelText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+			const email = getByLabelText("Email");
+			const password = getByLabelText("Password");
+			fireEvent.change(email, { target: { value: 'validEmail@email.com' } });
+			fireEvent.change(password, { target: { value: 'password' } });
+			const button = getByTestId('signInButton');
 			await act(async () => {
-				fireEvent.click(terms);
+				fireEvent.click(button);
 			});
 			await waitFor(() => {
-				(expect(locationAssignSpy).toBe('/static/terms_and_privacy'));
+				(expect(locationAssignSpy).toHaveBeenCalledWith('redirectUrl'));
 			});
 		});
 	});
 });
-
-// describe ('useHoster', () => {
-// 	it ('renders', () => {
-// 		expect.assertions(1);
-// 		const { getByTestId } = render (
-// 			<Wrapper hoster= {null} >
-// 				<SignInPage redirectUrl={"redirectUrl"}/>
-// 			</Wrapper>
-// 		);
-// 		expect(getByTestId('hosterTest')).toHaveTextContent("");
-// 	});
-// 	it ('renders with hoster', () => {
-// 		expect.assertions(1);
-// 		const { getByTestId } = render (
-// 			<Wrapper hoster= {{legalName: 'Houdini Hoster LLC'}}>
-// 				<SignInPage redirectUrl={"redirectUrl"}/>
-// 			</Wrapper>
-// 		);
-// 		expect(getByTestId('hosterTest')).toHaveTextContent('Houdini Hoster LLC');
-// 	});
-// });
-
-// describe('redirectUrl', () => {
-// 	it('has to redirect', async() => {
-// 		expect.assertions(9);
-// 		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
-// 			mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
-// 			const {getByTestId, getByLabelText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-// 			const email = getByLabelText("Email");
-// 			const password = getByLabelText("Password");
-// 			fireEvent.change(email, { target: { value: 'validEmail@email.com' } });
-// 			fireEvent.change(password, { target: { value: 'password' } });
-// 			const button = getByTestId('signInButton');
-// 			await act(async () => {
-// 				fireEvent.click(button);
-// 			});
-// 			await waitFor(() => {
-// 				(expect(locationAssignSpy).toHaveBeenCalledWith('redirectUrl'));
-// 			});
-// 		});
-// 	});
-// });
 
 // describe ('Backdrop', () => {
 // 	it ("renders backdrop", () => {

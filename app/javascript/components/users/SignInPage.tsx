@@ -20,6 +20,9 @@ import useHoster from '../../hooks/useHoster';
 import Alert from '@material-ui/lab/Alert';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { rgb } from "color";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import Fade from '@material-ui/core/Fade';
 
 interface SignInPageProps {
 	redirectUrl: string;
@@ -38,7 +41,14 @@ export const Fallback = (): React.ReactElement => {
 
 function SignInPage(props: SignInPageProps): JSX.Element {
 	const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
-	const [open] = React.useState(false);
+	const [open, setOpen] = React.useState(false);
+
+	const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
 	function onSuccess() {
 		setSignInPageState("success");
@@ -52,7 +62,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	function onSubmitting() {
 		setSignInPageState("submitting");
 	}
-
+		
 	//Styling of component
 	const useStyles = makeStyles((theme: Theme) =>
 		createStyles({
@@ -83,6 +93,11 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 			buttonProgress: {
 				position: 'absolute',
 				color: "inherit",
+				transitionDuration: '1000',
+			},
+			checkmark: {
+				color: theme.palette.success.main,
+				fontSize: 100,
 			},
 			avatar: {
 				marginTop: theme.spacing(3),
@@ -93,8 +108,10 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 			},
 			backdrop: {
 				zIndex: theme.zIndex.drawer + 1,
-				color: '#fff',
-				// pointerEvents: 'none',
+				background: rgb(255, 255, 255, 0.5).toString(),
+				overflow: 'hidden',
+    		position: 'fixed',
+    		width: '100%',
 			},
 			responsive: {
 				[theme.breakpoints.down('sm')]: {
@@ -178,13 +195,16 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						<Box color="error.main" data-testid="signInPageError"></Box>
 						<div data-testid='backdropTest'>
 							{SignInPageState === 'submitting' ?
-								<Backdrop className={classes.backdrop} open={!open}>
+								<Backdrop transitionDuration={500} className={classes.backdrop} open={true} onClick={handleClose}>
 									<CircularProgress size={50} className={classes.buttonProgress} />
 								</Backdrop>
 								: null}
 							{SignInPageState === 'success' ?
-								<Backdrop className={classes.backdrop} open={!open}>
-									<Alert severity="success">{successLabel}</Alert>
+								<Backdrop transitionDuration={500} open={true} onClick={handleClose} >
+									<Fade in={true}>
+										<CheckCircleIcon className={classes.checkmark}/>
+									</Fade>
+									{/* <Alert severity="success">{successLabel}</Alert> */}
 								</Backdrop>
 								: null}
 						</div>

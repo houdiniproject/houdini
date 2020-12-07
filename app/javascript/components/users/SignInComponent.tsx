@@ -19,6 +19,8 @@ import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import Fade from '@material-ui/core/Fade';
 
 
 export interface SignInComponentProps {
@@ -106,7 +108,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		backdrop: {
 			zIndex: theme.zIndex.drawer + 1,
 			color: '#fff',
-			// pointerEvents: 'none',
 			cursor: 'none',
 		},
 		box: {
@@ -119,6 +120,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		},
 		submitButton: {
 			height: 40,
+		},
+		checkmark: {
+			color: theme.palette.success.main,
+			fontSize: 100,
 		},
 	}),
 	);
@@ -222,7 +227,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							<div data-testid="signInComponentSuccess">
 							{componentState === 'success' && currentUser && showProgressAndSuccess ?
 									<Box m={13}  display="flex" justifyContent="center" alignItems="center">
-										<Alert severity="success">{successLabel}</Alert>
+										<Fade in={true}>
+											<CheckCircleIcon className={classes.checkmark}/>
+											</Fade>
+										{/* <Alert severity="success">{successLabel}</Alert> */}
 									</Box>
 							: null}
 							</div>

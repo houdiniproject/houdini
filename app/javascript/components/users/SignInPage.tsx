@@ -21,8 +21,6 @@ import Alert from '@material-ui/lab/Alert';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { rgb } from "color";
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import Fade from '@material-ui/core/Fade';
 
 interface SignInPageProps {
 	redirectUrl: string;
@@ -201,10 +199,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 								: null}
 							{SignInPageState === 'success' ?
 								<Backdrop transitionDuration={500} open={true} onClick={handleClose} >
-									<Fade in={true}>
-										<CheckCircleIcon className={classes.checkmark}/>
-									</Fade>
-									{/* <Alert severity="success">{successLabel}</Alert> */}
+									<Alert severity="success">{successLabel}</Alert>
 								</Backdrop>
 								: null}
 						</div>

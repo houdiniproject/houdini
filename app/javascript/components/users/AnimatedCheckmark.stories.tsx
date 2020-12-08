@@ -32,7 +32,7 @@ export default {
 		},
 		width: {
 			control: {type: 'number'},
-			defaultValue: 100
+			defaultValue: 100,
 		},
 		height: {
 			control: {type: 'number'},
@@ -52,25 +52,25 @@ interface TemplateArgs {
 }
 
 const CheckmarkTemplate = (args:TemplateArgs) => {
-	return <AnimatedCheckmark 
-	backgroundColor={args.backgroundColor} 
-	checkColor={args.checkColor} 
-	checkThickness={args.checkThickness} 
-	animationDuration={args.animationDuration} 
-	explosion={args.explosion} 
-	width={args.width} 
-	height={args.height}></AnimatedCheckmark>
+	return <AnimatedCheckmark
+		backgroundColor={args.backgroundColor}
+		checkColor={args.checkColor}
+		checkThickness={args.checkThickness}
+		animationDuration={args.animationDuration}
+		explosion={args.explosion}
+		width={args.width}
+		height={args.height}></AnimatedCheckmark>;
 };
 
 export const Checkmark = CheckmarkTemplate.bind({});
 Checkmark.args = {
 	backgroundColor: '#7ac142',
-  checkColor: '#FFF',
-  checkThickness: 5,
-  animationDuration: 0.6,
-  explosion: 1.1,
-  width: 100,
-  height: 100,
+	checkColor: '#FFF',
+	checkThickness: 5,
+	animationDuration: 0.6,
+	explosion: 1.1,
+	width: 100,
+	height: 100,
 };
 
 

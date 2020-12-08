@@ -213,24 +213,24 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										{loginHeaderLabel}
 									</Button>
 									: null}
-								
-						{submitting && showProgressAndSuccess && 
-							(<div data-testid="progressTest"> 
+
+								{submitting && showProgressAndSuccess &&
+							(<div data-testid="progressTest">
 								<Box display="flex" justifyContent="center" alignItems="center">
-									<CircularProgress size={25} className={classes.buttonProgress} /> 
+									<CircularProgress size={25} className={classes.buttonProgress} />
 								</Box>
 							</div>)}
-								
+
 							</Box>
 							: null}
-							<div data-testid="signInComponentSuccess">
+						<div data-testid="signInComponentSuccess">
 							{componentState === 'success' && currentUser && showProgressAndSuccess ?
-									<Box m={13}  display="flex" justifyContent="center" alignItems="center">
-										<AnimatedCheckmark/>
-										{/* <Alert severity="success">{successLabel}</Alert> */}
-									</Box>
-							: null}
-							</div>
+								<Box m={13}  display="flex" justifyContent="center" alignItems="center">
+									<AnimatedCheckmark/>
+									{/* <Alert severity="success">{successLabel}</Alert> */}
+								</Box>
+								: null}
+						</div>
 					</Form>
 				);
 			}}

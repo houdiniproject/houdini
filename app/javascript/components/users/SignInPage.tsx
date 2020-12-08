@@ -45,11 +45,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	const handleClose = () => {
 		setOpen(false);
 	};
-	
-  const handleToggle = () => {
-		setOpen(!open);
-	};
-	
+
 	function onSuccess() {
 		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
@@ -58,13 +54,13 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 
 	function onReady() {
 		setSignInPageState("ready");
-		document.body.setAttribute('style', '')
+		document.body.setAttribute('style', '');
 	}
 	function onSubmitting() {
 		setSignInPageState("submitting");
-		document.body.setAttribute('style', 'overflow:hidden')
+		document.body.setAttribute('style', 'overflow:hidden');
 	}
-		
+
 	//Styling of component
 	const useStyles = makeStyles((theme: Theme) =>
 		createStyles({
@@ -107,8 +103,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 			backdrop: {
 				zIndex: theme.zIndex.drawer + 1,
 				background: rgb(255, 255, 255, 0.5).toString(),
-				disableKeys: 'true',
-				disableScroll: 'true',
 			},
 			responsive: {
 				[theme.breakpoints.down('sm')]: {
@@ -196,7 +190,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 									<CircularProgress size={50} className={classes.buttonProgress} />
 								</Backdrop>
 							</Fade>
-
 							<Fade in={SignInPageState === 'success'}>
 								<Backdrop className={classes.backdrop} open={true} onClick={handleClose} >
 									<Alert severity="success">{successLabel}</Alert>

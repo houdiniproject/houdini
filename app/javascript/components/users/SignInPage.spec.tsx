@@ -51,7 +51,7 @@ async function locationAssign(input:(locationAssignSpy:jest.SpyInstance<void, [u
 }
 
 describe('Links', () => {
-	it('forgot password Link goes to correct path', async() => {		
+	it('forgot password Link goes to correct path', async() => {
 		expect.hasAssertions();
 		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
 			const {getByText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
@@ -64,29 +64,29 @@ describe('Links', () => {
 			});
 		});
 	});
-})
-	it('get Started Link goes to correct path', async() => {		
-		expect.hasAssertions();
-		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
+});
+test('get Started Link goes to correct path', async() => {
+	expect.hasAssertions();
+	locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
 		const {getByText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-			await waitFor(() => {
-				const getStarted = getByText("Get Started");
-				fireEvent.click(getStarted);
-				expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
-			})
+		await waitFor(() => {
+			const getStarted = getByText("Get Started");
+			fireEvent.click(getStarted);
+			expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
 		});
 	});
-	it('terms & privacy Link has correct path', () => {
-		expect.hasAssertions();
-		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
-			const {getByTestId} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
-			await waitFor(() => {
-				const terms = getByTestId('termsTest');
-				fireEvent.click(terms);
-				expect(locationAssignSpy).toHaveBeenCalledWith('/static/terms_and_privacy');
-			});
+});
+test('terms & privacy Link has correct path', () => {
+	expect.hasAssertions();
+	locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
+		const {getByTestId} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
+		await waitFor(() => {
+			const terms = getByTestId('termsTest');
+			fireEvent.click(terms);
+			expect(locationAssignSpy).toHaveBeenCalledWith('/static/terms_and_privacy');
 		});
 	});
+});
 
 
 describe ('useHoster', () => {
@@ -95,16 +95,16 @@ describe ('useHoster', () => {
 		const { getByTestId } = render (<Wrapper hoster={null} ><SignInPage redirectUrl={"redirectUrl"}/></Wrapper>);
 		await waitFor(() => {
 			expect(getByTestId('hosterTest')).toBeInTheDocument();
-			})
 		});
 	});
-	it ('renders with hoster', async () => {
-		expect.hasAssertions();
-		const { getByTestId } = render (<Wrapper hoster= {{legalName: 'Houdini Hoster LLC'}}><SignInPage redirectUrl={"redirectUrl"}/></Wrapper>);
-		await waitFor(()=> {
-			expect(getByTestId('hosterTest')).toHaveTextContent('Houdini Hoster LLC');
+});
+test ('renders with hoster', async () => {
+	expect.hasAssertions();
+	const { getByTestId } = render (<Wrapper hoster= {{legalName: 'Houdini Hoster LLC'}}><SignInPage redirectUrl={"redirectUrl"}/></Wrapper>);
+	await waitFor(()=> {
+		expect(getByTestId('hosterTest')).toHaveTextContent('Houdini Hoster LLC');
 
-		})
+	});
 });
 
 describe('redirectUrl', () => {

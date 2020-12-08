@@ -21,7 +21,7 @@ import Alert from '@material-ui/lab/Alert';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { rgb } from "color";
-import disableScroll from 'disable-scroll';
+import Fade from '@material-ui/core/Fade';
 
 interface SignInPageProps {
 	redirectUrl: string;
@@ -43,12 +43,13 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	const [open, setOpen] = React.useState(false);
 
 	const handleClose = () => {
-    setOpen(false);
-  };
+		setOpen(false);
+	};
+	
   const handleToggle = () => {
-    setOpen(!open);
-  };
-
+		setOpen(!open);
+	};
+	
 	function onSuccess() {
 		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
@@ -57,9 +58,11 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 
 	function onReady() {
 		setSignInPageState("ready");
+		document.body.setAttribute('style', '')
 	}
 	function onSubmitting() {
 		setSignInPageState("submitting");
+		document.body.setAttribute('style', 'overflow:hidden')
 	}
 		
 	//Styling of component
@@ -188,17 +191,17 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						</Box>
 						<Box color="error.main" data-testid="signInPageError"></Box>
 						<div data-testid='backdropTest' >
-							{SignInPageState === 'submitting' ?
-								<Backdrop transitionDuration={500} className={classes.backdrop} open={true} onClick={handleClose}>
+							<Fade in={SignInPageState === 'submitting'}>
+								<Backdrop className={classes.backdrop} open={true} onClick={handleClose}>
 									<CircularProgress size={50} className={classes.buttonProgress} />
 								</Backdrop>
-								: null}
-							{SignInPageState === 'success' ?
+							</Fade>
 
-								<Backdrop transitionDuration={500} className={classes.backdrop} open={true} onClick={handleClose} >
+							<Fade in={SignInPageState === 'success'}>
+								<Backdrop className={classes.backdrop} open={true} onClick={handleClose} >
 									<Alert severity="success">{successLabel}</Alert>
 								</Backdrop>
-								: null}
+							</Fade>
 						</div>
 					</Paper>
 				</Box>

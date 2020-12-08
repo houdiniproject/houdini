@@ -19,6 +19,7 @@ import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
+import AnimatedCheckmark from './AnimatedCheckmark';
 
 
 export interface SignInComponentProps {
@@ -225,7 +226,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							<div data-testid="signInComponentSuccess">
 							{componentState === 'success' && currentUser && showProgressAndSuccess ?
 									<Box m={13}  display="flex" justifyContent="center" alignItems="center">
-										<Alert severity="success">{successLabel}</Alert>
+										<AnimatedCheckmark/>
+										{/* <Alert severity="success">{successLabel}</Alert> */}
 									</Box>
 							: null}
 							</div>

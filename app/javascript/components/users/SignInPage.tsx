@@ -21,6 +21,7 @@ import Alert from '@material-ui/lab/Alert';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { rgb } from "color";
+import disableScroll from 'disable-scroll';
 
 interface SignInPageProps {
 	redirectUrl: string;
@@ -93,10 +94,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 				color: "inherit",
 				transitionDuration: '1000',
 			},
-			checkmark: {
-				color: theme.palette.success.main,
-				fontSize: 100,
-			},
 			avatar: {
 				marginTop: theme.spacing(3),
 				backgroundColor: "#3f51b5",
@@ -107,9 +104,8 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 			backdrop: {
 				zIndex: theme.zIndex.drawer + 1,
 				background: rgb(255, 255, 255, 0.5).toString(),
-				overflow: 'hidden',
-    		position: 'fixed',
-    		width: '100%',
+				disableKeys: 'true',
+				disableScroll: 'true',
 			},
 			responsive: {
 				[theme.breakpoints.down('sm')]: {
@@ -191,14 +187,15 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 							<Link href={routes.new_user_password_path()} data-testid="getStartedTest" > {getStartedLabel} </Link>
 						</Box>
 						<Box color="error.main" data-testid="signInPageError"></Box>
-						<div data-testid='backdropTest'>
+						<div data-testid='backdropTest' >
 							{SignInPageState === 'submitting' ?
 								<Backdrop transitionDuration={500} className={classes.backdrop} open={true} onClick={handleClose}>
 									<CircularProgress size={50} className={classes.buttonProgress} />
 								</Backdrop>
 								: null}
 							{SignInPageState === 'success' ?
-								<Backdrop transitionDuration={500} open={true} onClick={handleClose} >
+
+								<Backdrop transitionDuration={500} className={classes.backdrop} open={true} onClick={handleClose} >
 									<Alert severity="success">{successLabel}</Alert>
 								</Backdrop>
 								: null}

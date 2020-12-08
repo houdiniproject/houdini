@@ -1,5 +1,6 @@
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import React from 'react';
+import noop from "lodash/noop";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 interface StyledProps {
   backgroundColor: string;
@@ -66,7 +67,6 @@ createStyles({
   })
 )
 
-  
 export const sizes = {
   xs: 12,
   sm: 16,
@@ -104,7 +104,7 @@ const AnimatedCheckmark = ({
     animationDuration: animationDuration,
     explosion: explosion,
     width: selectedSize,
-    height: selectedSize
+    height: selectedSize,
   });
 
   return (
@@ -117,6 +117,18 @@ const AnimatedCheckmark = ({
         <path className={classes.checkmark} fill='none' d='M14.1 27.2l7.1 7.2 16.7-16.8' />
       </svg>
   );
+};
+
+AnimatedCheckmark.defaultProps = {
+	// default onFailure to noop so you don't have to check whether onFailure is
+	// set inside the component before calling it
+	backgroundColor: noop,
+  checkColor: noop,
+  checkThickness: noop,
+  animationDuration: noop,
+  explosion: noop,
+  width: noop,
+  height: noop,
 };
 
 export default AnimatedCheckmark;

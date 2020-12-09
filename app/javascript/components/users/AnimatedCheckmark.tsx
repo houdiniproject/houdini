@@ -2,17 +2,18 @@ import React from 'react';
 import noop from "lodash/noop";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+
 interface StyledProps {
+	animationDuration: number;
   backgroundColor: string;
   checkColor: string;
   checkThickness: number;
-  animationDuration: number;
-  explosion: number;
+	explosion: number;
+	height: number;
   width: number;
-  height: number;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = (makeStyles(() =>
 	createStyles({
 		root: {
 			display: "block",
@@ -65,7 +66,8 @@ const useStyles = makeStyles((theme: Theme) =>
 			},
 		},
 	})
-);
+));
+
 
 export const sizes = {
 	xs: 12,
@@ -79,9 +81,9 @@ export const sizes = {
 export type Sizes = keyof typeof sizes;
 
 interface Props extends Partial<StyledProps> {
+	className?: string;
   size?: Sizes | number;
   visible?: boolean;
-  className?: string;
 }
 
 const AnimatedCheckmark = ({
@@ -94,6 +96,7 @@ const AnimatedCheckmark = ({
 	explosion = 1.1,
 }: Props) => {
 	const selectedSize = typeof size === 'number' ? size : sizes[size];
+	// const style = { width: selectedSize, height: selectedSize };
 
 	if (!visible) return <></>;
 
@@ -111,6 +114,7 @@ const AnimatedCheckmark = ({
 		<svg
 			className={classes.root}
 			xmlns='http://www.w3.org/2000/svg'
+			// style={style}
 			viewBox='0 0 52 52'
 		>
 			<circle className={classes.circle} cx='26' cy='26' r='25' fill='none' />

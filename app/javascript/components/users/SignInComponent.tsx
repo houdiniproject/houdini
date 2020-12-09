@@ -227,7 +227,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							{componentState === 'success' && currentUser && showProgressAndSuccess ?
 								<Box m={13}  display="flex" justifyContent="center" alignItems="center">
 									<AnimatedCheckmark/>
-									{/* <Alert severity="success">{successLabel}</Alert> */}
+									<Alert severity="success">{successLabel}</Alert>
 								</Box>
 								: null}
 						</div>

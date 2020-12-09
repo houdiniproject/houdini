@@ -1,10 +1,6 @@
 import * as React from 'react';
-import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
 /* it's already mocked in the storybook webpack */
-import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
 import AnimatedCheckmark from './AnimatedCheckmark';
-
-const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
 export default {
 	title: 'users/AnimatedCheckmark',
@@ -42,13 +38,13 @@ export default {
 };
 
 interface TemplateArgs {
+	animationDuration?: number;
 	backgroundColor?: string;
   checkColor?: string;
   checkThickness?: number;
-  animationDuration?: number;
-  explosion?: number;
+	explosion?: number;
+	height?: number;
   width?: number;
-  height?: number;
 }
 
 const CheckmarkTemplate = (args:TemplateArgs) => {

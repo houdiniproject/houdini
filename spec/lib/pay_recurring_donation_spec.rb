@@ -9,15 +9,15 @@ describe PayRecurringDonation  do
    # @result = @data['recurring_donation']
   end
 
-	let(:today) {Time.current.to_date}
-
   describe '.with_donation' do
     let(:stripe_helper) { StripeMock.create_test_helper }
     
     around (:each)  do |example|
-      StripeMock.start
-        example.run
-      StripeMock.stop
+      Timecop.freeze( 2020, 5,4) do 
+        StripeMock.start
+          example.run
+        StripeMock.stop
+      end
     end
 
     let(:nonprofit) { force_create(:nonprofit, statement:'swhtowht', name: 'atata')}
@@ -30,10 +30,12 @@ describe PayRecurringDonation  do
       force_create(:card, holder: supporter, stripe_customer_id: stripe_cust_id, stripe_card_id: card.id)
     }
     let(:donation) {force_create(:donation, supporter: supporter, amount: 300, card: card, nonprofit: nonprofit)}
-    let(:recurring_donation) { force_create(:recurring_donation, donation: donation, start_date: Time.now - 1.day, active:true, nonprofit: nonprofit, n_failures: 0)}
+    let(:recurring_donation) { force_create(:recurring_donation, donation: donation, start_date: Time.now - 1.day, active:true, nonprofit: nonprofit, n_failures: 0, interval: 1, time_unit: 'month')}
     let(:misc_recurring_donation_info__covered) {
       force_create(:misc_recurring_donation_info, recurring_donation: recurring_donation, fee_covered: true)
     }
+
+    let(:recent_charge) {force_create(:charge, donation:donation, card:card, amount: 300, status:'paid', created_at: Time.now - 1.day)} 
 
     let(:successful_charge_argument) { 
       {
@@ -58,6 +60,16 @@ describe PayRecurringDonation  do
       PayRecurringDonation.with_stripe(recurring_donation.id)
     }
 
+    let(:result_with_recent_charge) {
+      recent_charge
+      uncovered_result
+    }
+
+    let(:result_with_recent_charge_but_forced) {
+      recent_charge
+      PayRecurringDonation.with_stripe(recurring_donation.id, true)
+    }
+
     it 'covered_result doesnt return false' do
       expect(covered_result).to_not eq false
     end
@@ -74,6 +86,16 @@ describe PayRecurringDonation  do
     it 'marks the payment as not covering fees' do 
       res = uncovered_result
       expect(donation.payments.first.misc_payment_info&.fee_covered).to be_falsey
+    end
+
+    it 'returns false if not due' do 
+      res = result_with_recent_charge
+      expect(res).to eq false
+    end
+
+    it 'runs even if not due if we force' do 
+      res = result_with_recent_charge_but_forced
+      expect(res).to_not eq false
     end
 	end
 
@@ -92,23 +114,6 @@ describe PayRecurringDonation  do
     #   expect(handlers.map{|h| h.args}.flatten).to include(@result['recurring_donation']['id'])
     #   Psql.execute("DELETE FROM delayed_jobs WHERE queue='rec-don-payments'")
     # end
-  end
-
-  describe '.ULTIMATE_VERIFICATION' do
-    it 'returns false' do
-      Timecop.freeze(Time.parse('2020-02-01').utc) do
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-02', true, true, false, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', false, true, false, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, false, false, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, true, true, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, true, false, 'rd')).to be_falsey
-      end
-    end
-    it 'returns true' do
-      Timecop.freeze(Time.parse('2020-02-01').utc) do
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, true, false, 'run dangerously')).to be_truthy
-      end
-    end
   end
 
 

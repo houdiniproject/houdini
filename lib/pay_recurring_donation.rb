@@ -59,7 +59,7 @@ module PayRecurringDonation
 
   # Charge an existing donation via stripe, only if it is due
   # Pass in an instance of an existing RecurringDonation
-  def self.with_stripe(rd_id)
+  def self.with_stripe(rd_id, force_run=false)
     ParamValidation.new({:rd_id => rd_id}, {
         :rd_id => {
             :required => true,
@@ -73,7 +73,7 @@ module PayRecurringDonation
       raise ParamValidation::ValidationError.new("#{rd_id} is not a valid recurring donation", {:key => :rd_id})
     end
 
-    return false if !QueryRecurringDonations.is_due?(rd_id)
+    return false if !force_run && !QueryRecurringDonations.is_due?(rd_id)
 
     donation = Donation.where('id = ?', rd['donation_id']).first
     unless donation
@@ -124,50 +124,5 @@ module PayRecurringDonation
     end
     InsertSupporterNotes.create([{content: "This supporter had a payment failure for their recurring donation with ID #{rd['id']}", supporter_id: donation['supporter_id'], user_id: 540}])
     return recurring_donation
-  end
-
-  # Charge an existing donation via stripe, NO MATTER WHAT
-  # Pass in an instance of an existing RecurringDonation
-  def self.with_stripe_BUT_NO_MATTER_WHAT(rd_id, enter_todays_date, run_this=false, set_this_true=false, this_one_needs_to_be_false=true, is_this_run_dangerously="no")
-
-    if (PayRecurringDonation::ULTIMATE_VERIFICATION(enter_todays_date, run_this, set_this_true, this_one_needs_to_be_false, is_this_run_dangerously))
-      rd = Psql.execute("SELECT * FROM recurring_donations WHERE id=#{rd_id}").first
-      donation = Psql.execute("SELECT * FROM donations WHERE id=#{rd['donation_id']}").first
-
-      result = {}
-      result = result.merge(InsertDonation.insert_charge({
-                                                             'card_id' => donation['card_id'],
-                                                             'recurring_donation' => true,
-                                                             'designation' => donation['designation'],
-                                                             'amount' => donation['amount'],
-                                                             'nonprofit_id' => donation['nonprofit_id'],
-                                                             'donation_id' => donation['id'],
-                                                             'supporter_id' => donation['supporter_id']
-                                                         }))
-      if result['charge']['status'] != 'failed'
-        result['recurring_donation'] = Psql.execute(
-            Qexpr.new.update(:recurring_donations, {n_failures: 0})
-                .where("id=$id", id: rd_id).returning('*')
-        ).first
-        JobQueue.queue(JobTypes::DonationPaymentCreateJob, rd['donation_id'])
-        InsertActivities.for_recurring_donations([result['payment']['id']])
-      else
-        result['recurring_donation'] = Psql.execute(
-            Qexpr.new.update(:recurring_donations, {n_failures: rd['n_failures'] + 1})
-                .where("id=$id", id: rd_id).returning('*')
-        ).first
-        DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
-        if rd['n_failures'] >= 3
-          DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
-        end
-        InsertSupporterNotes.create([{content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540}])
-      end
-      return result
-    end
-    return false
-  end
-
-  def self.ULTIMATE_VERIFICATION(enter_todays_date, run_this=false, set_this_true=false, this_one_needs_to_be_false=true, is_this_run_dangerously="no")
-    return (Date.parse(enter_todays_date) == Date.today() && run_this && set_this_true && !this_one_needs_to_be_false && is_this_run_dangerously == "run dangerously")
   end
 end

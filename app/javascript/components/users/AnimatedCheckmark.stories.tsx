@@ -8,7 +8,7 @@ export default {
 
 
 const CheckmarkTemplate = () => {
-	return <AnimatedCheckmark/>;
+	return <AnimatedCheckmark ariaLabel={"login.success"} role={"status"}/>;
 };
 
 export const Checkmark = CheckmarkTemplate.bind({});

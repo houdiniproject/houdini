@@ -3,6 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from '@material-ui/core/Box';
 import DoneIcon from '@material-ui/icons/Done';
 import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
+import { useIntl } from "react-intl";
+
+interface AnimatedCheckmarkProps{
+  ariaLabel: string;
+  role?: string; 
+}
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -37,12 +43,15 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function AnimatedCheckmark(): JSX.Element  {
-	const classes = useStyles();
+function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element  {
+  const classes = useStyles();
+  const {ariaLabel, role} = props;
+  const { formatMessage } = useIntl();
+  const ariaLabelMessage = formatMessage({ id: ariaLabel });  
 
 	return (
 		<>
-			<Box m={13} display="flex" justifyContent="center" alignItems="center">
+			<Box data-testid="CheckmarkTest" m={13} display="flex" justifyContent="center" alignItems="center" role={role} aria-label={ariaLabelMessage}>
 				<DoneIcon className={classes.doneIcon}/>
 				<FiberManualRecordSharpIcon className={classes.root}/>
 			</Box>

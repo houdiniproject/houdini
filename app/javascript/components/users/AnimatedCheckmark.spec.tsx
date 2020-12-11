@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import { getByTestId, render, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import AnimatedCheckmark from "./AnimatedCheckmark";
 import { IntlProvider } from "../intl";

@@ -6,9 +6,18 @@ export default {
 	component: AnimatedCheckmark,
 };
 
+type TemplateArgs = any;
 
-const CheckmarkTemplate = () => {
-	return <AnimatedCheckmark ariaLabel={"login.success"} role={"status"}/>;
+const CheckmarkTemplate = (args:TemplateArgs) => {
+
+
+	return <AnimatedCheckmark
+		checkColor={args.checkColor}
+		checkThickness={args.checkThickness}
+		animationDuration={args.animationDuration}
+		explosion={args.explosion}
+		size={args.size}
+		ariaLabel={args.ariaLabel} key={Math.random() /* so it restarts everytime props change */}></AnimatedCheckmark>;
 };
 
 export const Checkmark = CheckmarkTemplate.bind({});

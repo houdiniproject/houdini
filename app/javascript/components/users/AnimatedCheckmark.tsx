@@ -1,62 +1,132 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from '@material-ui/core/Box';
-import DoneIcon from '@material-ui/icons/Done';
-import FiberManualRecordSharpIcon from '@material-ui/icons/FiberManualRecordSharp';
-import { useIntl } from "react-intl";
+import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-interface AnimatedCheckmarkProps{
-  ariaLabel: string;
-  role?: string;
+
+interface StyledProps {
+	animationDuration: number;
+	backgroundColor: string;
+	checkColor: string;
+	checkThickness: number;
+	explosion: number;
+	height: number;
+  width: number;
 }
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		fontSize: 100,
-		color: '#4caf50',
-		animation: `$myEffectRoot 300ms ${theme.transitions.easing.easeIn}`,
-	},
-	doneIcon: {
-		fontSize: 60,
-		color: '#fff',
-		position: 'absolute',
-		animation: `$myEffectDoneIcon 300ms ${theme.transitions.easing.easeIn}`,
-	},
-	"@keyframes myEffectRoot": {
-		"0%": {
-			opacity: 0,
+const useStyles = (makeStyles((theme:Theme) =>
+	createStyles({
+		root: {
+			display: "block",
+			marginLeft: "auto",
+			marginRight: "auto",
+			borderRadius: "50%",
+			width: (props:StyledProps) => props.width,
+			height: (props:StyledProps) => props.height,
+			stroke: (props:StyledProps) => props.checkColor,
+			strokeWidth: (props:StyledProps) => props.checkThickness,
+			strokeMiterlimit: 10,
+			animation: (props:StyledProps) => `$fill ${props.animationDuration * 0.66}s ease-in-out 0.4s
+        forwards,
+      $scale 0.3s ease-in-out 0.9s both`,
 		},
-		"100%": {
-			opacity: 1,
+		circle: {
+			strokeDasharray: 166,
+			strokeDashoffset: 166,
+			strokeWidth: (props:StyledProps) => props.checkThickness,
+			strokeMiterlimit: 10,
+			stroke: (props:StyledProps) => props.backgroundColor || theme.palette.success.main,
+			fill: "none",
+			animation: (props:StyledProps) => `$stroke-keyframe ${props.animationDuration}s
+      cubic-bezier(0.65, 0, 0.45, 1) forwards`,
 		},
-		"50%": {
-			transform: 'explosion',
+		checkmark: {
+			transformOrigin: "50% 50%",
+			strokeDasharray: 48,
+			strokeDashoffset: 48,
+			animation: (props:StyledProps) => `$stroke-keyframe ${props.animationDuration * 0.5}s
+      cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards`,
 		},
-	},
-	"@keyframes myEffectDoneIcon": {
-		"0%": {
-			opacity: 0,
-		},
-		"100%": {
-			opacity: 4,
-		},
-	},
-}));
 
-function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element  {
-	const classes = useStyles();
-	const {ariaLabel, role} = props;
-	const { formatMessage } = useIntl();
-	const ariaLabelMessage = formatMessage({ id: ariaLabel });
+		"@keyframes scale": {
+			"0%": {},
+			"100%": {
+				transform: "none",
+			},
+			"50%": {
+				transform: (props:StyledProps) => `scale3d(${props.explosion}, ${props.explosion}, 1)`,
+			},
+		},
+		"@keyframes fill": {
+			"100%": {
+				boxShadow: (props:StyledProps) =>  `inset 0 0 0 100vh ${props.backgroundColor || theme.palette.success.main}`,
+			},
+		},
+		"@keyframes stroke-keyframe": {
+			"100%": {
+				/* this is needed because makeStyles function has bugs (https://github.com/mui-org/material-ui/issues/15511) */
+				strokeDashoffset:() => 0,
+			},
+		},
+	})
+));
 
+
+export const sizes = {
+	xs: 12,
+	sm: 16,
+	md: 24,
+	lg: 52,
+	xl: 72,
+	xxl: 96,
+};
+
+export type Sizes = keyof typeof sizes;
+
+interface Props {
+	animationDuration: number;
+	ariaLabel: string;
+	backgroundColor?: string;
+	checkColor?: string;
+	checkThickness: number;
+	explosion: number;
+	role?: string;
+  size: Sizes | number;
+	visible: boolean;
+}
+
+function AnimatedCheckmark(props: Props): JSX.Element {
+	const selectedSize = typeof props.size === 'number' ? props.size : sizes[props.size];
+
+
+	const classes = useStyles({
+		backgroundColor: props.backgroundColor,
+		checkColor: props.checkColor,
+		checkThickness: props.checkThickness,
+		animationDuration: props.animationDuration,
+		explosion: props.explosion,
+		width: selectedSize,
+		height: selectedSize,
+	});
+	if (!props.visible) return <></>;
 	return (
-		<>
-			<Box data-testid="CheckmarkTest" m={13} display="flex" justifyContent="center" alignItems="center" role={role} aria-label={ariaLabelMessage}>
-				<DoneIcon className={classes.doneIcon}/>
-				<FiberManualRecordSharpIcon className={classes.root}/>
-			</Box>
-		</>
+		<svg
+			className={classes.root}
+			xmlns='http://www.w3.org/2000/svg'
+			viewBox='0 0 52 52' role={props.role} aria-label={props.ariaLabel}
+		>
+			<circle className={classes.circle} cx='26' cy='26' r='25' fill='none' />
+			<path className={classes.checkmark} fill='none' d='M14.1 27.2l7.1 7.2 16.7-16.8' />
+		</svg>
 	);
 }
+
+AnimatedCheckmark.defaultProps = {
+	size: 'lg',
+	visible: true,
+	checkColor: '#FFF',
+	checkThickness: 5,
+	animationDuration: 0.6,
+	explosion: 1.1,
+	role: 'alert',
+};
 
 export default AnimatedCheckmark;

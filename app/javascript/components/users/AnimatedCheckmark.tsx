@@ -1,6 +1,7 @@
+// License: LGPL-3.0-or-later
+// from: https://github.com/davidwilson3/react-typescript-checkmark/blob/1de3e0362965602d4345868f1f876aa54a96d5b6/src/checkmark.tsx
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-
 
 interface StyledProps {
 	animationDuration: number;

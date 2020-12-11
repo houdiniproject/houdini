@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import * as React from "react";
 import { render, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';

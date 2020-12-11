@@ -8,6 +8,10 @@
         {
             "name": "lodash-joins",
             "version": "3.0.1"
-        }
+        },
+        {
+            "name": "react-typescript-checkmark",
+            "version": "1.2.2"
+        }        
     ]
 }

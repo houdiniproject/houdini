@@ -17,7 +17,7 @@ const CheckmarkTemplate = (args:TemplateArgs) => {
 		animationDuration={args.animationDuration}
 		explosion={args.explosion}
 		size={args.size}
-		ariaLabel={args.ariaLabel} key={Math.random() /* so it restarts everytime props change */}></AnimatedCheckmark>;
+		ariaLabel={args.ariaLabel} key={Math.random() /* so it reloads everytime props change */} visible={args.visible}></AnimatedCheckmark>;
 };
 
 export const Checkmark = CheckmarkTemplate.bind({});

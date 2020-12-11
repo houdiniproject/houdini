@@ -1,14 +1,24 @@
+// License: LGPL-3.0-or-later
 import * as React from 'react';
-import AnimatedCheckmark from './AnimatedCheckmark';
+import AnimatedCheckmark, {AnimatedCheckmarkProps} from './AnimatedCheckmark';
 
 export default {
 	title: 'users/AnimatedCheckmark',
 	component: AnimatedCheckmark,
 };
 
+type TemplateArgs = AnimatedCheckmarkProps;
 
-const CheckmarkTemplate = () => {
-	return <AnimatedCheckmark ariaLabel={"login.success"} role={"status"}/>;
+const CheckmarkTemplate = (args:TemplateArgs) => {
+
+
+	return <AnimatedCheckmark
+		checkColor={args.checkColor}
+		checkThickness={args.checkThickness}
+		animationDuration={args.animationDuration}
+		explosion={args.explosion}
+		size={args.size}
+		ariaLabel={args.ariaLabel} key={Math.random() /* so it reloads everytime props change */} visible={args.visible}></AnimatedCheckmark>;
 };
 
 export const Checkmark = CheckmarkTemplate.bind({});

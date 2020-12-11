@@ -1,24 +1,18 @@
+// License: LGPL-3.0-or-later
 import * as React from "react";
 import { getByTestId, render, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import AnimatedCheckmark from "./AnimatedCheckmark";
-import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
-import { HosterContext } from "../../hooks/useHoster";
 
 function Wrapper(props:React.PropsWithChildren<unknown>) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const translations = I18n.translations['en'] as any;
 
-	return <HosterContext.Provider value={{hoster: null}}>
-		<IntlProvider messages={translations} locale={'en'}>
-			<MockCurrentUserProvider>
-				{props.children}
-			</MockCurrentUserProvider>
-		</IntlProvider>
-	</HosterContext.Provider>;
-
+	return (<IntlProvider messages={translations} locale={'en'}>
+		{props.children}
+	</IntlProvider>);
 }
 
 describe('Animated Checkmark', () => {

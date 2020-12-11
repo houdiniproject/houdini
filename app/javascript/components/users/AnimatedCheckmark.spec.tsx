@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, waitFor } from "@testing-library/react";
+import { getByTestId, render, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import AnimatedCheckmark from "./AnimatedCheckmark";
 import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
@@ -30,5 +30,21 @@ describe('Animated Checkmark', () => {
 			expect(checkmark).toBeInTheDocument();
 		});
 	});
+
+	it('check Aria Label Message', async () => {
+		expect.hasAssertions();
+		const {queryByLabelText } = render(<Wrapper><AnimatedCheckmark ariaLabel={"login.success"} role={"status"}></AnimatedCheckmark></Wrapper>);
+		await waitFor(() => {
+			expect(queryByLabelText("You have successfully signed in.")).toBeInTheDocument();
+		});
+	});
+
+	it('role has status as value', async () => {
+		expect.hasAssertions();
+		const {getByTestId } = render(<Wrapper><AnimatedCheckmark ariaLabel={"login.success"} role={"status"}></AnimatedCheckmark></Wrapper>);
+		const role = getByTestId("CheckmarkTest");
+		await waitFor(() => {
+			expect(role).toHaveAttribute('role', 'status');
+		});
+	});
 });
-// Make sure the correct values are being passed. In ariaLabel and role.

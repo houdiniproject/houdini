@@ -109,6 +109,7 @@ function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element {
 	if (!props.visible) return <></>;
 	return (
 		<svg
+			data-testid="CheckmarkTest"
 			className={classes.root}
 			xmlns='http://www.w3.org/2000/svg'
 			viewBox='0 0 52 52' role={props.role} aria-label={props.ariaLabel}

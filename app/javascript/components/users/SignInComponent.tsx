@@ -20,7 +20,6 @@ import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
 import AnimatedCheckmark from './AnimatedCheckmark';
-import { Label } from "@material-ui/icons";
 
 
 export interface SignInComponentProps {
@@ -81,7 +80,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const yup = useYup();
 	const passwordLabel = formatMessage({ id: 'login.password' });
 	const emailLabel = formatMessage({ id: 'login.email' });
-	const successLabel = formatMessage({ id: 'login.success' });
+	// const successLabel = formatMessage({ id: 'login.success' });
 	const loginHeaderLabel = formatMessage({ id: 'login.header' });
 	const emailId = useId();
 	const passwordId = useId();

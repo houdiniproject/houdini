@@ -7,7 +7,7 @@ import { useIntl } from "react-intl";
 
 interface AnimatedCheckmarkProps{
   ariaLabel: string;
-  role?: string; 
+  role?: string;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -44,10 +44,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element  {
-  const classes = useStyles();
-  const {ariaLabel, role} = props;
-  const { formatMessage } = useIntl();
-  const ariaLabelMessage = formatMessage({ id: ariaLabel });  
+	const classes = useStyles();
+	const {ariaLabel, role} = props;
+	const { formatMessage } = useIntl();
+	const ariaLabelMessage = formatMessage({ id: ariaLabel });
 
 	return (
 		<>

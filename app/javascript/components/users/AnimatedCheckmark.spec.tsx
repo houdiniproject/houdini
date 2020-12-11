@@ -1,5 +1,5 @@
 import * as React from "react";
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import AnimatedCheckmark from "./AnimatedCheckmark";
 import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
@@ -22,11 +22,12 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 }
 
 describe('Animated Checkmark', () => {
-	it('Check if it renders', async () => {
-    const {getByTestId} = render(<Wrapper><AnimatedCheckmark ariaLabel={"ariaLabel"} role={"role"}></AnimatedCheckmark></Wrapper>)
-    const checkmark = getByTestId("CheckmarkTest")
+	it('check if it renders', async () => {
+		expect.hasAssertions();
+		const {getByTestId} = render(<Wrapper><AnimatedCheckmark ariaLabel={"ariaLabel"} role={"role"}></AnimatedCheckmark></Wrapper>);
+		const checkmark = getByTestId("CheckmarkTest");
 		await waitFor(() => {
-			expect(checkmark).toBeInTheDocument()
+			expect(checkmark).toBeInTheDocument();
 		});
 	});
 });

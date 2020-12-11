@@ -10,6 +10,10 @@ interface AnimatedCheckmarkProps{
   role?: string;
 }
 
+AnimatedCheckmark.defaultProps ={
+	role: 'status',
+}
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		fontSize: 100,

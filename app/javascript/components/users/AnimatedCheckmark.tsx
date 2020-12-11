@@ -81,7 +81,7 @@ export const sizes = {
 
 export type Sizes = keyof typeof sizes;
 
-interface Props {
+export interface AnimatedCheckmarkProps {
 	animationDuration: number;
 	ariaLabel: string;
 	backgroundColor?: string;
@@ -93,7 +93,7 @@ interface Props {
 	visible: boolean;
 }
 
-function AnimatedCheckmark(props: Props): JSX.Element {
+function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element {
 	const selectedSize = typeof props.size === 'number' ? props.size : sizes[props.size];
 
 

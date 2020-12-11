@@ -1,12 +1,12 @@
 import * as React from 'react';
-import AnimatedCheckmark from './AnimatedCheckmark';
+import AnimatedCheckmark, {AnimatedCheckmarkProps} from './AnimatedCheckmark';
 
 export default {
 	title: 'users/AnimatedCheckmark',
 	component: AnimatedCheckmark,
 };
 
-type TemplateArgs = any;
+type TemplateArgs = AnimatedCheckmarkProps;
 
 const CheckmarkTemplate = (args:TemplateArgs) => {
 

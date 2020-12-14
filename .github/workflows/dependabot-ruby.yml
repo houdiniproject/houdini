@@ -1,0 +1,59 @@
+# License: LGPL-3.0-or-later
+name: Dependabot Ruby
+env:
+  node: 14.6.0
+  os: ubuntu-latest
+on: 
+  pull_request:
+    paths:
+      - "Gemfile.lock"
+jobs:
+  dependabot:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14.6.0]
+        ruby: [2.6.6]
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.NOTICE_WORKER_PAT }}
+      - uses: actions/setup-node@v1.4.4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-yarn-${{ matrix.node }}-
+      - run: yarn install --frozen-lockfile
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - uses: actions/cache@v2
+        name: Use Gem cache
+        with:
+          path: vendor/bundle
+          key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+      - run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4
+      - run: bin/setup ci
+      - name: rebuild NOTICE-ruby
+        run: bin/rails notice:ruby:update
+      - name: commit and push to branch
+        run: | 
+          git config --global user.name 'Houdini NOTICE-ruby worker'
+          git config --global user.email 'wwahammy@users.noreply.github.com'
+          git commit -am "Updated NOTICE-ruby (Houdini NOTICE-ruby worker)"
+          git push

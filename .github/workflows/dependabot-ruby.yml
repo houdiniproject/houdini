@@ -37,9 +37,13 @@ jobs:
           bundle install --jobs 4
       - name: rebuild NOTICE-ruby
         run: bin/rails notice:ruby:update
-      - name: commit and push to branch
+      - name: commit
         run: | 
           git config --global user.name 'Houdini NOTICE-ruby worker'
           git config --global user.email 'wwahammy@users.noreply.github.com'
           git commit -am "Updated NOTICE-ruby (Houdini NOTICE-ruby worker)"
-          git push
+      - name: Push changes
+        uses: ad-m/github-push-action
+        with:
+          github_token: ${{ secrets.NOTICE_WORKER_PAT }}
+          branch: ${{ github.ref }}

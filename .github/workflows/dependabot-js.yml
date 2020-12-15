@@ -36,7 +36,6 @@ jobs:
           restore-keys: |
             ${{ matrix.os }}-yarn-${{ matrix.node }}-
       - run: yarn install --frozen-lockfile
-      - run: yarn
       - name: rebuild NOTICE-js
         run: yarn notice:js -u
       - name: commit and push to branch

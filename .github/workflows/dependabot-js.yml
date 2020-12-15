@@ -42,7 +42,7 @@ jobs:
           git config --global user.email 'wwahammy@users.noreply.github.com'
           git commit -am "Updated NOTICE-js (Houdini NOTICE-js worker)"
       - name: Push changes
-        uses: ad-m/github-push-action
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.NOTICE_WORKER_PAT }}
           branch: ${{ github.ref }}

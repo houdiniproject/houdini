@@ -36,9 +36,13 @@ jobs:
       - run: yarn install --frozen-lockfile
       - name: rebuild NOTICE-js
         run: yarn notice:js -u
-      - name: commit and push to branch
+      - name: commit to branch
         run: | 
           git config --global user.name 'Houdini NOTICE-js worker'
           git config --global user.email 'wwahammy@users.noreply.github.com'
           git commit -am "Updated NOTICE-js (Houdini NOTICE-js worker)"
-          git push
+      - name: Push changes
+        uses: ad-m/github-push-action
+        with:
+          github_token: ${{ secrets.NOTICE_WORKER_PAT }}
+          branch: ${{ github.ref }}

@@ -19,8 +19,6 @@ jobs:
     if: github.actor == 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.NOTICE_WORKER_PAT }}
       - uses: actions/setup-node@v1.4.4
         with:
           node-version: ${{ matrix.node }}

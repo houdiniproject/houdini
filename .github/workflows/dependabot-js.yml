@@ -6,6 +6,7 @@ env:
 on: 
   pull_request:
     paths:
+      - package.json
       - yarn.lock
 jobs:
   dependabot:
@@ -35,21 +36,6 @@ jobs:
           restore-keys: |
             ${{ matrix.os }}-yarn-${{ matrix.node }}-
       - run: yarn install --frozen-lockfile
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-      - uses: actions/cache@v2
-        name: Use Gem cache
-        with:
-          path: vendor/bundle
-          key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
-      - run: |
-          bundle config deployment true
-          bundle config path vendor/bundle
-          bundle install --jobs 4
-      - run: bin/setup ci
       - run: yarn
       - name: rebuild NOTICE-js
         run: yarn notice:js -u

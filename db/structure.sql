@@ -3988,10 +3988,24 @@ CREATE INDEX index_offsite_payments_on_payment_id ON public.offsite_payments USI
 
 
 --
+-- Name: index_offsite_payments_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_offsite_payments_on_supporter_id ON public.offsite_payments USING btree (supporter_id);
+
+
+--
 -- Name: index_recurring_donations_on_donation_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_recurring_donations_on_donation_id ON public.recurring_donations USING btree (donation_id);
+
+
+--
+-- Name: index_recurring_donations_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_recurring_donations_on_supporter_id ON public.recurring_donations USING btree (supporter_id);
 
 
 --
@@ -5338,4 +5352,6 @@ INSERT INTO schema_migrations (version) VALUES ('20201001161338');
 INSERT INTO schema_migrations (version) VALUES ('20201001162737');
 
 INSERT INTO schema_migrations (version) VALUES ('20201103170055');
+
+INSERT INTO schema_migrations (version) VALUES ('20201214214347');
 

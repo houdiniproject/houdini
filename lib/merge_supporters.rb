@@ -60,8 +60,8 @@
 
   # Merge supporters for a nonprofit based on an array of groups of ids, generated from QuerySupporters.dupes_on_email or dupes_on_names
   def self.merge_by_id_groups(np_id, arr_of_ids, profile_id)
-    Qx.transaction do
-      arr_of_ids.select{|arr| arr.count > 1}.each do |ids|
+    arr_of_ids.select{|arr| arr.count > 1}.each do |ids|
+      Qx.transaction do
         # Get all column data from every supporter
         all_data = Psql.execute(
           Qexpr.new.from(:supporters)

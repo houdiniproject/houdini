@@ -15225,6 +15225,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ** figures; version 3.2.0 -- https://github.com/sindresorhus/figures#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
+** is-docker; version 2.1.1 -- https://github.com/sindresorhus/is-docker#readme
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 
 MIT License
 
@@ -17708,9 +17710,6 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 (c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** invert-kv; version 2.0.0 -- https://github.com/sindresorhus/invert-kv#readme
-(c) Sindre Sorhus (https://sindresorhus.com)
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-** is-docker; version 2.0.0 -- https://github.com/sindresorhus/is-docker#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** is-finite; version 1.1.0 -- https://github.com/sindresorhus/is-finite#readme
@@ -21036,7 +21035,7 @@ SOFTWARE.
 
 ------
 
-** node-notifier; version 8.0.0 -- https://github.com/mikaelbr/node-notifier#readme
+** node-notifier; version 8.0.1 -- https://github.com/mikaelbr/node-notifier#readme
 Copyright (c) by P.J. Plauger
 Copyright (c) 2017 Mikael Brevik
 Copyright (c) 1992-2004 by P.J. Plauger

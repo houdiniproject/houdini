@@ -5,7 +5,8 @@
 class BaseMailer < ActionMailer::Base
   include Roadie::Rails::Automatic
   include Devise::Controllers::UrlHelpers
-  add_template_helper(ApplicationHelper)
+  include ApplicationHelper
+  helper ApplicationHelper
   default from: Houdini.support_email
   layout 'email'
 end

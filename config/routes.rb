@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 Rails.application.routes.draw do
-
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   require_relative "./state_code_constraint"
   if Rails.env == 'development'
     get '/button_debug/embedded' => 'button_debug#embedded'

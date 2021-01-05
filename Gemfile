@@ -33,7 +33,7 @@ gem 'roadie-rails', '~> 2.1' # email generation helpers
 gem 'money', '~> 6.13'
 
 # Database and Events
-gem 'pg', '~> 0.11'
+gem 'pg', '~> 1.1'
 
 gem 'param_validation', path: 'gems/ruby-param-validation'
 gem 'qx', path: 'gems/ruby-qx'

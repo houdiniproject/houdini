@@ -85,14 +85,14 @@ module Houdini
             **options)
         Houdini.terms_and_privacy = app.config.houdini.terms_and_privacy
 
-        Houdini.intl = Houdini::Intl.new(app.config.houdini.intl)
+        Houdini.intl = Houdini::Intl.new(app.config.houdini.intl.to_h)
         Houdini.intl.all_countries ||=  ISO3166::Country.all.map(&:alpha2)
         Houdini.intl.all_currencies ||= Money::Currency.table
         raise("The language #{Houdini.intl.language} is not listed \
 in the provided locales: #{Houdini.intl.available_locales.join(', ')}") if Houdini.intl.available_locales.map(&:to_s)
                       .none?{|l| l == Houdini.intl.language.to_s}
 
-        Houdini.maintenance = Houdini::Maintenance.new(app.config.houdini.maintenance)
+        Houdini.maintenance = Houdini::Maintenance.new(app.config.houdini.maintenance.to_h)
 
         Houdini.source_tokens = app.config.houdini.source_tokens
 

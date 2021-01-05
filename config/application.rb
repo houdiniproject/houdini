@@ -23,7 +23,6 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 # require File.expand_path('lib/htp') # Hamster Table Print
-
 module Commitchange
   class Application < Rails::Application
     config.load_defaults '5.0'

@@ -9,5 +9,5 @@ json.extract! nonprofit, :id, :name, #basics
                 :no_anon #options
 json.url nonprofit_path(nonprofit)
 json.logo do
-    json.normal url_for(nonprofit.logo_by_size(:normal))
+    json.normal rails_storage_proxy_url(nonprofit.logo_by_size(:normal))
 end

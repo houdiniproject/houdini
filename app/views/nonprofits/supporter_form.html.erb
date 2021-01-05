@@ -18,7 +18,7 @@
 
     <br>
     <% if @nonprofit.logo.attached? %>
-      <%= image_tag url_for(@nonprofit.logo_by_size(:normal)) %>
+      <%= image_tag rails_storage_proxy_url(@nonprofit.logo_by_size(:normal)) %>
     <% end %>
     <% if params[:title] %>
       <h4><%= params[:title] %></h4>

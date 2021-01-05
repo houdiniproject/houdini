@@ -31,7 +31,7 @@
 		<tr>
 			<% if @nonprofit.logo.attached? %>
 			<td style='width: 100px; padding: 10px;'>
-				<%= image_tag @nonprofit.logo_by_size(:normal), style:'border: 1px solid rgba(0,0,0,0.05);'%>
+				<%= image_tag rails_storage_proxy_url(@nonprofit.logo_by_size(:normal)), style:'border: 1px solid rgba(0,0,0,0.05);'%>
 			</td>
 			<% end %>
 

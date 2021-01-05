@@ -4,7 +4,7 @@
 <table>
 	<tr>
 		<td class='fundraisingHeader-content-sideElementTd'>
-			<div class='fundraisingHeader-content-logo' style="background-image:url('<%= @nonprofit.logo.attached? ? url_for(@nonprofit.logo_by_size(:normal)) : "" %>');">
+			<div class='fundraisingHeader-content-logo' style="background-image:url('<%= @nonprofit.logo.attached? ? rails_storage_proxy_url(@nonprofit.logo_by_size(:normal)) : "" %>');">
 			</div>
 		</td>
 		<td class='fundraisingHeader-content-textTd'>

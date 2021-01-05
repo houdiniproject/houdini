@@ -6,7 +6,7 @@
 
     <div>
 			<div style='overflow: hidden; height: initial;'>
-        <%= image_tag @nonprofit.main_image_by_size(:nonprofit_carousel) %>
+        <%= image_tag rails_storage_proxy_url(@nonprofit.main_image_by_size(:nonprofit_carousel)) %>
 			</div>
 		</div>
 

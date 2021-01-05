@@ -12,15 +12,15 @@ json.url campaign_url(nonprofit)
 
 if campaign.main_image.attached?
     json.main_image do
-        json.full url_for(campaign.main_image)
-        json.normal url_for(campaign.main_image_by_size(:normal))
-        json.thumb url_for(campaign.main_image_by_size(:thumb))
+        json.full rails_storage_proxy_url(campaign.main_image)
+        json.normal rails_storage_proxy_url(campaign.main_image_by_size(:normal))
+        json.thumb rails_storage_proxy_url(campaign.main_image_by_size(:thumb))
     end
 end
 
 if campaign.background_image.attached?
     json.background_image do 
-        json.full url_for(campaign.background_image)
-        json.normal url_for(campaign.background_image_by_size(:normal))
+        json.full rails_storage_proxy_url(campaign.background_image)
+        json.normal rails_storage_proxy_url(campaign.background_image_by_size(:normal))
     end
 end

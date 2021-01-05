@@ -8,12 +8,12 @@
 <%= content_for :facebook_tags do %>
 	<meta property="og:title" content="<%= raw @nonprofit.name %>" />
 	<meta property="og:description" content="<%= raw @nonprofit.tagline %>" />
-	<meta property="og:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
+	<meta property="og:image" content="<%= @nonprofit.main_image.attached? ? rails_storage_proxy_url(@nonprofit.main_image_by_size(:nonprofit_carousel)) : "" %>" />
 <% end %>
 <%= content_for :twitter_tags do %>
 	<meta property="twitter:title" content="<%= raw @nonprofit.name %>" />
 	<meta property="twitter:description" content="<%= raw @nonprofit.tagline %>" />
-	<meta property="twitter:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
+	<meta property="twitter:image" content="<%= @nonprofit.main_image.attached? ? rails_storage_proxy_url(@nonprofit.main_image_by_size(:nonprofit_carousel)) : "" %>" />
 <% end %>
 
 <%= content_for :stylesheets do %>

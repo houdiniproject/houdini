@@ -34,13 +34,13 @@
 <%= content_for :facebook_tags do %>
 	<meta property='og:title' content='I support <%= @nonprofit.name %>!'>
 	<meta property='og:description' content='<%= @nonprofit.summary %>'>
-	<meta property='og:image' content='<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>'>
+	<meta property='og:image' content='<%= @nonprofit.main_image.attached? ? rails_storage_proxy_url(@nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>'>
 <% end %>
 
 <%= content_for :twitter_tags do %>
 	<meta property="twitter:title" content="I support <%= raw @nonprofit.name %>!">
 	<meta property="twitter:description" content="<%= raw @nonprofit.summary %>">
-	<meta property="twitter:image" content="<%= @nonprofit.main_image.attached? ? @nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>" />
+	<meta property="twitter:image" content="<%= @nonprofit.main_image.attached? ? rails_storage_proxy_url(@nonprofit.main_image_by_size(:nonprofit_carousel)) : "" %>" />
 <% end %>
 
 <% content_for :body_id do %>donate<% end %>

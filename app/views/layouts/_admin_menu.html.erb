@@ -3,7 +3,7 @@
 <% if current_role?([:nonprofit_admin,:nonprofit_associate]) %>
 	<section class='sideNav-section'>
 		<a class='sideNav-link' href='<%= administered_nonprofit.url%>'>
-			<%= image_tag administered_nonprofit.logo_by_size(:small), class:"sideNav-profile" %>
+			<%= image_tag rails_storage_proxy_url(administered_nonprofit.logo_by_size(:small)), class:"sideNav-profile" %>
 			<span class='sideNav-text'><%= administered_nonprofit.name %></span>
 		</a>
 

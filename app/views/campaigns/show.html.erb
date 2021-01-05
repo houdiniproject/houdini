@@ -46,13 +46,13 @@
 <%= content_for :facebook_tags do %>
 	<meta property="og:title" content="<%= raw @campaign.name %>">
 	<meta property="og:description" content="<%= @campaign.summary.present? ? raw(@campaign.summary) : raw(@campaign.name) %>">
-	<meta property="og:image" content="<%= @campaign.main_image.attached? ? @campaign.main_image_by_size(:normal) : "" %>">
+	<meta property="og:image" content="<%= @campaign.main_image.attached? ? rails_storage_proxy_url(@campaign.main_image_by_size(:normal)) : "" %>">
 <% end %>
 
 <%= content_for :twitter_tags do %>
 	<meta property="twitter:title" content="<%= raw @campaign.name %>">
 	<meta property="twitter:description" content="<%= raw @campaign.summary %>">
-	<meta property="twitter:image" content="<%= @campaign.main_image.attached? ? @campaign.main_image_by_size(:normal) : "" %>">
+	<meta property="twitter:image" content="<%= @campaign.main_image.attached? ? rails_storage_proxy_url(@campaign.main_image_by_size(:normal)) : "" %>">
 <% end %>
 
 <% if current_campaign_editor? %>

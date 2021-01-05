@@ -24,7 +24,7 @@
 				</p>
 
 			<div class='u-inlineBlock'>
-				<div class='image-upload' style='background-image:url("<%= @nonprofit.main_image.attached? ? url_for(@nonprofit.main_image_by_size(:thumb_explore)) : '' %>")'>
+				<div class='image-upload' style='background-image:url("<%= @nonprofit.main_image.attached? ? rails_storage_proxy_url(@nonprofit.main_image_by_size(:thumb_explore)) : '' %>")'>
 					<span><i class='fa fa-image'></i> Select</span>
 					<input type='file' name='nonprofit[main_image]'>
 				</div>

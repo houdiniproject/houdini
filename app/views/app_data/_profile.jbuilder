@@ -4,4 +4,4 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 json.extract! profile, :id, :name, :country, :picture
 json.url profile_path(profile)
-json.pic_tiny url_for(profile.picture_by_size(:tiny)) if profile.picture.attached?
+json.pic_tiny rails_storage_proxy_url(profile.picture_by_size(:tiny)) if profile.picture.attached?

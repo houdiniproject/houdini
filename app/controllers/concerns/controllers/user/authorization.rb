@@ -8,15 +8,15 @@ module Controllers::User::Authorization
   included do
     helper_method :current_role?, :administered_nonprofit
     private
-    def authenticate_user!(type= :html)
-      reject_with_sign_in unless current_user
+    def authenticate_user!(msg=nil, type= :html)
+      reject_with_sign_in(msg, type) unless current_user
     end
 
     def reject_with_sign_in(msg=nil, type= :html)
       if type == :html
         block_with_sign_in(msg)
       else
-        render text: msg, status: :unauthorized
+        render json: {message:msg}, status: :unauthorized
       end
     end
 

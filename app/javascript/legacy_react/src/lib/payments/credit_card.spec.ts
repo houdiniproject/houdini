@@ -163,7 +163,7 @@ describe('CreditCardTypeManager', () => {
     it('that is a two-digit year', () => {
       const currentTime = new Date()
       const topic = cc.validateCardExpiry(currentTime.getMonth() + 1,
-        ('' + currentTime.getFullYear()).substr(0, 2))
+        ('' + currentTime.getFullYear()).substr(2, 4))
       expect(topic).toBeTruthy()
 
     })

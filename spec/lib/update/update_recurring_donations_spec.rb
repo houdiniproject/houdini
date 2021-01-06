@@ -175,9 +175,9 @@ describe UpdateRecurringDonations do
       }
 
       expectations[:result] = expectations[:recurring_donation].merge(nonprofit_name: nonprofit.name, card_name: card.name)
-      expectations[:result][:created_at] = expectations[:result]["start_date"].to_s
-      expectations[:result][:created_at] = expectations[:result]["created_at"].to_date.strftime('%Y-%m-%d %H:%M:%S')
-      expectations[:result][:updated_at] = expectations[:result]["updated_at"].to_date.strftime('%Y-%m-%d %H:%M:%S')
+      expectations[:result][:start_date] = expectations[:result]["start_date"].to_date.strftime("%Y-%m-%d")
+      expectations[:result][:created_at] = expectations[:result]["created_at"].to_date
+      expectations[:result][:updated_at] = expectations[:result]["updated_at"].to_date
       
       expect(result).to match expectations[:result]
       

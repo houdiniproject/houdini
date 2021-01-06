@@ -106,6 +106,8 @@ module Commitchange
 
     config.action_mailer.default_options = {from: "Default Org Team <hi@defaultorg.com>"}
 
+    config.active_storage.draw_routes = false
+
     # this works around a bug where the the webpacker proxy
     # only waits 60 seconds for a compilation to happen. That's not 
     # fast enough on startup and Webpacker doesn't allow us to override.

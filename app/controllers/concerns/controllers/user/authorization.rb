@@ -39,11 +39,15 @@ module Controllers::User::Authorization
       QueryRoles.user_has_role?(current_user.id, role_names, host_id)
     end
 
-    def authenticate_confirmed_user!
+    def authenticate_confirmed_user!(msg=nil, type= :html)
       if !current_user
-        reject_with_sign_in
+        reject_with_sign_in(msg, type)
       elsif !current_user.confirmed? && !current_role?(%i[super_associate super_admin])
-        redirect_to new_user_confirmation_path, flash: { error: 'You need to confirm your account to do that.' }
+        if type == :html
+          redirect_to new_user_confirmation_path, flash: { error: 'You need to confirm your account to do that.' }
+        else
+          render json: {message:msg}, status: :unauthorized
+        end
       end
     end
   

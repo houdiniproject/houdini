@@ -9,8 +9,12 @@ export default interface Transaction extends HoudiniObject {
 	nonprofit: IdType | Nonprofit;
 	supporter: IdType | Supporter;
 	status: "created" | "waiting" | "failed" | "completed";
-	items: CreateTransactionItem;
+	
 	amount: Amount;
+	netAmount: Amount;
+	disputes: 
+	refunds:
+	
 
 }
 

@@ -6,7 +6,7 @@ import  Supporter  from '.';
 export default interface Address extends HoudiniObject {
 	city: string;
 	country: string;
-	id: IdType;
+	address: string;
 	postalCode: string;
 	stateCode: string;
 	supporter: IdType | Supporter;
@@ -14,6 +14,7 @@ export default interface Address extends HoudiniObject {
 }
 
 export interface CreateSupporterAddress {
+	address: string;
 	city: string;
 	country: string;
 	postalCode: string;

@@ -2,6 +2,7 @@
 import { IdType, HoudiniObject, HoudiniEvent } from '../../common';
 import  Nonprofit  from '../';
 import Address, { CreateSupporterAddress} from "./Address";
+import { TagMaster } from './Tag';
 
 /**
  * @description An individuals
@@ -21,6 +22,8 @@ export default interface Supporter extends HoudiniObject {
 	deleted?: boolean;
 	merged_into?: IdType | Supporter
 	merged_on?: Date
+
+	tags?: IdType[]|TagMaster[]
 }
 
 /**
@@ -35,7 +38,7 @@ export interface CreateSupporter {
 	title: string;
 	organization?: string;
 	primary_address?: CreateSupporterAddress;
-	tags?:[]
+	tags?: IdType[]
 }
 
 

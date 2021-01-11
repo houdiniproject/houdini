@@ -37,8 +37,8 @@ describe QueryTicketLevels do
   end
 
   describe '.verify_tickets_available' do
-    let(:ticket_level_1) { force_create(:ticket_level, limit: 3) }
-    let(:ticket_level_2) { force_create(:ticket_level, limit: 2) }
+    let(:ticket_level_1) { force_create(:ticket_level, limit: 3, event: event) }
+    let(:ticket_level_2) { force_create(:ticket_level, limit: 2, event: event) }
     let(:tickets) do
       [
         force_create(:ticket, ticket_level: ticket_level_1, quantity: 1),

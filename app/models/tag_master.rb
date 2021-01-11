@@ -44,10 +44,7 @@ class TagMaster < ApplicationRecord
       tag.(self, :id, :name, :deleted)
       tag.object 'tag_master'
       if expand.include? :nonprofit && nonprofit
-        tag.nonprofit do 
-          tag.id  nonprofit.id
-          tag.name  nonprofit.name
-        end
+        tag.nonprofit nonprofit.to_builder
       else
         tag.nonprofit nonprofit && nonprofit.id
       end

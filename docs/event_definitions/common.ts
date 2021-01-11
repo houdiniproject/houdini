@@ -7,6 +7,19 @@
 export type IdType = number;
 
 /**
+ * Describes a monetary value in the minimum unit for this current. Corresponds to Money class in
+ * Ruby and Typescript
+ */
+export type Amount = { currency: string, value_in_cents: string };
+
+/**
+ * A more flexible version of Amount. In cases where we can assume what the currency is,
+ * we don't actually require you to provide it. Probably will be used most by APIs
+ */
+export type FlexibleAmount = Amount | string | number;
+
+
+/**
  * Every object controlled by the Houdini event publisher must meet this standard interface
  * and will inherit from it.
  */

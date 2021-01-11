@@ -54,6 +54,9 @@ class Supporter < ActiveRecord::Base
 
   validates :nonprofit, :presence => true
   scope :not_deleted, -> {where(deleted: false)}
+  scope :deleted, -> {where(deleted: true)}
+  scope :merged, -> {where('merged_at IS NOT NULL')}
+  scope :not_merged, -> {where('merged_at IS NULL')}
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
@@ -70,6 +73,17 @@ class Supporter < ActiveRecord::Base
   def profile_picture size=:normal
     return unless self.profile
     self.profile.get_profile_picture(size)
+  end
+
+
+  # Supporters can be merged many times. This finds the last
+  # supporter after following merged_into until it gets a nil
+  def end_of_merge_chain
+    if merged_into.nil?
+      return self
+    else
+      merged_into.end_of_merge_chain
+    end
   end
 
 

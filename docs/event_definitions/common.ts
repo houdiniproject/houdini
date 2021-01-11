@@ -41,7 +41,7 @@ export interface HoudiniEvent<EventType extends string, DataObject extends Houdi
 	 * A UUID uniquely representing the event
 	 */
 	id: string;
-	object: 'event';
+	object: 'object_event';
 	/** The type of event that this is */
 	type: EventType;
 

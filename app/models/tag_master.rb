@@ -68,7 +68,7 @@ private
   def to_event(event_type, *expand)
     Jbuilder.new do |event|
       event.id SecureRandom.uuid
-      event.object 'event'
+      event.object 'object_event'
       event.type event_type
       event.data do 
         event.object to_builder(*expand)

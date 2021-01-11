@@ -17,7 +17,7 @@ const assertOperand = function (operand: unknown) {
 		throw new TypeError('Operand must be a number');
 };
 
-type MoneyAsJson = { amount: number, currency: string }
+type MoneyAsJson = { amount: number, currency: string };
 
 /**
  * Represents a monetary amount. For safety, all Money objects are immutable. All of the functions in this class create a new Money object.
@@ -33,9 +33,9 @@ export class Money {
 	* @static
 	* @memberof Money
 	*/
-	static fromSMU = Money.fromCents
+	static fromSMU = Money.fromCents;
 
-	readonly currency: string
+	readonly currency: string;
 
 	protected constructor(readonly amount: number, currency: string) {
 		this.currency = currency.toLowerCase();

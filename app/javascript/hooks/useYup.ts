@@ -96,12 +96,12 @@ type RequiredValueProps = {path:string};
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TestOptionsMessageFn<Extra extends Record<string, any> = Record<string, any>, R = any> =
-	| ((params: Extra & Partial<yup.TestMessageParams> & RequiredValueProps) => R)
+	| ((params: Extra & Partial<yup.TestMessageParams> & RequiredValueProps) => R);
 
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ToPropResult<Extra extends Record<string, any> = Record<string, any>> = TestOptionsMessageFn<Extra>
+type ToPropResult<Extra extends Record<string, any> = Record<string, any>> = TestOptionsMessageFn<Extra>;
 
 
 /**

@@ -2208,7 +2208,7 @@ CREATE TABLE public.ticket_levels (
     description text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted boolean,
+    deleted boolean DEFAULT false NOT NULL,
     "limit" integer,
     event_discount_id integer,
     admin_only boolean,
@@ -4155,6 +4155,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200901214156'),
 ('20210105192021'),
 ('20210105192022'),
-('20210107210143');
+('20210107210143'),
+('20210111220133');
 
 

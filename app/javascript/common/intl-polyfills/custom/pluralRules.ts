@@ -5,7 +5,7 @@ import type {Polyfilled} from './types';
 
 import getCanonicalLocales from './getCanonicalLocales';
 
-type PolyfilledPluralRules = Polyfilled<typeof Intl.PluralRules>
+type PolyfilledPluralRules = Polyfilled<typeof Intl.PluralRules>;
 
 export default async function pluralRules(locales:string[]):Promise<void> {
 	await getCanonicalLocales();

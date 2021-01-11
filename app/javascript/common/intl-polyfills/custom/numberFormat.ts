@@ -5,7 +5,7 @@ import pluralRules from './pluralRules';
 
 import type {Polyfilled} from './types';
 
-type PolyfilledNumberFormat = Polyfilled<typeof Intl.NumberFormat>
+type PolyfilledNumberFormat = Polyfilled<typeof Intl.NumberFormat>;
 
 export default async function numberFormat(locales:string[]) :Promise<void> {
 	await pluralRules(locales);

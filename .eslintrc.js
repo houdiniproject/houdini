@@ -76,10 +76,8 @@ module.exports = {
 			"error",
 			"unix",
 		],
-		"semi": [
-			"error",
-			"always",
-		],
+		"semi": "off",
+		"@typescript-eslint/semi": ["error", "always"],
 		"no-trailing-spaces": ["error"],
 		"indent": ["error", "tab", { "SwitchCase": 1 }], // we use tabs for accessibility
 		"comma-dangle": "off",

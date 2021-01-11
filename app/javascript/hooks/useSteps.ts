@@ -134,9 +134,9 @@ interface MutableStepsObject extends InputStepsMethods {
 	next: () => void;
 	uncomplete: (step: number) => void;
 }
-type StepsObject = Readonly<MutableStepsObject> & Readonly<InputStepsState> & StepsInitOptions & { readonly steps: readonly KeyedStep[] }
+type StepsObject = Readonly<MutableStepsObject> & Readonly<InputStepsState> & StepsInitOptions & { readonly steps: readonly KeyedStep[] };
 
-type StepTypes = 'goto' | 'first' | 'last' | 'back' | 'next' | 'complete' | 'uncomplete' | 'disable' | 'enable' | 'stepsChanged'
+type StepTypes = 'goto' | 'first' | 'last' | 'back' | 'next' | 'complete' | 'uncomplete' | 'disable' | 'enable' | 'stepsChanged';
 
 interface StepAction {
 	payload?: number | string | readonly KeyedStep[];

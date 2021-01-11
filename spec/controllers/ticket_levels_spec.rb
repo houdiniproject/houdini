@@ -33,4 +33,48 @@ describe TicketLevelsController, type: :controller do
       end
     end
   end
+
+  describe 'verify deleted doesnt get passed through on update' do
+    include_context :shared_user_context
+    include_context :shared_donation_charge_context
+    let(:ticket_level_name) {"TICKET LEVEL"}
+    let(:order) { 3}
+    let(:free_amount) { 0}
+    let(:non_free_amount) {7500}
+    let(:ticket_limit) {4}
+    let(:description) {"Description"}
+    let(:ticket_level_2) {
+      event.ticket_levels.create(
+        name: ticket_level_name, 
+        limit: nil,
+        admin_only: false,
+        order: order,
+        amount: non_free_amount,
+        description: description
+      )
+    }
+    it 'updates safely' do
+      input = {
+        nonprofit_id: nonprofit.id,
+        event_id: event.id,
+        id: ticket_level_2.id,
+        ticket_level: {
+          name: ticket_level_name, 
+          limit: nil,
+          admin_only: false,
+          order: order,
+          amount: 0,
+          description: description,
+          deleted: true
+        }
+      }
+      sign_in user_as_np_admin
+      put :update, params: input, xhr: true
+      expect(response).to have_http_status :ok
+    
+      ticket_level_2.reload
+      expect(ticket_level_2.deleted).to eq false
+      expect(ticket_level_2.amount).to eq 0
+    end
+  end
 end

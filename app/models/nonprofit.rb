@@ -247,6 +247,13 @@ class Nonprofit < ApplicationRecord
     Houdini.intl.all_currencies[currency.downcase.to_sym][:symbol]
   end
 
+  def to_builder(*expand) 
+    Jbuilder.new do |json|
+      json.(self, :id, :name)
+      json.object 'nonprofit'
+    end
+  end
+
 private 
   def build_admin_role 
     role = user.roles.build(host: self, name: 'nonprofit_admin')

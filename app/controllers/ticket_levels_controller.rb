@@ -46,6 +46,6 @@ class TicketLevelsController < ApplicationController
   end
 
   def ticket_level_params
-    params.require(:ticket_level).permit(:amount, :amount_dollars, :name, :description, :quantity, :deleted, :event_id, :admin_only, :limit, :order)
+    params.require(:ticket_level).permit(:amount, :amount_dollars, :name, :description, :quantity, :event_id, :admin_only, :limit, :order)
   end
 end

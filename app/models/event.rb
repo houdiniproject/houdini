@@ -101,6 +101,16 @@ class Event < ApplicationRecord
     self
   end
 
+  def to_builder(*expand) 
+    Jbuilder.new do |json|
+      json.(self, :id, :name)
+      json.object "event"
+      json.nonprofit expand.include?(:nonprofit) && nonprofit ? 
+        nonprofit.to_builder : 
+        nonprofit && nonprofit.id
+    end
+  end
+
   def url
     "#{nonprofit.url}/events/#{slug}"
   end

@@ -5,7 +5,7 @@
 module Nonprofits
   class TagMastersController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
 
     def index
@@ -25,7 +25,7 @@ module Nonprofits
 
     def destroy
       tag_master = current_nonprofit.tag_masters.find(params[:id])
-      tag_master.update_attribute(:deleted, true)
+      tag_master.discard!
       tag_master.tag_joins.destroy_all
       render json: {}, status: :ok
     end

@@ -13,7 +13,7 @@ class TagJoin < ApplicationRecord
 
   def name
     tag_master.name
-end
+  end
 
   def self.create_with_name(nonprofit, h)
     tm = nonprofit.tag_masters.find_by_name(h['name'])

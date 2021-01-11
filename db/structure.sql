@@ -2170,7 +2170,7 @@ CREATE TABLE public.tag_masters (
     id integer NOT NULL,
     name character varying(255),
     nonprofit_id integer,
-    deleted boolean,
+    deleted boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -4154,6 +4154,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200423222447'),
 ('20200901214156'),
 ('20210105192021'),
-('20210105192022');
+('20210105192022'),
+('20210107210143');
 
 

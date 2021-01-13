@@ -325,12 +325,13 @@ describe InsertDuplicate do
 
     def validate_eds(new_event)
       old_event = event
+      old_event.reload
       expect(EventDiscount.count).to eq 2
-      old_tl = old_event.event_discounts.first
-      new_tl = new_event.event_discounts.first
-      expect(old_tl.id).to_not eq new_tl.id
-      expect(old_tl.event_id).to_not eq new_tl.event_id
-      expect(old_tl.attributes.except('id', 'event_id')).to eq new_tl.attributes.except('id', 'event_id')
+      old_ed = old_event.event_discounts.first
+      new_ed = new_event.event_discounts.first
+      expect(old_ed.id).to_not eq new_ed.id
+      expect(old_ed.event_id).to_not eq new_ed.event_id
+      expect(old_ed.attributes.except('id', 'event_id')).to eq new_ed.attributes.except('id', 'event_id')
     end
   end
 end

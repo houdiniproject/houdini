@@ -73,7 +73,7 @@ class TicketLevel < ApplicationRecord
 
         if expand.include? :event_discounts
           json.event_discounts event.event_discounts do |disc|
-            disc.to_builder
+            json.merge! disc.to_builder.attributes!
           end
         else 
           json.event_discounts event.event_discounts.pluck(:id)
@@ -84,18 +84,18 @@ class TicketLevel < ApplicationRecord
 
   private
   def publish_create
-    Houdini.event_publisher.announce(:ticket_level_created, to_event('ticket_level.created', :event, :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:ticket_level_created, to_event('ticket_level.created', :event, :nonprofit, :event_discounts).attributes!)
   end
 
   def publish_updated
     # we don't run update when we've really just discarded
     unless deleted
-      Houdini.event_publisher.announce(:ticket_level_updated, to_event('ticket_level.updated', :event, :nonprofit).attributes!)
+      Houdini.event_publisher.announce(:ticket_level_updated, to_event('ticket_level.updated', :event, :nonprofit, :event_discounts).attributes!)
     end
   end
 
   def publish_delete
-    Houdini.event_publisher.announce(:ticket_level_deleted, to_event('ticket_level.deleted', :event, :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:ticket_level_deleted, to_event('ticket_level.deleted', :event, :nonprofit, :event_discounts).attributes!)
   end
 
   def to_event(event_type, *expand)

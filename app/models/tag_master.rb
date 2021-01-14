@@ -3,7 +3,8 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class TagMaster < ApplicationRecord
-
+  include ObjectEvent::ModelExtensions
+  object_eventable
   # TODO replace with Discard gem
   define_model_callbacks :discard
 
@@ -59,17 +60,5 @@ private
 
   def publish_delete
     Houdini.event_publisher.announce(:tag_master_deleted, to_event('tag_master.deleted', :nonprofit).attributes!)
-  end
-  
-
-  def to_event(event_type, *expand)
-    Jbuilder.new do |event|
-      event.id SecureRandom.uuid
-      event.object 'object_event'
-      event.type event_type
-      event.data do 
-        event.object to_builder(*expand)
-      end
-    end
   end
 end

@@ -11,4 +11,7 @@ class SupporterNote < ApplicationRecord
 
   validates :content, length: { minimum: 1 }
   validates :supporter_id, presence: true
+
+
+  
 end

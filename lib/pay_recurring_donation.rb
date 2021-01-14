@@ -86,7 +86,7 @@ module PayRecurringDonation
       rd.save!
       result['recurring_donation'] = rd
       Houdini.event_publisher.announce(:recurring_donation_payment_failed, donation)
-      InsertSupporterNotes.create([{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540 }])
+      InsertSupporterNotes.create({supporter:Supporter.find(donation['supporter_id']), user: User.find(540), note:{ content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}"}})
     end
     result
   end

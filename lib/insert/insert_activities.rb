@@ -163,27 +163,19 @@ module InsertActivities
       .left_join(:users, 'users.id=supporter_emails.user_id')
   end
 
-  def self.for_supporter_notes(ids)
-    insert_supporter_notes_expr
-      .and_where('supporter_notes.id IN ($ids)', ids: ids)
-      .execute
-  end
-
-  def self.insert_supporter_notes_expr
-    Qx.insert_into(:activities, insert_cols.concat(['user_id']))
-      .select(defaults.concat([
-                                'supporter_notes.supporter_id',
-                                "'SupporterEmail' AS attachment_type",
-                                'supporter_notes.id AS attachment_id',
-                                'supporters.nonprofit_id',
-                                'supporter_notes.created_at AS date',
-                                "json_build_object('content', supporter_notes.content, 'user_email', users.email)",
-                                "'SupporterNote' AS kind",
-                                'users.id AS user_id'
-                              ]))
-      .from(:supporter_notes)
-      .join('supporters', 'supporters.id=supporter_notes.supporter_id')
-      .add_left_join(:users, 'users.id=supporter_notes.user_id')
+  def self.for_supporter_notes(notes)
+    notes.map do |note|
+      note.activities.create(supporter: note.supporter, 
+        nonprofit: note.supporter.nonprofit, 
+        date: note.created_at,
+        kind: 'SupporterNote',
+        user: note.user,
+        json_data: {
+          content: note.content,
+          user_email: note.user&.email
+        }
+      )
+    end
   end
 
   def self.for_offsite_donations(payment_ids)

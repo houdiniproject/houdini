@@ -2,23 +2,21 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
-require 'param_validation'
-require 'qx'
 
 module InsertSupporterNotes
-  def self.create(notes)
-    ParamValidation.new(notes,
-                        root: { array_of_hashes: {
-                          supporter_id: { required: true, is_integer: true },
-                          user_id: { required: true, is_integer: true },
-                          content: { required: true }
-                        } })
-    inserted = Qx.insert_into(:supporter_notes)
-                 .values(notes)
-                 .timestamps
-                 .returning('*')
-                 .execute
-    InsertActivities.for_supporter_notes(inserted.map { |h| h['id'] })
+  #note_supporter_users : array of hashes
+  # each hash:
+  #   supporter: Supporter new note should belong to
+  #   user: User creating the note
+  #   note: parameters to pass into the note
+  def self.create(*note_supporter_users)
+    inserted = nil
+    ActiveRecord::Base.transaction do 
+      inserted = note_supporter_users.map do |nsu|
+        nsu[:supporter].supporter_notes.create(nsu[:note].merge({user: nsu[:user]}))
+      end
+      InsertActivities.for_supporter_notes(inserted)
+    end
     inserted
   end
 end

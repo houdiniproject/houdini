@@ -81,6 +81,13 @@ class Supporter < ApplicationRecord
     h
   end
 
+  def to_builder(*expand)
+    Jbuilder.new do |json|
+      json.object "supporter"
+      json.id id
+    end
+  end
+
   def full_address
     Format::Address.full_address(address, city, state_code)
   end

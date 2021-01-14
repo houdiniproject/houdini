@@ -2015,7 +2015,7 @@ CREATE TABLE public.supporter_notes (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     user_id integer,
-    deleted boolean
+    deleted boolean DEFAULT false NOT NULL
 );
 
 
@@ -4156,6 +4156,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210105192021'),
 ('20210105192022'),
 ('20210107210143'),
-('20210111220133');
+('20210111220133'),
+('20210114213034');
 
 

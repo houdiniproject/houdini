@@ -98,4 +98,11 @@ class User < ApplicationRecord
     # self.geocode
     # self.save
   end
+
+  def to_builder(*expand)
+    Jbuilder.new do |json|
+      json.object "user"
+      json.id id
+    end
+  end
 end

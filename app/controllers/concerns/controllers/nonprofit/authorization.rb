@@ -7,6 +7,7 @@ module Controllers::Nonprofit::Authorization
     include Controllers::User::Authorization
 
     included do
+        helper_method :current_nonprofit_user?
         private
         def authenticate_nonprofit_user!(type: :web)
             reject_with_sign_in 'Please sign in' unless current_nonprofit_user?

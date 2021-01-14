@@ -80,12 +80,4 @@ class ApplicationController < ActionController::Base
   def after_inactive_sign_up_path_for(_resource)
     profile_path(current_user.profile)
   end
-
-  # /devise config
-
-  private
-
-  def current_user_id
-    current_user&.id
-  end
 end

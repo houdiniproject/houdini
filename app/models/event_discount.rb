@@ -3,6 +3,8 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class EventDiscount < ApplicationRecord
+  include ObjectEvent::ModelExtensions
+  object_eventable
   # :code,
   # :event_id,
   # :name,
@@ -69,16 +71,5 @@ class EventDiscount < ApplicationRecord
 
   def publish_delete
     Houdini.event_publisher.announce(:event_discount_deleted, to_event('event_discount.deleted', :event, :nonprofit, :ticket_levels).attributes!)
-  end
-
-  def to_event(event_type, *expand)
-    Jbuilder.new do |event|
-      event.id SecureRandom.uuid
-      event.object 'object_event'
-      event.type event_type
-      event.data do 
-        event.object to_builder(*expand)
-      end
-    end
   end
 end

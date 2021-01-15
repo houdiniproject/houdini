@@ -373,9 +373,9 @@ CREATE TABLE public.campaign_gift_options (
     amount_dollars character varying(255),
     amount_recurring integer,
     quantity integer,
-    to_ship boolean,
+    to_ship boolean DEFAULT false NOT NULL,
     "order" integer,
-    hide_contributions boolean
+    hide_contributions boolean DEFAULT false NOT NULL
 );
 
 
@@ -4158,6 +4158,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210107210143'),
 ('20210111220133'),
 ('20210114213034'),
-('20210115203009');
+('20210115203009'),
+('20210115230815');
 
 

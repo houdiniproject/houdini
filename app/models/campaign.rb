@@ -195,4 +195,12 @@ class Campaign < ApplicationRecord
     where('campaigns.id = ? OR campaigns.parent_campaign_id = ? ',campaign, campaign)
   end
 
+  def to_builder(*expand)
+    Jbuilder.new do |json|
+      json.(self, :id, :name)
+      json.object "campaign"
+      json.nonprofit nonprofit.id
+    end
+  end
+
 end

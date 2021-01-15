@@ -18,6 +18,38 @@ export type Amount = { currency: string, value_in_cents: string };
  */
 export type FlexibleAmount = Amount | string | number;
 
+/**
+ * A rule for something recurring. Used for recurring donations. Based on `ice_cube` gem format
+ *
+ * @example
+ * // Recur once a month, for  3 times
+ * { count: 3, interval: 1, type: 'monthly' }
+ * @example
+ * // Recur every other month, stop on June 1, 2021
+ * { interval: 2, type: 'monthly', until: new Date(2021, 6, 1) }
+ * @example
+ * // Recur every year
+ * { interval: 1, type: 'yearly' }
+ */
+export type RecurrenceRule = {
+	/**
+	 * The number of times we should run the recurrence
+	 */
+	count?: number;
+	/**
+	 * Interval of `type` for the event to recur
+	 */
+	interval: number;
+	/**
+	 * The scale of the recurrence
+	 */
+	type: 'monthly' | 'year';
+	/**
+	 * The the point after which the rule should not recur anymore.
+	 */
+	until?: Date;
+};
+
 
 /**
  * Every object controlled by the Houdini event publisher must meet this standard interface

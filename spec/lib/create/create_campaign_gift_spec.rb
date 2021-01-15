@@ -127,7 +127,8 @@ describe CreateCampaignGift do
 
     describe 'successful insert' do
       let(:profile) { force_create(:profile, user: force_create(:user)) }
-      let(:campaign) { force_create(:campaign, profile: profile) }
+      let(:nonprofit) {create(:nm_justice)}
+      let(:campaign) { force_create(:campaign, profile: profile, nonprofit: nonprofit) }
 
       describe 'insert with no option quantity limit' do
         let(:campaign_gift_option) {  force_create(:campaign_gift_option, campaign: campaign, amount_recurring: 300, amount_one_time: 5000) }

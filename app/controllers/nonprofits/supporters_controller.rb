@@ -5,7 +5,8 @@
 module Nonprofits
   class SupportersController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
+    include Controllers::Supporter::Current
 
     before_action :authenticate_nonprofit_user!, except: %i[new create]
 
@@ -54,13 +55,12 @@ module Nonprofits
     end
 
     def email_address
-      render json: Supporter.find(params[:supporter_id]).email
+      render json: current_supporter.email
     end
 
     def full_contact
-      begin 
-        s = Supporter.find params[:id]
-        if s.method_defined? :full_contact_infos && (fc = s.full_contact_infos.first)
+      begin
+        if current_supporter.method_defined? :full_contact_infos && (fc = current_supporter.full_contact_infos.first)
           render json: { full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id) }
         else
           render json: { full_contact: nil }
@@ -76,13 +76,12 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/supporters
     def create
-      render_json { InsertSupporter.create_or_update(params[:nonprofit_id], create_supporter_params.to_h) }
+      render_json { InsertSupporter.create_or_update(nonprofit, create_supporter_params.to_h) }
     end
 
     # put /nonprofits/:nonprofit_id/supporters/:id
     def update
-      @supporter = current_nonprofit.supporters.find(params[:id])
-      json_saved UpdateSupporter.from_info(@supporter, update_supporter_params[:supporter])
+      json_saved UpdateSupporter.from_info(current_supporter, update_supporter_params[:supporter])
     end
 
     def bulk_delete

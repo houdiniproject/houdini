@@ -10,11 +10,29 @@ RSpec.describe SupporterNote, type: :model do
   let(:content2) {"CONTENT2"}
 
   let(:supporter_note) { supporter.supporter_notes.create(content: content, user: user) }
+
+  let(:supporter_base) do
+		{
+			'anonymous' => false,
+			'deleted' => false,
+			'name' => name,
+			'organization' => nil,
+			'phone' => nil,
+			'supporter_addresses' => [kind_of(Numeric)],
+			'id'=> kind_of(Numeric),
+			'merged_into' => nil,
+			'nonprofit'=> nonprofit.id,
+			'object' => 'supporter'
+		}
+	end
+
   it 'creates' do 
     expect(supporter_note.errors).to be_empty
   end
 
   it 'announces created' do
+    expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
+    expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_created, {
       'id' => kind_of(String),
       'object' => 'object_event',
@@ -34,10 +52,7 @@ RSpec.describe SupporterNote, type: :model do
             'id' => user.id,
             'object' => 'user'
           },
-          'supporter' => {
-            'id' => supporter.id,
-            'object' => 'supporter'
-          }
+          'supporter' => supporter_base.merge({'name' => "Fake Supporter Name"})
         }
       }
     })
@@ -46,6 +61,8 @@ RSpec.describe SupporterNote, type: :model do
   end
 
   it 'announces updated' do
+    expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
+    expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_created, anything).ordered
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_updated, {
       'id' => kind_of(String),
@@ -66,10 +83,7 @@ RSpec.describe SupporterNote, type: :model do
             'id' => user.id,
             'object' => 'user'
           },
-          'supporter' => {
-            'id' => supporter.id,
-            'object' => 'supporter'
-          }
+          'supporter' => supporter_base.merge({'name' => "Fake Supporter Name"})
         }
       }
     }).ordered
@@ -80,6 +94,8 @@ RSpec.describe SupporterNote, type: :model do
   end
   
   it 'announces deleted' do
+    expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
+    expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_created, anything).ordered
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_deleted, {
       'id' => kind_of(String),
@@ -100,10 +116,7 @@ RSpec.describe SupporterNote, type: :model do
             'id' => user.id,
             'object' => 'user'
           },
-          'supporter' => {
-            'id' => supporter.id,
-            'object' => 'supporter'
-          }
+          'supporter' => supporter_base.merge({'name' => "Fake Supporter Name"})
         }
       }
     }).ordered

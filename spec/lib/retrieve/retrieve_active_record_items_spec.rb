@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe RetrieveActiveRecordItems do
   describe '.retrieve' do
-    let(:item) { force_create(:supporter) }
+    let(:item) { force_create(:supporter, nonprofit: item2) }
     let(:item2) { force_create(:nm_justice) }
     it 'raises if not a class for key' do
       expect { RetrieveActiveRecordItems.retrieve('item' => 1) }.to raise_error(ArgumentError)
@@ -41,7 +41,7 @@ describe RetrieveActiveRecordItems do
   end
 
   describe '.retrieve_from_keys' do
-    let(:item) { force_create(:supporter) }
+    let(:item) { force_create(:supporter, nonprofit: item2) }
     let(:item2) { force_create(:nm_justice) }
     it 'raises if not a class for key' do
       expect { RetrieveActiveRecordItems.retrieve_from_keys({}, 'item' => 1) }.to raise_error(ArgumentError)

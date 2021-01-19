@@ -287,6 +287,8 @@ describe InsertTickets do
           expect(QueryRoles).to receive(:is_authorized_for_nonprofit?).with(user.id, nonprofit.id).and_return true
           result = nil
           expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
+          expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
           expect(Houdini.event_publisher).to receive(:announce).with(:ticket_create, any_args).ordered
           result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
           

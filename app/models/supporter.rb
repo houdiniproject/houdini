@@ -55,6 +55,22 @@ class Supporter < ApplicationRecord
   validates :nonprofit, presence: true
   scope :not_deleted, -> { where(deleted: false) }
 
+  # TODO replace with Discard gem
+  define_model_callbacks :discard
+
+  after_discard :publish_deleted
+
+  after_create_commit :publish_create
+  after_update_commit :publish_updated
+
+  # TODO replace with discard gem
+  def discard!
+    run_callbacks(:discard) do
+      self.deleted = true
+      save!
+    end
+  end
+
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     geo = results.first
@@ -82,14 +98,95 @@ class Supporter < ApplicationRecord
   end
 
   def to_builder(*expand)
+    supporter_addresses = [self]
     Jbuilder.new do |json|
       json.object "supporter"
-      json.id id
+      json.(self, :id, :name, :organization, :phone, :anonymous, :deleted)
+      if expand.include? :supporter_address
+        json.supporter_addresses supporter_addresses do |i|
+          json.merge! i.to_supporter_address_builder.attributes!
+        end
+      else
+        json.supporter_addresses [id]
+      end
+
+      if expand.include? :nonprofit
+        json.nonprofit nonprofit.to_builder
+      else
+        json.nonprofit nonprofit.id
+      end
+
+      unless merged_into.nil?
+        if expand.include? :merged_into
+          json.merged_into merged_into.to_builder
+        else
+          json.merged_into merged_into.id
+        end
+      else
+        json.merged_into nil
+      end
+    end
+  end
+
+  def to_supporter_address_builder(*expand)
+    Jbuilder.new do |json|
+      json.(self, :id, :address, :state_code, :city, :country, :zip_code, :deleted)
+      json.object 'supporter_address'
+      if expand.include? :supporter
+        json.supporter to_builder
+      else
+        json.supporter id
+      end
     end
   end
 
   def full_address
     Format::Address.full_address(address, city, state_code)
+  end
+
+  private
+
+  ADDRESS_ATTRIBUTES = [:address, :city, :state_code, :zip_code, :country]
+
+  def supporter_address_updated?
+    ADDRESS_ATTRIBUTES.any?{|attrib| saved_change_to_attribute?(attrib)}
+  end
+
+  def nonsupporter_address_updated?
+    (saved_changes.keys.map{|i| i.to_sym} - ADDRESS_ATTRIBUTES).any?
+  end
+
+  def publish_create
+    Houdini.event_publisher.announce(:supporter_created, to_event('supporter.created', :supporter_address, :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:supporter_address_created, to_event('supporter_address.created', :supporter, :nonprofit).attributes!)
+  end
+
+  def publish_updated
+    if !deleted
+      if nonsupporter_address_updated?
+        Houdini.event_publisher.announce(:supporter_updated, to_event('supporter.updated', :supporter_address, :nonprofit).attributes!)
+      end
+      if supporter_address_updated?
+        Houdini.event_publisher.announce(:supporter_address_updated, to_event('supporter_address.updated', :supporter, :nonprofit).attributes!)
+      end
+    end
+  end
+
+  def publish_deleted
+    Houdini.event_publisher.announce(:supporter_deleted, to_event('supporter.deleted', :supporter_address, :nonprofit, :merged_into).attributes!)
+    Houdini.event_publisher.announce(:supporter_address_deleted, to_event('supporter_address.deleted', :supporter, :nonprofit).attributes!)
+  end
+
+  # we do something custom here since Supporter and SupporterAddress are in the same model
+  def to_event(event_type, *expand)
+    Jbuilder.new do |event|
+        event.id SecureRandom.uuid
+        event.object 'object_event'
+        event.type event_type
+        event.data do 
+          event.object event_type.start_with?('supporter_address') ? to_supporter_address_builder(*expand) : to_builder(*expand)
+        end
+    end
   end
 end
 

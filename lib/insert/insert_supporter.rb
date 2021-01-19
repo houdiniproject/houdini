@@ -7,9 +7,7 @@ require 'qexpr'
 require 'i18n'
 
 module InsertSupporter
-  def self.create_or_update(np_id, data, update = false)
-    ParamValidation.new(data.merge(np_id: np_id),
-                        np_id: { required: true, is_integer: true })
+  def self.create_or_update(nonprofit, data, update = false)
     address_keys = %w[name address city country state_code]
     custom_fields = data['customFields']
     data = HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data, address_keys))
@@ -17,7 +15,7 @@ module InsertSupporter
 
     supporter = Qx.select('*').from(:supporters)
                   .where('name = $n AND email = $e', n: data[:name], e: data[:email])
-                  .and_where('nonprofit_id=$id', id: np_id)
+                  .and_where('nonprofit_id=$id', id: nonprofit.id)
                   .and_where('coalesce(deleted, FALSE)=FALSE')
                   .execute.last
     if supporter && update
@@ -28,19 +26,12 @@ module InsertSupporter
                     .timestamps
                     .execute.last
     else
-      supporter = Qx.insert_into(:supporters)
-                    .values(defaults(data).merge(nonprofit_id: np_id))
-                    .returning('*')
-                    .timestamps
-                    .execute.last
+      supporter = nonprofit.supporters.create(defaults(data))
     end
 
     if custom_fields
-      InsertCustomFieldJoins.find_or_create(np_id, [supporter['id']], custom_fields)
+      InsertCustomFieldJoins.find_or_create(nonprofit.id, [supporter.id], custom_fields)
     end
-
-    # GeocodeModel.delay.supporter(supporter['id'])
-    Houdini.event_publisher.announce(:supporter_create, Supporter.find(supporter['id']))
 
     supporter
   end

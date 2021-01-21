@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class CampaignGiftOption < ApplicationRecord
   include ObjectEvent::ModelExtensions
-	object_eventable
+	object_eventable :cgo
   # :amount_one_time, #int (cents)
   # :amount_recurring, #int (cents)
   # :amount_dollars, #str, gets converted to amount

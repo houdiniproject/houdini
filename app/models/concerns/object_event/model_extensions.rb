@@ -4,14 +4,21 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module ObjectEvent::ModelExtensions
     extend ActiveSupport::Concern
+
     class_methods do
+        
         # Adds the to_event method to a model. Requires `to_builder` method for creating
         # the Jbuilder object
-        def object_eventable
+        def object_eventable(prefix)
             class_eval <<-RUBY, __FILE__, __LINE__ + 1
+                def object_prefix
+                    :#{prefix.to_s}
+                end
+                
+
                 def to_event(event_type, *expand)
                     Jbuilder.new do |event|
-                        event.id SecureRandom.uuid
+                        event.id "objevt_" + SecureRandom.alphanumeric(22)
                         event.object 'object_event'
                         event.type event_type
                         event.data do 

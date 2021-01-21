@@ -61,7 +61,7 @@ RSpec.describe Supporter, type: :model do
 			})
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'supporter.created',
         'data' => {
@@ -89,7 +89,7 @@ RSpec.describe Supporter, type: :model do
 			})
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_deleted, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'supporter.deleted',
         'data' => {
@@ -111,7 +111,7 @@ RSpec.describe Supporter, type: :model do
 
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, {
-				'id' => kind_of(String),
+				'id' => match(/objevt_[a-zA-Z0-9]{22}/),
 				'object' => 'object_event',
 				'type' => 'supporter_address.created',
 				'data' => {
@@ -139,7 +139,7 @@ RSpec.describe Supporter, type: :model do
 			})
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_deleted, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'supporter_address.deleted',
         'data' => {
@@ -157,7 +157,8 @@ RSpec.describe Supporter, type: :model do
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything).ordered
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything).ordered
 			
-			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_updated, {	'id' => kind_of(String),
+			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_updated, {	
+			'id' => match(/objevt_[a-zA-Z0-9]{22}/),
 			'object' => 'object_event',
 			'type' => 'supporter.updated',
 			'data' => {
@@ -180,7 +181,7 @@ RSpec.describe Supporter, type: :model do
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything).ordered
 			
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_updated, {	
-			'id' => kind_of(String),
+			'id' => match(/objevt_[a-zA-Z0-9]{22}/),
 			'object' => 'object_event',
 			'type' => 'supporter_address.updated',
 			'data' => {

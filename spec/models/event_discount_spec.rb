@@ -54,7 +54,7 @@ RSpec.describe EventDiscount, type: :model do
     it 'announces create' do
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:event_discount_created, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'event_discount.created',
         'data' => {
@@ -116,7 +116,7 @@ RSpec.describe EventDiscount, type: :model do
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:event_discount_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:event_discount_updated, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'event_discount.updated',
         'data' => {
@@ -179,7 +179,7 @@ RSpec.describe EventDiscount, type: :model do
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:event_discount_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:event_discount_deleted, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'event_discount.deleted',
         'data' => {

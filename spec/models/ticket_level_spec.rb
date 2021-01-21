@@ -44,7 +44,7 @@ RSpec.describe TicketLevel, type: :model do
 
       it 'announces create' do
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, {
-          'id' => kind_of(String),
+          'id' => match(/objevt_[a-zA-Z0-9]{22}/),
           'object' => 'object_event',
           'type' => 'ticket_level.created',
           'data' => {
@@ -85,7 +85,7 @@ RSpec.describe TicketLevel, type: :model do
 
       it 'announces create' do
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, {
-          'id' => kind_of(String),
+          'id' => match(/objevt_[a-zA-Z0-9]{22}/),
           'object' => 'object_event',
           'type' => 'ticket_level.created',
           'data' => {
@@ -131,7 +131,7 @@ RSpec.describe TicketLevel, type: :model do
       it 'announces updated' do
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, anything).ordered
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_updated, {
-          'id' => kind_of(String),
+          'id' => match(/objevt_[a-zA-Z0-9]{22}/),
           'object' => 'object_event',
           'type' => 'ticket_level.updated',
           'data' => {
@@ -177,7 +177,7 @@ RSpec.describe TicketLevel, type: :model do
       it 'announces updated' do
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, anything).ordered
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_updated, {
-          'id' => kind_of(String),
+          'id' => match(/objevt_[a-zA-Z0-9]{22}/),
           'object' => 'object_event',
           'type' => 'ticket_level.updated',
           'data' => {
@@ -226,7 +226,7 @@ RSpec.describe TicketLevel, type: :model do
       it 'announces deleted' do
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, anything).ordered
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_deleted, {
-          'id' => kind_of(String),
+          'id' => match(/objevt_[a-zA-Z0-9]{22}/),
           'object' => 'object_event',
           'type' => 'ticket_level.deleted',
           'data' => {
@@ -268,7 +268,7 @@ RSpec.describe TicketLevel, type: :model do
       it 'announces deleted' do
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, anything).ordered
         expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_deleted, {
-          'id' => kind_of(String),
+          'id' => match(/objevt_[a-zA-Z0-9]{22}/),
           'object' => 'object_event',
           'type' => 'ticket_level.deleted',
           'data' => {

@@ -12,4 +12,9 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :supporter_with_fv_poverty, class: 'Supporter' do
+    name { 'Fake Supporter Name' }
+    nonprofit { association :fv_poverty}
+  end
 end

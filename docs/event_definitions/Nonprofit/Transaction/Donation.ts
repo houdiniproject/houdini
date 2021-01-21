@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { HoudiniEvent } from "../../common";
+import type { Amount, HoudiniEvent } from "../../common";
 import type { TrxAssignment } from './';
 
 interface Dedication {
@@ -17,6 +17,12 @@ export interface Donation extends TrxAssignment {
   dedication?: Dedication | null;
   designation?: string | null;
   object: 'donation';
+}
+
+export interface CreateDonation {
+  amount?: Amount;
+  dedication?: Dedication | null;
+  designation?: string | null;
 }
 
 export type DonationCreated = HoudiniEvent<'donation.created', Donation>;

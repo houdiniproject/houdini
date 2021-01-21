@@ -1,0 +1,132 @@
+# frozen_string_literal: true
+
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+class Recurrence < ApplicationRecord
+
+	include Model::Houidable
+	include Model::Jbuilder
+	include Model::Eventable
+
+	after_initialize :set_start_date_if_needed
+
+	belongs_to :recurring_donation
+	belongs_to :supporter
+
+	has_one :nonprofit, through: :supporter
+
+	delegate :currency, to: :nonprofit
+
+	delegate :designation, :dedication, to: :recurring_donation
+	
+	validates :recurrences, presence: true
+
+	def trx_assignments
+		[{
+			assignment_object: 'donation',
+			amount: amount || 0,
+			dedication: dedication,
+			designation: designation
+		}.with_indifferent_access]
+	end
+
+	def recurrences
+		[
+			{
+				interval: recurring_donation.interval,
+				type: from_recurring_time_unit_to_recurrence(recurring_donation.time_unit)
+			}
+		]
+	end
+
+	def invoice_template
+		{
+			amount: amount || 0,
+			trx_assignments: trx_assignments,
+			supporter: supporter,
+			payment_method: {type: 'stripe'}
+		}
+	end
+
+	concerning :JBuilder do
+		included do
+			setup_houid :recur
+		end
+		
+		def to_builder(*expand)
+			init_builder(*expand) do |json|
+				json.start_date start_date.to_i
+
+				json.add_builder_expansion :nonprofit, :supporter
+
+				json.start_date start_date
+				
+				json.recurrences recurrences do |rec|
+					json.(rec, :interval, :type)
+				end
+
+				json.invoice_template  do
+					json.amount do 
+						json.cents amount || 0
+						json.currency currency
+					end
+
+					json.supporter supporter.id
+
+					json.payment_method do 
+						json.type 'stripe'
+					end
+
+					json.trx_assignments trx_assignments do |assign|
+						json.assignment_object assign[:assignment_object]
+						dedication = assign[:dedication]
+
+						json.dedication do
+							json.type dedication['type']
+							json.name dedication['name']
+							contact = dedication['contact']
+							json.note dedication['note']
+							json.contact do 
+								json.email contact['email'] if contact['email'] 
+								json.address contact['address'] if contact['address']
+								json.phone contact['phone'] if contact['phone'] 
+							end if contact
+						end if dedication
+
+						json.designation assign[:designation]
+
+						json.amount do
+							json.cents assign[:amount] || 0
+							json.currency currency
+						end
+					end
+				end
+
+			end
+		end
+
+
+		def publish_created
+			Houdini.event_publisher.announce(
+				:recurrence_created,
+				to_event('recurrence.created', :nonprofit, :trx, :supporter).attributes!
+			)
+		end
+	end
+
+	private
+
+	def set_start_date_if_needed
+		self[:start_date] = Time.current unless self[:start_date]
+	end
+
+	private
+
+	def from_recurring_time_unit_to_recurrence(time_unit)
+		{
+			'month' => 'monthly',
+			'year' => 'yearly'
+		}[time_unit]
+	end
+end
+

@@ -39,6 +39,8 @@ class RecurringDonation < ApplicationRecord
   validates :time_unit, presence: true, inclusion: { in: Timespan::Units }
   validates_associated :donation
 
+  delegate :designation, :dedication, to: :donation
+
   def most_recent_charge
     charges&.max_by(&:created_at)
   end

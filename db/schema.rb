@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_06_202607) do
+ActiveRecord::Schema.define(version: 2021_06_02_220525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -707,6 +707,17 @@ ActiveRecord::Schema.define(version: 2021_05_06_202607) do
     t.string "country", limit: 255, default: "US"
   end
 
+  create_table "recurrences", id: :string, force: :cascade do |t|
+    t.integer "amount", null: false
+    t.bigint "recurring_donation_id", null: false
+    t.bigint "supporter_id", null: false
+    t.datetime "start_date", comment: "the moment that the recurrence should start. Could be earlier than created_at if this was imported."
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recurring_donation_id"], name: "index_recurrences_on_recurring_donation_id"
+    t.index ["supporter_id"], name: "index_recurrences_on_supporter_id"
+  end
+
   create_table "recurring_donations", id: :serial, force: :cascade do |t|
     t.boolean "active"
     t.integer "paydate"
@@ -787,6 +798,13 @@ ActiveRecord::Schema.define(version: 2021_05_06_202607) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["payment_id"], name: "index_stripe_charges_on_payment_id"
+  end
+
+  create_table "stripe_refunds", id: :string, force: :cascade do |t|
+    t.bigint "payment_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payment_id"], name: "index_stripe_refunds_on_payment_id"
   end
 
   create_table "stripe_transactions", id: :string, force: :cascade do |t|
@@ -1021,7 +1039,10 @@ ActiveRecord::Schema.define(version: 2021_05_06_202607) do
   add_foreign_key "modern_campaign_gifts", "campaign_gifts"
   add_foreign_key "object_event_hook_configs", "nonprofits"
   add_foreign_key "offline_transaction_charges", "payments"
+  add_foreign_key "recurrences", "recurring_donations"
+  add_foreign_key "recurrences", "supporters"
   add_foreign_key "stripe_charges", "payments"
+  add_foreign_key "stripe_refunds", "payments"
   add_foreign_key "subtransaction_payments", "subtransactions"
   add_foreign_key "subtransactions", "transactions"
   add_foreign_key "ticket_purchases", "event_discounts"

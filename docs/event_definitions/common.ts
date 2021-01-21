@@ -38,7 +38,7 @@ export type FlexibleAmount = Amount | string | number;
  */
 export type RecurrenceRule = {
 	/**
-	 * The number of times we should run the recurrence
+	 * The number of times we should run the recurrence.
 	 */
 	count?: number;
 	/**

@@ -4,6 +4,7 @@ import type Nonprofit from '../';
 import type Supporter from "../Supporter";
 import type { Payment, PaymentAsId } from "./Payment";
 import type { SubtransactionAsId, Subtransaction } from "./Subtransaction";
+import type { CreateDonation } from "./Donation";
 
 /**
  * Every descendent of a Transaction object will have the following three fields
@@ -56,4 +57,6 @@ export * from './Payment';
 export * from './Donation';
 export * from './Subtransaction';
 export * as OfflineTransactionTypes from './OfflineTransaction';
+
+export type CreateTrxAssignment = {assignment_object: string} & CreateDonation;
 export {default as OfflineTransaction} from './OfflineTransaction';

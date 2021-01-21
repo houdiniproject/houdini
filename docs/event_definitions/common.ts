@@ -7,6 +7,11 @@
 export type IdType = number;
 
 /**
+ * an identifier for HoudiniObjects which is unique among all HoudiniObjects.
+ */
+export type UuidType = string;
+
+/**
  * Describes a monetary value in the minimum unit for this current. Corresponds to Money class in
  * Ruby and Typescript
  */
@@ -55,18 +60,20 @@ export type RecurrenceRule = {
  * Every object controlled by the Houdini event publisher must meet this standard interface
  * and will inherit from it.
  */
-export interface HoudiniObject {
+export interface HoudiniObject<Id extends IdType|UuidType=IdType> {
 	/**
 	 * An IdType which unique which uniquely identifies this object
 	 * from all other similar objects
 	 */
-	id: IdType;
+	id: Id;
 	/**
 	 * the type of object. Roughly corresponds to the object's class in Rails
 	 */
 	object: string;
 }
 
+
+type HoudiniObjectOfAllIds = HoudiniObject<IdType> | HoudiniObject<UuidType>;
 /**
  * An event published by Houdini
  *
@@ -76,7 +83,7 @@ export interface HoudiniObject {
  * * DataObject: the interface representing the actual object which the event occurred on. An object of that type is
  * on the 'data' attribute
  */
-export interface HoudiniEvent<EventType extends string, DataObject extends HoudiniObject> {
+export interface HoudiniEvent<EventType extends string, DataObject extends HoudiniObjectOfAllIds> {
 	/** data for the event. We wrap the object inside becuase we might want to provide some sort of   */
 	data: {
 		/** the object after the event has occurred */

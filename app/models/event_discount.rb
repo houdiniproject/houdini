@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class EventDiscount < ApplicationRecord
   include ObjectEvent::ModelExtensions
-  object_eventable
+  object_eventable :evtdisc
   # :code,
   # :event_id,
   # :name,

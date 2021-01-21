@@ -9,7 +9,7 @@ export type IdType = number;
 /**
  * an identifier for HoudiniObjects which is unique among all HoudiniObjects.
  */
-export type UuidType = string;
+export type HoudID = string;
 
 /**
  * Describes a monetary value in the minimum unit for this current. Corresponds to Money class in
@@ -60,7 +60,7 @@ export type RecurrenceRule = {
  * Every object controlled by the Houdini event publisher must meet this standard interface
  * and will inherit from it.
  */
-export interface HoudiniObject<Id extends IdType|UuidType=IdType> {
+export interface HoudiniObject<Id extends IdType|HoudID=IdType> {
 	/**
 	 * An IdType which unique which uniquely identifies this object
 	 * from all other similar objects
@@ -73,7 +73,7 @@ export interface HoudiniObject<Id extends IdType|UuidType=IdType> {
 }
 
 
-type HoudiniObjectOfAllIds = HoudiniObject<IdType> | HoudiniObject<UuidType>;
+type HoudiniObjectOfAllIds = HoudiniObject<IdType> | HoudiniObject<HoudID>;
 /**
  * An event published by Houdini
  *
@@ -90,9 +90,9 @@ export interface HoudiniEvent<EventType extends string, DataObject extends Houdi
 		object: DataObject;
 	};
 	/**
-	 * A UUID uniquely representing the event
+	 * A HoudID uniquely representing the event
 	 */
-	id: string;
+	id: HoudID;
 	object: 'object_event';
 	/** The type of event that this is */
 	type: EventType;

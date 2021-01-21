@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class TagMaster < ApplicationRecord
   include ObjectEvent::ModelExtensions
-  object_eventable
+  object_eventable :tagmstr
   # TODO replace with Discard gem
   define_model_callbacks :discard
 

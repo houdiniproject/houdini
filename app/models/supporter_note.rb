@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class SupporterNote < ApplicationRecord
   include ObjectEvent::ModelExtensions
-	object_eventable
+	object_eventable :suppnote
   # :content,
   # :supporter_id, :supporter
 

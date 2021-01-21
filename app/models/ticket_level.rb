@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class TicketLevel < ApplicationRecord
   include ObjectEvent::ModelExtensions
-  object_eventable
+  object_eventable :tktlvl
   # :amount, #integer
   # :amount_dollars, #accessor, string
   # :name, #string

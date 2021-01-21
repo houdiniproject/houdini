@@ -43,7 +43,7 @@ RSpec.describe CampaignGiftOption, type: :model do
     it 'announces create for first example' do
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'campaign_gift_option.created',
         'data' => {
@@ -84,7 +84,7 @@ RSpec.describe CampaignGiftOption, type: :model do
     it 'announces create for second example' do
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'campaign_gift_option.created',
         'data' => {
@@ -146,7 +146,7 @@ RSpec.describe CampaignGiftOption, type: :model do
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_updated, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'campaign_gift_option.updated',
         'data' => {
@@ -191,7 +191,7 @@ RSpec.describe CampaignGiftOption, type: :model do
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_updated, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'campaign_gift_option.updated',
         'data' => {
@@ -238,7 +238,7 @@ RSpec.describe CampaignGiftOption, type: :model do
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_deleted, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'campaign_gift_option.deleted',
         'data' => {
@@ -285,7 +285,7 @@ RSpec.describe CampaignGiftOption, type: :model do
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, anything).ordered
       expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_deleted, {
-        'id' => kind_of(String),
+        'id' => match(/objevt_[a-zA-Z0-9]{22}/),
         'object' => 'object_event',
         'type' => 'campaign_gift_option.deleted',
         'data' => {

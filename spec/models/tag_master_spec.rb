@@ -15,7 +15,7 @@ RSpec.describe TagMaster, type: :model do
 
   it 'announces create' do
     expect(Houdini.event_publisher).to receive(:announce).with(:tag_master_created, {
-      'id' => kind_of(String),
+      'id' => match(/objevt_[a-zA-Z0-9]{22}/),
       'object' => 'object_event',
       'type' => 'tag_master.created',
       'data' => {
@@ -35,7 +35,7 @@ RSpec.describe TagMaster, type: :model do
   it 'announces deleted' do
     expect(Houdini.event_publisher).to receive(:announce).with(:tag_master_created, anything).ordered
     expect(Houdini.event_publisher).to receive(:announce).with(:tag_master_deleted, {
-      'id' => kind_of(String),
+      'id' => match(/objevt_[a-zA-Z0-9]{22}/),
       'object' => 'object_event',
       'type' => 'tag_master.deleted',
       'data' => {

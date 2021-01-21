@@ -180,7 +180,7 @@ class Supporter < ApplicationRecord
   # we do something custom here since Supporter and SupporterAddress are in the same model
   def to_event(event_type, *expand)
     Jbuilder.new do |event|
-        event.id SecureRandom.uuid
+        event.id "objevt_" + SecureRandom.alphanumeric(22)
         event.object 'object_event'
         event.type event_type
         event.data do 

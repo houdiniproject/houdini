@@ -15,6 +15,7 @@ class CardsController < ApplicationController
           requires(:holder_type).one_of('Supporter')
         end
       end.when_valid do |d|
+        ret = nil
         recaptcha_result = check_recaptcha(action: 'create_card', minimum_score: ENV['MINIMUM_RECAPTCHA_SCORE'].to_f)
         if !recaptcha_result[:success]
 
@@ -29,12 +30,14 @@ class CardsController < ApplicationController
           failure = RecaptchaRejection.new
           failure.details_json = failure_details
           failure.save!
-        end
-        ret = nil
-        if (recaptcha_result[:reply] && recaptcha_result[:reply]['success'])
-          ret = InsertCard.with_stripe(d[:card], acct,  params[:event_id], current_user)
-        else
           ret = {json: {error: "There was an temporary error preventing your payment. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J "}, status: :unprocessable_entity}
+        end
+        unless ret
+          if (recaptcha_result[:reply] && recaptcha_result[:reply]['success'])
+            ret = InsertCard.with_stripe(d[:card], acct,  params[:event_id], current_user)
+          else
+            ret = {json: {error: "There was an temporary error preventing your payment. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J "}, status: :unprocessable_entity}
+          end
         end
         ret
       end

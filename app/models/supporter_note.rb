@@ -19,7 +19,7 @@ class SupporterNote < ApplicationRecord
 
   after_discard :publish_deleted
 
-  after_create_commit :publish_create
+  after_create_commit :publish_created
   after_update_commit :publish_updated
 
   # TODO replace with discard gem
@@ -56,7 +56,7 @@ class SupporterNote < ApplicationRecord
   end
 
   private
-  def publish_create
+  def publish_created
     Houdini.event_publisher.announce(:supporter_note_created, to_event('supporter_note.created', :supporter, :nonprofit, :user).attributes!)
   end
 

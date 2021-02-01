@@ -16,5 +16,9 @@ export default interface Supporter extends HoudiniObject {
   supporter_addresses: IdType[] | SupporterAddress[];
 }
 
+export type SupporterCreated = HoudiniEvent<'supporter_address.created', Supporter>;
+export type SupporterUpdated = HoudiniEvent<'supporter_address.updated', Supporter>;
+export type SupporterDeleted = HoudiniEvent<'supporter_address.deleted', Supporter>;
+
 export * from './SupporterNote';
 export * from './SupporterAddress';

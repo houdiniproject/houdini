@@ -1,0 +1,46 @@
+# frozen_string_literal: true
+
+# License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+class TicketToLegacyTicket < ApplicationRecord
+  include Model::Houidable
+  include Model::Jbuilder
+  belongs_to :ticket_purchase
+  belongs_to :ticket
+
+  has_one :ticket_level, through: :ticket
+  has_one :event, through: :ticket_purchase
+  has_one :event_discount, through: :ticket_purchase
+  has_one :supporter, through: :ticket_purchase
+  has_one :nonprofit, through: :event
+
+  delegate :original_discount, to: :ticket_purchase
+  delegate :checked_in, :deleted, :note, to: :ticket
+  
+  setup_houid :tkt
+
+  add_builder_expansion :ticket_purchase, :ticket_level, :supporter, :event, :nonprofit
+
+  add_builder_expansion :event_discount,
+    to_id: -> (model) { model.event_discount&.id},
+    to_expand: -> (model) { model.event_discount&.to_builder}
+
+  def to_builder(*expand)
+    init_builder(*expand) do |json|
+      json.(self, :id, :checked_in, :deleted, :note)
+      json.object "ticket"
+
+      json.amount do
+        json.value_in_cents amount
+        json.currency nonprofit.currency
+      end
+
+      if original_discount
+        json.original_discount do 
+          json.percent original_discount
+        end
+      end
+    end
+  end
+
+end

@@ -3,8 +3,10 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class TagMaster < ApplicationRecord
-  include ObjectEvent::ModelExtensions
-  object_eventable :tagmstr
+  include Model::Eventable
+  include Model::Jbuilder
+
+  add_builder_expansion :nonprofit
   # TODO replace with Discard gem
   define_model_callbacks :discard
 
@@ -18,7 +20,7 @@ class TagMaster < ApplicationRecord
   validates :name, presence: true
   validate :no_dupes, on: :create
 
-  after_create :publish_create
+  after_create_commit :publish_create
   belongs_to :nonprofit
   has_many :tag_joins, dependent: :destroy
   has_one :email_list
@@ -41,24 +43,19 @@ class TagMaster < ApplicationRecord
   end
   
   def to_builder(*expand)
-    Jbuilder.new do |tag|
-      tag.(self, :id, :name, :deleted)
-      tag.object 'tag_definition'
-      if expand.include? :nonprofit && nonprofit
-        tag.nonprofit nonprofit.to_builder
-      else
-        tag.nonprofit nonprofit && nonprofit.id
-      end
+    init_builder(*expand) do |json|
+      json.(self, :id, :name, :deleted)
+      json.object 'tag_definition'
     end
   end
 
 
 private
   def publish_create
-    Houdini.event_publisher.announce(:tag_master_created, to_event('tag_master.created', :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:tag_definition_created, to_event('tag_definition.created', :nonprofit).attributes!)
   end
 
   def publish_delete
-    Houdini.event_publisher.announce(:tag_master_deleted, to_event('tag_master.deleted', :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:tag_definition_deleted, to_event('tag_definition.deleted', :nonprofit).attributes!)
   end
 end

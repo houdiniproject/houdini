@@ -12,3 +12,5 @@ export default interface Event extends HoudiniObject {
 
 export * from './TicketLevel';
 export * from './EventDiscount';
+export * from './TicketPurchase';
+export * from './Ticket';

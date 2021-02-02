@@ -88,12 +88,12 @@ describe InsertTickets do
         event_discount_id: data[:event_discount_id],
         created_at: Time.now,
         updated_at: Time.now,
-        checked_in: nil,
+        checked_in: false,
         bid_id: i + 1,
         card_id: nil,
         profile_id: nil,
         note: nil,
-        deleted: nil,
+        deleted: false,
         source_token_id: nil
       }.with_indifferent_access
     end

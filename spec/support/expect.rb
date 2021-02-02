@@ -18,4 +18,8 @@ module Expect
       expect(list_of_errors.any? { |e| e[:key].to_s == i[:key].to_s && e[:name].to_s == i[:name].to_s }).to eq(true), "#{i[:key]} should have existed for #{i[:name]}"
     end
   end
+
+  def match_houid(prefix) 
+    match(/#{prefix}_[a-zA-Z0-9]{22}/)
+  end
 end

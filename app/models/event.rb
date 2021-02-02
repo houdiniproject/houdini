@@ -4,6 +4,8 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Event < ApplicationRecord
   include Image::AttachmentExtensions
+  include Model::Jbuilder
+  add_builder_expansion :nonprofit
   # :deleted, #bool for soft-delete
   # :name, # str
   # :tagline, # str

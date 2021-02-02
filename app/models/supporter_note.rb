@@ -3,8 +3,9 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class SupporterNote < ApplicationRecord
-  include ObjectEvent::ModelExtensions
-	object_eventable :suppnote
+  include Model::Eventable
+  include Model::Jbuilder
+
   # :content,
   # :supporter_id, :supporter
 
@@ -15,6 +16,15 @@ class SupporterNote < ApplicationRecord
   validates :content, length: { minimum: 1 }
   validates :supporter_id, presence: true
   # TODO replace with Discard gem
+
+  add_builder_expansion :supporter
+  add_builder_expansion :user, 
+    to_id: ->(model) { model.user&.id},
+    to_expand: ->(model) { model.user&.to_builder}
+
+  add_builder_expansion :nonprofit, 
+    to_attrib: -> (model) {model.supporter.nonprofit}
+
   define_model_callbacks :discard
 
   after_discard :publish_deleted
@@ -31,27 +41,9 @@ class SupporterNote < ApplicationRecord
   end
 
   def to_builder(*expand)
-    Jbuilder.new do |json|
+    init_builder(*expand) do |json|
       json.(self, :id, :deleted, :content)
       json.object 'supporter_note'
-      
-      if expand.include? :nonprofit
-        json.nonprofit supporter.nonprofit.to_builder
-      else
-        json.nonprofit supporter.nonprofit.id
-      end
-
-      if expand.include? :supporter
-        json.supporter supporter.to_builder
-      else
-        json.supporter supporter.id
-      end
-
-      if expand.include? :user
-        json.user user&.to_builder
-      else
-        json.user user&.id
-      end
     end
   end
 

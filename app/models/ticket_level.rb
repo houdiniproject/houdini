@@ -3,8 +3,8 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class TicketLevel < ApplicationRecord
-  include ObjectEvent::ModelExtensions
-  object_eventable :tktlvl
+  include Model::Jbuilder
+  include Model::Eventable
   # :amount, #integer
   # :amount_dollars, #accessor, string
   # :name, #string
@@ -28,9 +28,13 @@ class TicketLevel < ApplicationRecord
 
   has_many :tickets
   belongs_to :event
+  has_one :nonprofit, through: :event
+  has_many :event_discounts, through: :event
 
   validates :name, presence: true
   validates :event_id, presence: true
+  
+  validate :amount_hasnt_changed_if_has_tickets, on: :update
 
   scope :not_deleted, -> { where(deleted: [false, nil]) }
 
@@ -98,5 +102,12 @@ class TicketLevel < ApplicationRecord
 
   def publish_delete
     Houdini.event_publisher.announce(:ticket_level_deleted, to_event('ticket_level.deleted', :event, :nonprofit, :event_discounts).attributes!)
+  end
+
+  def amount_hasnt_changed_if_has_tickets
+    if tickets.any?
+      console.log("YOU can't change amount if tickets already use this #{ticket_level.id}. Please create a new level")
+      #errors.add(:amount, "can't change amount if tickets already use this level. Please create a new level")
+    end
   end
 end

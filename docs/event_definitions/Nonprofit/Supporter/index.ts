@@ -22,3 +22,4 @@ export type SupporterDeleted = HoudiniEvent<'supporter_address.deleted', Support
 
 export * from './SupporterNote';
 export * from './SupporterAddress';
+export * from './Transaction';

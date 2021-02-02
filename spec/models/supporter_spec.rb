@@ -13,51 +13,14 @@ RSpec.describe Supporter, type: :model do
 	let(:merged_supporter) {nonprofit.supporters.create(name: name, address: address, merged_into: merged_into_supporter, deleted: true) }
 	let(:merged_into_supporter) {nonprofit.supporters.create(name: merged_into_supporter_name, address: address) }
 
-	let(:supporter_base) do
-		{
-			'anonymous' => false,
-			'deleted' => false,
-			'name' => name,
-			'organization' => nil,
-			'phone' => nil,
-			'supporter_addresses' => [kind_of(Numeric)],
-			'id'=> kind_of(Numeric),
-			'merged_into' => nil,
-			'nonprofit'=> nonprofit.id,
-			'object' => 'supporter'
-		}
-	end
-
-	let(:supporter_address_base) do 
-		{
-			'id' =>  kind_of(Numeric),
-			'deleted' => false,
-			'address' => address,
-			'city' => nil,
-			'state_code' => nil,
-			'zip_code' => nil,
-			'country' => 'United States',
-			'object' => 'supporter_address',
-			'supporter' => kind_of(Numeric)
-		}
-	end
-
-	let(:nonprofit_base) do 
-			{
-				'id' => nonprofit.id,
-				'name' => nonprofit.name,
-				'object' => 'nonprofit'
-			}
-	end
-
 	describe 'supporter' do
 		it 'created' do
 
-			supporter_result = supporter_base.merge({
+			supporter_result = supporter_to_builder_base.merge({
 				'supporter_addresses' => [
-					supporter_address_base
+					supporter_address_to_builder_base
 				],
-				'nonprofit' => nonprofit_base
+				'nonprofit' => nonprofit_to_builder_base
 			})
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, {
@@ -80,12 +43,12 @@ RSpec.describe Supporter, type: :model do
 			expect(Houdini.event_publisher).to_not receive(:announce).with(:supporter_updated)
 			expect(Houdini.event_publisher).to_not receive(:announce).with(:supporter_address_updated)
 
-			supporter_result = supporter_base.merge({
+			supporter_result = supporter_to_builder_base.merge({
 				'deleted' => true,
 				'supporter_addresses' => [
-					supporter_address_base.merge({'deleted' => true})
+					supporter_address_to_builder_base.merge({'deleted' => true})
 				],
-				'nonprofit' => nonprofit_base
+				'nonprofit' => nonprofit_to_builder_base
 			})
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_deleted, {
@@ -107,16 +70,13 @@ RSpec.describe Supporter, type: :model do
 	describe 'supporter_address events' do
 		it 'creates' do 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything).ordered
-
-
-
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, {
 				'id' => match(/objevt_[a-zA-Z0-9]{22}/),
 				'object' => 'object_event',
 				'type' => 'supporter_address.created',
 				'data' => {
-					'object' => supporter_address_base.merge({
-						'supporter' =>  supporter_base
+					'object' => supporter_address_to_builder_base.merge({
+						'supporter' =>  supporter_to_builder_base
 					})
 				}
 			}).ordered
@@ -133,9 +93,9 @@ RSpec.describe Supporter, type: :model do
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_deleted, anything)
 
 		
-			supporter_address_result = supporter_address_base.merge({
+			supporter_address_result = supporter_address_to_builder_base.merge({
 				'deleted' => true,
-				'supporter'=> supporter_base.merge({'deleted' => true})
+				'supporter'=> supporter_to_builder_base.merge({'deleted' => true})
 			})
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_deleted, {
@@ -162,12 +122,12 @@ RSpec.describe Supporter, type: :model do
 			'object' => 'object_event',
 			'type' => 'supporter.updated',
 			'data' => {
-				'object' => supporter_base.merge({
+				'object' => supporter_to_builder_base.merge({
 					'name' => merged_into_supporter_name,
 					'supporter_addresses' => [
- 						supporter_address_base
+ 						supporter_address_to_builder_base
 					],
-					'nonprofit' => nonprofit_base
+					'nonprofit' => nonprofit_to_builder_base
 				})
 	
 			}}).ordered
@@ -185,9 +145,9 @@ RSpec.describe Supporter, type: :model do
 			'object' => 'object_event',
 			'type' => 'supporter_address.updated',
 			'data' => {
-				'object' => supporter_address_base.merge({
+				'object' => supporter_address_to_builder_base.merge({
 					'city' => 'new_city',
-					'supporter'=> supporter_base
+					'supporter'=> supporter_to_builder_base
 				})
 			}}).ordered
 

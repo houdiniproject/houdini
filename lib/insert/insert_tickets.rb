@@ -49,6 +49,7 @@ module InsertTickets
 
     result = {}
 
+    trx = entities[:supporter_id].transactions.create(amount: gross_amount)
     if gross_amount > 0
       # Create offsite payment for tickets
       if data[:kind] == 'offsite'
@@ -90,10 +91,17 @@ module InsertTickets
       end
     end
 
+    ticket_purchase = trx.ticket_purchases.create(event: entities[:event_id])
     # Generate the bid ids
     data['tickets'] = generate_bid_ids(entities[:event_id].id, tl_entities)
 
     result['tickets'] = generated_ticket_entities(data['tickets'], result, entities)
+    result['tickets'].each do |legacy_ticket|
+
+      legacy_ticket.quantity.times do 
+        ticket_purchase.ticket_to_legacy_tickets.create(ticket: legacy_ticket)
+      end
+    end
 
     # Create the activity rows for the tickets
     InsertActivities.for_tickets(result['tickets'].map(&:id))
@@ -101,7 +109,10 @@ module InsertTickets
     ticket_ids = result['tickets'].map(&:id)
     charge_id =  result['charge'] ? result['charge'].id : nil
 
-    Houdini.event_publisher.announce(:ticket_create, result['tickets'], result['charge'])
+    ticket_purchase.ticket_to_legacy_tickets.each{|i| i.publish_created}
+    ticket_purchase.publish_created
+    trx.publish_created
+
     result
   end
 

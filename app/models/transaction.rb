@@ -4,9 +4,15 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Transaction < ApplicationRecord
 	include Model::Houidable
+	include Model::Jbuilder
+  include Model::Eventable
+	
 	setup_houid :trx
+	add_builder_expansion :nonprofit, :supporter
 	
 	belongs_to :supporter
+	has_one :nonprofit, through: :supporter
+
 	has_many :transaction_assignments
 
 	has_many :ticket_purchases, through: :transaction_assignments, source: :assignable, source_type: 'TicketPurchase'
@@ -15,15 +21,19 @@ class Transaction < ApplicationRecord
 
 
 	def to_builder(*expand)
-		Jbuilder.new do |json|
+		init_builder(*expand) do |json|
 			json.(self, :id)
 			json.object 'transaction'
-			json.supporter supporter.id
-			json.nonprofit supporter.nonprofit.id
+
 			json.amount do 
         json.value_in_cents amount || 0
-        json.currency supporter.nonprofit.currency
+        json.currency nonprofit.currency
       end
 		end
+	end
+
+	def publish_created
+		Houdini.event_publisher.announce(:transaction_created, 
+			to_event('transaction.created', :nonprofit, :supporter).attributes!)
 	end
 end

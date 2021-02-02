@@ -289,7 +289,9 @@ describe InsertTickets do
           expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, any_args).ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
           expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
-          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_create, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_created, anything).once.ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_purchase_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args).ordered
           result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
           
           expected = generate_expected_tickets(payment_id: result['payment'].id,

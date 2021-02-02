@@ -11,21 +11,6 @@ RSpec.describe SupporterNote, type: :model do
 
   let(:supporter_note) { supporter.supporter_notes.create(content: content, user: user) }
 
-  let(:supporter_base) do
-		{
-			'anonymous' => false,
-			'deleted' => false,
-			'name' => name,
-			'organization' => nil,
-			'phone' => nil,
-			'supporter_addresses' => [kind_of(Numeric)],
-			'id'=> kind_of(Numeric),
-			'merged_into' => nil,
-			'nonprofit'=> nonprofit.id,
-			'object' => 'supporter'
-		}
-	end
-
   it 'creates' do 
     expect(supporter_note.errors).to be_empty
   end
@@ -52,7 +37,7 @@ RSpec.describe SupporterNote, type: :model do
             'id' => user.id,
             'object' => 'user'
           },
-          'supporter' => supporter_base.merge({'name' => "Fake Supporter Name"})
+          'supporter' => supporter_to_builder_base.merge({'name' => "Fake Supporter Name"})
         }
       }
     })
@@ -83,7 +68,7 @@ RSpec.describe SupporterNote, type: :model do
             'id' => user.id,
             'object' => 'user'
           },
-          'supporter' => supporter_base.merge({'name' => "Fake Supporter Name"})
+          'supporter' => supporter_to_builder_base.merge({'name' => "Fake Supporter Name"})
         }
       }
     }).ordered
@@ -116,7 +101,7 @@ RSpec.describe SupporterNote, type: :model do
             'id' => user.id,
             'object' => 'user'
           },
-          'supporter' => supporter_base.merge({'name' => "Fake Supporter Name"})
+          'supporter' => supporter_to_builder_base.merge({'name' => "Fake Supporter Name"})
         }
       }
     }).ordered

@@ -41,6 +41,45 @@ RSpec.shared_context :shared_donation_charge_context do
 
   let(:stripe_helper) { StripeMock.create_test_helper }
 
+
+  let(:nonprofit_to_builder_base) do 
+			{
+				'id' => nonprofit.id,
+				'name' => nonprofit.name,
+				'object' => 'nonprofit'
+			}
+  end
+
+
+  let(:supporter_to_builder_base) do
+		{
+			'anonymous' => false,
+			'deleted' => false,
+			'name' => name,
+			'organization' => nil,
+			'phone' => nil,
+			'supporter_addresses' => [kind_of(Numeric)],
+			'id'=> kind_of(Numeric),
+			'merged_into' => nil,
+			'nonprofit'=> nonprofit.id,
+			'object' => 'supporter'
+		}
+	end
+
+	let(:supporter_address_to_builder_base) do 
+		{
+			'id' =>  kind_of(Numeric),
+			'deleted' => false,
+			'address' => address,
+			'city' => nil,
+			'state_code' => nil,
+			'zip_code' => nil,
+			'country' => 'United States',
+			'object' => 'supporter_address',
+			'supporter' => kind_of(Numeric)
+		}
+	end
+
   around(:each) do |example|
     Timecop.freeze(2020, 5, 4) do
       StripeMock.start

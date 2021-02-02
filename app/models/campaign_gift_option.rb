@@ -3,8 +3,9 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class CampaignGiftOption < ApplicationRecord
-  include ObjectEvent::ModelExtensions
-	object_eventable :cgo
+  include Model::Eventable
+  include Model::Jbuilder
+
   # :amount_one_time, #int (cents)
   # :amount_recurring, #int (cents)
   # :amount_dollars, #str, gets converted to amount
@@ -28,6 +29,12 @@ class CampaignGiftOption < ApplicationRecord
   after_create_commit :publish_created
   after_update_commit :publish_updated
   after_destroy_commit :publish_deleted
+
+  add_builder_expansion :campaign
+  add_builder_expansion :nonprofit, 
+    to_attrib: -> (model) {model.campaign.nonprofit}
+
+
 
   def total_gifts
     campaign_gifts.count
@@ -64,7 +71,7 @@ class CampaignGiftOption < ApplicationRecord
       })
     end
 
-    Jbuilder.new do |json|
+    init_builder(*expand) do |json|
       json.(self, :id, :name, :description, 
           :hide_contributions, :order, :to_ship)
 
@@ -77,18 +84,6 @@ class CampaignGiftOption < ApplicationRecord
       json.gift_option_amount gift_option_amount do |desc|
         json.amount desc[:amount]
         json.recurrence(desc[:recurrence]) if desc[:recurrence]
-      end
-      
-      if expand.include? :nonprofit
-        json.nonprofit campaign.nonprofit.to_builder
-      else
-        json.nonprofit campaign.nonprofit.id
-      end
-
-      if expand.include? :campaign
-        json.campaign campaign.to_builder
-      else
-        json.campaign campaign.id
       end
     end
   end

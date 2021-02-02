@@ -2236,6 +2236,35 @@ ALTER SEQUENCE public.ticket_levels_id_seq OWNED BY public.ticket_levels.id;
 
 
 --
+-- Name: ticket_purchases; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticket_purchases (
+    id character varying NOT NULL,
+    amount integer,
+    original_discount integer DEFAULT 0,
+    event_discount_id bigint,
+    event_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: ticket_to_legacy_tickets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.ticket_to_legacy_tickets (
+    id character varying NOT NULL,
+    ticket_purchase_id character varying,
+    ticket_id bigint,
+    amount integer DEFAULT 0,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: tickets; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2249,13 +2278,13 @@ CREATE TABLE public.tickets (
     supporter_id integer,
     event_id integer,
     quantity integer,
-    checked_in boolean,
+    checked_in boolean DEFAULT false NOT NULL,
     bid_id integer,
     card_id integer,
     payment_id integer,
     note text,
     event_discount_id integer,
-    deleted boolean,
+    deleted boolean DEFAULT false NOT NULL,
     source_token_id uuid
 );
 
@@ -2312,6 +2341,31 @@ CREATE SEQUENCE public.trackings_id_seq
 --
 
 ALTER SEQUENCE public.trackings_id_seq OWNED BY public.trackings.id;
+
+
+--
+-- Name: transaction_assignments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transaction_assignments (
+    id character varying NOT NULL,
+    transaction_id character varying NOT NULL,
+    assignable_type character varying NOT NULL,
+    assignable_id character varying NOT NULL
+);
+
+
+--
+-- Name: transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.transactions (
+    id character varying NOT NULL,
+    supporter_id bigint,
+    amount integer,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -3215,6 +3269,22 @@ ALTER TABLE ONLY public.ticket_levels
 
 
 --
+-- Name: ticket_purchases ticket_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_purchases
+    ADD CONSTRAINT ticket_purchases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ticket_to_legacy_tickets ticket_to_legacy_tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_to_legacy_tickets
+    ADD CONSTRAINT ticket_to_legacy_tickets_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tickets tickets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3228,6 +3298,22 @@ ALTER TABLE ONLY public.tickets
 
 ALTER TABLE ONLY public.trackings
     ADD CONSTRAINT trackings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transaction_assignments transaction_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transaction_assignments
+    ADD CONSTRAINT transaction_assignments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: transactions transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3491,6 +3577,34 @@ CREATE INDEX index_supporters_on_name ON public.supporters USING btree (name);
 
 
 --
+-- Name: index_ticket_purchases_on_event_discount_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticket_purchases_on_event_discount_id ON public.ticket_purchases USING btree (event_discount_id);
+
+
+--
+-- Name: index_ticket_purchases_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticket_purchases_on_event_id ON public.ticket_purchases USING btree (event_id);
+
+
+--
+-- Name: index_ticket_to_legacy_tickets_on_ticket_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticket_to_legacy_tickets_on_ticket_id ON public.ticket_to_legacy_tickets USING btree (ticket_id);
+
+
+--
+-- Name: index_ticket_to_legacy_tickets_on_ticket_purchase_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_ticket_to_legacy_tickets_on_ticket_purchase_id ON public.ticket_to_legacy_tickets USING btree (ticket_purchase_id);
+
+
+--
 -- Name: index_tickets_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3509,6 +3623,27 @@ CREATE INDEX index_tickets_on_payment_id ON public.tickets USING btree (payment_
 --
 
 CREATE INDEX index_tickets_on_supporter_id ON public.tickets USING btree (supporter_id);
+
+
+--
+-- Name: index_transaction_assignments_on_assignable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_transaction_assignments_on_assignable ON public.transaction_assignments USING btree (assignable_type, assignable_id);
+
+
+--
+-- Name: index_transaction_assignments_on_transaction_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transaction_assignments_on_transaction_id ON public.transaction_assignments USING btree (transaction_id);
+
+
+--
+-- Name: index_transactions_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_transactions_on_supporter_id ON public.transactions USING btree (supporter_id);
 
 
 --
@@ -3659,6 +3794,38 @@ CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING b
 
 
 --
+-- Name: ticket_to_legacy_tickets fk_rails_062cef70e7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_to_legacy_tickets
+    ADD CONSTRAINT fk_rails_062cef70e7 FOREIGN KEY (ticket_id) REFERENCES public.tickets(id);
+
+
+--
+-- Name: ticket_purchases fk_rails_28d2157787; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_purchases
+    ADD CONSTRAINT fk_rails_28d2157787 FOREIGN KEY (event_id) REFERENCES public.events(id);
+
+
+--
+-- Name: transactions fk_rails_4c3b872843; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transactions
+    ADD CONSTRAINT fk_rails_4c3b872843 FOREIGN KEY (supporter_id) REFERENCES public.supporters(id);
+
+
+--
+-- Name: transaction_assignments fk_rails_639389404a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.transaction_assignments
+    ADD CONSTRAINT fk_rails_639389404a FOREIGN KEY (transaction_id) REFERENCES public.transactions(id);
+
+
+--
 -- Name: active_storage_variant_records fk_rails_993965df05; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3667,11 +3834,27 @@ ALTER TABLE ONLY public.active_storage_variant_records
 
 
 --
+-- Name: ticket_to_legacy_tickets fk_rails_9ea3f9c907; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_to_legacy_tickets
+    ADD CONSTRAINT fk_rails_9ea3f9c907 FOREIGN KEY (ticket_purchase_id) REFERENCES public.ticket_purchases(id);
+
+
+--
 -- Name: active_storage_attachments fk_rails_c3b3935057; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.active_storage_attachments
     ADD CONSTRAINT fk_rails_c3b3935057 FOREIGN KEY (blob_id) REFERENCES public.active_storage_blobs(id);
+
+
+--
+-- Name: ticket_purchases fk_rails_e2eb419f70; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.ticket_purchases
+    ADD CONSTRAINT fk_rails_e2eb419f70 FOREIGN KEY (event_discount_id) REFERENCES public.event_discounts(id);
 
 
 --
@@ -4160,6 +4343,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210114213034'),
 ('20210115203009'),
 ('20210115230815'),
-('20210119195318');
+('20210119195318'),
+('20210122184714'),
+('20210122203303'),
+('20210127193411'),
+('20210128215402');
 
 

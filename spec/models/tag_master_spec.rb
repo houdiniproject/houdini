@@ -9,21 +9,28 @@ RSpec.describe TagMaster, type: :model do
   let(:name) { "TAGNAME"}
 
   let(:tag_master) { nonprofit.tag_masters.create(name: name) }
+  let(:np_builder_expanded) { {
+    'id' => nonprofit.id,
+    'name' => nonprofit.name,
+    'object' => 'nonprofit'
+  }}
   it 'creates' do 
     expect(tag_master.errors).to be_empty
   end
 
+  
+
   it 'announces create' do
-    expect(Houdini.event_publisher).to receive(:announce).with(:tag_master_created, {
+    expect(Houdini.event_publisher).to receive(:announce).with(:tag_definition_created, {
       'id' => match(/objevt_[a-zA-Z0-9]{22}/),
       'object' => 'object_event',
-      'type' => 'tag_master.created',
+      'type' => 'tag_definition.created',
       'data' => {
         'object' => {
           'id'=> kind_of(Numeric),
           'deleted' => false,
           'name' => name,
-          'nonprofit'=> nonprofit.id,
+          'nonprofit'=> np_builder_expanded,
           'object' => 'tag_definition'
         }
       }
@@ -33,17 +40,17 @@ RSpec.describe TagMaster, type: :model do
   end
   
   it 'announces deleted' do
-    expect(Houdini.event_publisher).to receive(:announce).with(:tag_master_created, anything).ordered
-    expect(Houdini.event_publisher).to receive(:announce).with(:tag_master_deleted, {
+    expect(Houdini.event_publisher).to receive(:announce).with(:tag_definition_created, anything).ordered
+    expect(Houdini.event_publisher).to receive(:announce).with(:tag_definition_deleted, {
       'id' => match(/objevt_[a-zA-Z0-9]{22}/),
       'object' => 'object_event',
-      'type' => 'tag_master.deleted',
+      'type' => 'tag_definition.deleted',
       'data' => {
         'object' => {
           'id'=> kind_of(Numeric),
           'deleted' => true,
           'name' => name,
-          'nonprofit'=> nonprofit.id,
+          'nonprofit'=> np_builder_expanded,
           'object' => 'tag_definition'
         }
       }

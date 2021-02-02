@@ -3,6 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Supporter < ApplicationRecord
+  include Model::Jbuilder
   # :search_vectors,
   # :profile_id, :profile,
   # :nonprofit_id, :nonprofit,
@@ -49,11 +50,14 @@ class Supporter < ApplicationRecord
   has_many :tag_masters, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
+  has_many :transactions
   belongs_to :merged_into, class_name: 'Supporter', foreign_key: 'merged_into'
   has_many :merged_from, class_name: 'Supporter', :foreign_key => "merged_into"
 
   validates :nonprofit, presence: true
   scope :not_deleted, -> { where(deleted: false) }
+
+  add_builder_expansion :nonprofit
 
   # TODO replace with Discard gem
   define_model_callbacks :discard
@@ -99,7 +103,7 @@ class Supporter < ApplicationRecord
 
   def to_builder(*expand)
     supporter_addresses = [self]
-    Jbuilder.new do |json|
+    init_builder(*expand) do |json|
       json.object "supporter"
       json.(self, :id, :name, :organization, :phone, :anonymous, :deleted)
       if expand.include? :supporter_address
@@ -108,12 +112,6 @@ class Supporter < ApplicationRecord
         end
       else
         json.supporter_addresses [id]
-      end
-
-      if expand.include? :nonprofit
-        json.nonprofit nonprofit.to_builder
-      else
-        json.nonprofit nonprofit.id
       end
 
       unless merged_into.nil?
@@ -188,6 +186,29 @@ class Supporter < ApplicationRecord
         end
     end
   end
+
+  # def new_builder(*expand)
+  #   Jbuilder.new do | json|
+  #     expandable_builders.keys.each do |k|
+  #       if expand.include? k
+  #         json.set! expandable_builders[k][:json_attrib], expandable_builders[k][:expanded].call(self)
+  #       else
+  #         json.set! expandable_builders[k][:json_attrib], expandable_builders[k][:id].call(self)
+  #       end
+  #     end
+  #     yield(json)
+  #   end
+  # end
+
+  # def expandable_builders
+  #    {
+  #      nonprofit: {
+  #       json_attrib: :nonprofit,
+  #       id: ->(model) { model.nonprofit.id},
+  #       expanded: ->(model) { model.nonprofit.to_builder }
+  #     }
+  #   }
+  # end
 end
 
 ActiveSupport.run_load_hooks(:houdini_supporter, Supporter)

@@ -43,7 +43,7 @@ class TagMaster < ApplicationRecord
   def to_builder(*expand)
     Jbuilder.new do |tag|
       tag.(self, :id, :name, :deleted)
-      tag.object 'tag_master'
+      tag.object 'tag_definition'
       if expand.include? :nonprofit && nonprofit
         tag.nonprofit nonprofit.to_builder
       else

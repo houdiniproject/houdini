@@ -24,7 +24,7 @@ RSpec.describe TagMaster, type: :model do
           'deleted' => false,
           'name' => name,
           'nonprofit'=> nonprofit.id,
-          'object' => 'tag_master'
+          'object' => 'tag_definition'
         }
       }
     })
@@ -44,7 +44,7 @@ RSpec.describe TagMaster, type: :model do
           'deleted' => true,
           'name' => name,
           'nonprofit'=> nonprofit.id,
-          'object' => 'tag_master'
+          'object' => 'tag_definition'
         }
       }
     }).ordered

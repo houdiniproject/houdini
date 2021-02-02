@@ -18,7 +18,7 @@ RSpec.describe Transaction, type: :model do
         'amount' => {
           'value_in_cents' => 1000,
           'currency' => 'usd'
-        }  
+        }
       })
     end
   end

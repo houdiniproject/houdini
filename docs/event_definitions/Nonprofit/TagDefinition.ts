@@ -3,18 +3,18 @@
 import type { HoudiniEvent, HoudiniObject, IdType } from "../common";
 import type Nonprofit from './';
 
-export interface TagMaster extends HoudiniObject {
+export interface TagDefinition extends HoudiniObject {
 	deleted: boolean;
 	name: string;
 	nonprofit: IdType | Nonprofit;
-	object: 'tag_master';
+	object: 'tag_definition';
 }
 
-/** POST /nonprofits/:id/tag_masters */
-export interface CreateTagMaster {
+/** POST /nonprofits/:id/tag_definitions */
+export interface CreateTagDefinition {
 	name: string;
 }
 
-export type TagMasterCreated = HoudiniEvent<'tag_master.created', TagMaster>;
+export type TagMasterCreated = HoudiniEvent<'tag_definition.created', TagDefinition>;
 
-export type TagMasterDeleted = HoudiniEvent<'tag_master.deleted', TagMaster>;
+export type TagMasterDeleted = HoudiniEvent<'tag_definition.deleted', TagDefinition>;

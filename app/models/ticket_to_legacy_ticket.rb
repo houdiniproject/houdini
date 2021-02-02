@@ -5,6 +5,8 @@
 class TicketToLegacyTicket < ApplicationRecord
   include Model::Houidable
   include Model::Jbuilder
+  include Model::Eventable
+
   belongs_to :ticket_purchase
   belongs_to :ticket
 
@@ -41,6 +43,16 @@ class TicketToLegacyTicket < ApplicationRecord
         end
       end
     end
+  end
+
+  def publish_created
+    Houdini.event_publisher.announce(:ticket_created, to_event('ticket.created', 
+      :ticket_purchase,
+      :ticket_level,
+      :supporter,
+      :event,
+      :nonprofit,
+      :event_discount).attributes!)
   end
 
 end

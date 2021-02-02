@@ -5,6 +5,7 @@
 class TicketPurchase < ApplicationRecord
   include Model::Houidable
   include Model::Jbuilder
+  include Model::Eventable
   setup_houid :tktpur
 
   add_builder_expansion :event, :nonprofit, :supporter
@@ -50,6 +51,10 @@ class TicketPurchase < ApplicationRecord
         json.tickets ticket_to_legacy_tickets.pluck(:id)
       end
     end
+  end
+
+  def publish_created
+    Houdini.event_publisher.announce(:ticket_purchase_created, to_event('ticket_purchase.created', :event, :nonprofit, :supporter, :trx, :event_discount).attributes!)
   end
 
   private

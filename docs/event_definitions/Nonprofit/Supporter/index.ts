@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { IdType, HoudiniObject } from '../../common';
+import type { IdType, HoudiniObject, HoudiniEvent } from '../../common';
 import type Nonprofit from '../';
 import type { SupporterAddress } from './SupporterAddress';
 

@@ -65,4 +65,14 @@ class TicketToLegacyTicket < ApplicationRecord
       :event_discount).attributes!)
   end
 
+  def publish_deleted
+    Houdini.event_publisher.announce(:ticket_deleted, to_event('ticket.deleted', 
+      :ticket_purchase,
+      :ticket_level,
+      :supporter,
+      :event,
+      :nonprofit,
+      :event_discount).attributes!)
+  end
+
 end

@@ -30,22 +30,27 @@ module UpdateTickets
       edited = true
     end
 
+    publish_ticket_updated = false
     if data[:note]
       entities[:ticket_id].note = data[:note]
       edited = true
+      publish_ticket_updated = true
     end
 
     if data[:bid_id]
       entities[:ticket_id].bid_id = data[:bid_id]
       edited = true
+      publish_ticket_updated = true
     end
 
     unless data[:checked_in].nil?
       entities[:ticket_id].checked_in = data[:checked_in]
       edited = true
+      publish_ticket_updated = true
     end
 
     entities[:ticket_id].save! if edited
+    entities[:ticket_id].ticket_to_legacy_tickets.each{|i| i.publish_updated} if publish_ticket_updated
     entities[:ticket_id]
   end
 

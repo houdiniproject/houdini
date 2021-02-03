@@ -10,9 +10,12 @@ describe UpdateTickets do
     create(:ticket, :has_card, :has_event)
   end
 
+
+
   describe '.update' do
     include_context :shared_rd_donation_value_context
-
+    let(:trx) {create(:transaction, supporter: supporter)}
+    
     let(:basic_valid_ticket_input) do
       { ticket_id: ticket.id, event_id: event.id }
     end
@@ -40,7 +43,7 @@ describe UpdateTickets do
         note: nil,
         deleted: false,
         source_token_id: nil,
-        ticket_level_id: nil
+        ticket_level_id: ticket_level.id
       }
     end
 
@@ -62,24 +65,40 @@ describe UpdateTickets do
         deleted: false,
         source_token_id: nil,
         event_id: event.id,
-        ticket_level_id: nil
+        ticket_level_id: ticket_level.id
       }.with_indifferent_access
     end
+
 
     let(:payment) { force_create(:payment) }
     let(:charge) { force_create(:charge) }
 
     let(:ticket) do
-      force_create(:ticket,
+      tp = trx.ticket_purchases.create(event: event)
+      
+      ticket = force_create(:ticket,
                    general_ticket.merge(event: event))
+      ticket.quantity.times do 
+        ticket.ticket_to_legacy_tickets.create(ticket_purchase: tp)
+      end
+      ticket
     end
 
     let(:other_ticket) do
-      force_create(:ticket,
+      ticket = force_create(:ticket,
                    general_ticket.merge(event: other_event))
+      ticket.quantity.times do 
+        ticket.ticket_to_legacy_tickets.create
+      end
+      ticket           
+    end
+
+    def expect_ticket_updated_to_not_be_called
+      expect(Houdini.event_publisher).to_not receive(:announce).with(:ticket_updated, any_args)
     end
 
     it 'basic validation' do
+      expect_ticket_updated_to_not_be_called
       expect { UpdateTickets.update(token: 'bhaetiwhet', checked_in: 'blah', bid_id: 'bhalehti') }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
 
@@ -96,17 +115,19 @@ describe UpdateTickets do
     end
 
     it 'event is invalid' do
+      expect_ticket_updated_to_not_be_called
       find_error_event { UpdateTickets.update(event_id: 5555, ticket_id: ticket.id) }
     end
 
     it 'ticket is invalid' do
+      expect_ticket_updated_to_not_be_called
       find_error_ticket { UpdateTickets.update(event_id: event.id, ticket_id: 5555) }
     end
 
     it 'ticket is deleted' do
       ticket.deleted = true
       ticket.save!
-
+      expect_ticket_updated_to_not_be_called
       expect { UpdateTickets.update(event_id: event.id, ticket_id: ticket.id) }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
         expect_validation_errors(error.data, [{ key: :ticket_id }])
@@ -118,7 +139,7 @@ describe UpdateTickets do
     it 'event is deleted' do
       event.deleted = true
       event.save!
-
+      expect_ticket_updated_to_not_be_called
       expect { UpdateTickets.update(event_id: event.id, ticket_id: ticket.id) }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
         expect_validation_errors(error.data, [{ key: :event_id }])
@@ -128,6 +149,7 @@ describe UpdateTickets do
     end
 
     it 'event and ticket dont match' do
+      expect_ticket_updated_to_not_be_called
       expect { UpdateTickets.update(event_id: event.id, ticket_id: other_ticket.id) }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
         expect_validation_errors(error.data, [{ key: :ticket_id }])
@@ -136,22 +158,28 @@ describe UpdateTickets do
     end
 
     it 'token is invalid' do
+      expect_ticket_updated_to_not_be_called
       validation_invalid_token { UpdateTickets.update(include_fake_token) }
     end
 
     it 'errors out if token is unauthorized' do
+      expect_ticket_updated_to_not_be_called
       validation_unauthorized { UpdateTickets.update(include_fake_token) }
     end
 
     it 'errors out if token is expired' do
+      expect_ticket_updated_to_not_be_called
       validation_expired { UpdateTickets.update(include_fake_token) }
     end
 
     it 'card doesnt belong to supporter' do
+      expect_ticket_updated_to_not_be_called
       validation_card_not_with_supporter { UpdateTickets.update(include_fake_token.merge(token: other_source_token.token)) }
     end
 
     it 'success editing note' do
+      allow(Houdini.event_publisher).to receive(:announce)
+      expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
       result = UpdateTickets.update(basic_valid_ticket_input.merge(note: 'noteedited'))
       expected = general_expected.merge(note: 'noteedited')
 
@@ -161,6 +189,8 @@ describe UpdateTickets do
     end
 
     it 'success editing bid_id' do
+      allow(Houdini.event_publisher).to receive(:announce)
+      expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
       result = UpdateTickets.update(basic_valid_ticket_input.merge(bid_id: 50))
       expected = general_expected.merge(bid_id: 50)
 
@@ -170,6 +200,8 @@ describe UpdateTickets do
     end
 
     it 'success editing checked_in' do
+      allow(Houdini.event_publisher).to receive(:announce)
+      expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
       result = UpdateTickets.update(basic_valid_ticket_input.merge(checked_in: 'true'))
       expected = general_expected.merge(checked_in: true)
 
@@ -179,6 +211,8 @@ describe UpdateTickets do
     end
 
     it 'success editing checked_in as a boolean' do
+      allow(Houdini.event_publisher).to receive(:announce)
+      expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
       result = UpdateTickets.update(basic_valid_ticket_input.merge(checked_in: true))
       expected = general_expected.merge(checked_in: true)
 
@@ -188,6 +222,7 @@ describe UpdateTickets do
     end
 
     it 'success editing token' do
+      expect_ticket_updated_to_not_be_called
       result = UpdateTickets.update(basic_valid_ticket_input.merge(token: source_token.token))
       expected = general_expected.merge(source_token_id: source_token.id)
 

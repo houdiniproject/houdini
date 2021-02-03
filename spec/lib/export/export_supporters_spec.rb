@@ -150,7 +150,8 @@ describe ExportSupporters do
     it 'handles exception in upload properly' do
       Timecop.freeze(2020, 4, 5) do
         @export = force_create(:export, user: @user)
-        expect_job_queued.with(JobTypes::ExportSupportersFailedJob, @export)
+        # expect(ExportMailer.delay).to receive(:export_supporters_failed_notification)
+        # expect_job_queued.with(JobTypes::ExportSupportersFailedJob, @export)
         CHUNKED_UPLOADER.raise_error
         Timecop.freeze(2020, 4, 6) do
           expect { ExportSupporters.run_export(@nonprofit.id, {}.to_json, @user.id, @export.id) }.to(raise_error do |error|
@@ -163,7 +164,7 @@ describe ExportSupporters do
             expect(@export.ended).to eq Time.now
             expect(@export.updated_at).to eq Time.now
 
-
+            expect(@user).to have_received_email(subject: "Your supporters export has failed")
           end)
         end
       end
@@ -172,7 +173,7 @@ describe ExportSupporters do
     it 'uploads as expected' do
       Timecop.freeze(2020, 4, 5) do
         @export = create(:export, user: @user, created_at: Time.now, updated_at: Time.now)
-        expect_job_queued.with(JobTypes::ExportSupportersCompletedJob, @export)
+        #expect_job_queued.with(JobTypes::ExportSupportersCompletedJob, @export)
         Timecop.freeze(2020, 4, 6, 1, 2, 3) do
           ExportSupporters.run_export(@nonprofit.id, {:root_url => "https://localhost:8080/"}.to_json, @user.id, @export.id)
 
@@ -190,7 +191,7 @@ describe ExportSupporters do
 
           expect(TestChunkedUploader.options[:content_type]).to eq 'text/csv'
           expect(TestChunkedUploader.options[:content_disposition]).to eq 'attachment'
-
+          expect(@user).to have_received_email(subject: "Your supporters export is available!")
         end
       end
     end

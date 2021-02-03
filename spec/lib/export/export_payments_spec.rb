@@ -128,7 +128,7 @@ describe ExportPayments do
               expect(@export.ended).to eq Time.now
               expect(@export.updated_at).to eq Time.now
 
-              #expect(user).to have_received_email(subject: "Your payment export has failed")
+              expect(user).to have_received_email(subject: "Your payment export has failed")
             end)
           end
         end

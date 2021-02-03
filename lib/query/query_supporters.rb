@@ -318,7 +318,7 @@ UNION DISTINCT
     return expr
   end
 
-  def self.for_export_enumerable(npo_id, query, chunk_limit=35000)
+  def self.for_export_enumerable(npo_id, query, chunk_limit=15000)
     ParamValidation.new({npo_id: npo_id, query:query}, {npo_id: {required: true, is_int: true},
                                                         query: {required:true, is_hash: true}})
 
@@ -384,7 +384,7 @@ UNION DISTINCT
     end
   end
 
-  def self.supporter_note_export_enumerable(npo_id, query, chunk_limit=35000)
+  def self.supporter_note_export_enumerable(npo_id, query, chunk_limit=15000)
     ParamValidation.new({npo_id: npo_id, query:query}, {npo_id: {required: true, is_int: true},
                                                         query: {required:true, is_hash: true}})
 

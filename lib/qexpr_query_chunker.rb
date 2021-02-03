@@ -39,7 +39,7 @@ module QexprQueryChunker
   # @yieldparam [Boolean] skip_header whether you should skip the header row in the returned output.
   # @yieldreturn [Enumerator<Array>] an Enumerator, with each item an array for a row
   # @return [Enumerator::Lazy] a lazy enumerator for getting every item in the query
-  def self.for_export_enumerable(chunk_limit=35000, &block)
+  def self.for_export_enumerable(chunk_limit=15000, &block)
     Enumerator.new do |y|
       last_export_length = 0
       limit = chunk_limit

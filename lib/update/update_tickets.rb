@@ -55,12 +55,13 @@ module UpdateTickets
   end
 
   def self.delete(event_id, ticket_id)
-    Qx.update(:tickets)
-      .set(deleted: true)
-      .timestamps
-      .where(id: ticket_id)
-      .and_where(event_id: event_id)
-      .execute
+
+    Ticket.transaction do 
+      ticket = Event.find(event_id).tickets.find(ticket_id)
+      ticket.deleted = true
+      ticket.save!
+      ticket.ticket_to_legacy_tickets.each {|i| i.publish_deleted}
+    end
   end
 
   def self.delete_card_for_ticket(event_id, ticket_id)

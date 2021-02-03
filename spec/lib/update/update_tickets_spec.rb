@@ -29,7 +29,7 @@ describe UpdateTickets do
 
     let(:general_ticket) do
       {
-        quantity: 1,
+        quantity: 2,
         supporter: supporter,
         payment: payment,
         charge: charge,
@@ -50,7 +50,7 @@ describe UpdateTickets do
     let(:general_expected) do
       {
         id: ticket.id,
-        quantity: 1,
+        quantity: 2,
         supporter_id: supporter.id,
         payment_id: payment.id,
         charge_id: charge.id,
@@ -233,11 +233,84 @@ describe UpdateTickets do
   end
 
   describe '.delete' do
+    include_context :shared_rd_donation_value_context
+    let(:trx) {create(:transaction, supporter: supporter)}
+    
+    let(:basic_valid_ticket_input) do
+      { ticket_id: ticket.id, event_id: event.id }
+    end
+    let(:include_fake_token) do
+      basic_valid_ticket_input.merge(token: fake_uuid)
+    end
+
+    let(:include_valid_token) do
+      basic_valid_ticket_input.merge(token: source_token.token)
+    end
+
+    let(:general_ticket) do
+      {
+        quantity: 2,
+        supporter: supporter,
+        payment: payment,
+        charge: charge,
+        event_discount: event_discount,
+        created_at: Time.now,
+        updated_at: Time.now,
+        checked_in: false,
+        bid_id: 1,
+        card_id: nil,
+        profile_id: nil,
+        note: nil,
+        deleted: false,
+        source_token_id: nil,
+        ticket_level_id: ticket_level.id
+      }
+    end
+
+    let(:general_expected) do
+      {
+        id: ticket.id,
+        quantity: 2,
+        supporter_id: supporter.id,
+        payment_id: payment.id,
+        charge_id: charge.id,
+        event_discount_id: event_discount.id,
+        created_at: Time.now,
+        updated_at: Time.now,
+        checked_in: false,
+        bid_id: 1,
+        card_id: nil,
+        profile_id: nil,
+        note: nil,
+        deleted: false,
+        source_token_id: nil,
+        event_id: event.id,
+        ticket_level_id: ticket_level.id
+      }.with_indifferent_access
+    end
+
+
+    let(:payment) { force_create(:payment) }
+    let(:charge) { force_create(:charge) }
+
+    let(:ticket) do
+      tp = trx.ticket_purchases.create(event: event)
+      
+      ticket = force_create(:ticket,
+                   general_ticket.merge(event: event))
+      ticket.quantity.times do 
+        ticket.ticket_to_legacy_tickets.create(ticket_purchase: tp)
+      end
+      ticket
+    end
     it 'marks the given ticket as deleted=true' do
+      allow(Houdini.event_publisher).to receive(:announce)
+      expect(Houdini.event_publisher).to_not receive(:announce).with(:ticket_updated, any_args)
+      expect(Houdini.event_publisher).to receive(:announce).with(:ticket_deleted, any_args).exactly(ticket.quantity).times
       UpdateTickets.delete(ticket['event_id'], ticket['id'])
       ticket.reload
       expect(ticket['deleted']).to eq(true)
-
+      expect(ticket.ticket_to_legacy_tickets.all? {|i| i.deleted}).to eq true
       expect(Ticket.count).to eq(1)
     end
   end

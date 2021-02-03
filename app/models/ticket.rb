@@ -18,6 +18,7 @@ class Ticket < ApplicationRecord
   belongs_to :source_token
   has_one :nonprofit, through: :event
   has_many :activities, as: :attachment, dependent: :destroy
+  has_many :ticket_to_legacy_tickets
 
   def related_tickets
     payment.tickets.where('id != ?', id)

@@ -6,7 +6,7 @@ module MergeSupporters
   # For supporters that have been merged, we want to update all their child tables to the new supporter_id
   def self.update_associations(old_supporter_ids, new_supporter_id, np_id, profile_id)
     # The new supporter needs to have the following tables from the merged supporters:
-    associations = %i[activities donations recurring_donations offsite_payments payments tickets supporter_notes supporter_emails full_contact_infos]
+    associations = %i[activities donations recurring_donations offsite_payments payments tickets supporter_notes full_contact_infos]
 
     associations.each do |table_name|
       Qx.update(table_name).set(supporter_id: new_supporter_id).where('supporter_id IN ($ids)', ids: old_supporter_ids).timestamps.execute

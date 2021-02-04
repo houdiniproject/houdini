@@ -11,7 +11,6 @@ const supporterTable = require('./supporter-table.es6')
 var $ = {
 	showMore: supporterTable.$streams.showMore,
 	searches: meta.$streams.searches,
-	showEmailModal: flyd.stream(),
 }
 
 const root = state =>

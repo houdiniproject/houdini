@@ -1962,45 +1962,6 @@ CREATE TABLE public.source_tokens (
 
 
 --
--- Name: supporter_emails; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.supporter_emails (
-    id integer NOT NULL,
-    "to" text,
-    "from" character varying(255),
-    subject character varying(255),
-    body text,
-    supporter_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    nonprofit_id integer,
-    recipient_count integer,
-    user_id integer,
-    gmail_thread_id character varying(255)
-);
-
-
---
--- Name: supporter_emails_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.supporter_emails_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: supporter_emails_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.supporter_emails_id_seq OWNED BY public.supporter_emails.id;
-
-
---
 -- Name: supporter_notes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2751,13 +2712,6 @@ ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.ses
 
 
 --
--- Name: supporter_emails id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.supporter_emails ALTER COLUMN id SET DEFAULT nextval('public.supporter_emails_id_seq'::regclass);
-
-
---
 -- Name: supporter_notes id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3210,14 +3164,6 @@ ALTER TABLE ONLY public.sessions
 
 ALTER TABLE ONLY public.supporters
     ADD CONSTRAINT supporter_data_pkey PRIMARY KEY (id);
-
-
---
--- Name: supporter_emails supporter_emails_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.supporter_emails
-    ADD CONSTRAINT supporter_emails_pkey PRIMARY KEY (id);
 
 
 --
@@ -4339,6 +4285,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210122184714'),
 ('20210122203303'),
 ('20210127193411'),
-('20210128215402');
+('20210128215402'),
+('20210204174909');
 
 

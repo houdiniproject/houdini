@@ -13,8 +13,6 @@ class Event < ApplicationRecord
   # :body, # text (html)
   # :end_datetime,
   # :start_datetime,
-  # :latitude, # float
-  # :longitude, # float
   # :location, # str
   # :city, # str
   # :state_code, # str

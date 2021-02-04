@@ -170,8 +170,6 @@ class NonprofitsController < ApplicationController
       :published,
       :vetted,
       :verification_status,
-      :latitude,
-      :longitude,
       :timezone,
       :address,
       :thank_you_note,

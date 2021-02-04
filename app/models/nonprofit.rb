@@ -34,8 +34,6 @@ class Nonprofit < ApplicationRecord
   # :published, # boolean; whether to display this profile
   # :vetted, # bool: Whether a super admin (one of CommitChange's employees) have approved this org
   # :verification_status, # str (either 'pending', 'unverified', 'escalated', 'verified' -- whether the org has submitted the identity verification form and it has been approved)
-  # :latitude, # float: geocoder gem
-  # :longitude, # float: geocoder gem
   # :timezone, # str
   # :address, # text
   # :thank_you_note, # text
@@ -126,7 +124,7 @@ class Nonprofit < ApplicationRecord
   serialize :achievements, Array
   serialize :categories, Array
 
-  geocoded_by :full_address
+
 
   before_validation(on: :create) do
     set_slugs

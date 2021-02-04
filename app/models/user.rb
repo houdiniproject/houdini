@@ -26,8 +26,6 @@ class User < ApplicationRecord
   # :profile_attributes,
   # :phone
 
-  geocoded_by :location
-
   devise :async, :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessor :offsite_donation_id, :current_password
@@ -92,11 +90,6 @@ class User < ApplicationRecord
     self.confirmation_sent_at = Time.now
     save!
     raw
-  end
-
-  def geocode!
-    # self.geocode
-    # self.save
   end
 
   def to_builder(*expand)

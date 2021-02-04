@@ -5,7 +5,6 @@
 module UpdateSupporter
   def self.from_info(supporter, params)
     supporter.update(params)
-    # GeocodeModel.delay.geocode(supporter)
     supporter
   end
 

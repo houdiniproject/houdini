@@ -168,7 +168,6 @@ GEM
     ffi (1.14.2)
     font_assets (0.1.14)
       rack
-    geocoder (1.6.4)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hamster (3.0.0)
@@ -434,7 +433,6 @@ DEPENDENCIES
   factory_bot_rails (~> 5.0, >= 5.0.2)
   fast_blank
   font_assets (~> 0.1.14)
-  geocoder (~> 1.6.3)
   hamster (~> 3.0)
   heroku-deflater (~> 0.6.3)
   houdini_full_contact!

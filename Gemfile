@@ -24,7 +24,6 @@ gem 'sprockets', '~> 3.7'
 # Helpers
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
 gem 'countries', '~> 3.0'
-gem 'geocoder', '~> 1.6.3' # for adding latitude and longitude to location-based tables http://www.rubygeocoder.com/
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'nearest_time_zone', '~> 0.0.4' # for detecting timezone from lat/lng https://github.com/buytruckload/nearest_time_zone

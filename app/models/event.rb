@@ -62,7 +62,7 @@ class Event < ApplicationRecord
   has_many :comments,        as: :host, dependent: :destroy
   has_many :activities,      as: :host, dependent: :destroy
 
-  geocoded_by :full_address
+
 
   accepts_nested_attributes_for :ticket_levels, allow_destroy: true
   has_one_attached :main_image
@@ -93,8 +93,6 @@ class Event < ApplicationRecord
     self.total_raised ||= 0
     self
   end
-
-  after_validation :geocode
 
   after_create do
     user = profile.user

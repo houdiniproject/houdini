@@ -17,8 +17,6 @@ class User < ApplicationRecord
   # :name, # str: created with oauth
   # :auto_generated, # bool: flag whether a password was auto-generated for this account
   # :referer, # str: ID of the user who referred this account
-  # :latitude,
-  # :longitude,
   # :reset_password_token,
   # :reset_password_sent_at,
   # :picture, # str: url for fb or twitter pic

@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 json.extract! nonprofit, :id, :name, #basics
                 :brand_color, :brand_font, :tagline, #brand
-                :zip_code, :state_code, :city, :latitude, :longitude, #location
+                :zip_code, :state_code, :city,
                 :slug, :state_code_slug, :city_slug, #slugs
                 :no_anon #options
 json.url nonprofit_path(nonprofit)

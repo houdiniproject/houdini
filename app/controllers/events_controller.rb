@@ -83,6 +83,6 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:deleted, :name, :tagline, :summary, :body, :end_datetime, :start_datetime, :latitude, :longitude, :location, :city, :state_code, :address, :zip_code, :main_image, :remove_main_image, :background_image, :remove_background_image, :published, :slug, :directions, :venue_name, :profile_id, :ticket_levels_attributes, :show_total_raised, :show_total_count, :hide_activity_feed, :nonprofit_id, :hide_title, :organizer_email, :receipt_message)
+    params.require(:event).permit(:deleted, :name, :tagline, :summary, :body, :end_datetime, :start_datetime, :location, :city, :state_code, :address, :zip_code, :main_image, :remove_main_image, :background_image, :remove_background_image, :published, :slug, :directions, :venue_name, :profile_id, :ticket_levels_attributes, :show_total_raised, :show_total_count, :hide_activity_feed, :nonprofit_id, :hide_title, :organizer_email, :receipt_message)
   end
 end

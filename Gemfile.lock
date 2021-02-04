@@ -234,8 +234,6 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.20.1)
-    parallel_tests (2.32.0)
-      parallel
     parser (3.0.0.0)
       ast (~> 2.4.1)
     pg (1.2.3)
@@ -445,7 +443,6 @@ DEPENDENCIES
   mail_view (~> 2.0)
   money (~> 6.13)
   nearest_time_zone (~> 0.0.4)
-  parallel_tests (~> 2.32)
   param_validation!
   pg (~> 1.1)
   pry (~> 0.12.2)

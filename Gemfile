@@ -61,7 +61,6 @@ group :development, :ci, :test do
   gem 'standard', '~> 0.1.2'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'rspec', '~> 3.9.0'
-  gem 'parallel_tests', '~> 2.32'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'listen'

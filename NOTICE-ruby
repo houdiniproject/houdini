@@ -577,6 +577,47 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
 
+** puma; version 5.1.1 -- 
+Zed Shaw, (c) 2005.
+copyright Evan Phoenix
+Copyright (c) 2005 Zed A. Shaw
+Copyright (c) 2011 Evan Phoenix
+Copyright (c) 2014 Evan Phoenix
+Copyright (c) 2019, Evan Phoenix.
+
+BSD 3-Clause License
+
+Copyright (c) 2019, Evan Phoenix. Some code by Zed Shaw, (c) 2005.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+------
+
 ** colorize; version 0.8.1 -- 
 Copyright (c) 2007-2016 Michal Kalbarczyk
 copyrighted by the Free Software Foundation
@@ -1660,6 +1701,67 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** webmock; version 3.11.0 -- 
+Copyright (c) 2010-2012 Myron Marston
+Portions copyright (c) 2010 Andre Arko
+Copyright (c) 2009-2010 Bartosz Blimke.
+Portions copyright (c) 2009 Engine Yard
+Copyright (c) 2004-2008 David Heinemeier Hansson
+
+Copyright (c) 2009-2010 Bartosz Blimke
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** roadie-rails; version 2.2.0 -- 
+Copyright (c) 2013-2017 Magnus Bergmark, and contributors.
+Copyright (c) 2013-2018 Magnus Bergmark (https://github.com/Mange) <magnus.bergmark@gmail.com>
+
+Copyright (c) 2013-2017 Magnus Bergmark, and contributors.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** pry; version 0.12.2 -- 
 Copyright (c) 2012 Lee Jarvis
 Copyright (c) 2018 The Pry Team
@@ -1757,6 +1859,37 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Copyright (c) 2010-2015 James Coglan
 
 Copyright (c) 2015-2020 Basecamp, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** money; version 6.13.8 -- 
+Copyright (c) 2008 Phusion
+Copyright (c) 2005 Tobias Lutke
+
+The MIT License (MIT)
+
+Copyright (c) 2005 Tobias Lutke
+Copyright (c) 2008 Phusion
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -2423,32 +2556,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** geocoder; version 1.6.4 -- 
-
-Copyright (c) 2009-2020 Alex Reisner
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** concurrent-ruby; version 1.1.7 -- 
 Copyright Concurrent Ruby
 Copyright (c) Jerry D'Antonio
@@ -2475,6 +2582,35 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+------
+
+** timecop; version 0.9.2 -- 
+Copyright (c) 2019 -- Travis Jeffery, John Trupiano
+
+(The MIT License)
+
+Copyright (c) 2019 — Travis Jeffery, John Trupiano
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -2815,6 +2951,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 copyright (c) 2007-2016 Nick Kallen, Bryan Helmkamp, Emilio Tagua, Aaron Patterson
 ** coderay; version 1.1.3 -- 
 Copyright (c) 2005-2012 Kornelius Kalnbach <murphy@rubychan.de>
+** crack; version 0.4.5 -- 
+Copyright (c) 2004-2008 David Heinemeier Hansson
 ** css_parser; version 1.7.1 -- 
 Copyright (c) 2007-11 Alex Dunae
 ** devise; version 4.7.3 -- 
@@ -2825,6 +2963,9 @@ Copyright, 2016, by Matthew Kerwin (http://kerwin.net.au).
 Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2016, by Samuel G. D. Williams (http://www.codeotaku.com/samuel-williams).
 ** i18n_data; version 0.10.0 -- 
+** i18n-js; version 3.8.0 -- 
+Copyright (c) 2008-2011 Pivotal Labs
+Copyright (c) 2010-2015, The Dojo Foundation
 ** mime-types; version 3.3.1 -- 
 Copyright 2003-2019 Austin Ziegler and contributors.
 ** mime-types-data; version 3.2020.1104 -- 
@@ -3318,6 +3459,34 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** semantic_range; version 2.3.1 -- 
+Copyright (c) 2016 Andrew Nesbitt
+
+The MIT License (MIT)
+
+Copyright (c) 2016 Andrew Nesbitt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+------
+
 ** activestorage; version 6.1.0 -- 
 
 Copyright (c) 2017-2020 David Heinemeier Hansson, Basecamp
@@ -3396,6 +3565,34 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** ruby-progressbar; version 1.11.0 -- 
+Copyright (c) 2003, 2004 Jim Weirich
+Copyright (c) 2008 Satoru Takabayashi
+Copyright (c) 2010-2019 The Kompanee, Ltd
+
+Copyright (c) 2010-2019 The Kompanee, Ltd
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 
 ------
@@ -3593,6 +3790,39 @@ Copyright (c) Ryan Boland & Contributors
 Copyright (c) 2011 Joseph A. Adams (joeyadams3.14159@gmail.com)
 
 Copyright (c) Ryan Boland & Contributors
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** parser; version 3.0.0.0 -- 
+Copyright (c) 2013-2016
+Copyright (c) Ryan Davis, seattle.rb
+
+Copyright (c) 2013-2016 whitequark  <whitequark@whitequark.org>
+
+Parts of the source are derived from ruby_parser:
+Copyright (c) Ryan Davis, seattle.rb
 
 MIT License
 
@@ -3929,6 +4159,98 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** test-unit; version 3.3.9 -- 
+Copyright (c) 2008 Ryan Davis.
+Copyright (c) 2003 Nathaniel Talbott.
+Copyright (c) 2008-2011 Kouhei Sutou.
+Copyright (c) 2009-2013 Kouhei Sutou.
+Copyright (c) 2009-2014 Kouhei Sutou.
+Copyright (c) 2000-2002 Nathaniel Talbott.
+Copyright (c) 2000-2003 Nathaniel Talbott.
+Copyright (c) 2000-2003, Nathaniel Talbott
+Copyright (c) 2003-2007 Nathaniel Talbott.
+copyright (c) 2000-2003 Nathaniel Talbott.
+Copyright (c) 2001-2008 Python Software Foundation
+Copyright (c) 2011 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2012 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2008-2012 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2008-2014 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2008-2017 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2012-2015 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2011 Haruka Yoshihara <yoshihara@clear-code.com>
+Copyright (c) 1991 - 1995, Stichting Mathematisch Centrum Amsterdam
+Copyright (c) 1995-2001 Corporation for National Research Initiatives
+Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Python Software Foundation
+copyright (c) 2008-2010 Kouhei Sutou and 2001-2008 Python Software Foundation.
+
+test-unit is copyrighted free software by Kouhei Sutou
+<kou@cozmixng.org>, Ryan Davis <ryand-ruby@zenspider.com>
+and Nathaniel Talbott <nathaniel@talbott.ws>.
+
+You can redistribute it and/or modify it under either the terms of the
+2-clause BSDL (see the file BSDL), or the conditions below:
+
+1. You may make and give away verbatim copies of the source form of the
+   software without restriction, provided that you duplicate all of the
+   original copyright notices and associated disclaimers.
+
+2. You may modify your copy of the software in any way, provided that
+   you do at least ONE of the following:
+
+   a. place your modifications in the Public Domain or otherwise
+      make them Freely Available, such as by posting said
+      modifications to Usenet or an equivalent medium, or by allowing
+      the author to include your modifications in the software.
+
+   b. use the modified software only within your corporation or
+      organization.
+
+   c. give non-standard binaries non-standard names, with
+      instructions on where to get the original software distribution.
+
+   d. make other distribution arrangements with the author.
+
+3. You may distribute the software in object code or binary form,
+   provided that you do at least ONE of the following:
+
+   a. distribute the binaries and library files of the software,
+      together with instructions (in the manual page or equivalent)
+      on where to get the original distribution.
+
+   b. accompany the distribution with the machine-readable source of
+      the software.
+
+   c. give non-standard binaries non-standard names, with
+      instructions on where to get the original software distribution.
+
+   d. make other distribution arrangements with the author.
+
+4. You may modify and include the part of the software into any other
+   software (possibly commercial).  But some files in the distribution
+   are not written by the author, so that they are not under these terms.
+
+   For the list of those files and their copying conditions, see the
+   file LEGAL.
+
+5. The scripts and library files supplied as input to or produced as
+   output from the software do not automatically fall under the
+   copyright of the software, but belong to whomever generated them,
+   and may be sold commercially, and may be aggregated with this
+   software.
+
+6. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+   IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+
+Exceptions
+----------
+
+  * lib/test/unit/diff.rb: This license and PSF license
 
 
 ------

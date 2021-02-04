@@ -17,8 +17,6 @@ client.get('/nonprofits/' + app.nonprofit_id + '/dashboard_metrics')
   })
 
 var map = require('../../components/maps/cc_map')
-var npo_coords = require('../../components/maps/npo_coordinates')()
-map.init('all-npo-supporters', {center: npo_coords}, {npo_id: app.nonprofit.id})
 
 var todos = require('../../components/todos')
 appl.def('todos_action', '/dashboard_todos')

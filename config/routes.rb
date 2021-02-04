@@ -261,12 +261,6 @@ Rails.application.routes.draw do
   # Misc
   get '/pages/wp-plugin', to: redirect('/help/wordpress-plugin') # temporary, until WP plugin updated
 
-  # Maps
-  get '/maps/all-npos' => 'maps#all_npos'
-  get '/maps/all-supporters' => 'maps#all_supporters'
-  get '/maps/all-npo-supporters' => 'maps#all_npo_supporters'
-  get '/maps/specific-npo-supporters' => 'maps#specific_npo_supporters'
-
   # Mailchimp Landing
   match '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing', via: %i[get post]
 

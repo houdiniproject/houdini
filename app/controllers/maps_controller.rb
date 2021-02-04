@@ -9,13 +9,6 @@ class MapsController < ApplicationController
   before_action :authenticate_super_associate!, only: :all_supporters
   before_action :authenticate_nonprofit_user!, only: %i[all_npo_supporters specific_npo_supporters]
 
-  # used on admin/nonprofits_map and front page
-  def all_npos
-    respond_to do |format|
-      format.html { redirect_to :root }
-      format.json { @map_data = Nonprofit.where('latitude IS NOT NULL').last(1000) }
-    end
-  end
 
   # used on admin/supporters_map
   def all_supporters

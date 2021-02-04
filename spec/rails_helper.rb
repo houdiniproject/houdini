@@ -73,16 +73,4 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include RSpec::Rails::RequestExampleGroup, type: :request, file_path: %r{spec/api}
-  Geocoder::Lookup::Test.set_default_stub(
-    [
-      {
-        'coordinates'  => [44.2876041,-88.4671082],
-        'address'      => 'Appleton, WI, USA',
-        'state'        => 'Appleton',
-        'state_code'   => 'WI',
-        'country'      => 'United States',
-        'country_code' => 'US'
-      }
-    ]
-  )
 end

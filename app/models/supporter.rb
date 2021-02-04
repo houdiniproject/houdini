@@ -75,18 +75,6 @@ class Supporter < ApplicationRecord
     end
   end
 
-  geocoded_by :full_address
-  reverse_geocoded_by :latitude, :longitude do |obj, results|
-    geo = results.first
-    if geo # absorb zip code automatically
-      obj.zip_code = geo.postal_code if obj.zip_code.blank?
-      obj.state_code = geo.state_code if obj.state_code.blank?
-      obj.city = geo.city if obj.city.blank?
-      obj.address = geo.address if obj.address.blank?
-      obj.country = geo.country if obj.country.blank?
-    end
-  end
-
   def profile_picture(size = :normal)
     return unless profile
 

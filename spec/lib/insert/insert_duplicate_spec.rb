@@ -181,7 +181,6 @@ describe InsertDuplicate do
 
     before(:each) do
       set_event_start_time(dates[:ten_days_from_now], dates[:ten_days_from_now_plus_4_hours])
-      allow_any_instance_of(Event).to receive(:geocode).and_return(nil)
     end
 
     let(:event) do

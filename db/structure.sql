@@ -692,7 +692,7 @@ CREATE TABLE public.custom_field_masters (
     id integer NOT NULL,
     name character varying(255),
     nonprofit_id integer,
-    deleted boolean,
+    deleted boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -4286,6 +4286,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210122203303'),
 ('20210127193411'),
 ('20210128215402'),
-('20210204174909');
+('20210204013426'),
+('20210204172319');
 
 

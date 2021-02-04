@@ -2,7 +2,6 @@
 const flyd = require('flimflam/flyd') // for ajaxing /index_metrics, line 27
 const request = require('../../../common/request') // for ajaxing /index_metrics
 var map = require('../../../components/maps/cc_map')
-var npo_coords = require('../../../components/maps/npo_coordinates')()
 
 appl.def('supporters.selected', [])
 

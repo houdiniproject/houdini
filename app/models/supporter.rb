@@ -40,7 +40,6 @@ class Supporter < ApplicationRecord
   has_many :direct_debit_details
   has_many :donations
   has_many :supporter_notes, dependent: :destroy
-  has_many :supporter_emails
   has_many :activities, dependent: :destroy
   has_many :tickets
   has_many :recurring_donations

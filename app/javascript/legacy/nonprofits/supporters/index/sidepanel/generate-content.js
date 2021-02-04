@@ -98,20 +98,6 @@ exports.SupporterNote = (data, state) => {
   }
 }
 
-exports.SupporterEmail = (data, state) => {
-  var jd = data.json_data
-  var canView = false
-  var body = [h('span', `Subject: ${jd.subject}`), h('br')]
-  var thread =  h('a', {props: {href: '#'}, on: {click: [state.threadId$, jd.gmail_thread_id]}}, 'View thread')
-  
-  return {
-    title: `Email thread started by ${jd.from}`
-  , icon: 'fa-envelope'
-  , body: body
- // , body: canView ? R.concat(body, thread) : R.concat(body, signIn)
-  }
-}
-
 exports.OffsitePayment = (data, state) => {
   const desig = data.json_data.designation ? `Designation: ${data.json_data.designation}. ` : ''
   return {

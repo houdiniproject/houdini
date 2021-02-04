@@ -75,7 +75,7 @@
 				<!--= wizard.set_step 'new_event_wiz' 'Location' -->
 
 				<form parsley-validate>
-					<!--= on 'submit' (def 'new_event' form_object) (wizard.advance 'new_event_wiz') -->
+					<!--= on 'submit' create_event -->
 
 					<div class='layout--two'>
 
@@ -106,38 +106,10 @@
 						<textarea name='event[directions]' parsley-maxlength='500'></textarea>
 					</fieldset>
 
-				<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_event_wiz', branded: true %>
-
-				</form>
-			</div><!-- .location-step -->
-
-			<div class='wizard-step images-step'>
-				<!--= wizard.set_step 'new_event_wiz' 'Images' -->
-
-				<form parsley-validate>
-					<!--= on 'submit' create_event -->
-
-					<fieldset>
-						<div class='image-upload u-floatR' if-branded='border-color, light'>
-							<span><i class='fa fa-image'></i> Upload</span>
-							<input type='file' name='event[main_image]' required parsley-trigger='change'>
-						</div>
-
-						<p class='u-color--red'>
-							<!--= show_if (length image_upload.error) -->
-							<small><!--= put image_upload.error --></small>
-						</p>
-
-						<div class='col-left-8'>
-							<label>Preview Image <small>(used for sharing on social media)</small></label>
-							<p>You'll have a chance to upload an additional header image once you've created your event.</p>
-						</div>
-					</fieldset>
-
 					<%= render 'components/forms/submit_button', button_text: 'Preview Event!', scope: 'new_event_wiz', branded: true %>
 
 				</form>
-			</div><!-- .images-step -->
+			</div><!-- .location-step -->
 		</div>
 	</div>
 </div>

@@ -16,8 +16,6 @@ client.get('/nonprofits/' + app.nonprofit_id + '/dashboard_metrics')
     appl.def('metrics.data', resp.body.data)
   })
 
-var map = require('../../components/maps/cc_map')
-
 var todos = require('../../components/todos')
 appl.def('todos_action', '/dashboard_todos')
 

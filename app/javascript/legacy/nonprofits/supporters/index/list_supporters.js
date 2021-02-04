@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 const flyd = require('flimflam/flyd') // for ajaxing /index_metrics, line 27
 const request = require('../../../common/request') // for ajaxing /index_metrics
-var map = require('../../../components/maps/cc_map')
 
 appl.def('supporters.selected', [])
 
@@ -21,7 +20,6 @@ appl.def('supporters.index', function() {
       supp.tags = supp.tags ? supp.tags.slice(0,5) : []
       return supp
     }))
-		map.init('specific-npo-supporters', {fit_all: true}, {npo_id: app.nonprofit.id, supporter_ids: supporter_ids})
 	})
 
   appl.def('metrics_loading', true)

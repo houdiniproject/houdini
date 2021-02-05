@@ -121,44 +121,4 @@ module UpdateDonation
       return ret
     end
   end
-
-  def self.correct_donations_when_date_and_payments_are_off(id)
-    Qx.transaction do
-      @payments_corrected = []
-      donation = Donation.find(id)
-
-      donation.date = donation.created_at
-      donation.save!
-
-      payments = Payment.where('donation_id = ?', id).includes(:charge)
-
-      payments.each do |p|
-        @payments_corrected.push(p.id)
-        p.date = p.charge.created_at
-        p.save!
-      end
-
-      donation.save!
-
-      return @payments_corrected
-    end
-  end
-
-  def self.any_donations_with_created_at_after_date
-    donation_ids = Set.new
-    CSV.foreach('bad_payments_2.csv').select do |row|
-      true if Integer(row[0])
-    rescue StandardError
-      false
-    end .collect do |row|
-      begin
-        is_int = true if Integer(row[0])
-      rescue StandardError
-        false
-      end
-      donation_ids.add(row[0]) if is_int && Float(row[6]) > 0
-    end
-
-    donation_ids
-  end
 end

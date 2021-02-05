@@ -11,6 +11,6 @@ export interface CustomFieldDefinition extends HoudiniObject {
 }
 
 
-export type CustomFieldDefinitionCreated = HoudiniEvent<'custom_field_definition.created', TagDefinition>;
+export type CustomFieldDefinitionCreated = HoudiniEvent<'custom_field_definition.created', CustomFieldDefinition>;
 
-export type CustomFieldDefinitionDeleted = HoudiniEvent<'custom_field_definition.deleted', TagDefinition>;
+export type CustomFieldDefinitionDeleted = HoudiniEvent<'custom_field_definition.deleted', CustomFieldDefinition>;

@@ -21,6 +21,7 @@ PATH
   specs:
     bess (0.1.0)
       rails (~> 6.0)
+      rest-client
       wisper (~> 2.0)
       wisper-activejob (~> 1.0.0)
 

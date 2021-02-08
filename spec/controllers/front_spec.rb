@@ -15,11 +15,6 @@ describe FrontController, type: :controller do
     end
   end
 
-  it 'index redirects to onboard with no non-profits' do
-    get(:index)
-    expect(response).to redirect_to onboard_url
-  end
-
   describe 'have nonprofit info' do
     include_context :shared_user_context
     it 'redirect to nonprofit admin' do

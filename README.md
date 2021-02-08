@@ -181,10 +181,42 @@ Coverage report generated for RSpec to .../houdini/coverage. 10552 / 12716 LOC (
 The important thing to look for is that the number of
 failures is zero.
 
+##### Creating your first nonprofits and user
+
+To create a nonprofit, use the command line to run the following command and fill in the questions with the required information:
+
+```bash
+bin/rails houdini:nonprofit:create
+```
+
+There are available arguments that add congirugrations on the nonprofit's creation:
+
+```bash
+  -su, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
+      [--confirm-admin], [--no-confirm-admin]  # Require the nonprofit admin to be confirmed via email
+                                               # Default: true
+```
+
+Additionally, it is possible to provide arguments to fill in the fields for the nonprofit creation without coming across the questions:
+
+```bash
+      [--nonprofit-name=NONPROFIT_NAME]        # Provide the nonprofit's name
+      [--state-code=STATE_CODE]                # Provide the nonprofit' state code
+      [--city=CITY]                            # Provide the nonprofit's city
+      [--nonprofit-website=NONPROFIT_WEBSITE]  # Provide the nonprofit public website
+      [--nonprofit-email=NONPROFIT_EMAIL]      # Provide the nonprofit public email
+      [--user-name=USER_NAME]                  # Provide the nonprofit's admin's name
+      [--user-email=USER_EMAIL]                # Provide the nonprofit's admin's email address (It'll be used for logging in)
+      [--user-phone=USER_PHONE]                # [OPTIONAL] Provide the nonprofit's 's phone
+      [--user-password=USER_PASSWORD]          # Provide the nonprofit's admin's password
+```
+
+You can use this in the future for creating additional nonprofits.
 #### Startup
 
 `bin/rails server`
 You can connect to your server at http://localhost:5000
+
 
 ##### Super admin
 

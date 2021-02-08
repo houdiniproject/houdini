@@ -13,6 +13,7 @@ module Houdini
   autoload :PaymentProvider
   autoload :EventPublisher
   autoload :WebhookAdapter
+  autoload :NonprofitCreation
 
   mattr_accessor :intl, :maintenance, :ccs
 

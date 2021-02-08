@@ -371,12 +371,10 @@ app/javascript/legacy/supporters/info-card.es6
 app/javascript/stories/index.jsx
 
 # tsx files
-app/javascript/components/RegistrationPage.tsx
 app/javascript/legacy_react/app/create_new_offsite_payment_pane.tsx
 app/javascript/legacy_react/app/edit_payment_pane.tsx
 app/javascript/legacy_react/javascripts/app/create_new_offsite_payment_pane.tsx
 app/javascript/legacy_react/javascripts/app/edit_payment_pane.tsx
-app/javascript/legacy_react/javascripts/app/registration_page.tsx
 app/javascript/legacy_react/src/components/common/BootstrapWrapper.tsx
 app/javascript/legacy_react/src/components/common/DefaultCloseButton.tsx
 app/javascript/legacy_react/src/components/common/fields.tsx
@@ -423,7 +421,6 @@ app/javascript/legacy_react/src/components/registration_page/NonprofitInfoForm.s
 app/javascript/legacy_react/src/components/registration_page/NonprofitInfoForm.tsx
 app/javascript/legacy_react/src/components/registration_page/NonprofitInfoPanel.spec.tsx
 app/javascript/legacy_react/src/components/registration_page/NonprofitInfoPanel.tsx
-app/javascript/legacy_react/src/components/registration_page/RegistrationPage.tsx
 app/javascript/legacy_react/src/components/registration_page/RegistrationWizard.tsx
 app/javascript/legacy_react/src/components/registration_page/UserInfoForm.tsx
 app/javascript/legacy_react/src/components/registration_page/UserInfoPanel.spec.tsx

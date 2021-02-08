@@ -11,11 +11,11 @@ describe 'Maintenance Mode' do
 	token = 'thoathioa'
 	include_context :shared_user_context
 
-	describe OnboardController, type: :controller do
-		describe '(Onboard is just a basic example controller)'
+	describe SettingsController, type: :controller do
+		describe '(Settings is just a basic example controller)'
 		it 'not in maintenance mode' do
 			get :index
-			assert_response 200
+			assert_response 302
 		end
 
 		describe 'in maintenance' do
@@ -23,7 +23,7 @@ describe 'Maintenance Mode' do
 				Houdini.maintenance = Houdini::Maintenance.new(active: true, token: token, page: page)
 			end
 
-			it 'redirects for onboard' do
+			it 'redirects for settings' do
 				get :index
 				assert_redirected_to page
 			end

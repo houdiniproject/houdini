@@ -4,12 +4,12 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Role < ApplicationRecord
   Names = [
-    :super_admin, # global access
-    :super_associate,      # global access to everything except bank acct info
-    :nonprofit_admin,      # npo scoped access to everything
-    :nonprofit_associate,  # npo scoped access to everything except bank acct info
-    :campaign_editor,      # fundraising tools, without dashboard access
-    :event_editor          # //
+    'super_admin', # global access
+    'super_associate',      # global access to everything except bank acct info
+    'nonprofit_admin',      # npo scoped access to everything
+    'nonprofit_associate',  # npo scoped access to everything except bank acct info
+    'campaign_editor',      # fundraising tools, without dashboard access
+    'event_editor'          # //
   ].freeze
 
   # :name,
@@ -30,17 +30,13 @@ class Role < ApplicationRecord
   validates :name, inclusion: { in: Names }
   validates :host, presence: true, unless: %i[super_admin? super_associate?]
 
-  def name
-    super.to_sym
-end
-
   def super_admin?
-    name == :super_admin
-end
+    name == 'super_admin'
+  end
 
   def super_associate?
-    name == :super_associate
-end
+    name == 'super_associate'
+  end
 
   def self.create_for_nonprofit(role_name, email, nonprofit)
     user = User.find_or_create_with_email(email)

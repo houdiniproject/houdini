@@ -10,7 +10,7 @@ class TagMaster < ApplicationRecord
   # TODO replace with Discard gem
   define_model_callbacks :discard
 
-  after_discard :publish_delete
+  after_discard :publish_deleted
 
   # :nonprofit, :nonprofit_id,
   # :name,
@@ -55,7 +55,7 @@ private
     Houdini.event_publisher.announce(:tag_definition_created, to_event('tag_definition.created', :nonprofit).attributes!)
   end
 
-  def publish_delete
+  def publish_deleted
     Houdini.event_publisher.announce(:tag_definition_deleted, to_event('tag_definition.deleted', :nonprofit).attributes!)
   end
 end

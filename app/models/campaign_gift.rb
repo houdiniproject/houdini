@@ -10,6 +10,7 @@ class CampaignGift < ApplicationRecord
 
   belongs_to :donation
   belongs_to :campaign_gift_option
+  has_one :modern_campaign_gift
 
   validates :donation, presence: true
   validates :campaign_gift_option, presence: true

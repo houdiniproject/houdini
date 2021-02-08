@@ -18,6 +18,6 @@ export interface CampaignGiftPurchase extends HoudiniObject<HouID> {
 }
 
 
-export type TicketPurchaseCreated = HoudiniEvent<'ticket_purchase.created', TicketPurchase>;
-export type TicketPurchaseUpdated = HoudiniEvent<'ticket_purchase.updated', TicketPurchase>;
-export type TicketPurchaseDeleted = HoudiniEvent<'ticket_purchase.deleted', TicketPurchase>;
+export type CampaignGiftPurchaseCreated = HoudiniEvent<'campaign_gift_purchase.created', CampaignGiftPurchase>;
+export type CampaignGiftPurchaseUpdated = HoudiniEvent<'campaign_gift_purchase.updated', CampaignGiftPurchase>;
+export type CampaignGiftPurchaseDeleted = HoudiniEvent<'campaign_gift_purchase.deleted', CampaignGiftPurchase>;

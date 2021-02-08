@@ -399,6 +399,20 @@ ALTER SEQUENCE public.campaign_gift_options_id_seq OWNED BY public.campaign_gift
 
 
 --
+-- Name: campaign_gift_purchases; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.campaign_gift_purchases (
+    id character varying NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    amount integer NOT NULL,
+    campaign_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: campaign_gifts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1434,6 +1448,21 @@ CREATE SEQUENCE public.miscellaneous_np_infos_id_seq
 --
 
 ALTER SEQUENCE public.miscellaneous_np_infos_id_seq OWNED BY public.miscellaneous_np_infos.id;
+
+
+--
+-- Name: modern_campaign_gifts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.modern_campaign_gifts (
+    id character varying NOT NULL,
+    deleted boolean DEFAULT false NOT NULL,
+    campaign_gift_id bigint NOT NULL,
+    amount integer DEFAULT 0 NOT NULL,
+    campaign_gift_purchase_id character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -2860,6 +2889,14 @@ ALTER TABLE ONLY public.campaign_gift_options
 
 
 --
+-- Name: campaign_gift_purchases campaign_gift_purchases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.campaign_gift_purchases
+    ADD CONSTRAINT campaign_gift_purchases_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: campaign_gifts campaign_gifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3073,6 +3110,14 @@ ALTER TABLE ONLY public.email_lists
 
 ALTER TABLE ONLY public.miscellaneous_np_infos
     ADD CONSTRAINT miscellaneous_np_infos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: modern_campaign_gifts modern_campaign_gifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.modern_campaign_gifts
+    ADD CONSTRAINT modern_campaign_gifts_pkey PRIMARY KEY (id);
 
 
 --
@@ -3382,6 +3427,13 @@ CREATE INDEX index_activities_on_supporter_id ON public.activities USING btree (
 
 
 --
+-- Name: index_campaign_gift_purchases_on_campaign_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_campaign_gift_purchases_on_campaign_id ON public.campaign_gift_purchases USING btree (campaign_id);
+
+
+--
 -- Name: index_campaign_gifts_on_campaign_gift_option_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3442,6 +3494,20 @@ CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 --
 
 CREATE INDEX index_import_requests_on_nonprofit_id ON public.import_requests USING btree (nonprofit_id);
+
+
+--
+-- Name: index_modern_campaign_gifts_on_campaign_gift_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_modern_campaign_gifts_on_campaign_gift_id ON public.modern_campaign_gifts USING btree (campaign_gift_id);
+
+
+--
+-- Name: index_modern_campaign_gifts_on_campaign_gift_purchase_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_modern_campaign_gifts_on_campaign_gift_purchase_id ON public.modern_campaign_gifts USING btree (campaign_gift_purchase_id);
 
 
 --
@@ -3768,6 +3834,14 @@ ALTER TABLE ONLY public.ticket_to_legacy_tickets
 
 
 --
+-- Name: modern_campaign_gifts fk_rails_0757cd7020; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.modern_campaign_gifts
+    ADD CONSTRAINT fk_rails_0757cd7020 FOREIGN KEY (campaign_gift_id) REFERENCES public.campaign_gifts(id);
+
+
+--
 -- Name: ticket_purchases fk_rails_28d2157787; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3816,11 +3890,27 @@ ALTER TABLE ONLY public.active_storage_attachments
 
 
 --
+-- Name: modern_campaign_gifts fk_rails_df25dd1768; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.modern_campaign_gifts
+    ADD CONSTRAINT fk_rails_df25dd1768 FOREIGN KEY (campaign_gift_purchase_id) REFERENCES public.campaign_gift_purchases(id);
+
+
+--
 -- Name: ticket_purchases fk_rails_e2eb419f70; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.ticket_purchases
     ADD CONSTRAINT fk_rails_e2eb419f70 FOREIGN KEY (event_discount_id) REFERENCES public.event_discounts(id);
+
+
+--
+-- Name: campaign_gift_purchases fk_rails_e393cdf757; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.campaign_gift_purchases
+    ADD CONSTRAINT fk_rails_e393cdf757 FOREIGN KEY (campaign_id) REFERENCES public.campaigns(id);
 
 
 --
@@ -4317,6 +4407,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210204172319'),
 ('20210204174909'),
 ('20210204210627'),
-('20210204223643');
+('20210204223643'),
+('20210208211655'),
+('20210208212655');
 
 

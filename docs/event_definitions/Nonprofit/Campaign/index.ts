@@ -9,3 +9,5 @@ export default interface Campaign extends HoudiniObject {
 }
 
 export * from './CampaignGiftOption';
+export * from './CampaignGiftPurchase';
+export * from './CampaignGift';

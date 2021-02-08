@@ -328,7 +328,7 @@ module QueryPayments
   end
 
   def self.get_dedication_or_empty(*path)
-    "json_extract_path_text(coalesce(nullif(trim(both from donations.dedication), ''), '{}')::json, #{path.map { |i| "'#{i}'" }.join(',')})"
+    "json_extract_path_text(coalesce(donations.dedication, '{}')::json, #{path.map { |i| "'#{i}'" }.join(',')})"
   end
 
   def self.export_selects

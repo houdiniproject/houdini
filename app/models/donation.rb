@@ -45,5 +45,7 @@ class Donation < ApplicationRecord
   belongs_to :campaign
   belongs_to :event
 
+  has_one :modern_donation, inverse_of: :legacy_donation
+
   scope :anonymous, -> { where(anonymous: true) }
 end

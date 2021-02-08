@@ -848,7 +848,7 @@ CREATE TABLE public.donations (
     recurring_donation_id integer,
     comment text,
     recurring boolean,
-    dedication text,
+    dedication jsonb,
     event_id integer,
     imported_at timestamp without time zone,
     charge_id integer,
@@ -1434,6 +1434,19 @@ CREATE SEQUENCE public.miscellaneous_np_infos_id_seq
 --
 
 ALTER SEQUENCE public.miscellaneous_np_infos_id_seq OWNED BY public.miscellaneous_np_infos.id;
+
+
+--
+-- Name: modern_donations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.modern_donations (
+    id character varying NOT NULL,
+    amount integer,
+    donation_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -3063,6 +3076,14 @@ ALTER TABLE ONLY public.miscellaneous_np_infos
 
 
 --
+-- Name: modern_donations modern_donations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.modern_donations
+    ADD CONSTRAINT modern_donations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: bank_accounts nonprofit_bank_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3421,6 +3442,13 @@ CREATE INDEX index_exports_on_user_id ON public.exports USING btree (user_id);
 --
 
 CREATE INDEX index_import_requests_on_nonprofit_id ON public.import_requests USING btree (nonprofit_id);
+
+
+--
+-- Name: index_modern_donations_on_donation_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_modern_donations_on_donation_id ON public.modern_donations USING btree (donation_id);
 
 
 --
@@ -4286,7 +4314,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210122203303'),
 ('20210127193411'),
 ('20210128215402'),
-('20210204013426'),
-('20210204172319');
+('20210204172319'),
+('20210204174909'),
+('20210204210627'),
+('20210204223643');
 
 

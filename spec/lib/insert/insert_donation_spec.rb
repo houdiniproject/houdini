@@ -13,6 +13,9 @@ describe InsertDonation do
     include_context :shared_rd_donation_value_context
 
     describe 'param validation' do
+      before(:each) do
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_created,any_args)
+      end
       it 'does basic validation' do
         validation_basic_validation { InsertDonation.with_stripe(designation: 34_124, dedication: 35_141, event_id: 'bad', campaign_id: 'bad') }
       end
@@ -83,24 +86,27 @@ describe InsertDonation do
     end
 
     it 'charge returns failed' do
+      expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_created,any_args)
       handle_charge_failed { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token) }
     end
 
     describe 'success' do
       before(:each) do
         before_each_success
+        allow(Houdini.event_publisher).to receive(:announce)
+        expect(Houdini.event_publisher).to receive(:announce).with(:donation_created,any_args)
       end
       it 'process event donation' do
-        process_event_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
+        process_event_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation') }
       end
 
       it 'process campaign donation' do
         expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, any_args)
-        process_campaign_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
+        process_campaign_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation') }
       end
 
       it 'processes general donation' do
-        process_general_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
+        process_general_donation { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation') }
       end
     end
   end
@@ -113,18 +119,17 @@ describe InsertDonation do
         before_each_sepa_success
       end
       it 'process event donation' do
-        process_event_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
+        process_event_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation') }
       end
 
       it 'process campaign donation' do
-        expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
-        expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
+        allow(Houdini.event_publisher).to receive(:announce)
         expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, any_args)
-        process_campaign_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
+        process_campaign_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation') }
       end
 
       it 'processes general donation' do
-        process_general_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation') }
+        process_general_donation(sepa: true) { InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation') }
       end
     end
   end

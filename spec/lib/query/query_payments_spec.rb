@@ -186,7 +186,7 @@ describe QueryPayments do
                 token: token,
 
                 date: date,
-                dedication: 'dedication',
+                dedication: {'type' => 'honor', 'name' => 'a name'},
                 designation: 'designation' }
       input[:event_id] = h[:event_id] if h[:event_id]
 

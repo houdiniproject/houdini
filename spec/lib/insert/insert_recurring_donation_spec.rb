@@ -128,17 +128,17 @@ describe InsertRecurringDonation do
           before_each_success
         end
         it 'process event donation' do
-          process_event_donation(recurring_donation: { paydate: nil, interval: 1, time_unit: 'year', start_date: Time.current.beginning_of_day }) { InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: { time_unit: 'year' }) }
+          process_event_donation(recurring_donation: { paydate: nil, interval: 1, time_unit: 'year', start_date: Time.current.beginning_of_day }) { InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation', recurring_donation: { time_unit: 'year' }) }
         end
 
         it 'process campaign donation' do
           expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, any_args)
-          process_campaign_donation(recurring_donation: { paydate: nil, interval: 2, time_unit: 'month', start_date: Time.current.beginning_of_day }) { InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: { interval: 2 }) }
+          process_campaign_donation(recurring_donation: { paydate: nil, interval: 2, time_unit: 'month', start_date: Time.current.beginning_of_day }) { InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation', recurring_donation: { interval: 2 }) }
         end
 
         it 'processes general donation with no recurring donation hash' do
           process_general_donation(recurring_donation: { paydate: Time.now.day, interval: 1, time_unit: 'month', start_date: Time.now.beginning_of_day }) do
-            InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: Time.now.to_s, dedication: 'dedication', designation: 'designation')
+            InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: Time.now.to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation')
           end
         end
       end
@@ -150,7 +150,7 @@ describe InsertRecurringDonation do
 
         it 'processes general donation' do
           process_general_donation(expect_payment: false, expect_charge: false, recurring_donation: { paydate: (Time.now + 5.days).day, interval: 1, time_unit: 'month', start_date: (Time.now + 5.days).beginning_of_day }) do
-            InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation', recurring_donation: { start_date: (Time.now + 5.days).to_s })
+            InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: {'type' => 'honor', 'name' => 'a name'}, designation: 'designation', recurring_donation: { start_date: (Time.now + 5.days).to_s })
           end
         end
       end

@@ -1,9 +1,25 @@
+
+  class CustomAssociatedValidator < ActiveModel::EachValidator #:nodoc:
+    def validate_each(record, attribute, value)
+        byebug
+      if Array(value).reject { |r| valid_object?(r) }.any?
+        record.errors.add(attribute, :invalid, **options.merge(value: value))
+      end
+    end
+
+    private
+      def valid_object?(record)
+         record.valid?
+      end
+  end
+
 class CreateModel < Base
     attr_accessor :nonprofit, :user
     validates_presence_of :user
     validates_presence_of :nonprofit
-    validate_nested_attribute :user, model_class: User
-    validate_nested_attribute :nonprofit, model_class: Nonprofit
+    #validate_nested_attribute :user, model_class: User
+   # validate_nested_attribute :nonprofit, model_class: Nonprofit
+    validates_with CustomAssociatedValidator, attributes: [:nonprofit]
     
     before_validation do
         nonprofit = Nonprofit.create(nonprofit) if !nonprofit.is_a? Nonprofit
@@ -45,4 +61,6 @@ class CreateModel < Base
     def save!
         raise 'runtime' unless save
     end
+  
 end
+

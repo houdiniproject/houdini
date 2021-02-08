@@ -75,6 +75,11 @@ class Nonprofit < ApplicationRecord
   has_many :tickets, through: :events
   has_many :roles,        as: :host, dependent: :destroy
   has_many :users, through: :roles
+  has_many :admins, -> { where('name = ?', :nonprofit_admin) }, through: :roles, class_name: 'User', autosave: true, source: :user do
+    def build_admin(**kwargs)
+      build(kwargs.merge({name: :nonprofit_admin}))
+    end
+  end
   has_many :tag_masters, dependent: :destroy
   has_many :custom_field_masters, dependent: :destroy
   
@@ -88,7 +93,8 @@ class Nonprofit < ApplicationRecord
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
-
+  
+  validates_associated :admins, on: :create
   validates :name, presence: true
   validates :city, presence: true
   validates :state_code, presence: true

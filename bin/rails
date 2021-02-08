@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+$LOAD_PATH.unshift(File.expand_path('../commands',  __dir__))
 APP_PATH = File.expand_path('../config/application', __dir__)
 require_relative "../config/boot"
 require_relative '../lib/generators/overrides'
+
 require "rails/commands"

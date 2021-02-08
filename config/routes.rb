@@ -11,7 +11,6 @@ Rails.application.routes.draw do
     get '/button_debug/embedded/:id' => 'button_debug#embedded'
     get '/button_debug/button/:id' => 'button_debug#button'
   end
-  get 'onboard' => 'onboard#index'
 
   namespace(:api) do
     resources(:nonprofits)
@@ -120,7 +119,6 @@ Rails.application.routes.draw do
   end
 
   resources(:nonprofits, only: %i[show create update destroy]) do
-    post(:onboard, on: :collection)
     get(:profile_todos, on: :member)
     get(:recurring_donation_stats, on: :member)
     get(:search, on: :collection)

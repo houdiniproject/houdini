@@ -42,7 +42,13 @@ module InsertDonation
 
     # Create the donation record
     result['donation'] = insert_donation(data, entities)
+    trx = entities[:supporter_id].transactions.build(amount: data['amount'])
     update_donation_keys(result)
+
+    don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
+    trx.save!
+    don.save!
+    don.publish_created
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
     Houdini.event_publisher.announce(:donation_create, result['donation'], result['donation'].supporter.locale)
     result
@@ -222,7 +228,7 @@ module InsertDonation
       nonprofit_id: { required: true, is_reference: true },
       supporter_id: { required: true, is_reference: true },
       designation: { is_a: String },
-      dedication: { is_a: String },
+      dedication: { is_a: Hash },
       campaign_id: { is_reference: true },
       event_id: { is_reference: true }
     }

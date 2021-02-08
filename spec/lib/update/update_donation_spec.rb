@@ -24,6 +24,13 @@ describe UpdateDonation do
                             supporter: supporter)
   end
 
+  let(:trx) { 
+    trx = force_create(:transaction, supporter: supporter, amount: initial_amount)
+    trx.donations.create(amount: initial_amount, legacy_donation: donation)
+
+    trx
+  }
+
   let(:payment) do
     force_create(:payment, nonprofit: np, donation: donation,
                            towards: initial_designation,
@@ -76,12 +83,14 @@ describe UpdateDonation do
   let(:payment2_date) { initial_date + 10.days }
 
   before(:each) do
+    allow(Houdini.event_publisher).to receive(:announce)
     initial_time
     payment
   end
   describe '.update_payment' do
     describe 'param validation' do
       it 'basic validation' do
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         expect { UpdateDonation.update_payment(nil, nil) }.to raise_error { |error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{ key: :id, name: :required },
@@ -92,6 +101,7 @@ describe UpdateDonation do
       end
 
       it 'validates whether payment is valid' do
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         expect { UpdateDonation.update_payment(5555, {}) }.to raise_error { |error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{ key: :id }])
@@ -132,6 +142,7 @@ describe UpdateDonation do
         end
         it 'for offsite donations' do
           offsite_payment
+          expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
           expect { UpdateDonation.update_payment(donation.id, expanded_invalid_arguments) }.to(raise_error do |error|
             expect(error).to be_a ParamValidation::ValidationError
             expect_validation_errors(error.data, initial_validation_errors.concat([
@@ -146,6 +157,7 @@ describe UpdateDonation do
         end
 
         it 'for online donation' do
+          expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
           expect { UpdateDonation.update_payment(donation.id, expanded_invalid_arguments) }.to(raise_error do |error|
             expect(error).to be_a ParamValidation::ValidationError
             expect_validation_errors(error.data, initial_validation_errors)
@@ -154,6 +166,7 @@ describe UpdateDonation do
       end
 
       it 'validate campaign_id' do
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         expect { UpdateDonation.update_payment(donation.id, campaign_id: 444, event_id: 444) }.to(raise_error do |error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{ key: :campaign_id }])
@@ -161,6 +174,7 @@ describe UpdateDonation do
       end
 
       it 'validate event_id' do
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         expect { UpdateDonation.update_payment(donation.id, event_id: 4444, campaign_id: campaign.id) }.to(raise_error do |error|
           expect(error).to be_a ParamValidation::ValidationError
           expect_validation_errors(error.data, [{ key: :event_id }])
@@ -168,26 +182,33 @@ describe UpdateDonation do
       end
 
       it 'validates campaign belongs to payment org' do
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         campaign_belongs { UpdateDonation.update_payment(donation.id, campaign_id: other_campaign.id, event_id: event.id) }
       end
 
       it 'validates event belongs to payment org' do
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         event_belongs { UpdateDonation.update_payment(donation.id, event_id: other_event.id, campaign_id: campaign.id) }
       end
     end
 
     describe 'most of the values arent changed if not provided' do
       it 'online donation' do
+        trx
         payment2
         result = verify_nothing_changed
-
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         expect(result).to eq donation.attributes.merge(payment: payment2.attributes)
+        trx.reload
+        expect(trx.amount).to eq initial_amount
+        expect(trx.donations.first.amount).to eq initial_amount
       end
 
       it 'offsite donation' do
+        trx
         offsite_payment
         result = verify_nothing_changed
-
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         p2_attributes = payment2.attributes
         payment2.reload
         expect(p2_attributes).to eq payment2.attributes
@@ -196,9 +217,13 @@ describe UpdateDonation do
         offsite_payment.reload
         expect(o_attributes).to eq offsite_payment.attributes
         expect(result).to eq donation.attributes.merge(payment: payment.attributes, offsite_payment: offsite_payment.attributes)
+        trx.reload
+        expect(trx.amount).to eq initial_amount
+        expect(trx.donations.first.amount).to eq initial_amount
       end
 
       def verify_nothing_changed
+        expect(Houdini.event_publisher).to_not receive(:announce).with(:donation_updated,anything)
         result = UpdateDonation.update_payment(donation.id, campaign_id: '', event_id: '')
 
         p_attributes = payment.attributes
@@ -209,6 +234,9 @@ describe UpdateDonation do
         donation.reload
         expect(d_attributes).to eq donation.attributes
 
+        trx.reload
+        expect(trx.amount).to eq initial_amount
+        expect(trx.donations.first.amount).to eq initial_amount
         result
       end
     end
@@ -227,8 +255,10 @@ describe UpdateDonation do
           date: new_date_input }
       end
       it 'online donation' do
+        trx
         payment2
         Timecop.freeze(1.day) do
+          expect(Houdini.event_publisher).to receive(:announce).with(:donation_updated,anything)
           result = UpdateDonation.update_payment(donation.id, new_data)
 
           expected_donation = donation.attributes.merge(designation: new_designation,
@@ -259,8 +289,10 @@ describe UpdateDonation do
       end
 
       it 'offline donation' do
+        trx
         offsite_payment
         Timecop.freeze(1.day) do
+          expect(Houdini.event_publisher).to receive(:announce).with(:donation_updated,anything)
           result = UpdateDonation.update_payment(donation.id, new_data)
 
           expected_donation = donation.attributes.merge(
@@ -276,6 +308,7 @@ describe UpdateDonation do
             updated_at: Time.now
           ).with_indifferent_access
 
+          trx.reload
           donation.reload
           expect(donation.attributes).to eq expected_donation
 
@@ -291,6 +324,10 @@ describe UpdateDonation do
           expect(offsite_payment.attributes).to eq expected_offsite_payment
 
           expect(result).to eq create_expected_result(donation, payment, offsite_payment)
+
+          expect(trx.amount).to eq new_amount
+
+          expect(trx.donations.first.amount).to eq new_amount
         end
       end
 
@@ -309,8 +346,10 @@ describe UpdateDonation do
         end
 
         it 'online donation' do
+          trx
           payment2
           Timecop.freeze(1.day) do
+            expect(Houdini.event_publisher).to receive(:announce).with(:donation_updated,anything)
             UpdateDonation.update_payment(donation.id, new_data)
             result = UpdateDonation.update_payment(donation.id, blank_data)
 
@@ -342,8 +381,10 @@ describe UpdateDonation do
         end
 
         it 'offline donation' do
+          trx
           offsite_payment
           Timecop.freeze(1.day) do
+            expect(Houdini.event_publisher).to receive(:announce).with(:donation_updated,anything)
             UpdateDonation.update_payment(donation.id, new_data)
             result = UpdateDonation.update_payment(donation.id, blank_data)
 

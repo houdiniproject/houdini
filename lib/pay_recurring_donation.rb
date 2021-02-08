@@ -64,6 +64,7 @@ module PayRecurringDonation
       raise ParamValidation::ValidationError.new("#{rd['donation_id']} is not a valid donation", {})
     end
 
+    trx = nonprofit.transactions.build(amount: donation['amount'])
     result = {}
     result = result.merge(InsertDonation.insert_charge(
                             'card_id' => donation['card_id'],
@@ -78,7 +79,13 @@ module PayRecurringDonation
     if result['charge']['status'] != 'failed'
       rd.update(n_failures: 0)
       result['recurring_donation'] =  rd
+      
       Houdini.event_publisher.announce(:recurring_donation_payment_succeeded, donation, donation&.supporter&.locale || 'en')
+      
+      donation =  trx.donations.build(amount: donation['amount'], designation: donation['designation'], dedication: donation["dedication"])
+      trx.save!
+      donation.save!
+      donation.publish_created
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
       

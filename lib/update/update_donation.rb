@@ -86,6 +86,8 @@ module UpdateDonation
         donation.date = data[:date] if data[:date]
       end
 
+      modern_donation = donation.modern_donation
+      trx = modern_donation.trx
       # edits_to_payments
       if is_offsite
         # if offline, set date, gross_amount, fee_total, net_amount
@@ -95,7 +97,13 @@ module UpdateDonation
         existing_payment.fee_total = data[:fee_total] if data[:fee_total]
         existing_payment.net_amount = existing_payment.gross_amount - existing_payment.fee_total
 
-        existing_payment.save! if existing_payment.changed?
+        if existing_payment.changed?
+          existing_payment.save!
+          if existing_payment.previous_changes.has_key? 'gross_amount'
+            modern_donation.amount  = existing_payment.gross_amount
+            trx.amount = existing_payment.gross_amount
+          end
+        end
       else
         if donation.designation
           Payment.where('donation_id = ?', donation.id).update_all(towards: donation.designation, updated_at: Time.now)
@@ -111,7 +119,14 @@ module UpdateDonation
 
         offsite_payment.save! if offsite_payment.changed?
       end
+      trx.save! if trx.changed?
       donation.save! if donation.changed?
+      md_changed = modern_donation.changed?
+      modern_donation.save! if modern_donation.changed?
+      if (['dedication', 'designation'].any? {|i| donation.previous_changes.has_key? i} || md_changed)
+        modern_donation.publish_updated
+      end
+        
 
       existing_payment.reload
 

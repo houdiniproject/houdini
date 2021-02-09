@@ -4,11 +4,11 @@ class Houdini::WebhookAdapter
   extend ActiveSupport::Autoload
   include ActiveModel::AttributeAssignment
 
-  autoload :OpenFn
+  autoload :OpenFnAdapter
 
   attr_accessor :webhook_url, :headers
-  def initialize(attributes={})
-    assign_attributes(attributes) if attributes
+  def initialize(**attributes)
+    assign_attributes(**attributes) if attributes
   end
 
   def transmit(payload)
@@ -18,5 +18,20 @@ class Houdini::WebhookAdapter
       payload: payload,
       headers: headers
     )
+  end
+
+  ADAPTER = 'Adapter'
+  private_constant :ADAPTER
+
+  # based on ActiveJob's configuration
+  class << self
+    
+    def build(name, options)
+      lookup(name).new(**options)
+    end
+
+    def lookup(name)
+      const_get(name.to_s.camelize << ADAPTER)
+    end
   end
 end

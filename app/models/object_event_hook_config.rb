@@ -16,14 +16,7 @@ class ObjectEventHookConfig < ApplicationRecord
 
   serialize :object_event_types, Array
 
-  WEBHOOK = {
-    open_fn: 'open_fn'
-  }.freeze
-
   def webhook
-    case webhook_service
-    when WEBHOOK[:open_fn]
-      Houdini::WebhookAdapter::OpenFn.new(configuration)
-    end
+    Houdini::WebhookAdapter.build(webhook_service, configuration.symbolize_keys)
   end
 end

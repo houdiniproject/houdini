@@ -65,7 +65,6 @@ module Houdini
 
     config.houdini.listeners = []
 
-
     initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do |app|
       app.config.to_prepare do
         Houdini.core_classes = app.config.houdini.core_classes

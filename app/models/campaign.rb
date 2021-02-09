@@ -69,6 +69,7 @@ class Campaign < ApplicationRecord
   has_many :campaign_gifts, through: :campaign_gift_options
   has_many :supporters, through: :donations
   has_many :recurring_donations
+  has_many :campaign_gift_purchases
   has_many :roles,        as: :host, dependent: :destroy
   has_many :comments,     as: :host, dependent: :destroy
   has_many :activities,   as: :host, dependent: :destroy

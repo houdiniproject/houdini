@@ -30,10 +30,9 @@ class CampaignGiftOption < ApplicationRecord
   after_update_commit :publish_updated
   after_destroy_commit :publish_deleted
 
-  add_builder_expansion :campaign
-  add_builder_expansion :nonprofit, 
-    to_attrib: -> (model) {model.campaign.nonprofit}
+  add_builder_expansion :campaign, :nonprofit
 
+  has_one :nonprofit, through: :campaign
 
 
   def total_gifts
@@ -82,7 +81,10 @@ class CampaignGiftOption < ApplicationRecord
       json.deleted !persisted?
 
       json.gift_option_amount gift_option_amount do |desc|
-        json.amount desc[:amount]
+        json.amount do 
+          json.currency desc[:amount][:currency]
+          json.value_in_cents desc[:amount][:value_in_cents]
+        end
         json.recurrence(desc[:recurrence]) if desc[:recurrence]
       end
     end

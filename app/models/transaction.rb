@@ -17,6 +17,7 @@ class Transaction < ApplicationRecord
 
 	has_many :donations, through: :transaction_assignments, source: :assignable, source_type: 'ModernDonation'
 	has_many :ticket_purchases, through: :transaction_assignments, source: :assignable, source_type: 'TicketPurchase'
+	has_many :campaign_gift_purchases, through: :transaction_assignments, source: :assignable, source_type: 'CampaignGiftPurchase'
 
 	validates :supporter, presence: true
 

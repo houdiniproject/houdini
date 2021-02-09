@@ -37,46 +37,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
 
 
---
--- Name: update_supporter_assoc_search_vectors(); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.update_supporter_assoc_search_vectors() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$ BEGIN
-      IF pg_trigger_depth() <> 1 THEN RETURN new; END IF;
-      UPDATE supporters
-        SET search_vectors=to_tsvector('english', data.search_blob)
-        FROM (
-SELECT supporters.id, concat_ws(' '
-        , custom_field_joins.value
-        , supporters.name
-        , supporters.organization
-        , supporters.id
-        , supporters.email
-        , supporters.city
-        , supporters.state_code
-        , donations.designation
-        , donations.dedication
-        , payments.kind
-        , payments.towards
-        ) AS search_blob
-FROM supporters 
-LEFT OUTER JOIN payments
-  ON payments.supporter_id=supporters.id 
-LEFT OUTER JOIN donations
-  ON donations.supporter_id=supporters.id 
-LEFT OUTER JOIN (
-SELECT string_agg(value::text, ' ') AS value, supporter_id
-FROM custom_field_joins 
-GROUP BY supporter_id) AS custom_field_joins
-  ON custom_field_joins.supporter_id=supporters.id
-WHERE (supporters.id=NEW.supporter_id)) AS data
-        WHERE data.id=supporters.id;
-      RETURN new;
-    END $$;
-
-
 SET default_tablespace = '';
 
 --
@@ -4456,9 +4416,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210204172319'),
 ('20210204210627'),
 ('20210204223643'),
-('20210208211655'),
 ('20210208212655'),
 ('20210209002832');
 ('20210209174657');
-
+('20210209181808');
 

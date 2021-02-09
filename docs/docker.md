@@ -73,7 +73,7 @@ If you don't, file uploads WILL NOT WORK but it's not required.
 
 ### In console 2, fill the db
 
-`./run rake db:create db:structure:load db:seed test:prepare`
+`./run rake db:create db:schema:load db:seed test:prepare`
 
 ### Set up mailer info
 

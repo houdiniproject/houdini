@@ -6,17 +6,17 @@ class Houdini::WebhookAdapter
 
   autoload :OpenFn
 
-  attr_accessor :url, :auth_headers
+  attr_accessor :webhook_url, :headers
   def initialize(attributes={})
     assign_attributes(attributes) if attributes
   end
 
-  def post(payload)
+  def transmit(payload)
     RestClient::Request.execute(
       method: :post,
-      url: url,
+      url: webhook_url,
       payload: payload,
-      headers: auth_headers
+      headers: headers
     )
   end
 end

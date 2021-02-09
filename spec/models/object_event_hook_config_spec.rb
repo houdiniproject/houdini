@@ -11,10 +11,10 @@ RSpec.describe ObjectEventHookConfig, type: :model do
   describe '.webhook' do
     it 'returns an instance of OpenFn webhook' do
       webhook = double
-      expect(Houdini::WebhookAdapter::OpenFn)
-        .to receive(:new)
+      expect(Houdini::WebhookAdapter)
+        .to receive(:build)
+        .with(open_fn_config.webhook_service, open_fn_config.configuration.symbolize_keys)
         .and_return(webhook)
-        .with(open_fn_config.configuration)
       result = open_fn_config.webhook
       expect(result).to eq(webhook)
     end

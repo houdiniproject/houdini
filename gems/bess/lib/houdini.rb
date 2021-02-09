@@ -39,6 +39,4 @@ module Houdini
   mattr_accessor :core_classes, default: {supporter: 'Supporter', nonprofit: 'Nonprofit'}
 
   mattr_accessor :event_publisher, default: Houdini::EventPublisher.new
-
-  mattr_accessor :webhook_adapter
 end

@@ -238,7 +238,7 @@ describe InsertDuplicate do
           :latitude => nil,
           :location => nil,
           :longitude => nil,
-          organizer_email: nil,
+          organizer_email: profile.user.email,
           :state_code => "WI",
           :venue_name => nil,
           :zip_code => nil,

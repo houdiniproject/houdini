@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module InsertDuplicate
-  def self.campaign(campaign_id, profile_id)
+  def self.campaign(campaign_id, profile_id, new_nonprofit=nil)
     ParamValidation.new({:campaign_id => campaign_id, :profile_id => profile_id},
     {
       :campaign_id => {:required => true, :is_integer => true},
@@ -25,6 +25,8 @@ module InsertDuplicate
         dupe.end_datetime = DateTime.now.since(7.days)
       end
 
+      dupe.nonprofit = new_nonprofit if new_nonprofit
+      dupe.profile = profile
       dupe.published = false
 
       dupe.save!
@@ -39,7 +41,7 @@ module InsertDuplicate
     end
   end
 
-  def self.event(event_id, profile_id)
+  def self.event(event_id, profile_id, new_nonprofit=nil)
     ParamValidation.new({:event_id => event_id, :profile_id => profile_id},
                         {
                             :event_id => {:required => true, :is_integer => true},
@@ -72,8 +74,10 @@ module InsertDuplicate
       if (we_changed_start_time && dupe.end_datetime)
         dupe.end_datetime = dupe.start_datetime.since(length_of_event)
       end
-
-
+      
+      dupe.nonprofit = new_nonprofit if new_nonprofit
+      dupe.organizer_email = profile.user.email
+      dupe.profile = profile
       dupe.published = false
 
       dupe.save!

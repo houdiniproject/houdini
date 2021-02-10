@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { HouID, HoudiniObject, HoudiniEvent, Amount, IdType} from '../../common';
+import type { HouID, HoudiniObject, HoudiniEvent, Amount, IDType} from '../../common';
 import type Nonprofit from '..';
 import type Event from '.';
 import type { TicketLevel , TicketPurchase} from '.';
@@ -9,12 +9,12 @@ export interface Ticket extends HoudiniObject<HouID> {
   amount: Amount;
   checked_in: boolean;
   deleted: boolean;
-  event: IdType | Event;
-  nonprofit: IdType | Nonprofit;
+  event: IDType | Event;
+  nonprofit: IDType | Nonprofit;
   note: string;
   object: 'ticket';
-  supporter: IdType | Supporter;
-  ticket_level: IdType | TicketLevel;
+  supporter: IDType | Supporter;
+  ticket_level: IDType | TicketLevel;
   ticket_purchase: HouID | TicketPurchase;
 }
 

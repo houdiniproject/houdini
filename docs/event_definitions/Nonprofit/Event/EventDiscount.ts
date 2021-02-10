@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { IdType, HoudiniObject, Amount, HoudiniEvent } from '../../common';
+import type { IDType, HoudiniObject, Amount, HoudiniEvent } from '../../common';
 import type Nonprofit from '..';
 import type Event from '.';
 import type { TicketLevel } from './TicketLevel';
@@ -12,10 +12,10 @@ type DiscountType = { percent: number } | { amount: Amount };
 export interface EventDiscount extends HoudiniObject {
   code: string;
   discount: DiscountType;
-  event: IdType | Event;
-  nonprofit: IdType | Nonprofit;
+  event: IDType | Event;
+  nonprofit: IDType | Nonprofit;
   object: "event_discount";
-  ticket_levels: IdType[] | TicketLevel[];
+  ticket_levels: IDType[] | TicketLevel[];
 }
 
 export type EventDiscountCreated = HoudiniEvent<'event_discount.created', EventDiscount>;

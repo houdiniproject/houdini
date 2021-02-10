@@ -1,16 +1,16 @@
 // License: LGPL-3.0-or-later
-import type { Amount, HoudiniObject, IdType, HouID } from "../../common";
+import type { Amount, HoudiniObject, IDType, HouID } from "../../common";
 import type Nonprofit from '../';
 import type Supporter from "../Supporter";
 import type { Payment } from "./Payment";
 
 export default interface Transaction extends HoudiniObject<HouID> {
   amount: Amount;
-	nonprofit: IdType | Nonprofit;
+	nonprofit: IDType | Nonprofit;
 	object: 'transaction';
-	payments: IdType[] | Payment[];
+	payments: IDType[] | Payment[];
 	status: "not-submitted"|"created" | "waiting-on-supporter" | "failed" | "completed";
-	supporter: IdType | Supporter;
+	supporter: IDType | Supporter;
 	/**
 	 * We don't specify more for now
 	 */

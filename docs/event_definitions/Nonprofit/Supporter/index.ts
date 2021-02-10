@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { IdType, HoudiniObject, HoudiniEvent } from '../../common';
+import type { IDType, HoudiniObject, HoudiniEvent } from '../../common';
 import type Nonprofit from '../';
 import type { SupporterAddress } from './SupporterAddress';
 
@@ -7,13 +7,13 @@ export default interface Supporter extends HoudiniObject {
   anonymous: boolean;
   deleted: boolean;
   email: string;
-  merged_into: IdType | Supporter | null;
+  merged_into: IDType | Supporter | null;
 	name: string;
-  nonprofit: IdType | Nonprofit;
+  nonprofit: IDType | Nonprofit;
   object: "supporter";
   organization: string;
   phone: string;
-  supporter_addresses: IdType[] | SupporterAddress[];
+  supporter_addresses: IDType[] | SupporterAddress[];
 }
 
 export type SupporterCreated = HoudiniEvent<'supporter_address.created', Supporter>;

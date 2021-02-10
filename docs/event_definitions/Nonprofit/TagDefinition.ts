@@ -1,12 +1,12 @@
 // License: LGPL-3.0-or-later
 
-import type { HoudiniEvent, HoudiniObject, IdType } from "../common";
+import type { HoudiniEvent, HoudiniObject, IDType } from "../common";
 import type Nonprofit from './';
 
 export interface TagDefinition extends HoudiniObject {
 	deleted: boolean;
 	name: string;
-	nonprofit: IdType | Nonprofit;
+	nonprofit: IDType | Nonprofit;
 	object: 'tag_definition';
 }
 

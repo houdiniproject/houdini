@@ -4,7 +4,7 @@
  * the main identifier for HoudiniObjects which is unique between all other HoudiniObjects with the same object value.
  * Currently just an integer but we could reevaluate later;
  */
-export type IdType = number;
+export type IDType = number;
 
 /**
  * an identifier for HoudiniObjects which is unique among all HoudiniObjects.
@@ -60,12 +60,12 @@ export type RecurrenceRule = {
  * Every object controlled by the Houdini event publisher must meet this standard interface
  * and will inherit from it.
  */
-export interface HoudiniObject<Id extends IdType|HouID=IdType> {
+export interface HoudiniObject<ID extends IDType|HouID=IDType> {
 	/**
-	 * An IdType which unique which uniquely identifies this object
+	 * An IDType which unique which uniquely identifies this object
 	 * from all other similar objects
 	 */
-	id: Id;
+	id: ID;
 	/**
 	 * the type of object. Roughly corresponds to the object's class in Rails
 	 */
@@ -73,7 +73,7 @@ export interface HoudiniObject<Id extends IdType|HouID=IdType> {
 }
 
 
-type HoudiniObjectOfAllIds = HoudiniObject<IdType> | HoudiniObject<HouID>;
+type HoudiniObjectOfAllIDs = HoudiniObject<IDType> | HoudiniObject<HouID>;
 /**
  * An event published by Houdini
  *
@@ -83,7 +83,7 @@ type HoudiniObjectOfAllIds = HoudiniObject<IdType> | HoudiniObject<HouID>;
  * * DataObject: the interface representing the actual object which the event occurred on. An object of that type is
  * on the 'data' attribute
  */
-export interface HoudiniEvent<EventType extends string, DataObject extends HoudiniObjectOfAllIds> {
+export interface HoudiniEvent<EventType extends string, DataObject extends HoudiniObjectOfAllIDs> {
 	/** data for the event. We wrap the object inside becuase we might want to provide some sort of   */
 	data: {
 		/** the object after the event has occurred */

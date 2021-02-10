@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 require 'rails_helper'
 
-RSpec.describe CampaignGiftOption, type: :model do
+RSpec.describe CampaignGiftOption, 'type' => :model do
   include_context :shared_donation_charge_context
   let(:name) {"CUSTOM GIFT OPTION"}
   let(:amount_one_time) { 400}
@@ -57,10 +57,10 @@ RSpec.describe CampaignGiftOption, type: :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {value_in_cents:amount_one_time, currency: nonprofit.currency}},
+              {'amount' => {'value_in_cents'=> amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {value_in_cents:amount_recurring, currency: nonprofit.currency},
-                'recurrence' => { interval: 1, type: 'monthly'}
+                'amount' => {'value_in_cents' => amount_recurring, 'currency' => nonprofit.currency},
+                'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
             'id'=> kind_of(Numeric),
@@ -98,10 +98,10 @@ RSpec.describe CampaignGiftOption, type: :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {value_in_cents:amount_one_time, currency: nonprofit.currency}},
+              {'amount' => {'value_in_cents' => amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {value_in_cents:amount_recurring, currency: nonprofit.currency},
-                'recurrence' => { interval: 1, type: 'monthly'}
+                'amount' => {'value_in_cents' => amount_recurring, 'currency' => nonprofit.currency},
+                'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
             'id'=> kind_of(Numeric),
@@ -161,8 +161,8 @@ RSpec.describe CampaignGiftOption, type: :model do
             'description' => description,
             'gift_option_amount' => [
               {
-                'amount' => {value_in_cents:amount_recurring, currency: nonprofit.currency},
-                'recurrence' => { interval: 1, type: 'monthly'}
+                'amount' => {'value_in_cents' => amount_recurring, 'currency' => nonprofit.currency},
+                'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
             'id'=> kind_of(Numeric),
@@ -205,7 +205,7 @@ RSpec.describe CampaignGiftOption, type: :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {value_in_cents:amount_one_time, currency: nonprofit.currency}},
+              {'amount' => {'value_in_cents' => amount_one_time, 'currency' => nonprofit.currency}},
             ],
             'id'=> kind_of(Numeric),
             'hide_contributions' => false,
@@ -252,10 +252,10 @@ RSpec.describe CampaignGiftOption, type: :model do
             'deleted' => true,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {value_in_cents:amount_one_time, currency: nonprofit.currency}},
+              {'amount' => {'value_in_cents' => amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {value_in_cents:amount_recurring, currency: nonprofit.currency},
-                'recurrence' => { interval: 1, type: 'monthly'}
+                'amount' => {'value_in_cents' => amount_recurring, 'currency' => nonprofit.currency},
+                'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
             'id'=> kind_of(Numeric),
@@ -299,10 +299,10 @@ RSpec.describe CampaignGiftOption, type: :model do
             'deleted' => true,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {value_in_cents:amount_one_time, currency: nonprofit.currency}},
+              {'amount' => {'value_in_cents' => amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {value_in_cents:amount_recurring, currency: nonprofit.currency},
-                'recurrence' => { interval: 1, type: 'monthly'}
+                'amount' => {'value_in_cents' => amount_recurring, 'currency' => nonprofit.currency},
+                'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
             'id'=> kind_of(Numeric),

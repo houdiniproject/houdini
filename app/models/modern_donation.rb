@@ -3,20 +3,10 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class ModernDonation < ApplicationRecord
-	include Model::Houidable
-  include Model::Jbuilder
-  include Model::Eventable
+  include Model::TrxAssignable
   setup_houid :don
 
 	# TODO must associate with events and campaigns somehow
-  add_builder_expansion :nonprofit, :supporter
-  add_builder_expansion :trx, 
-		json_attrib: :transaction
-		
-	has_one :transaction_assignment, as: :assignable
-	has_one :trx, through: :transaction_assignment
-	has_one :supporter, through: :trx
-	has_one :nonprofit, through: :supporter
 	belongs_to :legacy_donation, class_name: 'Donation', foreign_key: :donation_id, inverse_of: :modern_donation
 
 	delegate :designation, :dedication, to: :legacy_donation

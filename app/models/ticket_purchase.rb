@@ -3,14 +3,10 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class TicketPurchase < ApplicationRecord
-  include Model::Houidable
-  include Model::Jbuilder
-  include Model::Eventable
+  include Model::TrxAssignable
   setup_houid :tktpur
 
-  add_builder_expansion :event, :nonprofit, :supporter
-  add_builder_expansion :trx, 
-    json_attrib: :transaction
+  add_builder_expansion :event
   
   add_builder_expansion :event_discount,
     to_id: -> (model) { model.event_discount&.id },
@@ -20,10 +16,6 @@ class TicketPurchase < ApplicationRecord
 
   belongs_to :event_discount
   belongs_to :event
-  has_one :transaction_assignment, as: :assignable
-  has_one :trx, through: :transaction_assignment
-  has_one :supporter, through: :trx
-  has_one :nonprofit, through: :supporter
   
   has_many :ticket_to_legacy_tickets
 

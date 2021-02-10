@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import { IdType, HoudiniObject, HoudiniEvent, Amount } from '../../common';
+import { IDType, HoudiniObject, HoudiniEvent, Amount } from '../../common';
 import Nonprofit from '..';
 import Event from './';
 import { EventDiscount } from './EventDiscount';
@@ -17,12 +17,12 @@ export interface TicketLevel extends HoudiniObject {
   available_to: 'everyone' | 'admins';
   deleted: boolean;
   description: string;
-  event: IdType | Event;
+  event: IDType | Event;
   /**
    * at some time, event discounts will be associated with a given ticket level.
    * For now, this returns all of the discounts for the event though.
    */
-  event_discounts: IdType[] | EventDiscount[];
+  event_discounts: IDType[] | EventDiscount[];
   /**
    * the max number of tickets to be sold on this TicketLevel, null means unlimited.
    * If you edit this and decide to lower the limit below the number of tickets currently sold,
@@ -33,7 +33,7 @@ export interface TicketLevel extends HoudiniObject {
    * Nice readable name fo the ticket level
    */
   name: string;
-  nonprofit: IdType | Nonprofit;
+  nonprofit: IDType | Nonprofit;
   object: "ticket_level";
   /** order to be displayed */
   order: number;

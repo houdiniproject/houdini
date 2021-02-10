@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { Amount, HoudiniObject, IdType, HouID, HoudiniEvent } from "../../common";
+import type { Amount, HoudiniObject, IDType, HouID, HoudiniEvent } from "../../common";
 import type Nonprofit from '../';
 import type Supporter from "../Supporter";
 import type Transaction from './';
@@ -19,9 +19,9 @@ export interface Donation extends HoudiniObject<HouID> {
   amount: Amount;
   dedication?: Dedication | null;
   designation?: string | null;
-  nonprofit: IdType | Nonprofit;
+  nonprofit: IDType | Nonprofit;
   object: 'donation';
-  supporter: IdType | Supporter;
+  supporter: IDType | Supporter;
   transaction: HouID | Transaction;
 }
 

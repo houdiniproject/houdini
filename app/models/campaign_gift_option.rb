@@ -85,7 +85,10 @@ class CampaignGiftOption < ApplicationRecord
           json.currency desc[:amount][:currency]
           json.value_in_cents desc[:amount][:value_in_cents]
         end
-        json.recurrence(desc[:recurrence]) if desc[:recurrence]
+        json.recurrence do 
+          json.interval desc[:recurrence][:interval]
+          json.type desc[:recurrence][:type]
+        end if desc[:recurrence]
       end
     end
   end

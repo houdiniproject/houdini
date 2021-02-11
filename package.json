@@ -106,9 +106,12 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@formatjs/intl-displaynames": "^3.4.6",
+    "@formatjs/intl-locale": "^2.4.7",
     "@houdiniproject/react-i18n-currency-input": "^2.0.0-pre3",
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@rails/activestorage": "^6.0.2-2",
     "attr-binder": "0.3.1",
     "chart.js": "2.1.4",
@@ -135,6 +138,7 @@
     "form-serialize": "0.7.0",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0",
+    "formik-material-ui-lab": "^0.0.7",
     "hoist-non-react-statics": "^3.3.0",
     "i18n-js": "^3.0.3",
     "iban": "0.0.8",
@@ -165,6 +169,7 @@
     "react-dom": "^16.13.1",
     "react-error-boundary": "^3.0.2",
     "react-intl": "^4",
+    "react-promise-suspense": "^0.3.3",
     "react-text-mask": "^5.3.0",
     "react-transition-group": "^2.9.0",
     "react-use": "^15.3.3",

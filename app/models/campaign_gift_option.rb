@@ -71,13 +71,13 @@ class CampaignGiftOption < ApplicationRecord
     end
 
     init_builder(*expand) do |json|
-      json.(self, :id, :name, :description, 
+      json.(self, :name, :description, 
           :hide_contributions, :order, :to_ship)
 
       if quantity
         json.quantity quantity
       end
-      json.object 'campaign_gift_option'
+
       json.deleted !persisted?
 
       json.gift_option_amount gift_option_amount do |desc|

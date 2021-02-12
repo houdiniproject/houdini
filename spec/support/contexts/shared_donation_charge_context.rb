@@ -74,7 +74,8 @@ RSpec.shared_context :shared_donation_charge_context do
 			'zip_code' => nil,
 			'country' => 'United States',
 			'object' => 'supporter_address',
-			'supporter' => kind_of(Numeric)
+			'supporter' => kind_of(Numeric),
+      'nonprofit'=> nonprofit.id
 		}
 	end
 

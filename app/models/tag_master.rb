@@ -44,7 +44,7 @@ class TagMaster < ApplicationRecord
   
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :id, :name, :deleted)
+      json.(self, :name, :deleted)
       json.object 'tag_definition'
     end
   end

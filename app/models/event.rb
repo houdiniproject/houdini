@@ -100,12 +100,8 @@ class Event < ApplicationRecord
   end
 
   def to_builder(*expand) 
-    Jbuilder.new do |json|
-      json.(self, :id, :name)
-      json.object "event"
-      json.nonprofit expand.include?(:nonprofit) && nonprofit ? 
-        nonprofit.to_builder : 
-        nonprofit && nonprofit.id
+    init_builder(*expand) do |json|
+      json.(self, :name)
     end
   end
 

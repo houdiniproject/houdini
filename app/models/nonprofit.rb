@@ -7,6 +7,7 @@ class Nonprofit < ApplicationRecord
   Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
 
   include Image::AttachmentExtensions
+  include Model::Jbuilder
   # :name, # str
   # :stripe_account_id, # str
   # :summary, # text: paragraph-sized organization summary
@@ -247,9 +248,8 @@ class Nonprofit < ApplicationRecord
   end
 
   def to_builder(*expand) 
-    Jbuilder.new do |json|
-      json.(self, :id, :name)
-      json.object 'nonprofit'
+    init_builder(*expand) do |json|
+      json.(self, :name)
     end
   end
 

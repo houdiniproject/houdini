@@ -16,6 +16,8 @@ class TicketLevel < ApplicationRecord
   # :limit, #int: for limiting the number of tickets to be sold
   # :order #int: order in which to be displayed
   
+
+  add_builder_expansion :nonprofit, :event
   # TODO replace with Discard gem
   define_model_callbacks :discard
 
@@ -29,14 +31,19 @@ class TicketLevel < ApplicationRecord
   has_many :tickets
   belongs_to :event
   has_one :nonprofit, through: :event
-  has_many :event_discounts, through: :event
-
+  
   validates :name, presence: true
   validates :event_id, presence: true
   
   validate :amount_hasnt_changed_if_has_tickets, on: :update
 
   scope :not_deleted, -> { where(deleted: [false, nil]) }
+
+  # has_many didn't work here, don't know why offhand.
+  def event_discounts
+    event.event_discounts
+  end
+
 
   before_validation do
     self.amount = Format::Currency.dollars_to_cents(amount_dollars) if amount_dollars.present?
@@ -52,38 +59,20 @@ class TicketLevel < ApplicationRecord
   end
   
   def to_builder(*expand)
-    Jbuilder.new do |json|
-      json.(self, :id, :name, :deleted, :order, :limit, :description)
-      json.object 'ticket_level'
+    init_builder(*expand) do |json|
+      json.(self, :name, :deleted, :order, :limit, :description)
       json.amount do 
         json.value_in_cents amount || 0
         json.currency event.nonprofit.currency
       end
       json.available_to admin_only ? 'admins' : 'everyone'
-      if event 
-        if event.nonprofit
-          if expand.include? :nonprofit
-            json.nonprofit event.nonprofit.to_builder
-          else
-            json.nonprofit event.nonprofit.id
-          end
-        else 
-          json.nonprofit nil
-        end
 
-        if expand.include? :event
-          json.event event.to_builder
-        else
-          json.event event.id
+      if expand.include? :event_discounts
+        json.event_discounts event_discounts do |disc|
+          json.merge! disc.to_builder.attributes!
         end
-
-        if expand.include? :event_discounts
-          json.event_discounts event.event_discounts do |disc|
-            json.merge! disc.to_builder.attributes!
-          end
-        else 
-          json.event_discounts event.event_discounts.pluck(:id)
-        end
+      else 
+        json.event_discounts event_discounts.pluck(:id)
       end
     end
   end

@@ -29,7 +29,7 @@ class TicketToLegacyTicket < ApplicationRecord
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :id, :checked_in, :deleted, :note)
+      json.(self, :checked_in, :deleted, :note)
       json.object "ticket"
 
       json.amount do

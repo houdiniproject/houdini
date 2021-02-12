@@ -10,6 +10,7 @@ class SupporterNote < ApplicationRecord
   # :supporter_id, :supporter
 
   belongs_to :supporter
+  has_one :nonprofit, through: :supporter
   has_many :activities, as: :attachment, dependent: :destroy
   belongs_to :user
 
@@ -17,13 +18,10 @@ class SupporterNote < ApplicationRecord
   validates :supporter_id, presence: true
   # TODO replace with Discard gem
 
-  add_builder_expansion :supporter
+  add_builder_expansion :supporter, :nonprofit
   add_builder_expansion :user, 
     to_id: ->(model) { model.user&.id},
     to_expand: ->(model) { model.user&.to_builder}
-
-  add_builder_expansion :nonprofit, 
-    to_attrib: -> (model) {model.supporter.nonprofit}
 
   define_model_callbacks :discard
 

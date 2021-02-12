@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale, :redirect_to_maintenance
   protect_from_forgery
 
+  private 
   def redirect_to_maintenance
     if Houdini.maintenance&.active && !current_user
       unless self.class == Users::SessionsController &&

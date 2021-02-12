@@ -638,7 +638,7 @@ UNION DISTINCT
       array_to_string(
         array_agg(
           payments.date::date || ' ' ||
-          (payments.gross_amount / 100)::text::money || ' ' ||
+          (payments.gross_amount::numeric / 100)::text::money || ' ' ||
           coalesce(payments.kind, '') || ' ' ||
           coalesce(payments.towards, '')
           ORDER BY payments.date DESC
@@ -647,9 +647,9 @@ UNION DISTINCT
       ) AS "Payment History"
     )
     selects = supporter_export_selections.concat([
-      "SUM(payments.gross_amount / 100)::text::money AS \"Total Payments\"",
+      "SUM(payments.gross_amount::numeric / 100)::text::money AS \"Total Payments\"",
       "MAX(payments.date)::date AS \"Last Payment Date\"",
-      "AVG(payments.gross_amount / 100)::text::money AS \"Average Payment\"",
+      "AVG(payments.gross_amount::numeric / 100)::text::money AS \"Average Payment\"",
       aggregate_dons
     ])
     return Qx.select(selects)

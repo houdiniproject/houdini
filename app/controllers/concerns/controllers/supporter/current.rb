@@ -6,6 +6,7 @@ module Controllers::Supporter::Current
     include Controllers::Nonprofit::Current
     extend ActiveSupport::Concern
     included do
+        private
         def current_supporter
             current_nonprofit.supporters.find(params[:supporter_id] || params[:id])
         end

@@ -89,8 +89,7 @@ class Supporter < ApplicationRecord
   def to_builder(*expand)
     supporter_addresses = [self]
     init_builder(*expand) do |json|
-      json.object "supporter"
-      json.(self, :id, :name, :organization, :phone, :anonymous, :deleted)
+      json.(self, :name, :organization, :phone, :anonymous, :deleted)
       if expand.include? :supporter_address
         json.supporter_addresses supporter_addresses do |i|
           json.merge! i.to_supporter_address_builder.attributes!
@@ -112,13 +111,19 @@ class Supporter < ApplicationRecord
   end
 
   def to_supporter_address_builder(*expand)
-    Jbuilder.new do |json|
-      json.(self, :id, :address, :state_code, :city, :country, :zip_code, :deleted)
+    init_builder(*expand) do |json|
+      json.(self, :address, :state_code, :city, :country, :zip_code, :deleted)
       json.object 'supporter_address'
       if expand.include? :supporter
         json.supporter to_builder
       else
         json.supporter id
+      end
+
+      if expand.include? :nonprofit
+        json.nonprofit nonprofit.to_builder
+      else
+        json.nonprofit nonprofit.id
       end
     end
   end

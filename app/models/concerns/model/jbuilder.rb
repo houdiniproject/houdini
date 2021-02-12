@@ -82,6 +82,8 @@ module Model::Jbuilder
 	def init_builder(*expand)
 		builder_expansions = self.class.builder_expansions
 		Jbuilder.new do | json|
+			json.(self, :id)
+			json.object self.class.name.underscore
 			builder_expansions.keys.each do |k|
 				if expand.include? k
 					json.set! builder_expansions.get_by_key(k).json_attrib, builder_expansions.get_by_key(k).to_expand.(self)

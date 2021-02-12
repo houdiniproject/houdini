@@ -40,7 +40,7 @@ class ModernCampaignGift < ApplicationRecord
 	
 	def to_builder(*expand)
 		init_builder(*expand) do |json|
-			json.(self, :id, :deleted)
+			json.(self, :deleted)
 			json.object 'campaign_gift'
 			json.amount do
         json.value_in_cents amount

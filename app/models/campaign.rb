@@ -4,6 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Campaign < ApplicationRecord
   include Image::AttachmentExtensions
+  include Model::Jbuilder
   # :name,
   # :tagline,
   # :slug, # str: url name
@@ -38,6 +39,8 @@ class Campaign < ApplicationRecord
   # :parent_campaign_id,
   # :reason_for_supporting,
   # :default_reason_for_supporting
+
+  add_builder_expansion :nonprofit
 
   validate  :end_datetime_cannot_be_in_past, on: :create
   validates :profile, presence: true
@@ -197,10 +200,8 @@ class Campaign < ApplicationRecord
   end
 
   def to_builder(*expand)
-    Jbuilder.new do |json|
-      json.(self, :id, :name)
-      json.object "campaign"
-      json.nonprofit nonprofit.id
+    init_builder(*expand) do |json|
+      json.(self, :name)
     end
   end
 

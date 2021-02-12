@@ -40,8 +40,7 @@ class SupporterNote < ApplicationRecord
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :id, :deleted, :content)
-      json.object 'supporter_note'
+      json.(self, :deleted, :content)
     end
   end
 

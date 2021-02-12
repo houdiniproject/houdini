@@ -23,8 +23,6 @@ class TicketPurchase < ApplicationRecord
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :id)
-      json.object 'ticket_purchase'
       json.original_discount do
         json.percent original_discount
       end if original_discount

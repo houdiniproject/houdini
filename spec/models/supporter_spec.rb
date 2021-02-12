@@ -76,7 +76,8 @@ RSpec.describe Supporter, type: :model do
 				'type' => 'supporter_address.created',
 				'data' => {
 					'object' => supporter_address_to_builder_base.merge({
-						'supporter' =>  supporter_to_builder_base
+						'supporter' =>  supporter_to_builder_base,
+						'nonprofit' => nonprofit_to_builder_base
 					})
 				}
 			}).ordered
@@ -95,7 +96,8 @@ RSpec.describe Supporter, type: :model do
 		
 			supporter_address_result = supporter_address_to_builder_base.merge({
 				'deleted' => true,
-				'supporter'=> supporter_to_builder_base.merge({'deleted' => true})
+				'supporter'=> supporter_to_builder_base.merge({'deleted' => true}),
+				'nonprofit' => nonprofit_to_builder_base
 			})
 
 			expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_deleted, {
@@ -147,7 +149,8 @@ RSpec.describe Supporter, type: :model do
 			'data' => {
 				'object' => supporter_address_to_builder_base.merge({
 					'city' => 'new_city',
-					'supporter'=> supporter_to_builder_base
+					'supporter'=> supporter_to_builder_base,
+					'nonprofit' => nonprofit_to_builder_base
 				})
 			}}).ordered
 

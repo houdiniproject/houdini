@@ -40,7 +40,7 @@ class CustomFieldMaster < ApplicationRecord
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :id, :name, :deleted)
+      json.(self, :name, :deleted)
       json.object 'custom_field_definition'
     end
   end

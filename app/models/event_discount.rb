@@ -4,6 +4,9 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class EventDiscount < ApplicationRecord
   include Model::Eventable
+  include Model::Jbuilder
+
+  add_builder_expansion :nonprofit, :event
   # :code,
   # :event_id,
   # :name,
@@ -22,39 +25,23 @@ class EventDiscount < ApplicationRecord
 
   belongs_to :event
   has_many :tickets
+  has_one :nonprofit, through: :event
+  has_many :ticket_levels, through: :event
 
   def to_builder(*expand)
-    Jbuilder.new do |json|
-      json.(self, :id, :name, :code)
+    init_builder(*expand) do |json|
+      json.(self, :name, :code)
       json.deleted !persisted?
-      json.object 'event_discount'
       json.discount do 
         json.percent percent
       end
 
-      if event
-        if expand.include? :event
-          json.event event.to_builder
-        else
-          json.event event.id
+      if expand.include? :ticket_levels
+        json.ticket_levels ticket_levels do |tl|
+          json.merge! tl.to_builder.attributes!
         end
-        if event.nonprofit
-          if expand.include? :nonprofit
-            json.nonprofit event.nonprofit.to_builder
-          else
-            json.nonprofit event.nonprofit.id
-          end
-        else 
-          json.nonprofit nil
-        end
-
-        if expand.include? :ticket_levels
-          json.ticket_levels event.ticket_levels do |tl|
-            json.merge! tl.to_builder.attributes!
-          end
-        else
-          json.ticket_levels event.ticket_levels.pluck(:id)
-        end
+      else
+        json.ticket_levels ticket_levels.pluck(:id)
       end
     end
   end

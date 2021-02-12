@@ -13,7 +13,7 @@ class ModernDonation < ApplicationRecord
 	
 	def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :id, :designation)
+      json.(self, :designation)
 			json.object 'donation'
 
 			json.dedication do

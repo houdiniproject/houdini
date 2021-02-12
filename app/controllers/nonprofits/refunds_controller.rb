@@ -19,7 +19,7 @@ module Nonprofits
     def index
       charge = current_nonprofit.charges.find(params[:charge_id])
       @refunds = charge.refunds
-      render locals: {refunds: @refund}}
+      render locals: {refunds: @refund}
     end
 
 private

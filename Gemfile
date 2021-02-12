@@ -57,7 +57,6 @@ group :development, :ci, :test do
   gem 'mail_view', '~> 2.0'
   gem 'pry', '~> 0.12.2'
   gem 'pry-byebug', '~> 3.7.0'
-  gem 'standard', '~> 0.1.2'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'rspec', '~> 3.9.0'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'

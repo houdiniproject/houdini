@@ -65,7 +65,13 @@ class Nonprofit < ApplicationRecord
   has_many :profiles, through: :donations
   has_many :campaigns, dependent: :destroy
   has_many :events, dependent: :destroy
-  has_many :object_event_hook_configs, dependent: :destroy
+  has_many :object_event_hook_configs, dependent: :destroy do
+    def for_type(type)
+      self.select do |config|
+        config.object_event_types.include? type
+      end
+    end
+  end
   has_many :tickets, through: :events
   has_many :roles,        as: :host, dependent: :destroy
   has_many :users, through: :roles

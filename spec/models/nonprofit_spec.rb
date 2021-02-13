@@ -45,6 +45,38 @@ RSpec.describe Nonprofit, type: :model do
     end
   end
 
+  describe '.for_type' do
+    let(:nonprofit) { create(:nm_justice) }
+    let(:type) { 'supporter.created' }
+    let(:other_type) { 'supporter.deleted' }
+    let!(:object_event_hook_config) do
+      nonprofit.object_event_hook_configs.create(
+        webhook_service: :open_fn,
+        configuration:
+          {
+            webhook_url: 'https://www.openfn.org/inbox/my-inbox-id',
+            headers: { 'x-api-key': 'my-secret-key' }
+          },
+        object_event_types: [type, other_type]
+      )
+    end
+
+    describe 'there is an ObjectEventHookConfig for the specified type' do
+      it 'returns a list of ObjectEventHookConfigs' do
+        result = nonprofit.object_event_hook_configs.for_type(type)
+        expect(result).to eq([object_event_hook_config])
+      end
+    end
+
+    describe 'there is not an ObjectEventHookConfig for the specified type' do
+      let(:some_other_type) { 'supporter.updated' }
+      it 'returns an empty list' do
+        result = nonprofit.object_event_hook_configs.for_type(some_other_type)
+        expect(result).to eq([])
+      end
+    end
+  end
+
   describe 'create' do
     describe 'validates on parameters' do
       let(:nonprofit) { Nonprofit.new()}

@@ -5,7 +5,7 @@
 module Campaigns
   class SupportersController < ApplicationController
     include Controllers::Campaign::Current
-  include Controllers::Campaign::Authorization
+    include Controllers::Campaign::Authorization
 
     before_action :authenticate_campaign_editor!, only: [:index]
 
@@ -21,5 +21,5 @@ module Campaigns
         format.html
       end
     end
-    end
+  end
 end

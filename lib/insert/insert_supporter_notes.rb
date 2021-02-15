@@ -13,7 +13,7 @@ module InsertSupporterNotes
     inserted = nil
     ActiveRecord::Base.transaction do 
       inserted = note_supporter_users.map do |nsu|
-        nsu[:supporter].supporter_notes.create(nsu[:note].merge({user: nsu[:user]}))
+        nsu[:supporter].supporter_notes.create!(content: nsu[:content], user: nsu[:user])
       end
       InsertActivities.for_supporter_notes(inserted)
     end

@@ -8,7 +8,7 @@ describe UpdateRecurringDonations do
   # deactivate a recurring donation
   describe '.cancel' do
 
-    let(:np) { force_create(:nm_justice) }
+    let!(:np) { force_create(:nm_justice) }
     let(:s) { force_create(:supporter, nonprofit: np) }
     let(:donation) { force_create(:donation, nonprofit_id: np.id, supporter_id: s.id) }
     let(:email) { 'test@test.com' }

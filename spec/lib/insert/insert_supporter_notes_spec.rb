@@ -11,8 +11,8 @@ describe InsertSupporterNotes do
   let(:sn_first) {SupporterNote.first }
   let(:sn_last) {SupporterNote.last }
   it '.create' do
-    InsertSupporterNotes.create({supporter:supporter, user: user, note: {content: content}}, 
-      {supporter:supporter, user: user, note: {content: content_2}})
+    InsertSupporterNotes.create({supporter: supporter, user: user, content: content}, 
+      {supporter: supporter, user: user, content: content_2})
     expect(SupporterNote.count).to eq 2
     expect(sn_first.attributes.except('id')).to eq({
       'content' => content,

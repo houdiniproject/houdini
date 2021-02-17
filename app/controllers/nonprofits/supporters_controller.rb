@@ -81,7 +81,7 @@ module Nonprofits
 
     # put /nonprofits/:nonprofit_id/supporters/:id
     def update
-      json_saved UpdateSupporter.from_info(current_supporter, update_supporter_params[:supporter])
+      json_saved UpdateSupporter.from_info(current_supporter, update_supporter_params)
     end
 
     def bulk_delete
@@ -114,11 +114,11 @@ module Nonprofits
     private
 
     def create_supporter_params
-      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :first_name, :last_name, :customFields, :email)
+      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :first_name, :last_name, :customFields, :email, :zip_code, :phone)
     end
 
     def update_supporter_params
-      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2)
+      params.require(:supporter).permit(:name, :address, :city, :state_code, :country, :address_line2, :email, :organization, :title, :zip_code, :phone)
     end
   end
 end

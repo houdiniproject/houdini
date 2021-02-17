@@ -108,6 +108,8 @@ module Commitchange
 
     config.active_storage.draw_routes = false
 
+    config.active_job.queue_adapter = :good_job
+
     # this works around a bug where the the webpacker proxy
     # only waits 60 seconds for a compilation to happen. That's not 
     # fast enough on startup and Webpacker doesn't allow us to override.

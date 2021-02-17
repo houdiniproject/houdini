@@ -176,29 +176,6 @@ class Supporter < ApplicationRecord
         end
     end
   end
-
-  # def new_builder(*expand)
-  #   Jbuilder.new do | json|
-  #     expandable_builders.keys.each do |k|
-  #       if expand.include? k
-  #         json.set! expandable_builders[k][:json_attrib], expandable_builders[k][:expanded].call(self)
-  #       else
-  #         json.set! expandable_builders[k][:json_attrib], expandable_builders[k][:id].call(self)
-  #       end
-  #     end
-  #     yield(json)
-  #   end
-  # end
-
-  # def expandable_builders
-  #    {
-  #      nonprofit: {
-  #       json_attrib: :nonprofit,
-  #       id: ->(model) { model.nonprofit.id},
-  #       expanded: ->(model) { model.nonprofit.to_builder }
-  #     }
-  #   }
-  # end
 end
 
 ActiveSupport.run_load_hooks(:houdini_supporter, Supporter)

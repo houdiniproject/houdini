@@ -87,6 +87,18 @@ class ObjectEventListener < ApplicationListener
     enqueue_transmissions_to_webhooks(event)
   end
 
+  def self.supporter_created(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.supporter_deleted(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.supporter_updated(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
   def self.supporter_address_created(event)
     enqueue_transmissions_to_webhooks(event)
   end

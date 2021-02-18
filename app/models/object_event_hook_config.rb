@@ -12,7 +12,7 @@ class ObjectEventHookConfig < ApplicationRecord
 
   validates :webhook_service, presence: true
   validates :configuration, presence: true
-  validates :object_event_types, presence: true
+  validates :object_event_types, presence: true, length: {minimum: 1}
 
   def webhook
     Houdini::WebhookAdapter.build(webhook_service, configuration.symbolize_keys)

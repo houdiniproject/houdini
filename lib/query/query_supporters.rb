@@ -519,7 +519,7 @@ UNION DISTINCT
   # Only including payments for the given year
   def self.end_of_year_donor_report(np_id, year)
     supporter_expr = Qexpr.new
-      .select( supporter_export_selections.concat(["(payments.sum / 100.0)::money::text AS \"Total Contributions #{year}\"", "supporters.id"]) )
+      .select( supporter_export_selections.concat(["(payments.sum::numeric / 100.0)::money::text AS \"Total Contributions #{year}\"", "supporters.id"]) )
       .from(:supporters)
       .join(Qexpr.new
         .select("SUM(gross_amount)", "supporter_id")
@@ -535,7 +535,7 @@ UNION DISTINCT
       Qexpr.new
       .select(
         "supporters.*",
-        '(payments.gross_amount / 100.0)::money::text AS "Donation Amount"',
+        '(payments.gross_amount::numeric / 100.0)::money::text AS "Donation Amount"',
         'payments.date AS "Donation Date"',
         'payments.towards AS "Designation"'
       )

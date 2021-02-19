@@ -19,6 +19,11 @@ RSpec.describe User, type: :model do
 			sa.roles.create(name: 'nonprofit_associate')
 			sa
 		}
+
+		let(:no_roles) {
+			sa = create(:user)
+			sa
+		}
 		
 		it 'returns true for super admin' do
 			expect(super_admin).to be_super_admin
@@ -26,6 +31,10 @@ RSpec.describe User, type: :model do
 
 		it 'returns false for not super admin' do
 			expect(not_super_admin).to_not be_super_admin
+		end
+
+		it 'returns false when has no roles' do
+			expect(no_roles).to_not be_super_admin
 		end
 	end
 end

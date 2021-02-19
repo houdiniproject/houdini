@@ -47,6 +47,15 @@ class User < ApplicationRecord
     self
   end
 
+  #
+  # Is this user a super_admin?
+  #
+  # @return [boolean] True if the user is, false otherwise
+  #
+  def super_admin?
+    roles.super_admins.any?
+  end
+
   # This creates the user in the normal way, but also sends the devise email confirmation email, which we don't want to send to np admins or anyone else
   def self.register_donor!(params)
     u = User.create!(params)

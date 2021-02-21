@@ -67,5 +67,7 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4
       - run: bin/setup ci
+      - name: rubocop
+        run: bundle exec rubocop
       - name: run spec
         run: bin/rails spec

@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { HouID, HoudiniObject, HoudiniEvent, Amount, IdType} from '../../common';
+import type { HouID, HoudiniObject, HoudiniEvent, Amount, IDType} from '../../common';
 import type Nonprofit from '..';
 import type Campaign from '.';
 import type { CampaignGift } from '.';
@@ -9,11 +9,11 @@ import { Transaction } from '../Supporter';
 
 export interface CampaignGiftPurchase extends HoudiniObject<HouID> {
   amount: Amount;
-  campaign: IdType | Campaign;
+  campaign: IDType | Campaign;
   campaign_gifts: HouID[] | CampaignGift[];
-  nonprofit: IdType | Nonprofit;
+  nonprofit: IDType | Nonprofit;
   object: 'campaign_gift_purchase';
-  supporter: IdType | Supporter;
+  supporter: IDType | Supporter;
   transaction: HouID | Transaction;
 }
 

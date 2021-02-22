@@ -21,6 +21,12 @@ module.exports =  {
 		"/node_modules/",
 		"/config/webpack/test.js",
 		"/vendor/",
+		"/tmp/",
+		"/public/",
+		"/storage/",
+		"/log/",
+		"/coverage/",
+		"/.vscode/",
 	],
 	"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
 	"moduleFileExtensions": [

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_23_202458) do
+ActiveRecord::Schema.define(version: 2021_02_23_204824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -307,7 +307,6 @@ ActiveRecord::Schema.define(version: 2021_02_23_202458) do
     t.datetime "imported_at"
     t.integer "charge_id"
     t.integer "payment_id"
-    t.string "category", limit: 255
     t.datetime "date"
     t.datetime "queued_for_import_at"
     t.integer "direct_debit_detail_id"

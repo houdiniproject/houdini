@@ -60,6 +60,15 @@ class RecurringDonation < ActiveRecord::Base
 
   end
 
+  def failed?
+    n_failures >= 3
+  end
+
+  # will this recurring donation be attempted again the next time it should be run?
+  def will_attempt_again?
+    !failed? && active;
+  end
+
   # XXX let's make these monthly_totals a query
   # Or just push it into the front-end
   def self.monthly_total

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_18_191002) do
+ActiveRecord::Schema.define(version: 2021_02_23_202458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -783,8 +783,6 @@ ActiveRecord::Schema.define(version: 2021_02_18_191002) do
   create_table "supporters", id: :serial, force: :cascade do |t|
     t.integer "profile_id"
     t.integer "nonprofit_id"
-    t.text "fields"
-    t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", limit: 255

@@ -47,7 +47,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
         anonymous: nil,
         amount: charge_amount,
         comment: nil,
-        category: nil,
         dedication: {'type' => 'honor', 'name' => 'a name'},
         designation: 'designation',
         imported_at: nil,

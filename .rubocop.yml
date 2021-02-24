@@ -634,7 +634,6 @@ AllCops:
     - 'spec/controllers/campaigns_spec.rb'
     - 'spec/controllers/roles_spec.rb'
     - 'spec/controllers/direct_debit_details_spec.rb'
-    - 'spec/controllers/widget_controller_spec.rb'
     - 'spec/controllers/emails_spec.rb'
     - 'spec/controllers/ticket_levels_spec.rb'
     - 'spec/controllers/concerns/supporter/current_spec.rb'

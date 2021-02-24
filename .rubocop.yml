@@ -767,5 +767,8 @@ RSpec/NotToNot:
 RSpec/SharedExamples: 
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
 Style/PreferredHashMethods:
   Enabled: false

@@ -211,6 +211,11 @@ Rails.application.routes.draw do
   match '/admin/export_supporters_with_rds' => 'super_admins#export_supporters_with_rds', via: %i[get post]
   match '/admin/resend_user_confirmation' => 'super_admins#resend_user_confirmation', via: %i[get post]
 
+  # GoodJob dashboard
+  authenticate :user, ->(user) { user.super_admin? } do
+    mount GoodJob::Engine => 'good_job'
+  end
+
   # Events
   match '/events' => 'events#index', via: [:get]
   match '/events/:event_slug' => 'events#show', via: %i[get post]

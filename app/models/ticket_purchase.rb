@@ -28,7 +28,7 @@ class TicketPurchase < ApplicationRecord
       end if original_discount
 
       json.amount do
-        json.value_in_cents amount
+        json.amount amount
         json.currency nonprofit.currency
       end
 

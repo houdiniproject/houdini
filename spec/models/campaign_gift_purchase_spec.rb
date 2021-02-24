@@ -40,7 +40,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
       'deleted' => false,
       'gift_option_amount' => [{
         'amount' => {
-          'value_in_cents' => 400,
+          'amount' => 400,
           'currency' => 'usd'
         },
       }],
@@ -66,7 +66,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
       'id' => match_houid('trx'),
       'object' => 'transaction',
       'amount' => {
-        'value_in_cents' => trx.amount,
+        'amount' => trx.amount,
         'currency' => 'usd'
       },
       'supporter' => kind_of(Numeric),
@@ -81,7 +81,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
       'object' => 'campaign_gift_purchase',
       'campaign_gifts' => [modern_campaign_gift_builder],
       'amount' => {
-        'value_in_cents' => trx.amount,
+        'amount' => trx.amount,
         'currency' => 'usd'
       },
       'supporter' => supporter_builder_expanded,
@@ -94,7 +94,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
   let(:modern_campaign_gift_builder) {
     {
       'amount' => {
-        'value_in_cents' => 400,
+        'amount' => 400,
         'currency' => 'usd'
       },
       'campaign' => kind_of(Numeric),
@@ -125,7 +125,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
           'object' => 'campaign_gift_purchase',
           'campaign_gifts' => [modern_campaign_gift_builder],
           'amount' => {
-            'value_in_cents' => trx.amount,
+            'amount' => trx.amount,
             'currency' => 'usd'
           },
           'supporter' => supporter_builder_expanded,
@@ -152,7 +152,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
           'object' => 'campaign_gift_purchase',
           'campaign_gifts' => [modern_campaign_gift_builder],
           'amount' => {
-            'value_in_cents' => trx.amount,
+            'amount' => trx.amount,
             'currency' => 'usd'
           },
           'supporter' => supporter_builder_expanded,
@@ -179,7 +179,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
           'object' => 'campaign_gift_purchase',
           'campaign_gifts' => [modern_campaign_gift_builder],
           'amount' => {
-            'value_in_cents' => trx.amount,
+            'amount' => trx.amount,
             'currency' => 'usd'
           },
           'supporter' => supporter_builder_expanded,

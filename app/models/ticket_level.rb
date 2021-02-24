@@ -62,7 +62,7 @@ class TicketLevel < ApplicationRecord
     init_builder(*expand) do |json|
       json.(self, :name, :deleted, :order, :limit, :description)
       json.amount do 
-        json.value_in_cents amount || 0
+        json.amount amount || 0
         json.currency event.nonprofit.currency
       end
       json.available_to admin_only ? 'admins' : 'everyone'

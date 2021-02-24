@@ -221,7 +221,6 @@ AllCops:
     - 'app/controllers/concerns/controllers/locale.rb'
     - 'app/controllers/image_attachments_controller.rb'
     - 'app/controllers/ticket_levels_controller.rb'
-    - 'app/controllers/widget_controller.rb'
     - 'app/controllers/campaigns/supporters_controller.rb'
     - 'app/controllers/campaigns/campaign_gift_options_controller.rb'
     - 'app/controllers/campaigns/donations_controller.rb'

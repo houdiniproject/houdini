@@ -49,7 +49,7 @@ RSpec.describe TicketLevel, type: :model do
           'type' => 'ticket_level.created',
           'data' => {
             'object' => {
-              'amount' => {'value_in_cents' => 0, 'currency' => 'usd'},
+              'amount' => {'amount' => 0, 'currency' => 'usd'},
               'available_to' => 'admins',
               'deleted' => false,
               'description' => description,
@@ -90,7 +90,7 @@ RSpec.describe TicketLevel, type: :model do
           'type' => 'ticket_level.created',
           'data' => {
             'object' => {
-              'amount' => {'value_in_cents' => non_free_amount, 'currency' => 'usd'},
+              'amount' => {'amount' => non_free_amount, 'currency' => 'usd'},
               'available_to' => 'everyone',
               'deleted' => false,
               'description' => description,
@@ -136,7 +136,7 @@ RSpec.describe TicketLevel, type: :model do
           'type' => 'ticket_level.updated',
           'data' => {
             'object' => {
-              'amount' => {'value_in_cents' => 5000, 'currency' => 'usd'},
+              'amount' => {'amount' => 5000, 'currency' => 'usd'},
               'available_to' => 'admins',
               'deleted' => false,
               'description' => description,
@@ -182,7 +182,7 @@ RSpec.describe TicketLevel, type: :model do
           'type' => 'ticket_level.updated',
           'data' => {
             'object' => {
-              'amount' => {'value_in_cents' => 0, 'currency' => 'usd'},
+              'amount' => {'amount' => 0, 'currency' => 'usd'},
               'available_to' => 'everyone',
               'deleted' => false,
               'description' => description,
@@ -231,7 +231,7 @@ RSpec.describe TicketLevel, type: :model do
           'type' => 'ticket_level.deleted',
           'data' => {
             'object' => {
-              'amount' => {'value_in_cents' => 0, 'currency' => 'usd'},
+              'amount' => {'amount' => 0, 'currency' => 'usd'},
               'available_to' => 'admins',
               'deleted' => true,
               'description' => description,
@@ -273,7 +273,7 @@ RSpec.describe TicketLevel, type: :model do
           'type' => 'ticket_level.deleted',
           'data' => {
             'object' => {
-              'amount' => {'value_in_cents' => non_free_amount, 'currency' => 'usd'},
+              'amount' => {'amount' => non_free_amount, 'currency' => 'usd'},
               'available_to' => 'everyone',
               'deleted' => true,
               'description' => description,

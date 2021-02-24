@@ -25,7 +25,7 @@ class Transaction < ApplicationRecord
 	def to_builder(*expand)
 		init_builder(*expand) do |json|
 			json.amount do 
-        json.value_in_cents amount || 0
+        json.amount amount || 0
         json.currency nonprofit.currency
       end
 		end

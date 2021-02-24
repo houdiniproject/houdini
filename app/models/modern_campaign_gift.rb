@@ -43,7 +43,7 @@ class ModernCampaignGift < ApplicationRecord
 			json.(self, :deleted)
 			json.object 'campaign_gift'
 			json.amount do
-        json.value_in_cents amount
+        json.amount amount
         json.currency nonprofit.currency
       end
 		end

@@ -54,7 +54,7 @@ RSpec.describe TicketPurchase, type: :model do
 					'event' => event.id,
 					'supporter' => supporter.id,
 					'tickets' => match_array(ticket_purchase.ticket_to_legacy_tickets.pluck(:id)),
-					'amount' => {'currency' => 'usd', 'value_in_cents' => 1200},
+					'amount' => {'currency' => 'usd', 'amount' => 1200},
 					'original_discount' => { 'percent' => 0},
 					'event_discount' => nil,
 					'transaction' => trx.id

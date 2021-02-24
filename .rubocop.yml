@@ -690,7 +690,6 @@ AllCops:
     - 'spec/support/init_dotenv.rb'
     - 'spec/support/test_upload_service.rb'
     - 'spec/support/time_helpers.rb'
-    - 'spec/requests/maintenance_spec.rb'
     - 'spec/requests/nonprofits/direct_debit_details_spec.rb'
     - 'spec/migration/delete_tag_join_spec.rb'
     - 'spec/migration/delete_custom_field_join_spec.rb'
@@ -755,3 +754,16 @@ Layout/IndentationStyle:
 
 Layout/IndentationWidth:
   Width: 1
+
+Metric/BlockLength:
+  Exclude:
+    - '**/*_spec.rb'
+
+RSpec/NestedGroups:
+  # we do this because I see no gain to being super restrictive
+  Max: 5
+
+RSpec/SharedExamples: 
+  Enabled: false
+
+

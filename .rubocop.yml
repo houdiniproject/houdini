@@ -210,15 +210,6 @@ AllCops:
     - 'app/controllers/users/sessions_controller.rb'
     - 'app/controllers/users/registrations_controller.rb'
     - 'app/controllers/users/confirmations_controller.rb'
-    - 'app/controllers/concerns/controllers/nonprofit/authorization.rb'
-    - 'app/controllers/concerns/controllers/nonprofit/current.rb'
-    - 'app/controllers/concerns/controllers/supporter/current.rb'
-    - 'app/controllers/concerns/controllers/campaign/authorization.rb'
-    - 'app/controllers/concerns/controllers/campaign/current.rb'
-    - 'app/controllers/concerns/controllers/event/authorization.rb'
-    - 'app/controllers/concerns/controllers/event/current.rb'
-    - 'app/controllers/concerns/controllers/user/authorization.rb'
-    - 'app/controllers/concerns/controllers/locale.rb'
     - 'app/controllers/image_attachments_controller.rb'
     - 'app/controllers/ticket_levels_controller.rb'
     - 'app/controllers/campaigns/supporters_controller.rb'
@@ -635,7 +626,6 @@ AllCops:
     - 'spec/controllers/direct_debit_details_spec.rb'
     - 'spec/controllers/emails_spec.rb'
     - 'spec/controllers/ticket_levels_spec.rb'
-    - 'spec/controllers/concerns/supporter/current_spec.rb'
     - 'spec/controllers/support/new_controller_user_context.rb'
     - 'spec/controllers/support/shared_user_context.rb'
     - 'spec/controllers/campaigns/donations_spec.rb'
@@ -753,9 +743,10 @@ Layout/IndentationStyle:
 Layout/IndentationWidth:
   Width: 1
 
-Metric/BlockLength:
+Metrics/BlockLength:
   Exclude:
     - '**/*_spec.rb'
+
 RSpec/ExampleLength:
   Max: 20
 

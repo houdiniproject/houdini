@@ -763,6 +763,9 @@ RSpec/NestedGroups:
   # we do this because I see no gain to being super restrictive
   Max: 5
 
+RSpec/NotToNot:
+  Enabled: false
+
 RSpec/SharedExamples: 
   Enabled: false
 

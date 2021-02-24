@@ -756,6 +756,8 @@ Layout/IndentationWidth:
 Metric/BlockLength:
   Exclude:
     - '**/*_spec.rb'
+RSpec/ExampleLength:
+  Max: 20
 
 RSpec/NestedGroups:
   # we do this because I see no gain to being super restrictive

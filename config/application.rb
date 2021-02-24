@@ -6,6 +6,7 @@ require_relative 'boot'
 
 require "rails"
 # Pick the frameworks you want:
+require "good_job/engine"
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"

@@ -24,8 +24,6 @@ zeus.json
 .zeus.sock
 custom_plan.rb
 
-# simplecov
-/coverage
 
 # Ignore VCR cassettes
 spec/fixtures/vcr_cassettes

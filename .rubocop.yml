@@ -763,5 +763,9 @@ RSpec/SharedExamples:
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always_true
+
 Style/PreferredHashMethods:
   Enabled: false

@@ -1,5 +1,5 @@
-import BigNumber from 'bignumber.js';
 // License: LGPL-3.0-or-later
+import BigNumber from 'bignumber.js';
 import { Money, Operand, RoundingMode } from './money';
 
 describe("Money", () => {

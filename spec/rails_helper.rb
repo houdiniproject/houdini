@@ -14,7 +14,6 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'devise'
 require 'support/factory_bot'
-require 'support/date_time'
 require 'timecop'
 require 'support/contexts'
 include Expect

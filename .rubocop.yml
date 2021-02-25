@@ -664,6 +664,7 @@ AllCops:
     - 'spec/controllers/recurring_donations_spec.rb'
     - 'spec/controllers/events_spec.rb'
     - 'spec/support/contexts.rb'
+    - 'spec/support/expect.rb'
     - 'spec/support/factory_bot.rb'
     - 'spec/support/mock_helpers.rb'
     - 'spec/support/contexts/shared_rd_donation_value_context.rb'

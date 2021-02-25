@@ -8,6 +8,7 @@ AllCops:
     - script/**/*
     - bin/**/*
     - vendor/**/*
+    - storage/**/*
     - Gemfile*
     - gems/bess/bin/**/*
     - gems/houdini_upgrade/bin/**/*

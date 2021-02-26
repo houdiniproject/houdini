@@ -31,11 +31,11 @@ export function useSerializeMoney(props:UseSerializeMoneyProps) : ReturnType<typ
 	const intl = useIntl();
 	const {locale} = intl;
 	const {value, ...other} = props;
-	const {amount, currency} = value;
+	const {cents, currency} = value;
 
 	const i18n = useI18nCurrencyInput({...other, locale,
 		currency,
-		value:amount,
+		value:cents,
 	});
 
 

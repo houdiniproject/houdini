@@ -57,9 +57,9 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'amount'=> amount_one_time, 'currency' => nonprofit.currency}},
+              {'amount' => {'cents'=> amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {'amount' => amount_recurring, 'currency' => nonprofit.currency},
+                'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
@@ -98,9 +98,9 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'amount' => amount_one_time, 'currency' => nonprofit.currency}},
+              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {'amount' => amount_recurring, 'currency' => nonprofit.currency},
+                'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
@@ -161,7 +161,7 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'description' => description,
             'gift_option_amount' => [
               {
-                'amount' => {'amount' => amount_recurring, 'currency' => nonprofit.currency},
+                'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
@@ -205,7 +205,7 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'amount' => amount_one_time, 'currency' => nonprofit.currency}},
+              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
             ],
             'id'=> kind_of(Numeric),
             'hide_contributions' => false,
@@ -252,9 +252,9 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => true,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'amount' => amount_one_time, 'currency' => nonprofit.currency}},
+              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {'amount' => amount_recurring, 'currency' => nonprofit.currency},
+                'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],
@@ -299,9 +299,9 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => true,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'amount' => amount_one_time, 'currency' => nonprofit.currency}},
+              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
               {
-                'amount' => {'amount' => amount_recurring, 'currency' => nonprofit.currency},
+                'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
               }
             ],

@@ -40,7 +40,7 @@ RSpec.describe ModernCampaignGift, type: :model do
       'deleted' => false,
       'gift_option_amount' => [{
         'amount' => {
-          'amount' => 400,
+          'cents' => 400,
           'currency' => 'usd'
         },
       }],
@@ -66,7 +66,7 @@ RSpec.describe ModernCampaignGift, type: :model do
       'id' => match_houid('trx'),
       'object' => 'transaction',
       'amount' => {
-        'amount' => trx.amount,
+        'cents' => trx.amount,
         'currency' => 'usd'
       },
       'supporter' => kind_of(Numeric),
@@ -81,7 +81,7 @@ RSpec.describe ModernCampaignGift, type: :model do
       'object' => 'campaign_gift_purchase',
       'campaign_gifts' => [match_houid('cgift')],
       'amount' => {
-        'amount' => trx.amount,
+        'cents' => trx.amount,
         'currency' => 'usd'
       },
       'supporter' => kind_of(Numeric),
@@ -103,7 +103,7 @@ RSpec.describe ModernCampaignGift, type: :model do
       'data' => {
         'object' => {
           'amount' => {
-            'amount' => 400,
+            'cents' => 400,
             'currency' => 'usd'
           },
           'campaign' => campaign_builder_expanded,
@@ -131,7 +131,7 @@ RSpec.describe ModernCampaignGift, type: :model do
       'data' => {
         'object' => {
           'amount' => {
-            'amount' => 400,
+            'cents' => 400,
             'currency' => 'usd'
           },
           'campaign' => campaign_builder_expanded,
@@ -159,7 +159,7 @@ RSpec.describe ModernCampaignGift, type: :model do
       'data' => {
         'object' => {
           'amount' => {
-            'amount' => 400,
+            'cents' => 400,
             'currency' => 'usd'
           },
           'campaign' => campaign_builder_expanded,

@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-import { MoneyAsJson } from "../../app/javascript/common/money";
 
 /**
  * the main identifier for HoudiniObjects which is unique between all other HoudiniObjects with the same object value.
@@ -16,7 +15,7 @@ export type HouID = string;
  * Describes a monetary value in the minimum unit for this current. Corresponds to Money class in
  * Ruby and Typescript
  */
-export type Amount = MoneyAsJson;
+export type Amount = { cents: string, currency: string };
 
 /**
  * A more flexible version of Amount. In cases where we can assume what the currency is,

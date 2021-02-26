@@ -88,7 +88,7 @@ RSpec.describe EventDiscount, type: :model do
                 'object' => 'ticket_level',
                 'description' => ticket_level.description,
                 'amount' => {
-                  'amount' => ticket_level.amount,
+                  'cents' => ticket_level.amount,
                   'currency' => 'usd'
                 },
                 'available_to' => 'everyone',
@@ -150,7 +150,7 @@ RSpec.describe EventDiscount, type: :model do
                 'object' => 'ticket_level',
                 'description' => ticket_level.description,
                 'amount' => {
-                  'amount' => ticket_level.amount,
+                  'cents' => ticket_level.amount,
                   'currency' => 'usd'
                 },
                 'available_to' => 'everyone',
@@ -213,7 +213,7 @@ RSpec.describe EventDiscount, type: :model do
                 'object' => 'ticket_level',
                 'description' => ticket_level.description,
                 'amount' => {
-                  'amount' => ticket_level.amount,
+                  'cents' => ticket_level.amount,
                   'currency' => 'usd'
                 },
                 'available_to' => 'everyone',

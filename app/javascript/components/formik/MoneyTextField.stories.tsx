@@ -15,7 +15,7 @@ function FormikInner(props: { onChange:(args:{value:Money})=> void}) {
 		onChange({value});
 	}, [value, onChange]);
 
-	return <><div><span aria-label="amount">{value.amount}</span><span aria-label="currency">{value.currency}</span></div>
+	return <><div><span aria-label="cents">{value.cents}</span><span aria-label="currency">{value.currency}</span></div>
 		<Field component={MoneyTextField} name="value" aria-label="field" /></>;
 }
 

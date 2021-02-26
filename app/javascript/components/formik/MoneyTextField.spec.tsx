@@ -20,7 +20,7 @@ function FormikInner(props: { onChange:(args:{value:Money})=> void}) {
 		onChange({value});
 	}, [value, onChange]);
 
-	return <><div><span aria-label="amount">{value.amount}</span><span aria-label="currency">{value.currency}</span></div>
+	return <><div><span aria-label="amount">{value.cents}</span><span aria-label="currency">{value.currency}</span></div>
 		<Field component={MoneyTextField} name="value" aria-label="field"/></>;
 }
 
@@ -42,7 +42,7 @@ FormikHandler.defaultProps = {
 describe('MoneyTextField', () => {
 	it('displays the $8.00 when Money of {800, usd} is passed in', async () => {
 		expect.hasAssertions();
-		const result = render(<FormikHandler value={Money.fromCents({ amount: 800, currency: 'usd' })}  />);
+		const result = render(<FormikHandler value={Money.fromCents({ cents: 800, currency: 'usd' })}  />);
 		const field = result.container.querySelector("input[name=value]");
 		expect(field).toHaveValue("$8.00");
 		const amount = await result.findByLabelText('amount');
@@ -54,7 +54,7 @@ describe('MoneyTextField', () => {
 
 	it('displays the 8.00 € when Money of {800, eur} is passed in', async () => {
 		expect.hasAssertions();
-		const result = render(<FormikHandler value={Money.fromCents({ amount: 800, currency: 'eur' })} />);
+		const result = render(<FormikHandler value={Money.fromCents({ cents: 800, currency: 'eur' })} />);
 		const field = result.container.querySelector("input[name=value]");
 		expect(field).toHaveValue("€8.00");
 		const amount = await result.findByLabelText('amount');
@@ -66,7 +66,7 @@ describe('MoneyTextField', () => {
 
 	it('displays the ¥800 when Money of {800, jpy} is passed in', async () => {
 		expect.hasAssertions();
-		const result = render(<FormikHandler value={Money.fromCents({ amount: 800, currency: 'jpy' })} />);
+		const result = render(<FormikHandler value={Money.fromCents({ cents: 800, currency: 'jpy' })} />);
 		const field = result.container.querySelector("input[name=value]");
 		expect(field).toHaveValue("¥800");
 		const amount = await result.findByLabelText('amount');
@@ -79,7 +79,7 @@ describe('MoneyTextField', () => {
 
 	it('displays the $8.00 when Money of {100, usd} is passed in and then the amount changes to 8.00', async () => {
 		expect.hasAssertions();
-		const result = render(<FormikHandler value={Money.fromCents({ amount: 100, currency: 'usd' })} />);
+		const result = render(<FormikHandler value={Money.fromCents({ cents: 100, currency: 'usd' })} />);
 		const field = result.container.querySelector("input[name=value]");
 		expect(field).toHaveValue("$1.00");
 
@@ -100,7 +100,7 @@ describe('MoneyTextField', () => {
 
 	it('displays the $80.00 when Money of {800, usd} is passed in and then the amount changes to 8.000', async () => {
 		expect.hasAssertions();
-		const result = render(<FormikHandler value={Money.fromCents({ amount: 800, currency: 'usd' })} />);
+		const result = render(<FormikHandler value={Money.fromCents({ cents: 800, currency: 'usd' })} />);
 		const field = result.container.querySelector("input[name=value]");
 		expect(field).toHaveValue("$8.00");
 
@@ -121,7 +121,7 @@ describe('MoneyTextField', () => {
 
 	it('displays the $80.00 when Money of {800, usd} is passed in and then {8000, usd} is passed in', async () => {
 		expect.hasAssertions();
-		const {container, findByLabelText, rerender}  = render(<FormikHandler value={Money.fromCents({ amount:800, currency: 'usd' })} />, );
+		const {container, findByLabelText, rerender}  = render(<FormikHandler value={Money.fromCents({ cents:800, currency: 'usd' })} />, );
 		const field = container.querySelector("input[name=value]");
 		expect(field).toHaveValue("$8.00");
 
@@ -132,7 +132,7 @@ describe('MoneyTextField', () => {
 		expect(currency).toHaveTextContent("usd");
 
 
-		rerender(<FormikHandler value={Money.fromCents({ amount:8000, currency: 'usd' })} />);
+		rerender(<FormikHandler value={Money.fromCents({ cents:8000, currency: 'usd' })} />);
 		expect(amount).toHaveTextContent("8000");
 		expect(currency).toHaveTextContent("usd");
 

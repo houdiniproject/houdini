@@ -51,7 +51,7 @@ class CampaignGiftOption < ApplicationRecord
     if amount_one_time
       gift_option_amount.push({
         amount:{
-          amount: amount_one_time, 
+          cents: amount_one_time, 
           currency: campaign.nonprofit.currency
         }
       })
@@ -60,7 +60,7 @@ class CampaignGiftOption < ApplicationRecord
     if amount_recurring
       gift_option_amount.push({
         amount:{
-          amount: amount_recurring, 
+          cents: amount_recurring, 
           currency: campaign.nonprofit.currency
         },
         recurrence: {
@@ -83,7 +83,7 @@ class CampaignGiftOption < ApplicationRecord
       json.gift_option_amount gift_option_amount do |desc|
         json.amount do 
           json.currency desc[:amount][:currency]
-          json.amount desc[:amount][:amount]
+          json.cents desc[:amount][:cents]
         end
         json.recurrence do 
           json.interval desc[:recurrence][:interval]

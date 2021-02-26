@@ -16,7 +16,7 @@ RSpec.describe Transaction, type: :model do
         'supporter' => supporter.id,
         'object' => 'transaction',
         'amount' => {
-          'amount' => 1000,
+          'cents' => 1000,
           'currency' => 'usd'
         }
       })

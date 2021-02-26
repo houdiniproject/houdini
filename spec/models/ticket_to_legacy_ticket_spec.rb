@@ -58,14 +58,14 @@ RSpec.describe TicketToLegacyTicket, type: :model do
     let(:free_ticket_default) {
       ticket_default.merge({
         'ticket_level' => legacy_free_tickets.ticket_level.id,
-        'amount' => {'currency' => 'usd', 'amount' => 0}
+        'amount' => {'currency' => 'usd', 'cents' => 0}
       })
     }
 
     let(:nonfree_ticket_default) {
       ticket_default.merge({
         'ticket_level' =>  legacy_nonfree_tickets.ticket_level.id,
-        'amount' => {'currency' => 'usd', 'amount' => legacy_nonfree_tickets.ticket_level.amount}
+        'amount' => {'currency' => 'usd', 'cents' => legacy_nonfree_tickets.ticket_level.amount}
       })
     }
 
@@ -143,14 +143,14 @@ RSpec.describe TicketToLegacyTicket, type: :model do
     let(:free_ticket_default) {
       ticket_default.merge({
         'ticket_level' => legacy_free_tickets.ticket_level.id,
-        'amount' => {'currency' => 'usd', 'amount' => 0}
+        'amount' => {'currency' => 'usd', 'cents' => 0}
       })
     }
 
     let(:nonfree_ticket_default) {
       ticket_default.merge({
         'ticket_level' =>  legacy_nonfree_tickets.ticket_level.id,
-        'amount' => {'currency' => 'usd', 'amount' => 320 }
+        'amount' => {'currency' => 'usd', 'cents' => 320 }
       })
     }
 

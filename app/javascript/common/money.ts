@@ -31,7 +31,7 @@ function coerceToBigNumber(operand:unknown, mustBeInteger=false): BigNumber {
 	}
 	else if (typeof operand === 'object') {
 		//it's MoneyAsJson
-		bigNumber = new BigNumber((operand as MoneyAsJson).amount);
+		bigNumber = new BigNumber((operand as MoneyAsJson).cents);
 	}
 	else if(typeof operand === 'string') {
 		bigNumberDebug(() => {
@@ -54,8 +54,8 @@ function coerceToBigNumber(operand:unknown, mustBeInteger=false): BigNumber {
 	return bigNumber;
 }
 
-export type MoneyAsJson = { amount: number, currency: string };
-type StringyMoneyAsJson = {amount:string, currency: string};
+export type MoneyAsJson = { cents: number, currency: string };
+type StringyMoneyAsJson = { cents:string, currency: string };
 
 export type Operand = number | Money | BigNumber | string;
 
@@ -115,7 +115,7 @@ export class Money {
 	 */
 	readonly currency: string;
 
-	protected constructor(readonly amount: number, currency: string) {
+	protected constructor(readonly cents: number, currency: string) {
 		this.currency = currency.toLowerCase();
 		const methodsToBind = [this.equals, this.add, this.subtract, this.multiply, this.divide,
 			this.compare, this.greaterThan, this.greaterThanOrEqual, this.lessThan,
@@ -326,7 +326,7 @@ export class Money {
 	 * Get the amount of the Money instance as a `BigNumber`.
 	 */
 	toBigNumber() : BigNumber {
-		return new BigNumber(this.amount);
+		return new BigNumber(this.cents);
 	}
 
 	/**
@@ -336,7 +336,7 @@ export class Money {
 	*/
 	toJSON(): MoneyAsJson {
 		return {
-			amount: this.amount,
+			cents: this.cents,
 			currency: this.currency,
 		};
 	}

@@ -24,7 +24,7 @@ RSpec.describe ModernDonation, type: :model do
         'object' => 'donation',
         'nonprofit' => nonprofit.id,
         'supporter' => supporter.id,
-        'amount' => {'currency' => 'usd', 'amount' => 1200},
+        'amount' => {'currency' => 'usd', 'cents' => 1200},
         'transaction' => trx.id,
         'designation' => nil
       }

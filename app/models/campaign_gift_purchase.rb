@@ -33,7 +33,7 @@ class CampaignGiftPurchase < ApplicationRecord
       json.(self, :deleted)
       
       json.amount do
-        json.amount amount
+        json.cents amount
         json.currency nonprofit.currency
       end
 

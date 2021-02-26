@@ -29,7 +29,7 @@ class ModernDonation < ApplicationRecord
 			# TODO the line above is a hacky solution
 
       json.amount do
-        json.amount amount
+        json.cents amount
         json.currency nonprofit.currency
       end
     end

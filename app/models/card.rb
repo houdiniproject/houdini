@@ -32,4 +32,12 @@ class Card < ActiveRecord::Base
 		!amex?
 	end
 
+	def stripe_customer
+		@stripe_customer ||= Stripe::Customer.retrieve(stripe_customer_id)
+	end
+
+	def stripe_card
+		@stripe_card ||= @stripe_customer.sources.retrieve(stripe_card_id)
+	end
+
 end

@@ -34,4 +34,11 @@ class Charge < ActiveRecord::Base
 		self.status.in?(%w[available pending disbursed])
 	end
 
+	def stripe_charge(*expand)
+		Stripe::Charge.retrieve({id: stripe_charge_id, expand: expand})
+	end
+		
+	def stripe_fee
+		stripe_charge('balance_transaction').balance_transaction.fee
+	end
 end

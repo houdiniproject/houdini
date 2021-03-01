@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import { createIntl, FormatMoneyOptions } from "./";
+import { createIntl, FormatMoneyOptions } from ".";
 import { Money } from "../../common/money";
 const NBSP = '\xa0';
 

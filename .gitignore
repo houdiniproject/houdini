@@ -75,7 +75,7 @@ yarn-debug.log*
 storage
 
 # the locales directory in javascript is generated at run time.
-app/javascript/i18n/locales
+app/packs/i18n/locales
 
 # No package-lock.json file from npm
 package-lock.json

@@ -13,7 +13,7 @@ gem 'rake', '~> 12.3.2'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'
 gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://stripe.com/docs/api
-gem 'webpacker', '~> 5.2.1'
+gem 'webpacker', git: 'https://github.com/rails/webpacker.git', tag: 'v6.0.0.beta.6'
 gem 'react-rails'
 gem 'good_job'
 

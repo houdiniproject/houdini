@@ -10,7 +10,11 @@ module Controllers::User::Authorization
 	included do
 		helper_method :current_role?, :administered_nonprofit
 
-		private
+		protected
+
+		def authenticate_user_with_json!
+			reject_with_sign_in({}, :json) unless current_user
+		end
 
 		def authenticate_user!(msg = nil, type = :html)
 			reject_with_sign_in(msg, type) unless current_user

@@ -2,7 +2,9 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
-class Api::ApiController < ApplicationController
+class Api::ApiController < ActionController::Base
+    include Controllers::Locale
+    include Controllers::Nonprofit::Authorization
     rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_rescue
     
     protected

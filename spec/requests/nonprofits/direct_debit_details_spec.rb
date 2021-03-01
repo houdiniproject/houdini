@@ -25,7 +25,7 @@ describe DirectDebitDetailsController, type: :request do
         post '/sepa', params: valid_params
 
         assert_response 200
-        assert_equal nil, JSON.parse(@response.body)['errors']
+        assert_nil JSON.parse(@response.body)['errors']
       end
 
       it 'is not valid without sepa_params' do

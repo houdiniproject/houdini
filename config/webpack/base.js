@@ -1,6 +1,8 @@
-const { webpackConfig } = require('@rails/webpacker')
-const ForkTSCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const { webpackConfig, merge } = require('@rails/webpacker')
 
-module.exports = merge(webpackConfig, {
-  plugins: [new ForkTSCheckerWebpackPlugin()],
-});
+const erbConfig = require('./rules/erb')
+
+const cssConfig = require('./rules/css')
+const tsConfig = require('./rules/ts')
+
+module.exports = merge(webpackConfig, tsConfig, cssConfig, erbConfig);

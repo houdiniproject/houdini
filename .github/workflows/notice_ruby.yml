@@ -13,7 +13,7 @@ on:
       - NOTICE-ruby
 env:
   os: ubuntu-latest
-  ruby: 2.6.6
+  ruby: '2.7.2'
 jobs:
   notice_ruby:
     runs-on: ${{ env.os }}

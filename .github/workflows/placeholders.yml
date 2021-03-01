@@ -34,7 +34,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node: [14.6.0]
-        ruby: [2.6.6]
+        ruby: [2.7.2]
     steps:
       - run: 'echo "Placeholder for webpack"'
   main_build:
@@ -43,6 +43,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node: [14.6.0]
-        ruby: [2.6.6]
+        ruby: [2.7.2]
     steps:
       - run: 'echo "Placeholder for main_build"'

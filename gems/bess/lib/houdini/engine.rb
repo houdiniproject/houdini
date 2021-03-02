@@ -8,6 +8,10 @@ require "active_support/core_ext/numeric/time" # we need this becuase 20.minutes
 
 module Houdini
   class Engine < ::Rails::Engine
+    config.generators do |g|
+      g.test_framework :rspec
+    end
+
     config.houdini = ActiveSupport::OrderedOptions.new
 
     config.houdini.core_classes = {supporter: 'Supporter', nonprofit: 'Nonprofit'}

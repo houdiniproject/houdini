@@ -71,3 +71,5 @@ jobs:
         run: bundle exec rubocop
       - name: run spec
         run: bin/rails spec
+      - name: run spec for bess
+        run: cd gems/bess && rake spec

@@ -20,7 +20,7 @@ PATH
   remote: gems/bess
   specs:
     bess (0.1.0)
-      rails (~> 6.0)
+      rails (~> 6.1.3)
       rest-client
       wisper (~> 2.0)
       wisper-activejob (~> 1.0.0)

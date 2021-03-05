@@ -23,6 +23,7 @@ class Card < ActiveRecord::Base
 	has_many :charges
 	has_many :donations
 	has_many :tickets
+	has_one :source_token, as: :tokenizable
 
 	def amex?
 		!!(name =~ /American Express.*/i)

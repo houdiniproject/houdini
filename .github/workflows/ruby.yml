@@ -62,6 +62,15 @@ jobs:
           key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+      - name: install bess dependencies
+        run: |
+          cd gems/bess
+          bundle install --jobs 3 --retry 3
+      - name: run spec for bess
+        run: |
+          cd gems/bess
+          bundle exec rake spec
+
       - run: |
           bundle config deployment true
           bundle config path vendor/bundle
@@ -71,5 +80,3 @@ jobs:
         run: bundle exec rubocop
       - name: run spec
         run: bin/rails spec
-      - name: run spec for bess
-        run: cd gems/bess && rake spec

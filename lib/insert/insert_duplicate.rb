@@ -17,9 +17,8 @@ module InsertDuplicate
       raise ParamValidation::ValidationError.new("#{profile_id} is not a valid profile", key: :profile_id)
     end
 
+    dupe = campaign.dup
     Qx.transaction do
-      dupe = campaign.dup
-
       dupe.slug = SlugCopyNamingAlgorithm.new(Campaign, dupe.nonprofit.id).create_copy_name(dupe.slug)
       dupe.name = NameCopyNamingAlgorithm.new(Campaign, dupe.nonprofit.id).create_copy_name(dupe.name)
       if dupe.end_datetime && dupe.end_datetime.ago(7.days) < DateTime.now
@@ -30,15 +29,14 @@ module InsertDuplicate
 
       dupe.save!
 
-
       dupe.main_image.attach(campaign.main_image.blob) if campaign.main_image.attached?
 
       dupe.background_image.attach(campaign.background_image.blob) if campaign.background_image.attached?
 
       InsertDuplicate.campaign_gift_options(campaign_id, dupe.id)
-
-      return dupe
     end
+
+    dupe
   end
 
   def self.event(event_id, profile_id)
@@ -55,9 +53,8 @@ module InsertDuplicate
       raise ParamValidation::ValidationError.new("#{profile_id} is not a valid profile", key: :profile_id)
     end
 
+    dupe = event.dup
     Qx.transaction do
-      dupe = event.dup
-
       dupe.slug = SlugCopyNamingAlgorithm.new(Event, dupe.nonprofit.id).create_copy_name(dupe.slug)
       dupe.name = NameCopyNamingAlgorithm.new(Event, dupe.nonprofit.id).create_copy_name(dupe.name)
 
@@ -77,16 +74,14 @@ module InsertDuplicate
 
       dupe.save!
 
-
       dupe.main_image.attach(event.main_image.blob) if event.main_image.attached?
 
       dupe.background_image.attach( event.background_image.blob) if event.background_image.attached?
 
       InsertDuplicate.ticket_levels(event_id, dupe.id)
       InsertDuplicate.event_discounts(event_id, dupe.id)
-
-      return dupe
     end
+    dupe
   end
 
   # selects all gift options associated with old campaign

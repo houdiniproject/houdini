@@ -49,13 +49,13 @@ module CreateCampaignGift
       end
     end
 
-    Qx.transaction do
-      # are any gifts available?
-      if campaign_gift_option.quantity.nil? || campaign_gift_option.quantity.zero? || campaign_gift_option.total_gifts < campaign_gift_option.quantity
-        gift = CampaignGift.new params
+    # are any gifts available?
+    if campaign_gift_option.quantity.nil? || campaign_gift_option.quantity.zero? || campaign_gift_option.total_gifts < campaign_gift_option.quantity
+      gift = CampaignGift.new params
+      Qx.transaction do
         gift.save!
-        return gift
       end
+      return gift
     end
     AdminFailedGiftJob.perform_later(donation, campaign_gift_option)
     raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} has no more inventory", key: :campaign_gift_option_id)

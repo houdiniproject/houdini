@@ -232,8 +232,8 @@ class Nonprofit < ApplicationRecord
 
     Card.transaction do
       active_cards.update_all inactive: true
-      return cards << card
     end
+    cards << card
   end
 
   def active_card

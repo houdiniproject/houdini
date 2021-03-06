@@ -40,16 +40,14 @@ module InsertCustomFieldJoins
       end
     end
 
-    Qx.transaction do
-      # get the custom_field_master_id for each field_data name
-      cfm_id_to_value = field_data.map do |name, value|
-        cfm = CustomFieldMaster.where('nonprofit_id = ? and name = ?', np_id, name).first
+    cfm_id_to_value = field_data.map do |name, value|
+      cfm = CustomFieldMaster.where('nonprofit_id = ? and name = ?', np_id, name).first
+      Qx.transaction do
         cfm ||= CustomFieldMaster.create!(nonprofit: np, name: name)
-        { custom_field_master_id: cfm.id, value: value }
       end
-
-      return in_bulk(np_id, supporter_ids, cfm_id_to_value)
+      { custom_field_master_id: cfm.id, value: value }
     end
+    in_bulk(np_id, supporter_ids, cfm_id_to_value)
   end
 
   # Validation: *np_id is valid, corresponds to real nonprofit

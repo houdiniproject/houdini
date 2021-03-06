@@ -34,8 +34,7 @@ module UpdatePayouts
       payout.status = status
       payout.failure_message = failure_message
       payout.save!
-
-      payout
     end
+    payout
   end
 end

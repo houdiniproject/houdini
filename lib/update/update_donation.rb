@@ -70,9 +70,9 @@ module UpdateDonation
       end
     end
 
+    donation = existing_payment.donation
+    ret = donation.attributes
     Qx.transaction do
-      donation = existing_payment.donation
-
       donation.designation = data[:designation] if data[:designation]
       donation.comment = data[:comment] if data[:comment]
       donation.dedication = data[:dedication] if data[:dedication]
@@ -133,7 +133,7 @@ module UpdateDonation
       ret = donation.attributes
       ret[:payment] = existing_payment.attributes
       ret[:offsite_payment] = offsite_payment.attributes if is_offsite
-      return ret
     end
+    ret
   end
 end

@@ -11,7 +11,7 @@ module InsertSupporterNotes
   #   note: parameters to pass into the note
   def self.create(*note_supporter_users)
     inserted = nil
-    ActiveRecord::Base.transaction do 
+    ActiveRecord::Base.transaction do
       inserted = note_supporter_users.map do |nsu|
         nsu[:supporter].supporter_notes.create!(content: nsu[:content], user: nsu[:user])
       end

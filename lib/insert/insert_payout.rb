@@ -37,6 +37,7 @@ module InsertPayout
     totals = QueryPayments.get_payout_totals(payment_ids)
     nonprofit_currency = entities[:np_id].currency
     now = Time.current
+    payout = nil
     begin
       stripe_transfer = StripeUtils.create_transfer(totals['net_amount'], data[:stripe_account_id], nonprofit_currency)
       Psql.transaction do
@@ -71,8 +72,8 @@ module InsertPayout
         # Create PaymentPayout records linking all the payments to the payout
         pps = Psql.execute(Qexpr.new.insert('payment_payouts', payment_ids.map { |id| { payment_id: id.to_i } }, common_data: { payout_id: payout['id'].to_i }))
         PayoutPendingJob.perform_later(Payout.find(payout['id'].to_i))
-        return payout
       end
+      payout
     rescue Stripe::StripeError => e
       payout = Psql.execute(
         Qexpr.new.insert(:payouts, [{
@@ -91,7 +92,7 @@ module InsertPayout
                          }])
             .returning('id', 'net_amount', 'nonprofit_id', 'created_at', 'updated_at', 'status', 'fee_total', 'gross_amount', 'email', 'count', 'stripe_transfer_id', 'user_ip', 'ach_fee', 'bank_name')
       ).first
-      return payout
+      payout
     end
   end
 end

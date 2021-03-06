@@ -55,7 +55,7 @@ module InsertBankAccount
       )
 
       BankAccountCreateJob.perform_later(bank_account)
-      return bank_account
+      bank_account
     rescue Stripe::StripeError => error
       params[:failure_message] = "Failed to connect the bank account: #{error.inspect}"
       raise ArgumentError, "Failed to connect the bank account: #{error.inspect}"

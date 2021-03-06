@@ -5,6 +5,7 @@
 module ImportCivicrmPayments
   ## MINIMALLY TESTED!!!
   def self.import_from_csv(csv_body, nonprofit, field_of_supporter_id)
+    questionable_records = []
     Qx.transaction do
       CSV::Converters[:blank_to_nil] = lambda do |field|
         field && field.empty? ? nil : field
@@ -21,7 +22,6 @@ module ImportCivicrmPayments
       end
 
       supporters_with_fields = Supporter.includes(:custom_field_joins).where('supporters.nonprofit_id = ? AND custom_field_joins.custom_field_master_id = ?', nonprofit.id, supporter_id_custom_field.id)
-      questionable_records = []
       contrib_records.each do |r|
         our_supporter = supporters_with_fields.where('custom_field_joins.value = ?', r[field_of_supporter_id].to_s).first
         unless our_supporter
@@ -62,8 +62,8 @@ module ImportCivicrmPayments
         puts d
         pay_imp.donations.push(Donation.find(d[:json]['donation']['id']))
       end
-      questionable_records
     end
+    questionable_records
   end
 
   def self.undo(import_id)

@@ -259,9 +259,6 @@ Rails.application.routes.draw do
     event_slug: model.slug}.merge(**opts)
   end
 
-  # Misc
-  get '/pages/wp-plugin', to: redirect('/help/wordpress-plugin') # temporary, until WP plugin updated
-
   # Mailchimp Landing
   match '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing', via: %i[get post]
 

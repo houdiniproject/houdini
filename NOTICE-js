@@ -401,6 +401,34 @@ THE SOFTWARE.
 
 ------
 
+** @jedmao/location; version 3.0.0 -- https://github.com/jedmao/location#readme
+Copyright (c) 2019 Jed Mao
+
+MIT License
+
+Copyright (c) 2019 Jed Mao
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+------
+
 ** @mdx-js/mdx; version 1.6.18 -- https://mdxjs.com
 (c) Compositor and Vercel
 Copyright (c) 2017-2019 Compositor, Inc. and Vercel, Inc.
@@ -1073,15 +1101,13 @@ Copyright (c) Microsoft Corporation.
 Copyright (c) Microsoft Corporation.
 ** @types/html-minifier-terser; version 5.1.0 -- 
 Copyright (c) Microsoft Corporation.
-** @types/i18n-js; version 3.0.3 -- 
+** @types/i18n-js; version 3.8.0 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/invariant; version 2.2.33 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/is-function; version 1.0.0 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/istanbul-lib-coverage; version 2.0.3 -- 
-Copyright (c) Microsoft Corporation.
-** @types/istanbul-lib-report; version 3.0.0 -- 
 Copyright (c) Microsoft Corporation.
 
 MIT License
@@ -4415,7 +4441,6 @@ Creative Commons may be contacted at creativecommons.org.
 ** babel-plugin-transform-import; version 1.5.4 -- https://bitbucket.org/terrytangabc/babel-plugin-transform-imports
 ** babel-plugin-transform-imports; version 2.0.0 -- https://bitbucket.org/amctheatres/babel-transform-imports
 ** boolbase; version 1.0.0 -- https://github.com/fb55/boolbase
-** capture-exit; version 2.0.0 -- https://github.com/stefanpenner/capture-exit#readme
 
 ISC License
 
@@ -6748,6 +6773,8 @@ SOFTWARE.
 
 ------
 
+** @types/istanbul-lib-report; version 3.0.0 -- 
+Copyright (c) Microsoft Corporation.
 ** @types/istanbul-reports; version 1.1.2 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/jest; version 26.0.14 -- 
@@ -8772,36 +8799,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
 
-** extract-zip; version 1.7.0 -- https://github.com/maxogden/extract-zip#readme
-Copyright (c) 2014 Max Ogden and other contributors
-
-Copyright (c) 2014 Max Ogden and other contributors
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-
-* Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-
-------
-
 ** estraverse; version 4.3.0 -- https://github.com/estools/estraverse
 Copyright (c) 2014 Yusuke Suzuki <utatane.tea@gmail.com>
 Copyright (c) 2012 Ariya Hidayat <ariya.hidayat@gmail.com>
@@ -9346,6 +9343,20 @@ Work, in either case contrary to Affirmer’s express Statement of Purpose.
 For more information, please see
 https://creativecommons.org/publicdomain/zero/1.0/.
 
+
+------
+
+** capture-exit; version 2.0.0 -- https://github.com/stefanpenner/capture-exit#readme
+
+ISC License
+
+Copyright (c) 2004-2010 by Internet Systems Consortium, Inc. ("ISC")
+
+Copyright (c) 1995-2003 by Internet Software Consortium
+
+Permission to use, copy, modify, and /or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ------
 
@@ -14212,6 +14223,36 @@ limitations under the License.
 
 ------
 
+** extract-zip; version 1.7.0 -- https://github.com/maxogden/extract-zip#readme
+Copyright (c) 2014 Max Ogden and other contributors
+
+Copyright (c) 2014 Max Ogden and other contributors
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+------
+
 ** glob-to-regexp; version 0.3.0 -- https://github.com/fitzgen/glob-to-regexp
 Copyright (c) 2013, Nick Fitzgerald
 
@@ -14307,9 +14348,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ------
 
 ** istanbul-lib-coverage; version 3.0.0 -- https://istanbul.js.org/
-Copyright 2012-2015 Yahoo! Inc.
-Copyright 2012-2015, Yahoo Inc.
-** istanbul-lib-instrument; version 4.0.3 -- https://istanbul.js.org/
 Copyright 2012-2015 Yahoo! Inc.
 Copyright 2012-2015, Yahoo Inc.
 
@@ -18803,6 +18841,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
 
+** istanbul-lib-instrument; version 4.0.3 -- https://istanbul.js.org/
+Copyright 2012-2015 Yahoo! Inc.
+Copyright 2012-2015, Yahoo Inc.
 ** istanbul-lib-report; version 3.0.0 -- https://istanbul.js.org/
 Copyright 2012-2015 Yahoo! Inc.
 Copyright 2012-2015, Yahoo Inc.
@@ -22041,34 +22082,6 @@ Copyright (c) 2018 Copyright 2018 Klaus Hartl, Fagner Brack, GitHub Contributors
 MIT License
 
 Copyright (c) 2018 Copyright 2018 Klaus Hartl, Fagner Brack, GitHub Contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-------
-
-** os-browserify; version 0.3.0 -- https://github.com/CoderPuppy/os-browserify#readme
-Copyright (c) 2017 CoderPuppy
-
-The MIT License (MIT)
-
-Copyright (c) 2017 CoderPuppy
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27412,6 +27425,34 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** os-browserify; version 0.3.0 -- https://github.com/CoderPuppy/os-browserify#readme
+Copyright (c) 2017 CoderPuppy
+
+The MIT License (MIT)
+
+Copyright (c) 2017 CoderPuppy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+------
+
 ** readdirp; version 2.2.1 -- https://github.com/paulmillr/readdirp
 Copyright (c) 2012-2015 Thorsten Lorenz
 
@@ -27886,34 +27927,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** replace-ext; version 1.0.0 -- https://github.com/gulpjs/replace-ext#readme
-Copyright (c) 2014 Blaine Bublitz <blaine.bublitz@gmail.com> , Eric Schoffstall <yo@contra.io> and other contributors
-
-The MIT License (MIT)
-
-Copyright (c) 2014 Blaine Bublitz <blaine.bublitz@gmail.com>, Eric Schoffstall <yo@contra.io> and other contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 
 
 ------
@@ -31574,16 +31587,6 @@ THE SOFTWARE.
 
 ------
 
-** uuid; version 2.0.2 -- https://github.com/shtylman/node-uuid#readme
-Copyright (c) 2010-2012 Robert Kieffer
-Copyright (c) 1986-1993, 1998, 2004, 2007-2010 Thomas Williams, Colin Kelley
-
-Copyright (c) 2010-2012 Robert Kieffer
-MIT License - http://opensource.org/licenses/mit-license.php
-
-
-------
-
 ** rgb-regex; version 1.0.1 -- https://github.com/regexps/rgb-regex
 Copyright (c) 2015 John Otander
 ** rgba-regex; version 1.0.0 -- https://github.com/johnotander/rgba-regex
@@ -34664,6 +34667,34 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ------
 
+** replace-ext; version 1.0.0 -- https://github.com/gulpjs/replace-ext#readme
+Copyright (c) 2014 Blaine Bublitz <blaine.bublitz@gmail.com> , Eric Schoffstall <yo@contra.io> and other contributors
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Blaine Bublitz <blaine.bublitz@gmail.com>, Eric Schoffstall <yo@contra.io> and other contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+------
+
 ** setimmediate; version 1.0.5 -- https://github.com/yuzujs/setImmediate#readme
 Copyright (c) 2012 Barnesandnoble.com, llc, Donavon West, and Domenic Denicola
 
@@ -35196,6 +35227,7 @@ Copyright (c) Microsoft Corporation.
 
 ------
 
+** react-typescript-checkmark; version 1.2.2 -- https://github.com/davidwilson3/react-typescript-checkmark
 ** validate-npm-package-license; version 3.0.4 -- https://github.com/kemitchell/validate-npm-package-license.js#readme
 
 
@@ -35830,6 +35862,16 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+------
+
+** uuid; version 2.0.2 -- https://github.com/shtylman/node-uuid#readme
+Copyright (c) 2010-2012 Robert Kieffer
+Copyright (c) 1986-1993, 1998, 2004, 2007-2010 Thomas Williams, Colin Kelley
+
+Copyright (c) 2010-2012 Robert Kieffer
+MIT License - http://opensource.org/licenses/mit-license.php
 
 
 ------

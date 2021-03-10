@@ -222,9 +222,14 @@ en:
     about: "About"
   login:
     header: "Login"
+    enter_login_information: "Please Enter Login Information"
     email: "Email"
     password: "Password"
-    login: "Login"
     logging_in: "Logging you in..."
     forgot_password: "Forgot Password?"
     get_started: "Get Started"
+    enter_info: "Please enter your login information"
+    success: "You have successfully signed in."
+    errors: 
+      password_email: "Please enter a valid email address and password"
+      error_boundary: "Something went wrong. Please reload the page."

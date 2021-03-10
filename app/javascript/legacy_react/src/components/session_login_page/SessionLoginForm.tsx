@@ -4,7 +4,7 @@ import { observer, inject} from 'mobx-react';
 import { injectIntl, FormattedMessage, WrappedComponentProps} from 'react-intl';
 import {Field, FieldDefinition, Form, initializationDefinition} from "../../../../../../types/mobx-react-form";
 import {Validations} from "../../lib/vjf_rules";
-import {WebLoginModel, WebUserSignInOut} from "../../lib/api/sign_in";
+import WebUserSignInOut, {WebLoginModel} from "../../lib/api/sign_in";
 
 import {HoudiniForm, StaticFormToErrorAndBackConverter} from "../../lib/houdini_form";
 import {observable, action, runInAction} from 'mobx'
@@ -41,7 +41,7 @@ export class SessionPageForm extends HoudiniForm {
     this.converter = new StaticFormToErrorAndBackConverter<WebLoginModel>(this.inputToForm)
   }
 
-  signinApi: WebUserSignInOut
+  signinApi: typeof WebUserSignInOut
 
   options() {
     return {
@@ -63,7 +63,7 @@ export class SessionPageForm extends HoudiniForm {
         let input = this.converter.convertFormToObject(f)
 
         try{
-          let r = await this.signinApi.postLogin(input)
+          let r = await this.signinApi.postSignIn(input)
           window.location.reload()
         }
         catch(e){
@@ -93,7 +93,7 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps  & Wra
 
   componentWillMount(){
     runInAction(() => {
-      this.form.signinApi = this.props.ApiManager.get(WebUserSignInOut)
+      this.form.signinApi = WebUserSignInOut
     })
   }
 

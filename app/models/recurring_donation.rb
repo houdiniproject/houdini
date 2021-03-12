@@ -49,7 +49,7 @@ class RecurringDonation < ActiveRecord::Base
 
   def most_recent_paid_charge
     if (self.charges)
-      returnc self.charges.find_all {|c| c.paid?}.sort_by { |c| c.created_at }.last()
+      return self.charges.find_all {|c| c.paid?}.sort_by { |c| c.created_at }.last()
     end
   end
 

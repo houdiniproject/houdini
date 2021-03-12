@@ -19,7 +19,7 @@
     "prepare-for-push": "yarn test && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:update",
     "prepare-for-push-js": "yarn jest && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:js:update",
     "notice:js": "npx @houdiniproject/noticeme@^1.1.0-pre1 -f NOTICE-js -i included.json -s 250",
-    "webpack": "bin/rails i18n:js:export && bin/webpack"
+    "webpack": "bin/webpack"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

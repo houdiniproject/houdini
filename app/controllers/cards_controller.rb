@@ -34,6 +34,12 @@ class CardsController < ApplicationController
         end
         unless ret
           if (recaptcha_result[:reply] && recaptcha_result[:reply]['success'])
+            Rails.logger({supporter: supporter.attributes,
+              validated_params: d,
+              action: 'create_card',
+              minimum_score_required: ENV['MINIMUM_RECAPTCHA_SCORE'],
+              recaptcha_result: recaptcha_result,
+              recaptcha_value: d['g-recaptcha-response']})
             ret = InsertCard.with_stripe(d[:card], acct,  params[:event_id], current_user)
           else
             ret = {json: {error: "There was an temporary error preventing your payment. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J "}, status: :unprocessable_entity}

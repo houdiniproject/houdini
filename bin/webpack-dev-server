@@ -12,7 +12,12 @@ require "bundler/setup"
 require "webpacker"
 require "webpacker/dev_server_runner"
 
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
 APP_ROOT = File.expand_path("..", __dir__)
 Dir.chdir(APP_ROOT) do
+  system!("rake i18n:js:export")
   Webpacker::DevServerRunner.run(ARGV)
 end

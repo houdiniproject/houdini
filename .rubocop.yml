@@ -30,7 +30,6 @@ AllCops:
     - 'lib/tasks/settings.rake'
     - 'lib/tasks/civicrm.rake'
     - 'lib/tasks/scheduler.rake'
-    - 'lib/tasks/i18n_js.rake'
     - 'lib/tasks/seed.rake'
     - 'lib/tasks/health_report.rake'
     - 'lib/tasks/notice.rake'

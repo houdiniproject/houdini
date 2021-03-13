@@ -11,6 +11,7 @@ require "bundler/setup"
 
 require "webpacker"
 require "webpacker/webpack_runner"
+
 def system!(*args)
   system(*args) || abort("\n== Command #{args} failed ==")
 end

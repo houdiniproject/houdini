@@ -5,18 +5,18 @@ name: Placeholders
 on: ['push', 'pull_request']
 jobs:
   notice_js:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - run: 'echo "Placeholder for notice_js"'
   notice_ruby:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - run: 'echo "Placeholder for notice_ruby"'
   lint:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-20.04]
         node: [14.6.0]
     steps:
       - run: 'echo "Placeholder for lint"'
@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-20.04]
         node: [14.6.0]
     steps:
       - run: 'echo "Placeholder for jest"'
@@ -32,7 +32,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-20.04]
         node: [14.6.0]
     steps:
       - run: 'echo "Placeholder for webpack"'
@@ -40,7 +40,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-20.04]
         node: [14.6.0]
         ruby: [2.7.2]
     steps:

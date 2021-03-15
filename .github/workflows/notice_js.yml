@@ -2,7 +2,7 @@
 name: NOTICE-js verification
 env:
   node: 14.6.0
-  os: ubuntu-latest
+  os: ubuntu-20.04
 on: 
   push:
     paths:
@@ -18,7 +18,7 @@ on:
       - NOTICE-js
 jobs:
   notice_js:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1.4.4

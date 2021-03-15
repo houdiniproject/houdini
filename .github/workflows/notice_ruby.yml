@@ -12,7 +12,7 @@ on:
       - Gemfile.lock
       - NOTICE-ruby
 env:
-  os: ubuntu-latest
+  os: ubuntu-20.04
   ruby: '2.7.2'
 jobs:
   notice_ruby:

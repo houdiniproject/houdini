@@ -179,8 +179,6 @@ GEM
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     hashdiff (1.0.1)
-    heroku-deflater (0.6.3)
-      rack (>= 1.4.5)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -435,7 +433,6 @@ DEPENDENCIES
   font_assets (~> 0.1.14)
   good_job
   hamster (~> 3.0)
-  heroku-deflater (~> 0.6.3)
   houdini_full_contact!
   httparty (~> 0.17.0)
   i18n-js (~> 3.8)!

@@ -82,9 +82,13 @@ group :ci, :test do
 end
 
 group :production do
-  # Compression of assets on heroku
-  # https://github.com/romanbsd/heroku-deflater
-  gem 'heroku-deflater', '~> 0.6.3'
+  # A user calls `GET /assets/some-css.css` you want the result to be compressed.
+  # Normally, you'd use your webserver or some sort of reverse proxy to do so.
+  #
+  # If your server can't choose to directly serve gzip compressed assets at runtime
+  # like heroku, uncomment the `heroku-deflater` line.
+  #
+  # gem 'heroku-deflater', '~> 0.6.3' # https://github.com/romanbsd/heroku-deflater
   gem 'rack-timeout', '~> 0.5.1'
 end
 

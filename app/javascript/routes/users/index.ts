@@ -14,4 +14,16 @@ export default {
 			return '/users/sign_in';
 		},
 	},
+
+	/**
+	 * camelcased new_user_password
+	 */
+	newUserPassword: {
+		path: (): string => {
+			return '/users/password/new';
+		},
+		url: (): string => {
+			return '/users/password/new';
+		},
+	},
 };

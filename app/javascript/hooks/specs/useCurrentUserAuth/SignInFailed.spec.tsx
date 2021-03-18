@@ -1,34 +1,27 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
+import { mocked } from 'ts-jest/utils';
 import '@testing-library/jest-dom/extend-expect';
 
 import { act, HookResult, renderHook } from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
-const currentUser  = {id: 1};
-
-jest.mock('../../../api/api/users', () => {
-	return {
-		getCurrent: jest.fn(),
-	};
-});
-
-jest.mock('../../../api/users', () => {
-	return {
-		postSignIn: jest.fn(),
-	};
-});
-
 
 import {getCurrent} from '../../../api/api/users';
+import {postSignIn} from '../../../api/users';
+const currentUser  = {id: 1};
 
-const getCurrentMocked = getCurrent as unknown as jest.Mock;
+jest.mock('../../../api/api/users');
+jest.mock('../../../api/users');
+
 import { InitialCurrentUserContext } from '../../useCurrentUser';
 import useCurrentUserAuth, { UseCurrentUserAuthReturnType } from '../../useCurrentUserAuth';
-import {postSignIn} from '../../../api/users';
-const postSignInMocked = postSignIn as unknown as jest.Mock;
+
 import { NetworkError } from '../../../api/errors';
 
 describe('useCurrentUserAuth', () => {
+
+	const getCurrentMocked = mocked(getCurrent, true);
+	const postSignInMocked = mocked(postSignIn);
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
 		return <SWRConfig value={
 			{
@@ -92,8 +85,7 @@ describe('useCurrentUserAuth', () => {
 
 				await commonPrep(async result => expect(result.current.failed).toBe(true));
 			});
-
-			it('is not validating current user', async () => {
+			const postSignInMocked = postSignIn as unknown as jest.Mock;			it('is not validating current user', async () => {
 				expect.assertions(1);
 
 				await commonPrep(async result => expect(result.current.validatingCurrentUser).toBe(false));

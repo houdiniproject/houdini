@@ -6,19 +6,9 @@ import { HookResult, renderHook, act} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
 const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users', () => {
-	return {
-		getCurrent: async () => {
-			return currentUser;
-		},
-	};
-});
+jest.mock('../../../api/api/users');
 
-jest.mock('../../../api/users', () => {
-	return {
-		postSignIn: jest.fn(),
-	};
-});
+jest.mock('../../../api/users');
 
 
 import { InitialCurrentUserContext} from '../../useCurrentUser';

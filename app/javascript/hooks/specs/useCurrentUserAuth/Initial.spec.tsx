@@ -6,13 +6,7 @@ import { HookResult, renderHook } from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
 const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users', () => {
-	return {
-		getCurrent: async () => {
-			return currentUser;
-		},
-	};
-});
+jest.mock('../../../api/api/users');
 
 
 import { InitialCurrentUserContext } from '../../useCurrentUser';
@@ -43,9 +37,6 @@ describe('useCurrentUser', () => {
 			it('has null currentUser', async () => {
 				expect.assertions(1);
 				await commonPrep(async result => expect(result.current.currentUser).toBeNull());
-
-
-
 			});
 
 			it('is not signedIn', async () => {

@@ -5,7 +5,7 @@
 
 	<header class='modal-header'>
 		<h4 class='modal-header-title'>
-			<!--= put gift_option_action --> Gift Option
+			<!--= put gift_option_action --> <%= t('campaign_gift_options.gift_option') %>
 		</h4>
 		<%= render 'common/modal_close' %>
 	</header>
@@ -19,28 +19,31 @@
 			<input type='hidden' name='id'> <!--= set_value this.id -->
 
 			<fieldset>
-				<label>Gift name (max 40 characters)</label>
-				<input required type='text'
-					name='name'
-					parsley-maxlength='40'
-					parsley-trigger='change'
-					placeholder='eg. "A backpack full of school supplies"'>
+				<label><%= I18n.t('campaign_gift_options.gift_name_and_character_limit') %></label>
+				<%= text_field_tag(
+					'name',
+					nil,
+					placeholder: t('gift_name_example'),
+					required:true,
+					'parsley-maxlength' => '40',
+					'parsley-trigger' => 'change')
+					%>
 				<!--= set_value this.name -->
 			</fieldset>
 
-			<label>Amount</label>
-			<p>You can add a recurring and/or one-time amount to your gift options. If you leave one blank, the donor won't be presented with that option. If you fill out both, then the donor will be able to choose between the two.</p>
+			<label><%= t('campaign_gift_options.amount')%></label>
+			<p><%= t('campaign_gift_options.explanation_of_recurring_or_one_time_gift_options')%></p>
 
 			<div class='layout--two'>
 				<fieldset>
-					<label><small>One-time</small></label>
+					<label><small><%= t('campaign_gift_options.one_time')%></small></label>
 					<div class='prepend--dollar'>
 						<input type='text' name='amount_one_time'>
 						<!--= set_value (cents_to_dollars this.amount_one_time) -->
 					</div>
 				</fieldset>
 				<fieldset>
-					<label><small>Recurring</small></label>
+					<label><small><%= t('campaign_gift_options.recurring')%></small></label>
 					<div class='prepend--dollar'>
 						<input type='text' name='amount_recurring'>
 						<!--= set_value (cents_to_dollars this.amount_recurring) -->
@@ -50,7 +53,7 @@
 
       
       <fieldset>
-				<label>Short description (140 characters max)</label>
+				<label><%= t('campaign_gift_options.short_description')%></label>
 				<textarea name='description' parsley-maxlength='140' parsley-trigger='change'></textarea>
 				<!--= set_value this.description -->
 			</fieldset>
@@ -58,25 +61,30 @@
       <hr>
 
 			<fieldset>
-				<label>Quantity limit (optional)</label>
-				<p>After the limit has been reached, contributors will not be able to select this gift option. Leave this blank to not set a limit.</p>
-				<input type='number' name='quantity' class='input--200' placeholder='Enter limit amount'>
+				<label><%= t('campaign_gift_options.quantity_limit')%></label>
+				<p><%= t('campaign_gift_options.quantity_limit_description')%></p>
+				<%= number_field_tag(
+					'quantity',
+					nil,
+					placeholder: t('campaign_gift_options.quantity_limit_placeholder'),
+					class: 'input--200')
+					%>
 					<!--= set_value this.quantity -->
 			</fieldset>
 
       <div class='group'>
 
         <fieldset class='col-7 u-paddingRight--20'>
-          <label>Requires shipping (optional)</label>
-          <p>Check this box to make the address field required and to add the text 'Shipping address' above the address field. This option is useful for order fulfillment.</p>
+          <label><%= t('campaign_gift_options.requires_shipping')%></label>
+          <p><%= t('campaign_gift_options.require_shipping_description') %></p>
           <input id='gift-option-to-ship' type='checkbox' name='to_ship'>
           <!--= set_attr_if this.to_ship 'checked' 'checked' -->
           <label class='u-marginBottom--10' for='gift-option-to-ship'></label>
         </fieldset>
 
         <fieldset class='col-right-5'>
-          <label>Hide contributions (optional)</label>
-          <p>Check this box to hide the number of contributions made towards this gift option.</p>
+          <label><%= t('campaign_gift_options.hide_contributions') %></label>
+          <p><%= t('campaign_gift_options.hide_contributions_description') %></p>
           <input id='gift-option-hide-contributions' type='checkbox' name='hide_contributions'>
           <!--= set_attr_if this.hide_contributions 'checked' 'checked' -->
           <label class='u-marginBottom--10' for='gift-option-hide-contributions'></label>
@@ -90,7 +98,7 @@
 	<footer class='modal-footer'>
 		<a>
 			<!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
-			<strong>Manage Gift Options</strong>
+			<strong><%= t('campaign_gift_options.manage_gift_options') %></strong>
 		</a>
 	</footer>
 

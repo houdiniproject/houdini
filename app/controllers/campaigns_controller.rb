@@ -61,7 +61,7 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    @campaign = CreateCampaign.create(params, current_nonprofit)
+    @campaign = CreateCampaign.create(campaign_params, current_nonprofit)
     if (@campaign.errors.empty?)
       render 'campaigns/create', campaign: @campaign
     else

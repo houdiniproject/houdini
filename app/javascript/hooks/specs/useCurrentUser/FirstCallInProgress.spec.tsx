@@ -6,16 +6,13 @@ import { HookResult, renderHook, act} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
 const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users', () => {
-	return {
-		getCurrent: jest.fn(),
-	};
-});
+jest.mock('../../../api/api/users');
 
 import useCurrentUser, { InitialCurrentUserContext, SetCurrentUserReturnType } from '../../useCurrentUser';
 import {getCurrent} from '../../../api/api/users';
+import { mocked } from 'ts-jest/utils';
 
-const getCurrentMocked = getCurrent as unknown as jest.Mock;
+
 
 describe('useCurrentUser', () => {
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
@@ -23,6 +20,8 @@ describe('useCurrentUser', () => {
 			{props.children}
 		</SWRConfig>;
 	}
+
+	const getCurrentMocked = mocked(getCurrent);
 
 	describe('first call in progress', () => {
 		describe('when no user logged in', () => {

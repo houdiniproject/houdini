@@ -6,31 +6,21 @@ import { renderHook, act, HookResult} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
 const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users', () => {
-	return {
-		getCurrent: jest.fn(),
-	};
-});
+jest.mock('../../../api/api/users');
 
-jest.mock('../../../api/users', () => {
-	return {
-		postSignIn: jest.fn(),
-	};
-});
-
-
+jest.mock('../../../api/users');
 
 
 import {getCurrent} from '../../../api/api/users';
 
-const getCurrentMocked = getCurrent as unknown as jest.Mock;
+
 import { CurrentUser, InitialCurrentUserContext } from '../../useCurrentUser';
 import useCurrentUserAuth, { UseCurrentUserAuthReturnType } from '../../useCurrentUserAuth';
-import {postSignIn} from '../../../api/users';
-
-const postSignInMocked = postSignIn as unknown as jest.Mock;
+import { mocked } from 'ts-jest/utils';
 
 describe('useCurrentUserAuth', () => {
+
+	const getCurrentMocked = mocked(getCurrent);
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
 		return <SWRConfig value={
 			{
@@ -48,8 +38,6 @@ describe('useCurrentUserAuth', () => {
 			// eslint-disable-next-line @typescript-eslint/no-empty-function
 			async function commonPrep(callback:(result:HookResult<UseCurrentUserAuthReturnType>) => Promise<void> = async () => {}):Promise<CurrentUser> {
 				getCurrentMocked.mockReset();
-				postSignInMocked.mockReset();
-				postSignInMocked.mockResolvedValue(currentUser);
 				const {result, unmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
 				let promiseResult = null;
 				await act(async () => {
@@ -101,7 +89,7 @@ describe('useCurrentUserAuth', () => {
 			it('returns the correct result from the signIn promise', async () => {
 				expect.assertions(1);
 
-				expect(await commonPrep()).toBe(currentUser);
+				expect(await commonPrep()).toStrictEqual(currentUser);
 			});
 
 		});
@@ -118,8 +106,6 @@ describe('useCurrentUserAuth', () => {
 			// eslint-disable-next-line @typescript-eslint/no-empty-function
 			async function commonPrep(callback:(result:HookResult<UseCurrentUserAuthReturnType>) => Promise<void> = async () => {}): Promise<CurrentUser> {
 				getCurrentMocked.mockReset();
-				postSignInMocked.mockReset();
-				postSignInMocked.mockResolvedValue(currentUser);
 				const {result, unmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
 				let promiseResult = null;
 				await act(async () => {
@@ -172,7 +158,7 @@ describe('useCurrentUserAuth', () => {
 			it('returns the correct result from the signIn promise', async () => {
 				expect.assertions(1);
 
-				expect(await commonPrep()).toBe(currentUser);
+				expect(await commonPrep()).toStrictEqual(currentUser);
 			});
 		});
 	});

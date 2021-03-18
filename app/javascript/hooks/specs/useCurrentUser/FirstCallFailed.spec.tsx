@@ -6,17 +6,13 @@ import { HookResult, renderHook } from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
 const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users', () => {
-	return {
-		getCurrent: async () => {
-			throw new NetworkError({status: 403});
-		},
-	};
-});
+jest.mock('../../../api/api/users');
 
 
 import useCurrentUser, { InitialCurrentUserContext, UseCurrentUserReturnType } from '../../useCurrentUser';
 import { NetworkError } from '../../../api/errors';
+import { mocked } from 'ts-jest/utils';
+import { getCurrent } from '../../../api/api/users';
 
 describe('useCurrentUser', () => {
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
@@ -29,6 +25,8 @@ describe('useCurrentUser', () => {
 		</SWRConfig>;
 	}
 
+	const getCurrentMocked = mocked(getCurrent);
+	getCurrentMocked.mockRejectedValue( new NetworkError({status: 403}));
 	describe('first call failed', () => {
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;

@@ -12,11 +12,10 @@ jest.mock('./SignInComponent', () => {
 
 import SignInPage from "./SignInPage";
 
-import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
-
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 import { HosterContext } from "../../hooks/useHoster";
+import {InitialCurrentUserContext} from "../../hooks/useCurrentUser";
 
 function Wrapper(props:React.PropsWithChildren<unknown>) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,9 +23,9 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 
 	return <HosterContext.Provider value={{hoster: null}}>
 		<IntlProvider messages={translations} locale={'en'}>
-			<MockCurrentUserProvider>
+			<InitialCurrentUserContext.Provider value={{id: 1}}>
 				{props.children}
-			</MockCurrentUserProvider>
+			</InitialCurrentUserContext.Provider>
 		</IntlProvider>
 	</HosterContext.Provider>;
 

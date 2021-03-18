@@ -13,13 +13,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { TextField } from 'formik-material-ui';
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
-import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
-import AnimatedCheckmark from './AnimatedCheckmark';
+import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
+import { NetworkError } from "../../api/errors";
 
 
 export interface SignInComponentProps {
@@ -28,7 +28,7 @@ export interface SignInComponentProps {
 	 *
 	 * @memberof SignInComponentProps
 	 */
-	onFailure?: (error: SignInError) => void;
+	onFailure?: (error: NetworkError) => void;
 	onSubmitting?: () => void;
 	onSuccess?: () => void;
 	showProgressAndSuccess?: boolean;
@@ -38,7 +38,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
 
-	const { currentUser, signIn, lastError, failed, submitting } = useCurrentUserAuth();
+	const { currentUser, signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
@@ -51,9 +51,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			// we JUST failed so we only call onFailure
 			// once
 			setComponentState('ready');
-			onFailure(lastError);
+			onFailure(lastSignInAttemptError);
 		}
-	}, [failed, wasSubmitting, lastError, onFailure, setComponentState]);
+	}, [failed, wasSubmitting, lastSignInAttemptError, onFailure, setComponentState]);
 
 	useEffect(() => {
 		if (currentUser && componentState !== 'success') {
@@ -195,7 +195,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<div data-testid="errorTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
 								{componentState === 'submitting' ? "" : <>
-									{failed ? lastError.data.error.map((error) => (<Alert aria-labelledby="errorTest" severity="error" key={error}>{error}</Alert>)) : ""}
+									{failed ? lastSignInAttemptError.data.error.map((error) => (<Alert aria-labelledby="errorTest" severity="error" key={error}>{error}</Alert>)) : ""}
 								</>
 								}
 							</Box>

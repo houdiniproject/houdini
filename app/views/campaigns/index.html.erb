@@ -7,7 +7,7 @@
 <% end %>
 
 <%= content_for :javascripts do %>
-  <%= javascript_packs_with_chunks_tag 'page__', 'page__campaigns__index' %>
+  <%= javascript_packs_with_chunks_tag 'page__campaigns__index' %>
   <script>
 		app.current_nonprofit_user = <%= current_nonprofit_user? %>
   </script>

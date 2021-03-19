@@ -18,3 +18,15 @@ en:
     hide_contributions: Hide contributions (optional)
     hide_contributions_description: Use this to hide the number of contributions made towards this gift option.
     manage_gift_options: Manage Gift Options
+    new_gift_option: New Gift Option
+    no_gift_options: It looks like you don't have any gift options yet. Create one by clicking on the button above.
+    name: Name
+    limit: Limit
+    remaining: Remaining
+    id: ID
+    one_time_br_amount: One-Time <br>Amount
+    recurring_br_amount: Recurring <br>Amount
+    
+
+
+    

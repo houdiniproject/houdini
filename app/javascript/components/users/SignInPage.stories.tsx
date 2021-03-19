@@ -1,13 +1,12 @@
 import * as React from 'react';
-import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
 import SignInPage from './SignInPage';
 /* it's already mocked in the storybook webpack */
-import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
+import {postSignIn} from '../../api/users';
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { Hoster, HosterContext } from '../../hooks/useHoster';
 import { Fallback } from './SignInPage';
 
-const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
+
 
 const optionsToSignInError: Record<string, { data?: { error: string[] | string }, status?: number }> = {
 	'Unknown Error - 500': { status: 500, data: { error: "Error unknown" } },
@@ -49,6 +48,7 @@ interface TemplateArgs {
 
 const Template = (args: TemplateArgs) => {
 	if (args.isError) {
+		mockedPostUserSignIn.postSignIn
 		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise((_resolve, reject) => {
 			setTimeout(() => {
 				reject(new SignInError(optionsToSignInError[args.error]));

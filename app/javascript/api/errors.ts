@@ -17,19 +17,17 @@ export class NetworkError extends Error {
 
 export class SignInError extends NetworkError {
 	public readonly data?: { error: string[] };
-	public readonly status?: number;
 	constructor({ status, data }: { data?: { error: string[]|string }, status?: number }) {
-		super({data, status});
-		Object.setPrototypeOf(this, new.target.prototype);
-		this.status = status;
 		if (data) {
 			if (data.error instanceof Array){
-				this.data = {...data, ...{error: data.error as string[]}};
+				data = {...data, ...{error: data.error as string[]}};
 			}
 			else {
-				this.data = {...data, ...{error: [data.error]}};
+				data = {...data, ...{error: [data.error]}};
 			}
 		}
+		super({data, status});
+		Object.setPrototypeOf(this, new.target.prototype);
 		Object.freeze(this);
 	}
 }

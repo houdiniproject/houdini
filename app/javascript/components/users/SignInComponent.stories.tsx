@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
-import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
 import SignInComponent from './SignInComponent';
 
 /* it's already mocked in the storybook webpack */
-import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
+import webUserSignIn from '../../api/users';
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
+import { InitialCurrentUserContext } from '../../hooks/useCurrentUser';
 
 const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
@@ -61,13 +61,11 @@ const Template = (args:TemplateArgs) => {
 		}));
 	}
 
-	return <MockCurrentUserProvider >
-		<SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressAndSuccess}/>
-	</MockCurrentUserProvider>;
+	return <SignInComponent onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressAndSuccess}/>;
 };
 
 const SignedInTemplate = () => {
-	return <MockCurrentUserProvider initialUserId={1}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></MockCurrentUserProvider>;
+	return <InitialCurrentUserContext.Provider value={{id:1}}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></InitialCurrentUserContext.Provider>;
 };
 
 export const SignInFailed = Template.bind({});

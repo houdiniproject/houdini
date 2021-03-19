@@ -2,19 +2,19 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
 <div class='modal fullScreen' id='manageGiftOptionsModal'>
 
-	<%= render 'common/modal_header', title: 'Manage Gift Options' %>
+	<%= render 'common/modal_header', title: t('campaign_gift_options.manage_gift_options') %>
 
 	<section class='modal-body'>
 		<p>
 			<a class='button'>
 				<!--= on 'click' gift_options.open_new -->
-				<i class='fa fa-plus'></i> New Gift Option
+				<i class='fa fa-plus'></i> <%= t('campaign_gift_options.new_gift_option')%>
 			</a>
 		</p>
 
 		<p class='noResults'>
 			<!--= show_if (empty gift_options.data) -->
-			It looks like you don't have any gift options yet.  Create one by clicking on the button above.
+			<%= t('campaign_gift_options.no_gift_options') %>
 		</p>
 
     <form>
@@ -22,18 +22,18 @@
         <!--= show_if (length gift_options.data) -->
           <thead>
             <th></th>
-            <th>Name</th>
-            <th>One-Time <br>Amount</th>
-            <th>Recurring <br>Amount</th>
+            <th><%= t('campaign_gift_options.name')%></th>
+            <th><%= t('campaign_gift_options.one_time_br_amount')%></th>
+            <th><%= t('campaign_gift_options.recurring_br_amount')%></th>
             <th>
               <!--= show_if gift_options.has_any_quantities -->
-              Limit
+              <%= t('campaign_gift_options.limit')%>
             </th>
             <th>
               <!--= show_if gift_options.has_any_quantities -->
-              Remaining
+              <%= t('campaign_gift_options.remaining')%>
             </th>
-            <th>ID</th>
+            <th><%= t('campaign_gift_options.id') %></th>
             <th></th>
           </thead>
 
@@ -74,12 +74,12 @@
               <td style='width: 200px'>
                 <a class='button--tiny edit u-marginRight--10'>
                   <!--= on 'click' (gift_options.open_edit this)-->
-                  <i class='fa fa-pencil'></i> Edit
+                  <i class='fa fa-pencil'></i> <%= t('ui.edit') %>
                 </a>
 
                 <a class='button--tiny red'>
                   <!--= on 'click' (confirm (ajax_gift_options.del this.id)) -->
-                  <i class='fa fa-times'></i> Remove
+                  <i class='fa fa-times'></i> <%= t('ui.remove') %>
                 </a>
               </td>
             </tr>

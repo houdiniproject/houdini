@@ -191,3 +191,33 @@ and React (using TSX files). Please use the React Generators for creation.
 #### Git
 
 - No need to rebase, just merge
+
+
+## How to build releases at CommitChange
+
+### Build for production
+
+* Make your changes on `supporter_level_goal` (or any branch in the public houdini repo) and commit
+* Push your changes to remote
+* Run `./create_new_release.sh`. This moves you to `PRIVATE_MASTER` (ask Eric for the remote and access) and merges the changes.
+* Push to remote for `PRIVATE_MASTER`
+* Checkout `PRIVATE_PROD_DEPLOY`
+*`git merge PRIVATE_PROD_MASTER`
+* If you have changes on assets or on javascript, then run: `./run_production npm run build-all`. After that finishes, run `git add public` and then `git commit`
+* If no changes on assets or javascript, don’t do the last step
+* Push to the remote for `PRIVATE_PROD_DEPLOY` (ask Eric for the remote and access)
+* Push to heroku production  using `git commit production PRIVATE_PROD_DEPLOY:master` ( ask Eric for access to `production`)
+
+### Build for staging
+
+* Make your changes on `supporter_level_goal` (or any branch in the public houdini repo) and commit
+* Push your changes to remote
+* Run `./create_new_staging_release.sh`. This moves you to `PRIVATE_STAGING_MASTER` and merges the changes.
+* Push to remote for `PRIVATE_STAGING_MASTER` (ask Eric for remote and access)
+* Checkout `PRIVATE_STAGING_DEPLOY`
+* `git merge PRIVATE_STAGING_MASTER`
+* If you have changes on assets or on javascript, then run: `./run_staging npm run build-all`. After that finishes, run `git add public` and then `git commit`
+* If no changes on assets or javascript, don’t do the last step
+* Push to the remote for `PRIVATE_STAGING_DEPLOY` (ask Eric for remote and access)
+* Push to heroku staging using `git commit cc-test PRIVATE_STAGING_DEPLOY:master` (ask Eric for access to production)
+

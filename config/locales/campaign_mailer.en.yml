@@ -1,0 +1,15 @@
+# License: CC0-1.0
+
+en:
+ campaign_mailer:
+    dear_creator: Dear %{creator_name},
+    congrats_on_creating_campaign: Congratulations on creating your campaign!
+    you_can_visit_at: 'You can visit it here: %{url}'
+    before_sharing_tips: 'Before you share your campaign with the world, we have a few tips that could help the success of your campaign:'
+    why_and_how_of_campaign_story: 'Use your campaign story to explain <strong>why</strong> supporters should give and <strong>how</strong> their contributions will be used.'
+    add_image_and_videos_to_campaign: Make your campaign story more engaging with images and video.
+    create_gift_options: Create one-time or recurring gift options (recurring gift options are a powerful way to create sustainability for your organization).
+    get_network_for_initial_donations: Get a few people in your network to make initial donations.
+    get_network_prepared_for_launch: Inform people in your network before your campaign launches so that they can be prepared to share it and contribute to it.
+    check_publish_when_ready: Once your campaign is ready to go, you can check the 'Publish' box on your campaign settings.
+    can_share_unpublished_campaign: <strong>Note:</strong> You can still share an unpublished campaign, but it will not show up on your nonprofit profile page or on your campaign listing page.

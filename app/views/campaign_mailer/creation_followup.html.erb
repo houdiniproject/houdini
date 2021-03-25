@@ -8,13 +8,13 @@
 <p><%= t('campaign_mailer.congrats_on_creating_campaign') %></p>
 <br>
 
-<p><%= t('campaign_mailer.you_can_visit_at', url: content_tag(:strong, link_to(campaign_locateable_url(@campaign)) ))%>
+<p><%= t('campaign_mailer.you_can_visit_at', url: content_tag(:strong, link_to(campaign_locateable_url(@campaign), campaign_locateable_url(@campaign)) ))%>
 <br>
 
 <p><%= t('campaign_mailer.before_sharing_tips')%></p>
 
 <ul>
-	<li><%= t('campaign_mailer.why_and_how_of_campaign_story')%></li>
+	<li><%= t('campaign_mailer.why_and_how_of_campaign_story_html')%></li>
   <li><%= t('campaign_mailer.add_image_and_videos_to_campaign')%></li>
 	<li><%= t('campaign_mailer.create_gift_options') %></li>
   <li><%= t('campaign_mailer.get_network_for_initial_donations') %></li>
@@ -24,6 +24,6 @@
 <p><%= t('campaign_mailer.check_publish_when_ready') %></p>
 <br>
 
-<p><%= t('campaign_mailer.can_share_unpublished_campaign') %></p>
+<p><%= t('campaign_mailer.can_share_unpublished_campaign_html') %></p>
 
 <%= render 'emails/sig' %>

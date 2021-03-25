@@ -2,31 +2,53 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
 <% campaign_url = Format::Url.concat(root_url, @campaign.url) %>
 
-<p>Dear <%= @creator_profile.name.blank? ? @creator_profile.user.email : @creator_profile.name %>,</p>
+<p><%= t('campaign_mailer.dear_creator', creator_name: @creator_profile.name.blank? ? @creator_profile.user.email : @creator_profile.name)%></p>
 <br>
 
-<p>Congratulations on creating your campaign to support <%= @campaign.nonprofit.name %>!</p>
+<p><%= t('campaign_mailer.congrats_on_creating_campaign_to_support', nonprofit_name: @campaign.nonprofit.name) %></p>
 <br>
 
-<p>You can visit it here: <strong><a href='<%= campaign_url %>'><%= campaign_url %></a></strong>.</p>
+<p><%= t('campaign_mailer.you_can_visit_at', url: content_tag(:strong, link_to(campaign_locateable_url(@campaign), campaign_locateable_url(@campaign)) ))%></p>
 <br>
+<p><%= t(
+'campaign_mailer.before_sharing_add_testimonial', 
+link_to_profile_fundraisers: content_tag(:strong, 
+  link_to(
+    t('campaign_mailer.visit_your_fundraising_dashboard_inside_before_sharing_add_testimonial'), 
+    fundraisers_profile_url(@creator_profile))), 
+link_to_campaign: content_tag(:strong, 
+  link_to(
+    @campaign.name,
+    campaign_locateable_url(@campaign)
+  ))) %>
+</p>
 
-<p>Before you share your campaign with the world, we recommend you personalize
-  your campaign by including a testimonial in your words about why
-  you launched your campaign. You can also set a goal amount to inspire you and your donors.
-  To edit your campaign, <strong><a href="<%= "#{profile_url(@creator_profile)}/fundraisers" %>">visit your fundraisers dashboard</a></strong> (you may be asked to login)
-  and select <strong><a href='<%= campaign_url %>'><%= @campaign.name%></a></strong>.</p>
-<br>
-<p>Make sure to tell your friends and family why they should support your cause and how their contributions will make a difference. Your words and your passion can make a big difference.
-  Share your fundraiser on:</p>
+<p><%= t('campaign_mailer.make_sure_to_share_with_family_and_friends')%></p>
 <ul>
   <%- if ENV['FACEBOOK_APP_ID'] -%>
-    <li><%= link_to("Facebook", "https://www.facebook.com/dialog/feed?app_id=#{ENV['FACEBOOK_APP_ID']}&display=popup&caption=#{url_encode(@campaign.name)}&link=#{campaign_url}") %></li>
+    <li><%= link_to("Facebook", "https://www.facebook.com/dialog/feed?#{
+      {
+        app_id: ENV['FACEBOOK_APP_ID'],
+        display: 'popup',
+        caption: @campaign.name
+        link: campaign_locateable_url(@campaign)
+      }.to_query
+    }") %></li>
   <%- end -%>
-  <li><%= link_to("Twitter", "https://twitter.com/intent/tweet?url=#{campaign_url}&via=#{Houdini.general.name}&text=#{url_encode("Join me in supporting: #{@campaign.name}")}") %></li>
-  <li>Or copy and paste the link above into an email to your friends and family</li>
+  <li><%= link_to("Twitter", "https://twitter.com/intent/tweet?#{
+    {
+      url: campaign_locateable_url(@campaign),
+      via: Houdini.general.name,
+      text: t('campaign_mailer.join_me_in_supporting_campaign_name', campaign_name: @campaign.name)
+    }.to_query
+  }")%>
+  </li>
+  <li><%= t('campaign_mailer.or_copy_and_paste_above_link')%></li>
 </ul>
 
-<p>If you need some help getting your campaign up and running, don't hesitate to contact <strong><%= Houdini.support_email %></strong>.</p>
+<p><%= t('campaign_mailer.if_you_need_help_email_support', 
+        email_support: content_tag(:strong,
+          Houdini.support_email)
+)%></p>
 
 <%= render 'emails/sig' %>

@@ -43,6 +43,9 @@ gem 'fast_blank'
 # Images
 gem 'image_processing', '~> 1.10.3'
 
+# URL validation
+gem 'validate_url'
+
 # User authentication
 # https://github.com/plataformatec/devise
 gem 'devise-async', '~> 1.0'

@@ -86,7 +86,7 @@ RSpec.describe Nonprofit, type: :model do
       let(:nonprofit_with_same_name) { Nonprofit.new({name: "New Mexico Equality", state_code: nm_justice.state_code, city: nm_justice.city, user_id: user.id})}
       let(:nonprofit_with_same_name_but_different_state) { Nonprofit.new({name: "New Mexico Equality", state_code: 'mn', city: nm_justice.city, user_id: user.id })}
 
-      let(:nonprofit_with_bad_email_and_website) { Nonprofit.new({email: 'not_email', website: 'not_website'})}
+      let(:nonprofit_with_bad_email_and_website) { Nonprofit.new({email: 'not_email', website: 'not_website' })}
 
       let(:user) { create(:user)}
       let(:nonprofit_admin_role) do
@@ -143,8 +143,9 @@ RSpec.describe Nonprofit, type: :model do
         expect(nonprofit_with_bad_email_and_website.errors['email'].first).to match /.*invalid.*/ 
       end
 
-      it 'marks website as having errors if they do' do 
-        expect(nonprofit_with_bad_email_and_website.errors['website'].first).to match /.*invalid.*/
+      it 'marks website as having errors if they do' do
+        expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+          .to match('is not a valid URL')
       end
 
       it 'marks an nonprofit as invalid when no slug could be created ' do

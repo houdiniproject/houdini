@@ -109,9 +109,6 @@ You'll run the next commands as your normal user.
 > use a consistent version of Ruby (and different sets of installed gems) for different projects. You could also use rbenv
 > or simply build ruby from source.
 
-> *Note*: We don't recommend using Ruby 2.7, the current Ubuntu default at this time. Ruby 2.7 will function but spits out tons
-> of deprecation warnings when using Rails applications.
-
 > *Note*: We recommend building Ruby with jemalloc support as we
 > do in these instructions. In practice, it manages memory far
 > more efficiently in Rails-based projects.

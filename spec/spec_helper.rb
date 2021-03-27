@@ -19,6 +19,7 @@ require 'support/mock_helpers'
 require 'action_mailer_matchers'
 require 'active_job'
 require 'wisper/rspec/matchers'
+require 'validate_url/rspec_matcher'
 include ActiveJob::TestHelper
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

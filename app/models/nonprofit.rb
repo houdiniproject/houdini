@@ -99,9 +99,9 @@ class Nonprofit < ApplicationRecord
   validates :city, presence: true
   validates :state_code, presence: true
   validates_format_of :email,  with: Email::Regex, allow_nil: true
-  validates_format_of :website, with: URI.regexp(['https', 'http']), allow_nil: true
   validates_presence_of :slug
   validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
+  validates :website, url: { schemes: ['http', 'https'], public_suffix: true }, allow_nil: true
 
   validates_presence_of :user_id, on: :create, unless: -> {register_np_only}
   validate :user_is_valid, on: :create, unless: -> {register_np_only}

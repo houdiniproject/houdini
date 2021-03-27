@@ -389,6 +389,9 @@ GEM
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
     unicode_utils (1.4.0)
+    validate_url (1.0.13)
+      activemodel (>= 3.0.0)
+      public_suffix
     warden (1.2.9)
       rack (>= 2.0.9)
     webmock (3.11.0)
@@ -469,6 +472,7 @@ DEPENDENCIES
   test-unit (~> 3.3)
   timecop (~> 0.9.1)
   traceroute (~> 0.8.0)
+  validate_url
   webmock (~> 3.6, >= 3.6.2)
   webpacker (~> 5.2.1)
   wisper-rspec (~> 1.1.0)

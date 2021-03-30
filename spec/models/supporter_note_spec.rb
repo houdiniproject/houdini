@@ -19,7 +19,7 @@ RSpec.describe SupporterNote, type: :model do
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_created, {
-      'id' => match(/objevt_[a-zA-Z0-9]{22}/),
+      'id' => match_houid('objevt'),
       'object' => 'object_event',
       'type' => 'supporter_note.created',
       'data' => {
@@ -50,7 +50,7 @@ RSpec.describe SupporterNote, type: :model do
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_created, anything).ordered
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_updated, {
-      'id' => match(/objevt_[a-zA-Z0-9]{22}/),
+      'id' => match_houid('objevt'),
       'object' => 'object_event',
       'type' => 'supporter_note.updated',
       'data' => {
@@ -83,7 +83,7 @@ RSpec.describe SupporterNote, type: :model do
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_created, anything).ordered
     expect(Houdini.event_publisher).to receive(:announce).with(:supporter_note_deleted, {
-      'id' => match(/objevt_[a-zA-Z0-9]{22}/),
+      'id' => match_houid('objevt'),
       'object' => 'object_event',
       'type' => 'supporter_note.deleted',
       'data' => {

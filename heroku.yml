@@ -1,0 +1,15 @@
+build:
+  docker:
+    web: Dockerfile
+  config:
+    RAILS_ENV: production
+run:
+  web: bundle exec puma -C config/puma.rb
+  worker:
+    command:
+      - bundle exec rake jobs:work
+    image: web
+  full_contact_worker:
+    command:
+      - bundle exec rake work_full_contact_queue
+    image: web

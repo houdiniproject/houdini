@@ -594,7 +594,6 @@ AllCops:
     - 'spec/models/campaign_gift_purchase_spec.rb'
     - 'spec/models/custom_field_master_spec.rb'
     - 'spec/models/user_spec.rb'
-    - 'spec/models/supporter_note_spec.rb'
     - 'spec/models/modern_campaign_gift_spec.rb'
     - 'spec/models/import_request_spec.rb'
     - 'spec/models/nonprofit_spec.rb'

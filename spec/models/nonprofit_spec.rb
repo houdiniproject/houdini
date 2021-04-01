@@ -143,9 +143,59 @@ RSpec.describe Nonprofit, type: :model do
         expect(nonprofit_with_bad_email_and_website.errors['email'].first).to match /.*invalid.*/ 
       end
 
-      it 'marks website as having errors if they do' do
-        expect(nonprofit_with_bad_email_and_website.errors['website'].first)
-          .to match('is not a valid URL')
+      describe 'website validation' do
+        it 'marks as having errors if it does not have a public suffix' do
+          expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+            .to match('is not a valid URL')
+        end
+
+        it 'does not mark website as having errors if it does not have a scheme and adds scheme' do
+          nonprofit_with_bad_email_and_website.update(website: 'a_website.com')
+          expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+            .to be_nil
+          expect(nonprofit_with_bad_email_and_website.website)
+            .to eq('http://a_website.com')
+        end
+
+        it 'marks as having errors if a non-accpted scheme is provided' do
+          nonprofit_with_bad_email_and_website.update(website: 'ftp://invalid.com')
+          expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+            .to match('is not a valid URL')
+          expect(nonprofit_with_bad_email_and_website.website)
+            .to eq('ftp://invalid.com')
+        end
+
+        it 'marks as having errors if an array is provided' do
+          nonprofit_with_bad_email_and_website.update(website: [])
+          expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+            .to match('is not a valid URL')
+          expect(nonprofit_with_bad_email_and_website.website)
+            .to eq("[]")
+        end
+
+        it 'marks as having errors if there is a space in the website string' do
+          nonprofit_with_bad_email_and_website.update(website: 'invalid .com')
+          expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+            .to match('is not a valid URL')
+          expect(nonprofit_with_bad_email_and_website.website)
+            .to eq('invalid .com')
+        end
+
+        it 'marks as having errors if a number is provided' do
+          nonprofit_with_bad_email_and_website.update(website: 1234)
+          expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+            .to match('is not a valid URL')
+          expect(nonprofit_with_bad_email_and_website.website)
+            .to eq("1234")
+        end
+
+        it 'marks as having errors if a hash is provided' do
+          nonprofit_with_bad_email_and_website.update(website: {})
+          expect(nonprofit_with_bad_email_and_website.errors['website'].first)
+            .to match('is not a valid URL')
+          expect(nonprofit_with_bad_email_and_website.website)
+            .to eq("{}")
+        end
       end
 
       it 'marks an nonprofit as invalid when no slug could be created ' do

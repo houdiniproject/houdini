@@ -101,7 +101,7 @@ class Nonprofit < ApplicationRecord
   validates_format_of :email,  with: Email::Regex, allow_nil: true
   validates_presence_of :slug
   validates_uniqueness_of :slug, scope: %i[city_slug state_code_slug]
-  validates :website, url: { schemes: ['http', 'https'], public_suffix: true }, allow_nil: true
+  validates :website, url: { schemes: ['http', 'https'], public_suffix: true, no_local: true }, allow_nil: true
 
   validates_presence_of :user_id, on: :create, unless: -> {register_np_only}
   validate :user_is_valid, on: :create, unless: -> {register_np_only}
@@ -144,6 +144,7 @@ class Nonprofit < ApplicationRecord
     set_slugs
     set_user
     add_billing_subscription
+    add_scheme_to_website
     self
   end
 
@@ -274,6 +275,22 @@ private
   def add_billing_subscription
     billing_plan = BillingPlan.find(Houdini.default_bp)
     b_sub = build_billing_subscription(billing_plan: billing_plan, status: 'active')
+  end
+
+  def add_scheme_to_website
+    website = self.website
+    begin
+      uri = URI.parse(website)
+      host = uri && uri.host
+      scheme = uri && uri.scheme
+
+      valid_scheme = host && scheme
+      valid_website = website && website.include?('.')
+
+      self.website = 'http://' + website if scheme.blank? && valid_website
+    rescue URI::InvalidURIError => e
+      e
+    end
   end
 
   def user_registerable_as_admin

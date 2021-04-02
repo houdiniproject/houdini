@@ -14,7 +14,6 @@ gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'
 gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://stripe.com/docs/api
 gem 'webpacker', '~> 5.2.1'
-gem 'react-rails'
 gem 'good_job'
 
 gem 'httparty', '~> 0.17.0' # https://github.com/jnunemaker/httparty
@@ -98,3 +97,5 @@ end
 gem 'bess', path: 'gems/bess'
 
 gem 'houdini_full_contact', path: 'gems/houdini_full_contact'
+
+gem "react_on_rails", "12.2"

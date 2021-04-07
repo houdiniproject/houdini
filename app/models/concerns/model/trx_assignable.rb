@@ -16,8 +16,8 @@ module Model::TrxAssignable
 			json_attribute: :transaction
 
 		has_one :transaction_assignment, as: :assignable
-		has_one :trx, through: :transaction_assignment
-		has_one :supporter, through: :trx
-		has_one :nonprofit, through: :supporter
+		has_one :trx, through: :transaction_assignment, class_name: 'Transaction', foreign_key: 'transaction_id'
+		has_one :supporter, through: :transaction_assignment
+		has_one :nonprofit, through: :transaction_assignment
 	end
 end

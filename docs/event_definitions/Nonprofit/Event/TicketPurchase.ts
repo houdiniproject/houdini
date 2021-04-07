@@ -1,21 +1,14 @@
 // License: LGPL-3.0-or-later
-import type { HouID, HoudiniObject, HoudiniEvent, Amount, IDType} from '../../common';
-import type Nonprofit from '..';
+import type { HouID, HoudiniEvent, IDType} from '../../common';
 import type Event from '.';
 import type { EventDiscount, Ticket } from '.';
-import Supporter from '../Supporter';
-import { Transaction } from '../Supporter';
+import type { TrxAssignment } from '../Transaction';
 
-
-export interface TicketPurchase extends HoudiniObject<HouID> {
-  amount: Amount;
+export interface TicketPurchase extends TrxAssignment {
   event: IDType | Event;
   event_discount?: IDType | EventDiscount | null;
-  nonprofit: IDType | Nonprofit;
   object: 'ticket_purchase';
-  supporter: IDType | Supporter;
   tickets: Ticket[] | HouID[];
-  transaction: HouID | Transaction;
 }
 
 

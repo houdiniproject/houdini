@@ -49,6 +49,7 @@ module InsertDonation
     trx.save!
     don.save!
     don.publish_created
+    trx.publish_created
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
     Houdini.event_publisher.announce(:donation_create, result['donation'], result['donation'].supporter.locale)
     result
@@ -77,6 +78,9 @@ module InsertDonation
 
     data = date_from_data(data)
     result = { 'donation' => insert_donation(data.except('offsite_payment'), entities) }
+    trx = entities[:supporter_id].transactions.build(amount: data['amount'], created: data['date'])
+    don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
+    
     result['payment'] = insert_payment('OffsitePayment', 0, result['donation']['id'], data)
     result['offsite_payment'] = Psql.execute(
       Qexpr.new.insert(:offsite_payments, [
@@ -90,8 +94,23 @@ module InsertDonation
                          )
                        ]).returning('*')
     ).first
+
+    off_t = trx.build_subtransaction(
+      subtransactable: OfflineTransaction.new(amount: data['amount']), 
+      subtransaction_payments:[
+        SubtransactionPayment.new(
+          paymentable: OfflineTransactionCharge.new(payment: Payment.find(result['payment']['id'])))
+        ],
+      created: data['date']
+      );
+    trx.save!
+    don.save!
+    off_t.save!
+    off_t.subtransaction_payments.each{|stp| stp.publish_created}
+    off_t.publish_created
+    don.publish_created
+    trx.publish_created
     result['activity'] = InsertActivities.for_offsite_donations([result['payment']['id']])
-    WeMoveExecuteForDonationsJob.perform_later(result['donation'])
     { status: 200, json: result }
   end
 
@@ -159,7 +178,7 @@ module InsertDonation
     end
   end
 
-  # Insert a payment row for a donation
+  # Insert a payment row for a donationValidationError
   def self.insert_payment(kind, fee_total, donation_id, data)
     Psql.execute(
       Qexpr.new.insert(:payments, [{

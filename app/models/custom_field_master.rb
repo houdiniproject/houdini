@@ -14,8 +14,6 @@ class CustomFieldMaster < ApplicationRecord
 
   scope :not_deleted, -> { where(deleted: false) }
 
-  add_builder_expansion :nonprofit
-
   after_create_commit :publish_created
 
   # TODO replace with Discard gem
@@ -42,6 +40,8 @@ class CustomFieldMaster < ApplicationRecord
     init_builder(*expand) do |json|
       json.(self, :name, :deleted)
       json.object 'custom_field_definition'
+
+      json.add_builder_expansion :nonprofit
     end
   end
 

@@ -45,7 +45,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
         },
       }],
       'campaign' => kind_of(Numeric),
-      'nonprofit' => kind_of(Numeric)
+      'nonprofit' => nonprofit.id
     }
   end
 
@@ -69,8 +69,22 @@ RSpec.describe CampaignGiftPurchase, type: :model do
         'cents' => trx.amount,
         'currency' => 'usd'
       },
-      'supporter' => kind_of(Numeric),
-      'nonprofit' => kind_of(Numeric)
+      'created' => Time.current.to_i,
+      'supporter' => supporter.id,
+      'nonprofit' => nonprofit.id,
+      'subtransaction' => nil,
+      'subtransaction_payments' => [],
+      'transaction_assignments' => [
+        cgp_builder_to_id
+      ]
+    }
+  end
+
+  let(:cgp_builder_to_id) do 
+    {
+      'id' => match_houid('cgpur'),
+      'object' => 'campaign_gift_purchase',
+      'type' => 'trx_assignment'
     }
   end
   
@@ -102,9 +116,9 @@ RSpec.describe CampaignGiftPurchase, type: :model do
       'campaign_gift_purchase' => match_houid('cgpur'),
       'deleted' => false,
       'id' => match_houid('cgift'),
-      'nonprofit'=> kind_of(Numeric),
+      'nonprofit'=> nonprofit.id,
       'object' => 'campaign_gift',
-      'supporter' => kind_of(Numeric),
+      'supporter' => supporter.id,
       'transaction' => match_houid('trx')
     }
   }
@@ -114,6 +128,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
 
   it 'announces created properly when called' do
     allow(Houdini.event_publisher).to receive(:announce)
+    expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, any_args)
     expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_purchase_created, {
       'id' => match_houid('objevt'),
       'object' => 'object_event',
@@ -131,7 +146,8 @@ RSpec.describe CampaignGiftPurchase, type: :model do
           'supporter' => supporter_builder_expanded,
           'nonprofit' => np_builder_expanded,
           'transaction' => transaction_builder_expanded,
-          'deleted' => false
+          'deleted' => false,
+          'type' => 'trx_assignment'
         }
       }
     })
@@ -141,6 +157,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
 
   it 'announces updated properly when called' do
     allow(Houdini.event_publisher).to receive(:announce)
+    expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, any_args)
     expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_purchase_updated, {
       'id' => match_houid('objevt'),
       'object' => 'object_event',
@@ -158,7 +175,8 @@ RSpec.describe CampaignGiftPurchase, type: :model do
           'supporter' => supporter_builder_expanded,
           'nonprofit' => np_builder_expanded,
           'transaction' => transaction_builder_expanded,
-          'deleted' => false
+          'deleted' => false,
+          'type' => 'trx_assignment'
         }
       }
     })
@@ -168,6 +186,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
 
   it 'announces updated deleted properly when called' do
     allow(Houdini.event_publisher).to receive(:announce)
+    expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_option_created, any_args)
     expect(Houdini.event_publisher).to receive(:announce).with(:campaign_gift_purchase_deleted, {
       'id' => match_houid('objevt'),
       'object' => 'object_event',
@@ -185,7 +204,8 @@ RSpec.describe CampaignGiftPurchase, type: :model do
           'supporter' => supporter_builder_expanded,
           'nonprofit' => np_builder_expanded,
           'transaction' => transaction_builder_expanded,
-          'deleted' => true
+          'deleted' => true,
+          'type' => 'trx_assignment'
         }
       }
     })

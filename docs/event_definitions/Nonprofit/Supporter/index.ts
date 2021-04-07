@@ -4,6 +4,7 @@ import type Nonprofit from '../';
 import type { SupporterAddress } from './SupporterAddress';
 
 export default interface Supporter extends HoudiniObject {
+  addresses: IDType[] | SupporterAddress[];
   anonymous: boolean;
   deleted: boolean;
   email: string;
@@ -13,7 +14,6 @@ export default interface Supporter extends HoudiniObject {
   object: "supporter";
   organization: string;
   phone: string;
-  supporter_addresses: IDType[] | SupporterAddress[];
 }
 
 export type SupporterCreated = HoudiniEvent<'supporter_address.created', Supporter>;
@@ -22,4 +22,3 @@ export type SupporterDeleted = HoudiniEvent<'supporter_address.deleted', Support
 
 export * from './SupporterNote';
 export * from './SupporterAddress';
-export * from './Transaction';

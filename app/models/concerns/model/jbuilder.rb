@@ -92,6 +92,15 @@ module Model::Jbuilder
 		def builder_expansions 
 			@builder_expansions ||= BuilderExpansionSet.new
 		end
+
+		def init_builder(model, *expand)
+			JbuilderWithExpansions.new(model, *expand) do | json|
+				json.(model, :id)
+				json.object model.class.name.underscore
+				
+				yield(json)
+			end
+		end
 	end
 
 	def to_id
@@ -152,11 +161,18 @@ module Model::Jbuilder
 			return ->(model,be=self) {	
 				value = be.get_attribute_value model
 				if be.expandable_enum?
-					value&.map{|i| i&.to_id}
+					value&.map do |i|
+						id_result = i&.to_id
+						if ::Jbuilder === id_result
+						 	id_result.attributes!
+						else
+						 	id_result
+						end
+					end
 				elsif be.flat_enum?
 					value
 				else
-					value&.to_id	
+					value&.to_id
 				end
 			}	
 		end
@@ -165,7 +181,7 @@ module Model::Jbuilder
 			return ->(model,be=self) { 
 				value = be.get_attribute_value model
 				if be.expandable_enum?
-					value&.map{|i| i&.to_builder}
+					value&.map{|i| i&.to_builder.attributes!}
 				elsif be.flat_enum?
 					value
 				else
@@ -183,20 +199,32 @@ module Model::Jbuilder
 		end
 	end
 
-	
-	def init_builder(*expand)
-		builder_expansions = self.class.builder_expansions
-		Jbuilder.new do | json|
-			json.(self, :id)
-			json.object self.class.name.underscore
+	def init_builder(*expand, &block)
+		self.class.init_builder(self, *expand, &block)
+	end
+
+
+	class JbuilderWithExpansions < ::Jbuilder
+		attr_reader :model, :expand
+		
+		delegate_missing_to :@jbuilder
+		
+		def initialize(model, *expand, &block)
+			@model = model
+			@expand = expand
+			super(&block)
+		end
+
+		def add_builder_expansion( ... )
+			builder_expansions = BuilderExpansionSet.new
+			builder_expansions.add_builder_expansion( ... )
 			builder_expansions.keys.each do |k|
 				if expand.include? k
-					json.set! builder_expansions.get_by_key(k).json_attribute, builder_expansions.get_by_key(k).to_builder.(self)
+					set! builder_expansions.get_by_key(k).json_attribute, builder_expansions.get_by_key(k).to_builder.(model)
 				else
-					json.set! builder_expansions.get_by_key(k).json_attribute, builder_expansions.get_by_key(k).to_id.(self)
+					set! builder_expansions.get_by_key(k).json_attribute, builder_expansions.get_by_key(k).to_id.(model)
 				end
 			end
-			yield(json)
 		end
 	end
 end

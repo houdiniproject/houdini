@@ -569,7 +569,6 @@ AllCops:
     - 'spec/lib/format/dedication_spec.rb'
     - 'spec/lib/insert/insert_refunds_spec.rb'
     - 'spec/lib/insert/insert_recurring_donation_spec.rb'
-    - 'spec/lib/insert/insert_donation_spec.rb'
     - 'spec/lib/insert/insert_charge_spec.rb'
     - 'spec/lib/insert/insert_disputes_spec.rb'
     - 'spec/lib/insert/insert_bank_account_spec.rb'
@@ -744,4 +743,8 @@ Style/FrozenStringLiteralComment:
   EnforcedStyle: always_true
 
 Style/PreferredHashMethods:
+  Enabled: false
+
+Style/LambdaCall:
+  # jbuilder uses this a lot so we want it.
   Enabled: false

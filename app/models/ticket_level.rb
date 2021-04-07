@@ -15,9 +15,7 @@ class TicketLevel < ApplicationRecord
   # :admin_only, #bool, only admins can create tickets for this level
   # :limit, #int: for limiting the number of tickets to be sold
   # :order #int: order in which to be displayed
-  
 
-  add_builder_expansion :nonprofit, :event
   # TODO replace with Discard gem
   define_model_callbacks :discard
 
@@ -67,13 +65,16 @@ class TicketLevel < ApplicationRecord
       end
       json.available_to admin_only ? 'admins' : 'everyone'
 
-      if expand.include? :event_discounts
-        json.event_discounts event_discounts do |disc|
-          json.merge! disc.to_builder.attributes!
-        end
-      else 
-        json.event_discounts event_discounts.pluck(:id)
-      end
+      json.add_builder_expansion :nonprofit, :event
+
+      json.add_builder_expansion :event_discounts, enum_type: :expandable
+      # if expand.include? :event_discounts
+      #   json.event_discounts event_discounts do |disc|
+      #     json.merge! disc.to_builder.attributes!
+      #   end
+      # else 
+      #   json.event_discounts event_discounts.pluck(:id)
+      # end
     end
   end
 

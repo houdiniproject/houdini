@@ -219,7 +219,7 @@ RSpec.describe EventDiscount, type: :model do
                 'available_to' => 'everyone',
                 'nonprofit' => nonprofit.id,
                 'event' => event.id,
-                'event_discounts' => []
+                'event_discounts' => [kind_of(Numeric)]
               }
             ]
           }

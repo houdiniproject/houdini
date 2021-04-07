@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_23_204824) do
+ActiveRecord::Schema.define(version: 2021_03_29_213633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -599,6 +599,19 @@ ActiveRecord::Schema.define(version: 2021_02_23_204824) do
     t.index ["nonprofit_id"], name: "index_object_event_hook_configs_on_nonprofit_id"
   end
 
+  create_table "offline_transaction_charges", id: :string, force: :cascade do |t|
+    t.bigint "payment_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payment_id"], name: "index_offline_transaction_charges_on_payment_id"
+  end
+
+  create_table "offline_transactions", id: :string, force: :cascade do |t|
+    t.integer "amount", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "offsite_payments", id: :serial, force: :cascade do |t|
     t.integer "gross_amount"
     t.string "kind", limit: 255
@@ -769,6 +782,28 @@ ActiveRecord::Schema.define(version: 2021_02_23_204824) do
     t.index ["tokenizable_id", "tokenizable_type"], name: "index_source_tokens_on_tokenizable_id_and_tokenizable_type"
   end
 
+  create_table "subtransaction_payments", id: :string, force: :cascade do |t|
+    t.string "subtransaction_id"
+    t.string "paymentable_type"
+    t.string "paymentable_id"
+    t.datetime "created", comment: "the moment that the subtransaction_payment was created. Could be earlier than created_at if the transaction was in the past."
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["paymentable_type", "paymentable_id"], name: "index_subtransaction_payments_on_paymentable"
+    t.index ["subtransaction_id"], name: "index_subtransaction_payments_on_subtransaction_id"
+  end
+
+  create_table "subtransactions", id: :string, force: :cascade do |t|
+    t.string "transaction_id", null: false
+    t.string "subtransactable_type", null: false
+    t.string "subtransactable_id", null: false
+    t.datetime "created", comment: "the moment that the subtransaction was created. Could be earlier than created_at if the transaction was in the past."
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subtransactable_type", "subtransactable_id"], name: "index_subtransactions_on_subtransactable", unique: true
+    t.index ["transaction_id"], name: "index_subtransactions_on_transaction_id"
+  end
+
   create_table "supporter_notes", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "supporter_id"
@@ -925,6 +960,7 @@ ActiveRecord::Schema.define(version: 2021_02_23_204824) do
     t.integer "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created", comment: "the moment that the offline_transaction was created. Could be earlier than created_at if the transaction was in the past."
     t.index ["supporter_id"], name: "index_transactions_on_supporter_id"
   end
 
@@ -971,6 +1007,9 @@ ActiveRecord::Schema.define(version: 2021_02_23_204824) do
   add_foreign_key "modern_campaign_gifts", "campaign_gift_purchases"
   add_foreign_key "modern_campaign_gifts", "campaign_gifts"
   add_foreign_key "object_event_hook_configs", "nonprofits"
+  add_foreign_key "offline_transaction_charges", "payments"
+  add_foreign_key "subtransaction_payments", "subtransactions"
+  add_foreign_key "subtransactions", "transactions"
   add_foreign_key "ticket_purchases", "event_discounts"
   add_foreign_key "ticket_purchases", "events"
   add_foreign_key "ticket_to_legacy_tickets", "ticket_purchases"

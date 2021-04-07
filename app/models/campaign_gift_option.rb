@@ -30,8 +30,6 @@ class CampaignGiftOption < ApplicationRecord
   after_update_commit :publish_updated
   after_destroy_commit :publish_deleted
 
-  add_builder_expansion :campaign, :nonprofit
-
   has_one :nonprofit, through: :campaign
 
 
@@ -90,6 +88,8 @@ class CampaignGiftOption < ApplicationRecord
           json.type desc[:recurrence][:type]
         end if desc[:recurrence]
       end
+
+      json.add_builder_expansion :campaign, :nonprofit
     end
   end
 

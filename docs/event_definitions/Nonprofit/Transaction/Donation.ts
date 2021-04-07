@@ -1,8 +1,6 @@
 // License: LGPL-3.0-or-later
-import type { Amount, HoudiniObject, IDType, HouID, HoudiniEvent } from "../../common";
-import type Nonprofit from '../';
-import type Supporter from "../Supporter";
-import type Transaction from './';
+import type { HoudiniEvent } from "../../common";
+import type { TrxAssignment } from './';
 
 interface Dedication {
   contact?: {
@@ -15,14 +13,10 @@ interface Dedication {
   type: 'honor' | 'memory';
 }
 
-export interface Donation extends HoudiniObject<HouID> {
-  amount: Amount;
+export interface Donation extends TrxAssignment {
   dedication?: Dedication | null;
   designation?: string | null;
-  nonprofit: IDType | Nonprofit;
   object: 'donation';
-  supporter: IDType | Supporter;
-  transaction: HouID | Transaction;
 }
 
 export type DonationCreated = HoudiniEvent<'donation.created', Donation>;

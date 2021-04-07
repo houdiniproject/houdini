@@ -39,6 +39,14 @@ RSpec.describe TicketToLegacyTicket, type: :model do
       end
     end
 
+    let(:ticket_purchase_to_id) do
+      {
+        'id' => ticket_purchase.id,
+        'object' => 'ticket_purchase',
+        'type' => 'trx_assignment'
+      }
+    end
+
     let(:ticket_default) do 
       {
         'id' => match_houid('tkt'),
@@ -49,7 +57,7 @@ RSpec.describe TicketToLegacyTicket, type: :model do
         'nonprofit' => nonprofit.id,
         'event' => event.id,
         'supporter' => supporter.id,
-        'ticket_purchase' => ticket_purchase.id,
+        'ticket_purchase' => ticket_purchase_to_id,
         'original_discount' => { 'percent' => 0},
         'event_discount' => nil
       }
@@ -124,6 +132,14 @@ RSpec.describe TicketToLegacyTicket, type: :model do
       end
     end
 
+    let(:ticket_purchase_to_id) do
+      {
+        'id' =>  ticket_purchase.id,
+        'object'=> 'ticket_purchase',
+        'type' => 'trx_assignment'
+      }
+    end
+
     let(:ticket_default) do 
       {
         'id' => match_houid('tkt'),
@@ -134,7 +150,7 @@ RSpec.describe TicketToLegacyTicket, type: :model do
         'nonprofit' => nonprofit.id,
         'event' => event.id,
         'supporter' => supporter.id,
-        'ticket_purchase' => ticket_purchase.id,
+        'ticket_purchase' => ticket_purchase_to_id,
         'original_discount' => { 'percent' => 20},
         'event_discount' => event_discount.id
       }

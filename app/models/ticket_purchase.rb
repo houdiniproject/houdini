@@ -6,9 +6,6 @@ class TicketPurchase < ApplicationRecord
   include Model::TrxAssignable
   setup_houid :tktpur
 
-  add_builder_expansion :event, :event_discount
-  
-  
   before_create :set_original_discount
 
   belongs_to :event_discount
@@ -18,8 +15,18 @@ class TicketPurchase < ApplicationRecord
 
   validates :event, presence: true
 
+	def to_id
+		::Jbuilder.new do |json|
+			json.id id
+			json.object 'ticket_purchase'
+			json.type 'trx_assignment'
+		end
+	end
+
   def to_builder(*expand)
     init_builder(*expand) do |json|
+      json.type 'trx_assignment'
+      
       json.original_discount do
         json.percent original_discount
       end if original_discount
@@ -29,19 +36,22 @@ class TicketPurchase < ApplicationRecord
         json.currency nonprofit.currency
       end
 
+      json.add_builder_expansion :event, :event_discount, :nonprofit, :supporter
+      json.add_builder_expansion :ticket_to_legacy_tickets, enum_type: :expandable, json_attribute: 'tickets'
+      json.add_builder_expansion :trx, json_attribute: :transaction
 
-      if expand.include? :tickets
-        json.tickets ticket_to_legacy_tickets do |i|
-          i.to_builder.attributes!
-        end
-      else
-        json.tickets ticket_to_legacy_tickets.pluck(:id)
-      end
+      # if expand.include? :tickets
+      #   json.tickets ticket_to_legacy_tickets do |i|
+      #     i.to_builder.attributes!
+      #   end
+      # else
+      #   json.tickets ticket_to_legacy_tickets.pluck(:id)
+      # end
     end
   end
 
   def publish_created
-    Houdini.event_publisher.announce(:ticket_purchase_created, to_event('ticket_purchase.created', :event, :nonprofit, :supporter, :trx, :event_discount).attributes!)
+    Houdini.event_publisher.announce(:ticket_purchase_created, to_event('ticket_purchase.created', :event, :nonprofit, :supporter, :trx, :event_discount, :ticket_to_legacy_tickets).attributes!)
   end
 
   private

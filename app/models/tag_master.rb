@@ -6,7 +6,6 @@ class TagMaster < ApplicationRecord
   include Model::Eventable
   include Model::Jbuilder
 
-  add_builder_expansion :nonprofit
   # TODO replace with Discard gem
   define_model_callbacks :discard
 
@@ -46,6 +45,8 @@ class TagMaster < ApplicationRecord
     init_builder(*expand) do |json|
       json.(self, :name, :deleted)
       json.object 'tag_definition'
+
+      json.add_builder_expansion :nonprofit
     end
   end
 

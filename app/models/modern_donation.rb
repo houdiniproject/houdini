@@ -11,10 +11,19 @@ class ModernDonation < ApplicationRecord
 
 	delegate :designation, :dedication, to: :legacy_donation
 	
+	def to_id
+		::Jbuilder.new do |json|
+			json.id id
+			json.object 'donation'
+			json.type 'trx_assignment'
+		end
+	end
+
 	def to_builder(*expand)
     init_builder(*expand) do |json|
       json.(self, :designation)
 			json.object 'donation'
+			json.type 'trx_assignment'
 
 			json.dedication do
 				json.type dedication['type']
@@ -32,14 +41,19 @@ class ModernDonation < ApplicationRecord
         json.cents amount
         json.currency nonprofit.currency
       end
+
+			json.add_builder_expansion :nonprofit, :supporter
+			json.add_builder_expansion :trx, json_attribute: :transaction
     end
   end
 
   def publish_created
     Houdini.event_publisher.announce(:donation_created, to_event('donation.created', :nonprofit, :supporter, :trx).attributes!)
+		Houdini.event_publisher.announce(:trx_assignment_created, to_event('trx_assignment.created', :nonprofit, :supporter, :trx).attributes!)
 	end
 	
 	def publish_updated
 		Houdini.event_publisher.announce(:donation_updated, to_event('donation.updated', :nonprofit, :supporter, :trx).attributes!)
+		Houdini.event_publisher.announce(:trx_assignment_updated, to_event('trx_assignment.updated', :nonprofit, :supporter, :trx).attributes!)
 	end
 end

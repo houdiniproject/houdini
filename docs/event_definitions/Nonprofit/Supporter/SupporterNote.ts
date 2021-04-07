@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import type { IDType, HoudiniObject, HoudiniEvent } from '../../common';
 import type Nonprofit from '..';
-import Supporter from '.';
+import Supporter from '..';
 import type { User } from '../../User';
 
 export interface SupporterNote extends HoudiniObject {

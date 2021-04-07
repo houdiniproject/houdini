@@ -14,8 +14,8 @@ module Model::Eventable
 				end
 		end
 	end
-
 	def to_builder(*expand)
 		raise NotImplementedError.new("to_builder must be implemented in your model")
 	end
+	
 end

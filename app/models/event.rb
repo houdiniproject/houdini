@@ -5,7 +5,7 @@
 class Event < ApplicationRecord
   include Image::AttachmentExtensions
   include Model::Jbuilder
-  add_builder_expansion :nonprofit
+
   # :deleted, #bool for soft-delete
   # :name, # str
   # :tagline, # str
@@ -102,6 +102,7 @@ class Event < ApplicationRecord
   def to_builder(*expand) 
     init_builder(*expand) do |json|
       json.(self, :name)
+      json.add_builder_expansion :nonprofit
     end
   end
 

@@ -6,7 +6,6 @@ class EventDiscount < ApplicationRecord
   include Model::Eventable
   include Model::Jbuilder
 
-  add_builder_expansion :nonprofit, :event
   # :code,
   # :event_id,
   # :name,
@@ -36,13 +35,16 @@ class EventDiscount < ApplicationRecord
         json.percent percent
       end
 
-      if expand.include? :ticket_levels
-        json.ticket_levels ticket_levels do |tl|
-          json.merge! tl.to_builder.attributes!
-        end
-      else
-        json.ticket_levels ticket_levels.pluck(:id)
-      end
+      json.add_builder_expansion :nonprofit, :event
+      json.add_builder_expansion :ticket_levels, enum_type: :expandable
+
+      # if expand.include? :ticket_levels
+      #   json.ticket_levels ticket_levels do |tl|
+      #     json.merge! tl.to_builder.attributes!
+      #   end
+      # else
+      #   json.ticket_levels ticket_levels.pluck(:id)
+      # end
     end
   end
 

@@ -13,7 +13,7 @@ module Model::TrxAssignable
 		add_builder_expansion :nonprofit, :supporter
 
 		add_builder_expansion :trx, 
-			json_attrib: :transaction
+			json_attribute: :transaction
 
 		has_one :transaction_assignment, as: :assignable
 		has_one :trx, through: :transaction_assignment

@@ -6,11 +6,8 @@ class TicketPurchase < ApplicationRecord
   include Model::TrxAssignable
   setup_houid :tktpur
 
-  add_builder_expansion :event
+  add_builder_expansion :event, :event_discount
   
-  add_builder_expansion :event_discount,
-    to_id: -> (model) { model.event_discount&.id },
-    to_expand: -> (model) { model.event_discount&.to_builder }
   
   before_create :set_original_discount
 

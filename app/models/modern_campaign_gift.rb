@@ -10,7 +10,7 @@ class ModernCampaignGift < ApplicationRecord
 	
 	add_builder_expansion :nonprofit, :supporter, :campaign, :campaign_gift_option, :campaign_gift_purchase
   add_builder_expansion :trx, 
-		json_attrib: :transaction
+		json_attribute: :transaction
 
 	belongs_to :campaign_gift_purchase
 	belongs_to :legacy_campaign_gift,  class_name: 'CampaignGift', foreign_key: :campaign_gift_id, inverse_of: :modern_campaign_gift

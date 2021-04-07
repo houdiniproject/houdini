@@ -21,11 +21,7 @@ class TicketToLegacyTicket < ApplicationRecord
   
   setup_houid :tkt
 
-  add_builder_expansion :ticket_purchase, :ticket_level, :supporter, :event, :nonprofit
-
-  add_builder_expansion :event_discount,
-    to_id: -> (model) { model.event_discount&.id},
-    to_expand: -> (model) { model.event_discount&.to_builder}
+  add_builder_expansion :ticket_purchase, :ticket_level, :supporter, :event, :nonprofit, :event_discount
 
   def to_builder(*expand)
     init_builder(*expand) do |json|

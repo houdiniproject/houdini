@@ -18,10 +18,7 @@ class SupporterNote < ApplicationRecord
   validates :supporter_id, presence: true
   # TODO replace with Discard gem
 
-  add_builder_expansion :supporter, :nonprofit
-  add_builder_expansion :user, 
-    to_id: ->(model) { model.user&.id},
-    to_expand: ->(model) { model.user&.to_builder}
+  add_builder_expansion :supporter, :nonprofit, :user
 
   define_model_callbacks :discard
 

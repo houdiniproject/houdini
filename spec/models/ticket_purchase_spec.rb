@@ -57,7 +57,8 @@ RSpec.describe TicketPurchase, type: :model do
 					'amount' => {'currency' => 'usd', 'cents' => 1200},
 					'original_discount' => { 'percent' => 0},
 					'event_discount' => nil,
-					'transaction' => trx.id
+					'transaction' => trx.id,
+					'type' => 'trx_assignment'
 				}
 			end
 

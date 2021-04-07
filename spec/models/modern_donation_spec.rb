@@ -26,7 +26,8 @@ RSpec.describe ModernDonation, type: :model do
         'supporter' => supporter.id,
         'amount' => {'currency' => 'usd', 'cents' => 1200},
         'transaction' => trx.id,
-        'designation' => nil
+        'designation' => nil,
+        'type' => 'trx_assignment'
       }
     end
     it 'without dedication or designation' do 

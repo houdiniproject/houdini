@@ -143,7 +143,7 @@ This will download the latest Houdini code. Change to the
 `houdini` directory and we can set the rest of Houdini up.
 
 Let's run the Houdini project setup and we'll be ready to go!
-
+P
 ```bash
 bin/setup
 ```

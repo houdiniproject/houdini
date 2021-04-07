@@ -7,12 +7,6 @@
 # If connected to an offsite_payment, this is money the nonprofit is recording for convenience.
 
 class Payment < ApplicationRecord
-  # :towards,
-  # :gross_amount,
-  # :refund_total,
-  # :fee_total,
-  # :kind,
-  # :date
 
   belongs_to :supporter
   belongs_to :nonprofit
@@ -26,4 +20,10 @@ class Payment < ApplicationRecord
   has_many :events, through: :tickets
   has_many :payment_payouts
   has_many :charges
+
+  has_one :subtransaction_payment
+
+  has_one :subtransaction, through: :subtransaction_payment
+  has_one :trx, through: :subtransaction_payment
+  
 end

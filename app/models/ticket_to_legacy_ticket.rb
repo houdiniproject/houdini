@@ -21,8 +21,6 @@ class TicketToLegacyTicket < ApplicationRecord
   
   setup_houid :tkt
 
-  add_builder_expansion :ticket_purchase, :ticket_level, :supporter, :event, :nonprofit, :event_discount
-
   def to_builder(*expand)
     init_builder(*expand) do |json|
       json.(self, :checked_in, :deleted, :note)
@@ -38,6 +36,8 @@ class TicketToLegacyTicket < ApplicationRecord
           json.percent original_discount
         end
       end
+
+      json.add_builder_expansion :ticket_purchase, :ticket_level, :supporter, :event, :nonprofit, :event_discount
     end
   end
 

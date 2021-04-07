@@ -10,9 +10,6 @@ class CampaignGiftPurchase < ApplicationRecord
   belongs_to :campaign
   has_many :campaign_gifts, class_name: 'ModernCampaignGift'
 
-  add_builder_expansion :campaign
-
-
   # TODO replace with Discard gem
 	define_model_callbacks :discard
 
@@ -28,22 +25,28 @@ class CampaignGiftPurchase < ApplicationRecord
     end
   end
 
+  	
+	def to_id
+		::Jbuilder.new do |json|
+			json.id id
+			json.object 'campaign_gift_purchase'
+			json.type 'trx_assignment'
+		end
+	end
+
   def to_builder(*expand)
     init_builder(*expand) do |json|
       json.(self, :deleted)
+      json.type 'trx_assignment'
       
       json.amount do
         json.cents amount
         json.currency nonprofit.currency
       end
 
-      if expand.include? :campaign_gifts
-        json.campaign_gifts campaign_gifts do |gift|
-          json.merge! gift.to_builder.attributes!
-        end
-      else
-        json.campaign_gifts campaign_gifts.pluck(:id)
-      end
+      json.add_builder_expansion :campaign, :nonprofit, :supporter
+      json.add_builder_expansion :trx, json_attribute: "transaction"
+      json.add_builder_expansion :campaign_gifts, enum_type: :expandable
     end
   end
 

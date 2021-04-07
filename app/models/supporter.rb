@@ -54,7 +54,7 @@ class Supporter < ApplicationRecord
   validates :nonprofit, presence: true
   scope :not_deleted, -> { where(deleted: false) }
 
-  add_builder_expansion :nonprofit
+
 
   # TODO replace with Discard gem
   define_model_callbacks :discard
@@ -86,47 +86,56 @@ class Supporter < ApplicationRecord
     h
   end
 
-  def to_builder(*expand)
-    supporter_addresses = [self]
-    init_builder(*expand) do |json|
-      json.(self, :name, :organization, :phone, :anonymous, :deleted)
-      if expand.include? :supporter_address
-        json.supporter_addresses supporter_addresses do |i|
-          json.merge! i.to_supporter_address_builder.attributes!
+  concerning :Jbuilder do 
+    included do 
+      def to_builder(*expand)
+        supporter_addresses = [self]
+        init_builder(*expand) do |json|
+          json.(self, :name, :organization, :phone, :anonymous, :deleted)
+          json.add_builder_expansion :nonprofit, :merged_into
+          if expand.include? :supporter_address
+            json.supporter_addresses supporter_addresses do |i|
+              json.merge! i.to_supporter_address_builder.attributes!
+            end
+          else
+            json.supporter_addresses [id]
+          end
+    
+          # unless merged_into.nil?
+          #   if expand.include? :merged_into
+          #     json.merged_into merged_into.to_builder
+          #   else
+          #     json.merged_into merged_into.id
+          #   end
+          # else
+          #   json.merged_into nil
+          # end
         end
-      else
-        json.supporter_addresses [id]
       end
 
-      unless merged_into.nil?
-        if expand.include? :merged_into
-          json.merged_into merged_into.to_builder
-        else
-          json.merged_into merged_into.id
+      def to_supporter_address_builder(*expand)
+        init_builder(*expand) do |json|
+          json.(self, :address, :state_code, :city, :country, :zip_code, :deleted)
+          json.object 'supporter_address'
+          if expand.include? :supporter
+            json.supporter to_builder
+          else
+            json.supporter id
+          end
+    
+          # if expand.include? :nonprofit
+          #   json.nonprofit nonprofit.to_builder
+          # else
+          #   json.nonprofit nonprofit.id
+          # end
+
+          json.add_builder_expansion :nonprofit
         end
-      else
-        json.merged_into nil
       end
     end
   end
 
-  def to_supporter_address_builder(*expand)
-    init_builder(*expand) do |json|
-      json.(self, :address, :state_code, :city, :country, :zip_code, :deleted)
-      json.object 'supporter_address'
-      if expand.include? :supporter
-        json.supporter to_builder
-      else
-        json.supporter id
-      end
-
-      if expand.include? :nonprofit
-        json.nonprofit nonprofit.to_builder
-      else
-        json.nonprofit nonprofit.id
-      end
-    end
-  end
+  
 
   def full_address
     Format::Address.full_address(address, city, state_code)
@@ -167,7 +176,7 @@ class Supporter < ApplicationRecord
 
   # we do something custom here since Supporter and SupporterAddress are in the same model
   def to_event(event_type, *expand)
-    Jbuilder.new do |event|
+    ::Jbuilder.new do |event|
         event.id "objevt_" + SecureRandom.alphanumeric(22)
         event.object 'object_event'
         event.type event_type

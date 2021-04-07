@@ -18,8 +18,6 @@ class SupporterNote < ApplicationRecord
   validates :supporter_id, presence: true
   # TODO replace with Discard gem
 
-  add_builder_expansion :supporter, :nonprofit, :user
-
   define_model_callbacks :discard
 
   after_discard :publish_deleted
@@ -38,6 +36,8 @@ class SupporterNote < ApplicationRecord
   def to_builder(*expand)
     init_builder(*expand) do |json|
       json.(self, :deleted, :content)
+
+      json.add_builder_expansion :supporter, :nonprofit, :user
     end
   end
 

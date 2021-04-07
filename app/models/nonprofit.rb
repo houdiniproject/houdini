@@ -7,7 +7,7 @@ class Nonprofit < ApplicationRecord
   Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
 
   include Image::AttachmentExtensions
-  include Model::Jbuilder
+
   # :name, # str
   # :stripe_account_id, # str
   # :summary, # text: paragraph-sized organization summary
@@ -260,9 +260,13 @@ class Nonprofit < ApplicationRecord
     Houdini.intl.all_currencies[currency.downcase.to_sym][:symbol]
   end
 
-  def to_builder(*expand) 
-    init_builder(*expand) do |json|
-      json.(self, :name)
+  concerning :JBuilder do
+    include Model::Jbuilder
+
+    def to_builder(*expand) 
+      init_builder(*expand) do |json|
+        json.(self, :id, :name)
+      end
     end
   end
 
@@ -302,5 +306,8 @@ private
   def user_is_valid
     (user && user.is_a?(User)) || errors.add(:user_id, "is not a valid user")
   end
-
 end
+
+
+
+

@@ -69,8 +69,20 @@ RSpec.describe ModernCampaignGift, type: :model do
         'cents' => trx.amount,
         'currency' => 'usd'
       },
+      'created' => Time.current.to_i,
       'supporter' => kind_of(Numeric),
-      'nonprofit' => kind_of(Numeric)
+      'nonprofit' => kind_of(Numeric),
+      'subtransaction' => nil,
+      'subtransaction_payments' => [],
+      'transaction_assignments' => [cgp_builder_to_id]
+    }
+  end
+
+  let(:cgp_builder_to_id) do 
+    {
+      'id' => match_houid('cgpur'),
+      'object' => 'campaign_gift_purchase',
+      'type' => 'trx_assignment'
     }
   end
   
@@ -87,12 +99,10 @@ RSpec.describe ModernCampaignGift, type: :model do
       'supporter' => kind_of(Numeric),
       'nonprofit' => kind_of(Numeric),
       'transaction' => match_houid('trx'),
-      'deleted' => false
+      'deleted' => false,
+      'type' => 'trx_assignment'
     }
   end
-  
-
-  
 
   it 'announces created properly when called' do
     allow(Houdini.event_publisher).to receive(:announce)

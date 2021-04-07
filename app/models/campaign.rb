@@ -40,8 +40,6 @@ class Campaign < ApplicationRecord
   # :reason_for_supporting,
   # :default_reason_for_supporting
 
-  add_builder_expansion :nonprofit
-
   validate  :end_datetime_cannot_be_in_past, on: :create
   validates :profile, presence: true
   validates :nonprofit, presence: true
@@ -202,6 +200,8 @@ class Campaign < ApplicationRecord
   def to_builder(*expand)
     init_builder(*expand) do |json|
       json.(self, :name)
+
+      json.add_builder_expansion :nonprofit
     end
   end
 

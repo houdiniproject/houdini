@@ -15,7 +15,7 @@ export type HouID = string;
  * Describes a monetary value in the minimum unit for this current. Corresponds to Money class in
  * Ruby and Typescript
  */
-export type Amount = { cents: string, currency: string };
+export type Amount = { cents: number, currency: string };
 
 /**
  * A more flexible version of Amount. In cases where we can assume what the currency is,
@@ -72,6 +72,7 @@ export interface HoudiniObject<ID extends IDType|HouID=IDType> {
 	object: string;
 }
 
+export type PolymorphicID<ID extends IDType|HouID=IDType> = HoudiniObject<ID>;
 
 type HoudiniObjectOfAllIDs = HoudiniObject<IDType> | HoudiniObject<HouID>;
 /**

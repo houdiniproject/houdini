@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import { IDType, HoudiniObject } from '../../common';
-import Nonprofit from '../';
+import Nonprofit from '..';
 
 export default interface Campaign extends HoudiniObject {
 	name: string;

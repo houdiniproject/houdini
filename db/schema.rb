@@ -606,6 +606,13 @@ ActiveRecord::Schema.define(version: 2021_06_02_220525) do
     t.index ["payment_id"], name: "index_offline_transaction_charges_on_payment_id"
   end
 
+  create_table "offline_transaction_disputes", id: :string, force: :cascade do |t|
+    t.bigint "payment_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payment_id"], name: "index_offline_transaction_disputes_on_payment_id"
+  end
+
   create_table "offline_transaction_refunds", id: :string, force: :cascade do |t|
     t.bigint "payment_id"
     t.datetime "created_at", precision: 6, null: false
@@ -805,13 +812,6 @@ ActiveRecord::Schema.define(version: 2021_06_02_220525) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["payment_id"], name: "index_stripe_charges_on_payment_id"
-  end
-
-  create_table "stripe_refunds", id: :string, force: :cascade do |t|
-    t.bigint "payment_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["payment_id"], name: "index_stripe_refunds_on_payment_id"
   end
 
   create_table "stripe_transactions", id: :string, force: :cascade do |t|
@@ -1046,11 +1046,11 @@ ActiveRecord::Schema.define(version: 2021_06_02_220525) do
   add_foreign_key "modern_campaign_gifts", "campaign_gifts"
   add_foreign_key "object_event_hook_configs", "nonprofits"
   add_foreign_key "offline_transaction_charges", "payments"
+  add_foreign_key "offline_transaction_disputes", "payments"
   add_foreign_key "offline_transaction_refunds", "payments"
   add_foreign_key "recurrences", "recurring_donations"
   add_foreign_key "recurrences", "supporters"
   add_foreign_key "stripe_charges", "payments"
-  add_foreign_key "stripe_refunds", "payments"
   add_foreign_key "subtransaction_payments", "subtransactions"
   add_foreign_key "subtransactions", "transactions"
   add_foreign_key "ticket_purchases", "event_discounts"

@@ -24,7 +24,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { rgb } from "color";
 import Fade from '@material-ui/core/Fade';
 
-interface SignInPageProps {
+export interface SignInPageProps {
 	redirectUrl: string;
 }
 

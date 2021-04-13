@@ -2,10 +2,10 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
 <% content_for :title, t("login.header") %>
 <% content_for :javascripts do %>
-  <%= javascript_packs_with_chunks_tag 'i18n', 'user-signin-bundle' %>
+  <%= javascript_packs_with_chunks_tag 'user-signin-bundle' %>
 <% end %>
 <% content_for :stylesheets do %>
   <%= stylesheet_link_tag 'users/page' %>
 <% end %>
 
-<%= react_component('SessionLoginPage', {}) %>
+<%= react_component('SignInPage', props:{i18n: {locale: 'en'}, innerProps: {returnUrl: 'something'}, hoster: {legalName: 'Houdini Hoster LLC'}}) %>

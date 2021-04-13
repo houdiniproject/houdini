@@ -20,7 +20,7 @@
 	<div class='container'>
 		<i class='icon-check-list header-icon'></i>
 		<h3 class='header-title'>
-			Campaign Dashboard
+			<%= t('campaign.dashboard.campaign_dashboard')%>
 		</h3>
 		<a class='header-profile' href='<%= @campaign.url%>'><%=  @campaign.name %></a>
 	</div>
@@ -30,7 +30,7 @@
   <div class='u-marginBottom--10 u-marginTop--15 u-noSelect'>
     <div class='u-centered u-color--grey u-marginTop--20'>
       <!--= show_if loading_chart -->
-      Loading...
+      <%= t('common.loading') %>
     </div>
     <canvas id='js-timeline'></canvas>
   </div>

@@ -44,7 +44,7 @@ function init() {
         if (on_ios11() && id !==null){
             noScroll.on()
         }}, state.modalID$)
-  state.donateWiz = donateWiz.init(flyd.stream({event_id: app.event_id}))
+  state.donateWiz = donateWiz.init(flyd.stream({event_id: app.event_id, hide_cover_fees_option: app.hide_cover_fees_option}))
   return state
 }
 

@@ -14,6 +14,7 @@
     }
 		app.nonprofit.email = '<%= @data['nonprofit'].email.blank? ? @data['nonprofit'].users.first.email : @data['nonprofit'].email %>'
 		app.pageLoadData = <%= raw @data.to_json %>
+		app.hide_cover_fees_option = <%= !!@data['nonprofit'].hide_cover_fees? %>
 	</script>
 	<%= IncludeAsset.js '/client/js/recurring_donations/edit/page.js' %>
 <% end %>

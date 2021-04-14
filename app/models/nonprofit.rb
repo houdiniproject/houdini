@@ -241,6 +241,9 @@ class Nonprofit < ActiveRecord::Base
     ret
   end
 
+  def hide_cover_fees?
+    miscellaneous_np_info&.hide_cover_fees
+  end
 
   def clear_cache
     Nonprofit::clear_caching(id, state_code_slug, city_slug, slug)

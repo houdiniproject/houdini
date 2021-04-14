@@ -47,7 +47,7 @@ const branding = require('../../components/nonprofit-branding')
 
 function init() {
   var state = {}
-  state.donateWiz = donateWiz.init(flyd.stream({}))
+  state.donateWiz = donateWiz.init(flyd.stream({hide_cover_fees_option: app.hide_cover_fees_option}))
   state.modalID$ = flyd.stream()
   return state
 }

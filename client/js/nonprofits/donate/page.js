@@ -18,6 +18,7 @@ const patch = snabbdom.init([
 ])
 
 const params = url.parse(location.href, true).query
+params.hide_cover_fees_option = params.hide_cover_fees_option || app.hide_cover_fees_option
 const params$ = flyd.stream(params)
 app.params$ = params$
 if(params.campaign_id && params.gift_option_id) {

@@ -40,7 +40,8 @@ function init() {
 state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.nonprofit,
         recurring_donation: app.pageLoadData.recurring_donation,
         supporter: app.pageLoadData.supporter,
-        custom_amounts: app.pageLoadData.change_amount_suggestions});
+        custom_amounts: app.pageLoadData.change_amount_suggestions,
+        hide_cover_fees_option: !!app.hide_cover_fees_option});
   
         state.addressForm = supporterAddressForm.init({
           supporter: app.pageLoadData.supporter

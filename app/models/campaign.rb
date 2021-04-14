@@ -223,4 +223,8 @@ class Campaign < ActiveRecord::Base
     where('campaigns.id = ? OR campaigns.parent_campaign_id = ? ',campaign, campaign)
   end
 
+	def hide_cover_fees?
+		nonprofit.hide_cover_fees? || misc_campaign_info&.hide_cover_fees_option
+	end
+
 end

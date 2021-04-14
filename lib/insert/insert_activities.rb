@@ -87,7 +87,7 @@ module InsertActivities
         "'Ticket' AS kind"
       ]))
       .from(:tickets)
-      .join("payments AS payment", "payment.id=tickets.payment_id")
+      .left_outer_join("payments AS payment", "payment.id=tickets.payment_id")
       .add_join("events AS event", "event.id=tickets.event_id")
   end
 

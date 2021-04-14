@@ -2,7 +2,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
 <div class='u-marginBottom--15 u-relative'>
 	<% has_video =  @campaign.vimeo_video_id || @campaign.youtube_video_id %>
-	<% text = has_video ? "Edit Video" : "Add Video" %>
+	<% text = has_video ? t('campaigns.admin.edit_video') : t('campaigns.admin.add_video') %>
 
 	<% if @campaign.vimeo_video_id %>
 		<div class='campaignMedia-video' if-branded='background, lightest'>

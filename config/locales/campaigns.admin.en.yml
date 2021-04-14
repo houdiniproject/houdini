@@ -32,14 +32,15 @@
 
 en:
   campaigns:
-    manage_campaign: Manage Campaign
-    settings: Settings
-    dashboard: Dashboard
-    offsite_donation: Offsite Donation
-    gift_options: Gift Options
-    custom_receipts: Custom Receipts
-    preview_mode: Preview Mode
-    copy_campaign: Copy Campaign
-    campaign_id: "Campaign ID: %{id}"
-    for_super_admin: "For super admin:"
-    np_and_campaign_ids: "NP: %{np_id} - Campaign ID: %{campaign_id}"
+    admin:
+      manage_campaign: Manage Campaign
+      settings: Settings
+      dashboard: Dashboard
+      offsite_donation: Offsite Donation
+      gift_options: Gift Options
+      custom_receipts: Custom Receipts
+      preview_mode: Preview Mode
+      copy_campaign: Copy Campaign
+      campaign_id: "Campaign ID: %{id}"
+      for_super_admin: "For super admin:"
+      np_and_campaign_ids: "NP: %{np_id} - Campaign ID: %{campaign_id}"

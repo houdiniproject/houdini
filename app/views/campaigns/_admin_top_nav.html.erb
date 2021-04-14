@@ -4,53 +4,53 @@
 	<section class='admin-topNav tour-admin'>
     <div class='container u-centered'>
 
-    <p><strong><%= t('campaigns.manage_campaign')%></strong></p>
+    <p><strong><%= t('campaigns.admin.manage_campaign')%></strong></p>
 
     <a class='button--tiny edit'>
       <!--= on 'click' (open_modal 'campaignSettings') -->
-      <i class='fa fa-gear'></i> <%= t('campaigns.settings')%>
+      <i class='fa fa-gear'></i> <%= t('campaigns.admin.settings')%>
     </a>
 
     <% if @campaign.parent_campaign? %>
       <a class='button--tiny edit' target='_blank' href="<%= @campaign.url + '/supporters' %>">
-        <i class='fa fa-th-list'></i> <%= t('campaigns.dashboard')%>
+        <i class='fa fa-th-list'></i> <%= t('campaigns.admin.dashboard')%>
       </a>
 
       <a class='button--tiny edit'>
         <!--= on 'click' (open_modal 'offlineCampaignDonation') -->
-        <i class='fa fa-plus'></i> <%= t('campaigns.offsite_donation')%>
+        <i class='fa fa-plus'></i> <%= t('campaigns.admin.offsite_donation')%>
       </a>
 
       <a class='button--tiny edit'>
         <!--= on 'click' (open_modal 'manageGiftOptionsModal') -->
-        <i class='fa fa-gift'></i> <%= t('campaigns.gift_options')%>
+        <i class='fa fa-gift'></i> <%= t('campaigns.admin.gift_options')%>
       </a>
 
       <a class='button--tiny edit'>
         <!--= on 'click' (open_modal 'customReceiptModal') -->
-        <i class='fa fa-pencil'></i> <%= t('campaigns.custom_receipts')%>
+        <i class='fa fa-pencil'></i> <%= t('campaigns.admin.custom_receipts')%>
       </a>
     <% end %>
 
     <a class='button--tiny edit' href='?preview=t'>
-      <i class='fa fa-eye'></i> <%= t('campaigns.preview_mode')%>
+      <i class='fa fa-eye'></i> <%= t('campaigns.admin.preview_mode')%>
     </a>
 
     <% if @campaign.parent_campaign? %>
       <a class='button--tiny edit'>
         <!--= on 'click' (open_modal 'duplicateFundraiserModal') -->
-        <i class='fa fa-copy'></i> <%= t('campaigns.copy_campaign')%>
+        <i class='fa fa-copy'></i> <%= t('campaigns.admin.copy_campaign')%>
       </a>
     <% end %>
 
     <%= render 'components/messages/deleted_campaign_or_event', type: 'campaign' %>
 
-    <p><%= t('campaigns.campaign_id', id: @campaign.id)</p>
+    <p><%= t('campaigns.admin.campaign_id', id: @campaign.id)</p>
 
     <% if current_role?(:super_admin) %>
-      <p><i class='icon icon-pacman-ghost'></i> <%= t('campaigns.for_super_admin')%>
+      <p><i class='icon icon-pacman-ghost'></i> <%= t('campaigns.admin.for_super_admin')%>
         <% url = root_url + "nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}" %>
-        <%= link_to t('campaigns.np_and_campaign_ids', np_id: @nonprofit.id, campaign_id: @campaign.id), url %>
+        <%= link_to t('campaigns.admin.np_and_campaign_ids', np_id: @nonprofit.id, campaign_id: @campaign.id), url %>
       </p>
     <% end %>
 

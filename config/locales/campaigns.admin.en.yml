@@ -44,3 +44,5 @@ en:
       campaign_id: "Campaign ID: %{id}"
       for_super_admin: "For super admin:"
       np_and_campaign_ids: "NP: %{np_id} - Campaign ID: %{campaign_id}"
+      add_video: Add Video
+      edit_video: Edit Video

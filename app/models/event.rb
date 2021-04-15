@@ -101,4 +101,8 @@ class Event < ActiveRecord::Base
     Format::Address.full_address(self.address, self.city, self.state_code, self.zip_code)
   end
 
+	def hide_cover_fees?
+		nonprofit.hide_cover_fees? || misc_event_info&.hide_cover_fees_option
+	end
+
 end

@@ -3,7 +3,8 @@ class MiscellaneousNpInfo < ActiveRecord::Base
 
   attr_accessible \
   :donate_again_url,
-  :change_amount_message
+  :change_amount_message,
+  :hide_cover_fees
 
   belongs_to :nonprofit
 end

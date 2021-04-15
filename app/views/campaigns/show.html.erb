@@ -35,7 +35,8 @@
     
     
     app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>;
-    app.hide_cover_fees_option = <%= @campaign&.misc_campaign_info&.hide_cover_fees_option || false %>
+    app.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>
+    appl.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -68,7 +69,6 @@
     <%= IncludeAsset.css '/client/css/bootstrap.css' %>
   <%end %>
   <style>
-    .force-
     .ios-force-absolute-positioning {
       position: absolute !important;
     }

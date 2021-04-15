@@ -24,7 +24,9 @@ function init(params$, donation$) {
     const card$ = flyd.merge(
         flyd.stream({})
         , flyd.map(supp => ({name: supp.name, address_zip: supp.zip_code}), flyd.stream(state.params$().supporter)))
-    const coverFees$ = flyd.stream(true)
+    const coverFees$ = flyd.map(params => (params.manual_cover_fees || params.hide_cover_fees_option) ? false : true, params$)
+
+    const hideCoverFeesOption$ = flyd.map(params => params.hide_cover_fees_option, params$)
 
     state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
         const feeStructure = app.nonprofit.feeStructure
@@ -45,7 +47,9 @@ function init(params$, donation$) {
       }, state.donation$)
 
 
-    state.cardForm = cardForm.init({path: '/cards', card$, payload$: cardPayload$, outerError$: state.error$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$})
+    state.cardForm = cardForm.init({path: '/cards', card$, payload$: cardPayload$, outerError$: state.error$, 
+    donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$,
+    hide_cover_fees_option$: hideCoverFeesOption$})
     state.supporter$ = state.params$().supporter
     // // Set the card ID into the donation object when it is saved
     const cardToken$ = flyd.map(R.prop('token'), state.cardForm.saved$)

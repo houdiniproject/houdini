@@ -75,7 +75,7 @@
 		hidePostalCode: true,
     })
 				ticketPaymentCard.mount("#ticketPaymentCard")
-				appl.hide_cover_fees_option = <%= !!@event.misc_event_info&.hide_cover_fees_option %>;
+				appl.hide_cover_fees_option = <%= !!@event.hide_cover_fees? %>;
 		</script>
 	<%= IncludeAsset.js '/client/js/events/show/page.js' %>
 	<script>
@@ -187,6 +187,6 @@
 
 
 <%= render 'nonprofits/donate/modal' %>
-<%= render 'tickets/new_modal', profile: current_user ? current_user.profile : nil, hide_cover_fees_option: !!@event.misc_event_info&.hide_cover_fees_option %>
+<%= render 'tickets/new_modal', profile: current_user ? current_user.profile : nil, hide_cover_fees_option: !!@event.hide_cover_fees? %>
 <%= render 'contact_organizer_modal' %>
 <%= render 'common/email_share_modal', fundraiser: @event.name, fundraiser_url: @url  %>

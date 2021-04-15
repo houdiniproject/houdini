@@ -47,6 +47,7 @@
       feeSwitchoverTime:  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>),
       flatFeeCoveragePercent: <%= Settings.flat_fee_coverage_percent %>
     }
+		app.hide_cover_fees_option = <%= !!@nonprofit&.hide_cover_fees? %>;
 	</script>
   <%= render 'schema', npo: @nonprofit %>
 	<%= render 'common/froala' if current_nonprofit_user? %>

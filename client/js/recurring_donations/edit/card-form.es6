@@ -149,7 +149,7 @@ const view = state => {
         remove: () => unmount(state)
       }})
       , profileInput(field, app.profile_id)
-      , state.coverFees$ ?  feeCoverageField(state) : ''
+      , state.hide_cover_fees_option$ && !state.hide_cover_fees_option$() ?  feeCoverageField(state) : ''
     ])
   , h('div.u-centered.u-marginTop--20', [
       state.hideButton ? '' : button({

@@ -1,12 +1,16 @@
 import * as React from 'react';
 import SignInPage from './SignInPage';
-/* it's already mocked in the storybook webpack */
-import {postSignIn} from '../../api/users';
-import { SignInError } from '../../legacy_react/src/lib/api/errors';
+jest.mock('../../api/api/users');
+jest.mock('../../api/users');
+
 import { Hoster, HosterContext } from '../../hooks/useHoster';
 import { Fallback } from './SignInPage';
 import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
-
+import { SWRConfig } from 'swr';
+import { mocked } from "ts-jest/utils";
+import {postSignIn} from '../../api/users';
+import {getCurrent} from '../../api/api/users';
+import { NetworkError } from '../../api/errors';
 
 
 const optionsToSignInError: Record<string, { data?: { error: string[] | string }, status?: number }> = {
@@ -40,6 +44,16 @@ export default {
 	},
 };
 
+function SWRWrapper(props:React.PropsWithChildren<unknown>) {
+	return <SWRConfig value={
+		{
+			dedupingInterval: 2500, // we need to make SWR not dedupe
+		}
+	}>
+		{props.children}
+	</SWRConfig>;
+}
+
 interface TemplateArgs {
 	error?: string;
 	hasHoster?: boolean;
@@ -49,17 +63,19 @@ interface TemplateArgs {
 
 const Template = (args: TemplateArgs) => {
 	if (args.isError) {
-		mockedPostUserSignIn.postSignIn
-		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise((_resolve, reject) => {
+		mocked(postSignIn).mockImplementation(() => new Promise((_resolve, reject) => {
 			setTimeout(() => {
-				reject(new SignInError(optionsToSignInError[args.error]));
+				const result = optionsToSignInError[args.error];
+				reject(new NetworkError({data:result.data, status: result.status}));
 			}, 5000);
 		}));
 	}
 	else {
-		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise(resolve => {
+
+		mocked(postSignIn).mockImplementation(() => new Promise(resolve => {
 			setTimeout(() => {
 				resolve({ id: 50 });
+				mocked(getCurrent).mockResolvedValue({id: 50});
 			}, 5000);
 		}));
 	}
@@ -71,12 +87,13 @@ const Template = (args: TemplateArgs) => {
 	else {
 		hosterReturnValue = null;
 	}
-
-	return <HosterContext.Provider value={hosterReturnValue}>
-		<MockCurrentUserProvider>
-			<SignInPage redirectUrl={'redirectUrl'} />
-		</MockCurrentUserProvider>
-	</HosterContext.Provider>;
+	return <SWRWrapper>
+		<HosterContext.Provider value={hosterReturnValue}>
+			<MockCurrentUserProvider>
+				<SignInPage redirectUrl={'redirectUrl'} />
+			</MockCurrentUserProvider>
+		</HosterContext.Provider>
+	</SWRWrapper>;
 };
 
 const ErrorBoundaryTemplate = () => {

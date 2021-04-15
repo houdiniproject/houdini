@@ -34,6 +34,10 @@ module.exports = {
       ...config.plugins,
       ...railsWebpackEnv.plugins.map((i) => i.value),
     ],
+
+    node: {
+      fs: 'empty',
+    }
     
   };
 

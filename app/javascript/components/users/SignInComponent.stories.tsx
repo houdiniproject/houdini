@@ -2,14 +2,25 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import SignInComponent from './SignInComponent';
-
-/* it's already mocked in the storybook webpack */
-import webUserSignIn from '../../api/users';
-import { SignInError } from '../../legacy_react/src/lib/api/errors';
+jest.mock('../../api/api/users');
+jest.mock('../../api/users');
 import { InitialCurrentUserContext } from '../../hooks/useCurrentUser';
+import { SWRConfig } from 'swr';
+import { mocked } from "ts-jest/utils";
+import {postSignIn} from '../../api/users';
+import {getCurrent} from '../../api/api/users';
+import { NetworkError } from '../../api/errors';
 
-const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
+function SWRWrapper(props:React.PropsWithChildren<unknown>) {
+	return <SWRConfig value={
+		{
+			dedupingInterval: 2500, // we need to make SWR not dedupe
+		}
+	}>
+		{props.children}
+	</SWRConfig>;
+}
 
 const optionsToSignInError:Record<string, { data?: { error: string[]|string }, status?: number }> = {
 	'Unknown Error - 500': {status: 500, data: {error: "Error unknown"}},
@@ -46,18 +57,21 @@ interface TemplateArgs {
 
 const Template = (args:TemplateArgs) => {
 
-	if (args.isError ) {
-		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise((_resolve, reject) => {
+	if (args.isError) {
+		mocked(postSignIn).mockImplementation(() => new Promise((_resolve, reject) => {
 			setTimeout(() => {
-				reject(	new SignInError(optionsToSignInError[args.error]));
+				const result = optionsToSignInError[args.error];
+				reject(new NetworkError({data:result.data, status: result.status}));
 			}, 5000);
 		}));
 	}
 	else {
-		mockedWebUserSignIn.postSignIn.mockImplementation(() => new Promise(resolve => {
+
+		mocked(postSignIn).mockImplementation(() => new Promise(resolve => {
 			setTimeout(() => {
-				resolve({id:50});
-			},5000);
+				resolve({ id: 50 });
+				mocked(getCurrent).mockResolvedValue({id: 50});
+			}, 5000);
 		}));
 	}
 
@@ -65,7 +79,7 @@ const Template = (args:TemplateArgs) => {
 };
 
 const SignedInTemplate = () => {
-	return <InitialCurrentUserContext.Provider value={{id:1}}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></InitialCurrentUserContext.Provider>;
+	return <SWRWrapper><InitialCurrentUserContext.Provider value={{id:1}}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></InitialCurrentUserContext.Provider></SWRWrapper>;
 };
 
 export const SignInFailed = Template.bind({});

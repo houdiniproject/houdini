@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
--- Dumped by pg_dump version 12.4 (Debian 12.4-1.pgdg90+1)
+-- Dumped by pg_dump version 12.5 (Debian 12.5-1.pgdg90+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1454,7 +1454,8 @@ CREATE TABLE public.miscellaneous_np_infos (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     change_amount_message text,
-    first_charge_email_sent boolean
+    first_charge_email_sent boolean,
+    hide_cover_fees boolean DEFAULT false NOT NULL
 );
 
 
@@ -5354,4 +5355,6 @@ INSERT INTO schema_migrations (version) VALUES ('20201001162737');
 INSERT INTO schema_migrations (version) VALUES ('20201103170055');
 
 INSERT INTO schema_migrations (version) VALUES ('20201214214347');
+
+INSERT INTO schema_migrations (version) VALUES ('20210413201029');
 

@@ -1,7 +1,9 @@
 // License: LGPL-3.0-or-later
 // from: https://github.com/davidwilson3/react-typescript-checkmark/blob/1de3e0362965602d4345868f1f876aa54a96d5b6/src/checkmark.tsx
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles';
+import { createUseStyles, useTheme } from 'react-jss';
+
 
 interface StyledProps {
 	animationDuration: number;
@@ -13,8 +15,8 @@ interface StyledProps {
   width: number;
 }
 
-const useStyles = (makeStyles((theme:Theme) =>
-	createStyles({
+const useStyles = createUseStyles(
+	{
 		root: {
 			display: "block",
 			marginLeft: "auto",
@@ -32,9 +34,9 @@ const useStyles = (makeStyles((theme:Theme) =>
 		circle: {
 			strokeDasharray: 166,
 			strokeDashoffset: 166,
-			strokeWidth: (props:StyledProps) => props.checkThickness,
+			strokeWidth: (props) => props.checkThickness,
 			strokeMiterlimit: 10,
-			stroke: (props:StyledProps) => props.backgroundColor || theme.palette.success.main,
+			stroke: ({theme, ...props}:StyledProps & {theme:Theme}) => props.backgroundColor || theme.palette.success.main,
 			fill: "none",
 			animation: (props:StyledProps) => `$stroke-keyframe ${props.animationDuration}s
       cubic-bezier(0.65, 0, 0.45, 1) forwards`,
@@ -58,18 +60,16 @@ const useStyles = (makeStyles((theme:Theme) =>
 		},
 		"@keyframes fill": {
 			"100%": {
-				boxShadow: (props:StyledProps) =>  `inset 0 0 0 100vh ${props.backgroundColor || theme.palette.success.main}`,
+				boxShadow: ({theme, ...props}:StyledProps & {theme:Theme}) =>  `inset 0 0 0 100vh ${props.backgroundColor || theme.palette.success.main}`,
 			},
 		},
 		"@keyframes stroke-keyframe": {
 			"100%": {
-				/* this is needed because makeStyles function has bugs (https://github.com/mui-org/material-ui/issues/15511) */
-				strokeDashoffset:() => 0,
+				strokeDashoffset: 0,
 			},
 		},
-	})
-));
-
+	}
+);
 
 /**
  * The different preset checkmark sizes. Measured in pixels
@@ -131,7 +131,7 @@ export interface AnimatedCheckmarkProps {
 
 function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element {
 	const selectedSize = typeof props.size === 'number' ? props.size : sizes[props.size];
-
+	const theme = useTheme<Theme>();
 
 	const classes = useStyles({
 		backgroundColor: props.backgroundColor,
@@ -141,6 +141,7 @@ function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element {
 		explosion: props.explosion,
 		width: selectedSize,
 		height: selectedSize,
+		theme: theme,
 	});
 	if (!props.visible) return <></>;
 	return (

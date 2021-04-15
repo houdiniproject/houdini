@@ -5,6 +5,7 @@ import {postSignIn} from '../../api/users';
 import { SignInError } from '../../legacy_react/src/lib/api/errors';
 import { Hoster, HosterContext } from '../../hooks/useHoster';
 import { Fallback } from './SignInPage';
+import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
 
 
 
@@ -63,12 +64,12 @@ const Template = (args: TemplateArgs) => {
 		}));
 	}
 
-	let hosterReturnValue:{hoster: Hoster} = {hoster: null};
+	let hosterReturnValue:Hoster|null = null;
 	if (args.hasHoster) {
-		hosterReturnValue = {hoster: {legalName:args.hoster}};
+		hosterReturnValue = {legalName:args.hoster};
 	}
 	else {
-		hosterReturnValue = {hoster: null};
+		hosterReturnValue = null;
 	}
 
 	return <HosterContext.Provider value={hosterReturnValue}>

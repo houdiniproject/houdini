@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -23,6 +23,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { rgb } from "color";
 import Fade from '@material-ui/core/Fade';
+
+import {createUseStyles, useTheme} from 'react-jss';
 
 export interface SignInPageProps {
 	redirectUrl: string;
@@ -64,73 +66,72 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	}
 
 	//Styling of component
-	const useStyles = makeStyles((theme: Theme) =>
-		createStyles({
-			menuButton: {
-				marginRight: theme.spacing(2),
+	const useStyles = createUseStyles({
+		menuButton: {
+			marginRight: ({theme}:{theme:Theme}) =>theme.spacing(2),
+		},
+		title: {
+			flexGrow: 1,
+		},
+		logo: {
+			alignItems: 'center',
+			width: 100,
+			height: 75,
+			justifyContent: "center",
+		},
+		text: {
+			display: "flex",
+			justifyContent: "center",
+			alignItems: "center",
+			textAlign: "center",
+		},
+		media: {
+			maxWidth: 250,
+		},
+		lowercase: {
+			textTransform: "none",
+		},
+		buttonProgress: {
+			position: 'absolute',
+			color: "inherit",
+			transitionDuration: '1000',
+		},
+		avatar: {
+			marginTop: ({theme}:{theme:Theme}) => theme.spacing(3),
+			backgroundColor: "#3f51b5",
+		},
+		appbar: {
+			backgroundColor: ({theme}:{theme:Theme}) =>theme.palette.action.hover,
+		},
+		backdrop: {
+			zIndex: ({theme}:{theme:Theme}) => (theme.zIndex.drawer + 1),
+			background: rgb(255, 255, 255, 0.5).toString(),
+		},
+		responsive: ({theme}:{theme:Theme}) => ({
+			[theme.breakpoints.down('sm')]: {
+				width: "100%",
+				marginTop: 45,
+				marginBottom: 45,
 			},
-			title: {
-				flexGrow: 1,
+			[theme.breakpoints.up('lg')]: {
+				margin: 75,
 			},
-			logo: {
-				alignItems: 'center',
-				width: 100,
-				height: 75,
-				justifyContent: "center",
-			},
-			text: {
-				display: "flex",
-				justifyContent: "center",
-				alignItems: "center",
-				textAlign: "center",
-			},
-			media: {
-				maxWidth: 250,
-			},
-			lowercase: {
-				textTransform: "none",
-			},
-			buttonProgress: {
-				position: 'absolute',
-				color: "inherit",
-				transitionDuration: '1000',
-			},
-			avatar: {
-				marginTop: theme.spacing(3),
-				backgroundColor: "#3f51b5",
-			},
-			appbar: {
-				backgroundColor: theme.palette.action.hover,
-			},
-			backdrop: {
-				zIndex: theme.zIndex.drawer + 1,
-				background: rgb(255, 255, 255, 0.5).toString(),
-			},
-			responsive: {
-				[theme.breakpoints.down('sm')]: {
-					width: "100%",
-					marginTop: 45,
-					marginBottom: 45,
-				},
-				[theme.breakpoints.up('lg')]: {
-					margin: 75,
-				},
-				[theme.breakpoints.down('md')]: {
-					marginTop: 45,
-					marginBottom: 45,
-				},
-			},
-			paper: {
-				margin: `${theme.spacing(1)}px auto`,
-				padding: theme.spacing(2),
-				borderRadius: 15,
-				minHeight: 500,
+			[theme.breakpoints.down('md')]: {
+				marginTop: 45,
+				marginBottom: 45,
 			},
 		}),
-	);
+		paper: {
+			margin: ({theme}:{theme:Theme}) => `${theme.spacing(1)}px auto`,
+			padding: ({theme}:{theme:Theme}) =>theme.spacing(2),
+			borderRadius: 15,
+			minHeight: 500,
+		},
+	});
 
 	//Setting up error messages
-	const classes = useStyles();
+	const theme = useTheme<Theme>();
+	const classes = useStyles({theme});
 	const { hoster } = useHoster();
 	const { formatMessage } = useIntl();
 	const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });

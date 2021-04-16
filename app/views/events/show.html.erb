@@ -76,6 +76,7 @@
     })
 				ticketPaymentCard.mount("#ticketPaymentCard")
 				appl.hide_cover_fees_option = <%= !!@event.hide_cover_fees? %>;
+				app.hide_cover_fees_option = <%= !!@event.hide_cover_fees? %>;
 		</script>
 	<%= IncludeAsset.js '/client/js/events/show/page.js' %>
 	<script>

@@ -8,7 +8,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = Houdini.support_email
+  config.mailer_sender = Houdini.hoster.support_email
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

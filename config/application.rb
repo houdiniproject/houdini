@@ -23,7 +23,7 @@ require "rails/test_unit/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-# require File.expand_path('lib/htp') # Hamster Table Print
+
 module Commitchange
   class Application < Rails::Application
     config.load_defaults '5.0'
@@ -110,3 +110,6 @@ module Commitchange
     end
   end
 end
+
+# we want to add the houdini configuration
+require_relative './houdini_config'

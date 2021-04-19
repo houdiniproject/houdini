@@ -7,6 +7,6 @@ class BaseMailer < ActionMailer::Base
   include Devise::Controllers::UrlHelpers
   include ApplicationHelper
   helper ApplicationHelper
-  default from: Houdini.support_email
+  default from: Houdini.hoster.support_email
   layout 'email'
 end

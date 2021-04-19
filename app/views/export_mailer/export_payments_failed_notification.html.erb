@@ -2,7 +2,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
 <p>Your export from <%= Format::Date.simple @export.created_at %> did not succeed due to a technical error.</p>
 <p>While CommitChange engineers have been notified, don't hesitate to contact
-  <a href="mailto:<%= Houdini.support_email %>"><%= Houdini.support_email %></a> with the following information:</p>
+  <a href="mailto:<%= Houdini.hoster.support_email %>"><%= Houdini.hoster.support_email %></a> with the following information:</p>
 
 <ul>
   <li>Export ID: <%= @export.id %></li>

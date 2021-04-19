@@ -2,7 +2,6 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
-require "houdini/engine"
 
 module Houdini
   extend ActiveSupport::Autoload
@@ -14,6 +13,8 @@ module Houdini
   autoload :EventPublisher
   autoload :WebhookAdapter
   autoload :NonprofitCreation
+  autoload :Hoster
+  autoload :EngineInitializers
 
   mattr_accessor :intl, :maintenance, :ccs
 
@@ -32,12 +33,15 @@ module Houdini
   mattr_accessor :show_state_field, default: true
 
   mattr_accessor :nonprofits_must_be_vetted, default: false
-  mattr_accessor :terms_and_privacy, default: {}
   mattr_accessor :button_host
 
-  mattr_accessor :support_email
+  mattr_accessor :hoster, default: Houdini::Hoster
 
   mattr_accessor :core_classes, default: {supporter: 'Supporter', nonprofit: 'Nonprofit'}
 
   mattr_accessor :event_publisher, default: Houdini::EventPublisher.new
+
 end
+
+# need to have Houdini loaded first before we can add engine
+require "houdini/engine"

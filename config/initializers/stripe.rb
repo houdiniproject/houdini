@@ -6,4 +6,4 @@ require 'stripe'
 
 #Stripe.api_key = Houdini.payment_providers.stripe.stripe.private_key
 
-Rails.application.config.houdini.support_email = "support@email.com"
+#Rails.application.config.Houdini.hoster.support_email = "support@email.com"

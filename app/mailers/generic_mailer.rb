@@ -7,12 +7,12 @@ class GenericMailer < BaseMailer
     @from_email = from_email
     @from_name = from_name
     @message = message
-    mail(to: to_email, from: "#{from_name} <#{Houdini.support_email}>", reply_to: from_email, subject: subject.to_s)
+    mail(to: to_email, from: "#{from_name} <#{Houdini.hoster.support_email}>", reply_to: from_email, subject: subject.to_s)
   end
 
   # For sending a system notice to super admins
   def admin_notice(options)
-    @from_email = Houdini.support_email
+    @from_email = Houdini.hoster.support_email
     @from_name = 'CC Bot'
     @message = options[:body]
     emails = QueryUsers.super_admin_emails

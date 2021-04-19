@@ -4,8 +4,8 @@
 <% if @theme == 'minimal' %>
   <div class="minimalFooter">
     <div class="container">
-      <span>&copy; <%= Time.current.year %> <%= Houdini.general.name %></span>
-      <% if Houdini.terms_and_privacy&.about_url %><span><%= link_to("About", Houdini.terms_and_privacy.about_url) %></span><% end %>
+      <span>&copy; <%= Time.current.year %> <%= Houdini.hoster.legal_name %></span>
+      <% if Houdini.hoster.terms_and_privacy&.about_url %><span><%= link_to("About", Houdini.terms_and_privacy.about_url) %></span><% end %>
       <span><%= link_to( t("footer.terms_and_privacy"), :static_terms_and_privacy) %></span>
     </div>
 

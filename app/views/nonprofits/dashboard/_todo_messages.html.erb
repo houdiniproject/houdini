@@ -10,6 +10,6 @@
 		 Once you've started completing these tasks, you'll see your dashboard come to life with helpful data and reminders.
 	</span>
 
-    <% if Houdini.terms_and_privacy&.help_url %> If you need help with any these tasks, visit our <%= link_to("Help Center", Houdini.terms_and_privacy.help_url) %>.<% end %>
+    <% if Houdini.hoster.terms_and_privacy&.help_url %> If you need help with any these tasks, visit our <%= link_to("Help Center", Houdini.terms_and_privacy.help_url) %>.<% end %>
 	</p>
 </div>

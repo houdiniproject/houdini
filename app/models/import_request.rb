@@ -14,10 +14,10 @@ class ImportRequest < ApplicationRecord
 		rescue Exception => e
 			body = "Import failed. Error: #{e}"
 			GenericMailer.generic_mail(
-				Houdini.support_email, Houdini.support_email, # FROM
+				Houdini.hoster.support_email, Houdini.hoster.support_email, # FROM
 				body,
 				'Import error', # SUBJECT
-				Houdini.support_email, Houdini.support_email # TO
+				Houdini.hoster.support_email, Houdini.hoster.support_email # TO
 			).deliver
 		end
 	end

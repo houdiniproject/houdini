@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 ruby '2.4.10'
-gem 'rake', '~> 12.3.3'
-gem 'rails', '3.2.22.5'
+gem 'rake'
+gem 'rails', '4'
 
 # https://stripe.com/docs/api
 gem 'stripe', '~> 4'
@@ -28,11 +28,6 @@ gem 'aws-sdk-rails'
 
 # for blocking ip addressses
 gem 'rack-attack'
-
-# For modularizing javascript
-# https://github.com/browserify-rails/browserify-rails
-gem 'browserify-rails'
-gem 'sprockets'
 
 # for serving fonts on cdn
 # https://github.com/ericallam/font_assets
@@ -90,15 +85,13 @@ gem 'rest-client' # recommended for fullcontact
 # Nice table printing of data for the console
 gem 'table_print'
 
-gem 'rails-i18n', '~> 3.0.0' # For 3.x
+gem 'rails-i18n', '~> 4.0' # For 4.0.x
 gem 'i18n-js'
 gem 'countries'
 
 
 group :development, :ci do
   gem 'traceroute'
-  gem 'debase', '~> 0.2.3'
-  gem 'ruby-debug-ide'
 end
 
 group :development, :ci, :test do
@@ -124,8 +117,8 @@ group :test do
 end
 
 # Gems used for asset compilation
-gem 'sass', '3.2.19'
-gem 'sass-rails', '3.2.6'
+gem 'sass'
+gem 'sass-rails'
 gem 'uglifier'
 
 # make logging less terrible in rails

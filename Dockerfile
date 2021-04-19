@@ -1,4 +1,4 @@
-FROM ruby:2.3.8-stretch
+FROM ruby:2.4.10-stretch
 
 RUN mkdir /app
 

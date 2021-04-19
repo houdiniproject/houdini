@@ -12,6 +12,6 @@
 
 <p><a href='<%= confirmation_nonprofits_bank_account_url(@nonprofit, :t => @bank_account.confirmation_token) %>' class='button'>Confirm Change</a></p>
 
-<p>If you think something is wrong with this change, please contact <a href='mailto:<%= Houdini.support_email %>'><%= Houdini.support_email %></a>.</p>
+<p>If you think something is wrong with this change, please contact <a href='mailto:<%= Houdini.hoster.support_email %>'><%= Houdini.hoster.support_email %></a>.</p>
 
 <%= render 'emails/sig' %>

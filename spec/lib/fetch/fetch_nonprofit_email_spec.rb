@@ -15,12 +15,12 @@ describe FetchNonprofitEmail, pending: true do
 
     it 'returns support@commitchange.com if Nonprofit email is blank' do
       charge.nonprofit.email = ''
-      expect(FetchNonprofitEmail.with_charge(charge)).to eq(Houdini.support_email)
+      expect(FetchNonprofitEmail.with_charge(charge)).to eq(Houdini.hoster.support_email)
     end
 
     it 'returns support@commitchange.com if Nonprofit email is nil' do
       charge.nonprofit.email = nil
-      expect(FetchNonprofitEmail.with_charge(charge)).to eq(Houdini.support_email)
+      expect(FetchNonprofitEmail.with_charge(charge)).to eq(Houdini.hoster.support_email)
     end
   end
 end

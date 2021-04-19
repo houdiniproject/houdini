@@ -54,12 +54,7 @@ module Houdini
 
     config.houdini.show_state_field = true
 
-    config.houdini.intl = ActiveSupport::OrderedOptions.new
-    config.houdini.intl.language = :en
-    config.houdini.intl.available_locales = [:en, :de, :es, :fr, :it, :nl, :pl, :ro]
-    config.houdini.intl.all_countries = nil
-    config.houdini.intl.currencies = ["usd"]
-    config.houdini.intl.all_currencies = nil
+  
 
     config.houdini.nonprofits_must_be_vetted = false
 
@@ -73,10 +68,10 @@ module Houdini
 
     config.houdini.listeners = []
 
-    initializer 'houdini.set_configuration', before: 'factory_bot.set_fixture_replacement' do |app|
+    initializer 'houdini.set_configuration', before: 'houdini.finish_configuration' do |app|
       app.config.to_prepare do
         Houdini.core_classes = app.config.houdini.core_classes
-        Houdini.support_email = app.config.houdini.support_email || ActionMailer::Base.default[:from]
+        
 
         Houdini.button_host = app.config.houdini.button_host || 
             ActionMailer::Base.default_url_options[:host]
@@ -90,14 +85,6 @@ module Houdini
         options = app.config.houdini.ccs_options || {}
         Houdini.ccs = Houdini::Ccs.build(ccs, 
             **options)
-        Houdini.terms_and_privacy = app.config.houdini.terms_and_privacy
-
-        Houdini.intl = Houdini::Intl.new(app.config.houdini.intl.to_h)
-        Houdini.intl.all_countries ||=  ISO3166::Country.all.map(&:alpha2)
-        Houdini.intl.all_currencies ||= Money::Currency.table
-        raise("The language #{Houdini.intl.language} is not listed \
-in the provided locales: #{Houdini.intl.available_locales.join(', ')}") if Houdini.intl.available_locales.map(&:to_s)
-                      .none?{|l| l == Houdini.intl.language.to_s}
 
         Houdini.maintenance = Houdini::Maintenance.new(app.config.houdini.maintenance.to_h)
 
@@ -114,5 +101,11 @@ in the provided locales: #{Houdini.intl.available_locales.join(', ')}") if Houdi
         Houdini.event_publisher.subscribe_all(app.config.houdini.listeners)
       end
     end
+
+    initializer 'houdini.finish_configuration', before: 'factory_bot.set_fixture_replacement' do |app|
+      # nothing to do, we just want to make sure we have proper initializer order
+    end
+
+    include Houdini::EngineInitializers
   end
 end

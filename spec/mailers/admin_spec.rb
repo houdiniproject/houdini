@@ -19,8 +19,8 @@ RSpec.describe AdminMailer, type: :mailer do
 
     it 'renders the headers for mail without desc' do
       expect(mail.subject).to eq("Tried to associate donation #{donation.id} with campaign gift option #{campaign_gift_option.id} which is out of stock")
-      expect(mail.to).to eq([Houdini.support_email])
-      expect(mail.from).to eq([Houdini.support_email])
+      expect(mail.to).to eq([Houdini.hoster.support_email])
+      expect(mail.from).to eq([Houdini.hoster.support_email])
     end
 
     it 'renders the body without desc' do
@@ -29,8 +29,8 @@ RSpec.describe AdminMailer, type: :mailer do
 
     it 'renders the headers on mail with desc' do
       expect(mail_with_desc.subject).to eq("Tried to associate donation #{donation.id} with campaign gift option #{campaign_gift_option_with_desc.id} which is out of stock")
-      expect(mail_with_desc.to).to eq([Houdini.support_email])
-      expect(mail_with_desc.from).to eq([Houdini.support_email])
+      expect(mail_with_desc.to).to eq([Houdini.hoster.support_email])
+      expect(mail_with_desc.from).to eq([Houdini.hoster.support_email])
     end
 
     it 'renders the body with desc' do

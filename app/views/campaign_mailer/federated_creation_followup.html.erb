@@ -48,7 +48,7 @@ link_to_campaign: content_tag(:strong,
 
 <p><%= t('campaign_mailer.if_you_need_help_email_support', 
         email_support: content_tag(:strong,
-          Houdini.support_email)
+          Houdini.hoster.support_email)
 )%></p>
 
 <%= render 'emails/sig' %>

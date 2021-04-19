@@ -11,6 +11,6 @@ class AdminMailer < BaseMailer
   def notify_failed_gift(donation, campaign_gift_option)
     @campaign_gift_option = campaign_gift_option
     @donation = donation
-    mail subject: "Tried to associate donation #{donation.id} with campaign gift option #{campaign_gift_option.id} which is out of stock", to: Houdini.support_email, from: Houdini.support_email
+    mail subject: "Tried to associate donation #{donation.id} with campaign gift option #{campaign_gift_option.id} which is out of stock", to: Houdini.hoster.support_email, from: Houdini.hoster.support_email
   end
 end

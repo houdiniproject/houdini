@@ -14,7 +14,7 @@ module Format
 
     # Format a nonprofit name into an email <from> header
     def self.email_from_np(np_name)
-      "\"#{np_name.delete(',').delete('"')}\" <#{Houdini.support_email}>"
+      "\"#{np_name.delete(',').delete('"')}\" <#{Houdini.hoster.support_email}>"
     end
   end
 end

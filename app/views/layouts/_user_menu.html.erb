@@ -20,7 +20,7 @@
 		</a>
 		<% if current_role?([:nonprofit_admin,:nonprofit_associate]) %>
 
-      <% if Houdini.terms_and_privacy&.help_url %>
+      <% if Houdini.hoster.terms_and_privacy&.help_url %>
         <a class='sideNav-link' href='<%=Houdini.terms_and_privacy.help_url %>'>
           <i class='sideNav-icon icon-question-mark'></i>
           <span class='sideNav-text'>Help</span>

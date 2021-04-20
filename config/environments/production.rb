@@ -90,8 +90,9 @@ Commitchange::Application.configure do
   config.assets.compile = false
 
 	config.dependency_loading = true if $rails_rake_task
-	# Compress json
-  #config.middleware.use Rack::Deflater
+
+	config.force_ssl = true
+
 	config.middleware.insert_before 'Rack::Cache', Rack::Attack
 	NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours
 end

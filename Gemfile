@@ -118,7 +118,6 @@ end
 # Gems used for asset compilation
 gem 'sass'
 gem 'sass-rails'
-gem 'uglifier'
 
 # make logging less terrible in rails
 gem 'lograge'

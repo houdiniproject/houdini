@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.10'
 gem 'rake'
-gem 'rails', '4'
+gem 'rails', '4.2.11.3'
 
 # https://stripe.com/docs/api
 gem 'stripe', '~> 4'
@@ -66,8 +66,7 @@ gem 'httparty'
 
 # User authentication
 # https://github.com/plataformatec/devise
-gem 'devise'
-gem 'devise-async'
+gem 'devise', '~> 4.1'
 
 # https://github.com/airbrake/airbrake
 gem 'airbrake'
@@ -85,7 +84,7 @@ gem 'rest-client' # recommended for fullcontact
 # Nice table printing of data for the console
 gem 'table_print'
 
-gem 'rails-i18n', '~> 4.0' # For 4.0.x
+gem 'rails-i18n' # For 4.0.x
 gem 'i18n-js'
 gem 'countries'
 

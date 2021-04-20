@@ -63,6 +63,8 @@ Commitchange::Application.configure do
 	# Expands the lines which load the assets
 	config.assets.debug = true
 
+	config.assets.quiet = true
+
 	config.log_level = :debug
 
 	config.dependency_loading = true if $rails_rake_task

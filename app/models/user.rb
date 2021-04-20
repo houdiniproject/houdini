@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
 	geocoded_by :location
 
-	devise :async, :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable
+	devise :database_authenticatable, :registerable, :confirmable, :recoverable, :rememberable, :trackable, :validatable
 
 	attr_accessor :offsite_donation_id, :current_password
 

@@ -35,16 +35,8 @@ module Commitchange
     # config.autoload_paths += %W(#{config.root}/extras)
     config.eager_load_paths += Dir["#{config.root}/lib/**/", ""]
 
-    # config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
     config.paths.add File.join('app', 'listeners'), glob: File.join('**', '*.rb')
     # config.eager_load_paths += Dir[Rails.root.join('app', 'api', '*'), Rails.root.join('app', 'listeners', '*')]
-
-    # Only load the plugins named here, in the order given (default is alphabetical).
-    # :all can be used as a placeholder for all plugins not explicitly named.
-    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
-    # Activate observers that should always be running.
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -87,18 +79,10 @@ module Commitchange
     # Version of your assets, change this If you want to expire all your assets
     # config.assets.version = '1.0'
 
-    # For Rails 3.1 on Heroku:
-    # Forces the application to not access the DB
-    # or load models when precompiling your assets.
-    # from: devise gem installation instructions/suggestions
-    # config.assets.initialize_on_precompile = true
-
     config.i18n.enforce_available_locales = false
 
     # Add trailing slashes to all routes
     # config.action_controller.default_url_options = {:trailing_slash => true}
-    #
-    # config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 
     # we don't require belongs_to associations to be required for historical reasons.
     config.active_record.belongs_to_required_by_default = false
@@ -107,6 +91,7 @@ module Commitchange
 
     config.action_mailer.default_options = {from: "Default Org Team <hi@defaultorg.com>"}
 
+    # we override the active_storage routes because they're not protected by default
     config.active_storage.draw_routes = false
 
     config.active_job.queue_adapter = :good_job

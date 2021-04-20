@@ -699,6 +699,39 @@ describe InsertTickets do
       end
 
     end
+
+    describe 'when a free ticket is being inserted' do
+      before do
+        ticket_level.update_attributes(amount: 0)
+      end
+      it 'creates the corresponding activity' do
+        ticket =
+          InsertTickets.create(
+            tickets: [{
+              quantity: 1, ticket_level_id: ticket_level.id
+            }],
+            nonprofit_id: nonprofit.id,
+            supporter_id: supporter.id,
+            token: source_token.token,
+            event_id: event.id,
+            kind: 'free',
+            current_user: user
+          )['tickets'].first
+
+        expect(Activity.where(attachment_id: ticket.id).last)
+          .to have_attributes({
+            attachment_type: 'Ticket',
+            kind: 'Ticket',
+            nonprofit_id: nonprofit.id,
+            json_data: {
+              'event_id' => event.id,
+              'quantity' => 1,
+              'event_name' => 'The event of Wonders',
+              'gross_amount' => 0
+            }
+          })
+      end
+    end
   end
 
 end

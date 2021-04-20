@@ -86,9 +86,6 @@ Commitchange::Application.configure do
 	# Send deprecation notices to registered listeners
 	config.active_support.deprecation = :notify
 
-	# Log the query plan for queries taking more than this (works
-	# with SQLite, MySQL, and PostgreSQL)
-	# config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.assets.compile = false
 
@@ -97,6 +94,4 @@ Commitchange::Application.configure do
   #config.middleware.use Rack::Deflater
 	config.middleware.insert_before 'Rack::Cache', Rack::Attack
 	NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours
-	# remove auto explain threshold
-	config.active_record.auto_explain_threshold_in_seconds = nil
 end

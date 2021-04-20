@@ -206,50 +206,50 @@ Commitchange::Application.routes.draw do
 			:confirmations => 'users/confirmations'
 		}
 	devise_scope :user do
-		match '/sign_in' => 'users/sessions#new'
-		match '/signup' => 'devise/registrations#new'
+		get '/sign_in' => 'users/sessions#new'
+		get '/signup' => 'devise/registrations#new'
 		post '/confirm' => 'users/confirmations#confirm'
-    match '/users/is_confirmed' => 'users/confirmations#is_confirmed'
-    match '/users/exists' => 'users/confirmations#exists'
+    get '/users/is_confirmed' => 'users/confirmations#is_confirmed'
+    get '/users/exists' => 'users/confirmations#exists'
 		post '/users/confirm_auth', action: :confirm_auth, controller: 'users/sessions'
 	end
 
 	# Super admin
-  match '/admin' => 'super_admins#index', :as => 'admin'
-  match '/admin/search-nonprofits' => 'super_admins#search_nonprofits'
-  match '/admin/search-profiles' => 'super_admins#search_profiles'
-  match '/admin/search-fullcontact' => 'super_admins#search_fullcontact'
-  match '/admin/recurring-donations-without-cards' => 'super_admins#recurring_donations_without_cards'
-  match '/admin/export_supporters_with_rds' => 'super_admins#export_supporters_with_rds'
-  match '/admin/resend_user_confirmation' => 'super_admins#resend_user_confirmation'
+  get '/admin' => 'super_admins#index', :as => 'admin'
+  get '/admin/search-nonprofits' => 'super_admins#search_nonprofits'
+  get '/admin/search-profiles' => 'super_admins#search_profiles'
+  get '/admin/search-fullcontact' => 'super_admins#search_fullcontact'
+  get '/admin/recurring-donations-without-cards' => 'super_admins#recurring_donations_without_cards'
+  get '/admin/export_supporters_with_rds' => 'super_admins#export_supporters_with_rds'
+  get '/admin/resend_user_confirmation' => 'super_admins#resend_user_confirmation'
 
   # Events
-  match '/events' => 'events#index'
-  match '/events/:event_slug' => 'events#show'
-	match "/webhooks/stripe/receive" => "webhooks/stripe#receive",  format: :json
-	match "/webhooks/stripe/receive_connect" => "webhooks/stripe#receive_connect",  format: :json	 
+  get '/events' => 'events#index'
+  get '/events/:event_slug' => 'events#show'
+	get "/webhooks/stripe/receive" => "webhooks/stripe#receive",  format: :json
+	get "/webhooks/stripe/receive_connect" => "webhooks/stripe#receive_connect",  format: :json	 
   
 
 	# Nonprofits
-	match ':state_code/:city/:name' => 'nonprofits#show', :as => :nonprofit_location
-	match ':state_code/:city/:name/donate' => 'nonprofits#donate', :as => :nonprofit_donation
-	match ':state_code/:city/:name/button' => 'nonprofits/button#guided'
+	get ':state_code/:city/:name' => 'nonprofits#show', :as => :nonprofit_location
+	get ':state_code/:city/:name/donate' => 'nonprofits#donate', :as => :nonprofit_donation
+	get ':state_code/:city/:name/button' => 'nonprofits/button#guided'
 
 	# Campaigns
-	match ':state_code/:city/:name/campaigns' => 'campaigns#index'
-	match ':state_code/:city/:name/campaigns/:campaign_slug' => 'campaigns#show', :as => :campaign_loc
-	match ':state_code/:city/:name/campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', :as => :campaign_loc
-  match '/peer-to-peer' => 'campaigns#peer_to_peer'
+	get ':state_code/:city/:name/campaigns' => 'campaigns#index'
+	get ':state_code/:city/:name/campaigns/:campaign_slug' => 'campaigns#show', :as => :campaign_loc
+	get ':state_code/:city/:name/campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index'
+  get '/peer-to-peer' => 'campaigns#peer_to_peer'
 
 	# Events
-	match ':state_code/:city/:name/events' => 'events#index'
-	match ':state_code/:city/:name/events/:event_slug' => 'events#show'
-	match ':state_code/:city/:name/events/:event_slug/stats' => 'events#stats'
-	match ':state_code/:city/:name/events/:event_slug/tickets' => 'tickets#index'
+	get ':state_code/:city/:name/events' => 'events#index'
+	get ':state_code/:city/:name/events/:event_slug' => 'events#show'
+	get ':state_code/:city/:name/events/:event_slug/stats' => 'events#stats'
+	get ':state_code/:city/:name/events/:event_slug/tickets' => 'tickets#index'
 	# get '/events' => 'events#index'
 
 	# Dashboard
-	match ':state_code/:city/:name/dashboard' => 'nonprofits#dashboard', as: :np_dashboard
+	get ':state_code/:city/:name/dashboard' => 'nonprofits#dashboard', as: :np_dashboard
 
 	# Misc
 	get '/pages/wp-plugin', to: redirect('/help/wordpress-plugin') #temporary, until WP plugin updated
@@ -261,7 +261,7 @@ Commitchange::Application.routes.draw do
 	get '/maps/specific-npo-supporters' => 'maps#specific_npo_supporters'
 
 	# Mailchimp Landing
-  match '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
+  get '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
 
   # Webhooks
   

@@ -82,7 +82,7 @@ module Commitchange
 		# Add trailing slashes to all routes
 		# config.action_controller.default_url_options = {:trailing_slash => true}
 		#
-		config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
+		#config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 
 		config.session_store ActionDispatch::Session::CacheStore, :expire_after => 12.hours
 	end

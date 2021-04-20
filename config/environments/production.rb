@@ -3,6 +3,7 @@ Commitchange::Application.configure do
 	# Settings specified here will take precedence over those in config/application.rb
 
 	# Code is not reloaded between requests
+	config.eager_load  = true
 	config.cache_classes = true
   config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true, pool_size: 10 }
 
@@ -77,8 +78,6 @@ Commitchange::Application.configure do
           end
         end
 
-	# Enable threaded mode
-	# config.threadsafe!
 
 	# Enable locale fallbacks for I18n (makes lookups for any locale fall back to
 	# the I18n.default_locale when a translation can not be found)
@@ -93,7 +92,6 @@ Commitchange::Application.configure do
 
   config.assets.compile = false
 
-	config.threadsafe!
 	config.dependency_loading = true if $rails_rake_task
 	# Compress json
   #config.middleware.use Rack::Deflater

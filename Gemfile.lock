@@ -51,6 +51,8 @@ GEM
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    actionpack-action_caching (1.2.1)
+      actionpack (>= 4.0.0)
     actionview (4.2.11.3)
       activesupport (= 4.2.11.3)
       builder (~> 3.1)
@@ -294,6 +296,8 @@ GEM
     parallel (1.6.1)
     pg (0.18.3)
     power_assert (1.1.1)
+    protected_attributes (1.1.4)
+      activemodel (>= 4.0.1, < 5.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -470,6 +474,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_mailer_matchers (~> 1.2.0)
+  actionpack-action_caching
   airbrake
   aws-sdk
   aws-sdk-rails
@@ -516,6 +521,7 @@ DEPENDENCIES
   parallel
   param_validation!
   pg
+  protected_attributes
   pry
   pry-byebug
   puma (>= 3.12.2)
@@ -524,7 +530,7 @@ DEPENDENCIES
   rabl
   rack-attack
   rack-timeout
-  rails (= 4.2.11.3)
+  rails (~> 4.0)
   rails-i18n
   rails_12factor
   rails_autoscale_agent (>= 0.9.1)

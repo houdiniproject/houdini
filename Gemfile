@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.4.10'
 gem 'rake'
-gem 'rails', '4.2.11.3'
+gem 'rails', '~> 4.0'
 
 # https://stripe.com/docs/api
 gem 'stripe', '~> 4'
@@ -161,3 +161,7 @@ gem 'hashie'
 gem 'connection_pool'
 
 gem "barnes"
+
+gem 'protected_attributes' # because we upgraded from 3
+
+gem 'actionpack-action_caching' # because we use action caching

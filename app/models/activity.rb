@@ -11,12 +11,12 @@ class Activity < ActiveRecord::Base
     :kind,
     :json_data
   
-  def json_data=(data)
-    write_attribute :json_data, JSON::generate(data)
-  end
+  # def json_data=(data)
+  #   write_attribute :json_data, data
+  # end
 
-  def json_data
-    JSON::parse(read_attribute :json_data)
-  end
+  # def json_data
+  #   JSON::parse(read_attribute :json_data)
+  # end
 end
 

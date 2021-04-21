@@ -12,10 +12,6 @@ class StripeDispute < ActiveRecord::Base
     serialize_on_update(input)
   end
 
-  def balance_transactions
-    JSON::parse(read_attribute(:balance_transactions))
-  end
-
   def balance_transactions_state
     StripeDispute.calc_balance_transaction_state(balance_transactions)
   end
@@ -35,12 +31,11 @@ class StripeDispute < ActiveRecord::Base
     
     case input
     when Stripe::Dispute
-      write_attribute(:object, input.to_s)
-      object_json = JSON::parse(self.object)
-      puts self.object
+      write_attribute(:object, input.to_hash)
+      object_json = self.object
     when String
       write_attribute(:object, input)
-      object_json = JSON::parse(input)
+      object_json = self.object
     end
 
     self.balance_transactions = JSON.generate(object_json['balance_transactions'])
@@ -67,7 +62,7 @@ class StripeDispute < ActiveRecord::Base
       if balance_transactions_changed?
 
         old_bt, _ = balance_transactions_change
-        old_state = StripeDispute.calc_balance_transaction_state(old_bt && JSON.parse(old_bt))
+        old_state = StripeDispute.calc_balance_transaction_state(old_bt)
         if old_state != balance_transactions_state
 
           if (old_state == :none)

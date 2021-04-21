@@ -13,8 +13,8 @@ class Card < ActiveRecord::Base
 		:holder, :holder_id, :holder_type, # polymorphic cardholder association
 		:inactive # a card is inactive. This is currently only meaningful for nonprofit cards
 
-	scope :amex_only, 	where('cards.name ILIKE ? OR cards.name ILIKE ?', 'American Express%', 'amex%')
-	scope :not_amex, where('cards.name NOT ILIKE ? AND cards.name NOT ILIKE ?', 'American Express%', 'amex%')
+	scope :amex_only, 	-> { where('cards.name ILIKE ? OR cards.name ILIKE ?', 'American Express%', 'amex%') }
+	scope :not_amex, -> { where('cards.name NOT ILIKE ? AND cards.name NOT ILIKE ?', 'American Express%', 'amex%') }
 
 	attr_accessor :failure_message
 

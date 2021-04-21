@@ -209,7 +209,7 @@ class Qexpr
   # Just uses double-dollar quoting universally. Should be generally safe and easy.
   # Will return an unquoted value it it's a Fixnum
   def self.quote(val)
-    if val.is_a?(Fixnum) || (val.is_a?(String) && val =~ /^\$Q\$.+\$Q\$$/) # is a valid num or already quoted
+    if val.is_a?(Integer) || (val.is_a?(String) && val =~ /^\$Q\$.+\$Q\$$/) # is a valid num or already quoted
       val
     elsif val == nil
       "NULL"

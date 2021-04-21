@@ -3,7 +3,7 @@ require 'rails_helper'
 
 describe QueryDonations do
 
-  describe :campaign_export do
+  describe 'campaign_export' do
     let(:nonprofit) {force_create(:nonprofit)}
     let(:supporter) {force_create(:supporter)}
 

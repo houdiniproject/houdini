@@ -2,11 +2,11 @@
 require 'rails_helper'
 
 describe Houdini::V1::Nonprofit, :type => :controller do
-  describe :get do
+  describe 'get' do
 
   end
 
-  describe :post do
+  describe 'post' do
     around {|e|
       @old_bp =Settings.default_bp
       e.run
@@ -60,6 +60,7 @@ describe Houdini::V1::Nonprofit, :type => :controller do
     end
     it 'validates nothing' do
       input = {}
+      byebug
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "400"
       expect_validation_errors(JSON.parse(response.body), create_errors("nonprofit", "user"))

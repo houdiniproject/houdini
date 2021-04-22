@@ -46,3 +46,16 @@ en:
       np_and_campaign_ids: "NP: %{np_id} - Campaign ID: %{campaign_id}"
       add_video: Add Video
       edit_video: Edit Video
+      new_campaign: New Campaign
+      campaign_name_label: Campaign Name
+      short_tagline_label: Short Tagline
+      short_description_label_html: Short Description <small>(used for sharing on social media)</small>
+      goal_amount_label: Goal Amount
+      end_date_and_time_label: End Date & Time
+      image_label_html: "Image <small>(recommended width: 500px)</small>"
+      image_description: This image appears below the campaign's header as well as on the campaign's preview card.  You'll have a chance to upload an additional header image once you've created your campaign.
+      upload_label: Upload
+      video_label: Video
+      video_description: If you have a video, it can greatly boost your success. Copy and paste the URL from Vimeo or Youtube.
+      video_url_placeholder: Youtube or Vimeo URL
+      preview_campaign!: Preview Campaign!

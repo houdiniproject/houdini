@@ -5,7 +5,7 @@
 
 <div class='modal' id='newCampaign'>
 
-	<%= render 'common/modal_header', title: 'New Campaign' %>
+	<%= render 'common/modal_header', title: t('campaigns.admin.new_campaign') %>
 
 	<div class='wizard-steps' style='display:none;'>
 		<!--= wizard.init 'new_campaign_wiz' -->
@@ -22,17 +22,17 @@
 				<input type='hidden' name='campaign[profile_id]' value='<%= current_user.profile.id %>'>
 
 				<fieldset>
-					<label>Campaign Name</label>
+					<label><%= t('campaigns.admin.campaign_name_label') %></label>
 					<input type='text' name='campaign[name]' required parsley-trigger='change'>
 				</fieldset>
 
 				<fieldset>
-					<label>Short Tagline</label>
+					<label><%= t('campaigns.admin.short_tagline_label') %></label>
 					<input type='text' name='campaign[tagline]' required parsley-trigger='change'>
 				</fieldset>
 
 				<fieldset>
-					<label>Short Description <small>(used for sharing on social media)</small></label>
+					<label><%= t('campaigns.admin.short_description_label_html') %></label>
 					<textarea name='campaign[summary]' required parsley-maxlength='300' parsley-trigger='change'></textarea>
 				</fieldset>
 
@@ -49,7 +49,7 @@
 
           <div class='u-margin--auto'>
 						<fieldset class='group u-marginBottom--0'>
-							<label class='u-paddingTop--5'>Goal Amount</label>
+							<label class='u-paddingTop--5'><%= t('campaigns.admin.goal_amount_label') %></label>
 							<div class='prepend--dollar'>
 								<input class='input--100 u-marginBottom--5' value='1000' type='number' name='campaign[goal_amount_dollars]' required min='1'>
 							</div>
@@ -58,15 +58,15 @@
 						<hr>
 
 						<fieldset class='group'>
-							<label class='u-paddingTop--5'>End Date & Time</label>
+							<label class='u-paddingTop--5'><%= t('campaigns.admin.end_date_and_time_label') %></label>
               <div pikaday-timepicker='MM/DD/YYYY hh:mm a'>
                 <input class='u-width--200 u-bold u-inlineBlock' type='text' name='campaign[end_datetime]' required parsley-trigger='change' placeholder='MM/DD/YYYY HH:MM'>
-                <a class='button edit u-inlineBlock'>Set</a>
+                <a class='button edit u-inlineBlock'><%= t('ui.set') %></a>
               </div>
 						</fieldset>
 					</div>
 
-					<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_campaign_wiz', branded: true %>
+					<%= render 'components/forms/submit_button', button_text: t('ui.next'), scope: 'new_campaign_wiz', branded: true %>
 				</form>
 			</div>
 
@@ -84,22 +84,22 @@
 						</p>
 
 						<div class='col-left-8'> 
-							<label>Image <small>(recommended width: 500px)</small></label>
-							<p>This image appears below the campaign's header as well as on the campaign's preview card.  You'll have a chance to upload an additional header image once you've created your campaign.</p>
+							<label><%= t('campaigns.admin.image_label_html') %></label>
+							<p><%= t('campaigns.admin.image_description') %></p>
 						</div>
 						<div class='image-upload u-margin--0 u-floatR' if-branded='border-color, light'>
-							<span><i class='fa fa-image'></i> Upload</span>
+							<span><i class='fa fa-image'></i> <%= t('campaigns.admin.upload_label') %></span>
 							<input type='file' name='campaign[main_image]' parsley-trigger='change'>
 					</fieldset>
 
 					<fieldset>
 						<hr>
-						<label>Video</label>
-						<p>If you have a video, it can greatly boost your success. Copy and paste the URL from Vimeo or Youtube.</p>
-						<input type='text' class='u-marginBottom--10' name='campaign[video_url]' placeholder='Youtube or Vimeo URL' />
+						<label><%= t('campaigns.admin.video_label') %></label>
+						<p><%= t('campaigns.admin.video_label') %></p>
+						<%= text_field_tag 'campaign[video_url]', nil, class: 'u-marginBottom--10', placeholder: t('campaigns.admin.video_url_placeholder') %>
 					</fieldset>
 
-					<%= render 'components/forms/submit_button', button_text: 'Preview Campaign!', scope: 'new_campaign_wiz', branded: true %>
+					<%= render 'components/forms/submit_button', button_text: t('campaigns.admin.preview_campaign!'), scope: 'new_campaign_wiz', branded: true %>
 				</form>
 			</div>
 		</div>

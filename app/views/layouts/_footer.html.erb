@@ -3,8 +3,6 @@
 <% if current_user %> <% unless current_user.confirmed? %>
 		<%= render 'common/confirm_email_modal' %>
 	<% end %>
-<% else %>
-	<%= render 'users/login_modal' %>
 <% end %>
 
 <%= render 'common/confirmation' %>

@@ -26,12 +26,16 @@ describe UpdateCharges do
     }
 
     it 'reverses payments it should' do
+      payment_to_reverse.reload
+      payment_to_reverse_2.reload
+      payment_to_reverse_with_refund.reload
       expect(payment_to_reverse.charge.status).to eq 'available'
       expect(payment_to_reverse_2.charge.status).to eq 'available'
       expect(payment_to_reverse_with_refund.charge.status).to eq 'available'
     end
 
     it 'does not reverse other payments' do
+      payment_to_ignore.reload
       expect(payment_to_ignore.charge.status).to eq 'disbursed'
     end
   end

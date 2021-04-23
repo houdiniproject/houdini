@@ -68,6 +68,9 @@ describe UpdatePayouts do
       }
 
       it 'reverses proper payments' do
+        payment_to_reverse.reload
+        payment_to_reverse_2.reload
+        payment_to_reverse_with_refund.reload
         expect(payment_to_reverse.charge.status).to eq available
         expect(payment_to_reverse_2.charge.status).to eq available
         expect(payment_to_reverse_with_refund.charge.status).to eq available

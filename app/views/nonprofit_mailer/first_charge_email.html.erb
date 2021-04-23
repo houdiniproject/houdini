@@ -18,12 +18,13 @@ Whenever you receive money on <%= Settings.general.name %>, it will go into your
 <br>
 <h4> 
   <% url = nonprofits_payouts_url(@nonprofit) -%>
-  <a href="<%= url %>"> <%= url %> </a>
+  <%= link_to(url, url) -%>
 </h4>
 <br>
 <% end -%>
 <% unless @nonprofit.stripe_account&.payouts_enabled -%>
-<p>Stripe is requested additional verification before funds can be paid out. You can access your secure verification form here: <%= link_to url, url %>.</p> 
+<% url = nonprofits_payouts_url(@nonprofit) -%>
+<p>Stripe is requested additional verification before funds can be paid out. You can access your secure verification form here: <%= link_to(url, url) %>.</p> 
 <% end -%>
 
 <p>If you’d like to schedule a free strategy session or web audit for fundraising tips and best practices, please send us an email at support@commitchange.com. In addition to our online <a href="https://help.commitchange.com/">help center</a>, we also offer free online training to all of our nonprofits. </p>

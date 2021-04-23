@@ -59,3 +59,7 @@ en:
       video_description: If you have a video, it can greatly boost your success. Copy and paste the URL from Vimeo or Youtube.
       video_url_placeholder: Youtube or Vimeo URL
       preview_campaign!: Preview Campaign!
+      peer_to_peer_personalize_suggestions: Personalize your campaign page with your name and photo to greatly increase the success of your campaign.
+      reason_for_supporting_label: What's your reason for supporting %{campaign_name}?
+      your_passion_is_contagious: Your passion is contagious! Inspire giving by telling your network why you’re getting involved in this campaign.
+      about_you: About you

@@ -13,23 +13,23 @@
 	<div class='modal-body' style='display: table;'>
 
 		<div class='wizard-step reason-step'>
-			<!--= wizard.set_step 'new_p2p_campaign_wiz' 'About you' -->
+			<!--= wizard.set_step 'new_p2p_campaign_wiz' '<%= t('campaigns.admin.about_you')%>' -->
 
 			<form parsley-validate>
 					<!--= on 'submit' (def 'new_p2p_campaign' form_object) (wizard.advance 'new_p2p_campaign_wiz') -->
 				<input type='hidden' name='campaign[profile_id]' value='<%= current_user.profile.id %>'>
 				<input type='hidden' name='campaign[parent_campaign_id]' value='<%= @parent_campaign.id %>'>
-        <p>Personalize your campaign page with your name and photo to greatly increase the success of your campaign.</p>
+        <p><%= t('campaigns.admin.peer_to_peer_personalize_suggestions')%></p>
 
         <div class='layout--three'>
           <fieldset>
-            <label>Name</label>
-            <input type='text' name='profile[name]' placeholder='Your Name' value='<%= @profile.name %>' required>
+            <label><%= t('users.name_label') %></label>
+						<%= text_field_tag 'profile[name]', @profile.name, placeholder: t('users.name_placeholder'), required: true -%>
           </fieldset>
 
           <fieldset>
-            <label>City</label>
-            <input type='text' name='profile[city]' placeholder='City' value='<%= @profile.city %>'>
+            <label><%= t('users.city_label') %></label>
+						<%= text_field_tag 'profile[city]', @profile.city, placeholder: t('users.city_placeholder')-%>
           </fieldset>
 
           <fieldset>
@@ -38,7 +38,7 @@
           </fieldset>
         </div>
 
-				<%= render 'components/forms/submit_button', button_text: 'Next', scope: 'new_p2p_campaign_wiz', branded: true %>
+				<%= render 'components/forms/submit_button', button_text: t('ui.next'), scope: 'new_p2p_campaign_wiz', branded: true %>
 			</form>
 		</div>
 
@@ -51,14 +51,14 @@
 
           <div class='u-margin--auto'>
             <fieldset class='col-right-12'>
-              <label>What's your reason for supporting <%= @parent_campaign.name %>?</label>
-              <p>Your passion is contagious! Inspire giving by telling your network why you’re getting involved in this campaign.</p>
+              <label><%= t('campaigns.admin.reason_for_supporting_label', campaign_name: @parent_campaign.name)%></label>
+              <p><%= t('campaigns.admin.your_passion_is_contagious') %></p>
 
               <textarea class='u-marginTop--15' rows='4' name='campaign[reason_for_supporting]' required><%= @parent_campaign.default_reason_for_supporting %></textarea>
             </fieldset>
 
 						<fieldset class='group u-marginBottom--0'>
-							<label class='u-paddingTop--5'>Goal Amount</label>
+							<label class='u-paddingTop--5'><%= t('campaigns.admin.goal_amount_label') %></label>
 							<div class='prepend--dollar'>
 								<input class='input--100 u-marginBottom--5' value='1000' type='number' name='campaign[goal_amount_dollars]' required min='1'>
 							</div>
@@ -66,7 +66,7 @@
 
 					</div>
 
-          <%= render 'components/forms/submit_button', button_text: 'Preview Campaign!', scope: 'new_p2p_campaign_wiz', branded: true %>
+          <%= render 'components/forms/submit_button', button_text: t('campaigns.admin.preview_campaign!'), scope: 'new_p2p_campaign_wiz', branded: true %>
 				</form>
 			</div>
 

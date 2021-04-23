@@ -122,7 +122,7 @@ private
     payment_provider = payment_provider(data)
     nonprofit_data = get_nonprofit_data(data['nonprofit_id'])
     kind = data['recurring_donation'] ? "RecurringDonation" : "Donation"
-    if payment_provider == :credit_card
+    if payment_provider == 'credit_card'
       return InsertCharge.with_stripe({
         donation_id: data['donation_id'],
         kind: kind,
@@ -136,7 +136,7 @@ private
         old_donation: data['old_donation'] ? true : false,
         fee_covered: data['fee_covered']
       })
-    elsif payment_provider == :sepa
+    elsif payment_provider == 'sepa'
       return InsertCharge.with_sepa({
         donation_id: data['donation_id'],
         kind: kind,
@@ -204,9 +204,9 @@ private
 
   def self.payment_provider(data)
     if data[:card_id] || data["card_id"]
-      :credit_card
+      'credit_card'
     elsif data[:direct_debit_detail_id] || data["direct_debit_detail_id"]
-      :sepa
+      'sepa'
     end
   end
 

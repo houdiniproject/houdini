@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import React, { useEffect, useState } from "react";
-import { Theme } from '@material-ui/core/styles';
+import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Formik, Form, Field } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
@@ -20,7 +20,6 @@ import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
 import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
 import { NetworkError } from "../../api/errors";
-import { createUseStyles, useTheme} from 'react-jss';
 
 
 export interface SignInComponentProps {
@@ -93,20 +92,20 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	});
 
 	//Styling - Material-UI
-	const useStyles = createUseStyles({
+	const useStyles = makeStyles((theme: Theme) => createStyles({
 		textField: {
 			'& .MuiTextField-root': {
-				margin: ({theme}:{theme:Theme}) => theme.spacing(1),
+				margin: theme.spacing(1),
 			},
 		},
 		paper: {
 			maxWidth: 400,
-			margin: ({theme}:{theme:Theme}) => `${theme.spacing(1)}px auto`,
-			padding: ({theme}:{theme:Theme}) => theme.spacing(2),
+			margin: `${theme.spacing(1)}px auto`,
+			padding: theme.spacing(2),
 			borderRadius: 15,
 		},
 		backdrop: {
-			zIndex: ({theme}:{theme:Theme}) =>  theme.zIndex.drawer + 1,
+			zIndex: theme.zIndex.drawer + 1,
 			color: '#fff',
 			cursor: 'none',
 		},
@@ -122,15 +121,15 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			height: 40,
 		},
 		checkmark: {
-			color: ({theme}:{theme:Theme}) => theme.palette.success.main,
+			color: theme.palette.success.main,
 			fontSize: 100,
 		},
-	});
-
-	const theme = useTheme<Theme>();
+	}),
+	);
 	const Button = styled(MuiButton)(spacing);
-	const classes = useStyles({theme});
+	const classes = useStyles();
 
+	Formik;
 	return (
 		<Formik
 			initialValues={

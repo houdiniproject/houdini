@@ -5,8 +5,8 @@ require 'controllers/support/shared_user_context'
 describe Nonprofits::CustomFieldMastersController, :type => :controller do
   include_context :shared_user_context
   describe 'rejects unauthenticated users' do
-    describe 'get payments' do
-      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+    describe 'get custom field masters' do
+      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, without_json_view: true
     end
 
     describe 'create' do
@@ -14,7 +14,7 @@ describe Nonprofits::CustomFieldMastersController, :type => :controller do
     end
 
     describe 'destroy' do
-      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :delete, :destroy, nonprofit_id: :__our_np, id: '1'
     end
   end
 end

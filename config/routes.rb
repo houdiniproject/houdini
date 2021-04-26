@@ -100,9 +100,9 @@ Commitchange::Application.routes.draw do
 			put :bulk_delete, on: :collection
 			post :merge, on: :collection
 			get :merge_data, on: :collection
-			get :info_card
-			get :email_address
-			get :full_contact
+			get :info_card, on: :member
+			get :email_address, on: :member
+			get :full_contact, on: :member
       get :index_metrics, on: :collection
 		end
 
@@ -131,11 +131,11 @@ Commitchange::Application.routes.draw do
 
 	resources(:nonprofits, {only: [:show, :create, :update, :destroy]}) do
     post(:onboard, {on: :collection})
-		get(:profile_todos)
-		get(:recurring_donation_stats)
+		get(:profile_todos, {on: :member})
+		get(:recurring_donation_stats, {on: :member})
     get(:search, {on: :collection})
-		get(:dashboard_todos)
-		put(:verify_identity)
+		get(:dashboard_todos, {on: :member})
+		put(:verify_identity, {on: :member})
 
 
 		resources(:roles, {only: [:create, :destroy]})
@@ -200,19 +200,19 @@ Commitchange::Application.routes.draw do
   end
 
 	devise_for :users,
-		:controllers => {
-			:sessions => 'users/sessions',
-			:registrations => 'users/registrations',
-			:confirmations => 'users/confirmations'
-		}
-	devise_scope :user do
-		get '/sign_in' => 'users/sessions#new'
-		get '/signup' => 'devise/registrations#new'
-		post '/confirm' => 'users/confirmations#confirm'
-    get '/users/is_confirmed' => 'users/confirmations#is_confirmed'
-    get '/users/exists' => 'users/confirmations#exists'
-		post '/users/confirm_auth', action: :confirm_auth, controller: 'users/sessions'
-	end
+             controllers: {
+               sessions: 'users/sessions',
+               registrations: 'users/registrations',
+               confirmations: 'users/confirmations'
+             }
+  devise_scope :user do
+    match '/sign_in' => 'users/sessions#new', via: %i[get post]
+    match '/signup' => 'devise/registrations#new', via: %i[get post]
+    post '/confirm' => 'users/confirmations#confirm', via: [:get]
+    match '/users/is_confirmed' => 'users/confirmations#is_confirmed', via: %i[get post]
+    match '/users/exists' => 'users/confirmations#exists', via: [:get]
+    post '/users/confirm_auth', action: :confirm_auth, controller: 'users/sessions', via: %i[get post]
+  end
 
 	# Super admin
   get '/admin' => 'super_admins#index', :as => 'admin'

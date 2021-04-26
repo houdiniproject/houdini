@@ -5,11 +5,11 @@ RSpec.shared_context :new_controller_user_context do
   include_context :general_shared_user_context
 
   def sign_in(user_to_signin)
-    post_via_redirect 'users/sign_in', 'user[email]' => user_to_signin.email, 'user[password]' => user_to_signin.password, format: "json"
+    post_via_redirect '/users/sign_in', 'user[email]' => user_to_signin.email, 'user[password]' => user_to_signin.password, format: "json"
   end
 
   def sign_out
-    send(:get, 'users/sign_out')
+    send(:get, '/users/sign_out')
   end
 
   def send(method, *args)

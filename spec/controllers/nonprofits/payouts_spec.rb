@@ -10,13 +10,11 @@ describe Nonprofits::PayoutsController, :type => :controller do
     end
 
     describe 'index' do
-      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, without_json_view: true
     end
 
     describe 'show' do
-      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1'
     end
-
-
   end
 end

@@ -7,19 +7,21 @@ import noop from "lodash/noop";
 
 import SignInPage from "./SignInPage";
 import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
+import { mocked } from "ts-jest/utils";
 
 /* NOTE: We're mocking calls to `/user/sign_in` */
-jest.mock('../../legacy_react/src/lib/api/sign_in');
-import webUserSignIn from '../../legacy_react/src/lib/api/sign_in';
+jest.mock('../../api/api/users');
+jest.mock('../../api/users');
+import {postSignIn} from '../../api/users';
+import {getCurrent} from '../../api/api/users';
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 import { LocationMock } from '@jedmao/location';
-const mockedWebUserSignIn = webUserSignIn as jest.Mocked<typeof webUserSignIn>;
 
 type WrapperProps = React.PropsWithChildren<{hoster?:Hoster}>;
 
 function Wrapper(props:WrapperProps) {
-	return <HosterContext.Provider value={ {hoster: props.hoster || null} }>
+	return <HosterContext.Provider value={props.hoster }>
 		<IntlProvider locale={'en'} messages={I18n.translations['en'] as any } > {/* eslint-disable-line @typescript-eslint/no-explicit-any */}
 			<MockCurrentUserProvider>
 				{props.children}
@@ -98,7 +100,7 @@ describe ('useHoster', () => {
 	});
 	it ('renders with hoster', async () => {
 		expect.hasAssertions();
-		const { getByTestId } = render (<Wrapper hoster= {{legalName: 'Houdini Hoster LLC'}}><SignInPage redirectUrl={"redirectUrl"}/></Wrapper>);
+		const { getByTestId } = render (<Wrapper hoster= {{legal_name: 'Houdini Hoster LLC'}}><SignInPage redirectUrl={"redirectUrl"}/></Wrapper>);
 		await waitFor(()=> {
 			expect(getByTestId('hosterTest')).toHaveTextContent('Houdini Hoster LLC');
 
@@ -110,7 +112,7 @@ describe('redirectUrl', () => {
 	it('has to redirect', async() => {
 		expect.hasAssertions();
 		locationAssign(async (locationAssignSpy:jest.SpyInstance<void, [url: string]>) => {
-			mockedWebUserSignIn.postSignIn.mockResolvedValue({id: 1});
+			mocked(postSignIn).mockResolvedValue({id: 1});
 			const {getByTestId, getByLabelText} = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'}/></Wrapper>);
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");

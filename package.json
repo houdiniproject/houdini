@@ -171,7 +171,6 @@
     "react-dom": "^16.13.1",
     "react-error-boundary": "^3.0.2",
     "react-intl": "^4",
-    "react-jss": "^10.6.0",
     "react-on-rails": "12.2.0",
     "react-text-mask": "^5.3.0",
     "react-transition-group": "^2.9.0",

@@ -82,7 +82,7 @@ const Template = (args: TemplateArgs) => {
 
 	let hosterReturnValue:Hoster|null = null;
 	if (args.hasHoster) {
-		hosterReturnValue = {legalName:args.hoster};
+		hosterReturnValue = {legal_name:args.hoster, casual_name: args.hoster, main_admin_email: 'none@none.none', support_email: 'none@none.none', terms_and_privacy: {}};
 	}
 	else {
 		hosterReturnValue = null;

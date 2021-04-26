@@ -13,23 +13,26 @@ export const HosterContext = createContext<Hoster|null>(null);
  * @interface Hoster
  */
 export interface Hoster {
-	legalName:string;
+	casual_name: string;
+	legal_name: string;
+	main_admin_email: string;
+	support_email: string;
+	terms_and_privacy:{
+		about_url?: string;
+		help_url?: string;
+		privacy_url?: string;
+	};
 }
-/**
- * Information about the current user
- */
-interface UseHoster {
-	hoster?: Hoster;
-}
+
 
 /**
  * Get information about the hoster
  *
  * @export
- * @returns {UseHoster}
+ * @returns {Hoster} or null
  */
-export default function useHoster() : UseHoster {
+export default function useHoster() : Hoster|null {
 	const hoster = useContext(HosterContext);
 
-	return {hoster} as UseHoster;
+	return hoster;
 }

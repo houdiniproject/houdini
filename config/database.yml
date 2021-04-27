@@ -16,7 +16,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_development
+  database: commitchange_development_legacy
   pool: 5
   username: admin
   password: password
@@ -34,7 +34,7 @@ test:
 ci:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_development
+  database: commitchange_development_legacy
   pool: 5
   username: admin
   password: password

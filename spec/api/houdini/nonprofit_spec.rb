@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe Houdini::V1::Nonprofit, :type => :controller do
+describe Houdini::V1::Nonprofit, :type => :request do
   describe 'get' do
 
   end
@@ -53,7 +53,6 @@ describe Houdini::V1::Nonprofit, :type => :controller do
         Rails.configuration.action_controller.allow_forgery_protection = false
       }
       it 'rejects csrf' do
-
         xhr :post, '/api/v1/nonprofit'
         expect(response.code).to eq "401"
       end

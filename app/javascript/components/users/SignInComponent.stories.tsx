@@ -2,8 +2,8 @@ import * as React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import SignInComponent from './SignInComponent';
-jest.mock('../../api/api/users');
-jest.mock('../../api/users');
+//jest.mock('../../api/api/users');
+// jest.mock('../../api/users');
 import { InitialCurrentUserContext } from '../../hooks/useCurrentUser';
 import { SWRConfig } from 'swr';
 import { mocked } from "ts-jest/utils";
@@ -31,7 +31,7 @@ const optionsToSignInError:Record<string, { data?: { error: string[]|string }, s
 
 export default {
 	title: 'users/SignInComponent',
-	component: SignInComponent,
+	// component: SignInComponent,
 	argTypes: {
 		isError: {
 			type: {name: 'boolean'},

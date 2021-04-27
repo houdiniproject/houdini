@@ -327,7 +327,7 @@ describe('SignInComponent', () => {
 		});
 		it('renders progress bar and success message', async () => {
 			expect.hasAssertions();
-			const {getByTestId, getByLabelText} = render(<Wrapper><SignInComponent showProgressAndSuccess/></Wrapper>);
+			const {getByTestId, getByLabelText, queryByTestId} = render(<Wrapper><SignInComponent showProgressAndSuccess/></Wrapper>);
 			const button = getByTestId('signInButton');
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
@@ -338,10 +338,13 @@ describe('SignInComponent', () => {
 			});
 
 			await waitFor(() => {
-				const progressBar = getByTestId("progressTest");
-				const successAlert = getByTestId("signInComponentSuccess");
-				expect(successAlert).toBeInTheDocument();
+				const progressBar = queryByTestId("progressTest");
 				expect(progressBar).toBeInTheDocument();
+			});
+
+			await waitFor(() => {
+				const successAlert = queryByTestId("signInComponentSuccess");
+				expect(successAlert).toBeInTheDocument();
 			});
 		});
 	});

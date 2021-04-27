@@ -51,7 +51,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	function onSuccess() {
 		setSignInPageState("success");
 		window.location.assign(props.redirectUrl);
-		SignInPageState;
 	}
 
 	function onReady() {

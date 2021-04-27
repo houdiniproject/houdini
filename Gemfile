@@ -19,7 +19,7 @@ gem 'bootsnap', require: false
 gem 'rack-timeout'
 gem 'puma_worker_killer'
 
-gem 'test-unit', '~> 3.0'
+gem 'test-unit'
 gem 'hamster'
 
 gem 'aws-sdk'

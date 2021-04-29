@@ -263,8 +263,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    mail_view (2.0.4)
-      tilt
     memcachier (0.0.2)
     method_source (0.9.0)
     mime-types (2.99.3)
@@ -507,7 +505,6 @@ DEPENDENCIES
   httparty
   i18n-js
   lograge
-  mail_view
   memcachier
   mini_magick
   nearest_time_zone

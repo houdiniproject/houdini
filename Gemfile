@@ -73,8 +73,6 @@ gem 'geocoder' # for adding latitude and longitude to location-based tables
 # https://github.com/buytruckload/nearest_time_zone
 gem 'nearest_time_zone' # for detecting timezone from lat/lng
 
-gem 'mail_view'
-
 gem 'rest-client' # recommended for fullcontact
 
 # Nice table printing of data for the console

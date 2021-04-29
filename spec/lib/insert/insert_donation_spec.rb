@@ -109,7 +109,7 @@ describe InsertDonation do
     end
   end
 
-describe '#with_sepa' do
+describe '#with_sepa', pending: 'we dont use SEPA so why have it?' do
   # let!(:nonprofit) { Nonprofit.create(name: 'new', city: 'NY', state_code: 'NY') }
   # let(:supporter) { Supporter.create(nonprofit: nonprofit) }
   # let(:direct_debit) { DirectDebitDetail.create(supporter_id: supporter.id, account_holder_name: 'name', iban: 'de1234561234561234', bic: 'yxz') }

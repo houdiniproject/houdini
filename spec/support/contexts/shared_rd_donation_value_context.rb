@@ -365,16 +365,16 @@ RSpec.shared_context :shared_rd_donation_value_context do
     }
   end
 
-  def before_each_success(expect_charge = true)
+  def before_each_success(expect_payment = true)
     expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
       result = m.call(*args);
       @donation_id = result.id
-      expect_job_queued.with(JobTypes::DonationPaymentCreateJob, @donation_id, supporter.locale)
+      expect_job_queued.with(JobTypes::DonationPaymentCreateJob, @donation_id,  expect_payment ? kind_of(Numeric) : nil , supporter.locale)
 
       result
     end
 
-    if (expect_charge)
+    if (expect_payment)
       nonprofit.stripe_account_id = Stripe::Account.create()['id']
       nonprofit.save!
       card.stripe_customer_id = 'some other id'
@@ -413,8 +413,8 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expect(InsertDonation).to receive(:insert_donation).and_wrap_original do |m, *args|
       result = m.call(*args);
       @donation_id = result.id
-      expect_job_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id)
-      expect_job_queued.with(JobTypes::DonorDirectDebitNotificationJob, @donation_id, supporter.locale)
+      expect_job_queued.with(JobTypes::NonprofitPaymentNotificationJob, @donation_id, @payment_id)
+      expect_job_queued.with(JobTypes::DonorDirectDebitNotificationJob, @donation_id, @payment_id, supporter.locale)
       result
     end
   end

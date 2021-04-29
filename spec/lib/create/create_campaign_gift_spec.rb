@@ -101,9 +101,11 @@ describe CreateCampaignGift do
         it 'rejects associations when the donation amount is too low' do
           adm = double(AdminMailer)
           billing_subscription
+          
           donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 299)
+          payment = force_create(:payment, donation_id: donation.id, gross_amount: 299)
           campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_one_time => 300, :name=> "name")
-          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
+          expect(adm).to receive(:notify_failed_gift).with(donation, kind_of(Payment), campaign_gift_option)
           expect(AdminMailer).to receive(:delay).and_return(adm)
           expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
             expect(error).to be_a(ParamValidation::ValidationError)
@@ -118,11 +120,12 @@ describe CreateCampaignGift do
 
           billing_subscription
           donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 299, :recurring=> true)
+          payment = force_create(:payment, donation_id: donation.id, gross_amount: 299)
           rd = force_create(:recurring_donation, :amount => 299, :donation => donation)
           campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :name=> "name")
 
 
-          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
+          expect(adm).to receive(:notify_failed_gift).with(donation, kind_of(Payment), campaign_gift_option)
           expect(AdminMailer).to receive(:delay).and_return(adm)
           expect { CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id}) }.to raise_error {|error|
             expect(error).to be_a(ParamValidation::ValidationError)
@@ -155,11 +158,13 @@ describe CreateCampaignGift do
           adm = double(AdminMailer)
 
           billing_subscription
+          
           donation = force_create(:donation, :campaign => campaign, nonprofit: nonprofit, :amount => 300, :recurring=> true)
+          payment = force_create(:payment, donation_id: donation.id, gross_amount: 300)
           rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
 
           campaign_gift_option = force_create(:campaign_gift_option, :campaign => campaign, :amount_recurring => 300, :quantity => 1)
-          expect(adm).to receive(:notify_failed_gift).with(donation, campaign_gift_option)
+          expect(adm).to receive(:notify_failed_gift).with(donation, kind_of(Payment), campaign_gift_option)
           expect(AdminMailer).to receive(:delay).and_return(adm)
 
           campaign_gift = force_create(:campaign_gift, :campaign_gift_option => campaign_gift_option)

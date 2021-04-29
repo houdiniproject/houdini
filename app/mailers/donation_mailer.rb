@@ -3,9 +3,10 @@ class DonationMailer < BaseMailer
 
 	# Used for both one-time and recurring donations
   # can pass in array of admin user_ids to send to only some -- if falsey/empty, will send to all
-	def donor_payment_notification(donation_id, locale=I18n.locale)
+	def donor_payment_notification(donation_id, payment_id, locale=I18n.locale)
 		@donation = Donation.find(donation_id)
 		@nonprofit = @donation.nonprofit
+		@payment = @donation.payments.find(payment_id)
 
 		interpolation_dict.set_supporter(@donation.supporter)
     if  @donation.campaign && interpolation_dict.interpolate(@donation.campaign.receipt_message).present?
@@ -13,7 +14,7 @@ class DonationMailer < BaseMailer
     else
 	  @thank_you_note = interpolation_dict.interpolate(@nonprofit.thank_you_note)
     end
-    @charge = @donation.charges.last
+    @charge = @payment.charge
 		@reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
     from = Format::Name.email_from_np(@nonprofit.name)
 		I18n.with_locale(locale) do
@@ -27,7 +28,7 @@ class DonationMailer < BaseMailer
     end
   end
 
-  def donor_direct_debit_notification(donation_id, locale=I18n.locale)
+  def donor_direct_debit_notification(donation_id, payment_id, locale=I18n.locale)
     @donation = Donation.find(donation_id)
 		@nonprofit = @donation.nonprofit
 	
@@ -52,9 +53,10 @@ class DonationMailer < BaseMailer
   end
 
 	# Used for both one-time and recurring donations
-	def nonprofit_payment_notification(donation_id, user_id=nil)
+	def nonprofit_payment_notification(donation_id, payment_id, user_id=nil)
 		@donation = Donation.find(donation_id)
-		@charge = @donation.charges.last
+		@payment = @donation.payments.find(payment_id)
+		@charge = @payment.charge
 		@nonprofit = @donation.nonprofit
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, @donation.campaign ? 'notify_campaigns' : 'notify_payments')
     if user_id

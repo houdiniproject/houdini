@@ -20,7 +20,7 @@
   <%= t('mailer.donations.donor_direct_debit_notification.transfer_info_html', label: t('mailer.donations.donor_direct_debit_notification.transfer_label_html', nonprofit_statement: @nonprofit.statement)) %>
 </p>
 <br>
-<%= render 'donation_mailer/donation_payment_table', donation: @donation, charge: @donation.charges.last %>
+<%= render 'donation_mailer/donation_payment_table', donation: @donation, payment: @payment %>
 
 <%= render 'emails/powered_by' %>
 

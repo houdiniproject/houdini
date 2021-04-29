@@ -167,7 +167,10 @@ function amountFields(state) {
         props: {name: 'amount', step: 'any', type: 'number', min: 1, placeholder: I18n.t('nonprofits.donate.amount.custom')}
       , class: {'is-selected': !state.buttonAmountSelected$()}
       , on: {
-          focus: ev => state.buttonAmountSelected$(false)
+        focus: ev => {
+            state.buttonAmountSelected$(false)
+            state.evolveDonation$({amount: R.always(format.dollarsToCents(ev.currentTarget.value))})
+        }
         , change: ev => state.evolveDonation$({amount: R.always(format.dollarsToCents(ev.currentTarget.value))})
         }
       })

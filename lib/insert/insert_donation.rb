@@ -42,7 +42,7 @@ module InsertDonation
     result['donation'] = self.insert_donation(data, entities)
     update_donation_keys(result)
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
-    JobQueue.queue(JobTypes::DonationPaymentCreateJob, result['donation'].id, entities[:supporter_id].locale)
+    JobQueue.queue(JobTypes::DonationPaymentCreateJob, result['donation'].id, result['payment'].id, entities[:supporter_id].locale)
     result
   end
 
@@ -102,7 +102,7 @@ module InsertDonation
     result['donation'] = self.insert_donation(data, entities)
     update_donation_keys(result)
 
-    JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id)
+    JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id, result['donation'].payment.id)
     JobQueue.queue(JobTypes::DonorDirectDebitNotificationJob, result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
     # do this for making test consistent
     result['activity'] = {}

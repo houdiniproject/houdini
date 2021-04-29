@@ -4,7 +4,7 @@
 <p>The following donation was tried to be associated with a campaign gift option. You SHOULD refund the donation
   as there are no other gifts available:</p>
 
-<%= render 'donation_mailer/donation_payment_table', donation: @donation, charge: @donation.charges.last %>
+<%= render 'donation_mailer/donation_payment_table', donation: @donation, payment: @payment %>
 
 <p> The associated gift was for:</p>
 <table>

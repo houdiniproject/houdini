@@ -79,14 +79,34 @@ RSpec.describe DonationMailer, :type => :mailer do
     let(:s) { force_create(:supporter, email: 'supporter.email@mail.teha', name: '')}
     let(:s_with_name) { force_create(:supporter, email: 'supporter.email@mail.teha', name: 'Penelope')}
     let(:oldcard) { force_create(:card)}
+    let(:charge) { force_create(:charge, payment_id: payment.id, supporter_id: s.id, amount: 999) }
+    let(:payment) { force_create(:payment, donation_id: donation.id, supporter_id: s.id, gross_amount: 999) }
     let(:donation)  {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999)}
+    
+    let(:charge_with_campaign) { force_create(:charge, payment_id: payment_with_campaign.id, supporter_id: s.id, amount: 999) }
+    let(:payment_with_campaign) { force_create(:payment, donation_id: donation_with_campaign.id, supporter_id: s.id, gross_amount: 999) }
     let(:donation_with_campaign) {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999, campaign_id: campaign.id)}
+    
+    let(:charge_with_custom_campaign_message) { force_create(:charge, payment_id: payment_with_custom_campaign_message.id, supporter_id: s.id, amount: 999) }
+    let(:payment_with_custom_campaign_message) { force_create(:payment, donation_id: donation_with_custom_campaign_message.id, supporter_id: s.id, gross_amount: 999) }
     let(:donation_with_custom_campaign_message) {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_custom_message.id)}
+    
+    let(:charge_with_invalid_custom_campaign_message) { force_create(:charge, payment_id: payment_with_invalid_custom_campaign_message.id, supporter_id: s.id, amount: 999) }
+    let(:payment_with_invalid_custom_campaign_message) { force_create(:payment, donation_id: donation_with_invalid_custom_campaign_message.id, supporter_id: s.id, gross_amount: 999) }
     let(:donation_with_invalid_custom_campaign_message) {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_invalid_custom_message.id)}
     
-    let(:donation_named)  {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999)}
+    let(:charge_named) { force_create(:charge, payment_id: payment_named.id, supporter_id: s_with_name.id, amount: 999) }
+    let(:payment_named) { force_create(:payment, donation_id: donation_named.id, supporter_id: s_with_name.id, gross_amount: 999) }
+    let(:donation_named)  { force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999) }
+    let(:charge_with_campaign_named) { force_create(:charge, payment_id: payment_with_campaign_named.id, supporter_id: s_with_name.id, amount: 999) }
+    let(:payment_with_campaign_named) { force_create(:payment, donation_id: donation_with_campaign_named.id, supporter_id: s_with_name.id, gross_amount: 999) }
     let(:donation_with_campaign_named) {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999, campaign_id: campaign.id)}
+    let(:charge_with_custom_campaign_message_named) { force_create(:charge, payment_id: payment_with_custom_campaign_message_named.id, supporter_id: s_with_name.id, amount: 999) }
+    let(:payment_with_custom_campaign_message_named) { force_create(:payment, donation_id: donation_with_custom_campaign_message_named.id, supporter_id: s_with_name.id, gross_amount: 999) }
     let(:donation_with_custom_campaign_message_named) {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_custom_message.id)}
+
+    let(:charge_with_invalid_custom_campaign_message_named) { force_create(:charge, payment_id: payment_with_invalid_custom_campaign_message_named.id, supporter_id: s_with_name.id, amount: 999) }
+    let(:payment_with_invalid_custom_campaign_message_named) { force_create(:payment, donation_id: donation_with_invalid_custom_campaign_message_named.id, supporter_id: s_with_name.id, gross_amount: 999) }
     let(:donation_with_invalid_custom_campaign_message_named) {force_create(:donation, nonprofit_id: np.id, supporter_id: s_with_name.id, card_id: oldcard.id, amount:999, campaign_id: campaign_with_invalid_custom_message.id)}
 
 
@@ -96,28 +116,28 @@ RSpec.describe DonationMailer, :type => :mailer do
 
     describe 'no name supporter' do
       describe 'no campaign' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation.id)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation.id,payment.id)}
         it 'contains default thank you note' do
           expect(mail.body.encoded).to include thank_you_note_default
         end
       end
 
       describe 'campaign' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation_with_campaign.id)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_campaign.id, payment_with_campaign.id)}
         it 'contains default thank you note' do
           expect(mail.body.encoded).to include thank_you_note_default
         end
       end
 
       describe 'campaign_with_custom' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation_with_custom_campaign_message.id)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_custom_campaign_message.id, payment_with_custom_campaign_message.id)}
         it 'contains default campaign' do
           expect(mail.body.encoded).to include campaign_custom_default
         end
       end
 
       describe 'campaign with invalid custom' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation_with_invalid_custom_campaign_message.id)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_invalid_custom_campaign_message.id, payment_with_invalid_custom_campaign_message.id)}
         it 'contains default thank you note' do
           expect(mail.body.encoded).to include thank_you_note_default
         end
@@ -126,32 +146,52 @@ RSpec.describe DonationMailer, :type => :mailer do
 
     describe 'named supporter' do
       describe 'no campaign' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation_named.id)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation_named.id, payment_named.id)}
         it 'contains named thank you note' do
           expect(mail.body.encoded).to include thank_you_note_named
         end
       end
 
       describe 'campaign' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation_with_campaign_named.id)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_campaign_named.id, payment_with_campaign_named.id)}
         it 'contains named thank you note' do
           expect(mail.body.encoded).to include thank_you_note_named
         end
       end
 
       describe 'campaign_with_custom' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation_with_custom_campaign_message_named)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_custom_campaign_message_named.id, payment_with_custom_campaign_message_named.id)}
         it 'contains named campaign' do
           expect(mail.body.encoded).to include campaign_custom_named
         end
       end
 
       describe 'campaign with invalid custom' do
-        let(:mail) { DonationMailer.donor_payment_notification(donation_with_invalid_custom_campaign_message_named.id)}
+        let(:mail) { DonationMailer.donor_payment_notification(donation_with_invalid_custom_campaign_message_named.id, payment_with_invalid_custom_campaign_message_named.id)}
         it 'contains named thank you note' do
           expect(mail.body.encoded).to include thank_you_note_named
         end
       end
+    end
+
+    describe 'specific recurring donation payment' do 
+
+      let(:recurring_donation) do
+        rd = force_create(:recurring_donation, donation_id: donation.id, supporter_id: s.id, nonprofit_id: np.id, amount: 999)
+        
+        payment_to_send_receipt_for
+        other_payment
+      end
+
+      let(:donation)  {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id, card_id: oldcard.id, amount:999)}
+
+      let(:payment_to_send_receipt_for) { force_create(:payment, supporter_id: s.id, amount: 999, donation_id: donation.id, date: Time.at(2020, 5, 1))}
+      let(:other) { force_create(:payment, supporter_id: s.id, amount: 999, donation_id: donation.id, date: Time.at(2020, 5, 1))}
+
+
+
+      
+
     end
   end
 end

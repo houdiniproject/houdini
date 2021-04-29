@@ -71,7 +71,7 @@ module InsertRecurringDonation
       result['activity'] = InsertActivities.for_recurring_donations([result['payment'].id])
     end
     # Send receipts
-    JobQueue.queue(JobTypes::DonationPaymentCreateJob, result['donation'].id, entities[:supporter_id].locale)
+    JobQueue.queue(JobTypes::DonationPaymentCreateJob, result['donation'].id, result['payment']&.id, entities[:supporter_id].locale)
     return result
   end
 

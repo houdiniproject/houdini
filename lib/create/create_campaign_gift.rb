@@ -39,12 +39,12 @@ module CreateCampaignGift
 		if ((donation.recurring_donation != nil) && (campaign_gift_option.amount_recurring != nil && campaign_gift_option.amount_recurring > 0))
 			# it's a recurring_donation. Is it enough? for the gift level?
 			unless donation.recurring_donation.amount >= campaign_gift_option.amount_recurring # || (donation.recurring_donation.amount - CalculateFees.for_single_amount(donation.recurring_donation.amount, billing_plan.percentage_fee) == campaign_gift_option.amount_recurring)
-				AdminMailer.delay.notify_failed_gift(donation, campaign_gift_option)
+				AdminMailer.delay.notify_failed_gift(donation, donation.payments.first, campaign_gift_option)
 				raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} gift options requires a recurring donation of #{campaign_gift_option.amount_recurring} for donation #{donation.id}", {:key => :campaign_gift_option_id})
 			end
 		else
 			unless donation.amount >= (campaign_gift_option.amount_one_time) # || (donation.amount - CalculateFees.for_single_amount(donation.amount, billing_plan.percentage_fee) == campaign_gift_option.amount_one_time)
-				AdminMailer.delay.notify_failed_gift(donation, campaign_gift_option)
+				AdminMailer.delay.notify_failed_gift(donation,donation.payments.first, campaign_gift_option)
 				raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} gift options requires a donation of #{campaign_gift_option.amount_one_time} for donation #{donation.id}", {:key => :campaign_gift_option_id})
 			end
 		end
@@ -57,7 +57,7 @@ module CreateCampaignGift
 				return gift
 			end
 		end
-		AdminMailer.delay.notify_failed_gift(donation, campaign_gift_option)
+		AdminMailer.delay.notify_failed_gift(donation,donation.payments.first, campaign_gift_option)
 		raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} has no more inventory", {:key => :campaign_gift_option_id})
 
 	end

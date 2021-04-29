@@ -6,7 +6,7 @@ class PaymentMailer < BaseMailer
   def resend_admin_receipt(payment_id, user_id)
     payment = Payment.find(payment_id)
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
-      return JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, payment.donation.id, user_id)
+      return JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, payment.donation.id, payment_id, user_id)
     elsif payment.kind == 'Ticket'
       return JobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, payment.tickets.pluck(:id), user_id)
     elsif payment.kind == 'Refund'
@@ -19,7 +19,7 @@ class PaymentMailer < BaseMailer
   def resend_donor_receipt(payment_id)
     payment = Payment.find(payment_id)
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
-      return JobQueue.queue(JobTypes::DonorPaymentNotificationJob, payment.donation.id)
+      return JobQueue.queue(JobTypes::DonorPaymentNotificationJob, payment.donation.id, payment.id)
     elsif payment.kind == 'Ticket'
       return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge.id).deliver
     elsif payment.kind == 'Refund'

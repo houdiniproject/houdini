@@ -100,6 +100,11 @@ class User < ActiveRecord::Base
     self.save!
     return raw
   end
+	
+	# override the main devise_notification code because we're using Delayed::Job
+	def send_devise_notification(notification, *args)
+		message = devise_mailer.delay.send(notification, self, *args)
+	end
 
 	def geocode!
 		#self.geocode

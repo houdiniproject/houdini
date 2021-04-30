@@ -314,6 +314,7 @@ GEM
       rack (>= 0.4)
     rack-attack (4.2.0)
       rack
+    rack-freeze (1.0.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rack-timeout (0.4.2)
@@ -519,6 +520,7 @@ DEPENDENCIES
   qx!
   rabl
   rack-attack
+  rack-freeze
   rack-timeout
   rails (~> 4.0)
   rails-i18n

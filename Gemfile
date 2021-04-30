@@ -29,6 +29,9 @@ gem 'aws-sdk-rails'
 # for blocking ip addressses
 gem 'rack-attack'
 
+# to find middleware thread safety bugs
+gem 'rack-freeze'
+
 # Database (postgres)
 gem 'pg' # Postgresql
 gem 'qx', path: 'gems/ruby-qx'

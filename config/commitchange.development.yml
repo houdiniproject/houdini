@@ -1,7 +1,7 @@
 mailer:
-  delivery_method: "sendmail"
+  delivery_method: "smtp"
   address: "localhost"
-  port: 25
+  port: 1025
 
 cdn:
   url: "http://localhost:5000"

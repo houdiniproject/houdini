@@ -16,7 +16,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_development
+  database: houdini_development
   pool: 20
   username: houdini_user
   password: password
@@ -33,7 +33,7 @@ test:
 ci:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_ci
+  database: houdini_ci
   pool: 5
   username: houdini_user
   password: password
@@ -62,7 +62,7 @@ ci:
 production:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_production
+  database: houdini_production
   pool: 5
   username: admin
   password: password
@@ -70,7 +70,7 @@ production:
 staging:
   adapter: postgresql
   encoding: unicode
-  database: commitchange_staging
+  database: houdini_staging
   pool: 5
   username: admin
   password: password

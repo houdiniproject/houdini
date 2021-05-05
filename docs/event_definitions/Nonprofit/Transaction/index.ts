@@ -1,19 +1,9 @@
 // License: LGPL-3.0-or-later
-import type { Amount, HoudiniObject, IDType, HouID, HoudiniEvent } from "../../common";
+import type { Amount, HoudiniObject, IDType, HouID, HoudiniEvent, PolymorphicID } from "../../common";
 import type Nonprofit from '../';
 import type Supporter from "../Supporter";
-import type { Payment } from "./Payment";
-
-export interface Subtransaction extends HoudiniObject<HouID>, TrxDescendent {
-	amount: Amount;
-	amount_disputed: Amount;
-	amount_pending: Amount;
-	amount_refunded: Amount;
-	created: number;
-	fee_total: Amount;
-	net_amount: Amount;
-	type: 'subtransaction';
-}
+import type { Payment, PaymentAsId } from "./Payment";
+import type { SubtransactionAsId, Subtransaction } from "./Subtransaction";
 
 /**
  * Every descendent of a Transaction object will have the following three fields
@@ -37,30 +27,21 @@ export interface TrxDescendent {
  * Every transaction assignment, including Donation, TicketPurchase, CampaignGiftPurchase
  * must have an amount and the type 'trx_assignment' set.
  */
-export interface TrxAssignment extends HoudiniObject<HouID>, TrxDescendent {
+export interface TrxAssignment extends TrxAssignmentAsId, TrxDescendent {
 	amount: Amount;
-	type: 'trx_assignment';
 }
 
-export interface TrxAssignmentAsId extends HoudiniObject<HouID> {
+export interface TrxAssignmentAsId extends PolymorphicID<HouID> {
 	type: 'trx_assignment';
-}
-
-export interface SubtransactionAsId extends HoudiniObject<HouID> {
-	type: 'subtransaction';
 }
 
 export default interface Transaction extends HoudiniObject<HouID> {
   amount: Amount;
-	// amount_disputed: Amount;
-	// amount_refunded: Amount;
 	created: number;
-	deleted: boolean;
-	// net_amount: Amount;
 	nonprofit: IDType | Nonprofit;
 	object: 'transaction';
+	payments: PaymentAsId[] | Payment[];
 	subtransaction: SubtransactionAsId | Subtransaction;
-	subtransaction_payments: IDType[] | Payment[];
 	supporter: IDType | Supporter;
 	transaction_assignments: TrxAssignmentAsId[] | TrxAssignment[];
 }
@@ -73,5 +54,6 @@ export type TransactionDeleted = HoudiniEvent<'transaction.deleted', Transaction
 
 export * from './Payment';
 export * from './Donation';
-export * from './OfflineTransaction';
+export * from './Subtransaction';
+export * as OfflineTransactionTypes from './OfflineTransaction';
 export {default as OfflineTransaction} from './OfflineTransaction';

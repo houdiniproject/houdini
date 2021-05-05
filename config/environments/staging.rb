@@ -3,6 +3,7 @@ Commitchange::Application.configure do
 	# Settings specified here will take precedence over those in config/application.rb
 
 	# Code is not reloaded between requests
+	config.eager_load  = true
 	config.cache_classes = true
 	config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 4.hours, :compress => true }
 
@@ -16,7 +17,7 @@ Commitchange::Application.configure do
 	config.action_controller.perform_caching = true
 
 	# Disable Rails's static asset server (Apache or nginx will already do this)
-	config.serve_static_assets = true
+	config.serve_static_files = true
 
 	# Compress JavaScripts and CSS
 	config.assets.compress = true

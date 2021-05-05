@@ -44,10 +44,20 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     trx = entities[:supporter_id].transactions.build(amount: data['amount'])
     update_donation_keys(result)
-
     don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
+    stripe_t = trx.build_subtransaction(
+      subtransactable: StripeTransaction.new(amount: data['amount']), 
+      subtransaction_payments:[
+        SubtransactionPayment.new(
+          paymentable: StripeCharge.new(payment: Payment.find(result['payment']['id'])))
+        ],
+        created: data['date']
+      );
     trx.save!
     don.save!
+    stripe_t.save!
+    stripe_t.subtransaction_payments.each{|stp| stp.publish_created}
+    stripe_t.publish_created
     don.publish_created
     trx.publish_created
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])

@@ -199,6 +199,620 @@ describe InsertDonation do
 				end
 			end
 		end
+
+		describe 'object event firing' do
+			# all the same for all the types of donations; see #603
+			let(:created_time) { Time.current }
+			let(:common_builder) do
+				{ 'supporter' => supporter.id,
+						'nonprofit' => nonprofit.id }
+			end
+
+			let(:common_builder_expanded) do
+				{
+					'supporter' => supporter_builder_expanded,
+					'nonprofit' => np_builder_expanded
+				}
+			end
+
+			let(:common_builder_with_trx_id) do
+				common_builder.merge(
+					{
+						'transaction' => match_houid('trx')
+					}
+				)
+			end
+
+			let(:common_builder_with_trx) do
+				common_builder.merge(
+					{
+						'transaction' => transaction_builder
+					}
+				)
+			end
+
+			let(:np_builder_expanded) do
+				{
+					'id' => nonprofit.id,
+					'name' => nonprofit.name,
+					'object' => 'nonprofit'
+				}
+			end
+
+			let(:supporter_builder_expanded) do
+				supporter_to_builder_base.merge({ 'name' => 'Fake Supporter Name' })
+			end
+
+			let(:transaction_builder) do
+				common_builder.merge(
+					{
+						'id' => match_houid('trx'),
+						'object' => 'transaction',
+						'amount' => {
+							'cents' => charge_amount,
+							'currency' => 'usd'
+						},
+						'created' => created_time.to_i,
+						'subtransaction' => stripe_transaction_id_only,
+						'subtransaction_payments' => [stripe_transaction_charge_id_only],
+						'transaction_assignments' => [donation_id_only]
+					}
+				)
+			end
+
+			let(:transaction_builder_expanded) do
+				transaction_builder.merge(
+					common_builder_expanded,
+					{
+						'subtransaction' => stripe_transaction_builder,
+						'subtransaction_payments' => [stripe_transaction_charge_builder],
+						'transaction_assignments' => [donation_builder]
+					}
+				)
+			end
+
+			let(:stripe_transaction_id_only) do
+				{
+					'id' => match_houid('stripetrx'),
+					'object' => 'stripe_transaction',
+					'type' => 'subtransaction'
+				}
+			end
+
+			let(:stripe_transaction_builder) do
+				stripe_transaction_id_only.merge(
+					common_builder_with_trx_id,
+					{
+						'initial_amount' => {
+							'cents' => charge_amount,
+							'currency' => 'usd'
+						},
+
+						'net_amount' => {
+							'cents' => 67,
+							'currency' => 'usd'
+						},
+
+						'payments' => [stripe_transaction_charge_id_only],
+						'created' => created_time.to_i
+					}
+				)
+			end
+
+			let(:stripe_transaction_builder_expanded) do
+				stripe_transaction_builder.merge(
+					common_builder_with_trx,
+					common_builder_expanded,
+					{
+						'payments' => [stripe_transaction_charge_builder]
+					}
+				)
+			end
+
+			let(:stripe_transaction_charge_id_only) do
+				{
+					'id' => match_houid('stripechrg'),
+					'object' => 'stripe_transaction_charge',
+					'type' => 'payment'
+				}
+			end
+
+			let(:stripe_transaction_charge_builder) do
+				stripe_transaction_charge_id_only.merge(
+					common_builder_with_trx_id,
+					{
+						'gross_amount' => {
+							'cents' => charge_amount,
+							'currency' => 'usd'
+						},
+						'net_amount' => {
+							'cents' => 67,
+							'currency' => 'usd'
+						},
+						'fee_total' => {
+							'cents' => -33,
+							'currency' => 'usd'
+						},
+						'subtransaction' => stripe_transaction_id_only,
+						'stripe_id' => /test_ch_\d+/,
+						'created' => created_time.to_i
+					}
+				)
+			end
+
+			let(:stripe_transaction_charge_builder_expanded) do
+				stripe_transaction_charge_builder.merge(
+					common_builder_with_trx,
+					common_builder_expanded,
+					{
+						'subtransaction' => stripe_transaction_builder
+					}
+				)
+			end
+
+			let(:donation_id_only) do
+				{
+					'id' => match_houid('don'),
+					'object' => 'donation',
+					'type' => 'trx_assignment'
+				}
+			end
+
+			let(:donation_builder) do
+				donation_id_only.merge(common_builder_with_trx_id, {
+																												'amount' => {
+																													'cents' => charge_amount,
+																													'currency' => 'usd'
+																												},
+																												'designation' => 'designation',
+																												'dedication' => {
+																													'name' => 'a name',
+																													'type' => 'honor'
+																												}
+																											})
+			end
+
+			let(:donation_builder_expanded) do
+				donation_builder.merge(common_builder_with_trx, common_builder_expanded)
+			end
+
+			describe 'events donations' do
+				describe 'general with_stripe create' do
+					subject do
+						process_event_donation do
+							described_class.with_stripe(
+								{
+									amount: charge_amount,
+									nonprofit_id: nonprofit.id,
+									supporter_id: supporter.id,
+									event_id: event.id,
+									token: source_token.token,
+									dedication: { 'name' => 'a name', 'type' => 'honor' },
+									designation: 'designation'
+
+								}.with_indifferent_access
+							)
+						end
+					end
+
+					before do
+						before_each_success
+					end
+
+					it 'has fired transaction.created' do
+						expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(
+							:transaction_created, {
+								'id' => match_houid('objevt'),
+								'object' => 'object_event',
+								'type' => 'transaction.created',
+								'data' => {
+									'object' => transaction_builder_expanded
+								}
+							}
+						)
+						subject
+					end
+
+					it 'has fired stripe_transaction_charge.created' do
+						expect(Houdini.event_publisher).to receive(:announce).with(
+							:stripe_transaction_charge_created,
+							{
+								'id' => match_houid('objevt'),
+								'object' => 'object_event',
+								'type' => 'stripe_transaction_charge.created',
+								'data' => {
+									'object' => stripe_transaction_charge_builder_expanded
+								}
+							}
+						)
+						expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+
+						subject
+					end
+
+					it 'has fired payment.created' do
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(
+							:payment_created,
+							{
+								'id' => match_houid('objevt'),
+								'object' => 'object_event',
+								'type' => 'payment.created',
+								'data' => {
+									'object' => stripe_transaction_charge_builder_expanded
+								}
+							}
+						)
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+
+						subject
+					end
+
+					it 'has fired stripe_transaction.created' do
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(
+							:stripe_transaction_created,
+							{
+								'id' => match_houid('objevt'),
+								'object' => 'object_event',
+								'type' => 'stripe_transaction.created',
+								'data' => {
+									'object' => stripe_transaction_builder_expanded
+								}
+							}
+						)
+
+						expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+						subject
+					end
+
+					it 'has fired donation.created' do
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(
+							:donation_created,
+							{
+								'id' => match_houid('objevt'),
+								'object' => 'object_event',
+								'type' => 'donation.created',
+								'data' => {
+									'object' => donation_builder_expanded
+								}
+							}
+						)
+						expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+						subject
+					end
+
+					it 'has fired trx_assignment.created' do
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+						expect(Houdini.event_publisher).to receive(:announce).with(
+							:trx_assignment_created,
+							{
+								'id' => match_houid('objevt'),
+								'object' => 'object_event',
+								'type' => 'trx_assignment.created',
+								'data' => {
+									'object' => donation_builder_expanded
+								}
+							}
+						)
+						expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+						subject
+					end
+				end
+			end
+
+			describe 'general donations' do
+				subject do
+					process_general_donation do
+						described_class.with_stripe(
+							{
+								amount: charge_amount,
+								nonprofit_id: nonprofit.id,
+								supporter_id: supporter.id,
+								token: source_token.token,
+								profile_id: profile.id,
+								dedication: { 'name' => 'a name', 'type' => 'honor' },
+								designation: 'designation'
+
+							}.with_indifferent_access
+						)
+					end
+				end
+
+				before do
+					before_each_success
+				end
+
+				it 'has fired transaction.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:transaction_created, {
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'transaction.created',
+							'data' => {
+								'object' => transaction_builder_expanded
+							}
+						}
+					)
+					subject
+				end
+
+				it 'has fired stripe_transaction_charge.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:stripe_transaction_charge_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'stripe_transaction_charge.created',
+							'data' => {
+								'object' => stripe_transaction_charge_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+
+					subject
+				end
+
+				it 'has fired payment.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:payment_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'payment.created',
+							'data' => {
+								'object' => stripe_transaction_charge_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+
+					subject
+				end
+
+				it 'has fired stripe_transaction.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:stripe_transaction_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'stripe_transaction.created',
+							'data' => {
+								'object' => stripe_transaction_builder_expanded
+							}
+						}
+					)
+
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+					subject
+				end
+
+				it 'has fired donation.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:donation_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'donation.created',
+							'data' => {
+								'object' => donation_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+					subject
+				end
+
+				it 'has fired trx_assignment.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:trx_assignment_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'trx_assignment.created',
+							'data' => {
+								'object' => donation_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+					subject
+				end
+			end
+
+			describe 'campaign donations' do
+				subject do
+					expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, any_args)
+					process_campaign_donation do
+						described_class.with_stripe(
+							{
+								amount: charge_amount,
+								nonprofit_id: nonprofit.id,
+								supporter_id: supporter.id,
+								token: source_token.token,
+								dedication: { 'name' => 'a name', 'type' => 'honor' },
+								designation: 'designation',
+								campaign_id: campaign.id
+							}.with_indifferent_access
+						)
+					end
+				end
+
+				before do
+					before_each_success
+				end
+
+				it 'has fired transaction.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:transaction_created, {
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'transaction.created',
+							'data' => {
+								'object' => transaction_builder_expanded
+							}
+						}
+					)
+					subject
+				end
+
+				it 'has fired stripe_transaction_charge.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:stripe_transaction_charge_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'stripe_transaction_charge.created',
+							'data' => {
+								'object' => stripe_transaction_charge_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+
+					subject
+				end
+
+				it 'has fired payment.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:payment_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'payment.created',
+							'data' => {
+								'object' => stripe_transaction_charge_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+
+					subject
+				end
+
+				it 'has fired stripe_transaction.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:stripe_transaction_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'stripe_transaction.created',
+							'data' => {
+								'object' => stripe_transaction_builder_expanded
+							}
+						}
+					)
+
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+					subject
+				end
+
+				it 'has fired donation.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:donation_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'donation.created',
+							'data' => {
+								'object' => donation_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+					subject
+				end
+
+				it 'has fired trx_assignment.created' do
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+					expect(Houdini.event_publisher).to receive(:announce).with(
+						:trx_assignment_created,
+						{
+							'id' => match_houid('objevt'),
+							'object' => 'object_event',
+							'type' => 'trx_assignment.created',
+							'data' => {
+								'object' => donation_builder_expanded
+							}
+						}
+					)
+					expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+					subject
+				end
+			end
+		end
 	end
 
 	describe '#with_sepa' do

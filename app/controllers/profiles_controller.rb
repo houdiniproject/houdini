@@ -11,7 +11,7 @@ class ProfilesController < ApplicationController
 		@profile = Profile.find(params[:id])
 		@profile_nonprofits = Psql.execute(Qexpr.new.select("DISTINCT nonprofits.*").from(:nonprofits).join(:supporters, "supporters.nonprofit_id=nonprofits.id AND supporters.profile_id=#{@profile.id}"))
     @campaigns = @profile.campaigns.published.includes(:nonprofit)
-		if @profile.anonymous? && current_user_id != @profile.user_id && !:super_admin
+		if @profile.anonymous? && current_user_id != @profile.user_id && !current_role?(:super_admin)
 			flash[:notice] = 'That user does not have a public profile.'
 			redirect_to(request.env["HTTP_REFERER"]&.to_s || root_url)
 			return

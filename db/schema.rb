@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_29_213633) do
+ActiveRecord::Schema.define(version: 2021_05_06_202607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -782,6 +782,19 @@ ActiveRecord::Schema.define(version: 2021_03_29_213633) do
     t.index ["tokenizable_id", "tokenizable_type"], name: "index_source_tokens_on_tokenizable_id_and_tokenizable_type"
   end
 
+  create_table "stripe_charges", id: :string, force: :cascade do |t|
+    t.bigint "payment_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payment_id"], name: "index_stripe_charges_on_payment_id"
+  end
+
+  create_table "stripe_transactions", id: :string, force: :cascade do |t|
+    t.integer "amount", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "subtransaction_payments", id: :string, force: :cascade do |t|
     t.string "subtransaction_id"
     t.string "paymentable_type"
@@ -1008,6 +1021,7 @@ ActiveRecord::Schema.define(version: 2021_03_29_213633) do
   add_foreign_key "modern_campaign_gifts", "campaign_gifts"
   add_foreign_key "object_event_hook_configs", "nonprofits"
   add_foreign_key "offline_transaction_charges", "payments"
+  add_foreign_key "stripe_charges", "payments"
   add_foreign_key "subtransaction_payments", "subtransactions"
   add_foreign_key "subtransactions", "transactions"
   add_foreign_key "ticket_purchases", "event_discounts"

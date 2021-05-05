@@ -176,7 +176,7 @@ describe QueryPayments do
           generate_donation(amount: charge_amount_large,
 
                                      token: source_tokens[2].token,
-                                     date: (Time.now - 1.day).to_s
+                                     date: (Time.now + 1.day).to_s
                             )
 
       }
@@ -208,6 +208,25 @@ describe QueryPayments do
         expect(result[:data].count).to eq 5
       end
 
+      context 'considering the nonprofit timezone on the query result' do
+        before do
+          donation_result_tomorrow
+          donation_result_today
+          first_refund_of_yesterday
+          second_refund_of_yesterday
+        end
+
+        it 'when the nonprofit does not have a timezone it considers UTC as default' do
+          result = QueryPayments::full_search(nonprofit.id, {})
+          expect(result[:data].first['date']).to eq (Time.now).to_s
+        end
+
+        it 'when the nonprofit has a timezone it shows the corresponding time' do
+          nonprofit.update_attributes(timezone: 'America/New_York')
+          result = QueryPayments::full_search(nonprofit.id, {})
+          expect(result[:data].first['date']).to eq ((Time.now) - 4.hours).to_s
+        end
+      end
     end
 
     describe 'event donations' do

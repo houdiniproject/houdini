@@ -2,7 +2,7 @@
 Commitchange::Application.routes.draw do
  
 
-  mount Houdini::Api => '/api'
+  mount Houdini::API => '/api'
 
   if Rails.env == 'development'
 		get '/button_debug/embedded' => 'button_debug#embedded'
@@ -268,7 +268,7 @@ Commitchange::Application.routes.draw do
 	
   get '/static/terms_and_privacy' => 'static#terms_and_privacy'
 	get '/static/ccs' => 'static#ccs'
-
+	get '/cloudflare_errors/under_attack' => 'cloudflare_errors#under_attack'
 
 
 	root :to => 'front#index'

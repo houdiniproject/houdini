@@ -60,7 +60,7 @@ export type RecurrenceRule = {
  * Every object controlled by the Houdini event publisher must meet this standard interface
  * and will inherit from it.
  */
-export interface HoudiniObject<ID extends IDType|HouID=IDType> {
+export interface HoudiniObject<ID extends IDType | HouID = IDType> {
 	/**
 	 * An IDType which unique which uniquely identifies this object
 	 * from all other similar objects
@@ -72,7 +72,26 @@ export interface HoudiniObject<ID extends IDType|HouID=IDType> {
 	object: string;
 }
 
-export type PolymorphicID<ID extends IDType|HouID=IDType> = HoudiniObject<ID>;
+/**
+ * Used to identify objects when the field they're assigned too isn't enough to know what type of object they are.
+ * As an example on a transaction object, you'll have a field called "subtransaction". That could be any subtransaction object, for example, an
+ * `offline_transaction` or a `stripe_transaction`. We don't have enough information using the field name to tell us EXACTLY what type of field this is.
+ * There for we provide the following JSON object:
+ *
+ * {
+ * 	id: <the id of the object>,
+ *  object: <the object type>,
+ *  type: 'subtransaction',
+ * }
+ *
+ *
+ *
+ *
+*/
+export interface PolymorphicID<ID extends IDType | HouID = IDType> extends HoudiniObject<ID> {
+	/** the subtype of the object */
+	type: string;
+}
 
 type HoudiniObjectOfAllIDs = HoudiniObject<IDType> | HoudiniObject<HouID>;
 /**

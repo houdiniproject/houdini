@@ -1,11 +1,15 @@
 // License: LGPL-3.0-or-later
-import type { Amount, HoudiniObject, HouID, HoudiniEvent } from "../../common";
+import type { Amount, HouID, HoudiniEvent, PolymorphicID } from "../../common";
 import type { Subtransaction, TrxDescendent } from ".";
 
-export interface Payment extends HoudiniObject<HouID>, TrxDescendent {
+export interface PaymentAsId extends PolymorphicID<HouID> {
+	type: 'payment';
+}
+
+export interface Payment extends PaymentAsId, TrxDescendent {
 	created: number;
 	deleted: boolean;
-	fees: Amount;
+	fee_total: Amount;
 	gross_amount: Amount;
 	net_amount: Amount;
 	status: string;

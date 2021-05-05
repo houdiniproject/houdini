@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import type { HouID, HoudiniEvent } from "../../../common";
 import type { Payment, Subtransaction} from "..";
-import type { Charge, Refund, Dispute } from '.';
+import type { Charge, Refund, Dispute, ChargeAsId, DisputeAsId, RefundAsId } from '.';
 
 export interface CommonOfflineTransactionPayment extends Payment {
 	// The kind of offline charge. Could be cash, check or something else
@@ -14,11 +14,9 @@ export interface CommonOfflineTransactionPayment extends Payment {
 }
 
 export default interface OfflineTransaction extends Subtransaction {
-	charges: HouID[] | Charge[];
 	deleted: boolean;
-	disputes: HouID[] | Dispute[];
 	object: 'offline_transaction';
-	refunds: HouID[] | Refund[];
+	payments: (ChargeAsId|RefundAsId|DisputeAsId)[]| (Charge|Refund|Dispute)[];
 }
 
 export type OfflineTransactionCreated = HoudiniEvent<'offline_transaction.created', OfflineTransaction>;

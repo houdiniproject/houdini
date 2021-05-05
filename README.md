@@ -216,7 +216,7 @@ and React (using TSX files). Please use the React Generators for creation.
 * Push to remote for `PRIVATE_STAGING_MASTER` (ask Eric for remote and access)
 * Checkout `PRIVATE_STAGING_DEPLOY`
 * `git merge PRIVATE_STAGING_MASTER`
-* If you have changes on assets or on javascript, then run: `./run_staging npm run build-all`. After that finishes, run `git add public` and then `git commit`
+* If you have changes on assets or on javascript, then run: `./run_staging npm run build-all-staging`. After that finishes, run `git add public` and then `git commit`
 * If no changes on assets or javascript, don’t do the last step
 * Push to the remote for `PRIVATE_STAGING_DEPLOY` (ask Eric for remote and access)
 * Push to heroku staging using `git commit cc-test PRIVATE_STAGING_DEPLOY:master` (ask Eric for access to production)

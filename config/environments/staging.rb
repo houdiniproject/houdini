@@ -85,6 +85,5 @@ Commitchange::Application.configure do
 	# Compress json
 	# config.middleware.use Rack::Deflater
 
-	config.middleware.insert_before 'Rack::Cache', Rack::Attack
 	NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 5.minutes
 end

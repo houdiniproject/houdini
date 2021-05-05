@@ -312,8 +312,8 @@ GEM
     rack (1.6.13)
     rack-accept (0.4.5)
       rack (>= 0.4)
-    rack-attack (4.2.0)
-      rack
+    rack-attack (6.5.0)
+      rack (>= 1.0, < 3)
     rack-freeze (1.0.0)
     rack-test (0.6.3)
       rack (>= 1.0)

@@ -90,6 +90,5 @@ Commitchange::Application.configure do
 
 	config.dependency_loading = true if $rails_rake_task
 
-	config.middleware.insert_before 'Rack::Cache', Rack::Attack
 	NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours
 end

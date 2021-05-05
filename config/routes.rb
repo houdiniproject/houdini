@@ -2,7 +2,7 @@
 Commitchange::Application.routes.draw do
  
 
-  mount Houdini::API => '/api'
+  mount Houdini::Api => '/api'
 
   if Rails.env == 'development'
 		get '/button_debug/embedded' => 'button_debug#embedded'

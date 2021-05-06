@@ -252,11 +252,6 @@ For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
 You will likely want to make a few changes in your configuration of Houdini before running in production as you
 would for any Rails project. These include:
 
-* Using a [different ActiveJob backend](https://guides.rubyonrails.org/active_job_basics.html). NOTE: The Sneakers for RabbitMQ doesn't
-work properly. There are
-[forks of Sneakers](https://github.com/veeqo/advanced-sneakers-activejob)
-which might work but they haven't been tested. **If you do test
-them please let us know!**
 * Use a [proper cache store](https://guides.rubyonrails.org/caching_with_rails.html#cache-stores). The development uses
  `memory_store` which isn't shared between processes or server
  and clears every time your server software restarts. Memcached

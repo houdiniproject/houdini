@@ -195,8 +195,11 @@ describe QueryRecurringDonations do
 
       @recurring_donations = [force_create(:recurring_donation, amount: 1000, active: false, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_1"),
                               force_create(:recurring_donation, amount: 2000, active: true, n_failures: 3, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_2"),
-                              force_create(:recurring_donation, amount: 3000, active: true, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_3"),
-                              force_create(:recurring_donation, amount: 400, active: false, n_failures: 3, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_4")]
+                              force_create(:recurring_donation, amount: 3000, active: true, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation, card: force_create(:card, stripe_customer_id: "stripe_cus_id")), edit_token: "edit_token_3"),
+                              force_create(:recurring_donation, amount: 400, active: false, n_failures: 3, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_4"),
+                              force_create(:recurring_donation, amount: 100, active: true, n_failures: 0, end_date: Time.current - 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_5"),
+                              force_create(:recurring_donation, amount: 200, active: true, n_failures: 0, end_date: Time.current + 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_6")
+                            ]
       @root_url ='https://localhost:8080'
     end
 
@@ -205,7 +208,7 @@ describe QueryRecurringDonations do
     it 'finishes recurring donation export' do
       rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {}).to_a
 
-      expect(rows.length).to eq(5)
+      expect(rows.length).to eq(7)
       expect(rows[0]).to eq(headers)
 
     end
@@ -215,10 +218,11 @@ describe QueryRecurringDonations do
 
 
 
-      expect(rows.length).to eq(2)
+      expect(rows.length).to eq(3)
 
       expect(rows[0]).to eq(headers)
       expect(rows[1][1]).to eq("$30.00")
+      expect(rows[2][1]).to eq("$2.00")
       expect(rows[1][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
 
     end
@@ -226,11 +230,11 @@ describe QueryRecurringDonations do
     it 'retrieves cancelled' do
       rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => false, :root_url => 'https://localhost:8080/'}).to_a
 
-      expect(rows.length).to eq(2)
+      expect(rows.length).to eq(3)
       expect(rows[0]).to eq(headers)
       expect(rows[1][1]).to eq("$10.00")
       expect(rows[1][-1]).to eq('')
-
+      expect(rows[2][1]).to eq("$1.00")
     end
 
     it 'retrieves failed' do
@@ -247,7 +251,7 @@ describe QueryRecurringDonations do
     it 'retrieves not-failed' do
       rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => false, :root_url => 'https://localhost:8080/'}).to_a
 
-      expect(rows.length).to eq(3)
+      expect(rows.length).to eq(5)
       expect(rows[0]).to eq(headers)
       expect(rows[1][1]).to eq("$10.00")
       expect(rows[2][1]).to eq("$30.00")
@@ -256,6 +260,13 @@ describe QueryRecurringDonations do
       expect(rows[2][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
     end
 
+    it 'gets the stripe_customer_id when requested' do
+      expect(csv.select{|i| i['Stripe Customer Id'] == 'stripe_cus_id'}).to be_any
+    end
+
+    let(:csv) do
+      CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => true, include_stripe_customer_id: true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
+    end
 
   end
 end # describe

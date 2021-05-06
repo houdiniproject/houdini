@@ -143,33 +143,37 @@ module QueryRecurringDonations
 
   def self.get_chunk_of_export(npo_id, query, offset=nil, limit=nil, skip_header=false )
     root_url = query[:root_url]
+    include_stripe_customer_id = query[:include_stripe_customer_id]
+    select_list = ['recurring_donations.created_at',
+    '(recurring_donations.amount / 100.0)::money::text AS amount',
+    "concat('Every ', recurring_donations.interval, ' ', recurring_donations.time_unit, '(s)') AS interval",
+    '(SUM(paid_charges.amount) / 100.0)::money::text AS total_contributed',
+    'MAX(campaigns.name) AS campaign_name',
+    'MAX(supporters.name) AS supporter_name',
+    'MAX(supporters.email) AS supporter_email',
+    'MAX(supporters.phone) AS phone',
+    'MAX(supporters.address) AS address',
+    'MAX(supporters.city) AS city',
+    'MAX(supporters.state_code) AS state',
+    'MAX(supporters.zip_code) AS zip_code',
+    'MAX(cards.name) AS card_name',
+    'recurring_donations.id AS "Recurring Donation ID"',
+    'MAX(donations.id) AS "Donation ID"',
+    'MAX(donations.designation) AS "Designation"',
+    'BOOL_OR(misc_recurring_donation_infos.fee_covered) AS "Fee Covered by Supporter"',
+    "CASE WHEN #{is_cancelled_clause('recurring_donations')} 
+      THEN 'cancelled' 
+    WHEN #{is_failed_clause('recurring_donations')} 
+      THEN 'failed' 
+    ELSE 'active' END AS status",
+    'recurring_donations.cancelled_at AS "Cancelled At"',
+    "CASE WHEN #{is_active_clause('recurring_donations')} OR #{is_failed_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\""]
 
+    if include_stripe_customer_id
+      select_list.push 'MAX(cards.stripe_customer_id) AS "Stripe Customer ID"'
+    end
     return QexprQueryChunker.get_chunk_of_query(offset, limit, skip_header) {
-        full_search_expr(npo_id, query).select(
-            'recurring_donations.created_at',
-            '(recurring_donations.amount / 100.0)::money::text AS amount',
-            "concat('Every ', recurring_donations.interval, ' ', recurring_donations.time_unit, '(s)') AS interval",
-            '(SUM(paid_charges.amount) / 100.0)::money::text AS total_contributed',
-            'MAX(campaigns.name) AS campaign_name',
-            'MAX(supporters.name) AS supporter_name',
-            'MAX(supporters.email) AS supporter_email',
-            'MAX(supporters.phone) AS phone',
-            'MAX(supporters.address) AS address',
-            'MAX(supporters.city) AS city',
-            'MAX(supporters.state_code) AS state',
-            'MAX(supporters.zip_code) AS zip_code',
-            'MAX(cards.name) AS card_name',
-            'recurring_donations.id AS "Recurring Donation ID"',
-            'MAX(donations.id) AS "Donation ID"',
-            'MAX(donations.designation) AS "Designation"',
-            'BOOL_OR(misc_recurring_donation_infos.fee_covered) AS "Fee Covered by Supporter"',
-            "CASE WHEN #{is_cancelled_clause('recurring_donations')} 
-              THEN 'cancelled' 
-            WHEN #{is_failed_clause('recurring_donations')} 
-              THEN 'failed' 
-            ELSE 'active' END AS status",
-            'recurring_donations.cancelled_at AS "Cancelled At"',
-            "CASE WHEN #{is_active_clause('recurring_donations')} OR #{is_failed_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\"")
+        full_search_expr(npo_id, query).select(select_list)
             .left_outer_join('campaigns' , 'campaigns.id=donations.campaign_id')
             .left_outer_join('cards', 'cards.id=donations.card_id')
             # .left_outer_join('misc_recurring_donation_infos', 'recurring_donations.id = misc_recurring_donation_infos.recurring_donation_id')
@@ -318,11 +322,11 @@ module QueryRecurringDonations
   # External active means what a user would consider active, i.e. a recurring donation that will be paid.
   # This means it hasn't be cancelled "active='t'" and that it hasn't failed 'n_failures < 3'
   def self.is_external_active_clause(field_for_rd)
-    "#{is_active_clause(field_for_rd)} AND #{is_not_failed_clause(field_for_rd)}"
+    "#{is_active_clause(field_for_rd)} AND #{is_not_failed_clause(field_for_rd)} AND (#{field_for_rd}.end_date IS NULL OR #{field_for_rd}.end_date > '#{Time.current}')"
   end
 
   def self.is_external_cancelled_clause(field_for_rd)
-    "#{is_cancelled_clause(field_for_rd)} AND #{is_not_failed_clause(field_for_rd)}"
+    "((#{is_cancelled_clause(field_for_rd)} OR #{field_for_rd}.end_date <= '#{Time.current}') AND #{is_not_failed_clause(field_for_rd)})"
   end
 
   def self.is_active_clause(field_for_rd)

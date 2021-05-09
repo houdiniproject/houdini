@@ -27489,7 +27489,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ** original; version 1.0.2 -- https://github.com/unshiftio/original#readme
 Copyright (c) 2015 Unshift.io, Arnout Kazemier
-** querystringify; version 2.1.1 -- https://github.com/unshiftio/querystringify
+** querystringify; version 2.2.0 -- https://github.com/unshiftio/querystringify
 Copyright (c) 2015 Unshift.io, Arnout Kazemier
 
 The MIT License (MIT)
@@ -34195,7 +34195,7 @@ SOFTWARE.
 
 ** requires-port; version 1.0.0 -- https://github.com/unshiftio/requires-port
 Copyright (c) 2015 Unshift.io, Arnout Kazemier
-** url-parse; version 1.4.7 -- https://github.com/unshiftio/url-parse#readme
+** url-parse; version 1.5.1 -- https://github.com/unshiftio/url-parse#readme
 Copyright (c) 2015 Unshift.io, Arnout Kazemier
 
 The MIT License (MIT)

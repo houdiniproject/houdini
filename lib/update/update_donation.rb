@@ -86,7 +86,7 @@ module UpdateDonation
         donation.date = data[:date] if data[:date]
       end
 
-      modern_donation = donation.modern_donation
+      modern_donation = donation.modern_donations.first
       trx = modern_donation.trx
       # edits_to_payments
       if is_offsite

@@ -7,7 +7,7 @@ class ModernDonation < ApplicationRecord
   setup_houid :don
 
 	# TODO must associate with events and campaigns somehow
-	belongs_to :legacy_donation, class_name: 'Donation', foreign_key: :donation_id, inverse_of: :modern_donation
+	belongs_to :legacy_donation, class_name: 'Donation', foreign_key: :donation_id, inverse_of: :modern_donations
 
 	delegate :designation, :dedication, to: :legacy_donation
 	

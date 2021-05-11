@@ -226,8 +226,8 @@ Commitchange::Application.routes.draw do
   # Events
   get '/events' => 'events#index'
   get '/events/:event_slug' => 'events#show'
-	get "/webhooks/stripe/receive" => "webhooks/stripe#receive",  format: :json
-	get "/webhooks/stripe/receive_connect" => "webhooks/stripe#receive_connect",  format: :json	 
+	post "/webhooks/stripe/receive" => "webhooks/stripe#receive",  format: :json
+	post "/webhooks/stripe/receive_connect" => "webhooks/stripe#receive_connect",  format: :json	 
   
 
 	# Nonprofits

@@ -8,5 +8,5 @@
   <h4><%= profile.name %><%- if @location_array.any? -%>
       <small>(<%= @location_array.join(', ') %>)</small><%- end -%>
   </h4>
-    <blockquote><p>"<%= reason_for_supporting %>"</p></blockquote></div>
+    <blockquote><p>"<%= sanitize reason_for_supporting, tags: %w(br) %>"</p></blockquote></div>
 </section>

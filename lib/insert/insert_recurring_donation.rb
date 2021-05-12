@@ -59,6 +59,9 @@ module InsertRecurringDonation
       end
     end
 
+    
+   
+
     # Create the donation record
     result['donation'] = InsertDonation.insert_donation(data, entities)
     entities[:donation_id] = result['donation']
@@ -67,6 +70,25 @@ module InsertRecurringDonation
     # Update charge foreign keys
     if result['payment']
       InsertDonation.update_donation_keys(result)
+
+      trx = entities[:supporter_id].transactions.build(amount: data['amount'], created: data['date'])
+      don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
+      stripe_t = trx.build_subtransaction(
+        subtransactable: StripeTransaction.new(amount: data['amount']), 
+        subtransaction_payments:[
+          SubtransactionPayment.new(
+            paymentable: StripeCharge.new(payment: Payment.find(result['payment']['id'])))
+          ],
+          created: data['date']
+        );
+      trx.save!
+      don.save!
+      stripe_t.save!
+      stripe_t.subtransaction_payments.each{|stp| stp.publish_created}
+      stripe_t.publish_created
+      don.publish_created
+      trx.publish_created
+
       # Create the activity record
       result['activity'] = InsertActivities.for_recurring_donations([result['payment'].id])
     end

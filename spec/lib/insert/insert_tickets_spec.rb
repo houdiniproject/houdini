@@ -5,6 +5,9 @@
 require 'rails_helper'
 
 describe InsertTickets do
+  before do
+    Houdini.payment_providers.stripe.connect = true
+  end
   include_context :shared_rd_donation_value_context
 
   # @param [Object] data
@@ -289,8 +292,12 @@ describe InsertTickets do
           expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, any_args).ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
           expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
+          expect(Houdini.event_publisher).to receive(:announce).with(:offline_transaction_charge_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:offline_transaction_created, any_args).ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:ticket_created, anything).once.ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:ticket_purchase_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args).ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args).ordered
           result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
           
@@ -373,12 +380,29 @@ describe InsertTickets do
         end
 
         def success(other_elements = {})
+          expect(Houdini.event_publisher).to receive(:announce).with(:supporter_created, anything)
+          expect(Houdini.event_publisher).to receive(:announce).with(:supporter_address_created, anything)
+
           nonprofit.stripe_account_id = Stripe::Account.create['id']
           nonprofit.save!
           card.stripe_customer_id = 'some other id'
           card.save!
 
           success_expectations
+          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, any_args).twice
+          expect(Houdini.event_publisher).to receive(:announce).with(:event_discount_created, any_args)
+          
+          expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args).ordered
+          ## there are three tickets so have them be announced three times
+          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_created, anything).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_created, anything).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_created, anything).ordered
+
+          expect(Houdini.event_publisher).to receive(:announce).with(:ticket_purchase_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args).ordered
+          expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args).ordered
           expect(InsertCharge).to receive(:with_stripe).with(
             kind: 'Ticket',
             towards: event.name,

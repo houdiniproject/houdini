@@ -21,7 +21,8 @@ class Payment < ApplicationRecord
   has_many :payment_payouts
   has_many :charges
 
-  has_one :subtransaction_payment
+
+  has_one :stripe_charge
 
   has_one :subtransaction, through: :subtransaction_payment
   has_one :trx, through: :subtransaction_payment

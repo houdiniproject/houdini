@@ -23,6 +23,8 @@ class Charge < ApplicationRecord
   belongs_to :donation
   belongs_to :payment
 
+  has_one :stripe_charge, through: :payment
+
   scope :paid, -> { where(status: %w[available pending disbursed]) }
   scope :not_paid, -> { where(status: [nil, 'failed']) }
   scope :available, -> { where(status: 'available') }

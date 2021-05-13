@@ -18,7 +18,7 @@ class SubtransactionPayment < ApplicationRecord
 		OfflineTransactionDispute
 		OfflineTransactionRefund
 		StripeCharge
-		StripeDispute
+		StripeRefund
 	]
 
 	delegate :gross_amount, :fee_total, :net_amount, to: :paymentable

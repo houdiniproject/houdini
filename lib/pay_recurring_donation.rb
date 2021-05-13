@@ -82,10 +82,22 @@ module PayRecurringDonation
       
       Houdini.event_publisher.announce(:recurring_donation_payment_succeeded, donation, donation&.supporter&.locale || 'en')
       
-      donation =  trx.donations.build(amount: donation['amount'], designation: donation['designation'], dedication: donation["dedication"])
+      donation =  trx.donations.build(amount: donation['amount'], designation: donation['designation'], dedication: donation["dedication"], legacy_donation: donation)
+      stripe_t = trx.build_subtransaction(
+        subtransactable: StripeTransaction.new(amount: data['amount']), 
+        subtransaction_payments:[
+          SubtransactionPayment.new(
+            paymentable: StripeCharge.new(payment: Payment.find(result['payment']['id'])))
+          ],
+          created: data['date']
+        );
       trx.save!
       donation.save!
+      stripe_t.save!
+      stripe_t.subtransaction_payments.each{|stp| stp.publish_created}
+      stripe_t.publish_created
       donation.publish_created
+      trx.publish_created
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
       

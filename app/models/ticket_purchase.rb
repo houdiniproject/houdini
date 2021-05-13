@@ -52,6 +52,7 @@ class TicketPurchase < ApplicationRecord
 
   def publish_created
     Houdini.event_publisher.announce(:ticket_purchase_created, to_event('ticket_purchase.created', :event, :nonprofit, :supporter, :trx, :event_discount, :ticket_to_legacy_tickets).attributes!)
+    Houdini.event_publisher.announce(:trx_assignment_created, to_event('trx_assignment.created', :event, :nonprofit, :supporter, :trx, :event_discount, :ticket_to_legacy_tickets).attributes!)
   end
 
   private

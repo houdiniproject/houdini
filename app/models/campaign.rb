@@ -206,7 +206,7 @@ class Campaign < ActiveRecord::Base
     excluded_for_peer_to_peer = %w(
       id created_at updated_at slug profile_id  url
       total_raised show_recurring_amount external_identifier parent_campaign_id
-      reason_for_supporting metadata
+      reason_for_supporting metadata goal_is_in_supporters
     )
     attributes.except(*excluded_for_peer_to_peer)
   end
@@ -218,6 +218,28 @@ class Campaign < ActiveRecord::Base
   def parent_campaign?
     !child_campaign?
   end
+
+	def params_to_copy_from_parent 
+		params = %w(
+			tagline body video_url receipt_message youtube_video_id summary
+		)
+
+		parent_campaign.attributes.slice(*params)
+	end
+
+	def update_from_parent!
+		if child_campaign?
+			update(params_to_copy_from_parent)
+			[:main_image, :background_image, :banner_image].each do |i|
+				if parent_campaign.send("#{i.to_s}?")
+					update_attribute(i, parent_campaign.send(i)) unless !parent_campaign.main_image rescue AWS::S3::Errors::NoSuchKey
+				else
+					self.send("remove_#{i.to_s}")
+				end
+			end
+			save!
+		end
+	end
 
   def self.get_campaign_and_children(campaign)
     where('campaigns.id = ? OR campaigns.parent_campaign_id = ? ',campaign, campaign)

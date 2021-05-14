@@ -50,11 +50,11 @@ class SupportersController < ApplicationController
 	end
 
   def email_address
-    render json: Supporter.find(params[:supporter_id]).email
+    render json: Supporter.find(params[:id]).email
   end
 
   def full_contact
-    fc = FullContactInfo.where("supporter_id=#{params[:supporter_id]}").first
+    fc = FullContactInfo.where("supporter_id= ?", params[:id]).first
     if fc
       render json: {full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id )}
     else
@@ -63,7 +63,8 @@ class SupportersController < ApplicationController
   end
 
   def info_card
-    render json: QuerySupporters.for_info_card(params[:supporter_id])
+    byebug
+    render json: QuerySupporters.for_info_card(params[:id])
   end
 
 	

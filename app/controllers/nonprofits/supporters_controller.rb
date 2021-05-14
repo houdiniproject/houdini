@@ -63,7 +63,6 @@ class SupportersController < ApplicationController
   end
 
   def info_card
-    byebug
     render json: QuerySupporters.for_info_card(params[:id])
   end
 

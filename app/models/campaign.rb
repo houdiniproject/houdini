@@ -229,12 +229,14 @@ class Campaign < ActiveRecord::Base
 
 	def update_from_parent!
 		if child_campaign?
-			update(params_to_copy_from_parent)
+			params_to_copy_from_parent.each  do |k,v|
+				update_attribute(k, v)
+			end
 			[:main_image, :background_image, :banner_image].each do |i|
 				if parent_campaign.send("#{i.to_s}?")
-					update_attribute(i, parent_campaign.send(i)) unless !parent_campaign.main_image rescue AWS::S3::Errors::NoSuchKey
+					update_attribute(i, parent_campaign.send(i)) unless !parent_campaign.send(i.to_s) rescue AWS::S3::Errors::NoSuchKey
 				else
-					self.send("remove_#{i.to_s}")
+					self.send("remove_#{i.to_s}!")
 				end
 			end
 			save!

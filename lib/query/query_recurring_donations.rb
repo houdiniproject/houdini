@@ -167,7 +167,10 @@ module QueryRecurringDonations
       THEN 'failed' 
     ELSE 'active' END AS status",
     'recurring_donations.cancelled_at AS "Cancelled At"',
-    "CASE WHEN #{is_active_clause('recurring_donations')} OR #{is_failed_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\""]
+    "CASE WHEN #{is_active_clause('recurring_donations')} OR #{is_failed_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\"",
+    'MAX(recurring_donations.paydate) AS "Paydate"',
+    'MAX(paid_charges.created_at) AS "Last Charge Succeeded"'
+  ]
 
     if include_stripe_customer_id
       select_list.push 'MAX(cards.stripe_customer_id) AS "Stripe Customer ID"'

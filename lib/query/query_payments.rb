@@ -79,7 +79,10 @@ module QueryPayments
       'supporters.name',
       'supporters.email',
       'payments.gross_amount',
-      'payments.date'
+      'timezone(
+        COALESCE(nonprofits.timezone, \'UTC\'),
+        timezone(\'UTC\', payments.date)
+      ) as date'
     )
 
     payments = Psql.execute(expr.limit(limit).offset(offset).parse)
@@ -107,6 +110,7 @@ module QueryPayments
   def self.full_search_expr(npo_id, query)
     expr = Qexpr.new.from('payments')
           .inner_join('supporters', "supporters.id=payments.supporter_id")
+          .inner_join('nonprofits', 'nonprofits.id=payments.nonprofit_id')
           .left_outer_join('donations', 'donations.id=payments.donation_id' )
     .join("(#{select_to_filter_search(npo_id, query)}) AS \"filtered_payments\"", 'payments.id = filtered_payments.id')
     .order_by('payments.date DESC')

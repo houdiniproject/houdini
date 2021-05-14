@@ -28,9 +28,11 @@ module MockHelpers
       "Donation Id", 
       "Designation",
       "Fee Covered By Supporter",
-       "Status", 
-       "Cancelled At", 
-       "Donation Management Url"]
+      "Status", 
+      "Cancelled At", 
+      "Donation Management Url",
+      "Paydate", 
+      "Last Charge Succeeded"]
   end
 
   def self.generate_expected_rd_management_url(root_url, rd)

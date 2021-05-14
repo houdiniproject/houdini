@@ -91,7 +91,13 @@ module QuerySupporters
       'supporters.is_unsubscribed_from_emails',
       'supporters.id AS id',
       'tags.names AS tags',
-      "to_char(payments.max_date, 'MM/DD/YY') AS last_contribution",
+      "to_char(
+        timezone(
+          COALESCE(nonprofits.timezone, 'UTC'),
+          timezone('UTC', payments.max_date)
+        ),
+        'MM/DD/YY'
+      ) AS last_contribution",
       'payments.sum AS total_raised'
     ]
     if query[:select]
@@ -179,7 +185,9 @@ module QuerySupporters
       .group_by("tag_joins.supporter_id")
       .as(:tags)
 
-    expr = Qx.select('supporters.id').from(:supporters)
+    expr = Qx.select('supporters.id')
+      .from(:supporters)
+      .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .where(
         ["supporters.nonprofit_id=$id", id: np_id.to_i],
         ["supporters.deleted != true"]

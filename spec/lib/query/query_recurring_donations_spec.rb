@@ -206,58 +206,57 @@ describe QueryRecurringDonations do
     let(:headers) { MockHelpers.recurring_donation_export_headers}
 
     it 'finishes recurring donation export' do
-      rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {}).to_a
+      rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {}).to_a), headers: true)
 
-      expect(rows.length).to eq(7)
-      expect(rows[0]).to eq(headers)
+      expect(rows.length).to eq(6)
+      expect(rows[0].headers).to eq(headers)
 
     end
 
     it 'retrieves active' do
-      rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => true, :root_url => 'https://localhost:8080/'}).to_a
+      rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
 
 
 
-      expect(rows.length).to eq(3)
-
-      expect(rows[0]).to eq(headers)
-      expect(rows[1][1]).to eq("$30.00")
-      expect(rows[2][1]).to eq("$2.00")
-      expect(rows[1][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
+      expect(rows.length).to eq(2)
+      expect(rows[0].headers).to eq(headers)
+      expect(rows[0]["Amount"]).to eq("$30.00")
+      expect(rows[1]["Amount"]).to eq("$2.00")
+      expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
 
     end
 
     it 'retrieves cancelled' do
-      rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => false, :root_url => 'https://localhost:8080/'}).to_a
+      rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => false, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
 
-      expect(rows.length).to eq(3)
-      expect(rows[0]).to eq(headers)
-      expect(rows[1][1]).to eq("$10.00")
-      expect(rows[1][-1]).to eq('')
-      expect(rows[2][1]).to eq("$1.00")
+      expect(rows.length).to eq(2)
+      expect(rows[0].headers).to eq(headers)
+      expect(rows[0]["Amount"]).to eq("$10.00")
+      expect(rows[0]["Donation Management Url"]).to eq('')
+      expect(rows[1]["Amount"]).to eq("$1.00")
     end
 
     it 'retrieves failed' do
-      rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => true, :root_url => 'https://localhost:8080/'}).to_a
+      rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
 
-      expect(rows.length).to eq(3)
-      expect(rows[0]).to eq(headers)
-      expect(rows[1][1]).to eq("$20.00")
-      expect(rows[2][1]).to eq("$4.00")
-      expect(rows[1][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[1]))
-      expect(rows[2][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[3]))
+      expect(rows.length).to eq(2)
+      expect(rows[0].headers).to eq(headers)
+      expect(rows[0]["Amount"]).to eq("$20.00")
+      expect(rows[1]["Amount"]).to eq("$4.00")
+      expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[1]))
+      expect(rows[1]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[3]))
     end
 
     it 'retrieves not-failed' do
-      rows = QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => false, :root_url => 'https://localhost:8080/'}).to_a
+      rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => false, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
+      
+      expect(rows.length).to eq(4)
+      expect(rows[0].headers).to eq(headers)
+      expect(rows[0]["Amount"]).to eq("$10.00")
+      expect(rows[1]["Amount"]).to eq("$30.00")
 
-      expect(rows.length).to eq(5)
-      expect(rows[0]).to eq(headers)
-      expect(rows[1][1]).to eq("$10.00")
-      expect(rows[2][1]).to eq("$30.00")
-
-      expect(rows[1][-1]).to eq('')
-      expect(rows[2][-1]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
+      expect(rows[0]["Donation Management Url"]).to eq('')
+      expect(rows[1]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
     end
 
     it 'gets the stripe_customer_id when requested' do

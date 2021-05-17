@@ -19,7 +19,7 @@
           <fieldset class='group u-marginBottom--0'>
             <label class='u-paddingTop--5'>Goal Amount</label>
             <div class='prepend--dollar'>
-              <input class='input--100 u-marginBottom--5'type='number' name='campaign[goal_amount_dollars]' required min='99'  value='<%= sprintf("%.2f", (@campaign&.goal_amount || 100000) / 100.0) %>'>
+              <input class='input--100 u-marginBottom--5'type='number' name='campaign[goal_amount_dollars]' required min='1'  value='<%= sprintf("%.2f", (@campaign&.goal_amount || 100000) / 100.0) %>'>
             </div>
           </fieldset>
         </div>

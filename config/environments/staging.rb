@@ -61,7 +61,7 @@ Commitchange::Application.configure do
 	# Disable delivery errors, bad email addresses will be ignored
 	# config.action_mailer.raise_delivery_errors = false
 	config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
-	config.action_mailer.default_url_options = { host: Settings.mailer.host }
+	config.action_mailer.default_url_options = { host: 'commitchange-test.herokuapp.com' }
 	# Precompile all "page" files, it needs to be set here so the proper env is setup
 	config.assets.precompile << Proc.new do |path|
 		if path =~ /.*page\.(css|js)/

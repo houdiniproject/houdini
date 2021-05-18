@@ -27,6 +27,7 @@ gem 'countries', '~> 3.0'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'rails-i18n', '~> 6.0.0', '~> 6'
+gem 'premailer-rails', '~> 1.11' # for styling of email
 gem 'money', '~> 6.13'
 
 # Database and Events

@@ -74,6 +74,10 @@ gem 'nearest_time_zone' # for detecting timezone from lat/lng
 
 gem 'rest-client' # recommended for fullcontact
 
+# https://github.com/fphilipe/premailer-rails
+# for stylizing emails
+gem 'premailer-rails'
+
 # Nice table printing of data for the console
 gem 'table_print'
 

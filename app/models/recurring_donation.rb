@@ -19,6 +19,7 @@ class RecurringDonation < ActiveRecord::Base
 
   scope :active,   -> {where(active: true)}
   scope :inactive, -> {where(active: [false,nil])}
+  scope :cancelled, -> {where(active: [false, nil])}
   scope :monthly,  -> {where(time_unit: 'month', interval: 1)}
   scope :annual,   -> {where(time_unit: 'year', interval: 1)}
   scope :failed, -> {where('n_failures >= 3')}
@@ -66,9 +67,13 @@ class RecurringDonation < ActiveRecord::Base
     n_failures >= 3
   end
 
+  def cancelled?
+    !active
+  end
+
   # will this recurring donation be attempted again the next time it should be run?
   def will_attempt_again?
-    !failed? && active && (end_date.nil? || end_date > Time.current);
+    !failed? && !cancelled? && (end_date.nil? || end_date > Time.current);
   end
 
   # XXX let's make these monthly_totals a query

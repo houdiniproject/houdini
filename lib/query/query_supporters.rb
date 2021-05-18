@@ -91,13 +91,7 @@ module QuerySupporters
       'supporters.is_unsubscribed_from_emails',
       'supporters.id AS id',
       'tags.names AS tags',
-      "to_char(
-        timezone(
-          COALESCE(nonprofits.timezone, 'UTC'),
-          timezone('UTC', payments.max_date)
-        ),
-        'MM/DD/YY'
-      ) AS last_contribution",
+      "to_char(payments.max_date, 'MM/DD/YY') AS last_contribution",
       'payments.sum AS total_raised'
     ]
     if query[:select]

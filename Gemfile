@@ -47,10 +47,6 @@ gem 'colorize'
 # https://github.com/collectiveidea/delayed_job_active_record
 gem 'delayed_job_active_record'
 
-# for styling emails
-# https://github.com/Mange/roadie-rails
-gem 'roadie-rails'
-
 # For nat lang parsing of dates
 gem 'chronic'
 
@@ -77,6 +73,10 @@ gem 'geocoder' # for adding latitude and longitude to location-based tables
 gem 'nearest_time_zone' # for detecting timezone from lat/lng
 
 gem 'rest-client' # recommended for fullcontact
+
+# https://github.com/fphilipe/premailer-rails
+# for stylizing emails
+gem 'premailer-rails'
 
 # Nice table printing of data for the console
 gem 'table_print'

@@ -13,7 +13,7 @@ gem 'rabl'
 
 gem 'parallel'
 
-gem "puma", ">= 3.12.2"
+gem "puma", "~> 5.3"
 
 gem 'bootsnap', require: false
 gem 'rack-timeout'

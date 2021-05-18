@@ -47,10 +47,6 @@ gem 'colorize'
 # https://github.com/collectiveidea/delayed_job_active_record
 gem 'delayed_job_active_record'
 
-# for styling emails
-# https://github.com/Mange/roadie-rails
-gem 'roadie-rails'
-
 # For nat lang parsing of dates
 gem 'chronic'
 

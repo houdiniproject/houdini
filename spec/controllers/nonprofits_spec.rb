@@ -76,4 +76,21 @@ describe NonprofitsController, type: :controller do
       end
     end
   end
+
+  describe '#donate' do
+    let(:nonprofit) { force_create(:nm_justice) }
+    it 'allows being put into a frame by not setting X-Frame-Options header' do
+      get :donate, params: {id: nonprofit.id}
+      expect(response.headers).to_not include 'X-Frame-Options'
+    end
+    
+  end
+
+  describe '#btn' do
+    let(:nonprofit) { force_create(:nm_justice) }
+    it 'allows being put into a frame by not setting X-Frame-Options header' do
+      get :btn, params: {id: nonprofit.id}
+      expect(response.headers).to_not include 'X-Frame-Options'
+    end
+  end
 end

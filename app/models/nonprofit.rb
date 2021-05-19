@@ -106,6 +106,7 @@ class Nonprofit < ApplicationRecord
   validates_presence_of :user_id, on: :create, unless: -> {register_np_only}
   validate :user_is_valid, on: :create, unless: -> {register_np_only}
   validate :user_registerable_as_admin, on: :create, unless: -> {register_np_only}
+  validate :timezone_is_valid
 
   scope :vetted, -> { where(vetted: true) }
   scope :identity_verified, -> { where(verification_status: 'verified') }
@@ -305,6 +306,12 @@ private
 
   def user_is_valid
     (user && user.is_a?(User)) || errors.add(:user_id, "is not a valid user")
+  end
+
+  def timezone_is_valid
+    timezone.blank? or
+      ActiveSupport::TimeZone.all.map{ |t| t.tzinfo.name }.include?(timezone) or
+      errors.add(:timezone, 'is not a valid timezone')
   end
 end
 

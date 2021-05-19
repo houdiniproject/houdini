@@ -120,4 +120,18 @@ RSpec.describe Nonprofit, type: :model do
       expect(np_vetted.can_make_payouts?).to be true
     end
   end
+
+  describe '.timezone_is_valid' do
+    it 'does not fail if the timezone is nil' do
+      expect { create(:nonprofit, timezone: nil) }.not_to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'does not fail if the timezone is readable by postgres' do
+      expect { create(:nonprofit, timezone: 'America/Chicago') }.not_to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'raises error if the timezone is invalid' do
+      expect { create(:nonprofit, timezone: 'Central Time (US & Canada)') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end

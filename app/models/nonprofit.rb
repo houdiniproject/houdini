@@ -84,6 +84,7 @@ class Nonprofit < ActiveRecord::Base
   validates :city, presence: true
   validates :state_code, presence: true
   validates :email, format: { with: Email::Regex }, allow_blank: true
+  validate :timezone_is_valid
   validates_uniqueness_of :slug, scope: [:city_slug, :state_code_slug]
   validates_presence_of :slug
 
@@ -276,5 +277,11 @@ class Nonprofit < ActiveRecord::Base
 
   def self.create_cache_key_for_location(state_code,city, name)
     "nonprofit__CACHE_KEY__LOCATION___#{state_code}____#{city}___#{name}"
+  end
+
+  private
+
+  def timezone_is_valid
+    timezone.blank? || ActiveSupport::TimeZone.all.map{ |t| t.tzinfo.name }.include?(timezone) || errors.add(:timezone, 'is not a valid timezone')
   end
 end

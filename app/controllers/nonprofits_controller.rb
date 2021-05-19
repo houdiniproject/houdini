@@ -5,10 +5,14 @@
 class NonprofitsController < ApplicationController
   include Controllers::Nonprofit::Current
   include Controllers::Nonprofit::Authorization
+  include Controllers::XFrame
 
   helper_method :current_nonprofit_user?
   before_action :authenticate_nonprofit_user!, only: %i[dashboard dashboard_metrics dashboard_todos payment_history profile_todos recurring_donation_stats update verify_identity]
   before_action :authenticate_super_admin!, if: proc {|c| ( c.action_name == "destroy") || (c.action_name == "show" && !current_nonprofit.published) }
+
+  # we have to allow nonprofits/:id/donation and nonprofits/:id/btn to be framed
+  after_action :allow_framing, only: %i[donate btn]
 
   # get /nonprofits/:id
   # get /:state_code/:city/:name

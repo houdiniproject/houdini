@@ -2,7 +2,7 @@
 class Users::SessionsController < Devise::SessionsController
 	layout 'layouts/apified', only: :new
 	include Controllers::XFrame
-	after_filter :add_x_frame_options
+	after_filter :deny_x_frame_option
   def new
     @theme = 'minimal'
     super

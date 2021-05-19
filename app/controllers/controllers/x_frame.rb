@@ -4,8 +4,12 @@ module Controllers::XFrame
 
     included do 
         private
-        def add_x_frame_options
+        def deny_x_frame_option
             response.headers['X-Frame-Options'] = 'DENY'
+        end
+
+        def allow_in_frame
+            response.headers.delete('X-Frame-Options')
         end
     end
 end

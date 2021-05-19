@@ -2,7 +2,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :json
   include Controllers::XFrame
-  after_filter :add_x_frame_options
+  after_filter :deny_x_frame_option
   def new
     super
   end

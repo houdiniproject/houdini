@@ -1,11 +1,14 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
  class NonprofitsController < ApplicationController
 	include Controllers::NonprofitHelper
+  include Controllers::XFrame
 
 	helper_method :current_nonprofit_user?
 	before_filter :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update, :verify_identity]
   before_filter :authenticate_super_admin!, only: [:destroy]
   caches_action :btn
+
+  after_action :allow_in_frame, only: [:btn, :donate]
   
 
 	# get /nonprofits/:id

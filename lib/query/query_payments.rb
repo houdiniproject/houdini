@@ -79,7 +79,10 @@ module QueryPayments
       'supporters.name',
       'supporters.email',
       'payments.gross_amount',
-      'payments.date'
+      'timezone(
+        COALESCE(nonprofits.timezone, \'UTC\'),
+        timezone(\'UTC\', payments.date)
+      ) as date'
     )
 
     payments = Psql.execute(expr.limit(limit).offset(offset).parse)

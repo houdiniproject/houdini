@@ -221,10 +221,23 @@ describe QueryPayments do
           expect(result[:data].first['date']).to eq (Time.now).to_s
         end
 
-        it 'when the nonprofit has a timezone it shows the corresponding time' do
-          nonprofit.update_attributes(timezone: 'America/New_York')
-          result = QueryPayments::full_search(nonprofit.id, {})
-          expect(result[:data].first['date']).to eq ((Time.now) - 4.hours).to_s
+        context 'when the nonprofit has a timezone' do
+          before { nonprofit.update_attributes(timezone: 'America/New_York') }
+
+          it 'shows the corresponding time' do
+            result = QueryPayments::full_search(nonprofit.id, {})
+            expect(result[:data].first['date']).to eq ((Time.now) - 4.hours).to_s
+          end
+
+          it 'finds the payments on dates after the specified dates' do
+            result = QueryPayments::full_search(nonprofit.id, { after_date: Time.now - 4.hours })
+            expect(result[:data].count).to eq 5
+          end
+
+          it 'finds the payments on dates before the specified dates' do
+            result = QueryPayments::full_search(nonprofit.id, { before_date: Time.now })
+            expect(result[:data].count).to eq 5
+          end
         end
       end
     end

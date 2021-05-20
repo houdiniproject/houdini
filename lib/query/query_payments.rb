@@ -149,6 +149,7 @@ module QueryPayments
     end
     expr = Qexpr.new.select('payments.id').from('payments')
           .inner_join('supporters', "supporters.id=payments.supporter_id")
+          .inner_join('nonprofits', 'nonprofits.id=payments.nonprofit_id')
           .left_outer_join(inner_donation_search.as('donations'), 'donations.id=payments.donation_id' )
           .where('payments.nonprofit_id=$id', id: npo_id.to_i)
 
@@ -179,10 +180,10 @@ module QueryPayments
       expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
     end
     if query[:after_date].present?
-      expr = expr.where('payments.date >= $date', date: query[:after_date])
+      expr = expr.where('payments.date >= timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $date))', date: query[:after_date])
     end
     if query[:before_date].present?
-      expr = expr.where('payments.date <= $date', date: query[:before_date])
+      expr = expr.where('payments.date <= timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $date))', date: query[:before_date])
     end
     if query[:amount_greater_than].present?
       expr = expr.where('payments.gross_amount >= $amt', amt: query[:amount_greater_than].to_i * 100)

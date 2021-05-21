@@ -210,33 +210,57 @@ describe QueryPayments do
 
       context 'considering the nonprofit timezone on the query result' do
         before do
-          donation_result_tomorrow
           donation_result_today
           first_refund_of_yesterday
           second_refund_of_yesterday
         end
 
         it 'when the nonprofit does not have a timezone it considers UTC as default' do
+          donation_result_tomorrow
           result = QueryPayments::full_search(nonprofit.id, {})
           expect(result[:data].first['date']).to eq (Time.now).to_s
         end
 
         context 'when the nonprofit has a timezone' do
-          before { nonprofit.update_attributes(timezone: 'America/New_York') }
+          before do
+            nonprofit.update_attributes(timezone: 'America/New_York')
+            allow(QuerySourceToken)
+              .to receive(:get_and_increment_source_token)
+              .and_return(source_tokens[0])
+          end
 
           it 'shows the corresponding time' do
+            donation_result_tomorrow
             result = QueryPayments::full_search(nonprofit.id, {})
             expect(result[:data].first['date']).to eq ((Time.now) - 4.hours).to_s
           end
 
           it 'finds the payments on dates after the specified dates' do
+            donation_result_tomorrow
             result = QueryPayments::full_search(nonprofit.id, { after_date: Time.now - 4.hours })
             expect(result[:data].count).to eq 5
           end
 
           it 'finds the payments on dates before the specified dates' do
+            donation_result_tomorrow
             result = QueryPayments::full_search(nonprofit.id, { before_date: Time.now })
             expect(result[:data].count).to eq 5
+          end
+
+          it 'finds the payments of an specific year' do
+            # creating a payment at 1 AM UTC from january 2020
+            # should not be included in the 2020 query if we are at America/New_York
+            Timecop.freeze(2020,1,1,1,0,0, "+00:00")
+            donation =
+              generate_donation(
+                amount: charge_amount_large,
+                token: source_tokens[2].token,
+                date: Time.now.to_s
+              )
+            result_for_2020 = QueryPayments::full_search(nonprofit.id, { year: '2020' })
+            result_for_2019 = QueryPayments::full_search(nonprofit.id, { year: '2019' })
+            expect(result_for_2019[:data].count).to eq 1
+            expect(result_for_2020[:data].count).to eq 4
           end
         end
       end

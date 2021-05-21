@@ -192,7 +192,15 @@ module QueryPayments
       expr = expr.where('payments.gross_amount <= $amt', amt: query[:amount_less_than].to_i * 100)
     end
     if query[:year].present?
-      expr = expr.where("to_char(payments.date, 'YYYY')=$year", year: query[:year])
+      expr =
+        expr
+        .where(
+          "to_char(timezone(
+            COALESCE(nonprofits.timezone, \'UTC\'),
+            timezone(\'UTC\', payments.date)
+          ), 'YYYY')=$year",
+          year: (query[:year]).to_s
+        )
     end
     if query[:designation].present?
       expr = expr.where("donations.designation @@ $s", s: "#{query[:designation]}")

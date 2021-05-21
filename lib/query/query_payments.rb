@@ -366,7 +366,7 @@ module QueryPayments
   end
 
   def self.export_selects
-    ["to_char(payments.date::timestamptz, 'YYYY-MM-DD HH24:MI:SS TZ') AS date",
+    ["to_char(payments.date::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), 'YYYY-MM-DD HH24:MI:SS TZ') AS date",
      '(payments.gross_amount / 100.0)::money::text AS gross_amount',
      '(payments.fee_total / 100.0)::money::text AS fee_total',
      '(payments.net_amount / 100.0)::money::text AS net_amount',

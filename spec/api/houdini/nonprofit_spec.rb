@@ -46,17 +46,6 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
       }.with_indifferent_access
     }
-    describe 'authorization' do
-      around {|e|
-        Rails.configuration.action_controller.allow_forgery_protection = true
-        e.run
-        Rails.configuration.action_controller.allow_forgery_protection = false
-      }
-      it 'rejects csrf' do
-        xhr :post, '/api/v1/nonprofit'
-        expect(response.code).to eq "401"
-      end
-    end
     it 'validates nothing' do
       input = {}
       xhr :post, '/api/v1/nonprofit', input

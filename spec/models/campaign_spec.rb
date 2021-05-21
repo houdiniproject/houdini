@@ -84,4 +84,36 @@ RSpec.describe Campaign, type: :model do
       expect(html_body.include?("including a testimonial")).to be_truthy
     end
   end
+
+
+  describe 'pausing' do 
+    describe 'when no misc_campaign_info' do 
+      subject {
+        force_create(:campaign)
+      }
+
+      it { is_expected.to_not be_paused}
+    end
+
+    describe 'when misc_campaign_info exists but not paused' do 
+      subject do
+        campaign = force_create(:campaign)
+        campaign.create_misc_campaign_info
+        campaign
+      end
+
+      it { is_expected.to_not be_paused}
+    end
+
+
+    describe 'when misc_campaign_info exists and is paused' do 
+      subject do
+        campaign = force_create(:campaign)
+        campaign.create_misc_campaign_info(paused: true)
+        campaign
+      end
+
+      it { is_expected.to be_paused}
+    end
+  end
 end

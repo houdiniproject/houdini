@@ -118,6 +118,7 @@ const progressBar = state => {
 }
 
 const contributeButton = state => {
+  if (app.campaign.paused) return '';
   return h('a.js-contributeButton.button--jumbo.u-width--full', {
     style: {'background-color': branding.base}
   , on: {click: state.clickContribute$}

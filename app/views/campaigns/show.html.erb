@@ -37,6 +37,10 @@
     app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>;
     app.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>
     appl.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>
+
+    if (app.campaign) {
+      app.campaign.paused = <%= @campaign.paused? || false %>
+    }
   </script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

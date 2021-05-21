@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
--- Dumped by pg_dump version 12.5 (Debian 12.5-1.pgdg90+1)
+-- Dumped from database version 12.6 (Ubuntu 12.6-0ubuntu0.20.10.1)
+-- Dumped by pg_dump version 12.6 (Ubuntu 12.6-0ubuntu0.20.10.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1291,7 +1291,8 @@ CREATE TABLE public.misc_campaign_infos (
     updated_at timestamp without time zone NOT NULL,
     campaign_id integer,
     manual_cover_fees boolean,
-    hide_cover_fees_option boolean
+    hide_cover_fees_option boolean,
+    paused boolean DEFAULT false NOT NULL
 );
 
 
@@ -5357,4 +5358,6 @@ INSERT INTO schema_migrations (version) VALUES ('20201103170055');
 INSERT INTO schema_migrations (version) VALUES ('20201214214347');
 
 INSERT INTO schema_migrations (version) VALUES ('20210413201029');
+
+INSERT INTO schema_migrations (version) VALUES ('20210521210949');
 

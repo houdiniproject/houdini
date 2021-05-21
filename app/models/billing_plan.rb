@@ -1,7 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class BillingPlan < ActiveRecord::Base
 	Names = ['Starter', 'Fundraising', 'Supporter Management']
-	DefaultAmounts = [0, 9900, 29900] # in pennies
 
 	attr_accessible \
 		:name, #str: readable name

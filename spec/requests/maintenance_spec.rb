@@ -39,7 +39,7 @@ describe 'Maintenance Mode' do
     end
   end
 
-  describe Users::SessionsController, type: :controller do
+  describe Users::SessionsController, type: :request do
     describe 'in maintenance' do
       include_context :shared_user_context
       around(:each) do |example|
@@ -47,9 +47,7 @@ describe 'Maintenance Mode' do
         Settings.reload!
       end
 
-      before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:user]
-      end
+ 
 
       describe 'in maintenance' do
         before(:each) do
@@ -60,40 +58,38 @@ describe 'Maintenance Mode' do
         end
 
         it 'redirects sign_in if the token is wrong' do
-          get(:new, {maintenance_token: "#{token}3"})
+          get('/users/sign_in', {maintenance_token: "#{token}3"})
           expect(response.code).to eq "302"
           expect(response.location).to eq page
         end
 
         it 'redirects for login' do
-          get(:new)
+          get('/users/sign_in')
           expect(response.code).to eq "302"
           expect(response.location).to eq page
         end
 
 
         it 'redirects sign_in if the token is passed in wrong param' do
-          get(:new, {maintnancerwrwer_token: "#{token}"})
+          get('/users/sign_in', {maintnancerwrwer_token: "#{token}"})
           expect(response.code).to eq "302"
           expect(response.location).to eq page
         end
 
-        it 'allows sign_in if the token is passed' do
-          get(:new, {maintenance_token: "#{token}"})
+        it 'allows visiting sign_in if the token is passed' do
+          get('/users/sign_in', {maintenance_token: "#{token}"})
           expect(response.code).to eq '200'
         end
 
         it 'allows sign_in.json' do
-          get(:new, {maintenance_token: "#{token}", format: 'json'})
-          expect(response.code).to eq '406'
+          post('/users/sign_in.json', {maintenance_token: "#{token}", format: 'json'})
+          expect(response.code).to_not eq '302'
         end
       end
     end
 
     describe 'in maintenance without maintenance_token set' do
-      before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:user]
-      end
+
       before(:each) do
         Settings.merge!({maintenance:
                              {maintenance_mode: true,
@@ -102,7 +98,7 @@ describe 'Maintenance Mode' do
       end
 
       it 'redirects sign_in if the token is nil' do
-        get(:new)
+        get('/users/sign_in')
         expect(response.code).to eq "302"
         expect(response.location).to eq page
       end

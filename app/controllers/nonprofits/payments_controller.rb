@@ -3,7 +3,7 @@ module Nonprofits
 	class PaymentsController < ApplicationController
 		include Controllers::NonprofitHelper
 
-		before_filter :authenticate_nonprofit_user!
+		before_action :authenticate_nonprofit_user!
 
 
 		# get /nonprofit/:nonprofit_id/payments

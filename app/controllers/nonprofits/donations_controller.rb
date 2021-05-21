@@ -3,8 +3,8 @@ module Nonprofits
 	class DonationsController < ApplicationController
 		include Controllers::NonprofitHelper
 
-		before_filter :authenticate_nonprofit_user!, only: [:index, :update]
-		before_filter :authenticate_campaign_editor!, only: [:create_offsite]
+		before_action :authenticate_nonprofit_user!, only: [:index, :update]
+		before_action :authenticate_campaign_editor!, only: [:create_offsite]
 
 		# get /nonprofit/:nonprofit_id/donations
 		def index

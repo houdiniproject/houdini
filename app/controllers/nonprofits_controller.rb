@@ -4,8 +4,8 @@
   include Controllers::XFrame
 
 	helper_method :current_nonprofit_user?
-	before_filter :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update, :verify_identity]
-  before_filter :authenticate_super_admin!, only: [:destroy]
+	before_action :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update, :verify_identity]
+  before_action :authenticate_super_admin!, only: [:destroy]
   caches_action :btn
 
   after_action :allow_framing, only: %i[donate btn]

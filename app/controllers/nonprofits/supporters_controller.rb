@@ -3,7 +3,7 @@ module Nonprofits
 class SupportersController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_nonprofit_user!, except: [:new, :create]
+	before_action :authenticate_nonprofit_user!, except: [:new, :create]
 
 	# get /nonprofit/:nonprofit_id/supporters
 	def index

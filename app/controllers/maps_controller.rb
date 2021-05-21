@@ -2,8 +2,8 @@
 class MapsController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_super_associate!, only: :all_supporters
-	before_filter :authenticate_nonprofit_user!, only: [:all_npo_supporters, :specific_npo_supporters]
+	before_action :authenticate_super_associate!, only: :all_supporters
+	before_action :authenticate_nonprofit_user!, only: [:all_npo_supporters, :specific_npo_supporters]
 
 	# used on admin/nonprofits_map and front page
 	def all_npos

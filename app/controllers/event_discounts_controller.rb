@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class EventDiscountsController < ApplicationController
   include Controllers::EventHelper
-	before_filter :authenticate_event_editor!, :except => [:index]
+	before_action :authenticate_event_editor!, :except => [:index]
 
   def create
     params[:event_discount][:event_id] = current_event.id

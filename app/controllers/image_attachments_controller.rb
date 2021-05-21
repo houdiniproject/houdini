@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class ImageAttachmentsController < ApplicationController
-	before_filter :authenticate_confirmed_user!
+	before_action :authenticate_confirmed_user!
 	def create
 		# must return json with a link attr
 		# http://editor.froala.com/server-integrations/php-image-upload

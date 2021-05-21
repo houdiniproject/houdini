@@ -3,7 +3,7 @@ module Nonprofits
   class ImportsController < ApplicationController
     include Controllers::NonprofitHelper
 
-    before_filter :authenticate_nonprofit_user!
+    before_action :authenticate_nonprofit_user!
     # post /nonprofits/:nonprofit_id/imports
     def create
       render_json{

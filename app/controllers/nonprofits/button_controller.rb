@@ -4,7 +4,7 @@ class ButtonController < ApplicationController
 	include Controllers::NonprofitHelper
 
 
-	before_filter :authenticate_user!
+	before_action :authenticate_user!
 
 
 	def send_code

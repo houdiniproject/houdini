@@ -3,7 +3,7 @@ module Nonprofits
 class RecurringDonationsController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_nonprofit_user!, except: [:create]
+	before_action :authenticate_nonprofit_user!, except: [:create]
 
 	# get /nonprofits/:nonprofit_id/recurring_donations
 	def index

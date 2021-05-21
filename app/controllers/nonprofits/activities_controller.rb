@@ -2,7 +2,7 @@
 module Nonprofits
 	class ActivitiesController < ApplicationController
 		include Controllers::NonprofitHelper
-		before_filter :authenticate_nonprofit_user!
+		before_action :authenticate_nonprofit_user!
 
     # get /nonprofits/:nonprofit_id/supporters/:supporter_id/activities
     def index

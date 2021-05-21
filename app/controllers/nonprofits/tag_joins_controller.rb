@@ -2,7 +2,7 @@
 module Nonprofits
 	class TagJoinsController < ApplicationController
 		include Controllers::NonprofitHelper
-		before_filter :authenticate_nonprofit_user!
+		before_action :authenticate_nonprofit_user!
 
     def index
       render_json do

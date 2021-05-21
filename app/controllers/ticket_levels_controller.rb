@@ -2,7 +2,7 @@
 class TicketLevelsController < ApplicationController
 	include Controllers::EventHelper
 
-	before_filter :authenticate_event_editor!, :except => [:index, :show]
+	before_action :authenticate_event_editor!, :except => [:index, :show]
 
 	def index
     ev_id = current_event.id

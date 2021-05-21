@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class CardsController < ApplicationController
 
-	before_filter :authenticate_user!, :except => [:create]
+	before_action :authenticate_user!, :except => [:create]
 
 	# post /cards
   def create

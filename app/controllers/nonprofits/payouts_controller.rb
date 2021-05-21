@@ -3,8 +3,8 @@ module Nonprofits
 class PayoutsController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_nonprofit_admin!, only: :create
-	before_filter :authenticate_nonprofit_user!, only: [:index, :show]
+	before_action :authenticate_nonprofit_admin!, only: :create
+	before_action :authenticate_nonprofit_user!, only: [:index, :show]
 
 	def create
 		payout = InsertPayout.with_stripe(current_nonprofit.id, {

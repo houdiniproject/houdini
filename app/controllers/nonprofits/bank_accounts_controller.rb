@@ -3,7 +3,7 @@ module Nonprofits
 class BankAccountsController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_nonprofit_admin!
+	before_action :authenticate_nonprofit_admin!
 
 	# post /nonprofits/:nonprofit_id/bank_account
 	# must pass in the user's password as params[:password]

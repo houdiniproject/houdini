@@ -199,16 +199,16 @@ module QuerySupporters
       .order_by('payments.max_date DESC NULLS LAST')
 
     if query[:last_payment_after].present?
-      expr = expr.and_where("payments.max_date > $d", d: Chronic.parse(query[:last_payment_after]))
+      expr = expr.and_where("payments.max_date > timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $d))", d: Chronic.parse(query[:last_payment_after]).beginning_of_day)
     end
     if query[:last_payment_before].present?
-      expr = expr.and_where("payments.max_date < $d", d: Chronic.parse(query[:last_payment_before]))
+      expr = expr.and_where("payments.max_date < timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $d))", d: Chronic.parse(query[:last_payment_before]).beginning_of_day)
     end
     if query[:first_payment_after].present?
-      expr = expr.and_where("payments.min_date > $d", d: Chronic.parse(query[:first_payment_after]))
+      expr = expr.and_where("payments.min_date > timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $d))", d: Chronic.parse(query[:first_payment_after]).beginning_of_day)
     end
     if query[:first_payment_before].present?
-      expr = expr.and_where("payments.min_date < $d", d: Chronic.parse(query[:first_payment_before]))
+      expr = expr.and_where("payments.min_date < timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $d))", d: Chronic.parse(query[:first_payment_before]).beginning_of_day)
     end
     if query[:total_raised_greater_than].present?
       expr = expr.and_where("payments.sum > $amount", amount: query[:total_raised_greater_than].to_i * 100)
@@ -218,15 +218,15 @@ module QuerySupporters
     end
     if ['week', 'month', 'quarter', 'year'].include? query[:has_contributed_during]
       d = Time.current.send('beginning_of_' + query[:has_contributed_during])
-      expr = expr.and_where("payments.max_date >= $d", d: d)
+      expr = expr.and_where("payments.max_date >= timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $d))", d: d)
     end
     if ['week', 'month', 'quarter', 'year'].include? query[:has_not_contributed_during]
       d = Time.current.send('beginning_of_' + query[:has_not_contributed_during])
-      expr = expr.and_where("payments.count = 0 OR payments.max_date <= $d", d: d)
+      expr = expr.and_where("payments.count = 0 OR payments.max_date <= timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $d))", d: d)
     end
     if query[:MAX_payment_before].present?
       date_ago = Timespan::TimeUnits[query[:MAX_payment_before]].utc
-      expr = expr.and_where("payments.max_date < $date OR payments.count = 0", date: date_ago)
+      expr = expr.and_where("payments.max_date < timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $date)) OR payments.count = 0", date: date_ago)
     end
     if query[:search].present?
       expr = expr.and_where(%Q(

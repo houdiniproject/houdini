@@ -1,141 +1,93 @@
-[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com)
+# CommitChange's version of Houdini
 
-The Houdini Project is free and open source fundraising infrastructure. It includes...
-- Crowdfunding campaigns
-- Donate widget page and generator
-- Fundraising events
-- Nonprofit Profiles
-- Nonprofit payment history and payouts dashboard
-- Nonprofit recurring donation management dashboard
-- Nonprofit metrics overview / business intelligence dashboard
-- Nonprofit supporter relationship management dashboard (CRM)
-- Nonprofit org user account management
-- Simple donation management for donors
-
-This is a Rails 3.2 app; [we want to upgrade](https://github.com/houdiniproject/houdini/issues/47).
-
-Much of the business logic is in `/lib`. 
+This is a Rails 4.2 app.
 
 The frontend is written in a few custom frameworks, the largest of which is called Flimflam. 
 We endeavor to migrate to React as quickly as possible to increase development
 comfort and speed.
 
-All backend code and React components should be TDD.
+All backend code and React components should be well-tested
 
-## Get involved
-Houdini's success depends on you!
+## Prerequisites
 
-### Join our Zulip chat
-https://houdini.zulipchat.com
+Houdini is designed and tested to run with the following:
 
-### Help with translations
-Visit the Internationalization channel on Houdini Zulip and discuss
+* Ruby 2.4
+* Node 14
+* PostgreSQL 12
+* run on Heroku-18
+
 ## Dev Setup
 
 #### Get the code  
-`git clone https://github.com/HoudiniProject/houdini`
+`git clone https://github.com/Commitchange/houdini`
+`git checkout supporter_level_goal`
 
-#### Docker install (if you don't have docker and docker-compose installed)
-##### install Docker and Docker compose
-You need to install Docker and Docker Compose.
-* *Note:* Docker and Docker Compose binaries from Docker itself are proprietary software based entirely upon
-free software. If you feel more comfortable, you may build them from source.
+#### One-time setup
 
-* *Note 2:* For Debian, the Docker package is simply too out of date to be usable. 
-Even the version for latest Ubuntu LTS  is too old. For reliability, we strongly
-recommend using the Docker debian feed from docker itself OR making sure you keep your
-own build up to date.
+You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
 
-##### Add yourself to the docker group
-Adding yourself as a Docker group user as follows:
-
-`sudo usermod -aG docker $USER`
-
-You will likely need to logout and log back in again.
- 
-#### Build your docker-container and start it up for initial set up.
-We'll keep this running in the console we'll call **console 1**
+```bash
+apt update
+apt install curl -yy
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+apt update
+apt install git postgresql-12 libpq-dev libjemalloc-dev libvips42 yarn -yy
 ```
-./dc build
-./dc up
+
+You'll run the next commands as your normal user.
+
+> *Note*: in the case of a production instance, this might be
+> your web server's user.
+
+> *Note*: We use [RVM](https://rvm.io) to have more control over the exact version of Ruby. For development, it's also way easier because you can
+> use a consistent version of Ruby (and different sets of installed gems) for different projects. You could also use rbenv
+> or simply build ruby from source.
+
+> *Note*: We recommend building Ruby with jemalloc support as we
+> do in these instructions. In practice, it manages memory far
+> more efficiently in Rails-based projects.
+
+> *Tip*: To get out of the root shell, run `exit`
+
+```bash
+# add rvm keys
+curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+curl -sSL https://get.rvm.io | bash -s stable
+source $HOME/.rvm/scripts/rvm
+echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
+rvm install 2.4.10 --disable-binary --with-jemalloc
 ```
+
+ Run the following command as the `postgres` user and then enter your houdini_user
+ password at the prompt.
+
+> *Note*: For development, Houdini expects the password to be 'password'. This would be terrible
+for production but for development, it's likely not a huge issue.
+
+> *Tip*: To run this, add `sudo -u postgres ` to the beginning of the following command.
+
+`createuser houdini_user -s -d -P`
+
+Now that we have all of our prerequisites prepared, we need to get the Houdini code.
+
+`git clone https://github.com/CommitChange/houdini`
 #### System configuration
 There are a number of steps for configuring your Houdini instance for startup
-##### Start a new console we'll call **console 2**.
-
-##### In console 2, copy the env template to your .env file
-   ```
-   cp .env.template .env
-   ```
-##### In console 2, run the following and copy the output to you .env file to set you `DEVISE_SECRET_KEY` environment variable.   
-`./run rake secret # copy this result into your DEVISE_SECRET_KEY`
-
-##### In console 2, , run the following and copy the output to you .env file to set you `SECRET_TOKEN` environment variable.
+##### Run bin/setup
+```sh
+bin/setup
 ```
-./run rake secret # copy this result into your SECRET_TOKEN
-```
-
-##### Set the following secrets in your .env file with your Stripe account information
-- `STRIPE_API_KEY` with your Stripe PRIVATE key
-- `STRIPE_API_PUBLIC` with your Stripe PUBLIC key
-
-##### You SHOULD set your AMAZON s3 information (optional but STRONGLY recommended)
-If you don't, file uploads WILL NOT WORK but it's not required.
-
-##### In console 2,  install npm packages
-`./run npm install`
-
-##### In console 2, fill the db
-`./run rake db:create db:structure:load db:seed test:prepare` 
-
-##### Set up mailer info 
-You can set this in `config/default_organization.yml` or better yet, make a copy with your own org name and add that to your .env file as `ORG_NAME`
-If you need help setting up your mailer, visit `config/environment.rb` where the settings schema is verified and documented.
-
 #### Startup
-##### Switch back to console 1 and run `Ctrl-c` to end the session.
+##### run foreman for development
 
-##### In console 1, restart the containers
-`./dc up`
-
-##### In console 2, run:
-`./run npm run watch`
-
-##### You can go to http://localhost:5000
-
-To get started, register your nonprofit using the "Get Started" link.
-
-## Additional info 
-
-##### Super admin
-There is a way to set your user as a super_admin. This role lets you access any of the nonprofits
-on your Houdini instance. Additionally, it gives you access to the super admin control panel to search all supporters and
-nonprofits, which is located at `/admin` url.
-  
-To create the super user, go to the rails console by calling:
-
-`./dc run web rails console`
-
-In the console, run the following:
- 
+When you run foreman in dev, you start up the server, the job runner and webpack.
+```sh
+foreman start
 ```
-admin=User.find(1) #or the id of the user you want to add the role
-role=Role.create(user:admin,name: "super_admin")
-```
-
-
-## To run in production
-
-##### Docker
-While Docker should be very possible to use for production, the current Docker solution
-is optimized heavily for dev purposes. If you know more about creating a solid production Docker setup, please do
-contribute!
-
-(To be continued)
-- rake assets:precompile
-- if production: make sure memcached is running.
-
-
 ## Frontend
 
 Assets get compiled from `/client` to `/public/client`

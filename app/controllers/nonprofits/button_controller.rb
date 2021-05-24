@@ -8,7 +8,7 @@ class ButtonController < ApplicationController
 
 
 	def send_code
-		NonprofitMailer.button_code(current_nonprofit, params[:to_email], params[:to_name], params[:from_email], params[:message], params[:code]).deliver
+		NonprofitMailer.delay.button_code(current_nonprofit, params[:to_email], params[:to_name], params[:from_email], params[:message], params[:code])
 		render json: {}, status: 200
 	end
 

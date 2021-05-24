@@ -4,6 +4,8 @@ var flyd = require("flyd")
 flyd.scanmerge = require("flyd/module/scanmerge")
 var h = require("virtual-dom/h")
 
+var notification = require('../../common/notification')
+
 var setStateFromValue = require('../../components/set-state-from-value')
 
 var appearance = require('./appearance')

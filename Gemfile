@@ -159,3 +159,5 @@ gem "barnes"
 gem 'protected_attributes' # because we upgraded from 3
 
 gem 'actionpack-action_caching' # because we use action caching
+
+gem 'rack-cors'

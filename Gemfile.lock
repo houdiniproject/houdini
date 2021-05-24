@@ -321,6 +321,8 @@ GEM
       rack (>= 0.4)
     rack-attack (6.5.0)
       rack (>= 1.0, < 3)
+    rack-cors (1.0.6)
+      rack (>= 1.6.0)
     rack-freeze (1.0.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -522,6 +524,7 @@ DEPENDENCIES
   qx!
   rabl
   rack-attack
+  rack-cors
   rack-freeze
   rack-timeout
   rails (~> 4.0)

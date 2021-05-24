@@ -2,7 +2,7 @@
 module Nonprofits
   class ReportsController < ApplicationController
     include Controllers::NonprofitHelper
-    before_filter :authenticate_nonprofit_user!
+    before_action :authenticate_nonprofit_user!
 
     def end_of_year
       respond_to do |format|

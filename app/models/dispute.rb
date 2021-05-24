@@ -18,7 +18,7 @@ class Dispute < ActiveRecord::Base
 
   belongs_to :charge
   has_one :stripe_dispute, foreign_key: :stripe_dispute_id, primary_key: :stripe_dispute_id
-  has_many :dispute_transactions, order: "date ASC"
+  has_many :dispute_transactions, -> { order("date ASC") }
 
   has_one :supporter, through: :charge
   has_one :nonprofit, through: :charge

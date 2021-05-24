@@ -3,8 +3,8 @@ class TicketsController < ApplicationController
 	include Controllers::EventHelper
 
 	helper_method :current_event_admin?, :current_event_editor?
-	before_filter :authenticate_event_editor!, :except => [:create, :add_note]
-  before_filter :authenticate_nonprofit_user!, only: [:delete_card_for_ticket]
+	before_action :authenticate_event_editor!, :except => [:create, :add_note]
+  before_action :authenticate_nonprofit_user!, only: [:delete_card_for_ticket]
 
 	# post /nonprofits/:nonprofit_id/events/:event_id/tickets
 	def create

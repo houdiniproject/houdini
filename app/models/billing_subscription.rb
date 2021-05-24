@@ -16,7 +16,7 @@ class BillingSubscription < ActiveRecord::Base
 
 	after_save do
 		nonprofit.clear_cache
-		return true
+		true
 	end
 
 	def as_json(options={})

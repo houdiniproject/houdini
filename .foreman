@@ -1,0 +1,2 @@
+port: 5000
+procfile: Procfile.dev

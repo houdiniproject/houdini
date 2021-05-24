@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class EmailsController < ApplicationController
-	before_filter :authenticate_user!
+	before_action :authenticate_user!
 
 	def create
 		email = params[:email]

@@ -3,7 +3,7 @@ module Nonprofits
 	class CardsController < ApplicationController
     include Controllers::NonprofitHelper
 
-		before_filter :authenticate_nonprofit_user!
+		before_action :authenticate_nonprofit_user!
 
     def edit
       @nonprofit = current_nonprofit

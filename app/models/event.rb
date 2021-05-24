@@ -32,7 +32,8 @@ class Event < ActiveRecord::Base
 		:nonprofit_id, # host
 		:hide_title,  # bool
     :organizer_email, # string
-    :receipt_message # text
+    :receipt_message, # text
+		:nonprofit
 
 	validates :name, :presence => true
   validates :end_datetime, :presence => true

@@ -3,7 +3,7 @@ module Nonprofits
 class SupporterNotesController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_nonprofit_user!, except: [:create]
+	before_action :authenticate_nonprofit_user!, except: [:create]
 
 	# post /nonprofits/:nonprofit_id/supporters/:supporter_id/supporter_notes
 	def create

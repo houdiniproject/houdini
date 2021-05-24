@@ -2,7 +2,7 @@
 class RolesController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_nonprofit_admin!
+	before_action :authenticate_nonprofit_admin!
 
 	def create
 		role = Role.create_for_nonprofit(params[:role][:name].to_sym, params[:role][:email], FetchNonprofit.with_params(params))

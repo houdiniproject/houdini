@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class ApplicationController < ActionController::Base
-	before_filter :set_locale, :redirect_to_maintenance
+	before_action :set_locale, :redirect_to_maintenance
 
 	protect_from_forgery with: :exception
 

@@ -1,8 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::SessionsController < Devise::SessionsController
 	layout 'layouts/apified', only: :new
-	include Controllers::XFrame
-	after_filter :add_x_frame_options
   def new
     @theme = 'minimal'
     super
@@ -29,7 +27,7 @@ class Users::SessionsController < Devise::SessionsController
 			session[:pw_timestamp] = Time.current.to_s
 			render json: {token: tok}, status: :ok
 		else
-			render json: ["Incorrect password. Please enter your #{Settings.general.name} %> password."], status: :unprocessable_entity
+			render json: ["Incorrect password. Please enter your #{Settings.general.name} password."], status: :unprocessable_entity
 		end
   end
 	

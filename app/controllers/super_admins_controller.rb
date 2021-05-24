@@ -2,7 +2,7 @@
 class SuperAdminsController < ApplicationController
   layout "layouts/page"
 
-  before_filter :authenticate_super_associate!
+  before_action :authenticate_super_associate!
 
   def index 
   end

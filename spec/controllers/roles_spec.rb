@@ -7,14 +7,12 @@ describe RolesController, :type => :controller do
     include_context :shared_user_context
     describe 'rejects unauthorized users' do
       describe 'create' do
-          include_context :open_to_np_admin, :post, :create, nonprofit_id: :__our_np
+        include_context :open_to_np_admin, :post, :create, nonprofit_id: :__our_np
       end
-      
+
       describe 'destroy' do
-          include_context :open_to_np_admin, :delete, :destroy, nonprofit_id: :__our_np
+        include_context :open_to_np_admin, :delete, :destroy, nonprofit_id: :__our_np, id: '1'
       end
-      
-      
     end
   end
 end

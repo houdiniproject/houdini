@@ -3,7 +3,6 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
    helpers Houdini::V1::Helpers::ApplicationHelper, Houdini::V1::Helpers::RescueHelper
 
    before do
-     protect_against_forgery
    end
 
   desc 'Return a nonprofit.' do
@@ -59,14 +58,14 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
     u = nil
     Qx.transaction do
       begin
-        np = Nonprofit.new(OnboardAccounts.set_nonprofit_defaults(declared_params[:nonprofit]))
+        np = ::Nonprofit.new(OnboardAccounts.set_nonprofit_defaults(declared_params[:nonprofit]))
 
         begin
           np.save!
         rescue ActiveRecord::RecordInvalid => e
           if (e.record.errors[:slug])
             begin
-              slug = SlugNonprofitNamingAlgorithm.new(np.state_code_slug, np.city_slug).create_copy_name(np.slug)
+              slug = ::SlugNonprofitNamingAlgorithm.new(np.state_code_slug, np.city_slug).create_copy_name(np.slug)
               np.slug = slug
               np.save!
             rescue UnableToCreateNameCopyError
@@ -81,19 +80,19 @@ class Houdini::V1::Nonprofit < Houdini::V1::BaseAPI
           end
         end
 
-        u = User.new(declared_params[:user])
+        u = ::User.new(declared_params[:user])
         u.save!
 
         role = u.roles.build(host: np, name: 'nonprofit_admin')
         role.save!
 
-        billing_plan = BillingPlan.find(Settings.default_bp.id)
+        billing_plan = ::BillingPlan.find(Settings.default_bp.id)
         b_sub = np.build_billing_subscription(billing_plan: billing_plan, status: 'active')
         b_sub.save!
-        StripeAccountUtils.find_or_create(np.id)
+        ::StripeAccountUtils.find_or_create(np.id)
         np.reload
 
-        Delayed::Job.enqueue JobTypes::NonprofitCreateJob.new(np.id)
+        ::Delayed::Job.enqueue ::JobTypes::NonprofitCreateJob.new(np.id)
       rescue ActiveRecord::RecordInvalid => e
         class_to_name = {Nonprofit => 'nonprofit', User => 'user'}
         if class_to_name[e.record.class]

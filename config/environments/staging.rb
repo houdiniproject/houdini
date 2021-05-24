@@ -3,6 +3,7 @@ Commitchange::Application.configure do
 	# Settings specified here will take precedence over those in config/application.rb
 
 	# Code is not reloaded between requests
+	config.eager_load  = true
 	config.cache_classes = true
 	config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 4.hours, :compress => true }
 
@@ -16,7 +17,7 @@ Commitchange::Application.configure do
 	config.action_controller.perform_caching = true
 
 	# Disable Rails's static asset server (Apache or nginx will already do this)
-	config.serve_static_assets = true
+	config.serve_static_files = true
 
 	# Compress JavaScripts and CSS
 	config.assets.compress = true
@@ -54,14 +55,13 @@ Commitchange::Application.configure do
 	cdn_url = cdn_url.to_s
 	config.action_controller.asset_host = cdn_url
 	config.action_mailer.asset_host = cdn_url
-	config.font_assets.origin = '*'
 
 	# Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
 
 	# Disable delivery errors, bad email addresses will be ignored
 	# config.action_mailer.raise_delivery_errors = false
 	config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
-	config.action_mailer.default_url_options = { host: Settings.mailer.host }
+	config.action_mailer.default_url_options = { host: 'commitchange-test.herokuapp.com' }
 	# Precompile all "page" files, it needs to be set here so the proper env is setup
 	config.assets.precompile << Proc.new do |path|
 		if path =~ /.*page\.(css|js)/
@@ -72,9 +72,6 @@ Commitchange::Application.configure do
 		end
 	end
 
-	# Enable threaded mode
-	# config.threadsafe!
-
 	# Enable locale fallbacks for I18n (makes lookups for any locale fall back to
 	# the I18n.default_locale when a translation can not be found)
 	config.i18n.fallbacks = true
@@ -82,16 +79,12 @@ Commitchange::Application.configure do
 	# Send deprecation notices to registered listeners
 	config.active_support.deprecation = :notify
 
-	# Log the query plan for queries taking more than this (works
-	# with SQLite, MySQL, and PostgreSQL)
-	# config.active_record.auto_explain_threshold_in_seconds = 0.5
 
 	config.assets.compile = false
 
-	config.threadsafe!
 	config.dependency_loading = true if $rails_rake_task
 	# Compress json
 	# config.middleware.use Rack::Deflater
-	config.middleware.insert_before 'Rack::Cache', Rack::Attack
+
 	NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 5.minutes
 end

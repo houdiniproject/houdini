@@ -3,6 +3,7 @@ Commitchange::Application.configure do
 	# Settings specified here will take precedence over those in config/application.rb
 
 	# Code is not reloaded between requests
+	config.eager_load  = true
 	config.cache_classes = true
   config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true, pool_size: 10 }
 
@@ -15,7 +16,7 @@ Commitchange::Application.configure do
 	config.action_controller.perform_caching = true
 
 	# Disable Rails's static asset server (Apache or nginx will already do this)
-	config.serve_static_assets = true
+	config.serve_static_files = true
 	config.static_cache_control = "public, max-age=86400"
 
 	# Compress JavaScripts and CSS
@@ -53,7 +54,6 @@ Commitchange::Application.configure do
   cdn_url = cdn_url.to_s
 	config.action_controller.asset_host = cdn_url
 	config.action_mailer.asset_host = cdn_url
-	config.font_assets.origin = '*'
 
 	# Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
 	creds = Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'])
@@ -77,8 +77,6 @@ Commitchange::Application.configure do
           end
         end
 
-	# Enable threaded mode
-	# config.threadsafe!
 
 	# Enable locale fallbacks for I18n (makes lookups for any locale fall back to
 	# the I18n.default_locale when a translation can not be found)
@@ -87,18 +85,10 @@ Commitchange::Application.configure do
 	# Send deprecation notices to registered listeners
 	config.active_support.deprecation = :notify
 
-	# Log the query plan for queries taking more than this (works
-	# with SQLite, MySQL, and PostgreSQL)
-	# config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.assets.compile = false
 
-	config.threadsafe!
 	config.dependency_loading = true if $rails_rake_task
-	# Compress json
-  #config.middleware.use Rack::Deflater
-	config.middleware.insert_before 'Rack::Cache', Rack::Attack
+
 	NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours
-	# remove auto explain threshold
-	config.active_record.auto_explain_threshold_in_seconds = nil
 end

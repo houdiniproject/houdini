@@ -65,7 +65,7 @@ if ENV['THROTTLE_CARD_L2_LIMIT'] && ENV['THROTTLE_CARD_L2_PERIOD']
     ret
   end
 end
-Rack::Attack.blacklist("block access to something") do |req|
+Rack::Attack.blocklist("block access to something") do |req|
   ret = nil
   # Requests are blocked if the return value is truthy
   if run_throttle? && req.path =~ /\/nonprofits\/(.*)\/supporters/ && req.post?

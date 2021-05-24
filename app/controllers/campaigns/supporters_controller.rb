@@ -3,7 +3,7 @@ module Campaigns
 class SupportersController < ApplicationController
 	include Controllers::CampaignHelper
 
-	before_filter :authenticate_campaign_editor!, only: [:index]
+	before_action :authenticate_campaign_editor!, only: [:index]
 
 	def index
 		@panels_layout = true

@@ -73,7 +73,7 @@ class Nonprofit < ActiveRecord::Base
   has_many :email_settings
   has_many :cards, as: :holder
 
-  has_one :bank_account, dependent: :destroy, conditions: "COALESCE(deleted, false) = false"
+  has_one :bank_account, -> { where("COALESCE(bank_accounts.deleted, false) = false") }, dependent: :destroy
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
@@ -103,8 +103,8 @@ class Nonprofit < ActiveRecord::Base
   geocoded_by :full_address
 
 
-  scope :activated, -> { includes(:nonprofit_deactivation).where('nonprofit_deactivations.nonprofit_id IS NULL OR NOT COALESCE(nonprofit_deactivations.deactivated, false)')}
-  scope :deactivated, -> { includes(:nonprofit_deactivation).where('nonprofit_deactivations.deactivated = true')}
+  scope :activated, -> { includes(:nonprofit_deactivation).where('nonprofit_deactivations.nonprofit_id IS NULL OR NOT COALESCE(nonprofit_deactivations.deactivated, false)').references(:nonprofit_deactivations)}
+  scope :deactivated, -> { joins(:nonprofit_deactivation).where('nonprofit_deactivations.deactivated = true')}
 
   before_validation(on: :create) do
     self.set_slugs
@@ -113,7 +113,7 @@ class Nonprofit < ActiveRecord::Base
 
   after_save do
     self.clear_cache
-    return true
+    self
   end
 
   # Register (create) a nonprofit with an initial admin

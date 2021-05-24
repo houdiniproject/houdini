@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AwsPresignedPostsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   # post /presigned_posts
   # Create some keys using the AWS gem so the user can do direct-to-S3 uploads

@@ -2,7 +2,7 @@
 class BillingSubscriptionsController < ApplicationController
 	include Controllers::NonprofitHelper
 
-	before_filter :authenticate_nonprofit_admin!
+	before_action :authenticate_nonprofit_admin!
 
   def create_trial
     render JsonResp.new(params){|params|

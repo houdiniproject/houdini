@@ -1,7 +1,7 @@
 module Nonprofits
     class StripeAccountsController < ApplicationController
         include Controllers::NonprofitHelper
-        before_filter :authenticate_nonprofit_admin!
+        before_action :authenticate_nonprofit_admin!
 
         layout 'layouts/apified'
 

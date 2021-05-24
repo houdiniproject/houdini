@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.3.8'
-gem 'rake', '~> 12.3.3'
-gem 'rails', '3.2.22.5'
+ruby '2.4.10'
+gem 'rake'
+gem 'rails', '~> 4.0'
 
 # https://stripe.com/docs/api
 gem 'stripe', '~> 4'
@@ -13,13 +13,13 @@ gem 'rabl'
 
 gem 'parallel'
 
-gem "puma", ">= 3.12.2"
+gem "puma", "~> 5.3"
 
 gem 'bootsnap', require: false
 gem 'rack-timeout'
 gem 'puma_worker_killer'
 
-gem 'test-unit', '~> 3.0'
+gem 'test-unit'
 gem 'hamster'
 
 gem 'aws-sdk'
@@ -29,14 +29,8 @@ gem 'aws-sdk-rails'
 # for blocking ip addressses
 gem 'rack-attack'
 
-# For modularizing javascript
-# https://github.com/browserify-rails/browserify-rails
-gem 'browserify-rails'
-gem 'sprockets'
-
-# for serving fonts on cdn
-# https://github.com/ericallam/font_assets
-gem 'font_assets', "~> 0.1.14"
+# to find middleware thread safety bugs
+gem 'rack-freeze'
 
 # Database (postgres)
 gem 'pg' # Postgresql
@@ -53,10 +47,6 @@ gem 'colorize'
 # https://github.com/collectiveidea/delayed_job_active_record
 gem 'delayed_job_active_record'
 
-# for styling emails
-# https://github.com/Mange/roadie-rails
-gem 'roadie-rails'
-
 # For nat lang parsing of dates
 gem 'chronic'
 
@@ -71,8 +61,7 @@ gem 'httparty'
 
 # User authentication
 # https://github.com/plataformatec/devise
-gem 'devise'
-gem 'devise-async'
+gem 'devise', '~> 4.1'
 
 # https://github.com/airbrake/airbrake
 gem 'airbrake'
@@ -83,22 +72,22 @@ gem 'geocoder' # for adding latitude and longitude to location-based tables
 # https://github.com/buytruckload/nearest_time_zone
 gem 'nearest_time_zone' # for detecting timezone from lat/lng
 
-gem 'mail_view'
-
 gem 'rest-client' # recommended for fullcontact
+
+# https://github.com/fphilipe/premailer-rails
+# for stylizing emails
+gem 'premailer-rails'
 
 # Nice table printing of data for the console
 gem 'table_print'
 
-gem 'rails-i18n', '~> 3.0.0' # For 3.x
+gem 'rails-i18n' # For 4.0.x
 gem 'i18n-js'
 gem 'countries'
 
 
 group :development, :ci do
   gem 'traceroute'
-  gem 'debase', '~> 0.2.3'
-  gem 'ruby-debug-ide'
 end
 
 group :development, :ci, :test do
@@ -124,9 +113,8 @@ group :test do
 end
 
 # Gems used for asset compilation
-gem 'sass', '3.2.19'
-gem 'sass-rails', '3.2.6'
-gem 'uglifier'
+gem 'sass'
+gem 'sass-rails'
 
 # make logging less terrible in rails
 gem 'lograge'
@@ -162,10 +150,12 @@ gem 'grape_devise', path: 'gems/grape_devise'
 
 gem 'recaptcha', path: 'gems/recaptcha'
 
-gem 'rbtrace'
-
 gem 'hashie'
 
 gem 'connection_pool'
 
 gem "barnes"
+
+gem 'protected_attributes' # because we upgraded from 3
+
+gem 'actionpack-action_caching' # because we use action caching

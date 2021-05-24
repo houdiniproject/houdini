@@ -99,5 +99,10 @@ module Commitchange
 					methods: [:get, :post, :put, :patch, :delete, :options, :head]
 			end
 		end
+
+
+		config.action_dispatch.default_headers = {
+			'X-XSS-Protection' => '1; mode=block'
+		}
 	end
 end

@@ -1,4 +1,4 @@
 class MiscCampaignInfo < ActiveRecord::Base
   belongs_to :campaign
-  attr_accessible :manual_cover_fees
+  attr_accessible :manual_cover_fees, :paused
 end

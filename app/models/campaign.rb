@@ -251,4 +251,8 @@ class Campaign < ActiveRecord::Base
 		nonprofit.hide_cover_fees? || misc_campaign_info&.hide_cover_fees_option
 	end
 
+	def paused?
+		!!(misc_campaign_info&.paused)
+	end
+
 end

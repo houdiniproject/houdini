@@ -8,7 +8,7 @@
   before_action :authenticate_super_admin!, only: [:destroy]
   caches_action :btn
 
-  after_action :allow_framing, only: %i[donate btn]
+  after_action :allow_framing, only: [:donate, :btn]
   
 
 	# get /nonprofits/:id

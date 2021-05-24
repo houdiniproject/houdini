@@ -60,6 +60,34 @@ end;
 $$;
 
 
+--
+-- Name: update_fts_on_donations(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.update_fts_on_donations() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+        BEGIN
+          new.fts = to_tsvector('english', coalesce(new.comment, ''));
+          RETURN new;
+        END
+      $$;
+
+
+--
+-- Name: update_fts_on_supporters(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.update_fts_on_supporters() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+        BEGIN
+          new.fts = to_tsvector('english', coalesce(new.name, '') || ' ' || coalesce(new.email, ''));
+          RETURN new;
+        END
+      $$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -766,7 +794,8 @@ CREATE TABLE public.donations (
     date timestamp without time zone,
     queued_for_import_at timestamp without time zone,
     direct_debit_detail_id integer,
-    payment_provider character varying(255)
+    payment_provider character varying(255),
+    fts tsvector
 );
 
 
@@ -2381,7 +2410,8 @@ CREATE TABLE public.supporters (
     region character varying(255),
     first_name character varying(255),
     last_name character varying(255),
-    locale character varying(255)
+    locale character varying(255),
+    fts tsvector
 );
 
 
@@ -3745,6 +3775,13 @@ CREATE INDEX donations_event_id ON public.donations USING btree (event_id);
 
 
 --
+-- Name: donations_fts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX donations_fts_idx ON public.donations USING gin (fts);
+
+
+--
 -- Name: donations_supporter_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4235,6 +4272,13 @@ CREATE INDEX supporters_email ON public.supporters USING btree (lower((email)::t
 
 
 --
+-- Name: supporters_fts_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX supporters_fts_idx ON public.supporters USING gin (fts);
+
+
+--
 -- Name: supporters_general_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4295,6 +4339,20 @@ CREATE INDEX tag_masters_nonprofit_id_not_deleted ON public.tag_masters USING bt
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
+
+
+--
+-- Name: donations update_donations_fts; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations FOR EACH ROW EXECUTE FUNCTION public.update_fts_on_donations();
+
+
+--
+-- Name: supporters update_supporters_fts; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION public.update_fts_on_supporters();
 
 
 --
@@ -5359,5 +5417,13 @@ INSERT INTO schema_migrations (version) VALUES ('20201214214347');
 
 INSERT INTO schema_migrations (version) VALUES ('20210413201029');
 
+INSERT INTO schema_migrations (version) VALUES ('20210416141243');
+
+INSERT INTO schema_migrations (version) VALUES ('20210416143448');
+
 INSERT INTO schema_migrations (version) VALUES ('20210521210949');
+
+INSERT INTO schema_migrations (version) VALUES ('20210524185334');
+
+INSERT INTO schema_migrations (version) VALUES ('20210524185342');
 

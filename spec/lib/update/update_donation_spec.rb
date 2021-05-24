@@ -221,7 +221,7 @@ describe UpdateDonation do
 
         d_attributes = donation.attributes
         donation.reload
-        expect(d_attributes).to eq donation.attributes
+        expect(d_attributes).to match donation.attributes.merge({'fts' => an_instance_of(String).or(be_nil)})
 
         
         activity.reload
@@ -255,10 +255,10 @@ describe UpdateDonation do
                                             comment: new_comment,
                                             campaign_id: campaign.id,
                                             event_id: event.id,
-                                            updated_at: Time.now}).with_indifferent_access
+                                            updated_at: Time.now, fts: an_instance_of(String)}).with_indifferent_access
 
           donation.reload
-          expect(donation.attributes).to eq expected_donation
+          expect(donation.attributes).to match expected_donation
 
           expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now}).with_indifferent_access
           payment.reload
@@ -274,7 +274,7 @@ describe UpdateDonation do
           offsite_payment.reload
           expect(offsite_payment.attributes).to eq expected_offsite
 
-          expect(result).to eq create_expected_result(donation, payment2)
+          expect(result).to match create_expected_result(donation, payment2)
           activity = activity2
           activity.reload
           expect(activity.date).to eq payment2.date
@@ -305,11 +305,11 @@ describe UpdateDonation do
               campaign_id: campaign.id,
               event_id: event.id,
               updated_at: Time.now,
-
+              fts: an_instance_of(String)
           }).with_indifferent_access
 
           donation.reload
-          expect(donation.attributes).to eq expected_donation
+          expect(donation.attributes).to match expected_donation
 
           expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now, date: new_date, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
           payment.reload
@@ -322,7 +322,7 @@ describe UpdateDonation do
           offsite_payment.reload
           expect(offsite_payment.attributes).to eq expected_offsite_payment
 
-          expect(result).to eq create_expected_result(donation, payment, offsite_payment)
+          expect(result).to match create_expected_result(donation, payment, offsite_payment)
 
           activity = activity1
           activity.reload
@@ -360,7 +360,8 @@ describe UpdateDonation do
                                                           comment: '',
                                                           campaign_id: nil,
                                                           event_id: nil,
-                                                          updated_at: Time.now}).with_indifferent_access
+                                                          updated_at: Time.now,
+                                                          fts: ''}).with_indifferent_access
             donation.reload
 
             expect(donation.attributes).to eq expected_donation
@@ -379,7 +380,7 @@ describe UpdateDonation do
             offsite_payment.reload
             expect(offsite_payment.attributes).to eq expected_offsite
 
-            expect(result).to eq create_expected_result(donation, payment2)
+            expect(result).to match create_expected_result(donation, payment2)
            
             activity = activity2
             activity.reload
@@ -409,7 +410,7 @@ describe UpdateDonation do
                                                               campaign_id: nil,
                                                               event_id: nil,
                                                               updated_at: Time.now,
-
+                                                              fts: ''
                                                           }).with_indifferent_access
 
             donation.reload
@@ -426,7 +427,7 @@ describe UpdateDonation do
             offsite_payment.reload
             expect(offsite_payment.attributes).to eq expected_offsite_payment
 
-            expect(result).to eq create_expected_result(donation, payment, offsite_payment)
+            expect(result).to match create_expected_result(donation, payment, offsite_payment)
             activity = activity1
             activity.reload
             expect(activity.date).to eq new_date
@@ -456,7 +457,7 @@ describe UpdateDonation do
   end
 
   def create_expected_result(donation, payment, offsite_payment = nil)
-    ret = donation.attributes
+    ret = donation.attributes.merge('fts' => an_instance_of(String))
     ret[:payment] = payment.attributes
     if offsite_payment
       ret[:offsite_payment] = offsite_payment.attributes

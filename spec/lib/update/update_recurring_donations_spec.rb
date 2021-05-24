@@ -102,7 +102,7 @@ describe UpdateRecurringDonations do
       result = UpdateRecurringDonations.update_amount(recurring_donation, source_token.token, 1000)
 
       expectations = {
-          donation: orig_donation.merge(amount: 1000, card_id: source_token.tokenizable.id),
+          donation: orig_donation.merge(amount: 1000, card_id: source_token.tokenizable.id, fts: ""),
           recurring_donation: orig_rd.merge(amount: 1000, n_failures: 0, start_date: Time.current.to_date)
       }
 
@@ -125,14 +125,13 @@ describe UpdateRecurringDonations do
       orig_rd = recurring_donation.attributes.with_indifferent_access
       orig_donation = recurring_donation.donation.attributes.with_indifferent_access
 
-
       expect_job_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
       expect_job_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
 
       result = UpdateRecurringDonations.update_amount(recurring_donation, source_token.token, 1000, true)
 
       expectations = {
-          donation: orig_donation.merge(amount: 1000, card_id: source_token.tokenizable.id),
+          donation: orig_donation.merge(amount: 1000, card_id: source_token.tokenizable.id, fts: ""),
           recurring_donation: orig_rd.merge(amount: 1000, n_failures: 0, start_date: Time.current.to_date)
       }
 
@@ -207,7 +206,7 @@ describe UpdateRecurringDonations do
       expectations = {
 
 
-          donation: orig_donation.merge(card_id: card.id),
+          donation: orig_donation.merge(card_id: card.id, fts: ""),
           recurring_donation: orig_rd.merge(n_failures: 0, start_date: Time.now.to_date),
       }
 

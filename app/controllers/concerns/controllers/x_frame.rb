@@ -11,6 +11,7 @@ module Controllers::XFrame
 		# allows the page to be put in a frame, i.e. remove the X-Frame-Options header
 		def allow_framing
 			response.headers.delete('X-Frame-Options') if response.headers.has_key?('X-Frame-Options')
+			response.headers.delete('x-frame-options') if response.headers.has_key?('x-frame-options')
 		end
 	end
 end

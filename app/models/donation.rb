@@ -21,6 +21,9 @@ class Donation < ActiveRecord::Base
 		:direct_debit_detail_id, :direct_debit_detail,
     :payment_provider
 
+	# fts is generated via a trigger
+	attr_readonly :fts
+
 	validates :amount, presence: true, numericality: { only_integer: true }
 	validates :supporter, presence: true
 	validates :nonprofit, presence: true

@@ -63,7 +63,8 @@ RSpec.shared_context :shared_rd_donation_value_context do
             charge_id: nil,
             payment_provider: payment_stuff[:provider],
             queued_for_import_at: nil,
-            direct_debit_detail_id: payment_stuff[:direct_debit_detail_id]
+            direct_debit_detail_id: payment_stuff[:direct_debit_detail_id],
+            fts: an_instance_of(String).or(be_nil)
         },
 
 
@@ -425,7 +426,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, event: event, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])
 
     expect(result.count).to eq expected.count
-    expect(result['donation'].attributes).to eq expected[:donation]
+    expect(result['donation'].attributes).to match expected[:donation]
     expect(result['charge'].attributes).to eq expected[:charge]
     #expect(result[:json]['activity']).to eq expected[:activity]
     expect(result['payment'].attributes).to eq expected[:payment]
@@ -443,7 +444,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expected = generate_expected(@donation_id, result['payment'].id, result['charge'].id, pay_method, supporter, nonprofit, @stripe_charge_id, campaign: campaign, recurring_donation_expected: data[:recurring_donation], recurring_donation: result['recurring_donation'])
 
     expect(result.count).to eq expected.count
-    expect(result['donation'].attributes).to eq expected[:donation]
+    expect(result['donation'].attributes).to match expected[:donation]
     expect(result['charge'].attributes).to eq expected[:charge]
     #expect(result[:json]['activity']).to eq expected[:activity]
     expect(result['payment'].attributes).to eq expected[:payment]
@@ -463,7 +464,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
     expected['donation'].merge!(profile_id: profile.id)
     expect(result.count).to eq expected.count
-    expect(result['donation'].attributes).to eq expected[:donation]
+    expect(result['donation'].attributes).to match expected[:donation]
     if (expect_charge)
       expect(result['charge'].attributes).to eq expected[:charge]
     end

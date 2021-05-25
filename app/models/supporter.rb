@@ -30,6 +30,9 @@ class Supporter < ActiveRecord::Base
     :id,
     :created_at
 
+  # fts is generated via a trigger
+	attr_readonly :fts
+
   belongs_to :profile
   belongs_to :nonprofit
   belongs_to :import

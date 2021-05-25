@@ -6,8 +6,9 @@ module SearchVector
 
   def self.query(query_string, expr=nil)
     (expr || Qexpr.new).where(
-      "to_tsvector('english', coalesce(supporters.name, '') || ' ' || coalesce(supporters.email, '')) @@ plainto_tsquery('english', $search)",
-      { search: query_string}
+      "(supporters.fts @@ plainto_tsquery('english', $search)
+      OR donations.fts  @@ plainto_tsquery('english', $search))",
+      { search: query_string }
     )
   end
 

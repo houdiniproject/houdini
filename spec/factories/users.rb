@@ -4,4 +4,10 @@ FactoryBot.define do
     sequence(:email) {|i| "user#{i}@example.string.com"}
     password "whocares"
   end
+
+  factory :automated_user, class: User do 
+    email { "automated_user@automated_user.user"}
+    password "whocares"
+    id { 540 }
+  end
 end

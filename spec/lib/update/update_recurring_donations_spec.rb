@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe UpdateRecurringDonations do
-  
+  let!(:automated_user) { create(:automated_user)}
   # deactivate a recurring donation
   describe '.cancel' do
     before(:each) do
@@ -196,7 +196,6 @@ describe UpdateRecurringDonations do
 
 
     it 'finishes properly' do
-      expect(InsertSupporterNotes).to receive(:create).with([{content: "This supporter updated their card for their recurring donation with ID #{recurring_donation.id}", supporter_id: supporter.id, user_id: 540}])
       recurring_donation.n_failures = 2
       recurring_donation.save!
       orig_rd = recurring_donation.attributes.with_indifferent_access
@@ -214,6 +213,8 @@ describe UpdateRecurringDonations do
       expect(result).to eq expectations[:result]
       donation_for_rd.reload
       recurring_donation.reload
+
+      expect(recurring_donation.supporter.supporter_notes.last).to have_attributes(content: "This supporter updated their card for their recurring donation with ID #{recurring_donation.id}", user_id: 540)
       expect(recurring_donation.attributes).to eq expectations[:recurring_donation]
       expect(donation_for_rd.attributes).to eq expectations[:donation]
     end

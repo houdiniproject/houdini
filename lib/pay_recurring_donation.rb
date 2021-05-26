@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'insert/insert_donation'
-require 'insert/insert_supporter_notes'
 require 'timespan'
 require 'delayed_job_helper'
 
@@ -108,7 +107,7 @@ module PayRecurringDonation
       if rd['n_failures'] >= 3
         DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
       end
-      InsertSupporterNotes.create([{content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", supporter_id: donation['supporter_id'], user_id: 540}])
+      Supporter.find(donation['supporter_id']).supporters_notes.create!(content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", user: User.find(540))
     end
     return result
   end
@@ -122,7 +121,7 @@ module PayRecurringDonation
     if notify_nonprofit
       DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
     end
-    InsertSupporterNotes.create([{content: "This supporter had a payment failure for their recurring donation with ID #{rd['id']}", supporter_id: donation['supporter_id'], user_id: 540}])
+    Supporter.find(donation['supporter_id']).supporters_notes.create!(content: "This supporter had a payment failure for their recurring donation with ID #{rd['id']}", user: User.find(540))
     return recurring_donation
   end
 end

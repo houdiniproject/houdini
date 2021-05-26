@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'query/query_recurring_donations'
-require 'insert/insert_supporter_notes'
 require 'format/date'
 require 'format/currency'
 
@@ -45,7 +44,7 @@ module UpdateRecurringDonations
       rec_don.n_failures = 0
       rec_don.save!
       donation.save!
-      InsertSupporterNotes.create([{content: "This supporter updated their card for their recurring donation with ID #{rec_don.id}", supporter_id: rec_don.supporter.id, user_id: 540}])
+      rec_don.supporter.supporter_notes.create!( content: "This supporter updated their card for their recurring donation with ID #{rec_don.id}", user: User.find(540))
     end
     return QueryRecurringDonations.fetch_for_edit(rd[:id])['recurring_donation']
   end
@@ -115,7 +114,7 @@ module UpdateRecurringDonations
       .where("id=$id", id: rd_id.to_i)
     )
     rd = QueryRecurringDonations.fetch_for_edit(rd_id)['recurring_donation']
-    InsertSupporterNotes.create([{supporter_id: rd['supporter_id'], content: "This supporter's recurring donation for $#{Format::Currency.cents_to_dollars(rd['amount'])} was cancelled by #{rd['cancelled_by']} on #{Format::Date.simple(rd['cancelled_at'])}", user_id: 540}])
+    Supporter.find(rd['supporter_id']).supporter_notes.create!(content: "This supporter's recurring donation for $#{Format::Currency.cents_to_dollars(rd['amount'])} was cancelled by #{rd['cancelled_by']} on #{Format::Date.simple(rd['cancelled_at'])}", user: User.find(540));
     if (!dont_notify_nonprofit)
       DonationMailer.delay.nonprofit_recurring_donation_cancellation(rd['donation_id'])
     end

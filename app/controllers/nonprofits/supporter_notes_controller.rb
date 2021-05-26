@@ -7,8 +7,7 @@ class SupporterNotesController < ApplicationController
 
 	# post /nonprofits/:nonprofit_id/supporters/:supporter_id/supporter_notes
 	def create
-    params[:supporter_note][:user_id] ||= current_user && current_user.id
-    render_json{ InsertSupporterNotes.create([params[:supporter_note]]) }
+    render json: [Supporter.find(params[:supporter_id]).supporter_notes.create!(create_params.merge(user: current_user))]
 	end
 
   # put /nonprofits/:nonprofit_id/supporters/:supporter_id/supporter_notes/:id
@@ -23,5 +22,10 @@ class SupporterNotesController < ApplicationController
     render_json{ UpdateSupporterNotes.delete(params[:id]) }
   end
 
+  private 
+  def create_params
+    params.require(:supporter_note).permit(:content)
+
+  end
 end
 end

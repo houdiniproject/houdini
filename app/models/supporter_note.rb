@@ -3,12 +3,21 @@ class SupporterNote < ActiveRecord::Base
 
 	attr_accessible \
 		:content,
-		:supporter_id, :supporter
+		:supporter_id, :supporter,
+		:user
 
 	belongs_to :supporter
 	has_many :activities, as: :attachment, dependent: :destroy
+	belongs_to :user
 
 	validates :content, length: {minimum: 1}
-	validates :supporter_id, presence: true
+	validates :supporter, presence: true
+
+	after_create :create_activity 
+
+	private
+	def create_activity
+		InsertActivities.for_supporter_notes([id])
+	end
 end
 

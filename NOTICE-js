@@ -12657,7 +12657,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** dns-packet; version 1.3.1 -- https://github.com/mafintosh/dns-packet
+** dns-packet; version 1.3.4 -- https://github.com/mafintosh/dns-packet
 Copyright (c) 2016 Mathias Buus
 
 The MIT License (MIT)

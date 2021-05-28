@@ -208,7 +208,7 @@ if(window.addEventListener) {
       commitchange.hideDonation()
     } 
     // Redirect on donation completion using the redirect param
-    else if(e.data.match(/^commitchange:redirect/)) {
+    else if(typeof e.data === 'string' && e.data.startsWith("commitchange:redirect")) {
       const matches = e.data.match(/^commitchange:redirect:(.+)$/)
       if(matches.length === 2) window.location.href = matches[1]
     }

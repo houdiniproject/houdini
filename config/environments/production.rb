@@ -17,7 +17,7 @@ Commitchange::Application.configure do
 
 	# Disable Rails's static asset server (Apache or nginx will already do this)
 	config.serve_static_files = true
-	config.static_cache_control = "public, max-age=86400"
+	config.static_cache_control = "public, max-age=600"
 
 	# Compress JavaScripts and CSS
 	config.assets.compress = true

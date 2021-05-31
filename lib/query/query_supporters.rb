@@ -522,6 +522,25 @@ UNION DISTINCT
       .map(&:flatten)
   end
 
+  def self.dupes_on_name_and_phone_and_address(np_id)
+    dupes_expr(np_id)
+      .and_where(
+        "name IS NOT NULL\
+         AND phone IS NOT NULL \
+         AND phone != '' \
+         AND address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(
+        "name,\
+         substring(phone from '(([0-9]+.*)*[0-9]+)'),\
+         btrim(lower(address), ' '),\
+         substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
+      )
+      .execute(format: 'csv')[1..-1]
+      .map(&:flatten)
+  end
+
   # Create an export that lists donors with their total contributed amounts
   # Underneath each donor, we separately list each individual payment
   # Only including payments for the given year

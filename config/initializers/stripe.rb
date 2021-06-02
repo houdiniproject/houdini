@@ -3,3 +3,5 @@ require 'stripe'
 
 Stripe.api_key = Settings.payment_provider.stripe_private_key;
 Stripe.api_version = '2017-06-05'
+
+Stripe.logger = Rails.logger

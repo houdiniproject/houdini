@@ -50,4 +50,10 @@ private
 		)
 	end
 
+	def reject_for_deactivated_nonprofits
+		if current_nonprofit&.nonprofit_deactivation&.deactivated
+			render plain: '', status: :unauthorized
+		end
+	end
+
 end

@@ -5,6 +5,7 @@ module Nonprofits
 
 		before_action :authenticate_nonprofit_user!, only: [:index, :update]
 		before_action :authenticate_campaign_editor!, only: [:create_offsite]
+		before_action :reject_for_deactivated_nonprofits, only: [:create]
 
 		# get /nonprofit/:nonprofit_id/donations
 		def index

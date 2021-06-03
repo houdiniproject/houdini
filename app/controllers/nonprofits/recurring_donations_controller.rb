@@ -4,6 +4,7 @@ class RecurringDonationsController < ApplicationController
 	include Controllers::NonprofitHelper
 
 	before_action :authenticate_nonprofit_user!, except: [:create]
+	before_action :reject_for_deactivated_nonprofits, only: [:create]
 
 	# get /nonprofits/:nonprofit_id/recurring_donations
 	def index

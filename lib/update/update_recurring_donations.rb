@@ -45,6 +45,8 @@ module UpdateRecurringDonations
     return ValidationError.new(['Invalid paydate']) unless (1..28).cover?(paydate.to_i)
 
     Psql.execute(Qexpr.new.update(:recurring_donations, paydate: paydate).where('id=$id', id: rd['id']))
+    recurring_donation = RecurringDonation.find(rd['id'])
+    recurring_donation.recurrence.publish_updated
     rd['paydate'] = paydate
     rd
   end
@@ -71,6 +73,9 @@ module UpdateRecurringDonations
       rd.n_failures = 0
       donation.card = tokenizable
       donation.amount = amount
+      rd.recurrence.amount = amount
+      rd.recurrence.save!
+      rd.recurrence.publish_updated
       rd.save!
       donation.save!
     end

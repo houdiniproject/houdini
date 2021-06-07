@@ -135,7 +135,7 @@ class Recurrence < ApplicationRecord # rubocop:disable Metrics/ClassLength
 		}[time_unit]
 	end
 
-	def recurrence_start_date # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+	def recurrence_start_date # rubocop:disable Metrics/AbcSize
 		paydate = recurring_donation.paydate
 		paydate = if paydate.nil?
 													(1..28).cover?(start_date.day) ? start_date.day : 28

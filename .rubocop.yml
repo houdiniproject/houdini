@@ -731,9 +731,12 @@ Layout/IndentationStyle:
 Layout/IndentationWidth:
   Width: 1
 
+Metrics/MethodLength:
+  Max: 25
+
 Metrics/BlockLength:
   Exclude:
-    - '**/*_spec.rb'
+    - 'spec/**/*.rb'
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact

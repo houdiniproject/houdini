@@ -14,7 +14,7 @@ RSpec.describe Recurrence, type: :model do
 	describe 'recurrence with donations, designation and dedication' do
 		subject { create(:recurrence) }
 
-		def trx_assignment_match # rubocop:disable Metrics/MethodLength
+		def trx_assignment_match
 			{
 				assignment_object: 'donation',
 				amount: 500,
@@ -113,7 +113,7 @@ RSpec.describe Recurrence, type: :model do
 	describe 'recurrence_with_paydate_later_in_month' do
 		subject { create(:recurrence_with_paydate_later_in_month) }
 
-		def trx_assignment_match # rubocop:disable Metrics/MethodLength
+		def trx_assignment_match
 			{
 				assignment_object: 'donation',
 				amount: 500,
@@ -208,7 +208,7 @@ RSpec.describe Recurrence, type: :model do
 	describe 'recurrence_with_paydate_earlier_in_month' do
 		subject { create(:recurrence_with_paydate_earlier_in_month) }
 
-		def trx_assignment_match # rubocop:disable Metrics/MethodLength
+		def trx_assignment_match
 			{
 				assignment_object: 'donation',
 				amount: 500,

@@ -4,6 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 FactoryBot.define do
 	factory :offline_transaction_charge do
-		amount { 1 }
+		payment { '' }
 	end
 end

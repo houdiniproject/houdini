@@ -151,6 +151,18 @@ class ObjectEventListener < ApplicationListener
     enqueue_transmissions_to_webhooks(event)
   end
 
+  def self.offline_transaction_refund_created(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.offline_transaction_refund_updated(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.offline_transaction_refund_deleted(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
   private
 
   def self.enqueue_transmissions_to_webhooks(event)

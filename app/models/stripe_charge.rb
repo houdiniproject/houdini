@@ -15,7 +15,7 @@ class StripeCharge < ApplicationRecord
 			setup_houid :stripechrg
 		end
 
-		def to_builder(*expand) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+		def to_builder(*expand) # rubocop:disable Metrics/AbcSize
 			init_builder(*expand) do |json|
 				json.object 'stripe_transaction_charge'
 				json.gross_amount do
@@ -53,7 +53,7 @@ class StripeCharge < ApplicationRecord
 			end
 		end
 
-		def publish_created # rubocop:disable Metrics/MethodLength
+		def publish_created
 			Houdini.event_publisher.announce(
 				:stripe_transaction_charge_created,
 				to_event('stripe_transaction_charge.created',

@@ -25,5 +25,5 @@ class Payment < ApplicationRecord
 
   has_one :subtransaction, through: :subtransaction_payment
   has_one :trx, through: :subtransaction_payment
-  
+
 end

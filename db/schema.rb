@@ -1049,7 +1049,6 @@ ActiveRecord::Schema.define(version: 2021_06_02_220525) do
   add_foreign_key "offline_transaction_refunds", "payments"
   add_foreign_key "recurrences", "recurring_donations"
   add_foreign_key "recurrences", "supporters"
-  add_foreign_key "offline_transaction_refunds", "payments"
   add_foreign_key "stripe_charges", "payments"
   add_foreign_key "stripe_refunds", "payments"
   add_foreign_key "subtransaction_payments", "subtransactions"

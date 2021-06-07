@@ -30,6 +30,7 @@ class RecurringDonation < ApplicationRecord
   has_many :charges, through: :donation
   has_one :card, through: :donation
   has_one :supporter, through: :donation
+  has_one :recurrence
 
   validates :paydate, numericality: { less_than: 29 }, allow_blank: true
   validates :donation_id, presence: true

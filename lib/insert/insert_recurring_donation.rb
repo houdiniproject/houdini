@@ -92,6 +92,9 @@ module InsertRecurringDonation
       # Create the activity record
       result['activity'] = InsertActivities.for_recurring_donations([result['payment'].id])
     end
+
+    recurrence = result['recurring_donation'].create_recurrence!(supporter: result['recurring_donation'].supporter, start_date:result['recurring_donation'].start_date, amount: result['recurring_donation'].amount )
+    recurrence.publish_created
     # Send receipts
     Houdini.event_publisher.announce(:recurring_donation_create, result['donation'], entities[:supporter_id].locale)
     result

@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
-class Recurrence < ApplicationRecord
+class Recurrence < ApplicationRecord # rubocop:disable Metrics/ClassLength
 	include Model::Houidable
 	include Model::Jbuilder
 	include Model::Eventable
@@ -111,6 +111,13 @@ class Recurrence < ApplicationRecord
 			Houdini.event_publisher.announce(
 				:recurrence_created,
 				to_event('recurrence.created', :nonprofit, :trx, :supporter).attributes!
+			)
+		end
+
+		def publish_updated
+			Houdini.event_publisher.announce(
+				:recurrence_updated,
+				to_event('recurrence.updated', :nonprofit, :trx, :supporter).attributes!
 			)
 		end
 	end

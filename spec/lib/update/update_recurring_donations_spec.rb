@@ -85,12 +85,59 @@ describe UpdateRecurringDonations do
       end
     end
 
+    let(:np_builder_expanded) do
+      {
+        'id' => nonprofit.id,
+        'name' => nonprofit.name,
+        'object' => 'nonprofit'
+      }
+    end
+
+    let(:supporter_builder_expanded) do
+      supporter_to_builder_base.merge({ 'name' => 'Fake Supporter Name' })
+    end
+
+    let(:common_builder_expanded) do
+      {
+        'supporter' => supporter_builder_expanded,
+        'nonprofit' => np_builder_expanded
+      }
+    end
     it 'changes amount properly' do
       recurring_donation.n_failures = 2
       recurring_donation.save!
+      recurrence
+      orig_recurrence = recurring_donation.recurrence
 
       orig_rd = recurring_donation.attributes.with_indifferent_access
       orig_donation = recurring_donation.donation.attributes.with_indifferent_access
+      expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_updated, {
+        'id' => match_houid('objevt'),
+        'object' => 'object_event',
+        'type' => 'recurrence.updated',
+        'data' => {
+          'object' => common_builder_expanded.merge({
+            'object' => 'recurrence',
+        'id' => orig_recurrence.id,
+        'start_date' => orig_recurrence.start_date,
+        'recurrences' => [ 
+        {
+          'interval' => 1,
+          'type' => 'monthly'
+        }],
+        'invoice_template' =>  { 
+          'supporter' => supporter.id,
+          'amount' => {'cents' => 1000, 'currency' => 'usd'},
+          'payment_method' =>  {'type' =>  'stripe'},
+          'trx_assignments' => [
+            {
+              'assignment_object' => 'donation',
+              'designation' => nil,
+              'amount' => {'cents' => 1000, 'currency' => 'usd'}
+            }]
+        }
+      })
+    }})
 
       result = nil
       expect {
@@ -103,6 +150,7 @@ describe UpdateRecurringDonations do
         recurring_donation: orig_rd.merge(amount: 1000, n_failures: 0, start_date: Time.current.to_date)
       }
 
+      
       expect(result.attributes).to eq expectations[:recurring_donation]
 
       recurring_donation.reload

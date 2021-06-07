@@ -321,6 +321,10 @@ describe InsertRecurringDonation do
 					let(:donation_builder_expanded) do
 						donation_builder.merge(common_builder_with_trx, common_builder_expanded)
 					end
+
+					let(:recurrence_builder_expanded) do 
+						
+					end
 		
 		
 					describe 'general donations' do
@@ -357,6 +361,8 @@ describe InsertRecurringDonation do
 									}
 								}
 							)
+
+							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
 		
@@ -377,7 +383,7 @@ describe InsertRecurringDonation do
 							expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
-		
+							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
 		
@@ -420,6 +426,7 @@ describe InsertRecurringDonation do
 							expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
 		
@@ -440,6 +447,7 @@ describe InsertRecurringDonation do
 							)
 							expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
 		
@@ -460,6 +468,45 @@ describe InsertRecurringDonation do
 								}
 							)
 							expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
+							subject
+						end
+
+						it 'has fired recurrence.created' do
+							expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
+							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, {
+								'id' => match_houid('objevt'),
+								'object' => 'object_event',
+								'type' => 'recurrence.created',
+								'data' => {
+									'object' => common_builder_expanded.merge({
+										'object' => 'recurrence',
+								'id' => match_houid('recur'),
+								'start_date' => Time.current,
+								'recurrences' => [ 
+								{
+									'interval' => 1,
+									'type' => 'monthly'
+								}],
+								'invoice_template' =>  { 
+									'supporter' => supporter.id,
+									'amount' => {'cents' => charge_amount, 'currency' => 'usd'},
+									'payment_method' =>  {'type' =>  'stripe'},
+									'trx_assignments' => [
+										{
+											'assignment_object' => 'donation',
+											'dedication' => { 'name' => 'a name', 'type' => 'honor', 'note' => nil},
+											'designation' => 'designation',
+											'amount' => {'cents' => charge_amount, 'currency' => 'usd'}
+										}]
+								}
+							})
+						}})
 							subject
 						end
 					end

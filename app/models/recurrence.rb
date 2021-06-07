@@ -3,7 +3,6 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Recurrence < ApplicationRecord
-
 	include Model::Houidable
 	include Model::Jbuilder
 	include Model::Eventable
@@ -18,7 +17,7 @@ class Recurrence < ApplicationRecord
 	delegate :currency, to: :nonprofit
 
 	delegate :designation, :dedication, to: :recurring_donation
-	
+
 	validates :recurrences, presence: true
 
 	def trx_assignments
@@ -44,36 +43,36 @@ class Recurrence < ApplicationRecord
 			amount: amount || 0,
 			trx_assignments: trx_assignments,
 			supporter: supporter,
-			payment_method: {type: 'stripe'}
+			payment_method: { type: 'stripe' }
 		}
 	end
 
-	concerning :JBuilder do
+	concerning :JBuilder do # rubocop:disable Metrics/BlockLength
 		included do
 			setup_houid :recur
 		end
-		
-		def to_builder(*expand)
-			init_builder(*expand) do |json|
+
+		def to_builder(*expand)	# rubocop:disable Metrics/MethodLength,Metrics/AbcSize,Metrics/CyclomaticComplexity
+			init_builder(*expand) do |json|	# rubocop:disable Metrics/BlockLength
 				json.start_date start_date.to_i
 
 				json.add_builder_expansion :nonprofit, :supporter
 
 				json.start_date start_date
-				
+
 				json.recurrences recurrences do |rec|
 					json.(rec, :interval, :type)
 				end
 
-				json.invoice_template  do
-					json.amount do 
+				json.invoice_template do # rubocop:disable Metrics/BlockLength
+					json.amount do
 						json.cents amount || 0
 						json.currency currency
 					end
 
 					json.supporter supporter.id
 
-					json.payment_method do 
+					json.payment_method do
 						json.type 'stripe'
 					end
 
@@ -81,17 +80,21 @@ class Recurrence < ApplicationRecord
 						json.assignment_object assign[:assignment_object]
 						dedication = assign[:dedication]
 
-						json.dedication do
-							json.type dedication['type']
-							json.name dedication['name']
-							contact = dedication['contact']
-							json.note dedication['note']
-							json.contact do 
-								json.email contact['email'] if contact['email'] 
-								json.address contact['address'] if contact['address']
-								json.phone contact['phone'] if contact['phone'] 
-							end if contact
-						end if dedication
+						if dedication
+							json.dedication do
+								json.type dedication['type']
+								json.name dedication['name']
+								contact = dedication['contact']
+								json.note dedication['note']
+								if contact
+									json.contact do
+										json.email contact['email'] if contact['email']
+										json.address contact['address'] if contact['address']
+										json.phone contact['phone'] if contact['phone']
+									end
+								end
+							end
+						end
 
 						json.designation assign[:designation]
 
@@ -101,10 +104,8 @@ class Recurrence < ApplicationRecord
 						end
 					end
 				end
-
 			end
 		end
-
 
 		def publish_created
 			Houdini.event_publisher.announce(
@@ -120,8 +121,6 @@ class Recurrence < ApplicationRecord
 		self[:start_date] = Time.current unless self[:start_date]
 	end
 
-	private
-
 	def from_recurring_time_unit_to_recurrence(time_unit)
 		{
 			'month' => 'monthly',
@@ -129,4 +128,3 @@ class Recurrence < ApplicationRecord
 		}[time_unit]
 	end
 end
-

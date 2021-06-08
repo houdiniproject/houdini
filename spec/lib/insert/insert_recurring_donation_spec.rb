@@ -487,9 +487,10 @@ describe InsertRecurringDonation do
 									'object' => common_builder_expanded.merge({
 										'object' => 'recurrence',
 								'id' => match_houid('recur'),
-								'start_date' => Time.current,
+								'start_date' => Time.new(2020, 5, 4).utc.to_i,
 								'recurrences' => [ 
 								{
+									'start' => Time.new(2020, 5, 4).utc.to_i,
 									'interval' => 1,
 									'type' => 'monthly'
 								}],

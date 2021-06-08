@@ -119,9 +119,10 @@ describe UpdateRecurringDonations do
           'object' => common_builder_expanded.merge({
             'object' => 'recurrence',
         'id' => orig_recurrence.id,
-        'start_date' => orig_recurrence.start_date,
+        'start_date' => orig_recurrence.start_date.to_i,
         'recurrences' => [ 
         {
+          'start' => orig_recurrence.start_date.beginning_of_day.to_i,
           'interval' => 1,
           'type' => 'monthly'
         }],

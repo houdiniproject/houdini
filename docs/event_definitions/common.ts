@@ -45,14 +45,21 @@ export type RecurrenceRule = {
 	 * Interval of `type` for the event to recur
 	 */
 	interval: number;
+
+	/**
+	 * The instant when the recurrence should be calculated from
+	 */
+	start: number;
+
 	/**
 	 * The scale of the recurrence
 	 */
 	type: 'monthly' | 'year';
 	/**
-	 * The the point after which the rule should not recur anymore.
+	 * The point after which the rule should not recur anymore.
 	 */
-	until?: Date;
+	until?: number;
+
 };
 
 

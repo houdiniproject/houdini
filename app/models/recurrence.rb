@@ -33,7 +33,8 @@ class Recurrence < ApplicationRecord # rubocop:disable Metrics/ClassLength
 		[
 			{
 				interval: recurring_donation.interval,
-				type: from_recurring_time_unit_to_recurrence(recurring_donation.time_unit)
+				type: from_recurring_time_unit_to_recurrence(recurring_donation.time_unit),
+				start: recurrence_start_date
 			}
 		]
 	end
@@ -58,10 +59,9 @@ class Recurrence < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
 				json.add_builder_expansion :nonprofit, :supporter
 
-				json.start_date start_date
-
 				json.recurrences recurrences do |rec|
 					json.(rec, :interval, :type)
+					json.start rec[:start].to_i
 				end
 
 				json.invoice_template do # rubocop:disable Metrics/BlockLength
@@ -133,5 +133,19 @@ class Recurrence < ApplicationRecord # rubocop:disable Metrics/ClassLength
 			'month' => 'monthly',
 			'year' => 'yearly'
 		}[time_unit]
+	end
+
+	def recurrence_start_date # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+		paydate = recurring_donation.paydate
+		paydate = if paydate.nil?
+													(1..28).cover?(start_date.day) ? start_date.day : 28
+												else
+													paydate
+												end
+		if paydate < start_date.day
+			(start_date + 1.month).beginning_of_month + (paydate - 1).days
+		else
+			start_date.beginning_of_month + (paydate - 1).days
+		end
 	end
 end

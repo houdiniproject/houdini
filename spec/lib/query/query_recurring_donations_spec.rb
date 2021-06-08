@@ -183,6 +183,16 @@ describe QueryRecurringDonations do
       rd.create_recurring_donation_hold end_date: 1.week.from_now
       expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
     end
+
+    it 'is not due when monthly AND the recurring_donation_hold has just ended' do
+      donation = force_create(:donation)
+      payment = force_create(:payment, donation: donation)
+      last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
+      rd = create_recdon({ donation: donation })
+      Timecop.freeze(Time.new(2021,5,2))
+      rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
+      expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
+    end
   end
 
   describe '.for_export_enumerable' do

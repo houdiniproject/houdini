@@ -279,6 +279,7 @@ module QueryRecurringDonations
       OR (
         recurring_donations.time_unit='month' AND recurring_donations.interval=1
         AND (last_charge.created_at < $beginning_of_last_month)
+        AND (recurring_donation_holds.end_date IS NULL OR recurring_donation_holds.end_date < $beginning_of_last_month)
         OR (
           recurring_donations.time_unit='month' AND recurring_donations.interval=1
           AND (last_charge.created_at < $beginning_of_month)

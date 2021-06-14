@@ -189,9 +189,47 @@ describe QueryRecurringDonations do
       payment = force_create(:payment, donation: donation)
       last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
       rd = create_recdon({ donation: donation })
-      Timecop.freeze(Time.new(2021,5,2))
+      Timecop.freeze(Time.new(2021,5,2)) do 
+        rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
+      end
+    end
+
+    it 'is not due when monthly AND the recurring_donation_hold has just ended AND paydate specifically is in the future' do
+      donation = force_create(:donation)
+      payment = force_create(:payment, donation: donation)
+      last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
+      rd = create_recdon({ donation: donation, paydate:  22 })
       rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
-      expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
+      Timecop.freeze(Time.new(2021,5,1)) do 
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
+      end
+
+      Timecop.freeze(Time.new(2021,5,2)) do 
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
+      end
+    end
+
+    it 'is due when monthly AND the recurring_donation_hold has just ended AND has paydate and is time to charge!' do
+      donation = force_create(:donation)
+      payment = force_create(:payment, donation: donation)
+      last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
+      rd = create_recdon({ donation: donation, paydate:  22 })
+      rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
+      Timecop.freeze(Time.new(2021,5,22)) do 
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be true
+      end
+    end
+
+    it 'is not due when monthly AND the recurring_donation_hold has just ended AND has paydate and is almost time to charge' do
+      donation = force_create(:donation)
+      payment = force_create(:payment, donation: donation)
+      last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
+      rd = create_recdon({ donation: donation, paydate:  22 })
+      rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
+      Timecop.freeze(Time.new(2021,5,21)) do 
+        expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
+      end
     end
   end
 

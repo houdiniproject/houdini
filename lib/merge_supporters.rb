@@ -2,12 +2,23 @@
  module MergeSupporters
 
   # For supporters that have been merged, we want to update all their child tables to the new supporter_id
-  def self.update_associations(old_supporter_ids, new_supporter_id, np_id, profile_id)
+  def self.update_associations(old_supporter_ids, new_supporter, np_id, profile_id)
+    new_supporter_id = new_supporter.id
+
     # The new supporter needs to have the following tables from the merged supporters:
     associations = [:activities, :donations, :recurring_donations, :offsite_payments, :payments, :tickets,  :supporter_notes, :supporter_emails, :full_contact_infos]
-    
+
     associations.each do |table_name|
-      Qx.update(table_name).set(supporter_id: new_supporter_id).where("supporter_id IN ($ids)", ids: old_supporter_ids).timestamps.execute
+      Qx.update(table_name)
+        .set(supporter_id: new_supporter_id)
+        .where("supporter_id IN ($ids)", ids: old_supporter_ids).timestamps.execute
+    end
+
+    old_supporter_ids.each do |id|
+      Card.where(holder_id: id, holder_type: 'Supporter').each do |card|
+        card.holder = new_supporter
+        card.save!
+      end
     end
 
     old_supporters = Supporter.includes(:tag_joins).includes(:custom_field_joins).where('id in (?)', old_supporter_ids)
@@ -53,7 +64,7 @@
     # Update merged supporters as deleted
     Psql.execute(Qexpr.new.update(:supporters, {deleted: true}).where("id IN ($ids)", ids: supporter_ids))
     # Update all associated tables
-    self.update_associations(supporter_ids, new_supporter['id'],np_id, profile_id)
+    self.update_associations(supporter_ids, new_supporter, np_id, profile_id)
     return {json: new_supporter, status: :ok}
   end
 

@@ -2,9 +2,9 @@
  module MergeSupporters
 
   # For supporters that have been merged, we want to update all their child tables to the new supporter_id
-  def self.update_associations(old_supporter_ids, new_supporter, np_id, profile_id)
+  def self.update_associations(old_supporters, new_supporter, np_id, profile_id)
     new_supporter_id = new_supporter.id
-
+    old_supporter_ids = old_supporters.map{|i| i.id}
     # The new supporter needs to have the following tables from the merged supporters:
     associations = [:activities, :donations, :recurring_donations, :offsite_payments, :payments, :tickets,  :supporter_notes, :supporter_emails, :full_contact_infos]
 
@@ -14,14 +14,14 @@
         .where("supporter_id IN ($ids)", ids: old_supporter_ids).timestamps.execute
     end
 
-    old_supporter_ids.each do |id|
-      Card.where(holder_id: id, holder_type: 'Supporter').each do |card|
+    old_supporters.joins(:cards).each do |supp|
+      supp.cards.each do |card|
         card.holder = new_supporter
         card.save!
       end
     end
 
-    old_supporters = Supporter.includes(:tag_joins).includes(:custom_field_joins).where('id in (?)', old_supporter_ids)
+    old_supporters = old_supporters.includes(:tag_joins).includes(:custom_field_joins)
     old_tags = old_supporters.map{|i| i.tag_joins.map{|j| j.tag_master}}.flatten.uniq
 
     #delete old tags
@@ -56,15 +56,13 @@
   end
 
   def self.selected(merged_data, supporter_ids,np_id, profile_id)
-    old_supporters = Nonprofit.find(np_id).supporters.where('id IN (?)', supporter_ids)
+    old_supporters = Nonprofit.find(np_id).supporters.where('supporters.id IN (?)', supporter_ids)
     merged_data['anonymous'] = old_supporters.any?{|i| i.anonymous}
-    merged_data['nonprofit_id'] = np_id
-    new_supporter = Supporter.new(merged_data)
-    new_supporter.save!
+    new_supporter = Nonprofit.find(np_id).supporters.create!(merged_data)
     # Update merged supporters as deleted
-    Psql.execute(Qexpr.new.update(:supporters, {deleted: true}).where("id IN ($ids)", ids: supporter_ids))
+    Psql.execute(Qexpr.new.update(:supporters, {deleted: true}).where("supporters.id IN ($ids)", ids: supporter_ids))
     # Update all associated tables
-    self.update_associations(supporter_ids, new_supporter, np_id, profile_id)
+    self.update_associations(old_supporters, new_supporter, np_id, profile_id)
     return {json: new_supporter, status: :ok}
   end
 

@@ -3,8 +3,9 @@ require "rails_helper"
 describe MergeSupporters do
 
   let(:np) {force_create(:nonprofit)}
-  let(:old_supporter1) { force_create(:supporter, nonprofit: np)}
-  let(:old_supporter2) {force_create(:supporter, nonprofit:np )}
+  let(:old_supporter1) { force_create(:supporter, nonprofit: np) }
+  let(:old_supporter2) { force_create(:supporter, nonprofit: np) }
+  let(:card) { force_create(:card, holder: old_supporter1) }
   around(:each) do |e|
     Timecop.freeze(2020, 3, 4) do
       e.run
@@ -43,14 +44,14 @@ describe MergeSupporters do
 
     let(:profile) {force_create(:profile)}
 
-    before(:each){
+    before(:each) do
       np
       old_supporter1
       old_supporter2
       new_supporter
       supporter_note
-
-    }
+      card
+    end
 
     it 'merges everything properly with tags and cfjs on both' do
       tag_on_1
@@ -60,7 +61,8 @@ describe MergeSupporters do
       cfj_on_2
       cfj_on_3
       cfj_on_4
-      MergeSupporters.update_associations([old_supporter1.id, old_supporter2.id], new_supporter.id, np.id, profile.id)
+      old_supporters = Supporter.where('supporters.id IN (?)',[old_supporter1.id, old_supporter2.id])
+      MergeSupporters.update_associations(old_supporters, new_supporter, np.id, profile.id)
       old_supporter1.reload
       old_supporter2.reload
       expect(old_supporter1.tag_joins.count).to eq 0
@@ -84,7 +86,8 @@ describe MergeSupporters do
       tag_on_1
       cfj_on_1
       cfj_on_3
-      MergeSupporters.update_associations([old_supporter1.id, old_supporter2.id], new_supporter.id, np.id, profile.id)
+      old_supporters = Supporter.where('supporters.id IN (?)',[old_supporter1.id, old_supporter2.id])
+      MergeSupporters.update_associations(old_supporters, new_supporter, np.id, profile.id)
       old_supporter1.reload
       old_supporter2.reload
       expect(old_supporter1.tag_joins.count).to eq 0
@@ -107,7 +110,8 @@ describe MergeSupporters do
       tag_on_2
       cfj_on_2
       cfj_on_4
-      MergeSupporters.update_associations([old_supporter1.id, old_supporter2.id], new_supporter.id, np.id, profile.id)
+      old_supporters = Supporter.where('supporters.id IN (?)',[old_supporter1.id, old_supporter2.id])
+      MergeSupporters.update_associations(old_supporters, new_supporter, np.id, profile.id)
       old_supporter1.reload
       old_supporter2.reload
       expect(old_supporter1.tag_joins.count).to eq 0
@@ -126,7 +130,8 @@ describe MergeSupporters do
     end
 
     it 'merges with tags and cfjs on neighter' do
-      MergeSupporters.update_associations([old_supporter1.id, old_supporter2.id], new_supporter.id, np.id, profile.id)
+      old_supporters = Supporter.where('supporters.id IN (?)',[old_supporter1.id, old_supporter2.id])
+      MergeSupporters.update_associations(old_supporters, new_supporter, np.id, profile.id)
       old_supporter1.reload
       old_supporter2.reload
       expect(old_supporter1.tag_joins.count).to eq 0
@@ -138,6 +143,18 @@ describe MergeSupporters do
       expect(old_supporter2.custom_field_joins.count).to eq 0
       expect(new_supporter.custom_field_joins.count).to eq 0
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
+    end
+
+    it 'updates the card information on the supporter' do
+      old_supporters = Supporter.where('supporters.id IN (?)',[old_supporter1.id, old_supporter2.id])
+      MergeSupporters.update_associations(old_supporters, new_supporter, np.id, profile.id)
+      expect(new_supporter.reload.cards.first).to eq(card.reload)
+    end
+
+    it 'updates the supporter information on the card' do
+      old_supporters = Supporter.where('supporters.id IN (?)',[old_supporter1.id, old_supporter2.id])
+      MergeSupporters.update_associations(old_supporters, new_supporter, np.id, profile.id)
+      expect(card.reload.holder).to eq(new_supporter.reload)
     end
   end
 

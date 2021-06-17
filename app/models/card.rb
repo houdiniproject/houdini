@@ -16,6 +16,9 @@ class Card < ActiveRecord::Base
 	scope :amex_only, 	-> { where('cards.name ILIKE ? OR cards.name ILIKE ?', 'American Express%', 'amex%') }
 	scope :not_amex, -> { where('cards.name NOT ILIKE ? AND cards.name NOT ILIKE ?', 'American Express%', 'amex%') }
 
+	scope :held_by_nonprofits, -> { where('cards.holder_type = ? ', 'Nonprofit') }
+	scope :held_by_supporters, -> { where('cards.holder_type = ? ', 'Supporter') }
+
 	attr_accessor :failure_message
 
 

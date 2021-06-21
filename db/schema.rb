@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_02_220525) do
+ActiveRecord::Schema.define(version: 2021_06_21_191202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -814,6 +814,20 @@ ActiveRecord::Schema.define(version: 2021_06_02_220525) do
     t.index ["payment_id"], name: "index_stripe_charges_on_payment_id"
   end
 
+  create_table "stripe_disputes", id: :string, force: :cascade do |t|
+    t.bigint "payment_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payment_id"], name: "index_stripe_disputes_on_payment_id"
+  end
+
+  create_table "stripe_refunds", id: :string, force: :cascade do |t|
+    t.bigint "payment_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payment_id"], name: "index_stripe_refunds_on_payment_id"
+  end
+
   create_table "stripe_transactions", id: :string, force: :cascade do |t|
     t.integer "amount", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -1051,6 +1065,8 @@ ActiveRecord::Schema.define(version: 2021_06_02_220525) do
   add_foreign_key "recurrences", "recurring_donations"
   add_foreign_key "recurrences", "supporters"
   add_foreign_key "stripe_charges", "payments"
+  add_foreign_key "stripe_disputes", "payments"
+  add_foreign_key "stripe_refunds", "payments"
   add_foreign_key "subtransaction_payments", "subtransactions"
   add_foreign_key "subtransactions", "transactions"
   add_foreign_key "ticket_purchases", "event_discounts"

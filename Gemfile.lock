@@ -204,8 +204,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    mail_view (2.0.4)
-      tilt
     marcel (1.0.1)
     method_source (0.9.2)
     mime-types (3.3.1)
@@ -443,7 +441,6 @@ DEPENDENCIES
   jbuilder (~> 2.10)
   listen
   lograge (~> 0.11.2)
-  mail_view (~> 2.0)
   mini_racer
   money (~> 6.13)
   param_validation!

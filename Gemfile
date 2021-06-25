@@ -57,7 +57,6 @@ end
 group :development, :ci, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.5', require: 'dotenv/rails-now'
-  gem 'mail_view', '~> 2.0'
   gem 'pry', '~> 0.12.2'
   gem 'pry-byebug', '~> 3.7.0'
   gem 'rspec-rails', '~> 4.0.0'

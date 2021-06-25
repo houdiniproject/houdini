@@ -3,16 +3,14 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Users::SessionsController < Devise::SessionsController
-  layout 'layouts/apified', only: :new
+  layout 'layouts/material', only: :new
   respond_to :json, only: :new
 
   def new
-    @theme = 'minimal'
     super
   end
 
   def create
-    @theme = 'minimal'
 
     respond_to do |format|
       format.json do

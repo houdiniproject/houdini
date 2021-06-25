@@ -6,13 +6,7 @@ import { HookResult, renderHook, act} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
 const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users', () => {
-	return {
-		getCurrent: async () => {
-			return currentUser;
-		},
-	};
-});
+jest.mock('../../../api/api/users');
 
 import useCurrentUser, { InitialCurrentUserContext, SetCurrentUserReturnType, UseCurrentUserReturnType } from '../../useCurrentUser';
 
@@ -34,7 +28,7 @@ describe('useCurrentUser', () => {
 			}
 			it('has currentUser', async () => {
 				expect.assertions(1);
-				await commonPrep(async result => expect(result.current.currentUser).toBe(currentUser));
+				await commonPrep(async result => expect(result.current.currentUser).toStrictEqual(currentUser));
 
 			});
 
@@ -80,7 +74,7 @@ describe('useCurrentUser', () => {
 
 			it('has currentUser', async () => {
 				expect.assertions(1);
-				await commonPrep(async result =>expect(result.current.currentUser).toBe(currentUser));
+				await commonPrep(async result =>expect(result.current.currentUser).toStrictEqual(currentUser));
 
 			});
 

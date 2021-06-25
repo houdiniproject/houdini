@@ -3,7 +3,7 @@ import * as React from 'react';
 import AnimatedCheckmark, {AnimatedCheckmarkProps} from './AnimatedCheckmark';
 
 export default {
-	title: 'users/AnimatedCheckmark',
+	title: 'common/AnimatedCheckmark',
 	component: AnimatedCheckmark,
 };
 
@@ -11,10 +11,9 @@ type TemplateArgs = AnimatedCheckmarkProps;
 
 const CheckmarkTemplate = (args:TemplateArgs) => {
 
-
-	return <AnimatedCheckmark
+	return (<AnimatedCheckmark
 		{...args}
-		key={Math.random() /* so it reloads everytime props change */}></AnimatedCheckmark>;
+		key={Math.random() /* so it reloads everytime props change */}></AnimatedCheckmark>);
 };
 
 export const Checkmark = CheckmarkTemplate.bind({});

@@ -233,7 +233,6 @@ Rails.application.routes.draw do
       match 'campaigns/:campaign_slug' => 'campaigns#show', via: %i[get post], as: :campaign_location
       match 'campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', via: %i[get post]
 
-
       # Events
       match 'events' => 'events#index', via: %i[get post]
       match 'events/:event_slug' => 'events#show', via: %i[get post]

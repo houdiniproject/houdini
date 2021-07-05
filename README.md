@@ -243,6 +243,10 @@ We use `Rubocop` to perform static code analysis:
 rubocop
 ```
 
+## Additional documentation
+
+We have some additional documentation describing some implementations, definitions and other guides on the [docs folder](docs).
+
 ## Known Issues
 
 For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   namespace(:api) do
     resources(:nonprofits)
+    get '/users/current' => 'users#current'
   end
 
   resources(:emails, only: [:create])

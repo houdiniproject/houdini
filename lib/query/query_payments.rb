@@ -208,6 +208,16 @@ module QueryPayments
     if query[:donation_type].present?
       expr = expr.where('payments.kind IN ($kinds)', kinds: query[:donation_type].split(','))
     end
+
+    if query[:check_number].present?
+      expr = expr
+          .join(
+              "offsite_payments", 
+            "offsite_payments.payment_id = payments.id AND offsite_payments.check_number = $check_number",
+            check_number: query[:check_number]
+          )
+    end
+
     if query[:campaign_id].present?
       campaign_search = campaign_and_child_query_as_raw_string
       expr = expr
@@ -293,6 +303,16 @@ module QueryPayments
     if query[:donation_type].present?
       expr = expr.where('payments.kind IN ($kinds)', kinds: query[:donation_type].split(','))
     end
+
+    if query[:check_number].present?
+      expr = expr
+          .join(
+              "offsite_payments", 
+            "offsite_payments.payment_id = payments.id AND offsite_payments.check_number = $check_number",
+            check_number: query[:check_number]
+          )
+    end
+
     if query[:campaign_id].present?
       campaign_search = campaign_and_child_query_as_raw_string
       expr = expr

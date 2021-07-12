@@ -33,6 +33,12 @@
     <%= render 'components/tables/filtering/filter_input', scope: 'payments', name: 'dedication' %>
 
     <hr>
+
+    <label>Check number</label>
+
+    <%= render 'components/tables/filtering/filter_input', scope: 'payments', name: 'check_number' %>
+
+    <hr>
     <section class='filterPanel-section'>
       <%= render 'components/tables/filtering/filter_donation_type', subject: 'Donations' %>
     </section>

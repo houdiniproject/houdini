@@ -230,10 +230,9 @@ module QuerySupporters
     end
     if query[:search].present?
       expr = expr.and_where(%Q(
-         supporters.name ILIKE $search
-      OR supporters.email ILIKE $search
-      OR supporters.organization ILIKE $search
-      ), search: '%' + query[:search] + '%')
+        supporters.fts @@ plainto_tsquery('english', $search)
+        OR supporters.organization ILIKE $old_search
+      ), search: query[:search], old_search: '%' + query[:search] + '%')
     end
     if query[:notes].present?
       notes_subquery = Qx.select("STRING_AGG(content, ' ') as content, supporter_id")

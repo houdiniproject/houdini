@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.6 (Ubuntu 12.6-0ubuntu0.20.10.1)
--- Dumped by pg_dump version 12.6 (Ubuntu 12.6-0ubuntu0.20.10.1)
+-- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.10.1)
+-- Dumped by pg_dump version 13.3 (Ubuntu 13.3-0ubuntu0.21.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -4020,6 +4020,13 @@ CREATE UNIQUE INDEX index_nonprofit_verification_to_stripe ON public.nonprofit_v
 
 
 --
+-- Name: index_offsite_payments_on_check_number; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_offsite_payments_on_check_number ON public.offsite_payments USING btree (check_number);
+
+
+--
 -- Name: index_offsite_payments_on_payment_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5426,4 +5433,6 @@ INSERT INTO schema_migrations (version) VALUES ('20210521210949');
 INSERT INTO schema_migrations (version) VALUES ('20210524185334');
 
 INSERT INTO schema_migrations (version) VALUES ('20210524185342');
+
+INSERT INTO schema_migrations (version) VALUES ('20210712192642');
 

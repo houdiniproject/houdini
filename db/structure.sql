@@ -1030,6 +1030,112 @@ ALTER SEQUENCE public.exports_id_seq OWNED BY public.exports.id;
 
 
 --
+-- Name: fee_coverage_detail_bases; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.fee_coverage_detail_bases (
+    id integer NOT NULL,
+    flat_fee integer,
+    percentage_fee numeric,
+    dont_consider_billing_plan boolean DEFAULT false NOT NULL,
+    fee_era_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: fee_coverage_detail_bases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.fee_coverage_detail_bases_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: fee_coverage_detail_bases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.fee_coverage_detail_bases_id_seq OWNED BY public.fee_coverage_detail_bases.id;
+
+
+--
+-- Name: fee_eras; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.fee_eras (
+    id integer NOT NULL,
+    start_time timestamp without time zone,
+    end_time timestamp without time zone,
+    local_country character varying,
+    international_surcharge_fee numeric,
+    refund_stripe_fee boolean DEFAULT false,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: fee_eras_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.fee_eras_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: fee_eras_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.fee_eras_id_seq OWNED BY public.fee_eras.id;
+
+
+--
+-- Name: fee_structures; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.fee_structures (
+    id integer NOT NULL,
+    brand character varying,
+    flat_fee integer,
+    stripe_fee numeric,
+    fee_era_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: fee_structures_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.fee_structures_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: fee_structures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.fee_structures_id_seq OWNED BY public.fee_structures.id;
+
+
+--
 -- Name: full_contact_infos; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2875,6 +2981,27 @@ ALTER TABLE ONLY public.exports ALTER COLUMN id SET DEFAULT nextval('public.expo
 
 
 --
+-- Name: fee_coverage_detail_bases id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_coverage_detail_bases ALTER COLUMN id SET DEFAULT nextval('public.fee_coverage_detail_bases_id_seq'::regclass);
+
+
+--
+-- Name: fee_eras id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_eras ALTER COLUMN id SET DEFAULT nextval('public.fee_eras_id_seq'::regclass);
+
+
+--
+-- Name: fee_structures id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_structures ALTER COLUMN id SET DEFAULT nextval('public.fee_structures_id_seq'::regclass);
+
+
+--
 -- Name: full_contact_infos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3364,6 +3491,30 @@ ALTER TABLE ONLY public.events
 
 ALTER TABLE ONLY public.exports
     ADD CONSTRAINT exports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fee_coverage_detail_bases fee_coverage_detail_bases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_coverage_detail_bases
+    ADD CONSTRAINT fee_coverage_detail_bases_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fee_eras fee_eras_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_eras
+    ADD CONSTRAINT fee_eras_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fee_structures fee_structures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_structures
+    ADD CONSTRAINT fee_structures_pkey PRIMARY KEY (id);
 
 
 --
@@ -4369,6 +4520,22 @@ CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporter
 
 ALTER TABLE ONLY public.campaign_gifts
     ADD CONSTRAINT campaign_gifts_to_option_fk FOREIGN KEY (campaign_gift_option_id) REFERENCES public.campaign_gift_options(id);
+
+
+--
+-- Name: fee_coverage_detail_bases fk_rails_13c8ce7956; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_coverage_detail_bases
+    ADD CONSTRAINT fk_rails_13c8ce7956 FOREIGN KEY (fee_era_id) REFERENCES public.fee_eras(id);
+
+
+--
+-- Name: fee_structures fk_rails_55f7b67177; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.fee_structures
+    ADD CONSTRAINT fk_rails_55f7b67177 FOREIGN KEY (fee_era_id) REFERENCES public.fee_eras(id);
 
 
 --
@@ -5438,6 +5605,8 @@ INSERT INTO schema_migrations (version) VALUES ('20210524185342');
 INSERT INTO schema_migrations (version) VALUES ('20210607214751');
 
 INSERT INTO schema_migrations (version) VALUES ('20210712192642');
+
+INSERT INTO schema_migrations (version) VALUES ('20210714215241');
 
 INSERT INTO schema_migrations (version) VALUES ('20210715191012');
 

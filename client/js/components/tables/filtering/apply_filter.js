@@ -32,6 +32,7 @@ module.exports = function(scope) {
   , tags: 'tags'
   , notes: 'notes'
   , custom_fields: 'custom fields'
+	, check_number: 'check number'
 	}
 
 	appl.def('readable_filter_names', function() {

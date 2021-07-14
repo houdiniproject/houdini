@@ -117,6 +117,7 @@ commitchange.getParamsFromButton = (elem, opts={}) => {
   , "last_name": elem.getAttribute('data-last_name')
   , "country": elem.getAttribute('data-country')
   , "postal_code": elem.getAttribute('data-postal_code')
+  , tags: elem.getAttribute('data-tags')
   , ...opts
   }
 

@@ -18,6 +18,9 @@ module.exports = params => {
       const [name, label] = R.map(R.trim, R.split(':', f))
       return {name, label: label ? label : name}
     }, R.split(',',  fields))
+  , tags: tags => R.map(tag => {
+      return tag.trim()
+    }, R.split(',', tags))
   })
   return R.compose(evolve, merge)(params)
 }

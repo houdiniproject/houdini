@@ -25,7 +25,6 @@ function init(donation$, parentState) {
   , donationAmount$: parentState.donationAmount$
   }
 
-
   // Save supporter for dedication logic
   state.dedicationData$ = flyd.map(form => serialize(form, {hash: true}), state.submitDedication$)
   const dedicationSuppData$ = flyd.map(
@@ -38,8 +37,14 @@ function init(donation$, parentState) {
   state.showDedicationForm$ = flyd.map(()=> false, state.submitDedication$)
 
   // Save donor supporter record
-  state.supporterFields = supporterFields.init({required: {email: true}}, parentState.params$)
-  state.savedSupp$ = flyd.flatMap(postSupporter , flyd.map(formatFormData, state.submitSupporter$))
+  let formData$ = flyd.map(formatFormData, state.submitSupporter$)
+
+  state.supporterFields = supporterFields.init({required: {email: true}}, state.params$)
+  state.savedSupp$ = flyd.flatMap(postSupporter, flyd.map(
+    supporter => ({ ...supporter, tags: state.params$().tags }),
+    formData$
+  ))
+
   state.savedDedicatee$ = flyd.map(
     supporter => ({supporter, note: state.dedicationData$().dedication_note, type: state.dedicationData$().dedication_type})
   , flyd.flatMap(postSupporter, dedicationSuppData$)

@@ -13,7 +13,7 @@
 
 	<div class='modal-body'>
 
-		<form parsley-validate class='donate-info-form'>
+		<form parsley-validate class='donate-info-form' autocomplete='off'>
 			<!--= on 'submit' (create_offline_donation form_object) -->
 
 			<input type='hidden' name='nonprofit_id' value='<%= @nonprofit.id %>'>

@@ -230,8 +230,7 @@ module QuerySupporters
     end
     if query[:search].present?
       expr = expr.and_where(%Q(
-        supporters.fts @@ plainto_tsquery('english', $search)
-        OR supporters.organization ILIKE $old_search
+        supporters.fts @@ websearch_to_tsquery('english', $search)
       ), search: query[:search], old_search: '%' + query[:search] + '%')
     end
     if query[:notes].present?
@@ -240,7 +239,7 @@ module QuerySupporters
         .group_by(:supporter_id)
         .as(:notes)
       expr = expr.add_left_join(notes_subquery, "notes.supporter_id=supporters.id")
-        .and_where("to_tsvector('english', notes.content) @@ plainto_tsquery('english', $notes)", notes: query[:notes])
+        .and_where("to_tsvector('english', notes.content) @@ websearch_to_tsquery('english', $notes)", notes: query[:notes])
     end
     if query[:custom_fields].present?
       c_f_subquery = Qx.select("STRING_AGG(value, ' ') as value", "supporter_id")
@@ -248,7 +247,7 @@ module QuerySupporters
         .group_by("custom_field_joins.supporter_id")
         .as(:custom_fields)
       expr = expr.add_left_join(c_f_subquery, "custom_fields.supporter_id=supporters.id")
-        .and_where("to_tsvector('english', custom_fields.value) @@ plainto_tsquery('english', $custom_fields)", custom_fields: query[:custom_fields])
+        .and_where("to_tsvector('english', custom_fields.value) @@ websearch_to_tsquery('english', $custom_fields)", custom_fields: query[:custom_fields])
     end
     if query[:location].present?
       expr = expr.and_where("lower(supporters.city) LIKE $city OR lower(supporters.zip_code) LIKE $zip", city: query[:location].downcase, zip: query[:location].downcase)

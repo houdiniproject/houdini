@@ -6,8 +6,8 @@ module SearchVector
 
   def self.query(query_string, expr=nil)
     (expr || Qexpr.new).where(
-      "(supporters.fts @@ plainto_tsquery('english', $search)
-      OR donations.fts  @@ plainto_tsquery('english', $search))",
+      "(supporters.fts @@ websearch_to_tsquery('english', $search)
+      OR donations.fts  @@ websearch_to_tsquery('english', $search))",
       { search: query_string }
     )
   end

@@ -82,7 +82,7 @@ CREATE FUNCTION public.update_fts_on_supporters() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
         BEGIN
-          new.fts = to_tsvector('english', coalesce(new.name, '') || ' ' || coalesce(new.email, ''));
+          new.fts = to_tsvector('english', coalesce(new.name, '') || ' ' || coalesce(new.email, '') || ' ' || coalesce(new.organization, ''));
           RETURN new;
         END
       $$;
@@ -5435,4 +5435,6 @@ INSERT INTO schema_migrations (version) VALUES ('20210524185334');
 INSERT INTO schema_migrations (version) VALUES ('20210524185342');
 
 INSERT INTO schema_migrations (version) VALUES ('20210712192642');
+
+INSERT INTO schema_migrations (version) VALUES ('20210715191012');
 

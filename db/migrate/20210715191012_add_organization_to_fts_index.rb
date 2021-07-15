@@ -10,7 +10,6 @@ class AddOrganizationToFtsIndex < ActiveRecord::Migration
   def up
     drop_fts_triggers
     execute(<<-'eosql'.strip)
-      UPDATE supporters SET fts = to_tsvector('english', coalesce(name, '') || ' ' || coalesce(email, '') || ' ' || coalesce(organization, ''));
 
       CREATE FUNCTION update_fts_on_supporters() RETURNS TRIGGER AS $$
         BEGIN
@@ -29,7 +28,6 @@ class AddOrganizationToFtsIndex < ActiveRecord::Migration
 
     drop_fts_triggers
     execute(<<-'eosql'.strip)
-      UPDATE supporters SET fts = (to_tsvector('english', coalesce(name, '') || ' ' || coalesce(email, '')));
 
       CREATE FUNCTION update_fts_on_supporters() RETURNS TRIGGER AS $$
         BEGIN

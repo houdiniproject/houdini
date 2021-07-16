@@ -8,7 +8,7 @@
 
 	<div class='modal-body'>
 
-			<form autosubmit action='/nonprofits/<%= @nonprofit.id %>/roles.json' method='post' parsley-validate data-reload>
+			<form autosubmit action='/nonprofits/<%= @nonprofit.id %>/roles.json' method='post' parsley-validate data-reload autocomplete='off'>
 				<div class='field'>
 					<div class='field-inline'>
 						<input type="radio" name="role[name]" value="nonprofit_admin" id='roleName--admin'>

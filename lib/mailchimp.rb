@@ -5,6 +5,7 @@ require 'digest/md5'
 module Mailchimp
 	include HTTParty
 	format :json
+  logger Rails.logger, :info, :commitchange
 
   def self.base_uri(key)
     dc = get_datacenter(key)
@@ -33,7 +34,10 @@ module Mailchimp
         'Host' => 'login.mailchimp.com',
         'Accept' => 'application/json',
         'Authorization' => "OAuth #{key}"
-      }
+      },
+      logger: Rails.logger,
+      log_level: :info,
+      log_format: :commitchange
     })
     return metadata['dc']
   end

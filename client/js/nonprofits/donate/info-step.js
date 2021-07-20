@@ -37,7 +37,7 @@ function init(donation$, parentState) {
   state.showDedicationForm$ = flyd.map(()=> false, state.submitDedication$)
 
   // Save donor supporter record
-  let formData$ = flyd.map(formatFormData, state.submitSupporter$)
+  const formData$ = flyd.map(formatFormData, state.submitSupporter$)
 
   state.supporterFields = supporterFields.init({required: {email: true}}, state.params$)
   state.savedSupp$ = flyd.flatMap(postSupporter, flyd.map(

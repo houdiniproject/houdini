@@ -118,4 +118,6 @@ RSpec.configure do |config|
   end
 
   config.include(Wisper::RSpec::BroadcastMatcher)
+
+  config.example_status_persistence_file_path = 'tmp/example_status_persistence_file_path.txt'
 end

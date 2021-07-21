@@ -200,7 +200,7 @@ CREATE TABLE public.billing_plans (
     updated_at timestamp without time zone NOT NULL,
     tier integer,
     "interval" character varying(255),
-    percentage_fee real DEFAULT 0 NOT NULL
+    percentage_fee numeric DEFAULT 0 NOT NULL
 );
 
 
@@ -5437,4 +5437,6 @@ INSERT INTO schema_migrations (version) VALUES ('20210524185342');
 INSERT INTO schema_migrations (version) VALUES ('20210712192642');
 
 INSERT INTO schema_migrations (version) VALUES ('20210715191012');
+
+INSERT INTO schema_migrations (version) VALUES ('20210721175103');
 

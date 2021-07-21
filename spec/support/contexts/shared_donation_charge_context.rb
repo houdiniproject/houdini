@@ -12,7 +12,7 @@ RSpec.shared_context :shared_donation_charge_context do
   let(:direct_debit_detail) { force_create(:direct_debit_detail, holder:supporter)}
   let(:direct_debit_detail_for_other_supporter) { force_create(:direct_debit_detail, holder: other_nonprofit_supporter)}
   let(:bp_percentage) { 0.039 }
-  let(:billing_plan) {force_create(:billing_plan, :percentage_fee => bp_percentage)}
+  let(:billing_plan) {force_create(:billing_plan, :percentage_fee => bp_percentage, flat_fee: 5)}
   let(:billing_subscription) { force_create(:billing_subscription, :billing_plan => billing_plan, :nonprofit => nonprofit)}
   let(:campaign) {force_create(:campaign, nonprofit: nonprofit, goal_amount: 500)}
   let(:other_campaign) {force_create(:campaign, nonprofit: other_nonprofit)}

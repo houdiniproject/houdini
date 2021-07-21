@@ -10,13 +10,10 @@ module BillingPlans
       raise ParamValidation::ValidationError.new("#{nonprofit_id} does not exist", {:key => :nonprofit_id} )
     end
 
-    
-    result = Qx.select("billing_plans.percentage_fee")
-      .from("billing_plans")
-      .join("billing_subscriptions bs", "bs.billing_plan_id = billing_plans.id")
-      .where("bs.nonprofit_id=$id", id: nonprofit_id)
-      .execute
-    return result.empty? ? 0 : result.last['percentage_fee']
+    result = Nonprofit.includes(:billing_subscription => :billing_plan)
+              .find(nonprofit_id).billing_subscription&.billing_plan&.percentage_fee
+
+    return result || 0
   end
 
 end

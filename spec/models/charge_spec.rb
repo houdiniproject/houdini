@@ -2,6 +2,9 @@
 require 'rails_helper'
 
 RSpec.describe Charge, :type => :model do
+
+  it {is_expected.to belong_to(:card)}
+
   describe '.charge' do
     include_context :disputes_context
     let!(:charge) { force_create(:charge, supporter: supporter, 

@@ -3,33 +3,13 @@ require 'hashie'
 
 module QueryTicketLevels
 
-  # Given an array of ticket hashes, where each hash has a ticket_level_id and a quantity,
-  # calculate the gross amount for all the tickets
-  #
-  # This could probably be more efficient. I didn't think of a way to calculate it within the query itself.
-  # Although I think it's O(n), and n will always be quite small (the number of tickets someone buys)
-  def self.gross_amount_from_tickets_with_possible_fee_coverage(tickets, discount_id, fee_covered, nonprofit_id, stripe_customer_id)
-    total = gross_amount_from_tickets(tickets, discount_id)
-
-    if fee_covered
-      stripe_cust = Stripe::Customer.retrieve({id: stripe_customer_id, expand: ['default_source']}, {stripe_version: "2019-09-09"})
-      fees = CalculateFees.reverse_for_single_amount(total, 
-        platform_fee: BillingPlans.get_percentage_fee(nonprofit_id),
-        source: stripe_cust.default_source, 
-        switchover_date: FEE_SWITCHOVER_TIME);
-      total = total + fees
-    end
-
-    return total
-  end
-
   def self.gross_amount_from_tickets(tickets, discount_id)
     amounts = TicketLevel.where('id IN (?)', tickets.map{|h| h['ticket_level_id']}).map{|i| [i.id, i.amount]}.to_h
     total = tickets.map{|t| amounts[t['ticket_level_id'].to_i].to_i * t['quantity'].to_i}.sum
 
     if discount_id
       perc = EventDiscount.find(discount_id).percent
-      total = total - (total * (perc / 100.0)).round
+      total = BigDecimal.new(total) - (total * (perc / 100.0)).round
     end
     total
   end

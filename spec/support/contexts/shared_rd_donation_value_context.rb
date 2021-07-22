@@ -30,7 +30,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
     payment_stuff[:card_id] = card.id if card.is_a? Card
     payment_stuff[:direct_debit_detail_id] = card.id if card.is_a? DirectDebitDetail
     payment_stuff[:provider] = card.is_a?(Card) ? 'credit_card' : 'sepa'
-    payment_stuff[:fee] = card.is_a?(Card) ? 33 : 0
+    payment_stuff[:fee] = card.is_a?(Card) ? 36 : 0
 
     result = {
         donation: {

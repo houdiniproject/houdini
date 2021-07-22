@@ -1,11 +1,11 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'psql'
-require 'qexpr'
-require 'calculate/calculate_fees'
-require 'stripe'
-require 'get_data'
-require 'active_support/core_ext'
-require 'query/billing_plans'
+# require 'psql'
+# require 'qexpr'
+# require 'calculate/calculate_fees'
+# require 'stripe'
+# require 'get_data'
+# require 'active_support/core_ext'
+
 require 'stripe_account' unless !Settings.payment_provider.stripe_connect
 
 module InsertCharge
@@ -103,12 +103,8 @@ module InsertCharge
           stripe_cust = Stripe::Customer.retrieve({id: stripe_customer_id, expand: ['default_source']}, {stripe_version: "2019-09-09"})
           transfer_data = {transfer_data: { destination: stripe_account_id}, on_behalf_of: stripe_account_id}
           
-          # Get the percentage fee on the nonprofit's billing plan
-          platform_fee = BillingPlans.get_percentage_fee(data[:nonprofit_id])
-          fee = CalculateFees.for_single_amount(data[:amount], {platform_fee: platform_fee, 
-            source: stripe_cust.default_source, 
-            switchover_date: FEE_SWITCHOVER_TIME
-          })
+          # Get the percentage fee on the nonprofit's billing 
+          fee = Nonprofit.find(data[:nonprofit_id]).calculate_fee(amount: data[:amount], source: stripe_cust.default_source)
           
           stripe_charge_data[:application_fee_amount]= fee
           

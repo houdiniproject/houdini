@@ -3,6 +3,16 @@ require 'rails_helper'
 
 RSpec.describe Nonprofit, type: :model do
 
+  it {is_expected.to validate_presence_of(:name)}
+  
+  it {is_expected.to validate_presence_of(:city)}
+  it {is_expected.to validate_presence_of(:state_code)}
+
+  it {is_expected.to validate_presence_of(:slug)}
+  
+  it {expect(create(:nonprofit)).to validate_uniqueness_of(:slug).scoped_to(:city_slug, :state_code_slug)}
+
+  it{ is_expected.to have_one(:billing_plan).through(:billing_subscription)}
 
   describe 'with cards' do
     before(:each) do
@@ -132,6 +142,112 @@ RSpec.describe Nonprofit, type: :model do
 
     it 'raises error if the timezone is invalid' do
       expect { create(:nonprofit, timezone: 'Central Time (US & Canada)') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
+  describe '::FeeCalculation' do
+    include_context 'common fee scenarios'
+    subject(:nonprofit){ create(:nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat)}
+
+    SCENARIOS.each do |example|
+
+      describe '#calculate_fee' do 
+        context "when charge is #{example[:at]}" do 
+          context "for #{example[:source]}" do
+          it {
+            expect(nonprofit.calculate_fee(amount:example[:amount], source: get_source(example), at: at(example))).to eq example[:calculate_fee_result]
+          }
+          end
+        end
+      end
+
+      describe '#calculate_stripe_fee' do
+        
+        let(:calculate_stripe_fee_result) { 
+          example[:calculate_stripe_fee_result]
+        }
+        context "when charge is #{example[:at]}" do 
+          context "for #{example[:source]}" do
+          
+
+            it {
+              expect(nonprofit.calculate_stripe_fee(amount:example[:amount], source: get_source(example), at: at(example))).to eq calculate_stripe_fee_result
+            }
+          end
+        end
+      end
+
+      describe '#calculate_application_fee_refund' do
+        
+        context "when charge is #{example[:at]}" do
+          context "for #{example[:source]}" do
+            example[:refunds].each do |refund|
+              context "with following inputs #{refund}" do
+              
+                let(:stripe_charge) { 
+                  Stripe::Charge.construct_from({id: 'charge_id_1', amount: example[:amount], source: get_source(example), application_fee: 'app_fee_1', created: (at(example)|| Time.current).to_i, refunded: refund[:charge_marked_as_refunded]})
+        
+                }
+
+                let(:stripe_refund) { 
+                  Stripe::Refund.construct_from({charge: stripe_charge.id, amount: refund[:amount_refunded]})
+                }
+
+                let(:stripe_application_fee) {
+                  Stripe::ApplicationFee.construct_from({amount_refunded: refund[:application_fee_refunded_already], id: 'app_fee_1', amount: example[:calculate_fee_result]})
+                }
+              
+                
+                it {
+                  expect(nonprofit.calculate_application_fee_refund(charge: stripe_charge, refund: stripe_refund, application_fee: stripe_application_fee)).to eq refund[:calculate_application_fee_refund_result]
+                }
+              end
+            end
+          end
+        end
+      end
+    end
+
+    describe '#fee_coverage_details' do
+      context 'for a nonprofit with CC percentage_fee 2.5% + 5 cents' do
+        let(:nonprofit){ create(:nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat)}
+        it {
+          expect(nonprofit.fee_coverage_details).to eq({percentage_fee: BigDecimal.new("0.025") + BigDecimal.new("0.022"), flat_fee: 35})
+        }
+      end
+      context 'for a nonprofit with CC percentage_fee 2.5% + 5 cents but in a fee era where we dont consider billing plan' do 
+        let(:nonprofit){  create(:nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat)}
+        before(:each) do 
+          FeeEra.current.fee_coverage_detail_base = build(:dont_consider_billing_plan_fee_coverage_detail_base)
+          FeeEra.current.fee_coverage_detail_base.save!
+        end
+
+        it {
+          expect(nonprofit.fee_coverage_details).to eq({percentage_fee: BigDecimal.new("0.05"), flat_fee: 0})
+        }
+      end
+      
+    end
+
+    describe '#fee_coverage_details_with_json_safe_keys' do
+      context 'for a nonprofit with CC percentage_fee 2.5% + 5 cents' do
+        let(:nonprofit){ create(:nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat)}
+        it {
+          expect(nonprofit.fee_coverage_details_with_json_safe_keys).to eq({'percentageFee' => BigDecimal.new("0.025") + BigDecimal.new("0.022"), 'flatFee' => 35})
+        }
+      end
+
+      context 'for a nonprofit with CC percentage_fee 2.5% + 5 cents but in a fee era where we dont consider billing plan' do 
+        let(:nonprofit){  create(:nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat)}
+        before(:each) do 
+          FeeEra.current.fee_coverage_detail_base = build(:dont_consider_billing_plan_fee_coverage_detail_base)
+          FeeEra.current.fee_coverage_detail_base.save!
+        end
+
+        it {
+          expect(nonprofit.fee_coverage_details_with_json_safe_keys).to eq({'percentageFee' => BigDecimal.new("0.05"), 'flatFee' => 0})
+        }
+      end
     end
   end
 end

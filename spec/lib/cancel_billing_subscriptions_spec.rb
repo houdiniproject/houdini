@@ -28,7 +28,7 @@ describe CancelBillingSubscription do
 
     context 'with db' do
       before(:each) {
-        @np = create(:nonprofit)
+        @np = create(:nonprofit_with_no_billing_subscription)
       }
 
       it 'nonprofit valid but no card or billing_subscription' do

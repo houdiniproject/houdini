@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-require 'timecop'
 
 describe PayRecurringDonation  do
 
@@ -10,6 +9,7 @@ describe PayRecurringDonation  do
   end
 
   describe '.with_donation' do
+    include_context :shared_donation_charge_context
     let(:stripe_helper) { StripeMock.create_test_helper }
     
     around (:each)  do |example|

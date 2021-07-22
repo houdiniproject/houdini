@@ -12,7 +12,7 @@ RSpec.shared_context :shared_donation_charge_context do
   let(:direct_debit_detail) { force_create(:direct_debit_detail, holder:supporter)}
   let(:direct_debit_detail_for_other_supporter) { force_create(:direct_debit_detail, holder: other_nonprofit_supporter)}
   let(:bp_percentage) { 0.039 }
-  let(:billing_plan) {force_create(:billing_plan, :percentage_fee => bp_percentage, flat_fee: 5)}
+  let(:billing_plan) {force_create(:billing_plan, :percentage_fee => bp_percentage)}
   let(:billing_subscription) { force_create(:billing_subscription, :billing_plan => billing_plan, :nonprofit => nonprofit)}
   let(:campaign) {force_create(:campaign, nonprofit: nonprofit, goal_amount: 500)}
   let(:other_campaign) {force_create(:campaign, nonprofit: other_nonprofit)}
@@ -35,7 +35,10 @@ RSpec.shared_context :shared_donation_charge_context do
 
   let(:donation_for_rd) {force_create(:donation, recurring: true, nonprofit: nonprofit, supporter: supporter, card: card_with_valid_stripe_id, amount: 500)}
   let(:recurring_donation) {force_create(:recurring_donation, donation: donation_for_rd, nonprofit: nonprofit, supporter:supporter, start_date: Time.now, interval: 1, time_unit: 'month')}
-
+  
+  let!(:current_fee_era) { create(:fee_era_with_structures)}
+  let!(:previous_fee_era) { create(:fee_era_with_no_start)}
+  let!(:future_fee_era) { create(:fee_era_with_no_end)}
 
   let(:stripe_helper) { StripeMock.create_test_helper }
 

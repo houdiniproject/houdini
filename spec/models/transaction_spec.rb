@@ -6,6 +6,10 @@ require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
   include_context :shared_donation_charge_context
+  
+  describe 'validation' do
+    it {is_expected.to validate_presence_of(:supporter)}
+  end
 
   describe 'to_builder' do 
     subject { supporter.transactions.create(

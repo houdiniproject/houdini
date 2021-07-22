@@ -30,8 +30,6 @@ var ENV = {
   nonprofitID: <%= @nonprofit ? @nonprofit.id : 'undefined' %>
 , nonprofitTimezone: "<%= @nonprofit ? @nonprofit.timezone : '' %>"
 , support_user_id: 540
-, feeRate: <%= print_percent(CalculateFees::BaseFeeRate) %>
-, perTransaction: <%= CalculateFees::PerTransaction %>
 };
 </script>
 

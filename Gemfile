@@ -106,7 +106,7 @@ group :development, :ci, :test do
 	gem 'action_mailer_matchers', '~> 1.2.0'
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'byebug'
-  gem 'shoulda-matchers', '~> 5.0.0'
+  gem 'shoulda-matchers'
 end
 
 group :test do

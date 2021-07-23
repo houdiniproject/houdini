@@ -33,8 +33,8 @@ class RecurringDonationsController < ApplicationController
 			end
 
 			[:active_and_not_failed, :active, :failed].each do |k|
-				if (params.key?(k))
-					params[k] = !!params[k].blank?
+				if params.key?(k)
+					params[k] = params[k] == "true"
 				end
 			end
 

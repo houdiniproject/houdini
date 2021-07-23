@@ -6,12 +6,7 @@
 
 <%= content_for :javascripts do %>
 	<script>
-		app.nonprofit.feeStructure = {
-			flatFee: 30,
-      percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>,
-      feeSwitchoverTime:  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>),
-      flatFeeCoveragePercent: <%= Settings.flat_fee_coverage_percent %>
-    }
+		app.nonprofit.feeStructure = <%= @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
 		app.nonprofit.email = '<%= @data['nonprofit'].email.blank? ? @data['nonprofit'].users.first.email : @data['nonprofit'].email %>'
 		app.pageLoadData = <%= raw @data.to_json %>
 		app.hide_cover_fees_option = <%= !!@data['nonprofit'].hide_cover_fees? %>

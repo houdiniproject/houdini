@@ -17,11 +17,11 @@ describe('CommitchangeStripeFeeStructure', () => {
         clear();
       })
 
-      it('uses the legacy fee structure', () => {
-          const feeStructure = new CommitchangeStripeFeeStructure({flatFee:30, percentFee:.022, feeSwitchoverTime:SWITCHOVER_TIME, flatFeeCoveragePercent: 0.05})
-          const tenThousand = Money.fromCents(10000, 'USD')
-          let calcFee = feeStructure.calcFromNet(tenThousand)
-          expect(calcFee.gross).toEqual(Money.fromCents(10256, 'USD'));
+      it('uses the modern fee structure', () => {
+        const feeStructure = new CommitchangeStripeFeeStructure({flatFee:30, percentFee:.022, feeSwitchoverTime:SWITCHOVER_TIME, flatFeeCoveragePercent: 0.05})
+        const tenThousand = Money.fromCents(10000, 'USD')
+        let calcFee = feeStructure.calcFromNet(tenThousand)
+        expect(calcFee.gross).toEqual(Money.fromCents(10500, 'USD'));
       });
     });
 

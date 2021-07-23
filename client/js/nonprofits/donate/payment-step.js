@@ -30,6 +30,9 @@ function init(state) {
   const coverFees$ = flyd.map(params => (params.manual_cover_fees || params.hide_cover_fees_option) ? false : true, params$)
 
   const hideCoverFeesOption$ = flyd.map(params => params.hide_cover_fees_option, params$)
+
+  // Give a donation of value x, this returns x + estimated fees (using fee coverage formula) if fee coverage is selected OR
+  // x if fee coverage is not selected
   state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
     const feeStructure = app.nonprofit.feeStructure
     if (!feeStructure) {
@@ -39,6 +42,8 @@ function init(state) {
     return calculateTotal({feeCovering: coverFees$(), amount:donation$().amount}, ccFeeStructure)
   }, [state.donation$, coverFees$])
   
+  // Given a donation of value x, this gives the amount of fees that would be added if fee coverage were selected, i.e. so 
+  // the nonprofit gets a net of x
   state.potentialFees$ = flyd.map((donation) => {
     const feeStructure = app.nonprofit.feeStructure
     if (!feeStructure) {

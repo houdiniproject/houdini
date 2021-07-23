@@ -21,7 +21,7 @@ export class ModernStripeFeeStructure implements FeeStructure {
         const def:ModernStripeFeeStructureProps = {
             flatFee: 0,
             percentFee: 0,
-            flatFeeCoveragePercent: 0.05
+            flatFeeCoveragePercent: null,
         }
 
         props = {...def, ...props}

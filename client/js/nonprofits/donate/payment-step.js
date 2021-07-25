@@ -9,8 +9,7 @@ const cardForm = require('../../components/card-form.es6')
 const sepaForm = require('../../components/sepa-form.es6')
 const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
-const {CommitchangeStripeFeeStructure} = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure')
-const {calculateTotal} = require('./calculate-total')
+const {CommitchangeFeeCoverageCalculator} = require('../../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator')
 const {Money} = require('../../../../javascripts/src/lib/money')
 const {centsToDollars} = require('../../common/format')
 const _ = require('lodash')
@@ -31,28 +30,31 @@ function init(state) {
 
   const hideCoverFeesOption$ = flyd.map(params => params.hide_cover_fees_option, params$)
 
+  const feeCalculator$ = flyd.map( (coverFees) => {
+    const feeStructure = app.nonprofit.feeStructure
+    if (!feeStructure) {
+       throw new Error("billing Plan isn't found!")
+    }
+
+    return new CommitchangeFeeCoverageCalculator({
+        ...app.nonprofit.feeStructure,
+        currency: 'usd',
+        feeCovering: coverFees
+    });
+  }, coverFees$)
+
+  const calcFromNetResult$ = flyd.combine((donation$, feeCalculator$) => {
+      return feeCalculator$().calcFromNet(donation$().amount)
+  }, [state.donation$, feeCalculator$]);
   // Give a donation of value x, this returns x + estimated fees (using fee coverage formula) if fee coverage is selected OR
   // x if fee coverage is not selected
-  state.donationTotal$ = flyd.combine((donation$, coverFees$) => {
-    const feeStructure = app.nonprofit.feeStructure
-    if (!feeStructure) {
-       throw new Error("billing Plan isn't found!")
-     }
-    const ccFeeStructure = new CommitchangeStripeFeeStructure(feeStructure);
-    return calculateTotal({feeCovering: coverFees$(), amount:donation$().amount}, ccFeeStructure)
-  }, [state.donation$, coverFees$])
-  
-  // Given a donation of value x, this gives the amount of fees that would be added if fee coverage were selected, i.e. so 
+  state.donationTotal$ = flyd.map((calcFromNetResult) => calcFromNetResult.actualTotalAsNumber
+  , calcFromNetResult$ );
+    
+  //Given a donation of value x, this gives the amount of fees that would be added if fee coverage were selected, i.e. so 
   // the nonprofit gets a net of x
-  state.potentialFees$ = flyd.map((donation) => {
-    const feeStructure = app.nonprofit.feeStructure
-    if (!feeStructure) {
-       throw new Error("billing Plan isn't found!")
-     }
-     const ccFeeStructure = new CommitchangeStripeFeeStructure(feeStructure)
-     const fee = ccFeeStructure.calcFromNet(Money.fromCents(donation.amount || 0, 'usd')).fee
-     return "$" + centsToDollars(fee.amountInCents)
-  }, state.donation$)
+  state.potentialFees$ = flyd.map((calcFromNetResult) => calcFromNetResult.estimatedFees.feeAsString
+  , calcFromNetResult$ );
 
   state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$, 
   hide_cover_fees_option$: hideCoverFeesOption$})

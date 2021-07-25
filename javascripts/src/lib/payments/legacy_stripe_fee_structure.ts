@@ -5,7 +5,7 @@ import { isInteger } from 'lodash';
 import { FeeStructure } from './fee_structure';
 import BigNumber from "bignumber.js";
 
-type LegacyStripeFeeStructureProps = {flatFee:number, percentFee:number}
+type LegacyStripeFeeStructureProps = {flatFee:number, percentageFee:number}
 /**
  * CommitChange uses a slightly different fee structure
  * @export
@@ -15,18 +15,18 @@ export class LegacyStripeFeeStructure implements FeeStructure {
 
     constructor(readonly props:LegacyStripeFeeStructureProps)
     {
-        if (!props.flatFee && !props.percentFee) {
-            throw Error(`flatFee or percentFee must be passed`)
+        if (!props.flatFee && !props.percentageFee) {
+            throw Error(`flatFee or percentageFee must be passed`)
         }
 
         const def:LegacyStripeFeeStructureProps = {
             flatFee: 0,
-            percentFee: 0
+            percentageFee: 0
         }
 
         props = {...def, ...props}
 
-        if (props.percentFee < 0 || props.percentFee > 1)
+        if (props.percentageFee < 0 || props.percentageFee > 1)
         {
             throw Error(`percentFee must be less or equal to 1 and greater then or equal to 0`)
         }
@@ -47,7 +47,7 @@ export class LegacyStripeFeeStructure implements FeeStructure {
     }
     
     calc(gross:Money) : FeeStructure.CalculationResult {
-        const fee = gross.multiply(this.props.percentFee, BigNumber.ROUND_CEIL).add(this.props.flatFee);
+        const fee = gross.multiply(this.props.percentageFee, BigNumber.ROUND_CEIL).add(this.props.flatFee);
         return {
             gross,
             fee,
@@ -57,7 +57,7 @@ export class LegacyStripeFeeStructure implements FeeStructure {
     }
 
     calcFromNet(net:Money): FeeStructure.CalculationResult {
-        const fee =  net.add(this.props.flatFee).divide(1 - this.props.percentFee).subtract(net)
+        const fee =  net.add(this.props.flatFee).divide((new BigNumber(1)).minus(this.props.percentageFee)).subtract(net)
         return {
             gross: net.add(fee),
             fee,
@@ -72,7 +72,7 @@ export class LegacyStripeFeeStructure implements FeeStructure {
         else {
             const newProps:LegacyStripeFeeStructureProps = {
                 flatFee: props.flatFee,
-                percentFee: props.percentFee + props.platformFee
+                percentageFee: props.percentageFee + props.platformFee
             }
             return new LegacyStripeFeeStructure(newProps)
         }

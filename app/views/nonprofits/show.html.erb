@@ -41,7 +41,7 @@
 		appl.def('current_nonprofit_user', <%= current_nonprofit_user? %>)
 		app.nonprofit = app.nonprofit || {}
 
-		app.nonprofit.feeStructure = <%= @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
+		app.nonprofit.feeStructure = <%= raw @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
 		app.hide_cover_fees_option = <%= !!@nonprofit&.hide_cover_fees? %>;
 	</script>
   <%= render 'schema', npo: @nonprofit %>

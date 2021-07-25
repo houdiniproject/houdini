@@ -1,12 +1,14 @@
 // License: LGPL-3.0-or-later
 import { centsToDollars } from "../format";
 import Money from "../money";
-import { CommitchangeStripeFeeStructure, CommitchangeStripeFeeStructureProps } from "./commitchange_stripe_fee_structure";
+import { CommitchangeStripeFeeStructure } from "./commitchange_stripe_fee_structure";
 import { FeeStructure } from "./fee_structure";
 
-interface CFCCConstructorArgs extends CommitchangeStripeFeeStructureProps {
-  feeCovering?: boolean
-  currency: string
+interface CFCCConstructorArgs  {
+    flatFee:number;
+    percentageFee:number;
+    feeCovering?: boolean;
+    currency: string;
 }
 
 export class CommitchangeFeeCoverageCalculator {
@@ -14,21 +16,29 @@ export class CommitchangeFeeCoverageCalculator {
   readonly feeCovering: boolean|null;
   readonly currency: string;
   constructor(args:CFCCConstructorArgs) {
-    this.feeStructure = new CommitchangeStripeFeeStructure(args as CommitchangeStripeFeeStructureProps);
+    this.feeStructure = new CommitchangeStripeFeeStructure(args);
     this.feeCovering = args.feeCovering;
     this.currency = args.currency;
-    Object.bind(this.calcFromNet);
+    Object.bind(this.calc);
     Object.freeze(this);
   }
   
-  // calc(gross:Money|number|null) : CommitchangeFeeCoverageCalculator.Result {
-  //   gross = this.retypeToMoney(gross);
-  //   const calculation = this.feeStructure.calc(gross);
+  calc(gross:Money|number|null) : CommitchangeFeeCoverageCalculator.ReverseCalcResult {
+    gross = this.retypeToMoney(gross);
+    const calculation = this.feeStructure.calc(gross);
     
-  //   return {
-  //     ...this.feeStructure.calc(gross)
-  //   }
-  // }
+    return {
+      estimatedFees: {
+        gross: calculation.gross,
+        grossAsNumber: calculation.gross.amountInCents.toNumber(),
+        fee: calculation.fee,
+        feeAsNumber: calculation.fee.amountInCents.toNumber(),
+        net: calculation.net,
+        netAsNumber: calculation.net.amountInCents.toNumber()
+      }
+      
+    }
+  }
 
   calcFromNet(net:Money|number|null): CommitchangeFeeCoverageCalculator.Result {
     net = this.retypeToMoney(net);
@@ -74,5 +84,16 @@ namespace CommitchangeFeeCoverageCalculator {
     actualTotal: Money;
     actualTotalAsNumber: number;
     actualTotalAsString: string;
+  }
+
+  export interface ReverseCalcResult {
+    estimatedFees: {
+      gross:Money;
+      grossAsNumber: number;
+      fee:Money;
+      feeAsNumber: number;
+      net:Money;
+      netAsNumber: number;
+    }
   }
 }

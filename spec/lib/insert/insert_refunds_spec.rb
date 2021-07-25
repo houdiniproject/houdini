@@ -50,11 +50,11 @@ describe InsertRefunds do
 
             before(:each) do
               expect(InsertRefunds).to receive(:perform_stripe_refund).with(
-                nonprofit.id, {
+                nonprofit_id: nonprofit.id, refund_data:{
                   'amount' => amount_to_refund,
                   'charge'=> charge.stripe_charge_id,
                   'reason' => reason
-                }).and_return(perform_stripe_refund_result)
+                }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
               expect(InsertActivities).to receive(:for_refunds)
             end
 

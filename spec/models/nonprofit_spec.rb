@@ -185,7 +185,7 @@ RSpec.describe Nonprofit, type: :model do
               context "with following inputs #{refund}" do
               
                 let(:stripe_charge) { 
-                  Stripe::Charge.construct_from({id: 'charge_id_1', amount: example[:amount], source: get_source(example), application_fee: 'app_fee_1', created: (at(example)|| Time.current).to_i, refunded: refund[:charge_marked_as_refunded]})
+                  Stripe::Charge.construct_from({id: 'charge_id_1', amount: example[:amount], source: get_source(example), application_fee: 'app_fee_1', created: (Time.current).to_i, refunded: refund[:charge_marked_as_refunded]})
         
                 }
 
@@ -199,7 +199,7 @@ RSpec.describe Nonprofit, type: :model do
               
                 
                 it {
-                  expect(nonprofit.calculate_application_fee_refund(charge: stripe_charge, refund: stripe_refund, application_fee: stripe_application_fee)).to eq refund[:calculate_application_fee_refund_result]
+                  expect(nonprofit.calculate_application_fee_refund(charge_date: at(example), charge: stripe_charge, refund: stripe_refund, application_fee: stripe_application_fee)).to eq refund[:calculate_application_fee_refund_result]
                 }
               end
             end

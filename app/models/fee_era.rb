@@ -118,11 +118,12 @@ class FeeEra < ActiveRecord::Base
   end
   
   # @param [Hash] opts
+  # @option opts [Time] :charge_date the date that the charge occurred for purposes of finding the correct fee era
   # @option opts [Stripe::Charge] :charge the Stripe::Charge to use for calculating the fee
   # @option opts [Stripe::Refund] :refund the Stripe::Refund for 
   # @option opts [Stripe::ApplicationFee] :application_fee the Stripe::ApplicationFee for this Charge
   def self.calculate_application_fee_refund(opts={})
-    FeeEra.find_by_time(Time.at(opts[:charge].created)).calculate_application_fee_refund(opts)
+    FeeEra.find_by_time(opts[:charge_date]).calculate_application_fee_refund(opts)
   end
 
   # @param [Hash] opts

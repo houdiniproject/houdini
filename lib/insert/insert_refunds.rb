@@ -32,7 +32,7 @@ module InsertRefunds
     refund_data = {'amount' => h['amount'], 'charge' => charge['stripe_charge_id']}
     refund_data['reason'] = h['reason'] unless h['reason'].blank? # Stripe will error on blank reason field
 
-    results = InsertRefunds.perform_stripe_refund(charge['nonprofit_id'], refund_data)
+    results = InsertRefunds.perform_stripe_refund(nonprofit_id:charge['nonprofit_id'], refund_data:refund_data, charge_date: charge['created_at'])
 
     Refund.transaction do 
 
@@ -136,33 +136,15 @@ module InsertRefunds
     return {'payment' => payment_row, 'refund' => refund_row}
   end
 
-  # def self.calculate_application_fee_to_refund(nonprofit_id, stripe_refund, stripe_charge, stripe_application_fee)
-  #   estimate_stripe_fee = Nonprofit.find(nonprofit_id).calculate_stripe_fee(amount: stripe_charge.amount, source: stripe_charge.source, at: Time.at(stripe_charge.created))
-  #   our_fee = stripe_application_fee.amount - estimate_stripe_fee
-  #   our_fee_left = our_fee - stripe_application_fee.amount_refunded
-  #   if (our_fee_left <= 0)
-  #     return 0
-  #   end
-
-  #   if (stripe_charge.refunded)
-  #     #we refund all of our charges
-  #     return our_fee_left
-  #   else
-  #     portion_of_charge_refunded = BigDecimal.new(stripe_refund.amount) / BigDecimal.new(stripe_charge.amount)
-  #     amount_to_refund = (BigDecimal.new(our_fee) * portion_of_charge_refunded).floor
-  #     if amount_to_refund >= our_fee_left
-  #       return our_fee_left
-  #     else
-  #       return amount_to_refund
-  #     end
-  #   end
-  # end
-
-  def self.perform_stripe_refund(nonprofit_id, refund_data)
-    refund_data = refund_data.merge({'reverse_transfer' => true, expand: ['charge']})
+  # @param [Hash] opts
+  # @option opts [Hash] :refund_data the data to pass to the Stripe::Refund#create method
+  # @option opts [Integer] :nonprofit_id the nonprofit_id that the charge belongs to
+  # @option opts [Time] :charge_date the time that the charge to be refunded occurred
+  def self.perform_stripe_refund(opts={})
+    refund_data = opts[:refund_data].merge({'reverse_transfer' => true, expand: ['charge']})
     stripe_refund = Stripe::Refund.create(refund_data, {stripe_version: '2019-09-09'})
     stripe_app_fee = Stripe::ApplicationFee.retrieve({id: stripe_refund.charge.application_fee}, {stripe_version: '2019-09-09'})
-    fee_to_refund = Nonprofit.find(nonprofit_id).calculate_application_fee_refund(stripe_refund, stripe_refund.charge, stripe_app_fee)
+    fee_to_refund = Nonprofit.find(opts[:nonprofit_id]).calculate_application_fee_refund(refund:stripe_refund, charge:stripe_refund.charge, application_fee:stripe_app_fee, charge_date: opts[:charge_date])
     if fee_to_refund > 0
       app_fee_refund = Stripe::ApplicationFee.create_refund(stripe_refund.charge.application_fee, {amount: fee_to_refund}, {stripe_version: '2019-09-09'})
     end

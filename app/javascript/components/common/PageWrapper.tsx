@@ -7,6 +7,7 @@ import { Hoster, HosterContext } from "../../hooks/useHoster";
 import ReactOnRails from "react-on-rails";
 import { convert } from 'dotize'
 import { IntlProvider } from '../intl';
+import { useDeepCompareEffect } from 'react-use';
 
 const I18n = require('../../i18n').default
 
@@ -40,12 +41,12 @@ export default function PageWrapper(props: React.PropsWithChildren<PageContextIn
 
 	const [pageContext, setPageContext] = useState<PageContext | null>(null);
 
-	useEffect(() => {
+	useDeepCompareEffect(() => {
 		setPageContext({
 			...other,
 			authenticityToken: ReactOnRails.authenticityToken,
-		});
-	}, [other]);
+		})
+	}, [other])
 
 	return (pageContext && <HosterContext.Provider value={pageContext.hoster}>
 		<IntlProvider locale={pageContext.i18n.locale} messages={convert(I18n.translations[I18n.locale]) as any}>

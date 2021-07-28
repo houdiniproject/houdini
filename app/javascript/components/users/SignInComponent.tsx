@@ -138,20 +138,24 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					password: "",
 				}}
 			validationSchema={validationSchema}
-			onSubmit={async (values, formikHelpers) => {
-				try {
-					await signIn(values);
+			onSubmit={
+				async (values, formikHelpers) => {
+					try {
+						await signIn(values);
+					}
+					catch (e: unknown) {
+						// NOTE: We're just swallowing the exception here for now. Might we need to do
+						// something different? Don't know!
+						console.log(e)
+					}
+					finally {
+						formikHelpers.setSubmitting(false);
+					}
 				}
-				catch (e: unknown) {
-					// NOTE: We're just swallowing the exception here for now. Might we need to do
-					// something different? Don't know!
-				}
-				finally {
-					formikHelpers.setSubmitting(false);
-				}
-			}
 				//Props
-			}>{({ isValid }) => {
+			}
+		>
+			{({ isValid }) => {
 				// eslint-disable-next-line react-hooks/rules-of-hooks
 				useEffect(() => {
 					setIsValid(isValid);
@@ -215,18 +219,18 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 									: null}
 
 								{submitting && showProgressAndSuccess &&
-							(<div data-testid="progressTest">
-								<Box display="flex" justifyContent="center" alignItems="center">
-									<CircularProgress size={25} className={classes.buttonProgress} />
-								</Box>
-							</div>)}
+									(<div data-testid="progressTest">
+										<Box display="flex" justifyContent="center" alignItems="center">
+											<CircularProgress size={25} className={classes.buttonProgress} />
+										</Box>
+									</div>)}
 
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">
 							{componentState === 'success' && currentUser && showProgressAndSuccess ?
-								<Box m={13}  display="flex" justifyContent="center" alignItems="center">
-									<AnimatedCheckmark ariaLabel={"login.success"} role={"status"}/>
+								<Box m={13} display="flex" justifyContent="center" alignItems="center">
+									<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
 								</Box>
 								: null}
 						</div>

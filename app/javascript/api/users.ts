@@ -6,30 +6,33 @@ import { NetworkError } from './errors';
 
 
 
-export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit={}): Promise<CurrentUser> {
+export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit = {}): Promise<CurrentUser> {
 	const defaultConfig = {
-		method: 'GET',
+		method: 'POST',
 		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json',
-		},
+			'Accept': 'application/json'
+		}
 	} as const;
 
-	const response = await fetch(userRoutes.userSession.url(), { ...defaultConfig,
+	const response = await fetch(userRoutes.userSession.url(), {
+		...defaultConfig,
 		...init,
-		body: JSON.stringify(loginInfo)});
+		body: JSON.stringify({ "user": loginInfo })
+	});
 
 	if (response.ok) {
 		return (await response.json()) as CurrentUser;
 	}
 	else {
-		throw new NetworkError({status: response.status, data: await response.json()});
+		throw new NetworkError({ status: response.status, data: await response.json() });
 	}
 }
 
 
 export interface WebLoginModel {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 

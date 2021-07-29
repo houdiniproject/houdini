@@ -113,7 +113,7 @@ Commitchange::Application.routes.draw do
     resource(:miscellaneous_np_info, {only: [:show, :update]})
 
 		namespace(:button) do
-			root({to: :advanced})
+			root({action: :advanced})
 			get(:basic)
 			get(:guided)
 			get(:advanced)

@@ -4,7 +4,7 @@ exports[`LegacyStripeFeeStructure constructor returns the expected structure whe
 LegacyStripeFeeStructure {
   "props": Object {
     "flatFee": 30,
-    "percentFee": 0.02,
+    "percentageFee": 0.02,
   },
 }
 `;
@@ -13,7 +13,7 @@ exports[`LegacyStripeFeeStructure constructor returns the expected structure whe
 LegacyStripeFeeStructure {
   "props": Object {
     "flatFee": 30,
-    "percentFee": 0,
+    "percentageFee": 0,
   },
 }
 `;
@@ -22,7 +22,7 @@ exports[`LegacyStripeFeeStructure constructor returns the expected structure whe
 LegacyStripeFeeStructure {
   "props": Object {
     "flatFee": 0,
-    "percentFee": 0.02,
+    "percentageFee": 0.02,
   },
 }
 `;

@@ -1,24 +1,15 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'format/currency'
-require 'validation_error'
-require 'stripe'
-require 'active_support/core_ext'
-require 'psql'
-require 'qexpr'
-require 'calculate/calculate_fees'
-require 'param_validation'
-require 'insert/insert_activities'
 
 module InsertRefunds
 
   # Refund a given charge, up to its net amount
   # params: amount, donation obj
   def self.with_stripe(charge, h)
-    if Time.now < FEE_SWITCHOVER_TIME
-      legacy_refund(charge, h)
-    else
+    # if Time.now < FEE_SWITCHOVER_TIME
+    #   legacy_refund(charge, h)
+    # else
       modern_refund(charge, h)
-    end
+    # end
   end
 
 
@@ -41,7 +32,7 @@ module InsertRefunds
     refund_data = {'amount' => h['amount'], 'charge' => charge['stripe_charge_id']}
     refund_data['reason'] = h['reason'] unless h['reason'].blank? # Stripe will error on blank reason field
 
-    results = InsertRefunds.perform_stripe_refund(charge['nonprofit_id'], refund_data)
+    results = InsertRefunds.perform_stripe_refund(nonprofit_id:charge['nonprofit_id'], refund_data:refund_data, charge_date: charge['created_at'])
 
     Refund.transaction do 
 
@@ -115,7 +106,7 @@ module InsertRefunds
     refund_row = Qx.insert_into(:refunds).values(h.merge(charge_id: charge['id'])).timestamps.returning('*').execute.first
 
     gross = -(h['amount'])
-    platform_fee = BillingPlans.get_percentage_fee(charge['nonprofit_id'])
+
     fees = (h['amount'] * -original_payment['fee_total'] / original_payment['gross_amount']).ceil
     net = gross + fees
     # Create a corresponding negative payment record
@@ -145,41 +136,15 @@ module InsertRefunds
     return {'payment' => payment_row, 'refund' => refund_row}
   end
 
-
-  
-  def self.calculate_application_fee_to_refund(nonprofit_id, stripe_refund, stripe_charge, stripe_application_fee)
-    estimate_stripe_fee = CalculateFees.for_estimated_stripe_fee_on_date(stripe_charge.amount, Time.at(stripe_charge.created), 
-      {
-      platform_fee: BillingPlans.get_percentage_fee(nonprofit_id),
-      source: stripe_charge.source,
-      switchover_date: FEE_SWITCHOVER_TIME
-    });
-    
-    our_fee = stripe_application_fee.amount - estimate_stripe_fee
-    our_fee_left = our_fee - stripe_application_fee.amount_refunded
-    if (our_fee_left <= 0)
-      return 0
-    end
-
-    if (stripe_charge.refunded)
-      #we refund all of our charges
-      return our_fee_left
-    else
-      portion_of_charge_refunded = BigDecimal.new(stripe_refund.amount) / BigDecimal.new(stripe_charge.amount)
-      amount_to_refund = (BigDecimal.new(our_fee) * portion_of_charge_refunded).floor
-      if amount_to_refund >= our_fee_left
-        return our_fee_left
-      else
-        return amount_to_refund
-      end
-    end
-  end
-
-  def self.perform_stripe_refund(nonprofit_id, refund_data)
-    refund_data = refund_data.merge({'reverse_transfer' => true, expand: ['charge']})
+  # @param [Hash] opts
+  # @option opts [Hash] :refund_data the data to pass to the Stripe::Refund#create method
+  # @option opts [Integer] :nonprofit_id the nonprofit_id that the charge belongs to
+  # @option opts [Time] :charge_date the time that the charge to be refunded occurred
+  def self.perform_stripe_refund(opts={})
+    refund_data = opts[:refund_data].merge({'reverse_transfer' => true, expand: ['charge']})
     stripe_refund = Stripe::Refund.create(refund_data, {stripe_version: '2019-09-09'})
     stripe_app_fee = Stripe::ApplicationFee.retrieve({id: stripe_refund.charge.application_fee}, {stripe_version: '2019-09-09'})
-    fee_to_refund = calculate_application_fee_to_refund(nonprofit_id, stripe_refund, stripe_refund.charge, stripe_app_fee)
+    fee_to_refund = Nonprofit.find(opts[:nonprofit_id]).calculate_application_fee_refund(refund:stripe_refund, charge:stripe_refund.charge, application_fee:stripe_app_fee, charge_date: opts[:charge_date])
     if fee_to_refund > 0
       app_fee_refund = Stripe::ApplicationFee.create_refund(stripe_refund.charge.application_fee, {amount: fee_to_refund}, {stripe_version: '2019-09-09'})
     end

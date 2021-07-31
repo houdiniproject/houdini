@@ -40,13 +40,13 @@
 						<div class='u-marginTop--10'>
 						<% fee_covered_id = SecureRandom.uuid %>
 						<input type='checkbox' id='fee_covered-<%= fee_covered_id%>' name="fee_covered"/>
-						<!--= on 'change' rd_wizard.fee_covered__apply) -->
+						<!--= on 'change' rd_wizard.fee_covered__apply -->
 						<!--= checked_if rd_wizard.fee_covered -->
 						<label for='fee_covered-<%= fee_covered_id %>'>
 						<span><!--= show_if (eq rd_wizard.written_fee_amount "0")-->Donor would like to cover the donation fee</span>
 						<span>
 						<!--= show_if (not (eq rd_wizard.written_fee_amount "0"))-->
-						Donor would like to cover the $<!--= put rd_wizard.written_fee_amount --> donation fee</span>
+						Donor would like to cover the <!--= put rd_wizard.written_fee_amount --> donation fee</span>
 						</label>
 						</div>
 

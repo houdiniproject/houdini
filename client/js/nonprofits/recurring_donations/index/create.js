@@ -5,9 +5,9 @@ var format = require('../../../common/format')
 var request = require('../../../common/super-agent-promise')
 var create_card = require('../../../cards/create')
 var formToObj = require('../../../common/form-to-object')
-const calc = require('../../../nonprofits/donate/calculate-total')
-const CommitchangeStripeFeeStructure = require('../../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
-const {Money} = require('../../../../../javascripts/src/lib/money')
+
+const {CommitchangeFeeCoverageCalculator} = require('../../../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator')
+
 
 var wiz = {}
 
@@ -72,15 +72,23 @@ wiz.apply_amount_change = function() {
 	if (amount === 0){
 		appl.def('rd_wizard.total', 0)
 		appl.def('rd_wizard.fee_amount', 0)
+		appl.def('rd_wizard.written_fee_amount', format.centsToDollars(appl.rd_wizard.fee_amount))
 	} else {
-		const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
 
+		const calc = new CommitchangeFeeCoverageCalculator({
+			...app.nonprofit.feeStructure,
+			feeCovering,
+			currency: 'usd'
+		})
+		
+		const result = calc.calcFromNet(amount);
 	
-		appl.def('rd_wizard.total', calc.calculateTotal({feeCovering, amount}, feeStructure))
-		appl.def('rd_wizard.fee_amount', feeStructure.calcFromNet(Money.fromCents(amount, 'usd')).fee.amountInCents)
+		appl.def('rd_wizard.total', result.actualTotalAsNumber)
+		appl.def('rd_wizard.fee_amount', result.estimatedFees.feeAsNumber)
+		appl.def('rd_wizard.written_fee_amount', result.estimatedFees.feeAsString)
 	}
 
-	appl.def('rd_wizard.written_fee_amount', format.centsToDollars(appl.rd_wizard.fee_amount))
+	
 }
 
 wiz.fee_covered__apply = function(node) {
@@ -151,6 +159,7 @@ set_defaults()
 // jank
 var Pikaday = require('pikaday')
 var moment = require('moment')
+
 var el = $('#newRecurringDonationModal')
 el.find('input[name="recurring_donation.start_date"]').val(moment().format('MM-DD-YYYY'))
 new Pikaday({

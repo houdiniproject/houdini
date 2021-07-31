@@ -118,6 +118,8 @@ RSpec.configure do |config|
       Rails.cache.clear
     end
   end
+
+  config.example_status_persistence_file_path = "tmp/failed-examples.txt"
 end
 
 if defined?(RUBY_ENGINE) && RUBY_ENGINE == "ruby" && RUBY_VERSION >= "1.9"

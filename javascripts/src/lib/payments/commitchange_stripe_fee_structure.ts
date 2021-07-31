@@ -1,11 +1,9 @@
 // License: LGPL-3.0-or-later
 import { Money } from "../money";
-import _ = require('lodash');
 import { FeeStructure } from './fee_structure';
 import { LegacyStripeFeeStructure } from "./legacy_stripe_fee_structure";
-import { ModernStripeFeeStructure } from "./modern_stripe_fee_structure";
 
-type CommitchangeStripeFeeStructureProps = {flatFee:number, percentFee:number, feeSwitchoverTime:Date, flatFeeCoveragePercent:number}
+export type CommitchangeStripeFeeStructureProps = {flatFee:number, percentageFee:number}
 /**
  * CommitChange uses a slightly different fee structure
  * @export
@@ -16,14 +14,8 @@ export class CommitchangeStripeFeeStructure implements FeeStructure {
 
     constructor(readonly props:CommitchangeStripeFeeStructureProps)
     {
-        if (new Date() < props.feeSwitchoverTime) {
-            this.delegatedFeeStructure = new LegacyStripeFeeStructure({flatFee: props.flatFee, percentFee: props.percentFee})
-        }
-        else {
-            this.delegatedFeeStructure = new ModernStripeFeeStructure({flatFee:props.flatFee, 
-                percentFee: props.percentFee, 
-                flatFeeCoveragePercent: props.flatFeeCoveragePercent});
-        }
+        this.delegatedFeeStructure = new LegacyStripeFeeStructure({flatFee:props.flatFee, 
+            percentageFee: props.percentageFee});
         Object.bind(this.calc)
         Object.bind(this.calcFromNet)
         Object.freeze(this)

@@ -4,59 +4,67 @@ require 'rails_helper'
 describe InsertRefunds do
   include_context :shared_donation_charge_context
 	describe ".modern_refund" do
-		context 'when valid' do
-      describe 'after switchover' do
+
+    context :modern_refund_shared do
+      include_context "common fee scenarios"
+      before(:each) do
         
-        RSpec.shared_context :modern_refund_shared do
-          before(:each) do
-            stub_const("FEE_SWITCHOVER_TIME", Time.now - 1.day)
-            expect_job_queued.with JobTypes::RefundCreatedJob, instance_of(Refund)
-          end
-  
-          let(:original_payment) { force_create(:payment, 
-            gross_amount:10000,
-            refund_total: beginning_refund_total 
-            )
-          }
-  
-          let(:charge) { force_create(:charge,
-            amount: 10000,
-            stripe_charge_id: 'ch_test',
-            payment_id: original_payment.id,
-            nonprofit_id: nonprofit.id,
-            supporter_id: supporter.id 
-          )}
-  
-          let(:reason) { 'duplicate'}
-          let(:comment) {'comment'}
-         
-          let(:stripe_app_fee_refund) {  Stripe::ApplicationFeeRefund.construct_from({amount: amount_of_fees_to_refund, id: 'app_fee_refund_1'})}
-          let(:stripe_refund) { Stripe::Refund.construct_from({id: 'refund_1'})}
-          let(:perform_stripe_refund_result) do
-           {stripe_refund: stripe_refund, stripe_app_fee_refund:stripe_app_fee_refund}
-          end
+        expect_job_queued.with JobTypes::RefundCreatedJob, instance_of(Refund)
+      end
+      SCENARIOS.each do |example|
+        context "when charge is #{example[:at]}" do
+          context "for #{example[:source]}" do
+            example[:refunds].each do |refund_ex|
+              context "with following inputs #{refund_ex}" do
+              let(:original_payment) { force_create(:payment, 
+                gross_amount: example[:amount],
+                refund_total: beginning_refund_total 
+                )
+              }
 
-          let(:refund) { Refund.last}
-          let(:refund_payment) { refund.payment}
-          let(:misc_refund_info) { refund.misc_refund_info}
+              let(:charge) { force_create(:charge,
+                amount: 10000,
+                stripe_charge_id: 'ch_test',
+                payment_id: original_payment.id,
+                nonprofit_id: nonprofit.id,
+                supporter_id: supporter.id 
+              )}
 
-          before(:each) do
-            expect(InsertRefunds).to receive(:perform_stripe_refund).with(
-              nonprofit.id, {
-                'amount' => amount_to_refund,
-                'charge'=> charge.stripe_charge_id,
-                'reason' => reason
-              }).and_return(perform_stripe_refund_result)
-            expect(InsertActivities).to receive(:for_refunds)
-          end
+            let(:reason) { 'duplicate'}
+            let(:comment) {'comment'}
+     
+            let(:stripe_app_fee_refund) {  Stripe::ApplicationFeeRefund.construct_from({amount: amount_of_fees_to_refund, id: 'app_fee_refund_1'})}
+            let(:stripe_refund) { Stripe::Refund.construct_from({id: 'refund_1'})}
+            let(:perform_stripe_refund_result) do
+              {stripe_refund: stripe_refund, stripe_app_fee_refund: amount_of_fees_to_refund > 0 ? stripe_app_fee_refund : nil}
+            end
 
-          let!(:modern_refund_call) do 
-            InsertRefunds.modern_refund(charge.attributes.to_h.with_indifferent_access, {
-              amount: amount_to_refund,
-              comment: comment,
-              reason: reason
-          }.with_indifferent_access) 
-          end
+            let(:refund) { Refund.last}
+            let(:refund_payment) { refund.payment}
+            let(:misc_refund_info) { refund.misc_refund_info}
+
+            let(:amount_of_fees_to_refund) { refund_ex[:calculate_application_fee_refund_result]}
+            let(:amount_to_refund) { refund_ex[:amount_refunded]}
+            let(:beginning_refund_total) {refund_ex[:refunded_already]}
+            let(:ending_refund_total) { amount_to_refund + beginning_refund_total}
+
+            before(:each) do
+              expect(InsertRefunds).to receive(:perform_stripe_refund).with(
+                nonprofit_id: nonprofit.id, refund_data:{
+                  'amount' => amount_to_refund,
+                  'charge'=> charge.stripe_charge_id,
+                  'reason' => reason
+                }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
+              expect(InsertActivities).to receive(:for_refunds)
+            end
+
+            let!(:modern_refund_call) do 
+              InsertRefunds.modern_refund(charge.attributes.to_h.with_indifferent_access, {
+                amount: amount_to_refund,
+                comment: comment,
+                reason: reason
+            }.with_indifferent_access) 
+            end
 
           it 'has an accurate refund_payment' do
             expect(refund_payment.gross_amount).to eq -amount_to_refund 
@@ -86,132 +94,10 @@ describe InsertRefunds do
             end
           end
         end
-        
-
-        describe 'full refund from zero' do 
-          let(:beginning_refund_total) { 0}
-          let(:amount_to_refund) { 10000}
-          let(:amount_of_fees_to_refund) { 200 }
-          let(:ending_refund_total) { 10000 }
-  
-          include_context :modern_refund_shared
-        end
-
-        describe 'partial refund' do 
-          let(:beginning_refund_total) { 5000}
-          let(:ending_refund_total) { 10000}
-          let(:amount_to_refund) { 5000}
-          let(:amount_of_fees_to_refund) { 200 }
-
-          include_context :modern_refund_shared
-        end
-
-
-        describe 'refund 1 cent but make sure not to refund any fees becuase theyre all refunded' do 
-          let(:beginning_refund_total) { 9999}
-          let(:ending_refund_total) { 10000}
-          let(:amount_to_refund) { 1}
-          let(:amount_of_fees_to_refund) { 0 }
-          
-          include_context :modern_refund_shared do
-            # we don't have an app fee refund when there's not fees to refund
-            let(:stripe_app_fee_refund) { nil}
-          end
+      end
         end
       end
     end
-  end
-  
-  describe '.calculate_application_fee_to_refund' do
-    describe 'after switchover' do 
-      before(:each) do 
-        stub_const("FEE_SWITCHOVER_TIME", Time.now - 1.day)
-        billing_subscription
-      end
-
-      RSpec.shared_context :different_types_of_refunds do 
-        describe 'full refund' do
-          # a little hacky but it works
-          let(:application_fee) { Stripe::ApplicationFee.construct_from({amount_refunded: 0, id: 'app_fee_1', amount: full_application_fee})}
-          let(:charge) { Stripe::Charge.construct_from({id: 'charge_id_1', amount: 10000, source: card, application_fee: 'app_fee_1', created: Time.now, refunded: true})}
-          let(:refund) { Stripe::Refund.construct_from({amount: 10000, charge: charge.id})}
-          let(:result) { InsertRefunds.calculate_application_fee_to_refund(nonprofit.id, refund, charge, application_fee)}
-          it 'returns our fee of 390' do
-            expect(result).to eq 390
-          end
-        end
-
-        describe 'half refund' do 
-          let(:application_fee) { Stripe::ApplicationFee.construct_from({amount_refunded: 0, id: 'app_fee_1', amount: full_application_fee})}
-          let(:charge) { Stripe::Charge.construct_from({id: 'charge_id_1', amount: 10000, source: card, application_fee: 'app_fee_1', created: Time.now, refunded: false})}
-          let(:refund) { Stripe::Refund.construct_from({amount: 5000, charge: charge.id})}
-          let(:result) { InsertRefunds.calculate_application_fee_to_refund(nonprofit.id, refund, charge, application_fee)}
-          it 'returns our fee of 195' do
-            expect(result).to eq 195
-          end
-        end
-
-        describe 'partial refund when part already refunded' do 
-          let(:application_fee) { Stripe::ApplicationFee.construct_from({amount_refunded: 195, id: 'app_fee_1', amount: full_application_fee})}
-          let(:charge) { Stripe::Charge.construct_from({id: 'charge_id_1', amount: 10000, source: card, application_fee: 'app_fee_1', created: Time.now, refunded: false})}
-          let(:refund) { Stripe::Refund.construct_from({amount: 3000, charge: charge.id})}
-          let(:result) { InsertRefunds.calculate_application_fee_to_refund(nonprofit.id, refund, charge, application_fee)}
-          it 'returns our fee of 117' do
-            expect(result).to eq 117
-          end
-        end
-
-
-        describe 'partial refund finishing off partial refund' do 
-          let(:application_fee) { Stripe::ApplicationFee.construct_from({amount_refunded: 389, id: 'app_fee_1', amount: full_application_fee})}
-          let(:charge) { Stripe::Charge.construct_from({id: 'charge_id_1', amount: 10000, source: card, application_fee: 'app_fee_1', created: Time.now, refunded: true})}
-          let(:refund) { Stripe::Refund.construct_from({amount: 1, charge: charge.id})}
-          let(:result) { InsertRefunds.calculate_application_fee_to_refund(nonprofit.id, refund, charge, application_fee)}
-          it 'returns our fee of 1' do
-            expect(result).to eq 1
-          end
-        end
-
-
-        describe 'partial refund doesnt refund too much of platform fee' do 
-          # we've refunded this all so we can't refund any more!
-          let(:application_fee) { Stripe::ApplicationFee.construct_from({amount_refunded: 390, id: 'app_fee_1', amount: full_application_fee})}
-          let(:charge) { Stripe::Charge.construct_from({id: 'charge_id_1', amount: 10000, source: card, application_fee: 'app_fee_1', created: Time.now, refunded: true})}
-          let(:refund) { Stripe::Refund.construct_from({amount: 1, charge: charge.id})}
-          let(:result) { InsertRefunds.calculate_application_fee_to_refund(nonprofit.id, refund, charge, application_fee)}
-          it 'returns our fee of 0' do
-            expect(result).to eq 0
-          end
-        end
-      end
-      describe 'local visa' do
-
-        let(:full_application_fee) { 640}
-        
-        let(:card) { Stripe::Card.construct_from({brand: 'Visa', country: "US"})}
-        include_context :different_types_of_refunds
-      end
-
-      describe 'foreign visa' do
-        let(:full_application_fee) { 740}
-        
-        let(:card) { Stripe::Card.construct_from({brand: 'Visa', country: "UK"})}
-        include_context :different_types_of_refunds
-      end
-
-      describe 'local amex' do
-        let(:full_application_fee) { 740}
-        
-        let(:card) { Stripe::Card.construct_from({brand: 'American Express', country: "US"})}
-        include_context :different_types_of_refunds
-      end
-
-      describe 'foreign amex' do 
-        let(:full_application_fee) { 840}
-        
-        let(:card) { Stripe::Card.construct_from({brand: 'American Express', country: "UK"})}
-        include_context :different_types_of_refunds
-      end
     end
   end
 end

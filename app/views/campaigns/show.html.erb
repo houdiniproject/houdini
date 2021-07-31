@@ -26,12 +26,7 @@
     appl.def('has_main_image', <%= @campaign.main_image.file.present? %>)
     app.nonprofit = app.nonprofit || {}
 
-    app.nonprofit.feeStructure = {
-			flatFee: 30,
-      percentFee: .022 + <%= @nonprofit.billing_plan.percentage_fee %>,
-      feeSwitchoverTime:  new Date(<%= FEE_SWITCHOVER_TIME.to_i * 1000 %>),
-      flatFeeCoveragePercent: <%= Settings.flat_fee_coverage_percent %>
-    }
+    app.nonprofit.feeStructure = <%= raw @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
     
     
     app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>;

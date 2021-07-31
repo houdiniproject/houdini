@@ -7,12 +7,9 @@ var request = require('../common/super-agent-promise')
 var create_card = require('../cards/create')
 var format_err = require('../common/format_response_error')
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/tickets'
-
-const calc = require('../nonprofits/donate/calculate-total')
-const CommitchangeStripeFeeStructure = require('../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
 const R = require('ramda')
 
-const { Money } = require('../../../javascripts/src/lib/money')
+const CommitchangeFeeCoverageCalculator = require('../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator').CommitchangeFeeCoverageCalculator;
 
 
 
@@ -28,6 +25,8 @@ appl.def('discounts.apply', function (node) {
       total_quantity: appl.ticket_wiz.total_quantity,
       total_fee: calced.fee
     })
+
+    appl.def('ticket_wiz.post_data.amount', calced.total_amount)
     return
   }
 
@@ -41,7 +40,7 @@ appl.def('discounts.apply', function (node) {
     total_fee: fee
   })
 
-
+  appl.def('ticket_wiz.post_data.amount', total_amount)
   if (appl.ticket_wiz.total_amount === 0) {
     appl.def('ticket_wiz.post_data.kind', 'free')
   }
@@ -59,6 +58,8 @@ appl.def('fee_covered.apply', function (node) {
     total_quantity: appl.ticket_wiz.total_quantity,
     total_fee: fee
   })
+
+  appl.def('ticket_wiz.post_data.amount', total_amount)
 })
 
 function recalculateTheTotal() {
@@ -77,22 +78,20 @@ function recalculateTheTotal() {
     throw new Error("billing Plan isn't found!")
   }
 
-  const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
-
   let total_amount = ticket_price
   let fee = 0
 
   if (ticket_price > 0) {
 
-    if (appl.ticket_wiz.fee_covered && appl.ticket_wiz.post_data.kind != 'free' && appl.ticket_wiz.post_data.kind != 'offsite') {
-      total_amount = calc.calculateTotal(
-        { feeCovering: true, amount: ticket_price }, feeStructure
-      )
-    }
+    const calculator  = new CommitchangeFeeCoverageCalculator({
+      ...app.nonprofit.feeStructure,
+      feeCovering:appl.ticket_wiz.fee_covered && appl.ticket_wiz.post_data.kind != 'free' && appl.ticket_wiz.post_data.kind != 'offsite',
+      currency: 'usd'
+    })
 
-    const feeResult = feeStructure.calcFromNet(Money.fromCents(ticket_price, 'usd'))
-
-    fee = feeResult.fee.amountInCents
+    const calcResult = calculator.calcFromNet(ticket_price);
+    total_amount = calcResult.actualTotalAsNumber;
+    fee = calcResult.estimatedFees.feeAsNumber;
   }
 
   return { total_amount, fee }
@@ -147,6 +146,7 @@ appl.def('ticket_wiz', {
       total_quantity: total_quantity,
       total_fee: calcTotal.fee
     })
+    appl.def('ticket_wiz.post_data.amount', calcTotal.total_amount)
 
     if (appl.ticket_wiz.total_amount === 0) {
       appl.def('ticket_wiz.post_data.kind', 'free')
@@ -201,6 +201,8 @@ appl.def('ticket_wiz', {
       total_quantity: appl.ticket_wiz.total_quantity,
       total_fee: calcTotal.fee
     })
+
+    appl.def('ticket_wiz.post_data.amount', calcTotal.total_amount)
   },
 
   send_payment: function (item_name, form_obj) {

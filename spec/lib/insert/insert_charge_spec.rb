@@ -350,102 +350,49 @@ describe InsertCharge do
 
       end
 
-      RSpec.shared_context :local_visa_context do 
-        let(:fee_total) { 33}
+
+      describe 'visa local' do
+        let(:card_brand) { "Visa"}
+        let(:card_country) { "US"}
+        let(:fee_total) { 36}
         include_context :charge_when_customer_belongs_to_us
       end
-      describe 'before FEE_SWITCHOVER_TIME' do 
-        before(:each) { stub_const("FEE_SWITCHOVER_TIME", Time.now + 1.day)}
 
-        describe 'visa local' do
-          let(:card_brand) { "Visa"}
-          let(:card_country) { "US"}
-          include_context :local_visa_context
-        end
-
-        describe 'visa foreign' do
-          let(:card_brand) { "Visa"}
-          let(:card_country) { "UK"}
-          include_context :local_visa_context
-        end
-
-        describe 'amex local' do
-          let(:card_brand) { "American Express"}
-          let(:card_country) { "US"}
-          include_context :local_visa_context
-        end
-
-        describe 'amex foreign' do
-          let(:card_brand) { "American Express"}
-          let(:card_country) { "UK"}
-          include_context :local_visa_context
-        end
-      end
-
-      RSpec.shared_context :post_switchover_visa_foreign do
+      describe 'visa foreign' do
         let(:card_brand) { "Visa"}
         let(:card_country) { "UK"}
-        let(:fee_total) { 34 }
+        let(:fee_total) { 37}
         include_context :charge_when_customer_belongs_to_us
       end
-
-      RSpec.shared_context :post_switchover_amex_local do
+  
+      describe 'amex local' do
         let(:card_brand) { "American Express"}
         let(:card_country) { "US"}
-        let(:fee_total) { 4 }
+        let(:fee_total) { 11}
         include_context :charge_when_customer_belongs_to_us
       end
-
-      RSpec.shared_context :post_switchover_amex_foreign do
+  
+      describe 'amex foreign' do
         let(:card_brand) { "American Express"}
         let(:card_country) { "UK"}
-        let(:fee_total) { 5 }
+        let(:fee_total) { 12}
         include_context :charge_when_customer_belongs_to_us
       end
 
-      describe 'after FEE_SWITCHOVER_TIME' do 
-        before(:each) { stub_const("FEE_SWITCHOVER_TIME", Time.now - 1.day)}
-
-        describe 'visa local' do
-          let(:card_brand) { "Visa"}
-          let(:card_country) { "US"}
-          include_context :local_visa_context
-        end
-
-        describe 'visa foreign' do
-          include_context :post_switchover_visa_foreign
-        end
-
-        describe 'amex local' do
-          include_context :post_switchover_amex_local
-        end
-
-        describe 'amex foreign' do
-          include_context :post_switchover_amex_foreign
-        end
+      describe 'discover local' do
+        let(:card_brand) { "Discover"}
+        let(:card_country) { "US"}
+        let(:fee_total) {40}
+        include_context :charge_when_customer_belongs_to_us
       end
 
-      describe 'FEE_SWITCHOVER_TIME is nil' do 
-        before(:each) { stub_const("FEE_SWITCHOVER_TIME", nil)}
-
-        describe 'visa local' do
-          let(:card_brand) { "Visa"}
-          let(:card_country) { "US"}
-          include_context :local_visa_context
-        end
-
-        describe 'visa foreign' do
-          include_context :post_switchover_visa_foreign
-        end
-
-        describe 'amex local' do
-          include_context :post_switchover_amex_local
-        end
-
-        describe 'amex foreign' do
-          include_context :post_switchover_amex_foreign
-        end
-      end   
+      describe 'discover foreign' do
+        let(:card_brand) { "Discover"}
+        let(:card_country) { "RU"}
+        let(:fee_total) {41}
+        include_context :charge_when_customer_belongs_to_us
+      end
+      
     end
    end
 end

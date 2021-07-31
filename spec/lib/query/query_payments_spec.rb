@@ -147,7 +147,21 @@ describe QueryPayments do
         input[:campaign_id] = h[:campaign_id]
       end
 
-      InsertDonation.with_stripe(input)
+      d = InsertDonation.with_stripe(input)
+      c = Charge.find(d['charge']['id'])
+      c.created_at = date
+      c.updated_at = date
+      c.save!
+      d
+    end
+
+
+    let(:amount_of_fees_to_refund) { 0}
+    let(:stripe_app_fee_refund) {  Stripe::ApplicationFeeRefund.construct_from({amount: amount_of_fees_to_refund, id: 'app_fee_refund_1'})}
+    let(:stripe_refund) { Stripe::Refund.construct_from({id: 'refund_1'})}
+    
+    let(:perform_stripe_refund_result) do
+      {stripe_refund: stripe_refund, stripe_app_fee_refund: amount_of_fees_to_refund > 0 ? stripe_app_fee_refund : nil}
     end
 
     describe 'general donations' do
@@ -179,17 +193,30 @@ describe QueryPayments do
                             )
 
       }
+      let(:charge_result_yesterday) {
+        Charge.find(donation_result_yesterday['charge']['id'])
+      }
 
       let (:first_refund_of_yesterday) {
-        charge =  donation_result_yesterday['charge']
-
+        charge =  charge_result_yesterday
+        expect(InsertRefunds).to receive(:perform_stripe_refund).with(
+          nonprofit_id:nonprofit.id, refund_data:{
+            'amount' => 100,
+            'charge'=> charge.stripe_charge_id
+          }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
+        expect(InsertActivities).to receive(:for_refunds)
           InsertRefunds.with_stripe(charge.attributes, {amount: 100}.with_indifferent_access)
 
       }
 
       let(:second_refund_of_yesterday) {
-        charge =  donation_result_yesterday['charge']
-
+        charge =  charge_result_yesterday
+        expect(InsertRefunds).to receive(:perform_stripe_refund).with(
+          nonprofit_id: nonprofit.id, refund_data:{
+            'amount' => 50,
+            'charge'=> charge.stripe_charge_id
+          }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
+        expect(InsertActivities).to receive(:for_refunds)
         InsertRefunds.with_stripe(charge.attributes, {amount: 50}.with_indifferent_access)
 
       }
@@ -326,16 +353,31 @@ describe QueryPayments do
 
       }
 
-      let (:first_refund_of_yesterday) {
-        charge =  donation_result_yesterday['charge']
+      let(:charge_result_yesterday) {
+        Charge.find(donation_result_yesterday['charge']['id'])
+      }
 
+
+      let (:first_refund_of_yesterday) {
+        charge =  charge_result_yesterday
+        expect(InsertRefunds).to receive(:perform_stripe_refund).with(
+          nonprofit_id: nonprofit.id, refund_data:{
+            'amount' => 100,
+            'charge'=> charge.stripe_charge_id
+          }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
+        expect(InsertActivities).to receive(:for_refunds)
         InsertRefunds.with_stripe(charge.attributes, {amount: 100}.with_indifferent_access)
 
       }
 
       let(:second_refund_of_yesterday) {
-        charge =  donation_result_yesterday['charge']
-
+        charge =  charge_result_yesterday
+        expect(InsertRefunds).to receive(:perform_stripe_refund).with(
+          nonprofit_id:nonprofit.id, refund_data:{
+            'amount' => 50,
+            'charge'=> charge.stripe_charge_id
+          }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
+        expect(InsertActivities).to receive(:for_refunds)
         InsertRefunds.with_stripe(charge.attributes, {amount: 50}.with_indifferent_access)
 
       }
@@ -364,6 +406,10 @@ describe QueryPayments do
 
       }
 
+      let(:charge_result_yesterday) {
+        Charge.find(donation_result_yesterday['charge']['id'])
+      }
+
       let(:donation_result_today) {
 
         generate_donation(amount:  charge_amount_medium,
@@ -373,6 +419,11 @@ describe QueryPayments do
                           date: (Time.now).to_s
         )
       }
+
+      let(:charge_result_today) {
+        Charge.find(donation_result_today['charge']['id'])
+      }
+
 
       let(:donation_result_tomorrow) {
 
@@ -384,16 +435,38 @@ describe QueryPayments do
 
       }
 
-      let (:first_refund_of_yesterday) {
-        charge =  donation_result_yesterday['charge']
+      let(:charge_result_tomorrow) {
+        Charge.find(donation_result_tomorrow['charge']['id'])
+      }
 
+      let(:amount_of_fees_to_refund) { 0}
+      let(:stripe_app_fee_refund) {  Stripe::ApplicationFeeRefund.construct_from({amount: amount_of_fees_to_refund, id: 'app_fee_refund_1'})}
+      let(:stripe_refund) { Stripe::Refund.construct_from({id: 'refund_1'})}
+      
+      let(:perform_stripe_refund_result) do
+        {stripe_refund: stripe_refund, stripe_app_fee_refund: amount_of_fees_to_refund > 0 ? stripe_app_fee_refund : nil}
+      end
+
+      let(:first_refund_of_yesterday) {
+        charge =  charge_result_yesterday
+        expect(InsertRefunds).to receive(:perform_stripe_refund).with(
+          nonprofit_id: nonprofit.id, refund_data: {
+            'amount' => 100,
+            'charge'=> charge.stripe_charge_id
+          }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
+          
         InsertRefunds.with_stripe(charge.attributes, {amount: 100}.with_indifferent_access)
 
       }
 
       let(:second_refund_of_yesterday) {
-        charge =  donation_result_yesterday['charge']
-
+        charge =  charge_result_yesterday
+        expect(InsertRefunds).to receive(:perform_stripe_refund).with(
+          nonprofit_id: nonprofit.id, refund_data: {
+            'amount' => 50,
+            'charge'=> charge.stripe_charge_id
+          }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
+        expect(InsertActivities).to receive(:for_refunds)
         InsertRefunds.with_stripe(charge.attributes, {amount: 50}.with_indifferent_access)
 
       }

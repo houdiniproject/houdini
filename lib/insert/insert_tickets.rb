@@ -13,6 +13,8 @@ module InsertTickets
   #   card_id, (if a charge)
   #   offsite_payment: {kind, check_number},
   #   kind (offsite, charge, or free)
+  #   amount: integer
+  #   fee_covered: boolean
   # }
   def self.create(data, skip_notifications=false)
     data = data.with_indifferent_access
@@ -24,7 +26,8 @@ module InsertTickets
       event_discount_id: {is_reference: true},
       kind: {included_in: ['free', 'charge', 'offsite']},
       token: {format: UUID::Regex},
-      offsite_payment: {is_hash: true}
+      offsite_payment: {is_hash: true},
+      amount: {required: true, is_integer: true}
     })
 
     data[:tickets].each {|t|
@@ -44,8 +47,13 @@ module InsertTickets
     #verify that enough tickets_available
     QueryTicketLevels.verify_tickets_available(data[:tickets])
 
-    gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id])
-
+    estimated_gross_amount = QueryTicketLevels.gross_amount_from_tickets(data[:tickets], data[:event_discount_id])
+    gross_amount = data[:amount]
+    if (gross_amount < estimated_gross_amount)
+      raise ParamValidation::ValidationError.new("You authorized a payment of $#{Format::Currency.cents_to_dollars(gross_amount)} but the total value of tickets requested was $#{Format::Currency.cents_to_dollars(estimated_gross_amount)}.", key: :amount)
+    end
+    
+    
     result = {}
 
     if gross_amount > 0
@@ -70,13 +78,6 @@ module InsertTickets
         if tokenizable.holder != entities[:supporter_id]
           raise ParamValidation::ValidationError.new("Supporter #{entities[:supporter_id].id} does not own card #{tokenizable.id}", key: :token)
         end
-
-        gross_amount = QueryTicketLevels.gross_amount_from_tickets_with_possible_fee_coverage(data[:tickets], 
-          data[:event_discount_id], 
-          data[:fee_covered],
-          entities[:nonprofit_id].id,
-          tokenizable.stripe_customer_id
-        )
 
         result = result.merge(InsertCharge.with_stripe({
           kind: "Ticket",

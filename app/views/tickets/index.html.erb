@@ -61,7 +61,7 @@
 	<%= IncludeAsset.js '/client/js/tickets/index/page.js' %>
   <script>
     appl.def('ticketPaymentCard', ticketPaymentCard)
-		app.nonprofit.feeStructure = <%= @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
+		app.nonprofit.feeStructure = <%= raw @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
 	</script>
   <script>
       appl.def('ticket_wiz.fee_covered', false)

@@ -33,7 +33,7 @@
 	<%= IncludeAsset.js '/client/js/nonprofits/recurring_donations/index/page.js' %>
 	<script>
 
-	app.nonprofit.feeStructure = <%= @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
+	app.nonprofit.feeStructure = <%= raw  @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
 	</script>
 <% end %>
 

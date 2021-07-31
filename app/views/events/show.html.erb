@@ -33,7 +33,7 @@
 	appl.def('event_is_deleted', <%= @event.deleted || false %>)
 	app.nonprofit = app.nonprofit || {}
 
-	app.nonprofit.feeStructure =<%= @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
+	app.nonprofit.feeStructure = <%= raw @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
 	</script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->

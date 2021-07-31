@@ -8,10 +8,7 @@
 <div class='pane-inner'>
 	<p><strong>Tier:
     <%= @nonprofit.billing_plan.name %>
-    (
-    $<%= Format::Currency.cents_to_dollars @nonprofit.billing_plan.amount %> <%= @nonprofit.billing_plan.interval || 'monthly'%>
-    <%= @nonprofit.billing_plan.percentage_fee > 0 ? ', ' + (@nonprofit.billing_plan.percentage_fee * 100).round(2).to_s + '%' : '' %>
-    )
+    ($<%= Format::Currency.cents_to_dollars @nonprofit.billing_plan.amount %> <%= @nonprofit.billing_plan.interval || 'monthly'%>, <%= (@nonprofit.fee_coverage_details[:percentage_fee] * 100).round(2).to_s + '%' %> + $<%= Format::Currency.cents_to_dollars @nonprofit.fee_coverage_details[:flat_fee] %> per transaction)
   </strong><br><%= render 'settings/stripe_pricing' %></p>
 
   <% if @nonprofit.billing_plan.amount > 0 %>

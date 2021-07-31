@@ -20,6 +20,7 @@ export class CommitchangeFeeCoverageCalculator {
     this.feeCovering = args.feeCovering;
     this.currency = args.currency;
     Object.bind(this.calc);
+    Object.bind(this.calcFromNet);
     Object.freeze(this);
   }
   

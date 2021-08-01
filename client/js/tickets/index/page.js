@@ -13,9 +13,7 @@ require('../../common/restful_resource')
 require('../../components/tables/filtering/apply_filter')('tickets')
 require('./delete-ticket')
 
-const CommitchangeStripeFeeStructure = require('../../../../javascripts/src/lib/payments/commitchange_stripe_fee_structure').CommitchangeStripeFeeStructure
-const calc = require('../../nonprofits/donate/calculate-total')
-const Money = require('../../../../javascripts/src/lib/money').Money
+const { CommitchangeFeeCoverageCalculator } = require('../../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator')
 
 function metricsFetch() {
   appl.def('loading_metrics', true)
@@ -226,28 +224,35 @@ appl.def('recalc_total_and_fee', () => {
     possibleDollars = 0
   }
 
+  const feeCovering = appl.donation_info.fee_covered;
+
   if (possibleDollars === 0) {
     appl.def('donation_info.fee_amount', 0)
     appl.def('donation_info.amount',0)
+    appl.def('donation_info.written_fee_amount', format.centsToDollars(appl.donation_info.fee_amount))
+    appl.def('donation_info.written_amount', format.centsToDollars(appl.donation_info.amount))
   }
   else {
     if (!app.nonprofit.feeStructure) {
       throw new Error("billing Plan isn't found!")
     }
 
-    const feeStructure = new CommitchangeStripeFeeStructure(app.nonprofit.feeStructure)
+    const calc = new CommitchangeFeeCoverageCalculator({
+      ...app.nonprofit.feeStructure,
+      feeCovering,
+      currency: 'usd'
+    })
+    
     const amount = possibleDollars * 100
-    const feeCovering = appl.donation_info.fee_covered
 
+    const result = calc.calcFromNet(amount);
 
+    appl.def('donation_info.amount',result.actualTotalAsNumber)
+    appl.def('donation_info.fee_amount', result.estimatedFees.feeAsNumber)
 
-    appl.def('donation_info.amount',calc.calculateTotal({feeCovering, amount},feeStructure))
-    appl.def('donation_info.fee_amount', feeStructure.calcFromNet(Money.fromCents(amount, 'usd')).fee.amountInCents)
+    appl.def('donation_info.written_fee_amount',  result.estimatedFees.feeAsString)
+    appl.def('donation_info.written_amount',  result.actualTotalAsString)
   }
-
-  appl.def('donation_info.written_fee_amount', format.centsToDollars(appl.donation_info.fee_amount))
-  appl.def('donation_info.written_amount', format.centsToDollars(appl.donation_info.amount))
-
 })
 
 

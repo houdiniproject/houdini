@@ -7,12 +7,10 @@ flyd.flatMap = require('flyd/module/flatmap')
 const request = require('../../common/request')
 const cardForm = require('../../components/card-form.es6')
 const sepaForm = require('../../components/sepa-form.es6')
-const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
 const {CommitchangeFeeCoverageCalculator} = require('../../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator')
-const {Money} = require('../../../../javascripts/src/lib/money')
 const {centsToDollars} = require('../../common/format')
-const _ = require('lodash')
+const cloneDeep = require('lodash/cloneDeep')
 
 const sepaTab = 'sepa'
 const cardTab = 'credit_card'
@@ -65,7 +63,7 @@ function init(state) {
     return i['token']
   }, state.cardForm.saved$)
   const donationWithAmount$ =  flyd.combine((donation, donationTotal, coverFees$) => {
-    const d = _.cloneDeep(donation())
+    const d = cloneDeep(donation())
     d.amount = donationTotal()
     d.fee_covered = coverFees$()
     return d;
@@ -230,7 +228,7 @@ function view(state) {
   }
   return h('div.wizard-step.payment-step', [
     h('p.u-fontSize--18 u.marginBottom--0.u-centered.amount', [
-      h('span', app.currency_symbol + format.centsToDollars(state.donationTotal$()))
+      h('span', app.currency_symbol + centsToDollars(state.donationTotal$()))
       , h('strong', amountLabel)
     ])
     , weekly

@@ -45,7 +45,7 @@
 						<small><!--= show_if (eq recurring_donation_details.written_fee_amount "0")-->Donor would like to cover the donation fee</small>
 						<small>
 						<!--= show_if (not (eq recurring_donation_details.written_fee_amount "0"))-->
-						Donor would like to cover the <strong>$<!--= put recurring_donation_details.written_fee_amount --></strong> donation fee</small>
+						Donor would like to cover the <strong><!--= put recurring_donation_details.written_fee_amount --></strong> donation fee</small>
 						</label>
 						</div>
 			<fieldset>

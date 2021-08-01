@@ -15,24 +15,13 @@ window._csrf = "<%= form_authenticity_token %>";
 </script>
 
 <%= IncludeAsset.js "/client/js/page.js" %>
-
 <%= IncludeAsset.js '/client/js/i18n.js' %>
 <script>
     I18n.defaultLocale = "<%= I18n.default_locale %>"
     I18n.locale = "<%= I18n.locale %>"
 </script>
-
-
 <%= yield :javascripts %>
-
-
-
 <span data-parsley-namespace='parsley-'></span>
-
-
 <% if current_role?([:nonprofit_associate, :nonprofit_admin, :super_admin]) && yield(:hide_nav_beacon) != 'true' %>
-
   <%= render 'layouts/nav_beacon' %>
-
-
 <% end %>

@@ -24,7 +24,7 @@ export class CommitchangeFeeCoverageCalculator {
     Object.freeze(this);
   }
   
-  calc(gross:Money|number|null) : CommitchangeFeeCoverageCalculator.ReverseCalcResult {
+  calc(gross:Money|number|null|undefined) : CommitchangeFeeCoverageCalculator.ReverseCalcResult {
     gross = this.retypeToMoney(gross);
     const calculation = this.feeStructure.calc(gross);
     
@@ -59,8 +59,8 @@ export class CommitchangeFeeCoverageCalculator {
     }
   }
 
-  private retypeToMoney(amount:Money|number|null):Money {
-    if (amount === null) {
+  private retypeToMoney(amount:Money|number|null|undefined):Money {
+    if (amount === null || amount === undefined) {
       amount = 0;
     }
     

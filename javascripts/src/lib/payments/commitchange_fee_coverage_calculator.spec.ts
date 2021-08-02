@@ -50,7 +50,7 @@ describe('CommitchangeFeeCoverageCalculator', () => {
             }
           })
         });
-      })
+      });
     });
 
     describe('when using CalcWithPercentageFeeOf4_8_percentAnd35CentsCalcWithFeeCovering', () => {
@@ -135,6 +135,30 @@ describe('CommitchangeFeeCoverageCalculator', () => {
               netAsNumber: 300
             }
           })
+        });
+
+        
+      });
+
+      describe('and called with null', () => {
+        const result = subject.calcFromNet(null);
+        it('returns expected result', () => {
+          expect(result).toMatchObject({
+            actualTotal: Money.fromCents(0, 'usd'),
+            actualTotalAsNumber: 0,
+            actualTotalAsString: "$0",
+          });
+        });
+      });
+
+      describe('and called with undefined', () => {
+        const result = subject.calcFromNet(undefined);
+        it('returns expected result', () => {
+          expect(result).toMatchObject({
+            actualTotal: Money.fromCents(0, 'usd'),
+            actualTotalAsNumber: 0,
+            actualTotalAsString: "$0",
+          });
         });
       });
     });

@@ -65,13 +65,27 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/payments/:id/resend_donor_receipt
     def resend_donor_receipt
-      PaymentMailer.resend_donor_receipt(params[:id])
+      payment = Payment.find(params[:id])
+      if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
+        JobQueue.queue(JobTypes::DonorPaymentNotificationJob, payment.donation.id, payment.id)
+      elsif payment.kind == 'Ticket'
+        TicketMailer.followup(payment.tickets.pluck(:id), payment.charge.id).deliver
+      elsif payment.kind == 'Refund'
+        Delayed::Job.enqueue JobTypes::DonorRefundNotificationJob.new(payment.refund.id)
+      end
       render json: {}
     end
     # post /nonprofits/:nonprofit_id/payments/:id/resend_admin_receipt
     # pass user_id of the admin to send to
     def resend_admin_receipt
-      PaymentMailer.resend_admin_receipt(params[:id], current_user.id)
+      payment = Payment.find(params[:id])
+      if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
+        JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, payment.donation.id, payment.id, current_user.id)
+      elsif payment.kind == 'Ticket'
+        JobQueue.queue(JobTypes::TicketMailerReceiptAdminJob, payment.tickets.pluck(:id), current_user.id)
+      elsif payment.kind == 'Refund'
+        Delayed::Job.enqueue JobTypes::NonprofitRefundNotificationJob.new(payment.refund.id, current_user.id)
+      end
       render json: {}
     end
 	end # class PaymentsController

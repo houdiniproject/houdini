@@ -290,6 +290,7 @@ describe QueryPayments do
           end
         end
       end
+
       context 'filtering by donation or supporter fields' do
         let(:input) {{
           amount: 100,
@@ -321,6 +322,49 @@ describe QueryPayments do
         end
       end
 
+      context 'when filtering by payment id' do
+        let(:input) {{
+          amount: 100,
+          nonprofit_id: nonprofit.id,
+          supporter_id: supporter.id,
+          token: source_tokens[4].token,
+          date: (Time.now - 1.day).to_s,
+          comment: 'donation comment',
+          dedication: 'dedication',
+          designation: 'designation'
+        }}
+
+        it 'returns one result' do
+          InsertDonation.with_stripe(input)
+          donation_result_tomorrow
+          donation_result_yesterday
+
+          result = QueryPayments::full_search(nonprofit.id, { search: Payment.last.id })
+          expect(result[:data].count).to eq 1
+        end
+      end
+
+      context 'when the search includes a number that is not a payment ID' do
+        let(:input) {{
+          amount: 100,
+          nonprofit_id: nonprofit.id,
+          supporter_id: supporter.id,
+          token: source_tokens[4].token,
+          date: (Time.now - 1.day).to_s,
+          comment: '2020',
+          dedication: 'dedication',
+          designation: 'designation'
+        }}
+
+        it 'returns one result' do
+          InsertDonation.with_stripe(input)
+          donation_result_tomorrow
+          donation_result_yesterday
+
+          result = QueryPayments::full_search(nonprofit.id, { search: 2020 })
+          expect(result[:data].count).to eq 1
+        end
+      end
     end
 
     describe 'event donations' do

@@ -11,9 +11,13 @@ Rails.application.routes.draw do
     get '/button_debug/embedded/:id' => 'button_debug#embedded'
     get '/button_debug/button/:id' => 'button_debug#button'
   end
-
-  namespace(:api) do
-    resources(:nonprofits)
+  defaults format: :json do
+    namespace(:api) do
+      resources(:nonprofits)
+      resources(:users, only: []) do
+        get(:current, on: :collection)
+      end
+    end
   end
 
   resources(:emails, only: [:create])

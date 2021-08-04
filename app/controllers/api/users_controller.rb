@@ -7,7 +7,9 @@ class Api::UsersController < Api::ApiController
 
 	before_action :authenticate_user_with_json!
 
+	# Returns the current user as JSON
+	# If not logged in, causes a 401 error
 	def current
-		render locals: { user: current_user }
+		@user = current_user
 	end
 end

@@ -5,7 +5,7 @@
 class Api::UsersController < Api::ApiController
 	include Controllers::User::Authorization
 
-	before_action :authenticate_user_with_json!
+	before_action :authenticate_user!
 
 	# Returns the current user as JSON
 	# If not logged in, causes a 401 error

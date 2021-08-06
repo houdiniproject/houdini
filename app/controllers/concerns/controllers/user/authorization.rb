@@ -12,19 +12,14 @@ module Controllers::User::Authorization
 
 		protected
 
-		def authenticate_user_with_json!
-			reject_with_sign_in({}, :json) unless current_user
+		def authenticate_user!
+			reject_with_sign_in unless current_user
 		end
 
-		def authenticate_user!(msg = nil, type = :html)
-			reject_with_sign_in(msg, type) unless current_user
-		end
-
-		def reject_with_sign_in(msg = nil, type = :html)
-			if type == :html
-				block_with_sign_in(msg)
-			else
-				render json: { message: msg }, status: :unauthorized
+		def reject_with_sign_in(msg = nil)
+			respond_to do |format|
+				format.json { raise AuthenticationError }
+				format.any { block_with_sign_in(msg) }
 			end
 		end
 
@@ -47,14 +42,13 @@ module Controllers::User::Authorization
 			QueryRoles.user_has_role?(current_user.id, role_names, host_id)
 		end
 
-		def authenticate_confirmed_user!(msg = nil, type = :html)
+		def authenticate_confirmed_user!(msg = nil)
 			if !current_user
-				reject_with_sign_in(msg, type)
+				reject_with_sign_in(msg)
 			elsif !current_user.confirmed? && !current_role?(%i[super_associate super_admin])
-				if type == :html
-					redirect_to new_user_confirmation_path, flash: { error: 'You need to confirm your account to do that.' }
-				else
-					render json: { message: msg }, status: :unauthorized
+				respond_to do |format|
+					format.json {	raise AuthenticationError }
+					format.any { redirect_to new_user_confirmation_path, flash: { error: 'You need to confirm your account to do that.' } }
 				end
 			end
 		end

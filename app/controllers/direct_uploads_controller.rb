@@ -4,11 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class DirectUploadsController < ActiveStorage::DirectUploadsController
 	include Controllers::Nonprofit::Authorization
-	skip_before_action :verify_authenticity_token, only: [:create]
-	before_action  :authenticate_user_with_json!
-
-private
-	def authenticate_confirmed_user_with_json!
-		authenticate_confirmed_user!("You must be logged in to use this", :json)
-	end
+	skip_before_action :verify_authenticity_token, only: [:create] # rubocop:disable Rails/LexicallyScopedActionFilter
+	before_action :authenticate_confirmed_user!
 end

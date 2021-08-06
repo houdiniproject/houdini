@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     namespace :api do
       resources :nonprofits, only: [:create] do
         resources :supporters, only: [:index, :show]
+        resources :campaigns, only: [:show]
       end
 
       resources :users, only: [] do

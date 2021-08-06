@@ -11,11 +11,15 @@ Rails.application.routes.draw do
     get '/button_debug/embedded/:id' => 'button_debug#embedded'
     get '/button_debug/button/:id' => 'button_debug#button'
   end
-  defaults format: :json do
-    namespace(:api) do
-      resources(:nonprofits)
-      resources(:users, only: []) do
-        get(:current, on: :collection)
+
+  defaults format: :json do # they're APIs, you have to use JSON
+    namespace :api do
+      resources :nonprofits, only: [:create] do
+        resources :supporters, only: [:index, :show]
+      end
+
+      resources :users, only: [] do
+        get :current, on: :collection
       end
     end
   end

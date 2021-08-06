@@ -231,6 +231,11 @@ module QuerySupporters
     if query[:search].present?
       expr = expr.and_where(%Q(
         supporters.fts @@ websearch_to_tsquery('english', $search)
+        OR (
+          supporters.phone IS NOT NULL
+          AND supporters.phone != ''
+          AND supporters.phone_index = (regexp_replace($search, '\\D','', 'g'))
+        )
       ), search: query[:search], old_search: '%' + query[:search] + '%')
     end
     if query[:notes].present?

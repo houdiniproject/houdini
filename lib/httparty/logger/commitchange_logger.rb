@@ -26,11 +26,12 @@
 module HTTParty
   module Logger
     class CommitchangeLogger
-      attr_accessor :level, :logger
+      attr_accessor :level, :logger, :output_type
 
-      def initialize(logger, level)
+      def initialize(logger, level, output_type)
         @logger   = logger
         @level    = level.to_sym
+        @output_type = output_type
         @messages = []
       end
 
@@ -48,7 +49,7 @@ module HTTParty
 
       def output_hash
         @output ||= {
-            type: 'mailchimp',
+            type: output_type,
             request: {},
             response: {}
         }

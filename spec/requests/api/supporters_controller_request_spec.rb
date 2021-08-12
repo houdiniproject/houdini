@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 require 'rails_helper'
 
-RSpec.describe 'Api::SupportersController', type: :request do
+RSpec.describe Api::SupportersController, type: :request do
 	let(:supporter) { create(:supporter_with_fv_poverty) }
 	let(:nonprofit) { supporter.nonprofit }
 	let(:user) { create(:user) }

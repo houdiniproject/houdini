@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     namespace :api do
       resources :nonprofits, only: [:create, :show] do
         resources :campaigns, only: [:show]
+        resources :custom_field_definitions, only: [:index, :show]
         resources :supporters, only: [:index, :show] do 
           resources :supporter_addresses, only: [:index, :show]
         end

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         resources :supporters, only: [:index, :show] do 
           resources :supporter_addresses, only: [:index, :show]
         end
+        resources :tag_definitions, only: [:index, :show]
       end
 
       resources :users, only: [] do

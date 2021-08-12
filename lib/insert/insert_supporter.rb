@@ -14,8 +14,9 @@ module InsertSupporter
     })
     address_keys = ['name', 'address', 'city', 'country', 'state_code']
     custom_fields = data['customFields']
+    tags = data['tags']
     data = HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data, address_keys))
-      .except(:customFields)
+      .except(:customFields, :tags)
 
     supporter = Qx.select("*").from(:supporters)
       .where("name = $n AND email = $e", n: data[:name], e: data[:email])
@@ -37,9 +38,8 @@ module InsertSupporter
         .execute.last
 		end
 
-    if custom_fields
-      InsertCustomFieldJoins.find_or_create(np_id, [supporter['id']],  custom_fields)
-    end
+    InsertCustomFieldJoins.find_or_create(np_id, [supporter['id']],  custom_fields) if custom_fields.present?
+    InsertTagJoins.find_or_create(np_id, [supporter['id']], tags) if tags.present?
 
     #GeocodeModel.delay.supporter(supporter['id'])
     InsertFullContactInfos.enqueue([supporter['id']])

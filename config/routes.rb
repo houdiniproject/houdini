@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         resources :custom_field_definitions, only: [:index, :show]
         resources :supporters, only: [:index, :show] do 
           resources :supporter_addresses, only: [:index, :show]
+          resources :supporter_notes, only: [:index, :show]
         end
         resources :tag_definitions, only: [:index, :show]
       end

@@ -474,7 +474,6 @@ AllCops:
     - 'spec/mailers/admin_spec.rb'
     - 'spec/factories/ticket_to_legacy_tickets.rb'
     - 'spec/factories/modern_campaign_gifts.rb'
-    - 'spec/factories/supporter_notes.rb'
     - 'spec/factories/import_requests.rb'
     - 'spec/factories/cards.rb'
     - 'spec/factories/ticket_levels.rb'

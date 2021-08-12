@@ -21393,6 +21393,7 @@ Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-leak-detector; version 26.4.2 -- https://github.com/facebook/jest#readme
 Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-matcher-utils; version 26.4.2 -- https://github.com/facebook/jest#readme
+Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-message-util; version 26.3.0 -- https://github.com/facebook/jest#readme
 Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-mock; version 26.3.0 -- https://github.com/facebook/jest#readme
@@ -21402,7 +21403,9 @@ Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-resolve; version 26.4.0 -- https://github.com/facebook/jest#readme
 Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-resolve-dependencies; version 26.4.2 -- https://github.com/facebook/jest#readme
+Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-runner; version 26.4.2 -- https://github.com/facebook/jest#readme
+Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-runtime; version 26.4.2 -- https://github.com/facebook/jest#readme
 Copyright (c) Facebook, Inc. and its affiliates.
 ** jest-serializer; version 26.3.0 -- https://github.com/facebook/jest#readme
@@ -25905,7 +25908,7 @@ SOFTWARE.
 
 ------
 
-** path-parse; version 1.0.6 -- https://github.com/jbgutierrez/path-parse#readme
+** path-parse; version 1.0.7 -- https://github.com/jbgutierrez/path-parse#readme
 Copyright (c) 2015 Javier Blanco
 (c) Javier Blanco (http://jbgutierrez.info)
 
@@ -27683,6 +27686,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------
 
 ** property-expr; version 2.0.4 -- https://github.com/jquense/expr#readme
+Copyright (c) 2014 Jason Quense
 
 The MIT License (MIT)
 

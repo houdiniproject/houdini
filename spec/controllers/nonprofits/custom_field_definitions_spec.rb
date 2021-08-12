@@ -5,7 +5,7 @@
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
-describe Nonprofits::CustomFieldMastersController, type: :controller do
+describe Nonprofits::CustomFieldDefinitionsController, type: :controller do
   include_context :shared_user_context
   describe 'rejects unauthenticated users' do
     describe 'get custom field masters' do

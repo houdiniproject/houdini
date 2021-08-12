@@ -46,7 +46,7 @@ class Supporter < ApplicationRecord
   has_many :tag_joins, dependent: :destroy
   has_many :tag_masters, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
-  has_many :custom_field_masters, through: :custom_field_joins
+  has_many :custom_field_definitions, through: :custom_field_joins
   has_many :transactions
   belongs_to :merged_into, class_name: 'Supporter', foreign_key: 'merged_into'
   has_many :merged_from, class_name: 'Supporter', :foreign_key => "merged_into"

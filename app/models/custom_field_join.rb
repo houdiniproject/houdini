@@ -15,8 +15,8 @@ class CustomFieldJoin < ApplicationRecord
   belongs_to :supporter
 
   def self.create_with_name(nonprofit, h)
-    cfm = nonprofit.custom_field_masters.find_by_name(h['name'])
-    cfm = nonprofit.custom_field_masters.create(name: h['name']) if cfm.nil?
+    cfm = nonprofit.custom_field_definitions.find_by_name(h['name'])
+    cfm = nonprofit.custom_field_definitions.create(name: h['name']) if cfm.nil?
     create(value: h['value'], custom_field_master_id: cfm.id, supporter_id: h['supporter_id'])
   end
 

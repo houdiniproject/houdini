@@ -15,7 +15,7 @@ module ImportCivicrmPayments
       contrib_records = csv.to_a.map(&:to_hash)
       pay_imp = PaymentImport.create(nonprofit: nonprofit)
 
-      supporter_id_custom_field = CustomFieldMaster.where('nonprofit_id = ? AND name = ?', nonprofit.id, field_of_supporter_id).first
+      supporter_id_custom_field = CustomFieldDefinition.where('nonprofit_id = ? AND name = ?', nonprofit.id, field_of_supporter_id).first
 
       unless supporter_id_custom_field
         raise ParamValidation::ValidationError.new("There is no custom field for nonprofit #{nonprofit.id} and field named #{field_of_supporter_id}", key: :field_of_supporter_id)

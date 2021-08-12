@@ -81,7 +81,7 @@ class Nonprofit < ApplicationRecord
     end
   end
   has_many :tag_masters, dependent: :destroy
-  has_many :custom_field_masters, dependent: :destroy
+  has_many :custom_field_definitions, dependent: :destroy
   
   has_many :activities,   as: :host, dependent: :destroy
   has_many :imports

@@ -41,9 +41,9 @@ module InsertCustomFieldJoins
     end
 
     cfm_id_to_value = field_data.map do |name, value|
-      cfm = CustomFieldMaster.where('nonprofit_id = ? and name = ?', np_id, name).first
+      cfm = CustomFieldDefinition.where('nonprofit_id = ? and name = ?', np_id, name).first
       Qx.transaction do
-        cfm ||= CustomFieldMaster.create!(nonprofit: np, name: name)
+        cfm ||= CustomFieldDefinition.create!(nonprofit: np, name: name)
       end
       { custom_field_master_id: cfm.id, value: value }
     end
@@ -85,7 +85,7 @@ module InsertCustomFieldJoins
       end
 
       # filtering the tag_data to this nonprofit
-      valid_ids = CustomFieldMaster.where('nonprofit_id = ? and id IN (?)', np_id, field_data.map { |fd| fd[:custom_field_master_id] }).pluck(:id).to_a
+      valid_ids = CustomFieldDefinition.where('nonprofit_id = ? and id IN (?)', np_id, field_data.map { |fd| fd[:custom_field_master_id] }).pluck(:id).to_a
       filtered_field_data = field_data.select { |i| valid_ids.include? i[:custom_field_master_id].to_i }
 
       # first, delete the items which should be removed

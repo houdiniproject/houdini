@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
-class CustomFieldMaster < ApplicationRecord
+class CustomFieldDefinition < ApplicationRecord
   include Model::Eventable
   include Model::Jbuilder
 
@@ -32,7 +32,7 @@ class CustomFieldMaster < ApplicationRecord
   def no_dupes
     return self if nonprofit.nil?
 
-    errors.add(:base, 'Duplicate custom field') if nonprofit.custom_field_masters.not_deleted.where(name: name).any?
+    errors.add(:base, 'Duplicate custom field') if nonprofit.custom_field_definitions.not_deleted.where(name: name).any?
   end
 
 

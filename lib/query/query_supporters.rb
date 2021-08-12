@@ -342,14 +342,14 @@ UNION DISTINCT
         #   ...
         ids = query[:export_custom_fields].split(',').map(&:to_i)
         if ids.any?
-          cfms = Qx.select('name', 'id').from(:custom_field_masters).where(nonprofit_id: np_id).and_where('id IN ($ids)', ids: ids).ex
+          cfms = Qx.select('name', 'id').from(:custom_field_definitions).where(nonprofit_id: np_id).and_where('id IN ($ids)', ids: ids).ex
           cfms.compact.map do |cfm|
             table_alias = "cfjs_#{cfm['name'].delete('$')}"
             table_alias_quot = "\"#{table_alias}\""
             field_join_subq = Qx.select("STRING_AGG(value, ',') as value", 'supporter_id')
                                 .from('custom_field_joins')
-                                .join('custom_field_masters', 'custom_field_masters.id=custom_field_joins.custom_field_master_id')
-                                .where('custom_field_masters.id=$id', id: cfm['id'])
+                                .join('custom_field_definitions', 'custom_field_definitions.id=custom_field_joins.custom_field_master_id')
+                                .where('custom_field_definitions.id=$id', id: cfm['id'])
                                 .group_by(:supporter_id)
                                 .as(table_alias)
             expr.add_left_join(field_join_subq, "#{table_alias_quot}.supporter_id=supporters.id")
@@ -419,14 +419,14 @@ UNION DISTINCT
       #   ...
       ids = query[:export_custom_fields].split(',').map(&:to_i)
       if ids.any?
-        cfms = Qx.select('name', 'id').from(:custom_field_masters).where(nonprofit_id: np_id).and_where('id IN ($ids)', ids: ids).ex
+        cfms = Qx.select('name', 'id').from(:custom_field_definitions).where(nonprofit_id: np_id).and_where('id IN ($ids)', ids: ids).ex
         cfms.compact.map do |cfm|
           table_alias = "cfjs_#{cfm['name'].delete('$')}"
           table_alias_quot = "\"#{table_alias}\""
           field_join_subq = Qx.select("STRING_AGG(value, ',') as value", 'supporter_id')
                               .from('custom_field_joins')
-                              .join('custom_field_masters', 'custom_field_masters.id=custom_field_joins.custom_field_master_id')
-                              .where('custom_field_masters.id=$id', id: cfm['id'])
+                              .join('custom_field_definitions', 'custom_field_definitions.id=custom_field_joins.custom_field_master_id')
+                              .where('custom_field_definitions.id=$id', id: cfm['id'])
                               .group_by(:supporter_id)
                               .as(table_alias)
           expr.add_left_join(field_join_subq, "#{table_alias_quot}.supporter_id=supporters.id")

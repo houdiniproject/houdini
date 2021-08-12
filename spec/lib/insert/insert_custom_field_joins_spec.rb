@@ -62,7 +62,7 @@ describe InsertCustomFieldJoins do
         expect(supporters_id).to eq [supporter.id]
         expect(field_data.length).to eq 2
         expect(field_data).to include(custom_field_master_id: initial_custom_field_master.id, value: old_cf_value)
-        expect(field_data).to include(custom_field_master_id: CustomFieldMaster.where(name: new_cf_name).first.id, value: new_cf_value)
+        expect(field_data).to include(custom_field_master_id: CustomFieldDefinition.where(name: new_cf_name).first.id, value: new_cf_value)
       end
       result = InsertCustomFieldJoins.find_or_create(nonprofit.id, [supporter.id], [
                                                        [
@@ -74,7 +74,7 @@ describe InsertCustomFieldJoins do
                                                          new_cf_value
                                                        ]
                                                      ])
-      expect(CustomFieldMaster.count).to eq 2
+      expect(CustomFieldDefinition.count).to eq 2
     end
   end
 
@@ -154,7 +154,7 @@ describe InsertCustomFieldJoins do
           nonprofit_for_supporter = i[:other_np] ? @other_nonprofit : @nonprofit
           i[:entity] = create(:supporter, nonprofit: nonprofit_for_supporter)
           i[:cfm_ids].each do |j|
-            cfm = CustomFieldMaster.exists?(id: j) ? CustomFieldMaster.find(j) : create(:custom_field_master, id: j, nonprofit: nonprofit_for_supporter, name: "CFM #{j}")
+            cfm = CustomFieldDefinition.exists?(id: j) ? CustomFieldDefinition.find(j) : create(:custom_field_master, id: j, nonprofit: nonprofit_for_supporter, name: "CFM #{j}")
 
             create(:custom_field_join, :value_from_id, supporter_id: i[:entity].id, custom_field_master: cfm)
           end

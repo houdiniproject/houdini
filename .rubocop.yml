@@ -329,7 +329,6 @@ AllCops:
     - 'lib/uuid.rb'
     - 'lib/validation_error.rb'
     - 'lib/slug_copy_naming_algorithm.rb'
-    - 'lib/create/create_tag_master.rb'
     - 'lib/create/create_campaign.rb'
     - 'lib/create/create_campaign_gift_option.rb'
     - 'lib/create/create_custom_field_join.rb'

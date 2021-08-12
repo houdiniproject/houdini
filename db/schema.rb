@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_191202) do
+ActiveRecord::Schema.define(version: 2021_08_12_172340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -223,6 +223,14 @@ ActiveRecord::Schema.define(version: 2021_06_21_191202) do
     t.string "host_type", limit: 255
   end
 
+  create_table "custom_field_definitions", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 255
+    t.integer "nonprofit_id"
+    t.boolean "deleted", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "custom_field_joins", id: :serial, force: :cascade do |t|
     t.integer "custom_field_master_id"
     t.integer "supporter_id"
@@ -238,14 +246,6 @@ ActiveRecord::Schema.define(version: 2021_06_21_191202) do
     t.integer "supporter_id"
     t.text "metadata"
     t.text "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "custom_field_masters", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 255
-    t.integer "nonprofit_id"
-    t.boolean "deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

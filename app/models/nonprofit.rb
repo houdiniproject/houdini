@@ -107,6 +107,7 @@ class Nonprofit < ApplicationRecord
   validate :user_is_valid, on: :create, unless: -> {register_np_only}
   validate :user_registerable_as_admin, on: :create, unless: -> {register_np_only}
   validate :timezone_is_valid
+  validate :state_in_us?, on: %i(create update)
 
   scope :vetted, -> { where(vetted: true) }
   scope :identity_verified, -> { where(verification_status: 'verified') }
@@ -178,6 +179,10 @@ class Nonprofit < ApplicationRecord
     h = super(options)
     h[:url] = url
     h
+  end
+
+  def state_in_us?
+    errors.add(:state_not_in_us, 'Only US states are allowed') unless ISO3166::Country[:US].subdivisions[state_code]
   end
 
   def url

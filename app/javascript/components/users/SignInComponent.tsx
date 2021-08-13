@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import React, { useEffect, useState } from "react";
+import React, { Key, useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Formik, Form, Field } from 'formik';
 import noop from "lodash/noop";
@@ -199,7 +199,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<div data-testid="errorTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
 								{componentState === 'submitting' ? "" : <>
-									{failed ? lastSignInAttemptError.data.error.map((error) => (<Alert aria-labelledby="errorTest" severity="error" key={error}>{error}</Alert>)) : ""}
+									{failed ? (<Alert aria-labelledby="errorTest" severity="error">{lastSignInAttemptError.data.error}</Alert>) : ""}
 								</>
 								}
 							</Box>

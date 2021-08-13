@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
-import {useCallback, useEffect, useState} from "react";
-import useCurrentUser, {CurrentUser, SetCurrentUserReturnType} from "./useCurrentUser";
-import {postSignIn} from '../api/users';
+import { useCallback, useEffect, useState } from "react";
+import useCurrentUser, { CurrentUser, SetCurrentUserReturnType } from "./useCurrentUser";
+import { postSignIn } from '../api/users';
 import { SignInError } from "../legacy_react/src/lib/api/errors";
 
 export interface UseCurrentUserAuthReturnType {
@@ -42,7 +42,7 @@ export interface UseCurrentUserAuthReturnType {
 	 * a {@link CurrentUser} if resolved, throws a {@link SignInError} if failed
 	 * @memberof UseCurrentUserAuthReturnType
 	 */
-	signIn: (credentials:{email:string, password:string}) => Promise<CurrentUser>;
+	signIn: (credentials: { email: string, password: string }) => Promise<CurrentUser>;
 
 	/**
 	 * Reexported from {@link ./useCurrentUser.ts}
@@ -77,26 +77,27 @@ export interface UseCurrentUserAuthReturnType {
  * @export
  * @returns {UseCurrentUserAuthReturnType}
  */
-export default function useCurrentUserAuth() : UseCurrentUserAuthReturnType {
-	const {currentUser,
+export default function useCurrentUserAuth(): UseCurrentUserAuthReturnType {
+	const { currentUser,
 		signedIn,
 		revalidate,
-		error:lastGetCurrentUserError,
-		validatingCurrentUser} = useCurrentUser<SetCurrentUserReturnType>();
+		error: lastGetCurrentUserError,
+		validatingCurrentUser } = useCurrentUser<SetCurrentUserReturnType>();
 	const [submitting, setSubmitting] = useState(false);
-	const [lastSignInAttemptError, setLastSignInAttemptError] = useState<SignInError|null>(undefined);
+	const [lastSignInAttemptError, setLastSignInAttemptError] = useState<SignInError | null>(undefined);
 	const [failed, setFailed] = useState<boolean>(false);
 
-	const signIn = useCallback(async ({email, password}:{email:string, password:string}): Promise<CurrentUser> => {
+	const signIn = useCallback(async ({ email, password }: { email: string, password: string }): Promise<CurrentUser> => {
 		try {
 			setSubmitting(true);
-			const user = await postSignIn({email, password}) as CurrentUser;
+			const user = await postSignIn({ email, password }) as CurrentUser;
 			setLastSignInAttemptError(undefined);
 			return user;
 		}
-		catch(e:unknown) {
+		catch (e: unknown) {
 			const error = e as SignInError;
 			setLastSignInAttemptError(error);
+			setSubmitting(false);
 			throw error;
 		}
 		finally {

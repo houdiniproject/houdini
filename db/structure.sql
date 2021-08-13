@@ -31,6 +31,20 @@ COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQ
 
 
 --
+-- Name: unaccent; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION unaccent; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
+
+
+--
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -86,6 +100,71 @@ CREATE FUNCTION public.update_fts_on_supporters() RETURNS trigger
           RETURN new;
         END
       $$;
+
+
+--
+-- Name: cc; Type: TEXT SEARCH CONFIGURATION; Schema: public; Owner: -
+--
+
+CREATE TEXT SEARCH CONFIGURATION public.cc (
+    PARSER = pg_catalog."default" );
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR asciiword WITH public.unaccent, english_stem;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR word WITH public.unaccent, english_stem;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR numword WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR email WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR url WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR host WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR sfloat WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR version WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR hword_numpart WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR hword_part WITH public.unaccent, english_stem;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR hword_asciipart WITH public.unaccent, english_stem;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR numhword WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR asciihword WITH public.unaccent, english_stem;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR hword WITH public.unaccent, english_stem;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR url_path WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR file WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR "float" WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR "int" WITH simple;
+
+ALTER TEXT SEARCH CONFIGURATION public.cc
+    ADD MAPPING FOR uint WITH simple;
 
 
 SET default_tablespace = '';
@@ -440,6 +519,39 @@ CREATE SEQUENCE public.cards_id_seq
 --
 
 ALTER SEQUENCE public.cards_id_seq OWNED BY public.cards.id;
+
+
+--
+-- Name: charge_revenues; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.charge_revenues (
+    id integer NOT NULL,
+    revenue integer,
+    charge_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: charge_revenues_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.charge_revenues_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: charge_revenues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.charge_revenues_id_seq OWNED BY public.charge_revenues.id;
 
 
 --
@@ -1000,10 +1112,10 @@ CREATE TABLE public.exports (
     user_id integer,
     nonprofit_id integer,
     status character varying(255),
-    exception character varying(255),
+    exception text,
     ended timestamp without time zone,
     export_type character varying(255),
-    parameters character varying(255),
+    parameters text,
     url character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -2876,6 +2988,13 @@ ALTER TABLE ONLY public.cards ALTER COLUMN id SET DEFAULT nextval('public.cards_
 
 
 --
+-- Name: charge_revenues id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.charge_revenues ALTER COLUMN id SET DEFAULT nextval('public.charge_revenues_id_seq'::regclass);
+
+
+--
 -- Name: charges id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3371,6 +3490,14 @@ ALTER TABLE ONLY public.campaign_gifts
 
 ALTER TABLE ONLY public.campaigns
     ADD CONSTRAINT campaigns_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: charge_revenues charge_revenues_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.charge_revenues
+    ADD CONSTRAINT charge_revenues_pkey PRIMARY KEY (id);
 
 
 --
@@ -4018,6 +4145,13 @@ CREATE INDEX index_cards_on_id_and_holder_type_and_holder_id_and_inactive ON pub
 
 
 --
+-- Name: index_charge_revenues_on_charge_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_charge_revenues_on_charge_id ON public.charge_revenues USING btree (charge_id);
+
+
+--
 -- Name: index_charges_on_donation_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4520,6 +4654,14 @@ CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporter
 
 ALTER TABLE ONLY public.campaign_gifts
     ADD CONSTRAINT campaign_gifts_to_option_fk FOREIGN KEY (campaign_gift_option_id) REFERENCES public.campaign_gift_options(id);
+
+
+--
+-- Name: charge_revenues fk_rails_1188f5f3cd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.charge_revenues
+    ADD CONSTRAINT fk_rails_1188f5f3cd FOREIGN KEY (charge_id) REFERENCES public.charges(id);
 
 
 --
@@ -5611,4 +5753,8 @@ INSERT INTO schema_migrations (version) VALUES ('20210714215241');
 INSERT INTO schema_migrations (version) VALUES ('20210715191012');
 
 INSERT INTO schema_migrations (version) VALUES ('20210721175103');
+
+INSERT INTO schema_migrations (version) VALUES ('20210811185312');
+
+INSERT INTO schema_migrations (version) VALUES ('20210812220753');
 

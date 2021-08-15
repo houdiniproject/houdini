@@ -4,6 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class StateCodeConstraint
   def matches?(request)
-    ISO3166::Country[:US].subdivisions[request.params[:state_code]] != nil
+    ISO3166::Country[:US].subdivisions[request.params[:state_code].upcase] != nil
   end
 end

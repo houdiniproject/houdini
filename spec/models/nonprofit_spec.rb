@@ -88,6 +88,8 @@ RSpec.describe Nonprofit, type: :model do
 
       let(:nonprofit_with_bad_email_and_website) { Nonprofit.new({email: 'not_email', website: 'not_website' })}
 
+      let(:nonprofit_with_not_US_state) { Nonprofit.new(user_id: user.id, state_code: 'KK')}
+
       let(:user) { create(:user)}
       let(:nonprofit_admin_role) do
         role = user.roles.build(host: nonprofit, name: 'nonprofit_admin')
@@ -103,6 +105,7 @@ RSpec.describe Nonprofit, type: :model do
         nonprofit_with_same_name.valid?
         nonprofit_with_same_name_but_different_state.valid?
         nonprofit_with_bad_email_and_website.valid?
+        nonprofit_with_not_US_state.valid?
       end
 
       it 'has an error for no name' do
@@ -121,7 +124,11 @@ RSpec.describe Nonprofit, type: :model do
         expect(nonprofit.errors['state_code'].first).to match /.*blank.*/
       end
 
-      it 'rejects an invalid user' do 
+      it 'has an error for not in the US state' do
+        expect(nonprofit.errors['state_not_in_us'].first).to match 'Only US states are allowed'
+      end
+
+      it 'rejects an invalid user' do
         expect(nonprofit_with_invalid_user.errors['user_id'].first).to match /.*not a valid user.*/
       end
 
@@ -139,8 +146,8 @@ RSpec.describe Nonprofit, type: :model do
         expect(nonprofit_with_same_name_but_different_state.slug).to eq "#{nm_justice.slug}"
       end
 
-      it 'marks email as having errors if they do' do 
-        expect(nonprofit_with_bad_email_and_website.errors['email'].first).to match /.*invalid.*/ 
+      it 'marks email as having errors if they do' do
+        expect(nonprofit_with_bad_email_and_website.errors['email'].first).to match /.*invalid.*/
       end
 
       describe 'website validation' do

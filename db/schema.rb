@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_21_191202) do
+ActiveRecord::Schema.define(version: 2021_08_12_220753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -388,10 +388,10 @@ ActiveRecord::Schema.define(version: 2021_06_21_191202) do
     t.integer "user_id"
     t.integer "nonprofit_id"
     t.string "status", limit: 255
-    t.string "exception", limit: 255
+    t.text "exception"
     t.datetime "ended"
     t.string "export_type", limit: 255
-    t.string "parameters", limit: 255
+    t.text "parameters"
     t.string "url", limit: 255
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

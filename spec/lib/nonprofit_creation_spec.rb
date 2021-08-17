@@ -105,7 +105,7 @@ RSpec.describe NonprofitCreation do
 			{
 				success: false,
 				messages: [
-					"Error creating nonprofit: State not in us Only US states are allowed"
+					'Error creating nonprofit: State code must be a US two-letter state code'
 				]
 			}
 		end

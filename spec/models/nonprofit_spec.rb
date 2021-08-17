@@ -125,7 +125,7 @@ RSpec.describe Nonprofit, type: :model do
       end
 
       it 'has an error for not in the US state' do
-        expect(nonprofit.errors['state_not_in_us'].first).to match 'Only US states are allowed'
+        expect(nonprofit.errors['state_code']).to include 'must be a US two-letter state code'
       end
 
       it 'rejects an invalid user' do

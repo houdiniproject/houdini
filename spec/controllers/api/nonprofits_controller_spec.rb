@@ -27,7 +27,7 @@ describe Api::NonprofitsController, type: :request do
 			input = {}
 			post '/api/nonprofits', params: input, xhr: true
 			expect(response).to have_http_status :unprocessable_entity
-			expect(response.parsed_body['errors'].keys).to match_array %w[name city state_code slug user_id state_not_in_us]
+			expect(response.parsed_body['errors'].keys).to match_array %w[name city state_code slug user_id]
 		end
 
 		it 'succeeds' do

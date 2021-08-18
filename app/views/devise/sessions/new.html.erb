@@ -2,7 +2,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
 <% content_for :title, t("login.header") %>
 <% content_for :javascripts do %>
-  <%= javascript_packs_with_chunks_tag 'user-signin-bundle' %>
+<%= javascript_packs_with_chunks_tag 'user-signin-bundle' %>
 <% end %>
 <% sign_in_common = JSON::parse(render('users/sign_in')) %>
-<%= react_component('SignInPage', props:sign_in_common.merge(innerProps: {returnUrl: 'something'})) %>
+<%= react_component('SignInPage', props: sign_in_common.merge(innerProps: {redirectUrl: root_path })) %>

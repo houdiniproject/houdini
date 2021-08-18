@@ -179,5 +179,32 @@ describe QuerySupporters do
       result = QuerySupporters.full_search(np.id, { last_payment_before: payment_utc_time.to_s })
       expect(result[:data].count).to eq 2
     end
+
+    context 'when looking for a phone number' do
+      before(:each) {
+        supporter1.phone = "+1 (920) 915-4980"
+        supporter1.save!
+      }
+
+      it 'finds when using character filled phone number' do 
+        result = QuerySupporters.full_search(np.id, { search: "+1(920) 915*4980a" })
+        expect(result[:data][0]['id']).to eq supporter1.id
+      end
+
+      it 'finds when using spaced phone number' do 
+        result = QuerySupporters.full_search(np.id, { search: "1 920 915 4980" })
+        expect(result[:data][0]['id']).to eq supporter1.id
+      end
+
+      it 'finds when using nonspaced phone number' do 
+        result = QuerySupporters.full_search(np.id, { search: "19209154980" })
+        expect(result[:data][0]['id']).to eq supporter1.id
+      end
+
+      it 'does not find based on partial phone number' do 
+        result = QuerySupporters.full_search(np.id, { search: "9209154980" })
+        expect(result[:data].count).to eq 0 # just the headers
+      end
+    end
   end
 end

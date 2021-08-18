@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.10.1)
--- Dumped by pg_dump version 13.3 (Ubuntu 13.3-0ubuntu0.21.04.1)
+-- Dumped by pg_dump version 13.4 (Ubuntu 13.4-0ubuntu0.21.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -86,6 +86,20 @@ CREATE FUNCTION public.update_fts_on_supporters() RETURNS trigger
           RETURN new;
         END
       $$;
+
+
+--
+-- Name: update_phone_index_on_supporters(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.update_phone_index_on_supporters() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+            BEGIN
+              new.phone_index = (regexp_replace(new.phone, '\D','', 'g'));
+              RETURN new;
+            END
+          $$;
 
 
 SET default_tablespace = '';
@@ -2518,7 +2532,8 @@ CREATE TABLE public.supporters (
     first_name character varying(255),
     last_name character varying(255),
     locale character varying(255),
-    fts tsvector
+    fts tsvector,
+    phone_index character varying
 );
 
 
@@ -4333,6 +4348,13 @@ CREATE INDEX index_supporters_on_nonprofit_id_and_imported_at ON public.supporte
 
 
 --
+-- Name: index_supporters_on_nonprofit_id_and_phone_index_and_deleted; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_supporters_on_nonprofit_id_and_phone_index_and_deleted ON public.supporters USING btree (nonprofit_id, phone_index, deleted) WHERE ((phone IS NOT NULL) AND ((phone)::text <> ''::text));
+
+
+--
 -- Name: index_tag_joins_on_tag_master_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4512,6 +4534,13 @@ CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations 
 --
 
 CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION public.update_fts_on_supporters();
+
+
+--
+-- Name: supporters update_supporters_phone_index; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION public.update_phone_index_on_supporters();
 
 
 --
@@ -5611,6 +5640,8 @@ INSERT INTO schema_migrations (version) VALUES ('20210714215241');
 INSERT INTO schema_migrations (version) VALUES ('20210715191012');
 
 INSERT INTO schema_migrations (version) VALUES ('20210721175103');
+
+INSERT INTO schema_migrations (version) VALUES ('20210804203440');
 
 INSERT INTO schema_migrations (version) VALUES ('20210812220753');
 

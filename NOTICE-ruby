@@ -1102,11 +1102,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actionmailer; version 6.1.4 -- 
-** actionpack; version 6.1.4 -- 
-** actionview; version 6.1.4 -- 
-** activemodel; version 6.1.4 -- 
-** railties; version 6.1.4 -- 
+** actionmailer; version 6.1.4.1 -- 
+** actionpack; version 6.1.4.1 -- 
+** actionview; version 6.1.4.1 -- 
+** activemodel; version 6.1.4.1 -- 
+** railties; version 6.1.4.1 -- 
 Copyright (c) 2006-2013 Paul Battley, Michael Neumann, Tim Fletcher.
 
 Copyright (c) 2004-2020 David Heinemeier Hansson
@@ -1229,7 +1229,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** globalid; version 0.4.2 -- 
+** globalid; version 0.5.2 -- 
 Copyright (c) 2014-2016 David Heinemeier Hansson
 
 Copyright (c) 2014-2016 David Heinemeier Hansson
@@ -1547,7 +1547,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** mini_portile2; version 2.5.3 -- 
+** mini_portile2; version 2.6.1 -- 
 Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
 
 Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
@@ -1731,7 +1731,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actioncable; version 6.1.4 -- 
+** actioncable; version 6.1.4.1 -- 
 Copyright (c) 2010-2015 James Coglan
 
 Copyright (c) 2015-2020 Basecamp, LLC
@@ -1789,7 +1789,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** loofah; version 2.10.0 -- 
+** loofah; version 2.12.0 -- 
+Copyright (c) 2006-2008 The Authors
+Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
 
 The MIT License
 
@@ -2367,7 +2369,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actionmailbox; version 6.1.4 -- 
+** actionmailbox; version 6.1.4.1 -- 
 
 MIT License
 
@@ -2394,7 +2396,7 @@ SOFTWARE.
 
 ------
 
-** actiontext; version 6.1.4 -- 
+** actiontext; version 6.1.4.1 -- 
 
 MIT License
 
@@ -2679,7 +2681,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activejob; version 6.1.4 -- 
+** activejob; version 6.1.4.1 -- 
 
 Copyright (c) 2014-2020 David Heinemeier Hansson
 
@@ -2928,7 +2930,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activerecord; version 6.1.4 -- 
+** activerecord; version 6.1.4.1 -- 
 copyright (c) 2007-2016 Nick Kallen, Bryan Helmkamp, Emilio Tagua, Aaron Patterson
 ** coderay; version 1.1.3 -- 
 Copyright (c) 2005-2012 Kornelius Kalnbach <murphy@rubychan.de>
@@ -2953,23 +2955,7 @@ Copyright 2003-2019 Austin Ziegler and contributors.
 ** mime-types-data; version 3.2020.1104 -- 
 ** minitest; version 5.14.4 -- 
 Copyright (c) Ryan Davis, seattle.rb
-** nio4r; version 2.5.7 -- 
-(c) 2011 Emanuele Giaquinta
-Copyright (c) 2011 Tony Arcieri.
-Copyright, 2019, by Tony Arcieri.
-Copyright (c) 2011-2017 Tony Arcieri.
-Copyright, 2007-2019, by Marc Alexander Lehmann.
-Copyright (c) 2019 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright (c) 2007-2019 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright (c) 2007,2008,2009 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright (c) 2007,2008,2009,2010,2011,2012,2013 Marc Alexander Lehmann.
-Copyright (c) 2007,2008,2009,2010,2011 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright (c) 2007,2008,2009,2010,2011,2019 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright, 2019, by Samuel G. D. Williams (http://www.codeotaku.com/samuel-williams).
-Copyright (c) 2007,2008,2009,2010,2011,2016,2019 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright (c) 2007,2008,2009,2010,2011,2012,2013,2019 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright (c) 2007,2008,2009,2010,2011,2016,2017,2019 Marc Alexander Lehmann <libev@schmorp.de>
-Copyright (c) 2007,2008,2009,2010,2011,2012,2013,2016,2019 Marc Alexander Lehmann <libev@schmorp.de>
+** nio4r; version 2.5.8 -- 
 ** qx; version 0.1.1 -- 
 ** rack; version 2.2.3 -- 
 Copyright (c) 2009-2018 Michael Fellinger <m.fellinger@gmail.com>
@@ -2977,10 +2963,10 @@ Copyright (c) Django Software Foundation and individual contributors.
 Copyright (c) 2007-2019 Leah Neukirchen <http://leahneukirchen.org/infopage.html>
 ** rack-attack; version 5.4.2 -- 
 Copyright Kickstarter, PBC.
-** rails; version 6.1.4 -- 
+** rails; version 6.1.4.1 -- 
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
-** rails-html-sanitizer; version 1.3.0 -- 
+** rails-html-sanitizer; version 1.4.1 -- 
 Copyright (c) 2013-2015 Rafael Mendonca Franca, Kasper Timm Hansen
 ** wisper; version 2.0.1 -- 
 Copyright (c) 2013 Kris Leech
@@ -2997,7 +2983,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ------
 
-** activesupport; version 6.1.4 -- 
+** activesupport; version 6.1.4.1 -- 
 
 Copyright (c) 2005-2020 David Heinemeier Hansson
 
@@ -3019,33 +3005,6 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** nokogiri; version 1.11.7 -- 
-(c) Copyright 2002-2005, Andy Clark.
-Copyright (c) 1998-2003 Daniel Veillard.
-Copyright (c) 1998-2012 Daniel Veillard.
-Copyright (c) 2001-2002 Daniel Veillard.
-copyrighted by the Free Software Foundation
-Copyright (c) 1991 Free Software Foundation, Inc.
-Copyright 1992-2018 Free Software Foundation, Inc.
-Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler
-Copyright (c) 2001-2003 Thai Open Source Software Center Ltd
-Copyright (c) 2001-2002 Thomas Broyer, Charlie Bozeman and Daniel Veillard.
-Copyright (c) 2001-2002, SourceForge ISO-RELAX Project (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
-Copyright 2008 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
-
-The MIT License
-
-Copyright 2008 -- 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -3383,7 +3342,7 @@ THE SOFTWARE.
 
 ------
 
-** activestorage; version 6.1.4 -- 
+** activestorage; version 6.1.4.1 -- 
 
 Copyright (c) 2017-2020 David Heinemeier Hansson, Basecamp
 
@@ -4043,6 +4002,39 @@ Exceptions
 ----------
 
   * lib/test/unit/diff.rb: This license and PSF license
+
+
+------
+
+** nokogiri; version 1.12.3 -- 
+Copyright 2010 Google Inc.
+Copyright 2011 Google Inc.
+Copyright 2018 Craig Barnes.
+Copyright 2018 Stephen Checkoway
+Copyright 2017-2018 Craig Barnes.
+(c) Copyright 2002-2005, Andy Clark.
+Copyright (c) 1998-2003 Daniel Veillard.
+Copyright (c) 1998-2012 Daniel Veillard.
+Copyright (c) 2001-2002 Daniel Veillard.
+copyrighted by the Free Software Foundation
+Copyright (c) 1991 Free Software Foundation, Inc.
+Copyright 1992-2018 Free Software Foundation, Inc.
+Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler
+Copyright (c) 2001-2003 Thai Open Source Software Center Ltd
+Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+Copyright (c) 2001-2002 Thomas Broyer, Charlie Bozeman and Daniel Veillard.
+Copyright (c) 2001-2002, SourceForge ISO-RELAX Project (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
+Copyright 2008 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
+
+The MIT License
+
+Copyright 2008 -- 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------

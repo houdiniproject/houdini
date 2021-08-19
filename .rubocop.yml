@@ -498,7 +498,6 @@ AllCops:
     - 'spec/factories/tag_joins.rb'
     - 'spec/factories/exports.rb'
     - 'spec/factories/charges.rb'
-    - 'spec/factories/campaign_gift_options.rb'
     - 'spec/factories/modern_donations.rb'
     - 'spec/factories/disputes.rb'
     - 'spec/factories/custom_field_joins.rb'

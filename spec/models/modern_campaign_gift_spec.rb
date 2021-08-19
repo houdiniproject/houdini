@@ -43,6 +43,7 @@ RSpec.describe ModernCampaignGift, type: :model do
           'cents' => 400,
           'currency' => 'usd'
         },
+        'recurrence' => nil
       }],
       'campaign' => kind_of(Numeric),
       'nonprofit' => kind_of(Numeric)

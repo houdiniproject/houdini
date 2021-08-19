@@ -9,7 +9,7 @@ interface OneTimeGiftOptionAmount {
 
 interface RecurringGiftOptionAmount {
   amount: Amount;
-  recurrence: RecurrenceRule;
+  recurrence: {interval: number, type: 'monthly'}|null;
 }
 
 export interface CampaignGiftOption extends HoudiniObject {
@@ -22,7 +22,7 @@ export interface CampaignGiftOption extends HoudiniObject {
   nonprofit: IDType | Nonprofit;
   object: "campaign_gift_option";
   order: number;
-  quantity?: number;
+  quantity: number|null;
   to_ship: boolean;
 }
 

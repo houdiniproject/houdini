@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type { IDType, HoudiniObject, HoudiniEvent, Amount, RecurrenceRule } from '../../common';
+import type { IDType, HoudiniObject, HoudiniEvent, Amount } from '../../common';
 import type Nonprofit from '..';
 import type Campaign from '.';
 
@@ -9,7 +9,7 @@ interface OneTimeGiftOptionAmount {
 
 interface RecurringGiftOptionAmount {
   amount: Amount;
-  recurrence: {interval: number, type: 'monthly'}|null;
+  recurrence: {interval: number, type: 'monthly'} | null;
 }
 
 export interface CampaignGiftOption extends HoudiniObject {
@@ -22,7 +22,7 @@ export interface CampaignGiftOption extends HoudiniObject {
   nonprofit: IDType | Nonprofit;
   object: "campaign_gift_option";
   order: number;
-  quantity: number|null;
+  quantity: number | null;
   to_ship: boolean;
 }
 

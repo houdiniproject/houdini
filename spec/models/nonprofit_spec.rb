@@ -89,6 +89,7 @@ RSpec.describe Nonprofit, type: :model do
       let(:nonprofit_with_bad_email_and_website) { Nonprofit.new({email: 'not_email', website: 'not_website' })}
 
       let(:nonprofit_with_not_US_state) { Nonprofit.new(user_id: user.id, state_code: 'KK')}
+      let(:nonprofit_with_non_capitalized_state_code) { Nonprofit.new(user_id: user.id, state_code: 'Or')}
 
       let(:user) { create(:user)}
       let(:nonprofit_admin_role) do
@@ -106,6 +107,7 @@ RSpec.describe Nonprofit, type: :model do
         nonprofit_with_same_name_but_different_state.valid?
         nonprofit_with_bad_email_and_website.valid?
         nonprofit_with_not_US_state.valid?
+        nonprofit_with_non_capitalized_state_code.valid?
       end
 
       it 'has an error for no name' do
@@ -126,6 +128,10 @@ RSpec.describe Nonprofit, type: :model do
 
       it 'has an error for not in the US state' do
         expect(nonprofit_with_not_US_state.errors['state_code']).to match_array ['must be a US two-letter state code']
+      end
+
+      it 'does nothing when the state code is not capitalized' do
+        expect(nonprofit_with_non_capitalized_state_code.errors['state_code']).to be_empty
       end
 
       it 'rejects an invalid user' do

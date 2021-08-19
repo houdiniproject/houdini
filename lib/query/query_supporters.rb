@@ -234,6 +234,8 @@ module QuerySupporters
         OR (
           supporters.phone IS NOT NULL
           AND supporters.phone != ''
+          AND supporters.phone_index IS NOT NULL 
+          AND supporters.phone_index != ''
           AND supporters.phone_index = (regexp_replace($search, '\\D','', 'g'))
         )
       ), search: query[:search], old_search: '%' + query[:search] + '%')

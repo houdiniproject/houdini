@@ -365,6 +365,58 @@ describe QueryPayments do
           expect(result[:data].count).to eq 1
         end
       end
+
+      context 'when searching by supporter phone number' do
+        it 'finds when using character filled phone number' do 
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          supporter.phone = "+1 (920) 915-4980"
+          supporter.save!
+          
+          result = QueryPayments::full_search(nonprofit.id,  { search: "+1(920) 915*4980a" })
+          expect(result[:data].count).to eq 3
+        end
+  
+        it 'finds when using spaced phone number' do
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          supporter.phone = "+1 (920) 915-4980"
+          supporter.save!
+          result = QueryPayments::full_search(nonprofit.id, { search: "1 920 915 4980" })
+          expect(result[:data].count).to eq 3
+        end
+  
+        it 'finds when using nonspaced phone number' do 
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          supporter.phone = "+1 (920) 915-4980"
+          supporter.save!
+          result = QueryPayments::full_search(nonprofit.id, { search: "19209154980" })
+          expect(result[:data].count).to eq 3
+        end
+  
+        it 'does not find based on partial phone number' do
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          result = QueryPayments::full_search(nonprofit.id, { search: "9209154980" })
+          expect(result[:data].count).to eq 0 # just the headers
+        end
+
+        it 'does not find payments with blank phone numbers accidentally' do
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          supporter.phone = " "
+          supporter.save!
+          result = QueryPayments::full_search(nonprofit.id,  { search: "A search term" })
+          expect(result[:data].count).to eq 0
+          
+        end
+      end
     end
 
     describe 'event donations' do

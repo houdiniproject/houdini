@@ -206,5 +206,17 @@ describe QuerySupporters do
         expect(result[:data].count).to eq 0 # just the headers
       end
     end
+
+    context 'when looking for a blank phone number' do
+      before(:each) {
+        supporter1.phone = " "
+        supporter1.save!
+      }
+
+      it 'finds when using character filled phone number' do 
+        result = QuerySupporters.full_search(np.id, { search: "A search term" })
+        expect(result[:data].count).to eq 0
+      end
+    end
   end
 end

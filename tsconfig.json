@@ -15,6 +15,16 @@
       "node_modules/@types",
       "./types"],
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop":true
-  }
+    "esModuleInterop":true,
+  },
+  "exclude": [
+    "node_modules",
+    "bower_components", 
+    "jspm_packages",
+    "tmp",
+    "storage",
+    "coverage",
+    "log",
+    "vendor"
+  ]
 }

@@ -10,10 +10,8 @@ import MockCurrentUserProvider from "../tests/MockCurrentUserProvider";
 import { mocked } from "ts-jest/utils";
 
 /* NOTE: We're mocking calls to `/user/sign_in` */
-jest.mock('../../api/api/users');
-jest.mock('../../api/users');
+
 import {postSignIn} from '../../api/users';
-import {getCurrent} from '../../api/api/users';
 import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 import { LocationMock } from '@jedmao/location';

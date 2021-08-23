@@ -14,10 +14,10 @@ export const HosterContext = createContext<Hoster|null>(null);
  */
 export interface Hoster {
 	casual_name: string;
-	legal_name: string;
-	main_admin_email: string;
-	support_email: string;
-	terms_and_privacy:{
+	legal_name?: string;
+	main_admin_email?: string;
+	support_email?: string;
+	terms_and_privacy?:{
 		about_url?: string;
 		help_url?: string;
 		privacy_url?: string;

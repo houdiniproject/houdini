@@ -5,4 +5,4 @@
 <%= javascript_packs_with_chunks_tag 'user-signin-bundle' %>
 <% end %>
 <% sign_in_common = JSON::parse(render('users/sign_in')) %>
-<%= react_component('SignInPage', props: sign_in_common.merge(innerProps: {redirectUrl: root_path })) %>
+<%= react_component('SignInPage', props: sign_in_common.merge(innerProps: { redirectUrl: root_path })) %>

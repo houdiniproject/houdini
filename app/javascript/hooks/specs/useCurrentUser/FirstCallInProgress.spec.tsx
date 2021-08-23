@@ -1,90 +1,125 @@
 // License: LGPL-3.0-or-later
+/* eslint-disable jest/no-hooks */
 import * as React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { HookResult, renderHook, act} from '@testing-library/react-hooks';
+import { HookResult, renderHook} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
-const currentUser  = {id: 1};
+import { server } from '../../../api/mocks';
+import { UserPresignedInAndWaitUntilSignal, StopWaitingDuringGetCurrent } from '../../../api/api/mocks/users';
+import { DefaultUser } from '../../../api/api/mocks/users';
 
-jest.mock('../../../api/api/users');
 
 import useCurrentUser, { InitialCurrentUserContext, SetCurrentUserReturnType } from '../../useCurrentUser';
-import {getCurrent} from '../../../api/api/users';
-import { mocked } from 'ts-jest/utils';
-
-
 
 describe('useCurrentUser', () => {
+
+	beforeEach(() => {
+		server.use(...UserPresignedInAndWaitUntilSignal);
+	});
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
-		return <SWRConfig value={{dedupingInterval: 0}}>
+		return <SWRConfig value={{dedupingInterval: 0, revalidateOnMount: true}}>
 			{props.children}
 		</SWRConfig>;
 	}
 
-	const getCurrentMocked = mocked(getCurrent);
+
 
 	describe('first call in progress', () => {
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
-			async function commonPrep(expectations:(result:HookResult<ReturnType<typeof useCurrentUser>>) => void) {
-				getCurrentMocked.mockReset();
-				const {result, unmount, wait} = renderHook(() => useCurrentUser<SetCurrentUserReturnType>(), {wrapper});
-				// we need to test what is happening as the getCurrent promise is happening
-				getCurrentMocked.mockImplementationOnce(async () => {
-					await wait(() => result.current.validatingCurrentUser);
+			let result: HookResult<SetCurrentUserReturnType> = null;
+			let unmount: () => boolean = null;
+			beforeAll(async () => {
+				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUser<SetCurrentUserReturnType>(), {wrapper});
+				result = innerResult;
+				unmount = innerUnmount;
+				await wait(() => result.current.validatingCurrentUser === true);
+			});
 
-					expectations(result);
-					return currentUser;
-				});
-
-				await act(async () => {
-					await result.current.revalidate();
-				});
+			afterAll(() => {
+				StopWaitingDuringGetCurrent();
 				unmount();
-			}
+			});
 
 
 			it('is validatingCurrentUser', async () => {
 				expect.assertions(1);
 
+				expect(result.current.validatingCurrentUser).toBe(true);
 
-				await commonPrep(result =>	expect(result.current.validatingCurrentUser).toBe(true));
+			});
+
+			it('has no currentUser', async () => {
+				expect.assertions(1);
+
+				expect(result.current.currentUser).toBeNull();
+
+			});
+
+			it('is not signed in', async () => {
+				expect.assertions(1);
+
+				expect(result.current.signedIn).toBe(false);
+
+			});
+
+			it('has no error', async () => {
+				expect.assertions(1);
+				expect(result.current.error).toBeUndefined();
+
 			});
 		});
 
 
 		describe('when user initially logged in', () => {
 			function wrapper(props:React.PropsWithChildren<unknown>) {
-				return <InitialCurrentUserContext.Provider value={currentUser}>
+				return <InitialCurrentUserContext.Provider value={DefaultUser}>
 					<SWRWrapper>
 						{props.children}
 					</SWRWrapper>
 				</InitialCurrentUserContext.Provider>;
 			}
 
-			async function commonPrep(expectations:(result:HookResult<ReturnType<typeof useCurrentUser>>) => void) {
-				getCurrentMocked.mockReset();
+			let result: HookResult<SetCurrentUserReturnType> = null;
+			let unmount: () => boolean = null;
+			beforeAll(async () => {
+				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUser<SetCurrentUserReturnType>(), {wrapper});
+				result = innerResult;
+				unmount = innerUnmount;
+				await wait(() => result.current.validatingCurrentUser === true);
+			});
 
-				const {result, unmount, wait} = renderHook(() => useCurrentUser<SetCurrentUserReturnType>(), {wrapper});
-				// we need to test what is happening as the getCurrent promise is happening
-				getCurrentMocked.mockImplementationOnce(async () => {
-					await wait(() => result.current.validatingCurrentUser);
-
-					expectations(result);
-
-					return currentUser;
-				});
-
-				await act(async () => {
-					await result.current.revalidate();
-				});
+			afterAll(() => {
+				sessionStorage.setItem('finish-promise', 'true');
 				unmount();
-			}
+			});
 
 			it('is validatingCurrentUser', async () => {
 				expect.assertions(1);
 
-				await commonPrep(result => expect(result.current.validatingCurrentUser).toBe(true));
+				expect(result.current.validatingCurrentUser).toBe(true);
+
+			});
+
+			it('has currentUser', async () => {
+				expect.assertions(1);
+
+				expect(result.current.currentUser).toBe(DefaultUser);
+
+			});
+
+			it('is not signed in', async () => {
+				expect.assertions(1);
+
+				expect(result.current.signedIn).toBe(true);
+
+			});
+
+			it('has no error', async () => {
+				expect.assertions(1);
+				expect(result.current.error).toBeUndefined();
+
 			});
 		});
 	});

@@ -8,7 +8,7 @@ require 'controllers/support/shared_user_context'
 describe Nonprofits::CustomFieldDefinitionsController, type: :controller do
   include_context :shared_user_context
   describe 'rejects unauthenticated users' do
-    describe 'get custom field masters' do
+    describe 'get custom field definitions' do
       include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, without_json_view: true
     end
 

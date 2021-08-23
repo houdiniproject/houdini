@@ -125,6 +125,8 @@ class Campaign < ActiveRecord::Base
 		self
 	end
 
+	after_update :send_campaign_updated
+
 	def set_defaults
 
 		self.total_supporters = 1
@@ -255,4 +257,7 @@ class Campaign < ActiveRecord::Base
 		!!(misc_campaign_info&.paused)
 	end
 
+	def send_campaign_updated
+		JobQueue.queue(JobTypes::CampaignUpdatedJob, self.id)
+	end
 end

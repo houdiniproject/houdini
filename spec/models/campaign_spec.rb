@@ -145,8 +145,6 @@ RSpec.describe Campaign, type: :model do
     let(:empty_campaign) { create(:empty_campaign)}
     let(:nonprofit) { empty_campaign.nonprofit}
     let(:campaign_with_things_set_1){create(:campaign_with_things_set_1, nonprofit: nonprofit)}
-  #let(:campaign_with_things_set_2) { create(:campaign_with_things_set_2, nonprofit:nonprofit)}
-
     
 
     context 'when the child is an empty campaign' do
@@ -297,6 +295,50 @@ RSpec.describe Campaign, type: :model do
         it {
           expect(child_campaign.send(key.to_sym).path).to be_identical_to(child_campaign.send(key.to_sym).path)
         }
+      end
+    end
+  end
+
+  describe ':after_update' do
+    describe 'with send_campaign_updated' do
+      let(:parent_campaign) {create(:campaign_with_things_set_1)}
+
+      let!(:child_campaign) {create(:campaign_with_things_set_1, 
+      nonprofit_id: parent_campaign.nonprofit.id,
+      parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-1')}
+
+      let!(:child_campaign_2) {create(:campaign_with_things_set_1, 
+      nonprofit_id: parent_campaign.nonprofit.id,
+      parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-2')}
+
+      
+      it 'queues CampaignUpdatedJob' do
+        expect_job_queued.with(JobTypes::CampaignUpdatedJob, parent_campaign.id)
+        parent_campaign.summary = "a new summary"
+        parent_campaign.save!
+        
+      end
+
+      it 'updates child_campaign' do
+        parent_campaign.summary = "a new summary"
+        parent_campaign.save!
+
+        child_campaign.reload
+
+        expect(child_campaign.summary).to eq "a new summary"
+        
+        
+      end
+
+      it 'updates child_campaign' do
+        parent_campaign.summary = "a new summary"
+        parent_campaign.save!
+
+        child_campaign_2.reload
+
+        expect(child_campaign_2.summary).to eq "a new summary"
+        
+        
       end
     end
   end

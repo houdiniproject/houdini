@@ -4,9 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { HookResult, renderHook } from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
-
-jest.mock('../../../api/api/users');
-
+import {DefaultUser } from '../../../api/api/mocks/users';
 
 import useCurrentUser, { InitialCurrentUserContext, UseCurrentUserReturnType } from '../../useCurrentUser';
 
@@ -61,7 +59,7 @@ describe('useCurrentUser', () => {
 
 		describe('when user initially logged in', () => {
 			function wrapper(props:React.PropsWithChildren<unknown>) {
-				return <InitialCurrentUserContext.Provider value={{id: 1}}>
+				return <InitialCurrentUserContext.Provider value={DefaultUser}>
 					<SWRWrapper>
 						{props.children}
 					</SWRWrapper>
@@ -77,7 +75,7 @@ describe('useCurrentUser', () => {
 			it('has correct currentUser', async () => {
 				expect.assertions(1);
 
-				await commonPrep(async (result) => expect(result.current.currentUser).toStrictEqual({id: 1}));
+				await commonPrep(async (result) => expect(result.current.currentUser).toStrictEqual(DefaultUser));
 
 			});
 

@@ -1,14 +1,17 @@
 // License: LGPL-3.0-or-later
 import { createContext, useContext } from "react";
 import useSWR from "swr";
-import { getCurrent } from "../api/api/users";
+import { getCurrent, NotLoggedInStatus } from "../api/api/users";
 import users from "../routes/api/users";
+export {NotLoggedInStatus} from '../api/api/users';
 
 /**
  * A context which provides information about the current user and for setting
  * the current user.
  */
-export const InitialCurrentUserContext = createContext<CurrentUser | null>(null);
+export const InitialCurrentUserContext = createContext< CurrentUser | null>(null);
+
+
 
 export interface CurrentUser {
 	id: number;
@@ -71,8 +74,8 @@ export interface SetCurrentUserReturnType extends UseCurrentUserReturnType {
 function useCurrentUser<TReturnType extends UseCurrentUserReturnType = UseCurrentUserReturnType>(): TReturnType {
 	const initialCurrentUser = useContext(InitialCurrentUserContext);
 
-	const { data, mutate, error, isValidating: validatingCurrentUser } = useSWR(users.apiUsersCurrent.url, getCurrent, { initialData: initialCurrentUser });
-	const currentUser = error?.status === 403 ? null : data;
+	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(users.apiUsersCurrent.url(), getCurrent, { initialData: initialCurrentUser });
+	const currentUser = error?.status === NotLoggedInStatus ? null : data;
 
 	async function revalidate() {
 		return mutate(data, true);

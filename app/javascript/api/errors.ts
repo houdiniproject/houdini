@@ -1,7 +1,16 @@
 
 // License: LGPL-3.0-or-later
 
-export class NetworkError extends Error {
+export function IsNetworkError(err:unknown): err is NetworkErrorLike {
+	return err instanceof NetworkError || Object.prototype.hasOwnProperty.call(err, 'status');
+}
+
+interface NetworkErrorLike {
+	readonly data?: unknown;
+	readonly status?: number;
+}
+
+export class NetworkError extends Error implements NetworkErrorLike {
 	public readonly data?: unknown;
 	public readonly status?: number;
 

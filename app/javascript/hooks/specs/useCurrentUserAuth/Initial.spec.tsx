@@ -4,15 +4,12 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { HookResult, renderHook } from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
-const currentUser  = {id: 1};
-
-jest.mock('../../../api/api/users');
-
 
 import { InitialCurrentUserContext } from '../../useCurrentUser';
 import useCurrentUserAuth, { UseCurrentUserAuthReturnType } from '../../useCurrentUserAuth';
+import {DefaultUser} from '../../../api/api/mocks/users';
 
-describe('useCurrentUser', () => {
+describe('useCurrentUserAuth', () => {
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
 		return <SWRConfig value={
 			{
@@ -76,7 +73,7 @@ describe('useCurrentUser', () => {
 
 		describe('when user initially logged in', () => {
 			function wrapper(props:React.PropsWithChildren<unknown>) {
-				return <InitialCurrentUserContext.Provider value={currentUser}>
+				return <InitialCurrentUserContext.Provider value={DefaultUser}>
 					<SWRWrapper>
 						{props.children}
 					</SWRWrapper>
@@ -92,10 +89,8 @@ describe('useCurrentUser', () => {
 			it('has currentUser', async () => {
 				expect.assertions(1);
 
-				await commonPrep(async result => expect(result.current.currentUser).toBe(currentUser));
-
+				await commonPrep(async result => expect(result.current.currentUser).toBe(DefaultUser));
 			});
-
 			it('is signedIn', async () => {
 				expect.assertions(1);
 
@@ -131,6 +126,7 @@ describe('useCurrentUser', () => {
 
 				await commonPrep(async result => expect(result.current.validatingCurrentUser).toBe(false));
 			});
+
 		});
 	});
 });

@@ -1,22 +1,18 @@
 // License: LGPL-3.0-or-later
+/* eslint-disable jest/no-hooks */
 import * as React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { HookResult, renderHook, act} from '@testing-library/react-hooks';
+import { renderHook, act} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
-const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users');
-
-jest.mock('../../../api/users');
-
-
-import { InitialCurrentUserContext} from '../../useCurrentUser';
+import { server } from '../../../api/mocks';
+import { UserWaitToSignInAndNotLoggedIn } from '../../mocks/useCurrentUserAuth';
 
 import useCurrentUserAuth from '../../useCurrentUserAuth';
-
-import {postSignIn} from '../../../api/users';
-const postSignInMocked = postSignIn as unknown as jest.Mock;
+import { StopWaitingDuringUserSignIn } from '../../../api/mocks/users';
+import { InitialCurrentUserContext } from '../../useCurrentUser';
+import { DefaultUser } from '../../../api/api/mocks/users';
 
 describe('useCurrentUserAuth', () => {
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
@@ -26,66 +22,67 @@ describe('useCurrentUserAuth', () => {
 	}
 
 	describe('SignIn in progress', () => {
-		describe('when no user logged in', () => {
-			const wrapper = SWRWrapper;
-			async function commonPrep(expectations:(result:HookResult<ReturnType<typeof useCurrentUserAuth>>) => void) {
-				postSignInMocked.mockReset();
-				const {result, unmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
-				// we need to test what is happening as the getCurrent promise is happening
-				postSignInMocked.mockImplementationOnce(async () => {
-					await wait(() => result.current.submitting);
-
-					expectations(result);
-					return currentUser;
-				});
-
-				await act(async () => {
-					await result.current.signIn({email: 'email', password: 'password'});
-				});
-				unmount();
-			}
-
-
-			it('is submitting', async () => {
-				expect.assertions(1);
-
-
-				await commonPrep(result =>	expect(result.current.submitting).toBe(true));
-			});
+		beforeEach(() => {
+			server.use(...UserWaitToSignInAndNotLoggedIn);
 		});
 
+		it('succeeds when no user logged in', async () => {
+			expect.assertions(6);
+			const wrapper = SWRWrapper;
+			const {result, unmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
 
-		describe('when user initially logged in', () => {
+			await act(async() => {
+				try {
+					result.current.signIn({email: 'any', password: 'any'});
+					await wait(() => result.current.submitting);
+					expect(result.current.submitting).toBe(true);
+					expect(result.current.currentUser).toBeNull();
+					expect(result.current.lastSignInAttemptError).toBeUndefined();
+					expect(result.current.signedIn).toBe(false);
+					expect(result.current.lastGetCurrentUserError).toBeUndefined();
+					expect(result.current.validatingCurrentUser).toBe(false);
+				}
+				catch{
+					// ignore
+				}
+				finally {
+					StopWaitingDuringUserSignIn();
+				}
+			});
+
+			unmount();
+		});
+
+		it('succeeds when user initially logged in', async () => {
+			expect.assertions(6);
 			function wrapper(props:React.PropsWithChildren<unknown>) {
-				return <InitialCurrentUserContext.Provider value={currentUser}>
+				return <InitialCurrentUserContext.Provider value={DefaultUser}>
 					<SWRWrapper>
 						{props.children}
 					</SWRWrapper>
 				</InitialCurrentUserContext.Provider>;
 			}
 
-			async function commonPrep(expectations:(result:HookResult<ReturnType<typeof useCurrentUserAuth>>) => void) {
-				postSignInMocked.mockReset();
-				const {result, unmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
-				// we need to test what is happening as the getCurrent promise is happening
-				postSignInMocked.mockImplementationOnce(async () => {
+			const {result, unmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
+			await act(async() => {
+				try {
+					result.current.signIn({email: 'any', password: 'any'});
 					await wait(() => result.current.submitting);
-
-					expectations(result);
-					return currentUser;
-				});
-
-				await act(async () => {
-					await result.current.signIn({email: 'email', password: 'password'});
-				});
-				unmount();
-			}
-
-			it('is submitting', async () => {
-				expect.assertions(1);
-
-				await commonPrep(result => expect(result.current.submitting).toBe(true));
+					expect(result.current.submitting).toBe(true);
+					expect(result.current.currentUser).toStrictEqual(DefaultUser);
+					expect(result.current.lastSignInAttemptError).toBeUndefined();
+					expect(result.current.signedIn).toBe(true);
+					expect(result.current.lastGetCurrentUserError).toBeUndefined();
+					expect(result.current.validatingCurrentUser).toBe(false);
+				}
+				catch {
+					//ignore
+				}
+				finally{
+					StopWaitingDuringUserSignIn();
+				}
 			});
+			unmount();
 		});
 	});
 });

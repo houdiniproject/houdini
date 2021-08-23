@@ -1,12 +1,13 @@
+/* eslint-disable jest/no-hooks */
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { HookResult, renderHook, act} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
-const currentUser  = {id: 1};
 
-jest.mock('../../../api/api/users');
+import {DefaultUser} from '../../../api/api/mocks/users';
+
 
 import useCurrentUser, { InitialCurrentUserContext, SetCurrentUserReturnType, UseCurrentUserReturnType } from '../../useCurrentUser';
 
@@ -21,6 +22,7 @@ describe('useCurrentUser', () => {
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
 			async function commonPrep(callback:(result:HookResult<UseCurrentUserReturnType>) => Promise<void>) {
+
 				const {result, unmount, wait} = renderHook(() => useCurrentUser(), {wrapper});
 				await wait(() => !!result.current.currentUser);
 				await callback(result);
@@ -28,7 +30,7 @@ describe('useCurrentUser', () => {
 			}
 			it('has currentUser', async () => {
 				expect.assertions(1);
-				await commonPrep(async result => expect(result.current.currentUser).toStrictEqual(currentUser));
+				await commonPrep(async result => expect(result.current.currentUser).toStrictEqual(DefaultUser));
 
 			});
 
@@ -49,14 +51,14 @@ describe('useCurrentUser', () => {
 				expect.assertions(1);
 
 
-				await commonPrep(async result =>	expect(result.current.validatingCurrentUser).toBe(true));
+				await commonPrep(async result =>	expect(result.current.validatingCurrentUser).toBe(false));
 			});
 		});
 
 
 		describe('when user initially logged in', () => {
 			function wrapper(props:React.PropsWithChildren<unknown>) {
-				return <InitialCurrentUserContext.Provider value={currentUser}>
+				return <InitialCurrentUserContext.Provider value={DefaultUser}>
 					<SWRWrapper>
 						{props.children}
 					</SWRWrapper>
@@ -74,7 +76,7 @@ describe('useCurrentUser', () => {
 
 			it('has currentUser', async () => {
 				expect.assertions(1);
-				await commonPrep(async result =>expect(result.current.currentUser).toStrictEqual(currentUser));
+				await commonPrep(async result =>expect(result.current.currentUser).toStrictEqual(DefaultUser));
 
 			});
 

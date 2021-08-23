@@ -1,8 +1,8 @@
 // License: LGPL-3.0-or-later
-import { useCallback, useEffect, useState } from "react";
-import useCurrentUser, { CurrentUser, SetCurrentUserReturnType } from "./useCurrentUser";
-import { postSignIn } from '../api/users';
-import { SignInError } from "../legacy_react/src/lib/api/errors";
+import {useCallback, useState} from "react";
+import useCurrentUser, {CurrentUser, SetCurrentUserReturnType} from "./useCurrentUser";
+import {postSignIn} from '../api/users';
+import { NetworkError } from "../api/errors";
 
 export interface UseCurrentUserAuthReturnType {
 	/**
@@ -35,14 +35,14 @@ export interface UseCurrentUserAuthReturnType {
 	 * @type {SignInError}
 	 * @memberof UseCurrentUserAuthReturnType
 	 */
-	lastSignInAttemptError?: SignInError;
+	lastSignInAttemptError?: NetworkError;
 
 	/**
 	 * Sign in the user with the provided credentials. Promise that results
 	 * a {@link CurrentUser} if resolved, throws a {@link SignInError} if failed
 	 * @memberof UseCurrentUserAuthReturnType
 	 */
-	signIn: (credentials: { email: string, password: string }) => Promise<CurrentUser>;
+	signIn: (credentials:{email:string, password:string}) => Promise<CurrentUser>;
 
 	/**
 	 * Reexported from {@link ./useCurrentUser.ts}
@@ -77,27 +77,25 @@ export interface UseCurrentUserAuthReturnType {
  * @export
  * @returns {UseCurrentUserAuthReturnType}
  */
-export default function useCurrentUserAuth(): UseCurrentUserAuthReturnType {
-	const { currentUser,
+export default function useCurrentUserAuth() : UseCurrentUserAuthReturnType {
+	const {currentUser,
 		signedIn,
 		revalidate,
-		error: lastGetCurrentUserError,
-		validatingCurrentUser } = useCurrentUser<SetCurrentUserReturnType>();
+		error:lastGetCurrentUserError,
+		validatingCurrentUser} = useCurrentUser<SetCurrentUserReturnType>();
 	const [submitting, setSubmitting] = useState(false);
-	const [lastSignInAttemptError, setLastSignInAttemptError] = useState<SignInError | null>(undefined);
-	const [failed, setFailed] = useState<boolean>(false);
+	const [lastSignInAttemptError, setLastSignInAttemptError] = useState<NetworkError|undefined>(undefined);
 
-	const signIn = useCallback(async ({ email, password }: { email: string, password: string }): Promise<CurrentUser> => {
+	const signIn = useCallback(async ({email, password}:{email:string, password:string}): Promise<CurrentUser> => {
 		try {
 			setSubmitting(true);
-			const user = await postSignIn({ email, password }) as CurrentUser;
+			const user = await postSignIn({email, password}) as CurrentUser;
 			setLastSignInAttemptError(undefined);
 			return user;
 		}
-		catch (e: unknown) {
-			const error = e as SignInError;
+		catch(e:unknown) {
+			const error = e as NetworkError;
 			setLastSignInAttemptError(error);
-			setSubmitting(false);
 			throw error;
 		}
 		finally {
@@ -106,16 +104,12 @@ export default function useCurrentUserAuth(): UseCurrentUserAuthReturnType {
 		}
 	}, [setSubmitting, revalidate, setLastSignInAttemptError]);
 
-	useEffect(() => {
-		setFailed(!!lastSignInAttemptError);
-	}, [lastSignInAttemptError]);
-
 	return {
 		currentUser,
 		submitting,
 		lastGetCurrentUserError,
 		lastSignInAttemptError,
-		failed,
+		failed: !!lastSignInAttemptError,
 		signedIn,
 		signIn,
 		validatingCurrentUser,

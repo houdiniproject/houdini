@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import React, { Key, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Formik, Form, Field } from 'formik';
 import noop from "lodash/noop";
@@ -33,6 +33,36 @@ export interface SignInComponentProps {
 	onSuccess?: () => void;
 	showProgressAndSuccess?: boolean;
 }
+
+function hasData(error: unknown): error is { data: unknown } {
+	return Object.prototype.hasOwnProperty.call(error, 'data');
+}
+
+function hasDataValue(error: { data: unknown }): boolean {
+	return error.data !== null && error.data !== undefined;
+}
+
+function hasError(error: { data: unknown }): error is { data: { error: unknown } } {
+	return Object.prototype.hasOwnProperty.call(error.data, 'error');
+}
+
+function FailedAlert({ error }: { error: unknown }): JSX.Element {
+
+	if (hasData(error)) {
+		if (hasDataValue(error)) {
+			if (hasError(error)) {
+				if (error.data.error instanceof Array) {
+					return <>{error.data.error.map((error) => (<Alert aria-labelledby="errorTest" severity="error" key={error}>{error}</Alert>))}</>;
+				}
+				else if (typeof error.data.error === 'string') {
+					return <Alert aria-labelledby="errorTest" severity="error" key={error.data.error}>{error.data.error}</Alert>;
+				}
+			}
+		}
+	}
+	return <Alert aria-labelledby="errorTest" severity="error" key={'unknownerror'}>An unknown error occurred</Alert>;
+}
+
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
@@ -129,7 +159,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
 
-	Formik;
 	return (
 		<Formik
 			initialValues={
@@ -138,24 +167,20 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					password: "",
 				}}
 			validationSchema={validationSchema}
-			onSubmit={
-				async (values, formikHelpers) => {
-					try {
-						await signIn(values);
-					}
-					catch (e: unknown) {
-						// NOTE: We're just swallowing the exception here for now. Might we need to do
-						// something different? Don't know!
-						console.log(e)
-					}
-					finally {
-						formikHelpers.setSubmitting(false);
-					}
+			onSubmit={async (values, formikHelpers) => {
+				try {
+					await signIn(values);
 				}
-				//Props
+				catch (e: unknown) {
+					// NOTE: We're just swallowing the exception here for now. Might we need to do
+					// something different? Don't know!
+				}
+				finally {
+					formikHelpers.setSubmitting(false);
+				}
 			}
-		>
-			{({ isValid }) => {
+				//Props
+			}>{({ isValid }) => {
 				// eslint-disable-next-line react-hooks/rules-of-hooks
 				useEffect(() => {
 					setIsValid(isValid);
@@ -199,7 +224,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						<div data-testid="errorTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
 								{componentState === 'submitting' ? "" : <>
-									{failed ? (<Alert aria-labelledby="errorTest" severity="error">{lastSignInAttemptError.data.error}</Alert>) : ""}
+									{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
 								</>
 								}
 							</Box>

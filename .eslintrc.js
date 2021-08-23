@@ -15,6 +15,7 @@ const tsSpecBase = {
 		'plugin:react-hooks/recommended',
 	],
 	rules: {
+		"jest/no-hooks": "off",
 		"jest/lowercase-name": ["error", { "ignore": ["describe"] }],
 		"react-hooks/exhaustive-deps": 'error',
 	},
@@ -28,6 +29,7 @@ const tsxSpec = _.cloneDeep(tsSpecBase);
 tsxSpec['files'] = ['**/*.spec.tsx'];
 tsxSpec['plugins'] = [...tsxSpec['plugins'], "react"];
 tsxSpec['extends'] = [...tsxSpec['extends'], "plugin:react/recommended"];
+tsxSpec['rules'] = {...tsxSpec['rules'], ...{"jest/no-hooks": "off"}};
 
 
 const tsBase = {
@@ -173,6 +175,7 @@ module.exports = {
 			},
 		],
 		"react-hooks/exhaustive-deps": 'error',
+		"jest/no-hooks": "off",
 	},
 	"settings": {
 		"react": {

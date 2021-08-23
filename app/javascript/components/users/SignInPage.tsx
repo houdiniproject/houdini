@@ -23,6 +23,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { rgb } from "color";
 import Fade from '@material-ui/core/Fade';
+
 export interface SignInPageProps {
 	redirectUrl: string;
 }
@@ -129,7 +130,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 
 	//Setting up error messages
 	const classes = useStyles();
-	const hoster = useHoster();
+	const hoster  = useHoster();
 	const { formatMessage } = useIntl();
 	const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });
 	const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });

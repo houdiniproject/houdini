@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module CreateCustomFieldDefinition
   def self.create(nonprofit, params)
-    custom_field_master = nonprofit.custom_field_definitions.create(params)
-    custom_field_master
+    custom_field_definition = nonprofit.custom_field_definitions.create(params)
+    custom_field_definition
   end
 end

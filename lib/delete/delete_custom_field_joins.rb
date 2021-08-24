@@ -3,17 +3,17 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module DeleteCustomFieldJoins
-  @columns = %w[id custom_field_master_id supporter_id value created_at updated_at metadata]
+  @columns = %w[id custom_field_definition_id supporter_id value created_at updated_at metadata]
   def self.find_multiple_custom_field_joins
-    bad_results = Qx.select("CONCAT(custom_field_joins.supporter_id, '_', custom_field_joins.custom_field_master_id) AS our_concat, COUNT(id) AS our_count")
+    bad_results = Qx.select("CONCAT(custom_field_joins.supporter_id, '_', custom_field_joins.custom_field_definition_id) AS our_concat, COUNT(id) AS our_count")
                     .from(:custom_field_joins)
                     .group_by('our_concat')
                     .having('COUNT(id) > 1').parse
 
     custom_field_joins_from_qx = CustomFieldJoin
-                                 .where("CONCAT(custom_field_joins.supporter_id, '_', custom_field_joins.custom_field_master_id) IN (SELECT our_concat FROM (#{bad_results}) AS ignore)")
-                                 .select('id, custom_field_master_id, supporter_id, created_at, updated_at')
-    grouped_custom_field_joins = custom_field_joins_from_qx.group_by { |tj| "#{tj.supporter_id}_#{tj.custom_field_master_id}" }
+                                 .where("CONCAT(custom_field_joins.supporter_id, '_', custom_field_joins.custom_field_definition_id) IN (SELECT our_concat FROM (#{bad_results}) AS ignore)")
+                                 .select('id, custom_field_definition_id, supporter_id, created_at, updated_at')
+    grouped_custom_field_joins = custom_field_joins_from_qx.group_by { |tj| "#{tj.supporter_id}_#{tj.custom_field_definition_id}" }
 
     ids_to_delete = []
     grouped_custom_field_joins.each do |_, v|

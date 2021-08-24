@@ -333,12 +333,12 @@ UNION DISTINCT
                                                      'supporters.id AS id'
                                                    ])
       if query[:export_custom_fields]
-        # Add a select/csv-column for every custom field master for this nonprofit
-        # and add a left join for every custom field master
+        # Add a select/csv-column for every custom field definition for this nonprofit
+        # and add a left join for every custom field definition
         # eg if the npo has a custom field like Employer with id 99, then the query will be
         #   SELECT export_cfj_Employer.value AS Employer, ...
         #   FROM supporters
-        #   LEFT JOIN custom_field_joins AS export_cfj_Employer ON export_cfj_Employer.supporter_id=supporters.id AND export_cfj_Employer.custom_field_master_id=99
+        #   LEFT JOIN custom_field_joins AS export_cfj_Employer ON export_cfj_Employer.supporter_id=supporters.id AND export_cfj_Employer.custom_field_definition_id=99
         #   ...
         ids = query[:export_custom_fields].split(',').map(&:to_i)
         if ids.any?
@@ -348,7 +348,7 @@ UNION DISTINCT
             table_alias_quot = "\"#{table_alias}\""
             field_join_subq = Qx.select("STRING_AGG(value, ',') as value", 'supporter_id')
                                 .from('custom_field_joins')
-                                .join('custom_field_definitions', 'custom_field_definitions.id=custom_field_joins.custom_field_master_id')
+                                .join('custom_field_definitions', 'custom_field_definitions.id=custom_field_joins.custom_field_definition_id')
                                 .where('custom_field_definitions.id=$id', id: cfm['id'])
                                 .group_by(:supporter_id)
                                 .as(table_alias)
@@ -410,12 +410,12 @@ UNION DISTINCT
                                                    'supporters.id AS id'
                                                  ])
     if query[:export_custom_fields]
-      # Add a select/csv-column for every custom field master for this nonprofit
-      # and add a left join for every custom field master
+      # Add a select/csv-column for every custom field definition for this nonprofit
+      # and add a left join for every custom field definition
       # eg if the npo has a custom field like Employer with id 99, then the query will be
       #   SELECT export_cfj_Employer.value AS Employer, ...
       #   FROM supporters
-      #   LEFT JOIN custom_field_joins AS export_cfj_Employer ON export_cfj_Employer.supporter_id=supporters.id AND export_cfj_Employer.custom_field_master_id=99
+      #   LEFT JOIN custom_field_joins AS export_cfj_Employer ON export_cfj_Employer.supporter_id=supporters.id AND export_cfj_Employer.custom_field_definition_id=99
       #   ...
       ids = query[:export_custom_fields].split(',').map(&:to_i)
       if ids.any?
@@ -425,7 +425,7 @@ UNION DISTINCT
           table_alias_quot = "\"#{table_alias}\""
           field_join_subq = Qx.select("STRING_AGG(value, ',') as value", 'supporter_id')
                               .from('custom_field_joins')
-                              .join('custom_field_definitions', 'custom_field_definitions.id=custom_field_joins.custom_field_master_id')
+                              .join('custom_field_definitions', 'custom_field_definitions.id=custom_field_joins.custom_field_definition_id')
                               .where('custom_field_definitions.id=$id', id: cfm['id'])
                               .group_by(:supporter_id)
                               .as(table_alias)

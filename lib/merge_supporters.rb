@@ -22,15 +22,15 @@ module MergeSupporters
     InsertTagJoins.in_bulk(np_id, profile_id, [new_supporter_id], old_tags.map { |i| { tag_master_id: i.id, selected: true } })
 
     all_custom_field_joins = old_supporters.map(&:custom_field_joins).flatten
-    group_joins_by_custom_field_master = all_custom_field_joins.group_by { |i| i.custom_field_master.id }
-    one_custom_field_join_per_user = group_joins_by_custom_field_master.map do |_k, v|
+    group_joins_by_custom_field_definition = all_custom_field_joins.group_by { |i| i.custom_field_definition.id }
+    one_custom_field_join_per_user = group_joins_by_custom_field_definition.map do |_k, v|
       v.sort_by(&:created_at).reverse.first
     end
 
     # delete old supporter custom_field
     InsertCustomFieldJoins.in_bulk(np_id, old_supporter_ids, one_custom_field_join_per_user.map do |i|
                                                                {
-                                                                 custom_field_master_id: i.custom_field_master_id,
+                                                                 custom_field_definition_id: i.custom_field_definition_id,
                                                                  value: ''
                                                                }
                                                              end)
@@ -38,7 +38,7 @@ module MergeSupporters
     # insert new supporter custom field
     InsertCustomFieldJoins.in_bulk(np_id, [new_supporter_id], one_custom_field_join_per_user.map do |i|
                                                                 {
-                                                                  custom_field_master_id: i.custom_field_master_id,
+                                                                  custom_field_definition_id: i.custom_field_definition_id,
                                                                   value: i.value
                                                                 }
                                                               end)

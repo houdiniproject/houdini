@@ -2,7 +2,7 @@
 /* eslint-disable jest/no-commented-out-tests */
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import {render, act, fireEvent, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import {render, act, fireEvent, waitFor, waitForElementToBeRemoved, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
@@ -16,7 +16,8 @@ import { SWRConfig } from "swr";
 import { InitialCurrentUserContext } from "../../hooks/useCurrentUser";
 
 import { server } from '../../api/mocks';
-import { UserSignsInOnFirstAttempt } from "../../hooks/mocks/useCurrentUserAuth";
+import { UserSignsInOnFirstAttempt, UserWaitToSignInAndNotLoggedIn } from "../../hooks/mocks/useCurrentUserAuth";
+import { before } from "lodash";
 
 
 
@@ -41,9 +42,8 @@ describe('SignInComponent', () => {
 	describe('initially not signed in', () => {
 		const Wrapper = MainWrapper;
 
-
 		it('signIn is successful', async () => {
-			expect.assertions(4);
+			expect.hasAssertions();
 			const onSuccess = jest.fn();
 			const {findByLabelText, findByTestId} = render(<Wrapper><SignInComponent onSuccess={onSuccess} showProgressAndSuccess/></Wrapper>);
 			const success = await findByTestId("signInComponentSuccess");
@@ -61,54 +61,19 @@ describe('SignInComponent', () => {
 			// the callback a Promise and await on act. If we didn't, our test wouldn't
 			// wait for all the possible React changes to happen at once.
 
-			await waitFor( () => !button.hasAttribute('disabled'));
-			fireEvent.click(button);
+			await waitFor( () => { !button.hasAttribute('disabled') });
 
+			act(() => {
+				fireEvent.click(button);
+			});
 
-			await waitForElementToBeRemoved(() => email);
-
-			expect(success).toBeInTheDocument();
-
-			expect(email).not.toBeInTheDocument();
-			expect(password).not.toBeInTheDocument();
-			expect(onSuccess).toHaveBeenCalledTimes(1);
-
+			await waitFor(() => {
+				expect(onSuccess).toHaveBeenCalledTimes(1);
+				expect(success).toBeInTheDocument(); // it seems success is always in the document, so I think this line doesn't test anything
+				expect(email).not.toBeInTheDocument();
+				expect(password).not.toBeInTheDocument();
+			});
 		});
-
-
-		// describe('signin failure',() => {
-
-		// 	async function signInFailureWrapper(): Promise<{error:HTMLElement, onFailure:()=> unknown}> {
-		// 		const onFailure = jest.fn();
-		// 		mocked(postSignIn).mockRejectedValueOnce(new SignInError({status: 404, data: {error: 'Not Found'}}));
-		// 		const {getByLabelText, getByTestId} = render(<Wrapper><SignInComponent onFailure={onFailure}/></Wrapper>);
-		// 		const error = getByTestId('errorTest');
-		// 		const email = getByLabelText("Email");
-		// 		const password = getByLabelText("Password");
-		// 		fireEvent.change(email, { target: { value: 'invalidEmail@email.com' } }); //Needs to be valid otherwise button is disabled
-		// 		fireEvent.change(password, { target: { value: 'password' } });
-		// 		const button = getByTestId('signInButton');		// Button cannot be clicked if invalid
-		// 		await act(async () => {
-		// 			fireEvent.click(button);
-		// 		});
-		// 		return {error, onFailure};
-		// 	}
-		// 	it('has filled the error section', async () => {
-		// 		expect.assertions(1);
-		// 		const {error} = await signInFailureWrapper();
-		// 		expect(error).toHaveTextContent('Not Found');
-		// 	});
-
-		// 	it('has filled called onFailure', async () => {
-		// 		expect.assertions(1);
-		// 		const {onFailure} = await signInFailureWrapper();
-
-		// 		expect(onFailure).toHaveBeenCalledTimes(1);
-		// 	});
-
-
-		// });
-
 
 		describe('Email', () => {
 			it('renders', () => {
@@ -194,7 +159,7 @@ describe('SignInComponent', () => {
 			});
 
 			it('checks if password is valid', async () => {
-				expect.assertions(4);
+				expect.hasAssertions();
 				const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
 				const password = getByLabelText("Password") as HTMLInputElement;
 				// change changes the value
@@ -218,7 +183,7 @@ describe('SignInComponent', () => {
 			});
 
 			it('checks if password is invalid', async () => {
-				expect.assertions(4);
+				expect.hasAssertions();
 				const { getByLabelText} = render(<Wrapper><SignInComponent/></Wrapper>);
 				const password = getByLabelText("Password") as HTMLInputElement;
 				// change changes the value
@@ -236,7 +201,7 @@ describe('SignInComponent', () => {
 
 		describe('submit button', () => {
 			it('is disabled when the form is not complete', async () => {
-				expect.assertions(3);
+				expect.hasAssertions();
 				const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 				const email = getByLabelText("Email");
 				fireEvent.change(email, { target: { value: 'invalidEmail' } });
@@ -244,8 +209,9 @@ describe('SignInComponent', () => {
 					expect(getByTestId('signInButton')).toBeDisabled();
 				});
 			});
+
 			it('not disabled when form is complete', async () => {
-				expect.assertions(3);
+				expect.hasAssertions();
 				const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 				const email = getByLabelText("Email");
 				const password = getByLabelText("Password");
@@ -255,6 +221,41 @@ describe('SignInComponent', () => {
 					expect(getByTestId('signInButton')).not.toBeDisabled();
 				});
 			});
+		});
+
+		describe('signin failure',() => {
+			beforeEach(() => {
+				server.use(...UserWaitToSignInAndNotLoggedIn)
+			});
+	
+			async function signInFailureWrapper(): Promise<{error:HTMLElement, onFailure:()=> unknown}> {
+				const onFailure = jest.fn();
+				const {getByLabelText, getByTestId} = render(<Wrapper><SignInComponent onFailure={onFailure}/></Wrapper>);
+				const error = getByTestId('errorTest');
+				const email = getByLabelText("Email");
+				const password = getByLabelText("Password");
+				fireEvent.change(email, { target: { value: 'invalidEmail@email.com' } }); //Needs to be valid otherwise button is disabled
+				fireEvent.change(password, { target: { value: 'password' } });
+				const button = getByTestId('signInButton');		// Button cannot be clicked if invalid
+				await act(async () => {
+					fireEvent.click(button);
+				});
+				return {error, onFailure};
+			}
+			it('has filled the error section', async () => {
+				expect.assertions(1);
+				const {error} = await signInFailureWrapper();
+				expect(error).toHaveTextContent('Not Found');
+			});
+	
+			it('has called onFailure', async () => {
+				expect.assertions(1);
+				const {onFailure} = await signInFailureWrapper();
+	
+				expect(onFailure).toHaveBeenCalledTimes(1);
+			});
+	
+	
 		});
 	});
 
@@ -286,7 +287,7 @@ describe('SignInComponent', () => {
 
 	describe('Progress bar and success message', () => {
 		const Wrapper = MainWrapper;
-		it('does not renders', () => {
+		it('does not render', () => {
 			expect.assertions(1);
 			const {queryByTestId, getByLabelText } = render(<Wrapper><SignInComponent/></Wrapper>);
 			const button = queryByTestId('signInButton');
@@ -305,29 +306,26 @@ describe('SignInComponent', () => {
 			const button = getByTestId('signInButton');
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
+			fireEvent.change(email, { target: { value: 'validemail@valid.com' } })
+			fireEvent.change(password, { target: { value: 'password' } });
+
+			await waitFor( () => {
+				expect(button).toBeEnabled();
+			});
+
 			act(() => {
-				fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
-				fireEvent.change(password, { target: { value: 'password' } });
-				fireEvent.click(button);
+				fireEvent.submit(button);
 			});
 
 			await waitFor(() => {
-				const progressBar = queryByTestId("progressTest");
+				let progressBar = queryByTestId("progressTest");
 				expect(progressBar).toBeInTheDocument();
 			});
 
 			await waitFor(() => {
-				const successAlert = queryByTestId("signInComponentSuccess");
+				let successAlert = queryByTestId("signInComponentSuccess");
 				expect(successAlert).toBeInTheDocument();
 			});
 		});
 	});
 });
-
-
-
-
-
-
-
-

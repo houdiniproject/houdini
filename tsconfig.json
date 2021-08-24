@@ -16,5 +16,18 @@
       "./types"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop":true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "storage",
+    "log",
+    "coverage"
+  ],
+  "include": [
+    "./types/**/*",
+    "./docs/**/*",
+    "./app/javascript/**/*",
+    "./config/**/*"
+  ]
 }

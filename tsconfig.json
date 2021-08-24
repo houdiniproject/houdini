@@ -19,10 +19,13 @@
   },
   "exclude": [
     "node_modules",
+    "vendor",
     "tmp",
+    "public",
     "storage",
     "log",
-    "coverage"
+    "coverage",
+    ".vscode"
   ],
   "include": [
     "./types/**/*",

@@ -31,7 +31,27 @@ class CampaignGiftOption < ApplicationRecord
   after_destroy_commit :publish_deleted
 
   has_one :nonprofit, through: :campaign
+  delegate :currency, to: :nonprofit
 
+  def gift_option_amounts
+    output = []
+    if amount_one_time
+      output.push(GiftOptionAmount.new(
+        Amount.new(amount_one_time, currency)
+      ))
+    end
+    if amount_recurring
+      output.push(GiftOptionAmount.new(
+        Amount.new(amount_recurring, currency),
+        GiftOptionRecurrence.new('monthly', 1)
+      ))
+    end
+    output
+  end
+
+  def deleted
+    destroyed?
+  end
 
   def total_gifts
     campaign_gifts.count
@@ -45,29 +65,6 @@ class CampaignGiftOption < ApplicationRecord
 
   def to_builder(*expand)
 
-    gift_option_amount = []
-    if amount_one_time
-      gift_option_amount.push({
-        amount:{
-          cents: amount_one_time, 
-          currency: campaign.nonprofit.currency
-        }
-      })
-    end
-
-    if amount_recurring
-      gift_option_amount.push({
-        amount:{
-          cents: amount_recurring, 
-          currency: campaign.nonprofit.currency
-        },
-        recurrence: {
-          type: 'monthly',
-          interval: 1
-        }
-      })
-    end
-
     init_builder(*expand) do |json|
       json.(self, :name, :description, 
           :hide_contributions, :order, :to_ship)
@@ -78,15 +75,19 @@ class CampaignGiftOption < ApplicationRecord
 
       json.deleted !persisted?
 
-      json.gift_option_amount gift_option_amount do |desc|
+      json.gift_option_amount gift_option_amounts do |desc|
         json.amount do 
-          json.currency desc[:amount][:currency]
-          json.cents desc[:amount][:cents]
+          json.currency desc.amount.currency
+          json.cents desc.amount.cents
         end
-        json.recurrence do 
-          json.interval desc[:recurrence][:interval]
-          json.type desc[:recurrence][:type]
-        end if desc[:recurrence]
+        if desc.recurrence
+          json.recurrence do 
+            json.interval desc.recurrence.interval
+            json.type desc.recurrence.type
+          end
+        else
+          json.recurrence nil
+        end
       end
 
       json.add_builder_expansion :campaign, :nonprofit
@@ -106,3 +107,11 @@ class CampaignGiftOption < ApplicationRecord
     Houdini.event_publisher.announce(:campaign_gift_option_deleted, to_event('campaign_gift_option.deleted', :nonprofit, :campaign).attributes!)
   end
 end
+
+GiftOptionAmount = Struct.new(:amount, :recurrence)
+
+Amount = Struct.new(:cents, :currency)
+
+GiftOptionRecurrence = Struct.new(:type, :interval)
+
+

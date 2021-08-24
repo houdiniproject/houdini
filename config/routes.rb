@@ -15,10 +15,15 @@ Rails.application.routes.draw do
   defaults format: :json do # they're APIs, you have to use JSON
     namespace :api do
       resources :nonprofits, only: [:create, :show] do
+        resources :campaigns, only: [:show] do
+          resources :campaign_gift_options, only: [:index, :show]
+        end
+        resources :custom_field_definitions, only: [:index, :show]
         resources :supporters, only: [:index, :show] do 
           resources :supporter_addresses, only: [:index, :show]
+          resources :supporter_notes, only: [:index, :show]
         end
-        resources :campaigns, only: [:show]
+        resources :tag_definitions, only: [:index, :show]
       end
 
       resources :users, only: [] do

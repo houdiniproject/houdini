@@ -60,7 +60,7 @@ export const UserSignInFailsOnceAndThenSucceeds = [
 ];
 
 export const UserSignInWaitUntilSignal = [
-	rest.get(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
 		await waitFor(() => WillWaitDuringUserSignIn());
 		return res(
 			ctx.json(DefaultUser)

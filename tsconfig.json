@@ -15,16 +15,22 @@
       "node_modules/@types",
       "./types"],
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop":true,
+    "esModuleInterop":true
   },
   "exclude": [
     "node_modules",
-    "bower_components", 
-    "jspm_packages",
+    "vendor",
     "tmp",
+    "public",
     "storage",
-    "coverage",
     "log",
-    "vendor"
+    "coverage",
+    ".vscode"
+  ],
+  "include": [
+    "./types/**/*",
+    "./docs/**/*",
+    "./app/javascript/**/*",
+    "./config/**/*"
   ]
 }

@@ -1,7 +1,30 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
+require 'carrierwave/test/matchers'
+def get_attributes_which_should_be_updated_keys
+  %w(
+    tagline body video_url receipt_message youtube_video_id summary vimeo_video_id
+  )
+end
 
+def get_attributes_which_should_not_be_updated_keys
+  %w(
+    slug goal_amount nonprofit_id profile_id show_total_raised
+    show_total_count hide_activity_feed deleted hide_title 
+    hide_thermometer hide_goal 
+    hide_custom_amounts show_recurring_amount 
+    end_datetime external_identifier goal_is_in_supporters starting_point 
+    reason_for_supporting
+  )
+end
+
+def get_uploader_attribute_keys
+  %w(
+    main_image background_image banner_image
+  )
+end
 RSpec.describe Campaign, type: :model do
+  include CarrierWave::Test::Matchers
   describe 'goal_amount' do
     before(:each) do
       @nonprofit = create(:nonprofit)
@@ -114,6 +137,167 @@ RSpec.describe Campaign, type: :model do
       end
 
       it { is_expected.to be_paused}
+    end
+  end
+
+
+  describe '#update_from_parent!' do
+    let(:empty_campaign) { create(:empty_campaign)}
+    let(:nonprofit) { empty_campaign.nonprofit}
+    let(:campaign_with_things_set_1){create(:campaign_with_things_set_1, nonprofit: nonprofit)}
+  #let(:campaign_with_things_set_2) { create(:campaign_with_things_set_2, nonprofit:nonprofit)}
+
+    
+
+    context 'when the child is an empty campaign' do
+
+      let(:parent_campaign) { campaign_with_things_set_1 }
+      let(:original_campaign_attributes) {
+        empty_campaign.attributes
+      }
+
+      before(:each) {
+        original_campaign_attributes
+        empty_campaign.parent_campaign = parent_campaign
+        empty_campaign.save!
+        empty_campaign.update_from_parent!
+      }
+
+      get_attributes_which_should_not_be_updated_keys.each do |key|
+        it {
+          expect(empty_campaign).to have_attributes(key => original_campaign_attributes[key])
+        }
+      end
+
+      it {
+        expect(empty_campaign).to have_attributes(parent_campaign_id: parent_campaign.id)
+      }
+
+      get_attributes_which_should_be_updated_keys.each do |key|
+        it {
+          expect(empty_campaign).to have_attributes(key => parent_campaign.attributes[key])
+        }
+      end
+
+      get_uploader_attribute_keys.each do |key|
+        it {
+          expect(empty_campaign.send(key.to_sym).path).to be_identical_to(campaign_with_things_set_1.send(key.to_sym).path)
+        }
+      end
+    end
+
+    context 'when child has something and parent does not' do
+
+      let(:parent_campaign) { empty_campaign }
+      let(:child_campaign) {campaign_with_things_set_1 }
+      let(:original_campaign_attributes) {
+        child_campaign.attributes
+      }
+
+      before(:each) {
+        original_campaign_attributes
+        child_campaign.parent_campaign = parent_campaign
+        child_campaign.save!
+        child_campaign.update_from_parent!
+      }
+
+      get_attributes_which_should_not_be_updated_keys.each do |key|
+        it {
+          expect(child_campaign).to have_attributes(key => original_campaign_attributes[key])
+        }
+      end
+
+      it {
+        expect(child_campaign).to have_attributes(parent_campaign_id: parent_campaign.id)
+      }
+
+      get_attributes_which_should_be_updated_keys.each do |key|
+        it {
+          expect(child_campaign).to have_attributes(key => parent_campaign.attributes[key])
+        }
+      end
+
+      get_uploader_attribute_keys.each do |key|
+        it {
+          expect(child_campaign.send(key.to_sym).path).to be_nil
+        }
+      end
+    end
+
+
+    context 'when child has something and parent has something different' do
+
+      let(:parent_campaign) { campaign_with_things_set_1 }
+      let(:child_campaign) {create(:campaign_with_things_set_2, 
+      parent_campaign_id: parent_campaign.id, nonprofit: parent_campaign.nonprofit)}
+      let(:original_campaign_attributes) {
+        child_campaign.attributes
+      }
+
+      before(:each) {
+        child_campaign.update_from_parent!
+      }
+
+      get_attributes_which_should_not_be_updated_keys.each do |key|
+        it {
+          expect(child_campaign).to have_attributes(key => original_campaign_attributes[key])
+        }
+      end
+
+      it {
+        expect(child_campaign).to have_attributes(parent_campaign_id: parent_campaign.id)
+      }
+
+      get_attributes_which_should_be_updated_keys.each do |key|
+        it {
+          expect(child_campaign).to have_attributes(key => parent_campaign.attributes[key])
+        }
+      end
+
+      get_uploader_attribute_keys.each do |key|
+        it {
+          expect(child_campaign.send(key.to_sym).path).to be_identical_to(parent_campaign.send(key.to_sym).path)
+        }
+      end
+    end
+
+    context 'when child has something and parent has something similar' do
+
+      let(:parent_campaign) { campaign_with_things_set_1 }
+      let(:child_campaign) {create(:campaign_with_things_set_1, 
+        nonprofit_id: campaign_with_things_set_1.nonprofit.id,
+        parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-1')} 
+      
+      let(:original_campaign_attributes) {
+        child_campaign.attributes
+      }
+
+      before(:each) {
+        original_campaign_attributes
+        child_campaign.update_from_parent!
+      }
+
+      get_attributes_which_should_not_be_updated_keys.each do |key|
+        it {
+          expect(child_campaign).to have_attributes(key => original_campaign_attributes[key])
+        }
+      end
+
+      it {
+        expect(child_campaign).to have_attributes(parent_campaign_id: parent_campaign.id)
+      }
+
+      get_attributes_which_should_be_updated_keys.each do |key|
+        it {
+          expect(child_campaign).to have_attributes(key => original_campaign_attributes[key])
+        }
+      end
+
+      get_uploader_attribute_keys.each do |key|
+        it {
+          expect(child_campaign.send(key.to_sym).path).to be_identical_to(child_campaign.send(key.to_sym).path)
+        }
+      end
     end
   end
 end

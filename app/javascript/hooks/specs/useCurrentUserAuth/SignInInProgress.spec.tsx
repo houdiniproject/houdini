@@ -46,7 +46,7 @@ describe('useCurrentUserAuth', () => {
 					// ignore
 				}
 				finally {
-					StopWaitingDuringUserSignIn();
+					act(() => StopWaitingDuringUserSignIn());
 				}
 			});
 
@@ -79,7 +79,9 @@ describe('useCurrentUserAuth', () => {
 					//ignore
 				}
 				finally{
-					StopWaitingDuringUserSignIn();
+					act(() =>	StopWaitingDuringUserSignIn());
+					await wait(() => !result.current.submitting);
+					await wait(() => !result.current.lastSignInAttemptError)
 				}
 			});
 			unmount();

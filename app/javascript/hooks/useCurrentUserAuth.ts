@@ -1,8 +1,9 @@
 // License: LGPL-3.0-or-later
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import useCurrentUser, {CurrentUser, SetCurrentUserReturnType} from "./useCurrentUser";
 import {postSignIn} from '../api/users';
 import { NetworkError } from "../api/errors";
+import useMountedState from "react-use/lib/useMountedState";
 
 export interface UseCurrentUserAuthReturnType {
 	/**
@@ -85,24 +86,25 @@ export default function useCurrentUserAuth() : UseCurrentUserAuthReturnType {
 		validatingCurrentUser} = useCurrentUser<SetCurrentUserReturnType>();
 	const [submitting, setSubmitting] = useState(false);
 	const [lastSignInAttemptError, setLastSignInAttemptError] = useState<NetworkError|undefined>(undefined);
+	const isMounted = useMountedState();
 
 	const signIn = useCallback(async ({email, password}:{email:string, password:string}): Promise<CurrentUser> => {
 		try {
 			setSubmitting(true);
 			const user = await postSignIn({email, password}) as CurrentUser;
-			setLastSignInAttemptError(undefined);
+			if (isMounted()) setLastSignInAttemptError(undefined);
 			return user;
 		}
 		catch(e:unknown) {
 			const error = e as NetworkError;
-			setLastSignInAttemptError(error);
-			throw error;
+			if (isMounted()) setLastSignInAttemptError(error);
+			if (isMounted()) throw error;
 		}
 		finally {
-			await revalidate();
-			setSubmitting(false);
+			if (isMounted()) await revalidate();
+			if (isMounted()) setSubmitting(false);
 		}
-	}, [setSubmitting, revalidate, setLastSignInAttemptError]);
+	}, [setSubmitting, revalidate, setLastSignInAttemptError, isMounted]);
 
 	return {
 		currentUser,

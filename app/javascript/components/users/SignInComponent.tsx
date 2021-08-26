@@ -182,9 +182,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				//Props
 			}>{({ isValid }) => {
 				// eslint-disable-next-line react-hooks/rules-of-hooks
-				useEffect(() => {
-					setIsValid(isValid);
-				}, [isValid]);
+				
+				setIsValid(isValid);
+				
 
 				//Form
 				return (

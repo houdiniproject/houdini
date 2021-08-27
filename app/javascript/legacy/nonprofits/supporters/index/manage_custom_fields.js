@@ -41,10 +41,10 @@ appl.def('custom_fields.bulk.prepare_to_post', function (form_obj, node) {
 
 	for (var i = 1, len = form_obj.id.length; i < len; ++i) {
 		if (form_obj.remove[i] === 'true')
-			fields.push({ custom_field_master_id: form_obj.id[i], value: '' })
+			fields.push({ custom_field_definition_id: form_obj.id[i], value: '' })
 		else if (form_obj.val[i] === '') { }
 		else
-			fields.push({ custom_field_master_id: form_obj.id[i], value: form_obj.val[i] })
+			fields.push({ custom_field_definition_id: form_obj.id[i], value: form_obj.val[i] })
 	}
 
 	if (appl.supporters.selecting_all)
@@ -73,13 +73,13 @@ appl.def('custom_fields.bulk.prepare_to_post', function (form_obj, node) {
 appl.def('custom_fields.single.show_modal', function (name, id, node) {
 	var custom_field_list = []
 
-	appl.custom_fields.definitions.data.forEach(function (custom_field_master) {
+	appl.custom_fields.definitions.data.forEach(function (custom_field_definition) {
 		var new_custom_field = {
-			id: custom_field_master.id,
-			name: custom_field_master.name
+			id: custom_field_definition.id,
+			name: custom_field_definition.name
 		}
 		appl.supporter_details.custom_fields.data.forEach(function (custom_field_join) {
-			if (custom_field_join.name === custom_field_master.name && custom_field_join.value)
+			if (custom_field_join.name === custom_field_definition.name && custom_field_join.value)
 				new_custom_field.value = custom_field_join.value
 		})
 		custom_field_list.push(new_custom_field)
@@ -95,7 +95,7 @@ appl.def('custom_fields.single.show_modal', function (name, id, node) {
 appl.def('custom_fields.single.prepare_to_post', function (form_obj) {
 	var fields = []
 	for (var i = 1, len = form_obj.id.length; i < len; ++i) {
-		fields.push({ custom_field_master_id: form_obj.id[i], value: form_obj.val[i] })
+		fields.push({ custom_field_definition_id: form_obj.id[i], value: form_obj.val[i] })
 	}
 	var post_data = {
 		custom_fields: fields,

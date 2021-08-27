@@ -5,22 +5,22 @@
 class CustomFieldJoin < ApplicationRecord
   # :supporter,
   # :supporter_id,
-  # :custom_field_master,
-  # :custom_field_master_id,
+  # :custom_field_definition,
+  # :custom_field_definition_id,
   # :value
 
-  validates :custom_field_master, presence: true
+  validates :custom_field_definition, presence: true
 
-  belongs_to :custom_field_master
+  belongs_to :custom_field_definition
   belongs_to :supporter
 
   def self.create_with_name(nonprofit, h)
     cfm = nonprofit.custom_field_definitions.find_by_name(h['name'])
     cfm = nonprofit.custom_field_definitions.create(name: h['name']) if cfm.nil?
-    create(value: h['value'], custom_field_master_id: cfm.id, supporter_id: h['supporter_id'])
+    create(value: h['value'], custom_field_definition_id: cfm.id, supporter_id: h['supporter_id'])
   end
 
   def name
-    custom_field_master.name
+    custom_field_definition.name
 end
 end

@@ -12,7 +12,7 @@ module UpdateCustomFieldJoins
     ids = Qx.select('ARRAY_AGG(custom_field_joins.id ORDER BY custom_field_joins.created_at DESC) AS ids')
             .from(:custom_field_joins)
             .where('custom_field_joins.supporter_id IN ($ids)', ids: supporter_ids)
-            .join('custom_field_definitions cfms', 'cfms.id = custom_field_joins.custom_field_master_id')
+            .join('custom_field_definitions cfms', 'cfms.id = custom_field_joins.custom_field_definition_id')
             .group_by('cfms.name')
             .having('COUNT(custom_field_joins) > 1')
             .execute.map { |h| h['ids'][1..-1] }.flatten

@@ -232,17 +232,17 @@ ActiveRecord::Schema.define(version: 2021_08_12_220753) do
   end
 
   create_table "custom_field_joins", id: :serial, force: :cascade do |t|
-    t.integer "custom_field_master_id"
+    t.integer "custom_field_definition_id"
     t.integer "supporter_id"
     t.text "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["custom_field_master_id", "supporter_id"], name: "custom_field_join_supporter_unique_idx", unique: true
-    t.index ["custom_field_master_id"], name: "custom_field_joins_custom_field_master_id"
+    t.index ["custom_field_definition_id", "supporter_id"], name: "custom_field_join_supporter_unique_idx", unique: true
+    t.index ["custom_field_definition_id"], name: "custom_field_joins_custom_field_definition_id"
   end
 
   create_table "custom_field_joins_backup", id: :serial, force: :cascade do |t|
-    t.integer "custom_field_master_id"
+    t.integer "custom_field_definition_id"
     t.integer "supporter_id"
     t.text "metadata"
     t.text "value"

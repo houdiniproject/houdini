@@ -223,7 +223,7 @@ class Campaign < ActiveRecord::Base
 
 	def params_to_copy_from_parent 
 		params = %w(
-			tagline body video_url receipt_message youtube_video_id summary
+			tagline body video_url receipt_message youtube_video_id summary name
 		)
 
 		parent_campaign.attributes.slice(*params)

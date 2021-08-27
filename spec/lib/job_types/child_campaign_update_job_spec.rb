@@ -9,10 +9,6 @@ describe JobTypes::ChildCampaignUpdateJob do
     nonprofit_id: parent_campaign.nonprofit.id,
     parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-1')}
 
-    let!(:child_campaign_2) {create(:campaign_with_things_set_1, 
-    nonprofit_id: parent_campaign.nonprofit.id,
-    parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-2')}
-
     it 'updates the child from the parent' do
       job = JobTypes::ChildCampaignUpdateJob.new(child_campaign.id)
       job.perform

@@ -52,11 +52,12 @@ function view(state) {
       h('input.u-marginBottom--0', {
         props: {
           type: 'email'
-        , title: emailTitle
-        , name: 'email'
-        , required: state.required.email
-        , value: state.supporter.email
-        , placeholder: emailTitle
+          , title: emailTitle
+          , name: 'email'
+          , pattern: "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$"
+          , required: state.required.email
+          , value: state.supporter.email
+          , placeholder: emailTitle
         }
       })
     ])

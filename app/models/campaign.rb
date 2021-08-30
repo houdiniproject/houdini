@@ -125,6 +125,8 @@ class Campaign < ActiveRecord::Base
 		self
 	end
 
+	after_update :send_campaign_updated
+
 	def set_defaults
 
 		self.total_supporters = 1
@@ -221,7 +223,7 @@ class Campaign < ActiveRecord::Base
 
 	def params_to_copy_from_parent 
 		params = %w(
-			tagline body video_url receipt_message youtube_video_id summary
+			tagline body video_url receipt_message youtube_video_id summary name
 		)
 
 		parent_campaign.attributes.slice(*params)
@@ -255,4 +257,7 @@ class Campaign < ActiveRecord::Base
 		!!(misc_campaign_info&.paused)
 	end
 
+	def send_campaign_updated
+		JobQueue.queue(JobTypes::CampaignUpdatedJob, self.id)
+	end
 end

@@ -61,6 +61,7 @@ class Nonprofit < ApplicationRecord
   has_many :recurring_donations
   has_many :payments
   has_many :supporters, dependent: :destroy
+  has_many :transactions, through: :supporters
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations
   has_many :campaigns, dependent: :destroy

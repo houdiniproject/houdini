@@ -19,6 +19,10 @@ class Transaction < ApplicationRecord
 
 	validates :supporter, presence: true
 
+	def amount_as_money
+    Amount.new(amount||0, nonprofit.currency)
+  end
+
 	concerning :JBuilder do
 		include Model::Houidable
 		include Model::Jbuilder
@@ -77,5 +81,7 @@ class Transaction < ApplicationRecord
 		write_attribute(:created, Time.now) unless read_attribute(:created)
 	end
 end
+
+Amount = Struct.new(:cents, :currency)
 
 ActiveSupport.run_load_hooks(:houdini_transaction, Transaction)

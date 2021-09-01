@@ -122,10 +122,9 @@ GEM
     colorize (0.8.1)
     concurrent-ruby (1.1.9)
     connection_pool (2.2.3)
-    countries (3.0.1)
-      i18n_data (~> 0.10.0)
+    countries (4.0.1)
+      i18n_data (~> 0.13.0)
       sixarm_ruby_unaccent (~> 1.1)
-      unicode_utils (~> 1.4)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -184,7 +183,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    i18n_data (0.10.0)
+    i18n_data (0.13.0)
     image_processing (1.10.3)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
@@ -390,7 +389,6 @@ GEM
       unf_ext
     unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
-    unicode_utils (1.4.0)
     validate_url (1.0.13)
       activemodel (>= 3.0.0)
       public_suffix
@@ -425,7 +423,7 @@ DEPENDENCIES
   byebug (~> 11.0, >= 11.0.1)
   chronic (~> 0.10.2)
   colorize (~> 0.8.1)
-  countries (~> 3.0)
+  countries (~> 4.0)
   database_cleaner-active_record
   devise (~> 4.7)
   devise-async (~> 1.0)

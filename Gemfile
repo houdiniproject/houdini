@@ -91,7 +91,7 @@ group :production do
   # like heroku, uncomment the `heroku-deflater` line.
   #
   # gem 'heroku-deflater', '~> 0.6.3' # https://github.com/romanbsd/heroku-deflater
-  gem 'rack-timeout', '~> 0.5.1'
+  gem 'rack-timeout', '~> 0.6.0'
 end
 
 gem 'bess', path: 'gems/bess'

@@ -1632,12 +1632,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** webmock; version 3.11.0 -- 
-Copyright (c) 2010-2012 Myron Marston
-Portions copyright (c) 2010 Andre Arko
-Copyright (c) 2009-2010 Bartosz Blimke.
-Portions copyright (c) 2009 Engine Yard
-Copyright (c) 2004-2008 David Heinemeier Hansson
+** webmock; version 3.14.0 -- 
 
 Copyright (c) 2009-2010 Bartosz Blimke
 

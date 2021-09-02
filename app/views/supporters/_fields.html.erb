@@ -20,6 +20,7 @@
     type='email'
     title='Email <%= required[:email] ? "(required)" : nil %>'
     name='email'
+    pattern='^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$'
     <%= required[:email] ? "required" : nil %>
     value='<%= profile && profile.user.email %>'
     placeholder='Email <%= required[:email] ? "(required)" : nil %>'>

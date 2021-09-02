@@ -23,7 +23,7 @@ gem 'sprockets', '~> 3.7'
 
 # Helpers
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
-gem 'countries', '~> 3.0'
+gem 'countries', '~> 4.0'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'rails-i18n', '~> 6.0.0', '~> 6'
@@ -57,7 +57,7 @@ end
 group :development, :ci, :test do
   gem 'byebug', '~> 11.0', '>= 11.0.1'
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.5', require: 'dotenv/rails-now'
-  gem 'pry', '~> 0.12.2'
+  gem 'pry', '~> 0.14.1'
   gem 'pry-byebug', '~> 3.7.0'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'rspec', '~> 3.9.0'
@@ -67,7 +67,7 @@ group :development, :ci, :test do
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
   gem 'rubocop', '~> 1.10'
-  gem 'rubocop-rails', '~> 2.9'
+  gem 'rubocop-rails', '~> 2.11'
   gem 'rubocop-rake', '~> 0.5.1'
   gem 'rubocop-rspec', '~> 2.2'
   gem 'shoulda-matchers', '~> 5.0.0'
@@ -79,7 +79,7 @@ group :ci, :test do
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.3'
   gem 'timecop', '~> 0.9.1'
-  gem 'webmock', '~> 3.6', '>= 3.6.2'
+  gem 'webmock', '~> 3.14'
   gem 'wisper-rspec', '~> 1.1.0'
 end
 
@@ -91,7 +91,7 @@ group :production do
   # like heroku, uncomment the `heroku-deflater` line.
   #
   # gem 'heroku-deflater', '~> 0.6.3' # https://github.com/romanbsd/heroku-deflater
-  gem 'rack-timeout', '~> 0.5.1'
+  gem 'rack-timeout', '~> 0.6.0'
 end
 
 gem 'bess', path: 'gems/bess'

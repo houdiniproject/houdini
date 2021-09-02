@@ -93,7 +93,7 @@ class Nonprofit < ApplicationRecord
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
-
+ 
   validates_associated :admins, on: :create
   validates :name, presence: true
   validates :city, presence: true
@@ -118,7 +118,7 @@ class Nonprofit < ApplicationRecord
   has_one_attached :third_image
   has_one_attached :background_image
   has_one_attached :logo
-
+ 
   # way too wordy
   has_one_attached_with_sizes(:logo, {small: 30, normal: 100, large: 180})
   has_one_attached_with_sizes(:background_image, {normal: [1000,600]})
@@ -126,15 +126,15 @@ class Nonprofit < ApplicationRecord
   has_one_attached_with_sizes(:second_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
   has_one_attached_with_sizes(:third_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
 
-  has_one_attached_with_default(:logo, Houdini.defaults.image.profile,
+  has_one_attached_with_default(:logo, Houdini.defaults.image.profile, 
     filename: "logo_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-  has_one_attached_with_default(:background_image, Houdini.defaults.image.nonprofit,
+  has_one_attached_with_default(:background_image, Houdini.defaults.image.nonprofit, 
       filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.nonprofit).extname}")
-  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile,
+  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile, 
       filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-  has_one_attached_with_default(:second_image, Houdini.defaults.image.profile,
+  has_one_attached_with_default(:second_image, Houdini.defaults.image.profile, 
     filename: "second_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-  has_one_attached_with_default(:third_image, Houdini.defaults.image.profile,
+  has_one_attached_with_default(:third_image, Houdini.defaults.image.profile, 
     filename: "third_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
 
   serialize :achievements, Array
@@ -201,7 +201,7 @@ class Nonprofit < ApplicationRecord
     end
     self
   end
-
+ 
   def correct_nonunique_slug
     begin
         slug = SlugNonprofitNamingAlgorithm.new(self.state_code_slug, self.city_slug).create_copy_name(self.slug)
@@ -269,15 +269,15 @@ class Nonprofit < ApplicationRecord
   concerning :JBuilder do
     include Model::Jbuilder
 
-    def to_builder(*expand)
+    def to_builder(*expand) 
       init_builder(*expand) do |json|
         json.(self, :id, :name)
       end
     end
   end
 
-private
-  def build_admin_role
+private 
+  def build_admin_role 
     role = user.roles.build(host: self, name: 'nonprofit_admin')
     role.save!
   end

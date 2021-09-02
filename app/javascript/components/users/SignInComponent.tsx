@@ -12,6 +12,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { TextField } from 'formik-material-ui';
+import useIsLoading from "../../hooks/useIsLoading";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
@@ -74,6 +75,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
+	const loading = useIsLoading(submitting, showProgressAndSuccess);
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 
@@ -182,9 +184,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				//Props
 			}>{({ isValid }) => {
 				// eslint-disable-next-line react-hooks/rules-of-hooks
-				
+
 				setIsValid(isValid);
-				
+
 
 				//Form
 				return (
@@ -231,7 +233,12 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						</div>
 						{componentState !== 'success' ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
-								{componentState !== 'submitting' || !showProgressAndSuccess ?
+								{loading ?
+									(<div data-testid="progressTest">
+										<Box display="flex" justifyContent="center" alignItems="center">
+											<CircularProgress size={25} className={classes.buttonProgress} />
+										</Box>
+									</div>) :
 									<Button className={classes.submitButton}
 										data-testid="signInButton"
 										type="submit"
@@ -240,16 +247,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										disabled={!isValid || !showProgressAndSuccess && componentState !== "canSubmit"}
 									>
 										{loginHeaderLabel}
-									</Button>
-									: null}
-
-								{submitting && showProgressAndSuccess &&
-									(<div data-testid="progressTest">
-										<Box display="flex" justifyContent="center" alignItems="center">
-											<CircularProgress size={25} className={classes.buttonProgress} />
-										</Box>
-									</div>)}
-
+									</Button>}
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">

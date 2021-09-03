@@ -15,6 +15,7 @@ import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
 import useIsReadyForSubmission from "../../hooks/useIsReadyForSubmission";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
+import useForm from "../../hooks/useForm";
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
@@ -49,7 +50,6 @@ function hasError(error: { data: unknown }): error is { data: { error: unknown }
 }
 
 function FailedAlert({ error }: { error: unknown }): JSX.Element {
-
 	if (hasData(error)) {
 		if (hasDataValue(error)) {
 			if (hasError(error)) {
@@ -67,7 +67,6 @@ function FailedAlert({ error }: { error: unknown }): JSX.Element {
 
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
-	const [componentState, setComponentState] = useState<'ready' | 'canSubmit' | 'submitting' | 'success'>('ready');
 	const [isValid, setIsValid] = useState(false);
 
 	const { currentUser, signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
@@ -77,38 +76,15 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const wasSubmitting = previousSubmittingValue && !submitting;
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 	const loading = useIsLoading(submitting, showProgressAndSuccess);
-	const canSubmit = useIsReadyForSubmission(isValid, showProgressAndSuccess, componentState === 'canSubmit');
-
-	useEffect(() => {
-		// was the component previously submitting and now not submitting?
-
-		if (failed && wasSubmitting) {
-			// we JUST failed so we only call onFailure
-			// once
-			setComponentState('ready');
-			onFailure(lastSignInAttemptError);
-		}
-	}, [failed, wasSubmitting, lastSignInAttemptError, onFailure, setComponentState]);
-
-	useEffect(() => {
-		if (currentUser && componentState !== 'success') {
-			setComponentState('success');
-			onSuccess();
-		}
-	}, [currentUser, onSuccess, componentState, setComponentState]);
-
-	useEffect(() => {
-		if (isValid && submitting) {
-			setComponentState('submitting');
-			onSubmitting();
-		}
-	}, [submitting, isValid, onSubmitting]);
-
-	useEffect(() => {
-		if (isValid && componentState == 'ready') {
-			setComponentState('canSubmit');
-		}
-	}, [isValid, componentState]);
+	// <'ready' | 'canSubmit' | 'submitting' | 'success'>
+	const formState = useForm(
+		wasSubmitting,
+		onFailure,
+		onSuccess,
+		onSubmitting,
+		isValid
+	);
+	const canSubmit = useIsReadyForSubmission(isValid, showProgressAndSuccess, formState);
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -196,7 +172,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					<Form>
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
 						<Box display="flex" justifyContent="center" alignItems="center">
-							{componentState !== 'success' ?
+							{formState !== 'success' ?
 								<Box p={1.5}>
 									<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
 										label={emailLabel}
@@ -212,7 +188,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								: null}
 						</Box>
 						<Box display="flex" justifyContent="center" alignItems="center">
-							{componentState !== 'success' ?
+							{formState !== 'success' ?
 								<Box p={1.5}>
 									<Field component={TextField} name="password" type="password" id={passwordId}
 										label={passwordLabel}
@@ -228,13 +204,13 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						</Box>
 						<div data-testid="errorTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
-								{componentState === 'submitting' ? "" : <>
+								{formState === 'submitting' ? "" : <>
 									{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
 								</>
 								}
 							</Box>
 						</div>
-						{componentState !== 'success' ?
+						{formState !== 'success' ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
 								{loading ?
 									(<div data-testid="progressTest">
@@ -254,7 +230,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">
-							{componentState === 'success' && currentUser && showProgressAndSuccess ?
+							{formState === 'success' && currentUser && showProgressAndSuccess ?
 								<Box m={13} display="flex" justifyContent="center" alignItems="center">
 									<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
 								</Box>

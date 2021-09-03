@@ -1,3 +1,3 @@
-export default function useIsReadyForSubmission(isValid: boolean, showProgressAndSuccess: boolean, canSubmit: boolean): boolean {
-  return !(!isValid || !showProgressAndSuccess && !canSubmit);
+export default function useIsReadyForSubmission(isValid: boolean, showProgressAndSuccess: boolean, formState: string): boolean {
+  return !(!isValid || !showProgressAndSuccess && !(formState === 'canSubmit'));
 }

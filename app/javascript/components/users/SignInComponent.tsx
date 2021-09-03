@@ -13,6 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
+import useIsReadyForSubmission from "../../hooks/useIsReadyForSubmission";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
@@ -76,6 +77,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const wasSubmitting = previousSubmittingValue && !submitting;
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 	const loading = useIsLoading(submitting, showProgressAndSuccess);
+	const canSubmit = useIsReadyForSubmission(isValid, showProgressAndSuccess, componentState === 'canSubmit');
+
 	useEffect(() => {
 		// was the component previously submitting and now not submitting?
 
@@ -244,7 +247,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 										type="submit"
 										color="primary"
 										variant='contained'
-										disabled={!isValid || !showProgressAndSuccess && componentState !== "canSubmit"}
+										disabled={!canSubmit}
 									>
 										{loginHeaderLabel}
 									</Button>}

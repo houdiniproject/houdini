@@ -93,6 +93,10 @@ appl.def('get_payment_purchase_object', function(payment) {
 	}
 })
 
+appl.def('payment_is_offsite', (payment) => {
+	return !!(payment && payment.offsite_payment && payment.offsite_payment.kind)
+})
+
 appl.def('start_loading', function(){
   appl.def('loading', true)
 })

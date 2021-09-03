@@ -24,8 +24,8 @@
       <td>
         <!--= put (readable_kind this.kind) -->
         <span>
-          <!--= show_if this.offsite_payment.kind -->
-           &nbsp; (<!--= put this.offsite_payment.kind  -->)
+          <!--= show_if (payment_is_offsite this) -->
+           (<!--= put this.offsite_payment.kind  -->)
         </span>
       </td>
     </tr>

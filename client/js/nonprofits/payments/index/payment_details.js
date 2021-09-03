@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 var request = require('../../../common/super-agent-promise')
 var readable_interval = require('../../recurring_donations/readable_interval')
-var format = require('../../../common/format')
+const format = require('../../../common/format')
 
 appl.def('ajax_payment_details', {
 	fetch: function(id) {
@@ -70,6 +70,10 @@ appl.def('payment_event_name', function(payment) {
 
 appl.def('payment_event_url', function(payment) {
 	return payment && payment.event && payment.event.url
+})
+
+appl.def('payment_notes_comment_as_html', (donation) => {
+	return format.convertLineBreaksToHtml(donation && donation.comment);
 })
 
 // Given a payment, get either the designation, campaign name, or event name

@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var moment = require('moment')
+const moment = require('moment')
 var format = {}
 
 module.exports = format
@@ -123,4 +123,13 @@ format.geography = {}
 
 format.geography.isUS = function(str) {
   return Boolean(str.match(/(^united states( of america)?$)|(^u\.?s\.?a?\.?$)/i))
+}
+
+format.convertLineBreaksToHtml = function(str) {
+  if (str) {
+    return str.replace(/\r\n/g, '\n').replace(/\n/g, "<br/>")
+  }
+  else {
+    return null;
+  }
 }

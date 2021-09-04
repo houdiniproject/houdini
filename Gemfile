@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.3'
+ruby '2.7.4'
 gem 'rails', '6.1.4.1'
 gem 'jbuilder', '~> 2.10'
 gem 'bootsnap', '~> 1.4', require: false # Large rails application booting enhancer

@@ -20,12 +20,7 @@ jobs:
           ruby-version: ${{ env.ruby }}
           bundler-cache: true
       - name: Update NOTICE-ruby on Dependabot
-        if: ${{ github.actor == 'dependabot[bot]' }}
+        if: ${{ github.event.workflow_run.conclusion == 'failure'  && github.actor == 'dependabot[bot]' }}
         run: |
-          echo ${{ github.event.workflow_run.conclusion }}
-          bin/rails notice:ruby:update
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add NOTICE-ruby
-          git commit -m "Update NOTICE-ruby"
-          git push
+          echo ${{ github.event.workflow_run }}
+         

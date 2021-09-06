@@ -44,4 +44,4 @@ jobs:
           git config user.email github-actions@github.com
           git add NOTICE-ruby
           git commit -m "Update NOTICE-ruby"
-          git push HEAD:${{ github.ref }}
+          git push

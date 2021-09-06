@@ -37,8 +37,8 @@ jobs:
         run: |
             bin/rails notice:ruby:verify
       - name: Describe what's in context
+        if: ${{ failure() }}
         run: |
-          echo ${{ failure() }}
           echo ${{ github.actor }}
           echo ${{ github.event_name }}
       - name: Update NOTICE-ruby on Dependabot

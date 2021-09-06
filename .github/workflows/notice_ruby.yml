@@ -42,6 +42,6 @@ jobs:
           bin/rails notice:ruby:update
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add .
+          git add NOTICE-ruby
           git commit -m "Update NOTICE-ruby"
           git push HEAD:${{ github.ref }}

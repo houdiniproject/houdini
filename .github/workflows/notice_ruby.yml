@@ -16,7 +16,7 @@ env:
   ruby: '2.7.4'
 jobs:
   notice_ruby:
-    runs-on: ${{ env.os }}
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1

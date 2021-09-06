@@ -36,3 +36,12 @@ jobs:
       - name: run notice:ruby:verify
         run: |
             bin/rails notice:ruby:verify
+      - name: Update NOTICE-ruby on Dependabot
+        if: ${{ failure() && github.actor == 'app/dependabot' && github.event_name == 'push'}}
+        run: |
+          bin/rails notice:ruby:update
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Update NOTICE-ruby"
+          git push HEAD:${{ github.ref }}

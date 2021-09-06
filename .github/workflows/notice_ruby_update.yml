@@ -1,0 +1,31 @@
+# License: LGPL-3.0-or-later
+name: NOTICE-ruby update
+on:
+  workflow_run:
+    workflows: ["NOTICE-ruby verification"]
+    types: 
+      - completed
+env:
+  os: ubuntu-20.04
+  ruby: '2.7.4'
+jobs:
+  notice_ruby:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.ruby }}
+          bundler-cache: true
+      - name: Update NOTICE-ruby on Dependabot
+        if: ${{ github.actor == 'dependabot[bot]' }}
+        run: |
+          echo ${{ github.event.workflow_run.conclusion }}
+          bin/rails notice:ruby:update
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add NOTICE-ruby
+          git commit -m "Update NOTICE-ruby"
+          git push

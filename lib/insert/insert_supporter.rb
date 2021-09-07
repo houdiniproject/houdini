@@ -15,7 +15,7 @@ module InsertSupporter
     address_keys = ['name', 'address', 'city', 'country', 'state_code']
     custom_fields = data['customFields']
     tags = data['tags']
-    data = data.merge(HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data.slice(address_keys))))
+    data = HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data, address_keys))
       .except(:customFields, :tags)
 
     supporter = Qx.select("*").from(:supporters)

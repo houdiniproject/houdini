@@ -1394,7 +1394,7 @@ SOFTWARE.
 
 ------
 
-** rspec; version 3.9.0 -- 
+** rspec; version 3.10.0 -- 
 Copyright (c) 2005 Steven Baker
 Copyright (c) 2009 Chad Humphries, David Chelimsky
 Copyright (c) 2006 David Chelimsky, The RSpec Development Team
@@ -1942,11 +1942,11 @@ THE SOFTWARE.
 
 ------
 
-** rspec-expectations; version 3.9.4 -- 
+** rspec-expectations; version 3.10.1 -- 
 Copyright (c) 2005 Steven Baker
 Copyright (c) 2012 David Chelimsky, Myron Marston
 Copyright (c) 2006 David Chelimsky, The RSpec Development Team
-** rspec-mocks; version 3.9.1 -- 
+** rspec-mocks; version 3.10.2 -- 
 Copyright (c) 2005 Steven Baker
 Copyright (c) 2012 David Chelimsky, Myron Marston
 Copyright (c) 2006 David Chelimsky, The RSpec Development Team
@@ -2345,7 +2345,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rspec-core; version 3.9.3 -- 
+** rspec-core; version 3.10.1 -- 
 Copyright (c) 2007.
 Copyright (c) 2005 Steven Baker
 Copyright (c) 2009 Chad Humphries, David Chelimsky
@@ -3442,7 +3442,7 @@ THE SOFTWARE.
 
 ------
 
-** rspec-support; version 3.9.4 -- 
+** rspec-support; version 3.10.2 -- 
 Copyright (c) 2013 David Chelimsky, Myron Marston, Jon Rowe, Sam Phippen, Xavier Shay, Bradley Schaefer
 
 The MIT License (MIT)

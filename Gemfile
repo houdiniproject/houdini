@@ -59,7 +59,7 @@ group :development, :ci, :test do
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.5', require: 'dotenv/rails-now'
   gem 'pry', '~> 0.14.1'
   gem 'rspec-rails', '~> 4.0.0'
-  gem 'rspec', '~> 3.9.0'
+  gem 'rspec', '~> 3.10.0'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'listen'

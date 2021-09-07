@@ -1339,7 +1339,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** connection_pool; version 2.2.3 -- 
+** connection_pool; version 2.2.5 -- 
 Copyright (c) 2011 Mike Perham
 
 Copyright (c) 2011 Mike Perham
@@ -2806,7 +2806,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** execjs; version 2.7.0 -- 
+** execjs; version 2.8.1 -- 
 Copyright (c) 2015-2016 Josh Peek
 Copyright (c) 2015-2016 Sam Stephenson
 
@@ -2968,7 +2968,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** mini_mime; version 1.1.0 -- 
+** mini_mime; version 1.1.1 -- 
 Copyright (c) 2016 Discourse Construction Kit, Inc.
 
 The MIT License (MIT)
@@ -3413,7 +3413,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** react_on_rails; version 12.2.0 -- 
+** react_on_rails; version 12.3.0 -- 
 Copyright (c) 2017, 2018 Justin Gordon and ShakaCode, http://www.shakacode.com
 Copyright (c) 2018, 2019 Justin Gordon and ShakaCode, http://www.shakacode.com
 

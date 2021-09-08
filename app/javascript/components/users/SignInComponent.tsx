@@ -13,6 +13,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
+import useIsSuccessful from "../../hooks/useIsSuccessful";
 import useIsReadyForSubmission from "../../hooks/useIsReadyForSubmission";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import useForm from "../../hooks/useForm";
@@ -84,6 +85,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		onSubmitting,
 		isValid
 	);
+	const isSuccessful = useIsSuccessful(formState, showProgressAndSuccess);
 	const canSubmit = useIsReadyForSubmission(isValid, showProgressAndSuccess, formState);
 
 	//Setting error messages
@@ -230,7 +232,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 							</Box>
 							: null}
 						<div data-testid="signInComponentSuccess">
-							{formState === 'success' && currentUser && showProgressAndSuccess ?
+							{isSuccessful ?
 								<Box m={13} display="flex" justifyContent="center" alignItems="center">
 									<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
 								</Box>

@@ -12,9 +12,20 @@ jobs:
   notice_ruby:
     runs-on: ubuntu-20.04
     steps:
+      - name: download branch
+        if: ${{ github.actor == 'dependabot[bot]' }}
+        uses: actions/download-artifact@v2
+        with:
+          name: branch_to_update
+
+      - name: Read package.json
+        id: branch
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./branch.txt
       - uses: actions/checkout@v2
         with: 
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ steps.branch.outputs.content }}
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}

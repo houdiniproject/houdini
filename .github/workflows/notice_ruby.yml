@@ -31,7 +31,7 @@ jobs:
       - name: output the branch
         if: ${{ failure() && github.actor == 'dependabot[bot]' }}
         run: | 
-          echo ${{ github.context.base_ref }} > branch.txt
+          echo ${{ github.base_ref }} > branch.txt
       - name: save branch to build
         if: ${{ failure() && github.actor == 'dependabot[bot]' }}
         uses: actions/upload-artifact@v2

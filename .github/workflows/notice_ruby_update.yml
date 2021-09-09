@@ -18,7 +18,7 @@ jobs:
         with:
           name: branch_to_update
 
-      - name: Read package.json
+      - name: Read branch.txt
         id: branch
         uses: juliangruber/read-file-action@v1
         with:

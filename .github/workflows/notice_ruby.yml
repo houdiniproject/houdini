@@ -28,3 +28,14 @@ jobs:
       - name: run notice:ruby:verify
         run: |
             bin/rails notice:ruby:verify
+      - name: output the branch
+        if: ${{ failure() && github.actor == 'dependabot[bot]' }}
+        run: | 
+          echo ${{ github.context.base_ref }} > branch.txt
+      - name: save branch to build
+        if: ${{ failure() && github.actor == 'dependabot[bot]' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: branch_to_update
+          path: branch.txt
+

@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, useFormikContext } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
 import { spacing } from '@material-ui/system';
@@ -25,6 +25,7 @@ import Alert from '@material-ui/lab/Alert';
 import { useId } from "@reach/auto-id";
 import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
 import { NetworkError } from "../../api/errors";
+import { Button } from "@material-ui/core";
 
 
 export interface SignInComponentProps {
@@ -161,83 +162,124 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				//Props
 			}>{({ isValid, dirty }) => {
 				// eslint-disable-next-line react-hooks/rules-of-hooks
-
 				setIsValid(isValid);
 				setTouched(dirty);
 
-				//Form
-				return (
-					<Form>
-						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-						<Box display="flex" justifyContent="center" alignItems="center">
-							{!isSuccessful ?
-								<Box p={1.5}>
-									<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
-										label={emailLabel}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<AccountCircle fontSize="small" />
-												</InputAdornment>
-											),
-										}}
-									/>
-								</Box>
-								: null}
-						</Box>
-						<Box display="flex" justifyContent="center" alignItems="center">
-							{!isSuccessful ?
-								<Box p={1.5}>
-									<Field component={TextField} name="password" type="password" id={passwordId}
-										label={passwordLabel}
-										InputProps={{
-											startAdornment: (
-												<InputAdornment position="start">
-													<LockOpenIcon fontSize="small" />
-												</InputAdornment>
-											),
-										}} />
-								</Box>
-								: null}
-						</Box>
-						<div data-testid="errorTest">
-							<Box display="flex" justifyContent="center" alignItems="center">
-								{isSubmitting ? "" : <>
-									{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
-								</>
-								}
-							</Box>
-						</div>
-						{!isSuccessful ?
-							<Box p={2} display="flex" justifyContent="center" alignItems="center">
-								{loading ?
-									(<div data-testid="progressTest">
-										<Box display="flex" justifyContent="center" alignItems="center">
-											<CircularProgress size={25} className={classes.buttonProgress} />
-										</Box>
-									</div>) :
-									<Button className={classes.submitButton}
-										data-testid="signInButton"
-										type="submit"
-										color="primary"
-										variant='contained'
-										disabled={!canSubmit}
-									>
-										{loginHeaderLabel}
-									</Button>}
-							</Box>
-							: null}
-						<div data-testid="signInComponentSuccess">
-							{isSuccessful ?
-								<Box m={13} display="flex" justifyContent="center" alignItems="center">
-									<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
-								</Box>
-								: null}
-						</div>
-					</Form>
-				);
+				return (<InnerFormikComponent
+					isSuccessful={isSuccessful}
+					setIsValid={setIsValid}
+					setTouched={setTouched}
+					emailLabel={emailLabel}
+					emailId={emailId}
+					passwordLabel={passwordLabel}
+					passwordId={passwordId}
+					failed={failed}
+					lastSignInAttemptError={lastSignInAttemptError}
+					loading={loading}
+					classes={classes}
+					canSubmit={canSubmit}
+					loginHeaderLabel={loginHeaderLabel}
+					isSubmitting={isSubmitting}
+				/>);
 			}}
 		</Formik>
+	);
+}
+
+function InnerFormikComponent(props: {
+	isSuccessful: boolean,
+	setIsValid: (isValid: boolean) => void,
+	setTouched: (dirty: boolean) => void,
+	emailLabel: string,
+	emailId: string,
+	passwordLabel: string, passwordId: string,
+	failed: boolean,
+	lastSignInAttemptError: any,
+	loading: boolean,
+	classes: any,
+	canSubmit: boolean,
+	loginHeaderLabel: string,
+	isSubmitting: boolean
+}) {
+	const { isValid } = useFormikContext();
+	const setIsValid = props.setIsValid;
+	useEffect(() => {
+		setIsValid(isValid);
+	}, [isValid, setIsValid]);
+	const { dirty } = useFormikContext();
+	const setTouched = props.setTouched;
+	useEffect(() => {
+		setTouched(dirty);
+	}, [dirty, setTouched]);
+	return (
+		<Form>
+			{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
+			<Box display="flex" justifyContent="center" alignItems="center">
+				{!props.isSuccessful ?
+					<Box p={1.5}>
+						<Field component={TextField} name="email" type="text" id={props.emailId} data-testid="emailTest"
+							label={props.emailLabel}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<AccountCircle fontSize="small" />
+									</InputAdornment>
+								),
+							}}
+						/>
+					</Box>
+					: null}
+			</Box>
+			<Box display="flex" justifyContent="center" alignItems="center">
+				{!props.isSuccessful ?
+					<Box p={1.5}>
+						<Field component={TextField} name="password" type="password" id={props.passwordId}
+							label={props.passwordLabel}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<LockOpenIcon fontSize="small" />
+									</InputAdornment>
+								),
+							}} />
+					</Box>
+					: null}
+			</Box>
+			<div data-testid="errorTest">
+				<Box display="flex" justifyContent="center" alignItems="center">
+					{props.isSubmitting ? "" : <>
+						{props.failed ? <FailedAlert error={props.lastSignInAttemptError} /> : ""}
+					</>
+					}
+				</Box>
+			</div>
+			{!props.isSuccessful ?
+				<Box p={2} display="flex" justifyContent="center" alignItems="center">
+					{props.loading ?
+						(<div data-testid="progressTest">
+							<Box display="flex" justifyContent="center" alignItems="center">
+								<CircularProgress size={25} className={props.classes.buttonProgress} />
+							</Box>
+						</div>) :
+						<Button className={props.classes.submitButton}
+							data-testid="signInButton"
+							type="submit"
+							color="primary"
+							variant='contained'
+							disabled={!props.canSubmit}
+						>
+							{props.loginHeaderLabel}
+						</Button>}
+				</Box>
+				: null}
+			<div data-testid="signInComponentSuccess">
+				{props.isSuccessful ?
+					<Box m={13} display="flex" justifyContent="center" alignItems="center">
+						<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
+					</Box>
+					: null}
+			</div>
+		</Form>
 	);
 }
 

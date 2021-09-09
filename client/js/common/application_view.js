@@ -127,6 +127,11 @@ appl.def('readable_date', function(date) {
   return momentTz(date).format("MM/DD/YY")
 })
 
+appl.def('payments_readable_date', function(date) {
+	if(!date) return
+	return moment.tz(date, "YYYY-MM-DD HH:mm:ss", ENV.nonprofitTimezone || 'UTC').format("MM/DD/YY")
+})
+
 // Given a created_at string (eg. Charge.last.created_at.to_s), convert it to a readable date-time string
 appl.def('readable_date_time', function(date) {
   if(!date) return

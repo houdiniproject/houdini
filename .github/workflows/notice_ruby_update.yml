@@ -1,16 +1,10 @@
 # License: LGPL-3.0-or-later
-name: NOTICE-ruby verification
-on: 
-  push:
-    paths:
-      - Gemfile
-      - Gemfile.lock
-      - NOTICE-ruby
-  pull_request:
-    paths:
-      - Gemfile
-      - Gemfile.lock
-      - NOTICE-ruby
+name: NOTICE-ruby update
+on:
+  workflow_run:
+    workflows: ["NOTICE-ruby verification"]
+    types: 
+      - completed
 env:
   os: ubuntu-20.04
   ruby: '2.7.4'
@@ -25,6 +19,8 @@ jobs:
         with:
           ruby-version: ${{ env.ruby }}
           bundler-cache: true
-      - name: run notice:ruby:verify
+      - name: Update NOTICE-ruby on Dependabot
+        if: ${{ github.event.workflow_run.conclusion == 'failure'  && github.actor == 'dependabot[bot]' }}
         run: |
-            bin/rails notice:ruby:verify
+          echo ${{ github.event.workflow_run }}
+         

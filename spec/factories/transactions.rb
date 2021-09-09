@@ -6,4 +6,18 @@ FactoryBot.define do
 	factory :transaction do
 		supporter { create(:supporter) }
 	end
+
+	factory :transaction_for_donation, class: "Transaction" do
+
+		amount { 4000 }
+		supporter { create(:supporter_with_fv_poverty) }
+		subtransaction { build(
+			:subtransaction
+		)}
+
+		transaction_assignments { [
+			build(:transaction_assignment
+			)
+		]}
+	end
 end

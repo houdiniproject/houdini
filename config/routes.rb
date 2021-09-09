@@ -19,11 +19,15 @@ Rails.application.routes.draw do
           resources :campaign_gift_options, only: [:index, :show]
         end
         resources :custom_field_definitions, only: [:index, :show]
+        resources :events, only: [:show] do
+          resources :ticket_levels, only: [:index, :show]
+        end
         resources :supporters, only: [:index, :show] do 
           resources :supporter_addresses, only: [:index, :show]
           resources :supporter_notes, only: [:index, :show]
         end
         resources :tag_definitions, only: [:index, :show]
+        resources :transactions, only: [:index, :show]
       end
 
       resources :users, only: [] do

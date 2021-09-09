@@ -67,7 +67,7 @@ group :development, :ci, :test do
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
   gem 'rubocop', '~> 1.10'
   gem 'rubocop-rails', '~> 2.11'
-  gem 'rubocop-rake', '~> 0.5.1'
+  gem 'rubocop-rake', '~> 0.6.0'
   gem 'rubocop-rspec', '~> 2.2'
   gem 'shoulda-matchers', '~> 5.0.0'
 end

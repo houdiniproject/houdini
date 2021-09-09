@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import useCurrentUserAuth from "./useCurrentUserAuth";
 
-export default function useIsReadyForSubmission(formState: string, showProgressAndSuccess: boolean): boolean {
+export default function useIsSuccessful(showProgressAndSuccess: boolean, onSuccess: () => void): boolean {
   const [state, setState] = useState(false);
 
   const { currentUser } = useCurrentUserAuth();
 
   useEffect(() => {
-    if (formState === 'success' && currentUser && showProgressAndSuccess) {
+    if (!state && currentUser && showProgressAndSuccess) {
       setState(true);
+      onSuccess();
     } else {
       setState(false);
     }
-  }, [formState, currentUser, showProgressAndSuccess, setState]);
+  }, [currentUser, showProgressAndSuccess, setState]);
+
   return state;
 }

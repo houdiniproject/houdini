@@ -82,11 +82,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const formState = useForm(
 		wasSubmitting,
 		onFailure,
-		onSuccess,
 		onSubmitting,
 		isValid
 	);
-	const isSuccessful = useIsSuccessful(formState, showProgressAndSuccess);
+	const isSuccessful = useIsSuccessful(showProgressAndSuccess, onSuccess);
 	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, formState, touched);
 
 	//Setting error messages
@@ -175,7 +174,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					<Form>
 						{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
 						<Box display="flex" justifyContent="center" alignItems="center">
-							{formState !== 'success' ?
+							{!isSuccessful ?
 								<Box p={1.5}>
 									<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
 										label={emailLabel}
@@ -191,7 +190,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								: null}
 						</Box>
 						<Box display="flex" justifyContent="center" alignItems="center">
-							{formState !== 'success' ?
+							{!isSuccessful ?
 								<Box p={1.5}>
 									<Field component={TextField} name="password" type="password" id={passwordId}
 										label={passwordLabel}
@@ -213,7 +212,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 								}
 							</Box>
 						</div>
-						{formState !== 'success' ?
+						{!isSuccessful ?
 							<Box p={2} display="flex" justifyContent="center" alignItems="center">
 								{loading ?
 									(<div data-testid="progressTest">

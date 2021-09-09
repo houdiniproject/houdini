@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { NetworkError } from "../api/errors";
 import useCurrentUserAuth from "./useCurrentUserAuth";
 
-export default function useForm(wasSubmitting: boolean, onFailure: (error: NetworkError) => void, onSuccess: () => void, onSubmitting: () => void, isValid: boolean): string {
+export default function useForm(wasSubmitting: boolean, onFailure: (error: NetworkError) => void, onSubmitting: () => void, isValid: boolean): string {
   const [state, setState] = useState('ready');
   const { currentUser, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
 
@@ -13,13 +13,6 @@ export default function useForm(wasSubmitting: boolean, onFailure: (error: Netwo
       onFailure(lastSignInAttemptError);
     }
   }, [failed, wasSubmitting, lastSignInAttemptError, onFailure, setState]);
-
-  useEffect(() => {
-    if (currentUser && state !== 'success') {
-      setState('success');
-      onSuccess();
-    }
-  }, [currentUser, onSuccess, state, setState]);
 
   useEffect(() => {
     if (isValid && submitting) {

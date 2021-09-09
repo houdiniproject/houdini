@@ -89,7 +89,7 @@ const daysLeft = state => {
 const endedMessage = state => {
   if(state.timeRemaining$()) return ''
   return h('p', [
-    `This campaign has ended, but you can still contribute by clicking the button below.`
+    `This campaign has ended${app.campaign.paused ? '.' : ', but you can still contribute by clicking the button below.'}`
   ])
 }
 

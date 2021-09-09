@@ -130,7 +130,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 
 	//Setting up error messages
 	const classes = useStyles();
-	const hoster  = useHoster();
+	const hoster = useHoster();
 	const { formatMessage } = useIntl();
 	const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });
 	const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });
@@ -174,6 +174,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 								onSuccess={onSuccess}
 								onSubmitting={onSubmitting}
 								onFailure={onReady}
+								showProgressAndSuccess={true}
 							/>
 						</div>
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce

@@ -69,6 +69,7 @@ function FailedAlert({ error }: { error: unknown }): JSX.Element {
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [isValid, setIsValid] = useState(false);
+	const [touched, setTouched] = useState(false);
 
 	const { currentUser, signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
@@ -86,7 +87,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		isValid
 	);
 	const isSuccessful = useIsSuccessful(formState, showProgressAndSuccess);
-	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, formState);
+	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, formState, touched);
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -163,11 +164,11 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				}
 			}
 				//Props
-			}>{({ isValid }) => {
+			}>{({ isValid, dirty }) => {
 				// eslint-disable-next-line react-hooks/rules-of-hooks
 
 				setIsValid(isValid);
-
+				setTouched(dirty);
 
 				//Form
 				return (

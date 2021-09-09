@@ -23,6 +23,7 @@ function MainWrapper(props: React.PropsWithChildren<unknown>) {
 		<SWRConfig value={
 			{
 				dedupingInterval: 0, // we need to make SWR not dedupe
+				provider: () => new Map()
 			}
 		}>
 			{props.children}

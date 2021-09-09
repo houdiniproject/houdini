@@ -1,6 +1,4 @@
 
-
-import { cache } from 'swr';
 import { server }  from './app/javascript/api/mocks';
 
 
@@ -16,5 +14,4 @@ afterAll(() => {
 beforeEach(() => {
 	server.resetHandlers();
 	sessionStorage.clear();
-	cache.clear();
 });

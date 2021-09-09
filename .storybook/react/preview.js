@@ -8,4 +8,4 @@ import { initializeWorker, mswDecorator } from 'msw-storybook-addon';
 initializeWorker();
 
 
-export const decorators = [intlDecorate(), cssBaseline(), mswDecorator()]
+export const decorators = [ clearSessionStorage(), mswDecorator(), intlDecorate(), cssBaseline()]

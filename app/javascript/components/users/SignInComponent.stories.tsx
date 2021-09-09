@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions';
 import SignInComponent from './SignInComponent';
 import { InitialCurrentUserContext } from '../../hooks/useCurrentUser';
 import { SWRConfig } from 'swr';
+
 import { UserSignInFailedWith500And5SecondDelay, UserSignsInOnFirstAttemptWith5SecondDelay } from '../../hooks/mocks/useCurrentUserAuth';
 import { UserPresignedIn } from '../../api/api/mocks/users';
 
@@ -11,7 +12,13 @@ import { UserPresignedIn } from '../../api/api/mocks/users';
 function SWRWrapper(props:React.PropsWithChildren<unknown>) {
 	return <SWRConfig value={
 		{
-			dedupingInterval: 2500, // we need to make SWR not dedupe
+
+			dedupingInterval: 0, // we need to make SWR not dedupe
+			revalidateOnMount: true,
+			revalidateOnFocus: true,
+			revalidateOnReconnect: true,
+			focusThrottleInterval: 0,
+			provider: () => new Map(),
 		}
 	}>
 		{props.children}
@@ -34,18 +41,18 @@ interface TemplateArgs {
 }
 
 function OuterWrapper(props:React.PropsWithChildren<Record<string, unknown>>) {
-	sessionStorage.clear();
 	return <> {props.children}</>;
 }
 
 const Template = (args:TemplateArgs) => {
 	return (<OuterWrapper key={Math.random()}>
-		<SignInComponent  onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressAndSuccess} />
+		<SWRWrapper key={Math.random()}>
+			<SignInComponent  onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressAndSuccess} />
+		</SWRWrapper>
 	</OuterWrapper>);
 };
 
 const SignedInTemplate = () => {
-	sessionStorage.clear();
 	return <OuterWrapper key={Math.random()}><SWRWrapper key={Math.random()}><InitialCurrentUserContext.Provider value={{id:1}}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></InitialCurrentUserContext.Provider></SWRWrapper></OuterWrapper>;
 };
 

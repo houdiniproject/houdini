@@ -28,11 +28,5 @@ export default function useForm(wasSubmitting: boolean, onFailure: (error: Netwo
     }
   }, [submitting, isValid, onSubmitting]);
 
-  useEffect(() => {
-    if (isValid && state == 'ready') {
-      setState('canSubmit');
-    }
-  }, [isValid, state]);
-
   return state;
 }

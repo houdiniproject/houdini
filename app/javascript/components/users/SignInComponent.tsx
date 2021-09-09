@@ -14,7 +14,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
 import useIsSuccessful from "../../hooks/useIsSuccessful";
-import useIsReadyForSubmission from "../../hooks/useIsReadyForSubmission";
+import useCanSubmit from "../../hooks/useCanSubmit";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
 import useForm from "../../hooks/useForm";
 import { useIntl } from "../../components/intl";
@@ -86,7 +86,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		isValid
 	);
 	const isSuccessful = useIsSuccessful(formState, showProgressAndSuccess);
-	const canSubmit = useIsReadyForSubmission(isValid, showProgressAndSuccess, formState);
+	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, formState);
 
 	//Setting error messages
 	const { formatMessage } = useIntl();

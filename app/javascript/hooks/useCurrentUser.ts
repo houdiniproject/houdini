@@ -74,7 +74,7 @@ export interface SetCurrentUserReturnType extends UseCurrentUserReturnType {
 function useCurrentUser<TReturnType extends UseCurrentUserReturnType = UseCurrentUserReturnType>(): TReturnType {
 	const initialCurrentUser = useContext(InitialCurrentUserContext);
 
-	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(users.apiUsersCurrent.url(), getCurrent, { initialData: initialCurrentUser });
+	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(users.apiUsersCurrent.url(), getCurrent, { fallbackData: initialCurrentUser });
 	const currentUser = error?.status === NotLoggedInStatus ? null : data;
 
 	async function revalidate() {

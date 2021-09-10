@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import { NetworkError } from "../api/errors";
-import useCurrentUserAuth from "./useCurrentUserAuth";
+import { NetworkError } from "../../api/errors";
 
-export default function useIsReady(wasSubmitting: boolean, onFailure: (error: NetworkError) => void): boolean {
+export default function useIsReady(wasSubmitting: boolean, onFailure: (error: NetworkError) => void, failed: boolean, lastSignInAttemptError: NetworkError): boolean {
   const [state, setState] = useState(true);
-  const { lastSignInAttemptError, failed } = useCurrentUserAuth();
 
   useEffect(() => {
     if (failed && wasSubmitting) {

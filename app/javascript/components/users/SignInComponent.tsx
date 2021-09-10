@@ -13,11 +13,11 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
-import useIsSuccessful from "../../hooks/useIsSuccessful";
-import useIsReady from "../../hooks/useIsReady";
+import useIsSuccessful from "../../hooks/users/useIsSuccessful";
+import useIsReady from "../../hooks/users/useIsReady";
 import useCanSubmit from "../../hooks/useCanSubmit";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
-import useIsSubmitting from "../../hooks/useIsSubmitting";
+import useIsSubmitting from "../../hooks/users/useIsSubmitting";
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
@@ -72,15 +72,15 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [isValid, setIsValid] = useState(false);
 	const [touched, setTouched] = useState(false);
 
-	const { currentUser, signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
+	const { signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 	const loading = useIsLoading(submitting, showProgressAndSuccess);
-	const isSubmitting = useIsSubmitting(onSubmitting, isValid);
-	const isReady = useIsReady(wasSubmitting, onFailure);
+	const isSubmitting = useIsSubmitting(onSubmitting, isValid, submitting);
+	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError);
 	const isSuccessful = useIsSuccessful(showProgressAndSuccess, onSuccess);
 	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, touched);
 

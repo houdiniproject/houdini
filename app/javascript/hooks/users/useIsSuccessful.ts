@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useCurrentUserAuth from "./useCurrentUserAuth";
+import useCurrentUserAuth from "../useCurrentUserAuth";
 
 export default function useIsSuccessful(showProgressAndSuccess: boolean, onSuccess: () => void): boolean {
   const [state, setState] = useState(false);

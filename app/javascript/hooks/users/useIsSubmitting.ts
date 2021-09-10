@@ -1,10 +1,8 @@
 // useState<'ready' | 'canSubmit' | 'submitting' | 'success'>
 import { useEffect, useState } from "react";
-import useCurrentUserAuth from "./useCurrentUserAuth";
 
-export default function useIsSubmitting(onSubmitting: () => void, isValid: boolean): boolean {
+export default function useIsSubmitting(onSubmitting: () => void, isValid: boolean, submitting: boolean): boolean {
   const [state, setState] = useState(false);
-  const { submitting } = useCurrentUserAuth();
 
   useEffect(() => {
     if (isValid && submitting) {

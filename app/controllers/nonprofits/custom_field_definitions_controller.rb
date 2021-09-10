@@ -16,7 +16,7 @@ module Nonprofits
     end
 
     def create
-      json_saved CreateCustomFieldDefinition.create(current_nonprofit, custom_field_master_params[:custom_field_master])
+      json_saved CreateCustomFieldDefinition.create(current_nonprofit, custom_field_definition_params)
     end
 
     def destroy
@@ -27,8 +27,8 @@ module Nonprofits
 
     private
 
-    def custom_field_master_params
-      params.require(:custom_field_master).permit( :name)
+    def custom_field_definition_params
+      params.require(:custom_field_definition).permit( :name)
     end
 
 

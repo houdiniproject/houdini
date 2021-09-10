@@ -14,9 +14,10 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
 import useIsSuccessful from "../../hooks/useIsSuccessful";
+import useIsReady from "../../hooks/useIsReady";
 import useCanSubmit from "../../hooks/useCanSubmit";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
-import useForm from "../../hooks/useForm";
+import useIsSubmitting from "../../hooks/useIsSubmitting";
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
@@ -78,15 +79,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const wasSubmitting = previousSubmittingValue && !submitting;
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 	const loading = useIsLoading(submitting, showProgressAndSuccess);
-	// <'ready' | 'canSubmit' | 'submitting' | 'success'>
-	const formState = useForm(
-		wasSubmitting,
-		onFailure,
-		onSubmitting,
-		isValid
-	);
+	const isSubmitting = useIsSubmitting(onSubmitting, isValid);
+	const isReady = useIsReady(wasSubmitting, onFailure);
 	const isSuccessful = useIsSuccessful(showProgressAndSuccess, onSuccess);
-	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, formState, touched);
+	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, touched);
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
@@ -206,7 +202,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 						</Box>
 						<div data-testid="errorTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
-								{formState === 'submitting' ? "" : <>
+								{isSubmitting ? "" : <>
 									{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
 								</>
 								}

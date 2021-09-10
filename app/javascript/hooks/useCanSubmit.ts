@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
-export default function useCanSubmit(isValid: boolean, showProgressAndSuccess: boolean, formState: string, touched: boolean): boolean {
+export default function useCanSubmit(isValid: boolean, showProgressAndSuccess: boolean, isReady: boolean, touched: boolean): boolean {
   const [state, setState] = useState(false);
 
   useEffect(() => {
-    if (isValid && formState == 'ready' && showProgressAndSuccess && touched) {
+    if (isValid && isReady && showProgressAndSuccess && touched) {
       setState(true);
     } else {
       setState(false);
     }
-  }, [isValid, showProgressAndSuccess, formState, touched, setState]);
+  }, [isValid, showProgressAndSuccess, isReady, touched, setState]);
 
   return state;
 }

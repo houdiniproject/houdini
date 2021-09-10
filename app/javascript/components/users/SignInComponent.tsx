@@ -80,7 +80,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 	const loading = useIsLoading(submitting, showProgressAndSuccess);
 	const isSubmitting = useIsSubmitting(onSubmitting, isValid, submitting);
-	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError);
+	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError, submitting);
 	const isSuccessful = useIsSuccessful(showProgressAndSuccess, onSuccess);
 	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, touched);
 

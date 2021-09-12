@@ -5,14 +5,24 @@ var tags_or_fields = {}
 
 
 tags_or_fields.definition_endpoint = function (type) {
-	return endpoint_prefix + type + '_index_definitions'
+	if (type === 'tag') { 
+		return endpoint_prefix + type + '_masters';
+	}
+	else {
+		return endpoint_prefix + type + '_definitions';
+	}
 }
 
 
 tags_or_fields.index_definitions = function (type) {
 	request.get(tags_or_fields.definition_endpoint(type))
 		.end(function (err, resp) {
-			appl.def(type + 's.index_definitions.data', appl.sort_arr_of_objs_by_key(resp.body.data, 'name'))
+			if (type === 'tag') { 
+				appl.def(type + 's.masters.data', appl.sort_arr_of_objs_by_key(resp.body.data, 'name'))
+			}
+			else {
+				appl.def(type + 's.definitions.data', appl.sort_arr_of_objs_by_key(resp.body.data, 'name'))
+			}
 		})
 }
 
@@ -23,7 +33,7 @@ tags_or_fields.add = function (obj) {
 		return
 	}
 	var loading_key = 'manage_' + obj.type + 's.loading'
-	var data_key = obj.type + '_master'
+	var data_key = obj.type + (obj.type === 'tag' ? '_master' : '_definition')
 	var endpoint = endpoint_prefix + data_key + 's'
 	var data = {}; data[data_key] = obj.form_obj
 	var notify_text = (obj.type === 'tag' ? 'Tag' : 'Field') + ' "' + obj.form_obj.name + '"'

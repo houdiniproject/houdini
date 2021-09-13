@@ -40,7 +40,7 @@ gem 'qx', path: 'gems/ruby-qx'
 gem 'fast_blank'
 
 # Images
-gem 'image_processing', '~> 1.10.3'
+gem 'image_processing', '~> 1.12.1'
 
 # URL validation
 gem 'validate_url'
@@ -60,8 +60,8 @@ group :development, :ci, :test do
   gem 'pry', '~> 0.14.1'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'rspec', '~> 3.10.0'
-  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
+  gem 'factory_bot_rails', '~> 6.2'
+  gem 'factory_bot', '~> 6.2'
   gem 'listen'
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
@@ -77,7 +77,7 @@ group :ci, :test do
   gem 'database_cleaner-active_record'
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.3'
-  gem 'timecop', '~> 0.9.1'
+  gem 'timecop', '~> 0.9.4'
   gem 'webmock', '~> 3.14'
   gem 'wisper-rspec', '~> 1.1.0'
 end

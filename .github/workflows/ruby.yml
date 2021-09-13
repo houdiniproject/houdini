@@ -20,6 +20,7 @@ on:
       - "NOTICE-ruby"
       - "package.json"
       - "yarn.lock"
+    types: [opened, reopened, synchronize]
 jobs:
   main_build:
     runs-on: ${{ matrix.os }}

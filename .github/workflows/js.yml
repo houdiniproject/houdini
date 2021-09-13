@@ -9,6 +9,7 @@ on:
   pull_request:
     paths-ignore:
       - "**.md"
+    types: [opened, reopened, synchronize]
 jobs:
   lint:
     runs-on: ${{ matrix.os }}

@@ -60,8 +60,8 @@ group :development, :ci, :test do
   gem 'pry', '~> 0.14.1'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'rspec', '~> 3.10.0'
-  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
+  gem 'factory_bot_rails', '~> 6.2'
+  gem 'factory_bot', '~> 6.2'
   gem 'listen'
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console

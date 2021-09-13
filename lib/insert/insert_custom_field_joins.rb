@@ -41,11 +41,11 @@ module InsertCustomFieldJoins
     end
 
     cfm_id_to_value = field_data.map do |name, value|
-      cfm = CustomFieldMaster.where('nonprofit_id = ? and name = ?', np_id, name).first
+      cfm = CustomFieldDefinition.where('nonprofit_id = ? and name = ?', np_id, name).first
       Qx.transaction do
-        cfm ||= CustomFieldMaster.create!(nonprofit: np, name: name)
+        cfm ||= CustomFieldDefinition.create!(nonprofit: np, name: name)
       end
-      { custom_field_master_id: cfm.id, value: value }
+      { custom_field_definition_id: cfm.id, value: value }
     end
     in_bulk(np_id, supporter_ids, cfm_id_to_value)
   end
@@ -56,7 +56,7 @@ module InsertCustomFieldJoins
   # @param [Integer] np_id nonprofit_id whose custom_fields this applies to
   # @param [Array<Integer>] supporter_ids the supporter ids in which the custom fields should be modified
   # @param [Array<Hash<Symbol, Object>>] field_data the fields you'd like to modify. Each item is a hash with following keys:
-  #                * custom_field_master_id [Integer] for the key corresponding to custom_field_master_id
+  #                * custom_field_definition_id [Integer] for the key corresponding to custom_field_definition_id
   #                * value [Object] the expected value of the field. If this key is an empty string, we remove the custom_field
   def self.in_bulk(np_id, supporter_ids, field_data)
     begin
@@ -85,8 +85,8 @@ module InsertCustomFieldJoins
       end
 
       # filtering the tag_data to this nonprofit
-      valid_ids = CustomFieldMaster.where('nonprofit_id = ? and id IN (?)', np_id, field_data.map { |fd| fd[:custom_field_master_id] }).pluck(:id).to_a
-      filtered_field_data = field_data.select { |i| valid_ids.include? i[:custom_field_master_id].to_i }
+      valid_ids = CustomFieldDefinition.where('nonprofit_id = ? and id IN (?)', np_id, field_data.map { |fd| fd[:custom_field_definition_id] }).pluck(:id).to_a
+      filtered_field_data = field_data.select { |i| valid_ids.include? i[:custom_field_definition_id].to_i }
 
       # first, delete the items which should be removed
       to_insert, to_remove = filtered_field_data.partition do |t|
@@ -96,7 +96,7 @@ module InsertCustomFieldJoins
       if to_remove.any?
         deleted = Qx.delete_from(:custom_field_joins)
                     .where('supporter_id IN ($ids)', ids: supporter_ids)
-                    .and_where('custom_field_master_id in ($fields)', fields: to_remove.map { |t| t[:custom_field_master_id] })
+                    .and_where('custom_field_definition_id in ($fields)', fields: to_remove.map { |t| t[:custom_field_definition_id] })
                     .returning('*')
                     .execute
       end
@@ -104,12 +104,12 @@ module InsertCustomFieldJoins
       # next add only the selected tag_joins
 
       if to_insert.any?
-        insert_data = supporter_ids.map { |id| to_insert.map { |cfm| { supporter_id: id, custom_field_master_id: cfm[:custom_field_master_id], value: cfm[:value] } } }.flatten
+        insert_data = supporter_ids.map { |id| to_insert.map { |cfm| { supporter_id: id, custom_field_definition_id: cfm[:custom_field_definition_id], value: cfm[:value] } } }.flatten
         cfj = Qx.insert_into(:custom_field_joins)
                 .values(insert_data)
                 .timestamps
                 .on_conflict
-                .conflict_columns(:supporter_id, :custom_field_master_id).upsert(:custom_field_join_supporter_unique_idx)
+                .conflict_columns(:supporter_id, :custom_field_definition_id).upsert(:custom_field_join_supporter_unique_idx)
                 .returning('*')
                 .execute
       else

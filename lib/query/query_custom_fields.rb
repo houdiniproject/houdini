@@ -11,9 +11,9 @@ module QueryCustomFields
   def self.find_dupes(np_id)
     Qx.select('ARRAY_AGG(custom_field_joins.id)')
       .from(:custom_field_joins)
-      .join(:custom_field_masters, 'custom_field_masters.id=custom_field_joins.custom_field_master_id')
-      .where('custom_field_masters.nonprofit_id=$id', id: np_id)
-      .group_by('custom_field_joins.custom_field_master_id', 'custom_field_joins.value', 'custom_field_joins.supporter_id')
+      .join(:custom_field_definitions, 'custom_field_definitions.id=custom_field_joins.custom_field_definition_id')
+      .where('custom_field_definitions.nonprofit_id=$id', id: np_id)
+      .group_by('custom_field_joins.custom_field_definition_id', 'custom_field_joins.value', 'custom_field_joins.supporter_id')
       .having('COUNT(custom_field_joins.id) > 1')
       .execute(format: 'csv')[1..-1]
   end

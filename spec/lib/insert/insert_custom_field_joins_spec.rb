@@ -11,7 +11,7 @@ describe InsertCustomFieldJoins do
     let(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
     let(:other_supporter) { force_create(:supporter, nonprofit: other_nonprofit) }
 
-    let(:initial_custom_field_master) { force_create(:custom_field_master, nonprofit: nonprofit, name: 'CFM Name') }
+    let(:initial_custom_field_definition) { force_create(:custom_field_definition, nonprofit: nonprofit, name: 'CFM Name') }
 
     describe 'param validation' do
       it 'basic validation' do
@@ -61,12 +61,12 @@ describe InsertCustomFieldJoins do
         expect(np_id).to eq nonprofit.id
         expect(supporters_id).to eq [supporter.id]
         expect(field_data.length).to eq 2
-        expect(field_data).to include(custom_field_master_id: initial_custom_field_master.id, value: old_cf_value)
-        expect(field_data).to include(custom_field_master_id: CustomFieldMaster.where(name: new_cf_name).first.id, value: new_cf_value)
+        expect(field_data).to include(custom_field_definition_id: initial_custom_field_definition.id, value: old_cf_value)
+        expect(field_data).to include(custom_field_definition_id: CustomFieldDefinition.where(name: new_cf_name).first.id, value: new_cf_value)
       end
       result = InsertCustomFieldJoins.find_or_create(nonprofit.id, [supporter.id], [
                                                        [
-                                                         initial_custom_field_master.name,
+                                                         initial_custom_field_definition.name,
                                                          old_cf_value
                                                        ],
                                                        [
@@ -74,7 +74,7 @@ describe InsertCustomFieldJoins do
                                                          new_cf_value
                                                        ]
                                                      ])
-      expect(CustomFieldMaster.count).to eq 2
+      expect(CustomFieldDefinition.count).to eq 2
     end
   end
 
@@ -154,9 +154,9 @@ describe InsertCustomFieldJoins do
           nonprofit_for_supporter = i[:other_np] ? @other_nonprofit : @nonprofit
           i[:entity] = create(:supporter, nonprofit: nonprofit_for_supporter)
           i[:cfm_ids].each do |j|
-            cfm = CustomFieldMaster.exists?(id: j) ? CustomFieldMaster.find(j) : create(:custom_field_master, id: j, nonprofit: nonprofit_for_supporter, name: "CFM #{j}")
+            cfm = CustomFieldDefinition.exists?(id: j) ? CustomFieldDefinition.find(j) : create(:custom_field_definition, id: j, nonprofit: nonprofit_for_supporter, name: "CFM #{j}")
 
-            create(:custom_field_join, :value_from_id, supporter_id: i[:entity].id, custom_field_master: cfm)
+            create(:custom_field_join, :value_from_id, supporter_id: i[:entity].id, custom_field_definition: cfm)
           end
         end
       end
@@ -171,7 +171,7 @@ describe InsertCustomFieldJoins do
                                                  create_cfm_data([100], [150]))
         expect(results).to eq(successful_json(0, 0))
 
-        expect(CustomFieldJoin.where('supporter_id = ? and custom_field_master_id = ?', @supporters[:np_supporter_with_add][:entity].id, 100).count).to eq 0
+        expect(CustomFieldJoin.where('supporter_id = ? and custom_field_definition_id = ?', @supporters[:np_supporter_with_add][:entity].id, 100).count).to eq 0
       end
 
       it 'delete' do
@@ -200,12 +200,12 @@ describe InsertCustomFieldJoins do
         Timecop.freeze(2020, 9, 1, 12, 0, 0) do
           results = InsertCustomFieldJoins.in_bulk(@nonprofit.id,
                                                    [@supporters[:np_supporter_with_add][:entity].id],
-                                                   [{ custom_field_master_id: 25, value: 'CFM value 25', id: invalid_id, created_at: Time.now.ago(3000), updated_at: Time.now.ago(2999) }])
-          expected = { custom_field_master_id: 25, value: 'CFM value 25', created_at: Time.now, updated_at: Time.now, supporter_id: @supporters[:np_supporter_with_add][:entity].id }.with_indifferent_access
+                                                   [{ custom_field_definition_id: 25, value: 'CFM value 25', id: invalid_id, created_at: Time.now.ago(3000), updated_at: Time.now.ago(2999) }])
+          expected = { custom_field_definition_id: 25, value: 'CFM value 25', created_at: Time.now, updated_at: Time.now, supporter_id: @supporters[:np_supporter_with_add][:entity].id }.with_indifferent_access
 
           expect(results).to eq(successful_json(1, 0))
 
-          result_tag = @supporters[:np_supporter_with_add][:entity].custom_field_joins.where('custom_field_master_id = ?', 25).first
+          result_tag = @supporters[:np_supporter_with_add][:entity].custom_field_joins.where('custom_field_definition_id = ?', 25).first
 
           expect(result_tag.attributes.with_indifferent_access.reject { |k, _| k == 'id' }).to eq(expected)
 
@@ -235,7 +235,7 @@ describe InsertCustomFieldJoins do
 
           expect(CustomFieldJoin.where('supporter_id = ? ', @supporters[:np_supporter_with_add][:entity].id).count).to eq 5
 
-          original_db_pairs = get_original_and_db(np_supporter_with_add_cfms, CustomFieldJoin.where('supporter_id = ? and custom_field_master_id in (?)',
+          original_db_pairs = get_original_and_db(np_supporter_with_add_cfms, CustomFieldJoin.where('supporter_id = ? and custom_field_definition_id in (?)',
                                                                                                     @supporters[:np_supporter_with_add][:entity].id,
                                                                                                     @supporters[:np_supporter_with_add][:cfm_ids]).pluck(:id))
 
@@ -246,7 +246,7 @@ describe InsertCustomFieldJoins do
 
           expect(CustomFieldJoin.where('supporter_id = ?', @supporters[:np_supporter_with_some_of_both][:entity].id).count).to eq 2
 
-          original_db_pairs = get_original_and_db(np_supporter_with_some_of_both_cfms, CustomFieldJoin.where('supporter_id = ? and custom_field_master_id in (?)',
+          original_db_pairs = get_original_and_db(np_supporter_with_some_of_both_cfms, CustomFieldJoin.where('supporter_id = ? and custom_field_definition_id in (?)',
                                                                                                              @supporters[:np_supporter_with_some_of_both][:entity].id,
                                                                                                              [35]).pluck(:id))
           skip_attribs = %w[updated_at value]
@@ -269,10 +269,10 @@ describe InsertCustomFieldJoins do
 
   def create_cfm_data(cfm_to_add = [], cfm_to_delete = [])
     use_nil = true
-    cfm_to_add.map { |cfm| { custom_field_master_id: cfm, value: "CFM value #{cfm}" } } + cfm_to_delete.map do |cfm|
+    cfm_to_add.map { |cfm| { custom_field_definition_id: cfm, value: "CFM value #{cfm}" } } + cfm_to_delete.map do |cfm|
                                                                                             value = use_nil ? nil : ''
                                                                                             use_nil = !use_nil
-                                                                                            { custom_field_master_id: cfm, value: value }
+                                                                                            { custom_field_definition_id: cfm, value: value }
                                                                                           end
   end
 

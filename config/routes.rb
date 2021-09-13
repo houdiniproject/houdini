@@ -90,7 +90,7 @@ Rails.application.routes.draw do
       post(:resend_confirmation)
     end
 
-    resources(:custom_field_masters, only: %i[index create destroy])
+    resources(:custom_field_definitions, only: %i[index create destroy])
     resources(:custom_field_joins, only: []) do
       post(:modify, on: :collection)
     end

@@ -3,20 +3,20 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module Nonprofits
-  class CustomFieldMastersController < ApplicationController
+  class CustomFieldDefinitionsController < ApplicationController
     include Controllers::Nonprofit::Current
     include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
 
     def index
-      @custom_field_masters = current_nonprofit
-                              .custom_field_masters
+      @custom_field_definitions = current_nonprofit
+                              .custom_field_definitions
                               .order('id DESC')
                               .not_deleted
     end
 
     def create
-      json_saved CreateCustomFieldMaster.create(current_nonprofit, custom_field_master_params[:custom_field_master])
+      json_saved CreateCustomFieldDefinition.create(current_nonprofit, custom_field_definition_params)
     end
 
     def destroy
@@ -27,13 +27,13 @@ module Nonprofits
 
     private
 
-    def custom_field_master_params
-      params.require(:custom_field_master).permit( :name)
+    def custom_field_definition_params
+      params.require(:custom_field_definition).permit( :name)
     end
 
 
     def current_custom_field_definition
-      current_nonprofit.custom_field_masters.find(params[:id])
+      current_nonprofit.custom_field_definitions.find(params[:id])
     end
   end
 end

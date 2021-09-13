@@ -187,7 +187,7 @@ GEM
     image_processing (1.10.3)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
-    jbuilder (2.10.1)
+    jbuilder (2.11.2)
       activesupport (>= 5.0.0)
     libv8 (8.4.255.0)
     listen (3.7.0)
@@ -435,7 +435,7 @@ DEPENDENCIES
   httparty (~> 0.18.1)
   i18n-js (~> 3.8)!
   image_processing (~> 1.10.3)
-  jbuilder (~> 2.10)
+  jbuilder (~> 2.11)
   listen
   lograge (~> 0.11.2)
   mini_racer

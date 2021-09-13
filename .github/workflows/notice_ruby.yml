@@ -11,6 +11,7 @@ on:
       - Gemfile
       - Gemfile.lock
       - NOTICE-ruby
+    types: [opened, reopened, synchronize]
 env:
   os: ubuntu-20.04
   ruby: '2.7.4'

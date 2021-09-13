@@ -68,7 +68,7 @@ group :development, :ci, :test do
   gem 'rubocop', '~> 1.10'
   gem 'rubocop-rails', '~> 2.11'
   gem 'rubocop-rake', '~> 0.5.1'
-  gem 'rubocop-rspec', '~> 2.2'
+  gem 'rubocop-rspec', '~> 2.4'
   gem 'shoulda-matchers', '~> 5.0.0'
 end
 
@@ -77,7 +77,7 @@ group :ci, :test do
   gem 'database_cleaner-active_record'
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.3'
-  gem 'timecop', '~> 0.9.1'
+  gem 'timecop', '~> 0.9.4'
   gem 'webmock', '~> 3.14'
   gem 'wisper-rspec', '~> 1.1.0'
 end

@@ -33,4 +33,17 @@ FactoryBot.define do
       billing_subscription { nil}
     end
   end
+
+  factory :fv_poverty, class: Nonprofit do
+    id { 22352 }
+    name { 'Ending Poverty in the Fox Valley Inc.' }
+    city { 'Appleton' }
+    state_code { 'WI' }
+    zip_code { 54915 }
+    email { 'contact@endpovertyinthefoxvalleyinc.org' }
+    website {'https://endpovertyinthefoxvalleyinc.org'}
+    slug { 'end-poverty-in-the-fox-valley-inc' }
+    state_code_slug { 'wi'}
+    city_slug { 'appleton'}
+  end
 end

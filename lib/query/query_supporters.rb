@@ -465,8 +465,8 @@ UNION DISTINCT
     expr.select(selects).execute(format: 'csv')
   end
 
-  def self.supporter_export_selections
-    [
+  def self.supporter_export_selections(*remove)
+    result = [
       "substring(trim(both from supporters.name) from '^.+ ([^\s]+)$') AS \"Last Name\"",
       "substring(trim(both from supporters.name) from '^(.+) [^\s]+$') AS \"First Name\"",
       "trim(both from supporters.name) AS \"Full Name\"",
@@ -478,9 +478,12 @@ UNION DISTINCT
       "supporters.state_code \"State\"",
       "supporters.zip_code \"Postal Code\"",
       "supporters.country \"Country\"",
-      "supporters.anonymous \"Anonymous?\"",
       "supporters.id \"Supporter ID\""
     ]
+    if (!remove.include? :anonymous) 
+      result = result.push("supporters.anonymous \"Anonymous?\"")
+    end
+    result
   end
 
   # Return an array of groups of ids, where sub-array is a  group of duplicates

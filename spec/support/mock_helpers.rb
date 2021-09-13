@@ -1,13 +1,13 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module MockHelpers
   def self.payment_export_headers()
-    ["Date",'Gross Amount',	'Fee Total',	'Net Amount','Type',	'Last Name',	'First Name','Full Name', 'Organization',	'Email',	'Phone',	'Address',	'City',	'State',	'Postal Code',	'Country',	'Anonymous?',	'Supporter Id',	'Designation', "Dedication Type",
+    ["Date",'Gross Amount',	'Fee Total',	'Net Amount','Type',	'Last Name',	'First Name','Full Name', 'Organization',	'Email',	'Phone',	'Address',	'City',	'State',	'Postal Code',	'Country', 'Supporter Id',	 'Designation', "Dedication Type",
         "Dedicated To: Name",
         "Dedicated To: Supporter Id",
         "Dedicated To: Email",
         "Dedicated To: Phone",
         "Dedicated To: Address",
-        "Dedicated To: Note",	'Anonymous','Comment','Campaign',	'Campaign Id', 'Campaign Creator Email', 'Campaign Gift Level',	'Event Name',	'Payment',	'Check Number', 'Donation Note', "Fee Covered By Supporter"]
+        "Dedicated To: Note", 'Anonymous?', 'Comment','Campaign',	'Campaign Id', 'Campaign Creator Email', 'Campaign Gift Level',	'Event Name',	'Payment',	'Check Number', 'Donation Note', "Fee Covered By Supporter"]
   end
 
   def self.recurring_donation_export_headers()

@@ -4,9 +4,7 @@ object @payment => :data
 attributes :gross_amount, :towards, :net_amount, :fee_total, :id, :date, :refund_total, :kind
 
 node(:consider_donation_anonymous) do |p|
-    d_anonymous = p.donation.nil? ? false : p.donation.anonymous
-
-    !!d_anonymous || !!p.supporter.anonymous
+   p.consider_anonymous?
 end
 
 node(:fee_covered) do |p|

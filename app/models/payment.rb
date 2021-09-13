@@ -46,6 +46,13 @@ class Payment < ActiveRecord::Base
 		end
 	end
 
+	scope :anonymous, -> {includes(:donation, :supporter).where('coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)').references(:supporters, :donations)}
+	scope :not_anonymous, -> { includes(:donation, :supporter).where('NOT(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false))').references(:supporters, :donations) }
+
+	def consider_anonymous?
+		!!(supporter&.anonymous || donation&.anonymous)
+	end
+
 	def build_activity_json
 		dispute_transaction_payment = self
 		dispute = dispute_transaction_payment.dispute_transaction.dispute

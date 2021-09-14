@@ -70,4 +70,67 @@ RSpec.describe Payment, :type => :model do
       # end
     end
   end
+
+  describe '.anonymous' do
+    it 'has no payments when none are anonymous' do
+      create(:fv_poverty_payment)
+      expect(Payment.anonymous.count).to eq 0
+    end
+
+    it 'has 1 payment when donation is anonymous' do
+      create(:fv_poverty_payment, :anonymous_through_donation)
+      expect(Payment.anonymous.count).to eq 1
+    end
+
+    it 'has 1 payment when supporter is anonymous' do
+      create(:fv_poverty_payment, :anonymous_through_supporter)
+      expect(Payment.anonymous.count).to eq 1
+    end
+
+    it 'has 1 payment when both supporter and donation are anonymous' do
+      create(:fv_poverty_payment, :anonymous_through_supporter,  :anonymous_through_donation)
+      expect(Payment.anonymous.count).to eq 1
+    end
+  end
+
+  describe '.not_anonymous' do
+
+    it 'has 1 payment when none are anonymous' do
+      create(:fv_poverty_payment)
+      expect(Payment.not_anonymous.count).to eq 1
+    end
+
+    it 'has no payments when donation is anonymous' do
+      create(:fv_poverty_payment, :anonymous_through_donation)
+      expect(Payment.not_anonymous.count).to eq 0
+    end
+
+    it 'has no payments when supporter is anonymous' do
+      create(:fv_poverty_payment, :anonymous_through_supporter)
+      expect(Payment.not_anonymous.count).to eq 0
+    end
+
+    it 'has no payments when both supporter and donation are anonymous' do
+      create(:fv_poverty_payment, :anonymous_through_supporter, :anonymous_through_donation)
+      expect(Payment.not_anonymous.count).to eq 0
+    end
+  end
+
+  describe '#consider_anonymous?' do
+    it 'is false when none are anonymous' do
+      expect(create(:fv_poverty_payment)).to_not be_consider_anonymous
+    end
+
+    it 'is true when donation is anonymous' do
+      expect(create(:fv_poverty_payment, :anonymous_through_donation)).to be_consider_anonymous
+    end
+
+    it 'is true when supporter is anonymous' do
+      expect(create(:fv_poverty_payment, :anonymous_through_supporter)).to be_consider_anonymous
+    end
+
+    it 'is true when both supporter and donation are anonymous' do
+      expect(create(:fv_poverty_payment, :anonymous_through_supporter,  :anonymous_through_donation)).to be_consider_anonymous
+    end
+  end
 end

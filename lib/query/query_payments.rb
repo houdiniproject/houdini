@@ -384,7 +384,7 @@ module QueryPayments
      '(payments.fee_total / 100.0)::money::text AS fee_total',
      '(payments.net_amount / 100.0)::money::text AS net_amount',
      'payments.kind AS type']
-    .concat(QuerySupporters.supporter_export_selections)
+    .concat(QuerySupporters.supporter_export_selections(:anonymous))
     .concat([
      "coalesce(donations.designation, 'None') AS designation",
      "#{get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
@@ -394,7 +394,7 @@ module QueryPayments
      "#{get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
      "#{get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
      "#{get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
-     'donations.anonymous',
+     '(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)) AS "Anonymous?"',
      'donations.comment',
      "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS campaign",
      "campaigns_for_export.id AS \"Campaign Id\"",
@@ -414,7 +414,6 @@ module QueryPayments
   # TODO reuse the standard payment export query for the payment rows for this query
   def self.for_payout(npo_id, payout_id)
     tickets_subquery = Qx.select("payment_id", "MAX(event_id) AS event_id").from("tickets").group_by("payment_id").as("tickets")
-    supporters_subq = Qx.select(QuerySupporters.supporter_export_selections)
     Qx.select(
         "to_char(payouts.created_at, 'MM/DD/YYYY HH24:MIam') AS date",
         "(payouts.gross_amount / 100.0)::money::text AS gross_total",
@@ -437,11 +436,11 @@ module QueryPayments
           "(payments.net_amount / 100.0)::money::text AS \"Net Amount\"",
           "payments.kind AS \"Type\"",
           "payments.id AS \"Payment ID\""
-         ].concat(QuerySupporters.supporter_export_selections)
+         ].concat(QuerySupporters.supporter_export_selections(:anonymous))
           .concat([
             "coalesce(donations.designation, 'None') AS \"Designation\"",
             "donations.dedication AS \"Honorarium/Memorium\"",
-            "donations.anonymous AS \"Anonymous?\"",
+            "(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)) AS \"Anonymous?\"",
             "donations.comment AS \"Comment\"",
             "coalesce(nullif(campaigns.name, ''), 'None') AS \"Campaign\"",
             "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS \"Campaign Gift Level\"",
@@ -498,7 +497,6 @@ module QueryPayments
 
   def self.query_payout_info(npo_id, payout_id)
     tickets_subquery = Qx.select("payment_id", "MAX(event_id) AS event_id").from("tickets").group_by("payment_id").as("tickets")
-    supporters_subq = Qx.select(QuerySupporters.supporter_export_selections)
     Qx.select([
       "to_char(payments.date, 'MM/DD/YYYY HH24:MIam') AS \"Date\"",
       "(payments.gross_amount/100.0)::money::text AS \"Gross Amount\"",
@@ -506,11 +504,11 @@ module QueryPayments
       "(payments.net_amount / 100.0)::money::text AS \"Net Amount\"",
       "payments.kind AS \"Type\"",
       "payments.id AS \"Payment ID\""
-     ].concat(QuerySupporters.supporter_export_selections)
+     ].concat(QuerySupporters.supporter_export_selections(:anonymous))
       .concat([
         "coalesce(donations.designation, 'None') AS \"Designation\"",
         "donations.dedication AS \"Honorarium/Memorium\"",
-        "donations.anonymous AS \"Anonymous?\"",
+        "(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)) AS \"Anonymous?\"",
         "donations.comment AS \"Comment\"",
         "coalesce(nullif(campaigns.name, ''), 'None') AS \"Campaign\"",
         "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS \"Campaign Gift Level\"",

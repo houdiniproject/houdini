@@ -10,7 +10,7 @@
   <tbody>
   <tr>
     <td><strong>Donor Name</strong></td>
-    <% if donation.anonymous %>
+    <% if donation.payment&.consider_anonymous? %>
         <td>Anonymous</td>
     <% else %>
         <td><%= donation.supporter.name %></td>

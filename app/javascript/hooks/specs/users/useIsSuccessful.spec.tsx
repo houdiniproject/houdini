@@ -84,4 +84,30 @@ describe('useIsSuccessful', () => {
       });
     });
   });
+
+  describe('when state changes', () => {
+    describe('from initial state to successful', () => {
+      it('should change from NOT successful to successful', () => {
+        expect.assertions(2);
+        (useCurrentUserAuth as jest.Mock).mockReturnValue({ currentUser: undefined as CurrentUser });
+        const { result, rerender } = renderHook(({ showProgressAndSuccess, onSuccess }) => useIsSuccessful(showProgressAndSuccess, onSuccess), { initialProps: { showProgressAndSuccess: showProgressAndSuccess, onSuccess: onSuccessMock } });
+        expect(result.current).toBe(false);
+        (useCurrentUserAuth as jest.Mock).mockReturnValue({ currentUser: { id: 1 } as CurrentUser });
+        rerender({ showProgressAndSuccess: showProgressAndSuccess, onSuccess: onSuccessMock });
+        expect(result.current).toBe(true);
+      });
+    });
+
+    describe('from successful to not logged in', () => {
+      it('should change from successful to NOT successful', () => {
+        expect.assertions(2);
+        (useCurrentUserAuth as jest.Mock).mockReturnValue({ currentUser: { id: 1 } as CurrentUser });
+        const { result, rerender } = renderHook(({ showProgressAndSuccess, onSuccess }) => useIsSuccessful(showProgressAndSuccess, onSuccess), { initialProps: { showProgressAndSuccess: showProgressAndSuccess, onSuccess: onSuccessMock } });
+        expect(result.current).toBe(true);
+        (useCurrentUserAuth as jest.Mock).mockReturnValue({ currentUser: undefined as CurrentUser });
+        rerender({ showProgressAndSuccess: showProgressAndSuccess, onSuccess: onSuccessMock });
+        expect(result.current).toBe(false);
+      });
+    })
+  });
 });

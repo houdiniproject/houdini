@@ -72,6 +72,7 @@ class Nonprofit < ActiveRecord::Base
   has_many :imports
   has_many :email_settings
   has_many :cards, as: :holder
+  has_many :supporter_cards, through: :supporters, source: :cards, class_name: 'Card'
 
   has_one :bank_account, -> { where("COALESCE(bank_accounts.deleted, false) = false") }, dependent: :destroy
   has_one :billing_subscription, dependent: :destroy

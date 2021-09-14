@@ -3,12 +3,6 @@ import { renderHook } from '@testing-library/react-hooks';
 import useCanSubmit from '../useCanSubmit';
 
 describe('useCanSubmit', () => {
-  it('should start as can not submit', () => {
-    expect.assertions(1);
-    const { result } = renderHook(({ isValid, showProgressAndSuccess, isReady, touched }) => useCanSubmit(isValid, showProgressAndSuccess, isReady, touched), { initialProps: { isValid: false, showProgressAndSuccess: true, isReady: true, touched: false } });
-    expect(result.current).toBe(false);
-  });
-
   describe('when the input is valid', () => {
     const isValid = true;
     const showProgressAndSuccess = true;
@@ -221,5 +215,37 @@ describe('useCanSubmit', () => {
         expect(result.current).toBe(false);
       });
     });
+  });
+
+  describe('when state changes', () => {
+    describe('from initial state to touched', () => {
+      const isValid = true;
+      const showProgressAndSuccess = true;
+      let touched = false;
+      const isReady = true;
+      it('should start as can NOT submit to can submit', () => {
+        expect.assertions(2);
+        const { result, rerender } = renderHook(({ isValid, showProgressAndSuccess, isReady, touched }) => useCanSubmit(isValid, showProgressAndSuccess, isReady, touched), { initialProps: { isValid: isValid, showProgressAndSuccess: showProgressAndSuccess, isReady: isReady, touched: touched } });
+        expect(result.current).toBe(false);
+        touched = true;
+        rerender({ isValid: isValid, showProgressAndSuccess: showProgressAndSuccess, isReady: isReady, touched: touched });
+        expect(result.current).toBe(true);
+      });
+    });
+
+    describe('from can submit to NOT ready', () => {
+      const isValid = true;
+      const showProgressAndSuccess = true;
+      const touched = true;
+      let isReady = true;
+      it('should start as can submit to can NOT submit', () => {
+        expect.assertions(2);
+        const { result, rerender } = renderHook(({ isValid, showProgressAndSuccess, isReady, touched }) => useCanSubmit(isValid, showProgressAndSuccess, isReady, touched), { initialProps: { isValid: isValid, showProgressAndSuccess: showProgressAndSuccess, isReady: isReady, touched: touched } });
+        expect(result.current).toBe(true);
+        isReady = false;
+        rerender({ isValid: isValid, showProgressAndSuccess: showProgressAndSuccess, isReady: isReady, touched: touched });
+        expect(result.current).toBe(false);
+      });
+    })
   });
 });

@@ -1,8 +1,10 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'qx'
-require 'rest-client'
+require 'httparty'
 module InsertFullContactInfos
-
+  include HTTParty
+  format :json
+  logger Rails.logger, :info, :full_contact
 
   # Work off of the full_contact_jobs queue
   def self.work_queue
@@ -41,15 +43,15 @@ module InsertFullContactInfos
     return if supp.nil? || supp['email'].blank?
 
     begin
-      response = RestClient.post("https://api.fullcontact.com/v3/person.enrich",
-        {
+      response = post("https://api.fullcontact.com/v3/person.enrich", 
+        body: {
           "email" => supp['email'],
         }.to_json,
-        {
+        headers: {
           :authorization => "Bearer #{FULL_CONTACT_KEY}",
-          "Reporting-Key" => supp['nonprofit_id']
+          "Reporting-Key" => supp['nonprofit_id'].to_s
         })
-      result = JSON.parse(response.body)
+      result = response.body
     rescue Exception => e
       return e
     end

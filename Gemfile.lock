@@ -131,10 +131,10 @@ GEM
     css_parser (1.9.0)
       addressable
     dante (0.2.0)
-    database_cleaner (1.8.5)
-    database_cleaner-active_record (1.8.0)
+    database_cleaner (1.99.0)
+    database_cleaner-active_record (1.99.0)
       activerecord
-      database_cleaner (~> 1.8.0)
+      database_cleaner (~> 1.99.0)
     devise (4.8.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)

@@ -74,28 +74,16 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	const [touched, setTouched] = useState(false);
 
 	const { signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
-	// this keeps track of what the values submitting were the last
-	// time the the component was rendered
-	const previousSubmittingValue = usePrevious(submitting);
-	const wasSubmitting = previousSubmittingValue && !submitting;
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
-	const loading = useIsLoading(submitting, showProgressAndSuccess);
-	const isSubmitting = useIsSubmitting(onSubmitting, isValid, submitting);
-	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError, submitting);
-	const isSuccessful = useIsSuccessful(showProgressAndSuccess, onSuccess);
-	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, touched);
 
 	//Setting error messages
 	const { formatMessage } = useIntl();
-	const yup = useYup();
 	const passwordLabel = formatMessage({ id: 'login.password' });
 	const emailLabel = formatMessage({ id: 'login.email' });
-	// const successLabel = formatMessage({ id: 'login.success' });
 	const loginHeaderLabel = formatMessage({ id: 'login.header' });
-	const emailId = useId();
-	const passwordId = useId();
 
 	//Yup validation
+	const yup = useYup();
 	const validationSchema = yup.object({
 		email: yup.string().label(emailLabel).email().required(),
 		password: yup.string().label(passwordLabel).required(),
@@ -160,26 +148,22 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				}
 			}
 				//Props
-			}>{({ isValid, dirty }) => {
-				// eslint-disable-next-line react-hooks/rules-of-hooks
-				setIsValid(isValid);
-				setTouched(dirty);
+			}>{() => {
 
 				return (<InnerFormikComponent
-					isSuccessful={isSuccessful}
 					setIsValid={setIsValid}
 					setTouched={setTouched}
 					emailLabel={emailLabel}
-					emailId={emailId}
 					passwordLabel={passwordLabel}
-					passwordId={passwordId}
 					failed={failed}
 					lastSignInAttemptError={lastSignInAttemptError}
-					loading={loading}
 					classes={classes}
-					canSubmit={canSubmit}
 					loginHeaderLabel={loginHeaderLabel}
-					isSubmitting={isSubmitting}
+					submitting={submitting}
+					onFailure={onFailure}
+					onSubmitting={onSubmitting}
+					onSuccess={onSuccess}
+					showProgressAndSuccess={showProgressAndSuccess}
 				/>);
 			}}
 		</Formik>
@@ -187,38 +171,67 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 }
 
 function InnerFormikComponent(props: {
-	isSuccessful: boolean,
 	setIsValid: (isValid: boolean) => void,
 	setTouched: (dirty: boolean) => void,
 	emailLabel: string,
-	emailId: string,
-	passwordLabel: string, passwordId: string,
+	passwordLabel: string,
 	failed: boolean,
 	lastSignInAttemptError: any,
-	loading: boolean,
 	classes: any,
-	canSubmit: boolean,
 	loginHeaderLabel: string,
-	isSubmitting: boolean
+	submitting: boolean,
+	onFailure: (error: NetworkError) => void,
+	onSubmitting: () => void,
+	onSuccess: () => void,
+	showProgressAndSuccess: boolean
 }) {
+	const {
+		setIsValid,
+		setTouched,
+		submitting,
+		onFailure,
+		failed,
+		lastSignInAttemptError,
+		showProgressAndSuccess,
+		onSubmitting,
+		onSuccess,
+		emailLabel,
+		passwordLabel,
+		loginHeaderLabel,
+		classes
+	} = props;
 	const { isValid } = useFormikContext();
-	const setIsValid = props.setIsValid;
 	useEffect(() => {
 		setIsValid(isValid);
 	}, [isValid, setIsValid]);
+
 	const { dirty } = useFormikContext();
-	const setTouched = props.setTouched;
 	useEffect(() => {
 		setTouched(dirty);
 	}, [dirty, setTouched]);
+
+	// this keeps track of what the values submitting were the last
+	// time the the component was rendered
+	const previousSubmittingValue = usePrevious(submitting);
+	const wasSubmitting = previousSubmittingValue && !submitting;
+
+	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError, submitting);
+	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, dirty);
+	const loading = useIsLoading(submitting, showProgressAndSuccess);
+	const isSubmitting = useIsSubmitting(onSubmitting, isValid, submitting);
+	const isSuccessful = useIsSuccessful(showProgressAndSuccess, onSuccess);
+
+	const emailId = useId();
+	const passwordId = useId();
+
 	return (
 		<Form>
 			{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
 			<Box display="flex" justifyContent="center" alignItems="center">
-				{!props.isSuccessful ?
+				{!isSuccessful ?
 					<Box p={1.5}>
-						<Field component={TextField} name="email" type="text" id={props.emailId} data-testid="emailTest"
-							label={props.emailLabel}
+						<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
+							label={emailLabel}
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
@@ -231,10 +244,10 @@ function InnerFormikComponent(props: {
 					: null}
 			</Box>
 			<Box display="flex" justifyContent="center" alignItems="center">
-				{!props.isSuccessful ?
+				{!isSuccessful ?
 					<Box p={1.5}>
-						<Field component={TextField} name="password" type="password" id={props.passwordId}
-							label={props.passwordLabel}
+						<Field component={TextField} name="password" type="password" id={passwordId}
+							label={passwordLabel}
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
@@ -247,33 +260,33 @@ function InnerFormikComponent(props: {
 			</Box>
 			<div data-testid="errorTest">
 				<Box display="flex" justifyContent="center" alignItems="center">
-					{props.isSubmitting ? "" : <>
-						{props.failed ? <FailedAlert error={props.lastSignInAttemptError} /> : ""}
+					{isSubmitting ? "" : <>
+						{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
 					</>
 					}
 				</Box>
 			</div>
-			{!props.isSuccessful ?
+			{!isSuccessful ?
 				<Box p={2} display="flex" justifyContent="center" alignItems="center">
-					{props.loading ?
+					{loading ?
 						(<div data-testid="progressTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
-								<CircularProgress size={25} className={props.classes.buttonProgress} />
+								<CircularProgress size={25} className={classes.buttonProgress} />
 							</Box>
 						</div>) :
-						<Button className={props.classes.submitButton}
+						<Button className={classes.submitButton}
 							data-testid="signInButton"
 							type="submit"
 							color="primary"
 							variant='contained'
-							disabled={!props.canSubmit}
+							disabled={!canSubmit}
 						>
-							{props.loginHeaderLabel}
+							{loginHeaderLabel}
 						</Button>}
 				</Box>
 				: null}
 			<div data-testid="signInComponentSuccess">
-				{props.isSuccessful ?
+				{isSuccessful ?
 					<Box m={13} display="flex" justifyContent="center" alignItems="center">
 						<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
 					</Box>

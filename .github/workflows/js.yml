@@ -3,9 +3,6 @@ name: Javascript build and test
 env: 
   ruby: '2.7.4'
 on: 
-  push:
-    paths-ignore:
-      - "**.md"
   pull_request:
     paths-ignore:
       - "**.md"

@@ -1,15 +1,6 @@
 # License: LGPL-3.0-or-later
 name: Ruby test and build
 on: 
-  push:
-    paths-ignore:
-      - "**.[jt]sx?"
-      - "**.es6"
-      - "**.md"
-      - "NOTICE-js"
-      - "NOTICE-ruby"
-      - "package.json"
-      - "yarn.lock"
   pull_request:
     paths-ignore:
       - "**.[jt]sx?"

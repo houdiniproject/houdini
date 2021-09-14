@@ -100,4 +100,53 @@ describe('useIsReady', () => {
       });
     })
   });
+
+  describe('when state changes', () => {
+    describe('from the initial state to submitting', () => {
+      const failed = false;
+      const wasSubmitting = false;
+
+      it('should start as ready and end as NOT ready', () => {
+        expect.assertions(2);
+        let submitting = false;
+        const { result, rerender } = renderHook(({ wasSubmitting, failed, submitting }) => useIsReady(wasSubmitting, onFailureMock, failed, error, submitting), { initialProps: { wasSubmitting: wasSubmitting, failed: failed, submitting: submitting } });
+        expect(result.current).toBe(true);
+        submitting = true;
+        rerender({ wasSubmitting: wasSubmitting, failed: failed, submitting: submitting });
+        expect(result.current).toBe(false);
+      });
+    });
+
+    describe('from submitting to failed and wasSubmitting', () => {
+      it('should start as NOT ready and end as ready', () => {
+        expect.assertions(2);
+        let failed = false;
+        let wasSubmitting = false;
+        let submitting = true;
+        const { result, rerender } = renderHook(({ wasSubmitting, failed, submitting }) => useIsReady(wasSubmitting, onFailureMock, failed, error, submitting), { initialProps: { wasSubmitting: wasSubmitting, failed: failed, submitting: submitting } });
+        expect(result.current).toBe(false);
+        submitting = false;
+        failed = true;
+        wasSubmitting = true;
+        rerender({ wasSubmitting: wasSubmitting, failed: failed, submitting: submitting });
+        expect(result.current).toBe(true);
+      });
+    });
+
+    describe('from failed and wasSubmitting to submitting', () => {
+      it('should start as ready and end as NOT ready', () => {
+        expect.assertions(2);
+        let failed = true;
+        let wasSubmitting = true;
+        let submitting = false;
+        const { result, rerender } = renderHook(({ wasSubmitting, failed, submitting }) => useIsReady(wasSubmitting, onFailureMock, failed, error, submitting), { initialProps: { wasSubmitting: wasSubmitting, failed: failed, submitting: submitting } });
+        expect(result.current).toBe(true);
+        submitting = true;
+        failed = false;
+        wasSubmitting = false;
+        rerender({ wasSubmitting: wasSubmitting, failed: failed, submitting: submitting });
+        expect(result.current).toBe(false);
+      });
+    });
+  });
 });

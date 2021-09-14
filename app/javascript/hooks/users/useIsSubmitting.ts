@@ -8,6 +8,8 @@ export default function useIsSubmitting(onSubmitting: () => void, isValid: boole
     if (isValid && submitting) {
       setState(true);
       onSubmitting();
+    } else {
+      setState(false);
     }
   }, [submitting, isValid, onSubmitting]);
 

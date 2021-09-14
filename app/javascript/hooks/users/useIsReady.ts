@@ -11,7 +11,6 @@ export default function useIsReady(wasSubmitting: boolean, onFailure: (error: Ne
     } else if (submitting) {
       setState(false);
     }
-    // when should it not be ready?
   }, [failed, wasSubmitting, lastSignInAttemptError, onFailure, submitting, setState]);
 
   return state;

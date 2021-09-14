@@ -67,4 +67,34 @@ describe('useIsSubmitting', () => {
       });
     });
   });
+
+  describe('when state changes', () => {
+    const onSubmittingMock = jest.fn();
+    describe('from the initial state to valid and submitting', () => {
+      it('should start as NOT submitting and end as submitting', () => {
+        expect.assertions(2);
+        let isValid = false;
+        let submitting = false;
+        const { result, rerender } = renderHook(({ onSubmitting, isValid, submitting }) => useIsSubmitting(onSubmitting, isValid, submitting), { initialProps: { onSubmitting: onSubmittingMock, isValid: isValid, submitting: submitting } });
+        expect(result.current).toBe(false);
+        isValid = true;
+        submitting = true;
+        rerender({ onSubmitting: onSubmittingMock, isValid: isValid, submitting: submitting });
+        expect(result.current).toBe(true);
+      });
+    });
+
+    describe('from submitting to not submitting', () => {
+      it('should start as submitting and end as NOT submitting', () => {
+        expect.assertions(2);
+        let isValid = true;
+        let submitting = true;
+        const { result, rerender } = renderHook(({ onSubmitting, isValid, submitting }) => useIsSubmitting(onSubmitting, isValid, submitting), { initialProps: { onSubmitting: onSubmittingMock, isValid: isValid, submitting: submitting } });
+        expect(result.current).toBe(true);
+        submitting = false;
+        rerender({ onSubmitting: onSubmittingMock, isValid: isValid, submitting: submitting });
+        expect(result.current).toBe(false);
+      });
+    });
+  });
 });

@@ -1,6 +1,6 @@
 
-import {UserSignInFailsOnceAndThenSucceeds, UserSignInWaitUntilSignal,UserSignInSucceeds, UserSignInSucceedsWithDelay, UserSignInFailsFromServerErrorWithDelay} from '../../api/mocks/users';
-import {UserSignedInIfAuthenticated} from '../../api/api/mocks/users';
+import { UserSignInFailsOnceAndThenSucceeds, UserSignInWaitUntilSignal, UserSignInSucceeds, UserSignInSucceedsWithDelay, UserSignInFailsFromServerErrorWithDelay, UserSignInFailsFromInvalidLogin } from '../../api/mocks/users';
+import { UserSignedInIfAuthenticated } from '../../api/api/mocks/users';
 
 export const UserSignInFailsOnceAndThenSucceedsAndGetCurrentWaitsForAuthentication = [
 	...UserSignInFailsOnceAndThenSucceeds,
@@ -28,3 +28,7 @@ export const UserSignInFailedWith500And5SecondDelay = [
 	...UserSignInFailsFromServerErrorWithDelay,
 	...UserSignedInIfAuthenticated,
 ]
+
+export const UserSignInFailed = [
+	...UserSignInFailsFromInvalidLogin
+];

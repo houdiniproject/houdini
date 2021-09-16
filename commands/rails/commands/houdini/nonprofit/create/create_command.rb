@@ -7,7 +7,7 @@
 # NOTE: if this is moved to bess, it should be in the `houdini/lib/` subdirectory of bess.
 #
 module Houdini # rubocop:disable Style/ClassAndModuleChildren -- can't combine because Houdini hasn't been defined before
-	class Nonprofit # rubocop:disable Style/ClassAndModuleChildren -- can't combine becuase Nonprofit hasn't been defined before
+	class Nonprofit
 		# Used for creating nonprofits at the command line
 		class CreateCommand < Rails::Command::Base
 			desc 'Create a new nonprofit on your Houdini instance'

@@ -6,18 +6,18 @@ require 'rails_helper'
 
 RSpec.describe '/api/supporters/index.json.jbuilder', type: :view do
 	subject(:json) do
-		assign(:supporters, [supporter_with_fv_poverty])
+		assign(:supporters, supporter_with_fv_poverty.nonprofit.supporters.order('id DESC').page)
 		render
 		JSON.parse(rendered)
 	end
 
 	let(:supporter_with_fv_poverty) { create(:supporter_with_fv_poverty) }
 
-	it { expect(json.count).to eq 1 }
+	it { expect(json['data'].count).to eq 1 }
 
 	describe 'details of the first item' do
 		subject(:first) do
-			json.first
+			json['data'].first
 		end
 
 		let(:supporter) { supporter_with_fv_poverty }
@@ -69,5 +69,25 @@ RSpec.describe '/api/supporters/index.json.jbuilder', type: :view do
 			is_expected.to include('url' =>
 				a_string_matching(%r{http://test\.host/api/nonprofits/#{nonprofit.id}/supporters/#{supporter.id}}))
 		}
+	end
+
+	describe 'paging' do
+		subject(:json) do
+			supporter_with_fv_poverty
+			(0..5).each do |i|
+				create(:supporter_with_fv_poverty, nonprofit: supporter_with_fv_poverty.nonprofit, name: i,
+																																							email: "email#{i}@email#{i}.com")
+			end
+			assign(:supporters, supporter_with_fv_poverty.nonprofit.supporters.order('id DESC').page.per(5))
+			render
+			JSON.parse(rendered)
+		end
+
+		it { is_expected.to include('data' => have_attributes(count: 5)) }
+		it { is_expected.to include('first_page' => true) }
+		it { is_expected.to include('last_page' =>  false) }
+		it { is_expected.to include('current_page' => 1) }
+		it { is_expected.to include('requested_size' => 5) }
+		it { is_expected.to include('total_count' => 7) }
 	end
 end

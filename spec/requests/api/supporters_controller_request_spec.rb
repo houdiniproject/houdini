@@ -10,12 +10,11 @@ RSpec.describe Api::SupportersController, type: :request do
 	let(:user) { create(:user) }
 
 	before do
-		supporter
 		user.roles.create(name: 'nonprofit_associate', host: nonprofit)
 	end
 
 	describe 'GET /' do
-		let(:nonprofit) { Nonprofit.first }
+		
 
 		context 'when logged in successfully' do
 			before do
@@ -33,11 +32,11 @@ RSpec.describe Api::SupportersController, type: :request do
 				end
 
 				it {
-					expect(json.count).to eq 1
+					is_expected.to include('data' => have_attributes(count: 1))
 				}
 
 				describe 'and a first item' do
-					subject(:first) { json[0] }
+					subject(:first) { json['data'][0] }
 
 					let(:id) { first['id'] }
 
@@ -87,6 +86,75 @@ RSpec.describe Api::SupportersController, type: :request do
 					}
 				end
 			end
+
+			context 'when paging' do
+				before do
+					supporter
+					(0..5).each do |i|
+						create(:supporter_with_fv_poverty, nonprofit: supporter.nonprofit, name: i, email: "email#{i}@email#{i}.com")
+					end
+					sign_in user
+				end
+
+				context 'when on page 0' do
+					subject(:json) do
+						JSON.parse(response.body)
+					end
+
+					before do
+						get "/api/nonprofits/#{nonprofit.id}/supporters", params: { page: 0, per: 5 }
+					end
+
+					it { is_expected.to include('data' => have_attributes(count: 5)) }
+					it { is_expected.to include('first_page' => true) }
+					it { is_expected.to include('last_page' =>  false) }
+					it { is_expected.to include('current_page' => 1) }
+					it { is_expected.to include('requested_size' => 5) }
+					it { is_expected.to include('total_count' => 7) }
+				end
+
+				context 'when on page 1' do
+					subject(:json) do
+						JSON.parse(response.body)
+					end
+
+					before do
+						get "/api/nonprofits/#{nonprofit.id}/supporters", params: { page: 1, per: 5 }
+					end
+
+					it { is_expected.to include('data' => have_attributes(count: 5)) }
+					it { is_expected.to include('first_page' => true) }
+					it { is_expected.to include('last_page' =>  false) }
+					it { is_expected.to include('current_page' => 1) }
+					it { is_expected.to include('requested_size' => 5) }
+					it { is_expected.to include('total_count' => 7) }
+
+					it {
+						expect(json['data'].map { |i| i['id'] }).to eq Supporter.order('id DESC').limit(5).pluck(:id)
+					}
+				end
+
+				context 'when on page 2' do
+					subject(:json) do
+						JSON.parse(response.body)
+					end
+
+					before do
+						get "/api/nonprofits/#{nonprofit.id}/supporters", params: { page: 2, per: 5 }
+					end
+
+					it { is_expected.to include('data' => have_attributes(count: 2)) }
+					it { is_expected.to include('first_page' => false) }
+					it { is_expected.to include('last_page' =>  true) }
+					it { is_expected.to include('current_page' => 2) }
+					it { is_expected.to include('requested_size' => 5) }
+					it { is_expected.to include('total_count' => 7) }
+
+					it {
+						expect(json['data'].map { |i| i['id'] }).to eq Supporter.order('id DESC').limit(2).offset(5).pluck(:id)
+					}
+				end
+			end
 		end
 
 		it 'returns http unauthorized when not logged in' do
@@ -98,6 +166,7 @@ RSpec.describe Api::SupportersController, type: :request do
 	describe 'GET /:id' do
 		context 'when logged in' do
 			before do
+				supporter
 				sign_in user
 				get "/api/nonprofits/#{nonprofit.id}/supporters/#{supporter.id}"
 			end

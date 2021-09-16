@@ -161,7 +161,7 @@ const view = state => {
       })
       , state.hideButton ? '' : h('div.u-fontSize--12.u-marginBottom--0.u-marginTop--10.u-color--grey.u-security-notification', [h('i.fa.fa-lock.u-security-icon'),
       h('div',
-        [h('span', 'Transactions secured with 256-bit SSL and protected by ReCAPTCHA. The ReCAPTCHA and Google '),
+        [h('span', 'Transactions secured with 256-bit SSL and protected by reCAPTCHA Enterprise. The Google '),
           h('a', {props: { href: 'https://policies.google.com/privacy', target:"_new", style:"color: grey!important; text-decoration:underline;" }}, 'Privacy Policy'),
           h('span',' and '),
           h('a', {props: { href: 'https://policies.google.com/terms', target:"_new", style:"color: grey!important; text-decoration:underline;"  }}, 'Terms of Service'),

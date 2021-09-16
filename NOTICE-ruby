@@ -34,9 +34,7 @@ specific language governing permissions and limitations under the License.
 
 ------
 
-** msgpack; version 1.3.3 -- 
-Copyright (c) 2008-2013 Sadayuki Furuhashi
-Copyright (c) 2008-2015 Sadayuki Furuhashi
+** msgpack; version 1.4.2 -- 
 
 
                                  Apache License
@@ -3625,7 +3623,7 @@ SOFTWARE.
 
 ------
 
-** bootsnap; version 1.5.1 -- 
+** bootsnap; version 1.9.0 -- 
 Copyright (c) 2017 Shopify, Inc.
 
 The MIT License (MIT)

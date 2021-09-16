@@ -149,7 +149,7 @@ gem 'grape_url_validator'
 gem 'grape_logging'
 gem 'grape_devise', path: 'gems/grape_devise'
 
-gem 'recaptcha', path: 'gems/recaptcha'
+gem 'recaptcha', '~> 5.8.1'
 
 gem 'hashie'
 

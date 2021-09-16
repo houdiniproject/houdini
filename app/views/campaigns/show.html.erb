@@ -4,7 +4,7 @@
 <%= content_for(:meta_description) {@campaign.summary} %>
 <% @brand_color = @nonprofit.brand_color ? @nonprofit.brand_color : nil %>
 <%= content_for :recaptcha_js do %>
-	<script src="https://www.recaptcha.net/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
+	<script src="https://www.recaptcha.net/recaptcha/enterprise.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
 <% end %>
 
 <%= content_for :javascripts do %>

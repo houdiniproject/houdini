@@ -1,38 +1,24 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :json
+  
+  before_action :verify_via_recaptcha!, only: [:create]
+
+  rescue_from ::Recaptcha::RecaptchaError, with: :handle_recaptcha_failure
+
   def new
     super
   end
 
   # this endpoint only creates donor users
   def create
-    recaptcha_result = check_recaptcha(action: 'create_user', minimum_score: ENV['MINIMUM_RECAPTCHA_SCORE'].to_f)
-    if !recaptcha_result[:success]
-      failure_details = {
-        params: params,
-        action: 'create_user',
-        minimum_score_required: ENV['MINIMUM_RECAPTCHA_SCORE'],
-        recaptcha_result: recaptcha_result,
-        recaptcha_value: params['g-recaptcha-response']
-      }
-      failure = RecaptchaRejection.new
-      failure.details_json = failure_details
-      failure.save!
-    end
-    ret = nil
-    if (recaptcha_result[:reply] && recaptcha_result[:reply]['success'])
-      params[:user][:referer] = session[:referer_id]
-      user = User.register_donor!(params[:user])
-      if user.save
-        sign_in user
-        render :json => user
-      else
-        render :json => user.errors.full_messages, :status => :unprocessable_entity
-        clean_up_passwords(user)
-      end
+    user = User.register_donor!({referer: session[:referer_id]}.merge(params[:user]) )
+    if user.save
+      sign_in user
+      render :json => user
     else
-      render :json => {error: 'There was an temporary error preventing your registriation. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J'}, :status => :unprocessable_entity
+      render :json => user.errors.full_messages, :status => :unprocessable_entity
+      clean_up_passwords(user)
     end
   end
 
@@ -65,5 +51,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       render :json => {:errors => errs}, :status => :unprocessable_entity
     end
+  end
+
+
+  private
+  def verify_via_recaptcha!
+    begin
+      verify_recaptcha!(action: 'create_user', minimum_score: ENV['MINIMUM_RECAPTCHA_SCORE'].to_f)
+    rescue ::Recaptcha::RecaptchaError => e
+      failure_details = {
+        params: params,
+        action: 'create_user',
+        minimum_score_required: ENV['MINIMUM_RECAPTCHA_SCORE'],
+        recaptcha_result: recaptcha_reply,
+        recaptcha_value: params['g-recaptcha-response']
+      }
+      failure = RecaptchaRejection.new
+      failure.details_json = failure_details
+      failure.save!
+      raise e
+    end
+  end
+
+  def handle_recaptcha_failure
+    render json: {error: "There was an temporary error preventing your payment. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J "}, status: :unprocessable_entity
   end
 end

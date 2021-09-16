@@ -2,24 +2,24 @@
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
-describe CardsController, :type => :controller do
-  describe 'authorization' do
-    include_context :shared_user_context
-    describe 'accept all' do
-      describe 'create' do
-          include_context :open_to_all, :post, :create, nonprofit_id: :__our_np
-      end
-    end
-  end
+describe Users::RegistrationsController, :type => :controller do
 
   it {is_expected.to rescue_from(::Recaptcha::RecaptchaError).with(:handle_recaptcha_failure)}
 
   it {is_expected.to use_before_action(:verify_via_recaptcha!)}
+  before do
+    Recaptcha.configuration.enterprise = true
+  end
   
+  after do 
+    Recaptcha.configuration.enterprise = false
+  end
+
   describe '#create' do
     context 'recaptcha' do
       it 'handles verification failure' do 
         expect(controller).to receive(:verify_recaptcha).and_return(false)
+        request.env["devise.mapping"] = Devise.mappings[:user]
         expect {
           post :create, params: {:recaptcha_response_field => "response", 'g-recaptcha-response-data' => 'string'}, type: :json
         }.to change { RecaptchaRejection.count}.by(1)

@@ -40,6 +40,7 @@ RSpec.shared_context :shared_donation_charge_context do
 
   let(:stripe_helper) { StripeMock.create_test_helper }
 
+  let(:supporter_name) {'Fake Supporter Name'}
 
   let(:nonprofit_to_builder_base) do 
 			{
@@ -54,7 +55,7 @@ RSpec.shared_context :shared_donation_charge_context do
 		{
 			'anonymous' => false,
 			'deleted' => false,
-			'name' => name,
+			'name' => supporter_name,
 			'organization' => nil,
 			'phone' => nil,
 			'supporter_addresses' => [kind_of(Numeric)],

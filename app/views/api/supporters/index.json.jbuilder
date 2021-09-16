@@ -2,4 +2,10 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-json.array! @supporters, partial: '/api/supporters/supporter', as: 'supporter'
+json.data @supporters, partial: '/api/supporters/supporter', as: :supporter
+
+json.current_page @supporters.current_page
+json.first_page @supporters.first_page?
+json.last_page @supporters.last_page?
+json.requested_size @supporters.limit_value
+json.total_count @supporters.total_count

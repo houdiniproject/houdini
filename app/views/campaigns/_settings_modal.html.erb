@@ -68,8 +68,7 @@
           <fieldset>
             <label><%= t('campaigns.admin.main_image_label_html') %></label>
             <p><small><%= t('campaigns.admin.main_image_label_subdescription') %></small></p>
-            <div class='image-upload u-inlineBlock' style='background-image: url("<%= @campaign.main_image.attached? 
-            ? rails_storage_proxy_url(@campaign.main_image_by_size(:thumb)) : '' %>");'>
+            <div class='image-upload u-inlineBlock' style='background-image: url("<%= @campaign.main_image.attached? ? rails_storage_proxy_url(@campaign.main_image_by_size(:thumb)) : '' %>");'>
               <span><i class='fa  fa-pencil'></i> Edit</span>
               <input type='file' name='campaign[main_image]'>
             </div>

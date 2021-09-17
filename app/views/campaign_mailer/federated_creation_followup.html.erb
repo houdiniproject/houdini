@@ -30,7 +30,7 @@ link_to_campaign: content_tag(:strong,
       {
         app_id: ENV['FACEBOOK_APP_ID'],
         display: 'popup',
-        caption: @campaign.name
+        caption: @campaign.name,
         link: campaign_locateable_url(@campaign)
       }.to_query
     }") %></li>

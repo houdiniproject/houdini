@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
-import {useCallback, useEffect, useRef, useState} from "react";
-import useCurrentUser, {CurrentUser, SetCurrentUserReturnType} from "./useCurrentUser";
-import {postSignIn} from '../api/users';
+import { useCallback, useEffect, useRef, useState } from "react";
+import useCurrentUser, { CurrentUser, SetCurrentUserReturnType } from "./useCurrentUser";
+import { postSignIn } from '../api/users';
 import { NetworkError } from "../api/errors";
 import useMountedState from "react-use/lib/useMountedState";
 
@@ -40,10 +40,10 @@ export interface UseCurrentUserAuthReturnType {
 
 	/**
 	 * Sign in the user with the provided credentials. Promise that results
-	 * a {@link CurrentUser} if resolved, throws a {@link SignInError} if failed
+	 * a {@link boolean} if resolved, throws a {@link SignInError} if failed
 	 * @memberof UseCurrentUserAuthReturnType
 	 */
-	signIn: (credentials:{email:string, password:string}) => Promise<CurrentUser>;
+	signIn: (credentials: { email: string, password: string }) => Promise<boolean>;
 
 	/**
 	 * Reexported from {@link ./useCurrentUser.ts}
@@ -78,24 +78,24 @@ export interface UseCurrentUserAuthReturnType {
  * @export
  * @returns {UseCurrentUserAuthReturnType}
  */
-export default function useCurrentUserAuth() : UseCurrentUserAuthReturnType {
-	const {currentUser,
+export default function useCurrentUserAuth(): UseCurrentUserAuthReturnType {
+	const { currentUser,
 		signedIn,
 		revalidate,
-		error:lastGetCurrentUserError,
-		validatingCurrentUser} = useCurrentUser<SetCurrentUserReturnType>();
+		error: lastGetCurrentUserError,
+		validatingCurrentUser } = useCurrentUser<SetCurrentUserReturnType>();
 	const [submitting, setSubmitting] = useState(false);
-	const [lastSignInAttemptError, setLastSignInAttemptError] = useState<NetworkError|undefined>(undefined);
+	const [lastSignInAttemptError, setLastSignInAttemptError] = useState<NetworkError | undefined>(undefined);
 	const isMounted = useMountedState();
 
-	const signIn = useCallback(async ({email, password}:{email:string, password:string}): Promise<CurrentUser> => {
+	const signIn = useCallback(async ({ email, password }: { email: string, password: string }): Promise<boolean> => {
 		try {
-			setSubmitting(true);
-			const user = await postSignIn({email, password}) as CurrentUser;
+			if (isMounted()) setSubmitting(true);
+			const result = await postSignIn({ email, password });
 			if (isMounted()) setLastSignInAttemptError(undefined);
-			return user;
+			return result;
 		}
-		catch(e:unknown) {
+		catch (e: unknown) {
 			const error = e as NetworkError;
 			if (isMounted()) setLastSignInAttemptError(error);
 			if (isMounted()) throw error;

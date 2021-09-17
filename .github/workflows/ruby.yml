@@ -45,11 +45,6 @@ jobs:
         run: |
           cd gems/bess
           bundle exec rake spec
-
-      - run: |
-          bundle config deployment true
-          bundle config path vendor/bundle
-          bundle install --jobs 4
       - run: bin/setup ci
       - name: rubocop
         run: bundle exec rubocop

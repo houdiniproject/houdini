@@ -26,6 +26,7 @@ import { useId } from "@reach/auto-id";
 import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
 import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
+import { useMountedState } from "react-use";
 
 
 export interface SignInComponentProps {
@@ -126,6 +127,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	);
 	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
+	const isMounted = useMountedState();
 
 	return (
 		<Formik
@@ -144,7 +146,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					// something different? Don't know!
 				}
 				finally {
-					formikHelpers.setSubmitting(false);
+					if (isMounted()) formikHelpers.setSubmitting(false);
 				}
 			}
 				//Props

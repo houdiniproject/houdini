@@ -5,7 +5,7 @@ import { CurrentUser, NotLoggedInStatus } from '../hooks/useCurrentUser';
 import { NetworkError } from './errors';
 
 
-export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit={}): Promise<CurrentUser> {
+export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit = {}): Promise<boolean> {
 	const defaultConfig = {
 		method: 'POST',
 		credentials: 'include',
@@ -14,20 +14,21 @@ export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit={})
 		},
 	} as const;
 
-	const response = await fetch(userRoutes.userSession.url(), { ...defaultConfig,
+	const response = await fetch(userRoutes.userSession.url(), {
+		...defaultConfig,
 		...init,
-		body: JSON.stringify({ 'user': loginInfo })});
+		body: JSON.stringify({ 'user': loginInfo })
+	});
 
 	if (response.ok) {
-		return (await response.json()) as CurrentUser;
+		return true;
 	}
 	else {
-		throw new NetworkError({status: response.status, data: await safelyGetJson(response)});
+		throw new NetworkError({ status: response.status, data: await safelyGetJson(response) });
 	}
 }
 
-async function safelyGetJson(response:Response) :Promise<unknown|null>
-{
+async function safelyGetJson(response: Response): Promise<unknown | null> {
 	try {
 		await response.json();
 	}
@@ -39,10 +40,10 @@ async function safelyGetJson(response:Response) :Promise<unknown|null>
 
 export const InvalidUsernameAndPassword = NotLoggedInStatus;
 
-export const postSignInRoute:typeof userRoutes['userSession']  = userRoutes.userSession;
+export const postSignInRoute: typeof userRoutes['userSession'] = userRoutes.userSession;
 
 export interface WebLoginModel {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 

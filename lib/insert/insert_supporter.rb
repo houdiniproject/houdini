@@ -1,7 +1,4 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'psql'
-require 'qexpr'
-require 'i18n'
 
 module InsertSupporter
 
@@ -17,25 +14,13 @@ module InsertSupporter
     tags = data['tags']
     data = HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data, address_keys))
       .except(:customFields, :tags)
+    nonprofit = Nonprofit.find(np_id)
 
-    supporter = Qx.select("*").from(:supporters)
-      .where("name = $n AND email = $e", n: data[:name], e: data[:email])
-      .and_where("nonprofit_id=$id", id: np_id)
-      .and_where("coalesce(deleted, FALSE)=FALSE")
-      .execute.last
+    supporter = nonprofit.supporters.not_deleted.where("name = ? AND email = ?", data[:name], data[:email]).first
 		if supporter && update
-      supporter = Qx.update(:supporters)
-        .set(defaults(data))
-        .where("id=$id", id: supporter['id'])
-        .returning('*')
-        .timestamps
-        .execute.last
+      supporter.update(data)
 		else
-      supporter = Qx.insert_into(:supporters)
-        .values(defaults(data).merge(nonprofit_id: np_id))
-        .returning('*')
-        .timestamps
-        .execute.last
+      supporter = nonprofit.supporters.create(data)
 		end
 
     InsertCustomFieldJoins.find_or_create(np_id, [supporter['id']],  custom_fields) if custom_fields.present?
@@ -46,25 +31,6 @@ module InsertSupporter
 
     return supporter
   end
-
-
-	def self.defaults(h)
-    h = h.except('profile_id') unless h['profile_id'].present?
-		if h['first_name'].present? || h['last_name'].present?
-			h['name'] = h['first_name'] || h['last_name']
-			if h['first_name'] && h['last_name']
-				h['name'] = "#{h['first_name'].strip} #{h['last_name'].strip}"
-			end
-		end
-
-    if h['address'].present? && h['address_line2'].present?
-      h['address'] += ' ' + h['address_line2']
-    end
-
-    h = h.except('address_line2')
-
-		return h
-	end
 
   # pass in a hash of supporter info, as well as
   # any property with tag_x will create a tag with name 'name'

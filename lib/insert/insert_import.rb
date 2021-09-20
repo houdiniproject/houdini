@@ -40,6 +40,8 @@ module InsertImport
       user_email: {required: true}
     })
 
+    nonprofit = Nonprofit.find(data[:nonprofit_id])
+
     import = Qx.insert_into(:imports)
       .values({
         date: Time.current,
@@ -81,11 +83,10 @@ module InsertImport
 
       # Create supporter record
       if table_data['supporter']
-        table_data['supporter'] = InsertSupporter.defaults(table_data['supporter'])
-        table_data['supporter']['imported_at'] = Time.current
-        table_data['supporter']['import_id'] = import['id']
-        table_data['supporter']['nonprofit_id'] = data[:nonprofit_id]
-        table_data['supporter'] = Qx.insert_into(:supporters).values(table_data['supporter']).ts.returning('*').execute.first
+        table_data['supporter'] = nonprofit.supporters.create(
+          table_data['supporter'], 
+          imported_at: Time.current, 
+          import: Import.find(import['id']))
         supporter_ids.push(table_data['supporter']['id'])
         imported_count += 1
       else

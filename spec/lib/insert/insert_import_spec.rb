@@ -39,7 +39,7 @@ describe InsertImport  do
     it { expect{import_result}.to change{Payment.count}.by(5)}
 
     describe 'import for user@example1.com' do 
-      subject { 
+      subject(:supporter) { 
         import_result
         Supporter.find_by_email("user@example1.com")
       }
@@ -60,10 +60,25 @@ describe InsertImport  do
           zip_code: '35952'
         )
       }
+
+      describe 'primary_address' do 
+        subject {
+          supporter.primary_address
+        }
+
+        it do 
+          is_expected.to have_attributes(
+            address: 'P.O. Box 611',
+            city: 'Snead',
+            state_code: 'AL',
+            zip_code: '35952'
+          )
+        end
+      end
     end
 
     describe 'import for user2@example2.com' do 
-      subject { 
+      subject(:supporter) { 
         import_result
         Supporter.find_by_email("user2@example2.com")
       }
@@ -85,10 +100,25 @@ describe InsertImport  do
           zip_code: '35806'
         )
       }
+
+      describe 'primary_address' do 
+        subject {
+          supporter.primary_address
+        }
+
+        it do 
+          is_expected.to have_attributes(
+            address: 'P.O. Box 143',
+            city: 'Holly Pond',
+            state_code: 'AL',
+            zip_code: '35806'
+          )
+        end
+      end
     end
 
     describe 'import for user5@example.com' do 
-      subject { 
+      subject(:supporter) { 
         import_result
         Supporter.find_by_email("user5@example.com")
       }
@@ -109,11 +139,26 @@ describe InsertImport  do
           zip_code: '54915'
         )
       }
+
+      describe 'primary_address' do 
+        subject {
+          supporter.primary_address
+        }
+
+        it do 
+          is_expected.to have_attributes(
+            address: nil,
+            city: 'Guntersville',
+            state_code: 'WI',
+            zip_code: '54915'
+          )
+        end
+      end
     end
 
 
     describe 'import for Bill Waddell' do 
-      subject { 
+      subject(:supporter) { 
         import_result
         Supporter.find_by_name("Bill Waddell")
       }
@@ -136,10 +181,25 @@ describe InsertImport  do
           zip_code: '35601'
         )
       end
+
+      describe 'primary_address' do 
+        subject {
+          supporter.primary_address
+        }
+
+        it "will keep the address from the first supporter" do 
+          is_expected.to have_attributes(
+            address: '649 Finley Island Road',
+            city: 'Decatur',
+            state_code: 'AL',
+            zip_code: '35601'
+          )
+        end
+      end
     end
 
     describe 'import for Bubba Thurmond' do 
-      subject { 
+      subject(:supporter) { 
         import_result
         Supporter.find_by_name("Bubba Thurmond")
       }
@@ -161,6 +221,21 @@ describe InsertImport  do
           state_code: 'AL',
           zip_code: '35976'
         )
+      end
+
+      describe 'primary_address' do 
+        subject {
+          supporter.primary_address
+        }
+
+        it "will keep the address from the first supporter" do 
+          is_expected.to have_attributes(
+            address: '3370 Alabama Highway 69',
+            city: 'Guntersville',
+            state_code: 'AL',
+            zip_code: '35976'
+          )
+        end
       end
     end
   end

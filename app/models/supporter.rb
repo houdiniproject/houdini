@@ -1,6 +1,15 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Supporter < ActiveRecord::Base
 
+  ADDRESS_FIELDS = ['address', 'city', 'state_code', 'country', 'zip_code']
+
+  before_validation :cleanup_address
+  before_validation :cleanup_name
+
+  before_save :update_primary_address
+
+  attr_accessor :address_line2
+  
   attr_accessible \
     :profile_id, :profile,
     :nonprofit_id, :nonprofit,
@@ -28,7 +37,9 @@ class Supporter < ActiveRecord::Base
     :email_unsubscribe_uuid, #string
     :is_unsubscribed_from_emails, #bool
     :id,
-    :created_at
+    :created_at,
+    :address_line2,
+    :primary_address
 
   # fts is generated via a trigger
 	attr_readonly :fts
@@ -54,6 +65,9 @@ class Supporter < ActiveRecord::Base
   has_many :custom_field_masters, through: :custom_field_joins
   belongs_to :merged_into, class_name: 'Supporter', :foreign_key => 'merged_into'
   has_many :merged_from, class_name: 'Supporter', :foreign_key => "merged_into"
+
+  has_many :addresses, class_name: "SupporterAddress", after_add: :set_address_to_primary_if_needed
+  belongs_to :primary_address, class_name: "SupporterAddress"
 
   validates :nonprofit, :presence => true
   scope :not_deleted, -> {where(deleted: false)}
@@ -102,4 +116,38 @@ class Supporter < ActiveRecord::Base
     Format::Address.full_address(self.address, self.city, self.state_code)
   end
 
+
+  private
+  def cleanup_address
+    if address.present? && address_line2.present?
+      assign_attributes(address_line2: nil, address: self.address + " " + self.address_line2)
+    end
+  end
+
+  def cleanup_name 
+    if first_name.present? || last_name.present?
+      assign_attributes(name: [first_name&.strip, last_name&.strip].select{|i| i.present?}.join(" "))
+      assign_attributes(first_name: nil, last_name: nil)
+    end
+  end
+
+  def address_field_attributes
+    attributes.slice(*ADDRESS_FIELDS)
+  end
+
+  def update_primary_address
+    if self.changes.slice(*ADDRESS_FIELDS).any? #changed an address field
+      unless primary_address.nil?
+        primary_address.update(address_field_attributes)
+      else
+        self.addresses.build(address_field_attributes)
+      end
+    end
+  end
+
+  def set_address_to_primary_if_needed(new_address)
+    if primary_address.nil?
+      assign_attributes(primary_address: new_address)
+    end
+  end
 end

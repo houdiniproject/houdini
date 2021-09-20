@@ -30,7 +30,7 @@ All new backend code and React components well tested.
 
 Houdini is designed and tested to run with the following:
 
-* Ruby 2.6
+* Ruby 2.7
 * Node 14
 * Yarn
 * PostgreSQL 10  or 12

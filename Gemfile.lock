@@ -178,7 +178,7 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    httparty (0.18.1)
+    httparty (0.19.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     i18n (1.8.10)
@@ -432,7 +432,7 @@ DEPENDENCIES
   good_job
   hamster (~> 3.0)
   houdini_full_contact!
-  httparty (~> 0.18.1)
+  httparty (~> 0.19.0)
   i18n-js (~> 3.8)!
   image_processing (~> 1.12.1)
   jbuilder (~> 2.11)

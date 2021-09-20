@@ -82,17 +82,6 @@ class NonprofitMailer < BaseMailer
     mail(to: @emails,  subject: "#{Settings.general.name} Subscription Receipt for #{@month_name}")
   end
 
-	# pass in all of:
-	# {is_unsubscribed_from_emails, supporter_email, message, email_unsubscribe_uuid, nonprofit_id, from_email, subject}
-	def supporter_message(args)
-		return if args[:is_unsubscribed_from_emails] || args[:supporter_email].blank?
-		@message = args[:message]
-		@uuid = args[:email_unsubscribe_uuid]
-		@nonprofit = Nonprofit.find args[:nonprofit_id]
-    from = Format::Name.email_from_np(@nonprofit.name)
-		mail(to: args[:supporter_email], reply_to: args[:from_email], from: from, subject: args[:subject])
-	end
-
   def first_charge_email(np_id)
     @nonprofit = Nonprofit.find(np_id)
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])

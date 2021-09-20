@@ -2524,7 +2524,6 @@ CREATE TABLE public.supporters (
     imported_at timestamp without time zone,
     country character varying(255) DEFAULT 'United States'::character varying,
     import_id integer,
-    email_unsubscribe_uuid character varying(255),
     is_unsubscribed_from_emails boolean,
     merged_into integer,
     merged_at timestamp without time zone,
@@ -5644,4 +5643,6 @@ INSERT INTO schema_migrations (version) VALUES ('20210721175103');
 INSERT INTO schema_migrations (version) VALUES ('20210804203440');
 
 INSERT INTO schema_migrations (version) VALUES ('20210812220753');
+
+INSERT INTO schema_migrations (version) VALUES ('20210917204956');
 

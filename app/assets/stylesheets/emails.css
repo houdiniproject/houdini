@@ -1,16 +1,11 @@
 /* License: LGPL-3.0-or-later */
-body,
-.emailWrapper {
+body {
   margin: 0;
   padding: 0;
 	background: white;
 	font-family:"Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 	line-height: 1.6;
 	color: #30373D;
-}
-.emailWrapper {
-  height: 100% !important;
-  width: 100% !important;
 }
 img{
 	width: auto !important;

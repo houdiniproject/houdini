@@ -57,8 +57,6 @@ module InsertSupporter
 			end
 		end
 
-    h['email_unsubscribe_uuid'] = SecureRandom.uuid
-
     if h['address'].present? && h['address_line2'].present?
       h['address'] += ' ' + h['address_line2']
     end

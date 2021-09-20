@@ -8,7 +8,7 @@ gem 'jbuilder', '~> 2.11'
 gem 'bootsnap', '~> 1.8', require: false # Large rails application booting enhancer
 gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
-gem 'puma', '~> 5.4'
+gem 'puma', '~> 5.5'
 gem 'rake', '~> 12.3.2'
 gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'

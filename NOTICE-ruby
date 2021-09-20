@@ -516,7 +516,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
 
-** puma; version 5.4.0 -- 
+** puma; version 5.5.0 -- 
+Zed Shaw, (c) 2005.
+copyright Evan Phoenix
+Copyright (c) 2005 Zed A. Shaw
+Copyright (c) 2011 Evan Phoenix
+Copyright (c) 2014 Evan Phoenix
+Copyright (c) 2019, Evan Phoenix.
 
 BSD 3-Clause License
 
@@ -1377,6 +1383,37 @@ SOFTWARE.
 
 ------
 
+** et-orbi; version 1.2.5 -- 
+** fugit; version 1.5.2 -- 
+
+
+Copyright (c) 2017-2021, John Mettraux, jmettraux+flor@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+Made in Japan
+
+
+
+------
+
 ** rspec; version 3.10.0 -- 
 Copyright (c) 2005 Steven Baker
 Copyright (c) 2009 Chad Humphries, David Chelimsky
@@ -1767,7 +1804,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.20.0 -- 
+** rubocop; version 1.21.0 -- 
 Copyright (c) 2015 Yahoo! Inc.
 Copyright (c) 2015 Mikko Kokkonen
 ** rubocop-rails; version 2.12.2 -- 
@@ -1858,7 +1895,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** httparty; version 0.18.1 -- 
+** httparty; version 0.19.0 -- 
 Copyright (c) 2007, Yahoo! Inc.
 Copyright (c) 2008 John Nunemaker
 
@@ -2058,7 +2095,7 @@ THE SOFTWARE.
 
 ------
 
-** good_job; version 1.7.1 -- 
+** good_job; version 1.99.1 -- 
 Copyright (c) 2019 Gion Kunz Free
 
 Copyright 2020 Ben Sheldon
@@ -3593,7 +3630,7 @@ SOFTWARE.
 
 ------
 
-** bootsnap; version 1.9.0 -- 
+** bootsnap; version 1.9.1 -- 
 Copyright (c) 2017 Shopify, Inc.
 
 The MIT License (MIT)
@@ -3645,6 +3682,36 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+------
+
+** raabro; version 1.4.0 -- 
+
+
+Copyright (c) 2015-2020, John Mettraux, jmettraux@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+Made in Japan.
+
 
 
 ------

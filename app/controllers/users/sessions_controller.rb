@@ -4,21 +4,19 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 class Users::SessionsController < Devise::SessionsController
   layout 'layouts/material', only: :new
-  respond_to :json, only: :new
+  respond_to :json, only: [:new, :create]
+  skip_before_action :verify_authenticity_token
 
-  def new
-    super
-  end
-
-  def create
-    respond_to do |format|
-      format.json do
-        warden.authenticate!(scope: resource_name, recall: "#{controller_path}#new")
-        render status: 200, json: { status: 'Success' }
-      end
-    end
-  end
-
+   # POST /resource/sign_in
+   # we override becuase we don't want to redirect when a session is created
+   def create
+    self.resource = warden.authenticate!(auth_options)
+    set_flash_message!(:notice, :signed_in)
+    sign_in(resource_name, resource)
+    yield resource if block_given?
+    @user = resource
+   end
+   
   # post /users/confirm_auth
   # A simple action to confirm an entered password for a user who is already signed in
   def confirm_auth

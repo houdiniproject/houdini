@@ -10,15 +10,19 @@ export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit = {
 		method: 'POST',
 		credentials: 'include',
 		headers: {
-			'Content-Type': 'application/json',
+			'Accept': 'application/json',
 		},
 	} as const;
 
-	const response = await fetch(userRoutes.userSession.url(), {
-		...defaultConfig,
+	const data = new FormData();
+	data.set("user[email]", loginInfo.email);
+	data.set("user[password]", loginInfo.password);
+
+	const response = await fetch(userRoutes.userSession.url(), { ...defaultConfig,
 		...init,
-		body: JSON.stringify({ 'user': loginInfo })
-	});
+			body: data,
+		}
+	);
 
 	if (response.ok) {
 		return true;

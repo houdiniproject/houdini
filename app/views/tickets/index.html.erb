@@ -3,12 +3,20 @@
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <%= content_for :javascripts do %>
-	<script>
+<script>
+		app.event_id = <%= @event.id %>
+		app.hide_activities = <%= @event.hide_activity_feed %>
+		app.header_image_url = '<%= @event_background_image %>'
+		app.current_event_editor = <%= current_event_editor? %>
+		app.event_url = '<%= nonprofit_event_path(@nonprofit, @event) %>'
+	</script>
+
+
+	<%= javascript_pack_tag 'i18n', 'page__tickets__index' %>
+  <script>
 		appl.def("event_id", <%= @event.id %>)
 		appl.def("event_name", '<%= @event.name %>')
 	</script>
-
-	<%= javascript_pack_tag 'i18n', 'page__tickets__index' %>
 <% end %>
 
 <% content_for :head do %>

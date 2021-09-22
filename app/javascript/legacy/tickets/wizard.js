@@ -6,7 +6,7 @@ require('../cards/create')
 var request = require('../common/super-agent-promise')
 var create_card = require('../cards/create')
 var format_err = require('../common/format_response_error')
-var path = '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/tickets'
+var path = '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/tickets'
 
 appl.def('ticket_wiz', {
 

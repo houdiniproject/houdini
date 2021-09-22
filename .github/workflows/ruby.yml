@@ -13,7 +13,26 @@ on:
       - "yarn.lock"
     types: [opened, reopened, synchronize]
 jobs:
+  package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.6.0]
+        ruby: [2.7.4]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
   main_build:
+    needs: package-download
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -49,6 +68,7 @@ jobs:
       - name: run spec
         run: bin/rails spec
   rubocop:
+    needs: package-download
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

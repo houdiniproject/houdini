@@ -15,7 +15,7 @@
     "test": "rake -v spec  && npm run build && npx jest",
     "export-button-config": "bundle exec rake settings:generate_json",
     "export-i18n": "bundle exec rake settings:combine_translations",
-    "generate-openapi": "rake oapi:gen",
+    "generate-openapi": "bundle exec rake oapi:gen",
     "get-codegen-cli": "script/download_codegen_cli.sh",
     "generate-api-js": "rm -rf javascripts/api && npm run get-codegen-cli && npm run generate-openapi && java -jar .bin/swagger-codegen-cli.jar generate -l 'typescript-jquery' -i tmp/openapi.json -o javascripts/api  --config 'swagger.json' -t lib/swagger-typescript-jquery"
   },
@@ -173,16 +173,20 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/database/",
-      "/postgres-data/"
+      "/postgres-data/",
+      "/vendor/"
     ],
     "watchPathIgnorePatterns": [
       "/database/*",
-      "/postgres-data/*"
+      "/node_modules/",
+      "/postgres-data/*",
+      "/vendor/"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/database/",
-      "/postgres-data/"
+      "/postgres-data/",
+      "/vendor/"
     ],
     "globals": {
       "ts-jest": {

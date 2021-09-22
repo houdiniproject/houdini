@@ -2424,6 +2424,44 @@ ALTER SEQUENCE public.stripe_events_id_seq OWNED BY public.stripe_events.id;
 
 
 --
+-- Name: supporter_addresses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.supporter_addresses (
+    id integer NOT NULL,
+    address character varying,
+    city character varying,
+    zip_code character varying,
+    state_code character varying,
+    country character varying,
+    deleted boolean DEFAULT false NOT NULL,
+    supporter_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: supporter_addresses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.supporter_addresses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: supporter_addresses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.supporter_addresses_id_seq OWNED BY public.supporter_addresses.id;
+
+
+--
 -- Name: supporter_emails; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2532,7 +2570,8 @@ CREATE TABLE public.supporters (
     last_name character varying(255),
     locale character varying(255),
     fts tsvector,
-    phone_index character varying
+    phone_index character varying,
+    primary_address_id integer
 );
 
 
@@ -3254,6 +3293,13 @@ ALTER TABLE ONLY public.stripe_events ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: supporter_addresses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.supporter_addresses ALTER COLUMN id SET DEFAULT nextval('public.supporter_addresses_id_seq'::regclass);
+
+
+--
 -- Name: supporter_emails id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3812,6 +3858,14 @@ ALTER TABLE ONLY public.stripe_events
 
 
 --
+-- Name: supporter_addresses supporter_addresses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.supporter_addresses
+    ADD CONSTRAINT supporter_addresses_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: supporters supporter_data_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4326,6 +4380,13 @@ CREATE INDEX index_stripe_events_on_object_id_and_event_time ON public.stripe_ev
 
 
 --
+-- Name: index_supporter_addresses_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_supporter_addresses_on_supporter_id ON public.supporter_addresses USING btree (supporter_id);
+
+
+--
 -- Name: index_supporter_notes_on_supporter_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4551,6 +4612,14 @@ ALTER TABLE ONLY public.campaign_gifts
 
 
 --
+-- Name: supporters fk_rails_1007f7f722; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.supporters
+    ADD CONSTRAINT fk_rails_1007f7f722 FOREIGN KEY (primary_address_id) REFERENCES public.supporter_addresses(id);
+
+
+--
 -- Name: fee_coverage_detail_bases fk_rails_13c8ce7956; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4564,6 +4633,14 @@ ALTER TABLE ONLY public.fee_coverage_detail_bases
 
 ALTER TABLE ONLY public.fee_structures
     ADD CONSTRAINT fk_rails_55f7b67177 FOREIGN KEY (fee_era_id) REFERENCES public.fee_eras(id);
+
+
+--
+-- Name: supporter_addresses fk_rails_bd7fbee619; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.supporter_addresses
+    ADD CONSTRAINT fk_rails_bd7fbee619 FOREIGN KEY (supporter_id) REFERENCES public.supporters(id);
 
 
 --
@@ -5643,6 +5720,8 @@ INSERT INTO schema_migrations (version) VALUES ('20210721175103');
 INSERT INTO schema_migrations (version) VALUES ('20210804203440');
 
 INSERT INTO schema_migrations (version) VALUES ('20210812220753');
+
+INSERT INTO schema_migrations (version) VALUES ('20210818221411');
 
 INSERT INTO schema_migrations (version) VALUES ('20210917204956');
 

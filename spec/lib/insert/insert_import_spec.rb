@@ -6,9 +6,9 @@ describe InsertImport  do
   describe 'parsing' do
 
   let(:user) { create(:user)}
-  let(:import_result) do
+  subject(:import_result) do
     import = InsertImport.from_csv(
-      nonprofit_id: create(:nonprofit).id,
+      nonprofit_id: create(:fv_poverty).id,
       user_email: user.email, 
       user_id: user.id,
       file_uri: "#{ENV['PWD']}/spec/fixtures/test_import.csv",
@@ -30,8 +30,13 @@ describe InsertImport  do
         "Tag 2" => "tag"
       })
 
+  
+
     Import.find(import['id'])
   end
+
+  it { expect{import_result}.to change{Supporter.count}.by(5)}
+  it { expect{import_result}.to change{Payment.count}.by(5)}
 
   describe 'import for user@example1.com' do 
     subject { 
@@ -47,6 +52,14 @@ describe InsertImport  do
           )
       )
     end
+    it { 
+      is_expected.to have_attributes(
+        address: 'P.O. Box 611',
+        city: 'Snead',
+        state_code: 'AL',
+        zip_code: '35952'
+      )
+    }
   end
 
   describe 'import for user2@example2.com' do 
@@ -63,6 +76,15 @@ describe InsertImport  do
           )
       )
     end
+
+    it { 
+      is_expected.to have_attributes(
+        address: 'P.O. Box 143',
+        city: 'Holly Pond',
+        state_code: 'AL',
+        zip_code: '35806'
+      )
+    }
   end
 
   describe 'import for user5@example.com' do 
@@ -77,6 +99,67 @@ describe InsertImport  do
           a_collection_containing_exactly(
             an_instance_of(Donation).and have_attributes(amount: 0)
           )
+      )
+    end
+    it { 
+      is_expected.to have_attributes(
+        address: nil,
+        city: 'Guntersville',
+        state_code: 'WI',
+        zip_code: '54915'
+      )
+    }
+  end
+
+
+  describe 'import for Bill Waddell' do 
+    subject { 
+      import_result
+      Supporter.find_by_name("Bill Waddell")
+    }
+
+    it do 
+      is_expected.to have_attributes(
+        donations: 
+          a_collection_containing_exactly(
+            an_instance_of(Donation).and have_attributes(amount: 1000)
+          )
+      )
+    end
+    it do 
+      is_expected.to have_attributes(
+        name: 'Bill Waddell',
+        email: 'user@example.com',
+        address: '649 Finley Island Road',
+        city: 'Decatur',
+        state_code: 'AL',
+        zip_code: '35601'
+      )
+    end
+  end
+
+  describe 'import for Bubba Thurmond' do 
+    subject { 
+      import_result
+      Supporter.find_by_name("Bubba Thurmond")
+    }
+
+    it do 
+      is_expected.to have_attributes(
+        donations: 
+          a_collection_containing_exactly(
+            an_instance_of(Donation).and have_attributes(amount: 1000)
+          )
+      )
+    end
+    it do 
+      is_expected.to have_attributes(
+        name: 'Bubba Thurmond',
+        email: 'user@example.com',
+        address: '3370 Alabama Highway 69',
+        city: 'Guntersville',
+        state_code: 'AL',
+        zip_code: '35976'
       )
     end
   end

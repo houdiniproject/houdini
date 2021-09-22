@@ -1,17 +1,17 @@
 import * as React from 'react';
-// import SignInPage from './SignInPage';
+import SignInPage from './SignInPage';
 
-// import { Hoster, HosterContext } from '../../hooks/useHoster';
+import { Hoster, HosterContext } from '../../hooks/useHoster';
 import { Fallback } from './SignInPage';
-// import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
-// import { SWRConfig } from 'swr';
-// import { rest } from 'msw';
+import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
+import { SWRConfig } from 'swr';
+import { rest } from 'msw';
 
-// import { postSignInRoute} from '../../api/users';
-// import { getCurrentRoute} from '../../api/api/users';
-// import { UserSignsInOnFirstAttempt } from '../../hooks/mocks/useCurrentUserAuth';
-// import { NOT_LOGGED_IN_STATUS } from '.../../hooks/useCurrentUser';
-
+import { postSignInRoute} from '../../api/users';
+import { getCurrentRoute} from '../../api/api/users';
+import { UserSignsInOnFirstAttempt } from '../../hooks/mocks/useCurrentUserAuth';
+import {NotLoggedInStatus} from '../../hooks/useCurrentUser';
+import { UserPresignedIn } from '../../api/api/mocks/users';
 
 export default {
 	title: 'users/SignInPage',
@@ -28,86 +28,98 @@ export default {
 	},
 };
 
-// function SWRWrapper(props:React.PropsWithChildren<unknown>) {
-// 	return <SWRConfig value={
-// 		{
-// 			dedupingInterval: 2500, // we need to make SWR not dedupe
-// 		}
-// 	}>
-// 		{props.children}
-// 	</SWRConfig>;
-// }
+function SWRWrapper(props:React.PropsWithChildren<unknown>) {
+	return <SWRConfig value={
+		{
+			dedupingInterval: 2500, // we need to make SWR not dedupe
+		}
+	}>
+		{props.children}
+	</SWRConfig>;
+}
 
-// interface TemplateArgs {
-// 	hasHoster?: boolean;
-// 	hoster: string;
-// }
+interface TemplateArgs {
+	hasHoster?: boolean;
+	hoster: string;
+}
 
-// const Template = (args: TemplateArgs) => {
+const Template = (args: TemplateArgs) => {
 
-// 	let hosterReturnValue:Hoster|null = null;
-// 	if (args.hasHoster) {
-// 		hosterReturnValue = {legal_name:args.hoster, casual_name: args.hoster, main_admin_email: 'none@none.none', support_email: 'none@none.none', terms_and_privacy: {}};
-// 	}
-// 	else {
-// 		hosterReturnValue = null;
-// 	}
-// 	return <OuterWrapper key={Math.random()}><SWRWrapper>
-// 		<HosterContext.Provider value={hosterReturnValue}>
-// 			<MockCurrentUserProvider>
-// 				<SignInPage redirectUrl={'redirectUrl'} />
-// 			</MockCurrentUserProvider>
-// 		</HosterContext.Provider>
-// 	</SWRWrapper></OuterWrapper>;
-// };
+	let hosterReturnValue:Hoster|null = null;
+	if (args.hasHoster) {
+		hosterReturnValue = {legal_name:args.hoster, casual_name: args.hoster, main_admin_email: 'none@none.none', support_email: 'none@none.none', terms_and_privacy: {}};
+	}
+	else {
+		hosterReturnValue = null;
+	}
+	return <OuterWrapper key={Math.random()}><SWRWrapper>
+		<HosterContext.Provider value={hosterReturnValue}>
+			<MockCurrentUserProvider>
+				<SignInPage redirectUrl={'reload'} />
+			</MockCurrentUserProvider>
+		</HosterContext.Provider>
+	</SWRWrapper></OuterWrapper>;
+};
 
-// function OuterWrapper(props:React.PropsWithChildren<Record<string, unknown>>) {
-// 	sessionStorage.clear();
-// 	return <> {props.children}</>;
-// }
+function OuterWrapper(props:React.PropsWithChildren<Record<string, unknown>>) {
+	sessionStorage.clear();
+	return <> {props.children}</>;
+}
 
 const ErrorBoundaryTemplate = () => {
 	return  <Fallback/>;
 };
 
 
-// export const SignInFailed500 = Template.bind({});
+export const SignInFailed500 = Template.bind({});
 
 
-// SignInFailed500.story = {
-// 	parameters: {
-// 		msw: [
-// 			rest.get(getCurrentRoute.url(), (_req, res,ctx) => {
-// 				return res(
-// 					ctx.status(NOT_LOGGED_IN_STATUS)
-// 				);
-// 			}),
+SignInFailed500.story = {
+	parameters: {
+		msw: [
+			rest.get(getCurrentRoute.url(), (_req, res,ctx) => {
+				return res(
+					ctx.status(NotLoggedInStatus)
+				);
+			}),
 
-// 			rest.post(postSignInRoute.url(), (_req, res, ctx) => {
-// 				return res(
-// 					ctx.delay(5000),
-// 					ctx.json({error: "Some error"}),
-// 					ctx.status(500)
-// 				);
-// 			}),
-// 		],
-// 	},
-// };
-
-
-
-// export const SignInSucceeded = Template.bind({});
+			rest.post(postSignInRoute.url(), (_req, res, ctx) => {
+				return res(
+					ctx.delay(5000),
+					ctx.json({error: "Some error"}),
+					ctx.status(500)
+				);
+			})
+		],
+	},
+};
 
 
-// SignInSucceeded.story = {
-// 	parameters: {
-// 		msw: [
-// 			...UserSignsInOnFirstAttempt,
-// 		],
-// 	},
-// };
+
+export const SignInSucceeded = Template.bind({});
+
+
+SignInSucceeded.story = {
+	parameters: {
+		msw: [
+			...UserSignsInOnFirstAttempt,
+		],
+	},
+};
 
 export const ShowErrorBoundary = ErrorBoundaryTemplate.bind({});
+
+export const SignedInToStart = Template.bind({});
+SignedInToStart.args = {
+};
+
+SignedInToStart.story =  {
+	parameters: {
+		msw: [
+			...UserPresignedIn,
+		],
+	},
+};
 
 
 

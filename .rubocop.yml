@@ -260,7 +260,6 @@ AllCops:
     - 'app/helpers/profiles_helper.rb'
     - 'app/helpers/card_helper.rb'
     - 'app/helpers/onboard_helper.rb'
-    - 'app/helpers/pricing_helper.rb'
     - 'app/helpers/nonprofits_helper.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/devise_helper.rb'

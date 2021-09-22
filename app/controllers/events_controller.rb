@@ -32,13 +32,15 @@ class EventsController < ApplicationController
 
   def create
     render_json do
+      start_datetime = nil
+      end_datetime = nil
       Time.use_zone(current_nonprofit.timezone || 'UTC') do
-        event_params[:start_datetime] = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
-        event_params[:end_datetime] = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
+        start_datetime = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
+        end_datetime = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
       end
+      ev = current_nonprofit.events.create!(**event_params, start_datetime: start_datetime, end_datetime: end_datetime)
       flash[:notice] = 'Your draft event has been created! Well done.'
-      ev = current_nonprofit.events.create(event_params)
-      { url: "/events/#{ev.slug}", event: ev }
+      { url: "/events/#{ev.slug}" }
     end
   end
 

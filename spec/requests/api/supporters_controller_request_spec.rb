@@ -10,12 +10,11 @@ RSpec.describe Api::SupportersController, type: :request do
 	let(:user) { create(:user) }
 
 	before do
+		supporter
 		user.roles.create(name: 'nonprofit_associate', host: nonprofit)
 	end
 
 	describe 'GET /' do
-		
-
 		context 'when logged in successfully' do
 			before do
 				sign_in user
@@ -166,7 +165,6 @@ RSpec.describe Api::SupportersController, type: :request do
 	describe 'GET /:id' do
 		context 'when logged in' do
 			before do
-				supporter
 				sign_in user
 				get "/api/nonprofits/#{nonprofit.id}/supporters/#{supporter.id}"
 			end

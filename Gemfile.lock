@@ -195,6 +195,18 @@ GEM
       ruby-vips (>= 2.0.17, < 3)
     jbuilder (2.11.2)
       activesupport (>= 5.0.0)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     libv8-node (15.14.0.1)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -442,6 +454,7 @@ DEPENDENCIES
   i18n-js (~> 3.8)!
   image_processing (~> 1.12.1)
   jbuilder (~> 2.11)
+  kaminari
   listen
   lograge (~> 0.11.2)
   mini_racer

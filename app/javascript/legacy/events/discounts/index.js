@@ -2,7 +2,7 @@
 var request = require('../../common/client')
 var R = require('ramda')
 
-appl.def('discounts.url', '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/event_discounts')
+appl.def('discounts.url', '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/event_discounts')
 
 appl.def('discounts.index', function(){
   request.get(appl.discounts.url).end(function(err, resp) {

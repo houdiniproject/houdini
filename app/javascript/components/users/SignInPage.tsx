@@ -185,9 +185,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						<Box color="error.main" data-testid="signInPageError"></Box>
 						<div data-testid='backdropTest' >
 							<Fade in={SignInPageState === 'submitting'}>
-								<Backdrop className={classes.backdrop} open={true} onClick={handleClose}>
-									<CircularProgress size={50} className={classes.buttonProgress} />
-								</Backdrop>
+								<Backdrop className={classes.backdrop} open={true} onClick={handleClose}></Backdrop>
 							</Fade>
 							<Fade in={SignInPageState === 'success'}>
 								<Backdrop className={classes.backdrop} open={true} onClick={handleClose} >

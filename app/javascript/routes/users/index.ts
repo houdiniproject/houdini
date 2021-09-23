@@ -11,7 +11,7 @@ export default {
 			return '/users/sign_in';
 		},
 		url: (): string => {
-			return '/users/sign_in';
+			return '/users/sign_in.json';
 		},
 	},
 

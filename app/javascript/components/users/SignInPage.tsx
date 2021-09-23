@@ -182,9 +182,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						<Box m={1} display="flex" justifyContent="center">
 							<Link href={userRoutes.newUserPassword.path()} data-testid="passwordTest"> {forgotPasswordlabel} </Link>
 						</Box>
-						<Box m={1} display="flex" justifyContent="center">
-							<Link href={userRoutes.newUserPassword.path()} data-testid="getStartedTest" > {getStartedLabel} </Link>
-						</Box>
 						<Box color="error.main" data-testid="signInPageError"></Box>
 						<div data-testid='backdropTest' >
 							<Fade in={SignInPageState === 'submitting'}>

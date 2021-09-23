@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import { render, act, fireEvent, waitFor } from "@testing-library/react";
+import { render, act, fireEvent, waitFor, getByText } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import { Hoster, HosterContext } from '../../hooks/useHoster';
 import noop from "lodash/noop";
@@ -57,24 +57,9 @@ describe('Links', () => {
 		expect.hasAssertions();
 		locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
 			const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} /></Wrapper>);
-			const password = getByText("Forgot Password?");
-			await act(async () => {
-				fireEvent.click(password);
-			});
 			await waitFor(() => {
-				expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
-			});
-		});
-	});
-	it('get Started Link goes to correct path', async () => {
-		expect.hasAssertions();
-		locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
-			const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} /></Wrapper>);
-			const getStarted = getByText("Get Started");
-			await act(async () => {
-				fireEvent.click(getStarted);
-			});
-			await waitFor(() => {
+				const forgotPassword = getByText('Forgot Password?');
+				fireEvent.click(forgotPassword);
 				expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
 			});
 		});

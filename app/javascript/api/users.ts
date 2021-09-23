@@ -26,15 +26,14 @@ export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit = {
 
 	if (response.ok) {
 		return true;
-	}
-	else {
+	} else {
 		throw new NetworkError({ status: response.status, data: await safelyGetJson(response) });
 	}
 }
 
 async function safelyGetJson(response: Response): Promise<unknown | null> {
 	try {
-		await response.json();
+		return await response.json();
 	}
 	catch {
 		return null;

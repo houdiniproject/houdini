@@ -12,7 +12,8 @@ class Api::SupporterAddressesController < Api::ApiController
 	# Gets the nonprofits supporters
 	# If not logged in, causes a 401 error
 	def index
-		@supporter_addresses = current_nonprofit.supporters
+		@supporter_addresses = current_nonprofit.supporters.where("id = ?", params[:supporter_id]).limit(1)
+						.page(params[:page]).per(params[:per])
 	end
 
 	# Gets the a single nonprofit supporter

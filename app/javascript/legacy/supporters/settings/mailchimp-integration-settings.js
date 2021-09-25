@@ -14,17 +14,17 @@ function init(modalID$) {
   const pathPrefix = `/nonprofits/${app.nonprofit_id}`
   var state = {
     submitForm$: flyd.stream()
-  , tagMasters$: flyd.map(R.prop('body'), request({method: 'get', path: pathPrefix + '/tag_masters'}).load)
+  , tagDefinitions$: flyd.map(R.prop('body'), request({method: 'get', path: pathPrefix + '/tag_definitions'}).load)
   }
 
   const emailLists$ = flyd.map(R.prop('body'), request({method: 'get', path: pathPrefix + '/email_lists'}).load)
-  state.selectedTagMasterIds$ = flyd.map(R.map(ls => ls.tag_master_id), emailLists$)
+  state.selectedTagDefinitionIds$ = flyd.map(R.map(ls => ls.tag_definition_id), emailLists$)
 
   const response$ = flyd_flatMap(
     form => request({
       method: 'post'
     , path: `/nonprofits/${app.nonprofit_id}/email_lists`
-    , send: {tag_masters: serialize(form, {hash: true})}
+    , send: {tag_definitions: serialize(form, {hash: true})}
     }).load
   , state.submitForm$ )
 
@@ -60,12 +60,12 @@ function view(state) {
             , name: tm.name
             , value: tm.id
             , id: `mailchimpCheckbox--${tm.id}`
-            , checked: (state.selectedTagMasterIds$()||[]).indexOf(tm.id) !== -1
+            , checked: (state.selectedTagDefinitionIds$()||[]).indexOf(tm.id) !== -1
             }
           })
         , h('label', {props: {htmlFor: `mailchimpCheckbox--${tm.id}`}}, tm.name)
         ])
-      , (state.tagMasters$() || {data: []}).data )
+      , (state.tagDefinitions$() || {data: []}).data )
      )
   , h('hr')
   , h('div.u-centered', [

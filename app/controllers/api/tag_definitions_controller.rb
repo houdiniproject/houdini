@@ -12,12 +12,12 @@ class Api::TagDefinitionsController < Api::ApiController
 	# Gets the nonprofits custom field definitions
 	# If not logged in, causes a 401 error
 	def index
-		@tag_definitions = current_nonprofit.tag_masters
+		@tag_definitions = current_nonprofit.tag_definitions
 	end
 
 	# Gets a single custom field definition
 	# If not logged in, causes a 401 error
 	def show
-		@tag_definition = current_nonprofit.tag_masters.find(params[:id])
+		@tag_definition = current_nonprofit.tag_definitions.find(params[:id])
 	end
 end

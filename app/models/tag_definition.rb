@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
-class TagMaster < ApplicationRecord
+class TagDefinition < ApplicationRecord
   include Model::Eventable
   include Model::Jbuilder
 
@@ -29,7 +29,7 @@ class TagMaster < ApplicationRecord
   def no_dupes
     return self if nonprofit.nil?
 
-    errors.add(:base, 'Duplicate tag') if nonprofit.tag_masters.not_deleted.where(name: name).any?
+    errors.add(:base, 'Duplicate tag') if nonprofit.tag_definitions.not_deleted.where(name: name).any?
   end
 
 

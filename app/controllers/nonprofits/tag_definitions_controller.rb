@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 module Nonprofits
-  class TagMastersController < ApplicationController
+  class TagDefinitionsController < ApplicationController
     include Controllers::Nonprofit::Current
     include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
@@ -11,29 +11,29 @@ module Nonprofits
     def index
       render json: { data:
         Qx.select('id', 'name', 'created_at')
-          .from('tag_masters')
+          .from('tag_definitions')
           .where(
-            ['tag_masters.nonprofit_id = $id', id: current_nonprofit.id],
+            ['tag_definitions.nonprofit_id = $id', id: current_nonprofit.id],
             ['coalesce(deleted, FALSE) = FALSE']
           )
           .execute }
     end
 
     def create
-      json_saved(current_nonprofit.tag_masters.create(tag_master_params[:tag_master]))
+      json_saved(current_nonprofit.tag_definitions.create(tag_definition_params[:tag_definition]))
     end
 
     def destroy
-      tag_master = current_nonprofit.tag_masters.find(params[:id])
-      tag_master.discard!
-      tag_master.tag_joins.destroy_all
+      tag_definition = current_nonprofit.tag_definitions.find(params[:id])
+      tag_definition.discard!
+      tag_definition.tag_joins.destroy_all
       render json: {}, status: :ok
     end
 
     private
 
-    def tag_master_params
-      params.require(:tag_master).permit(:name).tap do |tag_params|
+    def tag_definition_params
+      params.require(:tag_definition).permit(:name).tap do |tag_params|
         tag_params.require(:name) # SAFER
       end
     end

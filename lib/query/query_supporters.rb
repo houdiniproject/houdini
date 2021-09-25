@@ -172,10 +172,10 @@ module QuerySupporters
         .group_by(:supporter_id)
         .as(:payments)
 
-    tags_subquery = Qx.select('tag_joins.supporter_id', 'ARRAY_AGG(tag_masters.id) AS ids', 'ARRAY_AGG(tag_masters.name::text) AS names')
+    tags_subquery = Qx.select('tag_joins.supporter_id', 'ARRAY_AGG(tag_definitions.id) AS ids', 'ARRAY_AGG(tag_definitions.name::text) AS names')
                       .from(:tag_joins)
-                      .join(:tag_masters, 'tag_masters.id=tag_joins.tag_master_id')
-                      .where('tag_masters.deleted IS NULL')
+                      .join(:tag_definitions, 'tag_definitions.id=tag_joins.tag_definition_id')
+                      .where('tag_definitions.deleted IS NULL')
                       .group_by('tag_joins.supporter_id')
                       .as(:tags)
 
@@ -676,13 +676,13 @@ UNION DISTINCT
   end
 
   def self.tag_joins(nonprofit_id, supporter_id)
-    Qx.select('tag_masters.id', 'tag_masters.name')
+    Qx.select('tag_definitions.id', 'tag_definitions.name')
       .from('tag_joins')
-      .left_join('tag_masters', 'tag_masters.id = tag_joins.tag_master_id')
+      .left_join('tag_definitions', 'tag_definitions.id = tag_joins.tag_definition_id')
       .where(
         ['tag_joins.supporter_id = $id', id: supporter_id],
-        ['coalesce(tag_masters.deleted, FALSE) = FALSE'],
-        ['tag_masters.nonprofit_id = $id', id: nonprofit_id]
+        ['coalesce(tag_definitions.deleted, FALSE) = FALSE'],
+        ['tag_definitions.nonprofit_id = $id', id: nonprofit_id]
       )
       .execute
   end

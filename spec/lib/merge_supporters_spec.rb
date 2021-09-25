@@ -24,13 +24,13 @@ describe MergeSupporters do
 
     let(:supporter_note) { force_create(:supporter_note, supporter: old_supporter1, content: 'feoatheoiath') }
 
-    let(:tag_master) { force_create(:tag_master, nonprofit: np, name: 'something') }
-    let(:tag_master2) { force_create(:tag_master, nonprofit: np, name: 'something2') }
-    let(:tag_master3) { force_create(:tag_master, nonprofit: np, name: 'something3') }
+    let(:tag_definition) { force_create(:tag_definition, nonprofit: np, name: 'something') }
+    let(:tag_definition2) { force_create(:tag_definition, nonprofit: np, name: 'something2') }
+    let(:tag_definition3) { force_create(:tag_definition, nonprofit: np, name: 'something3') }
 
-    let(:tag_on_1) { force_create(:tag_join, tag_master: tag_master, supporter_id: old_supporter1.id) }
-    let(:tag_on_2) { force_create(:tag_join, tag_master: tag_master2, supporter_id: old_supporter2.id) }
-    let(:tag_on_both) { [old_supporter1, old_supporter2].each { |i| force_create(:tag_join, tag_master: tag_master3, supporter_id: i.id) } }
+    let(:tag_on_1) { force_create(:tag_join, tag_definition: tag_definition, supporter_id: old_supporter1.id) }
+    let(:tag_on_2) { force_create(:tag_join, tag_definition: tag_definition2, supporter_id: old_supporter2.id) }
+    let(:tag_on_both) { [old_supporter1, old_supporter2].each { |i| force_create(:tag_join, tag_definition: tag_definition3, supporter_id: i.id) } }
 
     let(:custom_field_definition) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm1') }
     let(:custom_field_definition2) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm2') }
@@ -65,7 +65,7 @@ describe MergeSupporters do
       expect(old_supporter1.tag_joins.count).to eq 0
       expect(old_supporter2.tag_joins.count).to eq 0
       expect(new_supporter.tag_joins.count).to eq 3
-      expect(new_supporter.tag_joins.map(&:tag_master)).to contain_exactly(tag_master, tag_master2, tag_master3)
+      expect(new_supporter.tag_joins.map(&:tag_definition)).to contain_exactly(tag_definition, tag_definition2, tag_definition3)
 
       expect(old_supporter1.custom_field_joins.count).to eq 0
       expect(old_supporter2.custom_field_joins.count).to eq 0
@@ -89,7 +89,7 @@ describe MergeSupporters do
       expect(old_supporter1.tag_joins.count).to eq 0
       expect(old_supporter2.tag_joins.count).to eq 0
       expect(new_supporter.tag_joins.count).to eq 1
-      expect(new_supporter.tag_joins.map(&:tag_master)).to contain_exactly(tag_master)
+      expect(new_supporter.tag_joins.map(&:tag_definition)).to contain_exactly(tag_definition)
 
       expect(old_supporter1.custom_field_joins.count).to eq 0
       expect(old_supporter2.custom_field_joins.count).to eq 0
@@ -112,7 +112,7 @@ describe MergeSupporters do
       expect(old_supporter1.tag_joins.count).to eq 0
       expect(old_supporter2.tag_joins.count).to eq 0
       expect(new_supporter.tag_joins.count).to eq 1
-      expect(new_supporter.tag_joins.map(&:tag_master)).to contain_exactly(tag_master2)
+      expect(new_supporter.tag_joins.map(&:tag_definition)).to contain_exactly(tag_definition2)
 
       expect(old_supporter1.custom_field_joins.count).to eq 0
       expect(old_supporter2.custom_field_joins.count).to eq 0

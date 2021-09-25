@@ -108,8 +108,8 @@ describe 'InsertTagJoins.in_bulk' do
         nonprofit_for_supporter = i[:other_np] ? @other_nonprofit : @nonprofit
         i[:entity] = create(:supporter, nonprofit: nonprofit_for_supporter)
         i[:tag_ids].each do |j|
-          tm = TagMaster.exists?(id: j) ? TagMaster.find(j) : create(:tag_master, id: j, nonprofit: nonprofit_for_supporter, name: "TM #{j}")
-          create(:tag_join, supporter_id: i[:entity].id, tag_master: tm)
+          tm = TagDefinition.exists?(id: j) ? TagDefinition.find(j) : create(:tag_definition, id: j, nonprofit: nonprofit_for_supporter, name: "TM #{j}")
+          create(:tag_join, supporter_id: i[:entity].id, tag_definition: tm)
         end
       end
     end
@@ -124,7 +124,7 @@ describe 'InsertTagJoins.in_bulk' do
                                        create_tag_data([100], [150]))
       expect(results).to eq(successful_json(0, 0))
 
-      expect(TagJoin.where('supporter_id = ? and tag_master_id = ?', @supporters[:np_supporter_with_add][:entity].id, 100).count).to eq 0
+      expect(TagJoin.where('supporter_id = ? and tag_definition_id = ?', @supporters[:np_supporter_with_add][:entity].id, 100).count).to eq 0
     end
 
     it 'delete' do
@@ -153,12 +153,12 @@ describe 'InsertTagJoins.in_bulk' do
       Timecop.freeze(2020, 9, 1, 12, 0, 0) do
         results = InsertTagJoins.in_bulk(@nonprofit.id, @profile.id,
                                          [@supporters[:np_supporter_with_add][:entity].id],
-                                         [{ tag_master_id: 25, selected: true, id: invalid_id, created_at: Time.now.ago(3000), updated_at: Time.now.ago(2999) }])
-        expected = { tag_master_id: 25, created_at: Time.now, updated_at: Time.now, supporter_id: @supporters[:np_supporter_with_add][:entity].id }.with_indifferent_access
+                                         [{ tag_definition_id: 25, selected: true, id: invalid_id, created_at: Time.now.ago(3000), updated_at: Time.now.ago(2999) }])
+        expected = { tag_definition_id: 25, created_at: Time.now, updated_at: Time.now, supporter_id: @supporters[:np_supporter_with_add][:entity].id }.with_indifferent_access
 
         expect(results).to eq(successful_json(1, 0))
 
-        result_tag = @supporters[:np_supporter_with_add][:entity].tag_joins.where('tag_master_id = ?', 25).first
+        result_tag = @supporters[:np_supporter_with_add][:entity].tag_joins.where('tag_definition_id = ?', 25).first
 
         expect(result_tag.attributes.with_indifferent_access.reject { |k, _| k == 'id' }).to eq(expected)
 
@@ -188,7 +188,7 @@ describe 'InsertTagJoins.in_bulk' do
 
         expect(TagJoin.where('supporter_id = ? ', @supporters[:np_supporter_with_add][:entity].id).count).to eq 5
 
-        original_db_pairs = get_original_and_db(np_supporter_with_add_tags, TagJoin.where('supporter_id = ? and tag_master_id in (?)',
+        original_db_pairs = get_original_and_db(np_supporter_with_add_tags, TagJoin.where('supporter_id = ? and tag_definition_id in (?)',
                                                                                           @supporters[:np_supporter_with_add][:entity].id,
                                                                                           @supporters[:np_supporter_with_add][:tag_ids]).pluck(:id))
 
@@ -199,7 +199,7 @@ describe 'InsertTagJoins.in_bulk' do
 
         expect(TagJoin.where('supporter_id = ?', @supporters[:np_supporter_with_some_of_both][:entity].id).count).to eq 2
 
-        original_db_pairs = get_original_and_db(np_supporter_with_some_of_both_tags, TagJoin.where('supporter_id = ? and tag_master_id in (?)',
+        original_db_pairs = get_original_and_db(np_supporter_with_some_of_both_tags, TagJoin.where('supporter_id = ? and tag_definition_id in (?)',
                                                                                                    @supporters[:np_supporter_with_some_of_both][:entity].id,
                                                                                                    [35]).pluck(:id))
         original_db_pairs.each do |orig, db|
@@ -226,6 +226,6 @@ describe 'InsertTagJoins.in_bulk' do
   end
 
   def create_tag_data(tags_to_add = [], tags_to_delete = [])
-    tags_to_add.map { |tag| { tag_master_id: tag, selected: true } } + tags_to_delete.map { |tag| { tag_master_id: tag, selected: false } }
+    tags_to_add.map { |tag| { tag_definition_id: tag, selected: true } } + tags_to_delete.map { |tag| { tag_definition_id: tag, selected: false } }
   end
 end

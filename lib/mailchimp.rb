@@ -54,20 +54,20 @@ module Mailchimp
     mailchimp_token
   end
 
-  # Given a nonprofit id and a list of tag master ids that they make into email lists,
-  # create those email lists on mailchimp and return an array of hashes of mailchimp list ids, names, and tag_master_id
-  def self.create_mailchimp_lists(npo_id, tag_master_ids)
+  # Given a nonprofit id and a list of tag definition ids that they make into email lists,
+  # create those email lists on mailchimp and return an array of hashes of mailchimp list ids, names, and tag_definition_id
+  def self.create_mailchimp_lists(npo_id, tag_definition_ids)
     mailchimp_token = get_mailchimp_token(npo_id)
     uri = base_uri(mailchimp_token)
     puts "URI #{uri}"
     puts "KEY #{mailchimp_token}"
 
     npo = Qx.fetch(:nonprofits, npo_id).first
-    tags = Qx.select('DISTINCT(tag_masters.name) AS tag_name, tag_masters.id')
-             .from(:tag_masters)
-             .where('tag_masters.nonprofit_id' => npo_id)
-             .and_where('tag_masters.id IN ($ids)', ids: tag_master_ids)
-             .join(:nonprofits, 'tag_masters.nonprofit_id = nonprofits.id')
+    tags = Qx.select('DISTINCT(tag_definitions.name) AS tag_name, tag_definitions.id')
+             .from(:tag_definitions)
+             .where('tag_definitions.nonprofit_id' => npo_id)
+             .and_where('tag_definitions.id IN ($ids)', ids: tag_definition_ids)
+             .join(:nonprofits, 'tag_definitions.nonprofit_id = nonprofits.id')
              .execute
 
     tags.map do |h|
@@ -97,7 +97,7 @@ module Mailchimp
                   }.to_json)
       raise Exception, "Failed to create list: #{list}" if list.code != 200
 
-      { id: list['id'], name: list['name'], tag_master_id: h['id'] }
+      { id: list['id'], name: list['name'], tag_definition_id: h['id'] }
     end
   end
 
@@ -135,8 +135,8 @@ module Mailchimp
   # `removed` and `added` are arrays of tag join ids that have been added or removed to a supporter
   def self.sync_supporters_to_list_from_tag_joins(npo_id, supporter_ids, tag_data)
     emails = Qx.select(:email).from(:supporters).where('id IN ($ids)', ids: supporter_ids).execute.map { |h| h['email'] }
-    to_add = get_mailchimp_list_ids(tag_data.select { |h| h['selected'] }.map { |h| h['tag_master_id'] })
-    to_remove = get_mailchimp_list_ids(tag_data.reject { |h| h['selected'] }.map { |h| h['tag_master_id'] })
+    to_add = get_mailchimp_list_ids(tag_data.select { |h| h['selected'] }.map { |h| h['tag_definition_id'] })
+    to_remove = get_mailchimp_list_ids(tag_data.reject { |h| h['selected'] }.map { |h| h['tag_definition_id'] })
     return if to_add.empty? && to_remove.empty?
 
     bulk_post = emails.map { |em| to_add.map { |ml_id| { method: 'POST', path: "lists/#{ml_id}/members", body: { email_address: em, status: 'subscribed' }.to_json } } }.flatten
@@ -144,13 +144,13 @@ module Mailchimp
     perform_batch_operations(npo_id, bulk_post.concat(bulk_delete))
   end
 
-  def self.get_mailchimp_list_ids(tag_master_ids)
-    return [] if tag_master_ids.empty?
+  def self.get_mailchimp_list_ids(tag_definition_ids)
+    return [] if tag_definition_ids.empty?
 
     to_insert_data = Qx.select('email_lists.mailchimp_list_id')
-                       .from(:tag_masters)
-                       .where('tag_masters.id IN ($ids)', ids: tag_master_ids)
-                       .join('email_lists', 'email_lists.tag_master_id=tag_masters.id')
+                       .from(:tag_definitions)
+                       .where('tag_definitions.id IN ($ids)', ids: tag_definition_ids)
+                       .join('email_lists', 'email_lists.tag_definition_id=tag_definitions.id')
                        .execute.map { |h| h['mailchimp_list_id'] }
   end
 
@@ -158,7 +158,7 @@ module Mailchimp
   def self.hard_sync_lists(nonprofit)
     return unless nonprofit
 
-    nonprofit.tag_masters.not_deleted.each do |i|
+    nonprofit.tag_definitions.not_deleted.each do |i|
       hard_sync_list(i.email_list) if i.email_list
     end
   end
@@ -175,7 +175,7 @@ module Mailchimp
     # get the subscribers from mailchimp
     mailchimp_subscribers = get_list_mailchimp_subscribers(email_list)
     # get our subscribers
-    our_supporters = email_list.tag_master.tag_joins.map(&:supporter)
+    our_supporters = email_list.tag_definition.tag_joins.map(&:supporter)
 
     # split them as follows:
     # on both lists, on our list, on the mailchimp list
@@ -199,7 +199,7 @@ module Mailchimp
   end
 
   def self.get_list_mailchimp_subscribers(email_list)
-    mailchimp_token = get_mailchimp_token(email_list.tag_master.nonprofit.id)
+    mailchimp_token = get_mailchimp_token(email_list.tag_definition.nonprofit.id)
     uri = base_uri(mailchimp_token)
     result = get(uri + "/lists/#{email_list.mailchimp_list_id}/members?count=1000000000",
                  basic_auth: { username: 'CommitChange', password: mailchimp_token },

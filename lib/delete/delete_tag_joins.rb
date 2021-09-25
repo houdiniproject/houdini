@@ -5,16 +5,16 @@
 require 'qx'
 
 module DeleteTagJoins
-  @columns = %w[id created_at updated_at metadata tag_master_id supporter_id]
+  @columns = %w[id created_at updated_at metadata tag_definition_id supporter_id]
   def self.find_multiple_tag_joins
-    qx_results = Qx.select("CONCAT(tag_joins.supporter_id, '_', tag_joins.tag_master_id) AS our_concat, COUNT(id) AS our_count")
+    qx_results = Qx.select("CONCAT(tag_joins.supporter_id, '_', tag_joins.tag_definition_id) AS our_concat, COUNT(id) AS our_count")
                    .from(:tag_joins)
                    .group_by('our_concat')
                    .having('COUNT(id) > 1')
                    .execute
 
-    tag_joins_from_qx = TagJoin.where("CONCAT(supporter_id, '_', tag_master_id) IN (?)", qx_results.map { |i| i['our_concat'] }).select('id, tag_master_id, supporter_id, created_at')
-    grouped_tagged_joins = tag_joins_from_qx.group_by { |tj| "#{tj.supporter_id}_#{tj.tag_master_id}" }
+    tag_joins_from_qx = TagJoin.where("CONCAT(supporter_id, '_', tag_definition_id) IN (?)", qx_results.map { |i| i['our_concat'] }).select('id, tag_definition_id, supporter_id, created_at')
+    grouped_tagged_joins = tag_joins_from_qx.group_by { |tj| "#{tj.supporter_id}_#{tj.tag_definition_id}" }
 
     ids_to_delete = []
     grouped_tagged_joins.each do |_, v|

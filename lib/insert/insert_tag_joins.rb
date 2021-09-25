@@ -10,7 +10,7 @@ module InsertTagJoins
   # @param [Integer] profile_id id for the [Profile] corresponding to the current user. Not used currently but needed
   # @param [Array<Integer>] supporter_ids the ids of the all the supporters whose tags should be changed.
   # @param [Array<Hash>] tag_data a hashes consisting of the following keys:
-  #                       * tag_master_id: an [Integer] of the id of a tag in the database
+  #                       * tag_definition_id: an [Integer] of the id of a tag in the database
   #                       * selected: a [Boolean] for whether to add the tag to the supporter (true) or remove (false)
 
   def self.in_bulk(np_id, profile_id, supporter_ids, tag_data)
@@ -26,7 +26,7 @@ module InsertTagJoins
                           supporter_ids: { is_array: true },
                           tag_data: { required: true })
     # array_of_hashes: {
-    #   selected: {required: true}, tag_master_id: {required: true, is_integer: true}
+    #   selected: {required: true}, tag_definition_id: {required: true, is_integer: true}
     # }
     rescue ParamValidation::ValidationError => e
       return { json: { error: "Validation error\n #{e.message}", errors: e.data }, status: :unprocessable_entity }
@@ -44,29 +44,29 @@ module InsertTagJoins
       end
 
       # filtering the tag_data to this nonprofit
-      valid_ids = TagMaster.where('nonprofit_id = ? and id IN (?)', np_id, tag_data.map { |tg| tg[:tag_master_id] }).pluck(:id).to_a
-      filtered_tag_data = tag_data.select { |i| valid_ids.include? i[:tag_master_id].to_i }
+      valid_ids = TagDefinition.where('nonprofit_id = ? and id IN (?)', np_id, tag_data.map { |tg| tg[:tag_definition_id] }).pluck(:id).to_a
+      filtered_tag_data = tag_data.select { |i| valid_ids.include? i[:tag_definition_id].to_i }
 
       # first, delete the items which should be removed
-      to_remove = filtered_tag_data.reject { |t| t[:selected] }.map { |t| t[:tag_master_id] }
+      to_remove = filtered_tag_data.reject { |t| t[:selected] }.map { |t| t[:tag_definition_id] }
       deleted = []
       if to_remove.any?
         deleted = Qx.delete_from(:tag_joins)
                     .where('supporter_id IN ($ids)', ids: supporter_ids)
-                    .and_where('tag_master_id in ($tags)', tags: to_remove)
+                    .and_where('tag_definition_id in ($tags)', tags: to_remove)
                     .returning('*')
                     .execute
       end
 
       # next add only the selected tag_joins
-      to_insert = filtered_tag_data.select { |t| t[:selected] }.map { |t| t[:tag_master_id] }
-      insert_data = supporter_ids.map { |id| to_insert.map { |tag_master_id| { supporter_id: id, tag_master_id: tag_master_id } } }.flatten
+      to_insert = filtered_tag_data.select { |t| t[:selected] }.map { |t| t[:tag_definition_id] }
+      insert_data = supporter_ids.map { |id| to_insert.map { |tag_definition_id| { supporter_id: id, tag_definition_id: tag_definition_id } } }.flatten
       if insert_data.any?
         tags = Qx.insert_into(:tag_joins)
                  .values(insert_data)
                  .timestamps
                  .on_conflict
-                 .conflict_columns(:supporter_id, :tag_master_id).upsert(:tag_join_supporter_unique_idx)
+                 .conflict_columns(:supporter_id, :tag_definition_id).upsert(:tag_join_supporter_unique_idx)
                  .returning('*')
                  .execute
       else
@@ -88,15 +88,15 @@ module InsertTagJoins
   end
 
   # Find or create many tag names for every supporter
-  # Creates tag masters for tag names that are not present
+  # Creates tag definitions for tag names that are not present
   def self.find_or_create(np_id, supporter_ids, tag_names)
-    # Pair each tag name with a tag master id
+    # Pair each tag name with a tag definition id
     tags = tag_names.map do |name|
-      tm = Qx.select(:id).from(:tag_masters)
+      tm = Qx.select(:id).from(:tag_definitions)
              .where(name: name)
              .and_where(nonprofit_id: np_id)
              .execute.last
-      tm ||= Qx.insert_into(:tag_masters).values(
+      tm ||= Qx.insert_into(:tag_definitions).values(
         name: name,
         nonprofit_id: np_id
       ).ts.returning('id').execute.last
@@ -104,7 +104,7 @@ module InsertTagJoins
     end
 
     tag_join_data = supporter_ids.map do |id|
-      tags.map { |_name, tm_id| { supporter_id: id, tag_master_id: tm_id } }
+      tags.map { |_name, tm_id| { supporter_id: id, tag_definition_id: tm_id } }
     end.flatten
 
     tag_joins = Qx.insert_into(:tag_joins)

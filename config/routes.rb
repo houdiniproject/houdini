@@ -95,7 +95,7 @@ Rails.application.routes.draw do
       post(:modify, on: :collection)
     end
 
-    resources(:tag_masters, only: %i[index create destroy])
+    resources(:tag_definitions, only: %i[index create destroy])
     resources(:tag_joins, only: []) do
       post(:modify, on: :collection)
     end

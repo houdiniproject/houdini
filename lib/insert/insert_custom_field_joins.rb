@@ -69,7 +69,7 @@ module InsertCustomFieldJoins
                           supporter_ids: { required: true, is_array: true },
                           field_data: { required: true, is_array: true })
     # array_of_hashes: {
-    #   selected: {required: true}, tag_master_id: {required: true, is_integer: true}
+    #   selected: {required: true}, tag_definition_id: {required: true, is_integer: true}
     # }
     rescue ParamValidation::ValidationError => e
       return { json: { error: "Validation error\n #{e.message}", errors: e.data }, status: :unprocessable_entity }

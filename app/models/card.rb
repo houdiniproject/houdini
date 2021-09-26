@@ -25,6 +25,7 @@ class Card < ActiveRecord::Base
 	belongs_to :holder, polymorphic: true
 	has_many :charges
 	has_many :donations
+	has_many :recurring_donations, through: :donations
 	has_many :tickets
 	has_one :source_token, as: :tokenizable
 

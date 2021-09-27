@@ -17,15 +17,28 @@ import I18n from '../../i18n';
 import { LocationMock } from '@jedmao/location';
 
 jest.mock('../../api/users');
+import { SWRConfig } from 'swr';
+
 
 type WrapperProps = React.PropsWithChildren<{ hoster?: Hoster }>;
 
 function Wrapper(props: WrapperProps) {
 	return <HosterContext.Provider value={props.hoster}>
 		<IntlProvider locale={'en'} messages={I18n.translations['en'] as any} > {/* eslint-disable-line @typescript-eslint/no-explicit-any */}
-			<MockCurrentUserProvider>
-				{props.children}
-			</MockCurrentUserProvider>
+			<SWRConfig value={
+				{
+					dedupingInterval: 0, // we need to make SWR not dedupe
+					revalidateOnMount: true,
+					revalidateOnFocus: true,
+					revalidateOnReconnect: true,
+					focusThrottleInterval: 0,
+					provider: () => new Map(),
+				}
+			}>
+				<MockCurrentUserProvider>
+					{props.children}
+				</MockCurrentUserProvider>
+			</SWRConfig>;
 		</IntlProvider>
 	</HosterContext.Provider>;
 }

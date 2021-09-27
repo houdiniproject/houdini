@@ -255,7 +255,7 @@ Rails.application.routes.draw do
 
       # Events
       match 'events' => 'events#index', via: %i[get post]
-      match 'events/:event_slug' => 'events#show', via: %i[get post]
+      match 'events/:event_slug' => 'events#show', via: %i[get post], as: :event_location
       match 'events/:event_slug/stats' => 'events#stats', via: %i[get post]
       match 'events/:event_slug/tickets' => 'tickets#index', via: %i[get post]
 
@@ -264,16 +264,16 @@ Rails.application.routes.draw do
     end
   end
 
-  direct :campaign_locateable do |model, **opts|
+  direct :campaign_locateable do |model, options|
     nonprofit = model.nonprofit
-    {controller: 'campaigns', action: "show", state_code: nonprofit.state_code_slug, city: nonprofit.city_slug, name: nonprofit.slug,
-    campaign_slug: model.slug}.merge(**opts)
+    route_for(:campaign_location, nonprofit.state_code_slug, nonprofit.city_slug, nonprofit.slug,
+    model.slug, options)
   end
 
-  direct :event_locateable do |model, **opts|
+  direct :event_locateable do |model, options|
     nonprofit = model.nonprofit
-    {controller: '/events', action: "show", state_code: nonprofit.state_code_slug, city: nonprofit.city_slug, name: nonprofit.slug,
-    event_slug: model.slug}.merge(**opts)
+    route_for(:event_location, nonprofit.state_code_slug, nonprofit.city_slug, 
+      nonprofit.slug, model.slug, options)
   end
 
   # Mailchimp Landing

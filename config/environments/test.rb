@@ -48,6 +48,8 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'houdiniproject.test' }
 
+  config.default_url_options = { host: 'houdiniproject.test' }
+
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
   

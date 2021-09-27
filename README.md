@@ -24,7 +24,7 @@ The frontend is written in a few custom frameworks, the largest of which is call
 We endeavor to migrate to React as quickly as possible to increase development
 comfort and speed.
 
-All new backend code and React components well tested.
+All new backend code and React components should be well tested.
 
 ## Prerequisites
 

@@ -23,7 +23,7 @@ describe('useCurrentUser', () => {
 			revalidateOnFocus: true,
 			revalidateOnReconnect: true,
 			focusThrottleInterval: 0,
-			provider: () => new Map(),}}>
+			provider: () => new Map()}}>
 			{props.children}
 		</SWRConfig>;
 	}

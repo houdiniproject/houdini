@@ -27,8 +27,8 @@ export const UserSignsInOnFirstAttemptWith5SecondDelay = [
 export const UserSignInFailedWith500And5SecondDelay = [
 	...UserSignInFailsFromServerErrorWithDelay,
 	...UserSignedInIfAuthenticated,
-]
+];
 
 export const UserSignInFailed = [
-	...UserSignInFailsFromInvalidLogin
+	...UserSignInFailsFromInvalidLogin,
 ];

@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { DefaultUser, SetAuthenticated } from '../../api/mocks/users';
+import { SetAuthenticated } from '../../api/mocks/users';
 import { waitFor } from '@testing-library/react';
 import { InvalidUsernameAndPassword, postSignInRoute } from '../../users';
 

@@ -2,7 +2,7 @@
 /* eslint-disable jest/no-commented-out-tests */
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import { render, act, fireEvent, waitFor, waitForElementToBeRemoved, wait } from '@testing-library/react';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
@@ -23,7 +23,7 @@ function MainWrapper(props: React.PropsWithChildren<unknown>) {
 		<SWRConfig value={
 			{
 				dedupingInterval: 0, // we need to make SWR not dedupe
-				provider: () => new Map()
+				provider: () => new Map(),
 			}
 		}>
 			{props.children}
@@ -57,7 +57,7 @@ describe('SignInComponent', () => {
 			// the callback a Promise and await on act. If we didn't, our test wouldn't
 			// wait for all the possible React changes to happen at once.
 
-			await waitFor(() => { !button.hasAttribute('disabled') });
+			await waitFor(() => { !button.hasAttribute('disabled'); });
 
 			act(() => {
 				fireEvent.click(button);
@@ -217,7 +217,7 @@ describe('SignInComponent', () => {
 				fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
 				fireEvent.change(password, { target: { value: 'password' } });
 				const button = getByTestId('signInButton');
-				await waitFor(() => { !button.hasAttribute('disabled') });
+				await waitFor(() => { !button.hasAttribute('disabled'); });
 				expect(button).not.toBeDisabled();
 			});
 		});
@@ -236,7 +236,7 @@ describe('SignInComponent', () => {
 				fireEvent.change(password, { target: { value: 'password' } });
 				const button = await findByTestId('signInButton');
 
-				await waitFor(() => { !button.hasAttribute('disabled') });
+				await waitFor(() => { !button.hasAttribute('disabled'); });
 
 				act(() => {
 					fireEvent.click(button);
@@ -308,7 +308,7 @@ describe('SignInComponent', () => {
 			const button = getByTestId('signInButton');
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
-			fireEvent.change(email, { target: { value: 'validemail@valid.com' } })
+			fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
 			fireEvent.change(password, { target: { value: 'password' } });
 
 			await waitFor(() => {
@@ -320,12 +320,12 @@ describe('SignInComponent', () => {
 			});
 
 			await waitFor(() => {
-				let progressBar = queryByTestId("progressTest");
+				const progressBar = queryByTestId("progressTest");
 				expect(progressBar).toBeInTheDocument();
 			});
 
 			await waitFor(() => {
-				let successAlert = queryByTestId("signInComponentSuccess");
+				const successAlert = queryByTestId("signInComponentSuccess");
 				expect(successAlert).toBeInTheDocument();
 			});
 		});

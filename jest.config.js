@@ -1,5 +1,4 @@
 module.exports =  {
-	"testEnvironment": "jest-environment-jsdom-fifteen",
 	"testEnvironmentOptions": {
 		"enzymeAdapter": "react16",
 	},

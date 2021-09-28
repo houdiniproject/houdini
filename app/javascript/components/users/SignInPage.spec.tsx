@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import { render, act, fireEvent, waitFor, getByText } from "@testing-library/react";
+import { render, act, fireEvent, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import { Hoster, HosterContext } from '../../hooks/useHoster';
 import noop from "lodash/noop";
@@ -71,10 +71,15 @@ describe('Links', () => {
 		await locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
 			const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} /></Wrapper>);
 			await waitFor(() => {
-				const forgotPassword = getByText('Forgot Password?');
-				fireEvent.click(forgotPassword);
-				expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
+				expect(getByText('Forgot Password?')).toBeInTheDocument();
 			});
+			act(() => {
+				fireEvent.click(getByText('Forgot Password?'));
+			});
+
+			await waitFor(() => {
+				expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
+			})
 		});
 	});
 	it('terms & privacy Link has correct path', async () => {
@@ -82,8 +87,12 @@ describe('Links', () => {
 		await locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
 			const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} /></Wrapper>);
 			await waitFor(() => {
-				const terms = getByTestId('termsTest');
-				fireEvent.click(terms);
+				expect(getByTestId('termsTest')).toBeInTheDocument();
+			});
+			act(() => {
+				fireEvent.click(getByTestId('termsTest'));
+			});
+			await waitFor(() => {
 				expect(locationAssignSpy).toHaveBeenCalledWith('/static/terms_and_privacy');
 			});
 		});

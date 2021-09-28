@@ -45,7 +45,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 
 	const handleClose = () => {
 		setOpen(false);
-		open;
 	};
 
 	function onSuccess() {

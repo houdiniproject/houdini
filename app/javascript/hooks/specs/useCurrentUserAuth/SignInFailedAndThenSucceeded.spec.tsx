@@ -22,6 +22,10 @@ describe('useCurrentUserAuth', () => {
 			{
 				dedupingInterval: 0, // we need to make SWR not dedupe
 				revalidateOnMount: true,
+				revalidateOnFocus: true,
+				revalidateOnReconnect: true,
+				focusThrottleInterval: 0,
+				provider: () => new Map(),
 			}
 		}>
 			{props.children}

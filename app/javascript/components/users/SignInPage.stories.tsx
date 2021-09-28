@@ -31,7 +31,12 @@ export default {
 function SWRWrapper(props:React.PropsWithChildren<unknown>) {
 	return <SWRConfig value={
 		{
-			dedupingInterval: 2500, // we need to make SWR not dedupe
+			dedupingInterval: 0, // we need to make SWR not dedupe
+			revalidateOnMount: true,
+			revalidateOnFocus: true,
+			revalidateOnReconnect: true,
+			focusThrottleInterval: 0,
+			provider: () => new Map(),
 		}
 	}>
 		{props.children}

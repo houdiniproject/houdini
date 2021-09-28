@@ -16,7 +16,12 @@ import { DefaultUser } from '../../../api/api/mocks/users';
 
 describe('useCurrentUserAuth', () => {
 	function SWRWrapper(props:React.PropsWithChildren<unknown>) {
-		return <SWRConfig value={{dedupingInterval: 0}}>
+		return <SWRConfig value={{	dedupingInterval: 0, // we need to make SWR not dedupe
+			revalidateOnMount: true,
+			revalidateOnFocus: true,
+			revalidateOnReconnect: true,
+			focusThrottleInterval: 0,
+			provider: () => new Map(),}}>
 			{props.children}
 		</SWRConfig>;
 	}

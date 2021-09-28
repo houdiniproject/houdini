@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import useCurrentUser, { CurrentUser, SetCurrentUserReturnType } from "./useCurrentUser";
 import { postSignIn } from '../api/users';
 import { NetworkError } from "../api/errors";

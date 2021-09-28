@@ -4,9 +4,6 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Formik, Form, Field, useFormikContext } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
-import { spacing } from '@material-ui/system';
-import MuiButton from "@material-ui/core/Button";
-import { styled } from "@material-ui/core/styles";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -27,6 +24,7 @@ import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
 import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
 import { useMountedState } from "react-use";
+import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 
 
 export interface SignInComponentProps {
@@ -71,9 +69,6 @@ function FailedAlert({ error }: { error: unknown }): JSX.Element {
 
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
-	const [isValid, setIsValid] = useState(false);
-	const [touched, setTouched] = useState(false);
-
 	const { signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 
@@ -125,7 +120,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		},
 	}),
 	);
-	const Button = styled(MuiButton)(spacing);
 	const classes = useStyles();
 	const isMounted = useMountedState();
 
@@ -153,8 +147,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 			}>{() => {
 
 				return (<InnerFormikComponent
-					setIsValid={setIsValid}
-					setTouched={setTouched}
 					emailLabel={emailLabel}
 					passwordLabel={passwordLabel}
 					failed={failed}
@@ -173,23 +165,19 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 }
 
 function InnerFormikComponent(props: {
-	setIsValid: (isValid: boolean) => void,
-	setTouched: (dirty: boolean) => void,
-	emailLabel: string,
-	passwordLabel: string,
-	failed: boolean,
-	lastSignInAttemptError: any,
-	classes: any,
-	loginHeaderLabel: string,
-	submitting: boolean,
-	onFailure: (error: NetworkError) => void,
-	onSubmitting: () => void,
-	onSuccess: () => void,
-	showProgressAndSuccess: boolean
+	classes: ClassNameMap<"textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
+	emailLabel: string;
+	failed: boolean;
+	lastSignInAttemptError: NetworkError;
+	loginHeaderLabel: string;
+	onFailure: (error: NetworkError) => void;
+	onSubmitting: () => void;
+	onSuccess: () => void;
+	passwordLabel: string;
+	showProgressAndSuccess: boolean;
+	submitting: boolean;
 }) {
 	const {
-		setIsValid,
-		setTouched,
 		submitting,
 		onFailure,
 		failed,
@@ -200,8 +188,10 @@ function InnerFormikComponent(props: {
 		emailLabel,
 		passwordLabel,
 		loginHeaderLabel,
-		classes
+		classes,
 	} = props;
+	const [, setIsValid] = useState(false);
+	const [, setTouched] = useState(false);
 	const { isValid } = useFormikContext();
 	useEffect(() => {
 		setIsValid(isValid);

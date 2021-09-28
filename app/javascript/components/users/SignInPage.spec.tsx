@@ -79,7 +79,7 @@ describe('Links', () => {
 
 			await waitFor(() => {
 				expect(locationAssignSpy).toHaveBeenCalledWith('/users/password/new');
-			})
+			});
 		});
 	});
 	it('terms & privacy Link has correct path', async () => {

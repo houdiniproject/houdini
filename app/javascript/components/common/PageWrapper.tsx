@@ -1,15 +1,14 @@
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RailsContext } from "react-on-rails/node_package/lib/types";
 import { Hoster, HosterContext } from "../../hooks/useHoster";
 
 import ReactOnRails from "react-on-rails";
-import { convert } from 'dotize'
+import { convert } from 'dotize';
 import { IntlProvider } from '../intl';
 import { useDeepCompareEffect } from 'react-use';
-
-const I18n = require('../../i18n').default
+import I18n from '../../i18n';
 
 export interface PageContextInput {
 	currentUser?: number | null;
@@ -45,12 +44,14 @@ export default function PageWrapper(props: React.PropsWithChildren<PageContextIn
 		setPageContext({
 			...other,
 			authenticityToken: ReactOnRails.authenticityToken,
-		})
-	}, [other])
+		});
+	}, [other]);
 
+	/* eslint-disable @typescript-eslint/no-explicit-any */
 	return (pageContext && <HosterContext.Provider value={pageContext.hoster}>
 		<IntlProvider locale={pageContext.i18n.locale} messages={convert(I18n.translations[I18n.locale]) as any}>
 			{props.children}
 		</IntlProvider>
 	</HosterContext.Provider>);
+	/* eslint-enable @typescript-eslint/no-explicit-any */
 }

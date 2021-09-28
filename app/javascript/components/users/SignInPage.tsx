@@ -20,7 +20,6 @@ import staticRoutes from '../../routes/static';
 import useHoster from '../../hooks/useHoster';
 import Alert from '@material-ui/lab/Alert';
 import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import { rgb } from "color";
 import Fade from '@material-ui/core/Fade';
 
@@ -41,11 +40,6 @@ export const Fallback = (): React.ReactElement => {
 
 function SignInPage(props: SignInPageProps): JSX.Element {
 	const [SignInPageState, setSignInPageState] = useState<'ready' | 'submitting' | 'success'>('ready');
-	const [open, setOpen] = React.useState(false);
-
-	const handleClose = () => {
-		setOpen(false);
-	};
 
 	function onSuccess() {
 		setSignInPageState("success");
@@ -183,10 +177,10 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						<Box color="error.main" data-testid="signInPageError"></Box>
 						<div data-testid='backdropTest' >
 							<Fade in={SignInPageState === 'submitting'}>
-								<Backdrop className={classes.backdrop} open={true} onClick={handleClose}></Backdrop>
+								<Backdrop className={classes.backdrop} open={true}></Backdrop>
 							</Fade>
 							<Fade in={SignInPageState === 'success'}>
-								<Backdrop className={classes.backdrop} open={true} onClick={handleClose} >
+								<Backdrop className={classes.backdrop} open={true}>
 									<Alert severity="success">{successLabel}</Alert>
 								</Backdrop>
 							</Fade>

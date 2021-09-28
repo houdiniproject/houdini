@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 
 import userRoutes from '../routes/users';
-import { CurrentUser, NotLoggedInStatus } from '../hooks/useCurrentUser';
+import { NotLoggedInStatus } from '../hooks/useCurrentUser';
 import { NetworkError } from './errors';
 
 
@@ -18,11 +18,11 @@ export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit = {
 	data.set("user[email]", loginInfo.email);
 	data.set("user[password]", loginInfo.password);
 
-	const response = await fetch(userRoutes.userSession.url(), { ...defaultConfig,
+	const response = await fetch(userRoutes.userSession.url(), {
+		...defaultConfig,
 		...init,
-			body: data,
-		}
-	);
+		body: data,
+	});
 
 	if (response.ok) {
 		return true;

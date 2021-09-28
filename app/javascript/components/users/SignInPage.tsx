@@ -135,7 +135,6 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	const loginHeaderLabel = formatMessage({ id: 'login.enter_login_information' });
 	const forgotPasswordlabel = formatMessage({ id: 'login.forgot_password' });
 	const terms = formatMessage({ id: 'footer.terms_and_privacy' });
-	const getStartedLabel = formatMessage({ id: 'login.get_started' });
 	const successLabel = formatMessage({ id: 'login.success' });
 
 

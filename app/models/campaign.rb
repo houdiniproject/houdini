@@ -139,7 +139,7 @@ class Campaign < ApplicationRecord
   end
 
   def total_raised
-    payments.sum(:gross_amount)
+    self.payments.sum(:gross_amount)
   end
 
   def percentage_funded

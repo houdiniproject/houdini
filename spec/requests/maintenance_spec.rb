@@ -5,7 +5,6 @@
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 # rubocop:disable RSpec/InstanceVariable
-# rubocop:disable RSpec/DescribeClass
 describe 'Maintenance Mode' do
 	page = 'http://commet'
 	token = 'thoathioa'

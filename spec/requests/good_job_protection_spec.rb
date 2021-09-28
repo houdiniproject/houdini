@@ -3,7 +3,6 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 require 'rails_helper'
-# rubocop:disable RSpec/DescribeClass
 describe 'GoodJob protection' do
 	let(:user) { create(:user) }
 
@@ -30,5 +29,3 @@ describe 'GoodJob protection' do
 		end
 	end
 end
-
-# rubocop:enable RSpec/DescribeClass

@@ -10,7 +10,7 @@ describe CampaignsController, type: :controller do
     include_context :shared_user_context
     describe 'rejects unauthorized users' do
       describe 'create' do
-        include_context :open_to_confirmed_users, :post, :create, nonprofit_id: :__our_np
+        include_context :open_to_confirmed_users, :post, :create, nonprofit_id: :__our_np, with_status: 200 #why? I don't know.
       end
 
       describe 'name_and_id' do

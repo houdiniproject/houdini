@@ -39,9 +39,9 @@
   <%= javascript_pack_tag 'i18n', 'page__campaigns__peer_to_peer' %>
 <% end %>
 
-<% if @parent_campaign && @parent_campaign.banner_image_url %>
+<% if @parent_campaign && @parent_campaign.banner_image.url %>
   <div class='campaign-banner u-margin'>
-    <img src='<%= @parent_campaign.banner_image_url %>'>
+    <img src='<%= @parent_campaign.banner_image.url %>'>
   </div>
 <% end %>
 

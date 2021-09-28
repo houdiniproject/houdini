@@ -10,6 +10,9 @@ class CampaignsController < ApplicationController
   before_action :authenticate_confirmed_user!, only: %i[create name_and_id duplicate]
   before_action :authenticate_campaign_editor!, only: %i[update soft_delete]
   before_action :check_nonprofit_status, only: %i[index show]
+  
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_rescue
+  respond_to :json, only: :create
 
   def index
     @nonprofit = current_nonprofit
@@ -62,12 +65,7 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = CreateCampaign.create(campaign_params, current_nonprofit)
-    if (@campaign.errors.empty?)
-      render 'campaigns/create', campaign: @campaign
-    else
-      render json: { errors: @campaign.errors.messages }.as_json
-    end
-    
+    render 'campaigns/create', campaign: @campaign, status: :created
   end
 
   def update
@@ -137,5 +135,9 @@ class CampaignsController < ApplicationController
 
   def campaign_params
     params.require(:campaign).permit(:name, :tagline, :slug, :total_supporters, :goal_amount, :nonprofit_id, :profile_id, :main_image, :remove_main_image, :background_image, :remove_background_image, :banner_image, :remove_banner_image, :published, :video_url, :vimeo_video_id, :youtube_video_id, :summary, :recurring_fund, :body, :goal_amount_dollars, :show_total_raised, :show_total_count, :hide_activity_feed, :end_datetime, :deleted, :hide_goal, :hide_thermometer, :hide_title, :receipt_message, :hide_custom_amounts, :parent_campaign_id, :reason_for_supporting, :default_reason_for_supporting)
+  end
+
+  def record_invalid_rescue(error)
+    render json: { errors: error.record.errors.messages }, status: :unprocessable_entity
   end
 end

@@ -8,7 +8,7 @@
 <%= content_for :javascripts do %>
 	<script>
 		app.campaign_id = <%= @campaign.id %>
-    app.campaign = <%= raw(@campaign.to_json) %>
+    app.campaign = <%= render partial: 'campaigns/campaign', locals: { campaign: @campaign}, formats: :json %>
 		app.header_image_url = '<%= @campaign_background_image %>'
     app.campaign_end_datetime = '<%= @campaign.end_datetime %>'
 		app.timezone = '<%= @timezone %>'
@@ -26,7 +26,7 @@
 
   <%= render 'schema', campaign: @campaign, url: @url %>
   <%= render 'common/froala' if current_campaign_editor? %>
-<%= javascript_pack_tag 'i18n', 'page__campaigns' %>
+<%= javascript_pack_tag 'i18n', 'page__campaigns__show' %>
 <% end %>
 
 <%= content_for :stylesheets do %>
@@ -145,7 +145,7 @@
 		input_name: 'campaign[background_image]' %>
   <%= render 'components/upload_banner_image',
     end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
-		image_url: @campaign.banner_image_url,
+		image_url: @campaign.banner_image.url,
 		input_name: 'campaign[banner_image]' %>
   <%= render 'components/custom_receipt_modal',
     title: 'Campaign Receipt Message',

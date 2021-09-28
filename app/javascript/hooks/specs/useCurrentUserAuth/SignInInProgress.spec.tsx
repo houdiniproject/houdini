@@ -86,7 +86,7 @@ describe('useCurrentUserAuth', () => {
 				finally{
 					act(() =>	StopWaitingDuringUserSignIn());
 					await wait(() => !result.current.submitting);
-					await wait(() => !result.current.lastSignInAttemptError)
+					await wait(() => !result.current.lastSignInAttemptError);
 				}
 			});
 			unmount();

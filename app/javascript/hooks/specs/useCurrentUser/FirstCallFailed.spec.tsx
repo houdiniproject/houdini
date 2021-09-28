@@ -62,11 +62,11 @@ describe('useCurrentUser', () => {
 				expect(result.current.error).toBeInstanceOf(NetworkError);
 			});
 
-			it('is not validatingCurrentUser', () => {
+			it('is validatingCurrentUser', () => {
 				expect.assertions(1);
 
 
-				expect(result.current.validatingCurrentUser).toBe(false);
+				expect(result.current.validatingCurrentUser).toBe(true);
 			});
 		});
 
@@ -112,10 +112,10 @@ describe('useCurrentUser', () => {
 				expect(result.current.error).toBeInstanceOf(NetworkError);
 			});
 
-			it('is not validatingCurrentUser', () => {
+			it('is validatingCurrentUser', () => {
 				expect.assertions(1);
 
-				expect(result.current.validatingCurrentUser).toBe(false);
+				expect(result.current.validatingCurrentUser).toBe(true);
 			});
 		});
 	});

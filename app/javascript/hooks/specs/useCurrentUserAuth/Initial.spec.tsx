@@ -126,10 +126,10 @@ describe('useCurrentUserAuth', () => {
 				await commonPrep(async result => expect(result.current.failed).toBe(false));
 			});
 
-			it('is not validating current user', async () => {
+			it('is validating current user', async () => {
 				expect.assertions(1);
 
-				await commonPrep(async result => expect(result.current.validatingCurrentUser).toBe(false));
+				await commonPrep(async result => expect(result.current.validatingCurrentUser).toBe(true));
 			});
 
 		});

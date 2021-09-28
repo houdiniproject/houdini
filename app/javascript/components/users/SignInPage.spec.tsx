@@ -68,7 +68,7 @@ async function locationAssign(input: (locationAssignSpy: jest.SpyInstance<void, 
 describe('Links', () => {
 	it('forgot password Link goes to correct path', async () => {
 		expect.hasAssertions();
-		locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
+		await locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
 			const { getByText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} /></Wrapper>);
 			await waitFor(() => {
 				const forgotPassword = getByText('Forgot Password?');
@@ -77,9 +77,9 @@ describe('Links', () => {
 			});
 		});
 	});
-	it('terms & privacy Link has correct path', () => {
+	it('terms & privacy Link has correct path', async () => {
 		expect.hasAssertions();
-		locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
+		await locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
 			const { getByTestId } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} /></Wrapper>);
 			await waitFor(() => {
 				const terms = getByTestId('termsTest');
@@ -111,7 +111,7 @@ describe('useHoster', () => {
 describe('redirectUrl', () => {
 	it('has to redirect', async () => {
 		expect.hasAssertions();
-		locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
+		await locationAssign(async (locationAssignSpy: jest.SpyInstance<void, [url: string]>) => {
 			mocked(postSignIn).mockResolvedValue(true);
 			const { getByTestId, getByLabelText } = render(<Wrapper><SignInPage redirectUrl={'redirectUrl'} /></Wrapper>);
 			const email = getByLabelText("Email");

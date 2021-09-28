@@ -90,10 +90,10 @@ describe('useCurrentUserAuth', () => {
 				expect(result.current.failed).toBe(true);
 			});
 
-			it('is not validating current user', () => {
+			it('is validating current user', () => {
 				expect.assertions(1);
 
-				expect(result.current.validatingCurrentUser).toBe(false);
+				expect(result.current.validatingCurrentUser).toBe(true);
 			});
 
 			it('is not submitting', () => {
@@ -164,10 +164,10 @@ describe('useCurrentUserAuth', () => {
 				expect(result.current.failed).toBe(true);
 			});
 
-			it('is not validating current user', async () => {
+			it('is validating current user', async () => {
 				expect.assertions(1);
 
-				expect(result.current.validatingCurrentUser).toBe(false);
+				expect(result.current.validatingCurrentUser).toBe(true);
 			});
 
 			it('is not submitting', () => {

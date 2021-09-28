@@ -100,10 +100,10 @@ describe('useCurrentUser', () => {
 				await commonPrep(async (result) =>	expect(result.current.error).toBeUndefined());
 			});
 
-			it('is not validatingCurrentUser', async () => {
+			it('is validatingCurrentUser', async () => {
 				expect.assertions(1);
 
-				await commonPrep(async (result) => expect(result.current.validatingCurrentUser).toBe(false));
+				await commonPrep(async (result) => expect(result.current.validatingCurrentUser).toBe(true));
 			});
 		});
 	});

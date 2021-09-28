@@ -94,7 +94,7 @@ SignInFailed500.story = {
 					ctx.json({error: "Some error"}),
 					ctx.status(500)
 				);
-			})
+			});
 		],
 	},
 };

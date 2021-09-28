@@ -245,6 +245,10 @@ class Nonprofit < ActiveRecord::Base
     ret
   end
 
+  def autocomplete_supporter_address?
+    !!(feature_flag_autocomplete_supporter_address && autocomplete_supporter_address)
+  end
+
   concerning :FeeCalculation do
     
     # @param [Hash] opts

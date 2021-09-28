@@ -74,6 +74,16 @@
 	<script>
 	appl.def('ticketPaymentCard', ticketPaymentCard)
 	</script>
+
+	<script>
+	 	document.querySelectorAll('#autocompleteAddressInVS').forEach((input) => {
+			window.googleAutocomplete.createAutocompleteInput({input, placeChangedCallbacks:[(place) => appl.def('autocomplete.data', place)]});
+		 })
+
+		 appl.def('resetAutocompleteData', () => {
+			 appl.def('autocomplete.data', null)
+		 })
+	</script>
 <% end %>
 
 <%= content_for :head do %>

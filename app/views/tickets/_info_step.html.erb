@@ -9,7 +9,7 @@
 		<div class='u-margin--auto u-maxWidth--400'>
 			<%= render 'supporters/fields',
 				required: {name: true, email: !unrequire_email },
-				show_anon: false, profile: profile || nil %>
+				show_anon: false, profile: current_user ? current_user.profile : nil %>
 		</div>
 
 		<div class='u-centered'>

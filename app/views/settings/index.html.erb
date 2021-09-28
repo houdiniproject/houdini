@@ -47,7 +47,9 @@
 					<li swap-class='settings-pane' swap-in='anons'>Anonymous Donations</li>
 					<li swap-class='settings-pane' swap-in='statements'>Transaction Message</li>
 					<li swap-class='settings-pane' swap-in='branding'>Branding</li>
-					<li swap-class='settings-pane' swap-in='autocomplete'>Address autocomplete</li>
+					<% if @nonprofit.feature_flag_autocomplete_supporter_address %>
+						<li swap-class='settings-pane' swap-in='autocomplete'>Address autocomplete</li>
+					<% end %>
 					<li swap-class='settings-pane' swap-in='social-links'>Social Links</li>
 					<li swap-class='settings-pane' swap-in='tracking'>Custom Tracking</li>
 					<li swap-class='settings-pane' swap-in='notifications' class='test-notificationsLink'>Email Notifications</li>

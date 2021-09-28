@@ -32,7 +32,12 @@
 		<%= render 'nonprofits/supporters/fieldset', cssClass: 'col-right-4', profile: profile, name: 'phone', placeholder: 'Phone' %>
 	</section>
 
-  <%= render 'supporters/manual_address_fields', profile: profile %>
+	<% if @nonprofit.autocomplete_supporter_address? %>
+	  <%= render 'supporters/autocomplete_address_fields', profile: profile %>
+	<% else %>
+	  <%= render 'supporters/manual_address_fields', profile: profile %>
+	<% end %>
+
 
 	<% if !@nonprofit.no_anon && show_anon %>
 		<div class='u-marginTop--10'>

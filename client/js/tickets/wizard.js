@@ -1,7 +1,4 @@
 // License: LGPL-3.0-or-later
-if (app.autocomplete) {
-  require('../components/address-autocomplete')
-}
 require('../cards/create')
 var request = require('../common/super-agent-promise')
 var create_card = require('../cards/create')
@@ -9,8 +6,11 @@ var format_err = require('../common/format_response_error')
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/tickets'
 const R = require('ramda')
 
-const CommitchangeFeeCoverageCalculator = require('../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator').CommitchangeFeeCoverageCalculator;
+const autocomplete = require('../components/address-autocomplete-viewscript');
 
+autocomplete.initScript();
+
+const CommitchangeFeeCoverageCalculator = require('../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator').CommitchangeFeeCoverageCalculator;
 
 
 appl.def('discounts.apply', function (node) {

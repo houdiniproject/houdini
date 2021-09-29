@@ -68,7 +68,7 @@
 
 		<% if current_role?([:nonprofit_admin, :nonprofit_associate, :super_admin]) %>
 
-			<section class='settings-pane nonprofit-settings nonprofit-profile-edit hide'>
+			<section class='settings-pane nonprofit-settings nonprofit-profile-edit'>
 				<header class='pane-header'><h3>Edit Organization Profile</h3></header>
 				<div class='pane-inner'>
 					<%= render 'nonprofits/edit' %>
@@ -79,45 +79,45 @@
 				<%= render 'pricing' %>
 			</section>
 
-			<section class='settings-pane timezone hide'>
+			<section class='settings-pane timezone'>
 				<%= render 'timezone' %>
 			</section>
 
-			<section class='settings-pane nonprofit-settings users hide'>
+			<section class='settings-pane nonprofit-settings users'>
 				<%= render 'users' %>
 			</section>
 
-			<section class='settings-pane nonprofit-settings email-content hide'>
+			<section class='settings-pane nonprofit-settings email-content'>
 				<%= render 'email_content' %>
 			</section>
       
-			<section class='settings-pane nonprofit-settings anons hide'>
+			<section class='settings-pane nonprofit-settings anons'>
 				<%= render 'anons' %>
 			</section>
 
-			<section class='settings-pane nonprofit-settings statements hide'>
+			<section class='settings-pane nonprofit-settings statements'>
 				<%= render 'statements' %>
 			</section>
 
-			<section class='settings-pane nonprofit-settings payouts hide'>
+			<section class='settings-pane nonprofit-settings payouts'>
 				<%= render 'payouts' %>
 			</section>
 
       <div id='js-main'></div>
 
-			<section class='settings-pane nonprofit-settings social-links hide'>
+			<section class='settings-pane nonprofit-settings social-links'>
 				<%= render 'social_links' %>
 			</section>
 
-			<section class='settings-pane nonprofit-settings tracking hide'>
+			<section class='settings-pane nonprofit-settings tracking'>
 				<%= render 'custom_tracking' %>
 			</section>
       
-      <section class='settings-pane nonprofit-settings autocomplete hide'>
+      <section class='settings-pane nonprofit-settings autocomplete'>
 				<%= render 'autocomplete' %>
 			</section>
 
-      <section class='settings-pane nonprofit-settings miscellaneous hide'>
+      <section class='settings-pane nonprofit-settings miscellaneous'>
         <%= render 'miscellaneous' %>
       </section>
 
@@ -128,15 +128,15 @@
 			<%= render 'email' %>
 		</section>
 
-		<section class='settings-pane hide pass'>
+		<section class='settings-pane pass'>
 			<%= render 'pass' %>
 		</section>
 
-		<section class='settings-pane hide privacy-settings'>
+		<section class='settings-pane privacy-settings'>
 			<%= render 'privacy' %>
 		</section>
 
-		<section class='settings-pane hide user-profile-edit'>
+		<section class='settings-pane user-profile-edit'>
 			<%= render 'edit_profile' %>
 		</section>
 

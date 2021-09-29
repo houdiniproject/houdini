@@ -54,13 +54,6 @@ Check on [contribution_guide_usability_testing.md](docs/contribution_guide_usabi
 
 ## Dev Setup
 
-#### Tips for specific circumstances
-
-* Docker: Docker was previously used for development of Houdini. 
-See [docker.md](docs/docker.md) for more info.
-* Mac: Mac dev setup may require some unique configuration. 
-See [mac_getting_started.md](docs/mac_getting_started.md) for more info.
-
 ### Installation prep
 
 Houdini requires a few pieces of software be installed, as well as some optional pieces

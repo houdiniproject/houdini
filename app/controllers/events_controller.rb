@@ -9,6 +9,7 @@ class EventsController < ApplicationController
   helper_method :current_event_editor?
   before_action :authenticate_nonprofit_user!, only: :name_and_id
   before_action :authenticate_event_editor!, only: %i[update soft_delete stats create duplicate]
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_rescue
 
   def index
     @nonprofit = current_nonprofit
@@ -45,12 +46,16 @@ class EventsController < ApplicationController
   end
 
   def update
+    start_datetime = current_event.start_datetime
+    end_datetime = current_event.end_datetime
     Time.use_zone(current_nonprofit.timezone || 'UTC') do
-      event_params[:start_datetime] = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
-      event_params[:end_datetime] = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
+      start_datetime = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
+      end_datetime = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
     end
-    current_event.update(event_params)
-    json_saved current_event, 'Successfully updated'
+    current_event.update!(**event_params, start_datetime: start_datetime, end_datetime: end_datetime)
+    @event = current_event
+
+    flash[:notice] = 'Successfully updated'
   end
 
   # post 'nonprofits/:np_id/events/:event_id/duplicate'
@@ -86,5 +91,9 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(:deleted, :name, :tagline, :summary, :body, :end_datetime, :start_datetime, :location, :city, :state_code, :address, :zip_code, :main_image, :remove_main_image, :background_image, :remove_background_image, :published, :slug, :directions, :venue_name, :profile_id, :ticket_levels_attributes, :show_total_raised, :show_total_count, :hide_activity_feed, :nonprofit_id, :hide_title, :organizer_email, :receipt_message)
+  end
+
+  def record_invalid_rescue(error)
+    render json: { errors: error.record.errors.full_messages }, status: :unprocessable_entity
   end
 end

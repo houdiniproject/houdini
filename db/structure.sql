@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.10.1)
--- Dumped by pg_dump version 13.4 (Ubuntu 13.4-0ubuntu0.21.04.1)
+-- Dumped from database version 13.3
+-- Dumped by pg_dump version 13.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2552,7 +2552,7 @@ CREATE TABLE public.supporters (
     address character varying(255),
     city character varying(255),
     state_code character varying(255),
-    anonymous boolean,
+    anonymous boolean DEFAULT false,
     zip_code character varying(255),
     latitude double precision,
     longitude double precision,
@@ -5724,4 +5724,6 @@ INSERT INTO schema_migrations (version) VALUES ('20210812220753');
 INSERT INTO schema_migrations (version) VALUES ('20210818221411');
 
 INSERT INTO schema_migrations (version) VALUES ('20210917204956');
+
+INSERT INTO schema_migrations (version) VALUES ('20210930194624');
 

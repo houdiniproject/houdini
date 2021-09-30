@@ -792,7 +792,7 @@ CREATE TABLE public.donations (
     card_id integer,
     designation text,
     offsite boolean,
-    anonymous boolean,
+    anonymous boolean DEFAULT false,
     supporter_id integer,
     origin_url text,
     manual boolean,
@@ -5724,6 +5724,8 @@ INSERT INTO schema_migrations (version) VALUES ('20210812220753');
 INSERT INTO schema_migrations (version) VALUES ('20210818221411');
 
 INSERT INTO schema_migrations (version) VALUES ('20210917204956');
+
+INSERT INTO schema_migrations (version) VALUES ('20210930192755');
 
 INSERT INTO schema_migrations (version) VALUES ('20210930194624');
 

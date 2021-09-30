@@ -2,13 +2,12 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
-
 json.extract! campaign, :id, :name, # basics
 														:nonprofit_id, :profile_id, :parent_campaign_id, # references
 														:reason_for_supporting, :default_reason_for_supporting,
 														:published, :deleted
 
-# json.url campaign_url(nonprofit)
+json.url campaign_locateable_url(campaign)
 
 if campaign.main_image.attached?
 	json.main_image do

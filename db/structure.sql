@@ -4183,6 +4183,13 @@ CREATE UNIQUE INDEX index_disputes_on_stripe_dispute_id ON public.disputes USING
 
 
 --
+-- Name: index_donations_on_anonymous; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_donations_on_anonymous ON public.donations USING btree (anonymous);
+
+
+--
 -- Name: index_donations_on_event_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4446,6 +4453,13 @@ CREATE INDEX index_supporter_addresses_on_supporter_id ON public.supporter_addre
 --
 
 CREATE INDEX index_supporter_notes_on_supporter_id ON public.supporter_notes USING btree (supporter_id);
+
+
+--
+-- Name: index_supporters_on_anonymous; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_supporters_on_anonymous ON public.supporters USING btree (anonymous);
 
 
 --
@@ -5785,6 +5799,10 @@ INSERT INTO schema_migrations (version) VALUES ('20210929200206');
 INSERT INTO schema_migrations (version) VALUES ('20210930192755');
 
 INSERT INTO schema_migrations (version) VALUES ('20210930194624');
+
+INSERT INTO schema_migrations (version) VALUES ('20211001194346');
+
+INSERT INTO schema_migrations (version) VALUES ('20211001194416');
 
 INSERT INTO schema_migrations (version) VALUES ('20211004124725');
 

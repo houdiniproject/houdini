@@ -12,7 +12,6 @@ class CampaignsController < ApplicationController
   before_action :check_nonprofit_status, only: %i[index show]
   
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_rescue
-  respond_to :json, only: :create
 
   def index
     @nonprofit = current_nonprofit
@@ -69,11 +68,14 @@ class CampaignsController < ApplicationController
   end
 
   def update
+    end_datetime = current_campaign.end_datetime
     Time.use_zone(current_nonprofit.timezone || 'UTC') do
-      campaign_params[:end_datetime] = Chronic.parse(campaign_params[:end_datetime]) if campaign_params[:end_datetime].present?
+      end_datetime = Chronic.parse(campaign_params[:end_datetime]) if campaign_params[:end_datetime].present?
     end
-    current_campaign.update campaign_params
-    json_saved current_campaign, 'Successfully updated!'
+    current_campaign.update!(**campaign_params, end_datetime: end_datetime)
+    @campaign = current_campaign
+    flash[:notice] = 'Successfully updated'
+    render 'campaigns/update', status: :ok
   end
 
   # post 'nonprofits/:np_id/campaigns/:campaign_id/duplicate'

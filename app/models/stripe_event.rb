@@ -32,6 +32,38 @@ class StripeEvent < ActiveRecord::Base
       end
     end
   end
+
+  def self.process_charge(event)
+    StripeEvent.transaction do
+      object = event.data.object
+      events_for_object_id = StripeEvent.where('object_id = ?', object.id).lock(true)
+
+      event_record = events_for_object_id.where('event_id = ?', event.id).first
+
+      # if event_record found, we've recorded this event so no processing necessary
+      unless event_record
+        # we record this event!
+        stripe_event = StripeEvent.new(event_id: event.id, event_time: Time.at(event.created).to_datetime, object_id: event.data.object.id)
+        stripe_event.save!
+
+        later_event = events_for_object_id.where('event_time > ?', Time.at(event.created).to_datetime).first
+
+        # we have a later event so we don't need to process this anymore
+        unless later_event
+          LockManager.with_transaction_lock(object.id) do
+              object = Stripe::Charge.retrieve(object.id)              
+              charge = StripeCharge.where("stripe_charge_id = ?", object.id).first
+              unless charge
+                charge = StripeCharge.new(stripe_charge_id: object.id)
+              end
+              charge.object = object
+              charge.save!
+          end
+        end
+      end
+    end
+  end
+
   def self.handle(event)
     case event.type
     when 'account.updated'
@@ -98,6 +130,18 @@ class StripeEvent < ActiveRecord::Base
       process_dispute(event)
     when 'charge.dispute.closed'
       process_dispute(event)
-    end  
+    when 'charge.captured'
+      process_charge(event)
+    when 'charge.expired'
+      process_charge(event)
+    when 'charge.failed'
+      process_charge(event)
+    when 'charge.pending'
+      process_charge(event)
+    when 'charge.succeeded'
+      process_charge(event)
+    when 'charge.updated'
+      process_charge(event)
+    end
   end
 end

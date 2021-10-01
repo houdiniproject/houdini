@@ -23,6 +23,7 @@ class Charge < ActiveRecord::Base
 	belongs_to :nonprofit
 	belongs_to :donation
 	belongs_to :payment
+	belongs_to :stripe_charge_object, primary_key: "stripe_charge_id", foreign_key: "stripe_charge_id", class_name: "StripeCharge"
 
 	scope :paid, ->{where(status: ["available", "pending", "disbursed"])}
 	scope :not_paid, ->{where(status: [nil, "failed"])}

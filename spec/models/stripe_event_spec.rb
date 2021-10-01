@@ -672,4 +672,16 @@ RSpec.describe StripeEvent, :type => :model do
       end
     end
   end
+
+  describe 'charge.*' do 
+    describe "charge.succeeded" do
+      include_context :charge_succeeded_specs
+      let(:obj) do
+         # this is INCREDIBLY hacky
+        expect(Stripe::Charge).to receive(:retrieve).with(event_json['data']['object']['id']).and_return(Stripe::Util.convert_to_stripe_object(event_json['data']['object']))
+        StripeEvent.process_charge(event_json)
+        StripeCharge.find_by_stripe_charge_id(json['id'])
+      end
+    end
+  end
 end

@@ -4456,10 +4456,10 @@ CREATE INDEX index_supporter_notes_on_supporter_id ON public.supporter_notes USI
 
 
 --
--- Name: index_supporters_on_anonymous; Type: INDEX; Schema: public; Owner: -
+-- Name: index_supporters_on_anonymous_and_nonprofit_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_supporters_on_anonymous ON public.supporters USING btree (anonymous);
+CREATE INDEX index_supporters_on_anonymous_and_nonprofit_id ON public.supporters USING btree (anonymous, nonprofit_id);
 
 
 --

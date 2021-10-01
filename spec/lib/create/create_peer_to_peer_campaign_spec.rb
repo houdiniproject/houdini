@@ -5,78 +5,103 @@
 require 'rails_helper'
 
 describe CreatePeerToPeerCampaign do
-  describe '.create' do
-    let!(:profile) { force_create(:profile, user: force_create(:user)) }
-    let!(:parent_campaign) { force_create(:campaign, name: 'Parent campaign', nonprofit: force_create(:nm_justice)) }
+	describe '.create' do
+		let!(:profile) { force_create(:profile, user: force_create(:user)) }
+		let!(:parent_campaign) { force_create(:campaign, name: 'Parent campaign', nonprofit: force_create(:nm_justice)) }
 
-    context 'on success' do
-      it 'returns a campaign' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
-        Timecop.freeze(2020, 4, 5) do
-          result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
+		context 'when successful' do
+			around do |example|
+				Timecop.freeze(2020, 4, 5) do
+					example.run
+				end
+			end
 
-          expect(result).to be_kind_of Campaign
-        end
-      end
+			it 'returns a campaign' do
+				campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id,
+																								goal_amount_dollars: '1000' }
 
-      it 'returns created peer-to-peer campaign' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
-        Timecop.freeze(2020, 4, 5) do
-          result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
+				result = described_class.create(campaign_params, profile.id)
 
-          expect(result).to be_kind_of Campaign
-          expect(result.errors.empty?).to be true
-          expect(result.parent_campaign_id).to eq parent_campaign.id
-          expect(result.created_at).to eq 'Sun, 05 Apr 2020 00:00:00 UTC +00:00'
-        end
-      end
+				expect(result).to be_kind_of Campaign
+			end
 
-      it 'assigns proper slug' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
-        Timecop.freeze(2020, 4, 5) do
-          result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
+			describe 'returns created peer-to-peer campaign' do
+				subject { described_class.create(campaign_params, profile.id) }
 
-          expect(result.errors.empty?).to be true
-          expect(result.slug).to eq 'child-campaign_000'
-        end
-      end
+				let(:campaign_params) do
+					{ name: 'Child campaign', parent_campaign_id: parent_campaign.id,
+							goal_amount_dollars: '1000' }
+				end
 
-      it 'saves campaign' do
-        campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id, goal_amount_dollars: '1000' }
-        Timecop.freeze(2020, 4, 5) do
-          expect { CreatePeerToPeerCampaign.create(campaign_params, profile.id) }.to change(Campaign, :count).by 1
-        end
-      end
-    end
+				it { is_expected.to be_kind_of(Campaign) }
 
-    context 'on failure' do
-      it "returns an error if parent campaign can't be found" do
-        campaign_params = {}
-        Timecop.freeze(2020, 4, 5) do
-          result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
+				it {
+					is_expected.to have_attributes(
+						errors: be_empty,
+						parent_campaign: parent_campaign,
+						created_at: Time.current
+					)
+				}
+			end
 
-          expect(result).to be_kind_of Hash
-          expect(result['errors']['parent_campaign_id']).to eq 'not found'
-        end
-      end
+			describe 'assigns proper slug' do
+				subject { described_class.create(campaign_params, profile.id) }
 
-      it 'returns a list of error messages for attribute validation' do
-        campaign_params = { parent_campaign_id: parent_campaign.id }
-        Timecop.freeze(2020, 4, 5) do
-          result = CreatePeerToPeerCampaign.create(campaign_params, profile.id)
+				let(:campaign_params) do
+					{ name: 'Child campaign', parent_campaign_id: parent_campaign.id,
+							goal_amount_dollars: '1000' }
+				end
 
-          expect(result).to be_kind_of Campaign
-          expect(result.errors.empty?).to be false
-          expect(result.errors['goal_amount']).to match ["can't be blank", 'is not a number']
-        end
-      end
+				it {
+					is_expected.to have_attributes(
+						errors: be_empty,
+						slug: 'child-campaign_000'
+					)
+				}
+			end
 
-      it "doesn't save campaign" do
-        campaign_params = {}
-        Timecop.freeze(2020, 4, 5) do
-          expect { CreatePeerToPeerCampaign.create(campaign_params, profile.id) }.not_to change(Campaign, :count)
-        end
-      end
-    end
-  end
+			it 'saves campaign' do
+				campaign_params = { name: 'Child campaign', parent_campaign_id: parent_campaign.id,
+																								goal_amount_dollars: '1000' }
+				expect { described_class.create(campaign_params, profile.id) }.to change(Campaign, :count).by 1
+			end
+		end
+
+		context 'when on failure' do
+			it "returns an error if parent campaign can't be found" do
+				campaign_params = {}
+				expect do
+					described_class.create(campaign_params, profile.id)
+				end.to raise_error(ActiveRecord::RecordNotFound)
+			end
+
+			it 'returns a list of error messages for attribute validation' do # rubocop:disable RSpec/MultipleExpectations
+				campaign_params = { parent_campaign_id: parent_campaign.id }
+				expect { described_class.create(campaign_params, profile.id) }.to(
+					raise_error do |error|
+						expect(error).to be_an_instance_of(ActiveRecord::RecordInvalid)
+						expect(error.record).to be_kind_of Campaign
+						expect(error.record.errors.empty?).to be false
+						expect(error.record.errors['goal_amount']).to match [
+							"can't be blank", 'is not a number'
+						]
+					end
+				)
+			end
+
+			RSpec::Matchers.define_negated_matcher :not_change, :change
+
+			it "doesn't save campaign" do
+				campaign_params = {}
+				Timecop.freeze(2020, 4, 5) do
+					expect do
+						described_class.create(
+							campaign_params,
+							profile.id
+						)
+					end.to raise_error(ActiveRecord::RecordNotFound).and not_change(Campaign, :count)
+				end
+			end
+		end
+	end
 end

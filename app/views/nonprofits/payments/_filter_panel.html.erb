@@ -39,9 +39,17 @@
     <%= render 'components/tables/filtering/filter_input', scope: 'payments', name: 'check_number' %>
 
     <hr>
+
+    <section class='filterPanel-section'>
+      <label>Anonymous?</label>
+      <%= render 'components/tables/filtering/filter_anonymous', subject: 'Donations' %>
+    </section>
+
     <section class='filterPanel-section'>
       <%= render 'components/tables/filtering/filter_donation_type', subject: 'Donations' %>
     </section>
+
+    <hr>
 
 	</div>
 </form>

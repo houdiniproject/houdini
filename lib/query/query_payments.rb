@@ -232,6 +232,18 @@ module QueryPayments
 
     end
 
+    if query[:anonymous].present?
+      expr = if(query[:anonymous] == 'true')
+        expr.where(
+          '(supporters.anonymous OR donations.anonymous)'
+        )
+      else
+        expr.where(
+          '(NOT supporters.anonymous AND NOT donations.anonymous)'
+        )
+      end
+    end
+
     #we have the first part of the search. We need to create the second in certain situations
     filtered_payment_id_search = expr.parse
 

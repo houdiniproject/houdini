@@ -476,6 +476,179 @@ describe QueryPayments do
           
         end
       end
+
+      context 'when filtering by anonymous or not anonymous donations' do
+        context 'when supporter and donation are not anonymous' do
+          context 'when not filtering' do
+            it 'finds all results' do
+              donation_result_yesterday
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: '' })
+              expect(result[:data].count).to eq 3
+            end
+          end
+
+          context 'when filtering by anonymous' do
+            it 'does not find results' do
+              donation_result_yesterday
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'true' })
+              expect(result[:data].count).to eq 0
+            end
+          end
+
+          context 'when filtering by not-anonymous' do
+            it 'finds all results' do
+              donation_result_yesterday
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'false' })
+              expect(result[:data].count).to eq 3
+            end
+          end
+        end
+
+        context 'when supporter is anonymous but donation is not' do
+          before do
+            supporter.anonymous = true
+            supporter.save!
+          end
+
+          context 'when not filtering' do
+            it 'finds all results' do
+              donation_result_yesterday
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: '' })
+              expect(result[:data].count).to eq 3
+            end
+          end
+
+          context 'when filtering by anonymous' do
+            it 'finds all results' do
+              donation_result_yesterday
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'true' })
+              expect(result[:data].count).to eq 3
+            end
+          end
+
+          context 'when filtering by not-anonymous' do
+            it 'does not find results' do
+              donation_result_yesterday
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'false' })
+              expect(result[:data].count).to eq 0
+            end
+          end
+        end
+
+        context 'when supporter is not anonymous but donation is' do
+          let(:input) {{
+            amount: 100,
+            nonprofit_id: nonprofit.id,
+            supporter_id: supporter.id,
+            token: source_tokens[4].token,
+            date: (Time.now - 1.day).to_s,
+            comment: 'donation comment',
+            designation: 'designation',
+            anonymous: true
+          }}
+
+          before do
+            InsertDonation.with_stripe(input)
+          end
+
+          context 'when not filtering' do
+            it 'finds all results' do
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: '' })
+              expect(result[:data].count).to eq 3
+            end
+          end
+
+          context 'when filtering by anonymous' do
+            it 'finds all results' do
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'true' })
+              expect(result[:data].count).to eq 1
+            end
+          end
+
+          context 'when filtering by not-anonymous' do
+            it 'does not find results' do
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'false' })
+              expect(result[:data].count).to eq 2
+            end
+          end
+        end
+
+        context 'when supporter and donation are anonymous' do
+          let(:input) {{
+            amount: 100,
+            nonprofit_id: nonprofit.id,
+            supporter_id: supporter.id,
+            token: source_tokens[4].token,
+            date: (Time.now - 1.day).to_s,
+            comment: 'donation comment',
+            designation: 'designation',
+            anonymous: true
+          }}
+
+          before do
+            supporter.anonymous = true
+            supporter.save!
+            InsertDonation.with_stripe(input)
+          end
+
+          context 'when not filtering' do
+            it 'finds all results' do
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: '' })
+              expect(result[:data].count).to eq 3
+            end
+          end
+
+          context 'when filtering by anonymous' do
+            it 'finds all results' do
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'true' })
+              expect(result[:data].count).to eq 3
+            end
+          end
+
+          context 'when filtering by not-anonymous' do
+            it 'does not find results' do
+              donation_result_today
+              donation_result_tomorrow
+
+              result = QueryPayments::full_search(nonprofit.id, { anonymous: 'false' })
+              expect(result[:data].count).to eq 0
+            end
+          end
+        end
+      end
     end
 
     describe 'event donations' do

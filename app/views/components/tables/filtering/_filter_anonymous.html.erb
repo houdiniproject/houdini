@@ -1,0 +1,22 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<!-- partial: components/filter_anonymous -->
+<form>
+	<fieldset>
+		<input type='radio' name='anonymous' id='radio-anonymous' value='true'>
+    <!--= on 'change' apply_radio_filter -->
+		<label for='radio-anonymous'>Yes</label>
+	</fieldset>
+		
+	<fieldset>
+		<input type='radio' name='anonymous' id='radio-not-anonymous' value='false'>
+    <!--= on 'change' apply_radio_filter -->
+    <label for='radio-not-anonymous'>No</label>
+	</fieldset>
+
+	<fieldset>
+		<input class='radio--both' type='radio' name='anonymous' id='radio-either' checked='checked' value=''>
+			<!--= on 'change' apply_radio_filter -->
+		<label for='radio-either'>Either</label>
+	</fieldset> 
+</form>
+<!-- partial end: components/filter_anonymous -->

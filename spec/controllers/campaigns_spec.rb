@@ -22,7 +22,7 @@ describe CampaignsController, type: :controller do
       end
 
       describe 'update' do
-        include_context :open_to_campaign_editor, :put, :update, nonprofit_id: :__our_np, id: :__our_campaign
+        include_context :open_to_campaign_editor, :put, :update, nonprofit_id: :__our_np, id: :__our_campaign, with_status: 200
       end
 
       describe 'soft_delete' do

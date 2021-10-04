@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <% fundraiser_url = Format::Url.concat(root_url, @fundraiser.url) %>
 
 <p>Congratulations! <%= @profile.user.email %> has created <%= Format::Indefinitize.with_article(@kind) %> for your nonprofit. You can visit and edit the <%= @kind.downcase %> here: <strong><a href='<%= fundraiser_url %>'><%= fundraiser_url %></a></strong></p><br>

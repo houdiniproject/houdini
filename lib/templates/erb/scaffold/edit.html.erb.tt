@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <h1>Editing <%= singular_table_name.titleize %></h1>
 
 <%%= render 'form', <%= singular_table_name %>: @<%= singular_table_name %> %>

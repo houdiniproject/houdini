@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 # Provide a declarative json validation and error responses for the rails 'render' method in controllers
 #
 # The return value of the block you pass into #when_valid should look like {status: code, json: data}

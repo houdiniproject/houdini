@@ -953,7 +953,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop-ast; version 1.11.0 -- 
+** rubocop-ast; version 1.12.0 -- 
 
 Copyright (c) 2012-20 Bozhidar Batsov
 
@@ -1804,7 +1804,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.21.0 -- 
+** rubocop; version 1.22.1 -- 
 Copyright (c) 2015 Yahoo! Inc.
 Copyright (c) 2015 Mikko Kokkonen
 ** rubocop-rails; version 2.12.2 -- 
@@ -1895,7 +1895,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** httparty; version 0.19.0 -- 
+** httparty; version 0.20.0 -- 
 Copyright (c) 2007, Yahoo! Inc.
 Copyright (c) 2008 John Nunemaker
 

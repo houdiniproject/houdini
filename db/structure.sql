@@ -2552,7 +2552,7 @@ CREATE TABLE public.supporters (
     address character varying(255),
     city character varying(255),
     state_code character varying(255),
-    anonymous boolean DEFAULT false,
+    anonymous boolean DEFAULT false NOT NULL,
     zip_code character varying(255),
     latitude double precision,
     longitude double precision,
@@ -5728,4 +5728,6 @@ INSERT INTO schema_migrations (version) VALUES ('20210917204956');
 INSERT INTO schema_migrations (version) VALUES ('20210930192755');
 
 INSERT INTO schema_migrations (version) VALUES ('20210930194624');
+
+INSERT INTO schema_migrations (version) VALUES ('20211004124725');
 

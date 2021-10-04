@@ -16,7 +16,7 @@ gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://str
 gem 'webpacker', '~> 5.4.3'
 gem 'good_job'
 
-gem 'httparty', '~> 0.19.0' # https://github.com/jnunemaker/httparty
+gem 'httparty', '~> 0.20.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'

@@ -196,6 +196,7 @@ module InsertRecurringDonation
  def self.insert_recurring_donation(data, entities)
     rd = RecurringDonation.new
     rd.amount = data[:amount]
+    rd.anonymous = data[:anonymous]
     rd.nonprofit = entities[:nonprofit_id]
     rd.donation = entities[:donation_id]
     rd.supporter_id = entities[:supporter_id].id

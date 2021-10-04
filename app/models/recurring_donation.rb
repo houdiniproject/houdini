@@ -1,6 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class RecurringDonation < ActiveRecord::Base
 
+  before_save :set_anonymous
+
   attr_accessible \
     :amount, # int (cents)
     :active, # bool (whether this recurring donation should still be paid)
@@ -15,7 +17,8 @@ class RecurringDonation < ActiveRecord::Base
     :cancelled_at, # datetime of user/supporter who made the cancellation
     :donation_id, :donation,
     :nonprofit_id, :nonprofit,
-    :supporter_id #used because things are messed up in the datamodel
+    :supporter_id, #used because things are messed up in the datamodel
+    :anonymous
 
   scope :active,   -> {where(active: true)}
   scope :inactive, -> {where(active: [false,nil])}
@@ -91,4 +94,9 @@ class RecurringDonation < ActiveRecord::Base
     return self.donation.amount * multiple
   end
 
+  private
+
+  def set_anonymous
+    update_attributes(anonymous: false) if anonymous.nil?
+  end
 end

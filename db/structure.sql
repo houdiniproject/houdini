@@ -2154,7 +2154,7 @@ CREATE TABLE public.recurring_donations (
     time_unit character varying(255),
     start_date date,
     end_date date,
-    anonymous boolean,
+    anonymous boolean DEFAULT false NOT NULL,
     donation_id integer,
     n_failures integer,
     cancelled_by character varying(255),
@@ -5730,4 +5730,8 @@ INSERT INTO schema_migrations (version) VALUES ('20210930192755');
 INSERT INTO schema_migrations (version) VALUES ('20210930194624');
 
 INSERT INTO schema_migrations (version) VALUES ('20211004124725');
+
+INSERT INTO schema_migrations (version) VALUES ('20211004173137');
+
+INSERT INTO schema_migrations (version) VALUES ('20211004173808');
 

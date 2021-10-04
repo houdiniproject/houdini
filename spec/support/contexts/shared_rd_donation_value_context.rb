@@ -45,7 +45,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
             updated_at: Time.now,
             event_id: data[:event] ? event.id : nil,
             campaign_id: data[:campaign] ? campaign.id : nil,
-            anonymous: nil,
+            anonymous: false,
             amount: charge_amount,
             comment: nil,
             category: nil,
@@ -140,7 +140,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
           #removable fields
           card_id: nil,
           campaign_id: nil,
-          anonymous: nil,
+          anonymous: false,
           email: supporter.email,
           profile_id: nil
 

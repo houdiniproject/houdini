@@ -1,6 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Donation < ActiveRecord::Base
 
+	before_save :set_anonymous
+
 	attr_accessible \
 		:date, # datetime (when this donation was made)
 		:amount, # int (in cents)
@@ -48,4 +50,10 @@ class Donation < ActiveRecord::Base
 	belongs_to :event
 
 	scope :anonymous, -> {where(anonymous: true)}
+
+	private
+
+	def set_anonymous
+		update_attributes(anonymous: false) if anonymous.nil?
+	end
 end

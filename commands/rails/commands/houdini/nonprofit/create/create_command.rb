@@ -2,7 +2,7 @@
 
 #
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 #
 # NOTE: if this is moved to bess, it should be in the `houdini/lib/` subdirectory of bess.
 #

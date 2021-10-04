@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 shared_context 'payments for a payout' do
   before(:each) { @expect_marked = { charges: [], disputes: [], refunds: [], payouts_records: [] } }
   let(:all_payments) do

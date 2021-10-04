@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module QuerySourceToken
   EXPIRED_TOKEN_MESSAGE = 'There was an error processing your card and it was not charged. Please try again.'
   AUTH_ERROR_MESSAGE = "You're not authorized to make this charge"

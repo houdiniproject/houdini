@@ -39,9 +39,17 @@ describe('useCurrentUserAuth', () => {
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
 			let result:HookResult<UseCurrentUserAuthReturnType> = null;
-			beforeEach(async () => {
-				const {result:innerResult, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
+			let unmount: () => unknown;
+
+			afterEach(() => {
+				unmount();
+			});
+
+			async function signIn() {
+				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
 				result = innerResult;
+
+				unmount = innerUnmount;
 
 				await act(async() => {
 					try {
@@ -65,44 +73,48 @@ describe('useCurrentUserAuth', () => {
 
 				await wait(() => !result.current.lastSignInAttemptError);
 				await wait(() => !result.current.lastGetCurrentUserError);
-			});
+			}
 
 
 			it('has user', async () => {
 				expect.assertions(1);
+				await signIn();
 				expect(result.current.currentUser).toStrictEqual(DefaultUser);
 			});
 
 			it('is signed in', async () => {
 				expect.assertions(1);
+				await signIn();
 				expect(result.current.signedIn).toBe(true);
 			});
 
-			it('has undefined lastSignInAttemptError', () => {
+			it('has undefined lastSignInAttemptError', async () => {
 				expect.assertions(1);
+				await signIn();
 				expect(result.current.lastSignInAttemptError).toBeUndefined();
 			});
 
-			it('has undefined lastGetCurrentUserError', () => {
+			it('has undefined lastGetCurrentUserError', async () => {
 				expect.assertions(1);
+				await signIn();
 				expect(result.current.lastGetCurrentUserError).toBeUndefined();
 			});
 
-			it('is not failed', () => {
+			it('is not failed', async () => {
 				expect.assertions(1);
-
+				await signIn();
 				expect(result.current.failed).toBe(false);
 			});
 
-			it('is not validating current user', () => {
+			it('is not validating current user', async () => {
 				expect.assertions(1);
-
+				await signIn();
 				expect(result.current.validatingCurrentUser).toBe(false);
 			});
 
-			it('is not submitting', () => {
+			it('is not submitting', async () => {
 				expect.assertions(1);
-
+				await signIn();
 				expect(result.current.submitting).toBe(false);
 			});
 		});

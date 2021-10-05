@@ -409,7 +409,7 @@ module QueryPayments
      "#{get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
      "#{get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
      "#{get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
-     '(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)) AS "Anonymous?"',
+     '(donations.anonymous OR supporters.anonymous) AS "Anonymous?"',
      'donations.comment',
      "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS campaign",
      "campaigns_for_export.id AS \"Campaign Id\"",
@@ -455,7 +455,7 @@ module QueryPayments
           .concat([
             "coalesce(donations.designation, 'None') AS \"Designation\"",
             "donations.dedication AS \"Honorarium/Memorium\"",
-            "(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)) AS \"Anonymous?\"",
+            "(donations.anonymous OR supporters.anonymous) AS \"Anonymous?\"",
             "donations.comment AS \"Comment\"",
             "coalesce(nullif(campaigns.name, ''), 'None') AS \"Campaign\"",
             "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS \"Campaign Gift Level\"",
@@ -523,7 +523,7 @@ module QueryPayments
       .concat([
         "coalesce(donations.designation, 'None') AS \"Designation\"",
         "donations.dedication AS \"Honorarium/Memorium\"",
-        "(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)) AS \"Anonymous?\"",
+        "(donations.anonymous OR supporters.anonymous) AS \"Anonymous?\"",
         "donations.comment AS \"Comment\"",
         "coalesce(nullif(campaigns.name, ''), 'None') AS \"Campaign\"",
         "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS \"Campaign Gift Level\"",

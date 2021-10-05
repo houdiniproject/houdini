@@ -46,8 +46,8 @@ class Payment < ActiveRecord::Base
 		end
 	end
 
-	scope :anonymous, -> {includes(:donation, :supporter).where('coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false)').references(:supporters, :donations)}
-	scope :not_anonymous, -> { includes(:donation, :supporter).where('NOT(coalesce(donations.anonymous, false) OR coalesce(supporters.anonymous, false))').references(:supporters, :donations) }
+	scope :anonymous, -> {includes(:donation, :supporter).where('donations.anonymous OR supporters.anonymous').references(:supporters, :donations)}
+	scope :not_anonymous, -> { includes(:donation, :supporter).where('NOT(donations.anonymous OR supporters.anonymous)').references(:supporters, :donations) }
 
 	def consider_anonymous?
 		!!(supporter&.anonymous || donation&.anonymous)

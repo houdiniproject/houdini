@@ -19,7 +19,7 @@ const tsSpecBase = {
 		"jest/lowercase-name": ["error", { "ignore": ["describe"] }],
 		"react-hooks/exhaustive-deps": 'error',
 		"jest/no-duplicate-hooks": 'error',
-		"jest/prefer-hooks-on-top": 'warning',
+		"jest/prefer-hooks-on-top": 'warn',
 	},
 };
 

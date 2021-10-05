@@ -39,11 +39,9 @@ describe('useCurrentUserAuth', () => {
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
 			let result:HookResult<UseCurrentUserAuthReturnType> = null;
-			let unmount:() => boolean = null;
 			beforeEach(async () => {
-				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
+				const {result:innerResult, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
 				result = innerResult;
-				unmount = innerUnmount;
 
 				await act(async() => {
 					try {
@@ -67,10 +65,6 @@ describe('useCurrentUserAuth', () => {
 
 				await wait(() => !result.current.lastSignInAttemptError);
 				await wait(() => !result.current.lastGetCurrentUserError);
-			});
-
-			afterEach(() => {
-				unmount();
 			});
 
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class Campaign < ApplicationRecord
   include Image::AttachmentExtensions
   include Model::Jbuilder
@@ -139,7 +139,7 @@ class Campaign < ApplicationRecord
   end
 
   def total_raised
-    payments.sum(:gross_amount)
+    self.payments.sum(:gross_amount)
   end
 
   def percentage_funded

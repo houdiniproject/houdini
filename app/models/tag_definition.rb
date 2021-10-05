@@ -40,7 +40,7 @@ class TagDefinition < ApplicationRecord
       save!
     end
   end
-  
+
   def to_builder(*expand)
     init_builder(*expand) do |json|
       json.(self, :name, :deleted)

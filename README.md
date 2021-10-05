@@ -24,7 +24,7 @@ The frontend is written in a few custom frameworks, the largest of which is call
 We endeavor to migrate to React as quickly as possible to increase development
 comfort and speed.
 
-All new backend code and React components well tested.
+All new backend code and React components should be well tested.
 
 ## Prerequisites
 
@@ -53,13 +53,6 @@ Visit the Internationalization channel on Houdini Zulip and discuss
 Check on [contribution_guide_usability_testing.md](docs/contribution_guide_usability_testing.md) and create an issue with your test design or run test sessions for [opened usability testing issues](https://github.com/houdiniproject/houdini/issues?q=is%3Aissue+is%3Aopen+%5BUX%5D+).
 
 ## Dev Setup
-
-#### Tips for specific circumstances
-
-* Docker: Docker was previously used for development of Houdini. 
-See [docker.md](docs/docker.md) for more info.
-* Mac: Mac dev setup may require some unique configuration. 
-See [mac_getting_started.md](docs/mac_getting_started.md) for more info.
 
 ### Installation prep
 

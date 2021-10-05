@@ -144,6 +144,9 @@ module QueryPayments
       campaign_search = campaign_and_child_query_as_raw_string
       inner_donation_search = inner_donation_search.where("donations.campaign_id IN (#{campaign_search})", id: query[:campaign_id])
     end
+
+    # We are including deleted supporters on this query because deleted supporters may have made
+    # payments.
     expr = Qexpr.new.select('payments.id').from('payments')
           .inner_join('supporters', "supporters.id=payments.supporter_id")
           .inner_join('nonprofits', 'nonprofits.id=payments.nonprofit_id')

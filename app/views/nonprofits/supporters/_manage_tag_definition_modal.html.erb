@@ -1,7 +1,7 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <div class='modal' id='manageTagDefinitionModal'>
-	<!--= scope 'tags.masters' -->
+	<!--= scope 'tags.definitions' -->
 
 	<header class='modal-header'>
 		<h4 class='modal-header-title'>
@@ -50,7 +50,7 @@
 					</td>
 					<td>
 						<a class='dangerLink u-fontSize--20'>
-							<!--= on 'click' (confirm (cat 'Are you sure you want to delete tag "' this.name '"?') (tags.masters.delete this.name this.id)) -->
+							<!--= on 'click' (confirm (cat 'Are you sure you want to delete tag "' this.name '"?') (tags.definitions.delete this.name this.id)) -->
 							<i class='fa fa-times'></i>
 						</a>
 					</td>

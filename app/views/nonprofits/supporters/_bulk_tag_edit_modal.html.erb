@@ -1,7 +1,7 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <div class='modal' id='bulkTagEditModal'>
-	<!--= scope 'tags.masters' -->
+	<!--= scope 'tags.definitions' -->
 
 	<header class='modal-header'>
 		<h4 class='modal-header-title'>Add or Remove Tags for <!--= put tags.bulk.action_recipient --></h4>
@@ -11,7 +11,7 @@
 	<div class='modal-body'>
 
 		<form>
-			<!--= show_if (length tags.masters.data) -->
+			<!--= show_if (length tags.definitions.data) -->
 			<!--= on 'submit' tags.bulk.prepare_to_post -->
 			<table class='table--plaid'>
 				<tr>
@@ -49,7 +49,7 @@
 		</form>
 		
 		<p class='noResults'>
-			<!--= show_if (empty tags.masters.data) -->
+			<!--= show_if (empty tags.definitions.data) -->
 			It looks like you haven't created any tags yet. Click the link below to add some tags.
 		</p>
 

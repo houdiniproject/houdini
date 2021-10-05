@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com)
+[![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 ![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
 
 > *Note*: This is the latest version (pre-2.0) of Houdini and
@@ -40,13 +40,13 @@ Houdini is designed and tested to run with the following:
 
 Houdini's success depends on you!
 
-### Join our Zulip chat
+### Join our Discussions chat
 
-https://houdini.zulipchat.com
+https://github.com/houdiniproject/houdini/discussions
 
 ### Help with translations
 
-Visit the Internationalization channel on Houdini Zulip and discuss
+Visit the Discussions tab on Houdini GitHub and discuss
 
 ### Help with usability tests
 

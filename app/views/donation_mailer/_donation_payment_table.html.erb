@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td><strong><%= t('donation.recurring_since') %></strong></td>
-				<td> <%= simple_date donation.recurring_donation.created_at %></td>
+				<td> <%= format_date_to_mdY donation.recurring_donation.created_at %></td>
 			</tr>
 		<% end %>
 

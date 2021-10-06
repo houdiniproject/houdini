@@ -4,7 +4,7 @@
 	<strong><%= @supporter.name || @supporter.email %></strong>
 	redeemed the following tickets for <strong><a href='<%= Format::Url.concat(root_url, @event.url) %>'><%= @event.name %></a></strong>
 	on
-	<%= simple_date @tickets.last.created_at %>.</p><br>
+	<%= format_date_to_mdY @tickets.last.created_at %>.</p><br>
 
 <%= render 'components/email/supporter_table', supporter: @supporter %>
 

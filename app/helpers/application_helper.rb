@@ -28,7 +28,7 @@ module ApplicationHelper
 
   ## Dates
 
-  def simple_date(date_object, timezone = nil)
+  def format_date_to_mdY(date_object, timezone = nil)
     return '' if date_object.nil?
 
     date_object = date_object.in_time_zone(timezone) if timezone

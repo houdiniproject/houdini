@@ -7,7 +7,7 @@
 
 <% if @donation.recurring_donation %>
   <p>
-    <%= t('mailer.donations.donor_receipt.recurring_donation_html', nonprofit_name: @nonprofit.name, start_date: simple_date(@donation.recurring_donation.created_at)) %>
+    <%= t('mailer.donations.donor_receipt.recurring_donation_html', nonprofit_name: @nonprofit.name, start_date: format_date_to_mdY(@donation.recurring_donation.created_at)) %>
   </p>
   <br>
 <%else%>

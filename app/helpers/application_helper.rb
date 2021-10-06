@@ -46,7 +46,7 @@ module ApplicationHelper
     date_object.strftime('%B %d, %Y')
   end
 
-  def date_and_time(date_object, timezone = nil)
+  def format_date_to_datetime_timezone(date_object, timezone = nil)
     date_object = date_object.in_time_zone(timezone) if timezone
     date_object.strftime('%m/%d/%Y %I:%M%P (%Z)')
   end

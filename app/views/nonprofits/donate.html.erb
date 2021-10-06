@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <% content_for(:dont_track_ga) {'true'} %>
 <% content_for(:hide_nav_beacon) {'true'} %>
 
@@ -34,7 +34,7 @@
 <%= content_for :facebook_tags do %>
 	<meta property='og:title' content='I support <%= @nonprofit.name %>!'>
 	<meta property='og:description' content='<%= @nonprofit.summary %>'>
-	<meta property='og:image' content='<%= @nonprofit.main_image.attached? ? rails_storage_proxy_url(@nonprofit.main_image_by_size(:nonprofit_carousel) : "" %>'>
+	<meta property='og:image' content='<%= @nonprofit.main_image.attached? ? rails_storage_proxy_url(@nonprofit.main_image_by_size(:nonprofit_carousel)) : "" %>'>
 <% end %>
 
 <%= content_for :twitter_tags do %>

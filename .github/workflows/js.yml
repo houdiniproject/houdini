@@ -1,16 +1,32 @@
 # License: LGPL-3.0-or-later
 name: Javascript build and test
 env: 
-  ruby: '2.7.3'
+  ruby: '2.7.4'
 on: 
-  push:
-    paths-ignore:
-      - "**.md"
   pull_request:
     paths-ignore:
       - "**.md"
+    types: [opened, reopened, synchronize]
 jobs:
+  package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.6.0]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.ruby }}
+          bundler-cache: true
   lint:
+    needs: package-download
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -24,39 +40,20 @@ jobs:
           postgres_image_tag: 11-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-${{ matrix.node }}-
-            ${{ matrix.os }}-yarn-
+          cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}
-      - uses: actions/cache@v2
-        name: Use Gem cache
-        with:
-          path: vendor/bundle
-          key: bundle-use-ruby-${{ matrix.os }}-${{ env.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            bundle-use-ruby-${{ matrix.os }}-${{ env.ruby }}-
-      - run: |
-          bundle config deployment true
-          bundle config path vendor/bundle
-          bundle install --jobs 4
+          bundler-cache: true
       - run: bin/setup ci
       - name: run eslint
         run: yarn eslint
   jest:
+    needs: package-download
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -70,39 +67,20 @@ jobs:
           postgres_image_tag: 11-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-${{ matrix.node }}-
-            ${{ matrix.os }}-yarn-
+          cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}
-      - uses: actions/cache@v2
-        name: Use Gem cache
-        with:
-          path: vendor/bundle
-          key: bundle-use-ruby-${{ matrix.os }}-${{ env.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            bundle-use-ruby-${{ matrix.os }}-${{ env.ruby }}-
-      - run: |
-          bundle config deployment true
-          bundle config path vendor/bundle
-          bundle install --jobs 4
+          bundler-cache: true
       - run: bin/setup ci
       - name: run jest
         run: yarn jest
   webpack:
+    needs: package-download
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -116,35 +94,15 @@ jobs:
           postgres_image_tag: 11-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-${{ matrix.node }}-
-            ${{ matrix.os }}-yarn-
+          cache: 'yarn'
       - run: yarn install --frozen-lockfile
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}
-      - uses: actions/cache@v2
-        name: Use Gem cache
-        with:
-          path: vendor/bundle
-          key: bundle-use-ruby-${{ matrix.os }}-${{ env.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            bundle-use-ruby-${{ matrix.os }}-${{ env.ruby }}-
-      - run: |
-          bundle config deployment true
-          bundle config path vendor/bundle
-          bundle install --jobs 4
+          bundler-cache: true
       - name: run setup
         run: bin/setup ci
       - name: Webpack compile everything

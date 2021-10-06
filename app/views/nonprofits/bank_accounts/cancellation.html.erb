@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <div class='container'>
 
 	<h2>Cancel bank account change</h2>
@@ -18,5 +18,5 @@
 		<p>The bank account for this nonprofit was never initially confirmed.</p>
 	<% end %>
 
-	<p>If you think this was in error, please contact <%= mail_to '<%= Houdini.hoster.support_email %>' %>
+	<p>If you think this was in error, please contact <%= mail_to Houdini.hoster.support_email %></p>
 </div>

@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
 RSpec.describe Supporter, type: :model do
 	include_context :shared_donation_charge_context
-	let(:name) {"CUSTOM SSUPPORTER"}
+	let(:supporter_name) {"CUSTOM SSUPPORTER"}
 	let(:merged_into_supporter_name) {"I've been merged into!"}
 	let(:address) { "address for supporter"}
-	let(:supporter) { nonprofit.supporters.create(name: name, address: address)}
-	let(:merged_supporter) {nonprofit.supporters.create(name: name, address: address, merged_into: merged_into_supporter, deleted: true) }
+	let(:supporter) { nonprofit.supporters.create(name: supporter_name, address: address)}
+	let(:merged_supporter) {nonprofit.supporters.create(name: supporter_name, address: address, merged_into: merged_into_supporter, deleted: true) }
 	let(:merged_into_supporter) {nonprofit.supporters.create(name: merged_into_supporter_name, address: address) }
 
 	describe 'supporter' do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module UpdatePayouts
   def self.reverse_with_stripe(payout_id, status, failure_message)
     ParamValidation.new({ payout_id: payout_id, status: status, failure_message: failure_message },

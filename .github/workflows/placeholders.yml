@@ -42,6 +42,15 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.6.0]
-        ruby: [2.7.3]
+        ruby: [2.7.4]
     steps:
       - run: 'echo "Placeholder for main_build"'
+  rubocop:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.6.0]
+        ruby: [2.7.4]
+    steps:
+      - run: 'echo "Placeholder for rubocop"'

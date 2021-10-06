@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe CustomFieldMaster, type: :model do
+RSpec.describe CustomFieldDefinition, type: :model do
   include_context :shared_donation_charge_context
   let(:name) { "CustomFieldDefinition1"}
 
-  let(:custom_field_definition) { nonprofit.custom_field_masters.create(name: name) }
+  let(:custom_field_definition) { nonprofit.custom_field_definitions.create(name: name) }
   let(:np_builder_expanded) { {
     'id' => nonprofit.id,
     'name' => nonprofit.name,

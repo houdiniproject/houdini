@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
@@ -12,7 +12,7 @@ describe EventsController, type: :controller do
       include_context :open_to_event_editor, :post, :create, nonprofit_id: :__our_np, id: :__our_event
     end
     describe 'update' do
-      include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, id: :__our_event
+      include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, id: :__our_event, with_status: 200
     end
     describe 'duplicate' do
       include_context :open_to_event_editor, :post, :duplicate, nonprofit_id: :__our_np, id: :__our_event

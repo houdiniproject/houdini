@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <%= content_for(:title_prefix) { "#{@campaign.name} - #{@campaign.nonprofit.name} | ".html_safe } %>
 <% content_for(:fixed_position_cta_hidden) {'hidden'} %>
 <%= content_for(:meta_description) {@campaign.summary} %>
@@ -8,7 +8,7 @@
 <%= content_for :javascripts do %>
 	<script>
 		app.campaign_id = <%= @campaign.id %>
-    app.campaign = <%= raw(@campaign.to_json) %>
+    app.campaign = <%= raw(render partial: 'campaigns/campaign', locals: { campaign: @campaign}, formats: :json) %>
 		app.header_image_url = '<%= @campaign_background_image %>'
     app.campaign_end_datetime = '<%= @campaign.end_datetime %>'
 		app.timezone = '<%= @timezone %>'
@@ -19,14 +19,16 @@
     app.vimeo_id = "<%= @campaign.vimeo_video_id ? @campaign.vimeo_video_id : '' %>"
     app.current_campaign_editor = <%= current_campaign_editor? %>
     app.is_parent_campaign = <%= @campaign.parent_campaign? %>
-		appl.def('has_video', <%= @campaign.video_url.present? %>)
-    appl.def('campaign_is_deleted', <%= @campaign.deleted || false %>)
-    appl.def('has_main_image', <%= @campaign.main_image.attached? %>)
+    
   </script>
 
   <%= render 'schema', campaign: @campaign, url: @url %>
   <%= render 'common/froala' if current_campaign_editor? %>
-<%= javascript_pack_tag 'i18n', 'page__campaigns' %>
+<%= javascript_pack_tag 'i18n', 'page__campaigns__show' %>
+<script>
+  appl.def('campaign_is_deleted', <%= @campaign.deleted || false %>)
+    appl.def('has_main_image', <%= @campaign.main_image.attached? %>)
+</script>
 <% end %>
 
 <%= content_for :stylesheets do %>
@@ -145,7 +147,7 @@
 		input_name: 'campaign[background_image]' %>
   <%= render 'components/upload_banner_image',
     end_point: "/nonprofits/#{@nonprofit.id}/campaigns/#{@campaign.id}",
-		image_url: @campaign.banner_image_url,
+		image_url: @campaign.banner_image.url,
 		input_name: 'campaign[banner_image]' %>
   <%= render 'components/custom_receipt_modal',
     title: 'Campaign Receipt Message',

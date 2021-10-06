@@ -32,14 +32,14 @@ describe MergeSupporters do
     let(:tag_on_2) { force_create(:tag_join, tag_master: tag_master2, supporter_id: old_supporter2.id) }
     let(:tag_on_both) { [old_supporter1, old_supporter2].each { |i| force_create(:tag_join, tag_master: tag_master3, supporter_id: i.id) } }
 
-    let(:custom_field_master) { force_create(:custom_field_master, nonprofit: np, name: 'cfm1') }
-    let(:custom_field_master2) { force_create(:custom_field_master, nonprofit: np, name: 'cfm2') }
-    let(:custom_field_master3) { force_create(:custom_field_master, nonprofit: np, name: 'cfm3') }
+    let(:custom_field_definition) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm1') }
+    let(:custom_field_definition2) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm2') }
+    let(:custom_field_definition3) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm3') }
 
-    let(:cfj_on_1) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_master: custom_field_master, value: 'cfj_on_1') }
-    let(:cfj_on_2) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_master: custom_field_master2, value: 'cfj_on_2') }
-    let(:cfj_on_3) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_master: custom_field_master3, value: 'old_cfj') }
-    let(:cfj_on_4) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_master: custom_field_master3, value: 'new_cfj', created_at: Time.now + 1.day) }
+    let(:cfj_on_1) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_definition: custom_field_definition, value: 'cfj_on_1') }
+    let(:cfj_on_2) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_definition: custom_field_definition2, value: 'cfj_on_2') }
+    let(:cfj_on_3) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_definition: custom_field_definition3, value: 'old_cfj') }
+    let(:cfj_on_4) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_definition: custom_field_definition3, value: 'new_cfj', created_at: Time.now + 1.day) }
 
     let(:profile) { force_create(:profile) }
 
@@ -70,11 +70,11 @@ describe MergeSupporters do
       expect(old_supporter1.custom_field_joins.count).to eq 0
       expect(old_supporter2.custom_field_joins.count).to eq 0
       expect(new_supporter.custom_field_joins.count).to eq 3
-      expect(new_supporter.custom_field_joins.map(&:custom_field_master)).to contain_exactly(custom_field_master, custom_field_master2, custom_field_master3)
+      expect(new_supporter.custom_field_joins.map(&:custom_field_definition)).to contain_exactly(custom_field_definition, custom_field_definition2, custom_field_definition3)
 
-      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_master == custom_field_master }.value).to eq cfj_on_1.value
-      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_master == custom_field_master2 }.value).to eq cfj_on_2.value
-      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_master == custom_field_master3 }.value).to eq cfj_on_4.value
+      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_definition == custom_field_definition }.value).to eq cfj_on_1.value
+      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_definition == custom_field_definition2 }.value).to eq cfj_on_2.value
+      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_definition == custom_field_definition3 }.value).to eq cfj_on_4.value
 
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
     end
@@ -94,10 +94,10 @@ describe MergeSupporters do
       expect(old_supporter1.custom_field_joins.count).to eq 0
       expect(old_supporter2.custom_field_joins.count).to eq 0
       expect(new_supporter.custom_field_joins.count).to eq 2
-      expect(new_supporter.custom_field_joins.map(&:custom_field_master)).to contain_exactly(custom_field_master, custom_field_master3)
+      expect(new_supporter.custom_field_joins.map(&:custom_field_definition)).to contain_exactly(custom_field_definition, custom_field_definition3)
 
-      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_master == custom_field_master }.value).to eq cfj_on_1.value
-      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_master == custom_field_master3 }.value).to eq cfj_on_3.value
+      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_definition == custom_field_definition }.value).to eq cfj_on_1.value
+      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_definition == custom_field_definition3 }.value).to eq cfj_on_3.value
 
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
     end
@@ -117,10 +117,10 @@ describe MergeSupporters do
       expect(old_supporter1.custom_field_joins.count).to eq 0
       expect(old_supporter2.custom_field_joins.count).to eq 0
       expect(new_supporter.custom_field_joins.count).to eq 2
-      expect(new_supporter.custom_field_joins.map(&:custom_field_master)).to contain_exactly(custom_field_master2, custom_field_master3)
+      expect(new_supporter.custom_field_joins.map(&:custom_field_definition)).to contain_exactly(custom_field_definition2, custom_field_definition3)
 
-      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_master == custom_field_master2 }.value).to eq cfj_on_2.value
-      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_master == custom_field_master3 }.value).to eq cfj_on_4.value
+      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_definition == custom_field_definition2 }.value).to eq cfj_on_2.value
+      expect(new_supporter.custom_field_joins.find { |i| i.custom_field_definition == custom_field_definition3 }.value).to eq cfj_on_4.value
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
     end
 

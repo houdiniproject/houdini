@@ -16,7 +16,7 @@ table.addEventListener('click', ev=> {
   }
 })
 
-const pathPrefix = `/nonprofits/${app.nonprofit_id}/events/${appl.event_id}/tickets/`
+const pathPrefix = `/nonprofits/${app.nonprofit_id}/events/${app.event_id}/tickets/`
 
 const response = flyd.flatMap(
   ticketID => flyd.map(R.prop('body'), request({method: 'delete', path: pathPrefix + ticketID})).load

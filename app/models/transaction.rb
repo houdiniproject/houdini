@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class Transaction < ApplicationRecord
 	include Model::CreatedTimeable
 	
@@ -18,6 +18,10 @@ class Transaction < ApplicationRecord
 	has_many :subtransaction_payments, through: :subtransaction
 
 	validates :supporter, presence: true
+
+	def amount_as_money
+    Amount.new(amount||0, nonprofit.currency)
+  end
 
 	concerning :JBuilder do
 		include Model::Houidable
@@ -77,5 +81,7 @@ class Transaction < ApplicationRecord
 		write_attribute(:created, Time.now) unless read_attribute(:created)
 	end
 end
+
+Amount = Struct.new(:cents, :currency)
 
 ActiveSupport.run_load_hooks(:houdini_transaction, Transaction)

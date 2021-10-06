@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <%= content_for(:title) {"#{@event.name} - #{@event.nonprofit.name}".html_safe} %>
 <%= content_for(:meta_description) {@event.summary} %>
 <%= content_for(:stylesheets) {stylesheet_link_tag 'events/stats/page'} %>
@@ -25,6 +25,10 @@
     app.event_background_image = '<%= @event_background_image %>'
   </script>
   <%= javascript_pack_tag 'i18n', 'page__events__stats' %>
+  <script>
+		appl.def('event_id', <%= @event.id %>)
+		appl.def('event_is_deleted', <%= @event.deleted || false %>)
+	</script>
 <% end %>
 
 <%= content_for :head do %>

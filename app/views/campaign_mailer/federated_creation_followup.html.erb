@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <% campaign_url = Format::Url.concat(root_url, @campaign.url) %>
 
 <p><%= t('campaign_mailer.dear_creator', creator_name: @creator_profile.name.blank? ? @creator_profile.user.email : @creator_profile.name)%></p>
@@ -30,7 +30,7 @@ link_to_campaign: content_tag(:strong,
       {
         app_id: ENV['FACEBOOK_APP_ID'],
         display: 'popup',
-        caption: @campaign.name
+        caption: @campaign.name,
         link: campaign_locateable_url(@campaign)
       }.to_query
     }") %></li>

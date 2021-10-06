@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module InsertDuplicate
   def self.campaign(campaign_id, profile_id)
     ParamValidation.new({ campaign_id: campaign_id, profile_id: profile_id },

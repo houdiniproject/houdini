@@ -44,15 +44,15 @@
 			</tr>
 			<tr>
 				<td>Created On:</td>
-				<td><!--= put (readable_date (this.created_at)) --></td>
+				<td><!--= put (format_date_with_month_name (this.created_at)) --></td>
 			</tr>
 			<tr>
 				<td>Start Date:</td>
-				<td><!--= put (readable_date this.start_date) --></td>
+				<td><!--= put (format_date_with_month_name this.start_date) --></td>
 			</tr>
 			<tr>
 				<td>End Date:</td>
-				<td><!--= put (any (readable_date this.end_date) 'None') --></td>
+				<td><!--= put (any (format_date_with_month_name this.end_date) 'None') --></td>
 			</tr>
 			<tr>
 				<td>Designation:</td>

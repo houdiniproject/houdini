@@ -5,7 +5,7 @@
   <form>
     <!--= on 'submit' (ajax_supporter_notes.update form_object) -->
     <section class='modal-body'>
-      <p><small><!--= put (readable_date current_note.date) --></small></p>
+      <p><small><!--= put (format_date_with_month_name current_note.date) --></small></p>
       <textarea name='content' rows='10'></textarea>
       <!--= set_attr_if (not current_note.is_editing) 'readonly' '' -->
       <!--= set_value current_note.content -->

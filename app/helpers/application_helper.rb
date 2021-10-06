@@ -42,7 +42,7 @@ module ApplicationHelper
     time_object.strftime('%l:%M%P')
   end
 
-  def readable_date(date_object)
+  def format_date_with_month_name(date_object)
     date_object.strftime('%B %d, %Y')
   end
 

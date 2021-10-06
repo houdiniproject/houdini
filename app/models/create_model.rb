@@ -39,23 +39,6 @@ class CreateModel < Base
                 end
             end
         end
-        # rescue ActiveRecord::RecordInvalid => e
-        #     class_to_name = { Nonprofit => 'nonprofit', User => 'user' }
-        #     if class_to_name[e.record.class]
-        #     errors = e.record.errors.keys.map do |k|
-        #         errors = e.record.errors[k].uniq
-        #         errors.map do |error|
-        #         Grape::Exceptions::Validation.new(
-        #             params: ["#{class_to_name[e.record.class]}[#{k}]"],
-        #      value       message: error
-        #         )
-        #         end
-        #     end
-        #         raise Grape::Exceptions::ValidationErrors.new(errors: errors.flatten)
-        #     else
-        #         raise e
-        #     end
-        # end
     end
 
     def save!

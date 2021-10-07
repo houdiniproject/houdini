@@ -6,7 +6,13 @@ require 'rails_helper'
 
 RSpec.describe '/api/supporter_addresses/index.json.jbuilder', type: :view do
 	subject(:json) do
-		assign(:supporter_addresses, supporter_with_fv_poverty.nonprofit.supporters.where('id = ?', supporter_with_fv_poverty.id).order('id DESC').page)
+		assign(
+			:supporter_addresses,
+			supporter_with_fv_poverty
+				.nonprofit
+				.supporters
+				.where(id: supporter_with_fv_poverty.id).order('id DESC').page
+		)
 		render
 		JSON.parse(rendered)
 	end

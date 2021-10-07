@@ -70,6 +70,7 @@ group :development, :ci, :test do
   gem 'rubocop-rake', '~> 0.6.0'
   gem 'rubocop-rspec', '~> 2.6'
   gem 'shoulda-matchers', '~> 5.0.0'
+  gem 'turbo_test'
 end
 
 group :ci, :test do

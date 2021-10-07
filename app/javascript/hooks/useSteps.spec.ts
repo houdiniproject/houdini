@@ -1,11 +1,8 @@
-/* eslint-disable jest/no-hooks */
 // License: LGPL-3.0-or-later
 import { renderHook, act } from '@testing-library/react-hooks';
 import useSteps, { KeyedStep, KeyedStepMap } from './useSteps';
 import fromPairs from 'lodash/fromPairs';
 
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const stepActions = { addStep: () => { }, removeStep: () => { } };
 
 describe('.next', () => {

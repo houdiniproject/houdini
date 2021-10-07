@@ -33,11 +33,11 @@ RSpec.describe Api::TagDefinitionsController, type: :request do
 				end
 
 				it {
-					expect(json.count).to eq 1
+					expect(json['data'].count).to eq 1
 				}
 
 				describe 'and a first item' do
-					subject(:first) { json[0] }
+					subject(:first) { json['data'][0] }
 
 					it {
 						is_expected.to include('object' => 'tag_definition')
@@ -64,6 +64,77 @@ RSpec.describe Api::TagDefinitionsController, type: :request do
 							a_string_matching(
 								%r{http://www\.example\.com/api/nonprofits/#{nonprofit.id}/tag_definitions/#{tag_definition.id}}
 							))
+					}
+				end
+			end
+
+			context 'when paging' do
+				before do
+					tag_definition
+					(0..5).each do |i|
+						create(:tag_definition_with_nonprofit,
+													nonprofit: nonprofit,
+													name: i)
+					end
+					sign_in user
+				end
+
+				context 'when on page 0' do
+					subject(:json) do
+						JSON.parse(response.body)
+					end
+
+					before do
+						get "/api/nonprofits/#{nonprofit.id}/tag_definitions", params: { page: 0, per: 5 }
+					end
+
+					it { is_expected.to include('data' => have_attributes(count: 5)) }
+					it { is_expected.to include('first_page' => true) }
+					it { is_expected.to include('last_page' =>  false) }
+					it { is_expected.to include('current_page' => 1) }
+					it { is_expected.to include('requested_size' => 5) }
+					it { is_expected.to include('total_count' => 7) }
+				end
+
+				context 'when on page 1' do
+					subject(:json) do
+						JSON.parse(response.body)
+					end
+
+					before do
+						get "/api/nonprofits/#{nonprofit.id}/tag_definitions", params: { page: 1, per: 5 }
+					end
+
+					it { is_expected.to include('data' => have_attributes(count: 5)) }
+					it { is_expected.to include('first_page' => true) }
+					it { is_expected.to include('last_page' =>  false) }
+					it { is_expected.to include('current_page' => 1) }
+					it { is_expected.to include('requested_size' => 5) }
+					it { is_expected.to include('total_count' => 7) }
+
+					it {
+						expect(json['data'].map { |i| i['id'] }).to eq TagMaster.order('id DESC').limit(5).pluck(:id)
+					}
+				end
+
+				context 'when on page 2' do
+					subject(:json) do
+						JSON.parse(response.body)
+					end
+
+					before do
+						get "/api/nonprofits/#{nonprofit.id}/tag_definitions", params: { page: 2, per: 5 }
+					end
+
+					it { is_expected.to include('data' => have_attributes(count: 2)) }
+					it { is_expected.to include('first_page' => false) }
+					it { is_expected.to include('last_page' =>  true) }
+					it { is_expected.to include('current_page' => 2) }
+					it { is_expected.to include('requested_size' => 5) }
+					it { is_expected.to include('total_count' => 7) }
+
+					it {
+						expect(json['data'].map { |i| i['id'] }).to eq TagMaster.order('id DESC').limit(2).offset(5).pluck(:id)
 					}
 				end
 			end

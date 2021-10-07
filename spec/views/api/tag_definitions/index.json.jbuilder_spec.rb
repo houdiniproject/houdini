@@ -6,7 +6,7 @@ require 'rails_helper'
 
 RSpec.describe '/api/tag_definitions/index.json.jbuilder', type: :view do
 	subject(:json) do
-		assign(:tag_definitions, [tag_definition])
+		assign(:tag_definitions, Kaminari.paginate_array([tag_definition]).page)
 		render
 		JSON.parse(rendered)
 	end
@@ -14,11 +14,11 @@ RSpec.describe '/api/tag_definitions/index.json.jbuilder', type: :view do
 	let(:tag_definition) { create(:tag_definition_with_nonprofit) }
 	let(:nonprofit) { tag_definition.nonprofit }
 
-	it { expect(json.count).to eq 1 }
+	it { expect(json['data'].count).to eq 1 }
 
 	describe 'details of the first item' do
 		subject(:first) do
-			json.first
+			json['data'].first
 		end
 
 		it {
@@ -47,5 +47,26 @@ RSpec.describe '/api/tag_definitions/index.json.jbuilder', type: :view do
 					%r{http://test\.host/api/nonprofits/#{nonprofit.id}/tag_definitions/#{tag_definition.id}}
 				))
 		}
+	end
+
+	describe 'paging' do
+		subject(:json) do
+			tag_definition
+			(0..5).each do |i|
+				create(:tag_definition_with_nonprofit,
+											nonprofit: nonprofit,
+											name: i)
+			end
+			assign(:tag_definitions, nonprofit.tag_masters.order('id DESC').page.per(5))
+			render
+			JSON.parse(rendered)
+		end
+
+		it { is_expected.to include('data' => have_attributes(count: 5)) }
+		it { is_expected.to include('first_page' => true) }
+		it { is_expected.to include('last_page' =>  false) }
+		it { is_expected.to include('current_page' => 1) }
+		it { is_expected.to include('requested_size' => 5) }
+		it { is_expected.to include('total_count' => 7) }
 	end
 end

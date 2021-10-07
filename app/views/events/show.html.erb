@@ -75,7 +75,11 @@
 		</script>
 	<%= IncludeAsset.js '/client/js/events/show/page.js' %>
 	<script>
-		appl.def('ticket_wiz.fee_covered', false)
+		<% 
+			# * if we hide covering fees, this must be false since there won't be a UI to select it
+		  # * if we aren't hiding the fees to be covered, we want the fees to be pre-selected
+		%>
+		appl.def('ticket_wiz.fee_covered',  <%= !@event.hide_cover_fees? %>)
 	</script>
 	<script>
 	appl.def('ticketPaymentCard', ticketPaymentCard)

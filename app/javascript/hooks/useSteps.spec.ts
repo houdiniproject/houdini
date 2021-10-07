@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-hooks */
+
 // License: LGPL-3.0-or-later
 import { renderHook, act } from '@testing-library/react-hooks';
 import useSteps, { KeyedStep, KeyedStepMap } from './useSteps';

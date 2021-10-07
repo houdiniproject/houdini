@@ -1,3 +1,5 @@
+/* eslint-disable no-case-declarations */
+
 // License: LGPL-3.0-or-later
 import { useReducer, useCallback, useEffect } from "react";
 import take from 'lodash/take';

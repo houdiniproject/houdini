@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-disabled-tests */
+
 // License: LGPL-3.0-or-later
 
 import React, { useEffect } from 'react';

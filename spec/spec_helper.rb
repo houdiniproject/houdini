@@ -106,7 +106,7 @@ RSpec.configure do |config|
   config.include ActionMailerMatchers
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:truncation, except: %w(ar_internal_metadata))
     Rails.application.load_seed
   end
 

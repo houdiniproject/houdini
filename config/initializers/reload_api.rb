@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 if Rails.env.development?
   ActiveSupport::Dependencies.explicitly_unloadable_constants << 'Houdini::V1'
 

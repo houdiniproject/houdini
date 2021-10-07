@@ -84,13 +84,11 @@ RSpec.describe Api::TransactionsController, type: :request do
 				expect(response).to have_http_status(:success)
 			}
 
-			it {
-				expect(json.count).to eq 1
-			}
+			it { expect(json['data'].count).to eq 1 }
 
 			describe 'for transaction_for_donation' do
 				subject(:first) do
-					json[0]
+					json['data'].first
 				end
 
 				def base_path(nonprofit_id, transaction_id)
@@ -104,6 +102,12 @@ RSpec.describe Api::TransactionsController, type: :request do
 				end
 				include_context 'with json results for transaction_for_donation'
 			end
+
+			it { is_expected.to include('first_page' => true) }
+			it { is_expected.to include('last_page' =>  true) }
+			it { is_expected.to include('current_page' => 1) }
+			it { is_expected.to include('requested_size' => 25) }
+			it { is_expected.to include('total_count' => 1) }
 		end
 
 		context 'with no user' do

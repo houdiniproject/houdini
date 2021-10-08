@@ -110,8 +110,6 @@ end
 
 GiftOptionAmount = Struct.new(:amount, :recurrence)
 
-Amount = Struct.new(:cents, :currency)
-
 GiftOptionRecurrence = Struct.new(:type, :interval)
 
 

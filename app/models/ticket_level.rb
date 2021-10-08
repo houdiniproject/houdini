@@ -97,4 +97,3 @@ class TicketLevel < ApplicationRecord
     end
   end
 end
-Amount = Struct.new(:cents, :currency)

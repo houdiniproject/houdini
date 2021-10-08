@@ -33,7 +33,6 @@ class Base
             end
 
             def add_nested_errors_for(record, attribute, other_validator)
-                byebug
                 record.errors.messages[attribute] = other_validator.errors.messages
             end
         end

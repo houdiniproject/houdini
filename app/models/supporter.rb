@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class Supporter < ApplicationRecord
   include Model::Jbuilder
   # :search_vectors,
@@ -46,7 +46,7 @@ class Supporter < ApplicationRecord
   has_many :tag_joins, dependent: :destroy
   has_many :tag_masters, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
-  has_many :custom_field_masters, through: :custom_field_joins
+  has_many :custom_field_definitions, through: :custom_field_joins
   has_many :transactions
   belongs_to :merged_into, class_name: 'Supporter', foreign_key: 'merged_into'
   has_many :merged_from, class_name: 'Supporter', :foreign_key => "merged_into"

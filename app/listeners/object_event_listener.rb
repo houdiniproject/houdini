@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class ObjectEventListener < ApplicationListener
   def self.campaign_gift_created(event)
     enqueue_transmissions_to_webhooks(event)
@@ -172,6 +172,30 @@ class ObjectEventListener < ApplicationListener
   end
 
   def self.offline_transaction_dispute_deleted(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.stripe_transaction_dispute_created(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.stripe_transaction_dispute_updated(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.stripe_transaction_dispute_deleted(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.stripe_transaction_refund_created(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.stripe_transaction_refund_updated(event)
+    enqueue_transmissions_to_webhooks(event)
+  end
+
+  def self.stripe_transaction_refund_deleted(event)
     enqueue_transmissions_to_webhooks(event)
   end
 

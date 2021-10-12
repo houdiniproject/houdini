@@ -1,15 +1,6 @@
 # License: LGPL-3.0-or-later
 name: Ruby test and build
 on: 
-  push:
-    paths-ignore:
-      - "**.[jt]sx?"
-      - "**.es6"
-      - "**.md"
-      - "NOTICE-js"
-      - "NOTICE-ruby"
-      - "package.json"
-      - "yarn.lock"
   pull_request:
     paths-ignore:
       - "**.[jt]sx?"
@@ -20,14 +11,34 @@ on:
       - "NOTICE-ruby"
       - "package.json"
       - "yarn.lock"
+    types: [opened, reopened, synchronize]
 jobs:
-  main_build:
+  package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-20.04]
         node: [14.6.0]
-        ruby: [2.7.3]
+        ruby: [2.7.4]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+  main_build:
+    needs: package-download
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.6.0]
+        ruby: [2.7.4]
     steps:
       - uses: actions/checkout@v2
       - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
@@ -36,32 +47,15 @@ jobs:
           postgres_image_tag: 11-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v1.4.4
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-
-      - uses: actions/cache@v2
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-yarn-${{ matrix.node }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-yarn-${{ matrix.node }}-
+          cache: 'yarn'
       - run: yarn install --frozen-lockfile
-        if: steps.node-cache.outputs.cache-hit != 'true'
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - uses: actions/cache@v2
-        name: Use Gem cache
-        with:
-          path: vendor/bundle
-          key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+          bundler-cache: true
       - name: install bess dependencies
         run: |
           cd gems/bess
@@ -70,13 +64,27 @@ jobs:
         run: |
           cd gems/bess
           bundle exec rake spec
-
-      - run: |
-          bundle config deployment true
-          bundle config path vendor/bundle
-          bundle install --jobs 4
       - run: bin/setup ci
-      - name: rubocop
-        run: bundle exec rubocop
       - name: run spec
         run: bin/rails spec
+  rubocop:
+    needs: package-download
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.6.0]
+        ruby: [2.7.4]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Rubocop run
+        run: bundle exec rubocop
+
+    

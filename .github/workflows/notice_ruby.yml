@@ -11,28 +11,21 @@ on:
       - Gemfile
       - Gemfile.lock
       - NOTICE-ruby
+    types: [opened, reopened, synchronize]
 env:
   os: ubuntu-20.04
-  ruby: '2.7.3'
+  ruby: '2.7.4'
 jobs:
   notice_ruby:
-    runs-on: ${{ env.os }}
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.ruby }}
-      - uses: actions/cache@v2
-        name: Use Gem cache
-        with:
-          path: vendor/bundle
-          key: bundle-use-ruby-${{ env.os }}-${{ env.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            bundle-use-ruby-${{ env.os }}-${{ env.ruby }}-
-      - run: |
-          bundle config deployment true
-          bundle config path vendor/bundle
-          bundle install --jobs 4
+          bundler-cache: true
       - name: run notice:ruby:verify
         run: |
             bin/rails notice:ruby:verify

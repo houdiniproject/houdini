@@ -2,7 +2,7 @@
 
 #
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
 RSpec.describe NonprofitCreation do
@@ -12,8 +12,8 @@ RSpec.describe NonprofitCreation do
 		{
 			nonprofit: {
 				name: 'My Nonprofit',
-				state_code: 'DF',
-				city: 'Aguas Claras',
+				state_code: 'IN',
+				city: '	Indianapolis',
 				website: 'https://www.mynonprofit.org',
 				email: 'mynonprofit@email.com',
 				phone: '5561999999999'
@@ -39,8 +39,8 @@ RSpec.describe NonprofitCreation do
 
 		let(:expected_attributes) do
 			{
-				state_code: 'DF',
-				city: 'Aguas Claras',
+				state_code: 'IN',
+				city: '	Indianapolis',
 				website: 'https://www.mynonprofit.org',
 				email: 'mynonprofit@email.com',
 				phone: '5561999999999'
@@ -89,6 +89,23 @@ RSpec.describe NonprofitCreation do
 				messages: [
 					"Error creating user: Email can't be blank",
 					'Error creating user: Email is invalid'
+				]
+			}
+		end
+
+		it { is_expected.to eq(expected_error_result) }
+	end
+
+	context 'when nonprofit state is not in the US' do
+		before do
+			result[:nonprofit][:state_code] = 'KK'
+		end
+
+		let(:expected_error_result) do
+			{
+				success: false,
+				messages: [
+					'Error creating nonprofit: State code must be a US two-letter state code'
 				]
 			}
 		end

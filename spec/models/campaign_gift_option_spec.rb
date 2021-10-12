@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
 RSpec.describe CampaignGiftOption, 'type' => :model do
@@ -57,7 +57,10 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'cents'=> amount_one_time, 'currency' => nonprofit.currency}},
+              {
+                'amount' => {'cents'=> amount_one_time, 'currency' => nonprofit.currency},
+                'recurrence' => nil
+              },
               {
                 'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
@@ -98,7 +101,10 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
+              {
+                'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency},
+                'recurrence' => nil
+              },
               {
                 'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
@@ -205,7 +211,10 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => false,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
+              {
+                'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency},
+                'recurrence' => nil
+              },
             ],
             'id'=> kind_of(Numeric),
             'hide_contributions' => false,
@@ -252,7 +261,10 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => true,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
+              {
+                'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency},
+                'recurrence' => nil
+              },
               {
                 'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
@@ -299,7 +311,10 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
             'deleted' => true,
             'description' => description,
             'gift_option_amount' => [
-              {'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency}},
+              {
+                'amount' => {'cents' => amount_one_time, 'currency' => nonprofit.currency},
+                'recurrence' => nil
+              },
               {
                 'amount' => {'cents' => amount_recurring, 'currency' => nonprofit.currency},
                 'recurrence' => { 'interval' => 1, 'type' => 'monthly'}
@@ -322,6 +337,46 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
       })
 
       campaign_gift_option_2.destroy
+    end
+  end
+
+  describe '#gift_option_amounts' do
+    subject(:goa) { campaign_gift_option.gift_option_amounts}
+
+    it { expect(goa.count).to eq 2}
+
+    describe "has a proper one time amount" do
+      subject { goa.select{|i| i.recurrence.nil?}.first}
+
+      it {
+        is_expected.to have_attributes(
+          amount: have_attributes(
+              cents:amount_one_time,
+              currency: nonprofit.currency
+              ))
+      }
+
+      it {
+        is_expected.to have_attributes(recurrence: nil)
+      }
+    end
+
+    describe "has a proper one time amount" do
+      subject { goa.select{|i| !i.recurrence.nil?}.first}
+
+      it {
+        is_expected.to have_attributes(
+          amount: have_attributes(
+              cents:amount_recurring,
+              currency: nonprofit.currency
+              ))
+      }
+
+      it {
+        is_expected.to have_attributes(recurrence: 
+          have_attributes( interval: 1, type: 'monthly')
+          )
+      }
     end
   end
 end

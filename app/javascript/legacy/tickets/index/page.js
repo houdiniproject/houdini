@@ -15,7 +15,7 @@ require('./delete-ticket')
 
 function metricsFetch() {
   appl.def('loading_metrics', true)
-  request.get('/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/metrics')
+  request.get('/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/metrics')
     .perform()
     .then(function(resp) {
       appl
@@ -23,7 +23,7 @@ function metricsFetch() {
       .def('metrics', resp.body)
     })
   appl.def('loading_ticket_levels', true)
-	get_ticket_levels(app.nonprofit_id, appl.event_id)
+	get_ticket_levels(app.nonprofit_id, app.event_id)
 		.then(function(resp) {
       appl.def('loading_ticket_levels', false)
 		})
@@ -33,7 +33,7 @@ function fetch(query) {
   query = query || {page: 1}
   query.page = query.page || 1
   appl.def('loading_tickets', true)
-  return request.get('/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/tickets')
+  return request.get('/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/tickets')
     .query(query)
     .perform()
     .then(function(resp) {
@@ -78,7 +78,7 @@ appl.def('after_create_card', function(resp) {
 })
 
 appl.def('tickets', {
-	path_prefix: '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/',
+	path_prefix: '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/',
 	query: {page: 1},
 	concat_data: true
 })
@@ -152,7 +152,7 @@ appl.def('create_donation', function(el) {
 appl.def('create_card', function(card_obj, el) {
 	appl.def('new_card_form.error', '')
 	appl.def('loading', true)
-	create_card({type: 'Supporter', id: appl.selected_supporter.id, email: appl.selected_supporter.email}, card_obj, {event_id: appl.event_id})
+	create_card({type: 'Supporter', id: appl.selected_supporter.id, email: appl.selected_supporter.email}, card_obj, {event_id: app.event_id})
 		.then(function(card) {
 			appl.prev_elem(el).reset()
 			appl.notify("Card successfully saved for " + appl.selected_supporter.name)
@@ -179,8 +179,8 @@ appl.def('remove_card', function(ticket_id, elm) {
   result.confirmed = function() {
     appl.is_loading()
 
-    request.post('/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/tickets/' + ticket_id + '/delete_card_for_ticket')
-      .send({event_id: appl.event_id, ticket_id:ticket_id})
+    request.post('/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/tickets/' + ticket_id + '/delete_card_for_ticket')
+      .send({event_id: app.event_id, ticket_id:ticket_id})
       .perform()
       .then(function(resp) {
         appl.not_loading()

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module UpdateMiscellaneousNpInfo
   def self.update(np_id, misc_settings)
     ParamValidation.new({ np_id: np_id, misc_settings: misc_settings },

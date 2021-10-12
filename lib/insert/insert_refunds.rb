@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'format/currency'
 require 'validation_error'
 require 'stripe'
@@ -43,7 +43,7 @@ module InsertRefunds
 
     gross = -(h['amount'])
     platform_fee = BillingPlans.get_percentage_fee(charge['nonprofit_id'])
-    fees = (h['amount'] * -original_payment['fee_total'] / original_payment['gross_amount']).ceil
+    fees = (h['amount'] * - original_payment['fee_total'] / original_payment['gross_amount']).ceil
     net = gross + fees
     # Create a corresponding negative payment record
     payment_row = Qx.insert_into(:payments).values(
@@ -66,6 +66,26 @@ module InsertRefunds
     refund_row = Qx.update(:refunds).set(payment_id: payment_row['id']).ts.where(id: refund_row['id']).returning('*').execute.first
     # Update original payment to increment its refund_total for any future refund attempts
     Qx.update(:payments).set("refund_total=refund_total + #{h['amount'].to_i}").ts.where(id: original_payment['id']).execute
+
+    refund = Refund.find(refund_row['id'])
+    refund_payment = Payment.find(payment_row['id'])
+
+    stripe_transaction_charge = StripeCharge.find_by(payment: original_payment['id'])
+    stripe_transaction_refund = StripeRefund.new(payment: refund_payment)
+    transaction_id = stripe_transaction_charge.subtransaction_payment.subtransaction.transaction_id
+    transaction = Transaction.find(transaction_id)
+
+    transaction.amount += gross
+    refund_subtransaction_payment = transaction.subtransaction.subtransaction_payments.create(paymentable: stripe_transaction_refund)
+
+    stripe_transaction_refund.save!
+    refund_subtransaction_payment.save!
+    transaction.save!
+
+    transaction.publish_updated
+    transaction.publish_refunded
+    refund_subtransaction_payment.publish_created
+
     # Send the refund receipts in a delayed job
     Houdini.event_publisher.announce(:create_refund, Refund.find(refund_row['id']))
     { 'payment' => payment_row, 'refund' => refund_row }

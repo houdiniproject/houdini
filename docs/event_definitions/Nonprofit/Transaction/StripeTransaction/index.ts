@@ -18,3 +18,5 @@ export type StripeTransactionDisputed = HoudiniEvent<'stripe_transaction.dispute
 export type StripeTransactionDeleted = HoudiniEvent<'stripe_transaction.deleted', StripeTransaction>;
 
 export * from './Charge';
+export * from './Dispute';
+export * from './Refund';

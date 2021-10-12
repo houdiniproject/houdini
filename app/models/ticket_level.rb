@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class TicketLevel < ApplicationRecord
   include Model::Jbuilder
   include Model::Eventable
@@ -48,6 +48,10 @@ class TicketLevel < ApplicationRecord
     self.amount = 0 if amount.nil?
   end
 
+  def amount_as_money
+    Amount.new(amount||0, nonprofit.currency)
+  end
+
   # TODO replace with discard gem
   def discard!
     run_callbacks(:discard) do
@@ -60,8 +64,8 @@ class TicketLevel < ApplicationRecord
     init_builder(*expand) do |json|
       json.(self, :name, :deleted, :order, :limit, :description)
       json.amount do 
-        json.cents amount || 0
-        json.currency event.nonprofit.currency
+        json.cents amount_as_money.cents
+        json.currency amount_as_money.currency
       end
       json.available_to admin_only ? 'admins' : 'everyone'
 

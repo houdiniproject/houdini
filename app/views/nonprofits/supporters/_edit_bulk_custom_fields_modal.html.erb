@@ -1,5 +1,5 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <div class='modal' id='editBulkCustomFieldsModal'>
 
 	<header class='modal-header'>
@@ -11,19 +11,19 @@
 
 	<div class='modal-body'>
 		<form>
-			<!--= show_if (length custom_fields.masters.data) -->
+			<!--= show_if (length custom_fields.definitions.data) -->
 			<!--= on 'submit' (custom_fields.bulk.prepare_to_post form_object) -->
-			<!--= scope 'custom_fields.masters.data' -->
+			<!--= scope 'custom_fields.definitions.data' -->
 			<%= render 'custom_fields_inputs', bulk: true %>
 			<%= render 'components/forms/submit_button' %>
 		</form>
 		<p class='noResults'>
 			It looks like you haven't created any custom fields yet.  Click the link below to add some custom fields.
-			<!--= hide_if (length custom_fields.masters.data) -->
+			<!--= hide_if (length custom_fields.definitions.data) -->
 		</p>
 	</div>
 	<footer class='u-centered modal-footer'>
 		<a>Manage Custom Fields</a>
-		<!--= on 'click' (open_modal 'manageFieldMasterModal') -->
+		<!--= on 'click' (open_modal 'manageFieldDefinitionModal') -->
 	</footer>
 </div>

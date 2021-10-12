@@ -1,17 +1,16 @@
 # License: LGPL-3.0-or-later
 name: Markdown lint
 on: 
-  push:
-    paths: ["**.md"]
   pull_request:
     paths: ["**.md"]
+    types: [opened, reopened, synchronize]
 jobs:
   markdownlint:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Setup Node.js environment
-        uses: actions/setup-node@v1.4.4
+        uses: actions/setup-node@v2
         with:
           node-version: 14.6.0
       - name: lint Markdown

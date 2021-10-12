@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class StripeCharge < ApplicationRecord
 	include Model::SubtransactionPaymentable
 	belongs_to :payment
@@ -9,6 +9,10 @@ class StripeCharge < ApplicationRecord
 	delegate :gross_amount, :net_amount, :fee_total, to: :payment
 
 	delegate :currency, to: :nonprofit
+
+	def stripe_id
+		payment.charge.stripe_charge_id
+	end
 
 	concerning :JBuilder do # rubocop:disable Metrics/BlockLength
 		included do
@@ -35,7 +39,7 @@ class StripeCharge < ApplicationRecord
 
 				json.created payment.date.to_i
 
-				json.stripe_id payment.charge.stripe_charge_id
+				json.stripe_id stripe_id
 
 				json.type 'payment'
 

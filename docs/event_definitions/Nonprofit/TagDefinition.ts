@@ -15,6 +15,6 @@ export interface CreateTagDefinition {
 	name: string;
 }
 
-export type TagMasterCreated = HoudiniEvent<'tag_definition.created', TagDefinition>;
+export type TagDefinitionCreated = HoudiniEvent<'tag_definition.created', TagDefinition>;
 
-export type TagMasterDeleted = HoudiniEvent<'tag_definition.deleted', TagDefinition>;
+export type TagDefinitionDeleted = HoudiniEvent<'tag_definition.deleted', TagDefinition>;

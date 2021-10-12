@@ -102,7 +102,7 @@ appl.ticket_wiz.on_complete = function(tickets) {
 	appl.ajax_metrics.index()
 }
 
-appl.def('donate_wiz.donation.event_id', appl.event_id)
+appl.def('donate_wiz.donation.event_id', app.event_id)
 
 appl.def('remove_event', function(e) {
 	request.del(path).end(function(err, resp) {

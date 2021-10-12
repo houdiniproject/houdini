@@ -24,13 +24,13 @@ The frontend is written in a few custom frameworks, the largest of which is call
 We endeavor to migrate to React as quickly as possible to increase development
 comfort and speed.
 
-All new backend code and React components well tested.
+All new backend code and React components should be well tested.
 
 ## Prerequisites
 
 Houdini is designed and tested to run with the following:
 
-* Ruby 2.6
+* Ruby 2.7
 * Node 14
 * Yarn
 * PostgreSQL 10  or 12
@@ -54,13 +54,6 @@ Check on [contribution_guide_usability_testing.md](docs/contribution_guide_usabi
 
 ## Dev Setup
 
-#### Tips for specific circumstances
-
-* Docker: Docker was previously used for development of Houdini. 
-See [docker.md](docs/docker.md) for more info.
-* Mac: Mac dev setup may require some unique configuration. 
-See [mac_getting_started.md](docs/mac_getting_started.md) for more info.
-
 ### Installation prep
 
 Houdini requires a few pieces of software be installed, as well as some optional pieces
@@ -70,7 +63,7 @@ These include:
 
 * PostgreSQL 12 (10 probably works)
 * NodeJS 14 (we require 14 because we want the full internationalization built-in)
-* Ruby 2.7.3
+* Ruby 2.7.4
 
 There a few optional tools which make working on Houdini
 easier
@@ -122,7 +115,7 @@ curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source $HOME/.rvm/scripts/rvm
 echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
-rvm install 2.7.3 --disable-binary --with-jemalloc
+rvm install 2.7.4 --disable-binary --with-jemalloc
 ```
 
  Run the following command as the `postgres` user and then enter your houdini_user
@@ -242,6 +235,10 @@ We use `Rubocop` to perform static code analysis:
 ```bash
 rubocop
 ```
+
+## Additional documentation
+
+We have some additional documentation describing some implementations, definitions and other guides on the [docs folder](docs).
 
 ## Known Issues
 

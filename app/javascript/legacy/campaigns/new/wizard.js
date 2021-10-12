@@ -50,7 +50,7 @@ function post_campaign(form_data) {
 		req.setRequestHeader('X-CSRF-Token', window._csrf)
 		req.send(form_data)
 		req.onload = function(ev) {
-			if(req.status === 200) resolve(req)
+			if(req.status === 201) resolve(req)
 			else reject(req)
 		}
 	})

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
-# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class Nonprofit < ApplicationRecord
   attr_accessor :register_np_only, :user_id, :user
   Categories = ['Public Benefit', 'Human Services', 'Education', 'Civic Duty', 'Human Rights', 'Animals', 'Environment', 'Health', 'Arts, Culture, Humanities', 'International', 'Children', 'Religion', 'LGBTQ', "Women's Rights", 'Disaster Relief', 'Veterans'].freeze
@@ -61,6 +61,7 @@ class Nonprofit < ApplicationRecord
   has_many :recurring_donations
   has_many :payments
   has_many :supporters, dependent: :destroy
+  has_many :transactions, through: :supporters
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations
   has_many :campaigns, dependent: :destroy
@@ -81,8 +82,8 @@ class Nonprofit < ApplicationRecord
     end
   end
   has_many :tag_masters, dependent: :destroy
-  has_many :custom_field_masters, dependent: :destroy
-  
+  has_many :custom_field_definitions, dependent: :destroy
+ 
   has_many :activities,   as: :host, dependent: :destroy
   has_many :imports
   has_many :email_settings
@@ -93,7 +94,7 @@ class Nonprofit < ApplicationRecord
   has_one :billing_subscription, dependent: :destroy
   has_one :billing_plan, through: :billing_subscription
   has_one :miscellaneous_np_info
-  
+ 
   validates_associated :admins, on: :create
   validates :name, presence: true
   validates :city, presence: true
@@ -107,6 +108,7 @@ class Nonprofit < ApplicationRecord
   validate :user_is_valid, on: :create, unless: -> {register_np_only}
   validate :user_registerable_as_admin, on: :create, unless: -> {register_np_only}
   validate :timezone_is_valid
+  validate :state_is_valid
 
   scope :vetted, -> { where(vetted: true) }
   scope :identity_verified, -> { where(verification_status: 'verified') }
@@ -117,7 +119,7 @@ class Nonprofit < ApplicationRecord
   has_one_attached :third_image
   has_one_attached :background_image
   has_one_attached :logo
-  
+ 
   # way too wordy
   has_one_attached_with_sizes(:logo, {small: 30, normal: 100, large: 180})
   has_one_attached_with_sizes(:background_image, {normal: [1000,600]})
@@ -180,6 +182,10 @@ class Nonprofit < ApplicationRecord
     h
   end
 
+  def state_is_valid
+    errors.add(:state_code, 'must be a US two-letter state code') unless ISO3166::Country[:US].subdivisions.has_key? state_code&.upcase
+  end
+
   def url
     "/#{state_code_slug}/#{city_slug}/#{slug}"
   end
@@ -196,7 +202,7 @@ class Nonprofit < ApplicationRecord
     end
     self
   end
-  
+ 
   def correct_nonunique_slug
     begin
         slug = SlugNonprofitNamingAlgorithm.new(self.state_code_slug, self.city_slug).create_copy_name(self.slug)

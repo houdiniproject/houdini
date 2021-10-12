@@ -6,18 +6,16 @@ require 'rails_helper'
 
 describe Users::SessionsController, type: :request do
 	describe 'POST /users/sign_in' do
-		context 'successful login' do 
-			let(:user) { create(:user)}
-			let(:json) { JSON::parse(response.body)}
-		
-			
-			before {
-				headers = { "ACCEPT" => "application/json" }
-				post '/users/sign_in', params: {user: {email: user.email, password: user.password}}
-			}
+		context 'with successful login' do
+			let(:user) { create(:user) }
+			let(:json) { JSON.parse(response.body) }
+
+			before do
+				post '/users/sign_in', params: { user: { email: user.email, password: user.password } }
+			end
 
 			it {
-				expect(response).to have_http_status(200)
+				expect(response).to have_http_status(:ok)
 			}
 
 			it {
@@ -26,12 +24,10 @@ describe Users::SessionsController, type: :request do
 
 			it {
 				expect(json).to eq({
-					'id' => user.id,
-					'object' => 'user'
-				})
+																								'id' => user.id,
+																								'object' => 'user'
+																							})
 			}
 		end
-
-		
 	end
 end

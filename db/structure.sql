@@ -2056,6 +2056,40 @@ ALTER SEQUENCE public.payouts_id_seq OWNED BY public.payouts.id;
 
 
 --
+-- Name: periodic_reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.periodic_reports (
+    id integer NOT NULL,
+    active boolean DEFAULT false NOT NULL,
+    report_type character varying NOT NULL,
+    period character varying NOT NULL,
+    user_id integer,
+    nonprofit_id integer
+);
+
+
+--
+-- Name: periodic_reports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.periodic_reports_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: periodic_reports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.periodic_reports_id_seq OWNED BY public.periodic_reports.id;
+
+
+--
 -- Name: profiles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3297,6 +3331,13 @@ ALTER TABLE ONLY public.payouts ALTER COLUMN id SET DEFAULT nextval('public.payo
 
 
 --
+-- Name: periodic_reports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.periodic_reports ALTER COLUMN id SET DEFAULT nextval('public.periodic_reports_id_seq'::regclass);
+
+
+--
 -- Name: profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3875,6 +3916,14 @@ ALTER TABLE ONLY public.payments
 
 
 --
+-- Name: periodic_reports periodic_reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.periodic_reports
+    ADD CONSTRAINT periodic_reports_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: recaptcha_rejections recaptcha_rejections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4372,6 +4421,20 @@ CREATE INDEX index_offsite_payments_on_supporter_id ON public.offsite_payments U
 
 
 --
+-- Name: index_periodic_reports_on_nonprofit_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_periodic_reports_on_nonprofit_id ON public.periodic_reports USING btree (nonprofit_id);
+
+
+--
+-- Name: index_periodic_reports_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_periodic_reports_on_user_id ON public.periodic_reports USING btree (user_id);
+
+
+--
 -- Name: index_recurring_donations_on_donation_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4761,11 +4824,27 @@ ALTER TABLE ONLY public.fee_structures
 
 
 --
+-- Name: periodic_reports fk_rails_8f03e9aed1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.periodic_reports
+    ADD CONSTRAINT fk_rails_8f03e9aed1 FOREIGN KEY (nonprofit_id) REFERENCES public.nonprofits(id);
+
+
+--
 -- Name: supporter_addresses fk_rails_bd7fbee619; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.supporter_addresses
     ADD CONSTRAINT fk_rails_bd7fbee619 FOREIGN KEY (supporter_id) REFERENCES public.supporters(id);
+
+
+--
+-- Name: periodic_reports fk_rails_d5610dd8f8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.periodic_reports
+    ADD CONSTRAINT fk_rails_d5610dd8f8 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -5875,6 +5954,8 @@ INSERT INTO schema_migrations (version) VALUES ('20211004130610');
 INSERT INTO schema_migrations (version) VALUES ('20211004173137');
 
 INSERT INTO schema_migrations (version) VALUES ('20211004173808');
+
+INSERT INTO schema_migrations (version) VALUES ('20211021173546');
 
 INSERT INTO schema_migrations (version) VALUES ('20211025145718');
 

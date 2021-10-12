@@ -56,7 +56,7 @@ describe ExportRecurringDonations do
 
         expect(Export).to receive(:create).and_wrap_original {|m, *args|
           e = m.call(*args) # get original create
-          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportRecurringDonations, :run_export, [@nonprofit.id, params.to_json, @user.id, e.id])  #add the enqueue
+          expect(DelayedJobHelper).to receive(:enqueue_job).with(ExportRecurringDonations, :run_export, [@nonprofit.id, params.to_json, @user.id, e.id, true])  #add the enqueue
           e
         }
 

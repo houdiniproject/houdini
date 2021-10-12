@@ -2,7 +2,7 @@
 
 module ExportRecurringDonations
 
-  def self.initiate_export(npo_id, params, user_id)
+  def self.initiate_export(npo_id, params, user_id, requested_by_user = true)
 
     ParamValidation.new({ npo_id: npo_id, params: params, user_id: user_id },
                         npo_id: { required: true, is_integer: true },
@@ -19,10 +19,10 @@ module ExportRecurringDonations
 
     e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportRecurringDonations', parameters: params.to_json)
 
-    DelayedJobHelper.enqueue_job(ExportRecurringDonations, :run_export, [npo_id, params.to_json, user_id, e.id])
+    DelayedJobHelper.enqueue_job(ExportRecurringDonations, :run_export, [npo_id, params.to_json, user_id, e.id, requested_by_user])
   end
 
-  def self.run_export(npo_id, params, user_id, export_id)
+  def self.run_export(npo_id, params, user_id, export_id, requested_by_user = true)
     # need to check that
     ParamValidation.new({ npo_id: npo_id, params: params, user_id: user_id, export_id: export_id },
                         npo_id: { required: true, is_integer: true },
@@ -59,7 +59,11 @@ module ExportRecurringDonations
     export.ended = Time.now
     export.save!
 
-    ExportMailer.delay.export_recurring_donations_completed_notification(export)
+    if requested_by_user
+      ExportMailer.delay.export_recurring_donations_completed_notification(export)
+    else
+      ExportMailer.delay.export_failed_recurring_donations_monthly_completed_notification(export)
+    end
   rescue => e
     if export
       export.status = :failed
@@ -67,7 +71,11 @@ module ExportRecurringDonations
       export.ended = Time.now
       export.save!
       if user
-        ExportMailer.delay.export_recurring_donations_failed_notification(export)
+        if requested_by_user
+          ExportMailer.delay.export_recurring_donations_failed_notification(export)
+        else
+          ExportMailer.delay.export_failed_recurring_donations_monthly_failed_notification(export)
+        end
       end
       raise e
     end

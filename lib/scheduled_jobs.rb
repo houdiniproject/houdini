@@ -115,4 +115,18 @@ module ScheduledJobs
       end
     end
   end
+
+  def self.send_monthly_reports
+    return Enumerator.new do |yielder|
+      yielder << lambda do
+        if Time.current.day == 1
+          active_periodic_reports = PeriodicReport.active
+          active_periodic_reports.each do |report|
+            report.adapter.run
+          end
+          "Sent #{active_periodic_reports.count} periodic reports!"
+        end
+      end
+    end
+  end
 end

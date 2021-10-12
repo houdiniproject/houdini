@@ -8052,7 +8052,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ------
 
 ** caniuse-db; version 1.0.30001067 -- https://github.com/Fyrd/caniuse#readme
-** caniuse-lite; version 1.0.30001197 -- https://github.com/ben-eb/caniuse-lite#readme
+** caniuse-lite; version 1.0.30001265 -- https://github.com/browserslist/caniuse-lite#readme
 
 Attribution 4.0 International
 
@@ -25483,7 +25483,7 @@ SOFTWARE.
 
 ------
 
-** path-parse; version 1.0.6 -- https://github.com/jbgutierrez/path-parse#readme
+** path-parse; version 1.0.7 -- https://github.com/jbgutierrez/path-parse#readme
 Copyright (c) 2015 Javier Blanco
 (c) Javier Blanco (http://jbgutierrez.info)
 
@@ -29487,7 +29487,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ------
 
-** tmpl; version 1.0.4 -- https://github.com/nshah/nodejs-tmpl
+** tmpl; version 1.0.5 -- https://github.com/daaku/nodejs-tmpl
 Copyright (c) 2014, Naitik Shah.
 
 BSD License
@@ -38350,7 +38350,7 @@ SOFTWARE.
 
 ------
 
-** url-parse; version 1.4.7 -- https://github.com/unshiftio/url-parse#readme
+** url-parse; version 1.5.3 -- https://github.com/unshiftio/url-parse#readme
 Copyright (c) 2015 Unshift.io, Arnout Kazemier
 
 The MIT License (MIT)

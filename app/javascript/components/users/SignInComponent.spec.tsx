@@ -11,6 +11,7 @@ import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 import { SWRConfig } from "swr";
 
+import { axe, toHaveNoViolations } from 'jest-axe';
 
 
 import { InitialCurrentUserContext } from "../../hooks/useCurrentUser";
@@ -41,7 +42,7 @@ describe('SignInComponent', () => {
 		it('signIn is successful', async () => {
 			expect.hasAssertions();
 			const onSuccess = jest.fn();
-			const { findByLabelText, findByTestId } = render(<Wrapper><SignInComponent onSuccess={onSuccess} showProgressAndSuccess /></Wrapper>);
+			const { findByLabelText, findByTestId, container } = render(<Wrapper><SignInComponent onSuccess={onSuccess} showProgressAndSuccess /></Wrapper>);
 			const success = await findByTestId("signInComponentSuccess");
 			const email = await findByLabelText("Email");
 			const password = await findByLabelText("Password");
@@ -72,6 +73,9 @@ describe('SignInComponent', () => {
 				expect(email).not.toBeInTheDocument();
 				expect(password).not.toBeInTheDocument();
 			});
+
+			const results = await axe(container);
+			expect(results).toHaveNoViolations();
 		});
 
 		describe('Email', () => {
@@ -107,7 +111,7 @@ describe('SignInComponent', () => {
 				// We use hasAssertions() becuase the waitFor could attempt the assertion
 				// toBeInvalid() multiple times waiting for it to update
 				expect.hasAssertions();
-				const { getByLabelText } = render(<Wrapper><SignInComponent /></Wrapper>);
+				const { getByLabelText, container } = render(<Wrapper><SignInComponent /></Wrapper>);
 				const email = getByLabelText("Email") as HTMLInputElement;
 
 				// change changes the value
@@ -122,6 +126,8 @@ describe('SignInComponent', () => {
 				await waitFor(() => {
 					expect(email).toBeInvalid();
 				});
+				const results = await axe(container);
+				expect(results).toHaveNoViolations();
 			});
 
 			it('renders error message on incorrect email', async () => {

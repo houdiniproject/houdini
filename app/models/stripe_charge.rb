@@ -6,6 +6,10 @@ class StripeCharge < ActiveRecord::Base
   def object=(input)
     serialize_on_update(input)
   end
+
+  def stripe_object
+    Stripe::Util.convert_to_stripe_object(object)
+  end
   
   private
   def serialize_on_update(input)

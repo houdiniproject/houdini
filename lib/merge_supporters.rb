@@ -13,13 +13,13 @@ module MergeSupporters
     end
 
     old_supporters = Supporter.includes(:tag_joins).includes(:custom_field_joins).where('id in (?)', old_supporter_ids)
-    old_tags = old_supporters.map { |i| i.tag_joins.map(&:tag_master) }.flatten.uniq
+    old_tags = old_supporters.map { |i| i.tag_joins.map(&:tag_definition) }.flatten.uniq
 
     # delete old tags
     InsertTagJoins.in_bulk(np_id, profile_id, old_supporter_ids,
-                           old_tags.map { |i| { tag_master_id: i.id, selected: false } })
+                           old_tags.map { |i| { tag_definition_id: i.id, selected: false } })
 
-    InsertTagJoins.in_bulk(np_id, profile_id, [new_supporter_id], old_tags.map { |i| { tag_master_id: i.id, selected: true } })
+    InsertTagJoins.in_bulk(np_id, profile_id, [new_supporter_id], old_tags.map { |i| { tag_definition_id: i.id, selected: true } })
 
     all_custom_field_joins = old_supporters.map(&:custom_field_joins).flatten
     group_joins_by_custom_field_definition = all_custom_field_joins.group_by { |i| i.custom_field_definition.id }

@@ -4,18 +4,18 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe TagMaster, type: :model do
+RSpec.describe TagDefinition, type: :model do
   include_context :shared_donation_charge_context
   let(:name) { "TAGNAME"}
 
-  let(:tag_master) { nonprofit.tag_masters.create(name: name) }
+  let(:tag_definition) { nonprofit.tag_definitions.create(name: name) }
   let(:np_builder_expanded) { {
     'id' => nonprofit.id,
     'name' => nonprofit.name,
     'object' => 'nonprofit'
   }}
   it 'creates' do 
-    expect(tag_master.errors).to be_empty
+    expect(tag_definition.errors).to be_empty
   end
 
   
@@ -36,7 +36,7 @@ RSpec.describe TagMaster, type: :model do
       }
     })
 
-    tag_master
+    tag_definition
   end
   
   it 'announces deleted' do
@@ -56,7 +56,7 @@ RSpec.describe TagMaster, type: :model do
       }
     }).ordered
     
-    tag_master.discard!
+    tag_definition.discard!
 
   end
 end

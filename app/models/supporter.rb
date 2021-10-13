@@ -44,7 +44,7 @@ class Supporter < ApplicationRecord
   has_many :tickets
   has_many :recurring_donations
   has_many :tag_joins, dependent: :destroy
-  has_many :tag_masters, through: :tag_joins
+  has_many :tag_definitions, through: :tag_joins
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_definitions, through: :custom_field_joins
   has_many :transactions

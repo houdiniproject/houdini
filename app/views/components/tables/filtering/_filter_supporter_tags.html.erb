@@ -2,11 +2,11 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <!-- partial: components/_filter_supporter_tags -->
 <section>
-  <!--= show_if (length tags.masters.data) -->
+  <!--= show_if (length tags.definitions.data) -->
   <hr class='u-margin--0'>
   <label class='u-marginBottom--5'>Tags</label>
   <fieldset class='u-marginBottom--0 u-marginLeft--5'>
-    <!--= repeat tags.masters.data -->
+    <!--= repeat tags.definitions.data -->
     <input type='checkbox' name='tags'>
       <!--= set_attr 'id' (cat 'tag_filter' this.i) -->
       <!--= set_attr 'value' this.id -->

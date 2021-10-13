@@ -14,14 +14,14 @@ module Nonprofits
     end
 
     def create
-      tag_master_ids = email_list_params[:tag_masters].values.map(&:to_i)
-      render_json { InsertEmailLists.for_mailchimp(email_list_params[:nonprofit_id], tag_master_ids) }
+      tag_definition_ids = email_list_params[:tag_definitions].values.map(&:to_i)
+      render_json { InsertEmailLists.for_mailchimp(email_list_params[:nonprofit_id], tag_definition_ids) }
     end
 
     private
 
     def email_list_params
-      params.permit(:nonprofit_id, :tag_masters)
+      params.permit(:nonprofit_id, :tag_definitions)
     end
   end
 end

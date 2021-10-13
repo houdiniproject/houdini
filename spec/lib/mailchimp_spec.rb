@@ -12,13 +12,13 @@ describe Mailchimp do
     end
 
     let(:np) { force_create(:nm_justice) }
-    let(:tag_master) { force_create(:tag_master, nonprofit: np) }
-    let(:email_list) { force_create(:email_list, mailchimp_list_id: 'list_id', tag_master: tag_master, nonprofit: np, list_name: 'temp') }
+    let(:tag_definition) { force_create(:tag_definition, nonprofit: np) }
+    let(:email_list) { force_create(:email_list, mailchimp_list_id: 'list_id', tag_definition: tag_definition, nonprofit: np, list_name: 'temp') }
     let(:supporter_on_both) { force_create(:supporter, nonprofit: np, email: 'on_BOTH@email.com') }
     let(:supporter_on_local) { force_create(:supporter, nonprofit: np, email: 'on_local@email.com') }
-    let(:tag_join) { force_create(:tag_join, tag_master: tag_master, supporter: supporter_on_both) }
+    let(:tag_join) { force_create(:tag_join, tag_definition: tag_definition, supporter: supporter_on_both) }
 
-    let(:tag_join2) { force_create(:tag_join, tag_master: tag_master, supporter: supporter_on_local) }
+    let(:tag_join2) { force_create(:tag_join, tag_definition: tag_definition, supporter: supporter_on_local) }
 
     it 'excepts when excepting' do
       expect(Mailchimp).to receive(:get_list_mailchimp_subscribers).with(email_list).and_raise

@@ -398,8 +398,6 @@ app/javascript/legacy_react/src/components/common/Root.tsx
 app/javascript/legacy_react/src/components/common/selectable_table_row/connect.tsx
 app/javascript/legacy_react/src/components/common/selectable_table_row/SelectableTableRow.spec.tsx
 app/javascript/legacy_react/src/components/common/selectable_table_row/SelectableTableRow.tsx
-app/javascript/legacy_react/src/components/common/Spinner.spec.tsx
-app/javascript/legacy_react/src/components/common/Spinner.tsx
 app/javascript/legacy_react/src/components/common/StandardFieldComponent.spec.tsx
 app/javascript/legacy_react/src/components/common/StandardFieldComponent.tsx
 app/javascript/legacy_react/src/components/common/svg/checkbox.tsx

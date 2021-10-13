@@ -6,7 +6,7 @@ class EmailList < ApplicationRecord
   # :list_name,
   # :mailchimp_list_id,
   # :nonprofit,
-  # :tag_master
+  # :tag_definition
   belongs_to :nonprofit
-  belongs_to :tag_master
+  belongs_to :tag_definition
 end

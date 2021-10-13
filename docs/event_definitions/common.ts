@@ -106,7 +106,7 @@ type HoudiniObjectOfAllIDs = HoudiniObject<IDType> | HoudiniObject<HouID>;
  *
  * Generics:
  * * EventType a snake-cased string of the format: "<object_type>.<event_name>". As an example
- * 		tag_master.created means the event fired by when a tag_master was created
+ * 		tag_definition.created means the event fired by when a tag_definition was created
  * * DataObject: the interface representing the actual object which the event occurred on. An object of that type is
  * on the 'data' attribute
  */

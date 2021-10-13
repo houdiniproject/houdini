@@ -19,9 +19,9 @@ payments_subquery = Qx.select( "supporter_id", "SUM(gross_amount)", "MAX(date) A
   .as(:payments)
 
 # Another subquery
-tags_subquery = Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
+tags_subquery = Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_definitions.id) AS ids", "ARRAY_AGG(tag_definitions.name::text) AS names")
   .from(:tag_joins)
-  .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
+  .join(:tag_definitions, "tag_definitions.id=tag_joins.tag_definition_id")
   .group_by("tag_joins.supporter_id")
   .as(:tags)
 

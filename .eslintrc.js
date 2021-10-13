@@ -11,12 +11,15 @@ const tsSpecBase = {
 	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:jest/all',
+		'plugin:jest/recommended',
+		'plugin:jest/style',
 		'plugin:react-hooks/recommended',
 	],
 	rules: {
 		"jest/lowercase-name": ["error", { "ignore": ["describe"] }],
 		"react-hooks/exhaustive-deps": 'error',
+		"jest/no-duplicate-hooks": 'error',
+		"jest/prefer-hooks-on-top": 'warn',
 	},
 };
 
@@ -83,7 +86,7 @@ module.exports = {
 		"comma-dangle": "off",
 		"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
 		"@typescript-eslint/no-unused-vars": ['error', { "args": "all", "argsIgnorePattern": "^_" }],
-		'@typescript-eslint/member-ordering': ['error',
+		'@typescript-eslint/member-ordering': ['warn',
 			{
 				// this is the default from @typescript-eslint itself
 				"default": {

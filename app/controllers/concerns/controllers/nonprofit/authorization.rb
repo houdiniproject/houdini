@@ -12,11 +12,11 @@ module Controllers::Nonprofit::Authorization
 		private
 
 		def authenticate_nonprofit_user!
-			reject_with_sign_in 'Please sign in' unless current_nonprofit_user?
+			reject_with_sign_in unless current_nonprofit_user?
 		end
 
 		def authenticate_nonprofit_admin!
-			reject_with_sign_in 'Please sign in' unless current_nonprofit_admin?
+			reject_with_sign_in unless current_nonprofit_admin?
 		end
 
 		def current_nonprofit_user?

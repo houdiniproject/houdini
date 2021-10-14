@@ -15,9 +15,9 @@ class FullContactInfo < ActiveRecord::Base
     :supporter_id, :supporter,
     :websites
 
-	has_many :full_contact_photos
-	has_many :full_contact_social_profiles
-	has_many :full_contact_orgs
-	has_many :full_contact_topics
+	has_many :full_contact_photos, dependent: :destroy
+	has_many :full_contact_social_profiles, dependent: :destroy
+	has_many :full_contact_orgs, dependent: :destroy
+	has_many :full_contact_topics, dependent: :destroy
   belongs_to :supporter
 end

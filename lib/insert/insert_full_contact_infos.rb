@@ -51,7 +51,7 @@ module InsertFullContactInfos
           :authorization => "Bearer #{FULL_CONTACT_KEY}",
           "Reporting-Key" => supp['nonprofit_id'].to_s
         })
-      result = response.body
+      result = JSON::parse(response.body)
     rescue Exception => e
       return e
     end

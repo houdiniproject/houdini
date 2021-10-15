@@ -1,4 +1,4 @@
-
+// License: LGPL-3.0-or-later
 import { server }  from './app/javascript/api/mocks';
 import {toHaveNoViolations } from 'jest-axe';
 

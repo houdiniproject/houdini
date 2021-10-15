@@ -154,7 +154,7 @@ going to be charged real money!
 
 #### Testing
 
-To verify everying is set up correctly, you can try running through the Ruby cases:
+To verify everying is set up correctly, you can try running through the Ruby test cases:
 
 ```bash
 ./bin/rails spec

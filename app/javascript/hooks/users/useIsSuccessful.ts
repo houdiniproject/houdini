@@ -1,3 +1,5 @@
+// License: LGPL-3.0-or-later
+
 import { useEffect, useState } from "react";
 import useCurrentUserAuth from "../useCurrentUserAuth";
 

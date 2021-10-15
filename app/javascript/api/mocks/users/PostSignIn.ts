@@ -1,3 +1,5 @@
+// License: LGPL-3.0-or-later
+
 import { rest } from 'msw';
 import { SetAuthenticated } from '../../api/mocks/users';
 import { waitFor } from '@testing-library/react';

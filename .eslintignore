@@ -415,3 +415,6 @@ app/javascript/common/lodash-joins
 app/javascript/i18n/locales
 # don't check any js in the installed gems on build server
 vendor/bundle
+
+# Mock Service Worker file should not be linted
+.storybook/react/msw-public/mockServiceWorker.js

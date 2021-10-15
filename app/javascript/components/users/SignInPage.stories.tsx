@@ -5,7 +5,6 @@ import SignInPage from './SignInPage';
 
 import { Hoster, HosterContext } from '../../hooks/useHoster';
 import { Fallback } from './SignInPage';
-import MockCurrentUserProvider from '../tests/MockCurrentUserProvider';
 import { SWRConfig } from 'swr';
 import { rest } from 'msw';
 
@@ -61,9 +60,7 @@ const Template = (args: TemplateArgs) => {
 	}
 	return <OuterWrapper key={Math.random()}><SWRWrapper>
 		<HosterContext.Provider value={hosterReturnValue}>
-			<MockCurrentUserProvider>
-				<SignInPage redirectUrl={'reload'} />
-			</MockCurrentUserProvider>
+			<SignInPage redirectUrl={'reload'} />
 		</HosterContext.Provider>
 	</SWRWrapper></OuterWrapper>;
 };

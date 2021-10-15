@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import '@testing-library/jest-dom/extend-expect';
 import { renderHook } from '@testing-library/react-hooks';
 import useIsSuccessful from '../../users/useIsSuccessful';

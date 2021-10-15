@@ -1,4 +1,4 @@
-
+// License: LGPL-3.0-or-later
 
 import React, { useState } from 'react';
 import { RailsContext } from "react-on-rails/node_package/lib/types";

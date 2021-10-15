@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import React, {PropsWithChildren, useEffect, useState} from 'react';
 import { InitialCurrentUserContext } from '../../hooks/useCurrentUser';
 

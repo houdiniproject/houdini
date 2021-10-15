@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import { useEffect, useState } from "react";
 
 export default function useCanSubmit(isValid: boolean, showProgressAndSuccess: boolean, isReady: boolean, touched: boolean): boolean {

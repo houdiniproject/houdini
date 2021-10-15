@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 // From https://kapeli.com/cheat_sheets/HTTP_Status_Codes_Rails.docset/Contents/Resources/Documents/index
 
 

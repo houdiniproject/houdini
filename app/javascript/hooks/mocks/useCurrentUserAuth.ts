@@ -1,4 +1,4 @@
-
+// License: LGPL-3.0-or-later
 import { UserSignInFailsOnceAndThenSucceeds, UserSignInWaitUntilSignal, UserSignInSucceeds, UserSignInSucceedsWithDelay, UserSignInFailsFromServerErrorWithDelay, UserSignInFailsFromInvalidLogin } from '../../api/mocks/users';
 import { UserSignedInIfAuthenticated } from '../../api/api/mocks/users';
 

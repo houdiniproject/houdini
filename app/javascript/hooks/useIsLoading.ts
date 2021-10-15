@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import { useEffect, useState } from "react";
 
 export default function useIsLoading(submitting: boolean, showProgressAndSuccess: boolean): boolean {

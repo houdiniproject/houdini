@@ -1,4 +1,4 @@
-
+// License: LGPL-3.0-or-later
 import ReactOnRails from 'react-on-rails';
 import SignInPage from '../components/users/SignInPageRenderFunc';
 

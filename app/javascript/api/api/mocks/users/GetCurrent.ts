@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import { rest } from 'msw';
 import { getCurrentRoute } from '../../users';
 import { waitFor } from '@testing-library/react';

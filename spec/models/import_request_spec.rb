@@ -110,7 +110,7 @@ RSpec.describe ImportRequest, type: :model do
       expect(vals).to match_array(['custfield', 'custfield', 'custfield', 'custfield'])
     end
     it 'inserts tags' do
-      names = TagJoin.joins(:tag_master).pluck("tag_masters.name")
+      names = TagJoin.joins(:tag_definition).pluck("tag_definitions.name")
       expect(names).to match_array(%w[tag1 tag1 tag1 tag1 tag2 tag2 tag2 tag2])
     end
   end

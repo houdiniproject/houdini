@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_12_220753) do
+ActiveRecord::Schema.define(version: 2021_09_25_171712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -326,7 +326,7 @@ ActiveRecord::Schema.define(version: 2021_08_12_220753) do
 
   create_table "email_lists", id: :serial, force: :cascade do |t|
     t.integer "nonprofit_id", null: false
-    t.integer "tag_master_id", null: false
+    t.integer "tag_definition_id", null: false
     t.string "list_name", limit: 255, null: false
     t.string "mailchimp_list_id", limit: 255, null: false
     t.datetime "created_at", null: false
@@ -905,30 +905,30 @@ ActiveRecord::Schema.define(version: 2021_08_12_220753) do
     t.index ["search_vectors"], name: "supporters_search_idx", using: :gin
   end
 
-  create_table "tag_joins", id: :serial, force: :cascade do |t|
-    t.integer "tag_master_id"
-    t.integer "supporter_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["supporter_id"], name: "tag_joins_supporter_id"
-    t.index ["tag_master_id", "supporter_id"], name: "tag_join_supporter_unique_idx", unique: true
-    t.index ["tag_master_id"], name: "tag_joins_tag_master_id"
-  end
-
-  create_table "tag_joins_backup", id: :serial, force: :cascade do |t|
-    t.integer "tag_master_id"
-    t.integer "supporter_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text "metadata"
-  end
-
-  create_table "tag_masters", id: :serial, force: :cascade do |t|
+  create_table "tag_definitions", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255
     t.integer "nonprofit_id"
     t.boolean "deleted", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tag_joins", id: :serial, force: :cascade do |t|
+    t.integer "tag_definition_id"
+    t.integer "supporter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["supporter_id"], name: "tag_joins_supporter_id"
+    t.index ["tag_definition_id", "supporter_id"], name: "index_tag_joins_on_tag_definition_id_and_supporter_id", unique: true
+    t.index ["tag_definition_id"], name: "index_tag_joins_on_tag_definition_id"
+  end
+
+  create_table "tag_joins_backup", id: :serial, force: :cascade do |t|
+    t.integer "tag_definition_id"
+    t.integer "supporter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text "metadata"
   end
 
   create_table "ticket_levels", id: :serial, force: :cascade do |t|

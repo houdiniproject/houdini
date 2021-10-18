@@ -24,14 +24,10 @@ module Controllers::User::Authorization
 		end
 
 		def block_with_sign_in(msg = nil)
-			store_location
 			if current_user
-				flash[:notice] =
-					"It looks like you're not allowed to access that page. If this seems like a mistake, please contact #{Houdini.hoster.support_email}"
-				redirect_to root_path
+				redirect_to root_path(redirect_url: request.fullpath)
 			else
-				msg ||= 'We need to sign you in before you can do that.'
-				redirect_to new_user_session_path, flash: { error: msg }
+				redirect_to new_user_session_path(redirect_url: request.fullpath), flash: { error: msg }
 			end
 		end
 

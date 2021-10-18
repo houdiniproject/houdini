@@ -4,20 +4,20 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class TagJoin < ApplicationRecord
   # :supporter, :supporter_id,
-  # :tag_master, :tag_master_id
+  # :tag_definition, :tag_definition_id
 
-  validates :tag_master, presence: true
+  validates :tag_definition, presence: true
 
-  belongs_to :tag_master
+  belongs_to :tag_definition
   belongs_to :supporter
 
   def name
-    tag_master.name
+    tag_definition.name
   end
 
   def self.create_with_name(nonprofit, h)
-    tm = nonprofit.tag_masters.find_by_name(h['name'])
-    tm = nonprofit.tag_masters.create(name: h['name']) if tm.nil?
-    create tag_master: tm, supporter_id: h['supporter_id']
+    tm = nonprofit.tag_definitions.find_by_name(h['name'])
+    tm = nonprofit.tag_definitions.create(name: h['name']) if tm.nil?
+    create tag_definition: tm, supporter_id: h['supporter_id']
   end
 end

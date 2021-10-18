@@ -222,9 +222,17 @@ en:
     about: "About"
   login:
     header: "Login"
+    enter_login_information: "Please Enter Login Information"
     email: "Email"
     password: "Password"
-    login: "Login"
     logging_in: "Logging you in..."
     forgot_password: "Forgot Password?"
     get_started: "Get Started"
+    enter_info: "Please enter your login information"
+    success: "You have successfully signed in."
+    please_sign_in: "Please sign in"
+    not_allowed_to_access: "It looks like you're not allowed to access that page. If this seems like a mistake, please contact %{admin_email}."
+    you_need_to_sign_in_before_doing: "We need to sign you in before you can do that."
+    errors: 
+      password_email: "Please enter a valid email address and password"
+      error_boundary: "Something went wrong. Please reload the page."

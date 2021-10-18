@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://houdini.zulipchat.com)
+[![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 ![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
 
 > *Note*: This is the latest version (pre-2.0) of Houdini and
@@ -40,13 +40,13 @@ Houdini is designed and tested to run with the following:
 
 Houdini's success depends on you!
 
-### Join our Zulip chat
+### Join our Discussions chat
 
-https://houdini.zulipchat.com
+https://github.com/houdiniproject/houdini/discussions
 
 ### Help with translations
 
-Visit the Internationalization channel on Houdini Zulip and discuss
+Visit the Discussions tab on Houdini GitHub and discuss
 
 ### Help with usability tests
 
@@ -154,7 +154,7 @@ going to be charged real money!
 
 #### Testing
 
-To verify everying is set up correctly, you can try running through the test cases:
+To verify everying is set up correctly, you can try running through the Ruby test cases:
 
 ```bash
 ./bin/rails spec
@@ -174,6 +174,21 @@ Coverage report generated for RSpec to .../houdini/coverage. 10552 / 12716 LOC (
 The important thing to look for is that the number of
 failures is zero.
 
+We also recommend you run through the javascript test cases by running:
+
+```bash
+yarn jest
+```
+
+Lastly, you can use [Storybook](https://storybook.js.org/) to experiment with
+the various new React components.
+
+```bash
+yarn storybook
+```
+
+If you create a new React component, make sure you add a storybook and jest
+tests for that component!
 ##### Creating your first nonprofits and user
 
 To create a nonprofit, use the command line to run the following command and fill in the questions with the required information:
@@ -235,6 +250,7 @@ We use `Rubocop` to perform static code analysis:
 ```bash
 rubocop
 ```
+
 
 ## Additional documentation
 

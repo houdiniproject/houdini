@@ -76,7 +76,7 @@ group :ci, :test do
   gem 'action_mailer_matchers', '~> 1.2'
   gem 'database_cleaner-active_record'
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
-  gem 'test-unit', '~> 3.4'
+  gem 'test-unit', '~> 3.5'
   gem 'timecop', '~> 0.9.4'
   gem 'webmock', '~> 3.14'
   gem 'wisper-rspec', '~> 1.1.0'

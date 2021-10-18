@@ -1,0 +1,19 @@
+<%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE -%>
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= yield :title %></title>
+    <%= yield :head %>
+    <%= csrf_meta_tags %>
+		<%= favicon_link_tag %>
+    <%= yield :javascripts %>
+		<%= yield :stylesheets %>
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>

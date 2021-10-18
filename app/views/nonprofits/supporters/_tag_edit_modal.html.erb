@@ -10,7 +10,7 @@
 
 	<div class='modal-body'>
 		<form>
-			<!--= show_if (length tags.masters.data) -->
+			<!--= show_if (length tags.definitions.data) -->
 			<!--= on 'submit' (tags.single.prepare_to_post form_object) -->
       <div class='layout--two'>
         <span class='u-marginBottom--10 group'>
@@ -31,13 +31,13 @@
 		</form>
 
 		<p class='noResults'>
-			<!--= show_if (empty tags.masters.data) -->
+			<!--= show_if (empty tags.definitions.data) -->
 			It looks like you haven't created any tags yet. Click the link below to add some tags.
 		</p>
 	</div>
 
 	<footer class='modal-footer'>
-		<a><!--= on 'click' (open_modal 'manageTagMasterModal') -->Manage tags</a>
+		<a><!--= on 'click' (open_modal 'manageTagDefinitionModal') -->Manage tags</a>
 	</footer>
 
 </div>

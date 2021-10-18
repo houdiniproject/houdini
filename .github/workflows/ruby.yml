@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        node: [14.6.0]
+        node: [14.18.1]
         ruby: [2.7.4]
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +37,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        node: [14.6.0]
+        node: [14.18.1]
         ruby: [2.7.4]
     steps:
       - uses: actions/checkout@v2
@@ -74,7 +74,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04]
-        node: [14.6.0]
+        node: [14.18.1]
         ruby: [2.7.4]
     steps:
       - name: Checkout repository
@@ -84,24 +84,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-
-      - name: Install Code Scanning integration
-        run: bundle add code-scanning-rubocop --skip-install
-
-      - name: Install dependencies
-        run: |
-          bundle config unset deployment # we added code-scanning-rubocop but on deployment mode, this won't work.
-          bundle config path vendor/bundle
-          bundle install --jobs 4
       - name: Rubocop run
-        run: |
-          bash -c "
-            bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
-            [[ $? -ne 2 ]]
-          "
-      - name: Upload Sarif output
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: rubocop.sarif
+        run: bundle exec rubocop
 
     

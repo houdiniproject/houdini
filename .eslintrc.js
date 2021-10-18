@@ -16,6 +16,7 @@ const tsSpecBase = {
 		'plugin:react-hooks/recommended',
 	],
 	rules: {
+		"jest/no-hooks": "off",
 		"jest/lowercase-name": ["error", { "ignore": ["describe"] }],
 		"react-hooks/exhaustive-deps": 'error',
 		"jest/no-duplicate-hooks": 'error',
@@ -31,6 +32,7 @@ const tsxSpec = _.cloneDeep(tsSpecBase);
 tsxSpec['files'] = ['**/*.spec.tsx'];
 tsxSpec['plugins'] = [...tsxSpec['plugins'], "react"];
 tsxSpec['extends'] = [...tsxSpec['extends'], "plugin:react/recommended"];
+tsxSpec['rules'] = {...tsxSpec['rules'], ...{"jest/no-hooks": "off"}};
 
 
 const tsBase = {
@@ -86,7 +88,7 @@ module.exports = {
 		"comma-dangle": "off",
 		"@typescript-eslint/comma-dangle": ["error", "always-multiline"],
 		"@typescript-eslint/no-unused-vars": ['error', { "args": "all", "argsIgnorePattern": "^_" }],
-		'@typescript-eslint/member-ordering': ['error',
+		'@typescript-eslint/member-ordering': ['warn',
 			{
 				// this is the default from @typescript-eslint itself
 				"default": {
@@ -176,6 +178,7 @@ module.exports = {
 			},
 		],
 		"react-hooks/exhaustive-deps": 'error',
+		"jest/no-hooks": "off",
 	},
 	"settings": {
 		"react": {

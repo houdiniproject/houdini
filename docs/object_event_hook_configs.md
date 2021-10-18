@@ -4,7 +4,7 @@
 With those configurations, nonprofits are able to set up webhook configurations
 for given events that happen to that nonprofit. As an example, a nonprofit
 might want to contact a particular API A when the a supporter is created or
-when a tag_master is added while they might want to contact a different API B
+when a tag_definition is added while they might want to contact a different API B
 when a supporter is deleted.
 
 Currently, Houdini supports sending triggers to OpenFn.

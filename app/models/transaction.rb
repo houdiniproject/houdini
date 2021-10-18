@@ -82,6 +82,5 @@ class Transaction < ApplicationRecord
 	end
 end
 
-Amount = Struct.new(:cents, :currency)
 
 ActiveSupport.run_load_hooks(:houdini_transaction, Transaction)

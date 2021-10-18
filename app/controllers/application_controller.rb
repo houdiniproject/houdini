@@ -37,7 +37,6 @@ class ApplicationController < ActionController::Base
       result = { status: 200, json: yield(block) }
     rescue ParamValidation::ValidationError => e
       logger.info "422: #{e}".red.bold
-      # logger.info ">>".bold.red + " #{{'Failed key name' => e.data[:key], 'Value' => e.data[:val], 'Failed validator' => e.data[:name]}}".red
       result = { status: 422, json: { error: e.message } }
     rescue CCOrgError => e
       logger.info "422: #{e}".red.bold

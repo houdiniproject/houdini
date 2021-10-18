@@ -23,7 +23,6 @@ module Nonprofits
         format.json do
           render_json do
             update = UpdateMiscellaneousNpInfo.update(params[:nonprofit_id], params[:miscellaneous_np_info])
-            # flash[:notice] = "Your Miscellaneous Settings have been saved"
             update
           end
         end

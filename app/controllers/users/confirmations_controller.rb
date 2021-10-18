@@ -32,7 +32,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
       redirect_to session[:donor_signup_url] || root_url
     else
       session[:donor_signup_url] || root_url
-      # render :action => "show", :layout => 'layouts/embed'
     end
   end
 

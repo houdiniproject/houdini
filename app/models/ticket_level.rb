@@ -72,13 +72,6 @@ class TicketLevel < ApplicationRecord
       json.add_builder_expansion :nonprofit, :event
 
       json.add_builder_expansion :event_discounts, enum_type: :expandable
-      # if expand.include? :event_discounts
-      #   json.event_discounts event_discounts do |disc|
-      #     json.merge! disc.to_builder.attributes!
-      #   end
-      # else 
-      #   json.event_discounts event_discounts.pluck(:id)
-      # end
     end
   end
 
@@ -101,7 +94,6 @@ class TicketLevel < ApplicationRecord
   def amount_hasnt_changed_if_has_tickets
     if tickets.any?
       console.log("YOU can't change amount if tickets already use this #{ticket_level.id}. Please create a new level")
-      #errors.add(:amount, "can't change amount if tickets already use this level. Please create a new level")
     end
   end
 end

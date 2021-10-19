@@ -39,14 +39,6 @@ class TicketPurchase < ApplicationRecord
       json.add_builder_expansion :event, :event_discount, :nonprofit, :supporter
       json.add_builder_expansion :ticket_to_legacy_tickets, enum_type: :expandable, json_attribute: 'tickets'
       json.add_builder_expansion :trx, json_attribute: :transaction
-
-      # if expand.include? :tickets
-      #   json.tickets ticket_to_legacy_tickets do |i|
-      #     i.to_builder.attributes!
-      #   end
-      # else
-      #   json.tickets ticket_to_legacy_tickets.pluck(:id)
-      # end
     end
   end
 

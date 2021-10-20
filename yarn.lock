@@ -7304,11 +7304,6 @@ create-react-context@0.3.0, create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-cropperjs@1.0.0-beta.2:
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.0.0-beta.2.tgz#fdc5e88047d7f89d52d445a3228133a2b57acbcf"
-  integrity sha1-/cXogEfX+J1S1EWjIoEzorV6y88=
-
 cross-spawn@6.0.5, cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"

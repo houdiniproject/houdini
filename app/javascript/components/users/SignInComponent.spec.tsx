@@ -11,7 +11,7 @@ import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 import { SWRConfig } from "swr";
 
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 
 
 import { InitialCurrentUserContext } from "../../hooks/useCurrentUser";

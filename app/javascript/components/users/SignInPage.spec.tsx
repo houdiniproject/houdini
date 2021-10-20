@@ -14,7 +14,7 @@ import I18n from '../../i18n';
 import { server } from '../../api/mocks';
 import { UserSignsInOnFirstAttempt } from "../../hooks/mocks/useCurrentUserAuth";
 import { SWRConfig } from 'swr';
-
+import { axe } from 'jest-axe';
 
 type WrapperProps = React.PropsWithChildren<{ hoster?: Hoster }>;
 
@@ -91,8 +91,14 @@ describe('useHoster', () => {
 	});
 });
 
-describe('redirectUrl', () => {
+describe('axe validation', () => {
 	beforeEach(() => {
 		server.use(...UserSignsInOnFirstAttempt);
 	});
+
+	it('passes axe accessibility verification', async () => {
+		const { container } = render(<Wrapper hoster={{ legal_name: 'Houdini Hoster LLC', casual_name: 'Houdini Project' }}><SignInPage redirectUrl={"redirectUrl"} /></Wrapper>);
+		const results = await axe(container);
+		expect(results).toHaveNoViolations();
+	})
 });

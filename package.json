@@ -173,7 +173,6 @@
     "react-transition-group": "^2.9.0",
     "react-use": "^15.3.3",
     "snabbdom": "0.3.0",
-    "snake-case": "2.1.0",
     "superagent": "1.1.0",
     "swr": "^1.0.0",
     "uuid": "2.0.2",

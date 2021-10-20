@@ -8608,11 +8608,6 @@ es6-promise@*, es6-promise@^4.0.3:
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
   integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
 
-es6-promise@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-2.1.1.tgz#03e8f3c7297928e5478d6ab1d0643251507bdedd"
-  integrity sha1-A+jzxyl5KOVHjWqx0GQyUVB73t0=
-
 es6-shim@^0.35.5:
   version "0.35.5"
   resolved "https://registry.yarnpkg.com/es6-shim/-/es6-shim-0.35.5.tgz#46f59dc0a84a1c5029e8ff1166ca0a902077a9ab"

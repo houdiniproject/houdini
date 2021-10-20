@@ -13247,11 +13247,6 @@ mkdirp@1.x, mkdirp@^1.0.3, mkdirp@^1.0.4:
   dependencies:
     minimist "^1.2.5"
 
-mobx-react-devtools@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/mobx-react-devtools/-/mobx-react-devtools-5.0.1.tgz#9473c85929b2fc0c95086430419028cebd96fb3b"
-  integrity sha512-Uv86FWqVmmqaEs3oBOCs7AJDKZL8LIYG43ZRMP/xVX0PB/ytY3hdj16kXZ/RdbFLESEKws/+IyVboj0nCesd6w==
-
 "mobx-react-form@github:houdiniproject/mobx-react-form#our_fix":
   version "0.0.0-semantically-released"
   resolved "https://codeload.github.com/houdiniproject/mobx-react-form/tar.gz/08048878a4f01da8cfdc8dad417b70766357dfdc"

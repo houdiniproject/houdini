@@ -8857,11 +8857,6 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
-ev-emitter@~1.0.0:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/ev-emitter/-/ev-emitter-1.0.3.tgz#ee5ef74b6ed28d911b32ddcbfc97867f580937bc"
-  integrity sha1-7l73S27SjZEbMt3L/JeGf1gJN7w=
-
 ev-store@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/ev-store/-/ev-store-7.0.0.tgz#1ab0c7f82136505dd74b31d17701cb2be6d26558"
@@ -9409,16 +9404,6 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.3.tgz#c1283ac9f27b368abc1e36d1ff7b04501a30356b"
   integrity sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==
 
-flimflam-docs-scaffold@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/flimflam-docs-scaffold/-/flimflam-docs-scaffold-0.0.8.tgz#dbac482800ad1c85774f548efee991df398866cc"
-  integrity sha1-26xIKACtHIV3T1SO/umR3zmIZsw=
-  dependencies:
-    flimflam "0.7.1"
-    flyd-url "0.0.1"
-    imagesloaded "4.1.1"
-    ramda "0.23.0"
-
 flimflam-render@0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/flimflam-render/-/flimflam-render-0.1.4.tgz#e077f1db31ea6214949478cfe357738b2d531f49"
@@ -9435,17 +9420,6 @@ flimflam-render@0.2.1:
     flyd "0.2.2"
     ramda "0.23.0"
     snabbdom "0.6.3"
-
-flimflam@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/flimflam/-/flimflam-0.7.1.tgz#45d86250183375785e15c598e8ea84b2e108bebe"
-  integrity sha1-RdhiUBgzdXheFcWY6OqEsuEIvr4=
-  dependencies:
-    flyd "0.2.4"
-    form-serialize "0.7.1"
-    ramda "0.23.0"
-    snabbdom "0.6.5"
-    snabbdom-merge "0.0.4"
 
 flimflam@0.7.5:
   version "0.7.5"
@@ -10668,13 +10642,6 @@ ignore@^5.1.1, ignore@^5.1.4:
   version "5.1.8"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
-
-imagesloaded@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/imagesloaded/-/imagesloaded-4.1.1.tgz#53b5b66615360850a5a264b1293e7f4d06d3bd51"
-  integrity sha1-U7W2ZhU2CFClomSxKT5/TQbTvVE=
-  dependencies:
-    ev-emitter "~1.0.0"
 
 immer@1.10.0:
   version "1.10.0"

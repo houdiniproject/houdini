@@ -2575,10 +2575,10 @@
   dependencies:
     emojis-list "^3.0.0"
 
-"@houdiniproject/react-i18n-currency-input@^2.0.0-pre3":
-  version "2.0.0-pre3"
-  resolved "https://registry.yarnpkg.com/@houdiniproject/react-i18n-currency-input/-/react-i18n-currency-input-2.0.0-pre3.tgz#717fbd6cfa3d290de9bc0e337072c6411ce3affb"
-  integrity sha512-MSx9ostzMiss1x8W7auIQ4wLQhG6caf31crgEWb4oM4y+cI6MEWITZmYuaSphbgsPmJJ2sIjqTO9l/htYvTr/g==
+"@houdiniproject/react-i18n-currency-input@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@houdiniproject/react-i18n-currency-input/-/react-i18n-currency-input-2.0.0.tgz#d007ab7db22f5d2f84c360d072548b1e1455501e"
+  integrity sha512-D9b+PevXEHvaG1EaeuZmE6vwSydnDrNqnIb7qi004iz2mleYuT9OxWY35UjRFnIUyaaEIK99yXwiV287M5OkVQ==
 
 "@icons/material@^0.2.4":
   version "0.2.4"

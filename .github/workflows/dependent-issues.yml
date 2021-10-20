@@ -22,6 +22,19 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+permissions:
+  actions: none
+  checks: none
+  contents: none
+  deployments: none
+  issues: write
+  discussions: none
+  packages: none
+  pull-requests: write
+  repository-projects: none
+  security-events: none
+  statuses: none
+
 jobs:
   check:
     runs-on: ubuntu-latest

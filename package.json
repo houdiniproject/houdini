@@ -130,7 +130,6 @@
     "ff-file-uploader": "0.0.6",
     "file-loader": "^6.2.0",
     "flimflam": "0.7.5",
-    "flimflam-docs-scaffold": "0.0.8",
     "flimflam-render": "0.1.4",
     "flyd": "0.2.2",
     "flyd-ajax": "0.2.0",

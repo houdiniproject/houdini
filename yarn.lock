@@ -18239,11 +18239,6 @@ test-exclude@^6.0.0:
     glob "^7.1.4"
     minimatch "^3.0.4"
 
-text-mask@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/text-mask/-/text-mask-0.0.2.tgz#12fb1816ac3db9ea229fa6a04e22bc643a70efcf"
-  integrity sha1-EvsYFqw9ueoin6agTiK8ZDpw788=
-
 text-table@0.2.0, text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"

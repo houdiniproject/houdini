@@ -100,5 +100,5 @@ describe('axe validation', () => {
 		const { container } = render(<Wrapper hoster={{ legal_name: 'Houdini Hoster LLC', casual_name: 'Houdini Project' }}><SignInPage redirectUrl={"redirectUrl"} /></Wrapper>);
 		const results = await axe(container);
 		expect(results).toHaveNoViolations();
-	})
+	});
 });

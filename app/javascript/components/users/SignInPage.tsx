@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
@@ -134,7 +133,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 	return <ErrorBoundary FallbackComponent={Fallback}>
 		<Grid container spacing={0}>
 			<Grid item xs={12}>
-				<AppBar position="static" className={classes.appbar} elevation={1}>
+				<Paper className={classes.appbar} elevation={1} aria-label={"Page header"}>
 					<Toolbar >
 						<Grid>
 							<CardMedia
@@ -145,7 +144,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 							/>
 						</Grid>
 					</Toolbar>
-				</AppBar>
+				</Paper>
 			</Grid>
 			<Grid container justify="center">
 				<Box className={classes.responsive} width="45%" justifyContent="center" alignItems="center">
@@ -190,7 +189,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 			</Grid>
 			{/* Footer */}
 			<Grid item xs={12} >
-				<AppBar position="static" className={classes.appbar} elevation={1}>
+				<Paper className={classes.appbar} elevation={1} aria-label={"Page footer"}>
 					<Toolbar>
 						<Box color="text.primary">
 							<Grid container>
@@ -207,7 +206,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 							</Grid>
 						</Box>
 					</Toolbar>
-				</AppBar>
+				</Paper>
 			</Grid>
 		</Grid>
 	</ErrorBoundary>;

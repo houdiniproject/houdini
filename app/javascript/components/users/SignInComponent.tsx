@@ -263,7 +263,7 @@ function InnerFormikComponent(props: {
 					{loading ?
 						(<div data-testid="progressTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
-								<CircularProgress size={25} className={classes.buttonProgress} />
+								<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."}/>
 							</Box>
 						</div>) :
 						<Button className={classes.submitButton}

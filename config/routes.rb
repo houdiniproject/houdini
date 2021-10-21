@@ -135,7 +135,6 @@ Commitchange::Application.routes.draw do
 		get(:recurring_donation_stats, {on: :member})
     get(:search, {on: :collection})
 		get(:dashboard_todos, {on: :member})
-		put(:verify_identity, {on: :member})
 
 
 		resources(:roles, {only: [:create, :destroy]})

@@ -4,7 +4,7 @@
   include Controllers::XFrame
 
 	helper_method :current_nonprofit_user?
-	before_action :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update, :verify_identity]
+	before_action :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update]
   before_action :authenticate_super_admin!, only: [:destroy]
   caches_action :btn
 
@@ -112,18 +112,6 @@
 
 	def payment_history
     render json: NonprofitMetrics.payment_history(params)
-	end
-
-	# put /nonprofits/:id/verify_identity
-	def verify_identity
-    if params[:legal_entity][:address]
-      tos = {
-        ip: current_user.current_sign_in_ip,
-        date: Time.current.to_i,
-        user_agent: request.user_agent
-      }
-    end
-    render_json{ UpdateNonprofit.verify_identity(params[:nonprofit_id], params[:legal_entity], tos) }
 	end
 
   def search

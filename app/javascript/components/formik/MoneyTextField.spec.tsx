@@ -136,7 +136,7 @@ describe('MoneyTextField', () => {
 		expect(amount).toHaveTextContent("8000");
 		expect(currency).toHaveTextContent("usd");
 
-		waitFor(() => expect(field).toHaveValue("$80.00"));
+		await waitFor(() => expect(field).toHaveValue("$80.00"));
 	});
 });
 

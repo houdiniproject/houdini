@@ -18,10 +18,6 @@ describe NonprofitsController, :type => :controller do
         include_context :open_to_np_associate, :get, :dashboard_metrics, id: :__our_np
       end
 
-      describe 'verify_identity' do
-        include_context :open_to_np_associate, :put, :verify_identity, id: :__our_np
-      end
-
       describe 'recurring_donation_stats' do
         include_context :open_to_np_associate, :get, :recurring_donation_stats, id: :__our_np
       end

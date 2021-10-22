@@ -94,7 +94,6 @@ appl.def('update_change_amount_message', function(node) {
 })
 
 if(app.current_nonprofit_user) {
-	// appl.verify_identity = require('../../nonprofits/payouts/index/verify_identity')
 	appl.create_bank_account = require('../../bank_accounts/create.es6')
 }
 

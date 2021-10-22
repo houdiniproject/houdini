@@ -2,7 +2,6 @@
 require('../../campaigns/new/wizard')
 require('../../events/new/wizard')
 require('./tour')
-//appl.verify_identity = require('../payouts/index/verify_identity')
 appl.create_bank_account = require('../../bank_accounts/create.es6')
 var client = require('../../common/client')
 var create_info_card = require('../../supporters/info-card.es6')
@@ -33,10 +32,6 @@ todos(function(data, url) {
 		{text: "Import supporter data", done: data['has_imported'], link: url + '/supporters' },
 		{text: "Brand fundraising tools", done: data['has_branding'], link: '/settings?p=branding&s=settings-pane' }
 	])
-	if(data['has_bank']){
-		appl.todos.items.push({text: "Verify your identity", done: data['is_verified'],  modal_id:'identityVerificationModal', confirmed: true})
-		appl.def('todos.items', appl.todos.items)
-	}
 })
 
 // the only ff component so far on this page is events listings

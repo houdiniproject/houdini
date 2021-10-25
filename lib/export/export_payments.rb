@@ -88,7 +88,7 @@ module ExportPayments
   def self.get_chunk_of_export(npo_id, query, offset=nil, limit=nil, skip_header=false)
     QexprQueryChunker.get_chunk_of_query(offset, limit, skip_header) do
       expr = QueryPayments.full_search_expr(npo_id, query)
-              .select(*export_selects)
+              .select(*export_selects(query[:export_format_id]))
               .left_outer_join('campaign_gifts', 'campaign_gifts.donation_id=donations.id')
               .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
               .left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
@@ -99,7 +99,10 @@ module ExportPayments
     end
   end
 
-  def self.export_selects
+  def self.export_selects(export_format_id)
+    if(export_format_id.present?)
+      return build_export_select_using_export_format(ExportFormat.find(export_format_id))
+    end
     ["to_char(payments.date::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), 'YYYY-MM-DD HH24:MI:SS TZ') AS date",
      '(payments.gross_amount / 100.0)::money::text AS gross_amount',
      '(payments.fee_total / 100.0)::money::text AS fee_total',
@@ -127,6 +130,91 @@ module ExportPayments
      'donations.comment AS donation_note',
      'coalesce(nullif(misc_payment_infos.fee_covered, false), false) AS "Fee Covered by Supporter"'
     ])
+  end
+
+  def self.build_export_select_using_export_format(export_format)
+    build_payments_select(export_format)
+      .concat(QuerySupporters.supporter_export_selections(:anonymous))
+      .concat(build_donations_and_campaigns_select(export_format))
+  end
+
+  def self.build_payments_select(export_format)
+    custom_names = build_custom_names_for_payments(export_format.custom_columns_and_values)
+    payments_select = ["to_char(payments.date::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), 'YYYY-MM-DD HH24:MI:SS TZ') AS #{custom_names['payments.date']}"]
+
+    if(export_format.show_currency)
+      payments_select.concat([
+        "#{money_with_currency('payments.gross_amount')} AS #{custom_names['payments.gross_amount']}",
+        "#{money_with_currency('payments.fee_total')} AS #{custom_names['payments.fee_total']}",
+        "#{money_with_currency('payments.net_amount')} AS #{custom_names['payments.net_amount']}"
+      ])
+    else
+      payments_select.concat([
+        "#{money_without_currency('payments.gross_amount')} AS #{custom_names['payments.gross_amount']}",
+        "#{money_without_currency('payments.fee_total')} AS #{custom_names['payments.fee_total']}",
+        "#{money_without_currency('payments.net_amount')} AS #{custom_names['payments.net_amount']}"
+      ])
+    end
+    payments_select.concat(["payments.kind AS #{custom_names['payments.kind']}"])
+  end
+
+  def self.build_donations_and_campaigns_select(export_format)
+    custom_names = build_custom_names_for_donations_and_campaigns(export_format.custom_columns_and_values)
+    [
+      "coalesce(donations.designation, 'None') AS #{custom_names['donations.designation']}",
+      "#{QueryPayments.get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
+      "#{QueryPayments.get_dedication_or_empty('name')}::text AS \"Dedicated To: Name\"",
+      "#{QueryPayments.get_dedication_or_empty('supporter_id')}::text AS \"Dedicated To: Supporter ID\"",
+      "#{QueryPayments.get_dedication_or_empty('contact', 'email')}::text AS \"Dedicated To: Email\"",
+      "#{QueryPayments.get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
+      "#{QueryPayments.get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
+      "#{QueryPayments.get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
+      "(donations.anonymous OR supporters.anonymous) AS #{custom_names['donations.anonymous']}",
+      'donations.comment',
+      "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS #{custom_names['campaigns_for_export.name']}",
+      "campaigns_for_export.id AS #{custom_names['campaigns_for_export.id']}",
+      "coalesce(nullif(campaigns_for_export.creator_email, ''), '') AS #{custom_names['campaigns_for_export.creator_email']}",
+      "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS #{custom_names['campaign_gift_options.name']}",
+      "events_for_export.name AS #{custom_names['events_for_export.name']}",
+      "payments.id AS #{custom_names['payments.id']}",
+      "offsite_payments.check_number AS #{custom_names['offsite_payments.check_number']}",
+      "donations.comment AS #{custom_names['donations.comment']}",
+      "coalesce(nullif(misc_payment_infos.fee_covered, false), false) AS #{custom_names['misc_payment_infos.fee_covered']}"
+    ]
+  end
+
+  def self.build_custom_names_for_payments(custom_names)
+    {
+      'payments.date' => custom_names&.dig('payments.date')&.dig('custom_name') || 'date',
+      'payments.gross_amount' => custom_names&.dig('payments.gross_amount')&.dig('custom_name') || 'gross_amount',
+      'payments.fee_total' => custom_names&.dig('payments.fee_total')&.dig('custom_name') || 'fee_total',
+      'payments.net_amount' => custom_names&.dig('payments.net_amount')&.dig('custom_name') || 'net_amount',
+      'payments.kind' => custom_names&.dig('payments.kind')&.dig('custom_name') || 'type'
+    }
+  end
+
+  def self.build_custom_names_for_donations_and_campaigns(custom_names)
+    {
+      'donations.designation' => custom_names&.dig('donations.designation')&.dig('custom_name') || 'designation',
+      'donations.anonymous' => custom_names&.dig('donations.anonymous')&.dig('custom_name') || custom_names&.dig('supporters.anonymous')&.dig('custom_name') || '"Anonymous?"',
+      'campaigns_for_export.name' => custom_names&.dig('campaigns_for_export.name')&.dig('custom_name') || 'campaign',
+      'campaigns_for_export.id' => custom_names&.dig('campaigns_for_export.id')&.dig('custom_name') || '"Campaign Id"',
+      'campaigns_for_export.creator_email' => custom_names&.dig('campaigns_for_export.creator_email')&.dig('custom_name') || 'campaign_creator_email',
+      'campaign_gift_options.name' => custom_names&.dig('campaign_gift_options.name')&.dig('custom_name') || 'campaign_gift_level',
+      'events_for_export.name' => custom_names&.dig('events_for_export.name')&.dig('custom_name') || 'event_name',
+      'payments.id' => custom_names&.dig('payments.id')&.dig('custom_name') || 'payment_id',
+      'offsite_payments.check_number' => custom_names&.dig('offsite_payments.check_number')&.dig('custom_name') || 'check_number',
+      'donations.comment' => custom_names&.dig('donations.comment')&.dig('custom_name') || 'donation_note',
+      'misc_payment_infos.fee_covered' => custom_names&.dig('misc_payment_infos.fee_covered')&.dig('custom_name') || '"Fee Covered by Supporter"'
+    }
+  end
+
+  def self.money_with_currency(column)
+    "(#{column} / 100.0)::money::text"
+  end
+
+  def self.money_without_currency(column)
+    "ROUND((#{column} / 100.0), 2)::text"
   end
 
   def self.campaigns_with_creator_email

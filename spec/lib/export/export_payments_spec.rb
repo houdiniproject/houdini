@@ -202,5 +202,76 @@ describe ExportPayments do
       end
     end
   end
+
+  describe '.for_export_enumerable' do
+    it 'finishes two payment export' do
+      rows = ExportPayments.for_export_enumerable(nonprofit.id, {}).to_a
+
+      headers = MockHelpers.payment_export_headers
+
+      expect(rows.length).to eq(3)
+      expect(rows[0]).to eq(headers)
+
+    end
+
+    context 'includes proper anonymous value' do
+      include_context :shared_rd_donation_value_context
+
+      before(:each) do
+        nonprofit.stripe_account_id = Stripe::Account.create()['id']
+        nonprofit.save!
+        cust = Stripe::Customer.create()
+        card.stripe_customer_id = cust.id
+        source = Stripe::Customer.create_source(cust.id, {source: StripeMock.generate_card_token(brand: 'Visa', country: 'US')})
+        card.stripe_card_id = source.id
+        card.save!
+        allow(Stripe::Charge).to receive(:create).and_wrap_original {|m, *args| a = m.call(*args);
+          @stripe_charge_id = a['id']
+          a
+        }
+  
+      end
+      let(:input) {{
+        amount: 100,
+        nonprofit_id: nonprofit.id,
+        supporter_id: supporter.id,
+        token: source_tokens[4].token,
+        date: (Time.now - 1.day).to_s,
+        comment: 'donation comment',
+        designation: 'designation'
+      }}
+
+      it 'is not anonymous when neither donation nor supporter are' do
+        InsertDonation.with_stripe(input)
+
+        result = ExportPayments.for_export_enumerable(nonprofit.id, { search: Payment.last.id }).to_a
+        row = CSV.parse(Format::Csv.from_array(result), headers:true).first
+        expect(row["Anonymous?"]).to eq "false"
+      end
+
+      it 'is anonymous when donation is' do
+        InsertDonation.with_stripe(input)
+        d = Donation.last
+        d.anonymous = true
+        d.save!
+
+        result = ExportPayments.for_export_enumerable(nonprofit.id, { search: Payment.last.id }).to_a
+        row = CSV.parse(Format::Csv.from_array(result), headers:true).first
+        expect(row["Anonymous?"]).to eq "true"
+      end
+
+      it 'is anonymous when supporter is' do
+        InsertDonation.with_stripe(input)
+
+        s = Payment.last.supporter
+        s.anonymous = true
+        s.save!
+       
+        result = ExportPayments.for_export_enumerable(nonprofit.id, { search: Payment.last.id }).to_a
+        row = CSV.parse(Format::Csv.from_array(result.to_a), headers:true).first
+        expect(row["Anonymous?"]).to eq "true"
+      end
+    end
+  end
 end
 

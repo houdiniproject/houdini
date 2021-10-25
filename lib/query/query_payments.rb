@@ -345,85 +345,6 @@ module QueryPayments
     expr
   end
 
-  def self.for_export_enumerable(npo_id, query, chunk_limit=15000)
-    ParamValidation.new({npo_id: npo_id, query:query}, {npo_id: {required: true, is_int: true},
-                                                        query: {required:true, is_hash: true}})
-
-    return QexprQueryChunker.for_export_enumerable(chunk_limit) do |offset, limit, skip_header|
-      get_chunk_of_export(npo_id, query, offset, limit, skip_header)
-    end
-
-  end
-
-  def self.for_export(npo_id, query)
-    tickets_subquery = Qexpr.new.select("payment_id", "MAX(event_id) AS event_id").from("tickets").group_by("payment_id").as("tickets")
-    expr = full_search_expr(npo_id, query)
-               .select(*export_selects)
-               .left_outer_join('campaign_gifts', 'campaign_gifts.donation_id=donations.id')
-               .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-               .left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
-               .left_outer_join(tickets_subquery, 'tickets.payment_id=payments.id')
-               .left_outer_join('events events_for_export', 'events_for_export.id=tickets.event_id OR donations.event_id=events_for_export.id')
-               .left_outer_join('offsite_payments', 'offsite_payments.payment_id=payments.id')
-               .parse
-
-    Psql.execute_vectors(expr)
-  end
-
-  def self.get_chunk_of_export(npo_id, query, offset=nil, limit=nil, skip_header=false )
-
-    return QexprQueryChunker.get_chunk_of_query(offset, limit, skip_header) {
-
-
-      tickets_subquery = Qexpr.new.select("payment_id", "MAX(event_id) AS event_id").from("tickets").group_by("payment_id").as("tickets")
-      expr = full_search_expr(npo_id, query)
-                 .select(*export_selects)
-                 .left_outer_join('campaign_gifts', 'campaign_gifts.donation_id=donations.id')
-                .left_outer_join('campaign_gift_options', 'campaign_gifts.campaign_gift_option_id=campaign_gift_options.id')
-                .left_outer_join("(#{campaigns_with_creator_email}) AS campaigns_for_export", 'donations.campaign_id=campaigns_for_export.id')
-                 .left_outer_join(tickets_subquery, 'tickets.payment_id=payments.id')
-                 .left_outer_join('events events_for_export', 'events_for_export.id=tickets.event_id OR donations.event_id=events_for_export.id')
-                 .left_outer_join('offsite_payments', 'offsite_payments.payment_id=payments.id')
-                 .left_outer_join('misc_payment_infos', 'payments.id = misc_payment_infos.payment_id')
-    }
-  end
-
-
-  def self.get_dedication_or_empty(*path)
-    "json_extract_path_text(coalesce(nullif(trim(both from donations.dedication), ''), '{}')::json, #{path.map{|i| "'#{i}'"}.join(',')})"
-  end
-
-  def self.export_selects
-    ["to_char(payments.date::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), 'YYYY-MM-DD HH24:MI:SS TZ') AS date",
-     '(payments.gross_amount / 100.0)::money::text AS gross_amount',
-     '(payments.fee_total / 100.0)::money::text AS fee_total',
-     '(payments.net_amount / 100.0)::money::text AS net_amount',
-     'payments.kind AS type']
-    .concat(QuerySupporters.supporter_export_selections(:anonymous))
-    .concat([
-     "coalesce(donations.designation, 'None') AS designation",
-     "#{get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
-     "#{get_dedication_or_empty('name')}::text AS \"Dedicated To: Name\"",
-     "#{get_dedication_or_empty('supporter_id')}::text AS \"Dedicated To: Supporter ID\"",
-     "#{get_dedication_or_empty('contact', 'email')}::text AS \"Dedicated To: Email\"",
-     "#{get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
-     "#{get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
-     "#{get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
-     '(donations.anonymous OR supporters.anonymous) AS "Anonymous?"',
-     'donations.comment',
-     "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS campaign",
-     "campaigns_for_export.id AS \"Campaign Id\"",
-     "coalesce(nullif(campaigns_for_export.creator_email, ''), '') AS campaign_creator_email",
-     "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS campaign_gift_level",
-     'events_for_export.name AS event_name',
-     'payments.id AS payment_id',
-     'offsite_payments.check_number AS check_number',
-     'donations.comment AS donation_note',
-     'coalesce(nullif(misc_payment_infos.fee_covered, false), false) AS "Fee Covered by Supporter"'
-    ])
-  end
-
-
   # Create the data structure for the payout export CSVs
   # Has two sections: two rows for info about the payout, then all the rows after that are for the payments
   # TODO reuse the standard payment export query for the payment rows for this query
@@ -506,10 +427,6 @@ module QueryPayments
     "SELECT c_temp.id from campaigns c_temp where c_temp.id=$id OR c_temp.parent_campaign_id=$id"
   end
 
-  def self.campaigns_with_creator_email
-    Qexpr.new.select('campaigns.*, users.email AS creator_email').from(:campaigns).left_outer_join(:profiles, "profiles.id = campaigns.profile_id").left_outer_join(:users, 'users.id = profiles.user_id')
-  end
-
   def self.query_payout_info(npo_id, payout_id)
     tickets_subquery = Qx.select("payment_id", "MAX(event_id) AS event_id").from("tickets").group_by("payment_id").as("tickets")
     Qx.select([
@@ -544,5 +461,9 @@ module QueryPayments
     .where("payouts.id=$id", id: payout_id)
     .and_where("payments.nonprofit_id=$id", id: npo_id)
     .order_by("payments.date DESC, payments.id")
+  end
+
+  def self.get_dedication_or_empty(*path)
+    "json_extract_path_text(coalesce(nullif(trim(both from donations.dedication), ''), '{}')::json, #{path.map{|i| "'#{i}'"}.join(',')})"
   end
 end

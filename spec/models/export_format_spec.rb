@@ -105,11 +105,5 @@ RSpec.describe ExportFormat, type: :model do
       expect(subject.custom_columns_and_values['payments.date']['custom_name'])
         .to eq('"Payment Date"')
     end
-
-    it 'adds double quote to custom_values' do
-      expect(
-        subject.custom_columns_and_values['payments.kind']['custom_values']['RecurringDonation']
-      ).to eq('"Recurring Donation"')
-    end
   end
 end

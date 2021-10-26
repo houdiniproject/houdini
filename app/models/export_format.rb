@@ -12,9 +12,7 @@ class ExportFormat < ActiveRecord::Base
 
   validate :valid_custom_columns_and_values?
 
-  after_validation do
-    normalize_to_custom_columns_and_values
-  end
+  after_validation :normalize_custom_columns
 
   private
 
@@ -26,6 +24,7 @@ class ExportFormat < ActiveRecord::Base
     'payments.kind',
     'donations.anonymous',
     'supporters.anonymous',
+    'donations.anonymous OR supporters.anonymous',
     'campaigns_for_export.name',
     'campaigns_for_export.id',
     'campaigns_for_export.creator_email',
@@ -41,6 +40,8 @@ class ExportFormat < ActiveRecord::Base
     'payments.kind',
     'donations.designation',
     'donations.anonymous',
+    'supporters.anonymous',
+    'donations.anonymous OR supporters.anonymous',
     'donations.comment',
     'campaigns_for_export.name',
     'campaign_gift_options.name',
@@ -68,17 +69,12 @@ class ExportFormat < ActiveRecord::Base
     end
   end
 
-  def normalize_to_custom_columns_and_values
-    custom_columns_and_values.each do |column, customizations|
-      customizations.each do |customization, customization_subject|
+  def normalize_custom_columns
+    custom_columns_and_values&.each do |column, customizations|
+      customizations&.each do |customization, customization_subject|
         if customization == 'custom_name'
           custom_columns_and_values[column]['custom_name'] =
             insert_trailing_double_quotes(customization_subject)
-        elsif customization == 'custom_values'
-          customization_subject.each do |original_value, target_value|
-            custom_columns_and_values[column]['custom_values'][original_value] =
-              insert_trailing_double_quotes(target_value)
-          end
         end
       end
     end

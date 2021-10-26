@@ -65,4 +65,37 @@ RSpec.describe ExportFormat, type: :model do
       end
     end
   end
+
+  describe '#after_validation' do
+    let(:attributes) do
+      {
+        'name' => 'CiviCRM format',
+        'date_format' => 'MM/DD/YYYY',
+        'show_currency' => false,
+        'custom_columns_and_values' => {
+          'payments.kind' => {
+            'custom_values' => {
+              'RecurringDonation' => 'Recurring Donation'
+            }
+          },
+          'payments.date' => {
+            'custom_name' => 'Payment Date'
+          }
+        }
+      }
+    end
+
+    subject { nonprofit.export_formats.create(attributes) }
+
+    it 'adds double quote to custom_name' do
+      expect(subject.custom_columns_and_values['payments.date']['custom_name'])
+        .to eq('"Payment Date"')
+    end
+
+    it 'adds double quote to custom_values' do
+      expect(
+        subject.custom_columns_and_values['payments.kind']['custom_values']['RecurringDonation']
+      ).to eq('"Recurring Donation"')
+    end
+  end
 end

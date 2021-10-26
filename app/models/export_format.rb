@@ -12,6 +12,10 @@ class ExportFormat < ActiveRecord::Base
 
   validate :valid_custom_columns_and_values?
 
+  after_validation do
+    normalize_to_custom_columns_and_values
+  end
+
   private
 
   ALLOWED_CUSTOM_EXPORT_COLUMNS = [
@@ -46,5 +50,25 @@ class ExportFormat < ActiveRecord::Base
         errors.add(:custom_columns_and_values, "column #{column} does not exist or is not available to be customized")
       end
     end
+  end
+
+  def normalize_to_custom_columns_and_values
+    custom_columns_and_values.each do |column, customizations|
+      customizations.each do |customization, customization_subject|
+        if customization == 'custom_name'
+          custom_columns_and_values[column]['custom_name'] =
+            insert_trailing_double_quotes(customization_subject)
+        elsif customization == 'custom_values'
+          customization_subject.each do |original_value, target_value|
+            custom_columns_and_values[column]['custom_values'][original_value] =
+              insert_trailing_double_quotes(target_value)
+          end
+        end
+      end
+    end
+  end
+
+  def insert_trailing_double_quotes(value)
+    value.insert(0, '"').insert(-1, '"')
   end
 end

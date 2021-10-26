@@ -78,6 +78,45 @@ RSpec.describe ExportFormat, type: :model do
         end
       end
     end
+
+    context 'when date_format is not provided' do
+      let(:attributes) do
+        {
+          'name' => 'CiviCRM format',
+          'show_currency' => false
+        }
+      end
+
+      it 'is valid' do
+        expect(subject.valid?).to be_truthy
+      end
+    end
+
+    context 'when date_format contains invalid separator' do
+      let(:attributes) do
+        {
+          'name' => 'CiviCRM format',
+          'date_format' => "HH'mm"
+        }
+      end
+
+      it 'is invalid' do
+        expect(subject.valid?).to be_falsy
+      end
+    end
+
+    context 'when date_format contains invalid pattern' do
+      let(:attributes) do
+        {
+          'name' => 'CiviCRM format',
+          'date_format' => "HH:mm seconds"
+        }
+      end
+
+      it 'is invalid' do
+        expect(subject.valid?).to be_falsy
+      end
+    end
   end
 
   describe '#after_validation' do

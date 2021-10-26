@@ -52,6 +52,20 @@ RSpec.describe ExportFormat, type: :model do
         end
       end
 
+      context 'when it tries to customize a value from a column that is not supported' do
+        before do
+          attributes['custom_columns_and_values']['offsite_payments.check_number'] = {
+            'custom_values' => {
+              '1234' => '12345'
+            }
+          }
+        end
+
+        it 'is invalid' do
+          expect(subject.valid?).to be_falsy
+        end
+      end
+
       context 'when a customization does not specify a custom_value or custom_name' do
         before do
           attributes['custom_columns_and_values']['payments.kind'] = {

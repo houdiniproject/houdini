@@ -18,7 +18,7 @@ class ExportFormat < ActiveRecord::Base
 
   private
 
-  ALLOWED_CUSTOM_EXPORT_COLUMNS = [
+  ALLOWED_COLUMNS_TO_HAVE_NAMES_CUSTOMIZED = [
     'payments.date',
     'payments.gross_amount',
     'payments.fee_total',
@@ -37,14 +37,30 @@ class ExportFormat < ActiveRecord::Base
     'misc_payment_infos.fee_covered'
   ].freeze
 
-  private_constant :ALLOWED_CUSTOM_EXPORT_COLUMNS
+  ALLOWED_COLUMNS_TO_HAVE_VALUES_CUSTOMIZED = [
+    'payments.kind',
+    'donations.designation',
+    'donations.anonymous',
+    'donations.comment',
+    'campaigns_for_export.name',
+    'campaign_gift_options.name',
+    'events_for_export.name',
+    'donations.comment',
+    'misc_payment_infos.fee_covered'
+  ].freeze
+
+  private_constant :ALLOWED_COLUMNS_TO_HAVE_NAMES_CUSTOMIZED
+  private_constant :ALLOWED_COLUMNS_TO_HAVE_VALUES_CUSTOMIZED
 
   def valid_custom_columns_and_values?
     return if custom_columns_and_values.nil?
     custom_columns_and_values.keys.each do |column|
-      if ALLOWED_CUSTOM_EXPORT_COLUMNS.include? column
+      if ALLOWED_COLUMNS_TO_HAVE_NAMES_CUSTOMIZED.include? column
         unless (custom_columns_and_values[column].include? 'custom_name') || (custom_columns_and_values[column].include? 'custom_values')
           errors.add(:custom_columns_and_values, "you need to include a 'custom_name' or 'custom_values' key to customize #{column} column")
+        end
+        if (!ALLOWED_COLUMNS_TO_HAVE_VALUES_CUSTOMIZED.include? column) && (custom_columns_and_values[column].include? 'custom_values')
+          errors.add(:custom_columns_and_values, "column #{column} can't have its values customized")
         end
       else
         errors.add(:custom_columns_and_values, "column #{column} does not exist or is not available to be customized")

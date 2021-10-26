@@ -140,7 +140,8 @@ module ExportPayments
 
   def self.build_payments_select(export_format)
     custom_names = build_custom_names_for_payments(export_format.custom_columns_and_values)
-    payments_select = ["to_char(payments.date::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), 'YYYY-MM-DD HH24:MI:SS TZ') AS #{custom_names['payments.date']}"]
+    date_format = export_format.date_format || 'YYYY-MM-DD HH24:MI:SS TZ'
+    payments_select = ["to_char(payments.date::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), '#{date_format}') AS #{custom_names['payments.date']}"]
 
     if(export_format.show_currency)
       payments_select.concat([

@@ -274,6 +274,20 @@ describe ExportPayments do
     end
 
     context 'when export_format' do
+      around(:each) do |e|
+        Timecop.freeze(2021, 10, 26) do
+          e.run
+        end
+      end
+
+      before do
+        Payment.find_each do |p|
+          p.kind = 'RecurringDonation'
+          p.date = Time.zone.now
+          p.save!
+        end
+      end
+
       context 'when there is an export_format for that export' do
         let(:export_format) do
           nonprofit.export_formats.create(
@@ -289,13 +303,6 @@ describe ExportPayments do
               }
             }
           )
-        end
-
-        before do
-          Payment.find_each do |p|
-            p.kind = 'RecurringDonation'
-            p.save!
-          end
         end
 
         subject do
@@ -324,16 +331,13 @@ describe ExportPayments do
         it 'does not show currency on payments.net_amount' do
           expect(subject['Net Amount'].include?('$')).to be_falsy
         end
+
+        it 'follows the desired date format' do
+          expect(subject['Date']).to eq('10/26/2021')
+        end
       end
 
       context 'when there is not an export_format for that export, relies on our default format' do
-        before do
-          Payment.find_each do |p|
-            p.kind = 'RecurringDonation'
-            p.save!
-          end
-        end
-
         let(:export_result) { ExportPayments.for_export_enumerable(nonprofit.id, { }).to_a }
 
         subject do
@@ -360,6 +364,10 @@ describe ExportPayments do
 
         it 'shows currency on payments.net_amount' do
           expect(subject['Net Amount'].include?('$')).to be_truthy
+        end
+
+        it 'shows our default date format' do
+          expect(subject['Date']).to eq('2021-10-26 00:00:00 ')
         end
       end
     end

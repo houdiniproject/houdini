@@ -11,7 +11,12 @@ class Api::TicketLevelsController < Api::ApiController
 	before_action :authenticate_event_editor!
 
 	def index
-		@ticket_levels = current_event.ticket_levels
+		@ticket_levels =
+			current_event
+			.ticket_levels
+			.order('id DESC')
+			.page(params[:page])
+			.per(params[:per])
 	end
 
 	# Gets the single event ticket

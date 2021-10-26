@@ -272,6 +272,97 @@ describe ExportPayments do
         expect(row["Anonymous?"]).to eq "true"
       end
     end
+
+    context 'when export_format' do
+      context 'when there is an export_format for that export' do
+        let(:export_format) do
+          nonprofit.export_formats.create(
+            name: 'CiviCRM format',
+            date_format: 'MM/DD/YYYY',
+            show_currency: false,
+            custom_columns_and_values: {
+              'payments.kind' => {
+                'custom_values' => {
+                  'RecurringDonation' => 'Recurring Donation'
+                },
+                'custom_name' => 'Kind of Payment'
+              }
+            }
+          )
+        end
+
+        before do
+          Payment.find_each do |p|
+            p.kind = 'RecurringDonation'
+            p.save!
+          end
+        end
+
+        subject do
+          CSV.parse(
+            Format::Csv.from_array(
+              ExportPayments.for_export_enumerable(
+                nonprofit.id, { export_format_id: export_format.id }
+              ).to_a
+            ),
+            headers:true
+          ).first.to_h
+        end
+
+        it 'changes the default "type" column for "Kind of Payment"' do
+          expect(subject.include?('Kind Of Payment')).to be_truthy
+        end
+
+        it 'does not show currency on payments.gross_amount' do
+          expect(subject['Gross Amount'].include?('$')).to be_falsy
+        end
+
+        it 'does not show currency on payments.fee_total' do
+          expect(subject['Fee Total'].include?('$')).to be_falsy
+        end
+
+        it 'does not show currency on payments.net_amount' do
+          expect(subject['Net Amount'].include?('$')).to be_falsy
+        end
+      end
+
+      context 'when there is not an export_format for that export, relies on our default format' do
+        before do
+          Payment.find_each do |p|
+            p.kind = 'RecurringDonation'
+            p.save!
+          end
+        end
+
+        let(:export_result) { ExportPayments.for_export_enumerable(nonprofit.id, { }).to_a }
+
+        subject do
+          CSV.parse(
+            Format::Csv.from_array(
+              export_result
+            ),
+            headers:true
+          ).first.to_h
+        end
+
+        it 'does not change any header' do
+          headers = MockHelpers.payment_export_headers
+          expect(export_result[0]).to eq(headers)
+        end
+
+        it 'shows currency on payments.gross_amount' do
+          expect(subject['Gross Amount'].include?('$')).to be_truthy
+        end
+
+        it 'shows currency on payments.fee_total' do
+          expect(subject['Fee Total'].include?('$')).to be_truthy
+        end
+
+        it 'shows currency on payments.net_amount' do
+          expect(subject['Net Amount'].include?('$')).to be_truthy
+        end
+      end
+    end
   end
 end
 

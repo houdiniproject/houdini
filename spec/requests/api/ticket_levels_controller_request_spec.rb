@@ -109,12 +109,19 @@ RSpec.describe Api::TicketLevelsController, type: :request do
 			}
 
 			it {
-				expect(json.count).to eq 1
+				expect(json['data'].count).to eq 1
 			}
+
+			# lazy testing but it works.
+			it { is_expected.to include('first_page' => true) }
+			it { is_expected.to include('last_page' =>  true) }
+			it { is_expected.to include('current_page' => 1) }
+			it { is_expected.to include('requested_size' => 25) }
+			it { is_expected.to include('total_count' => 1) }
 
 			describe 'for ticket_level_with_event_non_admin__order_3__not_deleted' do
 				subject(:first) do
-					json[0]
+					json['data'][0]
 				end
 
 				def base_path(nonprofit_id, event_id, ticket_level_id)
@@ -146,12 +153,19 @@ RSpec.describe Api::TicketLevelsController, type: :request do
 			}
 
 			it {
-				expect(json.count).to eq 1
+				expect(json['data'].count).to eq 1
 			}
+
+			# lazy testing but it works.
+			it { is_expected.to include('first_page' => true) }
+			it { is_expected.to include('last_page' =>  true) }
+			it { is_expected.to include('current_page' => 1) }
+			it { is_expected.to include('requested_size' => 25) }
+			it { is_expected.to include('total_count' => 1) }
 
 			describe 'for ticket_level_with_event_non_admin__order_3__not_deleted' do
 				subject(:first) do
-					json[0]
+					json['data'][0]
 				end
 
 				let(:ticket_level) { ticket_level_with_event_non_admin__order_3__not_deleted }

@@ -305,12 +305,12 @@ describe ExportPayments do
           )
         end
 
+        let(:export_result) { ExportPayments.for_export_enumerable(nonprofit.id, { export_format_id: export_format.id }).to_a }
+
         subject do
           CSV.parse(
             Format::Csv.from_array(
-              ExportPayments.for_export_enumerable(
-                nonprofit.id, { export_format_id: export_format.id }
-              ).to_a
+              export_result
             ),
             headers:true
           ).first.to_h
@@ -318,6 +318,10 @@ describe ExportPayments do
 
         it 'changes the default "type" column for "Kind of Payment"' do
           expect(subject.include?('Kind Of Payment')).to be_truthy
+        end
+
+        it 'customizes the payment.kind RecurringDonation value to be Recurring Donation' do
+          expect(subject['Kind Of Payment']).to eq('Recurring Donation')
         end
 
         it 'does not show currency on payments.gross_amount' do
@@ -334,6 +338,15 @@ describe ExportPayments do
 
         it 'follows the desired date format' do
           expect(subject['Date']).to eq('10/26/2021')
+        end
+
+        context 'when the export_format does not specify any custom values or names' do
+          it 'does not change any header' do
+            export_format.custom_columns_and_values = nil
+            export_format.save!
+            headers = MockHelpers.payment_export_headers
+            expect(export_result[0]).to eq(headers)
+          end
         end
       end
 
@@ -352,6 +365,10 @@ describe ExportPayments do
         it 'does not change any header' do
           headers = MockHelpers.payment_export_headers
           expect(export_result[0]).to eq(headers)
+        end
+
+        it 'reflects payment.kind RecurringDonation to be the same as our database' do
+          expect(subject['Type']).to eq('RecurringDonation')
         end
 
         it 'shows currency on payments.gross_amount' do

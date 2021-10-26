@@ -156,13 +156,14 @@ module ExportPayments
         "#{money_without_currency('payments.net_amount')} AS #{custom_names['payments.net_amount']}"
       ])
     end
-    payments_select.concat(["payments.kind AS #{custom_names['payments.kind']}"])
+    payments_select.concat([build_custom_value_clause('payments.kind', export_format.custom_columns_and_values, custom_names['payments.kind'])])
   end
 
   def self.build_donations_and_campaigns_select(export_format)
-    custom_names = build_custom_names_for_donations_and_campaigns(export_format.custom_columns_and_values)
+    custom_columns_and_values = export_format.custom_columns_and_values
+    custom_names = build_custom_names_for_donations_and_campaigns(custom_columns_and_values)
     [
-      "coalesce(donations.designation, 'None') AS #{custom_names['donations.designation']}",
+      build_custom_value_clause('donations.designation', custom_columns_and_values, custom_names['donations.designation'], "coalesce(donations.designation, 'None')"),
       "#{QueryPayments.get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
       "#{QueryPayments.get_dedication_or_empty('name')}::text AS \"Dedicated To: Name\"",
       "#{QueryPayments.get_dedication_or_empty('supporter_id')}::text AS \"Dedicated To: Supporter ID\"",
@@ -170,18 +171,35 @@ module ExportPayments
       "#{QueryPayments.get_dedication_or_empty('contact', "phone")}::text AS \"Dedicated To: Phone\"",
       "#{QueryPayments.get_dedication_or_empty( "contact", "address")}::text AS \"Dedicated To: Address\"",
       "#{QueryPayments.get_dedication_or_empty(  "note")}::text AS \"Dedicated To: Note\"",
-      "(donations.anonymous OR supporters.anonymous) AS #{custom_names['donations.anonymous']}",
-      'donations.comment',
-      "coalesce(nullif(campaigns_for_export.name, ''), 'None') AS #{custom_names['campaigns_for_export.name']}",
+      build_custom_value_clause('donations.anonymous OR supporters.anonymous', custom_columns_and_values, custom_names['donations.anonymous OR supporters.anonymous'], '(donations.anonymous OR supporters.anonymous)'),
+      build_custom_value_clause('donations.comment', custom_columns_and_values, '"Comment"'),
+      build_custom_value_clause('campaigns_for_export.name', custom_columns_and_values, custom_names['campaigns_for_export.name'], "coalesce(nullif(campaigns_for_export.name, ''), 'None')"),
       "campaigns_for_export.id AS #{custom_names['campaigns_for_export.id']}",
       "coalesce(nullif(campaigns_for_export.creator_email, ''), '') AS #{custom_names['campaigns_for_export.creator_email']}",
-      "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS #{custom_names['campaign_gift_options.name']}",
-      "events_for_export.name AS #{custom_names['events_for_export.name']}",
+      build_custom_value_clause('campaign_gift_options.name', custom_columns_and_values, custom_names['campaign_gift_options.name'], "coalesce(nullif(campaign_gift_options.name, ''), 'None')"),
+      build_custom_value_clause('campaigns_for_export.name', custom_columns_and_values, custom_names['campaigns_for_export.name'], "coalesce(nullif(campaign_gift_options.name, ''), 'None')"),
+      build_custom_value_clause('events_for_export.name', custom_columns_and_values, custom_names['events_for_export.name']),
       "payments.id AS #{custom_names['payments.id']}",
       "offsite_payments.check_number AS #{custom_names['offsite_payments.check_number']}",
-      "donations.comment AS #{custom_names['donations.comment']}",
-      "coalesce(nullif(misc_payment_infos.fee_covered, false), false) AS #{custom_names['misc_payment_infos.fee_covered']}"
+      build_custom_value_clause('donations.comment', custom_columns_and_values, custom_names['donations.comment']),
+      build_custom_value_clause('misc_payment_infos.fee_covered', custom_columns_and_values, custom_names['misc_payment_infos.fee_covered'], "coalesce(nullif(misc_payment_infos.fee_covered, false), false)")
     ]
+  end
+
+  def self.build_custom_value_clause(column_name, custom_columns_and_values, custom_column_name, column_treatment = column_name)
+    custom_values = custom_columns_and_values&.dig(column_name)&.dig('custom_values')
+    if(custom_values.present?)
+      return build_custom_values_switch_case(custom_values, column_treatment, custom_column_name)
+    end
+    "#{column_treatment} AS #{custom_column_name}"
+  end
+
+  def self.build_custom_values_switch_case(custom_values, column_name, custom_column_name)
+    statement = "CASE "
+    custom_values.each do |original_value, new_value|
+      statement << "WHEN #{column_name} = '#{original_value}' THEN '#{new_value}' "
+    end
+    statement << "ELSE #{column_name} END AS #{custom_column_name}"
   end
 
   def self.build_custom_names_for_payments(custom_names)
@@ -197,7 +215,11 @@ module ExportPayments
   def self.build_custom_names_for_donations_and_campaigns(custom_names)
     {
       'donations.designation' => custom_names&.dig('donations.designation')&.dig('custom_name') || 'designation',
-      'donations.anonymous' => custom_names&.dig('donations.anonymous')&.dig('custom_name') || custom_names&.dig('supporters.anonymous')&.dig('custom_name') || '"Anonymous?"',
+      'donations.anonymous OR supporters.anonymous' => (
+        custom_names&.dig('donations.anonymous OR supporters.anonymous') ||
+        custom_names&.dig('donations.anonymous') ||
+        custom_names&.dig('supporters.anonymous')
+      )&.dig('custom_name') || '"Anonymous?"',
       'campaigns_for_export.name' => custom_names&.dig('campaigns_for_export.name')&.dig('custom_name') || 'campaign',
       'campaigns_for_export.id' => custom_names&.dig('campaigns_for_export.id')&.dig('custom_name') || '"Campaign Id"',
       'campaigns_for_export.creator_email' => custom_names&.dig('campaigns_for_export.creator_email')&.dig('custom_name') || 'campaign_creator_email',

@@ -124,6 +124,12 @@ module.exports = function(scope) {
     }
 	})
 
+	appl.def('apply_select_filter', function(el) {
+		el = appl.prev_elem(el)
+		var prop = scope + ".query." + el.name
+		appl.def(prop, el.value)
+	})
+
 
 	function re_fetch() {
 		appl.def(scope + '.query.page', 1)

@@ -69,6 +69,20 @@
         Filtering by event
       </p>
 
+			<% if @nonprofit.export_formats.present? %>
+				<div>
+					<label for='export_format_select'>Select a CSV format</label>
+					<select id='export_format_select' name='export_format_id'>
+						<%= options_for_select(
+							[['CommitChange default format', '']].concat(
+									@nonprofit.export_formats.map {|export_format| [export_format.name, export_format.id]}
+								)
+						) %>
+
+					</select>
+					<!--= on 'change' apply_select_filter -->
+				</div>
+			<% end %>
 		</div>
 
 		<hr>

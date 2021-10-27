@@ -19,9 +19,10 @@ module Model::Houidable
 		# - Adds two new public methods:
 		#    - houid_prefix - returns the prefix as a symbol
 		#    - generate_houid - creates a new HouID with given prefix
-		# @param {string}: the prefix for the HouIDs on this model
+		# @param prefix {string|Symbol}: the prefix for the HouIDs on this model
+		# @param houid_attribute {string|Symbol}: the attribute on this model to assign the Houid to. Defaults to :id.
 		###
-		def setup_houid(prefix)
+		def setup_houid(prefix, houid_attribute = :id)
 			
 			######
 			# 					define_model_callbacks :houid_set
@@ -29,7 +30,7 @@ module Model::Houidable
 								
 			# 					# The HouID prefix as a symbol
 			# 					def houid_prefix
-			#               :supp
+			# 						:supp
 			# 					end
 								
 			# 					# Generates a HouID using the provided houid_prefix
@@ -44,7 +45,7 @@ module Model::Houidable
 			# 						end
 			# 					end
 			#####
-			class_eval <<-RUBY, __FILE__, __LINE__ + 1 # rubocop:disable Style/DocumentDynamicEvalDefinition
+			class_eval <<-RUBY, __FILE__, __LINE__ + 1 # rubocop:disable Style/DocumentDynamicEvalDefinition 
 								define_model_callbacks :houid_set
 								after_initialize :add_houid
 								
@@ -55,6 +56,10 @@ module Model::Houidable
 								def houid_prefix
                     :#{prefix}
 								end
+
+								def houid_attribute
+									:#{houid_attribute} 
+								end
 								
 								# Generates a HouID using the provided houid_prefix
 								def generate_houid
@@ -64,7 +69,7 @@ module Model::Houidable
 								private 
 								def add_houid
 									run_callbacks(:houid_set) do
-										write_attribute(:id, self.generate_houid) unless read_attribute(:id)
+										write_attribute(self.houid_attribute, self.generate_houid) unless read_attribute(self.houid_attribute)
 									end
 								end
 						RUBY

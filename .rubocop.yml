@@ -164,7 +164,6 @@ AllCops:
     - 'app/models/payment_import.rb'
     - 'app/models/concerns/model/eventable.rb'
     - 'app/models/concerns/model/jbuilder.rb'
-    - 'app/models/concerns/model/houidable.rb'
     - 'app/models/concerns/model/trx_assignable.rb'
     - 'app/models/concerns/image/attachment_extensions.rb'
     - 'app/models/source_token.rb'

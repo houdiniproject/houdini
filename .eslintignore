@@ -404,8 +404,6 @@ app/javascript/legacy_react/src/components/common/svg/CloseButton.tsx
 app/javascript/legacy_react/src/components/common/test/react_test_helpers.tsx
 app/javascript/legacy_react/src/components/create_offsite_payment_pane/CreateOffsitePaymentPane.tsx
 app/javascript/legacy_react/src/components/edit_payment_pane/EditPaymentPane.tsx
-app/javascript/legacy_react/src/components/session_login_page/SessionLoginForm.tsx
-app/javascript/legacy_react/src/components/session_login_page/SessionLoginPage.tsx
 
 #included code from another package
 app/javascript/common/lodash-joins

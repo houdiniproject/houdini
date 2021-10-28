@@ -3,26 +3,17 @@ require 'rails_helper'
 RSpec.describe Webhooks::StripeController, :type => :controller do
 
   describe "POST #receive" do
-    # describe 'authorization' do
-    #   include_context :shared_user_context
-    #   describe 'accept all' do
-    #     describe 'receive' do
-    #         include_context :open_to_all, :post, :receive
-    #     end
-    #   end
-    # end
-
     describe 'verification of input' do
       it 'returns on bad json' do
         expect(JSON).to receive(:parse).and_raise(JSON::ParserError)
         post :receive
-        expect(response.body).to eq ({error: "Invalid payload"}.to_json)
+        expect(response.body).to include("Invalid payload")
         expect(response.status).to eq 400
       end
 
       it 'returns on bad signature' do
         raw_post :receive, {}, {}.to_json
-        expect(response.body).to eq ({error: 'Invalid signature'}.to_json)
+        expect(response.body).to include('Invalid signature')
         expect(response.status).to eq 400
       end
 
@@ -30,7 +21,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
         expect(JSON).to receive(:parse).and_raise(ArgumentError)
         request.headers['HTTP_STRIPE_SIGNATURE']= ""
         raw_post :receive, {}, {}.to_json
-        expect(response.body).to eq ({error: "Unspecified error"}.to_json)
+        expect(response.body).to include("Unspecified error")
         expect(response.status).to eq 400
       end
     end
@@ -59,13 +50,13 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       it 'returns on bad json' do
         expect(JSON).to receive(:parse).and_raise(JSON::ParserError)
         post :receive_connect
-        expect(response.body).to eq ({error: "Invalid payload"}.to_json)
+        expect(response.body).to include("Invalid payload")
         expect(response.status).to eq 400
       end
 
       it 'returns on bad signature' do
         raw_post :receive_connect, {}, {}.to_json
-        expect(response.body).to eq ({error: 'Invalid signature'}.to_json)
+        expect(response.body).to include('Invalid signature')
         expect(response.status).to eq 400
       end
 
@@ -73,7 +64,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
         expect(JSON).to receive(:parse).and_raise(ArgumentError)
         request.headers['HTTP_STRIPE_SIGNATURE']= ""
         raw_post :receive_connect, {}, {}.to_json
-        expect(response.body).to eq ({error: "Unspecified error"}.to_json)
+        expect(response.body).to include("Unspecified error")
         expect(response.status).to eq 400
       end
     end

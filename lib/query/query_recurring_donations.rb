@@ -154,7 +154,7 @@ module QueryRecurringDonations
   end
 
   def self.get_chunk_of_export(npo_id, query, offset=nil, limit=nil, skip_header=false )
-    root_url = query[:root_url]
+    root_url = query[:root_url] || 'https://us.commitchange.com/'
     include_stripe_customer_id = query[:include_stripe_customer_id]
     include_last_failed_charge = !!query[:include_last_failed_charge]
     select_list = ['recurring_donations.created_at',

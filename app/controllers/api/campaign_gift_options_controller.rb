@@ -14,7 +14,9 @@ class Api::CampaignGiftOptionsController < Api::ApiController
 		@campaign_gift_options =
 			current_campaign
 			.campaign_gift_options
-			.page(params[:page]).per(params[:per])
+			.order('id DESC')
+			.page(params[:page])
+			.per(params[:per])
 	end
 
 	# If not logged in, causes a 401 error

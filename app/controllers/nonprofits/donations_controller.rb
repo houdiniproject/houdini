@@ -62,7 +62,6 @@ module Nonprofits
       json_saved UpdateDonation.from_followup(donation, donations_params)
     end
 
-    # this is a special, weird case
     private
 
     def current_campaign

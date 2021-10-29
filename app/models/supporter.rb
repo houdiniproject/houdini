@@ -100,16 +100,6 @@ class Supporter < ApplicationRecord
           else
             json.supporter_addresses [id]
           end
-    
-          # unless merged_into.nil?
-          #   if expand.include? :merged_into
-          #     json.merged_into merged_into.to_builder
-          #   else
-          #     json.merged_into merged_into.id
-          #   end
-          # else
-          #   json.merged_into nil
-          # end
         end
       end
 
@@ -122,13 +112,6 @@ class Supporter < ApplicationRecord
           else
             json.supporter id
           end
-    
-          # if expand.include? :nonprofit
-          #   json.nonprofit nonprofit.to_builder
-          # else
-          #   json.nonprofit nonprofit.id
-          # end
-
           json.add_builder_expansion :nonprofit
         end
       end

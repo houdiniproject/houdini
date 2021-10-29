@@ -11,7 +11,7 @@ import { IntlProvider } from "../intl";
 import I18n from '../../i18n';
 import { SWRConfig } from "swr";
 
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 
 
 import { InitialCurrentUserContext } from "../../hooks/useCurrentUser";
@@ -134,7 +134,7 @@ describe('SignInComponent', () => {
 				// We use hasAssertions() becuase the waitFor could attempt the assertion
 				// toBeInvalid() multiple times waiting for it to update
 				expect.hasAssertions();
-				const { getByLabelText, getByTestId } = render(<Wrapper><SignInComponent /></Wrapper>);
+				const { getByLabelText, getByTestId, container } = render(<Wrapper><SignInComponent /></Wrapper>);
 				const email = getByLabelText("Email") as HTMLInputElement;
 				const error = getByTestId("errorTest");
 				const button = getByTestId('signInButton');
@@ -152,6 +152,9 @@ describe('SignInComponent', () => {
 					fireEvent.click(button);
 					expect(error).toBeInTheDocument();
 				});
+
+				const results = await axe(container);
+				expect(results).toHaveNoViolations();
 			});
 		});
 
@@ -207,17 +210,20 @@ describe('SignInComponent', () => {
 		describe('submit button', () => {
 			it('is disabled when the form is not complete', async () => {
 				expect.hasAssertions();
-				const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
+				const { getByTestId, getByLabelText, container } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
 				const email = getByLabelText("Email");
 				fireEvent.change(email, { target: { value: 'invalidEmail' } });
 				await waitFor(() => {
 					expect(getByTestId('signInButton')).toBeDisabled();
 				});
+
+				const results = await axe(container);
+				expect(results).toHaveNoViolations();
 			});
 
 			it('not disabled when form is complete', async () => {
-				expect.assertions(1);
-				const { getByTestId, getByLabelText } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
+				expect.assertions(2);
+				const { getByTestId, getByLabelText, container } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
 				const email = getByLabelText("Email");
 				const password = getByLabelText("Password");
 				fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
@@ -225,6 +231,8 @@ describe('SignInComponent', () => {
 				const button = getByTestId('signInButton');
 				await waitFor(() => { !button.hasAttribute('disabled'); });
 				expect(button).not.toBeDisabled();
+				const results = await axe(container);
+				expect(results).toHaveNoViolations();
 			});
 		});
 
@@ -235,7 +243,7 @@ describe('SignInComponent', () => {
 
 			async function signInFailureWrapper(): Promise<{ error: HTMLElement, onFailure: () => unknown }> {
 				const onFailure = jest.fn();
-				const { findByLabelText, findByTestId } = render(<Wrapper><SignInComponent onFailure={onFailure} showProgressAndSuccess /></Wrapper>);
+				const { findByLabelText, findByTestId, container } = render(<Wrapper><SignInComponent onFailure={onFailure} showProgressAndSuccess /></Wrapper>);
 				const email = await findByLabelText("Email");
 				const password = await findByLabelText("Password");
 				fireEvent.change(email, { target: { value: 'validEmail@email.com' } });
@@ -250,16 +258,19 @@ describe('SignInComponent', () => {
 
 				const error = await findByTestId('errorTest');
 
-				return { error, onFailure };
+				return { error, onFailure, container };
 			}
 			it('has filled the error section and called onFailure', async () => {
 				expect.hasAssertions();
-				const { error, onFailure } = await signInFailureWrapper();
+				const { error, onFailure, container } = await signInFailureWrapper();
 
 				await waitFor(() => {
 					expect(error).toHaveTextContent('An unknown error occurred');
 					expect(onFailure).toHaveBeenCalledTimes(1);
 				});
+
+				const results = await axe(container);
+				expect(results).toHaveNoViolations();
 			});
 		});
 	});
@@ -310,7 +321,7 @@ describe('SignInComponent', () => {
 		});
 		it('renders progress bar and success message', async () => {
 			expect.hasAssertions();
-			const { getByTestId, getByLabelText, queryByTestId } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
+			const { getByTestId, getByLabelText, queryByTestId, container } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
 			const button = getByTestId('signInButton');
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
@@ -330,10 +341,16 @@ describe('SignInComponent', () => {
 				expect(progressBar).toBeInTheDocument();
 			});
 
+			let results = await axe(container);
+			expect(results).toHaveNoViolations();
+
 			await waitFor(() => {
 				const successAlert = queryByTestId("signInComponentSuccess");
 				expect(successAlert).toBeInTheDocument();
 			});
+
+			results = await axe(container);
+			expect(results).toHaveNoViolations();
 		});
 	});
 });

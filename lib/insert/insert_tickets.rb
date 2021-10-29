@@ -121,9 +121,7 @@ module InsertTickets
   # Generate a set of 'bid ids' (ids for each ticket scoped within the event)
   def self.generate_bid_ids(event_id, tickets)
     # Generate the bid ids
-    last_bid_id = Psql.execute(
-      Qexpr.new.select("COUNT(*)").from(:tickets)
-      .where("event_id=$id", id: event_id)).first['count'].to_i
+    last_bid_id = Ticket.where(event_id: event_id)&.pluck(:bid_id)&.max || 0
     tickets.zip(last_bid_id + 1 .. last_bid_id + tickets.count).map{|h, id| h.merge('bid_id' => id)}
   end
 

@@ -532,5 +532,46 @@ describe InsertTickets do
     end
   end
 
+  describe 'generate_bid_ids' do
+    let(:event) { create(:event) }
+    subject { InsertTickets.generate_bid_ids(event.id, ticket_data) }
+    let(:ticket_data) { [{ quantity: 1, ticket_level_id: 1 }] }
+
+    context 'when there are no tickets yet' do
+      it 'the bid_id starts at 1' do
+        expect(subject.first['bid_id']).to eq(1)
+      end
+    end
+
+    context 'when there are some tickets' do
+      let!(:tickets) { [force_create(:ticket, event_id: event.id, bid_id: 1), force_create(:ticket, event_id: event.id, bid_id: 2), force_create(:ticket, event_id: event.id, bid_id: 3)] }
+
+      it 'follows creates a bid_id with the next available number' do
+        expect(subject.first['bid_id']).to eq(4)
+      end
+
+      context 'when some ticket in the middle is deleted' do
+        before do
+          ticket = Ticket.find_by(bid_id: 2)
+          ticket.destroy
+        end
+
+        it 'the next ticket follows the higher bid_id number' do
+          expect(subject.first['bid_id']).to eq(4)
+        end
+      end
+
+      context 'when the last ticket is deleted' do
+        before do
+          ticket = Ticket.find_by(bid_id: 3)
+          ticket.destroy
+        end
+
+        it 'the next ticket gets created as the with the destroyed bid_id' do
+          expect(subject.first['bid_id']).to eq(3)
+        end
+      end
+    end
+  end
 end
 

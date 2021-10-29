@@ -22,8 +22,8 @@ class PeriodicReportAdapter::FailedRecurringDonationsReport < PeriodicReportAdap
 
   def last_month
     {
-      :started_at => (Time.current - 1.month).beginning_of_month,
-      :end_date => Time.current.beginning_of_month
+      :from_date => (Time.current - 1.month).beginning_of_month,
+      :before_date => Time.current.beginning_of_month
     }
   end
 end

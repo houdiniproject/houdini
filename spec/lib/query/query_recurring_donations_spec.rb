@@ -284,15 +284,45 @@ describe QueryRecurringDonations do
       expect(rows[1]["Amount"]).to eq("$1.00")
     end
 
-    it 'retrieves failed' do
-      rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
+    context 'failed charges' do
+      it 'retrieves failed' do
+        rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
+  
+        expect(rows.length).to eq(2)
+        expect(rows[0].headers).to eq(headers)
+        expect(rows[0]["Amount"]).to eq("$20.00")
+        expect(rows[1]["Amount"]).to eq("$4.00")
+        expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[1]))
+        expect(rows[1]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[3]))
+      end
 
-      expect(rows.length).to eq(2)
-      expect(rows[0].headers).to eq(headers)
-      expect(rows[0]["Amount"]).to eq("$20.00")
-      expect(rows[1]["Amount"]).to eq("$4.00")
-      expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[1]))
-      expect(rows[1]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[3]))
+      context 'when the query includes last failed charge param' do
+        before do
+        end
+        let(:headers_with_last_failed_charge) do
+          MockHelpers.recurring_donation_export_headers_with_last_failed_charge
+        end
+
+        let(:rows) do
+          CSV.parse(
+            Format::Csv.from_array(
+              QueryRecurringDonations::for_export_enumerable(
+                @nonprofit.id,
+                {
+                  :failed => true,
+                  :include_last_failed_charge => true,
+                  :root_url => 'https://localhost:8080/'
+                }
+              ).to_a
+            ),
+            headers: true
+          )
+        end
+
+        it 'contains Last Failed Charge' do
+          expect(rows[0].headers).to eq(headers_with_last_failed_charge)
+        end
+      end
     end
 
     it 'retrieves not-failed' do

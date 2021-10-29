@@ -35,6 +35,10 @@ module MockHelpers
       "Last Charge Succeeded"]
   end
 
+  def self.recurring_donation_export_headers_with_last_failed_charge
+    self.recurring_donation_export_headers.push("Last Failed Charge")
+  end
+
   def self.generate_expected_rd_management_url(root_url, rd)
     "#{root_url}/recurring_donations/#{rd.id}/edit?t=#{rd.edit_token}"
   end

@@ -56,12 +56,12 @@ class ExportMailer < BaseMailer
   def export_failed_recurring_donations_monthly_completed_notification(export)
     @export = export
 
-    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{Time.now.month} #{Time.now.year} is available!")
+    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{Time.now.strftime("%B %Y")} is available!")
   end
 
   def export_failed_recurring_donations_monthly_failed_notification(export)
     @export = export
 
-    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{Time.now.month} #{Time.now.year} has failed.")
+    mail(to: @export.user.email, subject: "Your report of failed recurring donations from #{Time.now.strftime("%B %Y")} has failed.")
   end
 end

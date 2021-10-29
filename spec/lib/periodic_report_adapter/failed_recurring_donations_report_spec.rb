@@ -16,8 +16,8 @@ describe PeriodicReportAdapter::FailedRecurringDonationsReport do
     {
       :failed => true,
       :include_last_failed_charge => true,
-      :started_at => Time.new(2021, 9, 1),
-      :end_date => Time.new(2021, 10, 1)
+      :from_date => Time.new(2021, 9, 1),
+      :before_date => Time.new(2021, 10, 1)
     }
   end
 

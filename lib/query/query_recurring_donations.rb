@@ -49,6 +49,7 @@ module QueryRecurringDonations
 
   # Construct a full query for the dashboard/export listings
   def self.full_search_expr(np_id, query)
+    include_last_failed_charge = !!query[:include_last_failed_charge]
     expr = Qexpr.new
       .from('recurring_donations')
       .left_outer_join('supporters', 'supporters.id=recurring_donations.supporter_id')
@@ -57,6 +58,10 @@ module QueryRecurringDonations
       .left_outer_join('misc_recurring_donation_infos',
       'misc_recurring_donation_infos.recurring_donation_id = recurring_donations.id')
       .where('recurring_donations.nonprofit_id=$id', id: np_id.to_i)
+
+    if include_last_failed_charge
+      expr = expr.left_outer_join("(SELECT created_at, donation_id FROM charges WHERE charges.status = 'failed') AS failed_charges", 'failed_charges.donation_id = donations.id')
+    end
 
     failed_or_active_clauses = []
 
@@ -79,6 +84,13 @@ module QueryRecurringDonations
       expr = expr.where("#{failed_or_active_clauses.join(' OR ')}")
     end
 
+    if include_last_failed_charge && query.key?(:from_date) && query.key?(:before_date)
+      expr = expr.where(
+        'failed_charges.created_at >= $from_date
+        AND failed_charges.created_at < $before_date',
+        { from_date: query[:from_date], before_date: query[:before_date] }
+      )
+    end
 
       expr = expr.where("paid_charges.id IS NULL OR paid_charges.status != 'failed'")
       .group_by('recurring_donations.id')
@@ -144,6 +156,7 @@ module QueryRecurringDonations
   def self.get_chunk_of_export(npo_id, query, offset=nil, limit=nil, skip_header=false )
     root_url = query[:root_url]
     include_stripe_customer_id = query[:include_stripe_customer_id]
+    include_last_failed_charge = !!query[:include_last_failed_charge]
     select_list = ['recurring_donations.created_at',
     '(recurring_donations.amount / 100.0)::money::text AS amount',
     "concat('Every ', recurring_donations.interval, ' ', recurring_donations.time_unit, '(s)') AS interval",
@@ -171,6 +184,10 @@ module QueryRecurringDonations
     'MAX(recurring_donations.paydate) AS "Paydate"',
     'MAX(paid_charges.created_at) AS "Last Charge Succeeded"'
   ]
+
+    if include_last_failed_charge
+      select_list.push('MAX(failed_charges.created_at) AS "Last Failed Charge"')
+    end
 
     if include_stripe_customer_id
       select_list.push 'MAX(cards.stripe_customer_id) AS "Stripe Customer ID"'

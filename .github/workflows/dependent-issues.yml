@@ -22,19 +22,6 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-permissions:
-  actions: write
-  checks: write
-  contents: write
-  deployments: write
-  issues: write
-  discussions: write
-  packages: write
-  pull-requests: write
-  repository-projects: write
-  security-events: write
-  statuses: write
-
 jobs:
   check:
     runs-on: ubuntu-latest

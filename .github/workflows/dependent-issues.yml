@@ -23,17 +23,17 @@ on:
     - cron: '0 0 * * *'
 
 permissions:
-  actions: write-all
-  checks: write-all
-  contents: write-all
-  deployments: write-all
-  issues: write-all
-  discussions: write-all
-  packages: write-all
-  pull-requests: write-all
-  repository-projects: write-all
-  security-events: write-all
-  statuses: write-all
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  discussions: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
 
 jobs:
   check:

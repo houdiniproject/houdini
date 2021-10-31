@@ -27,10 +27,10 @@ permissions:
   checks: none
   contents: read
   deployments: none
-  issues: write
+  issues: write-all
   discussions: none
-  packages: read
-  pull-requests: write
+  packages: write
+  pull-requests: write-all
   repository-projects: none
   security-events: none
   statuses: none

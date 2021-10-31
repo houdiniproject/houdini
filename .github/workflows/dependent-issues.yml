@@ -22,7 +22,7 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-permissions:
+permissions:  
   actions: none
   checks: none
   contents: read

@@ -123,7 +123,6 @@ AllCops:
     - 'app/mailers/payment_mailer.rb'
     - 'app/mailers/base_mailer.rb'
     - 'app/mailers/nonprofit_mailer.rb'
-    - 'app/mailers/billing_subscription_mailer.rb'
     - 'app/mailers/generic_mailer.rb'
     - 'app/mailers/admin_mailer.rb'
     - 'app/mailers/export_mailer.rb'

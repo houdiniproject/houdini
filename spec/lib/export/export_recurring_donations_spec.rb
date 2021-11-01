@@ -25,8 +25,8 @@ describe ExportRecurringDonations do
           expect(error.data.length).to eq(6)
           expect_validation_errors(error.data, [{ key: 'npo_id', name: :required },
                                                 { key: 'npo_id', name: :is_integer },
-                                                { key: 'user_id', name: :required },
-                                                { key: 'user_id', name: :is_integer },
+                                                { key: 'user_ids', name: :required },
+                                                { key: 'user_ids', name: :is_array },
                                                 { key: 'params', name: :required },
                                                 { key: 'params', name: :is_hash }])
         end)
@@ -34,7 +34,7 @@ describe ExportRecurringDonations do
 
       it 'nonprofit doesnt exist' do
         fake_npo = 8_888_881
-        expect { ExportRecurringDonations.initiate_export(fake_npo, {}, 8_888_883) }.to(raise_error do |error|
+        expect { ExportRecurringDonations.initiate_export(fake_npo, {}, [123]) }.to(raise_error do |error|
           expect(error).to be_a(ParamValidation::ValidationError)
           expect(error.message).to eq "Nonprofit #{fake_npo} doesn't exist!"
         end)
@@ -42,7 +42,7 @@ describe ExportRecurringDonations do
 
       it 'user doesnt exist' do
         fake_user = 8_888_883
-        expect { ExportRecurringDonations.initiate_export(@nonprofit.id, {}, fake_user) }.to(raise_error do |error|
+        expect { ExportRecurringDonations.initiate_export(@nonprofit.id, {}, [fake_user]) }.to(raise_error do |error|
           expect(error).to be_a(ParamValidation::ValidationError)
           expect(error.message).to eq "User #{fake_user} doesn't exist!"
         end)
@@ -61,7 +61,7 @@ describe ExportRecurringDonations do
         }
 
 
-        ExportRecurringDonations.initiate_export(@nonprofit.id, params, @user.id)
+        ExportRecurringDonations.initiate_export(@nonprofit.id, params, [@user.id])
         export = Export.first
         expected_export = { id: export.id,
                             user_id: @user.id,

@@ -3,8 +3,8 @@ require 'rails_helper'
 
 describe PeriodicReportAdapter do
   let(:nonprofit_id) { create(:fv_poverty).id }
-  let(:user_id) { create(:user).id }
-  let(:options) { { report_type: :failed_recurring_donations, nonprofit_id: nonprofit_id, period: :last_month, user_id: user_id } }
+  let(:user) { create(:user) }
+  let(:options) { { report_type: :failed_recurring_donations, nonprofit_id: nonprofit_id, period: :last_month, users: [user] } }
 
   let(:failed_recurring_donations_report) { double }
 

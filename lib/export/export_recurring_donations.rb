@@ -2,24 +2,24 @@
 
 module ExportRecurringDonations
 
-  def self.initiate_export(npo_id, params, user_id, requested_by_user = true)
-
-    ParamValidation.new({ npo_id: npo_id, params: params, user_id: user_id },
+  def self.initiate_export(npo_id, params, user_ids, requested_by_user = true)
+    ParamValidation.new({ npo_id: npo_id, params: params, user_ids: user_ids },
                         npo_id: { required: true, is_integer: true },
                         params: { required: true, is_hash: true },
-                        user_id: { required: true, is_integer: true })
+                        user_ids: { required: true, is_array: true })
     npo = Nonprofit.where('id = ?', npo_id).first
     unless npo
       raise ParamValidation::ValidationError.new("Nonprofit #{npo_id} doesn't exist!", key: :npo_id)
     end
-    user = User.where('id = ?', user_id).first
-    unless user
-      raise ParamValidation::ValidationError.new("User #{user_id} doesn't exist!", key: :user_id)
+
+    user_ids.each do |user_id|
+      user = User.where('id = ?', user_id).first
+      unless user
+        raise ParamValidation::ValidationError.new("User #{user_id} doesn't exist!", key: :user_id)
+      end
+      e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportRecurringDonations', parameters: params.to_json)
+      DelayedJobHelper.enqueue_job(ExportRecurringDonations, :run_export, [npo_id, params.to_json, user_id, e.id, requested_by_user])
     end
-
-    e = Export.create(nonprofit: npo, user: user, status: :queued, export_type: 'ExportRecurringDonations', parameters: params.to_json)
-
-    DelayedJobHelper.enqueue_job(ExportRecurringDonations, :run_export, [npo_id, params.to_json, user_id, e.id, requested_by_user])
   end
 
   def self.run_export(npo_id, params, user_id, export_id, requested_by_user = true)

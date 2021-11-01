@@ -4,21 +4,21 @@ class PeriodicReport < ActiveRecord::Base
   # active # boolean,
   # report_type # string,
   # period # string,
-  # user_id,
+  # users,
   # nonprofit_id
 
   belongs_to :nonprofit
+  has_and_belongs_to_many :users
 
   validate :valid_report_type?
   validate :valid_period?
-  
-  validates :user_id, presence: true
+
   validates :nonprofit_id, presence: true
 
   scope :active, -> { where(active: true) }
 
   def adapter
-    PeriodicReportAdapter.build({ report_type: report_type, nonprofit_id: nonprofit_id, period: period, user_id: user_id })
+    PeriodicReportAdapter.build({ report_type: report_type, nonprofit_id: nonprofit_id, period: period, users: users })
   end
 
   private

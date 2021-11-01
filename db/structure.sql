@@ -2090,6 +2090,37 @@ ALTER SEQUENCE public.periodic_reports_id_seq OWNED BY public.periodic_reports.i
 
 
 --
+-- Name: periodic_reports_users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.periodic_reports_users (
+    id integer NOT NULL,
+    periodic_report_id integer,
+    user_id integer
+);
+
+
+--
+-- Name: periodic_reports_users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.periodic_reports_users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: periodic_reports_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.periodic_reports_users_id_seq OWNED BY public.periodic_reports_users.id;
+
+
+--
 -- Name: profiles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3338,6 +3369,13 @@ ALTER TABLE ONLY public.periodic_reports ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: periodic_reports_users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.periodic_reports_users ALTER COLUMN id SET DEFAULT nextval('public.periodic_reports_users_id_seq'::regclass);
+
+
+--
 -- Name: profiles id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3921,6 +3959,14 @@ ALTER TABLE ONLY public.payments
 
 ALTER TABLE ONLY public.periodic_reports
     ADD CONSTRAINT periodic_reports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: periodic_reports_users periodic_reports_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.periodic_reports_users
+    ADD CONSTRAINT periodic_reports_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -5958,4 +6004,6 @@ INSERT INTO schema_migrations (version) VALUES ('20211004173808');
 INSERT INTO schema_migrations (version) VALUES ('20211021173546');
 
 INSERT INTO schema_migrations (version) VALUES ('20211025145718');
+
+INSERT INTO schema_migrations (version) VALUES ('20211101221537');
 

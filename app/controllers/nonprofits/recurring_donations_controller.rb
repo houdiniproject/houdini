@@ -40,7 +40,7 @@ class RecurringDonationsController < ApplicationController
 
 			params[:root_url] = root_url
 			
-			ExportRecurringDonations::initiate_export(@nonprofit.id, params, current_user.id)
+			ExportRecurringDonations::initiate_export(@nonprofit.id, params, [current_user.id])
 		rescue => e
 			e
 		end

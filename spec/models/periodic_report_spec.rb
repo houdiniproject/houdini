@@ -3,6 +3,7 @@ require 'rails_helper'
 
 RSpec.describe PeriodicReport, type: :model do
   let(:user) { create(:user) }
+  let(:users_list) { User.where(user_id: user.id) }
   let(:nonprofit) { create(:fv_poverty) }
 
   describe '#validation' do
@@ -11,7 +12,7 @@ RSpec.describe PeriodicReport, type: :model do
         :active => true,
         :report_type => :failed_recurring_donations,
         :period => :last_month,
-        :user_id => user.id
+        :users => users_list
       }
     end
 
@@ -42,17 +43,17 @@ RSpec.describe PeriodicReport, type: :model do
           :active => true,
           :report_type => :failed_recurring_donations,
           :period => :last_month,
-          :user_id => user.id
+          :users => users_list
         }, {
           :active => true,
           :report_type => :failed_recurring_donations,
           :period => :last_month,
-          :user_id => user.id
+          :users => users_list
         }, {
           :active => false,
           :report_type => :failed_recurring_donations,
           :period => :last_month,
-          :user_id => user.id
+          :users => users_list
         }]
       end
 
@@ -76,7 +77,7 @@ RSpec.describe PeriodicReport, type: :model do
         :active => true,
         :report_type => 'failed_recurring_donations',
         :period => 'last_month',
-        :user_id => user.id
+        :users => users_list
       }
     end
     let(:options) { attributes.except(:active).merge({ :nonprofit_id => nonprofit.id }) }

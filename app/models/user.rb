@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
 	has_one  :profile,   dependent: :destroy
 	has_many :imports
   has_many :email_settings
+  has_and_belongs_to_many :periodic_reports
 
 	accepts_nested_attributes_for :profile
 

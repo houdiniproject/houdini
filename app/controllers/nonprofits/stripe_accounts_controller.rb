@@ -57,9 +57,9 @@ module Nonprofits
             if (current_nonprofit.stripe_account_id)
                 render json: Stripe::AccountLink.create({
                     account:current_nonprofit.stripe_account_id,
-                    failure_url: nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
-                    success_url: confirm_nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
-                    type: 'custom_account_verification',
+                    refresh_url: nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
+                    return_url: confirm_nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
+                    type: 'account_onboarding',
                     collect: 'eventually_due'
                 }).to_json, status: 200
             else

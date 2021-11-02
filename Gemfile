@@ -11,6 +11,8 @@ gem 'stripe', '~> 4'
 # https://github.com/nesquena/rabl
 gem 'rabl'
 
+gem 'jbuilder'
+
 gem 'parallel'
 
 gem "puma", "~> 5.5"

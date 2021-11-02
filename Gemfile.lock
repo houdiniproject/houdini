@@ -246,6 +246,8 @@ GEM
     i18n_data (0.8.0)
     ice_nine (0.11.2)
     inflecto (0.0.2)
+    jbuilder (2.9.1)
+      activesupport (>= 4.2.0)
     jmespath (1.4.0)
     json (1.8.6)
     kdtree (0.3)
@@ -510,6 +512,7 @@ DEPENDENCIES
   hiredis (~> 0.6.0)
   httparty
   i18n-js
+  jbuilder
   lograge
   memcachier
   mini_magick

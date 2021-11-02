@@ -2,6 +2,7 @@
 // License: LGPL-3.0-or-later
 import { useReducer, useCallback, useEffect } from "react";
 import take from 'lodash/take';
+import noop from 'lodash/noop';
 import fromPairs from 'lodash/fromPairs';
 
 import findLastIndex from 'lodash/findLastIndex';
@@ -293,10 +294,8 @@ export default function useSteps(state: InputStepsState, initOptions: StepsInitO
 		uncomplete,
 		disable,
 		enable,
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		addStep: () => { },
-		// eslint-disable-next-line @typescript-eslint/no-empty-function
-		removeStep: () => { },
+		addStep: noop,
+		removeStep: noop,
 	});
 
 }

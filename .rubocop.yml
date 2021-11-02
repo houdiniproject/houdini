@@ -378,7 +378,6 @@ AllCops:
     - 'lib/onboard_accounts.rb'
     - 'lib/copy_naming_algorithm.rb'
     - 'lib/email.rb'
-    - 'lib/audit.rb'
     - 'lib/slug_p2p_campaign_naming_algorithm.rb'
     - 'lib/pay_recurring_donation.rb'
     - 'lib/errors/not_enough_quantity_error.rb'

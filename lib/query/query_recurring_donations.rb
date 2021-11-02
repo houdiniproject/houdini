@@ -168,50 +168,6 @@ module QueryRecurringDonations
     RecurringDonation.active.includes(:card).includes(:charges).includes(:donation).includes(:nonprofit).includes(:supporter).where('cards.id IS NULL').order('recurring_donations.created_at DESC')
   end
 
-  def self._splitting_rd_supporters_without_cards
-    supporters_with_valid_rds = []
-    supporters_without_valid_rds = []
-    send_to_wendy = []
-    supporters_with_cardless_rds = recurring_donations_without_cards.map(&:supporter).uniq(&:id)
-
-    # does the supporter have even one rd with a valid card
-    supporters_with_cardless_rds.each do |s|
-      valid_rd = find_recurring_donation_with_a_card(s)
-      # they have a recurring donation with a card for the same org
-      if valid_rd
-        if s.recurring_donations.length > 2
-          # they have too many recurring_donations.  Send to wendy
-          send_to_wendy.push(s)
-        else
-          # are the recurring_donations the same amount?
-          if s.recurring_donations[0].amount == s.recurring_donations[1].amount
-            supporters_with_valid_rds.push(s)
-          else
-            # they're not the same amount. We got no clue. Send to Wendy
-            send_to_wendy.push(s)
-          end
-        end
-      else
-        # they have no other recurring donations
-        supporters_without_valid_rds.push(s)
-      end
-    end
-
-    [supporters_with_valid_rds, send_to_wendy, supporters_without_valid_rds]
-  end
-
-  # @param [Array<Supporter>] wendy_list_of_supporters
-  # @param [String] path
-  # def self.create_wendy_csv(path, wendy_list_of_supporters)
-  #   CSV.open(path, 'wb') {|csv|
-  #     csv << ['supporter id',  'nonprofit id', 'supporter name', 'supporter address', 'supporter city', 'supporter state', 'supporter ZIP', 'supporter country', 'supporter phone', 'supporter email', 'supporter rd amounts']
-  #     wendy_list_of_supporters.each { |s|
-  #       amounts = '$'+ s.recurring_donations.active.collect {|rd| Format::Currency.cents_to_dollars(rd.amount)}.join(", $")
-  #       csv << [s.id, s.nonprofit.id, s.name, s.address, s.city, s.state_code, s.zip_code, s.country, s.phone, s.email, amounts]
-  #     }
-  #   }
-  # end
-
   # @param [Supporter] supporter
   def self.find_recurring_donation_with_a_card(supporter)
     supporter.recurring_donations.select do |rd|

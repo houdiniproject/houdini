@@ -375,7 +375,6 @@ AllCops:
     - 'lib/query/query_campaigns.rb'
     - 'lib/query/query_nonprofits.rb'
     - 'lib/query/query_users.rb'
-    - 'lib/onboard_accounts.rb'
     - 'lib/copy_naming_algorithm.rb'
     - 'lib/email.rb'
     - 'lib/slug_p2p_campaign_naming_algorithm.rb'

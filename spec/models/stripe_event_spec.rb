@@ -422,7 +422,7 @@ RSpec.describe StripeEvent, :type => :model do
             expect(sam).to receive(:conditionally_send_verified)
             expect(StripeAccountMailer).to receive(:delay).and_return(sam)
             StripeEvent.handle(event_json)
-            
+            last_account.reload
           end
           
           it 'saved the event' do
@@ -446,6 +446,7 @@ RSpec.describe StripeEvent, :type => :model do
             previous_event_object
             expect(StripeAccountMailer).to_not receive(:delay)
             StripeEvent.handle(event_json)
+            last_account.reload
           end
           
           it 'saved the event' do
@@ -455,7 +456,7 @@ RSpec.describe StripeEvent, :type => :model do
           end
 
           it 'saves StripeAccount' do 
-            expect(last_account.verification_status).to be :verified
+            expect(last_account.verification_status).to eq :verified
           end
 
           it 'doesnt add a NonprofitVerificationProcessStatus' do

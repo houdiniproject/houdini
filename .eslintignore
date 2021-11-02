@@ -195,7 +195,6 @@ app/javascript/legacy/nonprofits/button/page.js
 app/javascript/legacy/nonprofits/button/preview.js
 app/javascript/legacy/nonprofits/button/thank-you.js
 app/javascript/legacy/nonprofits/button/type.js
-app/javascript/legacy/nonprofits/cards/edit/page.js
 app/javascript/legacy/nonprofits/dashboard/page.js
 app/javascript/legacy/nonprofits/dashboard/tour.js
 app/javascript/legacy/nonprofits/donate/amount-step.js
@@ -298,7 +297,6 @@ app/javascript/packs/page__events__show.js
 app/javascript/packs/page__events__stats.js
 app/javascript/packs/page__nonprofits__btn.js
 app/javascript/packs/page__nonprofits__button.js
-app/javascript/packs/page__nonprofits__cards__edit.js
 app/javascript/packs/page__nonprofits__dashboard.js
 app/javascript/packs/page__nonprofits__donate.js
 app/javascript/packs/page__nonprofits__edit.js
@@ -351,7 +349,6 @@ app/javascript/legacy/components/sepa-form.es6
 app/javascript/legacy/components/show-more-button.es6
 app/javascript/legacy/components/supporter-address-form.es6
 app/javascript/legacy/components/tables/search.es6
-app/javascript/legacy/nonprofits/cards/edit/index.es6
 app/javascript/legacy/nonprofits/payouts/index/identity-verification-form.es6
 app/javascript/legacy/nonprofits/recurring_donations/index/index.es6
 app/javascript/legacy/nonprofits/supporter_form/index.es6

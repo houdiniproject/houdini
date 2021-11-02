@@ -10,32 +10,10 @@
 	<p><strong>Tier:
     <%= @nonprofit.billing_plan.name %>
     (
-    $<%= Format::Currency.cents_to_dollars @nonprofit.billing_plan.amount %> <%= @nonprofit.billing_plan.interval || 'monthly'%>
     <%= @nonprofit.billing_plan.percentage_fee > 0 ? ', ' + (@nonprofit.billing_plan.percentage_fee * 100).round(2).to_s + '%' : '' %>
     )
   </strong><br>
-    <em><small>Our processor (Stripe) assesses an additional 2.2% + $0.30 for each online payment.</small></em></p>
-
-
-  <% if @nonprofit.billing_plan.amount > 0  %>
-    <p><a class='u-color--red u-small' href='/nonprofits/<%=@nonprofit.id%>/billing_subscription/cancellation'>Unsubscribe from plan</a></p>
-    
-    <p>
-      <strong>
-        <a href='/nonprofits/<%= @nonprofit.id %>/card/edit'>
-          Update payment method
-        </a>
-      </strong>
-    </p>
-  <% end %>
-
-	<% if @nonprofit.active_card %>
-		<hr>
-		<label>Payment Method</label>
-		<p>Current payment method for your nonprofit:
-			<strong><%= @nonprofit.active_card.name %></strong>
-		</p>
-	<% end %>
+    <em><small>Our processor (Stripe) assesses an additional fees.</small></em></p>
 
 	<p class='note u-marginTop--10'>If you have any questions about your current plan, please contact <a href='mailto:<%= Houdini.hoster.support_email %>'><%= Houdini.hoster.support_email %></a></p>
 </div>

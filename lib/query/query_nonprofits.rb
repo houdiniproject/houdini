@@ -55,11 +55,9 @@ module QueryNonprofits
       'coalesce(events.count, 0) AS events_count',
       'coalesce(campaigns.count, 0) AS campaigns_count',
       'billing_plans.percentage_fee',
-      'cards.stripe_customer_id',
       'charges.total_processed',
       'charges.total_fees'
     ).from(:nonprofits)
-             .add_left_join(:cards, "cards.holder_id=nonprofits.id AND cards.holder_type='Nonprofit'")
              .add_left_join(:billing_subscriptions, 'billing_subscriptions.nonprofit_id=nonprofits.id')
              .add_left_join(:billing_plans, 'billing_subscriptions.billing_plan_id=billing_plans.id')
              .add_left_join(

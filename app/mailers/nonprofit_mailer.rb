@@ -83,14 +83,6 @@ class NonprofitMailer < BaseMailer
     mail(to: to_email, from: from, reply_to: from_email, subject: 'Please include this donate button code on the website')
   end
 
-  def invoice_payment_notification(nonprofit_id, payment)
-    @nonprofit = Nonprofit.find(nonprofit_id)
-    @payment = payment
-    @emails = QueryUsers.all_nonprofit_user_emails(@nonprofit.id, [:nonprofit_admin])
-    @month_name = Date::MONTHNAMES[payment.date.month]
-    mail(to: @emails, subject: "#{Houdini.general.name} Subscription Receipt for #{@month_name}")
-  end
-
   # pass in all of:
   # {is_unsubscribed_from_emails, supporter_email, message, email_unsubscribe_uuid, nonprofit_id, from_email, subject}
   def supporter_message(args)

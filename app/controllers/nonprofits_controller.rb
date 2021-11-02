@@ -123,14 +123,6 @@ class NonprofitsController < ApplicationController
     render json: QueryNonprofits.by_search_string(params[:npo_name])
   end
 
-  def onboard
-    render_json do
-      result = OnboardAccounts.create_org(params)
-      sign_in result[:user]
-      result
-    end
-  end
-
   private
 
   def countries_list(locale)

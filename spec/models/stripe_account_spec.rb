@@ -5,17 +5,10 @@ RSpec.describe StripeAccount, :type => :model do
   before(:each) do
     StripeMock.start
   end
-  describe "account should be pending" do
-    let(:json) do
-      event =StripeMock.mock_webhook_event('account.updated.with-pending')
-      event['data']['object']
-    end
 
+  describe "account should be pending" do
     let(:sa) do 
-      sa = StripeAccount.new
-      sa.object = json
-      sa.save!
-      sa
+      create(:stripe_account, :with_pending)
     end
 
     it 'is pending' do
@@ -27,23 +20,10 @@ RSpec.describe StripeAccount, :type => :model do
     end
   end
 
-
   describe "account goes from verified to unverified" do
-    let(:json_verified) do
-      event =StripeMock.mock_webhook_event('account.updated.with-verified')
-      event['data']['object']
-    end
-
-    let(:json_unverified) do
-      event =StripeMock.mock_webhook_event('account.updated.with-unverified-from-verified')
-      event['data']['object']
-    end
-
     let(:sa) do
-      sa = StripeAccount.new
-      sa.object = json_verified
-      sa.save!
-      sa.object = json_unverified
+      sa = create(:stripe_account, :with_verified)
+      sa.object = attributes_for(:stripe_account, :with_unverified_from_verified)[:object].to_s
       sa.save!
       sa
     end
@@ -58,16 +38,8 @@ RSpec.describe StripeAccount, :type => :model do
   end
 
   describe 'account should be unverified' do
-    let(:json) do
-      event =StripeMock.mock_webhook_event('account.updated.with-unverified')
-      event['data']['object']
-    end
-
     let(:sa) do 
-      sa = StripeAccount.new
-      sa.object = json
-      sa.save!
-      sa
+      create(:stripe_account, :with_unverified)
     end
 
     it 'is unverified' do
@@ -80,16 +52,9 @@ RSpec.describe StripeAccount, :type => :model do
   end
 
   describe 'account should be verified' do
-    let(:json) do
-      event =StripeMock.mock_webhook_event('account.updated.with-verified')
-      event['data']['object']
-    end
 
-    let(:sa) do 
-      sa = StripeAccount.new
-      sa.object = json
-      sa.save!
-      sa
+    subject(:sa) do 
+      create(:stripe_account, :with_verified)
     end
 
     it 'is verified' do
@@ -102,16 +67,8 @@ RSpec.describe StripeAccount, :type => :model do
   end
 
   describe 'account should be temporarily verified' do
-    let(:json) do
-      event =StripeMock.mock_webhook_event('account.updated.with-temporarily_verified')
-      event['data']['object']
-    end
-
     let(:sa) do 
-      sa = StripeAccount.new
-      sa.object = json
-      sa.save!
-      sa
+      create(:stripe_account, :with_temporarily_verified)
     end
 
     it 'is verified' do
@@ -124,16 +81,8 @@ RSpec.describe StripeAccount, :type => :model do
   end
 
   describe 'account should be unverified because of deadline' do
-    let(:json) do
-      event =StripeMock.mock_webhook_event('account.updated.with-temporarily_verified-with-deadline')
-      event['data']['object']
-    end
-
-    let(:sa) do 
-      sa = StripeAccount.new
-      sa.object = json
-      sa.save!
-      sa
+    subject(:sa) do 
+      create(:stripe_account, :with_temporarily_verified_with_deadline)
     end
 
     it 'is verified' do

@@ -42,7 +42,6 @@ RSpec.describe Supporter, type: :model do
       expect(s.address).to eq '123 Main Street'
     end
 
-
     it 'copies no address_line2 when address is empty when' do
       s = Supporter.new()
       s.valid?
@@ -54,6 +53,12 @@ RSpec.describe Supporter, type: :model do
       s.valid?
       expect(s.address).to eq '123 Main Street Suite 101'
     end
+
+    it 'replaces blank attributes with nil' do
+      s = Supporter.new(address: '')
+      s.valid?
+      expect(s.address).to be_nil
+    end
   end
 
 
@@ -61,28 +66,38 @@ RSpec.describe Supporter, type: :model do
     describe 'update_primary_address' do
       
       context 'when primary_address is originally nil' do
-        subject(:supporter) { create(:supporter_with_fv_poverty) }
-        before(:each) {
-          supporter.update_attributes(
-            address: '123 Main Street',
-            city: 'Appleton',
-            state_code: "WI",
-            zip_code: '54915',
-            country: 'United States'
-          )
-        }
-        it { is_expected.to have_attributes(addresses: have_attributes(count: 1))}
-        it { is_expected.to have_attributes(primary_address: be_present) }
-        it { is_expected.to have_attributes(primary_address: be_persisted)}
-        
-        context 'and new primary address' do
-          subject { supporter.primary_address}
-          it {is_expected.to have_attributes(address: '123 Main Street')}
-          it {is_expected.to have_attributes(city: 'Appleton')}
-          it {is_expected.to have_attributes(state_code: 'WI')}
-          it {is_expected.to have_attributes(zip_code: '54915')}
-          it {is_expected.to have_attributes(country: 'United States')}
-          it {is_expected.to have_attributes(deleted: false)}
+        context 'and address is being created' do
+          subject(:supporter) { create(:supporter_with_fv_poverty) }
+          before(:each) {
+            supporter.update_attributes(
+              address: '123 Main Street',
+              city: 'Appleton',
+              state_code: "WI",
+              zip_code: '54915',
+              country: 'United States'
+            )
+          }
+          it { is_expected.to have_attributes(addresses: have_attributes(count: 1))}
+          it { is_expected.to have_attributes(primary_address: be_present) }
+          it { is_expected.to have_attributes(primary_address: be_persisted)}
+          
+          context 'and new primary address' do
+            subject { supporter.primary_address}
+            it {is_expected.to have_attributes(address: '123 Main Street')}
+            it {is_expected.to have_attributes(city: 'Appleton')}
+            it {is_expected.to have_attributes(state_code: 'WI')}
+            it {is_expected.to have_attributes(zip_code: '54915')}
+            it {is_expected.to have_attributes(country: 'United States')}
+            it {is_expected.to have_attributes(deleted: false)}
+          end
+        end
+
+        context 'and the supporter being created has empty address fields' do
+          let(:new_supporter) { create(:supporter_with_fv_poverty, address: '', country: '') }
+
+          it 'does not create a primary address' do
+            expect(new_supporter.primary_address).to be_nil
+          end
         end
       end
 

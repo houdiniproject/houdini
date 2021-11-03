@@ -122,6 +122,9 @@ class Supporter < ActiveRecord::Base
     if address.present? && address_line2.present?
       assign_attributes(address_line2: nil, address: self.address + " " + self.address_line2)
     end
+    address_field_attributes.each do |addr_attribute, addr_value|
+      self[addr_attribute] = nil if addr_value.blank?
+    end
   end
 
   def cleanup_name 
@@ -135,12 +138,18 @@ class Supporter < ActiveRecord::Base
     attributes.slice(*ADDRESS_FIELDS)
   end
 
+  def filled_address_fields?
+    address_field_attributes.any? { |column, value| value.present? }
+  end
+
   def update_primary_address
     if self.changes.slice(*ADDRESS_FIELDS).any? #changed an address field
-      unless primary_address.nil?
-        primary_address.update(address_field_attributes)
+      if primary_address.nil?
+        if filled_address_fields?
+          self.addresses.build(address_field_attributes)
+        end
       else
-        self.addresses.build(address_field_attributes)
+        primary_address.update(address_field_attributes)
       end
     end
   end

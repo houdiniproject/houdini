@@ -1,10 +1,13 @@
 
-name: build
+name: Main build
 env: 
   ruby: '2.4.10'
 on: 
   pull_request:
     types: [opened, reopened, synchronize]
+concurrency: 
+  group: build--${{ github.head_ref }}
+  cancel-in-progress: true
 jobs:
   build:
       runs-on: ${{ matrix.os }}

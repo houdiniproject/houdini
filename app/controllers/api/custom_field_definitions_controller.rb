@@ -12,7 +12,7 @@ class Api::CustomFieldDefinitionsController < Api::ApiController
 	# Gets the nonprofits custom field definitions
 	# If not logged in, causes a 401 error
 	def index
-		@custom_field_definitions = current_nonprofit.custom_field_definitions
+		@custom_field_definitions = current_nonprofit.custom_field_definitions.order("id DESC").page(params[:page]).per(params[:per])
 	end
 
 	# Gets a single custom field definition

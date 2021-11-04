@@ -26,7 +26,6 @@ RSpec.describe Api::CustomFieldDefinitionsController, type: :request do
 			it {
 				expect(response).to have_http_status(:success)
 			}
-			
 
 			describe 'with a response' do
 				subject(:json) do
@@ -135,7 +134,9 @@ RSpec.describe Api::CustomFieldDefinitionsController, type: :request do
 					it { is_expected.to include('total_count' => 7) }
 
 					it {
-						expect(json['data'].map { |i| i['id'] }).to eq CustomFieldDefinition.order('id DESC').limit(2).offset(5).pluck(:id)
+						expect(json['data'].map do |i|
+														i['id']
+													end).to eq CustomFieldDefinition.order('id DESC').limit(2).offset(5).pluck(:id)
 					}
 				end
 			end

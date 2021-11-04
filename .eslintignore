@@ -59,7 +59,6 @@ app/javascript/legacy_react/src/lib/vjf_rules.ts
 app/javascript/packs/loading_indicator.ts
 types/dotize/index.d.ts
 types/mobx-react-form/index.d.ts
-types/rails__activestorage/index.d.ts
 types/react-aria-modal/index.d.ts
 
 # old js files

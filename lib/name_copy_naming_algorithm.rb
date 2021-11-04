@@ -35,7 +35,7 @@ class NameCopyNamingAlgorithm < CopyNamingAlgorithm
     if (amount_to_strip < 0)
       amount_to_strip = 0
     end
-    @klass.method(:where).call('name SIMILAR TO ? AND nonprofit_id = ? AND (NOT deleted)', "#{base_name[0..base_name.length-amount_to_strip-1]}_*" + end_name, nonprofit_id).select('name')
+    @klass.method(:where).call('name SIMILAR TO ? AND nonprofit_id = ?', "#{base_name[0..base_name.length-amount_to_strip-1]}_*" + end_name, nonprofit_id).select('name')
   end
 
 end

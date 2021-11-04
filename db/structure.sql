@@ -1508,7 +1508,8 @@ CREATE TABLE public.misc_event_infos (
     event_id integer,
     hide_cover_fees_option boolean,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    custom_get_tickets_button_label character varying
 );
 
 
@@ -6006,4 +6007,6 @@ INSERT INTO schema_migrations (version) VALUES ('20211021173546');
 INSERT INTO schema_migrations (version) VALUES ('20211025145718');
 
 INSERT INTO schema_migrations (version) VALUES ('20211101221537');
+
+INSERT INTO schema_migrations (version) VALUES ('20211104195053');
 

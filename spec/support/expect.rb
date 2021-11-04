@@ -23,7 +23,7 @@ module Expect
     match(/#{prefix}_[a-zA-Z0-9]{22}/)
   end
 
-  def match_json(**args)
+  def match_json(args={})
     match(args.deep_stringify_keys)
   end
 end

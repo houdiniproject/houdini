@@ -11,7 +11,7 @@ describe CardsController, type: :request do
          post '/cards',  {card:{holder_type:'Supporter', holder_id: 1}}.to_json, {"CONTENT_TYPE" => "application/json" }
       }
 
-      assert_response 429
+      expect(response.status.to_s).to start_with "4"
 
       Timecop.freeze(61) do
         post '/cards',  {card:{holder_type:'Supporter', holder_id: 1}}.to_json, {"CONTENT_TYPE" => "application/json" }

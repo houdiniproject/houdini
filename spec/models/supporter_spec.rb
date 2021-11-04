@@ -90,6 +90,21 @@ RSpec.describe Supporter, type: :model do
             it {is_expected.to have_attributes(country: 'United States')}
             it {is_expected.to have_attributes(deleted: false)}
           end
+
+          context 'and the address is being updated to nil attributes' do
+            let(:primary_address_id) { supporter.primary_address_id }
+            before do
+              supporter.update(address: nil, city: nil, state_code: nil, zip_code: nil, country: nil)
+            end
+
+            it 'removes the primary address from the supporter' do
+              expect(supporter.primary_address).to be_nil
+            end
+
+            it 'deletes the empty primary address from the database' do
+              expect(SupporterAddress.where(id: primary_address_id).present?).to be_falsy
+            end
+          end
         end
 
         context 'and the supporter being created has empty address fields' do

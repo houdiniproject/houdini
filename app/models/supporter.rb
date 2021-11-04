@@ -144,12 +144,17 @@ class Supporter < ActiveRecord::Base
 
   def update_primary_address
     if self.changes.slice(*ADDRESS_FIELDS).any? #changed an address field
-      if primary_address.nil?
-        if filled_address_fields?
+      if filled_address_fields?
+        if primary_address.nil?
           self.addresses.build(address_field_attributes)
+        else
+          primary_address.update(address_field_attributes)
         end
-      else
-        primary_address.update(address_field_attributes)
+      elsif primary_address.present?
+        prim_addr = primary_address
+        self.update(primary_address: nil)
+        self.addresses.delete(prim_addr)
+        prim_addr.destroy
       end
     end
   end

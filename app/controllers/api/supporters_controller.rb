@@ -12,7 +12,7 @@ class Api::SupportersController < Api::ApiController
 	# Gets the nonprofits supporters
 	# If not logged in, causes a 401 error
 	def index
-		@supporters = current_nonprofit.supporters
+		@supporters = current_nonprofit.supporters.order('id DESC').page(params[:page]).per(params[:per])
 	end
 
 	# Gets the a single nonprofit supporter

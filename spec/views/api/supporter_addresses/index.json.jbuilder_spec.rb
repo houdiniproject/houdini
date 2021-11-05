@@ -6,18 +6,32 @@ require 'rails_helper'
 
 RSpec.describe '/api/supporter_addresses/index.json.jbuilder', type: :view do
 	subject(:json) do
-		assign(:supporter_addresses, [supporter_with_fv_poverty])
+		assign(
+			:supporter_addresses,
+			supporter_with_fv_poverty
+				.nonprofit
+				.supporters
+				.where(id: supporter_with_fv_poverty.id).order('id DESC').page
+		)
 		render
 		JSON.parse(rendered)
 	end
 
 	let(:supporter_with_fv_poverty) { create(:supporter_with_fv_poverty) }
 
-	it { expect(json.count).to eq 1 }
+	it {
+		expect(json['data'].count).to eq 1
+	}
+
+	it { is_expected.to include('first_page' => true) }
+	it { is_expected.to include('last_page' =>  true) }
+	it { is_expected.to include('current_page' => 1) }
+	it { is_expected.to include('requested_size' => 25) }
+	it { is_expected.to include('total_count' => 1) }
 
 	describe 'details of the first item' do
 		subject(:first) do
-			json.first
+			json['data'][0]
 		end
 
 		let(:supporter) { supporter_with_fv_poverty }

@@ -32,12 +32,12 @@ RSpec.describe Api::SupporterAddressesController, type: :request do
 			}
 
 			it {
-				expect(json.count).to eq 1
+				expect(json['data'].count).to eq 1
 			}
 
 			context 'with first item' do
 				subject do
-					json[0]
+					json['data'][0]
 				end
 
 				it {
@@ -87,6 +87,12 @@ RSpec.describe Api::SupporterAddressesController, type: :request do
 						))
 				}
 			end
+
+			it { is_expected.to include('first_page' => true) }
+			it { is_expected.to include('last_page' =>  true) }
+			it { is_expected.to include('current_page' => 1) }
+			it { is_expected.to include('requested_size' => 25) }
+			it { is_expected.to include('total_count' => 1) }
 		end
 
 		it 'returns http unauthorized when not logged in' do

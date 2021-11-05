@@ -6,11 +6,14 @@ require 'rails_helper'
 
 RSpec.describe '/api/campaign_gift_options/index.json.jbuilder', type: :view do
 	subject(:json) do
-		assign(:campaign_gift_options, [
-										campaign_gift_option_with_campaign_with_one_time_amount,
-										campaign_gift_option_with_campaign_with_recurring_amount,
-										campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount
-									])
+		assign(:campaign_gift_options,
+									Kaminari.paginate_array(
+										[
+											campaign_gift_option_with_campaign_with_one_time_amount,
+											campaign_gift_option_with_campaign_with_recurring_amount,
+											campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount
+										]
+									).page)
 		render
 		JSON.parse(rendered)
 	end
@@ -35,11 +38,11 @@ RSpec.describe '/api/campaign_gift_options/index.json.jbuilder', type: :view do
 		"http://test.host#{base_path(nonprofit_id, campaign_id, campaign_gift_option_id)}"
 	end
 
-	it { expect(json.count).to eq 3 }
+	it { expect(json['data'].count).to eq 3 }
 
 	describe 'details of the campaign_gift_option_with_campaign_with_one_time_amount' do
 		subject(:first) do
-			json[0]
+			json['data'][0]
 		end
 
 		let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_one_time_amount }
@@ -108,7 +111,7 @@ RSpec.describe '/api/campaign_gift_options/index.json.jbuilder', type: :view do
 
 	describe 'details of the campaign_gift_option_with_campaign_with_recurring_amount' do
 		subject(:second) do
-			json[1]
+			json['data'][1]
 		end
 
 		let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_recurring_amount }
@@ -177,7 +180,7 @@ RSpec.describe '/api/campaign_gift_options/index.json.jbuilder', type: :view do
 
 	describe 'details of the campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount' do
 		subject(:third) do
-			json[2]
+			json['data'][2]
 		end
 
 		let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount }
@@ -249,5 +252,26 @@ RSpec.describe '/api/campaign_gift_options/index.json.jbuilder', type: :view do
 			is_expected.to include('url' =>
 			base_url(nonprofit.id, campaign.id, campaign_gift_option.id))
 		}
+	end
+
+	describe 'paging' do
+		subject(:json) do
+			cgo
+			(0..5).each do |i|
+				create(:campaign_gift_option_with_campaign_with_one_time_amount, campaign: cgo.campaign, name: i)
+			end
+			assign(:campaign_gift_options, cgo.campaign.campaign_gift_options.order('id DESC').page.per(5))
+			render
+			JSON.parse(rendered)
+		end
+
+		let(:cgo) { create(:campaign_gift_option_with_campaign_with_one_time_amount) }
+
+		it { is_expected.to include('data' => have_attributes(count: 5)) }
+		it { is_expected.to include('first_page' => true) }
+		it { is_expected.to include('last_page' =>  false) }
+		it { is_expected.to include('current_page' => 1) }
+		it { is_expected.to include('requested_size' => 5) }
+		it { is_expected.to include('total_count' => 7) }
 	end
 end

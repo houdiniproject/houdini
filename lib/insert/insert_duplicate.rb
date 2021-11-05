@@ -88,9 +88,19 @@ module InsertDuplicate
 
       InsertDuplicate.ticket_levels(event_id, dupe.id)
       InsertDuplicate.event_discounts(event_id, dupe.id)
+      InsertDuplicate.misc_event_info(event, dupe)
 
       return dupe
     end
+  end
+
+  def self.misc_event_info(event, dupe)
+    original_custom_get_tickets_button_label = event&.misc_event_info&.custom_get_tickets_button_label
+    return unless original_custom_get_tickets_button_label.present?
+
+    dupe.create_misc_event_info
+    dupe.misc_event_info.custom_get_tickets_button_label = original_custom_get_tickets_button_label
+    dupe.misc_event_info.save!
   end
 
   # selects all gift options associated with old campaign

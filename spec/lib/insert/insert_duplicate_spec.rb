@@ -336,6 +336,18 @@ describe InsertDuplicate do
         validate_eds(result)
       end
 
+      context 'when there are misc_event_infos to be copied' do
+        before do
+          event.create_misc_event_info
+          event.misc_event_info.custom_get_tickets_button_label = 'Giving Options'
+          event.misc_event_info.save!
+        end
+        subject { InsertDuplicate.event(event.id, profile.id) }
+        it 'copies custom_get_tickets_button_label from misc_event_info' do
+          expect(subject.misc_event_info.custom_get_tickets_button_label).to eq('Giving Options')
+        end
+      end
+
 
     def validate_tls(new_event)
       old_event = event

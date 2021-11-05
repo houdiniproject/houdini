@@ -3,7 +3,7 @@
 <!-- this depends on cards.css -->
 <!-- this depends on tickets/wizard.js -->
 
-<% title ||= 'Get tickets' %>
+<% title ||= @event&.get_tickets_button_label %>
 <% show_payment_options ||= false %>
 <% unrequire_email ||= false %>
 <% hide_cover_fees_option ||= false%>

@@ -106,4 +106,7 @@ class Event < ActiveRecord::Base
 		nonprofit.hide_cover_fees? || misc_event_info&.hide_cover_fees_option
 	end
 
+	def get_tickets_button_label
+		misc_event_info&.custom_get_tickets_button_label || 'Get Tickets'
+	end
 end

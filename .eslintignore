@@ -62,7 +62,6 @@ types/mobx-react-form/index.d.ts
 types/react-aria-modal/index.d.ts
 
 # old js files
-app/javascript/components/SessionLoginPage.js
 app/javascript/legacy/bank_accounts/confirm/page.js
 app/javascript/legacy/bank_accounts/resend_confirmation_email.js
 app/javascript/legacy/campaigns/index/page.js

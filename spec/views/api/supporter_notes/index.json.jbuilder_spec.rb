@@ -6,18 +6,18 @@ require 'rails_helper'
 
 RSpec.describe '/api/supporter_notes/index.json.jbuilder', type: :view do
 	subject(:json) do
-		assign(:supporter_notes, [supporter_note_with_fv_poverty_with_user])
+		assign(:supporter_notes, supporter_note_with_fv_poverty_with_user.supporter.supporter_notes.order('id DESC').page)
 		render
 		JSON.parse(rendered)
 	end
 
 	let(:supporter_note_with_fv_poverty_with_user) { create(:supporter_note_with_fv_poverty_with_user) }
 
-	it { expect(json.count).to eq 1 }
+	it { expect(['data'].count).to eq 1 }
 
 	describe 'details of the first item' do
 		subject(:first) do
-			json.first
+			json['data'].first
 		end
 
 		let(:supporter_note) { supporter_note_with_fv_poverty_with_user }
@@ -60,5 +60,26 @@ RSpec.describe '/api/supporter_notes/index.json.jbuilder', type: :view do
 					%r{http://test\.host/api/nonprofits/#{nonprofit.id}/supporters/#{supporter.id}/supporter_notes/#{supporter_note.id}} # rubocop:disable Layout/LineLength
 				))
 		}
+	end
+
+	describe 'paging' do
+		subject(:json) do
+			(0..5).each do |i|
+				create(:supporter_note_with_fv_poverty_with_user,
+											supporter: supporter_note_with_fv_poverty_with_user.supporter,
+											content: "content for #{i}")
+			end
+			assign(:supporter_notes,
+										supporter_note_with_fv_poverty_with_user.supporter.supporter_notes.order('id DESC').page.per(5))
+			render
+			JSON.parse(rendered)
+		end
+
+		it { is_expected.to include('data' => have_attributes(count: 5)) }
+		it { is_expected.to include('first_page' => true) }
+		it { is_expected.to include('last_page' =>  false) }
+		it { is_expected.to include('current_page' => 1) }
+		it { is_expected.to include('requested_size' => 5) }
+		it { is_expected.to include('total_count' => 7) }
 	end
 end

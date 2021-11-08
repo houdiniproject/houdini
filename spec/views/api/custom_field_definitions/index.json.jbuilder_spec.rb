@@ -6,7 +6,7 @@ require 'rails_helper'
 
 RSpec.describe '/api/custom_field_definitions/index.json.jbuilder', type: :view do
 	subject(:json) do
-		assign(:custom_field_definitions, [custom_field_definition])
+		assign(:custom_field_definitions, Kaminari.paginate_array([custom_field_definition]).page)
 		render
 		JSON.parse(rendered)
 	end
@@ -14,11 +14,11 @@ RSpec.describe '/api/custom_field_definitions/index.json.jbuilder', type: :view 
 	let(:custom_field_definition) { create(:custom_field_definition_with_nonprofit) }
 	let(:nonprofit) { custom_field_definition.nonprofit }
 
-	it { expect(json.count).to eq 1 }
+	it { expect(json['data'].count).to eq 1 }
 
 	describe 'details of the first item' do
 		subject(:first) do
-			json.first
+			json['data'].first
 		end
 
 		it {
@@ -47,5 +47,26 @@ RSpec.describe '/api/custom_field_definitions/index.json.jbuilder', type: :view 
 					%r{http://test\.host/api/nonprofits/#{nonprofit.id}/custom_field_definitions/#{custom_field_definition.id}}
 				))
 		}
+	end
+
+	describe 'paging' do
+		subject(:json) do
+			custom_field_definition
+			(0..5).each do |i|
+				create(:custom_field_definition_with_nonprofit,
+											nonprofit: nonprofit,
+											name: i)
+			end
+			assign(:custom_field_definitions, nonprofit.custom_field_definitions.order('id DESC').page.per(5))
+			render
+			JSON.parse(rendered)
+		end
+
+		it { is_expected.to include('data' => have_attributes(count: 5)) }
+		it { is_expected.to include('first_page' => true) }
+		it { is_expected.to include('last_page' =>  false) }
+		it { is_expected.to include('current_page' => 1) }
+		it { is_expected.to include('requested_size' => 5) }
+		it { is_expected.to include('total_count' => 7) }
 	end
 end

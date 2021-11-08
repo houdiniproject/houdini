@@ -428,12 +428,18 @@ RSpec.describe Api::CampaignGiftOptionsController, type: :request do
 			}
 
 			it {
-				expect(json.count).to eq 3
+				expect(json['data'].count).to eq 3
 			}
+
+			it { is_expected.to include('first_page' => true) }
+			it { is_expected.to include('last_page' =>  true) }
+			it { is_expected.to include('current_page' => 1) }
+			it { is_expected.to include('requested_size' => 25) }
+			it { is_expected.to include('total_count' => 3) }
 
 			describe 'for campaign_gift_option_with_campaign_with_one_time_amount' do
 				subject(:first) do
-					json[0]
+					json['data'][2]
 				end
 
 				let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_one_time_amount }
@@ -443,7 +449,7 @@ RSpec.describe Api::CampaignGiftOptionsController, type: :request do
 
 			describe 'for campaign_gift_option_with_campaign_with_recurring_amount' do
 				subject(:second) do
-					json[1]
+					json['data'][1]
 				end
 
 				let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_recurring_amount }
@@ -453,7 +459,7 @@ RSpec.describe Api::CampaignGiftOptionsController, type: :request do
 
 			describe 'for campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount' do
 				subject(:third) do
-					json[2]
+					json['data'][0]
 				end
 
 				let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount }
@@ -478,12 +484,18 @@ RSpec.describe Api::CampaignGiftOptionsController, type: :request do
 			}
 
 			it {
-				expect(json.count).to eq 3
+				expect(json['data'].count).to eq 3
 			}
+
+			it { is_expected.to include('first_page' => true) }
+			it { is_expected.to include('last_page' =>  true) }
+			it { is_expected.to include('current_page' => 1) }
+			it { is_expected.to include('requested_size' => 25) }
+			it { is_expected.to include('total_count' => 3) }
 
 			describe 'for campaign_gift_option_with_campaign_with_one_time_amount' do
 				subject(:first) do
-					json[0]
+					json['data'][2]
 				end
 
 				let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_one_time_amount }
@@ -493,7 +505,7 @@ RSpec.describe Api::CampaignGiftOptionsController, type: :request do
 
 			describe 'for campaign_gift_option_with_campaign_with_recurring_amount' do
 				subject(:second) do
-					json[1]
+					json['data'][1]
 				end
 
 				let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_recurring_amount }
@@ -503,7 +515,7 @@ RSpec.describe Api::CampaignGiftOptionsController, type: :request do
 
 			describe 'for campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount' do
 				subject(:third) do
-					json[2]
+					json['data'][0]
 				end
 
 				let(:campaign_gift_option) { campaign_gift_option_with_campaign_with_both_one_time_and_recurring_amount }

@@ -11,7 +11,12 @@ class Api::CampaignGiftOptionsController < Api::ApiController
 	before_action :authenticate_campaign_editor!
 
 	def index
-		@campaign_gift_options = current_campaign.campaign_gift_options
+		@campaign_gift_options =
+			current_campaign
+			.campaign_gift_options
+			.order('id DESC')
+			.page(params[:page])
+			.per(params[:per])
 	end
 
 	# If not logged in, causes a 401 error

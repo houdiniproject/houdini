@@ -76,7 +76,6 @@ Rails.application.routes.draw do
       put(:followup, on: :member)
       post(:create_offsite, on: :collection)
     end
-    resource(:card, only: %i[edit update show create])
 
     resources(:charges, only: [:index]) do
       resources(:refunds, only: %i[create index])
@@ -165,11 +164,6 @@ Rails.application.routes.draw do
       resources(:campaign_gift_options, only: %i[index show create update destroy]) do
         put(:update_order, on: :collection)
       end
-    end
-
-    resource(:billing_subscription, only: [:create]) do
-      post(:cancel)
-      get(:cancellation)
     end
 
     resources(:events, only: %i[index show create update]) do

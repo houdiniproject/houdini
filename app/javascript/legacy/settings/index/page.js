@@ -111,15 +111,6 @@ appl.def('statement.validate', function(node) {
 	}
 })
 
-appl.def('cancel_billing_subscription', function() {
-	appl.notify('Cancelling subscription...')
-	appl.def('loading', true)
-	request.put(np_route + '/billing_subscription/cancel')
-	  .send({}).end(function(resp) {
-		appl.def('loading', false)
-	})
-})
-
 function getClassToFindEditor()
 {
     if (app.editor === 'froala' )

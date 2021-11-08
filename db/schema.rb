@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_25_171712) do
+ActiveRecord::Schema.define(version: 2021_11_01_214501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -94,7 +94,6 @@ ActiveRecord::Schema.define(version: 2021_09_25_171712) do
   create_table "billing_subscriptions", id: :serial, force: :cascade do |t|
     t.integer "nonprofit_id"
     t.integer "billing_plan_id"
-    t.string "stripe_subscription_id", limit: 255
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", limit: 255

@@ -27,7 +27,9 @@ Rails.application.routes.draw do
           resources :supporter_notes, only: [:index, :show]
         end
         resources :tag_definitions, only: [:index, :show]
-        resources :transactions, only: [:index, :show]
+        resources :transactions, only: [:index, :show] do
+          get :subtransaction, on: :member
+        end
       end
 
       resources :users, only: [] do

@@ -20,4 +20,8 @@ class Api::TransactionsController < Api::ApiController
 	def show
 		@transaction = current_transaction
 	end
+
+	def subtransaction
+		@subtransaction = current_transaction.subtransaction
+	end
 end

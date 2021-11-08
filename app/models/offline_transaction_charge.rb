@@ -10,6 +10,23 @@ class OfflineTransactionCharge < ApplicationRecord
 
 	delegate :gross_amount, :net_amount, :fee_total, to: :payment
 
+
+	def gross_amount_as_money
+		Amount.new(gross_amount || 0, currency)
+	end
+
+	def net_amount_as_money
+		Amount.new(net_amount || 0, currency)
+	end
+
+	def fee_total_as_money
+		Amount.new(fee_total || 0, currency)
+	end
+
+	def created
+		payment.date
+	end
+
 	delegate :currency, to: :nonprofit
 
 	concerning :JBuilder do

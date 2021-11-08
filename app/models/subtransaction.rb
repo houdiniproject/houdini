@@ -12,7 +12,7 @@ class Subtransaction < ApplicationRecord
 		end
 	end
 
-	belongs_to :trx, class_name: 'Transaction', foreign_key: 'transaction_id', inverse_of: :subtransactions
+	belongs_to :trx, class_name: 'Transaction', foreign_key: 'transaction_id', inverse_of: :subtransaction
 	has_one :supporter, through: :trx
 	has_one :nonprofit, through: :trx
 

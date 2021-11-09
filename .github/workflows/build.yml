@@ -68,6 +68,9 @@ jobs:
         - if: steps.changes.outputs.ruby == 'true'
           name: run spec
           run: bin/rake spec
-        - run: npm ci
+        - if: steps.changes.outputs.ruby == 'true'
+          run: script/compile-assets.sh
         - if: steps.changes.outputs.js == 'true'
-          run: npm run jest
+          run: npx jest
+        - if: steps.changes.outputs.js == 'true'
+          run: npm run build

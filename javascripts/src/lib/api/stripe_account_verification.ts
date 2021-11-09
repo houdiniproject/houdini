@@ -203,7 +203,8 @@ export interface StripeAccount {
   charges_enabled:boolean
   payouts_enabled:boolean
   disabled_reason:string
-  verification_status:string
+  verification_status:'pending'|'unverified'|'verified'|'temporarily_verified'
+  deadline: number | null;
 }
 
 export interface StripeAccountLink {

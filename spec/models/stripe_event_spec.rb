@@ -223,7 +223,7 @@ RSpec.describe StripeEvent, :type => :model do
       describe 'handles unverified' do
         let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified')}
         let(:last_event) { StripeEvent.last}
-        let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4', currently_due: JSON::generate(['something']))}
+        let(:last_account) { create(:stripe_account, :with_unverified, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
 
         describe 'when in verification process' do
           before(:each) do
@@ -237,7 +237,7 @@ RSpec.describe StripeEvent, :type => :model do
           end
 
           it 'saved the event' do
-            expect(last_event.event_id).to eq 'test_evt_1'
+            expect(last_event.event_id).to eq 'test_evt_2'
             expect(last_event.object_id).to eq 'acct_1G8Y94CcxDUSisy4'
             expect(last_event.event_time).to eq Time.now
           end
@@ -255,18 +255,16 @@ RSpec.describe StripeEvent, :type => :model do
         end
 
         describe 'when not in verification process' do
+          let(:last_account) { create(:stripe_account, :with_unverified, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
           before(:each) do
             last_account
-            last_account.currently_due = JSON::generate(['something'])
-            last_account.save!
             previous_event_object
-            # byebug
             expect(StripeAccountMailer).to_not receive(:delay)
             StripeEvent.handle(event_json)
           end
 
           it 'saved the event' do
-            expect(last_event.event_id).to eq 'test_evt_1'
+            expect(last_event.event_id).to eq 'test_evt_2'
             expect(last_event.object_id).to eq 'acct_1G8Y94CcxDUSisy4'
             expect(last_event.event_time).to eq Time.now
           end
@@ -285,14 +283,13 @@ RSpec.describe StripeEvent, :type => :model do
       describe 'handles from pending to unverified' do
         let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified')}
         let(:last_event) { StripeEvent.last}
-        let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
+        let(:last_account) { create(:stripe_account, :with_pending, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
 
         describe 'when in verification process' do
+          
           before(:each) do
             nonprofit_verification_process_status
             last_account
-            last_account.pending_verification = JSON::generate(['exciting'])
-            last_account.save!
             previous_event_object
             sam = double(StripeAccountMailer)
             expect(sam).to receive(:conditionally_send_more_info_needed)
@@ -300,11 +297,9 @@ RSpec.describe StripeEvent, :type => :model do
             expect(last_account.verification_status).to eq :pending
             StripeEvent.handle(event_json)
           end
-
-      
       
           it 'saved the event' do
-            expect(last_event.event_id).to eq 'test_evt_1'
+            expect(last_event.event_id).to eq 'test_evt_2'
             expect(last_event.object_id).to eq 'acct_1G8Y94CcxDUSisy4'
             expect(last_event.event_time).to eq Time.now
           end
@@ -324,18 +319,14 @@ RSpec.describe StripeEvent, :type => :model do
         describe 'when not in verification process' do
           before(:each) do
             last_account
-            last_account.pending_verification = JSON::generate(['exciting'])
-            last_account.save!
             previous_event_object
             expect(StripeAccountMailer).to_not receive(:delay)
             expect(last_account.verification_status).to eq :pending
             StripeEvent.handle(event_json)
           end
-
-      
       
           it 'saved the event' do
-            expect(last_event.event_id).to eq 'test_evt_1'
+            expect(last_event.event_id).to eq 'test_evt_2'
             expect(last_event.object_id).to eq 'acct_1G8Y94CcxDUSisy4'
             expect(last_event.event_time).to eq Time.now
           end

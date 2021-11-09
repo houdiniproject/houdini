@@ -4,7 +4,7 @@ import AccountLinkContext, { AccountLinkContextData } from '../stripe_account_ve
 import GetAccountLink from '../stripe_account_verification/GetAccountLink';
 import Spinner from '../common/Spinner';
 import ReturnLocation from '../stripe_account_verification/return_location';
-import ProgressBarAndStatus from '../common/ProgressBarAndStatus';
+import moment = require('moment-timezone');
 
 
 
@@ -17,10 +17,13 @@ export interface StripeVerificationConfirmProps {
   needBankAccount?: boolean
   return_location?: string
   retry?: () => void;
+  nonprofitTimezone?: string | null;
+  deadline?: number|null;
 }
 
 interface FullStripeVerificationConfirmProps extends StripeVerificationConfirmProps {
   accountLinkData: AccountLinkContextData
+  
 }
 
 function InnerStripeVerificationConfirm(props: StripeVerificationConfirmProps) {
@@ -48,10 +51,12 @@ function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
       </>
     }
     case 'needmore': {
+      const momentTime = convertDeadlineToLocalizedMoment({deadline:props.deadline, nonprofitTimezone: props.nonprofitTimezone});
+      const deadlineWording = languageForMoreNeeded({deadlineInTimezone: momentTime});
       return <>
         <h1>More information required</h1>
         <p>Stripe requires additional information in order to complete verification. This is normal. Please press the button below to continue verification using Stripe's secure form. As a reminder, this data is only used by Stripe for verification purposes and CommitChange never receives your sensitive data.</p>
-        <p>Alternatively, you can return to <a href={props.dashboardLink}>your dashboard</a> but if you do not complete your verification <strong>immediately</strong>, you will not be able to accept payments through CommitChange.</p>
+        <p>Alternatively, you can return to <a href={props.dashboardLink}>your dashboard</a> but if you do not complete your verification <strong>{deadlineWording}</strong>, you will not be able to accept payments through CommitChange.</p>
         <GetAccountLink />
       </>
     }
@@ -104,7 +109,7 @@ function PaneOnVerification(props: FullStripeVerificationConfirmProps) {
 }
 
 
-const FullInnerStripeVerificationConfirm: React.StatelessComponent<FullStripeVerificationConfirmProps> = (props) => {
+function FullInnerStripeVerificationConfirm(props:FullStripeVerificationConfirmProps) : JSX.Element {
 
   return <div className="tw-bs">
     <div className="container">
@@ -115,6 +120,32 @@ const FullInnerStripeVerificationConfirm: React.StatelessComponent<FullStripeVer
       </div>
     </div>
   </div>
+}
+
+
+export function convertDeadlineToLocalizedMoment({nonprofitTimezone, deadline}:{nonprofitTimezone?:string|null, deadline?: number|null}) : moment.Moment|null {
+  if (!deadline) {
+    return null;
+  }
+
+  const utcMoment = moment.unix(deadline)
+  if (nonprofitTimezone && utcMoment.tz(nonprofitTimezone)) {
+    return utcMoment.tz(nonprofitTimezone);
+  }
+  else {
+    return utcMoment;
+  }
+}
+
+
+export function languageForMoreNeeded({deadlineInTimezone}:{deadlineInTimezone?:moment.Moment|null}) : string {
+  if (!deadlineInTimezone || deadlineInTimezone < moment()) {
+    return "immediately";
+  }
+  else {
+    return "by " + deadlineInTimezone.format('MMMM D, YYYY') + " at " + deadlineInTimezone.format('h:m A');
+  }
+
 }
 
 export default InnerStripeVerificationConfirm;

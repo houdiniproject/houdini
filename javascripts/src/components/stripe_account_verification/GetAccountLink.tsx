@@ -34,7 +34,7 @@ class InnerGetAccountLink extends React.Component<FullGetAccountLinkProps, { fin
 
     const inProgress = props.accountLinkData.gettingAccountLink || this.state.finished;
     return <>
-      {props.accountLinkData.error ? <p>THere was an error: {props.accountLinkData.error}</p> : ""}
+      {props.accountLinkData.error ? <p>There was an error: {props.accountLinkData.error}</p> : ""}
 
       
       <ProgressableButton disableOnProgress={true} inProgress={inProgress} buttonText="Complete verification" buttonTextOnProgress={"Preparing verification"}  onClick={this.props.accountLinkData.getAccountLink}/>

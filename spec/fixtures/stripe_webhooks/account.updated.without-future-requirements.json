@@ -95,21 +95,6 @@
           "total_count": 0,
           "url": "/v1/accounts/acct_1G8Y94CcxDUSisy4/external_accounts"
         },
-        "future_requirements": {
-          "current_deadline": 1580935094,
-          "currently_due": [
-          ],
-          "disabled_reason": null,
-          "eventually_due": [
-
-          ],
-          "past_due": [
-
-          ],
-          "pending_verification": [
-            
-          ]
-        },
         "metadata": {
         },
         "requirements": {

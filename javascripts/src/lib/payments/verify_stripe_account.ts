@@ -32,10 +32,10 @@ async function verifyStripeIsValidatedOnce(api:StripeAccountVerification, nonpro
 
 
 
-export async function verifyStripeIsValidated(api:StripeAccountVerification, nonprofitId:number) {
+export async function verifyStripeIsValidated(api:StripeAccountVerification, nonprofitId:number):Promise<StripeAccount> {
     let errors: any[] = [];
     try {
-        return await pRetry(() => verifyStripeIsValidatedOnce(api, nonprofitId), 
+        return await pRetry(() => verifyStripeIsValidatedOnce(api, nonprofitId),
         {
           onFailedAttempt:  (error:Error) => {
               errors.push(error)

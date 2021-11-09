@@ -29,7 +29,7 @@ const decorateErrorWithCounts = (error:any, attemptNumber:number, options:any) =
 	return error;
 };
 
-const pRetry = (input:any, options:any) => new Promise((resolve, reject) => {
+const pRetry = <T>(input:(attemptNumber:number)=>Promise<T>, options:any) => new Promise<T>((resolve, reject) => {
 	options = {
 		onFailedAttempt: () => {},
 		retries: 10,

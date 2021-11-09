@@ -10,6 +10,7 @@ export interface StripeVerificationConfirmProps {
   dashboard_link: string
   payouts_link: string
   return_location: string
+  nonprofit_timezone: string|null;
 }
 
 export default function StripeVerificationConfirm(props: StripeVerificationConfirmProps) {
@@ -18,7 +19,7 @@ export default function StripeVerificationConfirm(props: StripeVerificationConfi
     <AccountLinkManager nonprofitId={props.nonprofit_id} returnLocation={props.return_location}>
       <StripeVerificationConfirmActor nonprofitId={props.nonprofit_id}>
         <InnerStripeVerificationConfirm dashboardLink={props.dashboard_link} payoutsLink={props.payouts_link} 
-        return_location={props.return_location} />
+        return_location={props.return_location} nonprofitTimezone={props.nonprofit_timezone} />
       </StripeVerificationConfirmActor>
       
     </AccountLinkManager>

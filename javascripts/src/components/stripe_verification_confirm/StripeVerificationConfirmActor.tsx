@@ -31,6 +31,7 @@ interface StripeVerificationConfirmActorState {
   lastStatus?:'completed'|'needmore'|'still_pending'|'unknown_error'
   disabledReason?:string
   needBankAccount?:boolean
+  deadline?:number|null
 }
 
 class StripeVerificationConfirmActor extends React.Component<FullStripeVerificationConfirmActorProps , StripeVerificationConfirmActorState> {
@@ -50,18 +51,15 @@ class StripeVerificationConfirmActor extends React.Component<FullStripeVerificat
     try {
       await delay(15000)
       const stripeValidated:StripeAccount = await verifyStripeIsValidated(this.props.apis.apis.get(StripeAccountVerification), this.props.nonprofitId) as StripeAccount;
-      const past_due = stripeValidated.past_due || []
-      const currently_due = stripeValidated.currently_due || []
-      const eventually_due = stripeValidated.eventually_due || []
-      const pending_verification = stripeValidated.pending_verification || []
 
-      const needMore = past_due.filter(i => i !== 'external_account').length > 0 || currently_due.filter(i => i !== 'external_account').length > 0 || eventually_due.filter(i => i !== 'external_account').length > 0
+      const needMore = stripeValidated.verification_status === 'unverified' || stripeValidated.verification_status == 'temporarily_verified'
 
-      const stillPending = pending_verification.length > 0
+      const stillPending = stripeValidated.verification_status === 'pending'
 
-      const needBankAccount = [past_due, currently_due, eventually_due].some((array) => array.some(i => i === 'external_account'))
+      const needBankAccount = !stripeValidated.payouts_enabled
+      const deadline = stripeValidated.deadline
 
-      this.setState({needBankAccount})
+      this.setState({needBankAccount, deadline})
       if (stillPending)
       {
         this.setState({disabledReason: stripeValidated.disabled_reason})

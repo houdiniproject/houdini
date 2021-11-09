@@ -19,12 +19,28 @@ FactoryBot.define do
       object { StripeMock.mock_webhook_event('account.updated.with-verified')['data']['object']}
     end
 
+    trait :with_verified_and_bank_provided_with_active_but_empty_future_requirements do
+      object { StripeMock.mock_webhook_event('account.updated.with-verified-and-bank-provided-with-active-but-empty-future_requirements')['data']['object']}
+    end
+
+    trait :with_verified_and_bank_provided_but_future_requirements do 
+      object { StripeMock.mock_webhook_event('account.updated.with-verified-and-bank-provided-but-future-requirements')['data']['object']}
+    end
+
+    trait :with_verified_and_bank_provided_but_future_requirements_pending do 
+      object { StripeMock.mock_webhook_event('account.updated.with-verified-and-bank-provided-but-future-requirements-pending')['data']['object']}
+    end
+
     trait :with_unverified do
       object { StripeMock.mock_webhook_event('account.updated.with-unverified')['data']['object']}
     end
 
     trait :with_unverified_from_verified do
       object { StripeMock.mock_webhook_event('account.updated.with-unverified-from-verified')['data']['object']}
+    end
+
+    trait :without_future_requirements do
+      object {StripeMock.mock_webhook_event('account.updated.without-future-requirements')['data']['object']}
     end
   end
 end

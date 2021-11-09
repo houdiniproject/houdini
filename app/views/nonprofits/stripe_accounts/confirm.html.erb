@@ -12,6 +12,12 @@
   const return_location = null;
 <% end -%>
 
+<% if @current_nonprofit.timezone %>
+  const nonprofit_timezone = '<%= @current_nonprofit.timezone %>';
+ <% else -%>
+  const nonprofit_timezone = null;
+<% end -%> 
+
 LoadReactPage(document.getElementById('outlet'), <%= @current_nonprofit.id %>,
 '<%= dashboard_nonprofit_url @current_nonprofit  -%>',
-'<%= nonprofits_payouts_url @current_nonprofit  -%>', return_location)</script>
+'<%= nonprofits_payouts_url @current_nonprofit  -%>', return_location, nonprofit_timezone)</script>

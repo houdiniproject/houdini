@@ -9,26 +9,39 @@ RSpec.describe '/api/transactions/subtransaction.json.jbuilder', type: :view do
 		"/api/nonprofits/#{nonprofit_id}/transactions/#{transaction_id}"
 	end
 
+	def subtransaction_path(nonprofit_id, transaction_id)
+		"/api/nonprofits/#{nonprofit_id}/transactions/#{transaction_id}/subtransaction"
+	end
+
 	def base_url(nonprofit_id, transaction_id)
 		"http://test.host#{base_path(nonprofit_id, transaction_id)}"
 	end
+
+	def subtransaction_url(nonprofit_id, transaction_id)
+		"http://test.host#{subtransaction_path(nonprofit_id, transaction_id)}"
+	end
+
+	def payment_path(nonprofit_id, transaction_id, payment_id)
+		subtransaction_path(nonprofit_id, transaction_id) + "/payments/" + payment_id
+	end
+
+	def payment_url(nonprofit_id, transaction_id, payment_id)
+		"http://test.host#{payment_path(nonprofit_id, transaction_id, payment_id)}"
+	end
+
+	
 	subject(:json) do
-		assign(:subtransaction, transaction.subtransaction)
+		assign(:subtransaction, subtransaction)
 		render
 		JSON.parse(rendered)
 	end
 
 	let(:transaction) { create(:transaction_for_donation) }
-	let(:supporter) { transaction.supporter }
+	let(:subtransaction) { transaction.subtransaction}
+	let(:supporter) { subtransaction.supporter }
 	let(:id) { json['id'] }
-	let(:nonprofit) { transaction.nonprofit }
+	let(:nonprofit) { subtransaction.nonprofit }
 
-	it 'has payments' do
-
-		result = json
-
-		byebug
-
-	end
+	include_context 'with json results for subtransaction on transaction_for_donation'
 	
 end

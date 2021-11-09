@@ -2,6 +2,8 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
+json.(subtransaction.subtransactable, :id)
+
 json.type 'subtransaction'
 json.supporter subtransaction.supporter.id
 json.nonprofit subtransaction.nonprofit.id

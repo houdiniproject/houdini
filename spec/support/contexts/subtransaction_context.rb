@@ -11,7 +11,7 @@ shared_context 'with json results for subtransaction on transaction_for_donation
 	end
 
 	it {
-		is_expected.to include('object' => 'subtransaction')
+		is_expected.to include('object' => 'offline_transaction')
 	}
 
 	it {
@@ -41,16 +41,40 @@ shared_context 'with json results for subtransaction on transaction_for_donation
 
 	it {
 		is_expected.to include(
+			'net_amount' => {
+				'cents' => 3700,
+				'currency' => 'usd'
+			}
+		)
+	}
+
+	it {
+		is_expected.to include(
 			'transaction' => match_houid('trx')
 		)
 	}
 
 	it {
 		is_expected.to include(
-			'subtransaction_payments' => [{
+			'payments' => [{
 				'id' => match_houid('offtrxchrg'),
 				'type' => 'payment',
-				'object' => 'offline_transaction_charge'
+				'object' => 'offline_transaction_charge',
+				'created' => Time.current.to_i,
+				'gross_amount' => {
+					'cents' => 4000,
+					'currency' => 'usd'
+				},
+
+				'fee_total' => {
+					'cents' => 300,
+					'currency' => 'usd'
+				},
+
+				'net_total' => {
+					'cents' => 3700,
+					'currency' => 'usd'
+				}
 			}]
 		)
 	}

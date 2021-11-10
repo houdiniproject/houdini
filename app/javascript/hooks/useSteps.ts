@@ -114,17 +114,15 @@ interface StepsInitOptions {
 }
 
 
-interface InputStepsState extends Readonly<InputStepsMethods> {
-	readonly steps: readonly KeyedStep[];
+interface InputStepsState<T extends KeyedStep> {
+	readonly addStep: (step: T, before?: number) => void;
+	readonly removeStep: (step: T) => void;
+	readonly steps: readonly T[];
+
 }
 
-interface InputStepsMethods {
-	addStep: (step: KeyedStep, before?: number) => void;
-	removeStep: (step: KeyedStep) => void;
-}
-
-
-interface MutableStepsObject extends InputStepsMethods {
+interface StepsObject<T extends KeyedStep> extends StepsInitOptions {
+	readonly addStep: (step: T, before?: number) => void;
 	back: () => void;
 	complete: (step: number) => void;
 	disable: (step: number) => void;
@@ -133,17 +131,18 @@ interface MutableStepsObject extends InputStepsMethods {
 	goto: (step: number) => void;
 	last: () => void;
 	next: () => void;
+	readonly removeStep: (step: T) => void;
+	readonly steps: readonly T[];
 	uncomplete: (step: number) => void;
 }
-type StepsObject = Readonly<MutableStepsObject> & Readonly<InputStepsState> & StepsInitOptions & { readonly steps: readonly KeyedStep[] };
 
 type StepTypes = 'goto' | 'first' | 'last' | 'back' | 'next' | 'complete' | 'uncomplete' | 'disable' | 'enable' | 'stepsChanged';
 
-interface StepAction {
-	payload?: number | string | readonly KeyedStep[];
+interface StepAction<T extends KeyedStep> {
+	payload?: number | string | readonly T[];
 	type: StepTypes;
 }
-function stepsReducer(state: ReadonlyStepsState, args: StepAction): ReadonlyStepsState {
+function stepsReducer<T extends KeyedStep>(state: ReadonlyStepsState, args: StepAction<T>): ReadonlyStepsState {
 	let indexKeyPair: ReturnType<typeof getIndexAndKeyPair> = false;
 	switch (args.type) {
 		case ('goto'):
@@ -224,7 +223,7 @@ function stepsReducer(state: ReadonlyStepsState, args: StepAction): ReadonlyStep
 	}
 }
 
-export default function useSteps(state: InputStepsState, initOptions: StepsInitOptions = {}): StepsObject {
+export default function useSteps<T extends KeyedStep>(state: InputStepsState<T>, initOptions: StepsInitOptions = {}): Readonly<StepsObject<T>> {
 
 	const activeStep = initOptions.activeStep || 0;
 

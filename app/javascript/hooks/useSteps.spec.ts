@@ -462,3 +462,12 @@ describe('modify steps', () => {
 		});
 	});
 });
+
+describe('extended KeyedStep types', () => {
+	it('additional key properties are passed through', () => {
+		expect.assertions(1);
+		const { result } = renderHook(() => useSteps({ steps: [{ key: 'i', anotherKey: 'something'}], ...stepActions }));
+		const original = result.current;
+		expect(original.steps[0].anotherKey).toBe('something');
+	});
+});

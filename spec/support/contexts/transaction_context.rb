@@ -43,7 +43,7 @@ shared_context 'with json results for transaction_for_donation' do
 
 	it {
 		is_expected.to include(
-			'subtransaction_payments' => [{
+			'payments' => [{
 				'id' => match_houid('offtrxchrg'),
 				'type' => 'payment',
 				'object' => 'offline_transaction_charge'

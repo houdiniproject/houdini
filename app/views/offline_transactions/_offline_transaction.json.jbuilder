@@ -14,4 +14,3 @@ end
 json.net_amount do
 	json.partial! '/api/common/amount', amount: subtransactable.net_amount_as_money
 end
-

@@ -22,14 +22,13 @@ RSpec.describe '/api/transactions/subtransaction.json.jbuilder', type: :view do
 	end
 
 	def payment_path(nonprofit_id, transaction_id, payment_id)
-		subtransaction_path(nonprofit_id, transaction_id) + "/payments/" + payment_id
+		"#{subtransaction_path(nonprofit_id, transaction_id)}/payments/#{payment_id}"
 	end
 
 	def payment_url(nonprofit_id, transaction_id, payment_id)
 		"http://test.host#{payment_path(nonprofit_id, transaction_id, payment_id)}"
 	end
 
-	
 	subject(:json) do
 		assign(:subtransaction, subtransaction)
 		render
@@ -37,11 +36,10 @@ RSpec.describe '/api/transactions/subtransaction.json.jbuilder', type: :view do
 	end
 
 	let(:transaction) { create(:transaction_for_donation) }
-	let(:subtransaction) { transaction.subtransaction}
+	let(:subtransaction) { transaction.subtransaction }
 	let(:supporter) { subtransaction.supporter }
 	let(:id) { json['id'] }
 	let(:nonprofit) { subtransaction.nonprofit }
 
 	include_context 'with json results for subtransaction on transaction_for_donation'
-	
 end

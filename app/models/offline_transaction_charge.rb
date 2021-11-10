@@ -10,7 +10,6 @@ class OfflineTransactionCharge < ApplicationRecord
 
 	delegate :gross_amount, :net_amount, :fee_total, to: :payment
 
-
 	def gross_amount_as_money
 		Amount.new(gross_amount || 0, currency)
 	end

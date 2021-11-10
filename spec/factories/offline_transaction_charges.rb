@@ -4,6 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 FactoryBot.define do
 	factory :offline_transaction_charge do
-		payment { create(:payment, gross_amount: 4000, net_amount: 3700, fee_total: 300) }
+		payment { create(:payment, gross_amount: 4000, net_amount: 3700, fee_total: 300, date: Time.current) }
 	end
 end

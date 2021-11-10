@@ -21,7 +21,7 @@ shared_context 'with json results for subtransaction on transaction_for_donation
 	it {
 		is_expected.to include('created' => Time.current.to_i)
 	}
-	
+
 	it {
 		is_expected.to include('type' => 'subtransaction')
 	}
@@ -54,30 +54,85 @@ shared_context 'with json results for subtransaction on transaction_for_donation
 		)
 	}
 
-	it {
-		is_expected.to include(
-			'payments' => [{
-				'id' => match_houid('offtrxchrg'),
-				'type' => 'payment',
-				'object' => 'offline_transaction_charge',
-				'created' => Time.current.to_i,
-				'gross_amount' => {
-					'cents' => 4000,
-					'currency' => 'usd'
-				},
+	describe('validate payments') do
+		subject(:payments_json) do
+			json['payments']
+		end
 
-				'fee_total' => {
-					'cents' => 300,
-					'currency' => 'usd'
-				},
+		it {
+			expect(payments_json.count).to eq 1
+		}
 
-				'net_total' => {
-					'cents' => 3700,
-					'currency' => 'usd'
-				}
-			}]
-		)
-	}
+		describe('and the first charge') do
+			subject(:payment0) do
+				payments_json[0]
+			end
+
+			it {
+				is_expected.to include('id' => match_houid('offtrxchrg'))
+			}
+
+			it {
+				is_expected.to include('type' => 'payment')
+			}
+
+			it {
+				is_expected.to include('object' => 'offline_transaction_charge')
+			}
+
+			it {
+				is_expected.to include('created' => Time.current.to_i)
+			}
+
+			it {
+				is_expected.to include('gross_amount' => {
+																												'cents' => 4000,
+																												'currency' => 'usd'
+																											})
+			}
+
+			it {
+				is_expected.to include('fee_total' => {
+																												'cents' => 300,
+																												'currency' => 'usd'
+																											})
+			}
+
+			it {
+				is_expected.to include('net_amount' => {
+																												'cents' => 3700,
+																												'currency' => 'usd'
+																											})
+			}
+
+			it {
+				is_expected.to include('nonprofit' => nonprofit.id)
+			}
+
+			it {
+				is_expected.to include('subtransaction' => {
+																												'id' => match_houid('offlinetrx'),
+																												'object' => 'offline_transaction',
+																												'type' => 'subtransaction'
+																											})
+			}
+
+			it {
+				is_expected.to include('supporter' => supporter.id)
+			}
+
+			it {
+				is_expected.to include(
+					'url' =>
+					payment_url(
+						nonprofit.id,
+						transaction.id,
+						transaction.subtransaction.subtransaction_payments.first.paymentable.id
+					)
+				)
+			}
+		end
+	end
 
 	it {
 		is_expected.to include('nonprofit' => nonprofit.id)

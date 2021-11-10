@@ -56,7 +56,7 @@ function LastStatusUpdate(props: FullStripeVerificationConfirmProps) {
       return <>
         <h1>More information required</h1>
         <p>Stripe requires additional information in order to complete verification. This is normal. Please press the button below to continue verification using Stripe's secure form. As a reminder, this data is only used by Stripe for verification purposes and CommitChange never receives your sensitive data.</p>
-        <p>Alternatively, you can return to <a href={props.dashboardLink}>your dashboard</a> but if you do not complete your verification <strong>{deadlineWording}</strong>, you will not be able to accept payments through CommitChange.</p>
+        <p>Alternatively, you can return to <a href={props.dashboardLink}>your dashboard</a> but if you do not complete your verification in a timely manner, you will not be able to accept payments through CommitChange.</p>
         <GetAccountLink />
       </>
     }

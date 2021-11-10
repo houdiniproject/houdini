@@ -56,10 +56,6 @@ class StripeAccount < ActiveRecord::Base
     deadlines.min
   end
 
-  def deadline_as_int
-    deadline.to_i
-  end
-
   # these are validation requirements which may come in the future but haven't yet
   def needs_more_validation_info
     requirements.any_requirements_other_than_external_account?(include_eventually_due: true)

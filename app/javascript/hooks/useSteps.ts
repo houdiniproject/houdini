@@ -114,7 +114,7 @@ interface StepsInitOptions {
 }
 
 
-interface InputStepsState<T extends KeyedStep> {
+export interface InputStepsState<T extends KeyedStep> {
 	readonly addStep: (step: T, before?: number) => void;
 	readonly removeStep: (step: T) => void;
 	readonly steps: readonly T[];

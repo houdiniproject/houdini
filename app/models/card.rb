@@ -29,6 +29,26 @@ class Card < ActiveRecord::Base
 	has_many :tickets
 	has_one :source_token, as: :tokenizable
 
+
+	# an helpful method for getting the supporter when it's the holder
+	def supporter
+		if holder_type == 'Supporter'
+			holder
+		else
+			nil
+		end
+	end
+
+	# an helpful method for getting the supporter's nonprofit
+	# when the supporter is the holder
+	def supporter_nonprofit
+		if supporter
+			supporter.nonprofit
+		else
+			nil
+		end
+	end
+
 	def amex?
 		!!(name =~ /American Express.*/i)
 	end
@@ -43,6 +63,36 @@ class Card < ActiveRecord::Base
 
 	def stripe_card
 		@stripe_card ||= @stripe_customer.sources.retrieve(stripe_card_id)
+	end
+
+
+	concerning :Maintenance do 
+		included do
+			# is this originally from balanced?
+			scope :legacy_balanced, -> {where('cards.stripe_customer_id ILIKE ?', '%balanced%')}
+			# Is this originally not from balanced
+			scope :not_legacy_balanced, -> {where('cards.stripe_customer_id NOT ILIKE ?', '%balanced%')}
+			# is this card unused
+			scope :unused, -> { references(:charges,:donations, :tickets).includes(:charges, :donations, :tickets).where('donations.id IS NULL AND charges.id IS NULL AND tickets.id IS NULL')}
+
+			# these are stripe_card_ids which are on multiple cards
+			scope :nonunique_stripe_card_ids, -> {where('stripe_card_id IS NOT NULL').group('stripe_card_id').having('COUNT(id) > 1').select('stripe_card_id, COUNT(id)') }
+
+			# cards we feel we can detach from Stripe due to nonuse
+			# this are cards which:
+			# * have a unique stripe card id (not on another Card object)
+			# * owned by a Supporter
+			# * never been on associated with a charge, donation or ticket
+			# * was created more than a month ago
+			# * not originally from the Balanced service used before Stripe
+			def self.detachable_because_of_nonuse
+				# we want cards which are:
+				possible_cards = not_legacy_balanced.unused.held_by_supporters.where('cards.created_at < ?', 1.month.ago).where('cards.stripe_card_id IS NOT NULL')
+
+				nonunique_ids = nonunique_stripe_card_ids.map{|i| i.stripe_card_id}
+				cards_without_unique_stripe_card_ids = possible_cards.select{|i| !nonunique_ids.include? i.stripe_card_id}
+			end
+		end
 	end
 
 end

@@ -111,8 +111,8 @@ class FeeEra < ActiveRecord::Base
     if (charge.refunded)
       return refundable_fee_left
     else
-      portion_of_charge_refunded = BigDecimal.new(refund.amount) / BigDecimal.new(charge.amount)
-      amount_to_refund = (BigDecimal.new(max_fee_to_refund) * portion_of_charge_refunded).floor
+      portion_of_charge_refunded = BigDecimal(refund.amount) / BigDecimal(charge.amount)
+      amount_to_refund = (BigDecimal(max_fee_to_refund) * portion_of_charge_refunded).floor
       amount_to_refund >= refundable_fee_left ? refundable_fee_left : amount_to_refund
     end
   end

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :visa_fee_structure_base, class: 'FeeStructure' do
     flat_fee {25}
-    stripe_fee {BigDecimal.new("0.03")}
+    stripe_fee {BigDecimal("0.03")}
     brand { "Visa"}
   end
 
@@ -15,7 +15,7 @@ FactoryBot.define do
 
   factory :amex_fee_structure_base, class: 'FeeStructure' do
     flat_fee {0}
-    stripe_fee {BigDecimal.new("0.035")}
+    stripe_fee {BigDecimal("0.035")}
     brand { "American Express"}
   end
 
@@ -29,7 +29,7 @@ FactoryBot.define do
 
   factory :brandless_fee_structure_base, class: 'FeeStructure' do
     flat_fee {30}
-    stripe_fee {BigDecimal.new("0.022")}
+    stripe_fee {BigDecimal("0.022")}
     brand { nil}
   end
   

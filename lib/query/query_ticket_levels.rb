@@ -9,7 +9,7 @@ module QueryTicketLevels
 
     if discount_id
       perc = EventDiscount.find(discount_id).percent
-      total = BigDecimal.new(total) - (total * (perc / 100.0)).round
+      total = BigDecimal(total) - (total * (perc / 100.0)).round
     end
     total
   end

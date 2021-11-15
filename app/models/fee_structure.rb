@@ -66,12 +66,12 @@ class FeeStructure < ActiveRecord::Base
     def calculate
       raise ArgumentError.new(errors.full_messages) unless valid?
       
-      fee_surcharge = fee_structure.stripe_fee + BigDecimal.new(platform_fee)
+      fee_surcharge = fee_structure.stripe_fee + BigDecimal(platform_fee)
       if fee_structure.charge_international_fee?(source)
         fee_surcharge += fee_structure.international_surcharge_fee
       end
 
-      (BigDecimal.new(amount) * fee_surcharge).ceil + fee_structure.flat_fee + flat_fee
+      (BigDecimal(amount) * fee_surcharge).ceil + fee_structure.flat_fee + flat_fee
     end
 
     def self.calculate(**args)
@@ -107,7 +107,7 @@ class FeeStructure < ActiveRecord::Base
         fee_surcharge += fee_structure.international_surcharge_fee
       end
 
-      (BigDecimal.new(amount) * fee_surcharge).ceil + fee_structure.flat_fee
+      (BigDecimal(amount) * fee_surcharge).ceil + fee_structure.flat_fee
     end
 
     def self.calculate(**args)

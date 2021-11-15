@@ -214,7 +214,7 @@ RSpec.describe Nonprofit, type: :model do
       context 'for a nonprofit with CC percentage_fee 2.5% + 5 cents' do
         let(:nonprofit){ create(:nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat)}
         it {
-          expect(nonprofit.fee_coverage_details).to eq({percentage_fee: BigDecimal.new("0.025") + BigDecimal.new("0.022"), flat_fee: 35})
+          expect(nonprofit.fee_coverage_details).to eq({percentage_fee: BigDecimal("0.025") + BigDecimal("0.022"), flat_fee: 35})
         }
       end
       context 'for a nonprofit with CC percentage_fee 2.5% + 5 cents but in a fee era where we dont consider billing plan' do 
@@ -225,7 +225,7 @@ RSpec.describe Nonprofit, type: :model do
         end
 
         it {
-          expect(nonprofit.fee_coverage_details).to eq({percentage_fee: BigDecimal.new("0.05"), flat_fee: 0})
+          expect(nonprofit.fee_coverage_details).to eq({percentage_fee: BigDecimal("0.05"), flat_fee: 0})
         }
       end
       
@@ -235,7 +235,7 @@ RSpec.describe Nonprofit, type: :model do
       context 'for a nonprofit with CC percentage_fee 2.5% + 5 cents' do
         let(:nonprofit){ create(:nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat)}
         it {
-          expect(nonprofit.fee_coverage_details_with_json_safe_keys).to eq({'percentageFee' => BigDecimal.new("0.025") + BigDecimal.new("0.022"), 'flatFee' => 35})
+          expect(nonprofit.fee_coverage_details_with_json_safe_keys).to eq({'percentageFee' => BigDecimal("0.025") + BigDecimal("0.022"), 'flatFee' => 35})
         }
       end
 
@@ -247,7 +247,7 @@ RSpec.describe Nonprofit, type: :model do
         end
 
         it {
-          expect(nonprofit.fee_coverage_details_with_json_safe_keys).to eq({'percentageFee' => BigDecimal.new("0.05"), 'flatFee' => 0})
+          expect(nonprofit.fee_coverage_details_with_json_safe_keys).to eq({'percentageFee' => BigDecimal("0.05"), 'flatFee' => 0})
         }
       end
     end

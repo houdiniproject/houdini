@@ -6,6 +6,7 @@ require 'rails_helper'
 
 RSpec.describe '/api/custom_field_definitions/show.json.jbuilder', type: :view do
 	subject(:json) do
+		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 		assign(:custom_field_definition, custom_field_definition)
 		render
 		JSON.parse(rendered)

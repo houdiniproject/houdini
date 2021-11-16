@@ -6,6 +6,7 @@ require 'rails_helper'
 
 RSpec.describe '/api/supporter_addresses/show.json.jbuilder', type: :view do
 	subject(:json) do
+		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 		assign(:supporter_address, supporter_address)
 		render
 		JSON.parse(rendered)

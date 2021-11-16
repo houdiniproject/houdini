@@ -14,6 +14,7 @@ RSpec.describe '/api/ticket_levels/show.json.jbuilder', type: :view do
 	end
 
 	subject(:json) do
+		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 		assign(:ticket_level, ticket_level)
 		render
 		JSON.parse(rendered)

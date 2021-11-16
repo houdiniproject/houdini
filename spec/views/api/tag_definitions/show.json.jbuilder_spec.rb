@@ -6,6 +6,7 @@ require 'rails_helper'
 
 RSpec.describe '/api/tag_definitions/show.json.jbuilder', type: :view do
 	subject(:json) do
+		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 		assign(:tag_definition, tag_definition)
 		render
 		JSON.parse(rendered)

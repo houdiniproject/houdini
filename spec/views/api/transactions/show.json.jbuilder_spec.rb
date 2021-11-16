@@ -13,6 +13,7 @@ RSpec.describe '/api/transactions/show.json.jbuilder', type: :view do
 		"http://test.host#{base_path(nonprofit_id, transaction_id)}"
 	end
 	subject(:json) do
+		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 		assign(:transaction, transaction)
 		render
 		JSON.parse(rendered)

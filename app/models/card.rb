@@ -42,11 +42,7 @@ class Card < ActiveRecord::Base
 	# an helpful method for getting the supporter's nonprofit
 	# when the supporter is the holder
 	def supporter_nonprofit
-		if supporter
-			supporter.nonprofit
-		else
-			nil
-		end
+		supporter&.nonprofit
 	end
 
 	def amex?

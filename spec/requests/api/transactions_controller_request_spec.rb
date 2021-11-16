@@ -72,23 +72,23 @@ RSpec.describe Api::TransactionsController, type: :request do
 		def subtransaction_path(nonprofit_id, transaction_id)
 			"/api/nonprofits/#{nonprofit_id}/transactions/#{transaction_id}/subtransaction"
 		end
-	
+
 		def subtransaction_url(nonprofit_id, transaction_id)
 			"http://www.example.com#{subtransaction_path(nonprofit_id, transaction_id)}"
 		end
-	
+
 		def payment_path(nonprofit_id, transaction_id, payment_id)
 			"#{subtransaction_path(nonprofit_id, transaction_id)}/payments/#{payment_id}"
 		end
-	
+
 		def payment_url(nonprofit_id, transaction_id, payment_id)
 			"http://www.example.com#{payment_path(nonprofit_id, transaction_id, payment_id)}"
 		end
 
-		let(:transaction) { transaction_for_donation}
+		let(:transaction) { transaction_for_donation }
 		let(:subtransaction) { transaction.subtransaction }
 		let(:supporter) { subtransaction.supporter }
-		
+
 		let(:nonprofit) { subtransaction.nonprofit }
 
 		context 'with nonprofit user' do
@@ -172,6 +172,4 @@ RSpec.describe Api::TransactionsController, type: :request do
 			end
 		end
 	end
-
-	
 end

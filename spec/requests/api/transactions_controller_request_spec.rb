@@ -68,6 +68,61 @@ RSpec.describe Api::TransactionsController, type: :request do
 		end
 	end
 
+	describe 'GET /:id/subtransaction' do
+		def subtransaction_path(nonprofit_id, transaction_id)
+			"/api/nonprofits/#{nonprofit_id}/transactions/#{transaction_id}/subtransaction"
+		end
+	
+		def subtransaction_url(nonprofit_id, transaction_id)
+			"http://www.example.com#{subtransaction_path(nonprofit_id, transaction_id)}"
+		end
+	
+		def payment_path(nonprofit_id, transaction_id, payment_id)
+			"#{subtransaction_path(nonprofit_id, transaction_id)}/payments/#{payment_id}"
+		end
+	
+		def payment_url(nonprofit_id, transaction_id, payment_id)
+			"http://www.example.com#{payment_path(nonprofit_id, transaction_id, payment_id)}"
+		end
+
+		let(:transaction) { transaction_for_donation}
+		let(:subtransaction) { transaction.subtransaction }
+		let(:supporter) { subtransaction.supporter }
+		
+		let(:nonprofit) { subtransaction.nonprofit }
+
+		context 'with nonprofit user' do
+			subject(:json) do
+				JSON.parse(response.body)
+			end
+
+			before do
+				user.roles.create(name: 'nonprofit_associate', host: nonprofit)
+				sign_in user
+				get subtransaction_path(
+					nonprofit.id,
+					transaction.id
+				)
+			end
+
+			it {
+				expect(response).to have_http_status(:success)
+			}
+
+			include_context 'with json results for subtransaction on transaction_for_donation'
+		end
+
+		context 'with no user' do
+			it 'returns unauthorized' do
+				get subtransaction_path(
+					nonprofit.id,
+					transaction.id
+				)
+				expect(response).to have_http_status(:unauthorized)
+			end
+		end
+	end
+
 	describe 'GET /' do
 		context 'with nonprofit user' do
 			subject(:json) do
@@ -117,4 +172,6 @@ RSpec.describe Api::TransactionsController, type: :request do
 			end
 		end
 	end
+
+	
 end

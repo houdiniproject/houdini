@@ -4,7 +4,7 @@
 <div class='modal skinny' id='newRole'>
 	<header class='modal-header'>
 		<%= render 'common/modal_close' %>
-		<h3>Invite a New User</h3>
+		<h3><%= t('roles.new.invite_a_new_user') %></h3>
 	</header>
 
 	<div class='modal-body'>
@@ -13,25 +13,29 @@
 				<div class='field'>
 					<div class='field-inline'>
 						<input type="radio" name="role[name]" value="nonprofit_admin" id='roleName--admin'>
-						<label for='roleName--admin'><strong>Nonprofit Admin</strong></label>
+						<label for='roleName--admin'><strong><%= t('roles.new.nonprofit_admin') %></strong></label>
 					</div>
-					<p>Full permissions, including bank payouts</p>
+					<p><%= t('roles.new.full_permissions_including_bank_payouts') %></p>
 				</div>
 
 				<div class='field'>
 					<div class='field-inline'>
 						<input type="radio" name="role[name]" value="nonprofit_associate" checked='checked' id='roleName--assoc'>
-						<label for='roleName--assoc'><strong>Nonprofit Associate</strong></label>
+						<label for='roleName--assoc'><strong><%= t('roles.new.nonprofit_associate') %></strong></label>
 					</div>
-					<p>Edit content and view records</p>
+					<p><%= t('roles.new.edit_content_and_view_records') %></p>
 				</div>
 
-				<p><strong>Important!<br/> Double check this email address</strong></p>
-				<input name='role[email]' type='email' placeholder='Email' id='role-email-field' required><br>
-				<input name='role[email_confirmation]' type='email' placeholder='Confirm email' id='role-email-field' required parsley-equalto='#role-email-field'>
+				<p><strong>
+					<%= t('roles.new.important') %>
+					<br>
+					<%= t('roles.new.double_check_this_email_address') %>
+				</strong></p>
+				<input name='role[email]' type='email' placeholder="<%= t('roles.new.email') %>" id='role-email-field' required><br>
+				<input name='role[email_confirmation]' type='email' placeholder="<%= t('roles.new.confirm_email') %>" id='role-email-field' required parsley-equalto='#role-email-field'>
 
 				<p class='error'></p>
-				<%= render 'common/modal_submit', loading: 'Creating...', text: 'Create' %>
+				<%= render 'common/modal_submit', loading: t('roles.ui.creating'), text: t('roles.ui.create') %>
 			</form>
 	</div>
 </div>

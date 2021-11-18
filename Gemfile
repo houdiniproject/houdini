@@ -4,6 +4,8 @@ ruby '2.4.10'
 gem 'rake'
 gem 'rails', '~> 4.0'
 
+gem 'date', '~> 2.0.2'
+
 # https://stripe.com/docs/api
 gem 'stripe', '~> 4'
 

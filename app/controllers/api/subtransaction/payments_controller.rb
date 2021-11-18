@@ -27,6 +27,6 @@ class Api::Subtransaction::PaymentsController < Api::ApiController
 		@payment =
 			current_transaction
 			.subtransaction
-			.payments.find(params[:id])
+			.subtransaction_payments.find_by_paymentable_id(params[:id]).paymentable
 	end
 end

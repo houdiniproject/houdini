@@ -28,8 +28,7 @@ Rails.application.routes.draw do
         end
         resources :tag_definitions, only: [:index, :show]
         resources :transactions, only: [:index, :show] do
-          get :subtransaction, on: :member
-          namespace :subtransaction do
+          resource :subtransaction, only: [:show] do
             resources :payments, only: [:index, :show]
           end
         end

@@ -94,7 +94,7 @@
   "dependencies": {
     "attr-binder": "0.3.1",
     "autobind-decorator": "^2.4.0",
-    "aws-sdk": "^2.402.0",
+    "aws-sdk": "^2.814.0",
     "bignumber": "^1.1.0",
     "bignumber.js": "^9.0.0",
     "chart.js": "2.1.4",

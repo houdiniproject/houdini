@@ -15,4 +15,4 @@ json.payments subtransaction.subtransaction_payments do |py|
 	json.partial! py, as: :subtransaction_payment
 end
 
-json.url api_nonprofit_transaction_subtransaction(subtransaction.nonprofit, subtransaction.trx)
+json.url api_nonprofit_transaction_subtransaction_url(subtransaction.nonprofit, subtransaction.trx)

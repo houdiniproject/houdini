@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe 'api/subtransaction/payments/show.json.jbuilder', type: :view do
+RSpec.describe 'api/payments/show.json.jbuilder', type: :view do
 	def base_path(nonprofit_id, transaction_id)
 		"/api/nonprofits/#{nonprofit_id}/transactions/#{transaction_id}"
 	end
@@ -30,16 +30,15 @@ RSpec.describe 'api/subtransaction/payments/show.json.jbuilder', type: :view do
 	end
 
 	subject(:json) do
-		byebug
 		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
-		assign(:payment, payment)
+		assign(:subtransaction_payment, payment)
 		render
 		JSON.parse(rendered)
 	end
 
 	let(:transaction) { create(:transaction_for_donation) }
 	let(:subtransaction) { transaction.subtransaction }
-	let(:payment) {subtransaction.subtransaction_payments.first.paymentable}
+	let(:payment) { subtransaction.subtransaction_payments.first }
 	let(:supporter) { payment.supporter }
 	let(:nonprofit) { payment.nonprofit }
 

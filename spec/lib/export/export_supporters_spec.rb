@@ -47,7 +47,7 @@ describe ExportSupporters do
 
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
-        DelayedJobHelper = double('delayed')
+        stub_const("DelayedJobHelper", double('delayed'))
         params =  { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
 
         expect(Export).to receive(:create).and_wrap_original {|m, *args|

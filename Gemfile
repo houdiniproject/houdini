@@ -118,8 +118,8 @@ group :test do
 end
 
 # Gems used for asset compilation
-gem 'sass'
-gem 'sass-rails'
+gem 'sassc'
+gem 'sassc-rails'
 
 # make logging less terrible in rails
 gem 'lograge'

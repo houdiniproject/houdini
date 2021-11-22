@@ -165,7 +165,7 @@
     "superagent": "1.1.0",
     "swr": "^1.0.0",
     "uuid": "2.0.2",
-    "validator": "^9.4.1",
+    "validator": "^13.7.0",
     "vdom-thunk": "3.0.0",
     "view-script": "0.3.6",
     "virtual-dom": "2.1.1",

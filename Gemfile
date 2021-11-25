@@ -105,3 +105,5 @@ gem "react_on_rails", "12.4.0"
 gem 'mini_racer', platforms: :ruby
 
 gem 'kaminari'
+
+gem 'http_accept_language'

@@ -2958,6 +2958,7 @@ Copyright (c) 2007-11 Alex Dunae
 ** devise; version 4.8.0 -- 
 Copyright 2009-2019 Plataformatec.
 ** fiber-local; version 1.0.0 -- 
+** http_accept_language; version 2.1.1 -- 
 ** http-accept; version 1.7.0 -- 
 Copyright (c) 2016, Matthew Kerwin <matthew@kerwin.net.au>
 Copyright, 2016, by Matthew Kerwin (http://kerwin.net.au).

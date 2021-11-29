@@ -5,7 +5,8 @@
 class ApplicationController < ActionController::Base
   include Controllers::Locale
   include Controllers::Nonprofit::Authorization
-  before_action :set_locale, :redirect_to_maintenance
+  before_action :redirect_to_maintenance
+  around_action :switch_locale
   protect_from_forgery
 
   private 

@@ -151,7 +151,7 @@ const donation_result: Transaction = {
 	},
 
 	// we include all payments here from all of the subtransactions for ease of use
-	subtransaction_payments: [{
+	payments: [{
 		id: 'offchrg_4325n3fnfewE',
 		object: 'offline_transaction_charge',
 		deleted: false,
@@ -351,7 +351,7 @@ const ticket_purchase_result:Transaction = {
 	},
 
 	// we include all payments here from all of the subtransactions for ease of use
-	subtransaction_payments: [{
+	payments: [{
 		id: 'offchrg_4325n3fnfewE',
 		object: 'offline_charge',
 		// gross_amount - fees

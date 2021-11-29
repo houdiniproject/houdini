@@ -10,6 +10,22 @@ class OfflineTransactionRefund < ApplicationRecord
 
 	delegate :currency, to: :nonprofit
 
+	def gross_amount_as_money
+		Amount.new(gross_amount || 0, currency)
+	end
+
+	def net_amount_as_money
+		Amount.new(net_amount || 0, currency)
+	end
+
+	def fee_total_as_money
+		Amount.new(fee_total || 0, currency)
+	end
+
+	def created
+		payment.date
+	end
+
 	# rubocop:disable Metrics/BlockLength
 	concerning :JBuilder do
 		included do

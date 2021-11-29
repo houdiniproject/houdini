@@ -87,6 +87,7 @@ RSpec.describe '/api/campaign_gift_options/show.json.jbuilder', type: :view do
 
 	context 'when campaign gift option only has recurring amount' do
 		subject(:json) do
+			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 			assign(:campaign_gift_option, campaign_gift_option)
 			render
 			JSON.parse(rendered)
@@ -158,6 +159,7 @@ RSpec.describe '/api/campaign_gift_options/show.json.jbuilder', type: :view do
 
 	context 'when campaign gift option both one time and recurring amount' do
 		subject(:json) do
+			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 			assign(:campaign_gift_option, campaign_gift_option)
 			render
 			JSON.parse(rendered)

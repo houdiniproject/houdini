@@ -6,6 +6,12 @@ require 'rails_helper'
 
 RSpec.describe AdminMailer, type: :mailer do
   describe 'notify_failed_gift' do
+    around(:each) do |ex|
+      before_value = Houdini.hoster.support_email
+      Houdini.hoster.support_email = 'expected_support@supportemail.com'
+      ex.run
+      Houdini.hoster.support_email = before_value
+    end
     let!(:np) { force_create(:nm_justice, name: 'nonprofit', email: 'blah', timezone: 'UTC') }
     let!(:s) { force_create(:supporter, email: 'supporter.email@mail.teha') }
     let!(:oldcard) { force_create(:card) }
@@ -19,8 +25,8 @@ RSpec.describe AdminMailer, type: :mailer do
 
     it 'renders the headers for mail without desc' do
       expect(mail.subject).to eq("Tried to associate donation #{donation.id} with campaign gift option #{campaign_gift_option.id} which is out of stock")
-      expect(mail.to).to eq([Houdini.hoster.support_email])
-      expect(mail.from).to eq([Houdini.hoster.support_email])
+      expect(mail.to).to eq(['expected_support@supportemail.com'])
+      expect(mail.from).to eq(['expected_support@supportemail.com'])
     end
 
     it 'renders the body without desc' do
@@ -29,8 +35,8 @@ RSpec.describe AdminMailer, type: :mailer do
 
     it 'renders the headers on mail with desc' do
       expect(mail_with_desc.subject).to eq("Tried to associate donation #{donation.id} with campaign gift option #{campaign_gift_option_with_desc.id} which is out of stock")
-      expect(mail_with_desc.to).to eq([Houdini.hoster.support_email])
-      expect(mail_with_desc.from).to eq([Houdini.hoster.support_email])
+      expect(mail_with_desc.to).to eq(['expected_support@supportemail.com'])
+      expect(mail_with_desc.from).to eq(['expected_support@supportemail.com'])
     end
 
     it 'renders the body with desc' do

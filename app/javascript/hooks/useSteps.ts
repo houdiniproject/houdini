@@ -17,7 +17,12 @@ export interface KeyedStepMap<T = unknown> {
 	[stepKey: string]: T;
 }
 
-interface ReadonlyStepsState {
+/**
+ * A type extending KeyedStep with T
+ */
+export type KeyedStepWith<T> = T & KeyedStep;
+
+export interface ReadonlyStepsState {
 	readonly activeStep?: number;
 	readonly activeStepKey: string;
 	readonly completed?: KeyedStepMap<boolean>;
@@ -114,15 +119,16 @@ interface StepsInitOptions {
 }
 
 
-export interface InputStepsState<T extends KeyedStep> {
-	readonly addStep: (step: T, before?: number) => void;
-	readonly removeStep: (step: T) => void;
-	readonly steps: readonly T[];
+export interface InputStepsState<T> {
+	readonly addStep: (step: KeyedStepWith<T>, before?: number) => void;
+	readonly removeStep: (step: KeyedStepWith<T>) => void;
+	readonly steps: readonly KeyedStepWith<T>[];
 
 }
 
-interface StepsObject<T extends KeyedStep> extends StepsInitOptions {
-	readonly addStep: (step: T, before?: number) => void;
+
+interface StepsObject<T> extends StepsInitOptions {
+	readonly addStep: (step: KeyedStepWith<T>, before?: number) => void;
 	back: () => void;
 	complete: (step: number) => void;
 	disable: (step: number) => void;
@@ -131,18 +137,18 @@ interface StepsObject<T extends KeyedStep> extends StepsInitOptions {
 	goto: (step: number) => void;
 	last: () => void;
 	next: () => void;
-	readonly removeStep: (step: T) => void;
-	readonly steps: readonly T[];
+	readonly removeStep: (step: KeyedStepWith<T>) => void;
+	readonly steps: readonly KeyedStepWith<T>[];
 	uncomplete: (step: number) => void;
 }
 
-type StepTypes = 'goto' | 'first' | 'last' | 'back' | 'next' | 'complete' | 'uncomplete' | 'disable' | 'enable' | 'stepsChanged';
+type StepActionTypes = 'goto' | 'first' | 'last' | 'back' | 'next' | 'complete' | 'uncomplete' | 'disable' | 'enable' | 'stepsChanged';
 
-interface StepAction<T extends KeyedStep> {
-	payload?: number | string | readonly T[];
-	type: StepTypes;
+interface StepAction<T> {
+	payload?: number | string | readonly KeyedStepWith<T>[];
+	type: StepActionTypes;
 }
-function stepsReducer<T extends KeyedStep>(state: ReadonlyStepsState, args: StepAction<T>): ReadonlyStepsState {
+function stepsReducer<T>(state: ReadonlyStepsState, args: StepAction<T>): ReadonlyStepsState {
 	let indexKeyPair: ReturnType<typeof getIndexAndKeyPair> = false;
 	switch (args.type) {
 		case ('goto'):
@@ -223,7 +229,7 @@ function stepsReducer<T extends KeyedStep>(state: ReadonlyStepsState, args: Step
 	}
 }
 
-export default function useSteps<T extends KeyedStep>(state: InputStepsState<T>, initOptions: StepsInitOptions = {}): Readonly<StepsObject<T>> {
+export default function useSteps<T>(state: InputStepsState<T>, initOptions: StepsInitOptions = {}): Readonly<StepsObject<T>> {
 
 	const activeStep = initOptions.activeStep || 0;
 

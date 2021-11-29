@@ -3756,7 +3756,7 @@ SOFTWARE.
 
 ------
 
-** bootsnap; version 1.9.1 -- 
+** bootsnap; version 1.9.3 -- 
 Copyright (c) 2017 Shopify, Inc.
 
 The MIT License (MIT)
@@ -4942,6 +4942,6 @@ See the file docs/COPYING.txt in the main distribution.
 
 ------
 
-** date; version 3.2.1 -- 
+** date; version 3.0.3 -- 
 
 Ruby OR BSD-2-Clause

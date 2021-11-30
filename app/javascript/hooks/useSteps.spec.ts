@@ -3,10 +3,10 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import useSteps, { KeyedStep, KeyedStepMap } from './useSteps';
 import fromPairs from 'lodash/fromPairs';
+import { noop } from 'lodash';
 
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const stepActions = { addStep: () => { }, removeStep: () => { } };
+const stepActions = { addStep: noop, removeStep: noop };
 
 describe('.next', () => {
 

@@ -73,7 +73,12 @@ appl.def('merge.submit', function(form_object, node){
         appl.notify('Error: ' + formatErr(resp))
       }
 		})
+	resetForm()
 	appl.close_modal()
 	appl.wizard.reset('merge_wiz')
 })
+
+const resetForm = function() {
+	document.querySelectorAll('[id^="merge_"]').forEach(function(el) { el.value = '' });
+}
 

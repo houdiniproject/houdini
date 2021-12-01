@@ -133,17 +133,17 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 						title: nonprofitsDonateAmountLabel,
 
 						key: nonprofitsDonateAmountLabel,
-						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} />,
+						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'}/>,
 					},
 					{
 						title: nonprofitsDonateInfoLabel,
 						key: nonprofitsDonateInfoLabel,
-						body: <div>InfoStep</div>,
+						body: <div key={'InfoStep'}>InfoStep</div>,
 					},
 					{
 						title: nonprofitsDonatePaymentLabel,
 						key: nonprofitsDonatePaymentLabel,
-						body: <div>PaymentStep</div>,
+						body: <div key={'PaymentStep'}>PaymentStep</div>,
 					},
 				]
 			} />

@@ -116,22 +116,26 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 	const {values, setFieldValue, submitForm} = useFormikContext<FormikFormValues>();
 	// if (props.singleAmount) {
 	// 	return <></>;
-	// }s
+	// }
 	return (<div className={'u-inline fieldsetLayout--three--evenPadding'}>
 		<span>
 			{props.amounts.map(amt => {
-				const weAreSelected = values.amount.equals(amt);
-				return (<fieldset key={JSON.stringify(amt.toJSON())}>
-					<button className={`button u-width--full white amount ${weAreSelected ? 'is-selected' : ''}`}
-						onClick={() => {
-							setFieldValue("amount", amt);
-							submitForm();
-						}}
-					>
-						<span className={'dollar'}>{getCurrencySymbol(amt)}</span>
-						{amt.cents}
-					</button>
-				</fieldset>);
+				let weAreSelected = false;
+				if(values.amount !== null) {
+					weAreSelected = values.amount.equals(amt);
+				}
+				return (
+					<fieldset key={JSON.stringify(amt.toJSON())}>
+						<button className={`button u-width--full white amount ${weAreSelected ? 'is-selected' : ''}`}
+							onClick={() => {
+								setFieldValue("amount", amt);
+								submitForm();
+							}}
+						>
+							<span className={'dollar'}>{getCurrencySymbol(amt)}</span>
+							{amt.cents}
+						</button>
+					</fieldset>);
 			})}
 		</span>
 
@@ -156,7 +160,7 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 }
 
 AmountFields.defaultProps = {
-	amounts: [],
+	amounts: [100, 500, 1000, 2500, 5000].map((i)=> Money.fromCents(i, 'usd')),
 };
 
 

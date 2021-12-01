@@ -25,7 +25,7 @@ export default function Wizard(props: WizardProps): JSX.Element {
 
 
 
-	const isCompleted = stepManager.activeStep === stepManager.steps.length - 1;
+	const isCompleted = currentStep === stepManager.steps.length - 1;
 	return (
 		<WizardContext.Provider value={stepManager}>
 			<div className={'ff-wizard-body'}>

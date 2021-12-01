@@ -6,13 +6,12 @@ import { useBrandedWizard } from '../../components/styles/branded-wizard';
 import Wizard from '../../_dependencies/ff-core/wizard';
 import { AmountStep } from './amount-step';
 import { Money } from '../../../../common/money';
+import { useIntl } from "../../../intl";
 
 import closeSvg from './close.svg';
 import FollowupStep from './followup-step';
 
-
-declare const I18n: any;
-interface DonateWizardProps {
+export interface DonateWizardProps {
   brandColor: string;
   offsite: boolean;
   embedded: boolean;
@@ -54,14 +53,14 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	const [error, setError] = useState<any | null>();
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer,{amount: null});
+	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer,{amount: null}); // what is it supposed to do?
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;
 
 	return (
 		<div className={'js-donateForm' + props.offsite ? ' is-modal' : ''}>
-			<img className={'closeButton' + hiddenCloseButton ? ' u-hide' : ''} src={closeSvg} onClick={_e => {
+			<img className={'closeButton' + (hiddenCloseButton ? ' u-hide' : '')} src={closeSvg} onClick={_e => {
 				if (canClose) {
 					props.onClose();
 				}
@@ -97,9 +96,11 @@ DonateWizard.defaultProps = {
 } as DonateWizardProps;
 
 function HeaderDesignation(props: { brandColor: string, designation_desc?: string | null }): JSX.Element {
+	const { formatMessage } = useIntl();
+	const donateAmountDesignationLabel = formatMessage({ id: 'nonprofits.donate.amount.designation.label'});
 	return (<span>
 		<i className={"fa fa-star"} style={{ color: props.brandColor }} />
-		<strong>{I18n.t('nonprofits.donate.amount.designation.label')}</strong>
+		<strong>{donateAmountDesignationLabel}</strong>
 		{props.designation_desc ? <span><br /><small>{props.designation_desc}</small></span> : null}
 	</span>);
 }
@@ -117,6 +118,11 @@ interface WizardWrapperProps {
 
 
 function WizardWrapper(props: WizardWrapperProps): JSX.Element {
+	const { formatMessage } = useIntl();
+	const nonprofitsDonateAmountLabel = formatMessage({ id: 'nonprofits.donate.amount.label'});
+	const nonprofitsDonateInfoLabel = formatMessage({ id: 'nonprofits.donate.info.label'});
+	const nonprofitsDonatePaymentLabel = formatMessage({ id: 'nonprofits.donate.payment.label'});
+
 	return <div className={'wizard-steps donation-steps'} >
 		<Wizard
 			followup={() => <FollowupStep nonprofitName={props.nonprofitName} />}
@@ -124,19 +130,19 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 			steps={
 				[
 					{
-						title: I18n.t('nonprofits.donate.amount.label'),
+						title: nonprofitsDonateAmountLabel,
 
-						key: I18n.t('nonprofits.donate.amount.label'),
+						key: nonprofitsDonateAmountLabel,
 						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} />,
 					},
 					{
-						title: I18n.t('nonprofits.donate.info.label'),
-						key: I18n.t('nonprofits.donate.info.label'),
+						title: nonprofitsDonateInfoLabel,
+						key: nonprofitsDonateInfoLabel,
 						body: <div>InfoStep</div>,
 					},
 					{
-						title: I18n.t('nonprofits.donate.payment.label'),
-						key: I18n.t('nonprofits.donate.payment.label'),
+						title: nonprofitsDonatePaymentLabel,
+						key: nonprofitsDonatePaymentLabel,
 						body: <div>PaymentStep</div>,
 					},
 				]

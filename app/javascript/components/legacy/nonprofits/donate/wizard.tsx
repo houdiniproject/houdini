@@ -10,7 +10,8 @@ import { useIntl } from "../../../intl";
 
 import closeSvg from './close.svg';
 import FollowupStep from './followup-step';
-
+// import '../../../../../assets/stylesheets/donate-button/donate-button.v2.css';
+import '../../../../../assets/stylesheets/components/wizard_index.css.scss';
 export interface DonateWizardProps {
   brandColor: string;
   offsite: boolean;

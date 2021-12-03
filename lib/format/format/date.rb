@@ -3,8 +3,6 @@ require 'chronic'
 
 module Format; module Date
 
-	ISORegex = /\d\d\d\d-\d\d-\d\d/
-
   def self.parse(str)
     Chronic.parse(str)
   end

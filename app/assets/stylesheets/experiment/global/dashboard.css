@@ -1,6 +1,6 @@
 /* License: LGPL-3.0-or-later */
-@import 'ff-dashboard';
-@import './colors.css';
+@import './ff-dashboard.css.scss';
+@import '././colors.css.css.scss';
 
 [data-ff-dashboard-header] {
   background: white;

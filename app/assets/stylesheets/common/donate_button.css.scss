@@ -1,8 +1,8 @@
 /* License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE */
-@import 'mixins';
-@import 'supporters/form';
-@import 'nonprofits/donation_form/title_row';
-@import 'nonprofits/donation_form/footer';
-@import 'nonprofits/donation_form/form'; // for styling the actual form 
-@import 'nonprofits/donation_form/show/index'; // for styling the layout on /donate
+@import '../mixins.css.scss';
+@import '../supporters/form.css.scss';
+@import '../nonprofits/donation_form/title_row.css.scss';
+@import '../nonprofits/donation_form/footer.css.scss';
+@import '../nonprofits/donation_form/form.css.scss'; // for styling the actual form 
+@import '../nonprofits/donation_form/show/index.css.scss'; // for styling the layout on /donate

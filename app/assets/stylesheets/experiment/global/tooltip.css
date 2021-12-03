@@ -1,5 +1,5 @@
 /* License: LGPL-3.0-or-later */
-@import 'data-tooltip'; /* npm */
+@import './data-tooltip.css.scss'; /* npm */
 
 [data-ff-field] { position: relative; }
 

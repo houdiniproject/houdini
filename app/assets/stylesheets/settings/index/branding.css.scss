@@ -1,9 +1,9 @@
 /* License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE */
-@import 'mixins';
-@import 'common/vendor/colpick';
-@import 'nonprofits/btn/page';
-@import 'common/branded_campaign_button';
+@import './mixins.css.scss';
+@import './common/vendor/colpick.css.scss';
+@import './nonprofits/btn/page.css.scss';
+@import './common/branded_campaign_button.css.scss';
 
 
 .branding-settings-wrapper {

@@ -1,48 +1,48 @@
 /* License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE */
-@import 'mixins';
-@import 'resets';
-@import 'common/typography/base';
-@import 'common/typography/special';
+@import './mixins.css.scss';
+@import './resets.css.scss';
+@import './common/typography/base.css.scss';
+@import './common/typography/special.css.scss';
 
-@import 'components/container';
-@import 'body';
-@import 'components/buttons';
+@import './components/container.css.scss';
+@import './body.css.scss';
+@import './components/buttons.css.scss';
 
-@import 'common/images';
+@import './common/images.css.scss';
 
-@import 'components/headers';
-@import 'components/side_nav';
+@import './components/headers.css.scss';
+@import './components/side_nav.css.scss';
 
-@import 'components/footer';
-@import 'common/layouts';
-@import 'common/page';
-@import 'common/utils';
-@import 'common/states';
-@import 'common/icons';
+@import './components/footer.css.scss';
+@import './common/layouts.css.scss';
+@import './common/page.css.scss';
+@import './common/utils.css.scss';
+@import './common/states.css.scss';
+@import './common/icons.css.scss';
 
-@import 'components/announcement_bar';
-@import 'components/notification_alerts';
-@import 'components/forms';
-@import 'components/modals';
-@import 'components/inputs';
-@import 'components/wizard_index';
-@import 'components/decorative';
-@import 'components/progress_bar'; 
-@import 'components/better_browser';
-@import 'components/parsley';
-@import 'components/tables';
-@import 'components/arrows';
-@import 'components/cards';
-@import 'components/pastel_boxes';
-@import 'components/full_screen_loading';
-@import 'components/loading';
-@import 'components/tooltips';
-@import 'components/top_nav';
+@import './components/announcement_bar.css.scss';
+@import './components/notification_alerts.css.scss';
+@import './components/forms.css.scss';
+@import './components/modals.css.scss';
+@import './components/inputs.css.scss';
+@import './components/wizard_index.css.scss';
+@import './components/decorative.css.scss';
+@import './components/progress_bar.css.scss'; 
+@import './components/better_browser.css.scss';
+@import './components/parsley.css.scss';
+@import './components/tables.css.scss';
+@import './components/arrows.css.scss';
+@import './components/cards.css.scss';
+@import './components/pastel_boxes.css.scss';
+@import './components/full_screen_loading.css.scss';
+@import './components/loading.css.scss';
+@import './components/tooltips.css.scss';
+@import './components/top_nav.css.scss';
 
-@import 'common/media_queries';
-@import 'common/z_indices';
-@import 'common/ios_hack';
-@import 'common/minimal';
+@import './common/media_queries.css.scss';
+@import './common/z_indices.css.scss';
+@import './common/ios_hack.scss';
+@import './common/minimal.css.scss';
 
-@import 'common/focusable'
+@import './common/_focusable.scss'

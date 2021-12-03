@@ -50,7 +50,11 @@ class Supporter < ActiveRecord::Base
   has_many :full_contact_infos
   has_many :payments
   has_many :offsite_payments
+
   has_many :charges
+  has_many :refunds, through: :charges
+  has_many :disputes, through: :charges
+
   has_many :cards, as: :holder
   has_many :direct_debit_details
   has_many :donations

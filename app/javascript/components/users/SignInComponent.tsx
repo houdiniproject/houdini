@@ -25,6 +25,8 @@ import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
 import { useMountedState } from "react-use";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
 
 
 export interface SignInComponentProps {
@@ -84,6 +86,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		email: yup.string().label(emailLabel).email().required(),
 		password: yup.string().label(passwordLabel).required(),
 	});
+
+	
 
 	//Styling - Material-UI
 	const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -206,6 +210,7 @@ function InnerFormikComponent(props: {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
+	const { register, handleSubmit, formState: {isDirty, isSubmitSuccessful, isSubmitted} } = useForm({reValidateMode: 'onBlur', resolver: yupResolver(validationSchema)})
 
 	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError, submitting);
 	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, dirty);
@@ -215,9 +220,9 @@ function InnerFormikComponent(props: {
 
 	const emailId = useId();
 	const passwordId = useId();
-
+	
 	return (
-		<Form>
+		<form onSubmit={handleSubmit()}>
 			{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{!isSuccessful ?
@@ -238,6 +243,7 @@ function InnerFormikComponent(props: {
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{!isSuccessful ?
 					<Box p={1.5}>
+						<MuiTextField {...register}
 						<Field component={TextField} name="password" type="password" id={passwordId}
 							label={passwordLabel}
 							InputProps={{

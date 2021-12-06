@@ -10,27 +10,31 @@ import {MoneyTextField} from './index';
 import { Field, Formik, useFormikContext } from 'formik';
 import { Money } from '../../common/money';
 import { IntlProvider } from '../intl';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 
-function FormikInner(props: { onChange:(args:{value:Money})=> void}) {
-	const context = useFormikContext<{value:Money}>();
-	const {value} = context.values;
+function FormikInner(props: { onChange:(args:{value:Money})=> void}, ) {
+	const {getValues, control} = useFormContext<{value:Money}>();
+	const {value} = getValues();
 	const {onChange} = props;
 	useEffect(() => {
-		onChange({value});
+		onChange({value:Money.fromCents(value)});
 	}, [value, onChange]);
 
 	return <><div><span aria-label="amount">{value.cents}</span><span aria-label="currency">{value.currency}</span></div>
-		<Field component={MoneyTextField} name="value" aria-label="field"/></>;
+		<MoneyTextField name="value" aria-label="field" control={control}/></>;
 }
 
 function FormikHandler(props: { onChange:(args:{value:Money})=> void, value: Money}) {
 
 	const {value, ...innerFormikProps} = props;
+	const form = useForm({defaultValues:{value}});
 	return <IntlProvider locale="en">
-		<Formik initialValues={{ value }} onSubmit={() => { console.log("submitted");}} enableReinitialize={true}>
-			<FormikInner {...innerFormikProps} />
-		</Formik>
+		<FormProvider {...form}>
+			<form onSubmit={form.handleSubmit(() => console.log("submitted"))}>
+				<FormikInner {...innerFormikProps} />
+			</form>
+		</FormProvider>
 	</IntlProvider>;
 }
 
@@ -100,7 +104,7 @@ describe('MoneyTextField', () => {
 
 	it('displays the $80.00 when Money of {800, usd} is passed in and then the amount changes to 8.000', async () => {
 		expect.hasAssertions();
-		const result = render(<FormikHandler value={Money.fromCents({ cents: 800, currency: 'usd' })} />);
+		const result = await act(async() => render(<FormikHandler value={Money.fromCents({ cents: 800, currency: 'usd' })} />));
 		const field = result.container.querySelector("input[name=value]");
 		expect(field).toHaveValue("$8.00");
 

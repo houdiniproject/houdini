@@ -95,10 +95,10 @@ function prependCurrencyClassname(currency_symbol: string) {
 }
 
 function getCurrencySymbol(amount: Money) {
-	if (amount.currency == 'EUR') {
+	if (amount.currency.toLowerCase() == 'eur') {
 		return '€';
 	}
-	else if (amount.currency == 'USD') {
+	else if (amount.currency.toLowerCase() == 'usd') {
 		return '$';
 	}
 }

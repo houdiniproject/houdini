@@ -89,11 +89,16 @@ function StepHeader({ width, jump, name, idx, currentStep }: { width: string, na
 	}
 	if (currentStep > idx) {
 		classNames.push('ff-wizard-index-label--accessible');
+		return (<span
+			className={classNames.join(' ')}
+			style={{ width: width }}
+			onClick={() => jump(idx)} >
+			{name}
+		</span>)
 	}
 	return (<span
 		className={classNames.join(' ')}
-		style={{ width: width }}
-		onClick={() => jump(idx)} >
+		style={{ width: width }}>
 		{name}
 	</span>);
 

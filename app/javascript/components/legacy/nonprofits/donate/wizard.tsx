@@ -67,7 +67,7 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	const hiddenCloseButton = !props.offsite || !props.embedded;
 
 	return (
-		<div className={'js-donateForm' + props.offsite ? ' is-modal' : ''}>
+		<div className={props.offsite ? 'js-donateForm is-modal' : 'js-donateForm'}>
 			<img className={'closeButton' + (hiddenCloseButton ? ' u-hide' : '')} src={closeSvg} onClick={_e => {
 				if (canClose) {
 					props.onClose();
@@ -139,7 +139,6 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 				[
 					{
 						title: nonprofitsDonateAmountLabel,
-
 						key: nonprofitsDonateAmountLabel,
 						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'}/>,
 					},

@@ -25,7 +25,8 @@ export default function Wizard(props: WizardProps): JSX.Element {
 
 
 
-	const isCompleted = currentStep === stepManager.steps.length - 1;
+	const isCompleted = currentStep === stepManager.steps.length;
+
 	return (
 		<WizardContext.Provider value={stepManager}>
 			<div className={'ff-wizard-body'}>
@@ -40,7 +41,7 @@ export default function Wizard(props: WizardProps): JSX.Element {
 				</Body>
 				<Followup isCompleted={isCompleted}>
 					{followup()}
-				</Followup>;
+				</Followup>
 			</div>
 		</WizardContext.Provider>);
 }
@@ -100,7 +101,7 @@ function StepHeader({ width, jump, name, idx, currentStep }: { width: string, na
 
 function Body({ currentStep, isCompleted, children }: React.PropsWithChildren<{ currentStep: number, isCompleted: boolean }>) {
 	return <div className={'ff-wizard-steps'} style={{
-		display: isCompleted ? 'block' : 'none',
+		display: isCompleted ? 'none' : 'block',
 	}}>
 
 		{React.Children.map(children, (child, idx) => (

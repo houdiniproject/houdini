@@ -1126,7 +1126,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** countries; version 4.0.1 -- 
+** countries; version 4.1.1 -- 
+Copyright (c) 2012
+Copyright (c) 2016
 
 Copyright (c) 2012 hexorx
 
@@ -2964,7 +2966,7 @@ Copyright (c) 2016, Matthew Kerwin <matthew@kerwin.net.au>
 Copyright, 2016, by Matthew Kerwin (http://kerwin.net.au).
 Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2016, by Samuel G. D. Williams (http://www.codeotaku.com/samuel-williams).
-** i18n_data; version 0.13.0 -- 
+** i18n_data; version 0.13.1 -- 
 ** i18n-js; version 3.8.0 -- 
 Copyright (c) 2008-2011 Pivotal Labs
 Copyright (c) 2010-2015, The Dojo Foundation

@@ -3,7 +3,7 @@
 import noop from 'lodash/noop';
 import React, { useReducer, useState, Dispatch, createContext } from 'react';
 import { useBrandedWizard } from '../../components/styles/branded-wizard';
-import Wizard from '../../_dependencies/ff-core/wizard';
+import Wizard, { WizardContext } from '../../_dependencies/ff-core/wizard';
 import { AmountStep } from './amount-step';
 import { Money } from '../../../../common/money';
 import { useIntl } from "../../../intl";
@@ -18,50 +18,73 @@ import '../../../../../assets/stylesheets/nonprofits/donation_form/show/index.cs
 import '../../../../../assets/stylesheets/nonprofits/donation_form/title_row.css.scss';
 import '../../../../../assets/stylesheets/nonprofits/donation_form/footer.css.scss';
 import '../../../../../assets/stylesheets/nonprofits/donation_form/form.css.scss';
+import { useContext } from 'react';
+import { result } from 'lodash';
 
 export interface DonateWizardProps {
-  brandColor: string;
-  offsite: boolean;
-  embedded: boolean;
-  onClose: () => void;
-  title: string; // app.campaign.name || app.nonprofit.name
-  logo: string; //app.nonprofit.logo.normal
-  nonprofitName: string;
+	brandColor: string;
+	offsite: boolean;
+	embedded: boolean;
+	onClose: () => void;
+	title: string; // app.campaign.name || app.nonprofit.name
+	logo: string; //app.nonprofit.logo.normal
+	nonprofitName: string;
 	amountOptions: Money[];
 }
 
 export type ActionType = {
-  type: 'setAmount';
-  amount: Money;
-};
+	type: 'setAmount';
+	amount: Money;
+} | {type: 'setError', error: string} | {type: 'setLoading', loading: boolean};
 
+
+function useDonateWizardState(initialState: DonateWizardOutputState) : [DonateWizardOutputState, (action:ActionType) => void] {
+	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer, initialState);
+	const stepManagerContext = useContext(WizardContext);
+
+	const reducerAction = (action: ActionType) => {
+		switch (action.type) {
+			case 'setAmount': {
+				stateDispatch(action);
+				stepManagerContext.next();
+				break;
+			}
+
+			default: {
+				stateDispatch(action);
+			}
+		}
+	};
+	return [donateWizardState, reducerAction];
+}
 
 function wizardOutputReducer(state: DonateWizardOutputState, action: ActionType): DonateWizardOutputState {
 	switch (action.type) {
 		case 'setAmount':
 			return { ...state, amount: action.amount };
+		case 'setLoading':
+			return { ...state, loading: action.loading};
 		default:
 			throw new Error();
 	}
 }
 
-export const DonationWizardContext = createContext<{dispatch: Dispatch<ActionType>}>({dispatch:noop});
+export const DonationWizardContext = createContext<{ dispatch: Dispatch<ActionType> }>({ dispatch: noop });
 
 
 
 export interface DonateWizardOutputState {
-  amount: Money|null;
-
+	amount: Money | null;
+	loading: boolean | null;
+	error: string | null;
 }
 
 export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	useBrandedWizard(props.brandColor);
 
-	// You might want to combine these into the donateWizardState reducer
-	const [error, setError] = useState<any | null>();
-	const [loading, setLoading] = useState<boolean>(false);
 
-	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer,{amount: null}); // what is it supposed to do?
+
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null }); // what is it supposed to do?
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;
@@ -98,14 +121,14 @@ DonateWizard.defaultProps = {
 	onClose: noop,
 	embedded: false,
 	offsite: false,
-	amountOptions: [100, 500, 1000, 2500, 5000].map((i)=> Money.fromCents(i, 'usd')),
+	amountOptions: [100, 500, 1000, 2500, 5000].map((i) => Money.fromCents(i, 'usd')),
 
 
 } as DonateWizardProps;
 
 function HeaderDesignation(props: { brandColor: string, designation_desc?: string | null }): JSX.Element {
 	const { formatMessage } = useIntl();
-	const donateAmountDesignationLabel = formatMessage({ id: 'nonprofits.donate.amount.designation.label'});
+	const donateAmountDesignationLabel = formatMessage({ id: 'nonprofits.donate.amount.designation.label' });
 	return (<span>
 		<i className={"fa fa-star"} style={{ color: props.brandColor }} />
 		<strong>{donateAmountDesignationLabel}</strong>
@@ -118,18 +141,18 @@ HeaderDesignation.defaultProps = {
 };
 
 interface WizardWrapperProps {
-	amount:Money;
-	amountOptions:Money[];
-  nonprofitName: string;
+	amount: Money;
+	amountOptions: Money[];
+	nonprofitName: string;
 }
 
 
 
 function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 	const { formatMessage } = useIntl();
-	const nonprofitsDonateAmountLabel = formatMessage({ id: 'nonprofits.donate.amount.label'});
-	const nonprofitsDonateInfoLabel = formatMessage({ id: 'nonprofits.donate.info.label'});
-	const nonprofitsDonatePaymentLabel = formatMessage({ id: 'nonprofits.donate.payment.label'});
+	const nonprofitsDonateAmountLabel = formatMessage({ id: 'nonprofits.donate.amount.label' });
+	const nonprofitsDonateInfoLabel = formatMessage({ id: 'nonprofits.donate.info.label' });
+	const nonprofitsDonatePaymentLabel = formatMessage({ id: 'nonprofits.donate.payment.label' });
 
 	return <div className={'wizard-steps donation-steps'} >
 		<Wizard
@@ -140,7 +163,7 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 					{
 						title: nonprofitsDonateAmountLabel,
 						key: nonprofitsDonateAmountLabel,
-						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'} goToNextStep={console.log}/>,
+						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'} goToNextStep={console.log} />,
 					},
 					{
 						title: nonprofitsDonateInfoLabel,

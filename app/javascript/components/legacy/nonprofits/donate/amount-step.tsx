@@ -3,10 +3,13 @@ import { useId } from "@reach/auto-id";
 import { Money } from '../../../../common/money';
 import { Formik, useFormikContext } from 'formik';
 import { ActionType, DonationWizardContext } from './wizard';
-declare const I18n: any;
+import { useIntl } from "../../../intl";
+import { format } from 'sinon';
+
 interface AmountStepProps {
 	amount: Money|null;
 	amountOptions: Money[];
+	goToNextStep: () => void;
 }
 
 
@@ -16,14 +19,13 @@ interface FormikFormValues {
 }
 export function AmountStep(props: AmountStepProps): JSX.Element {
 	const {dispatch:dispatchAction} = useContext(DonationWizardContext);
-
 	return (<div className={"wizard-step amount-step"} >
 		<Formik onSubmit={(values) => {
 			dispatchAction({type: 'setAmount', amount: values.amount});
 		}} initialValues={{amount: props.amount} as FormikFormValues} enableReinitialize={true}>
 			{/* <RecurringCheckbox />
 			<RecurringMessage /> */}
-			<AmountFields amounts={props.amountOptions} />
+			<AmountFields amounts={props.amountOptions} goToNextStep={props.goToNextStep}/>
 		</Formik>
 	</div>);
 }
@@ -36,6 +38,10 @@ interface RecurringCheckboxProps {
 
 function RecurringCheckbox(props: RecurringCheckboxProps): JSX.Element {
 	const checkboxId = useId();
+	const { formatMessage } = useIntl();
+
+	const nonprofitsDonateAmountSustaining = formatMessage({ id: 'nonprofits.donate.amount.sustaining' });
+	const nonprofitsDonateAmountSustainingBold = formatMessage({ id: 'nonprofits.donate.amount.sustaining_bold' });
 
 	if (props.showRecurring) {
 
@@ -45,8 +51,8 @@ function RecurringCheckbox(props: RecurringCheckboxProps): JSX.Element {
 				<input id={checkboxId} type={'checkbox'} checked={props.isRecurring || undefined} onChange={e => props.setRecurring(!props.isRecurring)} />
 				<label htmlFor={checkboxId}>
 					<ComposeTranslation
-						full={I18n.t('nonprofits.donate.amount.sustaining')}
-						bold={I18n.t('nonprofits.donate.amount.sustaining_bold')} />
+						full={nonprofitsDonateAmountSustaining}
+						bold={nonprofitsDonateAmountSustainingBold} />
 				</label>
 			</div>
 		</section>);
@@ -71,11 +77,13 @@ function ComposeTranslation(props: { full: string, bold: string }): JSX.Element 
 function RecurringMessage(props: { isRecurring: boolean, recurringWeekly: boolean, periodicAmount: number, singleAmount: string }): JSX.Element {
 	if (!props.isRecurring) return <></>;
 
-	let label = I18n.t('nonprofits.donate.amount.sustaining_selected');
-	let bolded = I18n.t('nonprofits.donate.amount.sustaining_selected_bold');
+	const { formatMessage } = useIntl();
+
+	let label = formatMessage({ id: 'nonprofits.donate.amount.sustaining_selected' });
+	let bolded = formatMessage({ id: 'nonprofits.donate.amount.sustaining_selected_bold' });
 	if (props.recurringWeekly) {
-		label = label.replace(I18n.t('nonprofits.donate.amount.monthly'), I18n.t('nonprofits.donate.amount.weekly'));
-		bolded = I18n.t('nonprofits.donate.amount.weekly');
+		label = label.replace(formatMessage({ id: 'nonprofits.donate.amount.monthly' }), formatMessage({ id: 'nonprofits.donate.amount.weekly' }));
+		bolded = formatMessage({ id: 'nonprofits.donate.amount.weekly' });
 	}
 	return (<section className={"donate-recurringMessage group"}>
 		<p className={`u-paddingX--5 u-centered ${!props.isRecurring ? 'u-hide' : ''}`}>
@@ -103,9 +111,14 @@ function getCurrencySymbol(amount: Money) {
 	}
 }
 
+function nextStepDisabled(): boolean {
+	return false;
+}
+
 interface AmountFieldsProps {
 	// singleAmount: string;
 	amounts: Money[];
+	goToNextStep: () => void;
 	// buttonAmountSelected: boolean;
 	//currencySymbol: string;
 }
@@ -114,6 +127,8 @@ interface AmountFieldsProps {
 
 function AmountFields(props: AmountFieldsProps): JSX.Element {
 	const {values, setFieldValue, submitForm} = useFormikContext<FormikFormValues>();
+	const { formatMessage } = useIntl();
+	const next = formatMessage({ id: 'nonprofits.donate.amount.next'});
 	// if (props.singleAmount) {
 	// 	return <></>;
 	// }
@@ -141,21 +156,21 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 
 		{/* <fieldset className={prependCurrencyClassname(props.currencySymbol)}>
 			<input className={'amount other'} name={'amount'} step='any' type='number' min={1}
-				placeholder={I18n.t('nonprofits.donate.amount.custom')}
+				placeholder={'nonprofits.donate.amount.custom'}
 				onFocus={() => { throw new Error('onFocus not implemented'); }}
 				onChange={() => { throw new Error('onChange not implemented'); }}
 			/>
-		</fieldset>
+		</fieldset> */}
 
 		<fieldset>
 			<button className={'button u-width--full btn-next'}
 				type={'submit'}
-				disabled={nextStepDisabled}
-				onClick={() => props.goToNextStep()}
+				disabled={nextStepDisabled()}
+				onClick={() => { props.goToNextStep } }
 			>
-				{I18n.t('nonprofits.donate.amount.next')}
+				{ next }
 			</button>
-		</fieldset> */}
+		</fieldset>
 	</div>);
 }
 

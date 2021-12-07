@@ -1,0 +1,80 @@
+#License: CC0-1.0
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+de:
+  campaigns:
+    admin:
+      manage_campaign: Manage Campaign
+      settings: Settings
+      dashboard: Dashboard
+      offsite_donation: Offsite Donation
+      gift_options: Gift Options
+      custom_receipts: Custom Receipts
+      preview_mode: Preview Mode
+      copy_campaign: Copy Campaign
+      campaign_id: "Campaign ID: %{id}"
+      for_super_admin: "For super admin:"
+      np_and_campaign_ids: "NP: %{np_id} - Campaign ID: %{campaign_id}"
+      add_video: Add Video
+      edit_video: Edit Video
+      new_campaign: New Campaign
+      campaign_name_label: Campaign Name
+      short_tagline_label: Short Tagline
+      short_description_label_html: Short Description <small>(used for sharing on social media)</small>
+      goal_amount_label: Goal Amount
+      end_date_and_time_label: End Date & Time
+      image_label_html: "Image <small>(recommended width: 500px)</small>"
+      image_description: This image appears below the campaign's header as well as on the campaign's preview card.  You'll have a chance to upload an additional header image once you've created your campaign.
+      upload_label: Upload
+      video_label: Video
+      video_description: If you have a video, it can greatly boost your success. Copy and paste the URL from Vimeo or Youtube.
+      video_url_placeholder: Youtube or Vimeo URL
+      preview_campaign!: Preview Campaign!
+      peer_to_peer_personalize_suggestions: Personalize your campaign page with your name and photo to greatly increase the success of your campaign.
+      reason_for_supporting_label: What's your reason for supporting %{campaign_name}?
+      your_passion_is_contagious: Your passion is contagious! Inspire giving by telling your network why you’re getting involved in this campaign.
+      about_you: About you
+      campaign_settings: Campaign Settings
+      title_label: Title
+      tagline_labe: Tagline
+      goal_label: Goal
+      main_image_label_html: Main Image <small>(at least 500x400)</small>
+      main_image_label_subdescription: Used for previews and social media
+      header_image_label_html: Header Image <small>(1000x600)</small>
+      header_image_label_subdescription: Used at top of campaign page
+      add_image_label: Add Image
+      campaign_video_label: Campaign Video
+      campaign_video_label_subdescription: Videos are optional but recommended
+      add_video_label: Add Video
+      banner_label_html: Banner <small>(1000x120)</small>
+      banner_label_subdescription: Custom image at the very top of the campaign page
+      default_reason_for_p2p_label: Default reason for peer-to-peer campaigns
+      default_reason_for_p2p_label_subdescription: Use it to suggest a good, pre-filled reason for campaigners
+      published?_label: Published?
+      show_total_dollars_raised_label: Show total dollars raised?
+      show_total_supporters_label: Show total supporters?
+      hide_goal_amount_label: Hide goal amount?
+      hide_thermometer_label: Hide thermometer?
+      hide_activity_feed_label: Hide activity feed?
+      hide_main_title_label: Hide main title?
+      hide_custo_amounts_label: Disallow regular contributions during campaign?
+      updating_in_process_label: Updating...
+      update_campaign_label: Update Campaign
+      undelete_campaign_label: Undelete Campaign
+      delete_campaign_label: Delete Campaign

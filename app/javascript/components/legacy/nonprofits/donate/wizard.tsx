@@ -35,18 +35,18 @@ export interface DonateWizardProps {
 export type ActionType = {
 	type: 'setAmount';
 	amount: Money;
+	next: () => void;
 } | {type: 'setError', error: string} | {type: 'setLoading', loading: boolean};
 
 
 function useDonateWizardState(initialState: DonateWizardOutputState) : [DonateWizardOutputState, (action:ActionType) => void] {
 	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer, initialState);
-	const stepManagerContext = useContext(WizardContext);
 
 	const reducerAction = (action: ActionType) => {
 		switch (action.type) {
 			case 'setAmount': {
 				stateDispatch(action);
-				stepManagerContext.next();
+				action.next();
 				break;
 			}
 
@@ -84,7 +84,7 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 
 
 
-	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null }); // what is it supposed to do?
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null });
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;
@@ -108,7 +108,7 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 					</p>
 				</div>
 			</div>
-			<WizardWrapper nonprofitName={props.nonprofitName} amount={donateWizardState.amount} amountOptions={props.amountOptions} />
+			<WizardWrapper nonprofitName={props.nonprofitName} amount={donateWizardState.amount} amountOptions={props.amountOptions} stateDispatch={stateDispatch} />
 
 			{/* I'm not putting in the footer because it's not realy a useful feature */}
 
@@ -144,6 +144,7 @@ interface WizardWrapperProps {
 	amount: Money;
 	amountOptions: Money[];
 	nonprofitName: string;
+	stateDispatch: (action: ActionType) => void;
 }
 
 
@@ -163,7 +164,7 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 					{
 						title: nonprofitsDonateAmountLabel,
 						key: nonprofitsDonateAmountLabel,
-						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'} goToNextStep={console.log} />,
+						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'} stateDispatch={props.stateDispatch} />,
 					},
 					{
 						title: nonprofitsDonateInfoLabel,

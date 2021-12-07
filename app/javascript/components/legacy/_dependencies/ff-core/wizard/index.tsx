@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import useSteps, { InputStepsState, KeyedStep, StepsObject } from '../../../../../hooks/useSteps';
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { noop } from 'lodash';
 
 // from ff-core/wizard
@@ -17,7 +17,7 @@ export const WizardContext = createContext<StepsObject<{ body: JSX.Element, titl
 export default function Wizard(props: WizardProps): JSX.Element {
 
 	const {
-		steps, followup,
+		steps, followup
 	} = props;
 	const stepManager = useSteps<{ body: JSX.Element, title: string }>({ steps, addStep: noop, removeStep: noop });
 

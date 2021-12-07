@@ -5,11 +5,12 @@ import { Formik, useFormikContext } from 'formik';
 import { ActionType, DonationWizardContext } from './wizard';
 import { useIntl } from "../../../intl";
 import { format } from 'sinon';
+import { WizardContext } from '../../_dependencies/ff-core/wizard';
 
 interface AmountStepProps {
 	amount: Money|null;
 	amountOptions: Money[];
-	goToNextStep: () => void;
+	stateDispatch: (action: ActionType) => void;
 }
 
 
@@ -18,14 +19,14 @@ interface FormikFormValues {
 	amount: Money|null;
 }
 export function AmountStep(props: AmountStepProps): JSX.Element {
-	const {dispatch:dispatchAction} = useContext(DonationWizardContext);
+	const stepManagerContext = useContext(WizardContext);
 	return (<div className={"wizard-step amount-step"} >
 		<Formik onSubmit={(values) => {
-			dispatchAction({type: 'setAmount', amount: values.amount});
+			props.stateDispatch({type: 'setAmount', amount: values.amount, next: stepManagerContext.next});
 		}} initialValues={{amount: props.amount} as FormikFormValues} enableReinitialize={true}>
 			{/* <RecurringCheckbox />
 			<RecurringMessage /> */}
-			<AmountFields amounts={props.amountOptions} goToNextStep={props.goToNextStep}/>
+			<AmountFields amounts={props.amountOptions} />
 		</Formik>
 	</div>);
 }
@@ -118,7 +119,6 @@ function nextStepDisabled(): boolean {
 interface AmountFieldsProps {
 	// singleAmount: string;
 	amounts: Money[];
-	goToNextStep: () => void;
 	// buttonAmountSelected: boolean;
 	//currencySymbol: string;
 }
@@ -165,8 +165,8 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 		<fieldset>
 			<button className={'button u-width--full btn-next'}
 				type={'submit'}
-				disabled={nextStepDisabled()}
-				onClick={() => { props.goToNextStep } }
+				disabled={ nextStepDisabled() }
+				onClick={() => { submitForm(); } }
 			>
 				{ next }
 			</button>

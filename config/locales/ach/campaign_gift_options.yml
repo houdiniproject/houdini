@@ -1,0 +1,27 @@
+#License: CC0-1.0
+ach:
+  campaign_gift_options:
+    gift_option: crwdns91:0crwdne91:0
+    gift_name_and_character_limit: crwdns93:0crwdne93:0
+    gift_name_example: crwdns95:0crwdne95:0
+    amount: crwdns97:0crwdne97:0
+    explanation_of_recurring_or_one_time_gift_options: crwdns99:0crwdne99:0
+    one_time: crwdns101:0crwdne101:0
+    recurring: crwdns103:0crwdne103:0
+    short_description: crwdns105:0crwdne105:0
+    quantity_limit: crwdns107:0crwdne107:0
+    quantity_limit_description: crwdns109:0crwdne109:0
+    quantity_limit_placeholder: crwdns111:0crwdne111:0
+    requires_shipping: crwdns113:0crwdne113:0
+    requires_shipping_description: crwdns115:0crwdne115:0
+    hide_contributions: crwdns117:0crwdne117:0
+    hide_contributions_description: crwdns119:0crwdne119:0
+    manage_gift_options: crwdns121:0crwdne121:0
+    new_gift_option: crwdns123:0crwdne123:0
+    no_gift_options: crwdns125:0crwdne125:0
+    name: crwdns127:0crwdne127:0
+    limit: crwdns129:0crwdne129:0
+    remaining: crwdns131:0crwdne131:0
+    id: crwdns133:0crwdne133:0
+    one_time_br_amount: crwdns135:0crwdne135:0
+    recurring_br_amount: crwdns137:0crwdne137:0

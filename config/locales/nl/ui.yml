@@ -1,0 +1,9 @@
+#License: CC0-1.0
+nl:
+  ui:
+    edit: Edit
+    remove: Remove
+    set: Set
+    next: Next
+    creating: Creating...
+    create: Create

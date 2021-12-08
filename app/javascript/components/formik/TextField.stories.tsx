@@ -22,7 +22,7 @@ function FormikInner(props: { onChange: (args: { value: string }) => void, contr
 		<TextField name="value" aria-label="field" control={control} /></>;
 }
 
-function FormikHandler(props: {
+function FormHandler(props: {
 	onChange: (args: { value: string }) => void; value?: string;
 	schemaCreator?: (yup: ReturnType<typeof useYup>) => any;
 }) {
@@ -47,7 +47,7 @@ function FormikHandler(props: {
 		</FormProvider>);
 }
 
-FormikHandler.defaultProps = {
+FormHandler.defaultProps = {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	onChange: () => { },
 	locale: 'en',
@@ -60,7 +60,7 @@ interface StoryProps {
 	value?: string;
 }
 
-const Template: Story<StoryProps> = (args) => <FormikHandler {...args} />;
+const Template: Story<StoryProps> = (args) => <FormHandler {...args} />;
 
 export const EmptyTextField = Template.bind({});
 EmptyTextField.args = {

@@ -8,9 +8,9 @@
   "scripts": {
     "build-all": "yarn install --frozen-lockfile && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
-    "test": "bin/rails spec  && yarn jest",
-    "jest": "bin/rails i18n:js:export && jest",
-    "jest_only": "jest",
+    "test": "bin/rails spec  && NODE_OPTIONS=--experimental-vm-modules yarn jest",
+    "jest": "bin/rails i18n:js:export && NODE_OPTIONS=--experimental-vm-modules jest",
+    "jest_only": "NODE_OPTIONS=--experimental-vm-modules jest",
     "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
     "storybook": "bin/rails i18n:js:export && start-storybook -p 6006 -c .storybook/react --no-version-updates --no-release-notes -s .storybook/react/msw-public",
     "build-storybook": "bin/rails i18n:js:export && build-storybook -c .storybook/react -s .storybook/react/msw-public",

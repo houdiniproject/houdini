@@ -8,9 +8,3 @@ const enzyme = require("enzyme");
 const Adapter = require("enzyme-adapter-react-16");
 
 enzyme.configure({ adapter: new Adapter() });
-
-/* storybook */
-import { setGlobalConfig } from '@storybook/testing-react';
-import * as globalStorybookConfig from './.storybook/preview'; // path of your preview.js file
-
-setGlobalConfig(globalStorybookConfig);

@@ -66,6 +66,14 @@ class StripeAccount < ActiveRecord::Base
     deadline || requirements.any_requirements_other_than_external_account?
   end
 
+  def retrieve_from_stripe
+    Stripe::Account.retrieve(stripe_account_id, {stripe_version: '2020-08-27'})
+  end
+
+  def update_from_stripe
+    update(object: retrieve_from_stripe)
+  end
+
   private 
   def serialize_on_update(input)
 

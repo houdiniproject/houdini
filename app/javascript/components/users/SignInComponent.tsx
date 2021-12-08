@@ -25,7 +25,7 @@ import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
 import { useMountedState } from "react-use";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 
 
@@ -87,7 +87,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		password: yup.string().label(passwordLabel).required(),
 	});
 
-	
+
 
 	//Styling - Material-UI
 	const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -126,31 +126,23 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	);
 	const classes = useStyles();
 	const isMounted = useMountedState();
+	const form = useForm({
+		reValidateMode: 'onBlur',
+		resolver: yupResolver(validationSchema),
+		defaultValues: {email: '', password: ''},
 
+	})
 	return (
-		<Formik
-			initialValues={
-				{
-					email: "",
-					password: "",
-				}}
-			validationSchema={validationSchema}
-			onSubmit={async (values, formikHelpers) => {
-				try {
-					await signIn(values);
-				}
-				catch (e: unknown) {
-					// NOTE: We're just swallowing the exception here for now. Might we need to do
-					// something different? Don't know!
-				}
-				finally {
-					if (isMounted()) formikHelpers.setSubmitting(false);
-				}
+		<form onSubmit={form.handleSubmit(async(data)=> {
+			try {
+				await signIn(data);
 			}
-				//Props
-			}>{() => {
-
-				return (<InnerFormikComponent
+			catch (e: unknown) {
+				// NOTE: We're just swallowing the exception here for now. Might we need to do
+				// something different? Don't know!
+			}
+		})}>
+				<InnerFormikComponent
 					emailLabel={emailLabel}
 					passwordLabel={passwordLabel}
 					failed={failed}
@@ -162,11 +154,12 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 					onSubmitting={onSubmitting}
 					onSuccess={onSuccess}
 					showProgressAndSuccess={showProgressAndSuccess}
-				/>);
-			}}
-		</Formik>
+					control={form.control}
+				/>;
+		</form>
 	);
 }
+
 
 function InnerFormikComponent(props: {
 	classes: ClassNameMap<"textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
@@ -180,6 +173,7 @@ function InnerFormikComponent(props: {
 	passwordLabel: string;
 	showProgressAndSuccess: boolean;
 	submitting: boolean;
+	control:Control<any>;
 }) {
 	const {
 		submitting,
@@ -210,7 +204,7 @@ function InnerFormikComponent(props: {
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
-//	const { register, handleSubmit, formState: {isDirty, isSubmitSuccessful, isSubmitted} } = useForm({reValidateMode: 'onBlur', resolver: yupResolver(validationSchema)})
+	//	const { register, handleSubmit, formState: {isDirty, isSubmitSuccessful, isSubmitted} } = useForm({reValidateMode: 'onBlur', resolver: yupResolver(validationSchema)})
 
 	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError, submitting);
 	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, dirty);
@@ -220,77 +214,75 @@ function InnerFormikComponent(props: {
 
 	const emailId = useId();
 	const passwordId = useId();
-	
-	return (<></>
-		// <form onSubmit={handleSubmit()}>
-		// 	{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
-		// 	<Box display="flex" justifyContent="center" alignItems="center">
-		// 		{!isSuccessful ?
-		// 			<Box p={1.5}>
-		// 				<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
-		// 					label={emailLabel}
-		// 					InputProps={{
-		// 						startAdornment: (
-		// 							<InputAdornment position="start">
-		// 								<AccountCircle fontSize="small" />
-		// 							</InputAdornment>
-		// 						),
-		// 					}}
-		// 				/>
-		// 			</Box>
-		// 			: null}
-		// 	</Box>
-		// 	<Box display="flex" justifyContent="center" alignItems="center">
-		// 		{!isSuccessful ?
-		// 			<Box p={1.5}>
-		// 				<MuiTextField {...register}
-		// 				<Field component={TextField} name="password" type="password" id={passwordId}
-		// 					label={passwordLabel}
-		// 					InputProps={{
-		// 						startAdornment: (
-		// 							<InputAdornment position="start">
-		// 								<LockOpenIcon fontSize="small" />
-		// 							</InputAdornment>
-		// 						),
-		// 					}} />
-		// 			</Box>
-		// 			: null}
-		// 	</Box>
-		// 	<div data-testid="errorTest">
-		// 		<Box display="flex" justifyContent="center" alignItems="center">
-		// 			{isSubmitting ? "" : <>
-		// 				{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
-		// 			</>
-		// 			}
-		// 		</Box>
-		// 	</div>
-		// 	{!isSuccessful ?
-		// 		<Box p={2} display="flex" justifyContent="center" alignItems="center">
-		// 			{loading ?
-		// 				(<div data-testid="progressTest">
-		// 					<Box display="flex" justifyContent="center" alignItems="center">
-		// 						<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."}/>
-		// 					</Box>
-		// 				</div>) :
-		// 				<Button className={classes.submitButton}
-		// 					data-testid="signInButton"
-		// 					type="submit"
-		// 					color="primary"
-		// 					variant='contained'
-		// 					disabled={!canSubmit}
-		// 				>
-		// 					{loginHeaderLabel}
-		// 				</Button>}
-		// 		</Box>
-		// 		: null}
-		// 	<div data-testid="signInComponentSuccess">
-		// 		{isSuccessful ?
-		// 			<Box m={13} display="flex" justifyContent="center" alignItems="center">
-		// 				<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
-		// 			</Box>
-		// 			: null}
-		// 	</div>
-		// </Form>
+
+	return (
+		<></>
+			// <Box display="flex" justifyContent="center" alignItems="center">
+			// 	{!isSuccessful ?
+			// 		<Box p={1.5}>
+			// 			<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
+			// 				label={emailLabel}
+			// 				InputProps={{
+			// 					startAdornment: (
+			// 						<InputAdornment position="start">
+			// 							<AccountCircle fontSize="small" />
+			// 						</InputAdornment>
+			// 					),
+			// 				}}
+			// 			/>
+			// 		</Box>
+			// 		: null}
+			// </Box>
+			// <Box display="flex" justifyContent="center" alignItems="center">
+			// 	{!isSuccessful ?
+			// 		<Box p={1.5}>
+			// 			<MuiTextField {...register}
+			// 			<Field component={TextField} name="password" type="password" id={passwordId}
+			// 				label={passwordLabel}
+			// 				InputProps={{
+			// 					startAdornment: (
+			// 						<InputAdornment position="start">
+			// 							<LockOpenIcon fontSize="small" />
+			// 						</InputAdornment>
+			// 					),
+			// 				}} />
+			// 		</Box>
+			// 		: null}
+			// </Box>
+			// <div data-testid="errorTest">
+			// 	<Box display="flex" justifyContent="center" alignItems="center">
+			// 		{isSubmitting ? "" : <>
+			// 			{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
+			// 		</>
+			// 		}
+			// 	</Box>
+			// </div>
+			// {!isSuccessful ?
+			// 	<Box p={2} display="flex" justifyContent="center" alignItems="center">
+			// 		{loading ?
+			// 			(<div data-testid="progressTest">
+			// 				<Box display="flex" justifyContent="center" alignItems="center">
+			// 					<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."}/>
+			// 				</Box>
+			// 			</div>) :
+			// 			<Button className={classes.submitButton}
+			// 				data-testid="signInButton"
+			// 				type="submit"
+			// 				color="primary"
+			// 				variant='contained'
+			// 				disabled={!canSubmit}
+			// 			>
+			// 				{loginHeaderLabel}
+			// 			</Button>}
+			// 	</Box>
+			// 	: null}
+			// <div data-testid="signInComponentSuccess">
+			// 	{isSuccessful ?
+			// 		<Box m={13} display="flex" justifyContent="center" alignItems="center">
+			// 			<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
+			// 		</Box>
+			// 		: null}
+			// </div>
 	);
 }
 

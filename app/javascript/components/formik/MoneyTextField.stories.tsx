@@ -7,7 +7,7 @@ import { MoneyTextField } from './index';
 import { action } from '@storybook/addon-actions';
 import { Control, FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form';
 
-function FormikInner(props: { onChange: (args: { value: Money }) => void, control:Control<any> }) {
+function FormInner(props: { onChange: (args: { value: Money }) => void, control:Control<any> }) {
 	const { onChange, control } = props;
 	const value = useWatch({name:'value', control});
 	useEffect(() => {
@@ -18,7 +18,7 @@ function FormikInner(props: { onChange: (args: { value: Money }) => void, contro
 		<MoneyTextField name="value" aria-label="field" control={control} /></>;
 }
 
-function FormikHandler(props: { onChange: (args: { value: Money }) => void, value: Money }) {
+function FormHandler(props: { onChange: (args: { value: Money }) => void, value: Money }) {
 
 	const { value, ...innerFormikProps } = props;
 	const form = useForm({ defaultValues: { value: value.toJSON() } });
@@ -26,12 +26,12 @@ function FormikHandler(props: { onChange: (args: { value: Money }) => void, valu
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={handleSubmit(() => { console.log("submitted");})}>
-				<FormikInner {...innerFormikProps} control={form.control} />
+				<FormInner {...innerFormikProps} control={form.control} />
 			</form>
 		</FormProvider>);
 }
 
-FormikHandler.defaultProps = {
+FormHandler.defaultProps = {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	onChange: () => { },
 	locale: 'en',
@@ -40,10 +40,10 @@ export default { title: 'MoneyTextField' };
 
 export function usd100() {
 	const usd100 = Money.fromCents(100, 'usd');
-	return <FormikHandler onChange={action('on-change')} value={usd100} />;
+	return <FormHandler onChange={action('on-change')} value={usd100} />;
 }
 
 export function jpy100() {
 	const jpy100 = Money.fromCents(100, 'jpy');
-	return <FormikHandler onChange={action('on-change')} value={jpy100} />;
+	return <FormHandler onChange={action('on-change')} value={jpy100} />;
 }

@@ -9,19 +9,55 @@ import '@testing-library/jest-dom/extend-expect';
 import { composeStories } from '@storybook/testing-react';
 import * as stories from './TextField.stories';
 import userEvent from '@testing-library/user-event';
-const { StartingWithPenelopeSchultz} = composeStories(stories);
+
+const { StartingWithPenelopeSchultz, EmptyTextField, EmptyTextFieldWithValidation} = composeStories(stories);
 
 
 
 
 describe('TextField', () => {
+	describe('empty TextField', () => {
+		let emptyTextField:HTMLElement = null;
+		beforeEach(() => {
+
+			const { getByLabelText} = render(<EmptyTextField />);
+
+			emptyTextField = getByLabelText('First Name');
+		});
+
+		it('is valid initially', async() => {
+			expect.assertions(1);
+			expect(emptyTextField).toBeValid();
+		});
+
+		it('is valid when touched and then blurred', async () => {
+			expect.assertions(1);
+
+			await act(async() => {
+				userEvent.click(emptyTextField);
+				emptyTextField.blur();
+			});
+			expect(emptyTextField).toBeValid();
+		});
+
+		it('is valid when value is changed and then deleted', async () => {
+			expect.assertions(1);
+			await userEvent.type(emptyTextField, "enter some information{selectall}{backspace}");
+			await act(async() => {
+				emptyTextField.blur();
+			});
+
+			expect(emptyTextField).toBeValid();
+		});
+	});
+
 	describe('prefilled TextField', () => {
 		let prefilledTextField:HTMLElement = null;
 		beforeEach(() => {
 
 			const { getByLabelText} = render(<StartingWithPenelopeSchultz />);
 
-			prefilledTextField = getByLabelText('field');
+			prefilledTextField = getByLabelText('First Name');
 		});
 
 		it('is valid initially', async() => {
@@ -41,12 +77,51 @@ describe('TextField', () => {
 
 		it('is invalid when value is changed', async () => {
 			expect.assertions(1);
+			await userEvent.type(prefilledTextField, "{selectall}{backspace}");
+			await act(async() => {
+
+				prefilledTextField.blur();
+			});
+
+			expect(prefilledTextField).toBeInvalid();
+		});
+	});
+
+	describe('empty TextField with validation', () => {
+		let emptyTextField:HTMLElement = null;
+		beforeEach(() => {
+
+			const { getByLabelText} = render(<EmptyTextFieldWithValidation />);
+
+			emptyTextField = getByLabelText('First Name');
+		});
+
+		it('is valid initially', async() => {
+			expect.assertions(1);
+			expect(emptyTextField).toBeValid();
+		});
+
+		it('is invalid when touched and then blurred', async () => {
+			expect.assertions(1);
 
 			await act(async() => {
-				userEvent.click(prefilledTextField);
-				userEvent.type(prefilledTextField, "{selectall}{backspace}");
+				userEvent.click(emptyTextField);
+				emptyTextField.blur();
 			});
-			expect(prefilledTextField).toBeInvalid();
+			expect(emptyTextField).toBeInvalid();
+		});
+
+		it('is valid when value is changed to be longer than 10', async () => {
+			expect.assertions(1);
+			// We have to await here becuase validation takes a bit.
+			await userEvent.type(emptyTextField, 'this is longer than 10');
+
+			await act(async() => {
+
+				emptyTextField.blur();
+			});
+
+			expect(emptyTextField).toBeValid();
 		});
 	});
 });

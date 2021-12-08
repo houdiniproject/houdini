@@ -8,6 +8,7 @@ import useYup from '../../hooks/useYup';
 import { AnySchemaConstructor } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Story } from '@storybook/react';
+import { useId } from '@reach/auto-id';
 
 function FormikInner(props: { onChange: (args: { value: string }) => void, control: Control<any> }) {
 	const { onChange, control } = props;
@@ -18,8 +19,8 @@ function FormikInner(props: { onChange: (args: { value: string }) => void, contr
 		onChangeRef.current({ value });
 	}, [value, onChangeRef]);
 
-	return <><div><span aria-label="cents">{value.cents}</span> <span aria-label="currency">{value.currency}</span></div>
-		<TextField name="value" aria-label="field" control={control} /></>;
+	const id = useId();
+	return <TextField name="value" label={'First Name'} control={control} id={id}/>;
 }
 
 function FormHandler(props: {
@@ -36,7 +37,7 @@ function FormHandler(props: {
 		useFormArgs = { ...useFormArgs, resolver: yupResolver(schemaCreator(yup)) };
 	}
 
-	const form = useForm(useFormArgs);
+	const form = useForm({ ...useFormArgs, mode: 'all' });
 
 	const { handleSubmit } = form;
 	return (
@@ -52,7 +53,7 @@ FormHandler.defaultProps = {
 	onChange: () => { },
 	locale: 'en',
 };
-export default { title: 'TextField' };
+export default { title: 'Form Fields/TextField' };
 
 interface StoryProps {
 	onChange: (args: { value: string }) => void;
@@ -72,12 +73,13 @@ export const StartingWithPenelopeSchultz = Template.bind({});
 StartingWithPenelopeSchultz.args = {
 	onChange: action('on-change'),
 	value: "Penelope Schultz",
+	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
 };
 
 export const EmptyTextFieldWithValidation = Template.bind({});
 EmptyTextFieldWithValidation.args = {
 	onChange: action('on-change'),
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	schemaCreator: (yup:any) => yup.object({ value: yup.string().min(10) }),
+	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
 };
 

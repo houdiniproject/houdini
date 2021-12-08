@@ -23,7 +23,7 @@ module.exports =  {
 		"\\./regenerate.js": "<rootDir>/app/javascript/__mocks__/erbMock.js",
 	},
 	"setupFiles": [
-		"<rootDir>/setupTests.js"
+		"<rootDir>/setupTests.js",
 	],
 	"setupFilesAfterEnv": [
 		"<rootDir>/setupTestsAfterEnvLoaded.ts",

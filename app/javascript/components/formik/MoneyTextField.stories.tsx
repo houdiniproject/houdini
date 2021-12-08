@@ -1,15 +1,15 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 
-import { Money, MoneyAsJson } from '../../common/money';
+import { Money } from '../../common/money';
 import { useEffect } from 'react';
 import { MoneyTextField } from './index';
 import { action } from '@storybook/addon-actions';
-import { Control, FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form';
+import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-function FormInner(props: { onChange: (args: { value: Money }) => void, control:Control<any> }) {
+function FormInner(props: { onChange: (args: { value: Money }) => void, control: Control<any> }) {
 	const { onChange, control } = props;
-	const value = useWatch({name:'value', control});
+	const value = useWatch({ name: 'value', control });
 	useEffect(() => {
 		onChange({ value: Money.fromCents(value) });
 	}, [value, onChange]);
@@ -22,10 +22,10 @@ function FormHandler(props: { onChange: (args: { value: Money }) => void, value:
 
 	const { value, ...innerFormikProps } = props;
 	const form = useForm({ defaultValues: { value: value.toJSON() } });
-	const {handleSubmit} = form;
+	const { handleSubmit } = form;
 	return (
 		<FormProvider {...form}>
-			<form onSubmit={handleSubmit(() => { console.log("submitted");})}>
+			<form onSubmit={handleSubmit(() => { console.log("submitted"); })}>
 				<FormInner {...innerFormikProps} control={form.control} />
 			</form>
 		</FormProvider>);
@@ -36,7 +36,7 @@ FormHandler.defaultProps = {
 	onChange: () => { },
 	locale: 'en',
 };
-export default { title: 'MoneyTextField' };
+export default { title: 'Form Fields/MoneyTextField' };
 
 export function usd100() {
 	const usd100 = Money.fromCents(100, 'usd');

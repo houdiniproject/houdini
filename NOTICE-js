@@ -5650,7 +5650,7 @@ SOFTWARE.
 
 ------
 
-** ajv; version 6.12.4 -- https://github.com/ajv-validator/ajv
+** ajv; version 6.12.6 -- https://github.com/ajv-validator/ajv
 (c) 2011 Gary Court.
 Copyright 2011 Gary Court.
 Copyright (c) 2015-2017 Evgeny Poberezkin
@@ -22079,7 +22079,7 @@ THE SOFTWARE.
 
 ------
 
-** moment; version 2.26.0 -- https://momentjs.com
+** moment; version 2.29.1 -- https://momentjs.com
 Copyright (c) JS Foundation and other contributors
 
 Copyright (c) JS Foundation and other contributors
@@ -22188,6 +22188,9 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** meow; version 3.7.0 -- https://github.com/sindresorhus/meow#readme
 (c) Sindre Sorhus (http://sindresorhus.com)
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+** normalize-url; version 1.9.1 -- https://github.com/sindresorhus/normalize-url#readme
+(c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 
 The MIT License (MIT)
@@ -22350,7 +22353,7 @@ SOFTWARE.
 Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
 Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
-** lodash-es; version 4.17.15 -- https://lodash.com/custom-builds
+** lodash-es; version 4.17.21 -- https://lodash.com/custom-builds
 Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
 Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
@@ -23087,10 +23090,6 @@ Copyright jQuery Foundation and other contributors <https://jquery.org/>
 Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
 ** lodash.snakecase; version 4.1.1 -- https://lodash.com/
-Copyright jQuery Foundation and other contributors <https://jquery.org/>
-Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
-** lodash.sortby; version 4.7.0 -- https://lodash.com/
 Copyright jQuery Foundation and other contributors <https://jquery.org/>
 Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors <http://underscorejs.org/>
@@ -24402,7 +24401,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ------
 
-** qs; version 6.9.4 -- https://github.com/ljharb/qs
+** qs; version 6.10.1 -- https://github.com/ljharb/qs
 Copyright (c) 2014, Nathan LaFreniere and other contributors (https://github.com/ljharb/qs/graphs/contributors)
 
 BSD 3-Clause License
@@ -25566,6 +25565,8 @@ THE SOFTWARE.
 ** punycode; version 2.1.1 -- https://mths.be/punycode
 Copyright Mathias Bynens <https://mathiasbynens.be/>
 ** regenerate; version 1.4.1 -- https://mths.be/regenerate
+Copyright Mathias Bynens <https://mathiasbynens.be/>
+** regenerate-unicode-properties; version 8.2.0 -- https://github.com/mathiasbynens/regenerate-unicode-properties
 Copyright Mathias Bynens <https://mathiasbynens.be/>
 
 Copyright Mathias Bynens <https://mathiasbynens.be/>
@@ -27240,9 +27241,6 @@ IN THE SOFTWARE.
 
 ------
 
-** normalize-url; version 1.9.1 -- https://github.com/sindresorhus/normalize-url#readme
-(c) Sindre Sorhus (https://sindresorhus.com)
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** npm-run-path; version 2.0.2 -- https://github.com/sindresorhus/npm-run-path#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
@@ -28638,7 +28636,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-** tslib; version 1.13.0 -- https://www.typescriptlang.org/
+** tslib; version 1.14.1 -- https://www.typescriptlang.org/
 Copyright (c) Microsoft Corporation.
 
 Copyright (c) Microsoft Corporation.
@@ -32683,6 +32681,9 @@ Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 (c) Titus Wormer
 (c) Titus Wormer (https://wooorm.com)
 Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
+** unist-util-is; version 4.0.2 -- https://github.com/syntax-tree/unist-util-is#readme
+(c) Titus Wormer
+Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 
 (The MIT License)
 
@@ -33182,8 +33183,6 @@ THE SOFTWARE.
 
 ------
 
-** regenerate-unicode-properties; version 8.2.0 -- https://github.com/mathiasbynens/regenerate-unicode-properties
-Copyright Mathias Bynens <https://mathiasbynens.be/>
 ** regexpu-core; version 4.7.0 -- https://mths.be/regexpu
 Copyright Mathias Bynens <https://mathiasbynens.be/>
 ** unicode-canonical-property-names-ecmascript; version 1.0.4 -- https://github.com/mathiasbynens/unicode-canonical-property-names-ecmascript
@@ -35150,7 +35149,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** tr46; version 2.0.2 -- 
+** tr46; version 2.1.0 -- 
 Copyright (c) 2016 Sebastian Mayr
 
 The MIT License (MIT)
@@ -37354,9 +37353,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** unist-util-is; version 4.0.2 -- https://github.com/syntax-tree/unist-util-is#readme
-(c) Titus Wormer
-Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 ** unist-util-position; version 3.1.0 -- https://github.com/syntax-tree/unist-util-position#readme
 (c) Titus Wormer
 Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
@@ -37367,28 +37363,27 @@ Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 (c) Titus Wormer
 Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 
-(The MIT license)
+(The MIT License)
 
 Copyright (c) 2015 Titus Wormer <tituswormer@gmail.com>
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 
 ------
@@ -38182,7 +38177,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** whatwg-url; version 8.2.2 -- https://github.com/jsdom/whatwg-url#readme
+** whatwg-url; version 8.7.0 -- https://github.com/jsdom/whatwg-url#readme
 (c) extraPathPercentEncodeSet.has
 Copyright (c) 2015-2016 Sebastian Mayr
 

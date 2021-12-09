@@ -1,7 +1,7 @@
 # License: CC0-1.0
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
-en:
+en_en:
   errors:
     messages:
       expired: "has expired, please request a new one"

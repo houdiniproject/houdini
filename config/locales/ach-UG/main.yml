@@ -1,0 +1,225 @@
+#License: CC0-1.0
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en_en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ach_UG:
+  hello: "crwdns1777:0crwdne1777:0"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'crwdns1779:0crwdne1779:0'
+  organization:
+    name: "crwdns1781:0crwdne1781:0"
+  organization_page:
+    promote: "crwdns1783:0crwdne1783:0"
+  donation:
+    amount: "crwdns1785:0crwdne1785:0"
+    date: "crwdns1787:0crwdne1787:0"
+    campaign: "crwdns1789:0crwdne1789:0"
+    recurring_interval: "crwdns1791:0crwdne1791:0"
+    interval: "crwdns1793:0%{interval}crwdnd1793:0%{time_unit}crwdne1793:0"
+    recurring_since: "crwdns1795:0crwdne1795:0"
+    comment: "crwdns1797:0crwdne1797:0"
+    payment_id: "crwdns1799:0crwdne1799:0"
+  mailer:
+    donations:
+      donation_receipt: "crwdns1801:0crwdne1801:0"
+      donor_name: "crwdns1803:0crwdne1803:0"
+      donor_receipt:
+        subject: "crwdns1805:0%{nonprofit_name}crwdne1805:0"
+        transfer_info_html: "crwdns1807:0%{label}crwdne1807:0"
+        transfer_label_html: "crwdns1809:0%{nonprofit_statement}crwdne1809:0"
+        oneoff_donation_html: "crwdns1811:0%{nonprofit_name}crwdne1811:0"
+        recurring_donation_html: "crwdns1813:0%{nonprofit_name}crwdnd1813:0%{start_date}crwdne1813:0"
+        recurring_donation_cancel_modify_html: "crwdns1815:0%{management_url}crwdnd1815:0%{management_url}crwdne1815:0"
+      donor_direct_debit_notification:
+        subject: "crwdns1817:0%{nonprofit_name}crwdne1817:0"
+        transfer_info_html: "crwdns1819:0%{label}crwdne1819:0"
+        transfer_label_html: "crwdns1821:0%{nonprofit_statement}crwdne1821:0"
+        donation_queued_html: "crwdns1823:0%{nonprofit_name}crwdne1823:0"
+        recurring_donation_queued_html: "crwdns1825:0%{nonprofit_name}crwdne1825:0"
+  nonprofits:
+    donate:
+      signed_in: "crwdns1827:0crwdne1827:0"
+      log_out: "crwdns1829:0crwdne1829:0"
+      campaign:
+        name: "crwdns1831:0crwdne1831:0"
+        tagline: "crwdns1833:0crwdne1833:0"
+      amount:
+        label: "crwdns1835:0crwdne1835:0"
+        sustaining: "crwdns1837:0crwdne1837:0"
+        sustaining_bold: "crwdns1839:0crwdne1839:0"
+        sustaining_selected: "crwdns1841:0crwdne1841:0"
+        sustaining_selected_bold: "crwdns1843:0crwdne1843:0"
+        monthly: "crwdns1845:0crwdne1845:0"
+        weekly: "crwdns1847:0crwdne1847:0"
+        weekly_notice: "crwdns1849:0%{amount}crwdnd1849:0%{currency}crwdne1849:0"
+        custom: "crwdns1851:0crwdne1851:0"
+        designation:
+          label: "crwdns1853:0crwdne1853:0"
+          choose: "crwdns1855:0crwdne1855:0"
+          most_needed: "crwdns1857:0crwdne1857:0"
+        next: "crwdns1859:0crwdne1859:0"
+      info:
+        label: "crwdns1861:0crwdne1861:0"
+        supporter:
+          email: "crwdns1863:0crwdne1863:0"
+          email_required: "crwdns1865:0crwdne1865:0"
+          full_name: "crwdns1867:0crwdne1867:0"
+          first_name: "crwdns1869:0crwdne1869:0"
+          last_name: "crwdns1871:0crwdne1871:0"
+          phone: "crwdns1873:0crwdne1873:0"
+          address: "crwdns1875:0crwdne1875:0"
+          city: "crwdns1877:0crwdne1877:0"
+          state: "crwdns1879:0crwdne1879:0"
+          country: "crwdns1881:0crwdne1881:0"
+          other_country: "crwdns1883:0crwdne1883:0"
+          region: "crwdns1885:0crwdne1885:0"
+          postal_code: "crwdns1887:0crwdne1887:0"
+          shipping_address: "crwdns1889:0crwdne1889:0"
+          errors:
+            email:
+              format: "crwdns1891:0crwdne1891:0"
+        dedication_link: "crwdns1893:0crwdne1893:0"
+        dedication_saved: "crwdns1895:0crwdne1895:0"
+        anonymous_checkbox: "crwdns1897:0crwdne1897:0"
+        next: "crwdns1899:0crwdne1899:0"
+      dedication:
+        info: "crwdns1901:0crwdne1901:0"
+        in_honor_label: "crwdns1903:0crwdne1903:0"
+        in_memory_label: "crwdns1905:0crwdne1905:0"
+        first_name: "crwdns1907:0crwdne1907:0"
+        last_name: "crwdns1909:0crwdne1909:0"
+        email: "crwdns1911:0crwdne1911:0"
+        phone: "crwdns1913:0crwdne1913:0"
+        full_address: "crwdns1915:0crwdne1915:0"
+        note: "crwdns1917:0crwdne1917:0"
+        save: "crwdns1919:0crwdne1919:0"
+        donor_note: "crwdns1921:0crwdne1921:0"
+      payment:
+        label: "crwdns1923:0crwdne1923:0"
+        one_time: "crwdns1925:0crwdne1925:0"
+        monthly_recurring: "crwdns1927:0crwdne1927:0"
+        tabs:
+          card: "crwdns1929:0crwdne1929:0"
+          sepa: "crwdns1931:0crwdne1931:0"
+        loading:
+          checking_card: "crwdns1933:0crwdne1933:0"
+          sending_payment: "crwdns1935:0crwdne1935:0"
+        card:
+          name: "crwdns1937:0crwdne1937:0"
+          number: "crwdns1939:0crwdne1939:0"
+          cvc: "crwdns1941:0crwdne1941:0"
+          postal_code: "crwdns1943:0crwdne1943:0"
+          month: "crwdns1945:0crwdne1945:0"
+          year: "crwdns1947:0crwdne1947:0"
+          submit: "crwdns1949:0crwdne1949:0"
+          loading: "crwdns1951:0crwdne1951:0"
+          secure_info: "crwdns1953:0crwdne1953:0"
+          errors:
+            field:
+              presence: "crwdns1955:0crwdne1955:0"
+              format: "crwdns1957:0crwdne1957:0"
+            number:
+              presence: "crwdns1959:0crwdne1959:0"
+              format: "crwdns1961:0crwdne1961:0"
+            email:
+              format: "crwdns1963:0crwdne1963:0"
+        sepa:
+          name: "crwdns1965:0crwdne1965:0"
+          iban: "crwdns1967:0crwdne1967:0"
+          bic: "crwdns1969:0crwdne1969:0"
+          errors:
+            field:
+              presence: "crwdns1971:0crwdne1971:0"
+              format: "crwdns1973:0crwdne1973:0"
+      followup:
+        success: "crwdns1975:0crwdne1975:0"
+        receipt_info: "crwdns1977:0crwdne1977:0"
+        message: "crwdns1979:0crwdne1979:0"
+        share:
+          facebook: "crwdns1981:0crwdne1981:0"
+          twitter: "crwdns1983:0crwdne1983:0"
+          twitter_message: "crwdns1985:0crwdne1985:0"
+        finish: "crwdns1987:0crwdne1987:0"
+  registration:
+    get_started:
+      header: "crwdns1989:0crwdne1989:0"
+      description: "crwdns1991:0crwdne1991:0"
+    wizard:
+      tabs:
+        nonprofit: "crwdns1993:0crwdne1993:0"
+        contact: "crwdns1995:0crwdne1995:0"
+      nonprofit:
+        name:
+          label: "crwdns1997:0crwdne1997:0"
+          placeholder: "crwdns1999:0crwdne1999:0"
+        website:
+          label: "crwdns2001:0crwdne2001:0"
+          placeholder: "crwdns2003:0crwdne2003:0"
+        email:
+          label: "crwdns2005:0crwdne2005:0"
+          placeholder: "crwdns2007:0crwdne2007:0"
+        phone:
+          label: "crwdns2009:0crwdne2009:0"
+          placeholder: "crwdns2011:0crwdne2011:0"
+        city:
+          label: "crwdns2013:0crwdne2013:0"
+          placeholder: "crwdns2015:0crwdne2015:0"
+        state:
+          label: "crwdns2017:0crwdne2017:0"
+          placeholder: "crwdns2019:0crwdne2019:0"
+        zip:
+          label: "crwdns2021:0crwdne2021:0"
+          placeholder: "crwdns2023:0crwdne2023:0"
+      contact:
+        name:
+          label: "crwdns2025:0crwdne2025:0"
+          placeholder: "crwdns2027:0crwdne2027:0"
+        email:
+          label: "crwdns2029:0crwdne2029:0"
+          placeholder: "crwdns2031:0crwdne2031:0"
+        password:
+          label: "crwdns2033:0crwdne2033:0"
+        password_confirmation:
+          label: "crwdns2035:0crwdne2035:0"
+        phone:
+          label: "crwdns2037:0crwdne2037:0"
+          placeholder: "crwdns2039:0crwdne2039:0"
+      save_and_finish: "crwdns2041:0crwdne2041:0"
+      saving: "crwdns2043:0crwdne2043:0"
+      next: "crwdns2045:0crwdne2045:0"
+  footer:
+    terms_and_privacy: "crwdns2047:0crwdne2047:0"
+    about: "crwdns2049:0crwdne2049:0"
+  login:
+    header: "crwdns2051:0crwdne2051:0"
+    enter_login_information: "crwdns2053:0crwdne2053:0"
+    email: "crwdns2055:0crwdne2055:0"
+    password: "crwdns2057:0crwdne2057:0"
+    logging_in: "crwdns2059:0crwdne2059:0"
+    forgot_password: "crwdns2061:0crwdne2061:0"
+    get_started: "crwdns2063:0crwdne2063:0"
+    enter_info: "crwdns2065:0crwdne2065:0"
+    success: "crwdns2067:0crwdne2067:0"
+    please_sign_in: "crwdns2069:0crwdne2069:0"
+    not_allowed_to_access: "crwdns2071:0%{admin_email}crwdne2071:0"
+    you_need_to_sign_in_before_doing: "crwdns2073:0crwdne2073:0"
+    errors:
+      password_email: "crwdns2075:0crwdne2075:0"
+      error_boundary: "crwdns2077:0crwdne2077:0"

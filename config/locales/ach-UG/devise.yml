@@ -1,0 +1,58 @@
+#License: CC0-1.0
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+ach:
+  errors:
+    messages:
+      expired: "crwdns311:0crwdne311:0"
+      not_found: "crwdns313:0crwdne313:0"
+      already_confirmed: "crwdns315:0crwdne315:0"
+      not_locked: "crwdns317:0crwdne317:0"
+      not_saved:
+        one: "crwdns319:1crwdne319:1"
+        other: "crwdns319:5%{count}crwdne319:5"
+  devise:
+    failure:
+      already_authenticated: "crwdns321:0crwdne321:0"
+      unauthenticated: "crwdns323:0crwdne323:0"
+      unconfirmed: 'crwdns325:0crwdne325:0'
+      locked: 'crwdns327:0crwdne327:0'
+      invalid: "crwdns329:0crwdne329:0"
+      invalid_token: 'crwdns331:0crwdne331:0'
+      timeout: 'crwdns333:0crwdne333:0'
+      inactive: 'crwdns335:0crwdne335:0'
+    sessions:
+      signed_in: "crwdns337:0crwdne337:0"
+      signed_out: "crwdns339:0crwdne339:0"
+    passwords:
+      send_instructions: 'crwdns341:0crwdne341:0'
+      updated: 'crwdns343:0crwdne343:0'
+      updated_not_active: 'crwdns345:0crwdne345:0'
+      send_paranoid_instructions: "crwdns347:0crwdne347:0"
+      no_token: "crwdns349:0crwdne349:0"
+    confirmations:
+      send_instructions: "crwdns351:0crwdne351:0"
+      send_paranoid_instructions: 'crwdns353:0crwdne353:0'
+      confirmed: 'crwdns355:0crwdne355:0'
+    registrations:
+      signed_up: 'crwdns357:0crwdne357:0'
+      invalid: 'crwdns359:0crwdne359:0'
+      signed_up_but_unconfirmed: 'crwdns361:0crwdne361:0'
+      signed_up_but_inactive: 'crwdns363:0crwdne363:0'
+      signed_up_but_locked: 'crwdns365:0crwdne365:0'
+      updated: 'crwdns367:0crwdne367:0'
+      update_needs_confirmation: "crwdns369:0crwdne369:0"
+      destroyed: 'crwdns371:0crwdne371:0'
+    unlocks:
+      send_instructions: "crwdns373:0crwdne373:0"
+      unlocked: 'crwdns375:0crwdne375:0'
+      send_paranoid_instructions: 'crwdns377:0crwdne377:0'
+    omniauth_callbacks:
+      success: "crwdns379:0%{kind}crwdne379:0"
+      failure: 'crwdns381:0%{kind}crwdnd381:0%{reason}crwdne381:0'
+    mailer:
+      confirmation_instructions:
+        subject: "crwdns383:0crwdne383:0"
+      reset_password_instructions:
+        subject: 'crwdns385:0crwdne385:0'
+      unlock_instructions:
+        subject: 'crwdns387:0crwdne387:0'

@@ -34029,7 +34029,7 @@ SOFTWARE.
 
 ** sass-loader; version 10.1.1 -- https://github.com/webpack-contrib/sass-loader
 Copyright JS Foundation and other contributors
-** schema-utils; version 2.7.0 -- https://github.com/webpack/schema-utils
+** schema-utils; version 1.0.0 -- https://github.com/webpack-contrib/schema-utils
 Copyright JS Foundation and other contributors
 ** style-loader; version 1.3.0 -- https://github.com/webpack-contrib/style-loader
 Copyright JS Foundation and other contributors

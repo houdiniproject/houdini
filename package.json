@@ -128,7 +128,6 @@
     "flyd-zip": "0.0.1",
     "fontsource-roboto": "^2.1.4",
     "form-serialize": "0.7.0",
-    "formik": "^2",
     "hoist-non-react-statics": "^3.3.0",
     "i18n-js": "^3.0.3",
     "iban": "0.0.8",

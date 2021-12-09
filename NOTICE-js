@@ -401,6 +401,30 @@ THE SOFTWARE.
 
 ------
 
+** @storybook/testing-react; version 0.0.16 -- https://github.com/storybookjs/testing-react#readme
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+------
+
 ** @mdx-js/mdx; version 1.6.18 -- https://mdxjs.com
 (c) Compositor and Vercel
 Copyright (c) 2017-2019 Compositor, Inc. and Vercel, Inc.
@@ -14041,7 +14065,6 @@ Copyright 2006 Google Inc. http://code.google.com/p/google-diff-match-patch
 ** fb-watchman; version 2.0.1 -- https://facebook.github.io/watchman/
 Copyright 2014-present Facebook, Inc.
 ** filelist; version 1.0.1 -- https://github.com/mde/filelist
-** formik; version 2.2.9 -- https://formik.org
 
 Apache License
 
@@ -17342,6 +17365,7 @@ Copyright (c) 2013 Gary Court, Jens Taylor
 ** inline-style-parser; version 0.1.1 -- https://github.com/remarkablemark/inline-style-parser#readme
 ** ip; version 1.1.5 -- https://github.com/indutny/node-ip
 Copyright Fedor Indutny, 2012.
+** is-in-browser; version 1.1.3 -- https://github.com/tuxsudo/is-in-browser#readme
 
 MIT License
 
@@ -20608,6 +20632,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 ** node-modules-regexp; version 1.0.0 -- https://github.com/jamestalmage/node-modules-regexp#readme
 Copyright (c) James Talmage <james@talmage.io>
 (c) James Talmage (http://github.com/jamestalmage)
+** normalize-range; version 0.1.2 -- https://github.com/jamestalmage/normalize-range#readme
+Copyright (c) James Talmage <james@talmage.io>
+(c) James Talmage (http://github.com/jamestalmage)
 
 The MIT License (MIT)
 
@@ -21966,7 +21993,6 @@ SOFTWARE.
 
 ------
 
-** is-in-browser; version 1.1.3 -- https://github.com/tuxsudo/is-in-browser#readme
 ** is-node-process; version 1.0.1 -- 
 ** isarray; version 1.0.0 -- https://github.com/juliangruber/isarray
 Copyright (c) 2013 Julian Gruber <julian@juliangruber.com>
@@ -25666,35 +25692,6 @@ SOFTWARE.
 
 ------
 
-** normalize-range; version 0.1.2 -- https://github.com/jamestalmage/normalize-range#readme
-Copyright (c) James Talmage <james@talmage.io>
-(c) James Talmage (http://github.com/jamestalmage)
-
-The MIT License (MIT)
-
-Copyright (c) James Talmage <james@talmage.io> (github.com/jamestalmage)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-
-------
-
 ** recursive-readdir; version 2.2.2 -- https://github.com/jergason/recursive-readdir#readme
 
 The MIT License (MIT)
@@ -25993,6 +25990,36 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+------
+
+** refractor; version 2.10.1 -- https://github.com/wooorm/refractor#readme
+(c) Titus Wormer
+Copyright (c) 2017 Titus Wormer <tituswormer@gmail.com>
+
+(The MIT License)
+
+Copyright (c) 2017 Titus Wormer <tituswormer@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -26820,7 +26847,7 @@ DEALINGS IN THE SOFTWARE.
 
 ------
 
-** react-fast-compare; version 2.0.4 -- https://github.com/FormidableLabs/react-fast-compare
+** react-fast-compare; version 3.2.0 -- https://github.com/FormidableLabs/react-fast-compare
 Copyright (c) 2018 Formidable Labs
 Copyright (c) 2017 Evgeny Poberezkin
 
@@ -33568,36 +33595,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** refractor; version 2.10.1 -- https://github.com/wooorm/refractor#readme
-(c) Titus Wormer
-Copyright (c) 2017 Titus Wormer <tituswormer@gmail.com>
-
-(The MIT License)
-
-Copyright (c) 2017 Titus Wormer <tituswormer@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** shebang-command; version 2.0.0 -- https://github.com/kevva/shebang-command#readme
 Copyright (c) Kevin Martensson <kevinmartensson@gmail.com>
 
@@ -34047,6 +34044,9 @@ SOFTWARE.
 ------
 
 ** remark-squeeze-paragraphs; version 4.0.0 -- https://github.com/remarkjs/remark-squeeze-paragraphs#readme
+(c) Eugene Sharygin
+Copyright (c) 2015 Eugene Sharygin
+** unist-builder; version 2.0.3 -- https://github.com/syntax-tree/unist-builder#readme
 (c) Eugene Sharygin
 Copyright (c) 2015 Eugene Sharygin
 
@@ -37718,35 +37718,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** unist-builder; version 2.0.3 -- https://github.com/syntax-tree/unist-builder#readme
-(c) Eugene Sharygin
-Copyright (c) 2015 Eugene Sharygin
-
-The MIT License (MIT)
-
-Copyright (c) 2015 Eugene Sharygin
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 
 
 ------

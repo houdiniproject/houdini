@@ -1,0 +1,58 @@
+#License: CC0-1.0
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+ach_UG:
+  errors:
+    messages:
+      expired: "crwdns1699:0crwdne1699:0"
+      not_found: "crwdns1701:0crwdne1701:0"
+      already_confirmed: "crwdns1703:0crwdne1703:0"
+      not_locked: "crwdns1705:0crwdne1705:0"
+      not_saved:
+        one: "crwdns1707:1crwdne1707:1"
+        other: "crwdns1707:5%{count}crwdne1707:5"
+  devise:
+    failure:
+      already_authenticated: "crwdns1709:0crwdne1709:0"
+      unauthenticated: "crwdns1711:0crwdne1711:0"
+      unconfirmed: 'crwdns1713:0crwdne1713:0'
+      locked: 'crwdns1715:0crwdne1715:0'
+      invalid: "crwdns1717:0crwdne1717:0"
+      invalid_token: 'crwdns1719:0crwdne1719:0'
+      timeout: 'crwdns1721:0crwdne1721:0'
+      inactive: 'crwdns1723:0crwdne1723:0'
+    sessions:
+      signed_in: "crwdns1725:0crwdne1725:0"
+      signed_out: "crwdns1727:0crwdne1727:0"
+    passwords:
+      send_instructions: 'crwdns1729:0crwdne1729:0'
+      updated: 'crwdns1731:0crwdne1731:0'
+      updated_not_active: 'crwdns1733:0crwdne1733:0'
+      send_paranoid_instructions: "crwdns1735:0crwdne1735:0"
+      no_token: "crwdns1737:0crwdne1737:0"
+    confirmations:
+      send_instructions: "crwdns1739:0crwdne1739:0"
+      send_paranoid_instructions: 'crwdns1741:0crwdne1741:0'
+      confirmed: 'crwdns1743:0crwdne1743:0'
+    registrations:
+      signed_up: 'crwdns1745:0crwdne1745:0'
+      invalid: 'crwdns1747:0crwdne1747:0'
+      signed_up_but_unconfirmed: 'crwdns1749:0crwdne1749:0'
+      signed_up_but_inactive: 'crwdns1751:0crwdne1751:0'
+      signed_up_but_locked: 'crwdns1753:0crwdne1753:0'
+      updated: 'crwdns1755:0crwdne1755:0'
+      update_needs_confirmation: "crwdns1757:0crwdne1757:0"
+      destroyed: 'crwdns1759:0crwdne1759:0'
+    unlocks:
+      send_instructions: "crwdns1761:0crwdne1761:0"
+      unlocked: 'crwdns1763:0crwdne1763:0'
+      send_paranoid_instructions: 'crwdns1765:0crwdne1765:0'
+    omniauth_callbacks:
+      success: "crwdns1767:0%{kind}crwdne1767:0"
+      failure: 'crwdns1769:0%{kind}crwdnd1769:0%{reason}crwdne1769:0'
+    mailer:
+      confirmation_instructions:
+        subject: "crwdns1771:0crwdne1771:0"
+      reset_password_instructions:
+        subject: 'crwdns1773:0crwdne1773:0'
+      unlock_instructions:
+        subject: 'crwdns1775:0crwdne1775:0'

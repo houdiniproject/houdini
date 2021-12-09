@@ -88,7 +88,6 @@
     "object-hash": "^2.0.3",
     "phantomjs-prebuilt": "^2.1.16",
     "rails-erb-loader": "^5.5.2",
-    "react-is": "^16.13.1",
     "react-test-renderer": "^16.13.1",
     "resolve-url-loader": "^2.3.0",
     "sinon": "^5.0.7",

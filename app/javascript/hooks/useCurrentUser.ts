@@ -78,7 +78,7 @@ function useCurrentUser<TReturnType extends UseCurrentUserReturnType = UseCurren
 	const currentUser = error?.status === NotLoggedInStatus ? null : data;
 
 	async function revalidate() {
-		return mutate(data, true);
+		return mutate();
 	}
 	const output: SetCurrentUserReturnType = {
 		currentUser,

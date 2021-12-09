@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
@@ -21,12 +21,10 @@ import { useId } from "@reach/auto-id";
 import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
 import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
-import { useMountedState } from "react-use";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
-import { Control, useForm, UseFormReturn } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from "../formik/TextField";
-import { format } from "sinon";
 
 
 export interface SignInComponentProps {
@@ -142,7 +140,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				// something different? Don't know!
 			}
 		})}>
-			<InnerFormikComponent
+			<InnerFormComponent
 				emailLabel={emailLabel}
 				passwordLabel={passwordLabel}
 				failed={failed}
@@ -161,7 +159,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 }
 
 
-function InnerFormikComponent<TFieldValues>(props: {
+function InnerFormComponent<TFieldValues>(props: {
 	classes: ClassNameMap<"textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
 	emailLabel: string;
 	failed: boolean;

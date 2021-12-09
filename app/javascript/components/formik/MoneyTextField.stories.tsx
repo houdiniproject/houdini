@@ -22,13 +22,13 @@ function FormInner(props: { control: Control<any>, onChange: (args: { value: Mon
 
 function FormHandler(props: { onChange: (args: { value: Money }) => void, value: Money }) {
 
-	const { value, ...innerFormikProps } = props;
+	const { value, ...innerFormProps } = props;
 	const form = useForm({ defaultValues: { value: value.toJSON() } });
 	const { handleSubmit } = form;
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={handleSubmit(() => { console.log("submitted"); })}>
-				<FormInner {...innerFormikProps} control={form.control} />
+				<FormInner {...innerFormProps} control={form.control} />
 			</form>
 		</FormProvider>);
 }

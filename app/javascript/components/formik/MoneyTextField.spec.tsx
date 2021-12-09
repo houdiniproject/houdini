@@ -13,7 +13,7 @@ import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form
 import { useUpdateEffect } from 'react-use';
 
 
-function FormikInner(props: { onChange:(args:{value:Money})=> void }) {
+function InnerForm(props: { onChange:(args:{value:Money})=> void }) {
 	const {control} = useFormContext<{value:Money}>();
 	const value = useWatch({name: 'value', control});
 	const {onChange} = props;
@@ -27,7 +27,7 @@ function FormikInner(props: { onChange:(args:{value:Money})=> void }) {
 
 function FormWrapper(props: { onChange:(args:{value:Money})=> void, value: Money}) {
 
-	const {value, ...innerFormikProps} = props;
+	const {value, ...innerFormProps} = props;
 	const form = useForm({defaultValues:{value:value.toJSON()}});
 	const {reset} = form;
 	const {cents, currency} = value.toJSON();
@@ -45,7 +45,7 @@ function FormWrapper(props: { onChange:(args:{value:Money})=> void, value: Money
 	return <IntlProvider locale="en">
 		<FormProvider {...form}>
 			<form onSubmit={form.handleSubmit(() => console.log("submitted"))}>
-				<FormikInner {...innerFormikProps} />
+				<InnerForm {...innerFormProps} />
 			</form>
 		</FormProvider>
 	</IntlProvider>;

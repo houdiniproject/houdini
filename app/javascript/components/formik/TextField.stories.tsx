@@ -28,7 +28,7 @@ function FormHandler(props: {
 	value?: string;
 }) {
 
-	const { value, schemaCreator, ...innerFormikProps } = props;
+	const { value, schemaCreator, ...innerFormProps } = props;
 
 	const yup = useYup();
 
@@ -43,7 +43,7 @@ function FormHandler(props: {
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={handleSubmit(() => { console.log("submitted"); })}>
-				<InnerForm {...innerFormikProps} control={form.control} />
+				<InnerForm {...innerFormProps} control={form.control} />
 			</form>
 		</FormProvider>);
 }

@@ -1,0 +1,41 @@
+ach:
+  yup:
+    mixed:
+      default: "crwdns729:0%{path}crwdne729:0"
+      required: "crwdns731:0%{path}crwdne731:0"
+      oneOf: "crwdns733:0%{path}crwdnd733:0%{values}crwdne733:0"
+      notOneOf: "crwdns735:0%{path}crwdnd735:0%{values}crwdne735:0"
+      defined: "crwdns737:0%{path}crwdne737:0"
+    string:
+      length: "crwdns739:0%{path}crwdnd739:0%{length}crwdne739:0"
+      min: "crwdns741:0%{path}crwdnd741:0%{min}crwdne741:0"
+      max: "crwdns743:0%{path}crwdnd743:0%{max}crwdne743:0"
+      matches: "crwdns745:0%{path}crwdnd745:0%{regex}crwdne745:0"
+      email: "crwdns747:0%{path}crwdne747:0"
+      url: "crwdns749:0%{path}crwdne749:0"
+      uuid: "crwdns751:0%{path}crwdne751:0"
+      trim: "crwdns753:0%{path}crwdne753:0"
+      lowercase: "crwdns755:0%{path}crwdne755:0"
+      uppercase: "crwdns757:0%{path}crwdne757:0"
+    number:
+      min: "crwdns759:0%{path}crwdnd759:0%{min}crwdne759:0"
+      max: "crwdns761:0%{path}crwdnd761:0%{max}crwdne761:0"
+      lessThan: "crwdns763:0%{path}crwdnd763:0%{less}crwdne763:0"
+      moreThan: "crwdns765:0%{path}crwdnd765:0%{more}crwdne765:0"
+      notEqual: "crwdns767:0%{path}crwdnd767:0%{notEqual}crwdne767:0"
+      positive: "crwdns769:0%{path}crwdne769:0"
+      negative: "crwdns771:0%{path}crwdne771:0"
+      integer: "crwdns773:0%{path}crwdne773:0"
+    date:
+      min: "crwdns775:0%{path}crwdnd775:0%{min}crwdne775:0"
+      max: "crwdns777:0%{path}crwdnd777:0%{max}crwdne777:0"
+    object:
+      noUnknown: "crwdns779:0%{path}crwdnd779:0%{unknown}crwdne779:0"
+    array:
+      min: "crwdns781:0%{path}crwdnd781:0%{min}crwdne781:0"
+      max: "crwdns783:0%{path}crwdnd783:0%{max}crwdne783:0"
+
+
+
+
+

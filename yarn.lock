@@ -9346,11 +9346,6 @@ formidable@1.0.14:
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.0.14.tgz#2b3f4c411cbb5fdd695c44843e2a23514a43231a"
   integrity sha1-Kz9MQRy7X91pXESEPiojUUpDIxo=
 
-formik-material-ui@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/formik-material-ui/-/formik-material-ui-2.0.0.tgz#76b0f6f96602a453001092c185938b50b32c9dbd"
-  integrity sha512-nVnh93mL4Mn32ZUfdmyqcfTLyMDSqrF47i9PZ805lE4MxRpUM5cVmxH3MyLJetliFxJ6LymmaAzKJSGbdk14Tw==
-
 formik@^2:
   version "2.2.9"
   resolved "https://registry.yarnpkg.com/formik/-/formik-2.2.9.tgz#8594ba9c5e2e5cf1f42c5704128e119fc46232d0"

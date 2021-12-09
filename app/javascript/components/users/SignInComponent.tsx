@@ -24,7 +24,7 @@ import { Button } from "@material-ui/core";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import TextField from "../formik/TextField";
+import TextField from "../form_fields/TextField";
 
 
 export interface SignInComponentProps {

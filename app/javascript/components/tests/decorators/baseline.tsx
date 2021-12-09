@@ -1,3 +1,4 @@
+// License: LGPL-3.0-or-later
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import type {DecoratorFn} from '@storybook/react';

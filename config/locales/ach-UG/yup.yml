@@ -1,0 +1,41 @@
+ach_UG:
+  yup:
+    mixed:
+      default: "crwdns2117:0%{path}crwdne2117:0"
+      required: "crwdns2119:0%{path}crwdne2119:0"
+      oneOf: "crwdns2121:0%{path}crwdnd2121:0%{values}crwdne2121:0"
+      notOneOf: "crwdns2123:0%{path}crwdnd2123:0%{values}crwdne2123:0"
+      defined: "crwdns2125:0%{path}crwdne2125:0"
+    string:
+      length: "crwdns2127:0%{path}crwdnd2127:0%{length}crwdne2127:0"
+      min: "crwdns2129:0%{path}crwdnd2129:0%{min}crwdne2129:0"
+      max: "crwdns2131:0%{path}crwdnd2131:0%{max}crwdne2131:0"
+      matches: "crwdns2133:0%{path}crwdnd2133:0%{regex}crwdne2133:0"
+      email: "crwdns2135:0%{path}crwdne2135:0"
+      url: "crwdns2137:0%{path}crwdne2137:0"
+      uuid: "crwdns2139:0%{path}crwdne2139:0"
+      trim: "crwdns2141:0%{path}crwdne2141:0"
+      lowercase: "crwdns2143:0%{path}crwdne2143:0"
+      uppercase: "crwdns2145:0%{path}crwdne2145:0"
+    number:
+      min: "crwdns2147:0%{path}crwdnd2147:0%{min}crwdne2147:0"
+      max: "crwdns2149:0%{path}crwdnd2149:0%{max}crwdne2149:0"
+      lessThan: "crwdns2151:0%{path}crwdnd2151:0%{less}crwdne2151:0"
+      moreThan: "crwdns2153:0%{path}crwdnd2153:0%{more}crwdne2153:0"
+      notEqual: "crwdns2155:0%{path}crwdnd2155:0%{notEqual}crwdne2155:0"
+      positive: "crwdns2157:0%{path}crwdne2157:0"
+      negative: "crwdns2159:0%{path}crwdne2159:0"
+      integer: "crwdns2161:0%{path}crwdne2161:0"
+    date:
+      min: "crwdns2163:0%{path}crwdnd2163:0%{min}crwdne2163:0"
+      max: "crwdns2165:0%{path}crwdnd2165:0%{max}crwdne2165:0"
+    object:
+      noUnknown: "crwdns2167:0%{path}crwdnd2167:0%{unknown}crwdne2167:0"
+    array:
+      min: "crwdns2169:0%{path}crwdnd2169:0%{min}crwdne2169:0"
+      max: "crwdns2171:0%{path}crwdnd2171:0%{max}crwdne2171:0"
+
+
+
+
+

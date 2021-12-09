@@ -1,14 +1,12 @@
 // License: LGPL-3.0-or-later
 import React, { useEffect, useState } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { Formik, Form, Field, useFormikContext } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
 import useIsSuccessful from "../../hooks/users/useIsSuccessful";
 import useIsReady from "../../hooks/users/useIsReady";
@@ -25,8 +23,10 @@ import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
 import { useMountedState } from "react-use";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
-import { Control, useForm } from "react-hook-form";
+import { Control, useForm, UseFormReturn } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
+import TextField from "../formik/TextField";
+import { format } from "sinon";
 
 
 export interface SignInComponentProps {
@@ -125,15 +125,15 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	}),
 	);
 	const classes = useStyles();
-	const isMounted = useMountedState();
+	//const isMounted = useMountedState();
 	const form = useForm({
-		reValidateMode: 'onBlur',
+		mode: 'all',
 		resolver: yupResolver(validationSchema),
-		defaultValues: {email: '', password: ''},
+		defaultValues: { email: '', password: '' },
 
-	})
+	});
 	return (
-		<form onSubmit={form.handleSubmit(async(data)=> {
+		<form onSubmit={form.handleSubmit(async (data) => {
 			try {
 				await signIn(data);
 			}
@@ -142,29 +142,30 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				// something different? Don't know!
 			}
 		})}>
-				<InnerFormikComponent
-					emailLabel={emailLabel}
-					passwordLabel={passwordLabel}
-					failed={failed}
-					lastSignInAttemptError={lastSignInAttemptError}
-					classes={classes}
-					loginHeaderLabel={loginHeaderLabel}
-					submitting={submitting}
-					onFailure={onFailure}
-					onSubmitting={onSubmitting}
-					onSuccess={onSuccess}
-					showProgressAndSuccess={showProgressAndSuccess}
-					control={form.control}
-				/>;
+			<InnerFormikComponent
+				emailLabel={emailLabel}
+				passwordLabel={passwordLabel}
+				failed={failed}
+				lastSignInAttemptError={lastSignInAttemptError}
+				classes={classes}
+				loginHeaderLabel={loginHeaderLabel}
+				submitting={submitting}
+				onFailure={onFailure}
+				onSubmitting={onSubmitting}
+				onSuccess={onSuccess}
+				showProgressAndSuccess={showProgressAndSuccess}
+				form={form}
+			/>;
 		</form>
 	);
 }
 
 
-function InnerFormikComponent(props: {
+function InnerFormikComponent<TFieldValues>(props: {
 	classes: ClassNameMap<"textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
 	emailLabel: string;
 	failed: boolean;
+	form: UseFormReturn<TFieldValues>;
 	lastSignInAttemptError: NetworkError;
 	loginHeaderLabel: string;
 	onFailure: (error: NetworkError) => void;
@@ -173,7 +174,6 @@ function InnerFormikComponent(props: {
 	passwordLabel: string;
 	showProgressAndSuccess: boolean;
 	submitting: boolean;
-	control:Control<any>;
 }) {
 	const {
 		submitting,
@@ -187,18 +187,10 @@ function InnerFormikComponent(props: {
 		passwordLabel,
 		loginHeaderLabel,
 		classes,
+		form:{formState: {isDirty:dirty, isValid}, control},
 	} = props;
-	const [, setIsValid] = useState(false);
-	const [, setTouched] = useState(false);
-	const { isValid } = useFormikContext();
-	useEffect(() => {
-		setIsValid(isValid);
-	}, [isValid, setIsValid]);
 
-	const { dirty } = useFormikContext();
-	useEffect(() => {
-		setTouched(dirty);
-	}, [dirty, setTouched]);
+
 
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
@@ -216,73 +208,75 @@ function InnerFormikComponent(props: {
 	const passwordId = useId();
 
 	return (
-		<></>
-			// <Box display="flex" justifyContent="center" alignItems="center">
-			// 	{!isSuccessful ?
-			// 		<Box p={1.5}>
-			// 			<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
-			// 				label={emailLabel}
-			// 				InputProps={{
-			// 					startAdornment: (
-			// 						<InputAdornment position="start">
-			// 							<AccountCircle fontSize="small" />
-			// 						</InputAdornment>
-			// 					),
-			// 				}}
-			// 			/>
-			// 		</Box>
-			// 		: null}
-			// </Box>
-			// <Box display="flex" justifyContent="center" alignItems="center">
-			// 	{!isSuccessful ?
-			// 		<Box p={1.5}>
-			// 			<MuiTextField {...register}
-			// 			<Field component={TextField} name="password" type="password" id={passwordId}
-			// 				label={passwordLabel}
-			// 				InputProps={{
-			// 					startAdornment: (
-			// 						<InputAdornment position="start">
-			// 							<LockOpenIcon fontSize="small" />
-			// 						</InputAdornment>
-			// 					),
-			// 				}} />
-			// 		</Box>
-			// 		: null}
-			// </Box>
-			// <div data-testid="errorTest">
-			// 	<Box display="flex" justifyContent="center" alignItems="center">
-			// 		{isSubmitting ? "" : <>
-			// 			{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
-			// 		</>
-			// 		}
-			// 	</Box>
-			// </div>
-			// {!isSuccessful ?
-			// 	<Box p={2} display="flex" justifyContent="center" alignItems="center">
-			// 		{loading ?
-			// 			(<div data-testid="progressTest">
-			// 				<Box display="flex" justifyContent="center" alignItems="center">
-			// 					<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."}/>
-			// 				</Box>
-			// 			</div>) :
-			// 			<Button className={classes.submitButton}
-			// 				data-testid="signInButton"
-			// 				type="submit"
-			// 				color="primary"
-			// 				variant='contained'
-			// 				disabled={!canSubmit}
-			// 			>
-			// 				{loginHeaderLabel}
-			// 			</Button>}
-			// 	</Box>
-			// 	: null}
-			// <div data-testid="signInComponentSuccess">
-			// 	{isSuccessful ?
-			// 		<Box m={13} display="flex" justifyContent="center" alignItems="center">
-			// 			<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
-			// 		</Box>
-			// 		: null}
-			// </div>
+		<>
+			<Box display="flex" justifyContent="center" alignItems="center">
+				{!isSuccessful ?
+					<Box p={1.5}>
+						<TextField control={control} id={emailId} name="email" data-testid="emailTest"
+							label={emailLabel}
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<AccountCircle fontSize="small" />
+									</InputAdornment>
+								),
+							}} />
+					</Box>
+					: null}
+			</Box>
+			<Box display="flex" justifyContent="center" alignItems="center">
+				{!isSuccessful ?
+					<Box p={1.5}>
+						<TextField control={control}
+							id={passwordId}
+							name="password"
+							label={passwordLabel}
+							type="password"
+							InputProps={{
+								startAdornment: (
+									<InputAdornment position="start">
+										<LockOpenIcon fontSize="small" />
+									</InputAdornment>
+								),
+							}} />
+					</Box>
+					: null}
+			</Box>
+			<div data-testid="errorTest">
+				<Box display="flex" justifyContent="center" alignItems="center">
+					{isSubmitting ? "" : <>
+						{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
+					</>
+					}
+				</Box>
+			</div>
+			{!isSuccessful ?
+				<Box p={2} display="flex" justifyContent="center" alignItems="center">
+					{loading ?
+						(<div data-testid="progressTest">
+							<Box display="flex" justifyContent="center" alignItems="center">
+								<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."} />
+							</Box>
+						</div>) :
+						<Button className={classes.submitButton}
+							data-testid="signInButton"
+							type="submit"
+							color="primary"
+							variant='contained'
+							disabled={!canSubmit}
+						>
+							{loginHeaderLabel}
+						</Button>}
+				</Box>
+				: null}
+			<div data-testid="signInComponentSuccess">
+				{isSuccessful ?
+					<Box m={13} display="flex" justifyContent="center" alignItems="center">
+						<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
+					</Box>
+					: null}
+			</div>
+		</>
 	);
 }
 

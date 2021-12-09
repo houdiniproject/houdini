@@ -5,11 +5,9 @@ import cssBaseline from '../../app/javascript/components/tests/decorators/baseli
 import clearSessionStorage from '../../app/javascript/components/tests/decorators/clearSessionStorage'
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 
-initialize(
-	{
-		onUnhandledRequest: 'bypass'
-	}
-);
+initialize({
+	onUnhandledRequest: 'bypass' // we need this because otherwise HMR and other parts of Storybook loading wouldn't work
+});
 
 
 export const decorators = [ clearSessionStorage(), mswDecorator, intlDecorate(), cssBaseline()]

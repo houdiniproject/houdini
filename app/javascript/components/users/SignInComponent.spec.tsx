@@ -3,7 +3,7 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
 import { render, act, fireEvent, waitFor } from '@testing-library/react';
-import 'app/javascript/components/form_fields/node_modules/@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
 

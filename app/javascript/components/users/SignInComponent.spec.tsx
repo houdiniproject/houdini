@@ -3,7 +3,7 @@
 // License: LGPL-3.0-or-later
 import * as React from "react";
 import { render, act, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import 'app/javascript/components/form_fields/node_modules/@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
 
@@ -241,7 +241,7 @@ describe('SignInComponent', () => {
 				server.use(...UserSignInFailed);
 			});
 
-			async function signInFailureWrapper(): Promise<{ error: HTMLElement, onFailure: () => unknown }> {
+			async function signInFailureWrapper(): Promise<{ container:HTMLElement, error: HTMLElement, onFailure: () => unknown }> {
 				const onFailure = jest.fn();
 				const { findByLabelText, findByTestId, container } = render(<Wrapper><SignInComponent onFailure={onFailure} showProgressAndSuccess /></Wrapper>);
 				const email = await findByLabelText("Email");

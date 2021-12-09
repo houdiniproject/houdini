@@ -1,32 +1,26 @@
 
 // License: LGPL-3.0-or-later
-import * as React from "react";
+import React, { MutableRefObject } from "react";
 
 import MuiTextField from '@material-ui/core/TextField';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
-import { Money, MoneyAsJson } from "../../common/money";
-import { useIntl } from "../intl";
-import { MutableRefObject, Ref, RefObject, useEffect, useRef } from "react";
+import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
 
-import { useI18nCurrencyInput, Types } from '@houdiniproject/react-i18n-currency-input';
-import '../../common/intl-polyfills/numberFormat';
-import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController, useFormContext } from "react-hook-form";
-
-interface ConversionProps<T extends unknown=unknown>  {
+interface ConversionProps<T extends unknown = unknown> {
+	disabled?:boolean;
 	field: ControllerRenderProps<T, string>;
 	fieldState: ControllerFieldState;
 	formState: FormState<T>;
-	onBlur?:(e:React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	helperText?:React.ReactNode;
-	disabled?:boolean;
-	[others:string]:any;
+	inputRef?: MutableRefObject<HTMLInputElement|null>;
+	onBlur?:(e:React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 
 export function fieldToTextField({
 	field: { onBlur: fieldOnBlur, ref:refCallback, ...field },
-	fieldState: {error, isTouched, ...otherFieldState},
-	formState: { isSubmitting, ...otherFormState },
+	fieldState: {error, isTouched},
+	formState: { isSubmitting},
 	onBlur,
 	helperText,
 	disabled,
@@ -43,30 +37,30 @@ export function fieldToTextField({
 		onBlur:
 			onBlur ??
 			function () {
-        fieldOnBlur();
-      },
+				fieldOnBlur();
+			},
 		...field,
 		...props,
 
 		inputRef: (e) => {
 			refCallback(e);
 			if (inputRef) {
-				inputRef.current = e
+				inputRef.current = e;
 			}
 		},
 	};
 }
 
 
-export type ITextFieldProps = Omit<MuiTextFieldProps, 'value' | 'error'> & { control: Control<any> };
+export type ITextFieldProps<TFieldValues=unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> & { control: Control<TFieldValues> };
 
 /**
  * A text field which accepts a Money value, uses useI18nCurrencyInput and returns a Money value for various callbacks
  *
- * @param {IMoneyTextFieldProps} { children, form, field, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, ...props }
+ * @param {ITextFieldProps} { children, form, field, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, ...props }
  * @returns {JSX.Element}
  */
-function TextField({ children, control, name, ...props }: ITextFieldProps): JSX.Element {
+function TextField<TFieldValues=unknown>({ children, control, name, ...props }: ITextFieldProps<TFieldValues>): JSX.Element {
 	const {
 		field,
 		fieldState,
@@ -78,7 +72,7 @@ function TextField({ children, control, name, ...props }: ITextFieldProps): JSX.
 
 
 
-	return <MuiTextField {...fieldToTextField({field, fieldState, formState, ...props})}>
+	return <MuiTextField {...fieldToTextField({ field, fieldState, formState, ...props })}>
 		{children}
 	</MuiTextField>;
 

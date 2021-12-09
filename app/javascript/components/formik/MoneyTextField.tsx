@@ -6,21 +6,20 @@ import MuiTextField from '@material-ui/core/TextField';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
 import { Money, MoneyAsJson } from "../../common/money";
 import { useIntl } from "../intl";
-import { MutableRefObject, Ref, RefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 
 import { useI18nCurrencyInput, Types } from '@houdiniproject/react-i18n-currency-input';
 import '../../common/intl-polyfills/numberFormat';
-import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController, useFormContext } from "react-hook-form";
+import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
 
 interface ConversionProps<T extends unknown=unknown>  {
+	disabled?:boolean;
 	field: ControllerRenderProps<T, string>;
 	fieldState: ControllerFieldState;
 	formState: FormState<T>;
-	onBlur?:(e:React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 	helperText?:React.ReactNode;
-	disabled?:boolean;
-	inputRef: MutableRefObject<any>;
-	[others:string]:any;
+	inputRef: MutableRefObject<HTMLInputElement|null>;
+	onBlur?:(e:React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 
@@ -32,7 +31,7 @@ export function fieldToTextField({
 	helperText,
 	disabled,
 	inputRef,
-	...props
+	...others
 }: ConversionProps): MuiTextFieldProps {
 	const fieldError = error?.message;
 	const showError = isTouched && !!fieldError;
@@ -47,7 +46,7 @@ export function fieldToTextField({
 				fieldOnBlur();
 			},
 		...field,
-		...props,
+		...others,
 
 		inputRef: (e) => {
 			refCallback(e);
@@ -58,8 +57,8 @@ export function fieldToTextField({
 
 
 export interface UseSerializeMoneyProps extends Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value'> {
-	value: Money;
 	onChange: (e:Money) => void;
+	value: Money;
 }
 
 /**
@@ -88,20 +87,20 @@ export function useSerializeMoney(props: UseSerializeMoneyProps): ReturnType<typ
 	});
 
 	onChangeRef.current = props.onChange;
-	
+
 	const {valueInCents:currenciedValue} = i18n;
 
 	useEffect(() => {
 		onChangeRef.current(Money.fromCents(currenciedValue, currency));
-	}, [currenciedValue, currency])
+	}, [currenciedValue, currency]);
 
 
 	return { ...i18n };
 }
 
 
-export type IMoneyTextFieldProps = Omit<MuiTextFieldProps, 'value' | 'error'> &
-	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control: Control<any> };
+export type IMoneyTextFieldProps<TFieldValues = unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> &
+	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control: Control<TFieldValues> };
 
 /**
  * A text field which accepts a Money value, uses useI18nCurrencyInput and returns a Money value for various callbacks
@@ -109,7 +108,14 @@ export type IMoneyTextFieldProps = Omit<MuiTextFieldProps, 'value' | 'error'> &
  * @param {IMoneyTextFieldProps} { children, form, field, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, ...props }
  * @returns {JSX.Element}
  */
-function MoneyTextField({ children, control, name, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, inputRef:_inputRef,...props }: IMoneyTextFieldProps): JSX.Element {
+function MoneyTextField<TFieldValues=unknown>({ children,
+	control,
+	name,
+	currencyDisplay,
+	useGrouping,
+	allowEmpty,
+	selectAllOnFocus,
+	...props }: IMoneyTextFieldProps<TFieldValues>): JSX.Element {
 	const {
 		field,
 		fieldState,
@@ -119,21 +125,15 @@ function MoneyTextField({ children, control, name, currencyDisplay, useGrouping,
 		control,
 	});
 
-	// const {setValue:setFieldValue} = useFormContext();
-	const value = Money.fromCents(field.value as MoneyAsJson)
-	const {currency} = value;
+	const value = Money.fromCents(field.value as MoneyAsJson);
 
-	const inputRef = useRef<HTMLInputElement>();
-	const { maskedValue, valueInCents,
-		onChange,
+	const inputRef = useRef<HTMLInputElement|null>();
+	const { maskedValue, onChange,
 		onFocus,
 		onMouseUp,
 		onSelect } = useSerializeMoney({ inputRef, value, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, onChange: (e) => {
-			field.onChange({target: {value: e}});
-		} });
-	
-	
-
+		field.onChange({target: {value: e}});
+	} });
 
 	return <MuiTextField {...fieldToTextField({field, fieldState, formState, inputRef, ...props})} value={maskedValue}
 		onChange={onChange} onFocus={onFocus} onMouseUp={onMouseUp} onSelect={onSelect}>

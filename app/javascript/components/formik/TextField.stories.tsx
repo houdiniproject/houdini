@@ -1,16 +1,15 @@
 // License: LGPL-3.0-or-later
-import * as React from 'react';
-import { useEffect, useRef } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useRef } from 'react';
 import { TextField } from './index';
 import { action } from '@storybook/addon-actions';
 import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
 import useYup from '../../hooks/useYup';
-import { AnySchemaConstructor } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Story } from '@storybook/react';
 import { useId } from '@reach/auto-id';
 
-function FormikInner(props: { onChange: (args: { value: string }) => void, control: Control<any> }) {
+function InnerForm(props: { control: Control<unknown>, onChange: (args: { value: string }) => void  }) {
 	const { onChange, control } = props;
 	const value = useWatch({ name: 'value', control });
 	const onChangeRef = useRef(onChange);
@@ -24,8 +23,9 @@ function FormikInner(props: { onChange: (args: { value: string }) => void, contr
 }
 
 function FormHandler(props: {
-	onChange: (args: { value: string }) => void; value?: string;
+	onChange: (args: { value: string }) => void;
 	schemaCreator?: (yup: ReturnType<typeof useYup>) => any;
+	value?: string;
 }) {
 
 	const { value, schemaCreator, ...innerFormikProps } = props;
@@ -43,7 +43,7 @@ function FormHandler(props: {
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={handleSubmit(() => { console.log("submitted"); })}>
-				<FormikInner {...innerFormikProps} control={form.control} />
+				<InnerForm {...innerFormikProps} control={form.control} />
 			</form>
 		</FormProvider>);
 }

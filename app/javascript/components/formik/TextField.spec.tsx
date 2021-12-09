@@ -12,9 +12,6 @@ import userEvent from '@testing-library/user-event';
 
 const { StartingWithPenelopeSchultz, EmptyTextField, EmptyTextFieldWithValidation} = composeStories(stories);
 
-
-
-
 describe('TextField', () => {
 	describe('empty TextField', () => {
 		let emptyTextField:HTMLElement = null;

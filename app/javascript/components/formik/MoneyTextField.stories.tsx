@@ -1,18 +1,20 @@
 // License: LGPL-3.0-or-later
-import * as React from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useRef } from 'react';
 
 import { Money } from '../../common/money';
-import { useEffect } from 'react';
 import { MoneyTextField } from './index';
 import { action } from '@storybook/addon-actions';
 import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-function FormInner(props: { onChange: (args: { value: Money }) => void, control: Control<any> }) {
+function FormInner(props: { control: Control<any>, onChange: (args: { value: Money }) => void }) {
 	const { onChange, control } = props;
 	const value = useWatch({ name: 'value', control });
+	const onChangeRef = useRef(onChange);
+	onChangeRef.current = onChange;
 	useEffect(() => {
-		onChange({ value: Money.fromCents(value) });
-	}, [value, onChange]);
+		onChangeRef.current({ value: Money.fromCents(value) });
+	}, [value, onChangeRef]);
 
 	return <><div><span aria-label="cents">{value.cents}</span> <span aria-label="currency">{value.currency}</span></div>
 		<MoneyTextField name="value" aria-label="field" control={control} /></>;

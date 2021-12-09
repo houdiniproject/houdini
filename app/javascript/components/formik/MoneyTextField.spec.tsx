@@ -117,6 +117,7 @@ describe('MoneyTextField', () => {
 
 	it('displays the $80.00 when Money of {800, usd} is passed in and then the amount changes to 8.000', async () => {
 		expect.hasAssertions();
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		let result:any = null;
 		await act(async() => result = render(<FormWrapper value={Money.fromCents({ cents: 800, currency: 'usd' })} />));
 		const field = result.container.querySelector("input[name=value]");

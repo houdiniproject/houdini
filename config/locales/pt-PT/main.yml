@@ -1,0 +1,225 @@
+#License: CC0-1.0
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en_en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+pt_PT:
+  hello: "Hello world"
+  activerecord:
+    attributes:
+      campaign_comment:
+        body: 'Comment content'
+  organization:
+    name: "Organisation"
+  organization_page:
+    promote: "Promote this organization"
+  donation:
+    amount: "Total Amount"
+    date: "Transaction Date"
+    campaign: "Campaign"
+    recurring_interval: "Recurring Interval"
+    interval: "Every %{interval} %{time_unit}"
+    recurring_since: "Recurring Since"
+    comment: "Comment"
+    payment_id: "Payment ID"
+  mailer:
+    donations:
+      donation_receipt: "Donation Receipt"
+      donor_name: "Donor Name"
+      donor_receipt:
+        subject: "Donation receipt for %{nonprofit_name}"
+        transfer_info_html: "This transfer will appear on your bank statement as %{label}"
+        transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
+        oneoff_donation_html: "Your donation towards <strong>%{nonprofit_name}</strong> was successful!"
+        recurring_donation_html: "Your recurring donation towards <strong>%{nonprofit_name}</strong>, started on %{start_date}, has been successfully paid."
+        recurring_donation_cancel_modify_html: "If you need to update your card or cancel your recurring donation, please follow this link: <a href=\"%{management_url}\">%{management_url}</a>"
+      donor_direct_debit_notification:
+        subject: "Donation receipt for %{nonprofit_name}"
+        transfer_info_html: "This transfer will appear on your bank statement as %{label}"
+        transfer_label_html: "<strong>Donation %{nonprofit_statement}</strong>."
+        donation_queued_html: "Your direct debit donation towards <strong>%{nonprofit_name}</strong> has been queued for processing."
+        recurring_donation_queued_html: "Thank you for your regular donation to <strong>%{nonprofit_name}</strong> and for joining thousands of people across Europe who are invested in making our movement a true force to be reckoned with. Your support will go towards ensuring we can move fast to win the campaigns that matter to all of us."
+  nonprofits:
+    donate:
+      signed_in: "Signed in as"
+      log_out: "Logout"
+      campaign:
+        name: ""
+        tagline: ""
+      amount:
+        label: "Amount"
+        sustaining: "Become a sustaining, monthly contributor"
+        sustaining_bold: "sustaining, monthly"
+        sustaining_selected: "Select an amount for your monthly contribution"
+        sustaining_selected_bold: "monthly"
+        monthly: "monthly"
+        weekly: "weekly"
+        weekly_notice: "*to keep bank fees low, we'll debit %{amount} %{currency} monthly"
+        custom: "Custom"
+        designation:
+          label: "Designation:"
+          choose: "Choose a designation (optional)"
+          most_needed: "Use my donation where most needed"
+        next: "Next"
+      info:
+        label: "Info"
+        supporter:
+          email: "Email"
+          email_required: " (required for receipt)"
+          full_name: "Full name"
+          first_name: "First name"
+          last_name: "Last name"
+          phone: "Phone"
+          address: "Address"
+          city: "City"
+          state: "Select state"
+          country: "Country"
+          other_country: "Other"
+          region: "Region"
+          postal_code: "Postal code"
+          shipping_address: "Shipping address (required)"
+          errors:
+            email:
+              format: "Please enter a valid email address"
+        dedication_link: "Make this donation in honor/memory of someone."
+        dedication_saved: "Dedicating donation to "
+        anonymous_checkbox: "Make this donation anonymous."
+        next: "Next"
+      dedication:
+        info: "Add a dedication for your donation:"
+        in_honor_label: "In honor of"
+        in_memory_label: "In memory of"
+        first_name: "First name"
+        last_name: "Last name"
+        email: "Email (optional)"
+        phone: "Phone (optional)"
+        full_address: "Full Address (optional)"
+        note: "Note or message"
+        save: "Save & Return"
+        donor_note: "The donor's note was: "
+      payment:
+        label: "Payment"
+        one_time: "one-time"
+        monthly_recurring: "monthly recurring"
+        tabs:
+          card: "Credit Card"
+          sepa: "Direct Debit"
+        loading:
+          checking_card: "Checking card..."
+          sending_payment: "Sending the payment..."
+        card:
+          name: "Cardholder's Name"
+          number: "Card Number"
+          cvc: "CVC"
+          postal_code: "Zip Code"
+          month: "Month"
+          year: "Year"
+          submit: "Submit"
+          loading: "Saving..."
+          secure_info: "Transactions secured with 256-bit SSL"
+          errors:
+            field:
+              presence: "This field is required"
+              format: "This doesn't look like the right format"
+            number:
+              presence: "Please enter your card number"
+              format: "That card number doesn't look right"
+            email:
+              format: "Please enter a valid email address"
+        sepa:
+          name: "Account owner name"
+          iban: "IBAN"
+          bic: "BIC/SWIFT"
+          errors:
+            field:
+              presence: "This field is required"
+              format: "This doesn't look like the right format"
+      followup:
+        success: "Your donation was successful!"
+        receipt_info: "A receipt will be emailed to"
+        message: "appreciates your support!"
+        share:
+          facebook: "Share"
+          twitter: "Tweet"
+          twitter_message: "Join me in supporting"
+        finish: "Finish"
+  registration:
+    get_started:
+      header: "Get started"
+      description: "Let's get started with Houdini. To begin, fill out your initial nonprofit and info."
+    wizard:
+      tabs:
+        nonprofit: "Nonprofit"
+        contact: "Contact"
+      nonprofit:
+        name:
+          label: "Organization Name"
+          placeholder: "Ending Poverty in the Fox Valley Inc."
+        website:
+          label: "Website URL"
+          placeholder: "http://www.endpovertyinthefoxvalleyinc.org"
+        email:
+          label: "Org Email (public)"
+          placeholder: "contact@endpovertyinthefoxvalleyinc.org"
+        phone:
+          label: "Org Phone (public)"
+          placeholder: "(555) 555-5555"
+        city:
+          label: "City"
+          placeholder: "Appleton"
+        state:
+          label: "State"
+          placeholder: "WI"
+        zip:
+          label: "Zip Code"
+          placeholder: "54915"
+      contact:
+        name:
+          label: "Your Name"
+          placeholder: "Penelope Schultz"
+        email:
+          label: "Your Email (used for login)"
+          placeholder: "penelope@endpovertyinthefoxvalleyinc.org"
+        password:
+          label: "New Password"
+        password_confirmation:
+          label: "Retype Password"
+        phone:
+          label: "Your Phone (for account recovery)"
+          placeholder: "(555) 555-5555"
+      save_and_finish: "Save & Finish"
+      saving: "Saving..."
+      next: "Next"
+  footer:
+    terms_and_privacy: "Terms & Privacy"
+    about: "About"
+  login:
+    header: "Login"
+    enter_login_information: "Please Enter Login Information"
+    email: "Email"
+    password: "Password"
+    logging_in: "Logging you in..."
+    forgot_password: "Forgot Password?"
+    get_started: "Get Started"
+    enter_info: "Please enter your login information"
+    success: "You have successfully signed in."
+    please_sign_in: "Please sign in"
+    not_allowed_to_access: "It looks like you're not allowed to access that page. If this seems like a mistake, please contact %{admin_email}."
+    you_need_to_sign_in_before_doing: "We need to sign you in before you can do that."
+    errors:
+      password_email: "Please enter a valid email address and password"
+      error_boundary: "Something went wrong. Please reload the page."

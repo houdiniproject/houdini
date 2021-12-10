@@ -55,9 +55,9 @@ export function fieldToTextField({
 export type ITextFieldProps<TFieldValues=unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> & { control: Control<TFieldValues> };
 
 /**
- * A text field which accepts a Money value, uses useI18nCurrencyInput and returns a Money value for various callbacks
+ * A text field
  *
- * @param {ITextFieldProps} { children, form, field, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, ...props }
+ * @param {ITextFieldProps}
  * @returns {JSX.Element}
  */
 function TextField<TFieldValues=unknown>({ children, control, name, ...props }: ITextFieldProps<TFieldValues>): JSX.Element {

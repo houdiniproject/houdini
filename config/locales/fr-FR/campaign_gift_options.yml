@@ -1,0 +1,27 @@
+#License: CC0-1.0
+fr_FR:
+  campaign_gift_options:
+    gift_option: Gift Option
+    gift_name_and_character_limit: Gift name (max 40 characters)
+    gift_name_example: eg. "A backpack full of school supplies"
+    amount: Amount
+    explanation_of_recurring_or_one_time_gift_options: You can add a recurring and/or one-time amount to your gift options. If you leave one blank, the donor won't be presented with that option. If you fill out both, then the donor will be able to choose between the two.
+    one_time: One-time
+    recurring: Recurring
+    short_description: Short description (140 characters max)
+    quantity_limit: Quantity limit (optional)
+    quantity_limit_description: After the limit has been reached, contributors will not be able to select this gift option. Leave this blank to not set a limit.
+    quantity_limit_placeholder: Enter limit amount
+    requires_shipping: Requires shipping (optional)
+    requires_shipping_description: Use this to make the address field required and to add the text 'Shipping address' above the address field. This option is useful for order fulfillment.
+    hide_contributions: Hide contributions (optional)
+    hide_contributions_description: Use this to hide the number of contributions made towards this gift option.
+    manage_gift_options: Manage Gift Options
+    new_gift_option: New Gift Option
+    no_gift_options: It looks like you don't have any gift options yet. Create one by clicking on the button above.
+    name: Name
+    limit: Limit
+    remaining: Remaining
+    id: ID
+    one_time_br_amount: One-Time <br>Amount
+    recurring_br_amount: Recurring <br>Amount

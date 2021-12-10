@@ -1,5 +1,5 @@
 # License: CC0-1.0
-de:
+de_DE:
   hello: "Hallo Welt"
   activerecord:
     attributes:

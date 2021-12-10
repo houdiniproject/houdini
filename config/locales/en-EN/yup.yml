@@ -1,4 +1,4 @@
-en_en:
+en_EN:
   yup: 
     mixed: 
       default: "%{path} is invalid"

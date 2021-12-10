@@ -24,13 +24,13 @@
 #
 # Instead, surround them with single quotes.
 #
-# en_en:
+# en_EN:
 #   'true': 'foo'
 #
 # To learn more, please read the Rails Internationalization guide
 # available at https://guides.rubyonrails.org/i18n.html.
 
-en_en:
+en_EN:
   campaigns:
     dashboard:
       supporters: supporters

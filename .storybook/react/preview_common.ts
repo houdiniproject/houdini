@@ -1,8 +1,8 @@
-// License: LGPL-3.0-or-later
+// License: LGPL-3.0-or-or-later
+
 import intlDecorate from '../../app/javascript/components/tests/intl';
 import cssBaseline from '../../app/javascript/components/tests/decorators/baseline'
 import clearSessionStorage from '../../app/javascript/components/tests/decorators/clearSessionStorage'
-import '../../app/javascript/components/tests/decorators/roboto'
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 
 initialize({

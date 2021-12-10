@@ -4,13 +4,13 @@
 
 import React from 'react';
 
-import { render, act } from '@testing-library/react';
+import { render, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { composeStories } from '@storybook/testing-react';
 import * as stories from './TextField.stories';
 import userEvent from '@testing-library/user-event';
 
-const { StartingWithPenelopeSchultz, EmptyTextField, EmptyTextFieldWithValidation} = composeStories(stories);
+const { StartingWithPenelopeSchultz, EmptyTextField, EmptyTextFieldWithValidation, TextFieldWithHelperTextThatIsCoveredOnError} = composeStories(stories);
 
 describe('TextField', () => {
 	describe('empty TextField', () => {
@@ -119,6 +119,29 @@ describe('TextField', () => {
 			});
 
 			expect(emptyTextField).toBeValid();
+		});
+	});
+
+	describe('empty TextField with helperText covered on Error', () => {
+		let emptyTextField:HTMLElement = null;
+		let helperElement:HTMLElement = null;
+		beforeEach(() => {
+			const { getByLabelText, getByText} = render(<TextFieldWithHelperTextThatIsCoveredOnError />);
+			helperElement = getByText('HelperText');
+			emptyTextField = getByLabelText('First Name');
+		});
+
+		it('shows helper text', async() => {
+			expect.assertions(1);
+			expect(helperElement).toHaveTextContent('HelperText');
+		});
+
+		it('shows error', async() => {
+			expect.hasAssertions();
+			userEvent.click(emptyTextField);
+			userEvent.tab();
+			await waitFor(() => expect(emptyTextField).toBeInvalid());
+			expect(helperElement).toHaveTextContent('First Name must be at least 10 characters');
 		});
 	});
 });

@@ -9,8 +9,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Story } from '@storybook/react';
 import { useId } from '@reach/auto-id';
 
-function InnerForm(props: { control: Control<unknown>, onChange: (args: { value: string }) => void  }) {
-	const { onChange, control } = props;
+function InnerForm(props: { control: Control<unknown>, helperText?:React.ReactNode, onChange: (args: { value: string }) => void  }) {
+	const { onChange, control, helperText} = props;
 	const value = useWatch({ name: 'value', control });
 	const onChangeRef = useRef(onChange);
 	onChangeRef.current = onChange;
@@ -19,10 +19,11 @@ function InnerForm(props: { control: Control<unknown>, onChange: (args: { value:
 	}, [value, onChangeRef]);
 
 	const id = useId();
-	return <TextField name="value" label={'First Name'} control={control} id={id}/>;
+	return <TextField name="value" label={'First Name'} control={control} id={id} helperText={helperText}/>;
 }
 
 function FormHandler(props: {
+	helperText?:React.ReactNode;
 	onChange: (args: { value: string }) => void;
 	schemaCreator?: (yup: ReturnType<typeof useYup>) => any;
 	value?: string;
@@ -56,9 +57,11 @@ FormHandler.defaultProps = {
 export default { title: 'Form Fields/TextField' };
 
 interface StoryProps {
+	helperText?:React.ReactNode;
 	onChange: (args: { value: string }) => void;
 	schemaCreator?: (yup: ReturnType<typeof useYup>) => any;
 	value?: string;
+
 }
 
 const Template: Story<StoryProps> = (args) => <FormHandler {...args} />;
@@ -82,4 +85,13 @@ EmptyTextFieldWithValidation.args = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
 };
+
+export const TextFieldWithHelperTextThatIsCoveredOnError = Template.bind({});
+TextFieldWithHelperTextThatIsCoveredOnError.args = {
+	onChange: action('on-change'),
+	helperText: "HelperText",
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
+};
+
 

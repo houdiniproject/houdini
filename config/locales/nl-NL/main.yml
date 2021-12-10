@@ -1,4 +1,22 @@
-# License: CC0-1.0
+#License: CC0-1.0
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en_EN:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
 nl_NL:
   hello: "Hallo wereld"
   activerecord:
@@ -7,6 +25,8 @@ nl_NL:
         body: 'Content commenteren'
   organization:
     name: "Organisatie"
+  organization_page:
+    promote: "Promote this organization"
   donation:
     amount: "Totaal bedrag"
     date: "Transactiedatum"
@@ -26,6 +46,7 @@ nl_NL:
         transfer_label_html: "Gift %{nonprofit_statement}"
         oneoff_donation_html: "Bedankt voor uw gift aan % {nonprofit_name} en om samen met duizenden mensen in heel Europa die geïnvesteerd hebben om onze beweging de nodige kracht te geven dat  een echte verschil maakt. Uw steun zal ervoor zorgen dat we snel kunnen in actie komen in het belang van ons allemaal."
         recurring_donation_html: "Bedankt voor uw gift aan % {nonprofit_name} en om samen met duizenden mensen in heel Europa die geïnvesteerd hebben om onze beweging de nodige kracht te geven dat een echte verschil maakt. Uw steun zal ervoor zorgen dat we snel kunnen in actie komen in het belang van ons allemaal."
+        recurring_donation_cancel_modify_html: "If you need to update your card or cancel your recurring donation, please follow this link: <a href=\"%{management_url}\">%{management_url}</a>"
       donor_direct_debit_notification:
         subject: "Gift ontvangstbewijs voor %{nonprofit_name}"
         transfer_info_html: "Deze betaling verschijnt op uw bankafschriften als %{label}"
@@ -36,6 +57,9 @@ nl_NL:
     donate:
       signed_in: "Aanmelden als"
       log_out: "Afmelden"
+      campaign:
+        name: ""
+        tagline: ""
       amount:
         label: "Bedrag"
         sustaining: "Steun ons maandelijks"
@@ -133,3 +157,69 @@ nl_NL:
           twitter: "Tweet"
           twitter_message: "Help me bij het ondersteunen van"
         finish: "Voltooid"
+  registration:
+    get_started:
+      header: "Get started"
+      description: "Let's get started with Houdini. To begin, fill out your initial nonprofit and info."
+    wizard:
+      tabs:
+        nonprofit: "Nonprofit"
+        contact: "Contact"
+      nonprofit:
+        name:
+          label: "Organization Name"
+          placeholder: "Ending Poverty in the Fox Valley Inc."
+        website:
+          label: "Website URL"
+          placeholder: "http://www.endpovertyinthefoxvalleyinc.org"
+        email:
+          label: "Org Email (public)"
+          placeholder: "contact@endpovertyinthefoxvalleyinc.org"
+        phone:
+          label: "Org Phone (public)"
+          placeholder: "(555) 555-5555"
+        city:
+          label: "City"
+          placeholder: "Appleton"
+        state:
+          label: "State"
+          placeholder: "WI"
+        zip:
+          label: "Zip Code"
+          placeholder: "54915"
+      contact:
+        name:
+          label: "Your Name"
+          placeholder: "Penelope Schultz"
+        email:
+          label: "Your Email (used for login)"
+          placeholder: "penelope@endpovertyinthefoxvalleyinc.org"
+        password:
+          label: "New Password"
+        password_confirmation:
+          label: "Retype Password"
+        phone:
+          label: "Your Phone (for account recovery)"
+          placeholder: "(555) 555-5555"
+      save_and_finish: "Save & Finish"
+      saving: "Saving..."
+      next: "Next"
+  footer:
+    terms_and_privacy: "Terms & Privacy"
+    about: "About"
+  login:
+    header: "Login"
+    enter_login_information: "Please Enter Login Information"
+    email: "Email"
+    password: "Password"
+    logging_in: "Logging you in..."
+    forgot_password: "Forgot Password?"
+    get_started: "Get Started"
+    enter_info: "Please enter your login information"
+    success: "You have successfully signed in."
+    please_sign_in: "Please sign in"
+    not_allowed_to_access: "It looks like you're not allowed to access that page. If this seems like a mistake, please contact %{admin_email}."
+    you_need_to_sign_in_before_doing: "We need to sign you in before you can do that."
+    errors:
+      password_email: "Please enter a valid email address and password"
+      error_boundary: "Something went wrong. Please reload the page."

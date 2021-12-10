@@ -1,0 +1,80 @@
+#License: CC0-1.0
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en_EN:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ach_UG:
+  campaigns:
+    admin:
+      manage_campaign: crwdns1563:0crwdne1563:0
+      settings: crwdns1565:0crwdne1565:0
+      dashboard: crwdns1567:0crwdne1567:0
+      offsite_donation: crwdns1569:0crwdne1569:0
+      gift_options: crwdns1571:0crwdne1571:0
+      custom_receipts: crwdns1573:0crwdne1573:0
+      preview_mode: crwdns1575:0crwdne1575:0
+      copy_campaign: crwdns1577:0crwdne1577:0
+      campaign_id: "crwdns1579:0%{id}crwdne1579:0"
+      for_super_admin: "crwdns1581:0crwdne1581:0"
+      np_and_campaign_ids: "crwdns1583:0%{np_id}crwdnd1583:0%{campaign_id}crwdne1583:0"
+      add_video: crwdns1585:0crwdne1585:0
+      edit_video: crwdns1587:0crwdne1587:0
+      new_campaign: crwdns1589:0crwdne1589:0
+      campaign_name_label: crwdns1591:0crwdne1591:0
+      short_tagline_label: crwdns1593:0crwdne1593:0
+      short_description_label_html: crwdns1595:0crwdne1595:0
+      goal_amount_label: crwdns1597:0crwdne1597:0
+      end_date_and_time_label: crwdns1599:0crwdne1599:0
+      image_label_html: "crwdns1601:0crwdne1601:0"
+      image_description: crwdns1603:0crwdne1603:0
+      upload_label: crwdns1605:0crwdne1605:0
+      video_label: crwdns1607:0crwdne1607:0
+      video_description: crwdns1609:0crwdne1609:0
+      video_url_placeholder: crwdns1611:0crwdne1611:0
+      preview_campaign!: crwdns1613:0crwdne1613:0
+      peer_to_peer_personalize_suggestions: crwdns1615:0crwdne1615:0
+      reason_for_supporting_label: crwdns1617:0%{campaign_name}crwdne1617:0
+      your_passion_is_contagious: crwdns1619:0crwdne1619:0
+      about_you: crwdns1621:0crwdne1621:0
+      campaign_settings: crwdns1623:0crwdne1623:0
+      title_label: crwdns1625:0crwdne1625:0
+      tagline_labe: crwdns1627:0crwdne1627:0
+      goal_label: crwdns1629:0crwdne1629:0
+      main_image_label_html: crwdns1631:0crwdne1631:0
+      main_image_label_subdescription: crwdns1633:0crwdne1633:0
+      header_image_label_html: crwdns1635:0crwdne1635:0
+      header_image_label_subdescription: crwdns1637:0crwdne1637:0
+      add_image_label: crwdns1639:0crwdne1639:0
+      campaign_video_label: crwdns1641:0crwdne1641:0
+      campaign_video_label_subdescription: crwdns1643:0crwdne1643:0
+      add_video_label: crwdns1645:0crwdne1645:0
+      banner_label_html: crwdns1647:0crwdne1647:0
+      banner_label_subdescription: crwdns1649:0crwdne1649:0
+      default_reason_for_p2p_label: crwdns1651:0crwdne1651:0
+      default_reason_for_p2p_label_subdescription: crwdns1653:0crwdne1653:0
+      published?_label: crwdns1655:0crwdne1655:0
+      show_total_dollars_raised_label: crwdns1657:0crwdne1657:0
+      show_total_supporters_label: crwdns1659:0crwdne1659:0
+      hide_goal_amount_label: crwdns1661:0crwdne1661:0
+      hide_thermometer_label: crwdns1663:0crwdne1663:0
+      hide_activity_feed_label: crwdns1665:0crwdne1665:0
+      hide_main_title_label: crwdns1667:0crwdne1667:0
+      hide_custo_amounts_label: crwdns1669:0crwdne1669:0
+      updating_in_process_label: crwdns1671:0crwdne1671:0
+      update_campaign_label: crwdns1673:0crwdne1673:0
+      undelete_campaign_label: crwdns1675:0crwdne1675:0
+      delete_campaign_label: crwdns1677:0crwdne1677:0

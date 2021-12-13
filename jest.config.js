@@ -1,6 +1,6 @@
 module.exports =  {
 	"testEnvironmentOptions": {
-		"enzymeAdapter": "react16",
+		"enzymeAdapter": "react17",
 	},
 	"globals": {
 		"ts-jest": {

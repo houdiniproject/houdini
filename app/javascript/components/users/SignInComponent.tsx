@@ -1,18 +1,12 @@
 // License: LGPL-3.0-or-later
-import React from "react";
+import React, { MutableRefObject, useEffect, useReducer, useRef } from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import noop from "lodash/noop";
-import usePrevious from 'react-use/lib/usePrevious';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import useIsLoading from "../../hooks/useIsLoading";
-import useIsSuccessful from "../../hooks/users/useIsSuccessful";
-import useIsReady from "../../hooks/users/useIsReady";
-import useCanSubmit from "../../hooks/useCanSubmit";
 import useCurrentUserAuth from "../../hooks/useCurrentUserAuth";
-import useIsSubmitting from "../../hooks/users/useIsSubmitting";
 import { useIntl } from "../../components/intl";
 import useYup from '../../hooks/useYup';
 import Box from '@material-ui/core/Box';
@@ -25,6 +19,9 @@ import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from "../form_fields/TextField";
+import { useMountedState, usePrevious } from "react-use";
+
+
 
 
 export interface SignInComponentProps {
@@ -67,9 +64,112 @@ function FailedAlert({ error }: { error: unknown }): JSX.Element {
 	return <Alert aria-labelledby="errorTest" severity="error" key={'unknownerror'}>An unknown error occurred</Alert>;
 }
 
+type SignInComponentStates = 'isReady' | 'isSubmitting' | 'canSubmit' | 'isLoading' | 'isSuccessful';
+
+interface ComponentState {
+	previousState: SignInComponentStates | null;
+	state: SignInComponentStates;
+}
+
+type Action = {
+	//previousState: SignInComponentStates | null;
+	state: SignInComponentStates;
+	type: 'SET_STATE';
+} | {
+	type: 'PROCESSED_EVENTS';
+};
+
+function signInComponentReducer(state: ComponentState, action: Action) {
+	switch (action.type) {
+		case 'SET_STATE':
+			return { state: action.state, previousState: state.state };
+		case 'PROCESSED_EVENTS':
+			return { ...state, previousState: state.state };
+	}
+}
+
+
+interface DispatchInput {
+	failed: boolean;
+	isValid: boolean;
+	lastSignInAttemptError?: NetworkError | null;
+	onFailure: (e: NetworkError) => void;
+	onSubmitting: () => void;
+	onSuccess: () => void;
+	signedIn: boolean;
+	submitting: boolean;
+	touched: boolean;
+}
+
+function useValueAsRef<T>(value: T): MutableRefObject<T> {
+	const handlerRef = useRef(value);
+	handlerRef.current = value;
+	return handlerRef;
+}
+
+function useStateAndEventDispatch({ submitting, isValid, touched, signedIn, ...props }: DispatchInput): SignInComponentStates {
+
+	const [{ state, previousState }, dispatchChange] = useReducer(signInComponentReducer, { state: 'isReady', previousState: null });
+
+	const signInErrorRef = useValueAsRef(props.lastSignInAttemptError);
+	const onSubmittingRef = useValueAsRef(props.onSubmitting);
+	const onSuccessRef = useValueAsRef(props.onSuccess);
+	const onFailureRef = useValueAsRef(props.onFailure);
+	const previousSubmitting  = usePrevious(submitting);
+	const isMounted = useMountedState();
+
+	useEffect(() => {
+		if (state == 'isSubmitting' && previousState !== 'isSubmitting') {
+			if (isMounted())
+				onSubmittingRef.current();
+		}
+		else if (previousState == 'isSubmitting' && state != 'isSubmitting' && state !== 'isSuccessful') {
+			if (isMounted())
+				onFailureRef.current(signInErrorRef.current);
+		}
+		else if (previousState != 'isSuccessful' && state === 'isSuccessful') {
+			if (isMounted())
+				onSuccessRef.current();
+		}
+
+		dispatchChange({ type: 'PROCESSED_EVENTS' });
+	}, [state, previousState, onSubmittingRef, signInErrorRef, onSuccessRef, onFailureRef, isMounted]);
+
+	useEffect(() => {
+		if (submitting) {
+			if (isMounted())
+				dispatchChange({ type: 'SET_STATE', state: "isSubmitting" });
+		}
+	}, [submitting, isMounted]);
+
+	useEffect(() => {
+		if (isValid && touched && state === 'isReady') {
+			if (isMounted())
+				dispatchChange({ type: 'SET_STATE', state: 'canSubmit' });
+		}
+	}, [isValid, touched, state, isMounted]);
+
+	useEffect(() => {
+		if (signedIn) {
+			if (isMounted())
+				dispatchChange({ type: 'SET_STATE', state: 'isSuccessful' });
+		}
+	}, [signedIn, isMounted]);
+
+	useEffect(() => {
+		if (!submitting && previousSubmitting && !signedIn) {
+			if (isMounted) {
+				dispatchChange({type: 'SET_STATE', state: 'isReady'});
+			}
+		}
+	}, [submitting, previousSubmitting, signedIn, isMounted]);
+
+	return state;
+}
+
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
-	const { signIn, lastSignInAttemptError, failed, submitting } = useCurrentUserAuth();
+	const { signIn, lastSignInAttemptError, failed, submitting, signedIn } = useCurrentUserAuth();
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 
 	//Setting error messages
@@ -152,6 +252,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				onSubmitting={onSubmitting}
 				onSuccess={onSuccess}
 				showProgressAndSuccess={showProgressAndSuccess}
+				signedIn={signedIn}
 				form={form}
 			/>;
 		</form>
@@ -171,6 +272,7 @@ function InnerFormComponent<TFieldValues>(props: {
 	onSuccess: () => void;
 	passwordLabel: string;
 	showProgressAndSuccess: boolean;
+	signedIn: boolean;
 	submitting: boolean;
 }) {
 	const {
@@ -185,22 +287,28 @@ function InnerFormComponent<TFieldValues>(props: {
 		passwordLabel,
 		loginHeaderLabel,
 		classes,
-		form:{formState: {isDirty:dirty, isValid}, control},
+		signedIn,
+		form: { formState: { isDirty: touched, isValid }, control },
 	} = props;
 
 
 
-	// this keeps track of what the values submitting were the last
-	// time the the component was rendered
-	const previousSubmittingValue = usePrevious(submitting);
-	const wasSubmitting = previousSubmittingValue && !submitting;
-	//	const { register, handleSubmit, formState: {isDirty, isSubmitSuccessful, isSubmitted} } = useForm({reValidateMode: 'onBlur', resolver: yupResolver(validationSchema)})
 
-	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError, submitting);
-	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, dirty);
-	const loading = useIsLoading(submitting, showProgressAndSuccess);
-	const isSubmitting = useIsSubmitting(onSubmitting, isValid, submitting);
-	const isSuccessful = useIsSuccessful(showProgressAndSuccess, onSuccess);
+	const state = useStateAndEventDispatch({
+		failed,
+		onFailure,
+		onSuccess,
+		onSubmitting,
+		lastSignInAttemptError,
+		touched,
+		isValid,
+		submitting,
+		signedIn,
+	});
+
+	const canSubmit = state === 'canSubmit';
+	const isLoading = state === 'isSubmitting';
+	const isSuccessful = state === 'isSuccessful';
 
 	const emailId = useId();
 	const passwordId = useId();
@@ -242,7 +350,7 @@ function InnerFormComponent<TFieldValues>(props: {
 			</Box>
 			<div data-testid="errorTest">
 				<Box display="flex" justifyContent="center" alignItems="center">
-					{isSubmitting ? "" : <>
+					{isLoading ? "" : <>
 						{failed ? <FailedAlert error={lastSignInAttemptError} /> : ""}
 					</>
 					}
@@ -250,7 +358,7 @@ function InnerFormComponent<TFieldValues>(props: {
 			</div>
 			{!isSuccessful ?
 				<Box p={2} display="flex" justifyContent="center" alignItems="center">
-					{loading ?
+					{isLoading && showProgressAndSuccess ?
 						(<div data-testid="progressTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
 								<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."} />
@@ -268,7 +376,7 @@ function InnerFormComponent<TFieldValues>(props: {
 				</Box>
 				: null}
 			<div data-testid="signInComponentSuccess">
-				{isSuccessful ?
+				{isSuccessful && showProgressAndSuccess ?
 					<Box m={13} display="flex" justifyContent="center" alignItems="center">
 						<AnimatedCheckmark ariaLabel={"login.success"} role={"status"} />
 					</Box>

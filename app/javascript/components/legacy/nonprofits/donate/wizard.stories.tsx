@@ -22,10 +22,8 @@ function SWRWrapper(props: React.PropsWithChildren<unknown>) {
 	</SWRConfig>;
 }
 
-// Simple wizard
-
 export default {
-	title: 'donate/wizard',
+	title: 'Donate/Wizard',
 	argTypes: {
 		brandColor: {
 			type: { name: 'string' },
@@ -50,10 +48,6 @@ export default {
 		nonprofitName: {
 			type: { name: 'string' },
 			defaultValue: 'Nonprofit',
-		},
-		amountOptions: {
-			type: { name: 'typeof Money[]' },
-			defaultValue: [100, 500, 1000, 2500, 5000].map((i)=> Money.fromCents(i, 'usd')),
 		}
 	}
 };
@@ -89,6 +83,45 @@ const Template = (args: TemplateArgs) => {
 	</OuterWrapper>);
 };
 
-export const DonateWizardDefault = Template.bind({});
-DonateWizardDefault.story = {};
+export const Default = Template.bind({});
+Default.story = {};
 
+const SingleAmountTemplate = (args: TemplateArgs) => {
+	return (<OuterWrapper key={Math.random()}>
+		<SWRWrapper key={Math.random()}>
+			<DonateWizard
+				brandColor={args.brandColor}
+				offsite={args.offsite}
+				embedded={args.embedded}
+				title={args.title}
+				logo={args.logo}
+				nonprofitName={args.nonprofitName}
+				onClose={action('onClose')}
+				singleAmount={'10'}
+			/>
+		</SWRWrapper>
+	</OuterWrapper>);
+};
+
+export const SingleAmount = SingleAmountTemplate.bind({});
+SingleAmount.story = {};
+
+// const RecurringTemplate = (args: TemplateArgs) => {
+// 	return (<OuterWrapper key={Math.random()}>
+// 		<SWRWrapper key={Math.random()}>
+// 			<DonateWizard
+// 				brandColor={args.brandColor}
+// 				offsite={args.offsite}
+// 				embedded={args.embedded}
+// 				title={args.title}
+// 				logo={args.logo}
+// 				nonprofitName={args.nonprofitName}
+// 				onClose={action('onClose')}
+// 				isRecurring={true}
+// 			/>
+// 		</SWRWrapper>
+// 	</OuterWrapper>);
+// };
+
+// export const Recurring = RecurringTemplate.bind({});
+// Recurring.story = {};

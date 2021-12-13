@@ -30,12 +30,15 @@ export interface DonateWizardProps {
 	logo: string; //app.nonprofit.logo.normal
 	nonprofitName: string;
 	amountOptions: Money[];
+	currencySymbol: string;
+	singleAmount: string | null;
 }
 
 export type ActionType = {
 	type: 'setAmount';
 	amount: Money;
 	next: () => void;
+	recurring: boolean;
 } | {type: 'setError', error: string} | {type: 'setLoading', loading: boolean};
 
 
@@ -108,7 +111,7 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 					</p>
 				</div>
 			</div>
-			<WizardWrapper nonprofitName={props.nonprofitName} amount={donateWizardState.amount} amountOptions={props.amountOptions} stateDispatch={stateDispatch} />
+			<WizardWrapper nonprofitName={props.nonprofitName} amount={donateWizardState.amount} amountOptions={props.amountOptions} currencySymbol={props.currencySymbol} stateDispatch={stateDispatch} singleAmount={props.singleAmount} />
 
 			{/* I'm not putting in the footer because it's not realy a useful feature */}
 
@@ -121,9 +124,8 @@ DonateWizard.defaultProps = {
 	onClose: noop,
 	embedded: false,
 	offsite: false,
-	amountOptions: [100, 500, 1000, 2500, 5000].map((i) => Money.fromCents(i, 'usd')),
-
-
+	amountOptions: [10, 25, 50, 100, 250, 500, 1000].map((i) => Money.fromCents(i, 'usd')),
+	currencySymbol: '$'
 } as DonateWizardProps;
 
 function HeaderDesignation(props: { brandColor: string, designation_desc?: string | null }): JSX.Element {
@@ -145,6 +147,8 @@ interface WizardWrapperProps {
 	amountOptions: Money[];
 	nonprofitName: string;
 	stateDispatch: (action: ActionType) => void;
+	currencySymbol: string;
+	singleAmount: string | null;
 }
 
 
@@ -164,7 +168,7 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 					{
 						title: nonprofitsDonateAmountLabel,
 						key: nonprofitsDonateAmountLabel,
-						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'} stateDispatch={props.stateDispatch} />,
+						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'} stateDispatch={props.stateDispatch} currencySymbol={props.currencySymbol} singleAmount={'10'} />,
 					},
 					{
 						title: nonprofitsDonateInfoLabel,

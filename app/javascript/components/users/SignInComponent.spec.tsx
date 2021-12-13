@@ -2,7 +2,9 @@
 /* eslint-disable jest/no-commented-out-tests */
 // License: LGPL-3.0-or-later
 import * as React from "react";
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
+
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 
 import SignInComponent from './SignInComponent';
@@ -46,8 +48,9 @@ describe('SignInComponent', () => {
 			const success = await findByTestId("signInComponentSuccess");
 			const email = await findByLabelText("Email");
 			const password = await findByLabelText("Password");
-			fireEvent.change(email, { target: { value: 'validEmail@email.com' } });
-			fireEvent.change(password, { target: { value: 'password' } });
+			userEvent.type(email, 'validEmail@email.com');
+			userEvent.type(password, 'password');
+			userEvent.tab();
 
 			// we're getting the first element an attribute named 'data-testid' and a
 			// of 'signInButton'
@@ -60,9 +63,8 @@ describe('SignInComponent', () => {
 
 			await waitFor(() => { !button.hasAttribute('disabled'); });
 
-			act(() => {
-				fireEvent.click(button);
-			});
+
+			userEvent.click(button);
 
 			await waitFor(() => {
 				expect(success).toBeInTheDocument();
@@ -93,10 +95,8 @@ describe('SignInComponent', () => {
 				const { getByLabelText } = render(<Wrapper><SignInComponent /></Wrapper>);
 				const email = getByLabelText("Email") as HTMLInputElement;
 
-				// change changes the value
-				fireEvent.change(email, { target: { value: "ValidEmail@email.com" } });
-				// blur makes the field "touched"
-				fireEvent.blur(email);
+				userEvent.type(email, "ValidEmail@email.com");
+				userEvent.tab();
 				// just verify the value has been changed by the change event
 				expect(email.value).toBe('ValidEmail@email.com');
 
@@ -114,10 +114,8 @@ describe('SignInComponent', () => {
 				const { getByLabelText, container } = render(<Wrapper><SignInComponent /></Wrapper>);
 				const email = getByLabelText("Email") as HTMLInputElement;
 
-				// change changes the value
-				fireEvent.change(email, { target: { value: "InvalidEmails" } });
-				// blur makes the field "touched"
-				fireEvent.blur(email);
+				userEvent.type(email, "InvalidEmails");
+				userEvent.tab();
 				// just verify the value has been changed by the change event
 				expect(email.value).toBe('InvalidEmails');
 
@@ -126,33 +124,6 @@ describe('SignInComponent', () => {
 				await waitFor(() => {
 					expect(email).toBeInvalid();
 				});
-				const results = await axe(container);
-				expect(results).toHaveNoViolations();
-			});
-
-			it('renders error message on incorrect email', async () => {
-				// We use hasAssertions() becuase the waitFor could attempt the assertion
-				// toBeInvalid() multiple times waiting for it to update
-				expect.hasAssertions();
-				const { getByLabelText, getByTestId, container } = render(<Wrapper><SignInComponent /></Wrapper>);
-				const email = getByLabelText("Email") as HTMLInputElement;
-				const error = getByTestId("errorTest");
-				const button = getByTestId('signInButton');
-
-				// change changes the value
-				fireEvent.change(email, { target: { value: "InvalidEmails" } });
-				// blur makes the field "touched"
-				fireEvent.blur(email);
-				// just verify the value has been changed by the change event
-				expect(email.value).toBe('InvalidEmails');
-
-				// yup validation is an asynchronous task so we have a "waitFor" to keep
-				// checking for up to 5 seconds. It should complete very quickly.
-				await waitFor(() => {
-					fireEvent.click(button);
-					expect(error).toBeInTheDocument();
-				});
-
 				const results = await axe(container);
 				expect(results).toHaveNoViolations();
 			});
@@ -171,12 +142,12 @@ describe('SignInComponent', () => {
 				const { getByLabelText } = render(<Wrapper><SignInComponent /></Wrapper>);
 				const password = getByLabelText("Password") as HTMLInputElement;
 				// change changes the value
-				fireEvent.change(password, { target: { value: "1234" } });
-				// blur makes the field "touched"
-				fireEvent.blur(password);
+
+				userEvent.type(password, '1234');
+				userEvent.tab();
+
 				// just verify the value has been changed by the change event
 				expect(password.value).toBe('1234');
-				fireEvent.click(password);
 				await waitFor(() => {
 					expect(password).toBeValid();
 				});
@@ -185,7 +156,8 @@ describe('SignInComponent', () => {
 				expect.assertions(1);
 				const { getByLabelText, getByTestId } = render(<Wrapper><SignInComponent /></Wrapper>);
 				const input = getByLabelText('Password');
-				fireEvent.blur(input);
+				userEvent.click(input);
+				userEvent.tab();
 				const Errors = getByTestId('errorTest');
 				expect(Errors).toBeInTheDocument();
 			});
@@ -195,9 +167,8 @@ describe('SignInComponent', () => {
 				const { getByLabelText } = render(<Wrapper><SignInComponent /></Wrapper>);
 				const password = getByLabelText("Password") as HTMLInputElement;
 				// change changes the value
-				fireEvent.change(password, { target: { value: "" } });
-				// blur makes the field "touched"
-				fireEvent.blur(password);
+				userEvent.click(password);
+				userEvent.tab();
 				// just verify the value has been changed by the change event
 				expect(password.value).toBe('');
 				fireEvent.click(password);
@@ -212,7 +183,9 @@ describe('SignInComponent', () => {
 				expect.hasAssertions();
 				const { getByTestId, getByLabelText, container } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
 				const email = getByLabelText("Email");
-				fireEvent.change(email, { target: { value: 'invalidEmail' } });
+				userEvent.type(email, 'invalidEmail');
+				userEvent.tab();
+
 				await waitFor(() => {
 					expect(getByTestId('signInButton')).toBeDisabled();
 				});
@@ -226,8 +199,9 @@ describe('SignInComponent', () => {
 				const { getByTestId, getByLabelText, container } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
 				const email = getByLabelText("Email");
 				const password = getByLabelText("Password");
-				fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
-				fireEvent.change(password, { target: { value: 'password' } });
+				userEvent.type(email, 'validemail@valid.com');
+				userEvent.type(password, 'password');
+				userEvent.tab();
 				const button = getByTestId('signInButton');
 				await waitFor(() => { !button.hasAttribute('disabled'); });
 				expect(button).not.toBeDisabled();
@@ -246,15 +220,15 @@ describe('SignInComponent', () => {
 				const { findByLabelText, findByTestId, container } = render(<Wrapper><SignInComponent onFailure={onFailure} showProgressAndSuccess /></Wrapper>);
 				const email = await findByLabelText("Email");
 				const password = await findByLabelText("Password");
-				fireEvent.change(email, { target: { value: 'validEmail@email.com' } });
-				fireEvent.change(password, { target: { value: 'password' } });
+				userEvent.type(email, 'validEmail@email.com');
+				userEvent.type(password, 'password');
+				userEvent.tab();
 				const button = await findByTestId('signInButton');
 
 				await waitFor(() => { !button.hasAttribute('disabled'); });
 
-				act(() => {
-					fireEvent.click(button);
-				});
+				userEvent.click(button);
+
 
 				const error = await findByTestId('errorTest');
 
@@ -306,35 +280,37 @@ describe('SignInComponent', () => {
 	describe('Progress bar and success message', () => {
 		const Wrapper = MainWrapper;
 		it('does not render', async () => {
-			expect.assertions(1);
-			const { queryByTestId, getByLabelText } = render(<Wrapper><SignInComponent /></Wrapper>);
+			expect.hasAssertions();
+			const finished = jest.fn();
+			const { queryByTestId, getByLabelText } = render(<Wrapper><SignInComponent onSuccess={finished} onFailure={finished}/></Wrapper>);
 			const button = queryByTestId('signInButton');
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
-			fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
-			fireEvent.change(password, { target: { value: 'password' } });
+			userEvent.type(email, 'validemail@valid.com');
+			userEvent.type(password, 'password');
 			const progressBar = queryByTestId("progressTest");
-			await act(async () => {
-				fireEvent.click(button);
-			});
+
+			await waitFor(() => expect(button).toBeEnabled());
+			userEvent.click(button);
+
 			expect(progressBar).toBeNull();
+			await waitFor(() =>expect(finished).toHaveBeenCalled());
 		});
 		it('renders progress bar and success message', async () => {
 			expect.hasAssertions();
-			const { getByTestId, getByLabelText, queryByTestId, container } = render(<Wrapper><SignInComponent showProgressAndSuccess /></Wrapper>);
+			const finished = jest.fn();
+			const { getByTestId, getByLabelText, queryByTestId, container } = render(<Wrapper><SignInComponent showProgressAndSuccess  onSuccess={finished} onFailure={finished}/></Wrapper>);
 			const button = getByTestId('signInButton');
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
-			fireEvent.change(email, { target: { value: 'validemail@valid.com' } });
-			fireEvent.change(password, { target: { value: 'password' } });
+			userEvent.type(email, 'validemail@valid.com');
+			userEvent.type(password, 'password');
 
 			await waitFor(() => {
 				expect(button).toBeEnabled();
 			});
 
-			act(() => {
-				fireEvent.submit(button);
-			});
+			userEvent.click(button);
 
 			await waitFor(() => {
 				const progressBar = queryByTestId("progressTest");
@@ -351,6 +327,7 @@ describe('SignInComponent', () => {
 
 			results = await axe(container);
 			expect(results).toHaveNoViolations();
+			await waitFor(() =>expect(finished).toHaveBeenCalled());
 		});
 	});
 });

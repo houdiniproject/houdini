@@ -119,7 +119,7 @@ describe('MoneyTextField', () => {
 		expect.hasAssertions();
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		let result:any = null;
-		await act(async() => result = render(<FormWrapper value={Money.fromCents({ cents: 800, currency: 'usd' })} />));
+		await act(async() => {result = render(<FormWrapper value={Money.fromCents({ cents: 800, currency: 'usd' })} />);});
 		const field = result.container.querySelector("input[name=value]");
 		expect(field).toHaveValue("$8.00");
 

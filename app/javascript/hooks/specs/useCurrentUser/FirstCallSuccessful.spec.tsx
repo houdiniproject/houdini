@@ -3,7 +3,7 @@
 import * as React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { HookResult, renderHook, act} from '@testing-library/react-hooks';
+import { HookResult, renderHook, act, RenderHookResult} from '@testing-library/react-hooks';
 import {SWRConfig} from 'swr';
 
 import {DefaultUser} from '../../../api/api/mocks/users';
@@ -27,8 +27,9 @@ describe('useCurrentUser', () => {
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
 			async function commonPrep(callback:(result:HookResult<UseCurrentUserReturnType>) => Promise<void>) {
-
-				const {result, unmount, wait} = renderHook(() => useCurrentUser(), {wrapper});
+				let renderHookReturn:RenderHookResult<unknown, UseCurrentUserReturnType> =null;
+				await act(async () =>renderHookReturn =renderHook(() => useCurrentUser(), {wrapper}));
+				const {result, unmount, wait} = renderHookReturn;
 				await wait(() => !!result.current.currentUser);
 				await callback(result);
 				unmount();

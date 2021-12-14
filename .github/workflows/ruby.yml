@@ -19,7 +19,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.18.1]
-        ruby: [2.7.4]
+        ruby: [2.7.5]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -38,7 +38,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.18.1]
-        ruby: [2.7.4]
+        ruby: [2.7.5]
     steps:
       - uses: actions/checkout@v2
       - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
@@ -75,7 +75,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.18.1]
-        ruby: [2.7.4]
+        ruby: [2.7.5]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2

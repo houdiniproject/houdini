@@ -521,8 +521,5 @@ DEPENDENCIES
   webpacker (~> 5.4.3)
   wisper-rspec (~> 1.1.0)
 
-RUBY VERSION
-   ruby 2.7.4p191
-
 BUNDLED WITH
    2.1.4

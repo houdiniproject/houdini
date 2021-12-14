@@ -11,6 +11,9 @@ node(:fee_covered) do |p|
   !!p.misc_payment_info&.fee_covered
 end
 
+node(:anonymous_supporter) do |p|
+  !!p.supporter.anonymous
+end
 
 child :charge do
   attributes :created_at, :id

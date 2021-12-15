@@ -10,19 +10,23 @@ import { composeStories } from '@storybook/testing-react';
 import * as stories from './TextField.stories';
 import userEvent from '@testing-library/user-event';
 
-const { StartingWithPenelopeSchultz, EmptyTextField, EmptyTextFieldWithValidation, TextFieldWithHelperTextThatIsCoveredOnError} = composeStories(stories);
+const { StartingWithPenelopeSchultz, EmptyTextField, EmptyTextFieldWithValidation, TextFieldWithHelperTextThatIsCoveredOnError, DisabledTextField } = composeStories(stories);
 
 describe('TextField', () => {
 	describe('empty TextField', () => {
-		let emptyTextField:HTMLElement = null;
+		let emptyTextField: HTMLElement = null;
+		let submitButton:HTMLElement = null;
+		let cancelButton:HTMLElement = null;
 		beforeEach(() => {
 
-			const { getByLabelText} = render(<EmptyTextField />);
+			const { getByLabelText, getByTestId } = render(<EmptyTextField />);
 
 			emptyTextField = getByLabelText('First Name');
+			submitButton = getByTestId('submit-button');
+			cancelButton = getByTestId('cancel-button');
 		});
 
-		it('is valid initially', async() => {
+		it('is valid initially', async () => {
 			expect.assertions(1);
 			expect(emptyTextField).toBeValid();
 		});
@@ -30,7 +34,7 @@ describe('TextField', () => {
 		it('is valid when touched and then blurred', async () => {
 			expect.assertions(1);
 
-			await act(async() => {
+			await act(async () => {
 				userEvent.click(emptyTextField);
 				emptyTextField.blur();
 			});
@@ -40,24 +44,33 @@ describe('TextField', () => {
 		it('is valid when value is changed and then deleted', async () => {
 			expect.assertions(1);
 			await userEvent.type(emptyTextField, "enter some information{selectall}{backspace}");
-			await act(async() => {
+			await act(async () => {
 				emptyTextField.blur();
 			});
 
 			expect(emptyTextField).toBeValid();
 		});
+
+		it('is disabled on submit and reenabled on submit ending', async () => {
+			expect.hasAssertions();
+			userEvent.click(submitButton);
+			await waitFor(() => expect(emptyTextField).toBeDisabled());
+
+			userEvent.click(cancelButton);
+			await waitFor(() => expect(emptyTextField).toBeEnabled());
+		});
 	});
 
 	describe('prefilled TextField', () => {
-		let prefilledTextField:HTMLElement = null;
+		let prefilledTextField: HTMLElement = null;
 		beforeEach(() => {
 
-			const { getByLabelText} = render(<StartingWithPenelopeSchultz />);
+			const { getByLabelText } = render(<StartingWithPenelopeSchultz />);
 
 			prefilledTextField = getByLabelText('First Name');
 		});
 
-		it('is valid initially', async() => {
+		it('is valid initially', async () => {
 			expect.assertions(1);
 			expect(prefilledTextField).toBeValid();
 		});
@@ -65,7 +78,7 @@ describe('TextField', () => {
 		it('is valid when touched and then blurred', async () => {
 			expect.assertions(1);
 
-			await act(async() => {
+			await act(async () => {
 				userEvent.click(prefilledTextField);
 				prefilledTextField.blur();
 			});
@@ -75,7 +88,7 @@ describe('TextField', () => {
 		it('is invalid when value is changed', async () => {
 			expect.assertions(1);
 			await userEvent.type(prefilledTextField, "{selectall}{backspace}");
-			await act(async() => {
+			await act(async () => {
 
 				prefilledTextField.blur();
 			});
@@ -85,15 +98,15 @@ describe('TextField', () => {
 	});
 
 	describe('empty TextField with validation', () => {
-		let emptyTextField:HTMLElement = null;
+		let emptyTextField: HTMLElement = null;
 		beforeEach(() => {
 
-			const { getByLabelText} = render(<EmptyTextFieldWithValidation />);
+			const { getByLabelText } = render(<EmptyTextFieldWithValidation />);
 
 			emptyTextField = getByLabelText('First Name');
 		});
 
-		it('is valid initially', async() => {
+		it('is valid initially', async () => {
 			expect.assertions(1);
 			expect(emptyTextField).toBeValid();
 		});
@@ -101,7 +114,7 @@ describe('TextField', () => {
 		it('is invalid when touched and then blurred', async () => {
 			expect.assertions(1);
 
-			await act(async() => {
+			await act(async () => {
 				userEvent.click(emptyTextField);
 				emptyTextField.blur();
 			});
@@ -113,7 +126,7 @@ describe('TextField', () => {
 			// We have to await here becuase validation takes a bit.
 			await userEvent.type(emptyTextField, 'this is longer than 10');
 
-			await act(async() => {
+			await act(async () => {
 
 				emptyTextField.blur();
 			});
@@ -123,25 +136,39 @@ describe('TextField', () => {
 	});
 
 	describe('empty TextField with helperText covered on Error', () => {
-		let emptyTextField:HTMLElement = null;
-		let helperElement:HTMLElement = null;
+		let emptyTextField: HTMLElement = null;
+		let helperElement: HTMLElement = null;
 		beforeEach(() => {
-			const { getByLabelText, getByText} = render(<TextFieldWithHelperTextThatIsCoveredOnError />);
+			const { getByLabelText, getByText } = render(<TextFieldWithHelperTextThatIsCoveredOnError />);
 			helperElement = getByText('HelperText');
 			emptyTextField = getByLabelText('First Name');
 		});
 
-		it('shows helper text', async() => {
+		it('shows helper text', async () => {
 			expect.assertions(1);
 			expect(helperElement).toHaveTextContent('HelperText');
 		});
 
-		it('shows error', async() => {
+		it('shows error', async () => {
 			expect.hasAssertions();
 			userEvent.click(emptyTextField);
 			userEvent.tab();
 			await waitFor(() => expect(emptyTextField).toBeInvalid());
 			expect(helperElement).toHaveTextContent('First Name must be at least 10 characters');
+		});
+	});
+
+
+	describe('disabled when marked disabled', () => {
+		let emptyTextField: HTMLElement = null;
+		beforeEach(() => {
+			const { getByLabelText } = render(<DisabledTextField />);
+
+			emptyTextField = getByLabelText('First Name');
+		});
+
+		it('field is disabled when marked disabled', () => {
+			expect(emptyTextField).toBeDisabled();
 		});
 	});
 });

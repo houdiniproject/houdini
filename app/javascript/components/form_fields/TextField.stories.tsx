@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TextField } from './index';
 import { action } from '@storybook/addon-actions';
 import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
@@ -8,9 +8,11 @@ import useYup from '../../hooks/useYup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Story } from '@storybook/react';
 import { useId } from '@reach/auto-id';
+import { waitFor } from '@testing-library/react';
+import { Button, Typography } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid/Grid';
 
-function InnerForm(props: { control: Control<unknown>, helperText?:React.ReactNode, onChange: (args: { value: string }) => void  }) {
-	const { onChange, control, helperText} = props;
+function InnerForm({ disabled, onChange, control, helperText }: { control: Control<unknown>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
 	const value = useWatch({ name: 'value', control });
 	const onChangeRef = useRef(onChange);
 	onChangeRef.current = onChange;
@@ -19,11 +21,11 @@ function InnerForm(props: { control: Control<unknown>, helperText?:React.ReactNo
 	}, [value, onChangeRef]);
 
 	const id = useId();
-	return <TextField name="value" label={'First Name'} control={control} id={id} helperText={helperText}/>;
+	return <TextField name="value" label={'First Name'} control={control} id={id} helperText={helperText} disabled={disabled} />;
 }
 
 function FormHandler(props: {
-	helperText?:React.ReactNode;
+	helperText?: React.ReactNode;
 	onChange: (args: { value: string }) => void;
 	schemaCreator?: (yup: ReturnType<typeof useYup>) => any;
 	value?: string;
@@ -38,13 +40,55 @@ function FormHandler(props: {
 		useFormArgs = { ...useFormArgs, resolver: yupResolver(schemaCreator(yup)) };
 	}
 
+	const [endSubmit, setEndSubmit] = useState(false);
+	const endSubmitRef = useRef(endSubmit);
+	endSubmitRef.current = endSubmit;
 	const form = useForm({ ...useFormArgs, mode: 'all' });
 
 	const { handleSubmit } = form;
 	return (
 		<FormProvider {...form}>
-			<form onSubmit={handleSubmit(() => { console.log("submitted"); })}>
-				<InnerForm {...innerFormProps} control={form.control} />
+			<form onSubmit={handleSubmit(async () => {
+				setEndSubmit(false);
+				await waitFor(() => {
+					if (!endSubmitRef.current) {
+						throw new Error('still submitting');
+					}
+				}, { timeout: 5000 });
+			}, () => {
+				setEndSubmit(false);
+			})}>
+
+				<Grid container spacing={4}>
+					<Grid item xs={12}>
+						<Typography>If you&apos;d like to see what happens to the TextField component during submission, submit the form.<br /><small>(You can cancel the form submission as well.)</small></Typography>
+					</Grid>
+					<Grid item xs={12}>
+						<InnerForm {...innerFormProps} control={form.control} />
+					</Grid>
+
+
+					<Grid container item xs={12} spacing={2}>
+						<Grid item xs={2}>
+							<Button type="submit" variant={"outlined"} data-testid="submit-button" value={"Try Submit (submit ends in 5 seconds max)"}/>
+						</Grid>
+						<Grid item xs={2}>
+							<Button onClick={() => setEndSubmit(true)} type='button' variant={"outlined"} data-testid="cancel-button" value={"Cancel Submit"}/>
+						</Grid>
+					</Grid>
+
+
+					<Grid item>
+						<Typography> The form is <strong>{form.formState.isSubmitting ? <span data-testid="is-submitting">Submitting</span> : <span data-testid="is-not-submitting">Not Submitting</span>}</strong></Typography>
+					</Grid>
+					{form.formState.isValidating ? <input type="hidden" data-testid="is-validating" value={"validating"}/> : ""}
+				</Grid>
+
+
+
+
+
+
 			</form>
 		</FormProvider>);
 }
@@ -57,7 +101,7 @@ FormHandler.defaultProps = {
 export default { title: 'Form Fields/TextField' };
 
 interface StoryProps {
-	helperText?:React.ReactNode;
+	helperText?: React.ReactNode;
 	onChange: (args: { value: string }) => void;
 	schemaCreator?: (yup: ReturnType<typeof useYup>) => any;
 	value?: string;
@@ -92,6 +136,12 @@ TextFieldWithHelperTextThatIsCoveredOnError.args = {
 	helperText: "HelperText",
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
+};
+
+export const DisabledTextField = Template.bind({});
+
+DisabledTextField.args = {
+	disabled: true,
 };
 
 

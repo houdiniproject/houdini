@@ -5,6 +5,7 @@ import React, { useReducer, useState, Dispatch, createContext } from 'react';
 import { useBrandedWizard } from '../../components/styles/branded-wizard';
 import Wizard, { WizardContext } from '../../_dependencies/ff-core/wizard';
 import { AmountStep } from './amount-step';
+import { InfoStep } from './InfoStep';
 import { Money } from '../../../../common/money';
 import { useIntl } from "../../../intl";
 
@@ -22,6 +23,7 @@ import { useContext } from 'react';
 import { result } from 'lodash';
 
 export interface DonateWizardProps {
+	hideDedication: boolean;
 	brandColor: string;
 	offsite: boolean;
 	embedded: boolean;
@@ -34,6 +36,8 @@ export interface DonateWizardProps {
 	singleAmount: string | null;
 	isRecurring: boolean;
 	showRecurring: boolean;
+	required: RequiredFieldsType;
+	supporter: SupporterType;
 }
 
 export type ActionType = {
@@ -42,6 +46,22 @@ export type ActionType = {
 	next: () => void;
 	recurring: boolean;
 } | { type: 'setError', error: string } | { type: 'setLoading', loading: boolean };
+
+export type SupporterType = {
+	firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  profileId: string;
+  nonprofitId: string;
+}
+
+export type RequiredFieldsType = {
+  email: boolean;
+  firstName: boolean;
+  lastName: boolean;
+  phone: boolean;
+}
 
 
 function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWizardOutputState, (action: ActionType) => void] {
@@ -121,7 +141,22 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 				stateDispatch={stateDispatch}
 				singleAmount={props.singleAmount}
 				isRecurring={props.isRecurring}
-				showRecurring={props.showRecurring} />
+				showRecurring={props.showRecurring}
+				supporter={{
+					firstName: '',
+					lastName: '',
+					email: '',
+					phone: '',
+					profileId: '',
+					nonprofitId: ''
+				}}
+				required={{
+					email: props.required.email,
+					firstName: props.required.firstName,
+					lastName: props.required.lastName,
+					phone: props.required.phone
+				}}
+				hideDedication={props.hideDedication} />
 
 			{/* I'm not putting in the footer because it's not realy a useful feature */}
 
@@ -137,7 +172,13 @@ DonateWizard.defaultProps = {
 	amountOptions: [10, 25, 50, 100, 250, 500, 1000].map((i) => Money.fromCents(i, 'usd')),
 	currencySymbol: '$',
 	isRecurring: false,
-	showRecurring: true
+	showRecurring: true,
+	required: {
+		email: true,
+		firstName: true,
+		lastName: true,
+		phone: true
+	}
 } as DonateWizardProps;
 
 function HeaderDesignation(props: { brandColor: string, designation_desc?: string | null }): JSX.Element {
@@ -155,6 +196,7 @@ HeaderDesignation.defaultProps = {
 };
 
 interface WizardWrapperProps {
+	hideDedication: boolean;
 	amount: Money;
 	amountOptions: Money[];
 	nonprofitName: string;
@@ -163,6 +205,8 @@ interface WizardWrapperProps {
 	singleAmount: string | null;
 	isRecurring: boolean;
 	showRecurring: boolean;
+	supporter: SupporterType;
+	required: RequiredFieldsType;
 }
 
 
@@ -195,7 +239,7 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 					{
 						title: nonprofitsDonateInfoLabel,
 						key: nonprofitsDonateInfoLabel,
-						body: <div key={'InfoStep'}>InfoStep</div>,
+						body: <InfoStep key={'InfoStep'} required={props.required} supporter={props.supporter} hideDedication={props.hideDedication}/>,
 					},
 					{
 						title: nonprofitsDonatePaymentLabel,

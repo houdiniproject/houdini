@@ -18,12 +18,11 @@ interface AmountStepProps {
 	showRecurring: boolean;
 }
 
-
-
 interface FormikFormValues {
 	recurring: boolean;
 	amount: Money | null;
 }
+
 export function AmountStep(props: AmountStepProps): JSX.Element {
 	const stepManagerContext = useContext(WizardContext);
 	return (<div className={"wizard-step amount-step"} >

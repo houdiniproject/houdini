@@ -14,6 +14,8 @@ interface AmountStepProps {
 	stateDispatch: (action: ActionType) => void;
 	currencySymbol: string;
 	singleAmount: string | null;
+	isRecurring: boolean;
+	showRecurring: boolean;
 }
 
 
@@ -29,11 +31,11 @@ export function AmountStep(props: AmountStepProps): JSX.Element {
 			props.stateDispatch({
 				type: 'setAmount',
 				amount: values.amount,
-				recurring: values.recurring,
+				recurring: values.recurring || false,
 				next: stepManagerContext.next
 			});
 		}} initialValues={{ amount: props.amount } as FormikFormValues} enableReinitialize={true}>
-			<AmountFields amounts={props.amountOptions} currencySymbol={props.currencySymbol} singleAmount={props.singleAmount} />
+			<AmountFields amounts={props.amountOptions} currencySymbol={props.currencySymbol} singleAmount={props.singleAmount} isRecurring={props.isRecurring} showRecurring={props.showRecurring} />
 		</Formik>
 	</div>);
 }
@@ -41,7 +43,7 @@ export function AmountStep(props: AmountStepProps): JSX.Element {
 interface RecurringCheckboxProps {
 	isRecurring: boolean;
 	showRecurring: boolean;
-	setRecurring: (recurring: boolean) => void;
+	setRecurring: () => void;
 }
 
 function RecurringCheckbox(props: RecurringCheckboxProps): JSX.Element {
@@ -50,13 +52,12 @@ function RecurringCheckbox(props: RecurringCheckboxProps): JSX.Element {
 
 	const nonprofitsDonateAmountSustaining = formatMessage({ id: 'nonprofits.donate.amount.sustaining' });
 	const nonprofitsDonateAmountSustainingBold = formatMessage({ id: 'nonprofits.donate.amount.sustaining_bold' });
-
 	if (props.showRecurring) {
 
 		return (<section className={'donate-recurringCheckbox u-paddingX--5 u-marginBottom--10'}>
 
 			<div className={`u-padding--8 u-background--grey u-centered ${props.isRecurring ? 'highlight' : ''}`}>
-				<input id={checkboxId} type={'checkbox'} checked={props.isRecurring || undefined} onChange={e => props.setRecurring(!props.isRecurring)} />
+				<input id={checkboxId} type={'checkbox'} checked={props.isRecurring} onChange={(e) => { props.setRecurring()}} />
 				<label htmlFor={checkboxId}>
 					<ComposeTranslation
 						full={nonprofitsDonateAmountSustaining}
@@ -123,7 +124,7 @@ function nextStepDisabled(amount: Money | null): boolean {
 	return (amount === null || amount === undefined || amount.cents === 0);
 }
 
-function convertInputToMoney(input: string, setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void): void {
+function convertAmountToMoney(input: string, setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void): void {
 	if (input === undefined || input === '') {
 		setFieldValue('amount', Money.fromCents(0, 'usd'));
 	} else {
@@ -150,18 +151,23 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 	const nonprofitsDonateAmountCustom = formatMessage({ id: 'nonprofits.donate.amount.custom' });
 	const [buttonAmountSelected, setButtonAmountSelected] = useState(false);
 	const [customAmount, setCustomAmount] = useState('');
-	const [recurring, setRecurring] = useState(false);
+	const [isRecurring, setIsRecurring] = useState(!!props.isRecurring);
+	const setRecurring = () => {
+		setFieldValue('recurring', !isRecurring);
+		setIsRecurring(!isRecurring);
+	}
+
 	if (props.singleAmount) {
 		return (
 			<span>
-
-				<RecurringCheckbox isRecurring={props.isRecurring} showRecurring={props.showRecurring} setRecurring={setRecurring} />
-				<RecurringMessage isRecurring={props.isRecurring} recurringWeekly={props.recurringWeekly} periodicAmount={props.periodicAmount} singleAmount={props.singleAmount} />
+				<RecurringCheckbox isRecurring={isRecurring} showRecurring={props.showRecurring} setRecurring={setRecurring} />
+				<RecurringMessage isRecurring={isRecurring} recurringWeekly={props.recurringWeekly} periodicAmount={props.periodicAmount} singleAmount={props.singleAmount} />
+				<SingleAmount currencySymbol={props.currencySymbol} isRecurring={isRecurring} singleAmount={props.singleAmount} />
 				<fieldset>
 					<button className={'button u-width--full btn-next'}
 						type={'submit'}
 						onClick={() => {
-							convertInputToMoney(props.singleAmount, setFieldValue);
+							convertAmountToMoney(props.singleAmount, setFieldValue);
 							submitForm();
 						}}
 					>
@@ -173,8 +179,8 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 	}
 	return (<div className={'u-inline fieldsetLayout--three--evenPadding'}>
 		<span>
-			<RecurringCheckbox isRecurring={props.isRecurring} showRecurring={props.showRecurring} setRecurring={setRecurring} />
-			<RecurringMessage isRecurring={props.isRecurring} recurringWeekly={props.recurringWeekly} periodicAmount={props.periodicAmount} singleAmount={props.singleAmount} />
+			<RecurringCheckbox isRecurring={isRecurring} showRecurring={props.showRecurring} setRecurring={setRecurring}  />
+			<RecurringMessage isRecurring={isRecurring} recurringWeekly={props.recurringWeekly} periodicAmount={props.periodicAmount} singleAmount={props.singleAmount} />
 			{props.amounts.map(amt => {
 				let weAreSelected = false;
 				if (values.amount !== null) {
@@ -199,12 +205,12 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 				<input className={`amount other ${buttonAmountSelected ? '' : 'is-selected'}`} name={'amount'} step='any' type='number' min={1}
 					placeholder={nonprofitsDonateAmountCustom}
 					onFocus={() => {
-						convertInputToMoney('0', setFieldValue);
+						convertAmountToMoney('0', setFieldValue);
 						setButtonAmountSelected(false);
 					}}
 					value={`${customAmount}`}
 					onChange={(e) => {
-						convertInputToMoney(e.target.value, setFieldValue);
+						convertAmountToMoney(e.target.value, setFieldValue);
 						setCustomAmount(e.target.value);
 					}}
 				/>
@@ -221,6 +227,26 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 		</span>
 	</div>);
 }
+
+interface SingleAmountProps {
+	singleAmount: string;
+	currencySymbol: string;
+	isRecurring: boolean;
+	// recurringWeekly: boolean;
+	// periodicAmount: number;
+}
+
+
+function SingleAmount(props: SingleAmountProps): JSX.Element {
+	return (
+		<section className={'u-centered'}>
+			<p className={'singleAmount-message'}>
+				<strong>{props.currencySymbol} {props.singleAmount}</strong>
+				<span className={`u-padding--0 ${props.isRecurring ? 'u-hide' : ''}`}></span>
+			</p>
+		</section>
+	);
+};
 
 AmountFields.defaultProps = {
 	amounts: [10, 25, 50, 100, 250, 500, 1000].map((i) => Money.fromCents(i, 'usd')),

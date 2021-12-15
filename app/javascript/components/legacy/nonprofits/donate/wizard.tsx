@@ -32,6 +32,8 @@ export interface DonateWizardProps {
 	amountOptions: Money[];
 	currencySymbol: string;
 	singleAmount: string | null;
+	isRecurring: boolean;
+	showRecurring: boolean;
 }
 
 export type ActionType = {
@@ -39,10 +41,10 @@ export type ActionType = {
 	amount: Money;
 	next: () => void;
 	recurring: boolean;
-} | {type: 'setError', error: string} | {type: 'setLoading', loading: boolean};
+} | { type: 'setError', error: string } | { type: 'setLoading', loading: boolean };
 
 
-function useDonateWizardState(initialState: DonateWizardOutputState) : [DonateWizardOutputState, (action:ActionType) => void] {
+function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWizardOutputState, (action: ActionType) => void] {
 	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer, initialState);
 
 	const reducerAction = (action: ActionType) => {
@@ -66,7 +68,7 @@ function wizardOutputReducer(state: DonateWizardOutputState, action: ActionType)
 		case 'setAmount':
 			return { ...state, amount: action.amount };
 		case 'setLoading':
-			return { ...state, loading: action.loading};
+			return { ...state, loading: action.loading };
 		default:
 			throw new Error();
 	}
@@ -111,7 +113,15 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 					</p>
 				</div>
 			</div>
-			<WizardWrapper nonprofitName={props.nonprofitName} amount={donateWizardState.amount} amountOptions={props.amountOptions} currencySymbol={props.currencySymbol} stateDispatch={stateDispatch} singleAmount={props.singleAmount} />
+			<WizardWrapper
+				nonprofitName={props.nonprofitName}
+				amount={donateWizardState.amount}
+				amountOptions={props.amountOptions}
+				currencySymbol={props.currencySymbol}
+				stateDispatch={stateDispatch}
+				singleAmount={props.singleAmount}
+				isRecurring={props.isRecurring}
+				showRecurring={props.showRecurring} />
 
 			{/* I'm not putting in the footer because it's not realy a useful feature */}
 
@@ -125,7 +135,9 @@ DonateWizard.defaultProps = {
 	embedded: false,
 	offsite: false,
 	amountOptions: [10, 25, 50, 100, 250, 500, 1000].map((i) => Money.fromCents(i, 'usd')),
-	currencySymbol: '$'
+	currencySymbol: '$',
+	isRecurring: false,
+	showRecurring: true
 } as DonateWizardProps;
 
 function HeaderDesignation(props: { brandColor: string, designation_desc?: string | null }): JSX.Element {
@@ -149,6 +161,8 @@ interface WizardWrapperProps {
 	stateDispatch: (action: ActionType) => void;
 	currencySymbol: string;
 	singleAmount: string | null;
+	isRecurring: boolean;
+	showRecurring: boolean;
 }
 
 
@@ -168,7 +182,15 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 					{
 						title: nonprofitsDonateAmountLabel,
 						key: nonprofitsDonateAmountLabel,
-						body: <AmountStep amountOptions={props.amountOptions} amount={props.amount} key={'AmountStep'} stateDispatch={props.stateDispatch} currencySymbol={props.currencySymbol} singleAmount={'10'} />,
+						body: <AmountStep
+							amountOptions={props.amountOptions}
+							amount={props.amount}
+							key={'AmountStep'}
+							stateDispatch={props.stateDispatch}
+							currencySymbol={props.currencySymbol}
+							singleAmount={props.singleAmount}
+							isRecurring={props.isRecurring}
+							showRecurring={props.showRecurring} />,
 					},
 					{
 						title: nonprofitsDonateInfoLabel,

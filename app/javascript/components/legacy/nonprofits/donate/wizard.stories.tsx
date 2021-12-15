@@ -86,7 +86,28 @@ const Template = (args: TemplateArgs) => {
 export const Default = Template.bind({});
 Default.story = {};
 
-const SingleAmountTemplate = (args: TemplateArgs) => {
+const NoRecurringOptionTemplate = (args: TemplateArgs) => {
+	return (<OuterWrapper key={Math.random()}>
+		<SWRWrapper key={Math.random()}>
+			<DonateWizard
+				brandColor={args.brandColor}
+				offsite={args.offsite}
+				embedded={args.embedded}
+				title={args.title}
+				logo={args.logo}
+				nonprofitName={args.nonprofitName}
+				amountOptions={args.amountOptions}
+				onClose={action('onClose')}
+				showRecurring={false}
+			/>
+		</SWRWrapper>
+	</OuterWrapper>);
+};
+
+export const NoRecurringOption = NoRecurringOptionTemplate.bind({});
+NoRecurringOption.story = {};
+
+const SingleAmountWithRecurringOptionTemplate = (args: TemplateArgs) => {
 	return (<OuterWrapper key={Math.random()}>
 		<SWRWrapper key={Math.random()}>
 			<DonateWizard
@@ -103,25 +124,48 @@ const SingleAmountTemplate = (args: TemplateArgs) => {
 	</OuterWrapper>);
 };
 
-export const SingleAmount = SingleAmountTemplate.bind({});
-SingleAmount.story = {};
+export const SingleAmountWithRecurringOption = SingleAmountWithRecurringOptionTemplate.bind({});
+SingleAmountWithRecurringOption.story = {};
 
-// const RecurringTemplate = (args: TemplateArgs) => {
-// 	return (<OuterWrapper key={Math.random()}>
-// 		<SWRWrapper key={Math.random()}>
-// 			<DonateWizard
-// 				brandColor={args.brandColor}
-// 				offsite={args.offsite}
-// 				embedded={args.embedded}
-// 				title={args.title}
-// 				logo={args.logo}
-// 				nonprofitName={args.nonprofitName}
-// 				onClose={action('onClose')}
-// 				isRecurring={true}
-// 			/>
-// 		</SWRWrapper>
-// 	</OuterWrapper>);
-// };
+const RecurringSingleAmountTemplate = (args: TemplateArgs) => {
+	return (<OuterWrapper key={Math.random()}>
+		<SWRWrapper key={Math.random()}>
+			<DonateWizard
+				brandColor={args.brandColor}
+				offsite={args.offsite}
+				embedded={args.embedded}
+				title={args.title}
+				logo={args.logo}
+				nonprofitName={args.nonprofitName}
+				onClose={action('onClose')}
+				singleAmount={'10'}
+				isRecurring={true}
+				showRecurring={false}
+			/>
+		</SWRWrapper>
+	</OuterWrapper>);
+};
 
-// export const Recurring = RecurringTemplate.bind({});
-// Recurring.story = {};
+export const RecurringSingleAmount = RecurringSingleAmountTemplate.bind({});
+RecurringSingleAmount.story = {};
+
+const RecurringTemplate = (args: TemplateArgs) => {
+	return (<OuterWrapper key={Math.random()}>
+		<SWRWrapper key={Math.random()}>
+			<DonateWizard
+				brandColor={args.brandColor}
+				offsite={args.offsite}
+				embedded={args.embedded}
+				title={args.title}
+				logo={args.logo}
+				nonprofitName={args.nonprofitName}
+				onClose={action('onClose')}
+				isRecurring={true}
+				showRecurring={false}
+			/>
+		</SWRWrapper>
+	</OuterWrapper>);
+};
+
+export const Recurring = RecurringTemplate.bind({});
+Recurring.story = {};

@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import { createContext, useContext } from "react";
+import { createContext, useCallback, useContext } from "react";
 import useSWR from "swr";
 import { getCurrent, NotLoggedInStatus } from "../api/api/users";
 import users from "../routes/api/users";
@@ -77,9 +77,9 @@ function useCurrentUser<TReturnType extends UseCurrentUserReturnType = UseCurren
 	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(users.apiUsersCurrent.url(), getCurrent, { fallbackData: initialCurrentUser });
 	const currentUser = error?.status === NotLoggedInStatus ? null : data;
 
-	async function revalidate() {
+	const revalidate:() => Promise<CurrentUser> = useCallback(() => {
 		return mutate();
-	}
+	}, [mutate]);
 	const output: SetCurrentUserReturnType = {
 		currentUser,
 		revalidate,

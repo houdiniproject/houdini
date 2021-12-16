@@ -1,11 +1,13 @@
 // License: LGPL-3.0-or-later
-import { useCallback, useEffect, useReducer, useRef, useState } from "react";
+import { DependencyList, useCallback, useEffect, useReducer, useRef, useState } from "react";
 import useCurrentUser, { CurrentUser, SetCurrentUserReturnType } from "./useCurrentUser";
 import { postSignIn } from '../api/users';
 import { NetworkError } from "../api/errors";
 import useMountedState from "react-use/lib/useMountedState";
-import { useAsyncFn, usePrevious, useUpdateEffect } from "react-use";
-import { AsyncFnReturn } from "react-use/lib/useAsyncFn";
+import { useAsyncFn, useMount, usePrevious, useUpdateEffect } from "react-use";
+import { AsyncFnReturn, AsyncState } from "react-use/lib/useAsyncFn";
+import { FnReturningPromise, PromiseType } from "react-use/lib/util";
+import noop from "lodash/noop";
 
 export interface UseCurrentUserAuthReturnType {
 	/**
@@ -100,49 +102,36 @@ function currentUserAuthReducer(state: CurrentAuthState, args: CurrentAuthStateA
 	}
 }
 
+function useAsyncFnJustEnded<T extends FnReturningPromise=FnReturningPromise>(fn: T, onFinished?:()=>void, deps?: DependencyList, initialState?: AsyncState<PromiseType<ReturnType<T>>>, ): ReturnType<typeof useAsyncFn> {
+
+	const onFinishedRef = useRef(onFinished || noop);
+	onFinishedRef.current = onFinished || noop;
+	const result = useAsyncFn(fn,deps, initialState);
+
+	const [{loading}] = result;
+	const previousLoading = usePrevious(loading);
+	const isMounted = useMountedState();
+	useUpdateEffect(() => {
+		if (previousLoading && !loading) {
+			isMounted() && onFinishedRef.current();
+		}
+	}, [loading, isMounted, onFinishedRef]);
+
+	return result;
+}
+
+
 function usePostSignIn(revalidate: () => Promise<CurrentUser>): [{error?:Error, loading:boolean}, (props: {
 	email: string;
 	password: string;
 }) => Promise<boolean>] {
-	const lastCallId = useRef(0);
-	const isMounted = useMountedState();
-	const [{loading, error}, runPostSignIn] = useAsyncFn(async(props:{
+	
+
+
+	return useAsyncFn((props: {
 		email: string;
 		password: string;
-	}) => {
-		const callId = ++lastCallId.current;
-		try {
-			return await postSignIn(props);
-		}
-		finally {
-			isMounted() && callId === lastCallId.current &&	await revalidate();
-		}
-	}, [revalidate]);
-
-
-
-
-	// const [{loading, value, error}, runSignIn] = useAsyncFn(async (props:{email:string, password:string}) => {
-	// 	try {
-	// 		return await runPostSignInRef.current(props);
-	// 	}
-	// 	finally {
-	// 		await runRevalidateRef.current();
-	// 	}
-	// }, [runRevalidateRef, runPostSignInRef]);
-
-	// const runSignInRef = useRef(runSignIn);
-	// runSignInRef.current = runSignIn;
-
-	// const [output, setOutput] = useState<[{error?:Error, loading:boolean, value?:boolean}, (props: {
-	// 	email: string;
-	// 	password: string;
-	// }) => Promise<boolean>]>([{loading, value, error}, runSignIn]);
-	// useEffect(() => {
-	// 	setOutput([{loading, value, error}, runSignInRef.current]);
-	// }, [loading, value, error, runSignInRef]);
-
-	return [{loading, error}, runPostSignIn ];
+	}) => postSignIn(props).finally(() => revalidate()));
 }
 
 /**

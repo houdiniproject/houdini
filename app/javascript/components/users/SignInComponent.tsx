@@ -169,7 +169,11 @@ function useStateAndEventDispatch({ submitting, isValid, touched, signedIn, ...p
 
 
 function SignInComponent(props: SignInComponentProps): JSX.Element {
-	const { signIn, lastSignInAttemptError, failed, submitting, signedIn } = useCurrentUserAuth();
+	const { signIn,
+		lastSignInAttemptError,
+		failed,
+		submitting,
+		signedIn } = useCurrentUserAuth();
 	const { onSuccess, onFailure, onSubmitting, showProgressAndSuccess } = props;
 
 	//Setting error messages
@@ -230,16 +234,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		defaultValues: { email: '', password: '' },
 
 	});
+
+	// const {formState: { isDirty: touched, isValid }, control} = form;
 	return (
-		<form onSubmit={form.handleSubmit(async (data) => {
-			try {
-				await signIn(data);
-			}
-			catch (e: unknown) {
-				// NOTE: We're just swallowing the exception here for now. Might we need to do
-				// something different? Don't know!
-			}
-		})}>
+		<form onSubmit={form.handleSubmit(signIn)}>
 			<InnerFormComponent
 				emailLabel={emailLabel}
 				passwordLabel={passwordLabel}
@@ -310,41 +308,20 @@ function InnerFormComponent<TFieldValues>(props: {
 	const isLoading = state === 'isSubmitting';
 	const isSuccessful = state === 'isSuccessful';
 
-	const emailId = useId();
-	const passwordId = useId();
 
 	return (
 		<>
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{!isSuccessful ?
 					<Box p={1.5}>
-						<TextField control={control} id={emailId} name="email" data-testid="emailTest"
-							label={emailLabel}
-							InputProps={{
-								startAdornment: (
-									<InputAdornment position="start">
-										<AccountCircle fontSize="small" />
-									</InputAdornment>
-								),
-							}} />
+						<EmailTextBox label={emailLabel} control={control}/>
 					</Box>
 					: null}
 			</Box>
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{!isSuccessful ?
 					<Box p={1.5}>
-						<TextField control={control}
-							id={passwordId}
-							name="password"
-							label={passwordLabel}
-							type="password"
-							InputProps={{
-								startAdornment: (
-									<InputAdornment position="start">
-										<LockOpenIcon fontSize="small" />
-									</InputAdornment>
-								),
-							}} />
+						<PasswordTextBox label={passwordLabel} control={control}/>
 					</Box>
 					: null}
 			</Box>
@@ -385,6 +362,38 @@ function InnerFormComponent<TFieldValues>(props: {
 		</>
 	);
 }
+
+function EmailTextBox({label, control}:any) {
+	const id = useId();
+	return (<TextField control={control} id={id} name="email" data-testid="emailTest"
+		label={label}
+		InputProps={{
+			startAdornment: (
+				<InputAdornment position="start">
+					<AccountCircle fontSize="small" />
+				</InputAdornment>
+			),
+		}} />);
+}
+
+function PasswordTextBox({label, control}:any) {
+
+	const id = useId();
+
+	return (<TextField control={control}
+		id={id}
+		name="password"
+		label={label}
+		type="password"
+		InputProps={{
+			startAdornment: (
+				<InputAdornment position="start">
+					<LockOpenIcon fontSize="small" />
+				</InputAdornment>
+			),
+		}} />);
+}
+
 
 SignInComponent.defaultProps = {
 	// default onFailure to noop so you don't have to check whether onFailure is

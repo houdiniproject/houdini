@@ -48,12 +48,10 @@ describe('useCurrentUserAuth', () => {
 			async function signIn() {
 				let hookRender:any = null;
 				await act(async () => {hookRender = renderHook(() => useCurrentUserAuth(), {wrapper});});
-				
 				const {result:innerResult, unmount:innerUnmount, wait} = hookRender;
 				result = innerResult;
 				unmount = innerUnmount;
 
-			
 
 				await act(async() => {
 					try {

@@ -1,7 +1,9 @@
 // License: LGPL-3.0-or-later
-import React from 'react';
+import { Money } from '../../../../common/money';
+import React, { useContext } from 'react';
 import { useIntl } from "../../../intl";
-import { SupporterType, RequiredFieldsType } from './wizard';
+import { SupporterType, RequiredFieldsType, DonationWizardContext } from './wizard';
+import { WizardContext } from '../../_dependencies/ff-core/wizard';
 
 // const h = require('snabbdom/h')
 // const R = require('ramda')
@@ -12,7 +14,6 @@ import { SupporterType, RequiredFieldsType } from './wizard';
 // const dedicationForm = require('./dedication-form')
 // const serialize = require('form-serialize')
 // const request = require('../../common/request')
-// const format = require('../../common/format')
 
 // const sepaTab = 'sepa'
 // const cardTab = 'credit_card'
@@ -21,17 +22,24 @@ interface InfoStepProps {
   required: RequiredFieldsType;
   supporter: SupporterType;
   hideDedication: boolean;
+  isRecurring: boolean;
+  weekly: boolean;
+  amount: Money;
+  currencySymbol: string;
 };
 
 export function InfoStep(props: InfoStepProps): JSX.Element {
+  const stepManagerContext = useContext(WizardContext);
+
   return (
     <div className={'wizard-step info-step u-padding--10'}>
       <form>
-        <RecurringMessage />
+        <RecurringMessage isRecurring={props.isRecurring} weekly={props.weekly} currencySymbol={props.currencySymbol} amount={props.amount} />
         <SupporterFields required={props.required} supporter={props.supporter} hideDedication={props.hideDedication} />
         <CustomFields />
         <DedicationLink hideDedication={props.hideDedication} />
         <AnonymousCheckbox />
+        <div>DedicationForm</div>
       </form>
     </div>
   );
@@ -134,9 +142,53 @@ function DedicationLink(props: DedicationLinkProps): JSX.Element {
   );
 };
 
-function RecurringMessage(): JSX.Element {
+// Originally from app/javascript/legacy/common/format.js:numberWithCommas
+function numberWithCommas(n: string): String {
+  return n.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// Originally from app/javascript/legacy/common/format.js:centsToDollars
+function centsToDollars(amount: Money, noCents: boolean = false): String {
+  if (!!!amount) return '0';
+  if (amount.cents === undefined) return '0';
+  return numberWithCommas((amount.cents/100.0).toFixed(noCents ? 0 : 2).toString()).replace(/\.00$/, '');
+}
+
+// Originally from app/javascript/legacy/common/format.js:weeklyToMonthly
+function weeklyToMonthly(amount: Money) {
+  const cents = amount.cents;
+  if (cents === undefined) return 0;
+  return (Math.round(4.3 * cents) / 100.0).toFixed(2).toString().replace(/\.00$/, '');
+}
+interface RecurringMessageProps {
+  isRecurring: boolean;
+  weekly: boolean;
+  currencySymbol: string;
+  amount: Money;
+}
+
+function RecurringMessage(props: RecurringMessageProps): JSX.Element {
+  const { formatMessage } = useIntl();
+  const montlhyRecurring = formatMessage({ id: 'nonprofits.donate.payment.monthly_recurring' });
+  const oneTime = formatMessage({ id: 'nonprofits.donate.payment.one_time' });
+  let amountLabel = props.isRecurring ? montlhyRecurring : oneTime;
+  let weekly = <></>;
+
+  if(props.weekly && props.isRecurring) {
+    const weeklyLabel = formatMessage({ id: 'nonprofits.donate.amount.weekly' });
+    amountLabel = amountLabel.replace(montlhyRecurring, weeklyLabel) + '*';
+    weekly = <div className='u-centered notice'>
+      <small>{props.currencySymbol} {weeklyToMonthly(props.amount)}</small>
+    </div>
+  }
   return (
-    <div>RecurringMessage</div>
+    <div>
+      <p className={'u-fontSize--18 u-marginBottom--0 u-centered amount'}>
+        <span>{props.currencySymbol} {centsToDollars(props.amount)} </span>
+        <strong>{amountLabel}</strong>
+        {weekly}
+      </p>
+    </div>
   );
 };
 

@@ -35,6 +35,7 @@ export interface DonateWizardProps {
 	currencySymbol: string;
 	singleAmount: string | null;
 	isRecurring: boolean;
+	weekly: boolean;
 	showRecurring: boolean;
 	required: RequiredFieldsType;
 	supporter: SupporterType;
@@ -86,7 +87,7 @@ function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWiz
 function wizardOutputReducer(state: DonateWizardOutputState, action: ActionType): DonateWizardOutputState {
 	switch (action.type) {
 		case 'setAmount':
-			return { ...state, amount: action.amount };
+			return { ...state, amount: action.amount, recurring: action.recurring };
 		case 'setLoading':
 			return { ...state, loading: action.loading };
 		default:
@@ -102,14 +103,13 @@ export interface DonateWizardOutputState {
 	amount: Money | null;
 	loading: boolean | null;
 	error: string | null;
+	recurring: boolean | null;
 }
 
 export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	useBrandedWizard(props.brandColor);
 
-
-
-	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null });
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: false });
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;
@@ -140,7 +140,8 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 				currencySymbol={props.currencySymbol}
 				stateDispatch={stateDispatch}
 				singleAmount={props.singleAmount}
-				isRecurring={props.isRecurring}
+				isRecurring={donateWizardState.recurring}
+				weekly={props.weekly}
 				showRecurring={props.showRecurring}
 				supporter={{
 					firstName: '',
@@ -204,6 +205,7 @@ interface WizardWrapperProps {
 	currencySymbol: string;
 	singleAmount: string | null;
 	isRecurring: boolean;
+	weekly: boolean;
 	showRecurring: boolean;
 	supporter: SupporterType;
 	required: RequiredFieldsType;
@@ -234,12 +236,20 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 							currencySymbol={props.currencySymbol}
 							singleAmount={props.singleAmount}
 							isRecurring={props.isRecurring}
+							weekly={props.weekly}
 							showRecurring={props.showRecurring} />,
 					},
 					{
 						title: nonprofitsDonateInfoLabel,
 						key: nonprofitsDonateInfoLabel,
-						body: <InfoStep key={'InfoStep'} required={props.required} supporter={props.supporter} hideDedication={props.hideDedication}/>,
+						body: <InfoStep key={'InfoStep'}
+							required={props.required}
+							supporter={props.supporter}
+							hideDedication={props.hideDedication}
+							isRecurring={props.isRecurring}
+							weekly={false}
+							amount={props.amount}
+							currencySymbol={props.currencySymbol}/>,
 					},
 					{
 						title: nonprofitsDonatePaymentLabel,

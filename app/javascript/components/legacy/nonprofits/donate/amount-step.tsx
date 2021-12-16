@@ -16,6 +16,7 @@ interface AmountStepProps {
 	singleAmount: string | null;
 	isRecurring: boolean;
 	showRecurring: boolean;
+	weekly: boolean;
 }
 
 interface FormikFormValues {
@@ -190,7 +191,7 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 						<button className={`button u-width--full white amount ${weAreSelected && buttonAmountSelected ? 'is-selected' : ''}`}
 							onClick={() => {
 								setButtonAmountSelected(true);
-								setFieldValue("amount", amt);
+								convertAmountToMoney(amt.cents.toString(), setFieldValue);
 								setCustomAmount('');
 								submitForm();
 							}}

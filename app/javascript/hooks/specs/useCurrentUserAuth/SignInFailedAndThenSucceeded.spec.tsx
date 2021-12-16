@@ -46,10 +46,14 @@ describe('useCurrentUserAuth', () => {
 			});
 
 			async function signIn() {
-				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
+				let hookRender:any = null;
+				await act(async () => {hookRender = renderHook(() => useCurrentUserAuth(), {wrapper});});
+				
+				const {result:innerResult, unmount:innerUnmount, wait} = hookRender;
 				result = innerResult;
-
 				unmount = innerUnmount;
+
+			
 
 				await act(async() => {
 					try {

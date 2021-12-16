@@ -1,9 +1,11 @@
 // License: LGPL-3.0-or-later
-import { useCallback, useReducer } from "react";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import useCurrentUser, { CurrentUser, SetCurrentUserReturnType } from "./useCurrentUser";
 import { postSignIn } from '../api/users';
 import { NetworkError } from "../api/errors";
 import useMountedState from "react-use/lib/useMountedState";
+import { useAsyncFn, usePrevious, useUpdateEffect } from "react-use";
+import { AsyncFnReturn } from "react-use/lib/useAsyncFn";
 
 export interface UseCurrentUserAuthReturnType {
 	/**
@@ -98,6 +100,38 @@ function currentUserAuthReducer(state: CurrentAuthState, args: CurrentAuthStateA
 	}
 }
 
+function usePostSignIn(revalidate: () => Promise<CurrentUser>): [{error?:Error, loading:boolean, value?:boolean}, (props: {
+	email: string;
+	password: string;
+}) => Promise<boolean>] {
+	const [, runPostSignIn] = useAsyncFn(postSignIn);
+	const [, runRevalidate] = useAsyncFn(revalidate);
+
+	const runPostSignInRef = useRef(runPostSignIn);
+	runPostSignInRef.current = runPostSignIn;
+	const runRevalidateRef = useRef(runRevalidate);
+	runRevalidateRef.current = runRevalidate;
+
+	const [{loading, value, error}, runSignIn] = useAsyncFn(async (props:{email:string, password:string}) => {
+		try {
+			return await runPostSignInRef.current(props);
+		}
+		finally {
+			await runRevalidateRef.current();
+		}
+	}, [runRevalidateRef, runPostSignInRef]);
+
+	const [output, setOutput] = useState<[{error?:Error, loading:boolean, value?:boolean}, (props: {
+		email: string;
+		password: string;
+	}) => Promise<boolean>]>([{loading, value, error}, runSignIn]);
+	useEffect(() => {
+		setOutput([{loading, value, error}, runSignIn]);
+	}, [loading, value, error, runSignIn]);
+
+	return output;
+}
+
 /**
  * Sign the in a user, get access to the current user and check whether a signin
  * is occurring. Reexports the `currentUser`, `signedIn`, `validatingCurrentUser` and
@@ -112,34 +146,8 @@ export default function useCurrentUserAuth(): UseCurrentUserAuthReturnType {
 		revalidate,
 		error: lastGetCurrentUserError,
 		validatingCurrentUser } = useCurrentUser<SetCurrentUserReturnType>();
-	const [{
-		submitting,
-		lastSignInAttemptError,
-	}, dispatchCurrentUserAuthState] = useReducer(
-		currentUserAuthReducer, {
-			submitting: false,
-		}
-	);
 
-	const isMounted = useMountedState();
-
-	const signIn = useCallback(async ({ email, password }: { email: string, password: string }): Promise<boolean> => {
-		try {
-			if (isMounted()) dispatchCurrentUserAuthState({ type: "beginSubmit" });
-			const result = await postSignIn({ email, password });
-			if (isMounted()) dispatchCurrentUserAuthState({ type: 'setLastError' });
-			if (isMounted()) return result;
-		}
-		catch (e: unknown) {
-			const error = e as NetworkError;
-			if (isMounted()) dispatchCurrentUserAuthState({ type: 'setLastError', lastSignInAttemptError: error });
-			if (isMounted()) throw error;
-		}
-		finally {
-			if (isMounted()) await revalidate();
-			if (isMounted()) dispatchCurrentUserAuthState({ type: "endSubmit" });
-		}
-	}, [dispatchCurrentUserAuthState, revalidate, isMounted]);
+	const [{ loading: submitting, error: lastSignInAttemptError }, signIn] = usePostSignIn(revalidate);
 
 	return {
 		currentUser,

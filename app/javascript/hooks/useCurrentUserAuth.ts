@@ -100,36 +100,49 @@ function currentUserAuthReducer(state: CurrentAuthState, args: CurrentAuthStateA
 	}
 }
 
-function usePostSignIn(revalidate: () => Promise<CurrentUser>): [{error?:Error, loading:boolean, value?:boolean}, (props: {
+function usePostSignIn(revalidate: () => Promise<CurrentUser>): [{error?:Error, loading:boolean}, (props: {
 	email: string;
 	password: string;
 }) => Promise<boolean>] {
-	const [, runPostSignIn] = useAsyncFn(postSignIn);
-	const [, runRevalidate] = useAsyncFn(revalidate);
-
-	const runPostSignInRef = useRef(runPostSignIn);
-	runPostSignInRef.current = runPostSignIn;
-	const runRevalidateRef = useRef(runRevalidate);
-	runRevalidateRef.current = runRevalidate;
-
-	const [{loading, value, error}, runSignIn] = useAsyncFn(async (props:{email:string, password:string}) => {
-		try {
-			return await runPostSignInRef.current(props);
-		}
-		finally {
-			await runRevalidateRef.current();
-		}
-	}, [runRevalidateRef, runPostSignInRef]);
-
-	const [output, setOutput] = useState<[{error?:Error, loading:boolean, value?:boolean}, (props: {
+	const lastCallId = useRef(0);
+	const isMounted = useMountedState();
+	const [{loading, error}, runPostSignIn] = useAsyncFn(async(props:{
 		email: string;
 		password: string;
-	}) => Promise<boolean>]>([{loading, value, error}, runSignIn]);
-	useEffect(() => {
-		setOutput([{loading, value, error}, runSignIn]);
-	}, [loading, value, error, runSignIn]);
+	}) => {
+		const callId = ++lastCallId.current;
+		try {
+			return await postSignIn(props);
+		}
+		finally {
+			isMounted() && callId === lastCallId.current &&	await revalidate();
+		}
+	}, [revalidate]);
 
-	return output;
+
+
+
+	// const [{loading, value, error}, runSignIn] = useAsyncFn(async (props:{email:string, password:string}) => {
+	// 	try {
+	// 		return await runPostSignInRef.current(props);
+	// 	}
+	// 	finally {
+	// 		await runRevalidateRef.current();
+	// 	}
+	// }, [runRevalidateRef, runPostSignInRef]);
+
+	// const runSignInRef = useRef(runSignIn);
+	// runSignInRef.current = runSignIn;
+
+	// const [output, setOutput] = useState<[{error?:Error, loading:boolean, value?:boolean}, (props: {
+	// 	email: string;
+	// 	password: string;
+	// }) => Promise<boolean>]>([{loading, value, error}, runSignIn]);
+	// useEffect(() => {
+	// 	setOutput([{loading, value, error}, runSignInRef.current]);
+	// }, [loading, value, error, runSignInRef]);
+
+	return [{loading, error}, runPostSignIn ];
 }
 
 /**

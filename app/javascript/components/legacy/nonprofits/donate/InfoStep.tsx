@@ -128,7 +128,7 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
             name="email"
             title={emailTitle}
             required={props.required.email}
-            value={props.supporter?.email}
+            value={supporter?.email}
             placeholder={emailTitle}
             onChange={
               (e) => {
@@ -143,7 +143,7 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
                 placeholder={firstNameTitle}
                 required={props.required.firstName}
                 title={firstNameTitle}
-                value={props.supporter?.firstName}
+                value={supporter?.firstName}
                 onChange={
                   (e) => {
                     setSupporterFields('firstName', e.target.value);
@@ -157,7 +157,7 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
                 placeholder={lastNameTitle}
                 required={props.required.lastName}
                 title={lastNameTitle}
-                value={props.supporter?.lastName}
+                value={supporter?.lastName}
                 onChange={
                   (e) => {
                     setSupporterFields('lastName', e.target.value);
@@ -171,7 +171,7 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
                 placeholder={phoneTitle}
                 required={props.required.phone}
                 title={phoneTitle}
-                value={props.supporter?.phone}
+                value={supporter?.phone}
                 onChange={
                   (e) => {
                     setSupporterFields('phone', e.target.value);

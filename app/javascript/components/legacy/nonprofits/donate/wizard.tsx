@@ -92,7 +92,6 @@ function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWiz
 	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer, initialState);
 
 	const reducerAction = (action: ActionType) => {
-		console.log(action);
 		switch (action.type) {
 			case 'setAmount': {
 				stateDispatch(action);

@@ -1,9 +1,8 @@
 // License: LGPL-3.0-or-later
-import { useCallback, useReducer } from "react";
 import useCurrentUser, { CurrentUser, SetCurrentUserReturnType } from "./useCurrentUser";
 import { postSignIn } from '../api/users';
 import { NetworkError } from "../api/errors";
-import useMountedState from "react-use/lib/useMountedState";
+import { useAsyncFn } from "react-use";
 
 export interface UseCurrentUserAuthReturnType {
 	/**
@@ -68,36 +67,6 @@ export interface UseCurrentUserAuthReturnType {
 	validatingCurrentUser: ReturnType<typeof useCurrentUser>["validatingCurrentUser"];
 }
 
-interface CurrentAuthState {
-	readonly lastSignInAttemptError?: NetworkError | undefined;
-	readonly submitting: boolean;
-}
-
-
-type CurrentAuthStateAction = {
-	type: 'beginSubmit';
-} | {
-	type: 'endSubmit';
-} |
-{
-	lastSignInAttemptError?: NetworkError | undefined;
-	type: 'setLastError';
-};
-
-function currentUserAuthReducer(state: CurrentAuthState, args: CurrentAuthStateAction): CurrentAuthState {
-	switch (args.type) {
-		case 'beginSubmit': {
-			return { ...state, submitting: true };
-		}
-		case 'endSubmit':
-			return { ...state, submitting: false };
-		case 'setLastError':
-		{
-			return { ...state, lastSignInAttemptError: args.lastSignInAttemptError };
-		}
-	}
-}
-
 /**
  * Sign the in a user, get access to the current user and check whether a signin
  * is occurring. Reexports the `currentUser`, `signedIn`, `validatingCurrentUser` and
@@ -112,34 +81,8 @@ export default function useCurrentUserAuth(): UseCurrentUserAuthReturnType {
 		revalidate,
 		error: lastGetCurrentUserError,
 		validatingCurrentUser } = useCurrentUser<SetCurrentUserReturnType>();
-	const [{
-		submitting,
-		lastSignInAttemptError,
-	}, dispatchCurrentUserAuthState] = useReducer(
-		currentUserAuthReducer, {
-			submitting: false,
-		}
-	);
 
-	const isMounted = useMountedState();
-
-	const signIn = useCallback(async ({ email, password }: { email: string, password: string }): Promise<boolean> => {
-		try {
-			if (isMounted()) dispatchCurrentUserAuthState({ type: "beginSubmit" });
-			const result = await postSignIn({ email, password });
-			if (isMounted()) dispatchCurrentUserAuthState({ type: 'setLastError' });
-			if (isMounted()) return result;
-		}
-		catch (e: unknown) {
-			const error = e as NetworkError;
-			if (isMounted()) dispatchCurrentUserAuthState({ type: 'setLastError', lastSignInAttemptError: error });
-			if (isMounted()) throw error;
-		}
-		finally {
-			if (isMounted()) await revalidate();
-			if (isMounted()) dispatchCurrentUserAuthState({ type: "endSubmit" });
-		}
-	}, [dispatchCurrentUserAuthState, revalidate, isMounted]);
+	const [{ error: lastSignInAttemptError, loading: submitting }, signIn] = useAsyncFn((props) => postSignIn(props).finally(revalidate));
 
 	return {
 		currentUser,

@@ -232,8 +232,6 @@ interface SingleAmountProps {
 	singleAmount: string;
 	currencySymbol: string;
 	isRecurring: boolean;
-	// recurringWeekly: boolean;
-	// periodicAmount: number;
 }
 
 

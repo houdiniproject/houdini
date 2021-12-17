@@ -46,15 +46,34 @@ export type ActionType = {
 	amount: Money;
 	next: () => void;
 	recurring: boolean;
-} | { type: 'setError', error: string } | { type: 'setLoading', loading: boolean };
+} | {
+	type: 'setError',
+	error: string
+} | {
+	type: 'setLoading',
+	loading: boolean
+} | {
+	type: 'setSupporter',
+	supporter: SupporterType,
+	address: AddressProps,
+	next: () => void
+};
 
 export type SupporterType = {
 	firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  profileId: string;
-  nonprofitId: string;
+	lastName: string;
+	email: string;
+	phone: string;
+	profileId: string;
+	nonprofitId: string;
+}
+
+export type AddressProps = {
+	address: string;
+	city: string;
+	stateCode: string;
+	country: string;
+	zipCode: string;
 }
 
 export type RequiredFieldsType = {
@@ -75,6 +94,11 @@ function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWiz
 				action.next();
 				break;
 			}
+			case 'setSupporter': {
+				stateDispatch(action);
+				action.next();
+				break;
+			}
 
 			default: {
 				stateDispatch(action);
@@ -90,6 +114,8 @@ function wizardOutputReducer(state: DonateWizardOutputState, action: ActionType)
 			return { ...state, amount: action.amount, recurring: action.recurring };
 		case 'setLoading':
 			return { ...state, loading: action.loading };
+		case 'setSupporter':
+			return { ...state, supporter: action.supporter, address: action.address };
 		default:
 			throw new Error();
 	}
@@ -104,12 +130,14 @@ export interface DonateWizardOutputState {
 	loading: boolean | null;
 	error: string | null;
 	recurring: boolean | null;
+	supporter: SupporterType | null;
+	address: AddressProps | null;
 }
 
 export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	useBrandedWizard(props.brandColor);
 
-	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: false });
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: false, supporter: null, address: null });
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;
@@ -143,14 +171,8 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 				isRecurring={donateWizardState.recurring}
 				weekly={props.weekly}
 				showRecurring={props.showRecurring}
-				supporter={{
-					firstName: '',
-					lastName: '',
-					email: '',
-					phone: '',
-					profileId: '',
-					nonprofitId: ''
-				}}
+				supporter={donateWizardState.supporter}
+				address = {donateWizardState.address}
 				required={{
 					email: props.required.email,
 					firstName: props.required.firstName,
@@ -209,6 +231,7 @@ interface WizardWrapperProps {
 	showRecurring: boolean;
 	supporter: SupporterType;
 	required: RequiredFieldsType;
+	address: AddressProps | null;
 }
 
 
@@ -242,14 +265,17 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 					{
 						title: nonprofitsDonateInfoLabel,
 						key: nonprofitsDonateInfoLabel,
-						body: <InfoStep key={'InfoStep'}
+						body: <InfoStep
+							key={'InfoStep'}
 							required={props.required}
 							supporter={props.supporter}
 							hideDedication={props.hideDedication}
 							isRecurring={props.isRecurring}
-							weekly={false}
+							weekly={props.weekly}
 							amount={props.amount}
-							currencySymbol={props.currencySymbol}/>,
+							stateDispatch={props.stateDispatch}
+							currencySymbol={props.currencySymbol}
+							address={undefined}/>,
 					},
 					{
 						title: nonprofitsDonatePaymentLabel,

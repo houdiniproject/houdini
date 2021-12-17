@@ -6,11 +6,11 @@ import {InputHTMLAttributes} from "react";
 import {action, observable} from "mobx";
 import {Field} from "mobx-react-form";
 import {castToNullIfUndef} from "../../../lib/utils";
-import MaskedInput, {maskArray} from "react-text-mask";
+import MaskedInput, {Mask} from "react-text-mask";
 
 type InputTypes = ReactInputProps &
   InputHTMLAttributes<HTMLInputElement> & {
-  mask?: maskArray | ((value: string) => maskArray);
+  mask?: Mask | ((value: string) => Mask);
 
   guide?: boolean;
 
@@ -61,7 +61,7 @@ class ReactMaskedInput extends React.Component<InputTypes, {}> {
 
   ///Removes the properties we don't want to put into the input element
   @action.bound
-  winnowProps(): InputTypes {
+  winnowProps(): Omit<InputTypes, 'field'|'value'> {
     let ourProps = {...this.props}
     delete ourProps.field
     delete ourProps.value
@@ -70,7 +70,10 @@ class ReactMaskedInput extends React.Component<InputTypes, {}> {
   }
 
   render() {
-    return <MaskedInput {...this.winnowProps()} {...this.field.bind()}/>
+    return <MaskedInput {
+      ...this.winnowProps() as any //This typing should work but for some reason, it's not. So I'm updating?
+    } 
+    {...this.field.bind()}/>
   }
 }
 

@@ -20,6 +20,9 @@ import { useIntl } from "../../../intl";
 // const cardTab = 'credit_card'
 
 interface InfoStepProps {
+  loading: boolean;
+  error: string;
+  loadingText: string;
   address: AddressProps;
   required: RequiredFieldsType;
   supporter: SupporterType;
@@ -32,6 +35,7 @@ interface InfoStepProps {
 };
 
 interface FormikFormValues {
+  selectedPayment: string;
   supporter: SupporterType;
   address: AddressProps;
 }
@@ -43,6 +47,10 @@ export function InfoStep(props: InfoStepProps): JSX.Element {
     <div className={'wizard-step info-step u-padding--10'}>
       <Formik onSubmit={(values) => {
         // post supporter data
+        props.stateDispatch({
+          type: 'setSelectedPayment',
+          selectedPayment: values.selectedPayment
+        });
         props.stateDispatch({
           type: 'setSupporter',
           supporter: values.supporter,
@@ -58,13 +66,20 @@ export function InfoStep(props: InfoStepProps): JSX.Element {
           isRecurring={props.isRecurring}
           weekly={props.weekly}
           amount={props.amount}
-          currencySymbol={props.currencySymbol} />
+          currencySymbol={props.currencySymbol}
+          loadingText={props.loadingText}
+          error={props.error}
+          loading={props.loading} />
       </Formik>
+      <div>DedicationForm</div>
     </div>
   );
 };
 
 interface SupporterFieldsProps {
+  loadingText: string;
+  error: string;
+  loading: boolean;
   required: RequiredFieldsType;
   supporter: SupporterType;
   hideDedication: boolean;
@@ -91,13 +106,13 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
 
   const [address, setAddress] = useState<AddressProps>(props.address);
   function setAddressFields(field: string, value: string) {
-    setAddress({...address, [field]: value });
+    setAddress({ ...address, [field]: value });
     setFieldValue('address', address);
   }
 
   const [supporter, setSupporter] = useState<SupporterType>(props.supporter);
   function setSupporterFields(field: string, value: string) {
-    setSupporter({...supporter, [field]: value });
+    setSupporter({ ...supporter, [field]: value });
     setFieldValue('supporter', supporter);
   }
 
@@ -147,7 +162,7 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
                   (e) => {
                     setSupporterFields('lastName', e.target.value);
                   }
-                }/>
+                } />
             </fieldset>
             <fieldset className={'u-marginBottom--0 u-floatL col-right-4'}>
               <input
@@ -161,7 +176,7 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
                   (e) => {
                     setSupporterFields('phone', e.target.value);
                   }
-                }/>
+                } />
             </fieldset>
           </section>
         </fieldset>
@@ -172,24 +187,41 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
       <CustomFields />
       <DedicationLink hideDedication={props.hideDedication} />
       <AnonymousCheckbox />
-      <div>DedicationForm</div>
-      <PaymentButton submitForm={submitForm}/>
+      <PaymentButtons submitForm={submitForm} loading={props.loading} error={props.error} loadingText={props.loadingText} setFieldValue={setFieldValue} />
     </>
   );
 };
 
-function PaymentButton(props: { submitForm: () => void }): JSX.Element {
+function PaymentButtons(props: { error: string, loading: boolean | null, loadingText: string | null, submitForm: () => void, setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void }): JSX.Element {
+  const { formatMessage } = useIntl();
+  const sepaText = formatMessage({ id: 'nonprofits.donate.payment.tabs.sepa' });
+  const creditCardText = formatMessage({ id: 'nonprofits.donate.payment.tabs.card' });
+
+  return (
+    <fieldset className={'u-inlineBlock u-marginTop--10'}>
+      <section className="group">
+        <PaymentButton label={'sepa'} error={props.error} loading={props.loading} loadingText={props.loadingText} buttonText={sepaText} submitForm={props.submitForm} setFieldValue={props.setFieldValue} />
+        <PaymentButton label={'credit_card'} error={props.error} loading={props.loading} loadingText={props.loadingText} buttonText={creditCardText} submitForm={props.submitForm} setFieldValue={props.setFieldValue} />
+      </section>
+    </fieldset>
+  );
+}
+
+function PaymentButton(props: { label: string, error: string, loading: boolean | null, loadingText: string | null, buttonText: string, submitForm: () => void, setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void }): JSX.Element {
   const { formatMessage } = useIntl();
   const buttonText = formatMessage({ id: 'nonprofits.donate.payment.card.submit' });
 
   return (
-    <div className={`ff-buttonWrapper u-floatL u-marginBottom--10`}>
-      <p className={`ff-button-error`}>Error</p>
+    <div className={`ff-buttonWrapper u-floatL u-marginBottom--10${props.error ? ' ff-buttonWrapper--hasError' : ''}`}>
+      <p className='ff-buttonWrapper--hasError' style={{ display: props.error ? 'block' : 'none' }}>{props.error}</p>
       <button
-        className={`ff-button`}
+        className={`ff-button ${props.loading ? 'ff-button--loading' : ''} ${props.label}`}
         type={'submit'}
-        onClick={() => { props.submitForm(); }}
-      >{buttonText}</button>
+        onClick={() => {
+          props.setFieldValue('selectedPayment', props.label);
+          props.submitForm();
+        }}
+      >{props.loading ? (props.loadingText || " Saving...") : (props.buttonText || buttonText)}</button>
     </div>
   );
 }

@@ -23,6 +23,7 @@ import { useContext } from 'react';
 import { result } from 'lodash';
 
 export interface DonateWizardProps {
+	loadingText: string;
 	hideDedication: boolean;
 	brandColor: string;
 	offsite: boolean;
@@ -57,6 +58,9 @@ export type ActionType = {
 	supporter: SupporterType,
 	address: AddressProps,
 	next: () => void
+} | {
+	type: 'setSelectedPayment',
+	selectedPayment: string
 };
 
 export type SupporterType = {
@@ -77,10 +81,10 @@ export type AddressProps = {
 }
 
 export type RequiredFieldsType = {
-  email: boolean;
-  firstName: boolean;
-  lastName: boolean;
-  phone: boolean;
+	email: boolean;
+	firstName: boolean;
+	lastName: boolean;
+	phone: boolean;
 }
 
 
@@ -88,10 +92,15 @@ function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWiz
 	const [donateWizardState, stateDispatch] = useReducer(wizardOutputReducer, initialState);
 
 	const reducerAction = (action: ActionType) => {
+		console.log(action);
 		switch (action.type) {
 			case 'setAmount': {
 				stateDispatch(action);
 				action.next();
+				break;
+			}
+			case 'setSelectedPayment': {
+				stateDispatch(action);
 				break;
 			}
 			case 'setSupporter': {
@@ -116,6 +125,8 @@ function wizardOutputReducer(state: DonateWizardOutputState, action: ActionType)
 			return { ...state, loading: action.loading };
 		case 'setSupporter':
 			return { ...state, supporter: action.supporter, address: action.address };
+		case 'setSelectedPayment':
+			return { ...state, selectedPayment: action.selectedPayment };
 		default:
 			throw new Error();
 	}
@@ -132,12 +143,13 @@ export interface DonateWizardOutputState {
 	recurring: boolean | null;
 	supporter: SupporterType | null;
 	address: AddressProps | null;
+	selectedPayment: string | null;
 }
 
 export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	useBrandedWizard(props.brandColor);
 
-	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: false, supporter: null, address: null });
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: false, supporter: null, address: null, selectedPayment: null });
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;
@@ -172,14 +184,17 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 				weekly={props.weekly}
 				showRecurring={props.showRecurring}
 				supporter={donateWizardState.supporter}
-				address = {donateWizardState.address}
+				address={donateWizardState.address}
 				required={{
 					email: props.required.email,
 					firstName: props.required.firstName,
 					lastName: props.required.lastName,
 					phone: props.required.phone
 				}}
-				hideDedication={props.hideDedication} />
+				hideDedication={props.hideDedication}
+				loadingText={props.loadingText}
+				error={donateWizardState.error}
+				loading={donateWizardState.loading} />
 
 			{/* I'm not putting in the footer because it's not realy a useful feature */}
 
@@ -219,6 +234,9 @@ HeaderDesignation.defaultProps = {
 };
 
 interface WizardWrapperProps {
+	loadingText: string;
+	error: string;
+	loading: boolean;
 	hideDedication: boolean;
 	amount: Money;
 	amountOptions: Money[];
@@ -275,7 +293,10 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 							amount={props.amount}
 							stateDispatch={props.stateDispatch}
 							currencySymbol={props.currencySymbol}
-							address={undefined}/>,
+							address={props.address}
+							loading={props.loading}
+							error={props.error}
+							loadingText={props.loadingText} />,
 					},
 					{
 						title: nonprofitsDonatePaymentLabel,

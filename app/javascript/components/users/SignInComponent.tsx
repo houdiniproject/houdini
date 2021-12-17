@@ -1,14 +1,12 @@
 // License: LGPL-3.0-or-later
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import { Formik, Form, Field, useFormikContext } from 'formik';
 import noop from "lodash/noop";
 import usePrevious from 'react-use/lib/usePrevious';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import { TextField } from 'formik-material-ui';
 import useIsLoading from "../../hooks/useIsLoading";
 import useIsSuccessful from "../../hooks/users/useIsSuccessful";
 import useIsReady from "../../hooks/users/useIsReady";
@@ -23,8 +21,10 @@ import { useId } from "@reach/auto-id";
 import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
 import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
-import { useMountedState } from "react-use";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import TextField from "../form_fields/TextField";
 
 
 export interface SignInComponentProps {
@@ -85,6 +85,8 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		password: yup.string().label(passwordLabel).required(),
 	});
 
+
+
 	//Styling - Material-UI
 	const useStyles = makeStyles((theme: Theme) => createStyles({
 		textField: {
@@ -121,53 +123,47 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	}),
 	);
 	const classes = useStyles();
-	const isMounted = useMountedState();
+	//const isMounted = useMountedState();
+	const form = useForm({
+		mode: 'all',
+		resolver: yupResolver(validationSchema),
+		defaultValues: { email: '', password: '' },
 
+	});
 	return (
-		<Formik
-			initialValues={
-				{
-					email: "",
-					password: "",
-				}}
-			validationSchema={validationSchema}
-			onSubmit={async (values, formikHelpers) => {
-				try {
-					await signIn(values);
-				}
-				catch (e: unknown) {
-					// NOTE: We're just swallowing the exception here for now. Might we need to do
-					// something different? Don't know!
-				}
-				finally {
-					if (isMounted()) formikHelpers.setSubmitting(false);
-				}
+		<form onSubmit={form.handleSubmit(async (data) => {
+			try {
+				await signIn(data);
 			}
-				//Props
-			}>{() => {
-
-				return (<InnerFormikComponent
-					emailLabel={emailLabel}
-					passwordLabel={passwordLabel}
-					failed={failed}
-					lastSignInAttemptError={lastSignInAttemptError}
-					classes={classes}
-					loginHeaderLabel={loginHeaderLabel}
-					submitting={submitting}
-					onFailure={onFailure}
-					onSubmitting={onSubmitting}
-					onSuccess={onSuccess}
-					showProgressAndSuccess={showProgressAndSuccess}
-				/>);
-			}}
-		</Formik>
+			catch (e: unknown) {
+				// NOTE: We're just swallowing the exception here for now. Might we need to do
+				// something different? Don't know!
+			}
+		})}>
+			<InnerFormComponent
+				emailLabel={emailLabel}
+				passwordLabel={passwordLabel}
+				failed={failed}
+				lastSignInAttemptError={lastSignInAttemptError}
+				classes={classes}
+				loginHeaderLabel={loginHeaderLabel}
+				submitting={submitting}
+				onFailure={onFailure}
+				onSubmitting={onSubmitting}
+				onSuccess={onSuccess}
+				showProgressAndSuccess={showProgressAndSuccess}
+				form={form}
+			/>;
+		</form>
 	);
 }
 
-function InnerFormikComponent(props: {
+
+function InnerFormComponent<TFieldValues>(props: {
 	classes: ClassNameMap<"textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
 	emailLabel: string;
 	failed: boolean;
+	form: UseFormReturn<TFieldValues>;
 	lastSignInAttemptError: NetworkError;
 	loginHeaderLabel: string;
 	onFailure: (error: NetworkError) => void;
@@ -189,23 +185,16 @@ function InnerFormikComponent(props: {
 		passwordLabel,
 		loginHeaderLabel,
 		classes,
+		form:{formState: {isDirty:dirty, isValid}, control},
 	} = props;
-	const [, setIsValid] = useState(false);
-	const [, setTouched] = useState(false);
-	const { isValid } = useFormikContext();
-	useEffect(() => {
-		setIsValid(isValid);
-	}, [isValid, setIsValid]);
 
-	const { dirty } = useFormikContext();
-	useEffect(() => {
-		setTouched(dirty);
-	}, [dirty, setTouched]);
+
 
 	// this keeps track of what the values submitting were the last
 	// time the the component was rendered
 	const previousSubmittingValue = usePrevious(submitting);
 	const wasSubmitting = previousSubmittingValue && !submitting;
+	//	const { register, handleSubmit, formState: {isDirty, isSubmitSuccessful, isSubmitted} } = useForm({reValidateMode: 'onBlur', resolver: yupResolver(validationSchema)})
 
 	const isReady = useIsReady(wasSubmitting, onFailure, failed, lastSignInAttemptError, submitting);
 	const canSubmit = useCanSubmit(isValid, showProgressAndSuccess, isReady, dirty);
@@ -217,12 +206,11 @@ function InnerFormikComponent(props: {
 	const passwordId = useId();
 
 	return (
-		<Form>
-			{/* NOTE: if a Button should submit a form, mark it as type="submit". Otherwise pressing Enter won't submit form*/}
+		<>
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{!isSuccessful ?
 					<Box p={1.5}>
-						<Field component={TextField} name="email" type="text" id={emailId} data-testid="emailTest"
+						<TextField control={control} id={emailId} name="email" data-testid="emailTest"
 							label={emailLabel}
 							InputProps={{
 								startAdornment: (
@@ -230,16 +218,18 @@ function InnerFormikComponent(props: {
 										<AccountCircle fontSize="small" />
 									</InputAdornment>
 								),
-							}}
-						/>
+							}} />
 					</Box>
 					: null}
 			</Box>
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{!isSuccessful ?
 					<Box p={1.5}>
-						<Field component={TextField} name="password" type="password" id={passwordId}
+						<TextField control={control}
+							id={passwordId}
+							name="password"
 							label={passwordLabel}
+							type="password"
 							InputProps={{
 								startAdornment: (
 									<InputAdornment position="start">
@@ -263,7 +253,7 @@ function InnerFormikComponent(props: {
 					{loading ?
 						(<div data-testid="progressTest">
 							<Box display="flex" justifyContent="center" alignItems="center">
-								<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."}/>
+								<CircularProgress size={25} className={classes.buttonProgress} aria-label={"Signing In..."} />
 							</Box>
 						</div>) :
 						<Button className={classes.submitButton}
@@ -284,7 +274,7 @@ function InnerFormikComponent(props: {
 					</Box>
 					: null}
 			</div>
-		</Form>
+		</>
 	);
 }
 

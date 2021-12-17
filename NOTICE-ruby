@@ -1066,11 +1066,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actionmailer; version 6.1.4.1 -- 
-** actionpack; version 6.1.4.1 -- 
-** actionview; version 6.1.4.1 -- 
-** activemodel; version 6.1.4.1 -- 
-** railties; version 6.1.4.1 -- 
+** actionmailer; version 6.1.4.2 -- 
+** actionpack; version 6.1.4.2 -- 
+** actionview; version 6.1.4.2 -- 
+** activemodel; version 6.1.4.2 -- 
+** railties; version 6.1.4.2 -- 
 Copyright (c) 2006-2013 Paul Battley, Michael Neumann, Tim Fletcher.
 
 Copyright (c) 2004-2020 David Heinemeier Hansson
@@ -1126,7 +1126,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** countries; version 4.0.1 -- 
+** countries; version 4.1.1 -- 
+Copyright (c) 2012
+Copyright (c) 2016
 
 Copyright (c) 2012 hexorx
 
@@ -1183,7 +1185,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** globalid; version 0.5.2 -- 
+** globalid; version 1.0.0 -- 
 Copyright (c) 2014-2016 David Heinemeier Hansson
 
 Copyright (c) 2014-2016 David Heinemeier Hansson
@@ -1723,7 +1725,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actioncable; version 6.1.4.1 -- 
+** actioncable; version 6.1.4.2 -- 
 Copyright (c) 2010-2015 James Coglan
 
 Copyright (c) 2015-2020 Basecamp, LLC
@@ -1750,7 +1752,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** loofah; version 2.12.0 -- 
+** loofah; version 2.13.0 -- 
 Copyright (c) 2006-2008 The Authors
 Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
 
@@ -2221,7 +2223,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** sprockets-rails; version 3.2.2 -- 
+** sprockets-rails; version 3.4.2 -- 
 Copyright (c) 2014-2016 Joshua Peek
 
 Copyright (c) 2014-2016 Joshua Peek
@@ -2364,7 +2366,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actionmailbox; version 6.1.4.1 -- 
+** actionmailbox; version 6.1.4.2 -- 
 
 MIT License
 
@@ -2391,7 +2393,7 @@ SOFTWARE.
 
 ------
 
-** actiontext; version 6.1.4.1 -- 
+** actiontext; version 6.1.4.2 -- 
 
 MIT License
 
@@ -2676,7 +2678,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activejob; version 6.1.4.1 -- 
+** activejob; version 6.1.4.2 -- 
 
 Copyright (c) 2014-2020 David Heinemeier Hansson
 
@@ -2934,7 +2936,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activerecord; version 6.1.4.1 -- 
+** activerecord; version 6.1.4.2 -- 
 copyright (c) 2007-2016 Nick Kallen, Bryan Helmkamp, Emilio Tagua, Aaron Patterson
 ** async; version 1.30.1 -- 
 Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
@@ -2964,7 +2966,7 @@ Copyright (c) 2016, Matthew Kerwin <matthew@kerwin.net.au>
 Copyright, 2016, by Matthew Kerwin (http://kerwin.net.au).
 Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2016, by Samuel G. D. Williams (http://www.codeotaku.com/samuel-williams).
-** i18n_data; version 0.13.0 -- 
+** i18n_data; version 0.13.1 -- 
 ** i18n-js; version 3.8.0 -- 
 Copyright (c) 2008-2011 Pivotal Labs
 Copyright (c) 2010-2015, The Dojo Foundation
@@ -2997,7 +2999,7 @@ Copyright (c) Django Software Foundation and individual contributors.
 Copyright (c) 2007-2019 Leah Neukirchen <http://leahneukirchen.org/infopage.html>
 ** rack-attack; version 5.4.2 -- 
 Copyright Kickstarter, PBC.
-** rails; version 6.1.4.1 -- 
+** rails; version 6.1.4.2 -- 
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
 ** rails-html-sanitizer; version 1.4.2 -- 
@@ -3025,7 +3027,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ------
 
-** activesupport; version 6.1.4.1 -- 
+** activesupport; version 6.1.4.2 -- 
 
 Copyright (c) 2005-2020 David Heinemeier Hansson
 
@@ -3383,7 +3385,7 @@ THE SOFTWARE.
 
 ------
 
-** activestorage; version 6.1.4.1 -- 
+** activestorage; version 6.1.4.2 -- 
 
 Copyright (c) 2017-2020 David Heinemeier Hansson, Basecamp
 
@@ -3984,7 +3986,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** test-unit; version 3.5.1 -- 
+** test-unit; version 3.5.2 -- 
 Copyright (c) 2008 Ryan Davis.
 Copyright (c) 2008-2011 Kouhei Sutou.
 Copyright (c) 2009-2013 Kouhei Sutou.
@@ -4378,26 +4380,10 @@ You can redistribute it and/or modify it under either the terms of the
 
 ------
 
-** racc; version 1.5.2 -- 
-Copyright (c) 2011 SUSE
-Copyright (c) George Ogata
-Copyright (c) 2006 Pluron Inc.
-Copyright 2011 Sylvester Keil.
-Copyright (c) 2014 James Harton
-Copyright 2008-2015 Takuto Wada
-Copyright (c) 2013 by Adam Beynon
+** racc; version 1.6.0 -- 
 Copyright (c) 1999-2006 Minero Aoki
-Copyright (c) Ryan Davis, seattle.rb
-Copyright (c) 2012-2014 by Luke Gruber
-Copyright (c) 2013-2014 Sylvester Keil
 Copyright (c) 2019 Yukihiro Matsumoto.
-Copyright (c) 2010 Klaus Kampf <kkaempf@suse.de>
-Copyright (c) 2011-2014, Tenable Network Security
 copyright Zhu Zuo Quan Biao Shi woChu Li siteZhong Liao
-Copyright (c) 2013 Peter Zotov <whitequark@whitequark.org>
-Copyright (c) 2012 President and Fellows of Harvard College
-Copyright (c) 2016 Charles Oliver Nutter <headius@headius.com>
-Copyright (c) 2012-2013 Peter Zotov <whitequark@whitequark.org> 2012 Yaroslav Markin <yaroslav@markin.net> 2012 Nate Gadgibalaev <nat@xnsv.ru>
 
 Copyright (C) 2019 Yukihiro Matsumoto. All rights reserved.
 

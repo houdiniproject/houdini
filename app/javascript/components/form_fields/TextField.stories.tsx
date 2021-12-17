@@ -70,10 +70,10 @@ function FormHandler(props: {
 
 					<Grid container item xs={12} spacing={2}>
 						<Grid item xs={2}>
-							<Button type="submit" variant={"outlined"} data-testid="submit-button" value={"Try Submit (submit ends in 5 seconds max)"}/>
+							<Button type="submit" variant={"outlined"} data-testid="submit-button">Try Submit (submit ends in 5 seconds max)</Button>
 						</Grid>
 						<Grid item xs={2}>
-							<Button onClick={() => setEndSubmit(true)} type='button' variant={"outlined"} data-testid="cancel-button" value={"Cancel Submit"}/>
+							<Button onClick={() => setEndSubmit(true)} type='button' variant={"outlined"} data-testid="cancel-button">Cancel Submit</Button>
 						</Grid>
 					</Grid>
 

@@ -2,13 +2,14 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import type {DecoratorFn} from '@storybook/react';
-import { StoryFn } from '@storybook/addons';
 
 
-function decorator(story:StoryFn<JSX.Element>): JSX.Element {
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function decorator(Story:any): JSX.Element {
 	return (<>
 		<CssBaseline/>
-		{story()}
+		<Story/>
 	</>);
 }
 

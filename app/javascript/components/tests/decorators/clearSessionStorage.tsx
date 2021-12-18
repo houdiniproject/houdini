@@ -1,11 +1,12 @@
 // License: LGPL-3.0-or-later
 import type {DecoratorFn} from '@storybook/react';
-import { StoryFn } from '@storybook/addons';
+import React from 'react';
 
 
-function decorator(story:StoryFn<JSX.Element>): JSX.Element {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function decorator(Story:any): JSX.Element {
 	sessionStorage.clear();
-	return story();
+	return <Story/>;
 }
 
 export default function decorate(): DecoratorFn {

@@ -1253,20 +1253,13 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@formatjs/ecma402-abstract@1.11.0":
+"@formatjs/ecma402-abstract@1.11.0", "@formatjs/ecma402-abstract@^1.2.4":
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/@formatjs/ecma402-abstract/-/ecma402-abstract-1.11.0.tgz#7e91e6cc7cfebdc07171e00a3288719705e0108c"
   integrity sha512-TOp5La9wmSh9G5bqFGN/ApmOXtJDzBGkYW+OTRd3ukY7J32RVGZPpN4O9BD651JUy66nj3g9CIENTNCgm4IRXQ==
   dependencies:
     "@formatjs/intl-localematcher" "0.2.21"
     tslib "^2.1.0"
-
-"@formatjs/ecma402-abstract@^1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@formatjs/ecma402-abstract/-/ecma402-abstract-1.2.4.tgz#0f11e0309bc885d53ddc823e36d04d520fda7674"
-  integrity sha512-5XEuvm+bImBmSFlhbE9FeRQKXWtpt+WIYRsma96bneoNMnUMeCADHJxNNSA5JSY4TlrjVZFHW3jE4HYm10bLbA==
-  dependencies:
-    tslib "^2.0.1"
 
 "@formatjs/fast-memoize@1.2.0":
   version "1.2.0"

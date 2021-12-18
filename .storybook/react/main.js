@@ -4,6 +4,7 @@ process.env.NODE_ENV = "development";
 const railsWebpackEnv = require("../../config/webpack/environment");
 
 module.exports = {
+  staticDirs: ['./msw-public'],
   stories: [
     "../../app/javascript/**/*!(--html).stories.mdx",
     "../../app/javascript/**/*!(--html).stories.[tj]s?(x)"

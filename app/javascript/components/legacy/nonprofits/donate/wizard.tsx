@@ -148,7 +148,7 @@ export interface DonateWizardOutputState {
 export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	useBrandedWizard(props.brandColor);
 
-	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: false, supporter: null, address: null, selectedPayment: null });
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: props.isRecurring, supporter: null, address: null, selectedPayment: null });
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;

@@ -12,6 +12,7 @@ class CustomFieldMaster < ActiveRecord::Base
 
 	belongs_to :nonprofit
 	has_many :custom_field_joins, dependent: :destroy
+	has_many :supporters, through: :custom_field_joins
 
 	scope :not_deleted, ->{where(deleted: [nil,false])}
 

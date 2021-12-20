@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.10.1)
--- Dumped by pg_dump version 13.4 (Ubuntu 13.4-0ubuntu0.21.04.1)
+-- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -844,6 +844,105 @@ CREATE TABLE public.donations_payment_imports (
 
 
 --
+-- Name: e_tap_import_contacts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.e_tap_import_contacts (
+    id integer NOT NULL,
+    e_tap_import_id integer,
+    "row" jsonb,
+    supporter_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: e_tap_import_contacts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.e_tap_import_contacts_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: e_tap_import_contacts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.e_tap_import_contacts_id_seq OWNED BY public.e_tap_import_contacts.id;
+
+
+--
+-- Name: e_tap_import_journal_entries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.e_tap_import_journal_entries (
+    id integer NOT NULL,
+    e_tap_import_id integer,
+    "row" jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: e_tap_import_journal_entries_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.e_tap_import_journal_entries_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: e_tap_import_journal_entries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.e_tap_import_journal_entries_id_seq OWNED BY public.e_tap_import_journal_entries.id;
+
+
+--
+-- Name: e_tap_imports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.e_tap_imports (
+    id integer NOT NULL,
+    nonprofit_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: e_tap_imports_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.e_tap_imports_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: e_tap_imports_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.e_tap_imports_id_seq OWNED BY public.e_tap_imports.id;
+
+
+--
 -- Name: email_lists; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1463,6 +1562,38 @@ CREATE SEQUENCE public.imports_id_seq
 --
 
 ALTER SEQUENCE public.imports_id_seq OWNED BY public.imports.id;
+
+
+--
+-- Name: journal_entries_to_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.journal_entries_to_items (
+    id integer NOT NULL,
+    e_tap_import_journal_entry_id integer,
+    item_id integer,
+    item_type character varying
+);
+
+
+--
+-- Name: journal_entries_to_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.journal_entries_to_items_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: journal_entries_to_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.journal_entries_to_items_id_seq OWNED BY public.journal_entries_to_items.id;
 
 
 --
@@ -3132,6 +3263,27 @@ ALTER TABLE ONLY public.donations ALTER COLUMN id SET DEFAULT nextval('public.do
 
 
 --
+-- Name: e_tap_import_contacts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.e_tap_import_contacts ALTER COLUMN id SET DEFAULT nextval('public.e_tap_import_contacts_id_seq'::regclass);
+
+
+--
+-- Name: e_tap_import_journal_entries id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.e_tap_import_journal_entries ALTER COLUMN id SET DEFAULT nextval('public.e_tap_import_journal_entries_id_seq'::regclass);
+
+
+--
+-- Name: e_tap_imports id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.e_tap_imports ALTER COLUMN id SET DEFAULT nextval('public.e_tap_imports_id_seq'::regclass);
+
+
+--
 -- Name: email_lists id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3248,6 +3400,13 @@ ALTER TABLE ONLY public.image_attachments ALTER COLUMN id SET DEFAULT nextval('p
 --
 
 ALTER TABLE ONLY public.imports ALTER COLUMN id SET DEFAULT nextval('public.imports_id_seq'::regclass);
+
+
+--
+-- Name: journal_entries_to_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.journal_entries_to_items ALTER COLUMN id SET DEFAULT nextval('public.journal_entries_to_items_id_seq'::regclass);
 
 
 --
@@ -3683,6 +3842,30 @@ ALTER TABLE ONLY public.profiles
 
 
 --
+-- Name: e_tap_import_contacts e_tap_import_contacts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.e_tap_import_contacts
+    ADD CONSTRAINT e_tap_import_contacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: e_tap_import_journal_entries e_tap_import_journal_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.e_tap_import_journal_entries
+    ADD CONSTRAINT e_tap_import_journal_entries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: e_tap_imports e_tap_imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.e_tap_imports
+    ADD CONSTRAINT e_tap_imports_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: email_settings email_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3808,6 +3991,14 @@ ALTER TABLE ONLY public.image_attachments
 
 ALTER TABLE ONLY public.imports
     ADD CONSTRAINT imports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: journal_entries_to_items journal_entries_to_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.journal_entries_to_items
+    ADD CONSTRAINT journal_entries_to_items_pkey PRIMARY KEY (id);
 
 
 --
@@ -4346,6 +4537,27 @@ CREATE INDEX index_donations_on_event_id ON public.donations USING btree (event_
 --
 
 CREATE INDEX index_donations_on_nonprofit_id ON public.donations USING btree (nonprofit_id);
+
+
+--
+-- Name: index_e_tap_import_contacts_on_e_tap_import_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_e_tap_import_contacts_on_e_tap_import_id ON public.e_tap_import_contacts USING btree (e_tap_import_id);
+
+
+--
+-- Name: index_e_tap_import_contacts_on_supporter_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_e_tap_import_contacts_on_supporter_id ON public.e_tap_import_contacts USING btree (supporter_id);
+
+
+--
+-- Name: index_e_tap_import_journal_entries_on_e_tap_import_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_e_tap_import_journal_entries_on_e_tap_import_id ON public.e_tap_import_journal_entries USING btree (e_tap_import_id);
 
 
 --
@@ -6009,4 +6221,6 @@ INSERT INTO schema_migrations (version) VALUES ('20211025145718');
 INSERT INTO schema_migrations (version) VALUES ('20211101221537');
 
 INSERT INTO schema_migrations (version) VALUES ('20211104195053');
+
+INSERT INTO schema_migrations (version) VALUES ('20211210185111');
 

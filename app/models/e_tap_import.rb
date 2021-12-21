@@ -29,8 +29,10 @@ class ETapImport < ActiveRecord::Base
 
   def process(user)
     e_tap_import_journal_entries.order('e_tap_import_journal_entries.id ASC').each do |entry|
-      if entry.unprocessed?
-        entry.to_wrapper.process(user)
+      transaction do
+        if entry.unprocessed?
+          entry.to_wrapper.process(user)
+        end
       end
     end
   end

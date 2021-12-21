@@ -100,7 +100,7 @@ export function useSerializeMoney(props: UseSerializeMoneyProps): ReturnType<typ
 
 
 export type IMoneyTextFieldProps<TFieldValues = unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> &
-	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control: Control<TFieldValues> };
+	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control?: Control<TFieldValues> };
 
 /**
  * A text field which accepts a Money value, uses useI18nCurrencyInput and returns a Money value for various callbacks

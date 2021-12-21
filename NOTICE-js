@@ -1142,7 +1142,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 CopyrightIcon img src https://unpkg.com/@icons/material/svg/corn.svg
 ** @material-ui/types; version 5.1.0 -- https://github.com/mui-org/material-ui/tree/master/packages/material-ui-types
 ** @mswjs/cookies; version 0.1.6 -- 
-** @mswjs/interceptors; version 0.12.6 -- 
+** @mswjs/interceptors; version 0.12.7 -- 
 ** @open-draft/until; version 1.0.3 -- 
 ** @rails/activestorage; version 6.0.3 -- http://rubyonrails.org/
 ** @rails/webpacker; version 5.4.2 -- https://github.com/rails/webpacker
@@ -5932,8 +5932,7 @@ Copyright (c) Microsoft Corporation.
 Copyright (c) Microsoft Corporation.
 ** @types/i18n-js; version 3.8.0 -- 
 Copyright (c) Microsoft Corporation.
-** @types/inquirer; version 7.3.3 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/inquirer
-Copyright (c) Microsoft Corporation.
+** @types/inquirer; version 8.1.3 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/inquirer
 ** @types/is-function; version 1.0.0 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/istanbul-lib-coverage; version 2.0.3 -- 
@@ -16902,7 +16901,7 @@ THE SOFTWARE.
 
 ------
 
-** inquirer; version 8.1.2 -- https://github.com/SBoudrias/Inquirer.js#readme
+** inquirer; version 8.2.0 -- https://github.com/SBoudrias/Inquirer.js#readme
 Copyright (c) 2012 Simon Boudrias
 Copyright (c) 2016 Simon Boudrias (twitter vaxilart (https://twitter.com/Vaxilart))
 
@@ -22098,7 +22097,6 @@ Copyright Fedor Indutny, 2017.
 ** msw-storybook-addon; version 1.5.0 -- https://msw-sb.vercel.app/
 ** natural-compare; version 1.4.0 -- https://github.com/litejs/natural-compare-lite#readme
 Copyright (c) 2012-2015 Lauri Rooden <lauri@rooden.ee>
-** node-match-path; version 0.6.3 -- 
 
 MIT License
 
@@ -22320,6 +22318,9 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** meow; version 3.7.0 -- https://github.com/sindresorhus/meow#readme
 (c) Sindre Sorhus (http://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+** normalize-url; version 1.9.1 -- https://github.com/sindresorhus/normalize-url#readme
+(c) Sindre Sorhus (https://sindresorhus.com)
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 
 The MIT License (MIT)
 
@@ -22446,7 +22447,7 @@ SOFTWARE.
 
 ------
 
-** msw; version 0.35.0 -- https://mswjs.io/
+** msw; version 0.36.3 -- https://mswjs.io/
 Copyright (c) Microsoft Corporation.
 Copyright (c) 2012-2014 Roman Shtylman
 Copyright (c) 2015 Douglas Christopher Wilson
@@ -25721,7 +25722,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Copyright (c) 2014 Blake Embrey (hello@blakeembrey.com)
 ** pascal-case; version 3.1.1 -- https://github.com/blakeembrey/change-case/tree/master/packages/pascal-case#readme
 Copyright (c) 2014 Blake Embrey (hello@blakeembrey.com)
-** path-to-regexp; version 0.1.7 -- https://github.com/component/path-to-regexp#readme
+** path-to-regexp; version 6.2.0 -- https://github.com/pillarjs/path-to-regexp#readme
 Copyright (c) 2014 Blake Embrey (hello@blakeembrey.com)
 
 The MIT License (MIT)
@@ -25907,6 +25908,34 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** regexpp; version 3.1.0 -- https://github.com/mysticatea/regexpp#readme
+Copyright (c) 2018 Toru Nagashima
+
+MIT License
+
+Copyright (c) 2018 Toru Nagashima
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ------
@@ -27228,9 +27257,6 @@ IN THE SOFTWARE.
 
 ------
 
-** normalize-url; version 1.9.1 -- https://github.com/sindresorhus/normalize-url#readme
-(c) Sindre Sorhus (https://sindresorhus.com)
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** npm-run-path; version 2.0.2 -- https://github.com/sindresorhus/npm-run-path#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
@@ -33326,6 +33352,36 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** upath; version 1.2.0 -- http://github.com/anodynos/upath/
+Copyright (c) 2019 Angelos Pikoulas <agelos.pikoulas@gmail.com>
+Copyright (c) 2014-2019 Angelos Pikoulas (agelos.pikoulas@gmail.com)
+
+Copyright(c) 2014-2019 Angelos Pikoulas (agelos.pikoulas@gmail.com)
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** through; version 2.3.8 -- https://github.com/dominictarr/through
 Copyright (c) 2011 Dominic Tarr
 
@@ -33397,34 +33453,6 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** regexpp; version 3.1.0 -- https://github.com/mysticatea/regexpp#readme
-Copyright (c) 2018 Toru Nagashima
-
-MIT License
-
-Copyright (c) 2018 Toru Nagashima
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 
 
 ------
@@ -35912,9 +35940,9 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** slash; version 3.0.0 -- https://github.com/sindresorhus/slash#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-** string-width; version 4.2.2 -- https://github.com/sindresorhus/string-width#readme
+** string-width; version 4.2.3 -- https://github.com/sindresorhus/string-width#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
-** strip-ansi; version 6.0.0 -- https://github.com/chalk/strip-ansi#readme
+** strip-ansi; version 6.0.1 -- https://github.com/chalk/strip-ansi#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** strip-bom; version 4.0.0 -- https://github.com/sindresorhus/strip-bom#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
@@ -37347,36 +37375,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-------
-
-** upath; version 1.2.0 -- http://github.com/anodynos/upath/
-Copyright (c) 2019 Angelos Pikoulas <agelos.pikoulas@gmail.com>
-Copyright (c) 2014-2019 Angelos Pikoulas (agelos.pikoulas@gmail.com)
-
-Copyright(c) 2014-2019 Angelos Pikoulas (agelos.pikoulas@gmail.com)
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the "Software"), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------

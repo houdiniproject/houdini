@@ -48,8 +48,8 @@ export default {
 		nonprofitName: {
 			type: { name: 'string' },
 			defaultValue: 'Nonprofit',
-		}
-	}
+		},
+	},
 };
 
 interface TemplateArgs {

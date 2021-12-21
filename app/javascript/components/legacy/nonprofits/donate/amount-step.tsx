@@ -32,7 +32,7 @@ export function AmountStep(props: AmountStepProps): JSX.Element {
 				type: 'setAmount',
 				amount: values.amount,
 				recurring: values.recurring || false,
-				next: stepManagerContext.next
+				next: stepManagerContext.next,
 			});
 		}} initialValues={{ amount: props.amount } as FormikFormValues} enableReinitialize={true}>
 			<AmountFields amounts={props.amountOptions} currencySymbol={props.currencySymbol} singleAmount={props.singleAmount} isRecurring={props.isRecurring} showRecurring={props.showRecurring} />
@@ -57,7 +57,7 @@ function RecurringCheckbox(props: RecurringCheckboxProps): JSX.Element {
 		return (<section className={'donate-recurringCheckbox u-paddingX--5 u-marginBottom--10'}>
 
 			<div className={`u-padding--8 u-background--grey u-centered ${props.isRecurring ? 'highlight' : ''}`}>
-				<input id={checkboxId} type={'checkbox'} checked={props.isRecurring} onChange={(e) => { props.setRecurring()}} />
+				<input id={checkboxId} type={'checkbox'} checked={props.isRecurring} onChange={(e) => { props.setRecurring();}} />
 				<label htmlFor={checkboxId}>
 					<ComposeTranslation
 						full={nonprofitsDonateAmountSustaining}
@@ -84,9 +84,8 @@ function ComposeTranslation(props: { full: string, bold: string }): JSX.Element 
 }
 
 function RecurringMessage(props: { isRecurring: boolean, recurringWeekly: boolean, periodicAmount: number, singleAmount: string }): JSX.Element {
-	if (!props.isRecurring) return <></>;
-
 	const { formatMessage } = useIntl();
+	if (!props.isRecurring) return <></>;
 
 	let label = formatMessage({ id: 'nonprofits.donate.amount.sustaining_selected' });
 	let bolded = formatMessage({ id: 'nonprofits.donate.amount.sustaining_selected_bold' });
@@ -155,7 +154,7 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 	const setRecurring = () => {
 		setFieldValue('recurring', !isRecurring);
 		setIsRecurring(!isRecurring);
-	}
+	};
 
 	if (props.singleAmount) {
 		return (
@@ -175,7 +174,7 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 					</button>
 				</fieldset>
 			</span>
-		)
+		);
 	}
 	return (<div className={'u-inline fieldsetLayout--three--evenPadding'}>
 		<span>
@@ -244,7 +243,7 @@ function SingleAmount(props: SingleAmountProps): JSX.Element {
 			</p>
 		</section>
 	);
-};
+}
 
 AmountFields.defaultProps = {
 	amounts: [10, 25, 50, 100, 250, 500, 1000].map((i) => Money.fromCents(i, 'usd')),
@@ -252,5 +251,5 @@ AmountFields.defaultProps = {
 	isRecurring: false,
 	recurringWeekly: false,
 	periodicAmount: 1,
-	singleAmount: undefined
+	singleAmount: undefined,
 };

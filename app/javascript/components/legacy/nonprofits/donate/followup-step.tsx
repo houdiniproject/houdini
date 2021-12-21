@@ -16,7 +16,7 @@ export default function FollowupStep(props: FollowupStepProps): JSX.Element {
 	const nonprofitsDonateFollowupSuccess = formatMessage({ id: 'nonprofits.donate.followup.success' });
 	const nonprofitsDonateFollowupReceiptInfo = formatMessage({ id: 'nonprofits.donate.followup.receipt_info' });
 	const nonprofitsDonateFollowupMessage = formatMessage({ id: 'nonprofits.donate.followup.message' });
-	const nonprofitsDonateFollowupFinish = formatMessage({ id: 'nonprofits.donate.followup.finish' })
+	const nonprofitsDonateFollowupFinish = formatMessage({ id: 'nonprofits.donate.followup.finish' });
 
 	return (<div className="u-padding--10 u-centered">
 		<h6 className={'u-marginTop--15'}>

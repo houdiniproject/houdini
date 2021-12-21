@@ -48,19 +48,19 @@ export type ActionType = {
 	next: () => void;
 	recurring: boolean;
 } | {
-	type: 'setError',
-	error: string
+	type: 'setError';
+	error: string;
 } | {
-	type: 'setLoading',
-	loading: boolean
+	type: 'setLoading';
+	loading: boolean;
 } | {
-	type: 'setSupporter',
-	supporter: SupporterType,
-	address: AddressProps,
-	next: () => void
+	type: 'setSupporter';
+	supporter: SupporterType;
+	address: AddressProps;
+	next: () => void;
 } | {
-	type: 'setSelectedPayment',
-	selectedPayment: string
+	type: 'setSelectedPayment';
+	selectedPayment: string;
 };
 
 export type SupporterType = {
@@ -70,7 +70,7 @@ export type SupporterType = {
 	phone: string;
 	profileId: string;
 	nonprofitId: string;
-}
+};
 
 export type AddressProps = {
 	address: string;
@@ -78,14 +78,14 @@ export type AddressProps = {
 	stateCode: string;
 	country: string;
 	zipCode: string;
-}
+};
 
 export type RequiredFieldsType = {
 	email: boolean;
 	firstName: boolean;
 	lastName: boolean;
 	phone: boolean;
-}
+};
 
 
 function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWizardOutputState, (action: ActionType) => void] {
@@ -188,7 +188,7 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 					email: props.required.email,
 					firstName: props.required.firstName,
 					lastName: props.required.lastName,
-					phone: props.required.phone
+					phone: props.required.phone,
 				}}
 				hideDedication={props.hideDedication}
 				loadingText={props.loadingText}
@@ -214,8 +214,8 @@ DonateWizard.defaultProps = {
 		email: true,
 		firstName: true,
 		lastName: true,
-		phone: true
-	}
+		phone: true,
+	},
 } as DonateWizardProps;
 
 function HeaderDesignation(props: { brandColor: string, designation_desc?: string | null }): JSX.Element {

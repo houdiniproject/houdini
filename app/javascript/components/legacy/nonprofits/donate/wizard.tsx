@@ -47,6 +47,7 @@ export type ActionType = {
 	amount: Money;
 	next: () => void;
 	recurring: boolean;
+	buttonAmountSelected: boolean;
 } | {
 	type: 'setError';
 	error: string;
@@ -119,7 +120,7 @@ function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWiz
 function wizardOutputReducer(state: DonateWizardOutputState, action: ActionType): DonateWizardOutputState {
 	switch (action.type) {
 		case 'setAmount':
-			return { ...state, amount: action.amount, recurring: action.recurring };
+			return { ...state, amount: action.amount, recurring: action.recurring, buttonAmountSelected: action.buttonAmountSelected };
 		case 'setLoading':
 			return { ...state, loading: action.loading };
 		case 'setSupporter':
@@ -140,6 +141,7 @@ export interface DonateWizardOutputState {
 	loading: boolean | null;
 	error: string | null;
 	recurring: boolean | null;
+	buttonAmountSelected: boolean | null;
 	supporter: SupporterType | null;
 	address: AddressProps | null;
 	selectedPayment: string | null;
@@ -148,7 +150,7 @@ export interface DonateWizardOutputState {
 export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	useBrandedWizard(props.brandColor);
 
-	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: props.isRecurring, supporter: null, address: null, selectedPayment: null });
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: props.isRecurring, supporter: null, address: null, selectedPayment: null, buttonAmountSelected: false });
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;

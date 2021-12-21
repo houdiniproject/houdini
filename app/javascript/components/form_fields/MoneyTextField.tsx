@@ -132,7 +132,7 @@ function MoneyTextField<TFieldValues=unknown>({ children,
 		onFocus,
 		onMouseUp,
 		onSelect } = useSerializeMoney({ inputRef, value, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, onChange: (e) => {
-		field.onChange({target: {value: e}});
+		field.onChange({target: {value: e.toJSON()}	});
 	} });
 
 	return <MuiTextField {...fieldToTextField({field, fieldState, formState, inputRef, ...props})} value={maskedValue}

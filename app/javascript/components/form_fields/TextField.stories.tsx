@@ -11,6 +11,7 @@ import { useId } from '@reach/auto-id';
 import { waitFor } from '@testing-library/react';
 import { Button, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import noop from 'lodash/noop';
 
 function InnerForm({ disabled, onChange, control, helperText }: { control?: Control<unknown>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
 	const value = useWatch({ name: 'value', control });
@@ -20,8 +21,7 @@ function InnerForm({ disabled, onChange, control, helperText }: { control?: Cont
 		onChangeRef.current({ value });
 	}, [value, onChangeRef]);
 
-	const id = useId();
-	return <TextField name="value" label={'First Name'} control={control} id={id} helperText={helperText} disabled={disabled} />;
+	return <TextField name="value" label={'First Name'} helperText={helperText} disabled={disabled} />;
 }
 
 function FormHandler(props: {
@@ -89,8 +89,7 @@ function FormHandler(props: {
 }
 
 FormHandler.defaultProps = {
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	onChange: () => { },
+	onChange: noop,
 	locale: 'en',
 };
 export default { title: 'Form Fields/TextField' };

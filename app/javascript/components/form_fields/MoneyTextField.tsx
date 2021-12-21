@@ -11,6 +11,7 @@ import { MutableRefObject, useEffect, useRef } from "react";
 import { useI18nCurrencyInput, Types } from '@houdiniproject/react-i18n-currency-input';
 import '../../common/intl-polyfills/numberFormat';
 import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
+import { useId } from "@reach/auto-id";
 
 interface ConversionProps<T extends unknown=unknown>  {
 	disabled?:boolean;
@@ -115,6 +116,7 @@ function MoneyTextField<TFieldValues=unknown>({ children,
 	useGrouping,
 	allowEmpty,
 	selectAllOnFocus,
+	id:passedId,
 	...props }: IMoneyTextFieldProps<TFieldValues>): JSX.Element {
 	const {
 		field,
@@ -124,6 +126,9 @@ function MoneyTextField<TFieldValues=unknown>({ children,
 		name,
 		control,
 	});
+
+	const generatedId = useId();
+	const id = passedId || generatedId;
 
 	const value = Money.fromCents(field.value as MoneyAsJson);
 
@@ -135,8 +140,8 @@ function MoneyTextField<TFieldValues=unknown>({ children,
 		field.onChange({target: {value: e.toJSON()}	});
 	} });
 
-	return <MuiTextField {...fieldToTextField({field, fieldState, formState, inputRef, ...props})} value={maskedValue}
-		onChange={onChange} onFocus={onFocus} onMouseUp={onMouseUp} onSelect={onSelect}>
+	return <MuiTextField {...fieldToTextField({field, fieldState, formState, inputRef,  ...props})} value={maskedValue}
+		onChange={onChange} onFocus={onFocus} onMouseUp={onMouseUp} onSelect={onSelect} id={id}>
 		{children}
 	</MuiTextField>;
 

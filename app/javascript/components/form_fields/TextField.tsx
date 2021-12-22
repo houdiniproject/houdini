@@ -5,6 +5,7 @@ import React, { MutableRefObject } from "react";
 import MuiTextField from '@material-ui/core/TextField';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
 import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
+import { useId } from "@reach/auto-id";
 
 interface ConversionProps<T extends unknown = unknown> {
 	disabled?:boolean;
@@ -52,7 +53,7 @@ export function fieldToTextField({
 }
 
 
-export type ITextFieldProps<TFieldValues=unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> & { control: Control<TFieldValues> };
+export type ITextFieldProps<TFieldValues=unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> & { control?: Control<TFieldValues> };
 
 /**
  * A text field
@@ -60,7 +61,7 @@ export type ITextFieldProps<TFieldValues=unknown> = Omit<MuiTextFieldProps, 'val
  * @param {ITextFieldProps}
  * @returns {JSX.Element}
  */
-function TextField<TFieldValues=unknown>({ children, control, name, ...props }: ITextFieldProps<TFieldValues>): JSX.Element {
+function TextField<TFieldValues=unknown>({ children, control, name, id:passedId, ...props }: ITextFieldProps<TFieldValues>): JSX.Element {
 	const {
 		field,
 		fieldState,
@@ -70,9 +71,14 @@ function TextField<TFieldValues=unknown>({ children, control, name, ...props }: 
 		control,
 	});
 
+	const generatedId = useId();
+	const id = passedId || generatedId;
 
 
-	return <MuiTextField {...fieldToTextField({ field, fieldState, formState, ...props })}>
+
+
+
+	return <MuiTextField {...fieldToTextField({ field, fieldState, formState,  ...props })} id={id}>
 		{children}
 	</MuiTextField>;
 

@@ -11,6 +11,7 @@ import { MutableRefObject, useEffect, useRef } from "react";
 import { useI18nCurrencyInput, Types } from '@houdiniproject/react-i18n-currency-input';
 import '../../common/intl-polyfills/numberFormat';
 import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
+import { useId } from "@reach/auto-id";
 
 interface ConversionProps<T extends unknown=unknown>  {
 	disabled?:boolean;
@@ -100,7 +101,7 @@ export function useSerializeMoney(props: UseSerializeMoneyProps): ReturnType<typ
 
 
 export type IMoneyTextFieldProps<TFieldValues = unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> &
-	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control: Control<TFieldValues> };
+	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control?: Control<TFieldValues> };
 
 /**
  * A text field which accepts a Money value, uses useI18nCurrencyInput and returns a Money value for various callbacks
@@ -115,6 +116,7 @@ function MoneyTextField<TFieldValues=unknown>({ children,
 	useGrouping,
 	allowEmpty,
 	selectAllOnFocus,
+	id:passedId,
 	...props }: IMoneyTextFieldProps<TFieldValues>): JSX.Element {
 	const {
 		field,
@@ -125,6 +127,9 @@ function MoneyTextField<TFieldValues=unknown>({ children,
 		control,
 	});
 
+	const generatedId = useId();
+	const id = passedId || generatedId;
+
 	const value = Money.fromCents(field.value as MoneyAsJson);
 
 	const inputRef = useRef<HTMLInputElement|null>();
@@ -132,11 +137,11 @@ function MoneyTextField<TFieldValues=unknown>({ children,
 		onFocus,
 		onMouseUp,
 		onSelect } = useSerializeMoney({ inputRef, value, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, onChange: (e) => {
-		field.onChange({target: {value: e}});
+		field.onChange({target: {value: e.toJSON()}	});
 	} });
 
-	return <MuiTextField {...fieldToTextField({field, fieldState, formState, inputRef, ...props})} value={maskedValue}
-		onChange={onChange} onFocus={onFocus} onMouseUp={onMouseUp} onSelect={onSelect}>
+	return <MuiTextField {...fieldToTextField({field, fieldState, formState, inputRef,  ...props})} value={maskedValue}
+		onChange={onChange} onFocus={onFocus} onMouseUp={onMouseUp} onSelect={onSelect} id={id}>
 		{children}
 	</MuiTextField>;
 

@@ -10,9 +10,9 @@ import { Story } from '@storybook/react';
 import { useId } from '@reach/auto-id';
 import { waitFor } from '@testing-library/react';
 import { Button, Typography } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid/Grid';
+import Grid from '@material-ui/core/Grid';
 
-function InnerForm({ disabled, onChange, control, helperText }: { control: Control<unknown>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
+function InnerForm({ disabled, onChange, control, helperText }: { control?: Control<unknown>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
 	const value = useWatch({ name: 'value', control });
 	const onChangeRef = useRef(onChange);
 	onChangeRef.current = onChange;
@@ -64,7 +64,7 @@ function FormHandler(props: {
 						<Typography>If you&apos;d like to see what happens to the TextField component during submission, submit the form.<br /><small>(You can cancel the form submission as well.)</small></Typography>
 					</Grid>
 					<Grid item xs={12}>
-						<InnerForm {...innerFormProps} control={form.control} />
+						<InnerForm {...innerFormProps} />
 					</Grid>
 
 
@@ -83,11 +83,6 @@ function FormHandler(props: {
 					</Grid>
 					{form.formState.isValidating ? <input type="hidden" data-testid="is-validating" value={"validating"}/> : ""}
 				</Grid>
-
-
-
-
-
 
 			</form>
 		</FormProvider>);
@@ -126,7 +121,6 @@ StartingWithPenelopeSchultz.args = {
 export const EmptyTextFieldWithValidation = Template.bind({});
 EmptyTextFieldWithValidation.args = {
 	onChange: action('on-change'),
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
 };
 

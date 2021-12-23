@@ -3,7 +3,7 @@ import { Money } from '../../../../common/money';
 import React, { useContext, useState } from 'react';
 import { SupporterType, RequiredFieldsType, ActionType, AddressProps } from './wizard';
 import { WizardContext } from '../../_dependencies/ff-core/wizard';
-import { Formik, useFormikContext } from 'formik';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import { useIntl } from "../../../intl";
 
 // const h = require('snabbdom/h')
@@ -57,19 +57,23 @@ export function InfoStep(props: InfoStepProps): JSX.Element {
 					address: values.address,
 					next: stepManagerContext.next,
 				});
-			}} initialValues={{ supporter: props.supporter, address: props.address } as FormikFormValues}>
-				<SupporterFields
-					required={props.required}
-					supporter={props.supporter}
-					hideDedication={props.hideDedication}
-					address={props.address}
-					isRecurring={props.isRecurring}
-					weekly={props.weekly}
-					amount={props.amount}
-					currencySymbol={props.currencySymbol}
-					loadingText={props.loadingText}
-					error={props.error}
-					loading={props.loading} />
+			}} initialValues={{ supporter: {
+				email: ''
+			}, address: props.address } as FormikFormValues}>
+				<Form>
+					<SupporterFields
+						required={props.required}
+						supporter={props.supporter}
+						hideDedication={props.hideDedication}
+						address={props.address}
+						isRecurring={props.isRecurring}
+						weekly={props.weekly}
+						amount={props.amount}
+						currencySymbol={props.currencySymbol}
+						loadingText={props.loadingText}
+						error={props.error}
+						loading={props.loading} />
+				</Form>
 			</Formik>
 			<div>DedicationForm</div>
 		</div>
@@ -102,87 +106,51 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
 	const firstNameTitle = formatMessage({ id: 'nonprofits.donate.info.supporter.first_name' });
 	const lastNameTitle = formatMessage({ id: 'nonprofits.donate.info.supporter.last_name' });
 	const phoneTitle = formatMessage({ id: 'nonprofits.donate.info.supporter.phone' });
-	const next = formatMessage({ id: 'nonprofits.donate.amount.next' });
 
-	const [address, setAddress] = useState<AddressProps>(props.address);
-	function setAddressFields(field: string, value: string) {
-		setAddress({ ...address, [field]: value });
-		setFieldValue('address', address);
-	}
-
-	const [supporter, setSupporter] = useState<SupporterType>(props.supporter);
-	function setSupporterFields(field: string, value: string) {
-		setSupporter({ ...supporter, [field]: value });
-		setFieldValue('supporter', supporter);
-	}
 
 	return (
 		<>
 			<RecurringMessage isRecurring={props.isRecurring} weekly={props.weekly} currencySymbol={props.currencySymbol} amount={props.amount} />
 			<div className={'u-marginY--10'}>
-				<input type="hidden" name="profile_id" value={props.supporter?.profileId} />
-				<input type="hidden" name="nonprofit_id" value={props.supporter?.nonprofitId} />
+				<Field type="hidden" name="profile_id" value={props.supporter?.profileId} />
+				<Field type="hidden" name="nonprofit_id" value={props.supporter?.nonprofitId} />
 				<fieldset>
-					<input
+					<Field
 						type="email"
-						name="email"
+						name="supporter.email"
 						title={emailTitle}
 						required={props.required.email}
-						value={supporter?.email}
-						placeholder={emailTitle}
-						onChange={
-							(e) => {
-								setSupporterFields('email', e.target.value);
-							}
-						} />
+						placeholder={emailTitle}/>
 					<section className={'group'}>
 						<fieldset className={'u-marginBottom--0 u-floatL col-right-4'}>
-							<input
+							<Field
 								type="text"
-								name="first_name"
+								name="supporter.firstName"
 								placeholder={firstNameTitle}
 								required={props.required.firstName}
-								title={firstNameTitle}
-								value={supporter?.firstName}
-								onChange={
-									(e) => {
-										setSupporterFields('firstName', e.target.value);
-									}
-								} />
+								title={firstNameTitle} />
 						</fieldset>
 						<fieldset className={'u-marginBottom--0 u-floatL col-right-4'}>
-							<input
+							<Field
 								type="text"
-								name="last_name"
+								name="supporter.lastName"
 								placeholder={lastNameTitle}
 								required={props.required.lastName}
-								title={lastNameTitle}
-								value={supporter?.lastName}
-								onChange={
-									(e) => {
-										setSupporterFields('lastName', e.target.value);
-									}
-								} />
+								title={lastNameTitle} />
 						</fieldset>
 						<fieldset className={'u-marginBottom--0 u-floatL col-right-4'}>
-							<input
+							<Field
 								type="text"
-								name="phone"
+								name="supporter.phone"
 								placeholder={phoneTitle}
 								required={props.required.phone}
-								title={phoneTitle}
-								value={supporter?.phone}
-								onChange={
-									(e) => {
-										setSupporterFields('phone', e.target.value);
-									}
-								} />
+								title={phoneTitle} />
 						</fieldset>
 					</section>
 				</fieldset>
 				<ManualAddress
-					address={address}
-					setAddressFields={setAddressFields} />
+					values={values}
+					setFieldValue={setFieldValue} />
 			</div>
 			<CustomFields />
 			<DedicationLink hideDedication={props.hideDedication} />
@@ -226,7 +194,7 @@ function PaymentButton(props: { label: string, error: string, loading: boolean |
 	);
 }
 
-function ManualAddress(props: { address: AddressProps, setAddressFields: (field: string, value: string) => void }): JSX.Element {
+function ManualAddress(props: { values: FormikFormValues, setFieldValue: (field: string, value: string) => void }): JSX.Element {
 	const { formatMessage } = useIntl();
 	const addressTitle = formatMessage({ id: 'nonprofits.donate.info.supporter.address' });
 	const cityTitle = formatMessage({ id: 'nonprofits.donate.info.supporter.city' });
@@ -236,74 +204,44 @@ function ManualAddress(props: { address: AddressProps, setAddressFields: (field:
 		<section className={'group pastelBox--grey u-padding--5'}>
 			{/* TODO: props.toShip? */}
 			<fieldset className={'col-8 u-fontSize--14'}>
-				<input
+				<Field
 					type="text"
 					className={'u-marginBottom--0'}
 					title={addressTitle}
 					placeholder={addressTitle}
-					name={'address'}
-					value={props.address?.address}
-					onChange={
-						(e) => {
-							props.setAddressFields('address', e.target.value);
-						}
-					}
+					name={'supporter.address.address'}
 				/>
 			</fieldset>
 			<fieldset className={'col-right-4 u-fontSize--14'}>
-				<input
+				<Field
 					type="text"
 					className={'u-marginBottom--0'}
 					title={cityTitle}
 					placeholder={cityTitle}
-					name={'city'}
-					value={props.address?.city}
-					onChange={
-						(e) => {
-							props.setAddressFields('city', e.target.value);
-						}
-					}
+					name={'supporter.address.city'}
 				/>
 			</fieldset>
 			<fieldset className={'u-marginBottom--0 u-floatL col-4'}>
-				<input
+				<Field
 					type="text"
 					className={'select u-fontSize--14 u-marginBottom--0'}
-					name={'state_code'}
-					value={props.address?.stateCode}
-					onChange={
-						(e) => {
-							props.setAddressFields('stateCode', e.target.value);
-						}
-					}
+					name={'supporter.address.stateCode'}
 				/>
 			</fieldset>
 			<fieldset className={'u-marginBottom--0 u-floatL col-right-4 u-fontSize--14'}>
-				<input
+				<Field
 					type="text"
 					className={'u-marginBottom--0'}
 					title={zipCodeTitle}
 					placeholder={zipCodeTitle}
-					name={'zip_code'}
-					value={props.address?.zipCode}
-					onChange={
-						(e) => {
-							props.setAddressFields('zipCode', e.target.value);
-						}
-					}
+					name={'supporter.address.zipCode'}
 				/>
 			</fieldset>
 			<fieldset className={'u-marginBottom--0 u-floatL col-right-8'}>
-				<input
+				<Field
 					type="text"
 					className={'select u-fontSize--14 u-marginBottom--0'}
-					name={'country'}
-					value={props.address?.country}
-					onChange={
-						(e) => {
-							props.setAddressFields('country', e.target.value);
-						}
-					}
+					name={'supporter.address.country'}
 				/>
 			</fieldset>
 		</section>

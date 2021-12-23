@@ -47,7 +47,6 @@ export type ActionType = {
 	amount: Money;
 	next: () => void;
 	recurring: boolean;
-	buttonAmountSelected: boolean;
 } | {
 	type: 'setError';
 	error: string;
@@ -120,7 +119,7 @@ function useDonateWizardState(initialState: DonateWizardOutputState): [DonateWiz
 function wizardOutputReducer(state: DonateWizardOutputState, action: ActionType): DonateWizardOutputState {
 	switch (action.type) {
 		case 'setAmount':
-			return { ...state, amount: action.amount, recurring: action.recurring, buttonAmountSelected: action.buttonAmountSelected };
+			return { ...state, amount: action.amount, recurring: action.recurring };
 		case 'setLoading':
 			return { ...state, loading: action.loading };
 		case 'setSupporter':

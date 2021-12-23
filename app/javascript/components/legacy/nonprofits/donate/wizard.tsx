@@ -193,8 +193,7 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 				}}
 				hideDedication={props.hideDedication}
 				loadingText={props.loadingText}
-				error={donateWizardState.error}
-				loading={donateWizardState.loading} />
+				error={donateWizardState.error} />
 
 			{/* I'm not putting in the footer because it's not realy a useful feature */}
 
@@ -236,7 +235,6 @@ HeaderDesignation.defaultProps = {
 interface WizardWrapperProps {
 	loadingText: string;
 	error: string;
-	loading: boolean;
 	hideDedication: boolean;
 	amount: Money;
 	amountOptions: Money[];
@@ -294,7 +292,6 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 							stateDispatch={props.stateDispatch}
 							currencySymbol={props.currencySymbol}
 							address={props.address}
-							loading={props.loading}
 							error={props.error}
 							loadingText={props.loadingText} />,
 					},

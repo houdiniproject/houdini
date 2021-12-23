@@ -20,7 +20,6 @@ import { useIntl } from "../../../intl";
 // const cardTab = 'credit_card'
 
 interface InfoStepProps {
-  loading: boolean;
   error: string;
   loadingText: string;
   address: AddressProps;
@@ -60,20 +59,22 @@ export function InfoStep(props: InfoStepProps): JSX.Element {
 			}} initialValues={{ supporter: {
 				email: ''
 			}, address: props.address } as FormikFormValues}>
-				<Form>
-					<SupporterFields
-						required={props.required}
-						supporter={props.supporter}
-						hideDedication={props.hideDedication}
-						address={props.address}
-						isRecurring={props.isRecurring}
-						weekly={props.weekly}
-						amount={props.amount}
-						currencySymbol={props.currencySymbol}
-						loadingText={props.loadingText}
-						error={props.error}
-						loading={props.loading} />
-				</Form>
+				{({ isSubmitting }) => (
+					<Form>
+						<SupporterFields
+							required={props.required}
+							supporter={props.supporter}
+							hideDedication={props.hideDedication}
+							address={props.address}
+							isRecurring={props.isRecurring}
+							weekly={props.weekly}
+							amount={props.amount}
+							currencySymbol={props.currencySymbol}
+							loadingText={props.loadingText}
+							error={props.error}
+							loading={isSubmitting} />
+					</Form>
+				)}
 			</Formik>
 			<div>DedicationForm</div>
 		</div>
@@ -187,7 +188,6 @@ function PaymentButton(props: { label: string, error: string, loading: boolean |
 				type={'submit'}
 				onClick={() => {
 					props.setFieldValue('selectedPayment', props.label);
-					props.submitForm();
 				}}
 			>{props.loading ? (props.loadingText || " Saving...") : (props.buttonText || buttonText)}</button>
 		</div>

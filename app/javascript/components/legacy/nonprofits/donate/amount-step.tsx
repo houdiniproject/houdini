@@ -22,24 +22,25 @@ interface AmountStepProps {
 interface FormikFormValues {
 	recurring: boolean;
 	amount: Money | null;
-	prefilledAmount: Money | null;
-	customAmount: Money | null;
+	prefilledAmount: Money | string;
+	customAmount: Money | string;
 }
 
 export function AmountStep(props: AmountStepProps): JSX.Element {
 	const stepManagerContext = useContext(WizardContext);
 	return (<div className={"wizard-step amount-step"} >
 		<Formik onSubmit={(values, formikBag) => {
-			if (values.prefilledAmount) {
-				formikBag.setFieldValue('customAmount', undefined);
+			if (values.prefilledAmount !== '') {
+				formikBag.setFieldValue('customAmount', '');
 			}
+			let amountToSend: Money = (values.prefilledAmount ? values.prefilledAmount : values.customAmount) as Money;
 			props.stateDispatch({
 				type: 'setAmount',
-				amount: (values.prefilledAmount ? values.prefilledAmount : values.customAmount).multiply(100),
+				amount: amountToSend.multiply(100),
 				recurring: values.recurring || false,
 				next: stepManagerContext.next,
 			});
-		}} initialValues={{ amount: props.amount || 0, recurring: props.isRecurring, buttonAmountSelected: false, customAmount: undefined, prefilledAmount: undefined } as FormikFormValues} enableReinitialize={true}>
+		}} initialValues={{ amount: props.amount || 0, recurring: props.isRecurring, buttonAmountSelected: false, customAmount: '', prefilledAmount: '' } as FormikFormValues} >
 			<Form>
 				<AmountFields amounts={props.amountOptions} currencySymbol={props.currencySymbol} singleAmount={props.singleAmount} isRecurring={props.isRecurring} showRecurring={props.showRecurring} />
 			</Form>
@@ -178,7 +179,7 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 			<RecurringMessage isRecurring={isRecurring} recurringWeekly={props.recurringWeekly} periodicAmount={props.periodicAmount} singleAmount={props.singleAmount} />
 			{props.amounts.map(amt => {
 				let weAreSelected = false;
-				if (values.prefilledAmount) {
+				if (values.prefilledAmount && values.prefilledAmount instanceof Money) {
 					weAreSelected = values.prefilledAmount.equals(amt);
 				}
 				return (
@@ -196,15 +197,15 @@ function AmountFields(props: AmountFieldsProps): JSX.Element {
 			})}
 			<fieldset className={prependCurrencyClassname(props.currencySymbol)}>
 				<Field
-					className={`amount other ${values.prefilledAmount === undefined ? '' : 'is-selected'}`}
+					className={`amount other ${values.prefilledAmount === '' ? '' : 'is-selected'}`}
 					name={'customAmount'}
 					step='any'
 					type='number'
 					min={1}
 					placeholder={nonprofitsDonateAmountCustom}
-					value={values.customAmount?.cents}
+					value={values.customAmount instanceof Money ? values.customAmount.cents : ''}
 					onChange={(v: any) => {
-						setFieldValue('prefilledAmount', undefined);
+						setFieldValue('prefilledAmount', '');
 						setFieldValue('customAmount', Money.fromCents(v.currentTarget.value, 'usd'));
 					}}
 				/>

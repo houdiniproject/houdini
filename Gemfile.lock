@@ -396,7 +396,7 @@ GEM
       sprockets-rails
       tilt
     semantic_range (3.0.0)
-    shoulda-matchers (5.0.0)
+    shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
     sixarm_ruby_unaccent (1.2.0)
     sprockets (3.7.2)
@@ -451,7 +451,7 @@ GEM
       activejob (>= 4.0.0)
       wisper
     wisper-rspec (1.1.0)
-    zeitwerk (2.5.1)
+    zeitwerk (2.5.2)
 
 PLATFORMS
   ruby
@@ -507,7 +507,7 @@ DEPENDENCIES
   rubocop-rspec (~> 2.6)
   sassc (~> 2.0, >= 2.0.1)
   sassc-rails (~> 2.1, >= 2.1.2)
-  shoulda-matchers (~> 5.0.0)
+  shoulda-matchers (~> 5.1.0)
   sprockets (~> 3.7)
   stripe (~> 1.58)
   stripe-ruby-mock (~> 2.4.1)!

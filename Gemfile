@@ -71,7 +71,7 @@ group :development, :ci, :test do
   gem 'rubocop-rails', '~> 2.12'
   gem 'rubocop-rake', '~> 0.6.0'
   gem 'rubocop-rspec', '~> 2.7'
-  gem 'shoulda-matchers', '~> 5.0.0'
+  gem 'shoulda-matchers', '~> 5.1.0'
   gem 'turbo_test'
 end
 

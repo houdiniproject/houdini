@@ -34,7 +34,7 @@ jobs:
       security-events: none
       statuses: write
     steps:
-      - uses: z0al/dependent-issues@v1.4.1
+      - uses: z0al/dependent-issues@v1.5.1
         env:
           # (Required) The token to use to make API calls to GitHub.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,65 +1,64 @@
 // License: LGPL-3.0-or-later
 import { Money } from '../../../../common/money';
 import React, { useContext, useState } from 'react';
-import { SupporterType, RequiredFieldsType, ActionType, AddressProps } from './wizard';
+import { SupporterType, RequiredFieldsType, ActionType, AddressProps, DedicationDataProps } from './wizard';
 import { WizardContext } from '../../_dependencies/ff-core/wizard';
-import { Field, Form, Formik, useFormikContext } from 'formik';
+import { Field, Form, Formik, FormikErrors, FormikTouched, useFormikContext } from 'formik';
 import { useIntl } from "../../../intl";
-
-// const h = require('snabbdom/h')
-// const R = require('ramda')
-// const flyd = require('flyd')
-// const uuid = require('uuid')
-// const supporterFields = require('../../components/supporter-fields')
-// const button = require('ff-core/button')
-// const dedicationForm = require('./dedication-form')
-// const serialize = require('form-serialize')
-// const request = require('../../common/request')
-
-// const sepaTab = 'sepa'
-// const cardTab = 'credit_card'
+import useYup from '../../../../hooks/useYup';
+import { PersonPinSharp } from '@material-ui/icons';
 
 interface InfoStepProps {
-  error: string;
-  loadingText: string;
-  address: AddressProps;
-  required: RequiredFieldsType;
-  supporter: SupporterType;
-  hideDedication: boolean;
-  isRecurring: boolean;
-  weekly: boolean;
-  amount: Money;
-  currencySymbol: string;
-  stateDispatch: (action: ActionType) => void;
+	showDedicationForm: boolean;
+	error: string;
+	loadingText: string;
+	address: AddressProps;
+	required: RequiredFieldsType;
+	supporter: SupporterType;
+	hideDedication: boolean;
+	isRecurring: boolean;
+	weekly: boolean;
+	amount: Money;
+	currencySymbol: string;
+	stateDispatch: (action: ActionType) => void;
+	dedicationData: DedicationDataProps;
 }
-
 interface FormikFormValues {
-  selectedPayment: string;
-  supporter: SupporterType;
-  address: AddressProps;
+	selectedPayment: string;
+	supporter: SupporterType;
+	address: AddressProps;
+	dedicationData: DedicationDataProps;
+	showDedicationForm: boolean;
 }
 
 export function InfoStep(props: InfoStepProps): JSX.Element {
 	const stepManagerContext = useContext(WizardContext);
+	const { formatMessage } = useIntl();
+	const Yup = useYup();
+	const InfoStepSchema = Yup.object({
+		supporter: Yup.object({
+			firstName: Yup.string().label(formatMessage({ id: 'nonprofits.donate.info.supporter.first_name'})).required(),
+			email: Yup.string().label(formatMessage({ id: 'nonprofits.donate.info.supporter.first_name' })).required(),
+		})
+	});
 
 	return (
 		<div className={'wizard-step info-step u-padding--10'}>
-			<Formik onSubmit={(values) => {
-				// post supporter data
-				props.stateDispatch({
-					type: 'setSelectedPayment',
-					selectedPayment: values.selectedPayment,
-				});
-				props.stateDispatch({
-					type: 'setSupporter',
-					supporter: values.supporter,
-					address: values.address,
-					next: stepManagerContext.next,
-				});
-			}} initialValues={{ supporter: {
-				email: ''
-			}, address: props.address } as FormikFormValues}>
-				{({ isSubmitting }) => (
+			<Formik validationSchema={InfoStepSchema}
+				onSubmit={(values) => {
+					// post supporter data
+					props.stateDispatch({
+						type: 'setSelectedPayment',
+						selectedPayment: values.selectedPayment,
+					});
+					props.stateDispatch({
+						type: 'setSupporter',
+						supporter: values.supporter,
+						address: values.address,
+						next: stepManagerContext.next,
+					});
+				}} initialValues={{ supporter: props.supporter, address: props.address, dedicationData: props.dedicationData, showDedicationForm: props.showDedicationForm } as FormikFormValues}>
+				{({ isSubmitting, errors, touched, isValidating }) => (
 					<Form>
 						<SupporterFields
 							required={props.required}
@@ -72,31 +71,43 @@ export function InfoStep(props: InfoStepProps): JSX.Element {
 							currencySymbol={props.currencySymbol}
 							loadingText={props.loadingText}
 							error={props.error}
-							loading={isSubmitting} />
+							loading={isSubmitting}
+							errors={errors}
+							touched={touched}
+							isValidating={isValidating}
+							dedicationData={props.dedicationData}
+						/>
+						<DedicationForm />
 					</Form>
 				)}
 			</Formik>
-			<div>DedicationForm</div>
 		</div>
 	);
 }
 
 interface SupporterFieldsProps {
-  loadingText: string;
-  error: string;
-  loading: boolean;
-  required: RequiredFieldsType;
-  supporter: SupporterType;
-  hideDedication: boolean;
-  address: AddressProps;
-  isRecurring: boolean;
-  weekly: boolean;
-  amount: Money;
-  currencySymbol: string;
+	loadingText: string;
+	error: string;
+	loading: boolean;
+	required: RequiredFieldsType;
+	supporter: SupporterType;
+	hideDedication: boolean;
+	address: AddressProps;
+	isRecurring: boolean;
+	weekly: boolean;
+	amount: Money;
+	currencySymbol: string;
+	errors: FormikErrors<FormikFormValues>;
+	touched: FormikTouched<FormikFormValues>;
+	isValidating: boolean;
+	dedicationData: DedicationDataProps;
 }
 
 interface DedicationLinkProps {
-  hideDedication: boolean;
+	hideDedication: boolean;
+	dedicationData: DedicationDataProps;
+	values: FormikFormValues;
+	setFieldValue: (field: string, value: any) => void;
 }
 
 function SupporterFields(props: SupporterFieldsProps): JSX.Element {
@@ -121,7 +132,7 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
 						name="supporter.email"
 						title={emailTitle}
 						required={props.required.email}
-						placeholder={emailTitle}/>
+						placeholder={emailTitle} />
 					<section className={'group'}>
 						<fieldset className={'u-marginBottom--0 u-floatL col-right-4'}>
 							<Field
@@ -154,9 +165,12 @@ function SupporterFields(props: SupporterFieldsProps): JSX.Element {
 					setFieldValue={setFieldValue} />
 			</div>
 			<CustomFields />
-			<DedicationLink hideDedication={props.hideDedication} />
+			<DedicationLink hideDedication={props.hideDedication} dedicationData={props.dedicationData} values={values} setFieldValue={setFieldValue} />
 			<AnonymousCheckbox />
 			<PaymentButtons submitForm={submitForm} loading={props.loading} error={props.error} loadingText={props.loadingText} setFieldValue={setFieldValue} />
+			{props.errors.supporter?.firstName && props.touched.supporter?.firstName ? (
+				<div>{props.errors.supporter?.firstName}</div>
+			) : null}
 		</>
 	);
 }
@@ -255,8 +269,45 @@ function CustomFields(): JSX.Element {
 }
 
 function DedicationLink(props: DedicationLinkProps): JSX.Element {
+	const { formatMessage } = useIntl();
+	if(props.hideDedication) return <></>;
+
+	const dedicationSaved = formatMessage({ id: 'nonprofits.donate.info.dedication_saved' });
+	const dedicationLink = formatMessage({ id: 'nonprofits.donate.info.dedication_link' });
+
 	return (
-		<div>DedicationLink</div>
+		<label className='u-centered u-marginTop--10'>
+			<small>
+				<a onClick={() => { props.setFieldValue('showDedicationForm', !props.values.showDedicationForm);} }>
+					{props.dedicationData && props.dedicationData.firstName ? 
+						<i className='fa fa-check'>{dedicationSaved + `${props.dedicationData.firstName || ''} ${props.dedicationData.lastName || ''}`}</i> : dedicationLink}
+				</a>
+			</small>
+		</label>
+	);
+}
+
+function DedicationForm(props: any): JSX.Element {
+	const { formatMessage } = useIntl();
+	if(!props.showDedicationForm) return <></>;
+
+	const dedicationInfo = formatMessage({ id: 'nonprofits.donate.dedication.info' });
+	const inHonorLabel = formatMessage({ id: 'nonprofits.donate.dedication.in_honor_of' });
+
+	return(
+		<Form className={'dedication-form'}>
+			<p className="u-centered u-strong u-marginBottom--10">
+				{dedicationInfo}
+			</p>
+			<fieldset className="u-marginBottom--0 col-6">
+				<Field
+					name={'dedicationData.dedicationType'}
+					type={'radio'}
+					id={'dedicationData.dedicationType'}
+					/>
+				<label htmlFor="dedicationData.dedicationType">{inHonorLabel}</label>
+			</fieldset>
+		</Form>
 	);
 }
 
@@ -279,10 +330,10 @@ function weeklyToMonthly(amount: Money) {
 	return (Math.round(4.3 * cents) / 100.0).toFixed(2).toString().replace(/\.00$/, '');
 }
 interface RecurringMessageProps {
-  isRecurring: boolean;
-  weekly: boolean;
-  currencySymbol: string;
-  amount: Money;
+	isRecurring: boolean;
+	weekly: boolean;
+	currencySymbol: string;
+	amount: Money;
 }
 
 function RecurringMessage(props: RecurringMessageProps): JSX.Element {

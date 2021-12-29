@@ -80,6 +80,15 @@ export type AddressProps = {
 	zipCode: string;
 };
 
+export type DedicationDataProps = {
+	firstName: string | null;
+	lastName: string | null;
+	email: string | null;
+	phone: string | null;
+	fullAddress: string | null;
+	dedicationNote: string | null;
+};
+
 export type RequiredFieldsType = {
 	email: boolean;
 	firstName: boolean;
@@ -136,6 +145,7 @@ export const DonationWizardContext = createContext<{ dispatch: Dispatch<ActionTy
 
 
 export interface DonateWizardOutputState {
+	dedicationData: DedicationDataProps;
 	amount: Money | null;
 	loading: boolean | null;
 	error: string | null;
@@ -149,7 +159,7 @@ export interface DonateWizardOutputState {
 export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 	useBrandedWizard(props.brandColor);
 
-	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: props.isRecurring, supporter: null, address: null, selectedPayment: null, buttonAmountSelected: false });
+	const [donateWizardState, stateDispatch] = useDonateWizardState({ amount: null, loading: false, error: null, recurring: props.isRecurring, supporter: null, address: null, selectedPayment: null, buttonAmountSelected: false, dedicationData: null });
 
 	const canClose = props.offsite || !props.embedded;
 	const hiddenCloseButton = !props.offsite || !props.embedded;
@@ -193,7 +203,8 @@ export default function DonateWizard(props: DonateWizardProps): JSX.Element {
 				}}
 				hideDedication={props.hideDedication}
 				loadingText={props.loadingText}
-				error={donateWizardState.error} />
+				error={donateWizardState.error}
+				dedicationData={donateWizardState.dedicationData} />
 
 			{/* I'm not putting in the footer because it's not realy a useful feature */}
 
@@ -233,6 +244,7 @@ HeaderDesignation.defaultProps = {
 };
 
 interface WizardWrapperProps {
+	dedicationData: DedicationDataProps;
 	loadingText: string;
 	error: string;
 	hideDedication: boolean;
@@ -293,7 +305,9 @@ function WizardWrapper(props: WizardWrapperProps): JSX.Element {
 							currencySymbol={props.currencySymbol}
 							address={props.address}
 							error={props.error}
-							loadingText={props.loadingText} />,
+							loadingText={props.loadingText}
+							dedicationData={props.dedicationData}
+							showDedicationForm={false} />,
 					},
 					{
 						title: nonprofitsDonatePaymentLabel,

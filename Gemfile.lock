@@ -211,18 +211,18 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    kaminari (1.2.1)
+    kaminari (1.2.2)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.1)
-      kaminari-activerecord (= 1.2.1)
-      kaminari-core (= 1.2.1)
-    kaminari-actionview (1.2.1)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
       actionview
-      kaminari-core (= 1.2.1)
-    kaminari-activerecord (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
       activerecord
-      kaminari-core (= 1.2.1)
-    kaminari-core (1.2.1)
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     libv8-node (15.14.0.1)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -324,13 +324,13 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    react_on_rails (12.4.0)
+    react_on_rails (12.5.2)
       addressable
       connection_pool
       execjs (~> 2.5)
-      rails (>= 3.2)
+      rails (>= 5.2)
       rainbow (~> 3.0)
-      webpacker (>= 4.0)
+      webpacker (>= 4.2)
     regexp_parser (2.2.0)
     request_store (1.5.0)
       rack (>= 1.4)
@@ -454,7 +454,7 @@ GEM
       activejob (>= 4.0.0)
       wisper
     wisper-rspec (1.1.0)
-    zeitwerk (2.5.2)
+    zeitwerk (2.5.3)
 
 PLATFORMS
   ruby
@@ -501,7 +501,7 @@ DEPENDENCIES
   rails (= 6.1.4.4)
   rails-i18n (~> 6.0.0, ~> 6)
   rake (~> 12.3.2)
-  react_on_rails (= 12.4.0)
+  react_on_rails (= 12.5.2)
   rspec (~> 3.10.0)
   rspec-rails (~> 4.1.2)
   rubocop (~> 1.24.1)

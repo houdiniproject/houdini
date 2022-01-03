@@ -1792,7 +1792,7 @@ THE SOFTWARE.
 
 ------
 
-** zeitwerk; version 2.5.2 -- 
+** zeitwerk; version 2.5.3 -- 
 License, Copyright (c) 2019
 Copyright (c) 2019-o Xavier Noria
 
@@ -1849,11 +1849,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** kaminari-actionview; version 1.2.1 -- 
+** kaminari-actionview; version 1.2.2 -- 
 Copyright (c) 2016 Akira Matsuda
-** kaminari-activerecord; version 1.2.1 -- 
+** kaminari-activerecord; version 1.2.2 -- 
 Copyright (c) 2016 Akira Matsuda
-** kaminari-core; version 1.2.1 -- 
+** kaminari-core; version 1.2.2 -- 
 Copyright (c) 2016 Akira Matsuda
 ** traceroute; version 0.8.1 -- 
 Copyright (c) 2016 Akira Matsuda
@@ -1999,7 +1999,7 @@ THE SOFTWARE.
 
 ------
 
-** kaminari; version 1.2.1 -- 
+** kaminari; version 1.2.2 -- 
 Copyright (c) 2011 Akira Matsuda
 Copyright (c) 2011- Akira Matsuda.
 
@@ -3593,7 +3593,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** react_on_rails; version 12.4.0 -- 
+** react_on_rails; version 12.5.2 -- 
 Copyright (c) 2017, 2018 Justin Gordon and ShakaCode, http://www.shakacode.com
 Copyright (c) 2018, 2019 Justin Gordon and ShakaCode, http://www.shakacode.com
 

@@ -2,7 +2,7 @@
 // based on app/javascript/legacy/nonprofits/donate/followup-step.js
 import React from 'react';
 import noop from 'lodash/noop';
-declare const I18n: any;
+import { useIntl } from "../../../intl";
 interface FollowupStepProps {
 	supporterEmail?: string | null;
 	thankYouMessage?: string | null;
@@ -12,14 +12,19 @@ interface FollowupStepProps {
 
 }
 export default function FollowupStep(props: FollowupStepProps): JSX.Element {
+	const { formatMessage } = useIntl();
+	const nonprofitsDonateFollowupSuccess = formatMessage({ id: 'nonprofits.donate.followup.success' });
+	const nonprofitsDonateFollowupReceiptInfo = formatMessage({ id: 'nonprofits.donate.followup.receipt_info' });
+	const nonprofitsDonateFollowupMessage = formatMessage({ id: 'nonprofits.donate.followup.message' });
+	const nonprofitsDonateFollowupFinish = formatMessage({ id: 'nonprofits.donate.followup.finish' });
 
 	return (<div className="u-padding--10 u-centered">
 		<h6 className={'u-marginTop--15'}>
-			{I18n.t('nonprofits.donate.followup.success')}
+			{nonprofitsDonateFollowupSuccess}
 		</h6>
-		{ props.supporterEmail ? <p>{`${I18n.t('nonprofits.donate.followup.receipt_info')} ${props.supporterEmail}`}</p> : ''}
+		{ props.supporterEmail ? <p>{`${nonprofitsDonateFollowupReceiptInfo} ${props.supporterEmail}`}</p> : ''}
 		<p>
-			{props.thankYouMessage || `${props.nonprofitName} ${I18n.t('nonprofits.donate.followup.message')}`}
+			{props.thankYouMessage || `${props.nonprofitName} ${nonprofitsDonateFollowupMessage}`}
 		</p>
 
 
@@ -44,7 +49,7 @@ export default function FollowupStep(props: FollowupStepProps): JSX.Element {
 
 		{ props.showFinishButton ?
 			<div>
-				<button className={'button finish'} onClick={props.clickFinish}>{I18n.t('nonprofits.donate.followup.finish')}</button>
+				<button className={'button finish'} onClick={props.clickFinish}>{nonprofitsDonateFollowupFinish}</button>
 			</div> : ''
 		}
 	</div>);

@@ -1,22 +1,22 @@
 /* License: LGPL-3.0-or-later */
-@import 'commons.css';   /* npm */
-@import 'colors.css';  /* contains variables */
-@import 'shadows.css'; /* contains variables */
-/*@import 'typography.css';*/
-@import 'icons.css';
-@import 'containers.css';
-@import 'buttons.css';
-@import 'decorative.css';
-@import 'form-elements.css';
-@import 'modal.css';
-@import 'notification.css';
-@import 'confirmation.css';
-@import 'wizard.css';
-@import 'tooltip.css';
-@import 'tabswap.css';
-@import 'utils.css';
-@import 'loader.css';
-@import 'pre.css';
+@import './commons.css.css.scss';   /* npm */
+@import './colors.css.css.scss';  /* contains variables */
+@import './shadows.css.css.scss'; /* contains variables */
+/*@import './typography.css.css.scss';*/
+@import './icons.css.css.scss';
+@import './containers.css.css.scss';
+@import './buttons.css.css.scss';
+@import './decorative.css.css.scss';
+@import './form-elements.css.css.scss';
+@import './modal.css.css.scss';
+@import './notification.css.css.scss';
+@import './confirmation.css.css.scss';
+@import './wizard.css.css.scss';
+@import './tooltip.css.css.scss';
+@import './tabswap.css.css.scss';
+@import './utils.css.css.scss';
+@import './loader.css.css.scss';
+@import './pre.css.css.scss';
 
 /* add to commons */
 @media (max-width: 30rem) {

@@ -1,22 +1,22 @@
 /* License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE */
-@import 'pikaday';
-@import 'mixins';
-@import 'bootstrap-tour';
+@import './pikaday.css.scss';
+@import './mixins.css.scss';
+@import './bootstrap-tour.css.scss';
 
-@import 'common/image_uploader';
-@import 'components/activity_feed';
-@import 'components/admin_top_nav';
-@import 'common/editable';
-@import 'common/donate_button';
-@import 'common/fundraiser/metrics';
+@import './common/image_uploader.css.scss';
+@import './components/activity_feed.css.scss';
+@import './components/admin_top_nav.css.scss';
+@import './common/editable.css.scss';
+@import './common/donate_button.css.scss';
+@import './common/fundraiser/metrics.css.scss';
 
-@import 'components/info_card';
-@import 'components/page_tabs';
-@import 'components/ticket_button';
-@import 'events/show/settings';
-@import 'components/fixed_top_action';
-@import 'components/draggable';
+@import './components/info_card.css.scss';
+@import './components/page_tabs.css.scss';
+@import './components/ticket_button.css.scss';
+@import './events/show/settings.css.scss';
+@import './components/fixed_top_action.css.scss';
+@import './components/draggable.css.scss';
 
 .globalFooter {
 	margin-top: 40px;

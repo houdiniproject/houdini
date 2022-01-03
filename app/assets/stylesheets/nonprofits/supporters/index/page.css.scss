@@ -1,21 +1,21 @@
 /* License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE */
-@import 'mixins';
-@import 'components/pagination';
-@import 'supporters/form';
-@import 'pikaday';
-@import 'components/panels_layout';
-@import 'side_panel';
-@import 'components/tags';
-@import 'components/bulk_actions';
-@import 'components/page_tabs';
-@import 'components/toggle_buttons';
-@import 'components/drop_down';
-@import 'components/google_maps';
-@import 'common/editable';
-@import 'nonprofits/supporters/custom_fields';
-@import 'components/tables/filtering/meta_status';
-@import 'bootstrap-tour';
+@import './mixins.css.scss';
+@import './components/pagination.css.scss';
+@import './supporters/form.css.scss';
+@import './pikaday.css.scss';
+@import './components/panels_layout.css.scss';
+@import './side_panel.css.scss';
+@import './components/tags.css.scss';
+@import './components/bulk_actions.css.scss';
+@import './components/page_tabs.css.scss';
+@import './components/toggle_buttons.css.scss';
+@import './components/drop_down.css.scss';
+@import './components/google_maps.css.scss';
+@import './common/editable.css.scss';
+@import './nonprofits/supporters/custom_fields.css.scss';
+@import './components/tables/filtering/meta_status.css.scss';
+@import './bootstrap-tour.css.scss';
 
 .supportersMap {
 	border: 2px solid rgba(black, 0.2);

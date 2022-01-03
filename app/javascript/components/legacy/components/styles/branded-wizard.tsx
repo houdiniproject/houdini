@@ -38,7 +38,7 @@ const useStyles = makeStyles({
 		'.wizard-steps div.is-selected, .wizard-steps button.is-selected': {
 			backgroundColor: (props: MakeStylesProps) => `${colors(props.nonprofitColor).lighter} !important`,
 		},
-		'wizard-steps .button.white': {
+		'.wizard-steps .button.white': {
 			'color': '#494949',
 		},
 		'.wizard-steps a:not(.button--small), .ff-wizard-index-label.ff-wizard-index-label--accessible, .wizard-index-label.is-accessible': {

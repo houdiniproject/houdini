@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
     rescue ParamValidation::ValidationError => e
       logger.info "422: #{e}".red.bold
       result = { status: 422, json: { error: e.message } }
-    rescue CCOrgError => e
+    rescue HoudiniError => e
       logger.info "422: #{e}".red.bold
       result = { status: 422, json: { error: e.message } }
     rescue ActiveRecord::RecordNotFound => e

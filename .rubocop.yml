@@ -377,7 +377,6 @@ AllCops:
     - 'lib/slug_p2p_campaign_naming_algorithm.rb'
     - 'lib/pay_recurring_donation.rb'
     - 'lib/errors/not_enough_quantity_error.rb'
-    - 'lib/errors/cc_org_error.rb'
     - 'lib/errors/charge_error.rb'
     - 'lib/errors/expired_token_error.rb'
     - 'lib/errors/authentication_error.rb'

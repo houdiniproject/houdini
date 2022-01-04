@@ -68,7 +68,7 @@ group :development, :ci, :test do
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
   gem 'rubocop', '~> 1.24.1'
-  gem 'rubocop-rails', '~> 2.12'
+  gem 'rubocop-rails', '~> 2.13'
   gem 'rubocop-rake', '~> 0.6.0'
   gem 'rubocop-rspec', '~> 2.7'
   gem 'shoulda-matchers', '~> 5.1.0'

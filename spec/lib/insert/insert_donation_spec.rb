@@ -158,7 +158,7 @@ describe InsertDonation do
 						supporter_id: supporter.id,
 						token: source_token.token,
 						event_id: event.id,
-						date: (Time.zone.now + 1.day).to_s,
+						date: 1.day.from_now.to_s,
 						dedication: {
 							'type' => 'honor',
 							'name' => 'a name'
@@ -177,7 +177,7 @@ describe InsertDonation do
 						supporter_id: supporter.id,
 						token: source_token.token,
 						campaign_id: campaign.id,
-						date: (Time.zone.now + 1.day).to_s,
+						date: 1.day.from_now.to_s,
 						dedication: { 'type' => 'honor', 'name' => 'a name' },
 						designation: 'designation'
 					)
@@ -192,7 +192,7 @@ describe InsertDonation do
 						supporter_id: supporter.id,
 						token: source_token.token,
 						profile_id: profile.id,
-						date: (Time.zone.now + 1.day).to_s,
+						date: 1.day.from_now.to_s,
 						dedication: { 'type' => 'honor', 'name' => 'a name' },
 						designation: 'designation'
 					)
@@ -831,7 +831,7 @@ describe InsertDonation do
 						supporter_id: supporter.id,
 						direct_debit_detail_id: direct_debit_detail.id,
 						event_id: event.id,
-						date: (Time.zone.now + 1.day).to_s,
+						date: 1.day.from_now.to_s,
 						dedication: {
 							'type' => 'honor',
 							'name' => 'a name'
@@ -851,7 +851,7 @@ describe InsertDonation do
 						supporter_id: supporter.id,
 						direct_debit_detail_id: direct_debit_detail.id,
 						campaign_id: campaign.id,
-						date: (Time.zone.now + 1.day).to_s,
+						date: 1.day.from_now.to_s,
 						dedication: {
 							'type' => 'honor',
 							'name' => 'a name'
@@ -869,7 +869,7 @@ describe InsertDonation do
 						supporter_id: supporter.id,
 						direct_debit_detail_id: direct_debit_detail.id,
 						profile_id: profile.id,
-						date: (Time.zone.now + 1.day).to_s,
+						date: 1.day.from_now.to_s,
 						dedication: {
 							'type' => 'honor',
 							'name' => 'a name'
@@ -916,7 +916,7 @@ describe InsertDonation do
 																															date: created_time.to_s }.with_indifferent_access)
 				end
 
-				let(:created_time) { Time.current + 1.day }
+				let(:created_time) { 1.day.from_now }
 				let(:common_builder) do
 					{ 'supporter' => supporter.id,
 							'nonprofit' => nonprofit.id }

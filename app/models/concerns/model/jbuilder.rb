@@ -101,6 +101,21 @@ module Model::Jbuilder
 				yield(json)
 			end
 		end
+
+
+		@minimize_to_object = false
+		
+		def to_id_is_object
+			@minimize_to_object = true
+		end
+
+		def to_id_object?
+			@minimize_to_object
+		end
+	end
+
+	def to_id_object?
+		self.class.to_id_object?
 	end
 
 	def to_id

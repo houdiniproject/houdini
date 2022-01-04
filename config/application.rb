@@ -33,7 +33,6 @@ module Commitchange
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-    config.eager_load_paths += Dir["#{config.root}/lib/**/", ""]
 
     config.paths.add File.join('app', 'listeners'), glob: File.join('**', '*.rb')
     # config.eager_load_paths += Dir[Rails.root.join('app', 'api', '*'), Rails.root.join('app', 'listeners', '*')]
@@ -93,6 +92,8 @@ module Commitchange
 
     # we override the active_storage routes because they're not protected by default
     config.active_storage.draw_routes = false
+
+    config.autoloader = :zeitwerk
 
     config.active_job.queue_adapter = :good_job
 

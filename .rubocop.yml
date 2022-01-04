@@ -323,7 +323,6 @@ AllCops:
     - 'lib/create/create_campaign_gift.rb'
     - 'lib/create/stripe/create_stripe_account.rb'
     - 'lib/create/create_custom_field_definition.rb'
-    - 'lib/notify/notify_user.rb'
     - 'lib/update/update_miscellaneous_np_info.rb'
     - 'lib/update/update_supporter_notes.rb'
     - 'lib/update/update_email_settings.rb'

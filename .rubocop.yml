@@ -309,7 +309,6 @@ AllCops:
     - 'lib/import/import_civicrm_payments.rb'
     - 'lib/get_data.rb'
     - 'lib/name_copy_naming_algorithm.rb'
-    - 'lib/htp.rb'
     - 'lib/path/nonprofit_path.rb'
     - 'lib/health_report.rb'
     - 'lib/qexpr_query_chunker.rb'

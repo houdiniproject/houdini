@@ -55,8 +55,13 @@
     # Removing any duplicate custom fields UpdateCustomFieldJoins.delete_dupes([new_supporter_id])
   end
 
-  def self.selected(merged_data, supporter_ids,np_id, profile_id)
+  def self.selected(merged_data, supporter_ids,np_id, profile_id, skip_conflicting_custom_fields=false)
     old_supporters = Nonprofit.find(np_id).supporters.where('supporters.id IN (?)', supporter_ids)
+
+    if skip_conflicting_custom_fields && conflicting_custom_fields?(old_supporters)
+      return { json: supporter_ids, status: :failure }
+    end
+
     merged_data['anonymous'] = old_supporters.any?{|i| i.anonymous}
     new_supporter = Nonprofit.find(np_id).supporters.create!(merged_data)
     # Update merged supporters as deleted
@@ -66,9 +71,22 @@
     return {json: new_supporter, status: :ok}
   end
 
+  def self.conflicting_custom_fields?(supporters)
+    cfjs = []
+    supporters.each do |supporter|
+      supporter.custom_field_joins.each do |cfj|
+        cfjs << { 'custom_field_master_id' => cfj.custom_field_master_id, 'value' => cfj.value }
+      end
+    end
+
+    cfjs.group_by{|i| i['custom_field_master_id']}.any?{ |id, group| group.uniq.size > 1 }
+  end
+
 
   # Merge supporters for a nonprofit based on an array of groups of ids, generated from QuerySupporters.dupes_on_email or dupes_on_names
-  def self.merge_by_id_groups(np_id, arr_of_ids, profile_id)
+  # @return [Array[Array]] an array of arrays of supporter_ids that have conflicting custom fields between them.
+  def self.merge_by_id_groups(np_id, arr_of_ids, profile_id, skip_conflicting_custom_fields=false)
+    supporter_ids_with_conflicting_custom_fields = []
     arr_of_ids.select{|arr| arr.count > 1}.each do |ids|
       Qx.transaction do
         # Get all column data from every supporter
@@ -84,9 +102,11 @@
           acc
         end.merge({'nonprofit_id' => np_id})
 
-        MergeSupporters.selected(data, ids, np_id, profile_id)
+        result = MergeSupporters.selected(data, ids, np_id, profile_id, skip_conflicting_custom_fields)
+        supporter_ids_with_conflicting_custom_fields << ids if result[:status] == :failure
       end
     end
+    supporter_ids_with_conflicting_custom_fields
   end
 
 

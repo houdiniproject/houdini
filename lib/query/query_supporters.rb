@@ -530,19 +530,69 @@ UNION DISTINCT
       .map(&:flatten)
   end
 
+  def self.dupes_on_name_and_phone(np_id)
+    dupes_expr(np_id)
+      .and_where(
+        "name IS NOT NULL\
+         AND name != ''\
+         AND phone_index IS NOT NULL \
+         AND phone_index != ''"
+      )
+      .group_by(
+        "name,\
+         phone_index"
+      )
+      .execute(format: 'csv')[1..-1]
+      .map(&:flatten)
+  end
+
   def self.dupes_on_name_and_phone_and_address(np_id)
     dupes_expr(np_id)
       .and_where(
         "name IS NOT NULL\
-         AND phone IS NOT NULL \
-         AND phone != '' \
+         AND phone_index IS NOT NULL \
+         AND phone_index != '' \
          AND address IS NOT NULL \
          AND address != ''"
       )
       .group_by(
         "name,\
-         substring(phone from '(([0-9]+.*)*[0-9]+)'),\
+         phone_index,\
          btrim(lower(address), ' '),\
+         substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
+      )
+      .execute(format: 'csv')[1..-1]
+      .map(&:flatten)
+  end
+
+  def self.dupes_on_phone_and_email_and_address(np_id)
+    dupes_expr(np_id)
+      .and_where(
+        "phone_index IS NOT NULL \
+         AND phone_index != '' \
+         AND email IS NOT NULL\
+         AND email != ''\
+         AND address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(
+        "phone_index,\
+         btrim(lower(address), ' '),\
+         substring(zip_code from '(([0-9]+.*)*[0-9]+)'),\
+         email"
+      )
+      .execute(format: 'csv')[1..-1]
+      .map(&:flatten)
+  end
+
+  def self.dupes_on_address(np_id)
+    dupes_expr(np_id)
+      .and_where(
+        "address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(
+        "btrim(lower(address), ' '),\
          substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
       )
       .execute(format: 'csv')[1..-1]

@@ -361,7 +361,6 @@ AllCops:
     - 'lib/query/query_events.rb'
     - 'lib/query/query_activities.rb'
     - 'lib/query/query_full_contact_infos.rb'
-    - 'lib/query/query_charges.rb'
     - 'lib/query/query_event_discounts.rb'
     - 'lib/query/query_event_metrics.rb'
     - 'lib/query/query_tickets.rb'

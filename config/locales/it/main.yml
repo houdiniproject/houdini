@@ -1,5 +1,5 @@
 # License: CC0-1.0
-it_IT:
+it:
   hello: "Buongiorno mondo"
   activerecord:
     attributes:

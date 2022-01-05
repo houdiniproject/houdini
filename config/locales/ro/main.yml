@@ -1,5 +1,5 @@
 # License: CC0-1.0
-ro_RO:
+ro:
   hello: "Salut "
   activerecord:
     attributes:

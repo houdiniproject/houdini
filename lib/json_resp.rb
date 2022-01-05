@@ -124,12 +124,12 @@ class JsonResp
     end
 
     def min(n)
-      @errors.concat @keys.reject{|k| @params[k] >= n}.map{|k| "#{k} must be at least #{n}"}
+      @errors.concat @keys.reject{|k| @params[k].to_i >= n}.map{|k| "#{k} must be at least #{n}"}
       return self
     end
 
     def max(n)
-      @errors.concat @keys.reject{|k| @params[k] <= n}.map{|k| "#{k} must be less than #{n + 1}"}
+      @errors.concat @keys.reject{|k| @params[k].to_i <= n}.map{|k| "#{k} must be less than #{n + 1}"}
       return self
     end
 

@@ -91,3 +91,7 @@ In case you think a key needs to be changed instead of a translation, add the ne
 If a key is no longer needed, remove it from the source translation file and make sure that there's no occurrence of it in the code and submit a pull request.
 
 If you want to delete an entire translation file, make sure none of its keys are used in the code. If the keys are being placed in another file, the keys should be added to the other files and submitted before deleting the file. After the code is referencing the new keys and the translations are updated on Crowdin, you can delete the file and submit a new PR.
+
+## For Houdini Members: adding a new language
+
+New languages should be added to our Crowdin project using its UI. We also need to include it in the `available_locales` list from [gems/bess/lib/houdini/engine_initializers/intl.rb](../gems/bess/lib/houdini/engine_initializers/intl.rb). Whenever a language whose code has more than two characters gets added to the project (i.e. pt_BR, en_US), we need to reach Crowdin support and ask to include a processor for that language to follow our language code format. Without that, the language code will be displayed with two characters instead of four (i.e. `pt` or `en` instead of `pt_BR` or `en_US`).

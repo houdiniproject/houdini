@@ -6,7 +6,7 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-var stripeV3 = Stripe("<%= Settings.payment_provider.stripe_public_key %>");
+var stripeV3 = Stripe("<%= Settings.payment_provider.stripe_public_key %>", {apiVersion: '2020-08-27'});
 window._csrf = "<%= form_authenticity_token %>";
 </script>
 

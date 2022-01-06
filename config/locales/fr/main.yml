@@ -1,5 +1,5 @@
 # License: CC0-1.0
-fr_FR:
+fr:
   hello: "Salut à tous"
   activerecord:
     attributes:

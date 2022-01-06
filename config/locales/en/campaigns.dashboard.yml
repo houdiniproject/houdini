@@ -24,14 +24,18 @@
 #
 # Instead, surround them with single quotes.
 #
-# en_EN:
+# en:
 #   'true': 'foo'
 #
 # To learn more, please read the Rails Internationalization guide
 # available at https://guides.rubyonrails.org/i18n.html.
 
-en_EN:
+en:
   campaigns:
-    until_end_datetime: "Until: %{end_datetime}"
-    total_count_of_supporters_html: "%{supporters_count} <small>supporters</small>"
-    total_amount_raised_html: "%{total_raised} <small>raised</small>"
+    dashboard:
+      supporters: supporters
+      total: Total
+      one_time: One time
+      recurring: Recurring
+      offsite: Offsite
+      campaign_dashboard: Campaign Dashboard

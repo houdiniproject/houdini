@@ -110,6 +110,12 @@ For example, the text `Full permissions, including bank payouts` on
 [roles.new.yml](config/locales/en/roles.new.yml), as big as it is, has the key
 `full_permissions_including_bank_payouts` .
 
+Note that HTML tags will be turned into HTML entities, i.e. `<` gets turned into
+`&lt`. Generally, you'd want to avoid using HTML tags in your translations, but
+in some cases, it's necessary - for example if there is a bolded word in the
+middle of the string. In that case, the source key must end in `_html`. This is
+a requirement of Rails.
+
 5. Replace the strings from the components with their corresponding keys.
 
 Examples:

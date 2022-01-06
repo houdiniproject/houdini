@@ -168,9 +168,9 @@ const postTracking = (utmParams, donationResponse) => {
 }
 
 const postSuccess = (donationResponse) => {
-  if (window._paq) {
+  if (plausible) {
     const resp = donationResponse()
-    window._paq.push(['trackEvent', 'success', 'payment_succeeded', 'payment', resp && resp.charge && resp.charge.amount && (resp.charge.amount / 100)]);
+    plausible('payment_succeeded', {props: {amount: resp && resp.charge && resp.charge.amount && (resp.charge.amount / 100)}});
   }
 }
 

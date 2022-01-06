@@ -44,9 +44,9 @@ function reportRecaptchaFailure(error: Error | Error[]) {
     error = [error]
   }
 
-  const paq = (window as any)['_paq'];
-  if (paq) {
-    paq.push(['trackEvent', 'failure', 'recaptcha', 'contact_service', error.join('\n')]);
+  const plausible = (window as any)['plausible'];
+  if (plausible) {
+    plausible('recaptcha.contact_service', {props: {status: 'failure', error: error.join('\n')}});
   }
 }
 

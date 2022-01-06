@@ -38,29 +38,14 @@
   <meta property="twitter:description" content="<%= description %>"/>
 <% end %>
 
-<% if ENV["LOAD_MATOMO"] %>
-<% if Rails.env == 'development' || Rails.env == 'staging '%>
-<!-- Matomo Tag Manager -->
-<script type="text/javascript">
-var _mtm = window._mtm = window._mtm || [];
-_mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-g.type='text/javascript'; g.async=true; g.src='https://cdn.matomo.cloud/commitchange.matomo.cloud/container_y1KA81rJ_dev_9e5d5c70e9b70373dc1190a3.js'; s.parentNode.insertBefore(g,s);
-</script>
-<!-- End Matomo Tag Manager -->
 
-<% elsif Rails.env == 'production' %>
-<!-- Matomo Tag Manager -->
-<script type="text/javascript">
-var _mtm = window._mtm = window._mtm || [];
-_mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-g.type='text/javascript'; g.async=true; g.src='https://cdn.matomo.cloud/commitchange.matomo.cloud/container_y1KA81rJ.js'; s.parentNode.insertBefore(g,s);
-</script>
-<!-- End Matomo Tag Manager -->
-<script defer data-domain="commitchange.com" src="https://plausible.io/js/plausible.js"></script>
-<% end %>
-<% end %>
+<% if Rails.env == 'development' %>
+  <script defer data-domain="commitchange.com" src="https://plausible.io/js/plausible.compat.local.js" id="plausible"></script>
+<% else %>
+  <script defer data-domain="commitchange.com" src="https://plausible.io/js/plausible.compat.js" id="plausible"></script>
+<% end%>
+<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+
 <%= yield :recaptcha_js %>
 
 

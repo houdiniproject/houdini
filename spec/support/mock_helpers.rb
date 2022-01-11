@@ -7,7 +7,7 @@ module MockHelpers
         "Dedicated To: Email",
         "Dedicated To: Phone",
         "Dedicated To: Address",
-        "Dedicated To: Note", 'Anonymous?', 'Comment','Campaign',	'Campaign Id', 'Campaign Creator Email', 'Campaign Gift Level',	'Event Name',	'Payment',	'Check Number', 'Donation Note', "Fee Covered By Supporter"]
+        "Dedicated To: Note", 'Anonymous?', 'Comment','Campaign',	'Campaign Id', 'Campaign Creator Email', 'Campaign Gift Level',	'Event Name',	'Payment',	'Check Number', 'Donation Note', 'Recurring Donation Started At', "Fee Covered By Supporter"]
   end
 
   def self.recurring_donation_export_headers()

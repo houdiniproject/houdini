@@ -35,7 +35,8 @@ class ExportFormat < ActiveRecord::Base
     'payments.id',
     'offsite_payments.check_number',
     'donations.comment',
-    'misc_payment_infos.fee_covered'
+    'misc_payment_infos.fee_covered',
+    'donations.created_at'
   ].freeze
 
   ALLOWED_COLUMNS_TO_HAVE_VALUES_CUSTOMIZED = [

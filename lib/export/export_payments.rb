@@ -128,6 +128,9 @@ module ExportPayments
      'payments.id AS payment_id',
      'offsite_payments.check_number AS check_number',
      'donations.comment AS donation_note',
+     "CASE WHEN payments.kind = 'RecurringDonation'
+        THEN to_char(donations.created_at::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), 'YYYY-MM-DD HH24:MI:SS TZ')
+        ELSE '' END AS \"Recurring Donation Started At\"",
      'coalesce(nullif(misc_payment_infos.fee_covered, false), false) AS "Fee Covered by Supporter"'
     ])
   end
@@ -162,6 +165,7 @@ module ExportPayments
   def self.build_donations_and_campaigns_select(export_format)
     custom_columns_and_values = export_format.custom_columns_and_values
     custom_names = build_custom_names_for_donations_and_campaigns(custom_columns_and_values)
+    date_format = export_format.date_format || 'YYYY-MM-DD HH24:MI:SS TZ'
     [
       build_custom_value_clause('donations.designation', custom_columns_and_values, custom_names['donations.designation'], "coalesce(donations.designation, 'None')"),
       "#{QueryPayments.get_dedication_or_empty('type')}::text AS \"Dedication Type\"",
@@ -182,6 +186,9 @@ module ExportPayments
       "payments.id AS #{custom_names['payments.id']}",
       "offsite_payments.check_number AS #{custom_names['offsite_payments.check_number']}",
       build_custom_value_clause('donations.comment', custom_columns_and_values, custom_names['donations.comment']),
+      "CASE WHEN payments.kind = 'RecurringDonation'
+        THEN to_char(donations.created_at::timestamptz at time zone COALESCE(nonprofits.timezone, \'UTC\'), '#{date_format}')
+        ELSE '' END AS #{custom_names['donations.created_at']}",
       build_custom_value_clause('misc_payment_infos.fee_covered', custom_columns_and_values, custom_names['misc_payment_infos.fee_covered'], "coalesce(nullif(misc_payment_infos.fee_covered, false), false)")
     ]
   end
@@ -228,6 +235,7 @@ module ExportPayments
       'payments.id' => custom_names&.dig('payments.id')&.dig('custom_name') || 'payment_id',
       'offsite_payments.check_number' => custom_names&.dig('offsite_payments.check_number')&.dig('custom_name') || 'check_number',
       'donations.comment' => custom_names&.dig('donations.comment')&.dig('custom_name') || 'donation_note',
+      'donations.created_at' => custom_names&.dig('donations.created_at')&.dig('custom_name') || '"Recurring Donation Started At"',
       'misc_payment_infos.fee_covered' => custom_names&.dig('misc_payment_infos.fee_covered')&.dig('custom_name') || '"Fee Covered by Supporter"'
     }
   end

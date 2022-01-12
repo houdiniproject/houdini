@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.10.1)
--- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.04.1)
+-- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.10.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1974,7 +1974,8 @@ CREATE TABLE public.nonprofits (
     card_failure_message_bottom text,
     fields_needed text,
     autocomplete_supporter_address boolean DEFAULT false,
-    currency character varying(255) DEFAULT 'usd'::character varying
+    currency character varying(255) DEFAULT 'usd'::character varying,
+    feature_flag_autocomplete_supporter_address boolean DEFAULT false
 );
 
 
@@ -6213,6 +6214,8 @@ INSERT INTO schema_migrations (version) VALUES ('20211004130610');
 INSERT INTO schema_migrations (version) VALUES ('20211004173137');
 
 INSERT INTO schema_migrations (version) VALUES ('20211004173808');
+
+INSERT INTO schema_migrations (version) VALUES ('20211019205925');
 
 INSERT INTO schema_migrations (version) VALUES ('20211021173546');
 

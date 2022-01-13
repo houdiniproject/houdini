@@ -8,8 +8,7 @@ $path: "/assets/FontAwesome";
 
 @font-face {
   font-family: 'FontAwesome';
-  src: url($path + '/fontawesome-webfont.eot?v=4.1.0');
-  src: url($path + '/fontawesome-webfont.eot?#iefix&v=4.1.0') format('embedded-opentype'), url($path + '/fontawesome-webfont.woff?v=4.1.0') format('woff'), url($path + '/fontawesome-webfont.ttf?v=4.1.0') format('truetype'), url($path + '/fontawesome-webfont.svg?v=4.1.0#fontawesomeregular') format('svg');
+  src: url('<%= asset_path("FontAwesome/fontawesome-webfont.woff") %>');
   font-weight: normal;
   font-style: normal;
 }

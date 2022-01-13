@@ -24,7 +24,7 @@
 .cardForm  .card-logos {
 	width: 32px;
 	height: 21px;
-	background-image: url('/assets/graphics/credit-card-logos.png');
+	background-image: url('<%= asset_path '/graphics/credit-card-logos.png'%>');
 	@include opacity(0);
 
 	&.americanexpress, &.visa, &.discovercard, &.mastercard { @include opacity(1); }

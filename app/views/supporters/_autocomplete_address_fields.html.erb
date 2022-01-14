@@ -1,11 +1,13 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<% profile = nil if profile.nil? # weird hack so erb doesn't throw an exception when profile is not passed in %>
+
 <section class='u-padding--5 pastelBox--grey'>
   <label style='display: none' class='u-centered u-marginBottom--5'>Shipping address (required)</label>
   <!--= show_if donate_wiz.to_ship -->
     
   <div>
     <fieldset class='u-marginBottom--5'> 
-      <input class="u-margin--0 js-autocompleteAddress" type="text" placeholder="Search for your address">
+      <input class="u-margin--0 js-autocompleteAddress" type="text" placeholder="Search for your address" id="autocompleteAddressInVS">
     </fieldset>
 
     <p class='u-margin--0 u-centered'>
@@ -29,11 +31,11 @@
 
       <fieldset class="u-marginBottom--0 u-floatL col-4">
         <input class="u-marginBottom--0" type="text" title="State/Region" name="state_code" placeholder="State/Region">
-        <!--= set_value (any autocomplete.data.state '<%= profile && profile['state_code'] %>') -->
+        <!--= set_value (any autocomplete.data.state_code '<%= profile && profile['state_code'] %>') -->
       </fieldset>
       <fieldset class="u-marginBottom--0 u-floatL col-right-4 u-fontSize--14">
         <input class="u-marginBottom--0" type="text" title="Zip/Postal" name="zip_code" placeholder="Zip/Postal">
-        <!--= set_value (any autocomplete.data.zip '<%= profile && profile['zip_code'] %>') -->
+        <!--= set_value (any autocomplete.data.zip_code '<%= profile && profile['zip_code'] %>') -->
       </fieldset>
 
       <fieldset class="u-marginBottom--0 u-floatL col-right-4">

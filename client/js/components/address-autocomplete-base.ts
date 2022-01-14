@@ -138,19 +138,20 @@ class GoogleAutocompleteInstance {
   }
 
   private geolocate() {
-
-    if (!navigator || !navigator.geolocation) return
-    navigator.geolocation.getCurrentPosition(pos => {
-      const geolocation = {
-        lat: pos.coords.latitude
-        , lng: pos.coords.longitude
-      }
-      const circle = new google.maps.Circle({
-        center: geolocation
-        , radius: pos.coords.accuracy
-      })
-      this.inner.setBounds(circle.getBounds())
-    })
+    // this is poorly implemented so we're going to remove
+    return
+    // if (!navigator || !navigator.geolocation) return
+    // navigator.geolocation.getCurrentPosition(pos => {
+    //   const geolocation = {
+    //     lat: pos.coords.latitude
+    //     , lng: pos.coords.longitude
+    //   }
+    //   const circle = new google.maps.Circle({
+    //     center: geolocation
+    //     , radius: pos.coords.accuracy
+    //   })
+    //   this.inner.setBounds(circle.getBounds())
+    // })
   }
 
 }

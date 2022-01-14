@@ -4,33 +4,22 @@
 
 @font-face {
   font-family: 'Open Sans';
-  src: url('/assets/Open_Sans/opensans-regular-webfont.eot');
-  src: url('/assets/Open_Sans/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-  url('/assets/Open_Sans/opensans-regular-webfont.woff') format('woff'),
-  url('/assets/Open_Sans/opensans-regular-webfont.ttf') format('truetype'),
-  url('/assets/Open_Sans/opensans-regular-webfont.svg#open_sansregular') format('svg');
+  src: url('<%= asset_path("Open_Sans/opensans-regular-webfont.woff") %>');
+
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Open Sans';
-  src: url('/assets/Open_Sans/opensans-light-webfont.eot');
-  src: url('/assets/Open_Sans/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
-  url('/assets/Open_Sans/opensans-light-webfont.woff') format('woff'),
-  url('/assets/Open_Sans/opensans-light-webfont.ttf') format('truetype'),
-  url('/assets/Open_Sans/opensans-light-webfont.svg#open_sanslight') format('svg');
+  src: url('<%= asset_path("Open_Sans/opensans-light-webfont.woff") %>');
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Open Sans';
-  src: url('/assets/Open_Sans/opensans-bold-webfont.eot');
-  src: url('/assets/Open_Sans/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
-  url('/assets/Open_Sans/opensans-bold-webfont.woff') format('woff'),
-  url('/assets/Open_Sans/opensans-bold-webfont.ttf') format('truetype'),
-  url('/assets/Open_Sans/opensans-bold-webfont.svg#open_sansbold') format('svg');
+  src: url('<%= asset_path("Open_Sans/opensans-bold-webfont.woff") %>');
   font-weight: bold;
   font-style: normal;
 }
@@ -38,15 +27,11 @@
 
 /* Bitter */
 
-$condensed: '<%= asset_path('Open_Sans_Condensed') %>';
+
 
 @font-face {
 	font-family: 'OpenSansCondensed';
-  src: url($condensed + '/opensans-condbold-webfont.eot');
-  src: url($condensed + '/opensans-condbold-webfont.eot?#iefix') format('embedded-opentype'),
-    url($condensed + '/opensans-condbold-webfont.woff') format('woff'),
-    url($condensed + '/opensans-condbold-webfont.ttf') format('truetype'),
-    url($condensed + '/opensans-condbold-webfont.svg') format('svg');
+  src: url('<%= asset_path("Open_Sans_Condensed/opensans-condbold-webfont.woff") %>');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -54,22 +39,14 @@ $condensed: '<%= asset_path('Open_Sans_Condensed') %>';
 
 @font-face {
 	font-family: 'Bitter';
-	src: url('<%= asset_path('Bitter/Bitter-Regular.eot') %>');
-	src: url('<%= asset_path('Bitter/Bitter-Regular.eot?#iefix') %>') format('embedded-opentype'),
-		url('<%= asset_path('Bitter/Bitter-Regular.woff') %>') format('woff'),
-		url('<%= asset_path('Bitter/Bitter-Regular.ttf') %>') format('truetype'),
-		url('<%= asset_path('Bitter/Bitter-Regular.svg#bitterregular') %>') format('svg');
+	src: url('<%= asset_path("Bitter/Bitter-Regular.woff") %>');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Bitter';
-	src: url('<%= asset_path('Bitter/Bitter-Bold.eot') %>');
-	src: url('<%= asset_path('Bitter/Bitter-Bold.eot?#iefix') %>') format('embedded-opentype'),
-		url('<%= asset_path('Bitter/Bitter-Bold.woff') %>') format('woff'),
-		url('<%= asset_path('Bitter/Bitter-Bold.ttf') %>') format('truetype'),
-		url('<%= asset_path('Bitter/Bitter-Bold.svg#bitterbold') %>') format('svg');
+	src: url('<%= asset_path("Bitter/Bitter-Bold.woff") %>');
 	font-weight: bold;
 	font-style: normal;
 }

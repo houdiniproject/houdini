@@ -5,11 +5,7 @@ $path: "/assets/Streamline";
 
 @font-face {
 	font-family: "streamline-30px";
-	src:url($path + "/streamline-30px.eot");
-	src:url($path + "/streamline-30px.eot?#iefix") format("embedded-opentype"),
-		url($path + "/streamline-30px.woff") format("woff"),
-		url($path + "/streamline-30px.ttf") format("truetype"),
-		url($path + "/streamline-30px.svg#streamline-30px") format("svg");
+	src:url('<%= asset_path("Streamline/streamline-30px.woff") %>');
 	font-weight: normal;
 	font-style: normal;
 }

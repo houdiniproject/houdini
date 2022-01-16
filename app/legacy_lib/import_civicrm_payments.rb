@@ -32,7 +32,7 @@ module ImportCivicrmPayments
         known_fields = ['Date Received', 'Total Amount']
 
         notes = ''
-        r.except(known_fields).keys.each do |k|
+        r.except(known_fields).each_key do |k|
           notes += "#{k}: #{r[k]}\n"
         end
 

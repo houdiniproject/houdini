@@ -309,7 +309,7 @@ describe UpdateTickets do
       UpdateTickets.delete(ticket['event_id'], ticket['id'])
       ticket.reload
       expect(ticket['deleted']).to eq(true)
-      expect(ticket.ticket_to_legacy_tickets.all? {|i| i.deleted}).to eq true
+      expect(ticket.ticket_to_legacy_tickets.all?(&:deleted)).to eq true
       expect(Ticket.count).to eq(1)
     end
   end

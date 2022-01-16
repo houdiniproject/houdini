@@ -141,11 +141,11 @@ module Model::Jbuilder
 		end
 
 		def keys
-			map{|i| i.key}
+			map(&:key)
 		end
 
 		def get_by_key(key) 
-			select{|i| i.key == key}.first
+			detect{|i| i.key == key}
 		end
 	end
 
@@ -233,7 +233,7 @@ module Model::Jbuilder
 		def add_builder_expansion( ... )
 			builder_expansions = BuilderExpansionSet.new
 			builder_expansions.add_builder_expansion( ... )
-			builder_expansions.keys.each do |k|
+			builder_expansions.each_key do |k|
 				if expand.include? k
 					set! builder_expansions.get_by_key(k).json_attribute, builder_expansions.get_by_key(k).to_builder.(model)
 				else

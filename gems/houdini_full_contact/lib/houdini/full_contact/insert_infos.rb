@@ -95,8 +95,8 @@ module Houdini::FullContact::InsertInfos
       org_data = result['details']['employment'].map{|h| 
         start_date = nil
       end_date = nil
-        start_date = h['start'] && [h['start']['year'], h['start']['month'], h['start']['day']].select{|i| i.present?}.join('-')
-        end_date = h['end'] && [h['end']['year'], h['end']['month'], h['end']['day']].select{|i| i.present?}.join('-')
+        start_date = h['start'] && [h['start']['year'], h['start']['month'], h['start']['day']].select(&:present?).join('-')
+        end_date = h['end'] && [h['end']['year'], h['end']['month'], h['end']['day']].select(&:present?).join('-')
         {
           name: h['name'],
           start_date: start_date,

@@ -93,7 +93,7 @@ module PayRecurringDonation
       trx.save!
       donation.save!
       stripe_t.save!
-      stripe_t.subtransaction_payments.each{|stp| stp.publish_created}
+      stripe_t.subtransaction_payments.each(&:publish_created)
       stripe_t.publish_created
       donation.publish_created
       trx.publish_created

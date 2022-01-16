@@ -16,7 +16,7 @@ class ImageAttachmentsController < ApplicationController
   end
 
   def remove
-    @image = ImageAttachment.select { |img| url_for(img.file) == clean_params_remove[:src] }.first
+    @image = ImageAttachment.detect{ |img| url_for(img.file) == clean_params_remove[:src] }
     if @image
       @image.destroy
       render json: @image

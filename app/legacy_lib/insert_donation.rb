@@ -56,7 +56,7 @@ module InsertDonation
     trx.save!
     don.save!
     stripe_t.save!
-    stripe_t.subtransaction_payments.each{|stp| stp.publish_created}
+    stripe_t.subtransaction_payments.each(&:publish_created)
     stripe_t.publish_created
     don.publish_created
     trx.publish_created
@@ -116,7 +116,7 @@ module InsertDonation
     trx.save!
     don.save!
     off_t.save!
-    off_t.subtransaction_payments.each{|stp| stp.publish_created}
+    off_t.subtransaction_payments.each(&:publish_created)
     off_t.publish_created
     don.publish_created
     trx.publish_created

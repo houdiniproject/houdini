@@ -50,7 +50,7 @@ module UpdateTickets
     end
 
     entities[:ticket_id].save! if edited
-    entities[:ticket_id].ticket_to_legacy_tickets.each{|i| i.publish_updated} if publish_ticket_updated
+    entities[:ticket_id].ticket_to_legacy_tickets.each(&:publish_updated) if publish_ticket_updated
     entities[:ticket_id]
   end
 
@@ -60,7 +60,7 @@ module UpdateTickets
       ticket = Event.find(event_id).tickets.find(ticket_id)
       ticket.deleted = true
       ticket.save!
-      ticket.ticket_to_legacy_tickets.each {|i| i.publish_deleted}
+      ticket.ticket_to_legacy_tickets.each(&:publish_deleted)
     end
   end
 

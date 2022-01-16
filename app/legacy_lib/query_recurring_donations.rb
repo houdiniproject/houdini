@@ -168,9 +168,9 @@ module QueryRecurringDonations
 
   # @param [Supporter] supporter
   def self.find_recurring_donation_with_a_card(supporter)
-    supporter.recurring_donations.select do |rd|
+    supporter.recurring_donations.detect do |rd|
       !rd.donation.nil? && !rd.donation.card.nil?
-    end .first
+    end
   end
 
   # Check if a single recdon is due -- used in PayRecurringDonation.with_stripe

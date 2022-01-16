@@ -8,7 +8,7 @@ module Image::AttachmentExtensions
             attribute = attribute_name.to_s
 
             # clean up sizes
-            sizes.keys.each do |key|
+            sizes.each_key do |key|
                 value = sizes[key]
                 if value.is_a?(Numeric)
                     sizes[key] = [value, value]

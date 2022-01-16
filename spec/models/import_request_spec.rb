@@ -45,7 +45,7 @@ RSpec.describe ImportRequest, type: :model do
 
     let!(:import) { request.execute(user)}
 
-    let(:donations) { Supporter.all.map{|i| i.donations}.flatten}
+    let(:donations) { Supporter.all.map(&:donations).flatten}
 
     it 'creates an Import with all the correct data' do
       expect(import.nonprofit).to eq(nonprofit)

@@ -346,7 +346,7 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
     it { expect(goa.count).to eq 2}
 
     describe "has a proper one time amount" do
-      subject { goa.select{|i| i.recurrence.nil?}.first}
+      subject { goa.detect{|i| i.recurrence.nil?}}
 
       it {
         is_expected.to have_attributes(
@@ -362,7 +362,7 @@ RSpec.describe CampaignGiftOption, 'type' => :model do
     end
 
     describe "has a proper one time amount" do
-      subject { goa.select{|i| !i.recurrence.nil?}.first}
+      subject { goa.detect{|i| !i.recurrence.nil?}}
 
       it {
         is_expected.to have_attributes(

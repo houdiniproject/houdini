@@ -133,7 +133,7 @@ class Supporter < ApplicationRecord
   end
 
   def nonsupporter_address_updated?
-    (saved_changes.keys.map{|i| i.to_sym} - ADDRESS_ATTRIBUTES).any?
+    (saved_changes.keys.map(&:to_sym) - ADDRESS_ATTRIBUTES).any?
   end
 
   def publish_create

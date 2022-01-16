@@ -7,7 +7,7 @@ class Houdini::PaymentProvider::Registry
     end
     
     def build_all
-        configurations.keys.each do |key|
+        configurations.each_key do |key|
             resolve(key)
             configurations[key] = Houdini::PaymentProvider.build(key)
         end

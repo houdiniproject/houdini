@@ -130,10 +130,10 @@ module InsertTickets
     ticket_purchase.save!
     if (subtrx)
       subtrx.save!
-      subtrx.subtransaction_payments.each{|stp| stp.publish_created}
+      subtrx.subtransaction_payments.each(&:publish_created)
       subtrx.publish_created
     end
-    ticket_purchase.ticket_to_legacy_tickets.each{|i| i.publish_created}
+    ticket_purchase.ticket_to_legacy_tickets.each(&:publish_created)
     ticket_purchase.publish_created
     trx.publish_created
 

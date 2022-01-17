@@ -25,7 +25,7 @@ gem 'sprockets', '~> 3.7'
 
 # Helpers
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
-gem 'countries', '~> 4.1'
+gem 'countries', '~> 4.2'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'rails-i18n', '~> 6.0.0', '~> 6'

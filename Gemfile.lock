@@ -122,8 +122,8 @@ GEM
     async-io (1.32.2)
       async
     bcrypt (3.1.16)
-    bootsnap (1.9.3)
-      msgpack (~> 1.0)
+    bootsnap (1.10.1)
+      msgpack (~> 1.2)
     builder (3.2.4)
     byebug (11.1.3)
     chronic (0.10.2)
@@ -468,7 +468,7 @@ PLATFORMS
 DEPENDENCIES
   action_mailer_matchers (~> 1.2)
   bess!
-  bootsnap (~> 1.9)
+  bootsnap (~> 1.10)
   byebug (~> 11.0, >= 11.0.1)
   chronic (~> 0.10.2)
   colorize (~> 0.8.1)

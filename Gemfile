@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '6.1.4.4'
 gem 'jbuilder', '~> 2.11'
-gem 'bootsnap', '~> 1.9', require: false # Large rails application booting enhancer
+gem 'bootsnap', '~> 1.10', require: false # Large rails application booting enhancer
 gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.5'
@@ -25,7 +25,7 @@ gem 'sprockets', '~> 3.7'
 
 # Helpers
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
-gem 'countries', '~> 4.1'
+gem 'countries', '~> 4.2'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
 gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
 gem 'rails-i18n', '~> 6.0.0', '~> 6'

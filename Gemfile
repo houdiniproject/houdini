@@ -166,3 +166,7 @@ gem 'protected_attributes' # because we upgraded from 3
 gem 'actionpack-action_caching' # because we use action caching
 
 gem 'rack-cors'
+
+gem 'ruby2_keywords' # needed because we're backporting code from Rails 6.2
+
+gem 'securerandom' # needed becuase we're on a pre-2.5 Ruby version

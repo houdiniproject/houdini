@@ -1975,7 +1975,8 @@ CREATE TABLE public.nonprofits (
     fields_needed text,
     autocomplete_supporter_address boolean DEFAULT false,
     currency character varying(255) DEFAULT 'usd'::character varying,
-    feature_flag_autocomplete_supporter_address boolean DEFAULT false
+    feature_flag_autocomplete_supporter_address boolean DEFAULT false,
+    houid character varying
 );
 
 
@@ -2836,7 +2837,8 @@ CREATE TABLE public.supporters (
     locale character varying(255),
     fts tsvector,
     phone_index character varying,
-    primary_address_id integer
+    primary_address_id integer,
+    houid character varying
 );
 
 
@@ -6225,5 +6227,9 @@ INSERT INTO schema_migrations (version) VALUES ('20211101221537');
 
 INSERT INTO schema_migrations (version) VALUES ('20211104195053');
 
+INSERT INTO schema_migrations (version) VALUES ('20211119224854');
+
 INSERT INTO schema_migrations (version) VALUES ('20211210185111');
+
+INSERT INTO schema_migrations (version) VALUES ('20211222175658');
 

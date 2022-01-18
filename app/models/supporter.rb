@@ -1,6 +1,9 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Supporter < ActiveRecord::Base
 
+  include Model::Houidable
+  setup_houid :supp, :houid
+
   ADDRESS_FIELDS = ['address', 'city', 'state_code', 'country', 'zip_code']
 
   before_validation :cleanup_address

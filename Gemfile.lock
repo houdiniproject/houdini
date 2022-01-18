@@ -405,6 +405,7 @@ GEM
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
     ruby-prof (0.15.9)
+    ruby2_keywords (0.0.5)
     safe_yaml (1.0.4)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -414,6 +415,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    securerandom (0.1.1)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
     simplecov (0.16.1)
@@ -540,8 +542,10 @@ DEPENDENCIES
   rspec
   rspec-rails
   ruby-prof (= 0.15.9)
+  ruby2_keywords
   sassc
   sassc-rails
+  securerandom
   shoulda-matchers
   simplecov (~> 0.16.1)
   stripe (~> 4)

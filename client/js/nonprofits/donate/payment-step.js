@@ -8,16 +8,16 @@ const request = require('../../common/request')
 const cardForm = require('../../components/card-form.es6')
 const sepaForm = require('../../components/sepa-form.es6')
 const progressBar = require('../../components/progress-bar')
-const {CommitchangeFeeCoverageCalculator} = require('../../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator')
-const {centsToDollars} = require('../../common/format')
+const { CommitchangeFeeCoverageCalculator } = require('../../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator')
+const { centsToDollars } = require('../../common/format')
 const cloneDeep = require('lodash/cloneDeep')
 
 const sepaTab = 'sepa'
 const cardTab = 'credit_card'
 
 function init(state) {
-  const params$ =  (state && state.params$) || flyd.stream({});
-  
+  const params$ = (state && state.params$) || flyd.stream({});
+
   const payload$ = flyd.map(supp => ({ card: { holder_id: supp.id, holder_type: 'Supporter' } }), state.supporter$)
   const supporterID$ = flyd.map(supp => supp.id, state.supporter$)
   const card$ = flyd.merge(
@@ -28,41 +28,43 @@ function init(state) {
 
   const hideCoverFeesOption$ = flyd.map(params => params.hide_cover_fees_option, params$)
 
-  const feeCalculator$ = flyd.map( (coverFees) => {
+  const feeCalculator$ = flyd.map((coverFees) => {
     const feeStructure = app.nonprofit.feeStructure
     if (!feeStructure) {
-       throw new Error("billing Plan isn't found!")
+      throw new Error("billing Plan isn't found!")
     }
 
     return new CommitchangeFeeCoverageCalculator({
-        ...app.nonprofit.feeStructure,
-        currency: 'usd',
-        feeCovering: coverFees
+      ...app.nonprofit.feeStructure,
+      currency: 'usd',
+      feeCovering: coverFees
     });
   }, coverFees$)
 
   const calcFromNetResult$ = flyd.combine((donation$, feeCalculator$) => {
-      return feeCalculator$().calcFromNet(donation$().amount)
+    return feeCalculator$().calcFromNet(donation$().amount)
   }, [state.donation$, feeCalculator$]);
   // Give a donation of value x, this returns x + estimated fees (using fee coverage formula) if fee coverage is selected OR
   // x if fee coverage is not selected
   state.donationTotal$ = flyd.map((calcFromNetResult) => calcFromNetResult.actualTotalAsNumber
-  , calcFromNetResult$ );
-    
+    , calcFromNetResult$);
+
   //Given a donation of value x, this gives the amount of fees that would be added if fee coverage were selected, i.e. so 
   // the nonprofit gets a net of x
   state.potentialFees$ = flyd.map((calcFromNetResult) => calcFromNetResult.estimatedFees.feeAsString
-  , calcFromNetResult$ );
+    , calcFromNetResult$);
 
-  state.cardForm = cardForm.init({ path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$, 
-  hide_cover_fees_option$: hideCoverFeesOption$})
+  state.cardForm = cardForm.init({
+    path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$,
+    hide_cover_fees_option$: hideCoverFeesOption$
+  })
   state.sepaForm = sepaForm.init({ supporter: supporterID$ })
 
   // Set the card ID into the donation object when it is saved
   const cardToken$ = flyd.map((i) => {
     return i['token']
   }, state.cardForm.saved$)
-  const donationWithAmount$ =  flyd.combine((donation, donationTotal, coverFees$) => {
+  const donationWithAmount$ = flyd.combine((donation, donationTotal, coverFees$) => {
     const d = cloneDeep(donation())
     d.amount = donationTotal()
     d.fee_covered = coverFees$()
@@ -72,7 +74,7 @@ function init(state) {
 
   // Set the sepa transfer details ID into the donation object when it is saved
   const sepaId$ = flyd.map(R.prop('id'), state.sepaForm.saved$)
-  const  donationWithSepaId$ = flyd.lift(R.assoc('direct_debit_detail_id'), sepaId$, state.donation$)
+  const donationWithSepaId$ = flyd.lift(R.assoc('direct_debit_detail_id'), sepaId$, state.donation$)
 
   state.donationParams$ = flyd.immediate(
     flyd.combine((sepaParams, cardParams, activeTab) => {
@@ -85,20 +87,20 @@ function init(state) {
   )
   const donationResp$ = flyd.flatMap(postDonation, state.donationParams$)
 
-// Post the gift option, if necessary
-const paramsWithGift$ = flyd.filter(params => params.gift_option_id || params.gift_option && params.gift_option.id, state.params$)
-const paidWithGift$ = flyd.map(
-  (result) => {
-    const hasParamsWithGift = paramsWithGift$() && (paramsWithGift$().gift_option_id || paramsWithGift$().gift_option.id)
-    if (result.error || !hasParamsWithGift) {
-      return result
+  // Post the gift option, if necessary
+  const paramsWithGift$ = flyd.filter(params => params.gift_option_id || params.gift_option && params.gift_option.id, state.params$)
+  const paidWithGift$ = flyd.map(
+    (result) => {
+      const hasParamsWithGift = paramsWithGift$() && (paramsWithGift$().gift_option_id || paramsWithGift$().gift_option.id)
+      if (result.error || !hasParamsWithGift) {
+        return result
+      }
+      else {
+        return postGiftOption(paramsWithGift$().gift_option_id || paramsWithGift$().gift_option.id, result)
+      }
     }
-    else {
-      return postGiftOption(paramsWithGift$().gift_option_id || paramsWithGift$().gift_option.id, result)
-    }
-  }
-  , donationResp$
-)
+    , donationResp$
+  )
 
   state.error$ = flyd.mergeAll([
     flyd.map(R.prop('error'), flyd.filter(resp => resp.error, paidWithGift$))
@@ -168,10 +170,10 @@ const postTracking = (utmParams, donationResponse) => {
 }
 
 const postSuccess = (donationResponse) => {
-  if (plausible) {
-    const resp = donationResponse()
-    plausible('payment_succeeded', {props: {amount: resp && resp.charge && resp.charge.amount && (resp.charge.amount / 100)}});
-  }
+  // if (plausible) {
+  //   const resp = donationResponse()
+  //   plausible('payment_succeeded', {props: {amount: resp && resp.charge && resp.charge.amount && (resp.charge.amount / 100)}});
+  // }
 }
 
 var posting = false // hack switch to prevent any kind of charge double post

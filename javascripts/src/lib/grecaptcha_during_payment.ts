@@ -44,10 +44,15 @@ function reportRecaptchaFailure(error: Error | Error[]) {
     error = [error]
   }
 
-  // const plausible = (window as any)['plausible'];
-  // if (plausible) {
-  //   plausible('recaptcha.contact_service', {props: {status: 'failure', error: error.join('\n')}});
-  // }
+  try {
+    const plausible = (window as any)['plausible'];
+    if (plausible) {
+      plausible('recaptcha.contact_service', {props: {status: 'failure', error: error.join('\n')}});
+    }
+  }
+  catch (e) {
+    console.error(e)
+  }
 }
 
 export default stripeRespToGRecaptcha;

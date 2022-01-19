@@ -170,10 +170,16 @@ const postTracking = (utmParams, donationResponse) => {
 }
 
 const postSuccess = (donationResponse) => {
-  // if (plausible) {
-  //   const resp = donationResponse()
-  //   plausible('payment_succeeded', {props: {amount: resp && resp.charge && resp.charge.amount && (resp.charge.amount / 100)}});
-  // }
+  try {
+    const plausible = window['plausible'];
+    if (plausible) {
+      const resp = donationResponse()
+      plausible('payment_succeeded', {props: {amount: resp && resp.charge && resp.charge.amount && (resp.charge.amount / 100)}});
+    }
+  }
+  catch(e) {
+    console.error(e)
+  }
 }
 
 var posting = false // hack switch to prevent any kind of charge double post

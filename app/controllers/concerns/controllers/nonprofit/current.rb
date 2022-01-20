@@ -15,7 +15,7 @@ module Controllers::Nonprofit::Current
 		end
 
 		def current_nonprofit_without_exception
-			FetchNonprofit.with_params params, administered_nonprofit
+			FetchNonprofit.with_params request.path_parameters, administered_nonprofit
 		end
 	end
 end

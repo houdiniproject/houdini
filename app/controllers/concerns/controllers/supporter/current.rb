@@ -9,7 +9,7 @@ module Controllers::Supporter::Current
 		private
 
 		def current_supporter
-			current_nonprofit.supporters.find(params[:supporter_id] || params[:id])
+			current_nonprofit.supporters.find(request.path_parameters[:supporter_id] || request.path_parameters[:id])
 		end
 	end
 end

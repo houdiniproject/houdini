@@ -10,7 +10,7 @@ module Controllers::Api::Transaction::Current
 		private
 
 		def current_transaction
-			@current_transaction ||= current_nonprofit.transactions.find(params[:transaction_id] || params[:id])
+			@current_transaction ||= current_nonprofit.transactions.find(request.path_parameters[:transaction_id] || request.path_parameters[:id])
 		end
 	end
 end

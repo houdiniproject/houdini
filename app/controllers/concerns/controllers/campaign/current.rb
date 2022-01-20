@@ -10,7 +10,7 @@ module Controllers::Campaign::Current
 		private
 
 		def current_campaign
-			@campaign ||= FetchCampaign.with_params params, current_nonprofit
+			@campaign ||= FetchCampaign.with_params request.path_parameters, current_nonprofit
 			raise ActionController::RoutingError, 'Campaign not found' if @campaign.nil?
 
 			@campaign

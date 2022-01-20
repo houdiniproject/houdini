@@ -10,7 +10,7 @@ module Controllers::Event::Current
 		private
 
 		def current_event
-			@event ||= FetchEvent.with_params params, current_nonprofit
+			@event ||= FetchEvent.with_params request.path_parameters, current_nonprofit
 			raise ActionController::RoutingError, 'Event not found' if @event.nil?
 
 			@event

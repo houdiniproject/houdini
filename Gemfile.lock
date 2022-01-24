@@ -248,7 +248,7 @@ GEM
     mime-types-data (3.2021.0901)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.6.1)
+    mini_portile2 (2.7.1)
     mini_racer (0.4.0)
       libv8-node (~> 15.14.0.0)
     minitest (5.15.0)
@@ -259,8 +259,8 @@ GEM
     multi_xml (0.6.0)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
+    nokogiri (1.13.1)
+      mini_portile2 (~> 2.7.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.21.0)
@@ -286,7 +286,7 @@ GEM
     rack (2.2.3)
     rack-attack (5.4.2)
       rack (>= 1.0, < 3)
-    rack-proxy (0.7.0)
+    rack-proxy (0.7.2)
       rack
     rack-ssl (1.4.1)
       rack
@@ -327,7 +327,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    react_on_rails (12.5.2)
+    react_on_rails (12.6.0)
       addressable
       connection_pool
       execjs (~> 2.5)
@@ -420,7 +420,7 @@ GEM
     table_print (1.5.7)
     test-unit (3.5.3)
       power_assert
-    thor (1.1.0)
+    thor (1.2.1)
     tilt (2.0.10)
     timecop (0.9.4)
     timers (4.3.3)
@@ -508,7 +508,7 @@ DEPENDENCIES
   rails (= 6.1.4.4)
   rails-i18n (~> 6.0.0, ~> 6)
   rake (~> 12.3.2)
-  react_on_rails (= 12.5.2)
+  react_on_rails (= 12.6.0)
   rspec (~> 3.10.0)
   rspec-rails (~> 4.1.2)
   rubocop (~> 1.25.0)

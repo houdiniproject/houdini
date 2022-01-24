@@ -13,6 +13,7 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"] # we don't want to have semver-major changes
+    open-pull-requests-limit: 10
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

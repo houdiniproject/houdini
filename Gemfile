@@ -33,7 +33,7 @@ gem 'premailer-rails', '~> 1.11' # for styling of email
 gem 'money', '~> 6.16'
 
 # Database and Events
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.3'
 
 gem 'param_validation', path: 'gems/ruby-param-validation'
 gem 'qx', path: 'gems/ruby-qx'
@@ -67,10 +67,10 @@ group :development, :ci, :test do
   gem 'listen'
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
-  gem 'rubocop', '~> 1.24.1'
+  gem 'rubocop', '~> 1.25.0'
   gem 'rubocop-rails', '~> 2.13'
   gem 'rubocop-rake', '~> 0.6.0'
-  gem 'rubocop-rspec', '~> 2.7'
+  gem 'rubocop-rspec', '~> 2.8'
   gem 'shoulda-matchers', '~> 5.1.0'
   gem 'turbo_test'
   gem 'fasterer'

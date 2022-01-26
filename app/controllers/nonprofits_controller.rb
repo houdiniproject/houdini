@@ -40,7 +40,7 @@
 	end
 
   def recurring_donation_stats
-    render json: QueryRecurringDonations.overall_stats(params[:nonprofit_id])
+    render json: QueryRecurringDonations.overall_stats(current_nonprofit.id)
   end
 
 	def profile_todos

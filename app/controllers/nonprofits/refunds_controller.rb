@@ -7,7 +7,7 @@ module Nonprofits
 
 		# post /charges/:charge_id/refunds
 		def create
-      charge = Qx.select("*").from("charges").where(id: params[:charge_id]).execute.first
+      charge = current_nonprofit.charges.find(params[:charge_id])
 			params[:refund][:user_id] = current_user.id
       render_json{ InsertRefunds.with_stripe(charge, params['refund']) }
 		end

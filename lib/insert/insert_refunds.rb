@@ -25,7 +25,7 @@ module InsertRefunds
     ParamValidation.new(h, { amount: {required: true, is_integer: true, min: 1} })
     original_payment = Payment.find(charge['payment_id'])
 
-    if original_payment.refund_total.to_i + h['amount'].to_i > original_payment.gross_amount..to_i
+    if original_payment.refund_total.to_i + h['amount'].to_i > original_payment.gross_amount.to_i
       raise RuntimeError.new("Refund amount must be less than the net amount of the payment (for charge #{charge['id']})")
     end
 

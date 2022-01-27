@@ -112,10 +112,7 @@ module InsertDonation
 private
 
   def self.get_nonprofit_data(nonprofit_id)
-    Psql.execute(
-      Qexpr.new.select(:statement, :name).from(:nonprofits)
-        .where("id=$id", id: nonprofit_id)
-    ).first
+    Nonprofit.find(nonprofit_id)
   end
 
   def self.insert_charge(data)

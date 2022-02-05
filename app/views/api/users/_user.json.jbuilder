@@ -4,4 +4,8 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 json.extract! user, :id
 
+json.roles user.roles do |role|
+  json.partial! 'api/roles/role', role: role
+end
+
 json.object 'user'

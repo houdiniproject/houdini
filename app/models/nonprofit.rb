@@ -177,6 +177,14 @@ class Nonprofit < ActiveRecord::Base
     QueryPayments.get_payout_totals( QueryPayments.ids_for_payout(self.id))['net_amount']
   end
 
+  def admins
+    users.nonprofit_admins
+  end
+
+  def associates
+    users.nonprofit_associates
+  end
+
   def can_make_payouts?
     !!(vetted && bank_account && 
     !bank_account.deleted &&

@@ -31,6 +31,9 @@ class User < ActiveRecord::Base
 
 	attr_accessor :offsite_donation_id, :current_password
 
+	scope :nonprofit_admins, -> { includes(:roles).where("roles.name = 'nonprofit_admin'") }
+	scope :nonprofit_associates, -> { includes(:roles).where("roles.name = 'nonprofit_associate'") }
+
 	validates :email,
 		presence: true,
 		uniqueness: {case_sensitive: false},

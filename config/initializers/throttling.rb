@@ -81,24 +81,25 @@ Rack::Attack.blocklist("block access to something") do |req|
 end
 
 
+if ENV['THROTTLE_SUPPORTER_LIMIT'] && ENV['THROTTLE_SUPPORTER_PERIOD']
+  Rack::Attack.throttle('post to supporter', limit:ENV['THROTTLE_SUPPORTER_LIMIT'].to_i, period: ENV['THROTTLE_SUPPORTER_PERIOD'].to_i) do |req|
+    ret = nil
 
-Rack::Attack.throttle('post to supporter', limit:10, period: 60) do |req|
-  ret = nil
 
-
-  if run_throttle? && req.path =~ /\/nonprofits\/(.*)\/supporters/ && req.post?
-    begin
-      json = JSON.parse(req.body.string)
-      ret = json['email']
-    rescue
-      req.body.rewind
+    if run_throttle? && req.path =~ /\/nonprofits\/(.*)\/supporters/ && req.post?
+      begin
+        json = JSON.parse(req.body.string)
+        ret = json['email']
+      rescue
+        req.body.rewind
+      end
     end
-  end
 
-  ret
+    ret
+  end
 end
 
 
 Rack::Attack.throttled_response = lambda do |env|
-  [ 429, {'Content-Type' => 'application/json'}, [JSON.generate({'error': "I'm sorry; you're not allowed to add a card that often to a single supporter. Please contact support@commitchange.com for help."})]]
+  [ 429, {'Content-Type' => 'application/json'}, [JSON.generate({'error': "I'm sorry; something went wrong. Please contact support@commitchange.com for help."})]]
 end

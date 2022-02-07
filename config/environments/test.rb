@@ -37,6 +37,9 @@ Commitchange::Application.configure do
   config.action_controller.allow_forgery_protection = false
   config.cache_store = :memory_store
 
+  ENV['THROTTLE_SUPPORTER_LIMIT'] = '10'
+  ENV['THROTTLE_SUPPORTER_PERIOD'] = '60'
+
   config.after_initialize do
     # ActiveRecord::Base.logger = nil
     # ActionController::Base.logger =  nil

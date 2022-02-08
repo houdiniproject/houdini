@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.7 (Ubuntu 12.7-0ubuntu0.20.10.1)
--- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.10.1)
+-- Dumped from database version 13.4
+-- Dumped by pg_dump version 13.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -5062,14 +5062,6 @@ ALTER TABLE ONLY public.campaign_gifts
 
 
 --
--- Name: supporters fk_rails_1007f7f722; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.supporters
-    ADD CONSTRAINT fk_rails_1007f7f722 FOREIGN KEY (primary_address_id) REFERENCES public.supporter_addresses(id);
-
-
---
 -- Name: fee_coverage_detail_bases fk_rails_13c8ce7956; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6232,4 +6224,6 @@ INSERT INTO schema_migrations (version) VALUES ('20211119224854');
 INSERT INTO schema_migrations (version) VALUES ('20211210185111');
 
 INSERT INTO schema_migrations (version) VALUES ('20211222175658');
+
+INSERT INTO schema_migrations (version) VALUES ('20220119193044');
 

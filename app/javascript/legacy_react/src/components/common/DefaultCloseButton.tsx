@@ -64,10 +64,10 @@ const states: { [state: string]: any } = {
 @observer
 export class DefaultCloseButton extends React.Component<DefaultCloseButtonProps, {}> {
   @observable
-  hovering: boolean
+  hovering: boolean = false;
 
   @observable
-  focusing: boolean
+  focusing: boolean = false;
 
   @action.bound
   mouseEnter() {

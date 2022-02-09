@@ -23,7 +23,7 @@ export class HoudiniForm extends Form {
   }
 
   @observable
-  private $serverError:string
+  private $serverError!: string;
 
   plugins() {
     return {
@@ -70,7 +70,8 @@ export class HoudiniField extends Field {
     })
   }
 
-  @observable private $serverError:string
+  @observable
+  private $serverError!: string;
 
   @action
   invalidateFromServer(message:string) {

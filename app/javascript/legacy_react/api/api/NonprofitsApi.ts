@@ -25,7 +25,7 @@ const page_info = require('../../../page_info.js.erb')
 export class NonprofitsApi {
     protected basePath = `${page_info.apiDomain}/api`;
     public defaultHeaders: Array<string> = [];
-    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = null;
+    public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings;
     public configuration: Configuration = new Configuration();
 
     constructor(basePath?: string, configuration?: Configuration, defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings) {

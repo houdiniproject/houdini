@@ -8,13 +8,13 @@ function momentTz(date:string, timezone:string='UTC'):moment.Moment {
 
 // Return a date in the format MM/DD/YY for a given date string or moment obj
 export function readable_date(date?:string, timezone:string='UTC'):string {
-  if(!date) return
+  if(!date) return ''
   return momentTz(date,timezone).format("MM/DD/YYYY")
 }
 
 // Given a created_at string (eg. Charge.last.created_at.to_s), convert it to a readable date-time string
 export function readable_date_time(date?:string, timezone:string='UTC'):string {
-  if(!date) return
+  if(!date) return ''
   return momentTz(date,timezone).format("MM/DD/YYYY H:mma z")
 }
 
@@ -58,6 +58,6 @@ export class NonprofitTimezonedDates {
   }
 
   readable_date_time_to_iso(date?:string):string {
-    return readable_date_time_to_iso(date, this.nonprofitTimezone || 'UTC')
+    return readable_date_time_to_iso(date, this.nonprofitTimezone || 'UTC')!
   }
 }

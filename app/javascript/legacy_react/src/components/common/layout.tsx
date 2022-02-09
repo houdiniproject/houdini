@@ -53,7 +53,7 @@ export const ThreeColumnFields: React.StatelessComponent<{children:ClassNameable
 ThreeColumnFields.displayName = 'ThreeColumnFields'
 
 
-export const Row: React.StatelessComponent<{}> = (props:{children:React.ReactElement<any>[]|React.ReactElement<any>}) => {
+export const Row: React.StatelessComponent<{}> = (props:{children?:React.ReactNode[]|React.ReactNode}) => {
     return <div className="row">
         {props.children}
     </div>

@@ -7,7 +7,7 @@ import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField
 import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
 import { useId } from "@reach/auto-id";
 
-interface ConversionProps<T extends unknown = unknown> {
+interface ConversionProps<T extends unknown > {
 	disabled?:boolean;
 	field: ControllerRenderProps<T, string>;
 	fieldState: ControllerFieldState;

@@ -244,14 +244,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				emailLabel={emailLabel}
 				passwordLabel={passwordLabel}
 				failed={failed}
-				lastSignInAttemptError={lastSignInAttemptError}
+				lastSignInAttemptError={lastSignInAttemptError!}
 				classes={classes}
 				loginHeaderLabel={loginHeaderLabel}
 				submitting={submitting}
-				onFailure={onFailure}
-				onSubmitting={onSubmitting}
-				onSuccess={onSuccess}
-				showProgressAndSuccess={showProgressAndSuccess}
+				onFailure={onFailure!}
+				onSubmitting={onSubmitting!}
+				onSuccess={onSuccess!}
+				showProgressAndSuccess={showProgressAndSuccess!}
 				signedIn={signedIn}
 				form={form}
 			/>;

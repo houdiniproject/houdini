@@ -134,8 +134,8 @@ function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element {
 
 
 	const classes = useStyles({
-		backgroundColor: props.backgroundColor,
-		checkColor: props.checkColor,
+		backgroundColor: props.backgroundColor!,
+		checkColor: props.checkColor!,
 		checkThickness: props.checkThickness,
 		animationDuration: props.animationDuration,
 		explosion: props.explosion,

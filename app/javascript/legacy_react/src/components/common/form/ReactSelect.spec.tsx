@@ -2,10 +2,8 @@
 import * as React from 'react';
 import 'jest';
 import {Form} from "mobx-react-form";
-import ReactInput from "./ReactInput";
 import {ReactForm} from "./ReactForm";
 import {action, observable, toJS} from 'mobx';
-import ReactTextarea from './ReactTextarea';
 import {observer} from 'mobx-react';
 import {mount} from 'enzyme';
 import ReactSelect from './ReactSelect';

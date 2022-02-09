@@ -1,9 +1,8 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { injectIntl} from 'react-intl';
 import {Field} from "../../../../../../../types/mobx-react-form";
-import {InputHTMLAttributes, ReactText, TextareaHTMLAttributes} from "react";
+import {TextareaHTMLAttributes} from "react";
 import {action, observable} from "mobx";
 import {ReactInputProps} from "./react_input_props";
 import {castToNullIfUndef} from "../../../lib/utils";

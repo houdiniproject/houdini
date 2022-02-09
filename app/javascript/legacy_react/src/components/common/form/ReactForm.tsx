@@ -1,8 +1,8 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import { observer, Provider } from 'mobx-react';
-import {Field, Form} from "mobx-react-form";
-import {observable, action, toJS} from 'mobx';
+import { observer } from 'mobx-react';
+import { Form} from "mobx-react-form";
+import {observable, action} from 'mobx';
 
 export interface ReactFormProps
 {

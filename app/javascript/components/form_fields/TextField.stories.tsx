@@ -7,7 +7,6 @@ import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
 import useYup from '../../hooks/useYup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Story } from '@storybook/react';
-import { useId } from '@reach/auto-id';
 import { waitFor } from '@testing-library/react';
 import { Button, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';

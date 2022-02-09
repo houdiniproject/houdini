@@ -4,7 +4,7 @@ import 'jest';
 import ReactInput from './ReactInput'
 import {Form} from "mobx-react-form";
 import {mount} from 'enzyme';
-import {toJS, observable, action, runInAction} from 'mobx';
+import {toJS, observable, action} from 'mobx';
 import {observer} from 'mobx-react';
 import {ReactForm} from "./ReactForm";
 

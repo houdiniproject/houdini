@@ -1,13 +1,10 @@
 // License: LGPL-3.0-or-later
 import  * as React from 'react';
-import { observer, inject, Provider } from 'mobx-react';
-import {injectIntl} from 'react-intl';
+import { observer } from 'mobx-react';
 import {Field} from "mobx-react-form";
-import {observable, action, toJS, runInAction} from 'mobx';
+import {observable, action} from 'mobx';
 import {InputHTMLAttributes} from 'react';
 import {ReactInputProps} from "./react_input_props";
-import {SelectHTMLAttributes} from "react";
-import {ReactSelectProps} from "./ReactSelect";
 import {castToNullIfUndef} from "../../../lib/utils";
 
 

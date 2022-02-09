@@ -1,9 +1,7 @@
 // License: LGPL-3.0-or-later
 // npm
-const snabbdom = require('snabbdom')
 const flyd = require('flyd')
 const R = require('ramda')
-const render = require('ff-core/render')
 flyd.flatMap = require('flyd/module/flatmap')
 flyd.filter = require('flyd/module/filter')
 flyd.mergeAll = require('flyd/module/mergeall')

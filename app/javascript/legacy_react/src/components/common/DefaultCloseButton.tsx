@@ -83,7 +83,7 @@ export class DefaultCloseButton extends React.Component<DefaultCloseButtonProps,
   keyDown(event: React.KeyboardEvent<HTMLAnchorElement>) {
     if (event.key == 'Enter') {
       event.preventDefault();
-      this.props.onClick();
+      if(this.props.onClick) this.props.onClick();
     }
   }
 

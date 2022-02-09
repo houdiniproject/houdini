@@ -32,15 +32,6 @@ export class CreateOffsiteDonation {
 
 
     localVarPath = localVarPath + "?" + $.param(queryParameters);
-    // to determine the Content-Type header
-    let consumes: string[] = [
-      'application/json'
-    ];
-
-    // to determine the Accept header
-    let produces: string[] = [
-      'application/json'
-    ];
 
 
     headerParams['Content-Type'] = 'application/json';

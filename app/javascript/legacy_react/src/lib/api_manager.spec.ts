@@ -77,7 +77,7 @@ describe('ApiManager', () => {
 
         test('returns error on invalid class', () => {
             expect(() =>{
-                let c = manager.get(C)
+                  manager.get(C)
                 }
             ).toThrow(ApiMissingException)
         })

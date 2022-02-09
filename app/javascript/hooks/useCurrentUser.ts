@@ -54,7 +54,7 @@ export interface SetCurrentUserReturnType extends UseCurrentUserReturnType {
 	 * Set the current user. YYou should only use this intesting or from
 	 * inside the `useCurrentAuth` hook.
 	 */
-	revalidate(): Promise<CurrentUser>;
+	revalidate(): Promise<CurrentUser| null | undefined>;
 }
 
 /**
@@ -75,7 +75,7 @@ function useCurrentUser<TReturnType extends UseCurrentUserReturnType = UseCurren
 	const initialCurrentUser = useContext(InitialCurrentUserContext);
 
 	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(users.apiUsersCurrent.url(), getCurrent, { fallbackData: initialCurrentUser });
-	const currentUser = error?.status === NotLoggedInStatus ? null : data;
+	const currentUser = error?.status === NotLoggedInStatus ? null! : data!;
 
 	async function revalidate() {
 		return mutate();

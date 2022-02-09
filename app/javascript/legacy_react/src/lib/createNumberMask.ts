@@ -40,7 +40,7 @@ export default function createNumberMask({
                                            allowNegative = false,
                                            allowLeadingZeroes = false,
                                            fixedDecimalScale = false,
-                                           integerLimit = null
+                                           integerLimit = null!
                                          }:NumberMaskProps = {}) {
   const prefixLength = prefix && prefix.length || 0
   const suffixLength = suffix && suffix.length || 0

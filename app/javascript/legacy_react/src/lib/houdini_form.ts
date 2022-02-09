@@ -41,7 +41,7 @@ export class HoudiniForm extends Form {
   }
 
   @computed
-  public get hasServerError():boolean{
+  public get hasServerError(): string | boolean{
     return (this.$serverError && this.$serverError !== null && this.$serverError !== "") &&
         !this.submitting
   }
@@ -64,7 +64,7 @@ export class HoudiniField extends Field {
         field: HoudiniField,
         change: IValueDidChange<boolean> }) => {
         if (obj.change.newValue) {
-          this.$serverError = null
+          this.$serverError = ''
         }
       }
     })
@@ -88,7 +88,7 @@ export class HoudiniField extends Field {
   }
 
   @computed
-  public get hasServerError():boolean{
+  public get hasServerError(): string | boolean{
     return (this.$serverError && this.$serverError !== null && this.$serverError !== "")
   }
 

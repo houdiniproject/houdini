@@ -38,7 +38,7 @@ export default function PageWrapper(props: React.PropsWithChildren<PageContextIn
 	const { railsContext, innerProps, children, ...other } = props;
 
 
-	const [pageContext, setPageContext] = useState<PageContext | null>(null);
+	const [pageContext, setPageContext] = useState<PageContext>(null!);
 
 	useDeepCompareEffect(() => {
 		setPageContext({

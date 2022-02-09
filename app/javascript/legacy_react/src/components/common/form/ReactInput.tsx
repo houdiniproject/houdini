@@ -21,7 +21,7 @@ class ReactInput extends React.Component<InputTypes, {}> {
   }
 
   @observable
-  field:Field
+  field: Field = new Field;
 
 
   @action.bound

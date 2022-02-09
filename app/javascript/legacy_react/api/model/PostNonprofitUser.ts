@@ -44,9 +44,9 @@ export class PostNonprofitUserException implements Error{
 
     }
 
-    message: string;
-    stack: string;
-    name: string;
+    message!: string;
+    stack!: string;
+    name!: string;
 
     item: PostNonprofitUser;
 }

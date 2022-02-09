@@ -68,7 +68,7 @@
 		<tbody>
 			<% @payouts.each do |payout| %>
 			<tr>
-				<td><%= simple_date(payout.created_at) %></td>
+				<td><%= format_date_to_mdY(payout.created_at) %></td>
 				<td class='table-bigNum'><%= print_currency(payout.net_amount, payout.nonprofit.currency_symbol) %></td>
 				<td><%= payout.bank_name %></td>
 				<td>

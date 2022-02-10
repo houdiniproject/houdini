@@ -8119,12 +8119,7 @@ globule@^1.0.0:
     lodash "~4.17.10"
     minimatch "~3.0.2"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@^4.2.0, graceful-fs@^4.2.4:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
-  integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
-
-graceful-fs@^4.2.3:
+graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9, graceful-fs@^4.2.0, graceful-fs@^4.2.3, graceful-fs@^4.2.4:
   version "4.2.9"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.9.tgz#041b05df45755e587a24942279b9d113146e1c96"
   integrity sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==
@@ -9016,14 +9011,7 @@ is-color-stop@^1.0.0:
     rgb-regex "^1.0.1"
     rgba-regex "^1.0.0"
 
-is-core-module@^2.2.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.6.0.tgz#d7553b2526fe59b92ba3e40c8df757ec8a709e19"
-  integrity sha512-wShG8vs60jKfPWpF2KZRaAtvt3a20OAn7+IJ6hLPECpSABLcKtFKTTI4ZtH5QcBruBHlq+WsdHWyz0BCZW7svQ==
-  dependencies:
-    has "^1.0.3"
-
-is-core-module@^2.5.0:
+is-core-module@^2.2.0, is-core-module@^2.5.0:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.8.1.tgz#f59fdfca701d5879d0a6b100a40aa1560ce27211"
   integrity sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==

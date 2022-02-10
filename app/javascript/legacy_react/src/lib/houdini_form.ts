@@ -170,7 +170,7 @@ export class StaticFormToErrorAndBackConverter<T> {
     runInAction(() => {
       let hForm = form as HoudiniForm
       _.forEach(errorException.item.errors, (error) => {
-        let message = error.messages.join(", ")
+        let message = error.messages!.join(", ")
         _.forEach(error.params, (p) => {
           if (this.pathToForm[p]) {
             (hForm.$(this.pathToForm[p]) as HoudiniField).invalidateFromServer(message)

@@ -10,11 +10,11 @@ function arrayify<T>(items: T[]|T){
 
 type ClassNameableChildren = React.ReactElement<ClassNameable>[]|React.ReactElement<ClassNameable>
 
-export const TwoColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
+export const TwoColumnFields: React.FunctionComponent<{children:ClassNameableChildren}> = (props) => {
     const children = arrayify(props.children)
     return <Row>
         {
-            children.map((i:React.ReactElement<ClassNameable>) => {
+            children.map((i:React.ReactElement<ClassNameable> | any) => {
                 let className = ""
                 if (_.last(children) !== i){
                     className += " u-paddingRight--10"
@@ -31,11 +31,11 @@ export const TwoColumnFields: React.StatelessComponent<{children:ClassNameableCh
 
 TwoColumnFields.displayName = 'TwoColumnFields'
 
-export const ThreeColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
+export const ThreeColumnFields: React.FunctionComponent<{children:ClassNameableChildren}> = (props) => {
   const children = arrayify(props.children)
     return <Row>
         {
-          children.map((i:React.ReactElement<ClassNameable>) => {
+          children.map((i:React.ReactElement<ClassNameable> | any) => {
                 let className = ""
                 if (_.last(children) !== i){
                     className += " u-paddingRight--10"
@@ -53,7 +53,7 @@ export const ThreeColumnFields: React.StatelessComponent<{children:ClassNameable
 ThreeColumnFields.displayName = 'ThreeColumnFields'
 
 
-export const Row: React.StatelessComponent<{}> = (props:{children?:React.ReactNode[]|React.ReactNode}) => {
+export const Row: React.FunctionComponent<{}> = (props:{children?:React.ReactNode[]|React.ReactNode}) => {
     return <div className="row">
         {props.children}
     </div>
@@ -70,7 +70,7 @@ interface ColumnProps {
     breakSize:ColumnBreakSize
 }
 
-export const Column: React.StatelessComponent<ColumnProps> = (props) => {
+export const Column: React.FunctionComponent<ColumnProps> = (props) => {
     let className = `col-${props.breakSize}-${props.colSpan} `
     props.children.props
     if (props.children.props.className){

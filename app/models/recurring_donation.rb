@@ -54,13 +54,14 @@ class RecurringDonation < ApplicationRecord
     return charges.find_all(&:paid?).sum(&:amount) if charges
   end
 
-  # XXX let's make these monthly_totals a query
+  # XXX let's make these calculate_monthly_donation_totals a query
   # Or just push it into the front-end
-  def self.monthly_total
-    all.map(&:monthly_total).sum
+  #Calculate the monthly donation total
+  def self.calculate_monthly_donation_total
+    all.map(&:calculate_monthly_donation_total).sum
   end
 
-  def monthly_total
+  def calculate_monthly_donation_total
     multiple = {
       'week' => 4,
       'day' => 30,

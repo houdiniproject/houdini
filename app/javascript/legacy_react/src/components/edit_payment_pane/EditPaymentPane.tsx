@@ -100,7 +100,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
 
   @computed
   get nonprofitTimezonedDates(): NonprofitTimezonedDates {
-    return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
+    return new NonprofitTimezonedDates(this.props.nonprofitTimezone!)
   }
 
   @computed
@@ -246,7 +246,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
   }
 
   @computed get dateFormatter(): NonprofitTimezonedDates {
-    return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
+    return new NonprofitTimezonedDates(this.props.nonprofitTimezone!)
   }
 
   @action.bound
@@ -291,7 +291,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
           <tr>
             <td>Recurring</td>
             <td>
-              {rd ? readableInterval(rd.interval, rd.time_unit) : false}
+              {rd ? readableInterval(rd.interval!, rd.time_unit!) : false}
               since
               {rd ? this.dateFormatter.readable_date(rd.created_at) : false}
             </td>

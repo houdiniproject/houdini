@@ -64,7 +64,7 @@ function FailedAlert({ error }: { error: unknown }): JSX.Element {
 	return <Alert aria-labelledby="errorTest" severity="error" key={'unknownerror'}>An unknown error occurred</Alert>;
 }
 
-type SignInComponentStates = 'isReady' | 'isSubmitting' | 'canSubmit' | 'isLoading' | 'isSuccessful';
+type SignInComponentStates = 'isReady' | 'isSubmitting' | 'canSubmit' | 'isLoading' | 'isSuccessful' | '';
 
 interface ComponentState {
 	previousState: SignInComponentStates | null;
@@ -109,9 +109,9 @@ function useValueAsRef<T>(value: T): MutableRefObject<T> {
 
 function useStateAndEventDispatch({ submitting, isValid, touched, signedIn, ...props }: DispatchInput): SignInComponentStates {
 
-	const [{ state, previousState }, dispatchChange] = useReducer(signInComponentReducer, { state: 'isReady', previousState: null });
+	const [{ state, previousState }, dispatchChange] = useReducer(signInComponentReducer, { state: 'isReady', previousState: '' });
 
-	const signInErrorRef = useValueAsRef(props.lastSignInAttemptError);
+	const signInErrorRef = useValueAsRef(props.lastSignInAttemptError!);
 	const onSubmittingRef = useValueAsRef(props.onSubmitting);
 	const onSuccessRef = useValueAsRef(props.onSuccess);
 	const onFailureRef = useValueAsRef(props.onFailure);

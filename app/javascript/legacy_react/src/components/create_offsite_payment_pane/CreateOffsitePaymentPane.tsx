@@ -61,7 +61,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
 
   @computed
   get nonprofitTimezonedDates():NonprofitTimezonedDates {
-    return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
+    return new NonprofitTimezonedDates(this.props.nonprofitTimezone!)
   }
 
   postOffsiteDonation : CreateOffsiteDonation
@@ -184,7 +184,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
   }
 
   @computed get dateFormatter(): NonprofitTimezonedDates {
-    return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
+    return new NonprofitTimezonedDates(this.props.nonprofitTimezone!)
   }
 
   render() {

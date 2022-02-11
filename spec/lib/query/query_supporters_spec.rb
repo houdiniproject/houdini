@@ -227,7 +227,7 @@ describe QuerySupporters do
       supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', phone: '1234567890')
       supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', phone: '(123) 456-7890')
 
-      expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+      expect(subject).to eq([[supporter_1.id, supporter_2.id]])
     end
 
     context 'when different names' do
@@ -273,7 +273,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau', phone: '1234567890')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'CACAU', phone: '(123)4567890')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 
@@ -282,7 +282,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau borges', phone: '1234567890')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', phone: '(123)4567890')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 
@@ -291,7 +291,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau-borges', phone: '1234567890')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau.Borges', phone: '(123)4567890')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 
@@ -306,6 +306,416 @@ describe QuerySupporters do
     end
   end
 
+  describe '.dupes_on_name_and_address' do
+    subject { QuerySupporters.dupes_on_name_and_address(np.id) }
+
+    it 'finds supporters with the same name and address' do
+      supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue')
+      supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue')
+
+      expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+    end
+
+    context 'when different names' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'Clear Waters Avenue')
+
+        expect(subject).to match_array([])
+      end
+    end
+
+    context 'when different addresses' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear.Waters.Avenue')
+
+        expect(subject).to match_array([])
+      end
+    end
+
+    context 'when the name is empty' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: '', address: 'Clear Waters Avenue')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: '', address: 'Clear Waters Avenue')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the name is nil' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: nil, address: 'Clear Waters Avenue')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: nil, address: 'Clear Waters Avenue')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when not on strict mode' do
+      subject { QuerySupporters.dupes_on_name_and_address(np.id, false) }
+      context 'when names are the same but with different casing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'CACAU', address: 'Clear Waters Avenue')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when names are the same but with different spacing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'cacauborges', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Clear Waters Avenue')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when names are the same but with special characters' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau-borges', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau.Borges', address: 'Clear Waters Avenue')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when the names are not the same' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau borges', address: 'Clear Waters Avenue')
+
+          expect(subject).to match_array([])
+        end
+      end
+
+      context 'when the name is empty' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: '', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: '', address: 'Clear Waters Avenue')
+
+          expect(subject).to eq([])
+        end
+      end
+
+      context 'when the name is nil' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: nil, address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: nil, address: 'Clear Waters Avenue')
+
+          expect(subject).to eq([])
+        end
+      end
+
+      context 'when addresses are the same but with different casing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'clear waters avenue')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when addresses are the same but with different spacing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'ClearWatersAvenue')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when addresses are the same but with special characters' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Clear Waters . Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Clear Waters - Avenue')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when the addresses are not the same' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Avenue, Clear Waters')
+
+          expect(subject).to match_array([])
+        end
+      end
+    end
+  end
+
+  describe '.dupes_on_phone_and_email' do
+    subject { QuerySupporters.dupes_on_phone_and_email(np.id) }
+
+    it 'finds supporters with the same phone and email' do
+      supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com')
+      supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com')
+
+      expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+    end
+
+    context 'when different phones' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: '1234567890', email: 'cacau@cacau.com')
+
+        expect(subject).to match_array([])
+      end
+    end
+
+    context 'when different emails' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@gmail.com')
+
+        expect(subject).to match_array([])
+      end
+    end
+
+    context 'when the phone is empty' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: '', email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: '', email: 'cacau@cacau.com')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the phone is nil' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: nil, email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: nil, email: 'cacau@cacau.com')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the email is empty' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: '', phone: '123456789')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: '', phone: '123456789')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the email is nil' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: nil, phone: '123456789')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: nil, phone: '123456789')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when not on strict mode' do
+      subject { QuerySupporters.dupes_on_phone_and_email(np.id, false) }
+      context 'when emails are the same but with different casing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'Cacau@Cacau.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when emails are the same but with different spacing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com ')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when the emails are not the same' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@gmail.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, phone: '123456789', email: 'cacau@cacau.com ')
+
+          expect(subject).to match_array([])
+        end
+      end
+
+      context 'when the email is empty' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: '', phone: '123456789')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: '', phone: '123456789')
+
+          expect(subject).to eq([])
+        end
+      end
+
+      context 'when the email is nil' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: nil, phone: '123456789')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: nil, phone: '123456789')
+
+          expect(subject).to eq([])
+        end
+      end
+    end
+  end
+
+  describe '.dupes_on_name_and_email' do
+    subject { QuerySupporters.dupes_on_name_and_email(np.id) }
+    it 'finds supporters with the same name and email' do
+      supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com')
+      supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com')
+
+      expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+    end
+
+    context 'when different names' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', email: 'cacau@cacau.com')
+
+        expect(subject).to match_array([])
+      end
+    end
+
+    context 'when different emails' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@gmail.com')
+
+        expect(subject).to match_array([])
+      end
+    end
+
+    context 'when the name is empty' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: '', email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: '', email: 'cacau@cacau.com')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the name is nil' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: nil, email: 'cacau@cacau.com')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: nil, email: 'cacau@cacau.com')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the email is empty' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: '', name: 'Cacau Borges')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: '', name: 'Cacau Borges')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the email is nil' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: nil, name: 'Cacau Borges')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: nil, name: 'Cacau Borges')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when not on strict mode' do
+      subject { QuerySupporters.dupes_on_name_and_email(np.id, false) }
+      context 'when emails are the same but with different casing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'Cacau@Cacau.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when emails are the same but with different spacing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com ')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when the emails are not the same' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@gmail.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com ')
+
+          expect(subject).to match_array([])
+        end
+      end
+
+      context 'when the email is empty' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: '', name: 'Cacau Borges')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: '', name: 'Cacau Borges')
+
+          expect(subject).to eq([])
+        end
+      end
+
+      context 'when the email is nil' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: nil, name: 'Cacau Borges')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: nil, name: 'Cacau Borges')
+
+          expect(subject).to eq([])
+        end
+      end
+
+      context 'when names are the same but with different casing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@gmail.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'cacau borges', email: 'cacau@gmail.com')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when names are the same but with different spacing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@cacau.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'CacauBorges', email: 'cacau@cacau.com')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when the names are not the same' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', email: 'cacau@gmail.com')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', email: 'cacau@cacau.com ')
+
+          expect(subject).to match_array([])
+        end
+      end
+
+      context 'when the name is empty' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: 'cacau@gmail.com', name: '')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: 'cacau@gmail.com', name: '')
+
+          expect(subject).to eq([])
+        end
+      end
+
+      context 'when the name is nil' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, email: 'cacau@gmail.com', name: nil)
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, email: 'cacau@gmail.com', name: nil)
+
+          expect(subject).to eq([])
+        end
+      end
+    end
+  end
+
   describe '.dupes_on_address' do
     subject { QuerySupporters.dupes_on_address(np.id) }
 
@@ -313,7 +723,7 @@ describe QuerySupporters do
       supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue', zip_code: '32101')
       supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'Clear Waters Avenue', zip_code: '32101')
 
-      expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+      expect(subject).to eq([[supporter_1.id, supporter_2.id]])
     end
 
     context 'when the address is empty' do
@@ -341,7 +751,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue', zip_code: '32101')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'clear waters avenue', zip_code: '32101')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 
@@ -359,7 +769,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue 106', zip_code: '32101')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'Clear Waters Avenue - 106', zip_code: '32101')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 
@@ -374,6 +784,74 @@ describe QuerySupporters do
     end
   end
 
+  describe '.dupes_on_address_without_zip_code' do
+    subject { QuerySupporters.dupes_on_address_without_zip_code(np.id) }
+
+    it 'finds supporters with the same address' do
+      supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue')
+      supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'Clear Waters Avenue')
+
+      expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+    end
+
+    context 'when the address is empty' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: '')
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: '')
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when the address is nil' do
+      it 'does not find' do
+        supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: nil)
+        supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: nil)
+
+        expect(subject).to eq([])
+      end
+    end
+
+    context 'when not on strict mode' do
+      subject { QuerySupporters.dupes_on_address_without_zip_code(np.id, false) }
+      context 'when addresses are the same but with different casing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'clear waters avenue')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when addresses are the same but with different spacing' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue 106')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'Clear WatersAvenue 106')
+
+          expect(subject.first).to match_array([supporter_1.id, supporter_2.id])
+        end
+      end
+
+      context 'when addresses are the same but with special characters' do
+        it 'finds' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue 106')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'Clear Waters Avenue - 106')
+
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
+        end
+      end
+
+      context 'when the addresses are not the same' do
+        it 'does not find' do
+          supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', address: 'Clear Waters Avenue')
+          supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', address: 'Clear Waters Avenue 106')
+
+          expect(subject).to match_array([])
+        end
+      end
+    end
+  end
+
   describe '.dupes_on_phone_and_email_and_address' do
     subject { QuerySupporters.dupes_on_phone_and_email_and_address(np.id) }
 
@@ -381,7 +859,7 @@ describe QuerySupporters do
       supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', phone: '1234567890', email: 'cacau@cacau.com', address: 'Clear Waters Avenue', zip_code: '32101')
       supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', phone: '1234567890', email: 'cacau@cacau.com', address: 'Clear Waters Avenue', zip_code: '32101')
 
-      expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+      expect(subject).to eq([[supporter_1.id, supporter_2.id]])
     end
 
     context 'when different addresses' do
@@ -481,7 +959,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', phone: '1234567890', email: 'cacau@cacau.com', address: 'clear waters avenue', zip_code: '32101')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', phone: '1234567890', email: 'cacau@cacau.com', address: 'Clear Waters Avenue', zip_code: '32101')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 
@@ -490,7 +968,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', phone: '1234567890', email: 'cacau@cacau.com', address: 'Clear Waters Avenue 106', zip_code: '32101')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', phone: '1234567890', email: 'cacau@cacau.com', address: 'Clear WatersAvenue 106', zip_code: '32101')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 
@@ -499,7 +977,7 @@ describe QuerySupporters do
           supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau', phone: '1234567890', email: 'cacau@cacau.com', address: 'Clear Waters Avenue 106', zip_code: '32101')
           supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope', phone: '1234567890', email: 'cacau@cacau.com', address: 'Clear Waters Avenue - 106', zip_code: '32101')
 
-          expect(subject).to match_array([[supporter_1.id, supporter_2.id]])
+          expect(subject).to eq([[supporter_1.id, supporter_2.id]])
         end
       end
 

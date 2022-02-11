@@ -509,7 +509,7 @@ UNION DISTINCT
       .and_where("email != ''")
       .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
-      .map(&:flatten)
+      .map { |arr_group| arr_group.flatten.sort }
   end
 
   # Find all duplicate supporters by the name column
@@ -519,18 +519,18 @@ UNION DISTINCT
       .and_where("name IS NOT NULL")
       .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
-      .map(&:flatten)
+      .map { |arr_group| arr_group.flatten.sort }
   end
 
   # Find all duplicate supporters that match on both name/email
   # @return [Array[Array]] an array containing arrays of the ids of duplicate supporters
   def self.dupes_on_name_and_email(np_id, strict_mode = true)
-    group_by_clause = (strict_mode ? [strict_name_match, 'email'] : [loose_name_match, 'btrim(lower(email), ' ')']).join(', ')
+    group_by_clause = (strict_mode ? [strict_name_match, 'email'] : [loose_name_match, loose_email_match]).join(', ')
     dupes_expr(np_id)
-      .and_where("name IS NOT NULL AND email IS NOT NULL AND email != ''")
+      .and_where("name IS NOT NULL AND name != '' AND email IS NOT NULL AND email != ''")
       .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
-      .map(&:flatten)
+      .map { |arr_group| arr_group.flatten.sort }
   end
 
   def self.dupes_on_name_and_phone(np_id, strict_mode = true)
@@ -544,7 +544,7 @@ UNION DISTINCT
       )
       .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
-      .map(&:flatten)
+      .map { |arr_group| arr_group.flatten.sort }
   end
 
   def self.dupes_on_name_and_phone_and_address(np_id, strict_mode = true)
@@ -552,6 +552,7 @@ UNION DISTINCT
     dupes_expr(np_id)
       .and_where(
         "name IS NOT NULL\
+         AND name != ''\
          AND phone_index IS NOT NULL \
          AND phone_index != '' \
          AND address IS NOT NULL \
@@ -559,7 +560,7 @@ UNION DISTINCT
       )
       .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
-      .map(&:flatten)
+      .map { |arr_group| arr_group.flatten.sort }
   end
 
   def self.dupes_on_phone_and_email_and_address(np_id, strict_mode = true)
@@ -575,7 +576,7 @@ UNION DISTINCT
       )
       .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
-      .map(&:flatten)
+      .map { |arr_group| arr_group.flatten.sort }
   end
 
   def self.dupes_on_address(np_id, strict_mode = true)
@@ -587,7 +588,47 @@ UNION DISTINCT
       )
       .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
-      .map(&:flatten)
+      .map { |arr_group| arr_group.flatten.sort }
+  end
+
+  def self.dupes_on_name_and_address(np_id, strict_mode = true)
+    group_by_clause = (strict_mode ? [strict_name_match, strict_address_match] : [loose_name_match, loose_address_match]).join(', ')
+    dupes_expr(np_id)
+      .and_where(
+        "name IS NOT NULL\
+         AND name != ''\
+         AND address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(group_by_clause)
+      .execute(format: 'csv')[1..-1]
+      .map { |arr_group| arr_group.flatten.sort }
+  end
+
+  def self.dupes_on_phone_and_email(np_id, strict_mode = true)
+    group_by_clause = [(strict_mode ? strict_email_match : loose_email_match), "phone_index"].join(', ')
+    dupes_expr(np_id)
+      .and_where(
+        "phone_index IS NOT NULL \
+         AND phone_index != '' \
+         AND email IS NOT NULL\
+         AND email != ''"
+      )
+      .group_by(group_by_clause)
+      .execute(format: 'csv')[1..-1]
+      .map { |arr_group| arr_group.flatten.sort }
+  end
+
+  def self.dupes_on_address_without_zip_code(np_id, strict_mode = true)
+    group_by_clause = strict_mode ? "btrim(lower(address), ' ')" : "regexp_replace (lower(address),'[^0-9a-z]','','g')"
+    dupes_expr(np_id)
+      .and_where(
+        "address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(group_by_clause)
+      .execute(format: 'csv')[1..-1]
+      .map { |arr_group| arr_group.flatten.sort }
   end
 
   def self.strict_address_match

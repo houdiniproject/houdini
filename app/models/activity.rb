@@ -9,7 +9,8 @@ class Activity < ActiveRecord::Base
     :nonprofit,
     :date,
     :kind,
-    :json_data
+    :json_data,
+    :attachment_type
   
   # def json_data=(data)
   #   write_attribute :json_data, data

@@ -17,7 +17,8 @@ class Payment < ActiveRecord::Base
 		:date,
 		:nonprofit,
 		:nonprofit_id,
-		:supporter_id
+		:supporter_id,
+		:supporter
 
 	belongs_to :supporter
 	belongs_to :nonprofit
@@ -33,6 +34,8 @@ class Payment < ActiveRecord::Base
 	has_many :payment_payouts
 	has_many :charges
 	has_one :misc_payment_info
+	has_one :journal_entries_to_item, as: :item
+	has_one :payment_dupe_status
 	
 	has_many :activities, :as => :attachment do
 		def create(attributes=nil, options={}, &block)
@@ -48,6 +51,7 @@ class Payment < ActiveRecord::Base
 
 	scope :anonymous, -> {includes(:donation, :supporter).where('donations.anonymous OR supporters.anonymous').references(:supporters, :donations)}
 	scope :not_anonymous, -> { includes(:donation, :supporter).where('NOT(donations.anonymous OR supporters.anonymous)').references(:supporters, :donations) }
+	scope :not_matched, -> { joins('LEFT JOIN payment_dupe_statuses ON payment_dupe_statuses.payment_id = payments.id').where('payment_dupe_statuses.id IS NULL OR NOT payment_dupe_statuses.matched') }
 
 	def consider_anonymous?
 		!!(supporter&.anonymous || donation&.anonymous)

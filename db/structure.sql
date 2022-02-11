@@ -2039,6 +2039,40 @@ ALTER SEQUENCE public.offsite_payments_id_seq OWNED BY public.offsite_payments.i
 
 
 --
+-- Name: payment_dupe_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.payment_dupe_statuses (
+    id integer NOT NULL,
+    payment_id integer,
+    matched boolean DEFAULT false,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    matched_with_offline integer[] DEFAULT '{}'::integer[]
+);
+
+
+--
+-- Name: payment_dupe_statuses_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.payment_dupe_statuses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payment_dupe_statuses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.payment_dupe_statuses_id_seq OWNED BY public.payment_dupe_statuses.id;
+
+
+--
 -- Name: payment_imports; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3533,6 +3567,13 @@ ALTER TABLE ONLY public.offsite_payments ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
+-- Name: payment_dupe_statuses id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payment_dupe_statuses ALTER COLUMN id SET DEFAULT nextval('public.payment_dupe_statuses_id_seq'::regclass);
+
+
+--
 -- Name: payment_imports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4168,6 +4209,14 @@ ALTER TABLE ONLY public.offsite_payments
 
 
 --
+-- Name: payment_dupe_statuses payment_dupe_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payment_dupe_statuses
+    ADD CONSTRAINT payment_dupe_statuses_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: payment_imports payment_imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4731,6 +4780,13 @@ CREATE INDEX index_offsite_payments_on_payment_id ON public.offsite_payments USI
 --
 
 CREATE INDEX index_offsite_payments_on_supporter_id ON public.offsite_payments USING btree (supporter_id);
+
+
+--
+-- Name: index_payment_dupe_statuses_on_payment_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_payment_dupe_statuses_on_payment_id ON public.payment_dupe_statuses USING btree (payment_id);
 
 
 --
@@ -6283,9 +6339,13 @@ INSERT INTO schema_migrations (version) VALUES ('20211210185111');
 
 INSERT INTO schema_migrations (version) VALUES ('20211222175658');
 
+INSERT INTO schema_migrations (version) VALUES ('20220118224945');
+
 INSERT INTO schema_migrations (version) VALUES ('20220119193044');
 
 INSERT INTO schema_migrations (version) VALUES ('20220209203456');
+
+INSERT INTO schema_migrations (version) VALUES ('20220210021725');
 
 INSERT INTO schema_migrations (version) VALUES ('20220210231629');
 

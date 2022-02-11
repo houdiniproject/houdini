@@ -170,3 +170,5 @@ gem 'rack-cors'
 gem 'ruby2_keywords' # needed because we're backporting code from Rails 6.2
 
 gem 'securerandom' # needed becuase we're on a pre-2.5 Ruby version
+
+gem 'fx'

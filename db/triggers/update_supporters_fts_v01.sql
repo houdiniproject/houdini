@@ -1,0 +1,1 @@
+CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters();

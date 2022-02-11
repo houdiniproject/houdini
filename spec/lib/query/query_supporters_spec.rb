@@ -210,7 +210,7 @@ describe QuerySupporters do
         supporter1.save!
       }
 
-      it 'finds when using character filled phone number' do 
+      it 'finds when using character filled phone number' do
         result = QuerySupporters.full_search(np.id, { search: "+1(920) 915*4980a" })
         expect(result[:data][0]['id']).to eq supporter1.id
       end

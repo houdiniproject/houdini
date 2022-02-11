@@ -17,7 +17,7 @@ gem 'jbuilder'
 
 gem 'parallel'
 
-gem "puma", "~> 5.5"
+gem "puma", "~> 5.6"
 
 gem 'bootsnap', require: false
 gem 'rack-timeout'

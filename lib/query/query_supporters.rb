@@ -502,35 +502,39 @@ UNION DISTINCT
   # Find all duplicate supporters by the email column
   # returns array of arrays of ids
   # (each sub-array is a group of duplicates)
-  def self.dupes_on_email(np_id)
+  def self.dupes_on_email(np_id, strict_mode = true)
+    group_by_clause = strict_mode ? strict_email_match : loose_email_match
     dupes_expr(np_id)
       .and_where("email IS NOT NULL")
       .and_where("email != ''")
-      .group_by(:email)
+      .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
       .map(&:flatten)
   end
 
   # Find all duplicate supporters by the name column
-  def self.dupes_on_name(np_id)
+  def self.dupes_on_name(np_id, strict_mode = true)
+    group_by_clause = strict_mode ? strict_name_match : loose_name_match
     dupes_expr(np_id)
       .and_where("name IS NOT NULL")
-      .group_by(:name)
+      .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
       .map(&:flatten)
   end
 
   # Find all duplicate supporters that match on both name/email
   # @return [Array[Array]] an array containing arrays of the ids of duplicate supporters
-  def self.dupes_on_name_and_email(np_id)
+  def self.dupes_on_name_and_email(np_id, strict_mode = true)
+    group_by_clause = (strict_mode ? [strict_name_match, 'email'] : [loose_name_match, 'btrim(lower(email), ' ')']).join(', ')
     dupes_expr(np_id)
       .and_where("name IS NOT NULL AND email IS NOT NULL AND email != ''")
-      .group_by("name, email")
+      .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
       .map(&:flatten)
   end
 
-  def self.dupes_on_name_and_phone(np_id)
+  def self.dupes_on_name_and_phone(np_id, strict_mode = true)
+    group_by_clause = [(strict_mode ? strict_name_match : loose_name_match), 'phone_index'].join(', ')
     dupes_expr(np_id)
       .and_where(
         "name IS NOT NULL\
@@ -538,15 +542,13 @@ UNION DISTINCT
          AND phone_index IS NOT NULL \
          AND phone_index != ''"
       )
-      .group_by(
-        "name,\
-         phone_index"
-      )
+      .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
       .map(&:flatten)
   end
 
-  def self.dupes_on_name_and_phone_and_address(np_id)
+  def self.dupes_on_name_and_phone_and_address(np_id, strict_mode = true)
+    group_by_clause = (strict_mode ? [strict_name_match, strict_address_match] : [loose_name_match, loose_address_match]).append("phone_index").join(', ')
     dupes_expr(np_id)
       .and_where(
         "name IS NOT NULL\
@@ -555,17 +557,13 @@ UNION DISTINCT
          AND address IS NOT NULL \
          AND address != ''"
       )
-      .group_by(
-        "name,\
-         phone_index,\
-         btrim(lower(address), ' '),\
-         substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
-      )
+      .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
       .map(&:flatten)
   end
 
-  def self.dupes_on_phone_and_email_and_address(np_id)
+  def self.dupes_on_phone_and_email_and_address(np_id, strict_mode = true)
+    group_by_clause = (strict_mode ? [strict_address_match, strict_email_match] : [loose_address_match, loose_email_match]).append("phone_index").join(', ')
     dupes_expr(np_id)
       .and_where(
         "phone_index IS NOT NULL \
@@ -575,28 +573,45 @@ UNION DISTINCT
          AND address IS NOT NULL \
          AND address != ''"
       )
-      .group_by(
-        "phone_index,\
-         btrim(lower(address), ' '),\
-         substring(zip_code from '(([0-9]+.*)*[0-9]+)'),\
-         email"
-      )
+      .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
       .map(&:flatten)
   end
 
-  def self.dupes_on_address(np_id)
+  def self.dupes_on_address(np_id, strict_mode = true)
+    group_by_clause = strict_mode ? strict_address_match : loose_address_match
     dupes_expr(np_id)
       .and_where(
         "address IS NOT NULL \
          AND address != ''"
       )
-      .group_by(
-        "btrim(lower(address), ' '),\
-         substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
-      )
+      .group_by(group_by_clause)
       .execute(format: 'csv')[1..-1]
       .map(&:flatten)
+  end
+
+  def self.strict_address_match
+    "btrim(lower(address), ' '), substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
+  end
+
+  def self.strict_name_match
+    "btrim(lower(name), ' ')"
+  end
+
+  def self.strict_email_match
+    "email"
+  end
+
+  def self.loose_email_match
+    "btrim(lower(email), ' ')"
+  end
+
+  def self.loose_address_match
+    "regexp_replace (lower(address),'[^0-9a-z]','','g'), substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
+  end
+
+  def self.loose_name_match
+    "regexp_replace (lower(name),'[^0-9a-z]','','g')"
   end
 
   # Create an export that lists donors with their total contributed amounts

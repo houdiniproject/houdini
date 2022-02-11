@@ -180,6 +180,30 @@ describe QuerySupporters do
       expect(result[:data].count).to eq 2
     end
 
+    context 'when searching by "at least" contributed' do
+      it 'finds the supporter who raised exactly what was being looked for' do
+        result = QuerySupporters.full_search(np.id, { total_raised_greater_than_or_equal: "22.22"})
+        expect(result[:data].count).to eq 1
+      end
+
+      it "finds the supporter who raised $22.22 when they enter characters other than a number and a period" do
+        result = QuerySupporters.full_search(np.id, { total_raised_greater_than_or_equal: "$22,.22"})
+        expect(result[:data].count).to eq 1
+      end
+    end
+
+    context 'when searching by "less than" contributed' do
+      it 'finds the supporter who raised exactly what was being looked for' do
+        result = QuerySupporters.full_search(np.id, { total_raised_less_than: "22.22"})
+        expect(result[:data].count).to eq 1
+      end
+
+      it "finds the supporter who raised $22.22 when they enter characters other than a number and a period" do
+        result = QuerySupporters.full_search(np.id, { total_raised_less_than: "$22,.22"})
+        expect(result[:data].count).to eq 1
+      end
+    end
+
     context 'when looking for a phone number' do
       before(:each) {
         supporter1.phone = "+1 (920) 915-4980"

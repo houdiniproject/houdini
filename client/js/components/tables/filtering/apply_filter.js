@@ -6,7 +6,7 @@ module.exports = function(scope) {
 	appl.def(scope + '.filter_count', 0)
 
 	var readable_keys = {
-		total_raised_greater_than: 'total contributed',
+		total_raised_greater_than_or_equal: 'total contributed',
 		total_raised_less_than: 'total contributed',
 		last_payment_before: 'last payment',
 		location: 'location',

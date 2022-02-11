@@ -210,11 +210,11 @@ module QuerySupporters
     if query[:first_payment_before].present?
       expr = expr.and_where("payments.min_date < timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $d))", d: Chronic.parse(query[:first_payment_before]).beginning_of_day)
     end
-    if query[:total_raised_greater_than].present?
-      expr = expr.and_where("payments.sum > $amount", amount: query[:total_raised_greater_than].to_i * 100)
+    if query[:total_raised_greater_than_or_equal].present?
+      expr = expr.and_where("payments.sum >= $amount", amount: query[:total_raised_greater_than_or_equal].to_s.gsub(/[^\d.]/, '').to_i * 100)
     end
     if query[:total_raised_less_than].present?
-      expr = expr.and_where("payments.sum < $amount OR payments.supporter_id IS NULL", amount: query[:total_raised_less_than].to_i * 100)
+      expr = expr.and_where("payments.sum < $amount OR payments.supporter_id IS NULL", amount: query[:total_raised_less_than].to_s.gsub(/[^\d.]/, '').to_i * 100)
     end
     if ['week', 'month', 'quarter', 'year'].include? query[:has_contributed_during]
       d = Time.current.send('beginning_of_' + query[:has_contributed_during])

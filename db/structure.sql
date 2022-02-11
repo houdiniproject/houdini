@@ -2301,6 +2301,42 @@ ALTER SEQUENCE public.profiles_id_seq OWNED BY public.profiles.id;
 
 
 --
+-- Name: reassignments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reassignments (
+    id integer NOT NULL,
+    item_id integer,
+    item_type character varying,
+    e_tap_import_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    source_supporter_id integer,
+    target_supporter_id integer
+);
+
+
+--
+-- Name: reassignments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reassignments_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reassignments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reassignments_id_seq OWNED BY public.reassignments.id;
+
+
+--
 -- Name: recaptcha_rejections; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3546,6 +3582,13 @@ ALTER TABLE ONLY public.profiles ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
+-- Name: reassignments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reassignments ALTER COLUMN id SET DEFAULT nextval('public.reassignments_id_seq'::regclass);
+
+
+--
 -- Name: recaptcha_rejections id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -4165,6 +4208,14 @@ ALTER TABLE ONLY public.periodic_reports_users
 
 
 --
+-- Name: reassignments reassignments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reassignments
+    ADD CONSTRAINT reassignments_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: recaptcha_rejections recaptcha_rejections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4694,6 +4745,13 @@ CREATE INDEX index_periodic_reports_on_nonprofit_id ON public.periodic_reports U
 --
 
 CREATE INDEX index_periodic_reports_on_user_id ON public.periodic_reports USING btree (user_id);
+
+
+--
+-- Name: index_reassignments_on_e_tap_import_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reassignments_on_e_tap_import_id ON public.reassignments USING btree (e_tap_import_id);
 
 
 --
@@ -6226,4 +6284,8 @@ INSERT INTO schema_migrations (version) VALUES ('20211210185111');
 INSERT INTO schema_migrations (version) VALUES ('20211222175658');
 
 INSERT INTO schema_migrations (version) VALUES ('20220119193044');
+
+INSERT INTO schema_migrations (version) VALUES ('20220209203456');
+
+INSERT INTO schema_migrations (version) VALUES ('20220210231629');
 

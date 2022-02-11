@@ -1,5 +1,25 @@
 class ETapImportJournalEntry < ActiveRecord::Base
 
+  def self.by_account(account_id)
+    where("row @> '{\"Account Number\": \"#{account_id}\"}'")
+  end
+
+  def e_tap_import_contact
+    e_tap_import.e_tap_import_contacts.find_by_account_id(account_id)
+  end
+
+  def supporter_through_e_tap_import_contact
+    e_tap_import_contact.supporter
+  end
+
+  def supporters_through_journal_entries
+    journal_entries_to_items.map(&:item).map(&:supporter).uniq
+  end
+
+  def account_id
+    row['Account Number']
+  end
+
   module Common
     module Payment
       def designation

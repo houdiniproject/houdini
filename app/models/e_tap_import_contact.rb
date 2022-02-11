@@ -1,5 +1,5 @@
 class ETapImportContact < ActiveRecord::Base
-  attr_accessible :row
+  attr_accessible :row, :nonprofit
   belongs_to :e_tap_import
   has_one :nonprofit, through: :e_tap_import
   
@@ -29,6 +29,18 @@ class ETapImportContact < ActiveRecord::Base
 
   def self.find_by_account_id(account_id)
     where("row @> '{\"Account Number\": \"#{account_id}\"}'").first
+  end
+
+  def journal_entries
+    e_tap_import.e_tap_import_journal_entries.by_account(row['Account Number'])
+  end
+
+  def self.find_by_account_name(account_name, account_email, original_account_id)
+    query = where("row @> '{\"Account Name\": \"#{account_name}\"}' OR row @> '{\"Email\": \"#{account_email}\"}' OR row @> '{\"Email Address 2\": \"#{account_email}\"}' OR row @> '{\"Email Address 3\": \"#{account_email}\"}'")
+    if account_email.blank?
+      query = where("row @> '{\"Account Name\": \"#{account_name}\"}'")
+    end
+    query.where("NOT row @> '{\"Account Number\": \"#{original_account_id}\"}'").first
   end
 
   def create_or_update_CUSTOM(known_supporter=nil)

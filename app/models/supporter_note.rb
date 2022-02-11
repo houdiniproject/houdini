@@ -15,6 +15,12 @@ class SupporterNote < ActiveRecord::Base
 
 	after_create :create_activity 
 
+	concerning :ETapImport do
+		included do
+			has_many :journal_entries_to_items, as: :item
+		end
+	end
+
 	private
 	def create_activity
 		InsertActivities.for_supporter_notes([id])

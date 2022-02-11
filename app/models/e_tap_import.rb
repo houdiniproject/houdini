@@ -16,6 +16,7 @@ class ETapImport < ActiveRecord::Base
       end
     end
   end
+  has_many :reassignments
 
   def self.create_import(nonprofit, journal_file, contacts_file)
 

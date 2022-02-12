@@ -32,7 +32,7 @@ class LockManager
     start = Time.now.to_f
     @retry_count.times do
       elapsed = Time.now.to_f - start
-      byebug if elapsed >= @options[:acquisition_timeout]
+      raise "elapsed of #{elasped} is longer than max timeout of #{@options[:acquisition_timeout]}" if elapsed >= @options[:acquisition_timeout]
       
       result = yield
       return if result

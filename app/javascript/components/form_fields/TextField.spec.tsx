@@ -43,7 +43,7 @@ describe('TextField', () => {
 
 		it('is valid when value is changed and then deleted', async () => {
 			expect.assertions(1);
-			userEvent.type(emptyTextField, "enter some information{selectall}{backspace}");
+			await userEvent.type(emptyTextField, "enter some information{selectall}{backspace}");
 			await act(async () => {
 				emptyTextField.blur();
 			});
@@ -87,7 +87,7 @@ describe('TextField', () => {
 
 		it('is invalid when value is changed', async () => {
 			expect.assertions(1);
-			userEvent.type(prefilledTextField, "{selectall}{backspace}");
+			await userEvent.type(prefilledTextField, "{selectall}{backspace}");
 			await act(async () => {
 
 				prefilledTextField.blur();
@@ -124,7 +124,7 @@ describe('TextField', () => {
 		it('is valid when value is changed to be longer than 10', async () => {
 			expect.assertions(1);
 			// We have to await here becuase validation takes a bit.
-			userEvent.type(emptyTextField, 'this is longer than 10');
+			await userEvent.type(emptyTextField, 'this is longer than 10');
 
 			await act(async () => {
 

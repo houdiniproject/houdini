@@ -3,7 +3,7 @@ import {Field} from "mobx-react-form";
 
 export interface ReactInputProps
 {
-  field:Field
+  field?:Field
   label?:string
   placeholder?:string
 }

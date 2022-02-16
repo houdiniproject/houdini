@@ -26,19 +26,19 @@ export class Validations  {
 
   static shouldBeEqualTo (targetPath: string): Validation {
     return ({field, form}:ValidationInput) => {
-      const fieldsAreEquals = (form.$(targetPath).value === field.value);
-      return [fieldsAreEquals, `${field.label} and ${form.$(targetPath).label} must be the same`]
+      const fieldsAreEquals = (form!.$(targetPath).value === field.value);
+      return [fieldsAreEquals, `${field.label} and ${form!.$(targetPath).label} must be the same`]
   }
   }
 
   static isUrl({field, validator}:ValidationInput):StringBoolTuple {
-    return [validator.isURL(field.value),
+    return [validator!.isURL(field.value),
     `${field.label} must be a valid URL`]
   }
 
   static isFilled({field, validator}:ValidationInput) :StringBoolTuple {
     return [
-        !validator.isEmpty(field.value),
+        !validator!.isEmpty(field.value),
       `${field.label} must be filled out`
     ]
   }
@@ -74,7 +74,7 @@ export class Validations  {
 
   static optional(validation:Validation) : Validation {
     return ({field, form, validator}:ValidationInput) => {
-      if (!field.value || validator.isEmpty(field.value)){
+      if (!field.value || validator!.isEmpty(field.value)){
         return [true, ""]
       }
       else{

@@ -431,7 +431,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
                           <th> Supporter
                             ID
                           </th>
-                          <td>{this.dedication.supporter_id}<input {...this.form.$('dedication.supporter_id').bind()}/>
+                          <td>{this.dedication!.supporter_id}<input {...this.form.$('dedication.supporter_id').bind()}/>
                           </td>
                         </tr>
 

@@ -48,7 +48,7 @@ function on_ios11() {
   commitchange.setParams = (params:any, iframe:HTMLIFrameElement) => {
     params.command = 'setDonationParams'
     params.sender = 'commitchange'
-    iframe.contentWindow.postMessage(JSON.stringify(params), fullHost)
+    iframe.contentWindow!.postMessage(JSON.stringify(params), fullHost)
   }
   
   commitchange.hideDonation = () => {
@@ -122,7 +122,7 @@ function on_ios11() {
     if(commitchange.alreadyAppended) return
     else commitchange.alreadyAppended = true
     let script = document.getElementById('commitchange-donation-script') || document.getElementById('commitchange-script')
-    const nonprofitID = script.getAttribute('data-npo-id')
+    const nonprofitID = script!.getAttribute('data-npo-id')
     const baseSource = fullHost + "/nonprofits/" + nonprofitID + "/donate?offsite=t"
     let elems = document.querySelectorAll('.commitchange-donate')
   

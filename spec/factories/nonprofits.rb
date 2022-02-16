@@ -1,12 +1,12 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 FactoryBot.define do
   factory :nonprofit do
-    name "spec_nonprofit_full"
-    city 'Albuquerque'
-    state_code 'NM'
-    zip_code 55555
-    email "example@email.com"
-    slug 'sluggy-sluggo'
+    name {"spec_nonprofit_full"}
+    city {'Albuquerque'}
+    state_code {'NM'}
+    zip_code {55555}
+    email {"example@email.com"}
+    slug {'sluggy-sluggo'}
     billing_subscription {build(:billing_subscription, billing_plan: build(:billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat))}
 
     factory :nonprofit_with_cards do
@@ -45,5 +45,6 @@ FactoryBot.define do
     slug { 'end-poverty-in-the-fox-valley-inc' }
     state_code_slug { 'wi'}
     city_slug { 'appleton'}
+    billing_subscription {build(:billing_subscription, billing_plan: build(:billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat))}
   end
 end

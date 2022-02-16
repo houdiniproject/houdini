@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :stripe_account do
-    stripe_account_id "test_acct_1"
-    object "{}"
+    stripe_account_id{ "test_acct_1"}
+    object {"{}"}
 
     trait :with_pending do 
       object { StripeMock.mock_webhook_event('account.updated.with-pending')['data']['object']}

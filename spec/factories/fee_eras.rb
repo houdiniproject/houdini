@@ -1,8 +1,8 @@
 FactoryBot.define do
   
   factory :fee_era do
-    start_time "2020-05-01"
-    end_time "2020-05-07"
+    start_time {"2020-05-01"}
+    end_time {"2020-05-07"}
     local_country { 'US'}
     international_surcharge_fee {'0.01'}
     fee_coverage_detail_base
@@ -18,7 +18,7 @@ FactoryBot.define do
   end
 
   factory :fee_era_with_no_start , class: 'FeeEra' do 
-    end_time '2020-05-01'
+    end_time {'2020-05-01'}
     refund_stripe_fee { true }
     fee_coverage_detail_base
     after(:create) do |fee_era|
@@ -31,7 +31,7 @@ FactoryBot.define do
   end
 
   factory :fee_era_with_no_end, aliases: [:fee_era_local_to_us], class: 'FeeEra' do 
-    start_time '2020-05-07'
+    start_time {'2020-05-07'}
     local_country { 'US'}
     international_surcharge_fee {'0.01'}
     fee_coverage_detail_base

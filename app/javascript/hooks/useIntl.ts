@@ -16,7 +16,7 @@ export type IntlShape = ParentIntlShape & {
 	formatMoney(amount: Money, opts?: FormatMoneyOptions): string;
 };
 
-export const IntlContext = React.createContext<IntlShape>(null as IntlShape);
+export const IntlContext = React.createContext<IntlShape>(null as unknown as IntlShape);
 
 /**
  * Use just like `useIntl` for getting strings for the current locale.

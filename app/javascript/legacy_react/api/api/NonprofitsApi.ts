@@ -40,7 +40,7 @@ export class NonprofitsApi {
         }
     }
 
-    private extendObj<T1, T2 extends T1>(objA: T2, objB: T2): T1|T2 {
+    private extendObj<T1 extends object, T2 extends T1>(objA: T2, objB: T2): T1|T2 {
         for (let key in objB) {
             if (objB.hasOwnProperty(key)) {
                 objA[key] = objB[key];

@@ -9,7 +9,7 @@ import { useId } from "@reach/auto-id";
 
 interface ConversionProps<T extends unknown = unknown> {
 	disabled?:boolean;
-	field: ControllerRenderProps<T, string> | any;
+	field: ControllerRenderProps<string | any, string> | any;
 	fieldState: ControllerFieldState;
 	formState: FormState<T>;
 	helperText?:React.ReactNode;

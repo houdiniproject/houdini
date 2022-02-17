@@ -53,20 +53,4 @@ class RecurringDonation < ApplicationRecord
   def total_given
     return charges.find_all(&:paid?).sum(&:amount) if charges
   end
-
-  # XXX let's make these calculate_monthly_donation_totals a query
-  # Or just push it into the front-end
-  #Calculate the monthly donation total
-  def self.calculate_monthly_donation_total
-    all.map(&:calculate_monthly_donation_total).sum
-  end
-
-  def calculate_monthly_donation_total
-    multiple = {
-      'week' => 4,
-      'day' => 30,
-      'year' => 0.0833
-    }[interval] || 1
-    donation.amount * multiple
-  end
 end

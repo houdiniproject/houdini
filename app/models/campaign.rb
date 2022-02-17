@@ -172,8 +172,7 @@ class Campaign < ApplicationRecord
     (end_datetime.to_date - Date.today).to_i
   end
 
-  #The campaign has reached its end date time
-  def deadline_has_been_reached?
+  def finished?
     end_datetime && end_datetime < Time.now
   end
 

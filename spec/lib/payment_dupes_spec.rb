@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe PaymentDupes do
-    let(:nonprofit) { create(:fv_poverty) }
+    let(:nonprofit) { create(:fv_poverty, timezone: 'America/Chicago') }
     let(:supporter) { create(:supporter, nonprofit: nonprofit) }
     let!(:etap_import) { create(:e_tap_import, nonprofit: nonprofit) }
 
@@ -19,7 +19,7 @@ describe PaymentDupes do
                 target_payment = target_donation.payments.create(nonprofit: nonprofit)
                 target_payment.save!
 
-                described_class.can_copy_dedication?(source_payment, target_payment).should be_truthy
+                expect(described_class.can_copy_dedication?(source_payment, target_payment)).to be_truthy
             end
         end
 
@@ -36,7 +36,7 @@ describe PaymentDupes do
                     source_payment = source_donation.payments.create(nonprofit: nonprofit)
                     source_payment.save!
 
-                    described_class.can_copy_dedication?(source_payment, target_payment).should be_truthy
+                    expect(described_class.can_copy_dedication?(source_payment, target_payment)).to be_truthy
                 end
             end
 
@@ -52,7 +52,7 @@ describe PaymentDupes do
                     source_payment = source_donation.payments.create(nonprofit: nonprofit)
                     source_payment.save!
 
-                    described_class.can_copy_dedication?(source_payment, target_payment).should be_falsy
+                    expect(described_class.can_copy_dedication?(source_payment, target_payment)).to be_falsy
                 end
             end
         end
@@ -71,7 +71,7 @@ describe PaymentDupes do
                 target_payment = target_donation.payments.create(nonprofit: nonprofit)
                 target_payment.save!
 
-                described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment']).should be_truthy
+                expect(described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment'])).to be_truthy
             end
         end
 
@@ -88,7 +88,7 @@ describe PaymentDupes do
                     source_payment = source_donation.payments.create(nonprofit: nonprofit)
                     source_payment.save!
 
-                    described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment']).should be_truthy
+                    expect(described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment'])).to be_truthy
                 end
             end
 
@@ -104,7 +104,7 @@ describe PaymentDupes do
                     source_payment = source_donation.payments.create(nonprofit: nonprofit)
                     source_payment.save!
 
-                    described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment']).should be_falsy
+                    expect(described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment'])).to be_falsy
                 end
 
                 context 'and the designation is one that should become a comment' do
@@ -119,7 +119,7 @@ describe PaymentDupes do
                         source_payment = source_donation.payments.create(nonprofit: nonprofit)
                         source_payment.save!
 
-                        described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment']).should be_truthy
+                        expect(described_class.can_copy_designation?(source_payment, target_payment, ['A designation that should become a comment'])).to be_truthy
                     end
                 end
             end
@@ -139,7 +139,7 @@ describe PaymentDupes do
                 target_payment = target_donation.payments.create(nonprofit: nonprofit)
                 target_payment.save!
 
-                described_class.can_copy_comment?(source_payment, target_payment).should be_truthy
+                expect(described_class.can_copy_comment?(source_payment, target_payment, ['A designation to become a comment'])).to be_truthy
             end
         end
 
@@ -156,11 +156,41 @@ describe PaymentDupes do
                     source_payment = source_donation.payments.create(nonprofit: nonprofit)
                     source_payment.save!
 
-                    described_class.can_copy_comment?(source_payment, target_payment).should be_truthy
+                    expect(described_class.can_copy_comment?(source_payment, target_payment, ['A designation to become a comment'])).to be_truthy
                 end
             end
 
             context 'and the comment is different for both target and source donations' do
+                context 'because a designation was copied to the comment' do
+                    it 'returns true if the only difference is the designation that was added to the comment' do
+                        target_donation = nonprofit.donations.create(comment: "Some comment \nDesignation: A designation to become a comment", amount: 100, supporter: supporter)
+                        target_donation.save!
+                        target_payment = target_donation.payments.create(nonprofit: nonprofit)
+                        target_payment.save!
+
+                        source_donation = nonprofit.donations.create(comment: "Some comment", amount: 100, supporter: supporter)
+                        source_donation.save!
+                        source_payment = source_donation.payments.create(nonprofit: nonprofit)
+                        source_payment.save!
+
+                        expect(described_class.can_copy_comment?(source_payment, target_payment, ['A designation to become a comment'])).to be_truthy
+                    end
+
+                    it 'returns false if its not the only difference' do
+                        target_donation = nonprofit.donations.create(comment: "Some other comment \nDesignation: A designation to become a comment", amount: 100, supporter: supporter)
+                        target_donation.save!
+                        target_payment = target_donation.payments.create(nonprofit: nonprofit)
+                        target_payment.save!
+
+                        source_donation = nonprofit.donations.create(comment: "Some comment", amount: 100, supporter: supporter)
+                        source_donation.save!
+                        source_payment = source_donation.payments.create(nonprofit: nonprofit)
+                        source_payment.save!
+
+                        expect(described_class.can_copy_comment?(source_payment, target_payment, ['A designation to become a comment'])).to be_falsy
+                    end
+                end
+
                 it 'returns false' do
                     target_donation = nonprofit.donations.create(comment: 'Some comment', amount: 100, supporter: supporter)
                     target_donation.save!
@@ -172,7 +202,7 @@ describe PaymentDupes do
                     source_payment = source_donation.payments.create(nonprofit: nonprofit)
                     source_payment.save!
 
-                    described_class.can_copy_comment?(source_payment, target_payment).should be_falsy
+                    expect(described_class.can_copy_comment?(source_payment, target_payment, ['A designation to become a comment'])).to be_falsy
                 end
             end
         end
@@ -206,6 +236,46 @@ describe PaymentDupes do
 
                 described_class.remove_payment_dupes(nonprofit, ['A designation that should become a comment'])
                 expect { source_payment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+            end
+
+            context 'when the donor covered the fee' do
+                it 'deletes the offsite payment based on the net amount' do
+                    source_donation = nonprofit.donations.create(comment: '', amount: 100, supporter: supporter)
+                    source_donation.save!
+                    source_payment = source_donation.payments.create(nonprofit: nonprofit, kind: 'OffsitePayment', date: Time.now, supporter: supporter, gross_amount: 100)
+                    source_payment.save!
+
+                    target_donation = nonprofit.donations.create(comment: 'Some comment', amount: 100, supporter: supporter)
+                    target_donation.save!
+                    target_payment = target_donation.payments.create(nonprofit: nonprofit, date: Time.now, kind: 'Donation', supporter: supporter, gross_amount: 95, fee_total: -5, net_amount: 100)
+                    target_payment.save!
+
+                    etap_import.e_tap_import_journal_entries.create(row: { 'Account Number' => '123' })
+                    etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment).save!
+
+                    described_class.remove_payment_dupes(nonprofit, ['A designation that should become a comment'])
+                    expect { source_payment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+                end
+            end
+
+            context 'payments saved under different timezones' do
+                it 'matches if the dates are different because of different timezones' do
+                    source_donation = nonprofit.donations.create(comment: '', amount: 100, supporter: supporter)
+                    source_donation.save!
+                    source_payment = source_donation.payments.create(nonprofit: nonprofit, kind: 'OffsitePayment', date: Time.new(2021, 5, 24, 5, 0, 0), supporter: supporter, gross_amount: 100)
+                    source_payment.save!
+
+                    target_donation = nonprofit.donations.create(comment: 'Some comment', amount: 100, supporter: supporter)
+                    target_donation.save!
+                    target_payment = target_donation.payments.create(nonprofit: nonprofit, date: Time.new(2021, 5, 25, 1, 0, 0), kind: 'Donation', supporter: supporter, gross_amount: 100)
+                    target_payment.save!
+
+                    etap_import.e_tap_import_journal_entries.create(row: { 'Account Number' => '123' })
+                    etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment).save!
+
+                    described_class.remove_payment_dupes(nonprofit, ['A designation that should become a comment'])
+                    expect { source_payment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+                end
             end
 
             it 'creates a payment dupe status' do
@@ -350,7 +420,7 @@ describe PaymentDupes do
                     etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment).save!
 
                     described_class.remove_payment_dupes(nonprofit, ['A designation that should become a comment'])
-                    expect { source_payment.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+                    expect { source_payment.reload }.not_to raise_error
                 end
             end
 
@@ -370,7 +440,7 @@ describe PaymentDupes do
                     etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment).save!
 
                     described_class.remove_payment_dupes(nonprofit, ['A designation that should become a comment'])
-                    expect { source_payment.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+                    expect { source_payment.reload }.not_to raise_error
                 end
             end
 
@@ -390,7 +460,7 @@ describe PaymentDupes do
                     etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment).save!
 
                     described_class.remove_payment_dupes(nonprofit, ['A designation that should become a comment'])
-                    expect { source_payment.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+                    expect { source_payment.reload }.not_to raise_error
                 end
             end
 
@@ -470,15 +540,26 @@ describe PaymentDupes do
                 it 'deletes the offsite payment' do
                     source_donation = nonprofit.donations.create(amount: 100, supporter: supporter)
                     source_donation.save!
+                    source_donation_2 = nonprofit.donations.create(amount: 100, supporter: supporter)
+                    source_donation_2.save!
+                    source_donation_3 = nonprofit.donations.create(amount: 100, supporter: supporter)
+                    source_donation_3.save!
+
                     source_payment = source_donation.payments.create(nonprofit: nonprofit, kind: 'OffsitePayment', date: Time.now, supporter: supporter, gross_amount: 100)
                     source_payment.save!
-                    source_payment_2 = source_donation.payments.create(nonprofit: nonprofit, date: Time.now - 2.days, kind: 'OffsitePayment', supporter: supporter, gross_amount: 100)
+                    source_payment_2 = source_donation_2.payments.create(nonprofit: nonprofit, date: Time.now - 2.days, kind: 'OffsitePayment', supporter: supporter, gross_amount: 100)
+                    source_payment_2.save!
+                    source_payment_3 = source_donation_3.payments.create(nonprofit: nonprofit, date: Time.now - 5.days, kind: 'OffsitePayment', supporter: supporter, gross_amount: 100)
+                    source_payment_3.save!
 
                     target_donation = nonprofit.donations.create(amount: 100, supporter: supporter)
                     target_donation.save!
                     target_payment = target_donation.payments.create(nonprofit: nonprofit, date: Time.now, kind: 'RecurringDonation', supporter: supporter, gross_amount: 100)
                     target_payment.save!
                     target_payment_2 = target_donation.payments.create(nonprofit: nonprofit, date: Time.now - 2.days, kind: 'RecurringDonation', supporter: supporter, gross_amount: 100)
+                    target_payment_2.save!
+                    target_payment_3 = target_donation.payments.create(nonprofit: nonprofit, date: Time.now - 5.days, kind: 'RecurringDonation', supporter: supporter, gross_amount: 100)
+                    target_payment_3.save!
 
                     etap_import.e_tap_import_journal_entries.create(row: { 'Account Number' => '123' })
                     etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment).save!
@@ -486,9 +567,13 @@ describe PaymentDupes do
                     etap_import.e_tap_import_journal_entries.create(row: { 'Account Number' => '123' })
                     etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment_2).save!
 
+                    etap_import.e_tap_import_journal_entries.create(row: { 'Account Number' => '123' })
+                    etap_import.e_tap_import_journal_entries.first.journal_entries_to_items.create(item: source_payment_3).save!
+
                     described_class.remove_payment_dupes(nonprofit, ['A designation that should become a comment'])
                     expect { source_payment.reload }.to raise_error(ActiveRecord::RecordNotFound)
                     expect { source_payment_2.reload }.to raise_error(ActiveRecord::RecordNotFound)
+                    expect { source_payment_3.reload }.to raise_error(ActiveRecord::RecordNotFound)
                 end
 
                 it 'deletes the offsite_payment' do

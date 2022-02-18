@@ -16,6 +16,10 @@ module PaymentDupes
 
     def self.copy_designation(src, target, designations_to_become_comments)
         if designations_to_become_comments.include?(src.donation.designation)
+            if target.donation&.comment&.include?("Designation: #{src.donation.designation}")
+                # Already copied, no need to copy again
+                return true
+            end
             if target.donation.comment.blank?
                 target.donation.comment = "Designation: " + src.donation.designation
             else
@@ -43,18 +47,42 @@ module PaymentDupes
         true
     end
 
-    def self.copy_comment(source, target)
+    def self.copy_comment(source, target, designations_to_become_comments)
         return true if source.donation.comment.blank?
         return true if target.donation.comment.present? && (source.donation.comment.blank? || target.donation.comment == source.donation.comment)
-        return false if target.donation.comment.present?
+        if target.donation.comment.present? 
+            if designations_to_become_comments.any? { |d| target.donation.comment.include?(d) }
+                designations_already_copied_to_comment = designations_to_become_comments.select { |d| target.donation.comment.include?(d) }
+                comment = target.donation.comment
+                designations_already_copied_to_comment.each do |d|
+                    comment = comment.gsub(" \nDesignation: #{d}", "")
+                    comment = comment.gsub("Designation: #{d}", "")
+                end
+                return true if (source.donation.comment.blank? || comment == source.donation.comment)
+            else
+                return false
+            end
+        end
         target.donation.comment = source.donation.comment
         target.donation.save!
     end
 
-    def self.can_copy_comment?(source, target)
+    def self.can_copy_comment?(source, target, designations_to_become_comments)
         return true if source.donation.comment.blank?
         return true if target.donation.comment.present? && (source.donation.comment.blank? || target.donation.comment == source.donation.comment)
-        return false if target.donation.comment.present?
+        if target.donation.comment.present? 
+            if designations_to_become_comments.any? { |d| target.donation.comment.include?(d) }
+                designations_already_copied_to_comment = designations_to_become_comments.select { |d| target.donation.comment.include?(d) }
+                comment = target.donation.comment
+                designations_already_copied_to_comment.each do |d|
+                    comment = comment.gsub(" \nDesignation: #{d}", "")
+                    comment = comment.gsub("Designation: #{d}", "")
+                end
+                return (source.donation.comment.blank? || comment == source.donation.comment)
+            else
+                return false
+            end
+        end
         true
     end
 
@@ -62,8 +90,10 @@ module PaymentDupes
         deleted_payments = []
         nonprofit = Nonprofit.find(np_id)
         etap_id_cf = CustomFieldMaster.find_by(name: 'E-Tapestry Id #').id
-        supp = nonprofit.supporters.not_deleted.joins(:custom_field_joins).where('custom_field_joins.custom_field_master_id = ?', etap_id_cf).references(:custom_field_joins)
-        
+        supp = nonprofit.supporters.not_deleted.joins(:custom_field_joins).where(
+            'custom_field_joins.custom_field_master_id = ?', etap_id_cf
+        ).references(:custom_field_joins)
+
         supp.find_each do |s|
             offsite_payments = s.payments.includes(:donation).where("kind = 'OffsitePayment'").joins(:journal_entries_to_item)
             offsite_payments.find_each do |offsite|
@@ -71,8 +101,12 @@ module PaymentDupes
                 # - the offsite donation was created on the same day that we ran the import and
                 # - the offsite donation has the same date as the online payment
                 # - there is a journal entry item for the offsite payment
-                
-                donation_or_ticket_payments = s.payments.not_matched.includes(:donation).where("(kind = 'Donation' OR kind = 'Ticket' OR kind = 'RecurringDonation') AND gross_amount = ? AND to_char(date, 'YYYY-MM-DD') = ?", offsite.gross_amount, offsite.date.strftime('%Y-%m-%d'))
+                donation_or_ticket_payments = s.payments.not_matched.includes(:donation).joins(
+                    'LEFT JOIN nonprofits ON payments.nonprofit_id = nonprofits.id'
+                ).where(
+                    "(kind = 'Donation' OR kind = 'Ticket' OR kind = 'RecurringDonation')
+                    AND (gross_amount = ? OR net_amount = ?) AND
+                    (to_char(timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', date)), 'YYYY-MM-DD') = ? OR to_char(date, 'YYYY-MM-DD') = ?)", offsite.gross_amount, offsite.gross_amount, offsite.date.strftime('%Y-%m-%d'), offsite.date.strftime('%Y-%m-%d'))
                 donation_or_ticket_payments.find_each do |online|
                     reasons = []
                     ActiveRecord::Base.transaction do
@@ -93,7 +127,7 @@ module PaymentDupes
                         elsif offsite.donation.campaign.present? && offsite.donation.campaign != online.donation.campaign
                             # different campaigns, dont delete
                         else
-                            unless can_copy_comment?(offsite, online)
+                            unless can_copy_comment?(offsite, online, designations_to_become_comments)
                                 reasons << 'Comment'
                             end
                             unless can_copy_dedication?(offsite, online)
@@ -110,7 +144,10 @@ module PaymentDupes
                                     temp_duplicate_payments = []
                                     temp_offsite_matches = []
                                     recurring_payments.find_each do |recurring_payment|
-                                        equivalent_offsite = s.payments.not_matched.where("kind = 'OffsitePayment' AND gross_amount = ? AND to_char(payments.date, 'YYYY-MM-DD') = ?", recurring_payment.gross_amount, recurring_payment.date.strftime('%Y-%m-%d')).joins(:journal_entries_to_item)
+                                        equivalent_offsite = s.payments.not_matched.where(
+                                            "kind = 'OffsitePayment' AND (gross_amount = ? OR gross_amount = ?) AND (to_char(payments.date, 'YYYY-MM-DD') = ? OR to_char(payments.date, 'YYYY-MM-DD') = ?)",
+                                            recurring_payment.gross_amount, recurring_payment.net_amount, recurring_payment.date.in_time_zone(nonprofit.timezone).strftime('%Y-%m-%d'), recurring_payment.date.strftime('%Y-%m-%d')
+                                        ).joins(:journal_entries_to_item)
                                         if equivalent_offsite.count == 1
                                             # match!
                                             temp_offsite_matches << equivalent_offsite.first.id
@@ -134,24 +171,23 @@ module PaymentDupes
                                     if temp_offsite_matches.any?
                                         # it's the same donation for all of them so
                                         # we can do the copies once
-                                        copy_comment(offsite, online)
+                                        copy_comment(offsite, online, designations_to_become_comments)
                                         copy_dedication(offsite, online)
                                         copy_designation(offsite, online, designations_to_become_comments)
                                         deleted_payments.concat(temp_duplicate_payments)
                                         # deletes matching offsites here
-                                        p = Payment.find(temp_offsite_matches.first)
-                                        d = p.donation
-                                        d.payments.where(kind: 'OffsitePayment').each do |op|
+                                        temp_duplicate_payments.each do |op|
+                                            op = Payment.find(op)
                                             Activity.where(attachment_id: op.id, attachment_type: 'Payment').destroy_all
                                             op&.offsite_payment&.destroy
-                                            op.destroy
+                                            op&.donation&.destroy
+                                            op&.destroy
                                         end
-                                        d.destroy
                                     else
                                         raise ActiveRecord::Rollback
                                     end
                                 else
-                                    copy_comment(offsite, online)
+                                    copy_comment(offsite, online, designations_to_become_comments)
                                     copy_dedication(offsite, online)
                                     copy_designation(offsite, online, designations_to_become_comments)
                                     Activity.where(attachment_id: offsite.id, attachment_type: 'Payment').destroy_all

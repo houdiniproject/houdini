@@ -330,15 +330,19 @@ RSpec.describe Nonprofit, type: :model do
     describe '#deactivate!' do
       it {
         nonprofit_without_deactivation_record.deactivate!
+        expect(nonprofit_without_deactivation_record.published).to eq false
         expect(nonprofit_without_deactivation_record.deactivated?).to eq true
       }
 
       it {
         nonprofit_with_deactivated_deactivation_record.deactivate!
+        expect(nonprofit_with_deactivated_deactivation_record.published).to eq false
         expect(nonprofit_with_deactivated_deactivation_record.deactivated?).to eq true
       }
 
-      it {nonprofit_with_activated_deactivation_record.deactivate!
+      it {
+        nonprofit_with_activated_deactivation_record.deactivate!
+        expect(nonprofit_with_activated_deactivation_record.published).to eq false
         expect(nonprofit_with_activated_deactivation_record.deactivated?).to eq true
       }
     end

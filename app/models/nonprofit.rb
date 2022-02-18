@@ -312,14 +312,20 @@ class Nonprofit < ActiveRecord::Base
 
   concerning :Deactivation do
     included do
+      define_model_callbacks :deactivate
+
       scope :activated, -> { includes(:nonprofit_deactivation).where('nonprofit_deactivations.nonprofit_id IS NULL OR NOT COALESCE(nonprofit_deactivations.deactivated, false)').references(:nonprofit_deactivations)}
       scope :deactivated, -> { joins(:nonprofit_deactivation).where('nonprofit_deactivations.deactivated = true')}
     end
     # Deactivate a nonprofit
     def deactivate!
-      self.nonprofit_deactivation ||= NonprofitDeactivation.new
-      self.nonprofit_deactivation.deactivated = true
-      self.nonprofit_deactivation.save!
+      transaction do 
+        run_callbacks :deactivate do
+          self.nonprofit_deactivation ||= NonprofitDeactivation.new
+          self.nonprofit_deactivation.deactivated = true
+          self.nonprofit_deactivation.save!
+        end
+      end
     end
 
     def deactivated?
@@ -328,6 +334,18 @@ class Nonprofit < ActiveRecord::Base
 
     def activated?
       !deactivated?
+    end
+  end
+
+  concerning :Publishing do
+    include Nonprofit::Deactivation
+    included do 
+      before_deactivate :unpublish!
+    end
+
+    def unpublish!
+      self.published = false
+      self.save!
     end
   end
 

@@ -264,6 +264,40 @@ RSpec.describe Nonprofit, type: :model do
       create(:nonprofit_with_activated_deactivation_record)
     }
 
+    describe '.activated' do
+      it {
+        nonprofit_without_deactivation_record
+        expect(Nonprofit.activated).to include nonprofit_without_deactivation_record
+      }
+
+      it {
+        nonprofit_with_activated_deactivation_record
+        expect(Nonprofit.activated).to include nonprofit_with_activated_deactivation_record
+      }
+
+      it {
+        nonprofit_with_deactivated_deactivation_record
+        expect(Nonprofit.activated).to_not include nonprofit_with_deactivated_deactivation_record
+      }
+    end
+
+    describe '.deactivated' do
+      it {
+        nonprofit_without_deactivation_record
+        expect(Nonprofit.deactivated).to_not include nonprofit_without_deactivation_record
+      }
+
+      it {
+        nonprofit_with_activated_deactivation_record
+        expect(Nonprofit.deactivated).to_not include nonprofit_with_activated_deactivation_record
+      }
+
+      it {
+        nonprofit_with_deactivated_deactivation_record
+        expect(Nonprofit.deactivated).to include nonprofit_with_deactivated_deactivation_record
+      }
+    end
+
     describe '#activated?' do
      
       it {

@@ -311,6 +311,23 @@ class Nonprofit < ActiveRecord::Base
     end
   end
 
+  concerning :Deactivation do
+    # Deactivate a nonprofit
+    def deactivate!
+      self.nonprofit_deactivation ||= NonprofitDeactivation.new
+      self.nonprofit_deactivation.deactivated = true
+      self.nonprofit_deactivation.save!
+    end
+
+    def deactivated?
+      !!nonprofit_deactivation&.deactivated
+    end
+
+    def activated?
+      !deactivated?
+    end
+  end
+
   def hide_cover_fees?
     miscellaneous_np_info&.hide_cover_fees
   end

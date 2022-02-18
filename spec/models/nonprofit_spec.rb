@@ -252,4 +252,61 @@ RSpec.describe Nonprofit, type: :model do
       end
     end
   end
+
+  describe '::Deactivation' do
+    let(:nonprofit_without_deactivation_record) { create(:nonprofit)}
+
+    let(:nonprofit_with_deactivated_deactivation_record) { 
+     create(:nonprofit_with_deactivated_deactivation_record)
+    }
+
+    let(:nonprofit_with_activated_deactivation_record) { 
+      create(:nonprofit_with_activated_deactivation_record)
+    }
+
+    describe '#activated?' do
+     
+      it {
+        expect(nonprofit_without_deactivation_record.activated?).to eq true
+      }
+
+      it {
+        expect(nonprofit_with_deactivated_deactivation_record.activated?).to eq false
+      }
+
+      it {
+        expect(nonprofit_with_activated_deactivation_record.activated?).to eq true
+      }
+    end
+
+    describe '#deactivated?' do
+      it {
+        expect(nonprofit_without_deactivation_record.deactivated?).to eq false
+      }
+
+      it {
+        expect(nonprofit_with_deactivated_deactivation_record.deactivated?).to eq true
+      }
+
+      it {
+        expect(nonprofit_with_activated_deactivation_record.deactivated?).to eq false
+      }
+    end
+
+    describe '#deactivate!' do
+      it {
+        nonprofit_without_deactivation_record.deactivate!
+        expect(nonprofit_without_deactivation_record.deactivated?).to eq true
+      }
+
+      it {
+        nonprofit_with_deactivated_deactivation_record.deactivate!
+        expect(nonprofit_with_deactivated_deactivation_record.deactivated?).to eq true
+      }
+
+      it {nonprofit_with_activated_deactivation_record.deactivate!
+        expect(nonprofit_with_activated_deactivation_record.deactivated?).to eq true
+      }
+    end
+  end
 end

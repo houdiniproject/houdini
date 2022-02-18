@@ -32,6 +32,14 @@ FactoryBot.define do
     factory :nonprofit_with_no_billing_subscription do 
       billing_subscription { nil}
     end
+
+    factory :nonprofit_with_activated_deactivation_record do
+      nonprofit_deactivation { build(:nonprofit_deactivation, deactivated: false)}
+    end
+
+    factory :nonprofit_with_deactivated_deactivation_record do
+      nonprofit_deactivation { build(:nonprofit_deactivation, deactivated: true)}
+    end
   end
 
   factory :fv_poverty, class: Nonprofit do

@@ -11,7 +11,7 @@ json.transaction subtransaction.trx.id
 
 json.partial! subtransaction.subtransactable, as: :subtransactable
 
-json.payments subtransaction.subtransaction_payments do |py|
+json.payments subtransaction.payments do |py|
 	json.partial! py, as: :subtransaction_payment
 end
 

@@ -12,7 +12,7 @@ class OfflineTransaction < ApplicationRecord
 	end
 
 	def net_amount
-		subtransaction_payments.sum(&:net_amount)
+		payments.sum(&:net_amount)
 	end
 
 	def net_amount_as_money
@@ -38,11 +38,11 @@ class OfflineTransaction < ApplicationRecord
 				end
 
 				if expand.include? :payments
-					json.payments subtransaction_payments do |py|
+					json.payments payments do |py|
 						json.merge! py.to_builder.attributes!
 					end
 				else
-					json.payments subtransaction_payments do |py|
+					json.payments payments do |py|
 						json.merge! py.to_id.attributes!
 					end
 				end

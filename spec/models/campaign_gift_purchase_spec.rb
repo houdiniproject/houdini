@@ -19,7 +19,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
   let(:campaign_gift_option) { create(:campaign_gift_option, amount_one_time: 400, campaign: campaign)}
   let(:campaign_gift) { campaign_gift_purchase.campaign_gifts.first}
 
-  let(:campaign_builder_expanded) do 
+  let(:campaign_builder_expanded) do
     {
       'id' => kind_of(Numeric),
       'name' => campaign.name,
@@ -28,7 +28,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
     }
   end
 
-  let(:cgo_builder_expanded) do 
+  let(:cgo_builder_expanded) do
     {
       'id' => kind_of(Numeric),
       'name' => campaign_gift_option.name,
@@ -49,7 +49,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
     }
   end
 
-  let(:np_builder_expanded) do 
+  let(:np_builder_expanded) do
     {
       'id' => nonprofit.id,
       'name' => nonprofit.name,
@@ -57,12 +57,12 @@ RSpec.describe CampaignGiftPurchase, type: :model do
     }
   end
 
-  let(:supporter_builder_expanded) do 
+  let(:supporter_builder_expanded) do
     supporter_to_builder_base.merge({'name'=> 'Fake Supporter Name'})
   end
 
-  let(:transaction_builder_expanded) do 
-    { 
+  let(:transaction_builder_expanded) do
+    {
       'id' => match_houid('trx'),
       'object' => 'transaction',
       'amount' => {
@@ -73,23 +73,23 @@ RSpec.describe CampaignGiftPurchase, type: :model do
       'supporter' => supporter.id,
       'nonprofit' => nonprofit.id,
       'subtransaction' => nil,
-      'subtransaction_payments' => [],
+      'payments' => [],
       'transaction_assignments' => [
         cgp_builder_to_id
       ]
     }
   end
 
-  let(:cgp_builder_to_id) do 
+  let(:cgp_builder_to_id) do
     {
       'id' => match_houid('cgpur'),
       'object' => 'campaign_gift_purchase',
       'type' => 'trx_assignment'
     }
   end
-  
+
   let(:cgp_builder_expanded) do
-    { 
+    {
       'id' => match_houid('cgpur'),
       'campaign' => kind_of(Numeric),
       'object' => 'campaign_gift_purchase',
@@ -104,7 +104,7 @@ RSpec.describe CampaignGiftPurchase, type: :model do
       'deleted' => false
     }
   end
-  
+
   let(:modern_campaign_gift_builder) {
     {
       'amount' => {
@@ -122,9 +122,9 @@ RSpec.describe CampaignGiftPurchase, type: :model do
       'transaction' => match_houid('trx')
     }
   }
-  
 
-  
+
+
 
   it 'announces created properly when called' do
     allow(Houdini.event_publisher).to receive(:announce)

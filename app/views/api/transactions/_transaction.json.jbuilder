@@ -22,7 +22,7 @@ json.transaction_assignments transaction.transaction_assignments do |tra|
 	json.merge! tra.to_id.attributes!
 end
 
-json.payments transaction.subtransaction_payments do |subt_p|
+json.payments transaction.payments do |subt_p|
 	json.merge! subt_p.to_id.attributes!
 end
 

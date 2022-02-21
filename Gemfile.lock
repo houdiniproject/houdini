@@ -133,7 +133,7 @@ GEM
     connection_pool (2.2.5)
     console (1.13.1)
       fiber-local
-    countries (4.2.1)
+    countries (4.2.2)
       i18n_data (~> 0.15.0)
       sixarm_ruby_unaccent (~> 1.1)
     crack (0.4.5)

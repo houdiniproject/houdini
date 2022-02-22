@@ -635,6 +635,8 @@ ActiveRecord::Schema.define(version: 20220219001337) do
     t.boolean  "hide_cover_fees",                     default: false, null: false
   end
 
+  add_index "miscellaneous_np_infos", ["nonprofit_id"], name: "index_miscellaneous_np_infos_on_nonprofit_id", using: :btree
+
   create_table "nonprofit_deactivations", force: :cascade do |t|
     t.integer  "nonprofit_id"
     t.boolean  "deactivated"

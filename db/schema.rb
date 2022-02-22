@@ -482,6 +482,8 @@ ActiveRecord::Schema.define(version: 20220219001337) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "fee_structures", ["fee_era_id"], name: "index_fee_structures_on_fee_era_id", using: :btree
+
   create_table "full_contact_infos", force: :cascade do |t|
     t.string   "email",            limit: 255
     t.string   "full_name",        limit: 255

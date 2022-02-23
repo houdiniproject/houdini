@@ -1215,7 +1215,7 @@ ActiveRecord::Schema.define(version: 20220219001337) do
   add_foreign_key "periodic_reports", "nonprofits"
   add_foreign_key "periodic_reports", "users"
   add_foreign_key "supporter_addresses", "supporters"
-  create_function :is_valid_json, sql_definition: <<-SQL
+  create_function :is_valid_json, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.is_valid_json(p_json text)
        RETURNS boolean
        LANGUAGE plpgsql
@@ -1229,7 +1229,7 @@ ActiveRecord::Schema.define(version: 20220219001337) do
       end;
       $function$
   SQL
-  create_function :update_fts_on_donations, sql_definition: <<-SQL
+  create_function :update_fts_on_donations, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.update_fts_on_donations()
        RETURNS trigger
        LANGUAGE plpgsql
@@ -1240,7 +1240,7 @@ ActiveRecord::Schema.define(version: 20220219001337) do
               END
             $function$
   SQL
-  create_function :update_fts_on_supporters, sql_definition: <<-SQL
+  create_function :update_fts_on_supporters, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.update_fts_on_supporters()
        RETURNS trigger
        LANGUAGE plpgsql
@@ -1251,13 +1251,13 @@ ActiveRecord::Schema.define(version: 20220219001337) do
               END
             $function$
   SQL
-  create_function :update_phone_index_on_supporters, sql_definition: <<-SQL
+  create_function :update_phone_index_on_supporters, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.update_phone_index_on_supporters()
        RETURNS trigger
        LANGUAGE plpgsql
       AS $function$
                   BEGIN
-                    new.phone_index = (regexp_replace(new.phone, '\\D','', 'g'));
+                    new.phone_index = (regexp_replace(new.phone, '\D','', 'g'));
                     RETURN new;
                   END
                 $function$

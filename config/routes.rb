@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   defaults format: :json do # they're APIs, you have to use JSON
     namespace :api do
       resources :nonprofits, only: [:create, :show] do
+        resources(:roles, only: [:index])
         resources :campaigns, only: [:show] do
           resources :campaign_gift_options, only: [:index, :show]
         end
@@ -80,7 +81,6 @@ Rails.application.routes.draw do
       put(:followup, on: :member)
       post(:create_offsite, on: :collection)
     end
-
     resources(:charges, only: [:index]) do
       resources(:refunds, only: %i[create index])
     end

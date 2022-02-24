@@ -13,7 +13,7 @@
 #the default I18n backend:
 #true, false, on, off, yes, no
 #Instead, surround them with single quotes.
-#en_EN:
+#en:
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.

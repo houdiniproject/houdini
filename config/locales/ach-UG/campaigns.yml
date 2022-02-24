@@ -13,12 +13,12 @@
 #the default I18n backend:
 #true, false, on, off, yes, no
 #Instead, surround them with single quotes.
-#en_EN:
+#en:
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-ach_UG:
+ach:
   campaigns:
-    until_end_datetime: "crwdns1691:0%{end_datetime}crwdne1691:0"
-    total_count_of_supporters_html: "crwdns1693:0%{supporters_count}crwdne1693:0"
-    total_amount_raised_html: "crwdns1695:0%{total_raised}crwdne1695:0"
+    until_end_datetime: "crwdns3772:0%{end_datetime}crwdne3772:0"
+    total_count_of_supporters_html: "crwdns3774:0%{supporters_count}crwdne3774:0"
+    total_amount_raised_html: "crwdns3776:0%{total_raised}crwdne3776:0"

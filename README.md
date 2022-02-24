@@ -173,7 +173,26 @@ dashboard. On your development environment,
 make sure to use test keys. If you don't, you're
 going to be charged real money!
 
+### Sripe keys setup
+
+#### Get stripe keys:
+
+Go to [stripe](https://stripe.com/en-br), create an account or just log in with you already have one. Acess the stripe dashboard and copy both publishable and secret keys.
+> make sure to use test keys. If you don't, you're
+going to be charged real money!
+
+![Screenshot from 2022-02-24 13-28-18](https://user-images.githubusercontent.com/44117439/155566057-97ab2370-7ed1-43ab-91fc-cdd4cb340390.png)
+ 
+ #### Configure the .env file:
+ 
+ Then after retrieving both keys copy them into your .env file on these lines:
+ ```
+ export STRIPE_API_KEY='REPLACE' # use your test private key from your stripe account
+ export STRIPE_API_PUBLIC='REPLACE' # use your test public key from your stripe account
+ ```
+
 ### Start project:
+
 
 ```bash
 bin/rails server

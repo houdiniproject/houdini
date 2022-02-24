@@ -687,7 +687,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
 end
 
 RSpec.shared_context :dispute_created_and_withdrawn_in_order_context do 
-  include_coptext :dispute_created_and_withdrawn_at_same_time_context
+  include_context :dispute_created_and_withdrawn_at_same_time_context
   let(:event_json_created) do
     json = StripeMock.mock_webhook_event('charge.dispute.created')
     stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
@@ -712,7 +712,89 @@ RSpec.shared_context :dispute_created_and_withdrawn_in_order_context do
 end
 
 RSpec.shared_context :dispute_created_and_withdrawn_in_order_specs do
-  include_context :dispute_created_and_withdrawn_at_same_time_specs
+  include_context :dispute_created_and_withdrawn_in_order_context
+  include_context :disputes_specs
+
+  it 'has status of needs_response' do 
+    expect(obj.status).to eq 'needs_response'
+  end
+
+  it 'has reason of duplicate' do 
+    expect(obj.reason).to eq 'duplicate'
+  end
+
+  it 'has 1 balance transactions' do 
+    expect(obj.balance_transactions.count).to eq 1
+  end
+
+  it 'has a net_change of -81500' do
+    expect(obj.net_change).to eq -81500
+  end
+
+  it 'has an amount of 80000' do
+    expect(obj.amount).to eq 80000
+  end
+
+  it 'has a correct charge id ' do 
+    expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
+  end
+
+  it 'has a correct dispute id' do 
+    expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
+  end
+
+
+  it 'has a started_at of Time.at(1596430555)' do 
+    expect(obj.started_at).to eq Time.at(1596429794)
+  end
+
+  describe "dispute" do
+    subject { dispute }
+    specify {expect(subject).to be_persisted }
+    specify {expect(subject.gross_amount).to eq 80000 }
+    specify {expect(subject.status).to eq "needs_response" }
+    specify { expect(subject.reason).to eq 'duplicate' }
+    specify { expect(subject.started_at).to eq Time.at(1596429794)}
+  end
+
+  it 'has one dispute transaction' do
+    expect(dispute_transactions.count).to eq 1
+  end
+
+  describe 'has a withdrawal_transaction' do
+    subject{ withdrawal_transaction }
+    specify {  expect(subject).to be_persisted }
+    specify {  expect(subject.gross_amount).to eq -80000 }
+    specify {  expect(subject.fee_total).to eq -1500 }
+    specify { expect(subject.net_amount).to eq -81500}
+    specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
+    specify {  expect(subject).to be_persisted }
+    specify { expect(subject.disbursed).to eq false }
+  end
+
+  describe 'has a withdrawal_payment' do
+    subject { withdrawal_payment}
+    specify { expect(subject).to be_persisted }
+    specify { expect(subject.gross_amount).to eq -80000}
+    specify { expect(subject.fee_total).to eq -1500}
+    specify { expect(subject.kind).to eq 'Dispute'}
+    specify { expect(subject.nonprofit).to eq supporter.nonprofit}
+    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+  end
+
+  it 'has only added one payment' do
+    obj
+    expect(Payment.count).to eq 2 #one for charge, one for DisputeTransaction
+  end
+
+  it 'has only one dispute transaction' do 
+    obj
+    expect(DisputeTransaction.count).to eq 1
+  end
+
+  specify { expect(original_payment.refund_total).to eq 80000 }
+
+  let(:valid_events) { [:created, :funds_withdrawn]}
 end
 
 RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_context do 

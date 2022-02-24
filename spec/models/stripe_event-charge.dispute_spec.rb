@@ -39,6 +39,15 @@ RSpec.describe StripeEvent, :type => :model do
         StripeDispute.where('stripe_dispute_id = ?', json_funds_withdrawn['id']).first
       end
     end
+
+    describe "dispute.created AND funds_withdrawn in order" do 
+      include_context :dispute_created_and_withdrawn_in_order_specs
+      let(:obj) do
+        StripeEvent.process_dispute(event_json_created)
+        StripeEvent.process_dispute(event_json_funds_withdrawn)
+        StripeDispute.find_by(stripe_dispute_id: json_created['id'])
+      end
+    end
   
     describe "dispute.funds_reinstated" do
       include_context :dispute_funds_reinstated_specs

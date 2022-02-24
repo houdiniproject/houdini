@@ -1,21 +1,21 @@
 #License: CC0-1.0
-ach_UG:
+ach:
   campaign_mailer:
-    dear_creator: crwdns1527:0%{creator_name}crwdne1527:0
-    congrats_on_creating_campaign: crwdns1529:0crwdne1529:0
-    you_can_visit_at: 'crwdns1531:0%{url}crwdne1531:0'
-    before_sharing_tips: 'crwdns1533:0crwdne1533:0'
-    why_and_how_of_campaign_story_html: 'crwdns1535:0crwdne1535:0'
-    add_image_and_videos_to_campaign: crwdns1537:0crwdne1537:0
-    create_gift_options: crwdns1539:0crwdne1539:0
-    get_network_for_initial_donations: crwdns1541:0crwdne1541:0
-    get_network_prepared_for_launch: crwdns1543:0crwdne1543:0
-    check_publish_when_ready: crwdns1545:0crwdne1545:0
-    can_share_unpublished_campaign_html: crwdns1547:0crwdne1547:0
-    congrats_on_creating_campaign_to_support: crwdns1549:0%{nonprofit_name}crwdne1549:0
-    before_sharing_add_testimonial: crwdns1551:0%{link_to_profile_fundraisers}crwdnd1551:0%{link_to_campaign}crwdne1551:0
-    visit_your_fundraising_dashboard_inside_before_sharing_add_testimonial: crwdns1553:0crwdne1553:0
-    make_sure_to_share_with_family_and_friends: 'crwdns1555:0crwdne1555:0'
-    join_me_in_supporting_campaign_name: 'crwdns1557:0%{campaign_name}crwdne1557:0'
-    or_copy_and_paste_above_link: crwdns1559:0crwdne1559:0
-    if_you_need_help_email_support: crwdns1561:0%{email_support}crwdne1561:0
+    dear_creator: crwdns3608:0%{creator_name}crwdne3608:0
+    congrats_on_creating_campaign: crwdns3610:0crwdne3610:0
+    you_can_visit_at: 'crwdns3612:0%{url}crwdne3612:0'
+    before_sharing_tips: 'crwdns3614:0crwdne3614:0'
+    why_and_how_of_campaign_story_html: 'crwdns3616:0crwdne3616:0'
+    add_image_and_videos_to_campaign: crwdns3618:0crwdne3618:0
+    create_gift_options: crwdns3620:0crwdne3620:0
+    get_network_for_initial_donations: crwdns3622:0crwdne3622:0
+    get_network_prepared_for_launch: crwdns3624:0crwdne3624:0
+    check_publish_when_ready: crwdns3626:0crwdne3626:0
+    can_share_unpublished_campaign_html: crwdns3628:0crwdne3628:0
+    congrats_on_creating_campaign_to_support: crwdns3630:0%{nonprofit_name}crwdne3630:0
+    before_sharing_add_testimonial: crwdns3632:0%{link_to_profile_fundraisers}crwdnd3632:0%{link_to_campaign}crwdne3632:0
+    visit_your_fundraising_dashboard_inside_before_sharing_add_testimonial: crwdns3634:0crwdne3634:0
+    make_sure_to_share_with_family_and_friends: 'crwdns3636:0crwdne3636:0'
+    join_me_in_supporting_campaign_name: 'crwdns3638:0%{campaign_name}crwdne3638:0'
+    or_copy_and_paste_above_link: crwdns3640:0crwdne3640:0
+    if_you_need_help_email_support: crwdns3642:0%{email_support}crwdne3642:0

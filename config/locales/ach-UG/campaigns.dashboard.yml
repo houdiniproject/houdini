@@ -13,16 +13,16 @@
 #the default I18n backend:
 #true, false, on, off, yes, no
 #Instead, surround them with single quotes.
-#en_EN:
+#en:
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-ach_UG:
+ach:
   campaigns:
     dashboard:
-      supporters: crwdns1679:0crwdne1679:0
-      total: crwdns1681:0crwdne1681:0
-      one_time: crwdns1683:0crwdne1683:0
-      recurring: crwdns1685:0crwdne1685:0
-      offsite: crwdns1687:0crwdne1687:0
-      campaign_dashboard: crwdns1689:0crwdne1689:0
+      supporters: crwdns3760:0crwdne3760:0
+      total: crwdns3762:0crwdne3762:0
+      one_time: crwdns3764:0crwdne3764:0
+      recurring: crwdns3766:0crwdne3766:0
+      offsite: crwdns3768:0crwdne3768:0
+      campaign_dashboard: crwdns3770:0crwdne3770:0

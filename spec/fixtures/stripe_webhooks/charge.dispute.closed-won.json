@@ -1,0 +1,125 @@
+{
+  "id": "evt_1Y9j7oBCJIIhvMWmd3CHSKHX",
+  "object": "event",
+  "api_version": "2015-04-07",
+  "created": 1572381790,
+  "data": {
+    "object": {
+      "id": "dp_15RsQX2eZvKYlo2C0ERTYUIA",
+      "object": "dispute",
+      "amount": 22500,
+      "balance_transaction": "txn_1Y75JVBCJIIhvMWmsnGK1JLD",
+      "balance_transactions": [
+        {
+          "id": "txn_1Y75JVBCJIIhvMWmsnGK1JLD",
+          "object": "balance_transaction",
+          "amount": -22500,
+          "available_on": 1565008160,
+          "created": 1565008160,
+          "currency": "usd",
+          "description": "Chargeback withdrawal for ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "exchange_rate": null,
+          "fee": 1500,
+          "fee_details": [
+            {
+              "amount": 1500,
+              "application": null,
+              "currency": "usd",
+              "description": "Dispute fee",
+              "type": "stripe_fee"
+            }
+          ],
+          "net": -24000,
+          "source": "ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "sourced_transfers": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/transfers?source_transaction=ad_1Y75JUBCJIIhvMWmaeF4Jdnk"
+          },
+          "status": "available",
+          "type": "adjustment"
+        },
+        {
+          "id": "txn_1Y71X0BCJIIhvMWmMmtTY4m1",
+          "object": "balance_transaction",
+          "amount": 22500,
+          "available_on": 1572381790,
+          "created": 1572381790,
+          "currency": "usd",
+          "description": "Chargeback reversal for ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "exchange_rate": null,
+          "fee": -1500,
+          "fee_details": [
+            {
+              "amount": -1500,
+              "application": null,
+              "currency": "usd",
+              "description": null,
+              "type": "stripe_fee"
+            }
+          ],
+          "net": 24000,
+          "source": "ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+          "sourced_transfers": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/transfers?source_transaction=ad_1Y71X0BCJI3hvMWmKEi1HlmO"
+          },
+          "status": "available",
+          "type": "adjustment"
+        }
+      ],
+      "charge": "ch_1Y7vFYBCJIIhvMWmsdRJWSw5",
+      "created": 1565008160,
+      "currency": "usd",
+      "evidence": {
+        "access_activity_log": null,
+        "billing_address": "54915",
+        "cancellation_policy": null,
+        "cancellation_policy_disclosure": null,
+        "cancellation_rebuttal": null,
+        "customer_communication": "file_1F7lkeBCJII23nivMWmgWMPiSIq",
+        "customer_email_address": "penelopeschultz@gmail.com",
+        "customer_name": "Penelope Schultz",
+        "customer_purchase_ip": "35.13.13.156",
+        "customer_signature": null,
+        "duplicate_charge_documentation": null,
+        "duplicate_charge_explanation": null,
+        "duplicate_charge_id": null,
+        "product_description": "This was not a purchase but a reimbursement by customer.",
+        "receipt": null,
+        "refund_policy": null,
+        "refund_policy_disclosure": null,
+        "refund_refusal_explanation": "The payment was returned by customer.",
+        "service_date": null,
+        "service_documentation": null,
+        "shipping_address": null,
+        "shipping_carrier": null,
+        "shipping_date": null,
+        "shipping_documentation": null,
+        "shipping_tracking_number": null,
+        "uncategorized_file": null,
+        "uncategorized_text": null
+      },
+      "evidence_details": {
+        "due_by": 1565999999,
+        "has_evidence": true,
+        "past_due": false,
+        "submission_count": 1
+      },
+      "is_charge_refundable": true,
+      "livemode": true,
+      "metadata": {},
+      "reason": "credit_not_processed",
+      "status": "won"
+    }
+  },
+  "livemode": true,
+  "pending_webhooks": 0,
+  "request": "req_1Y9U4QjJIHxQz5",
+  "type": "charge.dispute.closed"
+}

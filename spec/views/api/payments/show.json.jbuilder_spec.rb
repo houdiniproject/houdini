@@ -38,7 +38,7 @@ RSpec.describe 'api/payments/show.json.jbuilder', type: :view do
 
 	let(:transaction) { create(:transaction_for_donation) }
 	let(:subtransaction) { transaction.subtransaction }
-	let(:payment) { subtransaction.subtransaction_payments.first }
+	let(:payment) { subtransaction.payments.first }
 	let(:supporter) { payment.supporter }
 	let(:nonprofit) { payment.nonprofit }
 

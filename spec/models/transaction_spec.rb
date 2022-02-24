@@ -6,17 +6,17 @@ require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
   include_context :shared_donation_charge_context
-  
+
   describe 'validation' do
     it {is_expected.to validate_presence_of(:supporter)}
   end
 
-  describe 'to_builder' do 
+  describe 'to_builder' do
     subject { supporter.transactions.create(
         amount: 1000,
         transaction_assignments: [TransactionAssignment.new(assignable:ModernDonation.new(amount: 1000))]
     ).to_builder.attributes!}
-    it 'will create a proper builder result' do 
+    it 'will create a proper builder result' do
       is_expected.to match({
         'id' => match_houid('trx'),
         'nonprofit' => nonprofit.id,
@@ -28,7 +28,7 @@ RSpec.describe Transaction, type: :model do
           'currency' => 'usd'
         },
         'subtransaction' => nil,
-        'subtransaction_payments' => [],
+        'payments' => [],
         'transaction_assignments' => [
           {
             'object' => 'donation',

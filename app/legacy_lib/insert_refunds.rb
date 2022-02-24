@@ -67,7 +67,7 @@ module InsertRefunds
     transaction = Transaction.find(transaction_id)
 
     transaction.amount += gross
-    refund_subtransaction_payment = transaction.subtransaction.subtransaction_payments.create(paymentable: stripe_transaction_refund)
+    refund_subtransaction_payment = transaction.subtransaction.payments.create(paymentable: stripe_transaction_refund)
 
     stripe_transaction_refund.save!
     refund_subtransaction_payment.save!

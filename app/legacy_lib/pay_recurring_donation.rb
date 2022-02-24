@@ -78,13 +78,13 @@ module PayRecurringDonation
     if result['charge']['status'] != 'failed'
       rd.update(n_failures: 0)
       result['recurring_donation'] =  rd
-      
+
       Houdini.event_publisher.announce(:recurring_donation_payment_succeeded, donation, donation&.supporter&.locale || 'en')
-      
+
       donation =  trx.donations.build(amount: donation['amount'], designation: donation['designation'], dedication: donation["dedication"], legacy_donation: donation)
       stripe_t = trx.build_subtransaction(
-        subtransactable: StripeTransaction.new(amount: data['amount']), 
-        subtransaction_payments:[
+        subtransactable: StripeTransaction.new(amount: data['amount']),
+        payments:[
           SubtransactionPayment.new(
             paymentable: StripeCharge.new(payment: Payment.find(result['payment']['id'])))
           ],
@@ -93,13 +93,13 @@ module PayRecurringDonation
       trx.save!
       donation.save!
       stripe_t.save!
-      stripe_t.subtransaction_payments.each(&:publish_created)
+      stripe_t.payments.each(&:publish_created)
       stripe_t.publish_created
       donation.publish_created
       trx.publish_created
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else
-      
+
       rd.n_failures += 1
       rd.save!
       result['recurring_donation'] = rd

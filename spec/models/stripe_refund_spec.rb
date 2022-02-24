@@ -46,7 +46,7 @@ RSpec.describe StripeRefund, type: :model do
 		trx = supporter.transactions.build(amount: 500)
 		trx.build_subtransaction(
 			subtransactable: StripeTransaction.new(amount: 500),
-			subtransaction_payments: [
+			payments: [
 				build(:subtransaction_payment, paymentable: stripe_charge),
 				build(:subtransaction_payment, paymentable: stripe_transaction_refund)
 			]
@@ -119,7 +119,7 @@ RSpec.describe StripeRefund, type: :model do
 							'object' => 'stripe_transaction',
 							'type' => 'subtransaction'
 						},
-						'subtransaction_payments' => [
+						'payments' => [
 							{
 								'id' => match_houid('stripechrg'),
 								'object' => 'stripe_transaction_charge',

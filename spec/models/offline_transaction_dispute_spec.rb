@@ -44,7 +44,7 @@ RSpec.describe OfflineTransactionDispute, type: :model do
 		trx = supporter.transactions.build(amount: 500)
 		trx.build_subtransaction(
 			subtransactable: OfflineTransaction.new(amount: 500),
-			subtransaction_payments: [
+			payments: [
 				build(:subtransaction_payment, paymentable: offline_transaction_dispute),
 				build(:subtransaction_payment, paymentable: offline_transaction_charge)
 			]
@@ -115,7 +115,7 @@ RSpec.describe OfflineTransactionDispute, type: :model do
 							'object' => 'offline_transaction',
 							'type' => 'subtransaction'
 						},
-						'subtransaction_payments' => [
+						'payments' => [
 							{
 								'id' => match_houid('offtrxdspt'),
 								'object' => 'offline_transaction_dispute',

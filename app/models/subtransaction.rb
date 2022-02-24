@@ -16,7 +16,7 @@ class Subtransaction < ApplicationRecord
 	has_one :supporter, through: :trx
 	has_one :nonprofit, through: :trx
 
-	has_many :subtransaction_payments # rubocop:disable Rails/HasManyOrHasOneDependent
+	has_many :payments, class_name: 'SubtransactionPayment' # rubocop:disable Rails/HasManyOrHasOneDependent
 
 	delegated_type :subtransactable, types: %w[OfflineTransaction StripeTransaction]
 

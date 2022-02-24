@@ -36,7 +36,7 @@ describe InsertRefunds do
 		trx = supporter.transactions.build(amount: 500)
 		trx.build_subtransaction(
 			subtransactable: StripeTransaction.new(amount: 500),
-			subtransaction_payments: [
+			payments: [
 				build(:subtransaction_payment, paymentable: create(:stripe_charge, payment: payment))
 			]
 		)
@@ -186,7 +186,7 @@ describe InsertRefunds do
 										'object' => 'stripe_transaction',
 										'type' => 'subtransaction'
 									},
-									'subtransaction_payments' => [
+									'payments' => [
 										{
 											'id' => match_houid('stripechrg'),
 											'object' => 'stripe_transaction_charge',
@@ -253,7 +253,7 @@ describe InsertRefunds do
 									'transaction' => match_houid('trx'),
 									'type' => 'subtransaction'
 								},
-								'subtransaction_payments' => [
+								'payments' => [
 									{
 										'created' => kind_of(Numeric),
 										'fee_total' => {

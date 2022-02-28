@@ -73,7 +73,6 @@ group :development, :ci, :test do
   gem 'rubocop-rspec', '~> 2.8'
   gem 'shoulda-matchers', '~> 5.1.0'
   gem 'turbo_test'
-  gem 'fasterer'
 end
 
 group :ci, :test do

@@ -17,7 +17,7 @@ RSpec.describe WidgetController, type: :controller do
 
 		it 'does redirect' do
 			get :v2, format: :js
-			expect(response.headers.has_key?('Location')).to eq true
+			expect(response.headers.has_key?('Location')).to be true
 		end
 	end
 end

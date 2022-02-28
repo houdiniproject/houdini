@@ -73,13 +73,13 @@ RSpec.describe Model::Jbuilder do
 			describe '#to_id' do
 				subject { unfilled_expansion.to_id.call(model) }
 
-				it { is_expected.to eq nil }
+				it { is_expected.to be_nil }
 			end
 
 			describe '#to_builder' do
 				subject { unfilled_expansion.to_builder.call(model) }
 
-				it { is_expected.to eq nil }
+				it { is_expected.to be_nil }
 			end
 		end
 

@@ -249,7 +249,7 @@ role=Role.create(user:admin,name: "super_admin")
 We use `Rubocop` to perform static code analysis:
 
 ```bash
-rubocop
+bin/rubocop
 ```
 
 

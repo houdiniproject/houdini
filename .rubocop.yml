@@ -641,7 +641,6 @@ AllCops:
     - 'config/puma.rb'
     - 'config/state_code_constraint.rb'
     - 'config/boot.rb'
-    - 'config/spring.rb'
     - 'config/routes.rb'
     - 'config/initializers/hamster_extensions.rb'
     - 'config/initializers/new_framework_defaults_6_1.rb'

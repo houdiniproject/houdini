@@ -73,6 +73,9 @@ group :development, :ci, :test do
   gem 'rubocop-rspec', '~> 2.8'
   gem 'shoulda-matchers', '~> 5.1.0'
   gem 'turbo_test'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'spring-commands-rubocop'
 end
 
 group :ci, :test do

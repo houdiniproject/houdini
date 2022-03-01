@@ -42,7 +42,7 @@ gem 'qx', path: 'gems/ruby-qx'
 gem 'fast_blank'
 
 # Images
-gem 'image_processing', '~> 1.12.1'
+gem 'image_processing', '~> 1.12.2'
 
 # URL validation
 gem 'validate_url'

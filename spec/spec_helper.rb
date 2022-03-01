@@ -21,7 +21,7 @@
 
 require 'support/expect'
 require 'support/mock_helpers'
-require 'action_mailer_matchers'
+
 
 include Expect
 RSpec.configure do |config|
@@ -104,20 +104,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-  config.include ActionMailerMatchers
-  config.before(:suite) do
-
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation, reset_ids: true)
-    Rails.cache.clear
-  end
-
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-      Rails.cache.clear
-    end
-  end
+ 
 
   config.example_status_persistence_file_path = "tmp/failed-examples.txt"
 end

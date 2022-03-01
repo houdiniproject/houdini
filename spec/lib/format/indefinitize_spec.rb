@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'spec_helper'
-require 'format/indefinitize'
+require 'format/format/indefinitize'
 
 describe Format::Indefinitize do
   describe '#article' do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+
 require 'warden/test/helpers'
 
 RSpec.describe API, :type => :request do

@@ -124,7 +124,7 @@ RSpec.describe Supporter, type: :model do
               supporter = create_supporter_and_update_supporter_address
               primary_address_id = supporter.primary_address.id
               empty_the_supporter_address(supporter)
-              expect(SupporterAddress.where(id: primary_address_id).present?).to be_falsy
+              expect(SupporterAddress.where(id: primary_address_id)).to_not be_present
             end
           end
         end

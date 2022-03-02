@@ -64,81 +64,100 @@ RSpec.describe Supporter, type: :model do
 
   context 'after_save' do
     describe 'update_primary_address' do
-      
+      def have_one_address
+        have_attributes(addresses: have_attributes(count: 1))
+      end
+
+      def have_saved_primary_address
+        have_attributes(primary_address: be_present)
+        have_attributes(primary_address: be_persisted)
+      end
+
+      def custom_address_attributes
+        attributes_for(:supporter_with_fv_poverty, :with_custom_address_1).slice(:address, :state_code, :country, :zip_code, :city)
+      end
+
+      def empty_address_attributes
+        attributes_for(:supporter_with_fv_poverty, :with_empty_address).slice(:address, :state_code, :country, :zip_code, :city)
+      end
+
       context 'when primary_address is originally nil' do
         context 'and address is being created' do
-          subject(:supporter) { create(:supporter_with_fv_poverty) }
-          before(:each) {
-            supporter.update_attributes(
-              address: '123 Main Street',
-              city: 'Appleton',
-              state_code: "WI",
-              zip_code: '54915',
-              country: 'United States'
-            )
-          }
-          it { is_expected.to have_attributes(addresses: have_attributes(count: 1))}
-          it { is_expected.to have_attributes(primary_address: be_present) }
-          it { is_expected.to have_attributes(primary_address: be_persisted)}
-          
-          context 'and new primary address' do
-            subject { supporter.primary_address}
-            it {is_expected.to have_attributes(address: '123 Main Street')}
-            it {is_expected.to have_attributes(city: 'Appleton')}
-            it {is_expected.to have_attributes(state_code: 'WI')}
-            it {is_expected.to have_attributes(zip_code: '54915')}
-            it {is_expected.to have_attributes(country: 'United States')}
-            it {is_expected.to have_attributes(deleted: false)}
+
+          def create_supporter_and_update_supporter_address
+            supporter = create(:supporter_with_fv_poverty)
+            supporter.update_attributes(custom_address_attributes)
+            supporter
           end
+          
+          it { 
+            supporter = create_supporter_and_update_supporter_address
+            expect(supporter).to have_one_address
+          }
+
+          it { 
+            supporter = create_supporter_and_update_supporter_address
+            expect(supporter).to have_saved_primary_address
+          }
+          
+          it {
+            
+            supporter = create_supporter_and_update_supporter_address
+            expect(supporter.primary_address).to have_attributes(custom_address_attributes)
+            
+          }
+          
 
           context 'and the address is being updated to nil attributes' do
-            let(:primary_address_id) { supporter.primary_address_id }
-            before do
-              supporter.update(address: nil, city: nil, state_code: nil, zip_code: nil, country: nil)
+
+            def empty_the_supporter_address(supporter)
+              supporter.update(empty_address_attributes)
             end
 
             it 'removes the primary address from the supporter' do
+              supporter = create_supporter_and_update_supporter_address
+              empty_the_supporter_address(supporter)
               expect(supporter.primary_address).to be_nil
             end
 
             it 'deletes the empty primary address from the database' do
+              supporter = create_supporter_and_update_supporter_address
+              primary_address_id = supporter.primary_address.id
+              empty_the_supporter_address(supporter)
               expect(SupporterAddress.where(id: primary_address_id).present?).to be_falsy
             end
           end
         end
 
         context 'and the supporter being created has empty address fields' do
-          let(:new_supporter) { create(:supporter_with_fv_poverty, address: '', country: '') }
-
           it 'does not create a primary address' do
-            expect(new_supporter.primary_address).to be_nil
+            supporter = create(:supporter_with_fv_poverty, :with_blank_address)
+            expect(supporter.primary_address).to be_nil
           end
         end
       end
 
       context 'when primary_address originally exists' do
-        subject(:supporter) { create(:supporter_with_fv_poverty, :with_primary_address) }
-        before(:each) {
-          supporter.update_attributes(
-            address: '123 Main Street',
-            city: 'Appleton',
-            state_code: "WI",
-            zip_code: '54915',
-            country: 'United States'
-          )
+
+        def create_and_update_supporter_with_already_created_address
+          supporter = create(:supporter_with_fv_poverty, :with_primary_address)
+          supporter.update(custom_address_attributes)
+          supporter
+        end
+       
+        it { 
+          supporter = create_and_update_supporter_with_already_created_address
+          expect(supporter).to have_one_address
         }
-        it { is_expected.to have_attributes(addresses: have_attributes(count: 1))}
-        it { is_expected.to have_attributes(primary_address: be_present) }
-        it { is_expected.to have_attributes(primary_address: be_persisted)}
+
+        it { 
+          supporter = create_and_update_supporter_with_already_created_address
+          expect(supporter).to have_saved_primary_address
+        }
         
-        context 'and new primary address' do
-          subject { supporter.primary_address}
-          it {is_expected.to have_attributes(address: '123 Main Street')}
-          it {is_expected.to have_attributes(city: 'Appleton')}
-          it {is_expected.to have_attributes(state_code: 'WI')}
-          it {is_expected.to have_attributes(zip_code: '54915')}
-          it {is_expected.to have_attributes(country: 'United States')}
-          it {is_expected.to have_attributes(deleted: false)}
+        it 'has new primary address' do
+          supporter = create_and_update_supporter_with_already_created_address
+          expect(supporter.primary_address).to have_attributes(custom_address_attributes)
         end
       end
     end

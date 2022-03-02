@@ -10,22 +10,14 @@ FactoryBot.define do
       }
     end
   end
+
+  trait :with_primary_address do
+    addresses { [build(:supporter_address)]}
+    primary_address { addresses.first}
+  end
+
   factory :supporter_with_fv_poverty, class: 'Supporter' do
     name { 'Fake Supporter Name' }
     nonprofit { association :fv_poverty}
-
-    trait :with_primary_address do
-      addresses { [build(:supporter_address)]}
-      primary_address { addresses.first}
-    end
-  end
-
-  factory :supporter_with_primary_address, class: 'Supporter' do 
-    name { 'Fake Supporter Name' }
-
-    
-    addresses { [build(:supporter_address)]}
-    primary_address { addresses.first}
-    
   end
 end

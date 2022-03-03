@@ -58,7 +58,7 @@ class Card < ActiveRecord::Base
 	end
 
 	def stripe_card
-		@stripe_card ||= @stripe_customer.sources.retrieve(stripe_card_id)
+		@stripe_card ||= stripe_customer.sources.retrieve(stripe_card_id)
 	end
 
 

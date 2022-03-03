@@ -212,11 +212,11 @@ Additionally, it is possible to provide arguments to fill in the fields for the 
       [--nonprofit-name=NONPROFIT_NAME]        # Provide the nonprofit's name
       [--state-code=STATE_CODE]                # Provide the nonprofit' state code
       [--city=CITY]                            # Provide the nonprofit's city
-      [--nonprofit-website=NONPROFIT_WEBSITE]  # Provide the nonprofit public website
-      [--nonprofit-email=NONPROFIT_EMAIL]      # Provide the nonprofit public email
+      [--nonprofit-website=NONPROFIT_WEBSITE]  # [OPTIONAL] Provide the nonprofit public website
+      [--nonprofit-email=NONPROFIT_EMAIL]      # [OPTIONAL] Provide the nonprofit public email
+      [--nonprofit-phone=NONPROFIT_PHONE]      # [OPTIONAL] Provide the nonprofit's 's phone
       [--user-name=USER_NAME]                  # Provide the nonprofit's admin's name
       [--user-email=USER_EMAIL]                # Provide the nonprofit's admin's email address (It'll be used for logging in)
-      [--user-phone=USER_PHONE]                # [OPTIONAL] Provide the nonprofit's 's phone
       [--user-password=USER_PASSWORD]          # Provide the nonprofit's admin's password
 ```
 

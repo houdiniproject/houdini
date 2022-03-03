@@ -11,7 +11,7 @@ describe QueryPayments do
 
     @payments = [force_create(:payment, gross_amount: 1000, fee_total: 99, net_amount: 901, supporter: @supporters[0], nonprofit:@nonprofit),
                  force_create(:payment, gross_amount: 2000, fee_total: 22, net_amount: 1978, supporter: @supporters[1], nonprofit:@nonprofit)]
-    @bank_account = force_create(:bank_account, name: 'bank1', nonprofit: @nonprofit)
+    @bank_account = force_create(:bank_account, name: 'baids_for_payoutnk1', nonprofit: @nonprofit)
   end
  
 

@@ -104,9 +104,9 @@ describe InsertCustomFieldJoins do
             @bad_nonprofit = force_create(:nonprofit, :id => 50)
         }
         it 'nonprofit must be valid' do
-          response = InsertCustomFieldJoins::in_bulk(@nonprofit.id+1, [], [])
+          response = InsertCustomFieldJoins::in_bulk(124571590, [], [])
           expect(response[:status]).to eq (:unprocessable_entity)
-          expect(response[:json][:error]).to include("Nonprofit #{@nonprofit.id+1} is not valid")
+          expect(response[:json][:error]).to include("Nonprofit #{124571590} is not valid")
         end
 
         it 'supporters if empty should do nothing' do

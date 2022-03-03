@@ -11,6 +11,7 @@ module CancelBillingSubscription
     rescue ParamValidation::ValidationError => e
       return {json: {error: "Validation error\n #{e.message}", errors: e.data}, status: :unprocessable_entity}
     end
+
 		np_card = nonprofit.active_card
 		billing_subscription = nonprofit.billing_subscription
 		return {json:{error: 'We don\'t have a subscription for your non-profit. Please contact support.'}, status: :unprocessable_entity} if np_card.nil? || billing_subscription.nil? # stripe_customer_id on Card object

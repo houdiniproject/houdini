@@ -67,6 +67,7 @@ describe InsertPayout do
       context 'no charges to payout' do 
         include_context 'payments for a payout' do
           let(:nonprofit) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
+          let(:supporter) {force_create(:supporter, nonprofit: nonprofit)}
         end
         
         let!(:ba) do
@@ -108,6 +109,7 @@ describe InsertPayout do
       context 'no date provided' do
         include_context 'payments for a payout' do
           let(:nonprofit) {force_create(:nonprofit, :stripe_account_id => Stripe::Account.create()['id'], vetted: true)}
+          let(:supporter) {force_create(:supporter, nonprofit: nonprofit)}
         end
         let!(:ba) do
           ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})

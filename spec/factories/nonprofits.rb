@@ -50,9 +50,65 @@ FactoryBot.define do
     zip_code { 54915 }
     email { 'contact@endpovertyinthefoxvalleyinc.org' }
     website {'https://endpovertyinthefoxvalleyinc.org'}
-    slug { 'end-poverty-in-the-fox-valley-inc' }
+    sequence(:slug) { |n| "#{n}-end-poverty-in-the-fox-valley-inc" }
     state_code_slug { 'wi'}
     city_slug { 'appleton'}
     billing_subscription {build(:billing_subscription, billing_plan: build(:billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat))}
+  end
+
+  factory :nonprofit_base, class: 'Nonprofit' do
+    name { 'Ending Poverty in the Fox Valley Inc.' }
+    city { 'Appleton '}
+    state_code { 'wi'}
+    sequence(:slug) { |n| "#{n}-end-poverty-in-the-fox-valley-inc" }
+    state_code_slug { 'wi'}
+    city_slug { 'appleton'}
+
+    trait :activated_deactivation_record do
+      nonprofit_deactivation { association :nonprofit_deactivation, deactivated: false }
+    end
+    trait :deactivate_nonprofit do
+      nonprofit_deactivation { association :nonprofit_deactivation, deactivated: true }
+    end
+
+    trait :with_default_billing_subscription do
+      billing_subscription
+    end
+
+    trait :with_active_card_on_stripe do
+      active_card {association :card_base, :with_created_stripe_customer_and_card}
+      
+    end
+
+    trait :with_billing_subscription_on_stripe do
+      transient do
+        billing_plan {}
+      end
+      with_active_card_on_stripe
+      billing_subscription { 
+        attributes = {
+          
+          stripe_customer: active_card.stripe_customer
+        }
+        if billing_plan
+          attributes[:billing_plan] = billing_plan
+        end
+        association :billing_subscription, 
+        :with_associated_stripe_subscription,
+        **attributes
+        }
+    end
+
+    trait :with_old_billing_plan_on_stripe do
+
+      with_active_card_on_stripe
+      billing_subscription { association :billing_subscription, 
+        :with_associated_stripe_subscription, 
+        stripe_customer: active_card.stripe_customer,
+        billing_plan: create(:billing_plan_base, :with_associated_stripe_plan, amount: 133333, percentage_fee: 0.33, tier: 1, name: "fake plan")
+      }
+    end
+
+    
   end
 end

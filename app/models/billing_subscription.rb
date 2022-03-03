@@ -26,6 +26,10 @@ class BillingSubscription < ActiveRecord::Base
 		h
 	end
 
+	def stripe_subscription
+		Stripe::Subscription.retrieve(stripe_subscription_id)
+	end
+
 	def self.create_with_stripe(np, params)
 		bp = BillingPlan.find_by_stripe_plan_id params[:stripe_plan_id]
 		h =  ConstructBillingSubscription.with_stripe np, bp

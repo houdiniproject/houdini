@@ -2,40 +2,30 @@
 require 'rails_helper'
 
 RSpec.describe NonprofitDeactivation, type: :model do
-  let(:nonprofit) { force_create(:nonprofit, name: 'np1')}
-  let(:nonprofit_has_deactivation_but_deactivated_is_null) do 
-    np = force_create(:nonprofit, name: 'np2')
-    force_create(:nonprofit_deactivation, nonprofit: np)
-    np
+
+  def create_activated_and_unactivated_nps
+    OpenStruct.new activated: [
+      create(:nonprofit_base),
+      create(:nonprofit_base, :activated_deactivation_record)
+    ],
+    deactivated: [
+      create(:nonprofit_base, :deactivate_nonprofit)
+    ]
   end
 
-  let(:nonprofit_has_deactivation_but_deactivated_is_false) do 
-    np = force_create(:nonprofit, name: 'np3')
-    force_create(:nonprofit_deactivation, nonprofit: np, deactivated: false)
-    np
+  describe '.activated' do
+    it 'has all of the nps in activated except last one' do
+      nps = create_activated_and_unactivated_nps
+  
+      expect(Nonprofit.activated.all).to match_array(nps.activated)
+    end
   end
 
-  let(:nonprofit_has_deactivation_and_is_deactivated) do 
-    np = force_create(:nonprofit, name: 'np4')
-    force_create(:nonprofit_deactivation, nonprofit: np, deactivated: true)
-    np
-  end
-
-  it 'has all of the nps in activated except last one' do
-    result = [nonprofit,
-    nonprofit_has_deactivation_but_deactivated_is_false,
-    nonprofit_has_deactivation_but_deactivated_is_null]
-    nonprofit_has_deactivation_and_is_deactivated
-
-    expect(Nonprofit.activated.all).to match_array(result)
-  end
+  
 
   it 'has only nps in deactivated' do
-    nonprofit
-    nonprofit_has_deactivation_but_deactivated_is_false
-    nonprofit_has_deactivation_but_deactivated_is_null
-    result = [nonprofit_has_deactivation_and_is_deactivated]
-
-    expect(Nonprofit.deactivated.all).to match_array(result)
+    
+    nps = create_activated_and_unactivated_nps
+    expect(Nonprofit.deactivated.all).to match_array(nps.deactivated)
   end
 end

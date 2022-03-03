@@ -3,4 +3,10 @@ FactoryBot.define do
   factory :charge do
     stripe_charge_id {"ch_test_id"}
   end
+
+  factory :charge_base, class: 'Charge' do
+    stripe_charge_id {"ch_test_id"}
+    nonprofit {supporter.nonprofit}
+    supporter {association :supporter_base}
+  end
 end

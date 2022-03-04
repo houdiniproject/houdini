@@ -22,6 +22,7 @@ require 'devise'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'support/factory_bot'
 require 'support/date_time'
+require 'support/stripe_mock_helper'
 require 'timecop'
 require 'delayed_job'
 require 'support/contexts'
@@ -87,6 +88,10 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation, reset_ids: true)
     Rails.cache.clear
+  end
+
+  config.after(:each) do
+    StripeMockHelper.stop
   end
 
   config.around(:each) do |example|

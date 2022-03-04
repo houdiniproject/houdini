@@ -2,8 +2,10 @@
 require "rails_helper"
 
 RSpec.describe DisputeMailer, :type => :mailer do
-  before(:each) do
-    StripeMock.start
+  around(:each) do |example|
+    StripeMockHelper.mock do
+      example.run
+    end
   end
   
 
@@ -71,8 +73,10 @@ RSpec.describe DisputeMailer, :type => :mailer do
   end
 
   describe "update" do
-    before(:each) do
-      StripeMock.start
+    around(:each) do |example|
+      StripeMockHelper.mock do
+        example.run
+      end
     end
     let(:nonprofit) { force_create(:nonprofit, name: "spec_nonprofit_full")}
     let(:json) do

@@ -2,15 +2,15 @@
 require 'rails_helper'
 
 describe InsertBankAccount do
-  let(:stripe_helper) { StripeMock.create_test_helper }
-  before(:each) {
-    Timecop.freeze(2020,5,4)
-    StripeMock.start
-  }
-  after(:each) {
-    StripeMock.stop
-    Timecop.return
-  }
+  
+  around(:each) do |example|
+    Timecop.freeze(2020,5,4) do
+      StripeMockHelper.mock do
+        example.run
+      end
+    end
+    
+  end
 
   let(:nonprofit) {force_create(:nonprofit) }
   let(:user) { force_create(:user, :email => 'x@example.com')}

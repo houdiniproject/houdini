@@ -3,16 +3,12 @@ require 'rails_helper'
 require 'stripe_mock'
 
 describe CancelBillingSubscription do
-  let(:stripe_helper) { StripeMock.create_test_helper }
-  before(:each) {
-    StripeMock.start
-    @card_token = StripeMock.generate_card_token(last4: '9191', exp_year:2011)
-    @np = force_create(:nonprofit)
-
-
-
-  }
-  after {StripeMock.stop}
+  around(:each) do |example|
+    StripeMockHelper.mock do
+      @card_token = StripeMock.generate_card_token(last4: '9191', exp_year:2011)
+      @np = force_create(:nonprofit)
+    end
+  end
 
   describe 'parameter validation' do
     it 'without db' do
@@ -58,7 +54,7 @@ describe CancelBillingSubscription do
     before(:each){
       bp = create(:billing_plan, amount: 133333, percentage_fee: 0.33, tier: 1, name: "fake plan")
       @stripe_customer = Stripe::Customer.create(currency:'usd')
-      @plan = stripe_helper.create_plan(id: 'test_str_plan', amount:0, currency: 'usd', interval: 'year', name: 'test PLan')
+      @plan = StripeMockHelper.stripe_helper.create_plan(id: 'test_str_plan', amount:0, currency: 'usd', interval: 'year', name: 'test PLan')
 
       @original_str_subscription = @stripe_customer.subscriptions.create(:plan => @plan.id)
 

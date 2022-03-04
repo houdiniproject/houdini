@@ -4,9 +4,12 @@ require 'stripe'
 require 'stripe_mock'
 
 describe StripeAccountUtils do
-  let(:stripe_helper) { StripeMock.create_test_helper }
-  before(:each) { StripeMock.start}
-  after(:each) { StripeMock.stop}
+  around(:each) do |example|
+    StripeMockHelper.mock do
+      example.run
+    end
+  end
+
   let(:nonprofit) { force_create(:nonprofit)}
   let(:nonprofit_with_bad_values) { force_create(:nonprofit, state_code: "invalid", zip_code: 'not valid', website: 'invalid_url', email: 'penelope@email.email')}
 

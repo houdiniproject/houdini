@@ -1,11 +1,10 @@
 RSpec.shared_context :charge_context do
   around(:each) do |example|
-    StripeMock.start
+    StripeMockHelper.mock do
       example.run
-    StripeMock.stop
+    end
   end
 
-  let(:stripe_helper) { StripeMock.create_test_helper }
   let(:json) do
     event_json['data']['object']
   end

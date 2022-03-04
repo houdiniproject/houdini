@@ -132,7 +132,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
     end
 
     it "succeeds" do
-      StripeMock.start
+      StripeMockHelper.start
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       input = {
           nonprofit: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, url: 'www.cs.c', website: 'www.cs.c'},
@@ -182,7 +182,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
       expect(our_np.roles.nonprofit_admins.count).to eq 1
       expect(our_np.roles.nonprofit_admins.first.user.attributes).to eq expected_user
 
-      StripeMock.stop
+      StripeMockHelper.stop
     end
 
 

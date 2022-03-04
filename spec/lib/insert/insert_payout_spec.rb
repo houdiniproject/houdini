@@ -55,13 +55,12 @@ describe InsertPayout do
     end
 
     context 'when valid' do
-      let(:stripe_helper) {StripeMock.create_test_helper}
 
       around(:each) do |example|
         Timecop.freeze(2020, 5, 5) do 
-          StripeMock.start
-          example.run
-          StripeMock.stop
+          StripeMockHelper.mock do 
+            example.run
+          end
         end
       end
 

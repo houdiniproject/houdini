@@ -3,13 +3,13 @@ require 'rails_helper'
 
 RSpec.describe StripeEvent, :type => :model do
   around(:each) do |example|
-    StripeMock.start
     Timecop.freeze(Date.new(2021, 5, 4)) do
-      example.run
+      StripeMockHelper.mock do 
+        example.run
+      end
     end
-    StripeMock.stop
   end
-  let(:stripe_helper) { StripeMock.create_test_helper }
+
 
 
   describe 'charge.dispute.*' do 

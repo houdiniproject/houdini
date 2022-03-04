@@ -10,13 +10,12 @@ describe PayRecurringDonation  do
 
   describe '.with_donation' do
     include_context :shared_donation_charge_context
-    let(:stripe_helper) { StripeMock.create_test_helper }
     
     around (:each)  do |example|
       Timecop.freeze( 2020, 5,4) do 
-        StripeMock.start
+        StripeMockHelper.mock do 
           example.run
-        StripeMock.stop
+        end
       end
     end
 

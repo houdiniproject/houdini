@@ -2,8 +2,10 @@
 require 'rails_helper'
 
 RSpec.describe StripeAccount, :type => :model do
-  before(:each) do
-    StripeMock.start
+  around(:each) do |example|
+    StripeMockHelper.mock do
+      example.run
+    end
   end
   describe "account should be pending" do
     let(:sa) do 

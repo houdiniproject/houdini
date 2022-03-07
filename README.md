@@ -180,8 +180,9 @@ Go to [Stripe](https://stripe.com), create an account or just log in with you al
 > make sure to use test keys. If you don't, you're
 going to be charged real money!
 
-![Screenshot from 2022-02-24 13-28-18](https://user-images.githubusercontent.com/44117439/155566057-97ab2370-7ed1-43ab-91fc-cdd4cb340390.png)
- 
+![get Stripe keys](https://user-images.githubusercontent.com/31708472/157132661-79bf89a0-13cb-4860-9793-a40bb3229bfb.png)
+
+
  #### Configure the .env file:
  
  Then after retrieving both keys copy them into your .env file on these lines:

@@ -26,7 +26,7 @@ comfort and speed.
 
 All new backend code and React components should be well tested.
 
-## Supported operating system
+## Supported operating systems
 
 * Ubuntu 18.04, 20.04 or equivalent
 
@@ -37,7 +37,7 @@ All new backend code and React components should be well tested.
 * PostgreSQL 10  or 12
 * Ruby 2.7
 
-> Note: All tools will be installed in the tutorial.
+> Note: All tools will be installed in the Dev Setup.
 
 ## Get involved
 
@@ -155,7 +155,6 @@ cd houdini
 This will download the latest Houdini code.
 
 Let's run the Houdini project setup and we'll be ready to go!
-P
 
 #### Setup project
 ```bash
@@ -173,11 +172,11 @@ dashboard. On your development environment,
 make sure to use test keys. If you don't, you're
 going to be charged real money!
 
-### Sripe keys setup
+### Stripe keys setup
 
-#### Get stripe keys:
+#### Get Stripe keys:
 
-Go to [stripe](https://stripe.com/en-br), create an account or just log in with you already have one. Acess the stripe dashboard and copy both publishable and secret keys.
+Go to [Stripe](https://stripe.com), create an account or just log in with you already have one. Access the stripe dashboard and copy both publishable and secret keys.
 > make sure to use test keys. If you don't, you're
 going to be charged real money!
 

@@ -95,6 +95,7 @@ FactoryBot.define do
         end
         association :billing_subscription, 
         :with_associated_stripe_subscription,
+        nonprofit: @instance,
         **attributes
         }
     end

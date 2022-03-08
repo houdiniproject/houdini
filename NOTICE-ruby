@@ -1082,8 +1082,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activestorage; version 6.1.4.6 -- 
-Copyright (c) 2017-2022 David Heinemeier Hansson, Basecamp
+** activestorage; version 6.1.4.7 -- 
 
 Copyright (c) 2017-2022 David Heinemeier Hansson, Basecamp
 
@@ -1136,7 +1135,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actioncable; version 6.1.4.6 -- 
+** actioncable; version 6.1.4.7 -- 
 Copyright (c) 2010-2015 James Coglan
 Copyright (c) 2015-2022 Basecamp, LLC
 
@@ -1612,8 +1611,7 @@ THE SOFTWARE.
 
 ------
 
-** actionmailbox; version 6.1.4.6 -- 
-Copyright (c) 2018-2022 Basecamp, LLC
+** actionmailbox; version 6.1.4.7 -- 
 
 MIT License
 
@@ -1679,6 +1677,7 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ------
 
 ** mini_portile2; version 2.8.0 -- 
+Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
 
 Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
 
@@ -2575,8 +2574,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activejob; version 6.1.4.6 -- 
-Copyright (c) 2014-2022 David Heinemeier Hansson
+** activejob; version 6.1.4.7 -- 
 
 Copyright (c) 2014-2022 David Heinemeier Hansson
 
@@ -2976,9 +2974,7 @@ SOFTWARE.
 
 ------
 
-** actiontext; version 6.1.4.6 -- 
-Copyright (c) 2020-2022 Basecamp, LLC
-Copyright (c) 2020 Basecamp, LLC http://trix-editor.org
+** actiontext; version 6.1.4.7 -- 
 
 MIT License
 
@@ -3005,7 +3001,7 @@ SOFTWARE.
 
 ------
 
-** i18n; version 1.9.1 -- 
+** i18n; version 1.10.0 -- 
 Copyright (c) 2003-2009 Masao Mutoh
 Copyright (c) 2008 The Ruby I18n team
 
@@ -3032,15 +3028,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** actionmailer; version 6.1.4.6 -- 
+** actionmailer; version 6.1.4.7 -- 
 Copyright (c) 2004-2022 David Heinemeier Hansson
-** actionpack; version 6.1.4.6 -- 
-Copyright (c) 2004-2022 David Heinemeier Hansson
-** actionview; version 6.1.4.6 -- 
-Copyright (c) 2004-2022 David Heinemeier Hansson
-** activemodel; version 6.1.4.6 -- 
-Copyright (c) 2004-2022 David Heinemeier Hansson
-** railties; version 6.1.4.6 -- 
+** actionview; version 6.1.4.7 -- 
+** railties; version 6.1.4.7 -- 
 Copyright (c) 2004-2022 David Heinemeier Hansson
 
 Copyright (c) 2004-2022 David Heinemeier Hansson
@@ -3151,9 +3142,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activerecord; version 6.1.4.6 -- 
+** actionpack; version 6.1.4.7 -- 
 Copyright (c) 2004-2022 David Heinemeier Hansson
-copyright (c) 2007-2016 Nick Kallen, Bryan Helmkamp, Emilio Tagua, Aaron Patterson
+** activemodel; version 6.1.4.7 -- 
+Copyright (c) 2004-2022 David Heinemeier Hansson
+** activerecord; version 6.1.4.7 -- 
+** activesupport; version 6.1.4.7 -- 
+Copyright (c) 2005-2022 David Heinemeier Hansson
 ** async; version 1.30.1 -- 
 Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2018, by Samuel G. D. Williams. <http://www.codeotaku.com>
@@ -3218,7 +3213,7 @@ Copyright (c) Django Software Foundation and individual contributors.
 Copyright (c) 2007-2019 Leah Neukirchen <http://leahneukirchen.org/infopage.html>
 ** rack-attack; version 5.4.2 -- 
 Copyright Kickstarter, PBC.
-** rails; version 6.1.4.6 -- 
+** rails; version 6.1.4.7 -- 
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
 ** rails-html-sanitizer; version 1.4.2 -- 
@@ -3437,6 +3432,34 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** image_processing; version 1.12.2 -- 
+Copyright (c) 2015 Janko Marohnic
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Janko Marohnić
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 
 ------
@@ -3708,33 +3731,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-
-------
-
-** activesupport; version 6.1.4.6 -- 
-Copyright (c) 2005-2022 David Heinemeier Hansson
-
-Copyright (c) 2005-2022 David Heinemeier Hansson
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------

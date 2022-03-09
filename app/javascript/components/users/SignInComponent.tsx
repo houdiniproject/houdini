@@ -189,6 +189,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 
 	//Styling - Material-UI
 	const useStyles = makeStyles((theme: Theme) => createStyles({
+		root: {
+			'& .MuiFormHelperText-root.Mui-error': {
+				color: "#dd1a0c",
+			},
+			'& .MuiFormLabel-root.Mui-error': {
+				color: "#dd1a0c",
+			},
+		},
 		textField: {
 			'& .MuiTextField-root': {
 				margin: theme.spacing(1),
@@ -215,6 +223,9 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 		},
 		submitButton: {
 			height: 40,
+			"&:disabled": {
+				color: "rgba(0,0,0,0.6)",
+			},
 		},
 		checkmark: {
 			color: theme.palette.success.main,
@@ -260,7 +271,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 
 
 function InnerFormComponent<TFieldValues>(props: {
-	classes: ClassNameMap<"textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
+	classes: ClassNameMap<"root" | "textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
 	emailLabel: string;
 	failed: boolean;
 	form: UseFormReturn<TFieldValues>;
@@ -317,7 +328,7 @@ function InnerFormComponent<TFieldValues>(props: {
 			<Box display="flex" justifyContent="center" alignItems="center">
 				{!isSuccessful ?
 					<Box p={1.5}>
-						<TextField control={control} id={emailId} name="email" data-testid="emailTest"
+						<TextField className={classes.root} control={control} id={emailId} name="email" data-testid="emailTest"
 							label={emailLabel}
 							InputProps={{
 								startAdornment: (
@@ -333,6 +344,7 @@ function InnerFormComponent<TFieldValues>(props: {
 				{!isSuccessful ?
 					<Box p={1.5}>
 						<TextField control={control}
+							className={classes.root}
 							id={passwordId}
 							name="password"
 							label={passwordLabel}

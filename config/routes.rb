@@ -81,6 +81,7 @@ Rails.application.routes.draw do
       put(:followup, on: :member)
       post(:create_offsite, on: :collection)
     end
+    
     resources(:charges, only: [:index]) do
       resources(:refunds, only: %i[create index])
     end

@@ -4,12 +4,13 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class Api::RolesController < Api::ApiController
 	include Controllers::Nonprofit::Current
-	include Controllers::Nonprofit::Authorization
-
+	include Controllers::Nonprofit::Authorization	
 	# before_action :authenticate_nonprofit_user!, except: %i[new create]
 
-	# get /nonprofit/:nonprofit_id/roles
+	# get /nonprofits/:nonprofit_id/roles
 	def index
-		@roles = current_nonprofit.roles
+		format.json do
+			@roles = current_nonprofit.roles
+		end
 	end
 end

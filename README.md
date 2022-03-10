@@ -198,10 +198,10 @@ To create a nonprofit, use the command line to run the following command and fil
 bin/rails houdini:nonprofit:create
 ```
 
-There are available arguments that add congirugrations on the nonprofit's creation:
+There are available arguments that add configurations on the nonprofit's creation:
 
 ```bash
-  -su, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
+  -s, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
       [--confirm-admin], [--no-confirm-admin]  # Require the nonprofit admin to be confirmed via email
                                                # Default: true
 ```

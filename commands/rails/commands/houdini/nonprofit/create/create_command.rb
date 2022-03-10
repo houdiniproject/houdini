@@ -11,7 +11,7 @@ module Houdini # rubocop:disable Style/ClassAndModuleChildren -- can't combine b
 		# Used for creating nonprofits at the command line
 		class CreateCommand < Rails::Command::Base
 			desc 'Create a new nonprofit on your Houdini instance'
-			option :super_admin, aliases: '-su', default: false, type: :boolean,
+			option :super_admin, aliases: '-s', default: false, type: :boolean,
 																								desc: "Make the nonprofit admin a super user (they can access any nonprofit's dashboards)"
 			option :confirm_admin, default: true, type: :boolean, desc: 'Require the nonprofit admin to be confirmed via email'
 

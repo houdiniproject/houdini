@@ -12,12 +12,14 @@ class Api::TransactionsController < Api::ApiController
 	# Gets the nonprofits supporters
 	# If not logged in, causes a 401 error
 	def index
+		set_expansions('supporter', 'subtransaction.payments', 'transaction_assignments', 'payments')
 		@transactions = current_nonprofit.transactions.order('created DESC').page(params[:page]).per(params[:per])
 	end
 
 	# Gets the a single nonprofit supporter
 	# If not logged in, causes a 401 error
 	def show
+		set_expansions('supporter', 'subtransaction.payments', 'transaction_assignments', 'payments')
 		@transaction = current_transaction
 	end
 

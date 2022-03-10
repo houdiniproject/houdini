@@ -8,7 +8,9 @@ json.object 'transaction'
 
 json.created transaction.created.to_i
 
-json.supporter transaction.supporter.id
+handle_expansion(:supporter, transaction.supporter, {json: json, __expand: __expand})
+
+handle_expansion(:nonprofit, transaction.nonprofit, {json: json, __expand: __expand})
 
 json.nonprofit transaction.nonprofit.id
 

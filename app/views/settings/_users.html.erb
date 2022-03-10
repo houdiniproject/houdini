@@ -44,13 +44,13 @@
 	</table>
 
 	<% if current_role?([:nonprofit_admin,:super_admin]) %>
-		<a class='button u-marginTop--5' open-modal='newRole'><i class='fa fa-plus'></i> New User</a>
+		<button class='button u-marginTop--5' type='submit' class='button u-marginTop--5' open-modal='newRole'><i class='fa fa-plus'></i> New User</button>
 	<% end %>
 
 	<hr>
 
 	<div>
-		<a open-modal='roleInfoModal'>
+		<a href="#" open-modal='roleInfoModal'>
 			What's the difference between an Associate and an Admin?
 		</a>
 	</div>

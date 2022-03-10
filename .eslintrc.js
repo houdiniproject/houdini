@@ -59,6 +59,24 @@ module.exports = {
 	root: true,
 	overrides: [
 		{
+			"parser": "babel-eslint",
+			"files": ['app/javascript/legacy/**/*.js'],
+			"rules": {
+				"@typescript-eslint/no-unused-vars": ['error', { "args": "all", "argsIgnorePattern": "^_" }],
+				"linebreak-style": "off",
+				"semi": "off",
+				"@typescript-eslint/semi": "off",
+				"no-trailing-spaces": "off",
+				"indent": "off",
+				"comma-dangle": "off",
+				"@typescript-eslint/comma-dangle": "off",
+				'@typescript-eslint/member-ordering': "off",
+				'@typescript-eslint/member-delimiter-style': "off",
+				"react-hooks/exhaustive-deps": "off",
+				"jest/no-hooks": "off",
+			},
+		},
+		{
 			"files": ['*.js', 'config/webpack/**/*.js'],
 			extends: [
 				'eslint:recommended',

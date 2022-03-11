@@ -245,7 +245,7 @@ Commitchange::Application.routes.draw do
 
 	# Events
 	get ':state_code/:city/:name/events' => 'events#index'
-	get ':state_code/:city/:name/events/:event_slug' => 'events#show'
+	get ':state_code/:city/:name/events/:event_slug' => 'events#show', as: :slugged_event
 	get ':state_code/:city/:name/events/:event_slug/stats' => 'events#stats'
 	get ':state_code/:city/:name/events/:event_slug/tickets' => 'tickets#index'
 	# get '/events' => 'events#index'

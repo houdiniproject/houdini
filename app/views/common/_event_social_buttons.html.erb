@@ -19,10 +19,13 @@
 	</div>
 
 	<div>
-		<a class='button--circle--large grey'>
-			<!--= on 'click' (open_modal_if_confirmed 'shareEmail') -->
+		<%= mail_to('',
+			subject: "Check the #{@event.name} event from #{@nonprofit.name}!",
+			body: "Hi,\n\n#{@event.summary.present? ? "#{@event.summary}\n\n" : ''}Follow this link for the event and participate: #{url}",
+			class: 'button--circle--large grey'
+			) do %>
 			<i class='fa fa-1x fa-envelope-o'></i>
-		</a>
+		<% end %>
 		<p>Email</p>
 	</div>
 

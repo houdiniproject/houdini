@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '6.1.5'
 gem 'jbuilder', '~> 2.11'
-gem 'bootsnap', '~> 1.10', require: false # Large rails application booting enhancer
+gem 'bootsnap', '~> 1.11', require: false # Large rails application booting enhancer
 gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.6'

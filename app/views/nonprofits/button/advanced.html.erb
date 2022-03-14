@@ -126,6 +126,14 @@
 
 		<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-manual-cover-fees></a></textarea>
 
+		<h5>Disallow anonymous contributions on a single button/widget</h5>
+
+		<p>If you want to hide the option for a supporter to contribute anonymously on a single button or widget, add the <strong>data-hide-anonymous</strong> attribute.
+		NOTE: If you want to prevent all anonymous contributions to your organization, go to <%=link_to("Settings", settings_url)%>, click the "Anonymous Donations" tab,
+		check "Disallow anonymous donations" and press "Save".</p>
+
+		<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-hide-anonymous></a></textarea>
+
 		</div><!-- .yes-js -->
 	</section>
 </div>

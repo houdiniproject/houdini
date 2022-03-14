@@ -60,6 +60,8 @@ const init = params$ => {
 
   state.hide_cover_fees_option = state.params$().hide_cover_fees_option
 
+  state.hide_anonymous = state.params$().hide_anonymous || app.nonprofit.no_anon
+
   state.selectedPayment$ = flyd.stream('sepa')
 
   state.amountStep = amountStep.init(donationDefaults, state.params$)

@@ -112,7 +112,7 @@ function view(state) {
   , supporterFields.view(state.supporterFields)
   , customFields(state.params$().custom_fields)
   , dedicationLink(state)
-  , app.nonprofit.no_anon ? '' : anonField(state)
+  , anonField(state)
   , h('div', paymentMethodButtons(["card"], state))
   ])
   return h('div.wizard-step.info-step.u-padding--10', [
@@ -152,6 +152,8 @@ function paymentButton(options, label, state){
 }
 
 function anonField(state) {
+  if (state.params$().hide_anonymous) return '';
+
   state.anon_id = state.anon_id || uuid.v1() // we need a unique id in case there are multiple supporter forms on the page -- the label 'for' attribute needs to be unique
   return h('div.u-marginTop--10.u-centered', [
     h('input', {

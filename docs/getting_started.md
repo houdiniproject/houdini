@@ -80,7 +80,7 @@ bundle exec rails server
 
 ```bash
 # Console two (2)
-yarn watch
+yarn webpack --watch
 # #### Notes ####
 # If you get errors from running this command.
 # You'll need to manually run the following commands.
@@ -88,7 +88,7 @@ npm run export-button-config
 npm run export-i18n
 npm run generate-api-js
 # Now we're able to watch!
-npx webpack --watch
+yarn webpack --watch
 ```
 
 ## Testing

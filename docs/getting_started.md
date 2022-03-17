@@ -37,17 +37,17 @@ obtain by running `bundle exec rake secret`.
 
 Set the following secrets in your `.env` file with your _Stripe account_ information.
 
-- `STRIPE_API_KEY` with your Stripe _private_ key.
-- `STRIPE_API_PUBLIC` with your Stripe _public_ key.
+* `STRIPE_API_KEY` with your Stripe _private_ key.
+* `STRIPE_API_PUBLIC` with your Stripe _public_ key.
 
 The last secrets you'll need are related to AWS. You can learn how
 to [create an S3 Bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html)
 within the AWS Documentation, and to obtain your access and secret key, you
 can [learn more here](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/).
 
-- `S3_BUCKET_NAME`
-- `AWS_ACCESS_KEY`
-- `AWS_SECRET_ACCESS_KEY`
+* `S3_BUCKET_NAME`
+* `AWS_ACCESS_KEY`
+* `AWS_SECRET_ACCESS_KEY`
 
 _Setting up the local database:_
 

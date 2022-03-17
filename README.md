@@ -34,7 +34,7 @@ Houdini is designed and tested to run with the following:
 * Ruby 2.7
 * Node 14
 * Yarn
-* PostgreSQL 10  or 12
+* PostgreSQL 10 or 12
 * Ubuntu 18.04, 20.04 or equivalent
 
 ## Get involved
@@ -259,7 +259,7 @@ We have some additional documentation describing some implementations, definitio
 
 ## Known Issues
 
-For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
+For a list of [how to solve known issues](docs/known_issues.md)
 
 ## Run in production
 

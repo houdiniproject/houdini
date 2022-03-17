@@ -4,12 +4,12 @@
 
 ---
 
-You'll need to have in your Mac the following dependencies installed, if you
-don't want to use the provided Docker containers.
+You'll need to have the following dependencies installed:
 
-- Ruby `2.5.1`
-- Rails `5.0.7.1`
-- Node `11.12.0`
+* Ruby 2.7
+* Node 14
+* Yarn
+* PostgreSQL 10 or 12
 
 ## Local Config
 

@@ -176,8 +176,6 @@ GEM
     fast_blank (1.0.1)
     ffi (1.15.5)
     fiber-local (1.0.0)
-    font_assets (0.1.14)
-      rack
     fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
@@ -478,7 +476,6 @@ DEPENDENCIES
   factory_bot (~> 6.2)
   factory_bot_rails (~> 6.2)
   fast_blank
-  font_assets (~> 0.1.14)
   good_job
   hamster (~> 3.0)
   houdini_full_contact!

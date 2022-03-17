@@ -7,7 +7,6 @@ a server with 3-4GB RAM is likely required. Optimisations may be possible, but
 due to the bootstrap-loader integration we can't currently switch to a newer
 Webpack.
 
-
 ## Production mode
 
 Running `bin/rails server` will by default start Houdini/Rails in "development"
@@ -20,11 +19,10 @@ configure various aspects of the application such as the database settings
 To start Houdini in production mode, you can run `bin/rails server
 --environment=production` or run:
 
-```
+```sh
 export RAILS_ENV=production
 bin/rails server
 ```
-
 
 ## Configuring the database
 
@@ -32,20 +30,18 @@ See ["Configuring a
 database"](https://guides.rubyonrails.org/configuring.html#configuring-a-database)
 in the Ruby on Rails guide.
 
-
 ## Building assets
 
 In development mode, Houdini's images, CSS and JS are compiled automatically in
 the web server process, but in production mode, this must be done beforehand. To
 compile the assets, run:
 
-```
+```sh
 bin/rake assets:precompile
 ```
 
 As mentioned above, this step is memory intensive and can fail on systems with
 less than 2GB RAM or less.
-
 
 ## Running the web application
 
@@ -54,7 +50,7 @@ While the web application can be run with just `source .env && bin/rails server
 manage; typically via SystemD on Debian/Ubuntu-based systems. Here's an example
 SystemD configuration to be placed in `/etc/systemd/system/houdini.service` or similar:
 
-```
+```sh
 [Unit]
 Description=Houdini
 
@@ -70,20 +66,21 @@ ExecStart=bash -c "source /srv/houdini/.env && /srv/houdini/bin/rails server"
 WantedBy=multi-user.target
 ```
 
-To load this configuration, run `sudo systemctl daemon-reload` and `sudo systemctl start houdini`. To see the logs, run `sudo journalctl -f -u houdini.service`.
+To load this configuration, run `sudo systemctl daemon-reload` and `sudo
+systemctl start houdini`. To see the logs, run `sudo journalctl -f -u
+houdini.service`.
 
 Note that this assumes you have pre-installed the Gem requirements with:
 
-```
+```sh
 cd /srv/houdini
 export GEM_HOME=.gems
 bundle install
 ```
 
-
 ## Nginx configuration
 
-```
+```nginx
 server {
   listen 80;
   server_name yourwebsite.org;

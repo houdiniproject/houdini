@@ -33,8 +33,8 @@ in the Ruby on Rails guide.
 ## Building assets
 
 In development mode, Houdini's images, CSS and JS are compiled automatically in
-the web server process, but in production mode, this must be done beforehand. To
-compile the assets, run:
+the web server process, but in production mode this should be done beforehand
+(`config.assets.compile = false`). To compile the assets, run:
 
 ```sh
 bin/rake assets:precompile
@@ -42,6 +42,10 @@ bin/rake assets:precompile
 
 As mentioned above, this step is memory intensive and can fail on systems with
 less than 2GB RAM or less.
+
+These assets are also not served in production mode by default
+(`config.public_file_server.enabled = false`), with the intention that they are
+served directly from Nginx as configured below.
 
 ## Running the web application
 

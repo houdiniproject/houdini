@@ -18,14 +18,14 @@ json.amount do
 	json.partial! '/api/common/amount', amount: transaction.amount_as_money
 end
 
-json.subtransaction transaction&.subtransaction&.to_id
+handle_expansion(:subtransaction, transaction.subtransaction, {json: json, __expand: __expand})
 
-json.transaction_assignments transaction.transaction_assignments do |tra|
-	json.merge! tra.to_id.attributes!
+handle_array_expansion(:transaction_assignments, transaction.transaction_assignments, {json: json, __expand: __expand, item_as: :transaction_assignment}) do |tra, opts|
+	handle_item_expansion(tra, opts)
 end
 
-json.payments transaction.subtransaction_payments do |subt_p|
-	json.merge! subt_p.to_id.attributes!
-end
+# handle_array_expansion(:subtransaction_payments, transaction.subtransaction_payments, {json: json, __expand: __expand, item_as: :subtransaction_payment}) do |tra, opts|
+# 	handle_item_expansion(tra, opts)
+# end
 
 json.url api_nonprofit_transaction_url(transaction.nonprofit, transaction)

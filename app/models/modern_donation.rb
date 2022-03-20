@@ -56,4 +56,8 @@ class ModernDonation < ApplicationRecord
 		Houdini.event_publisher.announce(:donation_updated, to_event('donation.updated', :nonprofit, :supporter, :trx).attributes!)
 		Houdini.event_publisher.announce(:trx_assignment_updated, to_event('trx_assignment.updated', :nonprofit, :supporter, :trx).attributes!)
 	end
+
+		def amount_as_money
+			Amount.new(amount||0, nonprofit.currency)
+		end
 end

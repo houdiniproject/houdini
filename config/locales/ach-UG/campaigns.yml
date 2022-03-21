@@ -22,3 +22,5 @@ ach:
     until_end_datetime: "crwdns3772:0%{end_datetime}crwdne3772:0"
     total_count_of_supporters_html: "crwdns3774:0%{supporters_count}crwdne3774:0"
     total_amount_raised_html: "crwdns3776:0%{total_raised}crwdne3776:0"
+    sorry_couldnt_find_campaign: "crwdns4254:0crwdne4254:0"
+    successfully_updated: 'crwdns4256:0crwdne4256:0'

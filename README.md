@@ -191,13 +191,6 @@ going to be charged real money!
  export STRIPE_API_PUBLIC='REPLACE' # use your test public key from your stripe account
  ```
 
-### Start project:
-
-
-```bash
-bin/rails server
-```
-
 You can connect to your server at http://localhost:5000
 
 
@@ -287,6 +280,12 @@ Additionally, it is possible to provide arguments to fill in the fields for the 
 ```
 
 You can use this in the future for creating additional nonprofits.
+
+### Start project:
+
+```bash
+bin/rails server
+```
 
 #### Code Analysis
 

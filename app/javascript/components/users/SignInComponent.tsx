@@ -254,7 +254,7 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				showProgressAndSuccess={showProgressAndSuccess!}
 				signedIn={signedIn}
 				form={form}
-			/>;
+			/>
 		</form>
 	);
 }

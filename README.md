@@ -190,32 +190,10 @@ going to be charged real money!
  export STRIPE_API_KEY='REPLACE' # use your test private key from your stripe account
  export STRIPE_API_PUBLIC='REPLACE' # use your test public key from your stripe account
  ```
-
-You can connect to your server at http://localhost:5000
-
-
-### Super admin
-
-There is a way to set your user as a super_admin. This role lets you access any of the nonprofits
-on your Houdini instance. Additionally, it gives you access to the super admin control panel to search all supporters and
-nonprofits, which is located at `/admin` url.
-  
-To create the super user, go to the rails console by calling:
-
-`bin/rails console`
-
-In the console, run the following:
-
-```ruby
-admin=User.find(1) #or the id of the user you want to add the role
-role=Role.create(user:admin,name: "super_admin")
-```
-
 ### Testing
 
 To verify everying is set up correctly, you can try running through the Ruby test cases:
 
-### Running test
 ```bash
 ./bin/rails spec
 ```
@@ -257,10 +235,10 @@ To create a nonprofit, use the command line to run the following command and fil
 bin/rails houdini:nonprofit:create
 ```
 
-There are available arguments that add congirugrations on the nonprofit's creation:
+There are available arguments that add configurations on the nonprofit's creation:
 
 ```bash
-  -su, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
+  -s, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
       [--confirm-admin], [--no-confirm-admin]  # Require the nonprofit admin to be confirmed via email
                                                # Default: true
 ```
@@ -271,20 +249,36 @@ Additionally, it is possible to provide arguments to fill in the fields for the 
       [--nonprofit-name=NONPROFIT_NAME]        # Provide the nonprofit's name
       [--state-code=STATE_CODE]                # Provide the nonprofit' state code
       [--city=CITY]                            # Provide the nonprofit's city
-      [--nonprofit-website=NONPROFIT_WEBSITE]  # Provide the nonprofit public website
-      [--nonprofit-email=NONPROFIT_EMAIL]      # Provide the nonprofit public email
+      [--nonprofit-website=NONPROFIT_WEBSITE]  # [OPTIONAL] Provide the nonprofit public website
+      [--nonprofit-email=NONPROFIT_EMAIL]      # [OPTIONAL] Provide the nonprofit public email
+      [--nonprofit-phone=NONPROFIT_PHONE]      # [OPTIONAL] Provide the nonprofit's 's phone
       [--user-name=USER_NAME]                  # Provide the nonprofit's admin's name
       [--user-email=USER_EMAIL]                # Provide the nonprofit's admin's email address (It'll be used for logging in)
-      [--user-phone=USER_PHONE]                # [OPTIONAL] Provide the nonprofit's 's phone
       [--user-password=USER_PASSWORD]          # Provide the nonprofit's admin's password
 ```
 
 You can use this in the future for creating additional nonprofits.
+### Startup
 
-### Start project:
+`bin/rails server`
+You can connect to your server at http://localhost:5000
 
-```bash
-bin/rails server
+
+##### Super admin
+
+There is a way to set your user as a super_admin. This role lets you access any of the nonprofits
+on your Houdini instance. Additionally, it gives you access to the super admin control panel to search all supporters and
+nonprofits, which is located at `/admin` url.
+  
+To create the super user, go to the rails console by calling:
+
+`bin/rails console`
+
+In the console, run the following:
+
+```ruby
+admin=User.find(1) #or the id of the user you want to add the role
+role=Role.create(user:admin,name: "super_admin")
 ```
 
 #### Code Analysis
@@ -302,7 +296,7 @@ We have some additional documentation describing some implementations, definitio
 
 ## Known Issues
 
-For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
+For a list of [how to solve known issues](docs/known_issues.md)
 
 ## Run in production
 
@@ -330,3 +324,4 @@ For this to work though, the following characteristics must be true:
 * Your have to have committed any changes you made to the project in `HEAD` in your git repository
 * The `.git` folder for your repository must be a direct subfolder of your `$RAILS_ROOT`
 * Your web server must be able to run `git archive`
+

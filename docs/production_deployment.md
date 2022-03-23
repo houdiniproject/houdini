@@ -45,7 +45,8 @@ less than 2GB RAM or less.
 
 These assets are also not served in production mode by default
 (`config.public_file_server.enabled = false`), with the intention that they are
-served directly from Nginx as configured below.
+served directly from Nginx as configured below. You can override this behavior
+by setting the environment variable `RAILS_SERVE_STATIC_FILES=true`.
 
 ## Running the web application
 

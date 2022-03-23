@@ -2,10 +2,10 @@
 
 ## System requirements
 
-Webpack currently requires more than 2GB RAM to build the JavaScript assets, so
-a server with 3-4GB RAM is likely required. Optimisations may be possible, but
-due to the bootstrap-loader integration we can't currently switch to a newer
-Webpack.
+Webpack currently requires about 3GB RAM free to build the JavaScript assets in
+production mode, so a server with at least 4GB RAM is likely
+required. Optimisations may be possible, but due to the bootstrap-loader
+integration we can't currently switch to a newer Webpack.
 
 ## Production mode
 
@@ -40,13 +40,16 @@ the web server process, but in production mode this should be done beforehand
 bin/rake assets:precompile
 ```
 
-As mentioned above, this step is memory intensive and can fail on systems with
-less than 2GB RAM or less.
+As mentioned above, this step is memory intensive and will likely fail on
+systems with less than 3GB RAM free.
 
 These assets are also not served in production mode by default
 (`config.public_file_server.enabled = false`), with the intention that they are
 served directly from Nginx as configured below. You can override this behavior
 by setting the environment variable `RAILS_SERVE_STATIC_FILES=true`.
+
+See ["Webpacker"](https://edgeguides.rubyonrails.org/webpacker.html) in the Ruby
+on Rails guide for details.
 
 ## Running the web application
 

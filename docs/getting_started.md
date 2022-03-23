@@ -67,29 +67,18 @@ Qx.config(type_map: PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection
 Qx.execute("SET TIME ZONE utc")
 ```
 
-### How to run
+### Running in development
 
-You'll need 2 consoles to run the project. One for the rails env and another
-one to run the asset pipeline through [webpack](https://webpack.js.org),
-since it's _not incorporated yet_ into the rails asset pipeline.
+Run the development server with:
 
-```bash
-# Console one (1)
-bundle exec rails server
-```
+`bin/rails server`
 
-```bash
-# Console two (2)
-yarn webpack --watch
-# #### Notes ####
-# If you get errors from running this command.
-# You'll need to manually run the following commands.
-npm run export-button-config
-npm run export-i18n
-npm run generate-api-js
-# Now we're able to watch!
-yarn webpack --watch
-```
+The development server will periodically check for changes in CSS and JavaScript
+assets and rebuild them in-process. If you are doing significant JavaScript
+development and would like faster feedback on build errors and automatic
+reloading, run `bin/webpack-dev-server` in a second console. Now after making a
+change to the JavaScript code you should see Webpack immediately rebuild the
+assets and perform a full page reload.
 
 ## Testing
 

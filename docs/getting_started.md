@@ -80,6 +80,17 @@ reloading, run `bin/webpack-dev-server` in a second console. Now after making a
 change to the JavaScript code you should see Webpack immediately rebuild the
 assets and perform a full page reload.
 
+It's worth noting that the in-process, the one-off `bin/webpack` and
+`bin/webpack-dev-server` builds all set `NODE_ENV=development` by default which
+skips some optimisation steps. The `bin/rake assets:precompile` task sets
+`NODE_ENV=production` by default. Any of these can be overridden as required by
+setting the `NODE_ENV` environment variable, for example:
+
+`NODE_ENV=development bin/rake assets:precompile`
+
+That's not something you'll need often, but can help when troubleshooting
+differences between development and production asset builds.
+
 ## Testing
 
 ---

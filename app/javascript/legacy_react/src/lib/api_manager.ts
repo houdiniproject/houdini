@@ -72,7 +72,7 @@ export class ApiMissingException implements Error {
   }
 
   message: string;
-  name!: string
-  stack!: string
+  name: string = "";
+  stack: string = "";
 
 }

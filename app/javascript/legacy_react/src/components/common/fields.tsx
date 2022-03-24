@@ -55,7 +55,7 @@ export const BasicField = observer((props: BasicFieldProps) => {
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
-    inStickyError={field.hasServerError} stickyError={field.serverError}
+    inStickyError={field.hasServerError as boolean} stickyError={field.serverError}
     className={props.className} style={props.style}>
     {wrapInInputGroupWhenNeeded({ input: <ReactInput field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames || ''}`} style={props.inputStyle}/>, prefixInputAddon: props.prefixInputAddon, postfixInputAddon: props.postfixInputAddon })}
   </LabeledFieldComponent>
@@ -69,7 +69,7 @@ export const SelectField = observer((props: SelectFieldProps) => {
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
-    inStickyError={field.hasServerError} stickyError={field.serverError}
+    inStickyError={field.hasServerError as boolean} stickyError={field.serverError}
     className={props.className} style={props.style}>
 
     <ReactSelect field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} options={props.options} style={props.inputStyle}/>
@@ -85,7 +85,7 @@ export const TextareaField = observer((props: TextareaFieldProps) => {
   let field = props.field as HoudiniField
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
-    inStickyError={field.hasServerError} stickyError={field.serverError}
+    inStickyError={field.hasServerError as boolean} stickyError={field.serverError}
     className={props.className} style={props.style}>
 
     <ReactTextarea field={field} label={props.label} placeholder={props.placeholder} className={`form-control ${props.inputClassNames}`} rows={props.rows} style={props.inputStyle}/>
@@ -106,7 +106,7 @@ export const CurrencyField = observer((props: CurrencyFieldProps) => {
   let allowNegative = props.allowNegative || !props.mustBeNegative
   return <LabeledFieldComponent
     inputId={props.field.id} labelText={field.label} inError={field.hasError} error={field.error}
-    inStickyError={field.hasServerError} stickyError={field.serverError}
+    inStickyError={field.hasServerError as boolean} stickyError={field.serverError}
     className={props.className} style={props.style}>
 
       <ReactMaskedInput field={field} label={props.label} placeholder={props.placeholder}

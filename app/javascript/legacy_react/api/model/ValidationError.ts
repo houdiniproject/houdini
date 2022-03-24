@@ -32,9 +32,9 @@ export class ValidationErrorException implements Error{
 
     }
 
-    message!: string;
-    stack!: string;
-    name!: string;
+    message: string = "";
+    stack: string = "";
+    name: string = "";
 
     item: ValidationError;
 }

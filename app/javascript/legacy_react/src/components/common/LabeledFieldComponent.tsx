@@ -10,7 +10,7 @@ export interface LabeledFieldComponentProps
     labelText: string
     inError:boolean
     error?:string
-    inStickyError?:boolean | any
+    inStickyError?:boolean
     stickyError?:string
     className?:string
     style?:React.CSSProperties

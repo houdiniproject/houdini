@@ -38,7 +38,11 @@ class Modal extends React.Component<ModalProps, {}> {
             {this.props.showCloseButton ?
               <Column colSpan={1} breakSize={'xs'}>
                 <div style={{ textAlign: 'right' }}>
-                  <DefaultCloseButton onClick={() => {if(this.props.onClose)this.props.onClose()}} />
+                  <DefaultCloseButton onClick={() => {
+                    if(this.props.onClose)
+                      this.props.onClose()
+                    }
+                  } />
                 </div>
               </Column> : false
             }

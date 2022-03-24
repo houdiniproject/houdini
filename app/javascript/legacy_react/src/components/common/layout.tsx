@@ -10,7 +10,7 @@ function arrayify<T>(items: T[]|T){
 
 type ClassNameableChildren = React.ReactElement<ClassNameable>[]|React.ReactElement<ClassNameable>
 
-export const TwoColumnFields: React.FunctionComponent<{children:ClassNameableChildren}> = (props) => {
+export const TwoColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
     const children = arrayify(props.children) as React.ReactElement[];
     return <Row>
         {
@@ -31,7 +31,7 @@ export const TwoColumnFields: React.FunctionComponent<{children:ClassNameableChi
 
 TwoColumnFields.displayName = 'TwoColumnFields'
 
-export const ThreeColumnFields: React.FunctionComponent<{children:ClassNameableChildren}> = (props) => {
+export const ThreeColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
   const children = arrayify(props.children)
     return <Row>
         {
@@ -53,7 +53,7 @@ export const ThreeColumnFields: React.FunctionComponent<{children:ClassNameableC
 ThreeColumnFields.displayName = 'ThreeColumnFields'
 
 
-export const Row: React.FunctionComponent<{}> = (props:{children?:React.ReactNode[]|React.ReactNode}) => {
+export const Row: React.StatelessComponent<{}> = (props:{children?:React.ReactNode[]|React.ReactNode}) => {
     return <div className="row">
         {props.children}
     </div>
@@ -70,7 +70,7 @@ interface ColumnProps {
     breakSize:ColumnBreakSize
 }
 
-export const Column: React.FunctionComponent<ColumnProps> = (props) => {
+export const Column: React.StatelessComponent<ColumnProps> = (props) => {
     let className = `col-${props.breakSize}-${props.colSpan} `
     props.children.props
     if (props.children.props.className){

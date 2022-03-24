@@ -37,8 +37,7 @@ export default function PageWrapper(props: React.PropsWithChildren<PageContextIn
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { railsContext, innerProps, children, ...other } = props;
 
-
-	const [pageContext, setPageContext] = useState<PageContext>(null!);
+	const [pageContext, setPageContext] = useState<PageContext | null>(null);
 
 	useDeepCompareEffect(() => {
 		setPageContext({
@@ -47,11 +46,10 @@ export default function PageWrapper(props: React.PropsWithChildren<PageContextIn
 		});
 	}, [other]);
 
-	/* eslint-disable @typescript-eslint/no-explicit-any */
-	return (pageContext && <HosterContext.Provider value={pageContext.hoster}>
+	return (pageContext ? <HosterContext.Provider value={pageContext.hoster}>
 		<IntlProvider locale={pageContext.i18n.locale} messages={convert(I18n.translations[I18n.locale]) as any}>
 			{props.children}
 		</IntlProvider>
-	</HosterContext.Provider>);
-	/* eslint-enable @typescript-eslint/no-explicit-any */
+	</HosterContext.Provider> : <></>);
+
 }

@@ -11,10 +11,10 @@ function arrayify<T>(items: T[]|T){
 type ClassNameableChildren = React.ReactElement<ClassNameable>[]|React.ReactElement<ClassNameable>
 
 export const TwoColumnFields: React.FunctionComponent<{children:ClassNameableChildren}> = (props) => {
-    const children = arrayify(props.children)
+    const children = arrayify(props.children) as React.ReactElement[];
     return <Row>
         {
-            children.map((i:React.ReactElement<ClassNameable> | any) => {
+            children.map((i) => {
                 let className = ""
                 if (_.last(children) !== i){
                     className += " u-paddingRight--10"

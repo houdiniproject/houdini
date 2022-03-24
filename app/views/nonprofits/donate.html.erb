@@ -8,7 +8,7 @@
 
 
 <% content_for :javascripts do %>
-  <%= javascript_pack_tag 'i18n', 'page__nonprofits__donate' %>
+  <%= javascript_packs_with_chunks_tag 'i18n', 'page__nonprofits__donate' %>
   <script>
     app.referer_url = "<%= @referer %>"
     app.campaign = <%= raw (@campaign || {}).to_json %>

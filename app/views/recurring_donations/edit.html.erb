@@ -4,7 +4,7 @@
 	<script>
 		app.pageLoadData = <%= raw @data.to_json %>
 	</script>
-	<%= javascript_pack_tag 'i18n', 'page__recurring_donations__edit' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__recurring_donations__edit' %>
 <% end %>
 
 <% content_for :stylesheets do %>

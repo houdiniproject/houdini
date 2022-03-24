@@ -5,7 +5,7 @@
 
 <%= content_for :javascripts do %>
   <script>ENV.campaignID = <%= @campaign.id %></script>
-  <%= javascript_pack_tag 'i18n', 'page__campaigns__supporters__index' %>
+  <%= javascript_packs_with_chunks_tag 'i18n', 'page__campaigns__supporters__index' %>
 <% end %>
 
 <% content_for :head do %>

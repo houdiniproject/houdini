@@ -92,7 +92,7 @@ function signInComponentReducer(state: ComponentState, action: Action) {
 interface DispatchInput {
 	failed: boolean;
 	isValid: boolean;
-	lastSignInAttemptError?: NetworkError | null;
+	lastSignInAttemptError: NetworkError;
 	onFailure: (e: NetworkError) => void;
 	onSubmitting: () => void;
 	onSuccess: () => void;
@@ -111,7 +111,7 @@ function useStateAndEventDispatch({ submitting, isValid, touched, signedIn, ...p
 
 	const [{ state, previousState }, dispatchChange] = useReducer(signInComponentReducer, { state: 'isReady', previousState: '' });
 
-	const signInErrorRef = useValueAsRef(props.lastSignInAttemptError!);
+	const signInErrorRef = useValueAsRef(props.lastSignInAttemptError);
 	const onSubmittingRef = useValueAsRef(props.onSubmitting);
 	const onSuccessRef = useValueAsRef(props.onSuccess);
 	const onFailureRef = useValueAsRef(props.onFailure);
@@ -244,14 +244,14 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				emailLabel={emailLabel}
 				passwordLabel={passwordLabel}
 				failed={failed}
-				lastSignInAttemptError={lastSignInAttemptError!}
+				lastSignInAttemptError={lastSignInAttemptError as NetworkError}
 				classes={classes}
 				loginHeaderLabel={loginHeaderLabel}
 				submitting={submitting}
-				onFailure={onFailure!}
-				onSubmitting={onSubmitting!}
-				onSuccess={onSuccess!}
-				showProgressAndSuccess={showProgressAndSuccess!}
+				onFailure={onFailure as (error: NetworkError) => void}
+				onSubmitting={onSubmitting as () => void}
+				onSuccess={onSuccess as () => void}
+				showProgressAndSuccess={showProgressAndSuccess as boolean}
 				signedIn={signedIn}
 				form={form}
 			/>

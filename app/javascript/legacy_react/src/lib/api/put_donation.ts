@@ -5,7 +5,7 @@ import {Configuration} from "../../../api/configuration";
 export class PutDonation {
   protected basePath = '/';
   public defaultHeaders: Array<string> = [];
-  public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings = null!;
+  public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings;
   public configuration: Configuration = new Configuration();
 
   constructor(basePath?: string, configuration?: Configuration, defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings) {

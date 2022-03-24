@@ -5,8 +5,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 interface StyledProps {
 	animationDuration: number;
-	backgroundColor: string;
-	checkColor: string;
+	backgroundColor: string | undefined;
+	checkColor: string | undefined;
 	checkThickness: number;
 	explosion: number;
 	height: number;
@@ -134,8 +134,8 @@ function AnimatedCheckmark(props: AnimatedCheckmarkProps): JSX.Element {
 
 
 	const classes = useStyles({
-		backgroundColor: props.backgroundColor!,
-		checkColor: props.checkColor!,
+		backgroundColor: props.backgroundColor,
+		checkColor: props.checkColor,
 		checkThickness: props.checkThickness,
 		animationDuration: props.animationDuration,
 		explosion: props.explosion,

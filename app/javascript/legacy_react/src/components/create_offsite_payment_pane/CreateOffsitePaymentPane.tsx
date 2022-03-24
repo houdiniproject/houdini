@@ -30,7 +30,7 @@ export interface CreateOffsitePaymentPaneProps
   campaigns: FundraiserInfo[]
   nonprofitId: number
   supporterId:number
-  nonprofitTimezone?: string
+  nonprofitTimezone: string
   preupdateDonationAction:() => void
   postUpdateSuccess: () => void
 
@@ -61,7 +61,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
 
   @computed
   get nonprofitTimezonedDates():NonprofitTimezonedDates {
-    return new NonprofitTimezonedDates(this.props.nonprofitTimezone!)
+    return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
   }
 
   postOffsiteDonation : CreateOffsiteDonation
@@ -164,7 +164,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
 
       params.check_number = {name: 'check_number', label: 'Check Number'}
 
-      params.date.validators = [Validations.isDate('MM/DD/YYYY')]
+      params.date.validators = [Validations.isDate('MM/DD/YYYY')];
 
       params.gross_amount.validators  = [Validations.isGreaterThanOrEqualTo(0.01)];
 
@@ -184,7 +184,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
   }
 
   @computed get dateFormatter(): NonprofitTimezonedDates {
-    return new NonprofitTimezonedDates(this.props.nonprofitTimezone!)
+    return new NonprofitTimezonedDates(this.props.nonprofitTimezone)
   }
 
   render() {

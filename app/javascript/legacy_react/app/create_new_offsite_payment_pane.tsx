@@ -21,7 +21,7 @@ function LoadReactPage(element:HTMLElement, campaigns: FundraiserInfo[],
   //from ModalProps
   onClose: () => void,
   modalActive: boolean,
-  nonprofitTimezone?: string) {
+  nonprofitTimezone: string) {
   ReactDOM.render(<Root><CreateOffsitePaymentPane campaigns={campaigns}
     events={events} onClose={onClose}
      modalActive={modalActive} nonprofitTimezone={nonprofitTimezone}

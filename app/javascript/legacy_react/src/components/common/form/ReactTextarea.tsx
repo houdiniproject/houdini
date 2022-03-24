@@ -24,7 +24,7 @@ class ReactTextarea extends React.Component<InputTypes, {}> {
   @action.bound
   componentWillMount(){
 
-    this.field = this.props.field!
+    this.field = this.props.field as Field
 
 
     this.updateProps()

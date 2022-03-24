@@ -26,9 +26,9 @@ export interface UseCurrentUserReturnType {
 	 * @type {CurrentUser}
 	 * @memberof UserCurrentUserReturnType
 	 */
-	currentUser?: CurrentUser;
+	currentUser?: CurrentUser | null ;
 
-	error: unknown;
+	error: unknown | null;
 
 	/**
 	 * true if there's a current user, false otherwise.
@@ -75,7 +75,7 @@ function useCurrentUser<TReturnType extends UseCurrentUserReturnType = UseCurren
 	const initialCurrentUser = useContext(InitialCurrentUserContext);
 
 	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(users.apiUsersCurrent.url(), getCurrent, { fallbackData: initialCurrentUser });
-	const currentUser = error?.status === NotLoggedInStatus ? null! : data!;
+	const currentUser = error?.status === NotLoggedInStatus ? null : data;
 
 	async function revalidate() {
 		return mutate();

@@ -12,6 +12,6 @@ export function isFilled(i:null|undefined|string) : boolean {
 }
 
 export function castToUndefinedIfBlank(i:null|undefined|string) :
-    string | undefined {
-  return isBlank(i) ? undefined! : i!;
+    string | undefined | null {
+  return isBlank(i) ? undefined : i;
 }

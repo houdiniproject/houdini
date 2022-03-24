@@ -21,7 +21,7 @@
 <% end %>
 
 <%= content_for :javascripts do %>
-	<%= javascript_pack_tag 'i18n', 'page__nonprofits__show', 'page__nonprofits__edit' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__nonprofits__show', 'page__nonprofits__edit' %>
 	<script>
 		app.header_image_url = '<%= @nonprofit_background_image %>'
 		app.current_nonprofit_user = <%= current_nonprofit_user? %>

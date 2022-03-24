@@ -5,7 +5,6 @@
 
 json.object 'donation'
 
-
 json.(assignable, :designation)
 
 json.amount do

@@ -7,10 +7,10 @@ json.id object.houid
 
 json.object 'simple_object'
 
-handle_expansion(:parent, object.parent, {json: json, as: :object, __expand: __expand})
+handle_expansion(:parent, object.parent, { json: json, as: :object, __expand: __expand })
 
-handle_expansion(:nonprofit, object.nonprofit, {json: json, __expand: __expand})
+handle_expansion(:nonprofit, object.nonprofit, { json: json, __expand: __expand })
 
-handle_array_expansion(:friends, object.friends, {json: json, item_as: :object, __expand: __expand}) do |friend, opts|
-  handle_item_expansion(friend, opts)
+handle_array_expansion(:friends, object.friends, { json: json, item_as: :object, __expand: __expand }) do |friend, opts|
+	handle_item_expansion(friend, opts)
 end

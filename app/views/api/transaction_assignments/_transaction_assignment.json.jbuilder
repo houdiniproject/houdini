@@ -6,9 +6,8 @@ json.type 'trx_assignment'
 
 json.id transaction_assignment.id
 
-handle_expansion(:supporter, transaction_assignment.supporter, {json: json, __expand: __expand})
-handle_expansion(:nonprofit, transaction_assignment.nonprofit,  {json: json, __expand: __expand})
-handle_expansion(:transaction, transaction_assignment.trx, {json: json, __expand: __expand})
-
+handle_expansion(:supporter, transaction_assignment.supporter, { json: json, __expand: __expand })
+handle_expansion(:nonprofit, transaction_assignment.nonprofit, { json: json, __expand: __expand })
+handle_expansion(:transaction, transaction_assignment.trx, { json: json, __expand: __expand })
 
 json.partial! transaction_assignment.assignable, as: :assignable, __expand: __expand

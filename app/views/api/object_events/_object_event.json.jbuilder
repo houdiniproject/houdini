@@ -1,4 +1,3 @@
-
 # frozen_string_literal: true
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
@@ -9,7 +8,7 @@ json.created object_event.created.to_i
 json.object 'object_event'
 json.type object_event.event_type
 json.data do
-  json.object do
-    json.partial! partial_path, event_entity: object_event.event_entity
-  end
+	json.object do
+		json.partial! partial_path, event_entity: object_event.event_entity
+	end
 end

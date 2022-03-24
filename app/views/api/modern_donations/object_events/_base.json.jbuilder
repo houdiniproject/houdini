@@ -4,9 +4,9 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
 json.partial! 'api_new/transaction_assignments/transaction_assignment',
-  transaction_assignment: event_entity.transaction_assignment,
-  __expand: request_expansions(
-    'transaction', 
-    'transaction.transaction_assignments',
-    'transaction.subtransaction.payments'
-  )
+														transaction_assignment: event_entity.transaction_assignment,
+														__expand: request_expansions(
+															'transaction',
+															'transaction.transaction_assignments',
+															'transaction.subtransaction.payments'
+														)

@@ -3,16 +3,16 @@
 class Houdini::PaymentProvider::Registry
     def initialize(configurations)
         @configurations = configurations.deep_dup
-        @providers = {}
+        @providers = OpenStruct.new
     end
     
     def build_all
-        configurations.each_key do |key|
-            resolve(key)
-            configurations[key] = Houdini::PaymentProvider.build(key)
-        end
+      configurations.each do |key, options={}|
+          resolve(key)
+          providers[key] = Houdini::PaymentProvider.build(key, options)
+      end
 
-      configurations
+      providers
     end
 
     private

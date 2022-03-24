@@ -5,7 +5,8 @@ class Houdini::PaymentProvider::StripeProvider
 
     attr_accessor :private_key, :public_key, :connect, :proprietary_v2_js
     def initialize(attributes={})
-        assign_attributes(attributes) if attributes
+        # attributes will always be from OrderedOptions so we'll make this .to_h for now
+        assign_attributes(attributes.to_h)
         require 'stripe'
         Stripe.api_key = private_key
     end

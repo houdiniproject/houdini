@@ -4,12 +4,12 @@ import React, { MutableRefObject } from "react";
 
 import MuiTextField from '@material-ui/core/TextField';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
-import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
+import { Control, ControllerFieldState, FormState, useController, FieldValues, Path } from "react-hook-form";
 import { useId } from "@reach/auto-id";
 
 interface ConversionProps<T extends unknown = unknown> {
 	disabled?:boolean;
-	field: ControllerRenderProps<string | any, string> | any;
+	field: FieldValues;
 	fieldState: ControllerFieldState;
 	formState: FormState<T>;
 	helperText?:React.ReactNode;
@@ -67,16 +67,12 @@ function TextField<TFieldValues=unknown>({ children, control, name, id:passedId,
 		fieldState,
 		formState,
 	} = useController({
-		name,
+		name: name as Path<TFieldValues>,
 		control,
 	});
 
 	const generatedId = useId();
 	const id = passedId || generatedId;
-
-
-
-
 
 	return <MuiTextField {...fieldToTextField({ field, fieldState, formState,  ...props })} id={id}>
 		{children}

@@ -37,7 +37,7 @@ the web server process, but in production mode this should be done beforehand
 (`config.assets.compile = false`). To compile the assets, run:
 
 ```sh
-bin/rake assets:precompile
+bin/rails assets:precompile
 ```
 
 As mentioned above, this step is memory intensive and will likely fail on

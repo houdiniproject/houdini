@@ -33,7 +33,7 @@ Run `cp .env.template .env` to copy the provided template file for env
 variables to create your own.
 
 You'll need to provide a `DEVISE_SECRET_KEY` and `SECRET_TOKEN` which you can
-obtain by running `bundle exec rake secret`.
+obtain by running `bundle exec bin/rails secret`.
 
 Set the following secrets in your `.env` file with your _Stripe account_ information.
 
@@ -51,15 +51,15 @@ can [learn more here](https://aws.amazon.com/blogs/security/wheres-my-secret-acc
 
 _Setting up the local database:_
 
-Run `rake db:setup` to run all the db tasks within one command. This will
+Run `bin/rails db:setup` to run all the db tasks within one command. This will
 create the dbs for each environment, load the `structure.sql`, run
 pending migrations and will also run the seed functionality.
 
 ---
 
 **Known problems**
-If you encounter `database doesnt exist in rake db create` after running
-both `rake db:setup` and `rake db:create`, you'll need to comment out
+If you encounter `database doesnt exist in bin/rails db create` after running
+both `bin/rails db:setup` and `bin/rails db:create`, you'll need to comment out
 the lines these lines at `pg_type_map.rb`
 
 ```ruby

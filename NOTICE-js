@@ -757,6 +757,7 @@ Copyright (c) Facebook, Inc. and its affiliates.
 ** @jest/test-sequencer; version 26.4.2 -- https://github.com/facebook/jest#readme
 Copyright (c) Facebook, Inc. and its affiliates.
 ** @jest/transform; version 26.6.2 -- https://github.com/facebook/jest#readme
+Copyright (c) Facebook, Inc. and its affiliates
 ** @jest/types; version 26.6.2 -- https://github.com/facebook/jest#readme
 Copyright (c) Facebook, Inc. and its affiliates.
 
@@ -23182,7 +23183,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 ------
 
 ** json-stable-stringify-without-jsonify; version 1.0.1 -- https://github.com/samn/json-stable-stringify
-** minimist; version 1.2.5 -- https://github.com/substack/minimist
+** minimist; version 1.2.6 -- https://github.com/substack/minimist
 
 This software is released under the MIT license:
 

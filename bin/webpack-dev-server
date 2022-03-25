@@ -18,6 +18,6 @@ end
 
 APP_ROOT = File.expand_path("..", __dir__)
 Dir.chdir(APP_ROOT) do
-  system!("rake i18n:js:export")
+  system!("bin/rails i18n:js:export")
   Webpacker::DevServerRunner.run(ARGV)
 end

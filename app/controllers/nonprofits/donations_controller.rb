@@ -17,9 +17,9 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/donations
     def create
-      if params[:token]
-        donations_params[:token] = params[:token]
-        render_json { InsertDonation.with_stripe(donations_params, current_user) }
+      if params[:token] 
+        @result =  InsertDonation.with_stripe(donations_params.merge(token:params[:token]), current_user) 
+      
       elsif params[:direct_debit_detail_id]
         render JsonResp.new(donations_params) do |_data|
           requires(:amount).as_int
@@ -82,9 +82,9 @@ module Nonprofits
     end
 
     private
-
     def donations_params
-      params.require(:donation).permit(:date, :amount, :recurring, :anonymous, :email, :designation, :dedication, :comment, :origin_url, :nonprofit_id, :card_id, :supporter_id, :profile_id, :campaign_id, :payment_id, :event_id, :direct_debit_detail_id, :payment_provider)
+      binding.break
+      params.require(:donation).permit(:date, :amount, :recurring, :anonymous, :email, :designation, :dedication, :comment, :origin_url, :nonprofit_id, :card_id, :supporter_id, :profile_id, :campaign_id, :payment_id, :event_id, :direct_debit_detail_id, :token)
     end
   end
 end

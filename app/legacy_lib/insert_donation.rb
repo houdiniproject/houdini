@@ -9,8 +9,8 @@ module InsertDonation
   # designation, dedication
   # recurring_donation if is recurring
   def self.with_stripe(data, current_user = nil)
-    data = data.with_indifferent_access
-
+    data = data.to_h.with_indifferent_access
+    binding.break
     ParamValidation.new(data, common_param_validations
                                   .merge(token: { required: true, format: UUID::Regex }))
 

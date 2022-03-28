@@ -4,5 +4,5 @@
 donation = @result['donation']
 
 json.donation do
- 	json.id donation.id
+	json.id donation.id
 end

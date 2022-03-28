@@ -80,6 +80,11 @@ reloading, run `bin/webpack-dev-server` in a second console. Now after making a
 change to the JavaScript code you should see Webpack immediately rebuild the
 assets and perform a full page reload.
 
+In development, it's **important** to access the Houdini at
+`http://localhost:5000`, rather than the `http://127.0.0.1:5000` that Rails
+suggests in the console. This ensures that the hard-coded callbacks in the
+JavaScript code will work, such as during donation payment.
+
 It's worth noting that the in-process build, the one-off `bin/webpack` build and
 `bin/webpack-dev-server` build all set `NODE_ENV=development` which skips some
 optimisation steps. The `bin/rake assets:precompile` task sets

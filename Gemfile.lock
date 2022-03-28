@@ -131,8 +131,8 @@ GEM
     connection_pool (2.2.5)
     console (1.13.1)
       fiber-local
-    countries (4.2.2)
-      i18n_data (~> 0.15.0)
+    countries (4.2.3)
+      i18n_data (~> 0.16.0)
       sixarm_ruby_unaccent (~> 1.1)
     crack (0.4.5)
       rexml
@@ -202,7 +202,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
-    i18n_data (0.15.0)
+    i18n_data (0.16.0)
       simple_po_parser (~> 1.1)
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
@@ -401,7 +401,7 @@ GEM
     semantic_range (3.0.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
-    simple_po_parser (1.1.5)
+    simple_po_parser (1.1.6)
     sixarm_ruby_unaccent (1.2.0)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)

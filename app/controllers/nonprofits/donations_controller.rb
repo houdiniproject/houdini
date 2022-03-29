@@ -83,7 +83,6 @@ module Nonprofits
 
     private
     def donations_params
-      binding.break
       params.require(:donation).permit(:date, :amount, :recurring, :anonymous, :email, :designation, :dedication, :comment, :origin_url, :nonprofit_id, :card_id, :supporter_id, :profile_id, :campaign_id, :payment_id, :event_id, :direct_debit_detail_id, :token)
     end
   end

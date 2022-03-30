@@ -131,7 +131,7 @@ class CampaignsController < ApplicationController # rubocop:disable Metrics/Clas
 	private
 
 	def check_nonprofit_status
-		raise ActionController::RoutingError, 'Not Found' if !current_role?(:super_admin) && !current_nonprofit.published
+	#	raise ActionController::RoutingError, 'Not Found' if !current_role?(:super_admin) && !current_nonprofit.published
 	end
 
 	def campaign_params # rubocop:disable Metrics/MethodLength

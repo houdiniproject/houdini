@@ -66,7 +66,6 @@ module InsertCharge
     # Catch errors thrown by the stripe gem so we can respond with a 422 with an error message rather than 500
     begin
       stripe_customer_id = card.stripe_customer_id
-      stripe_account_id = StripeAccount.find_or_create(data[:nonprofit_id])
     rescue StandardError => e
       raise e
     end

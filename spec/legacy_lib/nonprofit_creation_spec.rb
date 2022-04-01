@@ -57,7 +57,7 @@ RSpec.describe NonprofitCreation do
 		end
 
 		it { is_expected.to_not be_super_admin }
-		it { is_expected.to_not be_confirmed }
+		it { is_expected.to be_confirmed }
 
 		it { is_expected.to have_attributes(name: 'User Name') }
 	end
@@ -72,7 +72,7 @@ RSpec.describe NonprofitCreation do
 			result[:user][:email] = 'anotherusername@email.com'
 		end
 
-		let(:options) { { super_admin: true } }
+		let(:options) { { super_admin: true, confirm_user: false } }
 
 		it { is_expected.to be_super_admin }
 		it { is_expected.to_not be_confirmed }

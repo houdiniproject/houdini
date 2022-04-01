@@ -202,7 +202,7 @@ There are available arguments that add configurations on the nonprofit's creatio
 
 ```bash
   -s, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
-      [--confirm-admin], [--no-confirm-admin]  # Require the nonprofit admin to be confirmed via email
+      [--confirm-admin], [--no-confirm-admin]  # Autoconfirm the admin instead of waiting for them to click the email link
                                                # Default: true
 ```
 

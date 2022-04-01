@@ -10,7 +10,7 @@ describe CardsController, type: :controller do
     include_context :shared_user_context
     describe 'accept all' do
       describe 'create' do
-        include_context :open_to_all, :post, :create, nonprofit_id: :__our_np
+        include_context :open_to_all, :post, :create, nonprofit_id: :__our_np, with_status: 204
       end
     end
   end

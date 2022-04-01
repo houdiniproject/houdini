@@ -99,7 +99,7 @@ RSpec.shared_context :shared_user_context do
     else
       expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(204))
       send(method, action, reduce_params(*args))
-      expect(response.status).to eq(test_variables[:with_status] || 204)
+      expect(response.status.to_s).to start_with '2'
     end
   end
 

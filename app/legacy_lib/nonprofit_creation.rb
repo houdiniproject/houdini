@@ -6,7 +6,7 @@
 #
 # NOTE: this should be moved to bess when Nonprofit and wiki is
 class NonprofitCreation
-	def initialize(result, options = nil)
+	def initialize(result, options = {})
 		result = sanitize_optional_fields(result)
 		@nonprofit = ::Nonprofit.new(result[:nonprofit].merge({ register_np_only: true }))
 		@user = User.new(result[:user])
@@ -14,11 +14,10 @@ class NonprofitCreation
 	end
 
 	def call
-		@user.skip_confirmation! if @options&.dig(:no_confirm_admin)
-
 		result = {}
 		ActiveRecord::Base.transaction do
 			result = if @user.save && @nonprofit.save && roles.each(&:save)
+													@user.confirm if @options[:confirm_admin]
 													{ success: true, messages: ["Nonprofit #{@nonprofit.id} successfully created."] }
 												else
 													retrieve_error_messages
@@ -53,7 +52,7 @@ class NonprofitCreation
 
 	def roles
 		roles = [Role.new(host: @nonprofit, name: 'nonprofit_admin', user: @user)]
-		roles << Role.new(host: @nonprofit, name: 'super_admin', user: @user) if @options&.dig(:super_admin)
+		roles << Role.new(host: @nonprofit, name: 'super_admin', user: @user) if @options[:super_admin]
 		roles
 	end
 

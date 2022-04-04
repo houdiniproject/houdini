@@ -429,7 +429,7 @@ limitations under the License.
 
 ------
 
-** pg; version 1.3.4 -- 
+** pg; version 1.3.5 -- 
 Copyright (c) 1997-2019 by the
 Portions copyright LAIKA, Inc.
 Copyright (c) 1993-2013 Yukihiro Matsumoto
@@ -1838,7 +1838,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** loofah; version 2.14.0 -- 
+** loofah; version 2.16.0 -- 
 Copyright (c) 2006-2008 The Authors
 Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
 
@@ -2630,10 +2630,10 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 ------
 
-** concurrent-ruby; version 1.1.9 -- 
+** concurrent-ruby; version 1.1.10 -- 
 Copyright Concurrent Ruby
 Copyright (c) Jerry D'Antonio
-Copyright (c) 2014 Jerry D'Antonio (https://twitter.com/jerrydantonio).
+Copyright (c) 2014 Jerry D'Antonio (https://twitter.com/jerrydantonio)
 
 Copyright (c) Jerry D'Antonio -- released under the MIT license.
 
@@ -3768,7 +3768,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** request_store; version 1.5.0 -- 
+** request_store; version 1.5.1 -- 
 Copyright (c) 2012 Steve Klabnik
 
 Copyright (c) 2012 Steve Klabnik
@@ -3949,7 +3949,7 @@ SOFTWARE.
 
 ------
 
-** lograge; version 0.11.2 -- 
+** lograge; version 0.12.0 -- 
 Copyright (c) 2016 Mathias Meyer
 
 The MIT License (MIT)
@@ -4539,8 +4539,8 @@ Apache-2.0 OR (Artistic-2.0 OR (BSD-3-Clause OR (GPL-3.0 OR (MIT OR MPL-2.0))))
 
 ------
 
-** debug; version 1.4.0 -- 
-Copyright (c) 1993-2013 Yukihiro Matsumoto.
+** debug; version 1.5.0 -- 
+Copyright (c) 1993-2013 Yukihiro Matsumoto
 ** io-console; version 0.5.11 -- 
 Copyright (c) 1993-2013 Yukihiro Matsumoto.
 ** irb; version 1.4.1 -- 

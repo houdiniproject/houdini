@@ -133,7 +133,7 @@
     "mobx-utils": "^5.0.1",
     "moment": "^2.22.2",
     "moment-range": "2.2.0",
-    "moment-timezone": "^0.5.21",
+    "moment-timezone": "^0.5",
     "no-scroll": "^2.1.0",
     "parsleyjs": "2.0.7",
     "percent": "1.1.1",

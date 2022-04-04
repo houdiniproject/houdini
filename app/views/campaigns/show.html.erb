@@ -88,8 +88,8 @@
 
     <% if !@campaign.child_campaign? %>
       <aside class='u-marginBottom--15 pastelBox--grey'>
-        <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='<%= @campaign.deadline_has_been_reached? "/peer-to-peer?npo_id=#{@nonprofit.id}" : "/peer-to-peer?campaign_id=#{ @peer_to_peer_campaign_param}" %>'>
-          Start Your Own Campaign for <%= @nonprofit.name %>
+        <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='<%= @campaign.finished? ? "/peer-to-peer?npo_id=#{@nonprofit.id}" : "/peer-to-peer?campaign_id=#{ @peer_to_peer_campaign_param}" %>'>
+        Start Your Own Campaign for <%= @nonprofit.name %>
         </a>
       </aside>
     <% end %>

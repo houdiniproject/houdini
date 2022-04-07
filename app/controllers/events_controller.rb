@@ -39,9 +39,9 @@ class EventsController < ApplicationController
         start_datetime = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
         end_datetime = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
       end
-      ev = current_nonprofit.events.create!(**event_params, start_datetime: start_datetime, end_datetime: end_datetime)
+      event = current_nonprofit.events.create!(**event_params, start_datetime: start_datetime, end_datetime: end_datetime)
       flash[:notice] = 'Your draft event has been created! Well done.'
-      { url: "/events/#{ev.slug}" }
+      { url: "/events/#{event.slug}" }
     end
   end
 

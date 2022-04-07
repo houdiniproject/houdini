@@ -21,10 +21,10 @@ class Users::SessionsController < Devise::SessionsController
   # A simple action to confirm an entered password for a user who is already signed in
   def confirm_auth
     if current_user.valid_password?(params[:password])
-      tok = SecureRandom.uuid
-      session[:pw_token] = tok
+      token = SecureRandom.uuid
+      session[:pw_token] = token
       session[:pw_timestamp] = Time.current.to_s
-      render json: { token: tok }, status: :ok
+      render json: { token: token }, status: :ok
     else
       render json: ["Incorrect password. Please enter your #{Houdini.general.name} %> password."], status: :unprocessable_entity
     end

@@ -9,8 +9,8 @@ class TicketLevelsController < ApplicationController
   before_action :authenticate_event_editor!, except: %i[index show]
 
   def index
-    ev_id = current_event.id
-    render json: { data: QueryTicketLevels.with_event_id(ev_id, current_role?(:event_editor, ev_id) || current_role?(:super_admin) || current_role?(:nonprofit_admin, current_event.nonprofit_id)) }
+    event_id = current_event.id
+    render json: { data: QueryTicketLevels.with_event_id(event_id, current_role?(:event_editor, event_id) || current_role?(:super_admin) || current_role?(:nonprofit_admin, current_event.nonprofit_id)) }
   end
 
   def show

@@ -37,7 +37,8 @@ the web server process, but in production mode this should be done beforehand
 (`config.assets.compile = false`). To compile the assets, run:
 
 ```sh
-bin/rails assets:precompile
+RAILS_ENV=production bin/rails assets:clobber
+RAILS_ENV=production bin/rails assets:precompile
 ```
 
 As mentioned above, this step is memory intensive and will likely fail on

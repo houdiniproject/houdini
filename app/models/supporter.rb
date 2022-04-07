@@ -94,6 +94,30 @@ class Supporter < ActiveRecord::Base
     end
   end
 
+  def calculated_first_name
+    name_parts = name&.strip&.split(' ')&.map(&:strip)
+    case name_parts&.count || 0
+    when 0
+      nil
+    when 1
+      name_parts[0]
+    else
+      name_parts[0..-2].join(" ")
+    end
+  end
+
+  def calculated_last_name
+    name_parts = name&.strip&.split(' ')&.map(&:strip)
+    case name_parts&.count || 0
+    when 0
+      nil
+    when 1
+      nil
+    else
+      name_parts[-1]
+    end
+  end
+
   def profile_picture size=:normal
     return unless self.profile
     self.profile.get_profile_picture(size)

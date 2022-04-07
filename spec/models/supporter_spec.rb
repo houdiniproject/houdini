@@ -5,6 +5,61 @@ RSpec.describe Supporter, type: :model do
   it { is_expected.to have_many(:addresses).class_name("SupporterAddress")}
   it { is_expected.to belong_to(:primary_address).class_name("SupporterAddress")}
 
+
+  describe "#calculated_first_name" do
+    it "has nil name" do
+      supporter = build_stubbed(:supporter, name: nil)
+      expect(supporter.calculated_first_name).to be_nil
+    end
+
+    it "has blank name" do
+      supporter = build_stubbed(:supporter, name: "")
+      expect(supporter.calculated_first_name).to be_nil
+    end
+
+    it "has one word name" do
+      supporter = build_stubbed(:supporter, name: "Penelope")
+      expect(supporter.calculated_first_name).to eq "Penelope"
+    end
+
+    it "has two word name" do
+      supporter = build_stubbed(:supporter, name: "Penelope Schultz")
+      expect(supporter.calculated_first_name).to eq "Penelope"
+    end
+
+    it "has three word name" do
+      supporter = build_stubbed(:supporter, name: "Penelope Rebecca Schultz")
+      expect(supporter.calculated_first_name).to eq "Penelope Rebecca"
+    end
+  end
+
+  describe "#calculated_last_name" do
+    it "has nil name" do
+      supporter = build_stubbed(:supporter, name: nil)
+      expect(supporter.calculated_last_name).to be_nil
+    end
+
+    it "has blank name" do
+      supporter = build_stubbed(:supporter, name: "")
+      expect(supporter.calculated_last_name).to be_nil
+    end
+
+    it "has one word name" do
+      supporter = build_stubbed(:supporter, name: "Penelope")
+      expect(supporter.calculated_last_name).to be_nil
+    end
+
+    it "has two word name" do
+      supporter = build_stubbed(:supporter, name: "Penelope Schultz")
+      expect(supporter.calculated_last_name).to eq "Schultz"
+    end
+
+    it "has three word name" do
+      supporter = build_stubbed(:supporter, name: "Penelope Rebecca Schultz")
+      expect(supporter.calculated_last_name).to eq "Schultz"
+    end
+  end
+
   describe "#cleanup_name" do 
     it 'keeps name when no first and last name' do
       s = Supporter.new(name: 'Penelope')

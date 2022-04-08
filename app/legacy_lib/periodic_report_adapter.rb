@@ -2,7 +2,9 @@
 class PeriodicReportAdapter
   extend ActiveSupport::Autoload
 
+  autoload :CancelledRecurringDonationsReport
   autoload :FailedRecurringDonationsReport
+  
 
   REPORT = 'Report'
   private_constant :REPORT

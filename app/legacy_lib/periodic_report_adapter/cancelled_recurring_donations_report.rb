@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class PeriodicReportAdapter::FailedRecurringDonationsReport < PeriodicReportAdapter
+class PeriodicReportAdapter::CancelledRecurringDonationsReport < PeriodicReportAdapter
   def initialize(options)
     @nonprofit_id = options[:nonprofit_id]
     @period = options[:period]
@@ -13,7 +13,7 @@ class PeriodicReportAdapter::FailedRecurringDonationsReport < PeriodicReportAdap
   private
 
   def params
-    { :failed => true, :include_last_failed_charge => true }.merge(period)
+    { :active => false }.merge(period)
   end
 
   def period
@@ -22,8 +22,8 @@ class PeriodicReportAdapter::FailedRecurringDonationsReport < PeriodicReportAdap
 
   def last_month
     {
-      :from_date => (Time.current - 1.month).beginning_of_month,
-      :before_date => Time.current.beginning_of_month
+      :cancelled_at_gt_or_eq => (Time.current - 1.month).beginning_of_month,
+      :cancelled_at_lt => Time.current.beginning_of_month
     }
   end
 end

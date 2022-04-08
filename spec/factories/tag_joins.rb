@@ -6,4 +6,8 @@ FactoryBot.define do
     created_at {DateTime.now}
     updated_at {DateTime.now}
   end
+
+  factory :tag_join_base, class: 'TagJoin' do
+    tag_master { association :tag_master_base}
+  end
 end

@@ -66,8 +66,23 @@ class Supporter < ActiveRecord::Base
   has_many :activities, dependent: :destroy
   has_many :tickets
   has_many :recurring_donations
-  has_many :tag_joins, dependent: :destroy
-  has_many :tag_masters, through: :tag_joins
+
+  concerning :Tags do
+    included do
+      has_many :tag_joins, dependent: :destroy
+      has_many :tag_masters, through: :tag_joins
+      has_many :undeleted_tag_masters, -> { not_deleted }, through: :tag_joins, source: 'tag_master'
+    end
+  end
+
+  concerning :EmailLists do
+    include Supporter::Tags # not needed but helpful for tracking dependencies
+    included do
+      has_many :email_lists, through: :tag_masters
+      has_many :active_email_lists, through: :undeleted_tag_masters, source: :email_list
+    end
+  end
+  
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_masters, through: :custom_field_joins
   belongs_to :merged_into, class_name: 'Supporter', :foreign_key => 'merged_into'

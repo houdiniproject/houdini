@@ -3,4 +3,9 @@ FactoryBot.define do
   factory :tag_master do
 
   end
+
+  factory :tag_master_base, class: "TagMaster" do
+    sequence(:name) {|i| "tag_name_#{i}"}
+    deleted { false }
+  end
 end

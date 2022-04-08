@@ -4,6 +4,42 @@ require 'rails_helper'
 RSpec.describe Supporter, type: :model do
   it { is_expected.to have_many(:addresses).class_name("SupporterAddress")}
   it { is_expected.to belong_to(:primary_address).class_name("SupporterAddress")}
+  
+  describe 'Supporter::Tags' do
+    it { is_expected.to have_many(:tag_joins)}
+    it { is_expected.to have_many(:tag_masters).through(:tag_joins)}
+    it { is_expected.to have_many(:undeleted_tag_masters).through(:tag_joins).class_name("TagMaster").source('tag_master')}
+
+    describe '.undeleted_tag_masters' do
+      it 'only contains undeleted tags masters' do
+        nonprofit = create(:nonprofit_base)
+        undeleted_tag_master = create(:tag_master_base, nonprofit: nonprofit)
+        deleted_tag_master = create(:tag_master_base, nonprofit: nonprofit, deleted: true)
+        supporter = create(:supporter_base, nonprofit: nonprofit, tag_joins: [build(:tag_join_base, tag_master: undeleted_tag_master), build(:tag_join_base, tag_master: deleted_tag_master)])
+
+        expect(supporter.undeleted_tag_masters).to contain_exactly(undeleted_tag_master)
+        
+      end
+    end
+  end
+
+  describe 'Supporter::EmailLists' do
+    it { is_expected.to have_many(:email_lists).through(:tag_masters) }
+    it { is_expected.to have_many(:active_email_lists).through(:undeleted_tag_masters).source("email_list") }
+
+    describe '.active_email_lists' do 
+      it 'only contains an active email list tags masters' do
+        nonprofit = create(:nonprofit_base)
+        undeleted_tag_master = create(:tag_master_base, nonprofit: nonprofit, email_list: build(:email_list_base, nonprofit: nonprofit))
+        deleted_tag_master = create(:tag_master_base, nonprofit: nonprofit, deleted: true, email_list: build(:email_list_base, nonprofit: nonprofit))
+        supporter = create(:supporter_base, nonprofit: nonprofit, tag_joins: [build(:tag_join_base, tag_master: undeleted_tag_master), build(:tag_join_base, tag_master: deleted_tag_master)])
+
+        expect(supporter.active_email_lists).to contain_exactly(undeleted_tag_master.email_list)
+        
+      end
+    end
+  end
+
 
 
   describe "#calculated_first_name" do

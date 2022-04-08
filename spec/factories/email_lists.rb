@@ -2,4 +2,9 @@ FactoryBot.define do
   factory :email_list do
     
   end
+
+  factory :email_list_base, class: 'EmailList' do
+    sequence(:list_name) {|i|"list_name#{i}"}
+    sequence(:mailchimp_list_id) {|i| "mailchimp_list_id#{i}"}
+  end
 end

@@ -25,5 +25,9 @@ FactoryBot.define do
       supporter { association  :supporter}
       amount  {500}
     end
-  end  
+  end 
+  
+  factory :donation_base, class: 'Donation' do
+    amount { 999 }
+  end
 end

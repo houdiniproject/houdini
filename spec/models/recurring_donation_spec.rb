@@ -47,4 +47,40 @@ RSpec.describe RecurringDonation, type: :model do
 
     it {is_expected.to include ends_in_future}
   end
+
+  describe '#cancel!' do
+    it 'requires an email' do
+      expect{ build_stubbed(:recurring_donation_base).cancel!}.to raise_error ArgumentError
+    end
+
+    it 'does nothing if the recurring donation is not persisted' do
+      recurring_donation = build(:recurring_donation_base)
+      recurring_donation.cancel!("penelope@rebecca.schultz")
+      expect(recurring_donation).to have_attributes(
+        'active' => true,
+        'cancelled_at' => nil,
+        'cancelled_by' => nil
+      )
+    end
+
+    it 'cancels a persisted rd properly' do 
+      nonprofit = create(:nonprofit_base)
+      supporter = create(:supporter_base, nonprofit: nonprofit)
+      donation = create(:donation_base, nonprofit: nonprofit, supporter_id: supporter.id, amount: 999)
+      freeze_time = Time.new(2020, 5, 4)
+      recurring_donation = create(:recurring_donation_base, nonprofit: nonprofit, supporter_id: supporter.id, donation: donation)
+      Timecop.freeze freeze_time do
+        recurring_donation.cancel!("penelope@rebecca.schultz")
+        expect(recurring_donation).to have_attributes(
+          'active' => false,
+          'cancelled_at' => freeze_time,
+          'cancelled_by' => "penelope@rebecca.schultz"
+        )
+
+        expect(recurring_donation).to be_persisted
+      end
+    end
+
+
+  end
 end

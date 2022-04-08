@@ -5,15 +5,13 @@ describe UpdateRecurringDonations do
   let!(:automated_user) { create(:automated_user)}
   # deactivate a recurring donation
   describe '.cancel' do
-    before(:each) do
-    end
 
     let(:np) { force_create(:nonprofit)}
     let(:s) { force_create(:supporter)}
-    let(:donation)  {force_create(:donation, nonprofit_id: np.id, supporter_id: s.id)}
+    let(:donation)  {create(:donation, nonprofit_id: np.id, supporter_id: s.id, amount: 999)}
     let(:email) {'test@test.com' }
     let!(:rd) {
-      inner_rd = force_create(:recurring_donation, amount:999, active:true, supporter_id: s.id, donation_id: donation.id, nonprofit_id: np.id)
+      inner_rd = create(:recurring_donation_base, amount:999, active:true, supporter_id: s.id, donation_id: donation.id, nonprofit_id: np.id)
       UpdateRecurringDonations.cancel(inner_rd.id, email)}
 
 

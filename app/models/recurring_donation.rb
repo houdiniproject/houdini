@@ -80,12 +80,10 @@ class RecurringDonation < ActiveRecord::Base
   end
 
   def cancel!(email)
-    if persisted?
-      self.active = false
-      self.cancelled_by = email
-      self.cancelled_at = Time.current
-      save!
-    end
+    self.active = false
+    self.cancelled_by = email
+    self.cancelled_at = Time.current
+    save!
   end
 
   # XXX let's make these monthly_totals a query

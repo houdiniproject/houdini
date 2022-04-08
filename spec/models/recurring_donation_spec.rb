@@ -53,17 +53,7 @@ RSpec.describe RecurringDonation, type: :model do
       expect{ build_stubbed(:recurring_donation_base).cancel!}.to raise_error ArgumentError
     end
 
-    it 'does nothing if the recurring donation is not persisted' do
-      recurring_donation = build(:recurring_donation_base)
-      recurring_donation.cancel!("penelope@rebecca.schultz")
-      expect(recurring_donation).to have_attributes(
-        'active' => true,
-        'cancelled_at' => nil,
-        'cancelled_by' => nil
-      )
-    end
-
-    it 'cancels a persisted rd properly' do 
+    it 'cancels an rd properly' do 
       nonprofit = create(:nonprofit_base)
       supporter = create(:supporter_base, nonprofit: nonprofit)
       donation = create(:donation_base, nonprofit: nonprofit, supporter_id: supporter.id, amount: 999)

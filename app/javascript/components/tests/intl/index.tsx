@@ -5,6 +5,7 @@ import React from 'react';
 import addons from '@storybook/addons';
 import omit  from 'lodash/omit';
 import { IntlProvider} from '../../intl';
+import {convert} from 'dotize';
 const messages = require('../../../i18n').default;
 
 export let _config:any = null;
@@ -49,7 +50,7 @@ class WithIntl extends React.Component<any,any> {
 		} = this.props;
 
 		const { locale } = this.state;
-		const messages = getMessages(locale);
+		const messages = convert(getMessages(locale));
 
 		const customProps:any = {
 			key: locale,

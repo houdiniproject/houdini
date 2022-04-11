@@ -20,9 +20,10 @@ import { InitialCurrentUserContext } from "../../hooks/useCurrentUser";
 
 import { server } from '../../api/mocks';
 import { UserSignInFailed, UserSignsInOnFirstAttempt } from "../../hooks/mocks/useCurrentUserAuth";
+import {convert} from 'dotize';
 
 function MainWrapper(props: React.PropsWithChildren<unknown>) {
-	return <IntlProvider messages={I18n.translations['en'] as any} locale={'en'}> {/* eslint-disable-line @typescript-eslint/no-explicit-any */}
+	return <IntlProvider messages={convert(I18n.translations['en'] as any)} locale={'en'}> {/* eslint-disable-line @typescript-eslint/no-explicit-any */}
 		<SWRConfig value={
 			{
 				dedupingInterval: 0, // we need to make SWR not dedupe

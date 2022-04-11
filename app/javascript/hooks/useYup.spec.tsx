@@ -6,11 +6,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {IntlProvider, useIntl} from '../components/intl';
 import I18n from '../i18n';
 import useYup, {createMessage} from './useYup';
+import {convert} from 'dotize';
 
 
 function Wrapper(props:React.PropsWithChildren<unknown>) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return <IntlProvider locale={'en'} messages={I18n.translations['en'] as any}>
+	return <IntlProvider locale={'en'} messages={convert(I18n.translations['en'] as any) as any}>
 		{props.children}
 	</IntlProvider>;
 }

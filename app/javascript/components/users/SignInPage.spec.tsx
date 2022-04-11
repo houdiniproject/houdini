@@ -15,12 +15,13 @@ import { server } from '../../api/mocks';
 import { UserSignsInOnFirstAttempt } from "../../hooks/mocks/useCurrentUserAuth";
 import { SWRConfig } from 'swr';
 import { axe } from 'jest-axe';
+import { convert } from "dotize";
 
 type WrapperProps = React.PropsWithChildren<{ hoster?: Hoster }>;
 
 function Wrapper(props: WrapperProps) {
 	return <HosterContext.Provider value={props.hoster}>
-		<IntlProvider locale={'en'} messages={I18n.translations['en'] as any} > {/* eslint-disable-line @typescript-eslint/no-explicit-any */}
+		<IntlProvider locale={'en'} messages={convert(I18n.translations['en']) as any} > {/* eslint-disable-line @typescript-eslint/no-explicit-any */}
 			<SWRConfig value={
 				{
 					dedupingInterval: 0, // we need to make SWR not dedupe

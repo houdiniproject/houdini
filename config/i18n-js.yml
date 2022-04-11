@@ -34,8 +34,7 @@ translations:
   prefix: "import I18n from 'i18n-js';\n"
 - file: 'app/javascript/i18n/locales/%{locale}.ts'
   js_extend: false
-  prefix: "// DO NOT MODIFY THIS FILE. MODIFY config/locales INSTEAD\nconst translations:any = {};"
-  suffix: "export default translations;"
+  prefix: "// DO NOT MODIFY THIS FILE. MODIFY config/locales INSTEAD\nconst I18n:any = {};\n"
+  suffix: "export default I18n.translations;"
   only: '*'
-  houdini_ts: true
 

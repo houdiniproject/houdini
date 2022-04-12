@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'format/format/indefinitize'
-
+require 'rails_helper'
 describe Format::Indefinitize do
   describe '#article' do
     it "returns an for string starting with vowel" do

@@ -16,10 +16,10 @@ module Commitchange
 
 		# Custom directories with classes and modules you want to be autoloadable.
 		# config.autoload_paths += %W(#{config.root}/extras)
+		#config.autoload_paths += config.root + File.join('app', 'legacy_lib')
+		#config.eager_load_paths += Dir["#{config.root}/lib/**/"]
 
-		config.eager_load_paths += Dir["#{config.root}/lib/**/"]
-
-		config.paths.add File.join('lib'), glob: File.join('**')
+		# config.paths.add File.join('lib'), glob: File.join('**')
 		config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
 		config.eager_load_paths += Dir[Rails.root.join('app', 'api', '*')]
 

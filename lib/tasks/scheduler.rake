@@ -1,5 +1,4 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'scheduled_jobs'
 
 desc "For use with Heroku's Scheduler add-on"
 

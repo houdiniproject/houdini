@@ -1,7 +1,7 @@
 
 name: Main build
 env: 
-  ruby: '2.4.10'
+  ruby: '2.5.9'
 on: 
   pull_request:
     types: [opened, reopened, synchronize]

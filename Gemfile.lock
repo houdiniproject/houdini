@@ -132,7 +132,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     colorize (0.8.1)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.10)
     config (1.7.0)
       activesupport (>= 3.0)
       deep_merge (~> 1.2.1)
@@ -154,8 +154,8 @@ GEM
     date (2.0.2)
     debug_inspector (0.0.2)
     deep_merge (1.2.1)
-    delayed_job (4.1.2)
-      activesupport (>= 3.0, < 5.1)
+    delayed_job (4.1.10)
+      activesupport (>= 3.0, < 8.0)
     delayed_job_active_record (4.1.1)
       activerecord (>= 3.0, < 5.1)
       delayed_job (>= 3.0, < 5)
@@ -278,7 +278,7 @@ GEM
     mini_magick (4.9.5)
     mini_mime (1.1.0)
     mini_portile2 (2.4.0)
-    minitest (5.14.4)
+    minitest (5.15.0)
     money (6.10.0)
       i18n (>= 0.6.4, < 1.0)
     msgpack (1.2.0)
@@ -568,7 +568,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.4.10p364
+   ruby 2.5.9p229
 
 BUNDLED WITH
    1.17.3

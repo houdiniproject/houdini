@@ -12,7 +12,7 @@ All backend code and React components should be well-tested
 
 Houdini is designed and tested to run with the following:
 
-* Ruby 2.4
+* Ruby 2.5
 * Node 14
 * PostgreSQL 12
 * run on Heroku-18
@@ -59,7 +59,7 @@ curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source $HOME/.rvm/scripts/rvm
 echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
-rvm install 2.4.10 --disable-binary --with-jemalloc
+rvm install 2.5.9 --disable-binary --with-jemalloc
 ```
 
  Run the following command as the `postgres` user and then enter your houdini_user

@@ -994,7 +994,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop-ast; version 1.16.0 -- 
+** rubocop-ast; version 1.17.0 -- 
 Copyright (c) 2012-20 Bozhidar Batsov
 
 Copyright (c) 2012-20 Bozhidar Batsov
@@ -2578,7 +2578,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.26.1 -- 
+** rubocop; version 1.27.0 -- 
 Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov
 Copyright (c) 2012-2022 Bozhidar Batsov
@@ -3704,7 +3704,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** regexp_parser; version 2.2.1 -- 
+** regexp_parser; version 2.3.0 -- 
 (c) d enter group
 (c) visit literal c exit group
 (c) visit literal d exit group
@@ -4036,41 +4036,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** nokogiri; version 1.13.3 -- 
-Copyright 2010 Google Inc.
-Copyright 2011 Google Inc.
-Copyright 2018 Craig Barnes
-Copyright 2017-2018 Craig Barnes
-Copyright 2018 Stephen Checkoway
-(c) Copyright 2002-2005, Andy Clark
-Copyright (c) 1998-2003 Daniel Veillard
-Copyright (c) 1998-2012 Daniel Veillard
-Copyright (c) 2001-2002 Daniel Veillard
-copyrighted by the Free Software Foundation
-Copyright 2013-2021 Sam Ruby, Stephen Checkoway
-Copyright (c) 1991 Free Software Foundation, Inc.
-Copyright 1992-2018 Free Software Foundation, Inc.
-Copyright 1992-2020 Free Software Foundation, Inc.
-Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler
-Copyright (c) 2001-2003 Thai Open Source Software Center Ltd
-Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
-Copyright (c) 2001-2002 Thomas Broyer, Charlie Bozeman and Daniel Veillard
-Copyright (c) 2001-2002, SourceForge ISO-RELAX Project (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
-Copyright 2008 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney
-
-The MIT License
-
-Copyright 2008 -- 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** hashdiff; version 1.0.1 -- 
 Copyright (c) 2012 Liu Fengyun
 
@@ -4297,6 +4262,41 @@ Exceptions
 ----------
 
   * lib/test/unit/diff.rb: This license and PSF license
+
+
+------
+
+** nokogiri; version 1.13.4 -- 
+Copyright 2010 Google Inc.
+Copyright 2011 Google Inc.
+Copyright 2018 Craig Barnes
+Copyright 2017-2018 Craig Barnes
+Copyright 2018 Stephen Checkoway
+(c) Copyright 2002-2005, Andy Clark
+Copyright (c) 1998-2003 Daniel Veillard
+Copyright (c) 1998-2012 Daniel Veillard
+Copyright (c) 2001-2002 Daniel Veillard
+copyrighted by the Free Software Foundation
+Copyright 2013-2021 Sam Ruby, Stephen Checkoway
+Copyright (c) 1991 Free Software Foundation, Inc.
+Copyright 1992-2018 Free Software Foundation, Inc.
+Copyright 1992-2020 Free Software Foundation, Inc.
+Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler
+Copyright (c) 2001-2003 Thai Open Source Software Center Ltd
+Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+Copyright (c) 2001-2002 Thomas Broyer, Charlie Bozeman and Daniel Veillard
+Copyright (c) 2001-2002, SourceForge ISO-RELAX Project (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
+Copyright 2008 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney
+
+The MIT License
+
+Copyright 2008 -- 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------

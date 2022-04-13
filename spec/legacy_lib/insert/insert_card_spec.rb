@@ -117,7 +117,7 @@ describe InsertCard do
 
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_supporter_source_token(card_ret[:json]['token'], card)
+          verify_supporter_source_token(card_ret['token'], card)
         end
 
         it 'should properly add card for event' do
@@ -151,7 +151,7 @@ describe InsertCard do
 
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_event_source_token(card_ret[:json]['token'], card, event)
+          verify_event_source_token(card_ret['token'], card, event)
         end
       end
 
@@ -164,7 +164,7 @@ describe InsertCard do
 
           card_ret = InsertCard.with_stripe(card_data)
 
-          card = Card.find(card_ret[:json][:id])
+          card = SourceToken.find(card_ret[:id]).tokenizable
 
           supporter.reload
 
@@ -210,7 +210,7 @@ describe InsertCard do
           expect(Card.where('holder_id = ? and holder_type = ? and inactive != ?', supporter.id, 'Supporter', false).count).to eq(0)
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_supporter_source_token(card_ret[:json]['token'], card)
+          verify_supporter_source_token(card_ret['token'], card)
         end
 
         it 'should properly add card for event' do
@@ -240,7 +240,7 @@ describe InsertCard do
 
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_event_source_token(card_ret[:json]['token'], card, event)
+          verify_event_source_token(card_ret['token'], card, event)
         end
       end
 

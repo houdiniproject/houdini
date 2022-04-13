@@ -95,7 +95,6 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret['token'])
 
           expected_card = {
             id: card.id,
@@ -130,7 +129,6 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data, nil, event.id, user)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret[:json]['token'])
 
           expected_card = {
             id: card.id,
@@ -170,8 +168,6 @@ describe InsertCard do
 
           supporter.reload
 
-          compare_card_returned_to_real(card_ret, card, card_ret[:json]['token'])
-
           expected_card = {
             id: card.id,
             holder_type: 'Supporter',
@@ -195,7 +191,7 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret['token'])
+
           expected_card = {
             id: card.id,
             name: 'card_name',
@@ -224,7 +220,6 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data, nil, event.id, user)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret['token'])
 
           expected_card = {
             id: card.id,
@@ -275,14 +270,6 @@ describe InsertCard do
            end
         
       end
-    end
-    def compare_card_returned_to_real(card_ret, db_card, token = nil)
-      expect(card_ret[:status]).to eq(:ok)
-
-      expected_json = db_card.attributes
-      expected_json['token'] = token
-      expect(token).to match(UUID::Regex) if token
-      expect(card_ret).to eq(expected_json)
     end
 
     def verify_cust_added(stripe_customer_id, holder_id, holder_type)

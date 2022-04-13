@@ -42,7 +42,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.19.1]
-        ruby: [2.7.5]
+        ruby: [2.7.6]
     steps:
       - run: 'echo "Placeholder for main_build"'
   rubocop:
@@ -51,6 +51,6 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.19.1]
-        ruby: [2.7.5]
+        ruby: [2.7.6]
     steps:
       - run: 'echo "Placeholder for rubocop"'

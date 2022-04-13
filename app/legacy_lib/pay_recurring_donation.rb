@@ -107,7 +107,7 @@ module PayRecurringDonation
       if rd['n_failures'] >= 3
         DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
       end
-      Supporter.find(donation['supporter_id']).supporters_notes.create!(content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", user: User.find(540))
+      Supporter.find(donation['supporter_id']).supporter_notes.create!(content: "This supporter had a payment failure for their recurring donation with ID #{rd_id}", user: User.find(540))
     end
     return result
   end
@@ -121,7 +121,7 @@ module PayRecurringDonation
     if notify_nonprofit
       DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
     end
-    Supporter.find(donation['supporter_id']).supporters_notes.create!(content: "This supporter had a payment failure for their recurring donation with ID #{rd['id']}", user: User.find(540))
+    Supporter.find(donation['supporter_id']).supporter_notes.create!(content: "This supporter had a payment failure for their recurring donation with ID #{rd['id']}", user: User.find(540))
     return recurring_donation
   end
 end

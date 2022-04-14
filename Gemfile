@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby ENV['CUSTOM_RUBY_VERSION'] || '2.5.9' # heroku needs a specific ruby version in the Gemfile
+ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.10' # heroku needs a specific ruby version in the Gemfile
 
 gem 'rake'
 gem 'rails', '~> 4.0'

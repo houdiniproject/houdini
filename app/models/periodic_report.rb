@@ -23,7 +23,7 @@ class PeriodicReport < ActiveRecord::Base
 
   private
 
-  AVAILABLE_REPORT_TYPES = [:failed_recurring_donations].freeze
+  AVAILABLE_REPORT_TYPES = [:failed_recurring_donations, :cancelled_recurring_donations].freeze
   AVAILABLE_PERIODS = [:last_month].freeze
 
   private_constant :AVAILABLE_REPORT_TYPES

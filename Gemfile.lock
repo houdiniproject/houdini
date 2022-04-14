@@ -301,7 +301,7 @@ GEM
       racc (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.6.1)
-    pg (0.18.3)
+    pg (0.21.0)
     power_assert (1.1.1)
     premailer (1.12.1)
       addressable
@@ -529,7 +529,7 @@ DEPENDENCIES
   nearest_time_zone
   parallel
   param_validation!
-  pg
+  pg (< 1)
   premailer-rails
   protected_attributes
   pry
@@ -570,7 +570,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.5.9p229
+   ruby 2.6.10p210
 
 BUNDLED WITH
    1.17.3

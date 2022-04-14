@@ -38,7 +38,7 @@ gem 'rack-attack'
 gem 'rack-freeze'
 
 # Database (postgres)
-gem 'pg' # Postgresql
+gem 'pg', "< 1" # Postgresql, must be under 1 because 1.0 and later don't work on Rails 4
 gem 'qx', path: 'gems/ruby-qx'
 gem 'dalli'
 gem 'memcachier'

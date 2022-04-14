@@ -118,7 +118,6 @@ GEM
     bootsnap (1.1.7)
       msgpack (~> 1.0)
     builder (3.2.4)
-    byebug (11.0.1)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -128,7 +127,6 @@ GEM
       aws-sdk (~> 1.58)
       carrierwave (~> 0.7)
     chronic (0.10.2)
-    coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     colorize (0.8.1)
@@ -152,6 +150,9 @@ GEM
     dante (0.2.0)
     database_cleaner (1.6.1)
     date (2.0.2)
+    debug (1.5.0)
+      irb (>= 1.3.6)
+      reline (>= 0.2.7)
     debug_inspector (0.0.2)
     deep_merge (1.2.1)
     delayed_job (4.1.10)
@@ -256,6 +257,9 @@ GEM
     i18n_data (0.8.0)
     ice_nine (0.11.2)
     inflecto (0.0.2)
+    io-console (0.5.11)
+    irb (1.4.1)
+      reline (>= 0.3.0)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jmespath (1.4.0)
@@ -271,7 +275,6 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     memcachier (0.0.2)
-    method_source (0.9.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2021.0225)
@@ -312,12 +315,6 @@ GEM
       premailer (~> 1.7, >= 1.7.9)
     protected_attributes (1.1.4)
       activemodel (>= 4.0.1, < 5.0)
-    pry (0.11.3)
-      coderay (~> 1.1.0)
-      method_source (~> 0.9.0)
-    pry-byebug (3.7.0)
-      byebug (~> 11.0)
-      pry (~> 0.10)
     public_suffix (4.0.6)
     puma (5.6.4)
       nio4r (~> 2.0)
@@ -385,6 +382,8 @@ GEM
       redis-store (>= 1.2, < 2)
     redis-store (1.9.0)
       redis (>= 4, < 5)
+    reline (0.3.1)
+      io-console (~> 0.5)
     require_all (1.3.2)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
@@ -489,7 +488,6 @@ DEPENDENCIES
   barnes
   binding_of_caller
   bootsnap
-  byebug
   carrierwave
   carrierwave-aws
   chronic
@@ -500,6 +498,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   date (~> 2.0.2)
+  debug
   delayed_job_active_record
   devise (~> 4.1)
   dotenv-rails
@@ -532,8 +531,6 @@ DEPENDENCIES
   pg (< 1)
   premailer-rails
   protected_attributes
-  pry
-  pry-byebug
   puma (~> 5.6)
   puma_worker_killer
   qx!

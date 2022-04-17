@@ -5,7 +5,7 @@
 <% if Houdini.payment_providers.stripe.proprietary_v2_js %>
   <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <% else %>
-  <%= javascript_pack_tag "page__stripe_wrapper" %>
+  <%= javascript_packs_with_chunks_tag "page__stripe_wrapper" %>
 <% end %>
 
 <script>

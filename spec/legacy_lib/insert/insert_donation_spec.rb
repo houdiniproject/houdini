@@ -254,7 +254,7 @@ describe InsertDonation do
 						},
 						'created' => created_time.to_i,
 						'subtransaction' => stripe_transaction_id_only,
-						'subtransaction_payments' => [stripe_transaction_charge_id_only],
+						'payments' => [stripe_transaction_charge_id_only],
 						'transaction_assignments' => [donation_id_only]
 					}
 				)
@@ -265,7 +265,7 @@ describe InsertDonation do
 					common_builder_expanded,
 					{
 						'subtransaction' => stripe_transaction_builder,
-						'subtransaction_payments' => [stripe_transaction_charge_builder],
+						'payments' => [stripe_transaction_charge_builder],
 						'transaction_assignments' => [donation_builder]
 					}
 				)
@@ -968,7 +968,7 @@ describe InsertDonation do
 							},
 							'created' => created_time.to_i,
 							'subtransaction' => offline_transaction_id_only,
-							'subtransaction_payments' => [offline_transaction_charge_id_only],
+							'payments' => [offline_transaction_charge_id_only],
 							'transaction_assignments' => [donation_id_only]
 						}
 					)
@@ -979,7 +979,7 @@ describe InsertDonation do
 						common_builder_expanded,
 						{
 							'subtransaction' => offline_transaction_builder,
-							'subtransaction_payments' => [offline_transaction_charge_builder],
+							'payments' => [offline_transaction_charge_builder],
 							'transaction_assignments' => [donation_builder]
 						}
 					)

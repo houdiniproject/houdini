@@ -4,7 +4,7 @@
    - Donor Profile
 <% end %>
 <%= content_for :javascripts do %>
-	<%= javascript_pack_tag 'i18n', 'page__profiles__show'%>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__profiles__show'%>
 <% end %>
 <% content_for :stylesheets do %>
 	<%= stylesheet_link_tag 'profiles/show/page' %>

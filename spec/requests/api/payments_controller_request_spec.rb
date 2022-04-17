@@ -27,7 +27,7 @@ RSpec.describe Api::PaymentsController, type: :request do
 
 	describe 'GET /:id' do
 		let(:transaction) { transaction_for_donation }
-		let(:payment) { transaction.subtransaction.subtransaction_payments.first }
+		let(:payment) { transaction.subtransaction.payments.first }
 
 		def base_path(nonprofit_id, transaction_id, payment_id)
 			index_base_path(nonprofit_id, transaction_id) + "/#{payment_id}"
@@ -116,7 +116,7 @@ RSpec.describe Api::PaymentsController, type: :request do
 					index_base_path(nonprofit_id, transaction_id) + "/#{payment_id}"
 				end
 
-				let(:payment) { transaction.subtransaction.subtransaction_payments.first }
+				let(:payment) { transaction.subtransaction.payments.first }
 				let(:transaction) { transaction_for_donation }
 
 				def payment_url(nonprofit_id, transaction_id, payment_id)

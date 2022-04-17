@@ -12,6 +12,6 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: 14.18.1
+          node-version: 14.19.1
       - name: lint Markdown
         run: yarn markdownlint

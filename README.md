@@ -1,5 +1,6 @@
 [![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 ![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
+[![Crowdin](https://badges.crowdin.net/houdiniproject/localized.svg)](https://crowdin.com/project/houdiniproject)
 
 > *Note*: This is the latest version (pre-2.0) of Houdini and
 > is currently in HEAVY development. You may want
@@ -36,8 +37,10 @@ All new backend code and React components should be well tested.
 * Yarn
 * PostgreSQL 10  or 12
 * Ruby 2.7
+* Ubuntu 18.04, 20.04 or equivalent
 
 > Note: All tools will be installed in the Dev Setup.
+
 
 ## Get involved
 
@@ -49,7 +52,7 @@ https://github.com/houdiniproject/houdini/discussions
 
 ### Help with translations
 
-Visit the Discussions tab on Houdini GitHub and discuss
+Check our [translation guide](docs/translations.md) to translate Houdini to other languages.
 
 ### Help with usability tests
 
@@ -66,7 +69,7 @@ These include:
 
 * PostgreSQL 12 (10 probably works)
 * NodeJS 14 (we require 14 because we want the full internationalization built-in)
-* Ruby 2.7.5
+* Ruby 2.7.6
 
 There a few optional tools which make working on Houdini
 easier
@@ -129,7 +132,7 @@ curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source $HOME/.rvm/scripts/rvm
 echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
-rvm install 2.7.5 --disable-binary --with-jemalloc
+rvm install 2.7.6 --disable-binary --with-jemalloc
 ```
 
  Run the following command as the `postgres` user and then enter your houdini_user
@@ -239,7 +242,7 @@ There are available arguments that add configurations on the nonprofit's creatio
 
 ```bash
   -s, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
-      [--confirm-admin], [--no-confirm-admin]  # Require the nonprofit admin to be confirmed via email
+      [--confirm-admin], [--no-confirm-admin]  # Autoconfirm the admin instead of waiting for them to click the email link
                                                # Default: true
 ```
 

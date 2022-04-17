@@ -158,7 +158,7 @@ function useStateAndEventDispatch({ submitting, isValid, touched, signedIn, ...p
 
 	useEffect(() => {
 		if (!submitting && previousSubmitting && !signedIn) {
-			if (isMounted) {
+			if (isMounted()) {
 				dispatchChange({type: 'SET_STATE', state: 'isReady'});
 			}
 		}
@@ -223,7 +223,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	}),
 	);
 	const classes = useStyles();
-	//const isMounted = useMountedState();
 	const form = useForm({
 		mode: 'all',
 		resolver: yupResolver(validationSchema),

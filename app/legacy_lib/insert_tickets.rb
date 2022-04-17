@@ -64,14 +64,14 @@ module InsertTickets
         result['payment'] = create_payment(entities, gross_amount)
         result['offsite_payment'] = create_offsite_payment(entities, gross_amount, data, result['payment'])
         subtrx = trx.build_subtransaction(
-          subtransactable: OfflineTransaction.new(amount: gross_amount), 
-          subtransaction_payments:[
+          subtransactable: OfflineTransaction.new(amount: gross_amount),
+          payments:[
             SubtransactionPayment.new(
               paymentable: OfflineTransactionCharge.new(payment: Payment.find(result['payment']['id'])))
             ],
           created: data['date']
           );
-          
+
       # Create charge for tickets
       elsif data['kind'] == 'charge' || !data['kind']
         source_token = QuerySourceToken.get_and_increment_source_token(data[:token], nil)
@@ -96,8 +96,8 @@ module InsertTickets
           raise ChargeError, result['charge']['failure_message']
         else
           subtrx = trx.build_subtransaction(
-          subtransactable: StripeTransaction.new(amount: gross_amount), 
-          subtransaction_payments:[
+          subtransactable: StripeTransaction.new(amount: gross_amount),
+          payments:[
             SubtransactionPayment.new(
               paymentable: StripeCharge.new(payment: Payment.find(result['payment']['id'])))
             ],
@@ -116,7 +116,7 @@ module InsertTickets
     result['tickets'] = generated_ticket_entities(data['tickets'], result, entities)
     result['tickets'].each do |legacy_ticket|
 
-      legacy_ticket.quantity.times do 
+      legacy_ticket.quantity.times do
         ticket_purchase.ticket_to_legacy_tickets.build(ticket: legacy_ticket)
       end
     end
@@ -125,12 +125,12 @@ module InsertTickets
     InsertActivities.for_tickets(result['tickets'].map(&:id))
 
     ticket_ids = result['tickets'].map(&:id)
-    charge_id =  result['charge'] ? result['charge'].id : nil 
+    charge_id =  result['charge'] ? result['charge'].id : nil
     trx.save!
     ticket_purchase.save!
     if (subtrx)
       subtrx.save!
-      subtrx.subtransaction_payments.each(&:publish_created)
+      subtrx.payments.each(&:publish_created)
       subtrx.publish_created
     end
     ticket_purchase.ticket_to_legacy_tickets.each(&:publish_created)

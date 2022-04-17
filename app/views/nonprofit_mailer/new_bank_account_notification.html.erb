@@ -5,7 +5,7 @@
 <p>We've received a request to update the bank account for receiving donations. Please verify the information below:</p>
 
 <p>New bank account: <strong><%= @bank_account.name %></strong></p>
-<p>Date and time of change: <strong><%=  date_and_time @bank_account.created_at %></strong></p>
+<p>Date and time of change: <strong><%=  format_date_to_datetime_timezone @bank_account.created_at %></strong></p>
 <p>User who requested change: <strong><%= @bank_account.email %></strong></p>
 
 <p>For security, please confirm your bank account change below:</p>

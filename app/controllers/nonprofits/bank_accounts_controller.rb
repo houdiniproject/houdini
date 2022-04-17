@@ -27,14 +27,14 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/bank_account/confirmation
     def confirm
-      npo = current_nonprofit
-      ba = npo.bank_account
-      if params[:token] == ba.confirmation_token
-        ba.update_attribute(:pending_verification, false)
+      nonprofit = current_nonprofit
+      bank_account = nonprofit.bank_account
+      if params[:token] == bank_account.confirmation_token
+        bank_account.update_attribute(:pending_verification, false)
         flash[:notice] = 'Your bank account is now confirmed!'
-        redirect_to nonprofits_payouts_path(npo)
+        redirect_to nonprofits_payouts_path(nonprofit)
       else
-        redirect_to(nonprofits_donations_path(npo), flash: { error: 'We could not confirm this bank account. Please follow the exact link provided in the confirmation email.' })
+        redirect_to(nonprofits_donations_path(nonprofit), flash: { error: 'We could not confirm this bank account. Please follow the exact link provided in the confirmation email.' })
       end
     end
 
@@ -46,21 +46,21 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/bank_account/cancel
     def cancel
-      npo = current_nonprofit
-      ba = npo.bank_account
-      if params[:token] == ba.confirmation_token
-        ba.destroy
+      nonprofit = current_nonprofit
+      bank_account = nonprofit.bank_account
+      if params[:token] == bank_account.confirmation_token
+        bank_account.destroy
         flash[:notice] = 'Your bank account has been removed.'
-        redirect_to nonprofits_donations_path(npo)
+        redirect_to nonprofits_donations_path(nonprofit)
       else
-        redirect_to(nonprofits_donations_path(npo), flash: { error: 'We could not remove this bank account. Please follow the exact link provided in the email.' })
+        redirect_to(nonprofits_donations_path(nonprofit), flash: { error: 'We could not remove this bank account. Please follow the exact link provided in the email.' })
       end
     end
 
     def resend_confirmation
-      npo = current_nonprofit
-      ba = npo.bank_account
-      BankAccountCreateJob.perform_later(ba) if ba.valid?
+      nonprofit = current_nonprofit
+      bank_account = nonprofit.bank_account
+      BankAccountCreateJob.perform_later(bank_account) if bank_account.valid?
       respond_to { |format| format.json { render json: {} } }
     end
 

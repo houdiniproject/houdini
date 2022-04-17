@@ -41,7 +41,7 @@ class CampaignsController < ApplicationController # rubocop:disable Metrics/Clas
 		@timezone = Format::Timezone.to_proxy(current_nonprofit.timezone)
 		if @campaign.deleted && !current_campaign_editor?
 			redirect_to nonprofit_path(current_nonprofit)
-			flash[:notice] = "Sorry, we couldn't find that campaign"
+			flash[:notice] = t('campaigns.sorry_couldnt_find_campaign')
 			return
 		end
 		@nonprofit = current_nonprofit
@@ -75,7 +75,7 @@ class CampaignsController < ApplicationController # rubocop:disable Metrics/Clas
 		end
 		current_campaign.update!(**campaign_params, end_datetime: end_datetime)
 		@campaign = current_campaign
-		flash[:notice] = 'Successfully updated'
+		flash[:notice] = t('campaigns.successfully_updated')
 		render 'campaigns/update', status: :ok
 	end
 
@@ -131,7 +131,7 @@ class CampaignsController < ApplicationController # rubocop:disable Metrics/Clas
 	private
 
 	def check_nonprofit_status
-		raise ActionController::RoutingError, 'Not Found' if !current_role?(:super_admin) && !current_nonprofit.published
+		#	raise ActionController::RoutingError, 'Not Found' if !current_role?(:super_admin) && !current_nonprofit.published
 	end
 
 	def campaign_params # rubocop:disable Metrics/MethodLength

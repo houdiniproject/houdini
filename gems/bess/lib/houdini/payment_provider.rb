@@ -11,8 +11,8 @@ module Houdini::PaymentProvider
 
     # based on ActiveJob's configuration
     class << self
-        def build(name, **options)
-            lookup(name).new(**options)
+        def build(name, options={})
+            lookup(name).new(options)
         end
 
         def lookup(name)

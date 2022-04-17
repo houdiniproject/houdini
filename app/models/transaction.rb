@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class Transaction < ApplicationRecord
 	include Model::CreatedTimeable
-	
+
 	belongs_to :supporter
 	has_one :nonprofit, through: :supporter
 
@@ -15,7 +15,7 @@ class Transaction < ApplicationRecord
 	has_many :campaign_gift_purchases, through: :transaction_assignments, source: :assignable, source_type: 'CampaignGiftPurchase', inverse_of: 'trx'
 
 	has_one :subtransaction
-	has_many :subtransaction_payments, through: :subtransaction
+	has_many :payments, through: :subtransaction
 
 	validates :supporter, presence: true
 
@@ -28,20 +28,20 @@ class Transaction < ApplicationRecord
 		include Model::Jbuilder
 		include Model::Eventable
 
-		included do 
+		included do
 			setup_houid :trx
 		end
 
 		def to_builder(*expand)
 			init_builder(*expand) do |json|
-				json.amount do 
+				json.amount do
 					json.cents amount || 0
 					json.currency nonprofit.currency
 				end
 				json.created created.to_i
 
 				json.add_builder_expansion :nonprofit, :supporter, :subtransaction
-				json.add_builder_expansion :subtransaction_payments, enum_type: :expandable
+				json.add_builder_expansion :payments, enum_type: :expandable
 				json.add_builder_expansion :transaction_assignments, enum_type: :expandable
 			end
 		end
@@ -51,32 +51,32 @@ class Transaction < ApplicationRecord
 
 		include JBuilder
 		def publish_created
-				Houdini.event_publisher.announce(:transaction_created, 
-					to_event('transaction.created', :nonprofit, :supporter, :subtransaction_payments, :transaction_assignments, :subtransaction).attributes!)
+				Houdini.event_publisher.announce(:transaction_created,
+					to_event('transaction.created', :nonprofit, :supporter, :payments, :transaction_assignments, :subtransaction).attributes!)
 			end
-		
+
 			def publish_updated
 				Houdini.event_publisher.announce(:transaction_updated,
-					to_event('transaction.updated', :nonprofit, :supporter, :subtransaction_payments, :transaction_assignments, :subtransaction).attributes!)
+					to_event('transaction.updated', :nonprofit, :supporter, :payments, :transaction_assignments, :subtransaction).attributes!)
 			end
-		
+
 			def publish_refunded
 				Houdini.event_publisher.announce(:transaction_refunded,
-					to_event('transaction.refunded', :nonprofit, :supporter, :subtransaction_payments, :transaction_assignments, :subtransaction).attributes!)
+					to_event('transaction.refunded', :nonprofit, :supporter, :payments, :transaction_assignments, :subtransaction).attributes!)
 			end
-		
+
 			def publish_disputed
 				Houdini.event_publisher.announce(:transaction_disputed,
-					to_event('transaction.refunded', :nonprofit, :supporter, :subtransaction_payments, :transaction_assignments).attributes!)
+					to_event('transaction.refunded', :nonprofit, :supporter, :payments, :transaction_assignments).attributes!)
 			end
-		
+
 			def publish_deleted
 				Houdini.event_publisher.announce(:transaction_deleted,
-					to_event('transaction.deleted', :nonprofit, :supporter, :subtransaction_payments, :transaction_assignments).attributes!)
+					to_event('transaction.deleted', :nonprofit, :supporter, :payments, :transaction_assignments).attributes!)
 			end
 	end
 
-	private 
+	private
 	def set_created_if_needed
 		write_attribute(:created, Time.now) unless read_attribute(:created)
 	end

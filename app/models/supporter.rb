@@ -79,7 +79,7 @@ class Supporter < ApplicationRecord
   end
 
   def as_json(options = {})
-    h = super(options)
+    h = super(**options)
     h[:pic_tiny] = profile_picture(:tiny)
     h[:pic_normal] = profile_picture(:normal)
     h[:url] = profile && Rails.application.routes.url_helpers.profile_path(profile)

@@ -39,20 +39,30 @@ describe InsertCard do
     end
 
     it 'params are invalid' do
-      ret = InsertCard.with_stripe({})
-      expect(ret[:status]).to eq(:unprocessable_entity)
-      expect(ret[:json][:error]).to start_with('Validation error')
-      expect(ret[:json][:errors].length).to be(9)
+      expect { InsertCard.with_stripe({}) }.to raise_error(ParamValidation::ValidationError) do |error|
+        expect_validation_errors(error.data, [{ key: 'holder_id', name: :required },
+        { key: 'holder_type', name: 'included_in' },
+        { key: 'holder_type', name: 'required' },
+        { key: 'stripe_card_id', name: 'required' },
+        { key: 'stripe_card_id', name: 'not_blank' },
+        { key: 'stripe_card_token', name: 'required' },
+        { key: 'stripe_card_token', name: 'not_blank' },
+        { key: 'name', name: 'required' },
+        { key: 'name', name: 'not_blank' }])
+      end
+      # expect(ret[:status]).to eq(:unprocessable_entity)
+      # expect(ret[:json][:error]).to start_with('Validation error')
+      # expect(ret[:json][:errors].length).to be(9)
 
-      expect_validation_errors(ret[:json][:errors], [{ key: 'holder_id', name: :required },
-                                                     { key: 'holder_type', name: 'included_in' },
-                                                     { key: 'holder_type', name: 'required' },
-                                                     { key: 'stripe_card_id', name: 'required' },
-                                                     { key: 'stripe_card_id', name: 'not_blank' },
-                                                     { key: 'stripe_card_token', name: 'required' },
-                                                     { key: 'stripe_card_token', name: 'not_blank' },
-                                                     { key: 'name', name: 'required' },
-                                                     { key: 'name', name: 'not_blank' }])
+      # expect_validation_errors(ret[:json][:errors], [{ key: 'holder_id', name: :required },
+      #                                                { key: 'holder_type', name: 'included_in' },
+      #                                                { key: 'holder_type', name: 'required' },
+      #                                                { key: 'stripe_card_id', name: 'required' },
+      #                                                { key: 'stripe_card_id', name: 'not_blank' },
+      #                                                { key: 'stripe_card_token', name: 'required' },
+      #                                                { key: 'stripe_card_token', name: 'not_blank' },
+      #                                                { key: 'name', name: 'required' },
+      #                                                { key: 'name', name: 'not_blank' }])
     end
 
     describe 'for supporter' do
@@ -85,7 +95,6 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret[:json]['token'])
 
           expected_card = {
             id: card.id,
@@ -108,7 +117,7 @@ describe InsertCard do
 
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_supporter_source_token(card_ret[:json]['token'], card)
+          verify_supporter_source_token(card_ret['token'], card)
         end
 
         it 'should properly add card for event' do
@@ -120,7 +129,6 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data, nil, event.id, user)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret[:json]['token'])
 
           expected_card = {
             id: card.id,
@@ -143,7 +151,7 @@ describe InsertCard do
 
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_event_source_token(card_ret[:json]['token'], card, event)
+          verify_event_source_token(card_ret['token'], card, event)
         end
       end
 
@@ -156,11 +164,9 @@ describe InsertCard do
 
           card_ret = InsertCard.with_stripe(card_data)
 
-          card = Card.find(card_ret[:json][:id])
+          card = SourceToken.find(card_ret[:id]).tokenizable
 
           supporter.reload
-
-          compare_card_returned_to_real(card_ret, card, card_ret[:json]['token'])
 
           expected_card = {
             id: card.id,
@@ -174,7 +180,7 @@ describe InsertCard do
 
           expect(card.attributes).to eq expected_card
 
-          verify_supporter_source_token(card_ret[:json]['token'], card)
+          verify_supporter_source_token(card_ret['token'], card)
         end
 
         it 'should properly add supporter card when no card exist' do
@@ -185,7 +191,7 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret[:json]['token'])
+
           expected_card = {
             id: card.id,
             name: 'card_name',
@@ -204,7 +210,7 @@ describe InsertCard do
           expect(Card.where('holder_id = ? and holder_type = ? and inactive != ?', supporter.id, 'Supporter', false).count).to eq(0)
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_supporter_source_token(card_ret[:json]['token'], card)
+          verify_supporter_source_token(card_ret['token'], card)
         end
 
         it 'should properly add card for event' do
@@ -214,7 +220,6 @@ describe InsertCard do
           card_ret = InsertCard.with_stripe(card_data, nil, event.id, user)
           supporter.reload
           card = supporter.cards.where('cards.name = ?', 'card_name').first
-          compare_card_returned_to_real(card_ret, card, card_ret[:json]['token'])
 
           expected_card = {
             id: card.id,
@@ -235,41 +240,36 @@ describe InsertCard do
 
           verify_cust_added_supporter(card.stripe_customer_id, supporter.id)
 
-          verify_event_source_token(card_ret[:json]['token'], card, event)
+          verify_event_source_token(card_ret['token'], card, event)
         end
       end
 
       it 'should return proper error when no supporter exists' do
-        ret = InsertCard.with_stripe(holder_id: 5_555_555, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name')
-        expect(ret[:status]).to eq(:unprocessable_entity)
-        expect(ret[:json][:error]).to include('Sorry, you need to provide a nonprofit or supporter')
+      expect { InsertCard.with_stripe(holder_id: 5_555_555, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name')}.
+      to raise_error(RuntimeError) {|error| expect(error.message).to eq 'Sorry, you need to provide a nonprofit or supporter'}
       end
 
       it 'should return proper error when you try to add using an event with unauthorized user' do
-        ret = InsertCard.with_stripe({ holder_id: supporter.id, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name' }, nil, event.id, user_not_from_nonprofit)
-
-        expect(ret[:json][:error]).to eq "You're not authorized to perform that action"
-        expect(ret[:status]).to eq :unauthorized
+        expect {
+          InsertCard.with_stripe({ holder_id: supporter.id, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name' }, nil, event.id, user_not_from_nonprofit)
+      }.to raise_error(AuthenticationError)
       end
 
       it 'should return proper error when an invalid event_id is provided' do
-        ret = InsertCard.with_stripe({ holder_id: supporter.id, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name' }, nil, 55_555, user_not_from_nonprofit)
-        expect(ret).to eq(status: :unprocessable_entity, json: { error: 'Oops! There was an error: 55555 is not a valid event' })
+        expect {InsertCard.with_stripe({ holder_id: supporter.id, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', 
+          stripe_card_token: stripe_card_token, name: 'name' }, nil, 55_555, user_not_from_nonprofit)}.to raise_error(RuntimeError) do |error|
+          expect(error.message).to eq 'Oops! There was an error: 55555 is not a valid event' 
+        end
       end
 
       it 'should return proper error when event doesnt match the supporters nonprofit' do
         supporter2 = force_create(:supporter, nonprofit: force_create(:fv_poverty))
-        ret = InsertCard.with_stripe({ holder_id: supporter2.id, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name' }, nil, event.id, user_not_from_nonprofit)
-        expect(ret).to eq(status: :unprocessable_entity, json: { error: "Oops! There was an error: Event #{event.id} is not for the same nonprofit as supporter #{supporter2.id}" })
+        expect { InsertCard.with_stripe({ holder_id: supporter2.id, holder_type: 'Supporter', stripe_card_id: 'card_fafjeht', stripe_card_token: stripe_card_token, name: 'name' },
+           nil, event.id, user_not_from_nonprofit)}.to raise_error(RuntimeError) do |error|
+            expect(error.message).to eq "Oops! There was an error: Event #{event.id} is not for the same nonprofit as supporter #{supporter2.id}"
+           end
+        
       end
-    end
-    def compare_card_returned_to_real(card_ret, db_card, token = nil)
-      expect(card_ret[:status]).to eq(:ok)
-
-      expected_json = db_card.attributes
-      expected_json['token'] = token
-      expect(token).to match(UUID::Regex) if token
-      expect(card_ret[:json]).to eq(expected_json)
     end
 
     def verify_cust_added(stripe_customer_id, holder_id, holder_type)

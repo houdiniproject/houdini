@@ -2,10 +2,9 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.4.6'
+gem 'rails', '6.1.5'
 gem 'jbuilder', '~> 2.11'
-gem 'bootsnap', '~> 1.10', require: false # Large rails application booting enhancer
-gem 'font_assets', '~> 0.1.14' # for serving fonts on cdn https://github.com/ericallam/font_assets
+gem 'bootsnap', '~> 1.11', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.6'
 gem 'rake', '~> 12.3.2'
@@ -27,7 +26,7 @@ gem 'sprockets', '~> 3.7'
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
 gem 'countries', '~> 4.2'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
-gem 'lograge', '~> 0.11.2' # make logging less terrible in rails
+gem 'lograge', '~> 0.12.0' # make logging less terrible in rails
 gem 'rails-i18n', '~> 6.0.0', '~> 6'
 gem 'premailer-rails', '~> 1.11' # for styling of email
 gem 'money', '~> 6.16'
@@ -42,7 +41,7 @@ gem 'qx', path: 'gems/ruby-qx'
 gem 'fast_blank'
 
 # Images
-gem 'image_processing', '~> 1.12.1'
+gem 'image_processing', '~> 1.12.2'
 
 # URL validation
 gem 'validate_url'
@@ -57,9 +56,8 @@ group :development, :ci do
 end
 
 group :development, :ci, :test do
-  gem 'byebug', '~> 11.0', '>= 11.0.1'
+  gem 'debug'
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.5', require: 'dotenv/rails-now'
-  gem 'pry', '~> 0.14.1'
   gem 'rspec-rails', '~> 4.1.2'
   gem 'rspec', '~> 3.11.0'
   gem 'factory_bot_rails', '~> 6.2'
@@ -67,13 +65,12 @@ group :development, :ci, :test do
   gem 'listen'
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
-  gem 'rubocop', '~> 1.25.1'
-  gem 'rubocop-rails', '~> 2.13'
+  gem 'rubocop', '~> 1.27.0'
+  gem 'rubocop-rails', '~> 2.14'
   gem 'rubocop-rake', '~> 0.6.0'
-  gem 'rubocop-rspec', '~> 2.8'
+  gem 'rubocop-rspec', '~> 2.9'
   gem 'shoulda-matchers', '~> 5.1.0'
   gem 'turbo_test'
-  gem 'fasterer'
 end
 
 group :ci, :test do
@@ -81,7 +78,7 @@ group :ci, :test do
   gem 'database_cleaner-active_record'
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.5'
-  gem 'timecop', '~> 0.9.4'
+  gem 'timecop', '~> 0.9.5'
   gem 'webmock', '~> 3.14'
   gem 'wisper-rspec', '~> 1.1.0'
 end

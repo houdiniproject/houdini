@@ -1,7 +1,7 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <%= content_for :javascripts do %>
-	<%= javascript_pack_tag 'i18n', 'page__nonprofits__supporters__new' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__nonprofits__supporters__new' %>
 <% end %>
 
 <div class='container'>

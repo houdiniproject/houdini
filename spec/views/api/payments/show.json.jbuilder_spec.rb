@@ -31,14 +31,14 @@ RSpec.describe 'api/payments/show.json.jbuilder', type: :view do
 
 	subject(:json) do
 		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
-		assign(:subtransaction_payment, payment)
+		assign(:payment, payment)
 		render
 		JSON.parse(rendered)
 	end
 
 	let(:transaction) { create(:transaction_for_donation) }
 	let(:subtransaction) { transaction.subtransaction }
-	let(:payment) { subtransaction.subtransaction_payments.first }
+	let(:payment) { subtransaction.payments.first }
 	let(:supporter) { payment.supporter }
 	let(:nonprofit) { payment.nonprofit }
 

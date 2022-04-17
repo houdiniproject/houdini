@@ -30,7 +30,7 @@
 
 	<%= render 'common/froala' if current_event_editor? %>
   <%= render 'schema', event: @event, url: @url %>
-	<%= javascript_pack_tag 'i18n', 'page__events__show' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__events__show' %>
 	<script>
 		appl.def('event_id', <%= @event.id %>)
 		appl.def('event_is_deleted', <%= @event.deleted || false %>)

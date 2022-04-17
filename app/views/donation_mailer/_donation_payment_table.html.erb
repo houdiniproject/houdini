@@ -23,8 +23,8 @@
 		</tr>
 		<tr>
 			<td><strong><%= t('donation.date') %></strong></td>
-			<td><%= date_and_time(charge.try(:created_at) || donation.created_at, donation.nonprofit.timezone) %></td>
-		</tr>
+			<td><%= format_date_to_datetime_timezone(charge.try(:created_at) || donation.created_at, donation.nonprofit.timezone) %></td>
+			</tr>
 
 		<% if donation.campaign && donation.campaign.published %>
 		<tr>
@@ -47,7 +47,7 @@
 			</tr>
 			<tr>
 				<td><strong><%= t('donation.recurring_since') %></strong></td>
-				<td> <%= simple_date donation.recurring_donation.created_at %></td>
+				<td> <%= format_date_to_mdY donation.recurring_donation.created_at %></td>
 			</tr>
 		<% end %>
 

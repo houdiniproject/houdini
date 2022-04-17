@@ -7,7 +7,7 @@
   <%= stylesheet_link_tag 'nonprofits/supporters/index/page' %>
 <% end %>
 <%= content_for :javascripts do %>
-	<%= javascript_pack_tag 'i18n', 'page__nonprofits__supporters__index', 'create_new_offsite_payment_pane' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__nonprofits__supporters__index', 'create_new_offsite_payment_pane' %>
 	<%= render 'common/froala' %>
 
   <script>

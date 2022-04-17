@@ -103,7 +103,6 @@ const view = state => {
     , expMonthInput(field)
     , expYearInput(field)
     , zipInput(field, state.card$().address_zip)
-    , profileInput(field, app.profile_id) // XXX global
     ])
   , h('div.u-centered.u-marginTop--20', [
       state.hideButton ? '' : button({
@@ -171,16 +170,6 @@ const zipInput = (field, zip) =>
       }} 
     ))
   ])
-
-
-const profileInput = (field, profile_id) =>
-  field(h('input'
-  , { props: {
-      type: 'hidden'
-    , name: 'profile_id'
-    , value: profile_id || ''
-    }} 
-  ))
 
 module.exports = {view, init}
 

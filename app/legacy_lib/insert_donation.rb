@@ -9,8 +9,8 @@ module InsertDonation
   # designation, dedication
   # recurring_donation if is recurring
   def self.with_stripe(data, current_user = nil)
-    data = data.with_indifferent_access
-
+    data = data.to_h.with_indifferent_access
+    
     ParamValidation.new(data, common_param_validations
                                   .merge(token: { required: true, format: UUID::Regex }))
 
@@ -46,8 +46,8 @@ module InsertDonation
     update_donation_keys(result)
     don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
     stripe_t = trx.build_subtransaction(
-      subtransactable: StripeTransaction.new(amount: data['amount']), 
-      subtransaction_payments:[
+      subtransactable: StripeTransaction.new(amount: data['amount']),
+      payments:[
         SubtransactionPayment.new(
           paymentable: StripeCharge.new(payment: Payment.find(result['payment']['id'])))
         ],
@@ -56,7 +56,7 @@ module InsertDonation
     trx.save!
     don.save!
     stripe_t.save!
-    stripe_t.subtransaction_payments.each(&:publish_created)
+    stripe_t.payments.each(&:publish_created)
     stripe_t.publish_created
     don.publish_created
     trx.publish_created
@@ -90,7 +90,7 @@ module InsertDonation
     result = { 'donation' => insert_donation(data.except('offsite_payment'), entities) }
     trx = entities[:supporter_id].transactions.build(amount: data['amount'], created: data['date'])
     don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
-    
+
     result['payment'] = insert_payment('OffsitePayment', 0, result['donation']['id'], data)
     result['offsite_payment'] = Psql.execute(
       Qexpr.new.insert(:offsite_payments, [
@@ -106,8 +106,8 @@ module InsertDonation
     ).first
 
     off_t = trx.build_subtransaction(
-      subtransactable: OfflineTransaction.new(amount: data['amount']), 
-      subtransaction_payments:[
+      subtransactable: OfflineTransaction.new(amount: data['amount']),
+      payments:[
         SubtransactionPayment.new(
           paymentable: OfflineTransactionCharge.new(payment: Payment.find(result['payment']['id'])))
         ],
@@ -116,7 +116,7 @@ module InsertDonation
     trx.save!
     don.save!
     off_t.save!
-    off_t.subtransaction_payments.each(&:publish_created)
+    off_t.payments.each(&:publish_created)
     off_t.publish_created
     don.publish_created
     trx.publish_created

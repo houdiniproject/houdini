@@ -6,7 +6,7 @@
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <%= content_for :javascripts do %>
-	<%= javascript_pack_tag 'i18n', 'page__nonprofits__payouts__index' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__nonprofits__payouts__index' %>
 	<script>
 		appl.def('has_bank', <%= !!@nonprofit.bank_account %>)
 	</script>
@@ -68,7 +68,7 @@
 		<tbody>
 			<% @payouts.each do |payout| %>
 			<tr>
-				<td><%= simple_date(payout.created_at) %></td>
+				<td><%= format_date_to_mdY(payout.created_at) %></td>
 				<td class='table-bigNum'><%= print_currency(payout.net_amount, payout.nonprofit.currency_symbol) %></td>
 				<td><%= payout.bank_name %></td>
 				<td>

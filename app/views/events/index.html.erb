@@ -10,7 +10,7 @@
   <script>
 		app.current_nonprofit_user = <%= current_nonprofit_user? %>
   </script>
-	<%= javascript_pack_tag 'i18n', 'page__events__index' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__events__index' %>
 <% end %>
 
 <%= render 'components/header',

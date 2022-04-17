@@ -63,13 +63,13 @@ class SuperAdminsController < ApplicationController
   end
 
   def export_supporters_with_rds
-    np = params[:np]
+    nonprofit = params[:np]
     ids = params[:ids]
-    results = QuerySupporters.for_export(np, ids: ids)
+    results = QuerySupporters.for_export(nonprofit, ids: ids)
     results[0].push('Management URLS')
     results.drop(1).each do |row|
-      rds = Supporter.includes(:recurring_donations).find(row.last).recurring_donations.select(&:active).map { |rd| "* #{root_url}recurring_donations/#{rd.id}/edit?t=#{rd.edit_token}" }.join("\n")
-      row.push(rds)
+      recurring_donations = Supporter.includes(:recurring_donations).find(row.last).recurring_donations.select(&:active).map { |rd| "* #{root_url}recurring_donations/#{rd.id}/edit?t=#{rd.edit_token}" }.join("\n")
+      row.push(recurring_donations)
     end
 
     send_data(Format::Csv.from_vectors(results), filename: 'supporters_with_multiple_donations.csv')

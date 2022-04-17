@@ -5,7 +5,7 @@
 
 module QueryRecurringDonations
   # Calculate a nonprofit's total recurring donations
-  def self.monthly_total(np_id)
+  def self.calculate_monthly_donation_total(np_id)
     Qx.select('coalesce(sum(amount), 0) AS sum')
       .from('recurring_donations')
       .where(nonprofit_id: np_id)
@@ -113,7 +113,7 @@ module QueryRecurringDonations
       Qexpr.new.select('COUNT(rds)')
       .from(full_search_expr(np_id, query).remove(:order_by).select('recurring_donations.id'), 'rds')
     ).first['count']
-    total_amount = monthly_total(np_id)
+    total_amount = calculate_monthly_donation_total(np_id)
 
     {
       data: data,

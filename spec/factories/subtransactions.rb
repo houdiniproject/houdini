@@ -5,7 +5,7 @@
 FactoryBot.define do
 	factory :subtransaction do
 		subtransactable { create(:offline_transaction) }
-		subtransaction_payments do
+		payments do
 			[
 				create(:subtransaction_payment_with_offline_charge)
 			]

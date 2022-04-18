@@ -99,5 +99,7 @@ module Commitchange
 		config.action_dispatch.default_headers = {
 			'X-XSS-Protection' => '1; mode=block'
 		}
+
+		config.active_job.queue_adapter = :delayed_job
 	end
 end

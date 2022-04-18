@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/CommitChange/rack.git
+  revision: d25ed1c2dd7b734db6f8d008283d8b9f32721c5c
+  branch: 1-6-stable
+  specs:
+    rack (1.6.13)
+
+GIT
   remote: https://github.com/ruby-grape/grape-entity.git
   revision: 0e04aa561373b510c2486282979085eaef2ae663
   ref: 0e04aa561373b510c2486282979085eaef2ae663
@@ -324,7 +331,6 @@ GEM
     rabl (0.11.6)
       activesupport (>= 2.3.14)
     racc (1.6.0)
-    rack (1.6.13)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (6.5.0)
@@ -535,6 +541,7 @@ DEPENDENCIES
   puma_worker_killer
   qx!
   rabl
+  rack!
   rack-attack
   rack-cors
   rack-freeze

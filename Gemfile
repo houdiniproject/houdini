@@ -5,6 +5,8 @@ ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.10' # heroku needs a specific ruby versi
 gem 'rake'
 gem 'rails', '~> 4.0'
 
+gem 'rack', git: "https://github.com/CommitChange/rack.git", branch: "1-6-stable"
+
 gem 'date', '~> 2.0.2'
 
 # https://stripe.com/docs/api

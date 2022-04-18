@@ -28,10 +28,26 @@ const tryJSON = str => {
   try { return JSON.parse(str) } catch(e) { return str }
 }
 
+/**
+ * If `testObj` is an object OR it's a string that can be parsed as JSON, then we return that object.
+ * Otherwise, null.
+ */
+function jsonOrNull(testObj) {
+  if (typeof testObj === 'object') {
+    return testObj
+  }
+  else if (typeof testObj === 'string') {
+    try { return JSON.parse(str) } catch(e) {return null;}
+  }
+  else {
+    return null;
+  }
+}
+
 // Parse the cached `json_data` column for activities
 // Also, parse the nested `dedicaton` json if it is present
 const parseActivityJson = data => {
-  var json_data = JSON.parse(data.json_data || '{}')
+  let json_data = jsonOrNull(data.json_data) || {};
   json_data.dedication = tryJSON(json_data.dedication)
   return R.merge(data, {json_data})
 }

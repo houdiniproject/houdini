@@ -531,6 +531,7 @@ DEPENDENCIES
   httparty
   i18n-js
   jbuilder
+  json (>= 2.3.0)
   lograge
   memcachier
   mini_magick

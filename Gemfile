@@ -32,6 +32,8 @@ gem 'hamster'
 gem 'aws-sdk-s3'
 gem 'aws-sdk-rails'
 
+gem 'json', '>= 2.3.0'
+
 
 # for blocking ip addressses
 gem 'rack-attack'

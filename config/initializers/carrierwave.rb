@@ -14,7 +14,7 @@ else
 		config.aws_credentials = {
 			access_key_id:     Settings.aws.access_key_id,
 			secret_access_key: Settings.aws.secret_access_key,
-			config: AWS.config(cache_dir: "#{Rails.root}/tmp/uploads", region: Settings.aws.region)
+			region: Settings.aws.region
 		}
 	end
 end

@@ -141,7 +141,7 @@ rvm install 2.7.6 --disable-binary --with-jemalloc
 **Note: For development, Houdini expects the password to be 'password'. This would be terrible
 for production but for development, it's likely not a huge issue.**
 
-#### Create user:
+#### Create user account for the database connection:
 
 ```bash
 sudo -u postgres createuser houdini_user -s -d -P

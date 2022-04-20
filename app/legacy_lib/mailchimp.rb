@@ -56,6 +56,18 @@ module Mailchimp
     return mailchimp_token
   end
 
+  # Get all lists owned by the nonprofit represented by the mailchimp token
+  def get_all_lists(mailchimp_token)
+    uri = base_uri(mailchimp_token)
+    puts "URI #{uri}"
+    puts "KEY #{mailchimp_token}"
+    get(uri+'/lists', {
+        basic_auth: {username: '', password: mailchimp_token},
+        headers: {'Content-Type' => 'application/json'},
+      }
+    )
+  end
+
   # Given a nonprofit id and a list of tag master ids that they make into email lists,
   # create those email lists on mailchimp and return an array of hashes of mailchimp list ids, names, and tag_master_id
 	def self.create_mailchimp_lists(npo_id, tag_master_ids)

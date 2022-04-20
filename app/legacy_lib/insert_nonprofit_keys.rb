@@ -13,22 +13,12 @@ module InsertNonprofitKeys
       if response['error']
         raise Exception.new(response['error'])
       end
-      response['access_token'] = Cypher.encrypt(response['access_token'])
 
-      key_row_id = Qx.select("*")
-        .from(:nonprofit_keys).where(nonprofit_id: npo_id)
-        .execute.map{|h| h['id']}.first
+      nonprofit_key = Nonprofit.find(npo_id).nonprofit_key
+      nonprofit_key = Nonprofit.find(npo_id).build_nonprofit_key unless nonprofit_key
 
-      if key_row_id.nil?
-        Qx.insert_into(:nonprofit_keys)
-          .values({nonprofit_id: npo_id, mailchimp_token: response['access_token'].to_json})
-          .ts.execute
-      else
-        Qx.update(:nonprofit_keys)
-          .set(mailchimp_token: response['access_token'])
-          .ts.where({'id' => key_row_id})
-          .execute
-      end
+      nonprofit_key.mailchimp_token = response['access_token']
+      nonprofit_key.save!
 
       return response['access_token']
     end

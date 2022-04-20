@@ -49,6 +49,11 @@ These assets are also not served in production mode by default
 served directly from Nginx as configured below. You can override this behavior
 by setting the environment variable `RAILS_SERVE_STATIC_FILES=true`.
 
+You may also consider serving [static assets from a
+CDN](https://guides.rubyonrails.org/asset_pipeline.html#cdns). This is
+especially useful if you've configured Rails to serve static assets directly as
+mentioned above.
+
 See ["Webpacker"](https://edgeguides.rubyonrails.org/webpacker.html) in the Ruby
 on Rails guide for details.
 

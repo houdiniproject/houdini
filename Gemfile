@@ -100,8 +100,8 @@ end
 group :development, :ci, :test do
 	gem 'timecop'
 	gem 'binding_of_caller'
-  gem 'rspec'
-	gem 'rspec-rails'
+  gem 'rspec', "~> 3.9"
+	gem 'rspec-rails', "~> 3.9"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
   gem 'ruby-prof', '0.15.9'

@@ -1,0 +1,13 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<p>Your export from <%= Format::Date.simple @export.created_at %> did not succeed due to a technical error.</p>
+<p>While CommitChange engineers have been notified, don't hesitate to contact
+  <a href="mailto:<%= Settings.devise.mailer_sender %>"><%= Settings.devise.mailer_sender %></a> with the following information:</p>
+
+<ul>
+  <li>Export ID: <%= @export.id %></li>
+  <li>User ID: <%= @export.user_id %></li>
+  <li>Nonprofit ID: <%= @export.nonprofit_id %></li>
+  <li>Exception: <%= @export.exception %></li>
+</ul>
+
+<%= render 'emails/sig' %>

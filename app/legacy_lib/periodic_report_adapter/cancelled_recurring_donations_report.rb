@@ -7,7 +7,7 @@ class PeriodicReportAdapter::CancelledRecurringDonationsReport < PeriodicReportA
   end
 
   def run
-    ExportRecurringDonations::initiate_export(@nonprofit_id, params, @user_ids, false)
+    ExportRecurringDonations::initiate_export(@nonprofit_id, params, @user_ids, :cancelled_recurring_donations_automatic_report)
   end
 
   private

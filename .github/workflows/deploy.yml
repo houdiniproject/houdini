@@ -1,0 +1,73 @@
+name: Deploy
+on: 
+ workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      mode:
+        description: Mode to build
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+      version_tag:
+        description: New Version To Create
+        required: true
+      commit_being_built:
+        description: SHA of the original git version being built
+        required: true
+concurrency: 
+  group: deploy--${{ github.head_ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-20.04]
+          node: [14.19.1]
+          ruby: ['2.6.10']
+        fail-fast: false
+      steps:
+        - name: 'Checkout our repo'
+          uses: actions/checkout@v2
+          with:
+            token: ${{ secrets.PAT_TO_RUN_AS_ERIC }}
+              
+        - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+          uses: Daniel-Marynicz/postgresql-action@0.1.0
+          with:
+            postgres_image_tag: 12-alpine
+            postgres_user: admin
+            postgres_password: password
+        - uses: actions/setup-node@v2
+          with:
+            node-version: ${{ matrix.node }}
+            cache: 'npm'
+        - name: set environment variables
+          uses: allenevans/set-env@v2.0.0
+          with:
+            CUSTOM_RUBY_VERSION: ${{ matrix.ruby }}
+        - uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: ${{ matrix.ruby }}
+            bundler-cache: true
+
+        - run: bin/setup
+        - env:
+            mode: ${{ github.event.inputs.mode }}
+          run: npm run build-all-${mode}
+        - name: "Push deploy"
+          env:
+            mode: ${{ github.event.inputs.mode }}
+            NewVersionTag: ${{ github.event.inputs.version_tag }}
+            commit_being_built: ${{github.event.inputs.commit_being_built}}
+          run: |
+
+            git add public -f 
+            git config --global user.email "robot@commitchange.com"
+            git config --global user.name "Robot"
+            git commit -m "Deployed version of $commit_being_built"
+
+            git tag $NewVersionTag-$mode-release-deploy
+            git push origin $NewVersionTag-$mode-release-deploy

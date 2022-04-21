@@ -24,6 +24,7 @@
     "@types/enzyme": "^3.1.9",
     "@types/enzyme-to-json": "^1.5.1",
     "@types/es6-promise": "^3.3.0",
+    "@types/google.maps": "^3.47.2",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^22.2.2",
     "@types/jquery": "^3.3.1",
@@ -91,7 +92,6 @@
     "webpack-sweet-entry": "^1.1.4"
   },
   "dependencies": {
-    "@types/google.maps": "^3.47.2",
     "attr-binder": "0.3.1",
     "autobind-decorator": "^2.4.0",
     "bignumber": "^1.1.0",

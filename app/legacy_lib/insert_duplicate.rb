@@ -31,9 +31,9 @@ module InsertDuplicate
 
       dupe.save!
 
-      dupe.update_attribute(:main_image, campaign.main_image) unless !campaign.main_image rescue AWS::S3::Errors::NoSuchKey
+      dupe.update_attribute(:main_image, campaign.main_image) unless !campaign.main_image rescue Aws::S3::Errors::NoSuchKey
 
-      dupe.update_attribute(:background_image, campaign.background_image) unless !campaign.background_image rescue AWS::S3::Errors::NoSuchKey
+      dupe.update_attribute(:background_image, campaign.background_image) unless !campaign.background_image rescue Aws::S3::Errors::NoSuchKey
 
       InsertDuplicate.campaign_gift_options(campaign_id, dupe.id)
 
@@ -82,9 +82,9 @@ module InsertDuplicate
 
       dupe.save!
 
-      dupe.update_attribute(:main_image, event.main_image) unless !event.main_image rescue AWS::S3::Errors::NoSuchKey
+      dupe.update_attribute(:main_image, event.main_image) unless !event.main_image rescue Aws::S3::Errors::NoSuchKey
 
-      dupe.update_attribute(:background_image, event.background_image) unless !event.background_image rescue AWS::S3::Errors::NoSuchKey
+      dupe.update_attribute(:background_image, event.background_image) unless !event.background_image rescue Aws::S3::Errors::NoSuchKey
 
       InsertDuplicate.ticket_levels(event_id, dupe.id)
       InsertDuplicate.event_discounts(event_id, dupe.id)

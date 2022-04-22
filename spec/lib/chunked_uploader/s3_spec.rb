@@ -7,7 +7,7 @@ describe ChunkedUploader::S3 do
     skip 'Only run this if you are okay getting billed on s3' do
       before(:each) do
         WebMock.disable!
-        @s3 = AWS::S3.new
+        @s3 = Aws::S3.new
         @bucket = @s3.buckets[ENV['S3_BUCKET_NAME']]
         @path = 'tmp/export/1000000000.csv'
         @object = @bucket.objects[@path]

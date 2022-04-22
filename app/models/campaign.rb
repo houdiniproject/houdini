@@ -238,7 +238,7 @@ class Campaign < ActiveRecord::Base
 			end
 			[:main_image, :background_image, :banner_image].each do |i|
 				if parent_campaign.send("#{i.to_s}?")
-					update_attribute(i, parent_campaign.send(i)) unless !parent_campaign.send(i.to_s) rescue AWS::S3::Errors::NoSuchKey
+					update_attribute(i, parent_campaign.send(i)) unless !parent_campaign.send(i.to_s) rescue Aws::S3::Errors::NoSuchKey
 				else
 					self.send("remove_#{i.to_s}!")
 				end

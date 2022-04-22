@@ -15,15 +15,11 @@ module ChunkedUploader
       content_type = metadata[:content_type] ?  metadata[:content_type] : nil
       content_disposition = metadata[:content_disposition] ?  metadata[:content_disposition] : nil
 
-      object.put(:acl => "public-read", :content_type => content_type, content_disposition: content_disposition) 
-      # the put has to be done before the upload_stream. if not, AWS seems to empty the entire uploaded file. I don't know why.
-
-      object.upload_stream(temp_file:true) do |write_stream|
+      object.upload_stream(temp_file:true, acl: 'public-read', content_type: content_type, content_disposition: content_disposition) do |write_stream|
         chunk_enum.each  do |chunk|
           write_stream << chunk
         end
       end
-
 
       object.public_url.to_s
     end

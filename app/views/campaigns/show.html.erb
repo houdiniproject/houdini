@@ -24,7 +24,7 @@
 
   <%= render 'schema', campaign: @campaign, url: @url %>
   <%= render 'common/froala' if current_campaign_editor? %>
-<%= javascript_pack_tag 'i18n', 'page__campaigns__show' %>
+<%= javascript_packs_with_chunks_tag 'i18n', 'page__campaigns__show' %>
 <script>
   appl.def('campaign_is_deleted', <%= @campaign.deleted || false %>)
     appl.def('has_main_image', <%= @campaign.main_image.attached? %>)
@@ -89,7 +89,7 @@
     <% if !@campaign.child_campaign? %>
       <aside class='u-marginBottom--15 pastelBox--grey'>
         <a class='button u-width--full' target='_blank' if-branded='background-color, dark' href='<%= @campaign.finished? ? "/peer-to-peer?npo_id=#{@nonprofit.id}" : "/peer-to-peer?campaign_id=#{ @peer_to_peer_campaign_param}" %>'>
-          Start Your Own Campaign for <%= @nonprofit.name %>
+        Start Your Own Campaign for <%= @nonprofit.name %>
         </a>
       </aside>
     <% end %>

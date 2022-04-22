@@ -29,12 +29,12 @@ module InsertCard
                           name: { not_blank: true, required: true },
                           event_id: { is_reference: true })
     rescue ParamValidation::ValidationError => e
-      return { json: { error: "Validation error\n #{e.message}", errors: e.data }, status: :unprocessable_entity }
+      raise e
     end
 
     # validate that the user is with the correct nonprofit
 
-    card_data = card_data.keep_keys(:holder_type, :holder_id, :stripe_card_id, :stripe_card_token, :name)
+    card_data = card_data.slice(:holder_type, :holder_id, :stripe_card_id, :stripe_card_token, :name)
     holder_types = { 'Nonprofit' => :nonprofit, 'Supporter' => :supporter }
     holder_type = holder_types[card_data[:holder_type]]
     holder = nil
@@ -45,7 +45,7 @@ module InsertCard
         holder = Supporter.select('id, email, nonprofit_id').includes(:cards, :nonprofit).find(card_data[:holder_id])
       end
     rescue ActiveRecord::RecordNotFound
-      return { json: { error: 'Sorry, you need to provide a nonprofit or supporter' }, status: :unprocessable_entity }
+      raise 'Sorry, you need to provide a nonprofit or supporter'
     end
 
     begin
@@ -63,10 +63,10 @@ module InsertCard
           raise AuthenticationError
         end
       end
-    rescue AuthenticationError
-      return { json: { error: "You're not authorized to perform that action" }, status: :unauthorized }
+    rescue AuthenticationError => e
+      raise e
     rescue StandardError => e
-      return { json: { error: "Oops! There was an error: #{e.message}" }, status: :unprocessable_entity }
+      raise "Oops! There was an error: #{e.message}"
     end
     stripe_account_hash = {} # stripe_account_id ? {stripe_account: stripe_account_id} : {}
     begin
@@ -80,9 +80,9 @@ module InsertCard
 
       card_data[:stripe_customer_id] = stripe_customer.id
     rescue Stripe::CardError => e
-      return { json: { error: "Oops! #{e.json_body[:error][:message]}" }, status: :unprocessable_entity }
+      raise "Oops! #{e.json_body[:error][:message]}"
     rescue Stripe::StripeError => e
-      return { json: { error: "Oops! There was an error processing your payment, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
+      raise "Oops! There was an error processing your payment, and it did not complete. Please try again in a moment. Error: #{e}"
     end
 
     card = nil
@@ -97,19 +97,16 @@ module InsertCard
           card = holder.cards.create(card_data)
           params = {}
           params[:event] = event if event
-          source_token = InsertSourceToken.create_record(card, params).token
+          source_token = InsertSourceToken.create_record(card, params)
         end
         card.save!
       end
-    rescue ActiveRecord::ActiveRecordError => e
-      return { json: { error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
+    # rescue ActiveRecord::ActiveRecordError => e
+    #   return { json: { error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
     rescue e
-      return { json: { error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
-    rescue e
-      return { json: { error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}" }, status: :unprocessable_entity }
+      raise "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"
     end
-
-    { status: :ok, json: card.attributes.with_indifferent_access.merge(token: source_token) }
+    source_token
 end
 
   def self.customer_data(holder, card_data)

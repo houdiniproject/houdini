@@ -7,7 +7,7 @@
 <% content_for(:footer_hidden) {'hidden'} %>
 
 <%= content_for :javascripts do %>
-	<%= javascript_pack_tag 'i18n', 'page__nonprofits__recurring_donations__index' %>
+	<%= javascript_packs_with_chunks_tag 'i18n', 'page__nonprofits__recurring_donations__index' %>
 <% end %>
 
 <%= render 'nonprofits/transaction_title',

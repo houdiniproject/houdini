@@ -10,16 +10,16 @@ class Api::PaymentsController < Api::ApiController
 	before_action :authenticate_nonprofit_user!
 
 	def index
-		@subtransaction_payments =
+		@payments =
 			current_subtransaction
-			.subtransaction_payments
+			.payments
 			.order('created DESC')
 			.page(params[:page])
 			.per(params[:per])
 	end
 
 	def show
-		@subtransaction_payment = current_payment
+		@payment = current_payment
 	end
 
 	private
@@ -29,6 +29,6 @@ class Api::PaymentsController < Api::ApiController
 	end
 
 	def current_payment
-		current_subtransaction.subtransaction_payments.where(paymentable_id: params[:id])
+		current_subtransaction.payments.where(paymentable_id: params[:id])
 	end
 end

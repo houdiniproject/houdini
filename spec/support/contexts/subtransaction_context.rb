@@ -127,7 +127,7 @@ shared_context 'with json results for subtransaction on transaction_for_donation
 					payment_url(
 						nonprofit.id,
 						transaction.id,
-						transaction.subtransaction.subtransaction_payments.first.paymentable.id
+						transaction.subtransaction.payments.first.paymentable.id
 					)
 				)
 			}

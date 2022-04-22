@@ -13,7 +13,7 @@ describe QueryRecurringDonations do
     end
   end
 
-  describe '.monthly_total' do
+  describe '.calculate_monthly_donation_total' do
     let(:nonprofit) { Qx.insert_into(:nonprofits).values(name: SecureRandom.uuid).ts.returning('*').execute.first }
     let(:rec_dons) do
       Qx.insert_into('recurring_donations').values([
@@ -25,7 +25,7 @@ describe QueryRecurringDonations do
 
     it 'adds up the total for all active recurring donations' do
       rec_dons
-      sum = QueryRecurringDonations.monthly_total(nonprofit['id'])
+      sum = QueryRecurringDonations.calculate_monthly_donation_total(nonprofit['id'])
       expect(sum).to eq(rec_dons[0]['amount'] + rec_dons[1]['amount'])
     end
   end

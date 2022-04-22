@@ -44,10 +44,10 @@ class RecurringDonationsController < ApplicationController
   end
 
   def update_amount
-    rd = RecurringDonation.where('id = ?', params[:id]).first
-    if rd && params[:edit_token] == rd['edit_token']
+    recurring_donation = RecurringDonation.where('id = ?', params[:id]).first
+    if recurring_donation && params[:edit_token] == recurring_donation['edit_token']
       begin
-        amount_response = UpdateRecurringDonations.update_amount(rd, params[:token], params[:amount])
+        amount_response = UpdateRecurringDonations.update_amount(recurring_donation, params[:token], params[:amount])
         flash[:notice] = "Your recurring donation amount has been successfully changed to $#{(amount_response.amount / 100).to_i}"
         render_json { amount_response }
       rescue StandardError => e

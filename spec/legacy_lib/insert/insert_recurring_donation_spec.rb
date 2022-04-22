@@ -153,14 +153,14 @@ describe InsertRecurringDonation do
 						{ 'supporter' => supporter.id,
 								'nonprofit' => nonprofit.id }
 					end
-		
+
 					let(:common_builder_expanded) do
 						{
 							'supporter' => supporter_builder_expanded,
 							'nonprofit' => np_builder_expanded
 						}
 					end
-		
+
 					let(:common_builder_with_trx_id) do
 						common_builder.merge(
 							{
@@ -168,7 +168,7 @@ describe InsertRecurringDonation do
 							}
 						)
 					end
-		
+
 					let(:common_builder_with_trx) do
 						common_builder.merge(
 							{
@@ -176,7 +176,7 @@ describe InsertRecurringDonation do
 							}
 						)
 					end
-		
+
 					let(:np_builder_expanded) do
 						{
 							'id' => nonprofit.id,
@@ -184,11 +184,11 @@ describe InsertRecurringDonation do
 							'object' => 'nonprofit'
 						}
 					end
-		
+
 					let(:supporter_builder_expanded) do
 						supporter_to_builder_base.merge({ 'name' => 'Fake Supporter Name' })
 					end
-		
+
 					let(:transaction_builder) do
 						common_builder.merge(
 							{
@@ -200,23 +200,23 @@ describe InsertRecurringDonation do
 								},
 								'created' => created_time.to_i,
 								'subtransaction' => stripe_transaction_id_only,
-								'subtransaction_payments' => [stripe_transaction_charge_id_only],
+								'payments' => [stripe_transaction_charge_id_only],
 								'transaction_assignments' => [donation_id_only]
 							}
 						)
 					end
-		
+
 					let(:transaction_builder_expanded) do
 						transaction_builder.merge(
 							common_builder_expanded,
 							{
 								'subtransaction' => stripe_transaction_builder,
-								'subtransaction_payments' => [stripe_transaction_charge_builder],
+								'payments' => [stripe_transaction_charge_builder],
 								'transaction_assignments' => [donation_builder]
 							}
 						)
 					end
-		
+
 					let(:stripe_transaction_id_only) do
 						{
 							'id' => match_houid('stripetrx'),
@@ -224,7 +224,7 @@ describe InsertRecurringDonation do
 							'type' => 'subtransaction'
 						}
 					end
-		
+
 					let(:stripe_transaction_builder) do
 						stripe_transaction_id_only.merge(
 							common_builder_with_trx_id,
@@ -233,18 +233,18 @@ describe InsertRecurringDonation do
 									'cents' => charge_amount,
 									'currency' => 'usd'
 								},
-		
+
 								'net_amount' => {
 									'cents' => 67,
 									'currency' => 'usd'
 								},
-		
+
 								'payments' => [stripe_transaction_charge_id_only],
 								'created' => created_time.to_i
 							}
 						)
 					end
-		
+
 					let(:stripe_transaction_builder_expanded) do
 						stripe_transaction_builder.merge(
 							common_builder_with_trx,
@@ -254,7 +254,7 @@ describe InsertRecurringDonation do
 							}
 						)
 					end
-		
+
 					let(:stripe_transaction_charge_id_only) do
 						{
 							'id' => match_houid('stripechrg'),
@@ -262,7 +262,7 @@ describe InsertRecurringDonation do
 							'type' => 'payment'
 						}
 					end
-		
+
 					let(:stripe_transaction_charge_builder) do
 						stripe_transaction_charge_id_only.merge(
 							common_builder_with_trx_id,
@@ -285,7 +285,7 @@ describe InsertRecurringDonation do
 							}
 						)
 					end
-		
+
 					let(:stripe_transaction_charge_builder_expanded) do
 						stripe_transaction_charge_builder.merge(
 							common_builder_with_trx,
@@ -295,7 +295,7 @@ describe InsertRecurringDonation do
 							}
 						)
 					end
-		
+
 					let(:donation_id_only) do
 						{
 							'id' => match_houid('don'),
@@ -303,7 +303,7 @@ describe InsertRecurringDonation do
 							'type' => 'trx_assignment'
 						}
 					end
-		
+
 					let(:donation_builder) do
 						donation_id_only.merge(common_builder_with_trx_id, {
 																														'amount' => {
@@ -317,16 +317,16 @@ describe InsertRecurringDonation do
 																														}
 																													})
 					end
-		
+
 					let(:donation_builder_expanded) do
 						donation_builder.merge(common_builder_with_trx, common_builder_expanded)
 					end
 
-					let(:recurrence_builder_expanded) do 
-						
+					let(:recurrence_builder_expanded) do
+
 					end
-		
-		
+
+
 					describe 'general donations' do
 						subject do
 							process_general_donation(recurring_donation: { paydate: Time.now.day, interval: 1, time_unit: 'month', start_date: Time.now.beginning_of_day }) do
@@ -339,12 +339,12 @@ describe InsertRecurringDonation do
 										profile_id: profile.id,
 										dedication: { 'name' => 'a name', 'type' => 'honor' },
 										designation: 'designation'
-		
+
 									}.with_indifferent_access
 								)
 							end
 						end
-		
+
 						it 'has fired transaction.created' do
 							expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
@@ -365,7 +365,7 @@ describe InsertRecurringDonation do
 							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
-		
+
 						it 'has fired stripe_transaction_charge.created' do
 							expect(Houdini.event_publisher).to receive(:announce).with(
 								:stripe_transaction_charge_created,
@@ -386,7 +386,7 @@ describe InsertRecurringDonation do
 							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
-		
+
 						it 'has fired payment.created' do
 							expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(
@@ -404,10 +404,10 @@ describe InsertRecurringDonation do
 							expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
-		
+
 							subject
 						end
-		
+
 						it 'has fired stripe_transaction.created' do
 							expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
@@ -422,14 +422,14 @@ describe InsertRecurringDonation do
 									}
 								}
 							)
-		
+
 							expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
-		
+
 						it 'has fired donation.created' do
 							expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
@@ -450,7 +450,7 @@ describe InsertRecurringDonation do
 							expect(Houdini.event_publisher).to receive(:announce).with(:recurrence_created, any_args)
 							subject
 						end
-		
+
 						it 'has fired trx_assignment.created' do
 							expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 							expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
@@ -488,13 +488,13 @@ describe InsertRecurringDonation do
 										'object' => 'recurrence',
 								'id' => match_houid('recur'),
 								'start_date' => Time.new(2020, 5, 4).utc.to_i,
-								'recurrences' => [ 
+								'recurrences' => [
 								{
 									'start' => Time.new(2020, 5, 4).utc.to_i,
 									'interval' => 1,
 									'type' => 'monthly'
 								}],
-								'invoice_template' =>  { 
+								'invoice_template' =>  {
 									'supporter' => supporter.id,
 									'amount' => {'cents' => charge_amount, 'currency' => 'usd'},
 									'payment_method' =>  {'type' =>  'stripe'},
@@ -511,7 +511,7 @@ describe InsertRecurringDonation do
 							subject
 						end
 					end
-		
+
 					# describe 'campaign donations' do
 					# 	subject do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:campaign_create, any_args)
@@ -529,11 +529,11 @@ describe InsertRecurringDonation do
 					# 			)
 					# 		end
 					# 	end
-		
+
 					# 	before do
 					# 		before_each_success
 					# 	end
-		
+
 					# 	it 'has fired transaction.created' do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
@@ -552,7 +552,7 @@ describe InsertRecurringDonation do
 					# 		)
 					# 		subject
 					# 	end
-		
+
 					# 	it 'has fired stripe_transaction_charge.created' do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(
 					# 			:stripe_transaction_charge_created,
@@ -570,10 +570,10 @@ describe InsertRecurringDonation do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
-		
+
 					# 		subject
 					# 	end
-		
+
 					# 	it 'has fired payment.created' do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(
@@ -591,10 +591,10 @@ describe InsertRecurringDonation do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
-		
+
 					# 		subject
 					# 	end
-		
+
 					# 	it 'has fired stripe_transaction.created' do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
@@ -609,13 +609,13 @@ describe InsertRecurringDonation do
 					# 				}
 					# 			}
 					# 		)
-		
+
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:donation_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
 					# 		subject
 					# 	end
-		
+
 					# 	it 'has fired donation.created' do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
@@ -635,7 +635,7 @@ describe InsertRecurringDonation do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
 					# 		subject
 					# 	end
-		
+
 					# 	it 'has fired trx_assignment.created' do
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args)
 					# 		expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args)
@@ -672,7 +672,7 @@ describe InsertRecurringDonation do
       end
     end
 
-    
+
   end
 
   describe '.convert_donation_to_recurring_donation' do

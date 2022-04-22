@@ -14,7 +14,11 @@ const sepaTab = 'sepa'
 const cardTab = 'credit_card'
 
 function init(state) {
-  const payload$ = flyd.map(supp => ({card: {holder_id: supp.id, holder_type: 'Supporter'}}), state.supporter$)
+  const payload$ = flyd.map(supp => {
+    
+    return {card: {holder_id: supp.id, holder_type: 'Supporter'}};
+    
+}, state.supporter$)
   const supporterID$ = flyd.map(supp => supp.id, state.supporter$)
   const card$ = flyd.merge(
     flyd.stream({})

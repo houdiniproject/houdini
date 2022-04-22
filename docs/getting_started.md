@@ -4,12 +4,12 @@
 
 ---
 
-You'll need to have in your Mac the following dependencies installed, if you
-don't want to use the provided Docker containers.
+You'll need to have the following dependencies installed:
 
-- Ruby `2.5.1`
-- Rails `5.0.7.1`
-- Node `11.12.0`
+* Ruby 2.7
+* Node 14
+* Yarn
+* PostgreSQL 10 or 12
 
 ## Local Config
 
@@ -33,33 +33,33 @@ Run `cp .env.template .env` to copy the provided template file for env
 variables to create your own.
 
 You'll need to provide a `DEVISE_SECRET_KEY` and `SECRET_TOKEN` which you can
-obtain by running `bundle exec rake secret`.
+obtain by running `bundle exec bin/rails secret`.
 
 Set the following secrets in your `.env` file with your _Stripe account_ information.
 
-- `STRIPE_API_KEY` with your Stripe _private_ key.
-- `STRIPE_API_PUBLIC` with your Stripe _public_ key.
+* `STRIPE_API_KEY` with your Stripe _private_ key.
+* `STRIPE_API_PUBLIC` with your Stripe _public_ key.
 
 The last secrets you'll need are related to AWS. You can learn how
 to [create an S3 Bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html)
 within the AWS Documentation, and to obtain your access and secret key, you
 can [learn more here](https://aws.amazon.com/blogs/security/wheres-my-secret-access-key/).
 
-- `S3_BUCKET_NAME`
-- `AWS_ACCESS_KEY`
-- `AWS_SECRET_ACCESS_KEY`
+* `S3_BUCKET_NAME`
+* `AWS_ACCESS_KEY`
+* `AWS_SECRET_ACCESS_KEY`
 
 _Setting up the local database:_
 
-Run `rake db:setup` to run all the db tasks within one command. This will
+Run `bin/rails db:setup` to run all the db tasks within one command. This will
 create the dbs for each environment, load the `structure.sql`, run
 pending migrations and will also run the seed functionality.
 
 ---
 
 **Known problems**
-If you encounter `database doesnt exist in rake db create` after running
-both `rake db:setup` and `rake db:create`, you'll need to comment out
+If you encounter `database doesnt exist in bin/rails db create` after running
+both `bin/rails db:setup` and `bin/rails db:create`, you'll need to comment out
 the lines these lines at `pg_type_map.rb`
 
 ```ruby
@@ -67,29 +67,32 @@ Qx.config(type_map: PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection
 Qx.execute("SET TIME ZONE utc")
 ```
 
-### How to run
+### Running in development
 
-You'll need 2 consoles to run the project. One for the rails env and another
-one to run the asset pipeline through [webpack](https://webpack.js.org),
-since it's _not incorporated yet_ into the rails asset pipeline.
+Run the development server with:
 
-```bash
-# Console one (1)
-bundle exec rails server
-```
+`bin/rails server`
 
-```bash
-# Console two (2)
-yarn watch
-# #### Notes ####
-# If you get errors from running this command.
-# You'll need to manually run the following commands.
-npm run export-button-config
-npm run export-i18n
-npm run generate-api-js
-# Now we're able to watch!
-npx webpack --watch
-```
+The development server will periodically check for changes in CSS and JavaScript
+assets and rebuild them in-process. If you are doing significant JavaScript
+development and would like faster feedback on build errors and automatic
+reloading, run `bin/webpack-dev-server` in a second console. Now after making a
+change to the JavaScript code you should see Webpack immediately rebuild the
+assets and perform a full page reload.
+
+In development, it's **important** to access the Houdini at
+`http://localhost:5000`, rather than the `http://127.0.0.1:5000` that Rails
+suggests in the console. This ensures that the hard-coded callbacks in the
+JavaScript code will work, such as during donation payment.
+
+It's worth noting that the in-process build, the one-off `bin/webpack` build and
+`bin/webpack-dev-server` build all set `NODE_ENV=development` which skips some
+optimisation steps. The `bin/rake assets:precompile` task sets
+`NODE_ENV=production`. When troubleshooting differences between development and
+production builds, it may help to explicitly override the `NODE_ENV` environment
+variable. For example:
+
+`NODE_ENV=development bin/rake assets:precompile`
 
 ## Testing
 

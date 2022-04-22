@@ -19,7 +19,7 @@ RSpec.describe ModernCampaignGift, type: :model do
   let(:campaign_gift_option) { create(:campaign_gift_option, amount_one_time: 400, campaign: campaign)}
   let(:campaign_gift) { campaign_gift_purchase.campaign_gifts.first}
 
-  let(:campaign_builder_expanded) do 
+  let(:campaign_builder_expanded) do
     {
       'id' => kind_of(Numeric),
       'name' => campaign.name,
@@ -28,7 +28,7 @@ RSpec.describe ModernCampaignGift, type: :model do
     }
   end
 
-  let(:cgo_builder_expanded) do 
+  let(:cgo_builder_expanded) do
     {
       'id' => kind_of(Numeric),
       'name' => campaign_gift_option.name,
@@ -50,7 +50,7 @@ RSpec.describe ModernCampaignGift, type: :model do
     }
   end
 
-  let(:np_builder_expanded) do 
+  let(:np_builder_expanded) do
     {
       'id' => nonprofit.id,
       'name' => nonprofit.name,
@@ -58,12 +58,12 @@ RSpec.describe ModernCampaignGift, type: :model do
     }
   end
 
-  let(:supporter_builder_expanded) do 
+  let(:supporter_builder_expanded) do
     supporter_to_builder_base.merge({'name'=> 'Fake Supporter Name'})
   end
 
-  let(:transaction_builder_expanded) do 
-    { 
+  let(:transaction_builder_expanded) do
+    {
       'id' => match_houid('trx'),
       'object' => 'transaction',
       'amount' => {
@@ -74,21 +74,21 @@ RSpec.describe ModernCampaignGift, type: :model do
       'supporter' => kind_of(Numeric),
       'nonprofit' => kind_of(Numeric),
       'subtransaction' => nil,
-      'subtransaction_payments' => [],
+      'payments' => [],
       'transaction_assignments' => [cgp_builder_to_id]
     }
   end
 
-  let(:cgp_builder_to_id) do 
+  let(:cgp_builder_to_id) do
     {
       'id' => match_houid('cgpur'),
       'object' => 'campaign_gift_purchase',
       'type' => 'trx_assignment'
     }
   end
-  
+
   let(:cgp_builder_expanded) do
-    { 
+    {
       'id' => match_houid('cgpur'),
       'campaign' => kind_of(Numeric),
       'object' => 'campaign_gift_purchase',

@@ -223,7 +223,6 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	}),
 	);
 	const classes = useStyles();
-	//const isMounted = useMountedState();
 	const form = useForm({
 		mode: 'all',
 		resolver: yupResolver(validationSchema),

@@ -21,7 +21,7 @@ describe Nonprofits::DonationsController, type: :controller do
   end
   describe 'accept all users' do
     describe 'create' do
-      include_context :open_to_all, :get, :create, nonprofit_id: :__our_np
+      include_context :open_to_all, :get, :create, nonprofit_id: :__our_np, with_status: 200
     end
 
     describe 'follow up' do

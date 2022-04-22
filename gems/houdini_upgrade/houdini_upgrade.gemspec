@@ -20,5 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "AGPL-3.0.txt", "GPL-3.0.txt", "LGPL-3.0.txt", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", "~> 6.0.3"
+  spec.add_dependency "rails", "~> 6.1"
 end

@@ -76,7 +76,7 @@ module Nonprofits
 
     # post /nonprofits/:nonprofit_id/supporters
     def create
-      render_json { InsertSupporter.create_or_update(current_nonprofit, create_supporter_params.to_h) }
+      @supporter = InsertSupporter.create_or_update(current_nonprofit, create_supporter_params.to_h)
     end
 
     # put /nonprofits/:nonprofit_id/supporters/:id

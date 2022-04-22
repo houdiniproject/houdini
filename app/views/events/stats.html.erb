@@ -24,7 +24,7 @@
     app.hide_activities = <%= @event.hide_activity_feed %>
     app.event_background_image = '<%= @event_background_image %>'
   </script>
-  <%= javascript_pack_tag 'i18n', 'page__events__stats' %>
+  <%= javascript_packs_with_chunks_tag 'i18n', 'page__events__stats' %>
   <script>
 		appl.def('event_id', <%= @event.id %>)
 		appl.def('event_is_deleted', <%= @event.deleted || false %>)

@@ -25,7 +25,8 @@ describe Users::SessionsController, type: :request do
 			it {
 				expect(json).to eq({
 																								'id' => user.id,
-																								'object' => 'user'
+																								'object' => 'user',
+																								'roles' => []
 																							})
 			}
 		end

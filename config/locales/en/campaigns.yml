@@ -35,3 +35,5 @@ en:
     until_end_datetime: "Until: %{end_datetime}"
     total_count_of_supporters_html: "%{supporters_count} <small>supporters</small>"
     total_amount_raised_html: "%{total_raised} <small>raised</small>"
+    sorry_couldnt_find_campaign: "Sorry, we couldn't find that campaign"
+    successfully_updated: 'Successfully updated'

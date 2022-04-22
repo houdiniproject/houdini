@@ -9,8 +9,8 @@ class EmailSettingsController < ApplicationController
 
   def index
     user = current_role?(:super_admin) ? User.find(params[:user_id]) : current_user
-    es = QueryEmailSettings.fetch(params[:nonprofit_id], user.id)
-    render json: es
+    email_settings = QueryEmailSettings.fetch(params[:nonprofit_id], user.id)
+    render json: email_settings
   end
 
   # Create or update for a given user and nonprofit

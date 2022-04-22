@@ -1,5 +1,6 @@
 [![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 ![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
+[![Crowdin](https://badges.crowdin.net/houdiniproject/localized.svg)](https://crowdin.com/project/houdiniproject)
 
 > *Note*: This is the latest version (pre-2.0) of Houdini and
 > is currently in HEAVY development. You may want
@@ -33,7 +34,7 @@ Houdini is designed and tested to run with the following:
 * Ruby 2.7
 * Node 14
 * Yarn
-* PostgreSQL 10  or 12
+* PostgreSQL 10 or 12
 * Ubuntu 18.04, 20.04 or equivalent
 
 ## Get involved
@@ -46,7 +47,7 @@ https://github.com/houdiniproject/houdini/discussions
 
 ### Help with translations
 
-Visit the Discussions tab on Houdini GitHub and discuss
+Check our [translation guide](docs/translations.md) to translate Houdini to other languages.
 
 ### Help with usability tests
 
@@ -63,7 +64,7 @@ These include:
 
 * PostgreSQL 12 (10 probably works)
 * NodeJS 14 (we require 14 because we want the full internationalization built-in)
-* Ruby 2.7.5
+* Ruby 2.7.6
 
 There a few optional tools which make working on Houdini
 easier
@@ -115,7 +116,7 @@ curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source $HOME/.rvm/scripts/rvm
 echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
-rvm install 2.7.5 --disable-binary --with-jemalloc
+rvm install 2.7.6 --disable-binary --with-jemalloc
 ```
 
  Run the following command as the `postgres` user and then enter your houdini_user
@@ -197,11 +198,11 @@ To create a nonprofit, use the command line to run the following command and fil
 bin/rails houdini:nonprofit:create
 ```
 
-There are available arguments that add congirugrations on the nonprofit's creation:
+There are available arguments that add configurations on the nonprofit's creation:
 
 ```bash
-  -su, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
-      [--confirm-admin], [--no-confirm-admin]  # Require the nonprofit admin to be confirmed via email
+  -s, [--super-admin], [--no-super-admin]     # Make the nonprofit admin a super user (they can access any nonprofit's dashboards)
+      [--confirm-admin], [--no-confirm-admin]  # Autoconfirm the admin instead of waiting for them to click the email link
                                                # Default: true
 ```
 
@@ -211,11 +212,11 @@ Additionally, it is possible to provide arguments to fill in the fields for the 
       [--nonprofit-name=NONPROFIT_NAME]        # Provide the nonprofit's name
       [--state-code=STATE_CODE]                # Provide the nonprofit' state code
       [--city=CITY]                            # Provide the nonprofit's city
-      [--nonprofit-website=NONPROFIT_WEBSITE]  # Provide the nonprofit public website
-      [--nonprofit-email=NONPROFIT_EMAIL]      # Provide the nonprofit public email
+      [--nonprofit-website=NONPROFIT_WEBSITE]  # [OPTIONAL] Provide the nonprofit public website
+      [--nonprofit-email=NONPROFIT_EMAIL]      # [OPTIONAL] Provide the nonprofit public email
+      [--nonprofit-phone=NONPROFIT_PHONE]      # [OPTIONAL] Provide the nonprofit's 's phone
       [--user-name=USER_NAME]                  # Provide the nonprofit's admin's name
       [--user-email=USER_EMAIL]                # Provide the nonprofit's admin's email address (It'll be used for logging in)
-      [--user-phone=USER_PHONE]                # [OPTIONAL] Provide the nonprofit's 's phone
       [--user-password=USER_PASSWORD]          # Provide the nonprofit's admin's password
 ```
 
@@ -258,7 +259,7 @@ We have some additional documentation describing some implementations, definitio
 
 ## Known Issues
 
-For a list of [how to solve known issues](docs/KNOWN_ISSUES.MD)
+For a list of [how to solve known issues](docs/known_issues.md)
 
 ## Run in production
 

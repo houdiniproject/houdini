@@ -47,7 +47,7 @@ describe Nonprofits::SupportersController, type: :controller do
 
   describe 'accept all users' do
     describe 'create' do
-      include_context :open_to_all, :post, :create, nonprofit_id: :__our_np
+      include_context :open_to_all, :post, :create, nonprofit_id: :__our_np, with_status: 200
     end
   end
 end

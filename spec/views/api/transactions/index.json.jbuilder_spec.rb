@@ -5,6 +5,13 @@
 require 'rails_helper'
 
 RSpec.describe '/api/transactions/index.json.jbuilder', type: :view do
+	around do |ex|
+		Timecop.freeze(2020, 5, 4) do
+			ex.run
+		end
+	end
+
+	include Controllers::Api::JbuilderExpansions
 	def base_path(nonprofit_id, transaction_id)
 		"/api/nonprofits/#{nonprofit_id}/transactions/#{transaction_id}"
 	end
@@ -14,45 +21,59 @@ RSpec.describe '/api/transactions/index.json.jbuilder', type: :view do
 	end
 
 	subject(:json) do
+		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(1)
 		assign(:transactions, Kaminari.paginate_array([transaction]).page)
+		assign(:__expand, Controllers::Api::JbuilderExpansions::ExpansionRequest.new('supporter', 'transaction_assignments', 'payments', 'subtransaction.payments'))
 		render
-		JSON.parse(rendered)
+		rendered
 	end
 
 	let(:transaction) { create(:transaction_for_donation) }
 	let(:supporter) { transaction.supporter }
 	let(:nonprofit) { transaction.nonprofit }
 
-	it { expect(json['data'].count).to eq 1 }
-
-	describe 'details of the first item' do
-		subject(:first) do
-			json['data'].first
-		end
-
-		include_context 'with json results for transaction_for_donation'
-	end
-
-	describe 'paging' do
-		subject(:json) do
-			transaction
-			(0..5).each do |_i|
-				create(
-					:transaction,
-					nonprofit: transaction.nonprofit,
-					supporter: transaction.supporter
-				)
-			end
-			assign(:transactions, nonprofit.transactions.order('created DESC').page.per(5))
-			render
-			JSON.parse(rendered)
-		end
-
-		it { is_expected.to include('data' => have_attributes(count: 5)) }
-		it { is_expected.to include('first_page' => true) }
-		it { is_expected.to include('last_page' =>  false) }
-		it { is_expected.to include('current_page' => 1) }
-		it { is_expected.to include('requested_size' => 5) }
-		it { is_expected.to include('total_count' => 7) }
-	end
+	it {
+		is_expected.to include_json(
+																		'first_page' => true,
+																		last_page: true,
+																		current_page: 1,
+																		requested_size: 25,
+																		total_count: 1,
+																		data: [
+																			attributes_for(:trx,
+																																		nonprofit: nonprofit.id,
+																																		supporter: attributes_for(
+																																			:supporter_expectation,
+																																			id: supporter.id
+																																		),
+																																		id: transaction.id,
+																																		amount_cents: 4000,
+																																		subtransaction: attributes_for(
+																																			:subtransaction_expectation,
+																																			:offline_transaction,
+																																			gross_amount_cents: 4000,
+																																			payments: [
+																																				attributes_for(:payment_expectation,
+																																																			:offiline_transaction_charge,
+																																																			gross_amount_cents: 4000,
+																																																			fee_total_cents: 0)
+																																			]
+																																		),
+																																		payments: [
+																																			attributes_for(:payment_expectation,
+																																																		:offline_transaction_charge,
+																																																		gross_amount_cents: 4000,
+																																																		fee_total_cents: 0)
+																																		],
+																																		transaction_assignments: [
+																																			attributes_for(:trx_assignment_expectation,
+																																																		:donation,
+																																																		amount_cents:4000,
+																																																		designation: "Designation 1"
+																																			)
+																																		]
+																			)
+																		]
+																	)
+	}
 end

@@ -35,28 +35,29 @@ RSpec.describe '/api/transactions/index.json.jbuilder', type: :view do
 	let(:nonprofit) { transaction.nonprofit }
 
 	it {
-		is_expected.to include_json(
-			'first_page' => true,
+		is_expected.to include_json(jbuilder_expansions.rb
+			first_page: => true,
 			last_page: true,
 			current_page: 1,
 			requested_size: 25,
 			total_count: 1,
 			data: [
 				attributes_for(:trx,
-																			nonprofit: nonprofit.id,
+																			nonprofit: nonprofit.houid,
 																			supporter: attributes_for(
 																				:supporter_expectation,
-																				id: supporter.id
+																				id: supporter.houid
 																			),
-																			id: transaction.id,
+																			id: transaction.houid,
 																			amount_cents: 4000,
 																			subtransaction: attributes_for(
 																				:subtransaction_expectation,
 																				:offline_transaction,
 																				gross_amount_cents: 4000,
+																				net_amount_cents: 4000,
 																				payments: [
 																					attributes_for(:payment_expectation,
-																																				:offiline_transaction_charge,
+																																				:offline_transaction_charge,
 																																				gross_amount_cents: 4000,
 																																				fee_total_cents: 0)
 																				]

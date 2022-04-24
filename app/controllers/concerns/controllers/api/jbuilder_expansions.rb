@@ -38,9 +38,10 @@ module Controllers::Api::JbuilderExpansions
 		request = ExpansionRequest.new
 		expansions = expansions.flatten
 		if expansions.count == 1
-			if expansions.first.is_a? String
+			case expansions.first
+			when String
 				request = ExpansionRequest.new(*expansions)
-			elsif expansions.first.is_a? ExpansionRequest
+			when ExpansionRequest
 				request = expansions.first
 			end
 		elsif expansions.any?

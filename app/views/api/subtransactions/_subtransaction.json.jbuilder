@@ -8,7 +8,6 @@ json.supporter subtransaction.supporter.id
 json.nonprofit subtransaction.nonprofit.id
 json.transaction subtransaction.trx.id
 
-
 json.payments subtransaction.payments do |py|
 	json.partial! py, as: :subtransaction_payment
 end

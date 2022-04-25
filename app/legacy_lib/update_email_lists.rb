@@ -4,10 +4,6 @@ require 'qx'
 module UpdateEmailLists
 
   def self.populate_lists_on_mailchimp(npo_id)
-    lists = Qx.select("tag_master_id", "list_name", "mailchimp_list_id")
-      .from(:email_lists)
-      .where(nonprofit_id: npo_id)
-      .execute
     post_data = Qx.select("supporters.email", "email_lists.mailchimp_list_id")
       .from("email_lists")
       .add_join("tag_masters", "tag_masters.id=email_lists.tag_master_id")

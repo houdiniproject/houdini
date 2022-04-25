@@ -2578,7 +2578,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.27.0 -- 
+** rubocop; version 1.28.2 -- 
 Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov
 Copyright (c) 2012-2022 Bozhidar Batsov
@@ -2887,7 +2887,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop-rspec; version 2.9.0 -- 
+** rubocop-rspec; version 2.10.0 -- 
 Copyright (c) 2014 Ian MacLeod <ian@nevir.net>
 
 The MIT License (MIT)
@@ -3704,7 +3704,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** regexp_parser; version 2.3.0 -- 
+** regexp_parser; version 2.3.1 -- 
 (c) d enter group
 (c) visit literal c exit group
 (c) visit literal d exit group
@@ -3829,7 +3829,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** parser; version 3.1.1.0 -- 
+** parser; version 3.1.2.0 -- 
 Copyright (c) Ryan Davis, seattle.rb
 Copyright (c) 2013-2016 whitequark <whitequark@whitequark.org>
 

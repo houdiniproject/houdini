@@ -23,7 +23,7 @@ Rails.application.routes.draw do
           resources :ticket_levels, only: [:index, :show]
         end
         resources :supporters, only: [:index, :show] do 
-          resources :supporter_addresses, only: [:index, :show]
+          resources :supporter_addresses, only: [:index, :show]s
           resources :supporter_notes, only: [:index, :show]
         end
         resources :tag_definitions, only: [:index, :show]
@@ -141,7 +141,7 @@ Rails.application.routes.draw do
     resources(:campaign_gift_options, only: [:index])
   end
 
-  resources(:nonprofits, only: %i[show create update destroy]) do
+  resources(:nonprofits, only: %i[show update destroy]) do
     get(:profile_todos, on: :member)
     get(:recurring_donation_stats, on: :member)
     get(:search, on: :collection)

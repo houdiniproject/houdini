@@ -1,6 +1,6 @@
 class PaymentNotificationEmailDonorJob < EmailJob
 
-  def perform(donation, locale)
-    DonationMailer.donor_payment_notification(donation.id, locale).deliver_now
+  def perform(donation)
+    DonationMailer.donor_payment_notification(donation.id).deliver_now
   end
 end

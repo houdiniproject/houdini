@@ -11,23 +11,15 @@ module Nonprofits
 
     # post /charges/:charge_id/refunds
     def create
-      charge = Qx.select('*').from('charges').where(id: charge_params[:charge_id]).execute.first
-      render_json { InsertRefunds.with_stripe(charge, charge_params[:refund]) }
+      charge =  current_nonprofit.charges.find(params[:charge_id])
+      charge_params = params.require(:refund).permit(:amount).merge(user_id: current_user.id)
+      render_json { InsertRefunds.with_stripe(charge, charge_params) }
     end
 
     def index
       charge = current_nonprofit.charges.find(params[:charge_id])
       @refunds = charge.refunds
       render locals: {refunds: @refund}
-    end
-
-private
-
-    def charge_params
-      {
-        :charge_id => params.require(:charge_id),
-        :refund => params.require(:refund).permit(:amount)
-      }
     end
   end
 end

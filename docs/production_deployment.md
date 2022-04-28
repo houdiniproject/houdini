@@ -7,7 +7,7 @@ production mode, so a server with at least 4GB RAM is likely
 required. Optimisations may be possible, but due to the bootstrap-loader
 integration we can't currently switch to a newer Webpack.
 
-## Production mode
+## Enable production mode
 
 Running `bin/rails server` will by default start Houdini/Rails in "development"
 mode (`Rails.env == "development"`). This flag is used to conditionally
@@ -24,13 +24,13 @@ export RAILS_ENV=production
 bin/rails server
 ```
 
-## Configuring the database
+## Configure the database
 
 See ["Configuring a
 database"](https://guides.rubyonrails.org/configuring.html#configuring-a-database)
 in the Ruby on Rails guide.
 
-## Building assets
+## Build the assets
 
 In development mode, Houdini's images, CSS and JS are compiled automatically in
 the web server process, but in production mode this should be done beforehand
@@ -57,7 +57,7 @@ mentioned above.
 See ["Webpacker"](https://edgeguides.rubyonrails.org/webpacker.html) in the Ruby
 on Rails guide for details.
 
-## Running the web application
+## Run the web application
 
 While the web application can be run with just `source .env && bin/rails server
 --production`, you'll normally want to delegate this to your operating system to
@@ -92,7 +92,7 @@ export GEM_HOME=.gems
 bundle install
 ```
 
-## Nginx configuration
+## Configure Nginx
 
 ```nginx
 server {

@@ -297,34 +297,13 @@ rubocop
 
 We have some additional documentation describing some implementations, definitions and other guides on the [docs folder](docs).
 
-## Known Issues
+## Known issues
 
 For a list of [how to solve known issues](docs/known_issues.md)
 
 ## Run in production
 
 You will likely want to make a few changes in your configuration of Houdini before running in production as you
-would for any Rails project. These include:
+would for any Rails project. For details, see [production deployment](docs/production_deployment.md).
 
-* Use a [proper cache store](https://guides.rubyonrails.org/caching_with_rails.html#cache-stores). The development uses
- `memory_store` which isn't shared between processes or server
- and clears every time your server software restarts. Memcached
- or Redis are good choices here.
-
-### Providing the complete corresponding source code
-
-> **Note: This is not legal advice and provides a suggestion which may be compliant. You should talk with your legal counsel if you have
-> questions or concerns with how to comply with the various licenses of Houdini.**
-
-Providing the complete, corresponding source code (CCS) of your project is a requirement of some of the licenses used by Houdini. There are two methods for doing so right now:
-
-1. Providing a tarball of the current running code
-2. Providing a link to Github where the code is pulled from
-
-The easiest method is to provide a tarball. Houdini automatically provides a link on the Terms & Privacy page which generates a tarball for the current running code at runtime.
-For this to work though, the following characteristics must be true:
-
-* Your have to have committed any changes you made to the project in `HEAD` in your git repository
-* The `.git` folder for your repository must be a direct subfolder of your `$RAILS_ROOT`
-* Your web server must be able to run `git archive`
 

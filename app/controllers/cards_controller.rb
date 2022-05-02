@@ -8,9 +8,7 @@ class CardsController < ApplicationController
   # post /cards
   def create
     account = Supporter.find(card_params[:holder_id]).nonprofit.stripe_account_id
-
-    @source_token = InsertCard.with_stripe(card_params, acct, params[:event_id], current_user)
-    
+    @source_token = InsertCard.with_stripe(card_params, account, params[:event_id], current_user)
   end
 
   private

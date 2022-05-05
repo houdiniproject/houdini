@@ -51,7 +51,7 @@ module ExportPayments
     end
 
     file_date = Time.now.getutc().strftime('%m-%d-%Y--%H-%M-%S')
-    filename = "tmp/csv-exports/payments-#{file_date}.csv"
+    filename = "tmp/csv-exports/payments-#{export.id}-#{file_date}.csv"
 
     url = CHUNKED_UPLOADER.upload(filename, for_export_enumerable(npo_id, params, 15000).map{|i| i.to_csv}, :content_type => 'text/csv', content_disposition: 'attachment')
     export.url = url

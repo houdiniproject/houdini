@@ -212,7 +212,7 @@ describe ExportSupporterNotes do
 
           @export.reload
 
-          expect(@export.url).to eq 'http://fake.url/tmp/csv-exports/supporters-notes-04-06-2020--01-02-03.csv'
+          expect(@export.url).to eq "http://fake.url/tmp/csv-exports/supporters-notes-#{@export.id}-04-06-2020--01-02-03.csv"
           expect(@export.status).to eq 'completed'
           expect(@export.exception).to be_nil
           expect(@export.ended).to eq Time.now

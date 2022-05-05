@@ -2,9 +2,9 @@
 require 'rails_helper'
 
 RSpec.describe PeriodicReport, type: :model do
-  let(:user) { create(:user) }
-  let(:users_list) { User.where(user_id: user.id) }
   let(:nonprofit) { create(:nonprofit_base) }
+  let(:user) { create(:user, roles: [build(:role, name: 'nonprofit_associate', host: nonprofit)]) }
+  let(:users_list) { User.where(id: user.id) }
 
   describe '#validation' do
     let(:attributes) do
@@ -33,6 +33,26 @@ RSpec.describe PeriodicReport, type: :model do
       attributes[:period] = :invalid_period
       periodic_report = subject
       expect(periodic_report.valid?).to be_falsy
+    end
+
+    context 'users validation' do
+      it 'is not valid if user does not belong to given nonprofit' do
+        attributes[:users] = [create(:user)]
+        periodic_report = subject
+        expect(periodic_report.valid?).to be_falsy
+      end
+
+      it 'is not valid if a list of users is not provided' do
+        attributes[:users] = []
+        periodic_report = subject
+        expect(periodic_report.valid?).to be_falsy
+      end
+
+      it 'is valid if the user provided is a super admin' do
+        attributes[:users] = [create(:user, roles: [build(:role, name: 'super_admin')])]
+        periodic_report = subject
+        expect(periodic_report.valid?).to be_truthy
+      end
     end
   end
 

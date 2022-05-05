@@ -12,6 +12,7 @@ class PeriodicReport < ActiveRecord::Base
 
   validate :valid_report_type?
   validate :valid_period?
+  validate :valid_users?
 
   validates :nonprofit_id, presence: true
 
@@ -35,5 +36,18 @@ class PeriodicReport < ActiveRecord::Base
 
   def valid_period?
     errors.add(:period, 'must be a supported period') unless AVAILABLE_PERIODS.include? period.to_sym
+  end
+
+  def valid_users?
+    errors.add(:users, 'must be a list of users') if self.users.none?
+    users_authorized_to_have_report?
+  end
+
+  def users_authorized_to_have_report?
+    self.users.each do |user|
+      unless nonprofit.users.include?(user) || user.roles&.pluck(:name)&.include?('super_admin')
+        errors.add(:users, 'must be a user of the nonprofit or a super admin')
+      end
+    end
   end
 end

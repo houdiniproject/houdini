@@ -12,10 +12,10 @@ All backend code and React components should be well-tested
 
 Houdini is designed and tested to run with the following:
 
-* Ruby 2.5
+* Ruby 2.6
 * Node 14
 * PostgreSQL 12
-* run on Heroku-18
+* run on Heroku-20
 
 ## Dev Setup
 

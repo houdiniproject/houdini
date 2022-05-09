@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.5.1'
+gem 'rails', '6.1.6'
 gem 'jbuilder', '~> 2.11'
 gem 'bootsnap', '~> 1.11', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby

@@ -9,9 +9,9 @@ class AwsPresignedPostsController < ApplicationController
     uuid = SecureRandom.uuid
     p = S3Bucket.presigned_post({
       key: "tmp/#{uuid}/${filename}",
-      success_action_status: 201,
+      success_action_status: "201",
       acl: 'public-read',
-      expiration: 30.days.from_now
+      expires: 30.days.from_now
     })
 
     render json: {

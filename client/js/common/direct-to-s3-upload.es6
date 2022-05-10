@@ -25,10 +25,9 @@ const uploadFile = R.curry(input => {
   return flyd.flatMap(
     pair => {
       var [input, presignedPost] = pair
-      var url = `https://${presignedPost.s3_direct_url.host}`
+      var url = `${presignedPost.s3_direct_url}`
       var file = input.files[0]
       var fileUrl = `${url}/tmp/${presignedPost.s3_uuid}/${file.name}`
-      var urlWithPort = `${url}:${presignedPost.s3_direct_url.port}`
       var payload = R.merge(JSON.parse(presignedPost.s3_presigned_post), {file})
 
       return flyd.map(resp => ({uri: fileUrl, file}), postFormData(url, payload))

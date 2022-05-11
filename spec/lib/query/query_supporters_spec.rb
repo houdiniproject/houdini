@@ -242,6 +242,57 @@ describe QuerySupporters do
         expect(result[:data].count).to eq 0
       end
     end
+
+    context 'when searching for a supporter by name' do
+      context 'when the name is the same' do
+        it 'finds the supporter' do
+          result = QuerySupporters.full_search(np.id, { search: 'Cacau' })
+          expect(result[:data][0]['id']).to eq supporter1.id
+        end
+      end
+
+      context 'when the name being searched has more characters' do
+        it 'finds the supporter' do
+          result = QuerySupporters.full_search(np.id, { search: 'Cacau Borges' })
+          expect(result[:data][0]['id']).to eq supporter1.id
+        end
+      end
+
+      context 'when the name being searched has less characters' do
+        it 'finds the supporter' do
+          result = QuerySupporters.full_search(np.id, { search: 'Cac' })
+          expect(result[:data][0]['id']).to eq supporter1.id
+        end
+      end
+
+      context 'when the name being searched is different' do
+        it 'does not find the supporter' do
+          result = QuerySupporters.full_search(np.id, { search: 'Olivia' })
+          expect(result[:data].count).to eq 0
+        end
+      end
+
+      context 'when multiple supporters have a similar name' do
+        it 'finds multiple supporters' do
+          supporter2.name = 'Cacau Borges'
+          supporter2.save!
+          result = QuerySupporters.full_search(np.id, { search: 'Cacau' })
+          expect(result[:data].count).to eq 2
+        end
+      end
+
+      context 'when searching for a name with a different spelling' do
+        it 'finds the supporter' do
+          result = QuerySupporters.full_search(np.id, { search: 'Kacau' })
+          expect(result[:data][0]['id']).to eq supporter1.id
+        end
+
+        it 'finds the supporter' do
+          result = QuerySupporters.full_search(np.id, { search: 'Peenelohpe' })
+          expect(result[:data][0]['id']).to eq supporter2.id
+        end
+      end
+    end
   end
 
   describe '.dupes_on_name_and_phone' do

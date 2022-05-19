@@ -20,5 +20,5 @@ daily through a scheduling system such as cron.
 additionally configuring the `stripe_account_id` field for your `nonprofit`
 database record. For example:
 
-$ bin/rails console
-# Nonprofit.find_by(name: 'My Org').update(stripe_account_id: 'acct_xxxxxxxxxxxxxxxx')
+    $ bin/rails console
+    > Nonprofit.find_by(name: 'My Org').update(stripe_account_id: 'acct_xxxxxxxxxxxxxxxx')

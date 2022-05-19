@@ -20,8 +20,5 @@ daily through a scheduling system such as cron.
 additionally configuring the `stripe_account_id` field for your `nonprofit`
 database record. For example:
 
-```sh
-$ psql houdini_production
-# UPDATE nonprofits SET stripe_account_id = 'acct_xxxxxxxxxxxxxxxx'
-  WHERE name = 'My Org';
-```
+$ bin/rails console
+# Nonprofit.find_by(name: 'My Org').update(stripe_account_id: 'acct_xxxxxxxxxxxxxxxx')

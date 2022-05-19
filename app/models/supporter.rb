@@ -96,7 +96,6 @@ class Supporter < ActiveRecord::Base
   scope :deleted, -> {where(deleted: true)}
   scope :merged, -> {where('merged_at IS NOT NULL')}
   scope :not_merged, -> {where('merged_at IS NULL')}
-  scope :similar_names, -> (name) { where('name % ?', name) }
 
   geocoded_by :full_address
   reverse_geocoded_by :latitude, :longitude do |obj, results|

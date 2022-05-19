@@ -231,7 +231,6 @@ module QuerySupporters
     if query[:search].present?
       expr = expr.and_where(%Q(
         supporters.fts @@ websearch_to_tsquery('english', $search)
-        OR supporters.name % $search
         OR (
           supporters.phone IS NOT NULL
           AND supporters.phone != ''

@@ -27,15 +27,76 @@ RSpec.describe Supporter, type: :model do
     it { is_expected.to have_many(:email_lists).through(:tag_masters) }
     it { is_expected.to have_many(:active_email_lists).through(:undeleted_tag_masters).source("email_list") }
 
-    describe '.active_email_lists' do 
-      it 'only contains an active email list tags masters' do
-        nonprofit = create(:nonprofit_base)
-        undeleted_tag_master = create(:tag_master_base, nonprofit: nonprofit, email_list: build(:email_list_base, nonprofit: nonprofit))
-        deleted_tag_master = create(:tag_master_base, nonprofit: nonprofit, deleted: true, email_list: build(:email_list_base, nonprofit: nonprofit))
-        supporter = create(:supporter_base, nonprofit: nonprofit, tag_joins: [build(:tag_join_base, tag_master: undeleted_tag_master), build(:tag_join_base, tag_master: deleted_tag_master)])
+    def prepare
+      ActiveJob::Base.queue_adapter = :test
+      ret = OpenStruct.new
+      nonprofit = ret.nonprofit = create(:nonprofit_base)
+      undeleted_tag_master = ret.undeleted_tag_master = create(:tag_master_base, nonprofit: nonprofit, email_list: build(:email_list_base, nonprofit: nonprofit))
 
-        expect(supporter.active_email_lists).to contain_exactly(undeleted_tag_master.email_list)
+      ret.undeleted_but_unassociated_tag_master = create(:tag_master_base, nonprofit: nonprofit, email_list: build(:email_list_base, nonprofit: nonprofit))
+      deleted_tag_master = ret.deleted_tag_master = create(:tag_master_base, nonprofit: nonprofit, deleted: true, email_list: build(:email_list_base, nonprofit: nonprofit))
+      ret.supporter = create(:supporter_base, nonprofit: nonprofit, tag_joins: [build(:tag_join_base, tag_master: undeleted_tag_master), build(:tag_join_base, tag_master: deleted_tag_master)])
+
+      ActiveJob::Base.queue_adapter = :test # this is to clear any jobs that might have been created these objects
+      ret
+    end
+    describe '.active_email_lists' do
+      it 'only contains an active email list tags masters' do
+        ret = prepare
+        expect(ret.supporter.active_email_lists).to contain_exactly(ret.undeleted_tag_master.email_list)
         
+      end
+
+      describe '.update_member_on_all_lists' do
+        it 'updates the correct lists' do
+          ret = prepare
+
+          supporter = ret.supporter
+          supporter.active_email_lists.update_member_on_all_lists
+          expect(MailchimpSignupJob).to have_been_enqueued.with(supporter, ret.undeleted_tag_master.email_list)
+
+          expect(MailchimpSignupJob).to_not have_been_enqueued.with(supporter, ret.deleted_tag_master.email_list)
+          expect(MailchimpSignupJob).to_not have_been_enqueued.with(supporter, ret.undeleted_but_unassociated_tag_master.email_list)
+        end
+      end
+    end
+
+    describe 'update email lists on supporter save' do
+      it 'when name changed' do 
+        ret = prepare
+        expect(ret.supporter).to receive(:update_member_on_all_lists)
+        ret.supporter.update(name: "Another name")
+      end
+
+      it 'when email changed' do 
+        ret = prepare
+        expect(ret.supporter).to receive(:update_member_on_all_lists)
+        ret.supporter.update(email: "another@email.address")
+      end
+
+      it 'but not when phone number changes' do
+        ret = prepare
+        expect(ret.supporter).to_not receive(:update_member_on_all_lists)
+        ret.supporter.update(phone: 920418918)
+      end
+    end
+
+    context 'after_save' do
+      describe '.update_member_on_all_lists' do
+        it 'updates the correct lists on name change' do
+          ret = prepare
+          ret.supporter.update(name: "Another name")
+
+          expect(MailchimpSignupJob).to have_been_enqueued.with(ret.supporter, ret.undeleted_tag_master.email_list)
+        end
+
+        it 'updates nothing if something other than name and email change' do
+          ret = prepare
+          expect(MailchimpSignupJob).to_not have_been_enqueued
+          ret.supporter.update(phone: "9305268998")
+
+          expect(MailchimpSignupJob).to_not have_been_enqueued
+        end
       end
     end
   end
@@ -253,4 +314,5 @@ RSpec.describe Supporter, type: :model do
       end
     end
   end
+
 end

@@ -104,12 +104,13 @@ module UpdateRecurringDonations
   def self.cancel(rd_id, email, dont_notify_nonprofit=false)
     recurring_donation = RecurringDonation.find(rd_id)
     recurring_donation.cancel!(email)
-    
+
     rd = QueryRecurringDonations.fetch_for_edit(rd_id)['recurring_donation']
     Supporter.find(rd['supporter_id']).supporter_notes.create!(content: "This supporter's recurring donation for $#{Format::Currency.cents_to_dollars(rd['amount'])} was cancelled by #{rd['cancelled_by']} on #{Format::Date.simple(rd['cancelled_at'])}", user: User.find(540));
     if (!dont_notify_nonprofit)
       DonationMailer.delay.nonprofit_recurring_donation_cancellation(rd['donation_id'])
     end
+
     return rd
   end
 

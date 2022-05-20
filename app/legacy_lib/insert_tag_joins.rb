@@ -37,16 +37,15 @@ module InsertTagJoins
       return {json: {error: "Nonprofit #{np_id} is not valid"}, status: :unprocessable_entity} unless Nonprofit.exists?(np_id)
       return {json: {error: "Profile #{profile_id} is not valid"}, status: :unprocessable_entity} unless Profile.exists?(profile_id)
 
-
+      nonprofit = Nonprofit.find(np_id)
       # verify that the supporters belong to the nonprofit
-      original_supporter_request = supporter_ids.count
-      supporter_ids = Supporter.where('nonprofit_id = ? and id IN (?)', np_id, supporter_ids).pluck(:id)
+      supporter_ids = nonprofit.supporters.where("id IN (?)", supporter_ids).pluck(:id)
       unless supporter_ids.any?
         return {json: {inserted_count: 0, removed_count: 0}, status: :ok}
       end
 
       # filtering the tag_data to this nonprofit
-      valid_ids = TagMaster.where('nonprofit_id = ? and id IN (?)', np_id, tag_data.map {|tg| tg[:tag_master_id] }).pluck(:id).to_a
+      valid_ids = nonprofit.tag_masters.where("id IN (?)", tag_data.map {|tg| tg[:tag_master_id] }).pluck(:id).to_a
       filtered_tag_data = tag_data.select {|i| valid_ids.include? i[:tag_master_id].to_i}
 
 

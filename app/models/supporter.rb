@@ -79,8 +79,32 @@ class Supporter < ActiveRecord::Base
     include Supporter::Tags # not needed but helpful for tracking dependencies
     included do
       has_many :email_lists, through: :tag_masters
-      has_many :active_email_lists, through: :undeleted_tag_masters, source: :email_list
+      has_many :active_email_lists, through: :undeleted_tag_masters, source: :email_list do
+        def update_member_on_all_lists
+          proxy_association.reload.target.each do |list| # We're reloading the association and running .each on target
+            #to make sure we get any newly saved email lists. I think this should be simpler but I'm not sure how to do it.
+            MailchimpSignupJob.perform_later(proxy_association.owner, list)
+          end
+        end
+      end
+
+      after_save :try_update_member_on_all_lists
     end
+
+    def must_update_email_lists?
+      changes.has_key?("name") || changes.has_key?("email")
+    end
+
+    private
+    
+    def try_update_member_on_all_lists
+      update_member_on_all_lists if must_update_email_lists?
+    end 
+
+    def update_member_on_all_lists
+      active_email_lists.update_member_on_all_lists
+    end
+
   end
   
   has_many :custom_field_joins, dependent: :destroy
@@ -208,6 +232,12 @@ class Supporter < ActiveRecord::Base
   def set_address_to_primary_if_needed(new_address)
     if primary_address.nil?
       assign_attributes(primary_address: new_address)
+    end
+  end
+
+  concerning :Mailchimp do
+    def md5_hash_of_email
+      Digest::MD5.hexdigest email.downcase
     end
   end
 end

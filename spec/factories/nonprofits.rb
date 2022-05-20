@@ -100,6 +100,35 @@ FactoryBot.define do
         }
     end
 
+
+    trait :with_inactive_tag do
+      after(:create) do |nonprofit, evaluator|
+        nonprofit.tag_masters << build(:tag_master_base, deleted:true)
+        nonprofit.save
+      end
+    end
+
+    trait :with_active_tag do
+      after(:create) do |nonprofit, evaluator|
+        nonprofit.tag_masters << build(:tag_master_base)
+        nonprofit.save
+      end
+    end
+
+    trait :with_active_mailing_list do
+      after(:create) do |nonprofit, evaluator|
+        nonprofit.tag_masters << build(:tag_master_base, :with_email_list, nonprofit:nonprofit)
+        nonprofit.save
+      end
+    end
+
+    trait :with_inactive_mailing_list do
+      after(:create) do |nonprofit, evaluator|
+        nonprofit.tag_masters << build(:tag_master_base, :with_email_list, deleted:true, nonprofit:nonprofit)
+        nonprofit.save
+      end
+    end
+
     trait :with_old_billing_plan_on_stripe do
 
       with_active_card_on_stripe

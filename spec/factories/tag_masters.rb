@@ -7,5 +7,9 @@ FactoryBot.define do
   factory :tag_master_base, class: "TagMaster" do
     sequence(:name) {|i| "tag_name_#{i}"}
     deleted { false }
+
+    trait :with_email_list do
+      email_list { build(:email_list_base, nonprofit: nonprofit)}
+    end
   end
 end

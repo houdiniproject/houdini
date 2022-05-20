@@ -42,12 +42,9 @@ module Mailchimp
     return metadata['dc']
   end
 
-	def self.signup email, mailchimp_list_id
-		body_hash = @body.merge({
-			:id => mailchimp_list_id,
-			:email => {:email => email}
-		})
-		post("/lists/subscribe", @options.merge(:body => body_hash.to_json)).parsed_response
+	def self.signup supporter, mailchimp_list_id
+		body_hash = @body.merge(create_subscribe_body(supporter))
+		put("/lists/#{mailchimp_list_id}/members", @options.merge(:body => body_hash.to_json))
   end
 
   def self.get_mailchimp_token(npo_id)
@@ -102,7 +99,7 @@ module Mailchimp
            permission_reminder: 'You are a registered supporter of our nonprofit.',
            campaign_defaults: {
              from_name: npo['name'] || '',
-             from_email: npo['email'].blank? ?  "support@commichange.com" : npo['email'],
+             from_email: npo['email'].blank? ?  "support@commitchange.com" : npo['email'],
              subject: "Enter your subject here...",
              language: 'en'
            },
@@ -117,10 +114,11 @@ module Mailchimp
     end
   end
 
-  # Given a nonprofit id and post_data, which is an array of batch operation hashes
+  # Given a nonprofit id and post_data, which is an array of batch operation hashes OR MailchimpBatchOperation objects
   # See here: http://developer.mailchimp.com/documentation/mailchimp/guides/how-to-use-batch-operations/
   # Perform all the batch operations and return a status report 
   def self.perform_batch_operations(npo_id, post_data)
+    post_data = post_data.map(&:to_h)
     return if post_data.empty?
     mailchimp_token = get_mailchimp_token(npo_id)
     uri = base_uri(mailchimp_token)
@@ -210,7 +208,7 @@ module Mailchimp
 
     # if on our list, add to mailchimp
     output = in_our_side_only.map{|i|
-      {method: 'POST', path: "lists/#{email_list.mailchimp_list_id}/members", body: {email_address: i.email, status: 'subscribed'}.to_json}
+      {method: 'POST', path: "lists/#{email_list.mailchimp_list_id}/members", body: create_subscribe_body(i).to_json}
     }
 
     if delete_from_mailchimp
@@ -249,5 +247,9 @@ module Mailchimp
         basic_auth: {username: @username, password: mailchimp_token},
         headers: {'Content-Type' => 'application/json'}})
     result
+  end
+
+  def self.create_subscribe_body(supporter)
+    JSON::parse(ApplicationController.render 'mailchimp/list', assigns: {supporter: supporter})
   end
 end

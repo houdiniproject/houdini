@@ -23,7 +23,7 @@ class MailchimpBatchOperation
     if (supporter.email) 
       result = {method: method, path: path}
       if body
-        result[:body] = body
+        result[:body] = JSON::dump(body)
       end
       result
     else

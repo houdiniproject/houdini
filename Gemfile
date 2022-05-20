@@ -99,7 +99,6 @@ gem 'bess', path: 'gems/bess'
 gem 'houdini_full_contact', path: 'gems/houdini_full_contact'
 
 gem "react_on_rails", "12.6.0"
-gem 'mini_racer', platforms: :ruby
 
 gem 'kaminari'
 

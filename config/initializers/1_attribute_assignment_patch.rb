@@ -2,7 +2,7 @@
 # this is available in newer versions of rails that we aren't running
 if Rails.version < '5.2'
   require "active_support/core_ext/hash/keys"
-  require "active_model/errors" unless ActiveModel.const_defined?(:Errors)
+  require "active_model/errors"
   require "active_model/forbidden_attributes_protection"
 
   module ActiveModel

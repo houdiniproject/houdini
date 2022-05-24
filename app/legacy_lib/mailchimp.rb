@@ -150,8 +150,8 @@ module Mailchimp
   # `removed` and `added` are arrays of tag join ids that have been added or removed to a supporter
   def self.sync_supporters_to_list_from_tag_joins(npo_id, supporter_ids, tag_data)
     emails = Qx.select(:email).from(:supporters).where("id IN ($ids)", ids: supporter_ids).execute.map{|h| h['email']}
-    to_add = get_mailchimp_list_ids(tag_data.select{|h| h['selected']}.map{|h| h['tag_master_id']})
-    to_remove = get_mailchimp_list_ids(tag_data.reject{|h| h['selected']}.map{|h| h['tag_master_id']})
+    to_add = get_mailchimp_list_ids(tag_data.selected.to_tag_master_ids)
+    to_remove = get_mailchimp_list_ids(tag_data.unselected.to_tag_master_ids)
     return if to_add.empty? && to_remove.empty?
 
     bulk_post = emails.map{|em| to_add.map{|ml_id| {method: 'POST', path: "lists/#{ml_id}/members", body: {email_address: em, status: 'subscribed'}.to_json}}}.flatten

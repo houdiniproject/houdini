@@ -33,6 +33,8 @@ module InsertTagJoins
       return {json: {error: "Validation error\n #{e.message}", errors: e.data}, status: :unprocessable_entity}
     end
 
+    tag_data = TagJoin::Modifications.new(tag_data)
+
     begin
       return {json: {error: "Nonprofit #{np_id} is not valid"}, status: :unprocessable_entity} unless Nonprofit.exists?(np_id)
       return {json: {error: "Profile #{profile_id} is not valid"}, status: :unprocessable_entity} unless Profile.exists?(profile_id)
@@ -45,13 +47,12 @@ module InsertTagJoins
       end
 
       # filtering the tag_data to this nonprofit
-      valid_ids = nonprofit.tag_masters.where("id IN (?)", tag_data.map {|tg| tg[:tag_master_id] }).pluck(:id).to_a
-      filtered_tag_data = tag_data.select {|i| valid_ids.include? i[:tag_master_id].to_i}
-
+      valid_ids = nonprofit.tag_masters.where("id IN (?)", tag_data.to_tag_master_ids).pluck(:id).to_a
+      filtered_tag_data = tag_data.for_given_tags(valid_ids)
 
 
       # first, delete the items which should be removed
-      to_remove = filtered_tag_data.select{|t| !t[:selected]}.map{|t| t[:tag_master_id]}
+      to_remove = filtered_tag_data.unselected.to_tag_master_ids
       deleted = []
       if to_remove.any?
         deleted = Qx.delete_from(:tag_joins)
@@ -62,7 +63,7 @@ module InsertTagJoins
       end
 
       # next add only the selected tag_joins
-      to_insert = filtered_tag_data.select{|t| t[:selected]}.map{|t| t[:tag_master_id]}
+      to_insert = filtered_tag_data.selected.to_tag_master_ids
       insert_data = supporter_ids.map{|id| to_insert.map{|tag_master_id| {supporter_id: id, tag_master_id: tag_master_id}}}.flatten
       if insert_data.any?
         tags = Qx.insert_into(:tag_joins)

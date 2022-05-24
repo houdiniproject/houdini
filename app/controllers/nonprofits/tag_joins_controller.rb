@@ -17,9 +17,9 @@ module Nonprofits
       if params[:selecting_all]
         supporter_ids = QuerySupporters.full_filter_expr(current_nonprofit.id, params[:query]).select("supporters.id").execute.map{|h| h['id']}
       else
-        supporter_ids = params[:supporter_ids]. map(&:to_i)
+        supporter_ids = params[:supporter_ids].map(&:to_i)
       end
-     render InsertTagJoins.in_bulk(current_nonprofit.id, current_user.profile.id, supporter_ids, params[:tags])
+     render InsertTagJoins.in_bulk(current_nonprofit.id, current_user.profile.id, supporter_ids, tag_modify_params)
 
 
 
@@ -29,6 +29,17 @@ module Nonprofits
 			supporter = current_nonprofit.supporters.find(params[:supporter_id])
 			supporter.tag_joins.find(params[:id]).destroy
 			render json: {}, status: :ok
+		end
+
+
+		private
+
+		def modify_params
+			params.permit(:selecting_all, query:[], supporter_ids:[], tags:[:tag_master_id, :selected])
+		end
+
+		def tag_modify_params
+			modify_params.require(:tags)
 		end
 
 	end

@@ -68,8 +68,6 @@
     "jest-date-mock": "^1.0.8",
     "jest-enzyme": "^7.0.1",
     "jsdom": "^11.10.0",
-    "less": "^3.0.4",
-    "less-loader": "^4.1.0",
     "lodash": "^4.17.21",
     "node-sass": "^4.14.1",
     "phantomjs-prebuilt": "^2.1.16",

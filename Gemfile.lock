@@ -213,11 +213,11 @@ GEM
       dry-types (~> 0.12.0)
     equalizer (0.0.11)
     erubis (2.7.0)
-    factory_bot (4.8.2)
-      activesupport (>= 3.0.0)
-    factory_bot_rails (4.8.2)
-      factory_bot (~> 4.8.2)
-      railties (>= 3.0.0)
+    factory_bot (5.2.0)
+      activesupport (>= 4.2.0)
+    factory_bot_rails (5.2.0)
+      factory_bot (~> 5.2.0)
+      railties (>= 4.2.0)
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
     ffi (1.11.3)
@@ -246,6 +246,9 @@ GEM
       grape (>= 0.12.0)
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
+    has_scope (0.7.2)
+      actionpack (>= 4.1)
+      activesupport (>= 4.1)
     hashie (4.0.0)
     heroku_rails_deflate (1.0.3)
       actionpack (>= 3.2.13)
@@ -273,6 +276,18 @@ GEM
       activesupport (>= 4.2.0)
     jmespath (1.6.1)
     json (2.6.1)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     kdtree (0.3)
     lograge (0.3.6)
       actionpack (>= 3)
@@ -410,6 +425,7 @@ GEM
     rspec-expectations (3.9.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
+    rspec-json_expectations (2.2.0)
     rspec-mocks (3.9.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
@@ -525,6 +541,7 @@ DEPENDENCIES
   grape_logging
   grape_url_validator
   hamster
+  has_scope
   hashie
   heroku_rails_deflate
   hiredis (~> 0.6.0)
@@ -532,6 +549,7 @@ DEPENDENCIES
   i18n-js
   jbuilder
   json (>= 2.3.0)
+  kaminari
   lograge
   memcachier
   mini_magick
@@ -560,6 +578,7 @@ DEPENDENCIES
   redis-actionpack
   rest-client
   rspec (~> 3.9)
+  rspec-json_expectations
   rspec-rails (~> 3.9)
   ruby-prof (= 0.15.9)
   ruby2_keywords

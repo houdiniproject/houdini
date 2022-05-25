@@ -22,6 +22,8 @@ gem 'parallel'
 
 gem "puma", "~> 5.6"
 
+gem 'kaminari'
+
 gem 'bootsnap', require: false
 gem 'rack-timeout'
 gem 'puma_worker_killer'
@@ -113,6 +115,7 @@ group :development, :ci, :test do
 	gem 'action_mailer_matchers', '~> 1.2.0'
   gem 'simplecov', '~> 0.16.1', require: false
   gem 'shoulda-matchers'
+  gem 'rspec-json_expectations'
   gem 'debug'
 end
 
@@ -175,3 +178,5 @@ gem 'ruby2_keywords' # needed because we're backporting code from Rails 6.2
 gem 'securerandom' # needed becuase we're on a pre-2.5 Ruby version
 
 gem 'fx',  git: 'https://github.com/teoljungberg/fx.git', ref: '946cdccbd12333deb8f4566c9852b49c0231a618'
+
+gem 'has_scope'

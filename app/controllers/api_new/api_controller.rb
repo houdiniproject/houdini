@@ -8,7 +8,7 @@ module ApiNew
 		# the Api is simpler
 		include Controllers::Locale
 		include Controllers::Nonprofit::Authorization
-
+		include Controllers::ApiNew::JbuilderExpansions
 		rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_rescue
 		rescue_from AuthenticationError, with: :unauthorized_rescue
 

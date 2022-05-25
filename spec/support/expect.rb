@@ -28,4 +28,8 @@ module Expect
   def expect_job_not_queued
     expect(JobQueue).to_not receive(:queue)
   end
+
+  def match_houid(prefix) 
+    match(/#{prefix}_[a-zA-Z0-9]{22}/)
+  end
 end

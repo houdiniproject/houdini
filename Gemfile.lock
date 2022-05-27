@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/CommitChange/rack.git
-  revision: d25ed1c2dd7b734db6f8d008283d8b9f32721c5c
+  revision: d48d04ed52ed3f196906c2e1c988879b8361c939
   branch: 1-6-stable
   specs:
     rack (1.6.13)

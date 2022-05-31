@@ -117,6 +117,7 @@ group :development, :ci, :test do
   gem 'shoulda-matchers'
   gem 'rspec-json_expectations'
   gem 'debug'
+  gem 'yard'
 end
 
 group :test do

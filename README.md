@@ -107,6 +107,16 @@ Each component should have its own file.
 ### react:lib
 This generator creates a basic Typescript module along with a test file.
 
+## Documentation
+
+You can get generate documentation for the Ruby source by running:
+
+`bundle exec yard doc`
+
+Alternatively, you can have it run in local webserver and autoupdate by running:
+
+`bundle exec yard server -r`
+
 ### Providing the complete corresponding source code
 
 **Note: This is not legal advice and provides a suggestion which may be compliant. You should talk with your legal counsel if you have

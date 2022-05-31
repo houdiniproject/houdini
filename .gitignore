@@ -69,3 +69,7 @@ javascripts/api
 .byebug_history
 
 /payouts
+
+# yard related directories
+/ruby_docs
+/.yardoc

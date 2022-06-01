@@ -12,6 +12,14 @@ Commitchange::Application.routes.draw do
   end
   get 'onboard' => 'onboard#index'
 
+	defaults format: :json do # they're APIs, you have to use JSON
+    namespace :api_new do
+			resources :users, only: [] do
+				get :current, {on: :collection}
+			end
+    end
+  end
+
 	resources(:emails, {only: [:create]})
 	resources(:settings, {only: [:index]})
 	resources(:campaign_gifts, {only: [:create]})

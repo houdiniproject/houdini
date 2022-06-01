@@ -88,6 +88,11 @@ class User < ActiveRecord::Base
 		false
 	end
 
+	# This lists the nonprofit_admin rules for the given user. There should only be one.
+	def nonprofit_admin_roles
+		roles.where(host_type: "Nonprofit").nonprofit_admins
+	end
+
 	def as_json(options={})
 		h = super(options)
 		h[:unconfirmed_email] = self.unconfirmed_email

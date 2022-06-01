@@ -13615,7 +13615,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** eventsource; version 1.1.0 -- http://github.com/EventSource/eventsource
+** eventsource; version 1.1.1 -- http://github.com/EventSource/eventsource
+Copyright (c) EventSource GitHub
+Copyright Joyent, Inc. and other Node contributors
 
 The MIT License
 

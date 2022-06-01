@@ -720,6 +720,26 @@ ActiveRecord::Schema.define(version: 20220419171847) do
     t.string   "houid"
   end
 
+  create_table "object_events", force: :cascade do |t|
+    t.integer  "event_entity_id"
+    t.string   "event_entity_type"
+    t.string   "event_type"
+    t.string   "event_entity_houid"
+    t.integer  "nonprofit_id"
+    t.string   "houid"
+    t.datetime "created"
+    t.jsonb    "object_json"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "object_events", ["event_entity_houid"], name: "index_object_events_on_event_entity_houid", using: :btree
+  add_index "object_events", ["event_entity_type", "event_entity_id"], name: "index_object_events_on_event_entity_type_and_event_entity_id", using: :btree
+  add_index "object_events", ["event_entity_type"], name: "index_object_events_on_event_entity_type", using: :btree
+  add_index "object_events", ["event_type"], name: "index_object_events_on_event_type", using: :btree
+  add_index "object_events", ["houid"], name: "index_object_events_on_houid", using: :btree
+  add_index "object_events", ["nonprofit_id"], name: "index_object_events_on_nonprofit_id", using: :btree
+
   create_table "offsite_payments", force: :cascade do |t|
     t.integer  "gross_amount"
     t.string   "kind",         limit: 255
@@ -1266,7 +1286,7 @@ ActiveRecord::Schema.define(version: 20220419171847) do
        LANGUAGE plpgsql
       AS $function$
                   BEGIN
-                    new.phone_index = (regexp_replace(new.phone, '\D','', 'g'));
+                    new.phone_index = (regexp_replace(new.phone, '\\D','', 'g'));
                     RETURN new;
                   END
                 $function$

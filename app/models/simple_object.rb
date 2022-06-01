@@ -11,4 +11,11 @@ class SimpleObject < ActiveRecord::Base
 
   has_many :friends, class_name: "SimpleObject", foreign_key: 'friend_id'
 
+  def publish_created
+    ObjectEvent.create(event_entity:self, event_type: 'simple_object.created')
+  end
+
+  def publish_updated
+    ObjectEvent.create(event_entity:self, event_type: 'simple_object.updated')
+  end
 end

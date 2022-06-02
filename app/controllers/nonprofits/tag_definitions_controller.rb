@@ -20,7 +20,7 @@ module Nonprofits
     end
 
     def create
-      json_saved(current_nonprofit.tag_definitions.create(tag_definition_params[:tag_definition]))
+      json_saved(current_nonprofit.tag_definitions.create(tag_definition_params))
     end
 
     def destroy

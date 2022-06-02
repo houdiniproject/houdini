@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Nonprofit, type: :model do
+  it_behaves_like 'an houidable entity', :np
 
   it {is_expected.to validate_presence_of(:name)}
   

@@ -2,6 +2,8 @@
 require 'rails_helper'
 
 RSpec.describe Supporter, type: :model do
+  it_behaves_like 'an houidable entity', :supp
+
   it { is_expected.to have_many(:addresses).class_name("SupporterAddress")}
   it { is_expected.to belong_to(:primary_address).class_name("SupporterAddress")}
   

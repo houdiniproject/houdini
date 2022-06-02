@@ -1286,7 +1286,7 @@ ActiveRecord::Schema.define(version: 20220419171847) do
        LANGUAGE plpgsql
       AS $function$
                   BEGIN
-                    new.phone_index = (regexp_replace(new.phone, '\\D','', 'g'));
+                    new.phone_index = (regexp_replace(new.phone, '\D','', 'g'));
                     RETURN new;
                   END
                 $function$

@@ -20,6 +20,8 @@ RSpec.describe Nonprofit, type: :model do
   it {is_expected.to have_many(:email_lists)}
   it {is_expected.to have_one(:nonprofit_key)}
 
+  it {is_expected.to have_many(:associated_object_events).class_name("ObjectEvent")}
+
   describe 'with cards' do
     before(:each) do
       @nonprofit = create(:nonprofit_with_cards)

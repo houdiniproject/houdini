@@ -88,6 +88,8 @@ class Nonprofit < ActiveRecord::Base
   has_one :nonprofit_deactivation
   has_one :stripe_account, foreign_key: :stripe_account_id, primary_key: :stripe_account_id
 
+  has_many :associated_object_events, class_name: 'ObjectEvent'
+
   validates :name, presence: true
   validates :city, presence: true
   validates :state_code, presence: true

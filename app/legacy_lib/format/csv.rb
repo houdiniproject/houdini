@@ -8,9 +8,10 @@ module Format
     # Convert an array of hashes of data into a csv
     # @param [Array<Hash>] an array of hashes. The hash keys of the first item in the array become the CSV titles
     # @return [String]
-    def self.from_data(arr)
+    # @option opts [TrueClass,FalseClass] titleize_header (true) Whether to titleize headers, i.e. whether to turn "supporter_email" into "Supporter Email"
+    def self.from_data(arr, titleize_header: true)
       return CSV.generate do |csv|
-        csv << arr.first.keys.map{|k| k.to_s.titleize}
+        csv << arr.first.keys.map{|k| titleize_header ? k.to_s.titleize : k.to_s}
         arr.each{|h| csv << h.values}
       end
     end

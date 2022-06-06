@@ -9,14 +9,7 @@ module Nonprofits
     before_action :authenticate_nonprofit_user!
 
     def index
-      render json: { data:
-        Qx.select('id', 'name', 'created_at')
-          .from('tag_definitions')
-          .where(
-            ['tag_definitions.nonprofit_id = $id', id: current_nonprofit.id],
-            ['coalesce(deleted, FALSE) = FALSE']
-          )
-          .execute }
+      @tag_definitions = current_nonprofit.tag_definitions.not_deleted
     end
 
     def create

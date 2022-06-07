@@ -19,6 +19,7 @@ Commitchange::Application.routes.draw do
 			end
       resources :nonprofits, only: [] do
 				resources :object_events, only: [:index]
+				resources :supporters, only: [:show]
       end
     end
   end

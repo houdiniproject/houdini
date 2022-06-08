@@ -25,7 +25,7 @@ describe EventsController, type: :controller do
     end
 
     describe 'name_and_id' do
-      include_context :open_to_np_associate, :get, :name_and_id, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :name_and_id, nonprofit_id: :__our_np, with_status: 200
     end
   end
 

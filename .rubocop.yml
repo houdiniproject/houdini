@@ -356,7 +356,6 @@ AllCops:
     - 'app/legacy_lib/query_roles.rb'
     - 'app/legacy_lib/billing_plans.rb'
     - 'app/legacy_lib/query_payments.rb'
-    - 'app/legacy_lib/query_events.rb'
     - 'app/legacy_lib/query_activities.rb'
     - 'app/legacy_lib/query_full_contact_infos.rb'
     - 'app/legacy_lib/query_event_discounts.rb'

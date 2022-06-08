@@ -175,7 +175,7 @@ Rails.application.routes.draw do
       get(:metrics, on: :member)
       get(:listings, on: :collection)
       get(:stats, on: :member)
-      get(:name_and_id, on: :collection)
+      get(:name_and_id, on: :collection, defaults: {format: :json})
       get(:activities, on: :member)
       post(:duplicate, on: :member)
       put(:soft_delete)

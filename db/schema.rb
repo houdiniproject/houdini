@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_27_052420) do
+ActiveRecord::Schema.define(version: 2022_06_08_214048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -149,7 +149,6 @@ ActiveRecord::Schema.define(version: 2022_04_27_052420) do
     t.boolean "published"
     t.string "background_image", limit: 255
     t.integer "total_supporters"
-    t.boolean "recurring_fund"
     t.string "slug", limit: 255
     t.string "youtube_video_id", limit: 255
     t.string "tagline", limit: 255

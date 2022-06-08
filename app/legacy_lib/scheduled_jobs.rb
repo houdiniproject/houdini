@@ -122,7 +122,7 @@ module ScheduledJobs
         if Time.current.day == 1
           active_periodic_reports = PeriodicReport.active
           active_periodic_reports.each do |report|
-            report.adapter.run
+            report.run
           end
           "Sent #{active_periodic_reports.count} periodic reports!"
         end

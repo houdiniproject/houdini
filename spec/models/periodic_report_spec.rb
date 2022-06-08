@@ -91,7 +91,10 @@ RSpec.describe PeriodicReport, type: :model do
     end
   end
 
-  describe '#adapter' do
+  describe '#run' do
+
+    it { is_expected.to delegate_method(:run).to(:adapter) }
+
     context 'when the report is for failed recurring donations' do
       let(:attributes) do
         {
@@ -103,8 +106,6 @@ RSpec.describe PeriodicReport, type: :model do
       end
       let(:options) { attributes.except(:active).merge({ :nonprofit_id => nonprofit.id }) }
 
-      subject { nonprofit.periodic_reports.create(attributes).adapter }
-
       let(:failed_recurring_donations_report) { double }
 
       before do
@@ -115,7 +116,8 @@ RSpec.describe PeriodicReport, type: :model do
       end
 
       it 'calls the correct corresponding adapter' do
-        expect(subject).to eq(failed_recurring_donations_report)
+        expect(failed_recurring_donations_report).to receive(:run)
+        nonprofit.periodic_reports.create(attributes).run
       end
     end
 
@@ -130,8 +132,6 @@ RSpec.describe PeriodicReport, type: :model do
       end
       let(:options) { attributes.except(:active).merge({ :nonprofit_id => nonprofit.id }) }
 
-      subject { nonprofit.periodic_reports.create(attributes).adapter }
-
       let(:cancelled_recurring_donations_report) { double }
 
       before do
@@ -142,7 +142,8 @@ RSpec.describe PeriodicReport, type: :model do
       end
 
       it 'calls the correct corresponding adapter' do
-        expect(subject).to eq(cancelled_recurring_donations_report)
+        expect(cancelled_recurring_donations_report).to receive(:run)
+        nonprofit.periodic_reports.create(attributes).run
       end
     end
   end

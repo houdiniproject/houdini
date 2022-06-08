@@ -18,9 +18,8 @@ class PeriodicReport < ActiveRecord::Base
 
   scope :active, -> { where(active: true) }
 
-  def adapter
-    PeriodicReportAdapter.build({ report_type: report_type, nonprofit_id: nonprofit_id, period: period, users: users })
-  end
+  # run the report
+  delegate :run, to: :adapter
 
   private
 
@@ -49,5 +48,9 @@ class PeriodicReport < ActiveRecord::Base
         errors.add(:users, 'must be a user of the nonprofit or a super admin')
       end
     end
+  end
+
+  def adapter
+    PeriodicReportAdapter.build({ report_type: report_type, nonprofit_id: nonprofit_id, period: period, users: users })
   end
 end

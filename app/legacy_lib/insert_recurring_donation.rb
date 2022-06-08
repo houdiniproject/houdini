@@ -182,13 +182,6 @@ module InsertRecurringDonation
     Chronic.parse(data[:recurring_donation][:start_date])
         end
 
-  def self.locale_for_supporter(supporter_id)
-    Psql.execute(
-      Qexpr.new.select(:locale).from(:supporters)
-        .where('id=$id', id: supporter_id)
-    ).first['locale']
-  end
-
   def self.payment_provider(data)
     if data[:card_id]
       :credit_card

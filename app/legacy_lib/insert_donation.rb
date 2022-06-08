@@ -140,7 +140,7 @@ module InsertDonation
     result['donation'] = insert_donation(data, entities)
     update_donation_keys(result)
 
-    Houdini.event_publisher.announce(:donation_create, result['donation'], locale_for_supporter(result['donation'].supporter.id))
+    Houdini.event_publisher.announce(:donation_create, result['donation'], result['donation'].supporter.locale)
 
     # do this for making test consistent
     result['activity'] = {}
@@ -230,13 +230,6 @@ module InsertDonation
   # Return either the parsed DateTime from a date in data, or right now
   def self.date_from_data(data)
     data.merge('date' => data['date'].blank? ? Time.current : Chronic.parse(data['date']))
-  end
-
-  def self.locale_for_supporter(supporter_id)
-    Psql.execute(
-      Qexpr.new.select(:locale).from(:supporters)
-        .where('id=$id', id: supporter_id)
-    ).first['locale']
   end
 
   def self.payment_provider(data)

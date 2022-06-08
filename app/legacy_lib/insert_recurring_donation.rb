@@ -98,7 +98,7 @@ module InsertRecurringDonation
     end
 
     DonationMailer.delay.nonprofit_payment_notification(result['donation']['id'])
-    DonationMailer.delay.donor_direct_debit_notification(result['donation']['id'], locale_for_supporter(result['donation']['supporter_id']))
+    DonationMailer.delay.donor_direct_debit_notification(result['donation']['id'], Supporter.find(result['donation']['supporter_id']).locale)
 
     { status: 200, json: result }
   end
@@ -238,14 +238,6 @@ def self.get_test_start_date(data)
     return Chronic.parse(data[:recurring_donation][:start_date])
 
 
-  end
-
-
-  def self.locale_for_supporter(supporter_id)
-    Psql.execute(
-      Qexpr.new.select(:locale).from(:supporters)
-        .where("id=$id", id: supporter_id)
-    ).first['locale']
   end
 
   def self.payment_provider(data)

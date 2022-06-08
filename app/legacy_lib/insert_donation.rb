@@ -103,7 +103,7 @@ module InsertDonation
     update_donation_keys(result)
 
     JobQueue.queue(JobTypes::NonprofitPaymentNotificationJob, result['donation'].id, result['donation'].payment.id)
-    JobQueue.queue(JobTypes::DonorDirectDebitNotificationJob, result['donation'].id, locale_for_supporter(result['donation'].supporter.id))
+    JobQueue.queue(JobTypes::DonorDirectDebitNotificationJob, result['donation'].id, result['donation'].supporter.locale)
     # do this for making test consistent
     result['activity'] = {}
     result
@@ -190,13 +190,6 @@ private
   # Return either the parsed DateTime from a date in data, or right now
   def self.date_from_data(data)
     data.merge('date' => data['date'].blank? ? Time.current : Chronic.parse(data['date']))
-  end
-
-  def self.locale_for_supporter(supporter_id)
-    Psql.execute(
-      Qexpr.new.select(:locale).from(:supporters)
-        .where("id=$id", id: supporter_id)
-    ).first['locale']
   end
 
   def self.payment_provider(data)

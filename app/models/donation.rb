@@ -41,6 +41,7 @@ class Donation < ActiveRecord::Base
 	has_one :payment
 	has_one :offsite_payment
 	has_one :tracking
+	has_many :modern_donations
 	belongs_to :supporter
 	belongs_to :card
 	belongs_to :direct_debit_detail

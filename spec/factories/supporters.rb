@@ -18,7 +18,7 @@ FactoryBot.define do
 
   factory :supporter_with_fv_poverty, aliases: [:supporter_base], class: 'Supporter' do
     name { 'Fake Supporter Name' }
-    nonprofit { association :fv_poverty}
+    nonprofit { association :nonprofit_base}
     trait :with_1_active_mailing_list do
       nonprofit { association :nonprofit_base, :with_active_mailing_list}
       after(:create) do |supporter|

@@ -23,6 +23,12 @@ RSpec.describe Nonprofit, type: :model do
   it {is_expected.to have_many(:associated_object_events).class_name("ObjectEvent")}
 
   describe 'with cards' do
+    around(:each) do |ex|
+      StripeMock.start
+      ex.run
+      StripeMock.stop
+    end
+    
     before(:each) do
       @nonprofit = create(:nonprofit_with_cards)
 

@@ -60,6 +60,7 @@ class Nonprofit < ActiveRecord::Base
   has_many :donations
   has_many :recurring_donations
   has_many :payments
+  has_many :transactions, through: :supporters
   has_many :supporters, dependent: :destroy
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations

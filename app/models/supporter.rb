@@ -56,6 +56,7 @@ class Supporter < ActiveRecord::Base
   has_many :charges
   has_many :refunds, through: :charges
   has_many :disputes, through: :charges
+  has_many :transactions
 
   has_many :cards, as: :holder
   has_many :direct_debit_details

@@ -639,6 +639,16 @@ ActiveRecord::Schema.define(version: 20220419171847) do
 
   add_index "miscellaneous_np_infos", ["nonprofit_id"], name: "index_miscellaneous_np_infos_on_nonprofit_id", using: :btree
 
+  create_table "modern_donations", force: :cascade do |t|
+    t.integer  "amount"
+    t.integer  "donation_id", null: false
+    t.string   "houid",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "modern_donations", ["houid"], name: "index_modern_donations_on_houid", unique: true, using: :btree
+
   create_table "nonprofit_deactivations", force: :cascade do |t|
     t.integer  "nonprofit_id"
     t.boolean  "deactivated"
@@ -739,6 +749,23 @@ ActiveRecord::Schema.define(version: 20220419171847) do
   add_index "object_events", ["event_type"], name: "index_object_events_on_event_type", using: :btree
   add_index "object_events", ["houid"], name: "index_object_events_on_houid", using: :btree
   add_index "object_events", ["nonprofit_id"], name: "index_object_events_on_nonprofit_id", using: :btree
+
+  create_table "offline_transaction_charges", force: :cascade do |t|
+    t.string   "houid",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "offline_transaction_charges", ["houid"], name: "index_offline_transaction_charges_on_houid", unique: true, using: :btree
+
+  create_table "offline_transactions", force: :cascade do |t|
+    t.integer  "amount",     null: false
+    t.string   "houid",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "offline_transactions", ["houid"], name: "index_offline_transactions_on_houid", unique: true, using: :btree
 
   create_table "offsite_payments", force: :cascade do |t|
     t.integer  "gross_amount"
@@ -1035,6 +1062,30 @@ ActiveRecord::Schema.define(version: 20220419171847) do
   add_index "stripe_events", ["event_id"], name: "index_stripe_events_on_event_id", using: :btree
   add_index "stripe_events", ["object_id", "event_time"], name: "index_stripe_events_on_object_id_and_event_time", using: :btree
 
+  create_table "subtransaction_payments", force: :cascade do |t|
+    t.integer  "subtransaction_id", null: false
+    t.integer  "paymentable_id",    null: false
+    t.string   "paymentable_type",  null: false
+    t.datetime "created"
+    t.integer  "legacy_payment_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subtransaction_payments", ["legacy_payment_id"], name: "index_subtransaction_payments_on_legacy_payment_id", unique: true, using: :btree
+  add_index "subtransaction_payments", ["paymentable_type", "paymentable_id"], name: "idx_subtrxpayments_on_subtransactable_polymorphic", unique: true, using: :btree
+
+  create_table "subtransactions", force: :cascade do |t|
+    t.integer  "transaction_id",       null: false
+    t.integer  "subtransactable_id",   null: false
+    t.string   "subtransactable_type", null: false
+    t.datetime "created"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subtransactions", ["subtransactable_type", "subtransactable_id"], name: "idx_subtrx_on_subtransactable_polymorphic", unique: true, using: :btree
+
   create_table "supporter_addresses", force: :cascade do |t|
     t.string   "address"
     t.string   "city"
@@ -1195,6 +1246,27 @@ ActiveRecord::Schema.define(version: 20220419171847) do
     t.datetime "updated_at",               null: false
     t.string   "utm_content",  limit: 255
   end
+
+  create_table "transaction_assignments", force: :cascade do |t|
+    t.integer "transaction_id",  null: false
+    t.integer "assignable_id",   null: false
+    t.string  "assignable_type", null: false
+  end
+
+  add_index "transaction_assignments", ["assignable_type", "assignable_id"], name: "idx_trx_assignments_assignable_polymorphic", unique: true, using: :btree
+
+  create_table "transactions", force: :cascade do |t|
+    t.integer  "supporter_id"
+    t.string   "houid",        null: false
+    t.integer  "amount"
+    t.datetime "created"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "transactions", ["created"], name: "index_transactions_on_created", using: :btree
+  add_index "transactions", ["houid"], name: "index_transactions_on_houid", unique: true, using: :btree
+  add_index "transactions", ["supporter_id"], name: "index_transactions_on_supporter_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false

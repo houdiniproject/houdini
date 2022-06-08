@@ -2,6 +2,13 @@
 require 'rails_helper'
 
 RSpec.describe Payment, :type => :model do
+  it {
+    is_expected.to have_one(:subtransaction_payment).with_foreign_key('legacy_payment_id')
+  }
+
+  it {
+    is_expected.to have_one(:trx).class_name('Transaction').through(:subtransaction_payment)
+  }
   
   describe '.activities' do
     describe 'Dispute' do

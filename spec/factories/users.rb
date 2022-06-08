@@ -3,6 +3,7 @@ FactoryBot.define do
   factory :user, aliases: [:user_base] do
     sequence(:email) {|i| "user#{i}@example.string.com"}
     password {"whocares"}
+    
   end
 
   factory :automated_user, class: User do 

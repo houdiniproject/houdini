@@ -13,7 +13,7 @@ jobs:
         matrix:
           os: [ubuntu-20.04]
           node: [14.19.1]
-          ruby: ['2.6.10', '2.7.6']
+          ruby: ['2.6.10']
         fail-fast: false
       steps:
         - uses: actions/checkout@v2

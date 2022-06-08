@@ -154,7 +154,6 @@ class CampaignsController < ApplicationController # rubocop:disable Metrics/Clas
 			:vimeo_video_id,
 			:youtube_video_id,
 			:summary,
-			:recurring_fund,
 			:body,
 			:goal_amount_dollars,
 			:show_total_raised,

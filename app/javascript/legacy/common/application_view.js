@@ -1,4 +1,4 @@
-// License: LGPL-3.0-or-later
+// License: LGPL-3.0-or-laterpluralize
 const confirmation = require('./confirmation')
 const notification = require('./notification')
 const moment = require('moment-timezone')
@@ -7,6 +7,7 @@ const on_ios11 = require('./on-ios11')
 const noScroll = require('no-scroll')
 const {centsToDollars} = require("./format")
 const {pluralize} = require('../../legacy_react/src/lib/deprecated_format')
+const utils = require('./utilities')
 
 module.exports = appl
 

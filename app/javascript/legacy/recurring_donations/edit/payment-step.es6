@@ -8,6 +8,7 @@ const request = require('../../common/request')
 const cardForm = require('./card-form.es6')
 const format = require('../../common/format')
 const progressBar = require('../../components/progress-bar')
+const utils = require('../../common/utilities')
 
 function init(params$, donation$) {
     var state = { params$: params$, donation$: donation$ }

@@ -3,6 +3,7 @@ var request = require('../../../common/client')
 var action_recipient = require('./action_recipient')
 var tags = require('./tags_and_fields_shared_methods')
 var type = 'tag'
+const utils = require('../../../common/utilities')
 
 tags.index_definitions(type)
 

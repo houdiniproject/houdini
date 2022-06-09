@@ -10,6 +10,7 @@ require('../../../components/tables/filtering/apply_filter')('payments')
 require('../../../common/ajax/get_campaign_and_event_names_and_ids')(app.nonprofit_id)
 require('../../supporters/index/import')
 var format = require('../../../common/format')
+const utils = require('../../../common/utilities')
 
 appl.def('format', require('../../../common/format'))
 

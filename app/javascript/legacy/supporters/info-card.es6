@@ -10,6 +10,7 @@ const Map = Im.Map
 const fromJS = Im.fromJS
 const OrderedMap = Im.OrderedMap
 const format = require('../common/format')
+const utils = require('../common/utilities')
 
 var state = fromJS({is_visible: false, data: {}, coords: {top: 0, right: 0, left: 0}})
 

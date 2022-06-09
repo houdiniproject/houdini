@@ -9,6 +9,7 @@ const format = require('../../../common/format')
 const Im = require('immutable')
 const Map = Im.Map
 const fromJS = Im.fromJS
+const utils = require('../../../common/utilities')
 
 const root = state => {
 	if(!state || !state.get('data')) return h('span')

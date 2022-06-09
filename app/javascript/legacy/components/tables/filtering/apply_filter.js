@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-var format = require('../../../common/format')
 const {uniq} = require('lodash/uniq')
 
 module.exports = function(scope) {

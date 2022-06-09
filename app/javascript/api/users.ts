@@ -12,7 +12,6 @@ export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit = {
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json',
-			'X-Requested-With': 'XMLHttpRequest',
 		},
 	} as const;
 

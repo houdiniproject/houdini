@@ -74,7 +74,7 @@ class EventsController < ApplicationController
 	end
 
   def name_and_id
-    render json: QueryEvents.name_and_id(current_nonprofit.id)
+    @events = current_nonprofit.events.not_deleted.order("events.name ASC")
   end
 
 

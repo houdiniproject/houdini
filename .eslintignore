@@ -92,7 +92,6 @@ app/javascript/legacy/common/colors.js
 app/javascript/legacy/common/confirmation.js
 app/javascript/legacy/common/credit-card-validator.js
 app/javascript/legacy/common/css-gradient.js
-app/javascript/legacy/common/dynamic_form.js
 app/javascript/legacy/common/editable.js
 app/javascript/legacy/common/el_swapo.js
 app/javascript/legacy/common/file-input-stream.js

@@ -227,3 +227,17 @@ Devise.setup do |config|
 	# so you need to do it manually. For the users scope, it would be:
 	# config.omniauth_path_prefix = "/my_engine/users/auth"
 end
+
+ActiveSupport.on_load(:devise_failure_app) do
+  module Devise
+    class FailureApp
+      # we don't every want to return WWW-Authenticate because we never want a popup.
+      def http_auth
+        self.status = 401
+        #self.headers["WWW-Authenticate"] = %(Basic realm=#{Devise.http_authentication_realm.inspect}) if http_auth_header?
+        self.content_type = request.format.to_s
+        self.response_body = http_auth_body
+      end
+    end
+  end
+end

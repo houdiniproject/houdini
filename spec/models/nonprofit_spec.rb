@@ -359,4 +359,8 @@ RSpec.describe Nonprofit, type: :model do
       }
     end
   end
+
+  describe '::S3Keys' do
+    it {is_expected.to have_many(:nonprofit_s3_keys)}
+  end
 end

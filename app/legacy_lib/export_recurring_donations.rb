@@ -74,6 +74,50 @@ module ExportRecurringDonations
     raise e
   end
 
+  
+  def self.run_export_for_active_recurring_donations_to_csv(nonprofit_s3_key, filename, export)
+    if filename.blank?
+      file_date = Time.now.getutc().strftime('%m-%d-%Y--%H-%M-%S')
+      filename = "tmp/json-exports/recurring_donations-#{export.id}-#{file_date}.csv"
+    end
+
+    bucket = get_bucket(nonprofit_s3_key)
+    object = bucket.object(filename)
+    object.upload_stream(temp_file:true, acl: 'private', content_type: 'text/csv', content_disposition: 'attachment') do |write_stream|
+      write_stream << QueryRecurringDonations.get_active_recurring_for_an_org(export.nonprofit)
+    end
+
+    object.public_url.to_s
+    
+  end
+
+  def self.run_export_for_started_recurring_donations_to_csv(nonprofit_s3_key, filename, export)
+    if filename.blank?
+      file_date = Time.now.getutc().strftime('%m-%d-%Y--%H-%M-%S')
+      filename = "tmp/json-exports/recurring_donations-#{export.id}-#{file_date}.csv"
+    end
+    
+
+    bucket = get_bucket(nonprofit_s3_key)
+    object = bucket.object(filename)
+    object.upload_stream(temp_file:true, acl: 'private', content_type: 'text/csv', content_disposition: 'attachment') do |write_stream|
+      write_stream << QueryRecurringDonations.get_new_recurring_for_an_org_during_a_period(export.nonprofit)
+    end
+
+    object.public_url.to_s
+    
+  end
+
+
+  def self.get_bucket(nonprofit_s3_key)
+    if nonprofit_s3_key.present?
+      nonprofit_s3_key.s3_bucket
+    else
+      s3 = ::Aws::S3::Resource.new
+      bucket = s3.bucket(ChunkedUploader::S3::S3_BUCKET_NAME)
+    end
+  end
+
   private
 
   def self.notify_about_export_completion(export, export_type)

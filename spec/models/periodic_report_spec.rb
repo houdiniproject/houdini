@@ -6,6 +6,9 @@ RSpec.describe PeriodicReport, type: :model do
   let(:user) { create(:user, roles: [build(:role, name: 'nonprofit_associate', host: nonprofit)]) }
   let(:users_list) { User.where(id: user.id) }
 
+  it {is_expected.to belong_to(:nonprofit).required(true)}
+  it {is_expected.to belong_to(:nonprofit_s3_key)}
+
   describe '#validation' do
     let(:attributes) do
       {
@@ -33,6 +36,19 @@ RSpec.describe PeriodicReport, type: :model do
       attributes[:period] = :invalid_period
       periodic_report = subject
       expect(periodic_report.valid?).to be_falsy
+    end
+
+    it 'is not valid if it the nonprofit on nonprofit_s3_key does not match nonprofit' do
+      attributes[:nonprofit_s3_key] = create(:nonprofit_s3_key)
+      periodic_report = subject
+      expect(periodic_report.valid?).to be_falsy
+    end
+
+    it 'is valid if it the nonprofit on nonprofit_s3_key does match nonprofit' do
+      attributes[:nonprofit_s3_key] = create(:nonprofit_s3_key, nonprofit: nonprofit)
+      periodic_report = subject
+      expect(periodic_report.valid?).to be_truthy
+
     end
 
     context 'users validation' do
@@ -101,7 +117,9 @@ RSpec.describe PeriodicReport, type: :model do
           :active => true,
           :report_type => 'failed_recurring_donations',
           :period => 'last_month',
-          :users => users_list
+          :users => users_list,
+          nonprofit_s3_key: nil,
+          filename: nil
         }
       end
       let(:options) { attributes.except(:active).merge({ :nonprofit_id => nonprofit.id }) }
@@ -127,7 +145,9 @@ RSpec.describe PeriodicReport, type: :model do
           :active => true,
           :report_type => 'cancelled_recurring_donations',
           :period => 'last_month',
-          :users => users_list
+          :users => users_list,
+          nonprofit_s3_key: nil,
+          filename: nil
         }
       end
       let(:options) { attributes.except(:active).merge({ :nonprofit_id => nonprofit.id }) }

@@ -9,12 +9,15 @@ class PeriodicReport < ActiveRecord::Base
 
   belongs_to :nonprofit
   has_and_belongs_to_many :users
+  belongs_to :nonprofit_s3_key
 
   validate :valid_report_type?
   validate :valid_period?
+  validate :valid_nonprofit_s3_key?
   validate :valid_users?
 
-  validates :nonprofit_id, presence: true
+
+  validates :nonprofit, presence: true
 
   scope :active, -> { where(active: true) }
 
@@ -23,18 +26,22 @@ class PeriodicReport < ActiveRecord::Base
 
   private
 
-  AVAILABLE_REPORT_TYPES = [:failed_recurring_donations, :cancelled_recurring_donations].freeze
-  AVAILABLE_PERIODS = [:last_month].freeze
+  AVAILABLE_REPORT_TYPES = [:failed_recurring_donations, :cancelled_recurring_donations, :active_recurring_donations_to_csv, :started_recurring_donations_to_csv].freeze
+  AVAILABLE_PERIODS = [:last_month, :all].freeze
 
   private_constant :AVAILABLE_REPORT_TYPES
   private_constant :AVAILABLE_PERIODS
 
   def valid_report_type?
-    errors.add(:report_type, 'must be a supported report type') unless AVAILABLE_REPORT_TYPES.include? report_type.to_sym
+    errors.add(:report_type, 'must be a supported report type') unless AVAILABLE_REPORT_TYPES.include? report_type&.to_sym
   end
 
   def valid_period?
-    errors.add(:period, 'must be a supported period') unless AVAILABLE_PERIODS.include? period.to_sym
+    errors.add(:period, 'must be a supported period') unless AVAILABLE_PERIODS.include? period&.to_sym
+  end
+
+  def valid_nonprofit_s3_key?
+    errors.add(:nonprofit_s3_key, 'must belong to the nonprofit set via :nonprofit') if nonprofit_s3_key.present? && nonprofit_s3_key.nonprofit != nonprofit
   end
 
   def valid_users?
@@ -51,6 +58,6 @@ class PeriodicReport < ActiveRecord::Base
   end
 
   def adapter
-    PeriodicReportAdapter.build({ report_type: report_type, nonprofit_id: nonprofit_id, period: period, users: users })
+    PeriodicReportAdapter.build({ report_type: report_type, nonprofit_id: nonprofit_id, period: period, users: users, nonprofit_s3_key: nonprofit_s3_key, filename:filename })
   end
 end

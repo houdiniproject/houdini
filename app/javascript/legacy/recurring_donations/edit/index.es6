@@ -18,6 +18,7 @@ const readableInterval = require('../../nonprofits/recurring_donations/readable_
 const format = require('../../common/format')
 const supporterAddressForm = require('../../components/supporter-address-form.es6')
 const changeAmountWizard = require('./change-amount-wizard.es6')
+const utils = require('../../common/utilities')
 
 
 function init() {

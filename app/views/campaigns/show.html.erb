@@ -17,7 +17,6 @@
     app.end_date_time = app.campaign_end_datetime
     app.hide_activities = <%= @campaign.hide_activity_feed %>
 		app.days_remaining = '<%= @campaign.days_left %>'
-		app.recurring_fund = <%= @campaign.recurring_fund? %>
     app.vimeo_id = "<%= @campaign.vimeo_video_id ? @campaign.vimeo_video_id : '' %>"
     app.current_campaign_editor = <%= current_campaign_editor? %>
     app.is_parent_campaign = <%= @campaign.parent_campaign? %>

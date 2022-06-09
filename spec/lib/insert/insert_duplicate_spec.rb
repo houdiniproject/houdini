@@ -60,7 +60,6 @@ describe InsertDuplicate do
       :main_image => nil,
       :published => false,
       :receipt_message => nil,
-      :recurring_fund => nil,
       :show_recurring_amount => false,
       :show_total_count => true,
       :show_total_raised => true,

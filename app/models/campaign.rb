@@ -20,7 +20,6 @@ class Campaign < ActiveRecord::Base
 		:vimeo_video_id,
 		:youtube_video_id,
 		:summary,
-		:recurring_fund, # bool: whether this is a recurring campaign
 		:body,
 		:goal_amount_dollars, #accessor: translated into goal_amount (cents)
 		:show_total_raised, # bool

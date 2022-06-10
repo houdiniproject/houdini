@@ -20,6 +20,7 @@ require 'action_mailer_matchers'
 require 'active_job'
 require 'wisper/rspec/matchers'
 require 'validate_url/rspec_matcher'
+require 'support/stripe_mock_helper'
 include ActiveJob::TestHelper
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -120,4 +121,8 @@ RSpec.configure do |config|
   config.include(Wisper::RSpec::BroadcastMatcher)
 
   config.example_status_persistence_file_path = 'tmp/example_status_persistence_file_path.txt'
+
+  config.after(:each) do
+    StripeMockHelper.stop
+  end
 end

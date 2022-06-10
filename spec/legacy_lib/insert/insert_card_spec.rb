@@ -5,9 +5,9 @@
 require 'rails_helper'
 describe InsertCard do
   describe '.with_stripe' do
-    let(:stripe_helper) { StripeMock.create_test_helper }
+    let(:stripe_helper) { StripeMockHelper.default_helper}
 
-    let(:stripe_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year: 2011) }
+    let(:stripe_card_token) { StripeMockHelper.generate_card_token(last4: '9191', exp_year: 2011) }
     let(:default_card_attribs) do
       {
         created_at: Time.now,
@@ -32,9 +32,9 @@ describe InsertCard do
 
     around(:each) do |example|
       Timecop.freeze(2025, 5, 4) do
-        StripeMock.start
-        example.run
-        StripeMock.stop
+        StripeMockHelper.mock do
+          example.run
+        end
       end
     end
 

@@ -38,7 +38,7 @@ RSpec.shared_context :shared_donation_charge_context do
   let(:recurring_donation) { force_create(:recurring_donation, donation: donation_for_rd, nonprofit: nonprofit, supporter: supporter, start_date: Time.now, interval: 1, time_unit: 'month') }
   let(:recurrence) { force_create(:recurrence, recurring_donation: recurring_donation, supporter: supporter, amount: 500, start_date: Time.now)}
 
-  let(:stripe_helper) { StripeMock.create_test_helper }
+  let(:stripe_helper) { StripeMockHelper.default_helper }
 
   let(:supporter_name) {'Fake Supporter Name'}
 
@@ -83,9 +83,9 @@ RSpec.shared_context :shared_donation_charge_context do
 
   around(:each) do |example|
     Timecop.freeze(2020, 5, 4) do
-      StripeMock.start
-      example.run
-      StripeMock.stop
+      StripeMockHelper.mock do 
+        example.run
+      end
     end
   end
 end

@@ -40,16 +40,14 @@ describe InsertPayout do
     end
 
     context 'when valid' do
-      let(:stripe_helper) { StripeMock.create_test_helper }
+      let(:stripe_helper) { StripeMockHelper.default_helper }
 
-      before(:each) do
-        Timecop.freeze(2020, 5, 4)
-        StripeMock.start
-      end
-
-      after do
-        StripeMock.stop
-        Timecop.return
+      around(:each) do |example|
+        Timecop.freeze(2020, 5, 4) do 
+          StripeMockHelper.mock do
+            example.run
+          end
+        end
       end
 
       it 'handles no charges to payout' do
@@ -77,7 +75,7 @@ describe InsertPayout do
           let(:np) { force_create(:nm_justice, stripe_account_id: Stripe::Account.create['id'], vetted: true) }
           let(:date_for_marking) { Time.now }
           let(:ba) do
-            InsertBankAccount.with_stripe(np, user, stripe_bank_account_token: StripeMock.generate_bank_token, name: bank_name)
+            InsertBankAccount.with_stripe(np, user, stripe_bank_account_token: StripeMockHelper.generate_bank_token, name: bank_name)
           end
         end
 
@@ -148,7 +146,7 @@ describe InsertPayout do
         end
 
         it 'fails properly when Stripe payout call fails' do
-          StripeMock.prepare_error(Stripe::StripeError.new('Payout failed'), :new_transfer)
+          StripeMockHelper.prepare_error(Stripe::StripeError.new('Payout failed'), :new_transfer)
 
           all_payments
           result = InsertPayout.with_stripe(np.id, stripe_account_id: np.stripe_account_id,
@@ -207,7 +205,7 @@ describe InsertPayout do
         include_context 'payments for a payout' do
           let(:np) { force_create(:nm_justice, stripe_account_id: Stripe::Account.create['id'], vetted: true) }
           let(:date_for_marking) { Time.now - 1.day }
-          let(:ba) { InsertBankAccount.with_stripe(np, user, stripe_bank_account_token: StripeMock.generate_bank_token, name: bank_name) }
+          let(:ba) { InsertBankAccount.with_stripe(np, user, stripe_bank_account_token: StripeMockHelper.generate_bank_token, name: bank_name) }
         end
         before(:each) do
           ba
@@ -273,7 +271,7 @@ describe InsertPayout do
         end
 
         it 'fails properly when Stripe payout call fails' do
-          StripeMock.prepare_error(Stripe::StripeError.new('Payout failed'), :new_transfer)
+          StripeMockHelper.prepare_error(Stripe::StripeError.new('Payout failed'), :new_transfer)
 
           all_payments
           result = InsertPayout.with_stripe(np.id, { stripe_account_id: np.stripe_account_id,

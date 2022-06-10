@@ -128,7 +128,6 @@ app/javascript/legacy/components/activity_feed.js
 app/javascript/legacy/components/address-autocomplete-fields.js
 app/javascript/legacy/components/address-autocomplete.js
 app/javascript/legacy/components/ajax/toggle_soft_delete.js
-app/javascript/legacy/components/b64.js
 app/javascript/legacy/components/branded_fundraising.js
 app/javascript/legacy/components/chart-options.js
 app/javascript/legacy/components/checkbox.js
@@ -138,7 +137,6 @@ app/javascript/legacy/components/date-range.js
 app/javascript/legacy/components/dollar-input.js
 app/javascript/legacy/components/drag-to-reorder.js
 app/javascript/legacy/components/duplicate_fundraiser.js
-app/javascript/legacy/components/encode-plain-email.js
 app/javascript/legacy/components/field-with-error.js
 app/javascript/legacy/components/fundraising/add_header_image.js
 app/javascript/legacy/components/modal.js

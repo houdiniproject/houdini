@@ -414,7 +414,7 @@ describe InsertTickets do
           nonprofit.stripe_account_id = Stripe::Account.create()['id']
           nonprofit.save!
           c = Stripe::Customer.create
-          source = Stripe::Customer.create_source(c.id, {source: StripeMock.generate_card_token})
+          source = Stripe::Customer.create_source(c.id, {source: StripeMockHelper.generate_card_token})
           card.stripe_card_id = source.id
           card.stripe_customer_id = c.id
           card.save!

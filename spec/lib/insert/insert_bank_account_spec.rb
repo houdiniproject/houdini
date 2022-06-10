@@ -72,7 +72,7 @@ describe InsertBankAccount do
 
       it 'Stripe::Account.retrieve fails' do
         expect(StripeAccountUtils).to receive(:find_or_create).and_return("account_id")
-        StripeMock.prepare_error(Stripe::StripeError.new("some error happened"), :get_account )
+        StripeMockHelper.prepare_error(Stripe::StripeError.new("some error happened"), :get_account )
 
         expect { InsertBankAccount.with_stripe(nonprofit, user, {:stripe_bank_account_token => 'blah'})}.to(raise_error{|error|
           expect(error).to be_a Stripe::StripeError
@@ -83,11 +83,11 @@ describe InsertBankAccount do
     describe 'works with account retrieval' do
       before (:each) { nonprofit.vetted = true; nonprofit.save!}
       let(:stripe_acct) {Stripe::Account.create(managed: true, country: 'US', display_name: "test_display_name")}
-      let(:stripe_bank_account_token) { StripeMock.generate_bank_token(country: "US", routing_number: "110000000", account_number: "000123456789") }
+      let(:stripe_bank_account_token) { StripeMockHelper.generate_bank_token(country: "US", routing_number: "110000000", account_number: "000123456789") }
 
       it 'sets failure message when external_account create fails' do
         expect(Stripe::Account).to receive(:retrieve).and_return(stripe_acct)
-        StripeMock.prepare_error(Stripe::StripeError.new("hmm"), :create_external_account)
+        StripeMockHelper.prepare_error(Stripe::StripeError.new("hmm"), :create_external_account)
         expect { InsertBankAccount.with_stripe(nonprofit, user, {:stripe_bank_account_token => stripe_bank_account_token}) }.to raise_error {|error|
           expect(error).to be_a ArgumentError
           expect(error.message).to eq 'Failed to connect the bank account: #<Stripe::StripeError: hmm>'
@@ -124,7 +124,7 @@ describe InsertBankAccount do
         old_bank_account_true
       }
       let(:stripe_acct) {Stripe::Account.create(managed: true, country: 'US', display_name: "test_display_name")}
-      let(:stripe_bank_account_token) { StripeMock.generate_bank_token(country: "US", routing_number: "110000000", account_number: "000123456789") }
+      let(:stripe_bank_account_token) { StripeMockHelper.generate_bank_token(country: "US", routing_number: "110000000", account_number: "000123456789") }
 
       let(:old_bank_account_nil) { force_create(:bank_account, nonprofit: nonprofit, deleted: false)}
       let(:old_bank_account_false) { force_create(:bank_account, nonprofit: nonprofit, deleted: false)}

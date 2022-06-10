@@ -222,7 +222,7 @@ describe ExportPayments do
         nonprofit.save!
         cust = Stripe::Customer.create()
         card.stripe_customer_id = cust.id
-        source = Stripe::Customer.create_source(cust.id, {source: StripeMock.generate_card_token(brand: 'Visa', country: 'US')})
+        source = Stripe::Customer.create_source(cust.id, {source: StripeMockHelper.generate_card_token(brand: 'Visa', country: 'US')})
         card.stripe_card_id = source.id
         card.save!
         allow(Stripe::Charge).to receive(:create).and_wrap_original {|m, *args| a = m.call(*args);

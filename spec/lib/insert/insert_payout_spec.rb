@@ -71,7 +71,7 @@ describe InsertPayout do
         end
         
         let!(:ba) do
-          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMockHelper.generate_bank_token(), name: bank_name})
           ba.pending_verification = false
           ba.save!
           ba
@@ -112,7 +112,7 @@ describe InsertPayout do
           let(:supporter) {force_create(:supporter, nonprofit: nonprofit)}
         end
         let!(:ba) do
-          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMockHelper.generate_bank_token(), name: bank_name})
           ba.pending_verification = false
           ba.save!
           ba
@@ -172,7 +172,7 @@ describe InsertPayout do
         it 'fails properly when Stripe payout call fails' do
           #we have a deactivation record but deactivate set to false
           force_create(:nonprofit_deactivation, nonprofit: nonprofit, deactivated: false)
-          StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
+          StripeMockHelper.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
 
           entities_yesterday
           expected_payments
@@ -219,7 +219,7 @@ describe InsertPayout do
         end
 
         let!(:ba) do
-          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMock.generate_bank_token(), name: bank_name})
+          ba = InsertBankAccount.with_stripe(nonprofit, user, {stripe_bank_account_token: StripeMockHelper.generate_bank_token(), name: bank_name})
           ba.pending_verification = false
           ba.save!
           ba
@@ -281,7 +281,7 @@ describe InsertPayout do
         end
 
         it 'fails properly when Stripe payout call fails' do
-          StripeMock.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
+          StripeMockHelper.prepare_error(Stripe::StripeError.new("Payout failed"), :new_payout)
 
           result = InsertPayout.with_stripe(nonprofit.id, {stripe_account_id: nonprofit.stripe_account_id,
                                                     email: user_email,

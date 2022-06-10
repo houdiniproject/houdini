@@ -4,7 +4,7 @@ describe InsertCard do
   describe'.with_stripe' do
 
 
-  let(:stripe_card_token) { StripeMock.generate_card_token(last4: '9191', exp_year:2011)}
+  let(:stripe_card_token) { StripeMockHelper.generate_card_token(last4: '9191', exp_year:2011)}
   let(:default_card_attribs) {
     {
       created_at: Time.now,
@@ -135,7 +135,7 @@ describe InsertCard do
 
     describe 'card exists' do
       before(:each) {
-        @first_card_tok = StripeMock.generate_card_token(:last4 => '9999', :exp_year => '2122')
+        @first_card_tok = StripeMockHelper.generate_card_token(:last4 => '9999', :exp_year => '2122')
         @stripe_customer = Stripe::Customer.create()
         @stripe_customer.sources.create({token: @first_card_tok})
 
@@ -184,7 +184,7 @@ describe InsertCard do
     end
 
     it 'handle card errors' do
-      StripeMock.prepare_error(
+      StripeMockHelper.prepare_error(
         Stripe::CardError.new('card error', 
           300, 
           nil, 
@@ -200,7 +200,7 @@ describe InsertCard do
     end
 
     it 'handle stripe errors' do
-      StripeMock.prepare_error(Stripe::StripeError.new('card error'), :new_customer)
+      StripeMockHelper.prepare_error(Stripe::StripeError.new('card error'), :new_customer)
       card_data = { :holder_type => 'Nonprofit', :holder_id => nonprofit.id, :stripe_card_id => 'card_88888', :stripe_card_token => stripe_card_token, :name => "card_name" }
 
       card_ret = InsertCard::with_stripe(card_data);

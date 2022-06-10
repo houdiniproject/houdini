@@ -92,7 +92,7 @@ RSpec.shared_context :dispute_created_context do
   include_context :disputes_context do 
 
     let(:event_json) do 
-      event_json = StripeMock.mock_webhook_event('charge.dispute.created')
+      event_json = StripeMockHelper.mock_webhook_event('charge.dispute.created')
       StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, event_json['data']['object'])
       event_json
     end
@@ -174,7 +174,7 @@ RSpec.shared_context :dispute_funds_withdrawn_context do
   include_context :disputes_context do 
 
     let(:event_json) do 
-      event_json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+      event_json = StripeMockHelper.mock_webhook_event('charge.dispute.funds_withdrawn')
       StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, event_json['data']['object'])
       event_json
     end
@@ -266,7 +266,7 @@ end
 RSpec.shared_context :dispute_funds_reinstated_context do
   include_context :disputes_context
   let(:event_json) do
-    event_json =StripeMock.mock_webhook_event('charge.dispute.funds_reinstated')
+    event_json =StripeMockHelper.mock_webhook_event('charge.dispute.funds_reinstated')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, event_json['data']['object'])
     event_json
   end
@@ -377,7 +377,7 @@ end
 RSpec.shared_context :dispute_lost_context do
   include_context :disputes_context
   let(:event_json) do
-    event_json =StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+    event_json =StripeMockHelper.mock_webhook_event('charge.dispute.closed-lost')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, event_json['data']['object'])
     event_json
   end
@@ -468,7 +468,7 @@ end
 RSpec.shared_context :dispute_won_context do
   include_context :disputes_context
   let(:event_json) do
-    event_json =StripeMock.mock_webhook_event('charge.dispute.closed-won')
+    event_json =StripeMockHelper.mock_webhook_event('charge.dispute.closed-won')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, event_json['data']['object'])
     event_json
   end
@@ -579,7 +579,7 @@ end
 RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_context do 
   include_context :disputes_context
   let(:event_json_created) do
-    StripeMock.mock_webhook_event('charge.dispute.created-with-one-withdrawn')
+    StripeMockHelper.mock_webhook_event('charge.dispute.created-with-one-withdrawn')
   end
 
   let(:json_created) { event_json_created['data']['object']}
@@ -587,7 +587,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_context do
   let(:json_funds_withdrawn) {event_json_funds_withdrawn['data']['object']}
 
   let(:event_json_funds_withdrawn) do
-    json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.funds_withdrawn')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -688,7 +688,7 @@ end
 RSpec.shared_context :dispute_created_and_withdrawn_in_order_context do 
   include_context :dispute_created_and_withdrawn_at_same_time_context
   let(:event_json_created) do
-    json = StripeMock.mock_webhook_event('charge.dispute.created')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.created')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -698,7 +698,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_in_order_context do
   let(:json_funds_withdrawn) {event_json_funds_withdrawn['data']['object']}
 
   let(:event_json_funds_withdrawn) do
-    json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.funds_withdrawn')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -799,7 +799,7 @@ end
 RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_context do 
   include_context :disputes_context
   let(:event_json_created) do
-    json = StripeMock.mock_webhook_event('charge.dispute.created')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.created')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -807,7 +807,7 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_context do
   let(:json_created) { event_json_created['data']['object']}
 
   let(:event_json_funds_withdrawn) do
-    json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.funds_withdrawn')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -815,7 +815,7 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_context do
   let(:json_funds_withdrawn) {event_json_funds_withdrawn['data']['object']}
 
   let(:event_json_lost) do
-    json = StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.closed-lost')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -915,7 +915,7 @@ RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_context d
   include_context :dispute_created_withdrawn_and_lost_in_order_context
 
   let(:event_json_created) do
-    json = StripeMock.mock_webhook_event('charge.dispute.created-with-one-withdrawn')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.created-with-one-withdrawn')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -1004,21 +1004,21 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_cont
   
   include_context :disputes_context
   let(:event_json_created) do
-    json = StripeMock.mock_webhook_event('charge.dispute.created')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.created')
     json
   end
 
   let(:json_created) { event_json_created['data']['object']}
 
   let(:event_json_funds_withdrawn) do
-    json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.funds_withdrawn')
     json
   end
 
   let(:json_funds_withdrawn) {event_json_funds_withdrawn['data']['object']}
 
   let(:event_json_lost) do
-    json = StripeMock.mock_webhook_event('charge.dispute.closed-lost')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.closed-lost')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -1034,7 +1034,7 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_cont
       gross_amount: 80000))}
 
   let(:event_json_created) do
-    json = StripeMock.mock_webhook_event('charge.dispute.created-with-one-withdrawn')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.created-with-one-withdrawn')
     json
   end
 end
@@ -1121,7 +1121,7 @@ end
 RSpec.shared_context :__dispute_with_two_partial_disputes_withdrawn_at_same_time_context do
   include_context :disputes_context
   let(:event_json_dispute_partial1) do
-    json = StripeMock.mock_webhook_event('charge.dispute.created-with-one-withdrawn--partial1')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.created-with-one-withdrawn--partial1')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -1129,7 +1129,7 @@ RSpec.shared_context :__dispute_with_two_partial_disputes_withdrawn_at_same_time
   let(:json_partial1) { event_json_dispute_partial1['data']['object']}
 
   let(:event_json_dispute_partial2) do
-    json = StripeMock.mock_webhook_event('charge.dispute.created-with-one-withdrawn--partial2')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.created-with-one-withdrawn--partial2')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end
@@ -1328,7 +1328,7 @@ RSpec.shared_context :legacy_dispute_context do
   let(:reinstated_payment) {reinstated_transaction.payment}
 
   let(:event_json) do
-    json = StripeMock.mock_webhook_event('charge.dispute.funds_withdrawn')
+    json = StripeMockHelper.mock_webhook_event('charge.dispute.funds_withdrawn')
     StripeMockHelper.stripe_helper.upsert_stripe_object(:dispute, json['data']['object'])
     json
   end

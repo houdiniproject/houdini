@@ -17,7 +17,7 @@ RSpec.shared_context :charge_succeeded_context do
   include_context :charge_context do 
 
     let(:event_json) do 
-      event_json = StripeMock.mock_webhook_event('charge.succeeded')
+      event_json = StripeMockHelper.mock_webhook_event('charge.succeeded')
       event_json
     end
   end

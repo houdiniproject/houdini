@@ -101,7 +101,7 @@ describe QueryPayments do
       nonprofit.save!
       cust = Stripe::Customer.create()
       card.stripe_customer_id = cust.id
-      source = Stripe::Customer.create_source(cust.id, {source: StripeMock.generate_card_token(brand: 'Visa', country: 'US')})
+      source = Stripe::Customer.create_source(cust.id, {source: StripeMockHelper.generate_card_token(brand: 'Visa', country: 'US')})
       card.stripe_card_id = source.id
       card.save!
       expect(Stripe::Charge).to receive(:create).exactly(3).times.and_wrap_original {|m, *args| a = m.call(*args);

@@ -15,12 +15,12 @@ describe :stripe_card do
   it 'creates 1 Stripe::Customer' do
     create(:stripe_card_base)
 
-    expect(StripeMock.instance.customers.count).to eq 1
+    expect(StripeMockHelper.instance.customers.count).to eq 1
   end
 
   it 'has created a single source on the customer' do
     create(:stripe_card_base)
 
-    expect(StripeMock.instance.customers.first[1][:sources][:total_count]).to eq 1
+    expect(StripeMockHelper.instance.customers.first[1][:sources][:total_count]).to eq 1
   end
 end

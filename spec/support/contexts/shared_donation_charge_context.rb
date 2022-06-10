@@ -42,7 +42,7 @@ RSpec.shared_context :shared_donation_charge_context do
 
 
   def generate_card_token(brand="Visa", country='US')
-    StripeMock.generate_card_token({brand: brand, country: country})
+    StripeMockHelper.generate_card_token({brand: brand, country: country})
   end
 
   around(:each){|example|

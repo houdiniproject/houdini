@@ -80,7 +80,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
     end
     let(:nonprofit) { force_create(:nonprofit, name: "spec_nonprofit_full")}
     let(:json) do
-      event =StripeMock.mock_webhook_event('charge.dispute.updated')
+      event =StripeMockHelper.mock_webhook_event('charge.dispute.updated')
       event['data']['object']
     end
     let(:supporter) { force_create(:supporter, nonprofit: nonprofit)}

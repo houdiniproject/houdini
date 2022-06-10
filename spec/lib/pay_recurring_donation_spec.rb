@@ -25,7 +25,7 @@ describe PayRecurringDonation  do
     let(:stripe_cust_id) { customer = Stripe::Customer.create();
     customer.id}
     let(:card) {
-      card = Stripe::Customer.create_source(stripe_cust_id, {source: StripeMock.generate_card_token(brand: 'Visa', country: 'US')})
+      card = Stripe::Customer.create_source(stripe_cust_id, {source: StripeMockHelper.generate_card_token(brand: 'Visa', country: 'US')})
       force_create(:card, holder: supporter, stripe_customer_id: stripe_cust_id, stripe_card_id: card.id)
     }
     let(:donation) {force_create(:donation, supporter: supporter, amount: 300, card: card, nonprofit: nonprofit)}

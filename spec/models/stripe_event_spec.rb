@@ -43,19 +43,19 @@ RSpec.describe StripeEvent, :type => :model do
 
     it 'skips processing already processed events' do
       event_object_for_pending
-      StripeEvent.handle(StripeMock.mock_webhook_event('account.updated.with-pending'))
+      StripeEvent.handle(StripeMockHelper.mock_webhook_event('account.updated.with-pending'))
       expect(StripeAccount.count).to eq 0
     end
 
     it 'skips processing weve already processed a newer event for object' do
       later_event_object
-      StripeEvent.handle(StripeMock.mock_webhook_event('account.updated.with-pending'))
+      StripeEvent.handle(StripeMockHelper.mock_webhook_event('account.updated.with-pending'))
       expect(StripeAccount.count).to eq 0
     end
 
     describe 'new StripeAccount' do
       describe 'handles unverified' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-unverified')}
 
         let(:last_event) { StripeEvent.last}
         let(:last_account) { StripeAccount.last}
@@ -110,7 +110,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
 
       describe 'handles temporarily_verified' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-temporarily_verified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-temporarily_verified')}
 
         let(:last_event) { StripeEvent.last}
         let(:last_account) { StripeAccount.last}
@@ -164,7 +164,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
 
       describe 'handles verified' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-verified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-verified')}
         let(:last_event) { StripeEvent.last}
         let(:last_account) { StripeAccount.last}
         
@@ -220,7 +220,7 @@ RSpec.describe StripeEvent, :type => :model do
 
     describe 'old StripeAccount' do 
       describe 'handles unverified' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-unverified')}
         let(:last_event) { StripeEvent.last}
         let(:last_account) { create(:stripe_account, :with_unverified, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
 
@@ -280,7 +280,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
 
       describe 'handles from pending to unverified' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-unverified')}
         let(:last_event) { StripeEvent.last}
         let(:last_account) { create(:stripe_account, :with_pending, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
 
@@ -342,7 +342,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
 
       describe 'handles temporarily_verified' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-temporarily_verified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-temporarily_verified')}
 
         let(:last_event) { StripeEvent.last}
         let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
@@ -400,7 +400,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
 
       describe 'handles verified' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-verified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-verified')}
         let(:last_event) { StripeEvent.last}
         let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4', currently_due: ['something'])}
         describe 'when in verification process' do
@@ -456,7 +456,7 @@ RSpec.describe StripeEvent, :type => :model do
       end
 
       describe 'handles pending' do
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-pending')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-pending')}
         let(:last_event) { StripeEvent.last}
         let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4', currently_due: ['something'])}
         describe 'when in verification process' do
@@ -516,7 +516,7 @@ RSpec.describe StripeEvent, :type => :model do
 
       describe 'handles verified to unverified' do
         let(:deadline) { Time.utc(2020, 2, 28, 22, 27, 35)}
-        let(:event_json) { StripeMock.mock_webhook_event('account.updated.with-unverified-from-verified')}
+        let(:event_json) { StripeMockHelper.mock_webhook_event('account.updated.with-unverified-from-verified')}
         let(:last_event) { StripeEvent.last}
         let(:last_account) { create(:stripe_account, stripe_account_id:'acct_1G8Y94CcxDUSisy4')}
 

@@ -88,7 +88,7 @@ describe CancelBillingSubscription do
 
     describe 'with a failure' do
       def prepare_stripe_error
-        StripeMock.prepare_error(Stripe::StripeError.new('some failure'), :retrieve_customer_subscription)
+        StripeMockHelper.prepare_error(Stripe::StripeError.new('some failure'), :retrieve_customer_subscription)
       end
 
       it 'has a status of :unprocessable entity' do

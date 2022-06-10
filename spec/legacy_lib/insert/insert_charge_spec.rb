@@ -136,7 +136,7 @@ describe InsertCharge do
 
     describe 'handle StripeAccount Find and Create failure' do
       before(:each)  do
-        StripeMock.prepare_error(Stripe::StripeError.new('chaos'), :new_account)
+        StripeMockHelper.prepare_error(Stripe::StripeError.new('chaos'), :new_account)
       end
       it 'does it fail properly' do
         expect do
@@ -160,7 +160,7 @@ describe InsertCharge do
         nonprofit.save!
         card.stripe_customer_id = 'some other id'
         card.save!
-        StripeMock.prepare_error(Stripe::StripeError.new('chaos'), :get_customer)
+        StripeMockHelper.prepare_error(Stripe::StripeError.new('chaos'), :get_customer)
       end
 
       it 'handles card error' do
@@ -171,7 +171,7 @@ describe InsertCharge do
                                                           description: 'our statement<> blah-no-way',
                                                           statement_descriptor: 'our statement blah-n',
                                                           metadata: nil }, stripe_account: nonprofit.stripe_account_id).and_wrap_original { |m, *args| m.call(*args) }
-        StripeMock.prepare_card_error(:card_declined)
+        StripeMockHelper.prepare_card_error(:card_declined)
 
         finished_result = InsertCharge.with_stripe(amount: 100,
                                                    nonprofit_id: nonprofit.id,
@@ -197,7 +197,7 @@ describe InsertCharge do
                                                           description: 'our statement<> blah-no-way',
                                                           statement_descriptor: 'our statement blah-n',
                                                           metadata: nil }, stripe_account: nonprofit.stripe_account_id).and_wrap_original { |m, *args| m.call(*args) }
-        StripeMock.prepare_error(Stripe::StripeError.new('blah'), :new_charge)
+        StripeMockHelper.prepare_error(Stripe::StripeError.new('blah'), :new_charge)
 
         finished_result = InsertCharge.with_stripe(amount: 100,
                                                    nonprofit_id: nonprofit.id,
@@ -329,7 +329,7 @@ describe InsertCharge do
         new_cust = Stripe::Customer.create
         card_for_other_supporter.stripe_customer_id = new_cust['id']
         card_for_other_supporter.save!
-        # StripeMock.prepare_error(Stripe::StripeError.new("chaos"), :get_customer)
+        # StripeMockHelper.prepare_error(Stripe::StripeError.new("chaos"), :get_customer)
       end
 
       def create_expected_charge_args(expected_card)
@@ -345,7 +345,7 @@ describe InsertCharge do
 
       it 'handles card error' do
         expect(Stripe::Charge).to receive(:create).with(*create_expected_charge_args(card)).and_wrap_original { |m, *args| m.call(*args) }
-        StripeMock.prepare_card_error(:card_declined)
+        StripeMockHelper.prepare_card_error(:card_declined)
 
         finished_result = InsertCharge.with_stripe(amount: 100,
                                                    nonprofit_id: nonprofit.id,
@@ -365,7 +365,7 @@ describe InsertCharge do
 
       it 'handles general Stripe error' do
         expect(Stripe::Charge).to receive(:create).with(*create_expected_charge_args(card)).and_wrap_original { |m, *args| m.call(*args) }
-        StripeMock.prepare_error(Stripe::StripeError.new('blah'), :new_charge)
+        StripeMockHelper.prepare_error(Stripe::StripeError.new('blah'), :new_charge)
 
         finished_result = InsertCharge.with_stripe(amount: 100,
                                                    nonprofit_id: nonprofit.id,

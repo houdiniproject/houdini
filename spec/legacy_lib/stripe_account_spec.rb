@@ -7,9 +7,13 @@ require 'stripe'
 require 'stripe_mock'
 
 describe StripeAccount do
-  let(:stripe_helper) { StripeMock.create_test_helper }
-  before(:each) { StripeMock.start }
-  after(:each) { StripeMock.stop }
+  let(:stripe_helper) { StripeMockHelper.default_helper }
+  around(:each) do |example|
+    StripeMockHelper.mock do 
+      example.run
+    end
+  end
+
   let(:nonprofit) { force_create(:nm_justice) }
 
   describe '.find_or_create' do

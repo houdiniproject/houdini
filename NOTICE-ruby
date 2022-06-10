@@ -967,6 +967,7 @@ Public License instead of this License.
 ------
 
 ** rubocop-ast; version 1.18.0 -- 
+Copyright (c) 2012-20 Bozhidar Batsov
 
 Copyright (c) 2012-20 Bozhidar Batsov
 
@@ -1797,7 +1798,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** loofah; version 2.17.0 -- 
+** loofah; version 2.18.0 -- 
 Copyright (c) 2006-2008 The Authors
 Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
 
@@ -3117,7 +3118,7 @@ Copyright Kickstarter, PBC.
 ** rails; version 6.1.6 -- 
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
-** rails-html-sanitizer; version 1.4.2 -- 
+** rails-html-sanitizer; version 1.4.3 -- 
 Copyright (c) 2013-2015 Rafael Mendonca Franca, Kasper Timm Hansen
 ** rubocop-rspec; version 2.11.1 -- 
 Copyright (c) 2014 Ian MacLeod <ian@nevir.net>

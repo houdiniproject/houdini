@@ -4,6 +4,7 @@
 # StripeMockHelper wraps the StripeMock to simplify creating a single test helper as part of
 # a test session. Generally, you can use StripeMockHelper like StripeMock except it adds a "default_helper"
 # to get the StripeTestHelper for the session.
+# @see StripeMock
 StripeMockHelper = Class.new do
   
   delegate_missing_to :StripeMock

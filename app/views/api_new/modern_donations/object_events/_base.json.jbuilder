@@ -5,7 +5,7 @@
 
 json.partial! 'api_new/transaction_assignments/transaction_assignment',
   transaction_assignment: event_entity.transaction_assignment,
-  __expand: request_expansions(
+  __expand: build_json_expansion_path_tree(
     'transaction', 
     'transaction.transaction_assignments',
     'transaction.subtransaction.payments'

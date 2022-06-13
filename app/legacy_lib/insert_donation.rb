@@ -67,8 +67,10 @@ module InsertDonation
     entities = entities.merge(RetrieveActiveRecordItems.retrieve_from_keys(data, {Campaign => :campaign_id, Event => :event_id, Profile => :profile_id}, true))
     validate_entities(entities)
 
-    data = date_from_data(data)
+    data = amount_from_data(date_from_data(data))
     result = {'donation' => self.insert_donation(data.except('offsite_payment'), entities)}
+    trx = entities[:supporter_id].transactions.build(amount: data['amount'], created: data['date'])
+    don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
     result['payment'] = self.insert_payment('OffsitePayment', 0, result['donation']['id'], data)
     result['offsite_payment'] = Psql.execute(
       Qexpr.new.insert(:offsite_payments, [
@@ -82,7 +84,28 @@ module InsertDonation
         })
       ]).returning('*')
     ).first
+    offline_transaction_charge_payment = SubtransactionPayment.new(
+          legacy_payment: Payment.find(result['payment']['id']),
+          paymentable: OfflineTransactionCharge.new
+          )
+    off_t = trx.build_subtransaction(
+      subtransactable: OfflineTransaction.new(amount: data['amount']), 
+      subtransaction_payments:[
+        offline_transaction_charge_payment
+        ],
+      created: data['date']
+      );
+    trx.save!
+    don.save!
+    off_t.save!
+
+    trx.publish_created
+    don.publish_created
+    # off_t.publish_created
+    offline_transaction_charge_payment.publish_created
+
     result['activity'] = InsertActivities.for_offsite_donations([result['payment']['id']])
+  
     return {status: 200, json: result}
   end
 
@@ -190,6 +213,10 @@ private
   # Return either the parsed DateTime from a date in data, or right now
   def self.date_from_data(data)
     data.merge('date' => data['date'].blank? ? Time.current : Chronic.parse(data['date']))
+  end
+
+  def self.amount_from_data(data)
+    data.merge('amount' => data['amount'].to_i)
   end
 
   def self.payment_provider(data)

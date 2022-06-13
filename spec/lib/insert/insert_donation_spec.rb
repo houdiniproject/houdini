@@ -109,51 +109,201 @@ describe InsertDonation do
     end
   end
 
-describe '#with_sepa', pending: 'we dont use SEPA so why have it?' do
-  # let!(:nonprofit) { Nonprofit.create(name: 'new', city: 'NY', state_code: 'NY') }
-  # let(:supporter) { Supporter.create(nonprofit: nonprofit) }
-  # let(:direct_debit) { DirectDebitDetail.create(supporter_id: supporter.id, account_holder_name: 'name', iban: 'de1234561234561234', bic: 'yxz') }
-  # let(:data) do
-  #   {
-  #     'amount' => 2000,
-  #     'supporter_id' => supporter.id,
-  #     'nonprofit_id' => nonprofit.id,
-  #     'recurring' => false,
-  #     'direct_debit_detail_id' => direct_debit.id
-  #   }
-  # end
-  include_context :shared_rd_donation_value_context
+  describe '.offsite' do
+		include_context :shared_rd_donation_value_context
+		describe 'failures' do
 
-   describe 'saves donation' do
-     before(:each) {
-       before_each_sepa_success
-     }
-     it 'process event donation' do
-       process_event_donation(sepa: true) {InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
-     end
+			it 'fails if amount is missing' do
+				expect do
+					described_class.offsite(
+						{
+							nonprofit_id: nonprofit.id,
+							supporter_id: supporter.id
+						}.with_indifferent_access
+					)
+				end.to raise_error(ParamValidation::ValidationError)
+			end
+		end
 
-     it 'process campaign donation' do
-       process_campaign_donation(sepa: true) {InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
-     end
+		describe 'success' do
 
-     it 'processes general donation' do
-       process_general_donation(sepa: true){ InsertDonation.with_sepa(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, direct_debit_detail_id: direct_debit_detail.id, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
-     end
-   end
-  end
-  #   it 'saves donation' do
-  #     expect { InsertDonation.with_sepa(data) }.to change(Donation, :count).by(1)
-  #   end
-  #
-  #   it 'returns a json hash' do
-  #     result = InsertDonation.with_sepa(data)
-  #
-  #     expect(result).to be_a(Hash)
-  #     expect(result[:json]['donation']).to include data
-  #   end
-  # end
+			describe 'general offsite create' do
+				subject do
+					result = described_class.offsite({ amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
+																															date: created_time.to_s }.with_indifferent_access)
+          Payment.find(result['payment']['id']).trx
+				end
 
-  it '.offsite', pending: true do
-    fail
+				let(:created_time) { 1.day.from_now }
+				let(:common_builder) do
+					{ 'supporter' => supporter.id,
+							'nonprofit' => nonprofit.id }
+				end
+
+				let(:common_builder_expanded) do
+					{
+						'supporter' => supporter_builder_expanded,
+						'nonprofit' => np_builder_expanded
+					}
+				end
+
+				let(:common_builder_with_trx_id) do
+					common_builder.merge(
+						{
+							'transaction' => match_houid('trx')
+						}
+					)
+				end
+
+				let(:common_builder_with_trx) do
+					common_builder.merge(
+						{
+							'transaction' => transaction_builder
+						}
+					)
+				end
+
+				let(:np_builder_expanded) do
+					{
+						'id' => nonprofit.id,
+						'name' => nonprofit.name,
+						'object' => 'nonprofit'
+					}
+				end
+
+				let(:supporter_builder_expanded) do
+					supporter_to_builder_base.merge({ 'name' => 'Fake Supporter Name' })
+				end
+
+				let(:transaction_builder) do
+					common_builder.merge(
+						{
+							'id' => match_houid('trx'),
+							'object' => 'transaction',
+							'amount' => {
+								'cents' => charge_amount,
+								'currency' => 'usd'
+							},
+							'created' => created_time.to_i,
+							'subtransaction' => offline_transaction_id_only,
+							'subtransaction_payments' => [offline_transaction_charge_id_only],
+							'transaction_assignments' => [donation_id_only]
+						}
+					)
+				end
+
+				let(:transaction_builder_expanded) do
+					transaction_builder.merge(
+						common_builder_expanded,
+						{
+							'subtransaction' => offline_transaction_builder,
+							'subtransaction_payments' => [offline_transaction_charge_builder],
+							'transaction_assignments' => [donation_builder]
+						}
+					)
+				end
+
+				let(:offline_transaction_id_only) do
+					{
+						'id' => match_houid('offlinetrx'),
+						'object' => 'offline_transaction',
+						'type' => 'subtransaction'
+					}
+				end
+
+				let(:offline_transaction_builder) do
+					offline_transaction_id_only.merge(
+						common_builder_with_trx_id,
+						{
+							'initial_amount' => {
+								'cents' => charge_amount,
+								'currency' => 'usd'
+							},
+
+							'net_amount' => {
+								'cents' => charge_amount,
+								'currency' => 'usd'
+							},
+
+							'payments' => [offline_transaction_charge_id_only],
+							'created' => created_time.to_i
+						}
+					)
+				end
+
+				let(:offline_transaction_builder_expanded) do
+					offline_transaction_builder.merge(
+						common_builder_with_trx,
+						common_builder_expanded,
+						{
+							'payments' => [offline_transaction_charge_builder]
+						}
+					)
+				end
+
+				let(:offline_transaction_charge_id_only) do
+					{
+						'id' => match_houid('offtrxchrg'),
+						'object' => 'offline_transaction_charge',
+						'type' => 'payment'
+					}
+				end
+
+				let(:offline_transaction_charge_builder) do
+					offline_transaction_charge_id_only.merge(
+						common_builder_with_trx_id,
+						{
+							'gross_amount' => {
+								'cents' => charge_amount,
+								'currency' => 'usd'
+							},
+							'net_amount' => {
+								'cents' => charge_amount,
+								'currency' => 'usd'
+							},
+							'fee_total' => {
+								'cents' => 0,
+								'currency' => 'usd'
+							},
+							'subtransaction' => offline_transaction_id_only,
+							'created' => created_time.to_i
+						}
+					)
+				end
+
+				let(:offline_transaction_charge_builder_expanded) do
+					offline_transaction_charge_builder.merge(
+						common_builder_with_trx,
+						common_builder_expanded,
+						{
+							'subtransaction' => offline_transaction_builder
+						}
+					)
+				end
+
+				let(:donation_id_only) do
+					{
+						'id' => match_houid('don'),
+						'object' => 'donation',
+						'type' => 'trx_assignment'
+					}
+				end
+
+				let(:donation_builder) do
+					donation_id_only.merge(common_builder_with_trx_id, {
+																													'amount' => {
+																														'cents' => charge_amount,
+																														'currency' => 'usd'
+																													},
+																													'designation' => nil
+																												})
+				end
+
+				let(:donation_builder_expanded) do
+					donation_builder.merge(common_builder_with_trx, common_builder_expanded)
+				end
+
+			end
+		end
   end
 end

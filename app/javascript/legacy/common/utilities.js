@@ -8,10 +8,6 @@ var utils = {}
 
 module.exports = utils
 
-// XXX remove
-utils.capitalize = string =>
-  string.charAt(0).toUpperCase() + string.slice(1)
-
 // Print a single message for Rails error responses
 // XXX remove
 utils.print_error = function (response) {

@@ -50,12 +50,6 @@ utils.update_param = function(key, value, url) {
 	return urlObj.toString();
 }
 
-// Pad a number with leading zeros
-// XXX remove
-utils.zero_pad = function(num, size) {
-	return (num + "").padStart(size, "0")
-}
-
 // for doing an action after the user pauses for a second after an event
 // XXX remove
 utils.delay = (function() {

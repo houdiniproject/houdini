@@ -19,6 +19,7 @@
 	*/
 
 var request = require('../common/client')
+const {to_singular} = require('../../legacy_react/src/lib/deprecated_format');
 
 var restful_resource = {}
 module.exports = restful_resource
@@ -133,7 +134,7 @@ function after_request(prop, err, resp) {
 // eg: given 'donations' and {amount: 111}, return {donation: {amount: 111}}
 function nested_obj(name, child_obj) {
 	var parent_obj = {}
-	parent_obj[appl.to_singular(name)] = child_obj
+	parent_obj[to_singular(name)] = child_obj
 	return parent_obj
 }
 

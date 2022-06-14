@@ -8,6 +8,7 @@ var appl = require('view-script')
 const on_ios11 = require('./on-ios11')
 const noScroll = require('no-scroll')
 const {centsToDollars} = require("./format")
+const {pluralize} = require('../../legacy_react/src/lib/deprecated_format')
 
 module.exports = appl
 
@@ -139,22 +140,7 @@ appl.def('percentage', function(x, y) {
 // return the proper version of that word for that quantitiy
 // eg: appl.pluralize(4, 'tomatoes') -> "4 tomatoes"
 // appl.pluralize(1, 'donors') -> "1 donor"
-appl.def('pluralize', function(quantity, plural_word) {
-	var str = String(quantity) + ' '
-	if(quantity !== 1) return str+plural_word
-	else return str + appl.to_singular(plural_word)
-})
-
-
-// Convert (most) words from their plural to their singular form
-// Works with simple s-endings, ies-endings, and oes-endings
-appl.def('to_singular', function(plural_word) {
-		return plural_word
-		.replace(/ies$/, 'y')
-		.replace(/oes$/, 'o')
-		.replace(/s$/, '')
-})
-
+appl.def('pluralize', pluralize)
 
 // Truncate a text and add ellipsis to the end
 appl.def('append_ellipsis', function(text, length) {

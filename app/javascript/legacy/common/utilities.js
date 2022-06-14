@@ -53,9 +53,7 @@ utils.update_param = function(key, value, url) {
 // Pad a number with leading zeros
 // XXX remove
 utils.zero_pad = function(num, size) {
-	var str = num + ""
-	while (str.length < size) str = "0" + str
-	return str
+	return (num + "").padStart(size, "0")
 }
 
 // for doing an action after the user pauses for a second after an event

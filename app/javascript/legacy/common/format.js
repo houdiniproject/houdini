@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var moment = require('moment')
+const {pluralize} = require('../../legacy_react/src/lib/deprecated_format')
 var format = {}
 
 module.exports = format
@@ -46,12 +46,7 @@ format.percent = function(x, y) {
   return Math.round(y / x * 100)
 }
 
-format.pluralize = function(quantity, plural_word) {
-	if(quantity === undefined || quantity === null) return '0 '+plural_word
-	var str = String(quantity) + ' '
-	if(quantity !== 1) return str+plural_word
-	else return str + appl.to_singular(plural_word)
-}
+format.pluralize = pluralize
 
 format.capitalize = function (string) {
   return string.split(' ')

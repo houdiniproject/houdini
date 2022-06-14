@@ -7,6 +7,7 @@ var client = require('./client')
 var appl = require('view-script')
 const on_ios11 = require('./on-ios11')
 const noScroll = require('no-scroll')
+const {centsToDollars} = require("./format")
 
 module.exports = appl
 
@@ -83,7 +84,7 @@ appl.def('notify', function(msg) {
 
 // Convert cents to dollars
 appl.def('cents_to_dollars', function(cents) {
-	return utils.cents_to_dollars(cents)
+	return centsToDollars(cents)
 })
 
 

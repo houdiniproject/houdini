@@ -36,18 +36,18 @@ utils.get_param = function(name) {
 	return new URLSearchParams(location.search).get(name) || undefined;
 }
 
-// XXX remove
-utils.change_url_param = function(key, value) {
-	if (!history || !history.replaceState) return
-	history.replaceState({}, "", utils.update_param(key, value))
-}
-
-// XXX remove. Depended on only by 'change_url_param' above
-utils.update_param = function(key, value, url) {
+// XXX remove. Depended on only by 'change_url_param'
+function update_param(key, value, url) {
 	if(!url) url = window.location.href
 	const urlObj = new URL(url);
 	urlObj.searchParams.set(key, value)
 	return urlObj.toString();
+}
+
+// XXX remove
+utils.change_url_param = function(key, value) {
+	if (!history || !history.replaceState) return
+	history.replaceState({}, "", update_param(key, value))
 }
 
 // for doing an action after the user pauses for a second after an event

@@ -1,4 +1,5 @@
 // License: LGPL-3.0-or-later
+const moment = require('moment')
 const {pluralize} = require('../../legacy_react/src/lib/deprecated_format')
 const {camelToWords, numberWithCommas} = require('../../legacy_react/src/lib/format');
 var format = {}

@@ -1,5 +1,6 @@
 // License: LGPL-3.0-or-later
 const {pluralize} = require('../../legacy_react/src/lib/deprecated_format')
+const {camelToWords, numberWithCommas} = require('../../legacy_react/src/lib/format');
 var format = {}
 
 module.exports = format
@@ -10,10 +11,7 @@ format.snake_to_words = function(snake, options) {
 	return snake.replace(/_/g, ' ').replace(/^./, function(m) {return m.toUpperCase()})
 }
 
-format.camelToWords = function(str, os) {
-  if(!str) return str
-  return str.replace(/([A-Z])/g, " $1")
-}
+format.camelToWords = camelToWords
 
 format.dollarsToCents = function(dollars) {
 	dollars = dollars.toString().replace(/[$,]/g, '')
@@ -37,9 +35,7 @@ format.weeklyToMonthly = function(amount) {
 
 
 
-format.numberWithCommas = function(n) {
-  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
+format.numberWithCommas = numberWithCommas
 
 format.percent = function(x, y) {
   if(!x || !y) return 0

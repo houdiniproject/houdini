@@ -102,19 +102,6 @@ utils.mergeFormData = function(formData, obj) {
 	return formData
 }
 
-
-// Given an array of values, return an array only with unique values
-// XXX remove
-utils.uniq = function(arr) {
-	var obj = {}
-	var index
-	var len = arr.length
-	var result = [];
-	for(index = 0; index < len; index += 1) obj[arr[index]] = arr[index];
-	for(index in obj) result.push(obj[index]);
-	return result
-}
-
 // XXX remove
 utils.address_with_commas = function(street, city, state){
 	var address = [street, city, state]

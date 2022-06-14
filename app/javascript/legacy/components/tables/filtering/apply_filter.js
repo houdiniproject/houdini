@@ -1,5 +1,6 @@
 // License: LGPL-3.0-or-later
 var format = require('../../../common/format')
+const {uniq} = require('lodash/uniq')
 
 module.exports = function(scope) {
 
@@ -41,7 +42,7 @@ module.exports = function(scope) {
 			var name = readable_keys[key]
 			if(name && q[key] && q[key].length) arr.push(name)
 		}
-		return utils.uniq(arr).map(function(s) { return "<span class='filteringBy-key'>" + s + "</span>" }).join(' ')
+		return uniq(arr).map(function(s) { return "<span class='filteringBy-key'>" + s + "</span>" }).join(' ')
 	})
 
 	appl.def('clear_all_filters', function() {

@@ -18,8 +18,6 @@ gem 'rabl'
 
 gem 'jbuilder'
 
-gem 'parallel'
-
 gem "puma", "~> 5.6"
 
 gem 'kaminari'

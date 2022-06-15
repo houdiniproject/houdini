@@ -327,7 +327,6 @@ GEM
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
-    parallel (1.6.1)
     pg (0.21.0)
     power_assert (1.1.1)
     premailer (1.12.1)
@@ -557,7 +556,6 @@ DEPENDENCIES
   memcachier
   mini_magick
   nearest_time_zone
-  parallel
   param_validation!
   pg (< 1)
   premailer-rails

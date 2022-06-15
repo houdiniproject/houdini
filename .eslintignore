@@ -333,10 +333,6 @@ app/javascript/legacy/cards/create-frp.es6
 app/javascript/legacy/common/direct-to-s3-upload.es6
 app/javascript/legacy/common/editor/froala.es6
 app/javascript/legacy/common/editor/quill.es6
-app/javascript/legacy/common/ff-form-validation/index.es6
-app/javascript/legacy/common/ff-form-validation/lib/currency-regex.es6
-app/javascript/legacy/common/ff-form-validation/lib/email-regex.es6
-app/javascript/legacy/common/ff-form-validation/lib/readable-prop.es6
 app/javascript/legacy/common/post-form-data.es6
 app/javascript/legacy/components/card-form.es6
 app/javascript/legacy/components/color-picker.es6

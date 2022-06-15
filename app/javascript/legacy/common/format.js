@@ -62,24 +62,6 @@ function zeroPad(num, size) {
 	return (num + "").padStart(size, "0")
 }
 
-format.sanitizeHtml = function(html) {
-  if(!html) return
-  var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*'
-  var tagOrComment = new RegExp(
-    '<(?:'
-      // Comment body.
-      + '!--(?:(?:-*[^->])*--+|-?)'
-      // Special "raw text" elements whose content should be elided.
-      + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
-      + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
-      // Regular name
-      + '|/?[a-z]'
-      + tagBody
-      + ')>',
-    'gi')
-  return html.replace(tagOrComment, '').replace(/</g, '&lt;')
-}
-
 format.sql = {}
 
 format.sql.format_sql_array = function(str) {

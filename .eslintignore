@@ -22,7 +22,6 @@ app/javascript/legacy_react/api/model/ValidationError.ts
 app/javascript/legacy_react/api/model/ValidationErrors.ts
 app/javascript/legacy_react/app/loading_indicator.ts
 app/javascript/legacy_react/src/components/common/form/react_input_props.ts
-app/javascript/legacy_react/src/components/common/test/unique_id_mock.ts
 app/javascript/legacy_react/src/components/common/wizard/abstract_wizard_state.ts
 app/javascript/legacy_react/src/components/common/wizard/RAT/abstract_tabcomponent_state.ts
 app/javascript/legacy_react/src/components/common/wizard/RAT/specialAssign.ts

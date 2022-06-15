@@ -354,9 +354,6 @@ app/javascript/legacy/recurring_donations/edit/payment-step.es6
 app/javascript/legacy/stripe_wrapper/index.es6
 app/javascript/legacy/supporters/info-card.es6
 
-# jsx files
-app/javascript/stories/index.jsx
-
 # tsx files
 app/javascript/legacy_react/app/create_new_offsite_payment_pane.tsx
 app/javascript/legacy_react/app/edit_payment_pane.tsx

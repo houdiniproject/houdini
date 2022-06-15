@@ -58,10 +58,8 @@ format.toSentence = function(arr) {
 	return arr.slice(0, last).join(', ') + ', and ' + arr[last]
 }
 
-format.zeroPad = function(num, size) {
-	var str = num + ""
-	while(str.length < size) str = "0" + str
-	return str
+function zeroPad(num, size) {
+	return (num + "").padStart(size, "0")
 }
 
 format.sanitizeHtml = function(html) {
@@ -106,9 +104,9 @@ format.date.toStandard = function(str) {
 format.date.toSimple = function(str) {
 	if(!str || !str.length) return ''
 	var d = new Date(str)
-	return format.zeroPad(d.getMonth() + 1, 2) + '/' +
-		format.zeroPad(d.getDate(), 2) + '/' +
-		format.zeroPad(d.getFullYear(), 2)
+	return zeroPad(d.getMonth() + 1, 2) + '/' +
+		zeroPad(d.getDate(), 2) + '/' +
+		zeroPad(d.getFullYear(), 2)
 }
 
 format.geography = {}

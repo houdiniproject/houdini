@@ -62,17 +62,6 @@ function zeroPad(num, size) {
 	return (num + "").padStart(size, "0")
 }
 
-format.sql = {}
-
-format.sql.format_sql_array = function(str) {
-  if(!str) return ''
-	return format.toSentence(
-		str.replace(/[""{}]/g,'')
-			.split(',')
-			.filter(function(str) {return str !== 'NULL'})
-	)
-}
-
 format.date = {}
 
 format.date.readableWithTime = function(str) {

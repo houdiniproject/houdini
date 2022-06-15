@@ -123,7 +123,6 @@ app/javascript/legacy/common/time-remaining.js
 app/javascript/legacy/common/utilities.js
 app/javascript/legacy/common/vendor/bootstrap-tour-standalone.js
 app/javascript/legacy/common/vendor/bootstrap.js
-app/javascript/legacy/common/vendor/Chart.min.js
 app/javascript/legacy/common/vendor/colpick.js
 app/javascript/legacy/common/vendor/jquery.cookie.js
 app/javascript/legacy/common/vendor/masonry.js

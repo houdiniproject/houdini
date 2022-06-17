@@ -45,5 +45,10 @@ FactoryBot.define do
     end
   end
 
+  factory :fee_era_base do
+    fee_coverage_detail_base
+    start_time {"2020-05-01"}
+  end
+
   
 end

@@ -18,6 +18,7 @@ class Refund < ActiveRecord::Base
 
 	belongs_to :charge
 	belongs_to :payment
+	has_one :subtransaction_payment, through: :payment
 	has_one :misc_refund_info
 
 	scope :not_disbursed, ->{where(disbursed: [nil, false])}

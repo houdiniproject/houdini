@@ -8,8 +8,10 @@ describe MergeSupporters do
   let(:old_supporter3) { force_create(:supporter, nonprofit: np) }
   let(:card) { force_create(:card, holder: old_supporter1) }
   around(:each) do |e|
-    Timecop.freeze(2020, 3, 4) do
-      e.run
+    StripeMockHelper.mock do 
+      Timecop.freeze(2020, 3, 4) do
+        e.run
+      end
     end
   end
   

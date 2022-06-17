@@ -208,6 +208,11 @@ describe UpdateTickets do
   end
 
   describe '.delete' do
+    around(:each) do |ex|
+      StripeMockHelper.mock do
+        ex.run
+      end
+    end
 
     it 'marks the given ticket as deleted=true' do
       UpdateTickets.delete(ticket['event_id'], ticket['id'])
@@ -219,6 +224,11 @@ describe UpdateTickets do
   end
 
   describe '.delete_card_for_ticket' do
+    around(:each) do |ex|
+      StripeMockHelper.mock do 
+        ex.run
+      end
+    end
     it 'deletes the card from the ticket' do
       Timecop.freeze(2020, 1, 5) do
 

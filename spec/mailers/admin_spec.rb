@@ -3,6 +3,11 @@ require "rails_helper"
 
 RSpec.describe AdminMailer, :type => :mailer do
   describe "notify_failed_gift" do
+    around(:each) do |ex|
+      StripeMockHelper.mock do 
+        ex.run
+      end
+    end
     let!(:np) { force_create(:nonprofit, name: "nonprofit", email: 'blah', timezone: "UTC")}
     let!(:s) { force_create(:supporter, email: 'supporter.email@mail.teha')}
     let!(:oldcard) { force_create(:card)}

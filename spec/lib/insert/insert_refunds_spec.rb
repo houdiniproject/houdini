@@ -16,9 +16,39 @@ describe InsertRefunds do
           context "for #{example[:source]}" do
             example[:refunds].each do |refund_ex|
               context "with following inputs #{refund_ex}" do
+              let(:transaction) {
+                Transaction.create(
+                  supporter: original_payment.supporter,
+                  transaction_assignments: [TransactionAssignment.new(
+                  assignable: ModernDonation.new(amount: example[:amount], legacy_donation: original_donation))],
+                  subtransaction: Subtransaction.new(
+
+                    subtransaction_payments: [
+                      SubtransactionPayment.new(
+                        legacy_payment: charge.payment,
+                        paymentable: StripeTransactionCharge.new
+                      )
+                    ],
+                    subtransactable:StripeTransaction.new(
+                      amount: example[:amount],
+                    )
+                  ))
+              }
+
+              let(:original_donation) { 
+                force_create(:donation, payment: original_payment, amount: example[:amount], 
+                supporter: original_payment.supporter,
+                nonprofit: original_payment.nonprofit)
+              }
+
               let(:original_payment) { force_create(:payment, 
                 gross_amount: example[:amount],
-                refund_total: beginning_refund_total 
+                refund_total: beginning_refund_total,
+                net_amount: example[:amount],
+                fee_total: 0,
+                supporter: supporter,
+                nonprofit: nonprofit,
+                date: Time.current
                 )
               }
 
@@ -58,7 +88,8 @@ describe InsertRefunds do
               expect(InsertActivities).to receive(:for_refunds)
             end
 
-            let!(:modern_refund_call) do 
+            let!(:modern_refund_call) do
+              transaction
               InsertRefunds.modern_refund(charge.attributes.to_h.with_indifferent_access, {
                 amount: amount_to_refund,
                 comment: comment,

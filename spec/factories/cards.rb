@@ -7,11 +7,15 @@ FactoryBot.define do
     end
     trait :with_created_stripe_customer_and_card do
       transient do
-        stripe_card { create(:stripe_card_base) }
+        stripe_card { association :stripe_card_base }
       end
 
       stripe_card_id {stripe_card.id}
       stripe_customer_id { stripe_card.customer}
+    end
+
+    trait :with_supporter do
+      holder { association :supporter_base}
     end
   end
 end

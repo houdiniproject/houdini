@@ -1075,6 +1075,47 @@ ActiveRecord::Schema.define(version: 20220608214048) do
   add_index "stripe_events", ["event_id"], name: "index_stripe_events_on_event_id", using: :btree
   add_index "stripe_events", ["object_id", "event_time"], name: "index_stripe_events_on_object_id_and_event_time", using: :btree
 
+  create_table "stripe_transaction_charges", force: :cascade do |t|
+    t.string   "houid",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stripe_transaction_charges", ["houid"], name: "index_stripe_transaction_charges_on_houid", using: :btree
+
+  create_table "stripe_transaction_dispute_reversals", force: :cascade do |t|
+    t.string   "houid",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stripe_transaction_dispute_reversals", ["houid"], name: "index_stripe_transaction_dispute_reversals_on_houid", using: :btree
+
+  create_table "stripe_transaction_disputes", force: :cascade do |t|
+    t.string   "houid",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stripe_transaction_disputes", ["houid"], name: "index_stripe_transaction_disputes_on_houid", using: :btree
+
+  create_table "stripe_transaction_refunds", force: :cascade do |t|
+    t.string   "houid",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stripe_transaction_refunds", ["houid"], name: "index_stripe_transaction_refunds_on_houid", using: :btree
+
+  create_table "stripe_transactions", force: :cascade do |t|
+    t.integer  "amount",     null: false
+    t.string   "houid",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stripe_transactions", ["houid"], name: "index_stripe_transactions_on_houid", using: :btree
+
   create_table "subtransaction_payments", force: :cascade do |t|
     t.integer  "subtransaction_id", null: false
     t.integer  "paymentable_id",    null: false

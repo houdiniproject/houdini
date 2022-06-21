@@ -429,7 +429,7 @@ limitations under the License.
 
 ------
 
-** pg; version 1.3.5 -- 
+** pg; version 1.4.0 -- 
 Copyright (c) 1997-2019 by the
 Portions copyright LAIKA, Inc.
 Copyright (c) 1993-2013 Yukihiro Matsumoto
@@ -1829,9 +1829,9 @@ THE SOFTWARE.
 
 ------
 
-** zeitwerk; version 2.5.4 -- 
-License, Copyright (c) 2019
+** zeitwerk; version 2.6.0 -- 
 Copyright (c) 2019-o Xavier Noria
+Copyright (c) 2019- <i> o </i> Xavier Noria
 
 Copyright (c) 2019–ω Xavier Noria
 
@@ -2543,7 +2543,7 @@ Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov
 Copyright (c) 2012-2022 Bozhidar Batsov
 AutocorrectNotice Copyright (c) 2015 Yahoo! Inc.
-** rubocop-rails; version 2.14.2 -- 
+** rubocop-rails; version 2.15.0 -- 
 Copyright (c) 2012-22 Bozhidar Batsov
 
 Copyright (c) 2012-22 Bozhidar Batsov
@@ -3089,7 +3089,7 @@ Copyright (c) 2010-2015, The Dojo Foundation
 ** mime-types; version 3.3.1 -- 
 Copyright 2003-2019 Austin Ziegler and contributors.
 ** mime-types-data; version 3.2021.0901 -- 
-** minitest; version 5.15.0 -- 
+** minitest; version 5.16.0 -- 
 Copyright (c) Ryan Davis, seattle.rb
 ** nio4r; version 2.5.8 -- 
 (c) 2011 Emanuele Giaquinta

@@ -18,9 +18,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"] # we don't want to have semver-major changes
     
 
 

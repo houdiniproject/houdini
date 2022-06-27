@@ -32,7 +32,7 @@ namespace :i18n do
 		desc 'Delete all of the generated Javascript locales files'
 		task clean: :environment do
 			locales_dir = Rails.root.join('app/javascript/i18n/locales')
-			FileUtils.remove_dir(locales_dir) if Dir.exist? locales_dir
+			FileUtils.rm_rf(locales_dir)
 		end
 	end
 end

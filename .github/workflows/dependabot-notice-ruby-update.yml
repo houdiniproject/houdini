@@ -38,7 +38,7 @@ jobs:
         run: |
             bin/rails notice:ruby:update
 
-      - name: Commit yarn.lock
+      - name: Commit NOTICE-ruby
         # we use [dependabot skip] so dependabot will keep rebasing even though we've pushed a change
         # source: https://github.com/dependabot/dependabot-core/issues/2267#issuecomment-7123021
         run: |

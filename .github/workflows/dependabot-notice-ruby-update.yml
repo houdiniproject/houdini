@@ -14,7 +14,7 @@ env:
   ruby: '2.7.6'
 jobs:
   update-NOTICE-ruby:
-    runs-on: ${{ env.os }}
+    runs-on: ubuntu-20.04
     if: |
       github.actor == 'dependabot[bot]' &&
       contains(github.event.pull_request.head.ref, 'dependabot/bundler/')

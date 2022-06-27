@@ -2538,7 +2538,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.30.1 -- 
+** rubocop; version 1.31.0 -- 
+Copyright (c) 2018 Hayato Kawai
 Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov
 Copyright (c) 2012-2022 Bozhidar Batsov

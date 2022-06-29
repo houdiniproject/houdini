@@ -16,7 +16,7 @@ jobs:
         node: [14.19.1]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'
@@ -40,7 +40,7 @@ jobs:
           postgres_image_tag: 12-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'
@@ -67,7 +67,7 @@ jobs:
           postgres_image_tag: 12-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'
@@ -94,7 +94,7 @@ jobs:
           postgres_image_tag: 12-alpine
           postgres_user: houdini_user
           postgres_password: password
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           cache: 'yarn'

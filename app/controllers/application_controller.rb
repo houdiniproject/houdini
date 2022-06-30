@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
 		:current_role?,
 		:current_nonprofit_user?,
 		:administered_nonprofit,
-    :nonprofit_in_trial?,
 		:current_plan_tier #int
 
 	def set_locale
@@ -123,13 +122,6 @@ protected
 		key = "current_role_user_#{current_user_id}_names_#{role_names.join("_")}_host_#{host_id}"
     QueryRoles.user_has_role?(current_user.id, role_names, host_id)
 	end
-
-  def nonprofit_in_trial?(npo_id=nil)
-    return false if !npo_id && !administered_nonprofit
-    npo_id ||= administered_nonprofit.id
-    key = "in_trial_user_#{current_user_id}_nonprofit_#{npo_id}"
-    QueryBillingSubscriptions.currently_in_trial?(npo_id)
-  end
 
 	def current_plan_tier(npo_id=nil)
     return 0 if !npo_id && !administered_nonprofit

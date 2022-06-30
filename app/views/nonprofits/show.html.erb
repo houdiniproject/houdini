@@ -66,8 +66,6 @@
   <%= render 'admin_top_nav' %>
 <% end %>
 
-<%= render '/components/trial_bar' if nonprofit_in_trial?(@nonprofit.id) %>
-
 <%= render 'components/fundraising_pages/header',
 	image_url: @nonprofit_background_image,
 	is_editor: current_nonprofit_user?,

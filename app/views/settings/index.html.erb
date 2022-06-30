@@ -14,8 +14,6 @@
 	<%= IncludeAsset.js '/client/js/settings/index/page.js' %>
 <% end %>
 
-<%= render '/components/trial_bar' if @nonprofit && nonprofit_in_trial?(@nonprofit.id) %>
-
 <header class='header stripe--mosaic'>
 	<div class='container--mid'>
 		<i class='header-icon icon-setting-gear'></i>

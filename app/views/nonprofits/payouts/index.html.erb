@@ -11,8 +11,6 @@
 	</script>
 <% end %>
 
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
-
 <%= render 'nonprofits/transaction_title', 
 	active: :payouts, 
 	icon_class: 'icon-bank-1', 

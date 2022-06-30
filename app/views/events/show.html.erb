@@ -95,8 +95,6 @@
   <%= render 'admin_top_nav' %>
 <% end %>
 
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
-
 <%= render 'components/fundraising_pages/header',
 	image_url: @event_background_image,
 	is_editor: current_event_editor?,

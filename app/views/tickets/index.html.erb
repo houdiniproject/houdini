@@ -81,8 +81,6 @@
 	<script src="https://www.recaptcha.net/recaptcha/enterprise.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %> "></script>
 <% end %>
 
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
-
 <header class='header'>
 	<div class='container'>
 		<i class='icon-check-list header-icon'></i>

@@ -14,8 +14,6 @@
 
 <% end %>
 
-<%= render '/components/trial_bar' if QueryBillingSubscriptions.currently_in_trial?(@nonprofit.id) %>
-
 <%= render 'components/header',
 icon_class: 'icon-thermometer-medium',
 title: 'Campaigns',

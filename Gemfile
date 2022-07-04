@@ -69,7 +69,7 @@ group :development, :ci, :test do
   gem 'rubocop', '~> 1.31.1'
   gem 'rubocop-rails', '~> 2.15'
   gem 'rubocop-rake', '~> 0.6.0'
-  gem 'rubocop-rspec', '~> 2.11'
+  gem 'rubocop-rspec', '~> 2.12'
   gem 'shoulda-matchers', '~> 5.1.0'
   gem 'turbo_test'
 end

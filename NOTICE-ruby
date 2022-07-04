@@ -2538,7 +2538,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.31.0 -- 
+** rubocop; version 1.31.1 -- 
 Copyright (c) 2018 Hayato Kawai
 Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov
@@ -4109,6 +4109,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** json; version 2.6.2 -- 
 ** reline; version 0.3.1 -- 
 
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.

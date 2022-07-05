@@ -45,7 +45,6 @@
     "@types/color": "^3.0.0",
     "@types/enzyme": "^3.1.9",
     "@types/enzyme-to-json": "^1.5.1",
-    "@types/es6-promise": "^3.3.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/i18n-js": "^3.8.0",
     "@types/jest": "^26.0.14",

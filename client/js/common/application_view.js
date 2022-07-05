@@ -1,9 +1,7 @@
 // License: LGPL-3.0-or-later
 var confirmation = require('./confirmation')
 var notification = require('./notification')
-var request = require("superagent")
 var moment = require('moment-timezone')
-var client = require('./client')
 var appl = require('view-script')
 const on_ios11 = require('./on-ios11')
 const noScroll = require('no-scroll')

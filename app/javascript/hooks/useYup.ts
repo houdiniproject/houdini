@@ -32,7 +32,7 @@ function generateYupLocale(messages: IntlShape['messages']) : typeof yupValidati
 		const newChild= {};
 		for (const subchildKey in child) {
 			const subchild = get(child, subchildKey);
-			const result = ((messages[subchild] as string) ||  subchild).replace(/{/gi, "${");
+			const result = ((messages[subchild] as string) ||  subchild).replace(/%{/gi, "${");
 			set(newChild, subchildKey, result);
 		}
 

@@ -2,6 +2,10 @@
     "__explanation": "packages where code was included from but isn't an NPM dependency. 'packages' is the list of packages",
     "packages": [
         {
+            "name": "flyd-url",
+            "version": "0.0.1"
+        },
+        {
             "name": "js-money",
             "version": "0.6.3"
         },

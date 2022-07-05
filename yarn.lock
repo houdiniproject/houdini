@@ -7302,14 +7302,6 @@ flyd-flatmap@1.0.2:
   dependencies:
     flyd "0.1.x"
 
-flyd-url@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/flyd-url/-/flyd-url-0.0.1.tgz#f0fbdf48ecb768ef9b6d9b32cb37dc72ff8faf89"
-  integrity sha1-8PvfSOy3aO+bbZsyyzfccv+Pr4k=
-  dependencies:
-    flyd "0.2.2"
-    url "0.11.0"
-
 flyd-zip@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/flyd-zip/-/flyd-zip-0.0.1.tgz#5cf018595646d571a1a666ad2a32521d1a34eec1"
@@ -12447,14 +12439,6 @@ qs@^6.10.0, qs@^6.10.3:
   dependencies:
     side-channel "^1.0.4"
 
-query-string@4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.2.2.tgz#888a6fcb6f76070ba39f2f3025c87099defa1645"
-  integrity sha1-iIpvy292Bwujny8wJchwmd76FkU=
-  dependencies:
-    object-assign "^4.1.0"
-    strict-uri-encode "^1.0.0"
-
 query-string@^4.1.0:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
@@ -15093,7 +15077,7 @@ url-parse@^1.4.3, url-parse@^1.5.3:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-url@0.11.0, url@^0.11.0:
+url@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
   integrity sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=

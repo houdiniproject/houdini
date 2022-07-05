@@ -151,7 +151,7 @@
     "shuffle-array": "1.0.1",
     "snabbdom": "0.3.0",
     "snake-case": "2.1.0",
-    "superagent": "1.1.0",
+    "superagent": "^7.1.5",
     "text-mask": "0.0.2",
     "uuid": "2.0.2",
     "validator": "^9.4.1",

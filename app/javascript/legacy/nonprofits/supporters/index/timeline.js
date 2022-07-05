@@ -5,12 +5,6 @@ appl.def('timeline.make_clickable', function(node){
   card.setAttribute('clickable', '')
 })
 
-appl.def('timeline.show_email', function(email, date) {
-  email.date = date
-  set_readonly_email(email)
-	appl.open_modal('emailReadOnlyModal')
-})
-
 appl.def('timeline.show_note', function(note, date) {
   appl.def('current_note', {
     date: date,
@@ -20,14 +14,6 @@ appl.def('timeline.show_note', function(note, date) {
   })
 	appl.open_modal('noteModal')
 })
-
-function set_readonly_email(email) {
-	appl.def('timeline.displaying_email', {
-		body: email.body.replace(/{{NAME}}/g, appl.supporter_details.data.name_email_or_id),
-		subject: email.subject,
-		date: email.date
-	})
-}
 
 
 appl.def('ajax_supporter_notes', {

@@ -8,7 +8,6 @@ const filter = require('flyd/module/filter')
 const snabbdom = require('snabbdom')
 const mergeAll = require('flyd/module/mergeall')
 const sampleOn = require('flyd/module/sampleon')
-const queryString = require('query-string')
 const notification = require('ff-core/notification')
 
 const request = require('../../../../common/request')
@@ -20,6 +19,8 @@ const offsiteDonationForm = require('./offsite-donation-form')
 const supporterNoteForm = require('./supporter-note-form')
 
 const flatMap = R.curry(require('flyd/module/flatmap'))
+
+const getSidFromNodeUrl = require('./backport-query-string').default;
 
 const init = _ => {
   var state = {
@@ -33,7 +34,7 @@ const init = _ => {
 
   const supporterID$ = R.compose(
     filter(Boolean )
-  , flyd.map(url => queryString.parse(url.search).sid)
+  , flyd.map(url => getSidFromNodeUrl(url))
   )(url$)
 
   state.pathPrefix$ = flyd.map(constructPathPrefix, supporterID$)

@@ -84,7 +84,7 @@ module.exports = function(api) {
           removeImport: true,
         },
       ],
-      isDevelopmentEnv && [
+      isProductionEnv && [
         'babel-plugin-transform-imports',
         {
           '@material-ui/core': {

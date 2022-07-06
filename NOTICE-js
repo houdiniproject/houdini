@@ -21127,7 +21127,7 @@ SOFTWARE.
 
 ------
 
-** loader-utils; version 1.4.0 -- https://github.com/webpack/loader-utils#readme
+** loader-utils; version 2.0.0 -- https://github.com/webpack/loader-utils#readme
 Copyright JS Foundation and other contributors
 ** mini-css-extract-plugin; version 0.9.0 -- https://github.com/webpack-contrib/mini-css-extract-plugin
 Copyright JS Foundation and other contributors
@@ -28388,7 +28388,7 @@ SOFTWARE.
 Copyright JS Foundation and other contributors
 ** sass-loader; version 10.1.1 -- https://github.com/webpack-contrib/sass-loader
 Copyright JS Foundation and other contributors
-** schema-utils; version 1.0.0 -- https://github.com/webpack-contrib/schema-utils
+** schema-utils; version 3.0.0 -- https://github.com/webpack/schema-utils
 Copyright JS Foundation and other contributors
 
 Copyright JS Foundation and other contributors
@@ -33624,7 +33624,7 @@ SOFTWARE.
 Copyright JS Foundation and other contributors
 ** terser-webpack-plugin; version 4.2.3 -- https://github.com/webpack-contrib/terser-webpack-plugin
 Copyright JS Foundation and other contributors
-** url-loader; version 1.1.2 -- https://github.com/webpack-contrib/url-loader
+** url-loader; version 4.1.1 -- https://github.com/webpack-contrib/url-loader
 Copyright JS Foundation and other contributors
 ** watchpack; version 1.7.4 -- https://github.com/webpack/watchpack
 Copyright JS Foundation and other contributors

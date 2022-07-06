@@ -94,6 +94,10 @@ module.exports = function(api) {
           '@material-ui/icons': {
             'transform': '@material-ui/icons/esm/${member}',
             'preventFullImport': true
+          },
+          "lodash": {
+            "transform": "lodash/${member}",
+            "preventFullImport": true
           }
         }
       ]

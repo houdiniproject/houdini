@@ -3,6 +3,14 @@
 
 export default {
 
+	destroyUserSession: {
+		path: (): string => {
+			return '/users/sign_out';
+		},
+		url: (): string => {
+			return '/users/sign_out';
+		},
+	},
 	/**
 	 * camelcased user_session
 	 */

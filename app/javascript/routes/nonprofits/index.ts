@@ -4,11 +4,21 @@
 export default {
 	dashboardNonprofit: {
 		path: (props:{id:string}):string => {
-			return `/nonprofit/${props.id}/dashboard`;
+			return `/nonprofits/${props.id}/dashboard`;
 		},
 		/** not correct but good enough for testing */
 		url: (props:{id:string}):string => {
-			return `/nonprofit/${props.id}/dashboard`;
+			return `/nonprofits/${props.id}/dashboard`;
+		},
+	},
+
+	nonprofit: {
+		path: (props:{id:string}):string => {
+			return `/nonprofits/${props.id}`;
+		},
+
+		url: (props:{id:string}):string => {
+			return `/nonprofits/${props.id}`;
 		},
 	},
 };

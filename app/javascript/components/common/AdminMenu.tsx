@@ -6,14 +6,12 @@ import React from 'react';
 
 export interface LogoProps {
 	alt: string;
-	logoUrl: string;
+	url: string;
 }
 
-export default function Logo(props: React.PropsWithChildren<LogoProps>): JSX.Element {
+export default function Logo(props: LogoProps): JSX.Element {
 	return (
 		<span className='commitchangeLogo'>
-			<img src={props.logoUrl} alt={props.alt} />
-
+			<img src={props.url} alt={props.alt} />
 		</span>);
-
 }

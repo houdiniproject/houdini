@@ -2,7 +2,9 @@
 // from app/views/layouts/_side_nav.html.erb
 
 import React, { useState } from 'react';
-import Logo from './UserMenu';
+import AdminMenu from './AdminMenu';
+import Logo from './Logo';
+import UserMenu from './UserMenu';
 
 
 export interface SideNavInput {
@@ -42,6 +44,8 @@ export default function SideNav(props: React.PropsWithChildren<SideNavInput>): J
 
 	const userIsNonprofitUser = false;
 
+	const hasCurrentUser = false;
+
 	return (<>
 		<aside className={sideNavToggleClasses} onClick={toggleSideNav}>
 
@@ -61,8 +65,19 @@ export default function SideNav(props: React.PropsWithChildren<SideNavInput>): J
 			}
 
 
+			{
+				userIsNonprofitUser ?
+					<AdminMenu /> :
+					''
+			}
 
 			{/* <!-- <%= render 'layouts/admin_menu' %> */}
+
+			{
+				hasCurrentUser ?
+					<UserMenu />
+					: ''
+			}
 
 			{/* <%= render 'layouts/user_menu' %> */}
 

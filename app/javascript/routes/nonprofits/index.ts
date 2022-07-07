@@ -3,10 +3,10 @@
 
 export default {
 	dashboard_nonprofit_path: (props:{id:string}):string => {
-		return `/nonprofit/${props.id}/dashboard`;
+		return `/nonprofits/${props.id}/dashboard`;
 	},
 	/** not correct but good enough for testing */
 	dashboard_nonprofit_url: (props:{id:string}):string => {
-		return `/nonprofit/${props.id}/dashboard`;
+		return `/nonprofits/${props.id}/dashboard`;
 	},
 };

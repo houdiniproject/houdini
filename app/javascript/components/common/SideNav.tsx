@@ -82,15 +82,11 @@ export default function SideNav(props: SideNavInput): JSX.Element {
 					''
 			}
 
-			{/* <!-- <%= render 'layouts/admin_menu' %> */}
-
 			{
 				hasCurrentUser ?
 					<UserMenu currentUser={props.currentUser}/>
 					: ''
 			}
-
-			{/* <%= render 'layouts/user_menu' %> */}
 
 			{/* <% unless current_role?([:nonprofit_admin,:nonprofit_associate]) %>
 		<section className='sideNav-section'>

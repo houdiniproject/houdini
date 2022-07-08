@@ -45,8 +45,7 @@ $sideNav-spacing: 8px 15px;
 	color: white;
 	font-weight: bold;
 	cursor: pointer;
-	display: table;
-	table-layout: fixed;
+	display: block;
 	@include transform(translateZ(0));
 	@include transition(color 0.2s ease-out);
 }

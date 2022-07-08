@@ -8,7 +8,18 @@ import UserMenu from './UserMenu';
 
 
 export interface SideNavInput {
-	currentUser?: number | null;
+	administeredNonprofit?: {
+		id: string;
+		name: string;
+	} | null;
+
+	currentUser?: {
+		id: string;
+		profile?: {
+			id:string;
+			name: string;
+		};
+	};
 
 	logo: {
 		alt: string; // from app/views/common/_logo.html.erb
@@ -19,7 +30,7 @@ export interface SideNavInput {
 
 
 
-export default function SideNav(props: React.PropsWithChildren<SideNavInput>): JSX.Element {
+export default function SideNav(props: SideNavInput): JSX.Element {
 
 	const [sideNavOpen, setSideNavOpen] = useState(false);
 
@@ -42,9 +53,9 @@ export default function SideNav(props: React.PropsWithChildren<SideNavInput>): J
 		sideNavOpen && 'is-showing',
 	].filter(Boolean).join(' ');
 
-	const userIsNonprofitUser = false;
+	const userIsNonprofitUser = !!props.administeredNonprofit;
 
-	const hasCurrentUser = false;
+	const hasCurrentUser = !!props.currentUser;
 
 	return (<>
 		<aside className={sideNavToggleClasses} onClick={toggleSideNav}>
@@ -67,7 +78,7 @@ export default function SideNav(props: React.PropsWithChildren<SideNavInput>): J
 
 			{
 				userIsNonprofitUser ?
-					<AdminMenu /> :
+					<AdminMenu administeredNonprofit={props.administeredNonprofit} /> :
 					''
 			}
 
@@ -75,7 +86,7 @@ export default function SideNav(props: React.PropsWithChildren<SideNavInput>): J
 
 			{
 				hasCurrentUser ?
-					<UserMenu />
+					<UserMenu currentUser={props.currentUser}/>
 					: ''
 			}
 

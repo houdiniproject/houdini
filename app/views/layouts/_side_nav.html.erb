@@ -4,7 +4,7 @@
 	<%= javascript_packs_with_chunks_tag 'side-nav' %>
 	<%
 	
-@props = JSON::parse(render('users/sign_in')) 
+@props = JSON::parse(render('users/sign_in'))
 	@props = @props.merge(innerProps:{
 		administeredNonprofit: administered_nonprofit ? { 
 			id: administered_nonprofit.id, 

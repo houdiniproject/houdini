@@ -4,26 +4,7 @@
 	<%= javascript_packs_with_chunks_tag 'side-nav' %>
 	<%
 	
-@props = JSON::parse(render('users/sign_in'))
-	@props = @props.merge(innerProps:{
-		administeredNonprofit: administered_nonprofit ? { 
-			id: administered_nonprofit.id, 
-			name: administered_nonprofit.name
-		} : nil,
-		currentUser: current_user ? {
-			id: current_user.id,
-			profile: current_user.profile ? {
-				id: current_user.profile.id,
-				name: current_user.profile.name
-			} : nil
-		} : nil,
-		logo: {
-			url: Houdini.general.logo,
-			alt: Houdini.general.name
-		}
-	})
-
- 
+		@props = JSON::parse(render('components/side_nav.json'))
 	%>
 
 	<%= react_component("SideNav", props: @props) %>

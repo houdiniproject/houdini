@@ -27,7 +27,6 @@ Full license explanation at https://github.com/houdiniproject/houdini/blob/main/
 
 // zIndex-minus1
 .propeller-image,
-.carousel-selectors-section:before,
 .features:before,
 .ccPattern:before {
 	@include zIndex-minus1;
@@ -45,7 +44,6 @@ img.fr-fin,
 .froala-element span.f-img-editor:before,
 .colpick_hex_field:before,
 .pageTabs:before,
-.edit-carousel-button,
 .goalAmount,
 .totalRaised,
 .editVideoButton,

@@ -10,8 +10,11 @@ import usersRoutes from '../../routes/users';
 export interface UserMenuProps {
 	currentUser: {
 		profile?: {
+			country: string;
 			id: string;
 			name: string;
+			pic_tiny?: string;
+			url: string;
 		};
 	};
 }
@@ -21,21 +24,14 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 
 		<section className='sideNav-section'>
 			<a className='sideNav-link' href={profileRoutes.profile.path(props.currentUser.profile)}>
-
-				{/* // <a className='sideNav-link' href={<%= profile_url(current_user.profile) %>'>
-		// <% if current_user.profile.picture.attached? %>
-		// 	<%= image_tag  rails_storage_proxy_url(current_user.profile.picture_by_size(:tiny)), class: 'sideNav-profile' %>
-		// 	<% else %>
-		*/}
-				<i className="sideNav-icon icon-user-1"></i>
-				{/* <% end %> */}
-				<span className='sideNav-text'>
-					{/* <%= current_user.profile.name.blank? ?  */}
-							&apos;Your Profile&apos;
-					{/* : current_user.profile.name %> */}
+				{
+					props.currentUser.profile?.pic_tiny ?
+						<img
+							src={props.currentUser.profile?.pic_tiny} className='sideNav-profile' />
+						: <i className="sideNav-icon icon-user-1"></i>
+				}
+				<span className='sideNav-text'>{(props.currentUser?.profile?.name || '').length > 0 ? props.currentUser.profile.name : "Your Profile"}
 				</span>
-
-
 			</a>
 		</section>
 

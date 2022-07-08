@@ -16,8 +16,11 @@ export interface SideNavInput {
 	currentUser?: {
 		id: string;
 		profile?: {
-			id:string;
+			country: string;
+			id: string;
 			name: string;
+			pic_tiny?: string;
+			url: string;
 		};
 	};
 

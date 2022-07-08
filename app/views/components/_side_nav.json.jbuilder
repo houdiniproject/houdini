@@ -14,7 +14,7 @@ json.innerProps do
 		json.(current_user, :id)
 
 		json.profile do
-			json.(current_user.profile, :id, :name)
+			json.partial! 'app_data/profile', profile: current_user.profile
 		end if current_user.profile
 	end if current_user
 

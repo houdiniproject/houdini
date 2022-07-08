@@ -1798,6 +1798,34 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** html_tokenizer; version 0.0.7 -- 
+Copyright (c) 2016 Francois Chagnon
+
+The MIT License (MIT)
+
+Copyright (c) 2016 Francois Chagnon
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+------
+
 ** loofah; version 2.18.0 -- 
 Copyright (c) 2006-2008 The Authors
 Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
@@ -3125,6 +3153,7 @@ Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2018, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2019, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
+** better_html; version 1.0.16 -- 
 ** console; version 1.13.1 -- 
 Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2019, by Samuel G. D. Williams. <http://www.codeotaku.com>
@@ -3133,6 +3162,8 @@ Copyright (c) 2004-2008 David Heinemeier Hansson
 ** css_parser; version 1.9.0 -- 
 Copyright (c) 2007-11 Alex Dunae
 ** database_cleaner; version 1.99.0 -- 
+** erb_lint; version 0.1.3 -- 
+Copyright (c) 2012-18 Bozhidar Batsov
 ** fiber-local; version 1.0.0 -- 
 Copyright, 2020, by Samuel G. D. Williams. <http://www.codeotaku.com>
 ** http_accept_language; version 2.1.1 -- 
@@ -3554,6 +3585,34 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
+
+------
+
+** smart_properties; version 1.17.0 -- 
+Copyright (c) 2012 Konstantin Tennhard
+
+Copyright (c) 2012 Konstantin Tennhard
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 

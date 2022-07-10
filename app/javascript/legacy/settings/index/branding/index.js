@@ -9,7 +9,7 @@ flyd.filter = require('flyd/module/filter')
 flyd.mergeAll = require('flyd/module/mergeall')
 const notification = require('ff-core/notification')
 // local
-const fonts = require('../../../common/brand-fonts')
+const fonts = require('../../../common/brand-fonts').default
 const request = require('../../../common/request')
 const colorPicker = require('../../../components/color-picker.es6')
 const view = require('./view')

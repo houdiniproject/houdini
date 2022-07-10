@@ -6,7 +6,7 @@ const notification = require('ff-core/notification')
 const button = require('ff-core/button')
 // local
 const colorPicker = require('../../../components/color-picker.es6')
-const fonts = require('../../../common/brand-fonts')
+const fonts = require('../../../common/brand-fonts').default
 
 
 const message = 'This branding will be applied to your donate buttons, profile page, campaign pages and event pages'

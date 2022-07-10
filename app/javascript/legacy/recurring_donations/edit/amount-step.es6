@@ -2,7 +2,7 @@
 const h = require('snabbdom/h')
 const R = require('ramda')
 const flyd = require('flyd')
-const format = require('../../common/format')
+const format = require('../../common/format').default
 flyd.scanMerge = require('flyd/module/scanmerge')
 
 function init(donationDefaults, params$) {

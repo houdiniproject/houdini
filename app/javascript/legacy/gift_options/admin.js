@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 require('../common/restful_resource')
 const reorder = require('../components/drag-to-reorder')
-const format = require('../common/format')
+const format = require('../common/format').default
 const R = require('ramda')
 
 const url = `/nonprofits/${app.nonprofit_id}/campaigns/${app.campaign_id}/campaign_gift_options/update_order`

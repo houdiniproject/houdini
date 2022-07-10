@@ -9,7 +9,7 @@ const filter = require('flyd/module/filter')
 const flatMap = require('flyd/module/flatmap')
 const every = require('flyd/module/every')
 
-const format = require('../../common/format')
+const format = require('../../common/format').default
 const request = require('../../common/request')
 
 const eventsPath = `/nonprofits/${app.nonprofit_id}/events/${app.event_id}`

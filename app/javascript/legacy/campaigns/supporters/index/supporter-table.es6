@@ -3,9 +3,6 @@ const thunk = require('vdom-thunk')
 const h = require('virtual-dom/h')
 const flyd = require('flyd')
 const showMoreBtn = require('../../../components/show-more-button.es6')
-const format = require("../../../common/format")
-const date = format.date
-const sql = format.sql
 const utils = require('../../../common/utilities')
 
 const root = state => {

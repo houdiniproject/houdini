@@ -17,7 +17,7 @@ const amountStep = require('./amount-step.es6')
 const followupStep = require('./followup-step')
 
 const request = require('../../common/request')
-const format = require('../../common/format')
+const format = require('../../common/format').default
 
 const brandedWizard = require('./branded-wizard.es6')
 const renderStyles = require('../../components/styles/render-styles')

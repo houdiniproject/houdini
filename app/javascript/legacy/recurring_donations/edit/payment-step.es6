@@ -6,7 +6,7 @@ flyd.lift = require('flyd/module/lift')
 flyd.flatMap = require('flyd/module/flatmap')
 const request = require('../../common/request')
 const cardForm = require('./card-form.es6')
-const format = require('../../common/format')
+const format = require('../../common/format').default
 const progressBar = require('../../components/progress-bar')
 const utils = require('../../common/utilities')
 

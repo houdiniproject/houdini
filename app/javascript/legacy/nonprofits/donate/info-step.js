@@ -8,7 +8,7 @@ const button = require('ff-core/button')
 const dedicationForm = require('./dedication-form')
 const serialize = require('form-serialize')
 const request = require('../../common/request')
-const format = require('../../common/format')
+const format = require('../../common/format').default
 
 const sepaTab = 'sepa'
 const cardTab = 'credit_card'

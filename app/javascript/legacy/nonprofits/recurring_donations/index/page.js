@@ -6,7 +6,7 @@ require('./delete')
 require('../../../common/restful_resource')
 require('../../../common/vendor/bootstrap-tour-standalone')
 require('../../../common/panels_layout')
-var format = require('../../../common/format')
+var format = require('../../../common/format').default
 appl.def('is_usa', format.geography.isUS)
 require('./tour')
 

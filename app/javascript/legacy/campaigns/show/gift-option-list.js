@@ -3,7 +3,7 @@ const h = require('snabbdom/h')
 const flyd = require('flyd')
 const R = require('ramda')
 const request = require('../../common/request')
-const format = require('../../common/format')
+const format = require('../../common/format').default
 const branding = require('../../components/nonprofit-branding')
 flyd.mergeAll = require('flyd/module/mergeall')
 

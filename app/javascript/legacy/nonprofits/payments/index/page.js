@@ -9,10 +9,10 @@ require('./payment_details')
 require('../../../components/tables/filtering/apply_filter')('payments')
 require('../../../common/ajax/get_campaign_and_event_names_and_ids')(app.nonprofit_id)
 require('../../supporters/index/import')
-var format = require('../../../common/format')
+var format = require('../../../common/format').default
 const utils = require('../../../common/utilities')
 
-appl.def('format', require('../../../common/format'))
+appl.def('format', require('../../../common/format').default)
 
 appl.def('payments.index', function() {
 	appl.def('loading', true)

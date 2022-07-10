@@ -1,15 +1,17 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
-<% content_for(:dont_track_ga) {'true'} %>
-
 <%= content_for :stylesheets do %>
-	<%= stylesheet_link_tag 'nonprofits/btn/page' %>
+  <%= stylesheet_link_tag 'nonprofits/btn/page' %>
 <% end %>
 
-<% content_for :javascripts do %>
-	<%= javascript_packs_with_chunks_tag 'i18n', 'page__nonprofits__btn' %>
-<% end %>
+<%= javascript_packs_with_chunks_tag 'nonprofits-btn' %>
 
-<div class='u-centered'>
-	<p class='branded-donate-button'>Donate</p>
-</div>
+<%= react_component('Btn', props: {
+	innerProps: {
+		nonprofit: {
+			brand_font: @nonprofit.brand_font,
+			brand_color: @nonprofit.brand_color
+		}
+	}
+}) %>
+

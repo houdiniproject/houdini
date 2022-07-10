@@ -5,4 +5,4 @@ export default {
 	open: { family: "Open Sans, 'Helvetica Neue', Arial, sans-serif", name: 'Open Sans' },
 	georgia: { family: "Georgia, serif", name: 'Georgia' },
 	bitter: { family: "'Bitter', serif", name: 'Bitter' },
-};
+} as {[props:string]: { family: string, name: string }};

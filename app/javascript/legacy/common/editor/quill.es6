@@ -3,7 +3,7 @@ var view = require("vvvview")
 var savingIndicator = require('../../components/saving_indicator')
 var savingState = {hide: true}
 var renderSavingIndicator = view(savingIndicator, document.body, savingState)
-const utils = require('../utilities')
+const utils = require('../utilities').default
 
 
 const Quill = require('quill')

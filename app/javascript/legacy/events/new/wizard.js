@@ -4,7 +4,7 @@ require('../../components/wizard')
 require('../../common/image_uploader')
 var checkName = require('../../common/ajax/check_campaign_or_event_name')
 var format_err = require('../../common/format_response_error')
-const utils = require('../../common/utilities')
+const utils = require('../../common/utilities').default
 
 
 appl.def('advance_event_name_step', function(form_obj) {

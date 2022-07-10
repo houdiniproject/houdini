@@ -2,7 +2,7 @@
 require('../new/peer_to_peer_wizard')
 require('../new/wizard.js')
 require('../../common/image_uploader')
-const utils = require('../../common/utilities')
+const utils = require('../../common/utilities').default
 var request = require("../../common/client")
 
 appl.def('undelete_p2p', function (url){

@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 const Font = require('../../common/brand-fonts').default;
-const utils = require('../../common/utilities');
+const utils = require('../../common/utilities').default;
 const $brandedButton = $('.branded-donate-button');
 
   if(utils.get_param('fixed')){

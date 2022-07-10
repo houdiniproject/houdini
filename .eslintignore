@@ -173,7 +173,6 @@ app/javascript/legacy/events/show/tour.js
 app/javascript/legacy/events/stats/page.js
 app/javascript/legacy/gift_options/admin.js
 app/javascript/legacy/gift_options/index.js
-app/javascript/legacy/nonprofits/btn/page.js
 app/javascript/legacy/nonprofits/button/amounts.js
 app/javascript/legacy/nonprofits/button/appearance.js
 app/javascript/legacy/nonprofits/button/designations.js

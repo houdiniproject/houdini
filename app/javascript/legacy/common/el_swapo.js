@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-const utils = require('./utilities')
+const utils = require('./utilities').default
 var el_swapo = {}
 
 $('*[swap-in]').each(function(i) {

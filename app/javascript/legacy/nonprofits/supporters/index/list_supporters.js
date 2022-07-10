@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 const flyd = require('flimflam/flyd') // for ajaxing /index_metrics, line 27
 const request = require('../../../common/request') // for ajaxing /index_metrics
-const utils = require('../../../common/utilities')
+const utils = require('../../../common/utilities').default
 
 appl.def('supporters.selected', [])
 

@@ -7,7 +7,7 @@ const on_ios11 = require('./on-ios11')
 const noScroll = require('no-scroll')
 const {centsToDollars} = require("./format").default
 const {pluralize} = require('../../legacy_react/src/lib/deprecated_format')
-const utils = require('./utilities')
+const utils = require('./utilities').default
 
 module.exports = appl
 

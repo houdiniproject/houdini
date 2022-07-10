@@ -2,7 +2,7 @@
 var request = require('../../../common/super-agent-promise')
 var format_err = require('../../../common/format_response_error')
 var create_offline_donation = require('../../../donations/create_offline')
-const utils = require('../../../common/utilities')
+const utils = require('../../../common/utilities').default
 
 appl.def('supporter_details', {
 	resource_name: 'supporters',

@@ -13,7 +13,7 @@ var type = require('./type')
 var hideDedication = require('./hide-dedication')
 var thankYou = require('./thank-you')
 var preview = require('./preview')
-const utils = require('../../common/utilities')
+const utils = require('../../common/utilities').default
 
 var $footer = require('./footer').stream
 

@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 var chartOptions = {}
-const utils = require('../common/utilities')
+const utils = require('../common/utilities').default
 
 chartOptions.default = {
   defaultFontFamily: "'Open Sans', 'Helvetica Neue', 'Arial',  'sans-serif'"

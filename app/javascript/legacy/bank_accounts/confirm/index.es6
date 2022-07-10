@@ -9,7 +9,7 @@ const format = require('../../common/format').default
 const Im = require('immutable')
 const fromJS = Im.fromJS
 const Map = Im.Map
-const utils = require('../../common/utilities')
+const utils = require('../../common/utilities').default
 
 var npURL = '/nonprofits/' + app.nonprofit_id
 

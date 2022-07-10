@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 var confirmation = require('./confirmation')
 var notification = require('./notification')
-const utils = require('./utilities')
+const utils = require('./utilities').default
 
 $('form[autosubmit]').submit(function(e) {
 	var self = this

@@ -206,7 +206,7 @@ appl.def('find_and_set', function(arr_key, obj_matcher, set_obj, node) {
 	var result = arr.map(function(obj) {
 		for (var key in obj_matcher) {
 			if(obj_matcher[key] === obj[key]) {
-				return utils.merge(obj, set_obj)
+				return {...obj, ...set_obj};
 			}
 		}
 		return obj

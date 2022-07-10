@@ -64,12 +64,6 @@ utils.number_with_commas = function(n) {
 	return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-// Merge x's properties with y (mutating)
-utils.merge = function(x, y) {
-	for (var key in y) { x[key] = y[key]; }
-	return x
-}
-
 var format = require('./format')
 utils.dollars_to_cents = format.dollarsToCents
 utils.cents_to_dollars = format.centsToDollars

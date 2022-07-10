@@ -117,7 +117,6 @@ app/javascript/legacy/common/search-data.js
 app/javascript/legacy/common/super-agent-frp.js
 app/javascript/legacy/common/super-agent-promise.js
 app/javascript/legacy/common/time-remaining.js
-app/javascript/legacy/common/utilities.js
 app/javascript/legacy/common/vendor/bootstrap-tour-standalone.js
 app/javascript/legacy/common/vendor/bootstrap.js
 app/javascript/legacy/common/vendor/colpick.js

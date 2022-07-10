@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 const R = require('ramda')
-const format = require('../common/format')
+const format = require('../common/format').default
 require('../common/restful_resource')
 
 appl.def('ajax_metrics', {

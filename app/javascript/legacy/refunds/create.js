@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 const R = require('ramda')
-const format = require('../common/format')
+const format = require('../common/format').default
 var format_err = require('../common/format_response_error')
 var request = require('../common/super-agent-promise')
 

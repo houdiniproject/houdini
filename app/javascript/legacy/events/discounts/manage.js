@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 var R = require('ramda')
 var request = require('../../common/client')
-var format = require('../../common/format')
+var format = require('../../common/format').default
 
 appl.def('discounts.create_or_update', function(form_obj, node){
   appl.def('discounts.loading', true)

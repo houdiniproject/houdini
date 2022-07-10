@@ -13,7 +13,7 @@
 
 var create_card = require('../cards/create')
 var format_err = require('../common/format_response_error')
-var format = require('../common/format')
+var format = require('../common/format').default
 var request = require('../common/super-agent-promise')
 
 module.exports = create_donation

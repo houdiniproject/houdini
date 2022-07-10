@@ -136,6 +136,6 @@ const utils = {
 		// and just return it
 		return clean;
 	},
-};
+} as const;
 
-module.exports = utils;
+export default utils;

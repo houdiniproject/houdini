@@ -15,7 +15,7 @@ const request = require('../../common/request')
 // local
 const cardForm = require('../../components/card-form.es6')
 const readableInterval = require('../../nonprofits/recurring_donations/readable_interval')
-const format = require('../../common/format')
+const format = require('../../common/format').default
 const supporterAddressForm = require('../../components/supporter-address-form.es6')
 const changeAmountWizard = require('./change-amount-wizard.es6')
 const utils = require('../../common/utilities')

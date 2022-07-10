@@ -2,7 +2,7 @@
 const R = require('ramda')
 const flyd = require('flyd')
 const h = require('snabbdom/h')
-const format = require('../../common/format')
+const format = require('../../common/format').default
 const branding = require('../../components/nonprofit-branding')
 
 // This is the box currently at the top right that shows some big metrics for

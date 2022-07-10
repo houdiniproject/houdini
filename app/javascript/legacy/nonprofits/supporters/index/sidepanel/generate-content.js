@@ -3,7 +3,7 @@ const h = require('snabbdom/h')
 const R = require('ramda')
 const marked = require('marked')
 
-const format = require('../../../../common/format')
+const format = require('../../../../common/format').default
 
 // generate titles and bodies from activity json data
 

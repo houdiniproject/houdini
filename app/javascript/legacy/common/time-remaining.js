@@ -2,7 +2,7 @@
 const flyd = require('flyd')
 const flyd_every = require('flyd/module/every')
 const moment = require('moment-timezone')
-const format = require('../common/format')
+const format = require('../common/format').default
 const pluralize = format.pluralize
 
 // Given an end dateTime ("2015-11-17 19:00") and a time-zone ("America/Los_Angeles"),

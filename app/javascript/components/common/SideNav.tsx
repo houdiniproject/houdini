@@ -5,29 +5,28 @@ import React, { useState } from 'react';
 import AdminMenu from './AdminMenu';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
+import Nonprofit from '../../legacy/app_data/Nonprofit';
+import UserWithProfileAsChild from '../../legacy/app_data/UserWithProfileAsChild';
 
 
 export interface SideNavInput {
-	administeredNonprofit?: {
-		id: string;
-		name: string;
-	} | null;
-
-	currentUser?: {
-		id: string;
-		profile?: {
-			country: string;
-			id: string;
-			name: string;
-			pic_tiny?: string;
-			url: string;
-		};
-	};
-
+	administeredNonprofit?: Nonprofit | null;
+	currentUser?: UserWithProfileAsChild | null;
 	logo: {
 		alt: string; // from app/views/common/_logo.html.erb
 		url: string;  // from app/views/common/_logo.html.erb
 	};
+
+}
+
+function currentUserIsSet(currentUser:UserWithProfileAsChild | null |undefined) : currentUser is UserWithProfileAsChild {
+	return !!currentUser;
+}
+
+function userisNonprofitUser(_currentUser?:UserWithProfileAsChild | null | undefined,
+	administeredNonprofit?: Nonprofit | null |undefined ) : administeredNonprofit is Nonprofit {
+
+	return !!administeredNonprofit;
 
 }
 
@@ -56,9 +55,6 @@ export default function SideNav(props: SideNavInput): JSX.Element {
 		sideNavOpen && 'is-showing',
 	].filter(Boolean).join(' ');
 
-	const userIsNonprofitUser = !!props.administeredNonprofit;
-
-	const hasCurrentUser = !!props.currentUser;
 
 	return (<>
 		<aside className={sideNavToggleClasses} onClick={toggleSideNav}>
@@ -70,7 +66,7 @@ export default function SideNav(props: SideNavInput): JSX.Element {
 
 		<nav className={sideNavClasses} >
 			{
-				!userIsNonprofitUser ? (
+				!userisNonprofitUser(props.currentUser, props.administeredNonprofit) ? (
 					<section className='sideNav-section'>
 						<a className='sideNav-commitchangeLogo' href='<%= root_path %>' title='Go To Home Page'>
 							<Logo {...props.logo} />
@@ -80,13 +76,13 @@ export default function SideNav(props: SideNavInput): JSX.Element {
 
 
 			{
-				userIsNonprofitUser ?
+				userisNonprofitUser(props.currentUser, props.administeredNonprofit) ?
 					<AdminMenu administeredNonprofit={props.administeredNonprofit} /> :
 					''
 			}
 
 			{
-				hasCurrentUser ?
+				currentUserIsSet(props.currentUser) ?
 					<UserMenu currentUser={props.currentUser}/>
 					: ''
 			}

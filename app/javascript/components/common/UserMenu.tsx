@@ -5,18 +5,10 @@ import React from 'react';
 import profileRoutes from '../../routes/profiles';
 import settingsRoutes from '../../routes/settings';
 import usersRoutes from '../../routes/users';
-
+import UserWithProfileAsChild from '../../legacy/app_data/UserWithProfileAsChild';
 
 export interface UserMenuProps {
-	currentUser: {
-		profile?: {
-			country: string;
-			id: string;
-			name: string;
-			pic_tiny?: string;
-			url: string;
-		};
-	};
+	currentUser: UserWithProfileAsChild;
 }
 
 export default function UserMenu(props: UserMenuProps): JSX.Element {

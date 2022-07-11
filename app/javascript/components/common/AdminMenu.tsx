@@ -8,21 +8,19 @@ import paymentRoutes from '../../routes/nonprofits/payments';
 import eventRoutes from '../../routes/nonprofits/events';
 import campaignRoutes from '../../routes/nonprofits/campaigns';
 import buttonRoutes from '../../routes/nonprofits/button';
+import Nonprofit from '../../legacy/app_data/Nonprofit';
 
 
 export interface AdminMenuProps {
-	administeredNonprofit: {
-		id: string;
-		name: string;
-	};
-
+	administeredNonprofit: Nonprofit;
 }
 
 export default function AdminMenu(props: AdminMenuProps): JSX.Element {
 	return (
 		<section className='sideNav-section'>
 			<a className='sideNav-link' href={nonprofitRoutes.nonprofit.path(props.administeredNonprofit)}>
-				{/* <%= image_tag rails_storage_proxy_url(administered_nonprofit.logo_by_size(:small)), class:"sideNav-profile" %> */}
+				<img src={props.administeredNonprofit.logo.small} className={"sideNav-profile"} alt={props.administeredNonprofit.name} />
+
 				<span className='sideNav-text'>{props.administeredNonprofit.name}</span>
 			</a>
 

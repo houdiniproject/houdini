@@ -7,15 +7,11 @@ json.partial! 'users/sign_in'
 
 json.innerProps do 
 	json.administeredNonprofit do 
-		json.(administered_nonprofit, :id, :name)
+		json.partial! 'app_data/nonprofit', nonprofit: administered_nonprofit
 	end if administered_nonprofit
 
 	json.currentUser do
-		json.(current_user, :id)
-
-		json.profile do
-			json.partial! 'app_data/profile', profile: current_user.profile
-		end if current_user.profile
+		json.partial! 'app_data/user_with_profile_as_child', user: current_user
 	end if current_user
 
 	json.logo do

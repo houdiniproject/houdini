@@ -5,14 +5,18 @@
 
 json.partial! 'users/sign_in'
 
-json.innerProps do 
-	json.administeredNonprofit do 
-		json.partial! 'app_data/nonprofit', nonprofit: administered_nonprofit
-	end if administered_nonprofit
+json.innerProps do
+	if administered_nonprofit
+		json.administeredNonprofit do
+			json.partial! 'app_data/nonprofit', nonprofit: administered_nonprofit
+		end
+	end
 
-	json.currentUser do
-		json.partial! 'app_data/user_with_profile_as_child', user: current_user
-	end if current_user
+	if current_user
+		json.currentUser do
+			json.partial! 'app_data/user_with_profile_as_child', user: current_user
+		end
+	end
 
 	json.logo do
 		json.url Houdini.general.logo

@@ -90,17 +90,6 @@ export default function SideNav(props: SideNavInput): JSX.Element {
 					<UserMenu currentUser={props.currentUser}/>
 					: ''
 			}
-
-			{/* <% unless current_role?([:nonprofit_admin,:nonprofit_associate]) %>
-		<section className='sideNav-section'>
-				<% if Houdini.hoster.terms_and_privacy&.help_url %>
-        <a className='sideNav-link' href="<%=Houdini.terms_and_privacy.help_url %>">
-					<i className='sideNav-icon icon-bubble-ask-2'></i>
-					<span className='sideNav-text'>Help</span>
-				</a>
-				<% end %>
-		</section>
-			<% end %> */}
 		</nav>
 
 		<div className={sideNavScrimClasses} >

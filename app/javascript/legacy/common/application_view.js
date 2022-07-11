@@ -312,13 +312,6 @@ appl.def('ordinalize', function(n) {
 	else return String(n) + 'th'
 })
 
-appl.def('toggle_side_nav', function(){
-	if(appl.side_nav_is_open)
-		appl.def('side_nav_is_open', false)
-	else
-		appl.def('side_nav_is_open', true)
-})
-
 appl.def('head', function(arr) {
 	if(arr === undefined) return undefined
 	return arr[0]

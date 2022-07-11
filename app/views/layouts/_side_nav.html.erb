@@ -1,43 +1,11 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <% unless yield(:side_nav_hidden) == 'hidden' ||  !current_user %>
+	<%= javascript_packs_with_chunks_tag 'side-nav' %>
+	<%
+	
+		@props = JSON::parse(render('components/side_nav.json'))
+	%>
 
-<aside class='sideNav-toggle'>
-	<!--= on 'click' toggle_side_nav -->
-	<!--= add_class_if (side_nav_is_open) 'is-togglingOpen' -->
-	<i class='fa fa-bars' title='Show Menu'></i>
-	<i class='fa fa-times' title='Hide Menu'></i>
-</aside>
-
-<nav class="sideNav" >
-	<!--= add_class_if side_nav_is_open 'is-open'  -->
-
-	<% unless current_role? [:nonprofit_admin,:nonprofit_associate] %>
-		<section class='sideNav-section'>
-			<a class='sideNav-commitchangeLogo' href='<%= root_path %>' title='Go To Home Page'>
-				<%= render 'common/logo' %>
-			</a>
-		</section>
-	<% end %>
-
-	<%= render 'layouts/admin_menu' %>
-
-	<%= render 'layouts/user_menu' %>
-
-	<% unless current_role?([:nonprofit_admin,:nonprofit_associate]) %>
-		<section class='sideNav-section'>
-      <% if Houdini.hoster.terms_and_privacy&.help_url %>
-        <a class='sideNav-link' href="<%=Houdini.terms_and_privacy.help_url %>">
-          <i class='sideNav-icon icon-bubble-ask-2'></i>
-          <span class='sideNav-text'>Help</span>
-        </a>
-      <% end %>
-		</section>
-	<% end %>
-</nav>
-
-<div class='sideNav-scrim'>
-	<!--= on 'click' (def 'side_nav_is_open' false) -->
-	<!--= add_class_if side_nav_is_open 'is-showing' -->
-</div>
+	<%= react_component("SideNav", props: @props) %>
 <% end %>

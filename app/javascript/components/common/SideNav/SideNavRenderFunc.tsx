@@ -1,8 +1,8 @@
 // License: LGPL-3.0-or-later
 import React from 'react';
 import { RailsContext,  RenderFunctionResult } from 'react-on-rails/node_package/lib/types';
-import PageWrapper, { PageContextInput } from './PageWrapper';
-import SideNav, {SideNavInput} from './SideNav';
+import PageWrapper, { PageContextInput } from '../PageWrapper';
+import SideNav, {SideNavInput} from '.';
 
 
 export default (props: Record<string, unknown>, railsContext:RailsContext): RenderFunctionResult => {

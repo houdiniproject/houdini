@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import AdminMenu from './AdminMenu';
 import Logo from './Logo';
 import UserMenu from './UserMenu';
-import Nonprofit from '../../legacy/app_data/Nonprofit';
-import UserWithProfileAsChild from '../../legacy/app_data/UserWithProfileAsChild';
+import Nonprofit from '../../../legacy/app_data/Nonprofit';
+import UserWithProfileAsChild from '../../../legacy/app_data/UserWithProfileAsChild';
 
 
 export interface SideNavInput {

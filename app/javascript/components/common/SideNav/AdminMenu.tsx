@@ -2,13 +2,13 @@
 // from app/views/layouts/_admin_menu.html.erb
 
 import React from 'react';
-import nonprofitRoutes from '../../routes/nonprofits';
-import supporterRoutes from '../../routes/nonprofits/supporters';
-import paymentRoutes from '../../routes/nonprofits/payments';
-import eventRoutes from '../../routes/nonprofits/events';
-import campaignRoutes from '../../routes/nonprofits/campaigns';
-import buttonRoutes from '../../routes/nonprofits/button';
-import Nonprofit from '../../legacy/app_data/Nonprofit';
+import nonprofitRoutes from '../../../routes/nonprofits';
+import supporterRoutes from '../../../routes/nonprofits/supporters';
+import paymentRoutes from '../../../routes/nonprofits/payments';
+import eventRoutes from '../../../routes/nonprofits/events';
+import campaignRoutes from '../../../routes/nonprofits/campaigns';
+import buttonRoutes from '../../../routes/nonprofits/button';
+import Nonprofit from '../../../legacy/app_data/Nonprofit';
 
 
 export interface AdminMenuProps {

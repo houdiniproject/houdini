@@ -2,10 +2,10 @@
 // from app/views/layouts/_user_menu.html.erb
 
 import React from 'react';
-import profileRoutes from '../../routes/profiles';
-import settingsRoutes from '../../routes/settings';
-import usersRoutes from '../../routes/users';
-import UserWithProfileAsChild from '../../legacy/app_data/UserWithProfileAsChild';
+import profileRoutes from '../../../routes/profiles';
+import settingsRoutes from '../../../routes/settings';
+import usersRoutes from '../../../routes/users';
+import UserWithProfileAsChild from '../../../legacy/app_data/UserWithProfileAsChild';
 
 export interface UserMenuProps {
 	currentUser: UserWithProfileAsChild;

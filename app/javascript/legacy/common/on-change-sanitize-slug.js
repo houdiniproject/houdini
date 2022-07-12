@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 const R = require('ramda')
-const sanitize = require('./sanitize-slug')
+const sanitize = require('./sanitize-slug').default
 
 // Just a hacky way to automatically sanitize slug inputs when they are changed
 

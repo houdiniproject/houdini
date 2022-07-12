@@ -107,7 +107,6 @@ app/javascript/legacy/common/pikaday-timepicker.js
 app/javascript/legacy/common/post-form-data.js
 app/javascript/legacy/common/request.js
 app/javascript/legacy/common/restful_resource.js
-app/javascript/legacy/common/sanitize-slug.js
 app/javascript/legacy/common/scroll_toggle_class.js
 app/javascript/legacy/common/search-data.js
 app/javascript/legacy/common/super-agent-frp.js

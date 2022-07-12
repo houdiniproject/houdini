@@ -18,7 +18,7 @@
 	*   ajax.create donations form_object
 	*/
 
-var request = require('../common/client')
+var request = require('../common/client').default
 const {to_singular} = require('../../legacy_react/src/lib/deprecated_format');
 
 var restful_resource = {}

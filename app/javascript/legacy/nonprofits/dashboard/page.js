@@ -4,7 +4,7 @@ require('../../events/new/wizard')
 require('./tour')
 appl.verify_identity = require('../payouts/index/verify_identity')
 appl.create_bank_account = require('../../bank_accounts/create.es6')
-var client = require('../../common/client')
+var client = require('../../common/client').default
 var create_info_card = require('../../supporters/info-card.es6')
 require('../payments_chart')
 

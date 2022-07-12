@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 module.exports = function(cb){
-	var request = require('../common/client')
+	var request = require('../common/client').default
 	var url = '/nonprofits/' + app.nonprofit_id
 
 	appl.def('todos.loading', true)

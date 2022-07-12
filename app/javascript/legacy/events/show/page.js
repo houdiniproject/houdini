@@ -82,7 +82,7 @@ if (app.nonprofit.brand_color) {
 	require('../../components/branded_fundraising')
 }
 
-var request = require('../../common/client')
+var request = require('../../common/client').default
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id
 
 

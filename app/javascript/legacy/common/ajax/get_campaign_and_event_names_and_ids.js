@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var request = require('../client')
+var request = require('../client').default
 
 module.exports = function(npo_id) {
   var campaignsPath = '/nonprofits/' + npo_id + '/campaigns/name_and_id'

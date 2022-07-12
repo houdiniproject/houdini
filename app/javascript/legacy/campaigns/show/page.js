@@ -20,7 +20,7 @@ const activities = require('../../components/public-activities')
 
 // Viewscript legacy side effect stuff
 require('../../components/branded_fundraising')
-require('../../common/on-change-sanitize-slug')
+require('../../common/on-change-sanitize-slug').default
 require('../../common/fundraiser_metrics')
 require('../../components/fundraising/add_header_image')
 require('../../common/restful_resource')

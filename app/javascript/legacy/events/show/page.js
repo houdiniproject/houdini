@@ -5,7 +5,7 @@ require('../../components/fundraising/add_header_image')
 require('../../tickets/new')
 require('../../ticket_levels/manage')
 require('../discounts/index')
-require('../../common/on-change-sanitize-slug')
+require('../../common/on-change-sanitize-slug').default
 const donateWiz = require('../../nonprofits/donate/wizard')
 const snabbdom = require('snabbdom')
 const h = require('snabbdom/h')

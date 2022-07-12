@@ -59,6 +59,7 @@
     "@types/react-test-renderer": "^16.0.1",
     "@types/react-text-mask": "^5.4.10",
     "@types/react-transition-group": "^2.9.0",
+    "@types/superagent": "^4.1.15",
     "@types/validator": "^9.4.1",
     "@types/yup": "^0.29.8",
     "@typescript-eslint/eslint-plugin": "^4.3.0",

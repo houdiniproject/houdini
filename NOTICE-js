@@ -1251,11 +1251,11 @@ Copyright (c) Microsoft Corporation.
 Copyright (c) Microsoft Corporation.
 ** @types/cookie; version 0.4.1 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/cookie
 Copyright (c) Microsoft Corporation
+** @types/cookiejar; version 2.1.2 -- 
+Copyright (c) Microsoft Corporation.
 ** @types/enzyme; version 3.10.5 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/enzyme-to-json; version 1.5.3 -- 
-Copyright (c) Microsoft Corporation.
-** @types/events; version 3.0.0 -- 
 Copyright (c) Microsoft Corporation.
 
 MIT License
@@ -4481,47 +4481,6 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ------
 
-** cliui; version 5.0.0 -- https://github.com/yargs/cliui#readme
-Copyright (c) 2015, Contributors
-
-Copyright (c) 2015, Contributors
-
-Permission to use, copy, modify, and/or distribute this software
-for any purpose with or without fee is hereby granted, provided
-that the above copyright notice and this permission notice
-appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
-OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE
-LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES
-OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
-ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-
-------
-
-** cli-width; version 3.0.0 -- https://github.com/knownasilya/cli-width
-Copyright (c) 2015, Ilya Radchenko <ilya@burstcreations.com>
-
-Copyright (c) 2015, Ilya Radchenko <ilya@burstcreations.com>
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted, provided that the above
-copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-
-------
-
 ** acorn; version 7.4.1 -- https://github.com/acornjs/acorn
 Copyright (c) 2012-2018 by various contributors
 
@@ -6829,6 +6788,8 @@ SOFTWARE.
 
 ------
 
+** @types/events; version 3.0.0 -- 
+Copyright (c) Microsoft Corporation.
 ** @types/glob; version 7.1.3 -- 
 Copyright (c) Microsoft Corporation
 ** @types/graceful-fs; version 4.1.3 -- 
@@ -6917,6 +6878,8 @@ Copyright (c) Microsoft Corporation.
 ** @types/source-list-map; version 0.1.2 -- 
 Copyright (c) Microsoft Corporation
 ** @types/stack-utils; version 1.0.1 -- 
+Copyright (c) Microsoft Corporation.
+** @types/superagent; version 4.1.15 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/superagent
 Copyright (c) Microsoft Corporation.
 ** @types/tapable; version 1.0.8 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/tapable
 Copyright (c) Microsoft Corporation
@@ -10035,6 +9998,47 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 ------
 
+** cliui; version 5.0.0 -- https://github.com/yargs/cliui#readme
+Copyright (c) 2015, Contributors
+
+Copyright (c) 2015, Contributors
+
+Permission to use, copy, modify, and/or distribute this software
+for any purpose with or without fee is hereby granted, provided
+that the above copyright notice and this permission notice
+appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE
+LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES
+OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+------
+
+** cli-width; version 3.0.0 -- https://github.com/knownasilya/cli-width
+Copyright (c) 2015, Ilya Radchenko <ilya@burstcreations.com>
+
+Copyright (c) 2015, Ilya Radchenko <ilya@burstcreations.com>
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+------
+
 ** exit; version 0.1.2 -- https://github.com/cowboy/node-exit
 Copyright (c) 2013 Cowboy Ben Alman
 
@@ -10330,9 +10334,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ** fill-range; version 4.0.0 -- https://github.com/jonschlinkert/fill-range
 Copyright (c) 2014-2017, Jon Schlinkert
 Copyright (c) 2014-2015, 2017, Jon Schlinkert
-Copyright (c) 2017, Jon Schlinkert (https://github.com/jonschlinkert)
-** for-in; version 1.0.2 -- https://github.com/jonschlinkert/for-in
-Copyright (c) 2014-2017, Jon Schlinkert
 Copyright (c) 2017, Jon Schlinkert (https://github.com/jonschlinkert)
 
 The MIT License (MIT)
@@ -13141,32 +13142,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** fontsource-roboto; version 2.1.4 -- 
-
-MIT License
-
-Copyright (c) 2020 Lotus
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-------
-
 ** destroy; version 1.0.4 -- https://github.com/stream-utils/destroy
 Copyright (c) 2014 Jonathan Ong
 Copyright (c) 2014 Jonathan Ong me@jongleberry.com
@@ -15600,6 +15575,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ------
 
+** for-in; version 1.0.2 -- https://github.com/jonschlinkert/for-in
+Copyright (c) 2014-2017, Jon Schlinkert
+Copyright (c) 2017, Jon Schlinkert (https://github.com/jonschlinkert)
 ** has-value; version 1.0.0 -- https://github.com/jonschlinkert/has-value
 Copyright (c) 2014-2017, Jon Schlinkert
 Copyright (c) 2017, Jon Schlinkert (https://github.com/jonschlinkert)
@@ -17526,10 +17504,6 @@ copyright Oleg Isonen
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-global; version 10.3.0 -- https://cssinjs.org/jss-global
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
-** jss-plugin-nested; version 10.3.0 -- https://cssinjs.org/jss-nested
-Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
-** jss-plugin-props-sort; version 10.3.0 -- https://cssinjs.org/jss-plugin-props-sort
-Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 
 The MIT License (MIT)
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
@@ -17808,6 +17782,32 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+------
+
+** fontsource-roboto; version 2.1.4 -- 
+
+MIT License
+
+Copyright (c) 2020 Lotus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ------
 
@@ -18606,7 +18606,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ** postcss-focus-within; version 3.0.0 -- https://github.com/jonathantneal/postcss-focus-within#readme
 ** postcss-gap-properties; version 2.0.0 -- https://github.com/jonathantneal/postcss-gap-properties#readme
 ** postcss-image-set-function; version 3.0.1 -- https://github.com/jonathantneal/postcss-image-set-function#readme
-** postcss-lab-function; version 2.0.1 -- https://github.com/jonathantneal/postcss-lab-function#readme
 
 # CC0 1.0 Universal
 
@@ -19687,33 +19686,6 @@ Copyright (c) Maxime Thirouin, Jason Campbell & Kevin Martensson
 The MIT License (MIT)
 
 Copyright (c) Maxime Thirouin, Jason Campbell & Kevin Mårtensson
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** postcss-initial; version 3.0.2 -- https://github.com/maximkoretskiy/postcss-initial#readme
-Copyright 2015 Maksim Koretskiy <mr.green.tv@gmail.com>
-
-The MIT License (MIT)
-
-Copyright 2015 Maksim Koretskiy <mr.green.tv@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -21687,6 +21659,10 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** jss-plugin-nested; version 10.3.0 -- https://cssinjs.org/jss-nested
+Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
+** jss-plugin-props-sort; version 10.3.0 -- https://cssinjs.org/jss-plugin-props-sort
+Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-rule-value-function; version 10.3.0 -- https://cssinjs.org/
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-vendor-prefixer; version 10.3.0 -- https://cssinjs.org/jss-plugin-vendor-prefixer
@@ -24542,6 +24518,7 @@ Creative Commons may be contacted at http://creativecommons.org/.
 
 ------
 
+** postcss-lab-function; version 2.0.1 -- https://github.com/jonathantneal/postcss-lab-function#readme
 ** postcss-logical; version 3.0.0 -- https://github.com/jonathantneal/postcss-logical#readme
 ** postcss-nesting; version 7.0.1 -- https://github.com/jonathantneal/postcss-nesting#readme
 ** postcss-overflow-shorthand; version 2.0.0 -- https://github.com/jonathantneal/postcss-overflow-shorthand#readme
@@ -27227,6 +27204,33 @@ SOFTWARE.
 
 ------
 
+** postcss-initial; version 3.0.2 -- https://github.com/maximkoretskiy/postcss-initial#readme
+Copyright 2015 Maksim Koretskiy <mr.green.tv@gmail.com>
+
+The MIT License (MIT)
+
+Copyright 2015 Maksim Koretskiy <mr.green.tv@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** postcss-load-config; version 2.1.0 -- https://github.com/michael-ciniawsky/postcss-load-config#readme
 Copyright (c) Michael Ciniawsky <michael.ciniawsky@gmail.com>
 
@@ -28233,34 +28237,6 @@ Copyright (c) 2019-present Beier(Bill) Luo
 MIT License
 
 Copyright (c) 2019-present Beier(Bill) Luo
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-------
-
-** storybook-addon-intl; version 2.4.1 -- https://github.com/truffls/storybook-addon-intl#readme
-Copyright (c) 2017 Truffls GmbH
-
-MIT License
-
-Copyright (c) 2017 Truffls GmbH
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30524,17 +30500,6 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-
-------
-
-** store2; version 2.12.0 -- https://github.com/nbubna/store#readme
-Copyright (c) 2013 ESHA Research
-Copyright (c) 2015 ESHA Research
-Copyright (c) 2017 ESHA Research
-Copyright (c) 2019 ESHA Research
-Copyright (c) 2018, ESHA Research
-
-GPL-3.0 OR MIT OR (GPL-3.0 AND MIT)
 ** tslib; version 2.3.1 -- https://www.typescriptlang.org/
 Copyright (c) Microsoft Corporation
 
@@ -32928,6 +32893,34 @@ SOFTWARE.
 
 ------
 
+** storybook-addon-intl; version 2.4.1 -- https://github.com/truffls/storybook-addon-intl#readme
+Copyright (c) 2017 Truffls GmbH
+
+MIT License
+
+Copyright (c) 2017 Truffls GmbH
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+------
+
 ** unist-builder; version 2.0.3 -- https://github.com/syntax-tree/unist-builder#readme
 (c) Eugene Sharygin
 Copyright (c) 2015 Eugene Sharygin
@@ -34955,6 +34948,17 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <https://unlicense.org>
 
+
+------
+
+** store2; version 2.12.0 -- https://github.com/nbubna/store#readme
+Copyright (c) 2013 ESHA Research
+Copyright (c) 2015 ESHA Research
+Copyright (c) 2017 ESHA Research
+Copyright (c) 2019 ESHA Research
+Copyright (c) 2018, ESHA Research
+
+GPL-3.0 OR MIT OR (GPL-3.0 AND MIT)
 
 ------
 

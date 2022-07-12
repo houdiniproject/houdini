@@ -2,7 +2,7 @@
 var action_recipient = require("./action_recipient")
 var request = require('../../../common/client')
 require('../../../components/wizard')
-var formatErr = require('../../../common/format_response_error')
+var formatErr = require('../../../common/format_response_error').default
 const R = require('ramda')
 
 appl.def('merge.has_any', function(arr) {

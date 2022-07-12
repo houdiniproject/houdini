@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 const R = require('ramda')
 const format = require('../common/format').default
-var format_err = require('../common/format_response_error')
+var format_err = require('../common/format_response_error').default
 var request = require('../common/super-agent-promise')
 
 appl.def('ajax_refunds', {

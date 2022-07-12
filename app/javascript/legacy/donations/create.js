@@ -12,7 +12,7 @@
 // It will create a RecurringDonation if donation.recurring is true
 
 var create_card = require('../cards/create')
-var format_err = require('../common/format_response_error')
+var format_err = require('../common/format_response_error').default
 var format = require('../common/format').default
 var request = require('../common/super-agent-promise')
 

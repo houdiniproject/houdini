@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 var action_recipient = require("./action_recipient")
-var request = require('../../../common/client')
+var request = require('../../../common/client').default
 
 appl.def('show_bulk_delete_supporters', function(){
 	var total = appl.supporters.selecting_all ? appl.supporters.total_count : appl.supporters.selected.length

@@ -2,7 +2,7 @@
 const R = require('ramda')
 const h = require('flimflam/h')
 const searchTable = require('../components/search-table')
-const request = require('../common/client')
+const request = require('../common/client').default
 
 const link = (href, text) => h('p.m-0', [ h('a', {props: {href, target: '_blank'}}, text)])
 

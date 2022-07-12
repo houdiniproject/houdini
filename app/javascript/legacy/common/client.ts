@@ -1,25 +1,29 @@
 // License: LGPL-3.0-or-later
 // superapi wrapper with our api defaults
 
-var request = require('superagent')
+import request, { Response, SuperAgentRequest } from 'superagent';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CallbackHandlerFromSuperAgent = (err: any, res: Response) => void;
 
-var wrapper = {}
+declare const window: Window & { _csrf: string };
+const wrapper = {
 
-wrapper.post = function() {
-	return request.post.apply(this, arguments).set('X-CSRF-Token', window._csrf).type('json')
-}
+	post: function (...args: [string, CallbackHandlerFromSuperAgent?]): SuperAgentRequest {
+		return (request.post.apply(this, args) as SuperAgentRequest).set('X-CSRF-Token', window._csrf).type('json');
+	},
 
-wrapper.put = function() {
-	return request.put.apply(this, arguments).set('X-CSRF-Token', window._csrf).type('json')
-}
+	put: function (...args: [string, CallbackHandlerFromSuperAgent?]): SuperAgentRequest {
+		return (request.put.apply(this, args) as SuperAgentRequest).set('X-CSRF-Token', window._csrf).type('json');
+	},
 
-wrapper.del = function() {
-	return request.del.apply(this, arguments).set('X-CSRF-Token', window._csrf).type('json')
-}
+	del: function (...args: [string, CallbackHandlerFromSuperAgent?]): SuperAgentRequest {
+		return (request.del.apply(this, args) as SuperAgentRequest).set('X-CSRF-Token', window._csrf).type('json');
+	},
 
-wrapper.get = function(path) {
-	return request.get.call(this, path).accept('json')
-}
+	get: function (path: string): SuperAgentRequest {
+		return (request.get.call(this, path) as SuperAgentRequest).accept('json');
+	},
+};
 
-module.exports = wrapper
+export default wrapper;
 

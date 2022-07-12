@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 var action_recipient = require("./action_recipient")
-var request = require('../../../common/client')
+var request = require('../../../common/client').default
 require('../../../components/wizard')
 var formatErr = require('../../../common/format_response_error').default
 const R = require('ramda')

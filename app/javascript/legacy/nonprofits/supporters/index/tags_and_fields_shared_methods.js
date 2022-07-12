@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var request = require('../../../common/client')
+var request = require('../../../common/client').default
 var endpoint_prefix = '/nonprofits/' + app.nonprofit_id + '/'
 var tags_or_fields = {}
 

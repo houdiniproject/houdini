@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 require('../../common/pikaday-timepicker')
 require('../../common/restful_resource')
-const request = require('../../common/client')
+const request = require('../../common/client').default
 const formatErr = require('../../common/format_response_error').default
 require('../../common/image_uploader')
 require('./tour')

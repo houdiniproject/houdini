@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var request = require('../../common/client')
+var request = require('../../common/client').default
 require('../../common/image_uploader')
 require('../../common/el_swapo')
 require('../../common/restful_resource')

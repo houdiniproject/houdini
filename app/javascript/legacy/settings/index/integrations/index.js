@@ -4,7 +4,7 @@ const R = require('ramda')
 const flyd = require('flyd')
 const request = require('../../../common/request')
 const flyd_lift = require('flyd/module/lift')
-const colors = require('../../../common/colors')
+const colors = require('../../../common/colors').default
 
 function init() {
   var state = {

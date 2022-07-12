@@ -87,7 +87,6 @@ app/javascript/legacy/common/apply-pikaday.js
 app/javascript/legacy/common/autosubmit.js
 app/javascript/legacy/common/class-object.js
 app/javascript/legacy/common/client.js
-app/javascript/legacy/common/colors.js
 app/javascript/legacy/common/confirmation.js
 app/javascript/legacy/common/credit-card-validator.js
 app/javascript/legacy/common/css-gradient.js

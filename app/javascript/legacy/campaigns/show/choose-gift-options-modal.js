@@ -3,7 +3,7 @@ const h = require('snabbdom/h')
 const flyd = require('flyd')
 const R = require('ramda')
 
-const soldOut = require('./is-sold-out')
+const soldOut = require('./is-sold-out').default
 const giftButton = require('./gift-option-button')
 
 const giftOption = g => h('option', { props: {value: g.id} }, g.name) 

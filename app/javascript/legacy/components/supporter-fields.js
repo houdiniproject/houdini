@@ -2,7 +2,7 @@
 const h = require('snabbdom/h')
 const R = require('ramda')
 const flyd = require('flyd')
-const geography = require('../common/geography')
+const geography = require('../common/geography').default
 const addressAutocomplete = require('./address-autocomplete-fields')
 
 // This component is just the fields without any form wrapper or submit button, which allows you to handle those pieces outside of here.

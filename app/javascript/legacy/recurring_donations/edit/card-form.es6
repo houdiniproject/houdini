@@ -14,7 +14,7 @@ const request = require('../../common/request')
 const formatErr = require('../../common/format_response_error')
 const createCardStream = require('../../cards/create-frp.es6')
 const serializeForm = require('form-serialize')
-const luhnCheck = require('../../../legacy_react/src/lib/payments/credit_card.ts')
+const luhnCheck = require('../../common/credit-card-validator.ts').default
 
 // A component for filling out card data, validating it, saving the card to
 // stripe, and then saving a tokenized copy to our servers.

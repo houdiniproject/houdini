@@ -13,7 +13,7 @@ as seen under the details of a payment within the "Payments" section.
 
 Payment statuses in Houdini are updated by the batch job
 `update_np_balances`. This can be called from the command-line with `bin/rails
-heroku_scheduled_job[update_np_balances]`, though is best configured to run once
+cron_job_runner[update_np_balances]`, though is best configured to run once
 daily through a scheduling system such as cron.
 
 *Note*: Currently the `update_np_balances` job will fail silently unless you

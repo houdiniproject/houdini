@@ -72,7 +72,6 @@ app/javascript/legacy/campaigns/show/choose-gift-options-modal.js
 app/javascript/legacy/campaigns/show/gift-option-button.js
 app/javascript/legacy/campaigns/show/gift-option-list.js
 app/javascript/legacy/campaigns/show/gift-option-quantity-left.js
-app/javascript/legacy/campaigns/show/is-sold-out.js
 app/javascript/legacy/campaigns/show/metrics-and-contribute-box.js
 app/javascript/legacy/campaigns/show/page.js
 app/javascript/legacy/campaigns/show/tour.js

@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const soldOut = require('./is-sold-out')
+const soldOut = require('./is-sold-out').default
 
 module.exports = gift => {
   if(gift.hide_contributions || !gift.quantity) return ''

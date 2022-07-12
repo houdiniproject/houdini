@@ -2,7 +2,7 @@
 const h = require('snabbdom/h')
 const branding = require('../../components/nonprofit-branding')
 const format = require('../../common/format').default
-const soldOut = require('./is-sold-out')
+const soldOut = require('./is-sold-out').default
 
 // function prepareForIOS11()
 // {

@@ -5,7 +5,7 @@ var create_card = require('../../cards/create')
 var create_donation = require('../../donations/create')
 var request = require('../../common/super-agent-promise')
 var get_ticket_levels = require('../../ticket_levels/get_totals')
-var format_err = require('../../common/format_response_error')
+var format_err = require('../../common/format_response_error').default
 var format = require('../../common/format').default
 var confirmation = require('../../common/confirmation')
 appl.def('is_usa', format.geography.isUS)

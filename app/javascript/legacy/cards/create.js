@@ -8,7 +8,7 @@
 // Not namespacing card_form; only show one card form on the page at any time
 
 var request = require('../common/super-agent-promise')
-var format_err = require('../common/format_response_error')
+var format_err = require('../common/format_response_error').default
 
 module.exports = create_card
 

@@ -4,17 +4,38 @@
 //
 // This should work both with 422 unprocessable entities as well as 500 server errors
 
-module.exports = show_err
+const err_msg = "We're sorry, but something went wrong. Please try again soon.";
 
-var err_msg = "We're sorry, but something went wrong. Please try again soon."
+interface ErrorResponseType {
+	body?: {
+		error?: string;
+		errors?: string[] | unknown;
+	} | string;
+	error?: string;
 
-function show_err(resp) {
-  console.error(resp)
+}
 
-  if(resp.body && resp.body.error) { return resp.body.error }
-  if(resp.body && resp.body.errors && resp.body.errors.length) { return resp.body.errors[0] }
-  if(resp.body) { return resp.body }
-  if(resp.error) { return resp.error }
-  return err_msg
+
+export default function show_err(resp: ErrorResponseType): string {
+	console.error(resp);
+	if (resp.body) {
+		if (typeof resp.body === 'string') {
+			return resp.body;
+		}
+		else {
+			if (resp.body.error) {
+				return resp.body.error;
+			}
+			else if(resp.body.errors instanceof Array) {
+				return resp.body.errors[0];
+			}
+		}
+	}
+	else if (resp.error) {
+		return resp.error;
+	}
+	else {
+		return err_msg;
+	}
 }
 

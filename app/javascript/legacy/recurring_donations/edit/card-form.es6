@@ -11,7 +11,7 @@ flyd.mergeAll = require('flyd/module/mergeall')
 const scanMerge = require('flyd/module/scanmerge')
 // local
 const request = require('../../common/request')
-const formatErr = require('../../common/format_response_error')
+const formatErr = require('../../common/format_response_error').default
 const createCardStream = require('../../cards/create-frp.es6')
 const serializeForm = require('form-serialize')
 const luhnCheck = require('../../common/credit-card-validator.js')

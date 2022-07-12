@@ -1,0 +1,19 @@
+ignore_unreachable_actions:
+  - ^devise#_prefixes
+  - ^devise/confirmations#create
+  - ^devise/confirmations#new
+  - ^devise/confirmations#show
+  - ^devise/registrations#create
+  - ^devise/registrations#destroy
+  - ^devise/registrations#update
+  - ^devise/registrations#cancel
+  - ^devise/registrations#edit
+  - ^devise/sessions#create
+  - ^devise/sessions#new
+  - ^devise/sessions#destroy
+  - ^devise/omniauth_callbacks#passthru
+  - ^devise/omniauth_callbacks#failure
+  - ^devise/unlocks#create
+  - ^devise/unlocks#new
+  - ^devise/unlocks#show
+ignore_unused_routes:

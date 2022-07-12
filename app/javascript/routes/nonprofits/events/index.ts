@@ -12,4 +12,14 @@ export default {
 		},
 
 	},
+
+	nameAndIdNonprofitEvents: {
+		path: (props: {id:string}):string => {
+			return `/nonprofits/${props.id}/events/name_and_id`;
+		},
+
+		url: (props: {id:string}):string => {
+			return `/nonprofits/${props.id}/events/name_and_id`;
+		},
+	},
 };

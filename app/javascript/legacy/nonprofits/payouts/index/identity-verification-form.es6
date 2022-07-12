@@ -11,7 +11,7 @@ const button = require('ff-core/button')
 const notification = require('ff-core/notification')
 // local
 const request = require('../../../common/request')
-const geography = require('../../../common/geography')
+const geography = require('../../../common/geography').default
 const stateSelect = require('../../../components/state-selector')
 
 

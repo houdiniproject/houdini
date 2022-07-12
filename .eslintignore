@@ -95,7 +95,6 @@ app/javascript/legacy/common/file-input-stream.js
 app/javascript/legacy/common/form-to-object.js
 app/javascript/legacy/common/format_response_error.js
 app/javascript/legacy/common/fundraiser_metrics.js
-app/javascript/legacy/common/geography.js
 app/javascript/legacy/common/get-valid-data.js
 app/javascript/legacy/common/image_uploader.js
 app/javascript/legacy/common/jquery_additions.js

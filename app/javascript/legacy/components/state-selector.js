@@ -2,7 +2,7 @@
 const h = require('snabbdom/h')
 const R = require('ramda')
 
-const geo = require('../common/geography')
+const geo = require('../common/geography').default
 const stateCodes = geo.stateCodes
 
 

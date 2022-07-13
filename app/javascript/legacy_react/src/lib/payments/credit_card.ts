@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 // based on: https://github.com/stripe/jquery.payment/blob/master/lib/jquery.payment.js
-import _ = require("lodash");
+import trim from 'lodash/trim';
+import find from 'lodash/find';
 export const defaultFormat = /(\d{1,4})/g;
 
 export function luhnCheck(num: string | number):boolean {
@@ -49,8 +50,8 @@ export const validateCardExpiry = (month:any, year:any):boolean  => {
   }
   
 
-  month = _.trim(month)
-  year  = _.trim(year)
+  month = trim(month)
+  year  = trim(year)
 
   if (!/^\d+$/.test(month))
     return false
@@ -177,12 +178,12 @@ export class CreditCardTypeManager {
   ];
 
   cardFromType(type: string) {
-    return _.find(this.cards, (card) => card.type === type)
+    return find(this.cards, (card) => card.type === type)
   }
 
   cardFromNumber(num: string):Card {
     num = (num + '').replace(/\D/g, '')
-    return _.find(this.cards, (card:Card) => {
+    return find(this.cards, (card:Card) => {
       return card.patterns.some((pattern) => {
         const p = pattern + ''
         return num.substr(0, p.length) == p
@@ -206,7 +207,7 @@ export class CreditCardTypeManager {
   }
 
   validateCardCVC(cvc: string, type?: string) {
-    cvc = _.trim(cvc)
+    cvc = trim(cvc)
     if (!/^\d+$/.test(cvc))
       return false
   

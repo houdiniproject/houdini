@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_08_214048) do
+ActiveRecord::Schema.define(version: 2022_07_13_204458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -714,7 +714,6 @@ ActiveRecord::Schema.define(version: 2022_06_08_214048) do
     t.integer "admin_id"
     t.string "state_code", limit: 255
     t.string "city", limit: 255
-    t.text "privacy_settings"
     t.string "phone", limit: 255
     t.string "address", limit: 255
     t.boolean "anonymous"

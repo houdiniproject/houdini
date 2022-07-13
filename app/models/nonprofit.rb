@@ -109,9 +109,6 @@ class Nonprofit < ActiveRecord::Base
   mount_uploader :background_image, NonprofitBackgroundUploader
   mount_uploader :logo, NonprofitLogoUploader
 
-  serialize :achievements, Array
-  serialize :categories, Array
-
   geocoded_by :full_address
 
 

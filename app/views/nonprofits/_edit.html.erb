@@ -69,7 +69,7 @@
       <label class='u-marginBottom--10'>Categories</label>
       <% Nonprofit::Categories.each_with_index do |cat, i| %>
         <div class='u-marginBottom--10'>
-          <input id='cat-<%= i %>' type='checkbox' name='nonprofit[categories][]' <%= @nonprofit.categories.include?(cat) ? 'checked="checked"' : '' %> value='<%= cat %>'>
+          <input id='cat-<%= i %>' type='checkbox' name='nonprofit[categories][]' <%= @nonprofit.categories&.include?(cat) ? 'checked="checked"' : '' %> value='<%= cat %>'>
           <label for='cat-<%= i %>'><%= cat %></label>
         </div>
       <% end %>

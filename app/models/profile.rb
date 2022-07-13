@@ -13,7 +13,6 @@ class Profile < ActiveRecord::Base
 		:city, # str
 		:state_code, # str (eg. CA)
 		:zip_code, # str
-		:privacy_settings, # text [str]: XXX deprecated
 		:picture, # str: either their social network pic or a stored pic on S3
 		:anonymous, # bool: negates all privacy_settings
 		:city_state,
@@ -22,8 +21,6 @@ class Profile < ActiveRecord::Base
 	validates :email, format: {with: Email::Regex}, allow_blank: true
 
 	attr_accessor :email, :city_state
-
-	serialize :privacy_settings, Array
 
 	mount_uploader :picture, ProfileUploader
 

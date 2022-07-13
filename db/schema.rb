@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220608214048) do
+ActiveRecord::Schema.define(version: 20220713204114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -702,10 +702,10 @@ ActiveRecord::Schema.define(version: 20220608214048) do
     t.string   "background_image",                            limit: 255
     t.string   "logo",                                        limit: 255
     t.text     "summary"
-    t.text     "categories"
+    t.text     "categories_legacy"
     t.string   "ein",                                         limit: 255
     t.text     "full_description"
-    t.text     "achievements"
+    t.text     "achievements_legacy"
     t.string   "state_code",                                  limit: 255
     t.string   "city",                                        limit: 255
     t.string   "slug",                                        limit: 255
@@ -739,6 +739,8 @@ ActiveRecord::Schema.define(version: 20220608214048) do
     t.string   "currency",                                    limit: 255, default: "usd"
     t.boolean  "feature_flag_autocomplete_supporter_address",             default: false
     t.string   "houid"
+    t.jsonb    "achievements"
+    t.jsonb    "categories"
   end
 
   create_table "object_events", force: :cascade do |t|
@@ -883,24 +885,23 @@ ActiveRecord::Schema.define(version: 20220608214048) do
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.string   "name",             limit: 255
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.string   "name",            limit: 255
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.integer  "user_id"
     t.integer  "admin_id"
-    t.string   "state_code",       limit: 255
-    t.string   "city",             limit: 255
-    t.text     "privacy_settings"
-    t.string   "picture",          limit: 255
-    t.string   "phone",            limit: 255
-    t.string   "address",          limit: 255
+    t.string   "state_code",      limit: 255
+    t.string   "city",            limit: 255
+    t.string   "picture",         limit: 255
+    t.string   "phone",           limit: 255
+    t.string   "address",         limit: 255
     t.boolean  "anonymous"
-    t.string   "zip_code",         limit: 255
+    t.string   "zip_code",        limit: 255
     t.integer  "total_recurring"
-    t.string   "first_name",       limit: 255
-    t.string   "last_name",        limit: 255
+    t.string   "first_name",      limit: 255
+    t.string   "last_name",       limit: 255
     t.text     "mini_bio"
-    t.string   "country",          limit: 255, default: "US"
+    t.string   "country",         limit: 255, default: "US"
   end
 
   create_table "reassignments", force: :cascade do |t|
@@ -1422,10 +1423,10 @@ ActiveRecord::Schema.define(version: 20220608214048) do
   create_trigger :update_donations_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations FOR EACH ROW EXECUTE FUNCTION update_fts_on_donations()
   SQL
-  create_trigger :update_supporters_fts, sql_definition: <<-SQL
-      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
-  SQL
   create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
       CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
+  SQL
+  create_trigger :update_supporters_fts, sql_definition: <<-SQL
+      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
   SQL
 end

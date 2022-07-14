@@ -557,10 +557,10 @@ ActiveRecord::Schema.define(version: 2022_07_13_204458) do
     t.string "background_image", limit: 255
     t.string "logo", limit: 255
     t.text "summary"
-    t.text "categories"
+    t.text "categories_legacy"
     t.string "ein", limit: 255
     t.text "full_description"
-    t.text "achievements"
+    t.text "achievements_legacy"
     t.string "state_code", limit: 255
     t.string "city", limit: 255
     t.string "slug", limit: 255
@@ -592,6 +592,8 @@ ActiveRecord::Schema.define(version: 2022_07_13_204458) do
     t.text "fields_needed"
     t.boolean "autocomplete_supporter_address", default: false
     t.string "currency", limit: 255, default: "usd"
+    t.jsonb "achievements"
+    t.jsonb "categories"
   end
 
   create_table "object_event_hook_configs", force: :cascade do |t|

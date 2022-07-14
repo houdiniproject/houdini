@@ -137,9 +137,6 @@ class Nonprofit < ApplicationRecord
   has_one_attached_with_default(:third_image, Houdini.defaults.image.profile, 
     filename: "third_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
 
-  serialize :achievements, Array
-  serialize :categories, Array
-
 
 
   before_validation(on: :create) do

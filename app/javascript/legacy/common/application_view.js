@@ -124,12 +124,6 @@ appl.def('percentage', function(x, y) {
 // appl.pluralize(1, 'donors') -> "1 donor"
 appl.def('pluralize', pluralize)
 
-// Truncate a text and add ellipsis to the end
-appl.def('append_ellipsis', function(text, length) {
-	if(text.length <= length) return text
-	return text.slice(0,length).replace(/ [^ ]+$/, ' ...')
-})
-
 
 // General viewscript utilities
 // All of these are to be added to the actual viewscript package in the future

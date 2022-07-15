@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 require('../../common/pikaday-timepicker')
 require('../../common/fundraiser_metrics')
-require('../../components/fundraising/add_header_image')
+require('../../components/fundraising/add_header_image').default
 require('../../tickets/new')
 require('../../ticket_levels/manage')
 require('../discounts/index')

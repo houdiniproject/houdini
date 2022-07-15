@@ -22,7 +22,7 @@ const activities = require('../../components/public-activities')
 require('../../components/branded_fundraising').default
 require('../../common/on-change-sanitize-slug').default
 require('../../common/fundraiser_metrics')
-require('../../components/fundraising/add_header_image')
+require('../../components/fundraising/add_header_image').default
 require('../../common/restful_resource')
 require('../../gift_options/index')
 const on_ios11 = require('../../common/on-ios11')

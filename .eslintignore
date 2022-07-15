@@ -138,7 +138,6 @@ app/javascript/legacy/components/search.js
 app/javascript/legacy/components/select.js
 app/javascript/legacy/components/set-state-from-value.js
 app/javascript/legacy/components/state-selector.js
-app/javascript/legacy/components/styles/render-styles.js
 app/javascript/legacy/components/supporter-fields.js
 app/javascript/legacy/components/tables/filtering/apply_filter.js
 app/javascript/legacy/components/text-input.js

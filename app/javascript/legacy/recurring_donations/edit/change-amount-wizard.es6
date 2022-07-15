@@ -20,7 +20,7 @@ const request = require('../../common/request')
 const format = require('../../common/format').default
 
 const brandedWizard = require('./branded-wizard.ts').default
-const renderStyles = require('../../components/styles/render-styles')
+const renderStyles = require('../../components/styles/render-styles.ts').default
 
 
 

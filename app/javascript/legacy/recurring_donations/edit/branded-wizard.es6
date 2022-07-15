@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 
 const gradient = require('../../common/css-gradient').default
-const customBranding = require('./custom-nonprofit-branding.ts')
+const customBranding = require('./custom-nonprofit-branding.ts').default
 
 const bg = color => `background-color: ${color} !important;`
 

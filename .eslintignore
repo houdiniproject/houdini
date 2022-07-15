@@ -328,7 +328,6 @@ app/javascript/legacy/recurring_donations/edit/amount-step.es6
 app/javascript/legacy/recurring_donations/edit/branded-wizard.es6
 app/javascript/legacy/recurring_donations/edit/card-form.es6
 app/javascript/legacy/recurring_donations/edit/change-amount-wizard.es6
-app/javascript/legacy/recurring_donations/edit/custom-nonprofit-branding.es6
 app/javascript/legacy/recurring_donations/edit/index.es6
 app/javascript/legacy/recurring_donations/edit/payment-step.es6
 

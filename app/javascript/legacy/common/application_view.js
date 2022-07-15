@@ -310,20 +310,6 @@ appl.def('head', function(arr) {
 	return arr[0]
 })
 
-appl.def('select_drop_down', function(node) {
-	var $li = $(node).parent()
-	var $dropDown = $li.parents('.dropDown')
-	$dropDown.find('li').removeClass('is-selected')
-	$dropDown.find('.dropDown-toggle').removeClass('is-droppedDown')
-	$li.addClass('is-selected')
-})
-
-appl.def('clear_drop_down', function(node){
-	var $dropDown = $(node).parents('.dropDown')
-	$dropDown.find('li').removeClass('is-selected')
-	$dropDown.find('.dropDown-toggle').removeClass('is-droppedDown')
-})
-
 appl.def('strip_tags', function(html){
 	if(!html) return
 	return html.replace(/(<([^>]+)>)/ig," ")

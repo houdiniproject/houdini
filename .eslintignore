@@ -237,7 +237,6 @@ app/javascript/legacy/super-admin/page.js
 app/javascript/legacy/super-admin/profiles-table.js
 app/javascript/legacy/supporters/index.js
 app/javascript/legacy/supporters/settings/mailchimp-integration-settings.js
-app/javascript/legacy/ticket_levels/get_totals.js
 app/javascript/legacy/ticket_levels/manage.js
 app/javascript/legacy/tickets/index/delete-ticket.js
 app/javascript/legacy/tickets/index/page.js

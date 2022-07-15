@@ -86,7 +86,6 @@ app/javascript/legacy/common/apply-pikaday.js
 app/javascript/legacy/common/autosubmit.js
 app/javascript/legacy/common/class-object.js
 app/javascript/legacy/common/confirmation.js
-app/javascript/legacy/common/css-gradient.js
 app/javascript/legacy/common/editable.js
 app/javascript/legacy/common/el_swapo.js
 app/javascript/legacy/common/file-input-stream.js

@@ -43,7 +43,7 @@ const R = require('ramda')
 const donateWiz = require('../../nonprofits/donate/wizard')
 const modal = require('ff-core/modal')
 const render = require('ff-core/render')
-const branding = require('../../components/nonprofit-branding')
+const branding = require('../../components/nonprofit-branding').default
 
 function init() {
   var state = {}

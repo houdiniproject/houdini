@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 var request = require('../../../common/super-agent-promise').default
-var readable_interval = require('../../recurring_donations/readable_interval')
+var readable_interval = require('../../recurring_donations/readable_interval').default
 var format = require('../../../common/format').default
 
 appl.def('ajax_payment_details', {

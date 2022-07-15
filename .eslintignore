@@ -246,7 +246,6 @@ app/javascript/legacy/settings/index/email-settings/index.js
 app/javascript/legacy/settings/index/email-settings/view.js
 app/javascript/legacy/settings/index/integrations/index.js
 app/javascript/legacy/settings/index/page.js
-app/javascript/legacy/stripe_wrapper/page.js
 app/javascript/legacy/super-admin/fullcontact-table.js
 app/javascript/legacy/super-admin/nonprofits-table.js
 app/javascript/legacy/super-admin/page.js
@@ -289,7 +288,6 @@ app/javascript/packs/page__profiles__fundraisers.js
 app/javascript/packs/page__profiles__show.js
 app/javascript/packs/page__recurring_donations__edit.js
 app/javascript/packs/page__settings__index.js
-app/javascript/packs/page__stripe_wrapper.js
 app/javascript/packs/page__super-admin.js
 app/javascript/packs/page__tickets__index.js
 app/javascript/packs/server_rendering.js
@@ -333,7 +331,7 @@ app/javascript/legacy/recurring_donations/edit/change-amount-wizard.es6
 app/javascript/legacy/recurring_donations/edit/custom-nonprofit-branding.es6
 app/javascript/legacy/recurring_donations/edit/index.es6
 app/javascript/legacy/recurring_donations/edit/payment-step.es6
-app/javascript/legacy/stripe_wrapper/index.es6
+
 app/javascript/legacy/supporters/info-card.es6
 
 # tsx files

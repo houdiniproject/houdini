@@ -155,19 +155,6 @@ appl.def('concat', function(arr1_key, arr2, node) {
 })
 
 
-// Merge all key/vals from set_obj into all objects in the array given by the property 'arr_key'
-// eg:
-// appl.def('arr_of_objs', [{id: 1, name: 'Bob'}, {id: 2, name: 'Holga'}]
-// appl.update_all('arr_of_objs', {name: 'Morty'})
-// appl.arr_of_objs == [{id: 1, name: 'Morty'}, {id: 2, name: 'Morty'}]
-appl.def('update_all', function(arr_key, set_obj, node) {
-	appl.def(arr_key, appl.vs(arr_key).map(function(obj) {
-		for(var key in set_obj) obj[key] = set_obj[key]
-		return obj
-	}))
-})
-
-
 // Given an array of objects in the view state (with property name 'arr_key'),
 // and given an object to match on ('obj_matcher'),
 // and given an object with values to set ('set_obj'),

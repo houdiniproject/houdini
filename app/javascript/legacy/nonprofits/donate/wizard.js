@@ -20,7 +20,7 @@ const followupStep = require('./followup-step')
 const request = require('../../common/request')
 const format = require('../../common/format').default
 
-const brandedWizard = require('../../components/styles/branded-wizard')
+const brandedWizard = require('../../components/styles/branded-wizard').default
 const renderStyles = require('../../components/styles/render-styles')
 
 renderStyles()(brandedWizard(null))

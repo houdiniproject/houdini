@@ -138,7 +138,6 @@ app/javascript/legacy/components/search.js
 app/javascript/legacy/components/select.js
 app/javascript/legacy/components/set-state-from-value.js
 app/javascript/legacy/components/state-selector.js
-app/javascript/legacy/components/styles/branded-wizard.js
 app/javascript/legacy/components/styles/render-styles.js
 app/javascript/legacy/components/supporter-fields.js
 app/javascript/legacy/components/tables/filtering/apply_filter.js
@@ -324,7 +323,6 @@ app/javascript/legacy/nonprofits/recurring_donations/index/index.es6
 app/javascript/legacy/nonprofits/supporter_form/index.es6
 app/javascript/legacy/nonprofits/supporters/import/index.es6
 app/javascript/legacy/recurring_donations/edit/amount-step.es6
-app/javascript/legacy/recurring_donations/edit/branded-wizard.es6
 app/javascript/legacy/recurring_donations/edit/card-form.es6
 app/javascript/legacy/recurring_donations/edit/change-amount-wizard.es6
 app/javascript/legacy/recurring_donations/edit/index.es6

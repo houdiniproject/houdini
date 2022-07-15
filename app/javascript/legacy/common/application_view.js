@@ -111,12 +111,6 @@ appl.def('readable_date_time_to_iso', date => {
     .toISOString()
 })
 
-// Get the year (eg 2017) for the given date string (or moment obj)
-appl.def('get_year', function(date) {
-	return moment(date).year()
-})
-
-
 // Get the percentage of x over y
 // eg: appl.percentage(34, 69) -> "49.28%"
 appl.def('percentage', function(x, y) {

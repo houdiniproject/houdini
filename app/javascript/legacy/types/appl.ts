@@ -75,5 +75,14 @@ interface Payments {
 
 }
 
+interface Todos {
+	todos: {items: {done:boolean}[]};
+	todos_action: string;
+}
+
+export type ApplWithTodos = Appl & Todos;
+
 export type ApplWithPayments = Appl & Payments;
+
+
 

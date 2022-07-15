@@ -5,7 +5,7 @@ if (app.nonprofit.brand_color) {
 
 require('../../common/image_uploader')
 require('../../components/fundraising/add_header_image').default
-
+const {profileTodosNonprofitPath} = require('../../../routes');
 if(app.current_user) {
 	require('../../campaigns/new/wizard')
 	require('../../events/new/wizard')
@@ -20,8 +20,8 @@ if(app.current_nonprofit_user) {
 	require('./tour')
 	var create_info_card = require('../../supporters/info-card')
 
-	appl.def('todos_action', '/profile_todos')
-	var todos = require('../../components/todos')
+	appl.def('todos_action', profileTodosNonprofitPath(app.nonprofit_id))
+	const todos = require('../../components/todos').default
 	todos(function(data) {
 		appl.def('todos.items', [
 			{text: "Add logo", done: data['has_logo'], modal_id: 'settingsModal' },

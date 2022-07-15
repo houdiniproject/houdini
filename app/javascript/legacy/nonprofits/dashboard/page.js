@@ -5,6 +5,8 @@ require('./tour')
 appl.verify_identity = require('../payouts/index/verify_identity')
 appl.create_bank_account = require('../../bank_accounts/create.js')
 var client = require('../../common/client').default
+
+const {dashboardTodosNonprofitPath} = require('../../../routes')
 require('../payments_chart')
 
 appl.def('loading', true)
@@ -15,8 +17,8 @@ client.get('/nonprofits/' + app.nonprofit_id + '/dashboard_metrics')
     appl.def('metrics.data', resp.body.data)
   })
 
-var todos = require('../../components/todos')
-appl.def('todos_action', '/dashboard_todos')
+const todos = require('../../components/todos').default
+appl.def('todos_action', dashboardTodosNonprofitPath(app.nonprofit_id))
 
 todos(function(data, url) {
 	appl.def('todos.items', [

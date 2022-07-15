@@ -153,7 +153,7 @@
     "react-transition-group": "^2.9.0",
     "react-use": "^17.3.1",
     "snabbdom": "0.3.0",
-    "superagent": "7.1.5",
+    "superagent": "^8",
     "swr": "^1.0.0",
     "uuid": "2.0.2",
     "validator": "^9.4.1",

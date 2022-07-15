@@ -327,10 +327,6 @@ appl.def('number_with_commas', function(n){
 	return utils.number_with_commas(n)
 })
 
-appl.def('remove_commas', function(s) {
-  return s.replace(/,/g, '')
-})
-
 appl.def('percentage', function(x, y, number_of_decimals){
   if(!x || !y) return 0
   number_of_decimals = number_of_decimals || 2

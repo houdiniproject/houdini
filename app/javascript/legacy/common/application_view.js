@@ -288,11 +288,6 @@ appl.def('trigger_update', function(prop) {
 	return appl.def(prop, appl.vs(prop))
 })
 
-
-appl.def('snake_case', function(string) {
-	return string.replace(/ /g,'_')
-})
-
 appl.def('sort_arr_of_objs_by_key', function(arr_of_objs, key) {
 	return arr_of_objs.sort(function(a, b) {
   	return a[key].localeCompare(b[key]);

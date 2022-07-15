@@ -116,11 +116,6 @@ appl.def('get_year', function(date) {
 	return moment(date).year()
 })
 
-// Get the day (number in the month) for the given date string (or moment obj)
-appl.def('get_day', function(date) {
-	return moment(date).date()
-})
-
 
 // Get the percentage of x over y
 // eg: appl.percentage(34, 69) -> "49.28%"

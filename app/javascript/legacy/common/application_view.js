@@ -111,12 +111,6 @@ appl.def('readable_date_time_to_iso', date => {
     .toISOString()
 })
 
-// Get the month number (eg 01,02...) for the given date string (or moment obj)
-appl.def('get_month', function(date) {
-  var monthNum = moment(date).month()
-  return moment().month(monthNum).format('MMM')
-})
-
 // Get the year (eg 2017) for the given date string (or moment obj)
 appl.def('get_year', function(date) {
 	return moment(date).year()

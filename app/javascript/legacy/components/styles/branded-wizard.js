@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-const colors = require('../nonprofit-branding')
+const colors = require('../nonprofit-branding').default
 const gradient = require('../../common/css-gradient').default
 
 const bg = color => `background-color: ${color} !important;`

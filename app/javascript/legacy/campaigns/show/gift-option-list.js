@@ -4,7 +4,7 @@ const flyd = require('flyd')
 const R = require('ramda')
 const request = require('../../common/request')
 const format = require('../../common/format').default
-const branding = require('../../components/nonprofit-branding')
+const branding = require('../../components/nonprofit-branding').default
 flyd.mergeAll = require('flyd/module/mergeall')
 
 const quantityLeft = require('./gift-option-quantity-left')

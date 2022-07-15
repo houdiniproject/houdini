@@ -4,8 +4,6 @@
 
 import request from './client';
 import type { SuperAgent, SuperAgentRequest } from 'superagent';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type CallbackHandlerFromSuperAgent = (err: any, res: Response) => void;
 
 type SuperAgentRequestWithPerform<Request extends SuperAgentRequest=SuperAgentRequest> = SuperAgent<Request> & { perform: () => Promise<any> };
 
@@ -24,16 +22,16 @@ function convert_to_promise<Request extends SuperAgentRequest=SuperAgentRequest>
 
 
 const wrapper = {
-	post: function (...args: [string, CallbackHandlerFromSuperAgent?]): SuperAgentRequestWithPerform {
-		return convert_to_promise(request.post(...args));
+	post: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.post(path, ...args));
 	},
 
-	put: function (...args: [string, CallbackHandlerFromSuperAgent?]): SuperAgentRequestWithPerform {
-		return convert_to_promise(request.put(...args));
+	put: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.put(path, ...args));
 	},
 
-	del: function (...args: [string, CallbackHandlerFromSuperAgent?]): SuperAgentRequestWithPerform {
-		return convert_to_promise(request.del(...args));
+	del: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.del(path, ...args));
 	},
 
 	get: function (path:string): SuperAgentRequestWithPerform {

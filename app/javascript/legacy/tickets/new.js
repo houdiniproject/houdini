@@ -2,7 +2,7 @@
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/ticket_levels'
 var indexTicketLevels = require('../ticket_levels/manage')
 var formSerialize = require('form-serialize')
-var request = require('../common/super-agent-promise')
+var request = require('../common/super-agent-promise').default
 
 require('../components/wizard')
 require('./wizard')

@@ -4,7 +4,7 @@ if (app.nonprofit.brand_color) {
 }
 
 require('../../common/image_uploader')
-require('../../components/fundraising/add_header_image')
+require('../../components/fundraising/add_header_image').default
 
 if(app.current_user) {
 	require('../../campaigns/new/wizard')

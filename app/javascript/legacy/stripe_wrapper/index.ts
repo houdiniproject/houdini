@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
-const jQuery = require ('jquery')
-
+import jQuery from 'jquery';
+import type { Token} from '@stripe/stripe-js';
 /**
  * A wrapper for replicating Stripe.js v2's tokenizing features
  * with a compatible API. It allows a service provider to use fully free software
@@ -10,45 +10,50 @@ const jQuery = require ('jquery')
  * (which is the default in settings)
  */
 class Stripe {
+	bankAccount: TokenizerWrapper;
+	card: TokenizerWrapper;
 
-    setPublishableKey(key) {
-   
-      this.card = new TokenizerWrapper( 'card', key)
-      this.bankAccount = new TokenizerWrapper('bank_account',key)
-    }
+
+	setPublishableKey(key: string): void {
+
+		this.card = new TokenizerWrapper('card', key);
+		this.bankAccount = new TokenizerWrapper('bank_account', key);
+	}
 }
 
 class TokenizerWrapper {
-    constructor( inner_field_name, key)
-    {
-        this.inner_field_name = inner_field_name
-        this.key = key
-    }
+	constructor(private inner_field_name: string, private key: string) {
+		Object.bind(this.createToken);
+	}
 
-    createToken(outer_obj, callback) {
-        var self = this
-        var auth = 'Bearer '+ self.key
-        
+	createToken(outer_obj: unknown, callback: (status: number, data: Token) => void) {
+		const auth = 'Bearer ' + this.key;
 
-        var inner_field_name = self.inner_field_name
 
-        var obj = {}
+		const inner_field_name = this.inner_field_name;
 
-        obj[inner_field_name] = outer_obj
+		const obj = {} as {[inner_field_name:string]: unknown};
 
-        jQuery.ajax('https://api.stripe.com/v1/tokens', {
-            headers: {
-                'Authorization': auth,
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded'},
-            method: 'POST',
-            data: obj
-        }).done((data, textStatus, jqXHR) => {
-            callback(jqXHR.status, data)
-        }).fail((jqXHR, textStatus, errorThrown) => {
-            callback(jqXHR.status, jqXHR.responseJSON)
-        })
-    }
+		obj[inner_field_name] = outer_obj;
+
+		jQuery.ajax('https://api.stripe.com/v1/tokens', {
+			headers: {
+				'Authorization': auth,
+				'Accept': 'application/json',
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			method: 'POST',
+			data: obj,
+		}).done((data, _textStatus, jqXHR) => {
+			callback(jqXHR.status, data);
+		}).fail((jqXHR, _textStatus, _errorThrown) => {
+			callback(jqXHR.status, jqXHR.responseJSON);
+		});
+	}
 }
 
-global.Stripe = new Stripe()
+type GlobalAndStripeType = typeof global & { Stripe: Stripe };
+
+const globalWithStripe = global as GlobalAndStripeType;
+
+globalWithStripe.Stripe = new Stripe();

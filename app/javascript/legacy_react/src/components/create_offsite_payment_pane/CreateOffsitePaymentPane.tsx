@@ -18,10 +18,9 @@ import {ApiManager} from "../../lib/api_manager";
 import * as CustomAPIS from "../../lib/apis";
 import {CSRFInterceptor} from "../../lib/csrf_interceptor";
 import {CreateOffsiteDonation, CreateOffsiteDonationModel} from "../../lib/api/create_offsite_donation";
-import blocklist from "validator/lib/blacklist";
 import * as _ from 'lodash';
 import moment from 'moment';
-import { castToUndefinedIfBlank } from '../../lib/utils';
+import { castToUndefinedIfBlank, removeChar } from '../../lib/utils';
 import ReactInput from "../common/form/ReactInput";
 
 export interface CreateOffsitePaymentPaneProps
@@ -140,7 +139,7 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
       'gross_amount': createFieldDefinition({name: 'gross_amount', 
         label: 'Gross Amount',
         input: (amount:number) => centsToDollars(amount),
-        output: (dollarString:string) => parseFloat(blocklist(dollarString, '$,')),
+        output: (dollarString:string) => parseFloat(removeChar(dollarString, '$,')),
         value: 0
       }),
       'date': createFieldDefinition({name: 'date', label: 'Date',

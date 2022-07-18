@@ -101,6 +101,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@rails/activestorage": "^6.0.2-2",
     "@reach/auto-id": "^0.13.2",
+    "@stripe/stripe-js": "^1.32.0",
     "attr-binder": "0.3.1",
     "bignumber.js": "^9.0.0",
     "chart.js": "2.9.4",

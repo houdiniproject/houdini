@@ -31,14 +31,6 @@ export class Validations  {
     ]
   }
 
-  static isNumber({field, validator}:ValidationInput):StringBoolTuple {
-    return [
-      !isNaN(parseFloat(field.value)),
-      `${field.label} must be a number`
-    ]
-  }
-
-
   static isGreaterThanOrEqualTo(value:number) : ({field, validator}:ValidationInput) => StringBoolTuple
   {
     return ({field, validator}:ValidationInput) => {

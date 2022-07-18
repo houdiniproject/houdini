@@ -24,11 +24,6 @@ export class Validations  {
       `${field.label} is not a valid email`]
   }
 
-  static isUrl({field, validator}:ValidationInput):StringBoolTuple {
-    return [validator.isURL(field.value),
-    `${field.label} must be a valid URL`]
-  }
-
   static isFilled({field, validator}:ValidationInput) :StringBoolTuple {
     return [
         !validator.isEmpty(field.value),

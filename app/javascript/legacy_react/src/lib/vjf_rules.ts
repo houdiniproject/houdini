@@ -24,13 +24,6 @@ export class Validations  {
       `${field.label} is not a valid email`]
   }
 
-  static shouldBeEqualTo (targetPath: string): Validation {
-    return ({field, form}:ValidationInput) => {
-      const fieldsAreEquals = (form.$(targetPath).value === field.value);
-      return [fieldsAreEquals, `${field.label} and ${form.$(targetPath).label} must be the same`]
-  }
-  }
-
   static isUrl({field, validator}:ValidationInput):StringBoolTuple {
     return [validator.isURL(field.value),
     `${field.label} must be a valid URL`]

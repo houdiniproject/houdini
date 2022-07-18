@@ -24,13 +24,6 @@ export class Validations  {
       `${field.label} is not a valid email`]
   }
 
-  static isFilled({field, validator}:ValidationInput) :StringBoolTuple {
-    return [
-        !validator.isEmpty(field.value),
-      `${field.label} must be filled out`
-    ]
-  }
-
   static isGreaterThanOrEqualTo(value:number) : ({field, validator}:ValidationInput) => StringBoolTuple
   {
     return ({field, validator}:ValidationInput) => {

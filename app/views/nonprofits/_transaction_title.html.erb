@@ -1,11 +1,8 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
-<!-- partial nonprofits/transaction_title -->
-<header class='header stripe--green'>
-	<div class='container--wide u-textAlign--left'>
-		<i class='header-icon <%= icon_class %>'></i>
-		<h3 class='header-title'>Payments <small class='header-title-sub'>&#x2022; <%= page_name %></small></h3>
-		<%= render 'nonprofits/transaction_tabs', active: active %>
-	</div>
-</header>
-<!-- partial end nonprofits/transaction_title -->
+
+<%
+	props = JSON::parse(render('nonprofits/transaction_title.json', icon_class: icon_class, page_name:page_name, active:active))
+%>
+
+<%= react_component 'TransactionTitle', props: props %>

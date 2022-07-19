@@ -6862,8 +6862,8 @@ Copyright (c) Microsoft Corporation.
 Copyright (c) Microsoft Corporation.
 ** @types/react-syntax-highlighter; version 11.0.5 -- 
 Copyright (c) Microsoft Corporation.
-** @types/react-test-renderer; version 16.9.2 -- 
-Copyright (c) Microsoft Corporation.
+** @types/react-test-renderer; version 17.0.2 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-test-renderer
+Copyright (c) Microsoft Corporation
 ** @types/react-text-mask; version 5.4.10 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-text-mask
 Copyright (c) Microsoft Corporation.
 ** @types/react-transition-group; version 2.9.2 -- 
@@ -28637,19 +28637,17 @@ Copyright (c) Facebook, Inc. and its affiliates.
 (c) Pb (c)
 (c) http://www.w3.org/1999/xhtml
 Copyright (c) Facebook, Inc. and its affiliates
-** react-is; version 16.13.1 -- https://reactjs.org/
+** react-is; version 17.0.2 -- https://reactjs.org/
 Copyright (c) Facebook, Inc. and its affiliates
 ** react-refresh; version 0.10.0 -- https://reactjs.org/
 Copyright (c) Facebook, Inc. and its affiliates.
 ** react-shallow-renderer; version 16.15.0 -- https://reactjs.org/
 (c) Sindre Sorhus
 Copyright (c) Facebook, Inc. and its affiliates
-** react-test-renderer; version 16.13.1 -- https://reactjs.org/
-Copyright (c) 2013-present, Facebook, Inc.
+** react-test-renderer; version 17.0.2 -- https://reactjs.org/
 Copyright (c) Facebook, Inc. and its affiliates.
-(c) for var d https://reactjs.org/docs/error-decoder.html?invariant
-** scheduler; version 0.19.1 -- https://reactjs.org/
-Copyright (c) Facebook, Inc. and its affiliates.
+** scheduler; version 0.20.2 -- https://reactjs.org/
+Copyright (c) Facebook, Inc. and its affiliates
 
 MIT License
 

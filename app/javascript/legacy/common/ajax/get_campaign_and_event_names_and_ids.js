@@ -5,8 +5,8 @@ const campaign = require('../../../routes/nonprofits/campaigns').default
 const events = require('../../../routes/nonprofits/events').default
 
 module.exports = function(npo_id) {
-  const campaignsPath = campaign.nameAndIdNonprofitCampaigns(npo_id)
-  const eventsPath = events.nameAndIdNonprofitEvents(npo_id)
+  const campaignsPath = campaign.nameAndIdNonprofitCampaigns.path(npo_id)
+  const eventsPath = events.nameAndIdNonprofitEvents.path(npo_id)
 
   request.get(campaignsPath).end(function(err, resp){
     var dataResponse = []

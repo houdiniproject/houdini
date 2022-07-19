@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-const {uniq} = require('lodash/uniq')
+const uniq = require('lodash/uniq')
 
 module.exports = function(scope) {
 

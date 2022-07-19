@@ -6,8 +6,8 @@ const event = require('../../../routes/nonprofits/events').default;
 
 module.exports = function(name, event_or_campaign, callback) {
   const url = event_or_campaign == "event" ? 
-    campaign.nameAndIdNonprofitCampaigns(app.nonprofit_id) :
-    event.nameAndIdNonprofitEvents(app.nonprofit_id);
+    campaign.nameAndIdNonprofitCampaigns.path(app.nonprofit_id) :
+    event.nameAndIdNonprofitEvents.path(app.nonprofit_id);
 
   request.get(url)
     .end(function(err, resp){

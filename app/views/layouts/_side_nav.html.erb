@@ -1,7 +1,6 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <% unless yield(:side_nav_hidden) == 'hidden' ||  !current_user %>
-	<%= javascript_packs_with_chunks_tag 'side-nav' %>
 	<%
 	
 		@props = JSON::parse(render('components/side_nav.json'))

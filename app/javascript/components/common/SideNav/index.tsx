@@ -7,6 +7,7 @@ import Logo from './Logo';
 import UserMenu from './UserMenu';
 import Nonprofit from '../../../legacy/app_data/Nonprofit';
 import UserWithProfileAsChild from '../../../legacy/app_data/UserWithProfileAsChild';
+import classnames from 'classnames';
 
 
 export interface SideNavInput {
@@ -40,20 +41,13 @@ export default function SideNav(props: SideNavInput): JSX.Element {
 		setSideNavOpen(!sideNavOpen);
 	}
 
-	const sideNavToggleClasses = [
+	const sideNavToggleClasses = classnames(
 		"sideNav-toggle ",
-		sideNavOpen && "is-togglingOpen",
-	].filter(Boolean).join(' ');
+		{"is-togglingOpen": sideNavOpen});
 
-	const sideNavClasses = [
-		"sideNav",
-		sideNavOpen && 'is-open',
-	].filter(Boolean).join(' ');
+	const sideNavClasses = classnames('sideNav', {'is-open': sideNavOpen});
 
-	const sideNavScrimClasses = [
-		"sideNav-scrim",
-		sideNavOpen && 'is-showing',
-	].filter(Boolean).join(' ');
+	const sideNavScrimClasses = classnames('sideNav-scrim', {'is-showing': sideNavOpen});
 
 
 	return (<>

@@ -4689,6 +4689,35 @@ SOFTWARE.
 
 ------
 
+** classnames; version 2.3.1 -- https://github.com/JedWatson/classnames#readme
+Copyright (c) 2018 Jed Watson.
+Copyright (c) 2018 Dave Keen <http://www.keendevelopment.ch> Adi Dahiya <https://github.com/adidahiya> Jason Killian <https://github.com/JKillian>
+
+The MIT License (MIT)
+
+Copyright (c) 2018 Jed Watson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+------
+
 ** camelcase-css; version 2.0.1 -- https://github.com/stevenvachon/camelcase-css#readme
 Copyright (c) Steven Vachon <contact@svachon.com> (svachon.com)
 
@@ -4751,8 +4780,6 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 ** boxen; version 5.1.2 -- https://github.com/sindresorhus/boxen#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 ** cli-boxes; version 2.2.1 -- https://github.com/sindresorhus/cli-boxes#readme
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
-** cli-spinners; version 2.6.0 -- https://github.com/sindresorhus/cli-spinners#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 
 MIT License
@@ -10310,6 +10337,8 @@ SOFTWARE.
 
 ------
 
+** cli-spinners; version 2.6.0 -- https://github.com/sindresorhus/cli-spinners#readme
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 ** emittery; version 0.7.1 -- https://github.com/sindresorhus/emittery#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 ** figures; version 3.2.0 -- https://github.com/sindresorhus/figures#readme
@@ -12220,8 +12249,6 @@ THE SOFTWARE.
 ------
 
 ** cosmiconfig; version 6.0.0 -- https://github.com/davidtheclark/cosmiconfig#readme
-Copyright (c) 2015 David Clark
-** focus-trap-react; version 4.0.1 -- https://github.com/davidtheclark/focus-trap-react#readme
 Copyright (c) 2015 David Clark
 
 The MIT License (MIT)
@@ -17302,6 +17329,35 @@ THE SOFTWARE.
 
 ------
 
+** focus-trap-react; version 4.0.1 -- https://github.com/davidtheclark/focus-trap-react#readme
+Copyright (c) 2015 David Clark
+
+The MIT License (MIT)
+
+Copyright (c) 2015 David Clark
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+------
+
 ** fragment-cache; version 0.2.1 -- https://github.com/jonschlinkert/fragment-cache
 Copyright (c) 2016-2017, Jon Schlinkert
 Copyright (c) 2016, Jon Schlinkert (https://github.com/jonschlinkert)
@@ -17501,9 +17557,6 @@ SOFTWARE.
 copyright Oleg Isonen
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-camel-case; version 10.3.0 -- https://cssinjs.org/jss-camel-case
-Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
-** jss-plugin-default-unit; version 10.3.0 -- https://cssinjs.org/jss-default-unit
-copyright Oleg Isonen
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 
 The MIT License (MIT)
@@ -18631,7 +18684,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ** postcss-focus-visible; version 4.0.0 -- https://github.com/jonathantneal/postcss-focus-visible#readme
 ** postcss-focus-within; version 3.0.0 -- https://github.com/jonathantneal/postcss-focus-within#readme
 ** postcss-gap-properties; version 2.0.0 -- https://github.com/jonathantneal/postcss-gap-properties#readme
-** postcss-image-set-function; version 3.0.1 -- https://github.com/jonathantneal/postcss-image-set-function#readme
 
 # CC0 1.0 Universal
 
@@ -21658,6 +21710,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** jss-plugin-default-unit; version 10.3.0 -- https://cssinjs.org/jss-default-unit
+copyright Oleg Isonen
+Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-global; version 10.3.0 -- https://cssinjs.org/jss-global
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-nested; version 10.3.0 -- https://cssinjs.org/jss-nested
@@ -24519,6 +24574,7 @@ Creative Commons may be contacted at http://creativecommons.org/.
 
 ------
 
+** postcss-image-set-function; version 3.0.1 -- https://github.com/jonathantneal/postcss-image-set-function#readme
 ** postcss-lab-function; version 2.0.1 -- https://github.com/jonathantneal/postcss-lab-function#readme
 ** postcss-logical; version 3.0.0 -- https://github.com/jonathantneal/postcss-logical#readme
 ** postcss-nesting; version 7.0.1 -- https://github.com/jonathantneal/postcss-nesting#readme
@@ -28168,34 +28224,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-------
-
-** static-extend; version 0.1.2 -- https://github.com/jonschlinkert/static-extend
-Copyright (c) 2016, Jon Schlinkert
-
-The MIT License (MIT)
-
-Copyright (c) 2016, Jon Schlinkert.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 
 ------
@@ -32805,6 +32833,34 @@ Copyright (c) 2013 jake luer <jake@alogicalparadox.com>
 Copyright (c) 2013 Jake Luer <jake@alogicalparadox.com> (http://alogicalparadox.com)
 
 Copyright (c) 2013 Jake Luer <jake@alogicalparadox.com> (http://alogicalparadox.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+------
+
+** static-extend; version 0.1.2 -- https://github.com/jonschlinkert/static-extend
+Copyright (c) 2016, Jon Schlinkert
+
+The MIT License (MIT)
+
+Copyright (c) 2016, Jon Schlinkert.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

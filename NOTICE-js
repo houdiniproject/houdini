@@ -5265,7 +5265,7 @@ THE SOFTWARE.
 
 ------
 
-** buffer-from; version 1.1.1 -- https://github.com/LinusU/buffer-from#readme
+** buffer-from; version 1.1.2 -- https://github.com/LinusU/buffer-from#readme
 Copyright (c) 2016, 2018 Linus Unneback
 
 MIT License
@@ -28144,7 +28144,7 @@ THE SOFTWARE.
 
 ------
 
-** source-map-support; version 0.5.19 -- https://github.com/evanw/node-source-map-support#readme
+** source-map-support; version 0.5.21 -- https://github.com/evanw/node-source-map-support#readme
 Copyright (c) 2014 Evan Wallace
 
 The MIT License (MIT)
@@ -31091,7 +31091,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 ------
 
-** terser; version 4.8.0 -- https://terser.org
+** terser; version 4.8.1 -- https://terser.org
 Copyright 2012 (c) Mihai Bazon <mihai.bazon@gmail.com>
 Copyright 2012-2018 (c) Mihai Bazon <mihai.bazon@gmail.com>
 

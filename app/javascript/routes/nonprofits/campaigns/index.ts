@@ -13,6 +13,17 @@ export default {
 
 	},
 
+	nonprofitCampaign: {
+		path: (props: {id:string, nonprofitId:string}):string => {
+			return `/nonprofits/${props.nonprofitId}/campaigns/${props.id}`;
+		},
+
+		url: (props: {id:string, nonprofitId:string}):string => {
+			return `/nonprofits/${props.nonprofitId}/campaigns${props.id}`;
+		},
+
+	},
+
 	nameAndIdNonprofitCampaigns: {
 		path: (props: {id:string}):string => {
 			return `/nonprofits/${props.id}/campaigns/name_and_id`;

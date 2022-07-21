@@ -202,7 +202,6 @@ app/javascript/legacy/nonprofits/recurring_donations/index/delete.js
 app/javascript/legacy/nonprofits/recurring_donations/index/page.js
 app/javascript/legacy/nonprofits/recurring_donations/index/tour.js
 app/javascript/legacy/nonprofits/recurring_donations/index/update.js
-app/javascript/legacy/nonprofits/recurring_donations/readable_interval.js
 app/javascript/legacy/nonprofits/reports/modal.js
 app/javascript/legacy/nonprofits/show/page.js
 app/javascript/legacy/nonprofits/show/tour.js

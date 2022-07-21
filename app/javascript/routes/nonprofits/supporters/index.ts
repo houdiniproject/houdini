@@ -3,12 +3,23 @@
 
 export default {
 	nonprofitsSupporters: {
-		path: (props: {id:string}):string => {
-			return `/nonprofits/${props.id}/supporters`;
+		path: (props: {id:string, sid?:string}):string => {
+			const url = new URL(`/nonprofits/${props.id}/supporters`);
+			if (props.sid) {
+				url.searchParams.set('sid', props.sid);
+			}
+
+			return url.toString();
 		},
 
-		url: (props: {id:string}):string => {
-			return `/nonprofits/${props.id}/supporters`;
+		url: (props: {id:string, sid?:string}):string => {
+
+			const url = new URL(`/nonprofits/${props.id}/supporters`);
+			if (props.sid) {
+				url.searchParams.set('sid', props.sid);
+			}
+
+			return url.toString();
 		},
 
 	},

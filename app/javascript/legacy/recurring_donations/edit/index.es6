@@ -14,7 +14,7 @@ const button = require('ff-core/button')
 const request = require('../../common/request')
 // local
 const cardForm = require('../../components/card-form.es6')
-const readableInterval = require('../../nonprofits/recurring_donations/readable_interval')
+const readableInterval = require('../../nonprofits/recurring_donations/readable_interval').default
 const format = require('../../common/format').default
 const supporterAddressForm = require('../../components/supporter-address-form.es6')
 const changeAmountWizard = require('./change-amount-wizard.es6')

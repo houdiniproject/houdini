@@ -10,7 +10,7 @@ var format = require('../../../common/format').default
 appl.def('is_usa', format.geography.isUS)
 require('./tour')
 
-appl.def('readable_interval', require('../readable_interval'))
+appl.def('readable_interval', require('../readable_interval').default)
 
 appl.def('recurring_donations', {
 	query: {page: 1},

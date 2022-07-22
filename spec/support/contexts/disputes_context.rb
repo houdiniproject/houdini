@@ -271,7 +271,7 @@ RSpec.shared_context :dispute_funds_reinstated_context do
     event_json
   end
   let!(:charge) { force_create(:charge, supporter: supporter, 
-    stripe_charge_id: 'ch_1Y7vFYBCJIIhvMWmsdRJWSw5', nonprofit: nonprofit, payment:force_create(:payment,
+    stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: nonprofit, payment:force_create(:payment,
        supporter:supporter,
       nonprofit: nonprofit,
       gross_amount: 22500))}
@@ -302,7 +302,7 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
   end
 
   it 'has a correct charge id ' do 
-    expect(obj.stripe_charge_id).to eq "ch_1Y7vFYBCJIIhvMWmsdRJWSw5"
+    expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
   end
 
   it 'has a correct dispute id' do 
@@ -473,7 +473,7 @@ RSpec.shared_context :dispute_won_context do
     event_json
   end
   let!(:charge) { force_create(:charge, supporter: supporter, 
-    stripe_charge_id: 'ch_1Y7vFYBCJIIhvMWmsdRJWSw5', nonprofit: nonprofit, payment:force_create(:payment,
+    stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: nonprofit, payment:force_create(:payment,
        supporter:supporter,
       nonprofit: nonprofit,
       gross_amount: 22500))}
@@ -504,7 +504,7 @@ RSpec.shared_context :dispute_won_specs do
   end
 
   it 'has a correct charge id ' do 
-    expect(obj.stripe_charge_id).to eq "ch_1Y7vFYBCJIIhvMWmsdRJWSw5"
+    expect(obj.stripe_charge_id).to eq "ch_1Y7zzfBCJIIhvMWmSiNWrPAC"
   end
 
   it 'has a correct dispute id' do 

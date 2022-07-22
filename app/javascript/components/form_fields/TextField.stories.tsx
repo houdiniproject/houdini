@@ -11,6 +11,7 @@ import { waitFor } from '@testing-library/react';
 import { Button, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import noop from 'lodash/noop';
+import { defaultProps } from '../../common/react';
 
 
 function InnerForm({ disabled, onChange, control, helperText }: { control?: Control<unknown>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
@@ -88,10 +89,9 @@ function FormHandler(props: {
 		</FormProvider>);
 }
 
-FormHandler.defaultProps = {
+FormHandler.defaultProps = defaultProps(FormHandler,{
 	onChange: noop,
-	locale: 'en',
-};
+});
 export default { title: 'Form Fields/TextField' };
 
 interface StoryProps {

@@ -8,6 +8,7 @@ import { Money } from '../../common/money';
 import { IntlProvider } from '../intl';
 import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form';
 import { useUpdateEffect } from 'react-use';
+import { defaultProps } from '../../common/react';
 
 
 function InnerForm(props: { noContext?:boolean, onChange:(args:{value:Money})=> void }) {
@@ -49,10 +50,10 @@ function FormWrapper(props: {  noContext?:boolean, onChange:(args:{value:Money})
 	</IntlProvider>;
 }
 
-FormWrapper.defaultProps = {
+FormWrapper.defaultProps = defaultProps(FormWrapper, {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	onChange: () => {},
-};
+});
 
 describe('MoneyTextField', () => {
 	it('displays the $8.00 when Money of {800, usd} is passed in', async () => {

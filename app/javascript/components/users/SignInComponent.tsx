@@ -20,6 +20,7 @@ import { useForm, UseFormReturn } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from "../form_fields/TextField";
 import { useMountedState, usePrevious } from "react-use";
+import { defaultProps } from '../../common/react';
 
 
 
@@ -385,12 +386,12 @@ function InnerFormComponent<TFieldValues>(props: {
 	);
 }
 
-SignInComponent.defaultProps = {
+SignInComponent.defaultProps = defaultProps(SignInComponent, {
 	// default onFailure to noop so you don't have to check whether onFailure is
 	// set inside the component before calling it
 	onFailure: noop,
 	onSuccess: noop,
 	onSubmitting: noop,
-};
+});
 
 export default SignInComponent;

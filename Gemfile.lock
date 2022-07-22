@@ -483,7 +483,7 @@ GEM
     traceroute (0.5.0)
       rails (>= 3.0.0)
     tunemygc (1.0.71)
-    tzinfo (1.2.9)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext

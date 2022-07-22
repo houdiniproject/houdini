@@ -306,7 +306,7 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
   end
 
   it 'has a correct dispute id' do 
-    expect(obj.stripe_dispute_id).to eq "dp_15RsQX2eZvKYlo2C0ERTYUIA"
+    expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
 
   it 'has a started_at of Time.at(1567603760)' do
@@ -508,7 +508,7 @@ RSpec.shared_context :dispute_won_specs do
   end
 
   it 'has a correct dispute id' do 
-    expect(obj.stripe_dispute_id).to eq "dp_15RsQX2eZvKYlo2C0ERTYUIA"
+    expect(obj.stripe_dispute_id).to eq "dp_05RsQX2eZvKYlo2C0FRTGSSA"
   end
   
   it 'has a started_at of Time.at(1565008160)' do

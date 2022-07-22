@@ -40,7 +40,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
     let(:mail) { DisputeMailer.funds_reinstated(dispute) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("$240 reinstated for dispute dp_15RsQX2eZvKYlo2C0ERTYUIA for spec_nonprofit_full")
+      expect(mail.subject).to eq("$240 reinstated for dispute dp_05RsQX2eZvKYlo2C0FRTGSSA for spec_nonprofit_full")
       expect(mail.to).to eq(["support@commitchange.com"])
       expect(mail.from).to eq(["support@commitchange.com"])
     end
@@ -53,7 +53,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
     let(:mail) { DisputeMailer.won(dispute) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("WON dispute dp_15RsQX2eZvKYlo2C0ERTYUIA for spec_nonprofit_full")
+      expect(mail.subject).to eq("WON dispute dp_05RsQX2eZvKYlo2C0FRTGSSA for spec_nonprofit_full")
       expect(mail.to).to eq(["support@commitchange.com"])
       expect(mail.from).to eq(["support@commitchange.com"])
     end
@@ -95,7 +95,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
     let(:mail) { DisputeMailer.updated(dispute) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Updated dispute dp_15RsQX2eZvKYlo2C0ERTYUIA for spec_nonprofit_full, evidence due on 2019-09-16 00:59:59 UTC")
+      expect(mail.subject).to eq("Updated dispute dp_05RsQX2eZvKYlo2C0FRTGSSA for spec_nonprofit_full, evidence due on 2019-09-16 00:59:59 UTC")
       expect(mail.to).to eq(["support@commitchange.com"])
       expect(mail.from).to eq(["support@commitchange.com"])
     end

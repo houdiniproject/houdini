@@ -6,6 +6,7 @@ import { Money } from '../../common/money';
 import { MoneyTextField } from './index';
 import { action } from '@storybook/addon-actions';
 import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
+import { defaultProps } from '../../common/react';
 
 function FormInner(props: { control: Control<any>, onChange: (args: { value: Money }) => void }) {
 	const { onChange, control } = props;
@@ -33,11 +34,10 @@ function FormHandler(props: { onChange: (args: { value: Money }) => void, value:
 		</FormProvider>);
 }
 
-FormHandler.defaultProps = {
+FormHandler.defaultProps = defaultProps(FormHandler, {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	onChange: () => { },
-	locale: 'en',
-};
+});
 export default { title: 'Form Fields/MoneyTextField' };
 
 export function usd100() {

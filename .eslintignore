@@ -115,7 +115,6 @@ app/javascript/legacy/components/activity_feed.js
 app/javascript/legacy/components/address-autocomplete-fields.js
 app/javascript/legacy/components/address-autocomplete.js
 app/javascript/legacy/components/ajax/toggle_soft_delete.js
-app/javascript/legacy/components/branded_fundraising.js
 app/javascript/legacy/components/chart-options.js
 app/javascript/legacy/components/checkbox.js
 app/javascript/legacy/components/confirmation-modal.js
@@ -127,7 +126,6 @@ app/javascript/legacy/components/duplicate_fundraiser.js
 app/javascript/legacy/components/field-with-error.js
 app/javascript/legacy/components/fundraising/add_header_image.js
 app/javascript/legacy/components/modal.js
-app/javascript/legacy/components/nonprofit-branding.js
 app/javascript/legacy/components/number-input.js
 app/javascript/legacy/components/progress-bar.js
 app/javascript/legacy/components/public-activities.js
@@ -140,8 +138,6 @@ app/javascript/legacy/components/search.js
 app/javascript/legacy/components/select.js
 app/javascript/legacy/components/set-state-from-value.js
 app/javascript/legacy/components/state-selector.js
-app/javascript/legacy/components/styles/branded-wizard.js
-app/javascript/legacy/components/styles/render-styles.js
 app/javascript/legacy/components/supporter-fields.js
 app/javascript/legacy/components/tables/filtering/apply_filter.js
 app/javascript/legacy/components/text-input.js
@@ -246,7 +242,6 @@ app/javascript/legacy/settings/index/email-settings/index.js
 app/javascript/legacy/settings/index/email-settings/view.js
 app/javascript/legacy/settings/index/integrations/index.js
 app/javascript/legacy/settings/index/page.js
-app/javascript/legacy/stripe_wrapper/page.js
 app/javascript/legacy/super-admin/fullcontact-table.js
 app/javascript/legacy/super-admin/nonprofits-table.js
 app/javascript/legacy/super-admin/page.js
@@ -290,7 +285,6 @@ app/javascript/packs/page__profiles__fundraisers.js
 app/javascript/packs/page__profiles__show.js
 app/javascript/packs/page__recurring_donations__edit.js
 app/javascript/packs/page__settings__index.js
-app/javascript/packs/page__stripe_wrapper.js
 app/javascript/packs/page__super-admin.js
 app/javascript/packs/page__tickets__index.js
 app/javascript/packs/server_rendering.js
@@ -328,13 +322,11 @@ app/javascript/legacy/nonprofits/recurring_donations/index/index.es6
 app/javascript/legacy/nonprofits/supporter_form/index.es6
 app/javascript/legacy/nonprofits/supporters/import/index.es6
 app/javascript/legacy/recurring_donations/edit/amount-step.es6
-app/javascript/legacy/recurring_donations/edit/branded-wizard.es6
 app/javascript/legacy/recurring_donations/edit/card-form.es6
 app/javascript/legacy/recurring_donations/edit/change-amount-wizard.es6
-app/javascript/legacy/recurring_donations/edit/custom-nonprofit-branding.es6
 app/javascript/legacy/recurring_donations/edit/index.es6
 app/javascript/legacy/recurring_donations/edit/payment-step.es6
-app/javascript/legacy/stripe_wrapper/index.es6
+
 app/javascript/legacy/supporters/info-card.es6
 
 # tsx files

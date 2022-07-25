@@ -71,25 +71,7 @@ a.dangerLink {
 	@extend .subTitle;
 	color: $grey;
 }
-.hoverUnderline {
-	position: relative;
-	margin: 0;
-	padding: 5px 0;
-}
-.hoverUnderline:after {
-	@include transform(translateZ(0));
-	@include transition(background 0.1s ease-out);
-	content: '';
-	position: absolute;
-	width: 100%;
-	height: 2px;
-	background: $trans;
-	bottom: 0px;
-	left: 0;
-}
-.hoverUnderline:hover:after {
-	background: $logo-blue;
-}
+
 @mixin hasBullets($color) {
 	position: relative;
 	padding-left: 16px;

@@ -40,12 +40,12 @@ export default function AdminMenu(props: AdminMenuProps): JSX.Element {
 				<span className='sideNav-text'>Payments</span>
 			</a>
 
-			<a className='sideNav-link' href={eventRoutes.nonprofitsEvents.path(props.administeredNonprofit)}>
+			<a className='sideNav-link' href={eventRoutes.nonprofitEvents.path(props.administeredNonprofit)}>
 				<i className='sideNav-icon icon-ticket-2'></i>
 				<span className='sideNav-text'>Events</span>
 			</a>
 
-			<a className='sideNav-link' href={campaignRoutes.nonprofitsCampaigns.path(props.administeredNonprofit)}>
+			<a className='sideNav-link' href={campaignRoutes.nonprofitCampaigns.path(props.administeredNonprofit)}>
 				<i className='sideNav-icon icon-thermometer-medium'></i>
 				<span className='sideNav-text'>Campaigns</span>
 			</a>

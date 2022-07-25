@@ -1,14 +1,14 @@
 // License: LGPL-3.0-or-later
 
-const gradient = require('../../common/css-gradient').default
-const customBranding = require('./custom-nonprofit-branding.es6')
+import gradient from '../../common/css-gradient';
+import customBranding from './custom-nonprofit-branding';
 
-const bg = color => `background-color: ${color} !important;`
+const bg = (color: string) => `background-color: ${color} !important;`;
 
-module.exports = function (brand_color = null) {
-    var colors = customBranding(brand_color)
+export default function BrandedWizard(brand_color: string = null):string {
+	const colors = customBranding(brand_color);
 
-          return   `
+	return `
 .wizard-steps div.is-selected, 
 .wizard-steps button.is-selected {
   ${bg(colors.lighter)}
@@ -47,5 +47,5 @@ module.exports = function (brand_color = null) {
 .wizard-index-label.is-current {
   ${gradient('left', '#fbfbfb', colors.light)}
 }
-`
+`;
 }

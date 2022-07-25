@@ -64,8 +64,3 @@ appl.def('close_filter_panel', function(){
 	return appl
 })
 
-appl.def('scroll_main_panel', function(){
-	var main_panel = document.querySelector('.mainPanel')
-	main_panel.scrollTop = main_panel.scrollHeight
-})
-

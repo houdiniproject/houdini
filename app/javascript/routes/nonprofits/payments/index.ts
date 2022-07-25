@@ -3,12 +3,22 @@
 
 export default {
 	nonprofitsPayments: {
-		path: (props: {id:string}):string => {
-			return `/nonprofits/${props.id}/payments`;
+		path: (props: {id:string, pid?:string}):string => {
+			const url = new URL(`/nonprofits/${props.id}/payments`);
+			if(props.pid){
+				url.searchParams.set('pid', props.pid);
+			}
+
+			return url.toString();
 		},
 
-		url: (props: {id:string}):string => {
-			return `/nonprofits/${props.id}/payments`;
+		url: (props: {id:string, pid?:string}):string => {
+			const url = new URL(`/nonprofits/${props.id}/payments`);
+			if(props.pid){
+				url.searchParams.set('pid', props.pid);
+			}
+
+			return url.toString();
 		},
 
 	},

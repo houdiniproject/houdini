@@ -79,7 +79,7 @@ if(!app.hide_activities) {
 
 
 if (app.nonprofit.brand_color) {
-	require('../../components/branded_fundraising')
+	require('../../components/branded_fundraising').default
 }
 
 var request = require('../../common/client').default

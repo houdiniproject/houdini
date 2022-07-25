@@ -1,12 +1,12 @@
 // License: LGPL-3.0-or-later
-const colors = require('../nonprofit-branding')
-const gradient = require('../../common/css-gradient').default
+import colors from '../nonprofit-branding';
+import gradient from '../../common/css-gradient';
 
-const bg = color => `background-color: ${color} !important;`
+const bg = (color: string) => `background-color: ${color} !important;`;
 
 
-module.exports = _ => 
-`
+export default function brandedWizard(_: unknown): string {
+	return `
 .badge {
   display: inline-block;
   min-width: 10px;
@@ -68,4 +68,5 @@ button .badge {
 .wizard-index-label.is-current {
   ${gradient('left', '#fbfbfb', colors.light)}
 }
-`
+`;
+}

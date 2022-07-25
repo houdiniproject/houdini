@@ -6,7 +6,7 @@
 module ScheduledJobs
   # Each of these functions should return an Enumerator
   # Each value in the enumerator should be a lambda
-  # That way the heroku_scheduled_job task can iterate over each lambda
+  # That way the cron_job_runner task can iterate over each lambda
   # and wrap each call in begin/rescue/end blocks
   # and it can continue to execute all the parts of the job without bailing early, even if one part of the job fails
   # And it will aggregate success/failure messages from all the lambdas in the enum

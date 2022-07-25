@@ -3,10 +3,10 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
-desc "For use with Heroku's Scheduler add-on"
+desc "Task used to run any ScheduledJob"
 
 # We use a single rake call so we can catch and send any errors that happen in the job
-task :heroku_scheduled_job, [:name] => :environment do |_t, args|
+task :cron_job_runner, [:name] => :environment do |_t, args|
   job_name = args[:name]
   # Fetch all the super admin emails so we can send a report
   enum = ScheduledJobs.send(job_name)

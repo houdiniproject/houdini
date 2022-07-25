@@ -19,41 +19,10 @@ interface Validation {
 
 
 export class Validations  {
-  static isEmail({field}:ValidationInput) : StringBoolTuple {
-    return [field.value.match(Regex.Email) !== null,
-      `${field.label} is not a valid email`]
-  }
-
-  static shouldBeEqualTo (targetPath: string): Validation {
-    return ({field, form}:ValidationInput) => {
-      const fieldsAreEquals = (form.$(targetPath).value === field.value);
-      return [fieldsAreEquals, `${field.label} and ${form.$(targetPath).label} must be the same`]
-  }
-  }
-
-  static isUrl({field, validator}:ValidationInput):StringBoolTuple {
-    return [validator.isURL(field.value),
-    `${field.label} must be a valid URL`]
-  }
-
-  static isFilled({field, validator}:ValidationInput) :StringBoolTuple {
-    return [
-        !validator.isEmpty(field.value),
-      `${field.label} must be filled out`
-    ]
-  }
-
-  static isNumber({field, validator}:ValidationInput):StringBoolTuple {
-    return [
-      !isNaN(parseFloat(field.value)),
-      `${field.label} must be a number`
-    ]
-  }
-
 
   static isGreaterThanOrEqualTo(value:number) : ({field, validator}:ValidationInput) => StringBoolTuple
   {
-    return ({field, validator}:ValidationInput) => {
+    return ({field}:ValidationInput) => {
       return [
         parseFloat(field.get('value')) >= value,
         `${field.label} must be at least ${value}`
@@ -63,7 +32,7 @@ export class Validations  {
 
   static isLessThanOrEqualTo(value:number, flip:boolean=false) : ({field, validator}:ValidationInput) => StringBoolTuple
   {
-    return ({field, validator}:ValidationInput) => {
+    return ({field}:ValidationInput) => {
       let float = field.get('value')
       return [
         (flip ? -1 * float : float) <= value,
@@ -82,9 +51,12 @@ export class Validations  {
       }
     };
   }
-
+  static isEmail({field}:ValidationInput) : StringBoolTuple {
+    return [field.value.match(Regex.Email) !== null,
+      `${field.label} is not a valid email`]
+  }
   static isDate(format:string): ({field, validator}:ValidationInput) => StringBoolTuple  {
-    return ({field, validator}:ValidationInput) => {
+    return ({field}:ValidationInput) => {
       let m = moment(field.value, format, true);
       return [
         m.isValid(),

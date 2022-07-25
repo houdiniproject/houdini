@@ -19,4 +19,4 @@ const poll = () => {
 };
 poll();
 
-module.exports = stream;
+export default stream;

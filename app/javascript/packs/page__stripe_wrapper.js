@@ -1,1 +1,0 @@
-require('../legacy/stripe_wrapper/page.js')

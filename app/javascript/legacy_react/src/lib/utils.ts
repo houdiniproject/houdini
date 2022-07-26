@@ -16,6 +16,6 @@ export function castToUndefinedIfBlank(i:null|undefined|string) :
   return isBlank(i) ? undefined : i;
 }
 
-export function removeChar(i:null|undefined|string, charArray:null|undefined|string) {
+export function removeChar(i:string, charArray:string ) : string {
   return i.replace(new RegExp('[' + charArray + ']+', 'g'), '')
 }

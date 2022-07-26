@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var restful_resource = require('../../../common/restful_resource')
+require('../../../common/restful_resource')
 
 appl.def('supporter', {
 	path_prefix: '/nonprofits/' + app.nonprofit_id + '/',

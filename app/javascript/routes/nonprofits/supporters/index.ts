@@ -4,7 +4,7 @@
 export default {
 	nonprofitsSupporters: {
 		path: (props: {id:string, sid?:string}):string => {
-			const url = new URL(`/nonprofits/${props.id}/supporters`);
+			const url = new URL(`/nonprofits/${props.id}/supporters`, new URL(document.location.href));
 			if (props.sid) {
 				url.searchParams.set('sid', props.sid);
 			}
@@ -14,7 +14,7 @@ export default {
 
 		url: (props: {id:string, sid?:string}):string => {
 
-			const url = new URL(`/nonprofits/${props.id}/supporters`);
+			const url = new URL(`/nonprofits/${props.id}/supporters`, new URL(document.location.href));
 			if (props.sid) {
 				url.searchParams.set('sid', props.sid);
 			}

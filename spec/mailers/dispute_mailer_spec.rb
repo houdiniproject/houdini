@@ -40,7 +40,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
     let(:mail) { DisputeMailer.funds_reinstated(dispute) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("$240 reinstated for dispute dp_05RsQX2eZvKYlo2C0FRTGSSA for spec_nonprofit_full")
+      expect(mail.subject).to eq("$815 reinstated for dispute dp_05RsQX2eZvKYlo2C0FRTGSSA for spec_nonprofit_full")
       expect(mail.to).to eq(["support@commitchange.com"])
       expect(mail.from).to eq(["support@commitchange.com"])
     end
@@ -88,7 +88,7 @@ RSpec.describe DisputeMailer, :type => :mailer do
       stripe_charge_id: 'ch_1Y7zzfBCJIIhvMWmSiNWrPAC', nonprofit: nonprofit, payment:force_create(:payment,
          supporter:supporter,
         nonprofit: nonprofit,
-        gross_amount: 22500))}
+        gross_amount: 80000))}
   
     let(:obj) { StripeDispute.create(object:json) }
     let(:dispute) { obj.dispute }

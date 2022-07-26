@@ -7,13 +7,13 @@
     "object": {
       "id": "dp_05RsQX2eZvKYlo2C0FRTGSSA",
       "object": "dispute",
-      "amount": 22500,
+      "amount": 80000,
       "balance_transaction": "txn_1Y75JVBCJIIhvMWmsnGK1JLD",
       "balance_transactions": [
         {
           "id": "txn_1Y75JVBCJIIhvMWmsnGK1JLD",
           "object": "balance_transaction",
-          "amount": -22500,
+          "amount": -80000,
           "available_on": 1565008160,
           "created": 1565008160,
           "currency": "usd",
@@ -29,7 +29,7 @@
               "type": "stripe_fee"
             }
           ],
-          "net": -24000,
+          "net": -81500,
           "source": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
           "sourced_transfers": {
             "object": "list",
@@ -44,7 +44,7 @@
         {
           "id": "txn_1Y71X0BCJIIhvMWmMmtTY4m1",
           "object": "balance_transaction",
-          "amount": 22500,
+          "amount": 80000,
           "available_on": 1572381790,
           "created": 1572381790,
           "currency": "usd",
@@ -60,7 +60,7 @@
               "type": "stripe_fee"
             }
           ],
-          "net": 24000,
+          "net": 81500,
           "source": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
           "sourced_transfers": {
             "object": "list",

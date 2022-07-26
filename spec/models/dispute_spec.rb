@@ -2,6 +2,16 @@
 require 'rails_helper'
 
 RSpec.describe Dispute, :type => :model do
+  it {is_expected.to have_one(:stripe_dispute).with_primary_key(:stripe_dispute_id).with_foreign_key(:stripe_dispute_id)}
+  it {is_expected.to belong_to(:charge)}
+  it {is_expected.to have_many(:dispute_transactions).order('date ASC')}
+
+  it {is_expected.to have_one(:supporter).through(:charge)}
+  it {is_expected.to have_one(:nonprofit).through(:charge)}
+  it {is_expected.to have_one(:original_payment).through(:charge).source(:payment)}
+
+  it {is_expected.to have_many(:activities)}
+
   describe '.charge' do
     include_context :disputes_context
     let!(:charge) { force_create(:charge, supporter: supporter, 

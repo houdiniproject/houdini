@@ -4,7 +4,7 @@
 export default {
 	nonprofitsPayments: {
 		path: (props: {id:string, pid?:string}):string => {
-			const url = new URL(`/nonprofits/${props.id}/payments`);
+			const url = new URL(`/nonprofits/${props.id}/payments`, new URL(document.location.href));
 			if(props.pid){
 				url.searchParams.set('pid', props.pid);
 			}
@@ -13,7 +13,7 @@ export default {
 		},
 
 		url: (props: {id:string, pid?:string}):string => {
-			const url = new URL(`/nonprofits/${props.id}/payments`);
+			const url = new URL(`/nonprofits/${props.id}/payments`, new URL(document.location.href));
 			if(props.pid){
 				url.searchParams.set('pid', props.pid);
 			}

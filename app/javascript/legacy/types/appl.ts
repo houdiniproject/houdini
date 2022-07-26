@@ -38,8 +38,15 @@ interface Redirect {
 	redirect(url:string):void;
 }
 
+interface Other {
+	/**
+	 * Unsure what this does
+	 * @param prop a property string;
+	 */
+	vs(prop:string):unknown;
+}
 
 
 
-export type Appl = General & Format & Modal & WithWizard & Redirect;
+export type Appl = General & Format & Modal & WithWizard & Redirect & Other;
 

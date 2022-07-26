@@ -18,113 +18,139 @@
 	*   ajax.create donations form_object
 	*/
 
-var request = require('../common/client').default
-const {to_singular} = require('../../legacy_react/src/lib/deprecated_format');
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
-var restful_resource = {}
-module.exports = restful_resource
+// - we do this because I'm not sure we can safely rename the 'node' argument. I assume its fine but viewscript is very weird.
 
+import request from '../common/client';
+import { to_singular } from '../../legacy_react/src/lib/deprecated_format';
+import type { Appl } from '../types/appl';
+import { Response } from 'superagent';
+
+
+declare const appl: Appl;
+
+interface Resource {
+	concat_data?: boolean;
+	data: { concat(input: unknown): unknown };
+	path_prefix?: string;
+	query?: { page: number };
+	resource_name?: string;
+}
+
+interface RestfulResourceObject {
+	create(prop:string, form_obj:Record<string,unknown>, node:unknown):Promise<Response>;
+	del(prop:string, id:string, node:unknown): Promise<Response>;
+	fetch(prop: string, id: string, node:unknown): Promise<Response>;
+	index(prop: string, node:unknown): Promise<Response>;
+	update(prop:string, id:string, form_obj:Record<string,unknown>, node:unknown):Promise<Response>;
+}
+
+
+export interface ApplWithRestfulResource extends Appl {
+	ajax: RestfulResourceObject;
+}
 
 appl.def('ajax', {
-	index: function(prop, node) {
-		var resource = appl.vs(prop) || {}
-		var name = resource.resource_name || prop
-		var path = resource.path_prefix || ''
-		before_request(prop)
-		return new Promise(function(resolve, reject) {
+	index: function (prop: string, node:unknown): Promise<Response> {
+		const resource = (appl.vs(prop) || {}) as Resource;
+		const name = resource.resource_name || prop;
+		const path = resource.path_prefix || '';
+		before_request(prop);
+		return new Promise(function (resolve, reject) {
 			request.get(path + name).query(resource.query)
-				.end(function(err, resp) {
-					var tmp = resource.data
-					after_request(prop, err, resp)
-					if(resp.ok) {
-						if(resource.query && resource.query.page > 1 && resource.concat_data) {
-							appl.def(prop + '.data', tmp.concat(resp.body.data))
+				.end(function (err, resp) {
+					const tmp = resource.data;
+					after_request(prop, err, resp);
+					if (resp.ok) {
+						if (resource.query && resource.query.page > 1 && resource.concat_data) {
+							appl.def(prop + '.data', tmp.concat(resp.body.data));
 						}
-						resolve(resp)
+						resolve(resp);
 					} else {
-						reject(resp)
+						reject(resp);
 					}
-				})
-		})
+				});
+		});
 	},
 
-	fetch: function(prop, id, node) {
-		var resource = appl.vs(prop) || {}
-		var name = resource.resource_name || prop
-		var path = resource.path_prefix || ''
-		before_request(prop)
-		return new Promise(function(resolve, reject) {
+	fetch: function (prop: string, id: string, node:unknown): Promise<Response> {
+		const resource = (appl.vs(prop) || {}) as Resource;
+		const name = resource.resource_name || prop;
+		const path = resource.path_prefix || '';
+		before_request(prop);
+		return new Promise(function (resolve, reject) {
 			request.get(path + name + '/' + id).query(resource.query)
-				.end(function(err, resp) {
-					after_request(prop, err, resp)
-					if(resp.ok) resolve(resp)
-					else reject(resp)
-				})
-		})
+				.end(function (err, resp) {
+					after_request(prop, err, resp);
+					if (resp.ok) resolve(resp);
+					else reject(resp);
+				});
+		});
 	},
 
-	create: function(prop, form_obj, node) {
-		var resource = appl.vs(prop) || {}
-		var name = resource.resource_name || prop
-		var path = resource.path_prefix || ''
-		before_request(prop)
-		return new Promise(function(resolve, reject) {
+	create: function (prop:string, form_obj:Record<string,unknown>, node:unknown): Promise<Response> {
+		const resource = (appl.vs(prop)|| {}) as Resource;
+		const name = resource.resource_name || prop;
+		const path = resource.path_prefix || '';
+		before_request(prop);
+		return new Promise(function (resolve, reject) {
 			request.post(path + name).send(nested_obj(name, form_obj))
-				.end(function(err, resp) {
-					after_request(prop, err, resp)
-					if(resp.ok) resolve(resp)
-					else reject(resp)
-				})
-		})
+				.end(function (err, resp) {
+					after_request(prop, err, resp);
+					if (resp.ok) resolve(resp);
+					else reject(resp);
+				});
+		});
 	},
 
-	update: function(prop, id, form_obj, node) {
-		var resource = appl.vs(prop) || {}
-		var name = resource.resource_name || prop
-		var path = resource.path_prefix || ''
-		before_request(prop)
-		return new Promise(function(resolve, reject) {
+	update: function (prop:string, id:string, form_obj:Record<string,unknown>, node:unknown): Promise<Response> {
+		const resource = (appl.vs(prop) || {}) as Resource;
+		const name = resource.resource_name || prop;
+		const path = resource.path_prefix || '';
+		before_request(prop);
+		return new Promise(function (resolve, reject) {
 			request.put(path + name + '/' + id).send(nested_obj(name, form_obj))
-			.end(function(err, resp) {
-				after_request(prop, err, resp)
-				if(resp.ok) resolve(resp)
-				else reject(resp)
-			})
-		})
+				.end(function (err, resp) {
+					after_request(prop, err, resp);
+					if (resp.ok) resolve(resp);
+					else reject(resp);
+				});
+		});
 	},
 
-	del: function(prop, id, node) {
-		var resource = appl.vs(prop) || {}
-		var path = (resource.path_prefix || '') + (resource.resource_name || prop)
-		before_request(prop)
-		return new Promise(function(resolve, reject) {
+	del: function (prop:string, id:string, node:unknown): Promise<Response> {
+		const resource = (appl.vs(prop) || {}) as Resource;
+		const path = (resource.path_prefix || '') + (resource.resource_name || prop);
+		before_request(prop);
+		return new Promise(function (resolve, reject) {
 			request.del(path + '/' + id)
-				.end(function(err, resp) {
-					after_request(prop, err, resp)
-					if(resp.ok) resolve(resp)
-					else reject(resp)
-				})
-		})
-	}
-})
+				.end(function (err, resp) {
+					after_request(prop, err, resp);
+					if (resp.ok) resolve(resp);
+					else reject(resp);
+				});
+		});
+	},
+} as RestfulResourceObject);
 
 
 // Given a viewscript property, set some state before every request.
 // Eg. appl.ajax.index('donations') will cause appl.donations.loading to be
 // true before the request finishes
-function before_request(prop) {
-	appl.def(prop + '.loading', true)
-	appl.def(prop + '.error', '')
+function before_request(prop: string): void {
+	appl.def(prop + '.loading', true);
+	appl.def(prop + '.error', '');
 }
 
 
 // Set some data after each request.
-function after_request(prop, err, resp) {
-	appl.def(prop + '.loading', false)
-	if(resp.ok) {
-		appl.def(prop, resp.body)
+function after_request(prop: string, _err: unknown, resp: Response): void {
+	appl.def(prop + '.loading', false);
+	if (resp.ok) {
+		appl.def(prop, resp.body);
 	} else {
-		appl.def(prop + '.error', resp.body)
+		appl.def(prop + '.error', resp.body);
 	}
 }
 
@@ -132,9 +158,9 @@ function after_request(prop, err, resp) {
 // Simply return an object nested under 'name'
 // Will singularize the given name if plural
 // eg: given 'donations' and {amount: 111}, return {donation: {amount: 111}}
-function nested_obj(name, child_obj) {
-	var parent_obj = {}
-	parent_obj[to_singular(name)] = child_obj
-	return parent_obj
+function nested_obj(name:string, child_obj:Record<string, unknown>): Record<string, unknown> {
+	const parent_obj = {} as Record<string, unknown>;
+	parent_obj[to_singular(name)] = child_obj;
+	return parent_obj;
 }
 

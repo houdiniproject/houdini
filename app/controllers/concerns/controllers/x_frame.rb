@@ -13,5 +13,9 @@ module Controllers::XFrame
 			response.headers.delete('X-Frame-Options') if response.headers.has_key?('X-Frame-Options')
 			response.headers.delete('x-frame-options') if response.headers.has_key?('x-frame-options')
 		end
+
+		def prevent_framing(value="SAMEORIGIN")
+			response.headers['X-Frame-Options'] = value
+		end
 	end
 end

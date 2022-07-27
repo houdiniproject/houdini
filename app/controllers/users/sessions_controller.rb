@@ -1,7 +1,12 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::SessionsController < Devise::SessionsController
+	include ::Controllers::XFrame
+	
 	layout 'layouts/apified', only: :new
-  def new
+	
+	after_action :prevent_framing
+  
+	def new
     @theme = 'minimal'
     super
   end

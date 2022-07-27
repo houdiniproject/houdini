@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import 'jest';
 import {shallow} from 'enzyme'
 import toJson from 'enzyme-to-json'
 import LabeledFieldComponent from './LabeledFieldComponent'

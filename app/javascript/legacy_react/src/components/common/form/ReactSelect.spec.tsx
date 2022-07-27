@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import 'jest';
 import {Form} from "mobx-react-form";
 import ReactInput from "./ReactInput";
 import {ReactForm} from "./ReactForm";

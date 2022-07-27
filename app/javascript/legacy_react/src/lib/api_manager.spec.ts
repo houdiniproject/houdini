@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import {ApiManager, ApiMissingException} from "./api_manager";
-import 'jest';
 
 describe('ApiManager', () => {
 

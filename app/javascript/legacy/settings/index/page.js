@@ -6,8 +6,6 @@ require('../../common/restful_resource')
 
 const render = require('ff-core/render')
 const h = require('snabbdom/h')
-const R = require('ramda')
-const flyd = require('flyd')
 const snabbdom = require('snabbdom')
 const branding = require('./branding/index')
 const emailSettings = require('./email-settings/index')
@@ -65,7 +63,7 @@ appl.def('update_card_failure_message', function() {
      ,card_failure_message_bottom: messageBottom
     }
   } 
-  request.put(np_route + '.json').send(data).end(function(resp) {
+  request.put(np_route + '.json').send(data).end(function() {
     appl.notify('Card failure email successfully saved')
     appl.def('card_failure_message.loading', false)
   })
@@ -76,7 +74,7 @@ appl.def('update_custom_receipt', function(node) {
     var classToFind = getClassToFindEditor()
   var receipt = appl.prev_elem(node).getElementsByClassName(classToFind)[0].innerHTML
   var data = { nonprofit: {thank_you_note: receipt} } 
-  request.put(np_route + '.json').send(data).end(function(resp) {
+  request.put(np_route + '.json').send(data).end(function() {
     appl.notify('Receipt successfully saved')
     appl.def('receipt.loading', false)
   })
@@ -87,7 +85,7 @@ appl.def('update_change_amount_message', function(node) {
     var classToFind = getClassToFindEditor()
     var msg = appl.prev_elem(node).getElementsByClassName(classToFind)[0].innerHTML
     var data = { miscellaneous_np_info: {change_amount_message: msg} }
-    request.put(np_route + '/miscellaneous_np_info.json').send(data).end(function(resp) {
+    request.put(np_route + '/miscellaneous_np_info.json').send(data).end(function() {
         appl.notify('Change amount message saved')
         appl.def('receipt.loading', false)
     })

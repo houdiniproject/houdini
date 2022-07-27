@@ -9,7 +9,6 @@ remaining: integer (count of how many results are not shown and still left. If 0
 */
 
 
-const view = require('vvvview')
 const h = require("virtual-dom/h")
 const flyd = require('flyd')
 

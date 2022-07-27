@@ -5,7 +5,6 @@ const render = require('ff-core/render')
 const donate = require('./wizard')
 const snabbdom = require('snabbdom')
 const flyd = require('flyd')
-const R = require('ramda')
 const url = require('url')
 
 const request = require('../../common/request')

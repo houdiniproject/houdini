@@ -1,14 +1,6 @@
 // License: LGPL-3.0-or-later
-const view = require('vvvview')
 const h = require('virtual-dom/h')
-const flyd = require('flyd')
-const scanMerge = require('flyd/module/scanmerge')
 const thunk = require('vdom-thunk')
-const request = require('../../../common/super-agent-frp')
-const format = require('../../../common/format').default
-const Im = require('immutable')
-const Map = Im.Map
-const fromJS = Im.fromJS
 const utils = require('../../../common/utilities').default
 
 const root = state => {

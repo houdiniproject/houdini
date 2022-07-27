@@ -3,12 +3,10 @@ const h = require('virtual-dom/h')
 const request = require('../../common/super-agent-frp')
 const view = require('vvvview')
 const flyd = require('flyd')
-const flatMap = require('flyd/module/flatmap')
 const thunk = require('vdom-thunk')
 const format = require('../../common/format').default
 const Im = require('immutable')
 const fromJS = Im.fromJS
-const Map = Im.Map
 const utils = require('../../common/utilities').default
 
 var npURL = '/nonprofits/' + app.nonprofit_id
@@ -65,7 +63,7 @@ if(app.bankAccount.pending_verification) {
 		.perform()
 
 	var $state = flyd.scan(
-		(state, resp) => state.set('loading', false).set('pending_verification', false)
+		(state) => state.set('loading', false).set('pending_verification', false)
 		, state
 		, $confirmResponse)
 

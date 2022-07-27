@@ -2,8 +2,6 @@
 const flyd = require('flyd')
 const R = require('ramda')
 const h = require('snabbdom/h')
-const url = require('url')
-const render = require('ff-core/render')
 const wizard = require('ff-core/wizard')
 const scanMerge = require('flyd/module/scanmerge')
 flyd.mergeAll = require('flyd/module/mergeall')

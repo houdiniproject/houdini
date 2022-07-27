@@ -2,8 +2,6 @@
 const flyd = require('flyd')
 const R = require('ramda')
 const h = require('snabbdom/h')
-const url = require('url')
-const render = require('ff-core/render')
 const wizard = require('ff-core/wizard')
 const scanMerge = require('flyd/module/scanmerge')
 flyd.mergeAll = require('flyd/module/mergeall')
@@ -16,7 +14,6 @@ const paymentStep = require('./payment-step.es6')
 const amountStep = require('./amount-step.es6')
 const followupStep = require('./followup-step')
 
-const request = require('../../common/request')
 const format = require('../../common/format').default
 
 const brandedWizard = require('./branded-wizard.ts').default

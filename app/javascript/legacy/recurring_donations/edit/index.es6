@@ -3,7 +3,6 @@
 const flyd = require('flyd')
 const mergeAll = require('flyd/module/mergeall')
 const flatMap = require('flyd/module/flatmap')
-const lift = require('flyd/module/lift')
 const snabbdom = require('snabbdom')
 const h = require('snabbdom/h')
 const R = require('ramda')
@@ -30,7 +29,6 @@ function init() {
   }
   
   const rdPath = `/recurring_donations/${app.pageLoadData.recurring_donation.id}`
-  const rdUpdateAmountPath = `/recurring_donations/${app.pageLoadData.recurring_donation.id}/update_amount`
   const token = utils.get_param('t')
   state.donate_again_url = app.pageLoadData.miscellaneous_np_info.donate_again_url;
 

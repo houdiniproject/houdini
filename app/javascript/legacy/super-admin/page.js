@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('flimflam/h')
 const flyd = require('flimflam/flyd')
 const render = require('flimflam/render')

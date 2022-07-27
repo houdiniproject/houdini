@@ -3,8 +3,6 @@ const R = require('ramda')
 const h = require('snabbdom/h')
 const flyd = require('flyd')
 const moment = require('moment')
-const flatMap = require('flyd/module/flatmap')
-const request = require('../../../../common/request')
 const flyd_mergeAll = require('flyd/module/mergeall')
 
 const generateContent = require('./generate-content')

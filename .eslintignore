@@ -111,7 +111,6 @@ app/javascript/legacy/common/vendor/bootstrap-tour-standalone.js
 app/javascript/legacy/common/vendor/bootstrap.js
 app/javascript/legacy/common/vendor/colpick.js
 app/javascript/legacy/common/vendor/jquery.cookie.js
-app/javascript/legacy/components/activity_feed.js
 app/javascript/legacy/components/address-autocomplete-fields.js
 app/javascript/legacy/components/address-autocomplete.js
 app/javascript/legacy/components/ajax/toggle_soft_delete.js

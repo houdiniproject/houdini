@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 // based on https://github.com/stripe/jquery.payment/blob/master/test/specs.coffee
 import { CreditCardTypeManager, defaultFormat } from './credit_card'
-import 'jest';
 import _ from 'lodash';
 
 describe('CreditCardTypeManager', () => {

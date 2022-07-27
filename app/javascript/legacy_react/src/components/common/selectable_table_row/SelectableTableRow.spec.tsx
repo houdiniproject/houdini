@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import 'jest';
 import SelectableTableRow from './SelectableTableRow'
 import { ReactWrapper, mount } from 'enzyme';
 import { connectTableRowSelectHandler, TableRowSelectHandlerContext } from './connect';

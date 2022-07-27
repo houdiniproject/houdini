@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as Regex from './regex'
-import 'jest';
 
 
 describe('Regex.Email', () => {

@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import 'jest';
 import Modal, {ModalProps} from './Modal'
 import {shallow, mount, ReactWrapper} from "enzyme";
 import toJson from "enzyme-to-json";

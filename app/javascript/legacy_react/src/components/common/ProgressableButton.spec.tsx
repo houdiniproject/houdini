@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import 'jest';
 import ProgressableButton from './ProgressableButton'
 import toJson from 'enzyme-to-json';
 import {mount, shallow} from 'enzyme';

@@ -32,7 +32,7 @@ module.exports =  {
 		"enzyme-to-json/serializer",
 	],
 	"transform": {
-		"^.+\\.tsx?$": "ts-jest",
+		"^.+\\.tsx?$": "babel-jest",
 	},
 	"transformIgnorePatterns": [
 		"<rootDir>/node_modules/",

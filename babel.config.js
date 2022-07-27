@@ -58,6 +58,7 @@ module.exports = function(api) {
           useBuiltIns: true,
         },
       ],
+      ["@babel/plugin-proposal-class-properties"],
       [
         '@babel/plugin-transform-runtime',
         {

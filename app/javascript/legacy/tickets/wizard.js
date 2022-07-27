@@ -3,7 +3,7 @@ if(app.autocomplete) {
   require('../components/address-autocomplete')
 }
 require('../cards/create')
-var request = require('../common/super-agent-promise')
+var request = require('../common/super-agent-promise').default
 var create_card = require('../cards/create')
 var format_err = require('../common/format_response_error').default
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id + '/tickets'

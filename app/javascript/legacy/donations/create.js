@@ -13,7 +13,7 @@
 
 var format_err = require('../common/format_response_error').default
 var format = require('../common/format').default
-var request = require('../common/super-agent-promise')
+var request = require('../common/super-agent-promise').default
 
 module.exports = create_donation
 

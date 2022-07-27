@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var request = require('../../../common/super-agent-promise')
+var request = require('../../../common/super-agent-promise').default
 var format_err = require('../../../common/format_response_error').default
 
 module.exports = verify_identity

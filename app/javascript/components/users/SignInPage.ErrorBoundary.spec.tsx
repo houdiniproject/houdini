@@ -3,14 +3,12 @@ import * as React from "react";
 import { render } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 
-function SignInComponentErrorMock(): JSX.Element {
-	throw "Something went wrong";
-}
-
 /* NOTE: we're mocking SignInComponent */
 jest.mock('./SignInComponent', () => {
 	return {
-		default: SignInComponentErrorMock,
+		default: function SignInComponentErrorMock(): JSX.Element {
+			throw "Something went wrong";
+		},
 	};
 });
 

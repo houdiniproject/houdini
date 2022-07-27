@@ -1,7 +1,7 @@
 //License: LGPL-3.0-or-later
 //https://github.com/jaredpalmer/formik/blob/master/src/connect.tsx
-import React = require("react");
-import hoistNonReactStatics = require('hoist-non-react-statics');
+import React  from "react";
+import hoistNonReactStatics  from 'hoist-non-react-statics';
 
 
 /**

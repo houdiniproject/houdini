@@ -2,7 +2,7 @@
 // based on https://github.com/stripe/jquery.payment/blob/master/test/specs.coffee
 import { CreditCardTypeManager, defaultFormat } from './credit_card'
 import 'jest';
-import _ = require('lodash');
+import _ from 'lodash';
 
 describe('CreditCardTypeManager', () => {
   let cc: CreditCardTypeManager

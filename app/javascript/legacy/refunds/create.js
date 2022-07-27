@@ -2,7 +2,7 @@
 const R = require('ramda')
 const format = require('../common/format').default
 var format_err = require('../common/format_response_error').default
-var request = require('../common/super-agent-promise')
+var request = require('../common/super-agent-promise').default
 
 appl.def('ajax_refunds', {
 	create: function(charge_id, form_obj, node) {

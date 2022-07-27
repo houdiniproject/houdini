@@ -2,40 +2,44 @@
 // super-agent with default json and csrf wrappers
 // Also has a Promise api ('.then' and '.catch') rather than the default '.end'
 
-var request = require('superagent')
+import request from './client';
+import type { SuperAgent, SuperAgentRequest, Response } from 'superagent';
 
-var wrapper = {}
-module.exports = wrapper
+type SuperAgentRequestWithPerform<Request extends SuperAgentRequest=SuperAgentRequest> = SuperAgent<Request> & { perform: () => Promise<Response> };
 
-wrapper.post = function() {
-	var req = request.post.apply(this, arguments).set('X-CSRF-Token', window._csrf).type('json')
-	return convert_to_promise(req)
+function convert_to_promise<Request extends SuperAgentRequest=SuperAgentRequest>(req: Request): SuperAgentRequestWithPerform<Request> {
+	const anyReq = req as unknown as SuperAgentRequestWithPerform<Request>;
+	anyReq.perform = function () {
+		return new Promise(function (resolve, reject) {
+			req.end(function (_err, resp) {
+				if (resp && resp.ok) { resolve(resp); }
+				else { reject(resp); }
+			});
+		});
+	};
+	return anyReq;
 }
 
-wrapper.put = function() {
-	var req = request.put.apply(this, arguments).set('X-CSRF-Token', window._csrf).type('json')
-	return convert_to_promise(req)
-}
 
-wrapper.del = function() {
-	var req = request.del.apply(this, arguments).set('X-CSRF-Token', window._csrf).type('json')
-	return convert_to_promise(req)
-}
+const wrapper = {
+	post: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.post(path, ...args));
+	},
 
-wrapper.get = function(path) {
-	var req = request.get.call(this, path).accept('json')
-	return convert_to_promise(req)
-}
+	put: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.put(path, ...args));
+	},
 
-function convert_to_promise(req) {
-	req.perform = function() {
-		return new Promise(function(resolve, reject) {
-			req.end(function(err, resp) {
-				if(resp && resp.ok) { resolve(resp) }
-				else { reject(resp) }
-			})
-		})
-	}
-	return req
-}
+	del: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.del(path, ...args));
+	},
+
+	get: function (path:string): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.get(path));
+	},
+};
+
+export default wrapper;
+
+
 

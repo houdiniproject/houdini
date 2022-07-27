@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
 const flyd = require('flyd')
-const R = require('ramda')
 require('../common/vendor/colpick') // XXX jquery
 
 // Color picker UI component, wrapping the colpick jquery plugin
@@ -22,7 +21,7 @@ const view = state =>
         , layout: 'hex'
         , submit: false
         , color: state.color$()
-        , onChange: (hsb, hex, rgb, el, bySetColor) => state.color$('#' + hex)
+        , onChange: (hsb, hex) => state.color$('#' + hex)
         })
       }
     }

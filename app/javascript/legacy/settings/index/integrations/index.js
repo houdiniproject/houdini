@@ -3,7 +3,6 @@ const h = require('snabbdom/h')
 const R = require('ramda')
 const flyd = require('flyd')
 const request = require('../../../common/request')
-const flyd_lift = require('flyd/module/lift')
 const colors = require('../../../common/colors').default
 
 function init() {
@@ -42,14 +41,14 @@ const integrationSection = (state, key, name, bodyConnected, bodyNotConnected) =
   ])
 }
 
-const mailchimpNotConnectedMessage = state => {
+const mailchimpNotConnectedMessage = () => {
   return h('p', [
     'Connect with MailChimp to automatically sync supporter emails to your MailChimp Email Lists.'
   , h('br')
   , h('a', {props: {href: `/nonprofits/${app.nonprofit_id}/nonprofit_keys/mailchimp_login`}}, 'Click here to connect your Mailchimp account.')
   ])
 }
-const mailchimpConnectedMessage = state => {
+const mailchimpConnectedMessage = () => {
   return h('p', [
     'Congrats! You Mailchimp account has been connected successfully.'
   , h('br')

@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 const R = require('ramda')
 const h = require('snabbdom/h')
-const flyd = require('flyd')
 const render = require('ff-core/render')
 const snabbdom = require('snabbdom')
 

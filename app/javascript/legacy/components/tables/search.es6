@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('virtual-dom/h')
-const thunk = require('vdom-thunk')
 const formToObj = require('../../common/form-to-object')
 const flyd = require('flyd')
 const filterStream = require('flyd/module/filter')

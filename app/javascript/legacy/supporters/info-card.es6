@@ -6,7 +6,6 @@ const flatMap = require('flyd/module/flatmap')
 const scanMerge = require('flyd/module/scanmerge')
 const h = require('virtual-dom/h')
 const Im = require('immutable')
-const Map = Im.Map
 const fromJS = Im.fromJS
 const OrderedMap = Im.OrderedMap
 const format = require('../common/format').default
@@ -68,7 +67,7 @@ const displayCard = (state, node) => {
 // Count the number of rows of data the supporter has
 const calculateRows = state => 
 	state.set('rows', state.get('data').entrySeq().filter(pair => {
-		var [key, val] = pair
+		var [, val] = pair
 		return val && String(val).length
 	}).count() + 1.5)
 

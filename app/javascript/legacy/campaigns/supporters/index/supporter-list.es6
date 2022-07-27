@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 const h = require('virtual-dom/h')
 const thunk = require('vdom-thunk')
-const flyd = require('flyd')
 
 
 const metrics = require('./metrics.es6')

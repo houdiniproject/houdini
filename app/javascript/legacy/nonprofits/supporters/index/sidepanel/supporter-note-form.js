@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('snabbdom/h')
 const flyd = require('flyd')
 const modal = require('ff-core/modal')
@@ -27,7 +26,7 @@ function init(parentState) {
 
   state.error$ = flyd_mergeAll([
     flyd.map(()=> null, state.submit$)
-  , flyd.map(req => 'Sorry! There was an error. Please try again soon.', flyd_filter(req => req.status !== 200, resp$))
+  , flyd.map(() => 'Sorry! There was an error. Please try again soon.', flyd_filter(req => req.status !== 200, resp$))
   ])
 
   const resetForm$ = sampleOn(state.saved$, state.submit$)

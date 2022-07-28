@@ -49,6 +49,7 @@ class Event < ActiveRecord::Base
 	belongs_to :profile
 	has_many :donations
 	has_many :charges, through: :tickets
+	has_many :ticketholders, through: :tickets, source: :supporter
 	has_many :supporters, through: :donations
 	has_many :recurring_donations
 	has_many :ticket_levels, :dependent => :destroy

@@ -87,7 +87,7 @@
         <section class='layout--two u-overflow--hidden'>
           <% for i in 0..4 %>
             <span>
-              <textarea class='u-marginBottom--5' rows=2 name='nonprofit[achievements][]'><%= @nonprofit.achievements[i] %></textarea>
+              <textarea class='u-marginBottom--5' rows=2 name='nonprofit[achievements][]'><%= i < (@nonprofit.achievements&.count || 0)  ? @nonprofit.achievements[i] : '' %></textarea>
             </span>
           <% end %>
         </section>

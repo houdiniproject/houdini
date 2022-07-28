@@ -5,7 +5,7 @@
 	<header>Highlights</header>
 	<table>
 		<% @nonprofit.achievements.each do |ach| %>
-			<% if ach != '' %>
+			<% if !ach.blank? %>
 			<tr>
 				<td><i class='fa fa-star' if-branded='color, base'></i></td>
 				<td><%= ach %></td>

@@ -1,7 +1,7 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <!-- partial start: nonprofits/_achievements -->
-<% unless @nonprofit.achievements.join.blank? %>
+<% unless @nonprofit.achievements&.join.blank? %>
 <aside class='u-marginBottom--15 pastelBox--grey stripedBox u-relative'>
 	<header>Highlights</header>
 	<table>

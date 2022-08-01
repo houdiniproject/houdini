@@ -1079,6 +1079,32 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** tzinfo; version 2.0.5 -- 
+Copyright (c) 2005-2022 Philip Ross
+
+Copyright (c) 2005-2022 Philip Ross
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+------
+
 ** erubi; version 1.10.0 -- 
 copyright (c) 2006-2011 kuwata-lab.com
 
@@ -1470,9 +1496,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** dotenv; version 2.7.6 -- 
+** dotenv; version 2.8.1 -- 
 Copyright (c) 2012 Brandon Keepers
-** dotenv-rails; version 2.7.6 -- 
+** dotenv-rails; version 2.8.1 -- 
+Copyright (c) 2012 Brandon Keepers
 
 Copyright (c) 2012 Brandon Keepers
 
@@ -1978,31 +2005,6 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** tzinfo; version 2.0.4 -- 
-
-Copyright (c) 2005-2020 Philip Ross
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 
 ------
@@ -2963,9 +2965,7 @@ SOFTWARE.
 
 ------
 
-** i18n; version 1.11.0 -- 
-Copyright (c) 2003-2009 Masao Mutoh
-Copyright (c) 2008 The Ruby I18n team
+** i18n; version 1.12.0 -- 
 
 Copyright (c) 2008 The Ruby I18n team
 
@@ -4320,7 +4320,7 @@ Exceptions
 
 ------
 
-** nokogiri; version 1.13.7 -- 
+** nokogiri; version 1.13.8 -- 
 Copyright 2010 Google Inc.
 Copyright 2011 Google Inc.
 Copyright 2018 Craig Barnes

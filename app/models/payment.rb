@@ -37,7 +37,7 @@ class Payment < ActiveRecord::Base
 	has_one :journal_entries_to_item, as: :item
 	has_one :payment_dupe_status
 
-	has_one :subtransaction_payment, foreign_key: 'legacy_payment_id'
+	has_one :subtransaction_payment, foreign_key: 'legacy_payment_id', inverse_of: :legacy_payment
 
 	has_one :trx, class_name: 'Transaction', through: :subtransaction_payment
 	

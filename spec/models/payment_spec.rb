@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe Payment, :type => :model do
   it {
-    is_expected.to have_one(:subtransaction_payment).with_foreign_key('legacy_payment_id')
+    is_expected.to have_one(:subtransaction_payment).with_foreign_key('legacy_payment_id').inverse_of(:legacy_payment)
   }
 
   it {

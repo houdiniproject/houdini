@@ -1,3 +1,7 @@
+# Houdini Project
+
+![Logo Houdini](./app/assets/images/logos/houdini_project_border_64.svg)
+
 [![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 ![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
 [![Crowdin](https://badges.crowdin.net/houdiniproject/localized.svg)](https://crowdin.com/project/houdiniproject)
@@ -8,7 +12,20 @@
 > [v1](https://github.com/houdiniproject/houdini/tree/1-0-stable)
 > instead.
 
-The Houdini Project is free and open source fundraising infrastructure. It includes...
+## Summary
+
+- [Description](#description)
+- [Supported operating systems](#supported-operating-systems)
+- [Pre-requisites](#pre-requisites)
+- [Get Involved](#get-involved)
+- [Dev Setup](#dev-setup)
+- [Additional Documentation](#additional-documentation)
+- [Known Issues](#known-issues)
+- [Run in Production](#run-in-production)
+
+## Description
+
+The Houdini Project is a free and open source fundraising infrastructure. It includes...
 
 - Crowdfunding campaigns
 - Donate widget page and generator
@@ -31,16 +48,18 @@ All new backend code and React components should be well tested.
 
 * Ubuntu 18.04, 20.04 or equivalent
 
-## Prerequisites
+## Pre-requisites
 
 * Node 14
 * Yarn
-* PostgreSQL 10  or 12
+* PostgreSQL 10 or 12
 * Ruby 2.7
 * Ubuntu 18.04, 20.04 or equivalent
 
-> Note: All tools will be installed in the Dev Setup.
-
+> *Notes*:<br>
+> - All tools will be installed in the Dev Setup.<br>
+> - Higher versions of node may not work with Houdini Project.<br>
+> - Higher versions of ruby may not work with Houdini Project.
 
 ## Get involved
 
@@ -97,17 +116,25 @@ apt update
 apt install curl -yy
 ```
 
-#### Node and Yarn install:
+#### Node install:
 ```bash
 curl -sL https://deb.nodesource.com/setup_14.x | bash -
+```
+#### Yarn install:
+```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update
+apt install yarn -yy
 ```
-
 #### Postgres install:
 ```bash
-apt install git postgresql-12 libpq-dev libjemalloc-dev libvips42 yarn -yy
+apt install postgresql-12 libpq-dev -yy
+```
+> *Note*: If you already have postgres installed, don't forget to install libpq-dev too
+#### Installation of remaining packages:
+```bash
+apt install libjemalloc-dev libvips42 -yy
 ```
 
 You'll run the next commands as your normal user.
@@ -132,24 +159,28 @@ curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source $HOME/.rvm/scripts/rvm
 echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
+```
+
+#### Ruby install
+```bash
 rvm install 2.7.6 --disable-binary --with-jemalloc
 ```
 
- Run the following command as the `postgres` user and then enter your houdini_user
- password at the prompt.
-
-**Note: For development, Houdini expects the password to be 'password'. This would be terrible
-for production but for development, it's likely not a huge issue.**
-
 #### Create user account for the database connection:
+
+Run the following command as the `postgres` user and then enter your houdini_user
+password at the prompt.
+
+> *Note*: For development, Houdini expects the password to be 'password'. This would be terrible for production but for development, it's likely not a huge issue.
 
 ```bash
 sudo -u postgres createuser houdini_user -s -d -P
 ```
 
+#### Cloning project
+
 Now that we have all of our prerequisites prepared, we need to get the Houdini code.
 
-#### Cloning project
 ```bash
 git clone https://github.com/HoudiniProject/houdini
 cd houdini
@@ -180,8 +211,7 @@ going to be charged real money!
 #### Get Stripe keys:
 
 Go to [Stripe](https://stripe.com), create an account or just log in with you already have one. Access the stripe dashboard and copy both publishable and secret keys.
-> make sure to use test keys. If you don't, you're
-going to be charged real money!
+> *Note*: Make sure to use test keys. If you don't, you're going to be charged real money!
 
 ![get Stripe keys](https://user-images.githubusercontent.com/31708472/157132661-79bf89a0-13cb-4860-9793-a40bb3229bfb.png)
 
@@ -230,13 +260,29 @@ yarn storybook
 
 If you create a new React component, make sure you add a storybook and jest
 tests for that component!
-##### Creating your first nonprofits and user
+
+#### Creating your first nonprofits and user
 
 To create a nonprofit, use the command line to run the following command and fill in the questions with the required information:
 
 ```bash
 bin/rails houdini:nonprofit:create
 ```
+
+The following questions will be asked:
+```
+What is the nonprofit's name? Name
+What is the nonprofit's state? CA
+What is the nonprofit's city? San Francisco
+[OPTIONAL] What is the nonprofit's public website? 
+[OPTIONAL] What is the nonprofit's public e-mail? 
+[OPTIONAL] What is your nonprofit's public phone number? 
+What is your nonprofit's admin's name? administrator
+What is your nonprofit's admin's email address? (It'll be used for logging in) admin@email.com
+What is the nonprofit's admin's password? 
+```
+
+> *Note*: <br>- The state has to be a valid US State Code<br>- The admin's password needs at least six characters
 
 There are available arguments that add configurations on the nonprofit's creation:
 

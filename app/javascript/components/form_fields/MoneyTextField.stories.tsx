@@ -7,6 +7,9 @@ import { MoneyTextField } from './index';
 import { action } from '@storybook/addon-actions';
 import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { defaultProps } from '../../common/react';
+import { defaultStoryExport } from '../../tests/stories';
+
+export default defaultStoryExport({ title: 'Form Fields/MoneyTextField' });
 
 function FormInner(props: { control: Control<any>, onChange: (args: { value: Money }) => void }) {
 	const { onChange, control } = props;
@@ -38,7 +41,7 @@ FormHandler.defaultProps = defaultProps(FormHandler, {
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	onChange: () => { },
 });
-export default { title: 'Form Fields/MoneyTextField' };
+
 
 export function usd100() {
 	const usd100 = Money.fromCents(100, 'usd');

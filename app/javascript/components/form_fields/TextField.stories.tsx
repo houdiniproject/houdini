@@ -12,7 +12,10 @@ import { Button, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import noop from 'lodash/noop';
 import { defaultProps } from '../../common/react';
+import { defaultStoryExport } from '../../tests/stories';
 
+
+export default defaultStoryExport({ title: 'Form Fields/TextField' });
 
 function InnerForm({ disabled, onChange, control, helperText }: { control?: Control<unknown>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
 	const value = useWatch({ name: 'value', control });
@@ -92,7 +95,7 @@ function FormHandler(props: {
 FormHandler.defaultProps = defaultProps(FormHandler,{
 	onChange: noop,
 });
-export default { title: 'Form Fields/TextField' };
+
 
 interface StoryProps {
 	helperText?: React.ReactNode;

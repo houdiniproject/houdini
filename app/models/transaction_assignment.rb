@@ -6,9 +6,11 @@ class TransactionAssignment < ApplicationRecord
 
   delegated_type :assignable, types: ['ModernDonation']
 
-  belongs_to :trx, class_name: 'Transaction', foreign_key: "transaction_id"
+  belongs_to :trx, class_name: 'Transaction', foreign_key: "transaction_id", required:true, inverse_of: :transaction_assignments
   has_one :supporter, through: :trx
   has_one :nonprofit, through: :trx
+
+  validates_presence_of :assignable
 
   delegate :to_houid, :publish_updated, to: :assignable
 

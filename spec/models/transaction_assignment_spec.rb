@@ -9,7 +9,8 @@ RSpec.describe TransactionAssignment, type: :model do
   it {
     is_expected.to(belong_to(:trx)
       .class_name('Transaction')
-      .with_foreign_key('transaction_id')
+      .with_foreign_key('transaction_id').required(true)
+      .inverse_of(:transaction_assignments)
     )
   }
 
@@ -23,6 +24,10 @@ RSpec.describe TransactionAssignment, type: :model do
 
   it {
     is_expected.to delegate_method(:to_houid).to(:assignable)
+  }
+
+  it {
+    is_expected.to validate_presence_of(:assignable)
   }
   
 end

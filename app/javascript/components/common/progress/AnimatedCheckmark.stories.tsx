@@ -1,10 +1,10 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 
-import { ComponentMeta } from '@storybook/react';
 import AnimatedCheckmark, { AnimatedCheckmarkProps, Sizes } from './AnimatedCheckmark';
+import { defaultStoryExport } from '../../../tests/stories';
 
-export default {
+export default defaultStoryExport({
 	title: 'common/AnimatedCheckmark',
 	component: AnimatedCheckmark,
 	argTypes: {
@@ -47,7 +47,7 @@ export default {
 
 
 	},
-} as ComponentMeta<typeof AnimatedCheckmark>;
+});
 
 type TemplateArgs = Omit<AnimatedCheckmarkProps, 'size'> & {
 	customSize: number;

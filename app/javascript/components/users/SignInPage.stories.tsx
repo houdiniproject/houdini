@@ -13,8 +13,9 @@ import { getCurrentRoute } from '../../api/api/users';
 import { UserSignsInOnFirstAttempt } from '../../hooks/mocks/useCurrentUserAuth';
 import { NotLoggedInStatus } from '../../hooks/useCurrentUser';
 import { UserPresignedIn } from '../../api/api/mocks/users';
+import { defaultStoryExport } from '../../tests/stories';
 
-export default {
+export default defaultStoryExport({
 	title: 'users/SignInPage',
 	argTypes: {
 		hasHoster: {
@@ -27,7 +28,7 @@ export default {
 			defaultValue: "Houdini Hoster LLC",
 		},
 	},
-};
+});
 
 function SWRWrapper(props: React.PropsWithChildren<unknown>) {
 	return <SWRConfig value={

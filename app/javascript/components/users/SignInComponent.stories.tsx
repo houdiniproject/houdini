@@ -8,7 +8,17 @@ import { SWRConfig } from 'swr';
 
 import { UserSignInFailedWith500And5SecondDelay, UserSignsInOnFirstAttemptWith5SecondDelay } from '../../hooks/mocks/useCurrentUserAuth';
 import { UserPresignedIn } from '../../api/api/mocks/users';
+import { defaultStoryExport } from '../../tests/stories';
 
+export default defaultStoryExport({
+	title: 'users/SignInComponent',
+	argTypes: {
+		showProgressAndSuccess: {
+			type: {name: 'boolean'},
+			defaultValue: true,
+		},
+	},
+});
 
 function SWRWrapper(props:React.PropsWithChildren<unknown>) {
 	return <SWRConfig value={
@@ -25,17 +35,6 @@ function SWRWrapper(props:React.PropsWithChildren<unknown>) {
 		{props.children}
 	</SWRConfig>;
 }
-
-
-export default {
-	title: 'users/SignInComponent',
-	argTypes: {
-		showProgressAndSuccess: {
-			type: {name: 'boolean'},
-			defaultValue: true,
-		},
-	},
-};
 
 interface TemplateArgs {
 	showProgressAndSuccess?: boolean;

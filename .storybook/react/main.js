@@ -42,10 +42,6 @@ module.exports = {
     
   };
 
-  result.module.rules.filter((i) => i.test.test('.ttf')).forEach((i) => {
-    i.use=['url-loader']
-  })
-
 
   return result;
 },

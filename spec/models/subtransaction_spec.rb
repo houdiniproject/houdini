@@ -12,6 +12,7 @@ RSpec.describe Subtransaction, type: :model do
     is_expected.to(belong_to(:trx)
       .class_name('Transaction')
       .with_foreign_key('transaction_id')
+      .inverse_of(:subtransaction)
     )
   }
 

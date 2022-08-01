@@ -28,7 +28,7 @@ RSpec.describe SubtransactionPayment, type: :model do
   }
 
   it {
-    is_expected.to(belong_to(:legacy_payment).class_name('Payment'))
+    is_expected.to(belong_to(:legacy_payment).class_name('Payment').inverse_of(:subtransaction_payment))
   }
 
 
@@ -54,6 +54,10 @@ RSpec.describe SubtransactionPayment, type: :model do
 
   it {
     is_expected.to delegate_method(:to_houid).to(:paymentable)
+  }
+
+  it {
+    is_expected.to validate_presence_of(:paymentable)
   }
   
 end

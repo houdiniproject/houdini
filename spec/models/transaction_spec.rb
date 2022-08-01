@@ -13,7 +13,7 @@ RSpec.describe Transaction, type: :model do
   
 
   it {
-    is_expected.to(belong_to(:supporter))
+    is_expected.to(belong_to(:supporter).required(true))
   }
 
   it {
@@ -21,7 +21,7 @@ RSpec.describe Transaction, type: :model do
   }
   
   it {
-    is_expected.to(have_one(:subtransaction))
+    is_expected.to(have_one(:subtransaction).required(true))
   }
 
   it {

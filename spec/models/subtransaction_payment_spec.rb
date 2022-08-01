@@ -8,7 +8,7 @@ RSpec.describe SubtransactionPayment, type: :model do
 
 
   it {
-    is_expected.to(belong_to(:subtransaction))
+    is_expected.to(belong_to(:subtransaction).inverse_of(:subtransaction_payments))
   }
 
   it {

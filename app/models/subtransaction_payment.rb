@@ -11,7 +11,7 @@ class SubtransactionPayment < ApplicationRecord
 		includes(:legacy_payment).references(:legacy_payments).order("payments.date DESC").order("subtransaction_payments.updated_at DESC") 
 	}
 
-	belongs_to :subtransaction
+	belongs_to :subtransaction, inverse_of: :subtransaction_payments
 	has_one :trx, class_name: 'Transaction', foreign_key: 'transaction_id', through: :subtransaction
 	has_one :supporter, through: :subtransaction
 	has_one :nonprofit, through: :subtransaction

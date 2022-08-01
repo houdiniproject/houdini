@@ -34,5 +34,9 @@ RSpec.describe Subtransaction, type: :model do
   it {
     is_expected.to delegate_method(:to_houid).to(:subtransactable)
   }
+
+  it {
+    is_expected.to validate_presence_of :subtransactable
+  }
   
 end

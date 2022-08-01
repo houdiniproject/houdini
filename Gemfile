@@ -57,7 +57,7 @@ end
 
 group :development, :ci, :test do
   gem 'debug'
-  gem 'dotenv-rails', '~> 2.7', '>= 2.7.5', require: 'dotenv/rails-now'
+  gem 'dotenv-rails', '~> 2.8', require: 'dotenv/rails-now'
   gem 'rspec-rails', '~> 4.1.2'
   gem 'rspec', '~> 3.11.0'
   gem 'rspec-json_expectations', '~> 2'

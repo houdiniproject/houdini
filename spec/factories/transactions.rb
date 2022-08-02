@@ -11,14 +11,48 @@ FactoryBot.define do
 	factory :transaction_base, class: "Transaction" do
 		transient do
 			legacy_donation { nil}
-			legacy_payment { legacy_donation.payments.first}
+			legacy_payments { legacy_donation.payments.first}
 		end
 		supporter { association :supporter_base}
 		after(:build) do |instance, evaluator|
 			instance.transaction_assignments << build(:transaction_assignment_base, legacy_donation: evaluator.legacy_donation)
-			instance.subtransaction = build(:subtransaction_base,legacy_payment: evaluator.legacy_payment)
+			instance.subtransaction = build(:subtransaction_base,legacy_payments: evaluator.legacy_payments)
 		end
-		
+
+		factory :transaction_with_legacy_donation do
+			supporter { create(:supporter_with_fv_poverty) }
+
+			legacy_donation { build(:donation, 
+				supporter: supporter,
+				amount: 4000,
+				nonprofit:supporter.nonprofit, 
+				designation: 'Designation 1',
+				payments: [build(:payment_base, gross_amount: 4000, supporter: supporter, nonprofit: supporter.nonprofit)],
+			)}
+		end
+
+		factory :transaction_for_testing_payment_extensions do
+			supporter { create(:supporter_with_fv_poverty, nonprofit:nonprofit) }
+			
+			transient do
+				nonprofit { build(:fv_poverty, currency: currency)}
+				currency {'fake'}
+				legacy_donation { build(:donation, 
+				supporter: supporter,
+				amount: 4000,
+				nonprofit:supporter.nonprofit, 
+				designation: 'Designation 1',
+				payments: [
+					build(:payment_base, supporter: supporter, nonprofit: supporter.nonprofit, gross_amount: 101, fee_total: -1),
+					build(:payment_base, supporter: supporter, nonprofit: supporter.nonprofit, gross_amount: 202, fee_total: -2),
+					build(:payment_base, supporter: supporter, nonprofit: supporter.nonprofit, gross_amount: 404, fee_total: -4)
+				]
+				)}
+				legacy_payments {
+					legacy_donation.payments
+				}
+			end
+		end
 	end
 
 	factory :transaction_for_offline_donation, class: "Transaction" do
@@ -85,26 +119,26 @@ FactoryBot.define do
 		}
 	end
 
-	factory :transaction_for_testing_payment_extensions, class: "Transaction" do
-		transient do
-			currency {'fake'}
-			payments {[
-				build(:subtransaction_payment, 
-					gross_amount: 101,
-					fee_total: -1),
-				build(:subtransaction_payment,
-				gross_amount: 202,
-				fee_total: -2),
-				build(:subtransaction_payment,
-					gross_amount: 404,
-					fee_total: -4)
-			] }
-		end
-		amount { 707 }
-		nonprofit { build(:nonprofit, currency: currency)}
-		subtransaction {
-			build(:subtransaction, subtransaction_payments: payments)
-		}
+	# factory :transaction_for_testing_payment_extensions, class: "Transaction" do
+	# 	transient do
+	# 		currency {'fake'}
+	# 		payments {[
+	# 			build(:subtransaction_payment, 
+	# 				gross_amount: 101,
+	# 				fee_total: -1),
+	# 			build(:subtransaction_payment,
+	# 			gross_amount: 202,
+	# 			fee_total: -2),
+	# 			build(:subtransaction_payment,
+	# 				gross_amount: 404,
+	# 				fee_total: -4)
+	# 		] }
+	# 	end
+	# 	amount { 707 }
+	# 	nonprofit { build(:nonprofit, currency: currency)}
+	# 	subtransaction {
+	# 		build(:subtransaction, subtransaction_payments: payments)
+	# 	}
 		
-	end
+	# end
 end

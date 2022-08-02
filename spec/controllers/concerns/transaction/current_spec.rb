@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 describe Controllers::ApiNew::Transaction::Current, type: :controller do
-	let(:transaction) { force_create(:transaction_for_offline_donation) }
+	let(:transaction) { create(:transaction_with_legacy_donation) }
 	let(:nonprofit) { transaction.nonprofit }
 
 	controller(ApiNew::ApiController) do

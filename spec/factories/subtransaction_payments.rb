@@ -90,7 +90,7 @@ FactoryBot.define do
 	factory :subtransaction_payment_base, class: 'SubtransactionPayment' do
 		
 		legacy_payment { nil }
-		paymentable { association :offline_transaction_charge_base}
+		paymentable { build(:offline_transaction_charge_base)}
 	end
 
 end

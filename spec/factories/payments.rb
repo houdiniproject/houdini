@@ -7,7 +7,7 @@ FactoryBot.define do
     nonprofit {supporter.nonprofit}
     gross_amount { 333 }
     fee_total {0}
-    net_amount { gross_amount - fee_total}
+    net_amount { gross_amount + fee_total}
     
     trait :with_offline_payment do
       offsite_payment { association :offsite_payment_base, 

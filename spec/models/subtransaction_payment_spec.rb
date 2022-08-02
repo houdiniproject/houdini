@@ -28,9 +28,8 @@ RSpec.describe SubtransactionPayment, type: :model do
   }
 
   it {
-    is_expected.to(belong_to(:legacy_payment).class_name('Payment').inverse_of(:subtransaction_payment))
+    is_expected.to(belong_to(:legacy_payment).class_name('Payment').required(true))
   }
-
 
   it {
     is_expected.to delegate_method(:gross_amount).to(:paymentable)

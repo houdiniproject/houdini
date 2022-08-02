@@ -9,7 +9,7 @@ describe 'transactions factories' do
 
     def create_trx
       legacy_donation = create_legacy_donation
-      create(:transaction_base, legacy_donation: legacy_donation, legacy_payment: legacy_donation.payment, supporter: legacy_donation.supporter)
+      create(:transaction_base, legacy_donation: legacy_donation, legacy_payments: legacy_donation.payment, supporter: legacy_donation.supporter)
     end
 
     it 'creates one payment' do

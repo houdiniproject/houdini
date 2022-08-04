@@ -2,7 +2,7 @@
   "id": "evt_1Y88dEBCJIIhvMWmZItuOKT4",
   "object": "event",
   "api_version": "2015-04-07",
-  "created": 1596430555,
+  "created": 1596430500,
   "data": {
     "object": {
       "id": "dp_05RsQX2eZvKYlo2C0FRTGSSA",
@@ -15,7 +15,7 @@
           "object": "balance_transaction",
           "amount": -40000,
           "available_on": 1596430555,
-          "created": 1596430555,
+          "created": 1596430500,
           "currency": "usd",
           "description": "Chargeback withdrawal for ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
           "exchange_rate": null,

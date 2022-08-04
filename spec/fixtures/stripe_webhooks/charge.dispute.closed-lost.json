@@ -15,7 +15,7 @@
           "object": "balance_transaction",
           "amount": -80000,
           "available_on": 1596430555,
-          "created": 1596430555,
+          "created": 1596430500,
           "currency": "usd",
           "description": "Chargeback withdrawal for ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
           "exchange_rate": null,

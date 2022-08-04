@@ -12,6 +12,16 @@ RSpec.shared_context :disputes_context do
   end
 
   let(:dispute_created_time) { Time.at(1596429790)}
+  let(:dispute_created_time__partial1) {dispute_created_time}
+  
+  let(:dispute_withdrawal_payment_time) { Time.at( 1596430500 )}
+  let(:dispute_withdrawal_payment_time__partial1) {dispute_withdrawal_payment_time}
+
+  let(:dispute_created__partial2) {Time.at( 1596430600 )}
+
+  let(:dispute_withdrawal_payment_time__partial2) {Time.at( 1596430650 )}
+
+  let(:dispute_reinstatement_payment_time) { Time.at( 1596432510)}
 
   let(:dispute) { obj.dispute }
   let(:dispute_transactions) { dispute.dispute_transactions }
@@ -246,6 +256,7 @@ RSpec.shared_context :dispute_funds_withdrawn_specs do
     specify {  expect(subject.fee_total).to eq -1500 }
     specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
     specify {  expect(subject).to be_persisted }
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time }
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -257,7 +268,7 @@ RSpec.shared_context :dispute_funds_withdrawn_specs do
     specify { expect(subject.net_amount).to eq -81500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
   specify { expect(original_payment.refund_total).to eq 80000 }
@@ -334,7 +345,7 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
     specify {  expect(subject.gross_amount).to eq -80000 }
     specify {  expect(subject.fee_total).to eq -1500 }
     specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y75JVBCJIIhvMWmsnGK1JLD' }
-    specify { expect(subject.date).to eq DateTime.new(2019,9,4,13,29,20)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -346,7 +357,7 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
     specify { expect(subject.net_amount).to eq -81500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2019,9,4,13,29,20)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
 
@@ -357,7 +368,7 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
     specify {  expect(subject.fee_total).to eq 1500 }
     specify { expect(subject.net_amount).to eq 81500}
     specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y71X0BCJIIhvMWmMmtTY4m1' }
-    specify { expect(subject.date).to eq DateTime.new(2019,11,28,21,43,10)}
+    specify { expect(subject.date).to eq dispute_reinstatement_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -368,7 +379,7 @@ RSpec.shared_context :dispute_funds_reinstated_specs do
     specify { expect(subject.fee_total).to eq 1500}
     specify { expect(subject.kind).to eq 'DisputeReversed'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2019,11,28,21,43,10)}
+    specify { expect(subject.date).to eq dispute_reinstatement_payment_time}
   end
 
   specify { expect(original_payment.refund_total).to eq 0 }
@@ -445,7 +456,7 @@ RSpec.shared_context :dispute_lost_specs do
     specify { expect(subject.gross_amount).to eq -80000 }
     specify { expect(subject.fee_total).to eq -1500 }
     specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -457,7 +468,7 @@ RSpec.shared_context :dispute_lost_specs do
     specify { expect(subject.net_amount).to eq -81500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
   it 'has no reinstated transaction' do 
@@ -536,7 +547,7 @@ RSpec.shared_context :dispute_won_specs do
     specify {  expect(subject.gross_amount).to eq -80000 }
     specify {  expect(subject.fee_total).to eq -1500 }
     specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y75JVBCJIIhvMWmsnGK1JLD' }
-    specify { expect(subject.date).to eq DateTime.new(2019,8,5,12,29,20)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -548,7 +559,7 @@ RSpec.shared_context :dispute_won_specs do
     specify { expect(subject.net_amount).to eq -81500 }
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2019,8,5,12,29,20)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
 
@@ -558,7 +569,7 @@ RSpec.shared_context :dispute_won_specs do
     specify {  expect(subject.gross_amount).to eq 80000 }
     specify {  expect(subject.fee_total).to eq 1500 }
     specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y71X0BCJIIhvMWmMmtTY4m1' }
-    specify { expect(subject.date).to eq DateTime.new(2019,10,29,20,43,10)}
+    specify { expect(subject.date).to eq dispute_reinstatement_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -570,7 +581,7 @@ RSpec.shared_context :dispute_won_specs do
     specify { expect(subject.net_amount).to eq 81500 }
     specify { expect(subject.kind).to eq 'DisputeReversed'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2019,10,29,20,43,10)}
+    specify { expect(subject.date).to eq dispute_reinstatement_payment_time}
   end
 
   specify { expect(original_payment.refund_total).to eq 0 }
@@ -658,7 +669,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
     specify {  expect(subject.fee_total).to eq -1500 }
     specify { expect(subject.net_amount).to eq -81500}
     specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
-    specify {  expect(subject).to be_persisted }
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -669,7 +680,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_at_same_time_specs do
     specify { expect(subject.fee_total).to eq -1500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
   it 'has only added one payment' do
@@ -770,6 +781,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_in_order_specs do
     specify { expect(subject.net_amount).to eq -81500}
     specify {  expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
     specify {  expect(subject).to be_persisted }
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -780,7 +792,7 @@ RSpec.shared_context :dispute_created_and_withdrawn_in_order_specs do
     specify { expect(subject.fee_total).to eq -1500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
   it 'has only added one payment' do
@@ -888,7 +900,7 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_specs do
     specify { expect(subject.gross_amount).to eq -80000 }
     specify { expect(subject.fee_total).to eq -1500 }
     specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -900,7 +912,7 @@ RSpec.shared_context :dispute_created_withdrawn_and_lost_in_order_specs do
     specify { expect(subject.net_amount).to eq -81500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
   it 'has no reinstated transaction' do 
@@ -978,7 +990,7 @@ RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_specs do
     specify { expect(subject.gross_amount).to eq -80000 }
     specify { expect(subject.fee_total).to eq -1500 }
     specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -990,7 +1002,7 @@ RSpec.shared_context :dispute_created_with_withdrawn_and_lost_in_order_specs do
     specify { expect(subject.net_amount).to eq -81500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
   it 'has no reinstated transaction' do 
@@ -1096,7 +1108,7 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec
     specify { expect(subject.gross_amount).to eq -80000 }
     specify { expect(subject.fee_total).to eq -1500 }
     specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -1108,7 +1120,7 @@ RSpec.shared_context :dispute_lost_created_and_funds_withdrawn_at_same_time_spec
     specify { expect(subject.net_amount).to eq -81500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time}
   end
 
   it 'has no reinstated transaction' do 
@@ -1180,7 +1192,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
   end
 
   it 'has a started_at of dispute_created_time' do
-    expect(obj.started_at).to eq dispute_created_time
+    expect(obj.started_at).to eq dispute_created_time__partial1
   end
 
   describe "dispute" do
@@ -1189,7 +1201,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     specify { expect(subject.gross_amount).to eq 40000 }
     specify { expect(subject.status).to eq "needs_response" }
     specify { expect(subject.reason).to eq 'duplicate' }
-    specify { expect(subject.started_at).to eq dispute_created_time}
+    specify { expect(subject.started_at).to eq dispute_created_time__partial1}
   end
 
   it 'has 1 dispute transactions' do
@@ -1202,7 +1214,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     specify { expect(subject.gross_amount).to eq -40000 }
     specify { expect(subject.fee_total).to eq -1500 }
     specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time__partial1}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -1214,7 +1226,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     specify { expect(subject.net_amount).to eq -41500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 55)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time__partial1}
   end
 
   it 'has no reinstated transaction' do 
@@ -1257,7 +1269,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
   end
 
   it 'has a started_at of dispute_created_time' do
-    expect(obj.started_at).to eq dispute_created_time
+    expect(obj.started_at).to eq dispute_created__partial2
   end
 
   describe "dispute" do
@@ -1266,7 +1278,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     specify { expect(subject.gross_amount).to eq 30000 }
     specify { expect(subject.status).to eq "needs_response" }
     specify { expect(subject.reason).to eq 'duplicate' }
-    specify { expect(subject.started_at).to eq dispute_created_time}
+    specify { expect(subject.started_at).to eq dispute_created__partial2}
   end
 
   it 'has 1 dispute transactions' do
@@ -1279,7 +1291,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     specify { expect(subject.gross_amount).to eq -30000 }
     specify { expect(subject.fee_total).to eq -1500 }
     specify { expect(subject.stripe_transaction_id).to eq 'txn_1Y7pdnBCJIIhvMWmJ9KQVpfB' }
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 56)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time__partial2}
     specify { expect(subject.disbursed).to eq false }
   end
 
@@ -1291,7 +1303,7 @@ RSpec.shared_context :dispute_with_two_partial_disputes_withdrawn_at_same_time_s
     specify { expect(subject.net_amount).to eq -31500}
     specify { expect(subject.kind).to eq 'Dispute'}
     specify { expect(subject.nonprofit).to eq supporter.nonprofit}
-    specify { expect(subject.date).to eq DateTime.new(2020, 8, 3, 4, 55, 56)}
+    specify { expect(subject.date).to eq dispute_withdrawal_payment_time__partial2}
   end
 
   it 'has no reinstated transaction' do 

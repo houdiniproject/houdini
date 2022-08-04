@@ -34,7 +34,9 @@
           "source": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
           "sourced_transfers": {
             "object": "list",
-            "data": [],
+            "data": [
+
+            ],
             "has_more": false,
             "total_count": 0,
             "url": "/v1/transfers?source_transaction=ad_1Y7pdnBCJIIhvMWmK9gD4gwT"
@@ -83,7 +85,8 @@
       },
       "is_charge_refundable": false,
       "livemode": true,
-      "metadata": {},
+      "metadata": {
+      },
       "payment_intent": null,
       "reason": "duplicate",
       "status": "needs_response"

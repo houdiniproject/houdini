@@ -4,98 +4,99 @@
   "api_version": "2015-04-07",
   "created": 1596143835,
   "data": {
-  "object": {
-    "id": "dp_05RsQX2eZvKYlo2C0FRTGSSA",
-    "object": "dispute",
-    "amount": 80000,
-    "balance_transaction": "txn_1Y7pdnBCJIIhvMWmJ9KQVpfB",
-    "balance_transactions": [
-      {
-        "id": "txn_1Y7pdnBCJIIhvMWmJ9KQVpfB",
-        "object": "balance_transaction",
-        "amount": -80000,
-        "available_on": 1596430555,
-        "created": 1596430555,
-        "currency": "usd",
-        "description": "Chargeback withdrawal for ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
-        "exchange_rate": null,
-        "fee": 1500,
-        "fee_details": [
-          {
-            "amount": 1500,
-            "application": null,
-            "currency": "usd",
-            "description": "Dispute fee",
-            "type": "stripe_fee"
-          }
-        ],
-        "net": -81500,
-        "reporting_category": "dispute",
-        "source": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
-        "sourced_transfers": {
-          "object": "list",
-          "data": [
+    "object": {
+      "id": "dp_05RsQX2eZvKYlo2C0FRTGSSA",
+      "object": "dispute",
+      "amount": 80000,
+      "balance_transaction": "txn_1Y7pdnBCJIIhvMWmJ9KQVpfB",
+      "balance_transactions": [
+        {
+          "id": "txn_1Y7pdnBCJIIhvMWmJ9KQVpfB",
+          "object": "balance_transaction",
+          "amount": -80000,
+          "available_on": 1596430555,
+          "created": 1596430555,
+          "currency": "usd",
+          "description": "Chargeback withdrawal for ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
+          "exchange_rate": null,
+          "fee": 1500,
+          "fee_details": [
+            {
+              "amount": 1500,
+              "application": null,
+              "currency": "usd",
+              "description": "Dispute fee",
+              "type": "stripe_fee"
+            }
           ],
-          "has_more": false,
-          "total_count": 0,
-          "url": "/v1/transfers?source_transaction=ad_1Y7pdnBCJIIhvMWmK9gD4gwT"
-        },
-        "status": "available",
-        "type": "adjustment"
-      }
-    ],
-    "charge": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
-    "created": 1596429794,
-    "currency": "usd",
-    "evidence": {
-      "access_activity_log": null,
-      "billing_address": "98501",
-      "cancellation_policy": null,
-      "cancellation_policy_disclosure": null,
-      "cancellation_rebuttal": null,
-      "customer_communication": null,
-      "customer_email_address": "penelope@penelope.yorkie",
-      "customer_name": "Penelope Schultz",
-      "customer_purchase_ip": "1.1.1.1",
-      "customer_signature": null,
-      "duplicate_charge_documentation": null,
-      "duplicate_charge_explanation": null,
-      "dupl1565008160icate_charge_id": null,
-      "product_description": null,
-      "receipt": null,
-      "refund_policy": null,
-      "refund_policy_disclosure": null,
-      "refund_refusal_explanation": null,
-      "service_date": null,
-      "service_documentation": null,
-      "shipping_address": null,
-      "shipping_carrier": null,
-      "shipping_date": null,
-      "shipping_documentation": null,
-      "shipping_tracking_number": null,
-      "uncategorized_file": null,
-      "uncategorized_text": null
+          "net": -81500,
+          "reporting_category": "dispute",
+          "source": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
+          "sourced_transfers": {
+            "object": "list",
+            "data": [
+
+            ],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/transfers?source_transaction=ad_1Y7pdnBCJIIhvMWmK9gD4gwT"
+          },
+          "status": "available",
+          "type": "adjustment"
+        }
+      ],
+      "charge": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
+      "created": 1596429794,
+      "currency": "usd",
+      "evidence": {
+        "access_activity_log": null,
+        "billing_address": "98501",
+        "cancellation_policy": null,
+        "cancellation_policy_disclosure": null,
+        "cancellation_rebuttal": null,
+        "customer_communication": null,
+        "customer_email_address": "penelope@penelope.yorkie",
+        "customer_name": "Penelope Schultz",
+        "customer_purchase_ip": "1.1.1.1",
+        "customer_signature": null,
+        "duplicate_charge_documentation": null,
+        "duplicate_charge_explanation": null,
+        "dupl1565008160icate_charge_id": null,
+        "product_description": null,
+        "receipt": null,
+        "refund_policy": null,
+        "refund_policy_disclosure": null,
+        "refund_refusal_explanation": null,
+        "service_date": null,
+        "service_documentation": null,
+        "shipping_address": null,
+        "shipping_carrier": null,
+        "shipping_date": null,
+        "shipping_documentation": null,
+        "shipping_tracking_number": null,
+        "uncategorized_file": null,
+        "uncategorized_text": null
+      },
+      "evidence_details": {
+        "due_by": 1597881599,
+        "has_evidence": false,
+        "past_due": false,
+        "submission_count": 0
+      },
+      "is_charge_refundable": false,
+      "livemode": true,
+      "metadata": {
+      },
+      "payment_intent": null,
+      "reason": "duplicate",
+      "status": "lost"
     },
-    "evidence_details": {
-      "due_by": 1597881599,
-      "has_evidence": false,
-      "past_due": false,
-      "submission_count": 0
-    },
-    "is_charge_refundable": false,
-    "livemode": true,
-    "metadata": {
-    },
-    "payment_intent": null,
-    "reason": "duplicate",
-    "status": "lost"
+    "previous_attributes": {
+      "status": "needs_response"
+    }
   },
-  "previous_attributes": {
-    "status": "needs_response"
-  }
-},
-"livemode": true,
-"pending_webhooks": 0,
-"request": "req_1Y7U4QjJIHxQz5",
-"type": "charge.dispute.closed"
+  "livemode": true,
+  "pending_webhooks": 0,
+  "request": "req_1Y7U4QjJIHxQz5",
+  "type": "charge.dispute.closed"
 }

@@ -9,7 +9,9 @@
       "object": "dispute",
       "amount": 80000,
       "balance_transaction": null,
-      "balance_transactions": [],
+      "balance_transactions": [
+
+      ],
       "charge": "ch_1Y7zzfBCJIIhvMWmSiNWrPAC",
       "created": 1596429794,
       "currency": "usd",
@@ -50,7 +52,8 @@
       },
       "is_charge_refundable": false,
       "livemode": true,
-      "metadata": {},
+      "metadata": {
+      },
       "payment_intent": null,
       "reason": "duplicate",
       "status": "needs_response"

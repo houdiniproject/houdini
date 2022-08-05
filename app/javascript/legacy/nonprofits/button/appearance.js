@@ -4,6 +4,8 @@ var h = require("virtual-dom/h")
 
 var footer = require('./footer')
 var radioAndLabelWrapper = require('../../components/radio-and-label-wrapper')
+const donateElephantPng = require('../../../../assets/images/graphics/donate-elephant.png')
+const miniAmountStepPng = require('../../../../assets/images/graphics/mini-amount-step.png')
 
 var appearanceStream = flyd.stream()
 
@@ -67,14 +69,14 @@ function fixedButton(){
 
 function embeddedButton(){
 	var title = 'Embed directly on page'
-	var content = [ h('img', {src: app.asset_path + "/graphics/mini-amount-step.png", title: title})]
+	var content = [ h('img', {src: miniAmountStepPng, title: title})]
 	return h('td', [radioAndLabelWrapper('radio-embedded', namePrefix + 'name', {'value': 'embedded'},
 		contentWrapper(title, content), appearanceStream)])
 }
 
 function imageButton(state){
 	var title = 'Custom image'
-	var defaultImg = app.asset_path + "/graphics/donate-elephant.png"
+	const defaultImg = donateElephantPng
 	var imgUrl = state.settings.appearance.customImg ? state.settings.appearance.customImg : defaultImg
 	var content = [ h('img', {src: imgUrl, title: title}),
 		h('input', {type: 'text', name: namePrefix + 'customImg', placeholder: 'Add your image URL here', onkeyup: appearanceStream})]

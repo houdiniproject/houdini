@@ -12,7 +12,7 @@ gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'
 gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://stripe.com/docs/api
 gem 'webpacker', '~> 5.4.3'
-gem 'good_job', '~>2.0'
+gem 'good_job', '~> 3.0'
 
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
 gem "date", "~> 3.0.2"

@@ -31,7 +31,7 @@ appl.def('merge.init', function(){
   appl.def('merge.data', '')
 	appl.def('merge.data.action_recipient', action_recipient())
   request.get('/nonprofits/' + app.nonprofit_id + '/supporters/merge_data')
-    .query({ids: ids})
+    .query({"ids[]": ids})
     .end(function(err, res) {
       appl.def('loading', false)
       appl.def('merge.data.supporters', res.body)

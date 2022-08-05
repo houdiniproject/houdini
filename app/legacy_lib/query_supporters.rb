@@ -759,7 +759,7 @@ UNION DISTINCT
     Qx.select(*QuerySupporters.profile_selects)
       .from("supporters")
       .group_by("supporters.id")
-      .where("supporters.id IN ($ids)", ids: ids.split(','))
+      .where("supporters.id IN ($ids)", ids: ids)
       .execute
   end
 

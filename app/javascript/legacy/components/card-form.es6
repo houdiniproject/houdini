@@ -14,6 +14,8 @@ const request = require('../common/request')
 const createCardStream = require('../cards/create-frp.es6')
 const luhnCheck = require('../common/credit-card-validator.ts').default
 
+const ccSecurityCodePng = require('../../../assets/images/graphics/cc-security-code.png')
+
 // A component for filling out card data, validating it, saving the card to
 // stripe, and then saving a tokenized copy to our servers.
 
@@ -129,7 +131,7 @@ const cvcInput = field =>
   h('fieldset.col-right-4.u-relative', [
     field(h('input', { props: { name: 'cvc' , placeholder: I18n.t('nonprofits.donate.payment.card.cvc') } } ))
   , h('img.security-code-image', {
-      src: `${app.asset_path}/graphics/cc-security-code.png`
+      src: ccSecurityCodePng
     })
   ])
 

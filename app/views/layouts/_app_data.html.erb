@@ -12,7 +12,6 @@ var app = {
 , user_id: <%= current_user ? current_user.id : 'undefined' %>
 , profile: <%= current_user&.profile ? raw(render('app_data/profile', profile: current_user.profile)) : 'undefined' %>
 , profile_id: <%= current_user&.profile ? current_user.profile.id : 'undefined' %>
-, asset_path: "<%= Rails.application.config.assets.prefix %>"
 , host_with_port: "//<%= request.host_with_port %>"
 , google_api:  "<%= ENV['GOOGLE_API_KEY'] %>"
 , google_auth_client_id: "<%= ENV['GOOGLE_AUTH_CLIENT_ID'] %>"

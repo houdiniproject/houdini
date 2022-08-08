@@ -11,7 +11,7 @@ flyd.mergeAll = require('flyd/module/mergeall')
 const scanMerge = require('flyd/module/scanmerge')
 // local
 const request = require('../common/request')
-const createCardStream = require('../cards/create-frp.es6')
+const createCardStream = require('../cards/create-frp.ts').default
 const luhnCheck = require('../common/credit-card-validator.ts').default
 
 const ccSecurityCodePng = require('../../../assets/images/graphics/cc-security-code.png')

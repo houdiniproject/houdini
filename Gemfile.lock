@@ -456,7 +456,7 @@ GEM
       public_suffix
     warden (1.2.9)
       rack (>= 2.0.9)
-    webmock (3.14.0)
+    webmock (3.17.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -538,7 +538,7 @@ DEPENDENCIES
   traceroute (~> 0.8.0)
   turbo_test
   validate_url
-  webmock (~> 3.14)
+  webmock (~> 3.17)
   webpacker (~> 5.4.3)
   wisper-rspec (~> 1.1.0)
 

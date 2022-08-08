@@ -2,7 +2,9 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require 'securerandom'
+require_relative '../../app/legacy_lib/uuid'
+
 describe UUID do
   describe '::Regex' do
     it 'rejects nil' do

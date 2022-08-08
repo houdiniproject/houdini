@@ -4,7 +4,7 @@
 import { Response } from 'superagent';
 
 export interface UI {
-	fail: (response: Response) => void;
+	fail: (response: Response|string) => void;
 	start: () => void;
 	success: (response: Response) => void;
 }

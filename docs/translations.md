@@ -128,7 +128,7 @@ Examples:
   'roles.new.full_permissions_including_bank_payouts' })` and replace the text
   by the name of the constant you created - you can look at how it's done on our
   [SignInComponent.tsx](https://github.com/houdiniproject/houdini/blob/a31e755f1bdf21c5c894018fe8ec3b26fcf6c896/app/javascript/components/users/SignInComponent.tsx#L77);
-* For `.js` or `.es6` files, replace the text with
+* For `.js` files, replace the text with
   `I18n.t('roles.new.full_permissions_including_bank_payouts')`.
 
 6. Commit the changes and open a pull request to Houdini/main.

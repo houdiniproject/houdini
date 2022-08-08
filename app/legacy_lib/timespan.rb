@@ -4,6 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 # For tracking and calculating timespans/time intervals
 # Relies on activesupport
+require 'active_support/time'
 
 Timespan = Struct.new(:interval, :time_unit) do
   self::Units = %w[week day month year].freeze

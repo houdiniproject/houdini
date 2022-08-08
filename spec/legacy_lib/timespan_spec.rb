@@ -2,7 +2,11 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+
+require 'chronic'
+require 'timecop'
+require_relative '../../app/legacy_lib/timespan'
+
 
 describe Timespan do
   describe '#later_than_by?' do
@@ -21,7 +25,7 @@ describe Timespan do
     end
 
     context 'when the second date is sooner than the first by the timespan,' do
-      it 'returns fase' do
+      it 'returns false' do
         sooner = Chronic.parse('2019-01-25')
         expect(Timespan.later_than_by?(date, sooner, month)).to eq(false)
       end

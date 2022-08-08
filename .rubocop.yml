@@ -308,7 +308,6 @@ AllCops:
     - 'app/legacy_lib/import_civicrm_payments.rb'
     - 'app/legacy_lib/get_data.rb'
     - 'app/legacy_lib/name_copy_naming_algorithm.rb'
-    - 'app/legacy_lib/nonprofit_path.rb'
     - 'app/legacy_lib/health_report.rb'
     - 'app/legacy_lib/qexpr_query_chunker.rb'
     - 'app/legacy_lib/qexpr.rb'

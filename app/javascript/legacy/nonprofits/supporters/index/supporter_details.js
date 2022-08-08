@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 var request = require('../../../common/super-agent-promise').default
 var format_err = require('../../../common/format_response_error').default
-var create_offline_donation = require('../../../donations/create_offline')
+const create_offline_donation = require('../../../donations/create_offline').default
 const utils = require('../../../common/utilities').default
 
 const {

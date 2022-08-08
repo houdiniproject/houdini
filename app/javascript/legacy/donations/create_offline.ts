@@ -1,24 +1,32 @@
 // License: LGPL-3.0-or-later
-var request = require('../common/super-agent-promise').default
-var format = require('../common/format').default
+import request from '../common/super-agent-promise';
+import format from '../common/format';
+import type { Response }from 'superagent';
+import { createOffsiteNonprofitsDonationsPath } from '../../routes';
 
-module.exports = create_offsite_donation
+interface UI {
+	fail:(response:Response) => void;
+	start:()=> void;
+	success:(response:Response) => void;
+}
 
-function create_offsite_donation(data, ui) {
-	ui.start()
-  if(data.dollars) {
-    data.amount = format.dollarsToCents(data.dollars)
-    delete data.dollars
-  }
-  if(data.date) data.date = format.date.toStandard(data.date)
-	return request.post('/nonprofits/' + app.nonprofit_id + '/donations/create_offsite')
+declare const app: {nonprofit_id: number};
+
+export default function create_offsite_donation(data:{amount?:number, date?:string, dollars?:string|number }, ui:UI): Promise<Response> {
+	ui.start();
+	if(data.dollars) {
+		data.amount = format.dollarsToCents(data.dollars);
+		delete data.dollars;
+	}
+	if(data.date) data.date = format.date.toStandard(data.date);
+	return request.post(createOffsiteNonprofitsDonationsPath(app.nonprofit_id))
 		.send({donation: data}).perform()
 		.then(function(resp) {
-			ui.success(resp)
-			return resp
+			ui.success(resp);
+			return resp;
 		})
 		.catch(function(resp) {
-			ui.fail(resp)
-			throw new Error(resp)
-		})
+			ui.fail(resp);
+			throw new Error(resp);
+		});
 }

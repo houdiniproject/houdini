@@ -7,7 +7,7 @@ class FrontController < ApplicationController
     if current_role?(%i[nonprofit_admin nonprofit_associate])
       redirect_to dashboard_nonprofit_path(administered_nonprofit)
     elsif current_user
-      redirect_to '/profiles/' + current_user.profile.id.to_s
+      redirect_to profile_path(current_user.profile)
     else
       redirect_to new_user_session_path
     end

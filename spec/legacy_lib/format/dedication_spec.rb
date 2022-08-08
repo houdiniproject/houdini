@@ -2,8 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'spec_helper'
-require 'format/dedication'
+require_relative '../../../app/legacy_lib/format/dedication'
 
 describe Format::Dedication do
   describe '.from_json' do

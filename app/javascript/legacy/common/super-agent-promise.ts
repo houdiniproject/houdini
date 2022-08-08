@@ -3,12 +3,12 @@
 // Also has a Promise api ('.then' and '.catch') rather than the default '.end'
 
 import request from './client';
-import type { SuperAgent, SuperAgentRequest, Response } from 'superagent';
+import type { SuperAgentRequest, Response } from 'superagent';
 
-type SuperAgentRequestWithPerform<Request extends SuperAgentRequest=SuperAgentRequest> = SuperAgent<Request> & { perform: () => Promise<Response> };
+type SuperAgentRequestWithPerform = SuperAgentRequest & { perform: () => Promise<Response> };
 
-function convert_to_promise<Request extends SuperAgentRequest=SuperAgentRequest>(req: Request): SuperAgentRequestWithPerform<Request> {
-	const anyReq = req as unknown as SuperAgentRequestWithPerform<Request>;
+function convert_to_promise(req: SuperAgentRequest): SuperAgentRequestWithPerform {
+	const anyReq = req as unknown as SuperAgentRequestWithPerform;
 	anyReq.perform = function () {
 		return new Promise(function (resolve, reject) {
 			req.end(function (_err, resp) {

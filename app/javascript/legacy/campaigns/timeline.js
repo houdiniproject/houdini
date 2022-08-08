@@ -4,7 +4,7 @@ const R = require('ramda')
 const Chart = require('chart.js')
 const moment = require('moment')
 const dateRange = require('../components/date-range') 
-const chartOptions = require('../components/chart-options')
+const {dollars} = require('../components/chart-options')
 
 var url = `/nonprofits/${app.nonprofit_id}/campaigns/${ENV.campaignID}/timeline`
 
@@ -17,7 +17,7 @@ function query() {
       new Chart(ctx, {
         type: 'line'
       , data: formatData(cumulative(resp.body))
-      , options: chartOptions.dollars
+      , options: dollars
       })
     })
 }

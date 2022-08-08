@@ -113,7 +113,6 @@ app/javascript/legacy/common/vendor/jquery.cookie.js
 app/javascript/legacy/components/address-autocomplete-fields.js
 app/javascript/legacy/components/address-autocomplete.js
 app/javascript/legacy/components/ajax/toggle_soft_delete.js
-app/javascript/legacy/components/chart-options.js
 app/javascript/legacy/components/confirmation-modal.js
 app/javascript/legacy/components/date_range_picker.js
 app/javascript/legacy/components/date-range.js

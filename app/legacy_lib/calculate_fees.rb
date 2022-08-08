@@ -2,6 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
+require 'param_validation'
 module CalculateFees
   BaseFeeRate = 0.022 # 2.2%
   PerTransaction = 30 # 30 cents

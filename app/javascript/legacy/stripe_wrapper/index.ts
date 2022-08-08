@@ -9,7 +9,7 @@ import type { Token} from '@stripe/stripe-js';
  * To use it set the `payment_provider.stripe_proprietary_v2_js` to `false`
  * (which is the default in settings)
  */
-class Stripe {
+export class Stripe {
 	bankAccount: TokenizerWrapper;
 	card: TokenizerWrapper;
 

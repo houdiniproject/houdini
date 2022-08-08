@@ -124,7 +124,6 @@ app/javascript/legacy/components/drag-to-reorder.js
 app/javascript/legacy/components/duplicate_fundraiser.js
 app/javascript/legacy/components/field-with-error.js
 app/javascript/legacy/components/modal.js
-app/javascript/legacy/components/number-input.js
 app/javascript/legacy/components/progress-bar.js
 app/javascript/legacy/components/public-activities.js
 app/javascript/legacy/components/radio-and-label-wrapper.js

@@ -127,7 +127,6 @@ app/javascript/legacy/components/modal.js
 app/javascript/legacy/components/progress-bar.js
 app/javascript/legacy/components/public-activities.js
 app/javascript/legacy/components/radio-and-label-wrapper.js
-app/javascript/legacy/components/radios.js
 app/javascript/legacy/components/render-activities.js
 app/javascript/legacy/components/saving_indicator.js
 app/javascript/legacy/components/search-table.js

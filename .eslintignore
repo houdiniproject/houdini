@@ -83,7 +83,6 @@ app/javascript/legacy/campaigns/supporters/index/page.js
 app/javascript/legacy/campaigns/timeline.js
 app/javascript/legacy/campaigns/totals.js
 app/javascript/legacy/cards/create.js
-app/javascript/legacy/common/ajax/check_campaign_or_event_name.js
 app/javascript/legacy/common/ajax/get_campaign_and_event_names_and_ids.js
 app/javascript/legacy/common/application_view.js
 app/javascript/legacy/common/apply-pikaday.js

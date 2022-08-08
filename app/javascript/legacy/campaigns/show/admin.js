@@ -11,7 +11,7 @@ dupeIt(`/nonprofits/${app.nonprofit_id}/campaigns`, app.campaign_id)
 
 var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
 var create_supporter = require('../../nonprofits/supporters/create')
-var create_offline_donation = require('../../donations/create_offline')
+const create_offline_donation = require('../../donations/create_offline').default
 
 require('../../components/ajax/toggle_soft_delete')(url, 'campaign')
 

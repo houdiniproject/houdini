@@ -2,8 +2,8 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
-require 'numeric'
+
+require_relative '../../app/legacy_lib/numeric'
 
 describe Numeric do
   describe '#floor_for_delta' do

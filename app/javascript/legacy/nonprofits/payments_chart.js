@@ -4,7 +4,7 @@ const R = require('ramda')
 const Chart = require('chart.js')
 const Pikaday = require('pikaday')
 const moment = require('moment')
-const chartOptions = require('../components/chart-options')
+const {dollars} = require('../components/chart-options')
 const { paymentHistoryNonprofitPath } = require('../../routes')
 
 var frontendFormat = 'M/D/YYYY'
@@ -46,7 +46,7 @@ var ctx = document.getElementById('js-paymentsChart').getContext('2d')
 
 var chart = new Chart(ctx, {
   type: 'bar'
-, options: chartOptions.dollars
+, options: dollars
 , data: {labels: [], datasets: []}
 })
 

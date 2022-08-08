@@ -1,30 +1,35 @@
 // License: LGPL-3.0-or-later
-var chartOptions = {}
-const utils = require('../common/utilities').default
 
-chartOptions.default = {
-  defaultFontFamily: "'Open Sans', 'Helvetica Neue', 'Arial',  'sans-serif'"
-, scales: {
-    yAxes: [{ ticks: { min: 0 }}]
- }
-}
+import utils from '../common/utilities';
 
-chartOptions.dollars = {
-  defaultFontFamily: "'Open Sans', 'Helvetica Neue', 'Arial',  'sans-serif'"
-, scales: {
-    yAxes: [{ ticks: {
-      min: 0
-    , callback: (val) => '$' + utils.cents_to_dollars(val)
-    } }]
-  }
-, tooltips: {
-    callbacks: {
-      label: (item, data) =>
-        data.datasets[item.datasetIndex].label + 
-        ': $' + utils.cents_to_dollars(item.yLabel)
-    }
-  }
-}
 
-module.exports = chartOptions
+export const defaultOptions = {
+	defaultFontFamily: "'Open Sans', 'Helvetica Neue', 'Arial',  'sans-serif'",
+	scales: {
+		yAxes: [{ ticks: { min: 0 } }],
+	},
+};
+
+export const dollars = {
+
+	defaultFontFamily: "'Open Sans', 'Helvetica Neue', 'Arial',  'sans-serif'"
+	, scales: {
+		yAxes: [{
+			ticks: {
+				min: 0
+				, callback: (val?: undefined | string | number):string => '$' + utils.cents_to_dollars(val),
+			},
+		}],
+	}
+	, tooltips: {
+		callbacks: {
+			label: (item: {datasetIndex: string, yLabel: string | number }, data: {
+        datasets: { [field: string]: { label: string } };
+      }):string =>
+				data.datasets[item.datasetIndex].label +
+        ': $' + utils.cents_to_dollars(item.yLabel),
+		},
+	},
+};
+
 

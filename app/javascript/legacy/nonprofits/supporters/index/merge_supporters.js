@@ -5,6 +5,11 @@ require('../../../components/wizard')
 var formatErr = require('../../../common/format_response_error').default
 const R = require('ramda')
 
+const {
+ mergeDataNonprofitsSupportersPath,
+ mergeNonprofitsSupportersPath
+} = require('../../../../routes')
+
 appl.def('merge.has_any', function(arr) {
 	var supporters =  appl.merge.data.supporters
 	for(var i = 0, sup_len = supporters.length; i < sup_len; i++) {
@@ -30,7 +35,7 @@ appl.def('merge.init', function(){
   appl.def('loading', true)
   appl.def('merge.data', '')
 	appl.def('merge.data.action_recipient', action_recipient())
-  request.get('/nonprofits/' + app.nonprofit_id + '/supporters/merge_data')
+  request.get(mergeDataNonprofitsSupportersPath(app.nonprofit_id))
     .query({ids: ids})
     .end(function(err, res) {
       appl.def('loading', false)
@@ -57,7 +62,7 @@ appl.def('merge.select_address', function(supp, node) {
 appl.def('merge.submit', function(form_object, node){
 	appl.def('loading', true)
 
-	request.post("/nonprofits/" + app.nonprofit_id + "/supporters/merge")
+	request.post(mergeNonprofitsSupportersPath(app.nonprofit_id))
 		.send({
 			supporter: form_object,
 			supporter_ids: appl.supporters.selected.map(function(s){return s.id})

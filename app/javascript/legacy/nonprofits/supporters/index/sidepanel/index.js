@@ -22,6 +22,10 @@ const flatMap = R.curry(require('flyd/module/flatmap'))
 
 const getSidFromNodeUrl = require('./backport-query-string').default;
 
+const {
+  nonprofitsSupporterPath
+} = require('../../../../../routes')
+
 const init = _ => {
   var state = {
     clickComposing$: flyd.stream()
@@ -39,7 +43,7 @@ const init = _ => {
 
   state.pathPrefix$ = flyd.map(constructPathPrefix, supporterID$)
 
-  const supporterPath$ = flyd.map(id => `/nonprofits/${app.nonprofit_id}/supporters/${id}`, supporterID$)
+  const supporterPath$ = flyd.map(id => nonprofitsSupporterPath(app.nonprofit_id, id), supporterID$)
 
   const supporterResp$ = R.compose(
     flyd.map(x => x.body.data)

@@ -2,6 +2,10 @@
 var action_recipient = require("./action_recipient")
 var request = require('../../../common/client').default
 
+const {
+	bulkDeleteNonprofitsSupportersPath,
+} = require('../../../../routes')
+
 appl.def('show_bulk_delete_supporters', function(){
 	var total = appl.supporters.selecting_all ? appl.supporters.total_count : appl.supporters.selected.length
 	appl
@@ -26,7 +30,7 @@ appl.def('bulk_delete', function() {
   }
 
   appl.def('loading', true)
-  request.put("/nonprofits/" + app.nonprofit_id + "/supporters/bulk_delete")
+  request.put(bulkDeleteNonprofitsSupportersPath(app.nonprofit_id))
 		.send(post_data)
 		.end(function(err, resp){
       appl.def('loading', false)

@@ -2,6 +2,9 @@
 const flyd = require('flimflam/flyd') // for ajaxing /index_metrics, line 27
 const request = require('../../../common/request') // for ajaxing /index_metrics
 const utils = require('../../../common/utilities').default
+const {
+	indexMetricsNonprofitsSupportersPath
+} = require('../../../../routes')
 
 appl.def('supporters.selected', [])
 
@@ -26,7 +29,7 @@ appl.def('supporters.index', function() {
   appl.def('metrics_loading', true)
   const response$ = request({
     method: 'get'
-  , path: `/nonprofits/${ENV.nonprofitID}/supporters/index_metrics`
+  , path: indexMetricsNonprofitsSupportersPath(ENV.nonprofitID)
   , query: appl.supporters.query
   }).load
   const respOk$ = flyd.filter(r => r.status === 200, response$)

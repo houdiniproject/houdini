@@ -4,6 +4,10 @@ var format_err = require('../../../common/format_response_error').default
 var create_offline_donation = require('../../../donations/create_offline')
 const utils = require('../../../common/utilities').default
 
+const {
+	nonprofitsSupporterTagJoinsPath
+} = require ('../../../../routes')
+
 appl.def('supporter_details', {
 	resource_name: 'supporters',
 
@@ -21,7 +25,7 @@ appl.def('supporter_details', {
 		appl.def('supporter_details.activities.path_prefix', path)
 		appl.def('supporter_details.supporter_notes.path_prefix', path)
 		appl.def('supporter_details.custom_fields.path_prefix', path)
-    request.get('/nonprofits/' + app.nonprofit_id + '/supporters/' + supporter.id + '/tag_joins').perform()
+    request.get(nonprofitsSupporterTagJoinsPath(app.nonprofit_id, supporter.id)).perform()
     .then(function(r) { appl.def('supporter_details.tags', r.body) })
 		appl.ajax.index('supporter_details.custom_fields')
 	},

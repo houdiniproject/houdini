@@ -4,7 +4,7 @@ const thunk = require('vdom-thunk')
 
 
 const metrics = require('./metrics')
-const meta = require('./meta)
+const meta = require('./meta')
 const supporterTable = require('./supporter-table.js')
 
 var $ = {

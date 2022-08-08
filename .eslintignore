@@ -129,7 +129,6 @@ app/javascript/legacy/components/render-activities.js
 app/javascript/legacy/components/saving_indicator.js
 app/javascript/legacy/components/search-table.js
 app/javascript/legacy/components/search.js
-app/javascript/legacy/components/select.js
 app/javascript/legacy/components/set-state-from-value.js
 app/javascript/legacy/components/state-selector.js
 app/javascript/legacy/components/supporter-fields.js

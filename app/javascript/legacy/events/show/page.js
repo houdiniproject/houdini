@@ -89,7 +89,7 @@ var path = '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id
 if(app.current_event_editor) {
 	require('./editor')
 	require('./tour')
-	var create_info_card = require('../../supporters/info-card.es6')
+	var create_info_card = require('../../supporters/info-card.js')
 }
 
 

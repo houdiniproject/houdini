@@ -2,7 +2,7 @@
 // Table meta for the supporter listing under Campaigns
 const h = require('virtual-dom/h')
 const thunk = require('vdom-thunk')
-const search = require('../../../components/tables/search.es6')
+const search = require('../../../components/tables/search.js')
 
 const root = state =>
 	h('div.container', [

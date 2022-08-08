@@ -12,11 +12,11 @@ const notification = require('ff-core/notification')
 const button = require('ff-core/button')
 const request = require('../../common/request')
 // local
-const cardForm = require('../../components/card-form.es6')
+const cardForm = require('../../components/card-form')
 const readableInterval = require('../../nonprofits/recurring_donations/readable_interval').default
 const format = require('../../common/format').default
-const supporterAddressForm = require('../../components/supporter-address-form.es6')
-const changeAmountWizard = require('./change-amount-wizard.es6')
+const supporterAddressForm = require('../../components/supporter-address-form.js')
+const changeAmountWizard = require('./change-amount-wizard')
 const utils = require('../../common/utilities').default
 
 
@@ -62,7 +62,7 @@ state.changeAmountWizard = changeAmountWizard.init( {nonprofit:app.pageLoadData.
 
   // Card update streams
   // update the card id on the recurring donation after the card has been saved on CC
-  // (card-form.es6 component will post the card but will not update the card id on the recurring donation)
+  // (card-form.js component will post the card but will not update the card id on the recurring donation)
   state.updateCardID$ = flatMap(
     resp => request({
       method: 'put'

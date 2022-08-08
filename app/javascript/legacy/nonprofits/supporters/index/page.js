@@ -12,7 +12,7 @@ require('./manage_tags')
 require('./manage_custom_fields')
 require('../../../common/ajax/get_campaign_and_event_names_and_ids')(app.nonprofit_id)
 require('./merge_supporters')
-require('../import/index.es6')
+require('../import/index')
 require('../../../components/tables/filtering/apply_filter')('supporters')
 require('./tour')
 

@@ -18,7 +18,7 @@ if(app.current_nonprofit_user) {
     sticky: $('.editable').length > 0
   })
 	require('./tour')
-	var create_info_card = require('../../supporters/info-card.es6')
+	var create_info_card = require('../../supporters/info-card')
 
 	appl.def('todos_action', '/profile_todos')
 	var todos = require('../../components/todos')

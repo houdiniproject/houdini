@@ -2,7 +2,7 @@
 var create_payout = require('../create')
 var format_err = require('../../../common/format_response_error').default
 appl.verify_identity = require('./verify_identity')
-appl.create_bank_account = require('../../../bank_accounts/create.es6')
+appl.create_bank_account = require('../../../bank_accounts/create')
 require('../../../bank_accounts/resend_confirmation_email')
 
 appl.def('create_payout', function(form_obj) {
@@ -24,4 +24,4 @@ var new_payout_ui = {
 	}
 }
 
-require('./identity-verification-form.es6')
+require('./identity-verification-form')

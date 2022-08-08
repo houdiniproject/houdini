@@ -3,9 +3,9 @@ const h = require('virtual-dom/h')
 const thunk = require('vdom-thunk')
 
 
-const metrics = require('./metrics.es6')
-const meta = require('./meta.es6')
-const supporterTable = require('./supporter-table.es6')
+const metrics = require('./metrics')
+const meta = require('./meta)
+const supporterTable = require('./supporter-table.js')
 
 var $ = {
 	showMore: supporterTable.$streams.showMore,

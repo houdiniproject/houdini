@@ -10,8 +10,8 @@ flyd.zip = require('flyd-zip')
 
 const getParams = require('./get-params')
 
-const paymentStep = require('./payment-step.es6')
-const amountStep = require('./amount-step.es6')
+const paymentStep = require('./payment-step')
+const amountStep = require('./amount-step')
 const followupStep = require('./followup-step')
 
 const format = require('../../common/format').default

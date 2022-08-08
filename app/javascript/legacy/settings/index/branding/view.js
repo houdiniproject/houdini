@@ -5,7 +5,7 @@ const R = require('ramda')
 const notification = require('ff-core/notification')
 const button = require('ff-core/button')
 // local
-const colorPicker = require('../../../components/color-picker.es6')
+const colorPicker = require('../../../components/color-picker')
 const fonts = require('../../../common/brand-fonts').default
 
 

@@ -8,7 +8,7 @@ const Im = require('immutable')
 const Map = Im.Map
 const fromJS = Im.fromJS
 
-const list = require('./supporter-list.es6')
+const list = require('./supporter-list.js')
 
 var el = document.querySelector('.js-view-supporters')
 var state = Map({loading: true})

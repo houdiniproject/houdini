@@ -18,7 +18,7 @@ const button = require('ff-core/button')
 // local
 const request = require('../../../common/request')
 const fileInputStream = require('../../../common/file-input-stream')
-const uploadFile = require('../../../common/direct-to-s3-upload.es6')
+const uploadFile = require('../../../common/direct-to-s3-upload')
 const fields = require('./regex-header-matchers')
 
 // The import modal UI

@@ -38,6 +38,11 @@ interface Redirect {
 	redirect(url:string):void;
 }
 
+interface Loading {
+	is_loading():void;
+	not_loading():void;
+}
+
 interface Other {
 	/**
 	 * Unsure what this does
@@ -48,5 +53,5 @@ interface Other {
 
 
 
-export type Appl = General & Format & Modal & WithWizard & Redirect & Other;
+export type Appl = General & Format & Modal & WithWizard & Redirect & Loading & Other;
 

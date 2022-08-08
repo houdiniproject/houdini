@@ -241,7 +241,6 @@ app/javascript/legacy/tickets/index/delete-ticket.js
 app/javascript/legacy/tickets/index/page.js
 app/javascript/legacy/tickets/new.js
 app/javascript/legacy/tickets/wizard.js
-app/javascript/legacy/widget/donate-button.v2.js
 app/javascript/packs/application.js
 app/javascript/packs/create_new_offsite_payment_pane.js
 app/javascript/packs/donate-button-v2.js

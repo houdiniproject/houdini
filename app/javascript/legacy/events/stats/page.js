@@ -12,7 +12,10 @@ const every = require('flyd/module/every')
 const format = require('../../common/format').default
 const request = require('../../common/request')
 
-const eventsPath = `/nonprofits/${app.nonprofit_id}/events/${app.event_id}`
+const {
+  metricsNonprofitEventPath,
+  activitiesNonprofitEventPath,
+} = require('../../../routes');
 
 const makeStatsSquare = vnode => {
   const elm = vnode.elm
@@ -35,8 +38,8 @@ const getEveryMinute = path => flyd.merge(
 
 const init = () => {
   return {
-    metrics$: getEveryMinute(`${eventsPath}/metrics`)
-  , activities$: getEveryMinute(`${eventsPath}/activities`)
+    metrics$: getEveryMinute(metricsNonprofitEventPath(app.nonprofit_id, app.event_id))
+  , activities$: getEveryMinute(activitiesNonprofitEventPath(app.nonprofit_id, app.event_id))
   }
 }
 

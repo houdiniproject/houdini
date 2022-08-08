@@ -10,6 +10,10 @@ const flyd_filter = require('flyd/module/filter')
 const flyd_flatMap = require('flyd/module/flatmap')
 const flyd_mergeAll = require('flyd/module/mergeall')
 
+const {
+  nonprofitsSupporterSupporterNotesPath
+} = require('../../../../../routes')
+
 function init(parentState) {
   var state = {
     submit$: flyd.stream()
@@ -42,7 +46,7 @@ function init(parentState) {
 
 const formatData = state => form => {
   form = serialize(form, {hash: true})
-  const path = `/nonprofits/${app.nonprofit_id}/supporters/${form.supporter_id}/supporter_notes`
+  const path = nonprofitsSupporterSupporterNotesPath(app.nonprofit_id, form.supporter_id);
   const id = state.editData$().id
   return {
     method: state.ajaxMethod$()

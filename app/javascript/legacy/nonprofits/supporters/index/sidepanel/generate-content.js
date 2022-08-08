@@ -4,14 +4,16 @@ const marked = require('marked')
 
 const format = require('../../../../common/format').default
 
-// generate titles and bodies from activity json data
+const {
+  nonprofitsPaymentsPath
+} = require('../../../../../routes')
 
-const pathPrefix = `/nonprofits/${app.nonprofit_id}`
+// generate titles and bodies from activity json data
 
 module.exports = exports = {}
 
 const viewPaymentLink = data =>
-  h('p', [ h('a', {props: {href: `${pathPrefix}/payments?pid=${data.attachment_id}`}}, 'View payment details.') ])
+  h('p', [ h('a', {props: {href: nonprofitsPaymentsPath(app.nonprofit_id, {pid: data.attachment_id})}}, 'View payment details.') ])
 
 exports.RecurringDonation = (data, state) => {
   return {

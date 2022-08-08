@@ -5,6 +5,7 @@ const Chart = require('chart.js')
 const Pikaday = require('pikaday')
 const moment = require('moment')
 const chartOptions = require('../components/chart-options')
+const { paymentHistoryNonprofitPath } = require('../../routes')
 
 var frontendFormat = 'M/D/YYYY'
 var backendFormat  = 'YYYY-MM-DD'
@@ -49,7 +50,7 @@ var chart = new Chart(ctx, {
 , data: {labels: [], datasets: []}
 })
 
-var url = `/nonprofits/${app.nonprofit_id}/payment_history`
+const url = paymentHistoryNonprofitPath(app.nonprofit_id);
 
 function updateChart(params) {
   appl.def('loading_chart', true)

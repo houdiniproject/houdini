@@ -4,9 +4,11 @@ const reorder = require('../components/drag-to-reorder')
 const format = require('../common/format').default
 const R = require('ramda')
 
-const url = `/nonprofits/${app.nonprofit_id}/campaigns/${app.campaign_id}/campaign_gift_options/update_order`
+const {
+	updateOrderNonprofitCampaignCampaignGiftOptionsPath
+} = require('../../routes')
 
-reorder(url, 'js-reorderGifts', appl.ajax_gift_options.index)
+reorder(updateOrderNonprofitCampaignCampaignGiftOptionsPath(app.nonprofit, app.campaign_id), 'js-reorderGifts', appl.ajax_gift_options.index)
 
 appl.def('ajax_gift_options', {
 

@@ -3,12 +3,7 @@ import request from '../common/super-agent-promise';
 import format from '../common/format';
 import type { Response }from 'superagent';
 import { createOffsiteNonprofitsDonationsPath } from '../../routes';
-
-interface UI {
-	fail:(response:Response) => void;
-	start:()=> void;
-	success:(response:Response) => void;
-}
+import { UI } from '../types/UI';
 
 declare const app: {nonprofit_id: number};
 

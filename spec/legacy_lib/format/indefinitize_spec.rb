@@ -2,8 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'spec_helper'
-require 'format/indefinitize'
+require_relative '../../../app/legacy_lib/format/indefinitize'
 
 describe Format::Indefinitize do
   describe '#article' do

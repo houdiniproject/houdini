@@ -230,6 +230,8 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    js-routes (2.2.4)
+      railties (>= 4)
     json (2.6.2)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -503,6 +505,7 @@ DEPENDENCIES
   i18n-js (~> 3.8)!
   image_processing (~> 1.12.2)
   jbuilder (~> 2.11)
+  js-routes
   kaminari
   listen
   lograge (~> 0.12.0)

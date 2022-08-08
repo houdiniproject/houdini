@@ -105,3 +105,5 @@ gem "react_on_rails", "12.6.0"
 gem 'kaminari'
 
 gem 'http_accept_language'
+
+gem "js-routes"

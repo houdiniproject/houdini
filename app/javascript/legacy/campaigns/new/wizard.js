@@ -2,7 +2,7 @@
 require('../../common/pikaday-timepicker')
 require('../../components/wizard')
 require('../../common/image_uploader')
-var checkName = require('../../common/ajax/check_campaign_or_event_name')
+const checkName = require('../../common/ajax/check_campaign_or_event_name').default
 const utils = require('../../common/utilities').default
 
 

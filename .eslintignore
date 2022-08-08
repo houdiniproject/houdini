@@ -98,7 +98,6 @@ app/javascript/legacy/common/image_uploader.js
 app/javascript/legacy/common/jquery_additions.js
 app/javascript/legacy/common/notification.js
 app/javascript/legacy/common/on-change-sanitize-slug.js
-app/javascript/legacy/common/on-ios11.js
 app/javascript/legacy/common/panels_layout.js
 app/javascript/legacy/common/pikaday-timepicker.js
 app/javascript/legacy/common/post-form-data.js

@@ -1,14 +1,6 @@
 const donate_css = require('../../assets/stylesheets/donate-button/donate-button.v2.css');
 
 const iframeHost = require('./details.js.erb')
-
-function on_ios11() {
-    var userAgent = window.navigator.userAgent;
-    var has11 = userAgent.search("OS 11_\\d") > 0
-    var hasMacOS = userAgent.search(" like Mac OS X") > 0
-  
-    return has11 && hasMacOS;
-  }
   
   const windowAsAny = window as any;
   windowAsAny.commitchange = {
@@ -31,13 +23,8 @@ function on_ios11() {
     return (event:Event) => {
       overlay.className = 'commitchange-overlay commitchange-open'
       iframe.className = 'commitchange-iframe commitchange-open'
-      if (on_ios11()) {
-          iframe.style.position = 'absolute'
-      }
+
       commitchange.setParams(commitchange.getParamsFromButton(event.currentTarget), iframe)
-      if (on_ios11()) {
-          iframe.scrollIntoView()
-      }
   
       commitchange.open_iframe = iframe
       commitchange.open_overlay = overlay

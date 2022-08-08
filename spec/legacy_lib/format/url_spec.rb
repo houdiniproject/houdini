@@ -2,9 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'spec_helper'
-require 'format/url'
-require 'ostruct'
+require_relative '../../../app/legacy_lib/format/url'
 
 describe Format::Url do
   describe '.concat' do

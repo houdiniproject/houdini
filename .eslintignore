@@ -231,7 +231,6 @@ app/javascript/legacy/settings/index/email-settings/index.js
 app/javascript/legacy/settings/index/email-settings/view.js
 app/javascript/legacy/settings/index/integrations/index.js
 app/javascript/legacy/settings/index/page.js
-app/javascript/legacy/super-admin/fullcontact-table.js
 app/javascript/legacy/super-admin/nonprofits-table.js
 app/javascript/legacy/super-admin/page.js
 app/javascript/legacy/super-admin/profiles-table.js

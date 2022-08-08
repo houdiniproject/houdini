@@ -2,7 +2,7 @@
 require('../../common/restful_resource')
 require('../new')
 var create_card = require('../../cards/create')
-var create_donation = require('../../donations/create')
+const create_donation = require('../../donations/create').default
 var request = require('../../common/super-agent-promise').default
 var get_ticket_levels = require('../../ticket_levels/get_totals').default
 var format_err = require('../../common/format_response_error').default

@@ -8,7 +8,6 @@ const snabbdom = require('snabbdom')
 const modal = require('ff-core/modal')
 flyd.mergeAll = require('flyd/module/mergeall')
 flyd.scanMerge = require('flyd/module/scanmerge')
-const format = require('../../common/format').default
 const giftOptions = require('./gift-option-list')
 const chooseGiftOptionsModal = require('./choose-gift-options-modal')
 const metricsAndContributeBox = require('./metrics-and-contribute-box')

@@ -105,7 +105,6 @@ app/javascript/legacy/common/restful_resource.js
 app/javascript/legacy/common/scroll_toggle_class.js
 app/javascript/legacy/common/search-data.js
 app/javascript/legacy/common/super-agent-frp.js
-app/javascript/legacy/common/super-agent-promise.js
 app/javascript/legacy/common/time-remaining.js
 app/javascript/legacy/common/vendor/bootstrap-tour-standalone.js
 app/javascript/legacy/common/vendor/bootstrap.js

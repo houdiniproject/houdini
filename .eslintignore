@@ -294,7 +294,6 @@ app/javascript/legacy/campaigns/supporters/index/meta.es6
 app/javascript/legacy/campaigns/supporters/index/metrics.es6
 app/javascript/legacy/campaigns/supporters/index/supporter-list.es6
 app/javascript/legacy/campaigns/supporters/index/supporter-table.es6
-app/javascript/legacy/cards/create-frp.es6
 app/javascript/legacy/common/direct-to-s3-upload.es6
 app/javascript/legacy/common/editor/froala.es6
 app/javascript/legacy/common/editor/quill.es6

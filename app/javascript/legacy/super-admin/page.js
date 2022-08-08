@@ -6,7 +6,6 @@ const tabswap = require('flimflam/ui/tabswap')
 
 const nposTable = require('./nonprofits-table')
 const profilesTable = require('./profiles-table')
-const fullContactTable = require('./fullcontact-table')
 const topNav = require('../components/top-nav')
 const searchData = require('../common/search-data')
 
@@ -15,13 +14,11 @@ const init = () => {
   const pageLength = 30
   const nposData = searchData('admin/search-nonprofits', pageLength)
   const profilesData = searchData('admin/search-profiles', pageLength)
-  const fullContactData = searchData('admin/search-fullcontact', pageLength)
 
   return {
     activeTab$
   , nposData
   , profilesData
-  , fullContactData
   }
 }
 
@@ -35,7 +32,6 @@ const view = state =>
       tabswap.content({ sections: [
           [nposTable(state.nposData)]
         , [profilesTable(state.profilesData)]
-        , [fullContactTable(state.fullContactData)]
         ]
       , active$: state.activeTab$})
     ])

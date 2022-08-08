@@ -139,7 +139,6 @@ app/javascript/legacy/components/state-selector.js
 app/javascript/legacy/components/supporter-fields.js
 app/javascript/legacy/components/tables/filtering/apply_filter.js
 app/javascript/legacy/components/text-input.js
-app/javascript/legacy/components/textarea.js
 app/javascript/legacy/components/todos.js
 app/javascript/legacy/components/top-nav.js
 app/javascript/legacy/components/wizard.js

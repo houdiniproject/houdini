@@ -7,7 +7,7 @@ require('../../../refunds/create')
 require('../../supporters/get_name')
 require('./payment_details')
 require('../../../components/tables/filtering/apply_filter')('payments')
-require('../../../common/ajax/get_campaign_and_event_names_and_ids')(app.nonprofit_id)
+require('../../../common/ajax/get_campaign_and_event_names_and_ids').default(app.nonprofit_id)
 require('../../supporters/index/import')
 var format = require('../../../common/format').default
 const utils = require('../../../common/utilities').default

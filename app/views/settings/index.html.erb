@@ -11,7 +11,6 @@
     app.current_nonprofit_user = <%= !!@nonprofit %> 
     app.current_user_id = <%= @user.id %>
   </script>
-	<%= render 'common/froala' if current_nonprofit_user? %>
 	<%= javascript_packs_with_chunks_tag 'i18n', 'page__settings__index' %>
 <% end %>
 

@@ -40,7 +40,6 @@
 		appl.def('current_nonprofit_user', <%= current_nonprofit_user? %>)
 	</script>
   <%= render 'schema', npo: @nonprofit %>
-	<%= render 'common/froala' if current_nonprofit_user? %>
 
   <% # needs to be after the page load because that's when I18n is included %>
   <script>

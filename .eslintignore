@@ -294,7 +294,6 @@ app/javascript/legacy/campaigns/supporters/index/metrics.js
 app/javascript/legacy/campaigns/supporters/index/supporter-list.js
 app/javascript/legacy/campaigns/supporters/index/supporter-table.js
 app/javascript/legacy/common/direct-to-s3-upload.js
-app/javascript/legacy/common/editor/froala.js
 app/javascript/legacy/common/editor/quill.js
 app/javascript/legacy/common/post-form-data.js
 app/javascript/legacy/components/card-form.js

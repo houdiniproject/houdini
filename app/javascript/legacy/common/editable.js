@@ -4,7 +4,5 @@
 // to avoid unwanted display side effects
 
 
-if (app.editor === 'froala')
-	module.exports = require('./editor/froala.js')
-else if (app.editor === 'quill')
+if (app.editor === 'quill')
 	module.exports = require('./editor/quill.js')

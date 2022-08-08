@@ -22,7 +22,7 @@
   </script>
 
   <%= render 'schema', campaign: @campaign, url: @url %>
-  <%= render 'common/froala' if current_campaign_editor? %>
+
 <%= javascript_packs_with_chunks_tag 'i18n', 'page__campaigns__show' %>
 <script>
   appl.def('campaign_is_deleted', <%= @campaign.deleted || false %>)

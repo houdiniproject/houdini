@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const utils = require('./utilities').default
-var el_swapo = {}
 
 $('*[swap-in]').each(function(i) {
 	var self = this
@@ -28,4 +27,3 @@ if(current_page && current_swap) {
   setTimeout(() => document.querySelector(`[swap-in='${current_page}']`).click(), 400)
 }
 
-module.exports = el_swapo

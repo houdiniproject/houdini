@@ -13,16 +13,9 @@ const flyd = require('flyd')
 const R = require('ramda')
 const render = require('ff-core/render')
 const modal = require('ff-core/modal')
-const noScroll = require('no-scroll')
-
-const on_ios11 = require('../../common/on-ios11')
 
 function createClickListener(startWiz$){
     return (...props) => {
-        if (on_ios11())
-        {
-            noScroll.on()
-        }
         startWiz$(...props)
     }
 
@@ -36,14 +29,6 @@ function init() {
   const donateButtons = document.querySelectorAll('.js-openDonationModal')
   R.map(x => x.addEventListener('click', createClickListener(startWiz$)), donateButtons)
   state.modalID$ = flyd.map(R.always('donationModal'), startWiz$)
-  flyd.on((id) => {
-      if (on_ios11() &&  id ===null ){
-           noScroll.off()
-      }}, state.modalID$)
-    flyd.on((id) => {
-        if (on_ios11() && id !==null){
-            noScroll.on()
-        }}, state.modalID$)
   state.donateWiz = donateWiz.init(flyd.stream({event_id: app.event_id, hide_cover_fees_option: app.hide_cover_fees_option}))
   return state
 }

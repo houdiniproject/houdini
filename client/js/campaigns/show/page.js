@@ -25,8 +25,6 @@ require('../../common/fundraiser_metrics')
 require('../../components/fundraising/add_header_image')
 require('../../common/restful_resource')
 require('../../gift_options/index')
-const on_ios11 = require('../../common/on-ios11')
-const noScroll = require('no-scroll')
 appl.ajax_gift_options.index()
 
 
@@ -90,18 +88,6 @@ function init() {
   state.modalID$ = flyd.merge(
       flyd.map(R.always('chooseGiftOptionsModal'), clickContributeGifts$)
     , flyd.map(R.always('donationModal'), startWiz$))
-
-  flyd.on((id) => {
-    if (on_ios11() &&  id === null) {
-      noScroll.off()
-    }
-  }, state.modalID$)
-
-    flyd.on((id) => {
-        if (on_ios11() &&  id !== null) {
-            noScroll.on()
-        }
-    }, state.modalID$)
 
   // Stream of which gift option you have selected
   const giftOption$ = flyd.map(setGiftParams, state.giftOptions.clickOption$)

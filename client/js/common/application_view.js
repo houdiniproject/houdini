@@ -3,8 +3,6 @@ var confirmation = require('./confirmation')
 var notification = require('./notification')
 var moment = require('moment-timezone')
 var appl = require('view-script')
-const on_ios11 = require('./on-ios11')
-const noScroll = require('no-scroll')
 
 module.exports = appl
 
@@ -52,9 +50,7 @@ appl.def('open_modal', function(modalId) {
 	$('#' + modalId).addClass('inView')
 
 	$('body').addClass('is-showingModal')
-    if (on_ios11()){
-        noScroll.on()
-    }
+
 	return appl
 })
 
@@ -62,9 +58,7 @@ appl.def('open_modal', function(modalId) {
 appl.def('close_modal', function() {
 	$('.modal').removeClass('inView')
 	$('body').removeClass('is-showingModal')
-    if (on_ios11()) {
-        noScroll.off()
-    }
+
 	return appl
 })
 

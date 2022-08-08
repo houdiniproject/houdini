@@ -4,18 +4,6 @@ const branding = require('../../components/nonprofit-branding')
 const format = require('../../common/format')
 const soldOut = require('./is-sold-out')
 
-// function prepareForIOS11()
-// {
-//     bad_elements = $('.ff-modalBackdrop')
-//     for(var i = 0; i < bad_elements.length; i++)
-//     {
-//         bad_elements[i].classList.add('ios-force-absolute-positioning')
-//     }
-//
-//
-//     $('body').scrollTop(195) // so incredibly hacky
-// }
-
 
 module.exports = (state, gift) => {
   if(state.timeRemaining$() <= 0) return '' // dont show gift options button if the campaign has ended

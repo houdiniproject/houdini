@@ -963,7 +963,7 @@ Public License instead of this License.
 
 ------
 
-** rubocop-ast; version 1.19.1 -- 
+** rubocop-ast; version 1.21.0 -- 
 Copyright (c) 2012-20 Bozhidar Batsov
 
 Copyright (c) 2012-20 Bozhidar Batsov
@@ -2538,7 +2538,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.32.0 -- 
+** rubocop; version 1.33.0 -- 
 Copyright (c) 2018 Hayato Kawai
 Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov

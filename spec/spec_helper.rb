@@ -13,15 +13,9 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-
+require 'timecop'
 require 'support/expect'
-require 'support/mock_helpers'
-require 'action_mailer_matchers'
-require 'active_job'
-require 'wisper/rspec/matchers'
-require 'validate_url/rspec_matcher'
-require 'support/stripe_mock_helper'
-include ActiveJob::TestHelper
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -104,25 +98,8 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-  config.include ActionMailerMatchers
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation, except: %w(ar_internal_metadata))
-    Rails.application.load_seed
-  end
-
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
-    clear_enqueued_jobs
-  end
-
-  config.include(Wisper::RSpec::BroadcastMatcher)
 
   config.example_status_persistence_file_path = 'tmp/example_status_persistence_file_path.txt'
 
-  config.after(:each) do
-    StripeMockHelper.stop
-  end
+  config.include Expect
 end

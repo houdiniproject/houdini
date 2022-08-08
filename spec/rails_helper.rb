@@ -12,9 +12,14 @@ require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'devise'
 require 'support/factory_bot'
-require 'timecop'
+require 'support/mock_helpers'
+require 'action_mailer_matchers'
+require 'active_job'
+require 'wisper/rspec/matchers'
 require 'support/contexts'
-include Expect
+require 'support/stripe_mock_helper'
+require 'validate_url/rspec_matcher'
+include ActiveJob::TestHelper
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -74,6 +79,25 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include RSpec::Rails::RequestExampleGroup, type: :request, file_path: %r{spec/api}
+  config.include(Wisper::RSpec::BroadcastMatcher)
+
+  config.include ActionMailerMatchers
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation, except: %w(ar_internal_metadata))
+    Rails.application.load_seed
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+    clear_enqueued_jobs
+  end
+
+  config.after(:each) do
+    StripeMockHelper.stop
+  end
 
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|

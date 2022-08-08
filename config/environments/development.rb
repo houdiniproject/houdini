@@ -84,4 +84,6 @@ Rails.application.configure do
   config.dependency_loading = true if $rails_rake_task
 
   config.middleware.use I18n::JS::Middleware
+
+  config.middleware.use JsRoutes::Middleware
 end

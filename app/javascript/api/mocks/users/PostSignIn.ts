@@ -3,13 +3,14 @@
 import { rest } from 'msw';
 import { SetAuthenticated } from '../../api/mocks/users';
 import { waitFor } from '@testing-library/react';
-import { InvalidUsernameAndPassword, postSignInRoute } from '../../users';
+import { InvalidUsernameAndPassword} from '../../users';
+import { userSessionPath} from '../../../routes';
 
 const AllowUserSignIn = 'allow-user-sign-in';
 const WaitDuringPostSignIn = 'wait-during-post-sign-in';
 
 export const UserSignInSucceeds = [
-	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(userSessionPath(), async (_req, res, ctx) => {
 		SetAuthenticated();
 		return res(
 			ctx.json({ "status": "success" })
@@ -19,7 +20,7 @@ export const UserSignInSucceeds = [
 
 
 export const UserSignInSucceedsWithDelay = [
-	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(userSessionPath(), async (_req, res, ctx) => {
 		SetAuthenticated();
 		return res(
 			ctx.delay(5000),
@@ -29,25 +30,25 @@ export const UserSignInSucceedsWithDelay = [
 ];
 
 export const UserSignInFailsFromServerError = [
-	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(userSessionPath(), async (_req, res, ctx) => {
 		return res(ctx.status(500));
 	}),
 ];
 
 export const UserSignInFailsFromServerErrorWithDelay = [
-	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(userSessionPath(), async (_req, res, ctx) => {
 		return res(ctx.delay(5000), ctx.status(500));
 	}),
 ];
 
 export const UserSignInFailsFromInvalidLogin = [
-	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(userSessionPath(), async (_req, res, ctx) => {
 		return res(ctx.status(InvalidUsernameAndPassword));
 	}),
 ];
 
 export const UserSignInFailsOnceAndThenSucceeds = [
-	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(userSessionPath(), async (_req, res, ctx) => {
 		if (WillAllowUserSignIn()) {
 			SetAuthenticated();
 			return res(
@@ -62,7 +63,7 @@ export const UserSignInFailsOnceAndThenSucceeds = [
 ];
 
 export const UserSignInWaitUntilSignal = [
-	rest.post(postSignInRoute.url(), async (_req, res, ctx) => {
+	rest.post(userSessionPath(), async (_req, res, ctx) => {
 		await waitFor(() => WillWaitDuringUserSignIn());
 		return res(
 			ctx.json({ "status": "success" })

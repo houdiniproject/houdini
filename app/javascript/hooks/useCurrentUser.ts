@@ -2,7 +2,9 @@
 import { createContext, useContext } from "react";
 import useSWR from "swr";
 import { getCurrent, NotLoggedInStatus } from "../api/api/users";
-import users from "../routes/api/users";
+
+import {currentApiUsersPath} from '../routes';
+
 export {NotLoggedInStatus} from '../api/api/users';
 
 /**
@@ -74,7 +76,7 @@ export interface SetCurrentUserReturnType extends UseCurrentUserReturnType {
 function useCurrentUser<TReturnType extends UseCurrentUserReturnType = UseCurrentUserReturnType>(): TReturnType {
 	const initialCurrentUser = useContext(InitialCurrentUserContext);
 
-	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(users.apiUsersCurrent.url(), getCurrent, { fallbackData: initialCurrentUser });
+	const { data, mutate, error, isValidating:validatingCurrentUser } = useSWR(currentApiUsersPath(), getCurrent, { fallbackData: initialCurrentUser });
 	const currentUser = error?.status === NotLoggedInStatus ? null : data;
 
 	async function revalidate() {

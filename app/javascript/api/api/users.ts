@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import type { CurrentUser } from "../../hooks/useCurrentUser";
-import userRoutes from '../../routes/api/users';
+import {currentApiUsersPath} from '../../routes';
 import { NetworkError } from "../errors";
 import {StatusCode} from '../status_codes';
 import 'whatwg-fetch';
@@ -14,7 +14,7 @@ export async function getCurrent(init: RequestInit={}): Promise<CurrentUser> {
 		},
 	} as const;
 
-	const response = await fetch(userRoutes.apiUsersCurrent.url(), { ...defaultConfig, ...init });
+	const response = await fetch(currentApiUsersPath(), { ...defaultConfig, ...init });
 
 	if (response.ok) {
 		return (await response.json()) as CurrentUser;
@@ -37,4 +37,4 @@ async function safelyGetJson(response:Response) :Promise<unknown|null>
 
 export const NotLoggedInStatus = StatusCode.Forbidden;
 
-export const getCurrentRoute:typeof userRoutes['apiUsersCurrent']  = userRoutes.apiUsersCurrent;
+export const getCurrentRoute  = currentApiUsersPath;

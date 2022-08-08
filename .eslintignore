@@ -5,6 +5,10 @@ public/*
 log/*
 coverage/*
 
+# generated routes files
+app/javascript/routes.js
+app/javascript/routes.d.ts
+
 # old ts files we want to migrate
 app/javascript/donate-button/donate-button.v2.ts
 app/javascript/legacy_react/api/api/api.ts

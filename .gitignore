@@ -79,3 +79,7 @@ app/javascript/i18n/locales
 
 # No package-lock.json file from npm
 package-lock.json
+
+# generated js-route files
+app/javascript/routes.js
+app/javascript/routes.d.ts

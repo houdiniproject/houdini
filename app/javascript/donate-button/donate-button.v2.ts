@@ -42,9 +42,7 @@ const iframeHost = require('./details.js.erb')
     if(!commitchange.open_overlay || !commitchange.open_iframe) return
     commitchange.open_overlay.className = 'commitchange-overlay commitchange-closed'
     commitchange.open_iframe.className = 'commitchange-iframe commitchange-closed'
-    if (on_ios11()) {
-        commitchange.open_iframe.style.position = 'fixed'
-    }
+
     commitchange.open_overlay = undefined
     commitchange.open_iframe = undefined
   }

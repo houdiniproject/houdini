@@ -82,7 +82,7 @@ versions at the console when you change to a directory for
 an project prepared for RVM, like Houdini.
 * Automatic Version Switching for Node (AVN) - similar to RVM, AVN makes it simple to switch between versions of Node. When
 properly configured, it automatically switches version at
-the console whe you change to a directory for a project
+the console when you change to a directory for a project
 prepared for AVN, like Houdini.
 
 ### One-time setup

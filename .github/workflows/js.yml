@@ -77,6 +77,8 @@ jobs:
           ruby-version: ${{ env.ruby }}
           bundler-cache: true
       - run: bin/setup ci
+      - name: Generate JS routes
+        run: bin/rails js:routes:typescript
       - name: run jest
         run: yarn jest
   webpack:
@@ -105,6 +107,8 @@ jobs:
           bundler-cache: true
       - name: run setup
         run: bin/setup ci
+      - name: Generate JS routes
+        run: bin/rails js:routes:typescript
       - name: Webpack compile everything
         run: yarn webpack
       - name: Verify storybook compiles

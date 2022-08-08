@@ -1,13 +1,16 @@
 // License: LGPL-3.0-or-later
 const includes = require('lodash/includes');
 var request = require('../client').default
-const campaign = require('../../../routes/nonprofits/campaigns').default;
-const event = require('../../../routes/nonprofits/events').default;
+
+const {
+  nameAndIdNonprofitCampaignsPath,
+  nameAndIdNonprofitEventsPath,
+} =  require('../../../routes');
 
 module.exports = function(name, event_or_campaign, callback) {
   const url = event_or_campaign == "event" ? 
-    campaign.nameAndIdNonprofitCampaigns.path(app.nonprofit_id) :
-    event.nameAndIdNonprofitEvents.path(app.nonprofit_id);
+    nameAndIdNonprofitCampaignsPath(app.nonprofit_id) :
+    nameAndIdNonprofitEventsPath(app.nonprofit_id);
 
   request.get(url)
     .end(function(err, resp){

@@ -1,12 +1,14 @@
 // License: LGPL-3.0-or-later
 var request = require('../client').default
 
-const campaign = require('../../../routes/nonprofits/campaigns').default
-const events = require('../../../routes/nonprofits/events').default
+const {
+  nameAndIdNonprofitCampaignsPath,
+  nameAndIdNonprofitEventsPath,
+} =  require('../../../routes');
 
 module.exports = function(npo_id) {
-  const campaignsPath = campaign.nameAndIdNonprofitCampaigns.path(npo_id)
-  const eventsPath = events.nameAndIdNonprofitEvents.path(npo_id)
+  const campaignsPath = nameAndIdNonprofitCampaignsPath(npo_id)
+  const eventsPath = nameAndIdNonprofitEventsPath(npo_id)
 
   request.get(campaignsPath).end(function(err, resp){
     var dataResponse = []

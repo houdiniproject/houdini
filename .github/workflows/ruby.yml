@@ -64,6 +64,8 @@ jobs:
           cd gems/bess
           bundle exec rake spec
       - run: bin/setup ci
+      - name: Generate JS routes
+        run: bin/rails js:routes:typescript
       - name: run spec
         run: bundle exec rake spec
   rubocop:

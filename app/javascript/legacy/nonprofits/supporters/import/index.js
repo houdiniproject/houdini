@@ -19,7 +19,7 @@ const button = require('ff-core/button')
 const request = require('../../../common/request')
 const fileInputStream = require('../../../common/file-input-stream')
 const uploadFile = require('../../../common/direct-to-s3-upload')
-const fields = require('./regex-header-matchers')
+const fields = require('./regex-header-matchers').default
 
 // The import modal UI
 // Upload a CSV, match up the columns, and import!

@@ -5,7 +5,7 @@
 class FrontController < ApplicationController
   def index
     if current_role?(%i[nonprofit_admin nonprofit_associate])
-      redirect_to NonprofitPath.dashboard(administered_nonprofit)
+      redirect_to dashboard_nonprofit_path(administered_nonprofit)
     elsif current_user
       redirect_to '/profiles/' + current_user.profile.id.to_s
     else

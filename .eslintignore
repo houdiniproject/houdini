@@ -193,7 +193,6 @@ app/javascript/legacy/nonprofits/reports/modal.js
 app/javascript/legacy/nonprofits/show/page.js
 app/javascript/legacy/nonprofits/show/tour.js
 app/javascript/legacy/nonprofits/supporter_form/page.js
-app/javascript/legacy/nonprofits/supporters/create.js
 app/javascript/legacy/nonprofits/supporters/get_name.js
 app/javascript/legacy/nonprofits/supporters/import/regex-header-matchers.js
 app/javascript/legacy/nonprofits/supporters/index/action_recipient.js

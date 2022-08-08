@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 // Retrieve the total attendee (ticket) counts for every ticket level for a given event
-var request = require("../common/super-agent-promise")
+var request = require("../common/super-agent-promise").default
 
 module.exports = get_totals
 

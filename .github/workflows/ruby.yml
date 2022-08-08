@@ -4,7 +4,6 @@ on:
   pull_request:
     paths-ignore:
       - "**.[jt]sx?"
-      - "**.es6"
       - "**.md"
       - "**.md"
       - "NOTICE-js"

@@ -3,7 +3,7 @@ const R = require('ramda')
 const flyd = require('flyd')
 flyd.flatMap = require('flyd/module/flatmap')
 const request = require('../../common/request')
-const confirmation = require('../../common/confirmation')
+const confirmation = require('../../common/confirmation').default
 
 const stream = flyd.stream()
 

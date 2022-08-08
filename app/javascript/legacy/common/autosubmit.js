@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-var confirmation = require('./confirmation')
+const confirmation = require('./confirmation').default;
 const notification = require('./notification').default
 const utils = require('./utilities').default
 

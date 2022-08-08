@@ -6,7 +6,7 @@ const create_donation = require('../../donations/create').default
 var request = require('../../common/super-agent-promise').default
 var get_ticket_levels = require('../../ticket_levels/get_totals').default
 var format_err = require('../../common/format_response_error').default
-var confirmation = require('../../common/confirmation')
+const confirmation = require('../../common/confirmation').default;
 require('../../common/restful_resource')
 require('../../components/tables/filtering/apply_filter')('tickets')
 require('./delete-ticket')

@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-laterpluralize
-const confirmation = require('./confirmation')
+const confirmation = require('./confirmation').default
 const notification = require('./notification').default
 const moment = require('moment-timezone')
 const appl = require('view-script')

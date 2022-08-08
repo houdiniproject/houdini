@@ -38,10 +38,6 @@ Full license explanation at https://github.com/houdiniproject/houdini/blob/main/
 
 // zIndex-1
 .helpBoxWrapper,
-img.fr-fil,
-img.fr-fir,
-img.fr-fin,
-.froala-element span.f-img-editor:before,
 .colpick_hex_field:before,
 .pageTabs:before,
 .goalAmount,
@@ -56,13 +52,6 @@ img.fr-fin,
 
 
 // zIndex-2
-.froala-element span.f-img-editor,
-.froala-element span.f-img-handle,
-.froala-box .froala-element .f-video-editor:after,
-.froala-editor button.fr-bttn,
-.froala-editor button.fr-trigger,
-.froala-modal .f-modal-wrapper div.f-image-list div.f-img-deleting:after,
-.froala-editor.f-basic,
 .givingIndicator,
 .wizard-index-label:before,
 .fundraisingHeader--color .settingsButtons,
@@ -73,15 +62,12 @@ img.fr-fin,
 
 
 // zIndex-3
-.froala-modal .f-modal-wrapper div.f-image-list div.f-img-deleting:before,
-.froala-box .html-switch,
 .supported-banner-number {
 	@include zIndex-3;
 }
 
 
 // zIndex-4
-.froala-editor .fr-dropdown.fr-color-picker .fr-dropdown-menu .fr-color-bttn,
 .button--admin,
 .parsley-error-list,
 .footer--mosaicStripe,
@@ -92,7 +78,6 @@ img.fr-fin,
 
 
 // zIndex-5
-.fr-dropdown-menu .fr-color-bttn.active,
 .topNav,
 .infoCard {
 	@include zIndex-5;
@@ -100,8 +85,6 @@ img.fr-fin,
 
 
 // zIndex-6
-.fr-dropdown-menu .fr-color-bttn:hover:not(:focus):not(:active),
-.froala-editor.f-basic,
 .sideNav{
 	@include zIndex-6;
 }
@@ -114,10 +97,7 @@ img.fr-fin,
 }
 
 // zIndex-8
-.modal-backdrop,
-.froala-editor,
-.froala-editor .fr-dropdown .fr-dropdown-menu,
-.froala-overlay {
+.modal-backdrop {
 	@include zIndex-8;
 }
 
@@ -126,12 +106,8 @@ img.fr-fin,
 .ff-modalBackdrop,
 .modal,
 .progressBar--app,
-.froala-modal,
-.froala-editor,
-.froala-editor .fr-dropdown .fr-dropdown-menu,
 .alert--error,
-.alert--success,
-.froala-popup,{
+.alert--success {
 	@include zIndex-9;
 }
 

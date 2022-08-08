@@ -20,7 +20,6 @@ var app = {
 , map_provider: "<%= Houdini.maps&.provider %>"
   , map_provider_options: <%= Houdini.maps&.options ? raw(Houdini.maps.options.to_json) : {} %>
 , editor: "<%= Houdini.page_editor.editor%>"
-<% if Houdini.page_editor&.editor == 'froala' and Houdini.page_editor&.editor_options&.froala_key %>, froala_key: "<%= Houdini.page_editor.editor_options.froala_key %>"<% end %>
   <%if @nonprofit&.currency_symbol %>, currency_symbol: "<%= @nonprofit.currency_symbol%>"<% end %>
 };
 

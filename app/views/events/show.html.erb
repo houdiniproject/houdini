@@ -28,7 +28,7 @@
 		app.event_url = '<%= nonprofit_event_path(@nonprofit, @event) %>'
 	</script>
 
-	<%= render 'common/froala' if current_event_editor? %>
+
   <%= render 'schema', event: @event, url: @url %>
 	<%= javascript_packs_with_chunks_tag 'i18n', 'page__events__show' %>
 	<script>

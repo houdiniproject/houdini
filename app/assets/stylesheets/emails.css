@@ -175,11 +175,3 @@ hr:before {
 	clear:both!important;
 }
 
-/*froala stuff*/
-img.fr-fin {
-  vertical-align: top;
-  display: block;
-  margin: auto;
-  overflow: auto;
-  padding: 10px 0;
-}

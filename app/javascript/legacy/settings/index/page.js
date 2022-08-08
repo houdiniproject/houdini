@@ -111,9 +111,7 @@ appl.def('statement.validate', function(node) {
 
 function getClassToFindEditor()
 {
-    if (app.editor === 'froala' )
-        return "froala-element"
-    else if (app.editor === 'quill')
+    if (app.editor === 'quill')
         return "ql-editor"
 }
 

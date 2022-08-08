@@ -3,7 +3,7 @@ require('../../campaigns/new/wizard')
 require('../../events/new/wizard')
 require('./tour')
 appl.verify_identity = require('../payouts/index/verify_identity')
-appl.create_bank_account = require('../../bank_accounts/create.es6')
+appl.create_bank_account = require('../../bank_accounts/create.js')
 var client = require('../../common/client').default
 require('../payments_chart')
 

@@ -5,6 +5,6 @@
 
 
 if (app.editor === 'froala')
-	module.exports = require('./editor/froala.es6')
+	module.exports = require('./editor/froala.js')
 else if (app.editor === 'quill')
-	module.exports = require('./editor/quill.es6')
+	module.exports = require('./editor/quill.js')

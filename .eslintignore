@@ -286,34 +286,34 @@ postcss.config.js
 setupTests.js
 
 # old es files
-app/javascript/legacy/bank_accounts/confirm/index.es6
-app/javascript/legacy/bank_accounts/create.es6
-app/javascript/legacy/campaigns/supporters/index/index.es6
-app/javascript/legacy/campaigns/supporters/index/meta.es6
-app/javascript/legacy/campaigns/supporters/index/metrics.es6
-app/javascript/legacy/campaigns/supporters/index/supporter-list.es6
-app/javascript/legacy/campaigns/supporters/index/supporter-table.es6
-app/javascript/legacy/common/direct-to-s3-upload.es6
-app/javascript/legacy/common/editor/froala.es6
-app/javascript/legacy/common/editor/quill.es6
-app/javascript/legacy/common/post-form-data.es6
-app/javascript/legacy/components/card-form.es6
-app/javascript/legacy/components/color-picker.es6
-app/javascript/legacy/components/sepa-form.es6
-app/javascript/legacy/components/show-more-button.es6
-app/javascript/legacy/components/supporter-address-form.es6
-app/javascript/legacy/components/tables/search.es6
-app/javascript/legacy/nonprofits/payouts/index/identity-verification-form.es6
-app/javascript/legacy/nonprofits/recurring_donations/index/index.es6
-app/javascript/legacy/nonprofits/supporter_form/index.es6
-app/javascript/legacy/nonprofits/supporters/import/index.es6
-app/javascript/legacy/recurring_donations/edit/amount-step.es6
-app/javascript/legacy/recurring_donations/edit/card-form.es6
-app/javascript/legacy/recurring_donations/edit/change-amount-wizard.es6
-app/javascript/legacy/recurring_donations/edit/index.es6
-app/javascript/legacy/recurring_donations/edit/payment-step.es6
+app/javascript/legacy/bank_accounts/confirm/index.js
+app/javascript/legacy/bank_accounts/create.js
+app/javascript/legacy/campaigns/supporters/index/index.js
+app/javascript/legacy/campaigns/supporters/index/meta.js
+app/javascript/legacy/campaigns/supporters/index/metrics.js
+app/javascript/legacy/campaigns/supporters/index/supporter-list.js
+app/javascript/legacy/campaigns/supporters/index/supporter-table.js
+app/javascript/legacy/common/direct-to-s3-upload.js
+app/javascript/legacy/common/editor/froala.js
+app/javascript/legacy/common/editor/quill.js
+app/javascript/legacy/common/post-form-data.js
+app/javascript/legacy/components/card-form.js
+app/javascript/legacy/components/color-picker.js
+app/javascript/legacy/components/sepa-form.js
+app/javascript/legacy/components/show-more-button.js
+app/javascript/legacy/components/supporter-address-form.js
+app/javascript/legacy/components/tables/search.js
+app/javascript/legacy/nonprofits/payouts/index/identity-verification-form.js
+app/javascript/legacy/nonprofits/recurring_donations/index/index.js
+app/javascript/legacy/nonprofits/supporter_form/index.js
+app/javascript/legacy/nonprofits/supporters/import/index.js
+app/javascript/legacy/recurring_donations/edit/amount-step.js
+app/javascript/legacy/recurring_donations/edit/card-form.js
+app/javascript/legacy/recurring_donations/edit/change-amount-wizard.js
+app/javascript/legacy/recurring_donations/edit/index.js
+app/javascript/legacy/recurring_donations/edit/payment-step.js
 
-app/javascript/legacy/supporters/info-card.es6
+app/javascript/legacy/supporters/info-card.js
 
 # tsx files
 app/javascript/legacy_react/app/create_new_offsite_payment_pane.tsx

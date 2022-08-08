@@ -9,7 +9,7 @@ const notification = require('ff-core/notification')
 // local
 const fonts = require('../../../common/brand-fonts').default
 const request = require('../../../common/request')
-const colorPicker = require('../../../components/color-picker.es6')
+const colorPicker = require('../../../components/color-picker')
 const view = require('./view')
 
 function init() {

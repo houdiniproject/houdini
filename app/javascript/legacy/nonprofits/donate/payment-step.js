@@ -5,8 +5,8 @@ const flyd = require('flyd')
 flyd.lift = require('flyd/module/lift')
 flyd.flatMap = require('flyd/module/flatmap')
 const request = require('../../common/request')
-const cardForm = require('../../components/card-form.es6')
-const sepaForm = require('../../components/sepa-form.es6')
+const cardForm = require('../../components/card-form.js')
+const sepaForm = require('../../components/sepa-form.js')
 const format = require('../../common/format').default
 const progressBar = require('../../components/progress-bar')
 

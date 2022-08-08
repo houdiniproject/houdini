@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-require('./index.es6')
+require('./)
 require('./create')
 require('./update')
 require('./delete')

@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 const thunk = require('vdom-thunk')
 const h = require('virtual-dom/h')
-const showMoreBtn = require('../../../components/show-more-button.es6')
+const showMoreBtn = require('../../../components/show-more-button.js')
 const utils = require('../../../common/utilities').default
 
 const root = state => {

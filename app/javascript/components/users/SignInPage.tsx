@@ -14,8 +14,14 @@ import { Paper } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Avatar from '@material-ui/core/Avatar';
 import { ErrorBoundary } from 'react-error-boundary';
-import userRoutes from '../../routes/users';
-import staticRoutes from '../../routes/static';
+
+import {
+	newUserPasswordPath,
+	staticTermsAndPrivacyPath,
+} from '../../routes';
+
+
+
 import useHoster from '../../hooks/useHoster';
 import Alert from '@material-ui/lab/Alert';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -171,7 +177,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
 						{/* Links: To add more links add another box and replace the label, set margin to -1.5 to reduce
               space between links */}
 						<Box m={1} display="flex" justifyContent="center">
-							<Link href={userRoutes.newUserPassword.path()} data-testid="passwordTest"> {forgotPasswordlabel} </Link>
+							<Link href={newUserPasswordPath()} data-testid="passwordTest"> {forgotPasswordlabel} </Link>
 						</Box>
 						<Box color="error.main" data-testid="signInPageError"></Box>
 						<div data-testid='backdropTest' >
@@ -200,7 +206,7 @@ function SignInPage(props: SignInPageProps): JSX.Element {
                     To add more links add another box and replace the label, set margin to -1.5 to reduce
                     space between links */}
 								<Box m={1} color="text.primary">
-									<Link data-testid="termsTest" href={staticRoutes.termsAndPrivacy.path()}> {terms} </Link>
+									<Link data-testid="termsTest" href={staticTermsAndPrivacyPath()}> {terms} </Link>
 								</Box>
 								{/* End of link */}
 							</Grid>

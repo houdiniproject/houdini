@@ -9,7 +9,7 @@ const WaitDuringGetCurrent = 'wait-during-get-current';
 
 
 export const UserPresignedIn = [
-	rest.get(getCurrentRoute.url(), (_req, res, ctx) => {
+	rest.get(getCurrentRoute(), (_req, res, ctx) => {
 		return res(
 			ctx.json(DefaultUser)
 		);
@@ -17,7 +17,7 @@ export const UserPresignedIn = [
 ];
 
 export const UserSignedInIfAuthenticated = [
-	rest.get(getCurrentRoute.url(), (_req, res, ctx) => {
+	rest.get(getCurrentRoute(), (_req, res, ctx) => {
 		if (!IsAuthenticated()) {
 			return res(ctx.status(NotLoggedInStatus));
 		}
@@ -28,7 +28,7 @@ export const UserSignedInIfAuthenticated = [
 ];
 
 export const UserPresignedInAndWaitUntilSignal = [
-	rest.get(getCurrentRoute.url(), async (_req, res, ctx) => {
+	rest.get(getCurrentRoute(), async (_req, res, ctx) => {
 		await waitFor(() => ShouldWaitDuringGetCurrent());
 		return res(
 			ctx.json(DefaultUser)

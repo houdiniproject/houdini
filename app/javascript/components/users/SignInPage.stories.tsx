@@ -8,7 +8,7 @@ import { Fallback } from './SignInPage';
 import { SWRConfig } from 'swr';
 import { rest } from 'msw';
 
-import { postSignInRoute } from '../../api/users';
+import { userSessionPath } from '../../routes';
 import { getCurrentRoute } from '../../api/api/users';
 import { UserSignsInOnFirstAttempt } from '../../hooks/mocks/useCurrentUserAuth';
 import { NotLoggedInStatus } from '../../hooks/useCurrentUser';
@@ -82,12 +82,12 @@ export const SignInFailed500 = Template.bind({});
 SignInFailed500.story = {
 	parameters: {
 		msw: [
-			rest.get(getCurrentRoute.url(), (_req, res, ctx) => {
+			rest.get(getCurrentRoute(), (_req, res, ctx) => {
 				return res(
 					ctx.status(NotLoggedInStatus)
 				);
 			}),
-			rest.post(postSignInRoute.url(), (_req, res, ctx) => {
+			rest.post(userSessionPath(), (_req, res, ctx) => {
 				return res(
 					ctx.delay(5000),
 					ctx.json({ error: "Some error" }),

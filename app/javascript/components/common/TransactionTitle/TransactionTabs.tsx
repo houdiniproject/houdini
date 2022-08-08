@@ -3,9 +3,13 @@
 
 import React from 'react';
 import Nonprofit from '../../../legacy/app_data/Nonprofit';
-import payments from '../../../routes/nonprofits/payments';
-import recurring from '../../../routes/nonprofits/recurring_donations';
-import payouts from '../../../routes/nonprofits/payouts';
+import {
+	nonprofitsPayoutsPath,
+	nonprofitsRecurringDonationsPath,
+	nonprofitsPaymentsPath,
+
+} from '../../../routes';
+
 import classnames from 'classnames';
 export interface TransactionTabsProps {
 	active: 'payments' | 'recurring' | 'payouts';
@@ -15,15 +19,15 @@ export interface TransactionTabsProps {
 export default function TransactionTabs(props: TransactionTabsProps): JSX.Element {
 
 	return (<div className='pageTabs'>
-		<a href={payouts.nonprofitsPayouts.path(props.nonprofit)}
+		<a href={nonprofitsPayoutsPath(props.nonprofit)}
 			className={classnames('tour-payouts', {'is_active': props.active == 'payouts'})}>
 			Payouts
 		</a>
-		<a href={recurring.nonprofitsRecurringDonations.path(props.nonprofit)}
+		<a href={nonprofitsRecurringDonationsPath(props.nonprofit)}
 			className={classnames({'is-active': props.active == 'recurring'})}>
 			Recurring
 		</a>
-		<a href={payments.nonprofitsPayments.path(props.nonprofit)}
+		<a href={nonprofitsPaymentsPath(props.nonprofit)}
 			className={classnames({'is-active': props.active == 'payments'})}>
 			History
 		</a >

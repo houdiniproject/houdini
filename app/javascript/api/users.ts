@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 
-import userRoutes from '../routes/users';
+import {userSessionPath} from '../routes';
 import { NotLoggedInStatus } from '../hooks/useCurrentUser';
 import { NetworkError } from './errors';
 
@@ -19,7 +19,7 @@ export async function postSignIn(loginInfo: WebLoginModel, init: RequestInit = {
 		user: loginInfo,
 	};
 
-	const response = await fetch(userRoutes.userSession.url(), {
+	const response = await fetch(userSessionPath(), {
 		...defaultConfig,
 		...init,
 		body: JSON.stringify(data),
@@ -43,8 +43,6 @@ async function safelyGetJson(response: Response): Promise<unknown | null> {
 
 
 export const InvalidUsernameAndPassword = NotLoggedInStatus;
-
-export const postSignInRoute: typeof userRoutes['userSession'] = userRoutes.userSession;
 
 export interface WebLoginModel {
 	email: string;

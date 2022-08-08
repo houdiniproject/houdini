@@ -2,9 +2,12 @@
 // from app/views/layouts/_user_menu.html.erb
 
 import React from 'react';
-import profileRoutes from '../../../routes/profiles';
-import settingsRoutes from '../../../routes/settings';
-import usersRoutes from '../../../routes/users';
+import {
+	profilePath,
+	settingsPath,
+	destroyUserSessionPath,
+} from '../../../routes';
+
 import UserWithProfileAsChild from '../../../legacy/app_data/UserWithProfileAsChild';
 
 export interface UserMenuProps {
@@ -15,7 +18,7 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 	return (<>
 
 		<section className='sideNav-section'>
-			<a className='sideNav-link' href={profileRoutes.profile.path(props.currentUser.profile)}>
+			<a className='sideNav-link' href={profilePath(props.currentUser.profile)}>
 				{
 					props.currentUser.profile?.pic_tiny ?
 						<img
@@ -28,12 +31,12 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 		</section>
 
 		<section className='sideNav-section'>
-			<a className='sideNav-link' href={settingsRoutes.settings.url()}>
+			<a className='sideNav-link' href={settingsPath()}>
 				<i className='sideNav-icon icon-setting-gear'></i>
 				<span className='sideNav-text'>Settings</span>
 			</a>
 
-			<a className='sideNav-link' href={usersRoutes.destroyUserSession.path()}>
+			<a className='sideNav-link' href={destroyUserSessionPath()}>
 				<i className='sideNav-icon icon-log-out-1'></i>
 				<span className='sideNav-text'>Logout</span>
 			</a>

@@ -11,7 +11,7 @@
     "test": "bin/rails spec  && yarn jest",
     "jest": "bin/rails i18n:js:export && jest",
     "jest_only": "jest",
-    "eslint": "eslint . --ext .ts,.js,.es6,.tsx",
+    "eslint": "eslint . --ext .ts,.js,.tsx",
     "storybook": "bin/rails i18n:js:export && start-storybook -p 6006 -c .storybook/react --no-version-updates --no-release-notes",
     "build-storybook": "bin/rails i18n:js:export && build-storybook -c .storybook/react",
     "html-storybook": "bin/start-html-storybook -p 6007 -c .storybook/html --no-version-updates --no-release-notes",

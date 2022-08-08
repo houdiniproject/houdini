@@ -3,8 +3,6 @@ const confirmation = require('./confirmation')
 const notification = require('./notification').default
 const moment = require('moment-timezone')
 const appl = require('view-script')
-const on_ios11 = require('./on-ios11')
-const noScroll = require('no-scroll')
 const {centsToDollars} = require("./format").default
 const {pluralize} = require('../../legacy_react/src/lib/deprecated_format')
 const utils = require('./utilities').default
@@ -24,9 +22,6 @@ appl.def('open_modal', function(modalId) {
 	$('#' + modalId).addClass('inView')
 
 	$('body').addClass('is-showingModal')
-    if (on_ios11()){
-        noScroll.on()
-    }
 	return appl
 })
 
@@ -34,9 +29,7 @@ appl.def('open_modal', function(modalId) {
 appl.def('close_modal', function() {
 	$('.modal').removeClass('inView')
 	$('body').removeClass('is-showingModal')
-    if (on_ios11()) {
-        noScroll.off()
-    }
+
 	return appl
 })
 

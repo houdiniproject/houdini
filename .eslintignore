@@ -220,7 +220,6 @@ app/javascript/legacy/recurring_donations/edit/followup-step.js
 app/javascript/legacy/recurring_donations/edit/get-params.js
 app/javascript/legacy/recurring_donations/edit/page.js
 app/javascript/legacy/recurring_donations/index.js
-app/javascript/legacy/refunds/create.js
 app/javascript/legacy/settings/index/branding/index.js
 app/javascript/legacy/settings/index/branding/view.js
 app/javascript/legacy/settings/index/email-settings/index.js

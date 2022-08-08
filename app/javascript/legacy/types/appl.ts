@@ -10,6 +10,7 @@ interface Wizard {
 
 
 interface General {
+		def(key: Record<string,unknown>): Appl;
 		def(key: string, value: unknown): Appl;
 		def_lazy(key:string, action:() => unknown):void;
 }
@@ -54,4 +55,25 @@ interface Other {
 
 
 export type Appl = General & Format & Modal & WithWizard & Redirect & Loading & Other;
+
+
+interface Payments {
+	ajax_payment_details: {
+		fetch: (id:number) => void;
+	};
+
+	payment_details: {
+		data: {
+			id: number;
+		};
+	};
+
+	payments: {
+		index():void;
+	};
+
+
+}
+
+export type ApplWithPayments = Appl & Payments;
 

@@ -6,7 +6,7 @@
 
 const err_msg = "We're sorry, but something went wrong. Please try again soon.";
 
-interface ErrorResponseType {
+export interface ErrorResponseType {
 	body?: {
 		error?: string;
 		errors?: string[] | unknown;

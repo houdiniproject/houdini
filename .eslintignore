@@ -134,7 +134,6 @@ app/javascript/legacy/components/text-input.js
 app/javascript/legacy/components/todos.js
 app/javascript/legacy/components/top-nav.js
 app/javascript/legacy/components/wizard.js
-app/javascript/legacy/donations/create.js
 app/javascript/legacy/events/discounts/index.js
 app/javascript/legacy/events/discounts/manage.js
 app/javascript/legacy/events/index/page.js

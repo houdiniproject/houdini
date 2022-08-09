@@ -185,4 +185,5 @@ module.exports = {
 			"version": "detect",
 		},
 	},
+	extends: ["plugin:storybook/recommended"],
 };

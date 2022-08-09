@@ -4781,8 +4781,6 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 ** cli-boxes; version 2.2.1 -- https://github.com/sindresorhus/cli-boxes#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
-** cli-spinners; version 2.6.0 -- https://github.com/sindresorhus/cli-spinners#readme
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 
 MIT License
 
@@ -5013,9 +5011,9 @@ SOFTWARE.
 
 ------
 
-** braces; version 2.3.2 -- https://github.com/micromatch/braces
+** braces; version 3.0.2 -- https://github.com/micromatch/braces
 Copyright (c) 2014-2018, Jon Schlinkert
-Copyright (c) 2018, Jon Schlinkert (https://github.com/jonschlinkert)
+Copyright (c) 2019, Jon Schlinkert (https://github.com/jonschlinkert)
 
 The MIT License (MIT)
 
@@ -5516,6 +5514,8 @@ Copyright (c) 2019 TypeScript ESLint and other contributors
 ** @typescript-eslint/scope-manager; version 4.3.0 -- https://github.com/typescript-eslint/typescript-eslint#readme
 Copyright (c) 2019 TypeScript ESLint and other contributors
 ** @typescript-eslint/types; version 4.3.0 -- https://github.com/typescript-eslint/typescript-eslint#readme
+Copyright (c) 2019 TypeScript ESLint and other contributors
+** @typescript-eslint/utils; version 5.33.0 -- https://github.com/typescript-eslint/typescript-eslint#readme
 Copyright (c) 2019 TypeScript ESLint and other contributors
 ** @typescript-eslint/visitor-keys; version 4.3.0 -- https://github.com/typescript-eslint/typescript-eslint#readme
 Copyright (c) 2019 TypeScript ESLint and other contributors
@@ -7060,9 +7060,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** array-union; version 1.0.2 -- https://github.com/sindresorhus/array-union#readme
-(c) Sindre Sorhus (https://sindresorhus.com)
-Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** array-uniq; version 1.0.3 -- https://github.com/sindresorhus/array-uniq#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
@@ -7590,6 +7587,9 @@ Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** ansi-regex; version 5.0.1 -- https://github.com/chalk/ansi-regex#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** ansi-styles; version 4.3.0 -- https://github.com/chalk/ansi-styles#readme
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
+** array-union; version 2.1.0 -- https://github.com/sindresorhus/array-union#readme
+(c) Sindre Sorhus (https://sindresorhus.com)
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)
 ** arrify; version 2.0.1 -- https://github.com/sindresorhus/arrify#readme
 (c) Sindre Sorhus (https://sindresorhus.com)
@@ -10311,6 +10311,8 @@ SOFTWARE.
 
 ------
 
+** cli-spinners; version 2.6.0 -- https://github.com/sindresorhus/cli-spinners#readme
+Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 ** emittery; version 0.7.1 -- https://github.com/sindresorhus/emittery#readme
 Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (https://sindresorhus.com)
 ** figures; version 3.2.0 -- https://github.com/sindresorhus/figures#readme
@@ -10327,36 +10329,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** fill-range; version 4.0.0 -- https://github.com/jonschlinkert/fill-range
-Copyright (c) 2014-2017, Jon Schlinkert
-Copyright (c) 2014-2015, 2017, Jon Schlinkert
-Copyright (c) 2017, Jon Schlinkert (https://github.com/jonschlinkert)
-
-The MIT License (MIT)
-
-Copyright (c) 2014-2017, Jon Schlinkert
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 
 ------
@@ -12222,8 +12194,6 @@ THE SOFTWARE.
 
 ** cosmiconfig; version 6.0.0 -- https://github.com/davidtheclark/cosmiconfig#readme
 Copyright (c) 2015 David Clark
-** focus-trap-react; version 4.0.1 -- https://github.com/davidtheclark/focus-trap-react#readme
-Copyright (c) 2015 David Clark
 
 The MIT License (MIT)
 
@@ -13954,12 +13924,13 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ------
 
-** focus-trap; version 3.0.0 -- https://github.com/davidtheclark/focus-trap#readme
-Copyright (c) 2015-2016 David Clark
+** fill-range; version 7.0.1 -- https://github.com/jonschlinkert/fill-range
+Copyright (c) 2014-present, Jon Schlinkert
+Copyright (c) 2019, Jon Schlinkert (https://github.com/jonschlinkert)
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2016 David Clark
+Copyright (c) 2014-present, Jon Schlinkert.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -13968,16 +13939,16 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 
 ------
@@ -17303,6 +17274,35 @@ THE SOFTWARE.
 
 ------
 
+** focus-trap-react; version 4.0.1 -- https://github.com/davidtheclark/focus-trap-react#readme
+Copyright (c) 2015 David Clark
+
+The MIT License (MIT)
+
+Copyright (c) 2015 David Clark
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+------
+
 ** fragment-cache; version 0.2.1 -- https://github.com/jonschlinkert/fragment-cache
 Copyright (c) 2016-2017, Jon Schlinkert
 Copyright (c) 2016, Jon Schlinkert (https://github.com/jonschlinkert)
@@ -17499,11 +17499,6 @@ SOFTWARE.
 ------
 
 ** jss; version 10.3.0 -- https://cssinjs.org/
-copyright Oleg Isonen
-Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
-** jss-plugin-camel-case; version 10.3.0 -- https://cssinjs.org/jss-camel-case
-Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
-** jss-plugin-default-unit; version 10.3.0 -- https://cssinjs.org/jss-default-unit
 copyright Oleg Isonen
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 
@@ -18159,6 +18154,34 @@ THE SOFTWARE.
 
 ------
 
+** focus-trap; version 3.0.0 -- https://github.com/davidtheclark/focus-trap#readme
+Copyright (c) 2015-2016 David Clark
+
+The MIT License (MIT)
+
+Copyright (c) 2015-2016 David Clark
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+------
+
 ** is-dom; version 1.1.0 -- https://github.com/npm-dom/is-dom#readme
 Copyright (c) 2014 Permission
 
@@ -18632,7 +18655,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ** postcss-focus-visible; version 4.0.0 -- https://github.com/jonathantneal/postcss-focus-visible#readme
 ** postcss-focus-within; version 3.0.0 -- https://github.com/jonathantneal/postcss-focus-within#readme
 ** postcss-gap-properties; version 2.0.0 -- https://github.com/jonathantneal/postcss-gap-properties#readme
-** postcss-image-set-function; version 3.0.1 -- https://github.com/jonathantneal/postcss-image-set-function#readme
 
 # CC0 1.0 Universal
 
@@ -19690,33 +19712,6 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
 OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** postcss-import; version 12.0.1 -- https://github.com/postcss/postcss-import#readme
-Copyright (c) Maxime Thirouin, Jason Campbell & Kevin Martensson
-
-The MIT License (MIT)
-
-Copyright (c) Maxime Thirouin, Jason Campbell & Kevin Mårtensson
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -21673,6 +21668,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** jss-plugin-camel-case; version 10.3.0 -- https://cssinjs.org/jss-camel-case
+Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
+** jss-plugin-default-unit; version 10.3.0 -- https://cssinjs.org/jss-default-unit
+copyright Oleg Isonen
+Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-global; version 10.3.0 -- https://cssinjs.org/jss-global
 Copyright (c) 2014-present Oleg Isonen (Slobodskoi) & contributors
 ** jss-plugin-nested; version 10.3.0 -- https://cssinjs.org/jss-nested
@@ -24534,6 +24534,7 @@ Creative Commons may be contacted at http://creativecommons.org/.
 
 ------
 
+** postcss-image-set-function; version 3.0.1 -- https://github.com/jonathantneal/postcss-image-set-function#readme
 ** postcss-lab-function; version 2.0.1 -- https://github.com/jonathantneal/postcss-lab-function#readme
 ** postcss-logical; version 3.0.0 -- https://github.com/jonathantneal/postcss-logical#readme
 ** postcss-nesting; version 7.0.1 -- https://github.com/jonathantneal/postcss-nesting#readme
@@ -27108,6 +27109,33 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** postcss-import; version 12.0.1 -- https://github.com/postcss/postcss-import#readme
+Copyright (c) Maxime Thirouin, Jason Campbell & Kevin Martensson
+
+The MIT License (MIT)
+
+Copyright (c) Maxime Thirouin, Jason Campbell & Kevin Mårtensson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** shellwords; version 0.1.1 -- https://github.com/jimmycuadra/shellwords
 Copyright (c) 2011 by Jimmy Cuadra
 
@@ -28160,34 +28188,6 @@ SOFTWARE.
 
 ------
 
-** static-extend; version 0.1.2 -- https://github.com/jonschlinkert/static-extend
-Copyright (c) 2016, Jon Schlinkert
-
-The MIT License (MIT)
-
-Copyright (c) 2016, Jon Schlinkert.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-
-------
-
 ** ramda; version 0.21.0 -- http://ramdajs.com/
 (c) 2014 J. C. Phillipps.
 Copyright (c) 2013-2014 Scott Sauyet and Michael Hurley
@@ -28331,39 +28331,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** statuses; version 1.5.0 -- https://github.com/jshttp/statuses#readme
-Copyright (c) 2014 Jonathan Ong
-Copyright (c) 2016 Douglas Christopher Wilson
-Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
-Copyright (c) 2016 Douglas Christopher Wilson <doug@somethingdoug.com>
-
-
-The MIT License (MIT)
-
-Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
-Copyright (c) 2016 Douglas Christopher Wilson <doug@somethingdoug.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 
 ------
@@ -29058,6 +29025,7 @@ IN THE SOFTWARE.
 
 ** remark-parse; version 8.0.3 -- https://remark.js.org
 (c) Titus Wormer
+** requireindex; version 1.2.0 -- https://github.com/stephenhandley/requireindex
 ** rework; version 1.0.1 -- https://github.com/reworkcss/rework
 Copyright (c) 2014
 Copyright (c) 2012-2013 TJ Holowaychuk <tj@vision-media.ca>
@@ -29388,9 +29356,6 @@ THE SOFTWARE.
 ------
 
 ** space-separated-tokens; version 1.1.5 -- https://github.com/wooorm/space-separated-tokens#readme
-(c) Titus Wormer
-Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
-** state-toggle; version 1.0.3 -- https://github.com/wooorm/state-toggle#readme
 (c) Titus Wormer
 Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
 
@@ -32235,10 +32200,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ------
 
-** to-regex-range; version 2.1.1 -- https://github.com/micromatch/to-regex-range
-Copyright (c) 2015-2017, Jon Schlinkert
-Copyright (c) 2015, 2017, Jon Schlinkert
-Copyright (c) 2017, Jon Schlinkert (https://github.com/jonschlinkert)
 ** union-value; version 1.0.1 -- https://github.com/jonschlinkert/union-value
 Copyright (c) 2015-2017, Jon Schlinkert
 Copyright (c) 2017, Jon Schlinkert (https://github.com/jonschlinkert)
@@ -32820,6 +32781,34 @@ THE SOFTWARE.
 
 ------
 
+** static-extend; version 0.1.2 -- https://github.com/jonschlinkert/static-extend
+Copyright (c) 2016, Jon Schlinkert
+
+The MIT License (MIT)
+
+Copyright (c) 2016, Jon Schlinkert.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+------
+
 ** thunky; version 1.1.0 -- https://github.com/mafintosh/thunky#readme
 Copyright (c) 2018 Mathias Buus
 
@@ -32977,6 +32966,39 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** statuses; version 1.5.0 -- https://github.com/jshttp/statuses#readme
+Copyright (c) 2014 Jonathan Ong
+Copyright (c) 2016 Douglas Christopher Wilson
+Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
+Copyright (c) 2016 Douglas Christopher Wilson <doug@somethingdoug.com>
+
+
+The MIT License (MIT)
+
+Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
+Copyright (c) 2016 Douglas Christopher Wilson <doug@somethingdoug.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 
 ------
@@ -33484,6 +33506,9 @@ THE SOFTWARE.
 
 ------
 
+** to-regex-range; version 5.0.1 -- https://github.com/micromatch/to-regex-range
+Copyright (c) 2015-present, Jon Schlinkert
+Copyright (c) 2019, Jon Schlinkert (https://github.com/jonschlinkert)
 ** use; version 3.1.1 -- https://github.com/jonschlinkert/use
 Copyright (c) 2015-2017, Jon Schlinkert
 Copyright (c) 2015-present, Jon Schlinkert
@@ -34036,6 +34061,9 @@ THE SOFTWARE.
 
 ------
 
+** state-toggle; version 1.0.3 -- https://github.com/wooorm/state-toggle#readme
+(c) Titus Wormer
+Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
 ** trough; version 1.0.5 -- https://github.com/wooorm/trough#readme
 (c) Titus Wormer
 Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
@@ -34068,23 +34096,24 @@ Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
 
 Copyright (c) 2016 Titus Wormer <tituswormer@gmail.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------

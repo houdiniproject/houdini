@@ -78,6 +78,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.20.2",
     "eslint-plugin-react-hooks": "^4.0.4",
+    "eslint-plugin-storybook": "^0.6.4",
     "fork-ts-checker-webpack-plugin": "^5.0.4",
     "jest": "^26.4.2",
     "jest-axe": "^5.0.1",

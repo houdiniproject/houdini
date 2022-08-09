@@ -89,7 +89,7 @@ describe StripeAccount do
 
   describe 'testing with valid nonprofit' do
     it 'handles Stripe errors properly' do
-      StripeMock.prepare_error(Stripe::StripeError.new, :new_account)
+      StripeMockHelper.prepare_error(Stripe::StripeError.new, :new_account)
       expect { StripeAccount.create(nonprofit) }.to(raise_error do |error|
         expect(error).to be_a Stripe::StripeError
         expect(nonprofit.stripe_account_id).to be_blank

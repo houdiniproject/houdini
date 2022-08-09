@@ -7,7 +7,7 @@ import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
 import useYup from '../../hooks/useYup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Story } from '@storybook/react';
-import { waitFor } from '@testing-library/react';
+import { waitFor } from '@storybook/testing-library';
 import { Button, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import noop from 'lodash/noop';

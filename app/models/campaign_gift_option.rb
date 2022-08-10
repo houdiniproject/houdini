@@ -16,6 +16,7 @@ class CampaignGiftOption < ActiveRecord::Base
 	belongs_to :campaign
 	has_many :campaign_gifts
 	has_many :donations, through: :campaign_gifts
+	has_one :nonprofit, through: :campaign
 
 	validates :name, presence: true
 	validates :campaign, presence: true

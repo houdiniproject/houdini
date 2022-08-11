@@ -80,7 +80,7 @@ const path =   nonprofitEventPath( app.nonprofit_id, app.event_id )
 if(app.current_event_editor) {
 	require('./editor')
 	require('./tour')
-	var create_info_card = require('../../supporters/info-card.js')
+	require('../../supporters/info-card.js')
 }
 
 

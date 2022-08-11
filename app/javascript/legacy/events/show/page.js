@@ -14,6 +14,12 @@ const R = require('ramda')
 const render = require('ff-core/render')
 const modal = require('ff-core/modal')
 
+const {
+  activitiesNonprofitEventPath,
+  nonprofitEventPath,
+  dashboardNonprofitPath,
+} = require('../../../routes')
+
 function createClickListener(startWiz$){
     return (...props) => {
         startWiz$(...props)
@@ -57,7 +63,7 @@ render({state: init(), view, patch, container: document.querySelector('#js-main'
 const renderActivities = require('../../components/render-activities')
 
 if(!app.hide_activities) {
-  renderActivities('event', `/nonprofits/${app.nonprofit_id}/events/${app.event_id}/activities`)
+  renderActivities('event', activitiesNonprofitEventPath(app.nonprofit_id, app.event_id))
 }
 
 // -- Legacy viewscript stuff
@@ -68,7 +74,7 @@ if (app.nonprofit.brand_color) {
 }
 
 var request = require('../../common/client').default
-var path = '/nonprofits/' + app.nonprofit_id + '/events/' + app.event_id
+const path =   nonprofitEventPath( app.nonprofit_id, app.event_id )
 
 
 if(app.current_event_editor) {
@@ -91,6 +97,6 @@ appl.def('donate_wiz.donation.event_id', app.event_id)
 
 appl.def('remove_event', function(e) {
 	request.del(path).end(function(err, resp) {
-		appl.redirect('/nonprofits/' + app.nonprofit_id + '/dashboard')
+		appl.redirect(dashboardNonprofitPath(app.nonprofit_id))
 	})
 })

@@ -6,7 +6,27 @@ FactoryBot.define do
   factory :donation_base, class: 'Donation' do
     nonprofit {supporter.nonprofit}
     amount {333}
+    factory :donation_base_with_supporter, class: 'Donation' do
+      supporter {build(:supporter_base)}
+    end
+
+    trait :and_campaign_gift do
+      campaign { build(:campaign_with_things_set_1, nonprofit: nonprofit)}
+      campaign_gifts {[
+        build(
+          :campaign_gift, 
+          campaign_gift_option:build(
+            :campaign_gift_option,
+              campaign: campaign
+          )
+        )]
+      }
+    end
   end
+  
+  
+
+
 
   factory :fv_poverty_donation, class: 'Donation' do
     nonprofit {association  :fv_poverty}

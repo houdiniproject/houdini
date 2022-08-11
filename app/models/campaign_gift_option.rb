@@ -27,6 +27,10 @@ class CampaignGiftOption < ActiveRecord::Base
 		return self.campaign_gifts.count
 	end
 
+	def gifts_available?
+		quantity.nil? || quantity.zero? || total_gifts < quantity
+	end
+
 	def as_json(options={})
 		h = super(options)
 		h[:total_gifts] = self.total_gifts

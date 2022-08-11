@@ -30,7 +30,7 @@ function createClickListener(startWiz$){
 
 // -- Flim flam root component for event pages
 function init() {
-  var state = { }
+  const state = { }
   const startWiz$ = flyd.stream()
   const donateButtons = document.querySelectorAll('.js-openDonationModal')
   R.map(x => x.addEventListener('click', createClickListener(startWiz$)), donateButtons)
@@ -73,7 +73,7 @@ if (app.nonprofit.brand_color) {
 	require('../../components/branded_fundraising').default
 }
 
-var request = require('../../common/client').default
+const request = require('../../common/client').default
 const path =   nonprofitEventPath( app.nonprofit_id, app.event_id )
 
 

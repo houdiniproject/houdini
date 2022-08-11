@@ -6,7 +6,10 @@ appl.verify_identity = require('../payouts/index/verify_identity')
 appl.create_bank_account = require('../../bank_accounts/create.js')
 const client = require('../../common/client').default
 
-const {dashboardTodosNonprofitPath} = require('../../../routes')
+const {
+	dashboardTodosNonprofitPath,
+	listingsNonprofitEventsPath,
+} = require('../../../routes')
 require('../payments_chart')
 
 appl.def('loading', true)
@@ -45,7 +48,7 @@ const request = require('../../common/request')
 const listing = require('../../events/listing-item')
 
 const init = _ => {
-  var path = `/nonprofits/${app.nonprofit_id}/events/listings?active=t`
+  const path = listingsNonprofitEventsPath(app.nonprofit_id, {active: "true"})
   return {resp$: request({path, method: 'get'}).load}
 }
 

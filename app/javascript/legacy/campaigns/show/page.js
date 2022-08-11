@@ -40,7 +40,7 @@ if(app.current_campaign_editor) {
 // This includes the metrics, contribute button, gift options listing, and the donate wizard (most of right sidebar)
 // Later can include the other viewscript pieces
 function init() {
-  var state = { 
+  const state = { 
     timeRemaining$: timeRemaining(app.end_date_time, app.timezone),
   }
 

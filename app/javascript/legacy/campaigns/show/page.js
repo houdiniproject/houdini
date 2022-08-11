@@ -33,7 +33,7 @@ if(app.current_campaign_editor) {
 	require('./admin')
 	appl.def('current_campaign_editor', true)
 	require('../../gift_options/admin')
-	var create_info_card = require('../../supporters/info-card.js')
+	require('../../supporters/info-card.js')
 }
 
 // Initialize the state for the top-level campaign component

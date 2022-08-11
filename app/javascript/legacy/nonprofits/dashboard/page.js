@@ -4,7 +4,7 @@ require('../../events/new/wizard')
 require('./tour')
 appl.verify_identity = require('../payouts/index/verify_identity')
 appl.create_bank_account = require('../../bank_accounts/create.js')
-var client = require('../../common/client').default
+const client = require('../../common/client').default
 
 const {dashboardTodosNonprofitPath} = require('../../../routes')
 require('../payments_chart')

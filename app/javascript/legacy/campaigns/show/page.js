@@ -44,7 +44,6 @@ function init() {
     timeRemaining$: timeRemaining(app.end_date_time, app.timezone),
   }
 
-  console.error(window.navigator.userAgent)
   state.giftOptions = giftOptions.init(flyd.stream(), state)
 
   const metricsResp$ = flyd.map(R.prop('body'), request({

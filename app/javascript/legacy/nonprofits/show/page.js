@@ -12,13 +12,13 @@ if(app.current_user) {
 }
 
 if(app.current_nonprofit_user) {
-	var editable = require('../../common/editable')
+	const editable = require('../../common/editable')
 	editable($('.editable'), {
     placeholder: "Enter your nonprofit's story and impact here. We strongly recommend that this section is filled out with at least 250 words. It will automatically save as you type.", 
     sticky: $('.editable').length > 0
   })
 	require('./tour')
-	var create_info_card = require('../../supporters/info-card')
+	require('../../supporters/info-card')
 
 	appl.def('todos_action', profileTodosNonprofitPath(app.nonprofit_id))
 	const todos = require('../../components/todos').default
@@ -46,7 +46,7 @@ const render = require('ff-core/render')
 const branding = require('../../components/nonprofit-branding').default
 
 function init() {
-  var state = {}
+  const state = {}
   state.donateWiz = donateWiz.init(flyd.stream({}))
   state.modalID$ = flyd.stream()
   return state
@@ -82,7 +82,7 @@ const patch = snabbdom.init([
 , require('snabbdom/modules/props')
 , require('snabbdom/modules/style')
 ])
-var container = document.querySelector('.ff-container')
-var state = init()
+const container = document.querySelector('.ff-container')
+const state = init()
 render({container, view, patch, state})
 

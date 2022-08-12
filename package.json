@@ -158,6 +158,7 @@
     "snabbdom": "0.3.0",
     "superagent": "^8",
     "swr": "^1.0.0",
+    "universal-cookie": "^4.0.4",
     "uuid": "2.0.2",
     "validator": "^9.4.1",
     "vdom-thunk": "3.0.0",

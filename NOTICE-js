@@ -1279,7 +1279,7 @@ Copyright (c) Microsoft Corporation.
 Copyright (c) Microsoft Corporation.
 ** @types/color-name; version 1.1.1 -- 
 Copyright (c) Microsoft Corporation.
-** @types/cookie; version 0.4.1 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/cookie
+** @types/cookie; version 0.3.3 -- 
 Copyright (c) Microsoft Corporation
 
 MIT License
@@ -15504,34 +15504,6 @@ SOFTWARE.
 
 ------
 
-** jquery.cookie; version 1.4.1 -- https://github.com/carhartl/jquery-cookie
-Copyright 2013 Klaus Hartl
-Copyright 2014 Klaus Hartl
-
-Copyright 2014 Klaus Hartl
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** fs-extra; version 9.1.0 -- https://github.com/jprichardson/node-fs-extra
 Copyright (c) 2011-2017 JP Richardson
 Copyright (c) 2011-2017 JP Richardson (https://github.com/jprichardson)
@@ -17892,6 +17864,29 @@ THE SOFTWARE.
 
 ------
 
+** jsonfile; version 6.0.1 -- https://github.com/jprichardson/node-jsonfile#readme
+Copyright 2012-2016, JP Richardson <jprichardson@gmail.com>
+Copyright (c) 2012-2015, JP Richardson <jprichardson@gmail.com>
+
+(The MIT License)
+
+Copyright (c) 2012-2015, JP Richardson <jprichardson@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
+(the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
+ merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** iferr; version 0.1.5 -- https://github.com/shesek/iferr
 Copyright (c) 2014 Nadav Ivgi
 
@@ -18673,6 +18668,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ** postcss-double-position-gradients; version 1.0.0 -- https://github.com/jonathantneal/postcss-double-position-gradients#readme
 ** postcss-env-function; version 2.0.2 -- https://github.com/jonathantneal/postcss-env-function#readme
 ** postcss-focus-visible; version 4.0.0 -- https://github.com/jonathantneal/postcss-focus-visible#readme
+** postcss-focus-within; version 3.0.0 -- https://github.com/jonathantneal/postcss-focus-within#readme
 
 # CC0 1.0 Universal
 
@@ -22490,29 +22486,6 @@ terms above.
 
 ------
 
-** jsonfile; version 6.0.1 -- https://github.com/jprichardson/node-jsonfile#readme
-Copyright 2012-2016, JP Richardson <jprichardson@gmail.com>
-Copyright (c) 2012-2015, JP Richardson <jprichardson@gmail.com>
-
-(The MIT License)
-
-Copyright (c) 2012-2015, JP Richardson <jprichardson@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
-(the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify,
- merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** loglevel; version 1.8.0 -- https://github.com/pimterry/loglevel
 (c) 2021 Tim Perry
 Copyright (c) 2013 Tim Perry
@@ -24573,7 +24546,6 @@ Creative Commons may be contacted at http://creativecommons.org/.
 
 ------
 
-** postcss-focus-within; version 3.0.0 -- https://github.com/jonathantneal/postcss-focus-within#readme
 ** postcss-gap-properties; version 2.0.0 -- https://github.com/jonathantneal/postcss-gap-properties#readme
 ** postcss-image-set-function; version 3.0.1 -- https://github.com/jonathantneal/postcss-image-set-function#readme
 ** postcss-lab-function; version 2.0.1 -- https://github.com/jonathantneal/postcss-lab-function#readme
@@ -27763,6 +27735,8 @@ SOFTWARE.
 ------
 
 ** stack-generator; version 2.0.5 -- https://www.stacktracejs.com
+Copyright (c) 2017 Eric Wendelin and other contributors
+** stackframe; version 1.2.0 -- https://www.stacktracejs.com
 Copyright (c) 2017 Eric Wendelin and other contributors
 
 Copyright (c) 2017 Eric Wendelin and other contributors
@@ -32549,8 +32523,6 @@ SOFTWARE.
 
 ------
 
-** stackframe; version 1.2.0 -- https://www.stacktracejs.com
-Copyright (c) 2017 Eric Wendelin and other contributors
 ** stacktrace-gps; version 3.0.4 -- https://www.stacktracejs.com
 Copyright (c) 2017 Eric Wendelin and other contributors
 ** stacktrace-js; version 2.0.2 -- https://www.stacktracejs.com
@@ -33659,6 +33631,35 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
+------
+
+** universal-cookie; version 4.0.4 -- https://github.com/reactivestack/cookies/tree/master/packages/universal-cookie#readme
+Copyright (c) 2015 Benoit Tremblay
+Copyright (c) 2012-2014 Roman Shtylman
+Copyright (c) 2015 Douglas Christopher Wilson
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Benoit Tremblay
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 ------
 

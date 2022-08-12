@@ -129,7 +129,6 @@
     "iban": "0.0.8",
     "immutable": "3.7.5",
     "jquery": "1.11.1",
-    "jquery.cookie": "1.4.1",
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.21",
     "marked": "^0.7.0",

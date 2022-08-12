@@ -6,17 +6,21 @@ const formatErr = require('../../common/format_response_error').default
 require('../../common/image_uploader')
 require('./tour')
 const dupeIt = require('../../components/duplicate_fundraiser')
+const {
+	nonprofitCampaignPath,
+	nonprofitCampaignsPath
+} = require('../../../routes')
 
-dupeIt(`/nonprofits/${app.nonprofit_id}/campaigns`, app.campaign_id)
+dupeIt(nonprofitCampaignsPath(app.nonprofit_id), app.campaign_id)
 
-var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
+const url = nonprofitCampaignPath(app.nonprofit_id, app.campaign_id);
 const create_supporter = require('../../nonprofits/supporters/create').default
 const create_offline_donation = require('../../donations/create_offline').default
 
 require('../../components/ajax/toggle_soft_delete')(url, 'campaign')
 
 // Initialize the froala wysiwyg
-var editable = require('../../common/editable')
+const editable = require('../../common/editable')
 if (app.is_parent_campaign) {
   editable($('#js-campaignBody'), {
     sticky: true,
@@ -33,25 +37,23 @@ editable($('#js-customReceipt'), {
 
 
 
-var path = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
-
 
 appl.def('remove_banner_image', function() {
-	var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
-	var notification = 'Removing banner image...'
-	var payload = {remove_banner_image : true}
+	const url = nonprofitCampaignPath(app.nonprofit_id, app.campaign_id);
+	const notification = 'Removing banner image...'
+	const payload = {remove_banner_image : true}
 	appl.remove_image(url, 'campaign', notification, payload)
 })
 
 appl.def('remove_background_image', function() {
-	var url = '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id
-	var notification = 'Removing background image...'
-	var payload = {remove_background_image : true}
+	const url = nonprofitCampaignPath(app.nonprofit_id, app.campaign_id);
+	const notification = 'Removing background image...'
+	const payload = {remove_background_image : true}
 	appl.remove_image(url, 'campaign', notification, payload)
 })
 
 appl.def('count_story_words', function() {
-	var wysiwyg = document.querySelector(".editable")
+	const wysiwyg = document.querySelector(".editable")
 	appl.def('has_story', wysiwyg.textContent.split(' ').length > 60)
 })
 
@@ -79,7 +81,7 @@ appl.def('create_offline_donation', function(data, el) {
 })
 
 
-var createSupporterUI = {
+const createSupporterUI = {
 	start: function() {
 		appl.is_loading()
 	},
@@ -92,7 +94,7 @@ var createSupporterUI = {
 	}
 }
 
-var createDonationUI = {
+const createDonationUI = {
 	start: function() { },
 	success: function(resp) {
 		appl.not_loading()
@@ -107,7 +109,7 @@ var createDonationUI = {
 
 if(app.vimeo_id) {
   request.get('http://vimeo.com/api/v2/video/' + app.vimeo_id  + '.json')
-    .end(function(err, resp){
+    .end(function(_err, resp){
       appl.def('vimeo_image_url', "background-image:url('" + resp.body[0].thumbnail_small + "')")
     })
 }

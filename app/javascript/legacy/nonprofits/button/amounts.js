@@ -1,13 +1,13 @@
 // License: LGPL-3.0-or-later
-var flyd = require("flyd")
-var h = require("virtual-dom/h")
+const flyd = require("flyd")
+const h = require("virtual-dom/h")
 
-var footer = require('./footer')
-var radioAndLabelWrapper = require('../../components/radio-and-label-wrapper')
+const footer = require('./footer')
+const radioAndLabelWrapper = require('../../components/radio-and-label-wrapper')
 
-var namePrefix = 'settings.amounts.'
+const namePrefix = 'settings.amounts.'
 
-var nameStream = flyd.stream()
+const nameStream = flyd.stream()
 
 module.exports = {root: root, stream: nameStream}
 
@@ -51,9 +51,9 @@ function singleInput(state) {
 }
 
 function multipleInputs(state) {
-	var multiples = state.settings.amounts.multiples
-	var inputs = []
-	for (var key in multiples) {
+	const multiples = state.settings.amounts.multiples
+	const inputs = []
+	for (const key in multiples) {
 		inputs.push(input(multiples[key], 'multiples.' + key))
 	}
 	return h('section.layout--three.u-marginTop--15', {style: {display: displayIf(state, 'multiple')}}, inputs)

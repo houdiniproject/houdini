@@ -1,23 +1,27 @@
 // License: LGPL-3.0-or-later
-var view = require("vvvview")
-var flyd = require("flyd")
+const view = require("vvvview")
+const flyd = require("flyd")
 flyd.scanmerge = require("flyd/module/scanmerge")
-var h = require("virtual-dom/h")
+const h = require("virtual-dom/h")
 
-var setStateFromValue = require('../../components/set-state-from-value')
+const setStateFromValue = require('../../components/set-state-from-value')
 
-var appearance = require('./appearance')
-var designations = require('./designations')
-var amounts = require('./amounts')
-var type = require('./type')
-var hideDedication = require('./hide-dedication')
-var thankYou = require('./thank-you')
-var preview = require('./preview')
+const appearance = require('./appearance')
+const designations = require('./designations')
+const amounts = require('./amounts')
+const type = require('./type')
+const hideDedication = require('./hide-dedication')
+const thankYou = require('./thank-you')
+const preview = require('./preview')
 const utils = require('../../common/utilities').default
 
-var $footer = require('./footer').stream
+const {
+	nonprofitsButtonSendCodePath
+} = require('../../../routes')
 
-var state = {
+const $footer = require('./footer').stream
+
+const state = {
 	page: window.location.hash.replace('#', '')
 	? window.location.hash.replace('#', '')
 	: 'appearance',
@@ -44,9 +48,9 @@ function root(state) {
 	])
 }
 
-var $page = flyd.stream()
+const $page = flyd.stream()
 
-var $pageClick = flyd.stream()
+const $pageClick = flyd.stream()
 
 flyd.map(function(ev){
 	if(ev.target.data.page === 'preview') {
@@ -62,7 +66,7 @@ $page = flyd.merge($page,
 	}, $pageClick))
 
 function appendScript(){
-	var script = document.createElement('script')
+	const script = document.createElement('script')
 	script.id = 'commitchange-donation-script'
 	script.setAttribute('data-npo-id', app.nonprofit_id)
 	script.setAttribute('src', app.host_with_port + '/js/donate-button.v2.js')
@@ -77,7 +81,7 @@ function removeScript(){
 }
 
 function removeButtonContent(){
-	var donateButton = document.querySelector('.commitchange-donate')
+	const donateButton = document.querySelector('.commitchange-donate')
 	while(donateButton.lastChild){
 		donateButton.removeChild(donateButton.lastChild)
 	}
@@ -86,20 +90,20 @@ function removeButtonContent(){
 function appendButtonCode(){
   document.getElementById('choose-role-modal').classList.add('inView')
   document.body.classList.add('is-showingModal')
-	var buttonWrapper = document.getElementById('js-donateButtonWrapper').cloneNode(true)
+	const buttonWrapper = document.getElementById('js-donateButtonWrapper').cloneNode(true)
 	while(buttonWrapper.querySelector('iframe')) {
 		buttonWrapper.querySelector('iframe').remove()
 	}
 	while(buttonWrapper.querySelector('div')){
 		buttonWrapper.querySelector('div').remove()
 	}
-	var code = buttonWrapper.innerHTML.replace(/"/g, "'")
+	const code = buttonWrapper.innerHTML.replace(/"/g, "'")
 	document.getElementById('js-donateButtonAnchor').value = code
 	document.querySelector('#send-code-modal input[name="code"]').value = code
 }
 
 function menu(state){
-	var menuItems = [
+	const menuItems = [
 	{name: 'appearance', text: 'Appearance'},
 	{name: 'designations', text: 'Designations'},
 	{name: 'amounts', text: 'Preset amounts'},
@@ -108,12 +112,12 @@ function menu(state){
 	{name: 'thankYou', text: 'Thank-you page'},
 	{name: 'preview', text: 'Live preview'}]
 
-	var lis =[]
-	var button = h('div.u-paddingX-10',
+	const lis =[]
+	const button = h('div.u-paddingX-10',
   h('a.button--large.orange.u-width--full',  {onclick: appendButtonCode}, 'Finish'))
 
 	menuItems.map(function(item) {
-		var liClass = state.page === item.name ? '.active' : ''
+		const liClass = state.page === item.name ? '.active' : ''
 		lis.push(h('li' + liClass, {data: {page: item.name}, onclick: $pageClick}, item.text))
 	})
 	return h('aside.stepsMenu', [h('ul', lis), button])
@@ -139,20 +143,20 @@ function pages(state){
 	]
 }
 
-var donateFormBuilder = view(root, document.getElementById('js-donateFormBuilder'), state)
+const donateFormBuilder = view(root, document.getElementById('js-donateFormBuilder'), state)
 
-var nameStreams = [appearance.stream, designations.streams.name, amounts.stream, type.stream, hideDedication.stream, thankYou.stream]
+const nameStreams = [appearance.stream, designations.streams.name, amounts.stream, type.stream, hideDedication.stream, thankYou.stream]
   .map(function(stream) { return [stream, setStateFromValue]})
 
 window.state = state
 
-var scanPairs = [
+const scanPairs = [
 	[$page, setPage],
 	[$footer, advancePage],
 	[designations.streams.count, addDesignation]
 ].concat(nameStreams)
 
-var $state = flyd.immediate(flyd.scanmerge(scanPairs, state))
+const $state = flyd.immediate(flyd.scanmerge(scanPairs, state))
 
 // rerenders the view based on state changes
 // takes the view and state stream
@@ -178,11 +182,11 @@ function advancePage(state, ev) {
 
 // // Send email to webmaster
 $('#send-code-modal form').on('submit', function(e) {
-	var self = this
+	const self = this
 	e.preventDefault()
-	var data = $(this).serializeObject()
+	const data = $(this).serializeObject()
 	$(this).find('button').loading('Sending...')
-	$.post('/nonprofits/' + app.nonprofit_id + '/button/send_code.json', data)
+	$.post(nonprofitsButtonSendCodePath(app.nonprofit_id, {format: 'json'}), data)
 		.done(function() {
 			notification('Email sent!')
 			appl.close_modal()

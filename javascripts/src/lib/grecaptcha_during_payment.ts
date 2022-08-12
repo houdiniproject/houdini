@@ -4,7 +4,7 @@ import pRetry from './p-retry'
 
 declare const app: any
 
-async function successfulRecaptcha(resp: any) {
+async function successfulRecaptcha(resp: any): Promise<{recaptcha_token:any, stripe_resp: any}> {
   try {
     const token = await grecaptchaPromised.execute(app.recaptcha_site_key, { action: 'create_card' });
     return {
@@ -20,7 +20,7 @@ async function successfulRecaptcha(resp: any) {
   }
 }
 
-async function stripeRespToGRecaptcha(resp: any) {
+async function stripeRespToGRecaptcha(resp: any): Promise<{recaptcha_token:any, stripe_resp: any}|{message:string}> {
   let errors: any[] = [];
   try {
     return await pRetry(() => successfulRecaptcha(resp), 
@@ -39,7 +39,7 @@ async function stripeRespToGRecaptcha(resp: any) {
 }
 
 
-function reportRecaptchaFailure(error: Error | Error[]) {
+function reportRecaptchaFailure(error: Error | Error[]):void {
   if (!(error instanceof Array)) {
     error = [error]
   }

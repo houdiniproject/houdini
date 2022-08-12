@@ -1,5 +1,7 @@
 // License: LGPL-3.0-or-later
 require('../../../common/vendor/bootstrap-tour-standalone')
+const Cookies = require('universal-cookie');
+const cookies = new Cookies();
 
 var supporters_tour = new Tour({
 	backdrop: false,
@@ -56,8 +58,8 @@ var supporters_tour = new Tour({
 	]
 })
 
-if($.cookie('tour_supporters') === String(app.nonprofit_id)) {
-	$.removeCookie('tour_supporters', {path: '/'})
+if(cookies.get('tour_supporters') === String(app.nonprofit_id)) {
+	cookies.remove('tour_supporters', {path: '/'})
 	supporters_tour.init()
 	supporters_tour.restart()
 }

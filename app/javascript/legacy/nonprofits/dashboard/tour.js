@@ -1,8 +1,7 @@
 // License: LGPL-3.0-or-later
 require('../../common/vendor/bootstrap-tour-standalone')
-
-var $nav = $('.sideNav')
-var $text = $('.sideNav-text')
+const Cookies = require('universal-cookie');
+const cookies = new Cookies();
 
 function showNav(){
 	$nav.css('width', '240px')
@@ -61,8 +60,8 @@ var dashboard_tour = new Tour({
 	]
 })
 
-if($.cookie('tour_dashboard') === String(app.nonprofit_id)) {
-	$.removeCookie('tour_dashboard', {path: '/'})
+if(cookies.get('tour_dashboard') === String(app.nonprofit_id)) {
+	cookies.remove('tour_dashboard', {path: '/'})
 	dashboard_tour.init()
 	dashboard_tour.restart()
 }

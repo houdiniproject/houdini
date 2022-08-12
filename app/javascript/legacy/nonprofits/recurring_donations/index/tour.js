@@ -1,4 +1,7 @@
 // License: LGPL-3.0-or-later
+const Cookies = require('universal-cookie');
+const cookies = new Cookies();
+
 var tour_subscribers = new Tour({
 	backdrop: false,
 	steps: [
@@ -33,8 +36,8 @@ var tour_subscribers = new Tour({
 	]
 })
 
-if($.cookie('tour_subscribers') === String(app.nonprofit_id)) {
-	$.removeCookie('tour_subscribers', {path: '/'})
+if(cookies.get('tour_subscribers') === String(app.nonprofit_id)) {
+	cookies.remove('tour_subscribers', {path: '/'})
 	tour_subscribers.init()
 	tour_subscribers.restart()
 }

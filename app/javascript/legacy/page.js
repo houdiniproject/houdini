@@ -4,10 +4,12 @@ window.appl = require('./common/application_view') // XXX remove
 
 window.$ = require('jquery') // XXX remove
 window.jQuery = window.$ // XXX remove
-require('./common/vendor/jquery.cookie') // XXX remove
 require('parsleyjs') // XXX remove
 require('./common/jquery_additions') // XXX remove
 require('./common/autosubmit') // XXX remove
+const Cookies = require('universal-cookie')
+
+const cookies = new Cookies();
 
 // Application-wide concerns
 
@@ -18,10 +20,10 @@ appl.def('csrf', window._csrf)
 
 // The 'notice' cookie is used for one-time messages (just like flash[:notice] in the session)
 // XXX remove
-if ($.cookie('notice') || $.cookie('notice') === '') {
-	$.removeCookie('notice', {path: '/'})
-} if ($.cookie('error') || $.cookie('error') === '') {
-	$.removeCookie('error', {path: '/'})
+if (cookies.get('notice') || cookies.get('notice') === '') {
+	cookies.remove('notice', {path: '/'})
+} if (cookies.get('error') || cookies.get('error') === '') {
+	cookies.remove('error', {path: '/'})
 }
 
 // Input clear button -- put after the input

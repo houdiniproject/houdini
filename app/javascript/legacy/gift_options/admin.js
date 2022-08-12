@@ -5,7 +5,8 @@ const format = require('../common/format').default
 const R = require('ramda')
 
 const {
-	updateOrderNonprofitCampaignCampaignGiftOptionsPath
+	updateOrderNonprofitCampaignCampaignGiftOptionsPath,
+	nonprofitCampaignPath,	
 } = require('../../routes')
 
 reorder(updateOrderNonprofitCampaignCampaignGiftOptionsPath(app.nonprofit, app.campaign_id), 'js-reorderGifts', appl.ajax_gift_options.index)
@@ -16,7 +17,7 @@ appl.def('ajax_gift_options', {
 		if(checkForAmount(form_obj)){
 			return
 		}
-		var id = appl.gift_options.current.id
+		const id = appl.gift_options.current.id
 		appl.ajax.update('gift_options', id, form_obj, node).then(function(resp) {
 			node.parentNode.reset()
 			appl.def('loading', false)
@@ -40,7 +41,7 @@ appl.def('ajax_gift_options', {
 	},
 
 	del: function(id, node) {
-		var task = appl.ajax.del('gift_options', id, node)
+		const task = appl.ajax.del('gift_options', id, node)
 		task.then(function(resp) {
 			appl.open_modal('manageGiftOptionsModal')
 			appl.notify('Gift option removed successfully')
@@ -60,7 +61,7 @@ appl.def('ajax_gift_options', {
     // case that either input is left blank by the user
     const toCents = x => format.dollarsToCents(x || '0')
 
-    var data = R.evolve({
+    const data = R.evolve({
         amount_one_time: toCents 
       , amount_recurring: toCents
       }, form_obj)
@@ -84,7 +85,7 @@ function checkForAmount(form_obj) {
 
 appl.def('gift_options', {
 	resource_name: 'campaign_gift_options',
-	path_prefix: '/nonprofits/' + app.nonprofit_id + '/campaigns/' + app.campaign_id + '/',
+	path_prefix: nonprofitCampaignPath(app.nonprofit_id, app.campaign_id) + "/",
 
 	open_edit: function(gift_option) {
 		appl.def('gift_options', {current: gift_option, is_updating: true})

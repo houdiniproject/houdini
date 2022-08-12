@@ -3,12 +3,11 @@ require('../../common/pikaday-timepicker')
 require('../../components/wizard')
 require('../../common/image_uploader')
 const checkName = require('../../common/ajax/check_campaign_or_event_name').default
-var format_err = require('../../common/format_response_error').default
 const utils = require('../../common/utilities').default
 
 
 appl.def('advance_event_name_step', function(form_obj) {
-  var name = form_obj['event[name]']
+  const name = form_obj['event[name]']
   checkName(name, 'event', function(){
     appl.def('new_event', form_obj) 
     appl.wizard.advance('new_event_wiz')
@@ -17,7 +16,7 @@ appl.def('advance_event_name_step', function(form_obj) {
 
 // Post a new event.
 appl.def('create_event', function(el) {
-	var form_data = utils.toFormData(appl.prev_elem(el))
+	let form_data = utils.toFormData(appl.prev_elem(el))
 	form_data = utils.mergeFormData(form_data, appl.new_event)
 	appl.def('new_event_wiz.loading', true)
 
@@ -36,7 +35,7 @@ appl.def('create_event', function(el) {
 // Using the bare-bones XMLHttpRequest API so we can post form data and upload the image
 function post_event(form_data) {
 	return new Promise(function(resolve, reject) {
-		var req = new XMLHttpRequest()
+		const req = new XMLHttpRequest()
 		req.open("POST", '/nonprofits/' + app.nonprofit_id + '/events')
 		req.setRequestHeader('X-CSRF-Token', window._csrf)
 		req.send(form_data)
@@ -50,8 +49,8 @@ function post_event(form_data) {
 
 // Pikaday and timepicker initialization nonsense
 
-var Pikaday = require('pikaday')
-var moment = require('moment')
+const Pikaday = require('pikaday')
+const moment = require('moment')
 new Pikaday({
 	field: document.querySelector('#date-string-input'),
 	format: 'M/D/YYYY',

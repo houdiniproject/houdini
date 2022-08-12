@@ -2,6 +2,7 @@
 const confirmation = require('./confirmation').default;
 const notification = require('./notification').default
 const utils = require('./utilities').default
+const Cookies = require('universal-cookie');
 
 $('form[autosubmit]').submit(function(e) {
 	var self = this
@@ -23,7 +24,8 @@ function submit_form(form_el, on_success) {
 	$(form_el).find('.error').text('')
 
 	var notice = form_el.getAttribute('notice')
-	if(notice) $.cookie('notice', notice, {path: '/'})
+	const cookies = new Cookies();
+	if(notice) cookies.set('notice', notice, {path: '/'})
 
 	$.ajax({
 		type: method,

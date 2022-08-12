@@ -2,17 +2,19 @@
 // Functionality for Event Editors (a nonprofit admin, the event creator, or a super admin)
 
 require('../../common/image_uploader')
-
+const {
+	nonprofitEventsPath, nonprofitEventPath
+} = require('../../../routes')
 const dupeIt = require('../../components/duplicate_fundraiser')
 
-var prefix = `/nonprofits/${app.nonprofit_id}/events` 
+const prefix = nonprofitEventsPath(app.nonprofit_id);
 
 // takes prefix and fundraiser id
 dupeIt(prefix, app.event_id)
 
-var url = `${prefix}/${app.event_id}`
-var Pikaday = require('pikaday')
-var moment = require('moment')
+const url = nonprofitEventPath(app.nonprofit_id, app.event_id)
+const Pikaday = require('pikaday')
+const moment = require('moment')
 
 require('../../components/ajax/toggle_soft_delete')(url, 'event')
 
@@ -22,7 +24,7 @@ new Pikaday({
 	minDate: app.event_date || moment().toDate()
 })
 
-var editable = require('../../common/editable')
+const editable = require('../../common/editable')
 
 editable($('#js-eventDescription'), {
 	sticky: true,

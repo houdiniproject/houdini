@@ -26,5 +26,92 @@ describe('Utils.removeChar', () => {
 		expect(Utils.removeChar(teststring2,'abcdef')).toBe('this string')
 	);
 
+});
+
+describe('Utils.castToNullIfUndef', () => {
+	let variable: string;
+
+	test("cast undefined variable to null", () => {
+		expect(Utils.castToNullIfUndef(variable)).toBeNull();
+	});
+
+	test("do not cast to null is not undefined", () => {
+		variable = "notUndefined";
+		expect(Utils.castToNullIfUndef(variable)).toBe("notUndefined");
+	});
+
+});
+
+describe('Utils.castToUndefinedIfBlank', () => {
+	let variable: string;
+
+	test("do not cast undefined variable to Undefined", () => {
+		expect(Utils.castToUndefinedIfBlank(variable)).toBeUndefined();
+	});
+
+	test("cast Blank variable to undefined", () => {
+		variable = "";
+		expect(Utils.castToUndefinedIfBlank(variable)).toBeUndefined();
+	});
+
+	test("cast null variable to undefined", () => {
+		variable = null;
+		expect(Utils.castToUndefinedIfBlank(variable)).toBeUndefined();
+	});
+
+	test("do not cast variable if not Blank", () => {
+		variable = 'Not Blank';
+		expect(Utils.castToUndefinedIfBlank(variable)).toBe('Not Blank');
+	});
+
+});
+
+describe('Utils.isBlank', () => {
+	let variable: string;
+
+	test('return true if not blank', () => {
+		variable = 'Not Blank';
+		expect(Utils.isBlank(variable)).toBeFalsy();
+	});
+
+	test('return true if null', () => {
+		variable = null;
+		expect(Utils.isBlank(variable)).toBeTruthy();
+	});
+
+	test('return true if undefined', () => {
+		variable = undefined;
+		expect(Utils.isBlank(variable)).toBeTruthy();
+	});
+
+	test('return true if Blank', () => {
+		variable = '';
+		expect(Utils.isBlank(variable)).toBeTruthy();
+	});
+
+});
+
+describe('Utils.isFilled', () =>{
+	let variable: string;
+
+	test('return false if null', () => {
+		variable = null;
+		expect(Utils.isFilled(variable)).toBeFalsy();
+	});
+
+	test('return false if undefined', () => {
+		variable = undefined;
+		expect(Utils.isFilled(variable)).toBeFalsy();
+	});
+
+	test('return false if Blank', () => {
+		variable = '';
+		expect(Utils.isFilled(variable)).toBeFalsy();
+	});
+
+	test('return true if filled', () => {
+		variable = 'Not Blank';
+		expect(Utils.isFilled(variable)).toBeTruthy();
+	});
 
 });

@@ -108,31 +108,32 @@ prepared for AVN, like Houdini.
 
 #### **Postgres installation**
 
-You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
+You'll run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
 
-#### Curl install: 
+##### Curl install: 
 ```bash
 apt update
 apt install curl -yy
 ```
 
-#### Node install:
+##### Node install:
 ```bash
 curl -sL https://deb.nodesource.com/setup_14.x | bash -
 ```
-#### Yarn install:
+##### Yarn install:
 ```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update
 apt install yarn -yy
 ```
-#### Postgres install:
+##### Postgres install:
 ```bash
 apt install postgresql-12 libpq-dev -yy
 ```
 > *Note*: If you already have postgres installed, don't forget to install libpq-dev too
-#### Installation of remaining packages:
+
+##### Installation of remaining packages:
 ```bash
 apt install libjemalloc-dev libvips42 -yy
 ```

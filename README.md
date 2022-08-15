@@ -1,4 +1,4 @@
-# Houdini Project
+# **Houdini Project**
 
 ![Logo Houdini](./app/assets/images/logos/houdini_project_border_64.svg)
 
@@ -12,7 +12,7 @@
 > [v1](https://github.com/houdiniproject/houdini/tree/1-0-stable)
 > instead.
 
-## Summary
+## **Summary**
 
 - [Description](#description)
 - [Supported operating systems](#supported-operating-systems)
@@ -23,7 +23,7 @@
 - [Known Issues](#known-issues)
 - [Run in Production](#run-in-production)
 
-## Description
+## ![Description](./app/assets/images/ui_components/description.svg) **Description**
 
 The Houdini Project is a free and open source fundraising infrastructure. It includes...
 
@@ -44,11 +44,11 @@ comfort and speed.
 
 All new backend code and React components should be well tested.
 
-## Supported operating systems
+## ![Supported systems](./app/assets/images/ui_components/system_settings.svg) **Supported operating systems**
 
 * Ubuntu 18.04, 20.04 or equivalent
 
-## Pre-requisites
+## ![Pre-requisites](./app/assets/images/ui_components/requirements_icon.svg) **Pre-requisites**
 
 * Node 14
 * Yarn
@@ -61,25 +61,25 @@ All new backend code and React components should be well tested.
 > - Higher versions of node may not work with Houdini Project.<br>
 > - Higher versions of ruby may not work with Houdini Project.
 
-## Get involved
+## ![Get Involved](./app/assets/images/ui_components/get_involved.svg) **Get involved**
 
 Houdini's success depends on you!
 
-### Join our Discussions chat
+### **Join our Discussions chat**
 
 https://github.com/houdiniproject/houdini/discussions
 
-### Help with translations
+### **Help with translations**
 
 Check our [translation guide](docs/translations.md) to translate Houdini to other languages.
 
-### Help with usability tests
+### **Help with usability tests**
 
 Check on [contribution_guide_usability_testing.md](docs/contribution_guide_usability_testing.md) and create an issue with your test design or run test sessions for [opened usability testing issues](https://github.com/houdiniproject/houdini/issues?q=is%3Aissue+is%3Aopen+%5BUX%5D+).
 
-## Dev Setup
+## ![Dev Setup](./app/assets/images/ui_components/dev_setup.svg) **Dev Setup**
 
-### Installation prep
+### **Installation prep**
 
 Houdini requires a few pieces of software be installed, as well as some optional pieces
 which make development much easier.
@@ -104,9 +104,9 @@ properly configured, it automatically switches version at
 the console when you change to a directory for a project
 prepared for AVN, like Houdini.
 
-### One-time setup
+### **One-time setup**
 
-#### Postgres installation
+#### **Postgres installation**
 
 You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
 
@@ -137,7 +137,7 @@ apt install postgresql-12 libpq-dev -yy
 apt install libjemalloc-dev libvips42 -yy
 ```
 
-You'll run the next commands as your normal user.
+You'll run the next commands as your normal user (without sudo).
 
 > *Note*: in the case of a production instance, this might be
 > your web server's user.
@@ -206,7 +206,7 @@ dashboard. On your development environment,
 make sure to use test keys. If you don't, you're
 going to be charged real money!
 
-### Stripe keys setup
+### **Stripe keys setup**
 
 #### Get Stripe keys:
 
@@ -223,7 +223,8 @@ Go to [Stripe](https://stripe.com), create an account or just log in with you al
  export STRIPE_API_KEY='REPLACE' # use your test private key from your stripe account
  export STRIPE_API_PUBLIC='REPLACE' # use your test public key from your stripe account
  ```
-### Testing
+
+### **Testing**
 
 To verify everying is set up correctly, you can try running through the Ruby test cases:
 
@@ -307,7 +308,7 @@ Additionally, it is possible to provide arguments to fill in the fields for the 
 ```
 
 You can use this in the future for creating additional nonprofits.
-### Startup
+### **Startup**
 
 `bin/rails server`
 You can connect to your server at http://localhost:5000
@@ -338,16 +339,15 @@ We use `Rubocop` to perform static code analysis:
 rubocop
 ```
 
-
-## Additional documentation
+## ![Additional Documentation](./app/assets/images/ui_components/addicional_documentation.svg) **Additional documentation**
 
 We have some additional documentation describing some implementations, definitions and other guides on the [docs folder](docs).
 
-## Known issues
+## ![Known Issues](./app/assets/images/ui_components/known_issues.svg) **Known issues**
 
 For a list of [how to solve known issues](docs/known_issues.md)
 
-## Run in production
+## ![Run in Production](./app/assets/images/ui_components/run_production.svg) **Run in production**
 
 You will likely want to make a few changes in your configuration of Houdini before running in production as you
 would for any Rails project. For details, see [production deployment](docs/production_deployment.md).

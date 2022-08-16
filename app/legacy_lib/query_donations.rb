@@ -5,11 +5,19 @@
 
 module QueryDonations
   # Export all donation data for a given campaign
+  class << self
+    include ApplicationHelper
+    include ActionView::Helpers::NumberHelper
+  end
+
   def self.campaign_export(campaign_id)
-    Psql.execute_vectors(
+    nonprofit_id = Campaign.find(campaign_id).nonprofit_id
+    currency = Nonprofit.find(nonprofit_id).currency_symbol
+
+    result = Psql.execute_vectors(
       Qexpr.new.select([
         'donations.created_at',
-        '(payments.gross_amount/100.00)::money::text AS amount',
+        'payments.gross_amount AS amount',
         'COUNT(recurring_donations.id) > 0 AS recurring',
         "STRING_AGG(campaign_gift_options.name, ',') AS campaign_gift_names"
       ].concat(QuerySupporters.supporter_export_selections)
@@ -45,6 +53,8 @@ module QueryDonations
      .group_by('donations.id', 'supporters.id', 'payments.id', 'payments.gross_amount', 'users.email')
      .order_by('donations.date')
     )
+
+    result.map { |r| update_amount_with_currency(r, currency) }
   end
 
   def self.for_campaign_activities(id)
@@ -94,5 +104,12 @@ module QueryDonations
       .where("payments.donation_id = #{table_selector}.id")
       .order_by('payments.created_at ASC')
       .limit(1)
+  end
+
+  def self.update_amount_with_currency(query_row, currency)
+    if query_row[1].to_s.downcase != 'amount'
+      query_row[1] = print_currency(query_row[1], currency, true, true)
+    end
+    query_row
   end
 end

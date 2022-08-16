@@ -5,6 +5,11 @@
 
 module QueryRecurringDonations
   # Calculate a nonprofit's total recurring donations
+  class << self
+    include ApplicationHelper
+    include ActionView::Helpers::NumberHelper
+  end 
+
   def self.calculate_monthly_donation_total(np_id)
     Qx.select('coalesce(sum(amount), 0) AS sum')
       .from('recurring_donations')
@@ -135,10 +140,12 @@ module QueryRecurringDonations
   def self.get_chunk_of_export(npo_id, query, offset = nil, limit = nil, skip_header = false)
     root_url = query[:root_url]
 
-    QexprQueryChunker.get_chunk_of_query(offset, limit, skip_header) do
+    currency = Nonprofit.find(npo_id).currency_symbol
+
+    result = QexprQueryChunker.get_chunk_of_query(offset, limit, skip_header) do
       full_search_expr(npo_id, query).select(
         'recurring_donations.created_at',
-        '(recurring_donations.amount / 100.0)::money::text AS amount',
+        'recurring_donations.amount AS amount',
         "concat('Every ', recurring_donations.interval, ' ', recurring_donations.time_unit, '(s)') AS interval",
         '(SUM(paid_charges.amount) / 100.0)::money::text AS total_contributed',
         'MAX(campaigns.name) AS campaign_name',
@@ -160,6 +167,7 @@ module QueryRecurringDonations
                                      .left_outer_join('campaigns', 'campaigns.id=donations.campaign_id')
                                      .left_outer_join('cards', 'cards.id=donations.card_id')
     end
+    result.map { |r| update_amount_with_currency(r, currency) }
   end
 
   def self.recurring_donations_without_cards
@@ -299,5 +307,12 @@ module QueryRecurringDonations
         card: i.card.stripe_card_id }
     end
     output.to_a
+  end
+
+  def self.update_amount_with_currency(query_row, currency)
+    if query_row[1] != 'Amount'
+      query_row[1] = print_currency(query_row[1], currency, true, true)
+    end
+    query_row
   end
 end

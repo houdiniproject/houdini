@@ -8,7 +8,9 @@ json.object 'transaction'
 
 json.created transaction.created.to_i
 
-json.supporter transaction.supporter.id
+handle_expansion(:supporter, transaction.supporter, { json: json, __expand: __expand })
+
+handle_expansion(:nonprofit, transaction.nonprofit, { json: json, __expand: __expand })
 
 json.nonprofit transaction.nonprofit.id
 
@@ -16,10 +18,11 @@ json.amount do
 	json.partial! '/api/common/amount', amount: transaction.amount_as_money
 end
 
-json.subtransaction transaction&.subtransaction&.to_id
+handle_expansion(:subtransaction, transaction.subtransaction, { json: json, __expand: __expand })
 
-json.transaction_assignments transaction.transaction_assignments do |tra|
-	json.merge! tra.to_id.attributes!
+handle_array_expansion(:transaction_assignments, transaction.transaction_assignments,
+																							{ json: json, __expand: __expand, item_as: :transaction_assignment }) do |tra, opts|
+	handle_item_expansion(tra, opts)
 end
 
 json.payments transaction.payments do |subt_p|

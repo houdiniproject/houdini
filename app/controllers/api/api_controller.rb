@@ -6,6 +6,7 @@ class Api::ApiController < ActionController::Base # rubocop:disable Rails/Applic
 	# We disable Rails/ApplicationController bec
 	include Controllers::Locale
 	include Controllers::Nonprofit::Authorization
+	include Controllers::Api::JbuilderExpansions
 
 	rescue_from ActiveRecord::RecordInvalid, with: :record_invalid_rescue
 	rescue_from AuthenticationError, with: :unauthorized_rescue

@@ -142,8 +142,6 @@ class NonprofitsController < ApplicationController
       :email,
       :phone,
       :main_image,
-      :second_image,
-      :third_image,
       :background_image,
       :remove_background_image,
       :logo,

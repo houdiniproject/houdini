@@ -15,8 +15,6 @@ class Nonprofit < ApplicationRecord
   # :email, # str: public organization contact email
   # :phone, # str: public org contact phone
   # :main_image, # str: url of featured image - first image in profile carousel
-  # :second_image, # str: url of 2nd image in carousel
-  # :third_image, # str: url of 3rd image in carousel
   # :background_image,  # str: url of large profile background
   # :remove_background_image, #bool carrierwave
   # :logo, # str: small logo image url for searching
@@ -114,8 +112,6 @@ class Nonprofit < ApplicationRecord
   scope :published, -> { where(published: true) }
 
   has_one_attached :main_image
-  has_one_attached :second_image
-  has_one_attached :third_image
   has_one_attached :background_image
   has_one_attached :logo
  
@@ -123,8 +119,7 @@ class Nonprofit < ApplicationRecord
   has_one_attached_with_sizes(:logo, {small: 30, normal: 100, large: 180})
   has_one_attached_with_sizes(:background_image, {normal: [1000,600]})
   has_one_attached_with_sizes(:main_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
-  has_one_attached_with_sizes(:second_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
-  has_one_attached_with_sizes(:third_image, {nonprofit_carousel: [590, 338], thumb: [188, 120], thumb_explore: [100, 100]})
+
 
   has_one_attached_with_default(:logo, Houdini.defaults.image.profile, 
     filename: "logo_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
@@ -132,11 +127,6 @@ class Nonprofit < ApplicationRecord
       filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.nonprofit).extname}")
   has_one_attached_with_default(:main_image, Houdini.defaults.image.profile, 
       filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-  has_one_attached_with_default(:second_image, Houdini.defaults.image.profile, 
-    filename: "second_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-  has_one_attached_with_default(:third_image, Houdini.defaults.image.profile, 
-    filename: "third_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
-
 
 
   before_validation(on: :create) do

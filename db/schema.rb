@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_05_212524) do
+ActiveRecord::Schema.define(version: 2022_08_22_211046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -561,8 +561,6 @@ ActiveRecord::Schema.define(version: 2022_08_05_212524) do
     t.string "phone", limit: 255
     t.string "email", limit: 255
     t.string "main_image", limit: 255
-    t.string "second_image", limit: 255
-    t.string "third_image", limit: 255
     t.string "website", limit: 255
     t.string "background_image", limit: 255
     t.string "logo", limit: 255

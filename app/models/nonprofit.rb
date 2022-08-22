@@ -13,8 +13,6 @@ class Nonprofit < ActiveRecord::Base
     :email, # str: public organization contact email
     :phone, # str: public org contact phone
     :main_image, # str: url of featured image - first image in profile carousel
-    :second_image, # str: url of 2nd image in carousel
-    :third_image, # str: url of 3rd image in carousel
     :background_image,  # str: url of large profile background
     :remove_background_image, #bool carrierwave
     :logo, # str: small logo image url for searching
@@ -104,8 +102,6 @@ class Nonprofit < ActiveRecord::Base
   scope :published, -> {where(published: true)}
 
   mount_uploader :main_image, NonprofitUploader
-  mount_uploader :second_image, NonprofitUploader
-  mount_uploader :third_image, NonprofitUploader
   mount_uploader :background_image, NonprofitBackgroundUploader
   mount_uploader :logo, NonprofitLogoUploader
 

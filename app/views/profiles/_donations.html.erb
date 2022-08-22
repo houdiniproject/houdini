@@ -24,7 +24,7 @@
 						<%= link_to(donation.nonprofit.name, donation.nonprofit.url) %>
 					</td>
 					<td> <%= format_date_to_mdY(donation.created_at) %></td>
-					<td> <%= GetData.chain(donation.card, :name) %> </td>
+					<td> <%= donation.card&.name %> </td>
 				</tr>
 			<% end %>
 		</tbody>

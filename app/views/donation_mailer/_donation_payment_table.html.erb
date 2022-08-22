@@ -88,7 +88,7 @@
     <% if charge %>
 		<tr>
   			<td><strong><%= t('donation.payment_id') %></strong></td>
-			<td> <%= GetData.chain(donation.payment, :id) %></td>
+			<td> <%= donation.payment&.id %></td>
 		</tr>
     <% end %>
 

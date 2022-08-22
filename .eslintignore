@@ -13,7 +13,6 @@ app/javascript/routes.d.ts
 app/javascript/donate-button/donate-button.v2.ts
 app/javascript/legacy_react/api/api/api.ts
 app/javascript/legacy_react/api/api/NonprofitsApi.ts
-app/javascript/legacy_react/api/api/UsersApi.ts
 app/javascript/legacy_react/api/configuration.ts
 app/javascript/legacy_react/api/index.ts
 app/javascript/legacy_react/api/model/models.ts
@@ -21,7 +20,6 @@ app/javascript/legacy_react/api/model/Nonprofit.ts
 app/javascript/legacy_react/api/model/PostNonprofit.ts
 app/javascript/legacy_react/api/model/PostNonprofitNonprofit.ts
 app/javascript/legacy_react/api/model/PostNonprofitUser.ts
-app/javascript/legacy_react/api/model/PostUser.ts
 app/javascript/legacy_react/api/model/ValidationError.ts
 app/javascript/legacy_react/api/model/ValidationErrors.ts
 app/javascript/legacy_react/app/loading_indicator.ts

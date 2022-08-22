@@ -217,7 +217,7 @@ specific language governing permissions and limitations under the License.
 
 ------
 
-** addressable; version 2.8.0 -- 
+** addressable; version 2.8.1 -- 
 Copyright (c) Bob Aman
 
 
@@ -1433,7 +1433,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** public_suffix; version 4.0.7 -- 
+** public_suffix; version 5.0.0 -- 
 Copyright (c) 2009-2022 Simone Carletti
 Copyright (c) 2009-2022 Simone Carletti <weppos@weppos.net>
 
@@ -1672,7 +1672,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** webmock; version 3.17.1 -- 
+** webmock; version 3.18.1 -- 
 Copyright (c) 2010-2012 Myron Marston
 Copyright (c) 2009-2010 Bartosz Blimke
 Portions copyright (c) 2010 Andre Arko
@@ -2068,7 +2068,7 @@ THE SOFTWARE.
 
 ------
 
-** good_job; version 3.4.3 -- 
+** good_job; version 3.4.4 -- 
 (c) 2020 Jukka Kurkela
 Copyright 2020 Ben Sheldon
 (c) 2021 Chart.js Contributors
@@ -2485,7 +2485,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.35.0 -- 
+** rubocop; version 1.35.1 -- 
 Copyright (c) 2018 Hayato Kawai
 Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov

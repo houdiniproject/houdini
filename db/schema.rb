@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220713204114) do
+ActiveRecord::Schema.define(version: 20220822211046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -696,8 +696,6 @@ ActiveRecord::Schema.define(version: 20220713204114) do
     t.string   "phone",                                       limit: 255
     t.string   "email",                                       limit: 255
     t.string   "main_image",                                  limit: 255
-    t.string   "second_image",                                limit: 255
-    t.string   "third_image",                                 limit: 255
     t.string   "website",                                     limit: 255
     t.string   "background_image",                            limit: 255
     t.string   "logo",                                        limit: 255

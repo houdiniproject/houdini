@@ -67,7 +67,7 @@
   <p>
     Your payment of $<strong><%= Format::Currency.cents_to_dollars(@charge.amount) %></strong>
     for the event <strong><a href='<%= Format::Url.concat(root_url, @event.url) %>'><%= @event.name %></a></strong>
-    using <strong><%= GetData.chain(@charge, :card, :name) || 'Unknown card' %></strong>
+    using <strong><%= @charge&.card&.name || 'Unknown card' %></strong>
     was successful.
   </p><br>
 

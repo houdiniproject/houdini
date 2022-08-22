@@ -60,7 +60,7 @@ json.data do
         json.extract! event, :name, :id
         json.url event_locateable_url(event)
       end
-      json.levels @payment.tickets.map { |t| "#{GetData.chain(t.ticket_level, :name)} (#{t.quantity}x)" }.join(', ')
+      json.levels @payment.tickets.map { |t| "#{t.ticket_level&.name} (#{t.quantity}x)" }.join(', ')
       json.discount @payment.tickets.map { |t| t.event_discount ? "#{t.event_discount.name} (#{t.event_discount.percent}%)" : nil }.compact.join(', ')
   end if @payment&.tickets&.last&.event
 

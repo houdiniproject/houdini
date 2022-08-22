@@ -55,5 +55,5 @@
 			placeholder='Postal Code'>
 	</fieldset>
 
-	<input type='hidden' name='profile_id' value='<%= GetData.chain(current_user, :profile, :id) %>'>
+	<input type='hidden' name='profile_id' value='<%= current_user&.profile&.id%>'>
 </div>

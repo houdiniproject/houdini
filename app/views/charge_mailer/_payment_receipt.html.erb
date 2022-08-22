@@ -31,7 +31,7 @@
 		</tr>
 
     <tr>
-    <% if GetData.chain(charge.card, :name).present? %>
+    <% if charge.card&.name.present? %>
       <td><strong>Card</strong></td>
       <td> <%= charge.card.name %> </td>
     <% end %>

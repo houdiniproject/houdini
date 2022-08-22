@@ -115,7 +115,7 @@ class ImportRequest < ApplicationRecord
 				if table_data['donation'] && table_data['donation']['id']
 					table_data['offsite_payment'] = Qx.insert_into(:offsite_payments).values(
 						gross_amount: table_data['donation']['amount'],
-						check_number: GetData.chain(table_data['offsite_payment'], 'check_number'),
+						check_number: table_data['offsite_payment'] && table_data['offsite_payment']['check_number'],
 						kind: table_data['offsite_payment'] && table_data['offsite_payment']['check_number'] ? 'check' : '',
 						nonprofit_id: nonprofit.id,
 						supporter_id: table_data['supporter']['id'],

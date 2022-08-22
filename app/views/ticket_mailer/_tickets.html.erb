@@ -14,7 +14,7 @@
           <strong>Ticket Level</strong>
         </td>
         <td>
-          <%= GetData.chain(ticket, :ticket_level, :name) != nil ?  GetData.chain(ticket, :ticket_level, :name) : 'n/a' %>
+          <%= ticket&.ticket_level&.name.present? ?  ticket&.ticket_level&.name : 'n/a' %>
         </td>
       </tr>
 			<tr>
@@ -23,11 +23,11 @@
 			</tr>
 			<tr>
 				<td><strong>Name</strong></td>
-				<td> <%= GetData.chain(ticket, :supporter, :name) %></td>
+				<td> <%= ticket&.supporter&.name %></td>
 			</tr>
 			<tr>
 				<td><strong>Email</strong></td>
-				<td><%= GetData.chain(ticket, :supporter, :email) %></td>
+				<td><%= ticket&.supporter&.email %></td>
 			</tr>
 			<tr>
 				<td><strong>Ticket ID</strong></td>
@@ -35,7 +35,7 @@
 			</tr>
 			<tr>
 				<td><strong>Comment</strong></td>
-				<td> <%= GetData.chain(ticket, :donation, :comment) || 'None' %></td>
+				<td> <%= ticket&.donation&.comment || 'None' %></td>
 			</tr>
       <% if tickets.length != 1 %>
         <tr colspan='2'><td><p></p></td></tr>

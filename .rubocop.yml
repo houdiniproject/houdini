@@ -306,7 +306,6 @@ AllCops:
     - 'app/jobs/webhook_transmit_job.rb'
     - 'app/jobs/stripe_account_create_job.rb'
     - 'app/legacy_lib/import_civicrm_payments.rb'
-    - 'app/legacy_lib/get_data.rb'
     - 'app/legacy_lib/name_copy_naming_algorithm.rb'
     - 'app/legacy_lib/health_report.rb'
     - 'app/legacy_lib/qexpr_query_chunker.rb'

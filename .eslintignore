@@ -331,9 +331,6 @@ app/javascript/legacy_react/src/components/common/svg/CloseButton.tsx
 app/javascript/legacy_react/src/components/create_offsite_payment_pane/CreateOffsitePaymentPane.tsx
 app/javascript/legacy_react/src/components/edit_payment_pane/EditPaymentPane.tsx
 
-#included code from another package
-app/javascript/common/lodash-joins
-
 #javascript locales
 app/javascript/i18n/locales
 # don't check any js in the installed gems on build server

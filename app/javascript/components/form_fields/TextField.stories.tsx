@@ -6,13 +6,12 @@ import { action } from '@storybook/addon-actions';
 import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
 import useYup from '../../hooks/useYup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Story } from '@storybook/react';
 import { waitFor } from '@storybook/testing-library';
 import { Button, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import noop from 'lodash/noop';
 import { defaultProps } from '../../common/react';
-import { defaultStoryExport } from '../../tests/stories';
+import { defaultStoryExport, StoryTemplate } from '../../tests/stories';
 
 
 export default defaultStoryExport({ title: 'Form Fields/TextField' });
@@ -98,46 +97,40 @@ FormHandler.defaultProps = defaultProps(FormHandler,{
 
 
 interface StoryProps {
+	disabled?:boolean;
 	helperText?: React.ReactNode;
 	onChange: (args: { value: string }) => void;
 	schemaCreator?: (yup: ReturnType<typeof useYup>) => any;
 	value?: string;
-
 }
 
-const Template: Story<StoryProps> = (args) => <FormHandler {...args} />;
+const Template = new StoryTemplate((args:StoryProps) => <FormHandler {...args} />);
 
-export const EmptyTextField = Template.bind({});
-EmptyTextField.args = {
+export const EmptyTextField = Template.newStory({args:{
 	onChange: action('on-change'),
-};
+}});
 
 
-export const StartingWithPenelopeSchultz = Template.bind({});
-StartingWithPenelopeSchultz.args = {
+export const StartingWithPenelopeSchultz = Template.newStory({args:{
 	onChange: action('on-change'),
 	value: "Penelope Schultz",
 	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
-};
+}});
 
-export const EmptyTextFieldWithValidation = Template.bind({});
-EmptyTextFieldWithValidation.args = {
+export const EmptyTextFieldWithValidation = Template.newStory({args:{
 	onChange: action('on-change'),
 	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
-};
+}});
 
-export const TextFieldWithHelperTextThatIsCoveredOnError = Template.bind({});
-TextFieldWithHelperTextThatIsCoveredOnError.args = {
+export const TextFieldWithHelperTextThatIsCoveredOnError = Template.newStory({args:{
 	onChange: action('on-change'),
 	helperText: "HelperText",
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	schemaCreator: (yup: any) => yup.object({ value: yup.string().min(10).label("First Name") }),
-};
+}});
 
-export const DisabledTextField = Template.bind({});
-
-DisabledTextField.args = {
+export const DisabledTextField = Template.newStory({args:{
 	disabled: true,
-};
+}});
 
 

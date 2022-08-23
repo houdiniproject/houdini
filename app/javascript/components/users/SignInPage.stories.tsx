@@ -13,7 +13,7 @@ import { getCurrentRoute } from '../../api/api/users';
 import { UserSignsInOnFirstAttempt } from '../../hooks/mocks/useCurrentUserAuth';
 import { NotLoggedInStatus } from '../../hooks/useCurrentUser';
 import { UserPresignedIn } from '../../api/api/mocks/users';
-import { defaultStoryExport } from '../../tests/stories';
+import { defaultStoryExport, StoryTemplate } from '../../tests/stories';
 
 export default defaultStoryExport({
 	title: 'users/SignInPage',
@@ -50,7 +50,7 @@ interface TemplateArgs {
 	hoster: string;
 }
 
-const Template = (args: TemplateArgs) => {
+const Template = new StoryTemplate((args: TemplateArgs) => {
 
 	let hosterReturnValue: Hoster | null = null;
 	if (args.hasHoster) {
@@ -64,22 +64,19 @@ const Template = (args: TemplateArgs) => {
 			<SignInPage redirectUrl={'reload'} />
 		</HosterContext.Provider>
 	</SWRWrapper></OuterWrapper>;
-};
+});
 
 function OuterWrapper(props: React.PropsWithChildren<Record<string, unknown>>) {
 	sessionStorage.clear();
 	return <> {props.children}</>;
 }
 
-const ErrorBoundaryTemplate = () => {
+const ErrorBoundaryTemplate = new StoryTemplate(() => {
 	return <Fallback />;
-};
+});
 
 
-export const SignInFailed500 = Template.bind({});
-
-
-SignInFailed500.story = {
+export const SignInFailed500 = Template.newStory({story: {
 	parameters: {
 		msw: [
 			rest.get(getCurrentRoute(), (_req, res, ctx) => {
@@ -96,34 +93,24 @@ SignInFailed500.story = {
 			}),
 		],
 	},
-};
+}});
 
 
 
-export const SignInSucceeded = Template.bind({});
-
-
-SignInSucceeded.story = {
+export const SignInSucceeded = Template.newStory({story:{
 	parameters: {
 		msw: [
 			...UserSignsInOnFirstAttempt,
 		],
 	},
-};
+}});
 
-export const ShowErrorBoundary = ErrorBoundaryTemplate.bind({});
+export const ShowErrorBoundary = ErrorBoundaryTemplate.newStory();
 
-export const SignedInToStart = Template.bind({});
-SignedInToStart.args = {
-};
-
-SignedInToStart.story = {
+export const SignedInToStart = Template.newStory({args:{}, story:{
 	parameters: {
 		msw: [
 			...UserPresignedIn,
 		],
 	},
-};
-
-
-
+}});

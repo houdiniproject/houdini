@@ -8,7 +8,7 @@ import { SWRConfig } from 'swr';
 
 import { UserSignInFailedWith500And5SecondDelay, UserSignsInOnFirstAttemptWith5SecondDelay } from '../../hooks/mocks/useCurrentUserAuth';
 import { UserPresignedIn } from '../../api/api/mocks/users';
-import { defaultStoryExport } from '../../tests/stories';
+import { defaultStoryExport, StoryTemplate } from '../../tests/stories';
 
 export default defaultStoryExport({
 	title: 'users/SignInComponent',
@@ -44,46 +44,39 @@ function OuterWrapper(props:React.PropsWithChildren<Record<string, unknown>>) {
 	return <> {props.children}</>;
 }
 
-const Template = (args:TemplateArgs) => {
+const Template = new StoryTemplate((args:TemplateArgs) => {
 	return (<OuterWrapper key={Math.random()}>
 		<SWRWrapper key={Math.random()}>
 			<SignInComponent  onFailure={action('onFailure')} onSubmitting={action('onSubmitting')} onSuccess={action('onSuccess')} showProgressAndSuccess={args.showProgressAndSuccess} />
 		</SWRWrapper>
 	</OuterWrapper>);
-};
+});
 
-const SignedInTemplate = () => {
+const SignedInTemplate = new StoryTemplate(() => {
 	return <OuterWrapper key={Math.random()}><SWRWrapper key={Math.random()}><InitialCurrentUserContext.Provider value={{id:1}}><SignInComponent onSuccess={action('onSuccess')} showProgressAndSuccess /></InitialCurrentUserContext.Provider></SWRWrapper></OuterWrapper>;
-};
+});
 
-export const SignInFailed500 = Template.bind({});
-SignInFailed500.story = {
+export const SignInFailed500 = Template.newStory({story:{
 	parameters: {
 		msw: UserSignInFailedWith500And5SecondDelay,
 	},
-};
+}});
 
 
-export const SignedInToStart = SignedInTemplate.bind({});
-SignedInToStart.args = {
-};
-
-SignedInToStart.story =  {
+export const SignedInToStart = SignedInTemplate.newStory({args: {}, story:{
 	parameters: {
 		msw: [
 			...UserPresignedIn,
 		],
 	},
-};
+}});
 
-export const SignInSucceeded = Template.bind({});
-
-SignInSucceeded.story = {
+export const SignInSucceeded = Template.newStory({story:{
 	parameters: {
 		msw: [
 			...UserSignsInOnFirstAttemptWith5SecondDelay,
 		],
 	},
-};
+}});
 
 

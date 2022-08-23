@@ -328,7 +328,6 @@ app/javascript/legacy_react/src/components/common/selectable_table_row/Selectabl
 app/javascript/legacy_react/src/components/common/StandardFieldComponent.spec.tsx
 app/javascript/legacy_react/src/components/common/StandardFieldComponent.tsx
 app/javascript/legacy_react/src/components/common/svg/CloseButton.tsx
-app/javascript/legacy_react/src/components/common/test/react_test_helpers.tsx
 app/javascript/legacy_react/src/components/create_offsite_payment_pane/CreateOffsitePaymentPane.tsx
 app/javascript/legacy_react/src/components/edit_payment_pane/EditPaymentPane.tsx
 

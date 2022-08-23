@@ -4,6 +4,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const phoneFormatter = require('phone-formatter');
 import format from './format';
+import has from 'lodash/has';
 
 
 function isStringArray(testVar: unknown): testVar is string[] {
@@ -18,6 +19,11 @@ function isObjectWithError(testVar: unknown): testVar is { error: string } {
 	return Object.prototype.hasOwnProperty.call(testVar, 'error');
 }
 
+
+function isFormElement(testVar:HTMLElement): testVar is HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement {
+	return has(testVar, 'name');
+}
+
 const utils = {
 	print_error: function (response?: {
 		responseJSON?:
@@ -25,7 +31,7 @@ const utils = {
 		{ errors?: Record<string, unknown> } |
 		{ error?: string };
 		status: number;
-	}): string {
+	}): string|undefined {
 		const msg = 'Sorry! We encountered an error.';
 		if (!response) return msg;
 		if (response.status === 500) return msg;
@@ -86,8 +92,10 @@ const utils = {
 
 	toFormData: function (form_el: HTMLElement): FormData {
 		const form_data = new FormData();
-		$(form_el).find('input, select, textarea').each(function (this: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement, _index: number) {
-			if (!this.name) return;
+		$(form_el).find('input, select, textarea').each(function (this: HTMLElement | HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement, _index: number) {
+			if (!isFormElement(this)) {
+				return;
+			}
 			if (this instanceof HTMLInputElement && this.files && this.files[0])
 				form_data.append(this.name, this.files[0]);
 			else if (this instanceof HTMLInputElement && this.getAttribute("type") === "checkbox")

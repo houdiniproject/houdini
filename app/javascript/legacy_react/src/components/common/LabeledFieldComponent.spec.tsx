@@ -14,7 +14,7 @@ describe('LabeledFieldComponent', () => {
   })
 
   test('has error checked but no message so not really in error', () => {
-    let result = shallow(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={true} error={null}>
+    let result = shallow(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={true} error={undefined}>
       <hr/>
     </LabeledFieldComponent>)
     expect(toJson(result)).toMatchSnapshot()

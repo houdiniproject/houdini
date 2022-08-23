@@ -23,7 +23,7 @@ function Wrapper(props:React.PropsWithChildren<unknown>) {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const translations = I18n.translations['en'] as any;
 
-	return <HosterContext.Provider value={null}>
+	return <HosterContext.Provider value={undefined}>
 		<IntlProvider messages={convert(translations)} locale={'en'}>
 			<InitialCurrentUserContext.Provider value={{id: 1}}>
 				{props.children}

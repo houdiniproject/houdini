@@ -4,7 +4,7 @@ import * as deprecated_format from './deprecated_format'
 
 export function centsToDollars(cents:string|number|undefined, options:{noCents?:boolean}={}):string {
   if(cents === undefined) return '0'
-  let centsAsNumber:number = undefined
+  let centsAsNumber:number|undefined = undefined
   if (typeof cents === 'string')
   {
     centsAsNumber = Number(cents)
@@ -44,7 +44,7 @@ export function readableKind(kind:string) {
 
 
 
-export function readableInterval(interval:number, time_unit:string) {
+export function readableInterval(interval:number|undefined, time_unit:string) {
   if(interval === 1) return time_unit + 'ly'
   if(interval === 4 && time_unit === 'year') return 'quarterly'
   if(interval === 2 && time_unit === 'year') return 'biannually'

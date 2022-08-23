@@ -3,16 +3,16 @@ export function castToNullIfUndef<T>(i:T): T | null{
   return i === undefined ? null : i
 }
 
-export function isBlank(i:null|undefined|string) : boolean {
+export function isBlank(i:unknown) : boolean {
   return i === null || i === undefined || i === '';
 }
 
-export function isFilled(i:null|undefined|string) : boolean {
+export function isFilled(i:unknown) : boolean {
   return !isBlank(i)
 }
 
 export function castToUndefinedIfBlank(i:null|undefined|string) :
-    string | undefined {
+    string | undefined|null {
   return isBlank(i) ? undefined : i;
 }
 

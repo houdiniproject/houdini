@@ -135,7 +135,7 @@ function MoneyTextField<TFieldValues=FieldValues>({ children,
 
 	const value = Money.fromCents(field.value as MoneyAsJson);
 
-	const inputRef = useRef<HTMLInputElement|null>();
+	const inputRef = useRef<HTMLInputElement|null>(null);
 	const { maskedValue, onChange,
 		onFocus,
 		onMouseUp,

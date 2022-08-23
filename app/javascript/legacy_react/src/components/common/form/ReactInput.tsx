@@ -9,7 +9,7 @@ import {ReactInputProps} from "./react_input_props";
 import {SelectHTMLAttributes} from "react";
 import {ReactSelectProps} from "./ReactSelect";
 import {castToNullIfUndef} from "../../../lib/utils";
-
+import omit from 'lodash/omit'
 
 type InputTypes = ReactInputProps &
   InputHTMLAttributes<HTMLInputElement>
@@ -21,7 +21,7 @@ class ReactInput extends React.Component<InputTypes, {}> {
   }
 
   @observable
-  field:Field
+  field:Field|undefined
 
 
   @action.bound
@@ -43,22 +43,19 @@ class ReactInput extends React.Component<InputTypes, {}> {
 
   @action.bound
   updateProps() {
-      this.field.set('label', castToNullIfUndef(this.props.label))
-      this.field.set('placeholder', castToNullIfUndef(this.props.placeholder))
+      this.field?.set('label', castToNullIfUndef(this.props.label))
+      this.field?.set('placeholder', castToNullIfUndef(this.props.placeholder))
   }
 
   ///Removes the properties we don't want to put into the input element
   @action.bound
-  winnowProps(): InputTypes {
-    let ourProps = {...this.props}
-    delete ourProps.field
-    delete ourProps.value
-    return ourProps
+  winnowProps(): Omit<InputTypes, 'field'|'value'> {
+   return omit(this.props, ['field', 'value']);
 
   }
 
   render() {
-      return <input {...this.winnowProps()} {...this.field.bind()}/>
+      return <input {...this.winnowProps()} {...this.field?.bind()}/>
   }
 }
 

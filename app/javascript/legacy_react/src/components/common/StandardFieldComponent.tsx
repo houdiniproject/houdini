@@ -6,7 +6,7 @@ export interface StandardFieldComponentProps
     inError:boolean
     error?:string
     inStickyError?:boolean
-    stickyError?:string
+    stickyError?:string|null
     children?:React.ReactNode
     [additional_properties:string]: any
 }

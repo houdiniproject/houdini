@@ -50,14 +50,11 @@ interface TemplateArgs {
 	hoster: string;
 }
 
-const Template = new StoryTemplate((args: TemplateArgs) => {
 
-	let hosterReturnValue: Hoster | null = null;
+const Template = new StoryTemplate((args: TemplateArgs) => {
+	let hosterReturnValue: Hoster | undefined;
 	if (args.hasHoster) {
 		hosterReturnValue = { legal_name: args.hoster, casual_name: args.hoster, main_admin_email: 'none@none.none', support_email: 'none@none.none', terms_and_privacy: {} };
-	}
-	else {
-		hosterReturnValue = null;
 	}
 	return <OuterWrapper key={Math.random()}><SWRWrapper>
 		<HosterContext.Provider value={hosterReturnValue}>

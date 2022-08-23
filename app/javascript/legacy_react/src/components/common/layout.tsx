@@ -10,8 +10,8 @@ function arrayify<T>(items: T[]|T){
 
 type ClassNameableChildren = React.ReactElement<ClassNameable>[]|React.ReactElement<ClassNameable>
 
-export const TwoColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
-    const children = arrayify(props.children)
+export function TwoColumnFields(props:React.PropsWithChildren<{}>) {
+    const children = arrayify(props.children) as React.ReactElement<ClassNameable>[]
     return <Row>
         {
             children.map((i:React.ReactElement<ClassNameable>) => {
@@ -31,8 +31,8 @@ export const TwoColumnFields: React.StatelessComponent<{children:ClassNameableCh
 
 TwoColumnFields.displayName = 'TwoColumnFields'
 
-export const ThreeColumnFields: React.StatelessComponent<{children:ClassNameableChildren}> = (props) => {
-  const children = arrayify(props.children)
+export function ThreeColumnFields(props:React.PropsWithChildren<{}>) {
+    const children = arrayify(props.children) as React.ReactElement<ClassNameable>[]
     return <Row>
         {
           children.map((i:React.ReactElement<ClassNameable>) => {
@@ -53,7 +53,7 @@ export const ThreeColumnFields: React.StatelessComponent<{children:ClassNameable
 ThreeColumnFields.displayName = 'ThreeColumnFields'
 
 
-export const Row: React.StatelessComponent<{}> = (props:{children:React.ReactElement<any>[]|React.ReactElement<any>}) => {
+export function Row(props:React.PropsWithChildren<{}>) {
     return <div className="row">
         {props.children}
     </div>

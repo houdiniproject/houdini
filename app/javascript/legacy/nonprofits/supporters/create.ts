@@ -18,6 +18,6 @@ export default function create_supporter(form_obj:Record<string, unknown>, ui:UI
 			return resp;
 		})
 		.catch(function(resp) {
-			ui.fail(show_err(resp));
+			ui.fail(show_err(resp)||"");
 		});
 }

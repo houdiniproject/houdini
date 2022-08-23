@@ -11,9 +11,9 @@ import {ReactForm} from "./ReactForm";
 @observer
 class TestChange extends React.Component {
   @observable
-  remove: boolean
+  remove!: boolean
   @observable
-  form: Form
+  form!: Form
 
   @action.bound
   componentWillMount() {

@@ -97,6 +97,10 @@ describe('MoneyTextField', () => {
 		expect.hasAssertions();
 		const result = render(<FormWrapper value={Money.fromCents({ cents: 100, currency: 'usd' })} />);
 		const field = result.container.querySelector("input[name=value]");
+
+		if (!field) {
+			throw new Error("The field didn't exist!");
+		}
 		expect(field).toHaveValue("$1.00");
 
 		const amount = await result.findByLabelText('amount');

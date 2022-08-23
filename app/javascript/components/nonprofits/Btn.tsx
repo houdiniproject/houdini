@@ -15,7 +15,7 @@ export default function Btn(props: BtnProps): JSX.Element {
 
 	const $logoBlue = '#42B3DF',
 		brandColor = props.nonprofit.brand_color || $logoBlue,
-		brandFont = Font[props.nonprofit.brand_font] || Font.bitter;
+		brandFont = (props.nonprofit.brand_font && Font[props.nonprofit.brand_font]) || Font.bitter;
 
 	const donateStyle:CSSProperties = {
 		'backgroundColor': brandColor,

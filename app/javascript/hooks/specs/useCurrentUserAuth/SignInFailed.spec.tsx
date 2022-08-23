@@ -40,8 +40,8 @@ describe('useCurrentUserAuth', () => {
 		});
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
-			let result:HookResult<UseCurrentUserAuthReturnType> = null;
-			let unmount:() => boolean = null;
+			let result:HookResult<UseCurrentUserAuthReturnType>;
+			let unmount:() => boolean;
 			beforeEach(async () => {
 				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
 				result = innerResult;
@@ -114,8 +114,8 @@ describe('useCurrentUserAuth', () => {
 			}
 
 
-			let result:HookResult<UseCurrentUserAuthReturnType> = null;
-			let unmount:() => boolean = null;
+			let result:HookResult<UseCurrentUserAuthReturnType>;
+			let unmount:() => boolean;
 			beforeEach(async () => {
 				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUserAuth(), {wrapper});
 				result = innerResult;

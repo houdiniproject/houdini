@@ -23,10 +23,10 @@ export interface KeyedStepMap<T = unknown> {
 export type KeyedStepWith<T> = T & KeyedStep;
 
 export interface ReadonlyStepsState {
-	readonly activeStep?: number;
-	readonly activeStepKey: string;
-	readonly completed?: KeyedStepMap<boolean>;
-	readonly disabled?: KeyedStepMap<boolean>;
+	readonly activeStep: number;
+	readonly activeStepKey: string|null;
+	readonly completed: KeyedStepMap<boolean>;
+	readonly disabled: KeyedStepMap<boolean>;
 	/**
 	 * An internal copy of steps which only includes the key
 	 */

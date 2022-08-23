@@ -33,8 +33,8 @@ describe('useCurrentUser', () => {
 	describe('first call in progress', () => {
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
-			let result: HookResult<SetCurrentUserReturnType> = null;
-			let unmount: () => boolean = null;
+			let result: HookResult<SetCurrentUserReturnType>;
+			let unmount: () => boolean;
 			beforeAll(async () => {
 				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUser<SetCurrentUserReturnType>(), {wrapper});
 				result = innerResult;
@@ -86,8 +86,8 @@ describe('useCurrentUser', () => {
 				</InitialCurrentUserContext.Provider>;
 			}
 
-			let result: HookResult<SetCurrentUserReturnType> = null;
-			let unmount: () => boolean = null;
+			let result: HookResult<SetCurrentUserReturnType>;
+			let unmount: () => boolean;
 			beforeAll(async () => {
 				const {result:innerResult, unmount:innerUnmount, wait} = renderHook(() => useCurrentUser<SetCurrentUserReturnType>(), {wrapper});
 				result = innerResult;

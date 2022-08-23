@@ -18,7 +18,7 @@ export interface PageContextInput {
 		locale: string;
 	};
 	innerProps: Record<string, unknown>;
-	railsContext: RailsContext;
+	railsContext?: RailsContext;
 }
 
 export interface PageContext {
@@ -48,10 +48,10 @@ export default function PageWrapper(props: React.PropsWithChildren<PageContextIn
 	}, [other]);
 
 	/* eslint-disable @typescript-eslint/no-explicit-any */
-	return (pageContext && <HosterContext.Provider value={pageContext.hoster}>
+	return ((pageContext && <HosterContext.Provider value={pageContext.hoster}>
 		<IntlProvider locale={pageContext.i18n.locale} messages={convert(I18n.translations[I18n.locale]) as any}>
 			{props.children}
 		</IntlProvider>
-	</HosterContext.Provider>);
+	</HosterContext.Provider>)|| <></>);
 	/* eslint-enable @typescript-eslint/no-explicit-any */
 }

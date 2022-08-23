@@ -48,7 +48,6 @@ exports[`LabeledFieldComponent has error checked but no message so not really in
     Our Label
   </label>
   <StandardFieldComponent
-    error={null}
     inError={false}
   >
     <hr />

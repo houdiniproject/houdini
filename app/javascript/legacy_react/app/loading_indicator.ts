@@ -31,7 +31,7 @@ class PageProgressBar {
     }
   }
 
-  private getElem(): Element {
+  private getElem(): Element | null {
     return document.getElementById("pageProgressBar")
   }
 }

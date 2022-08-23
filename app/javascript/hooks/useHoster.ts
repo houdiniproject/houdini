@@ -4,7 +4,7 @@ import {createContext, useContext} from "react";
 /**
  * A context which provides information about the hoster
  */
-export const HosterContext = createContext<Hoster|null>(null);
+export const HosterContext = createContext<Hoster|undefined>(undefined);
 
 /**
  * Information about the Houdini instance Hoster
@@ -31,7 +31,7 @@ export interface Hoster {
  * @export
  * @returns {Hoster} or null
  */
-export default function useHoster() : Hoster|null {
+export default function useHoster() : Hoster|undefined {
 	const hoster = useContext(HosterContext);
 
 	return hoster;

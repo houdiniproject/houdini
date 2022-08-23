@@ -38,7 +38,7 @@ describe('useCurrentUserAuth', () => {
 		});
 		describe('when no user logged in', () => {
 			const wrapper = SWRWrapper;
-			let result:HookResult<UseCurrentUserAuthReturnType> = null;
+			let result:HookResult<UseCurrentUserAuthReturnType>;
 			let unmount: () => unknown;
 
 			afterEach(() => {

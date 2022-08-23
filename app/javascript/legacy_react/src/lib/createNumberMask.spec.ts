@@ -176,7 +176,7 @@ describe('createNumberMask', () => {
   })
 
   describe('numberMask default behavior', () => {
-    let numberMask:ReturnType<typeof createNumberMask> = null
+    let numberMask:ReturnType<typeof createNumberMask> = createNumberMask();
 
     beforeEach(() => {
       numberMask = createNumberMask()

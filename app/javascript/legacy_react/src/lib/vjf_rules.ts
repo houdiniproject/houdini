@@ -17,6 +17,10 @@ interface Validation {
   (input:ValidationInput): StringBoolTuple
 }
 
+function hasForm(input:ValidationInput): input is ValidationInput & {form: Form} {
+  return input.hasOwnProperty('form');
+}
+
 
 export class Validations  {
 
@@ -43,7 +47,7 @@ export class Validations  {
 
   static optional(validation:Validation) : Validation {
     return ({field, form, validator}:ValidationInput) => {
-      if (!field.value || validator.isEmpty(field.value)){
+      if (!field.value || validator?.isEmpty(field.value)){
         return [true, ""]
       }
       else{

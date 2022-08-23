@@ -14,8 +14,8 @@ export class StoryTemplate<TemplateArgs> {
 	constructor(private readonly templateFunc:(args: TemplateArgs) => JSX.Element) {
 	}
 
-	newStory(storyDetails?:{args?: Partial<TemplateArgs>, story?: unknown}): Story<TemplateArgs> {
-		const func = this.templateFunc.bind({});
+	newStory(storyDetails?:{args?: Partial<TemplateArgs>, story?: Story<TemplateArgs>['story']}): Story<TemplateArgs> {
+		const func = this.templateFunc.bind({}) as Story<TemplateArgs>;
 		if (storyDetails?.args) {
 			func.args = storyDetails.args;
 		}

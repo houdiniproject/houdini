@@ -20,7 +20,7 @@ interface RootProps
 @observer
 export default class Root extends React.Component<RootProps, {}> {
 
-  apiManager: ApiManager
+  apiManager: ApiManager | undefined
 
   componentDidMount(){
     let pageProgress = (window as any).pageProgress

@@ -16,7 +16,7 @@ export class ReactForm extends React.Component<ReactFormProps, {}> {
 
 
   @observable
-  form:Form
+  form!:Form
 
   @action.bound
   componentWillMount()

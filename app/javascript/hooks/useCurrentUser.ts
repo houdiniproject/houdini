@@ -28,7 +28,7 @@ export interface UseCurrentUserReturnType {
 	 * @type {CurrentUser}
 	 * @memberof UserCurrentUserReturnType
 	 */
-	currentUser?: CurrentUser;
+	currentUser?: CurrentUser|null;
 
 	error: unknown;
 
@@ -56,7 +56,7 @@ export interface SetCurrentUserReturnType extends UseCurrentUserReturnType {
 	 * Set the current user. YYou should only use this intesting or from
 	 * inside the `useCurrentAuth` hook.
 	 */
-	revalidate(): Promise<CurrentUser>;
+	revalidate(): Promise<CurrentUser|null|undefined>;
 }
 
 /**

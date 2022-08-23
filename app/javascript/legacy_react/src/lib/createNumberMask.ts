@@ -21,7 +21,7 @@ interface NumberMaskProps {
   allowDecimal?:boolean
   decimalSymbol?: string
   decimalLimit?: number
-  integerLimit?: number
+  integerLimit?: number|null
   requireDecimal?: boolean
   allowNegative?: boolean
   allowLeadingZeroes?: boolean

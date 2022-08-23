@@ -2,17 +2,18 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import {injectIntl} from 'react-intl';
-import {Field} from "../../../../../../../types/mobx-react-form";
+import {Field, FieldProperties} from "../../../../../../../types/mobx-react-form";
 import {InputHTMLAttributes} from "react";
 import {action, observable} from "mobx";
 import {SelectHTMLAttributes} from "react";
 import {ReactInputProps} from "./react_input_props";
 import {castToNullIfUndef} from "../../../lib/utils";
+import omit from 'lodash/omit';
 
 
 export interface ReactSelectProps extends ReactInputProps
 {
-  options?:Array<{id:any, name:string}>
+  options?:Array<{id:any, name:string}|{id:any, name:null}>
 }
 
 type InputTypes = ReactSelectProps & SelectHTMLAttributes<HTMLSelectElement>
@@ -48,13 +49,8 @@ class ReactSelect extends React.Component<InputTypes, {}> {
 
   ///Removes the properties we don't want to put into the input element
   @action.bound
-  winnowProps(): InputTypes {
-    let ourProps = {...this.props}
-    delete ourProps.field
-    delete ourProps.value
-    delete ourProps.options
-    return ourProps
-
+  winnowProps() : Omit<InputTypes, 'field'| 'value'|'options'> {
+    return omit(this.props, ['field', 'value', 'options']);
   }
 
   render() {

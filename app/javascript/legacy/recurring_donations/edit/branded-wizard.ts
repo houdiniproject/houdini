@@ -5,7 +5,7 @@ import customBranding from './custom-nonprofit-branding';
 
 const bg = (color: string) => `background-color: ${color} !important;`;
 
-export default function BrandedWizard(brand_color: string = null):string {
+export default function BrandedWizard(brand_color: string|null = null):string {
 	const colors = customBranding(brand_color);
 
 	return `

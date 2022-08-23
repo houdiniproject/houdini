@@ -14,9 +14,9 @@ const { StartingWithPenelopeSchultz, EmptyTextField, EmptyTextFieldWithValidatio
 
 describe('TextField', () => {
 	describe('empty TextField', () => {
-		let emptyTextField: HTMLElement = null;
-		let submitButton:HTMLElement = null;
-		let cancelButton:HTMLElement = null;
+		let emptyTextField: HTMLElement;
+		let submitButton:HTMLElement;
+		let cancelButton:HTMLElement;
 		beforeEach(() => {
 
 			const { getByLabelText, getByTestId } = render(<EmptyTextField />);
@@ -62,7 +62,7 @@ describe('TextField', () => {
 	});
 
 	describe('prefilled TextField', () => {
-		let prefilledTextField: HTMLElement = null;
+		let prefilledTextField: HTMLElement;
 		beforeEach(() => {
 
 			const { getByLabelText } = render(<StartingWithPenelopeSchultz />);
@@ -98,7 +98,7 @@ describe('TextField', () => {
 	});
 
 	describe('empty TextField with validation', () => {
-		let emptyTextField: HTMLElement = null;
+		let emptyTextField: HTMLElement;
 		beforeEach(() => {
 
 			const { getByLabelText } = render(<EmptyTextFieldWithValidation />);
@@ -136,8 +136,8 @@ describe('TextField', () => {
 	});
 
 	describe('empty TextField with helperText covered on Error', () => {
-		let emptyTextField: HTMLElement = null;
-		let helperElement: HTMLElement = null;
+		let emptyTextField: HTMLElement;
+		let helperElement: HTMLElement;
 		beforeEach(() => {
 			const { getByLabelText, getByText } = render(<TextFieldWithHelperTextThatIsCoveredOnError />);
 			helperElement = getByText('HelperText');
@@ -160,7 +160,7 @@ describe('TextField', () => {
 
 
 	describe('disabled when marked disabled', () => {
-		let emptyTextField: HTMLElement = null;
+		let emptyTextField: HTMLElement;
 		beforeEach(() => {
 			const { getByLabelText } = render(<DisabledTextField />);
 

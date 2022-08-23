@@ -23,7 +23,7 @@ export class HoudiniForm extends Form {
   }
 
   @observable
-  private $serverError:string
+  private $serverError?:string
 
   plugins() {
     return {
@@ -36,13 +36,13 @@ export class HoudiniForm extends Form {
   }
 
   @computed
-  public get serverError():string {
+  public get serverError():string|null|undefined {
     return this.$serverError
   }
 
   @computed
   public get hasServerError():boolean{
-    return (this.$serverError && this.$serverError !== null && this.$serverError !== "") &&
+    return !!(this.$serverError && this.$serverError !== null && this.$serverError !== "") &&
         !this.submitting
   }
 
@@ -70,7 +70,7 @@ export class HoudiniField extends Field {
     })
   }
 
-  @observable private $serverError:string
+  @observable private $serverError:string | null | undefined
 
   @action
   invalidateFromServer(message:string) {
@@ -78,7 +78,7 @@ export class HoudiniField extends Field {
   }
 
   @computed
-  public get serverError():string {
+  public get serverError():string|null|undefined {
     return this.$serverError
   }
 
@@ -88,7 +88,7 @@ export class HoudiniField extends Field {
 
   @computed
   public get hasServerError():boolean{
-    return (this.$serverError && this.$serverError !== null && this.$serverError !== "")
+    return !!(this.$serverError && this.$serverError !== null && this.$serverError !== "")
   }
 
 
@@ -169,7 +169,7 @@ export class StaticFormToErrorAndBackConverter<T> {
     runInAction(() => {
       let hForm = form as HoudiniForm
       _.forEach(errorException.item.errors, (error) => {
-        let message = error.messages.join(", ")
+        let message = (error?.messages || []).join(", ")
         _.forEach(error.params, (p) => {
           if (this.pathToForm[p]) {
             (hForm.$(this.pathToForm[p]) as HoudiniField).invalidateFromServer(message)

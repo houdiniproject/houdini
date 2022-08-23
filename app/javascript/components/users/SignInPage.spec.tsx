@@ -77,7 +77,7 @@ describe('useHoster', () => {
 	});
 	it('renders', async () => {
 		expect.hasAssertions();
-		const { getByTestId } = render(<Wrapper hoster={null} ><SignInPage redirectUrl={"http://j.com/redirectUrl"} /></Wrapper>);
+		const { getByTestId } = render(<Wrapper hoster={undefined} ><SignInPage redirectUrl={"http://j.com/redirectUrl"} /></Wrapper>);
 		await waitFor(() => {
 			expect(getByTestId('hosterTest')).toBeInTheDocument();
 		});

@@ -110,7 +110,7 @@ function useValueAsRef<T>(value: T): MutableRefObject<T> {
 
 function useStateAndEventDispatch({ submitting, isValid, touched, signedIn, ...props }: DispatchInput): SignInComponentStates {
 
-	const [{ state, previousState }, dispatchChange] = useReducer(signInComponentReducer, { state: 'isReady', previousState: null });
+	const [{ state, previousState }, dispatchChange] = useReducer(signInComponentReducer, { state: 'isReady', previousState: 'isReady' });
 
 	const signInErrorRef = useValueAsRef(props.lastSignInAttemptError);
 	const onSubmittingRef = useValueAsRef(props.onSubmitting);
@@ -125,7 +125,7 @@ function useStateAndEventDispatch({ submitting, isValid, touched, signedIn, ...p
 				onSubmittingRef.current();
 		}
 		else if (previousState == 'isSubmitting' && state != 'isSubmitting' && state !== 'isSuccessful') {
-			if (isMounted())
+			if (isMounted() && signInErrorRef.current)
 				onFailureRef.current(signInErrorRef.current);
 		}
 		else if (previousState != 'isSuccessful' && state === 'isSuccessful') {
@@ -248,10 +248,10 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 				classes={classes}
 				loginHeaderLabel={loginHeaderLabel}
 				submitting={submitting}
-				onFailure={onFailure}
-				onSubmitting={onSubmitting}
-				onSuccess={onSuccess}
-				showProgressAndSuccess={showProgressAndSuccess}
+				onFailure={onFailure|| noop}
+				onSubmitting={onSubmitting|| noop}
+				onSuccess={onSuccess || noop}
+				showProgressAndSuccess={!!showProgressAndSuccess}
 				signedIn={signedIn}
 				form={form}
 			/>
@@ -264,7 +264,7 @@ interface InnerFormComponentProps<TFieldValues extends FieldValues> {
 emailLabel: string;
 failed: boolean;
 form: UseFormReturn<TFieldValues>;
-lastSignInAttemptError: NetworkError;
+lastSignInAttemptError?: NetworkError;
 loginHeaderLabel: string;
 onFailure: (error: NetworkError) => void;
 onSubmitting: () => void;

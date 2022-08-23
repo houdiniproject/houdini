@@ -7,6 +7,7 @@ import {action, observable} from "mobx";
 import {Field} from "mobx-react-form";
 import {castToNullIfUndef} from "../../../lib/utils";
 import MaskedInput, {Mask} from "react-text-mask";
+import omit from 'lodash/omit'
 
 type InputTypes = ReactInputProps &
   InputHTMLAttributes<HTMLInputElement> & {
@@ -33,7 +34,7 @@ class ReactMaskedInput extends React.Component<InputTypes, {}> {
   }
 
   @observable
-  field:Field
+  field:Field|undefined
 
 
   @action.bound
@@ -55,25 +56,21 @@ class ReactMaskedInput extends React.Component<InputTypes, {}> {
 
   @action.bound
   updateProps() {
-    this.field.set('label', castToNullIfUndef(this.props.label))
-    this.field.set('placeholder', castToNullIfUndef(this.props.placeholder))
+    this.field?.set('label', castToNullIfUndef(this.props.label))
+    this.field?.set('placeholder', castToNullIfUndef(this.props.placeholder))
   }
 
   ///Removes the properties we don't want to put into the input element
   @action.bound
   winnowProps(): Omit<InputTypes, 'field'|'value'> {
-    let ourProps = {...this.props}
-    delete ourProps.field
-    delete ourProps.value
-    return ourProps
-
+    return omit(this.props, ['field', 'value']);
   }
 
   render() {
     return <MaskedInput {
       ...this.winnowProps() as any //This typing should work but for some reason, it's not. So I'm updating?
     } 
-    {...this.field.bind()}/>
+    {...this.field?.bind()}/>
   }
 }
 

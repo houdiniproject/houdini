@@ -143,8 +143,8 @@ class CreateNewOffsitePaymentPane extends React.Component<CreateOffsitePaymentPa
         value: 0
       }),
       'date': createFieldDefinition({name: 'date', label: 'Date',
-        input: (isoTime:string) => this.nonprofitTimezonedDates.readable_date(isoTime),
-        output:(date:string) =>  this.nonprofitTimezonedDates.readable_date_time_to_iso(date),
+        input: (isoTime:string) => this.nonprofitTimezonedDates.readable_date(isoTime) || "",
+        output:(date:string) =>  this.nonprofitTimezonedDates.readable_date_time_to_iso(date) || "",
         value: moment.utc().toISOString()
       }),
       'dedication': {name: 'dedication', label: 'Dedication', fields: [

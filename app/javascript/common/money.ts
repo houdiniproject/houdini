@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 // based upon https://github.com/davidkalosi/js-money
 import BigNumber from 'bignumber.js';
+import has from 'lodash/has';
 
 /**
  * Forces BigNumber to throw an error if it receives an invalid numerical value.
@@ -21,37 +22,59 @@ function assertSameCurrency(left: Money, right: Operand) {
 		throw new TypeError('Different currencies');
 }
 
-function coerceToBigNumber(operand:unknown, mustBeInteger=false): BigNumber {
-	let bigNumber = null;
+function innerCoerceToBigNumber(operand:unknown):BigNumber {
 	if (operand instanceof Money) {
-		bigNumber = operand.toBigNumber();
+		return operand.toBigNumber();
 	}
 	else if (operand instanceof BigNumber) {
-		bigNumber = new BigNumber(operand);
+		return new BigNumber(operand);
 	}
 	else if (typeof operand === 'object') {
 		//it's MoneyAsJson
-		bigNumber = new BigNumber((operand as MoneyAsJson).cents);
+		return  new BigNumber((operand as MoneyAsJson).cents);
 	}
 	else if(typeof operand === 'string') {
-		bigNumberDebug(() => {
-			bigNumber = new BigNumber(operand);
+		return bigNumberDebug(() => {
+			return  new BigNumber(operand);
 		});
 	}
 	else if (typeof operand === 'number') {
-		bigNumberDebug(() => {
-			bigNumber = new BigNumber(operand);
+		return bigNumberDebug(() => {
+			return new BigNumber(operand);
 		});
 	}
 	else {
 		throw new TypeError('Operand must be coercible to a BigNumber');
 	}
+}
 
+
+function coerceToBigNumber(operand:unknown, mustBeInteger=false): BigNumber {
+	const bigNumber = innerCoerceToBigNumber(operand);
 	if (mustBeInteger && !bigNumber.isInteger()) {
 		throw new TypeError('Operand must be an integer');
 	}
 
 	return bigNumber;
+}
+
+function includesCurrency(amount:number | BigNumber | string | Money | MoneyAsJson | StringyMoneyAsJson) : amount is Money | MoneyAsJson | StringyMoneyAsJson {
+	return typeof amount == 'object' && (amount instanceof Money || has(amount, 'currency'));
+}
+
+function coerceToCurrencyWithObj(amount:Money | MoneyAsJson | StringyMoneyAsJson) {
+	return amount.currency;
+}
+
+function coerceToCurrency(amount:number | BigNumber | Money | MoneyAsJson | string | StringyMoneyAsJson, currency?:string): string {
+	if (includesCurrency(amount)) {
+		return coerceToCurrencyWithObj(amount);
+	} else {
+		if (!currency) {
+			throw new Error("you must provide a currency here but this should never happen");
+		}
+		return currency;
+	}
 }
 
 export type MoneyAsJson = { cents: number, currency: string };
@@ -166,11 +189,7 @@ export class Money {
 	 * The overloaded function that allows all of the previous constructors
 	 */
 	static fromCents(amount: number | BigNumber | Money | MoneyAsJson | string | StringyMoneyAsJson, currency?: string): Money {
-
-		if (!currency && typeof amount === 'object' && !(amount instanceof BigNumber)) {
-			currency = amount.currency;
-		}
-		return new Money(coerceToBigNumber(amount, true).toNumber(), currency);
+		return new Money(coerceToBigNumber(amount, true).toNumber(), coerceToCurrency(amount, currency));
 	}
 
 	/**

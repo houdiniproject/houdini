@@ -177,11 +177,11 @@ export class CreditCardTypeManager {
     }
   ];
 
-  cardFromType(type: string) {
+  cardFromType(type: string|undefined) {
     return find(this.cards, (card) => card.type === type)
   }
 
-  cardFromNumber(num: string):Card {
+  cardFromNumber(num: string): Card | undefined{
     num = (num + '').replace(/\D/g, '')
     return find(this.cards, (card:Card) => {
       return card.patterns.some((pattern) => {

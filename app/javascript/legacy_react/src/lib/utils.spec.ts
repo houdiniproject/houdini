@@ -43,7 +43,7 @@ describe('Utils.castToNullIfUndef', () => {
 });
 
 describe('Utils.castToUndefinedIfBlank', () => {
-	let variable: string;
+	let variable: string|null|undefined;
 
 	test("do not cast undefined variable to Undefined", () => {
 		expect(Utils.castToUndefinedIfBlank(variable)).toBeUndefined();
@@ -67,7 +67,7 @@ describe('Utils.castToUndefinedIfBlank', () => {
 });
 
 describe('Utils.isBlank', () => {
-	let variable: string;
+	let variable: unknown;
 
 	test('return true if not blank', () => {
 		variable = 'Not Blank';
@@ -92,7 +92,7 @@ describe('Utils.isBlank', () => {
 });
 
 describe('Utils.isFilled', () =>{
-	let variable: string;
+	let variable: unknown;
 
 	test('return false if null', () => {
 		variable = null;

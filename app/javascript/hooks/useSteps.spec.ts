@@ -277,7 +277,7 @@ describe('.disable', () => {
 		indexToDisable,
 		activeStep,
 		disabled) => {
-		let current: ReturnType<typeof useSteps> = null;
+		let current: ReturnType<typeof useSteps>;
 
 		beforeEach(() => {
 			const { result } = renderHook(() => useSteps({ steps, ...stepActions },
@@ -316,7 +316,7 @@ describe('.enable', () => {
 		indexToEnable,
 		activeStep,
 		disabled) => {
-		let current: ReturnType<typeof useSteps> = null;
+		let current: ReturnType<typeof useSteps>;
 
 		beforeEach(() => {
 			const { result } = renderHook(() => useSteps({ steps, ...stepActions },

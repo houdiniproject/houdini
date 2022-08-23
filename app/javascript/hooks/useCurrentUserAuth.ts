@@ -11,7 +11,7 @@ export interface UseCurrentUserAuthReturnType {
 	 * @type {CurrentUser}
 	 * @memberof UseCurrentUserAuthReturnType
 	 */
-	currentUser?: CurrentUser;
+	currentUser?: CurrentUser|null;
 
 	/**
 	 * Whether the last finished call to {@link signIn} failed. true if it did,

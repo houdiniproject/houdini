@@ -30,14 +30,14 @@ describe('Modal', () => {
 
     it('closes on modal component close', () => {
       let modalComponent = modal.instance() as React.Component<ModalProps, {}> //casting to modal didn't work for reasons?
-      modalComponent.props.onClose()
+      modalComponent?.props?.onClose && modalComponent?.props?.onClose()
       expect(onCloseWasCalled).toBeTruthy()
     })
 
     it('closes on closeButtonClick', () => {
       let closeButton = modal.find('DefaultCloseButton')
       let instanceButton = closeButton.instance() as DefaultCloseButton
-      instanceButton.props.onClick();
+      instanceButton?.props?.onClick && instanceButton?.props?.onClick();
       expect(onCloseWasCalled).toBeTruthy()
     })
   })

@@ -10,7 +10,7 @@ inputs.forEach(
 		inp.addEventListener('change',
 			(ev) => {
 				const inputTarget = ev.currentTarget as HTMLInputElement;
-				inputTarget.value = sanitize(inputTarget.value || inputTarget.getAttribute('data-slug-default'));
+				inputTarget.value = sanitize(inputTarget.value || inputTarget.getAttribute('data-slug-default') || "");
 			})
 );
 

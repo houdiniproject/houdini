@@ -5,7 +5,12 @@ import PageWrapper, { PageContextInput } from '../common/PageWrapper';
 import SignInPage,{ SignInPageProps } from './SignInPage';
 
 
-export default (props: Record<string, unknown>, railsContext:RailsContext): RenderFunctionResult => {
+export default (props?: Record<string, unknown>, railsContext?:RailsContext): RenderFunctionResult => {
+
+	if (!props) {
+		// eslint-disable-next-line react/display-name
+		return () => (<></>);
+	}
 	const {innerProps, ...other} = props;
 	// Note wrap in a function to make this a React function component
 	// eslint-disable-next-line react/display-name

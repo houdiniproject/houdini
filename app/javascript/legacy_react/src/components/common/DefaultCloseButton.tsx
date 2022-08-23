@@ -64,10 +64,10 @@ const states: { [state: string]: any } = {
 @observer
 export class DefaultCloseButton extends React.Component<DefaultCloseButtonProps, {}> {
   @observable
-  hovering: boolean
+  hovering: boolean | undefined
 
   @observable
-  focusing: boolean
+  focusing: boolean | undefined
 
   @action.bound
   mouseEnter() {
@@ -83,7 +83,7 @@ export class DefaultCloseButton extends React.Component<DefaultCloseButtonProps,
   keyDown(event: React.KeyboardEvent<HTMLAnchorElement>) {
     if (event.key == 'Enter') {
       event.preventDefault();
-      this.props.onClick();
+      this.props.onClick && this.props.onClick();
     }
   }
 

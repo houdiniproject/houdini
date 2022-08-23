@@ -18,14 +18,14 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 	return (<>
 
 		<section className='sideNav-section'>
-			<a className='sideNav-link' href={profilePath(props.currentUser.profile)}>
+			<a className='sideNav-link' href={(props.currentUser.profile && profilePath(props.currentUser.profile)) || "#"}>
 				{
 					props.currentUser.profile?.pic_tiny ?
 						<img
 							src={props.currentUser.profile?.pic_tiny} className='sideNav-profile' />
 						: <i className="sideNav-icon icon-user-1"></i>
 				}
-				<span className='sideNav-text'>{(props.currentUser?.profile?.name || '').length > 0 ? props.currentUser.profile.name : "Your Profile"}
+				<span className='sideNav-text'>{(props.currentUser?.profile?.name || '').length > 0 ? props.currentUser?.profile?.name : "Your Profile"}
 				</span>
 			</a>
 		</section>

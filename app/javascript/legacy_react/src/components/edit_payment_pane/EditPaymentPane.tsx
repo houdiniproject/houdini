@@ -196,8 +196,8 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
       'date': createFieldDefinition({
         name: 'date', label: 'Date',
         value: this.props.data.date,
-        input: (isoTime: string) => this.nonprofitTimezonedDates.readable_date(isoTime),
-        output: (date: string) => this.nonprofitTimezonedDates.readable_date_time_to_iso(date)
+        input: (isoTime: string) => this.nonprofitTimezonedDates.readable_date(isoTime) || "",
+        output: (date: string) => this.nonprofitTimezonedDates.readable_date_time_to_iso(date) || ""
       }),
       'dedication': {
         name: 'dedication', label: 'Dedication', fields: [
@@ -291,7 +291,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
           <tr>
             <td>Recurring</td>
             <td>
-              {rd ? readableInterval(rd.interval, rd.time_unit) : false}
+              {rd ? readableInterval(rd.interval, rd?.time_unit || '') : false}
               since
               {rd ? this.dateFormatter.readable_date(rd.created_at) : false}
             </td>
@@ -431,7 +431,7 @@ class EditPaymentPane extends React.Component<EditPaymentPaneProps & WrappedComp
                           <th> Supporter
                             ID
                           </th>
-                          <td>{this.dedication.supporter_id}<input {...this.form.$('dedication.supporter_id').bind()}/>
+                          <td>{this.dedication?.supporter_id}<input {...this.form.$('dedication.supporter_id').bind()}/>
                           </td>
                         </tr>
 

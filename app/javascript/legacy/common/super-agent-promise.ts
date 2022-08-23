@@ -2,7 +2,7 @@
 // super-agent with default json and csrf wrappers
 // Also has a Promise api ('.then' and '.catch') rather than the default '.end'
 
-import request from './client';
+import request, { CallbackHandler} from './client';
 import type { SuperAgentRequest, Response } from 'superagent';
 
 type SuperAgentRequestWithPerform = SuperAgentRequest & { perform: () => Promise<Response> };
@@ -22,16 +22,16 @@ function convert_to_promise(req: SuperAgentRequest): SuperAgentRequestWithPerfor
 
 
 const wrapper = {
-	post: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
-		return convert_to_promise(request.post(path, ...args));
+	post: function (path:string,	callback?:CallbackHandler	): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.post(path, callback));
 	},
 
-	put: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
-		return convert_to_promise(request.put(path, ...args));
+	put: function (path:string, callback?:CallbackHandler): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.put(path, callback));
 	},
 
-	del: function (path:string, ...args:unknown[]): SuperAgentRequestWithPerform {
-		return convert_to_promise(request.del(path, ...args));
+	del: function (path:string, callback?:CallbackHandler): SuperAgentRequestWithPerform {
+		return convert_to_promise(request.del(path, callback));
 	},
 
 	get: function (path:string): SuperAgentRequestWithPerform {

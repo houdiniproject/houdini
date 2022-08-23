@@ -3,7 +3,12 @@ import React from 'react';
 import { RailsContext,  RenderFunctionResult } from 'react-on-rails/node_package/lib/types';
 import Btn,{ BtnProps } from './Btn';
 
-export default (props: Record<string, unknown>, _railsContext:RailsContext): RenderFunctionResult => {
+export default (props?: Record<string, unknown>, _railsContext?:RailsContext): RenderFunctionResult => {
+
+	if (!props) {
+		// eslint-disable-next-line react/display-name
+		return () => (<></>);
+	}
 	const {innerProps} = props;
 	// Note wrap in a function to make this a React function component
 	// eslint-disable-next-line react/display-name

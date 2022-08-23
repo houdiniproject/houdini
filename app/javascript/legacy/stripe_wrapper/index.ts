@@ -10,8 +10,9 @@ import type { Token} from '@stripe/stripe-js';
  * (which is the default in settings)
  */
 export class Stripe {
-	bankAccount: TokenizerWrapper;
-	card: TokenizerWrapper;
+	// these two will always be set if setPublishableKey has been set which it must be.
+	bankAccount!: TokenizerWrapper;
+	card!: TokenizerWrapper;
 
 
 	setPublishableKey(key: string): void {

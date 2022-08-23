@@ -11,7 +11,7 @@ export interface LabeledFieldComponentProps
     inError:boolean
     error?:string
     inStickyError?:boolean
-    stickyError?:string
+    stickyError?:string|null
     className?:string
     style?:React.CSSProperties
 }
@@ -23,7 +23,7 @@ export default class LabeledFieldComponent extends React.Component<LabeledFieldC
     if (this.props.className)
       classNames.push(this.props.className)
 
-    let inError = this.props.inError && this.props.error !== null && this.props.error !== "";
+    let inError = !!(this.props.inError && this.props.error && this.props.error !== "");
     let inStickyError = this.props.inStickyError && this.props.stickyError !== null && this.props.stickyError !== ""
 
     classNames.push("form-group")

@@ -13,7 +13,7 @@ interface CustomBrandColors {
   light_grey: Color
 }
 
-export default (brandColor?: Color): CustomBrandColors => {
+export default (brandColor?: Color|null): CustomBrandColors => {
   if (!brandColor) {
     brandColor = '#5FB88D'
   }

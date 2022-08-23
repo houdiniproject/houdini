@@ -16,7 +16,8 @@
       "./types"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop":true,
-    "noEmit": true
+    "noEmit": true,
+    "strict": true
   },
   "exclude": [
     "node_modules",

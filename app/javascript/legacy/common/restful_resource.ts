@@ -58,7 +58,7 @@ appl.def('ajax', {
 		const path = resource.path_prefix || '';
 		before_request(prop);
 		return new Promise(function (resolve, reject) {
-			request.get(path + name).query(resource.query)
+			request.get(path + name).query(resource.query || '')
 				.end(function (err, resp) {
 					const tmp = resource.data;
 					after_request(prop, err, resp);
@@ -80,7 +80,7 @@ appl.def('ajax', {
 		const path = resource.path_prefix || '';
 		before_request(prop);
 		return new Promise(function (resolve, reject) {
-			request.get(path + name + '/' + id).query(resource.query)
+			request.get(path + name + '/' + id).query(resource.query || '')
 				.end(function (err, resp) {
 					after_request(prop, err, resp);
 					if (resp.ok) resolve(resp);

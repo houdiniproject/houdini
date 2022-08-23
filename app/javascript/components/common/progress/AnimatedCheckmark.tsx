@@ -6,7 +6,7 @@ import { defaultProps } from '../../../common/react';
 
 interface StyledProps {
 	animationDuration: number;
-	backgroundColor: string;
+	backgroundColor?: string;
 	checkColor: string;
 	checkThickness: number;
 	explosion: number;
@@ -102,7 +102,7 @@ export interface AnimatedCheckmarkProps {
 	 * Color in hex of checkmark in the middle of the component
 	 * Defaults to white (#000)
 	 */
-	checkColor?: string;
+	checkColor: string;
 	/**
 	 * The stroke width of the checkmark. Defaults to 5.
 	 */

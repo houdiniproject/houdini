@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import {IntlProvider, useIntl} from '../components/intl';
 import I18n from '../i18n';
-import useYup, {createMessage} from './useYup';
+import useYup from './useYup';
 import {convert} from 'dotize';
 
 
@@ -23,10 +23,9 @@ describe("useYup", () => {
 		expect.assertions(4);
 		const {result:{ current: yup} } = renderHook(() => useYup(), {wrapper: Wrapper});
 		const {result:{current: intl}} = renderHook(() => useIntl(), {wrapper: Wrapper});
-
 		const schema = yup.object({
 			name: yup.string().label(nameLabel).min(20),
-			id: yup.string().required(createMessage(({ path}) => intl.formatMessage({id: customTranslationId}, {path}))),
+			id: yup.string().required(({ path}) => intl.formatMessage({id: customTranslationId}, {path})),
 			address: yup.object({
 				city: yup.string().required(),
 				state: yup.string(),

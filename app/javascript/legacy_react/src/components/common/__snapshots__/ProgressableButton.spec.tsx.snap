@@ -4,6 +4,7 @@ exports[`ProgressableButton Basic title button works 1`] = `
 <button
   className="button"
   data-label="button"
+  disabled={false}
   onClick={[Function]}
 >
   <span>
@@ -130,6 +131,7 @@ exports[`ProgressableButton Title is kept on progress if no titleOnProgress is s
   <button
     className="button"
     data-label="button"
+    disabled={false}
     onClick={[Function]}
   >
     <span>

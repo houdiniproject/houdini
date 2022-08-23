@@ -283,8 +283,8 @@ describe('SignInComponent', () => {
 		it('does not render', async () => {
 			expect.hasAssertions();
 			const finished = jest.fn();
-			const { queryByTestId, getByLabelText } = render(<Wrapper><SignInComponent onSuccess={finished} onFailure={finished}/></Wrapper>);
-			const button = queryByTestId('signInButton');
+			const { getByTestId, getByLabelText, queryByTestId } = render(<Wrapper><SignInComponent onSuccess={finished} onFailure={finished}/></Wrapper>);
+			const button = getByTestId('signInButton');
 			const email = getByLabelText("Email");
 			const password = getByLabelText("Password");
 			userEvent.type(email, 'validemail@valid.com');

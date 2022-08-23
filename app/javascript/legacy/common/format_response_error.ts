@@ -16,7 +16,7 @@ export interface ErrorResponseType {
 }
 
 
-export default function show_err(resp: ErrorResponseType): string {
+export default function show_err(resp: ErrorResponseType): string|undefined {
 	console.error(resp);
 	if (resp.body) {
 		if (typeof resp.body === 'string') {

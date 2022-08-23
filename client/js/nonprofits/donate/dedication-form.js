@@ -1,7 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const R = require('ramda')
-const flyd = require('flyd')
 const uuid = require('uuid')
 
 // A contact info form for a donor to add a dedication in honor/memory of somebody

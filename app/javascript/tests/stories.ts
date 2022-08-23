@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import type {Meta} from '@storybook/react';
+import type {Meta, Story} from '@storybook/react';
 
 /**
  * Adds type safety to your default export for storybook files
@@ -7,4 +7,22 @@ import type {Meta} from '@storybook/react';
  */
 export function defaultStoryExport<TArgType>(args: Meta<TArgType>):  Meta<TArgType> {
 	return args;
+}
+
+export class StoryTemplate<TemplateArgs> {
+
+	constructor(private readonly templateFunc:(args: TemplateArgs) => JSX.Element) {
+	}
+
+	newStory(storyDetails?:{args?: Partial<TemplateArgs>, story?: unknown}): Story<TemplateArgs> {
+		const func = this.templateFunc.bind({});
+		if (storyDetails?.args) {
+			func.args = storyDetails.args;
+		}
+		if (storyDetails?.story) {
+			func.story = storyDetails.story;
+		}
+
+		return func;
+	}
 }

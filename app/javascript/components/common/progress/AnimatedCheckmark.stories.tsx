@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 import AnimatedCheckmark, { AnimatedCheckmarkProps, Sizes } from './AnimatedCheckmark';
-import { defaultStoryExport } from '../../../tests/stories';
+import { defaultStoryExport, StoryTemplate } from '../../../tests/stories';
 
 export default defaultStoryExport({
 	title: 'common/AnimatedCheckmark',
@@ -54,16 +54,14 @@ type TemplateArgs = Omit<AnimatedCheckmarkProps, 'size'> & {
 	size: Sizes | 'other';
 };
 
-const CheckmarkTemplate = (args: TemplateArgs) => {
+const CheckmarkTemplate = new StoryTemplate((args: TemplateArgs) => {
 	const size = args.size === 'other' ? args.customSize : args.size;
 	return (<AnimatedCheckmark
 		{...args} size={size}
 		key={Math.random() /* so it reloads everytime props change */}></AnimatedCheckmark>);
-};
+});
 
-export const Checkmark = CheckmarkTemplate.bind({});
-Checkmark.args = {
-};
+export const Checkmark = CheckmarkTemplate.newStory({args:{}});
 
 
 

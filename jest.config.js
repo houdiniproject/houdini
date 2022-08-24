@@ -35,7 +35,7 @@ module.exports =  {
 		"^.+\\.tsx?$": "babel-jest",
 	},
 	"transformIgnorePatterns": [
-		"<rootDir>/node_modules/",
+		"<rootDir>/node_modules/(?!lodash-joins/)",
 		"<rootDir>/config/webpack/test.js",
 		"<rootDir>/vendor/",
 		"<rootDir>/tmp/",

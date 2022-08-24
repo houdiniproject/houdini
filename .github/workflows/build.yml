@@ -1,0 +1,52 @@
+# License: LGPL-3.0-or-later
+# License: LGPL-3.0-or-later
+name: Buil
+on: 
+  pull_request:
+    types: [opened, reopened, synchronize]
+jobs:
+  ruby-package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
+    name: Download and cache all Ruby gems
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.19.1]
+        ruby: [2.7.6]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+  js-package-download:
+    name: Download and cache all NPM packages
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: [14.19.1]
+        ruby: [2.7.6]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+  markdownlint:
+    name: 'Lint markdown code'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          # Path to file where filters are defined
+          filters: .github/filters.yaml
+      - name: lint Markdown
+        if: steps.filter.outputs.markdown == 'true'
+        run: npx markdownlint
+    
+
+  

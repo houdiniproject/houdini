@@ -1,0 +1,68 @@
+gh-workflows: &gh-workflows
+  - '.github/path-filters.yaml'
+  - '.github/workflows/*'
+ruby-only:  &ruby-only
+  - 'app/**'
+  - 'bin/**'
+  - 'config/**'
+  - 'db/**'
+  - 'gems/**'
+  - 'lib/**'
+  - 'public/**'
+  - 'script/**'
+  - 'spec/**'
+  - '.ruby-version'
+  - '.rspec'
+  - 'config.ru'
+  - 'Rakefile'
+js-only: &js-only
+  - '**/*.js*'
+  - '**/*.es6'
+  - '**/*.ts*'
+  - '**/*.json'
+  - '.nvmrc'
+  - '.babelrc'
+  - '.bootstraprc'
+  - '.browserlistrc'
+  - '.jshintrc'
+
+ruby-notice-files: &ruby-notice-files
+  - 'Gemfile'
+  - 'Gemfile.lock'
+  - 'NOTICE-ruby'
+js-notice-files: &js-notice-files
+  - 'yarn.lock'
+  - 'package.json'
+  - 'included.json'
+  - 'NOTICE-js'
+markdown: &markdown
+  - *gh-workflows
+  - '**/*.md'
+
+setup-ruby:
+  - *gh-workflows
+  - *ruby-notice-files
+  - *ruby-only
+  - *js-notice-files
+  - *js-only
+
+build-ruby:
+  - *gh-workflows
+  - *ruby-notice-files
+  - *ruby-only
+
+build-js:
+  - *gh-workflows
+  - *ruby-notice-files
+  - *ruby-only
+  - *js-notice-files
+  - *js-only
+
+install-node:
+  - *gh-workflows
+  - *ruby-notice-files
+  - *ruby-only
+  - *js-notice-files
+  - *js-only
+  - *markdown
+

@@ -92,7 +92,7 @@
     "resolve-url-loader": "^2.3.0",
     "storybook-addon-intl": "^2.4.1",
     "tiny-warning": "^1.0.3",
-    "typescript": "^4",
+    "typescript": "^4.7",
     "webpack-dev-server": "^3"
   },
   "dependencies": {

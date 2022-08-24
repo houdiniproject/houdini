@@ -16,7 +16,7 @@ import AnimatedCheckmark from '../common/progress/AnimatedCheckmark';
 import { NetworkError } from "../../api/errors";
 import { Button } from "@material-ui/core";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
-import { useForm, UseFormReturn } from "react-hook-form";
+import { FieldValues, useForm, UseFormReturn } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import TextField from "../form_fields/TextField";
 import { useMountedState, usePrevious } from "react-use";
@@ -259,22 +259,23 @@ function SignInComponent(props: SignInComponentProps): JSX.Element {
 	);
 }
 
-
-function InnerFormComponent<TFieldValues>(props: {
+interface InnerFormComponentProps<TFieldValues extends FieldValues> {
 	classes: ClassNameMap<"textField" | "paper" | "backdrop" | "box" | "buttonProgress" | "submitButton" | "checkmark">;
-	emailLabel: string;
-	failed: boolean;
-	form: UseFormReturn<TFieldValues>;
-	lastSignInAttemptError: NetworkError;
-	loginHeaderLabel: string;
-	onFailure: (error: NetworkError) => void;
-	onSubmitting: () => void;
-	onSuccess: () => void;
-	passwordLabel: string;
-	showProgressAndSuccess: boolean;
-	signedIn: boolean;
-	submitting: boolean;
-}) {
+emailLabel: string;
+failed: boolean;
+form: UseFormReturn<TFieldValues>;
+lastSignInAttemptError: NetworkError;
+loginHeaderLabel: string;
+onFailure: (error: NetworkError) => void;
+onSubmitting: () => void;
+onSuccess: () => void;
+passwordLabel: string;
+showProgressAndSuccess: boolean;
+signedIn: boolean;
+submitting: boolean;
+}
+
+function InnerFormComponent<TFieldValues extends FieldValues>(props: InnerFormComponentProps<TFieldValues>) {
 	const {
 		submitting,
 		onFailure,

@@ -4,12 +4,12 @@ import React, { MutableRefObject } from "react";
 
 import MuiTextField from '@material-ui/core/TextField';
 import { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
-import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
+import { Control, ControllerFieldState, ControllerRenderProps, FieldPath, FieldValues, FormState, useController } from "react-hook-form";
 import { useId } from "@reach/auto-id";
 
-interface ConversionProps<T extends unknown = unknown> {
+interface ConversionProps<T extends FieldValues> {
 	disabled?:boolean;
-	field: ControllerRenderProps<T, string>;
+	field: ControllerRenderProps<T>;
 	fieldState: ControllerFieldState;
 	formState: FormState<T>;
 	helperText?:React.ReactNode;
@@ -18,7 +18,7 @@ interface ConversionProps<T extends unknown = unknown> {
 }
 
 
-export function fieldToTextField({
+export function fieldToTextField<T extends FieldValues>({
 	field: { onBlur: fieldOnBlur, ref:refCallback, ...field },
 	fieldState: {error, isTouched},
 	formState: { isSubmitting},
@@ -27,7 +27,7 @@ export function fieldToTextField({
 	disabled,
 	inputRef,
 	...props
-}: ConversionProps): MuiTextFieldProps {
+}: ConversionProps<T>): MuiTextFieldProps {
 	const fieldError = error?.message;
 	const showError = isTouched && !!fieldError;
 
@@ -53,7 +53,7 @@ export function fieldToTextField({
 }
 
 
-export type ITextFieldProps<TFieldValues=unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> & { control?: Control<TFieldValues> };
+export type ITextFieldProps<TFieldValues extends FieldValues> = Omit<MuiTextFieldProps, 'value' | 'error' | 'inputRef'> & { control?: Control<TFieldValues>};
 
 /**
  * A text field
@@ -61,7 +61,9 @@ export type ITextFieldProps<TFieldValues=unknown> = Omit<MuiTextFieldProps, 'val
  * @param {ITextFieldProps}
  * @returns {JSX.Element}
  */
-function TextField<TFieldValues=unknown>({ children, control, name, id:passedId, ...props }: ITextFieldProps<TFieldValues>): JSX.Element {
+function TextField<TFieldValues extends FieldValues>({ children, control, name:knownName, id:passedId, ...props }: ITextFieldProps<TFieldValues>): JSX.Element {
+
+	const name = knownName as unknown as FieldPath<TFieldValues>;
 	const {
 		field,
 		fieldState,

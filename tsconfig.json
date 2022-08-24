@@ -26,7 +26,8 @@
     "storage",
     "log",
     "coverage",
-    ".vscode"
+    ".vscode",
+    "docs/event_definitions/Nonprofit/Transaction/examples.ts"
   ],
   "include": [
     "./types/**/*",

@@ -1,7 +1,9 @@
 // License: LGPL-3.0-or-later
 // Supporter wants to make a single donation to Nonprofit with ID 1
 
-/* IN PROGRESS - some examples of transaction requests */
+/* IN PROGRESS - some examples of transaction requests*/
+
+/* It may not work and that's okay!" */
 
 
 /* we disable since this is just an example file */

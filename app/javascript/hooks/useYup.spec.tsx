@@ -38,11 +38,14 @@ describe("useYup", () => {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 
-		const {errors} = 	await yupResolver(schema)({name: "not 20 chars"}, null,
+		const {errors:initialErrors} = 	await yupResolver(schema)({name: "not 20 chars"}, null,
 			{
 				fields:{},
 				shouldUseNativeValidation: false,
 			});
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const errors = initialErrors as Record<string,any>;
 
 		expect(errors.name.message).toMatch(/.*Custom Name.+20.*/);
 		expect(errors.id.message).toMatch(/.*id.*invalid.*/);

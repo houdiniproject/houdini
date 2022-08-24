@@ -10,12 +10,12 @@ import { MutableRefObject, useEffect, useRef } from "react";
 
 import { useI18nCurrencyInput, Types } from '@houdiniproject/react-i18n-currency-input';
 import '../../common/intl-polyfills/numberFormat';
-import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController } from "react-hook-form";
+import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController, FieldPath, FieldValues } from "react-hook-form";
 import { useId } from "@reach/auto-id";
 
-interface ConversionProps<T extends unknown=unknown>  {
+interface ConversionProps<T extends FieldValues>  {
 	disabled?:boolean;
-	field: ControllerRenderProps<T, string>;
+	field: ControllerRenderProps<T>;
 	fieldState: ControllerFieldState;
 	formState: FormState<T>;
 	helperText?:React.ReactNode;
@@ -24,7 +24,7 @@ interface ConversionProps<T extends unknown=unknown>  {
 }
 
 
-export function fieldToTextField({
+export function fieldToTextField<T extends FieldValues>({
 	field: { onBlur: fieldOnBlur, ref:refCallback, ...field },
 	fieldState: {error, isTouched},
 	formState: { isSubmitting },
@@ -33,7 +33,7 @@ export function fieldToTextField({
 	disabled,
 	inputRef,
 	...others
-}: ConversionProps): MuiTextFieldProps {
+}: ConversionProps<T>): MuiTextFieldProps {
 	const fieldError = error?.message;
 	const showError = isTouched && !!fieldError;
 
@@ -100,7 +100,7 @@ export function useSerializeMoney(props: UseSerializeMoneyProps): ReturnType<typ
 }
 
 
-export type IMoneyTextFieldProps<TFieldValues = unknown> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> &
+export type IMoneyTextFieldProps<TFieldValues = FieldValues> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> &
 	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control?: Control<TFieldValues> };
 
 /**
@@ -109,15 +109,18 @@ export type IMoneyTextFieldProps<TFieldValues = unknown> = Omit<MuiTextFieldProp
  * @param {IMoneyTextFieldProps} { children, form, field, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, ...props }
  * @returns {JSX.Element}
  */
-function MoneyTextField<TFieldValues=unknown>({ children,
+function MoneyTextField<TFieldValues=FieldValues>({ children,
 	control,
-	name,
+	name:outerName,
 	currencyDisplay,
 	useGrouping,
 	allowEmpty,
 	selectAllOnFocus,
 	id:passedId,
 	...props }: IMoneyTextFieldProps<TFieldValues>): JSX.Element {
+
+
+	const name = outerName as unknown as FieldPath<TFieldValues>;
 	const {
 		field,
 		fieldState,

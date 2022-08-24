@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TextField } from './index';
 import { action } from '@storybook/addon-actions';
-import { Control, FormProvider, useForm, useWatch } from 'react-hook-form';
+import { Control, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 import useYup from '../../hooks/useYup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { waitFor } from '@storybook/testing-library';
@@ -16,7 +16,7 @@ import { defaultStoryExport, StoryTemplate } from '../../tests/stories';
 
 export default defaultStoryExport({ title: 'Form Fields/TextField' });
 
-function InnerForm({ disabled, onChange, control, helperText }: { control?: Control<unknown>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
+function InnerForm({ disabled, onChange, control, helperText }: { control?: Control<FieldValues>, disabled?: boolean, helperText?: React.ReactNode, onChange: (args: { value: string }) => void }) {
 	const value = useWatch({ name: 'value', control });
 	const onChangeRef = useRef(onChange);
 	onChangeRef.current = onChange;

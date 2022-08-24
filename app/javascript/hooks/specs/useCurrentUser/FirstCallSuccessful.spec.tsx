@@ -28,7 +28,7 @@ describe('useCurrentUser', () => {
 			const wrapper = SWRWrapper;
 			async function commonPrep(callback:(result:HookResult<UseCurrentUserReturnType>) => Promise<void>) {
 				let renderHookReturn:RenderHookResult<unknown, UseCurrentUserReturnType> =null;
-				await act(async () =>renderHookReturn =renderHook(() => useCurrentUser(), {wrapper}));
+				await act(async () =>{ renderHookReturn =renderHook(() => useCurrentUser(), {wrapper});});
 				const {result, unmount, wait} = renderHookReturn;
 				await wait(() => !!result.current.currentUser);
 				await callback(result);

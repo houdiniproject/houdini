@@ -15,7 +15,8 @@
       "node_modules/@types",
       "./types"],
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop":true
+    "esModuleInterop":true,
+    "noEmit": true
   },
   "exclude": [
     "node_modules",

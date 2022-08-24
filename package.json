@@ -148,7 +148,7 @@
     "react-aria-modal": "^3.0.1",
     "react-dom": "^17",
     "react-error-boundary": "^3.0.2",
-    "react-hook-form": "^7.20.5",
+    "react-hook-form": "^7.34.2",
     "react-intl": "^5.23.0",
     "react-on-rails": "12.2.0",
     "react-text-mask": "^5.3.0",

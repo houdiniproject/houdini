@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./target/",
+    "outDir": "./tmp/typescript-ignore/",
     "sourceMap": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
@@ -14,6 +14,6 @@
     "paths": { "*": [ "./types/*"] },
     "typeRoots" : [
       "node_modules/@types",
-      "./types"]
+      "./types"],
   }
 }

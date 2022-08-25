@@ -1,0 +1,25 @@
+# License: LGPL-3.0-or-later
+name: Pull Request Build
+on: 
+  pull_request:
+    types: [opened, reopened, synchronize]
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  markdownlint:
+    name: Lint markdown code
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          # Path to file where filters are defined
+          filters: .github/path-filters.yml
+      - name: Run markdownlint
+        if: steps.filter.outputs.markdown == 'true'
+        run: yarn markdownlint
+    
+
+  

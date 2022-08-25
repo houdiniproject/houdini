@@ -25,33 +25,33 @@ jobs:
         with:
           ruby-version: ${{ env.ruby }}
           bundler-cache: true
-  lint:
-    needs: package-download
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-20.04]
-        node: [14.19.1]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
-        uses: Daniel-Marynicz/postgresql-action@1.0.0
-        with:
-          postgres_image_tag: 12-alpine
-          postgres_user: houdini_user
-          postgres_password: password
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.ruby }}
-          bundler-cache: true
-      - run: bin/setup ci
-      - name: run eslint
-        run: yarn eslint
+  # lint:
+  #   needs: package-download
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-20.04]
+  #       node: [14.19.1]
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+  #       uses: Daniel-Marynicz/postgresql-action@1.0.0
+  #       with:
+  #         postgres_image_tag: 12-alpine
+  #         postgres_user: houdini_user
+  #         postgres_password: password
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node }}
+  #         cache: 'yarn'
+  #     - run: yarn install --frozen-lockfile
+  #     - uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: ${{ env.ruby }}
+  #         bundler-cache: true
+  #     - run: bin/setup ci
+  #     - name: run eslint
+  #       run: yarn eslint
   jest:
     needs: package-download
     runs-on: ${{ matrix.os }}

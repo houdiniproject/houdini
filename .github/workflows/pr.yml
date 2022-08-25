@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     # Set job outputs to values from filter step
     outputs:
-      filters: ${{ steps.filter.output }}
+      filters: ${{ steps.filter.outputs.changes }}
     steps:
     - uses: actions/checkout@v2
     - uses: dorny/paths-filter@v2
@@ -20,15 +20,66 @@ jobs:
       with:
         # Path to file where filters are defined
         filters: .github/path-filters.yml
-  markdownlint:
+
+
+  npm-package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
+    name: Download and cache any npm packages
     needs: changes
+    if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-latest]
+        node: [14.19.1]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+
+  markdownlint:
     name: Lint markdown code
-    if: ${{ needs.changes.outputs.filters.markdown == 'true'}}
+    needs: changes
+    if: ${{ contains(needs.changes.outputs.filters, 'markdown')}}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Run markdownlint
         run: yarn markdownlint
+
+  eslint:
+    runs-on: ubuntu-latest
+    needs: 
+      - npm-package-download
+      - changes
+    if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
+    name: Run eslint scanning
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - name: Install eslint formatter
+        run: |
+          yarn add @microsoft/eslint-formatter-sarif@2.1.7
+      - name: Run ESLint
+        run: yarn eslint
+          --format @microsoft/eslint-formatter-sarif 
+          --output-file eslint-results.sarif
+        continue-on-error: true
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true
     
 
   

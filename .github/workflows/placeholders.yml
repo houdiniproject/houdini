@@ -12,14 +12,6 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - run: 'echo "Placeholder for notice_ruby"'
-  # lint:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-20.04]
-  #       node: [14.19.1]
-  #   steps:
-  #     - run: 'echo "Placeholder for lint"'
   jest:
     runs-on: ${{ matrix.os }}
     strategy:

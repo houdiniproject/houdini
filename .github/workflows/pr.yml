@@ -7,18 +7,27 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  changes:
+    name: "Check for file changes"
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      filters: ${{ steps.filter.output }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        # Path to file where filters are defined
+        filters: .github/path-filters.yml
   markdownlint:
+    needs: changes
     name: Lint markdown code
+    if: ${{ needs.changes.outputs.filters.markdown == 'true'}}
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
-        id: filter
-        with:
-          # Path to file where filters are defined
-          filters: .github/path-filters.yml
       - name: Run markdownlint
-        if: steps.filter.outputs.markdown == 'true'
         run: yarn markdownlint
     
 

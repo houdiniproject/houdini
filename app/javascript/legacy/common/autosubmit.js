@@ -2,7 +2,7 @@
 const confirmation = require('./confirmation').default;
 const notification = require('./notification').default
 const utils = require('./utilities').default
-const Cookies = require('universal-cookie');
+const Cookies = require('universal-cookie').default;
 
 $('form[autosubmit]').submit(function(e) {
 	var self = this

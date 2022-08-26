@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-const Cookies = require('universal-cookie');
+const Cookies = require('universal-cookie').default;
 const cookies = new Cookies();
 
 var tour_subscribers = new Tour({

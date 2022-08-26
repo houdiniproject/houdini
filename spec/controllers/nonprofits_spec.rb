@@ -37,6 +37,10 @@ describe NonprofitsController, type: :controller do
         include_context :open_to_np_associate, :get, :dashboard_todos, id: :__our_np
       end
 
+      describe 'payment_history' do
+        include_context :open_to_np_associate, :get, :payment_history, id: :__our_np
+      end
+
       describe 'destroy' do
         include_context :open_to_super_admin, :delete, :destroy, id: :__our_np
       end

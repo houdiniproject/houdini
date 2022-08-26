@@ -108,25 +108,24 @@ const iframeHost = require('./details.js.erb')
     else commitchange.alreadyAppended = true
     let script = document.getElementById('commitchange-donation-script') || document.getElementById('commitchange-script')
     const nonprofitID = script?.getAttribute('data-npo-id')
-    const baseSource = fullHost + "/nonprofits/" + nonprofitID + "/donate?offsite=t"
+    const baseSource = fullHost + "/nonprofits/" + nonprofitID + "/donate"
     let elems = document.querySelectorAll('.commitchange-donate')
   
     for(let i = 0; i < elems.length; ++i) {
       let elem:any = elems[i]
       let source = baseSource
   
-      let optionsButton = commitchange.getParamsFromButton(elem)
-      let options = commitchange.getParamsFromUrl(["utm_campaign","utm_content","utm_source","utm_medium","first_name","last_name","country","postal_code","address","city"])
-      for (var attr in optionsButton) { options[attr] = optionsButton[attr]; }
-      let params = []
-      for(let key in options) {
-        params.push(key + '=' + options[key])
+      
+      const options = {
+        offsite: "t",
+        ...commitchange.getParamsFromUrl(["utm_campaign","utm_content","utm_source","utm_medium","first_name","last_name","country","postal_code","address","city"]),
+        ...commitchange.getParamsFromButton(elem)
       }
-      source += "&" + params.join("&")
+      const params = new URLSearchParams(options);
   
       if(elem.hasAttribute('data-embedded')) {
-        source += '&mode=embedded'
-        let iframe = commitchange.createIframe(source)
+        params.append("mode", "embedded");
+        let iframe = commitchange.createIframe(new URL(baseSource + "&" + params.toString()).toString());
         elem.appendChild(iframe)
         iframe.setAttribute('class', 'commitchange-iframe-embedded')
         commitchange.iframes.push(iframe)

@@ -4,10 +4,6 @@
 name: Placeholders
 on: ['push', 'pull_request']
 jobs:
-  notice_ruby:
-    runs-on: ubuntu-20.04
-    steps:
-      - run: 'echo "Placeholder for notice_ruby"'
   jest:
     runs-on: ${{ matrix.os }}
     strategy:

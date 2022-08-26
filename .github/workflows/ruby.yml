@@ -68,24 +68,4 @@ jobs:
         run: bin/rails js:routes:typescript
       - name: run spec
         run: bundle exec rake spec
-  rubocop:
-    needs: package-download
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-20.04]
-        node: [14.19.1]
-        ruby: [2.7.6]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - name: Rubocop run
-        run: bundle exec rubocop
-
     

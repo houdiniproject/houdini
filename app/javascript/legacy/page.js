@@ -7,7 +7,7 @@ window.jQuery = window.$ // XXX remove
 require('parsleyjs') // XXX remove
 require('./common/jquery_additions') // XXX remove
 require('./common/autosubmit') // XXX remove
-const Cookies = require('universal-cookie')
+const Cookies = require('universal-cookie').default
 
 const cookies = new Cookies();
 

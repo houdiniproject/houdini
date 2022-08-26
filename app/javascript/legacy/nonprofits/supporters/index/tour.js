@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 require('../../../common/vendor/bootstrap-tour-standalone')
-const Cookies = require('universal-cookie');
+const Cookies = require('universal-cookie').default;
 const cookies = new Cookies();
 
 var supporters_tour = new Tour({

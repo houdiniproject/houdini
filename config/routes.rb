@@ -195,7 +195,6 @@ Rails.application.routes.draw do
     post(:custom_supporter, on: :member)
     get(:dashboard, on: :member)
     get(:dashboard_metrics, on: :member)
-    get(:payment_history, on: :member)
 
     post(:donate, on: :member, as: 'create_donation')
   end

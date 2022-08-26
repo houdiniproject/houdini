@@ -49,6 +49,23 @@ jobs:
       - name: Run markdownlint
         run: yarn markdownlint
 
+  notice_js:
+    name: Verify NOTICE-js is up to date
+    runs-on: ubuntu-20.04
+    needs: 
+      - npm-package-download
+      - changes
+    if: ${{ contains(needs.changes.outputs.filters, 'js-notice-files')}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - name: Verify NOTICE-js
+        run: yarn notice:js
+
   eslint:
     runs-on: ubuntu-latest
     needs: 

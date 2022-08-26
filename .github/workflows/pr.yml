@@ -133,6 +133,39 @@ jobs:
         with:
           sarif_file: eslint-results.sarif
           wait-for-processing: true
-    
+  rubocop:
+    name: Run rubocop
+    needs:
+      - gem-package-download
+      - changes
+    if: ${{ contains(needs.changes.outputs.filters, 'build-ruby') }}
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Allow adding the code-scanning-rubocop gem
+        run: bundle config unset deployment
+      - name: Install Code Scanning integration
+        run: bundle add code-scanning-rubocop --skip-install
 
-  
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Rubocop run
+        run: |
+          bash -c "
+            bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+            [[ $? -ne 2 ]]
+          "
+      - name: Upload Sarif output
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: rubocop.sarif

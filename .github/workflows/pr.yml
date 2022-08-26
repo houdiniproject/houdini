@@ -8,7 +8,8 @@ concurrency:
   cancel-in-progress: true
 env:
 # this version used for running various tools
-  tool_node_version: "14.x" 
+  tool_node_version: "14.x"
+  tool_ruby_version: "2.7.6"
 jobs:
   changes:
     name: "Check for file changes"
@@ -84,6 +85,22 @@ jobs:
       - run: yarn install --frozen-lockfile
       - name: Verify NOTICE-js
         run: yarn notice:js
+  notice_ruby:
+    name: Verify NOTICE-ruby is up to date
+    runs-on: ubuntu-20.04
+    needs:
+      - gem-package-download
+      - changes
+    if: ${{ contains(needs.changes.outputs.filters, 'ruby-notice-files')}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.tool_ruby_version }}
+          bundler-cache: true
+      - name: run notice:ruby:verify
+        run: |
+            bin/rails notice:ruby:verify
 
   eslint:
     runs-on: ubuntu-latest

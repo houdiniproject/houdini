@@ -1,5 +1,5 @@
 gh-workflows: &gh-workflows
-  - '.github/path-filters.yaml'
+  - '.github/path-filters.yml'
   - '.github/workflows/*'
 ruby-only:  &ruby-only
   - 'app/**'

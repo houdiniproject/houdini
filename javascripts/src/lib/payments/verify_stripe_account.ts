@@ -1,12 +1,11 @@
 // License: LGPL-3.0-or-later
 import pRetry from '../p-retry'
 import { StripeAccountVerification, StripeAccount } from '../api/stripe_account_verification';
-import setPrototypeOf = require('setprototypeof')
 
 class StillPendingError extends Error {
   constructor(public readonly result:StripeAccount){
       super()
-      setPrototypeOf(this, StillPendingError.prototype);
+      Object.setPrototypeOf(this, StillPendingError.prototype);
   }
 }
 

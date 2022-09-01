@@ -28,8 +28,8 @@ class OuterWrapper<TProps> extends React.Component<TProps & {__childrenCreator: 
  * @param {(props: TProps) => React.ReactNode} rootComponentCreator a function to create your root component for mounting.
  * @returns {ReactWrapper} The wrapper of your mounted component.
  */
-export function mountForMobx<TProps>(props:TProps,
-  rootComponentCreator:(props:TProps) => React.ReactNode): ReactWrapper {
+export function mountForMobx(props:any,
+  rootComponentCreator:(props:any) => any): ReactWrapper {
   
       
       return mount(<OuterWrapper {...props}
@@ -42,8 +42,8 @@ export function mountForMobx<TProps>(props:TProps,
  * @param {(props: TProps) => React.ReactNode} rootComponentCreator
  * @returns {ReactWrapper}
  */
-export function mountForMobxWithIntl<TProps>(props:TProps,
-                                             rootComponentCreator:(props:TProps) => React.ReactNode): ReactWrapper {
+export function mountForMobxWithIntl(props:any,
+                                             rootComponentCreator:(props:any) => any): ReactWrapper {
   return mountWithIntl(<OuterWrapper {...props}
                                      __childrenCreator={rootComponentCreator} />)
 }

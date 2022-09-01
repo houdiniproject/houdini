@@ -151,7 +151,7 @@ describe('Wrapper', () => {
         return <Wrapper manager={props.state}>
           <TabList>
             {
-              props.state.panels.map((tab) => {
+              props.state.panels.map((tab:any) => {
                 return <Tab id={tab.id} key={tab.id} className={tab.enabled ? 'enabled' : undefined}
                             active={tab.active}>{tab.label}</Tab>
               })
@@ -159,7 +159,7 @@ describe('Wrapper', () => {
           </TabList>
           <div>
             {
-              props.state.panels.map((tab) => {
+              props.state.panels.map((tab:any) => {
                 return <TabPanel tabId={tab.id} key={tab.id} active={tab.active}>
                   <button onClick={props.state.moveToNextTab}/>
                 </TabPanel>
@@ -218,7 +218,7 @@ describe('Wrapper', () => {
         return <Wrapper manager={props.state}>
           <TabList>
             {
-              props.state.panels.map((tab) => {
+              props.state.panels.map((tab:any) => {
                 return <Tab id={tab.id} key={tab.id} className={tab.enabled ? 'enabled' : undefined}
                             active={tab.active}>{tab.label}</Tab>
               })
@@ -226,7 +226,7 @@ describe('Wrapper', () => {
           </TabList>
           <div>
             {
-              props.state.panels.map((tab) => {
+              props.state.panels.map((tab:any) => {
                 return <TabPanel tabId={tab.id} key={tab.id} active={tab.active}>
                   <button onClick={props.state.moveToNextTab}/>
                 </TabPanel>
@@ -416,7 +416,7 @@ describe('Wrapper', () => {
         return <Wrapper manager={props.state}>
           <TabList>
             {
-              props.state.panels.map((tab) => {
+              props.state.panels.map((tab:any) => {
                 return <Tab id={tab.id} key={tab.id} className={tab.enabled ? 'enabled' : undefined}
                             active={tab.active}>{tab.label}</Tab>
               })
@@ -424,7 +424,7 @@ describe('Wrapper', () => {
           </TabList>
           <div>
             {
-              props.state.panels.map((tab) => {
+              props.state.panels.map((tab:any) => {
                 return <TabPanel tabId={tab.id} key={tab.id} active={tab.active}>
                   <button onClick={props.state.moveToNextTab}/>
                 </TabPanel>

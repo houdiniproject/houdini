@@ -96,7 +96,7 @@ describe('Wizard', () => {
     wrapper = mountForMobxWithIntl({state:state, disabledTabs: disabledTabs}, (props) => {
       return <Wizard wizardState={props.state} disableTabs={props.disabledTabs}>
         {
-          props.state.panels.map((tab) => {
+          props.state.panels.map((tab:any) => {
             return <WizardPanel tab={tab}>
               <button onClick={tab.parent.moveToNextTab}/>
             </WizardPanel>

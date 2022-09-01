@@ -20,7 +20,7 @@ export interface FullStripeVerificationConfirmActorProps
   apis: ApiManagerContextData
 }
 
-function ContextedStripeVerificationConfirmActor(props:StripeVerificationConfirmActorProps) {
+function ContextedStripeVerificationConfirmActor(props:StripeVerificationConfirmActorProps & {children: React.ReactChild}) {
   return <ApiManagerContext.Consumer>
     {context => <StripeVerificationConfirmActor {...props} apis={context}/> }
   </ApiManagerContext.Consumer>

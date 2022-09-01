@@ -15,7 +15,7 @@ export interface FullAccountLinkManagerProps extends AccountLinkManagerProps
   apis: ApiManagerContextData
 }
 
-function ContextedAccountLinkManager(props:AccountLinkManagerProps) {
+function ContextedAccountLinkManager(props:AccountLinkManagerProps & {children:React.ReactChild}) {
   return <ApiManagerContext.Consumer>
     {context => <AccountLinkManager {...props} apis={context}/> }
   </ApiManagerContext.Consumer>

@@ -92,6 +92,7 @@
     "commons.css": "0.1.8",
     "cookie": "0.3.1",
     "cropperjs": "1.0.0-beta.2",
+    "csstype": "^2.6.20",
     "data-tooltip": "0.0.1",
     "dotize": "^0.2.0",
     "dragula": "3.7.1",

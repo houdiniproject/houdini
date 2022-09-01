@@ -166,19 +166,22 @@
       "/node_modules/",
       "/database/",
       "/postgres-data/",
-      "/vendor/"
+      "/vendor/",
+      "/tmp/"
     ],
     "watchPathIgnorePatterns": [
       "/database/*",
       "/node_modules/",
       "/postgres-data/*",
-      "/vendor/"
+      "/vendor/",
+      "/tmp/"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "/database/",
       "/postgres-data/",
-      "/vendor/"
+      "/vendor/",
+      "/tmp/"
     ],
     "globals": {
       "ts-jest": {

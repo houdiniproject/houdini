@@ -39,11 +39,6 @@ export interface CreateOffsitePaymentPaneProps
   modalActive: boolean
 }
 
-export interface FundraiserInfo {
-  id: number
-  name: string
-}
-
 class CreateOffsitePaymentPaneForm extends HoudiniForm {
 
 }

@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-import * as moment from 'moment';
+import moment from 'moment';
 import 'moment-timezone'
 
 function momentTz(date:string, timezone:string='UTC'):moment.Moment {

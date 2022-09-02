@@ -62,7 +62,6 @@
     "file-loader": "^1.1.11",
     "jest": "^24.1.0",
     "jest-date-mock": "^1.0.8",
-    "jest-enzyme": "^7.0.1",
     "jsdom": "^16.5.0",
     "lodash": "^4.17.21",
     "postcss-cssnext": "^2.9.0",
@@ -159,7 +158,6 @@
     "whatwg-fetch": "^3.6.2"
   },
   "jest": {
-    "testEnvironment": "enzyme",
     "testEnvironmentOptions": {
       "enzymeAdapter": "react16"
     },

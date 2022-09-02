@@ -10,7 +10,7 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "baseUrl": "./",
-    "lib": ["dom","es5", "scripthost", "es2015.promise"],
+    "lib": ["dom","es5", "scripthost", "ES2015"],
     "paths": { "*": [ "./types/*"] },
     "typeRoots" : [
       "node_modules/@types",

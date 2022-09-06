@@ -49,7 +49,6 @@ app/javascript/legacy_react/src/lib/payments/credit_card.spec.ts
 app/javascript/legacy_react/src/lib/payments/credit_card.ts
 app/javascript/legacy_react/src/lib/regex.spec.ts
 app/javascript/legacy_react/src/lib/regex.ts
-app/javascript/legacy_react/src/lib/tests/helpers.ts
 app/javascript/legacy_react/src/lib/utils.ts
 app/javascript/legacy_react/src/lib/vjf_rules.ts
 app/javascript/packs/loading_indicator.ts

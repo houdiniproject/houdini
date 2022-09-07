@@ -74,7 +74,7 @@ export function waitForMobxCondition(
      readonly action:(done?:Function) => any){}
 
     async toPromise():Promise<any> {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         waitForMobxCondition(
           this.finishCondition,
           () => {

@@ -299,7 +299,7 @@ exports[`Modal active modal displays matches snapshot 1`] = `
                                           onMouseLeave={[Function]}
                                           tabIndex={0}
                                         >
-                                          <Component
+                                          <CloseButton
                                             backgroundCircleStyle={
                                               Object {
                                                 "fill": "#FFFFFF",
@@ -360,7 +360,7 @@ exports[`Modal active modal displays matches snapshot 1`] = `
                                                 }
                                               />
                                             </svg>
-                                          </Component>
+                                          </CloseButton>
                                           <ScreenReaderOnlyText>
                                             <span
                                               style={

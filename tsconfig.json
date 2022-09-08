@@ -3,7 +3,6 @@
     "outDir": "./target/",
     "sourceMap": true,
     "skipLibCheck": true,
-    "noImplicitAny": true,
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",

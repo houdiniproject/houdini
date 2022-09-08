@@ -9,7 +9,7 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "baseUrl": "./",
-    "lib": ["dom", "scripthost", "ES2018"],
+    "lib": ["dom", "ES2018"],
     "paths": { "*": [ "./types/*"], "@rails/activestorage": ["./types/rails__activestorage"] },
     "typeRoots" : [
       "node_modules/@types",

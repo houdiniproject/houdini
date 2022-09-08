@@ -5,11 +5,11 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "ES2018",
     "jsx": "react",
     "experimentalDecorators": true,
     "baseUrl": "./",
-    "lib": ["dom","es5", "scripthost", "es2015.promise"],
+    "lib": ["dom", "scripthost", "ES2018"],
     "paths": { "*": [ "./types/*"], "@rails/activestorage": ["./types/rails__activestorage"] },
     "typeRoots" : [
       "node_modules/@types",

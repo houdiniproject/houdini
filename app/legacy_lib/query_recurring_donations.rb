@@ -82,6 +82,12 @@ module QueryRecurringDonations
       expr = expr.where("#{failed_or_active_clauses.join(' OR ')}")
     end
 
+  
+
+    if query.key?(:end_date_gt_or_equal)
+      expr = expr.where("recurring_donations.end_date IS NULL OR recurring_donations.end_date >= $date", date: query[:end_date_gt_or_equal])
+    end
+
     if include_last_failed_charge && query.key?(:from_date) && query.key?(:before_date)
       expr = expr.where(
         'failed_charges.created_at >= $from_date

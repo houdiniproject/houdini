@@ -17,7 +17,7 @@ class RecurringDonationsController < ApplicationController
 				#TODO move into javascript
 				params[:active] = true
 
-        render json: QueryRecurringDonations.full_list(params[:nonprofit_id], params)
+        render json: QueryRecurringDonations.full_list(params[:nonprofit_id], params.merge(end_date_gt_or_equal: Time.current))
       end
 		end
 	end

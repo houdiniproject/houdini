@@ -20,7 +20,7 @@ jobs:
         node: [14.19.1]
         ruby: [2.7.6]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
@@ -39,7 +39,7 @@ jobs:
         node: [14.19.1]
         ruby: [2.7.6]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
         uses: Daniel-Marynicz/postgresql-action@1.0.0
         with:

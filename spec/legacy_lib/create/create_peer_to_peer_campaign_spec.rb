@@ -22,7 +22,7 @@ describe CreatePeerToPeerCampaign do
 
 				result = described_class.create(campaign_params, profile.id)
 
-				expect(result).to be_kind_of Campaign
+				expect(result).to be_a Campaign
 			end
 
 			describe 'returns created peer-to-peer campaign' do
@@ -33,7 +33,7 @@ describe CreatePeerToPeerCampaign do
 							goal_amount_dollars: '1000' }
 				end
 
-				it { is_expected.to be_kind_of(Campaign) }
+				it { is_expected.to be_a(Campaign) }
 
 				it {
 					is_expected.to have_attributes(
@@ -80,7 +80,7 @@ describe CreatePeerToPeerCampaign do
 				expect { described_class.create(campaign_params, profile.id) }.to(
 					raise_error do |error|
 						expect(error).to be_an_instance_of(ActiveRecord::RecordInvalid)
-						expect(error.record).to be_kind_of Campaign
+						expect(error.record).to be_a Campaign
 						expect(error.record.errors.empty?).to be false
 						expect(error.record.errors['goal_amount']).to match [
 							"can't be blank", 'is not a number'

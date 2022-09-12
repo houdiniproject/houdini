@@ -80,7 +80,7 @@ RSpec.describe Api::SupporterNotesController, type: :request do
 
 			context 'when paging' do
 				before do
-					(0..5).each do |i|
+					6.times do |i|
 						create(:supporter_note_with_fv_poverty_with_user, supporter: supporter, content: "content for #{i}")
 					end
 					sign_in user

@@ -71,7 +71,7 @@ RSpec.describe Api::TagDefinitionsController, type: :request do
 			context 'when paging' do
 				before do
 					tag_definition
-					(0..5).each do |i|
+					6.times do |i|
 						create(:tag_definition_with_nonprofit,
 													nonprofit: nonprofit,
 													name: i)

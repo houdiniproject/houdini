@@ -75,7 +75,7 @@ class CampaignsController < ApplicationController # rubocop:disable Metrics/Clas
 		end
 		current_campaign.update!(**campaign_params, end_datetime: end_datetime)
 		@campaign = current_campaign
-		flash[:notice] = t('campaigns.successfully_updated')
+		flash.now[:notice] = t('campaigns.successfully_updated')
 		render 'campaigns/update', status: :ok
 	end
 

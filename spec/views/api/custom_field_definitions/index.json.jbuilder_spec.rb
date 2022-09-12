@@ -52,7 +52,7 @@ RSpec.describe '/api/custom_field_definitions/index.json.jbuilder', type: :view 
 	describe 'paging' do
 		subject(:json) do
 			custom_field_definition
-			(0..5).each do |i|
+			6.times do |i|
 				create(:custom_field_definition_with_nonprofit,
 											nonprofit: nonprofit,
 											name: i)

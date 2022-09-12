@@ -257,7 +257,7 @@ RSpec.describe '/api/campaign_gift_options/index.json.jbuilder', type: :view do
 	describe 'paging' do
 		subject(:json) do
 			cgo
-			(0..5).each do |i|
+			6.times do |i|
 				create(:campaign_gift_option_with_campaign_with_one_time_amount, campaign: cgo.campaign, name: i)
 			end
 			assign(:campaign_gift_options, cgo.campaign.campaign_gift_options.order('id DESC').page.per(5))

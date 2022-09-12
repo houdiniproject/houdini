@@ -64,7 +64,7 @@ RSpec.describe '/api/supporter_notes/index.json.jbuilder', type: :view do
 
 	describe 'paging' do
 		subject(:json) do
-			(0..5).each do |i|
+			6.times do |i|
 				create(:supporter_note_with_fv_poverty_with_user,
 											supporter: supporter_note_with_fv_poverty_with_user.supporter,
 											content: "content for #{i}")

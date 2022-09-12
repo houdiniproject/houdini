@@ -74,7 +74,7 @@ RSpec.describe '/api/supporters/index.json.jbuilder', type: :view do
 	describe 'paging' do
 		subject(:json) do
 			supporter_with_fv_poverty
-			(0..5).each do |i|
+			6.times do |i|
 				create(:supporter_with_fv_poverty, nonprofit: supporter_with_fv_poverty.nonprofit, name: i,
 																																							email: "email#{i}@email#{i}.com")
 			end

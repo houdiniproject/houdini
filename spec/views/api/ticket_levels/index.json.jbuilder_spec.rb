@@ -42,7 +42,7 @@ RSpec.describe '/api/ticket_levels/index.json.jbuilder', type: :view do
 	describe 'paging' do
 		subject(:json) do
 			ticket_level_with_event_non_admin__order_3__not_deleted
-			(0..5).each do |i|
+			6.times do |i|
 				create(
 					:ticket_level_with_event_non_admin__order_3__not_deleted,
 					event: ticket_level_with_event_non_admin__order_3__not_deleted.event,

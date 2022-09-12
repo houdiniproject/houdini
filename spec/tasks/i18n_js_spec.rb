@@ -47,7 +47,7 @@ describe 'i18n_js.rake' do # rubocop:disable RSpec/DescribeClass
 		)
 	end
 
-	it 'export and clean' do
+	it 'export and clean' do # rubocop:disable RSpec/NoExpectationExample
 		verify_task_generate('i18n:js:export')
 		verify_cleaned('webpacker:clean')
 		verify_task_generate('webpacker:compile')

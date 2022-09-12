@@ -36,7 +36,7 @@ RSpec.describe '/api/transactions/index.json.jbuilder', type: :view do
 	describe 'paging' do
 		subject(:json) do
 			transaction
-			(0..5).each do |_i|
+			6.times do |_i|
 				create(
 					:transaction,
 					nonprofit: transaction.nonprofit,

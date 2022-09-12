@@ -14,7 +14,7 @@ describe 'Maintenance Mode' do
 		describe '(Settings is just a basic example controller)'
 		it 'not in maintenance mode' do
 			get :index
-			assert_response 302
+			expect(response).to have_http_status(:found)
 		end
 
 		describe 'in maintenance' do
@@ -24,13 +24,13 @@ describe 'Maintenance Mode' do
 
 			it 'redirects for settings' do
 				get :index
-				assert_redirected_to page
+				expect(response).to have_attributes(code: '302', location: page)
 			end
 
 			it 'allows access to non-sign_in pages if youre logged in' do
 				sign_in user_as_np_associate
 				get :index
-				assert_response 200
+				expect(response).to have_http_status(:ok)
 			end
 		end
 	end

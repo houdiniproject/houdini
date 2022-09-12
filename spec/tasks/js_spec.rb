@@ -49,7 +49,7 @@ describe 'js.rake' do # rubocop:disable RSpec/DescribeClass
 		end
 	end
 
-	it 'export and clean' do
+	it 'export and clean' do # rubocop:disable RSpec/NoExpectationExample
 		verify_task_generate('js:routes:typescript')
 		verify_cleaned('js:routes:clean')
 	end

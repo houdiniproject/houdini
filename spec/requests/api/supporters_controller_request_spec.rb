@@ -89,7 +89,7 @@ RSpec.describe Api::SupportersController, type: :request do
 			context 'when paging' do
 				before do
 					supporter
-					(0..5).each do |i|
+					6.times do |i|
 						create(:supporter_with_fv_poverty, nonprofit: supporter.nonprofit, name: i, email: "email#{i}@email#{i}.com")
 					end
 					sign_in user

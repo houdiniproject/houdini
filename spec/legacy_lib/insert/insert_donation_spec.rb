@@ -20,60 +20,60 @@ describe InsertDonation do
 				expect(Houdini.event_publisher).to_not receive(:announce).with(:transaction_created, any_args)
 			end
 
-			it 'does basic validation' do
+			it 'does basic validation' do # rubocop:disable RSpec/NoExpectationExample
 				validation_basic_validation do
 					described_class.with_stripe(designation: 34_124, dedication: 35_141, event_id: 'bad', campaign_id: 'bad')
 				end
 			end
 
-			it 'errors out if token is invalid' do
+			it 'errors out if token is invalid' do # rubocop:disable RSpec/NoExpectationExample
 				validation_invalid_token do
 					described_class.with_stripe(amount: 1, nonprofit_id: 1, supporter_id: 1, token: fake_uuid)
 				end
 			end
 
-			it 'errors out if token is unauthorized' do
+			it 'errors out if token is unauthorized' do # rubocop:disable RSpec/NoExpectationExample
 				validation_unauthorized do
 					described_class.with_stripe(amount: charge_amount, nonprofit_id: 1, supporter_id: 1, token: fake_uuid)
 				end
 			end
 
-			it 'errors out if token is expired' do
+			it 'errors out if token is expired' do # rubocop:disable RSpec/NoExpectationExample
 				validation_expired do
 					described_class.with_stripe(amount: charge_amount, nonprofit_id: 1, supporter_id: 1, token: fake_uuid)
 				end
 			end
 
 			describe 'errors during find if' do
-				it 'supporter is invalid' do
+				it 'supporter is invalid' do # rubocop:disable RSpec/NoExpectationExample
 					find_error_supporter do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: 55_555,
 																																		token: source_token.token)
 					end
 				end
 
-				it 'nonprofit is invalid' do
+				it 'nonprofit is invalid' do # rubocop:disable RSpec/NoExpectationExample
 					find_error_nonprofit do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: 55_555, supporter_id: supporter.id,
 																																		token: source_token.token)
 					end
 				end
 
-				it 'campaign is invalid' do
+				it 'campaign is invalid' do # rubocop:disable RSpec/NoExpectationExample
 					find_error_campaign do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token, campaign_id: 5555)
 					end
 				end
 
-				it 'event is invalid' do
+				it 'event is invalid' do # rubocop:disable RSpec/NoExpectationExample
 					find_error_event do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token, event_id: 5555)
 					end
 				end
 
-				it 'profile is invalid' do
+				it 'profile is invalid' do # rubocop:disable RSpec/NoExpectationExample
 					find_error_profile do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token, profile_id: 5555)
@@ -82,49 +82,49 @@ describe InsertDonation do
 			end
 
 			describe 'errors during relationship comparison if' do
-				it 'supporter is deleted' do
+				it 'supporter is deleted' do # rubocop:disable RSpec/NoExpectationExample
 					validation_supporter_deleted do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token)
 					end
 				end
 
-				it 'event is deleted' do
+				it 'event is deleted' do # rubocop:disable RSpec/NoExpectationExample
 					validation_event_deleted do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token, event_id: event.id)
 					end
 				end
 
-				it 'campaign is deleted' do
+				it 'campaign is deleted' do # rubocop:disable RSpec/NoExpectationExample
 					validation_campaign_deleted do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token, campaign_id: campaign.id)
 					end
 				end
 
-				it 'supporter doesnt belong to nonprofit' do
+				it 'supporter doesnt belong to nonprofit' do # rubocop:disable RSpec/NoExpectationExample
 					validation_supporter_not_with_nonprofit do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id,
 																																		supporter_id: other_nonprofit_supporter.id, token: source_token.token)
 					end
 				end
 
-				it 'campaign doesnt belong to nonprofit' do
+				it 'campaign doesnt belong to nonprofit' do # rubocop:disable RSpec/NoExpectationExample
 					validation_campaign_not_with_nonprofit do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token, campaign_id: other_campaign.id)
 					end
 				end
 
-				it 'event doesnt belong to nonprofit' do
+				it 'event doesnt belong to nonprofit' do # rubocop:disable RSpec/NoExpectationExample
 					validation_event_not_with_nonprofit do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: source_token.token, event_id: other_event.id)
 					end
 				end
 
-				it 'card doesnt belong to supporter' do
+				it 'card doesnt belong to supporter' do # rubocop:disable RSpec/NoExpectationExample
 					validation_card_not_with_supporter do
 						described_class.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id,
 																																		token: other_source_token.token)
@@ -150,7 +150,7 @@ describe InsertDonation do
 				expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args)
 			end
 
-			it 'process event donation' do
+			it 'process event donation' do # rubocop:disable RSpec/NoExpectationExample
 				process_event_donation do
 					described_class.with_stripe(
 						amount: charge_amount,
@@ -184,7 +184,7 @@ describe InsertDonation do
 				end
 			end
 
-			it 'processes general donation' do
+			it 'processes general donation' do # rubocop:disable RSpec/NoExpectationExample
 				process_general_donation do
 					described_class.with_stripe(
 						amount: charge_amount,
@@ -823,7 +823,7 @@ describe InsertDonation do
 				before_each_sepa_success
 			end
 
-			it 'process event donation' do
+			it 'process event donation' do # rubocop:disable RSpec/NoExpectationExample
 				process_event_donation(sepa: true) do
 					described_class.with_sepa(
 						amount: charge_amount,
@@ -861,7 +861,7 @@ describe InsertDonation do
 				end
 			end
 
-			it 'processes general donation' do
+			it 'processes general donation' do # rubocop:disable RSpec/NoExpectationExample
 				process_general_donation(sepa: true) do
 					described_class.with_sepa(
 						amount: charge_amount,

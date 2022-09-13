@@ -26,7 +26,7 @@ const tsSpecBase = {
 
 
 const tsSpec = _.cloneDeep(tsSpecBase);
-tsSpec['files'] = ['**/*.spec.ts'];
+tsSpec['files'] = ['**/*.spec.[j|t]s'];
 
 const tsxSpec = _.cloneDeep(tsSpecBase);
 tsxSpec['files'] = ['**/*.spec.tsx'];

@@ -9,6 +9,7 @@ const cardForm = require('../../components/card-form.es6')
 const sepaForm = require('../../components/sepa-form.es6')
 const progressBar = require('../../components/progress-bar')
 const DonationAmountCalculator = require('./DonationSubmitter/DonationAmountCalculator').default
+const DonationSubmitter = require('./DonationSubmitter').default
 const { centsToDollars } = require('../../common/format')
 const cloneDeep = require('lodash/cloneDeep')
 
@@ -29,6 +30,7 @@ function init(state) {
   const hideCoverFeesOption$ = flyd.map(params => params.hide_cover_fees_option, params$)
 
   const donationAmountCalculator = new DonationAmountCalculator(app.nonprofit.feeStructure);
+  const donationSubmitter = new DonationSubmitter()
 
   // Give a donation of value x, this returns x + estimated fees (using fee coverage formula) if fee coverage is selected OR
   // x if fee coverage is not selected
@@ -48,6 +50,37 @@ function init(state) {
     updateFromDonationAmountCalculator();
   }
 
+  state.loading$ = flyd.stream();
+  state.error$ = flyd.stream();
+  // Control progress bar for card payment
+  state.progress$ = flyd.stream({hidden:true});
+
+  function updateProgress() {
+    const progress = donationSubmitter.progress;
+
+    if (progress) {
+      if (progress === 20) {
+        state.progress$({status: I18n.t('nonprofits.donate.payment.loading.checking_card'), percentage: 20})
+      }
+      else if (progress === 100) {
+        state.progress$({status: I18n.t('nonprofits.donate.payment.loading.sending_payment'), percentage: 100})
+      }
+    }
+    else {
+      state.progress$({hidden:true})
+    }
+  }
+
+  function updateFromDonationSubmitter() {
+    state.loading$(donationSubmitter.loading);
+    state.error$(donationSubmitter.error);
+    updateProgress();
+  }
+
+  function handleDonationSubmitterChanged(e) {
+    updateFromDonationSubmitter();
+  }
+
   function onInit() {
     donationAmountCalculator.inputAmount = state.donation$().amount
     donationAmountCalculator.coverFees = coverFees$();
@@ -56,10 +89,12 @@ function init(state) {
 
   state.onInsert = ()  => {
     donationAmountCalculator.addEventListener('updated', handleDonationAmountCalcEvent)
+    donationSubmitter.addEventListener('updated', handleDonationSubmitterChanged)
   }
 
   state.onRemove = () => {
     donationAmountCalculator.removeEventListener('updated', handleDonationAmountCalcEvent)
+    donationSubmitter.removeEventListener('updated', handleDonationSubmitterChanged)
   }
 
   flyd.combine((donation$, coverFees$) => {
@@ -67,6 +102,7 @@ function init(state) {
     donationAmountCalculator.coverFees = coverFees$();
   }, [state.donation$, coverFees$]);
 
+  
 
 
   state.cardForm = cardForm.init({
@@ -117,31 +153,31 @@ function init(state) {
     , donationResp$
   )
 
-  state.error$ = flyd.mergeAll([
-    flyd.map(R.prop('error'), flyd.filter(resp => resp.error, paidWithGift$))
-    , flyd.map(R.always(undefined), state.cardForm.form.submit$)
-    , flyd.map(R.always(undefined), state.sepaForm.form.submit$)
-    , state.cardForm.error$
-    , state.sepaForm.error$
-  ])
   state.paid$ = flyd.filter(resp => !resp.error, paidWithGift$)
 
-  // Control progress bar for card payment
-  state.progress$ = flyd.scanMerge([
-    [state.cardForm.form.validSubmit$, R.always({ status: I18n.t('nonprofits.donate.payment.loading.checking_card'), percentage: 20 })]
-    , [state.cardForm.saved$, R.always({ status: I18n.t('nonprofits.donate.payment.loading.sending_payment'), percentage: 100 })]
-    , [state.cardForm.error$, R.always({ hidden: true })] // Hide when an error shows up
-    , [flyd.filter(R.identity, state.error$), R.always({ hidden: true })] // Hide when an error shows up
-  ], { hidden: true })
+  flyd.map((paid) => {
+    donationSubmitter.reportCompleted(donationResp$());
+  }, state.paid$)
 
-  state.loading$ = flyd.mergeAll([
-    flyd.map(R.always(true), state.cardForm.form.validSubmit$)
-    , flyd.map(R.always(true), state.sepaForm.form.validSubmit$)
-    , flyd.map(R.always(false), state.paid$)
-    , flyd.map(R.always(false), state.cardForm.error$)
-    , flyd.map(R.always(false), state.sepaForm.error$)
-    , flyd.map(R.always(false), state.error$)
-  ])
+  flyd.map((saved) => {
+    donationSubmitter.reportSavedCard();
+  }, state.cardForm.saved$);
+
+  flyd.map((submit) => {
+    donationSubmitter.reportBeginSubmit();
+  }, state.cardForm.form.validSubmit$)
+
+  flyd.map((submit) => {
+    donationSubmitter.reportBeginSubmit();
+  }, state.sepaForm.form.validSubmit$)
+
+  flyd.map((error) => {
+    donationSubmitter.reportError(error);
+  }, state.cardForm.error$)
+
+  flyd.map((error) => {
+    donationSubmitter.reportError(error);
+  }, state.sepaForm.error$)
 
   // post utm tracking details after donation is saved
   flyd.map(

@@ -84,7 +84,6 @@
   "dependencies": {
     "attr-binder": "0.3.1",
     "autobind-decorator": "^2.4.0",
-    "bignumber": "^1.1.0",
     "bignumber.js": "^9.0.0",
     "chart.js": "2.1.4",
     "color": "^3.1.0",

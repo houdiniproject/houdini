@@ -21,6 +21,7 @@
     "tsc": "tsc"
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.17.1",
     "@types/color": "^3.0.0",
     "@types/enzyme": "^3.1.9",
     "@types/enzyme-to-json": "^1.5.1",

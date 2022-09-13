@@ -205,7 +205,7 @@ app/javascript/legacy/nonprofits/supporters/new/page.js
 app/javascript/legacy/page.js
 app/javascript/legacy/pages/show/index.js
 app/javascript/legacy/recurring_donations/edit/followup-step.js
-app/javascript/legacy/recurring_donations/edit/get-params.js
+
 app/javascript/legacy/recurring_donations/edit/page.js
 app/javascript/legacy/recurring_donations/index.js
 app/javascript/legacy/settings/index/branding/index.js

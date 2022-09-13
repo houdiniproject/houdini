@@ -8,7 +8,7 @@ const request = require('../../common/request')
 const cardForm = require('../../components/card-form.es6')
 const sepaForm = require('../../components/sepa-form.es6')
 const progressBar = require('../../components/progress-bar')
-const { CommitchangeFeeCoverageCalculator } = require('../../../../javascripts/src/lib/payments/commitchange_fee_coverage_calculator')
+const DonationAmountCalculator = require('./DonationSubmitter/DonationAmountCalculator').default
 const { centsToDollars } = require('../../common/format')
 const cloneDeep = require('lodash/cloneDeep')
 
@@ -28,31 +28,46 @@ function init(state) {
 
   const hideCoverFeesOption$ = flyd.map(params => params.hide_cover_fees_option, params$)
 
-  const feeCalculator$ = flyd.map((coverFees) => {
-    const feeStructure = app.nonprofit.feeStructure
-    if (!feeStructure) {
-      throw new Error("billing Plan isn't found!")
-    }
+  const donationAmountCalculator = new DonationAmountCalculator(app.nonprofit.feeStructure);
 
-    return new CommitchangeFeeCoverageCalculator({
-      ...app.nonprofit.feeStructure,
-      currency: 'usd',
-      feeCovering: coverFees
-    });
-  }, coverFees$)
-
-  const calcFromNetResult$ = flyd.combine((donation$, feeCalculator$) => {
-    return feeCalculator$().calcFromNet(donation$().amount)
-  }, [state.donation$, feeCalculator$]);
   // Give a donation of value x, this returns x + estimated fees (using fee coverage formula) if fee coverage is selected OR
   // x if fee coverage is not selected
-  state.donationTotal$ = flyd.map((calcFromNetResult) => calcFromNetResult.actualTotalAsNumber
-    , calcFromNetResult$);
+  state.donationTotal$ = flyd.stream();
 
   //Given a donation of value x, this gives the amount of fees that would be added if fee coverage were selected, i.e. so 
   // the nonprofit gets a net of x
-  state.potentialFees$ = flyd.map((calcFromNetResult) => calcFromNetResult.estimatedFees.feeAsString
-    , calcFromNetResult$);
+  state.potentialFees$ = flyd.stream();
+
+  function updateFromDonationAmountCalculator() {
+    state.donationTotal$(donationAmountCalculator.calcResult.donationTotal)
+    state.potentialFees$(donationAmountCalculator.calcResult.potentialFees);
+
+  }
+
+  function handleDonationAmountCalcEvent(e) {
+    updateFromDonationAmountCalculator();
+  }
+
+  function onInit() {
+    donationAmountCalculator.inputAmount = state.donation$().amount
+    donationAmountCalculator.coverFees = coverFees$();
+    updateFromDonationAmountCalculator(donationAmountCalculator);
+  }
+
+  state.onInsert = ()  => {
+    donationAmountCalculator.addEventListener('updated', handleDonationAmountCalcEvent)
+  }
+
+  state.onRemove = () => {
+    donationAmountCalculator.removeEventListener('updated', handleDonationAmountCalcEvent)
+  }
+
+  flyd.combine((donation$, coverFees$) => {
+    donationAmountCalculator.inputAmount = donation$().amount
+    donationAmountCalculator.coverFees = coverFees$();
+  }, [state.donation$, coverFees$]);
+
+
 
   state.cardForm = cardForm.init({
     path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$,
@@ -138,6 +153,8 @@ function init(state) {
     R.apply((donationResponse) => postSuccess(donationResp$))
     , state.paid$
   )
+
+  onInit();
 
   return state
 }
@@ -234,7 +251,12 @@ function view(state) {
     amountLabel = amountLabel.replace(I18n.t('nonprofits.donate.amount.monthly'), I18n.t('nonprofits.donate.amount.weekly')) + "*";
     weekly = h('div.u-centered.notice', [h("small", I18n.t('nonprofits.donate.amount.weekly_notice', { amount: (format.weeklyToMonthly(state.donationTotal$()) / 100.0), currency: app.currency_symbol }))]);
   }
-  return h('div.wizard-step.payment-step', [
+  return h('div.wizard-step.payment-step', {
+    hook: {
+      insert: () => state.onInsert(),
+      remove: () => state.onRemove(),
+    },
+  }, [
     h('p.u-fontSize--18 u.marginBottom--0.u-centered.amount', [
       h('span', app.currency_symbol + centsToDollars(state.donationTotal$()))
       , h('strong', amountLabel)

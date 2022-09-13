@@ -1,4 +1,5 @@
 // License: LGPL-3.0-or-later
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const getParams = require('./get-params');
 
 describe('getParams', () => {

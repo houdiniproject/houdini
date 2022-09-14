@@ -8,7 +8,7 @@ flyd.mergeAll = require('flyd/module/mergeall')
 flyd.flatMap = require('flyd/module/flatmap')
 flyd.zip = require('flyd-zip')
 
-const getParams = require('./get-params')
+const getParams = require('./get-params.ts').default
 
 const paymentStep = require('./payment-step')
 const amountStep = require('./amount-step')

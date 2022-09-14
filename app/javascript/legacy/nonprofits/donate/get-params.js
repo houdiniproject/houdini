@@ -1,8 +1,9 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
+const R = require('ramda');
+const split = require('lodash/split');
 
 const splitParam = str =>
-  R.split(/[_;,]/, str)
+  split(str, /[_;,]/)
 
 module.exports = params => {
   const defaultAmts = '10,25,50,100,250,500,1000'

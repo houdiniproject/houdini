@@ -150,7 +150,6 @@ app/javascript/legacy/nonprofits/dashboard/tour.js
 app/javascript/legacy/nonprofits/donate/amount-step.js
 app/javascript/legacy/nonprofits/donate/dedication-form.js
 app/javascript/legacy/nonprofits/donate/followup-step.js
-app/javascript/legacy/nonprofits/donate/get-params.js
 app/javascript/legacy/nonprofits/donate/info-step.js
 app/javascript/legacy/nonprofits/donate/page.js
 app/javascript/legacy/nonprofits/donate/payment-step.js

@@ -1,12 +1,5 @@
-// License: LGPL-3.0-or-later
 module.exports = {
 	collectCoverage: false,
-	globals: {
-		"ts-jest": {
-			babelConfig: false,
-			isolatedModules: true,
-		},
-	},
 	modulePathIgnorePatterns: [
 		"<rootDir>/vendor", // don't go to the gems vendor folder. EVER.
 		"<rootDir>/tmp",
@@ -27,7 +20,6 @@ module.exports = {
 	testEnvironmentOptions: {
 		enzymeAdapter: "react17",
 	},
-	testMatch: ["<rootDir>/app/**/?(*.)+(spec|test).[jt]s?(x)"],
 	testPathIgnorePatterns: [
 		"<rootDir>/node_modules/",
 		"<rootDir>/config/webpack/test.js",
@@ -39,6 +31,7 @@ module.exports = {
 		"<rootDir>/coverage/",
 		"<rootDir>/.vscode/",
 	],
+	testMatch: ["<rootDir>/app/**/?(*.)+(spec|test).[jt]s?(x)"],
 	transform: {
 		"^.+\\.tsx?$": "babel-jest",
 	},

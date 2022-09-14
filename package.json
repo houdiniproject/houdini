@@ -156,55 +156,5 @@
     "virtual-dom": "2.1.1",
     "vvvview": "0.4.3",
     "whatwg-fetch": "^3.6.2"
-  },
-  "jest": {
-    "testEnvironmentOptions": {
-      "enzymeAdapter": "react16"
-    },
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/database/",
-      "/postgres-data/",
-      "/vendor/",
-      "/tmp/"
-    ],
-    "watchPathIgnorePatterns": [
-      "/database/*",
-      "/node_modules/",
-      "/postgres-data/*",
-      "/vendor/",
-      "/tmp/"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/database/",
-      "/postgres-data/",
-      "/vendor/",
-      "/tmp/"
-    ],
-    "globals": {
-      "ts-jest": {
-        "babelConfig": false
-      }
-    },
-    "setupFiles": [
-      "<rootDir>/setupTests.js",
-      "jest-date-mock"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
   }
 }

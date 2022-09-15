@@ -4,6 +4,9 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module Format
   module Currency
+    class << self
+      include ActiveSupport::NumberHelper
+    end
     # Converts currency units into subunits.
     # @param [String] units
     # @return [Integer]
@@ -18,5 +21,12 @@ module Format
       (subunits.to_f / 100.0).to_s
                              .gsub(/^(\d+)\.0$/, '\1') # remove trailing zero if no decimals (eg. "1.0" -> "1")
                              .gsub(/^(\d+)\.(\d)$/, '\1.\20') # add a second zero if single decimal (eg. "9.9" -> "9.90")
+    end
+
+    def self.print_currency(cents, unit = 'EUR', sign = true, use_precision = false)
+      dollars = cents.to_f / 100.0
+      dollars = number_to_currency(dollars, unit: unit.to_s, precision: !use_precision && dollars.round == dollars ? 0 : 2)
+      dollars = dollars[1..-1] unless sign
+      dollars
     end
 end; end

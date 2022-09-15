@@ -1,7 +1,5 @@
 # **Houdini Project**
 
-![Logo Houdini](./app/assets/images/logos/houdini_project_border_64.svg)
-
 [![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 ![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
 [![Crowdin](https://badges.crowdin.net/houdiniproject/localized.svg)](https://crowdin.com/project/houdiniproject)
@@ -23,7 +21,7 @@
 - [Known Issues](#known-issues)
 - [Run in Production](#run-in-production)
 
-## ![Description](./app/assets/images/ui_components/description.svg) **Description**
+## ![Description](./docs/images/description.svg) **Description**
 
 The Houdini Project is a free and open source fundraising infrastructure. It includes...
 
@@ -44,11 +42,11 @@ comfort and speed.
 
 All new backend code and React components should be well tested.
 
-## ![Supported systems](./app/assets/images/ui_components/system_settings.svg) **Supported operating systems**
+## ![Supported systems](./docs/images/system_settings.svg) **Supported operating systems**
 
 * Ubuntu 18.04, 20.04 or equivalent
 
-## ![Pre-requisites](./app/assets/images/ui_components/requirements_icon.svg) **Pre-requisites**
+## ![Pre-requisites](./docs/images/requirements_icon.svg) **Pre-requisites**
 
 * Node 14
 * Yarn
@@ -61,7 +59,7 @@ All new backend code and React components should be well tested.
 > - Higher versions of node may not work with Houdini Project.<br>
 > - Higher versions of ruby may not work with Houdini Project.
 
-## ![Get Involved](./app/assets/images/ui_components/get_involved.svg) **Get involved**
+## ![Get Involved](./docs/images/get_involved.svg) **Get involved**
 
 Houdini's success depends on you!
 
@@ -77,7 +75,7 @@ Check our [translation guide](docs/translations.md) to translate Houdini to othe
 
 Check on [contribution_guide_usability_testing.md](docs/contribution_guide_usability_testing.md) and create an issue with your test design or run test sessions for [opened usability testing issues](https://github.com/houdiniproject/houdini/issues?q=is%3Aissue+is%3Aopen+%5BUX%5D+).
 
-## ![Dev Setup](./app/assets/images/ui_components/dev_setup.svg) **Dev Setup**
+## ![Dev Setup](./docs/images/dev_setup.svg) **Dev Setup**
 
 ### **Installation prep**
 
@@ -340,15 +338,15 @@ We use `Rubocop` to perform static code analysis:
 rubocop
 ```
 
-## ![Additional Documentation](./app/assets/images/ui_components/addicional_documentation.svg) **Additional documentation**
+## ![Additional Documentation](./docs/images/additional_documentation.svg) **Additional documentation**
 
 We have some additional documentation describing some implementations, definitions and other guides on the [docs folder](docs).
 
-## ![Known Issues](./app/assets/images/ui_components/known_issues.svg) **Known issues**
+## ![Known Issues](./docs/images/known_issues.svg) **Known issues**
 
 For a list of [how to solve known issues](docs/known_issues.md)
 
-## ![Run in Production](./app/assets/images/ui_components/run_production.svg) **Run in production**
+## ![Run in Production](./docs/images/run_production.svg) **Run in production**
 
 You will likely want to make a few changes in your configuration of Houdini before running in production as you
 would for any Rails project. For details, see [production deployment](docs/production_deployment.md).

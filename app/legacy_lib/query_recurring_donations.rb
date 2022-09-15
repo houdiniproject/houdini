@@ -5,11 +5,6 @@
 
 module QueryRecurringDonations
   # Calculate a nonprofit's total recurring donations
-  class << self
-    include ApplicationHelper
-    include ActionView::Helpers::NumberHelper
-  end 
-
   def self.calculate_monthly_donation_total(np_id)
     Qx.select('coalesce(sum(amount), 0) AS sum')
       .from('recurring_donations')
@@ -311,7 +306,7 @@ module QueryRecurringDonations
 
   def self.update_amount_with_currency(query_row, currency)
     if query_row[1] != 'Amount'
-      query_row[1] = print_currency(query_row[1], currency, true, true)
+      query_row[1] = Format::Currency.print_currency(query_row[1], currency, true, true)
     end
     query_row
   end

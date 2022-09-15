@@ -5,10 +5,6 @@
 
 module QueryDonations
   # Export all donation data for a given campaign
-  class << self
-    include ApplicationHelper
-    include ActionView::Helpers::NumberHelper
-  end
 
   def self.campaign_export(campaign_id)
     nonprofit_id = Campaign.find(campaign_id).nonprofit_id
@@ -108,7 +104,7 @@ module QueryDonations
 
   def self.update_amount_with_currency(query_row, currency)
     if query_row[1].to_s.downcase != 'amount'
-      query_row[1] = print_currency(query_row[1], currency, true, true)
+      query_row[1] = Format::Currency.print_currency(query_row[1], currency, true, true)
     end
     query_row
   end

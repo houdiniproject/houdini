@@ -1764,7 +1764,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** loofah; version 2.18.0 -- 
+** loofah; version 2.19.0 -- 
 Copyright (c) 2006-2008 The Authors
 Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
 
@@ -2068,13 +2068,7 @@ THE SOFTWARE.
 
 ------
 
-** good_job; version 3.4.4 -- 
-(c) 2020 Jukka Kurkela
-Copyright 2020 Ben Sheldon
-(c) 2021 Chart.js Contributors
-Copyright 2011-2021 Twitter, Inc.
-Copyright 2011-2021 The Bootstrap Authors
-Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+** good_job; version 3.4.5 -- 
 
 Copyright 2020 Ben Sheldon
 
@@ -3282,7 +3276,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ** et-orbi; version 1.2.7 -- 
 Copyright (c) 2017-2022, John Mettraux, jmettraux+flor@gmail.com
-** fugit; version 1.5.3 -- 
+** fugit; version 1.7.0 -- 
 Copyright (c) 2017-2022, John Mettraux, jmettraux+flor@gmail.com
 
 

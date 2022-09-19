@@ -2491,7 +2491,8 @@ Copyright (c) 2015 Mikko Kokkonen
 Copyright (c) 2012-22 Bozhidar Batsov
 Copyright (c) 2012-2022 Bozhidar Batsov
 AutocorrectNotice Copyright (c) 2015 Yahoo! Inc.
-** rubocop-rails; version 2.16.0 -- 
+** rubocop-rails; version 2.16.1 -- 
+Copyright (c) 2012-22 Bozhidar Batsov
 
 Copyright (c) 2012-22 Bozhidar Batsov
 
@@ -4137,7 +4138,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** unicode-display_width; version 2.2.0 -- 
+** unicode-display_width; version 2.3.0 -- 
 Copyright (c) 2011, 2015-2022 Jan Lelis
 Copyright (c) 2011, 2015-2022 Jan Lelis, https://janlelis.com
 Copyright (c) 2009 Run Paint Run Run - Unicode data https://www.unicode.org/copyright.html

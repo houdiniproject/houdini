@@ -123,7 +123,7 @@ describe InsertPayout do
         end
 
         let!(:expected_payments) { available_payments_yesterday}
-        let(:expected_totals) {{gross_amount: 57700, fee_total: -4500, net_amount: 53200, count: 15}}
+        let(:expected_totals) {eb_yesterday.stats.except(:pending_amount)}
         
         it 'works without a date provided' do
           stripe_transfer_id = nil
@@ -234,7 +234,7 @@ describe InsertPayout do
         end
 
         let!(:expected_payments) { available_payments_two_days_ago}
-        let(:expected_totals) {{gross_amount: 57700, fee_total: -4500, net_amount: 53200, count: 15}}
+        let(:expected_totals) {eb_two_days_ago.stats.except(:pending_total)}
 
         it 'works with date provided' do
           stripe_transfer_id = nil

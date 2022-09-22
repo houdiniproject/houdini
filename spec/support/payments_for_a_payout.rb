@@ -34,13 +34,26 @@ shared_context 'payments for a payout' do
   class EntityBuilder
     include FactoryBot::Syntax::Methods
     include FactoryBotExtensions
-    attr_accessor :entities
     def initialize(time, nonprofit, other_nonprofit=nil)
       @time = time
 
       @nonprofit = nonprofit
       @other_nonprofit = other_nonprofit
-      @entities = build_entities
+      @inner_entities = build_entities
+    end
+
+    def stats
+      {
+        gross_amount: @inner_entities.map{|k,v| v.gross_amount}.sum,
+        fee_total: @inner_entities.map{|k,v| v.fee_total}.sum,
+        net_amount: @inner_entities.map{|k,v| v.net_amount}.sum,
+        pending_amount: @inner_entities.map{|k,v| v.pending_amount}.sum,
+        count: @inner_entities.map{|k,v| v.count}.sum
+      }
+    end
+
+    def entities
+      @inner_entities.map{|k,v| [k, v.entity]}.to_h
     end
 
     def payments
@@ -102,44 +115,87 @@ shared_context 'payments for a payout' do
       end
       output
     end
-
-    private
     
     #net 100
     def charge_available
-      charge_create(gross_amount:100, status: 'available')
+      OpenStruct.new(
+        gross_amount: 100,
+        fee_total: 0,
+        net_amount: 100,
+        pending_amount: 0, 
+        count: 1,
+        entity: charge_create(gross_amount:100, status: 'available'))
+      
     end
 
     # net 0
     def charge_paid
-      charge_create(gross_amount:200, status: 'paid')
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: 0,
+        net_amount: 0,
+        pending_amount: 0,
+        count: 0,
+        entity:charge_create(gross_amount:200, status: 'paid')
+      )
     end
 
     # 400 pending
     def charge_pending 
-      charge_create(gross_amount:400, status: 'pending')
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: 0,
+        net_amount: 0,
+        pending_amount: 400, 
+        count: 1,
+        entity:charge_create(gross_amount:400, status: 'pending'))
     end
 
     # net 0
     def refund_disbursed
-      refund_create({gross_amount:800, original_charge_args: {status: 'paid'}, disbursed: true})
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: 0,
+        net_amount: 0,
+        pending_amount: 0,
+        count: 0,
+        entity: refund_create({gross_amount:800, original_charge_args: {status: 'paid'}, disbursed: true}))
     end
 
     # net 0
     def refund
-      refund_create({gross_amount:1600, original_charge_args:{status: 'available'}})
+      OpenStruct.new(
+        gross_amount: 0, 
+        fee_total: 0, 
+        net_amount: 0, 
+        pending_amount: 0,
+        count: 2,
+        entity:refund_create({gross_amount:1600, original_charge_args:{status: 'available'}}))
     end
 
     # net 0
     def legacy_dispute_paid
       d= dispute_create(gross_amount:3200, status: :lost, original_charge_args: {status: 'paid'})
       d.dispute_transactions.create(**dispute_transaction_args_create(-3200, 0), disbursed: true)
-      d
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: 0,
+        net_amount: 0,
+        pending_amount: 0, 
+        count: 0,
+        entity: d)
     end
 
     # net 6400
     def legacy_dispute_won
       d = dispute_create(gross_amount:6400, status: :won)
+      OpenStruct.new(
+        gross_amount: 6400, 
+        fee_total: 0, 
+        net_amount: 6400, 
+        pending_amount: 0,
+        count: 1,
+        entity: d)
     end
 
     # net 0
@@ -147,6 +203,13 @@ shared_context 'payments for a payout' do
       d = dispute_create(gross_amount:25600, status: :lost)
       d.dispute_transactions.create(**dispute_transaction_args_create(-25600, 0))
       d
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: 0,
+        net_amount: 0,
+        pending_amount: 0,
+        count: 1,
+        entity: d)
     end
     
     # net -1500
@@ -154,6 +217,13 @@ shared_context 'payments for a payout' do
       d = dispute_create(gross_amount:12800, status: :lost)
       d.dispute_transactions.create(**dispute_transaction_args_create(-12800, -1500))
       d
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: -1500,
+        net_amount: -1500,
+        pending_amount: 0,
+        count: 2,
+        entity: d)
     end
 
     # net 51200
@@ -162,6 +232,13 @@ shared_context 'payments for a payout' do
       d.dispute_transactions.create(**dispute_transaction_args_create(-51200, -1500))
       d.dispute_transactions.create(**dispute_transaction_args_create(51200, 1500))
       d
+      OpenStruct.new(
+        gross_amount: 51200, 
+        fee_total: 0,
+        net_amount: 51200,
+        pending_amount: 0,
+        count: 3,
+        entity: d)
     end
 
     # net 0
@@ -169,6 +246,12 @@ shared_context 'payments for a payout' do
       d = dispute_create(gross_amount:102800, status: :lost, original_charge_args: {status: :paid})
       d.dispute_transactions.create(disbursed: true, **dispute_transaction_args_create(-102800, -1500))
       d
+      OpenStruct.new(gross_amount: 0, 
+      fee_total: 0, 
+      net_amount: 0,
+      pending_amount: 0,
+      count: 0,
+      entity: d)
     end
 
     # net -1500
@@ -176,6 +259,13 @@ shared_context 'payments for a payout' do
       d = dispute_create(gross_amount:205600, status: :under_review)
       d.dispute_transactions.create(**dispute_transaction_args_create(-205600, -1500))
       d
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: -1500,
+        net_amount: -1500,
+        pending_amount: 0, 
+        count:2, 
+        entity: d)
     end
 
     # net -1500
@@ -183,6 +273,13 @@ shared_context 'payments for a payout' do
       d = dispute_create(gross_amount:512000, status: :needs_response)
       d.dispute_transactions.create(**dispute_transaction_args_create(-512000, -1500))
       d
+      OpenStruct.new(
+        gross_amount: 0,
+        fee_total: -1500,
+        net_amount: -1500,
+        pending_amount: 0,
+        count: 2,
+        entity: d)
     end
   
 

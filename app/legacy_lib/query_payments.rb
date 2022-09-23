@@ -46,21 +46,15 @@ module QueryPayments
       .execute.first
   end
 
+  
+
 
   def self.nonprofit_balances(npo_id)
-    Psql.execute(
-      Qexpr.new.select(
-        'SUM(coalesce(available.amount, 0)) - SUM(coalesce(refunds.amount, 0)) + SUM(coalesce(dispute_transactions.net_amount, 0)) AS available_gross',
-        'SUM(coalesce(pending.amount, 0)) AS pending_gross')
-        .from(:payments)
-        .left_outer_join('refunds', "refunds.payment_id=payments.id AND (refunds.disbursed='f' OR refunds.disbursed IS NULL)")
-        .left_outer_join('charges', 'charges.payment_id = payments.id')
-        .left_outer_join("charges available", "available.status='available' AND available.payment_id=payments.id")
-        .left_outer_join("charges pending", "pending.status='pending' AND pending.payment_id=payments.id")
-        .left_outer_join("dispute_transactions", "dispute_transactions.payment_id = payments.id AND (dispute_transactions.disbursed='f' OR dispute_transactions.disbursed IS NULL)")
-        .left_outer_join("disputes", "disputes.id=dispute_transactions.dispute_id")
-        .where("payments.nonprofit_id=$id", id: npo_id)
-    ).first
+    payments_id = QueryPayments.ids_for_payout(npo_id)
+    {
+      'available_gross' => QueryPayments.get_payout_totals(payments_id)['gross_amount'],
+      'pending_gross' => Nonprofit.find(npo_id).charges.pending.sum('amount')
+    }
   end
 
 

@@ -749,110 +749,6 @@ describe QueryPayments do
     include_context 'payments for a payout' do
       let(:nonprofit) {create(:nonprofit)}
     end
-    # let(:charge_available) {  create(:charge, nonprofit: nonprofit, amount: 100, status: 'available', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 100, fee_total: 0, net_amount: 100))}
-    # let(:charge_paid) {  create(:charge, nonprofit: nonprofit, amount: 200, status: 'paid', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 200, fee_total: 0, net_amount:200))}
-    # let(:charge_pending) { create(:charge, nonprofit: nonprofit, amount: 400, status: 'pending', payment: force_create(:payment, nonprofit: nonprofit, gross_amount: 400, fee_total: 0, net_amount: 400))}
-    # let(:refund_disbursed) { create(:refund, amount: 800, disbursed: true, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -800, fee_total: 0, net_amount:-800))}
-    # let(:refund) { create(:refund, amount: 1600, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -1600, fee_total: 0, net_amount: -1600))}
-    # let(:legacy_dispute_paid) do 
-    #   dispute = crepaymentspute_lost) do 
-    #    dispute = create(:dispute, gross_amount: -25600, status: :lost)
-    #    dispute.dispute_transactions.create(gross_amount: -25600, payment: force_create(:payment, nonprofit: nonprofit, gross_amount: -25600,  fee_total: 0, net_amount: -25600))
-    #    dispute
-    # end
-
-    # let(:dispute_lost) do 
-    #   d = create(:dispute, 
-    #     gross_amount: 12800,
-    #     net_amount: -14300,
-    #     status: :lost
-    #   )
-
-    #   d.dispute_transactions.create(gross_amount: -12800, fee_total: -1500, payment: 
-    #     force_create(:payment, 
-    #       nonprofit: nonprofit,  
-    #       gross_amount: -12800,
-    #       fee_total: -1500,
-    #       net_amount: -14300)
-    #     )
-    #   d
-    # end
-    # let(:dispute_won) do 
-    #   d = create(:dispute, 
-    #     gross_amount: -51200,
-    #     net_amount: 0,
-    #     status: :won
-    #   )
-      
-    #   d.dispute_transactions.create(gross_amount: -51200,
-    #     fee_total: -1500,   
-    #     payment: create(:payment, 
-    #     nonprofit: nonprofit, 
-    #     gross_amount: -51200,
-    #     fee_total: -1500,
-    #     net_amount: -52700))
-    #   d.dispute_transactions.create(gross_amount: 51200,
-    #     fee_total: 1500,   
-    #     payment: create(:payment, 
-    #     nonprofit: nonprofit, 
-    #     gross_amount: 51200,
-    #     fee_total: 1500,
-    #     net_amount: 52700))
-    #   d
-    # end
-
-    # let(:dispute_paid) do 
-    #   d = create(:dispute,
-    #     gross_amount: 102800,
-    #     status: :lost,
-    #     payment: create(:payment, 
-    #       nonprofit: nonprofit, 
-    #       gross_amount: -102800,
-    #       fee_total: -1500,
-    #       net_amount: -104300)
-    #   )
-
-    #   d.dispute_transactions.create(gross_amount: -102800,
-    #     fee_total: -1500,
-    #     payment: create(:payment, 
-    #       nonprofit: nonprofit, 
-    #       gross_amount: -102800,
-    #       fee_total: -1500,
-    #       net_amount: -104300),
-    #     disbursed:true
-    #   )
-
-    #   d
-    # end
-
-    # let(:dispute_under_review) do 
-    #   d = create(:dispute,
-    #     gross_amount: 205600,
-    #     net_amount: -207100,
-    #     status: :under_review)
-       
-    #   d.dispute_transactions.create( gross_amount: -205600, fee_total: -1500, payment: create(:payment, 
-    #     nonprofit: nonprofit, 
-    #     gross_amount: -205600,
-    #     fee_total: -1500,
-    #     net_amount: -207100))
-    #   d
-    # end
-
-    # let(:dispute_needs_response) do 
-    #   d = create(:dispute,
-    #     gross_amount: 512000,
-    #     net_amount: -513500,
-    #     status: :needs_response
-       
-    #   )
-    #   d.dispute_transactions.create( gross_amount: -512000, fee_total: -1500, payment: create(:payment, 
-    #     nonprofit: nonprofit, 
-    #     gross_amount: -512000,
-    #     fee_total: -1500,
-    #     net_amount: -513500))
-    #   d
-    # end
 
 
     let(:nonprofit_balances) { QueryPayments.nonprofit_balances(nonprofit.id)}
@@ -862,12 +758,13 @@ describe QueryPayments do
     end
 
     describe ".nonprofit_balances" do 
-      it 'has a pending balance of 400' do
-        expect(nonprofit_balances['pending_gross']).to eq 400
+      
+      it 'has a correct pending balance' do
+        expect(nonprofit_balances['pending_gross']).to eq eb_today.stats[:pending_amount]
       end
 
-      it 'has an available balance of 53200' do
-        expect(nonprofit_balances['available_gross']).to eq 53200
+      it 'has a correct available balance' do
+        expect(nonprofit_balances['available_gross']).to eq eb_today.stats[:gross_amount]
       end
     end
     

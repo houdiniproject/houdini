@@ -23,6 +23,12 @@ module Format
                              .gsub(/^(\d+)\.(\d)$/, '\1.\20') # add a second zero if single decimal (eg. "9.9" -> "9.90")
     end
 
+    # Print money based on informed currency
+    # @param [Integer] cents the amount of money to be printed
+    # @param [String] unit the currency that will be used to print
+    # @param [Boolean] sign whether it should show the sign of the amount
+    # @param [Boolean] use_precision whether it should have two decimal cases
+    # @return [String] the text with the amount of money in the informed currency (Ex.: $10.00)
     def self.print_currency(cents, unit = 'EUR', sign = true, use_precision = false)
       dollars = cents.to_f / 100.0
       dollars = number_to_currency(dollars, unit: unit.to_s, precision: !use_precision && dollars.round == dollars ? 0 : 2)

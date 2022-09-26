@@ -758,13 +758,13 @@ describe QueryPayments do
     end
 
     describe ".nonprofit_balances" do 
-      
+
       it 'has a correct pending balance' do
-        expect(nonprofit_balances['pending_gross']).to eq eb_today.stats[:pending_amount]
+        expect(nonprofit_balances['pending']).to eq('net' => eb_today.stats[:pending_net], 'gross' => eb_today.stats[:pending_gross])
       end
 
       it 'has a correct available balance' do
-        expect(nonprofit_balances['available_gross']).to eq eb_today.stats[:gross_amount]
+        expect(nonprofit_balances['available']).to eq('net' => eb_today.stats[:net_amount], 'gross' => eb_today.stats[:gross_amount])
       end
     end
     

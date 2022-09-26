@@ -19,10 +19,10 @@
 <section class='table-meta'>
 	<div class='container--wide'>
 		<span class='table-meta-metric'>
-			Pending balance: <%= print_currency @pending_total, @nonprofit.currency_symbol %>
+			Net pending balance: <%= print_currency @pending_net, @nonprofit.currency_symbol %>
 		</span>
 		<span class='table-meta-metric'>
-			Available balance: <%= print_currency @available_total, @nonprofit.currency_symbol %>
+			Net available balance: <%= print_currency @available_net, @nonprofit.currency_symbol %>
 		</span>
 		<% if @can_make_payouts %>
 			<span class='table-meta-metric--blue'>

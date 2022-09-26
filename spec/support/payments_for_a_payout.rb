@@ -47,7 +47,8 @@ shared_context 'payments for a payout' do
         gross_amount: @inner_entities.map{|k,v| v.gross_amount}.sum,
         fee_total: @inner_entities.map{|k,v| v.fee_total}.sum,
         net_amount: @inner_entities.map{|k,v| v.net_amount}.sum,
-        pending_amount: @inner_entities.map{|k,v| v.pending_amount}.sum,
+        pending_gross: @inner_entities.map{|k,v| v.pending_gross}.sum,
+        pending_net: @inner_entities.map{|k,v| v.pending_net}.sum,
         count: @inner_entities.map{|k,v| v.count}.sum
       }
     end
@@ -122,7 +123,8 @@ shared_context 'payments for a payout' do
         gross_amount: 100,
         fee_total: 0,
         net_amount: 100,
-        pending_amount: 0, 
+        pending_net: 0,
+pending_gross: 0,
         count: 1,
         entity: charge_create(gross_amount:100, status: 'available'))
       
@@ -134,21 +136,23 @@ shared_context 'payments for a payout' do
         gross_amount: 0,
         fee_total: 0,
         net_amount: 0,
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 0,
         entity:charge_create(gross_amount:200, status: 'paid')
       )
     end
 
-    # 400 pending
+    # 450 pending
     def charge_pending 
       OpenStruct.new(
         gross_amount: 0,
         fee_total: 0,
         net_amount: 0,
-        pending_amount: 400, 
+        pending_net: 350,
+        pending_gross: 400,
         count: 1,
-        entity:charge_create(gross_amount:400, status: 'pending'))
+        entity:charge_create(gross_amount:400, fee_total: -50, status: 'pending'))
     end
 
     # net 0
@@ -157,7 +161,8 @@ shared_context 'payments for a payout' do
         gross_amount: 0,
         fee_total: 0,
         net_amount: 0,
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 0,
         entity: refund_create({gross_amount:800, original_charge_args: {status: 'paid'}, disbursed: true}))
     end
@@ -168,7 +173,8 @@ shared_context 'payments for a payout' do
         gross_amount: 0, 
         fee_total: 0, 
         net_amount: 0, 
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 2,
         entity:refund_create({gross_amount:1600, original_charge_args:{status: 'available'}}))
     end
@@ -181,7 +187,8 @@ shared_context 'payments for a payout' do
         gross_amount: 0,
         fee_total: 0,
         net_amount: 0,
-        pending_amount: 0, 
+        pending_net: 0,
+        pending_gross: 0,
         count: 0,
         entity: d)
     end
@@ -193,7 +200,8 @@ shared_context 'payments for a payout' do
         gross_amount: 6400, 
         fee_total: 0, 
         net_amount: 6400, 
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 1,
         entity: d)
     end
@@ -207,7 +215,8 @@ shared_context 'payments for a payout' do
         gross_amount: 0,
         fee_total: 0,
         net_amount: 0,
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 1,
         entity: d)
     end
@@ -221,7 +230,8 @@ shared_context 'payments for a payout' do
         gross_amount: 0,
         fee_total: -1500,
         net_amount: -1500,
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 2,
         entity: d)
     end
@@ -236,7 +246,8 @@ shared_context 'payments for a payout' do
         gross_amount: 51200, 
         fee_total: 0,
         net_amount: 51200,
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 3,
         entity: d)
     end
@@ -249,7 +260,8 @@ shared_context 'payments for a payout' do
       OpenStruct.new(gross_amount: 0, 
       fee_total: 0, 
       net_amount: 0,
-      pending_amount: 0,
+      pending_net: 0,
+pending_gross: 0,
       count: 0,
       entity: d)
     end
@@ -263,7 +275,8 @@ shared_context 'payments for a payout' do
         gross_amount: 0,
         fee_total: -1500,
         net_amount: -1500,
-        pending_amount: 0, 
+        pending_net: 0,
+pending_gross: 0,
         count:2, 
         entity: d)
     end
@@ -277,7 +290,8 @@ shared_context 'payments for a payout' do
         gross_amount: 0,
         fee_total: -1500,
         net_amount: -1500,
-        pending_amount: 0,
+        pending_net: 0,
+pending_gross: 0,
         count: 2,
         entity: d)
     end

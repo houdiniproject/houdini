@@ -50,10 +50,11 @@ module QueryPayments
 
 
   def self.nonprofit_balances(npo_id)
-    payments_id = QueryPayments.ids_for_payout(npo_id)
+    payout_totals = QueryPayments.get_payout_totals(QueryPayments.ids_for_payout(npo_id))
+    pending_net, pending_gross = Nonprofit.find(npo_id).payments.joins(:charge).where('charges.status = ?', 'pending').pluck('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross').first
     {
-      'available_gross' => QueryPayments.get_payout_totals(payments_id)['gross_amount'],
-      'pending_gross' => Nonprofit.find(npo_id).charges.pending.sum('amount')
+      'available' => {'net' => payout_totals['net_amount'], 'gross' => payout_totals['gross_amount']},
+      'pending' => {'net' => pending_net, 'gross' => pending_gross}
     }
   end
 

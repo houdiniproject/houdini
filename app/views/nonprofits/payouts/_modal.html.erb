@@ -5,7 +5,7 @@
 
 	<div class='modal-body'>
 
-		<p>Use this form to make a payout right now of your available balance (<strong><%= print_currency @available_total, @nonprofit.currency_symbol %></strong>).</p>
+		<p>Use this form to make a payout right now of your available balance (<strong><%= print_currency @available_net, @nonprofit.currency_symbol %></strong>).</p>
 
 		<p>You will receive a receipt of all donations after this payout.</p>
 		<p>Payouts usually take 1-3 days to complete.</p>
@@ -20,7 +20,7 @@
 
 			<tbody>
 				<tr>
-					<td><%= print_currency @available_total, @nonprofit.currency_symbol %></td>
+					<td><%= print_currency @available_gross, @nonprofit.currency_symbol %></td>
 
 					<td>
 						<% if @nonprofit.bank_account %>

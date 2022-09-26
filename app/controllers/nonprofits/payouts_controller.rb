@@ -27,8 +27,9 @@ class PayoutsController < ApplicationController
 		@nonprofit = Nonprofit.find(params[:nonprofit_id])
 		@payouts = @nonprofit.payouts.order('created_at DESC')
     balances = QueryPayments.nonprofit_balances(params[:nonprofit_id])
-		@available_total = balances['available_gross']
-    @pending_total = balances['pending_gross']
+		@available_gross = balances['available']['gross']
+    @available_net = balances['available']['net']
+    @pending_net = balances['pending']['net']
     @can_make_payouts = @nonprofit.can_make_payouts?
     @verification_status = @nonprofit&.stripe_account&.verification_status || :unverified
 

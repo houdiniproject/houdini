@@ -22,14 +22,12 @@ module QueryPayments
         .left_join(:charges, 'charges.payment_id=payments.id')
         .add_left_join(:refunds, 'refunds.payment_id=payments.id')
         .add_left_join(:dispute_transactions, 'dispute_transactions.payment_id=payments.id')
-        .add_left_join(:manual_balance_adjustments, "manual_balance_adjustments.payment_id=payments.id")
         .where('payments.nonprofit_id=$id', id: npo_id)
-        .and_where("refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR dispute_transactions.payment_id IS NOT NULL OR manual_balance_adjustments.payment_id IS NOT NULL")
+        .and_where("refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR dispute_transactions.payment_id IS NOT NULL")
         .and_where(%Q(
         ((refunds.payment_id IS NOT NULL AND refunds.disbursed IS NULL) OR refunds.disbursed='f')
         OR (charges.status='available')
-        OR (dispute_transactions.disbursed='f'
-        OR (NOT manual_balance_adjustments.disbursed))
+        OR (dispute_transactions.disbursed='f')
        ))
         .and_where("payments.date <= $date", date: options[:date] || end_of_day)
         .execute.map{|h| h['id']}

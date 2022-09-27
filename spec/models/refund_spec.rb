@@ -6,4 +6,7 @@ RSpec.describe Refund, type: :model do
   it { is_expected.to belong_to(:payment) }
   it { is_expected.to have_one(:subtransaction_payment).through(:payment)}
   it { is_expected.to have_one(:misc_refund_info) }
+
+  it { is_expected.to have_one(:nonprofit).through(:charge) }
+  it { is_expected.to have_one(:supporter).through(:charge) }
 end

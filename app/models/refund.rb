@@ -20,6 +20,8 @@ class Refund < ActiveRecord::Base
 	belongs_to :payment
 	has_one :subtransaction_payment, through: :payment
 	has_one :misc_refund_info
+	has_one :nonprofit, through: :charge
+	has_one :supporter, through: :charge
 
 	scope :not_disbursed, ->{where(disbursed: [nil, false])}
 	scope :disbursed, ->{where(disbursed: [true])}

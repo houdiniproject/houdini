@@ -4,6 +4,9 @@ class DisputeTransaction < ActiveRecord::Base
   attr_accessible :gross_amount, :disbursed, :payment, :fee_total,
   :stripe_transaction_id, :date
 
+  has_one :nonprofit, through: :dispute
+  has_one :supporter, through: :dispute
+
   def gross_amount=(gross_amount)
     write_attribute(:gross_amount, gross_amount)
     calculate_net

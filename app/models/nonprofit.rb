@@ -57,7 +57,16 @@ class Nonprofit < ActiveRecord::Base
   has_many :refunds, through: :charges
   has_many :donations
   has_many :recurring_donations
-  has_many :payments
+  has_many :payments do
+    def pending
+      joins(:charges).where('charges.status = ?', 'pending')
+    end
+
+    def pending_totals
+      net, gross = pending.pluck('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross').first
+      {'net' => net, 'gross' => gross}
+    end
+  end
   has_many :transactions, through: :supporters
   has_many :supporters, dependent: :destroy
   has_many :supporter_notes, through: :supporters

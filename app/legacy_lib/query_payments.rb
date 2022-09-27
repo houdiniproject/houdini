@@ -22,12 +22,14 @@ module QueryPayments
         .left_join(:charges, 'charges.payment_id=payments.id')
         .add_left_join(:refunds, 'refunds.payment_id=payments.id')
         .add_left_join(:dispute_transactions, 'dispute_transactions.payment_id=payments.id')
+        .add_left_join(:manual_balance_adjustments, "manual_balance_adjustments.payment_id=payments.id")
         .where('payments.nonprofit_id=$id', id: npo_id)
-        .and_where("refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR dispute_transactions.payment_id IS NOT NULL")
+        .and_where("refunds.payment_id IS NOT NULL OR charges.payment_id IS NOT NULL OR dispute_transactions.payment_id IS NOT NULL OR manual_balance_adjustments.payment_id IS NOT NULL")
         .and_where(%Q(
         ((refunds.payment_id IS NOT NULL AND refunds.disbursed IS NULL) OR refunds.disbursed='f')
         OR (charges.status='available')
-        OR (dispute_transactions.disbursed='f')
+        OR (dispute_transactions.disbursed='f'
+        OR (NOT manual_balance_adjustments.disbursed))
        ))
         .and_where("payments.date <= $date", date: options[:date] || end_of_day)
         .execute.map{|h| h['id']}
@@ -51,11 +53,12 @@ module QueryPayments
 
   def self.nonprofit_balances(npo_id)
     payout_totals = QueryPayments.get_payout_totals(QueryPayments.ids_for_payout(npo_id))
-    pending_net, pending_gross = Nonprofit.find(npo_id).payments.joins(:charge).where('charges.status = ?', 'pending').pluck('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross').first
+    
+    pending = Nonprofit.find(npo_id).payments.pending_totals
     {
-      'available' => {'net' => payout_totals['net_amount'], 'gross' => payout_totals['gross_amount']},
-      'pending' => {'net' => pending_net, 'gross' => pending_gross}
-    }
+      'available' => {'net' => payout_totals['net_amount'] || 0, 'gross' => payout_totals['gross_amount'] || 0},
+      'pending' => {'net' => pending['net'] || 0, 'gross' => pending['gross'] || 0}
+      }
   end
 
 

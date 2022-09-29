@@ -27,6 +27,10 @@ appl.def("is_not_dispute_transaction", function (kind) {
 	return kind !== 'Dispute' && kind !== 'DisputeReversed'
 })
 
+appl.def('is_manual_adjustment', function(kind) {
+	return kind === 'ManualAdjustment'
+})
+
 appl.def("hide_refund_donation_button", function(kind, refund_total, gross_amount) {
 	return kind === undefined || refund_total >= gross_amount ||
 	kind === 'OffsitePayment' || 

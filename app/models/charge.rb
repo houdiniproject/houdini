@@ -31,6 +31,8 @@ class Charge < ActiveRecord::Base
 	scope :pending, ->{where(status: "pending")}
 	scope :disbursed, ->{where(status: "disbursed")}
 
+	has_many  :manual_balance_adjustments, as: :entity
+
 	def paid?
 		self.status.in?(%w[available pending disbursed])
 	end

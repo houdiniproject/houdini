@@ -9,6 +9,33 @@ RSpec.describe Payment, :type => :model do
   it {
     is_expected.to have_one(:trx).class_name('Transaction').through(:subtransaction_payment)
   }
+
+  it {is_expected.to have_one( :manual_balance_adjustment)}
+
+
+  describe '#staff_comment' do
+    it 'is nil if manual_balance_adjustment is unset' do 
+      payment = build(:payment)
+      expect(payment.staff_comment).to be_nil
+    end
+
+    it 'is nil if manual_balance_adjustment.staff_comment is nil' do
+      payment = build(:payment, manual_balance_adjustment: build( :manual_balance_adjustment))
+      expect(payment.staff_comment).to be_nil
+    end
+
+    it 'is nil if manual_balance_adjustment.staff_comment is blank' do
+      payment = build(:payment, manual_balance_adjustment: build( :manual_balance_adjustment, staff_comment: '  '))
+      expect(payment.staff_comment).to be_nil
+    end
+
+    it 'proxies manual_balance_adjustment.staff_comment when filled' do
+
+      staff_comment = "refund of fees"
+      payment = build(:payment, manual_balance_adjustment: build( :manual_balance_adjustment, staff_comment: staff_comment))
+      expect(payment.staff_comment).to eq staff_comment
+    end
+  end
   
   describe '.activities' do
     describe 'Dispute' do

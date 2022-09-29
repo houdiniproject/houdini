@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220822211046) do
+ActiveRecord::Schema.define(version: 20220920204538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -579,6 +579,20 @@ ActiveRecord::Schema.define(version: 20220822211046) do
     t.integer "e_tap_import_journal_entry_id"
     t.integer "item_id"
     t.string  "item_type"
+  end
+
+  create_table "manual_balance_adjustments", force: :cascade do |t|
+    t.integer  "gross_amount",  default: 0
+    t.integer  "fee_total",     default: 0
+    t.integer  "net_amount",    default: 0
+    t.integer  "payment_id"
+    t.integer  "entity_id"
+    t.string   "entity_type"
+    t.text     "staff_comment"
+    t.boolean  "disbursed",     default: false
+    t.jsonb    "metadata"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "misc_campaign_infos", force: :cascade do |t|

@@ -55,6 +55,8 @@ module InsertPayout
       UpdateRefunds.disburse_all_with_payments(payment_ids)
       # Mark all disputes as lost_and_paid
       UpdateDisputes.disburse_all_with_payments(payment_ids)
+      # mark all balances adjustments as disbursed
+      UpdateManualBalanceAdjustments.disburse_all_with_payments(payment_ids)
       # Get gross total, total fees, net total, and total count
       # Create the payout record (whether it succeeded on Stripe or not)
       payout = Psql.execute(

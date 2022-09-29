@@ -36,6 +36,7 @@ class Payment < ActiveRecord::Base
 	has_one :misc_payment_info
 	has_one :journal_entries_to_item, as: :item
 	has_one :payment_dupe_status
+	has_one  :manual_balance_adjustment
 
 	has_one :subtransaction_payment, foreign_key: 'legacy_payment_id', inverse_of: :legacy_payment
 
@@ -52,6 +53,12 @@ class Payment < ActiveRecord::Base
 			proxy_association.build(attributes, options, &block)
 		end
 	end
+
+
+	def staff_comment
+		(manual_balance_adjustment&.staff_comment&.present? && manual_balance_adjustment&.staff_comment) || nil
+	end
+
 
 	scope :anonymous, -> {includes(:donation, :supporter).where('donations.anonymous OR supporters.anonymous').references(:supporters, :donations)}
 	scope :not_anonymous, -> { includes(:donation, :supporter).where('NOT(donations.anonymous OR supporters.anonymous)').references(:supporters, :donations) }

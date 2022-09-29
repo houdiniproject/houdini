@@ -7,4 +7,5 @@ RSpec.describe DisputeTransaction, :type => :model do
 
   it { is_expected.to have_one(:nonprofit).through(:dispute) }
   it { is_expected.to have_one(:supporter).through(:dispute) }
+  it {is_expected.to have_many( :manual_balance_adjustments)}
 end

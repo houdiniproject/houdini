@@ -1,6 +1,39 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 shared_context 'payments for a payout' do
 
+  class BalanceChangeExpectation
+    include ActiveModel::AttributeAssignment
+
+    # how much the available gross balance for a nonprofit changes
+    attr_accessor :gross_amount
+
+    # how much the available fee totals  for a nonprofit changes
+    attr_accessor :fee_total
+
+    # how much the pending gross balance for a nonprofit changes
+    attr_accessor :pending_gross
+
+    # how much the pending net balance for a nonprofit changes
+    attr_accessor :pending_net
+
+    # how many payments are pending or available associated with this balance change
+    attr_accessor :count
+    
+
+    # the primary entity associated with this balance change
+    # For a dispute, this would be the dispute itself even though there's also an associated charge with this.
+    attr_accessor :entity
+
+    def initialize(params={})
+      assign_attributes(params)
+    end
+
+    # how much the avaiable net balance for a nonprofit changes
+    def net_amount
+      gross_amount + fee_total
+    end
+  end
+
   let(:today) { Time.new(2020,5,5, 1) }
   let(:yesterday) {Time.new(2020,5,4, 1)}
   let(:two_days_ago) {Time.new(2020,5,3, 1)}
@@ -66,7 +99,10 @@ shared_context 'payments for a payout' do
           output = [v.payment, v.charge.payment]
         elsif (v.is_a? Dispute)
           output = v.dispute_transactions.map{|dt| dt.payment}.concat([v.charge.payment])
+        elsif (v.is_a? ManualBalanceAdjustment)
+          output = [v.payment, v.entity.payment]
         end
+
         output
       end.flatten.uniq
     end
@@ -88,7 +124,17 @@ shared_context 'payments for a payout' do
             output << v.charge.payment
           end
           output = output.concat(v.dispute_transactions.select{|i| !i.disbursed}.map{|dt|dt.payment})
+
+        elsif (v.is_a? ManualBalanceAdjustment)
+
+          if (v.entity.status == 'available')
+            output << v.entity.payment
+          end
+          if !v.disbursed
+            output << v.payment
+          end
         end
+      
         output
       end.flatten.uniq
     end
@@ -110,6 +156,8 @@ shared_context 'payments for a payout' do
         output[:dispute_paid] = dispute_paid
         output[:dispute_under_review] = dispute_under_review
         output[:dispute_needs_response] = dispute_needs_response
+        output[:manual_balance_adjustment] = manual_balance_adjustment
+        output[:manual_balance_adjustment_disbursed] = manual_balance_adjustment_disbursed
         # output[:partial_dispute_lost] = partial_dispute_lost
         # output[:partial_dispute_won] = partial_dispute_won
         # output[:partial_refund] = partial_refund
@@ -119,12 +167,11 @@ shared_context 'payments for a payout' do
     
     #net 100
     def charge_available
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 100,
         fee_total: 0,
-        net_amount: 100,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 1,
         entity: charge_create(gross_amount:100, status: 'available'))
       
@@ -132,12 +179,11 @@ pending_gross: 0,
 
     # net 0
     def charge_paid
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: 0,
-        net_amount: 0,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 0,
         entity:charge_create(gross_amount:200, status: 'paid')
       )
@@ -145,10 +191,9 @@ pending_gross: 0,
 
     # 450 pending
     def charge_pending 
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: 0,
-        net_amount: 0,
         pending_net: 350,
         pending_gross: 400,
         count: 1,
@@ -157,24 +202,22 @@ pending_gross: 0,
 
     # net 0
     def refund_disbursed
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: 0,
-        net_amount: 0,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 0,
         entity: refund_create({gross_amount:800, original_charge_args: {status: 'paid'}, disbursed: true}))
     end
 
     # net 0
     def refund
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0, 
         fee_total: 0, 
-        net_amount: 0, 
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 2,
         entity:refund_create({gross_amount:1600, original_charge_args:{status: 'available'}}))
     end
@@ -183,10 +226,9 @@ pending_gross: 0,
     def legacy_dispute_paid
       d= dispute_create(gross_amount:3200, status: :lost, original_charge_args: {status: 'paid'})
       d.dispute_transactions.create(**dispute_transaction_args_create(-3200, 0), disbursed: true)
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: 0,
-        net_amount: 0,
         pending_net: 0,
         pending_gross: 0,
         count: 0,
@@ -196,12 +238,11 @@ pending_gross: 0,
     # net 6400
     def legacy_dispute_won
       d = dispute_create(gross_amount:6400, status: :won)
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 6400, 
-        fee_total: 0, 
-        net_amount: 6400, 
+        fee_total: 0,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 1,
         entity: d)
     end
@@ -210,13 +251,11 @@ pending_gross: 0,
     def legacy_dispute_lost
       d = dispute_create(gross_amount:25600, status: :lost)
       d.dispute_transactions.create(**dispute_transaction_args_create(-25600, 0))
-      d
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: 0,
-        net_amount: 0,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 1,
         entity: d)
     end
@@ -225,13 +264,11 @@ pending_gross: 0,
     def dispute_lost
       d = dispute_create(gross_amount:12800, status: :lost)
       d.dispute_transactions.create(**dispute_transaction_args_create(-12800, -1500))
-      d
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: -1500,
-        net_amount: -1500,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 2,
         entity: d)
     end
@@ -241,13 +278,12 @@ pending_gross: 0,
       d = dispute_create({gross_amount: 51200, status: :won})
       d.dispute_transactions.create(**dispute_transaction_args_create(-51200, -1500))
       d.dispute_transactions.create(**dispute_transaction_args_create(51200, 1500))
-      d
-      OpenStruct.new(
+      
+      BalanceChangeExpectation.new(
         gross_amount: 51200, 
         fee_total: 0,
-        net_amount: 51200,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 3,
         entity: d)
     end
@@ -256,12 +292,10 @@ pending_gross: 0,
     def dispute_paid
       d = dispute_create(gross_amount:102800, status: :lost, original_charge_args: {status: :paid})
       d.dispute_transactions.create(disbursed: true, **dispute_transaction_args_create(-102800, -1500))
-      d
-      OpenStruct.new(gross_amount: 0, 
+      BalanceChangeExpectation.new(gross_amount: 0, 
       fee_total: 0, 
-      net_amount: 0,
       pending_net: 0,
-pending_gross: 0,
+      pending_gross: 0,
       count: 0,
       entity: d)
     end
@@ -270,13 +304,11 @@ pending_gross: 0,
     def dispute_under_review
       d = dispute_create(gross_amount:205600, status: :under_review)
       d.dispute_transactions.create(**dispute_transaction_args_create(-205600, -1500))
-      d
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: -1500,
-        net_amount: -1500,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count:2, 
         entity: d)
     end
@@ -285,15 +317,37 @@ pending_gross: 0,
     def dispute_needs_response
       d = dispute_create(gross_amount:512000, status: :needs_response)
       d.dispute_transactions.create(**dispute_transaction_args_create(-512000, -1500))
-      d
-      OpenStruct.new(
+      BalanceChangeExpectation.new(
         gross_amount: 0,
         fee_total: -1500,
-        net_amount: -1500,
         pending_net: 0,
-pending_gross: 0,
+        pending_gross: 0,
         count: 2,
         entity: d)
+    end
+
+    # gross 100, net -350, fee_total: -450
+    def manual_balance_adjustment
+      adj = manual_balance_adjustment_create(gross_amount: 0, fee_total: -400, charge_args: {gross_amount: 100, fee_total: -50, status:'available'})
+      BalanceChangeExpectation.new(
+        gross_amount: 100,
+        fee_total: -450,
+        pending_net: 0,
+        pending_gross: 0,
+        count: 2,
+        entity: adj)
+    end
+
+    # gross 100, net 50, fee_total -50
+    def manual_balance_adjustment_disbursed
+      adj = manual_balance_adjustment_create(gross_amount: 0, fee_total: -400, disbursed: true, charge_args: {gross_amount: 100, fee_total: -50, status:'available'})
+      BalanceChangeExpectation.new(
+        gross_amount: 100,
+        fee_total: -50,
+        pending_net: 0,
+        pending_gross: 0,
+        count: 1,
+        entity: adj)
     end
   
 
@@ -332,6 +386,21 @@ pending_gross: 0,
       other_args = args.except(:gross_amount, :fee_total)
       force_create(:charge, nonprofit:@nonprofit, amount: gross_amount, 
         payment: payment_create(gross_amount: gross_amount, fee_total: fee_total, net_amount: gross_amount + fee_total), **other_args)
+    end
+
+    def manual_balance_adjustment_create(**args)
+
+      gross_amount = args[:gross_amount]
+      fee_total = args[:fee_total] || 0
+      charge_args = args[:charge_args]
+      args = args.except(:charge_args, :gross_amount, :fee_total)
+
+      create(:manual_balance_adjustment,
+        gross_amount: gross_amount,
+        fee_total: fee_total,
+        payment: payment_create(gross_amount: gross_amount, fee_total: fee_total, net_amount: gross_amount + fee_total),
+        entity: charge_create(charge_args), **args )
+
     end
 
     def payment_create(**args)

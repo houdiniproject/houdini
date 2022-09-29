@@ -6,6 +6,7 @@ class DisputeTransaction < ActiveRecord::Base
 
   has_one :nonprofit, through: :dispute
   has_one :supporter, through: :dispute
+  has_many  :manual_balance_adjustments, as: :entity
 
   def gross_amount=(gross_amount)
     write_attribute(:gross_amount, gross_amount)

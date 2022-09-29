@@ -76,6 +76,7 @@ appl.def('kind_icon_class', function(kind) {
 	if(kind === "RecurringDonation") return "fa-refresh"
 	if(kind === "Ticket") return "fa-ticket"
 	if(kind === "Refund") return "fa-rotate-left"
+	if(kind === "ManualAdjustment") return "fa-plus"
 })
 
 appl.def('formatted_gross_amount', function(amt) {

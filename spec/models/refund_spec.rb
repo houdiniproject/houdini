@@ -9,4 +9,5 @@ RSpec.describe Refund, type: :model do
 
   it { is_expected.to have_one(:nonprofit).through(:charge) }
   it { is_expected.to have_one(:supporter).through(:charge) }
+  it {is_expected.to have_many( :manual_balance_adjustments)}
 end

@@ -85,7 +85,7 @@ describe QueryPayments do
     it 'gives correct payout info' do
       entities_yesterday
       result = QueryPayments.get_payout_totals(QueryPayments.ids_for_payout(nonprofit.id))
-      expected  = {gross_amount: 57700, fee_total: -4500, net_amount: 53200, count: 15}.with_indifferent_access
+      expected  = {gross_amount: 57900, fee_total: -5000, net_amount: 52900, count: 18}.with_indifferent_access
 
       expect(result.with_indifferent_access).to eq expected
     end

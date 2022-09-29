@@ -57,7 +57,7 @@ jobs:
         - env:
             mode: ${{ github.event.inputs.mode }}
             ORG_NAME: commitchange
-          run: npm run build-all-${mode}
+          run: yarn build-all-${mode}
         - name: "Push deploy"
           env:
             mode: ${{ github.event.inputs.mode }}

@@ -8,16 +8,16 @@
   "scripts": {
     "watch": "export HOUDINI_WATCH=1; script/build.sh",
     "build": "script/build.sh",
-    "build-all": "npm ci && script/compile-assets.sh && npm run build",
-    "build-all-staging": "export RAILS_ENV=staging; npm ci && script/compile-assets.sh && npm run build",
-    "build-all-production": "export RAILS_ENV=production; npm ci && script/compile-assets.sh && npm run build",
-    "ci-build-all": "script/compile-assets.sh && npm run build",
-    "test": "rake -v spec  && npm run build && npx jest",
+    "build-all": "yarn --frozen-lockfile && script/compile-assets.sh && yarn build",
+    "build-all-staging": "export RAILS_ENV=staging; yarn --frozen-lockfile && script/compile-assets.sh && yarn build",
+    "build-all-production": "export RAILS_ENV=production; --frozen-lockfile && script/compile-assets.sh && yarn build",
+    "ci-build-all": "script/compile-assets.sh && yarn build",
+    "test": "rake -v spec  && yarn build && yarn jest",
     "export-button-config": "bundle exec rake settings:generate_json",
     "export-i18n": "bundle exec rake settings:combine_translations",
     "generate-openapi": "bundle exec rake oapi:gen",
     "get-codegen-cli": "script/download_codegen_cli.sh",
-    "generate-api-js": "rm -rf javascripts/api && npm run get-codegen-cli && npm run generate-openapi && java -jar .bin/swagger-codegen-cli.jar generate -l 'typescript-jquery' -i tmp/openapi.json -o javascripts/api  --config 'swagger.json' -t lib/swagger-typescript-jquery",
+    "generate-api-js": "rm -rf javascripts/api && yarn get-codegen-cli && yarn generate-openapi && java -jar .bin/swagger-codegen-cli.jar generate -l 'typescript-jquery' -i tmp/openapi.json -o javascripts/api  --config 'swagger.json' -t lib/swagger-typescript-jquery",
     "tsc": "tsc"
   },
   "devDependencies": {

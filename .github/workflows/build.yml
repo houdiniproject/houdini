@@ -76,6 +76,6 @@ jobs:
         - if: steps.changes.outputs.ruby == 'true'
           run: script/compile-assets.sh
         - if: steps.changes.outputs.js == 'true'
-          run: npm run build
+          run: yarn build
         - if: steps.changes.outputs.js == 'true'
-          run: npx jest
+          run: yarn jest

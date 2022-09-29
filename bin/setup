@@ -22,7 +22,7 @@ FileUtils.chdir APP_ROOT do
     system('bundle check') || system!('bundle install')
 
     puts "\n== Installing dependencies (JS) =="
-    system!('npm ci')
+    system!('yarn --frozen-lockfile')
   end
 
   if ARGV.length == 0 || (ARGV.length > 0 && ARGV[0] != 'ci')

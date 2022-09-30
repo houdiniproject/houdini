@@ -4,9 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module Format
   module Currency
-    class << self
-      include ActiveSupport::NumberHelper
-    end
     # Converts currency units into subunits.
     # @param [String] units
     # @return [Integer]
@@ -31,7 +28,7 @@ module Format
     # @return [String] the text with the amount of money in the informed currency (Ex.: $10.00)
     def self.print_currency(cents, unit = 'EUR', sign = true, use_precision = false)
       dollars = cents.to_f / 100.0
-      dollars = number_to_currency(dollars, unit: unit.to_s, precision: !use_precision && dollars.round == dollars ? 0 : 2)
+      dollars = ActiveSupport::NumberHelper.number_to_currency(dollars, unit: unit.to_s, precision: !use_precision && dollars.round == dollars ? 0 : 2)
       dollars = dollars[1..-1] unless sign
       dollars
     end

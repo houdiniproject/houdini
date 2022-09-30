@@ -5,10 +5,8 @@
 
 module QueryDonations
   # Export all donation data for a given campaign
-
   def self.campaign_export(campaign_id)
-    nonprofit_id = Campaign.find(campaign_id).nonprofit_id
-    currency = Nonprofit.find(nonprofit_id).currency_symbol
+    currency = Campaign.find(campaign_id).nonprofit.currency_symbol
 
     result = Psql.execute_vectors(
       Qexpr.new.select([
@@ -103,6 +101,7 @@ module QueryDonations
   end
 
   def self.update_amount_with_currency(query_row, currency)
+    # Skip header row
     if query_row[1].to_s.downcase != 'amount'
       query_row[1] = Format::Currency.print_currency(query_row[1], currency, true, true)
     end

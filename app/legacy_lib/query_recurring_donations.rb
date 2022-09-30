@@ -305,6 +305,7 @@ module QueryRecurringDonations
   end
 
   def self.update_amount_with_currency(query_row, currency)
+    # Skip header row
     if query_row[1] != 'Amount'
       query_row[1] = Format::Currency.print_currency(query_row[1], currency, true, true)
     end

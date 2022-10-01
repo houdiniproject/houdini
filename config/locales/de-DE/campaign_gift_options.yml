@@ -1,0 +1,27 @@
+#License: CC0-1.0
+de:
+  campaign_gift_options:
+    gift_option: Geschenkoptionen
+    gift_name_and_character_limit: Name des Geschenks (max. 40 Zeichen)
+    gift_name_example: z. B. "Ein Rucksack voller Schulzubehör"
+    amount: Betrag
+    explanation_of_recurring_or_one_time_gift_options: Sie können einen wiederkehrenden und/oder einmaligen Betrag zu Ihren Geschenkoptionen hinzufügen. Wenn Sie eine leer lassen, wird dem Spender diese Option nicht angezeigt. Wenn Sie beides ausfüllen, kann der Spender zwischen den beiden wählen.
+    one_time: Einmalig
+    recurring: Wiederkehrend
+    short_description: Kurzbeschreibung (max. 255 Zeichen)
+    quantity_limit: Mengenbegrenzung (optional)
+    quantity_limit_description: Nachdem das Limit erreicht wurde, können die Mitwirkenden diese Geschenkoption nicht wählen. Lassen Sie das Feld leer, um kein Limit festzulegen.
+    quantity_limit_placeholder: Limit eingeben
+    requires_shipping: Versand erforderlich (optional)
+    requires_shipping_description: Benutzen Sie diese Option, um das Adressfeld erforderlich zu machen und den Text 'Versandadresse' über dem Adressfeld hinzuzufügen. Diese Option ist für die Auftragsabwicklung nützlich.
+    hide_contributions: Beiträge ausblenden (optional)
+    hide_contributions_description: Verwende dies, um die Anzahl der Beiträge zu dieser Geschenkoption zu verbergen.
+    manage_gift_options: Geschenkoptionen verwalten
+    new_gift_option: Neue Geschenkoption
+    no_gift_options: Es sieht so aus, als hätten Sie noch keine Geschenk-Optionen. Erstellen Sie eine, indem Sie auf den obigen Button klicken.
+    name: Name
+    limit: Limit
+    remaining: Verbleibend
+    id: ID
+    one_time_br_amount: Einmal <br>Betrag
+    recurring_br_amount: Wiederkehrender <br>Kostenbetrag

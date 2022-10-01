@@ -1,0 +1,27 @@
+#License: CC0-1.0
+fr:
+  campaign_gift_options:
+    gift_option: Option de cadeau
+    gift_name_and_character_limit: Nom du cadeau (40 caractères maximum)
+    gift_name_example: 'Ex: "Un sac à dos rempli de fournitures scolaires"'
+    amount: Montant
+    explanation_of_recurring_or_one_time_gift_options: Vous pouvez ajouter un montant récurrent et/ou unique à vos options de cadeau. Si vous en laissez un vide, cette option ne sera pas présentée au donateur. Si vous remplissez les deux, alors le donateur pourra choisir entre les deux.
+    one_time: Unique
+    recurring: Récurrent
+    short_description: Description courte (140 caractères max)
+    quantity_limit: Limite de quantité (facultative)
+    quantity_limit_description: Une fois la limite atteinte, les contributeurs ne pourront pas sélectionner cette option de don. Laissez ce champ vide pour ne pas définir de limite.
+    quantity_limit_placeholder: Entrez la limite
+    requires_shipping: Nécessite une livraison (facultatif)
+    requires_shipping_description: Utilisez ceci pour rendre le champ d'adresse obligatoire et pour ajouter le texte 'Adresse de livraison' au-dessus du champ d'adresse. Cette option est utile pour le traitement de la commande.
+    hide_contributions: Masquer les contributions (facultatif)
+    hide_contributions_description: Utilisez ceci pour masquer le nombre de contributions apportées à cette option de cadeau.
+    manage_gift_options: Gérer les options de cadeaux
+    new_gift_option: Nouvelle option de cadeau
+    no_gift_options: Il semble que vous n'ayez pas encore d'options de cadeau. Créez-en une en cliquant sur le bouton ci-dessus.
+    name: Nom
+    limit: Limite
+    remaining: Restant
+    id: ID
+    one_time_br_amount: Montant <br>unique
+    recurring_br_amount: Montant <br>récurrent

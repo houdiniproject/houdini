@@ -1,0 +1,8 @@
+#License: CC0-1.0
+fr:
+  users:
+    name_label: Nom
+    name_placeholder: Votre Nom
+    city_label: Ville
+    city_placeholder: Ville
+

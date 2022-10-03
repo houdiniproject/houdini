@@ -39,15 +39,22 @@ describe UpdatePayouts do
       let(:payment_to_reverse_2) { force_create(:payment) }
       let(:payment_to_reverse_with_refund) { force_create(:payment)}
       let(:reverse_payment_for_refund) { force_create(:payment)}
+      let(:payment_for_disputed_charge) {force_create(:payment)}
+
+      let(:payment_for_dispute_transaction) {force_create(:payment)}
 
 
       let!(:charges) {[force_create(:charge, payment: payment_to_reverse, status: 'disbursed'),
                        force_create(:charge, payment: payment_to_reverse_2, status: 'disbursed'),
                        force_create(:charge, payment: payment_to_ignore, status: 'disbursed'),
-                      force_create(:charge, payment: payment_to_reverse_with_refund, status:'disbursed')
+                      force_create(:charge, payment: payment_to_reverse_with_refund, status:'disbursed'),
+
+                      force_create(:charge, payment: payment_for_disputed_charge, status:'disbursed')
       ]}
 
-      let!(:refunds) { [force_create(:refund, charge: charges.last, payment: reverse_payment_for_refund, disbursed: true)]}
+      let!(:refunds) { [force_create(:refund, charge: charges[-2], payment: reverse_payment_for_refund, disbursed: true)]}
+
+      let!(:disputes) { [create(:dispute, charge: charges.last, dispute_transactions:[build(:dispute_transaction, payment: payment_for_dispute_transaction, disbursed:true)])]}
 
 
       let(:np) {force_create(:nonprofit)}
@@ -64,6 +71,7 @@ describe UpdatePayouts do
         payout.payments.push(payment_to_reverse_2)
         payout.payments.push(payment_to_reverse_with_refund)
         payout.payments.push(reverse_payment_for_refund)
+        payout.payments.push(payment_for_dispute_transaction)
         UpdatePayouts.reverse_with_stripe(payout.id, bad_status, bad_failure_message)
       }
 
@@ -82,8 +90,13 @@ describe UpdatePayouts do
         expect(refund.disbursed).to eq false
       end
 
-      it 'reverses disputes', pending: 'disputes aren\'t properly modeled to safely do this' do
-        fail
+      it 'reverses disputes' do
+        payment_for_dispute_transaction.reload
+        disputes.first.reload
+        disputes.first.dispute_transactions.first.reload
+        dispute_trx = disputes.first.dispute_transactions.first
+
+        expect(dispute_trx).to_not be_disbursed
       end
 
       it 'ignores irrelevant payments' do

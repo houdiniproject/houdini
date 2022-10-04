@@ -37,6 +37,11 @@ class Charge < ActiveRecord::Base
 		self.status.in?(%w[available pending disbursed])
 	end
 
+	# Is this charge disbursed as part of a payout?
+	def disbursed?
+		status == 'disbursed'
+	end
+
 	def stripe_charge(*expand)
 		Stripe::Charge.retrieve({id: stripe_charge_id, expand: expand})
 	end

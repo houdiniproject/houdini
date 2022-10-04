@@ -20,4 +20,14 @@ RSpec.describe Charge, :type => :model do
       expect(stripe_dispute).to eq charge.stripe_dispute
     end
   end
+
+  describe '#disbursed?' do
+    it 'is true when status is disbursed' do
+      expect(build(:charge, status: 'disbursed')).to be_disbursed
+    end
+
+    it 'is false when status is not disbursed' do
+      expect(build(:charge, status: 'paid')).to_not be_disbursed
+    end
+  end
 end

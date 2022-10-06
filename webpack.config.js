@@ -2,7 +2,6 @@
 const path = require ('path')
 const WebpackSweetEntry = require('webpack-sweet-entry');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const StringReplacePlugin = require("string-replace-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require("webpack");
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -88,11 +87,6 @@ let targets = {
             path: path.resolve(path.join(__dirname, 'public', 'js')),
             filename: 'donate-button.v2.js'
         },
-
-        plugins: [
-            // an instance of the plugin must be present
-            new StringReplacePlugin()
-        ]
     },
     translations: {
         module:{

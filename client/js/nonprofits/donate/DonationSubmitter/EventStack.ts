@@ -16,7 +16,7 @@ export default class EventStack<TEventObject extends {type:string}> {
    * @returns When the top of the stack is not an object with the same type as event, then return event. Otherwise, returns undefined;
    */
   push(event: TEventObject): TEventObject | undefined {
-    if (!this.top || !isEqual(this.top, event)) {
+    if (!this.top || this.top.type !== event?.type) {
       this.events.push(event)
       return event;
     }

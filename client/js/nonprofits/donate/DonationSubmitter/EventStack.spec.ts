@@ -30,12 +30,12 @@ describe('EventStack', () => {
       expect(stack.push(firstEvent)).toBeUndefined();
     })
 
-    it("returns and adds event when it doesn't match another object based on deep comparison", () => {
+    it("returns undefined when the event isn't added when it matches another object based on type name", () => {
       const stack = new EventStack();
       stack.push(firstEvent)
 
       const secondEvent = {type:"first", but:"different"}
-      expect(stack.push(secondEvent)).toEqual(secondEvent);
+      expect(stack.push(secondEvent)).toBeUndefined();
     })
   })
 

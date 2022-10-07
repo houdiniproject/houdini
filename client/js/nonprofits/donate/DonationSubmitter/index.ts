@@ -11,16 +11,11 @@ export default class DonationSubmitter implements EventTarget {
 
   constructor() {
 
-    Object.bind(this, this.handleBeginSubmit);
-    Object.bind(this, this.handleSavedCard);
-    Object.bind(this, this.handleErrored);
-    Object.bind(this, this.handleCompleted);
+    this.stateManager.addEventListener('beginSubmit', this.handleBeginSubmit);
+    this.stateManager.addEventListener('savedCard', this.handleSavedCard);
+    this.stateManager.addEventListener('errored', this.handleErrored);
 
-    this.stateManager.addEventListener('beginSubmit', (evt:Event) => this.handleBeginSubmit(evt));
-    this.stateManager.addEventListener('savedCard', (evt:Event) => this.handleSavedCard(evt));
-    this.stateManager.addEventListener('errored', (evt:Event) => this.handleErrored(evt));
-
-    this.stateManager.addEventListener('completed', (evt:Event) => this.handleCompleted(evt));
+    this.stateManager.addEventListener('completed', this.handleCompleted);
 
   }
 
@@ -71,19 +66,19 @@ export default class DonationSubmitter implements EventTarget {
     this.eventTarget.removeEventListener(type, callback, options);
   }
 
-  private handleCompleted(_evt: Event) {
+  private handleCompleted = (_evt: Event) => {
     this.dispatchEvent(new Event('updated'));
   }
   
-  private handleErrored(evt: Event) {
+  private handleErrored = (evt: Event) => {
     this.dispatchEvent(new Event('updated'));
   }
   
-  private handleSavedCard(evt: Event) {
+  private handleSavedCard = (evt: Event) => {
     this.dispatchEvent(new Event('updated'));
   }
   
-  private handleBeginSubmit(evt: Event) {
+  private handleBeginSubmit = (evt: Event) => {
     this.dispatchEvent(new Event('updated'));
   }
 }

@@ -4232,25 +4232,26 @@ You can redistribute it and/or modify it under either the terms of the
 
 ------
 
-** test-unit; version 3.5.3 -- 
-Copyright (c) 2008 Ryan Davis.
-Copyright (c) 2008-2011 Kouhei Sutou.
-Copyright (c) 2009-2013 Kouhei Sutou.
-Copyright (c) 2000-2002 Nathaniel Talbott.
-Copyright (c) 2000-2003 Nathaniel Talbott.
+** test-unit; version 3.5.5 -- 
+Copyright (c) 2008 Ryan Davis
+Copyright (c) 2008-2011 Kouhei Sutou
+Copyright (c) 2008-2020 Sutou Kouhei
+Copyright (c) 2009-2013 Kouhei Sutou
+Copyright (c) 2000-2002 Nathaniel Talbott
+Copyright (c) 2000-2003 Nathaniel Talbott
+Copyright (c) 2003-2007 Nathaniel Talbott
+copyright (c) 2000-2003 Nathaniel Talbott
 Copyright (c) 2000-2003, Nathaniel Talbott
-Copyright (c) 2003-2007 Nathaniel Talbott.
-copyright (c) 2000-2003 Nathaniel Talbott.
 Copyright (c) 2001-2008 Python Software Foundation
 Copyright (c) 2011 Kouhei Sutou <kou@clear-code.com>
 Copyright (c) 2012 Kouhei Sutou <kou@clear-code.com>
 Copyright (c) 2008-2012 Kouhei Sutou <kou@clear-code.com>
 Copyright (c) 2008-2017 Kouhei Sutou <kou@clear-code.com>
 Copyright (c) 2012-2015 Kouhei Sutou <kou@clear-code.com>
-Copyright (c) 1991 - 1995, Stichting Mathematisch Centrum Amsterdam
 Copyright (c) 1995-2001 Corporation for National Research Initiatives
 Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Python Software Foundation
-copyright (c) 2008-2010 Kouhei Sutou and 2001-2008 Python Software Foundation.
+copyright (c) 2008-2010 Kouhei Sutou and 2001-2008 Python Software Foundation
+Copyright (c) 1991 - 1995, Stichting Mathematisch Centrum Amsterdam, The Netherlands
 
 test-unit is copyrighted free software by Kouhei Sutou
 <kou@cozmixng.org>, Ryan Davis <ryand-ruby@zenspider.com>

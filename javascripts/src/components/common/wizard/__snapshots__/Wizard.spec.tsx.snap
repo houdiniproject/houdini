@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Wizard Move back on disabled make first invalid so move back there 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
@@ -39,25 +39,25 @@ exports[`Wizard Move back on disabled make first invalid so move back there 1`] 
           </TabList>
         </WizardTabList>
         <div className=\\"modal-body\\">
-          <form onSubmit={[Function]}>
+          <form onSubmit={[Function (anonymous)]}>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab1\\" active={true} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab1-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={false} aria-describedby=\\"tab1\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab2\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab2-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab2\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab3\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab3-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab3\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
@@ -70,7 +70,7 @@ exports[`Wizard Move back on disabled make first invalid so move back there 1`] 
 `;
 
 exports[`Wizard Move back on disabled make first invalid so move back there 2`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
@@ -108,25 +108,25 @@ exports[`Wizard Move back on disabled make first invalid so move back there 2`] 
           </TabList>
         </WizardTabList>
         <div className=\\"modal-body\\">
-          <form onSubmit={[Function]}>
+          <form onSubmit={[Function (anonymous)]}>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab1\\" active={true} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab1-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={false} aria-describedby=\\"tab1\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab2\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab2-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab2\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab3\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab3-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab3\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
@@ -139,7 +139,7 @@ exports[`Wizard Move back on disabled make first invalid so move back there 2`] 
 `;
 
 exports[`Wizard Move back on disabled make second invalid so move back there 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
@@ -177,25 +177,25 @@ exports[`Wizard Move back on disabled make second invalid so move back there 1`]
           </TabList>
         </WizardTabList>
         <div className=\\"modal-body\\">
-          <form onSubmit={[Function]}>
+          <form onSubmit={[Function (anonymous)]}>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab1\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab1-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab1\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab2\\" active={true} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab2-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={false} aria-describedby=\\"tab2\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab3\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab3-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab3\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
@@ -208,7 +208,7 @@ exports[`Wizard Move back on disabled make second invalid so move back there 1`]
 `;
 
 exports[`Wizard first tab is active 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
@@ -246,25 +246,25 @@ exports[`Wizard first tab is active 1`] = `
           </TabList>
         </WizardTabList>
         <div className=\\"modal-body\\">
-          <form onSubmit={[Function]}>
+          <form onSubmit={[Function (anonymous)]}>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab1\\" active={true} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab1-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={false} aria-describedby=\\"tab1\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab2\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab2-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab2\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab3\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab3-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab3\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
@@ -277,7 +277,7 @@ exports[`Wizard first tab is active 1`] = `
 `;
 
 exports[`Wizard go to the second tab go to next via backend 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
@@ -315,25 +315,25 @@ exports[`Wizard go to the second tab go to next via backend 1`] = `
           </TabList>
         </WizardTabList>
         <div className=\\"modal-body\\">
-          <form onSubmit={[Function]}>
+          <form onSubmit={[Function (anonymous)]}>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab1\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab1-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab1\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab2\\" active={true} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab2-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={false} aria-describedby=\\"tab2\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab3\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab3-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab3\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
@@ -346,7 +346,7 @@ exports[`Wizard go to the second tab go to next via backend 1`] = `
 `;
 
 exports[`Wizard go to the second tab set via next click 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
@@ -384,25 +384,25 @@ exports[`Wizard go to the second tab set via next click 1`] = `
           </TabList>
         </WizardTabList>
         <div className=\\"modal-body\\">
-          <form onSubmit={[Function]}>
+          <form onSubmit={[Function (anonymous)]}>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab1\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab1-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab1\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab2\\" active={true} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab2-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={false} aria-describedby=\\"tab2\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab3\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab3-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab3\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
@@ -415,7 +415,7 @@ exports[`Wizard go to the second tab set via next click 1`] = `
 `;
 
 exports[`Wizard go to the second tab set via tab click 1`] = `
-"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function]} intl={{...}}>
+"<OuterWrapper state={{...}} disabledTabs={false} __childrenCreator={[Function (anonymous)]} intl={{...}}>
   <Wizard wizardState={{...}} disableTabs={false}>
     <Wrapper manager={{...}} tag=\\"section\\" style={{...}} className=\\"wizard-steps\\">
       <section style={{...}} className=\\"wizard-steps\\">
@@ -453,25 +453,25 @@ exports[`Wizard go to the second tab set via tab click 1`] = `
           </TabList>
         </WizardTabList>
         <div className=\\"modal-body\\">
-          <form onSubmit={[Function]}>
+          <form onSubmit={[Function (anonymous)]}>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab1\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab1-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab1\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab2\\" active={true} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab2-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={false} aria-describedby=\\"tab2\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>
             <WizardPanel tab={{...}}>
               <TabPanel tabId=\\"tab3\\" active={false} className=\\"wizard-step\\" tag=\\"div\\">
                 <div className=\\"wizard-step\\" id=\\"tab3-panel\\" onKeyDown={[Function: bound ]} role=\\"tabpanel\\" style={{...}} aria-hidden={true} aria-describedby=\\"tab3\\">
-                  <button onClick={[Function: res]} />
+                  <button onClick={[Function: res] { isMobxAction: true }} />
                 </div>
               </TabPanel>
             </WizardPanel>

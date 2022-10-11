@@ -70,15 +70,15 @@ export default class DonationSubmitter implements EventTarget {
     this.dispatchEvent(new Event('updated'));
   }
   
-  private handleErrored = (evt: Event) => {
+  private handleErrored = (_evt: Event) => {
     this.dispatchEvent(new Event('updated'));
   }
   
-  private handleSavedCard = (evt: Event) => {
+  private handleSavedCard = (_evt: Event) => {
     this.dispatchEvent(new Event('updated'));
   }
   
-  private handleBeginSubmit = (evt: Event) => {
+  private handleBeginSubmit = (_evt: Event) => {
     this.dispatchEvent(new Event('updated'));
   }
 }

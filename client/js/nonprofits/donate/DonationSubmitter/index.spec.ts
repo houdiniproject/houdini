@@ -58,7 +58,6 @@ describe('DonationSubmitter', () => {
     
     function prepare(): ReturnType<typeof SetupDonationSubmitter> {
       const func = jest.fn(() => {
-        console.log('called')
       })
       const mocked = SetupDonationSubmitter(func);
       mocked.submitter.reportBeginSubmit();

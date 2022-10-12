@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 
-import StateManager, {DonationResult, EventObjects}  from "./StateManager";
+import StateManager, {DonationResult}  from "./StateManager";
 
 export default class DonationSubmitter implements EventTarget {
 

@@ -15,6 +15,7 @@
     "typeRoots" : [
       "node_modules/@types",
       "./types"],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "downlevelIteration": true
   }
 }

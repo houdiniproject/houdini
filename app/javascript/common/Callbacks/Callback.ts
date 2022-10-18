@@ -9,7 +9,8 @@ export default class Callback<T> {
 	}
 
 	/**
-   * A boolean property deciding whether .run should be called.
+   * A boolean method deciding whether .run should be called. By default it's true but can be overriden in subclasses.
+	 * @returns true if this callback should be run, false if it should not.
    */
 	canRun(): boolean {
 		return true;
@@ -26,10 +27,10 @@ export default class Callback<T> {
 	}
 
 	/**
-   * Runs the callback
+   * Runs the callback itself. Must be implemented in a child class.
    * @return a Promise<void> or void
    */
 	run(): Promise<void> | void {
-		throw new Error("You need to implement this in a child class");
+		throw new Error("You need to implement 'run' in your child class");
 	}
 }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220920204538) do
+ActiveRecord::Schema.define(version: 20221019183611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1375,6 +1375,17 @@ ActiveRecord::Schema.define(version: 20220920204538) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "widget_descriptions", force: :cascade do |t|
+    t.string   "houid",                            null: false
+    t.string   "custom_recurring_donation_phrase"
+    t.jsonb    "custom_amounts"
+    t.jsonb    "postfix_element"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "widget_descriptions", ["houid"], name: "index_widget_descriptions_on_houid", unique: true, using: :btree
+
   add_foreign_key "campaign_gifts", "campaign_gift_options", name: "campaign_gifts_to_option_fk"
   add_foreign_key "export_formats", "nonprofits"
   add_foreign_key "fee_coverage_detail_bases", "fee_eras"
@@ -1425,7 +1436,7 @@ ActiveRecord::Schema.define(version: 20220920204538) do
        LANGUAGE plpgsql
       AS $function$
                   BEGIN
-                    new.phone_index = (regexp_replace(new.phone, '\D','', 'g'));
+                    new.phone_index = (regexp_replace(new.phone, '\\D','', 'g'));
                     RETURN new;
                   END
                 $function$
@@ -1435,10 +1446,10 @@ ActiveRecord::Schema.define(version: 20220920204538) do
   create_trigger :update_donations_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations FOR EACH ROW EXECUTE FUNCTION update_fts_on_donations()
   SQL
-  create_trigger :update_supporters_fts, sql_definition: <<-SQL
-      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
-  SQL
   create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
       CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
+  SQL
+  create_trigger :update_supporters_fts, sql_definition: <<-SQL
+      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
   SQL
 end

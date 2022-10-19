@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20221019183611) do
+ActiveRecord::Schema.define(version: 20221019215222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,9 +149,11 @@ ActiveRecord::Schema.define(version: 20221019183611) do
     t.text     "reason_for_supporting"
     t.text     "default_reason_for_supporting"
     t.string   "banner_image",                  limit: 255
+    t.integer  "widget_description_id"
   end
 
   add_index "campaigns", ["parent_campaign_id"], name: "index_campaigns_on_parent_campaign_id", using: :btree
+  add_index "campaigns", ["widget_description_id"], name: "index_campaigns_on_widget_description_id", using: :btree
 
   create_table "cards", force: :cascade do |t|
     t.string   "name",               limit: 255

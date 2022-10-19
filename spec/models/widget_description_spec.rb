@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe WidgetDescription, type: :model do
   it_behaves_like 'an houidable entity', :wdgtdesc
 
+  it {is_expected.to have_many :campaigns}
+
   describe '#custom_amounts' do
     it { is_expected.to allow_values([ 31000]).for(:custom_amounts) }
 

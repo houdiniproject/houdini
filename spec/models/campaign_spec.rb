@@ -10,10 +10,10 @@ end
 def get_attributes_which_should_not_be_updated_keys
   %w(
     slug goal_amount nonprofit_id profile_id show_total_raised
-    show_total_count hide_activity_feed deleted hide_title 
-    hide_thermometer hide_goal 
-    hide_custom_amounts show_recurring_amount 
-    end_datetime external_identifier goal_is_in_supporters starting_point 
+    show_total_count hide_activity_feed deleted hide_title
+    hide_thermometer hide_goal
+    hide_custom_amounts show_recurring_amount
+    end_datetime external_identifier goal_is_in_supporters starting_point
     reason_for_supporting
   )
 end
@@ -25,6 +25,9 @@ def get_uploader_attribute_keys
 end
 RSpec.describe Campaign, type: :model do
   include CarrierWave::Test::Matchers
+
+  it {is_expected.to belong_to :widget_description}
+
   describe 'goal_amount' do
     before(:each) do
       @nonprofit = create(:nonprofit)
@@ -93,7 +96,7 @@ RSpec.describe Campaign, type: :model do
                    goal_amount_dollars: "1000", nonprofit: nonprofit )
     end
 
-    let(:html_body) do 
+    let(:html_body) do
       ActionMailer::Base.deliveries.last.parts.select{|i| i.content_type.starts_with? 'text/html'}.first.body
     end
 
@@ -109,8 +112,8 @@ RSpec.describe Campaign, type: :model do
   end
 
 
-  describe 'pausing' do 
-    describe 'when no misc_campaign_info' do 
+  describe 'pausing' do
+    describe 'when no misc_campaign_info' do
       subject {
         force_create(:campaign)
       }
@@ -118,7 +121,7 @@ RSpec.describe Campaign, type: :model do
       it { is_expected.to_not be_paused}
     end
 
-    describe 'when misc_campaign_info exists but not paused' do 
+    describe 'when misc_campaign_info exists but not paused' do
       subject do
         campaign = force_create(:campaign)
         campaign.create_misc_campaign_info
@@ -129,7 +132,7 @@ RSpec.describe Campaign, type: :model do
     end
 
 
-    describe 'when misc_campaign_info exists and is paused' do 
+    describe 'when misc_campaign_info exists and is paused' do
       subject do
         campaign = force_create(:campaign)
         campaign.create_misc_campaign_info(paused: true)
@@ -145,7 +148,7 @@ RSpec.describe Campaign, type: :model do
     let(:empty_campaign) { create(:empty_campaign)}
     let(:nonprofit) { empty_campaign.nonprofit}
     let(:campaign_with_things_set_1){create(:campaign_with_things_set_1, nonprofit: nonprofit)}
-    
+
 
     context 'when the child is an empty campaign' do
 
@@ -226,7 +229,7 @@ RSpec.describe Campaign, type: :model do
     context 'when child has something and parent has something different' do
 
       let(:parent_campaign) { campaign_with_things_set_1 }
-      let(:child_campaign) {create(:campaign_with_things_set_2, 
+      let(:child_campaign) {create(:campaign_with_things_set_2,
       parent_campaign_id: parent_campaign.id, nonprofit: parent_campaign.nonprofit)}
       let(:original_campaign_attributes) {
         child_campaign.attributes
@@ -262,10 +265,10 @@ RSpec.describe Campaign, type: :model do
     context 'when child has something and parent has something similar' do
 
       let(:parent_campaign) { campaign_with_things_set_1 }
-      let(:child_campaign) {create(:campaign_with_things_set_1, 
+      let(:child_campaign) {create(:campaign_with_things_set_1,
         nonprofit_id: campaign_with_things_set_1.nonprofit.id,
-        parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-1')} 
-      
+        parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-1')}
+
       let(:original_campaign_attributes) {
         child_campaign.attributes
       }
@@ -303,20 +306,20 @@ RSpec.describe Campaign, type: :model do
     describe 'with send_campaign_updated' do
       let(:parent_campaign) {create(:campaign_with_things_set_1)}
 
-      let!(:child_campaign) {create(:campaign_with_things_set_1, 
+      let!(:child_campaign) {create(:campaign_with_things_set_1,
       nonprofit_id: parent_campaign.nonprofit.id,
       parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-1')}
 
-      let!(:child_campaign_2) {create(:campaign_with_things_set_1, 
+      let!(:child_campaign_2) {create(:campaign_with_things_set_1,
       nonprofit_id: parent_campaign.nonprofit.id,
       parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-2')}
 
-      
+
       it 'queues CampaignUpdatedJob' do
         expect_job_queued.with(JobTypes::CampaignUpdatedJob, parent_campaign.id)
         parent_campaign.summary = "a new summary"
         parent_campaign.save!
-        
+
       end
 
       it 'updates child_campaign' do
@@ -326,8 +329,8 @@ RSpec.describe Campaign, type: :model do
         child_campaign.reload
 
         expect(child_campaign.summary).to eq "a new summary"
-        
-        
+
+
       end
 
       it 'updates child_campaign' do
@@ -337,8 +340,8 @@ RSpec.describe Campaign, type: :model do
         child_campaign_2.reload
 
         expect(child_campaign_2.summary).to eq "a new summary"
-        
-        
+
+
       end
     end
   end

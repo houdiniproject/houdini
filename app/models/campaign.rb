@@ -77,6 +77,7 @@ class Campaign < ActiveRecord::Base
 	belongs_to :profile
 	belongs_to :nonprofit
 	has_one :misc_campaign_info, dependent: :destroy
+	belongs_to :widget_description
 
   belongs_to :parent_campaign, class_name: 'Campaign'
   has_many :children_campaigns, class_name: 'Campaign', foreign_key: 'parent_campaign_id'
@@ -222,7 +223,7 @@ class Campaign < ActiveRecord::Base
     !child_campaign?
   end
 
-	def params_to_copy_from_parent 
+	def params_to_copy_from_parent
 		params = %w(
 			tagline body video_url receipt_message youtube_video_id summary name
 		)

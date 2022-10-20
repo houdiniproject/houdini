@@ -5,7 +5,7 @@
 class WidgetDescription < ApplicationRecord
   setup_houid :wdgtdesc, :houid
 
-  have_many :campaigns
+  has_many :campaigns
 
   validate :is_postfix_element_a_hash, :is_postfix_element_correct
 

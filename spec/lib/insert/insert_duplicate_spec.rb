@@ -48,6 +48,7 @@ describe InsertDuplicate do
       reason_for_supporting: nil,
       profile_id: profile.id,
       :background_image => nil,
+      widget_description_id: nil,
       :body => nil,
       :created_at => Time.now,
       :deleted => false,

@@ -8,7 +8,7 @@ module CreatePeerToPeerCampaign
       return { errors: { parent_campaign_id: 'not found' } }.as_json
     end
 
-    p2p_params = campaign_params.except(:nonprofit_id, :summary,:goal_amount)
+    p2p_params = campaign_params.except(:nonprofit_id, :summary,:goal_amount, :widget_description_id)
     p2p_params.merge!(parent_campaign.child_params)
 
     profile = Profile.find(profile_id)
@@ -18,6 +18,7 @@ module CreatePeerToPeerCampaign
 
     #child campaigns are always in dollars, not supporters
     p2p_params[:goal_is_in_supporters] = false
+
     campaign = Campaign.create(p2p_params)
 
     campaign.published = true

@@ -211,6 +211,7 @@ class Campaign < ActiveRecord::Base
       id created_at updated_at slug profile_id  url
       total_raised show_recurring_amount external_identifier parent_campaign_id
       reason_for_supporting metadata goal_is_in_supporters
+			widget_description_id
     )
     attributes.except(*excluded_for_peer_to_peer)
   end

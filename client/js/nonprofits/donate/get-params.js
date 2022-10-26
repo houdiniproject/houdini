@@ -22,5 +22,10 @@ module.exports = params => {
       return tag.trim()
     }, R.split(',', tags))
   })
-  return R.compose(evolve, merge)(params)
+
+  const outputParams = R.compose(evolve, merge)(params)
+  if (window.app && window.app.widget && window.app.widget.custom_amounts) {
+    outputParams.custom_amounts = window.app.widget.custom_amounts
+  }
+  return outputParams;
 }

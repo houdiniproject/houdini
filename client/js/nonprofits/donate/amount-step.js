@@ -159,7 +159,10 @@ function amountFields(state) {
             } }
           }, [
             h('span.dollar', app.currency_symbol)
-          , String(amt.amount)
+          , String(amt.amount),
+          ...(amt.highlight ? [
+               h('i.fa.fa-star',  {style: {lineHeight: '.85em', marginLeft: '3px'}})
+            ] : [])
           ])
         ])
     , (state.params$().custom_amounts || []).map((a) => getAmt(a)) )

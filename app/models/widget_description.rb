@@ -14,6 +14,10 @@ class WidgetDescription < ApplicationRecord
 
   validate :are_custom_amounts_correct
 
+  def to_json_safe_keys
+    attributes.slice('custom_amounts', 'postfix_element')
+  end
+
   private
 
   def are_custom_amounts_correct

@@ -26,8 +26,12 @@
     app.nonprofit = app.nonprofit || {}
 
     app.nonprofit.feeStructure = <%= raw @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
-    
-    
+
+    <% if @campaign.widget_description %>
+      app.widget = <%= raw @campaign.widget_description.to_json_safe_keys.to_json %>
+    <% end %>
+
+
     app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>;
     app.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>
     appl.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>

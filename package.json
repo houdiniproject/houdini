@@ -23,6 +23,7 @@
     "webpack": "bin/webpack"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.6",
     "@babel/plugin-proposal-decorators": "^7.10.0",
     "@babel/preset-react": "^7.10.0",
     "@babel/preset-typescript": "^7.9.0",

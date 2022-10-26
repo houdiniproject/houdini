@@ -88,7 +88,7 @@
     "msw": "^0.36.3",
     "msw-storybook-addon": "^1.6.3",
     "object-hash": "^2.0.3",
-    "rails-erb-loader": "^5.5.2",
+    "rails-erb-loader": "github:usabilityhub/rails-erb-loader#b82129beeda28f8be7a2c82a2189d38a614eebb6",
     "react-test-renderer": "^17",
     "resolve-url-loader": "^5",
     "storybook-addon-intl": "^2.4.1",

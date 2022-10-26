@@ -6,6 +6,7 @@ const format = require('../../common/format')
 flyd.scanMerge = require('flyd/module/scanmerge')
 
 const getAmt = require('./amt').default;
+const getSustainingAmount = require('./sustaining_amount').default;
 
 function init(donationDefaults, params$) {
     var state = {
@@ -99,7 +100,8 @@ function recurringCheckbox(isRecurring, state) {
         props: {type: 'checkbox', selected: isRecurring, id: 'checkbox-recurring'}
       , on: {change: ev => state.evolveDonation$({recurring: t => !t})}
       })
-    , h('label', {props: {htmlFor: 'checkbox-recurring'}}, composeTranslation(
+    , h('label', {props: {htmlFor: 'checkbox-recurring'}},
+          getSustainingAmount() || composeTranslation(
           I18n.t('nonprofits.donate.amount.sustaining')
         , I18n.t('nonprofits.donate.amount.sustaining_bold')
         )

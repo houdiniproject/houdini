@@ -15,7 +15,7 @@ class WidgetDescription < ApplicationRecord
   validate :are_custom_amounts_correct
 
   def to_json_safe_keys
-    attributes.slice('custom_amounts', 'postfix_element')
+    attributes.slice('custom_amounts', 'postfix_element', 'custom_recurring_donation_phrase')
   end
 
   private

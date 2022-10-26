@@ -5,6 +5,8 @@ const flyd = require('flyd')
 const format = require('../../common/format')
 flyd.scanMerge = require('flyd/module/scanmerge')
 
+const getAmt = require('./amt').default;
+
 function init(donationDefaults, params$) {
     var state = {
         params$: params$
@@ -149,18 +151,18 @@ function amountFields(state) {
       R.map(
         amt => h('fieldset', [
           h('button.button.u-width--full.white.amount', {
-            class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt*100}
+            class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt.amount*100}
           , on: {click: ev => {
-              state.evolveDonation$({amount: R.always(format.dollarsToCents(amt))})
+              state.evolveDonation$({amount: R.always(format.dollarsToCents(amt.amount))})
               state.buttonAmountSelected$(true)
               state.currentStep$(1) // immediately advance steps when selecting an amount button
             } }
           }, [
             h('span.dollar', app.currency_symbol)
-          , String(amt)
+          , String(amt.amount)
           ])
         ])
-    , state.params$().custom_amounts || [] )
+    , (state.params$().custom_amounts || []).map((a) => getAmt(a)) )
     )
   , h('fieldset.' + prependCurrencyClassname(), [
       h('input.amount.other', {

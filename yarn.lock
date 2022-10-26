@@ -12679,12 +12679,11 @@ railroad-diagrams@^1.0.0:
   resolved "https://registry.yarnpkg.com/railroad-diagrams/-/railroad-diagrams-1.0.0.tgz#eb7e6267548ddedfb899c1b90e57374559cddb7e"
   integrity sha1-635iZ1SN3t+4mcG5Dlc3RVnN234=
 
-rails-erb-loader@^5.5.2:
+"rails-erb-loader@github:usabilityhub/rails-erb-loader#b82129beeda28f8be7a2c82a2189d38a614eebb6":
   version "5.5.2"
-  resolved "https://registry.yarnpkg.com/rails-erb-loader/-/rails-erb-loader-5.5.2.tgz#db3fa8ac89600f09d179a1a70a2ca18c592576ea"
-  integrity sha512-cjQH9SuSvRPhnWkvjmmAW/S4AFVDfAtYnQO4XpKJ8xpRdZayT73iXoE+IPc3VzN03noZXhVmyvsCvKvHj4LY6w==
+  resolved "https://codeload.github.com/usabilityhub/rails-erb-loader/tar.gz/b82129beeda28f8be7a2c82a2189d38a614eebb6"
   dependencies:
-    loader-utils "^1.1.0"
+    loader-utils "^2.0.0"
     lodash.defaults "^4.2.0"
 
 ramda@0.19.1, ramda@^0.19.1:

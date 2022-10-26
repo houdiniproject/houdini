@@ -7,6 +7,7 @@ flyd.scanMerge = require('flyd/module/scanmerge')
 
 const getAmt = require('./amt').default;
 const getSustainingAmount = require('./sustaining_amount').default;
+const getPostfixElement = require('./postfix_element').default;
 
 function init(donationDefaults, params$) {
     var state = {
@@ -56,7 +57,7 @@ function view(state) {
         chooseDesignation(state)
         , recurringCheckbox(isRecurring, state)
         , recurringMessage(isRecurring, state)
-        , amountFields(state)
+        , ...amountFields(state)
         , showSingleAmount(isRecurring, state)
         //, feeCoverageField(isFeeCovered, state)
     ])
@@ -147,8 +148,10 @@ function composeTranslation(full, bold) {
 
 // All the buttons and the custom input for the amounts to select
 function amountFields(state) {
-  if(state.params$().single_amount) return ''
-  return h('div.fieldsetLayout--three--evenPadding', [
+  if(state.params$().single_amount) return ['']
+  const postfix = getPostfixElement();
+  return [
+    h('div.fieldsetLayout--three--evenPadding', [
     h('span',
       R.map(
         amt => h('fieldset', [
@@ -188,7 +191,9 @@ function amountFields(state) {
       , on: {click: [state.currentStep$, 1]}
       }, I18n.t('nonprofits.donate.amount.next'))
     ])
-  ])
+  ]),
+  ...postfix
+  ]
 }
 
 // If the params have a single amount, show a large message saying how much it is

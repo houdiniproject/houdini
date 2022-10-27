@@ -23,32 +23,32 @@ module Model::Houidable
 		# @param houid_attribute {string|Symbol}: the attribute on this model to assign the Houid to. Defaults to :id.
 		###
 		def setup_houid(prefix, houid_attribute = :id)
-			
+
 			######
 			# 					define_model_callbacks :houid_set
 			# 					after_initialize :add_houid
-								
+
 			# 					# The HouID prefix as a symbol
 			# 					def houid_prefix
 			# 						:supp
 			# 					end
-								
+
 			# 					# Generates a HouID using the provided houid_prefix
 			# 					def generate_houid
 			# 						houid_prefix.to_s + "_" + SecureRandom.alphanumeric(22)
 			# 					end
-								
-			# 					private 
+
+			# 					private
 			# 					def add_houid
 			# 						run_callbacks(:houid_set) do
 			# 							write_attribute(:id, self.generate_houid) unless read_attribute(:id)
 			# 						end
 			# 					end
 			#####
-			class_eval <<-RUBY, __FILE__, __LINE__ + 1 # rubocop:disable Style/DocumentDynamicEvalDefinition 
+			class_eval <<-RUBY, __FILE__, __LINE__ + 1 # rubocop:disable Style/DocumentDynamicEvalDefinition
 								define_model_callbacks :houid_set
 								after_initialize :add_houid
-								
+
 								# The HouID prefix as a symbol
 								# def houid_prefix
 								#		:supp
@@ -58,15 +58,15 @@ module Model::Houidable
 								end
 
 								def houid_attribute
-									:#{houid_attribute} 
+									:#{houid_attribute}
 								end
-								
+
 								# Generates a HouID using the provided houid_prefix
 								def generate_houid
 									houid_prefix.to_s + "_" + SecureRandom.alphanumeric(22)
 								end
-								
-								private 
+
+								private
 								def add_houid
 									run_callbacks(:houid_set) do
 										write_attribute(self.houid_attribute, self.generate_houid) unless read_attribute(self.houid_attribute)

@@ -3,30 +3,41 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
-# rubocop:disable Layout/TrailingWhitespace  # we do this becuase rubocop is bizarrely crashing on this file
+##
+# Provides support for Stripe-like string ids consisting of an short alphabetic string and underscore and then
+# 22 random base-62 characters (a-z, A-Z and 0-9). To use in a class, include this module and use {.setup_houid}
+# @see .setup_houid
 module Model::Houidable
 	extend ActiveSupport::Concern
 	class_methods do
 		###
-		# @description: Simplifies using HouIDs for an ActiveRecord class. HouIDs have the format of:
+		# Simplifies using HouIDs for an ActiveRecord class. HouIDs have the format of:
 		# prefix_{22 alphanumeric characters}. Prefixes must be unique across an Houdini instance.
 		# Given a prefix, adds the following features to a ActiveRecord class:
-		# - Sets a HouID to the id after object initialization (on "after_initialize" callback) if
+		# - Sets a HouID to the id before save (on "before_save" callback) if
 		#		it hasn't already been set
 		# - Adds a "before_houid_set" and "after_houid_set" callbacks in case you want do
-		#   somethings before or after that happens
+		#   some things before or after that happens
 		# - Adds  "before_houid_set" and "after_houid_set" callbacks if you want to take actions around
 		# - Adds two new public methods:
-		#    - houid_prefix - returns the prefix as a symbol
-		#    - generate_houid - creates a new HouID with given prefix
-		# @param prefix {string|Symbol}: the prefix for the HouIDs on this model
-		# @param houid_attribute {string|Symbol}: the attribute on this model to assign the Houid to. Defaults to :id.
+		#    - {#houid_prefix} - returns the prefix as a symbol
+		#    - {#generate_houid} - creates a new HouID with given prefix
+		# @param prefix [string, Symbol] the prefix for the HouIDs on this model
+		# @param houid_attribute [string, Symbol] the attribute on this model to assign the Houid to. Defaults to :id.
+		# @example  HouIDs for this class, on the :id attribute, will start with 'supp_'
+		#		class CustomSupporter
+		#   	setup_houid(:supp)
+		#		end
+		# @example HouIDs for this class, on the :houid attribute, will start with 'supp_'
+		#		class CustomSupporter
+		#   	setup_houid(:supp, :houid)
+		#		end
+		#
 		###
 		def setup_houid(prefix, houid_attribute = :id)
-
 			######
 			# 					define_model_callbacks :houid_set
-			# 					after_initialize :add_houid
+			# 					before_save :add_houid
 
 			# 					# The HouID prefix as a symbol
 			# 					def houid_prefix
@@ -47,7 +58,7 @@ module Model::Houidable
 			#####
 			class_eval <<-RUBY, __FILE__, __LINE__ + 1 # rubocop:disable Style/DocumentDynamicEvalDefinition
 								define_model_callbacks :houid_set
-								after_initialize :add_houid
+								before_save :add_houid
 
 								# The HouID prefix as a symbol
 								# def houid_prefix
@@ -76,5 +87,3 @@ module Model::Houidable
 		end
 	end
 end
-
-# rubocop:enable Layout/TrailingWhitespace

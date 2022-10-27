@@ -15,9 +15,16 @@ RSpec.describe Model::Houidable do
 			attr_accessor :id, :houid_id
 
 			define_model_callbacks :initialize
+			define_model_callbacks :save
 			def initialize(attributes = {})
 				run_callbacks :initialize do
 					assign_attributes(attributes)
+				end
+			end
+
+			def save
+				run_callbacks :save do
+					# run save
 				end
 			end
 
@@ -68,28 +75,54 @@ RSpec.describe Model::Houidable do
 			expect(default_trxassign.generate_houid).to match_houid(prefix)
 		end
 
-		it 'sets a valid houid as id' do
-			expect(default_trxassign.id).to match_houid(prefix)
+		context 'when only initialized' do
+			it 'doesnt set a houid' do
+				expect(default_trxassign.id).to be_nil
+			end
+
+			it 'will not override an id if already set' do
+				expect(already_set_houid.id).to eq preset_houid
+			end
+
+			it 'will not fire the before_houid_set callback' do
+				with_before_set_callback.callback_handler = double('Before Callback Handler')
+				expect(with_before_set_callback.callback_handler).to_not receive(:before_houid_set_callback)
+				with_before_set_callback.new
+			end
+
+			it 'will not fire the after_houid_set callback' do
+				with_after_set_callback.callback_handler = double('After Callback Handler')
+				expect(with_after_set_callback.callback_handler).to_not receive(:after_houid_set_callback)
+				with_after_set_callback.new
+			end
 		end
 
-		it 'will not override an id if already set' do
-			expect(already_set_houid.id).to eq preset_houid
-		end
+		context 'when saved' do
+			it 'generates a valid houid' do
+				default_trxassign.save
+				expect(default_trxassign.id).to match_houid(prefix)
+			end
 
-		it 'fires the before_houid_set callback' do
-			with_before_set_callback.callback_handler = double('Before Callback Handler')
-			expect(with_before_set_callback.callback_handler).to receive(:before_houid_set_callback).with(
-				having_attributes(id: nil)
-			)
-			with_before_set_callback.new
-		end
+			it 'will not override an id if already set' do
+				already_set_houid.save
+				expect(already_set_houid.id).to eq preset_houid
+			end
 
-		it 'fires the after_houid_set callback' do
-			with_after_set_callback.callback_handler = double('After Callback Handler')
-			expect(with_after_set_callback.callback_handler).to receive(:after_houid_set_callback).with(
-				having_attributes(id: match_houid(:trxassign))
-			)
-			with_after_set_callback.new
+			it 'fires the before_houid_set callback' do
+				with_before_set_callback.callback_handler = double('Before Callback Handler')
+				expect(with_before_set_callback.callback_handler).to receive(:before_houid_set_callback).with(
+					having_attributes(id: nil)
+				)
+				with_before_set_callback.new.save
+			end
+
+			it 'fires the after_houid_set callback' do
+				with_after_set_callback.callback_handler = double('After Callback Handler')
+				expect(with_after_set_callback.callback_handler).to receive(:after_houid_set_callback).with(
+					having_attributes(id: match_houid(:trxassign))
+				)
+				with_after_set_callback.new.save
+			end
 		end
 	end
 
@@ -129,28 +162,54 @@ RSpec.describe Model::Houidable do
 			expect(default_trxassign.generate_houid).to match_houid(prefix)
 		end
 
-		it 'sets a valid houid as id' do
-			expect(default_trxassign.houid_id).to match_houid(prefix)
+		context 'when only initialized' do
+			it 'does not set a houid' do
+				expect(default_trxassign.houid_id).to be_nil
+			end
+
+			it 'will not override an id if already set' do
+				expect(already_set_houid.houid_id).to eq preset_houid
+			end
+
+			it 'will not fire the before_houid_set callback' do
+				with_before_set_callback.callback_handler = double('Before Callback Handler') # rubocop:disable RSpec/VerifiedDoubles
+				expect(with_before_set_callback.callback_handler).to_not receive(:before_houid_set_callback)
+				with_before_set_callback.new
+			end
+
+			it 'will not fire the after_houid_set callback' do
+				with_after_set_callback.callback_handler = double('After Callback Handler') # rubocop:disable RSpec/VerifiedDoubles
+				expect(with_after_set_callback.callback_handler).to_not receive(:after_houid_set_callback)
+				with_after_set_callback.new
+			end
 		end
 
-		it 'will not override an id if already set' do
-			expect(already_set_houid.houid_id).to eq preset_houid
-		end
+		context 'when saved' do
+			it 'sets a valid houid as id' do
+				default_trxassign.save
+				expect(default_trxassign.houid_id).to match_houid(prefix)
+			end
 
-		it 'fires the before_houid_set callback' do
-			with_before_set_callback.callback_handler = double('Before Callback Handler') # rubocop:disable RSpec/VerifiedDoubles
-			expect(with_before_set_callback.callback_handler).to receive(:before_houid_set_callback).with(
-				having_attributes(houid_id: nil)
-			)
-			with_before_set_callback.new
-		end
+			it 'will not override an id if already set' do
+				already_set_houid.save
+				expect(already_set_houid.houid_id).to eq preset_houid
+			end
 
-		it 'fires the after_houid_set callback' do
-			with_after_set_callback.callback_handler = double('After Callback Handler') # rubocop:disable RSpec/VerifiedDoubles
-			expect(with_after_set_callback.callback_handler).to receive(:after_houid_set_callback).with(
-				having_attributes(houid_id: match_houid(:trxassign))
-			)
-			with_after_set_callback.new
+			it 'fires the before_houid_set callback' do
+				with_before_set_callback.callback_handler = double('Before Callback Handler') # rubocop:disable RSpec/VerifiedDoubles
+				expect(with_before_set_callback.callback_handler).to receive(:before_houid_set_callback).with(
+					having_attributes(houid_id: nil)
+				)
+				with_before_set_callback.new.save
+			end
+
+			it 'fires the after_houid_set callback' do
+				with_after_set_callback.callback_handler = double('After Callback Handler') # rubocop:disable RSpec/VerifiedDoubles
+				expect(with_after_set_callback.callback_handler).to receive(:after_houid_set_callback).with(
+					having_attributes(houid_id: match_houid(:trxassign))
+				)
+				with_after_set_callback.new.save
+			end
 		end
 	end
 end

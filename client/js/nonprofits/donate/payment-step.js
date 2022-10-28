@@ -36,7 +36,7 @@ function init(state) {
   // x if fee coverage is not selected
   state.donationTotal$ = flyd.stream();
 
-  //Given a donation of value x, this gives the amount of fees that would be added if fee coverage were selected, i.e. so 
+  //Given a donation of value x, this gives the amount of fees that would be added if fee coverage were selected, i.e. so
   // the nonprofit gets a net of x
   state.potentialFees$ = flyd.stream();
 
@@ -101,9 +101,6 @@ function init(state) {
     donationAmountCalculator.inputAmount = donation$().amount
     donationAmountCalculator.coverFees = coverFees$();
   }, [state.donation$, coverFees$]);
-
-  
-
 
   state.cardForm = cardForm.init({
     path: '/cards', card$, payload$, donationTotal$: state.donationTotal$, coverFees$, potentialFees$: state.potentialFees$,

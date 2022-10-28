@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 import type { CallbackClass } from "./types";
 
-
 /**
  * A very simple function for conditionally running callbacks. Move into own file because we can mock it for CallbackController
  * @param input The input properties to every callback

@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 import last from 'lodash/last';
-import isEqual from 'lodash/isEqual'
 
 /**
  * EventStack is a simple class that records objects based upon their type property. One way of using it is
@@ -9,7 +8,7 @@ import isEqual from 'lodash/isEqual'
 export default class EventStack<TEventObject extends {type:string}> {
 
   private events:Array<TEventObject> = []
-  
+
   /**
    * Add an event to the top of the stack. If the top of the stack already has an object with the same type, then don't add it.
    * @param event an object which will be added to the top of the stack if no object with the same type is already there.

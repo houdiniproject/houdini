@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-describe 'Controllers::Api::Transaction::Current', type: :controller do
+describe 'Controllers::Api::Transaction::Current' do
 	let(:transaction) { force_create(:transaction_for_donation) }
 	let(:nonprofit) { transaction.nonprofit }
 

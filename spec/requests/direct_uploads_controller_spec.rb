@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-describe DirectUploadsController, type: :request do
+describe DirectUploadsController do
 	describe 'POST /rails/active_storage/direct_uploads' do
 		context 'when not logged in' do
 			it {

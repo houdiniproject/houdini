@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 require 'rails_helper'
 
-describe Users::SessionsController, type: :request do
+describe Users::SessionsController do
 	describe 'POST /users/sign_in' do
 		context 'with successful login' do
 			let(:user) { create(:user) }

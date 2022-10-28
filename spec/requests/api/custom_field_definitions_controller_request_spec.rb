@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Api::CustomFieldDefinitionsController, type: :request do
+RSpec.describe Api::CustomFieldDefinitionsController do
 	let(:custom_field_definition) { create(:custom_field_definition_with_nonprofit) }
 	let(:nonprofit) { custom_field_definition.nonprofit }
 	let(:user) { create(:user) }
@@ -113,7 +113,7 @@ RSpec.describe Api::CustomFieldDefinitionsController, type: :request do
 					it { is_expected.to include('total_count' => 7) }
 
 					it {
-						expect(json['data'].map { |i| i['id'] }).to eq CustomFieldDefinition.order('id DESC').limit(5).pluck(:id)
+						expect(json['data'].pluck('id')).to eq CustomFieldDefinition.order('id DESC').limit(5).pluck(:id)
 					}
 				end
 
@@ -134,9 +134,7 @@ RSpec.describe Api::CustomFieldDefinitionsController, type: :request do
 					it { is_expected.to include('total_count' => 7) }
 
 					it {
-						expect(json['data'].map do |i|
-														i['id']
-													end).to eq CustomFieldDefinition.order('id DESC').limit(2).offset(5).pluck(:id)
+						expect(json['data'].pluck('id')).to eq CustomFieldDefinition.order('id DESC').limit(2).offset(5).pluck(:id)
 					}
 				end
 			end

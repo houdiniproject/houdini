@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe WidgetController, type: :controller do
+RSpec.describe WidgetController do
 	describe 'v2' do
 		it 'accepts requests without a CORS error' do
 			expect { get :v2, format: :js }.to_not raise_error

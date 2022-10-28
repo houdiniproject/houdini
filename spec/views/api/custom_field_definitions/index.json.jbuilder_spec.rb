@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe '/api/custom_field_definitions/index.json.jbuilder', type: :view do
+RSpec.describe '/api/custom_field_definitions/index.json.jbuilder' do
 	subject(:json) do
 		assign(:custom_field_definitions, Kaminari.paginate_array([custom_field_definition]).page)
 		render

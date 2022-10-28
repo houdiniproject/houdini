@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-describe Api::NonprofitsController, type: :request do
+describe Api::NonprofitsController do
 	describe 'GET /api/nonprofits/:id' do
 		context "when nonprofit doesn't exists", pending: "the user gets a 401 but it's should be 404" do
 			before do

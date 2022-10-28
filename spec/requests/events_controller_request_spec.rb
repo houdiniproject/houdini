@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe EventsController, type: :request do
+describe EventsController do
 	def event_setup
 		nonprofit = create(:nonprofit_base, register_np_only: true)
 		OpenStruct.new( # rubocop:disable Style/OpenStructUse

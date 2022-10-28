@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-describe 'event_locatable', type: :routing do
+describe 'event_locatable' do
 	# for reasons I don't understand, routing specs don't have the defautlt_url_options set so we set them here.
 	around do |example|
 		original_url_options = Rails.application.routes.default_url_options.dup

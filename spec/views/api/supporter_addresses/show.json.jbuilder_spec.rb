@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe '/api/supporter_addresses/show.json.jbuilder', type: :view do
+RSpec.describe '/api/supporter_addresses/show.json.jbuilder' do
 	subject(:json) do
 		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2)
 		assign(:supporter_address, supporter_address)

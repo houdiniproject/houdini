@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe '/api/tag_definitions/index.json.jbuilder', type: :view do
+RSpec.describe '/api/tag_definitions/index.json.jbuilder' do
 	subject(:json) do
 		assign(:tag_definitions, Kaminari.paginate_array([tag_definition]).page)
 		render

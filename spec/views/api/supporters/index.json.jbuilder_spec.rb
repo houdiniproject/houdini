@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe '/api/supporters/index.json.jbuilder', type: :view do
+RSpec.describe '/api/supporters/index.json.jbuilder' do
 	subject(:json) do
 		assign(:supporters, supporter_with_fv_poverty.nonprofit.supporters.order('id DESC').page)
 		render

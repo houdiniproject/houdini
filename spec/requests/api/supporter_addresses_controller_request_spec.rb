@@ -5,7 +5,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::SupporterAddressesController, type: :request do
+RSpec.describe Api::SupporterAddressesController do
 	let(:supporter) { create(:supporter_with_fv_poverty) }
 	let(:nonprofit) { supporter.nonprofit }
 	let(:supporter_address) { supporter }

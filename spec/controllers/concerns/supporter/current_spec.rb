@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-describe 'Controllers::Supporter::Current', type: :controller do
+describe 'Controllers::Supporter::Current' do
 	let(:nonprofit) { force_create(:nm_justice) }
 	let(:supporter) { force_create(:supporter) }
 

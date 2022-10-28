@@ -41,7 +41,7 @@ class CampaignsController < ApplicationController # rubocop:disable Metrics/Clas
 		@timezone = Format::Timezone.to_proxy(current_nonprofit.timezone)
 		if @campaign.deleted && !current_campaign_editor?
 			redirect_to nonprofit_path(current_nonprofit)
-			flash[:notice] = t('campaigns.sorry_couldnt_find_campaign')
+			flash.now[:notice] = t('campaigns.sorry_couldnt_find_campaign')
 			return
 		end
 		@nonprofit = current_nonprofit

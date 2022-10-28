@@ -30,7 +30,7 @@ RSpec.shared_examples 'common event api result' do
 	}
 end
 
-RSpec.describe Api::EventsController, type: :request do
+RSpec.describe Api::EventsController do
 	let(:event) { create(:fv_poverty_fighting_event_with_nonprofit_and_profile) }
 	let(:nonprofit) { event.nonprofit }
 	let(:user) { create(:user) }

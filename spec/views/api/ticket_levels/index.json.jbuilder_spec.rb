@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe '/api/ticket_levels/index.json.jbuilder', type: :view do
+RSpec.describe '/api/ticket_levels/index.json.jbuilder' do
 	subject(:json) do
 		assign(:ticket_levels, Kaminari.paginate_array([
 																																																		ticket_level_with_event_non_admin__order_3__not_deleted

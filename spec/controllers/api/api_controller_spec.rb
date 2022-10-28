@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-describe Api::ApiController, type: :controller do
+describe Api::ApiController do
 	it {
 		is_expected.to rescue_from(::AuthenticationError).with(:unauthorized_rescue)
 	}

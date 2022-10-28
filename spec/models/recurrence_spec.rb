@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Recurrence, type: :model do
+RSpec.describe Recurrence do
 	around do |example|
 		Timecop.freeze(2020, 5, 4) do
 			example.run

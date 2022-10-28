@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Api::SupportersController, type: :request do
+RSpec.describe Api::SupportersController do
 	let(:supporter) { create(:supporter_with_fv_poverty) }
 	let(:nonprofit) { supporter.nonprofit }
 	let(:user) { create(:user) }
@@ -129,7 +129,7 @@ RSpec.describe Api::SupportersController, type: :request do
 					it { is_expected.to include('total_count' => 7) }
 
 					it {
-						expect(json['data'].map { |i| i['id'] }).to eq Supporter.order('id DESC').limit(5).pluck(:id)
+						expect(json['data'].pluck('id')).to eq Supporter.order('id DESC').limit(5).pluck(:id)
 					}
 				end
 
@@ -150,7 +150,7 @@ RSpec.describe Api::SupportersController, type: :request do
 					it { is_expected.to include('total_count' => 7) }
 
 					it {
-						expect(json['data'].map { |i| i['id'] }).to eq Supporter.order('id DESC').limit(2).offset(5).pluck(:id)
+						expect(json['data'].pluck('id')).to eq Supporter.order('id DESC').limit(2).offset(5).pluck(:id)
 					}
 				end
 			end

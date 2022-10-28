@@ -5,7 +5,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Api::SupporterNotesController, type: :request do
+RSpec.describe Api::SupporterNotesController do
 	let(:supporter) { supporter_note.supporter }
 	let(:nonprofit) { supporter.nonprofit }
 	let(:supporter_note) { create(:supporter_note_with_fv_poverty_with_user) }
@@ -120,7 +120,7 @@ RSpec.describe Api::SupporterNotesController, type: :request do
 					it { is_expected.to include('total_count' => 7) }
 
 					it {
-						expect(json['data'].map { |i| i['id'] }).to eq SupporterNote.order('id DESC').limit(5).pluck(:id)
+						expect(json['data'].pluck('id')).to eq SupporterNote.order('id DESC').limit(5).pluck(:id)
 					}
 				end
 
@@ -141,7 +141,7 @@ RSpec.describe Api::SupporterNotesController, type: :request do
 					it { is_expected.to include('total_count' => 7) }
 
 					it {
-						expect(json['data'].map { |i| i['id'] }).to eq SupporterNote.order('id DESC').limit(2).offset(5).pluck(:id)
+						expect(json['data'].pluck('id')).to eq SupporterNote.order('id DESC').limit(2).offset(5).pluck(:id)
 					}
 				end
 			end

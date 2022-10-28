@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Api::TransactionsController, type: :request do
+RSpec.describe Api::TransactionsController do
 	let(:nonprofit) { transaction_for_donation.nonprofit }
 	let(:user) { create(:user) }
 	let(:supporter) { transaction_for_donation.supporter }

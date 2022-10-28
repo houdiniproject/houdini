@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 require 'rails_helper'
 
-describe Api::UsersController, type: :request do
+describe Api::UsersController do
 	describe 'GET /api/users/current' do
 		context 'when not logged in' do
 			before { get '/api/users/current' }

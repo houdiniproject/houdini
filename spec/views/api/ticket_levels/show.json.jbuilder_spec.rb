@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe '/api/ticket_levels/show.json.jbuilder', type: :view do
+RSpec.describe '/api/ticket_levels/show.json.jbuilder' do
 	def base_path(nonprofit_id, event_id, ticket_level_id)
 		"/api/nonprofits/#{nonprofit_id}/events/#{event_id}/ticket_levels/#{ticket_level_id}"
 	end

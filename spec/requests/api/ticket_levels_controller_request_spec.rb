@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Api::TicketLevelsController, type: :request do
+RSpec.describe Api::TicketLevelsController do
 	let(:event) { ticket_level_with_event_non_admin__order_3__not_deleted.event }
 	let(:nonprofit) { event.nonprofit }
 	let(:user) { create(:user) }

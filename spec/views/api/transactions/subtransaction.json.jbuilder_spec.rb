@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe 'api/transactions/subtransaction', type: :view do
+RSpec.describe 'api/transactions/subtransaction' do
 	def base_path(nonprofit_id, transaction_id)
 		"/api/nonprofits/#{nonprofit_id}/transactions/#{transaction_id}"
 	end

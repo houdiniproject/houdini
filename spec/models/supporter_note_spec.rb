@@ -6,7 +6,7 @@ require 'rails_helper'
 # rubocop:disable RSpec/MessageSpies
 # rubocop:disable RSpec/ExampleLength
 # rubocop:disable RSpec/MultipleExpectations
-RSpec.describe SupporterNote, type: :model do
+RSpec.describe SupporterNote do
 	include_context :shared_donation_charge_context
 	let(:content) { 'CONTENT' }
 	let(:content2) { 'CONTENT2' }

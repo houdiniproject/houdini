@@ -4,6 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Subtransaction, type: :model do
+RSpec.describe Subtransaction do
 	pending "add some examples to (or delete) #{__FILE__}"
 end

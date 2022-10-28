@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe OfflineTransactionDispute, type: :model do
+RSpec.describe OfflineTransactionDispute do
 	let!(:nonprofit) { create(:nm_justice) }
 	let!(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
 

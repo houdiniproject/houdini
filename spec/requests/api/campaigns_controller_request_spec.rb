@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Api::CampaignsController, type: :request do
+RSpec.describe Api::CampaignsController do
 	let(:campaign) { create(:fv_poverty_fighting_campaign_with_nonprofit_and_profile) }
 	let(:nonprofit) { campaign.nonprofit }
 	let(:user) { create(:user) }

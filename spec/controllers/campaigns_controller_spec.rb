@@ -5,7 +5,7 @@
 require 'rails_helper'
 require 'controllers/support/shared_user_context'
 
-describe CampaignsController, type: :controller do
+describe CampaignsController do
 	describe 'authorization' do
 		include_context :shared_user_context
 		describe 'rejects unauthorized users' do

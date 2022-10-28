@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Api::CampaignGiftOptionsController, type: :request do
+RSpec.describe Api::CampaignGiftOptionsController do
 	let(:campaign) { campaign_gift_option_with_campaign_with_one_time_amount.campaign }
 	let(:nonprofit) { campaign.nonprofit }
 	let(:user) { create(:user) }

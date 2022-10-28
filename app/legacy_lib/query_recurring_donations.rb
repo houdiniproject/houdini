@@ -82,7 +82,7 @@ module QueryRecurringDonations
       expr = expr.where("#{failed_or_active_clauses.join(' OR ')}")
     end
 
-  
+
 
     if query.key?(:end_date_gt_or_equal)
       expr = expr.where("recurring_donations.end_date IS NULL OR recurring_donations.end_date >= $date", date: query[:end_date_gt_or_equal])
@@ -183,10 +183,10 @@ module QueryRecurringDonations
     'MAX(donations.id) AS "Donation ID"',
     'MAX(donations.designation) AS "Designation"',
     'BOOL_OR(misc_recurring_donation_infos.fee_covered) AS "Fee Covered by Supporter"',
-    "CASE WHEN #{is_cancelled_clause('recurring_donations')} 
-      THEN 'cancelled' 
-    WHEN #{is_failed_clause('recurring_donations')} 
-      THEN 'failed' 
+    "CASE WHEN #{is_cancelled_clause('recurring_donations')}
+      THEN 'cancelled'
+    WHEN #{is_failed_clause('recurring_donations')}
+      THEN 'failed'
     ELSE 'active' END AS status",
     'recurring_donations.cancelled_at AS "Cancelled At"',
     "CASE WHEN #{is_active_clause('recurring_donations')} OR #{is_failed_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\"",
@@ -213,50 +213,6 @@ module QueryRecurringDonations
   def self.recurring_donations_without_cards
     RecurringDonation.active.includes(:card).includes(:charges).includes(:donation).includes(:nonprofit).includes(:supporter).where("cards.id IS NULL").order("recurring_donations.created_at DESC")
   end
-  
-  def self._splitting_rd_supporters_without_cards()
-    supporters_with_valid_rds = []
-    supporters_without_valid_rds = []
-    send_to_wendy = []
-    supporters_with_cardless_rds = recurring_donations_without_cards.map {|rd| rd.supporter}.uniq{|s| s.id}
-
-    #does the supporter have even one rd with a valid card
-    supporters_with_cardless_rds.each {|s|
-      valid_rd = find_recurring_donation_with_a_card(s)
-      # they have a recurring donation with a card for the same org
-      if (valid_rd)
-        if (s.recurring_donations.length > 2)
-          #they have too many recurring_donations.  Send to wendy
-          send_to_wendy.push(s)
-        else
-          # are the recurring_donations the same amount?
-          if (s.recurring_donations[0].amount == s.recurring_donations[1].amount)
-            supporters_with_valid_rds.push(s)
-          else
-            # they're not the same amount. We got no clue. Send to Wendy
-            send_to_wendy.push(s)
-          end
-        end
-      else
-        # they have no other recurring donations
-        supporters_without_valid_rds.push(s)
-      end
-    }
-
-    return supporters_with_valid_rds, send_to_wendy, supporters_without_valid_rds
-  end
-
-  # @param [Array<Supporter>] wendy_list_of_supporters
-  # @param [String] path
- # def self.create_wendy_csv(path, wendy_list_of_supporters)
- #   CSV.open(path, 'wb') {|csv|
- #     csv << ['supporter id',  'nonprofit id', 'supporter name', 'supporter address', 'supporter city', 'supporter state', 'supporter ZIP', 'supporter country', 'supporter phone', 'supporter email', 'supporter rd amounts']
- #     wendy_list_of_supporters.each { |s|
- #       amounts = '$'+ s.recurring_donations.active.collect {|rd| Format::Currency.cents_to_dollars(rd.amount)}.join(", $")
- #       csv << [s.id, s.nonprofit.id, s.name, s.address, s.city, s.state_code, s.zip_code, s.country, s.phone, s.email, amounts]
- #     }
- #   }
- # end
 
   # @param [Supporter] supporter
   def self.find_recurring_donation_with_a_card(supporter)
@@ -399,12 +355,12 @@ module QueryRecurringDonations
     supporter_groups_by_email = nonprofit.supporters.joins(:recurring_donations).where("recurring_donations.active AND recurring_donations.n_failures < 3").references(:recurring_donations).group("supporters.email").select("supporters.email, ARRAY_AGG(supporters.id) AS supporters")
 
     result = generate_output_by_supporter_email_groups(supporter_groups_by_email)
-        
-    
+
+
     Format::Csv.from_data(result, titleize_header: false)
-      
-      
-    
+
+
+
   end
 
   def self.get_new_recurring_for_an_org_during_a_period(nonprofit, start_date_for_search=nil , end_date_for_search=nil)
@@ -426,7 +382,7 @@ module QueryRecurringDonations
       recurrings = all_supporters.map{|supporter| supporter.recurring_donations.active.unfailed.order("start_date DESC")}.flatten.sort_by{|i| i.start_date}.reverse
 
       {
-        email: supporter_group.email, 
+        email: supporter_group.email,
         tags: tags.join(','),
         active_recurring_donations: recurrings.map{|recurring| recurring.amount.to_s + ',' + recurring.start_date.to_datetime.utc.to_i.to_s}.join(';')
       }

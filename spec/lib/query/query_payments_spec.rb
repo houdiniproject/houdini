@@ -115,30 +115,32 @@ describe QueryPayments do
     let(:charge_amount_medium) { 400}
     let(:charge_amount_large) { 600}
 
-    def generate_donation(h)
-      token = h[:token]
+    def generate_offsite_donation(h)
       date = h[:date]
       amount = h[:amount]
+      input = {
+        amount: amount,
+        nonprofit_id: nonprofit.id,
+        supporter_id: supporter.id,
+        date: date,
+        dedication: 'dedication',
+        designation: 'designation'
+    }.with_indifferent_access
+      InsertDonation.offsite(input)
+    end
 
-      input = {amount: amount,
-               nonprofit_id: nonprofit.id,
-               supporter_id: supporter.id,
-               token: token,
-               date: date,
-               dedication: 'dedication',
-               designation: 'designation'}
-      if h[:event_id]
-        input[:event_id] = h[:event_id]
-      end
-
-      if h[:campaign_id]
-        input[:campaign_id] = h[:campaign_id]
-      end
+    def generate_donation(h)
+      input =  h.merge(
+        nonprofit_id: nonprofit.id,
+        supporter_id: supporter.id,
+        dedication: 'dedication',
+        designation: 'designation'
+      )         
 
       d = InsertDonation.with_stripe(input)
       c = Charge.find(d['charge']['id'])
-      c.created_at = date
-      c.updated_at = date
+      c.created_at = h[:date]
+      c.updated_at = h[:date]
       c.save!
       d
     end
@@ -153,6 +155,10 @@ describe QueryPayments do
     end
 
     describe 'general donations' do
+      let(:offsite_donation ) { 
+        generate_offsite_donation(amount: charge_amount_small, date: (Time.now - 1.day).to_s)
+      }
+
       let(:donation_result_yesterday) {
           generate_donation(amount: charge_amount_small,
 
@@ -164,21 +170,27 @@ describe QueryPayments do
 
       let(:donation_result_today) {
 
-          generate_donation(amount:  charge_amount_medium,
+        generate_donation(amount:  charge_amount_medium,
 
                                      token: source_tokens[1].token,
 
-                                     date: (Time.now).to_s
+                                     date: (Time.now).to_s,
+                                     fee_covered: true
                              )
+   
+  
       }
 
       let(:donation_result_tomorrow) {
 
-          generate_donation(amount: charge_amount_large,
+        generate_donation(amount: charge_amount_large,
 
                                      token: source_tokens[2].token,
-                                     date: (Time.now + 1.day).to_s
+                                     date: (Time.now + 1.day).to_s,
+                                     fee_covered: false
                             )
+  
+  
 
       }
       let(:charge_result_yesterday) {
@@ -211,6 +223,7 @@ describe QueryPayments do
 
 
       it 'empty filter returns all' do
+        offsite_donation
         donation_result_yesterday
         donation_result_today
         donation_result_tomorrow
@@ -219,7 +232,7 @@ describe QueryPayments do
 
         result = QueryPayments::full_search(nonprofit.id, {})
 
-        expect(result[:data].count).to eq 5
+        expect(result[:data].count).to eq 6
       end
 
       context 'considering the nonprofit timezone on the query result' do
@@ -577,6 +590,45 @@ describe QueryPayments do
             end
           end
         end
+      end
+
+      context 'when filter by online only' do
+        it 'has 3' do 
+          offsite_donation
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          first_refund_of_yesterday
+          second_refund_of_yesterday
+          result = QueryPayments::full_search(nonprofit.id, {online_payments_only: true})
+
+          expect(result[:data].count).to eq 3
+        end
+      end
+
+
+      it 'has 1 when filtering by fee is covered by supporter' do 
+        offsite_donation
+        donation_result_yesterday
+        donation_result_today
+        donation_result_tomorrow
+        first_refund_of_yesterday
+        second_refund_of_yesterday
+        result = QueryPayments::full_search(nonprofit.id, {supporter_covered_fee: true})
+
+        expect(result[:data].count).to eq 1
+      end
+
+      it 'has 5 when filtering by fee NOT covered by supporter' do 
+        offsite_donation
+        donation_result_yesterday
+        donation_result_today
+        donation_result_tomorrow
+        first_refund_of_yesterday
+        second_refund_of_yesterday
+        result = QueryPayments::full_search(nonprofit.id, {supporter_covered_fee: false})
+
+        expect(result[:data].count).to eq 5
       end
     end
 

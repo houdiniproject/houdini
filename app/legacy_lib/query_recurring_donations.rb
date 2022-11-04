@@ -69,12 +69,17 @@ module QueryRecurringDonations
     end
 
     if query.key?(:active)
-      clause = query[:active] ? is_active_clause('recurring_donations') : is_cancelled_clause('recurring_donations')
+      clause = query[:active] ? [is_active_clause('recurring_donations'), is_not_fulfilled_clause('recurring_donations')].join(" AND ") : [is_cancelled_clause('recurring_donations'), is_not_fulfilled_clause('recurring_donations')].join(" AND ")
       failed_or_active_clauses.push("(#{clause})")
     end
 
     if query.key?(:failed)
-      clause = query[:failed] ? is_failed_clause('recurring_donations') : is_not_failed_clause('recurring_donations')
+      clause = query[:failed] ? [is_failed_clause('recurring_donations'), is_active_clause('recurring_donations')].join(" AND ") : is_not_failed_clause('recurring_donations')
+      failed_or_active_clauses.push("(#{clause})")
+    end
+
+    if query.key?(:fulfilled)
+      clause = query[:fulfilled] ? [is_fulfilled_clause('recurring_donations'), is_active_clause('recurring_donations')].join(" AND ") : is_not_fulfilled_clause('recurring_donations')
       failed_or_active_clauses.push("(#{clause})")
     end
 
@@ -187,9 +192,11 @@ module QueryRecurringDonations
       THEN 'cancelled'
     WHEN #{is_failed_clause('recurring_donations')}
       THEN 'failed'
+    WHEN #{is_fulfilled_clause('recurring_donations')}
+      THEN 'fulfilled'
     ELSE 'active' END AS status",
     'recurring_donations.cancelled_at AS "Cancelled At"',
-    "CASE WHEN #{is_active_clause('recurring_donations')} OR #{is_failed_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\"",
+    "CASE WHEN (#{is_active_clause('recurring_donations')} OR #{is_failed_clause('recurring_donations')}) AND #{is_not_fulfilled_clause('recurring_donations')} THEN concat('#{root_url}recurring_donations/', recurring_donations.id, '/edit?t=', recurring_donations.edit_token) ELSE '' END AS \"Donation Management Url\"",
     'MAX(recurring_donations.paydate) AS "Paydate"',
     'MAX(paid_charges.created_at) AS "Last Charge Succeeded"'
   ]
@@ -308,15 +315,23 @@ module QueryRecurringDonations
   # External active means what a user would consider active, i.e. a recurring donation that will be paid.
   # This means it hasn't be cancelled "active='t'" and that it hasn't failed 'n_failures < 3'
   def self.is_external_active_clause(field_for_rd)
-    "#{is_active_clause(field_for_rd)} AND #{is_not_failed_clause(field_for_rd)} AND (#{field_for_rd}.end_date IS NULL OR #{field_for_rd}.end_date > '#{Time.current}')"
+    "#{is_active_clause(field_for_rd)} AND #{is_not_failed_clause(field_for_rd)} AND #{is_not_fulfilled_clause(field_for_rd)}"
   end
 
   def self.is_external_cancelled_clause(field_for_rd)
-    "((#{is_cancelled_clause(field_for_rd)} OR #{field_for_rd}.end_date <= '#{Time.current}') AND #{is_not_failed_clause(field_for_rd)})"
+    "(#{is_cancelled_clause(field_for_rd)}) AND #{is_not_failed_clause(field_for_rd)} AND (#{is_not_fulfilled_clause(field_for_rd)})"
   end
 
   def self.is_active_clause(field_for_rd)
     "#{field_for_rd}.active='t'"
+  end
+
+  def self.is_fulfilled_clause(field_for_rd)
+    "#{field_for_rd}.end_date IS NOT NULL AND #{field_for_rd}.end_date < '#{Time.current}'"
+  end
+
+  def self.is_not_fulfilled_clause(field_for_rd)
+    "NOT(#{is_fulfilled_clause(field_for_rd)})"
   end
 
 

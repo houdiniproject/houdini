@@ -32,14 +32,14 @@ class RecurringDonationsController < ApplicationController
 				params.delete(:failed) if params.key?(:failed)
 			end
 
-			[:active_and_not_failed, :active, :failed].each do |k|
+			[:active_and_not_failed, :active, :failed, :fulfilled].each do |k|
 				if params.key?(k)
 					params[k] = params[k] == "true"
 				end
 			end
 
 			params[:root_url] = root_url
-			
+
 			ExportRecurringDonations::initiate_export(@nonprofit.id, params, [current_user.id])
 		rescue => e
 			e

@@ -1,6 +1,23 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class RecurringDonation < ActiveRecord::Base
 
+  # The status is confusing here.
+  # A recurring donation can be in one of four status'
+  # * active
+  # * cancelled
+  # * failed
+  # * fulfilled
+
+  # the conditions for those statuses are as follows
+  # if the field 'active' is false, then "cancelled"
+  # else if n_failures is at least 3, then "failed"
+  # else if the end_date is set and in the past, "fulfilled"
+  # else "active"
+
+
+  # The query that displays in nonprofits/:id/recurring_donations is rds that are active OR failed
+
+
   define_model_callbacks :cancel
 
   before_save :set_anonymous
@@ -33,6 +50,8 @@ class RecurringDonation < ActiveRecord::Base
   scope :annual,   -> {where(time_unit: 'year', interval: 1)}
   scope :failed, -> {where('n_failures >= 3')}
   scope :unfailed, -> {where('n_failures < 3')}
+  scope :fulfilled, -> {where('recurring_donations.end_date < ?', Time.current.to_date)}
+  scope :unfulfilled, -> {where('recurring_donations.end_date IS NULL OR recurring_donations.end_date IS >= ?', Time.current.to_date)}
 
   scope :may_attempt_again, -> {where('recurring_donations.active AND (recurring_donations.end_date IS NULL OR recurring_donations.end_date > ?) AND recurring_donations.n_failures < 3', Time.current)}
 
@@ -86,7 +105,7 @@ class RecurringDonation < ActiveRecord::Base
   end
 
   def cancel!(email)
-    run_callbacks(:cancel) do 
+    run_callbacks(:cancel) do
       self.active = false
       self.cancelled_by = email
       self.cancelled_at = Time.current

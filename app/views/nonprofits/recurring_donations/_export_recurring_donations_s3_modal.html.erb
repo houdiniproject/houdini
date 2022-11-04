@@ -25,6 +25,17 @@
     </form>
 
     <hr>
+
+    <form autosubmit method="POST" data-success-message="Your export was successfully initiated and you'll be emailed as soon as it's available. Feel free to use the site in the meantime." data-reload>
+      <!--= set_attr 'action' (cat '/nonprofits/<%= @nonprofit.id %>/recurring_donations/export.json' (obj_to_url_params this.query )-->
+      <input type="hidden" name="fulfilled" value="true"/>
+      <div class='u-centered'>
+        <p class='error'></p>
+        <button id='csv-export-button' class='button--small' type='submit' data-loading='Initiating Download'><i class='fa fa-cloud-download'></i> Download Fulfilled Recurring Donations as CSV</button>
+      </div>
+    </form>
+
+
     <form autosubmit method="POST" data-success-message="Your export was successfully initiated and you'll be emailed as soon as it's available. Feel free to use the site in the meantime." data-reload>
       <!--= set_attr 'action' (cat '/nonprofits/<%= @nonprofit.id %>/recurring_donations/export.json' (obj_to_url_params this.query )-->
       <input type="hidden" name="active_and_not_failed" value="false"/>

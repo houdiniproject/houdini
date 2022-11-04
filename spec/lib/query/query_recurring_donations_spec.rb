@@ -189,7 +189,7 @@ describe QueryRecurringDonations do
       payment = force_create(:payment, donation: donation)
       last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
       rd = create_recdon({ donation: donation })
-      Timecop.freeze(Time.new(2021,5,2)) do 
+      Timecop.freeze(Time.new(2021,5,2)) do
         rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
         expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
       end
@@ -201,11 +201,11 @@ describe QueryRecurringDonations do
       last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
       rd = create_recdon({ donation: donation, paydate:  22 })
       rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
-      Timecop.freeze(Time.new(2021,5,1)) do 
+      Timecop.freeze(Time.new(2021,5,1)) do
         expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
       end
 
-      Timecop.freeze(Time.new(2021,5,2)) do 
+      Timecop.freeze(Time.new(2021,5,2)) do
         expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
       end
     end
@@ -216,7 +216,7 @@ describe QueryRecurringDonations do
       last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
       rd = create_recdon({ donation: donation, paydate:  22 })
       rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
-      Timecop.freeze(Time.new(2021,5,22)) do 
+      Timecop.freeze(Time.new(2021,5,22)) do
         expect(QueryRecurringDonations.is_due?(rd['id'])).to be true
       end
     end
@@ -227,7 +227,7 @@ describe QueryRecurringDonations do
       last_charge = force_create(:charge, payment: payment, status: 'disbursed', donation: donation, created_at: Time.new(2021,1,15))
       rd = create_recdon({ donation: donation, paydate:  22 })
       rd.create_recurring_donation_hold end_date: Time.new(2021,5,1)
-      Timecop.freeze(Time.new(2021,5,21)) do 
+      Timecop.freeze(Time.new(2021,5,21)) do
         expect(QueryRecurringDonations.is_due?(rd['id'])).to be false
       end
     end
@@ -240,6 +240,27 @@ describe QueryRecurringDonations do
       end
     end
 
+
+    let(:failed) {[
+      force_create(:recurring_donation, amount: 2000, active: true, n_failures: 3, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_2"),
+      force_create(:recurring_donation, amount: 400, active: false, n_failures: 3, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_4")
+  ]}
+
+    let(:cancelled) {
+      [force_create(:recurring_donation, amount: 1000, active: false, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_1"),
+
+  ]
+  }
+
+    let(:active) { [
+      force_create(:recurring_donation, amount: 3000, active: true, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation, card: force_create(:card, stripe_customer_id: "stripe_cus_id")), edit_token: "edit_token_3"),
+      force_create(:recurring_donation, amount: 200, active: true, n_failures: 0, end_date: Time.current + 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_6")
+  ]}
+
+  let(:fulfilled) {[
+    force_create(:recurring_donation, amount: 100, active: true, n_failures: 0, end_date: Time.current - 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_5"),
+  ]}
+
     before :each do
       @nonprofit = force_create(:nonprofit, name: "npo1");
       @supporters = [ force_create(:supporter, name: "supporter-0", nonprofit: @nonprofit),
@@ -247,13 +268,7 @@ describe QueryRecurringDonations do
 
 
 
-      @recurring_donations = [force_create(:recurring_donation, amount: 1000, active: false, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_1"),
-                              force_create(:recurring_donation, amount: 2000, active: true, n_failures: 3, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_2"),
-                              force_create(:recurring_donation, amount: 3000, active: true, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation, card: force_create(:card, stripe_customer_id: "stripe_cus_id")), edit_token: "edit_token_3"),
-                              force_create(:recurring_donation, amount: 400, active: false, n_failures: 3, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_4"),
-                              force_create(:recurring_donation, amount: 100, active: true, n_failures: 0, end_date: Time.current - 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_5"),
-                              force_create(:recurring_donation, amount: 200, active: true, n_failures: 0, end_date: Time.current + 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_6")
-                            ]
+      @recurring_donations = [].concat(failed).concat(cancelled).concat(active).concat(fulfilled)
       @root_url ='https://localhost:8080'
     end
 
@@ -270,36 +285,46 @@ describe QueryRecurringDonations do
     it 'retrieves active' do
       rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
 
-
-
       expect(rows.length).to eq(2)
       expect(rows[0].headers).to eq(headers)
       expect(rows[0]["Amount"]).to eq("$30.00")
+      expect(rows[0]["Status"]).to eq "active"
       expect(rows[1]["Amount"]).to eq("$2.00")
-      expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
+      expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,active[0]))
+      expect(rows[0]["Status"]).to eq "active"
+    end
+
+    it 'retrieves fulfilled' do
+      rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:fulfilled => true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
+
+
+      expect(rows.length).to eq(1)
+      expect(rows[0].headers).to eq(headers)
+      expect(rows[0]["Amount"]).to eq("$1.00")
+      expect(rows[0]["Status"]).to eq "fulfilled"
+      expect(rows[0]["Donation Management Url"]).to eq('')
 
     end
 
     it 'retrieves cancelled' do
       rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:active_and_not_failed => false, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
 
-      expect(rows.length).to eq(2)
+      expect(rows.length).to eq(1)
       expect(rows[0].headers).to eq(headers)
       expect(rows[0]["Amount"]).to eq("$10.00")
       expect(rows[0]["Donation Management Url"]).to eq('')
-      expect(rows[1]["Amount"]).to eq("$1.00")
+      expect(rows[0]["Status"]).to eq "cancelled"
     end
 
     context 'failed charges' do
       it 'retrieves failed' do
         rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => true, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
-  
-        expect(rows.length).to eq(2)
+
+        expect(rows.length).to eq(1)
         expect(rows[0].headers).to eq(headers)
         expect(rows[0]["Amount"]).to eq("$20.00")
-        expect(rows[1]["Amount"]).to eq("$4.00")
-        expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[1]))
-        expect(rows[1]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[3]))
+        expect(rows[0]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url, failed[0]))
+
       end
 
       context 'when the query includes last failed charge param' do
@@ -333,14 +358,13 @@ describe QueryRecurringDonations do
 
     it 'retrieves not-failed' do
       rows = CSV.parse(Format::Csv.from_array(QueryRecurringDonations::for_export_enumerable(@nonprofit.id, {:failed => false, :root_url => 'https://localhost:8080/'}).to_a), headers: true)
-      
+
       expect(rows.length).to eq(4)
       expect(rows[0].headers).to eq(headers)
       expect(rows[0]["Amount"]).to eq("$10.00")
       expect(rows[1]["Amount"]).to eq("$30.00")
 
-      expect(rows[0]["Donation Management Url"]).to eq('')
-      expect(rows[1]["Donation Management Url"]).to eq(MockHelpers.generate_expected_rd_management_url(@root_url,@recurring_donations[2]))
+      expect(rows[3]["Donation Management Url"]).to eq('')
     end
 
     it 'gets the stripe_customer_id when requested' do

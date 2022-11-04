@@ -8,6 +8,7 @@ comfort and speed.
 
 All backend code and React components should be well-tested
 
+
 ## Prerequisites
 
 Houdini is designed and tested to run with the following:
@@ -183,3 +184,10 @@ and React (using TSX files). Please use the React Generators for creation.
 * Push to the remote for `PRIVATE_STAGING_DEPLOY` (ask Eric for remote and access)
 * Push to heroku staging using `git commit cc-test PRIVATE_STAGING_DEPLOY:master` (ask Eric for access to production)
 
+## Creating issues
+
+* *I'm a community member* - You should file an issue upstream in https://github.com/houdiniproject/houdini
+
+* *I work for CommitChange and...
+  * *this is a CommitChange issue* - create an issue in https://github.com/commitchange/tix
+  * *this may be an issue upstream* - create an issue in https://github.com/commitchange/tix and maybe upstream. If you do file upstream, link to it the upstream issue in the tix issue.

@@ -21,8 +21,10 @@ Houdini is designed and tested to run with the following:
 ## Dev Setup
 
 #### Get the code  
-`git clone https://github.com/Commitchange/houdini`
-`git checkout supporter_level_goal`
+```bash
+git clone https://github.com/Commitchange/houdini
+git checkout supporter_level_goal
+```
 
 #### One-time setup
 

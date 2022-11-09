@@ -72,3 +72,5 @@ jobs:
 
             git tag $NewVersionTag-$mode-release-deploy
             git push origin $NewVersionTag-$mode-release-deploy
+
+            git push origin HEAD:staging_deploy -f

@@ -188,6 +188,6 @@ and React (using TSX files). Please use the React Generators for creation.
 
 * *I'm a community member* - You should file an issue upstream in https://github.com/houdiniproject/houdini
 
-* *I work for CommitChange and...
+* *I work for CommitChange and...*
   * *this is a CommitChange issue* - create an issue in https://github.com/commitchange/tix
   * *this may be an issue upstream* - create an issue in https://github.com/commitchange/tix and maybe upstream. If you do file upstream, link to it the upstream issue in the tix issue.

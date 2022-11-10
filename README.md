@@ -175,16 +175,8 @@ and React (using TSX files). Please use the React Generators for creation.
 
 ### Build for staging
 
-* Make your changes on `supporter_level_goal` (or any branch in the public houdini repo) and commit
-* Push your changes to remote
-* Run `./create_new_staging_release.sh`. This moves you to `PRIVATE_STAGING_MASTER` and merges the changes.
-* Push to remote for `PRIVATE_STAGING_MASTER` (ask Eric for remote and access)
-* Checkout `PRIVATE_STAGING_DEPLOY`
-* `git merge PRIVATE_STAGING_MASTER`
-* If you have changes on assets or on javascript, then run: `./run_staging yarn build-all-staging`. After that finishes, run `git add public` and then `git commit`
-* If no changes on assets or javascript, don’t do the last step
-* Push to the remote for `PRIVATE_STAGING_DEPLOY` (ask Eric for remote and access)
-* Push to heroku staging using `git commit cc-test PRIVATE_STAGING_DEPLOY:master` (ask Eric for access to production)
+* Run the workflow at https://github.com/CommitChange/deploy-houdini/actions/workflows/create-release.yml.
+* Once the deploy finishes, increase ASSET_VERSION in https://dashboard.heroku.com/apps/commitchange-test/settings by 1
 
 ## Creating issues
 

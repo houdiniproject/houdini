@@ -171,7 +171,7 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    erb_lint (0.3.0)
+    erb_lint (0.3.1)
       activesupport
       better_html (>= 2.0.1)
       parser (>= 2.7.1.4)

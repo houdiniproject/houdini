@@ -52,6 +52,14 @@ class Donation < ActiveRecord::Base
 
 	scope :anonymous, -> {where(anonymous: true)}
 
+	def campaign_gift_purchase?
+		campaign_gifts.any?
+	end
+
+	def actual_donation?
+		campaign_gifts.none?
+	end
+
 	private
 
 	def set_anonymous

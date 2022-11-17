@@ -1,5 +1,4 @@
 [![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
-![Houdini build](https://github.com/houdiniproject/houdini/workflows/Houdini%20build/badge.svg)
 [![Crowdin](https://badges.crowdin.net/houdiniproject/localized.svg)](https://crowdin.com/project/houdiniproject)
 
 > *Note*: This is the latest version (pre-2.0) of Houdini and

@@ -18,7 +18,8 @@ class StripeAccountVerification extends React.Component<StripeAccountVerificatio
         <div className="row">
           <div className={'col-sm-12'}>
             <h1>Verification</h1>
-            <p>Stripe, our payment provider, requires every one of their customers to complete a verification process using a secure form. This verification is required by Know Your Customer laws and is standard for all Stripe accounts as well as other payment systems like Paypal. CommitChange <strong>does not</strong> receive your private identifiers like social security numbers or drivers license numbers.A dditional verification may be required as Stripe's and federal policies are updated.</p>
+            <p>Stripe, our payment provider, requires every one of their customers to complete a verification process using a secure form. This verification is required by Know Your Customer laws and is standard for all Stripe accounts as well as other payment systems like Paypal. CommitChange <strong>does not</strong> receive your private identifiers like social security numbers or drivers license numbers.
+            Additional verification may be required as Stripe's and federal policies are updated.</p>
               <ul>
                 <li>Verification time can vary but usually completes in less than 15 minutes. If you'd like to save your work partway through and come back to it later, you can.</li>
                 <li>An executive of your nonprofit or business is required for completing a portion of this form.</li>

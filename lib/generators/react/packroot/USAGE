@@ -1,9 +1,0 @@
-Description:
-    Used for generating a new packroot for a page on Webpack
-
-Example:
-    rails generate react:packroot Name
-
-    This will create:
-        A file named javascripts/app/name.ts which refers to a newly created component at
-        javascript/src/components/name/name.tsx (uses the react:component generator)

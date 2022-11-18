@@ -131,9 +131,12 @@ Consists of two calls: *Refund* and *Application Fee Reversal*.
 
 #### Application Fee Reversal
 
-```text
+```ruby
 Stripe::ApplicationFee.create_refund({id: refund.charge.application_fee, amount: (500 * 0.03).round}, {stripe_version: '2019-09-09})
                                                                            # (BigNumber(amount of refund) * BigNumber(platform_fee)).round
+```
+
+```text
 
   (3.5% Stripe fee, 3% platform fee)
                                                             +----------------------------------+
@@ -153,4 +156,3 @@ Stripe::ApplicationFee.create_refund({id: refund.charge.application_fee, amount:
   +----------------------------------+
 
 ```
-not_disbursed

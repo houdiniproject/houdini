@@ -1,8 +1,0 @@
-Description:
-    Create a new email job module in lib/job_types/$job_name
-
-Example:
-    rails generate email_job EventNotification
-
-    This will create:
-        A file called lib/job_types/event_notification_job.rb with a module named EventNotificationJob

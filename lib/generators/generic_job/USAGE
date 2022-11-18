@@ -1,8 +1,0 @@
-Description:
-    Create a new GenericJob subclass in lib/job_types
-
-Example:
-    rails generate generic_job JobName arg1 arg2
-
-    This will create:
-        A file called lib/job_types/job_name_job.rb with a module named JobNameJob

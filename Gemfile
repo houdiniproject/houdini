@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '6.1.7'
 gem 'jbuilder', '~> 2.11'
-gem 'bootsnap', '~> 1.13', require: false # Large rails application booting enhancer
+gem 'bootsnap', '~> 1.14', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.6'
 gem 'rake', '~> 12.3.2'

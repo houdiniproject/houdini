@@ -13,7 +13,7 @@ Commitchange::Application.configure do
 	# since you don't have to restart the web server when you make code changes.
 	config.eager_load  = false
 	config.cache_classes = false
-  config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true, pool_size: 5 }
+  config.cache_store = :mem_cache_store, 'localhost:11211', {:expires_in => 5.hours, :compress => true, pool_size: 5 }
 
 	# Log error messages when you accidentally call methods on nil.
 	config.whiny_nils = true

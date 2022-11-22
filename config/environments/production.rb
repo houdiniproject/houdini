@@ -5,7 +5,16 @@ Commitchange::Application.configure do
 	# Code is not reloaded between requests
 	config.eager_load  = true
 	config.cache_classes = true
-  config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 5.hours, :compress => true, pool_size: 10 }
+  config.cache_store = :mem_cache_store, 
+											(ENV["MEMCACHIER_SERVERS"] || "").split(","),
+												{:username => ENV["MEMCACHIER_USERNAME"],
+												:password => ENV["MEMCACHIER_PASSWORD"],
+												:failover => true,
+												:socket_timeout => 1.5,
+												:socket_failure_delay => 0.2,
+												:down_retry_delay => 60,
+												:expires_in => 5.hours, :compress => true, pool_size: 10 
+											}
 
 	config.session_store :redis_store, servers: [ENV['OPENREDIS_URL']], 
 		expire_after: 12.hours,
@@ -44,9 +53,6 @@ Commitchange::Application.configure do
 
 	# Use a different logger for distributed setups
 	# config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-
-	# Use a different cache store in production
-	# config.cache_store = :mem_cache_store
 
 	# Enable serving of images, stylesheets, and JavaScripts from an asset server
 

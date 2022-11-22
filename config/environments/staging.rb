@@ -5,7 +5,16 @@ Commitchange::Application.configure do
 	# Code is not reloaded between requests
 	config.eager_load  = true
 	config.cache_classes = true
-	config.cache_store = Settings.default.cache_store.to_sym, nil, {:expires_in => 4.hours, :compress => true }
+	config.cache_store = :mem_cache_store, 
+												(ENV["MEMCACHIER_SERVERS"] || "").split(","),
+												{:username => ENV["MEMCACHIER_USERNAME"],
+												:password => ENV["MEMCACHIER_PASSWORD"],
+												:failover => true,
+												:socket_timeout => 1.5,
+												:socket_failure_delay => 0.2,
+												:down_retry_delay => 60,
+												:expires_in => 4.hours, :compress => true
+												}
 
 	config.session_store :redis_store, servers: [ENV['OPENREDIS_URL']], 
 		expire_after: 12.hours,

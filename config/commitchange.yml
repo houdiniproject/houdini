@@ -12,8 +12,6 @@ default:
     campaign: "/fallback/default-campaign-background.jpg"
 
 
-cache_store: dalli_store
-
 aws:
   access_key_id: <%= ENV['AWS_ACCESS_KEY'] %>
   secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>

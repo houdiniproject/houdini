@@ -45,7 +45,6 @@ gem 'rack-freeze'
 gem 'pg', "< 1" # Postgresql, must be under 1 because 1.0 and later don't work on Rails 4
 gem 'qx', path: 'gems/ruby-qx'
 gem 'dalli'
-gem 'memcachier'
 
 
 gem 'param_validation', path: 'gems/ruby-param-validation'

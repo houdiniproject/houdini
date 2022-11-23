@@ -24,14 +24,6 @@ GIT
       railties (>= 4.0.0)
 
 PATH
-  remote: gems/grape_devise
-  specs:
-    grape_devise (0.1.1)
-      devise (>= 2.2.8, < 5)
-      grape (> 0.7)
-      rails (> 3.2, < 6)
-
-PATH
   remote: gems/ruby-param-validation
   specs:
     param_validation (0.0.2)
@@ -538,7 +530,6 @@ DEPENDENCIES
   grape-entity!
   grape-swagger
   grape-swagger-entity
-  grape_devise!
   grape_logging
   grape_url_validator
   hamster

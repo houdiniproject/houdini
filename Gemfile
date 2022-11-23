@@ -155,7 +155,6 @@ gem 'grape-swagger'
 gem 'grape-swagger-entity'
 gem 'grape_url_validator'
 gem 'grape_logging'
-gem 'grape_devise', path: 'gems/grape_devise'
 
 gem 'recaptcha', '~> 5.8.1'
 

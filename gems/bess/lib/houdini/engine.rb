@@ -24,10 +24,10 @@ module Houdini
 
     config.houdini.defaults = ActiveSupport::OrderedOptions.new
     config.houdini.defaults.image = ActiveSupport::OrderedOptions.new
-    config.houdini.defaults.image.profile = "public/images/fallback/default-profile.png"
-    config.houdini.defaults.image.nonprofit = "public/images/fallback/default-nonprofit.png"
-    config.houdini.defaults.image.campaign = "public/fallback/default-campaign-background.jpg"
-    config.houdini.defaults.image.event = "public/fallback/default-campaign-background.jpg"
+    config.houdini.defaults.image.profile = "app/assets/images/fallback/default-profile.png"
+    config.houdini.defaults.image.nonprofit = "app/assets/images/fallback/default-nonprofit.png"
+    config.houdini.defaults.image.campaign = "app/assets/images/fallback/default-campaign-background.jpg"
+    config.houdini.defaults.image.event = "app/assets/images/fallback/default-campaign-background.jpg"
 
     config.houdini.payment_providers = ActiveSupport::OrderedOptions.new
 

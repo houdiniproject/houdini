@@ -261,6 +261,10 @@ module QueryPayments
       end
     end
 
+    if query[:tag_master_id]
+      expr = expr.join(:tag_joins, "tag_joins.tag_master_id = $tag_master_id AND tag_joins.supporter_id = supporters.id", tag_master_id: query[:tag_master_id].to_i)
+    end
+
     #we have the first part of the search. We need to create the second in certain situations
     filtered_payment_id_search = expr.parse
 

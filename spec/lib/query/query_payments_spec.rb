@@ -631,6 +631,33 @@ describe QueryPayments do
           expect(result[:data].count).to eq 5
         end
       end
+
+      context 'when filtering by supporter tag' do
+        it 'has 2' do
+          offsite_donation
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          supporter = Supporter.find(offsite_donation[:json]['payment']['supporter_id'])
+          tag_master = create(:tag_master_base, nonprofit:Nonprofit.find(offsite_donation[:json]['payment']['nonprofit_id']))
+          supporter.tag_joins.create(tag_master: tag_master)
+          result = QueryPayments::full_search(nonprofit.id, {tag_master_id: tag_master.id})
+
+          expect(result[:data].count).to eq 4
+        end
+
+        it 'has 0 for different tag' do
+          offsite_donation
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          supporter = Supporter.find(offsite_donation[:json]['payment']['supporter_id'])
+          tag_master = create(:tag_master_base, nonprofit:Nonprofit.find(offsite_donation[:json]['payment']['nonprofit_id']))
+          result = QueryPayments::full_search(nonprofit.id, {tag_master_id: tag_master.id})
+
+          expect(result[:data].count).to eq 0
+        end
+      end
       
     end
 

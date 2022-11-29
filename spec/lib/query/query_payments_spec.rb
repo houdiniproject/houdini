@@ -830,6 +830,10 @@ describe QueryPayments do
         ]
       end
 
+      let(:payment_not_paid_out_payment) do 
+        entities_yesterday[:charge_paid]
+      end
+
       let(:payout) do
         force_create(:payout, 
         gross_amount:payments.sum{|i| i.gross_amount}, 
@@ -847,6 +851,7 @@ describe QueryPayments do
       end
 
       let(:result) do 
+        payment_not_paid_out_payment
         QueryPayments.for_payout(nonprofit.id, payout.id)
       end
       
@@ -862,6 +867,10 @@ describe QueryPayments do
       it 'sets the correct payout data' do
         expect(result[1].count).to eq(6) # TODO
       end
+
+      it 'sets the correct number of rows' do
+        expect(result.count).to eq 8 # the payout header, the payout data, an empty row, the payment headers, the four paid out payments
+      end
       
       it 'sets the payment headers', :pending => true do
         expect(result[3]).to eq(["Date", "Gross Amount", "Fee Total", "Net Amount", "Type", "Payment ID", "Last Name", "First Name", "Full Name", "Organization", "Email", "Phone", "Address", "City", "State", "Postal Code", "Country", "Anonymous?", "Designation", "Honorarium/Memorium", "Comment", "Campaign", "Campaign Gift Level", "Event"])
@@ -869,6 +878,51 @@ describe QueryPayments do
   
       it 'sets the correct payment data', :pending => true do
         expect(result[4].count).to eq 24
+      end
+    end
+
+    describe '.full_search' do
+      let(:payments) do  
+        [
+          entities_today[:legacy_dispute_paid].dispute_transactions.first.payment, 
+          entities_today[:dispute_paid].dispute_transactions.first.payment,
+          entities_today[:charge_paid].payment,
+          entities_today[:refund_disbursed].payment,
+        ]
+      end
+
+      let(:payout) do
+        force_create(:payout, 
+        gross_amount:payments.sum{|i| i.gross_amount}, 
+        fee_total: payments.sum{|i| i.fee_total}, 
+        net_amount: payments.sum{|i| i.net_amount}, 
+        nonprofit: nonprofit)
+      end
+
+      let(:payment_payouts) do
+        payments.map{|p| force_create(:payment_payout, payment: p, payout:payout)}
+      end
+
+      let(:bank_account) do 
+        force_create(:bank_account, name: "bank", nonprofit: nonprofit)
+      end
+
+      let(:payment_not_paid_out_payment) do 
+        entities_yesterday[:charge_paid]
+      end
+
+      let(:result) do
+        payment_not_paid_out_payment
+        QueryPayments.full_search(nonprofit.id, {payout_id: payout.id})
+      end
+      
+      before(:each) do
+        bank_account
+        payment_payouts
+      end
+
+      it 'sets the correct number of rows' do
+        expect(result[:data].count).to eq 4 # the payment header, the four paid out payments
       end
     end
   end

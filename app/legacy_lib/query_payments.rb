@@ -240,6 +240,10 @@ module QueryPayments
       end
     end
 
+    if query[:payout_id].present?
+      expr = expr.join("payment_payouts", "payment_payouts.payout_id = $payout_id AND payment_payouts.payment_id = payments.id", {payout_id: query[:payout_id].to_i})
+    end
+
     if query.has_key? :supporter_covered_fee
 
       if query[:supporter_covered_fee]

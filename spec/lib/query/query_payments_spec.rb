@@ -606,30 +606,32 @@ describe QueryPayments do
         end
       end
 
-
-      it 'has 1 when filtering by fee is covered by supporter' do 
-        offsite_donation
-        donation_result_yesterday
-        donation_result_today
-        donation_result_tomorrow
-        first_refund_of_yesterday
-        second_refund_of_yesterday
-        result = QueryPayments::full_search(nonprofit.id, {supporter_covered_fee: true})
-
-        expect(result[:data].count).to eq 1
+      context 'when filtering by fee coverage' do
+        it 'has 1 when filtering by fee is covered by supporter' do 
+          offsite_donation
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          first_refund_of_yesterday
+          second_refund_of_yesterday
+          result = QueryPayments::full_search(nonprofit.id, {supporter_covered_fee: true})
+  
+          expect(result[:data].count).to eq 1
+        end
+  
+        it 'has 5 when filtering by fee NOT covered by supporter' do 
+          offsite_donation
+          donation_result_yesterday
+          donation_result_today
+          donation_result_tomorrow
+          first_refund_of_yesterday
+          second_refund_of_yesterday
+          result = QueryPayments::full_search(nonprofit.id, {supporter_covered_fee: false})
+  
+          expect(result[:data].count).to eq 5
+        end
       end
-
-      it 'has 5 when filtering by fee NOT covered by supporter' do 
-        offsite_donation
-        donation_result_yesterday
-        donation_result_today
-        donation_result_tomorrow
-        first_refund_of_yesterday
-        second_refund_of_yesterday
-        result = QueryPayments::full_search(nonprofit.id, {supporter_covered_fee: false})
-
-        expect(result[:data].count).to eq 5
-      end
+      
     end
 
     describe 'event donations' do

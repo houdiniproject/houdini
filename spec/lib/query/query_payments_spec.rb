@@ -592,7 +592,7 @@ describe QueryPayments do
         end
       end
 
-      context 'when filter by online only' do
+      context 'when filtering by online only' do
         it 'has 3' do 
           offsite_donation
           donation_result_yesterday

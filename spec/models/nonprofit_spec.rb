@@ -363,4 +363,25 @@ RSpec.describe Nonprofit, type: :model do
   describe '::S3Keys' do
     it {is_expected.to have_many(:nonprofit_s3_keys)}
   end
+
+  describe '::DateAndTime' do
+    
+    describe '#zone' do
+      it 'returns UTC if the nonprofit has no timezone' do
+         expect(build(:nonprofit).zone).to eq ActiveSupport::TimeZone['UTC']
+      end
+      
+      it 'returns UTC if the nonprofit has a blank timezone' do
+        expect(build(:nonprofit, timezone: '').zone).to eq ActiveSupport::TimeZone['UTC']
+      end
+
+      it 'returns UTC if the nonprofit has an invalid timezone' do
+        expect(build(:nonprofit, timezone: 'invalid time').zone).to eq ActiveSupport::TimeZone['UTC']
+      end
+
+      it 'returns non-UTC timezone if the nonprofit has an valid timezone' do
+        expect(build(:nonprofit, timezone: 'Central Time (US & Canada)').zone).to eq ActiveSupport::TimeZone['Central Time (US & Canada)']
+      end
+    end
+  end
 end

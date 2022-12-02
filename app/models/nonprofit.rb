@@ -379,6 +379,14 @@ class Nonprofit < ActiveRecord::Base
     end
   end
 
+  concerning :DateAndTime do
+    # retrieve the ActiveSupport::TimeZone object for the Nonprofit
+    # @return ActiveSupport::TimeZone the object representing the nonprofits set timezone; otherwise UTC
+    def zone
+      (timezone.present? && ActiveSupport::TimeZone[timezone]) || Time.zone
+    end
+  end
+
   def hide_cover_fees?
     miscellaneous_np_info&.hide_cover_fees
   end

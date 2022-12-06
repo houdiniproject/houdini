@@ -19,8 +19,8 @@ ActiveRecord::Base.transaction do
  	puts("[seeds] Loading admin user")
 
 	system_admin = User.find_or_create_by(
-		name: "Admin", 
-		email: "admin@gmail.com", 
+		name: "John", 
+		email: "jonh@gmail.com", 
 		state_code: "AZ", 
 		city: "Phoenix", 
 		confirmed_at: Time.now.utc
@@ -31,8 +31,8 @@ ActiveRecord::Base.transaction do
  	puts("[seeds] Loading nonprofit informations")
 	 
 	nonprofit_admin = Nonprofit.find_or_create_by(
-		 name: "Admin Nonprofit",
-		 email: "admin@gmail.com", 
+		 name: "Manager Nonprofit",
+		 email: "manager@gmail.com", 
 		 state_code: "AZ", 
 		 city: "Phoenix",
 		)

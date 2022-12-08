@@ -469,6 +469,7 @@ UNION DISTINCT
     result = [
       "substring(trim(both from supporters.name) from '^.+ ([^\s]+)$') AS \"Last Name\"",
       "substring(trim(both from supporters.name) from '^(.+) [^\s]+$') AS \"First Name\"",
+      "substring(trim(both from supporters.name) from '^([^\s]+).*$') AS \"Just First Name\"",
       "trim(both from supporters.name) AS \"Full Name\"",
       "supporters.organization AS \"Organization\"",
       "supporters.email \"Email\"",

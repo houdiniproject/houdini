@@ -131,27 +131,6 @@ describe QuerySupporters do
     end
   end
 
-  describe '.supporter_note_export_enumerable' do 
-    let(:lazy_enumerable) do
-      supporter_note_for_s1
-      supporter_note_1_for_s2
-      supporter_note_2_for_s2
-      QuerySupporters.supporter_note_export_enumerable(np.id, {})
-    end
-
-    it 'is a lazy enumerable' do
-      expect(lazy_enumerable).to be_a Enumerator::Lazy
-    end
-
-    it 'is three items long' do
-      expect(lazy_enumerable.to_a.count).to eq 4
-    end
-
-    it 'has correct headers' do
-      expect(lazy_enumerable.to_a.first).to eq ['Id', 'Email', 'Note Created At', 'Note Contents']
-    end
-  end
-
   describe '.full_search' do
     before do
       supporter1.payments = [payment1, payment4]

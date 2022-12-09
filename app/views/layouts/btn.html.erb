@@ -9,7 +9,8 @@
 			nonprofit: <%=raw(@nonprofit.attributes.slice('brand_color', 'brand_font').to_json)%>
 		}
 	</script>
-	<%= render 'layouts/stylesheets' %>
+	
+	<%= yield :stylesheets %>
 	
 	<%= favicon_link_tag %>
 	<meta name="Description" content="Intelligent fundraising for nonprofits.">

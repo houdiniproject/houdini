@@ -25,7 +25,7 @@ class MapsController < ApplicationController
 
 	# used on supporter dashboard 
 	def specific_npo_supporters
-		supporter_ids = params['supporter_ids'].split(",").map { |s| s.to_i }
+		supporter_ids = params['supporter_ids']&.split(",")&.map { |s| s.to_i } || []
 		supporters = Nonprofit.find(params['npo_id']).supporters.find(supporter_ids).last(500)
 		@map_data =  supporters.map{|s| s if s.latitude != ''}
 	end

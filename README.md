@@ -1,3 +1,5 @@
+# **Houdini Project**
+
 [![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 [![Crowdin](https://badges.crowdin.net/houdiniproject/localized.svg)](https://crowdin.com/project/houdiniproject)
 
@@ -7,7 +9,20 @@
 > [v1](https://github.com/houdiniproject/houdini/tree/1-0-stable)
 > instead.
 
-The Houdini Project is free and open source fundraising infrastructure. It includes...
+## **Summary**
+
+- [Description](#description)
+- [Supported operating systems](#supported-operating-systems)
+- [Pre-requisites](#pre-requisites)
+- [Get Involved](#get-involved)
+- [Dev Setup](#dev-setup)
+- [Additional Documentation](#additional-documentation)
+- [Known Issues](#known-issues)
+- [Run in Production](#run-in-production)
+
+## ![Description](./docs/images/description.svg) **Description**
+
+The Houdini Project is a free and open source fundraising infrastructure. It includes...
 
 - Crowdfunding campaigns
 - Donate widget page and generator
@@ -26,40 +41,42 @@ comfort and speed.
 
 All new backend code and React components should be well tested.
 
-## Supported operating systems
+## ![Supported systems](./docs/images/system_settings.svg) **Supported operating systems**
 
 * Ubuntu 18.04, 20.04 or equivalent
 
-## Prerequisites
+## ![Pre-requisites](./docs/images/requirements_icon.svg) **Pre-requisites**
 
 * Node 14
 * Yarn
-* PostgreSQL 10  or 12
+* PostgreSQL 10 or 12
 * Ruby 2.7
 * Ubuntu 18.04, 20.04 or equivalent
 
-> Note: All tools will be installed in the Dev Setup.
+> *Notes*:<br>
+> - All tools will be installed in the Dev Setup.<br>
+> - Higher versions of node may not work with Houdini Project.<br>
+> - Higher versions of ruby may not work with Houdini Project.
 
-
-## Get involved
+## ![Get Involved](./docs/images/get_involved.svg) **Get involved**
 
 Houdini's success depends on you!
 
-### Join our Discussions chat
+### **Join our Discussions chat**
 
 https://github.com/houdiniproject/houdini/discussions
 
-### Help with translations
+### **Help with translations**
 
 Check our [translation guide](docs/translations.md) to translate Houdini to other languages.
 
-### Help with usability tests
+### **Help with usability tests**
 
 Check on [contribution_guide_usability_testing.md](docs/contribution_guide_usability_testing.md) and create an issue with your test design or run test sessions for [opened usability testing issues](https://github.com/houdiniproject/houdini/issues?q=is%3Aissue+is%3Aopen+%5BUX%5D+).
 
-## Dev Setup
+## ![Dev Setup](./docs/images/dev_setup.svg) **Dev Setup**
 
-### Installation prep
+### **Installation prep**
 
 Houdini requires a few pieces of software be installed, as well as some optional pieces
 which make development much easier.
@@ -84,32 +101,41 @@ properly configured, it automatically switches version at
 the console when you change to a directory for a project
 prepared for AVN, like Houdini.
 
-### One-time setup
+### **One-time setup**
 
-#### Postgres installation
+#### **Postgres installation**
 
-You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
+You'll run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
 
-#### Curl install: 
+##### Curl install: 
 ```bash
 apt update
 apt install curl -yy
 ```
 
-#### Node and Yarn install:
+##### Node install:
 ```bash
 curl -sL https://deb.nodesource.com/setup_14.x | bash -
+```
+##### Yarn install:
+```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update
+apt install yarn -yy
 ```
-
-#### Postgres install:
+##### Postgres install:
 ```bash
-apt install git postgresql-12 libpq-dev libjemalloc-dev libvips42 yarn -yy
+apt install postgresql-12 libpq-dev -yy
+```
+> *Note*: If you already have postgres installed, don't forget to install libpq-dev too
+
+##### Installation of remaining packages:
+```bash
+apt install libjemalloc-dev libvips42 -yy
 ```
 
-You'll run the next commands as your normal user.
+You'll run the next commands as your normal user (without sudo).
 
 > *Note*: in the case of a production instance, this might be
 > your web server's user.
@@ -131,24 +157,28 @@ curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 curl -sSL https://get.rvm.io | bash -s stable
 source $HOME/.rvm/scripts/rvm
 echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
+```
+
+#### Ruby install
+```bash
 rvm install 2.7.6 --disable-binary --with-jemalloc
 ```
 
- Run the following command as the `postgres` user and then enter your houdini_user
- password at the prompt.
-
-**Note: For development, Houdini expects the password to be 'password'. This would be terrible
-for production but for development, it's likely not a huge issue.**
-
 #### Create user account for the database connection:
+
+Run the following command as the `postgres` user and then enter your houdini_user
+password at the prompt.
+
+> *Note*: For development, Houdini expects the password to be 'password'. This would be terrible for production but for development, it's likely not a huge issue.
 
 ```bash
 sudo -u postgres createuser houdini_user -s -d -P
 ```
 
+#### Cloning project
+
 Now that we have all of our prerequisites prepared, we need to get the Houdini code.
 
-#### Cloning project
 ```bash
 git clone https://github.com/HoudiniProject/houdini
 cd houdini
@@ -174,13 +204,12 @@ dashboard. On your development environment,
 make sure to use test keys. If you don't, you're
 going to be charged real money!
 
-### Stripe keys setup
+### **Stripe keys setup**
 
 #### Get Stripe keys:
 
 Go to [Stripe](https://stripe.com), create an account or just log in with you already have one. Access the stripe dashboard and copy both publishable and secret keys.
-> make sure to use test keys. If you don't, you're
-going to be charged real money!
+> *Note*: Make sure to use test keys. If you don't, you're going to be charged real money!
 
 ![get Stripe keys](https://user-images.githubusercontent.com/31708472/157132661-79bf89a0-13cb-4860-9793-a40bb3229bfb.png)
 
@@ -192,7 +221,8 @@ going to be charged real money!
  export STRIPE_API_KEY='REPLACE' # use your test private key from your stripe account
  export STRIPE_API_PUBLIC='REPLACE' # use your test public key from your stripe account
  ```
-### Testing
+
+### **Testing**
 
 To verify everying is set up correctly, you can try running through the Ruby test cases:
 
@@ -229,13 +259,29 @@ yarn storybook
 
 If you create a new React component, make sure you add a storybook and jest
 tests for that component!
-##### Creating your first nonprofits and user
+
+#### Creating your first nonprofits and user
 
 To create a nonprofit, use the command line to run the following command and fill in the questions with the required information:
 
 ```bash
 bin/rails houdini:nonprofit:create
 ```
+
+The following questions will be asked:
+```
+What is the nonprofit's name? Name
+What is the nonprofit's state? CA
+What is the nonprofit's city? San Francisco
+[OPTIONAL] What is the nonprofit's public website? 
+[OPTIONAL] What is the nonprofit's public e-mail? 
+[OPTIONAL] What is your nonprofit's public phone number? 
+What is your nonprofit's admin's name? administrator
+What is your nonprofit's admin's email address? (It'll be used for logging in) admin@email.com
+What is the nonprofit's admin's password? 
+```
+
+> *Note*: <br>- The state has to be a valid US State Code<br>- The admin's password needs at least six characters
 
 There are available arguments that add configurations on the nonprofit's creation:
 
@@ -260,7 +306,7 @@ Additionally, it is possible to provide arguments to fill in the fields for the 
 ```
 
 You can use this in the future for creating additional nonprofits.
-### Startup
+### **Startup**
 
 `bin/rails server`
 You can connect to your server at http://localhost:5000
@@ -291,16 +337,15 @@ We use `Rubocop` to perform static code analysis:
 rubocop
 ```
 
-
-## Additional documentation
+## ![Additional Documentation](./docs/images/additional_documentation.svg) **Additional documentation**
 
 We have some additional documentation describing some implementations, definitions and other guides on the [docs folder](docs).
 
-## Known issues
+## ![Known Issues](./docs/images/known_issues.svg) **Known issues**
 
 For a list of [how to solve known issues](docs/known_issues.md)
 
-## Run in production
+## ![Run in Production](./docs/images/run_production.svg) **Run in production**
 
 You will likely want to make a few changes in your configuration of Houdini before running in production as you
 would for any Rails project. For details, see [production deployment](docs/production_deployment.md).

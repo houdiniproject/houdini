@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '6.1.7'
 gem 'jbuilder', '~> 2.11'
-gem 'bootsnap', '~> 1.13', require: false # Large rails application booting enhancer
+gem 'bootsnap', '~> 1.15', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.6'
 gem 'rake', '~> 12.3.2'
@@ -15,7 +15,7 @@ gem 'webpacker', '~> 5.4.3'
 gem 'good_job', '~> 3.6'
 
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
-gem "date", "~> 3.0.2"
+gem "date", "~> 3.3.0"
 
 gem 'httparty', '~> 0.20.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
@@ -80,7 +80,7 @@ group :ci, :test do
   gem 'database_cleaner-active_record'
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.5'
-  gem 'timecop', '~> 0.9.5'
+  gem 'timecop', '~> 0.9.6'
   gem 'webmock', '~> 3.18'
   gem 'wisper-rspec', '~> 1.1.0'
 end

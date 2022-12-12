@@ -429,6 +429,75 @@ limitations under the License.
 
 ------
 
+** pg; version 1.4.5 -- 
+Copyright (c) 1997-2019 by the
+Copyright (c) 1997-2022 by the
+Portions copyright LAIKA, Inc.
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+Copyright (c) 2003-2022, PostgreSQL Global Development Group
+Portions Copyright (c) 1996-2008, PostgreSQL Global Development Group
+Portions Copyright (c) 1994, The Regents of the University of California
+
+Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
+You can redistribute it and/or modify it under either the terms of the
+2-clause BSDL (see the file BSDL), or the conditions below:
+
+  1. You may make and give away verbatim copies of the source form of the
+     software without restriction, provided that you duplicate all of the
+     original copyright notices and associated disclaimers.
+
+  2. You may modify your copy of the software in any way, provided that
+     you do at least ONE of the following:
+
+       a) place your modifications in the Public Domain or otherwise
+          make them Freely Available, such as by posting said
+	  modifications to Usenet or an equivalent medium, or by allowing
+	  the author to include your modifications in the software.
+
+       b) use the modified software only within your corporation or
+          organization.
+
+       c) give non-standard binaries non-standard names, with
+          instructions on where to get the original software distribution.
+
+       d) make other distribution arrangements with the author.
+
+  3. You may distribute the software in object code or binary form,
+     provided that you do at least ONE of the following:
+
+       a) distribute the binaries and library files of the software,
+	  together with instructions (in the manual page or equivalent)
+	  on where to get the original distribution.
+
+       b) accompany the distribution with the machine-readable source of
+	  the software.
+
+       c) give non-standard binaries non-standard names, with
+          instructions on where to get the original software distribution.
+
+       d) make other distribution arrangements with the author.
+
+  4. You may modify and include the part of the software into any other
+     software (possibly commercial).  But some files in the distribution
+     are not written by the author, so that they are not under these terms.
+
+     For the list of those files and their copying conditions, see the
+     file LEGAL.
+
+  5. The scripts and library files supplied as input to or produced as 
+     output from the software do not automatically fall under the
+     copyright of the software, but belong to whomever generated them, 
+     and may be sold commercially, and may be aggregated with this
+     software.
+
+  6. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+     IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+     WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+     PURPOSE.
+
+
+------
+
 ** unf; version 0.1.4 -- 
 Copyright (c) 2011, 2012 Akinori MUSHA
 Copyright (c) 2011, 2012, 2013 Akinori MUSHA
@@ -894,33 +963,6 @@ proprietary programs.  If your program is a subroutine library, you may
 consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
-
-
-------
-
-** rubocop-ast; version 1.23.0 -- 
-Copyright (c) 2012-20 Bozhidar Batsov
-
-Copyright (c) 2012-20 Bozhidar Batsov
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -2388,37 +2430,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop; version 1.39.0 -- 
-Copyright (c) 2018 Hayato Kawai
-Copyright (c) 2015 Mikko Kokkonen
-Copyright (c) 2012-22 Bozhidar Batsov
-Copyright (c) 2012-2022 Bozhidar Batsov
-AutocorrectNotice Copyright (c) 2015 Yahoo! Inc.
-
-Copyright (c) 2012-22 Bozhidar Batsov
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** premailer-rails; version 1.12.0 -- 
 Copyright (c) 2011-2012 Philipe Fatio
 
@@ -3604,6 +3615,40 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** regexp_parser; version 2.6.1 -- 
+(c) d enter group
+(c) visit literal c exit group
+(c) visit literal d exit group
+(c) d visit literal b+ enter group
+Copyright (c) 2010, 2012-2022, Ammar Ali
+Copyright _Copyright (c) 2010-2022 Ammar Ali
+
+Copyright (c) 2010, 2012-2022,  Ammar Ali
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** rspec-support; version 3.12.0 -- 
 Copyright (c) 2013 David Chelimsky, Myron Marston, Jon Rowe, Sam Phippen, Xavier Shay, Bradley Schaefer
 
@@ -3670,39 +3715,6 @@ Copyright (c) Ryan Boland & Contributors
 Copyright (c) 2011 Joseph A. Adams (joeyadams3.14159@gmail.com)
 
 Copyright (c) Ryan Boland & Contributors
-
-MIT License
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** parser; version 3.1.2.1 -- 
-Copyright (c) Ryan Davis, seattle.rb
-Copyright (c) 2013-2016 whitequark <whitequark@whitequark.org>
-
-Copyright (c) 2013-2016 whitequark  <whitequark@whitequark.org>
-
-Parts of the source are derived from ruby_parser:
-Copyright (c) Ryan Davis, seattle.rb
 
 MIT License
 
@@ -4904,66 +4916,3 @@ See the file docs/artistic.txt in the main distribution.
 
 === GNU GPL version 2
 See the file docs/COPYING.txt in the main distribution.
-
-
-------
-
-** json; version 2.6.2 -- 
-Copyright 2001-2004 Unicode, Inc.
-
-Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
-You can redistribute it and/or modify it under either the terms of the
-2-clause BSDL (see the file BSDL), or the conditions below:
-
-  1. You may make and give away verbatim copies of the source form of the
-     software without restriction, provided that you duplicate all of the
-     original copyright notices and associated disclaimers.
-
-  2. You may modify your copy of the software in any way, provided that
-     you do at least ONE of the following:
-
-       a) place your modifications in the Public Domain or otherwise
-          make them Freely Available, such as by posting said
-	  modifications to Usenet or an equivalent medium, or by allowing
-	  the author to include your modifications in the software.
-
-       b) use the modified software only within your corporation or
-          organization.
-
-       c) give non-standard binaries non-standard names, with
-          instructions on where to get the original software distribution.
-
-       d) make other distribution arrangements with the author.
-
-  3. You may distribute the software in object code or binary form,
-     provided that you do at least ONE of the following:
-
-       a) distribute the binaries and library files of the software,
-	  together with instructions (in the manual page or equivalent)
-	  on where to get the original distribution.
-
-       b) accompany the distribution with the machine-readable source of
-	  the software.
-
-       c) give non-standard binaries non-standard names, with
-          instructions on where to get the original software distribution.
-
-       d) make other distribution arrangements with the author.
-
-  4. You may modify and include the part of the software into any other
-     software (possibly commercial).  But some files in the distribution
-     are not written by the author, so that they are not under these terms.
-
-     For the list of those files and their copying conditions, see the
-     file LEGAL.
-
-  5. The scripts and library files supplied as input to or produced as
-     output from the software do not automatically fall under the
-     copyright of the software, but belong to whomever generated them,
-     and may be sold commercially, and may be aggregated with this
-     software.
-
-  6. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
-     IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-     WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-     PURPOSE.

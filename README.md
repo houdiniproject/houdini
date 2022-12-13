@@ -1,7 +1,7 @@
 [![](https://img.shields.io/github/discussions/houdiniproject/houdini)](https://github.com/houdiniproject/houdini/discussions)
 [![Crowdin](https://badges.crowdin.net/houdiniproject/localized.svg)](https://crowdin.com/project/houdiniproject)
 
-> _Note_: This is the latest version (pre-2.0) of Houdini and
+> *Note*: This is the latest version (pre-2.0) of Houdini and
 > is currently in HEAVY development. You may want
 > to use
 > [v1](https://github.com/houdiniproject/houdini/tree/1-0-stable)
@@ -20,23 +20,23 @@ The Houdini Project is free and open source fundraising infrastructure. It inclu
 - Nonprofit org user account management
 - Simple donation management for donors
 
-The frontend is written in a few custom frameworks, the largest of which is called Flimflam.
-We endeavor to migrate to React as quickly as possible to increase development
+
+The frontend is written in a few custom frameworks, the largest of which is called Flimflam. We endeavor to migrate to React as quickly as possible to increase development
 comfort and speed.
 
 All new backend code and React components should be well tested.
 
 ## Supported operating systems
 
-- Ubuntu 18.04, 20.04 or equivalent
+* Ubuntu 18.04, 20.04, 22.04 or equivalent
 
 ## Prerequisites
 
-- Node 14
-- Yarn
-- PostgreSQL 10 or 12
-- Ruby 2.7
-- Ubuntu 18.04, 20.04, 22.04 or equivalent
+ * Node 14
+ * Yarn
+ * PostgreSQL 10  or 12
+ * Ruby 2.7
+ * Ubuntu 18.04, 20.04, 22.04 or equivalent
 
 > Note: All tools will be installed in the Dev Setup.
 
@@ -65,16 +65,16 @@ which make development much easier.
 
 These include:
 
-- PostgreSQL 12 (10 probably works)
-- NodeJS 14 (we require 14 because we want the full internationalization built-in)
-- Ruby 2.7.6
+* PostgreSQL 12 (10 probably works)
+* NodeJS 14 (we require 14 because we want the full internationalization built-in)
+* Ruby 2.7.6
 
 There a few optional tools which make working on Houdini
 easier
 
-- RBENV - rbenv is a version manager tool for the Ruby programming language on Unix-like systems. It is useful for switching between multiple Ruby versions on the same machine and for ensuring that each project you are working on always runs on the correct Ruby version.
+* RBENV - rbenv is a version manager tool for the Ruby programming language on Unix-like systems. It is useful for switching between multiple Ruby versions on the same machine and for ensuring that each project you are working on always runs on the correct Ruby version.
 
-- Automatic Version Switching for Node (AVN) - similar to RBENV, AVN makes it simple to switch between versions of Node. When
+* Automatic Version Switching for Node (AVN) - similar to RBENV, AVN makes it simple to switch between versions of Node. When
   properly configured, it automatically switches version at
   the console when you change to a directory for a project
   prepared for AVN, like Houdini.
@@ -86,14 +86,12 @@ easier
 You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
 
 #### Curl install:
-
 ```bash
 apt update
 apt install curl -yy
 ```
 
 #### Node and Yarn install:
-
 ```bash
 curl -sL https://deb.nodesource.com/setup_14.x | bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -102,20 +100,19 @@ apt update
 ```
 
 #### Postgres install:
-
 ```bash
 apt install git postgresql-12 libpq-dev libjemalloc-dev libvips42 yarn -yy
 ```
 
 You'll run the next commands as your normal user.
 
-> _Note_: in the case of a production instance, this might be
+> *Note*: in the case of a production instance, this might be
 > your web server's user.
 
-> _Note_: We use [RBENV](https://https://github.com/rbenv/rbenv.io) to have more control over the exact version of Ruby. For development, it's also way easier because you can
+> *Note*: We use [RBENV](https://https://github.com/rbenv/rbenv.io) to have more control over the exact version of Ruby. For development, it's also way easier because you can
 > use a consistent version of Ruby (and different sets of installed gems) for different projects.
 
-> _Tip_: To get out of the root shell, run `exit`
+> *Tip*: To get out of the root shell, run `exit`
 
 #### Get the latest rbenv:
 
@@ -129,7 +126,7 @@ git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 echo 'eval "$(~/.rbenv/bin/rbenv init - bash)"' >> ~/.bashrc
 ```
 
-> _Note_: close and reopen your your terminal
+> *Note*: close and reopen your your terminal
 
 #### Download the rbenv install feature:
 
@@ -140,10 +137,10 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 #### Ruby install:
 
 ```bash
-    rbenv install
+rbenv install 2.7.6
 ```
 
-> _Note_: this should install Ruby 2.7.6
+> *Note*: this should install Ruby 2.7.6
 
 Run the following command as the `postgres` user and then enter your houdini_user
 password at the prompt.
@@ -176,10 +173,10 @@ Let's run the Houdini project setup and we'll be ready to go!
 bin/setup
 ```
 
-> _Note_: The .env file holds your environment variables for development; on production you might
+> *Note*: The .env file holds your environment variables for development; on production you might
 > have these set somewhere else other than this file.
 
-> _Tip_: On Heroku, the environment variables are set in your Dashboard.
+> *Tip*: On Heroku, the environment variables are set in your Dashboard.
 
 Also, you should set the STRIPE_API_KEY and STRIPE_API_PUBLIC
 environment variables which you'd get from the Stripe
@@ -194,7 +191,7 @@ going to be charged real money!
 Go to [Stripe](https://stripe.com), create an account or just log in with you already have one. Access the stripe dashboard and copy both publishable and secret keys.
 
 > make sure to use test keys. If you don't, you're
-> going to be charged real money!
+ going to be charged real money!
 
 ![get Stripe keys](https://user-images.githubusercontent.com/31708472/157132661-79bf89a0-13cb-4860-9793-a40bb3229bfb.png)
 

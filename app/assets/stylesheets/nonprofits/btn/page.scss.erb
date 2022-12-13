@@ -1,8 +1,6 @@
 /* License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later */
-@import 'mixins';
-@import 'components/animations';
+@import 'nonprofits/btn/common';
 @import 'boot/google-webfonts';
-
 
 body {
 	@include open-sans;
@@ -21,35 +19,4 @@ body.embedded-layout {
 
 .centered, .u-centered {
 	text-align: center !important;
-}
-
-@include keyframes(popUp) {
-	0% { @include transform(translateY(80px)); }
-	60% { @include transform(translateY(3px)); }
-	100% { @include transform(translateY(5px)); }
-}
-body {
-	background: transparent !important;
-}
-.branded-donate-button {
-	cursor: pointer;
-	display: inline-block;
-	@include noselect;
-	font-weight: 600;
-	color: white !important;
-	margin: 0;
-	font-size: 32px;
-	line-height: 32px;
-	padding: 10px 20px;
-	@include border-radius(40px);
-	@include box-shadow(0 0 5px 2px rgba(black, 0.1));
-}
-.branded-donate-button.is-fixed{
-	cursor: pointer;
-	font-size: 22px;
-	@include transform(translateY(5px));
-	@include border-radius(10px 10px 0 0);
-	padding: 7px 14px 11px 14px;
-	@include box-shadow(0 0 5px 1px rgba(black, 0.1));
-	@include animation('popUp 1.2s ease-out forwards');
 }

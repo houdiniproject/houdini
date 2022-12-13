@@ -281,7 +281,7 @@ GEM
       actionpack (>= 3)
       activesupport (>= 3)
       railties (>= 3)
-    loofah (2.18.0)
+    loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)

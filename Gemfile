@@ -7,7 +7,7 @@ gem 'rails', '~> 4.0'
 
 gem 'rack', git: "https://github.com/CommitChange/rack.git", branch: "1-6-stable"
 
-gem 'date', '~> 2.0.2'
+gem 'date', '~> 2.0.3'
 
 # https://stripe.com/docs/api
 gem 'stripe', '~> 4'

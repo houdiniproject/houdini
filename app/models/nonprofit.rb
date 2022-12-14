@@ -387,6 +387,12 @@ class Nonprofit < ActiveRecord::Base
     end
   end
 
+  concerning :Profile do
+    def has_achievements?
+      achievements.is_a?(Array) && achievements.any?
+    end
+  end
+
   def hide_cover_fees?
     miscellaneous_np_info&.hide_cover_fees
   end

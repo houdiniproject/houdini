@@ -7,7 +7,7 @@ module FetchTodoStatus
 			has_background: np.background_image?,
 			has_summary: np.summary?,
 			has_image: np.main_image?,
-			has_highlight: !np.achievements.join.blank?,
+			has_highlight: np.has_achievements?,
 			has_services: np.full_description?
 		}
 	end

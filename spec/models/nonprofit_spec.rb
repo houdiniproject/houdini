@@ -384,4 +384,31 @@ RSpec.describe Nonprofit, type: :model do
       end
     end
   end
+
+  describe '::Profile' do
+    describe '#has_achievements?' do
+      it 'is true when there are achievements' do
+        nonprofit = build(:nonprofit, achievements: ['Achieve'])
+        expect(nonprofit).to be_has_achievements
+      end
+      
+      it 'is false when achievements is empty array' do
+        nonprofit = build(:nonprofit, achievements:[])
+
+        expect(nonprofit).to_not be_has_achievements
+      end
+
+      it 'is false when achievements is nil' do
+        nonprofit = build(:nonprofit, achievements:nil)
+
+        expect(nonprofit).to_not be_has_achievements
+      end
+
+      it 'is false when achievements is not an array' do
+        nonprofit = build(:nonprofit, achievements:{})
+
+        expect(nonprofit).to_not be_has_achievements
+      end
+    end
+  end
 end

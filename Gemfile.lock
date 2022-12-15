@@ -147,11 +147,11 @@ GEM
     css_parser (1.12.0)
       addressable
     dante (0.2.0)
-    database_cleaner-active_record (2.0.1)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
-    date (3.3.1)
+    database_cleaner (1.99.0)
+    database_cleaner-active_record (1.99.0)
+      activerecord
+      database_cleaner (~> 1.99.0)
+    date (3.3.0)
     debug (1.7.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
@@ -190,12 +190,20 @@ GEM
     fast_blank (1.0.1)
     ffi (1.15.5)
     fiber-local (1.0.0)
+<<<<<<< HEAD
     fugit (1.8.0)
+=======
+    fugit (1.7.2)
+>>>>>>> 9735eda176a7ebd1c6bbbafb8ba568daca8ab439
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
+<<<<<<< HEAD
     good_job (3.7.2)
+=======
+    good_job (3.6.2)
+>>>>>>> 9735eda176a7ebd1c6bbbafb8ba568daca8ab439
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -222,7 +230,11 @@ GEM
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     io-console (0.5.11)
+<<<<<<< HEAD
     irb (1.6.1)
+=======
+    irb (1.5.1)
+>>>>>>> 9735eda176a7ebd1c6bbbafb8ba568daca8ab439
       reline (>= 0.3.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
@@ -448,10 +460,17 @@ GEM
     test-unit (3.5.7)
       power_assert
     thor (1.2.1)
+<<<<<<< HEAD
     tilt (2.0.11)
     timecop (0.9.6)
     timeout (0.3.1)
     timers (4.3.5)
+=======
+    tilt (2.0.10)
+    timecop (0.9.6)
+    timeout (0.3.0)
+    timers (4.3.3)
+>>>>>>> 9735eda176a7ebd1c6bbbafb8ba568daca8ab439
     traceroute (0.8.1)
       rails (>= 3.0.0)
     turbo_test (0.2.0)

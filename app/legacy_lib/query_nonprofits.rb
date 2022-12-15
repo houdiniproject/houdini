@@ -94,7 +94,8 @@ module QueryNonprofits
         nonprofits.name ILIKE $search
         OR nonprofits.email ILIKE $search
         OR nonprofits.city ILIKE $search
-      ), search: '%' + params[:search] + '%')
+        OR nonprofits.id = $id
+      ), search: '%' + params[:search] + '%', id: params[:search].to_i)
      end
 
      results = expr.execute

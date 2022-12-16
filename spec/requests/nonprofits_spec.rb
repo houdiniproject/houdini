@@ -21,7 +21,7 @@ describe NonprofitsController, type: :request do
   describe '#donate' do
     it 'allows being put into a frame by not setting X-Frame-Options header' do
       get "/nonprofits/#{our_np.id}/donate"
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:success)
       expect(response.headers).to_not include 'X-Frame-Options'
     end
   end
@@ -29,7 +29,7 @@ describe NonprofitsController, type: :request do
   describe '#btn' do
     it 'allows being put into a frame by not setting X-Frame-Options header' do
       get "/nonprofits/#{our_np.id}/btn"
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:success)
       expect(response.headers).to_not include 'X-Frame-Options'
     end
   end

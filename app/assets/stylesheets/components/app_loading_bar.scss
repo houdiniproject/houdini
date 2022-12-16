@@ -1,23 +1,6 @@
 /* License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later */
 @import 'mixins';
 
-@-webkit-keyframes progress-bar-stripes{
-	from{background-position:40px 0}
-	to{background-position:0 0}
-}
-
-@-moz-keyframes progress-bar-stripes{
-	from{background-position:40px 0}
-	to{background-position:0 0}
-}
-@-ms-keyframes progress-bar-stripes{
-	from{background-position:40px 0}
-	to{background-position:0 0}
-}
-@-o-keyframes progress-bar-stripes{
-	from{background-position:0 0}
-	to{background-position:40px 0}
-}
 @keyframes progress-bar-stripes{
 	from{background-position:40px 0}
 	to{background-position:0 0}

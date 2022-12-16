@@ -104,22 +104,6 @@
 	width: 100%;
 }
 // these keyframes animate the diagonal stripes
-@-webkit-keyframes progress-bar-stripes{
-	from{background-position:40px 0}
-	to{background-position:0 0}
-}
-@-moz-keyframes progress-bar-stripes{
-	from{background-position:40px 0}
-	to{background-position:0 0}
-}
-@-ms-keyframes progress-bar-stripes{
-	from{background-position:40px 0}
-	to{background-position:0 0}
-}
-@-o-keyframes progress-bar-stripes{
-	from{background-position:0 0}
-	to{background-position:40px 0}
-}
 @keyframes progress-bar-stripes{
 	from{background-position:40px 0}
 	to{background-position:0 0}

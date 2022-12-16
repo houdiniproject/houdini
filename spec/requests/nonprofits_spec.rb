@@ -8,6 +8,16 @@ describe NonprofitsController, type: :request do
     nonprofit
   end
 
+  describe '#show' do
+    before(:each) do
+      nonprofit.update(published: true) # if we don't, the nonprofit is not visitable unless logged in
+    end
+    it 'loads properly' do
+      get "/nonprofits/#{our_np.id}"
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe '#donate' do
     it 'allows being put into a frame by not setting X-Frame-Options header' do
       get "/nonprofits/#{our_np.id}/donate"

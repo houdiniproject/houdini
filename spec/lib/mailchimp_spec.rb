@@ -144,4 +144,27 @@ describe Mailchimp do
 			
 		end
 	end
+
+	describe '.get_emails_for_supporter_ids' do
+		let(:nonprofit) { create(:nonprofit)}
+		it 'does not include emails for supporters with nil as email' do
+			supporter = create(:supporter, nonprofit: nonprofit, email: nil)
+			expect(Mailchimp.get_emails_for_supporter_ids(nonprofit.id, supporter.id)).to be_empty
+		end
+
+		it 'does not include emails for supporters with zero length string as email' do
+			supporter = create(:supporter, nonprofit: nonprofit, email: '')
+			expect(Mailchimp.get_emails_for_supporter_ids(nonprofit.id, supporter.id)).to be_empty
+		end
+
+		it 'does not include emails for supporters with blank string as email' do
+			supporter = create(:supporter, nonprofit: nonprofit, email: '   ')
+			expect(Mailchimp.get_emails_for_supporter_ids(nonprofit.id, supporter.id)).to be_empty
+		end
+
+		it 'includes email for supporter with email' do
+			supporter = create(:supporter, nonprofit: nonprofit, email: 'an@email.com')
+			expect(Mailchimp.get_emails_for_supporter_ids(nonprofit.id, supporter.id)).to eq ['an@email.com']
+		end
+	end
 end

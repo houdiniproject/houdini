@@ -100,6 +100,5 @@ module Commitchange
 
 		config.active_job.queue_adapter = :delayed_job
 
-		config.action_mailer.default = {"X-SES-CONFIGURATION-SET" => 'Admin'}
 	end
 end

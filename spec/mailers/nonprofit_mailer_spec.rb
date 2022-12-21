@@ -28,12 +28,17 @@ RSpec.describe NonprofitMailer, :type => :mailer do
     end
 
     describe 'no bank account, no stripe account' do
+      subject { mail }
       it 'recommends to setup bank account' do
         expect(mail.body.encoded).to include 'you need to connect your'
       end
       
       it 'recommends to verify stripe' do
         expect(mail.body.encoded).to include 'Stripe is requested additional verification'
+      end
+
+      it 'sets the X-SES-CONFIGURATION-SET' do
+        expect(mail["X-SES-CONFIGURATION-SET"].value).to eq 'Admin'
       end
     end
 

@@ -2,6 +2,6 @@
 class BaseMailer < ActionMailer::Base
   include Devise::Controllers::UrlHelpers
   add_template_helper(ApplicationHelper)
-  default :from => Settings.mailer.default_from
+  default :from => Settings.mailer.default_from, "X-SES-CONFIGURATION-SET" => 'Admin'
   layout 'email'
 end

@@ -6,7 +6,7 @@
 <% end %>
 
 <% if @resource.created_at.to_date == Date.today %>
-	<p>Thanks for signing up on <a href='https://commitchange.com'></a><%= Settings.general.name %></a>! We're excited to get you started.</p>
+	<p>Thanks for signing up on <a href='https://commitchange.com'><%= Settings.general.name %></a>! We're excited to get you started.</p>
 <% end %>
 
 <p>In order to verify your account, please <strong><a href='<%= confirmation_url(@user, :confirmation_token => @token) %>'>confirm your email address</a></strong></p>

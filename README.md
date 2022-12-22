@@ -130,7 +130,6 @@ Now that we have all of our prerequisites prepared, we need to get the Houdini c
 #### Cloning project
 ```bash
 git clone https://github.com/HoudiniProject/houdini
-cd houdini
 ```
 
 This will download the latest Houdini code.
@@ -154,6 +153,12 @@ echo 'eval "$(~/.rbenv/bin/rbenv init - bash)"' >> ~/.bashrc
 
 ```bash
 git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+```
+
+#### Ruby install:
+```bash
+cd houdini
+rbenv install
 ```
 
 #### Setup project

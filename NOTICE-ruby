@@ -1768,6 +1768,37 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** loofah; version 2.19.1 -- 
+Copyright (c) 2006-2008 The Authors
+Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
+
+The MIT License
+
+The MIT License
+
+Copyright (c) 2009 -- 2018 by Mike Dalessio, Bryan Helmkamp
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+------
+
 ** zeitwerk; version 2.6.6 -- 
 Copyright (c) 2019-o Xavier Noria
 Copyright (c) 2019- <i> o </i> Xavier Noria
@@ -1861,33 +1892,6 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-------
-
-** httparty; version 0.20.0 -- 
-Copyright (c) 2007, Yahoo! Inc.
-Copyright (c) 2008 John Nunemaker
-
-Copyright (c) 2008 John Nunemaker
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
@@ -2426,6 +2430,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** rubocop; version 1.40.0 -- 
+Copyright (c) 2018 Hayato Kawai
+Copyright (c) 2015 Mikko Kokkonen
+Copyright (c) 2012-22 Bozhidar Batsov
+Copyright (c) 2012-2022 Bozhidar Batsov
+AutocorrectNotice Copyright (c) 2015 Yahoo! Inc.
 ** rubocop-rails; version 2.17.3 -- 
 Copyright (c) 2012-22 Bozhidar Batsov
 
@@ -2998,10 +3008,9 @@ Copyright, 2016, by Samuel G. D. Williams (http://www.codeotaku.com/samuel-willi
 ** i18n-js; version 3.8.0 -- 
 Copyright (c) 2008-2011 Pivotal Labs
 Copyright (c) 2010-2015, The Dojo Foundation
-** mime-types; version 3.3.1 -- 
+** mime-types; version 3.4.1 -- 
 Copyright 2003-2019 Austin Ziegler and contributors.
-** mime-types-data; version 3.2021.0901 -- 
-Copyright 2003-2020 Austin Ziegler and other contributors
+** mime-types-data; version 3.2022.0105 -- 
 ** minitest; version 5.16.3 -- 
 Copyright (c) Ryan Davis, seattle.rb
 ** nio4r; version 2.5.8 -- 
@@ -3031,6 +3040,8 @@ Copyright Kickstarter, PBC.
 ** rails; version 6.1.7 -- 
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
+** rails-html-sanitizer; version 1.4.4 -- 
+Copyright (c) 2013-2015 Rafael Mendonca Franca, Kasper Timm Hansen
 ** samovar; version 2.1.4 -- 
 Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2019, by Samuel G. D. Williams. <http://www.codeotaku.com>
@@ -3163,6 +3174,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ** et-orbi; version 1.2.7 -- 
 Copyright (c) 2017-2022, John Mettraux, jmettraux+flor@gmail.com
 ** fugit; version 1.8.0 -- 
+Copyright (c) 2017-2022, John Mettraux, jmettraux+flor@gmail.com
 
 
 Copyright (c) 2017-2022, John Mettraux, jmettraux+flor@gmail.com
@@ -4044,6 +4056,41 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** nokogiri; version 1.13.10 -- 
+Copyright 2010 Google Inc.
+Copyright 2011 Google Inc.
+Copyright 2018 Craig Barnes
+Copyright 2017-2018 Craig Barnes
+Copyright 2018 Stephen Checkoway
+(c) Copyright 2002-2005, Andy Clark
+Copyright (c) 1998-2003 Daniel Veillard
+Copyright (c) 1998-2012 Daniel Veillard
+Copyright (c) 2001-2002 Daniel Veillard
+copyrighted by the Free Software Foundation
+Copyright 2013-2021 Sam Ruby, Stephen Checkoway
+Copyright (c) 1991 Free Software Foundation, Inc.
+Copyright 1992-2018 Free Software Foundation, Inc.
+Copyright 1992-2020 Free Software Foundation, Inc.
+Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler
+Copyright (c) 2001-2003 Thai Open Source Software Center Ltd
+Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
+Copyright (c) 2001-2002 Thomas Broyer, Charlie Bozeman and Daniel Veillard
+Copyright (c) 2001-2002, SourceForge ISO-RELAX Project (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
+Copyright 2008 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney
+
+The MIT License
+
+Copyright 2008 -- 2021 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------

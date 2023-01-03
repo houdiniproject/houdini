@@ -211,8 +211,8 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     http_accept_language (2.1.1)
-    httparty (0.20.0)
-      mime-types (~> 3.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
@@ -258,9 +258,9 @@ GEM
     mapping (1.1.1)
     marcel (1.0.2)
     method_source (1.0.0)
-    mime-types (3.3.1)
+    mime-types (3.4.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2021.0901)
+    mime-types-data (3.2022.0105)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
@@ -505,7 +505,7 @@ DEPENDENCIES
   hamster (~> 3.0)
   houdini_full_contact!
   http_accept_language
-  httparty (~> 0.20.0)
+  httparty (~> 0.21.0)
   i18n-js (~> 3.8)!
   image_processing (~> 1.12.2)
   jbuilder (~> 2.11)

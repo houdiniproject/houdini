@@ -17,7 +17,7 @@ gem 'good_job', '~> 3.7'
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
 gem "date", "~> 3.3.3"
 
-gem 'httparty', '~> 0.20.0' # https://github.com/jnunemaker/httparty
+gem 'httparty', '~> 0.21.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'

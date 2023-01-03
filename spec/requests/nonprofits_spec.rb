@@ -3,6 +3,8 @@ require 'rails_helper'
 require 'support/contexts/shared_donation_charge_context'
 describe NonprofitsController, type: :request do
   include_context :shared_donation_charge_context
+
+  let(:user) { create(:user_as_nonprofit_associate, nonprofit: nonprofit)  }
   let(:our_np) do
     billing_subscription
     nonprofit
@@ -14,6 +16,14 @@ describe NonprofitsController, type: :request do
     end
     it 'loads properly' do
       get "/nonprofits/#{our_np.id}"
+      expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe '#dashboard' do
+    it 'loads properly' do
+      sign_in user
+      get "/nonprofits/#{our_np.id}/dashboard"
       expect(response).to have_http_status(:success)
     end
   end

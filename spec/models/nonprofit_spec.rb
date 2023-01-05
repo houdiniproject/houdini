@@ -411,4 +411,20 @@ RSpec.describe Nonprofit, type: :model do
       end
     end
   end
+
+  describe 'Caching' do
+    describe '.create_cache_key_for_id' do
+      it 'creates an accurate cache key' do 
+        expect(described_class.create_cache_key_for_id(1234))
+          .to eq('nonprofit__CACHE_KEY__ID___1234')
+      end
+    end
+
+    describe '.create_cache_key_for_location' do
+      it 'creates an accurate cache key' do 
+        expect(described_class.create_cache_key_for_location('wi', 'appleton', 'another-org'))
+          .to eq('nonprofit__CACHE_KEY__LOCATION___wi____appleton___another-org')
+      end
+    end
+  end
 end

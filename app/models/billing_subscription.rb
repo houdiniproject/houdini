@@ -14,11 +14,6 @@ class BillingSubscription < ActiveRecord::Base
 	validates :nonprofit, presence: true
 	validates :billing_plan, presence: true
 
-	after_save do
-		nonprofit.clear_cache
-		true
-	end
-
 	def as_json(options={})
 		h = super(options)
 		h[:plan_name] = self.billing_plan.name
@@ -36,22 +31,32 @@ class BillingSubscription < ActiveRecord::Base
 		return np.create_billing_subscription h
 	end
 
-	def self.clear_cache(np)
-		Rails.cache.delete(BillingSubscription.create_cache_key(np))
-	end
-
-	def self.find_via_cached_np_id(np)
-		np = np.id if np.is_a? Nonprofit
-		key = BillingSubscription.create_cache_key(np)
-		Rails.cache.fetch(key, expires_in: 4.hours) do
-			Qx.fetch(:billing_subscriptions, {nonprofit_id: np}).last
+	concerning :PathCaching do
+		included do
+			after_save do
+				nonprofit.clear_cache
+				true
+			end
 		end
-	  end
 
-	def self.create_cache_key(np)
-		np = np.id if np.is_a? Nonprofit
-		"billing_subscription_nonprofit_id_#{np}"
+		class_methods do
+			def clear_cache(np)
+				Rails.cache.delete(BillingSubscription.create_cache_key(np))
+			end
+		
+			def find_via_cached_np_id(np)
+				np = np.id if np.is_a? Nonprofit
+				key = BillingSubscription.create_cache_key(np)
+				Rails.cache.fetch(key, expires_in: 4.hours) do
+					Qx.fetch(:billing_subscriptions, {nonprofit_id: np}).last
+				end
+			end
+		
+			def create_cache_key(np)
+				np = np.id if np.is_a? Nonprofit
+				"billing_subscription_nonprofit_id_#{np}"
+			end
+		end
 	end
-
 end
 

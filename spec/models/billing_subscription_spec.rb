@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe BillingSubscription, type: :model do
 
-  describe 'Caching' do
+  describe '::PathCaching' do
 
     describe 'after save' do
       it 'calls Nonprofit#clear_cache after create' do

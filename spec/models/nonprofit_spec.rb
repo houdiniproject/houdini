@@ -463,5 +463,22 @@ RSpec.describe Nonprofit, type: :model do
         expect{ Nonprofit.find_via_cached_id(5555)}.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    describe '.find_via_cached_key_for_location' do
+      it 'finds the correct nonprofit' do
+        np = create(:nonprofit)
+        expect(Rails.cache).to receive(:fetch).with("nonprofit__CACHE_KEY__LOCATION___#{np.state_code_slug}____#{np.city_slug}___#{np.slug}", expires_in: 4.hours).and_yield
+
+        expect(Nonprofit.find_via_cached_key_for_location(np.state_code_slug, np.city_slug, np.slug)).to eq np
+      end
+
+      it 'returns nil when no valid nonprofit exists' do
+        state_code_slug = "wi"
+        city_slug = "green-bay"
+        slug = "one-more-org"
+        expect(Rails.cache).to receive(:fetch).with("nonprofit__CACHE_KEY__LOCATION___#{state_code_slug}____#{city_slug}___#{slug}", expires_in: 4.hours).and_yield
+        expect(Nonprofit.find_via_cached_key_for_location(state_code_slug, city_slug, slug)).to be_nil
+      end
+    end
   end
 end

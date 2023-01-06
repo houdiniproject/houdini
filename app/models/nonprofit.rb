@@ -124,11 +124,6 @@ class Nonprofit < ActiveRecord::Base
     self
   end
 
-  after_save do
-    self.clear_cache
-    self
-  end
-
   concerning :Path do
     class_methods do
       ModernParams = Struct.new(:to_param)
@@ -387,37 +382,47 @@ class Nonprofit < ActiveRecord::Base
     miscellaneous_np_info&.hide_cover_fees
   end
 
-  def clear_cache
-    Nonprofit::clear_caching(id, state_code_slug, city_slug, slug)
-  end
-
-  def self.clear_caching(id, state_code, city, name)
-    Rails.cache.delete(Nonprofit::create_cache_key_for_id(id))
-    Rails.cache.delete(Nonprofit::create_cache_key_for_location(state_code, city, name))
-    BillingSubscription.clear_cache(id)
-    BillingPlan.clear_cache(id)
-  end
-
-  def self.find_via_cached_id(id)
-    key = create_cache_key_for_id(id)
-    Rails.cache.fetch(key, expires_in: 4.hours) do
-      Nonprofit.find(id)
+  concerning :PathCaching do
+    included do
+      after_save do
+        self.clear_cache
+        self
+      end
     end
-  end
+    class_methods do
+      def clear_caching(id, state_code, city, name)
+        Rails.cache.delete(Nonprofit::create_cache_key_for_id(id))
+        Rails.cache.delete(Nonprofit::create_cache_key_for_location(state_code, city, name))
+        BillingSubscription.clear_cache(id)
+        BillingPlan.clear_cache(id)
+      end
 
-  def self.find_via_cached_key_for_location(state_code, city, name)
-    key = create_cache_key_for_location(state_code, city, name)
-    Rails.cache.fetch(key, expires_in: 4.hours) do
-      Nonprofit.where(:state_code_slug => state_code, :city_slug => city, :slug => name).last
+      def find_via_cached_id(id)
+        key = create_cache_key_for_id(id)
+        Rails.cache.fetch(key, expires_in: 4.hours) do
+          Nonprofit.find(id)
+        end
+      end
+
+      def find_via_cached_key_for_location(state_code, city, name)
+        key = create_cache_key_for_location(state_code, city, name)
+        Rails.cache.fetch(key, expires_in: 4.hours) do
+          Nonprofit.where(:state_code_slug => state_code, :city_slug => city, :slug => name).last
+        end
+      end
+
+      def create_cache_key_for_id(id)
+        "nonprofit__CACHE_KEY__ID___#{id}"
+      end
+
+      def create_cache_key_for_location(state_code,city, name)
+        "nonprofit__CACHE_KEY__LOCATION___#{state_code}____#{city}___#{name}"
+      end
     end
-  end
 
-  def self.create_cache_key_for_id(id)
-    "nonprofit__CACHE_KEY__ID___#{id}"
-  end
-
-  def self.create_cache_key_for_location(state_code,city, name)
-    "nonprofit__CACHE_KEY__LOCATION___#{state_code}____#{city}___#{name}"
+    def clear_cache
+      Nonprofit::clear_caching(id, state_code_slug, city_slug, slug)
+    end
   end
 
   private

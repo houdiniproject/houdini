@@ -412,7 +412,7 @@ RSpec.describe Nonprofit, type: :model do
     end
   end
 
-  describe 'Caching' do
+  describe '::PathCaching' do
 
     describe 'after save' do
       it 'runs clear_cache after create' do

@@ -449,5 +449,19 @@ RSpec.describe Nonprofit, type: :model do
           .to eq('nonprofit__CACHE_KEY__LOCATION___wi____appleton___another-org')
       end
     end
+
+    describe '.find_via_cached_id' do
+      it 'finds the correct nonprofit' do
+        np = create(:nonprofit)
+        expect(Rails.cache).to receive(:fetch).with("nonprofit__CACHE_KEY__ID___#{np.id}", expires_in: 4.hours).and_yield
+
+        expect(Nonprofit.find_via_cached_id(np.id)).to eq np
+      end
+
+      it 'raises ActiveRecord::RecordNotFound when no valid nonprofit exists' do
+        expect(Rails.cache).to receive(:fetch).with("nonprofit__CACHE_KEY__ID___5555", expires_in: 4.hours).and_yield
+        expect{ Nonprofit.find_via_cached_id(5555)}.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

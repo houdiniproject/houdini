@@ -22,20 +22,24 @@ class BillingPlan < ActiveRecord::Base
 
 	validates_numericality_of :flat_fee, only_integer: true, greater_than_or_equal_to: 0
 
-	def self.clear_cache(np)
-		Rails.cache.delete(BillingPlan.create_cache_key(np))
-	end
-
-	def self.find_via_cached_np_id(np)
-		np = Nonprofit.find_via_cached_id(np.id) unless np.is_a? Nonprofit
-		key = BillingPlan.create_cache_key(np)
-		Rails.cache.fetch(key, expires_in: 4.hours) do
-			np.billing_plan
+	concerning :PathCaching do
+		class_methods do
+			def clear_cache(np)
+				Rails.cache.delete(BillingPlan.create_cache_key(np))
+			end
+		
+			def find_via_cached_np_id(np)
+				np = Nonprofit.find_via_cached_id(np.id) unless np.is_a? Nonprofit
+				key = BillingPlan.create_cache_key(np)
+				Rails.cache.fetch(key, expires_in: 4.hours) do
+					np.billing_plan
+				end
+			end
+		
+			def create_cache_key(np)
+				np = np.id if np.is_a? Nonprofit
+				"billing_plan_nonprofit_id_#{np}"
+			end
 		end
-	end
-
-	def self.create_cache_key(np)
-		np = np.id if np.is_a? Nonprofit
-		"billing_plan_nonprofit_id_#{np}"
 	end
 end

@@ -13,7 +13,7 @@ RSpec.describe BillingPlan, type: :model do
     it {is_expected.to have_many(:billing_subscriptions)}
   end
   
-  describe 'Caching' do
+  describe '::PathCaching' do
     describe '.clear_cache' do
       it 'clears the cache when an id is passed' do
         expect(Rails.cache).to receive(:delete).with("billing_plan_nonprofit_id_1")

@@ -413,6 +413,24 @@ RSpec.describe Nonprofit, type: :model do
   end
 
   describe 'Caching' do
+
+    describe 'after save' do
+      it 'runs clear_cache after create' do
+        np = build(:nonprofit)
+        expect(np).to receive(:clear_cache).at_least(:once)
+
+        np.save!
+      end
+
+      it 'runs clear_cache after update' do
+        np = create(:nonprofit)
+        expect(np).to receive(:clear_cache)
+
+        np.email = "someemail@somethingelse.com"
+        np.save!
+      end
+    end
+
     describe '#clear_cache' do
       it 'calls the .clear_caching class method' do 
         np = create(:nonprofit)

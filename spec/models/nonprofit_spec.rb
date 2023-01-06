@@ -413,6 +413,21 @@ RSpec.describe Nonprofit, type: :model do
   end
 
   describe 'Caching' do
+    describe '.clear_caching' do
+      it 'clears the proper cache keys' do
+        id = 1
+        state_code = 'wi'
+        city = 'appleton'
+        name = 'another-org'
+        expect(Rails.cache).to receive(:delete).with("nonprofit__CACHE_KEY__ID___#{id}")
+        expect(Rails.cache).to receive(:delete).with("nonprofit__CACHE_KEY__LOCATION___#{state_code}____#{city}___#{name}")
+
+        expect(BillingSubscription).to receive(:clear_cache).with(id)
+        expect(BillingPlan).to receive(:clear_cache).with(id)
+        Nonprofit.clear_caching(id, state_code, city, name)
+      end
+    end
+
     describe '.create_cache_key_for_id' do
       it 'creates an accurate cache key' do 
         expect(described_class.create_cache_key_for_id(1234))

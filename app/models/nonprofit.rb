@@ -160,14 +160,6 @@ class Nonprofit < ActiveRecord::Base
     recurring_donations.active.sum(:amount)
   end
 
-  def donation_history_monthly
-    donation_history_monthly = []
-    donations.order("created_at")
-      .group_by{|d| d.created_at.beginning_of_month}
-      .each{|_, ds| donation_history_monthly.push(ds.map(&:amount).sum)}
-    donation_history_monthly
-  end
-
   def as_json(options = {})
     h = super(options)
     h[:url] = self.url

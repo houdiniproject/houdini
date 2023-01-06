@@ -413,6 +413,14 @@ RSpec.describe Nonprofit, type: :model do
   end
 
   describe 'Caching' do
+    describe '#clear_cache' do
+      it 'calls the .clear_caching class method' do 
+        np = create(:nonprofit)
+        expect(Nonprofit).to receive(:clear_caching).with(np.id, np.state_code_slug, np.city_slug, np.slug)
+        np.clear_cache
+      end
+    end
+
     describe '.clear_caching' do
       it 'clears the proper cache keys' do
         id = 1

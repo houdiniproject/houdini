@@ -4,6 +4,24 @@ require 'rails_helper'
 RSpec.describe BillingSubscription, type: :model do
 
   describe 'Caching' do
+
+    describe 'after save' do
+      it 'calls Nonprofit#clear_cache after create' do
+        billing_subscription = build(:billing_subscription)
+        np = billing_subscription.nonprofit
+        expect(np).to receive(:clear_cache).once
+        billing_subscription.save!
+      end
+
+
+      it 'calls Nonprofit#clear_cache after update' do
+        billing_subscription = create(:billing_subscription)
+        np = billing_subscription.nonprofit
+        expect(np).to receive(:clear_cache).once
+        billing_subscription.stripe_subscription_id = "something"
+        billing_subscription.save!
+      end
+    end
     describe '.clear_cache' do
       it 'clears the cache when an id is passed' do
         expect(Rails.cache).to receive(:delete).with("billing_subscription_nonprofit_id_1")

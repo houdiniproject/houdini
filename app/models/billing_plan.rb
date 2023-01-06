@@ -32,7 +32,7 @@ class BillingPlan < ActiveRecord::Base
 		Rails.cache.fetch(key, expires_in: 4.hours) do
 			np.billing_plan
 		end
-	  end
+	end
 
 	def self.create_cache_key(np)
 		np = np.id if np.is_a? Nonprofit

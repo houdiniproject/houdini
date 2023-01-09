@@ -26,7 +26,7 @@ git clone https://github.com/Commitchange/houdini
 git checkout supporter_level_goal
 ```
 
-#### One-time setup
+#### One-time setup (Ubuntu)
 
 You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
 
@@ -73,12 +73,46 @@ for production but for development, it's likely not a huge issue.
 
 > *Tip*: To run this, add `sudo -u postgres ` to the beginning of the following command.
 
-`createuser houdini_user -s -d -P`
+`createuser admin -s -d -P`
 
-Now that we have all of our prerequisites prepared, we need to get the Houdini code.
+#### One-time setup (Mac)
 
-`git clone https://github.com/CommitChange/houdini`
-#### System configuration
+Set your Ruby version with `rbenv`.
+
+```bash
+brew install rbenv
+rbenv versions # see which ruby versions are already installed
+rbenv install 2.6 # install 2.6 if you don't have it already
+rbenv local 2.6 # rbenv local --unset reverses the action
+```
+
+Set your Node version with `NVM`.
+
+```bash
+brew install nvm
+nvm install 14
+nvm use 14
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.zshrc
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> ~/.zshrc
+```
+
+Set your Postgres version with homebrew.
+
+```bash
+brew install postgresql@12
+brew switch postgres@12
+```
+
+Create necessary postgres users in the `psql` console.
+
+```bash
+psql postgres # if this doesn't work, make sure postgres is running
+CREATE ROLE admin WITH SUPERUSER CREATEDB LOGIN PASSWORD 'password';
+CREATE ROLE postgres WITH SUPERUSER CREATEDB LOGIN PASSWORD 'password';
+```
+
+#### System configuration (all)
 There are a number of steps for configuring your Houdini instance for startup
 ##### Run bin/setup
 ```sh
@@ -91,6 +125,9 @@ When you run foreman in dev, you start up the server, the job runner and webpack
 ```sh
 foreman start
 ```
+
+If you get `ActiveRecord::NoDatabaseError` errors, run `bin/rake db:create:all` to make sure all the databases are built.
+
 ## Frontend
 
 Assets get compiled from `/client` to `/public/client`

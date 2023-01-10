@@ -45,9 +45,10 @@ You'll run the next commands as your normal user.
 > *Note*: in the case of a production instance, this might be
 > your web server's user.
 
-> *Note*: We use [RVM](https://rvm.io) to have more control over the exact version of Ruby. For development, it's also way easier because you can
-> use a consistent version of Ruby (and different sets of installed gems) for different projects. You could also use rbenv
-> or simply build ruby from source.
+> *Note*: We use [rbenv](https://github.com/rbenv/rbenv) to have more control over the exact version of
+> Ruby. This tool is useful for switching between multiple Ruby versions on the same machine and for
+> ensuring that each project you are working on always runs on the correct Ruby version. You could also
+> build ruby from source.
 
 > *Note*: We recommend building Ruby with jemalloc support as we
 > do in these instructions. In practice, it manages memory far
@@ -55,18 +56,28 @@ You'll run the next commands as your normal user.
 
 > *Tip*: To get out of the root shell, run `exit`
 
+Get the latest rbenv
 ```bash
-# add rvm keys
-curl -sSL https://rvm.io/mpapis.asc | gpg --import -
-curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
-curl -sSL https://get.rvm.io | bash -s stable
-source $HOME/.rvm/scripts/rvm
-echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
-rvm install 2.6.10 --disable-binary --with-jemalloc
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+```
+Add rbenv to bashrc:
+```bash
+echo 'eval "$(~/.rbenv/bin/rbenv init - bash)"' >> ~/.bashrc
+```
+> *Note:* close and reopen your terminal.
+
+Download the rbenv install feature:
+```bash
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+```
+Ruby install
+```bash
+cd houdini
+rbenv install 2.6
 ```
 
- Run the following command as the `postgres` user and then enter your houdini_user
- password at the prompt.
+Run the following command as the `postgres` user and then enter your admin
+password at the prompt.
 
 > *Note*: For development, Houdini expects the password to be 'password'. This would be terrible
 for production but for development, it's likely not a huge issue.

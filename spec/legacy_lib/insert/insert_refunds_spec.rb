@@ -12,7 +12,7 @@ describe InsertRefunds do
 		force_create(
 			:payment,
 			gross_amount: 500,
-			net_amount: 500 + CalculateFees.for_single_amount(500),
+			net_amount: CalculateFees.for_single_amount(500) + 500,
 			fee_total: CalculateFees.for_single_amount(500),
 			date: Time.zone.now,
 			nonprofit: nonprofit,

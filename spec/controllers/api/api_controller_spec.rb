@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Api::ApiController do
 	it {
-		is_expected.to rescue_from(::AuthenticationError).with(:unauthorized_rescue)
+		is_expected.to rescue_from(AuthenticationError).with(:unauthorized_rescue)
 	}
 
 	describe 'rescues' do

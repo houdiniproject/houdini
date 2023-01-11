@@ -21,6 +21,7 @@ class NonprofitMailer < BaseMailer
     @nonprofit = @refund.payment.nonprofit
     @supporter = @refund.payment.supporter
     @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payments')
+    return if @emails.blank?
     mail(to: @emails, subject: "A new refund has been made for $#{Format::Currency.cents_to_dollars(@refund.amount)}")
   end
 

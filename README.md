@@ -157,12 +157,12 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 
 #### Ruby install:
 ```bash
-cd houdini
-rbenv install
+rbenv install 2.7.6
 ```
 
 #### Setup project
 ```bash
+cd houdini
 bin/setup
 ```
 

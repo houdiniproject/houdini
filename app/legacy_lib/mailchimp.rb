@@ -120,7 +120,7 @@ module Mailchimp
   # See here: http://developer.mailchimp.com/documentation/mailchimp/guides/how-to-use-batch-operations/
   # Perform all the batch operations and return a status report 
   def self.perform_batch_operations(npo_id, post_data)
-    post_data = post_data.map(&:to_h)
+    post_data = post_data.map(&:to_h).select(&:present?) # the select removes any nil items
     return if post_data.empty?
     mailchimp_token = get_mailchimp_token(npo_id)
     uri = base_uri(mailchimp_token)

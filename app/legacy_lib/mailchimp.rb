@@ -15,6 +15,7 @@ module Mailchimp
 	# Run the configuration from an initializer
 	# data: {:api_key => String}
 	def self.config(hash)
+    @apikey = hash[:api_key]
 		@options = {
 			:headers => {
 				'Content-Type' => 'application/json',
@@ -33,7 +34,8 @@ module Mailchimp
         'User-Agent' => 'oauth2-draft-v10',
         'Host' => 'login.mailchimp.com',
         'Accept' => 'application/json',
-        'Authorization' => "OAuth #{key}"
+        'Authorization' => "OAuth #{key}",
+        'apikey' => @apikey
       },
       logger: Rails.logger,
       log_level: :info,

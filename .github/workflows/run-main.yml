@@ -1,0 +1,105 @@
+# License: LGPL-3.0-or-later
+name: Main branch workflows to run on merge to `main`
+on: 
+  push:
+    branches: 
+      - main
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+env:
+# this version used for running various tools
+  tool_node_version: "14.x"
+  tool_ruby_version: "2.7.6"
+jobs:
+  npm-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
+      name: Download and cache any npm packages
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-20.04]
+          node: ["14.x"]
+      steps:
+        - uses: actions/checkout@v3
+        - uses: actions/setup-node@v3
+          with:
+            node-version: ${{ matrix.node }}
+            cache: 'yarn'
+        - run: yarn install --frozen-lockfile
+  
+  gem-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
+    name: Download and cache any gem packages
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        ruby: [2.7.6]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+  eslint:
+    runs-on: ubuntu-latest
+    needs: 
+      - npm-package-download
+    name: Run eslint scanning
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+      - run: yarn install --frozen-lockfile
+      - name: Install eslint formatter
+        run: |
+          yarn add @microsoft/eslint-formatter-sarif@2.1.7
+      - name: Run ESLint
+        run: yarn eslint
+          --format @microsoft/eslint-formatter-sarif 
+          --output-file eslint-results.sarif
+        continue-on-error: true
+
+      - name: Upload analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true
+  rubocop:
+    name: Run rubocop
+    needs:
+      - gem-package-download
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Allow adding the code-scanning-rubocop gem
+        run: bundle config unset deployment
+      - name: Install Code Scanning integration
+        run: bundle add code-scanning-rubocop --skip-install
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Rubocop run
+        run: |
+          bash -c "
+            bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+            [[ $? -ne 2 ]]
+          "
+      - name: Upload Sarif output
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: rubocop.sarif

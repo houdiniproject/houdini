@@ -12,12 +12,12 @@ gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'
 gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://stripe.com/docs/api
 gem 'webpacker', '~> 5.4.3'
-gem 'good_job', '~> 3.6'
+gem 'good_job', '~> 3.7'
 
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
-gem "date", "~> 3.3.0"
+gem "date", "~> 3.3.3"
 
-gem 'httparty', '~> 0.20.0' # https://github.com/jnunemaker/httparty
+gem 'httparty', '~> 0.21.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'
@@ -66,11 +66,11 @@ group :development, :ci, :test do
   gem 'listen'
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
-  gem 'rubocop', '~> 1.39.0'
+  gem 'rubocop', '~> 1.42.0'
   gem 'rubocop-rails', '~> 2.17'
   gem 'rubocop-rake', '~> 0.6.0'
-  gem 'rubocop-rspec', '~> 2.15'
-  gem 'shoulda-matchers', '~> 5.2.0'
+  gem 'rubocop-rspec', '~> 2.16'
+  gem 'shoulda-matchers', '~> 5.3.0'
   gem 'turbo_test'
   gem 'erb_lint', require: false
 end

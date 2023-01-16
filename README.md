@@ -37,6 +37,7 @@ All new backend code and React components should be well tested.
 * Yarn
 * PostgreSQL 10  or 12
 * Ruby 2.7
+
 * Ubuntu 18.04, 20.04 or equivalent
 * Manjaro
 
@@ -75,12 +76,7 @@ These include:
 There a few optional tools which make working on Houdini
 easier
 
-* Ruby Version Manager (RVM) - RVM makes it simple to switch
-between versions of Ruby for different projects. Additionally, you can
-use different "gemsets" per version so you can separate the
-state of a set of different projects. It will also switch
-versions at the console when you change to a directory for
-an project prepared for RVM, like Houdini.
+* RBENV - rbenv is a version manager tool for the Ruby programming language on Unix-like systems. It is useful for switching between multiple Ruby versions on the same machine and for ensuring that each project you are working on always runs on the correct Ruby version.
 * Automatic Version Switching for Node (AVN) - similar to RVM, AVN makes it simple to switch between versions of Node. When
 properly configured, it automatically switches version at
 the console when you change to a directory for a project
@@ -116,25 +112,9 @@ You'll run the next commands as your normal user.
 > *Note*: in the case of a production instance, this might be
 > your web server's user.
 
-> *Note*: We use [RVM](https://rvm.io) to have more control over the exact version of Ruby. For development, it's also way easier because you can
-> use a consistent version of Ruby (and different sets of installed gems) for different projects. You could also use rbenv
-> or simply build ruby from source.
-
-> *Note*: We recommend building Ruby with jemalloc support as we
-> do in these instructions. In practice, it manages memory far
-> more efficiently in Rails-based projects.
+> *Note*: We use [RBENV](https://https://github.com/rbenv/rbenv.io) inside the project folder to have more control over the exact version of Ruby.
 
 > *Tip*: To get out of the root shell, run `exit`
-
-#### Add rvm keys:
-```bash
-curl -sSL https://rvm.io/mpapis.asc | gpg --import -
-curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
-curl -sSL https://get.rvm.io | bash -s stable
-source $HOME/.rvm/scripts/rvm
-echo 'source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc
-rvm install 2.7.6 --disable-binary --with-jemalloc
-```
 
  Run the following command as the `postgres` user and then enter your houdini_user
  password at the prompt.
@@ -153,12 +133,36 @@ Now that we have all of our prerequisites prepared, we need to get the Houdini c
 #### Cloning project
 ```bash
 git clone https://github.com/HoudiniProject/houdini
-cd houdini
 ```
 
 This will download the latest Houdini code.
 
 Let's run the Houdini project setup and we'll be ready to go!
+
+#### Get the latest rbenv:
+
+```bash
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+```
+#### Add rbenv to bashrc:
+
+```bash
+echo 'eval "$(~/.rbenv/bin/rbenv init - bash)"' >> ~/.bashrc
+```
+
+> *Note*: close and reopen your terminal.
+
+#### Download the rbenv install feature:
+
+```bash
+git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+```
+
+#### Ruby install:
+```bash
+cd houdini
+rbenv install
+```
 
 #### Setup project
 ```bash

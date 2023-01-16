@@ -15,10 +15,10 @@ RSpec.describe Model::Jbuilder do
 				HasToBuilderAndToId.new('id_result', 'builder_result'),
 				nil,
 				[
-					HasToBuilderAndToId.new('enumerable_id_result_1', ::Jbuilder.new { |json| json.id 'enumerable_builder_result_1' }),
-					HasToBuilderAndToId.new('enumerable_id_result_2', ::Jbuilder.new { |json| json.id 'enumerable_builder_result_2' })
+					HasToBuilderAndToId.new('enumerable_id_result_1', Jbuilder.new { |json| json.id 'enumerable_builder_result_1' }),
+					HasToBuilderAndToId.new('enumerable_id_result_2', Jbuilder.new { |json| json.id 'enumerable_builder_result_2' })
 				],
-				HasToBuilderAndToId.new(::Jbuilder.new do |json|
+				HasToBuilderAndToId.new(Jbuilder.new do |json|
 					json.id 'json_based_id'
 				end, 'expanded'),
 				%w[

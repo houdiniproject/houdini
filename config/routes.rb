@@ -290,11 +290,11 @@ Rails.application.routes.draw do
   get '/css/donate-button.css' => 'widget#v1_css'
   get '/css/donate-button.v2.css' => 'widget#v2_css'
 
-  # Routes
+  # Error Routes
 
   get '/404', to: 'errors#not_found'
-  get '/500', to: 'errors#internal_server'
   get '/422', to: 'errors#unprocessable'
+  get '/500', to: 'errors#internal_server'
 
 
   scope ActiveStorage.routes_prefix do

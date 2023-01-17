@@ -14,7 +14,7 @@ function view(state) {
       h('a.button--small.facebook.u-width--full.share-button', {
         props: {
           target: '_blank'
-        , href: 'https://www.facebook.com/dialog/feed?app_id='+app.facebook_app_id +"&display=popup&caption=" + encodeURIComponent(app.campaign.name || app.nonprofit.name) + "&link="+window.location.href
+        , href: 'https://www.facebook.com/dialog/feed?app_id='+app.facebook_app_id +"&display=popup&caption=" + encodeURIComponent(app.campaign.name || app.nonprofit.name) + "&link="+window.location.href + "?/utm_source=facebook&utm_medium=social&utm_campaign=" + encodeURIComponent(app.campaign.name)
         }
       }, [h('i.fa.fa-facebook-square'), ` ${I18n.t('nonprofits.donate.followup.share.facebook')}`] )
     ])
@@ -22,7 +22,7 @@ function view(state) {
       h('a.button--small.twitter.u-width--full', {
         props: {
           target: '_blank'
-        , href: "https://twitter.com/intent/tweet?url="+window.location.href+"&via=CommitChange&text=Join me in supporting:" + (app.campaign.name || app.nonprofit.name)
+        , href: "https://twitter.com/intent/tweet?url="+window.location.href+"&via=CommitChange&text=Join me in supporting:" + (app.campaign.name || app.nonprofit.name) + "?/utm_source=twitter&utm_medium=social&utm_campaign=" + encodeURIComponent(app.campaign.name)
         }
       }, [h('i.fa.fa-twitter-square'), ` ${I18n.t('nonprofits.donate.followup.share.twitter')}`] )
     ])

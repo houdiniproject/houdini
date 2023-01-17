@@ -131,7 +131,7 @@ function paymentButton(options, label, state){
   let btnclass={ 'ff-button--loading': options.loading$() };
   btnclass[label]=true;
 
-  return h('div.ff-buttonWrapper.u-floatL.u-marginBottom--10', {
+  return h('div.ff-buttonWrapper.u-floatL.u-marginBottom--10.u-marginLeft--10', {
     class: { 'ff-buttonWrapper--hasError': options.error$() }
   }, [
     h('p.ff-button-error', {style: {display: options.error$() ? 'block' : 'none'}} , options.error$())

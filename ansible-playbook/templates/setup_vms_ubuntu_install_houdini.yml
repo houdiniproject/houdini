@@ -1,0 +1,118 @@
+---
+
+- name: Setup Ubuntu VMs
+  gather_facts: false
+  hosts: vms_ubuntu
+  remote_user: root
+  tasks:
+  - name: Changing root password
+    user:
+      name: root
+      password: "{{ 'root_password' | password_hash('sha512', 'comosaidonano') }}"
+
+  - name: Set hostname
+    hostname:
+      name: "{{ inventory_hostname }}"
+
+
+  # - name: Add Docker  e postgres GPG apt Key
+  #   apt_key:
+  #     url: https://download.docker.com/linux/ubuntu/gpg
+  #     # url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+  #     state: present
+
+  # - name: Add ubuntu Repository
+  #   apt_repository:        
+  #     repo: deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse
+  #     repo: deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse
+  #     repo: deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse
+
+  #     repo: deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse
+  #     repo: deb http://archive.canonical.com/ubuntu/ jammy partner
+  #     repo: deb http://apt.postgresql.org/pub/repos/apt/  main
+
+  #     state: present
+
+  # - name: Add Docker Repository
+  #   apt_repository:
+  #     repo: deb https://download.docker.com/linux/ubuntu jammy stable
+  #     state: present
+
+  # - name: Update apt 
+  #   apt:
+  #     update_cache: true
+
+
+  - name: Install General
+    apt:
+      name:
+        - nfs-common
+        - htop
+        - vim
+        - tmux
+        - python3-pip
+        - python3-venv
+        - docker.io
+        - docker-compose
+        - postgresql
+        - libpq-dev
+        - libjemalloc-dev 
+        - libvips42 
+        - yarn
+        - git
+        - curl
+      state: present
+      update_cache: yes
+
+  - name: postgresql demo
+      hosts: vms_ubuntu
+      become: true
+      vars:
+        db_user: myuser
+        db_password: MySecretPassword123
+    tasks:
+      - name: Utility present
+        ansible.builtin.package:
+        name: python3-psycopg2
+        state: present
+      - name: Create db user
+        community.postgresql.postgresql_user:
+          state: present
+          name: "{{ db_user }}"
+          password: "{{ db_password }}"
+        become: true
+        become_user: postgres
+
+  # - name: Mount NAS
+  #   mount:
+  #     path: /mnt/nas
+  #     src: nas2:/
+  #     fstype: nfs
+  #     state: mounted
+
+  # - name: Mount remote homes
+  #   mount:
+  #     path: /mnt/home
+  #     src: servern03:/var/nfs_shares/home
+  #     fstype: nfs
+  #     state: mounted
+
+  # - name: Mount NAS3
+  #   mount:
+  #     path: /mnt/nas3
+  #     src: servern03:/var/nfs_shares
+  #     fstype: nfs
+  #     state: mounted
+
+  # - name: Mount NAS1
+  #   mount:
+  #     path: /mnt/nas1/Public
+  #     src: nas1:/mnt/array1/Public
+  #     fstype: nfs
+  #     state: mounted
+
+  # - name: Enable Monit
+  #   systemd:
+  #     state: started
+  #     enabled: True
+  #     name: monit

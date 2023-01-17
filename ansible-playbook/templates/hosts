@@ -1,0 +1,7 @@
+
+
+[vms_ubuntu_20]
+stallman ansible_host=172.16.1.47 ansible_user=root
+
+[vms_ubuntu:children]
+vms_ubuntu_20

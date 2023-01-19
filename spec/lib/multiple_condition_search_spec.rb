@@ -68,7 +68,8 @@ describe MultipleConditionSearch do
       context 'no record is found' do
         let(:search_obj) { MultipleConditionSearch.new([
           ["houid = ?", 'some fake houid'],
-          "houid = 'another fake houid'"])}
+          ["houid = ? or houid = 'another fake houid'", 'some_fake_houid']
+        ])}
         let!(:result) {search_obj.find(SimpleObject.all)} 
 
         it "will return nil" do
@@ -87,7 +88,7 @@ describe MultipleConditionSearch do
       context 'the correct record is found' do
         let(:search_obj) { MultipleConditionSearch.new([
           {parent_id: parent.id},
-          ['houid = ?', child_obj_2.houid]
+          ['parent_id = ? AND houid = ?', parent.id, child_obj_2.houid]
         ])}
         let!(:result) {search_obj.find(SimpleObject.all)} 
 
@@ -107,7 +108,7 @@ describe MultipleConditionSearch do
       context 'multiple records are found' do
         let(:search_obj) { MultipleConditionSearch.new([
           "parent_id = #{parent.id}", 
-          ["houid = ? OR houid = ?", child_obj_1.houid, child_obj_2.houid]
+          ["parent_id = ? AND (houid = ? OR houid = ?)", parent.id, child_obj_1.houid, child_obj_2.houid]
         ])}
         let!(:result) {search_obj.find(SimpleObject.all)} 
 

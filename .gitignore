@@ -73,3 +73,6 @@ javascripts/api
 # yard related directories
 /ruby_docs
 /.yardoc
+
+# Data files you wouldn't want to push
+*.csv

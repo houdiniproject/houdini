@@ -129,6 +129,11 @@ There are a number of steps for configuring your Houdini instance for startup
 ```sh
 bin/setup
 ```
+
+##### Get your .env file
+If you don't already have access to the CommitChange 1Password vault, ask to be added. Then
+download the .env file in 1Password and place it in the root directory.
+
 #### Startup
 ##### run foreman for development
 

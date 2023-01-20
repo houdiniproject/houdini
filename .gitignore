@@ -83,3 +83,6 @@ package-lock.json
 # generated js-route files
 app/javascript/routes.js
 app/javascript/routes.d.ts
+
+# data files you'd never want to commit
+*.csv

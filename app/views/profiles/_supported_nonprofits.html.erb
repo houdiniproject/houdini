@@ -20,7 +20,7 @@
 						</h5>
 						<p class='u-marginBottom--5'><small><strong><%= npo['city'] %>, <%= npo['state_code'] %></strong></small></p>
 						<p><small><%= npo['summary'] && npo['summary'] != "" ?  npo['summary'] :  npo['tagline'] %></small></p>
-						<% npo['categories'] && YAML.load(npo['categories']).each do |category | %>
+						<% npo['categories'] && npo['categories'].each do |category | %>
 							<span class='tag u-marginBottom--5'><%= category %></span>
 						<% end %>
 					</td>

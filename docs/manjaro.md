@@ -1,3 +1,7 @@
+## Manjaro
+
+PLEASE NOTE: Manjaro support is unofficial and not regularly reviewed
+
 ### One-time setup
 
 #### Postgres 12 Installation

@@ -18,6 +18,8 @@ window._csrf = "<%= form_authenticity_token %>";
 </script>
 <%= yield :javascripts %>
 <span data-parsley-namespace='parsley-'></span>
-<% if current_role?([:nonprofit_associate, :nonprofit_admin, :super_admin]) && yield(:hide_nav_beacon) != 'true' %>
+<% if current_role?([:nonprofit_associate, :nonprofit_admin, :super_admin]) && yield(:hide_nav_beacon) != 'true' && yield(:left_align_nav_beacon) != 'true' %>
   <%= render 'layouts/nav_beacon' %>
+<% elsif yield(:left_align_nav_beacon) == 'true' %>
+  <%= render 'layouts/left_aligned_nav_beacon' %>
 <% end %>

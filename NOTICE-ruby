@@ -967,6 +967,33 @@ Public License instead of this License.
 
 ------
 
+** rubocop-ast; version 1.24.1 -- 
+Copyright (c) 2012-20 Bozhidar Batsov
+
+Copyright (c) 2012-20 Bozhidar Batsov
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** rake; version 12.3.3 -- 
 Copyright Jim Weirich.
 Copyright (c) Jim Weirich
@@ -1022,32 +1049,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** tzinfo; version 2.0.5 -- 
-Copyright (c) 2005-2022 Philip Ross
-
-Copyright (c) 2005-2022 Philip Ross
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 
 ------
@@ -1785,6 +1786,33 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** httparty; version 0.21.0 -- 
+Copyright (c) 2007, Yahoo! Inc.
+Copyright (c) 2008 John Nunemaker
+
+Copyright (c) 2008 John Nunemaker
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+------
+
 ** hamster; version 3.0.0 -- 
 Copyright (c) 2009-2014 Simon Harris
 
@@ -2369,36 +2397,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** concurrent-ruby; version 1.1.10 -- 
-Copyright Concurrent Ruby
-Copyright (c) Jerry D'Antonio
-Copyright (c) 2014 Jerry D'Antonio (https://twitter.com/jerrydantonio)
-
-Copyright (c) Jerry D'Antonio -- released under the MIT license.
-
-http://www.opensource.org/licenses/mit-license.php
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-------
-
 ** validate_url; version 1.0.15 -- 
 Copyright (c) 2010 PerfectLine (http://www.perfectline.co), LLC
 Copyright (c) 2010-2014 PerfectLine (http://www.perfectline.co), LLC.
@@ -2828,6 +2826,8 @@ Copyright (c) 2010-2015, The Dojo Foundation
 ** mime-types; version 3.4.1 -- 
 Copyright 2003-2019 Austin Ziegler and contributors.
 ** mime-types-data; version 3.2022.0105 -- 
+** minitest; version 5.17.0 -- 
+Copyright (c) Ryan Davis, seattle.rb
 ** nio4r; version 2.5.8 -- 
 (c) 2011 Emanuele Giaquinta
 Copyright (c) 2011 Tony Arcieri.
@@ -2850,8 +2850,6 @@ Copyright (c) 2007,2008,2009,2010,2011,2012,2013,2016,2019 Marc Alexander Lehman
 Copyright Kickstarter, PBC.
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
-** rails-html-sanitizer; version 1.4.4 -- 
-Copyright (c) 2013-2015 Rafael Mendonca Franca, Kasper Timm Hansen
 ** samovar; version 2.1.4 -- 
 Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2019, by Samuel G. D. Williams. <http://www.codeotaku.com>
@@ -3403,6 +3401,37 @@ THE SOFTWARE.
 
 ------
 
+** unicode-display_width; version 2.4.2 -- 
+Copyright (c) 2011, 2015-2023 Jan Lelis
+Copyright (c) 2011, 2015-2023 Jan Lelis, https://janlelis.com
+Copyright (c) 2009 Run Paint Run Run - Unicode data https://www.unicode.org/copyright.html
+
+The MIT LICENSE
+
+Copyright (c) 2011, 2015-2023 Jan Lelis
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** regexp_parser; version 2.6.1 -- 
 (c) d enter group
 (c) visit literal c exit group
@@ -3503,6 +3532,39 @@ Copyright (c) Ryan Boland & Contributors
 Copyright (c) 2011 Joseph A. Adams (joeyadams3.14159@gmail.com)
 
 Copyright (c) Ryan Boland & Contributors
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** parser; version 3.2.0.0 -- 
+Copyright (c) Ryan Davis, seattle.rb
+Copyright (c) 2013-2016 whitequark <whitequark@whitequark.org>
+
+Copyright (c) 2013-2016 whitequark  <whitequark@whitequark.org>
+
+Parts of the source are derived from ruby_parser:
+Copyright (c) Ryan Davis, seattle.rb
 
 MIT License
 
@@ -3648,6 +3710,37 @@ Copyright 2009-2019 Plataformatec. http://plataformatec.com.br
 
 Copyright (c) 2020 Rafael França, Carlos Antônio da Silva
 Copyright 2009-2019 Plataformatec. http://plataformatec.com.br
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** rubocop; version 1.42.0 -- 
+Copyright (c) 2018 Hayato Kawai
+Copyright (c) 2015 Mikko Kokkonen
+Copyright (c) 2012-23 Bozhidar Batsov
+Copyright (c) 2012-2023 Bozhidar Batsov
+AutocorrectNotice Copyright (c) 2015 Yahoo! Inc.
+
+Copyright (c) 2012-23 Bozhidar Batsov
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -4151,7 +4244,7 @@ copyrighted by Yukihiro Matsumoto <matz@netlab.jp>
 Copyright (c) 1999-2007 Minero Aoki
 Copyright (c) 1993-2013 Yukihiro Matsumoto
 Copyright (c) 1999-2007 Yukihiro Matsumoto
-** net-protocol; version 0.1.3 -- 
+** net-protocol; version 0.2.1 -- 
 Copyright (c) 1999-2004 Minero Aoki
 Copyright (c) 1993-2013 Yukihiro Matsumoto
 Copyright (c) 1999-2004 Yukihiro Matsumoto
@@ -4159,7 +4252,7 @@ Copyright (c) 1999-2004 Yukihiro Matsumoto
 Copyright (c) 1999-2007 Minero Aoki
 Copyright (c) 1993-2013 Yukihiro Matsumoto
 Copyright (c) 1999-2007 Yukihiro Matsumoto
-** timeout; version 0.3.0 -- 
+** timeout; version 0.3.1 -- 
 Copyright (c) 1993-2013 Yukihiro Matsumoto
 Copyright (c) 2000 Information-technology Promotion Agency, Japan
 Copyright (c) 2000 Network Applied Communication Laboratory, Inc.

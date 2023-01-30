@@ -129,7 +129,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bootsnap (1.15.0)
+    bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
     chronic (0.10.2)
@@ -498,7 +498,7 @@ PLATFORMS
 DEPENDENCIES
   action_mailer_matchers (~> 1.2)
   bess!
-  bootsnap (~> 1.15)
+  bootsnap (~> 1.16)
   chronic (~> 0.10.2)
   colorize (~> 0.8.1)
   countries (~> 4.2)

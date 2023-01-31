@@ -49,7 +49,7 @@ function view(state) {
     h('input', { props: { type: 'hidden' , name: 'profile_id' , value: state.supporter.profile_id } })
   , h('input', { props: { type: 'hidden' , name: 'nonprofit_id' , value: state.supporter.nonprofit_id || app.nonprofit_id } })
   , h('fieldset', [
-      h('input.u-marginBottom--10', {
+      h('input.u-marginBottom--20', {
         props: {
           type: 'email'
         , title: emailTitle

@@ -25,7 +25,7 @@ function calculateToShip(state)
 }
 
 function view(state) {
-  return h('section.u-padding--5.pastelBox--grey clearfix', [
+  return h('section.pastelBox--grey clearfix', [
     calculateToShip(state)
     ? h('label.u-centered.u-marginBottom--5', [
         'Shipping address (required)'
@@ -38,7 +38,7 @@ function view(state) {
 const manualFields = state => {
   return h('div', [
     h('fieldset.col-8.u-fontSize--14', [
-      h('input.u-marginBottom--0', {props: {
+      h('input.u-marginBottom--10', {props: {
         type: 'text'
       , title: 'Street Addresss'
       , name: 'address'
@@ -48,7 +48,7 @@ const manualFields = state => {
       }})
     ])
   , h('fieldset.col-right-4.u-fontSize--15', [
-      h('input.u-marginBottom--0', {props: {
+      h('input.u-marginBottom--10', {props: {
         type: 'text'
       , name: 'city'
       , title: 'City'

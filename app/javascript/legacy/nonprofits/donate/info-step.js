@@ -106,7 +106,7 @@ function view(state) {
   , customFields(state.params$().custom_fields)
   , dedicationLink(state)
   , app.nonprofit.no_anon ? '' : anonField(state)
-  , h('fieldset.u-inlineBlock.u-marginTop--10', paymentMethodButtons(["card", "sepa"], state))
+  , h('fieldset.u-inlineBlock.u-marginTop--10.u-marginLeft--65', paymentMethodButtons(["card", "sepa"], state))
   ])
   return h('div.wizard-step.info-step.u-padding--10', [
     form

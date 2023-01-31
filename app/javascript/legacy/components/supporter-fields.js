@@ -49,7 +49,7 @@ function view(state) {
     h('input', { props: { type: 'hidden' , name: 'profile_id' , value: state.supporter.profile_id } })
   , h('input', { props: { type: 'hidden' , name: 'nonprofit_id' , value: state.supporter.nonprofit_id || app.nonprofit_id } })
   , h('fieldset', [
-      h('input.u-marginBottom--0', {
+      h('input.u-marginBottom--10', {
         props: {
           type: 'email'
         , title: emailTitle
@@ -61,7 +61,7 @@ function view(state) {
       })
     ])
   , h('section.group', [
-      h('fieldset.u-marginBottom--0.u-floatL.col-right-4', [
+      h('fieldset.u-marginBottom--10.u-floatL', [
         h('input', {
           props: {
             type: 'text'
@@ -73,7 +73,7 @@ function view(state) {
           }
         })
       ])
-    , h('fieldset.u-marginBottom--0.u-floatL.col-right-4', [
+    , h('fieldset.u-marginBottom--10', [
         h('input', {
           props: {
             type: 'text'
@@ -85,7 +85,7 @@ function view(state) {
           }
         })
       ])
-    , h('fieldset.u-marginBottom--0.u-floatL.col-right-4', [
+    , h('fieldset.u-marginBottom--10', [
         h('input', {
           props: {
             type: 'text'
@@ -116,7 +116,7 @@ function manualAddressFields(state) {
       c => h('option', {props: {value: c[0]}}, c[1])
     , app.countriesList )
 )
-  return h('section.group.pastelBox--grey.u-padding--5', [
+  return h('section.group.pastelBox--grey', [
     state.to_ship ? h('label.u-centered.u-marginBottom--5', I18n.t('nonprofits.donate.info.supporter.shipping_address')) : ''
   , h('fieldset.col-8.u-fontSize--14', [
       h('input.u-marginBottom--0', {

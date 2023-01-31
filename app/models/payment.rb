@@ -30,6 +30,7 @@ class Payment < ActiveRecord::Base
 	belongs_to :donation
 	has_many :tickets
 	has_one :campaign, through: :donation
+	has_many :campaign_gifts, through: :donation
 	has_many :events, through: :tickets
 	has_many :payment_payouts
 	has_many :charges

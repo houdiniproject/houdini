@@ -12,6 +12,7 @@ RSpec.describe Payment, :type => :model do
 
   it {is_expected.to have_one( :manual_balance_adjustment)}
 
+  it { is_expected.to have_many(:campaign_gifts).through(:donation) }
 
   describe '#staff_comment' do
     it 'is nil if manual_balance_adjustment is unset' do 

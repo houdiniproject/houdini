@@ -4,12 +4,16 @@
 # Please see the documentation for all configuration options:
 # https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
+
 version: 2
 updates:
   - package-ecosystem: "bundler" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    labels:
+      - "bundler"
+      - "dependencies"
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"] # we don't want to have semver-major changes
@@ -18,6 +22,5 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    
-
-
+    labels:
+      - "actions"

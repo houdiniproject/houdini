@@ -967,6 +967,33 @@ Public License instead of this License.
 
 ------
 
+** rubocop-ast; version 1.24.1 -- 
+Copyright (c) 2012-20 Bozhidar Batsov
+
+Copyright (c) 2012-20 Bozhidar Batsov
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** rake; version 12.3.3 -- 
 Copyright Jim Weirich.
 Copyright (c) Jim Weirich
@@ -995,33 +1022,6 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-
-------
-
-** activestorage; version 6.1.7 -- 
-Copyright (c) 2017-2022 David Heinemeier Hansson, Basecamp
-
-Copyright (c) 2017-2022 David Heinemeier Hansson, Basecamp
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -1080,6 +1080,16 @@ THE SOFTWARE.
 ------
 
 ** rb-fsevent; version 0.11.2 -- 
+
+** rb-fsevent; version 0.11.0 -- 
+Copyright (c) 2013, Facebook, Inc.
+Copyright (c) 2011 Konstantin Haase
+Copyright (c) 2011-2013 Travis Tilley
+Copyright (c) 2011-2017 Travis Tilley
+Copyright (c) 2011-2017 Travis Tilley CFBundleVersion
+Copyright (c) 2015 Andrey Tarantsov <andrey@tarantsov.com>
+Copyright (c) 2003 Constantin S. Svintsoff <kostik@iclub.nsu.ru>
+Copyright (c) 2010-2014 Thibaud Guillaume-Gentil & Travis Tilley
 
 Copyright (c) 2010-2014 Thibaud Guillaume-Gentil & Travis Tilley
 
@@ -1258,6 +1268,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+
 ** ruby-vips; version 2.1.4 -- 
 Copyright (c) 2014 John Cupitt
 
@@ -1285,7 +1296,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** erubi; version 1.11.0 -- 
+** erubi; version 1.12.0 -- 
 copyright (c) 2016-2021 Jeremy Evans
 copyright (c) 2006-2011 kuwata-lab.com
 
@@ -1377,7 +1388,7 @@ Copyright (c) 2012 David Chelimsky, Andy Lindeman
 Copyright (c) 2006 David Chelimsky, The RSpec Development Team
 
 The MIT License (MIT)
-=====================
+
 
 * Copyright © 2015 David Chelimsky, Aaron Kromer
 * Copyright © 2012 David Chelimsky, Andy Lindeman
@@ -1554,34 +1565,6 @@ THE SOFTWARE.
 
 ------
 
-** actionmailbox; version 6.1.7 -- 
-Copyright (c) 2018-2022 Basecamp, LLC
-
-MIT License
-
-Copyright (c) 2018-2022 Basecamp, LLC
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-------
-
 ** crass; version 1.0.6 -- 
 
 Copyright (c) 2020 Ryan Grove (ryan@wonko.com)
@@ -1606,7 +1589,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** mini_portile2; version 2.8.0 -- 
+** mini_portile2; version 2.8.1 -- 
 Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
 
 Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
@@ -1617,13 +1600,12 @@ a copy of this software and associated documentation files (the
 without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
+the following condiabove copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIE
+okowpfewo
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
@@ -1800,6 +1782,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ** zeitwerk; version 2.6.6 -- 
 Copyright (c) 2019-o Xavier Noria
 Copyright (c) 2019- <i> o </i> Xavier Noria
+** loofah; version 2.19.1 -- 
+Copyright (c) 2006-2008 The Authors
+Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
+
+The MIT License
+
+The MIT License
 
 Copyright (c) 2019–ω Xavier Noria
 
@@ -1921,7 +1910,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** httparty; version 0.20.0 -- 
+** httparty; version 0.21.0 -- 
 Copyright (c) 2007, Yahoo! Inc.
 Copyright (c) 2008 John Nunemaker
 
@@ -1952,7 +1941,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Copyright (c) 2009-2014 Simon Harris
 
 Licensing
-=========
 
 Copyright (c) 2009-2014 Simon Harris
 
@@ -2012,7 +2000,6 @@ Copyright (c) 2012 David Chelimsky, Myron Marston
 Copyright (c) 2006 David Chelimsky, The RSpec Development Team
 
 The MIT License (MIT)
-=====================
 
 * Copyright © 2012 David Chelimsky, Myron Marston
 * Copyright © 2006 David Chelimsky, The RSpec Development Team
@@ -2395,7 +2382,6 @@ Copyright (c) 2006 David Chelimsky, The RSpec Development Team
 Copyright (c) 2012 Chad Humphries, David Chelimsky, Myron Marston
 
 The MIT License (MIT)
-=====================
 
 * Copyright © 2012 Chad Humphries, David Chelimsky, Myron Marston
 * Copyright © 2009 Chad Humphries, David Chelimsky
@@ -2424,39 +2410,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** activejob; version 6.1.7 -- 
-Copyright (c) 2014-2022 David Heinemeier Hansson
-
-Copyright (c) 2014-2022 David Heinemeier Hansson
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** rubocop; version 1.39.0 -- 
-Copyright (c) 2018 Hayato Kawai
-Copyright (c) 2015 Mikko Kokkonen
+** rubocop-rails; version 2.17.4 -- 
 Copyright (c) 2012-22 Bozhidar Batsov
-Copyright (c) 2012-2022 Bozhidar Batsov
-AutocorrectNotice Copyright (c) 2015 Yahoo! Inc.
 
 Copyright (c) 2012-22 Bozhidar Batsov
 
@@ -2662,7 +2617,38 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** shoulda-matchers; version 5.2.0 -- 
+** timecop; version 0.9.6 -- 
+Copyright (c) 2019
+
+(The MIT License)
+
+Copyright (c) 2019 — Travis Jeffery, John Trupiano
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
+** shoulda-matchers; version 5.3.0 -- 
+copyright (c) 2006-2022 Tammer Saleh and thoughtbot, inc
+Copyright (c) 2006-2022 Tammer Saleh and thoughtbot, inc.
 
 Copyright (c) 2006-2022 Tammer Saleh and thoughtbot, inc.
 
@@ -2857,62 +2843,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** rubocop-rspec; version 2.15.0 -- 
-Copyright (c) 2014 Ian MacLeod <ian@nevir.net>
-
-# The MIT License (MIT)
-
-Copyright (c) 2014 Ian MacLeod <ian@nevir.net>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-------
-
-** actiontext; version 6.1.7 -- 
-Copyright (c) 2020-2022 Basecamp, LLC
-
-MIT License
-
-Copyright (c) 2020-2022 Basecamp, LLC
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-------
-
 ** i18n; version 1.12.0 -- 
 
 Copyright (c) 2008 The Ruby I18n team
@@ -2975,6 +2905,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------
 
 ** tilt; version 2.0.11 -- 
+
+** tilt; version 2.0.10 -- 
 Copyright (c) 2010-2016 Ryan Tomayko <http://tomayko.com/about>
 
 Copyright (c) 2010-2016 Ryan Tomayko <http://tomayko.com/about>
@@ -3064,6 +2996,7 @@ Copyright (c) 2015-2022 Basecamp, LLC
 Copyright (c) 2004-2022 David Heinemeier Hansson
 copyright (c) 2007-2016 Nick Kallen, Bryan Helmkamp, Emilio Tagua, Aaron Patterson
 ** async; version 1.30.3 -- 
+** async; version 1.30.1 -- 
 Copyright, 2017, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2018, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2019, by Samuel G. D. Williams. <http://www.codeotaku.com>
@@ -3101,6 +3034,8 @@ Copyright (c) 2010-2015, The Dojo Foundation
 Copyright 2003-2019 Austin Ziegler and contributors.
 ** mime-types-data; version 3.2022.0105 -- 
 ** minitest; version 5.16.3 -- 
+
+** minitest; version 5.17.0 -- 
 Copyright (c) Ryan Davis, seattle.rb
 ** nio4r; version 2.5.8 -- 
 (c) 2011 Emanuele Giaquinta
@@ -3120,13 +3055,8 @@ Copyright (c) 2007,2008,2009,2010,2011,2012,2013,2019 Marc Alexander Lehmann <li
 Copyright (c) 2007,2008,2009,2010,2011,2016,2017,2019 Marc Alexander Lehmann <libev@schmorp.de>
 Copyright (c) 2007,2008,2009,2010,2011,2012,2013,2016,2019 Marc Alexander Lehmann <libev@schmorp.de>
 ** qx; version 0.1.1 -- 
-** rack; version 2.2.4 -- 
-Copyright (c) 2009-2018 Michael Fellinger <m.fellinger@gmail.com>
-Copyright (c) Django Software Foundation and individual contributors
-Copyright (c) 2007-2019 Leah Neukirchen <http://leahneukirchen.org/infopage.html>
 ** rack-attack; version 5.4.2 -- 
 Copyright Kickstarter, PBC.
-** rails; version 6.1.7 -- 
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
 ** samovar; version 2.1.4 -- 
@@ -3228,8 +3158,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ------
 
 ** et-orbi; version 1.2.7 -- 
-Copyright (c) 2017-2022, John Mettraux, jmettraux+flor@gmail.com
-** fugit; version 1.7.2 -- 
 Copyright (c) 2017-2022, John Mettraux, jmettraux+flor@gmail.com
 
 
@@ -3676,10 +3604,14 @@ THE SOFTWARE.
 
 ------
 
-** activesupport; version 6.1.7 -- 
-Copyright (c) 2005-2022 David Heinemeier Hansson
+** unicode-display_width; version 2.4.2 -- 
+Copyright (c) 2011, 2015-2023 Jan Lelis
+Copyright (c) 2011, 2015-2023 Jan Lelis, https://janlelis.com
+Copyright (c) 2009 Run Paint Run Run - Unicode data https://www.unicode.org/copyright.html
 
-Copyright (c) 2005-2022 David Heinemeier Hansson
+The MIT LICENSE
+
+Copyright (c) 2011, 2015-2023 Jan Lelis
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -3770,6 +3702,12 @@ Copyright 2006 Nemanja Trifunovic
 Copyright 2006-2016 Nemanja Trifunovic
 Copyright (c) Ryan Boland & Contributors
 Copyright (c) 2011 Joseph A. Adams (joeyadams3.14159@gmail.com)
+
+** parser; version 3.2.0.0 -- 
+Copyright (c) Ryan Davis, seattle.rb
+Copyright (c) 2013-2016 whitequark <whitequark@whitequark.org>
+
+Copyright (c) 2013-2016 whitequark  <whitequark@whitequark.org>
 
 Copyright (c) Ryan Boland & Contributors
 
@@ -4020,38 +3958,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** unicode-display_width; version 2.3.0 -- 
-Copyright (c) 2011, 2015-2022 Jan Lelis
-Copyright (c) 2011, 2015-2022 Jan Lelis, https://janlelis.com
-Copyright (c) 2009 Run Paint Run Run - Unicode data https://www.unicode.org/copyright.html
-
-The MIT LICENSE
-
-Copyright (c) 2011, 2015-2022 Jan Lelis
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
-** reline; version 0.3.1 -- 
+** reline; version 0.3.2 -- 
 
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 You can redistribute it and/or modify it under either the terms of the
@@ -4109,6 +4016,95 @@ You can redistribute it and/or modify it under either the terms of the
      IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
      WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
      PURPOSE.
+
+
+------
+
+** test-unit; version 3.5.7 -- 
+Copyright (c) 2008 Ryan Davis
+Copyright (c) 2008-2011 Kouhei Sutou
+Copyright (c) 2008-2020 Sutou Kouhei
+Copyright (c) 2009-2013 Kouhei Sutou
+Copyright (c) 2000-2002 Nathaniel Talbott
+Copyright (c) 2000-2003 Nathaniel Talbott
+Copyright (c) 2003-2007 Nathaniel Talbott
+copyright (c) 2000-2003 Nathaniel Talbott
+Copyright (c) 2000-2003, Nathaniel Talbott
+Copyright (c) 2001-2008 Python Software Foundation
+Copyright (c) 2011 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2012 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2008-2012 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2008-2017 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 2012-2015 Kouhei Sutou <kou@clear-code.com>
+Copyright (c) 1995-2001 Corporation for National Research Initiatives
+Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Python Software Foundation
+copyright (c) 2008-2010 Kouhei Sutou and 2001-2008 Python Software Foundation
+Copyright (c) 1991 - 1995, Stichting Mathematisch Centrum Amsterdam, The Netherlands
+
+test-unit is copyrighted free software by Kouhei Sutou
+<kou@cozmixng.org>, Ryan Davis <ryand-ruby@zenspider.com>
+and Nathaniel Talbott <nathaniel@talbott.ws>.
+
+You can redistribute it and/or modify it under either the terms of the
+2-clause BSDL (see the file BSDL), or the conditions below:
+
+1. You may make and give away verbatim copies of the source form of the
+   software without restriction, provided that you duplicate all of the
+   original copyright notices and associated disclaimers.
+
+2. You may modify your copy of the software in any way, provided that
+   you do at least ONE of the following:
+
+   a. place your modifications in the Public Domain or otherwise
+      make them Freely Available, such as by posting said
+      modifications to Usenet or an equivalent medium, or by allowing
+      the author to include your modifications in the software.
+
+   b. use the modified software only within your corporation or
+      organization.
+
+   c. give non-standard binaries non-standard names, with
+      instructions on where to get the original software distribution.
+
+   d. make other distribution arrangements with the author.
+
+3. You may distribute the software in object code or binary form,
+   provided that you do at least ONE of the following:
+
+   a. distribute the binaries and library files of the software,
+      together with instructions (in the manual page or equivalent)
+      on where to get the original distribution.
+
+   b. accompany the distribution with the machine-readable source of
+      the software.
+
+   c. give non-standard binaries non-standard names, with
+      instructions on where to get the original software distribution.
+
+   d. make other distribution arrangements with the author.
+
+4. You may modify and include the part of the software into any other
+   software (possibly commercial).  But some files in the distribution
+   are not written by the author, so that they are not under these terms.
+
+   For the list of those files and their copying conditions, see the
+   file LEGAL.
+
+5. The scripts and library files supplied as input to or produced as
+   output from the software do not automatically fall under the
+   copyright of the software, but belong to whomever generated them,
+   and may be sold commercially, and may be aggregated with this
+   software.
+
+6. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+   IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   PURPOSE.
+
+Exceptions
+----------
+
+  * lib/test/unit/diff.rb: This license and PSF license
 
 
 ------
@@ -4351,9 +4347,18 @@ Apache-2.0 OR (Artistic-2.0 OR (BSD-3-Clause OR (GPL-3.0 OR (MIT OR MPL-2.0))))
 
 ------
 
-** io-console; version 0.5.11 -- 
-Copyright (c) 1993-2013 Yukihiro Matsumoto.
-** net-protocol; version 0.1.3 -- 
+** debug; version 1.7.1 -- 
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+** io-console; version 0.6.0 -- 
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+** irb; version 1.6.2 -- 
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+copyrighted by Yukihiro Matsumoto <matz@netlab.jp>
+** net-pop; version 0.1.2 -- 
+Copyright (c) 1999-2007 Minero Aoki
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+Copyright (c) 1999-2007 Yukihiro Matsumoto
+** net-protocol; version 0.2.1 -- 
 Copyright (c) 1999-2004 Minero Aoki
 Copyright (c) 1993-2013 Yukihiro Matsumoto
 Copyright (c) 1999-2004 Yukihiro Matsumoto
@@ -4378,6 +4383,10 @@ Copyright (c) 2001 TAKAHASHI Masayoshi, GOTOU Yuuzou
 Copyright (c) 2002 Internet Programming with Ruby writers
 Copyright (c) 2003 Internet Programming with Ruby writers
 Copyright (c) 2000, 2001 TAKAHASHI Masayoshi, GOTOU Yuuzou
+** timeout; version 0.3.1 -- 
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+Copyright (c) 2000 Information-technology Promotion Agency, Japan
+Copyright (c) 2000 Network Applied Communication Laboratory, Inc.
 
 Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved.
 
@@ -4405,7 +4414,39 @@ SUCH DAMAGE.
 
 ------
 
-** power_assert; version 2.0.1 -- 
+** racc; version 1.6.2 -- 
+copyright Print
+copyright Zhu Zuo Quan Biao Shi
+Copyright (c) 1999-2006 Minero Aoki
+Copyright (c) 2019 Yukihiro Matsumoto
+
+Copyright (C) 2019 Yukihiro Matsumoto. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+
+------
+
+** power_assert; version 2.0.2 -- 
 Copyright (c) 2014 Kazuki Tsujimoto
 
 Copyright (C) 2014 Kazuki Tsujimoto
@@ -4885,6 +4926,8 @@ See the file docs/COPYING.txt in the main distribution.
 ------
 
 ** uri; version 0.10.1 -- 
+** json; version 2.6.3 -- 
+Copyright 2001-2004 Unicode, Inc.
 
 Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved.
 
@@ -4945,3 +4988,104 @@ documentation and/or other materials provided with the distribution.
      IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
      WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
      PURPOSE.
+
+
+------
+
+** net-imap; version 0.3.4 -- 
+Copyright (c) The Internet Society (2003)
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+Copyright (c) 2000 Shugo Maeda <shugo@ruby-lang.org>
+Copyright (c) 2021 IETF Trust and the persons identified as the document authors
+
+Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+-------------------------------------------------------------------------
+
+This software includes documentation which has been copied from the relevant
+RFCs.  The copied documentation is covered by the following licenses:
+
+RFC 3501 (Editor: M. Crispin)
+Full Copyright Statement
+
+   Copyright (C) The Internet Society (2003).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.  v This
+   document and the information contained herein is provided on an "AS
+   IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING TASK
+   FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+   LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL
+   NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY
+   OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+RFC9051 (Editors: A. Melnikov, B. Leiba)
+Copyright Notice
+
+   Copyright (c) 2021 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+   This document may contain material from IETF Documents or IETF
+   Contributions published or made publicly available before November
+   10, 2008.  The person(s) controlling the copyright in some of this
+   material may not have granted the IETF Trust the right to allow
+   modifications of such material outside the IETF Standards Process.
+   Without obtaining an adequate license from the person(s) controlling
+   the copyright in such materials, this document may not be modified
+   outside the IETF Standards Process, and derivative works of it may
+   not be created outside the IETF Standards Process, except to format
+   it for publication as an RFC or to translate it into languages other
+   than English.
+
+
+------
+
+** date; version 3.3.3 -- 
+
+Ruby OR BSD-2-Clause

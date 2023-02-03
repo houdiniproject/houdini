@@ -2,9 +2,9 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.7'
+gem 'rails', '6.1.7.2'
 gem 'jbuilder', '~> 2.11'
-gem 'bootsnap', '~> 1.15', require: false # Large rails application booting enhancer
+gem 'bootsnap', '~> 1.16', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.6'
 gem 'rake', '~> 12.3.2'
@@ -17,11 +17,12 @@ gem 'net-http'
 gem 'net-smtp'
 gem 'net-imap'
 gem 'uri', '0.10.1'
+gem 'good_job', '~> 3.8'
 
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
-gem "date", "~> 3.3.0"
+gem "date", "~> 3.3.3"
 
-gem 'httparty', '~> 0.20.0' # https://github.com/jnunemaker/httparty
+gem 'httparty', '~> 0.21.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
 gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'
@@ -70,11 +71,11 @@ group :development, :ci, :test do
   gem 'listen'
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console
-  gem 'rubocop', '~> 1.39.0'
+  gem 'rubocop', '~> 1.44.1'
   gem 'rubocop-rails', '~> 2.17'
   gem 'rubocop-rake', '~> 0.6.0'
-  gem 'rubocop-rspec', '~> 2.15'
-  gem 'shoulda-matchers', '~> 5.2.0'
+  gem 'rubocop-rspec', '~> 2.18'
+  gem 'shoulda-matchers', '~> 5.3.0'
   gem 'turbo_test'
   gem 'erb_lint', require: false
 end

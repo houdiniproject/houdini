@@ -8,18 +8,6 @@
        url('/fonts/material/MaterialIcons-Regular.ttf') format('truetype');
 }
 
-@font-face {
-  font-family: 'Social Icons';
-  src: url('/fonts/social/fontello.eot?34099374');
-  src: url('/fonts/social/fontello.eot?34099374#iefix') format('embedded-opentype'),
-       url('/fonts/social/fontello.woff2?34099374') format('woff2'),
-       url('/fonts/social/fontello.woff?34099374') format('woff'),
-       url('/fonts/social/fontello.ttf?34099374') format('truetype'),
-       url('/fonts/social/fontello.svg?34099374#fontello') format('svg');
-  font-style: normal;
-}
- 
-[class*="social-icon-"]:before,
 .m-icon {
   font-weight: normal;
   font-style: normal;
@@ -39,45 +27,3 @@
   font-family: 'Material Icons';
   vertical-align: middle;
 }
-
-[class*=".social-icon-"] {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-/* social icons include logos for the following platforms */
-/* tumbler */
-/* twitter */
-/* facebook */
-/* github */
-/* linkedin */
-/* youtube */
-/* instagram */
-/* flickr */
-/* google */
-/* vine */
-/* pinterest */
-/* whatsapp */
-/* vimeo */
-/* reddit */
-/* snapchat */
-/* quora */
-
-[class*="social-icon-"]:before { font-family: "Social Icons"; }
- 
-.social-icon-tumbler:before { content: '\e800'; }
-.social-icon-twitter:before { content: '\f099'; } 
-.social-icon-facebook:before { content: '\f09a'; } 
-.social-icon-github:before { content: '\f09b'; }
-.social-icon-linkedin:before { content: '\f0e1'; } 
-.social-icon-youtube:before { content: '\f16a'; }
-.social-icon-instagram:before { content: '\f16d'; } 
-.social-icon-flickr:before { content: '\f16e'; } 
-.social-icon-google:before { content: '\f1a0'; } 
-.social-icon-vine:before { content: '\f1ca'; } 
-.social-icon-pinterest:before { content: '\f231';}
-.social-icon-whatsapp:before { content: '\f232'; }
-.social-icon-vimeo:before { content: '\f27d'; } 
-.social-icon-reddit:before { content: '\f281'; }
-.social-icon-snapchat:before { content: '\f2ac'; } 
-.social-icon-quora:before { content: '\f2c4'; } 

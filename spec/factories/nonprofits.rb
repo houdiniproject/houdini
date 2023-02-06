@@ -8,6 +8,7 @@ FactoryBot.define do
     email {"example@email.com"}
     slug {'sluggy-sluggo'}
     billing_subscription {build(:billing_subscription, billing_plan: build(:billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat))}
+    vetted { true }
 
     factory :nonprofit_with_cards do
       after(:create) {|nonprofit, evaluator|

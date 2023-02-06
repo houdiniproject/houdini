@@ -2,7 +2,11 @@
 require 'stripe_mock'
 
 RSpec.shared_context :shared_donation_charge_context do
-  let(:nonprofit) { force_create(:nonprofit, name: "nonprofit name", slug: 'nonprofit_nameo')}
+  let(:nonprofit) { 
+    stripe_account = create(:stripe_account, charges_enabled:true)
+    force_create(:nonprofit, name: "nonprofit name", slug: 'nonprofit_nameo', stripe_account_id: stripe_account.stripe_account_id)
+  }
+
   let(:other_nonprofit) { force_create(:nonprofit)}
   let(:supporter) {force_create(:supporter, :nonprofit => nonprofit, locale: 'locale_one')}
   let(:other_nonprofit_supporter) { force_create(:supporter, nonprofit: other_nonprofit, locale: 'locale_two')}

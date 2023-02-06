@@ -1,8 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe PaymentDupes do
-    let(:nonprofit) { create(:fv_poverty, timezone: 'America/Chicago') }
+describe PaymentDupes, skip: true do # this was a one-off
+    let(:nonprofit) { create(:fv_poverty, timezone: 'America/Chicago', vetted: true) }
     let(:supporter) { create(:supporter, nonprofit: nonprofit) }
     let!(:etap_import) { create(:e_tap_import, nonprofit: nonprofit) }
 

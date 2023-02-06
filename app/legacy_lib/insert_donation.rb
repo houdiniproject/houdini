@@ -65,7 +65,7 @@ module InsertDonation
 
     entities = RetrieveActiveRecordItems.retrieve_from_keys(data, {Supporter => :supporter_id, Nonprofit => :nonprofit_id})
     entities = entities.merge(RetrieveActiveRecordItems.retrieve_from_keys(data, {Campaign => :campaign_id, Event => :event_id, Profile => :profile_id}, true))
-    validate_entities(entities)
+    validate_all_entities(entities)
 
     data = amount_from_data(date_from_data(data))
     result = {'donation' => self.insert_donation(data.except('offsite_payment'), entities)}
@@ -244,6 +244,13 @@ def self.parse_date(date)
   end
 
   def self.validate_entities(entities)
+    unless entities[:nonprofit_id].can_process_charge?
+      raise ParamValidation::ValidationError.new("Nonprofit #{entities[:nonprofit_id].id} is not allowed to process charges", key: :nonprofit_id)
+    end
+    validate_all_entities(entities)
+  end
+
+  def self.validate_all_entities(entities)
     ## is supporter deleted? If supporter is deleted, we error!
     if entities[:supporter_id].deleted
       raise ParamValidation::ValidationError.new("Supporter #{entities[:supporter_id].id} is deleted", key: :supporter_id)

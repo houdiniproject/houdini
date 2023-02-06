@@ -31,6 +31,14 @@ describe InsertDonation do
         validation_expired { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: 1, supporter_id: 1, token: fake_uuid) }
       end
 
+			it 'errors out if nonprofit not vetted' do
+				find_error_nonprofit do
+					nonprofit.vetted = false
+					nonprofit.save!
+					InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token)
+				end
+			end
+
 
       describe 'errors during find if' do
         it 'supporter is invalid' do

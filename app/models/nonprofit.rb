@@ -203,6 +203,12 @@ class Nonprofit < ActiveRecord::Base
     !(nonprofit_deactivation&.deactivated))
   end
 
+  def can_process_charge?
+    !!(vetted && 
+      stripe_account&.charges_enabled && 
+      !(nonprofit_deactivation&.deactivated))
+  end
+
   def active_cards
     cards.where("COALESCE(cards.inactive, FALSE) = FALSE")
   end

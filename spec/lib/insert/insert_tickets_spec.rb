@@ -359,6 +359,13 @@ describe InsertTickets do
             validation_card_not_with_supporter {InsertTickets.create(include_fake_token.merge({kind: 'charge', token: other_source_token.token}))}
 
           end
+
+          it 'nonprofit isnt vetted' do
+            find_error_nonprofit do
+              nonprofit.update(vetted: false)
+              InsertTickets.create(include_fake_token.merge({kind: 'charge', token: other_source_token.token}))
+            end
+          end
         end
 
         describe 'kind  == nil' do

@@ -109,6 +109,13 @@ describe InsertRecurringDonation do
       it 'card doesnt belong to supporter' do
         validation_card_not_with_supporter {InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: other_source_token.token)}
       end
+
+      it 'if nonprofit is unvetted' do
+        find_error_nonprofit do
+          nonprofit.update(vetted: false)
+          InsertRecurringDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: other_source_token.token)
+        end
+      end
     end
 
 

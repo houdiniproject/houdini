@@ -145,6 +145,112 @@ RSpec.describe Nonprofit, type: :model do
     end
   end
 
+  describe '.can_process_charge?' do
+    let(:nonprofit_vetted) { build(:nonprofit, vetted: true)}
+    let(:nonprofit_unvetted) { build(:nonprofit, vetted: false)}
+    let(:nonprofit_deactivation_true) { build(:nonprofit_deactivation, deactivated: true)}
+    let(:nonprofit_deactivation_false) { build(:nonprofit_deactivation, deactivated: false)}
+
+    let(:stripe_account_enabled)  { build(:stripe_account, charges_enabled:true)}
+    let(:stripe_account_disabled)  { build(:stripe_account, charges_enabled:false)}
+
+    it 'fails when unvetted, deactivated nil, stripe disabled' do
+      nonprofit_unvetted.stripe_account = stripe_account_disabled
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated nil, stripe nil' do
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated false, stripe disabled' do
+      nonprofit_unvetted.stripe_account = stripe_account_disabled
+      nonprofit_unvetted.nonprofit_deactivation = nonprofit_deactivation_false
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated false, stripe nil' do
+      nonprofit_unvetted.nonprofit_deactivation = nonprofit_deactivation_false
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated true, stripe disabled' do
+      nonprofit_unvetted.stripe_account = stripe_account_disabled
+      nonprofit_unvetted.nonprofit_deactivation = nonprofit_deactivation_true
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated true, stripe nil' do
+      nonprofit_unvetted.nonprofit_deactivation = nonprofit_deactivation_true
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated true, stripe enabled' do
+      nonprofit_unvetted.stripe_account = stripe_account_enabled
+      nonprofit_unvetted.nonprofit_deactivation = nonprofit_deactivation_true
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated false, stripe enabled' do
+      nonprofit_unvetted.stripe_account = stripe_account_enabled
+      nonprofit_unvetted.nonprofit_deactivation = nonprofit_deactivation_false
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when unvetted, deactivated nil, stripe enabled' do
+      nonprofit_unvetted.stripe_account = stripe_account_enabled
+      expect(nonprofit_unvetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when vetted, deactivated nil, stripe disabled' do
+      nonprofit_vetted.stripe_account = stripe_account_disabled
+      expect(nonprofit_vetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when vetted, deactivated nil, stripe nil' do
+      expect(nonprofit_vetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when vetted, deactivated false, stripe disabled' do
+      nonprofit_vetted.stripe_account = stripe_account_disabled
+      nonprofit_vetted.nonprofit_deactivation = nonprofit_deactivation_false
+      expect(nonprofit_vetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when vetted, deactivated false, stripe nil' do
+      nonprofit_vetted.nonprofit_deactivation = nonprofit_deactivation_false
+      expect(nonprofit_vetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when vetted, deactivated true, stripe disabled' do
+      nonprofit_vetted.stripe_account = stripe_account_disabled
+      nonprofit_vetted.nonprofit_deactivation = nonprofit_deactivation_true
+      expect(nonprofit_vetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when vetted, deactivated true, stripe nil' do
+      nonprofit_vetted.nonprofit_deactivation = nonprofit_deactivation_true
+      expect(nonprofit_vetted.can_process_charge?).to eq false
+    end
+
+    it 'fails when vetted, deactivated true, stripe enabled' do
+      nonprofit_vetted.stripe_account = stripe_account_enabled
+      nonprofit_vetted.nonprofit_deactivation = nonprofit_deactivation_true
+      expect(nonprofit_vetted.can_process_charge?).to eq false
+    end
+
+    it 'succeed when vetted, deactivated false, stripe enabled' do
+      nonprofit_vetted.stripe_account = stripe_account_enabled
+      nonprofit_vetted.nonprofit_deactivation = nonprofit_deactivation_false
+      expect(nonprofit_vetted.can_process_charge?).to eq true
+    end
+
+    it 'succeeds when vetted, deactivated nil and stripe enabled' do
+      nonprofit_vetted.stripe_account = stripe_account_enabled
+      expect(nonprofit_vetted.can_process_charge?).to eq true
+    end
+  end
+
   describe '.timezone_is_valid' do
     it 'does not fail if the timezone is nil' do
       expect { create(:nonprofit, timezone: nil) }.not_to raise_error

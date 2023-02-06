@@ -74,6 +74,11 @@ module InsertTickets
         source_token = QuerySourceToken.get_and_increment_source_token(data[:token],nil)
         QuerySourceToken.validate_source_token_type(source_token)
         tokenizable = source_token.tokenizable
+
+        unless entities[:nonprofit_id].can_process_charge?
+          raise ParamValidation::ValidationError.new("Nonprofit #{entities[:nonprofit_id].id} is not allowed to process charges", key: :nonprofit_id)
+        end
+
         ## does the card belong to the supporter?
         if tokenizable.holder != entities[:supporter_id]
           raise ParamValidation::ValidationError.new("Supporter #{entities[:supporter_id].id} does not own card #{tokenizable.id}", key: :token)

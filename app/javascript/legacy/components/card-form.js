@@ -120,11 +120,11 @@ const view = state => {
 
 
 const nameInput = (field, name) => 
-  h('fieldset', [ field(h('input', { props: { name: 'name' , value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } })) ])
+  h('fieldset', [ field(h('input.u-marginBottom--10', { props: { name: 'name' , value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } })) ])
 
 
 const numberInput = field =>
-  h('fieldset.col-8', [ field(h('input', {props: { type: 'text' , name: 'number' , placeholder: I18n.t('nonprofits.donate.payment.card.number') } })) ])
+  h('fieldset', [ field(h('input.u-marginBottom--10', {props: { type: 'text' , name: 'number' , placeholder: I18n.t('nonprofits.donate.payment.card.number') } })) ])
 
 
 const cvcInput = field =>
@@ -164,7 +164,7 @@ const expYearInput = field => {
 
 
 const zipInput = (field, zip) => 
-  h('fieldset.col-right-6.u-margin--0', [
+  h('fieldset.col-right-6.u-marginTop--10', [
     field(h('input'
     , { props: {
         type: 'text'

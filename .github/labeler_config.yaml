@@ -1,0 +1,20 @@
+version: 1
+labels:
+  - label: "app"
+    files:
+      - "app/.*"
+  - label: "db"
+    files:
+      - "db/.*"
+  - label: "docs"
+    files:
+      - "docs/.*"
+  - label: "workflows"
+    files:
+      - ".github/.*"
+  - label: "scripts"
+    files:
+      - "script/.*"
+  - label: "api"
+    files:
+      - "requests/.*"

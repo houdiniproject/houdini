@@ -346,7 +346,19 @@ RSpec.describe Nonprofit, type: :model do
           expect(nonprofit.fee_coverage_details).to eq({percentage_fee: BigDecimal("0.05"), flat_fee: 0})
         }
       end
-      
+      context 'for a nonprofit without a stripe account set up (billing_plan is missing)' do
+        let(:nonprofit){ create(:nonprofit, billing_plan: nil) }
+
+        it {
+          expect(nonprofit.fee_coverage_details).to eq(
+            {
+              flat_fee: FeeEra.current.fee_coverage_detail_base.flat_fee,
+              percentage_fee: FeeEra.current.fee_coverage_detail_base.percentage_fee
+            }
+          )
+        }
+
+      end
     end
 
     describe '#fee_coverage_details_with_json_safe_keys' do

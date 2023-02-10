@@ -316,9 +316,17 @@ class Nonprofit < ActiveRecord::Base
     #   percentage_fee: percentage_fee as part of BillingPlan (unless FeeCoverageDetailsBase.dont_consider_billing_plan is true) + percentage_fee from FeeCoverageDetailBase on current FeeEra
     # }
     def fee_coverage_details
+      return fee_coverage_details_no_billing_plan if !billing_plan
       {
         flat_fee: (FeeEra.current.fee_coverage_detail_base.dont_consider_billing_plan ? 0 : billing_plan.flat_fee) + FeeEra.current.fee_coverage_detail_base.flat_fee,
         percentage_fee: (FeeEra.current.fee_coverage_detail_base.dont_consider_billing_plan ? 0: billing_plan.percentage_fee) + FeeEra.current.fee_coverage_detail_base.percentage_fee
+      }
+    end
+
+    def fee_coverage_details_no_billing_plan
+      {
+        flat_fee: FeeEra.current.fee_coverage_detail_base.flat_fee,
+        percentage_fee: FeeEra.current.fee_coverage_detail_base.percentage_fee
       }
     end
 

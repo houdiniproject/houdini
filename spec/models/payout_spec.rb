@@ -29,5 +29,5 @@ RSpec.describe Payout, :type => :model do
   it {is_expected.to validate_presence_of(:email)}
   it {is_expected.to validate_presence_of(:net_amount)}
   
-  
+  it_behaves_like 'an houidable entity', :pyout, :houid
 end

@@ -121,7 +121,7 @@ GEM
       async-io
     async-io (1.32.2)
       async
-    bcrypt (3.1.16)
+    bcrypt (3.1.18)
     better_html (2.0.1)
       actionview (>= 6.0)
       activesupport (>= 6.0)
@@ -155,7 +155,7 @@ GEM
     debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
-    devise (4.8.1)
+    devise (4.9.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -284,7 +284,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.14.1)
+    nokogiri (1.14.2)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -362,9 +362,9 @@ GEM
       io-console (~> 0.5)
     request_store (1.5.1)
       rack (>= 1.4)
-    responders (3.0.1)
-      actionpack (>= 5.0)
-      railties (>= 5.0)
+    responders (3.1.0)
+      actionpack (>= 5.2)
+      railties (>= 5.2)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
@@ -505,7 +505,7 @@ DEPENDENCIES
   database_cleaner-active_record
   date (~> 3.3.3)
   debug
-  devise (~> 4.8)
+  devise (~> 4.9)
   devise-async (~> 1.0)
   dotenv-rails (~> 2.8)
   erb_lint

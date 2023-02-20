@@ -49,7 +49,7 @@ gem 'validate_url'
 # User authentication
 # https://github.com/plataformatec/devise
 gem 'devise-async', '~> 1.0'
-gem 'devise', '~> 4.8'
+gem 'devise', '~> 4.9'
 
 group :development, :ci do
   gem 'traceroute', '~> 0.8.0'

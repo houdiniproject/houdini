@@ -8,8 +8,11 @@ module Model::Houidable
 	extend ActiveSupport::Concern
 	class_methods do
 		###
-		# @description: Simplifies using HouIDs for an ActiveRecord class. HouIDs have the format of:
-		# prefix_{22 alphanumeric characters}. Prefixes must be unique across an Houdini instance.
+		# @description: Simplifies using HouIDs for an ActiveRecord class. A Houid (pronounced "Hoo-id") is a unique 
+		# identifier for an object. Houids have the format of: prefix_{22 random alphanumeric characters}. A prefix
+		# consists of lowercase alphabetical characters. Each class must have its own unique prefix. All of the Houids
+		# generated for that class will use that prefix.
+		#
 		# Given a prefix, adds the following features to a ActiveRecord class:
 		# - Sets a HouID to the id after object initialization (on "after_initialize" callback) if
 		#		it hasn't already been set

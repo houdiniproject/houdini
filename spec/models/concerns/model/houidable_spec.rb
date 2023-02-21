@@ -60,12 +60,40 @@ RSpec.describe Model::Houidable do
 
 		let(:already_set_houid) { test_class.new(id: preset_houid) }
 
-		it 'sets houid_prefix' do
-			expect(default_trxassign.houid_prefix).to eq prefix
+		describe '#houid_prefix' do 
+			it 'is the one passed' do
+				expect(default_trxassign.houid_prefix).to eq prefix
+			end
 		end
 
-		it 'generates a valid houid' do
-			expect(default_trxassign.generate_houid).to match_houid(prefix)
+		describe '.houid_prefix' do
+			it 'is the one passed at class level' do
+				expect(test_class.houid_prefix).to eq prefix
+			end
+		end
+
+		describe '#generate_houid' do
+			it 'generates a valid houid' do
+				expect(default_trxassign.generate_houid).to match_houid(prefix)
+			end
+		end
+
+		describe '.generate_houid' do
+			it 'generates a valid houid at class level' do
+				expect(test_class.generate_houid).to match_houid(prefix)
+			end
+		end
+
+		describe '#houid_attribute' do
+			it 'returns the default of :id' do
+				expect(default_trxassign.houid_attribute).to eq :id
+			end
+		end
+
+		describe '.houid_attribute' do
+			it 'returns the default of :id' do
+				expect(test_class.houid_attribute).to eq :id
+			end
 		end
 
 		it 'sets a valid houid as id' do
@@ -121,12 +149,40 @@ RSpec.describe Model::Houidable do
 
 		let(:already_set_houid) { test_class.new(houid_id: preset_houid) }
 
-		it 'sets houid_prefix' do
-			expect(default_trxassign.houid_prefix).to eq prefix
+		describe '#houid_prefix' do 
+			it 'is the one passed' do
+				expect(default_trxassign.houid_prefix).to eq prefix
+			end
 		end
 
-		it 'generates a valid houid' do
-			expect(default_trxassign.generate_houid).to match_houid(prefix)
+		describe '.houid_prefix' do
+			it 'is the one passed at class level' do
+				expect(test_class.houid_prefix).to eq prefix
+			end
+		end
+
+		describe '#generate_houid' do
+			it 'generates a valid houid' do
+				expect(default_trxassign.generate_houid).to match_houid(prefix)
+			end
+		end
+
+		describe '.generate_houid' do
+			it 'generates a valid houid at class level' do
+				expect(test_class.generate_houid).to match_houid(prefix)
+			end
+		end
+
+		describe '#houid_attribute' do
+			it 'returns the default of :houid_id' do
+				expect(default_trxassign.houid_attribute).to eq :houid_id
+			end
+		end
+
+		describe '.houid_attribute' do
+			it 'returns the passed value of :houid_id' do
+				expect(test_class.houid_attribute).to eq :houid_id
+			end
 		end
 
 		it 'sets a valid houid as id' do

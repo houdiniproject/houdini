@@ -11,6 +11,7 @@
 #   but in some cases could be something else
 shared_examples 'an houidable entity' do |prefix, attribute|
 
+  let!(:instance) { subject }
   let(:houid_attribute) { attribute || :houid }
   
   it {
@@ -20,4 +21,14 @@ shared_examples 'an houidable entity' do |prefix, attribute|
   it {
     is_expected.to have_attributes(houid_attribute: houid_attribute.to_sym)
   }
+
+  describe 'class methods' do
+    it {
+      expect(instance.class).to have_attributes(houid_prefix: prefix.to_sym)
+    }
+  
+    it {
+      expect(instance.class).to have_attributes(houid_attribute: houid_attribute.to_sym)
+    } 
+  end
 end

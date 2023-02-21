@@ -16,9 +16,10 @@ module Model::Houidable
 		# - Adds a "before_houid_set" and "after_houid_set" callbacks in case you want do
 		#   somethings before or after that happens
 		# - Adds  "before_houid_set" and "after_houid_set" callbacks if you want to take actions around
-		# - Adds two new public methods:
+		# - Adds the following public class methods (and instance methods that delegate to this methods):
 		#    - houid_prefix - returns the prefix as a symbol
 		#    - generate_houid - creates a new HouID with given prefix
+		#		 - houid_attribute - the symbol of the attribute on this class that the Houid is assigned to.
 		# @param prefix {string|Symbol}: the prefix for the HouIDs on this model
 		# @param houid_attribute {string|Symbol}: the attribute on this model to assign the Houid to. Defaults to :id.
 		###
@@ -49,20 +50,23 @@ module Model::Houidable
 								define_model_callbacks :houid_set
 								after_initialize :add_houid
 								
+								delegate :houid_prefix, :houid_attribute, :generate_houid, to: :class
+
 								# The HouID prefix as a symbol
-								# def houid_prefix
+								# def self.houid_prefix
 								#		:supp
 								# end
-								def houid_prefix
-                    :#{prefix}
+
+								def self.houid_prefix
+									:#{prefix}
 								end
 
-								def houid_attribute
+								def self.houid_attribute
 									:#{houid_attribute} 
 								end
 								
 								# Generates a HouID using the provided houid_prefix
-								def generate_houid
+								def self.generate_houid
 									houid_prefix.to_s + "_" + SecureRandom.alphanumeric(22)
 								end
 

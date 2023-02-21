@@ -20,6 +20,8 @@ module Model::Houidable
 		#    - houid_prefix - returns the prefix as a symbol
 		#    - generate_houid - creates a new HouID with given prefix
 		#		 - houid_attribute - the symbol of the attribute on this class that the Houid is assigned to.
+		# - Adds the following public instance method:
+		# 	 - to_houid - returns the houid for the instance regardless of what `houid_attribute` is.
 		# @param prefix {string|Symbol}: the prefix for the HouIDs on this model
 		# @param houid_attribute {string|Symbol}: the attribute on this model to assign the Houid to. Defaults to :id.
 		###

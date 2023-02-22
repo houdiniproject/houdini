@@ -39,6 +39,10 @@ class Payout < ApplicationRecord
 	validate  :nonprofit_must_have_identity_verified, on: :create
 	validate  :bank_account_must_be_confirmed, on: :create
 
+	delegate :currency, to: :nonprofit
+
+	as_money :net_amount
+
 	scope :pending, -> {where(status: 'pending')}
 	scope :paid,    -> {where(status: ['paid', 'succeeded'])}
 

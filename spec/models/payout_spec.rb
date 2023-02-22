@@ -28,6 +28,10 @@ RSpec.describe Payout, :type => :model do
   it {is_expected.to validate_presence_of(:bank_account)}
   it {is_expected.to validate_presence_of(:email)}
   it {is_expected.to validate_presence_of(:net_amount)}
+
+  it {is_expected.to delegate_method(:currency).to(:nonprofit)}
   
   it_behaves_like 'an houidable entity', :pyout, :houid
+
+  it_behaves_like 'an object with as_money attributes', :net_amount
 end

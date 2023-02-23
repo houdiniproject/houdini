@@ -8,11 +8,6 @@ A recurring donation from one of your supporters has been cancelled. Details are
 This donation was cancelled by <%= @donation.recurring_donation.cancelled_by %>.
 </p>
 
-
-
-<p>
-The donor has also received a notification of the cancellation.
-</p>
 <br>
 
 <% if @charge && @charge.failure_message.present? %>

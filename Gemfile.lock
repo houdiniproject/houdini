@@ -134,7 +134,7 @@ GEM
     builder (3.2.4)
     chronic (0.10.2)
     colorize (0.8.1)
-    concurrent-ruby (1.2.0)
+    concurrent-ruby (1.2.2)
     connection_pool (2.2.5)
     console (1.13.1)
       fiber-local
@@ -195,7 +195,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    good_job (3.12.2)
+    good_job (3.12.5)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)

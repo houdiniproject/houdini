@@ -3,7 +3,9 @@ FactoryBot.define do
   factory :user, aliases: [:user_base] do
     sequence(:email) {|i| "user#{i}@example.string.com"}
     password {"whocares"}
-    
+    trait :confirmed do
+      confirmed_at { Time.current - 1.day}
+    end
   end
 
   factory :automated_user, class: User do 

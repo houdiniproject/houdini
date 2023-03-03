@@ -22,6 +22,8 @@ Commitchange::Application.configure do
 	config.consider_all_requests_local = true
 	config.action_controller.perform_caching = false
 
+	config.session_store :cookie_store, key: '_commitchange_session'
+
   # You can uncomment the following to test our real AWS email server on localhost:
 	# creds = Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'])
 

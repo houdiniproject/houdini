@@ -24,16 +24,6 @@ module StripeAccountUtils
 		params = {
 				type: 'custom',
 				email: np['email'].present? ? np['email'] : np.roles.nonprofit_admins.order('created_at ASC').first.user.email,
-				business_type: 'company',
-				company: {
-						name: np['name'],
-						address: {
-								city: np['city'],
-								state: np['state_code'],
-								postal_code: np['zip_code'],
-								country: 'US'
-						}
-				},
 				settings: {
 					payouts: {
 						schedule: {
@@ -53,16 +43,10 @@ module StripeAccountUtils
 		if np['website'] && np['website'] =~ URI::regexp
 			params[:business_profile][:url] = np['website']
 		end
-		begin
-			acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
-			#byebug
-		rescue Stripe::InvalidRequestError => e
-			#byebug
-			[:state, :postal_code].each {|i| params[:company][:address].delete(i)}
-			params[:business_profile].delete(:url)
-			acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
-		end
-    Qx.update(:nonprofits).set(stripe_account_id: acct.id).where(id: np['id']).execute
+		acct = Stripe::Account.create(params, {stripe_version: '2019-09-09' })
+		np = Nonprofit.find(np['id'])
+		np.stripe_account_id = acct.id
+    np.save!
     return acct.id
 	end
 end

@@ -18,7 +18,7 @@ module Houdini::FullContact::InsertInfos
           :authorization => "Bearer #{Houdini::FullContact.api_key}",
           "Reporting-Key" => supporter.nonprofit_id
         })
-        result = JSON.parse(response.body)
+        result = response.parsed_body
     rescue RestClient::NotFound => e
       # this means there's no information about this contact so there's nothing to do.
       # We just return and end

@@ -38,7 +38,7 @@ RSpec.describe Api::TransactionsController do
 
 		context 'with nonprofit user' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -93,7 +93,7 @@ RSpec.describe Api::TransactionsController do
 
 	# 	context 'with nonprofit user' do
 	# 		subject(:json) do
-	# 			JSON.parse(response.body)
+	# 			response.parsed_body
 	# 		end
 
 	# 		before do
@@ -126,7 +126,7 @@ RSpec.describe Api::TransactionsController do
 	describe 'GET /' do
 		context 'with nonprofit user' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

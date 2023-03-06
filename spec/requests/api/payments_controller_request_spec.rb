@@ -55,7 +55,7 @@ RSpec.describe Api::PaymentsController do
 
 		context 'with nonprofit user' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -90,7 +90,7 @@ RSpec.describe Api::PaymentsController do
 	describe 'GET /' do
 		context 'with nonprofit user' do
 			subject(:outer_json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

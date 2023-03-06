@@ -38,7 +38,7 @@ RSpec.describe Api::TicketLevelsController do
 
 		context 'with nonprofit user' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -60,7 +60,7 @@ RSpec.describe Api::TicketLevelsController do
 
 		context 'with event editor' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -95,7 +95,7 @@ RSpec.describe Api::TicketLevelsController do
 	describe 'GET /' do
 		context 'with nonprofit user' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -139,7 +139,7 @@ RSpec.describe Api::TicketLevelsController do
 
 		context 'with event editor' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

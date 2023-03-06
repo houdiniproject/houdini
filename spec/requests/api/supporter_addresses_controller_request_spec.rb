@@ -19,7 +19,7 @@ RSpec.describe Api::SupporterAddressesController do
 	describe 'GET /' do
 		context 'when logged in' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -104,7 +104,7 @@ RSpec.describe Api::SupporterAddressesController do
 	describe 'GET /:id' do
 		context 'when logged in' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

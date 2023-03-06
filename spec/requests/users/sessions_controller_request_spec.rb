@@ -8,7 +8,7 @@ describe Users::SessionsController do
 	describe 'POST /users/sign_in' do
 		context 'with successful login' do
 			let(:user) { create(:user) }
-			let(:json) { JSON.parse(response.body) }
+			let(:json) { response.parsed_body }
 
 			before do
 				post '/users/sign_in', params: { user: { email: user.email, password: user.password } }

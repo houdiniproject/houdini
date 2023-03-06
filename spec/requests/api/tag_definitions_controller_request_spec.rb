@@ -29,7 +29,7 @@ RSpec.describe Api::TagDefinitionsController do
 
 			describe 'with a response' do
 				subject(:json) do
-					JSON.parse(response.body)
+					response.parsed_body
 				end
 
 				it {
@@ -81,7 +81,7 @@ RSpec.describe Api::TagDefinitionsController do
 
 				context 'when on page 0' do
 					subject(:json) do
-						JSON.parse(response.body)
+						response.parsed_body
 					end
 
 					before do
@@ -98,7 +98,7 @@ RSpec.describe Api::TagDefinitionsController do
 
 				context 'when on page 1' do
 					subject(:json) do
-						JSON.parse(response.body)
+						response.parsed_body
 					end
 
 					before do
@@ -119,7 +119,7 @@ RSpec.describe Api::TagDefinitionsController do
 
 				context 'when on page 2' do
 					subject(:json) do
-						JSON.parse(response.body)
+						response.parsed_body
 					end
 
 					before do
@@ -159,7 +159,7 @@ RSpec.describe Api::TagDefinitionsController do
 
 			describe 'with a response' do
 				subject do
-					JSON.parse(response.body)
+					response.parsed_body
 				end
 
 				it {

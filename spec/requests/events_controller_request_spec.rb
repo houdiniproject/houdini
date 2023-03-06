@@ -26,7 +26,7 @@ describe EventsController do
 
 		get "/nonprofits/#{events.nonprofit.id}/events/name_and_id"
 
-		result = JSON.parse(response.body)
+		result = response.parsed_body
 
 		expect(result).to include_json(
 			[

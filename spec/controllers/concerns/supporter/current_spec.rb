@@ -24,7 +24,7 @@ describe 'Controllers::Supporter::Current' do
 		nonprofit
 		supporter
 		get :index, params: { nonprofit_id: nonprofit.id, id: supporter.id }
-		expect(JSON.parse(response.body)).to eq(
+		expect(response.parsed_body).to eq(
 			{
 				'supporter' => "supporters: #{supporter.id}",
 				'nonprofit' => "nonprofit: #{nonprofit.id}"
@@ -37,7 +37,7 @@ describe 'Controllers::Supporter::Current' do
 		supporter
 
 		get :index, params: { nonprofit_id: nonprofit.id, supporter_id: supporter.id, id: 1 }
-		expect(JSON.parse(response.body)).to eq(
+		expect(response.parsed_body).to eq(
 			{
 				'supporter' => "supporters: #{supporter.id}",
 				'nonprofit' => "nonprofit: #{nonprofit.id}"

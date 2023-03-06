@@ -25,7 +25,7 @@ describe Api::ApiController do
 			}
 
 			context 'with result body' do
-				subject(:body) { JSON.parse(response.body) }
+				subject(:body) { response.parsed_body }
 
 				it {
 					is_expected.to match_json(message: 'AuthenticationError')

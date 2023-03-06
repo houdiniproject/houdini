@@ -92,7 +92,7 @@ describe CampaignsController do
 		end
 
 		it 'has correct items' do
-			body = JSON.parse(response.body)
+			body = response.parsed_body
 			expect(body).to eq(
 				{
 					data: [

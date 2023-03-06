@@ -51,7 +51,7 @@ RSpec.describe Api::EventsController do
 	describe 'GET /:id' do
 		context 'with nonprofit user' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -65,7 +65,7 @@ RSpec.describe Api::EventsController do
 
 		context 'with event editor' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

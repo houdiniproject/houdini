@@ -19,7 +19,7 @@ RSpec.describe Api::SupporterNotesController do
 	describe 'GET /' do
 		context 'when logged in' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			describe 'with a response' do
@@ -88,7 +88,7 @@ RSpec.describe Api::SupporterNotesController do
 
 				context 'when on page 0' do
 					subject(:json) do
-						JSON.parse(response.body)
+						response.parsed_body
 					end
 
 					before do
@@ -105,7 +105,7 @@ RSpec.describe Api::SupporterNotesController do
 
 				context 'when on page 1' do
 					subject(:json) do
-						JSON.parse(response.body)
+						response.parsed_body
 					end
 
 					before do
@@ -126,7 +126,7 @@ RSpec.describe Api::SupporterNotesController do
 
 				context 'when on page 2' do
 					subject(:json) do
-						JSON.parse(response.body)
+						response.parsed_body
 					end
 
 					before do
@@ -156,7 +156,7 @@ RSpec.describe Api::SupporterNotesController do
 	describe 'GET /:id' do
 		context 'when logged in' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

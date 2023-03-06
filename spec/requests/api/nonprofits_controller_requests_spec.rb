@@ -32,7 +32,7 @@ describe Api::NonprofitsController do
 
 		context 'when logged in' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			let(:user) { create(:user) }

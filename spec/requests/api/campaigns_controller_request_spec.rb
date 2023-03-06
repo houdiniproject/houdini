@@ -17,7 +17,7 @@ RSpec.describe Api::CampaignsController do
 	describe 'GET /:id' do
 		context 'with nonprofit user' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -54,7 +54,7 @@ RSpec.describe Api::CampaignsController do
 
 		context 'with campaign editor' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

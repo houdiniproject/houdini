@@ -20,7 +20,7 @@ describe 'Controllers::Api::Transaction::Current' do
 
 	it 'gets transaction if found' do
 		get :index, params: { nonprofit_id: nonprofit.id, transaction_id: transaction.id }
-		expect(JSON.parse(response.body)).to eq(
+		expect(response.parsed_body).to eq(
 			{
 				'transaction' => transaction.id
 			}

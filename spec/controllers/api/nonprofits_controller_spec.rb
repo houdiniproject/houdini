@@ -27,7 +27,7 @@ describe Api::NonprofitsController, type: :request do
 			input = {}
 			post '/api/nonprofits', params: input, xhr: true
 			expect(response).to have_http_status :unprocessable_entity
-			expect(response.parsed_body['errors'].keys).to match_array %w[name city state_code slug user_id]
+			expect( response.parsed_body['errors'].keys).to match_array %w[name city state_code slug user_id]
 		end
 
 		it 'succeeds' do
@@ -56,8 +56,8 @@ describe Api::NonprofitsController, type: :request do
 				urls: { plain_url: 'http://www.example.com/nonprofits/1', slug_url: 'http://www.example.com/wi/appleton/n' }
 			}.with_indifferent_access
 
-			expect(response.parsed_body['id']).to be > 0
-			expect(response.parsed_body.except('id')).to eq expected_np
+			expect( response.parsed_body['id']).to be > 0
+			expect( response.parsed_body.except('id')).to eq expected_np
 
 			expect(Nonprofit.find(1).billing_plan).to_not be_nil
 		end

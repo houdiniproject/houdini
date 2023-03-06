@@ -38,7 +38,7 @@ RSpec.describe Api::CampaignGiftOptionsController do
 	describe 'GET /:id' do
 		context 'with nonprofit user' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -119,7 +119,7 @@ RSpec.describe Api::CampaignGiftOptionsController do
 
 		context 'with campaign editor' do
 			subject do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -414,7 +414,7 @@ RSpec.describe Api::CampaignGiftOptionsController do
 
 		context 'with nonprofit user' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do
@@ -470,7 +470,7 @@ RSpec.describe Api::CampaignGiftOptionsController do
 
 		context 'with campaign editor' do
 			subject(:json) do
-				JSON.parse(response.body)
+				response.parsed_body
 			end
 
 			before do

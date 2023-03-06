@@ -33,7 +33,7 @@ describe Api::UsersController do
 			}
 
 			it {
-				expect(JSON.parse(response.body)['id']).to be_a Numeric
+				expect(response.parsed_body['id']).to be_a Numeric
 			}
 		end
 	end

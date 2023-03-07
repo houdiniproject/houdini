@@ -26,6 +26,7 @@ class Payout < ApplicationRecord
 	has_one    :bank_account, through: :nonprofit
 	has_many   :payment_payouts
 	has_many   :payments, through: :payment_payouts
+	has_many :object_events, as: :event_entity
 
 	validates :stripe_transfer_id, presence: true, uniqueness: true
 	validates :nonprofit, presence: true

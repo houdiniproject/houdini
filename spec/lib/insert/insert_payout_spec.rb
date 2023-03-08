@@ -161,11 +161,11 @@ describe InsertPayout do
           }.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq(expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid))
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
           expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
-
+          expect(resulted_payout.houid).to match_houid(:pyout)
           expect(resulted_payout.payments.pluck('payments.id')).to match_array(expected_payments.map{|i| i.id})
         end
 
@@ -200,7 +200,7 @@ describe InsertPayout do
 
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
           expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
@@ -271,11 +271,12 @@ describe InsertPayout do
           }.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
           
           expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
+          expect(resulted_payout.houid).to match_houid(:pyout)
 
           expect(resulted_payout.payments.pluck('payments.id')).to match_array(expected_payments.map{|i| i.id})
         end
@@ -307,11 +308,11 @@ describe InsertPayout do
 
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
           expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
-        
+          expect(resulted_payout.houid).to match_houid(:pyout)
           expect(eb_two_days_ago.available_payments.map{|i| i.id}).to match_array(expected_payments.map{|i| i.id})
           # validate payment payout records
 

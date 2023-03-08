@@ -20,7 +20,7 @@ RSpec.describe Payout, :type => :model do
   it {is_expected.to have_one(:bank_account).through(:nonprofit)}
   it {is_expected.to have_many(:payment_payouts)}
   it {is_expected.to have_many(:payments).through(:payment_payouts)}
-  it {is_expected.to have_many(:object_events).as(:event_entity)}
+  it {is_expected.to have_many(:object_events)}
 
   it {is_expected.to validate_presence_of(:stripe_transfer_id)}
   it {is_expected.to validate_uniqueness_of(:stripe_transfer_id)}

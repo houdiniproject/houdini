@@ -52,6 +52,10 @@ RSpec.describe '/api_new/supporters/show.json.jbuilder', type: :view do
 		is_expected.to include('phone' => nil)
 	}
 
+	it {
+		is_expected.to include('email' => supporter.email)
+	}
+
 	describe 'supporter_addresses' do 
 		subject(:addresses) {json['supporter_addresses']}
 		it {

@@ -78,6 +78,8 @@ module InsertPayout
       ).first
       # Create PaymentPayout records linking all the payments to the payout
       pps = Psql.execute(Qexpr.new.insert('payment_payouts', payment_ids.map{|id| {payment_id: id.to_i}}, {common_data: {payout_id: payout['id'].to_i}}))
+      # Create ObjectEvent record for payout.created
+      Payout.find(payout['id'].to_i).publish_created
       NonprofitMailer.delay.pending_payout_notification(payout['id'].to_i)
         return payout
       end

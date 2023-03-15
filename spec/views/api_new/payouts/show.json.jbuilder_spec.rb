@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 RSpec.describe '/api_new/payouts/show.json.jbuilder', type: :view do
-  let(:payout) { build(:payout) }
+  let(:payout) { build(:payout, nonprofit: build(:nonprofit)) }
   subject(:json) do
     view.lookup_context.prefixes = view.lookup_context.prefixes.drop(1)
     assign(:payout, payout)
@@ -20,6 +20,7 @@ RSpec.describe '/api_new/payouts/show.json.jbuilder', type: :view do
           cents: payout.net_amount_as_money.cents,
           currency: 'usd',
         },
+        status: payout.status,
         object: 'payout'
     )  
   end

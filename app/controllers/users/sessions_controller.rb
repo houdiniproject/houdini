@@ -16,7 +16,8 @@ class Users::SessionsController < Devise::SessionsController
 
 		respond_to do |format|
 			format.json {  
-				warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")  
+				self.resource = warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
+				sign_in(resource_name, resource)
 				render :status => 200, :json => { :status => "Success" }  
 			}
 		end  

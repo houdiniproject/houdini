@@ -4050,16 +4050,6 @@ ff-dashboard@0.0.4:
     ramda "0.22.1"
     snabbdom "0.5.3"
 
-ff-file-uploader@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/ff-file-uploader/-/ff-file-uploader-0.0.6.tgz#291bb34f7744fc9f858ecbf984d23da368f26249"
-  integrity sha512-tqCAhsjrefRS6lK9nbmWX71+pfD6/sA2bHEFjAM4x21V6YR7lCtk7iNXRCzQWH0/vSALmYCVTNlcOl+ITEmLLA==
-  dependencies:
-    flimflam-render "0.2.1"
-    flyd "0.2.2"
-    ramda "0.23.0"
-    snabbdom "0.6.1"
-
 figures@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-3.2.0.tgz#625c18bd293c604dc4a8ddb2febf0c88341746af"
@@ -4143,15 +4133,6 @@ flimflam-render@0.1.4:
   dependencies:
     flyd "0.2.1"
     ramda "0.19.1"
-
-flimflam-render@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/flimflam-render/-/flimflam-render-0.2.1.tgz#5cec0889ef558df4ebedccbb19ce6881612763f5"
-  integrity sha512-HYumZV5/k1daZAzXJsVD2HnLr2FUSEL62Tu+MWIZc4a9IDd8RNlKYCsm0bkaX/qxUvpJ/lW6XpnUPU196AWmxg==
-  dependencies:
-    flyd "0.2.2"
-    ramda "0.23.0"
-    snabbdom "0.6.3"
 
 flimflam@0.7.1:
   version "0.7.1"
@@ -9136,16 +9117,6 @@ snabbdom@0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.5.3.tgz#c8b14f8ac3dbb0e83d8b56c1468902535a3ba241"
   integrity sha512-ryUv7RAADEJ47HXCcOLI4d9jIhpyIeGFpYAqguNRSG8LcnAcsM1mfULmwtXwUs/P/n7AxWCmN7hCjcdDFH3unA==
-
-snabbdom@0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.6.1.tgz#b006fb943dc2710b212bf5640aaf5704c1523f9a"
-  integrity sha512-UB66CfDWUPFqq5uHxLue1XbUKhHdHboxiS/2ia5sPTt5hmwbTPLjphDD/zJ/KAAMvQ9h82zXPNMqZgDfARDZ+g==
-
-snabbdom@0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/snabbdom/-/snabbdom-0.6.3.tgz#5eaa55a74b1e542e5fffbe6b8eaf170b0c4ba533"
-  integrity sha512-ueBVcVFPe5eqlV9maM0mpk7XCkf/IG1jJdcrTbhBitHOrvSAK0VAxoL5G+UOwSvzJzy3Iy+NjDlqlkHwMFSyfg==
 
 snabbdom@0.6.4:
   version "0.6.4"

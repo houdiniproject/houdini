@@ -1198,11 +1198,6 @@ attr-binder@0.3.1:
   resolved "https://registry.yarnpkg.com/attr-binder/-/attr-binder-0.3.1.tgz#651b99d0ba063436c7db957b0b23c8e82c67ab20"
   integrity sha512-WyIHtvXO82JUMUIiRfUbjt+9ZFtC41EtZcn/Pu4++W4FkBePyMt+4mNALnHMrEgx7SQwZ3r4cGqI2DZeiXB62w==
 
-autobind-decorator@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
-  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
-
 autoprefixer@^6.0.2, autoprefixer@^6.3.1:
   version "6.7.7"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-6.7.7.tgz#1dbd1c835658e35ce3f9984099db00585c782014"

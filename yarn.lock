@@ -4111,16 +4111,6 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
   integrity sha512-6u/bzbUK+6iOENlqGFkl94EqdAL/FVRhxMWbAE0OBmRsBl64BESxvVRD3CWdilAeka/3WlEZP+0MrKvtYpYFQQ==
 
-flimflam-docs-scaffold@0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/flimflam-docs-scaffold/-/flimflam-docs-scaffold-0.0.8.tgz#dbac482800ad1c85774f548efee991df398866cc"
-  integrity sha512-zyMq/UL6NEe2grb7/U3Yzq7BYBUQzBtjqJOshX0wQxY4l3tNbvitG/C50sSy0BCzVYA85Vu/OPkmB7Q8xUhYaw==
-  dependencies:
-    flimflam "0.7.1"
-    flyd-url "0.0.1"
-    imagesloaded "4.1.1"
-    ramda "0.23.0"
-
 flimflam-render@0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/flimflam-render/-/flimflam-render-0.1.4.tgz#e077f1db31ea6214949478cfe357738b2d531f49"
@@ -4129,16 +4119,6 @@ flimflam-render@0.1.4:
     flyd "0.2.1"
     ramda "0.19.1"
 
-flimflam@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/flimflam/-/flimflam-0.7.1.tgz#45d86250183375785e15c598e8ea84b2e108bebe"
-  integrity sha512-5URoZCjrMz8BUMVjpj/Fck8bGBxmIftY0G0ehI55DYLYSNLgaC3zDLQtNxbPfOQK8opVcemtUfz8bKPUTTUzZw==
-  dependencies:
-    flyd "0.2.4"
-    form-serialize "0.7.1"
-    ramda "0.23.0"
-    snabbdom "0.6.5"
-    snabbdom-merge "0.0.4"
 
 flimflam@0.7.5:
   version "0.7.5"

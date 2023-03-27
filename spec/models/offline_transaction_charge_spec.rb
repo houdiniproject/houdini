@@ -6,4 +6,8 @@ require 'rails_helper'
 
 RSpec.describe OfflineTransactionCharge, type: :model do
 	it_behaves_like 'subtransaction paymentable', :offtrxchrg
+
+	it {
+		is_expected.to have_one(:offsite_payment).through(:legacy_payment)
+	}
 end

@@ -180,3 +180,5 @@ gem 'securerandom' # needed becuase we're on a pre-2.5 Ruby version
 gem 'fx',  git: 'https://github.com/teoljungberg/fx.git', ref: '946cdccbd12333deb8f4566c9852b49c0231a618'
 
 gem 'has_scope'
+
+gem 'globalid', git: "https://github.com/CommitChange/globalid.git", tag: "0.4.2.1"

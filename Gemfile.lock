@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/CommitChange/globalid.git
+  revision: add4f61a0ccf49704ab03dc7505a8727655720a7
+  tag: 0.4.2.1
+  specs:
+    globalid (0.4.2.1)
+      activesupport (>= 4.2.0)
+
+GIT
   remote: https://github.com/CommitChange/rack.git
   revision: d48d04ed52ed3f196906c2e1c988879b8361c939
   branch: 1-6-stable
@@ -218,8 +226,6 @@ GEM
     geocoder (1.2.11)
     get_process_mem (0.2.7)
       ffi (~> 1.0)
-    globalid (0.4.2)
-      activesupport (>= 4.2.0)
     grape (1.1.0)
       activesupport
       builder
@@ -530,6 +536,7 @@ DEPENDENCIES
   foreman
   fx!
   geocoder
+  globalid!
   grape (~> 1.1.0)
   grape-entity!
   grape-swagger

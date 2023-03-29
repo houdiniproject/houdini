@@ -31,24 +31,4 @@ describe QueryBillingSubscriptions, :pending => true do
       fail
     end
   end
-
-  describe '.currently_in_trial?' do
-
-    it 'gives true if status=trialing' do
-      Qx.update(:billing_subscriptions).set(status: 'trialing').where("id = $id", id: @sub['id']).execute
-      expect(QueryBillingSubscriptions.currently_in_trial?(3624)).to eq(true)
-      fail
-    end
-
-    it 'gives false if status!=trialing' do
-      Qx.update(:billing_subscriptions).set(status: 'active').where("id = $id", id: @sub['id']).execute
-      expect(QueryBillingSubscriptions.currently_in_trial?(3624)).to eq(false)
-      fail
-    end
-
-    it 'gives false if no subscription' do
-      expect(QueryBillingSubscriptions.currently_in_trial?(666)).to be_falsey
-      fail
-    end
-  end
 end

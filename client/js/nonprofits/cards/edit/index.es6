@@ -13,7 +13,6 @@ function init() {
     card: pageLoadData.card
   , plan: pageLoadData.plan
   , subscription: pageLoadData.subscription
-  , daysLeft: pageLoadData.daysLeft
   }
 
   state.cardForm = cardForm.init({
@@ -39,7 +38,7 @@ const view = state =>
     h('h4', `Payment Method for ${app.nonprofit.name}`)
   , state.card.name ? h('p', `Current card: ${state.card.name}`) : ''
   , h('p', [
-      state.subscription.status === 'trialing' ? `You have ${state.daysLeft} days left in your free trial. If you add a payment method now, your account will stay active after your trial, and you will get your remaining trial days for free.` : ''
+       ''
     ])
   , h('p.u-strong', `Tier: ${state.plan.name} ($${format.centsToDollars(state.plan.amount)} ${state.plan.interval})`)
   , h('hr')

@@ -11,7 +11,6 @@ var prefix = `/nonprofits/${app.nonprofit_id}/events`
 dupeIt(prefix, app.event_id)
 
 var url = `${prefix}/${app.event_id}`
-var confirmation = require('../../common/confirmation')
 var Pikaday = require('pikaday')
 var moment = require('moment')
 

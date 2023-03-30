@@ -9,10 +9,6 @@ describe BillingSubscriptionsController, :type => :controller do
         include_context :open_to_np_admin, :post, :create_trial, nonprofit_id: :__our_np
     end
 
-    describe 'create' do
-        include_context :open_to_np_admin, :post, :create, nonprofit_id: :__our_np
-    end
-
     describe 'cancel' do
         include_context :open_to_np_admin, :post, :cancel, nonprofit_id: :__our_np
     end

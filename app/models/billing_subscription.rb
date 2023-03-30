@@ -25,12 +25,6 @@ class BillingSubscription < ActiveRecord::Base
 		Stripe::Subscription.retrieve(stripe_subscription_id)
 	end
 
-	def self.create_with_stripe(np, params)
-		bp = BillingPlan.find_by_stripe_plan_id params[:stripe_plan_id]
-		h =  ConstructBillingSubscription.with_stripe np, bp
-		return np.create_billing_subscription h
-	end
-
 	concerning :PathCaching do
 		included do
 			after_save do

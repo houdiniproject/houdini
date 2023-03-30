@@ -9,10 +9,5 @@ module QueryBillingSubscriptions
     return 2 if sub && sub['status'] != 'inactive'
     return 0
   end
-
-  def self.currently_in_trial?(np_id)
-    sub = BillingSubscription::find_via_cached_np_id(np_id)
-    return sub && sub['status'] == 'trialing'
-  end
 end
 

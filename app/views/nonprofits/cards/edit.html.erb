@@ -9,7 +9,6 @@
       card: <%= @nonprofit.active_card ? raw(@nonprofit.active_card.to_json) : '{}' %>
     , plan: <%= raw(@nonprofit.billing_plan.to_json) %>
     , subscription: <%= raw(@nonprofit.billing_subscription.to_json) %>
-    , daysLeft : <%= QueryBillingSubscriptions.days_left_in_trial(@nonprofit.id) %>
     }
     var app = {
       profile: {

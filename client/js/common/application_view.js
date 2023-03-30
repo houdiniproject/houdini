@@ -324,8 +324,6 @@ appl.transform = function(name, fn) {
 	return result
 }
 
-// Return the current URL path
-appl.def('pathname', function() { return window.location.pathname })
 // Return the root url
 appl.def('root_url', function() { return window.location.origin })
 

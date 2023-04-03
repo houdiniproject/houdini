@@ -195,7 +195,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    good_job (3.14.2)
+    good_job (3.15.0)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -250,7 +250,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.19.1)
+    loofah (2.20.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.8.1)
@@ -512,7 +512,7 @@ DEPENDENCIES
   factory_bot (~> 6.2)
   factory_bot_rails (~> 6.2)
   fast_blank
-  good_job (~> 3.14)
+  good_job (~> 3.15)
   hamster (~> 3.0)
   houdini_full_contact!
   http_accept_language

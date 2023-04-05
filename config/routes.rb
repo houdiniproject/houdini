@@ -174,7 +174,6 @@ Commitchange::Application.routes.draw do
 
 		resource(:billing_subscription, {only: [:create]}) do
 			post(:cancel)
-      post(:create_trial, {on: :member})
       get(:cancellation)
 		end
 

@@ -4,15 +4,6 @@ class BillingSubscriptionsController < ApplicationController
 
 	before_action :authenticate_nonprofit_admin!
 
-  def create_trial
-    render JsonResp.new(params){|params|
-      requires(:nonprofit_id).as_int
-      requires(:stripe_plan_id).as_string
-    }.when_valid{|params| 
-      InsertBillingSubscriptions.trial(params[:nonprofit_id], params[:stripe_plan_id])
-    }
-  end
-
   # post /nonprofits/:nonprofit_id/billing_subscription/cancel
 	def cancel
 		@result = CancelBillingSubscription.with_stripe(@nonprofit)

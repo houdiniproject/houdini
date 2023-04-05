@@ -11,7 +11,6 @@ const fonts = require('../../../common/brand-fonts')
 
 const message = 'This branding will be applied to your donate buttons, profile page, campaign pages and event pages'
 
-var updatedTask = "Select a color and font to make your fundraising tools consistent with your brand."
 const view = state =>
   h('section.branding.settings-pane.nonprofit-settings.hide', [
     h('header.pane-header', [h('h3', 'Branding')])

@@ -3,7 +3,7 @@ const request = require('../common/client').default
 const R = require('ramda') 
 const Chart = require('chart.js')
 const moment = require('moment')
-const dateRange = require('../components/date-range') 
+const {dateRange} = require('../components/date-range');
 const {dollars} = require('../components/chart-options')
 
 var url = `/nonprofits/${app.nonprofit_id}/campaigns/${ENV.campaignID}/timeline`
@@ -23,7 +23,7 @@ function query() {
 }
 
 function cumulative(data) {
-  var moments = dateRange(R.head(data).date, R.last(data).date, 'days')
+  const moments = dateRange(R.head(data).date, R.last(data).date, 'days')
   var dateStrings = R.map((m) => m.format('YYYY-MM-DD'), moments)
 
   var proto = {

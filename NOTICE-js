@@ -7120,7 +7120,7 @@ Copyright (c) Microsoft Corporation.
 ** @types/jquery; version 3.3.38 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/js-cookie; version 2.2.7 -- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/js-cookie
-Copyright (c) Microsoft Corporation.
+Copyright (c) Microsoft Corporation
 ** @types/js-levenshtein; version 1.1.0 -- 
 Copyright (c) Microsoft Corporation.
 ** @types/jsdom; version 11.12.0 -- 
@@ -16295,7 +16295,7 @@ Copyright (c) 2015 Jon Schlinkert
 Copyright (c) 2015, Jon Schlinkert
 ** is-invalid-path; version 0.1.0 -- https://github.com/jonschlinkert/is-invalid-path
 Copyright (c) 2015 Jon Schlinkert
-Copyright (c) 2015, Jon Schlinkert.
+Copyright (c) 2015, Jon Schlinkert
 ** is-valid-path; version 0.1.1 -- https://github.com/jonschlinkert/is-valid-path
 Copyright (c) 2015 Jon Schlinkert
 Copyright (c) 2014-2015, Jon Schlinkert.
@@ -17216,7 +17216,7 @@ copyright header of example files e592c53 (https://github.com/http-party/node-ht
 
 ------
 
-** get-intrinsic; version 1.1.1 -- https://github.com/ljharb/get-intrinsic#readme
+** get-intrinsic; version 1.1.3 -- https://github.com/ljharb/get-intrinsic#readme
 Copyright (c) 2020 Jordan Harband
 ** iterate-iterator; version 1.0.1 -- https://github.com/ljharb/iterate-iterator#readme
 
@@ -17610,7 +17610,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ------
 
-** has-symbols; version 1.0.2 -- https://github.com/inspect-js/has-symbols#readme
+** has-symbols; version 1.0.3 -- https://github.com/ljharb/has-symbols#readme
 Copyright (c) 2016 Jordan Harband
 
 MIT License
@@ -19870,6 +19870,39 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** mime-db; version 1.52.0 -- https://github.com/jshttp/mime-db#readme
+Copyright (c) 2014 Jonathan Ong
+Copyright (c) 2015-2022 Douglas Christopher Wilson
+Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
+Copyright (c) 2015-2022 Douglas Christopher Wilson <doug@somethingdoug.com>
+
+(The MIT License)
+
+Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
+Copyright (c) 2015-2022 Douglas Christopher Wilson <doug@somethingdoug.com>
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** postcss-initial; version 3.0.2 -- https://github.com/maximkoretskiy/postcss-initial#readme
 Copyright 2015 Maksim Koretskiy <mr.green.tv@gmail.com>
 
@@ -20669,34 +20702,6 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** ms; version 2.1.2 -- https://github.com/zeit/ms#readme
-Copyright (c) 2016 Zeit, Inc.
-
-The MIT License (MIT)
-
-Copyright (c) 2016 Zeit, Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-------
-
 ** md5.js; version 1.3.5 -- https://github.com/crypto-browserify/md5.js
 Copyright (c) 2016 Kirill Fomichev
 
@@ -21462,7 +21467,7 @@ SOFTWARE.
 
 ------
 
-** object-inspect; version 1.11.1 -- https://github.com/inspect-js/object-inspect
+** object-inspect; version 1.12.2 -- https://github.com/inspect-js/object-inspect
 Copyright (c) 2013 James Halliday
 
 MIT License
@@ -21546,7 +21551,7 @@ SOFTWARE.
 
 ------
 
-** mime-types; version 2.1.34 -- https://github.com/jshttp/mime-types#readme
+** mime-types; version 2.1.35 -- https://github.com/jshttp/mime-types#readme
 Copyright (c) 2014 Jonathan Ong
 Copyright (c) 2015 Douglas Christopher Wilson
 Copyright (c) 2014 Jonathan Ong <me@jongleberry.com>
@@ -22198,36 +22203,6 @@ THE SOFTWARE.
 
 ------
 
-** mime-db; version 1.51.0 -- https://github.com/jshttp/mime-db#readme
-Copyright (c) 2014 Jonathan Ong
-Copyright (c) 2014 Jonathan Ong me@jongleberry.com
-
-
-The MIT License (MIT)
-
-Copyright (c) 2014 Jonathan Ong me@jongleberry.com
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-
-
-------
-
 ** mdast-util-definitions; version 4.0.0 -- https://github.com/syntax-tree/mdast-util-definitions#readme
 (c) Titus Wormer
 Copyright (c) 2015-2016 Titus Wormer <tituswormer@gmail.com>
@@ -22515,6 +22490,34 @@ Files located in the node_modules and vendor directories are externally
 maintained libraries used by this software which have their own
 licenses; we recommend you read them, as their terms may differ from the
 terms above.
+
+
+------
+
+** ms; version 2.1.3 -- https://github.com/vercel/ms#readme
+Copyright (c) 2020 Vercel, Inc.
+
+The MIT License (MIT)
+
+Copyright (c) 2020 Vercel, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 ------
@@ -30475,7 +30478,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 ------
 
-** typescript; version 4.7.4 -- https://www.typescriptlang.org/
+** typescript; version 5.0.3 -- https://www.typescriptlang.org/
 (c) by W3C
 Copyright (c) 2018 WHATWG
 Copyright (c) Microsoft Corporation

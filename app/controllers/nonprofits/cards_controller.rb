@@ -20,7 +20,6 @@ module Nonprofits
             requires(:holder_type).one_of('Supporter', 'Nonprofit')
           end
         end.when_valid do |d|
-          UpdateBillingSubscriptions.activate_from_trial(d[:nonprofit_id])
           InsertCard.with_stripe(d[:card])
         end
       )

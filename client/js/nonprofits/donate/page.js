@@ -79,7 +79,7 @@ if(app.nonprofit.plan_tier > 0) {
   container.parentNode.dispatchEvent(event);
   render({patch, view: donate.view, state, container})
   jQuery(function($){
-  $(".donationWizard").trigger("render:post").addClass("displayed-updated");
+  $(".donationWizard").trigger("render:post")
   });
 //  event = new CustomEvent('render:post');
 //  container.parentNode.dispatchEvent(event);

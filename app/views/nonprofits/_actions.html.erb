@@ -13,7 +13,7 @@
   <% end %>
 	</button>
 
-	<% if current_plan_tier >= 1 && current_nonprofit_user? %>
+	<% if current_nonprofit_user? %>
 		<button class='button--jumbo u-width--full' open-modal='newEvent' data-when-confirmed if-branded='background-color, dark'>
 			Create an Event
 		</button>

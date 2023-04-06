@@ -7,8 +7,7 @@ class ApplicationController < ActionController::Base
 	helper_method \
 		:current_role?,
 		:current_nonprofit_user?,
-		:administered_nonprofit,
-		:current_plan_tier #int
+		:administered_nonprofit
 
 	def set_locale
 		if params[:locale] && Settings.available_locales.include?(params[:locale])
@@ -121,14 +120,6 @@ protected
     role_names = Array(role_names)
 		key = "current_role_user_#{current_user_id}_names_#{role_names.join("_")}_host_#{host_id}"
     QueryRoles.user_has_role?(current_user.id, role_names, host_id)
-	end
-
-	def current_plan_tier(npo_id=nil)
-    return 0 if !npo_id && !administered_nonprofit
-    npo_id ||= administered_nonprofit.id
-		return 2 if current_role?(:super_admin)
-		key = "plan_tier_user_#{current_user_id}_nonprofit_#{npo_id}"
-    administered_nonprofit ? QueryBillingSubscriptions.plan_tier(npo_id) : 0
 	end
 
 	def administered_nonprofit

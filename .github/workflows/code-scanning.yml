@@ -1,9 +1,11 @@
 # License: LGPL-3.0-or-later
-name: Main branch workflows to run on merge to `main`
+name: Code scanning `main`
 on: 
   push:
-    branches: 
+    branches:
       - main
+  pull_request:
+    types: [opened, reopened, synchronize]
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true

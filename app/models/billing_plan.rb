@@ -4,7 +4,6 @@ class BillingPlan < ActiveRecord::Base
 
 	attr_accessible \
 		:name, #str: readable name
-		:tier, #int: 0-4 (0: Free, 1: Fundraising, 2: Supporter Management)
 		:amount, #int (cents)
 		:stripe_plan_id, #str (matches plan ID in Stripe) Not needed if it's not a paying subscription
 		:interval, #str ('monthly', 'annual')

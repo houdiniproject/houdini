@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230307171832) do
+ActiveRecord::Schema.define(version: 20230406154424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(version: 20230307171832) do
     t.integer  "amount"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.integer  "tier"
     t.string   "interval",       limit: 255
     t.decimal  "percentage_fee",             default: 0.0, null: false
     t.integer  "flat_fee",                   default: 0,   null: false

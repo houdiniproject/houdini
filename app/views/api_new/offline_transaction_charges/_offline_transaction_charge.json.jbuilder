@@ -5,6 +5,11 @@
 
 json.object 'offline_transaction_charge'
 
+json.created paymentable.created.to_i
+
+json.payment_type paymentable.subtransaction_payment.legacy_payment.offsite_payment&.kind
+json.check_number paymentable.subtransaction_payment.legacy_payment.offsite_payment&.check_number
+
 json.net_amount do
 	json.partial! '/api_new/common/amount', amount: paymentable.net_amount_as_money
 end

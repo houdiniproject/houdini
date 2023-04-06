@@ -1,5 +1,5 @@
 # License: LGPL-3.0-or-later
-name: Code scanning `main`
+name: Code scanning
 on: 
   push:
     branches:

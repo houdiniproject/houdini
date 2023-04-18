@@ -18,7 +18,7 @@ RSpec.describe '/api_new/offline_transaction_charges/show.json.jbuilder', type: 
 	it {
 		is_expected.to include_json(object: 'offline_transaction_charge',
 			created: offline_transaction_charge.created.to_i,
-			payment_type: offline_transaction_charge.subtransaction_payment.legacy_payment.offsite_payment&.kind,
+			kind: offline_transaction_charge.subtransaction_payment.legacy_payment.offsite_payment&.kind,
 			check_number: offline_transaction_charge.subtransaction_payment.legacy_payment.offsite_payment&.check_number,
 			net_amount: {
 				cents: offline_transaction_charge.net_amount_as_money.cents,

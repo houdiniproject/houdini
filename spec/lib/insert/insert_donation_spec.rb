@@ -135,16 +135,20 @@ describe InsertDonation do
 	describe 'success' do
 
 	  describe 'general offsite create' do
-		subject do
+		subject(:trx) do
 		  result = described_class.offsite(
 			{
 			  amount: charge_amount,
 			  nonprofit_id: nonprofit.id,
 			  supporter_id: supporter.id,
-			  date: created_time.to_s
+			  date: created_time.to_s,
+				offsite_payment: {
+					check_number: 1234,
+					kind: "check"
+				}.with_indifferent_access
 			}.with_indifferent_access
 		  )
-          Payment.find(result['payment']['id']).trx
+          Payment.find(result[:json]['payment']['id']).trx
 		end
 
 		let(:created_time) { 1.day.from_now }
@@ -318,6 +322,50 @@ describe InsertDonation do
 		  donation_builder.merge(common_builder_with_trx, common_builder_expanded)
 		end
 
+
+		it 'creates an offline_transaction_charge.created object event' do
+		  expect { trx }.to change {
+			ObjectEvent.where(event_type: 'offline_transaction_charge.created').count
+		  }.by 1
+		end
+
+		it 'object event has the correct information' do
+		  offline_transaction_charge = trx.payments.first.paymentable
+		  object_event = offline_transaction_charge.object_events.first
+
+		  expect(object_event.object_json).to include_json(
+			id: object_event.houid,
+			type: 'offline_transaction_charge.created',
+			object: 'object_event',
+			created: object_event.created.to_i,
+			data: {
+			  object: {
+				id: offline_transaction_charge.houid,
+				type: 'payment',
+				object: 'offline_transaction_charge',
+				created: offline_transaction_charge.created.to_i,
+				nonprofit: nonprofit.houid,
+				supporter: supporter.houid,
+				fee_total: {
+				  cents: offline_transaction_charge.fee_total_as_money.cents,
+				  currency: 'usd'
+				},
+				net_amount: {
+				  cents: offline_transaction_charge.net_amount_as_money.cents,
+				  currency: 'usd'
+				},
+				gross_amount: {
+				  cents: offline_transaction_charge.gross_amount_as_money.cents,
+				  currency: 'usd'
+				},
+				transaction: offline_transaction_charge.subtransaction_payment.trx.houid,
+				check_number: "1234",
+				kind: "check"
+			  }
+			}
+		  )
+
+		end
 	  end
 	end
   end

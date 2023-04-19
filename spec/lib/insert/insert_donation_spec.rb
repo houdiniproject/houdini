@@ -102,17 +102,62 @@ describe InsertDonation do
       before(:each) {
         before_each_success
       }
-      it 'process event donation' do
-        process_event_donation {InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
+      describe 'event donation' do
+				
+				let(:result) {
+					InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')
+				}
+
+				it 'process event donation' do 
+
+					process_event_donation { result}
+					
+				end
+
+				it 'increases object event charge by one' do
+					
+					expect {  
+						result 
+					}.to change {
+						ObjectEvent.where(event_type: 'stripe_transaction_charge.created').count
+						}.by 1
+				end
       end
 
-      it 'process campaign donation' do
-        process_campaign_donation {InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
-      end
+			describe 'campaign donation' do
+				
+				let(:result) {
+					InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, campaign_id: campaign.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')
+				}
 
-      it 'processes general donation' do
-        process_general_donation{ InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
-      end
+				it 'process campaign donation' do
+					process_campaign_donation {result}
+				end
+				
+				it 'increases object event charge by one' do
+					
+					expect {  
+						result 
+					}.to change {
+						ObjectEvent.where(event_type: 'stripe_transaction_charge.created').count
+						}.by 1
+				end
+			end
+			describe 'general donation' do
+				let(:result) { InsertDonation.with_stripe(amount: charge_amount, nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, profile_id: profile.id, date: (Time.now + 1.day).to_s, dedication: 'dedication', designation: 'designation')}
+				it 'processes general donation' do
+					process_general_donation{result  }
+				end
+
+				it 'increases object event charge by one' do
+					
+					expect {  
+						result 
+					}.to change {
+						ObjectEvent.where(event_type: 'stripe_transaction_charge.created').count
+						}.by 1
+				end
+			end
     end
   end
 

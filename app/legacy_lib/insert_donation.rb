@@ -33,6 +33,7 @@ module InsertDonation
     result = {}
 
     data[:date] = Time.now
+    data = amount_from_data(data)
     data = data.except(:old_donation).except('old_donation')
     result = result.merge(insert_charge(data))
     if result['charge']['status'] == 'failed'
@@ -40,7 +41,26 @@ module InsertDonation
     end
     # Create the donation record
     result['donation'] = self.insert_donation(data, entities)
+    trx = entities[:supporter_id].transactions.build(amount: data['amount'], created: data['date'])
     update_donation_keys(result)
+    don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
+    stripe_transaction_charge = SubtransactionPayment.new(
+      legacy_payment: Payment.find(result['payment']['id']),
+      paymentable: StripeTransactionCharge.new
+    )
+    stripe_t = trx.build_subtransaction(
+      subtransactable: StripeTransaction.new(amount: data['amount']), 
+      subtransaction_payments:[
+        stripe_transaction_charge
+      ]
+    );
+    trx.save!
+    don.save!
+    stripe_t.save!
+    stripe_t.subtransaction_payments.each(&:publish_created)
+    #stripe_t.publish_created
+    don.publish_created
+    trx.publish_created
     result['activity'] = InsertActivities.for_one_time_donations([result['payment'].id])
     JobQueue.queue(JobTypes::DonationPaymentCreateJob, result['donation'].id, result['payment'].id, entities[:supporter_id].locale)
     result

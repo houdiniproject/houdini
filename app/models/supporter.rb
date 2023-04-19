@@ -66,6 +66,7 @@ class Supporter < ActiveRecord::Base
   has_many :activities, dependent: :destroy
   has_many :tickets
   has_many :recurring_donations
+  has_many :object_events, as: :event_entity
 
   concerning :Tags do
     included do

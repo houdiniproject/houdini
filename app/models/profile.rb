@@ -34,7 +34,6 @@ class Profile < ApplicationRecord
   has_many :campaigns
   has_many :events
   has_many :recurring_donations
-  has_many :comments, as: :host, dependent: :destroy
   has_many :nonprofits, through: :supporters
   has_many :activities, dependent: :destroy
   #  has_one :card, as: :holder

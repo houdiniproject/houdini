@@ -71,7 +71,6 @@ class Campaign < ApplicationRecord
   has_many :recurring_donations
   has_many :campaign_gift_purchases
   has_many :roles,        as: :host, dependent: :destroy
-  has_many :comments,     as: :host, dependent: :destroy
   has_many :activities,   as: :host, dependent: :destroy
   belongs_to :profile
   belongs_to :nonprofit

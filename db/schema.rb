@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_22_001251) do
+ActiveRecord::Schema.define(version: 2023_04_22_001939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -945,14 +945,6 @@ ActiveRecord::Schema.define(version: 2023_04_22_001251) do
     t.index ["supporter_id"], name: "tag_joins_supporter_id"
     t.index ["tag_definition_id", "supporter_id"], name: "index_tag_joins_on_tag_definition_id_and_supporter_id", unique: true
     t.index ["tag_definition_id"], name: "index_tag_joins_on_tag_definition_id"
-  end
-
-  create_table "tag_joins_backup", id: :serial, force: :cascade do |t|
-    t.integer "tag_definition_id"
-    t.integer "supporter_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text "metadata"
   end
 
   create_table "ticket_levels", id: :serial, force: :cascade do |t|

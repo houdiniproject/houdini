@@ -100,7 +100,7 @@ export function useSerializeMoney(props: UseSerializeMoneyProps): ReturnType<typ
 }
 
 
-export type IMoneyTextFieldProps<TFieldValues = FieldValues> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> &
+export type IMoneyTextFieldProps<TFieldValues extends FieldValues = FieldValues> = Omit<MuiTextFieldProps, 'value' | 'error' |'inputRef'> &
 	Omit<Types.UseI18nCurrencyInputProps, 'currency' | 'locale' | 'value' | 'inputRef' | 'inputType'> & { control?: Control<TFieldValues> };
 
 /**
@@ -109,7 +109,7 @@ export type IMoneyTextFieldProps<TFieldValues = FieldValues> = Omit<MuiTextField
  * @param {IMoneyTextFieldProps} { children, form, field, currencyDisplay, useGrouping, allowEmpty, selectAllOnFocus, ...props }
  * @returns {JSX.Element}
  */
-function MoneyTextField<TFieldValues=FieldValues>({ children,
+function MoneyTextField<TFieldValues extends FieldValues=FieldValues>({ children,
 	control,
 	name:outerName,
 	currencyDisplay,

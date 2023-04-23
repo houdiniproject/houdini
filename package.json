@@ -81,7 +81,7 @@
     "eslint-plugin-react": "^7.20.2",
     "eslint-plugin-react-hooks": "^4.0.4",
     "eslint-plugin-storybook": "^0.6.6",
-    "fork-ts-checker-webpack-plugin": "^5.0.4",
+    "fork-ts-checker-webpack-plugin": "^6",
     "jest": "^26.4.2",
     "jest-axe": "^5.0.1",
     "jsdom": "^16",
@@ -149,7 +149,7 @@
     "react-aria-modal": "^3.0.1",
     "react-dom": "^17",
     "react-error-boundary": "^3.0.2",
-    "react-hook-form": "^7.34.2",
+    "react-hook-form": "^7.43.9",
     "react-intl": "^5.23.0",
     "react-on-rails": "12.2.0",
     "react-text-mask": "^5.3.0",
@@ -173,5 +173,8 @@
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "resolutions": {
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.cd77847.0"
   }
 }

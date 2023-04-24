@@ -67,7 +67,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         recaptcha_value: params['g-recaptcha-response']
       }
       failure = RecaptchaRejection.new
-      failure.details_json = failure_details
+      failure.details = failure_details
       failure.save!
       raise e
     end

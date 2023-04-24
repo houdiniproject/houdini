@@ -991,16 +991,6 @@ ActiveRecord::Schema.define(version: 20230421234415) do
 
   add_index "roles", ["name", "user_id", "host_id"], name: "index_roles_on_name_and_user_id_and_host_id", using: :btree
 
-  create_table "sessions", force: :cascade do |t|
-    t.string   "session_id", limit: 255, null: false
-    t.text     "data"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
-
   create_table "simple_objects", force: :cascade do |t|
     t.string   "houid"
     t.integer  "parent_id"

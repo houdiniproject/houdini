@@ -57,7 +57,6 @@ class Event < ActiveRecord::Base
 	has_many :tickets
 	has_many :payments, through: :tickets
 	has_many :roles,           as: :host, dependent: :destroy
-	has_many :comments,        as: :host, dependent: :destroy
 	has_many :activities,      as: :host, dependent: :destroy
 	has_one :misc_event_info
 

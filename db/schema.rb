@@ -1251,14 +1251,6 @@ ActiveRecord::Schema.define(version: 20230420211338) do
   add_index "tag_joins", ["tag_master_id"], name: "index_tag_joins_on_tag_master_id", using: :btree
   add_index "tag_joins", ["tag_master_id"], name: "tag_joins_tag_master_id", using: :btree
 
-  create_table "tag_joins_backup", force: :cascade do |t|
-    t.integer  "tag_master_id"
-    t.integer  "supporter_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "metadata"
-  end
-
   create_table "tag_masters", force: :cascade do |t|
     t.string   "name",         limit: 255
     t.integer  "nonprofit_id"

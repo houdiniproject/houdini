@@ -1256,6 +1256,13 @@ ActiveRecord::Schema.define(version: 20230421234415) do
     t.integer  "order"
   end
 
+  create_table "ticket_purchases", force: :cascade do |t|
+    t.string   "houid",      null: false
+    t.integer  "ticket_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tickets", force: :cascade do |t|
     t.integer  "ticket_level_id"
     t.integer  "charge_id"

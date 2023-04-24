@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230420211338) do
-
+ActiveRecord::Schema.define(version: 20230421234415) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
@@ -198,15 +197,6 @@ ActiveRecord::Schema.define(version: 20230420211338) do
 
   add_index "charges", ["donation_id"], name: "index_charges_on_donation_id", using: :btree
   add_index "charges", ["payment_id"], name: "index_charges_on_payment_id", using: :btree
-
-  create_table "comments", force: :cascade do |t|
-    t.integer  "profile_id"
-    t.text     "body"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "host_id"
-    t.string   "host_type",  limit: 255
-  end
 
   create_table "custom_field_joins", force: :cascade do |t|
     t.integer  "custom_field_master_id"

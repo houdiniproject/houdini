@@ -14,6 +14,15 @@ GIT
     rack (1.6.13)
 
 GIT
+  remote: https://github.com/commitchange/nokogiri.git
+  revision: 845f33399b3063f8f1f6e73a3035ff265ae3965b
+  tag: v1.13.11
+  specs:
+    nokogiri (1.13.11)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+
+GIT
   remote: https://github.com/ruby-grape/grape-entity.git
   revision: 0e04aa561373b510c2486282979085eaef2ae663
   ref: 0e04aa561373b510c2486282979085eaef2ae663
@@ -300,7 +309,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.9.5)
     mini_mime (1.1.0)
-    mini_portile2 (2.8.0)
+    mini_portile2 (2.8.1)
     minitest (5.15.0)
     money (6.10.0)
       i18n (>= 0.6.4, < 1.0)
@@ -319,9 +328,6 @@ GEM
       connection_pool (~> 2.2)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.10)
-      mini_portile2 (~> 2.8.0)
-      racc (~> 1.4)
     orm_adapter (0.5.0)
     pg (0.21.0)
     power_assert (1.1.1)
@@ -348,7 +354,7 @@ GEM
       puma (>= 2.7)
     rabl (0.11.6)
       activesupport (>= 2.3.14)
-    racc (1.6.1)
+    racc (1.6.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (6.5.0)
@@ -556,6 +562,7 @@ DEPENDENCIES
   lograge
   mini_magick
   nearest_time_zone
+  nokogiri (~> 1.13.11)!
   param_validation!
   pg (< 1)
   premailer-rails

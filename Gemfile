@@ -120,6 +120,10 @@ group :development, :ci, :test do
   gem 'faker' # test data generation
 end
 
+
+gem 'nokogiri', '~> 1.13.11', require: false, git:"https://github.com/commitchange/nokogiri.git", tag: "v1.13.11"
+
+
 group :test do
   gem 'webmock'
 end

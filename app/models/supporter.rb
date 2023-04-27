@@ -96,6 +96,10 @@ class Supporter < ActiveRecord::Base
       changes.has_key?("name") || changes.has_key?("email")
     end
 
+    def publish_created
+      object_events.create(event_type: 'supporter.created')
+    end
+
     private
     
     def try_update_member_on_all_lists

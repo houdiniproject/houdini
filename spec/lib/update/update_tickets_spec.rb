@@ -62,7 +62,8 @@ describe UpdateTickets do
           deleted: false,
           source_token_id: nil,
           event_id: event.id,
-          ticket_level_id: nil
+          ticket_level_id: nil,
+          ticket_purchase_id: nil
       }.with_indifferent_access
     }
 

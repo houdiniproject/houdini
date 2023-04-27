@@ -167,7 +167,7 @@ module QuerySupporters
         Qx.select("supporter_id", "SUM(gross_amount)", "MAX(date) AS max_date", "MIN(date) AS min_date", "COUNT(*) AS count")
       .from(
           Qx.select("supporter_id", "date", "gross_amount")
-              .from(:payments)
+              .from(Qx.select('*').from(:payments).where("nonprofit_id = $id", id: np_id).as(:payments).parse)
               .join(Qx.select('id')
                         .from(:supporters)
                         .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )

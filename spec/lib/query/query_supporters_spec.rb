@@ -23,12 +23,12 @@ describe QuerySupporters do
   let(:donation4) { force_create(:donation, amount: gift_level_one_time, campaign: campaign, supporter:supporter1, date: payment2_utc_time)}
   let(:donation5) { force_create(:donation, amount: gift_level_one_time, campaign: campaign, supporter:supporter2, date: payment2_utc_time)}
 
-  let(:payment1) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation1, date: payment_utc_time)}
+  let(:payment1) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation1, date: payment_utc_time, nonprofit: np)}
 
   let(:donation2)  {force_create(:donation, amount: gift_level_changed_recurring, campaign: campaign, supporter:supporter2)}
-  let(:payment2) {force_create(:payment, gross_amount: gift_level_recurring, donation: donation2)}
-  let(:payment4) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation4, date: payment2_utc_time)}
-  let(:payment5) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation5, date: payment2_utc_time)}
+  let(:payment2) {force_create(:payment, gross_amount: gift_level_recurring, donation: donation2, nonprofit: np)}
+  let(:payment4) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation4, date: payment2_utc_time,  nonprofit: np)}
+  let(:payment5) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation5, date: payment2_utc_time, nonprofit: np)}
 
   let(:payment3) {force_create(:payment, gross_amount: gift_level_changed_recurring, donation: donation2)}
   let(:campaign_gift2) { force_create(:campaign_gift, campaign_gift_option: campaign_gift_option, donation: donation2)}

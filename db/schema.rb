@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230424163001) do
+ActiveRecord::Schema.define(version: 20230427003235) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
@@ -1258,7 +1259,6 @@ ActiveRecord::Schema.define(version: 20230424163001) do
 
   create_table "ticket_purchases", force: :cascade do |t|
     t.string   "houid",      null: false
-    t.integer  "ticket_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -1267,8 +1267,8 @@ ActiveRecord::Schema.define(version: 20230424163001) do
     t.integer  "ticket_level_id"
     t.integer  "charge_id"
     t.integer  "profile_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.integer  "supporter_id"
     t.integer  "event_id"
     t.integer  "quantity"
@@ -1278,13 +1278,15 @@ ActiveRecord::Schema.define(version: 20230424163001) do
     t.integer  "payment_id"
     t.text     "note"
     t.integer  "event_discount_id"
-    t.boolean  "deleted",           default: false
+    t.boolean  "deleted",            default: false
     t.uuid     "source_token_id"
+    t.integer  "ticket_purchase_id"
   end
 
   add_index "tickets", ["event_id"], name: "index_tickets_on_event_id", using: :btree
   add_index "tickets", ["payment_id"], name: "index_tickets_on_payment_id", using: :btree
   add_index "tickets", ["supporter_id"], name: "index_tickets_on_supporter_id", using: :btree
+  add_index "tickets", ["ticket_purchase_id"], name: "index_tickets_on_ticket_purchase_id", using: :btree
 
   create_table "trackings", force: :cascade do |t|
     t.string   "utm_campaign", limit: 255

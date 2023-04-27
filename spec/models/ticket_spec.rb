@@ -2,6 +2,11 @@
 require 'rails_helper'
 
 RSpec.describe Ticket, type: :model do
+
+  it {
+    is_expected.to belong_to(:ticket_purchase)
+  }
+
   let(:payment1) { force_create(:payment)}
   let(:payment2) { force_create(:payment)}
   let(:ticket1) { force_create(:ticket, payment: payment1)}

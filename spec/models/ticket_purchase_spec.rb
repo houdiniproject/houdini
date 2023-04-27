@@ -8,6 +8,6 @@ RSpec.describe TicketPurchase, type: :model do
   it_behaves_like 'trx assignable', :tktpur
 
   it {
-    is_expected.to belong_to(:ticket)
+    is_expected.to have_many(:tickets)
   }
 end

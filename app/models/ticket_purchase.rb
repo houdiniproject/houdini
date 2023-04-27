@@ -8,5 +8,5 @@ class TicketPurchase < ApplicationRecord
   
   setup_houid :tktpur, :houid
 
-  belongs_to :ticket
+  has_many :tickets
 end

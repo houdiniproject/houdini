@@ -221,6 +221,15 @@ describe QuerySupporters do
         expect(result[:data].count).to eq 0
       end
     end
+
+    context 'when filtering by campaign' do
+      it "finds one supporter" do
+        donation1
+        donation4 # this is the second for one of the supporters. This verifies we only get a single supporter no matter how many donations they have
+        result = QuerySupporters.full_search(np.id, { campaign_id: campaign.id.to_s})
+        expect(result[:data].count).to eq 2
+      end
+    end
   end
 
   describe '.dupes_on_name_and_phone' do

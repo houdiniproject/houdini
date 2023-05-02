@@ -285,9 +285,13 @@ module QuerySupporters
       expr = expr.and_where("tags.ids @> ARRAY[$tag_ids]", tag_ids: tag_ids)
     end
     if query[:campaign_id].present?
-      expr = expr.add_join("donations", "donations.supporter_id=supporters.id AND donations.campaign_id IN (#{QueryCampaigns
-      .get_campaign_and_children(query[:campaign_id].to_i)
-           .parse})")
+      expr = expr
+        .add_join(
+          Qx.select("donations.supporter_id").from(:donations).where("donations.campaign_id IN (#{QueryCampaigns
+          .get_campaign_and_children(query[:campaign_id].to_i)
+              .parse})").group_by(:supporter_id).as(:donations),
+          "donations.supporter_id= supporters.id"
+        )
     end
 
     if query[:event_id].present?

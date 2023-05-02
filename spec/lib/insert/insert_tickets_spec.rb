@@ -83,6 +83,7 @@ describe InsertTickets do
           id: item[:id],
           quantity: item[:quantity],
           ticket_level_id: item[:ticket_level_id],
+          ticket_purchase_id: nil,
           event_id: data[:event].id,
           supporter_id: data[:supporter].id,
           payment_id: data[:payment_id],

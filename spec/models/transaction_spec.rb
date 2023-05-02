@@ -37,6 +37,14 @@ RSpec.describe Transaction, type: :model do
   }
 
   it {
+    is_expected.to(have_many(:ticket_purchases)
+      .through(:transaction_assignments)
+      .source(:assignable)
+      .class_name("TicketPurchase")
+    )
+  }
+
+  it {
     is_expected.to(have_many(:object_events))
   }
 

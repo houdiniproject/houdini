@@ -30,12 +30,17 @@ All new backend code and React components should be well tested.
 
 * Ubuntu 18.04, 20.04, 22.04 or equivalent
 
+The following operating systems are unofficially supported but aren't regularly reviewed
+
+* [Manjaro](docs/manjaro.md)
+
 ## Prerequisites
 
 * Node 14
 * Yarn
 * PostgreSQL 10  or 12
 * Ruby 2.7
+
 * Ubuntu 18.04, 20.04, 22.04 or equivalent
 
 > Note: All tools will be installed in the Dev Setup.

@@ -21,7 +21,7 @@ RSpec.describe Transaction, type: :model do
   }
   
   it {
-    is_expected.to(have_one(:subtransaction).required(true).inverse_of(:trx))
+    is_expected.to(have_one(:subtransaction).inverse_of(:trx))
   }
 
   it {

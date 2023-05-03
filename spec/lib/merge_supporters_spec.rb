@@ -259,11 +259,11 @@ describe MergeSupporters do
   end
 
   describe '.merge_by_id_groups' do
-    it 'merges the supporters from the id groups' do
-      supporter_1 = np.supporters.create!(name: 'Penelope Schultz')
-      supporter_2 = np.supporters.create!(name: 'Cacau Borges')
-      result = MergeSupporters.merge_by_id_groups(np.id, [[supporter_1.id, supporter_2.id]], nil)
+    let(:supporter_1) { np.supporters.create!(name: 'Penelope Schultz') }
+    let(:supporter_2) { np.supporters.create!(name: 'Cacau Borges') }
+    let(:result) { MergeSupporters.merge_by_id_groups(np.id, [[supporter_1.id, supporter_2.id]], nil) }
 
+    it 'merges the supporters from the id groups' do
       expect(result).to eq([])
       expect(supporter_1.reload.deleted).to be_truthy
       expect(supporter_2.reload.deleted).to be_truthy
@@ -272,12 +272,14 @@ describe MergeSupporters do
       expect(supporter_1.reload.merged_into).to eq(supporter_2.merged_into)
     end
 
+    it 'creates a supporter.created object event' do
+      expect { result }.to change{ ObjectEvent.where(event_type: 'supporter.created').count }.by 1
+    end
+
     context 'when the supporters have custom fields' do
       context 'when custom fields are conflicting' do
         context 'when the skip_conflicting_custom_fields flag is true' do
           it 'returns the supporters that could not be merged' do
-            supporter_1 = np.supporters.create!(name: 'Penelope Schultz')
-            supporter_2 = np.supporters.create!(name: 'Cacau Borges')
             custom_field_master = np.custom_field_masters.create!(name: 'A Custom Field')
             supporter_1.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
             supporter_2.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'bar')
@@ -293,13 +295,10 @@ describe MergeSupporters do
 
         context 'when the skip_conflicting_custom_fields flag is false' do
           it 'merges and resturns an empty array' do
-            supporter_1 = np.supporters.create!(name: 'Penelope Schultz')
-            supporter_2 = np.supporters.create!(name: 'Cacau Borges')
             custom_field_master = np.custom_field_masters.create!(name: 'A Custom Field')
             supporter_1.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
             supporter_2.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'bar')
 
-            result = MergeSupporters.merge_by_id_groups(np.id, [[supporter_1.id, supporter_2.id]], nil)
             expect(result).to eq([])
             expect(supporter_1.reload.deleted).to be_truthy
             expect(supporter_2.reload.deleted).to be_truthy

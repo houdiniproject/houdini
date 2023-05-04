@@ -115,28 +115,6 @@ module InsertActivities
       .where("payments.kind='Refund'")
   end
 
-  def self.for_supporter_emails(ids)
-    insert_supporter_emails_expr
-      .and_where("supporter_emails.id IN ($ids)", ids: ids)
-      .execute
-  end
-
-  def self.insert_supporter_emails_expr
-    Qx.insert_into(:activities, insert_cols.concat(["user_id"]))
-    .select(defaults.concat([
-        "supporter_emails.supporter_id",
-        "'SupporterEmail' AS attachment_type",
-        "supporter_emails.id AS attachment_id",
-        "supporter_emails.nonprofit_id",
-        "supporter_emails.created_at AS date",
-        "json_build_object('gmail_thread_id', supporter_emails.gmail_thread_id, 'subject', supporter_emails.subject, 'from', supporter_emails.from)",
-        "'SupporterEmail' AS kind",
-        "users.id AS user_id"
-      ]))
-      .from(:supporter_emails)
-      .left_join(:users, "users.id=supporter_emails.user_id")
-  end
-
   def self.for_supporter_notes(ids)
     insert_supporter_notes_expr
       .and_where("supporter_notes.id IN ($ids)", ids: ids)

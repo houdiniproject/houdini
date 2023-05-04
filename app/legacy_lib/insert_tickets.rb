@@ -55,7 +55,8 @@ module InsertTickets
     
     
     result = {}
-
+    trx = entities[:supporter_id].transactions.build(amount:0, created:Time.current)
+    tktpur = trx.ticket_purchases.build
     if gross_amount > 0
       # Create offsite payment for tickets
       if data[:kind] == 'offsite'
@@ -68,7 +69,20 @@ module InsertTickets
         # create payment and offsite payment
         result['payment'] = create_payment(entities, gross_amount)
         result['offsite_payment'] = create_offsite_payment(entities, gross_amount, data, result['payment'])
+        
+        trx.assign_attributes(amount: result['payment'].gross_amount, created: result['payment'].date)
+        
 
+        trx_charge = SubtransactionPayment.new(
+          legacy_payment: Payment.find(result['payment']['id']),
+          paymentable: OfflineTransactionCharge.new
+        )
+
+        subtrx = trx.build_subtransaction( 
+          subtransactable: OfflineTransaction.new(amount: result['payment'].gross_amount), 
+          subtransaction_payments:[
+            trx_charge
+        ])
       # Create charge for tickets
       elsif data['kind'] == 'charge' || !data['kind']
         source_token = QuerySourceToken.get_and_increment_source_token(data[:token],nil)
@@ -98,6 +112,19 @@ module InsertTickets
         if result['charge']['status'] == 'failed'
           raise ChargeError.new(result['charge']['failure_message'])
         end
+
+        trx.assign_attributes(amount: result['payment'].gross_amount, created: result['payment'].date)
+
+        trx_charge = SubtransactionPayment.new(
+          legacy_payment: Payment.find(result['payment']['id']),
+          paymentable: StripeTransactionCharge.new
+        )
+
+        subtrx = trx.build_subtransaction( 
+          subtransactable: StripeTransaction.new(amount: result['payment'].gross_amount), 
+          subtransaction_payments:[
+            trx_charge
+        ])
       else
         raise ParamValidation::ValidationError.new("Ticket costs money but you didn't pay.", {key: :kind})
       end
@@ -107,6 +134,18 @@ module InsertTickets
     data['tickets'] = generate_bid_ids(entities[:event_id].id, tl_entities)
 
     result['tickets'] = generated_ticket_entities(data['tickets'], result, entities)
+
+    tktpur.tickets = result['tickets']
+
+    trx.save!
+    tktpur.save!
+    if subtrx
+      subtrx.save!
+      subtrx.subtransaction_payments.each(&:publish_created)
+    end
+    
+    #tktpur.publish_created
+    trx.publish_created
 
     # Create the activity rows for the tickets
     InsertActivities.for_tickets(result['tickets'].map{|t| t.id})

@@ -162,7 +162,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expect(QuerySourceToken).to receive(:get_and_increment_source_token).with(fake_uuid, nil).and_raise(AuthenticationError)
     expect {yield()}.to raise_error {|e|
       expect(e).to be_a(AuthenticationError)
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def validation_expired
@@ -170,7 +170,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
     expect {yield()}.to raise_error {|e|
 
       expect(e).to be_a(ExpiredTokenError)
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def validation_basic_validation
@@ -193,7 +193,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
           {key: :token, name: :required},
           {key: :token, name: :format},
       ])
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def validation_invalid_token
@@ -202,19 +202,19 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
       expect(e).to be_a(ParamValidation::ValidationError)
       expect(e.message).to eq "#{fake_uuid} doesn't represent a valid source"
-    }
+    }.and not_change { ObjectEvent.count }
 
   end
 
 
   def find_error_supporter
-    expect {yield()}.to raise_error {|e|
+    return expect {yield()}.to raise_error {|e|
 
 
       expect(e).to be_a ParamValidation::ValidationError
 
       expect_validation_errors(e.data, [{key: :supporter_id}])
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def find_error_nonprofit
@@ -223,7 +223,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
       expect(e).to be_a ParamValidation::ValidationError
       expect_validation_errors(e.data, [{key: :nonprofit_id}])
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def find_error_campaign
@@ -242,7 +242,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
 
       expect(e).to be_a ParamValidation::ValidationError
       expect_validation_errors(e.data, [{key: :event_id}])
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def find_error_ticket
@@ -275,7 +275,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
       expect(e).to be_a ParamValidation::ValidationError
       expect(e.message).to include 'deleted'
       expect_validation_errors(e.data, [{key: :supporter_id}])
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def validation_event_deleted
@@ -288,7 +288,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
       expect_validation_errors(error.data, [{key: :event_id}])
       expect(error.message).to include 'deleted'
       expect(error.message).to include "Event #{event.id}"
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def validation_campaign_deleted
@@ -334,7 +334,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
       expect(e.message).to include 'Event'
       expect(e.message).to include 'does not belong to nonprofit'
       expect_validation_errors(e.data, [{key: :event_id}])
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def validation_card_not_with_supporter
@@ -345,7 +345,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
       expect(e.message).to include 'Supporter'
       expect(e.message).to include 'does not own card'
       expect_validation_errors(e.data, [{key: :token}])
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def handle_charge_failed
@@ -363,7 +363,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
       expect(Charge.count).to eq 0
       expect(Activity.count).to eq 0
       expect(Payment.count).to eq 0
-    }
+    }.and not_change { ObjectEvent.count }
   end
 
   def before_each_success(expect_payment = true)

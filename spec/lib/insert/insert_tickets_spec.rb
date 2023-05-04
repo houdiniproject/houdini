@@ -83,7 +83,7 @@ describe InsertTickets do
           id: item[:id],
           quantity: item[:quantity],
           ticket_level_id: item[:ticket_level_id],
-          ticket_purchase_id: nil,
+          ticket_purchase_id: item[:ticket_purchase_id],
           event_id: data[:event].id,
           supporter_id: data[:supporter].id,
           payment_id: data[:payment_id],
@@ -142,7 +142,7 @@ describe InsertTickets do
             {key: :amount, name: :is_integer},
             {key: :amount, name: :required},
         ])
-      }
+      }.and not_change {ObjectEvent.count}
 
       # test that the quantity ticket_level validation works (it really doesn't very well)
       expect {InsertTickets.create(event_discount_id: 'etheht',
@@ -162,7 +162,7 @@ describe InsertTickets do
             {key: :token, name: :format},
             {key: :offsite_payment, name: :is_hash}
         ])
-      }
+      }.and not_change {ObjectEvent.count}
 
 
     end
@@ -180,7 +180,7 @@ describe InsertTickets do
             {key: :ticket_level_id, name: :is_reference},
             {key: :ticket_level_id, name: :required}
         ])
-      }
+      }.and not_change {ObjectEvent.count}
     end
 
     it 'validates the offsite_payment hash' do
@@ -193,7 +193,7 @@ describe InsertTickets do
         expect_validation_errors(error.data, [
             {key: :kind, name: :included_in}
         ])
-      }
+      }.and not_change {ObjectEvent.count}
     end
 
     # it 'errors out if token is invalid' do
@@ -243,7 +243,7 @@ describe InsertTickets do
           expect_validation_errors(error.data, [{key: :tickets}])
           expect(error.message).to include 'deleted'
           expect(error.message).to include "Ticket level #{ticket_level.id}"
-        }
+        }.and not_change {ObjectEvent.count}
       end
 
       it 'event is deleted' do
@@ -265,14 +265,14 @@ describe InsertTickets do
           expect_validation_errors(e.data, [{key: :event_discount_id}])
           expect(e.message).to include "Event discount #{other_event_discount.id}"
           expect(e.message).to include "event #{event.id}"
-        }
+        }.and not_change {ObjectEvent.count}
       end
     end
 
     it 'verify ticket not available raises properly' do
       expected_error = NotEnoughQuantityError.new(TicketLevel, nil, nil, nil)
       expect(QueryTicketLevels).to receive(:verify_tickets_available).and_raise(expected_error)
-      expect {InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, amount: 1400)}.to raise_error(expected_error)
+      expect {InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, amount: 1400)}.to raise_error(expected_error).and not_change {ObjectEvent.count}
     end
 
     describe 'gross_amount  > 0' do
@@ -288,37 +288,75 @@ describe InsertTickets do
       }
 
       describe 'and kind == offsite' do
-        it 'errors without current_user' do
-          expect {InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, 'kind' => 'offsite', amount:1600)}.to raise_error {|e|
-            expect(e).to be_a AuthenticationError
-          }
+        
+        describe 'errors without current_user' do
+          let(:result) {InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, 'kind' => 'offsite', amount:1600)}
+          it 'to raise error' do 
+            expect { result }.to raise_error {|e|
+              expect(e).to be_a AuthenticationError
+            }.and not_change {ObjectEvent.count}
+          end
         end
 
-        it 'errors with unauthorized current_user' do
-          expect(QueryRoles).to receive(:is_authorized_for_nonprofit?).with(user.id, nonprofit.id).and_return(false)
-          expect {InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', current_user: user, amount:1600)}.to raise_error {|e|
-            expect(e).to be_a AuthenticationError
-          }
+        describe 'errors with unauthorized current_user' do
+          let(:result) { InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', current_user: user, amount:1600) }
+          it 'raises error' do 
+            expect(QueryRoles).to receive(:is_authorized_for_nonprofit?).with(user.id, nonprofit.id).and_return(false)
+            expect { result }.to raise_error {|e|
+              expect(e).to be_a AuthenticationError
+            }.and not_change {ObjectEvent.count}
+          end
         end
 
-        it 'succeeds' do
-          success_expectations
-          expect(QueryRoles).to receive(:is_authorized_for_nonprofit?).with(user.id, nonprofit.id).and_return true
-          result = InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: {kind: 'check', check_number: 'fake_checknumber'}, current_user: user, amount: 1600)
-          expected = generate_expected_tickets(payment_id: result['payment'].id,
-                                    nonprofit: nonprofit,
-                                    supporter: supporter,
-                                    event: event,
-                                   gross_amount: 1600,
-                                   kind: 'OffsitePayment',
-                                    offsite_payment: {id: result['offsite_payment'].id, kind: 'check', check_number:'fake_checknumber'},
-                                    tickets: [{
-                                                  id: result['tickets'][0]['id'],
-                                                  quantity: 1,
-                                                  ticket_level_id: ticket_level.id}])
-          expect(result['payment'].attributes).to eq expected[:payment]
-          expect(result['offsite_payment'].attributes).to eq expected[:offsite_payment]
-          expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
+        describe 'succeeds' do
+
+          let(:result ) { 
+            expect(QueryRoles).to receive(:is_authorized_for_nonprofit?).with(user.id, nonprofit.id).and_return true
+            InsertTickets.create(tickets: [{quantity: 1, ticket_level_id: ticket_level.id}], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: {kind: 'check', check_number: 'fake_checknumber'}, current_user: user, amount: 1600)
+          }
+          it 'has normal results' do 
+            success_expectations
+            ticket_purchase = result['tickets'][0].ticket_purchase
+            expected = generate_expected_tickets(payment_id: result['payment'].id,
+                                      nonprofit: nonprofit,
+                                      supporter: supporter,
+                                      event: event,
+                                    gross_amount: 1600,
+                                    kind: 'OffsitePayment',
+                                      offsite_payment: {id: result['offsite_payment'].id, kind: 'check', check_number:'fake_checknumber'},
+                                      tickets: [{
+                                                    id: result['tickets'][0]['id'],
+                                                    quantity: 1,
+                                                    ticket_level_id: ticket_level.id,
+                                                    ticket_purchase_id: ticket_purchase.id
+                                                    }])
+            expect(result['payment'].attributes).to eq expected[:payment]
+            expect(result['offsite_payment'].attributes).to eq expected[:offsite_payment]
+            expect(result['tickets'].map{|i| i.attributes}[0]).to eq expected[:tickets][0]
+
+            expect(result['tickets'].map(&:ticket_purchase)).to contain_exactly TicketPurchase.last
+          end
+
+
+          it 'increases object events by 2' do
+            expect { result }.to change {ObjectEvent.count}.by(2)
+          end
+
+          it 'increases offline_transaction_charge.created by 1' do
+            expect { result }.to change {ObjectEvent.where(event_type: 'offline_transaction_charge.created').count}.by(1)
+          end
+
+          it 'increases transaction.created by 1' do
+            expect { result }.to change {ObjectEvent.where(event_type: 'transaction.created').count}.by(1)
+          end
+
+          it 'increases Transaction by 1' do
+            expect { result }.to change {Transaction.count}.by(1)
+          end
+
+          it 'increases TicketPurchase by 1' do
+            expect { result }.to change {TicketPurchase.count}.by(1)
+          end
         end
       end
 
@@ -458,6 +496,7 @@ describe InsertTickets do
           stripe_charge_id = a['id']
           a}
           result = InsertTickets.create(include_valid_token.merge(event_discount_id:event_discount.id).merge(fee_covered: other_elements[:fee_covered], amount: other_elements[:amount]))
+          tp = result['tickets'][0].ticket_purchase
           expected = generate_expected_tickets(
               {gross_amount: other_elements[:amount],
               payment_fee_total: other_elements[:fee],
@@ -472,11 +511,14 @@ describe InsertTickets do
               tickets: [{
                             id: result['tickets'][0]['id'],
                             quantity: 1,
-                            ticket_level_id: ticket_level.id},
+                            ticket_level_id: ticket_level.id,
+                            ticket_purchase_id: tp.id,
+                        },
                         {
                             id: result['tickets'][0]['id'],
                             quantity: 2,
-                            ticket_level_id: ticket_level2.id
+                            ticket_level_id: ticket_level2.id,
+                            ticket_purchase_id: tp.id,
                         }]}.merge(other_elements))
 
           expect(result['payment'].attributes).to eq expected[:payment]
@@ -492,7 +534,7 @@ describe InsertTickets do
           expect(e).to be_a ParamValidation::ValidationError
           expect_validation_errors(e.data, [{key: :amount}])
           expect(e.message).to eq "You authorized a payment of $3.99 but the total value of tickets requested was $16."
-        }
+        }.and not_change { ObjectEvent.count } 
       end
 
       it 'errors where kind == free and positive gross_amount' do
@@ -500,7 +542,7 @@ describe InsertTickets do
           expect(e).to be_a ParamValidation::ValidationError
           expect_validation_errors(e.data, [{key: :kind}])
           expect(e.message).to eq "Ticket costs money but you didn't pay."
-        }
+        }.and not_change { ObjectEvent.count } 
       end
 
     end
@@ -509,20 +551,24 @@ describe InsertTickets do
       before do
         ticket_level.update_attributes(amount: 0)
       end
-      it 'creates the corresponding activity' do
-        ticket =
+
+      let(:ticket) do
           InsertTickets.create(
-            tickets: [{
-              quantity: 1, ticket_level_id: ticket_level.id
-            }],
-            nonprofit_id: nonprofit.id,
-            supporter_id: supporter.id,
-            token: source_token.token,
-            event_id: event.id,
-            kind: 'free',
-            current_user: user,
-            amount: 0
-          )['tickets'].first
+          tickets: [{
+            quantity: 1, ticket_level_id: ticket_level.id
+          }],
+          nonprofit_id: nonprofit.id,
+          supporter_id: supporter.id,
+          token: source_token.token,
+          event_id: event.id,
+          kind: 'free',
+          current_user: user,
+          amount: 0
+        )['tickets'].first 
+      end
+
+      it 'creates the corresponding activity' do
+          
 
         expect(Activity.where(attachment_id: ticket.id).last)
           .to have_attributes({
@@ -537,6 +583,19 @@ describe InsertTickets do
             }
           })
       end
+
+      it 'adds one ObjectEvent' do
+        expect { ticket }.to change { ObjectEvent.count }.by(1)
+      end
+
+      it 'adds one transaction.created event' do
+        expect { ticket }.to change { ObjectEvent.where(event_type: 'transaction.created').count }.by(1)
+      end
+
+      it 'adds one Transaction' do 
+        expect { ticket }.to change { Transaction.count}.by(1)
+      end
+
     end
   end
 

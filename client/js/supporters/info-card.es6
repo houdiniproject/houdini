@@ -6,7 +6,6 @@ const flatMap = require('flyd/module/flatmap')
 const scanMerge = require('flyd/module/scanmerge')
 const h = require('virtual-dom/h')
 const Im = require('immutable')
-const Map = Im.Map
 const fromJS = Im.fromJS
 const OrderedMap = Im.OrderedMap
 const format = require('../common/format')

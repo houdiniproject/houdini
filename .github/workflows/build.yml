@@ -48,7 +48,6 @@ jobs:
                 - '.babelrc'
                 - '.bootstraprc'
                 - '.browserlistrc'
-                - '.jshintrc'
               
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
           uses: Daniel-Marynicz/postgresql-action@1.0.0

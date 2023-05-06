@@ -16,14 +16,6 @@ module InsertActivities
     ["'created' AS action_type", "'f' AS public", "'#{now}'", "'#{now}'"]
   end
 
-  def self.create(data)
-    Qx.insert_into(:activities)
-      .values(data)
-      .ts
-      .returning('*')
-      .execute
-  end
-
   def self.for_recurring_donations(payment_ids)
     insert_recurring_donations_expr
       .and_where("payments.id IN ($ids)", ids: payment_ids)

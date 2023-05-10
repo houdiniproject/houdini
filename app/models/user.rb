@@ -116,6 +116,20 @@ class User < ActiveRecord::Base
 		message = devise_mailer.delay.send(notification, self, *args)
 	end
 
+	# override devise class method send_reset_password_instructions to limit to 1 request / 5 min
+	def self.send_reset_password_instructions(attributes={})
+		recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
+		if recoverable.persisted?
+			if recoverable.reset_password_sent_at.nil? || Time.now > recoverable.reset_password_sent_at + 5.minutes
+        recoverable.send_reset_password_instructions
+				return recoverable
+			else
+				recoverable.errors.add(:base, "can't reset password because a request was just sent")
+			end
+		end
+    recoverable
+	end
+
 	def geocode!
 		#self.geocode
 		#self.save

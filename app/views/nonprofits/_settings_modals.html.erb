@@ -16,7 +16,7 @@
 	<%= render 'common/modal_header', title: 'Main Image' %>
 
 	<div class='modal-body'>
-		<p class='u-centered'>Image size should be less than 2MB.</p>
+		<p class='u-centered'><%= t('nonprofits.settings_modal.image_size_warning') %></p>
 		<form class='u-centered' autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='put' data-reload>
 				<p class='u-color--red'>
 					<!--= show_if (length image_upload.error) -->

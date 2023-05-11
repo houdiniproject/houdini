@@ -3,7 +3,7 @@
 <% unless @active_campaigns.empty? %>
   <section class='pastelBox--grey u-marginBottom--15'>
   	<header>
-  	   Active Campaigns
+		<%= t('nonprofits.listings.active_campaigns') %>
   	</header>
     <%= render 'campaigns/campaigns_table', campaigns: @active_campaigns %>
   	<% if @any_past_campaigns %>
@@ -17,7 +17,7 @@
 <% unless @events.empty? %>
 	<section class='pastelBox--grey u-marginBottom--15'>
   	<header>
-      Upcoming Events
+		<%= t('nonprofits.listings.upcoming_events') %>
   	</header>
   		<% @events.each do |event| %>
   			<%= render :partial => 'events/listing', :locals => {:event => event} %>

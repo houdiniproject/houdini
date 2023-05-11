@@ -6,18 +6,18 @@
   <!--= scope 'metrics.data.recent_donations' -->
 
 	<div class='pastelBox--green'>
-		<header><i class='fa fa-heart'></i> Recent Donations</header>
+		<header><i class='fa fa-heart'></i> <%= t('nonprofits.dashboard.payments_listing.header') %></header>
 		<div class='pastelBox-body'>
       <p class='u-paddingY--20 u-centered'>
         <!--= show_if loading   -->
-        <i class='fa fa-spin fa-gear'></i> Loading...
+        <i class='fa fa-spin fa-gear'></i> <%= t('common.loading_with_periods') %>
       </p>
       <section>
         <!--= hide_if loading   -->
 
   			<p class='noResults'>
   				<!--= show_if (empty this) -->
-  				None yet
+  				<%= t('common.none_yet') %>
   			</p>
 
     		<table class='table'>
@@ -40,7 +40,9 @@
     		</table>
 
     		<div class='u-centered'>
-    			<a class='button details strong' href='<%= nonprofits_payments_path(@nonprofit) %>'>View All</a>
+    			<a class='button details strong' href='<%= nonprofits_payments_path(@nonprofit) %>'>
+            <%= t('ui.view_all') %>
+          </a>
     		</div>
       </section>
 	  </div>

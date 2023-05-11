@@ -6,12 +6,12 @@
   <!--= scope 'metrics.data.recent_supporters' -->
 
 	<div class='pastelBox--orange'>
-		<header><i class='fa fa-users'></i> Recent Supporters</header>
+		<header><i class='fa fa-users'></i> <%= t('nonprofits.dashboard.supporter_listing.header') %></header>
 
 		<div class='pastelBox-body'>
 			<p class='noResults'>
 				<!--= show_if (all (empty this) (not loading)) -->
-				None yet
+				<%= t('common.none_yet') %>
 			</p>
 
 			<table class='table'>
@@ -28,7 +28,9 @@
 				</tr>
 			</table>
 			<div class='u-centered'>
-				<a class='button details strong' href='<%= nonprofits_supporters_path(@nonprofit) %>'>View All</a>
+				<a class='button details strong' href='<%= nonprofits_supporters_path(@nonprofit) %>'>
+					<%= t('ui.view_all') %>
+				</a>
 			</div>
 		</div>
 	</div>

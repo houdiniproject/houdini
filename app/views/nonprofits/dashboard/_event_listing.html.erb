@@ -5,11 +5,11 @@
 <section class='u-marginBottom--15'>
 
 	<div class='pastelBox--yellow'>
-		<header><i class='fa fa-ticket'></i> Active Events</header>
+		<header><i class='fa fa-ticket'><%= t('nonprofits.dashboard.event_listing.header') %></i></header>
     <div id='js-eventsListing'></div>
 		<footer class='u-padding--15'>
 			<button class='button--large orange' open-modal='newEvent' data-when-confirmed>
-				New Event
+				<%= t('nonprofits.dashboard.event_listing.new_event') %>
 			</button>
 		</footer>
 	</div>

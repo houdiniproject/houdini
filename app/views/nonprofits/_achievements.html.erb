@@ -3,7 +3,7 @@
 <!-- partial start: nonprofits/_achievements -->
 <% unless @nonprofit.achievements&.join.blank? %>
 <aside class='u-marginBottom--15 pastelBox--grey stripedBox u-relative'>
-	<header>Highlights</header>
+	<header><%= t('nonprofits.achievements.header') %></header>
 	<table>
 		<% @nonprofit.achievements.each do |ach| %>
 			<% if !ach.blank? %>

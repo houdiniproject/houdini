@@ -16,7 +16,7 @@
 							<span><%= pluralize(@supporters.count, "supporter") %></span>
 						<% end %>
 						<% if @nonprofit.vetted %>
-							<span>Vetted </span>
+							<span><%= t('nonprofits.fixed_top_action.vetted') %></span>
 						<% end %>
 					</span>
 				</td>
@@ -24,9 +24,10 @@
 				<td class='fixedTopAction-right'>
 					<a class='u-marginRight--10 fixedTopAction-promote' title='Promote' if-branded='color, darker'>
 						<!--= on 'click' (open_modal 'shareModal') -->
-						Promote</a>
+						<%= t('nonprofits.fixed_top_action.promote') %>
+					</a>
 					<button class='button' id='js-fixedPositionDonate' title='Donate' if-branded='background, dark'>
-						Donate
+						<%= t('nonprofits.fixed_top_action.donate') %>
 					</button>
 				</td>
 			</tr>

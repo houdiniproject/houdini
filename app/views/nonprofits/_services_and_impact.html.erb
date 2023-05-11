@@ -1,7 +1,7 @@
 <%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <div id='js-servicesAndImpact'>
-	<h3>Services & Impact</h3>
+	<h3><%= t('nonprofits.services_and_impact.header') %></h3>
 	<div class='editable' data-key='nonprofit[full_description]' data-path='/nonprofits/<%= @nonprofit.id %>.json'>
 		<%= raw(@nonprofit.full_description) %>
 	</div>

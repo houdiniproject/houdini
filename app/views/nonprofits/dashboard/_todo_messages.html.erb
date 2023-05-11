@@ -3,13 +3,13 @@
 <div>
 	<!--= hide_if (eq todos.percent_done 100) -->
 	<p class='pastelBox--yellow u-padding--15 u-marginBottom--15'>
-		Welcome, <strong><%= current_user.profile.name.blank? ? @nonprofit.name : current_user.profile.name %></strong>! Below is a checklist to help you on your way to fundraising excellence.
+		<%= t('nonprofits.dashboard.todo_messages.welcome') %>, <strong><%= current_user.profile.name.blank? ? @nonprofit.name : current_user.profile.name %></strong>! <%= t('nonprofits.dashboard.todo_messages.checklist_label') %>
 
 	<span>
 		<!--= show_if (< todos.percent_done 20) -->
-		 Once you've started completing these tasks, you'll see your dashboard come to life with helpful data and reminders.
+		<%= t('nonprofits.dashboard.todo_messages.dashboard_message') %>
 	</span>
 
-    <% if Houdini.hoster.terms_and_privacy&.help_url %> If you need help with any these tasks, visit our <%= link_to("Help Center", Houdini.terms_and_privacy.help_url) %>.<% end %>
+    <% if Houdini.hoster.terms_and_privacy&.help_url %> <%= t('nonprofits.dashboard.todo_messages.help_link_message') %> <%= link_to("Help Center", Houdini.terms_and_privacy.help_url) %>.<% end %>
 	</p>
 </div>

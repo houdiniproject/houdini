@@ -3,13 +3,17 @@
 <!-- partial start: nonprofits/button/_modals -->
 <div class='modal skinny' id='choose-role-modal'>
 	<section class='modal-body'>
-		<button class='button--large u-width--full' open-modal='get-code-modal'>See the code</button>
+		<button class='button--large u-width--full' open-modal='get-code-modal'>
+			<%= t('nonprofits.button.modals.see_code') %>
+		</button>
 
 		<div class='lineText u-marginY--20'>
-			<span>OR</span>
+			<span><%= t('nonprofits.button.modals.or') %></span>
 		</div>
 
-		<button class='button--large blue u-width--full' open-modal='send-code-modal'>Email the code</button>
+		<button class='button--large blue u-width--full' open-modal='send-code-modal'>
+			<%= t('nonprofits.button.modals.email_code') %>
+		</button>
 	</section>
 </div>
 
@@ -17,11 +21,11 @@
 	<section class='modal-body'>
 		<%= render 'common/modal_close' %>
 
-		<p>First, include this script within the HTML of your website:</p>
+		<p><%= t('nonprofits.button.modals.include_script_instruction') %>:</p>
 
 		<%= render 'include_snippet' %>
 
-		<p>Then, paste the following snippet wherever you want the donation widget to appear:</p>
+		<p><%= t('nonprofits.button.modals.paste_snippet_instruction') %>:</p>
 
 		<textarea readonly class='codeText' id='js-donateButtonAnchor'></textarea>
 	</section>

@@ -2,7 +2,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <% if @nonprofit.email || @nonprofit.phone || @nonprofit.website %>
 <aside class='pastelBox--grey u-relative stripedBox u-marginBottom--15'>
-	<header>Contact & Location</header>
+	<header><%= t('nonprofits.contact.header') %></header>
 	<table>
 		<%= render 'contact_item',
 			data:  @nonprofit.website,

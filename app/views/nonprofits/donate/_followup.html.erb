@@ -3,14 +3,16 @@
 
 <div class='u-verticallyCenter'>
 
-	<h6 class='u-centered u-marginTop--15'>Your contribution was successful!</h6>
+	<h6 class='u-centered u-marginTop--15'>
+		<%= t('nonprofits.donate.follow_up.header') %>
+	</h6>
 
 	<form class='u-padding--15'>
 		<!--= on 'submit' (donate_wiz.save_followup form_object) -->
 
 		<fieldset>
       <!--= hide_if is_hiding_dedication -->
-			<label>Dedication <small>(optional):</small></label>
+			<label><%= t('nonprofits.donate.follow_up.dedication') %> <small>(<%= t('nonprofits.donate.follow_up.optional') %>):</small></label>
 			<textarea rows='9' name='dedication' placeholder='Include the name and contact information for the person you would like to dedicate your contribution to.'></textarea>
 			<!--= set_attr_if followup_form.is_completed 'disabled' 'disabled' -->
 		</fieldset>
@@ -20,7 +22,7 @@
 			<div class='u-marginBottom--0'>
 				<a target="_blank" href="<%= render 'components/facebook_link' %>" class='button--small facebook u-width--full share-button'>
 					<i class='fa fa-facebook-square'></i>
-					Share
+					<%= t('nonprofits.donate.follow_up.share') %>
 				</a>
 			</div>
 
@@ -29,22 +31,22 @@
 					<!--= set_attr_if (any followup_form.loading followup_form.is_completed) 'disabled' 'disabled' -->
 					<span>
             <!--= show_if (all (not followup_form.loading) (not followup_form.is_completed)) -->
-						Finish
+						<%= t('nonprofits.donate.follow_up.finish') %>
 					</span>
 					<span>
             <!--= show_if followup_form.loading -->
-						<i class='fa fa-spin fa-spinner'></i> Saving...
+						<i class='fa fa-spin fa-spinner'></i> <%= t('nonprofits.donate.follow_up.saving') %>
 					</span>
 					<span>
             <!--= show_if followup_form.is_completed -->
-						Thank you!
+						<%= t('nonprofits.donate.follow_up.thank_you') %>
 					</span>
 				</button>
 			</div>
 
 			<div class='u-marginBottom--0'>
 				<a target='_blank' class='button--small twitter u-width--full'  href="<%= render 'components/twitter_link', text: 'I support ' + @nonprofit.name %>">
-					<i class='fa fa-twitter-square'></i> Tweet
+					<i class='fa fa-twitter-square'></i> <%= t('nonprofits.donate.follow_up.tweet') %>
 				</a>
 			</div>
 		</div>

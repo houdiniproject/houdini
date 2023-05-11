@@ -7,13 +7,13 @@
 		$<!--= put (cents_to_dollars donate_wiz.donation.amount) -->
 			<strong>
 				<!--= show_if donate_wiz.donation.recurring_donation -->
-				sustaining, monthly 
+				<%= t('nonprofits.donate.payment.sustaining_monthly') %>
 			</strong>
 			<strong>
 				<!--= hide_if donate_wiz.donation.recurring_donation -->
-				one-time
+				<%= t('nonprofits.donate.payment.one_time') %>
 			</strong> 
-		contribution
+		<%= t('nonprofits.donate.payment.contribution') %>
 	</p>
 
 	<form class='cardForm u-centered' novalidate>

@@ -57,10 +57,10 @@
 		<small style='text-decoration: underline; color: grey; font-size: 11px;'>
 		<% if @uuid %>
 			<a href='<%= root_url %>/nonprofits/<%=@nonprofit.id%>/unsubscribe?SUUID=<%= @uuid %>' target='_blank'>
-				Unsubscribe
+				<%= t('nonprofits.email.footer.unsubscribe') %>
 			</a>
 		<% else %>
-			Unsubscribe
+			<%= t('nonprofits.email.footer.unsubscribe') %>
 		<% end %>
 		</small>
 	</div>

@@ -23,96 +23,88 @@
 	<section>
 
 		<div class='no-js'>
-			<h3>Quick setup</h3>
+			<h3><%= t('nonprofits.button.advanced.quick_setup') %></h3>
 
-			<h5>Embed the form directly on your page using an iframe</h5>
+			<h5><%= t('nonprofits.button.advanced.embed_form') %></h5>
 
 			<textarea readonly class='codeText'>
 				<iframe frameborder='0' width='390' height='410' src="<%= request.base_url %>/nonprofits/<%= @nonprofit.id %>/donate?offsite=t&mode=embedded"></iframe>
 				<script>var iframe = document.getElementsByTagName('iframe')[0]; iframe.setAttribute("src", iframe.src + window.location.search)</script>
 			</textarea>
 
-			<h5>Use a basic link that opens the form in a new window</h5>
+			<h5><%= t('nonprofits.button.advanced.use_basic_link_title') %></h5>
 
 			<textarea readonly class='codeText' rows='1'><a href="<%= request.base_url %>/nonprofits/<%= @nonprofit.id %>/donate" target="_blank">Donate</a></textarea>
 
-			<p>You can provide any image or text inside the above link.</p>
+			<p><%= t('nonprofits.button.advanced.use_basic_link_text') %></p>
 		</div>
 
 
 		<div class='yes-js'>
-			<h3>More options</h3>
+			<h3><%= t('nonprofits.button.advanced.more_options') %></h3>
 
-			<h5>Include the script on your website</h5>
-			<p>Include the Donate Button SDK somewhere within the HTML of your page. Include this script only once on your site.</p>
+			<h5><%= t('nonprofits.button.advanced.include_script_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.include_script_text') %></p>
 
 			<%= render 'include_snippet' %>
 
-			<h5>Get a basic donate button</h5>
-
-			<p>Place an empty link with 'commitchange-donate' as the class wherever you want the button to appear.</p>
+			<h5><%= t('nonprofits.button.advanced.get_donate_button_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.get_donate_button_text') %></p>
 
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate'></a></textarea>
 
-			<h5>Embed the form directly in your page</h5>
-
-			<p>You can embed the donation form directly into your page by adding the "data-embedded" attribute.</p>
+			<h5><%= t('nonprofits.button.advanced.embed_form_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.embed_form_text') %></p>
 
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-embedded></a></textarea>
 
-			<h5>Add a custom button image or text</h5>
-
-			<p>If you want to provide some custom text or a custom image for the donate button, add the "data-custom" attribute.</p>
+			<h5><%= t('nonprofits.button.advanced.add_custom_button_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.add_custom_button_text') %></p>
 
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-custom>Your Custom Button Text or Image</a></textarea>
 
-			<h5>Automatically add a preset designation</h5>
-
-			<p>To preset a custom designation for every donation made through the button, set the "data-designation" attribute.</p>
-
+			<h5><%= t('nonprofits.button.advanced.add_designation_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.add_designation_first_text') %></p>
+			
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-designation="Back to School Program"></a></textarea>
-
-			<p>You can also provide a description of your designation using the "data-designation-desc" attribute.</p>
+			
+			<p><%= t('nonprofits.button.advanced.add_designation_second_text') %></p>
 
 			<textarea readonly class='codeText' rows='2'><a class='commitchange-donate' data-designation="Back to School Program" data-designation-desc="Provide backpacks and school supplies for first graders."></a></textarea>
 
-			<h5>Preset a custom single amount</h5>
-
-			<p>To provide a preset single amount for the button, use the "data-single-amount" attribute. Set its value to an amount <strong>in dollars</strong>.</p>
-			<p>For example, for a button that only takes $15 donations:</p>
+			<h5><%= t('nonprofits.button.advanced.preset_single_amount_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.preset_single_amount_first_text') %></p>
+			<p><%= t('nonprofits.button.advanced.preset_single_amount_second_text') %>:</p>
 
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-single-amount="15"></a></textarea>
 
-			<h5>Create custom multiple amounts</h5>
-
-			<p>To provide custom multiple amounts, use the "data-custom-amounts" attribute. You must provide multiple amounts separated by <strong>commas</strong>. Set each amount to <strong>dollars</strong>.</p>
+			<h5><%= t('nonprofits.button.advanced.create_multiple_amount_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.create_multiple_amount_text') %></p>
 
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-custom-amounts="10.50,20,30,40,50,60,70"></a></textarea>
 
-			<h5>Preset recurring or one-time donations</h5>
-
-			<p>You can set all donations through your button as either recurring or one-time by specifying the <strong>data-type</strong> attribute as either "one-time" or "recurring."</p>
+			<h5><%= t('nonprofits.button.advanced.preset_donations_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.preset_donations_text') %></p>
 
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-type='recurring'></a></textarea>
 
-			<h5>Redirect donors to a custom thank-you page</h5>
-
-			<p>After the donation is completed, you can have the donor redirect to your own custom thank you page. Give a URL for the <strong>data-redirect</strong> attribute to get this functionality. Be sure to specify "http://" or "https://" in the url.</p>
+			<h5><%= t('nonprofits.button.advanced.redirect_donors_title') %></h5>
+			<p><%= t('nonprofits.button.advanced.redirect_donors_text') %></p>
 
 			<textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-redirect='<%= request.base_url %>'></a></textarea>
 
 
-      <h5>Set the campaign</h5>
-      <p>Use the ID of the campaign in the <strong>data-campaign-id</strong> attribute for the button (or the "campaign_id" URL parameter). You can find the campaign ID at the top of the campaign page, near the settings buttons, when you are signed in as an admin:</p>
+      <h5><%= t('nonprofits.button.advanced.set_campaign_title') %></h5>
+      <p><%= t('nonprofits.button.advanced.set_campaign_first_text') %>:</p>
 
       <textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-campaign-id=619></a></textarea>
 
-      <p>You can also set a gift option ID. The gift option ID can be found in the 'Manage Gift Options' popup on the associated campaign page</p>
+      <p><%= t('nonprofits.button.advanced.set_campaign_second_text') %></p>
 
       <textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-campaign-id='619' data-gift-option-id='13'></a></textarea>
 
-      <h5>Set custom supporter fields</h5>
-      <p>You can set the <strong>data-custom-fields</strong> attribute to add custom fields to the info step of the donate form. Each custom field attribute is comprised of two parts separated by an colon character (example: "shirt size: T-shirt size"). The first part is the name of the custom field and the second part is the text to display on the input. If the second part isn't provided, the name of the custom field will be displayed on the input. Each custom field should be separated by a comma. If the custom field doesn't already exist it will be created.</p>
+      <h5><%= t('nonprofits.button.advanced.set_supporter_fields_title') %></h5>
+      <p><%= t('nonprofits.button.advanced.set_supporter_fields_text') %></p>
       <textarea readonly class='codeText' rows='1'><a class='commitchange-donate' data-custom-fields='shirt size: T-shirt size, company: Company name'></a></textarea>
 
 		</div><!-- .yes-js -->

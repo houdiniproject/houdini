@@ -3,3 +3,18 @@
 en:
   common:
     loading_with_periods: Loading...
+    reason: Reason
+    status: Status
+    event: Event
+    campaign: Campaign
+    comment: Comment
+    email: Email
+    phone: Phone
+    address: Address
+    before: Before
+    after: After
+    type: Type
+    date: Date
+    supporters: Supporters
+    total: Total
+    none_yet: None yet

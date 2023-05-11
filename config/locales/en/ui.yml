@@ -8,6 +8,15 @@ en:
     next: Next
     creating: Creating...
     create: Create
+    loading: Loading...
+    sorting_by: Sorting by
+    searching_by: Searching by
+    export: Export
+    view_all: View All
+
+
+
+
 
 
     

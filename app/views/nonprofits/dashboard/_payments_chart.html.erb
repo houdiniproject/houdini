@@ -3,15 +3,15 @@
 <form class='pastelBox--grey u-marginBottom--10 u-padding--10 u-centered'>
   <!--= on 'change' (updateChartParams form_object) -->
   <select name='timeSpan' class='select u-width--100 u-margin--0'>
-    <option value='day'>Daily</option>
-    <option value='week'>Weekly</option>
-    <option selected value='month'>Monthly</option>
-    <option value='year'>Yearly</option>
+    <option value='day'><%= t('nonprofits.dashboard.payments_chart.options.daily') %></option>
+    <option value='week'><%= t('nonprofits.dashboard.payments_chart.options.weekly') %></option>
+    <option selected value='month'><%= t('nonprofits.dashboard.payments_chart.options.monthly') %></option>
+    <option value='year'><%= t('nonprofits.dashboard.payments_chart.options.yearly') %></option>
   </select>
-  records of payments made between
+  <%= t('nonprofits.dashboard.payments_chart.records_between') %>
   <input class='u-width--100 u-margin--0' id='js-paymentsChart-startDate' 
   name='startDate' type='text'>
-  and
+  <%= t('nonprofits.dashboard.payments_chart.and') %>
   <input class='input--100 u-margin--0' id='js-paymentsChart-endDate' 
   name='endDate' type='text'>
 </form>

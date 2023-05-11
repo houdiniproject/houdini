@@ -1,0 +1,103 @@
+# License: CC0-1.0
+
+en:
+  nonprofits:
+    bank_accounts:
+      modal:
+        first_payout_instruction: To make payouts, we need to connect to your organization's bank account. All data is sent over a 256-bit secured SSL encryption and stored in a encrypted, PCI-DSS Level 1 Compliant database.
+        account_holder_label: Account Holder's Name
+        rounting_number_label: Routing Number
+        account_number_label: Account Number
+      cancellation:
+        title: Cancel bank account change
+        no_bank_account_label: This nonprofit has no connected bank account.
+        bank_account_not_confirmed_label: The bank account for this nonprofit was never initially confirmed.
+        contact_label: If you think this was in error, please contact
+    button:
+      donate_form_builder: Donate Form Builder
+      modals:
+        see_code: See the code
+        or: OR
+        email_code: Email the code
+        include_script_instruction: First, include this script within the HTML of your website
+        paste_snippet_instruction: Then, paste the following snippet wherever you want the donation widget to appear
+      tabs:
+        advanced: Advanced
+        guided: Guided
+        basic: Basic
+      advanced:
+        quick_setup: Quick setup
+        embed_form: Embed the form directly on your page using an iframe
+        use_basic_link_title: Use a basic link that opens the form in a new window
+        use_basic_link_text: You can provide any image or text inside the above link.
+        more_options: More options
+        include_script_title: Include the script on your website
+        include_script_text: Include the Donate Button SDK somewhere within the HTML of your page. Include this script only once on your site.
+        get_donate_button_title: Get a basic donate button
+        get_donate_button_text: Place an empty link with 'commitchange-donate' as the class wherever you want the button to appear.
+        embed_form_title: Embed the form directly in your page
+        embed_form_text: You can embed the donation form directly into your page by adding the "data-embedded" attribute.
+        add_custom_button_title: Add a custom button image or text
+        add_custom_button_text: If you want to provide some custom text or a custom image for the donate button, add the "data-custom" attribute.
+        add_designation_title: Automatically add a preset designation
+        add_designation_first_text: To preset a custom designation for every donation made through the button, set the "data-designation" attribute.
+        add_designation_second_text: You can also provide a description of your designation using the "data-designation-desc" attribute.
+        preset_single_amount_title: Preset a custom single amount
+        preset_single_amount_first_text: To provide a preset single amount for the button, use the "data-single-amount" attribute. Set its value to an amount in dollars.
+        preset_single_amount_second_text: For example, for a button that only takes $15 donations
+        create_multiple_amount_title: Create custom multiple amounts
+        create_multiple_amount_text: To provide custom multiple amounts, use the "data-custom-amounts" attribute. You must provide multiple amounts separated by commas. Set each amount to dollars.
+        preset_donations_title: Preset recurring or one-time donations
+        preset_donations_text: You can set all donations through your button as either recurring or one-time by specifying the data-type attribute as either "one-time" or "recurring."
+        redirect_donors_title: Redirect donors to a custom thank-you page
+        redirect_donors_text: After the donation is completed, you can have the donor redirect to your own custom thank you page. Give a URL for the data-redirect attribute to get this functionality. Be sure to specify "http://" or "https://" in the url.
+        set_campaign_title: Set the campaign
+        set_campaign_first_text: Use the ID of the campaign in the data-campaign-id attribute for the button (or the "campaign_id" URL parameter). You can find the campaign ID at the top of the campaign page, near the settings buttons, when you are signed in as an admin
+        set_campaign_second_text: You can also set a gift option ID. The gift option ID can be found in the 'Manage Gift Options' popup on the associated campaign page
+        set_supporter_fields_title: Set custom supporter fields
+        set_supporter_fields_text: You can set the data-custom-fields attribute to add custom fields to the info step of the donate form. Each custom field attribute is comprised of two parts separated by an colon character (example:: "shirt size:: T-shirt size"). The first part is the name of the custom field and the second part is the text to display on the input. If the second part isn't provided, the name of the custom field will be displayed on the input. Each custom field should be separated by a comma. If the custom field doesn't already exist it will be created.
+      basic:
+        live_preview: This is a live preview of the donate button.
+        collecting_donations_title: Begin collecting donations on your website in minutes
+        collecting_donations_first_text: You can begin collecting donations on your website in minutes by copying and pasting the snippet of code below onto your website.  It's as easy as adding a Facebook 'Like' button to your website.  When adding the script to your website be sure to add it to the footer.
+        collecting_donations_second_text: If this sounds too technical for you, don't worry; in most cases, we can either walk you through the process or add the code for you.
+    dashboard:
+      campaign_listing:
+        header: Published Campaigns
+        no_results_label: None currently
+        total_supporters: Total supporters
+        total_one_time: Total one-time
+        total_recurring: Total recurring
+        new_campaign: New Campaign
+      event_listing:
+        header: Active Events
+        new_event: New Event
+      metrics:
+        header: Payments
+        average: Average
+        this_week: This week
+        this_month: This month
+        this_year: This year
+        recurring_monthly: Recurring Monthly
+        new_this_week: New this week
+        new_this_month: New this month
+      payments_chart:
+        options:
+          daily: Daily
+          weekly: Weekly
+          monthly: Monthly
+          yearly: Yearly
+        records_between: records of payments made between
+        and: and
+      payments_listing:
+        header: Recent Donations
+      reports:
+        header: Reports
+        end_of_year_report: End-of-year donor report
+      supporter_listing:
+        header: Recent Supporters
+      todo_messages:
+        welcome: Welcome
+        checklist_label: Below is a checklist to help you on your way to fundraising excellence.
+        dashboard_message: Once you've started completing these tasks, you'll see your dashboard come to life with helpful data and reminders.
+        help_link_message: If you need help with any these tasks, visit our

@@ -29,24 +29,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 <header class='header'>
 	<div class='container--mid'>
 	<i class='header-icon icon-credit-card'></i>
-	<h3 class='header-title'>Donate Form Builder</h3>
+	<h3 class='header-title'><%= t('nonprofits.button.donate_form_builder') %></h3>
 	<%= render 'tabs', active: :basic %>
 	</div>
 </header>
 
 <aside class='helpBoxWrapper helpBoxWrapper--fade'>
 	<div class='helpBox'>
-		<p>
-			This is a <strong>live</strong> preview of the donate button.
-		</p>
+		<p><%= t('nonprofits.button.basic.live_preview') %></p>
 	</div>
 </aside>
 
 <div class='container u-paddingX--30 u-marginTop--20'>
-	<h5 class='u-centered'>Begin collecting donations on your website in minutes</h5>
-	<p>You can begin collecting donations on your website in minutes by copying and pasting the snippet of code below onto your website.  It's as easy as adding a Facebook 'Like' button to your website.  When adding the script to your website be sure to add it to the footer.</p>
+	<h5 class='u-centered'><%= t('nonprofits.button.basic.collecting_donations_title') %></h5>
+	<p><%= t('nonprofits.button.basic.collecting_donations_first_text') %></p>
 
-	<p>If this sounds too technical for you, don't worry; in most cases, we can either walk you through the process or add the code for you.</p>
+	<p><%= t('nonprofits.button.basic.collecting_donations_second_text') %></p>
 
 	<p>For more customization options for your donate button, such as creating a button from an image or adding a designation, use our <strong><%= link_to 'guided', nonprofits_button_guided_path(@nonprofit) %></strong> donate button builder.
 	</p>

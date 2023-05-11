@@ -4,12 +4,12 @@
 
 <section class='u-marginBottom--15'>
 	<div class='pastelBox--yellow'>
-		<header><i class='icon-thermometer-medium'></i> Published Campaigns</header>
+		<header><i class='icon-thermometer-medium'></i> <%= t('nonprofits.dashboard.campaign_listing.header') %></header>
       <!--= scope 'metrics.data.published_campaigns' -->
 
 			<p class='noResults u-padding--15'>
 				<!--= show_if (empty this) -->
-				None currently
+				<%= t('nonprofits.dashboard.campaign_listing.no_results_label') %>
 			</p>
 
 			<ul class='u-margin--0'>
@@ -25,17 +25,17 @@
           </div>
           <table class='table'>
             <tr>
-              <td><strong>Total supporters</strong></td><td><%= render 'components/loading_data', data: 'this.supporter_count' %></td>
+              <td><strong><%= t('nonprofits.dashboard.campaign_listing.total_supporters') %></strong></td><td><%= render 'components/loading_data', data: 'this.supporter_count' %></td>
             </tr>
             <tr>
-              <td><strong>Total one-time</strong></td><td><%= render 'components/loading_data', data: 'this.total_one_time' %></td>
+              <td><strong><%= t('nonprofits.dashboard.campaign_listing.total_one_time') %></strong></td><td><%= render 'components/loading_data', data: 'this.total_one_time' %></td>
             </tr>
             <tr>
               <!--= show_if this.total_recurring -->
-              <td><strong>Total recurring</strong></td><td><%= render 'components/loading_data', data: 'this.total_recurring' %></td>
+              <td><strong><%= t('nonprofits.dashboard.campaign_listing.total_recurring') %></strong></td><td><%= render 'components/loading_data', data: 'this.total_recurring' %></td>
             </tr>
             <tr>
-              <td><strong>Date</strong></td>
+              <td><strong><%= t('common.date') %></strong></td>
               <td><!--= put (readable_date this.created_at) --> - <!--= put (readable_date this.end_datetime) --></td>
             </tr>
           </table>
@@ -44,7 +44,7 @@
 
 			<footer class='u-padding--15'>
 				<button class='button--large orange' open-modal='newCampaign' data-when-confirmed>
-					New Campaign
+					<%= t('nonprofits.dashboard.campaign_listing.new_campaign') %>
 				</button>
 			</footer>
 

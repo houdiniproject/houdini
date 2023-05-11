@@ -4,17 +4,17 @@
 <div class='pageTabs'>
 	<a href='<%= nonprofits_button_advanced_path(@nonprofit) %>' 
 		class='<%= active == :advanced && 'is-active' %>'>
-		Advanced
+		<%= t('nonprofits.button.tabs.advanced') %>
 	</a>
 
 	<a href='<%= nonprofits_button_guided_path(@nonprofit) %>'
 		class='<%= active == :guided && 'is-active' %>'>
-		Guided
+		<%= t('nonprofits.button.tabs.guided') %>
 	</a>
 
 	<a href='<%= nonprofits_button_basic_path(@nonprofit) %>'
 		class='<%= active == :basic && 'is-active' %>'>
-		Basic
+		<%= t('nonprofits.button.tabs.basic') %>
 	</a>
 </div>
 <!-- end partial nonprofits/button/_tabs.html.erb -->

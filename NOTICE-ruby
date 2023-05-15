@@ -4453,8 +4453,6 @@ Apache-2.0 OR (Artistic-2.0 OR (BSD-3-Clause OR (GPL-3.0 OR (MIT OR MPL-2.0))))
 
 ------
 
-** debug; version 1.7.2 -- 
-Copyright (c) 1993-2013 Yukihiro Matsumoto
 ** io-console; version 0.6.0 -- 
 Copyright (c) 1993-2013 Yukihiro Matsumoto
 ** irb; version 1.6.4 -- 

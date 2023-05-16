@@ -122,6 +122,10 @@ describe InsertDonation do
 						ObjectEvent.where(event_type: 'stripe_transaction_charge.created').count
 						}.by 1
 				end
+
+				it 'creates a subtransaction_payment whose creation date matches the legacy payment\'s date' do
+					expect(result['payment'].subtransaction_payment.created).to eq(result['payment'].date)
+				end
       end
 
 			describe 'campaign donation' do
@@ -141,6 +145,10 @@ describe InsertDonation do
 					}.to change {
 						ObjectEvent.where(event_type: 'stripe_transaction_charge.created').count
 						}.by 1
+				end
+
+				it 'creates a subtransaction_payment whose creation date matches the legacy payment\'s date' do
+					expect(result['payment'].subtransaction_payment.created).to eq(result['payment'].date)
 				end
 			end
 			describe 'general donation' do

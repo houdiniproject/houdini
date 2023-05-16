@@ -357,6 +357,13 @@ describe InsertTickets do
           it 'increases TicketPurchase by 1' do
             expect { result }.to change {TicketPurchase.count}.by(1)
           end
+
+          it 'creates a subtransaction payment whose creation date matches the legacy payment\'s date' do
+            legacy_payment = result['payment']
+            subtransaction_payment = legacy_payment.subtransaction_payment
+
+            expect(subtransaction_payment.created).to eq(legacy_payment.date)
+          end
         end
       end
 

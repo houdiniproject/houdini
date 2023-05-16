@@ -44,9 +44,11 @@ module InsertDonation
     trx = entities[:supporter_id].transactions.build(amount: data['amount'], created: data['date'])
     update_donation_keys(result)
     don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
+    legacy_payment = Payment.find(result['payment']['id'])
     stripe_transaction_charge = SubtransactionPayment.new(
-      legacy_payment: Payment.find(result['payment']['id']),
-      paymentable: StripeTransactionCharge.new
+      legacy_payment: legacy_payment,
+      paymentable: StripeTransactionCharge.new,
+      created: legacy_payment.date
     )
     stripe_t = trx.build_subtransaction(
       subtransactable: StripeTransaction.new(amount: data['amount']), 
@@ -104,9 +106,11 @@ module InsertDonation
         })
       ]).returning('*')
     ).first
+    legacy_payment = Payment.find(result['payment']['id'])
     offline_transaction_charge_payment = SubtransactionPayment.new(
-          legacy_payment: Payment.find(result['payment']['id']),
-          paymentable: OfflineTransactionCharge.new
+          legacy_payment: legacy_payment,
+          paymentable: OfflineTransactionCharge.new,
+          created: legacy_payment.date
           )
     off_t = trx.build_subtransaction(
       subtransactable: OfflineTransaction.new(amount: data['amount']), 

@@ -73,9 +73,11 @@ module InsertTickets
         trx.assign_attributes(amount: result['payment'].gross_amount, created: result['payment'].date)
         
 
+        legacy_payment = Payment.find(result['payment']['id'])
         trx_charge = SubtransactionPayment.new(
-          legacy_payment: Payment.find(result['payment']['id']),
-          paymentable: OfflineTransactionCharge.new
+          legacy_payment: legacy_payment,
+          paymentable: OfflineTransactionCharge.new,
+          created: legacy_payment.date
         )
 
         subtrx = trx.build_subtransaction( 
@@ -115,9 +117,11 @@ module InsertTickets
 
         trx.assign_attributes(amount: result['payment'].gross_amount, created: result['payment'].date)
 
+        legacy_payment = Payment.find(result['payment']['id'])
         trx_charge = SubtransactionPayment.new(
-          legacy_payment: Payment.find(result['payment']['id']),
-          paymentable: StripeTransactionCharge.new
+          legacy_payment: legacy_payment,
+          paymentable: StripeTransactionCharge.new,
+          created: legacy_payment.date
         )
 
         subtrx = trx.build_subtransaction( 

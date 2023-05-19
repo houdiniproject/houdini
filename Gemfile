@@ -103,8 +103,8 @@ group :development, :ci, :test do
 	gem 'pry'
 	gem 'pry-byebug'
 	gem 'binding_of_caller'
-  gem 'rspec', "~> 3.9"
-	gem 'rspec-rails', "~> 3.9"
+  gem 'rspec', "~> 3"
+	gem 'rspec-rails', "~> 4"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
   gem 'ruby-prof', '0.15.9'

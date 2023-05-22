@@ -1,0 +1,75 @@
+name: noticeme
+on:
+  schedule:
+    - cron: '34 1 * * *' #Execute everyday 1:34 UTC
+env:
+# this version used for running various tools
+  tool_node_version: "14.x"
+  tool_ruby_version: "2.7.6"
+jobs:
+  noticeme_js:
+    name: Update JS notices
+    runs-on: ubuntu-20.04
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+    - name: save Date
+      run: echo "date=$(date +%Y-%m-%d)" >> "$GITHUB_ENV"
+      shell: bash
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.tool_node_version }}
+        cache: 'yarn'
+    - name: install via yarn
+      run: yarn install --frozen-lockfile
+    - name: Update NOTICE-js
+      run: yarn notice:js
+    - name: configure git
+      run: |
+        git config user.name "notice-update@houdiniproject.org"
+        git config user.email "notice-update@houdiniproject.org"
+    - name: commit NOTICE-js if needed
+      run: |
+        if ! git diff --exit-code NOTICE-js; then
+          git add NOTICE-js
+          git commit -m 'Update NOTICE for ${{ env.date }}'
+          git checkout -b notice-update-$date
+          git push --set-upstream origin notice-update-js-${{ env.date }} -f
+          gh pr create --fill
+        fi
+  
+  notice_ruby:
+    name: Update Ruby notices
+    runs-on: ubuntu-20.04
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+    - name: save Date
+      run: echo "date=$(date +%Y-%m-%d)" >> "$GITHUB_ENV"
+      shell: bash
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ env.tool_ruby_version }}
+        bundler-cache: true
+    - name: update NOTICE-ruby
+      run: |
+          bin/rails notice:ruby:verify
+    - name: configure git
+      run: |
+        git config user.name "notice-update@houdiniproject.org"
+        git config user.email "notice-update@houdiniproject.org"
+    - name: commit NOTICE-ruby if needed
+      run: |
+        if ! git diff --exit-code NOTICE-ruby; then
+          git add NOTICE-ruby
+          git commit -m 'Update NOTICE for ${{ env.date }}'
+          git checkout -b notice-update-$date
+          git push --set-upstream origin notice-update-ruby-${{ env.date }} -f
+          gh pr create --fill
+        fi

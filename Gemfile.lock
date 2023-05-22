@@ -443,7 +443,6 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.12.0)
-    ruby-prof (0.15.9)
     ruby2_keywords (0.0.5)
     safe_yaml (1.0.4)
     sassc (2.4.0)
@@ -590,7 +589,6 @@ DEPENDENCIES
   rspec (~> 3)
   rspec-json_expectations
   rspec-rails (~> 4)
-  ruby-prof (= 0.15.9)
   ruby2_keywords
   sassc
   sassc-rails

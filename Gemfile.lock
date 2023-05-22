@@ -152,7 +152,7 @@ GEM
       activerecord
       database_cleaner (~> 1.99.0)
     date (3.3.3)
-    debug (1.7.2)
+    debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
     devise (4.9.2)
@@ -292,7 +292,7 @@ GEM
     parser (3.2.2.0)
       ast (~> 2.4.1)
     pg (1.4.6)
-    power_assert (2.0.2)
+    power_assert (2.0.3)
     premailer (1.18.0)
       addressable
       css_parser (>= 1.12.0)
@@ -446,7 +446,7 @@ GEM
     stripe (1.58.0)
       rest-client (>= 1.4, < 4.0)
     table_print (1.5.7)
-    test-unit (3.5.7)
+    test-unit (3.5.8)
       power_assert
     thor (1.2.1)
     tilt (2.0.10)

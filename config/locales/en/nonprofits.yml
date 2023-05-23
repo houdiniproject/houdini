@@ -1,0 +1,11 @@
+# License: CC0-1.0
+
+en:
+  nonprofits:
+    page:
+      achievements:
+        highlights: Highlights
+      actions:
+        start_campaign: Start a Campaign
+        start_campaign_for: "Start a Campaign for %{nonprofit_name}"
+        create_event: Create an Event

@@ -1,0 +1,23 @@
+# License: LGPL-3.0-or-later
+# License: LGPL-3.0-or-later
+name: PR Build
+on: 
+  pull_request:
+    types: [opened, reopened, synchronize]
+jobs:
+  markdownlint:
+    name: 'Lint markdown code'
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          # Path to file where filters are defined
+          filters: .github/filters.yaml
+      - name: lint Markdown
+        if: steps.filter.outputs.markdown == 'true'
+        run: npx markdownlint
+    
+
+  

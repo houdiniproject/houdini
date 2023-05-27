@@ -18,7 +18,7 @@ var preview = require('./preview')
 
 var $footer = require('./footer').stream
 
-const {generateStartingDefaults} = require('./generate_starting_defaults');
+const {generate} = require('./generate_starting_defaults');
 
 var state = {
 	page: window.location.hash.replace('#', '')
@@ -33,7 +33,7 @@ var state = {
 		amounts: {
 			name: 'multiple',
 			single: 30,
-			multiples: generateStartingDefaults(),
+			multiples: generate(),
 		},
 		type: { name: 'both'},
 		thankYou: {}

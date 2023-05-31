@@ -398,7 +398,8 @@ module QueryPayments
             "donations.comment AS \"Comment\"",
             "coalesce(nullif(campaigns.name, ''), 'None') AS \"Campaign\"",
             "coalesce(nullif(campaign_gift_options.name, ''), 'None') AS \"Campaign Gift Level\"",
-            "coalesce(events.name, 'None') AS \"Event\""
+            "coalesce(events.name, 'None') AS \"Event\"",
+            "coalesce(misc_payment_infos.fee_covered, 'f') AS \"Fee Covered?\""
           ])
         )
         .distinct_on('payments.date, payments.id')
@@ -412,6 +413,7 @@ module QueryPayments
         .add_left_join(:campaign_gift_options, "campaign_gift_options.id=campaign_gifts.campaign_gift_option_id")
         .add_left_join(tickets_subquery, "tickets.payment_id=payments.id")
         .add_left_join(:events, "events.id=tickets.event_id OR (events.id = donations.event_id)")
+        .add_left_join(:misc_payment_infos, "payments.id=misc_payment_infos.payment_id")
         .where("payouts.id=$id", id: payout_id)
         .and_where("payments.nonprofit_id=$id", id: npo_id)
         .order_by("payments.date DESC, payments.id")

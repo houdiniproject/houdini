@@ -22,7 +22,7 @@ function view(state) {
       h('a.button--small.twitter.u-width--full', {
         props: {
           target: '_blank'
-        , href: "https://twitter.com/intent/tweet?url="+window.location.href+"&via=CommitChange&text=Join me in supporting:" + (app.campaign.name || app.nonprofit.name)
+        , href: "https://twitter.com/intent/tweet?url="+window.location.href+"&via=CommitChange&text=Join me in supporting: " + (app.campaign.name || app.nonprofit.name)
         }
       }, [h('i.fa.fa-twitter-square'), ` ${I18n.t('nonprofits.donate.followup.share.twitter')}`] )
     ])

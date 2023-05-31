@@ -96,6 +96,9 @@ module PayRecurringDonation
         Qexpr.new.update(:recurring_donations, {n_failures: 0})
           .where("id=$id", id: rd_id).returning('*')
       ).first
+
+      InlineJob::ModernObjectDonationStripeChargeJob.perform_later(donation: donation, legacy_payment: result['payment'])
+
       JobQueue.queue(JobTypes::DonationPaymentCreateJob, rd['donation_id'], result['payment']['id'])
       InsertActivities.for_recurring_donations([result['payment']['id']])
     else

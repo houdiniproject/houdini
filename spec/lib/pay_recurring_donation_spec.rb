@@ -8,6 +8,11 @@ describe PayRecurringDonation  do
    # @result = @data['recurring_donation']
   end
 
+  before(:each) do
+    ActiveJob::Base.queue_adapter = :test
+  end
+
+
   describe '.with_donation' do
     include_context :shared_donation_charge_context
     
@@ -69,32 +74,75 @@ describe PayRecurringDonation  do
       PayRecurringDonation.with_stripe(recurring_donation.id, true)
     }
 
-    it 'covered_result doesnt return false' do
-      expect(covered_result).to_not eq false
+    context 'result when fees covered' do
+      it {
+        expect(covered_result).to_not eq false 
+      }
+
+      it {
+        expect {covered_result}.to have_enqueued_job(InlineJob::ModernObjectDonationStripeChargeJob)
+          .with(donation:donation, legacy_payment: an_instance_of(Payment).and(
+            have_attributes(
+              gross_amount: 300,
+              supporter: supporter,
+              donation: donation
+          )))
+      }
+
+      it {
+        covered_result
+        expect(donation.payments.first.misc_payment_info.fee_covered).to eq true
+      }
+
     end
 
-    it 'uncovered_result doesnt return false' do
-      expect(uncovered_result).to_not eq false
+    context 'result when fees not covered' do
+      it {
+        expect(uncovered_result).to_not eq false 
+      }
+
+      it {
+        expect {uncovered_result}.to have_enqueued_job(InlineJob::ModernObjectDonationStripeChargeJob)
+          .with(donation:donation, legacy_payment: an_instance_of(Payment).and(
+            have_attributes(
+              gross_amount: 300,
+              supporter: supporter,
+              donation: donation
+          )))
+      }
+
+      it {
+        uncovered_result
+        expect(donation.payments.first.misc_payment_info&.fee_covered).to be_falsey
+      }
     end
 
-    it 'marks the payment as covering fees' do 
-      res = covered_result
-      expect(donation.payments.first.misc_payment_info.fee_covered).to eq true
+    context 'result when not due' do
+
+      it {
+        expect(result_with_recent_charge).to eq false
+      }
+
+      it {
+        expect {result_with_recent_charge}.to_not have_enqueued_job(InlineJob::ModernObjectDonationStripeChargeJob)
+      }
+
     end
 
-    it 'marks the payment as not covering fees' do 
-      res = uncovered_result
-      expect(donation.payments.first.misc_payment_info&.fee_covered).to be_falsey
-    end
+    context 'result when not due but forced' do
+      it {
+        expect( result_with_recent_charge_but_forced ).to_not eq false
+      }
 
-    it 'returns false if not due' do 
-      res = result_with_recent_charge
-      expect(res).to eq false
-    end
-
-    it 'runs even if not due if we force' do 
-      res = result_with_recent_charge_but_forced
-      expect(res).to_not eq false
+      it {
+        expect {result_with_recent_charge_but_forced}.to have_enqueued_job(InlineJob::ModernObjectDonationStripeChargeJob)
+          .with(donation:donation, legacy_payment: an_instance_of(Payment).and(
+            have_attributes(
+              gross_amount: 300,
+              supporter: supporter,
+              donation: donation
+          )))
+      }
     end
 	end
 

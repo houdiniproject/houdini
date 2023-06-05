@@ -16,6 +16,7 @@ Commitchange::Application.routes.draw do
     namespace :api_new do
 			resources :users, only: [] do
 				get :current, {on: :collection}
+				get :current_nonprofit_object_events, {on: :collection}
 			end
       resources :nonprofits, only: [] do
 				resources :object_events, only: [:index]

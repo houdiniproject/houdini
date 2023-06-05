@@ -1546,6 +1546,33 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
+** mini_portile2; version 2.8.2 -- 
+Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
+
+Copyright (c) 2011-2016 Luis Lavena and Mike Dalessio
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+------
+
 ** bcrypt; version 3.1.18 -- 
 Copyright (c) 1998-2010 Solar Designer
 Copyright (c) 1998-2014 Solar Designer
@@ -1710,33 +1737,30 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** loofah; version 2.20.0 -- 
-Copyright (c) 2006-2008 The Authors
-Copyright (c) 2009 2018 by Mike Dalessio, Bryan Helmkamp
+** zeitwerk; version 2.6.8 -- 
+Copyright (c) 2019-o Xavier Noria
+Copyright (c) 2019- <i> o </i> Xavier Noria
 
-The MIT License
+Copyright (c) 2019–ω Xavier Noria
 
-The MIT License
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-Copyright (c) 2009 -- 2018 by Mike Dalessio, Bryan Helmkamp
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ------
@@ -2848,6 +2872,33 @@ SOFTWARE.
 
 ------
 
+** i18n; version 1.13.0 -- 
+Copyright (c) 2003-2009 Masao Mutoh
+Copyright (c) 2008 The Ruby I18n team
+
+Copyright (c) 2008 The Ruby I18n team
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+------
+
 ** actionmailer; version 6.1.7.3 -- 
 Copyright (c) 2004-2022 David Heinemeier Hansson
 ** actionpack; version 6.1.7.3 -- 
@@ -3029,13 +3080,15 @@ Copyright (c) 2007,2008,2009,2010,2011,2012,2013,2019 Marc Alexander Lehmann <li
 Copyright (c) 2007,2008,2009,2010,2011,2016,2017,2019 Marc Alexander Lehmann <libev@schmorp.de>
 Copyright (c) 2007,2008,2009,2010,2011,2012,2013,2016,2019 Marc Alexander Lehmann <libev@schmorp.de>
 ** qx; version 0.1.1 -- 
+** rack; version 2.2.7 -- 
+Copyright (c) 2009-2018 Michael Fellinger <m.fellinger@gmail.com>
+Copyright (c) Django Software Foundation and individual contributors
+Copyright (c) 2007-2019 Leah Neukirchen <http://leahneukirchen.org/infopage.html>
 ** rack-attack; version 5.4.2 -- 
 Copyright Kickstarter, PBC.
 ** rails; version 6.1.7.3 -- 
 ** rails-dom-testing; version 2.0.3 -- 
 Copyright (c) 2013-2015 Kasper Timm Hansen
-** rails-html-sanitizer; version 1.5.0 -- 
-Copyright (c) 2013-2015 Rafael Mendonca Franca, Kasper Timm Hansen
 ** samovar; version 2.1.4 -- 
 Copyright, 2016, by Samuel G. D. Williams. <http://www.codeotaku.com>
 Copyright, 2019, by Samuel G. D. Williams. <http://www.codeotaku.com>
@@ -3392,7 +3445,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------
 
-** thor; version 1.2.1 -- 
+** thor; version 1.2.2 -- 
 Copyright (c) 2003, 2004 Jim Weirich
 Copyright (c) 2008 Yehuda Katz, Eric Hodel
 
@@ -4181,95 +4234,6 @@ You can redistribute it and/or modify it under either the terms of the
 
 ------
 
-** test-unit; version 3.5.7 -- 
-Copyright (c) 2008 Ryan Davis
-Copyright (c) 2008-2011 Kouhei Sutou
-Copyright (c) 2008-2020 Sutou Kouhei
-Copyright (c) 2009-2013 Kouhei Sutou
-Copyright (c) 2000-2002 Nathaniel Talbott
-Copyright (c) 2000-2003 Nathaniel Talbott
-Copyright (c) 2003-2007 Nathaniel Talbott
-copyright (c) 2000-2003 Nathaniel Talbott
-Copyright (c) 2000-2003, Nathaniel Talbott
-Copyright (c) 2001-2008 Python Software Foundation
-Copyright (c) 2011 Kouhei Sutou <kou@clear-code.com>
-Copyright (c) 2012 Kouhei Sutou <kou@clear-code.com>
-Copyright (c) 2008-2012 Kouhei Sutou <kou@clear-code.com>
-Copyright (c) 2008-2017 Kouhei Sutou <kou@clear-code.com>
-Copyright (c) 2012-2015 Kouhei Sutou <kou@clear-code.com>
-Copyright (c) 1995-2001 Corporation for National Research Initiatives
-Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Python Software Foundation
-copyright (c) 2008-2010 Kouhei Sutou and 2001-2008 Python Software Foundation
-Copyright (c) 1991 - 1995, Stichting Mathematisch Centrum Amsterdam, The Netherlands
-
-test-unit is copyrighted free software by Kouhei Sutou
-<kou@cozmixng.org>, Ryan Davis <ryand-ruby@zenspider.com>
-and Nathaniel Talbott <nathaniel@talbott.ws>.
-
-You can redistribute it and/or modify it under either the terms of the
-2-clause BSDL (see the file BSDL), or the conditions below:
-
-1. You may make and give away verbatim copies of the source form of the
-   software without restriction, provided that you duplicate all of the
-   original copyright notices and associated disclaimers.
-
-2. You may modify your copy of the software in any way, provided that
-   you do at least ONE of the following:
-
-   a. place your modifications in the Public Domain or otherwise
-      make them Freely Available, such as by posting said
-      modifications to Usenet or an equivalent medium, or by allowing
-      the author to include your modifications in the software.
-
-   b. use the modified software only within your corporation or
-      organization.
-
-   c. give non-standard binaries non-standard names, with
-      instructions on where to get the original software distribution.
-
-   d. make other distribution arrangements with the author.
-
-3. You may distribute the software in object code or binary form,
-   provided that you do at least ONE of the following:
-
-   a. distribute the binaries and library files of the software,
-      together with instructions (in the manual page or equivalent)
-      on where to get the original distribution.
-
-   b. accompany the distribution with the machine-readable source of
-      the software.
-
-   c. give non-standard binaries non-standard names, with
-      instructions on where to get the original software distribution.
-
-   d. make other distribution arrangements with the author.
-
-4. You may modify and include the part of the software into any other
-   software (possibly commercial).  But some files in the distribution
-   are not written by the author, so that they are not under these terms.
-
-   For the list of those files and their copying conditions, see the
-   file LEGAL.
-
-5. The scripts and library files supplied as input to or produced as
-   output from the software do not automatically fall under the
-   copyright of the software, but belong to whomever generated them,
-   and may be sold commercially, and may be aggregated with this
-   software.
-
-6. THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
-   IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
-   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-   PURPOSE.
-
-Exceptions
-----------
-
-  * lib/test/unit/diff.rb: This license and PSF license
-
-
-------
-
 ** marcel; version 1.0.2 -- 
 Copyright (c) 2017 Tom Ward
 Copyright (c) 2011 Daniel Mendler.
@@ -4508,7 +4472,7 @@ Apache-2.0 OR (Artistic-2.0 OR (BSD-3-Clause OR (GPL-3.0 OR (MIT OR MPL-2.0))))
 
 ------
 
-** debug; version 1.7.2 -- 
+** debug; version 1.8.0 -- 
 Copyright (c) 1993-2013 Yukihiro Matsumoto
 ** io-console; version 0.6.0 -- 
 Copyright (c) 1993-2013 Yukihiro Matsumoto
@@ -4607,7 +4571,7 @@ SUCH DAMAGE.
 
 ------
 
-** power_assert; version 2.0.2 -- 
+** power_assert; version 2.0.3 -- 
 Copyright (c) 2014 Kazuki Tsujimoto
 
 Copyright (C) 2014 Kazuki Tsujimoto

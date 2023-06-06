@@ -3,30 +3,30 @@
 <section class='admin-topNav tour-admin'>
   <div class='container u-centered'>
 
-  <p><strong>Manage Profile Page</strong></p>
+  <p><strong><%= t('nonprofits.page.admin_top_nav.manage_profile') %></strong></p>
 
 	<a class='button--small edit'>
 		<!--= on 'click' (open_modal 'settingsModal') -->
-		<i class='fa fa-gear'></i> Settings
+		<i class='fa fa-gear'></i> <%= t('nonprofits.page.admin_top_nav.settings') %>
 	</a>
 
 
   <a class='button--small edit'>
     <!--= on 'click' (open_modal 'uploadBackgroundImage') -->
-    <i class='fa fa-image'></i> Header Image
+    <i class='fa fa-image'></i> <%= t('nonprofits.page.admin_top_nav.header_image') %>
   </a>
 
   <a class='button--small edit'>
     <!--= on 'click' (open_modal 'uploadCarouselImages') -->
-    <i class='fa fa-image'></i> Main image
+    <i class='fa fa-image'></i> <%= t('nonprofits.page.admin_top_nav.main_image') %>
   </a>
 
   <a class='button--tiny edit' href='?preview=t'>
-    <i class='fa fa-eye'></i> Preview Mode
+    <i class='fa fa-eye'></i> <%= t('nonprofits.page.admin_top_nav.preview_mode') %>
   </a>
 
   <% if current_role?(:super_admin) %>
-    <p><i class='icon icon-pacman-ghost'></i> For super admin:
+    <p><i class='icon icon-pacman-ghost'></i> <%= t('nonprofits.page.admin_top_nav.for_super_admin') %>:
       NPO ID: <%= @nonprofit.id %>
     </p>
   <% end %>

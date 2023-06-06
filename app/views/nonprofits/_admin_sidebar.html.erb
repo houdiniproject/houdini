@@ -2,13 +2,17 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <div class='modal sidebar u-padding--15 superAdminSidebar' id='adminSidebar--profile'>
 		<p>
-			<a class='button--tiny details' href='<%= nonprofits_donations_path(@nonprofit) %>'>Donations</a>
-			<a class='button--tiny details' href='<%= nonprofits_supporters_path(@nonprofit) %>'>Supporters</a>
+			<a class='button--tiny details' href='<%= nonprofits_donations_path(@nonprofit) %>'>
+				<%= t('nonprofits.page.admin_sidebar.donations') %>
+			</a>
+			<a class='button--tiny details' href='<%= nonprofits_supporters_path(@nonprofit) %>'>
+				<%= t('nonprofits.page.admin_sidebar.supporters') %>
+			</a>
 		</p>
 		<hr>
 
 		<% if @nonprofit.billing_plan.nil? %>
-  		<p><strong>Upgrade to:</strong></p>
+  		<p><strong><%= t('nonprofits.page.admin_sidebar.upgrade_to') %>:</strong></p>
   		<table class='table--plaid'>
   			<tr>
   				<td><%= link_to "Discount", nonprofit_pricing_index_path(@nonprofit.id, {referrer: 'community'}) %></td>
@@ -19,22 +23,28 @@
   	<% end %>
 
 		<form autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='put' parsley-validate>
-			<p><strong>Status: </strong></p>
+			<p><strong><%= t('nonprofits.page.admin_sidebar.status') %>: </strong></p>
 				<p class='u-marginBottom--10'>
 					<input type='hidden' name='nonprofit[vetted]' value='0'>
 					<input type='checkbox' name='nonprofit[vetted]' id='nonprofit-verified-input' <%= @nonprofit.vetted ? "checked=checked" : '' %> value='1'>
-					<label class='u-marginRight--20' for='nonprofit-verified-input'>Vetted</label>
+					<label class='u-marginRight--20' for='nonprofit-verified-input'>
+						<%= t('nonprofits.page.admin_sidebar.vetted') %>
+					</label>
 					<input type='hidden' name='nonprofit[published]' value='0'>
 					<input type='checkbox' name='nonprofit[published]' id='nonprofit-published-input' <%= @nonprofit.published ? "checked=checked" : '' %> value='1'>
-					<label for='nonprofit-published-input'>Published</label>
+					<label for='nonprofit-published-input'>
+						<%= t('nonprofits.page.admin_sidebar.published') %>
+					</label>
 				</p>
 
-			<button type='submit' class='button--tiny' data-loading='Saving...'>Save status</button>
+			<button type='submit' class='button--tiny' data-loading='Saving...'>
+				<%= t('nonprofits.page.admin_sidebar.save_status') %>
+			</button>
 		</form>
 		<hr>
 
 
-		<p><strong>Nonprofit Users:</strong></p>
+		<p><strong><%= t('nonprofits.page.admin_sidebar.nonprofit_users') %>:</strong></p>
 		<ul>
 			<% @nonprofit.roles.includes(:host).where(name: [:nonprofit_admin, :nonprofit_associate]).includes(:user).each do |role| %>
 				<li class='removeNpoUser'>
@@ -59,14 +69,18 @@
 			<% end %>
 		</ul>
 
-		<p><button class='button--tiny' open-modal='newRole'>New Admin</button></p>
+		<p><button class='button--tiny' open-modal='newRole'>
+			<%= t('nonprofits.page.admin_sidebar.new_admin') %>
+		</button></p>
 
   <% if @nonprofit.charges.empty? %>
   <hr>
   <form autosubmit action='<%= nonprofit_path(@nonprofit) %>' method='delete'
         data-confirm data-redirect="/admin">
     <input type='hidden' name='required_input'>
-    <button type="submit" class='button--tiny red' data-loading='Deleting...'>Destroy Nonprofit</button>
+    <button type="submit" class='button--tiny red' data-loading='Deleting...'>
+		<%= t('nonprofits.page.admin_sidebar.destroy_nonprofit') %>
+	</button>
   </form>
   <% end %>
 

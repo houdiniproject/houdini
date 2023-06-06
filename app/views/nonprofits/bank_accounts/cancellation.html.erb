@@ -2,10 +2,10 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
 <div class='container'>
 
-	<h2>Cancel bank account change</h2>
+	<h2><%= t('nonprofits.page.bank_accounts.cancellation.cancel_bank_account') %></h2>
 
 	<% if @bank_account.nil? %>
-		<p>This nonprofit has no connected bank account.</p>
+		<p><%= t('nonprofits.page.bank_accounts.cancellation.no_bank_account_label') %></p>
 
 	<% elsif @bank_account.pending %>
 		<%= render 'bank_account_info' %>
@@ -15,8 +15,8 @@
 			<%= submit_tag 'Cancel', :class => 'btn btn-large' %>
 		<% end %>
 	<% else %>
-		<p>The bank account for this nonprofit was never initially confirmed.</p>
+		<p><%= t('nonprofits.page.bank_accounts.cancellation.bank_account_not_confirmed_label') %></p>
 	<% end %>
 
-	<p>If you think this was in error, please contact <%= mail_to Houdini.hoster.support_email %></p>
+	<p><%= t('nonprofits.page.bank_accounts.cancellation.contact_label') %> <%= mail_to Houdini.hoster.support_email %></p>
 </div>

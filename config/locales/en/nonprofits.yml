@@ -9,3 +9,17 @@ en:
         start_campaign: Start a Campaign
         start_campaign_for: "Start a Campaign for %{nonprofit_name}"
         create_event: Create an Event
+      bank_accounts:
+        modal:
+          payout_instruction: To make payouts, we need to connect to your organization's bank account. All data is sent over a 256-bit secured SSL encryption and stored in a encrypted, PCI-DSS Level 1 Compliant database.
+          allow_deposits: This connection only allows for <strong>deposits</strong> to your bank account.
+          account_holder_label: Account Holder's Name
+          rounting_number_label: Routing Number
+          account_number_label: Account Number
+          your_houdini_password: "Your %{houdini_general_name} Password"
+          to_confirm_change: (to confirm this change)
+        cancellation:
+          cancel_bank_account: Cancel bank account change
+          no_bank_account_label: This nonprofit has no connected bank account.
+          bank_account_not_confirmed_label: The bank account for this nonprofit was never initially confirmed.
+          contact_label: If you think this was in error, please contact

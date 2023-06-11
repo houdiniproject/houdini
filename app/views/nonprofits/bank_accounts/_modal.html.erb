@@ -7,9 +7,9 @@
 
 	<div class='modal-body'>
 
-		<p>To make payouts, we need to connect to your organization's bank account. All data is sent over a 256-bit secured SSL encryption and stored in a encrypted, PCI-DSS Level 1 Compliant database.</p>
+		<p><%= t('nonprofits.page.bank_accounts.modal.payout_instruction') %></p>
 
-		<p>This connection only allows for <strong>deposits</strong> to your bank account.</p>
+		<p><%= t('nonprofits.page.bank_accounts.modal.allow_deposits') %></p>
 
 		<form id='bank-account-form' parsley-validate>
 			<!--= on 'submit' (create_bank_account form_object) -->
@@ -19,19 +19,22 @@
 
 			<div class='fields'>
 				<div class='field'>
-					<label>Account Holder's Name</label>
+					<label><%= t('nonprofits.page.bank_accounts.modal.account_holder_label') %></label>
 					<input name='name' required parsley-trigger='change'></input>
 				</div>
 				<div class='field'>
-					<label>Routing Number</label>
+					<label><%= t('nonprofits.page.bank_accounts.modal.rounting_number_label') %></label>
 					<input name='routing_number' required parsley-type='number' parsley-trigger='change' parsley-rangelength='[9,9]' parsley-rangelength-message='This must be exactly 9 digits long'></input>
 				</div>
 				<div class='field'>
-					<label>Account Number</label>
+					<label><%= t('nonprofits.page.bank_accounts.modal.account_number_label') %></label>
 					<input name='account_number' required parsley-type='number' parsley-trigger='change'></input>
 				</div>
 				<div class='field'>
-					<label>Your <%= Houdini.general.name %> Password <br><small>(to confirm this change)</small></label>
+					<label>
+						<%= t('nonprofits.page.bank_accounts.modal.your_houdini_password', houdini_general_name: Houdini.general.name) %><br>
+						<small><%= t('nonprofits.page.bank_accounts.modal.to_confirm_change') %></small>
+					</label>
 					<input name='user_password' required type='password' parsley-trigger='change'></input>
 				</div>
 			</div>

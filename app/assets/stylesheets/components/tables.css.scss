@@ -303,13 +303,3 @@ $meta_line-height: 34px;
 	vertical-align: middle;
 	height: 100%;
 }
-
-// fullFeatures table
-.fullFeatures i {
-	color: $dark-turquoise;
-}
-.fullFeatures th,
-.fullFeatures td:nth-of-type(2),
-.fullFeatures td:nth-of-type(3) {
-	text-align: center;
-}

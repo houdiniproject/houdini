@@ -9,3 +9,21 @@ en:
         start_campaign: Start a Campaign
         start_campaign_for: "Start a Campaign for %{nonprofit_name}"
         create_event: Create an Event
+      admin_sidebar:
+        donations: Donations
+        supporters: Supporters
+        upgrade_to: Upgrade to
+        status: Status
+        vetted: Vetted
+        published: Published
+        save_status: Save status
+        nonprofit_users: Nonprofit Users
+        new_admin: New Admin
+        destroy_nonprofit: Destroy Nonprofit
+      admin_top_nav:
+        manage_profile: Manage Profile Page
+        settings: Settings
+        header_image: Header Image
+        main_image: Main Image
+        preview_mode: Preview Mode
+        for_super_admin: For super admin

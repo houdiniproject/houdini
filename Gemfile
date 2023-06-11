@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.7.3'
+gem 'rails', '7.0.4.3'
 gem 'jbuilder', '~> 2.11'
 gem 'bootsnap', '~> 1.16', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
@@ -27,7 +27,7 @@ gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
 gem 'countries', '~> 4.2'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
 gem 'lograge', '~> 0.12.0' # make logging less terrible in rails
-gem 'rails-i18n', '~> 6.0.0', '~> 6'
+gem 'rails-i18n'
 gem 'premailer-rails', '~> 1.12' # for styling of email
 gem 'money', '~> 6.16'
 

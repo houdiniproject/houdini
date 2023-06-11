@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "AGPL-3.0.txt", "GPL-3.0.txt", "LGPL-3.0.txt", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", "~> 6.1.3"
+  spec.add_dependency "rails", "~> 7"
   spec.add_dependency 'wisper', '~> 2.0'
   spec.add_dependency 'wisper-activejob', '~> 1.0.0'
   spec.add_dependency 'rest-client'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_22_001939) do
+ActiveRecord::Schema.define(version: 2023_06_11_211704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -467,6 +467,19 @@ ActiveRecord::Schema.define(version: 2023_04_22_001939) do
     t.datetime "finished_at"
   end
 
+  create_table "good_job_executions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.uuid "active_job_id", null: false
+    t.text "job_class"
+    t.text "queue_name"
+    t.jsonb "serialized_params"
+    t.datetime "scheduled_at"
+    t.datetime "finished_at"
+    t.text "error"
+    t.index ["active_job_id", "created_at"], name: "index_good_job_executions_on_active_job_id_and_created_at"
+  end
+
   create_table "good_job_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -498,6 +511,9 @@ ActiveRecord::Schema.define(version: 2023_04_22_001939) do
     t.datetime "cron_at"
     t.uuid "batch_id"
     t.uuid "batch_callback_id"
+    t.boolean "is_discrete"
+    t.integer "executions_count"
+    t.text "job_class"
     t.index ["active_job_id", "created_at"], name: "index_good_jobs_on_active_job_id_and_created_at"
     t.index ["active_job_id"], name: "index_good_jobs_on_active_job_id"
     t.index ["batch_callback_id"], name: "index_good_jobs_on_batch_callback_id", where: "(batch_callback_id IS NOT NULL)"

@@ -46,9 +46,12 @@ $sideNav-spacing: 8px 15px;
 	color: white;
 	font-weight: bold;
 	cursor: pointer;
-	display: block;
 	@include transform(translateZ(0));
 	@include transition(color 0.2s ease-out);
+
+	display: flex;
+	row-gap: 6px;
+	align-items: center;
 }
 .sideNav-link:hover {
 	color: $logo-blue;
@@ -63,10 +66,6 @@ $sideNav-spacing: 8px 15px;
 	@include ellipsis;
 	max-width: 165px;
 	font-size: 16px;
-	position: absolute;
-	top: 12px;
-	left: 62px;
-	height: 100%;
 	@include transform(translateZ(0));
 	@include opacity(0);
 	@include transition(opacity 0.2s ease-out);

@@ -1,22 +1,32 @@
-ruby: './**/*.rb '
+ruby:
+- any: ['./**/*.rb ']
+
 javascript: 
-- './**/*.js'
-- './**/*.ts*'
+- any: ['./**/*.js', './**/*.ts*']
+
 spec:
-- 'spec/**'
-- './**/*.spec.js'
-- './**/*.spec.ts*'
-model: 'app/models/**'
-controller: 'app/controllers/**'
-mailer: 'app/mailers/**'
-view: 'app/views/**'
-job: 'app/jobs/**'
+- any: ['spec/**', './**/*.spec.js', './**/*.spec.ts*']
+
+model:
+- any: ['app/models/**']
+
+controller:
+- any: ['app/controllers/**']
+
+mailer:
+- any: ['app/mailers/**']
+
+view:
+- any: ['app/views/**']
+
+job:
+- any: ['app/jobs/**']
+
 dependencies: 
-- 'Gemfile.lock'
-- 'yarn.lock'
-- 'gems/**'
+- any: ['Gemfile.lock', 'yarn.lock', 'gems/**']
+
 config:
-- "./config/**"
+- any: ['./config/**']
+
 widget: 
-- "app/javascript/donate-button/*"
-- "app/assets/stylesheets/donate-button/*"
+- any: ['app/javascript/donate-button/*', 'app/assets/stylesheets/donate-button/*']

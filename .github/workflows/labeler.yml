@@ -10,6 +10,7 @@ on: [pull_request]
 
 jobs:
   label:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
     - uses: actions/labeler@v2

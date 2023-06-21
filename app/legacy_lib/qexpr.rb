@@ -28,14 +28,18 @@ class Qexpr
   # Parse an qexpr object into a sql string expression
   def parse
     expr = ""
+    if @tree[:withs]
+      expr += "WITH " + @tree[:withs].join(",") + "\n"
+    end
+
     if @tree[:insert]
       expr = "#{@tree[:insert]} #{@tree[:values].blue}"
       expr += "\nRETURNING ".bold.light_blue + (@tree[:returning] || ['id']).join(', ').blue
       return expr
     end
-
     # Query-based expessions
-    expr = @tree[:update] || @tree[:delete_from] || @tree[:select]
+    expr += @tree[:update] || @tree[:delete_from] || @tree[:select]
+    
     if expr.nil? || expr.empty?
       raise ArgumentError.new("Must have a select, update, or delete clause")
     end
@@ -140,6 +144,16 @@ class Qexpr
     Qexpr.new @tree.put(:offset, "\nOFFSET".bold.light_blue + " #{i.to_i}".blue)
   end
 
+  def with(name, expr)
+    return Qexpr.new(
+      @tree.put(:withs, 
+        (@tree[:withs] || Hamster::Vector[]).add("#{name} AS (\n
+              #{expr.is_a?(String) ? expr : expr.parse}\n
+          )"
+        )
+      )
+    )
+  end
 
   def join(table_name, on_expr, data={})
     on_expr = Qexpr.interpolate_expr(on_expr, data)

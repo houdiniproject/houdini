@@ -29,7 +29,7 @@ class Qexpr
   def parse
     expr = ""
     if @tree[:withs]
-      expr += "WITH " + @tree[:withs].join(",") + "\n"
+      expr += "WITH " + @tree[:withs].join(",\n") + "\n"
     end
 
     if @tree[:insert]
@@ -147,9 +147,7 @@ class Qexpr
   def with(name, expr)
     return Qexpr.new(
       @tree.put(:withs, 
-        (@tree[:withs] || Hamster::Vector[]).add("#{name} AS (\n
-              #{expr.is_a?(String) ? expr : expr.parse}\n
-          )"
+        (@tree[:withs] || Hamster::Vector[]).add(name.blue + " AS (\n  ".bold.light_blue + "#{expr.is_a?(String) ? expr : expr.parse}".blue + "\n)".bold.light_blue
         )
       )
     )

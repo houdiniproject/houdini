@@ -28,8 +28,8 @@ class Qexpr
   # Parse an qexpr object into a sql string expression
   def parse
     expr = ""
-    if @tree[:withs]
-      expr += "WITH " + @tree[:withs].join(",\n") + "\n"
+    if @tree[:withs]&.any?
+      expr += "WITH ".bold.light_blue + @tree[:withs].join(",\n") + "\n"
     end
 
     if @tree[:insert]
@@ -37,12 +37,15 @@ class Qexpr
       expr += "\nRETURNING ".bold.light_blue + (@tree[:returning] || ['id']).join(', ').blue
       return expr
     end
+    query_based_expression = @tree[:update] || @tree[:delete_from] || @tree[:select]
     # Query-based expessions
-    expr += @tree[:update] || @tree[:delete_from] || @tree[:select]
     
-    if expr.nil? || expr.empty?
+    if query_based_expression.nil? || query_based_expression.empty?
       raise ArgumentError.new("Must have a select, update, or delete clause")
     end
+
+    expr += query_based_expression
+
     if @tree[:from]
       expr += "\nFROM".bold.light_blue + @tree[:from].map do |f|
         f.is_a?(String) ? f : " (#{f[:sub_expr].parse}\n) AS #{f[:as]}"
@@ -144,10 +147,11 @@ class Qexpr
     Qexpr.new @tree.put(:offset, "\nOFFSET".bold.light_blue + " #{i.to_i}".blue)
   end
 
-  def with(name, expr)
+  def with(name, expr, materialized:nil)
+    materialized_text = !materialized.nil? ? (materialized ? "MATERIALIZED" : "NOT MATERIALIZED") : ""
     return Qexpr.new(
       @tree.put(:withs, 
-        (@tree[:withs] || Hamster::Vector[]).add(name.blue + " AS (\n  ".bold.light_blue + "#{expr.is_a?(String) ? expr : expr.parse}".blue + "\n)".bold.light_blue
+        (@tree[:withs] || Hamster::Vector[]).add(name.to_s.blue + " AS #{materialized_text} (\n  ".bold.light_blue + "   #{expr.is_a?(String) ? expr : expr.parse}".blue + "\n)".bold.light_blue
         )
       )
     )

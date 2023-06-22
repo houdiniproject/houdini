@@ -8,6 +8,7 @@ flyd.scanMerge = require('flyd/module/scanmerge')
 const getAmt = require('./amt').default;
 const getSustainingAmount = require('./sustaining_amount').default;
 const getPostfixElement = require('./postfix_element').default;
+const {dollarsToCentsSafe} = require('../../../../javascripts/src/lib/format');
 
 function init(donationDefaults, params$) {
     var state = {
@@ -180,7 +181,9 @@ function amountFields(state) {
             state.buttonAmountSelected$(false)
             state.evolveDonation$({amount: R.always(dollarsToCents(ev.currentTarget.value))})
         }
-        , change: ev => state.evolveDonation$({amount: R.always(dollarsToCents(ev.currentTarget.value))})
+        , input: ev =>  {
+            state.evolveDonation$({amount: R.always(dollarsToCentsSafe(ev.currentTarget.value))})
+        }
         }
       })
     ])

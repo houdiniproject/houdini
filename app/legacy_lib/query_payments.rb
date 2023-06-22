@@ -3,6 +3,14 @@
 module QueryPayments
 
 
+  def self.get_nonprofit_query(npo_id)
+    Qexpr.new.select("*").from(:nonprofits).where("id = $id", id: npo_id).limit(1)
+  end
+
+  def self.get_nonprofit_payments_query(npo_id)
+    Qexpr.new.select("*").from(:payments).where("nonprofit_id = $id", id: npo_id)
+  end
+
   # Fetch all payments connected to available charges, undisbursed refunds or lost disputes
   # Ids For Payouts collects all payments where:
   # *they have a connected charge, refund or dispute (CRD), i.e. the CRD's payment_id is not NULL and represents a record in payments
@@ -123,6 +131,9 @@ module QueryPayments
     if ['asc', 'desc'].include? query[:sort_towards]
       expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
     end
+
+    expr = expr.with(:nonprofits, get_nonprofit_query(npo_id), materialized: true)
+    expr = expr.with(:payments, get_nonprofit_payments_query(npo_id), materialized: false)
 
     return expr
   end

@@ -212,20 +212,5 @@ function showSingleAmount(isRecurring, state) {
   ])
 }
 
-// function feeCoverageField(isFeeCovered, state) {
-//   return h('section.donate-feeCoverageCheckbox.u-paddingX--5 u-marginBottom--10', [
-//     h('div.u-padding--8.u-background--grey.u-centered', {
-//       class: {highlight: isFeeCovered}
-//     }, [
-//       h('input.u-margin--0.donationWizard-amount-input', {
-//         props: {type: 'checkbox', selected: isFeeCovered, id: 'checkbox-feeCoverage'}
-//       , on: {change: ev => state.evolveDonation$({feeCovering: t => !t})}
-//       })
-//     , h('label', {props: {htmlFor: 'checkbox-feeCoverage'}}, I18n.t('nonprofits.donate.amount.feeCoverage', {organization_possessive: app.nonprofit.name + "'s"})
-//       )
-//     ])
-//     ])
-// }
-
 module.exports = {view, init}
 

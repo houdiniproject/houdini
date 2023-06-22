@@ -59,7 +59,6 @@ function view(state) {
         , recurringMessage(isRecurring, state)
         , ...amountFields(state)
         , showSingleAmount(isRecurring, state)
-        //, feeCoverageField(isFeeCovered, state)
     ])
 }
 

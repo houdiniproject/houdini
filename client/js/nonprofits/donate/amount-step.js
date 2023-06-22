@@ -2,7 +2,7 @@
 const h = require('snabbdom/h')
 const R = require('ramda')
 const flyd = require('flyd')
-const format = require('../../common/format')
+const {dollarsToCents, centsToDollars} = require('../../common/format')
 flyd.scanMerge = require('flyd/module/scanmerge')
 
 const getAmt = require('./amt').default;
@@ -19,7 +19,7 @@ function init(donationDefaults, params$) {
 
   // A stream of objects that an be used to modify the existing donation by using R.evolve
   donationDefaults = R.merge(donationDefaults, {
-    amount: format.dollarsToCents(state.params$().single_amount || 0)
+    amount: dollarsToCents(state.params$().single_amount || 0)
   , designation: state.params$().designation
   , recurring: state.params$().type === 'recurring'
   , weekly: (typeof state.params$().weekly !== 'undefined')
@@ -36,7 +36,7 @@ function init(donationDefaults, params$) {
 
 const setDonationFromParams = (donation, params) => {
     if(params.single_amount) {
-        donation.amount = format.dollarsToCents(params.single_amount)
+        donation.amount = dollarsToCents(params.single_amount)
     }
     else
         donation.amount = undefined
@@ -157,7 +157,7 @@ function amountFields(state) {
           h('button.button.u-width--full.white.amount', {
             class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt.amount*100}
           , on: {click: ev => {
-              state.evolveDonation$({amount: R.always(format.dollarsToCents(amt.amount))})
+              state.evolveDonation$({amount: R.always(dollarsToCents(amt.amount))})
               state.buttonAmountSelected$(true)
               state.currentStep$(1) // immediately advance steps when selecting an amount button
             } }
@@ -178,9 +178,9 @@ function amountFields(state) {
       , on: {
         focus: ev => {
             state.buttonAmountSelected$(false)
-            state.evolveDonation$({amount: R.always(format.dollarsToCents(ev.currentTarget.value))})
+            state.evolveDonation$({amount: R.always(dollarsToCents(ev.currentTarget.value))})
         }
-        , change: ev => state.evolveDonation$({amount: R.always(format.dollarsToCents(ev.currentTarget.value))})
+        , change: ev => state.evolveDonation$({amount: R.always(dollarsToCents(ev.currentTarget.value))})
         }
       })
     ])
@@ -203,7 +203,7 @@ function showSingleAmount(isRecurring, state) {
   var desig = state.params$().designation
   return h('section.u-centered', [
     h('p.singleAmount-message', [
-      h('strong', app.currency_symbol + format.centsToDollars(format.dollarsToCents(state.params$().single_amount)))
+      h('strong', app.currency_symbol + centsToDollars(dollarsToCents(state.params$().single_amount)))
     , h('span.u-padding--0', { class: {'u-hide': !isRecurring} }, ' monthly')
     , h('span', {class: {'u-hide': !state.params$().designation && !gift.id}}, [ ' for ' + (desig || gift.name) ])
     ])

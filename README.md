@@ -126,7 +126,7 @@ brew switch postgres@12
 # To start postgres locally run:
 brew services start postgresql@ [insert version number]
 
-# To start postgres locally run:
+# To stop postgres locally run:
 brew services stop postgresql@ [insert version number]
 ```
 

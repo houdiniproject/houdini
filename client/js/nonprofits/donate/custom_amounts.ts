@@ -1,5 +1,5 @@
 // License: LGPL-3.0-or-later
-const defaultAmounts = [10,25,50,100,250,500,1000];
+const defaultAmounts = [25,50,100,250,500,1000,1500];
 
 /**
  * A function to allow us to get the default amounts

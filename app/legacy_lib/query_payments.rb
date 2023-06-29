@@ -168,20 +168,22 @@ module QueryPayments
     if query[:search].present?
       expr = SearchVector.query(query[:search], expr)
     end
-    if ['asc', 'desc'].include? query[:sort_amount]
-      expr = expr.order_by("payments.gross_amount #{query[:sort_amount]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_date]
-      expr = expr.order_by("payments.date #{query[:sort_date]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_name]
-      expr = expr.order_by("coalesce(NULLIF(supporters.name, ''), NULLIF(supporters.email, '')) #{query[:sort_name]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_type]
-      expr = expr.order_by("payments.kind #{query[:sort_type]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_towards]
-      expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
+    unless (query[:campaign_id].present? || query[:event_id].present?) # if we need to add the reverse query, we can't add this here.
+      if ['asc', 'desc'].include? query[:sort_amount]
+        expr = expr.order_by("payments.gross_amount #{query[:sort_amount]}")
+      end
+      if ['asc', 'desc'].include? query[:sort_date]
+        expr = expr.order_by("payments.date #{query[:sort_date]}")
+      end
+      if ['asc', 'desc'].include? query[:sort_name]
+        expr = expr.order_by("coalesce(NULLIF(supporters.name, ''), NULLIF(supporters.email, '')) #{query[:sort_name]}")
+      end
+      if ['asc', 'desc'].include? query[:sort_type]
+        expr = expr.order_by("payments.kind #{query[:sort_type]}")
+      end
+      if ['asc', 'desc'].include? query[:sort_towards]
+        expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
+      end
     end
     if query[:after_date].present?
       expr = expr.where('payments.date >= timezone(COALESCE(nonprofits.timezone, \'UTC\'), timezone(\'UTC\', $date))', date: query[:after_date])
@@ -308,21 +310,23 @@ module QueryPayments
     if query[:search].present?
       expr = SearchVector.query(query[:search], expr)
     end
-    if ['asc', 'desc'].include? query[:sort_amount]
-      expr = expr.order_by("payments.gross_amount #{query[:sort_amount]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_date]
-      expr = expr.order_by("payments.date #{query[:sort_date]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_name]
-      expr = expr.order_by("coalesce(NULLIF(supporters.name, ''), NULLIF(supporters.email, '')) #{query[:sort_name]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_type]
-      expr = expr.order_by("payments.kind #{query[:sort_type]}")
-    end
-    if ['asc', 'desc'].include? query[:sort_towards]
-      expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
-    end
+    
+    # This breaks so we need to scrap it
+    # if ['asc', 'desc'].include? query[:sort_amount]
+    #   expr = expr.order_by("payments.gross_amount #{query[:sort_amount]}")
+    # end
+    # if ['asc', 'desc'].include? query[:sort_date]
+    #   expr = expr.order_by("payments.date #{query[:sort_date]}")
+    # end
+    # if ['asc', 'desc'].include? query[:sort_name]
+    #   expr = expr.order_by("coalesce(NULLIF(supporters.name, ''), NULLIF(supporters.email, '')) #{query[:sort_name]}")
+    # end
+    # if ['asc', 'desc'].include? query[:sort_type]
+    #   expr = expr.order_by("payments.kind #{query[:sort_type]}")
+    # end
+    # if ['asc', 'desc'].include? query[:sort_towards]
+    #   expr = expr.order_by("NULLIF(payments.towards, '') #{query[:sort_towards]}")
+    # end
     if query[:after_date].present?
       expr = expr.where('payments.date >= $date', date: query[:after_date])
     end

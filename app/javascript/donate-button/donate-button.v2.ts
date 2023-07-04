@@ -1,3 +1,5 @@
+import { appendAll } from "../common/UrlSearchParams";
+
 const donate_css = require('../../assets/stylesheets/donate-button/donate-button.v2.css');
 
 const iframeHost = require('./details.js.erb')
@@ -55,11 +57,14 @@ const iframeHost = require('./details.js.erb')
     return div
   }
   
-  commitchange.createIframe = (source:string) => {
+  commitchange.createIframe = (source:URL, params:URLSearchParams=new URLSearchParams()) => {
     let i = document.createElement('iframe')
     const url = document.location.href
     i.setAttribute('class', 'commitchange-closed commitchange-iframe')
-    i.src = source + "&origin=" + url
+
+    appendAll(source.searchParams, params);
+    source.searchParams.set(origin, url);
+    i.src = source.toString();
     return i
   }
   
@@ -97,7 +102,7 @@ const iframeHost = require('./details.js.erb')
   
     }
     // Remove false values from the options
-    for(let key in options) {
+    for(const key in options) {
       if(!options[key]) delete options[key]
     }
     return options
@@ -113,19 +118,19 @@ const iframeHost = require('./details.js.erb')
   
     for(let i = 0; i < elems.length; ++i) {
       let elem:any = elems[i]
-      let source = baseSource
+      let source = new URL(baseSource)
   
       
       const options = {
         offsite: "t",
         ...commitchange.getParamsFromUrl(["utm_campaign","utm_content","utm_source","utm_medium","first_name","last_name","country","postal_code","address","city"]),
         ...commitchange.getParamsFromButton(elem)
-      }
+      } as Record<string, string>
       const params = new URLSearchParams(options);
   
       if(elem.hasAttribute('data-embedded')) {
         params.append("mode", "embedded");
-        let iframe = commitchange.createIframe(new URL(baseSource + "&" + params.toString()).toString());
+        let iframe = commitchange.createIframe(new URL(baseSource), params);
         elem.appendChild(iframe)
         iframe.setAttribute('class', 'commitchange-iframe-embedded')
         commitchange.iframes.push(iframe)

@@ -5,18 +5,18 @@
 <aside class='u-marginBottom--15'>
   <% if current_nonprofit_user? %>
 	  <button class='button--jumbo  u-width--full' open-modal='newCampaign'  if-branded='background-color, dark'>
-			Start a Campaign
+			<%= t('nonprofits.page.actions.start_campaign') %>
     </button>
   <% else %>
     <a class='button u-width--full' if-branded='background-color, dark' target='_blank' href='/peer-to-peer?npo_id=<%=@nonprofit.id %>'>
-      Start a Campaign for <%= @nonprofit.name %>
+      <%= t('nonprofits.page.actions.start_campaign_for', nonprofit_name: @nonprofit.name) %>
     </a>
   <% end %>
 	</button>
 
 	<% if current_nonprofit_user? %>
 		<button class='button--jumbo u-width--full' open-modal='newEvent' data-when-confirmed if-branded='background-color, dark'>
-			Create an Event
+			<%= t('nonprofits.page.actions.create_event') %>
 		</button>
 	<% end %>
 </aside>

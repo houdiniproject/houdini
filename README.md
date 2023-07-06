@@ -230,11 +230,13 @@ and React (using TSX files). Please use the React Generators for creation.
 # In order to get prod env set, you need to download Github CLI and Heroku CLI. 
 
 # Github CLI setup 
-* gh # to check if GH CLI has been downloaded 
-*  brew install gh  # if GH CLI has not been downloaded
-* gh 
-* gh auth
-* gh auth login. 
+```
+gh # to check if GH CLI has been downloaded 
+brew install gh  # if GH CLI has not been downloaded
+gh 
+gh auth
+gh auth login
+```
 # Answer the following questions: 
 —? What account do you want to log into? GitHub.com
 ? What is your preferred protocol for Git operations? HTTPS
@@ -244,33 +246,42 @@ and React (using TSX files). Please use the React Generators for creation.
 
 
 # Heroku CLI setup 
-* brew tap heroku/brew && brew install heroku 
-* heroku login 
-* heroku git:remote —remote=production -a commit change 
-* git branch 
-* git push production HEAD:master 
+```
+brew tap heroku/brew && brew install heroku 
+heroku login 
+heroku git:remote —remote=production -a commitchange 
+git branch 
+git push production HEAD:master 
+```
 
+```
+git checkout supporter_level_goal
+./create_new_release.sh
+git push private HEAD:master
+git checkout PRIVATE_PROD_DEPLOY
+git merge PRIVATE_MASTER
+git push private HEAD:prod_deploy
+npm run build-all-production
+git add public
+git commit -m "<a build message>"
+git push private HEAD:prod_deploy
+git push production HEAD:master
+```
 
-# Prod env set up 
-* git checkout supporter_level_goal
-* git pull 
-* git remote add private https://github.com/commitchange/deploy-houdini.git
-* git branch -u private/master PRIVATE_MASTER
-* git fetch private 
-* git checkout private/master
-* git switch -c PRIVATE_MASTER
-* git branch -u private/master PRIVATE_MASTER
-* git checkout private/prod_deploy
-* git switch -c PRIVATE_PROD_DEPLOY
-* git branch -u private/prod_deploy PRIVATE_PROD_DEPLOY
-* git checkout supporter_level_goal
-* ./create_new_release.sh
-* git push private HEAD:master
-* git checkout PRIVATE_PROD_DEPLOY
-* git merge PRIVATE_MASTER
-* git push private HEAD:prod_deploy
-
-
+# Build for production (One-time Mac setup)
+```
+git checkout supporter_level_goal
+git pull 
+git remote add private https://github.com/commitchange/deploy-houdini.git
+git branch -u private/master PRIVATE_MASTER
+git fetch private 
+git checkout private/master
+git switch -c PRIVATE_MASTER
+git branch -u private/master PRIVATE_MASTER
+git checkout private/prod_deploy
+git switch -c PRIVATE_PROD_DEPLOY
+git branch -u private/prod_deploy PRIVATE_PROD_DEPLOY
+```
 ### Build for staging
 
 * Run the workflow at https://github.com/CommitChange/deploy-houdini/actions/workflows/create-release.yml.

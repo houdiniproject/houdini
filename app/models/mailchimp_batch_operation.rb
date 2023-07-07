@@ -9,18 +9,22 @@ class MailchimpBatchOperation
     :list, # the EmailList you're applying this to
     :supporter # the Supporter in question
 
+  def email
+    supporter.email
+  end
+
   def body
     method === "POST" ? Mailchimp::create_subscribe_body(supporter) : nil
   end
 
   def path
     path = list.list_members_path
-    path = path + "/#{Digest::MD5.hexdigest(supporter.email.downcase).to_s}" if method === "DELETE" 
+    path = path + "/#{Digest::MD5.hexdigest(email.downcase).to_s}" if method === "DELETE" 
     path
   end
 
   def to_h
-    if (supporter.email) 
+    if (email) 
       result = {method: method, path: path}
       if body
         result[:body] = JSON::dump(body)

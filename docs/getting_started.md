@@ -80,6 +80,9 @@ reloading, run `bin/webpack-dev-server` in a second console. Now after making a
 change to the JavaScript code you should see Webpack immediately rebuild the
 assets and perform a full page reload.
 
+When in doubt, you can manually clear the generated CSS and JavaScript files
+with `bin/rails assets:clobber`, which is a Rails [built-in command](https://guides.rubyonrails.org/v6.0/command_line.html#rails-assets).
+
 In development, it's **important** to access the Houdini at
 `http://localhost:5000`, rather than the `http://127.0.0.1:5000` that Rails
 suggests in the console. This ensures that the hard-coded callbacks in the

@@ -1,16 +1,5 @@
 # Getting Started
 
-## Dependencies
-
----
-
-You'll need to have the following dependencies installed:
-
-* Ruby 2.7
-* Node 14
-* Yarn
-* PostgreSQL 10 or 12
-
 ## Local Config
 
 ---
@@ -93,12 +82,6 @@ production builds, it may help to explicitly override the `NODE_ENV` environment
 variable. For example:
 
 `NODE_ENV=development bin/rake assets:precompile`
-
-## Testing
-
----
-
-Run `bundle exec rspec` to run test suite.
 
 ## Formatting
 

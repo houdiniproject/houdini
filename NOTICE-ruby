@@ -2998,6 +2998,8 @@ Copyright (c) 2010-2015, The Dojo Foundation
 ** mime-types; version 3.4.1 -- 
 Copyright 2003-2019 Austin Ziegler and contributors.
 ** mime-types-data; version 3.2022.0105 -- 
+** minitest; version 5.18.1 -- 
+Copyright (c) Ryan Davis, seattle.rb
 ** qx; version 0.1.1 -- 
 ** rack; version 2.2.7 -- 
 Copyright (c) 2009-2018 Michael Fellinger <m.fellinger@gmail.com>
@@ -4125,40 +4127,6 @@ You can redistribute it and/or modify it under either the terms of the
 
 ------
 
-** nokogiri; version 1.15.2 -- 
-Copyright 2010 Google Inc.
-Copyright 2011 Google Inc.
-Copyright 2018 Craig Barnes
-Copyright 2017-2018 Craig Barnes
-Copyright 2018 Stephen Checkoway
-Copyright (c) 1998-2003 Daniel Veillard
-Copyright (c) 1998-2012 Daniel Veillard
-Copyright (c) 2001-2002 Daniel Veillard
-copyrighted by the Free Software Foundation
-Copyright 2013-2021 Sam Ruby, Stephen Checkoway
-Copyright (c) 1991 Free Software Foundation, Inc.
-Copyright 1992-2022 Free Software Foundation, Inc.
-Copyright 1992-2023 Free Software Foundation, Inc.
-Copyright (c) 1995-2017 Jean-loup Gailly and Mark Adler
-Copyright (c) 2001-2003 Thai Open Source Software Center Ltd
-Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
-Copyright (c) 2001-2002 Thomas Broyer, Charlie Bozeman and Daniel Veillard
-Copyright (c) 2001-2002, SourceForge ISO-RELAX Project (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
-Copyright 2008 2023 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney
-
-The MIT License
-
-Copyright 2008 -- 2023 by Mike Dalessio, Aaron Patterson, Yoko Harada, Akinori MUSHA, John Shahid, Karol Bucek, Sam Ruby, Craig Barnes, Stephen Checkoway, Lars Kanis, Sergio Arbeo, Timothy Elliott, Nobuyoshi Nakada, Charles Nutter, Patrick Mahoney.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-------
-
 ** marcel; version 1.0.2 -- 
 Copyright (c) 2017 Tom Ward
 Copyright (c) 2011 Daniel Mendler.
@@ -4435,6 +4403,38 @@ Copyright (c) 2003 Internet Programming with Ruby writers
 Copyright (c) 2000, 2001 TAKAHASHI Masayoshi, GOTOU Yuuzou
 
 Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+
+------
+
+** racc; version 1.7.1 -- 
+copyright Print
+copyright Zhu Zuo Quan Biao Shi
+Copyright (c) 1999-2006 Minero Aoki
+Copyright (c) 2019 Yukihiro Matsumoto
+
+Copyright (C) 2019 Yukihiro Matsumoto. All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions
@@ -4998,6 +4998,100 @@ You can redistribute it and/or modify it under either the terms of the
      IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
      WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
      PURPOSE.
+
+
+------
+
+** net-imap; version 0.3.6 -- 
+Copyright (c) The Internet Society (2003)
+Copyright (c) 1993-2013 Yukihiro Matsumoto
+Copyright (c) 2000 Shugo Maeda <shugo@ruby-lang.org>
+Copyright (c) 2021 IETF Trust and the persons identified as the document authors
+
+Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+1. Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+-------------------------------------------------------------------------
+
+This software includes documentation which has been copied from the relevant
+RFCs.  The copied documentation is covered by the following licenses:
+
+RFC 3501 (Editor: M. Crispin)
+Full Copyright Statement
+
+   Copyright (C) The Internet Society (2003).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.  v This
+   document and the information contained herein is provided on an "AS
+   IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING TASK
+   FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+   LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL
+   NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY
+   OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+RFC9051 (Editors: A. Melnikov, B. Leiba)
+Copyright Notice
+
+   Copyright (c) 2021 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+   This document may contain material from IETF Documents or IETF
+   Contributions published or made publicly available before November
+   10, 2008.  The person(s) controlling the copyright in some of this
+   material may not have granted the IETF Trust the right to allow
+   modifications of such material outside the IETF Standards Process.
+   Without obtaining an adequate license from the person(s) controlling
+   the copyright in such materials, this document may not be modified
+   outside the IETF Standards Process, and derivative works of it may
+   not be created outside the IETF Standards Process, except to format
+   it for publication as an RFC or to translate it into languages other
+   than English.
 
 
 ------

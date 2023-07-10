@@ -49,15 +49,16 @@ can [learn more here](https://aws.amazon.com/blogs/security/wheres-my-secret-acc
 * `AWS_ACCESS_KEY`
 * `AWS_SECRET_ACCESS_KEY`
 
-_Setting up the local database:_
+### Database setup
 
-Run `bin/rails db:setup` to run all the db tasks within one command. This will
-create the dbs for each environment, load the `structure.sql`, run
-pending migrations and will also run the seed functionality.
+Running `bin/setup` as per the README will in turn run `bin/rails db:setup` to
+create the database, create the schema (tables etc), run all migrations and
+pre-populate the database with some default values.
 
----
+### Known issues
 
-**Known problems**
+#### `database doesnt exist in bin/rails db create`
+
 If you encounter `database doesnt exist in bin/rails db create` after running
 both `bin/rails db:setup` and `bin/rails db:create`, you'll need to comment out
 the lines these lines at `pg_type_map.rb`
@@ -66,6 +67,28 @@ the lines these lines at `pg_type_map.rb`
 Qx.config(type_map: PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection.raw_connection))
 Qx.execute("SET TIME ZONE utc")
 ```
+
+#### `relation "active_storage_blobs" does not exist`
+
+This problem occurs when the database has been manually created, rather than
+being created by `bin/setup`. This is due to a quirk with how `bin/rails
+db:prepare` works when called in `bin/setup`. The `db:prepare` does one of two
+things:
+
+* if the database doesn't exist, it creates the database, loads the schema from
+  scratch, which inherently includes all of the migrations, and runs the seed
+  command (we don't really use that)
+* if the database does exist, it runs any migrations that haven't been run
+  already
+
+The problem is when the database does exist but the schema hasn't been loaded
+yet. In this situation, it tries to find what migrations need to be run, which
+in this case happens to be all of them. But it doesn't have any tables to run
+the migrations on so the entire thing fails.
+
+As a work around, as long as all of the gems have been installed, run `bin/rails
+db:schema:load` which loads the schema. At that point, if you run `bin/setup`
+again, everything should be fine.
 
 ### Running in development
 

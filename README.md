@@ -254,21 +254,7 @@ git branch
 git push production HEAD:master 
 ```
 
-```
-git checkout supporter_level_goal
-./create_new_release.sh
-git push private HEAD:master
-git checkout PRIVATE_PROD_DEPLOY
-git merge PRIVATE_MASTER
-git push private HEAD:prod_deploy
-npm run build-all-production
-git add public
-git commit -m "<a build message>"
-git push private HEAD:prod_deploy
-git push production HEAD:master
-```
-
-# Build for production (One-time Mac setup)
+# One-time setup to build for production
 ```
 git checkout supporter_level_goal
 git pull 
@@ -281,6 +267,20 @@ git branch -u private/master PRIVATE_MASTER
 git checkout private/prod_deploy
 git switch -c PRIVATE_PROD_DEPLOY
 git branch -u private/prod_deploy PRIVATE_PROD_DEPLOY
+```
+
+```
+git checkout supporter_level_goal
+./create_new_release.sh
+git push private HEAD:master
+git checkout PRIVATE_PROD_DEPLOY
+git merge PRIVATE_MASTER
+git push private HEAD:prod_deploy
+npm run build-all-production
+git add public
+git commit -m "<a build message>"
+git push private HEAD:prod_deploy
+git push production HEAD:master
 ```
 ### Build for staging
 

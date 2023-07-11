@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230427003235) do
+ActiveRecord::Schema.define(version: 20230711150901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -323,6 +323,10 @@ ActiveRecord::Schema.define(version: 20230427003235) do
   create_table "donations_payment_imports", id: false, force: :cascade do |t|
     t.integer "donation_id"
     t.integer "payment_import_id"
+  end
+
+  create_table "drip_email_lists", force: :cascade do |t|
+    t.string "mailchimp_list_id"
   end
 
   create_table "e_tap_import_contacts", force: :cascade do |t|

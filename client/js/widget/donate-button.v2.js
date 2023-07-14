@@ -14,13 +14,13 @@ window.commitchange = {
 , modalIframe: null
 }
 
-commitchange.getParamsFromUrl = (whitelist) => {
+commitchange.getParamsFromUrl = (allowlist) => {
     var result = {},
         tmp = [];
     var items = location.search.substr(1).split("&");
     for (var index = 0; index < items.length; index++) {
         tmp = items[index].split("=");
-        if (whitelist.indexOf(tmp[0])) result[tmp[0]] = decodeURIComponent(tmp[1]);
+        if (allowlist.indexOf(tmp[0])) result[tmp[0]] = decodeURIComponent(tmp[1]);
     }
     return result;
 }

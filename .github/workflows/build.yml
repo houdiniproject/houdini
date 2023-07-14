@@ -3,6 +3,8 @@ name: Main build
 on: 
   pull_request:
     types: [opened, reopened, synchronize]
+  push:
+    branches: ["supporter_level_goal"]
 concurrency: 
   group: build--${{ github.head_ref }}
   cancel-in-progress: true

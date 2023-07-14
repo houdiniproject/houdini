@@ -62,9 +62,7 @@ jobs:
             node-version: ${{ matrix.node }}
             cache: 'yarn'
         - name: set environment variables
-          uses: allenevans/set-env@v2.2.0
-          with:
-            CUSTOM_RUBY_VERSION: ${{ matrix.ruby }}
+          run: echo "CUSTOM_RUBY_VERSION=${{ matrix.ruby }}" >> $GITHUB_ENV
         - uses: ruby/setup-ruby@v1
           with:
             ruby-version: ${{ matrix.ruby }}

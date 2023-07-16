@@ -1,4 +1,4 @@
-// License: LGPL-3.0-or-laterpluralize
+// License: LGPL-3.0-or-later
 const confirmation = require('./confirmation').default
 const notification = require('./notification').default
 const moment = require('moment-timezone')

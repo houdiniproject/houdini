@@ -6,7 +6,7 @@ require 'stripe'
 
 module CreateStripeAccount
   def self.for_nonprofit(user, params)
-    fst_name, lst_name = Format::Name.split_full(user&.profile&.name))
+    fst_name, lst_name = Format::Name.split_full(user&.profile&.name)
     Stripe::Account.create(
       managed: true,
       email: params[:email],

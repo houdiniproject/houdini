@@ -68,4 +68,6 @@ jobs:
         run: bin/rails js:routes:typescript
       - name: run spec
         run: bundle exec rake spec
+      - name: run assets:precompile
+        run: bin/rails assets:precompile
     

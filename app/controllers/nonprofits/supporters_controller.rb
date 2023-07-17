@@ -6,7 +6,9 @@ class SupportersController < ApplicationController
 	before_action :authenticate_nonprofit_user!, except: [:new, :create]
 
   before_action :validate_allowed!, only: [:create]
+  rescue_from ::TempBlockError, with: :handle_temp_block_error
 
+  
 	# get /nonprofit/:nonprofit_id/supporters
 	def index
 		@panels_layout = true
@@ -108,7 +110,11 @@ class SupportersController < ApplicationController
 	end
 
   def validate_allowed!
-    raise("Unauthorized") if must_block?
+    raise(TempBlockError) if must_block?
+  end
+
+  def handle_temp_block_error 
+    render json: {error: "no"}, status: :unprocessable_entity
   end
 
 	# def new

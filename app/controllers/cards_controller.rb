@@ -7,6 +7,8 @@ class CardsController < ApplicationController
 
   rescue_from ::Recaptcha::RecaptchaError, with: :handle_recaptcha_failure
 
+  rescue_from ::TempBlockError, with: :handle_temp_block_error
+
 	# post /cards
   def create
     render(
@@ -49,10 +51,14 @@ class CardsController < ApplicationController
     render json: {error: "There was an temporary error preventing your payment. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J "}, status: :unprocessable_entity
   end
 
+  def handle_temp_block_error 
+    render json: {error: "no"}, status: :unprocessable_entity
+  end
+
   def validate_allowed!
     s = Supporter.find(params[:card][:holder_id])
     if s.nonprofit&.miscellaneous_np_info&.temp_block
-      raise "Unauthorized"
+      raise TempBlockError
     end
 	end
 end

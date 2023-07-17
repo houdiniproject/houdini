@@ -3,6 +3,7 @@ class CardsController < ApplicationController
 
 	before_action :authenticate_user!, :except => [:create]
   before_action :verify_via_recaptcha!, only: [:create]
+  before_action :validate_allowed!, only: [:create]
 
   rescue_from ::Recaptcha::RecaptchaError, with: :handle_recaptcha_failure
 
@@ -47,4 +48,11 @@ class CardsController < ApplicationController
   def handle_recaptcha_failure
     render json: {error: "There was an temporary error preventing your payment. Please try again. If it persists, please contact support@commitchange.com with error code: 5X4J "}, status: :unprocessable_entity
   end
+
+  def validate_allowed!
+    s = Supporter.find(params[:card][:holder_id])
+    if s.nonprofit&.miscellaneous_np_info&.temp_block
+      raise "Unauthorized"
+    end
+	end
 end

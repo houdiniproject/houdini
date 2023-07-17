@@ -56,4 +56,8 @@ private
 		end
 	end
 
+	def must_block?(nonprofit=nil)
+		(nonprofit || current_nonprofit)&.miscellaneous_np_info&.temp_block
+	end
+
 end

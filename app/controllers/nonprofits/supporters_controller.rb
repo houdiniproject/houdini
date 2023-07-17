@@ -5,6 +5,8 @@ class SupportersController < ApplicationController
 
 	before_action :authenticate_nonprofit_user!, except: [:new, :create]
 
+  before_action :validate_allowed!, only: [:create]
+
 	# get /nonprofit/:nonprofit_id/supporters
 	def index
 		@panels_layout = true
@@ -104,6 +106,10 @@ class SupportersController < ApplicationController
       MergeSupporters.selected(params[:supporter], params[:supporter_ids], params[:nonprofit_id], current_user.id)
     }
 	end
+
+  def validate_allowed!
+    raise("Unauthorized") if must_block?
+  end
 
 	# def new
 	# 	@nonprofit = current_nonprofit

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230711150901) do
+ActiveRecord::Schema.define(version: 20230717195829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -644,6 +644,7 @@ ActiveRecord::Schema.define(version: 20230711150901) do
     t.text     "change_amount_message"
     t.boolean  "first_charge_email_sent"
     t.boolean  "hide_cover_fees",                     default: false, null: false
+    t.boolean  "temp_block",                          default: false
   end
 
   add_index "miscellaneous_np_infos", ["nonprofit_id"], name: "index_miscellaneous_np_infos_on_nonprofit_id", using: :btree
@@ -1437,10 +1438,10 @@ ActiveRecord::Schema.define(version: 20230711150901) do
   create_trigger :update_donations_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations FOR EACH ROW EXECUTE FUNCTION update_fts_on_donations()
   SQL
-  create_trigger :update_supporters_fts, sql_definition: <<-SQL
-      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
-  SQL
   create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
       CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
+  SQL
+  create_trigger :update_supporters_fts, sql_definition: <<-SQL
+      CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
   SQL
 end

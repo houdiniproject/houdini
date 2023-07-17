@@ -56,9 +56,11 @@ class CardsController < ApplicationController
   end
 
   def validate_allowed!
-    s = Supporter.find(params[:card][:holder_id])
-    if s.nonprofit&.miscellaneous_np_info&.temp_block
-      raise TempBlockError
+    if params.dig(:card, :holder_id)
+      s = Supporter.find(params[:card][:holder_id])
+      if s.nonprofit&.miscellaneous_np_info&.temp_block
+        raise TempBlockError
+      end
     end
 	end
 end

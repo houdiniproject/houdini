@@ -5,6 +5,10 @@ class SupportersController < ApplicationController
 
 	before_action :authenticate_nonprofit_user!, except: [:new, :create]
 
+  before_action :validate_allowed!, only: [:create]
+  rescue_from ::TempBlockError, with: :handle_temp_block_error
+
+  
 	# get /nonprofit/:nonprofit_id/supporters
 	def index
 		@panels_layout = true
@@ -104,6 +108,14 @@ class SupportersController < ApplicationController
       MergeSupporters.selected(params[:supporter], params[:supporter_ids], params[:nonprofit_id], current_user.id)
     }
 	end
+
+  def validate_allowed!
+    raise(TempBlockError) if must_block?
+  end
+
+  def handle_temp_block_error 
+    render json: {error: "no"}, status: :unprocessable_entity
+  end
 
 	# def new
 	# 	@nonprofit = current_nonprofit

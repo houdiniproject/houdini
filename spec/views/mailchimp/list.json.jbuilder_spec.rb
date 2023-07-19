@@ -29,6 +29,7 @@ RSpec.describe '/mailchimp/list.json.jbuilder', type: :view do
 		}
   end
 
+  # TODO: Fix this spec 
   describe 'supporter with active recurring donations', skip: 'TODO' do
 
   end

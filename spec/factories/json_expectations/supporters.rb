@@ -3,6 +3,7 @@ FactoryBot.define do
   factory :supporter_expectation, class: "OpenStruct" do
 
     id { match_houid(:supp) }
+    legacy_id { be_a_kind_of(Numeric) }
     deleted {false}
     object {'supporter'}
 

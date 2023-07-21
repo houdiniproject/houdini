@@ -28,6 +28,7 @@ describe InsertSupporter do
               email: supporter_data['email'],
               phone: supporter_data['phone'],
               object: 'supporter',
+              legacy_id: insert_supporter.id,
               nonprofit: nonprofit.houid
             }
           },

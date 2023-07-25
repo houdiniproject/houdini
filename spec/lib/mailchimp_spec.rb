@@ -3,12 +3,13 @@ require 'rails_helper'
 
 describe Mailchimp do
 	let(:np) { force_create(:nonprofit)}
+		let(:user) {force_create(:user)}
 		let(:tag_master) {force_create(:tag_master, nonprofit: np)}
 		let(:email_list) {force_create(:email_list, mailchimp_list_id: 'list_id', tag_master: tag_master, nonprofit:np, list_name: "temp")}
+		let(:drip_email_list) {force_create(:drip_email_list, nonprofit: np, user: user)}
 		let(:supporter_on_both) { force_create(:supporter, nonprofit:np, email: 'on_BOTH@email.com', name: nil)}
 		let(:supporter_on_local) { force_create(:supporter, nonprofit:np, email: 'on_local@email.com', name: 'Penelope Rebecca Schultz')}
 		let(:tag_join) {force_create(:tag_join, tag_master: tag_master, supporter: supporter_on_both)}
-	
 		let(:tag_join2) {force_create(:tag_join, tag_master: tag_master, supporter: supporter_on_local)}
 	
 		let(:active_recurring_donation_1) {force_create(:recurring_donation_base, supporter_id: supporter_on_local.id, start_date: Time.new(2019, 10,12))}
@@ -74,12 +75,27 @@ describe Mailchimp do
 																body: an_instance_of(String)
 														},
 														{
-																method: 'DELETE',
-																path: 'lists/list_id/members/on_mailchimp'
-														}
+															method: 'DELETE',
+															path: 'lists/list_id/members/on_mailchimp'
+														}								
 													])
 		end
   end
+
+	describe '.create_nonprofit_user_subscribe_body' do 
+		let(:nonprofit) { create(:nonprofit)}
+
+		it 'creates nonprofit user subscriber' do 
+			expect(Mailchimp.create_nonprofit_user_subscribe_body(nonprofit, user)).to match({
+				'email_address' => user.email,
+				'status' => 'subscribed',
+				'merge_fields' => {
+					'NONPROFIT_ID' => nonprofit.id
+				}
+			})
+		end 
+
+	end 
 
 	describe '.create_subscribe_body' do
 

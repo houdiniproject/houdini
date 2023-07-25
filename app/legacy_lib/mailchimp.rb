@@ -49,6 +49,11 @@ module Mailchimp
 		put("/lists/#{mailchimp_list_id}/members", @options.merge(:body => body_hash.to_json))
   end
 
+  def self.signup_nonprofit_user(drip_email_list, nonprofit, user)
+    body_hash = @body.merge(create_nonprofit_user_subscribe_body(nonprofit, user))
+    put(drip_email_list.list_members_path, @options.merge(:body => body_hash.to_json))
+  end 
+
   def self.get_mailchimp_token(npo_id)
     mailchimp_token = QueryNonprofitKeys.get_key(npo_id, 'mailchimp_token')
     throw RuntimeError.new("No Mailchimp connection for this nonprofit: #{npo_id}") if mailchimp_token.nil?
@@ -255,7 +260,6 @@ module Mailchimp
     result
   end
 
-  #create_nonprofit_user_subscribe_body to Mailchimp 
   def self.create_nonprofit_user_subscribe_body(nonprofit,user)
     JSON::parse(ApplicationController.render 'mailchimp/nonprofit_user_subscribe', assigns: {nonprofit: nonprofit, user: user })
   end 

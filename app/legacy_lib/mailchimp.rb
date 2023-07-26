@@ -1,8 +1,13 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'httparty'
 require 'digest/md5'
+require 'webmock'
+
 
 module Mailchimp
+  include WebMock::API
+  WebMock.enable!
+
 	include HTTParty
 	format :json
   logger Rails.logger, :info, :mailchimp
@@ -55,6 +60,14 @@ module Mailchimp
     put(uri + "/" + generate_list_member_path(drip_email_list.list_members_path, user.email), @options.merge(:body => body_hash.to_json,
     basic_auth: {username: "user", password: @apikey}))
   end 
+
+  # def self.signup_nonprofit_user(drip_email_list,nonprofit,user)
+  #   body_hash = @body.merge(create_nonprofit_user_subscribe_body(nonprofit, user))
+  #   stub_request(:put, "https://user:REPLACE@us5.api.mailchimp.com/3.0/lists/mailchimp_list_id1/members/d41d8cd98f00b204e9800998ecf8427e").
+  #   with(:body => "{\"apikey\":\"REPLACE\",\"email_address\":null,\"status\":\"subscribed\",\"merge_fields\":{\"NONPROFIT_ID\":1}}",
+  #        :headers => {'Accept'=>'application/json', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/json', 'User-Agent'=>'Ruby'}).
+  #   to_return(:status => 200, :body => "", :headers => {})
+  # end 
 
   def self.get_mailchimp_token(npo_id)
     mailchimp_token = QueryNonprofitKeys.get_key(npo_id, 'mailchimp_token')
@@ -271,6 +284,6 @@ module Mailchimp
   end
 
   def self.generate_list_member_path(list_members_path, email)
-    list_members_path + "/" + Digest::MD5.hexdigest(email.downcase)
+    list_members_path + "/" + Digest::MD5.hexdigest(email.to_s.downcase)
   end
 end

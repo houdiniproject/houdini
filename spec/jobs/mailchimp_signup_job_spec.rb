@@ -5,6 +5,7 @@ RSpec.describe MailchimpSignupJob, type: :job do
   let(:mailchimp_list) { create(:email_list_base)}
   it 'enqueues the job when provided with the correct email' do
     expect(Mailchimp).to receive(:signup).with('fake@email.name', mailchimp_list.id)
+  end
     
     MailchimpSignupJob.perform_now('fake@email.name', mailchimp_list)
     

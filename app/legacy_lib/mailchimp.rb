@@ -2,6 +2,7 @@
 require 'httparty'
 require 'digest/md5'
 
+
 module Mailchimp
 	include HTTParty
 	format :json

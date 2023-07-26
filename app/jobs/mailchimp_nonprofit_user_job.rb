@@ -1,7 +1,7 @@
 class MailchimpNonprofitUserJob < ActiveJob::Base
   queue_as :default
 
-  def perform(user, nonprofit)
-    Mailchimp.signup_nonprofit_user(user, nonprofit)
+  def perform(drip_email_list, user, nonprofit)
+    Mailchimp.signup_nonprofit_user(drip_email_list, user, nonprofit)
   end
 end

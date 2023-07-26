@@ -272,6 +272,6 @@ module Mailchimp
   end
 
   def self.generate_list_member_path(list_members_path, email)
-    list_members_path + "/" + Digest::MD5.hexdigest(email.to_s.downcase)
+    list_members_path + "/" + Digest::MD5.hexdigest(email.downcase)
   end
 end

@@ -398,7 +398,9 @@ describe InsertDonation do
 				object: 'offline_transaction_charge',
 				created: offline_transaction_charge.created.to_i,
 				nonprofit: nonprofit.houid,
-				supporter: supporter.houid,
+				'supporter' => {
+                            'id' => offline_transaction_charge.supporter.houid
+                          },
 				fee_total: {
 				  cents: offline_transaction_charge.fee_total_as_money.cents,
 				  currency: 'usd'

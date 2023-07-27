@@ -325,7 +325,9 @@ RSpec.describe Nonprofits::DonationsController, type: :request do
                       data: {
                         object: {
                           'id' => stripe_charge.to_houid,
-                          'supporter' => stripe_charge.supporter.houid,
+                          'supporter' => {
+                            'id' => stripe_charge.supporter.houid
+                          },
                           'gross_amount' => {'cents' => 4000, 'currency' => 'usd'},
                           'fee_total' => {'cents' => -250, 'currency' => 'usd'},
                           'net_amount' => {'cents' => 3750, 'currency' => 'usd'},

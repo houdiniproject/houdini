@@ -214,8 +214,12 @@ To verify everying is set up correctly, you can try running through the Ruby
 test cases:
 
 ```bash
-./bin/rails spec
+bin/rails spec
 ```
+
+(You can also run `bin/rspec`, which provides the full feature set of rspec such
+as `--next-failure` and `--only-failures`, but does not set up a test database
+when it doesn't exist.)
 
 You should expect to see the output of the test execution,
 including messages about pending test cases, and

@@ -39,6 +39,7 @@ All new backend code and React components should be well tested.
 - Yarn
 - PostgreSQL 12 (10 probably works)
 - Ruby 2.7
+- Ubuntu 18.04, 20.04, 22.04 or equivalent
 
 > Note: All tools will be installed in the Dev Setup.
 

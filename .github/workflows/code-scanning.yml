@@ -12,7 +12,7 @@ concurrency:
 env:
 # this version used for running various tools
   tool_node_version: "14.x"
-  tool_ruby_version: "2.7.6"
+  tool_ruby_version: "2.7.7"
 jobs:
   npm-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
       name: Download and cache any npm packages
@@ -35,7 +35,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        ruby: [2.7.6]
+        ruby: [2.7.7]
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1

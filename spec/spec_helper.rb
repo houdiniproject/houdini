@@ -18,7 +18,6 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-
 require 'support/expect'
 require 'support/mock_helpers'
 

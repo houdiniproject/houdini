@@ -45,9 +45,9 @@ module Mailchimp
     return metadata['dc']
   end
 
-	def self.signup supporter, mailchimp_list_id
+	def self.signup supporter, mailchimp_list
 		body_hash = @body.merge(create_subscribe_body(supporter))
-		put("/lists/#{mailchimp_list_id}/members", @options.merge(:body => body_hash.to_json))
+		put(mailchimp_list.list_members_url, @options.merge(:body => body_hash.to_json))
   end
 
   def self.signup_nonprofit_user(drip_email_list, nonprofit, user)

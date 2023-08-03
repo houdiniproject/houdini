@@ -1,6 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-
+require 'webmock/rspec'
 describe Mailchimp do
 	let(:np) { force_create(:nonprofit)}
 		let(:user) {force_create(:user)}
@@ -181,6 +181,22 @@ describe Mailchimp do
 		it 'includes email for supporter with email' do
 			supporter = create(:supporter, nonprofit: nonprofit, email: 'an@email.com')
 			expect(Mailchimp.get_emails_for_supporter_ids(nonprofit.id, supporter.id)).to eq ['an@email.com']
+		end
+	end
+
+	describe '.signup' do
+		it 'send signup' do
+			list = create(:email_list_base, nonprofit: np)
+			stub = stub_request(:put, list.base_uri + "/lists/#{list.mailchimp_list_id}/members").with(
+				body: hash_including({
+						'email_address' =>   supporter_on_local.email, 
+						'status' => 'subscribed',
+				})
+			)
+			
+			Mailchimp.signup(supporter_on_local, list)
+
+			expect(stub).to have_been_requested
 		end
 	end
 end

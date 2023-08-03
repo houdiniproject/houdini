@@ -2,7 +2,7 @@
 class MailchimpSignupJob < ApplicationJob
   queue_as :default
 
-  def perform(email, mailchimp_list)
-    Mailchimp.signup(email, mailchimp_list.id)
+  def perform(supporter, mailchimp_list)
+    Mailchimp.signup(supporter, mailchimp_list)
   end
 end

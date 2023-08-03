@@ -7,6 +7,10 @@ class EmailList < ActiveRecord::Base
 
   has_many :supporters, through: :tag_joins
 
+  # you can set this manually for testing but generally, it should be
+  # generated from the api key
+  attr_accessor :base_uri
+
   # the path on the Mailchimp api for the list
   def list_path
    "lists/#{mailchimp_list_id}"

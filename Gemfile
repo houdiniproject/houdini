@@ -19,7 +19,6 @@ gem "date", "~> 3.3.3"
 
 gem 'httparty', '~> 0.21.0' # https://github.com/jnunemaker/httparty
 gem 'rack-attack', '~> 5.2' # for blocking ip addressses
-gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'
 
 # Helpers

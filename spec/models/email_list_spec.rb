@@ -9,7 +9,7 @@ RSpec.describe EmailList, :type => :model do
   describe '#api_key' do
     it "retrieves the api key properly" do
       nonprofit = build(:nonprofit_base)
-      email_list = create(:email_list_base, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      email_list = create(:email_list_base, :without_base_uri, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
       expect(Mailchimp).to receive(:get_mailchimp_token).with(nonprofit.id).and_return("a-key")
       expect(email_list.api_key).to eq "a-key"
     end
@@ -18,7 +18,7 @@ RSpec.describe EmailList, :type => :model do
   describe '#base_uri' do
     it "retrieves the base_uri properly" do
       nonprofit = build(:nonprofit_base)
-      email_list = create(:email_list_base, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      email_list = create(:email_list_base, :without_base_uri, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
       expect(Mailchimp).to receive(:get_mailchimp_token).with(nonprofit.id).and_return("a-key")
 
       expect(Mailchimp).to receive(:base_uri).with('a-key').and_return('https://us3.api.mailchimp.com/3.0')
@@ -29,12 +29,16 @@ RSpec.describe EmailList, :type => :model do
     it 'caches the base_uri' do
 
       nonprofit = build(:nonprofit_base)
-      email_list = create(:email_list_base, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
-      expect(Mailchimp).to receive(:get_mailchimp_token).with(nonprofit.id).and_return("a-key")
+      email_list = create(:email_list_base, :without_base_uri, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      expect(Mailchimp).to receive(:get_mailchimp_token).with(nonprofit.id).and_return("a-key").twice
 
-      expect(Mailchimp).to receive(:base_uri).with('a-key').and_return('https://us3.api.mailchimp.com/3.0').once
+      expect(Mailchimp).to receive(:base_uri).with('a-key').and_return('https://us3.api.mailchimp.com/3.0').twice
 
       expect(email_list.base_uri).to eq 'https://us3.api.mailchimp.com/3.0'
+
+      expect(email_list.base_uri).to eq 'https://us3.api.mailchimp.com/3.0'
+
+      email_list.base_uri = nil
 
       expect(email_list.base_uri).to eq 'https://us3.api.mailchimp.com/3.0'
     end
@@ -44,7 +48,6 @@ RSpec.describe EmailList, :type => :model do
     it 'returns the proper url' do
       nonprofit = build(:nonprofit_base)
       email_list = create(:email_list_base, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
-      expect(email_list).to receive(:base_uri).and_return("https://us3.api.mailchimp.com/3.0")
       
       expect(email_list.list_url).to eq "https://us3.api.mailchimp.com/3.0/lists/#{email_list.mailchimp_list_id}"
     end

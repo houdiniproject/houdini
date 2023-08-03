@@ -35,9 +35,9 @@ All new backend code and React components should be well tested.
 
 ## Prerequisites
 
-- Node 14
+- Node.js 14 (we require 14 because we want the full internationalization built-in)
 - Yarn
-- PostgreSQL 10  or 12
+- PostgreSQL 12 (10 probably works)
 - Ruby 2.7
 - Ubuntu 18.04, 20.04, 22.04 or equivalent
 
@@ -66,17 +66,9 @@ and create an issue with your test design or run test sessions for
 
 ### Installation prep
 
-Houdini requires a few pieces of software be installed, as well as some optional
-pieces which make development much easier.
-
-These include:
-
-- PostgreSQL 12 (10 probably works)
-- NodeJS 14 (we require 14 because we want the full internationalization built-in)
-- Ruby 2.7.7
-
-There a few optional tools which make working on Houdini
-easier
+Houdini requires a few pieces of software be installed as mentioned in
+Prerequisites above, as well as some optional pieces which make development much
+easier. The optional tools include:
 
 - RBENV - rbenv is a version manager tool for the Ruby programming language on
 Unix-like systems. It is useful for switching between multiple Ruby versions on
@@ -222,8 +214,12 @@ To verify everying is set up correctly, you can try running through the Ruby
 test cases:
 
 ```bash
-./bin/rails spec
+bin/rails spec
 ```
+
+(You can also run `bin/rspec`, which provides the full feature set of rspec such
+as `--next-failure` and `--only-failures`, but does not set up a test database
+when it doesn't exist.)
 
 You should expect to see the output of the test execution,
 including messages about pending test cases, and

@@ -18,7 +18,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.19.1]
-        ruby: [2.7.6]
+        ruby: [2.7.7]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -37,7 +37,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         node: [14.19.1]
-        ruby: [2.7.6]
+        ruby: [2.7.7]
     steps:
       - uses: actions/checkout@v3
       - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user

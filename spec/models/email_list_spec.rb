@@ -5,6 +5,64 @@ RSpec.describe EmailList, :type => :model do
   it { is_expected.to belong_to(:nonprofit) }
   it { is_expected.to belong_to(:tag_master) }
   
+
+  describe '#api_key' do
+    it "retrieves the api key properly" do
+      nonprofit = build(:nonprofit_base)
+      email_list = create(:email_list_base, :without_base_uri, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      expect(Mailchimp).to receive(:get_mailchimp_token).with(nonprofit.id).and_return("a-key")
+      expect(email_list.api_key).to eq "a-key"
+    end
+  end
+
+  describe '#base_uri' do
+    it "retrieves the base_uri properly" do
+      nonprofit = build(:nonprofit_base)
+      email_list = create(:email_list_base, :without_base_uri, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      expect(Mailchimp).to receive(:get_mailchimp_token).with(nonprofit.id).and_return("a-key")
+
+      expect(Mailchimp).to receive(:base_uri).with('a-key').and_return('https://us3.api.mailchimp.com/3.0')
+
+      expect(email_list.base_uri).to eq 'https://us3.api.mailchimp.com/3.0'
+    end
+
+    it 'caches the base_uri' do
+
+      nonprofit = build(:nonprofit_base)
+      email_list = create(:email_list_base, :without_base_uri, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      expect(Mailchimp).to receive(:get_mailchimp_token).with(nonprofit.id).and_return("a-key").twice
+
+      expect(Mailchimp).to receive(:base_uri).with('a-key').and_return('https://us3.api.mailchimp.com/3.0').twice
+
+      expect(email_list.base_uri).to eq 'https://us3.api.mailchimp.com/3.0'
+
+      expect(email_list.base_uri).to eq 'https://us3.api.mailchimp.com/3.0'
+
+      email_list.base_uri = nil
+
+      expect(email_list.base_uri).to eq 'https://us3.api.mailchimp.com/3.0'
+    end
+  end
+
+  describe '#list_url' do
+    it 'returns the proper url' do
+      nonprofit = build(:nonprofit_base)
+      email_list = create(:email_list_base, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      
+      expect(email_list.list_url).to eq "https://us3.api.mailchimp.com/3.0/lists/#{email_list.mailchimp_list_id}"
+    end
+  end
+
+  describe '#list_members_url' do
+    it 'returns the proper url' do
+      nonprofit = build(:nonprofit_base)
+      email_list = create(:email_list_base, nonprofit:nonprofit, tag_master:build(:tag_master_base, nonprofit:nonprofit))
+      expect(email_list).to receive(:base_uri).and_return("https://us3.api.mailchimp.com/3.0")
+      
+      expect(email_list.list_members_url).to eq "https://us3.api.mailchimp.com/3.0/lists/#{email_list.mailchimp_list_id}/members"
+    end
+  end
+
   describe '#populate_list_later' do
     it 'queues a PopulateListJob' do
       ActiveJob::Base.queue_adapter = :test

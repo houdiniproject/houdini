@@ -7,14 +7,40 @@ class EmailList < ActiveRecord::Base
 
   has_many :supporters, through: :tag_joins
 
+  # you can set this manually for testing but generally, it should be
+  # generated from the api key
+  attr_accessor :base_uri
+
   # the path on the Mailchimp api for the list
   def list_path
    "lists/#{mailchimp_list_id}"
   end
-  
+
+  def list_url
+    base_uri + "/" + list_path
+  end
+
   # the path on the Mailchimp api for the list's members
   def list_members_path
     list_path + "/members"
+  end
+
+  def list_members_url
+    base_uri + "/" + list_members_path
+  end
+
+  # the Mailchimp api key we have saved for the nonprofit
+  def api_key
+    Mailchimp.get_mailchimp_token(nonprofit.id)
+  end
+
+  # The base Mailchimp API uri. This includes getting the proper datacenter
+  # using the api key.
+  #
+  # NOTE: this value is cached. This is not an awful decision but could be 
+  # easy to forget this
+  def base_uri
+    @base_uri ||= Mailchimp.base_uri(api_key)
   end
 
   def active?

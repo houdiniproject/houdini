@@ -302,8 +302,6 @@ GEM
     raabro (1.4.0)
     racc (1.7.1)
     rack (2.2.8)
-    rack-attack (5.4.2)
-      rack (>= 1.0, < 3)
     rack-proxy (0.7.6)
       rack
     rack-test (2.1.0)
@@ -522,7 +520,6 @@ DEPENDENCIES
   premailer-rails (~> 1.12)
   puma (~> 5.6)
   qx!
-  rack-attack (~> 5.2)
   rack-timeout (~> 0.6.3)
   rails (= 6.1.7.4)
   rails-i18n (~> 6.0.0, ~> 6)

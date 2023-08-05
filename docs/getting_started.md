@@ -1,16 +1,5 @@
 # Getting Started
 
-## Dependencies
-
----
-
-You'll need to have the following dependencies installed:
-
-* Ruby 2.7
-* Node 14
-* Yarn
-* PostgreSQL 10 or 12
-
 ## Local Config
 
 ---
@@ -49,15 +38,16 @@ can [learn more here](https://aws.amazon.com/blogs/security/wheres-my-secret-acc
 * `AWS_ACCESS_KEY`
 * `AWS_SECRET_ACCESS_KEY`
 
-_Setting up the local database:_
+### Database setup
 
-Run `bin/rails db:setup` to run all the db tasks within one command. This will
-create the dbs for each environment, load the `structure.sql`, run
-pending migrations and will also run the seed functionality.
+Running `bin/setup` as per the README will in turn run `bin/rails db:setup` to
+create the database, create the schema (tables etc), run all migrations and
+pre-populate the database with some default values.
 
----
+### Known issues
 
-**Known problems**
+#### `database doesnt exist in bin/rails db create`
+
 If you encounter `database doesnt exist in bin/rails db create` after running
 both `bin/rails db:setup` and `bin/rails db:create`, you'll need to comment out
 the lines these lines at `pg_type_map.rb`
@@ -66,6 +56,28 @@ the lines these lines at `pg_type_map.rb`
 Qx.config(type_map: PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection.raw_connection))
 Qx.execute("SET TIME ZONE utc")
 ```
+
+#### `relation "active_storage_blobs" does not exist`
+
+This problem occurs when the database has been manually created, rather than
+being created by `bin/setup`. This is due to a quirk with how `bin/rails
+db:prepare` works when called in `bin/setup`. The `db:prepare` does one of two
+things:
+
+* if the database doesn't exist, it creates the database, loads the schema from
+  scratch, which inherently includes all of the migrations, and runs the seed
+  command (we don't really use that)
+* if the database does exist, it runs any migrations that haven't been run
+  already
+
+The problem is when the database does exist but the schema hasn't been loaded
+yet. In this situation, it tries to find what migrations need to be run, which
+in this case happens to be all of them. But it doesn't have any tables to run
+the migrations on so the entire thing fails.
+
+As a work around, as long as all of the gems have been installed, run `bin/rails
+db:schema:load` which loads the schema. At that point, if you run `bin/setup`
+again, everything should be fine.
 
 ### Running in development
 
@@ -80,6 +92,9 @@ reloading, run `bin/webpack-dev-server` in a second console. Now after making a
 change to the JavaScript code you should see Webpack immediately rebuild the
 assets and perform a full page reload.
 
+When in doubt, you can manually clear the generated CSS and JavaScript files
+with `bin/rails assets:clobber`, which is a Rails [built-in command](https://guides.rubyonrails.org/v6.0/command_line.html#rails-assets).
+
 In development, it's **important** to access the Houdini at
 `http://localhost:5000`, rather than the `http://127.0.0.1:5000` that Rails
 suggests in the console. This ensures that the hard-coded callbacks in the
@@ -93,12 +108,6 @@ production builds, it may help to explicitly override the `NODE_ENV` environment
 variable. For example:
 
 `NODE_ENV=development bin/rake assets:precompile`
-
-## Testing
-
----
-
-Run `bundle exec rspec` to run test suite.
 
 ## Formatting
 

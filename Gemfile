@@ -12,21 +12,18 @@ gem 'sassc-rails', '~> 2.1', '>= 2.1.2'
 gem 'sassc', '~> 2.0', '>= 2.0.1'
 gem 'stripe', '~> 1.58' # January 19, 2017 version of the Stripe API https://stripe.com/docs/api
 gem 'webpacker', '~> 5.4.4'
-gem 'good_job', '~> 3.15'
+gem 'good_job', '~> 3.16'
 
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
 gem "date", "~> 3.3.3"
 
 gem 'httparty', '~> 0.21.0' # https://github.com/jnunemaker/httparty
-gem 'rack-attack', '~> 5.2' # for blocking ip addressses
-gem 'rack-ssl', '~> 1.4'
 gem 'sprockets', '~> 3.7'
 
 # Helpers
 gem 'chronic', '~> 0.10.2' # For nat lang parsing of dates
 gem 'countries', '~> 4.2'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
-gem 'lograge', '~> 0.12.0' # make logging less terrible in rails
 gem 'rails-i18n', '~> 6.0.0', '~> 6'
 gem 'premailer-rails', '~> 1.12' # for styling of email
 gem 'money', '~> 6.16'

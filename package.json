@@ -16,7 +16,7 @@
     "build-storybook": "bin/rails js:generate && build-storybook -c .storybook/react",
     "html-storybook": "bin/start-html-storybook -p 6007 -c .storybook/html --no-version-updates --no-release-notes",
     "build-html-storybook": "bin/build-html-storybook -c .storybook/html",
-    "markdownlint": "npx markdownlint-cli **/*.md --ignore node_modules",
+    "markdownlint": "npx markdownlint-cli '**/*.md' --ignore node_modules",
     "prepare-for-push": "yarn test && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:update",
     "prepare-for-push-js": "yarn jest && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:js:update",
     "notice:js": "npx @houdiniproject/noticeme@^1.1.0-pre1 -f NOTICE-js -i included.json -s 250",

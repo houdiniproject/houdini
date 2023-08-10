@@ -14,12 +14,24 @@ FactoryBot.define do
     id { 540 }
   end
 
+  factory :user_as_nonprofit_admin, class: User do
+    transient do
+      nonprofit { create(:nonprofit_base) }
+    end
+
+    sequence(:email) {|i| "user_nonprofit_admin#{i}@example.string.com"}
+    password {"whocares"}
+    roles {[
+      build(:role, name: 'nonprofit_admin', host: nonprofit)
+    ]}
+  end
+
   factory :user_as_nonprofit_associate, class: User do
     transient do
       nonprofit { create(:nonprofit_base) }
     end
 
-    sequence(:email) {|i| "user#{i}@example.string.com"}
+    sequence(:email) {|i| "user_nonprofit_associate#{i}@example.string.com"}
     password {"whocares"}
     roles {[
       build(:role, name: 'nonprofit_associate', host: nonprofit)

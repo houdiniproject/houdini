@@ -33,6 +33,10 @@ RSpec.describe '/api_new/supporters/show.json.jbuilder', type: :view do
 	}
 
 	it {
+		is_expected.to include('legacy_nonprofit' => nonprofit.id)
+	}
+
+	it {
 		is_expected.to include('nonprofit' => nonprofit.houid)
 	}
 

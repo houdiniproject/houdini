@@ -396,6 +396,7 @@ describe InsertDonation do
 				id: offline_transaction_charge.houid,
 				type: 'payment',
 				legacy_id: offline_transaction_charge.legacy_payment.id,
+				legacy_nonprofit: offline_transaction_charge.nonprofit.id,
 				object: 'offline_transaction_charge',
 				created: offline_transaction_charge.created.to_i,
 				nonprofit: nonprofit.houid,

@@ -29,6 +29,7 @@ FactoryBot.define do
       object { 'stripe_transaction_charge'}
       id { match_houid(:stripechrg)}
       legacy_id { be_a_kind_of(Numeric) }
+      legacy_nonprofit { be_a_kind_of(Numeric) }
       subtransaction { match_houid(:stripetrx)}
     end
   end

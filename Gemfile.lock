@@ -440,7 +440,7 @@ GEM
       power_assert
     thor (1.2.2)
     tilt (2.0.10)
-    timecop (0.9.6)
+    timecop (0.9.7)
     timeout (0.4.0)
     timers (4.3.3)
     traceroute (0.8.1)
@@ -538,7 +538,7 @@ DEPENDENCIES
   stripe-ruby-mock (~> 2.4.1)!
   table_print (~> 1.5, >= 1.5.6)
   test-unit (~> 3.6)
-  timecop (~> 0.9.6)
+  timecop (~> 0.9.7)
   traceroute (~> 0.8.0)
   turbo_test
   validate_url

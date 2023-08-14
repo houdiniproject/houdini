@@ -29,6 +29,7 @@ describe InsertSupporter do
               phone: supporter_data['phone'],
               object: 'supporter',
               legacy_id: insert_supporter.id,
+              legacy_nonprofit: nonprofit.id,
               nonprofit: nonprofit.houid
             }
           },

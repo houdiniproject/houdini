@@ -20,6 +20,7 @@ json.supporter_addresses [supporter] do |supp|
 end
 
 json.legacy_id supporter.id
+json.legacy_nonprofit supporter.nonprofit_id
 
 #json.url api_new_nonprofit_supporter_url(supporter.nonprofit.to_modern_param, supporter.to_modern_param)
 

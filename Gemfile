@@ -66,7 +66,7 @@ group :development, :ci, :test do
   gem 'rubocop', '~> 1.48.1'
   gem 'rubocop-rails', '~> 2.18'
   gem 'rubocop-rake', '~> 0.6.0'
-  gem 'rubocop-rspec', '~> 2.19'
+  gem 'rubocop-rspec', '~> 2.23'
   gem 'shoulda-matchers', '~> 5.3.0'
   gem 'turbo_test'
   gem 'erb_lint', require: false

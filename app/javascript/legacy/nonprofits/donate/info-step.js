@@ -108,7 +108,7 @@ function view(state) {
   , app.nonprofit.no_anon ? '' : anonField(state)
   , h('fieldset.u-inlineBlock.u-marginTop--10', paymentMethodButtons(["card", "sepa"], state))
   ])
-  return h('div.wizard-step.info-step.u-padding--10', [
+  return h('div.wizard-step.info-step.u-padding--10.centered', [
     form
   , h('div', {
       style: {background: '#f8f8f8', position: 'absolute', 'top': '0', left: '3px', height: '100%', width: '99%'}
@@ -131,7 +131,7 @@ function paymentButton(options, label, state){
   let btnclass={ 'ff-button--loading': options.loading$() };
   btnclass[label]=true;
 
-  return h('div.ff-buttonWrapper.u-floatL.u-marginBottom--10', {
+  return h('div.ff-buttonWrapper.u-floatL.u-marginBottom--10.u-marginLeft--10', {
     class: { 'ff-buttonWrapper--hasError': options.error$() }
   }, [
     h('p.ff-button-error', {style: {display: options.error$() ? 'block' : 'none'}} , options.error$())

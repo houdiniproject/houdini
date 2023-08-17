@@ -19,7 +19,7 @@ class PaymentMailer < BaseMailer
   def resend_donor_receipt(payment_id)
     payment = Payment.find(payment_id)
     if payment.kind == 'Donation' || payment.kind == 'RecurringDonation'
-      PaymentNotificationEmailDonorJob.perform_later payment.donation, (payment.&.supporter&.locale || 'en')
+      PaymentNotificationEmailDonorJob.perform_later payment.donation, (payment&.supporter&.locale || 'en')
     elsif payment.kind == 'Ticket'
       return TicketMailer.followup(payment.tickets.pluck(:id), payment.charge).deliver_later
     end

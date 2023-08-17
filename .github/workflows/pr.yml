@@ -67,7 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run markdownlint
-        run: npx markdownlint-cli '**/*.md' --ignore node_modules
+        run: yarn markdownlint
 
   notice_js:
     name: Verify NOTICE-js is up to date

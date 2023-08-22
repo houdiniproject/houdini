@@ -69,12 +69,12 @@ function saveTransferData(params){
 const view = state => {
   var field = validatedForm.field(state.form)
   return validatedForm.form(state.form, h('form.sepaForm', [
-    h('div.u-background--grey.group.u-padding--8', [
+    h('div.u-background--grey.group.u-padding--8.u-marginBottom--10', [
       nameInput(field)
     , ibanInput(field)
     , bicInput(field)
     ])
-  , h('div.u-centered', [
+  , h('div.u-centered', [   
       button({
         error$: state.hideErrors ? flyd.stream() : state.error$
       , buttonText: I18n.t('nonprofits.donate.payment.card.submit')
@@ -88,21 +88,21 @@ const view = state => {
 
 const nameInput = (field, name) =>
   h('fieldset', [
-    field(h('input.u-margin--0',
+    field(h('input.u-marginBottom--10',
       { props: { name: 'name' , value: name || '', placeholder: I18n.t('nonprofits.donate.payment.sepa.name') } }
     ))
   ])
 
 const ibanInput = field =>
-  h('fieldset.col-12.u-margin--0', [
-    field(h('input.u-margin--0',
+  h('fieldset', [
+    field(h('input.u-marginBottom--10',
       {props: { type: 'text' , name: 'iban' , placeholder: I18n.t('nonprofits.donate.payment.sepa.iban') } }
     ))
   ])
 
 const bicInput = field =>
   h('fieldset.col-right-0.u-margin--0', [
-    field(h('input.u-margin--0.hidden',
+    field(h('input.u-marginBottom--10.hidden',
       { props: { name: 'bic' , type: 'hidden', value:'NOTPROVIDED', placeholder: I18n.t('nonprofits.donate.payment.sepa.bic') } }
     ))
   ])

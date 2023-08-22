@@ -146,7 +146,7 @@ function amountFields(state) {
     h('span',
       R.map(
         amt => h('fieldset', [
-          h('button.button.u-width--full.white.amount', {
+          h('button.button.u-width--full.white.amount.u-marginTop--10', {
             class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt*100}
           , on: {click: ev => {
               state.evolveDonation$({amount: R.always(format.dollarsToCents(amt))})
@@ -161,7 +161,7 @@ function amountFields(state) {
     , state.params$().custom_amounts || [] )
     )
   , h('fieldset.' + prependCurrencyClassname(), [
-      h('input.amount.other', {
+      h('input.amount.other.u-marginTop--10', {
         props: {name: 'amount', step: 'any', type: 'number', min: 1, placeholder: I18n.t('nonprofits.donate.amount.custom')}
       , class: {'is-selected': !state.buttonAmountSelected$()}
       , on: {
@@ -171,7 +171,7 @@ function amountFields(state) {
       })
     ])
   , h('fieldset', [
-      h('button.button.u-width--full.btn-next', {
+      h('button.button.u-width--full.btn-next.u-marginTop--10', {
         props: {type: 'submit', disabled: !state.donation$().amount || state.donation$().amount <= 0}
       , on: {click: [state.currentStep$, 1]}
       }, I18n.t('nonprofits.donate.amount.next'))

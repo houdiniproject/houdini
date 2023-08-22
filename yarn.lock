@@ -564,6 +564,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stripe/stripe-js@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-2.1.0.tgz#80228f5329b6e3e8fb8be9144d2dfb1c5c0e558c"
+  integrity sha512-AdMHWqIq/s3TLmoyuzdb6l21STKDKNm82cjce1VelyQGinVNjVgSEPH5UDtxENEP7OzgMZH8RTphFMi0fMJGLQ==
+
 "@testing-library/dom@^8.17.1":
   version "8.17.1"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.17.1.tgz#2d7af4ff6dad8d837630fecd08835aee08320ad7"
@@ -824,11 +829,6 @@
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
   integrity sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
-
-"@types/stripe-v3@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@types/stripe-v3/-/stripe-v3-3.1.1.tgz#c1379a92d5a0466cdd341231979188b2b41b33da"
-  integrity sha512-QSrUt8Nn7Nhzkuwa8DxA/AMwfZkkCcUGJppSyMqoqK/nQJW7egUF9q+40SqpUJBnfaG7aK5xiz0tufdJuAA35g==
 
 "@types/through@*":
   version "0.0.30"

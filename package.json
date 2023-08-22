@@ -21,6 +21,7 @@
     "tsc": "tsc"
   },
   "devDependencies": {
+    "@stripe/stripe-js": "^2.1.0",
     "@testing-library/dom": "^8.17.1",
     "@types/color": "^3.0.0",
     "@types/enzyme": "^3.1.9",
@@ -39,7 +40,6 @@
     "@types/react-test-renderer": "^16.0.1",
     "@types/react-text-mask": "^5.4.2",
     "@types/react-transition-group": "^2.9.0",
-    "@types/stripe-v3": "^3.1.1",
     "@types/validator": "^9.4.1",
     "@types/velocity-animate": "^1.2.33",
     "@types/whatwg-fetch": "0.0.33",

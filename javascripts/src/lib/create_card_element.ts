@@ -24,7 +24,8 @@ export function createElement(props?:{hidePostalCode?:boolean}) {
             }
 
         },
-        hidePostalCode: hidePostalCode
+        hidePostalCode: hidePostalCode,
+        disableLink: true,
     })
 }
 

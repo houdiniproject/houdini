@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230717195829) do
+ActiveRecord::Schema.define(version: 20230822155816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -326,7 +326,9 @@ ActiveRecord::Schema.define(version: 20230717195829) do
   end
 
   create_table "drip_email_lists", force: :cascade do |t|
-    t.string "mailchimp_list_id"
+    t.string   "mailchimp_list_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "e_tap_import_contacts", force: :cascade do |t|
@@ -1438,10 +1440,10 @@ ActiveRecord::Schema.define(version: 20230717195829) do
   create_trigger :update_donations_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE ON public.donations FOR EACH ROW EXECUTE FUNCTION update_fts_on_donations()
   SQL
-  create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
-      CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
-  SQL
   create_trigger :update_supporters_fts, sql_definition: <<-SQL
       CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_fts_on_supporters()
+  SQL
+  create_trigger :update_supporters_phone_index, sql_definition: <<-SQL
+      CREATE TRIGGER update_supporters_phone_index BEFORE INSERT OR UPDATE ON public.supporters FOR EACH ROW EXECUTE FUNCTION update_phone_index_on_supporters()
   SQL
 end

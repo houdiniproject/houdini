@@ -6,7 +6,7 @@ describe Mailchimp do
 		let(:user) {force_create(:user)}
 		let(:tag_master) {force_create(:tag_master, nonprofit: np)}
 		let(:email_list) {force_create(:email_list, mailchimp_list_id: 'list_id', tag_master: tag_master, nonprofit:np, list_name: "temp")}
-		let(:drip_email_list) {force_create(:drip_email_list, nonprofit: np, user: user)}
+		let(:drip_email_list) {force_create(:drip_email_list)}
 		let(:supporter_on_both) { force_create(:supporter, nonprofit:np, email: 'on_BOTH@email.com', name: nil)}
 		let(:supporter_on_local) { force_create(:supporter, nonprofit:np, email: 'on_local@email.com', name: 'Penelope Rebecca Schultz')}
 		let(:tag_join) {force_create(:tag_join, tag_master: tag_master, supporter: supporter_on_both)}
@@ -82,6 +82,32 @@ describe Mailchimp do
 		end
   end
 
+	describe '.sync_nonprofit_users' do 
+		let!(:drip_email_list) {create(:drip_email_list_base)}
+		let!(:user) {create(:user)}
+		let!(:nonprofit_user) {create(:user_as_nonprofit_associate)}
+
+		before(:each) do
+			ActiveJob::Base.queue_adapter = :test
+		end
+	
+		it 'bulk syncs users that are from a nonprofit' do
+			Mailchimp.sync_nonprofit_users(drip_email_list)
+			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with(drip_email_list, nonprofit_user, nonprofit_user.roles.first.host)
+ 		end
+
+		 it 'this tests that using "anything" here actually works as expected (so we know the next spec does what we want)' do 
+			Mailchimp.sync_nonprofit_users(drip_email_list)
+			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with(anything, nonprofit_user, anything)
+		end 
+
+		it 'will NOT include users that doesnt belong to a nonprofit' do 
+			Mailchimp.sync_nonprofit_users(drip_email_list)
+			expect(MailchimpNonprofitUserAddJob).to_not have_been_enqueued.with(anything, user, anything)
+		end 
+
+	end 
+
 	describe '.create_nonprofit_user_subscribe_body' do 
 		let(:nonprofit) { create(:nonprofit)}
 
@@ -96,6 +122,8 @@ describe Mailchimp do
 		end 
 
 	end 
+
+	
 
 	describe '.create_subscribe_body' do
 

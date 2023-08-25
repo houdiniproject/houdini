@@ -15,7 +15,7 @@ updates:
       - dependency-type: "development"
     schedule:
       interval: "weekly"
-    grouping:
+    groups:
       development-dependencies:
         dependency-type: "development"
         update-type: "minor"

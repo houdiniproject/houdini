@@ -9,3 +9,13 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+  - package-ecosystem: "bundler"
+    directory: "/"
+    allow:
+      - dependency-type: "development"
+    schedule:
+      interval: "weekly"
+    grouping:
+      development-dependencies:
+        dependency-type: "development"
+        update-type: "minor"

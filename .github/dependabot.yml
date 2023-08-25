@@ -22,10 +22,3 @@ updates:
         update-types:
         - "minor"
         - "patch"
-
-  - package-ecosystem: "bundler"
-    directory: "/gems"
-    ignore:
-      - dependency-name: "*"
-    schedule:
-      interval: "weekly"

@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class SepaPaymentListener < ApplicationListener
     def self.donation_create(donation, locale, user=nil)
-      if donation.payment_provider == :sepa
+      if donation.payment_provider.to_sym == :sepa
         DirectDebitCreateNotifyNonprofitJob.perform_later(donation.id)
         DirectDebitCreateNotifyDonorJob.perform_later donation.id, locale
       end

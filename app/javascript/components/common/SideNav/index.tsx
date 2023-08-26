@@ -8,6 +8,7 @@ import UserMenu from './UserMenu';
 import Nonprofit from '../../../legacy/app_data/Nonprofit';
 import UserWithProfileAsChild from '../../../legacy/app_data/UserWithProfileAsChild';
 import classnames from 'classnames';
+import Section from './Section';
 
 
 export interface SideNavInput {
@@ -61,11 +62,11 @@ export default function SideNav(props: SideNavInput): JSX.Element {
 		<nav className={sideNavClasses} >
 			{
 				!userisNonprofitUser(props.currentUser, props.administeredNonprofit) ? (
-					<section className='sideNav-section'>
+					<Section>
 						<a className='sideNav-commitchangeLogo' href='<%= root_path %>' title='Go To Home Page'>
 							<Logo {...props.logo} />
 						</a>
-					</section>) : ''
+					</Section>) : ''
 			}
 
 

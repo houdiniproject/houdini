@@ -9,7 +9,7 @@ import {
 } from '../../../routes';
 
 import UserWithProfileAsChild from '../../../legacy/app_data/UserWithProfileAsChild';
-
+import Section from './Section';
 export interface UserMenuProps {
 	currentUser: UserWithProfileAsChild;
 }
@@ -17,7 +17,7 @@ export interface UserMenuProps {
 export default function UserMenu(props: UserMenuProps): JSX.Element {
 	return (<>
 
-		<section className='sideNav-section'>
+		<Section>
 			<a className='sideNav-link' href={(props.currentUser.profile && profilePath(props.currentUser.profile)) || "#"}>
 				{
 					props.currentUser.profile?.pic_tiny ?
@@ -28,9 +28,9 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 				<span className='sideNav-text'>{(props.currentUser?.profile?.name || '').length > 0 ? props.currentUser?.profile?.name : "Your Profile"}
 				</span>
 			</a>
-		</section>
+		</Section>
 
-		<section className='sideNav-section'>
+		<Section>
 			<a className='sideNav-link' href={settingsPath()}>
 				<i className='sideNav-icon icon-setting-gear'></i>
 				<span className='sideNav-text'>Settings</span>
@@ -40,7 +40,7 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 				<i className='sideNav-icon icon-log-out-1'></i>
 				<span className='sideNav-text'>Logout</span>
 			</a>
-		</section>
+		</Section>
 
 
 

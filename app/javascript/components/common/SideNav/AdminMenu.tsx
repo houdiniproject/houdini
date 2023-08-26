@@ -13,6 +13,7 @@ import {
 } from '../../../routes';
 
 import Nonprofit from '../../../legacy/app_data/Nonprofit';
+import Section from './Section';
 
 
 export interface AdminMenuProps {
@@ -21,7 +22,7 @@ export interface AdminMenuProps {
 
 export default function AdminMenu(props: AdminMenuProps): JSX.Element {
 	return (
-		<section className='sideNav-section'>
+		<Section>
 			<a className='sideNav-link' href={nonprofitPath(props.administeredNonprofit)}>
 				<img src={props.administeredNonprofit.logo.small} className={"sideNav-profile"} alt={props.administeredNonprofit.name} />
 
@@ -59,5 +60,5 @@ export default function AdminMenu(props: AdminMenuProps): JSX.Element {
 				<span className='sideNav-text'>Donate Button</span>
 			</a>
 
-		</section>);
+		</Section>);
 }

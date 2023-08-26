@@ -10,6 +10,7 @@ import {
 
 import UserWithProfileAsChild from '../../../legacy/app_data/UserWithProfileAsChild';
 import Section from './Section';
+import Link from './Link';
 export interface UserMenuProps {
 	currentUser: UserWithProfileAsChild;
 }
@@ -18,7 +19,7 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 	return (<>
 
 		<Section>
-			<a className='sideNav-link' href={(props.currentUser.profile && profilePath(props.currentUser.profile)) || "#"}>
+			<Link href={(props.currentUser.profile && profilePath(props.currentUser.profile)) || "#"}>
 				{
 					props.currentUser.profile?.pic_tiny ?
 						<img
@@ -27,19 +28,19 @@ export default function UserMenu(props: UserMenuProps): JSX.Element {
 				}
 				<span className='sideNav-text'>{(props.currentUser?.profile?.name || '').length > 0 ? props.currentUser?.profile?.name : "Your Profile"}
 				</span>
-			</a>
+			</Link>
 		</Section>
 
 		<Section>
-			<a className='sideNav-link' href={settingsPath()}>
+			<Link href={settingsPath()}>
 				<i className='sideNav-icon icon-setting-gear'></i>
 				<span className='sideNav-text'>Settings</span>
-			</a>
+			</Link>
 
-			<a className='sideNav-link' href={destroyUserSessionPath()}>
+			<Link href={destroyUserSessionPath()}>
 				<i className='sideNav-icon icon-log-out-1'></i>
 				<span className='sideNav-text'>Logout</span>
-			</a>
+			</Link>
 		</Section>
 
 

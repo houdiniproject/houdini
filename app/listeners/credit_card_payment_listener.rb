@@ -4,14 +4,14 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class CreditCardPaymentListener < ApplicationListener
     def self.donation_create(donation, locale, user=nil)
-      if donation.payment_provider == :credit_card
+      if donation.payment_provider.to_sym == :credit_card
         PaymentNotificationEmailDonorJob.perform_later donation, locale
         PaymentNotificationEmailNonprofitJob.perform_later donation, user
       end
     end
 
     def self.recurring_donation_create(donation, locale, user=nil)
-      if donation.payment_provider == :credit_card
+      if donation.payment_provider.to_sym == :credit_card
         PaymentNotificationEmailDonorJob.perform_later donation, locale
         PaymentNotificationEmailNonprofitJob.perform_later donation, user
       end
@@ -22,7 +22,7 @@ class CreditCardPaymentListener < ApplicationListener
     end
 
     def self.recurring_donation_payment_succeeded(donation, locale, user=nil)
-      if donation.payment_provider == :credit_card
+      if donation.payment_provider.to_sym == :credit_card
         PaymentNotificationEmailDonorJob.perform_later donation, locale
         PaymentNotificationEmailNonprofitJob.perform_later donation, user
       end

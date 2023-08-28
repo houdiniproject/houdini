@@ -8,9 +8,8 @@
   "scripts": {
     "build-all": "yarn install --frozen-lockfile && script/compile-assets.sh && yarn build",
     "ci-build-all": "script/compile-assets.sh && yarn build",
-    "test": "bin/rails spec  && yarn jest",
-    "jest": "bin/rails js:generate && jest",
-    "jest_only": "jest",
+    "test": "bin/rails spec  && yarn test:js",
+    "test:js": "bin/rails js:generate && jest",
     "eslint": "eslint . --ext .ts,.js,.tsx",
     "storybook": "bin/rails js:generate && start-storybook -p 6006 -c .storybook/react --no-version-updates --no-release-notes",
     "build-storybook": "bin/rails js:generate && build-storybook -c .storybook/react",
@@ -18,7 +17,7 @@
     "build-html-storybook": "bin/build-html-storybook -c .storybook/html",
     "markdownlint": "npx markdownlint-cli '**/*.md' --ignore node_modules",
     "prepare-for-push": "yarn test && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:update",
-    "prepare-for-push-js": "yarn jest && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:js:update",
+    "prepare-for-push-js": "yarn test:js && yarn eslint --fix && yarn markdownlint --fix && bin/rails notice:js:update",
     "notice:js": "npx @houdiniproject/noticeme@^1.1.0-pre1 -f NOTICE-js -i included.json -s 250",
     "webpack": "bin/webpack"
   },

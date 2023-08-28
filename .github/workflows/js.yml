@@ -33,7 +33,8 @@ jobs:
         os: [ubuntu-20.04]
         node: [14.19.1]
     steps:
-      - uses: ./.github/actions/checkout-and-prep
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/after-checkout-prep
         with:
           install-node: true
           node: ${{ matrix.node }}
@@ -52,7 +53,8 @@ jobs:
         os: [ubuntu-20.04]
         node: [14.19.1]
     steps:
-      - uses: ./.github/actions/checkout-and-prep
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/after-checkout-prep
         with:
           install-node: true
           node: ${{ matrix.node }}

@@ -39,7 +39,8 @@ jobs:
         node: [14.19.1]
         ruby: [2.7.7]
     steps:
-      - uses: ./.github/actions/checkout-and-prep
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/after-checkout-prep
         with:
           install-node: true
           node: ${{ matrix.node }}

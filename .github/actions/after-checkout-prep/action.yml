@@ -3,12 +3,8 @@ description: 'prep'
 inputs:
   node:
     description: "Which node version?"
-  install-node:
-    description: "Install node?"
   ruby:
     description: "Which node version?"
-  install-ruby:
-    description: "Install ruby?"
 runs:
   using: "composite"
   steps:
@@ -20,12 +16,12 @@ runs:
         postgres_password: password
     - name: "Install NPM packages"
       uses: "./.github/actions/install-packages"
-      if: ${{ inputs.install-node }}
+      if: ${{ inputs.node != '' }}
       with:
         node: ${{ inputs.node }}
     - name: "Install Ruby packages"
       uses: "./.github/actions/install-packages"
-      if: ${{ inputs.install-ruby }}
+      if: ${{ inputs.ruby != '' }}
       with:
         ruby: ${{ inputs.ruby }}
     

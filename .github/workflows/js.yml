@@ -28,9 +28,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/after-checkout-prep
         with:
-          install-node: true
           node: ${{ matrix.node }}
-          install-ruby: true
           ruby: ${{ env.ruby }}
       - run: bin/setup ci
       - name: Generate JS routes
@@ -48,9 +46,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/after-checkout-prep
         with:
-          install-node: true
           node: ${{ matrix.node }}
-          install-ruby: true
           ruby: ${{ env.ruby }}
       - name: run setup
         run: bin/setup ci

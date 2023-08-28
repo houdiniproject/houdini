@@ -239,7 +239,7 @@ failures is zero.
 We also recommend you run through the javascript test cases by running:
 
 ```bash
-yarn jest
+yarn test:js
 ```
 
 Lastly, you can use [Storybook](https://storybook.js.org/) to experiment with

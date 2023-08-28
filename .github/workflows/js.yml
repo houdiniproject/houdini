@@ -53,8 +53,8 @@ jobs:
       - run: bin/setup ci
       - name: Generate JS routes
         run: bin/rails js:routes:typescript
-      - name: run jest
-        run: yarn jest
+      - name: run test:js
+        run: yarn test:js
   webpack:
     needs: package-download
     runs-on: ${{ matrix.os }}

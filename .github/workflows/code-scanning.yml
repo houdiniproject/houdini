@@ -14,33 +14,17 @@ env:
   tool_node_version: "14.x"
   tool_ruby_version: "2.7.7"
 jobs:
-  npm-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
-      uses: './.github/workflows/cache-packages.yml'
-      with:
-        os: ubuntu-20.04
-        node: 14.x
-  
-  gem-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
-    uses: './.github/workflows/cache-packages.yml'
-    with:
-      os: ubuntu-20.04
-      ruby: 2.7.7
-
   eslint:
     runs-on: ubuntu-latest
-    needs: 
-      - npm-package-download
     name: Run eslint scanning
     permissions:
       contents: read
       security-events: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: ./.github/actions/install-packages
         with:
-          node-version: ${{ matrix.node }}
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+          node: ${{ env.tool_node_version }}
       - name: Install eslint formatter
         run: |
           yarn add @microsoft/eslint-formatter-sarif@2.1.7
@@ -57,8 +41,6 @@ jobs:
           wait-for-processing: true
   rubocop:
     name: Run rubocop
-    needs:
-      - gem-package-download
     runs-on: ubuntu-20.04
     permissions:
       contents: read
@@ -66,11 +48,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      - uses: ./.github/actions/install-packages
         with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+          ruby: ${{ env.tool_ruby_version }}
       - name: Allow adding the code-scanning-rubocop gem
         run: bundle config unset deployment
       - name: Install Code Scanning integration

@@ -108,3 +108,37 @@ jobs:
       - name: run assets:precompile
         run: bin/rails assets:precompile
 
+  webpack:
+    needs: package-download
+    if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
+    runs-on: ${{ inputs.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/after-checkout-prep
+        with:
+          node: ${{ inputs.node }}
+          ruby: ${{ inputs.ruby }}
+      - name: run setup
+        run: bin/setup ci
+      - name: Generate JS routes
+        run: bin/rails js:routes:typescript
+      - name: Webpack compile everything
+        run: yarn webpack
+      - name: Verify storybook compiles
+        run: yarn build-storybook
+
+  jest:
+    needs: package-download
+    if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
+    runs-on: ${{ inputs.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/after-checkout-prep
+        with:
+          node: ${{ inputs.node }}
+          ruby: ${{ inputs.ruby }}
+      - run: bin/setup ci
+      - name: Generate JS routes
+        run: bin/rails js:routes:typescript
+      - name: run test:js
+        run: yarn test:js

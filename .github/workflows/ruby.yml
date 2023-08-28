@@ -13,23 +13,19 @@ on:
     types: [opened, reopened, synchronize]
 jobs:
   package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
-    runs-on: ${{ matrix.os }}
+    uses: "./.github/workflows/cache-packages.yml"
+    with:
+      os: ${{ matrix.os }}
+      install-node: true
+      node: ${{ matrix.node }}
+      install-ruby: true
+      ruby:  ${{ matrix.ruby }}
     strategy:
       matrix:
         os: [ubuntu-20.04]
         node: [14.19.1]
         ruby: [2.7.7]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+
   main_build:
     needs: package-download
     runs-on: ${{ matrix.os }}

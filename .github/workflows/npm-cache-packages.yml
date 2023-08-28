@@ -14,8 +14,6 @@ jobs:
     runs-on: ${{ inputs.os }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: ./.github/actions/install-packages
         with:
-          node-version: ${{ inputs.node }}
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+          node: ${{ inputs.node }}

@@ -18,12 +18,15 @@ runs:
         postgres_image_tag: 12-alpine
         postgres_user: houdini_user
         postgres_password: password
-    - name: "Install packages"
+    - name: "Install NPM packages"
       uses: "./.github/actions/install-packages"
+      if: ${{ inputs.install-node }}
       with:
         node: ${{ inputs.node }}
-        install-node: ${{ inputs.install-node }}
+    - name: "Install Ruby packages"
+      uses: "./.github/actions/install-packages"
+      if: ${{ inputs.install-ruby }}
+      with:
         ruby: ${{ inputs.ruby }}
-        install-ruby: ${{ inputs.install-ruby }}
     
     

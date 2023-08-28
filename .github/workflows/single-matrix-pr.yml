@@ -32,28 +32,13 @@ jobs:
         filters: .github/path-filters.yml
 
 
-  npm-package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
-    uses: "./.github/workflows/npm-cache-packages.yml"
-    if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
-    with:
-      node: ${{ inputs.node }}
-      os: ${{ inputs.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-20.04]
-        node: ["14.x"]
-  
-  gem-package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
-    name: Download and cache any gem packages
+  package-download:
+    uses: "./.github/workflows/cache-packages.yml"
     needs: changes
-    if: ${{ contains(needs.changes.outputs.filters, 'build-ruby') }}
-    runs-on: ${{ inputs.os }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ inputs.ruby }}
-          bundler-cache: true
+    with:
+      os: ${{ inputs.os }}
+      node: ${{ contains(needs.changes.outputs.filters, 'build-js') && inputs.node }}
+      ruby: ${{ contains(needs.changes.outputs.filters, 'build-ruby') && inputs.ruby }}
 
   markdownlint:
     name: Lint markdown code
@@ -69,7 +54,7 @@ jobs:
     name: Verify NOTICE-js is up to date
     runs-on: ubuntu-20.04
     needs: 
-      - npm-package-download
+      - package-download
       - changes
     if: ${{ contains(needs.changes.outputs.filters, 'js-notice-files')}}
     steps:
@@ -85,7 +70,7 @@ jobs:
     name: Verify NOTICE-ruby is up to date
     runs-on: ubuntu-20.04
     needs:
-      - gem-package-download
+      - package-download
       - changes
     if: ${{ contains(needs.changes.outputs.filters, 'ruby-notice-files')}}
     steps:

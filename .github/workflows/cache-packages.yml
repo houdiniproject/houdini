@@ -1,0 +1,31 @@
+name: Download and cache any packages
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      node:
+        type: string
+      ruby:
+        type: string
+jobs:
+  npm-package-download:
+    name: Download NPM packages
+    runs-on: ${{ inputs.os }}
+    if: ${{ inputs.node != '' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/install-packages
+        with:
+          node: ${{ inputs.node }}
+  ruby-package-download:
+    name: Download Ruby packages
+    runs-on: ${{ inputs.os }}
+    if: ${{ inputs.ruby != '' }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/install-packages
+        with:
+          ruby: ${{ inputs.ruby }}
+        

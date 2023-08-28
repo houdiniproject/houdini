@@ -15,24 +15,17 @@ env:
   tool_ruby_version: "2.7.7"
 jobs:
   npm-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
-      uses: './.github/workflows/npm-cache-packages.yml'
+      uses: './.github/workflows/cache-packages.yml'
       with:
         os: ubuntu-20.04
         node: 14.x
   
   gem-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
-    name: Download and cache any gem packages
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-20.04]
-        ruby: [2.7.7]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+    uses: './.github/workflows/cache-packages.yml'
+    with:
+      os: ubuntu-20.04
+      ruby: 2.7.7
+
   eslint:
     runs-on: ubuntu-latest
     needs: 

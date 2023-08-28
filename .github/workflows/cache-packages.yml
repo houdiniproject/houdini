@@ -7,17 +7,13 @@ on:
         type: string
       node:
         type: string
-      install-node:
-        type: boolean
       ruby:
         type: string
-      install-ruby:
-        type: boolean
 jobs:
   npm-package-download:
     name: Download NPM packages
     runs-on: ${{ inputs.os }}
-    if: ${{ inputs.install-node }}
+    if: ${{ inputs.node != '' }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/install-packages
@@ -26,7 +22,7 @@ jobs:
   ruby-package-download:
     name: Download Ruby packages
     runs-on: ${{ inputs.os }}
-    if: ${{ inputs.install-ruby}}
+    if: ${{ inputs.ruby != '' }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/install-packages

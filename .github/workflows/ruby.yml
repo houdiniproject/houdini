@@ -16,9 +16,7 @@ jobs:
     uses: "./.github/workflows/cache-packages.yml"
     with:
       os: ${{ matrix.os }}
-      install-node: true
       node: ${{ matrix.node }}
-      install-ruby: true
       ruby:  ${{ matrix.ruby }}
     strategy:
       matrix:

@@ -31,10 +31,8 @@ jobs:
     needs: changes
     with:
       os: ${{ matrix.os }}
-      install-node: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
-      node: ${{ matrix.node }}
-      install-ruby: ${{ contains(needs.changes.outputs.filters, 'build-ruby') }}
-      ruby: ${{ matrix.ruby }}
+      node: ${{ contains(needs.changes.outputs.filters, 'build-js') && matrix.node }}
+      ruby: ${{ contains(needs.changes.outputs.filters, 'build-ruby') && matrix.ruby }}
     strategy:
       matrix:
         os: [ubuntu-20.04]

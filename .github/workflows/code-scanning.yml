@@ -18,15 +18,13 @@ jobs:
       uses: './.github/workflows/cache-packages.yml'
       with:
         os: ubuntu-20.04
-        install-node: true
         node: 14.x
   
   gem-package-download: # this downloads and caches all of the packages. We need this run on main so PRs to main can reuse the cache
     uses: './.github/workflows/cache-packages.yml'
     with:
       os: ubuntu-20.04
-      install-ruby: true
-      node: 2.7.7
+      ruby: 2.7.7
 
   eslint:
     runs-on: ubuntu-latest

@@ -24,6 +24,3 @@ runs:
       with:
         ruby-version: ${{ inputs.ruby }}
         bundler-cache: true
-
-    
-    

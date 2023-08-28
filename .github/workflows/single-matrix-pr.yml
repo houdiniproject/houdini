@@ -9,9 +9,6 @@ on:
         type: string
       os:
         type: string
-concurrency: 
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 env:
 # this version used for running various tools
   tool_node_version: "14.x"

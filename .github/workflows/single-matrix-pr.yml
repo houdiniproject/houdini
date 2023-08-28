@@ -28,7 +28,6 @@ jobs:
         # Path to file where filters are defined
         filters: .github/path-filters.yml
 
-
   package-download:
     uses: "./.github/workflows/cache-packages.yml"
     needs: changes
@@ -63,6 +62,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - name: Verify NOTICE-js
         run: yarn notice:js
+
   notice_ruby:
     name: Verify NOTICE-ruby is up to date
     runs-on: ubuntu-20.04
@@ -79,4 +79,32 @@ jobs:
       - name: run notice:ruby:verify
         run: |
             bin/rails notice:ruby:verify
+
+  main_build:
+    needs:  
+      - package-download
+      - changes
+    runs-on: ${{ inputs.os }}
+    if: ${{ contains(needs.changes.outputs.filters, 'build-ruby') }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/after-checkout-prep
+        with:
+          node: ${{ inputs.node }}
+          ruby: ${{ inputs.ruby }}
+      - name: install bess dependencies
+        run: |
+          cd gems/bess
+          bundle install --jobs 3 --retry 3
+      - name: run spec for bess
+        run: |
+          cd gems/bess
+          bundle exec rake spec
+      - run: bin/setup ci
+      - name: Generate JS routes
+        run: bin/rails js:routes:typescript
+      - name: run spec
+        run: bundle exec rake spec
+      - name: run assets:precompile
+        run: bin/rails assets:precompile
 

@@ -1,84 +1,21 @@
 # License: LGPL-3.0-or-later
 name: Pull Request Build
-on: 
+on:
   pull_request:
     types: [opened, reopened, synchronize]
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-env:
-# this version used for running various tools
-  tool_node_version: "14.x"
-  tool_ruby_version: "2.7.7"
 jobs:
-  changes:
-    name: "Check for file changes"
-    runs-on: ubuntu-latest
-    # Set job outputs to values from filter step
-    outputs:
-      filters: ${{ steps.filter.outputs.changes }}
-    steps:
-    - uses: actions/checkout@v3
-    - uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        # Path to file where filters are defined
-        filters: .github/path-filters.yml
-
-
-  package-download:
-    uses: "./.github/workflows/cache-packages.yml"
-    needs: changes
+  build:
+    uses: "./.github/workflows/single-matrix-pr.yml"
     with:
       os: ${{ matrix.os }}
-      node: ${{ contains(needs.changes.outputs.filters, 'build-js') && matrix.node }}
-      ruby: ${{ contains(needs.changes.outputs.filters, 'build-ruby') && matrix.ruby }}
+      ruby: ${{ matrix.ruby }}
+      node: ${{ matrix.node }}
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        node: ["14.x"]
-        ruby: ["2.7.7"]
-
-  markdownlint:
-    name: Lint markdown code
-    needs: changes
-    if: ${{ contains(needs.changes.outputs.filters, 'markdown')}}
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run markdownlint
-        run: yarn markdownlint
-
-  notice_js:
-    name: Verify NOTICE-js is up to date
-    runs-on: ubuntu-20.04
-    needs: 
-      - package-download
-      - changes
-    if: ${{ contains(needs.changes.outputs.filters, 'js-notice-files')}}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.tool_node_version }}
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - name: Verify NOTICE-js
-        run: yarn notice:js
-  notice_ruby:
-    name: Verify NOTICE-ruby is up to date
-    runs-on: ubuntu-20.04
-    needs:
-      - package-download
-      - changes
-    if: ${{ contains(needs.changes.outputs.filters, 'ruby-notice-files')}}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.tool_ruby_version }}
-          bundler-cache: true
-      - name: run notice:ruby:verify
-        run: |
-            bin/rails notice:ruby:verify
+        ruby: [2.7.7]
+        node: [14.x]
 

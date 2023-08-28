@@ -1,0 +1,31 @@
+name: 'Checkout and prepare'
+description: 'prep'
+inputs:
+  node:
+    description: "Which node version?"
+  install-node:
+    description: "Install node?"
+  ruby:
+    description: "Which node version?"
+  install-ruby:
+    description: "Install ruby?"
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+      uses: Daniel-Marynicz/postgresql-action@1.0.0
+      with:
+        postgres_image_tag: 12-alpine
+        postgres_user: houdini_user
+        postgres_password: password
+    - name: "Install packages"
+      uses: "./.github/actions/install-packages"
+      with:
+        node: ${{ inputs.node }}
+        install-node: ${{ inputs.install-node }}
+        ruby: ${{ inputs.ruby }}
+        install-ruby: ${{ inputs.install-ruby }}
+    
+    

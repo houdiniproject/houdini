@@ -1,0 +1,27 @@
+name: 'Install packages'
+description: "Install packages"
+inputs:
+  node-version:
+    description: "Which node version?"
+  ruby-version:
+    description: "Which node version?"
+runs:
+  using: "composite"
+  steps:
+  
+    - uses: actions/setup-node@v3
+      if: ${{ inputs.node-version != '' }}
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'yarn'
+    
+    - run: yarn install --frozen-lockfile
+      shell: sh
+    
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ inputs.ruby-version }}
+        bundler-cache: true
+
+    
+    

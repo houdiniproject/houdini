@@ -16,19 +16,10 @@ runs:
         postgres_image_tag: 12-alpine
         postgres_user: houdini_user
         postgres_password: password
-  
-    - uses: actions/setup-node@v3
+    - name: "Install packages"
+      uses: "./.github/actions/install-packages"
       with:
-        node-version: ${{ inputs.node-version }}
-        cache: 'yarn'
-    
-    - run: yarn install --frozen-lockfile
-      shell: sh
-    
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ inputs.ruby-version }}
-        bundler-cache: true
-
+        node: ${{ inputs.node-version }}
+        ruby: ${{ inputs.ruby-version }}
     
     

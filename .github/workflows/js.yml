@@ -2,11 +2,12 @@
 name: Javascript build and test
 env: 
   ruby: '2.7.7'
-on: 
-  pull_request:
-    paths-ignore:
-      - "**.md"
-    types: [opened, reopened, synchronize]
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   paths-ignore:
+  #     - "**.md"
+  #   types: [opened, reopened, synchronize]
 jobs:
   package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
     runs-on: ${{ matrix.os }}

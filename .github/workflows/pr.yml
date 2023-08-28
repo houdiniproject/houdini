@@ -24,7 +24,14 @@ jobs:
       with:
         # Path to file where filters are defined
         filters: .github/path-filters.yml
-
+    - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+      if: 
+      uses: Daniel-Marynicz/postgresql-action@1.0.0
+      with:
+        postgres_image_tag: 12-alpine
+        postgres_user: admin
+        postgres_password: password
+    - uses: actions/setup-node@v3
 
   npm-package-download: # this downloads and caches all of the packages. That way if a future job fails, the caching will still occur
     name: Download and cache any npm packages
@@ -51,7 +58,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        ruby: [2.7.7]
+        node: ["14.x"]
+    
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
@@ -59,6 +67,39 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
+  ruby:
+    name: Build Ruby stuff
+    needs: 
+      - gem-package-download
+      - npm-package-download
+    if: ${{ contains(needs.changes.outputs.filters, 'build-ruby') }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        node: ["14.x"]
+        ruby: [ "2.7.8" ]
+    steps:
+      - uses: "./.github/actions/checkout-and-prep"
+        with:
+          node-version: ${{ matrix.node }}
+          ruby-version: ${{ matrix.ruby }}
+      - name: install bess dependencies
+        run: |
+          cd gems/bess
+          bundle install --jobs 3 --retry 3
+      - name: run spec for bess
+        run: |
+          cd gems/bess
+          bundle exec rake spec
+      - run: bin/setup ci
+      - name: Generate JS routes
+        run: bin/rails js:routes:typescript
+      - name: run spec
+        run: bundle exec rake spec
+      - name: run assets:precompile
+        run: bin/rails assets:precompile
+    
   markdownlint:
     name: Lint markdown code
     needs: changes
@@ -101,4 +142,33 @@ jobs:
       - name: run notice:ruby:verify
         run: |
             bin/rails notice:ruby:verify
+            jest:
+              needs: package-download
+              runs-on: ${{ matrix.os }}
+              strategy:
+                matrix:
+                  os: [ubuntu-20.04]
+                  node: [14.19.1]
+              steps:
+                - uses: actions/checkout@v3
+                - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
+                  uses: Daniel-Marynicz/postgresql-action@1.0.0
+                  with:
+                    postgres_image_tag: 12-alpine
+                    postgres_user: houdini_user
+                    postgres_password: password
+                - uses: actions/setup-node@v3
+                  with:
+                    node-version: ${{ matrix.node }}
+                    cache: 'yarn'
+                - run: yarn install --frozen-lockfile
+                - uses: ruby/setup-ruby@v1
+                  with:
+                    ruby-version: ${{ env.ruby }}
+                    bundler-cache: true
+                - run: bin/setup ci
+                - name: Generate JS routes
+                  run: bin/rails js:routes:typescript
+                - name: run test:js
+                  run: yarn test:js
 

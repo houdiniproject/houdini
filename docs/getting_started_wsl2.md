@@ -197,7 +197,7 @@ The important thing to look for is that the number of failures is zero.
 We also recommend you run through the JavaScript test cases by running:
 
 ```bash
-yarn jest
+yarn test:js
 ```
 
 Lastly, you can use [Storybook](https://storybook.js.org/) to experiment with

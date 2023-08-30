@@ -11,6 +11,12 @@ FactoryBot.define do
     end
   end
 
+  factory :supporter_generator, class: 'Supporter' do 
+    name { Faker::Name.name }
+    email { Faker::Internet.email }
+    nonprofit
+  end
+
   trait :with_primary_address do
     addresses { [build(:supporter_address)]}
     primary_address { addresses.first}

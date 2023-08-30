@@ -1,0 +1,41 @@
+<%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
+<p>
+  Dear <%= @supporter.name %>,
+</p>
+
+<%= @nonprofit_text.html_safe %>
+
+
+<p><%= @nonprofit.name %> is a 501c3 tax-exempt organization.</p>
+
+
+<h3><%= @year %> Donation Receipt</h3>
+
+<table>
+  <tr>
+    <td>Donor Name</td>
+    <td><%= @supporter.name %></td>
+  </tr>
+  <tr>
+    <td>Total Amount</td>
+    <td>$<%= Format::Currency.cents_to_dollars(@payments.sum(&:gross_amount)) %></td>
+  </tr>
+  <tr>
+    <td>Organization</td>
+    <td><%= @nonprofit.name %>
+  </tr>
+  <tr>
+    <td>Tax ID Number</td>
+    <td><%= @tax_id %></td>
+  </tr>
+<% @payments.each do |payment| %>
+
+  <tr>
+    <td>$<%= Format::Currency.cents_to_dollars(payment.gross_amount) %></td>
+    <td><%= payment.date %>
+  </tr>
+<% end%>
+
+</table>
+
+

@@ -10,7 +10,7 @@ export default function amount_button_contents(currency_symbol: string, amt: Amo
     h('span.dollar', currency_symbol),
     String(amt.amount),
     ...(amt.highlight ? [
-      h('i.fa.fa-star', { style: { lineHeight: '.85em', marginLeft: '3px' } })
+      h(`i.fa.fa-${amt.highlight}`, { style: { lineHeight: '.85em', marginLeft: '3px' } })
     ] : [])
   ]
 }

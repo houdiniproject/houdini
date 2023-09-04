@@ -286,7 +286,7 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    pg (1.4.6)
+    pg (1.5.4)
     power_assert (2.0.3)
     premailer (1.18.0)
       addressable
@@ -515,7 +515,7 @@ DEPENDENCIES
   listen
   money (~> 6.16)
   param_validation!
-  pg (~> 1.4)
+  pg (~> 1.5)
   premailer-rails (~> 1.12)
   puma (~> 5.6)
   qx!

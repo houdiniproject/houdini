@@ -21,7 +21,7 @@ jobs:
     outputs:
       filters: ${{ steps.filter.outputs.changes }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: dorny/paths-filter@v2
       id: filter
       with:
@@ -42,7 +42,7 @@ jobs:
     if: ${{ contains(needs.changes.outputs.filters, 'markdown')}}
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run markdownlint
         run: yarn markdownlint
 
@@ -54,7 +54,7 @@ jobs:
       - changes
     if: ${{ contains(needs.changes.outputs.filters, 'js-notice-files')}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.tool_node_version }}
@@ -71,7 +71,7 @@ jobs:
       - changes
     if: ${{ contains(needs.changes.outputs.filters, 'ruby-notice-files')}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.tool_ruby_version }}
@@ -87,7 +87,7 @@ jobs:
     runs-on: ${{ inputs.os }}
     if: ${{ contains(needs.changes.outputs.filters, 'build-ruby') }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/after-checkout-prep
         with:
           node: ${{ inputs.node }}
@@ -113,7 +113,7 @@ jobs:
     if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
     runs-on: ${{ inputs.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/after-checkout-prep
         with:
           node: ${{ inputs.node }}
@@ -132,7 +132,7 @@ jobs:
     if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
     runs-on: ${{ inputs.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/after-checkout-prep
         with:
           node: ${{ inputs.node }}

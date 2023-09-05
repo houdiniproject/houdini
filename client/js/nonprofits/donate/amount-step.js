@@ -9,6 +9,7 @@ const getAmt = require('./amt').default;
 const getSustainingAmount = require('./sustaining_amount').default;
 const getPostfixElement = require('./postfix_element').default;
 const {dollarsToCentsSafe} = require('../../../../javascripts/src/lib/format');
+const { default: amount_button_contents } = require('./amount_button_contents')
 
 function init(donationDefaults, params$) {
     var state = {
@@ -162,13 +163,7 @@ function amountFields(state) {
               state.buttonAmountSelected$(true)
               state.currentStep$(1) // immediately advance steps when selecting an amount button
             } }
-          }, [
-            h('span.dollar', app.currency_symbol)
-          , String(amt.amount),
-          ...(amt.highlight ? [
-               h('i.fa.fa-star',  {style: {lineHeight: '.85em', marginLeft: '3px'}})
-            ] : [])
-          ])
+          }, amount_button_contents(app.currency_symbol, amt))
         ])
     , (state.params$().custom_amounts || []).map((a) => getAmt(a)) )
     )

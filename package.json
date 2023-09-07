@@ -27,6 +27,7 @@
     "@types/enzyme": "^3.1.9",
     "@types/enzyme-to-json": "^1.5.1",
     "@types/es6-promise": "^3.3.0",
+    "@types/form-serialize": "^0.7.2",
     "@types/google.maps": "^3.47.2",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^26.0.24",

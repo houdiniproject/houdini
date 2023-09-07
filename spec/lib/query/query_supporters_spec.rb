@@ -23,12 +23,12 @@ describe QuerySupporters do
   let(:donation4) { force_create(:donation, amount: gift_level_one_time, campaign: campaign, supporter:supporter1, date: payment2_utc_time)}
   let(:donation5) { force_create(:donation, amount: gift_level_one_time, campaign: campaign, supporter:supporter2, date: payment2_utc_time)}
 
-  let(:payment1) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation1, date: payment_utc_time)}
+  let(:payment1) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation1, date: payment_utc_time, nonprofit: np)}
 
   let(:donation2)  {force_create(:donation, amount: gift_level_changed_recurring, campaign: campaign, supporter:supporter2)}
-  let(:payment2) {force_create(:payment, gross_amount: gift_level_recurring, donation: donation2)}
-  let(:payment4) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation4, date: payment2_utc_time)}
-  let(:payment5) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation5, date: payment2_utc_time)}
+  let(:payment2) {force_create(:payment, gross_amount: gift_level_recurring, donation: donation2, nonprofit: np)}
+  let(:payment4) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation4, date: payment2_utc_time,  nonprofit: np)}
+  let(:payment5) {force_create(:payment, gross_amount: gift_level_one_time, donation: donation5, date: payment2_utc_time, nonprofit: np)}
 
   let(:payment3) {force_create(:payment, gross_amount: gift_level_changed_recurring, donation: donation2)}
   let(:campaign_gift2) { force_create(:campaign_gift, campaign_gift_option: campaign_gift_option, donation: donation2)}
@@ -219,6 +219,15 @@ describe QuerySupporters do
       it 'finds when using character filled phone number' do 
         result = QuerySupporters.full_search(np.id, { search: "A search term" })
         expect(result[:data].count).to eq 0
+      end
+    end
+
+    context 'when filtering by campaign' do
+      it "finds one supporter" do
+        donation1
+        donation4 # this is the second for one of the supporters. This verifies we only get a single supporter no matter how many donations they have
+        result = QuerySupporters.full_search(np.id, { campaign_id: campaign.id.to_s})
+        expect(result[:data].count).to eq 2
       end
     end
   end

@@ -21,7 +21,7 @@ RSpec.describe Transaction, type: :model do
   }
   
   it {
-    is_expected.to(have_one(:subtransaction).required(true).inverse_of(:trx))
+    is_expected.to(have_one(:subtransaction).inverse_of(:trx))
   }
 
   it {
@@ -33,6 +33,14 @@ RSpec.describe Transaction, type: :model do
       .through(:transaction_assignments)
       .source(:assignable)
       .class_name("ModernDonation")
+    )
+  }
+
+  it {
+    is_expected.to(have_many(:ticket_purchases)
+      .through(:transaction_assignments)
+      .source(:assignable)
+      .class_name("TicketPurchase")
     )
   }
 

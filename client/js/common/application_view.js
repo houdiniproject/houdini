@@ -12,13 +12,6 @@ appl.is_loading = function() {appl.def('loading', true)}
 appl.not_loading = function() {appl.def('loading', false)}
 appl.not_loading()
 
-// Define the current payment plan tier for a signed-in nonprofit
-appl.def('current_plan_tier', app.current_plan_tier)
-
-appl.def("is_at_least_plan", function(tier) {
-   return app.current_plan_tier >= tier
-})
-
 appl.def("is_dispute_transaction", function (kind) {
 	return kind === 'Dispute' || kind === 'DisputeReversed'
 })
@@ -324,8 +317,6 @@ appl.transform = function(name, fn) {
 	return result
 }
 
-// Return the current URL path
-appl.def('pathname', function() { return window.location.pathname })
 // Return the root url
 appl.def('root_url', function() { return window.location.origin })
 

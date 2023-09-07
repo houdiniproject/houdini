@@ -48,6 +48,7 @@ module QueryNonprofits
       'nonprofits.state_code',
       'nonprofits.created_at::date::text AS created_at',
       'nonprofits.vetted',
+      'nonprofits.houid',
       'nonprofits.stripe_account_id',
       'coalesce(events.count, 0) AS events_count', 
       'coalesce(campaigns.count, 0) AS campaigns_count', 

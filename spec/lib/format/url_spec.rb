@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'rails_helper'
+require_relative '../../../app/legacy_lib/format/url'
 describe Format::Url do
 
 	describe '.concat' do

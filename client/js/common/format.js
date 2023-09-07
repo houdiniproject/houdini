@@ -59,46 +59,10 @@ format.capitalize = function (string) {
     .join(' ')
 }
 
-format.toSentence = function(arr) {
-	if(arr.length < 2) return arr
-	if(arr.length === 2) return arr[0] + ' and ' + arr[1]
-	var last = arr.length - 1
-	return arr.slice(0, last).join(', ') + ', and ' + arr[last]
-}
-
 format.zeroPad = function(num, size) {
 	var str = num + ""
 	while(str.length < size) str = "0" + str
 	return str
-}
-
-format.sanitizeHtml = function(html) {
-  if(!html) return
-  var tagBody = '(?:[^"\'>]|"[^"]*"|\'[^\']*\')*'
-  var tagOrComment = new RegExp(
-    '<(?:'
-      // Comment body.
-      + '!--(?:(?:-*[^->])*--+|-?)'
-      // Special "raw text" elements whose content should be elided.
-      + '|script\\b' + tagBody + '>[\\s\\S]*?</script\\s*'
-      + '|style\\b' + tagBody + '>[\\s\\S]*?</style\\s*'
-      // Regular name
-      + '|/?[a-z]'
-      + tagBody
-      + ')>',
-    'gi')
-  return html.replace(tagOrComment, '').replace(/</g, '&lt;')
-}
-
-format.sql = {}
-
-format.sql.format_sql_array = function(str) {
-  if(!str) return ''
-	return format.toSentence(
-		str.replace(/[""{}]/g,'')
-			.split(',')
-			.filter(function(str) {return str !== 'NULL'})
-	)
 }
 
 format.date = {}

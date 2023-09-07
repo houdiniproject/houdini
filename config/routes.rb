@@ -16,6 +16,7 @@ Commitchange::Application.routes.draw do
     namespace :api_new do
 			resources :users, only: [] do
 				get :current, {on: :collection}
+				get :current_nonprofit_object_events, {on: :collection}
 			end
       resources :nonprofits, only: [] do
 				resources :object_events, only: [:index]
@@ -30,7 +31,6 @@ Commitchange::Application.routes.draw do
 	resources(:campaign_gifts, {only: [:create]})
 	resource(:cards, {only: [:create, :update, :destroy]})
 	resource(:direct_debit_details, {path: 'sepa', controller: :direct_debit_details, only: [:create]})
- # resources(:activities, {only: [:create]})
 
   # Creating presigned posts for direct-to-S3 upload
   resources(:aws_presigned_posts, {only: [:create]})
@@ -89,10 +89,6 @@ Commitchange::Application.routes.draw do
 			post(:cancel)
 			post(:resend_confirmation)
 		end
-
-		resources(:supporter_emails, {only: [:create, :show]}) do
-      post(:gmail, {on: :collection})
-    end
 
 		resources(:custom_field_masters, {only: [:index, :create, :destroy]})
 		resources(:custom_field_joins, {only: []}) do
@@ -174,7 +170,6 @@ Commitchange::Application.routes.draw do
 
 		resource(:billing_subscription, {only: [:create]}) do
 			post(:cancel)
-      post(:create_trial, {on: :member})
       get(:cancellation)
 		end
 

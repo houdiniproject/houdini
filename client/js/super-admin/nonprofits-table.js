@@ -43,7 +43,7 @@ const row = (data={}, i) => {
   , h('td.pl-0', [
       h('h5.m-0.max-width-1', [npoLink('',
         data.name + ' (' + data.state_code + ')')])
-    , h('p.m-0', '#' + data.id)
+    , h('p.m-0', '#' + data.id + " - Houid: " + data.houid)
     , h('p.m-0', data.email || '')
     , h('p.m-0', data.created_at)
     , h('p.m-0.color-red', [

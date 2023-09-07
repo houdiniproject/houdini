@@ -1,14 +1,15 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-
+require 'webmock/rspec'
 describe Mailchimp do
 	let(:np) { force_create(:nonprofit)}
+		let(:user) {force_create(:user)}
 		let(:tag_master) {force_create(:tag_master, nonprofit: np)}
 		let(:email_list) {force_create(:email_list, mailchimp_list_id: 'list_id', tag_master: tag_master, nonprofit:np, list_name: "temp")}
+		let(:drip_email_list) {force_create(:drip_email_list)}
 		let(:supporter_on_both) { force_create(:supporter, nonprofit:np, email: 'on_BOTH@email.com', name: nil)}
 		let(:supporter_on_local) { force_create(:supporter, nonprofit:np, email: 'on_local@email.com', name: 'Penelope Rebecca Schultz')}
 		let(:tag_join) {force_create(:tag_join, tag_master: tag_master, supporter: supporter_on_both)}
-	
 		let(:tag_join2) {force_create(:tag_join, tag_master: tag_master, supporter: supporter_on_local)}
 	
 		let(:active_recurring_donation_1) {force_create(:recurring_donation_base, supporter_id: supporter_on_local.id, start_date: Time.new(2019, 10,12))}
@@ -74,12 +75,55 @@ describe Mailchimp do
 																body: an_instance_of(String)
 														},
 														{
-																method: 'DELETE',
-																path: 'lists/list_id/members/on_mailchimp'
-														}
+															method: 'DELETE',
+															path: 'lists/list_id/members/on_mailchimp'
+														}								
 													])
 		end
   end
+
+	describe '.sync_nonprofit_users' do 
+		let!(:drip_email_list) {create(:drip_email_list_base)}
+		let!(:user) {create(:user)}
+		let!(:nonprofit_user) {create(:user_as_nonprofit_associate)}
+
+		before(:each) do
+			ActiveJob::Base.queue_adapter = :test
+		end
+	
+		it 'bulk syncs users that are from a nonprofit' do
+			Mailchimp.sync_nonprofit_users(drip_email_list)
+			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with(drip_email_list, nonprofit_user, nonprofit_user.roles.first.host)
+ 		end
+
+		 it 'this tests that using "anything" here actually works as expected (so we know the next spec does what we want)' do 
+			Mailchimp.sync_nonprofit_users(drip_email_list)
+			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with(anything, nonprofit_user, anything)
+		end 
+
+		it 'will NOT include users that doesnt belong to a nonprofit' do 
+			Mailchimp.sync_nonprofit_users(drip_email_list)
+			expect(MailchimpNonprofitUserAddJob).to_not have_been_enqueued.with(anything, user, anything)
+		end 
+
+	end 
+
+	describe '.create_nonprofit_user_subscribe_body' do 
+		let(:nonprofit) { create(:nonprofit)}
+
+		it 'creates nonprofit user subscriber' do 
+			expect(Mailchimp.create_nonprofit_user_subscribe_body(nonprofit, user)).to match({
+				'email_address' => user.email,
+				'status' => 'subscribed',
+				'merge_fields' => {
+					'NONPROFIT_ID' => nonprofit.id
+				}
+			})
+		end 
+
+	end 
+
+	
 
 	describe '.create_subscribe_body' do
 
@@ -165,6 +209,22 @@ describe Mailchimp do
 		it 'includes email for supporter with email' do
 			supporter = create(:supporter, nonprofit: nonprofit, email: 'an@email.com')
 			expect(Mailchimp.get_emails_for_supporter_ids(nonprofit.id, supporter.id)).to eq ['an@email.com']
+		end
+	end
+
+	describe '.signup' do
+		it 'send signup' do
+			list = create(:email_list_base, nonprofit: np)
+			stub = stub_request(:put, list.base_uri + "/lists/#{list.mailchimp_list_id}/members").with(
+				body: hash_including({
+						'email_address' =>   supporter_on_local.email, 
+						'status' => 'subscribed',
+				})
+			)
+			
+			Mailchimp.signup(supporter_on_local, list)
+
+			expect(stub).to have_been_requested
 		end
 	end
 end

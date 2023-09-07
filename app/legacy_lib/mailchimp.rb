@@ -2,6 +2,7 @@
 require 'httparty'
 require 'digest/md5'
 
+
 module Mailchimp
 	include HTTParty
 	format :json
@@ -44,10 +45,17 @@ module Mailchimp
     return metadata['dc']
   end
 
-	def self.signup supporter, mailchimp_list_id
+	def self.signup supporter, mailchimp_list
 		body_hash = @body.merge(create_subscribe_body(supporter))
-		put("/lists/#{mailchimp_list_id}/members", @options.merge(:body => body_hash.to_json))
+		put(mailchimp_list.list_members_url, @options.merge(:body => body_hash.to_json))
   end
+
+  def self.signup_nonprofit_user(drip_email_list, nonprofit, user)
+    body_hash = @body.merge(create_nonprofit_user_subscribe_body(nonprofit, user))
+    uri = "https://us5.api.mailchimp.com/3.0" # hardcoded for us
+    put(uri + "/" + generate_list_member_path(drip_email_list.list_members_path, user.email), @options.merge(:body => body_hash.to_json,
+    basic_auth: {username: "user", password: @apikey}))
+  end 
 
   def self.get_mailchimp_token(npo_id)
     mailchimp_token = QueryNonprofitKeys.get_key(npo_id, 'mailchimp_token')
@@ -187,6 +195,12 @@ module Mailchimp
     end
   end
 
+  def self.sync_nonprofit_users(drip_email_list)
+    User.nonprofit_personnel.find_each do |np_user| 
+      MailchimpNonprofitUserAddJob.perform_later(drip_email_list, np_user, np_user.roles.nonprofit_personnel.first.host )
+    end 
+  end 
+
   # @param [EmailList] email_list
   # @param [Boolean] delete_from_mailchimp do you want to delete extra items on mailchimp, defaults to false
   def self.hard_sync_list(email_list, delete_from_mailchimp=false)
@@ -255,7 +269,15 @@ module Mailchimp
     result
   end
 
+  def self.create_nonprofit_user_subscribe_body(nonprofit,user)
+    JSON::parse(ApplicationController.render 'mailchimp/nonprofit_user_subscribe', assigns: {nonprofit: nonprofit, user: user })
+  end 
+
   def self.create_subscribe_body(supporter)
     JSON::parse(ApplicationController.render 'mailchimp/list', assigns: {supporter: supporter})
+  end
+
+  def self.generate_list_member_path(list_members_path, email)
+    list_members_path + "/" + Digest::MD5.hexdigest(email.downcase)
   end
 end

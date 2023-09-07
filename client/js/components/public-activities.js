@@ -2,8 +2,9 @@
 const flyd = require('flyd')
 const h = require('snabbdom/h')
 const R = require('ramda')
-const moment = require('moment')
+
 const request = require('../common/request')
+const {formatResp} = require('./public-activities-base');
 
 // type can be 'campaign' or 'event'
 const init = (type, path) => {
@@ -12,33 +13,6 @@ const init = (type, path) => {
   return {formattedResp$}
 }
 
-const ago = date => moment(date).fromNow()
-const formatRecurring = o => o.recurring 
-      ? `made a recurring contribution of`
-      : `contributed`
-
-const formatCampaign = r => 
-  R.map(o => {
-    return {
-      name: o.supporter_name 
-    , action: formatRecurring(o) + ' ' + o.amount
-    , date: ago(o.date)
-    }
-  }, r.body)
-
-const formatEvent = r => 
-  R.map(o => {
-    return {
-      name: o.supporter_name 
-    , action: `got ${o.quantity} ticket${o.quantity > 1 ? 's' : ''}` 
-    , date: ago(o.created_at)
-    }
-  }, r.body)
-
-const formatResp = {
-  campaign: formatCampaign 
-, event: formatEvent
-}
 
 const activities = data => {
     return h('tr', [

@@ -129,6 +129,8 @@ describe Houdini::V1::Nonprofit, :type => :request do
     end
 
     it "succeeds" do
+
+      ActiveJob::Base.queue_adapter = :test
       StripeMockHelper.start      
       create(:nonprofit_base, slug: "n", state_code_slug: "wi", city_slug: "appleton")
 
@@ -144,6 +146,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
       xhr :post, '/api/v1/nonprofit', input
       expect(response.code).to eq "201"
+      expect(MailchimpNonprofitUserAddJob).to have_been_enqueued
 
       our_np = Nonprofit.all[1]
       expected_np = {

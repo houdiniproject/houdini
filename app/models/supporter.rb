@@ -66,6 +66,7 @@ class Supporter < ActiveRecord::Base
   has_many :activities, dependent: :destroy
   has_many :tickets
   has_many :recurring_donations
+  has_many :object_events, as: :event_entity
 
   concerning :Tags do
     included do
@@ -93,6 +94,10 @@ class Supporter < ActiveRecord::Base
 
     def must_update_email_lists?
       changes.has_key?("name") || changes.has_key?("email")
+    end
+
+    def publish_created
+      object_events.create(event_type: 'supporter.created')
     end
 
     private

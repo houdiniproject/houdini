@@ -72,11 +72,14 @@ module InsertPayout
           stripe_transfer_id: stripe_transfer.id,
           user_ip: data[:user_ip],
           ach_fee: 0,
-          bank_name: data[:bank_name]}])
-        .returning('id', 'net_amount', 'nonprofit_id', 'created_at', 'updated_at', 'status', 'fee_total', 'gross_amount', 'email', 'count', 'stripe_transfer_id', 'user_ip', 'ach_fee', 'bank_name')
+          bank_name: data[:bank_name],
+          houid: Payout.generate_houid}])
+        .returning('id', 'net_amount', 'nonprofit_id', 'created_at', 'updated_at', 'status', 'fee_total', 'gross_amount', 'email', 'count', 'stripe_transfer_id', 'user_ip', 'ach_fee', 'bank_name', 'houid')
       ).first
       # Create PaymentPayout records linking all the payments to the payout
       pps = Psql.execute(Qexpr.new.insert('payment_payouts', payment_ids.map{|id| {payment_id: id.to_i}}, {common_data: {payout_id: payout['id'].to_i}}))
+      # Create ObjectEvent record for payout.created
+      Payout.find(payout['id'].to_i).publish_created
       NonprofitMailer.delay.pending_payout_notification(payout['id'].to_i)
         return payout
       end
@@ -94,8 +97,10 @@ module InsertPayout
                                           stripe_transfer_id: nil,
                                           user_ip: data[:user_ip],
                                           ach_fee: 0,
-                                          bank_name: data[:bank_name]}])
-              .returning('id', 'net_amount', 'nonprofit_id', 'created_at', 'updated_at', 'status', 'fee_total', 'gross_amount', 'email', 'count', 'stripe_transfer_id', 'user_ip', 'ach_fee', 'bank_name')
+                                          bank_name: data[:bank_name],
+                                          houid: Payout.generate_houid
+                                          }])
+              .returning('id', 'net_amount', 'nonprofit_id', 'created_at', 'updated_at', 'status', 'fee_total', 'gross_amount', 'email', 'count', 'stripe_transfer_id', 'user_ip', 'ach_fee', 'bank_name',  'houid')
       ).first
       return payout
     end

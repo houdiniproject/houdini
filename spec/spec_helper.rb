@@ -18,12 +18,16 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-
 require 'support/expect'
 require 'support/mock_helpers'
 
 
 include Expect
+# did a value change? no? then expectation passes
+# Use this in compound expectations like:
+# expect { fire_error_instead_of_creating_user}.to raise_error(ExpectedError).and not_change { User.count }
+RSpec::Matchers.define_negated_matcher :not_change, :change
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

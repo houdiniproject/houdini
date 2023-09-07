@@ -21,6 +21,7 @@ module InsertSupporter
       supporter.update(data)
 		else
       supporter = nonprofit.supporters.create(data)
+      supporter.publish_created
 		end
 
     InsertCustomFieldJoins.find_or_create(np_id, [supporter['id']],  custom_fields) if custom_fields.present?

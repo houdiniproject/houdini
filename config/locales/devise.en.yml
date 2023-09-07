@@ -17,7 +17,7 @@ en:
       already_authenticated: "Don't worry! You're already signed in."
       unauthenticated: "You need to sign in or sign up before you can do that."
       unconfirmed: 'You have to confirm your account before continuing.'
-      locked: 'Your account is locked.'
+      locked: 'Your account has been locked due to too many sign in attempts.'
       invalid: "We didn't recognize that email or password."
       invalid_token: 'Invalid authentication token.'
       timeout: 'Your session expired, please sign in again to continue.'

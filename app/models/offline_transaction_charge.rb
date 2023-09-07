@@ -7,6 +7,7 @@
 class OfflineTransactionCharge < ApplicationRecord
 	include Model::SubtransactionPaymentable
 	has_one :legacy_payment, class_name: 'Payment', through: :subtransaction_payment
+	has_one :offsite_payment, through: :legacy_payment
 
 	delegate :gross_amount, :net_amount, :fee_total, to: :legacy_payment
 	delegate :currency, to: :nonprofit

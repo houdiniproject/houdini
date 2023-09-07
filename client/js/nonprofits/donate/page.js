@@ -73,13 +73,13 @@ function setGiftOptionParams(campaign_id, gift_id) {
 
 var state = donate.init(params$)
 var container = document.querySelector('.js-donateForm')
-if(app.nonprofit.plan_tier > 0) {
+if(app.nonprofit.can_view_payment_wizard) {
   $(".donationWizard").trigger("render:pre");
   var event = new CustomEvent('render:pre');
   container.parentNode.dispatchEvent(event);
   render({patch, view: donate.view, state, container})
   jQuery(function($){
-  $(".donationWizard").trigger("render:post").addClass("displayed-updated");
+  $(".donationWizard").trigger("render:post")
   });
 //  event = new CustomEvent('render:post');
 //  container.parentNode.dispatchEvent(event);

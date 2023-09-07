@@ -2,6 +2,7 @@
 const format = require('../../common/format')
 const h = require('snabbdom/h')
 const moment = require('moment-timezone')
+const {commaJoin} = require('./common');
 
 const dateTime = (startTime, endTime) => {
   const tz = ENV.nonprofitTimezone || 'America/Los_Angeles'
@@ -18,8 +19,6 @@ const dateTime = (startTime, endTime) => {
   ]
 }
 
-const commaSeperate = arr => arr.filter(Boolean).join(', ')
-
 const metric = (label, val) => 
   h('span.u-inlineBlock.u-marginRight--20', [h('strong', `${label}: `), val || '0'])
 
@@ -33,7 +32,7 @@ module.exports = e => {
   const path = `/nonprofits/${app.nonprofit_id}/events/${e.id}`
   const location = [
     h('p.strong.u-margin--0', e.venue_name) 
-  , h('p.u-margin--0', commaSeperate([e.address, e.city, e.state_code, e.zip_code]))
+  , h('p.u-margin--0', commaJoin([e.address, e.city, e.state_code, e.zip_code]))
   ]
   const attendeesMetrics = [
     metric('Attendees', e.total_attendees) 

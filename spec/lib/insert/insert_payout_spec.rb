@@ -161,11 +161,11 @@ describe InsertPayout do
           }.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq(expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid))
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
-          expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
-
+          expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
+          expect(resulted_payout.houid).to match_houid(:pyout)
           expect(resulted_payout.payments.pluck('payments.id')).to match_array(expected_payments.map{|i| i.id})
         end
 
@@ -200,10 +200,10 @@ describe InsertPayout do
 
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
-          expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
+          expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
 
           expect(eb_yesterday.available_payments.map{|i| i.id}).to match_array(expected_payments.map{|i| i.id})
           # validate payment payout records
@@ -271,11 +271,12 @@ describe InsertPayout do
           }.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
           
-          expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
+          expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
+          expect(resulted_payout.houid).to match_houid(:pyout)
 
           expect(resulted_payout.payments.pluck('payments.id')).to match_array(expected_payments.map{|i| i.id})
         end
@@ -307,15 +308,34 @@ describe InsertPayout do
 
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id)
+          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
-          expect(resulted_payout.attributes.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes)
-        
+          expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
+          expect(resulted_payout.houid).to match_houid(:pyout)
           expect(eb_two_days_ago.available_payments.map{|i| i.id}).to match_array(expected_payments.map{|i| i.id})
           # validate payment payout records
 
           expect(resulted_payout.payments.count).to eq 0
+        end
+
+        it 'creates an associated payout.created object event with the correct fields' do
+          result = InsertPayout.with_stripe(nonprofit.id, {stripe_account_id: nonprofit.stripe_account_id,
+                                                    email: user_email,
+                                                    user_ip: user_ip,
+                                                    bank_name: bank_name
+          }, {date: Time.now - 1.day})
+          resulting_payout = Payout.find(result['id'])
+
+          expect(resulting_payout.object_events.last.event_type).to eq 'payout.created'
+
+          expect(
+            resulting_payout.object_events.last.object_json.keys
+          ).to contain_exactly('id', 'data', 'type', 'object', 'created')
+
+          expect(
+            resulting_payout.object_events.last.object_json['data']['object'].keys
+          ).to contain_exactly('id', 'object', 'status', 'created', 'net_amount')
         end
       end
     end

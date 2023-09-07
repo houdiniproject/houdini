@@ -123,8 +123,6 @@ function getClassToFindEditor()
 {
     if (app.editor === 'froala' )
         return "froala-element"
-    else if (app.editor === 'quill')
-        return "ql-editor"
 }
 
 window.onload = function() {

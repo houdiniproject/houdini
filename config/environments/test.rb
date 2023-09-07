@@ -47,7 +47,5 @@ Commitchange::Application.configure do
   end
   config.middleware.use Rack::Attack
 
-  config.active_job.queue_adapter = :test
-
   NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours
 end

@@ -66,8 +66,13 @@ module ExportPayments
       export.exception = e.to_s
       export.ended = Time.now
       export.save!
-      if user
-        ExportMailer.delay.export_payments_failed_notification(export)
+
+      begin 
+        user ||= User.where('id = ?', user_id).first
+        if user
+          ExportMailer.delay.export_payments_failed_notification(export)
+        end
+      rescue
       end
       raise e
     end

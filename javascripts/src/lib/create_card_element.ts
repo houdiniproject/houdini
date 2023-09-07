@@ -1,6 +1,7 @@
 // License: LGPL-3.0-or-later
 // reusable create card element for Stripe Element and non-react donation code
-declare const stripeV3: stripe.Stripe;
+import type {Stripe} from '@stripe/stripe-js'
+declare const stripeV3: Stripe
 
 
 export function createElement(props?:{hidePostalCode?:boolean}) {
@@ -23,7 +24,8 @@ export function createElement(props?:{hidePostalCode?:boolean}) {
             }
 
         },
-        hidePostalCode: hidePostalCode
+        hidePostalCode: hidePostalCode,
+        disableLink: true,
     })
 }
 

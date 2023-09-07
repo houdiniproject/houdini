@@ -15,7 +15,7 @@
 <% content_for :javascripts do %>
   <script>
     app.referer_url = "<%= @referer %>"
-    app.nonprofit.plan_tier = <%= QueryBillingSubscriptions.plan_tier(@nonprofit.id) %>
+    app.nonprofit.can_view_payment_wizard = true
     app.campaign = <%= raw (@campaign || {}).to_json %>
     app.currency_symbol = "<%= @nonprofit.currency_symbol %>"
     app.utmParams = {

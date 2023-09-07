@@ -25,7 +25,15 @@ RSpec.describe '/api_new/supporters/show.json.jbuilder', type: :view do
 	}
 
 	it {
+		is_expected.to include('legacy_id' => supporter.id)
+	}
+
+	it {
 		is_expected.to include('name' => 'Fake Supporter Name')
+	}
+
+	it {
+		is_expected.to include('legacy_nonprofit' => nonprofit.id)
 	}
 
 	it {
@@ -50,6 +58,10 @@ RSpec.describe '/api_new/supporters/show.json.jbuilder', type: :view do
 
 	it {
 		is_expected.to include('phone' => nil)
+	}
+
+	it {
+		is_expected.to include('email' => supporter.email)
 	}
 
 	describe 'supporter_addresses' do 

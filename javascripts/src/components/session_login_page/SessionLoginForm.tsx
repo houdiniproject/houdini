@@ -11,6 +11,7 @@ import {observable, action, runInAction} from 'mobx'
 import {ApiManager} from "../../lib/api_manager";
 import {BasicField} from "../common/fields";
 import ProgressableButton from "../common/ProgressableButton";
+import { ErrorDivDetails } from './ErrorDivDetails';
 
 export interface SessionLoginFormProps
 {
@@ -101,7 +102,7 @@ class InnerSessionLoginForm extends React.Component<SessionLoginFormProps & Inje
 
   render() {
 
-    let errorDiv = !this.form.isValid || this.form.hasServerError ? <div className="form-group has-error"><div className="help-block" role="alert">{this.form.serverError}</div></div> : ''
+    const errorDiv = <ErrorDivDetails isValid={this.form.isValid} hasServerError={this.form.hasServerError} serverError={this.form.serverError}/>
 
     return <form onSubmit={this.form.onSubmit}>
       <BasicField field={this.form.$('email')}

@@ -136,7 +136,7 @@ FactoryBot.define do
       billing_subscription { association :billing_subscription, 
         :with_associated_stripe_subscription, 
         stripe_customer: active_card.stripe_customer,
-        billing_plan: create(:billing_plan_base, :with_associated_stripe_plan, amount: 133333, percentage_fee: 0.33, tier: 1, name: "fake plan")
+        billing_plan: create(:billing_plan_base, :with_associated_stripe_plan, amount: 133333, percentage_fee: 0.33, name: "fake plan")
       }
     end
 

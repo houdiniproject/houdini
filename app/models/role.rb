@@ -37,6 +37,9 @@ class Role < ActiveRecord::Base
 		user = User.find_or_create_with_email(email)
 		role = Role.create(user: user, name: role_name, host: nonprofit)
 		return role unless role.valid?
+
+		MailchimpNonprofitUserAddJob.perform_later(user, nonprofit)
+		
 		if user.confirmed?
 			NonprofitAdminMailer.delay.existing_invite(role)
 		else

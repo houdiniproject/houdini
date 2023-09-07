@@ -167,7 +167,7 @@ module QuerySupporters
         Qx.select("supporter_id", "SUM(gross_amount)", "MAX(date) AS max_date", "MIN(date) AS min_date", "COUNT(*) AS count")
       .from(
           Qx.select("supporter_id", "date", "gross_amount")
-              .from(:payments)
+              .from(Qx.select('*').from(:payments).where("nonprofit_id = $id", id: np_id).as(:payments).parse)
               .join(Qx.select('id')
                         .from(:supporters)
                         .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
@@ -285,9 +285,13 @@ module QuerySupporters
       expr = expr.and_where("tags.ids @> ARRAY[$tag_ids]", tag_ids: tag_ids)
     end
     if query[:campaign_id].present?
-      expr = expr.add_join("donations", "donations.supporter_id=supporters.id AND donations.campaign_id IN (#{QueryCampaigns
-      .get_campaign_and_children(query[:campaign_id].to_i)
-           .parse})")
+      expr = expr
+        .add_join(
+          Qx.select("donations.supporter_id").from(:donations).where("donations.campaign_id IN (#{QueryCampaigns
+          .get_campaign_and_children(query[:campaign_id].to_i)
+              .parse})").group_by(:supporter_id).as(:donations),
+          "donations.supporter_id= supporters.id"
+        )
     end
 
     if query[:event_id].present?

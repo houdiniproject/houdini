@@ -16,14 +16,6 @@ module InsertActivities
     ["'created' AS action_type", "'f' AS public", "'#{now}'", "'#{now}'"]
   end
 
-  def self.create(data)
-    Qx.insert_into(:activities)
-      .values(data)
-      .ts
-      .returning('*')
-      .execute
-  end
-
   def self.for_recurring_donations(payment_ids)
     insert_recurring_donations_expr
       .and_where("payments.id IN ($ids)", ids: payment_ids)
@@ -113,28 +105,6 @@ module InsertActivities
       .join(:refunds, "refunds.payment_id=payments.id")
       .left_join(:users, "refunds.user_id=users.id")
       .where("payments.kind='Refund'")
-  end
-
-  def self.for_supporter_emails(ids)
-    insert_supporter_emails_expr
-      .and_where("supporter_emails.id IN ($ids)", ids: ids)
-      .execute
-  end
-
-  def self.insert_supporter_emails_expr
-    Qx.insert_into(:activities, insert_cols.concat(["user_id"]))
-    .select(defaults.concat([
-        "supporter_emails.supporter_id",
-        "'SupporterEmail' AS attachment_type",
-        "supporter_emails.id AS attachment_id",
-        "supporter_emails.nonprofit_id",
-        "supporter_emails.created_at AS date",
-        "json_build_object('gmail_thread_id', supporter_emails.gmail_thread_id, 'subject', supporter_emails.subject, 'from', supporter_emails.from)",
-        "'SupporterEmail' AS kind",
-        "users.id AS user_id"
-      ]))
-      .from(:supporter_emails)
-      .left_join(:users, "users.id=supporter_emails.user_id")
   end
 
   def self.for_supporter_notes(ids)

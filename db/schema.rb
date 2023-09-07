@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20221209224053) do
+ActiveRecord::Schema.define(version: 20230822155816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(version: 20221209224053) do
     t.integer  "amount"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.integer  "tier"
     t.string   "interval",       limit: 255
     t.decimal  "percentage_fee",             default: 0.0, null: false
     t.integer  "flat_fee",                   default: 0,   null: false
@@ -200,15 +199,6 @@ ActiveRecord::Schema.define(version: 20221209224053) do
   add_index "charges", ["donation_id"], name: "index_charges_on_donation_id", using: :btree
   add_index "charges", ["payment_id"], name: "index_charges_on_payment_id", using: :btree
 
-  create_table "comments", force: :cascade do |t|
-    t.integer  "profile_id"
-    t.text     "body"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "host_id"
-    t.string   "host_type",  limit: 255
-  end
-
   create_table "custom_field_joins", force: :cascade do |t|
     t.integer  "custom_field_master_id"
     t.integer  "supporter_id"
@@ -333,6 +323,12 @@ ActiveRecord::Schema.define(version: 20221209224053) do
   create_table "donations_payment_imports", id: false, force: :cascade do |t|
     t.integer "donation_id"
     t.integer "payment_import_id"
+  end
+
+  create_table "drip_email_lists", force: :cascade do |t|
+    t.string   "mailchimp_list_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "e_tap_import_contacts", force: :cascade do |t|
@@ -650,6 +646,7 @@ ActiveRecord::Schema.define(version: 20221209224053) do
     t.text     "change_amount_message"
     t.boolean  "first_charge_email_sent"
     t.boolean  "hide_cover_fees",                     default: false, null: false
+    t.boolean  "temp_block",                          default: false
   end
 
   add_index "miscellaneous_np_infos", ["nonprofit_id"], name: "index_miscellaneous_np_infos_on_nonprofit_id", using: :btree
@@ -878,7 +875,10 @@ ActiveRecord::Schema.define(version: 20221209224053) do
     t.string   "stripe_transfer_id", limit: 255
     t.string   "user_ip",            limit: 255
     t.integer  "ach_fee"
+    t.string   "houid"
   end
+
+  add_index "payouts", ["houid"], name: "index_payouts_on_houid", unique: true, using: :btree
 
   create_table "periodic_reports", force: :cascade do |t|
     t.boolean "active",              default: false, null: false
@@ -931,7 +931,7 @@ ActiveRecord::Schema.define(version: 20221209224053) do
   add_index "reassignments", ["e_tap_import_id"], name: "index_reassignments_on_e_tap_import_id", using: :btree
 
   create_table "recaptcha_rejections", force: :cascade do |t|
-    t.text     "details"
+    t.jsonb    "details"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -998,16 +998,6 @@ ActiveRecord::Schema.define(version: 20221209224053) do
   end
 
   add_index "roles", ["name", "user_id", "host_id"], name: "index_roles_on_name_and_user_id_and_host_id", using: :btree
-
-  create_table "sessions", force: :cascade do |t|
-    t.string   "session_id", limit: 255, null: false
-    t.text     "data"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
-  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "simple_objects", force: :cascade do |t|
     t.string   "houid"
@@ -1249,14 +1239,6 @@ ActiveRecord::Schema.define(version: 20221209224053) do
   add_index "tag_joins", ["tag_master_id"], name: "index_tag_joins_on_tag_master_id", using: :btree
   add_index "tag_joins", ["tag_master_id"], name: "tag_joins_tag_master_id", using: :btree
 
-  create_table "tag_joins_backup", force: :cascade do |t|
-    t.integer  "tag_master_id"
-    t.integer  "supporter_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "metadata"
-  end
-
   create_table "tag_masters", force: :cascade do |t|
     t.string   "name",         limit: 255
     t.integer  "nonprofit_id"
@@ -1282,12 +1264,18 @@ ActiveRecord::Schema.define(version: 20221209224053) do
     t.integer  "order"
   end
 
+  create_table "ticket_purchases", force: :cascade do |t|
+    t.string   "houid",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tickets", force: :cascade do |t|
     t.integer  "ticket_level_id"
     t.integer  "charge_id"
     t.integer  "profile_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.integer  "supporter_id"
     t.integer  "event_id"
     t.integer  "quantity"
@@ -1297,13 +1285,15 @@ ActiveRecord::Schema.define(version: 20221209224053) do
     t.integer  "payment_id"
     t.text     "note"
     t.integer  "event_discount_id"
-    t.boolean  "deleted",           default: false
+    t.boolean  "deleted",            default: false
     t.uuid     "source_token_id"
+    t.integer  "ticket_purchase_id"
   end
 
   add_index "tickets", ["event_id"], name: "index_tickets_on_event_id", using: :btree
   add_index "tickets", ["payment_id"], name: "index_tickets_on_payment_id", using: :btree
   add_index "tickets", ["supporter_id"], name: "index_tickets_on_supporter_id", using: :btree
+  add_index "tickets", ["ticket_purchase_id"], name: "index_tickets_on_ticket_purchase_id", using: :btree
 
   create_table "trackings", force: :cascade do |t|
     t.string   "utm_campaign", limit: 255
@@ -1370,6 +1360,9 @@ ActiveRecord::Schema.define(version: 20221209224053) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email",      limit: 255
     t.string   "phone"
+    t.integer  "failed_attempts",                    default: 0,  null: false
+    t.string   "unlock_token"
+    t.datetime "locked_at"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

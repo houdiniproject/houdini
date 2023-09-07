@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
-json.(supporter, :name, :organization, :phone, :anonymous, :deleted)
+json.(supporter, :name, :email, :organization, :phone, :anonymous, :deleted)
 
 json.id supporter.houid
 
@@ -18,6 +18,9 @@ json.supporter_addresses [supporter] do |supp|
   json.zip_code supp.zip_code
   json.country supp.country
 end
+
+json.legacy_id supporter.id
+json.legacy_nonprofit supporter.nonprofit_id
 
 #json.url api_new_nonprofit_supporter_url(supporter.nonprofit.to_modern_param, supporter.to_modern_param)
 

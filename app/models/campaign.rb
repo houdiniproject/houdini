@@ -72,7 +72,6 @@ class Campaign < ActiveRecord::Base
 	has_many :supporters, :through => :donations
 	has_many :recurring_donations
 	has_many :roles,        as: :host, dependent: :destroy
-	has_many :comments,     as: :host, dependent: :destroy
 	has_many :activities,   as: :host, dependent: :destroy
 	belongs_to :profile
 	belongs_to :nonprofit

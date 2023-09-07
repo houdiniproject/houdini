@@ -5,6 +5,10 @@
 
 <p>Click the link below to unlock your account:</p>
 
+<p>If you weren't attempting to access your account, please reset your password: <%= link_to(new_user_password_url, new_user_password_url) %>
+
+<p>If you have questions about why your account was locked or need help unlocking it, please contact <%= link_to "support@commitchange.com", "mailto:support@commitchange.com" %>.</p>
+
 <p><%= link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @token) %></p>
 
 <%= render 'emails/sig' %>

@@ -103,11 +103,10 @@ group :development, :ci, :test do
 	gem 'pry'
 	gem 'pry-byebug'
 	gem 'binding_of_caller'
-  gem 'rspec', "~> 3.9"
-	gem 'rspec-rails', "~> 3.9"
+  gem 'rspec', "~> 3"
+	gem 'rspec-rails', "~> 4"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
-  gem 'ruby-prof', '0.15.9'
 	gem 'stripe-ruby-mock', '~> 2.5.1', :require => 'stripe_mock'
   gem 'factory_bot'
 	gem 'factory_bot_rails'
@@ -119,6 +118,10 @@ group :development, :ci, :test do
   gem 'yard'
   gem 'faker' # test data generation
 end
+
+
+gem 'nokogiri', '~> 1.13.11', require: false, git:"https://github.com/commitchange/nokogiri.git", tag: "v1.13.11"
+
 
 group :test do
   gem 'webmock'
@@ -180,3 +183,5 @@ gem 'securerandom' # needed becuase we're on a pre-2.5 Ruby version
 gem 'fx',  git: 'https://github.com/teoljungberg/fx.git', ref: '946cdccbd12333deb8f4566c9852b49c0231a618'
 
 gem 'has_scope'
+
+gem 'globalid', git: "https://github.com/CommitChange/globalid.git", tag: "0.4.2.1"

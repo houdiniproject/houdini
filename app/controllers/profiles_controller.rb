@@ -13,7 +13,7 @@ class ProfilesController < ApplicationController
     @campaigns = @profile.campaigns.published.includes(:nonprofit)
 		if @profile.anonymous? && current_user_id != @profile.user_id && !current_role?(:super_admin)
 			flash[:notice] = 'That user does not have a public profile.'
-			redirect_to(request.env["HTTP_REFERER"]&.to_s || root_url)
+			redirect_to(root_url)
 			return
 		end
 	end

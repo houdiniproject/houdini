@@ -13,8 +13,9 @@ class Transaction < ApplicationRecord
 
 	has_many :transaction_assignments,  -> {  extending ModelExtensions::TransactionAssignment::RefundExtension }, inverse_of: 'trx'
 	has_many :donations, through: :transaction_assignments, source: :assignable, source_type: 'ModernDonation', inverse_of: 'trx'
+	has_many :ticket_purchases, through: :transaction_assignments, source: :assignable, source_type: 'TicketPurchase', inverse_of: 'trx'
 
-	has_one :subtransaction, required: true, inverse_of: :trx
+	has_one :subtransaction, inverse_of: :trx
 	has_many :payments, -> {  extending ModelExtensions::PaymentsExtension }, through: :subtransaction, source: :subtransaction_payments, class_name: 'SubtransactionPayment'
 
 	has_many :object_events, as: :event_entity

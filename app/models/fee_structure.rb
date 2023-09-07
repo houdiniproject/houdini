@@ -1,3 +1,4 @@
+# License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 #
 # A FeeStructure summarizes a set of various Stripe rates and surcharges to use when applied to a card and a transaction. 
 #

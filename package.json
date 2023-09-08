@@ -42,6 +42,7 @@
     "@types/react-test-renderer": "^16.0.1",
     "@types/react-text-mask": "^5.4.2",
     "@types/react-transition-group": "^2.9.0",
+    "@types/uuid": "^9.0.3",
     "@types/validator": "^9.4.1",
     "@types/velocity-animate": "^1.2.33",
     "@types/whatwg-fetch": "0.0.33",

@@ -1,10 +1,7 @@
 // License: LGPL-3.0-or-later
 const R = require('ramda')
 const {getDefaultAmounts} = require('./custom_amounts');
-const { parseCustomFields }  = require('./parseFields');
-
-const splitParam = str =>
-  R.split(/[_;,]/, str)
+const { parseCustomFields, splitParam }  = require('./parseFields');
 
 module.exports = params => {
   const defaultAmts = getDefaultAmounts().join()

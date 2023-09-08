@@ -9,6 +9,7 @@ const dedicationForm = require('./dedication-form')
 const serialize = require('form-serialize')
 const request = require('../../common/request')
 const format = require('../../common/format')
+const { default: customFields } = require('./components/info-step/customFields')
 
 const sepaTab = 'sepa'
 const cardTab = 'credit_card'
@@ -70,17 +71,6 @@ const postSupporter = supporter =>
     }).load
   )
 
-
-const customFields = fields => {
-  if(!fields) return ''
-  const input = field => h('input', {
-    props: {
-      name: `customFields[${field.name}]`
-    , placeholder: field.label
-    }
-  })
-  return h('div', R.map(input, fields))
-}
 
 function recurringMessage(state){
 //function recurringMessage(isRecurring, state) {

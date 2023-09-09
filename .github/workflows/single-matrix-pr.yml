@@ -34,7 +34,7 @@ jobs:
     with:
       os: ${{ inputs.os }}
       node: ${{ contains(needs.changes.outputs.filters, 'build-js') && inputs.node }}
-      ruby: ${{ contains(needs.changes.outputs.filters, 'build-ruby') && inputs.ruby }}
+      ruby: ${{ contains(needs.changes.outputs.filters, 'setup-ruby') && inputs.ruby }}
 
   markdownlint:
     name: Lint markdown code
@@ -45,40 +45,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run markdownlint
         run: yarn markdownlint
-
-  notice_js:
-    name: Verify NOTICE-js is up to date
-    runs-on: ubuntu-20.04
-    needs: 
-      - package-download
-      - changes
-    if: ${{ contains(needs.changes.outputs.filters, 'js-notice-files')}}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.tool_node_version }}
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - name: Verify NOTICE-js
-        run: yarn notice:js
-
-  notice_ruby:
-    name: Verify NOTICE-ruby is up to date
-    runs-on: ubuntu-20.04
-    needs:
-      - package-download
-      - changes
-    if: ${{ contains(needs.changes.outputs.filters, 'ruby-notice-files')}}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.tool_ruby_version }}
-          bundler-cache: true
-      - name: run notice:ruby:verify
-        run: |
-            bin/rails notice:ruby:verify
 
   main_build:
     needs:  

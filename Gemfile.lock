@@ -195,7 +195,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    good_job (3.17.4)
+    good_job (3.18.2)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -463,7 +463,7 @@ GEM
       public_suffix
     warden (1.2.9)
       rack (>= 2.0.9)
-    webmock (3.19.0)
+    webmock (3.19.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -502,7 +502,7 @@ DEPENDENCIES
   factory_bot (~> 6.2)
   factory_bot_rails (~> 6.2)
   fast_blank
-  good_job (~> 3.17)
+  good_job (~> 3.18)
   hamster (~> 3.0)
   houdini_full_contact!
   http_accept_language

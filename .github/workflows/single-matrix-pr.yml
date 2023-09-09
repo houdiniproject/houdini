@@ -34,7 +34,7 @@ jobs:
     with:
       os: ${{ inputs.os }}
       node: ${{ contains(needs.changes.outputs.filters, 'build-js') && inputs.node }}
-      ruby: ${{ contains(needs.changes.outputs.filters, 'build-ruby') && inputs.ruby }}
+      ruby: ${{ contains(needs.changes.outputs.filters, 'setup-ruby') && inputs.ruby }}
 
   markdownlint:
     name: Lint markdown code

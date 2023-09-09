@@ -20,7 +20,7 @@ runs:
       shell: sh
     
     - uses: ruby/setup-ruby@v1
-      if: ${{ inputs.ruby != '' && inputs.ruby }}
+      if: ${{ inputs.ruby != '' }}
       with:
         ruby-version: ${{ inputs.ruby }}
         bundler-cache: true

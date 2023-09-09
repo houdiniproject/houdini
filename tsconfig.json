@@ -7,7 +7,6 @@
     "target": "ES2018",
     "jsx": "react",
     "experimentalDecorators": true,
-    "baseUrl": "./",
     "lib": ["dom", "ES2018"],
     "paths": { "*": [ "./types/*"], "@rails/activestorage": ["./types/rails__activestorage"] },
     "typeRoots" : [

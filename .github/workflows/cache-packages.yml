@@ -22,7 +22,7 @@ jobs:
   ruby-package-download:
     name: Download Ruby packages
     runs-on: ${{ inputs.os }}
-    if: ${{ inputs.ruby != '' }}
+    if: ${{ inputs.ruby && inputs.ruby != '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-packages

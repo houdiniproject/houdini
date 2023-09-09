@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   build:
+    name: "Build"
     uses: "./.github/workflows/single-matrix-pr.yml"
     with:
       os: ${{ matrix.os }}

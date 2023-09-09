@@ -72,7 +72,7 @@ jobs:
       - name: run spec
         run: bundle exec rake spec
       - name: run assets:precompile
-        run: bin/rails assets:precompile
+        run: WEBPACKER_PRECOMPILE=f bin/rails assets:precompile
 
   webpack:
     needs: package-download

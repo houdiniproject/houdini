@@ -29,6 +29,7 @@ jobs:
         filters: .github/path-filters.yml
 
   package-download:
+    name: "Package caching"
     uses: "./.github/workflows/cache-packages.yml"
     needs: changes
     with:
@@ -46,7 +47,8 @@ jobs:
       - name: Run markdownlint
         run: yarn markdownlint
 
-  main_build:
+  ruby_build:
+    name: "Ruby build and spec"
     needs:  
       - package-download
       - changes
@@ -75,6 +77,7 @@ jobs:
         run: bin/rails assets:precompile
 
   webpack:
+    name: "Webpack JS files"
     needs: package-download
     if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
     runs-on: ${{ inputs.os }}
@@ -94,6 +97,7 @@ jobs:
         run: yarn build-storybook
 
   jest:
+    name: "Jest for JS"
     needs: package-download
     if: ${{ contains(needs.changes.outputs.filters, 'build-js') }}
     runs-on: ${{ inputs.os }}

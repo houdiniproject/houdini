@@ -10,6 +10,7 @@ const serialize = require('form-serialize')
 const request = require('../../common/request')
 const format = require('../../common/format')
 const { default: customFields } = require('./components/info-step/customFields')
+const { formatFormData } = require('./components/info-step/utils');
 
 const sepaTab = 'sepa'
 const cardTab = 'credit_card'
@@ -56,10 +57,6 @@ function init(donation$, parentState) {
   return state
 }
 
-const formatFormData = form => {
-  const data = serialize(form, {hash: true})
-  return R.evolve({customFields: R.toPairs}, data)
-}
 
 const postSupporter = supporter =>
   flyd.map(

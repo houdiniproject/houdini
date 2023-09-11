@@ -18,7 +18,7 @@ jobs:
           ruby: ['2.6.10']
         fail-fast: false
       steps:
-        - uses: actions/checkout@v3
+        - uses: actions/checkout@v4
         - uses: dorny/paths-filter@v2
           id: changes
           with:

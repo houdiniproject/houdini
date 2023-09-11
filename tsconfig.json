@@ -9,7 +9,6 @@
     "target": "es5",
     "jsx": "react",
     "experimentalDecorators": true,
-    "baseUrl": "./",
     "lib": ["dom","es5", "scripthost", "ES2015"],
     "paths": { "*": [ "./types/*"] },
     "typeRoots" : [

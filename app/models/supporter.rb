@@ -1,6 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Supporter < ActiveRecord::Base
   include Model::Houidable
+  include Model::CalculatedNames
   setup_houid :supp, :houid
 
   ADDRESS_FIELDS = ['address', 'city', 'state_code', 'country', 'zip_code']
@@ -135,30 +136,6 @@ class Supporter < ActiveRecord::Base
       obj.city = geo.city if obj.city.blank?
       obj.address = geo.address if obj.address.blank?
       obj.country = geo.country if obj.country.blank?
-    end
-  end
-
-  def calculated_first_name
-    name_parts = name&.strip&.split(' ')&.map(&:strip)
-    case name_parts&.count || 0
-    when 0
-      nil
-    when 1
-      name_parts[0]
-    else
-      name_parts[0..-2].join(" ")
-    end
-  end
-
-  def calculated_last_name
-    name_parts = name&.strip&.split(' ')&.map(&:strip)
-    case name_parts&.count || 0
-    when 0
-      nil
-    when 1
-      nil
-    else
-      name_parts[-1]
     end
   end
 

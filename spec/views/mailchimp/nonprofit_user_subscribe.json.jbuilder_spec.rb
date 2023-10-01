@@ -22,7 +22,7 @@ RSpec.describe '/mailchimp/nonprofit_user_subscribe.json.jbuilder', type: :view 
         email_address: User.first.email,
         status: 'subscribed',
         merge_fields: {
-          NONPROFIT_ID: User.first.roles.first.host.id
+          NP_ID: User.first.roles.first.host.id
         }
       )
     }

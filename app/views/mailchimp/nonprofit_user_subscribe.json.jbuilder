@@ -5,4 +5,5 @@ json.status 'subscribed'
 
 json.merge_fields do
   json.NP_ID  @nonprofit.id
+  json.FNAME @user.calculated_first_name || ""
 end 

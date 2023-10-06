@@ -115,6 +115,7 @@
     "immutable": "3.7.5",
     "jquery": "1.11.1",
     "jquery.cookie": "1.4.1",
+    "json5": "^2.2.3",
     "lodash": "^4.17.21",
     "marked": "^0.7.0",
     "mobx": "^4.3.1",

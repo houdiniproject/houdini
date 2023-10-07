@@ -2,12 +2,11 @@
 require('../../common/pikaday-timepicker')
 require('../../components/wizard')
 require('../../common/image_uploader')
-var checkName = require('../../common/ajax/check_campaign_or_event_name')
-var format_err = require('../../common/format_response_error')
+const checkName = require('../../common/ajax/check_campaign_or_event_name')
 
 
 appl.def('advance_campaign_name_step', function(form_obj) {
-  var name = form_obj['campaign[name]']
+  const name = form_obj['campaign[name]']
   checkName(name, 'campaign', function(){
     appl.def('new_campaign', form_obj) 
     appl.wizard.advance('new_campaign_wiz')

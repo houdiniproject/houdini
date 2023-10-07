@@ -7,8 +7,8 @@
 
 // Not namespacing card_form; only show one card form on the page at any time
 
-var request = require('../common/super-agent-promise')
-var format_err = require('../common/format_response_error')
+const request = require('../common/super-agent-promise')
+const format_err = require('../common/format_response_error')
 const grecaptcha_during_payment = require('../../../javascripts/src/lib/grecaptcha_during_payment').default
 
 module.exports = create_card

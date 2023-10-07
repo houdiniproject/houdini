@@ -1,10 +1,9 @@
 // License: LGPL-3.0-or-later
-var confirmation = require('./confirmation')
-var notification = require('./notification')
+const confirmation = require('./confirmation')
+const notification = require('./notification')
 const grecaptchaPromised = require('../../../javascripts/src/lib/grecaptcha').default
 
 $('form[autosubmit]').submit(function(e) {
-	var self = this
 	e.preventDefault()
 
 	if(this.hasAttribute('data-confirm')) {
@@ -16,9 +15,9 @@ $('form[autosubmit]').submit(function(e) {
 })
 
 function submit_form(form_el, on_success) {
-	var path = form_el.getAttribute('action')
-	var method = form_el.getAttribute('method')
-	var form_data = new FormData(form_el)
+	const path = form_el.getAttribute('action')
+	const method = form_el.getAttribute('method')
+	const form_data = new FormData(form_el)
 
 	new Promise((resolve) => {
 		$(form_el).find('button[type="submit"]').loading()

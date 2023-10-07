@@ -4,7 +4,6 @@
 require('../../components/wizard')
 
 appl.def('advance_p2p_campaign_name_step', function(form_obj) {
-  var name = form_obj['campaign[name]']
   appl.def('new_p2p_campaign', form_obj)
   appl.wizard.advance('new_p2p_campaign_wiz')
 })

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230822155816) do
+ActiveRecord::Schema.define(version: 20231011001355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -356,6 +356,17 @@ ActiveRecord::Schema.define(version: 20230822155816) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "email_customizations", force: :cascade do |t|
+    t.string   "name"
+    t.text     "contents"
+    t.integer  "nonprofit_id", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "email_customizations", ["name"], name: "index_email_customizations_on_name", using: :btree
+  add_index "email_customizations", ["nonprofit_id"], name: "index_email_customizations_on_nonprofit_id", using: :btree
 
   create_table "email_lists", force: :cascade do |t|
     t.integer  "nonprofit_id",                  null: false
@@ -1381,6 +1392,7 @@ ActiveRecord::Schema.define(version: 20230822155816) do
   add_index "widget_descriptions", ["houid"], name: "index_widget_descriptions_on_houid", unique: true, using: :btree
 
   add_foreign_key "campaign_gifts", "campaign_gift_options", name: "campaign_gifts_to_option_fk"
+  add_foreign_key "email_customizations", "nonprofits"
   add_foreign_key "export_formats", "nonprofits"
   add_foreign_key "fee_coverage_detail_bases", "fee_eras"
   add_foreign_key "fee_structures", "fee_eras"

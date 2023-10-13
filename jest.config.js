@@ -10,6 +10,7 @@ module.exports = {
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   setupFiles: ["<rootDir>/setupTests.js", "jest-date-mock"],
+  setupFilesAfterEnv: ['jest-extended/all'],
   snapshotSerializers: ["enzyme-to-json/serializer"],
   testEnvironmentOptions: {
     enzymeAdapter: "react16",

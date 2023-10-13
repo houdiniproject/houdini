@@ -16,5 +16,6 @@
       "./types"],
     "esModuleInterop": true,
     "downlevelIteration": true
-  }
+  },
+  "files": ["node_modules/jest-extended/types/index.d.ts"]
 }

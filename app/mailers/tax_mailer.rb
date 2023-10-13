@@ -6,12 +6,12 @@ class TaxMailer < ApplicationMailer
   #
   #   en.tax_mailer.annual_receipt.subject
   #
-  def annual_receipt(supporter:, payments:, year:, tax_id:, nonprofit_text:)
+  def annual_receipt(supporter:, payments:, year:, nonprofit_text:)
     @supporter = supporter
     @nonprofit = supporter.nonprofit
     @payments = payments
     @year = year
-    @tax_id = tax_id
+    @tax_id = supporter.nonprofit.ein
     @nonprofit_text = nonprofit_text
 
     mail(to: @supporter.email, subject: "#{@year} Tax Receipt from #{@nonprofit.name}")

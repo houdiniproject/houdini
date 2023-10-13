@@ -2,31 +2,43 @@
 import JsonStringParser from './JsonStringParser';
 
 describe('JsonStringParser', () => {
-  it("when an empty array", () => {
-    expect(new JsonStringParser("[]").results).toStrictEqual([]);
-  });
-  it("when invalid with bracket", () => {
-    const parser = new JsonStringParser("[")
-    expect(parser.results).toStrictEqual([]);
+
+  describe.each([
+    ["with bracket", "["],
+    ["with brace", "[{]"],
+    ["with non-custom-field-description", "[{name:'name'}]"]
+  ])("when invalid %s", (_n, input)=> {
+    const parser = new JsonStringParser(input)
+    it('has correct result', () => {
+      expect(parser.results).toStrictEqual([]);
+    });
+
+    it('has error', () => {
+      expect(parser.errors).not.toBeEmpty();
+    });
+    
+    it('is marked not valid', () => {
+      expect(parser.isValid).toBe(false)
+    });
   });
 
-  it("when invalid with brace", () => {
-    const parser = new JsonStringParser("[{]")
-    expect(parser.results).toStrictEqual([]);
-  });
+  describe.each([
+    ['with non-custom-field-description', "[{name:'name', label: 'another'}]", [{name: 'name', label: 'another'}]],
+    ['with different json quote', '[{name:"name", label: "another"}]', [{name: 'name', label: 'another'}]],
+    ['when an empty array', '[]', []],
+  ])("when valid %s", (_name, input, result) => {
+      const parser = new JsonStringParser(input);
 
-  it('when invalid with non-custom-field-description', () => {
-    const parser = new JsonStringParser("[{name:'name'}]")
-    expect(parser.results).toStrictEqual([]);
-  })
+      it('has no errors', () => {
+        expect(parser.errors).toBeEmpty();
+      });
 
-  it('when valid with non-custom-field-description', () => {
-    const parser = new JsonStringParser("[{name:'name', label: 'another'}]");
-    expect(parser.results).toStrictEqual([{name: 'name', label: 'another'}]);
-  });
+      it('has is marked valid', () => {
+        expect(parser.isValid).toStrictEqual(true);
+      });
 
-  it('when valid with different json quote', () => {
-    const parser = new JsonStringParser('[{name:"name", label: "another"}]');
-    expect(parser.results).toStrictEqual([{name: 'name', label: 'another'}]);
-  });
+      it('matches expected result', () => {
+        expect(parser.results).toStrictEqual(result);
+      });
+    });
 });

@@ -2,10 +2,8 @@
 
 //This is used for federated p2p campaigns
 require('../../components/wizard')
-var format_err = require('../../common/format_response_error')
 
 appl.def('advance_p2p_campaign_name_step', function(form_obj) {
-  var name = form_obj['campaign[name]']
   appl.def('new_p2p_campaign', form_obj)
   appl.wizard.advance('new_p2p_campaign_wiz')
 })

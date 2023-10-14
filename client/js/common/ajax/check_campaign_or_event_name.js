@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
-var R = require('ramda')
-var request = require('../client')
+const R = require('ramda')
+const request = require('../client')
 
 module.exports = function(name, event_or_campaign, callback) {
   request.get(`/nonprofits/${app.nonprofit_id}/${event_or_campaign}s/name_and_id`)

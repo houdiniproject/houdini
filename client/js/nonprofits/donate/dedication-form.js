@@ -6,9 +6,9 @@ const uuid = require('uuid')
 
 
 function view(state) {
-  var radioId1 = uuid.v1() // need unique ids for the checkbox id and label for attrs
-  var radioId2 = uuid.v1()
-  var data = state.dedicationData$() || {}
+  const radioId1 = uuid.v1() // need unique ids for the checkbox id and label for attrs
+  const radioId2 = uuid.v1()
+  const data = state.dedicationData$() || {}
   return h('form.dedication-form', {
     on: {submit: ev => {ev.preventDefault(); state.submitDedication$(ev.currentTarget)}}
   }, [

@@ -7,10 +7,6 @@ module Format; module Date
     Chronic.parse(str)
   end
 
-	def self.from(str)
-		return DateTime.strptime(str, "%m/%d/%Y")
-	end
-
 	def self.to_readable(date)
 		date.strftime("%A, %B #{date.day.ordinalize}")
 	end

@@ -33,12 +33,6 @@ module ApplicationHelper
 		date_object.strftime("%m/%d/%Y")
 	end
 
-	def simple_time time_object, timezone=nil
-		return '' if time_object.nil?
-		time_object = time_object.in_time_zone(timezone) if timezone
-		time_object.strftime("%l:%M%P")
-	end
-
 	def readable_date date_object
 		date_object.strftime("%B %d, %Y")
 	end

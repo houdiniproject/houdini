@@ -11,11 +11,6 @@ const root = state =>
 			href: `/nonprofits/${app.nonprofit_id}/campaigns/${ENV.campaignID}/admin/donations.csv`,
 			target: '_blank',
 		}, [ h('i.fa.fa-file-text'), ' Export ' ]),
-		/*
-		h('a.table-meta-button.green', {
-			onclick: $.showEmailModal
-		}, [ h('i.fa.fa-envelope'), ' Email ' ])
-		*/
 	])
 
 module.exports = {

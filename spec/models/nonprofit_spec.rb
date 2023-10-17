@@ -501,6 +501,29 @@ RSpec.describe Nonprofit, type: :model do
         expect(build(:nonprofit, timezone: 'Central Time (US & Canada)').zone).to eq ActiveSupport::TimeZone['Central Time (US & Canada)']
       end
     end
+
+    describe '#use_zone' do
+      it 'makes times in UTC if no zone provided' do
+        np = build(:nonprofit)
+        beginning_of_year_in_np_zone = nil
+        np.use_zone do
+          beginning_of_year_in_np_zone = Time.current.beginning_of_year
+        end
+
+        expect(beginning_of_year_in_np_zone).to eq ActiveSupport::TimeZone['UTC'].now.beginning_of_year
+      end
+
+      it 'makes times in local zones if zone provided' do
+        np = build(:nonprofit, timezone: 'Central Time (US & Canada)')
+        beginning_of_year_in_np_zone = nil
+        np.use_zone do
+          beginning_of_year_in_np_zone = Time.current.beginning_of_year
+        end
+
+        # do they represent the same time?
+        expect(beginning_of_year_in_np_zone.to_i).to eq (ActiveSupport::TimeZone['UTC'].now.beginning_of_year + 6.hours).to_i
+      end
+    end
   end
 
   describe '::Profile' do

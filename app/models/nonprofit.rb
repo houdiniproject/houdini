@@ -386,6 +386,13 @@ class Nonprofit < ActiveRecord::Base
     def zone
       (timezone.present? && ActiveSupport::TimeZone[timezone]) || Time.zone
     end
+
+    # use the Nonprofit's timezone in a block
+    def use_zone(&block)
+      Time.use_zone(zone) do
+        yield block
+      end
+    end
   end
 
   def has_achievements?

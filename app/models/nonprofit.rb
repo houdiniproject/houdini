@@ -452,6 +452,16 @@ class Nonprofit < ActiveRecord::Base
     end
   end
 
+  concerning :TaxReceipting do
+    def supporters_who_have_payments_during_year(year, tickets:false)
+      payments_during_year = self.payments.during_np_year(year)
+      unless tickets
+        payments_during_year = payments_during_year.where("kind IS NULL OR kind != ? ", "ticket")
+      end
+      payments_during_year.group("supporter_id").select('supporter_id, COUNT(id)').each.map(&:supporter)
+    end
+  end
+
   private
 
   def timezone_is_valid

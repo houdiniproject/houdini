@@ -664,4 +664,24 @@ RSpec.describe Nonprofit, type: :model do
       expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
     end
   end
+
+
+  describe "#supporters_who_have_payments_during_year" do
+    let(:nonprofit) { create(:nonprofit_base)}
+    let(:supporter) { create(:supporter_base, nonprofit:nonprofit)}
+    let(:supporter2) { create(:supporter_base, nonprofit:nonprofit)}
+    let(:payment1) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit, date: Time.new.utc.beginning_of_year + 1.second)}
+    let(:payment2) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit,  date: Time.new.utc.beginning_of_year + 7.hours)} # this is after midnight at Central Time 
+    let(:payment3){ create(:payment_base, :with_offline_payment, supporter: supporter2, nonprofit: nonprofit,  date: Time.new.utc.end_of_year + 1.second)} # this is before midnight at Central Time but after UTC
+
+    before(:each) do 
+      payment1
+      payment2
+      payment3
+    end
+
+    it "has one supporter when nonprofit has UTC time zone" do
+      expect(nonprofit.supporters_who_have_payments_during_year(Time.new.utc.year)).to contain_exactly(supporter)
+    end
+  end
 end

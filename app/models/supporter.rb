@@ -51,7 +51,13 @@ class Supporter < ActiveRecord::Base
   belongs_to :nonprofit
   belongs_to :import
   has_many :full_contact_infos
-  has_many :payments
+  has_many :payments do
+    def during_np_year(year)
+      proxy_association.owner.nonprofit.use_zone do
+        where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+      end
+    end
+  end
   has_many :offsite_payments
 
   has_many :charges

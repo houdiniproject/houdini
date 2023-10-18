@@ -66,6 +66,12 @@ class Nonprofit < ActiveRecord::Base
       net, gross = pending.pluck('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross').first
       {'net' => net, 'gross' => gross}
     end
+
+    def during_np_year(year)
+      proxy_association.owner.use_zone do
+        where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+      end
+    end
   end
   has_many :transactions, through: :supporters
   has_many :supporters, dependent: :destroy

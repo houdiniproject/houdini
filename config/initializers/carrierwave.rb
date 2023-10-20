@@ -4,6 +4,12 @@ if Rails.env.test?
     config.storage = :file
     config.enable_processing = false
   end
+elsif Rails.env.development?
+	CarrierWave.configure do |config|
+		config.ignore_integrity_errors = false
+		config.ignore_processing_errors = false
+		config.ignore_download_errors = false
+	end
 else
 	CarrierWave.configure do |config|
 		config.storage    = :aws

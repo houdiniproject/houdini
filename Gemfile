@@ -3,9 +3,9 @@ source 'https://rubygems.org'
 ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.10' # heroku needs a specific ruby version in the Gemfile
 
 gem 'rake'
-gem 'rails', '~> 4.0'
+gem 'rails', '= 5.0.7.2'
 
-gem 'rack', git: "https://github.com/CommitChange/rack.git", branch: "1-6-stable"
+gem 'rack'
 
 gem 'date', '~> 2.0.3'
 
@@ -170,7 +170,7 @@ gem 'connection_pool'
 
 gem "barnes"
 
-gem 'protected_attributes' # because we upgraded from 3
+gem 'protected_attributes_continued' # because we upgraded from 3 and then 4
 
 gem 'actionpack-action_caching' # because we use action caching
 

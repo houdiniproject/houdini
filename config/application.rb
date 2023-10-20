@@ -80,8 +80,6 @@ module Commitchange
 		#
 		#config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 
-		config.session_store ActionDispatch::Session::CacheStore, :expire_after => 12.hours
-
 		# opt into raising errors in transactional callbacks so the deprecation warning goes away
 		config.active_record.raise_in_transactional_callbacks = true
 

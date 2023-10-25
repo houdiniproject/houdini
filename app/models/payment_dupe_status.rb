@@ -1,3 +1,3 @@
-class PaymentDupeStatus < ActiveRecord::Base
+class PaymentDupeStatus < ApplicationRecord
     belongs_to :payment
 end

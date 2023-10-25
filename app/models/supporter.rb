@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Supporter < ActiveRecord::Base
+class Supporter < ApplicationRecord
   include Model::Houidable
   include Model::CalculatedNames
   setup_houid :supp, :houid

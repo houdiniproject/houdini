@@ -9,6 +9,6 @@
 # 	@return [integer]
 # @!attribute fee_era the fee era that this detail applies to.
 # 	@return [FeeEra]
-class FeeCoverageDetailBase < ActiveRecord::Base
+class FeeCoverageDetailBase < ApplicationRecord
   belongs_to :fee_era, validate: true
 end

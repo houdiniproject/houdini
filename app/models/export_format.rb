@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class ExportFormat < ActiveRecord::Base
+class ExportFormat < ApplicationRecord
   # name - string that refers to the name of the nonprofit
   # date_format - a string that refers to the desired date format
   # show_currency - boolean that decides whether the currency should be displayed or not

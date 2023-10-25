@@ -1,4 +1,4 @@
-class ETapImport < ActiveRecord::Base
+class ETapImport < ApplicationRecord
 
   attr_accessible :nonprofit
   belongs_to :nonprofit

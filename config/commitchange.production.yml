@@ -6,7 +6,7 @@ mailer:
   host: "us.commitchange.com"
 
 cdn:
-  url: "https://assets.us.commitchange.com"
+  url: "https://d2e5we1j08b82a.cloudfront.net"
 
 api_domain:
   url: 'https://us.commitchange.com'

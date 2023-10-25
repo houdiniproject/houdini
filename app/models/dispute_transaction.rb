@@ -1,4 +1,4 @@
-class DisputeTransaction < ActiveRecord::Base
+class DisputeTransaction < ApplicationRecord
   belongs_to :dispute
   belongs_to :payment
   attr_accessible :gross_amount, :disbursed, :payment, :fee_total,

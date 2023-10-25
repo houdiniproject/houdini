@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Nonprofit < ActiveRecord::Base
+class Nonprofit < ApplicationRecord
   include Model::Houidable
   setup_houid :np, :houid
 

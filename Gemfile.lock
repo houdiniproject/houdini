@@ -190,12 +190,12 @@ GEM
     fast_blank (1.0.1)
     ffi (1.15.5)
     fiber-local (1.0.0)
-    fugit (1.8.1)
+    fugit (1.9.0)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    good_job (3.19.4)
+    good_job (3.20.0)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -260,7 +260,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.11.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.4)
+    mini_portile2 (2.8.5)
     minitest (5.20.0)
     money (6.16.0)
       i18n (>= 0.6.4, <= 2)
@@ -439,7 +439,7 @@ GEM
     table_print (1.5.7)
     test-unit (3.6.1)
       power_assert
-    thor (1.2.2)
+    thor (1.3.0)
     tilt (2.0.10)
     timecop (0.9.8)
     timeout (0.4.0)
@@ -502,7 +502,7 @@ DEPENDENCIES
   factory_bot (~> 6.2)
   factory_bot_rails (~> 6.2)
   fast_blank
-  good_job (~> 3.19)
+  good_job (~> 3.20)
   hamster (~> 3.0)
   houdini_full_contact!
   http_accept_language

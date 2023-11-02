@@ -28,18 +28,5 @@ module Houdini::V1::Helpers::ApplicationHelper
     allow_forgery_protection.nil? || allow_forgery_protection
   end
 
-
-  # def rescue_ar_invalid( *class_to_hash)
-  #     rescue_with ActiveRecord::RecordInvalid do |error|
-  #       output = []
-  #       error.record.errors do |attr,message|
-  #         output.push({params: "#{class_to_hash[error.record.class]}['#{attr}']",
-  #                   message: message})
-  #       end
-  #       raise Grape::Exceptions::ValidationErrors.new(output)
-  #
-  #     end
-  # end
-
 end
 

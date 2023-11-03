@@ -118,7 +118,6 @@
 
 <%= render 'components/share_modal', name: @nonprofit.name, type: 'nonprofit' %>
 <%= render 'nonprofits/donate/modal' %>
-<%= render 'common/email_share_modal', fundraiser: @nonprofit.name, fundraiser_url: @url %>
 
 <%= render 'settings_modals' if current_nonprofit_user? %>
 

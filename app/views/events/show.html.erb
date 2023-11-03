@@ -188,4 +188,3 @@
 <%= render 'nonprofits/donate/modal' %>
 <%= render 'tickets/new_modal', profile: current_user ? current_user.profile : nil, hide_cover_fees_option: !!@event.hide_cover_fees? %>
 <%= render 'contact_organizer_modal' %>
-<%= render 'common/email_share_modal', fundraiser: @event.name, fundraiser_url: @url  %>

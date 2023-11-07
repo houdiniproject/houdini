@@ -10,7 +10,7 @@ class ExportFormat < ApplicationRecord
   validates :name, presence: true
   validates :nonprofit_id, presence: true
 
-  validates_with PosgresqlDateFormatValidator, { attribute_name: :date_format }
+  validates_with PostgresqlDateFormatValidator, { attribute_name: :date_format }
 
   validate :valid_custom_columns_and_values?
 

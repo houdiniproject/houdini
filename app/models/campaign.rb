@@ -255,6 +255,15 @@ class Campaign < ApplicationRecord
 		nonprofit.hide_cover_fees? || misc_campaign_info&.hide_cover_fees_option
 	end
 
+	def fee_coverage_option
+    @fee_coverage_option ||= misc_campaign_info&.fee_coverage_option_config || nonprofit.fee_coverage_option
+  end
+
+  # generally, don't use
+  def fee_coverage_option=(option)
+    @fee_coverage_option = option
+  end
+
 	def paused?
 		!!(misc_campaign_info&.paused)
 	end

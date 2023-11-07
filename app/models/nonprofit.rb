@@ -409,6 +409,15 @@ class Nonprofit < ApplicationRecord
     miscellaneous_np_info&.hide_cover_fees
   end
 
+  def fee_coverage_option
+    @fee_coverage_option ||= miscellaneous_np_info&.fee_coverage_option_config || 'auto'
+  end
+
+  # generally, don't use
+  def fee_coverage_option=(option)
+    @fee_coverage_option = option
+  end
+
   concerning :PathCaching do
     included do
       after_save do

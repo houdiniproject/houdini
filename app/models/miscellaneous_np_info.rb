@@ -7,4 +7,6 @@ class MiscellaneousNpInfo < ApplicationRecord
   :hide_cover_fees
 
   belongs_to :nonprofit
+  
+  validates_inclusion_of :fee_coverage_option_config, in: ['auto', 'manual', 'none', nil]
 end

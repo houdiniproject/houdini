@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
 
 	attr_accessible \
 		:host_id, :host_type, #parent: Event, Campaign, nil

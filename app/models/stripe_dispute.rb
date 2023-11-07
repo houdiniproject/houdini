@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class StripeDispute < ActiveRecord::Base
+class StripeDispute < ApplicationRecord
 
   TERMINAL_DISPUTE_STATUSES = ['won', 'lost']
 

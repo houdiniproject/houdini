@@ -62,6 +62,34 @@ RSpec.describe Nonprofit, type: :model do
     end
   end
 
+  describe '#fee_coverage_option' do
+    let(:nonprofit) {build(:nonprofit)}
+
+    it 'is set to auto when miscellaneous_np_info is missing' do
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to auto when miscellaneous_np_info.fee_coverage_option_config is nil' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: nil)
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to manual when miscellaneous_np_info.fee_coverage_option_config is manual' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'manual')
+      expect(nonprofit.fee_coverage_option).to eq 'manual'
+    end
+
+    it 'is set to auto when miscellaneous_np_info.fee_coverage_option_config is auto' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'auto')
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to none when miscellaneous_np_info.fee_coverage_option_config is none' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'none')
+      expect(nonprofit.fee_coverage_option).to eq 'none'
+    end
+  end
+
   describe '.currency_symbol' do
 
     let(:nonprofit) {force_create(:nonprofit, currency: 'eur')}

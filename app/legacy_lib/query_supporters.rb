@@ -653,7 +653,12 @@ UNION DISTINCT
   end
 
   def self.loose_address_match
-    "regexp_replace (lower(address),'[^0-9a-z]','','g'), substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
+    loose_address_match_chunks.join(", ")
+  end
+
+  def self.loose_address_match_chunks
+    ["regexp_replace (lower(address),'[^0-9a-z]','','g')",
+    "substring(zip_code from '(([0-9]+.*)*[0-9]+)')"]
   end
 
   def self.loose_name_match

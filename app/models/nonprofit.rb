@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Nonprofit < ActiveRecord::Base
+class Nonprofit < ApplicationRecord
   include Model::Houidable
   setup_houid :np, :houid
 
@@ -407,6 +407,15 @@ class Nonprofit < ActiveRecord::Base
 
   def hide_cover_fees?
     miscellaneous_np_info&.hide_cover_fees
+  end
+
+  def fee_coverage_option
+    @fee_coverage_option ||= miscellaneous_np_info&.fee_coverage_option_config || 'auto'
+  end
+
+  # generally, don't use
+  def fee_coverage_option=(option)
+    @fee_coverage_option = option
   end
 
   concerning :PathCaching do

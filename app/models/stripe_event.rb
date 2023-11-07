@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class StripeEvent < ActiveRecord::Base
+class StripeEvent < ApplicationRecord
   attr_accessible :event_id, :event_time, :object_id
 
   def self.process_dispute(event)

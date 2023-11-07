@@ -345,4 +345,34 @@ RSpec.describe Campaign, type: :model do
       end
     end
   end
+
+  describe '#fee_coverage_option' do
+  let(:campaign) {build(:campaign, nonprofit: nonprofit)}
+
+  let(:nonprofit) { build(:nonprofit, fee_coverage_option: 'manual')}
+
+  it 'is set to nonprofit.fee_coverage_option when misc_campaign_info is not there' do
+    expect(campaign.fee_coverage_option).to eq nonprofit.fee_coverage_option
+  end
+
+  it 'is set to nonprofit.fee_coverage_option when misc_campaign_info.fee_coverage_option_config is nil' do
+    campaign.misc_campaign_info = build(:misc_campaign_info, fee_coverage_option_config: nil)
+    expect(campaign.fee_coverage_option).to eq nonprofit.fee_coverage_option
+  end
+
+  it 'is set to manual when misc_campaign_info.fee_coverage_option_config is manual' do
+    campaign.misc_campaign_info = build(:misc_campaign_info, fee_coverage_option_config: 'manual')
+    expect(campaign.fee_coverage_option).to eq 'manual'
+  end
+
+  it 'is set to auto when misc_campaign_info.fee_coverage_option_config is auto' do
+    campaign.misc_campaign_info = build(:misc_campaign_info, fee_coverage_option_config: 'auto')
+    expect(campaign.fee_coverage_option).to eq 'auto'
+  end
+
+  it 'is set to none when misc np info fee_coverage_option_config is none' do
+    campaign.misc_campaign_info = build(:misc_campaign_info, fee_coverage_option_config: 'none')
+    expect(campaign.fee_coverage_option).to eq 'none'
+  end
+end
 end

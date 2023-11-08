@@ -4,6 +4,7 @@ import { parseCustomField } from "./legacy";
 export interface CustomFieldDescription {
   name: NonNullable<string>;
   label: NonNullable<string>;
+  type: 'supporter';
 }
 
 

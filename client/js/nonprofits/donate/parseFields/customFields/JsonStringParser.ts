@@ -1,10 +1,14 @@
 // License: LGPL-3.0-or-later
 import has from 'lodash/has';
+import get from 'lodash/get';
 import { parse } from 'json5';
 import { CustomFieldDescription } from '../customField';
 
 function isCustomFieldDesc(item:unknown) : item is CustomFieldDescription {
-  return typeof item == 'object' && has(item, 'name') && has(item, 'label');
+  return typeof item == 'object' && 
+    has(item, 'name') && 
+    has(item, 'label') && 
+    ['supporter'].includes(get(item, 'type'));
 }
 export default class JsonStringParser {
   public errors:SyntaxError[] = [];

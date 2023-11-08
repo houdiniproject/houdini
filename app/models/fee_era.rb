@@ -12,7 +12,7 @@
 #
 # @attribute! fee_structures
 #   @return One or more FeeStructure objects that apply during the FeeEra
-class FeeEra < ActiveRecord::Base
+class FeeEra < ApplicationRecord
 
   has_one :fee_coverage_detail_base, validate: true
 

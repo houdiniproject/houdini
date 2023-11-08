@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Nonprofit < ActiveRecord::Base
+class Nonprofit < ApplicationRecord
   include Model::Houidable
   setup_houid :np, :houid
 
@@ -65,6 +65,12 @@ class Nonprofit < ActiveRecord::Base
     def pending_totals
       net, gross = pending.pluck('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross').first
       {'net' => net, 'gross' => gross}
+    end
+
+    def during_np_year(year)
+      proxy_association.owner.use_zone do
+        where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+      end
     end
   end
   has_many :transactions, through: :supporters
@@ -386,6 +392,13 @@ class Nonprofit < ActiveRecord::Base
     def zone
       (timezone.present? && ActiveSupport::TimeZone[timezone]) || Time.zone
     end
+
+    # use the Nonprofit's timezone in a block
+    def use_zone(&block)
+      Time.use_zone(zone) do
+        yield block
+      end
+    end
   end
 
   def has_achievements?
@@ -394,6 +407,15 @@ class Nonprofit < ActiveRecord::Base
 
   def hide_cover_fees?
     miscellaneous_np_info&.hide_cover_fees
+  end
+
+  def fee_coverage_option
+    @fee_coverage_option ||= miscellaneous_np_info&.fee_coverage_option_config || 'auto'
+  end
+
+  # generally, don't use
+  def fee_coverage_option=(option)
+    @fee_coverage_option = option
   end
 
   concerning :PathCaching do
@@ -436,6 +458,16 @@ class Nonprofit < ActiveRecord::Base
 
     def clear_cache
       Nonprofit::clear_caching(id, state_code_slug, city_slug, slug)
+    end
+  end
+
+  concerning :TaxReceipting do
+    def supporters_who_have_payments_during_year(year, tickets:false)
+      payments_during_year = self.payments.during_np_year(year)
+      unless tickets
+        payments_during_year = payments_during_year.where("kind IS NULL OR kind != ? ", "ticket")
+      end
+      payments_during_year.group("supporter_id").select('supporter_id, COUNT(id)').each.map(&:supporter)
     end
   end
 

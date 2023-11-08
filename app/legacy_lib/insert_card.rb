@@ -1,5 +1,4 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'hash'
 module InsertCard
 
 
@@ -37,7 +36,7 @@ module InsertCard
 
     # validate that the user is with the correct nonprofit
 
-    card_data = card_data.keep_keys(:holder_type, :holder_id, :stripe_card_id, :stripe_card_token, :name )
+    card_data = card_data.slice(:holder_type, :holder_id, :stripe_card_id, :stripe_card_token, :name )
     holder_types = {'Nonprofit' => :nonprofit, 'Supporter' => :supporter}
     holder_type = holder_types[card_data[:holder_type]]
     holder = nil

@@ -50,12 +50,12 @@ export function numberWithCommas(n:string|number):string {
   return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-export function camelToWords(str:string, os?:any) {
+export function camelToWords(str:string, os?:any):string {
   if(!str) return str
   return str.replace(/([A-Z])/g, " $1")
 }
 
-export function readableKind(kind:string) {
+export function readableKind(kind:string):string {
   if (kind === "Donation") return "One-Time Donation"
   else if (kind === "OffsitePayment") return "Offsite Donation"
   else if (kind === "Ticket") return "Ticket Purchase"
@@ -64,7 +64,7 @@ export function readableKind(kind:string) {
 
 
 
-export function readableInterval(interval:number, time_unit:string) {
+export function readableInterval(interval:number, time_unit:string):string {
   if(interval === 1) return time_unit + 'ly'
   if(interval === 4 && time_unit === 'year') return 'quarterly'
   if(interval === 2 && time_unit === 'year') return 'biannually'

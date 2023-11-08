@@ -62,6 +62,34 @@ RSpec.describe Nonprofit, type: :model do
     end
   end
 
+  describe '#fee_coverage_option' do
+    let(:nonprofit) {build(:nonprofit)}
+
+    it 'is set to auto when miscellaneous_np_info is missing' do
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to auto when miscellaneous_np_info.fee_coverage_option_config is nil' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: nil)
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to manual when miscellaneous_np_info.fee_coverage_option_config is manual' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'manual')
+      expect(nonprofit.fee_coverage_option).to eq 'manual'
+    end
+
+    it 'is set to auto when miscellaneous_np_info.fee_coverage_option_config is auto' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'auto')
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to none when miscellaneous_np_info.fee_coverage_option_config is none' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'none')
+      expect(nonprofit.fee_coverage_option).to eq 'none'
+    end
+  end
+
   describe '.currency_symbol' do
 
     let(:nonprofit) {force_create(:nonprofit, currency: 'eur')}
@@ -501,6 +529,29 @@ RSpec.describe Nonprofit, type: :model do
         expect(build(:nonprofit, timezone: 'Central Time (US & Canada)').zone).to eq ActiveSupport::TimeZone['Central Time (US & Canada)']
       end
     end
+
+    describe '#use_zone' do
+      it 'makes times in UTC if no zone provided' do
+        np = build(:nonprofit)
+        beginning_of_year_in_np_zone = nil
+        np.use_zone do
+          beginning_of_year_in_np_zone = Time.current.beginning_of_year
+        end
+
+        expect(beginning_of_year_in_np_zone).to eq ActiveSupport::TimeZone['UTC'].now.beginning_of_year
+      end
+
+      it 'makes times in local zones if zone provided' do
+        np = build(:nonprofit, timezone: 'Central Time (US & Canada)')
+        beginning_of_year_in_np_zone = nil
+        np.use_zone do
+          beginning_of_year_in_np_zone = Time.current.beginning_of_year
+        end
+
+        # do they represent the same time?
+        expect(beginning_of_year_in_np_zone.to_i).to eq (ActiveSupport::TimeZone['UTC'].now.beginning_of_year + 6.hours).to_i
+      end
+    end
   end
 
   describe '::Profile' do
@@ -615,6 +666,50 @@ RSpec.describe Nonprofit, type: :model do
         expect(Rails.cache).to receive(:fetch).with("nonprofit__CACHE_KEY__LOCATION___#{state_code_slug}____#{city_slug}___#{slug}", expires_in: 4.hours).and_yield
         expect(Nonprofit.find_via_cached_key_for_location(state_code_slug, city_slug, slug)).to be_nil
       end
+    end
+  end
+
+  describe "#payments#during_np_year" do
+    let(:nonprofit) { create(:nonprofit_base)}
+    let(:supporter) { create(:supporter_base, nonprofit:nonprofit)}
+    let(:payment1) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit, date: Time.new.utc.beginning_of_year + 1.second)}
+    let(:payment2) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit,  date: Time.new.utc.beginning_of_year + 7.hours)} # this is after midnight at Central Time 
+    let(:payment3){ create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit,  date: Time.new.utc.end_of_year + 1.second)} # this is before midnight at Central Time but after UTC
+
+    before(:each) do 
+      payment1
+      payment2
+      payment3
+    end
+
+    it "has two payments when nonprofit has UTC time zone" do
+      expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment1, payment2)
+    end
+
+    it "has 2 payments when nonprofit has Central time zone" do
+      nonprofit.timezone = "America/Chicago"
+      nonprofit.save!
+      expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
+    end
+  end
+
+
+  describe "#supporters_who_have_payments_during_year" do
+    let(:nonprofit) { create(:nonprofit_base)}
+    let(:supporter) { create(:supporter_base, nonprofit:nonprofit)}
+    let(:supporter2) { create(:supporter_base, nonprofit:nonprofit)}
+    let(:payment1) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit, date: Time.new.utc.beginning_of_year + 1.second)}
+    let(:payment2) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit,  date: Time.new.utc.beginning_of_year + 7.hours)} # this is after midnight at Central Time 
+    let(:payment3){ create(:payment_base, :with_offline_payment, supporter: supporter2, nonprofit: nonprofit,  date: Time.new.utc.end_of_year + 1.second)} # this is before midnight at Central Time but after UTC
+
+    before(:each) do 
+      payment1
+      payment2
+      payment3
+    end
+
+    it "has one supporter when nonprofit has UTC time zone" do
+      expect(nonprofit.supporters_who_have_payments_during_year(Time.new.utc.year)).to contain_exactly(supporter)
     end
   end
 end

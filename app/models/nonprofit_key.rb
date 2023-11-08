@@ -3,7 +3,7 @@
 # This is really just for mailchimp keys.
 
 # Actually handled through InsertNonprofitKeys
-class NonprofitKey < ActiveRecord::Base
+class NonprofitKey < ApplicationRecord
   belongs_to :nonprofit, required: true
 
   validates_presence_of :mailchimp_token

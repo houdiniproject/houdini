@@ -3,7 +3,7 @@
 # ONLY USED FOR TESTING
 # This file is basically a super simple mock for testing certain behaviors around events and relationship
 # We use it in specs only
-class SimpleObject < ActiveRecord::Base
+class SimpleObject < ApplicationRecord
   include Model::Houidable
   setup_houid :smplobj, :houid
   belongs_to :parent, class_name: "SimpleObject"

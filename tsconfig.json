@@ -9,7 +9,7 @@
     "target": "es5",
     "jsx": "react",
     "experimentalDecorators": true,
-    "lib": ["dom","es5", "scripthost", "ES2015"],
+    "lib": ["dom","es5", "scripthost", "es2016"],
     "paths": { "*": [ "./types/*"] },
     "typeRoots" : [
       "node_modules/@types",

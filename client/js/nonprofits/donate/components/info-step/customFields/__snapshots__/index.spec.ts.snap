@@ -37,3 +37,117 @@ Object {
   "text": undefined,
 }
 `;
+
+exports[`customFields with index sets the the field correctly 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": undefined,
+      "data": Object {
+        "props": Object {
+          "name": "customFields[Name of Field]",
+          "placeholder": "Field Label",
+        },
+      },
+      "elm": undefined,
+      "key": undefined,
+      "sel": "input",
+      "text": undefined,
+    },
+    Object {
+      "children": undefined,
+      "data": Object {
+        "props": Object {
+          "name": "customFields[Another Field Name]",
+          "placeholder": "Label2",
+        },
+      },
+      "elm": undefined,
+      "key": undefined,
+      "sel": "input",
+      "text": undefined,
+    },
+  ],
+  "data": Object {},
+  "elm": undefined,
+  "key": undefined,
+  "sel": "div",
+  "text": undefined,
+}
+`;
+
+exports[`customFields with legacy sets the the field correctly 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": undefined,
+      "data": Object {
+        "props": Object {
+          "name": "customFields[Name of Field]",
+          "placeholder": "Field Label",
+        },
+      },
+      "elm": undefined,
+      "key": undefined,
+      "sel": "input",
+      "text": undefined,
+    },
+    Object {
+      "children": undefined,
+      "data": Object {
+        "props": Object {
+          "name": "customFields[Another Field Name]",
+          "placeholder": "Label2",
+        },
+      },
+      "elm": undefined,
+      "key": undefined,
+      "sel": "input",
+      "text": undefined,
+    },
+  ],
+  "data": Object {},
+  "elm": undefined,
+  "key": undefined,
+  "sel": "div",
+  "text": undefined,
+}
+`;
+
+exports[`customFields with new sets the the field correctly 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": undefined,
+      "data": Object {
+        "props": Object {
+          "name": "customFields[Name of Field]",
+          "placeholder": "Field Label",
+        },
+      },
+      "elm": undefined,
+      "key": undefined,
+      "sel": "input",
+      "text": undefined,
+    },
+    Object {
+      "children": undefined,
+      "data": Object {
+        "props": Object {
+          "name": "customFields[Another Field Name]",
+          "placeholder": "Label2",
+        },
+      },
+      "elm": undefined,
+      "key": undefined,
+      "sel": "input",
+      "text": undefined,
+    },
+  ],
+  "data": Object {},
+  "elm": undefined,
+  "key": undefined,
+  "sel": "div",
+  "text": undefined,
+}
+`;

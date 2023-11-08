@@ -28,15 +28,15 @@ describe('.getParams', () => {
     });
 
     it('creates custom fields from just a name', () => {
-      expect(getParams({custom_fields: "name"})).toHaveProperty('custom_fields', [{name: 'name', label: 'name'}]);
+      expect(getParams({custom_fields: "name"})).toHaveProperty('custom_fields', [{name: 'name', label: 'name', type: 'supporter'}]);
     });
 
     it('creates custom fields from name and label', () => {
-      expect(getParams({custom_fields: "name: Label with Spaces"})).toHaveProperty('custom_fields', [{name: 'name', label: 'Label with Spaces'}]);
+      expect(getParams({custom_fields: "name: Label with Spaces"})).toHaveProperty('custom_fields', [{name: 'name', label: 'Label with Spaces', type: 'supporter'}]);
     });
 
     it('creates custom fields from JSON', () => {
-      expect(getParams({custom_fields: "[{name: 'name', label: 'Label with Spaces'}]"})).toHaveProperty('custom_fields', [{name: 'name', label: 'Label with Spaces'}]);
+      expect(getParams({custom_fields: "[{name: 'name', label: 'Label with Spaces', type: 'supporter'}]"})).toHaveProperty('custom_fields', [{name: 'name', label: 'Label with Spaces', type: 'supporter'}]);
     });
   });
 

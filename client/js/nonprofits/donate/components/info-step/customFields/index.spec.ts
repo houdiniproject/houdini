@@ -13,8 +13,8 @@ describe.each([
   describe(name, () => {
     it('sets the the field correctly', () => {
       expect(method([
-        {name: "Name of Field", label: "Field Label"},
-        {name: "Another Field Name", label: "Label2"}
+        {name: "Name of Field", label: "Field Label", type: 'supporter'},
+        {name: "Another Field Name", label: "Label2", type: 'supporter'}
       ])).toMatchSnapshot();
     });
   

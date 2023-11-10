@@ -2,7 +2,7 @@
 const h = require('snabbdom/h')
 declare const app: {widget?:{custom_recurring_donation_phrase?:string}} |undefined;
 
-export default function getSustainingAmount() : any[]| string | null {
+export default function getSustainingAmount() : ReturnType<typeof h>[]| string | null {
 
   if (app && app.widget && app.widget.custom_recurring_donation_phrase)
   {

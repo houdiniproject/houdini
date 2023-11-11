@@ -8,7 +8,7 @@ export interface ErrorDivDetailsProps {
   serverError?: string | null
 }
 
-function AlertInnerHtmlContents({serverError}:{serverError:string}): JSX.Element {
+function AlertInnerHtmlContents({serverError}:{serverError?:string|undefined|null}): JSX.Element {
   if (!serverError) {
     return <> </>;
   }

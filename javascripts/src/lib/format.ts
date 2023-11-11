@@ -4,14 +4,8 @@ import * as deprecated_format from './deprecated_format'
 
 export function centsToDollars(cents:string|number|undefined, options:{noCents?:boolean}={}):string {
   if(cents === undefined) return '0'
-  let centsAsNumber:number = undefined
-  if (typeof cents === 'string')
-  {
-    centsAsNumber = Number(cents)
-  }
-  else {
-    centsAsNumber = cents
-  }
+  const centsAsNumber:number = typeof cents === 'string' ? Number(cents) : cents;
+
   return numberWithCommas((centsAsNumber / 100.0).toFixed(options.noCents ? 0 : 2).toString()).replace(/\.00$/,'')
 }
 

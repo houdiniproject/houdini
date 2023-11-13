@@ -15,7 +15,7 @@ gem 'webpacker', '~> 5.4.4'
 gem 'good_job', '~> 3.20'
 
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
-gem "date", "~> 3.3.3"
+gem "date", "~> 3.3.4"
 
 gem 'httparty', '~> 0.21.0' # https://github.com/jnunemaker/httparty
 gem 'sprockets', '~> 3.7'

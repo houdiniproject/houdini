@@ -135,9 +135,9 @@ module InsertCharge
       charge.amount = data[:amount]
       charge.fee = fee
 
-      charge.stripe_charge_id = GetData.chain(stripe_charge, :id)
+      charge.stripe_charge_id = stripe_charge&.id
       charge.failure_message = failure_message
-      charge.status = GetData.chain(stripe_charge, :paid) ? 'pending' : 'failed'
+      charge.status = stripe_charge&.paid ? 'pending' : 'failed'
       charge.card = card
       charge.donation = Donation.where('id = ?', data[:donation_id]).first
       charge.supporter = supporter

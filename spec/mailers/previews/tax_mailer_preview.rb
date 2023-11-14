@@ -7,9 +7,13 @@ class TaxMailerPreview < ActionMailer::Preview
     tax_id = "12-3456789"
     supporter = build(:supporter_generator, nonprofit: build(:fv_poverty, ein: tax_id))
     tax_year = 2023
-    payments = build_list(:donation_payment_generator, Random.rand(5) + 1, supporter: supporter)
+    payments = build_list(:donation_payment_generator, Random.rand(5) + 1,
+        supporter: supporter,
+        nonprofit: supporter.nonprofit
+    )
+
     nonprofit_text = "<p>#{Faker::Lorem.paragraph(sentence_count: 5)}</p>" + "<p>#{Faker::Lorem.paragraph(sentence_count:3)}</p>"
-    TaxMailer.annual_receipt(year: tax_year, supporter: supporter, payments:payments, nonprofit_text: nonprofit_text)
+    TaxMailer.annual_receipt(year: tax_year, supporter: supporter, nonprofit_text: nonprofit_text, donation_payments: payments)
   end
 
 end

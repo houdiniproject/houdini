@@ -28,7 +28,7 @@ FactoryBot.define do
       amount { 100 + Random.rand(5000)}
     end
     
-    donation { association :donation, amount: amount}
+    donation { association :donation, amount: amount, supporter: supporter, nonprofit: nonprofit, created_at: date}
     gross_amount { amount}
     supporter
     date { Faker::Time.between(from: Time.current.beginning_of_year, to: Time.current.end_of_year)}

@@ -18,7 +18,7 @@
   </tr>
   <tr>
     <td>Total Amount</td>
-    <td>$<%= Format::Currency.cents_to_dollars(@payments.sum(&:gross_amount)) %></td>
+    <td>$ TODO</td>
   </tr>
   <tr>
     <td>Organization</td>
@@ -28,14 +28,25 @@
     <td>Tax ID Number</td>
     <td><%= @tax_id %></td>
   </tr>
-<% @payments.each do |payment| %>
-
-  <tr>
-    <td>$<%= Format::Currency.cents_to_dollars(payment.gross_amount) %></td>
-    <td><%= payment.date %>
-  </tr>
-<% end%>
 
 </table>
 
 
+
+<% @donation_payments.each do |payment| %>
+  <!-- todo -->
+<% end %>
+
+<% @refund_payments.each do |payment| %>
+  <!-- todo -->
+<% end %>
+
+
+<% @dispute_payments.each do |payment| %>
+  <!-- todo -->
+<% end %>
+
+
+<% @dispute_reversal_payments.each do |payment| %>
+  <!-- todo -->
+<% end %>

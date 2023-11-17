@@ -13,5 +13,10 @@ type MountInput = {elementMounted:true, element:any}| {elementMount?:false};
 
 export function mount(state:MountInput):void;
 
-export function view(state:InitState): ReturnType< typeof h>;
+interface ViewState extends InitState {
+  error$:() => string| false |undefined;
+  hideButton: boolean
+}
+
+export function view(state:ViewState): ReturnType< typeof h>;
 

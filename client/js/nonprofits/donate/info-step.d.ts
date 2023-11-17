@@ -1,9 +1,9 @@
 import h from 'snabbdom/h';
 import {init as supporterFieldsInit} from '../../components/supporter-fields';
+import type {DedicationData} from './types';
 
 type Supporter = any;
 type Donation = any;
-type DedicationData = any;
 type SelectedPaymentType = any;
 type ParamsType = any;
 

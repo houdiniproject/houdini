@@ -1,10 +1,11 @@
 import h from 'snabbdom/h';
 import DonationSubmitter from './DonationSubmitter'
 import {init as cardFormInit} from '../../components/card-form';
+import type {DedicationData} from './types';
  
 type Supporter = any;
 type Donation = any;
-type DedicationData = any;
+
 type SelectedPaymentType = any;
 type ParamsType = any;
 

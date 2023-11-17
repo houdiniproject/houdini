@@ -56,6 +56,19 @@ class Payment < ApplicationRecord
 	end
 
 
+	def from_donation?
+		if kind == 'Refund' 
+			!!refund&.from_donation?
+		elsif kind == 'Dispute' || kind == 'DisputeReversal'
+			!!dispute_transaction&.from_donation?
+		elsif kind == 'OffsitePayment'
+			!!donation.present?
+		else
+			kind == 'Donation' || kind == 'RecurringDonation'
+		end
+	end
+
+
 	def staff_comment
 		(manual_balance_adjustment&.staff_comment&.present? && manual_balance_adjustment&.staff_comment) || nil
 	end

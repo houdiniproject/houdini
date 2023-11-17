@@ -61,7 +61,7 @@ const init = params$ => {
   state.hide_anonymous = state.params$().hide_anonymous || app.nonprofit.no_anon
 
   state.selectedPayment$ = flyd.stream('sepa')
-
+  state.stepManager = new StepManager();
   state.amountStep = amountStep.init(donationDefaults, state.params$)
   
   state.donationAmount$ = flyd.map((donation) => { return donation.amount}, state.amountStep.donation$)
@@ -81,6 +81,12 @@ const init = params$ => {
   , activePaymentTab$: state.selectedPayment$
   , params$: state.params$
   })
+
+  
+
+  const currentStep$ = flyd.stream(0);
+
+  flyd.map(() => state.stepManager.reset(), state.params$)
 
   const currentStep$ = flyd.mergeAll([
     state.amountStep.currentStep$

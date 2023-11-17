@@ -11,12 +11,13 @@ const getPostfixElement = require('./postfix_element').default;
 const {dollarsToCentsSafe} = require('../../../../javascripts/src/lib/format');
 const { default: amount_button_contents } = require('./amount_button_contents')
 
-function init(donationDefaults, params$) {
+function init(donationDefaults, params$, stepManager) {
     var state = {
         params$: params$
         , evolveDonation$: flyd.stream() // Stream of objects that can be used to R.evolve the initial donation object
         , buttonAmountSelected$: flyd.stream(true) // Whether the button or input is selected
         , currentStep$: flyd.stream()
+        , stepManager
     }
 
   // A stream of objects that an be used to modify the existing donation by using R.evolve
@@ -161,7 +162,7 @@ function amountFields(state) {
           , on: {click: ev => {
               state.evolveDonation$({amount: R.always(dollarsToCents(amt.amount))})
               state.buttonAmountSelected$(true)
-              state.currentStep$(1) // immediately advance steps when selecting an amount button
+              state.stepManager.next() // immediately advance steps when selecting an amount button
             } }
           }, amount_button_contents(app.currency_symbol, amt))
         ])
@@ -185,7 +186,7 @@ function amountFields(state) {
   , h('fieldset', [
       h('button.button.u-width--full.btn-next', {
         props: {type: 'submit', disabled: !state.donation$().amount || state.donation$().amount <= 0}
-      , on: {click: [state.currentStep$, 1]}
+      , on: {click: stepManager.next }
       }, I18n.t('nonprofits.donate.amount.next'))
     ])
   ]),
@@ -205,7 +206,7 @@ function showSingleAmount(isRecurring, state) {
     , h('span.u-padding--0', { class: {'u-hide': !isRecurring} }, ' monthly')
     , h('span', {class: {'u-hide': !state.params$().designation && !gift.id}}, [ ' for ' + (desig || gift.name) ])
     ])
-  , h('button.button.u-marginBottom--20', {on: {click: [state.currentStep$, 1]}}, I18n.t('nonprofits.donate.amount.next'))
+  , h('button.button.u-marginBottom--20', {on: {click: state.stepManager.next}}, I18n.t('nonprofits.donate.amount.next'))
   ])
 }
 

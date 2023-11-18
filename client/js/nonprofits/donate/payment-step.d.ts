@@ -1,7 +1,8 @@
+// License: LGPL-3.0-or-later
 import h from 'snabbdom/h';
 import DonationSubmitter from './DonationSubmitter'
 import {init as cardFormInit} from '../../components/card-form';
-import type {DedicationData} from './types';
+import type {DedicationData, StandardizedParams} from './types';
  
 type Supporter = any;
 type Donation = any;
@@ -14,7 +15,7 @@ interface InitInput {
   donation$: (donation?:Donation) => Donation;
   dedicationData$: (dedication?:DedicationData) => DedicationData;
   activePaymentTab$: (selectedPayment?:SelectedPaymentType) => SelectedPaymentType;
-  params$: (params?:ParamsType) => ParamsType
+  params$: () => StandardizedParams
 }
 
 type Progress = {hidden:boolean } | {status: string};

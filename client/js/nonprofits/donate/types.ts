@@ -1,8 +1,7 @@
 // License: LGPL-3.0-or-later
-import {CustomFieldDescription} from './parseFields/customField';
+export { CustomFieldDescription } from './parseFields/customField';
+import { CustomFieldDescription } from './parseFields/customField';
 import { AmountButtonInput } from './amt';
-import getParams from './get-params';
-
 
 export type DedicationData = any;
 
@@ -31,3 +30,4 @@ export interface StandardizedParams {
   tags?:string[];
   weekly?:boolean;
 }
+

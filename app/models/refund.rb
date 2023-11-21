@@ -22,12 +22,16 @@ class Refund < ApplicationRecord
 	has_one :misc_refund_info
 	has_one :nonprofit, through: :charge
 	has_one :supporter, through: :charge
-	has_one :original_payment, through: :charge, source: :payment
 
 	scope :not_disbursed, ->{where(disbursed: [nil, false])}
 	scope :disbursed, ->{where(disbursed: [true])}
 
 	has_many  :manual_balance_adjustments, as: :entity
+
+
+	def original_payment
+		charge&.payment
+	end
 
 	def from_donation?
 		!!original_payment&.donation

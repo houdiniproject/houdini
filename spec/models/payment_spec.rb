@@ -168,4 +168,65 @@ RSpec.describe Payment, :type => :model do
       expect(create(:fv_poverty_payment, :anonymous_through_supporter,  :anonymous_through_donation)).to be_consider_anonymous
     end
   end
+
+  describe '#from_donation?' do
+
+    context "for kind == 'Refund" do
+      it 'is true when refund came from donation' do
+        expect(build(:payment, kind: 'Refund', refund: build(:refund, :from_donation)).from_donation?).to eq true
+      end
+
+      it 'is false when refund didnt come from donation' do
+        expect(build(:payment, kind: 'Refund', refund: build(:refund, :not_from_donation)).from_donation?).to eq false
+      end
+    end
+
+    context "for kind == 'Dispute" do
+      it 'is true when dispute came from donation' do
+        expect(build(:payment, kind: 'Dispute', dispute_transaction: build(:dispute_transaction, :from_donation)).from_donation?).to eq true
+      end
+
+      it 'is false when dispute didnt come from donation' do
+        expect(build(:payment, kind: 'Dispute', dispute_transaction: build(:dispute_transaction, :not_from_donation)).from_donation?).to eq false
+      end
+    end
+
+    context "for kind == 'DisputeReversal" do
+      it 'is true when dispute_reversal came from donation' do
+        expect(build(:payment, kind: 'DisputeReversal', dispute_transaction: build(:dispute_transaction, :from_donation)).from_donation?).to eq true
+      end
+
+      it 'is false when dispute didnt come from donation' do
+        expect(build(:payment, kind: 'DisputeReversal', dispute_transaction: build(:dispute_transaction, :not_from_donation)).from_donation?).to eq false
+      end
+    end
+
+    context "for kind == 'OffsitePayment" do
+      it 'is true when donation is set' do
+        expect(build(:payment, kind: 'OffsitePayment', donation: build(:donation)).from_donation?).to eq true
+      end
+
+      it 'is false when donation is not set' do
+        expect(build(:payment, kind: 'OffsitePayment').from_donation?).to eq false
+      end
+    end
+
+    context "for kind == 'Donation" do
+      it 'is true' do
+        expect(build(:payment, kind: 'Donation').from_donation?).to eq true
+      end
+    end
+
+    context "for kind == 'RecurringDonation" do
+      it 'is true' do
+        expect(build(:payment, kind: 'RecurringDonation').from_donation?).to eq true
+      end
+    end
+
+    context "for kind == 'FakeKind'" do
+      it 'is false' do
+        expect(build(:payment, kind: 'FakeKind').from_donation?).to eq false
+      end
+    end
+  end
 end

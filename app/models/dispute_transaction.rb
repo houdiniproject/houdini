@@ -19,7 +19,7 @@ class DisputeTransaction < ApplicationRecord
   end
 
   def from_donation?
-    !!dispute&.original_payment&.donation
+    !!dispute&.get_original_payment&.donation
   end
 
   private

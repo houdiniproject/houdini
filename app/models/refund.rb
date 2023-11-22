@@ -28,5 +28,14 @@ class Refund < ApplicationRecord
 
 	has_many  :manual_balance_adjustments, as: :entity
 
+
+	def original_payment
+		charge&.payment
+	end
+
+	def from_donation?
+		!!original_payment&.donation
+	end
+
 end
 

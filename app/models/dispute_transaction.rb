@@ -18,6 +18,10 @@ class DisputeTransaction < ApplicationRecord
     calculate_net
   end
 
+  def from_donation?
+    !!dispute&.get_original_payment&.donation
+  end
+
   private
   def calculate_net
     self.net_amount = gross_amount + fee_total

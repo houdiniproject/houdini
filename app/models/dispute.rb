@@ -45,6 +45,10 @@ class Dispute < ApplicationRecord
     ((dispute_transactions&.count == 2) && dispute_transactions[1]) || nil
   end
 
+  def get_original_payment
+    charge&.payment
+  end
+
   def build_activity_json(event_type)
 		dispute = self
 		original_payment = dispute.original_payment

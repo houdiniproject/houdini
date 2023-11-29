@@ -57,6 +57,22 @@ class Supporter < ApplicationRecord
         where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
       end
     end
+
+    def donation_payments
+      where('kind IN (?)', ['Donation', 'RecurringDonation'])
+    end
+
+    def refund_payments
+      where('kind IN (?)', ['Refund'])
+    end
+
+    def dispute_payments
+      where('kind IN (?)', ['Dispute'])
+    end
+
+    def dispute_reversal_payments
+      where('kind IN (?)', ['DisputeReversed'])
+    end
   end
   has_many :offsite_payments
 

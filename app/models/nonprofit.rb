@@ -72,6 +72,12 @@ class Nonprofit < ApplicationRecord
         where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
       end
     end
+
+    def prior_to_np_year(year)
+      proxy_association.owner.use_zone do
+        where('date < ?', Time.zone.local(year))
+      end
+    end
   end
   has_many :transactions, through: :supporters
   has_many :supporters, dependent: :destroy do
@@ -503,6 +509,11 @@ class Nonprofit < ApplicationRecord
       unless tickets
         payments_during_year = payments_during_year.where("kind IS NULL OR kind != ? ", "ticket")
       end
+      payments_during_year.group("supporter_id").select('supporter_id, COUNT(id)').each.map(&:supporter)
+    end
+
+    def supporters_who_have_payments_prior_to_year(year, tickets: false)
+      payments_during_year = self.payments.during_np_year(year)
       payments_during_year.group("supporter_id").select('supporter_id, COUNT(id)').each.map(&:supporter)
     end
   end

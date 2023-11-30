@@ -694,6 +694,18 @@ RSpec.describe Nonprofit, type: :model do
         expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
       end
     end
+
+    describe "#prior_to_np_year" do
+      it "has no payments when nonprofit has UTC time zone" do
+        expect(nonprofit.payments.prior_to_np_year(Time.new.utc.year)).to contain_exactly()
+      end
+
+      it "has 1 payment when nonprofit has Central time zone" do
+        nonprofit.timezone = "America/Chicago"
+        nonprofit.save!
+        expect(nonprofit.payments.prior_to_np_year(Time.new.utc.year)).to contain_exactly(payment1)
+      end
+    end
   end
 
 

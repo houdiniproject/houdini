@@ -669,7 +669,8 @@ RSpec.describe Nonprofit, type: :model do
     end
   end
 
-  describe "#payments#during_np_year" do
+  describe "#payments" do
+    
     let(:nonprofit) { create(:nonprofit_base)}
     let(:supporter) { create(:supporter_base, nonprofit:nonprofit)}
     let(:payment1) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit, date: Time.new.utc.beginning_of_year + 1.second)}
@@ -682,14 +683,16 @@ RSpec.describe Nonprofit, type: :model do
       payment3
     end
 
-    it "has two payments when nonprofit has UTC time zone" do
-      expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment1, payment2)
-    end
+    describe "#during_np_year" do
+      it "has two payments when nonprofit has UTC time zone" do
+        expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment1, payment2)
+      end
 
-    it "has 2 payments when nonprofit has Central time zone" do
-      nonprofit.timezone = "America/Chicago"
-      nonprofit.save!
-      expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
+      it "has 2 payments when nonprofit has Central time zone" do
+        nonprofit.timezone = "America/Chicago"
+        nonprofit.save!
+        expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
+      end
     end
   end
 

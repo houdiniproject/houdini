@@ -74,7 +74,43 @@ class Nonprofit < ApplicationRecord
     end
   end
   has_many :transactions, through: :supporters
-  has_many :supporters, dependent: :destroy
+  has_many :supporters, dependent: :destroy do
+    def dupes_on_email(strict_mode = true)
+      QuerySupporters.dupes_on_email(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name(strict_mode = true)
+      QuerySupporters.dupes_on_name(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_email(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_email(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_phone(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_phone(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_phone_and_address(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_phone_and_address(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_phone_and_email_and_address(strict_mode = true)
+      QuerySupporters.dupes_on_phone_and_email_and_address(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_address(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_address(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_phone_and_email(strict_mode = true)
+      QuerySupporters.dupes_on_phone_and_email(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_address_without_zip_code(strict_mode = true)
+      QuerySupporters.dupes_on_address_without_zip_code(proxy_association.owner.id, strict_mode)
+    end
+  end
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations
   has_many :campaigns, dependent: :destroy

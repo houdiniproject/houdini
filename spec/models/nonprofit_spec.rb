@@ -712,4 +712,39 @@ RSpec.describe Nonprofit, type: :model do
       expect(nonprofit.supporters_who_have_payments_during_year(Time.new.utc.year)).to contain_exactly(supporter)
     end
   end
+
+  describe "#supporters" do
+    [ 
+      :email, 
+      :name, 
+      :name_and_email,
+      :name_and_phone,
+      :name_and_phone_and_address,
+      :phone_and_email_and_address,
+      :name_and_address,
+      :phone_and_email,
+      :address_without_zip_code
+    ].each do |type|
+      method_name = "dupes_on_#{type.to_s}"
+      let(:nonprofit) {build(:nonprofit, id: 1)}
+      
+      describe "##{method_name}" do
+        it 'is calls with strict_mode default of true' do
+          expect(QuerySupporters).to receive(method_name.to_sym).with(1, true)
+          nonprofit.supporters.send(method_name.to_sym)
+        end
+
+        it 'is calls with strict_mode passed of true' do
+          expect(QuerySupporters).to receive(method_name.to_sym).with(1, true)
+          nonprofit.supporters.send(method_name.to_sym, true)
+        end
+
+        it 'is calls with strict_mode passed of false' do
+          expect(QuerySupporters).to receive(method_name.to_sym).with(1, false)
+          nonprofit.supporters.send(method_name.to_sym, false)
+        end
+      end
+    end
+
+  end
 end

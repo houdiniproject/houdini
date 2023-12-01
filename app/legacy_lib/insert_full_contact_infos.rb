@@ -16,9 +16,7 @@ module InsertFullContactInfos
 
   # Enqueue full contact jobs for a set of supporter ids
   def self.enqueue(supporter_ids)
-    Qx.insert_into(:full_contact_jobs)
-      .values(supporter_ids.map{|id| {supporter_id: id}})
-      .ex
+    # noop since we don't use this any more
   end
 
 

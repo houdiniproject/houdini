@@ -28,8 +28,6 @@ module InsertSupporter
     InsertTagJoins.find_or_create(np_id, [supporter['id']], tags) if tags.present?
 
     #GeocodeModel.delay.supporter(supporter['id'])
-    InsertFullContactInfos.enqueue([supporter['id']])
-
     return supporter
   end
 

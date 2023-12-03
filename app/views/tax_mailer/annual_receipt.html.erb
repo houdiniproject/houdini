@@ -31,10 +31,11 @@
 
 </table>
 
-
-
-<% @donation_payments.each do |payment| %>
-  <%= render "tax_mailer/donation_payment_table", payment: payment %>
+<% if @donation_payments.any? %>
+  <h4>Donations</h4>
+  <% @donation_payments.each do |payment| %>
+    <%= render "tax_mailer/donation_payment_table", payment: payment %>
+  <% end %>
 <% end %>
 
 <% @refund_payments.each do |payment| %>

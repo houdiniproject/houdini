@@ -34,6 +34,18 @@ FactoryBot.define do
     date { Faker::Time.between(from: Time.current.beginning_of_year, to: Time.current.end_of_year)}
   end
 
+  factory :refund_payment_generator, class: "Payment" do
+
+    transient do
+      amount { 100 + Random.rand(5000)}
+    end
+
+    refund { association :refund_base, amount: amount, created_at: date}
+    gross_amount { amount}
+    supporter
+    date { Faker::Time.between(from: Time.current.beginning_of_year, to: Time.current.end_of_year)}
+  end
+
   
 
   factory :fv_poverty_payment, class: "Payment" do

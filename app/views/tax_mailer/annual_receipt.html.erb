@@ -34,19 +34,19 @@
 
 
 <% @donation_payments.each do |payment| %>
-  <!-- todo -->
+  <%= render "tax_mailer/donation_payment_table", payment: payment %>
 <% end %>
 
 <% @refund_payments.each do |payment| %>
-  <!-- todo -->
+  <%= render "tax_mailer/refund_payment_table", payment: payment %>
 <% end %>
 
 
 <% @dispute_payments.each do |payment| %>
-  <!-- todo -->
+  <%= render "tax_mailer/dispute_payment_table", payment: payment %>
 <% end %>
 
 
 <% @dispute_reversal_payments.each do |payment| %>
-  <!-- todo -->
+  <%= render "tax_mailer/dispute_reversal_payment_table", payment: payment %>
 <% end %>

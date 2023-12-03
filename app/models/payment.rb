@@ -56,6 +56,14 @@ class Payment < ApplicationRecord
 	end
 
 
+	def self.find_each_related_to_a_donation
+		find_each.map(&:from_donation?)
+	end
+
+	def self.each_related_to_a_donation
+		each.map(&:from_donation?)
+	end
+
 	def from_donation?
 		if kind == 'Refund' 
 			!!refund&.from_donation?

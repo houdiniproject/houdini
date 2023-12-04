@@ -280,6 +280,8 @@ GEM
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jmespath (1.6.1)
+    js-routes (2.2.7)
+      railties (>= 4)
     json (2.6.1)
     kaminari (1.2.1)
       activesupport (>= 4.1.0)
@@ -556,6 +558,7 @@ DEPENDENCIES
   httparty
   i18n-js
   jbuilder
+  js-routes
   json (>= 2.3.0)
   kaminari
   lograge

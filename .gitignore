@@ -76,3 +76,6 @@ javascripts/api
 
 # Data files you wouldn't want to push
 *.csv
+
+app/javascript/routes.js
+app/javascript/routes.d.ts

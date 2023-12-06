@@ -11,6 +11,8 @@ class TaxMailer < ApplicationMailer
     @nonprofit = supporter.nonprofit
     @year = year
 
+
+    @total = get_payment_sum(donation_payments, refund_payments, dispute_payments, dispute_reversal_payments)
     @donation_payments = donation_payments
     @refund_payments = refund_payments
     @dispute_payments = dispute_payments
@@ -20,4 +22,10 @@ class TaxMailer < ApplicationMailer
 
     mail(to: @supporter.email, subject: "#{@year} Tax Receipt from #{@nonprofit.name}")
   end
+
+
+  private
+    def get_payment_sum(*payments)
+      payments.flatten.sum(&:gross_amount)
+    end
 end

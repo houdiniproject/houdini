@@ -18,7 +18,7 @@
   </tr>
   <tr>
     <td>Total Amount</td>
-    <td>$ TODO</td>
+    <td>$<%= Format::Currency.cents_to_dollars(@total) %></td>
   </tr>
   <tr>
     <td>Organization</td>

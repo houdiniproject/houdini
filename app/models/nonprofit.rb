@@ -145,6 +145,8 @@ class Nonprofit < ApplicationRecord
   has_one :nonprofit_deactivation
   has_one :stripe_account, foreign_key: :stripe_account_id, primary_key: :stripe_account_id
 
+  has_many :email_customizations
+
   has_many :associated_object_events, class_name: 'ObjectEvent'
 
   validates :name, presence: true

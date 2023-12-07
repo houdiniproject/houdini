@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :dispute_transaction do
+  factory :dispute_transaction, aliases: [:dispute_transaction_base] do
     disbursed {false}
 
     trait :from_donation do

@@ -46,12 +46,16 @@ FactoryBot.define do
       refund { association :refund_base, amount: amount * -1, created_at: date}
       gross_amount { amount * -1 }
     end
-  
+    
+    factory :dispute_payment_generator do
+      dispute_transaction { association :dispute_transaction_base,  created_at: date}
+    end
 
+    factory :dispute_reversal_payment_generator do
+      dispute_transaction { association :dispute_transaction_base,  created_at: date}
+      gross_amount { amount * -1 }
+    end
   end
-
-
-  
 
   factory :fv_poverty_payment, class: "Payment" do
     donation {build(:fv_poverty_donation, nonprofit: nonprofit, supporter: supporter) }

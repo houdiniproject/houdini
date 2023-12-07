@@ -42,19 +42,13 @@ FactoryBot.define do
       donation { association :donation, amount: amount, supporter: supporter, nonprofit: nonprofit, created_at: date}
     end
 
-  end
-
-  factory :refund_payment_generator, class: "Payment" do
-
-    transient do
-      amount { 100 + Random.rand(5000)}
+    factory :refund_payment_generator do
+      refund { association :refund_base, amount: amount, created_at: date}     
     end
+  
 
-    refund { association :refund_base, amount: amount, created_at: date}
-    gross_amount { amount}
-    supporter
-    date { Faker::Time.between(from: Time.current.beginning_of_year, to: Time.current.end_of_year)}
   end
+
 
   
 

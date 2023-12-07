@@ -43,7 +43,8 @@ FactoryBot.define do
     end
 
     factory :refund_payment_generator do
-      refund { association :refund_base, amount: amount, created_at: date}     
+      refund { association :refund_base, amount: amount * -1, created_at: date}
+      gross_amount { amount * -1 }
     end
   
 

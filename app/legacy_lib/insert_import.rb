@@ -167,7 +167,7 @@ module InsertImport
       .where(id: import['id'])
       .returning('*')
       .execute.first
-    InsertFullContactInfos.enqueue(supporter_ids) if supporter_ids.any?
+
     ImportMailer.delay.import_completed_notification(import['id'])
     return import
   end

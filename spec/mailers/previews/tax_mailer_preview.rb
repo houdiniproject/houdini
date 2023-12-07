@@ -40,20 +40,20 @@ class TaxMailerPreview < ActionMailer::Preview
    # Preview this email at http://localhost:5000/rails/mailers/tax_mailer/annual_receipt_with_disputes
    def annual_receipt_with_disputes
     tax_id = "12-3456789"
-    supporter = create(:supporter_generator, nonprofit: build(:nonprofit_base, ein: tax_id))
+    supporter = build(:supporter_generator, nonprofit: build(:nonprofit_base, ein: tax_id))
 
     tax_year = 2023
-    payments = create_list(:donation_payment_generator, Random.rand(5) + 1,
+    payments = build_list(:donation_payment_generator, Random.rand(5) + 1,
         supporter: supporter,
         nonprofit: supporter.nonprofit
     )
 
-    dispute_payments = create_list(:dispute_payment_generator, Random.rand(5) + 1,
+    dispute_payments = build_list(:dispute_payment_generator, Random.rand(5) + 1,
       supporter: supporter,
       nonprofit: supporter.nonprofit
     )
 
-    dispute_reversal_payments = create_list(:dispute_reversal_payment_generator, Random.rand(5) + 0,
+    dispute_reversal_payments = build_list(:dispute_reversal_payment_generator, Random.rand(5) + 0,
       supporter: supporter,
       nonprofit: supporter.nonprofit
     ) 

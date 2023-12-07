@@ -13,10 +13,10 @@ class TaxMailer < ApplicationMailer
 
 
     @total = get_payment_sum(donation_payments, refund_payments, dispute_payments, dispute_reversal_payments)
-    @donation_payments = donation_payments
-    @refund_payments = refund_payments
-    @dispute_payments = dispute_payments
-    @dispute_reversal_payments = dispute_reversal_payments
+    @donation_payments = donation_payments.sort_by(&:date)
+    @refund_payments = refund_payments.sort_by(&:date)
+    @dispute_payments = dispute_payments.sort_by(&:date)
+    @dispute_reversal_payments = dispute_reversal_payments.sort_by(&:date)
     @tax_id = supporter.nonprofit.ein
     @nonprofit_text = nonprofit_text
 

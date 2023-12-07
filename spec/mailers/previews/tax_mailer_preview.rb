@@ -17,4 +17,25 @@ class TaxMailerPreview < ActionMailer::Preview
     TaxMailer.annual_receipt(year: tax_year, supporter: supporter, nonprofit_text: nonprofit_text, donation_payments: payments)
   end
 
+  # Preview this email at http://localhost:5000/rails/mailers/tax_mailer/annual_receipt_with_refunds
+  def annual_receipt_with_refunds
+    tax_id = "12-3456789"
+    supporter = build(:supporter_generator, nonprofit: build(:nonprofit_base, ein: tax_id))
+
+    tax_year = 2023
+    payments = build_list(:donation_payment_generator, Random.rand(5) + 1,
+        supporter: supporter,
+        nonprofit: supporter.nonprofit
+    )
+
+    refund_payments = build_list(:refund_payment_generator, Random.rand(5) + 1,
+      supporter: supporter,
+      nonprofit: supporter.nonprofit
+    ) 
+
+    nonprofit_text = "<p>#{Faker::Lorem.paragraph(sentence_count: 5)}</p>" + "<p>#{Faker::Lorem.paragraph(sentence_count:3)}</p>"
+    TaxMailer.annual_receipt(year: tax_year, supporter: supporter, nonprofit_text: nonprofit_text, donation_payments: payments, refund_payments: refund_payments)
+  end
+
+
 end

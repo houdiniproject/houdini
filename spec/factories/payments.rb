@@ -42,7 +42,14 @@ FactoryBot.define do
       donation { association :donation, amount: amount, supporter: supporter, nonprofit: nonprofit, created_at: date}
     end
 
+    factory :refund_payment_generator do
+      refund { association :refund_base, amount: amount * -1, created_at: date}
+      gross_amount { amount * -1 }
+    end
+  
+
   end
+
 
   
 

@@ -38,8 +38,11 @@
   <% end %>
 <% end %>
 
-<% @refund_payments.each do |payment| %>
-  <%= render "tax_mailer/refund_payment_table", payment: payment %>
+<% if @refund_payments.any? %>
+  <h4>Refunds</h4>
+  <% @refund_payments.each do |payment| %>
+    <%= render "tax_mailer/refund_payment_table", payment: payment %>
+  <% end %>
 <% end %>
 
 

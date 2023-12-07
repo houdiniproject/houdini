@@ -11,10 +11,16 @@ FactoryBot.define do
     end
   end
 
-  factory :supporter_generator, class: 'Supporter' do 
+  factory :supporter_generator, class: 'Supporter' do
+    sequence(:id)
+      
     name { Faker::Name.name }
     email { Faker::Internet.email }
     nonprofit
+
+    before(:create) do |supporter|
+      supporter.id = nil if supporter.id
+    end
   end
 
   trait :with_primary_address do

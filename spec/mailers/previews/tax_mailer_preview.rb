@@ -8,7 +8,7 @@ class TaxMailerPreview < ActionMailer::Preview
     supporter = create(:supporter_generator, nonprofit: build(:nonprofit_base, ein: tax_id))
 
     tax_year = 2023
-    payments = create_list(:donation_payment_generator, Random.rand(5) + 1,
+    payments = build_list(:donation_payment_generator, Random.rand(5) + 1,
         supporter: supporter,
         nonprofit: supporter.nonprofit
     )

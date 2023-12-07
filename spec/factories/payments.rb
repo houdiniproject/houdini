@@ -42,43 +42,19 @@ FactoryBot.define do
       donation { association :donation, amount: amount, supporter: supporter, nonprofit: nonprofit, created_at: date}
     end
 
-  end
-
-  factory :refund_payment_generator, class: "Payment" do
-
-    transient do
-      amount { (100 + Random.rand(5000)) * -1}
+    factory :refund_payment_generator do
+      refund { association :refund_base, amount: amount * -1, created_at: date}
+      gross_amount { amount * -1 }
+    end
+    
+    factory :dispute_payment_generator do
+      dispute_transaction { association :dispute_transaction_base,  created_at: date}
     end
 
-    refund { association :refund_base, amount: amount * -1, created_at: date}
-    gross_amount { amount}
-    supporter
-    date { Faker::Time.between(from: Time.current.beginning_of_year, to: Time.current.end_of_year)}
-  end
-
-
-  factory :dispute_payment_generator, class: "Payment" do
-
-    transient do
-      amount { (100 + Random.rand(5000)) * -1}
+    factory :dispute_reversal_payment_generator do
+      dispute_transaction { association :dispute_transaction_base,  created_at: date}
+      gross_amount { amount * -1 }
     end
-
-    dispute_transaction { association :dispute_transaction_base,  created_at: date}
-    gross_amount { amount}
-    supporter
-    date { Faker::Time.between(from: Time.current.beginning_of_year, to: Time.current.end_of_year)}
-  end
-
-  factory :dispute_reversal_payment_generator, class: "Payment" do
-
-    transient do
-      amount { 100 + Random.rand(5000)}
-    end
-
-    dispute_transaction { association :dispute_transaction_base,  created_at: date}
-    gross_amount { amount}
-    supporter
-    date { Faker::Time.between(from: Time.current.beginning_of_year, to: Time.current.end_of_year)}
   end
 
   factory :fv_poverty_payment, class: "Payment" do

@@ -47,19 +47,19 @@ class TaxMailerPreview < ActionMailer::Preview
 
   private
 
-    def nonprofit
-      @nonprofit ||= Nonprofit.find(3693)
-    end
+  def nonprofit
+    @nonprofit ||= Nonprofit.find(3693)
+  end
 
-    def nonprofit_text
-      @nonprofit_text ||= nonprofit.email_customizations.where(name: "2023 Tax Receipt").first&.contents
-    end
+  def nonprofit_text
+    @nonprofit_text ||= nonprofit.email_customizations.where(name: "2023 Tax Receipt").first&.contents
+  end
 
-    def supporter
-      @supporter ||= build(:supporter_generator, nonprofit: nonprofit)
-    end
+  def supporter
+    @supporter ||= build(:supporter_generator, nonprofit: nonprofit)
+  end
 
-    def tax_year
-      2023
-    end
+  def tax_year
+    2023
+  end
 end

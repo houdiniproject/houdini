@@ -13,7 +13,7 @@ describe PayRecurringDonation  do
   end
 
 
-  describe '.with_donation' do
+  describe '.with_stripe' do
     include_context :shared_donation_charge_context
     
     around (:each)  do |example|

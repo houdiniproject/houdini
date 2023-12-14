@@ -6,8 +6,8 @@ class SupporterInterpolationDictionary < InterpolationDictionary
   def set_supporter(supporter)
     if supporter.is_a?(Supporter) && supporter&.name&.present?
       add_entry('NAME', supporter&.name&.strip)
-      if supporter.name&.strip.split(' ')[0].present?
-        add_entry('FIRSTNAME', supporter.name&.strip.split(' ')[0])
+      if supporter.calculated_first_name.present?
+        add_entry('FIRSTNAME', supporter.calculated_first_name)
       end
     end
   end

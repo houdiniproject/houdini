@@ -13,7 +13,7 @@ describe PayRecurringDonation  do
   end
 
 
-  describe '.with_donation' do
+  describe '.with_stripe' do
     include_context :shared_donation_charge_context
     
     around (:each)  do |example|
@@ -73,6 +73,10 @@ describe PayRecurringDonation  do
       recent_charge
       PayRecurringDonation.with_stripe(recurring_donation.id, true)
     }
+
+    let!(:admin_user) do
+      create(:user, id: 540)
+    end
 
     context 'result when fees covered' do
       it {
@@ -143,6 +147,65 @@ describe PayRecurringDonation  do
               donation: donation
           )))
       }
+    end
+
+
+    context 'n_failures = 0 and failed again' do
+
+      before(:each) do
+        recurring_donation.n_failures = 0
+        recurring_donation.save!
+        StripeMockHelper.prepare_card_error(:card_declined)
+      end
+
+      it 'sets n_failures to 1' do
+
+        PayRecurringDonation.with_stripe(recurring_donation.id, true)
+
+        recurring_donation.reload
+
+        expect(recurring_donation.n_failures).to eq 1
+      end
+
+      it 'sends an email to the donor but not nonprofit' do
+        delayed_mailer = double(DonationMailer)
+        expect(DonationMailer).to receive(:delay).once.and_return(delayed_mailer)
+        
+        expect(delayed_mailer).to receive(:donor_failed_recurring_donation).with(recurring_donation.donation_id)
+
+        expect(delayed_mailer).to_not receive(:nonprofit_failed_recurring_donation)
+
+        PayRecurringDonation.with_stripe(recurring_donation.id, true)
+      end
+    end
+
+    context 'n_failures = 2 and failed again' do
+
+      before(:each) do
+        recurring_donation.n_failures = 2
+        recurring_donation.save!
+        StripeMockHelper.prepare_card_error(:card_declined)
+      end
+
+      it 'sets n_failures to 3' do
+
+        PayRecurringDonation.with_stripe(recurring_donation.id, true)
+
+        recurring_donation.reload
+
+        expect(recurring_donation.n_failures).to eq 3
+      end
+
+      it 'sends an email to the nonprofit' do
+        delayed_mailer = double(DonationMailer)
+        allow(DonationMailer).to receive(:delay).and_return(delayed_mailer)
+        
+        expect(delayed_mailer).to receive(:donor_failed_recurring_donation).with(recurring_donation.donation_id)
+
+        expect(delayed_mailer).to receive(:nonprofit_failed_recurring_donation).with(recurring_donation.donation_id)
+
+        PayRecurringDonation.with_stripe(recurring_donation.id, true)
+      end
     end
 	end
 

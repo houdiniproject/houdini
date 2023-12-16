@@ -18,7 +18,11 @@ class TaxMailer < ApplicationMailer
     @dispute_payments = dispute_payments.sort_by(&:date)
     @dispute_reversal_payments = dispute_reversal_payments.sort_by(&:date)
     @tax_id = supporter.nonprofit.ein
-    @nonprofit_text = nonprofit_text
+
+    dict = SupporterInterpolationDictionary.new('NAME'=> 'Supporter', 'FIRSTNAME' => 'Supporter')
+    dict.set_supporter(supporter)
+
+    @nonprofit_text = dict.interpolate(nonprofit_text)
 
     mail(to: @supporter.email, subject: "#{@year} Tax Receipt from #{@nonprofit.name}")
   end

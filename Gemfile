@@ -58,8 +58,8 @@ group :development, :ci, :test do
   gem 'rspec-rails', '~> 4.1.2'
   gem 'rspec', '~> 3.12.0'
   gem 'rspec-json_expectations', '~> 2'
-  gem 'factory_bot_rails', '~> 6.2'
-  gem 'factory_bot', '~> 6.2'
+  gem 'factory_bot_rails', '~> 6.4'
+  gem 'factory_bot', '~> 6.4'
   gem 'listen'
   gem 'table_print', '~> 1.5', '>= 1.5.6' # giuNice table printing of data for the console
   gem 'colorize', '~> 0.8.1' # Print colorized text in debugger/console

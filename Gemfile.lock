@@ -182,10 +182,10 @@ GEM
     et-orbi (1.2.7)
       tzinfo
     execjs (2.8.1)
-    factory_bot (6.2.1)
+    factory_bot (6.4.5)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.2.0)
-      factory_bot (~> 6.2.0)
+    factory_bot_rails (6.4.3)
+      factory_bot (~> 6.4)
       railties (>= 5.0.0)
     fast_blank (1.0.1)
     ffi (1.15.5)
@@ -279,7 +279,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.0)
-    nokogiri (1.15.5)
+    nokogiri (1.16.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -505,8 +505,8 @@ DEPENDENCIES
   devise-async (~> 1.0)
   dotenv-rails (~> 2.8)
   erb_lint
-  factory_bot (~> 6.2)
-  factory_bot_rails (~> 6.2)
+  factory_bot (~> 6.4)
+  factory_bot_rails (~> 6.4)
   fast_blank
   good_job (~> 3.21)
   hamster (~> 3.0)

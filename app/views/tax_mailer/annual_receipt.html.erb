@@ -29,32 +29,38 @@
 
 </table>
 
-<% if @donation_payments.any? %>
-  <h4>Donations</h4>
-  <% @donation_payments.each do |payment| %>
-    <%= render "tax_mailer/donation_payment_table", payment: payment %>
+<% 
+# just ignore and don't handle these
+  if false 
+%>
+  <% if @donation_payments.any? %>
+    <h4>Donations</h4>
+    <% @donation_payments.each do |payment| %>
+      <%= render "tax_mailer/donation_payment_table", payment: payment %>
+    <% end %>
   <% end %>
-<% end %>
 
-<% if @refund_payments.any? %>
-  <h4>Refunds</h4>
-  <% @refund_payments.each do |payment| %>
-    <%= render "tax_mailer/refund_payment_table", payment: payment %>
+  <% if @refund_payments.any? %>
+    <h4>Refunds</h4>
+    <% @refund_payments.each do |payment| %>
+      <%= render "tax_mailer/refund_payment_table", payment: payment %>
+    <% end %>
   <% end %>
-<% end %>
 
 
-<% if @dispute_payments.any? %>
-  <h4>Disputed Payments</h4>
-  <% @dispute_payments.each do |payment| %>
-    <%= render "tax_mailer/dispute_payment_table", payment: payment %>
+  <% if @dispute_payments.any? %>
+    <h4>Disputed Payments</h4>
+    <% @dispute_payments.each do |payment| %>
+      <%= render "tax_mailer/dispute_payment_table", payment: payment %>
+    <% end %>
   <% end %>
-<% end %>
 
 
-<% if @dispute_reversal_payments.any? %>
-  <h4>Dispute reversal payments</h4>
-  <% @dispute_reversal_payments.each do |payment| %>
-    <%= render "tax_mailer/dispute_reversal_payment_table", payment: payment %>
+  <% if @dispute_reversal_payments.any? %>
+    <h4>Dispute reversal payments</h4>
+    <% @dispute_reversal_payments.each do |payment| %>
+      <%= render "tax_mailer/dispute_reversal_payment_table", payment: payment %>
+    <% end %>
   <% end %>
+
 <% end %>

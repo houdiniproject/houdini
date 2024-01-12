@@ -116,6 +116,14 @@ class Nonprofit < ApplicationRecord
     def dupes_on_address_without_zip_code(strict_mode = true)
       QuerySupporters.dupes_on_address_without_zip_code(proxy_association.owner.id, strict_mode)
     end
+
+    def dupes_on_last_name_and_address
+      QuerySupporters.dupes_on_last_name_and_address(proxy_association.owner.id)
+    end
+
+    def for_export_enumerable(query, chunk_limit=15000)
+      QuerySupporters.for_export_enumerable(proxy_association.owner.id, query, chunk_limit)
+    end
   end
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations

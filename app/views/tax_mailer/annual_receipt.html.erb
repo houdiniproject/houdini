@@ -16,7 +16,7 @@
   </tr>
   <tr>
     <td>Total Amount</td>
-    <td>$<%= Format::Currency.cents_to_dollars(@total) %></td>
+    <td>$<%= Format::Currency.cents_to_dollars(@total) %>*</td>
   </tr>
   <tr>
     <td>Organization</td>
@@ -64,3 +64,6 @@
   <% end %>
 
 <% end %>
+
+<hr>
+<p class="normal-line-height"><small>*This receipt reflects all payments attached to your Supporter record in CommitChange. In the event you receive multiple receipts, your amount donated for the year will be the sum of all totals.</small><p>

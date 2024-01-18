@@ -42,7 +42,8 @@
 		app.nonprofit = app.nonprofit || {}
 
 		app.nonprofit.feeStructure = <%= raw @nonprofit.fee_coverage_details_with_json_safe_keys.to_json %>
-		app.hide_cover_fees_option = <%= !!@nonprofit&.hide_cover_fees? %>;
+		app.manual_cover_fees = <%= @nonprofit.fee_coverage_option == 'manual' %>;
+		app.hide_cover_fees_option = <%= @nonprofit.fee_coverage_option == 'none' %>;
 	</script>
   <%= render 'schema', npo: @nonprofit %>
 	<%= render 'common/froala' if current_nonprofit_user? %>

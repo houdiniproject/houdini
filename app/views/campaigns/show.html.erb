@@ -32,9 +32,9 @@
     <% end %>
 
 
-    app.manual_cover_fees = <%= @campaign&.misc_campaign_info&.manual_cover_fees || false %>;
-    app.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>
-    appl.hide_cover_fees_option = <%= !!@campaign.hide_cover_fees? %>
+    app.manual_cover_fees = <%= @campaign.fee_coverage_option == 'manual' %>;
+    app.hide_cover_fees_option = <%= @campaign.fee_coverage_option == 'none' %>;
+    appl.hide_cover_fees_option = <%= @campaign.fee_coverage_option == 'none' %>
 
     if (app.campaign) {
       app.campaign.paused = <%= @campaign.paused? || false %>

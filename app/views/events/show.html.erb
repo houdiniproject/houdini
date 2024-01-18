@@ -61,8 +61,9 @@
 		disableLink: true,
     })
 				ticketPaymentCard.mount("#ticketPaymentCard")
-				appl.hide_cover_fees_option = <%= !!@event.hide_cover_fees? %>;
-				app.hide_cover_fees_option = <%= !!@event.hide_cover_fees? %>;
+				app.manual_cover_fees = <%= @event.fee_coverage_option == 'manual' %>;
+				appl.hide_cover_fees_option = <%= @event.fee_coverage_option == 'none' %>;
+				app.hide_cover_fees_option = <%= @event.fee_coverage_option == 'none' %>;
 		</script>
 	<%= IncludeAsset.js '/client/js/events/show/page.js' %>
 	<script>
@@ -70,7 +71,7 @@
 			# * if we hide covering fees, this must be false since there won't be a UI to select it
 		  # * if we aren't hiding the fees to be covered, we want the fees to be pre-selected
 		%>
-		appl.def('ticket_wiz.fee_covered',  <%= !@event.hide_cover_fees? %>)
+		appl.def('ticket_wiz.fee_covered',  <%= @event.fee_coverage_option == 'auto' %>)
 	</script>
 	<script>
 	appl.def('ticketPaymentCard', ticketPaymentCard)
@@ -186,5 +187,5 @@
 
 
 <%= render 'nonprofits/donate/modal' %>
-<%= render 'tickets/new_modal', profile: current_user ? current_user.profile : nil, hide_cover_fees_option: !!@event.hide_cover_fees? %>
+<%= render 'tickets/new_modal', profile: current_user ? current_user.profile : nil, hide_cover_fees_option: @event.fee_coverage_option == 'none' %>
 <%= render 'contact_organizer_modal' %>

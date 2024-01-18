@@ -183,3 +183,7 @@ img.fr-fin {
 p.normal-margin {
 	margin-bottom: 1em
 }
+
+p.normal-line-height {
+	line-height: 1;
+}

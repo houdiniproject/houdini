@@ -22,7 +22,7 @@ jobs:
       filters: ${{ steps.filter.outputs.changes }}
     steps:
     - uses: actions/checkout@v4
-    - uses: dorny/paths-filter@v2
+    - uses: dorny/paths-filter@v3
       id: filter
       with:
         # Path to file where filters are defined

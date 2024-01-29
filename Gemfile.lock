@@ -134,7 +134,7 @@ GEM
     builder (3.2.4)
     chronic (0.10.2)
     colorize (0.8.1)
-    concurrent-ruby (1.2.2)
+    concurrent-ruby (1.2.3)
     connection_pool (2.2.5)
     console (1.13.1)
       fiber-local
@@ -195,7 +195,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    good_job (3.21.4)
+    good_job (3.23.0)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -279,7 +279,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.0)
-    nokogiri (1.15.5)
+    nokogiri (1.16.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -508,7 +508,7 @@ DEPENDENCIES
   factory_bot (~> 6.2)
   factory_bot_rails (~> 6.2)
   fast_blank
-  good_job (~> 3.21)
+  good_job (~> 3.23)
   hamster (~> 3.0)
   houdini_full_contact!
   http_accept_language

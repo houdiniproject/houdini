@@ -69,7 +69,7 @@ class Nonprofit < ApplicationRecord
 
     def during_np_year(year)
       proxy_association.owner.use_zone do
-        where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+        where('payments.date >= ? and payments.date < ?', Time.zone.local(year), Time.zone.local(year + 1))
       end
     end
 

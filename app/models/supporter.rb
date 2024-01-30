@@ -54,7 +54,7 @@ class Supporter < ApplicationRecord
   has_many :payments do
     def during_np_year(year)
       proxy_association.owner.nonprofit.use_zone do
-        where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+        where('payments.date >= ? and payments.date < ?', Time.zone.local(year), Time.zone.local(year + 1))
       end
     end
 

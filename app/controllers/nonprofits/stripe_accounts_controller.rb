@@ -60,7 +60,10 @@ module Nonprofits
                     refresh_url: nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
                     return_url: confirm_nonprofits_stripe_account_url(current_nonprofit.id, {return_location: params[:return_location]}),
                     type: 'account_onboarding',
-                    collect: 'eventually_due'
+                    collection_options: {
+                        fields: 'eventually_due',
+                        future_requirements: 'include',
+                    }
                 }).to_json, status: 200
             else
                 render json:{error: "No Stripe account could be found or created. Please contact support@commitchange.com for assistance."}, status: 400

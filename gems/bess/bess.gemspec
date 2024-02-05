@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'wisper-activejob', '~> 1.0.0'
   spec.add_dependency 'rest-client'
 
-  spec.add_development_dependency 'rspec', '~> 3.9.0'
+  spec.add_development_dependency 'rspec', '~> 3.13.0'
   spec.add_development_dependency 'rspec-rails', '~> 4.0.0'
 
 

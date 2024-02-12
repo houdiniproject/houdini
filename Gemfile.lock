@@ -109,7 +109,7 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
-    addressable (2.8.5)
+    addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
     async (1.30.1)
@@ -129,6 +129,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
+    bigdecimal (3.1.6)
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -141,7 +142,8 @@ GEM
     countries (4.2.3)
       i18n_data (~> 0.16.0)
       sixarm_ruby_unaccent (~> 1.1)
-    crack (0.4.5)
+    crack (1.0.0)
+      bigdecimal
       rexml
     crass (1.0.6)
     css_parser (1.12.0)
@@ -204,7 +206,7 @@ GEM
       thor (>= 0.14.1)
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
-    hashdiff (1.0.1)
+    hashdiff (1.1.0)
     htmlentities (4.3.4)
     http-accept (1.7.0)
     http-cookie (1.0.3)
@@ -299,7 +301,7 @@ GEM
       premailer (~> 1.7, >= 1.7.9)
     psych (5.1.2)
       stringio
-    public_suffix (5.0.3)
+    public_suffix (5.0.4)
     puma (5.6.8)
       nio4r (~> 2.0)
     raabro (1.4.0)
@@ -469,7 +471,7 @@ GEM
       public_suffix
     warden (1.2.9)
       rack (>= 2.0.9)
-    webmock (3.19.1)
+    webmock (3.20.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -549,7 +551,7 @@ DEPENDENCIES
   traceroute (~> 0.8.0)
   turbo_test
   validate_url
-  webmock (~> 3.19)
+  webmock (~> 3.20)
   webpacker (~> 5.4.4)
   wisper-rspec (~> 1.1.0)
 

@@ -37,7 +37,7 @@ jobs:
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
           uses: Daniel-Marynicz/postgresql-action@1.0.0
           with:
-            postgres_image_tag: 12-alpine
+            postgres_image_tag: 13-alpine
             postgres_user: admin
             postgres_password: password
         - uses: actions/setup-node@v4

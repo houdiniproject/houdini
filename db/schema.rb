@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20231201210543) do
+ActiveRecord::Schema.define(version: 20240209011057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -512,6 +512,10 @@ ActiveRecord::Schema.define(version: 20231201210543) do
 
   add_index "full_contact_infos", ["supporter_id"], name: "index_full_contact_infos_on_supporter_id", using: :btree
 
+  create_table "full_contact_jobs", force: :cascade do |t|
+    t.integer "supporter_id"
+  end
+
   create_table "full_contact_orgs", force: :cascade do |t|
     t.boolean  "is_primary"
     t.string   "name",                 limit: 255
@@ -618,6 +622,7 @@ ActiveRecord::Schema.define(version: 20231201210543) do
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
     t.string   "custom_get_tickets_button_label"
+    t.string   "fee_coverage_option_config"
   end
 
   create_table "misc_payment_infos", force: :cascade do |t|

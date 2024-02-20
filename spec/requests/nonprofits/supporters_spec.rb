@@ -6,7 +6,7 @@ describe Nonprofits::SupportersController, type: :request do
 
   describe 'throttling' do
     before(:each) do
-      FORCE_THROTTLE = true
+      stub_const('FORCE_THROTTLE', true)
     end
     it 'test number of supporter throttle' do
       11.times {

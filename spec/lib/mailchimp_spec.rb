@@ -165,7 +165,7 @@ describe Mailchimp do
 					'merge_fields' =>  {
 						'F_NAME' => "Penelope Rebecca",
 						'L_NAME' => "Schultz",
-						'RD_URL_1' => an_instance_of(String).and(ending_with("recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}")),
+						'RD_URL_1' => "http://us.commitchange.com/recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}",
 					}
 				
 				})
@@ -181,9 +181,8 @@ describe Mailchimp do
 					'merge_fields' =>  {
 						'F_NAME' => "Penelope Rebecca",
 						'L_NAME' => "Schultz",
-						'RD_URL_1' => an_instance_of(String).and(ending_with("recurring_donations/#{active_recurring_donation_2.id}/edit?t=#{active_recurring_donation_2.edit_token}")),
-						'RD_URL_2' => an_instance_of(String).and(ending_with("recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}"))
-					}
+						'RD_URL_1' => "http://us.commitchange.com/recurring_donations/#{active_recurring_donation_2.id}/edit?t=#{active_recurring_donation_2.edit_token}",
+						'RD_URL_2' => "http://us.commitchange.com/recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}"					}
 				
 				})
 			end

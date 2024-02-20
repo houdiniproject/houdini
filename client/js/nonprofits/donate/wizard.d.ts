@@ -18,6 +18,7 @@ interface InitState {
   clickLogout$:() => void;
   clickFinish$:() => void;
   hide_cover_fees_option: boolean | undefined ;
+  manual_cover_fees: boolean | undefined;
   hide_anonymous: boolean| undefined;
   selected_payment$: (payment:string) => string;
   amountStep: ReturnType<typeof amountStepInit>

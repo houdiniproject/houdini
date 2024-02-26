@@ -24,6 +24,7 @@ function init(donation$, parentState) {
   , currentStep$: flyd.stream()
   , selectedPayment$: parentState.selectedPayment$
   , donationAmount$: parentState.donationAmount$
+  , hide_anonymous: parentState.hide_anonymous
   }
 
   // Save supporter for dedication logic
@@ -138,7 +139,7 @@ function paymentButton(options, label, state){
 }
 
 function anonField(state) {
-  if (state.params$().hide_anonymous) return '';
+  if (state.hide_anonymous) return '';
 
   state.anon_id = state.anon_id || uuid.v1() // we need a unique id in case there are multiple supporter forms on the page -- the label 'for' attribute needs to be unique
   return h('div.u-marginTop--10.u-centered', [

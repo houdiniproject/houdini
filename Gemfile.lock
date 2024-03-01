@@ -506,7 +506,7 @@ GEM
     webmock (1.21.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-    yard (0.9.35)
+    yard (0.9.36)
 
 PLATFORMS
   ruby

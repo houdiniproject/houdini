@@ -97,7 +97,7 @@ describe('Wizard', () => {
       return <Wizard wizardState={props.state} disableTabs={props.disabledTabs}>
         {
           props.state.panels.map((tab:any) => {
-            return <WizardPanel tab={tab}>
+            return <WizardPanel tab={tab} key={tab.tabName}>
               <button onClick={tab.parent.moveToNextTab}/>
             </WizardPanel>
           })

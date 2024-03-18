@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class RecurringDonation < ActiveRecord::Base
+class RecurringDonation < ApplicationRecord
 
   # The status is confusing here.
   # A recurring donation can be in one of four status'

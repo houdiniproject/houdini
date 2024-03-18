@@ -75,4 +75,9 @@ Commitchange::Application.configure do
   config.middleware.use Rack::Attack
 
   NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 5.minutes
+
+	ActiveSupport::Notifications.subscribe("factory_bot.run_factory") do |name, start, finish, id, payload|
+		Rails.logger.debug(payload)
+
+	end
 end

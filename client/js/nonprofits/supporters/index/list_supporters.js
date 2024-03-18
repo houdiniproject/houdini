@@ -1,8 +1,7 @@
 // License: LGPL-3.0-or-later
 const flyd = require('flimflam/flyd') // for ajaxing /index_metrics, line 27
 const request = require('../../../common/request') // for ajaxing /index_metrics
-var map = require('../../../components/maps/cc_map')
-var npo_coords = require('../../../components/maps/npo_coordinates')()
+const map = require('../../../components/maps/cc_map')
 
 appl.def('supporters.selected', [])
 

@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Refund < ActiveRecord::Base
+class Refund < ApplicationRecord
 
 	Reasons = [:duplicate, :fraudulent, :requested_by_customer]
 
@@ -27,6 +27,15 @@ class Refund < ActiveRecord::Base
 	scope :disbursed, ->{where(disbursed: [true])}
 
 	has_many  :manual_balance_adjustments, as: :entity
+
+
+	def original_payment
+		charge&.payment
+	end
+
+	def from_donation?
+		!!original_payment&.donation
+	end
 
 end
 

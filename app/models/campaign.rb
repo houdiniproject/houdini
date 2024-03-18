@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Campaign < ActiveRecord::Base
+class Campaign < ApplicationRecord
 
 	attr_accessible \
 		:name,
@@ -254,6 +254,15 @@ class Campaign < ActiveRecord::Base
 	def hide_cover_fees?
 		nonprofit.hide_cover_fees? || misc_campaign_info&.hide_cover_fees_option
 	end
+
+	def fee_coverage_option
+    @fee_coverage_option ||= misc_campaign_info&.fee_coverage_option_config || nonprofit.fee_coverage_option
+  end
+
+  # generally, don't use
+  def fee_coverage_option=(option)
+    @fee_coverage_option = option
+  end
 
 	def paused?
 		!!(misc_campaign_info&.paused)

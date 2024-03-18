@@ -1,8 +1,10 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
+
 RSpec.describe Supporter, type: :model do
   it_behaves_like 'an houidable entity', :supp
+  it_behaves_like 'a model with a calculated first and last name'
 
   it { is_expected.to have_many(:addresses).class_name("SupporterAddress")}
   it { is_expected.to belong_to(:primary_address).class_name("SupporterAddress")}
@@ -315,6 +317,30 @@ RSpec.describe Supporter, type: :model do
           expect(supporter.primary_address).to have_attributes(custom_address_attributes)
         end
       end
+    end
+  end
+
+  describe "#payments#during_np_year" do
+    let(:nonprofit) { create(:nonprofit_base)}
+    let(:supporter) { create(:supporter_base, nonprofit:nonprofit)}
+    let(:payment1) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit, date: Time.new.utc.beginning_of_year + 1.second)}
+    let(:payment2) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit,  date: Time.new.utc.beginning_of_year + 7.hours)} # this is after midnight at Central Time 
+    let(:payment3){ create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit,  date: Time.new.utc.end_of_year + 1.second)} # this is before midnight at Central Time but after UTC
+
+    before(:each) do 
+      payment1
+      payment2
+      payment3
+    end
+
+    it "has two payments when nonprofit has UTC time zone" do
+      expect(supporter.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment1, payment2)
+    end
+
+    it "has 2 payments when nonprofit has Central time zone" do
+      nonprofit.timezone = "America/Chicago"
+      nonprofit.save!
+      expect(supporter.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
     end
   end
 

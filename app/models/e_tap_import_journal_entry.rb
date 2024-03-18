@@ -1,4 +1,4 @@
-class ETapImportJournalEntry < ActiveRecord::Base
+class ETapImportJournalEntry < ApplicationRecord
 
   def self.by_account(account_id)
     where("row @> '{\"Account Number\": \"#{account_id}\"}'")

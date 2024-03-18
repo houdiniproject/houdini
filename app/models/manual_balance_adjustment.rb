@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-class ManualBalanceAdjustment < ActiveRecord::Base
+class ManualBalanceAdjustment < ApplicationRecord
   belongs_to :entity, polymorphic: true, required:true
   belongs_to :payment, required:true
   has_one :supporter, through: :payment

@@ -3,7 +3,7 @@
 # If connected to a charge, this represents money potentially debited to the nonprofit's account
 # If connected to an offsite_payment, this is money the nonprofit is recording for convenience.
 
-class Payment < ActiveRecord::Base
+class Payment < ApplicationRecord
 	extend ActiveSupport::Concern
 
 
@@ -52,6 +52,27 @@ class Payment < ActiveRecord::Base
 		def build(attributes=nil, options={}, &block)
 			attributes = proxy_association.owner.build_activity_attributes.merge(attributes || {})
 			proxy_association.build(attributes, options, &block)
+		end
+	end
+
+
+	def self.find_each_related_to_a_donation
+		find_each.map(&:from_donation?)
+	end
+
+	def self.each_related_to_a_donation
+		each.map(&:from_donation?)
+	end
+
+	def from_donation?
+		if kind == 'Refund' 
+			!!refund&.from_donation?
+		elsif kind == 'Dispute' || kind == 'DisputeReversal'
+			!!dispute_transaction&.from_donation?
+		elsif kind == 'OffsitePayment'
+			!!donation.present?
+		else
+			kind == 'Donation' || kind == 'RecurringDonation'
 		end
 	end
 

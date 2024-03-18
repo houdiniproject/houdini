@@ -1,9 +1,7 @@
 // License: LGPL-3.0-or-later
 const R = require('ramda')
 const {getDefaultAmounts} = require('./custom_amounts');
-
-const splitParam = str =>
-  R.split(/[_;,]/, str)
+const { parseCustomFields, splitParam }  = require('./parseFields');
 
 module.exports = params => {
   const defaultAmts = getDefaultAmounts().join()
@@ -15,10 +13,7 @@ module.exports = params => {
   const evolve = R.evolve({
     multiple_designations: splitParam
   , custom_amounts: amts => R.compose(R.map(Number), splitParam)(amts || defaultAmts)
-  , custom_fields: fields => R.map(f => {
-      const [name, label] = R.map(R.trim, R.split(':', f))
-      return {name, label: label ? label : name}
-    }, R.split(',',  fields))
+  , custom_fields: parseCustomFields
   , tags: tags => R.map(tag => {
       return tag.trim()
     }, R.split(',', tags))

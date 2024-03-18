@@ -4,11 +4,12 @@ const R = require('ramda')
 const flyd = require('flyd')
 const uuid = require('uuid')
 const supporterFields = require('../../components/supporter-fields')
-const button = require('ff-core/button')
 const dedicationForm = require('./dedication-form')
 const serialize = require('form-serialize')
 const request = require('../../common/request')
 const format = require('../../common/format')
+const { default: customFields } = require('./components/info-step/customFields')
+const { formatFormData } = require('./components/info-step/utils');
 
 const sepaTab = 'sepa'
 const cardTab = 'credit_card'
@@ -23,6 +24,7 @@ function init(donation$, parentState) {
   , currentStep$: flyd.stream()
   , selectedPayment$: parentState.selectedPayment$
   , donationAmount$: parentState.donationAmount$
+  , hide_anonymous: parentState.hide_anonymous
   }
 
   // Save supporter for dedication logic
@@ -55,10 +57,6 @@ function init(donation$, parentState) {
   return state
 }
 
-const formatFormData = form => {
-  const data = serialize(form, {hash: true})
-  return R.evolve({customFields: R.toPairs}, data)
-}
 
 const postSupporter = supporter =>
   flyd.map(
@@ -70,17 +68,6 @@ const postSupporter = supporter =>
     }).load
   )
 
-
-const customFields = fields => {
-  if(!fields) return ''
-  const input = field => h('input', {
-    props: {
-      name: `customFields[${field.name}]`
-    , placeholder: field.label
-    }
-  })
-  return h('div', R.map(input, fields))
-}
 
 function recurringMessage(state){
 //function recurringMessage(isRecurring, state) {
@@ -152,7 +139,7 @@ function paymentButton(options, label, state){
 }
 
 function anonField(state) {
-  if (state.params$().hide_anonymous) return '';
+  if (state.hide_anonymous) return '';
 
   state.anon_id = state.anon_id || uuid.v1() // we need a unique id in case there are multiple supporter forms on the page -- the label 'for' attribute needs to be unique
   return h('div.u-marginTop--10.u-centered', [

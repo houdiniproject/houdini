@@ -65,7 +65,7 @@ class DonationMailer < BaseMailer
       @emails = [em]
 		end
 		if @emails.any?
-			mail(to: @emails, subject: "Donation receipt for #{@donation.supporter.name}")
+			mail(to: @emails, subject: "Donation receipt for #{@donation.supporter.name || @donation.supporter.email}")
 		end
 	end
 

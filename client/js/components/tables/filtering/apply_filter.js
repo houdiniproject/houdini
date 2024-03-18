@@ -1,11 +1,10 @@
 // License: LGPL-3.0-or-later
-var format = require('../../../common/format')
 
 module.exports = function(scope) {
 
 	appl.def(scope + '.filter_count', 0)
 
-	var readable_keys = {
+	const readable_keys = {
 		total_raised_greater_than_or_equal: 'total contributed',
 		total_raised_less_than: 'total contributed',
 		last_payment_before: 'last payment',
@@ -38,16 +37,16 @@ module.exports = function(scope) {
 
 	appl.def('readable_filter_names', function() {
 		var arr = []
-		var q = appl[scope].query
-		for(var key in q) {
-			var name = readable_keys[key]
+		const q = appl[scope].query
+		for(const key in q) {
+			const name = readable_keys[key]
 			if(name && q[key] && q[key].length) arr.push(name)
 		}
 		return utils.uniq(arr).map(function(s) { return "<span class='filteringBy-key'>" + s + "</span>" }).join(' ')
 	})
 
 	appl.def('clear_all_filters', function() {
-		for(var key in appl[scope].query) {
+		for(const key in appl[scope].query) {
 			appl.def(scope + '.query.' + key, '')
 		}
 		appl[scope].index()
@@ -67,7 +66,7 @@ module.exports = function(scope) {
 	})
 
 	appl.def('apply_sort_filter', function(name) {
-		var old_val = appl[scope].query[name]
+		const old_val = appl[scope].query[name]
 		if(!old_val || old_val === '') {
 			appl.incr(scope + '.filter_count')
 			appl.def(scope + '.query.' + name, 'desc')
@@ -82,7 +81,7 @@ module.exports = function(scope) {
 
   appl.def('apply_checkbox_filter', function(el) {
     el = appl.prev_elem(el)
-    var prop = scope + ".query." + el.name
+    const prop = scope + ".query." + el.name
     if(el.checked) {
       appl.incr(scope + '.filter_count')
       appl.def(prop, 'true')
@@ -100,7 +99,7 @@ module.exports = function(scope) {
   // single array of tag names.
   appl.def('apply_checkbox_array_aggregator', function(el) {
     el = appl.prev_elem(el)
-    var prop = scope + '.query.' + el.name
+    const prop = scope + '.query.' + el.name
     var array = appl[scope]['query'][el.name] || []
     if(el.checked) {
       appl.incr(scope + '.filter_count')
@@ -116,7 +115,7 @@ module.exports = function(scope) {
 	appl.def('apply_radio_filter', function(el) {
     el = appl.prev_elem(el)
     if(el.checked) {
-      var prop = scope + ".query." + el.name
+      const prop = scope + ".query." + el.name
       if(el.value && !appl[prop]) appl.incr(scope + '.filter_count')
       if(!el.value) appl.decr(scope + '.filter_count')
       appl.def(prop, el.value)
@@ -126,7 +125,7 @@ module.exports = function(scope) {
 
 	appl.def('apply_select_filter', function(el) {
 		el = appl.prev_elem(el)
-		var prop = scope + ".query." + el.name
+		const prop = scope + ".query." + el.name
 		appl.def(prop, el.value)
 	})
 

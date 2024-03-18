@@ -107,6 +107,7 @@ module PayRecurringDonation
           .where("id=$id", id: rd_id).returning('*')
       ).first
       DonationMailer.delay.donor_failed_recurring_donation(rd['donation_id'])
+      rd.reload
       if rd['n_failures'] >= 3
         DonationMailer.delay.nonprofit_failed_recurring_donation(rd['donation_id'])
       end

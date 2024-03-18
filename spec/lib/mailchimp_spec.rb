@@ -92,18 +92,18 @@ describe Mailchimp do
 		end
 	
 		it 'bulk syncs users that are from a nonprofit' do
-			Mailchimp.sync_nonprofit_users(drip_email_list)
-			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with(drip_email_list, nonprofit_user, nonprofit_user.roles.first.host)
+			Mailchimp.sync_nonprofit_users
+			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with(nonprofit_user, nonprofit_user.roles.first.host)
  		end
 
 		 it 'this tests that using "anything" here actually works as expected (so we know the next spec does what we want)' do 
-			Mailchimp.sync_nonprofit_users(drip_email_list)
-			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with(anything, nonprofit_user, anything)
+			Mailchimp.sync_nonprofit_users
+			expect(MailchimpNonprofitUserAddJob).to have_been_enqueued.with( nonprofit_user, anything)
 		end 
 
 		it 'will NOT include users that doesnt belong to a nonprofit' do 
-			Mailchimp.sync_nonprofit_users(drip_email_list)
-			expect(MailchimpNonprofitUserAddJob).to_not have_been_enqueued.with(anything, user, anything)
+			Mailchimp.sync_nonprofit_users
+			expect(MailchimpNonprofitUserAddJob).to_not have_been_enqueued.with(user, anything)
 		end 
 
 	end 
@@ -116,7 +116,9 @@ describe Mailchimp do
 				'email_address' => user.email,
 				'status' => 'subscribed',
 				'merge_fields' => {
-					'NONPROFIT_ID' => nonprofit.id
+					'NP_ID' => nonprofit.id,
+					'NP_SUPP' => 1,
+					'FNAME' => "",
 				}
 			})
 		end 
@@ -163,7 +165,7 @@ describe Mailchimp do
 					'merge_fields' =>  {
 						'F_NAME' => "Penelope Rebecca",
 						'L_NAME' => "Schultz",
-						'RD_URL_1' => an_instance_of(String).and(ending_with("recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}")),
+						'RD_URL_1' => "http://us.commitchange.com/recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}",
 					}
 				
 				})
@@ -179,9 +181,8 @@ describe Mailchimp do
 					'merge_fields' =>  {
 						'F_NAME' => "Penelope Rebecca",
 						'L_NAME' => "Schultz",
-						'RD_URL_1' => an_instance_of(String).and(ending_with("recurring_donations/#{active_recurring_donation_2.id}/edit?t=#{active_recurring_donation_2.edit_token}")),
-						'RD_URL_2' => an_instance_of(String).and(ending_with("recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}"))
-					}
+						'RD_URL_1' => "http://us.commitchange.com/recurring_donations/#{active_recurring_donation_2.id}/edit?t=#{active_recurring_donation_2.edit_token}",
+						'RD_URL_2' => "http://us.commitchange.com/recurring_donations/#{active_recurring_donation_1.id}/edit?t=#{active_recurring_donation_1.edit_token}"					}
 				
 				})
 			end

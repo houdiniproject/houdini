@@ -178,3 +178,12 @@ img.fr-fin {
   overflow: auto;
   padding: 10px 0;
 }
+
+
+p.normal-margin {
+	margin-bottom: 1em
+}
+
+p.normal-line-height {
+	line-height: 1;
+}

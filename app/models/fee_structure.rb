@@ -15,7 +15,7 @@
 # !@attribute [r] international_surcharge_fee
 # 	@return [BigDecimal] the additional percentage which should apply to charges for cards which are not in local_country
 
-class FeeStructure < ActiveRecord::Base
+class FeeStructure < ApplicationRecord
   belongs_to :fee_era
 
   validates :flat_fee,

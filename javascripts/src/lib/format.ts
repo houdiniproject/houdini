@@ -4,14 +4,8 @@ import * as deprecated_format from './deprecated_format'
 
 export function centsToDollars(cents:string|number|undefined, options:{noCents?:boolean}={}):string {
   if(cents === undefined) return '0'
-  let centsAsNumber:number = undefined
-  if (typeof cents === 'string')
-  {
-    centsAsNumber = Number(cents)
-  }
-  else {
-    centsAsNumber = cents
-  }
+  const centsAsNumber:number = typeof cents === 'string' ? Number(cents) : cents;
+
   return numberWithCommas((centsAsNumber / 100.0).toFixed(options.noCents ? 0 : 2).toString()).replace(/\.00$/,'')
 }
 
@@ -50,12 +44,12 @@ export function numberWithCommas(n:string|number):string {
   return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-export function camelToWords(str:string, os?:any) {
+export function camelToWords(str:string, os?:any):string {
   if(!str) return str
   return str.replace(/([A-Z])/g, " $1")
 }
 
-export function readableKind(kind:string) {
+export function readableKind(kind:string):string {
   if (kind === "Donation") return "One-Time Donation"
   else if (kind === "OffsitePayment") return "Offsite Donation"
   else if (kind === "Ticket") return "Ticket Purchase"
@@ -64,7 +58,7 @@ export function readableKind(kind:string) {
 
 
 
-export function readableInterval(interval:number, time_unit:string) {
+export function readableInterval(interval:number, time_unit:string):string {
   if(interval === 1) return time_unit + 'ly'
   if(interval === 4 && time_unit === 'year') return 'quarterly'
   if(interval === 2 && time_unit === 'year') return 'biannually'

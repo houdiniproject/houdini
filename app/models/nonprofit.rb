@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Nonprofit < ActiveRecord::Base
+class Nonprofit < ApplicationRecord
   include Model::Houidable
   setup_houid :np, :houid
 
@@ -66,9 +66,65 @@ class Nonprofit < ActiveRecord::Base
       net, gross = pending.pluck('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross').first
       {'net' => net, 'gross' => gross}
     end
+
+    def during_np_year(year)
+      proxy_association.owner.use_zone do
+        where('payments.date >= ? and payments.date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+      end
+    end
+
+    def prior_to_np_year(year)
+      proxy_association.owner.use_zone do
+        where('date < ?', Time.zone.local(year))
+      end
+    end
   end
   has_many :transactions, through: :supporters
-  has_many :supporters, dependent: :destroy
+  has_many :supporters, dependent: :destroy do
+    def dupes_on_email(strict_mode = true)
+      QuerySupporters.dupes_on_email(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name(strict_mode = true)
+      QuerySupporters.dupes_on_name(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_email(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_email(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_phone(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_phone(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_phone_and_address(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_phone_and_address(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_phone_and_email_and_address(strict_mode = true)
+      QuerySupporters.dupes_on_phone_and_email_and_address(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_name_and_address(strict_mode = true)
+      QuerySupporters.dupes_on_name_and_address(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_phone_and_email(strict_mode = true)
+      QuerySupporters.dupes_on_phone_and_email(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_address_without_zip_code(strict_mode = true)
+      QuerySupporters.dupes_on_address_without_zip_code(proxy_association.owner.id, strict_mode)
+    end
+
+    def dupes_on_last_name_and_address
+      QuerySupporters.dupes_on_last_name_and_address(proxy_association.owner.id)
+    end
+
+    def for_export_enumerable(query, chunk_limit=15000)
+      QuerySupporters.for_export_enumerable(proxy_association.owner.id, query, chunk_limit)
+    end
+  end
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations
   has_many :campaigns, dependent: :destroy
@@ -96,6 +152,8 @@ class Nonprofit < ActiveRecord::Base
   has_one :miscellaneous_np_info
   has_one :nonprofit_deactivation
   has_one :stripe_account, foreign_key: :stripe_account_id, primary_key: :stripe_account_id
+
+  has_many :email_customizations
 
   has_many :associated_object_events, class_name: 'ObjectEvent'
 
@@ -386,6 +444,13 @@ class Nonprofit < ActiveRecord::Base
     def zone
       (timezone.present? && ActiveSupport::TimeZone[timezone]) || Time.zone
     end
+
+    # use the Nonprofit's timezone in a block
+    def use_zone(&block)
+      Time.use_zone(zone) do
+        yield block
+      end
+    end
   end
 
   def has_achievements?
@@ -394,6 +459,15 @@ class Nonprofit < ActiveRecord::Base
 
   def hide_cover_fees?
     miscellaneous_np_info&.hide_cover_fees
+  end
+
+  def fee_coverage_option
+    @fee_coverage_option ||= miscellaneous_np_info&.fee_coverage_option_config || 'auto'
+  end
+
+  # generally, don't use
+  def fee_coverage_option=(option)
+    @fee_coverage_option = option
   end
 
   concerning :PathCaching do
@@ -436,6 +510,21 @@ class Nonprofit < ActiveRecord::Base
 
     def clear_cache
       Nonprofit::clear_caching(id, state_code_slug, city_slug, slug)
+    end
+  end
+
+  concerning :TaxReceipting do
+    def supporters_who_have_payments_during_year(year, tickets:false)
+      payments_during_year = self.payments.during_np_year(year)
+      unless tickets
+        payments_during_year = payments_during_year.where("kind IS NULL OR kind != ? ", "ticket")
+      end
+      payments_during_year.group("supporter_id").select('supporter_id, COUNT(id)').each.map(&:supporter)
+    end
+
+    def supporters_who_have_payments_prior_to_year(year, tickets: false)
+      payments_during_year = self.payments.during_np_year(year)
+      payments_during_year.group("supporter_id").select('supporter_id, COUNT(id)').each.map(&:supporter)
     end
   end
 

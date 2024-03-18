@@ -1,13 +1,11 @@
 <%- # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later -%>
-<p>
-  Dear <%= @supporter.name %>,
-</p>
 
 <%= @nonprofit_text.html_safe %>
 
 
+<hr>
 <p><%= @nonprofit.name %> is a 501c3 tax-exempt organization.</p>
-
+<hr>
 
 <h3><%= @year %> Donation Receipt</h3>
 
@@ -18,7 +16,7 @@
   </tr>
   <tr>
     <td>Total Amount</td>
-    <td>$<%= Format::Currency.cents_to_dollars(@payments.sum(&:gross_amount)) %></td>
+    <td>$<%= Format::Currency.cents_to_dollars(@total) %>*</td>
   </tr>
   <tr>
     <td>Organization</td>
@@ -28,14 +26,44 @@
     <td>Tax ID Number</td>
     <td><%= @tax_id %></td>
   </tr>
-<% @payments.each do |payment| %>
-
-  <tr>
-    <td>$<%= Format::Currency.cents_to_dollars(payment.gross_amount) %></td>
-    <td><%= payment.date %>
-  </tr>
-<% end%>
 
 </table>
 
+<% 
+# just ignore and don't handle these
+  if false 
+%>
+  <% if @donation_payments.any? %>
+    <h4>Donations</h4>
+    <% @donation_payments.each do |payment| %>
+      <%= render "tax_mailer/donation_payment_table", payment: payment %>
+    <% end %>
+  <% end %>
 
+  <% if @refund_payments.any? %>
+    <h4>Refunds</h4>
+    <% @refund_payments.each do |payment| %>
+      <%= render "tax_mailer/refund_payment_table", payment: payment %>
+    <% end %>
+  <% end %>
+
+
+  <% if @dispute_payments.any? %>
+    <h4>Disputed Payments</h4>
+    <% @dispute_payments.each do |payment| %>
+      <%= render "tax_mailer/dispute_payment_table", payment: payment %>
+    <% end %>
+  <% end %>
+
+
+  <% if @dispute_reversal_payments.any? %>
+    <h4>Dispute reversal payments</h4>
+    <% @dispute_reversal_payments.each do |payment| %>
+      <%= render "tax_mailer/dispute_reversal_payment_table", payment: payment %>
+    <% end %>
+  <% end %>
+
+<% end %>
+
+<hr>
+<p class="normal-line-height"><small>*This receipt reflects all payments attached to your Supporter record in CommitChange. In the event you receive multiple receipts, your amount donated for the year will be the sum of all totals.</small><p>

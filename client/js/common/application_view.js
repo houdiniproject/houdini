@@ -1,8 +1,8 @@
 // License: LGPL-3.0-or-later
-var confirmation = require('./confirmation')
-var notification = require('./notification')
-var moment = require('moment-timezone')
-var appl = require('view-script')
+const confirmation = require('./confirmation')
+const notification = require('./notification')
+const moment = require('moment-timezone')
+const appl = require('view-script')
 
 module.exports = appl
 

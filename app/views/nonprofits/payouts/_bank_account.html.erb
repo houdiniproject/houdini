@@ -2,10 +2,10 @@
 <li class="<%= (status == :valid_bank_account || status == :pending_bank_account) ? 'is-done' : '' %>">
 	<span class='checkbox-outer'><i class='icon-check-1'></i></span>
 	<span class='name'>
-			Please <% if status != :valid_bank_account -%><a>
+			Please <a style="pointer-events: auto">
 				<!--= on 'click' (open_modal 'newBankModal') -->
 				<strong>connect your bank account.</strong>
-			</a><% else -%>connect your bank account.<% end %>
+			</a>
 	</span>
 </li>
 

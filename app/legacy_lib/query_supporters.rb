@@ -610,6 +610,19 @@ UNION DISTINCT
       .map { |arr_group| arr_group.flatten.sort }
   end
 
+  def self.dupes_on_last_name_and_address(np_id)
+    dupes_expr(np_id)
+      .and_where(
+        "name IS NOT NULL\
+         AND name != ''\
+         AND address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(self.calculated_last_name +  " || '_____' || address")
+      .execute(format: 'csv')[1..-1]
+      .map { |arr_group| arr_group.flatten.sort }
+  end
+
   def self.dupes_on_phone_and_email(np_id, strict_mode = true)
     group_by_clause = [(strict_mode ? strict_email_match : loose_email_match), "phone_index"].join(', ')
     dupes_expr(np_id)
@@ -653,11 +666,20 @@ UNION DISTINCT
   end
 
   def self.loose_address_match
-    "regexp_replace (lower(address),'[^0-9a-z]','','g'), substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
+    loose_address_match_chunks.join(", ")
+  end
+
+  def self.loose_address_match_chunks
+    ["regexp_replace (lower(address),'[^0-9a-z]','','g')",
+    "substring(zip_code from '(([0-9]+.*)*[0-9]+)')"]
   end
 
   def self.loose_name_match
     "regexp_replace (lower(name),'[^0-9a-z]','','g')"
+  end
+
+  def self.calculated_last_name
+    "substring(trim(both from supporters.name) from '^.+ ([^\s]+)$')"
   end
 
   # Create an export that lists donors with their total contributed amounts

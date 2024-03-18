@@ -3,12 +3,10 @@ const h = require('virtual-dom/h')
 const request = require('../../common/super-agent-frp')
 const view = require('vvvview')
 const flyd = require('flyd')
-const flatMap = require('flyd/module/flatmap')
 const thunk = require('vdom-thunk')
 const format = require('../../common/format')
 const Im = require('immutable')
 const fromJS = Im.fromJS
-const Map = Im.Map
 
 var npURL = '/nonprofits/' + app.nonprofit_id
 

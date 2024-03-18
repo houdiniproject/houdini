@@ -36,6 +36,10 @@ FactoryBot.define do
     roles {[
       build(:role, name: 'nonprofit_associate', host: nonprofit)
     ]}
+
+    trait :with_first_name do
+      name { Faker::Name.first_name }
+    end
   end
 
   factory :user_as_super_admin, class: User do

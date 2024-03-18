@@ -2,7 +2,6 @@
 // Utilities!
 // XXX remove this whole file and split into modules with specific concerns
 const phoneFormatter = require('phone-formatter');
-const R = require('ramda')
 
 var utils = {}
 
@@ -15,14 +14,14 @@ utils.capitalize = string =>
 // Print a single message for Rails error responses
 // XXX remove
 utils.print_error = function (response) {
-	var msg = 'Sorry! We encountered an error.'
+	const msg = 'Sorry! We encountered an error.'
 	if(!response) return msg
 	if(response.status === 500) return msg
 	else if(response.status === 404) return "404 - Not found"
 	else if(response.status === 422 || response.status === 401) {
 		if(!response.responseJSON) return msg
 
-		var json = response.responseJSON
+		const json = response.responseJSON
 		if(json.length) return json[0]
 
 		else if(json.errors)
@@ -38,7 +37,7 @@ utils.print_error = function (response) {
 // Retrieve a URL parameter
 // XXX remove
 utils.get_param = function(name) {
-	var param = decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [null])[1])
+	const param = decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [null])[1])
 	return (param == 'undefined') ? undefined : param
 }
 
@@ -51,7 +50,7 @@ utils.change_url_param = function(key, value) {
 // XXX remove. Depended on only by 'change_url_param' above
 utils.update_param = function(key, value, url) {
 	if(!url) url = window.location.href
-	var re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi")
+	const re = new RegExp("([?&])" + key + "=.*?(&|#|$)(.*)", "gi")
 
 	if(re.test(url)) {
 		if(typeof value !== 'undefined' && value !== null)
@@ -79,7 +78,7 @@ utils.update_param = function(key, value, url) {
 // Pad a number with leading zeros
 // XXX remove
 utils.zero_pad = function(num, size) {
-	var str = num + ""
+	let str = num + ""
 	while (str.length < size) str = "0" + str
 	return str
 }
@@ -87,7 +86,7 @@ utils.zero_pad = function(num, size) {
 // for doing an action after the user pauses for a second after an event
 // XXX remove
 utils.delay = (function() {
-	var timer = 0
+	let timer = 0
 	return function(ms, callback) {
 		clearTimeout(timer)
 		timer = setTimeout(callback, ms)
@@ -100,7 +99,7 @@ utils.number_with_commas = function(n) {
 
 // Merge x's properties with y (mutating)
 utils.merge = function(x, y) {
-	for (var key in y) { x[key] = y[key]; }
+	for (const key in y) { x[key] = y[key]; }
 	return x
 }
 
@@ -112,8 +111,8 @@ utils.cents_to_dollars = format.centsToDollars
 // Kind of a re-implementation of: http://www.w3.org/html/wg/drafts/html/master/forms.html#constructing-the-form-data-set
 // XXX remove
 utils.toFormData = function(form_el) {
-	var form_data = new FormData()
-	$(form_el).find('input, select, textarea').each(function(index) {
+	const form_data = new FormData()
+	$(form_el).find('input, select, textarea').each(function() {
 		if(!this.name) return
 		if(this.files && this.files[0])
 			form_data.append(this.name, this.files[0])
@@ -126,7 +125,7 @@ utils.toFormData = function(form_el) {
 }
 
 utils.mergeFormData = function(formData, obj) {
-	for(var key in obj) formData.append(key, obj[key])
+	for(const key in obj) formData.append(key, obj[key])
 	return formData
 }
 
@@ -136,7 +135,7 @@ utils.mergeFormData = function(formData, obj) {
 utils.uniq = function(arr) {
 	var obj = {}
 	var index
-	var len = arr.length
+	const len = arr.length
 	var result = [];
 	for(index = 0; index < len; index += 1) obj[arr[index]] = arr[index];
 	for(index in obj) result.push(obj[index]);

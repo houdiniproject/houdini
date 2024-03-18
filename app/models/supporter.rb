@@ -1,6 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Supporter < ActiveRecord::Base
+class Supporter < ApplicationRecord
   include Model::Houidable
+  include Model::CalculatedNames
   setup_houid :supp, :houid
 
   ADDRESS_FIELDS = ['address', 'city', 'state_code', 'country', 'zip_code']
@@ -50,7 +51,29 @@ class Supporter < ActiveRecord::Base
   belongs_to :nonprofit
   belongs_to :import
   has_many :full_contact_infos
-  has_many :payments
+  has_many :payments do
+    def during_np_year(year)
+      proxy_association.owner.nonprofit.use_zone do
+        where('payments.date >= ? and payments.date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+      end
+    end
+
+    def donation_payments
+      where('kind IN (?)', ['Donation', 'RecurringDonation'])
+    end
+
+    def refund_payments
+      where('kind IN (?)', ['Refund'])
+    end
+
+    def dispute_payments
+      where('kind IN (?)', ['Dispute'])
+    end
+
+    def dispute_reversal_payments
+      where('kind IN (?)', ['DisputeReversed'])
+    end
+  end
   has_many :offsite_payments
 
   has_many :charges
@@ -135,30 +158,6 @@ class Supporter < ActiveRecord::Base
       obj.city = geo.city if obj.city.blank?
       obj.address = geo.address if obj.address.blank?
       obj.country = geo.country if obj.country.blank?
-    end
-  end
-
-  def calculated_first_name
-    name_parts = name&.strip&.split(' ')&.map(&:strip)
-    case name_parts&.count || 0
-    when 0
-      nil
-    when 1
-      name_parts[0]
-    else
-      name_parts[0..-2].join(" ")
-    end
-  end
-
-  def calculated_last_name
-    name_parts = name&.strip&.split(' ')&.map(&:strip)
-    case name_parts&.count || 0
-    when 0
-      nil
-    when 1
-      nil
-    else
-      name_parts[-1]
     end
   end
 

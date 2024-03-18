@@ -4,7 +4,7 @@ require 'rails_helper'
 describe CardsController, type: :request do
   describe 'throttling' do
     before(:each) do
-      FORCE_THROTTLE = true
+      stub_const('FORCE_THROTTLE', true)
     end
     it 'test number of card throttle' do
       6.times {

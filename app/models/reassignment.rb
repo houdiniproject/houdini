@@ -1,4 +1,4 @@
-class Reassignment < ActiveRecord::Base
+class Reassignment < ApplicationRecord
     belongs_to :item, polymorphic: true
     belongs_to :e_tap_import
     belongs_to :source_supporter, class_name: 'Supporter', foreign_key: 'source_supporter_id'

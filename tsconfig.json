@@ -9,13 +9,13 @@
     "target": "es5",
     "jsx": "react",
     "experimentalDecorators": true,
-    "baseUrl": "./",
-    "lib": ["dom","es5", "scripthost", "ES2015"],
+    "lib": ["dom","es5", "scripthost", "es2016"],
     "paths": { "*": [ "./types/*"] },
     "typeRoots" : [
       "node_modules/@types",
       "./types"],
     "esModuleInterop": true,
     "downlevelIteration": true
-  }
+  },
+  "files": ["node_modules/jest-extended/types/index.d.ts"]
 }

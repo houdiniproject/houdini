@@ -92,6 +92,9 @@ Commitchange::Application.configure do
 	config.assets.compile = false
 
 	config.dependency_loading = true if $rails_rake_task
+
+	# we want to be able to show mailer previews
+	config.action_mailer.show_previews = true
 	# Compress json
 	# config.middleware.use Rack::Deflater
 

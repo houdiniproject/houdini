@@ -2,6 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe User, :type => :model do
+	it_behaves_like 'a model with a calculated first and last name'
 
   it {is_expected.to have_db_column(:locked_at).of_type(:datetime)}
   it {is_expected.to have_db_column(:unlock_token).of_type(:string)}

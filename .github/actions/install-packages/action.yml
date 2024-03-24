@@ -9,7 +9,7 @@ runs:
   using: "composite"
   steps:
   
-    - uses: actions/setup-node_@v4
+    - uses: actions/setup-node@v4
       if: ${{ inputs.node != '' }}
       with:
         node-version: ${{ inputs.node }}

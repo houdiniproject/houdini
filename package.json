@@ -93,7 +93,8 @@
     "storybook-addon-intl": "^2.4.1",
     "tiny-warning": "^1.0.3",
     "typescript": "^5",
-    "webpack-dev-server": "^3"
+    "webpack-dev-server": "^4.0",
+    "webpack": "^4.0"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.3",

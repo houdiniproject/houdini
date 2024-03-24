@@ -1,36 +1,59 @@
 ruby:
-- './**/*.rb'
+  - changed-files:
+      - any-glob-to-any-file: "./**/*.rb"
 
 javascript:
-- './**/*.js'
-- './**/*.ts*'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "./**/*.js"
+          - "./**/*.ts*"
 
 spec:
-- 'spec/**'
-- './**/*.spec.js'
-- './**/*.spec.ts*'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "spec/**"
+          - "./**/*.spec.js"
+          - "./**/*.spec.ts*"
 
 model:
-- 'app/models/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "app/models/**"
 
 controller:
-- 'app/controllers/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "app/controllers/**"
 
 mailer:
-- 'app/mailers/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "app/mailers/**"
 
 view:
-- 'app/views/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "app/views/**"
 
 job:
-- 'app/jobs/**'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "app/jobs/**"
 
-dependencies: 
-- 'Gemfile.lock'
-- 'yarn.lock'
-- 'gems/**'
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "Gemfile.lock"
+          - "yarn.lock"
+          - "gems/**"
+
 config:
-- './config/**'
-widget: 
-- 'app/javascript/donate-button/*'
-- 'app/assets/stylesheets/donate-button/*'
+  - changed-files:
+      - any-glob-to-any-file:
+          - "./config/**"
+
+widget:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "app/javascript/donate-button/*"
+          - "app/assets/stylesheets/donate-button/*"

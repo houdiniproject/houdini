@@ -48,24 +48,7 @@ config/environments/*.local.yml
 #local bins we use for builds
 .bin
 
-# thing we want to keep in public
-!public/*.html
-!public/maintenance.html
-!public/favicon.ico
-!public/js/donate-button.js
-!public/images
-!public/images/fallback
-!public/images/fallback/*
-!public/fallback
-!public/fallback/*
-!public/css
-!public/css/donate-button.css
-!public/css/donate-button.v2.css
-!public/svgs
-!public/svgs/*
-
-/public/packs
-/public/packs-test
+/public
 /node_modules
 /yarn-error.log
 yarn-debug.log*

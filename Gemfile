@@ -29,7 +29,7 @@ gem 'premailer-rails', '~> 1.12' # for styling of email
 gem 'money', '~> 6.16'
 
 # Database and Events
-gem 'pg', '~> 1.4'
+gem 'pg', '~> 1.5'
 
 gem 'param_validation', path: 'gems/ruby-param-validation'
 gem 'qx', path: 'gems/ruby-qx'

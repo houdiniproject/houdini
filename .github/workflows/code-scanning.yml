@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 env:
 # this version used for running various tools
-  tool_node_version: "16.x"
+  tool_node_version: "18.x"
   tool_ruby_version: "2.7.8"
 jobs:
   eslint:

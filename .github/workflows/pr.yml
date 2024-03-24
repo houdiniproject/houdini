@@ -18,5 +18,5 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         ruby: [2.7.8]
-        node: [16.x]
+        node: [18.x]
 

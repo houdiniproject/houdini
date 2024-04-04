@@ -20,6 +20,10 @@
 	<p class='u-marginTop--15'>
 		<a href='<%= nonprofits_payouts_url(@nonprofit) %>'> View your payout history </a> 
 	</p>
+
+	<p class='u-marginTop--15'>
+		<a href='<%= verification_nonprofits_stripe_account(@nonprofit) %>'> Complete or update Stripe verification information </a> 
+	</p>
 </section><!-- pane-inner -->
 
 <%= render 'nonprofits/bank_accounts/modal' %>

@@ -93,6 +93,8 @@
     "storybook-addon-intl": "^2.4.1",
     "tiny-warning": "^1.0.3",
     "typescript": "^5",
+    "webpack": "^5",
+    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^3"
   },
   "dependencies": {

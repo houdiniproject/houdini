@@ -16,12 +16,12 @@ runs:
         postgres_password: password
     - name: "Install NPM packages"
       uses: "./.github/actions/install-packages"
-      if: ${{ inputs.node && inputs.node != '' }}
+      if: ${{ inputs.node && inputs.node != '' && inputs.node != 'false' }}
       with:
         node: ${{ inputs.node }}
     - name: "Install Ruby packages"
       uses: "./.github/actions/install-packages"
-      if: ${{ inputs.ruby && inputs.ruby != '' }}
+      if: ${{ inputs.ruby && inputs.ruby != '' && inputs.ruby != 'false' }}
       with:
         ruby: ${{ inputs.ruby }}
     

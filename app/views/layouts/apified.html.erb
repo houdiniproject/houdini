@@ -6,7 +6,6 @@
   <meta name="google-site-verification" content="zBV5-Ac5Gsi8g0f1GXAAtsZJpwE2E52hsthk42moZ3k" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= "#{yield(:title)} - #{Settings.general.name}" %></title>
-  <script src="https://cdn.polyfill.io/v2/polyfill.js?features=default,Intl.~locale.en"></script>
   <%= IncludeAsset.js '/client/js/i18n.js' %>
   <script>
       I18n.defaultLocale = "<%= I18n.default_locale %>"

@@ -127,7 +127,7 @@
     "i18n-js": "^3.0.3",
     "iban": "0.0.8",
     "immutable": "3.7.5",
-    "jquery": "1.11.1",
+    "jquery": "3.5.0",
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.21",
     "lodash-joins": "^3.1.1",

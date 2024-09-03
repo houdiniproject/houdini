@@ -35,7 +35,7 @@ All new backend code and React components should be well tested.
 
 ## Prerequisites
 
-- Node.js 14 (we require 14 because we want the full internationalization built-in)
+- Node.js 16 (we require 16 because we want the full internationalization built-in)
 - Yarn
 - PostgreSQL 12 (10 probably works)
 - Ruby 2.7
@@ -97,7 +97,7 @@ apt install curl -yy
 #### Node and Yarn install
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_14.x | bash -
+curl -sL https://deb.nodesource.com/setup_16.x | bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update
@@ -165,7 +165,7 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 #### Ruby install
 
 ```bash
-rbenv install 2.7.8
+rbenv install 3.0.6
 ```
 
 #### Setup project

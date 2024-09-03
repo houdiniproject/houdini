@@ -72,16 +72,16 @@ RSpec.shared_context :shared_user_context do
     u
   end
 
-  def send(method, *args)
+  def send(method, action, args={})
     case method
     when :get
-      get(*args)
+      get(action, **args)
     when :post
-      post(*args)
+      post(action, **args)
     when :delete
-      delete(*args)
+      delete(action, **args)
     when :put
-      put(*args)
+      put(action, **args)
     end
   end
 

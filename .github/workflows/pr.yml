@@ -16,7 +16,8 @@ jobs:
       node: ${{ matrix.node }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
-        ruby: [2.7.8]
-        node: [14.x]
+        os: [ubuntu-latest]
+        ruby: [3.1.6, 3.0.6]
+        node: [16.x]
+      fail-fast: false
 

@@ -300,7 +300,7 @@ describe InsertTickets do
           expect(Houdini.event_publisher).to receive(:announce).with(:trx_assignment_created, any_args).ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:transaction_created, any_args).ordered
           result = InsertTickets.create(tickets: [{ quantity: 1, ticket_level_id: ticket_level.id }], nonprofit_id: nonprofit.id, supporter_id: supporter.id, token: source_token.token, event_id: event.id, kind: 'offsite', offsite_payment: { kind: 'check', check_number: 'fake_checknumber' }, current_user: user)
-          
+
           expected = generate_expected_tickets(payment_id: result['payment'].id,
                                                nonprofit: nonprofit,
                                                supporter: supporter,
@@ -391,7 +391,7 @@ describe InsertTickets do
           success_expectations
           expect(Houdini.event_publisher).to receive(:announce).with(:ticket_level_created, any_args).twice
           expect(Houdini.event_publisher).to receive(:announce).with(:event_discount_created, any_args)
-          
+
           expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_charge_created, any_args).ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:payment_created, any_args).ordered
           expect(Houdini.event_publisher).to receive(:announce).with(:stripe_transaction_created, any_args).ordered
@@ -421,7 +421,7 @@ describe InsertTickets do
                                                             currency: 'usd',
                                                             description: 'Tickets The event of Wonders',
                                                             statement_descriptor: 'Tickets The event of W',
-                                                            metadata: { kind: 'Ticket', event_id: event.id, nonprofit_id: nonprofit.id } }, stripe_account: nonprofit.stripe_account_id).and_wrap_original { |m, *args|
+                                                            metadata: { kind: 'Ticket', event_id: event.id, nonprofit_id: nonprofit.id } }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original { |m, *args|
                                       a = m.call(*args)
                                       stripe_charge_id = a['id']
                                       a

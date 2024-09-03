@@ -170,7 +170,7 @@ describe InsertCharge do
                                                           currency: 'usd',
                                                           description: 'our statement<> blah-no-way',
                                                           statement_descriptor: 'our statement blah-n',
-                                                          metadata: nil }, stripe_account: nonprofit.stripe_account_id).and_wrap_original { |m, *args| m.call(*args) }
+                                                          metadata: nil }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original { |m, *args| m.call(*args) }
         StripeMockHelper.prepare_card_error(:card_declined)
 
         finished_result = InsertCharge.with_stripe(amount: 100,
@@ -196,7 +196,7 @@ describe InsertCharge do
                                                           currency: 'usd',
                                                           description: 'our statement<> blah-no-way',
                                                           statement_descriptor: 'our statement blah-n',
-                                                          metadata: nil }, stripe_account: nonprofit.stripe_account_id).and_wrap_original { |m, *args| m.call(*args) }
+                                                          metadata: nil }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original { |m, *args| m.call(*args) }
         StripeMockHelper.prepare_error(Stripe::StripeError.new('blah'), :new_charge)
 
         finished_result = InsertCharge.with_stripe(amount: 100,
@@ -236,7 +236,7 @@ describe InsertCharge do
                                                             currency: 'usd',
                                                             description: 'our statement<> blah-no-way',
                                                             statement_descriptor: 'our statement blah-n',
-                                                            metadata: nil }, stripe_account: nonprofit.stripe_account_id).and_wrap_original { |m, *args|
+                                                            metadata: nil }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original { |m, *args|
                                       a = m.call(*args)
                                       stripe_charge_id = a['id']
                                       a
@@ -280,7 +280,7 @@ describe InsertCharge do
                                                             currency: 'usd',
                                                             description: 'our statement<> blah-no-way',
                                                             statement_descriptor: 'our statement blah-n',
-                                                            metadata: nil }, stripe_account: nonprofit.stripe_account_id).and_wrap_original { |m, *args|
+                                                            metadata: nil }, {stripe_account: nonprofit.stripe_account_id}).and_wrap_original { |m, *args|
                                       a = m.call(*args)
                                       stripe_charge_id = a['id']
                                       a

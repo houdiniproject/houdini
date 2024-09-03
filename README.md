@@ -165,7 +165,7 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 #### Ruby install
 
 ```bash
-rbenv install 2.7.8
+rbenv install 3.0.6
 ```
 
 #### Setup project

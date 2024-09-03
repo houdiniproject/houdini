@@ -37,7 +37,7 @@ updates:
     directory: "/"
     ignore:
       - dependency-name: "*"
-      - update-types:
+        update-types:
           - version-update:semver-major
     schedule:
       interval: "weekly"

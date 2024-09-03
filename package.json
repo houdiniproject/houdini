@@ -45,7 +45,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/activestorage": "^5.2.7",
     "@types/color": "^3.0.0",
-    "@types/enzyme": "^3.10.18",
+    "@types/enzyme": "3.10.5",
     "@types/enzyme-to-json": "^1.5.1",
     "@types/hoist-non-react-statics": "^3.3.5",
     "@types/i18n-js": "^3.8.0",

@@ -182,7 +182,7 @@ GEM
       rubocop
       smart_properties
     erubi (1.13.0)
-    et-orbi (1.2.7)
+    et-orbi (1.2.11)
       tzinfo
     execjs (2.8.1)
     factory_bot (6.2.1)
@@ -193,12 +193,12 @@ GEM
     fast_blank (1.0.1)
     ffi (1.15.5)
     fiber-local (1.0.0)
-    fugit (1.9.0)
-      et-orbi (~> 1, >= 1.2.7)
+    fugit (1.11.1)
+      et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    good_job (3.21.4)
+    good_job (3.99.1)
       activejob (>= 6.0.0)
       activerecord (>= 6.0.0)
       concurrent-ruby (>= 1.0.2)
@@ -282,7 +282,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.3)
-    nokogiri (1.15.6)
+    nokogiri (1.16.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -512,7 +512,7 @@ DEPENDENCIES
   factory_bot (~> 6.2)
   factory_bot_rails (~> 6.2)
   fast_blank
-  good_job (~> 3.21)
+  good_job (~> 3.99)
   hamster (~> 3.0)
   houdini_full_contact!
   http_accept_language

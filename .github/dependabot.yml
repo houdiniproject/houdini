@@ -53,6 +53,17 @@ updates:
         update-types:
           - minor
           - patch
+        exclude-patterns:
+          - "eslint*"
+          - "@typescript-eslint*"
+      npm-eslint-development:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint*"
       npm-minor-production:
         dependency-type: production
         update-types:

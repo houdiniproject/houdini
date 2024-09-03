@@ -39,6 +39,9 @@ updates:
       - dependency-name: "*"
         update-types:
           - version-update:semver-major
+      - dependency-name: "eslint-plugin-storybook"
+        versions:
+          - ">= 0.7" # 0.7 requires node 18 and we don't support that yet
     schedule:
       interval: "weekly"
     groups:

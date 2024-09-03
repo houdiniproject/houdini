@@ -50,7 +50,29 @@ module.exports = function(api) {
       'babel-plugin-macros',
       '@babel/plugin-syntax-dynamic-import',
       isTestEnv && 'babel-plugin-dynamic-import-node',
+      '@babel/plugin-transform-destructuring',
       ["@babel/plugin-proposal-decorators", { legacy: true }],
+      [
+        '@babel/plugin-proposal-object-rest-spread',
+        {
+          useBuiltIns: true,
+        },
+      ],
+      ["@babel/plugin-proposal-class-properties"],
+      [
+        '@babel/plugin-transform-runtime',
+        {
+          helpers: false,
+          regenerator: true,
+          corejs: false,
+        },
+      ],
+      [
+        '@babel/plugin-transform-regenerator',
+        {
+          async: false,
+        },
+      ],
       isProductionEnv && [
         'babel-plugin-transform-react-remove-prop-types',
         {

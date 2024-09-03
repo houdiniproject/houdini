@@ -13,7 +13,7 @@ jobs:
   npm-package-download:
     name: Download NPM packages
     runs-on: ${{ inputs.os }}
-    if: ${{ inputs.node != '' }}
+    if: ${{ inputs.node && inputs.node != ''  && inputs.node != 'false'}}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-packages
@@ -22,7 +22,7 @@ jobs:
   ruby-package-download:
     name: Download Ruby packages
     runs-on: ${{ inputs.os }}
-    if: ${{ inputs.ruby != '' }}
+    if: ${{ inputs.ruby && inputs.ruby != '' && inputs.ruby != 'false' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/install-packages

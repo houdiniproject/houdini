@@ -17,6 +17,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04]
-        ruby: [2.7.7]
-        node: [14.x]
+        ruby: [2.7.8]
+        node: [16.x]
 

@@ -13,11 +13,45 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"] # we don't want to have semver-major changes
+    groups:
+      ruby-minor-development:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+      ruby-minor-production:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
     open-pull-requests-limit: 10
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*" # group all github actions
+  - package-ecosystem: npm
+    directory: "/"
+    ignore:
+      - update-types:
+          - version-update:semver-major
+    schedule:
+      interval: "weekly"
+    groups:
+      npm-minor-development:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+      npm-minor-production:
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+      
     
 
 

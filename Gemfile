@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '6.1.7.6'
+gem 'rails', '6.1.7.7'
 gem 'jbuilder', '~> 2.11'
 gem 'bootsnap', '~> 1.18', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
@@ -29,7 +29,7 @@ gem 'premailer-rails', '~> 1.12' # for styling of email
 gem 'money', '~> 6.16'
 
 # Database and Events
-gem 'pg', '~> 1.4'
+gem 'pg', '~> 1.5'
 
 gem 'param_validation', path: 'gems/ruby-param-validation'
 gem 'qx', path: 'gems/ruby-qx'

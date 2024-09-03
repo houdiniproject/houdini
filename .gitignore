@@ -86,3 +86,6 @@ app/javascript/routes.d.ts
 
 # data files you'd never want to commit
 *.csv
+
+# used for builds of the storybook
+storybook-static

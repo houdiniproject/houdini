@@ -36,7 +36,8 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     ignore:
-      - update-types:
+      - dependency-name: "*"
+        update-types:
           - version-update:semver-major
     schedule:
       interval: "weekly"

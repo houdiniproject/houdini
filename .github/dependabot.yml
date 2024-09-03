@@ -36,6 +36,7 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     ignore:
+      - dependency-name: "*"
       - update-types:
           - version-update:semver-major
     schedule:

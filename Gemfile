@@ -104,3 +104,5 @@ gem 'kaminari'
 gem 'http_accept_language'
 
 gem "js-routes"
+
+gem "csv"

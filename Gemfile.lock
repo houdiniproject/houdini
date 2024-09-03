@@ -511,6 +511,7 @@ DEPENDENCIES
   chronic (~> 0.10.2)
   colorize (~> 0.8.1)
   countries (~> 4.2)
+  csv
   database_cleaner-active_record
   date (~> 3.3.4)
   debug

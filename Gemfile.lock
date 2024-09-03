@@ -185,10 +185,10 @@ GEM
     et-orbi (1.2.7)
       tzinfo
     execjs (2.8.1)
-    factory_bot (6.2.1)
+    factory_bot (6.4.6)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.2.0)
-      factory_bot (~> 6.2.0)
+    factory_bot_rails (6.4.3)
+      factory_bot (~> 6.4)
       railties (>= 5.0.0)
     fast_blank (1.0.1)
     ffi (1.15.5)
@@ -509,7 +509,7 @@ DEPENDENCIES
   devise-async (~> 1.0)
   dotenv-rails (~> 2.8)
   erb_lint
-  factory_bot (~> 6.2)
+  factory_bot (~> 6.4)
   factory_bot_rails (~> 6.2)
   fast_blank
   good_job (~> 3.21)

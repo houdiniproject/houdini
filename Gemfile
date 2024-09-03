@@ -77,8 +77,8 @@ group :ci, :test do
   gem 'database_cleaner-active_record'
   gem 'stripe-ruby-mock', '~> 2.4.1', require: 'stripe_mock', git: 'https://github.com/commitchange/stripe-ruby-mock.git', branch: '2.4.1'
   gem 'test-unit', '~> 3.6'
-  gem 'timecop', '~> 0.9.8'
-  gem 'webmock', '~> 3.20'
+  gem 'timecop', '~> 0.9.10'
+  gem 'webmock', '~> 3.23'
   gem 'wisper-rspec', '~> 1.1.0'
 end
 

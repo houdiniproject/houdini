@@ -42,6 +42,9 @@ updates:
       - dependency-name: "eslint-plugin-storybook"
         versions:
           - ">= 0.7" # 0.7 requires node 18 and we don't support that yet
+      - dependency-name: "react-hook-form"
+        versions:
+          - "> 7.52.1" # anything later than 7.52.1 require node 18
     schedule:
       interval: "weekly"
     groups:

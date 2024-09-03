@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 require 'rails_helper'
 
-RSpec.describe Model::Eventable do 
+RSpec.describe Model::Eventable do
 
 	let(:event_type) {'model.event_name'}
 	class ClassWithoutToBuilder
@@ -21,14 +21,14 @@ RSpec.describe Model::Eventable do
 		end
 	end
 
-	it 'raises NotImplementedError when no to_builder is defined by developer' do 
+	it 'raises NotImplementedError when no to_builder is defined by developer' do
 		obj = ClassWithoutToBuilder.new
 		expect { obj.to_event event_type}.to raise_error(NotImplementedError)
 	end
 
-	it 'returns an proper event when to_builder is defined by developer' do 
+	it 'returns an proper event when to_builder is defined by developer' do
 		obj = ClassWithToBuilder.new
-		expect(obj.to_event event_type).to eq({
+		expect(obj.to_event event_type).to match({
 			'id' => match(/objevt_[a-zA-Z0-9]{22}/),
 			'object' => 'object_event',
 			'type' => event_type,

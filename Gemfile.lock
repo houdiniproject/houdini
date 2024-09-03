@@ -563,4 +563,4 @@ DEPENDENCIES
   wisper-rspec (~> 1.1.0)
 
 BUNDLED WITH
-   2.2.33
+   2.5.18

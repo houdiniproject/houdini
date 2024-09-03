@@ -9,7 +9,7 @@ These include:
 
 * PostgreSQL 12 (10 probably works)
 * NodeJS 14 (we require 14 because we want the full internationalization built-in)
-* Ruby 2.7.8
+* Ruby 3.0.6
 
 There are a few optional tools that make working on Houdini easier:
 
@@ -118,7 +118,7 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 #### Ruby install
 
 ```bash
-rbenv install 2.7.8
+rbenv install 3.0.6
 ```
 
 > Note: if a build failure occurs, installing the following packages may solve

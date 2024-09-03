@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '6.1.7.8'
-gem 'jbuilder', '~> 2.11'
+gem 'jbuilder', '~> 2.12'
 gem 'bootsnap', '~> 1.18', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.6'
@@ -17,7 +17,7 @@ gem 'good_job', '~> 3.99'
 # fix for https://www.ruby-lang.org/en/news/2021/11/15/date-parsing-method-regexp-dos-cve-2021-41817/
 gem "date", "~> 3.3.4"
 
-gem 'httparty', '~> 0.21.0' # https://github.com/jnunemaker/httparty
+gem 'httparty', '~> 0.22.0' # https://github.com/jnunemaker/httparty
 gem 'sprockets', '~> 3.7'
 
 # Helpers
@@ -26,7 +26,7 @@ gem 'countries', '~> 4.2'
 gem 'i18n-js', '~> 3.8', git: 'https://github.com/houdiniproject/i18n-js.git', branch: 'houdini-tweaks'
 gem 'rails-i18n', '~> 6.0.0', '~> 6'
 gem 'premailer-rails', '~> 1.12' # for styling of email
-gem 'money', '~> 6.16'
+gem 'money', '~> 6.19'
 
 # Database and Events
 gem 'pg', '~> 1.5'
@@ -38,7 +38,7 @@ gem 'qx', path: 'gems/ruby-qx'
 gem 'fast_blank'
 
 # Images
-gem 'image_processing', '~> 1.12.2'
+gem 'image_processing', '~> 1.13.0'
 
 # URL validation
 gem 'validate_url'
@@ -90,7 +90,7 @@ group :production do
   # like heroku, uncomment the `heroku-deflater` line.
   #
   # gem 'heroku-deflater', '~> 0.6.3' # https://github.com/romanbsd/heroku-deflater
-  gem 'rack-timeout', '~> 0.6.3'
+  gem 'rack-timeout', '~> 0.7.0'
 end
 
 gem 'bess', path: 'gems/bess'

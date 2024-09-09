@@ -296,7 +296,7 @@ GEM
     parser (3.3.4.2)
       ast (~> 2.4.1)
       racc
-    pg (1.5.7)
+    pg (1.5.8)
     power_assert (2.0.3)
     premailer (1.18.0)
       addressable
@@ -443,7 +443,7 @@ GEM
     simple_po_parser (1.1.6)
     sixarm_ruby_unaccent (1.2.0)
     smart_properties (1.17.0)
-    sprockets (3.7.3)
+    sprockets (3.7.4)
       base64
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)

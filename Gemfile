@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '6.1.7.8'
-gem 'jbuilder', '~> 2.12'
+gem 'jbuilder', '~> 2.13'
 gem 'bootsnap', '~> 1.18', require: false # Large rails application booting enhancer
 gem 'hamster', '~> 3.0' # Thread-safe collection classes for Ruby
 gem 'puma', '~> 5.6'

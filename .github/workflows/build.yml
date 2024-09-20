@@ -16,7 +16,7 @@ jobs:
           os: [ubuntu-20.04]
           node: [14.19.1, 16]
           ruby: ['2.6.10']
-          postgres: ['13', '16']
+          postgres: ['16']
         fail-fast: false
       steps:
         - uses: actions/checkout@v4

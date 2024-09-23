@@ -160,6 +160,28 @@ module QuerySupporters
   #   return new_supporters
   # end
 
+  def self.undeleted_supporters(np_id)
+    
+    Qx.select('id')
+        .from(:supporters)
+        .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
+  end
+
+  def self.tag_joins_only_for_nonprofit_query(np_id)
+    Qx.select("tag_joins.id, tag_joins.supporter_id, tag_joins.tag_master_id")
+              .from(:tag_joins)
+              .join(undeleted_supporters(np_id).as('tags_to_supporters'), "tags_to_supporters.id = tag_joins.supporter_id")
+  end
+
+  def self.build_tag_query(np_id)
+
+    tags_query =  Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
+      .from(tag_joins_only_for_nonprofit_query(np_id).as(:tag_joins))
+      .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
+      .where("tag_masters.nonprofit_id = $id AND NOT tag_masters.deleted ", id: np_id.to_i)
+      .group_by("tag_joins.supporter_id")
+      .as(:tags)
+  end
 
   # Perform all filters and search for /nonprofits/id/supporters dashboard and export
   def self.full_filter_expr(np_id, query)
@@ -178,12 +200,14 @@ module QuerySupporters
       .group_by(:supporter_id)
       .as(:payments)
 
-    tags_subquery = Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
-      .from(:tag_joins)
-      .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
-      .where("tag_masters.nonprofit_id = $id AND NOT tag_masters.deleted", id: np_id.to_i)
-      .group_by("tag_joins.supporter_id")
-      .as(:tags)
+    # tags_subquery = Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
+    #   .from(:tag_joins)
+    #   .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
+    #   .where("tag_masters.nonprofit_id = $id AND NOT tag_masters.deleted", id: np_id.to_i)
+    #   .group_by("tag_joins.supporter_id")
+    #   .as(:tags)
+
+    tags_subquery = build_tag_query(np_id)
 
     expr = Qx.select('supporters.id')
       .from(:supporters)

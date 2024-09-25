@@ -24,6 +24,6 @@ class NonprofitQueryGenerator
   def tag_joins_through_supporters
     Qx.select("tag_joins.id, tag_joins.supporter_id, tag_joins.tag_master_id")
       .from(:tag_joins)
-      .join(:supporters, "tags_to_supporters.id = tag_joins.supporter_id")
+      .join(:supporters, "supporters.id = tag_joins.supporter_id")
   end
 end

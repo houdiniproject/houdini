@@ -177,7 +177,6 @@ module QuerySupporters
     tags_query =  Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
       .from(tag_joins_only_for_nonprofit_query(np_id).as(:tag_joins))
       .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
-      .where("tag_masters.nonprofit_id = $id AND NOT tag_masters.deleted ", id: np_id.to_i)
       .group_by("tag_joins.supporter_id")
       .as(:tags)
   end
@@ -191,7 +190,6 @@ module QuerySupporters
               .from(Qx.select('*').from(:payments).where("nonprofit_id = $id", id: np_id).as(:payments).parse)
               .join(Qx.select('id')
                         .from(:supporters)
-                        .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
                         .as("payments_to_supporters"),  "payments_to_supporters.id = payments.supporter_id"
               )
               .as("outer_from_payment_to_supporter")

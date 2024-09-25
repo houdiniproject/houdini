@@ -211,6 +211,7 @@ module QuerySupporters
 
     expr = Qx.select('supporters.id')
       .with(:nonprofits, Qx.select("*").from(:nonprofits).where("id = $id", id: np_id.to_i))
+      .with(:tag_masters, Qx.select("*").from(:tag_masters).where("nonprofit_id = $id AND NOT deleted", id: np_id.to_i))
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .where(

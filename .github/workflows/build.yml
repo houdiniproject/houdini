@@ -14,7 +14,7 @@ jobs:
       strategy:
         matrix:
           os: [ubuntu-20.04]
-          node: [14.19.1, 16]
+          node: [16]
           ruby: ['2.6.10']
           postgres: ['16']
         fail-fast: false

@@ -159,25 +159,18 @@ module QuerySupporters
   #
   #   return new_supporters
   # end
-  def self.undeleted_supporters(np_id)
-    
-    Qx.select('id')
-        .from(:supporters)
-        .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
-  end
 
   def self.tag_joins_only_for_nonprofit_query(np_id)
     Qx.select("tag_joins.id, tag_joins.supporter_id, tag_joins.tag_master_id")
               .from(:tag_joins)
-              .join(undeleted_supporters(np_id).as('tags_to_supporters'), "tags_to_supporters.id = tag_joins.supporter_id")
+              .join(:supporters, "supporters.id = tag_joins.supporter_id")
   end
 
   def self.build_tag_query(np_id)
 
     tags_query =  Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
-      .from(tag_joins_only_for_nonprofit_query(np_id).as(:tag_joins))
+      .from(:tag_joins)
       .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
-      .where("tag_masters.nonprofit_id = $id AND NOT tag_masters.deleted ", id: np_id.to_i)
       .group_by("tag_joins.supporter_id")
       .as(:tags)
   end
@@ -191,8 +184,7 @@ module QuerySupporters
               .from(:nonprofit_payments)
               .join(Qx.select('id')
                         .from(:supporters)
-                        .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
-                        .as("payments_to_supporters"),  "payments_to_supporters.id = nonprofit_payments.supporter_id"
+                        .as("payments_to_supporters"),  "payments_to_supporters.id = payments.supporter_id"
               )
               .as("outer_from_payment_to_supporter")
               .parse)
@@ -215,6 +207,7 @@ module QuerySupporters
       .with(:supporters, np_queries.supporters)
       .with(:supporter_notes, np_queries.supporter_notes)
       .with(:nonprofit_payments, np_queries.payments)
+      .with(:tag_joins, np_queries.tag_joins_through_supporters)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .left_join(

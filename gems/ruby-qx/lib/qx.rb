@@ -516,7 +516,7 @@ class Qx
   end
 
   def self.parse_with(with)
-    with[:name] + " AS (#{with[:expr].parse})"
+    with[:name].to_s + " AS (#{with[:expr].parse})"
   end
 
   # Given an array, determine if it has the form

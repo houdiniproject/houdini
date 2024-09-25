@@ -67,6 +67,7 @@ class Qx
         str += expr[:WITHS].map do |with|
           parse_with(with)
         end.join(", ")
+        str += " " # add a splitting space before the rest of the query
       end
       if expr[:INSERT_INTO]
         str +=  "INSERT INTO #{expr[:INSERT_INTO]} (#{expr[:INSERT_COLUMNS].join(', ')})"

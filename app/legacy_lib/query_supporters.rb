@@ -211,8 +211,8 @@ module QuerySupporters
     np_queries = NonprofitQueryGenerator.new(np_id)
 
     expr = Qx.select('supporters.id')
-      .with(:nonprofits, np_queries.nonprofits(np_id))
-      .with(:tag_masters, np_queries.tag_masters(np_id))
+      .with(:nonprofits, np_queries.nonprofits)
+      .with(:tag_masters, np_queries.tag_masters)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .where(

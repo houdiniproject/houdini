@@ -184,7 +184,7 @@ module QuerySupporters
               .from(:nonprofit_payments)
               .join(Qx.select('id')
                         .from(:supporters)
-                        .as("payments_to_supporters"),  "payments_to_supporters.id = payments.supporter_id"
+                        .as("payments_to_supporters"),  "payments_to_supporters.id = nonprofit_payments.supporter_id"
               )
               .as("outer_from_payment_to_supporter")
               .parse)
@@ -284,7 +284,7 @@ module QuerySupporters
     
     if query[:recurring].present?
       rec_ps_subquery = Qx.select("payments.count", "payments.supporter_id")
-        .from(:payments)
+        .from(:nonprofit_payments)
         .where("kind='RecurringDonation'")
         .group_by("payments.supporter_id")
         .as(:rec_ps)

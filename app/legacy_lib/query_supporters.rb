@@ -188,11 +188,11 @@ module QuerySupporters
         Qx.select("supporter_id", "SUM(gross_amount)", "MAX(date) AS max_date", "MIN(date) AS min_date", "COUNT(*) AS count")
       .from(
           Qx.select("supporter_id", "date", "gross_amount")
-              .from(Qx.select('*').from(:payments).where("nonprofit_id = $id", id: np_id).as(:payments).parse)
+              .from(:nonprofit_payments)
               .join(Qx.select('id')
                         .from(:supporters)
                         .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
-                        .as("payments_to_supporters"),  "payments_to_supporters.id = payments.supporter_id"
+                        .as("payments_to_supporters"),  "payments_to_supporters.id = nonprofit_payments.supporter_id"
               )
               .as("outer_from_payment_to_supporter")
               .parse)
@@ -214,6 +214,7 @@ module QuerySupporters
       .with(:tag_masters, np_queries.tag_masters)
       .with(:supporters, np_queries.supporters)
       .with(:supporter_notes, np_queries.supporter_notes)
+      .with(:nonprofit_payments, np_queries.payments)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .left_join(
@@ -404,7 +405,7 @@ UNION DISTINCT
 
 
       get_last_payment_query = Qx.select('supporter_id', "MAX(date) AS date")
-                                   .from(:payments)
+                                   .from(:nonprofit_payments)
                                    .group_by("supporter_id")
                                    .as("last_payment")
 

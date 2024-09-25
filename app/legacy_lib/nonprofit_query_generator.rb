@@ -13,6 +13,10 @@ class NonprofitQueryGenerator
       .where("supporters.nonprofit_id = $id and deleted != 'true'", id: @id )
   end
 
+  def payments
+    Qx.select('*').from(:payments).where("nonprofit_id = $id", id: @id)
+  end
+
   def supporter_notes
     Qx.select("supporter_notes.*").from(:supporters).join(:supporter_notes, "supporters.id = supporter_notes.supporter_id")
   end

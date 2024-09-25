@@ -213,6 +213,7 @@ module QuerySupporters
       .with(:nonprofits, np_queries.nonprofits)
       .with(:tag_masters, np_queries.tag_masters)
       .with(:supporters, np_queries.supporters)
+      .with(:supporter_notes, np_queries.supporter_notes)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .left_join(

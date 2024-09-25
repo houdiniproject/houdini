@@ -215,10 +215,6 @@ module QuerySupporters
       .with(:supporters, np_queries.supporters)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
-      .where(
-        ["supporters.nonprofit_id=$id", id: np_id.to_i],
-        ["supporters.deleted != true"]
-      )
       .left_join(
          [tags_subquery, "tags.supporter_id=supporters.id"],
          [payments_subquery, "payments.supporter_id=supporters.id"]

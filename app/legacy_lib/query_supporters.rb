@@ -159,7 +159,6 @@ module QuerySupporters
   #
   #   return new_supporters
   # end
-
   def self.undeleted_supporters(np_id)
     
     Qx.select('id')
@@ -213,6 +212,7 @@ module QuerySupporters
     expr = Qx.select('supporters.id')
       .with(:nonprofits, np_queries.nonprofits)
       .with(:tag_masters, np_queries.tag_masters)
+      .with(:supporters, np_queries.supporters)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .where(

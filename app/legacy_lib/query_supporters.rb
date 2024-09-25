@@ -159,13 +159,6 @@ module QuerySupporters
   #
   #   return new_supporters
   # end
-
-  def self.supporters(np_id)
-    Qx.select('supporters.*')
-      .from(:supporters)
-      .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
-  end
-
   def self.undeleted_supporters(np_id)
     
     Qx.select('id')
@@ -214,17 +207,14 @@ module QuerySupporters
     #   .as(:tags)
 
     tags_subquery = build_tag_query(np_id)
+    np_queries = NonprofitQueryGenerator.new(np_id)
 
     expr = Qx.select('supporters.id')
-      .with(:nonprofits, Qx.select("*").from(:nonprofits).where("id = $id", id: np_id.to_i))
-      .with(:tag_masters, Qx.select("*").from(:tag_masters).where("nonprofit_id = $id AND NOT deleted", id: np_id.to_i))
-      .with(:supporters, supporters(np_id))
+      .with(:nonprofits, np_queries.nonprofits)
+      .with(:tag_masters, np_queries.tag_masters)
+      .with(:supporters, np_queries.supporters)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
-      .where(
-        ["supporters.nonprofit_id=$id", id: np_id.to_i],
-        ["supporters.deleted != true"]
-      )
       .left_join(
          [tags_subquery, "tags.supporter_id=supporters.id"],
          [payments_subquery, "payments.supporter_id=supporters.id"]

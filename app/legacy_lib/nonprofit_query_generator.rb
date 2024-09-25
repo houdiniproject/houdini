@@ -14,7 +14,7 @@ class NonprofitQueryGenerator
   end
 
   def supporter_notes
-    Qx.select("*").from(:supporters).join(:supporter_notes, "supporters.id = supporters_notes.supporter_id")
+    Qx.select("*").from(:supporters).join(:supporter_notes, "supporters.id = supporter_notes.supporter_id")
   end
     
 

@@ -210,6 +210,7 @@ module QuerySupporters
     tags_subquery = build_tag_query(np_id)
 
     expr = Qx.select('supporters.id')
+      .with(:nonprofits, Qx.select("*").from(:nonprofits).where("id = $id", id: np_id.to_i))
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
       .where(

@@ -283,10 +283,10 @@ module QuerySupporters
     end
     
     if query[:recurring].present?
-      rec_ps_subquery = Qx.select("payments.count", "payments.supporter_id")
+      rec_ps_subquery = Qx.select("nonprofit_payments.count", "nonprofit_payments.supporter_id")
         .from(:nonprofit_payments)
         .where("kind='RecurringDonation'")
-        .group_by("payments.supporter_id")
+        .group_by("nonprofit_payments.supporter_id")
         .as(:rec_ps)
       expr = expr.add_left_join(rec_ps_subquery, "rec_ps.supporter_id=supporters.id")
         .and_where('rec_ps.count > 0')

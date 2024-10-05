@@ -110,7 +110,7 @@
     "classnames": "^2.3.1",
     "color": "^3.1.0",
     "commons.css": "0.1.8",
-    "cookie": "0.3.1",
+    "cookie": "0.7.0",
     "data-tooltip": "0.0.1",
     "dotize": "^0.2.0",
     "dragula": "3.7.1",

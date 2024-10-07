@@ -235,8 +235,9 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    js-routes (2.2.8)
+    js-routes (2.2.10)
       railties (>= 4)
+      sorbet-runtime
     json (2.7.2)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -443,6 +444,7 @@ GEM
     simple_po_parser (1.1.6)
     sixarm_ruby_unaccent (1.2.0)
     smart_properties (1.17.0)
+    sorbet-runtime (0.5.11597)
     sprockets (3.7.5)
       base64
       concurrent-ruby (~> 1.0)

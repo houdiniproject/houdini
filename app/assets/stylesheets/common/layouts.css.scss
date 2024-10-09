@@ -101,9 +101,9 @@ Full license explanation at https://github.com/houdiniproject/houdini/blob/main/
 .fieldsLayout--three {
 	@include fieldsLayout;
 	& > .field { width: 33.333%; }
-	& > .field:nth-of-type(3n -2) { padding: 0 10px 0 0; }
-	& > .field:nth-of-type(3n -1) { padding: 0 5px; }
-	& > .field:nth-of-type(3n) { padding:0 0 0 10px; }
+	// & > .field:nth-of-type(3n -2) { padding: 0 10px 0 0; }
+	// & > .field:nth-of-type(3n -1) { padding: 0 5px; }
+	// & > .field:nth-of-type(3n) { padding:0 0 0 10px; }
 }
 
 .fieldsLayout--four {
@@ -127,14 +127,14 @@ Full license explanation at https://github.com/houdiniproject/houdini/blob/main/
 }
 
 @mixin fieldsetLayout {
-	clear: both;
-	overflow: auto;
-	fieldset {
-		display: inline-block;
-		float: left;
-		margin-left: 0;
-		margin-right: 0;
-	}
+	// clear: both;
+	// overflow: auto;
+	// fieldset {
+	// 	display: inline-block;
+	// 	float: left;
+	// 	margin-left: 0;
+	// 	margin-right: 0;
+	// }
 }
 
 
@@ -167,9 +167,15 @@ Full license explanation at https://github.com/houdiniproject/houdini/blob/main/
 
 .fieldsetLayout--three--evenPadding {
 	@include fieldsetLayout;
-	fieldset {
-		width: 33.33% !important;
-		padding: 0 5px;
+	display: flex;
+	align-content: stretch;
+	row-gap: 10px;
+	column-gap: 10px;
+	flex-wrap: wrap;
+	justify-items: stretch;
+
+	> * {
+		flex: 1 1 25%;
 	}
 }
 

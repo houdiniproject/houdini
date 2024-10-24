@@ -6,9 +6,10 @@
 	position: relative;
 	overflow: hidden;
 	background: $fog;
+	display: flex;
+	gap: 15px;
 }
 .titleRow-info {
-	float: left;
 	max-width: 85%;
 }
 .titleRow h2 {
@@ -30,10 +31,13 @@
 	font-size: 14px;
 	color: rgba($logo-blue, 0.9);
 }
-.titleRow img {
-	float: left;
-	padding-right: 15px;
+.titleRow img.logo {
 	max-width: 15%;
+	max-height: 55px;
+	flex-shrink: 0;
+}
+.titleRow-info img {
+	max-width: 85%;
 	max-height: 55px;
 }
 #donate .closeButton {

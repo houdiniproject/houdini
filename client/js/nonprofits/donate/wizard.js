@@ -156,7 +156,14 @@ const postDedication = (dedication, donor, donation) => {
 
 const titleInfo = state => {
   if (state.params$().title_image_url) {
-    return [h('img', { props: { src: state.params$().title_image_url } })];
+    return [
+      h('img', {
+        props: {
+          src: state.params$().title_image_url
+        , alt: state.params$().title_image_alt || app.campaign.tagline || app.nonprofit.tagline || ''
+        },
+      }),
+    ];
   }
 
   return [

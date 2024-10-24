@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ~/tmp/houdini/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=houdini_user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=houdini_development
+  web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_HOST=db
+    depends_on:
+      - db

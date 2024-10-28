@@ -5,24 +5,37 @@ const {getDefaultAmounts} = require('./custom_amounts');
 describe('.getParams', () => {
   describe('custom_amounts:', () => {
     it('gives custom_amounts defaults if not passed in', () => {
-      expect(getParams({})).toHaveProperty('custom_amounts', getDefaultAmounts());
+      expect(getParams({})).toHaveProperty(
+        'custom_amounts',
+        getDefaultAmounts().map((a) => ({ amount: a, highlight: false }))
+      );
     });
 
     it('accepts integers', () => {
-      expect(getParams({custom_amounts: '3'})).toHaveProperty('custom_amounts', [3]);
+      expect(getParams({custom_amounts: '3'})).toHaveProperty('custom_amounts', [{ amount: 3, highlight: false }]);
     });
 
     it('accepts floats', () => {
-      expect(getParams({custom_amounts: '3.5'})).toHaveProperty('custom_amounts', [3.5]);
+      expect(getParams({ custom_amounts: '3.5' })).toHaveProperty('custom_amounts', [
+        { amount: 3.5, highlight: false },
+      ]);
     });
 
     it('splits properly', () => {
-      expect(getParams({custom_amounts: '3.5,  600\n;400;3'})).toHaveProperty('custom_amounts', [3.5, 600, 400, 3]);
+      expect(getParams({ custom_amounts: '3.5,  600\n;400;3' })).toHaveProperty('custom_amounts', [
+        { amount: 3.5, highlight: false },
+        { amount: 600, highlight: false },
+        { amount: 400, highlight: false },
+        { amount: 3, highlight: false },
+      ]);
     });
 
     it('accepts custom amounts with highlight icons properly', () => {
-      expect(getParams({custom_amounts: "5,{amount:30,highlight:'car'},50"}))
-        .toHaveProperty('custom_amounts', [5, { amount: 30, highlight: 'car'}, 50]);
+      expect(getParams({ custom_amounts: "5,{amount:30,highlight:'car'},50" })).toHaveProperty('custom_amounts', [
+        { amount: 5, highlight: false },
+        { amount: 30, highlight: 'car' },
+        { amount: 50, highlight: false },
+      ]);
     });
     
   });

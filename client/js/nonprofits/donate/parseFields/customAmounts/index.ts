@@ -3,19 +3,20 @@ import JsonStringParser from './JsonStringParser';
 const { getDefaultAmounts } = require('../../custom_amounts');
 import { splitParam } from '..';
 
-export type Amount = number | CustomAmount;
-
 export interface CustomAmount {
   amount: NonNullable<number>;
-  highlight: string;
+  highlight: NonNullable<string | false>;
 }
 
-export default function parseCustomAmounts(amountsString: string): Amount[] {
+export default function parseCustomAmounts(amountsString: string): CustomAmount[] {
   const defaultAmts = getDefaultAmounts().join();
 
   if (amountsString.includes('{')) {
     return new JsonStringParser(`[${amountsString}]`).results;
   } else {
-    return splitParam(amountsString || defaultAmts).map(Number);
+    const commaParams = splitParam(amountsString || defaultAmts)
+      .map(Number)
+      .join(',');
+    return new JsonStringParser(`[${commaParams}]`).results;
   }
 }

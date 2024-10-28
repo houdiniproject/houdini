@@ -19,6 +19,11 @@ describe('.getParams', () => {
     it('splits properly', () => {
       expect(getParams({custom_amounts: '3.5,  600\n;400;3'})).toHaveProperty('custom_amounts', [3.5, 600, 400, 3]);
     });
+
+    it('accepts custom amounts with highlight icons properly', () => {
+      expect(getParams({custom_amounts: "5,{amount:30,highlight:'car'},50"}))
+        .toHaveProperty('custom_amounts', [5, { amount: 30, highlight: 'car'}, 50]);
+    });
     
   });
 

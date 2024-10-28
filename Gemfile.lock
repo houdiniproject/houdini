@@ -297,7 +297,7 @@ GEM
     parser (3.3.5.0)
       ast (~> 2.4.1)
       racc
-    pg (1.5.8)
+    pg (1.5.9)
     power_assert (2.0.3)
     premailer (1.18.0)
       addressable

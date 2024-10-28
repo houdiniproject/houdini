@@ -190,8 +190,8 @@ GEM
     execjs (2.8.1)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.4.3)
-      factory_bot (~> 6.4)
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
       railties (>= 5.0.0)
     fast_blank (1.0.1)
     ffi (1.17.0)
@@ -255,7 +255,7 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.6.1)
-    loofah (2.22.0)
+    loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -520,7 +520,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.8)
   erb_lint
   factory_bot (~> 6.5)
-  factory_bot_rails (~> 6.2)
+  factory_bot_rails (~> 6.4)
   fast_blank
   good_job (~> 3.99)
   hamster (~> 3.0)

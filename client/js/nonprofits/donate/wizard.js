@@ -154,6 +154,28 @@ const postDedication = (dedication, donor, donation) => {
   }).load)
 }
 
+const titleInfo = state => {
+  if (state.params$().title_image_url) {
+    return [
+      h('img', {
+        props: {
+          src: state.params$().title_image_url
+        , alt: state.params$().title_image_alt || app.campaign.tagline || app.nonprofit.tagline || ''
+        },
+      }),
+    ];
+  }
+
+  return [
+    h('h2', app.campaign.name || app.nonprofit.name)
+  , h('p', [
+      state.params$().designation && !state.params$().single_amount
+        ? headerDesignation(state)
+        : app.campaign.tagline || app.nonprofit.tagline || '',
+    ]),
+  ];
+}
+
 const view = state => {
   return h('div.js-donateForm', {
     class: {'is-modal': state.params$().offsite}
@@ -164,15 +186,8 @@ const view = state => {
       , class: {'u-hide': (state.params$().embedded || state.params$().mode === 'embedded') || !state.params$().offsite }
     })
   , h('div.titleRow', [
-      h('img', {props: {src: app.nonprofit.logo.normal.url}})
-    , h('div.titleRow-info', [
-        h('h2', app.campaign.name || app.nonprofit.name )
-      , h('p', [
-          state.params$().designation && !state.params$().single_amount
-          ? headerDesignation(state)
-          : app.campaign.tagline || app.nonprofit.tagline || ''
-        ])
-      ])
+      h('img.logo', {props: {src: app.nonprofit.logo.normal.url}})
+    , h('div.titleRow-info', titleInfo(state))
     ])
   , wizardWrapper(state)
   , h('footer.donateForm-footer', {

@@ -2,7 +2,6 @@
 import { parse } from 'json5';
 import { CustomFieldDescription, isCustomFieldDescription } from '../customField';
 
-
 export default class JsonStringParser {
   public errors:SyntaxError[] = [];
   public readonly results: CustomFieldDescription[] = [];

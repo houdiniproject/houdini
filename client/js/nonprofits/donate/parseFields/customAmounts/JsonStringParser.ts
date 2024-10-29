@@ -1,11 +1,7 @@
 // License: LGPL-3.0-or-later
-import has from 'lodash/has';
 import { parse } from 'json5';
-import { CustomAmount } from '../customAmounts';
+import { CustomAmount, isCustomAmountObject } from '../customAmount';
 
-function isCustomAmountObject(item: unknown): item is CustomAmount {
-  return typeof item == 'object' && has(item, 'amount');
-}
 export default class JsonStringParser {
   public errors: SyntaxError[] = [];
   public readonly results: CustomAmount[] = [];

@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 import JsonStringParser from './JsonStringParser';
-const { getDefaultAmounts } = require('../../custom_amounts');
+import { getDefaultAmounts } from '../../custom_amounts';
 import { splitParam } from '..';
 
 export interface CustomAmount {

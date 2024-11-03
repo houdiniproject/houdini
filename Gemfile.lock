@@ -157,7 +157,7 @@ GEM
     database_cleaner-active_record (1.99.0)
       activerecord
       database_cleaner (~> 1.99.0)
-    date (3.3.4)
+    date (3.4.0)
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
@@ -513,7 +513,7 @@ DEPENDENCIES
   countries (~> 4.2)
   csv
   database_cleaner-active_record
-  date (~> 3.3.4)
+  date (~> 3.4.0)
   debug
   devise (~> 4.9)
   devise-async (~> 1.0)

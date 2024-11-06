@@ -63,7 +63,7 @@ function view(state) {
       })
     ])
   , h('section.group', [
-      h('fieldset.u-marginBottom--0.u-floatL.col-right-4', [
+      h('fieldset', [
         h('input', {
           props: {
             type: 'text'
@@ -75,7 +75,7 @@ function view(state) {
           }
         })
       ])
-    , h('fieldset.u-marginBottom--0.u-floatL.col-right-4', [
+    , h('fieldset', [
         h('input', {
           props: {
             type: 'text'
@@ -87,7 +87,7 @@ function view(state) {
           }
         })
       ])
-    , h('fieldset.u-marginBottom--0.u-floatL.col-right-4', [
+    , h('fieldset', [
         h('input', {
           props: {
             type: 'text'

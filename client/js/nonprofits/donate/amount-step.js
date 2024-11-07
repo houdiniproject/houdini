@@ -152,9 +152,8 @@ function amountFields(state) {
   if(state.params$().single_amount) return ['']
   const postfix = getPostfixElement();
   return [
-    h('div.fieldsetLayout--three--evenPadding', [
-    h('span',
-      R.map(
+    h('div.fieldset-grid', [
+      ...R.map(
         amt => h('fieldset', [
           h('button.button.u-width--full.white.amount', {
             class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt.amount*100}
@@ -166,7 +165,6 @@ function amountFields(state) {
           }, amount_button_contents(app.currency_symbol, amt))
         ])
     , (state.params$().custom_amounts || []).map((a) => getAmt(a)) )
-    )
   , h('fieldset.' + prependCurrencyClassname(), [
       h('input.amount.other', {
         props: {name: 'amount', step: 'any', type: 'number', min: 1, placeholder: I18n.t('nonprofits.donate.amount.custom')}

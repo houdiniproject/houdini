@@ -11,6 +11,8 @@ $chevron_height: 34px;
 	width: 100%;
 	overflow: hidden;
 	margin: 0;
+	display: flex;
+	flex-direction: row;
 }
 
 [data-ff-wizard-content-wrapper],
@@ -26,7 +28,7 @@ $chevron_height: 34px;
 .ff-wizard-index-label,
 .wizard-index-label {
 	margin: 0;
-	float: left;
+	display: inline-block;
 	text-align: center;
 	position: relative;
 	padding-right: $chevron_height/2;

@@ -92,25 +92,3 @@ test('shows the tagline if designation param set and single amount set', ()=> {
   let streams = init(flyd.stream({designation, single_amount: 1000}))
   assert.equal(streams.dom$().querySelector('.titleRow-info p').textContent, app.nonprofit.tagline)
 })
-
-test('hides the footer if no user is in the env', () => {
-  let streams = init()
-  const idx = streams.dom$().querySelector('.donateForm-footer').className.indexOf('hide')
-  assert.notEqual(idx, -1)
-})
-
-test('shows the footer if a user is in the env', () => {
-  app.user = {email: 'user@example.com', id: 1}
-  let streams = init()
-  const idx = streams.dom$().querySelector('.donateForm-footer').className.indexOf('hide')
-  assert.equal(idx, -1)
-  app.user = {}
-})
-
-test('shows user info text if a user is in the env', () => {
-  app.user = {email: 'user@example.com', id: 1}
-  let streams = init()
-  const text = streams.dom$().querySelector('.donateForm-footer').textContent
-  assert.equal(text, 'Signed in as user@example.com Logout')
-  app.user = {}
-})

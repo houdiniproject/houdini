@@ -190,13 +190,6 @@ const view = state => {
     , h('div.titleRow-info', titleInfo(state))
     ])
   , wizardWrapper(state)
-  , h('footer.donateForm-footer', {
-      class: {'u-hide': !app.user}
-    }, [
-      h('span', `${I18n.t('nonprofits.donate.signed_in')} `)
-    , h('strong', String(app.user && app.user.email))
-    , h('a.logout-button', {on: {click: state.clickLogout$}}, ` ${I18n.t('nonprofits.donate.log_out')}`)
-    ])
   ])
 }
 

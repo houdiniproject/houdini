@@ -101,6 +101,28 @@ $mint-milk : #E7F3ED;
   padding: 0;
 }
 
+.info-step section.group {
+	display: flex;
+}
+
+.info-step div.address {
+	display: flex;
+	flex-wrap: wrap;
+
+	fieldset {
+		flex: 33.33%;
+	}
+	fieldset:first-child {
+		flex: 66.66%;
+	}
+	p.search-link {
+		flex: 100%;
+		text-align: center;
+		padding-top: 5px;
+	}
+}
+
+
 
 @media screen and (max-width: 350px) {
 	.wizard-steps {

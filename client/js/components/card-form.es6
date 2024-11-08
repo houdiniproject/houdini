@@ -138,7 +138,7 @@ const view = state => {
   var field = validatedForm.field(state.form)
   return validatedForm.form(state.form, h('form.cardForm', [
     h('div', [
-      h('section.group', [
+      h('section.group.name-zip', [
       nameInput(field, state.card$().name)
       , zipInput(field, state.card$().address_zip)
     ])
@@ -199,11 +199,11 @@ function feeCoverageField(state) {
 }
 
 const nameInput = (field, name) =>
-  h('fieldset.col-7', [field(h('input', { props: { name: 'name', value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } }))])
+  h('fieldset.name', [field(h('input', { props: { name: 'name', value: name || '', placeholder: I18n.t('nonprofits.donate.payment.card.name') } }))])
 
 
 const zipInput = (field, zip) => 
-  h('fieldset.col-right-5', [
+  h('fieldset.zip', [
     field(h('input'
     , { props: {
         type: 'text'

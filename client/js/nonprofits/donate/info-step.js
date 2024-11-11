@@ -91,22 +91,23 @@ function recurringMessage(state){
 function view(state) {
 
   var form = h('form', {
+    class: {'u-hide': state.showDedicationForm$()},
     on: {
       submit: ev => {ev.preventDefault(); state.currentStep$(2); state.submitSupporter$(ev.currentTarget)}
     }
   }, [
-  recurringMessage(state)
+    recurringMessage(state)
   , supporterFields.view(state.supporterFields)
   , customFields(state.params$().custom_fields)
   , dedicationLink(state)
   , anonField(state)
   , h('div', paymentMethodButtons(["card"], state))
   ])
+
   return h('div.wizard-step.info-step.u-padding--10', [
     form
   , h('div', {
-      style: {background: '#f8f8f8', position: 'absolute', 'top': '0', left: '3px', height: '100%', width: '99%'}
-    , class: {'u-hide': !state.showDedicationForm$(), opacity: 0, transition: 'opacity 1s', delay: {opacity: 1}}
+     class: { 'u-hide': !state.showDedicationForm$() }
     }, [dedicationForm.view(state)] )
   ])
 }

@@ -116,6 +116,16 @@ $mint-milk : #E7F3ED;
 	}
 }
 
+// making textarea consistent with other form inputs here
+// intentionally just changing this in the widget for now
+.info-step form textarea {
+	font-size: 16px;
+	border: 1px solid lighten($grey, 35%);;
+	border-bottom: 2px solid lighten($grey, 35%);
+	&:focus {
+		border-bottom: 2px solid lighten($grey, 15%);
+	}
+}
 
 
 @media screen and (max-width: 350px) {

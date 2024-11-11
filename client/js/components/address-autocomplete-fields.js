@@ -36,7 +36,7 @@ function calculateToShip(state)
 }
 
 function view(state) {
-  return h('section.u-padding--5.pastelBox--grey', [
+  return h('section', [
     calculateToShip(state)
     ? h('label.u-centered.u-marginBottom--5', [
         'Shipping address (required)'

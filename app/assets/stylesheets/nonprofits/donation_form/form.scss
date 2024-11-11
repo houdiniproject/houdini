@@ -42,9 +42,6 @@ $mint-milk : #E7F3ED;
 }
 
 // amount step
-.wizard-steps .amount-step {
-	padding: 0 5px;
-}
 .wizard-steps .amount-step button.is-selected {
 	background: darken($mint-milk, 10);
 }
@@ -93,6 +90,13 @@ $mint-milk : #E7F3ED;
 }
 .donationModal .ff-modal-body {
   padding: 0;
+}
+
+// info step
+.info-step > form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .info-step section.group {

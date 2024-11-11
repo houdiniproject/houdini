@@ -46,7 +46,7 @@ function init(state, params$) {
 //   }
 function view(state) {
   const emailTitle = I18n.t('nonprofits.donate.info.supporter.email') + `${state.required.email ? `${I18n.t('nonprofits.donate.info.supporter.email_required')}` : ''}`
-  return h('div.u-marginY--10', [
+  return h('div', [
     h('input', { props: { type: 'hidden' , name: 'profile_id' , value: state.supporter.profile_id } })
   , h('input', { props: { type: 'hidden' , name: 'nonprofit_id' , value: state.supporter.nonprofit_id || app.nonprofit_id } })
   , h('fieldset', [
@@ -64,7 +64,7 @@ function view(state) {
     ])
   , h('section.group', [
       h('fieldset', [
-        h('input', {
+        h('input.u-marginBottom--0', {
           props: {
             type: 'text'
           , name: 'first_name'
@@ -76,7 +76,7 @@ function view(state) {
         })
       ])
     , h('fieldset', [
-        h('input', {
+        h('input.u-marginBottom--0', {
           props: {
             type: 'text'
           , name: 'last_name'
@@ -88,7 +88,7 @@ function view(state) {
         })
       ])
     , h('fieldset', [
-        h('input', {
+        h('input.u-marginBottom--0', {
           props: {
             type: 'text'
           , name: 'phone'

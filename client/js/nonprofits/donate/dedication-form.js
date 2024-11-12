@@ -13,7 +13,7 @@ function view(state) {
     on: {submit: ev => {ev.preventDefault(); state.submitDedication$(ev.currentTarget)}}
   }, [
     h('p.u-centered.u-strong.u-marginBottom--10', I18n.t('nonprofits.donate.dedication.info'))
-  , h('fieldset.u-marginBottom--0.col-6', [
+  , h('fieldset.u-marginBottom--0.half-width', [
       h('input', {props: {
         name: 'dedication_type'
       , type: 'radio'
@@ -23,7 +23,7 @@ function view(state) {
       }})
     , h('label', {props: {htmlFor: radioId1}}, I18n.t('nonprofits.donate.dedication.in_honor_label'))
     ])
-  , h('fieldset.u-marginBottom--0', [
+  , h('fieldset.u-marginBottom--0.half-width', [
       h('input', {props: {
         name: 'dedication_type'
       , type: 'radio'
@@ -33,7 +33,7 @@ function view(state) {
       }})
     , h('label', {props: {htmlFor: radioId2}}, I18n.t('nonprofits.donate.dedication.in_memory_label'))
     ])
-  , h('fieldset.u-marginBottom--0.col-6', [
+  , h('fieldset.u-marginBottom--0.half-width', [
       h('input', {props: {
         name: 'first_name'
       , placeholder: I18n.t('nonprofits.donate.dedication.first_name')
@@ -42,7 +42,7 @@ function view(state) {
       , value: data.first_name
       }})
     ])
-  , h('fieldset.u-marginBottom--0', [
+  , h('fieldset.u-marginBottom--0.half-width', [
       h('input', {props: {
         name: 'last_name'
       , placeholder: I18n.t('nonprofits.donate.dedication.last_name')
@@ -51,7 +51,7 @@ function view(state) {
       , value: data.last_name
       }})
     ])
-  , h('fieldset.u-marginBottom--0.col-6', [
+  , h('fieldset.u-marginBottom--0.half-width', [
       h('input', {props: {
         name: 'email'
       , placeholder: I18n.t('nonprofits.donate.dedication.email')
@@ -60,7 +60,7 @@ function view(state) {
       , value: data.email
       }})
     ])
-  , h('fieldset.u-marginBottom--0', [
+  , h('fieldset.u-marginBottom--0.half-width', [
       h('input', {props: {
         name: 'phone'
       , placeholder: I18n.t('nonprofits.donate.dedication.phone')

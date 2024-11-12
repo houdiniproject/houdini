@@ -127,6 +127,18 @@ $mint-milk : #E7F3ED;
 	}
 }
 
+// dedication form
+.info-step .dedication-form {
+	display: flex;
+	flex-wrap: wrap;
+	> * {
+		flex: 100%;
+	}
+	> .half-width {
+		flex: 50%;
+	}
+}
+
 
 @media screen and (max-width: 350px) {
 	.wizard-steps {
@@ -140,5 +152,8 @@ $mint-milk : #E7F3ED;
 	}
 	.wizard-steps .amount-step .custom-amount .button--inset {
 		padding: 0 5px;
+	}
+	.info-step form textarea {
+		font-size: 13px;
 	}
 }

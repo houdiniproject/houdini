@@ -127,6 +127,15 @@ $mint-milk : #E7F3ED;
 	}
 }
 
+.info-step .dedication-link {
+	border-width: thin;
+	border-style: solid;
+	padding: 2px;
+	border-radius: 2px;
+	display: block;
+	text-wrap: balance;
+}
+
 // dedication form
 .info-step .dedication-form {
 	display: flex;

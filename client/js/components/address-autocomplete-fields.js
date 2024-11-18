@@ -36,7 +36,7 @@ function calculateToShip(state)
 }
 
 function view(state) {
-  return h('section.u-padding--5.pastelBox--grey', [
+  return h('section.address', [
     calculateToShip(state)
     ? h('label.u-centered.u-marginBottom--5', [
         'Shipping address (required)'
@@ -61,7 +61,7 @@ const autoField = state => {
 }
 
 const manualFields = state => {
-  return h('div.address', [
+  return h('div.manual-address-fields', [
     h('fieldset.u-fontSize--14', [
       h('input.u-marginBottom--0', {props: {
         type: 'text'

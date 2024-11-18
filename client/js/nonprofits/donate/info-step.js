@@ -104,7 +104,7 @@ function view(state) {
   , h('div', paymentMethodButtons(["card"], state))
   ])
 
-  return h('div.wizard-step.info-step.u-padding--10', [
+  return h('div.wizard-step.info-step', [
     form
   , h('div', {
      class: { 'u-hide': !state.showDedicationForm$() }

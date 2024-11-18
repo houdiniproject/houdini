@@ -42,9 +42,6 @@ $mint-milk : #E7F3ED;
 }
 
 // amount step
-.wizard-steps .amount-step {
-	padding: 0 5px;
-}
 .wizard-steps .amount-step button.is-selected {
 	background: darken($mint-milk, 10);
 }
@@ -95,11 +92,23 @@ $mint-milk : #E7F3ED;
   padding: 0;
 }
 
+// info step
+.info-step > form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .info-step section.group {
 	display: flex;
 }
 
-.info-step div.address {
+.info-step section.address {
+	padding-top: 10px;
+}
+
+
+.info-step .manual-address-fields {
 	display: flex;
 	flex-wrap: wrap;
 

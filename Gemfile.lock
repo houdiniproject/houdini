@@ -235,8 +235,8 @@ GEM
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    js-routes (2.2.10)
-      railties (>= 4)
+    js-routes (2.3.0)
+      railties (>= 5)
       sorbet-runtime
     json (2.7.2)
     kaminari (1.2.2)
@@ -271,7 +271,7 @@ GEM
     mime-types-data (3.2022.0105)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.7)
+    mini_portile2 (2.8.8)
     minitest (5.25.1)
     money (6.19.0)
       i18n (>= 0.6.4, <= 2)
@@ -443,7 +443,7 @@ GEM
     simple_po_parser (1.1.6)
     sixarm_ruby_unaccent (1.2.0)
     smart_properties (1.17.0)
-    sorbet-runtime (0.5.11597)
+    sorbet-runtime (0.5.11647)
     sprockets (3.7.5)
       base64
       concurrent-ruby (~> 1.0)

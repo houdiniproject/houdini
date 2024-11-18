@@ -103,7 +103,12 @@ $mint-milk : #E7F3ED;
 	display: flex;
 }
 
-.info-step div.address {
+.info-step section.address {
+	padding-top: 10px;
+}
+
+
+.info-step .manual-address-fields {
 	display: flex;
 	flex-wrap: wrap;
 

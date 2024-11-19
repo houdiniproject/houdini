@@ -117,6 +117,13 @@ echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This
 # Reference Stack Overflow post: https://stackoverflow.com/questions/53118850/brew-install-nvm-nvm-command-not-found
 ```
 
+Make sure you've installed Yarn.
+
+```bash
+yarn --version
+brew install yarn
+```
+
 Set your Postgres version with homebrew.
 
 ```bash

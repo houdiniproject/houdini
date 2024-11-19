@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 ARG BASE_IMAGE=ruby
-ARG BASE_TAG=2.7.6-slim
+ARG BASE_TAG=2.6.10-slim
 ARG BASE=${BASE_IMAGE}:${BASE_TAG}
 
 FROM ${BASE} AS builder
@@ -34,14 +34,14 @@ WORKDIR ${RAILS_ROOT}
 COPY Gemfile* ${RAILS_ROOT}
 ADD gems ${RAILS_ROOT}gems
 
-RUN bundle install -j4 --retry 3
+RUN bundle update --bundler && bundle install -j4 --retry 3
 
 COPY package.json yarn.lock ${RAILS_ROOT}
 RUN yarn install
 
 COPY . ${RAILS_ROOT}
 
-RUN bundle exec rake assets:precompile
+# RUN bundle exec rake assets:precompile
 
 FROM ${BASE}
 
@@ -65,4 +65,4 @@ ARG RAILS_ROOT=/app/
 
 WORKDIR $RAILS_ROOT
 RUN mkdir -p tmp/pids
-CMD bundle exec puma -p $PORT -C ./config/puma.rb
+CMD echo $PORT && foreman start

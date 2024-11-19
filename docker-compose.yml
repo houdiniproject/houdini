@@ -8,9 +8,9 @@ services:
     volumes:
       - ~/tmp/houdini/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=houdini_user
+      - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=houdini_development
+      - POSTGRES_DB=commitchange_development_legacy
   web:
     build: .
     volumes:
@@ -21,3 +21,4 @@ services:
       - DATABASE_HOST=db
     depends_on:
       - db
+    env_file: ".env"

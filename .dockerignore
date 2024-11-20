@@ -3,3 +3,7 @@
 Dockerfile
 docker-compose.yml
 README.md
+.dockerignore
+tmp
+log
+node_modules

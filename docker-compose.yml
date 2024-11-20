@@ -4,7 +4,7 @@ services:
     image: postgres:latest
     restart: always
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ~/tmp/houdini/db:/var/lib/postgresql/data
     environment:
@@ -14,11 +14,12 @@ services:
   web:
     build: .
     volumes:
-      - .:/app
+      - ./log:/app/log
     ports:
-      - "3000:3000"
+      - "5000:5000"
     environment:
       - DATABASE_HOST=db
+      - BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development_legacy
     depends_on:
       - db
     env_file: ".env"

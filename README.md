@@ -135,6 +135,13 @@ brew services start postgresql@12
 
 ```
 
+You might get segmentation faults if you don't configure `pg` with the correct macports. One of these should work.
+```bash
+gem install pg -- --with-pg-config="${HOMEBREW_PREFIX}/opt/libpq/bin/pg_config"
+# Or?
+bundle config build.pg --with-pg-config="${HOMEBREW_PREFIX}/opt/libpq/bin/pg_config"
+```
+
 Create necessary postgres users in the `psql` console.
 
 ```bash
@@ -142,6 +149,8 @@ psql postgres # if this doesn't work, make sure postgres is running
 CREATE ROLE admin WITH SUPERUSER CREATEDB LOGIN PASSWORD 'password';
 CREATE ROLE postgres WITH SUPERUSER CREATEDB LOGIN PASSWORD 'password';
 ```
+
+You may need to disable AirPlay Receiver in your System Settings if it is hogging port 5000.
 
 #### System configuration (all)
 There are a number of steps for configuring your Houdini instance for startup

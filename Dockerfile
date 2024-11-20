@@ -48,7 +48,15 @@ FROM ${BASE}
 ENV LANG en_US.UTF-8
 
 RUN apt-get update -qq \
-  && apt-get install -y libjemalloc2 postgresql-client tzdata libv8-dev nodejs
+  && apt-get install -y libjemalloc2 postgresql-client tzdata libv8-dev curl default-jre \
+  && curl -sL https://deb.nodesource.com/setup_16.x | bash \
+  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
+  > /etc/apt/sources.list.d/yarn.list \
+  && apt-get update -qq \
+  && apt-get install -y nodejs yarn \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --gid 1000 app && \
   useradd --uid 1000 --no-log-init --create-home --gid app app
@@ -65,4 +73,4 @@ ARG RAILS_ROOT=/app/
 
 WORKDIR $RAILS_ROOT
 RUN mkdir -p tmp/pids
-CMD echo $PORT && foreman start
+CMD foreman start

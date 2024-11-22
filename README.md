@@ -161,7 +161,7 @@ gem install pg -- --with-pg-config="${HOMEBREW_PREFIX}/opt/libpq/bin/pg_config"
 bundle config build.pg --with-pg-config="${HOMEBREW_PREFIX}/opt/libpq/bin/pg_config"
 ```
 
-You may also need to remove the `development: host` config line in `development.yml`
+You may also need to set the env variable `PGGSSENCMODE=disable` to resolve segmentation faults.
 
 Create necessary postgres users in the `psql` console.
 

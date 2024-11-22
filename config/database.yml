@@ -20,7 +20,7 @@ development:
   pool: 5
   username: admin
   password: password
-  # host: <%= ENV['DATABASE_HOST']  || 'localhost' %> # This breaks mac? Is it needed?
+  host: <%= ENV['DATABASE_HOST']  || 'localhost' %> # This breaks mac? Is it needed? Yes, by docker
   min_messages: warning
 
 test:

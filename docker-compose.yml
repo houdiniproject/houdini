@@ -4,7 +4,7 @@ services:
     image: postgres:latest
     restart: always
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - ~/tmp/houdini/db:/var/lib/postgresql/data
     environment:
@@ -14,7 +14,14 @@ services:
   web:
     build: .
     volumes:
-      - ./log:/app/log
+      - ./app:/app/app
+      - ./bin:/app/bin
+      - ./config:/app/config
+      - ./db:/app/db
+      - ./javascripts:/app/javascripts
+      - ./lib:/app/lib
+      - ./script:/app/script
+      - ./types:/app/types
     ports:
       - "5000:5000"
     environment:

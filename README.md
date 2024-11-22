@@ -26,6 +26,25 @@ git clone https://github.com/Commitchange/houdini
 git checkout supporter_level_goal
 ```
 
+##### Get your .env file
+If you don't already have access to the CommitChange 1Password vault, ask to be added. Then
+download the .env file in 1Password and place it in the root directory.
+
+> *Note:* Double check that your .env file has the '.' in front of the file name.
+
+#### Dockerized
+This is a work-in-progress method of running a development environment. The standard is still the bare metal instructions below.
+
+One time setup:
+```bash
+docker-compose run web bin/rake db:setup
+```
+
+Running:
+```bash
+docker-compose up
+```
+
 #### One-time setup (Ubuntu)
 
 You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users or anyone running ProgresSQL 10, change "postgresql-12" below to "postgresql-10"). You could do this by typing `sudo /bin/sh` running the commands from there.
@@ -127,11 +146,11 @@ brew install yarn
 Set your Postgres version with homebrew.
 
 ```bash
-brew install postgresql@12
-brew switch postgres@12
+brew install postgresql@16
+brew switch postgres@16
 
 # To start postgres locally run:
-brew services start postgresql@12
+brew services start postgresql@16
 
 ```
 
@@ -141,6 +160,8 @@ gem install pg -- --with-pg-config="${HOMEBREW_PREFIX}/opt/libpq/bin/pg_config"
 # Or?
 bundle config build.pg --with-pg-config="${HOMEBREW_PREFIX}/opt/libpq/bin/pg_config"
 ```
+
+You may also need to remove the `development: host` config line in `development.yml`
 
 Create necessary postgres users in the `psql` console.
 
@@ -152,18 +173,13 @@ CREATE ROLE postgres WITH SUPERUSER CREATEDB LOGIN PASSWORD 'password';
 
 You may need to disable AirPlay Receiver in your System Settings if it is hogging port 5000.
 
+
 #### System configuration (all)
 There are a number of steps for configuring your Houdini instance for startup
 ##### Run bin/setup
 ```sh
 bin/setup
 ```
-
-##### Get your .env file
-If you don't already have access to the CommitChange 1Password vault, ask to be added. Then
-download the .env file in 1Password and place it in the root directory.
-
-> *Note:* Double check that your .env file has the '.' in front of the file name.
 
 #### Startup
 ##### run foreman for development

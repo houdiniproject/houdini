@@ -66,6 +66,7 @@ COPY --from=builder --chown=app:app /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder --chown=app:app /app /app
 
 ENV RAILS_ENV=development
+ENV IS_DOCKER=true
 ENV RAILS_LOG_TO_STDOUT true
 ENV RAILS_SERVE_STATIC_FILES true
 ENV PORT 3000
@@ -73,4 +74,4 @@ ARG RAILS_ROOT=/app/
 
 WORKDIR $RAILS_ROOT
 RUN mkdir -p tmp/pids
-CMD foreman start
+CMD echo $IS_DOCKER && foreman start

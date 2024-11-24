@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=commitchange_development_legacy
+  web:
+    build: .
+    volumes:
+      - ./app:/app/app
+      - ./bin:/app/bin
+      - ./config:/app/config
+      - ./db:/app/db
+      - ./javascripts:/app/javascripts
+      - ./lib:/app/lib
+      - ./script:/app/script
+      - ./types:/app/types
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_HOST=db
+      - BUILD_DATABASE_URL=postgres://admin:password@db/commitchange_development_legacy
+    depends_on:
+      - db
+    env_file: ".env"

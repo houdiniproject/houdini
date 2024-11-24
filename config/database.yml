@@ -3,8 +3,8 @@
 #
 # Install the pg driver:
 #   gem install pg
-# On Mac OS X with macports:
-#   gem install pg -- --with-pg-config=/opt/local/lib/postgresql84/bin/pg_config
+# On Mac OS X with macports, after installing postgresql with homebrew:
+#   gem install pg -- --with-pg-config="${HOMEBREW_PREFIX}/opt/libpq/bin/pg_config"
 # On Windows:
 #   gem install pg
 #       Choose the win32 build.
@@ -20,7 +20,7 @@ development:
   pool: 5
   username: admin
   password: password
-  host: <%= ENV['DATABASE_HOST']  || 'localhost' %>
+  host: localhost
   min_messages: warning
 
 test:

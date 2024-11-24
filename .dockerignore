@@ -1,0 +1,9 @@
+.env
+.env.test
+Dockerfile
+docker-compose.yml
+README.md
+.dockerignore
+tmp
+log
+node_modules

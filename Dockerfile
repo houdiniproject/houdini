@@ -46,9 +46,8 @@ COPY . ${RAILS_ROOT}
 FROM ${BASE}
 
 ENV LANG en_US.UTF-8
-
 RUN apt-get update -qq \
-  && apt-get install -y libjemalloc2 postgresql-client tzdata libv8-dev curl default-jre \
+  && apt-get install -y libjemalloc2 tzdata libv8-dev curl default-jre git \
   && curl -sL https://deb.nodesource.com/setup_16.x | bash \
   && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo "deb https://dl.yarnpkg.com/debian/ stable main" \
@@ -57,6 +56,19 @@ RUN apt-get update -qq \
   && apt-get install -y nodejs yarn \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+ARG BASE_RELEASE=bullseye
+RUN apt-get update -qq \
+  && apt-get install -y gnupg2 wget vim \
+  && echo "deb https://apt.postgresql.org/pub/repos/apt ${BASE_RELEASE}-pgdg main" \
+  > /etc/apt/sources.list.d/pgdg.list \
+  && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg \
+  && apt-get update -qq \
+  && apt-get install -y postgresql-client-16 \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 RUN groupadd --gid 1000 app && \
   useradd --uid 1000 --no-log-init --create-home --gid app app
@@ -74,4 +86,5 @@ ARG RAILS_ROOT=/app/
 
 WORKDIR $RAILS_ROOT
 RUN mkdir -p tmp/pids
-CMD echo $IS_DOCKER && foreman start
+RUN touch /home/app/.netrc
+CMD foreman start

@@ -37,7 +37,13 @@ This is a work-in-progress method of running a development environment. The stan
 
 One time setup:
 ```bash
+touch ~/.netrc #prevents docker compose from creating it as a directory if you don't have it yet
+
 docker-compose run web bin/rake db:setup
+
+# To get a copy of the Prod database as test data.
+docker-compose run web script/restore_from_heroku.sh
+# enter `password` when prompted for password
 ```
 
 Running:

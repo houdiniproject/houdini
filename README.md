@@ -43,7 +43,6 @@ docker-compose run web bin/rake db:setup
 
 # Run this to get a copy of the Prod database as test data.
 # Enter `password` when prompted for a password after the download step.
-# The restore step after that will take a very long time. Hours maybe.
 docker-compose run web script/restore_from_heroku.sh
 ```
 

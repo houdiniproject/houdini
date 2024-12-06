@@ -42,8 +42,13 @@ touch ~/.netrc #prevents docker compose from creating it as a directory if you d
 docker-compose run web bin/rake db:setup
 
 # Run this to get a copy of the Prod database as test data.
-# Enter `password` when prompted for a password after the download step.
-docker-compose run web script/restore_from_heroku.sh
+curl -o ./tmp/shared/latest.dump `heroku pg:backups:url -a commitchange`
+
+docker-compose up
+
+# Enter `password` if prompted for a password.
+# This may take up to an hour on Mac.
+docker-compose exec db pg_restore --verbose --clean --no-acl --no-owner -h localhost -U admin -d commitchange_development_legacy /tmp/shared/latest.dump
 ```
 
 Running:

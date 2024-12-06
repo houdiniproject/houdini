@@ -59,7 +59,6 @@ RUN apt-get update -qq \
 
 ARG BASE_RELEASE=bullseye
 RUN apt-get update -qq \
-  && apt-get install -y gnupg2 wget vim \
   && echo "deb https://apt.postgresql.org/pub/repos/apt ${BASE_RELEASE}-pgdg main" \
   > /etc/apt/sources.list.d/pgdg.list \
   && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg \

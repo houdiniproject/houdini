@@ -3,7 +3,7 @@ export function castToNullIfUndef<T>(i:T): T | null{
   return i === undefined ? null : i
 }
 
-export function isBlank(i:null|undefined|string) : boolean {
+export function isBlank(i:null|undefined|string) : i is null | undefined | '' {
   return i === null || i === undefined || i === '';
 }
 

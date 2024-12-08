@@ -709,6 +709,8 @@ UNION DISTINCT
     "regexp_replace (lower(name),'[^0-9a-z]','','g')"
   end
 
+  # gets the last words in the name field. If there's a single word, it gets that. If there's multiple words, then it just gets
+  # everything but the first one
   def self.calculated_last_name
     "
       CASE

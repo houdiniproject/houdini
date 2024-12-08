@@ -464,7 +464,8 @@ describe QuerySupporters do
     it 'finds supporters with the same last name and address and email' do
       supporter_1 = force_create(:supporter, nonprofit_id: np.id, name: 'Cacau Borges', address: 'Clear Waters Avenue', email: "email@example.com")
       supporter_2 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope Borges', address: 'Clear Waters Avenue', email: "email@example.com")
-
+      supporter_3 = force_create(:supporter, nonprofit_id: np.id, name: 'Penelope Schultz', address: 'Clear Waters Avenue', email: "email@example.com")
+ 
       expect(subject).to eq([[supporter_1.id, supporter_2.id]])
     end
 

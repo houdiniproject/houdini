@@ -121,6 +121,10 @@ class Nonprofit < ApplicationRecord
       QuerySupporters.dupes_on_last_name_and_address(proxy_association.owner.id)
     end
 
+    def dupes_on_last_name_and_address_and_email
+      QuerySupporters.dupes_on_last_name_and_address_and_email(proxy_association.owner.id)
+    end
+
     def for_export_enumerable(query, chunk_limit=15000)
       QuerySupporters.for_export_enumerable(proxy_association.owner.id, query, chunk_limit)
     end

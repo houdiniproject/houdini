@@ -60,7 +60,7 @@ Restoring the DB from Prod (Mac). The above command will work on Mac, but will t
 curl -o ./tmp/shared/latest.dump `heroku pg:backups:url -a commitchange`
 
 # Enter `password` when prompted for a password.
-docker-compose exec db -e HOUDINI_DUMP_PATH="/tmp/shared/latest.dump" script/pg_restore_local_from_production.sh
+docker-compose exec db -e CC_PROD_DUMP_PATH="/tmp/shared/latest.dump" script/pg_restore_local_from_production.sh
 ```
 
 #### One-time setup (Ubuntu)

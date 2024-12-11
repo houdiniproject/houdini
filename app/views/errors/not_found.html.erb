@@ -1,8 +1,12 @@
-<!--  License: CC0-1.0 -->
+<%# app/views/errors/not_found.html.erb %>
+
+<%- # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
+# Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE -%>
+
 <head>
-  <link rel="icon" href="/favicon.ico"/>
+  <link rel="icon" href="/app/assets/images/favicon.ico/"/>
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/normalize.css@5.0.0">
-  <title>CommitChange - 500</title>
+  <title>Houdini Project - 404</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 
@@ -10,9 +14,9 @@
   <main>
     <div>
       <a title='Back to homepage' href='/'>
-        <img src='/svgs/houdini-logo.svg'>
+        <%= image_tag '/app/assets/images/logos/houdini-logo', alt:"Houdini logo" %>
       </a>
-      <h4>Oops... something went wrong.</h4>
+      <h4>Oops... couldn't find that page.</h4>
     </div>
   </main>
 </body>

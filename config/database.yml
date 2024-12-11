@@ -20,7 +20,7 @@ development:
   pool: 5
   username: admin
   password: password
-  host: localhost
+  host: <%= ENV['DATABASE_HOST']  || 'localhost' %>
   min_messages: warning
 
 test:

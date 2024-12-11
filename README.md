@@ -35,14 +35,32 @@ download the .env file in 1Password and place it in the root directory.
 #### Dockerized
 This is a work-in-progress method of running a development environment. The standard is still the bare metal instructions below.
 
-One time setup:
+Mac users can ignore this, but if your host machine is Linux, you might run into permission issues with the tmp files created by the postgres image. To proactively avoid this, run `cp docker-compose.override.yml.example docker-compose.override.yml` and change the values inside the newly copied file to match the output of `echo $(id -u):$(id -g)`
+
+One-time setup:
 ```bash
+touch ~/.netrc #prevents docker compose from creating it as a directory if you don't have it yet
+
 docker-compose run web bin/rake db:setup
 ```
 
 Running:
 ```bash
 docker-compose up
+```
+
+Restoring the DB from Prod (Linux):
+```bash
+# Enter `password` when prompted for a password after the download step.
+docker-compose exec web script/restore_from_heroku.sh
+```
+
+Restoring the DB from Prod (Mac). The above command will work on Mac, but will take an hour or more due to differences in how docker handles storage. Use the below to reduce how long it takes (will still take a long time).
+```bash
+curl -o ./tmp/shared/latest.dump `heroku pg:backups:url -a commitchange`
+
+# Enter `password` when prompted for a password.
+docker-compose exec db -e CC_PROD_DUMP_PATH="/tmp/shared/latest.dump" script/pg_restore_local_from_production.sh
 ```
 
 #### One-time setup (Ubuntu)

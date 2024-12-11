@@ -1,12 +1,13 @@
 version: "3.9"
 services:
   db:
-    image: postgres:latest
+    image: postgres:16
     restart: always
     ports:
       - "5432:5432"
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - ./tmp/db:/var/lib/postgresql/data:delegated
+      - ./tmp/shared:/tmp/shared:cached
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
@@ -14,6 +15,8 @@ services:
   web:
     build: .
     volumes:
+      - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc # for heroku credentials
+      - ./vendor/bundle:/usr/local/bundle
       - ./app:/app/app
       - ./bin:/app/bin
       - ./config:/app/config

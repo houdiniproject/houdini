@@ -16,6 +16,7 @@ services:
     build: .
     volumes:
       - ${HOME}${USERPROFILE}/.netrc:/home/app/.netrc # for heroku credentials
+      - ./vendor/bundle:/usr/local/bundle
       - ./app:/app/app
       - ./bin:/app/bin
       - ./config:/app/config

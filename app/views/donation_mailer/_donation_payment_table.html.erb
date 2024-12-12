@@ -84,7 +84,7 @@
 		<% @contact = JSON.parse(donation.dedication).dig('contact') %>
 		<tr>
 			<td><strong>Acknowledgement Email</strong></td>
-			<% if @contact['email'] %>
+			<% if @contact && @contact['email'] %>
 			<td><a href="mailto:<%= @contact['email'] %>"><%= @contact['email'] %></a></td>
 			<% else %>
 			<td> None </td>
@@ -92,7 +92,7 @@
 		</tr>
 		<tr>
 			<td><strong>Acknowledgement Phone</strong></td>
-			<% if @contact['phone'] %>
+			<% if @contact && @contact['phone'] %>
 			<td><a href="tel:<%= @contact['phone'] %>"><%= @contact['phone'] %></a></td>
 			<% else %>
 			<td> None </td>
@@ -100,7 +100,7 @@
 		</tr>
 		<tr>
 			<td><strong>Acknowledgement Address</strong></td>
-			<td> <%= @contact['address'] ? @contact['address'] : 'None' %> </td>
+			<td> <%= @contact && @contact['address'] ? @contact['address'] : 'None' %> </td>
 		</tr>
 		<% end %>
 

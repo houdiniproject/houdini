@@ -99,6 +99,7 @@ group :development, :ci do
 end
 
 group :development, :ci, :test do
+  gem 'letter_opener'
 	gem 'timecop'
 	gem 'pry'
 	gem 'pry-byebug'

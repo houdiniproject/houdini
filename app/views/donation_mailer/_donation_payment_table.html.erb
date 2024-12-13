@@ -80,7 +80,27 @@
 		<tr>
 			<td><strong>Dedication</strong></td>
 			<td> <%= donation.dedication ? Format::Dedication.from_json(donation.dedication) : 'None' %></td>
-
+		</tr>
+		<% @contact = JSON.parse(donation.dedication).dig('contact') %>
+		<tr>
+			<td><strong>Acknowledgement Email</strong></td>
+			<% if @contact&.dig('email') %>
+			<td><a href="mailto:<%= @contact['email'] %>"><%= @contact['email'] %></a></td>
+			<% else %>
+			<td> None </td>
+			<% end %>
+		</tr>
+		<tr>
+			<td><strong>Acknowledgement Phone</strong></td>
+			<% if @contact&.dig('phone') %>
+			<td><a href="tel:<%= @contact['phone'] %>"><%= @contact['phone'] %></a></td>
+			<% else %>
+			<td> None </td>
+			<% end %>
+		</tr>
+		<tr>
+			<td><strong>Acknowledgement Address</strong></td>
+			<td> <%= @contact&.dig('address') ? @contact['address'] : 'None' %> </td>
 		</tr>
 		<% end %>
 

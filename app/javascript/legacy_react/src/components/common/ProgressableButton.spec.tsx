@@ -13,7 +13,7 @@ describe('ProgressableButton', () => {
     userEvent.click(screen.getByText("nothing"))
     expect(clicked).toBeCalled();
 
-    expect(output.baseElement.outerHTML).toMatchSnapshot()
+    expect(output.baseElement).toMatchSnapshot()
 
 
   })
@@ -29,7 +29,7 @@ describe('ProgressableButton', () => {
                           disableOnProgress={false}
 
                           />)
-    expect(output.baseElement.outerHTML).toMatchSnapshot()
+    expect(output.baseElement).toMatchSnapshot()
   })
 
   test('Title is kept on progress if no titleOnProgress is set', () => {
@@ -40,7 +40,7 @@ describe('ProgressableButton', () => {
                           inProgress={true}
 
       />)
-    expect(output.baseElement.outerHTML).toMatchSnapshot()
+    expect(output.baseElement).toMatchSnapshot()
   })
 
   test('Progress means we change the title, disable and do turn on spinner', () => {
@@ -53,7 +53,7 @@ describe('ProgressableButton', () => {
                           disableOnProgress={true}
 
       />)
-      expect(output.baseElement.outerHTML).toMatchSnapshot()
+      expect(output.baseElement).toMatchSnapshot()
   })
 
 
@@ -68,7 +68,7 @@ describe('ProgressableButton', () => {
                           disabled={true}
 
       />)
-      expect(output.baseElement.outerHTML).toMatchSnapshot()
+      expect(output.baseElement).toMatchSnapshot()
   })
 
 
@@ -83,7 +83,7 @@ describe('ProgressableButton', () => {
                           disabled={true}
 
       />)
-      expect(output.baseElement.outerHTML).toMatchSnapshot()
+      expect(output.baseElement).toMatchSnapshot()
   })
 
 

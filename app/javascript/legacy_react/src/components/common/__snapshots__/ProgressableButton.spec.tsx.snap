@@ -1,13 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProgressableButton Basic title button works 1`] = `"<body><div><button data-label=\\"button\\" class=\\"button\\"><span>nothing</span></button></div></body>"`;
+exports[`ProgressableButton Basic title button works 1`] = `
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+    >
+      <span>
+        nothing
+      </span>
+    </button>
+  </div>
+</body>
+`;
 
-exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when NOT in progress 1`] = `"<body><div><button data-label=\\"button\\" disabled=\\"\\" class=\\"button\\"><span>nothing</span></button></div></body>"`;
+exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when NOT in progress 1`] = `
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+      disabled=""
+    >
+      <span>
+        nothing
+      </span>
+    </button>
+  </div>
+</body>
+`;
 
-exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when in progress 1`] = `"<body><div><button data-label=\\"button\\" disabled=\\"\\" class=\\"button\\"><span><span><i class=\\"fa fa-spin fa-spinner\\"></i> </span>onProgress</span></button></div></body>"`;
+exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when in progress 1`] = `
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+      disabled=""
+    >
+      <span>
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        onProgress
+      </span>
+    </button>
+  </div>
+</body>
+`;
 
-exports[`ProgressableButton Progress means we change the title, disable and do turn on spinner 1`] = `"<body><div><button data-label=\\"button\\" class=\\"button\\" disabled=\\"\\"><span><span><i class=\\"fa fa-spin fa-spinner\\"></i> </span>onProgress</span></button></div></body>"`;
+exports[`ProgressableButton Progress means we change the title, disable and do turn on spinner 1`] = `
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+      disabled=""
+    >
+      <span>
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        onProgress
+      </span>
+    </button>
+  </div>
+</body>
+`;
 
-exports[`ProgressableButton Progress means we change the title, dont disable and do turn on spinner 1`] = `"<body><div><button data-label=\\"button\\" class=\\"button\\"><span><span><i class=\\"fa fa-spin fa-spinner\\"></i> </span>onProgress</span></button></div></body>"`;
+exports[`ProgressableButton Progress means we change the title, dont disable and do turn on spinner 1`] = `
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+    >
+      <span>
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        onProgress
+      </span>
+    </button>
+  </div>
+</body>
+`;
 
-exports[`ProgressableButton Title is kept on progress if no titleOnProgress is set 1`] = `"<body><div><button data-label=\\"button\\" class=\\"button\\"><span><span><i class=\\"fa fa-spin fa-spinner\\"></i> </span>nothing</span></button></div></body>"`;
+exports[`ProgressableButton Title is kept on progress if no titleOnProgress is set 1`] = `
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+    >
+      <span>
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        nothing
+      </span>
+    </button>
+  </div>
+</body>
+`;

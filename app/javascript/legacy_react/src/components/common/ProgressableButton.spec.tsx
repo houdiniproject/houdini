@@ -1,8 +1,6 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import ProgressableButton from './ProgressableButton'
-import toJson from 'enzyme-to-json';
-import {mount, shallow} from 'enzyme';
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -46,7 +44,7 @@ describe('ProgressableButton', () => {
   })
 
   test('Progress means we change the title, disable and do turn on spinner', () => {
-    let output = mount(
+    let output = render(
       <ProgressableButton onClick={() => console.log('alert!')}
                           buttonText={"nothing"}
                           data-label="button"
@@ -55,12 +53,12 @@ describe('ProgressableButton', () => {
                           disableOnProgress={true}
 
       />)
-    expect(toJson(output)).toMatchSnapshot()
+      expect(output.baseElement.outerHTML).toMatchSnapshot()
   })
 
 
   test('Disabled manually set overrides whether we disable on progress when in progress', () => {
-    let output = mount(
+    let output = render(
       <ProgressableButton onClick={() => console.log('alert!')}
                           buttonText={"nothing"}
                           data-label="button"
@@ -70,12 +68,12 @@ describe('ProgressableButton', () => {
                           disabled={true}
 
       />)
-    expect(toJson(output)).toMatchSnapshot()
+      expect(output.baseElement.outerHTML).toMatchSnapshot()
   })
 
 
   test('Disabled manually set overrides whether we disable on progress when NOT in progress', () => {
-    let output = mount(
+    let output = render(
       <ProgressableButton onClick={() => console.log('alert!')}
                           buttonText={"nothing"}
                           data-label="button"
@@ -85,7 +83,7 @@ describe('ProgressableButton', () => {
                           disabled={true}
 
       />)
-    expect(toJson(output)).toMatchSnapshot()
+      expect(output.baseElement.outerHTML).toMatchSnapshot()
   })
 
 

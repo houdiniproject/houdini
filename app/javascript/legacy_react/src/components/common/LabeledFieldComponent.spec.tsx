@@ -1,37 +1,36 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
-import {shallow} from 'enzyme'
-import toJson from 'enzyme-to-json'
+import {render} from '@testing-library/react'
 import LabeledFieldComponent from './LabeledFieldComponent'
 
 describe('LabeledFieldComponent', () => {
   test('In Error with Children', () => {
-    let result = shallow(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={true}
+    let result = render(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={true}
                                                 error={"errorMessage"}>
       <hr/>
     </LabeledFieldComponent>)
-    expect(toJson(result)).toMatchSnapshot()
+    expect(result.baseElement).toMatchSnapshot()
   })
 
   test('has error checked but no message so not really in error', () => {
-    let result = shallow(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={true} error={undefined}>
+    let result = render(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={true} error={undefined}>
       <hr/>
     </LabeledFieldComponent>)
-    expect(toJson(result)).toMatchSnapshot()
+    expect(result.baseElement).toMatchSnapshot()
   })
 
   test('no error', () => {
-    let result = shallow(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={false}>
+    let result = render(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={false}>
       <hr/>
     </LabeledFieldComponent>)
-    expect(toJson(result)).toMatchSnapshot()
+    expect(result.baseElement).toMatchSnapshot()
   })
 
   test('add extra classNames', () => {
-    let result = shallow(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={false}
+    let result = render(<LabeledFieldComponent inputId={"ID"} labelText={"Our Label"} inError={false}
                                                 className={"a_class another_class"}>
       <hr/>
     </LabeledFieldComponent>)
-    expect(toJson(result)).toMatchSnapshot()
+    expect(result.baseElement).toMatchSnapshot()
   })
 })

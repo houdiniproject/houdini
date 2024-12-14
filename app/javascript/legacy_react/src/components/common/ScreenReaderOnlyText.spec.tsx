@@ -1,14 +1,13 @@
 // License: LGPL-3.0-or-later
 import * as React from 'react';
 import ScreenReaderOnlyText from './ScreenReaderOnlyText';
-import toJson from 'enzyme-to-json';
-import { shallow } from 'enzyme';
+import {render} from '@testing-library/react';
 
 describe('ScreenReaderOnlyText', () => {
 	it('renders properly', () => {
 		expect.hasAssertions();
-		const text = shallow(<ScreenReaderOnlyText>Test</ScreenReaderOnlyText>);
+		const text = render(<ScreenReaderOnlyText>Test</ScreenReaderOnlyText>);
 		// eslint-disable-next-line jest/prefer-inline-snapshots
-		expect(toJson(text)).toMatchSnapshot();
+		expect(text.baseElement).toMatchSnapshot();
 	});
 });

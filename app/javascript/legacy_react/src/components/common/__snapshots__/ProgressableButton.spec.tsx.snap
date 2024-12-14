@@ -1,148 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ProgressableButton Basic title button works 1`] = `
-<button
-  className="button"
-  data-label="button"
-  disabled={false}
-  onClick={[Function]}
->
-  <span>
-    nothing
-  </span>
-</button>
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+    >
+      <span>
+        nothing
+      </span>
+    </button>
+  </div>
+</body>
 `;
 
 exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when NOT in progress 1`] = `
-<ProgressableButton
-  buttonText="nothing"
-  buttonTextOnProgress="onProgress"
-  data-label="button"
-  disableOnProgress={true}
-  disabled={true}
-  inProgress={false}
-  onClick={[Function]}
->
-  <button
-    className="button"
-    data-label="button"
-    disabled={true}
-    onClick={[Function]}
-  >
-    <span>
-      nothing
-    </span>
-  </button>
-</ProgressableButton>
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+      disabled=""
+    >
+      <span>
+        nothing
+      </span>
+    </button>
+  </div>
+</body>
 `;
 
 exports[`ProgressableButton Disabled manually set overrides whether we disable on progress when in progress 1`] = `
-<ProgressableButton
-  buttonText="nothing"
-  buttonTextOnProgress="onProgress"
-  data-label="button"
-  disableOnProgress={false}
-  disabled={true}
-  inProgress={true}
-  onClick={[Function]}
->
-  <button
-    className="button"
-    data-label="button"
-    disabled={true}
-    onClick={[Function]}
-  >
-    <span>
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+      disabled=""
+    >
       <span>
-        <i
-          className="fa fa-spin fa-spinner"
-        />
-         
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        onProgress
       </span>
-      onProgress
-    </span>
-  </button>
-</ProgressableButton>
+    </button>
+  </div>
+</body>
 `;
 
 exports[`ProgressableButton Progress means we change the title, disable and do turn on spinner 1`] = `
-<ProgressableButton
-  buttonText="nothing"
-  buttonTextOnProgress="onProgress"
-  data-label="button"
-  disableOnProgress={true}
-  inProgress={true}
-  onClick={[Function]}
->
-  <button
-    className="button"
-    data-label="button"
-    disabled={true}
-    onClick={[Function]}
-  >
-    <span>
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+      disabled=""
+    >
       <span>
-        <i
-          className="fa fa-spin fa-spinner"
-        />
-         
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        onProgress
       </span>
-      onProgress
-    </span>
-  </button>
-</ProgressableButton>
+    </button>
+  </div>
+</body>
 `;
 
 exports[`ProgressableButton Progress means we change the title, dont disable and do turn on spinner 1`] = `
-<ProgressableButton
-  buttonText="nothing"
-  buttonTextOnProgress="onProgress"
-  data-label="button"
-  disableOnProgress={false}
-  inProgress={true}
-  onClick={[Function]}
->
-  <button
-    className="button"
-    data-label="button"
-    disabled={false}
-    onClick={[Function]}
-  >
-    <span>
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+    >
       <span>
-        <i
-          className="fa fa-spin fa-spinner"
-        />
-         
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        onProgress
       </span>
-      onProgress
-    </span>
-  </button>
-</ProgressableButton>
+    </button>
+  </div>
+</body>
 `;
 
 exports[`ProgressableButton Title is kept on progress if no titleOnProgress is set 1`] = `
-<ProgressableButton
-  buttonText="nothing"
-  data-label="button"
-  inProgress={true}
-  onClick={[Function]}
->
-  <button
-    className="button"
-    data-label="button"
-    disabled={false}
-    onClick={[Function]}
-  >
-    <span>
+<body>
+  <div>
+    <button
+      class="button"
+      data-label="button"
+    >
       <span>
-        <i
-          className="fa fa-spin fa-spinner"
-        />
-         
+        <span>
+          <i
+            class="fa fa-spin fa-spinner"
+          />
+           
+        </span>
+        nothing
       </span>
-      nothing
-    </span>
-  </button>
-</ProgressableButton>
+    </button>
+  </div>
+</body>
 `;

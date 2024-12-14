@@ -3,13 +3,14 @@ import * as React from 'react';
 import Modal, {ModalProps} from './Modal'
 import {shallow, mount, ReactWrapper} from "enzyme";
 import toJson from "enzyme-to-json";
+import {render, screen} from '@testing-library/react'
 import { DefaultCloseButton } from './DefaultCloseButton';
 
 describe('Modal', () => {
   test('nothing displayed if inactive', () => {
-    let modal = shallow(<Modal childGenerator={() => <div/>}/>)
+    let modal = render(<Modal childGenerator={() => <div/>}/>)
 
-    expect(toJson(modal)).toMatchSnapshot()
+    expect(modal.baseElement.outerHTML).toMatchSnapshot()
   })
 
   describe('active modal displays', () => {

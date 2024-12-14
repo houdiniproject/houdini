@@ -1,20 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScreenReaderOnlyText renders properly 1`] = `
-<span
-  style={
-    Object {
-      "border": 0,
-      "clip": "rect(0,0,0,0)",
-      "height": "1px",
-      "margin": "-1px",
-      "overflow": "hidden",
-      "padding": 0,
-      "position": "absolute",
-      "width": "1px",
-    }
-  }
->
-  Test
-</span>
+<body>
+  <div>
+    <span
+      style="position: absolute; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); border: 0px;"
+    >
+      Test
+    </span>
+  </div>
+</body>
 `;

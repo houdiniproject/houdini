@@ -1,74 +1,94 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LabeledFieldComponent In Error with Children 1`] = `
-<fieldset
-  className="form-group has-error"
->
-  <label
-    className="control-label"
-    htmlFor="ID"
-  >
-    Our Label
-  </label>
-  <StandardFieldComponent
-    error="errorMessage"
-    inError={true}
-  >
-    <hr />
-  </StandardFieldComponent>
-</fieldset>
+<body>
+  <div>
+    <fieldset
+      class="form-group has-error"
+    >
+      <label
+        class="control-label"
+        for="ID"
+      >
+        Our Label
+      </label>
+      <div>
+        <hr />
+        <div
+          class="help-block"
+          role="alert"
+        >
+          errorMessage
+        </div>
+        
+      </div>
+    </fieldset>
+  </div>
+</body>
 `;
 
 exports[`LabeledFieldComponent add extra classNames 1`] = `
-<fieldset
-  className="a_class another_class form-group"
->
-  <label
-    className="control-label"
-    htmlFor="ID"
-  >
-    Our Label
-  </label>
-  <StandardFieldComponent
-    inError={false}
-  >
-    <hr />
-  </StandardFieldComponent>
-</fieldset>
+<body>
+  <div>
+    <fieldset
+      class="a_class another_class form-group"
+    >
+      <label
+        class="control-label"
+        for="ID"
+      >
+        Our Label
+      </label>
+      <div>
+        <hr />
+        
+        
+      </div>
+    </fieldset>
+  </div>
+</body>
 `;
 
 exports[`LabeledFieldComponent has error checked but no message so not really in error 1`] = `
-<fieldset
-  className="form-group"
->
-  <label
-    className="control-label"
-    htmlFor="ID"
-  >
-    Our Label
-  </label>
-  <StandardFieldComponent
-    inError={false}
-  >
-    <hr />
-  </StandardFieldComponent>
-</fieldset>
+<body>
+  <div>
+    <fieldset
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="ID"
+      >
+        Our Label
+      </label>
+      <div>
+        <hr />
+        
+        
+      </div>
+    </fieldset>
+  </div>
+</body>
 `;
 
 exports[`LabeledFieldComponent no error 1`] = `
-<fieldset
-  className="form-group"
->
-  <label
-    className="control-label"
-    htmlFor="ID"
-  >
-    Our Label
-  </label>
-  <StandardFieldComponent
-    inError={false}
-  >
-    <hr />
-  </StandardFieldComponent>
-</fieldset>
+<body>
+  <div>
+    <fieldset
+      class="form-group"
+    >
+      <label
+        class="control-label"
+        for="ID"
+      >
+        Our Label
+      </label>
+      <div>
+        <hr />
+        
+        
+      </div>
+    </fieldset>
+  </div>
+</body>
 `;

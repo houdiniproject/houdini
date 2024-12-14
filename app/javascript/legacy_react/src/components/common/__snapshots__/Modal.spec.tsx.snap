@@ -367,4 +367,4 @@ exports[`Modal active modal displays matches snapshot 1`] = `
 </Modal>
 `;
 
-exports[`Modal nothing displayed if inactive 1`] = `""`;
+exports[`Modal nothing displayed if inactive 1`] = `"<body><div></div></body>"`;

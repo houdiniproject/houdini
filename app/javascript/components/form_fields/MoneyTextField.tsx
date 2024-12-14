@@ -9,7 +9,6 @@ import { useIntl } from "../intl";
 import { MutableRefObject, useEffect, useRef } from "react";
 
 import { useI18nCurrencyInput, Types } from '@houdiniproject/react-i18n-currency-input';
-import '../../common/intl-polyfills/numberFormat';
 import { Control, ControllerFieldState, ControllerRenderProps, FormState, useController, FieldPath, FieldValues } from "react-hook-form";
 import { useId } from "@reach/auto-id";
 

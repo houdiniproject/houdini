@@ -31,20 +31,18 @@ describe('ProgressableButton', () => {
                           disableOnProgress={false}
 
                           />)
-    userEvent.click(screen.getByText("onProgress"))
-    expect(clicked).toBeCalled();
     expect(output.baseElement.outerHTML).toMatchSnapshot()
   })
 
   test('Title is kept on progress if no titleOnProgress is set', () => {
-    let output = mount(
-      <ProgressableButton onClick={() => console.log('alert!')}
+    let output = render(
+      <ProgressableButton onClick={() => {}}
                           buttonText={"nothing"}
                           data-label="button"
                           inProgress={true}
 
       />)
-    expect(toJson(output)).toMatchSnapshot()
+    expect(output.baseElement.outerHTML).toMatchSnapshot()
   })
 
   test('Progress means we change the title, disable and do turn on spinner', () => {

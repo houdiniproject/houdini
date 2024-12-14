@@ -16,7 +16,7 @@ function rawFormatMoney(intl:IntlShapeParent, amount:Money, opts?:FormatMoneyOpt
 		currency: amount.currency.toUpperCase(),
 	});
 
-	const adjustedAmount = amount.toBigNumber().dividedBy(Math.pow(10, formatter.resolvedOptions().maximumFractionDigits));
+	const adjustedAmount = amount.toBigNumber().dividedBy(Math.pow(10, formatter.resolvedOptions().maximumFractionDigits || 0));
 	return formatter.format(adjustedAmount.toNumber());
 }
 

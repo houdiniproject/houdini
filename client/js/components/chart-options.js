@@ -18,6 +18,12 @@ chartOptions.dollars = {
   }
 , tooltips: {
     callbacks: {
+      /**
+       * 
+       * @param {{datasetIndex:any, yLabel: any}} item 
+       * @param {{datasets:any}} data 
+       * @returns {string}
+       */
       label: (item, data) =>
         data.datasets[item.datasetIndex].label + 
         ': $' + utils.cents_to_dollars(item.yLabel)

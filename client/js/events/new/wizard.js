@@ -3,8 +3,6 @@ require('../../common/pikaday-timepicker')
 require('../../components/wizard')
 require('../../common/image_uploader')
 var checkName = require('../../common/ajax/check_campaign_or_event_name')
-var format_err = require('../../common/format_response_error')
-
 
 appl.def('advance_event_name_step', function(form_obj) {
   var name = form_obj['event[name]']

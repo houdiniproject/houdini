@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('flimflam/h')
 const uuid = require('uuid')
 
@@ -20,5 +19,5 @@ const radios = name => label => {
 }
 
 module.exports = (name, labels) => 
-  h('div.no-padding-last-child', R.map(radios(name), labels))
+  h('div.no-padding-last-child', labels.map(radios(name)))
 

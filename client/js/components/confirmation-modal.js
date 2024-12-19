@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('snabbdom/h')
 const uuid = require('uuid')
 const flyd = require('flyd')
@@ -15,9 +14,9 @@ const init = show$ => {
   }
 
   state.modalID$ = mergeAll([
-      flyd.map(R.always(state.ID), show$)
-    , flyd.map(R.always(null), state.unconfirm$)
-    , flyd.map(R.always(null), state.confirm$)])
+      flyd.map(() => state.ID, show$)
+    , flyd.map(() => null, state.unconfirm$)
+    , flyd.map(() => null, state.confirm$)])
 
   return state
 }

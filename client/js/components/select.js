@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('flimflam/h')
 
 // example:
@@ -15,9 +14,9 @@ const option = selected => o =>
 
 module.exports = obj => 
   h('select', {props: {name: obj.name}}
-  , R.concat(
-      [h('option', {props: {disabled: 'true', selected: obj.selected === undefined}}, obj.placeholder || 'Select One')]
-    , R.map(option(obj.selected), obj.options)
-    )
+  , [
+      ...[h('option', {props: {disabled: 'true', selected: obj.selected === undefined}}, obj.placeholder || 'Select One')]
+    , ...obj.options.map(option(obj.selected))
+  ] 
   )
 

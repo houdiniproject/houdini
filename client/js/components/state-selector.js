@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const R = require('ramda')
 
 const geo = require('../common/geography')
 const stateCodes = geo.stateCodes
@@ -15,10 +14,7 @@ const stateCodes = geo.stateCodes
 // }
 
 function view(options) {
-  var stateOptions = R.map(
-    s => h('option', {props: {value: s, selected: options.default === s}}, s)
-  , stateCodes
-  )
+  var stateOptions = stateCodes.map((s) => h('option', { props: { value: s, selected: options.default === s } }, s));
   return h('select', {props: {name: options.name }}, stateOptions)
 }
 

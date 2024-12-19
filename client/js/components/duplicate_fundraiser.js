@@ -2,7 +2,6 @@
 const flyd = require('flyd')
 const request = require('../common/request')
 const flatMap = require('flyd/module/flatmap')
-const R = require('ramda')
 
 function init(prefix, fundraiserId) {
   var dupePath = prefix + `/${fundraiserId}/duplicate.json`
@@ -14,7 +13,7 @@ function init(prefix, fundraiserId) {
   const duplicate = () => {
     button.setAttribute('disabled', 'disabled')  
     button.innerHTML = 'Copying...'
-    return flyd.map(R.prop('body'), request({path: dupePath, method: 'post'}).load)
+    return flyd.map(r => r.body, request({path: dupePath, method: 'post'}).load)
   } 
 
   const response$ = flatMap(duplicate, click$)

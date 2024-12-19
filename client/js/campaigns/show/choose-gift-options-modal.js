@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const R = require('ramda')
 
 const soldOut = require('./is-sold-out')
 const giftButton = require('./gift-option-button')
@@ -9,13 +8,17 @@ const giftOption = g => h('option', { props: {value: g.id} }, g.name)
 
 const setDisplayGift = (state, gifts) => ev => {
   var id = Number(ev.target.value)
-  state.selectedModalGift$(R.find(R.propEq('id', id))(gifts))
+  state.selectedModalGift$(gifts.find(i => i.id === id))
 }
 
 const chooseGift = (state, gifts) =>
   h('div.pastelBox--grey.u-padding--10', [
     h('select.u-margin--0', {on: {change: setDisplayGift(state, gifts)}}
-    , R.concat([h('option', 'Choose a gift option')], R.map(giftOption, gifts)))
+    , [ 
+      h('option', 'Choose a gift option')
+      , ...gifts.map(giftOption)
+    ]
+  )
   , h('div.sideGifts', 
       state.selectedModalGift$() && state.selectedModalGift$().id 
       ? [
@@ -34,7 +37,8 @@ const regularContribution = state => {
 }
 
 module.exports = state => {
-  var gifts = R.filter(g => !soldOut(g), state.giftOptions.giftOptions$() || []) 
+  const toFilter = state.giftOptions.giftOptions$() || []
+  const gifts = toFilter.filter(g => !soldOut(g))
   return h('div.u-padding--15', [
     chooseGift(state, gifts)
   , regularContribution(state)

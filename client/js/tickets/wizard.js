@@ -4,7 +4,6 @@ const request = require('../common/super-agent-promise')
 const create_card = require('../cards/create')
 const format_err = require('../common/format_response_error')
 var path = '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/tickets'
-const R = require('ramda')
 
 const autocomplete = require('../components/address-autocomplete-viewscript');
 
@@ -15,8 +14,8 @@ const CommitchangeFeeCoverageCalculator = require('../../../javascripts/src/lib/
 
 appl.def('discounts.apply', function (node) {
   var code = appl.prev_elem(node).value
-  var codes = R.pluck('code', appl.discounts.data)
-  if (!R.contains(code, codes)) {
+  var codes = appl.discounts.data.map(item => item.code)
+  if (!codes.includes(code)) {
     appl.def('ticket_wiz.discount_obj', false)
     appl.def('ticket_wiz.post_data.event_discount_id', undefined)
     const calced = recalculateTheTotal()
@@ -30,7 +29,7 @@ appl.def('discounts.apply', function (node) {
     return
   }
 
-  appl.def('ticket_wiz.discount_obj', R.find(R.propEq('code', code), appl.discounts.data))
+  appl.def('ticket_wiz.discount_obj', appl.discounts.data.find(item => item.code === code))
   appl.def('ticket_wiz.post_data.event_discount_id', appl.ticket_wiz.discount_obj.id)
 
   const { total_amount, fee } = recalculateTheTotal()

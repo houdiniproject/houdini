@@ -20,13 +20,13 @@ function init(donationDefaults, params$) {
     }
 
   // A stream of objects that an be used to modify the existing donation by using R.evolve
-  donationDefaults = R.merge(donationDefaults, {
+  donationDefaults = {...donationDefaults,
     amount: dollarsToCents(state.params$().single_amount || 0)
   , designation: state.params$().designation
   , recurring: state.params$().type === 'recurring'
   , weekly: (typeof state.params$().weekly !== 'undefined')
   , feeCovering: false
-  })
+  }
   // Apply R.evolve using every value on the evolveDonation$ stream, starting with the defaults
   state.donation$ = flyd.scanMerge([
     [state.params$ || flyd.stream(), setDonationFromParams]
@@ -76,17 +76,11 @@ function chooseDesignation(state) {
     class: {'u-hide': !state.params$().multiple_designations}
   }, [
     h('select.donate-designationDropdown.select.u-marginBottom--10', {
-      on: { change: ev => state.evolveDonation$({designation: R.always(ev.currentTarget.value)}) }
-    }, R.concat(
-        R.map(
-          d => h('option', {props: {value: ''}}, d)
-        , defaultDesigs
-        )
-      , R.map(
-          d => h('option', {props: {value: d}}, d)
-        , state.params$().multiple_designations
-            )
-        )
+      on: { change: ev => state.evolveDonation$({designation: () => ev.currentTarget.value}) }
+    }, [
+        ...defaultDesigs.map(d => h('option', {props: {value: ''}}, d))
+      , ...state.params$().multiple_designations.map(d => h('option', {props: {value: d}}, d))
+      ]
     )
     ])
 }
@@ -158,7 +152,7 @@ function amountFields(state) {
           h('button.button.u-width--full.white.amount', {
             class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt.amount*100}
           , on: {click: ev => {
-              state.evolveDonation$({amount: R.always(dollarsToCents(amt.amount))})
+              state.evolveDonation$({amount: () => dollarsToCents(amt.amount)})
               state.buttonAmountSelected$(true)
               state.currentStep$(1) // immediately advance steps when selecting an amount button
             } }
@@ -172,10 +166,10 @@ function amountFields(state) {
       , on: {
         focus: ev => {
             state.buttonAmountSelected$(false)
-            state.evolveDonation$({amount: R.always(dollarsToCents(ev.currentTarget.value))})
+            state.evolveDonation$({amount: () => dollarsToCents(ev.currentTarget.value)})
         }
         , input: ev =>  {
-            state.evolveDonation$({amount: R.always(dollarsToCentsSafe(ev.currentTarget.value))})
+            state.evolveDonation$({amount: () => dollarsToCentsSafe(ev.currentTarget.value)})
         }
         }
       })

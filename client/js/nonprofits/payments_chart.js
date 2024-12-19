@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const request = require('../common/client') 
-const R = require('ramda') 
 const Chart = require('chart.js')
 const Pikaday = require('pikaday')
 const moment = require('moment')
@@ -28,18 +27,20 @@ appl.def('updateChartParams', function(formObj) {
 })
 
 // start date Pickaday
-new Pikaday(R.merge({
+new Pikaday({
     field: document.getElementById('js-paymentsChart-startDate')
   , maxDate: moment().subtract(1, 'week').toDate()
   , defaultDate: moment().subtract(1, 'years').toDate()
-}, pickadayDefaults))
+  , ...pickadayDefaults
+})
 
 // end date Pickaday
-new Pikaday(R.merge({
+new Pikaday({
     field: document.getElementById('js-paymentsChart-endDate')
   , maxDate: moment().toDate() 
   , defaultDate: moment().toDate() 
-}, pickadayDefaults))
+  , ...pickadayDefaults
+})
 
 var ctx = document.getElementById('js-paymentsChart').getContext('2d')
 
@@ -56,7 +57,7 @@ function updateChart(params) {
   request.get(url)
     .query(params)
     .end(function(err, resp) {
-      chart.data.labels   =  formatLabels(R.pluck('time_span', resp.body), params.timeSpan)
+      chart.data.labels   =  formatLabels(resp.body.map(i => i['time_span']), params.timeSpan)
       chart.data.datasets =  formatDatasets(resp.body)
       chart.update()
       appl.def('loading_chart', false)
@@ -66,15 +67,15 @@ function updateChart(params) {
 function formatLabels(dates, type) {
   switch (type) {
     case "year":
-      return R.map(st => moment(st).format('YYYY'), dates)
+      return dates.map(st => moment(st).format('YYYY'))
     case "month":
-      return R.map(st => moment(st).format('MMM YYYY'), dates)
+      return dates.map(st => moment(st).format('MMM YYYY'))
     case "week":
-      return R.map(st => 
+      return dates.map(st => 
         `${moment(st).format('M/D/YY')} - ${moment(st).add(7, 'days').format('M/D/YY')}`
-        , dates)
+      )
     default:
-      return R.map(st => moment(st).format(frontendFormat), dates)
+      return dates.map(st => moment(st).format(frontendFormat))
   }
 }
 
@@ -100,7 +101,7 @@ const formatDatasets = (data) => [
 function dataset(label, key, rgb, data) {
   return {
       label: label 
-    , data: R.pluck(key, data) 
+    , data: data.map(i => i[key])
     , borderWidth: 1
     , borderColor: `rgb(${rgb})`   
     , backgroundColor: `rgba(${rgb},0.3)`

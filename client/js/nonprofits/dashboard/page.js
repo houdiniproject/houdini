@@ -35,7 +35,6 @@ todos(function(data, url) {
 })
 
 // the only ff component so far on this page is events listings
-const R = require('ramda')
 const h = require('snabbdom/h')
 const flyd = require('flyd')
 const render = require('ff-core/render')
@@ -54,7 +53,7 @@ const view = state => {
     return mixin([h('p.u-padding--15.u-centered', 'Loading...')])
   if(!state.resp$().body.length) 
     return mixin([h('p.u-padding--15.u-centered', `None currently`)])
-  return mixin(R.map(listing, state.resp$().body))
+  return mixin(state.resp$().body.map(listing));
 }
 
 var container = document.querySelector('#js-eventsListing')

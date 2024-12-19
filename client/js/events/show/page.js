@@ -10,7 +10,6 @@ const donateWiz = require('../../nonprofits/donate/wizard')
 const snabbdom = require('snabbdom')
 const h = require('snabbdom/h')
 const flyd = require('flyd')
-const R = require('ramda')
 const render = require('ff-core/render')
 const modal = require('ff-core/modal')
 
@@ -27,8 +26,8 @@ function init() {
   var state = { }
   const startWiz$ = flyd.stream()
   const donateButtons = document.querySelectorAll('.js-openDonationModal')
-  R.map(x => x.addEventListener('click', createClickListener(startWiz$)), donateButtons)
-  state.modalID$ = flyd.map(R.always('donationModal'), startWiz$)
+  donateButtons.map((x) => x.addEventListener('click', createClickListener(startWiz$)));
+  state.modalID$ = flyd.map(() => 'donationModal', startWiz$)
   state.donateWiz = donateWiz.init(flyd.stream({event_id: app.event_id, hide_cover_fees_option: app.hide_cover_fees_option}))
   return state
 }

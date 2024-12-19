@@ -46,7 +46,7 @@ const fontListing = state =>
 const fontRow = R.curry((state, key, font) =>
   h('li', {
     style: { fontFamily: font.family }
-  , on: {click: [state.font$, R.merge(font, {key: key})]}
+  , on: {click: [state.font$, {...font, key}]}
   }, font.name)
 )
 

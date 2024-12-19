@@ -18,7 +18,7 @@ function init() {
 
   // formSerialize will set checked boxes to "on" and unchecked boxes to "". We want it to be true/false instead
   const formObj$ = R.compose(
-    flyd.map(obj => R.map(val => val === 'on' ? true : false, obj))
+    flyd.map(obj => obj.map(val => val === 'on' ? true : false))
   , flyd.map(ev => serializeForm(ev.currentTarget, {hash: true, empty: true}))
   )(state.submit$)
 
@@ -28,11 +28,11 @@ function init() {
     obj => request({ path, method: 'post' , send: {email_settings: obj} }).load
   , formObj$ )
 
-  state.email_settings$ = flyd.map(R.prop('body'), request({method: 'get', path}).load)
+  state.email_settings$ = flyd.map((r) => r.body, request({ method: 'get', path }).load);
 
   state.loading$ = flyd.mergeAll([
-    flyd.map(R.always(true), state.submit$)
-  , flyd.map(R.always(false), updateResp$)
+    flyd.map(() => true, state.submit$)
+  , flyd.map(() => false, updateResp$)
   ])
 
   const notify$ = flyd.map(()=> 'Email notification settings updated.', updateResp$)

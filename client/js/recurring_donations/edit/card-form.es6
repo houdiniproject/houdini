@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 // npm
 const h = require('snabbdom/h')
-const R = require('ramda')
 const validatedForm = require('ff-core/validated-form')
 const button = require('ff-core/button')
 const flyd = require('flyd')
@@ -41,10 +40,10 @@ var messages = {
 const init = (state) => {
   state = state || {}
   // set defaults
-  state = R.merge({
+  state = {
     payload$: flyd.stream(state.payload || {})
   , path$: flyd.stream(state.path || '/cards')
-  }, state)
+  , ...state }
 
   state.cardAreaId = uniqueId('ff_card_area_id-')
 
@@ -77,18 +76,18 @@ const init = (state) => {
     return saveCard(state.payload$(), state.path$(), resp.stripe_resp, resp.recaptcha_token)
   }, recaptchaKeyOk$)
 
-  const recaptchaError$ = flyd.map(R.prop('message'), flyd.filter(resp => {
+  const recaptchaError$ = flyd.map(r => r.message, flyd.filter(resp => {
     return resp.message
   }, recaptchaKey$))
 
-  const ccError$ = flyd.map(R.prop('error'), flyd.filter(resp => resp.error, state.resp$))
+  const ccError$ = flyd.map(r => r.error, flyd.filter(resp => resp.error, state.resp$))
   state.saved$ = flyd.filter(resp => !resp.error, state.resp$)
   state.error$ = flyd.merge(stripeError$, flyd.merge(ccError$, recaptchaError$))
 
   state.loading$ = scanMerge([
-    [state.form.validSubmit$, R.always(true)]
-  , [state.error$, R.always(false)]
-  , [state.saved$, R.always(false)]
+    [state.form.validSubmit$, () => true]
+  , [state.error$, () => false]
+  , [state.saved$, () => false]
   ], false)
 
   return state
@@ -99,17 +98,19 @@ const init = (state) => {
 
 // Save the card to our own servers, and return a response stream
 const saveCard = (send, path, resp, recaptcha_token) => {
-  send = R.merge(send, {
+  send = {
+    ...send,
     'g-recaptcha-response': recaptcha_token
-  });
+  };
   
-  send.card = R.merge(send.card, {
+  send.card = {
+    ...send.card,
     cardholders_name: resp.name
     , name: `${resp.token.card.brand} *${resp.token.card.last4}`
     , stripe_card_token: resp.token.id
     , stripe_card_id: resp.token.card.id
-  })
-  return flyd.map(R.prop('body'), request({ path, send, method: 'post' }).load)
+  }
+  return flyd.map(r => r.body, request({ path, send, method: 'post' }).load)
 }
 
 const mount = state => {

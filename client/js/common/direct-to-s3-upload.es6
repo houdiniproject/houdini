@@ -28,7 +28,7 @@ const uploadFile = R.curry(input => {
       var url = `${presignedPost.s3_direct_url}`
       var file = input.files[0]
       var fileUrl = `${url}/tmp/${presignedPost.s3_uuid}/${file.name}`
-      var payload = R.merge(JSON.parse(presignedPost.s3_presigned_post), {file})
+      var payload = { ...JSON.parse(presignedPost.s3_presigned_post), file }
 
       return flyd.map(resp => ({uri: fileUrl, file}), postFormData(url, payload))
     }

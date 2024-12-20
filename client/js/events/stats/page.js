@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 // npm
-const R = require('ramda')
 const flyd = require('flyd')
 const h = require('snabbdom/h')
 const snabbdom = require('snabbdom')
@@ -23,10 +22,14 @@ const makeStatsSquare = vnode => {
     : elm.style.height = width + 'px' 
 }
 
-const get = path => R.compose(
-    flyd.map(x => x.body)
-  , filter(x => x.status === 200) 
-  )(request({method: 'get', path}).load)
+const get = path =>
+  flyd.map(
+    x => x.body,
+    filter(
+      (x) => x.status === 200,
+      request({ method: 'get', path }).load
+    )
+  )
 
 // makes an ajax call on page load and then every minute
 const getEveryMinute = path => flyd.merge( 
@@ -51,7 +54,7 @@ const statInner = (content, isCircle) => {
   }
   return h('section.stat-inner'
   , app.nonprofit.brand_color
-    ? R.merge(data, {style: {background: app.nonprofit.brand_color}})
+    ? {...data, style: { background: app.nonprofit.brand_color } }
     : data
   , content) 
 }
@@ -76,7 +79,7 @@ console.log('metrics', state.metrics$()) ||
       ], true)
     ])
   , !app.hide_activity_feed && state.activities$().length
-    ? h('div.stats-activities', R.map(activity, R.take(3, state.activities$())))
+    ? h('div.stats-activities', state.activities$().slice(0,3).map(activity))
     : ''
   , h('div.stats-backgroundScrim', '')
   , app.event_background_image

@@ -2,7 +2,6 @@
 // npm
 const snabbdom = require('snabbdom')
 const flyd = require('flyd')
-const R = require('ramda')
 const render = require('ff-core/render')
 const notification = require('ff-core/notification')
 const serializeForm = require('form-serialize')
@@ -16,11 +15,8 @@ const view = require('./view')
 function init() {
   var state = { submit$: flyd.stream() }
 
-  // formSerialize will set checked boxes to "on" and unchecked boxes to "". We want it to be true/false instead
-  const formObj$ = R.compose(
-    flyd.map(obj => obj.map(val => val === 'on' ? true : false))
-  , flyd.map(ev => serializeForm(ev.currentTarget, {hash: true, empty: true}))
-  )(state.submit$)
+  const intermediate = flyd.map(ev => serializeForm(ev.currentTarget, {hash: true, empty: true}, state.submit$));
+  const formObj$ = flyd.map(obj => obj.map(val => val === 'on' ? true : false), intermediate);
 
   const path = `/nonprofits/${app.nonprofit_id}/users/${app.current_user_id}/email_settings`
 

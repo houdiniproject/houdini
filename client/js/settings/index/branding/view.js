@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 // npm
 const h = require('snabbdom/h')
-const R = require('ramda')
 const notification = require('ff-core/notification')
 const button = require('ff-core/button')
 // local
@@ -41,14 +40,15 @@ const fontPicker = state =>
   ])
 
 const fontListing = state =>
-  h('ul.inner', R.map(R.apply(fontRow(state)), R.toPairs(fonts)))
+  h('ul.inner', Object.entries(fonts).map(
+    ([key, value]) => fontRow(state, key, value)
+  ))
 
-const fontRow = R.curry((state, key, font) =>
+const fontRow = (state, key, font) =>
   h('li', {
     style: { fontFamily: font.family }
   , on: {click: [state.font$, {...font, key}]}
   }, font.name)
-)
 
 const form = state => {
   var btn = button({ buttonText: 'Save Branding' , loading$: state.loading$ })

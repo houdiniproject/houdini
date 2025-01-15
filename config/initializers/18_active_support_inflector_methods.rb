@@ -1,6 +1,7 @@
 # from https://github.com/rails/rails/blob/0ecaaf76d1b79cf2717cdac754e55b4114ad6599/activesupport/lib/active_support/inflector/methods.rb
 
-if Rails.version < '5'
+# Rails version listed in https://github.com/advisories/GHSA-j6gc-792m-qgm2
+if Rails.version < '6.1'
   require 'active_support/inflector/methods'
 
   module ActiveSupport

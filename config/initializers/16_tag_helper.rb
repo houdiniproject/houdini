@@ -1,5 +1,6 @@
 
-if Rails.version < '5'
+# related to this issue https://discuss.rubyonrails.org/t/cve-2022-27777-possible-xss-vulnerability-in-action-view-tag-helpers/80534
+if Rails.version < '5.2'
   require 'action_view/helpers/tag_helper'
 
   module ActionView

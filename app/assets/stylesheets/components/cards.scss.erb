@@ -33,3 +33,17 @@
 	&.mastercard { background-position: 64px; }
 	&.discovercard { background-position: 96px; }
 }
+
+<%# currently only the /components/card-form.es6 form for the widget uses this  %>
+.cardForm .name-zip {
+	display: flex;
+
+	fieldset.name {
+		flex: 7;
+	}
+
+	fieldset.zip {
+		flex: 5;
+	}
+
+}

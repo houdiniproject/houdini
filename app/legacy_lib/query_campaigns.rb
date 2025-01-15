@@ -3,27 +3,6 @@ require 'qexpr'
 
 module QueryCampaigns
 
-  def self.featured(limit, gross_more_than)
-    expr = Qexpr.new.select(
-      'campaigns.name',
-      'campaigns.summary',
-      'campaigns.gross',
-      Image._url('campaigns', 'main_image', 'normal') + 'AS main_image_url',
-      "concat('/nonprofits/', campaigns.nonprofit_id, '/campaigns/', campaigns.id) AS url"
-    ).from(
-      Qexpr.new.select("campaigns.*", "SUM(donations.amount) AS gross")
-      .from("campaigns")
-      .join("donations", "donations.campaign_id=campaigns.id")
-      .group_by("campaigns.id"),
-      "campaigns"
-    ).where("campaigns.gross > $amount AND campaigns.published='t' AND campaigns.nonprofit_id!=$id", amount: gross_more_than, id: 4182)
-     .order_by("campaigns.updated_at ASC")
-     .limit(limit)
-
-    Psql.execute(expr.parse)
-  end
-
-
   def self.timeline(campaign_id)
      ex = QueryCampaigns.payments_expression(campaign_id, true)
      ex.group_by("DATE(payments.date)")

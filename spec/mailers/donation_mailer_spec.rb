@@ -194,4 +194,124 @@ RSpec.describe DonationMailer, :type => :mailer do
 
     end
   end
+
+  describe "#nonprofit_payment_notification" do
+
+    context 'when supporter name is set' do
+      before(:each) {
+        expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])
+      }
+      
+      let(:supporter) { create(:supporter_base)}
+      let(:donation) { create(:donation_base, supporter: supporter, nonprofit: supporter.nonprofit)}
+      let(:payment) { create(:payment_base, donation: donation)}
+
+      let!(:mail) { DonationMailer.nonprofit_payment_notification(
+        donation.id, 
+        payment.id
+        ) }
+      
+      it 'uses the supporter name in subject' do
+        expect(mail.subject).to include supporter.name
+      end
+    end
+
+
+    context 'when supporter name is nil' do
+      before(:each) {
+        expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])
+      }
+      
+      let(:supporter) { create(:supporter_base, email: "supporter@example.com", name: nil)}
+      let(:donation) { create(:donation_base, supporter: supporter, nonprofit: supporter.nonprofit)}
+      let(:payment) { create(:payment_base, donation: donation)}
+
+      let!(:mail) { DonationMailer.nonprofit_payment_notification(
+        donation.id, 
+        payment.id
+        ) }
+      
+      it 'uses the supporter email instead of name in subject' do
+        expect(mail.subject).to include supporter.email
+      end
+    end
+
+    context 'when supporter name is blank', pending: true do
+      before(:each) {
+        expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])
+      }
+      
+      let(:supporter) { create(:supporter_base, email: "supporter@example.com", name: "")}
+      let(:donation) { create(:donation_base, supporter: supporter, nonprofit: supporter.nonprofit)}
+      let(:payment) { create(:payment_base, donation: donation)}
+
+      let!(:mail) { DonationMailer.nonprofit_payment_notification(
+        donation.id, 
+        payment.id
+        ) }
+
+      
+      it 'uses the supporter email instead of name in subject' do
+        expect(mail.subject).to include supporter.email
+      end
+    end
+
+    context 'when dedication is not set' do
+      before(:each) {
+        expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])
+      }
+
+      let(:supporter) { create(:supporter_base)}
+      let(:donation) { create(:donation_base, supporter: supporter, nonprofit: supporter.nonprofit)}
+      let(:payment) { create(:payment_base, donation: donation)}
+
+      let!(:mail) { DonationMailer.nonprofit_payment_notification(
+        donation.id,
+        payment.id
+        ) }
+
+        it 'does not include the dedication section' do
+        expect(mail.body.encoded).to_not include "Acknowledgement Phone"
+      end
+    end
+
+    context 'when dedication is blank' do
+      before(:each) {
+        expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])
+      }
+
+      let(:supporter) { create(:supporter_base)}
+      let(:donation) { create(:donation_base, supporter: supporter, nonprofit: supporter.nonprofit, dedication: '')}
+      let(:payment) { create(:payment_base, donation: donation)}
+
+      let!(:mail) { DonationMailer.nonprofit_payment_notification(
+        donation.id,
+        payment.id
+        ) }
+
+      it 'does not include the dedication section' do
+        expect(mail.body.encoded).to_not include "Acknowledgement Phone"
+      end
+    end
+
+    context 'when dedication is set' do
+      before(:each) {
+        expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])
+      }
+
+      let(:supporter) { create(:supporter_base)}
+      let(:donation) { create(:donation_with_dedication, supporter: supporter, nonprofit: supporter.nonprofit)}
+      let(:payment) { create(:payment_base, donation: donation)}
+
+      let!(:mail) { DonationMailer.nonprofit_payment_notification(
+        donation.id,
+        payment.id
+        ) }
+
+        it 'does not include the dedication section' do
+        expect(mail.body.encoded).to include "Acknowledgement Phone"
+        expect(mail.body.encoded).to include "234-343-3234"
+      end
+    end
+  end
 end

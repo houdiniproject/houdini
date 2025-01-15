@@ -5,7 +5,7 @@ export interface AmountButtonDesc {
   highlight: string | false;
 }
 
-type AmountButtonInput = {
+export type AmountButtonInput = {
   amount: number;
   highlight: string | boolean;
 } | number;

@@ -22,6 +22,11 @@ function query() {
     })
 }
 
+/**
+ * 
+ * @param {Array} data 
+ * @returns 
+ */
 function cumulative(data) {
   var moments = dateRange(R.head(data).date, R.last(data).date, 'days')
   var dateStrings = R.map((m) => m.format('YYYY-MM-DD'), moments)
@@ -53,9 +58,14 @@ function cumulative(data) {
   }, [proto], R.values(dateDictionary)))
 }
 
+/**
+ * 
+ * @param {Array} data 
+ * @returns 
+ */
 function formatData(data) {
   return {
-    labels: R.map((st) => moment(st).format('M/D/YYYY'), R.pluck('date', data))
+    labels: data.map(i => i.date).map((st) => moment(st).format('M/D/YYYY'))
   , datasets: [ 
       dataset('Total'
             , 'total_cents'
@@ -77,6 +87,14 @@ function formatData(data) {
   }
 }
 
+/**
+ * 
+ * @param {string} label 
+ * @param {string} key 
+ * @param {string} rgb 
+ * @param {Array} data 
+ * @returns 
+ */
 function dataset(label, key, rgb, data) {
   return {
       label: label 

@@ -3,7 +3,6 @@ const snabbdom = require('snabbdom')
 const flyd = require('flyd')
 const render = require('ff-core/render')
 const wiz = require("../../../../client/js/nonprofits/donate/wizard")
-const R = require('ramda')
 const assert = require('assert')
 
 window.log = x => y => console.log(x,y)
@@ -41,7 +40,7 @@ suite("donate wizzzzz")
 test("initializes amount, info, and payment steps", ()=> {
   let streams = init()
   let labels = streams.dom$().querySelectorAll('.ff-wizard-index-label')
-  assert.deepEqual(R.map(R.prop('textContent'), labels), ['Amount', 'Info', 'Payment'])
+  assert.deepEqual(labels.map(l => l.text), ['Amount', 'Info', 'Payment'])
 })
 
 test("shows the nonprofit name without a campaign", () => {
@@ -91,26 +90,4 @@ test('shows the tagline if designation param set and single amount set', ()=> {
   const designation = '1312312xyz'
   let streams = init(flyd.stream({designation, single_amount: 1000}))
   assert.equal(streams.dom$().querySelector('.titleRow-info p').textContent, app.nonprofit.tagline)
-})
-
-test('hides the footer if no user is in the env', () => {
-  let streams = init()
-  const idx = streams.dom$().querySelector('.donateForm-footer').className.indexOf('hide')
-  assert.notEqual(idx, -1)
-})
-
-test('shows the footer if a user is in the env', () => {
-  app.user = {email: 'user@example.com', id: 1}
-  let streams = init()
-  const idx = streams.dom$().querySelector('.donateForm-footer').className.indexOf('hide')
-  assert.equal(idx, -1)
-  app.user = {}
-})
-
-test('shows user info text if a user is in the env', () => {
-  app.user = {email: 'user@example.com', id: 1}
-  let streams = init()
-  const text = streams.dom$().querySelector('.donateForm-footer').textContent
-  assert.equal(text, 'Signed in as user@example.com Logout')
-  app.user = {}
 })

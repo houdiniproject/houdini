@@ -42,9 +42,6 @@ $mint-milk : #E7F3ED;
 }
 
 // amount step
-.wizard-steps .amount-step {
-	padding: 0 5px;
-}
 .wizard-steps .amount-step button.is-selected {
 	background: darken($mint-milk, 10);
 }
@@ -87,18 +84,77 @@ $mint-milk : #E7F3ED;
 	margin: 15px 0 20px 0;
 }
 
-.dedication-form {
-  background: #fcfcfc;
-  padding: 10px;
-  border-radius: 4px;
-}
-
 .donationModal .ff-modal {
   width: 480px;
   margin-left: -240px;
 }
 .donationModal .ff-modal-body {
   padding: 0;
+}
+
+// info step
+.info-step > form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.info-step section.group {
+	display: flex;
+}
+
+.info-step section.address {
+	padding-top: 10px;
+}
+
+
+.info-step .manual-address-fields {
+	display: flex;
+	flex-wrap: wrap;
+
+	fieldset {
+		flex: 33.33%;
+	}
+	fieldset:first-child {
+		flex: 66.66%;
+	}
+	p.search-link {
+		flex: 100%;
+		text-align: center;
+		padding-top: 5px;
+	}
+}
+
+// making textarea consistent with other form inputs here
+// intentionally just changing this in the widget for now
+.info-step form textarea {
+	font-size: 16px;
+	border: 1px solid lighten($grey, 35%);;
+	border-bottom: 2px solid lighten($grey, 35%);
+	&:focus {
+		border-bottom: 2px solid lighten($grey, 15%);
+	}
+}
+
+.info-step .dedication-link {
+	border-width: thin;
+	border-style: solid;
+	padding: 2px;
+	border-radius: 2px;
+	display: block;
+	text-wrap: balance;
+}
+
+// dedication form
+.info-step .dedication-form {
+	display: flex;
+	flex-wrap: wrap;
+	> * {
+		flex: 100%;
+	}
+	> .half-width {
+		flex: 50%;
+	}
 }
 
 
@@ -114,5 +170,8 @@ $mint-milk : #E7F3ED;
 	}
 	.wizard-steps .amount-step .custom-amount .button--inset {
 		padding: 0 5px;
+	}
+	.info-step form textarea {
+		font-size: 13px;
 	}
 }

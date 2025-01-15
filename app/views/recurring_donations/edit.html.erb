@@ -9,7 +9,8 @@
 		app.nonprofit.feeStructure = <%= raw(@nonprofit.fee_coverage_details_with_json_safe_keys.to_json) %>
 		app.nonprofit.email = '<%= @data['nonprofit'].email.blank? ? @data['nonprofit'].users.first.email : @data['nonprofit'].email %>'
 		app.pageLoadData = <%= raw @data.to_json %>
-		app.hide_cover_fees_option = <%= !!@data['nonprofit'].hide_cover_fees? %>
+		app.manual_cover_fees = <%= @data['nonprofit'].fee_coverage_option == 'manual' %>
+		app.hide_cover_fees_option = <%= @data['nonprofit'].fee_coverage_option == 'none' %>
 	</script>
 	<%= IncludeAsset.js '/client/js/recurring_donations/edit/page.js' %>
 <% end %>

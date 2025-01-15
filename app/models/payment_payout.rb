@@ -11,7 +11,7 @@
 # It's also nice to keep a historical records of fees for individual donations
 # since our fees will continue to change as our transaction volume increases
 
-class PaymentPayout < ActiveRecord::Base
+class PaymentPayout < ApplicationRecord
 
 	attr_accessible \
 		:payment_id, :payment,

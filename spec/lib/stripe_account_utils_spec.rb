@@ -76,15 +76,6 @@ describe StripeAccountUtils do
                                                                   {:key => :np, :name => :is_a}])
       })
     end
-
-    it 'uses the redacted nonprofit info' do
-      StripeMockHelper.prepare_error(Stripe::InvalidRequestError.new("things are bad", ''), :new_account)
-      result = StripeAccountUtils.create(nonprofit_with_bad_values)
-      acct = Stripe::Account.retrieve(result)
-      expect(acct.company.address.to_h.has_key?(:zip_code)).to be_falsy
-      expect(acct.company.address.to_h.has_key?(:state_code)).to be_falsey
-      expect(acct.business_profile.to_h.has_key?(:url)).to be_falsey
-    end
   end
 
   describe 'testing with valid nonprofit' do

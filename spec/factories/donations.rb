@@ -22,11 +22,20 @@ FactoryBot.define do
         )]
       }
     end
+
+    factory :donation_with_dedication do
+      dedication { {
+        contact: {
+          email: 'email@ema.com',
+          phone: '234-343-3234',
+          address: '123 Four'
+        },
+        name: 'our loved one',
+        note: 'we miss them dearly',
+        type: 'memory'
+      }.to_json }
+    end
   end
-  
-  
-
-
 
   factory :fv_poverty_donation, class: 'Donation' do
     nonprofit {association  :fv_poverty}

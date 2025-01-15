@@ -160,6 +160,20 @@ module QuerySupporters
   #   return new_supporters
   # end
 
+  def self.tag_joins_only_for_nonprofit_query(np_id)
+    Qx.select("tag_joins.id, tag_joins.supporter_id, tag_joins.tag_master_id")
+              .from(:tag_joins)
+              .join(:supporters, "supporters.id = tag_joins.supporter_id")
+  end
+
+  def self.build_tag_query(np_id)
+
+    tags_query =  Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
+      .from(:tag_joins)
+      .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
+      .group_by("tag_joins.supporter_id")
+      .as(:tags)
+  end
 
   # Perform all filters and search for /nonprofits/id/supporters dashboard and export
   def self.full_filter_expr(np_id, query)
@@ -167,31 +181,35 @@ module QuerySupporters
         Qx.select("supporter_id", "SUM(gross_amount)", "MAX(date) AS max_date", "MIN(date) AS min_date", "COUNT(*) AS count")
       .from(
           Qx.select("supporter_id", "date", "gross_amount")
-              .from(Qx.select('*').from(:payments).where("nonprofit_id = $id", id: np_id).as(:payments).parse)
+              .from(:nonprofit_payments)
               .join(Qx.select('id')
                         .from(:supporters)
-                        .where("supporters.nonprofit_id = $id and deleted != 'true'", id: np_id )
-                        .as("payments_to_supporters"),  "payments_to_supporters.id = payments.supporter_id"
+                        .as("payments_to_supporters"),  "payments_to_supporters.id = nonprofit_payments.supporter_id"
               )
               .as("outer_from_payment_to_supporter")
               .parse)
       .group_by(:supporter_id)
       .as(:payments)
 
-    tags_subquery = Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
-      .from(:tag_joins)
-      .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
-      .where("tag_masters.nonprofit_id = $id AND NOT tag_masters.deleted", id: np_id.to_i)
-      .group_by("tag_joins.supporter_id")
-      .as(:tags)
+    # tags_subquery = Qx.select("tag_joins.supporter_id", "ARRAY_AGG(tag_masters.id) AS ids", "ARRAY_AGG(tag_masters.name::text) AS names")
+    #   .from(:tag_joins)
+    #   .join(:tag_masters, "tag_masters.id=tag_joins.tag_master_id")
+    #   .where("tag_masters.nonprofit_id = $id AND NOT tag_masters.deleted", id: np_id.to_i)
+    #   .group_by("tag_joins.supporter_id")
+    #   .as(:tags)
+
+    tags_subquery = build_tag_query(np_id)
+    np_queries = NonprofitQueryGenerator.new(np_id)
 
     expr = Qx.select('supporters.id')
+      .with(:nonprofits, np_queries.nonprofits)
+      .with(:tag_masters, np_queries.tag_masters)
+      .with(:supporters, np_queries.supporters)
+      .with(:supporter_notes, np_queries.supporter_notes)
+      .with(:nonprofit_payments, np_queries.payments)
+      .with(:tag_joins, np_queries.tag_joins_through_supporters)
       .from(:supporters)
       .join('nonprofits', 'nonprofits.id=supporters.nonprofit_id')
-      .where(
-        ["supporters.nonprofit_id=$id", id: np_id.to_i],
-        ["supporters.deleted != true"]
-      )
       .left_join(
          [tags_subquery, "tags.supporter_id=supporters.id"],
          [payments_subquery, "payments.supporter_id=supporters.id"]
@@ -265,10 +283,10 @@ module QuerySupporters
     end
     
     if query[:recurring].present?
-      rec_ps_subquery = Qx.select("payments.count", "payments.supporter_id")
-        .from(:payments)
+      rec_ps_subquery = Qx.select("nonprofit_payments.count", "nonprofit_payments.supporter_id")
+        .from(:nonprofit_payments)
         .where("kind='RecurringDonation'")
-        .group_by("payments.supporter_id")
+        .group_by("nonprofit_payments.supporter_id")
         .as(:rec_ps)
       expr = expr.add_left_join(rec_ps_subquery, "rec_ps.supporter_id=supporters.id")
         .and_where('rec_ps.count > 0')
@@ -380,7 +398,7 @@ UNION DISTINCT
 
 
       get_last_payment_query = Qx.select('supporter_id', "MAX(date) AS date")
-                                   .from(:payments)
+                                   .from(:nonprofit_payments)
                                    .group_by("supporter_id")
                                    .as("last_payment")
 
@@ -610,6 +628,32 @@ UNION DISTINCT
       .map { |arr_group| arr_group.flatten.sort }
   end
 
+  def self.dupes_on_last_name_and_address(np_id)
+    dupes_expr(np_id)
+      .and_where(
+        "name IS NOT NULL\
+         AND name != ''\
+         AND address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(self.calculated_last_name +  " || '_____' || address")
+      .execute(format: 'csv')[1..-1]
+      .map { |arr_group| arr_group.flatten.sort }
+  end
+
+  def self.dupes_on_last_name_and_address_and_email(np_id)
+    dupes_expr(np_id)
+      .and_where(
+        "name IS NOT NULL\
+         AND name != ''\
+         AND address IS NOT NULL \
+         AND address != ''"
+      )
+      .group_by(self.calculated_last_name +  " || '_____' || address || '_____' || COALESCE(email, '')")
+      .execute(format: 'csv')[1..-1]
+      .map { |arr_group| arr_group.flatten.sort }
+  end
+
   def self.dupes_on_phone_and_email(np_id, strict_mode = true)
     group_by_clause = [(strict_mode ? strict_email_match : loose_email_match), "phone_index"].join(', ')
     dupes_expr(np_id)
@@ -653,11 +697,30 @@ UNION DISTINCT
   end
 
   def self.loose_address_match
-    "regexp_replace (lower(address),'[^0-9a-z]','','g'), substring(zip_code from '(([0-9]+.*)*[0-9]+)')"
+    loose_address_match_chunks.join(", ")
+  end
+
+  def self.loose_address_match_chunks
+    ["regexp_replace (lower(address),'[^0-9a-z]','','g')",
+    "substring(zip_code from '(([0-9]+.*)*[0-9]+)')"]
   end
 
   def self.loose_name_match
     "regexp_replace (lower(name),'[^0-9a-z]','','g')"
+  end
+
+  # gets the last words in the name field. If there's a single word, it gets that. If there's multiple words, then it just gets
+  # everything but the first one
+  def self.calculated_last_name
+    "
+      CASE
+            WHEN TRIM(supporters.name) LIKE '% %' THEN substring(
+              TRIM(supporters.name)
+              FROM
+                '^.+ ([^ ]+)$'
+            )
+            ELSE TRIM(supporters.name)
+          END"
   end
 
   # Create an export that lists donors with their total contributed amounts

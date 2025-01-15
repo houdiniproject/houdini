@@ -60,48 +60,58 @@ class Qx
       return expr # already parsed
     elsif expr.is_a?(Array)
       return expr.join(',')
-    elsif expr[:INSERT_INTO]
-      str =  "INSERT INTO #{expr[:INSERT_INTO]} (#{expr[:INSERT_COLUMNS].join(', ')})"
-      throw ArgumentError.new('VALUES (or SELECT) clause is missing for INSERT INTO') unless expr[:VALUES] || expr[:SELECT]
-      throw ArgumentError.new("For safety, you can't use SELECT without insert columns for an INSERT INTO") if !expr[:INSERT_COLUMNS] && expr[:SELECT]
-      if expr[:SELECT]
-        str += ' ' + parse_select(expr)
-      else
-        str += " VALUES #{expr[:VALUES].map { |vals| "(#{vals.join(', ')})" }.join(', ')}"
+    else
+      str = ""
+      if expr[:WITHS].present?
+        str += "WITH "
+        str += expr[:WITHS].map do |with|
+          parse_with(with)
+        end.join(", ")
+        str += " " # add a splitting space before the rest of the query
       end
-      if expr[:ON_CONFLICT]
-        str += ' ON CONFLICT'
+      if expr[:INSERT_INTO]
+        str +=  "INSERT INTO #{expr[:INSERT_INTO]} (#{expr[:INSERT_COLUMNS].join(', ')})"
+        throw ArgumentError.new('VALUES (or SELECT) clause is missing for INSERT INTO') unless expr[:VALUES] || expr[:SELECT]
+        throw ArgumentError.new("For safety, you can't use SELECT without insert columns for an INSERT INTO") if !expr[:INSERT_COLUMNS] && expr[:SELECT]
+        if expr[:SELECT]
+          str += ' ' + parse_select(expr)
+        else
+          str += " VALUES #{expr[:VALUES].map { |vals| "(#{vals.join(', ')})" }.join(', ')}"
+        end
+        if expr[:ON_CONFLICT]
+          str += ' ON CONFLICT'
 
-        if expr[:CONFLICT_COLUMNS]
-          str += " (#{expr[:CONFLICT_COLUMNS].join(', ')})"
-        elsif expr[:ON_CONSTRAINT]
-          str += " ON CONSTRAINT #{expr[:ON_CONSTRAINT]}"
+          if expr[:CONFLICT_COLUMNS]
+            str += " (#{expr[:CONFLICT_COLUMNS].join(', ')})"
+          elsif expr[:ON_CONSTRAINT]
+            str += " ON CONSTRAINT #{expr[:ON_CONSTRAINT]}"
+          end
+          str += ' DO NOTHING' if !expr[:CONFLICT_UPSERT]
+          if expr[:CONFLICT_UPSERT]
+            set_str = expr[:INSERT_COLUMNS].select{|i| i != 'created_at'}.map{|i| "#{i} = EXCLUDED.#{i}" }
+            str +=  " DO UPDATE SET #{set_str.join(', ')}"
+          end
         end
-        str += ' DO NOTHING' if !expr[:CONFLICT_UPSERT]
-        if expr[:CONFLICT_UPSERT]
-          set_str = expr[:INSERT_COLUMNS].select{|i| i != 'created_at'}.map{|i| "#{i} = EXCLUDED.#{i}" }
-          str +=  " DO UPDATE SET #{set_str.join(', ')}"
-        end
+        str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
+      elsif expr[:SELECT]
+        str += parse_select(expr)
+      elsif expr[:DELETE_FROM]
+        str += 'DELETE FROM ' + expr[:DELETE_FROM]
+        throw ArgumentError.new('WHERE clause is missing for DELETE FROM') unless expr[:WHERE]
+        str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ')
+        str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
+      elsif expr[:UPDATE]
+        str +=  'UPDATE ' + expr[:UPDATE]
+        throw ArgumentError.new('SET clause is missing for UPDATE') unless expr[:SET]
+        throw ArgumentError.new('WHERE clause is missing for UPDATE') unless expr[:WHERE]
+        str += ' SET ' + expr[:SET]
+        str += ' FROM ' + expr[:FROM] if expr[:FROM]
+        str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ')
+        str += ' ' + expr[:ON_CONFLICT] if expr[:ON_CONFLICT]
+        str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
       end
-      str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
-    elsif expr[:SELECT]
-      str = parse_select(expr)
-    elsif expr[:DELETE_FROM]
-      str = 'DELETE FROM ' + expr[:DELETE_FROM]
-      throw ArgumentError.new('WHERE clause is missing for DELETE FROM') unless expr[:WHERE]
-      str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ')
-      str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
-    elsif expr[:UPDATE]
-      str =  'UPDATE ' + expr[:UPDATE]
-      throw ArgumentError.new('SET clause is missing for UPDATE') unless expr[:SET]
-      throw ArgumentError.new('WHERE clause is missing for UPDATE') unless expr[:WHERE]
-      str += ' SET ' + expr[:SET]
-      str += ' FROM ' + expr[:FROM] if expr[:FROM]
-      str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ')
-      str += ' ' + expr[:ON_CONFLICT] if expr[:ON_CONFLICT]
-      str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
+      str
     end
-    str
   end
 
   # An instance method version of the above
@@ -409,6 +419,17 @@ class Qx
     self
   end
 
+  def with(name, expr, materialized:nil)
+    materialized_text = !materialized.nil? ? (materialized ? "MATERIALIZED" : "NOT MATERIALIZED") : ""
+  
+    raise "expr is not a Qx, that's not safe!" unless expr.is_a? Qx
+    @tree[:WITHS] ||= []
+    @tree[:WITHS].push({name: name, expr: expr, materialized: materialized})
+
+    self
+  end
+
+
   # -- Helpers!
 
   def self.fetch(table_name, data, options = {})
@@ -493,6 +514,10 @@ class Qx
   # Turn join params into something that .parse can use
   def self.parse_joins(js)
     js.map { |table, cond, data| [table.is_a?(Qx) ? table.parse : table, Qx.interpolate_expr(cond, data)] }
+  end
+
+  def self.parse_with(with)
+    with[:name].to_s + " AS (#{with[:expr].parse})"
   end
 
   # Given an array, determine if it has the form

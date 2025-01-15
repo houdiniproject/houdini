@@ -3,6 +3,6 @@ import customField from "./customField"
 
 describe('customField', () => { 
   it('sets the the field correctly', () => {
-    expect(customField({name: "Name of Field", label: "Field Label"})).toMatchSnapshot();
+    expect(customField({name: "Name of Field", label: "Field Label", type: 'supporter'})).toMatchSnapshot();
   })
 });

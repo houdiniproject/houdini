@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Dispute < ActiveRecord::Base
+class Dispute < ApplicationRecord
 
   Reasons = [:unrecognized, :duplicate, :fraudulent, :subscription_canceled, :product_unacceptable, :product_not_received, :unrecognized, :credit_not_processed, :goods_services_returned_or_refused, :goods_services_cancelled, :incorrect_account_details, :insufficient_funds, :bank_cannot_process, :debit_not_authorized, :general]
 
@@ -43,6 +43,10 @@ class Dispute < ActiveRecord::Base
 
   def reinstatement_transaction
     ((dispute_transactions&.count == 2) && dispute_transactions[1]) || nil
+  end
+
+  def get_original_payment
+    charge&.payment
   end
 
   def build_activity_json(event_type)

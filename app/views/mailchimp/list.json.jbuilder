@@ -8,6 +8,6 @@ json.merge_fields do
 
   @supporter.recurring_donations.active.order('start_date DESC').each_with_index do |item, i|
     json.set! "RD_URL_#{i+1}", # we use i+1 because we want this to start at RD_URL_1
-      edit_recurring_donation_url(id: item.id, t: item.edit_token)
+      edit_recurring_donation_url(id: item.id, t: item.edit_token, host: "us.commitchange.com")
   end
 end

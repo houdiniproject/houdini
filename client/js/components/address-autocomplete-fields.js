@@ -36,7 +36,7 @@ function calculateToShip(state)
 }
 
 function view(state) {
-  return h('section.u-padding--5.pastelBox--grey clearfix', [
+  return h('section.address', [
     calculateToShip(state)
     ? h('label.u-centered.u-marginBottom--5', [
         'Shipping address (required)'
@@ -61,8 +61,8 @@ const autoField = state => {
 }
 
 const manualFields = state => {
-  return h('div', [
-    h('fieldset.col-8.u-fontSize--14', [
+  return h('div.manual-address-fields', [
+    h('fieldset.u-fontSize--14', [
       h('input.u-marginBottom--0', {props: {
         type: 'text'
       , title: 'Street Addresss'
@@ -72,7 +72,7 @@ const manualFields = state => {
           , required: calculateToShip(state) ? state.params$().gift_option.to_ship : undefined
       }})
     ])
-  , h('fieldset.col-right-4.u-fontSize--15', [
+  , h('fieldset.u-fontSize--15', [
       h('input.u-marginBottom--0', {props: {
         type: 'text'
       , name: 'city'
@@ -82,7 +82,7 @@ const manualFields = state => {
           , required: calculateToShip(state) ? state.params$().gift_option.to_ship : undefined
       }})
     ])
-  , h('fieldset.u-marginBottom--0.u-floatL.col-4', [
+  , h('fieldset.u-marginBottom--0', [
       h('input.u-marginBottom--0', {props: {
         type: 'text'
       , name: 'state_code'
@@ -92,7 +92,7 @@ const manualFields = state => {
           , required: calculateToShip(state) ? state.params$().gift_option.to_ship : undefined
       }})
     ])
-  , h('fieldset.u-marginBottom--0.u-floatL.col-right-4.u-fontSize--14', [
+  , h('fieldset.u-marginBottom--0.u-fontSize--14', [
       h('input.u-marginBottom--0', {props: {
         type: 'text'
       , title: 'Zip/Postal'
@@ -102,7 +102,7 @@ const manualFields = state => {
       , required: calculateToShip(state) ? state.params$().gift_option.to_ship : undefined
       }})
     ])
-  , h('fieldset.u-marginBottom--0.u-floatL.col-right-4', [
+  , h('fieldset.u-marginBottom--0', [
       h('input.u-marginBottom--0', {props: {
         type: 'text'
       , title: 'Country'
@@ -111,7 +111,7 @@ const manualFields = state => {
       , value: state.data$().country
       , required: calculateToShip(state) ? state.params$().gift_option.to_ship : undefined
       }})
-    ]), h('p.u-margin--0.u-centered', { style: { display: !!app.autocomplete ? 'block' : 'none' } }, [
+    ]), h('p.u-margin--0.search-link', { style: { display: !!app.autocomplete ? 'block' : 'none' } }, [
       h('a', {on: {click: [state.isManual$, false]}}, [h('small', 'Search for your address')])
     ])
   ])

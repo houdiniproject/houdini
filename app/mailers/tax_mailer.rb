@@ -6,14 +6,30 @@ class TaxMailer < ApplicationMailer
   #
   #   en.tax_mailer.annual_receipt.subject
   #
-  def annual_receipt(supporter:, payments:, year:, nonprofit_text:)
+  def annual_receipt(supporter:, year:, nonprofit_text:, donation_payments: [], refund_payments:[], dispute_payments: [], dispute_reversal_payments: [])
     @supporter = supporter
     @nonprofit = supporter.nonprofit
-    @payments = payments
     @year = year
+
+
+    @total = get_payment_sum(donation_payments, refund_payments, dispute_payments, dispute_reversal_payments)
+    @donation_payments = donation_payments.sort_by(&:date)
+    @refund_payments = refund_payments.sort_by(&:date)
+    @dispute_payments = dispute_payments.sort_by(&:date)
+    @dispute_reversal_payments = dispute_reversal_payments.sort_by(&:date)
     @tax_id = supporter.nonprofit.ein
-    @nonprofit_text = nonprofit_text
+
+    dict = SupporterInterpolationDictionary.new('NAME'=> 'Supporter', 'FIRSTNAME' => 'Supporter')
+    dict.set_supporter(supporter)
+
+    @nonprofit_text = dict.interpolate(nonprofit_text)
 
     mail(to: @supporter.email, subject: "#{@year} Tax Receipt from #{@nonprofit.name}")
   end
+
+
+  private
+    def get_payment_sum(*payments)
+      payments.flatten.sum(&:gross_amount)
+    end
 end

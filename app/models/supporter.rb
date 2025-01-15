@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-class Supporter < ActiveRecord::Base
+class Supporter < ApplicationRecord
   include Model::Houidable
   include Model::CalculatedNames
   setup_houid :supp, :houid
@@ -54,8 +54,24 @@ class Supporter < ActiveRecord::Base
   has_many :payments do
     def during_np_year(year)
       proxy_association.owner.nonprofit.use_zone do
-        where('date >= ? and date < ?', Time.zone.local(year), Time.zone.local(year + 1))
+        where('payments.date >= ? and payments.date < ?', Time.zone.local(year), Time.zone.local(year + 1))
       end
+    end
+
+    def donation_payments
+      where('kind IN (?)', ['Donation', 'RecurringDonation'])
+    end
+
+    def refund_payments
+      where('kind IN (?)', ['Refund'])
+    end
+
+    def dispute_payments
+      where('kind IN (?)', ['Dispute'])
+    end
+
+    def dispute_reversal_payments
+      where('kind IN (?)', ['DisputeReversed'])
     end
   end
   has_many :offsite_payments

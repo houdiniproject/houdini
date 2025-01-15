@@ -1,4 +1,4 @@
-class DisputeTransaction < ActiveRecord::Base
+class DisputeTransaction < ApplicationRecord
   belongs_to :dispute
   belongs_to :payment
   attr_accessible :gross_amount, :disbursed, :payment, :fee_total,
@@ -16,6 +16,10 @@ class DisputeTransaction < ActiveRecord::Base
   def fee_total=(fee_total)
     write_attribute(:fee_total, fee_total)
     calculate_net
+  end
+
+  def from_donation?
+    !!dispute&.get_original_payment&.donation
   end
 
   private

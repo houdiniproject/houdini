@@ -1,6 +1,12 @@
 // License: LGPL-3.0-or-later
 var request = require('../../common/client')
 
+/**
+ * 
+ * @param {string} url 
+ * @param {string} type
+ * @returns {void}
+ */
 module.exports = function(url, type) {
   appl.def('toggle_soft_delete', function(bool) {
     appl.def('loading', true)

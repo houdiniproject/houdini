@@ -25,8 +25,9 @@ jobs:
       strategy:
         matrix:
           os: [ubuntu-20.04]
-          node: [14.19.1]
+          node: [16]
           ruby: ['2.6.10']
+          postgres: ['16']
         fail-fast: false
       steps:
         - name: 'Checkout our repo'
@@ -37,10 +38,10 @@ jobs:
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
           uses: Daniel-Marynicz/postgresql-action@1.0.0
           with:
-            postgres_image_tag: 12-alpine
+            postgres_image_tag: ${{ matrix.postgres }}-alpine
             postgres_user: admin
             postgres_password: password
-        - uses: actions/setup-node@v3
+        - uses: actions/setup-node@v4
           with:
             node-version: ${{ matrix.node }}
             cache: 'yarn'

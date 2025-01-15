@@ -24,6 +24,7 @@ function init(donation$, parentState) {
   , currentStep$: flyd.stream()
   , selectedPayment$: parentState.selectedPayment$
   , donationAmount$: parentState.donationAmount$
+  , hide_anonymous: parentState.hide_anonymous
   }
 
   // Save supporter for dedication logic
@@ -90,22 +91,23 @@ function recurringMessage(state){
 function view(state) {
 
   var form = h('form', {
+    class: {'u-hide': state.showDedicationForm$()},
     on: {
       submit: ev => {ev.preventDefault(); state.currentStep$(2); state.submitSupporter$(ev.currentTarget)}
     }
   }, [
-  recurringMessage(state)
+    recurringMessage(state)
   , supporterFields.view(state.supporterFields)
   , customFields(state.params$().custom_fields)
   , dedicationLink(state)
   , anonField(state)
   , h('div', paymentMethodButtons(["card"], state))
   ])
-  return h('div.wizard-step.info-step.u-padding--10', [
+
+  return h('div.wizard-step.info-step', [
     form
   , h('div', {
-      style: {background: '#f8f8f8', position: 'absolute', 'top': '0', left: '3px', height: '100%', width: '99%'}
-    , class: {'u-hide': !state.showDedicationForm$(), opacity: 0, transition: 'opacity 1s', delay: {opacity: 1}}
+     class: { 'u-hide': !state.showDedicationForm$() }
     }, [dedicationForm.view(state)] )
   ])
 }
@@ -138,7 +140,7 @@ function paymentButton(options, label, state){
 }
 
 function anonField(state) {
-  if (state.params$().hide_anonymous) return '';
+  if (state.hide_anonymous) return '';
 
   state.anon_id = state.anon_id || uuid.v1() // we need a unique id in case there are multiple supporter forms on the page -- the label 'for' attribute needs to be unique
   return h('div.u-marginTop--10.u-centered', [
@@ -166,9 +168,11 @@ const dedicationLink = state => {
   if(state.params$().hide_dedication) return ''
   return h('label.u-centered.u-marginTop--10', [
     h('small', [
-      h('a', {
+      h('a.dedication-link', {
         on: { click: [state.showDedicationForm$, true] },
-        style: {'border-width': 'thin', 'border-style': 'solid', padding: '2px', 'border-color': `${app.nonprofit.brand_color || '#4DAE7F'}`, 'border-radius': '2px', 'box-shadow': `3px 3px ${app.nonprofit.brand_color || '#4DAE7F'}7F`}
+        style: {
+          'border-color': `${app.nonprofit.brand_color || '#4DAE7F'}`
+        , 'box-shadow': `3px 3px ${app.nonprofit.brand_color || '#4DAE7F'}7F`}
       }, state.dedicationData$() && state.dedicationData$().first_name
       ? [h('i.fa.fa-check'), I18n.t('nonprofits.donate.info.dedication_saved') + `${state.dedicationData$().first_name || ''} ${state.dedicationData$().last_name || ''}`]
       : [I18n.t('nonprofits.donate.info.dedication_link')]

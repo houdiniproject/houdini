@@ -20,6 +20,8 @@ RSpec.describe Nonprofit, type: :model do
   it {is_expected.to have_many(:email_lists)}
   it {is_expected.to have_one(:nonprofit_key)}
 
+  it {is_expected.to have_many(:email_customizations)}
+
   it {is_expected.to have_many(:associated_object_events).class_name("ObjectEvent")}
 
   describe 'with cards' do
@@ -59,6 +61,34 @@ RSpec.describe Nonprofit, type: :model do
         expect(card.name).to eq(@nonprofit.active_card.name)
         expect(!card.inactive)
       end
+    end
+  end
+
+  describe '#fee_coverage_option' do
+    let(:nonprofit) {build(:nonprofit)}
+
+    it 'is set to auto when miscellaneous_np_info is missing' do
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to auto when miscellaneous_np_info.fee_coverage_option_config is nil' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: nil)
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to manual when miscellaneous_np_info.fee_coverage_option_config is manual' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'manual')
+      expect(nonprofit.fee_coverage_option).to eq 'manual'
+    end
+
+    it 'is set to auto when miscellaneous_np_info.fee_coverage_option_config is auto' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'auto')
+      expect(nonprofit.fee_coverage_option).to eq 'auto'
+    end
+
+    it 'is set to none when miscellaneous_np_info.fee_coverage_option_config is none' do
+      nonprofit.miscellaneous_np_info = build(:miscellaneous_np_info, fee_coverage_option_config: 'none')
+      expect(nonprofit.fee_coverage_option).to eq 'none'
     end
   end
 
@@ -641,7 +671,8 @@ RSpec.describe Nonprofit, type: :model do
     end
   end
 
-  describe "#payments#during_np_year" do
+  describe "#payments" do
+    
     let(:nonprofit) { create(:nonprofit_base)}
     let(:supporter) { create(:supporter_base, nonprofit:nonprofit)}
     let(:payment1) { create(:payment_base, :with_offline_payment, supporter: supporter, nonprofit: nonprofit, date: Time.new.utc.beginning_of_year + 1.second)}
@@ -654,14 +685,28 @@ RSpec.describe Nonprofit, type: :model do
       payment3
     end
 
-    it "has two payments when nonprofit has UTC time zone" do
-      expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment1, payment2)
+    describe "#during_np_year" do
+      it "has two payments when nonprofit has UTC time zone" do
+        expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment1, payment2)
+      end
+
+      it "has 2 payments when nonprofit has Central time zone" do
+        nonprofit.timezone = "America/Chicago"
+        nonprofit.save!
+        expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
+      end
     end
 
-    it "has 2 payments when nonprofit has Central time zone" do
-      nonprofit.timezone = "America/Chicago"
-      nonprofit.save!
-      expect(nonprofit.payments.during_np_year(Time.new.utc.year)).to contain_exactly(payment2, payment3)
+    describe "#prior_to_np_year" do
+      it "has no payments when nonprofit has UTC time zone" do
+        expect(nonprofit.payments.prior_to_np_year(Time.new.utc.year)).to contain_exactly()
+      end
+
+      it "has 1 payment when nonprofit has Central time zone" do
+        nonprofit.timezone = "America/Chicago"
+        nonprofit.save!
+        expect(nonprofit.payments.prior_to_np_year(Time.new.utc.year)).to contain_exactly(payment1)
+      end
     end
   end
 
@@ -683,5 +728,40 @@ RSpec.describe Nonprofit, type: :model do
     it "has one supporter when nonprofit has UTC time zone" do
       expect(nonprofit.supporters_who_have_payments_during_year(Time.new.utc.year)).to contain_exactly(supporter)
     end
+  end
+
+  describe "#supporters" do
+    [ 
+      :email, 
+      :name, 
+      :name_and_email,
+      :name_and_phone,
+      :name_and_phone_and_address,
+      :phone_and_email_and_address,
+      :name_and_address,
+      :phone_and_email,
+      :address_without_zip_code
+    ].each do |type|
+      method_name = "dupes_on_#{type.to_s}"
+      let(:nonprofit) {build(:nonprofit, id: 1)}
+      
+      describe "##{method_name}" do
+        it 'is calls with strict_mode default of true' do
+          expect(QuerySupporters).to receive(method_name.to_sym).with(1, true)
+          nonprofit.supporters.send(method_name.to_sym)
+        end
+
+        it 'is calls with strict_mode passed of true' do
+          expect(QuerySupporters).to receive(method_name.to_sym).with(1, true)
+          nonprofit.supporters.send(method_name.to_sym, true)
+        end
+
+        it 'is calls with strict_mode passed of false' do
+          expect(QuerySupporters).to receive(method_name.to_sym).with(1, false)
+          nonprofit.supporters.send(method_name.to_sym, false)
+        end
+      end
+    end
+
   end
 end

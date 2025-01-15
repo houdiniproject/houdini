@@ -275,6 +275,25 @@ RSpec.describe DonationMailer, :type => :mailer do
       end
     end
 
+    context 'when dedication is blank' do
+      before(:each) {
+        expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])
+      }
+
+      let(:supporter) { create(:supporter_base)}
+      let(:donation) { create(:donation_base, supporter: supporter, nonprofit: supporter.nonprofit, dedication: '')}
+      let(:payment) { create(:payment_base, donation: donation)}
+
+      let!(:mail) { DonationMailer.nonprofit_payment_notification(
+        donation.id,
+        payment.id
+        ) }
+
+      it 'does not include the dedication section' do
+        expect(mail.body.encoded).to_not include "Acknowledgement Phone"
+      end
+    end
+
     context 'when dedication is set' do
       before(:each) {
         expect(QueryUsers).to receive(:nonprofit_user_emails).and_return(['anything@example.com'])

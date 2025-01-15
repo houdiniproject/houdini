@@ -76,12 +76,12 @@
 		</tr>
 		<% end %>
 
-		<% if donation.dedication %>
+		<% if donation.dedication.present? %>
 		<tr>
 			<td><strong>Dedication</strong></td>
 			<td> <%= donation.dedication ? Format::Dedication.from_json(donation.dedication) : 'None' %></td>
 		</tr>
-		<% @contact = JSON.parse(donation.dedication).dig('contact') %>
+		<% @contact = donation.dedication.present? ? JSON.parse(donation.dedication).dig('contact') : nil%>
 		<tr>
 			<td><strong>Acknowledgement Email</strong></td>
 			<% if @contact&.dig('email') %>

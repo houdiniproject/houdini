@@ -1,6 +1,6 @@
 
 
-if Rails.version < '5'
+if Rails.version < '6.1'
   require 'erb'
   require 'active_support/core_ext/kernel/singleton_class'
   require 'active_support/deprecation'

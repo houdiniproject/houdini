@@ -1,7 +1,7 @@
 # backport fix for cve-2022-44566
 # from  https://github.com/rails/rails/blob/1b22647c4bfefce63e07661b8aad5b3003118321/activerecord/lib/active_record/connection_adapters/postgresql/quoting.rb
 
-if Rails.version < '5'
+if Rails.version < '6.1'
   module ActiveRecord
     module ConnectionAdapters
       module PostgreSQL
@@ -78,5 +78,5 @@ if Rails.version < '5'
 
   ActiveRecord::Base.send(:include, ActiveRecord::CoreExtension)
 else
-  raise "monkeypatch needs to be evaluated as it was built for Rails 4.2"
+  raise "monkeypatch should be removed"
 end

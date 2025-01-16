@@ -299,6 +299,9 @@ GEM
       childprocess (~> 5.0)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
+    listen (3.9.0)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.6.2)
     lograge (0.3.6)
       actionpack (>= 3)
@@ -418,6 +421,9 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (13.0.6)
+    rb-fsevent (0.11.2)
+    rb-inotify (0.11.1)
+      ffi (~> 1.0)
     rbtree3 (0.6.0)
     recaptcha (5.8.1)
       json
@@ -581,6 +587,7 @@ DEPENDENCIES
   json (>= 2.3.0)
   kaminari
   letter_opener
+  listen
   lograge
   mini_magick
   nearest_time_zone

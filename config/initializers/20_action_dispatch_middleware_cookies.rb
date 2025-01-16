@@ -1,5 +1,5 @@
 # from https://github.com/rails/rails/blob/daa00c8357dc12ce24f89d92e4ceeabebb3af3d1/actionpack/lib/action_dispatch/middleware/cookies.rb
-if Rails.version < '5'
+if Rails.version < '6.1'
   module ActionDispatch
     class Cookies
       module ChainedCookieJars
@@ -49,5 +49,5 @@ if Rails.version < '5'
   end
 
 else
-  raise "you need to review this"
+  raise "no longer needed"
 end

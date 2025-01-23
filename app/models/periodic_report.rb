@@ -7,7 +7,7 @@ class PeriodicReport < ApplicationRecord
   # users,
   # nonprofit_id
 
-  belongs_to :nonprofit
+  belongs_to :nonprofit, required: true
   has_and_belongs_to_many :users
   belongs_to :nonprofit_s3_key
 
@@ -15,9 +15,6 @@ class PeriodicReport < ApplicationRecord
   validate :valid_period?
   validate :valid_nonprofit_s3_key?
   validate :valid_users?
-
-
-  validates :nonprofit, presence: true
 
   scope :active, -> { where(active: true) }
 

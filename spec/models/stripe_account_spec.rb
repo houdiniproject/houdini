@@ -24,7 +24,7 @@ RSpec.describe StripeAccount, :type => :model do
   describe "account goes from verified to unverified" do
     let(:sa) do
       sa = create(:stripe_account, :with_verified)
-      sa.object = attributes_for(:stripe_account, :with_unverified_from_verified)[:object].to_s
+      sa.object = attributes_for(:stripe_account, :with_unverified_from_verified)[:object]
       sa.save!
       sa
     end

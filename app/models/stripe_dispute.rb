@@ -38,7 +38,7 @@ class StripeDispute < ApplicationRecord
       object_json = self.object
     end
 
-    self.balance_transactions = JSON.generate(object_json['balance_transactions'])
+    self.balance_transactions = object_json['balance_transactions']
     
     self.reason = object_json['reason']
     self.status = object_json['status']

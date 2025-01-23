@@ -25,10 +25,10 @@ class TagJoin::Modification
   private
 
   def cast_boolean(value)
-    ActiveRecord::Type::Boolean.new.type_cast_from_user(value)
+    ActiveRecord::Type::Boolean.new.cast(value)
   end
 
   def cast_integer(value)
-    ActiveRecord::Type::Integer.new.type_cast_from_user(value)
+    ActiveRecord::Type::Integer.new.cast(value)
   end
 end

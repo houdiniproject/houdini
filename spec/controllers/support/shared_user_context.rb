@@ -76,36 +76,61 @@ RSpec.shared_context :shared_user_context do
     u
   end
 
-  def send(method, *args)
+  def send(method, action, args={})
     case method
       when :get
-        return get(*args)
+        return get(action, **args)
       when :post
-        return post(*args)
+        return post(action, **args)
       when :delete
-        return delete(*args)
+        return delete(action, **args)
       when :put
-        return put(*args)
+        return put(action, **args)
     end
   end
 
   def accept(user_to_signin, method, action, *args)
+    test_variables = collect_test_variables(args)
+    request.accept = 'application/json' unless test_variables[:without_json_view]
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does
     #
-    expect_any_instance_of(described_class).to receive(action).and_return(ActionController::TestResponse.new(200))
-    expect_any_instance_of(described_class).to receive(:render).and_return(nil)
-    send(method, action, *args)
-    expect(response.status).to eq 200
+    
+    if test_variables[:without_json_view]
+      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
+      expect_any_instance_of(described_class).to receive(:render).and_return(nil)
+      send(method, action, reduce_params(*args))
+      expect(response.status).to eq 200
+    else
+      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(204))
+      send(method, action, reduce_params(*args))
+      expect(response.status).to eq(test_variables[:with_status] || 204)
+    end
   end
 
   def reject(user_to_signin, method, action, *args)
     sign_in user_to_signin if user_to_signin
-    send(method, action, *args)
+    send(method, action,  reduce_params(*args))
     expect(response.status).to eq 302
   end
 
   alias_method :redirects_to, :reject
+
+  def reduce_params(*args)
+    { params: args.reduce({}, :merge) }
+  end
+  
+  def collect_test_variables(*args)
+    test_vars = {}
+    args.collect do |items|
+      if items.kind_of?(Array)
+        items.each do |k, v|
+          test_vars.merge!(k.slice(:without_json_view, :with_status)) if k.kind_of?(Hash)
+        end
+      end
+    end
+    return test_vars
+  end
 
   def fix_args( *args)
     replacements = {

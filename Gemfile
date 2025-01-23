@@ -4,6 +4,7 @@ ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.10' # heroku needs a specific ruby versi
 
 gem 'rake'
 gem 'rails', '= 5.0.7.2'
+gem 'mail', '= 2.7.1'
 
 gem 'rack'
 

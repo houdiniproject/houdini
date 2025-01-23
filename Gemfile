@@ -4,7 +4,7 @@ ruby ENV['CUSTOM_RUBY_VERSION'] || '2.6.10' # heroku needs a specific ruby versi
 
 gem 'rake'
 gem 'rails', '= 5.0.7.2'
-gem 'mail', '= 2.7.1'
+gem 'mail', '= 2.7.1' # 2.8.1 on Rails 5.0 and Ruby 2.6 raises a `an superclass mismatch for class InternetMessageIO` error
 
 gem 'rack'
 

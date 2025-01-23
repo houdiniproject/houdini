@@ -8,7 +8,7 @@ class Transaction < ApplicationRecord
 
 	setup_houid :trx, :houid
 	
-	belongs_to :supporter
+	belongs_to :supporter, required: true
 	has_one :nonprofit, through: :supporter
 
 	has_many :transaction_assignments,  -> {  extending ModelExtensions::TransactionAssignment::RefundExtension }, inverse_of: 'trx'
@@ -19,8 +19,6 @@ class Transaction < ApplicationRecord
 	has_many :payments, -> {  extending ModelExtensions::PaymentsExtension }, through: :subtransaction, source: :subtransaction_payments, class_name: 'SubtransactionPayment'
 
 	has_many :object_events, as: :event_entity
-
-	validates :supporter, presence: true
 
 	delegate :currency, to: :nonprofit
 

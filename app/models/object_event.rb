@@ -99,13 +99,13 @@ class ObjectEvent < ApplicationRecord
   private
   #
   # Generates the JSON representing the [ObjectEvent]
-  # @return [String] the JSON representing the ObjectEvent
+  # @return [Object] the JSON representing the ObjectEvent
   def to_object
-    ApiNew::ObjectEventsController.render 'api_new/object_events/generate', 
+    JSON.parse((ApiNew::ObjectEventsController.render 'api_new/object_events/generate', 
       assigns: {
         object_event:self,
         event_entity: event_entity,
         partial_path: "api_new/#{event_entity.to_partial_path.split('/').delete_at(0)}/object_events/base"
-      }
+      }))
   end
 end

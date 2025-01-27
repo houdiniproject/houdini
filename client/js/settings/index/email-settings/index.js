@@ -15,8 +15,13 @@ const view = require('./view')
 function init() {
   var state = { submit$: flyd.stream() }
 
-  const intermediate = flyd.map(ev => serializeForm(ev.currentTarget, {hash: true, empty: true}, state.submit$));
-  const formObj$ = flyd.map(obj => obj.map(val => val === 'on' ? true : false), intermediate);
+  const formObj$ = state.submit$.map((ev) => {
+    const formData = serializeForm(ev.currentTarget, { hash: true, empty: true });
+    return Object.keys(formData).reduce((acc, key) => {
+      acc[key] = formData[key] === 'on' ? true : false;
+      return acc;
+    }, {});
+  });
 
   const path = `/nonprofits/${app.nonprofit_id}/users/${app.current_user_id}/email_settings`
 

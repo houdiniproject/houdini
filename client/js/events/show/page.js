@@ -26,7 +26,7 @@ function init() {
   var state = { }
   const startWiz$ = flyd.stream()
   const donateButtons = document.querySelectorAll('.js-openDonationModal')
-  donateButtons.map((x) => x.addEventListener('click', createClickListener(startWiz$)));
+  Array.from(donateButtons).map((x) => x.addEventListener('click', createClickListener(startWiz$)));
   state.modalID$ = flyd.map(() => 'donationModal', startWiz$)
   state.donateWiz = donateWiz.init(flyd.stream({event_id: app.event_id, hide_cover_fees_option: app.hide_cover_fees_option}))
   return state

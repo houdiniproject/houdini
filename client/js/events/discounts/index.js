@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 var request = require('../../common/client')
-var R = require('ramda')
 
 appl.def('discounts.url', '/nonprofits/' + app.nonprofit_id + '/events/' + appl.event_id + '/event_discounts')
 

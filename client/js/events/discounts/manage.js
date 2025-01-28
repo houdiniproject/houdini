@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-var R = require('ramda')
 var request = require('../../common/client')
 var format = require('../../common/format')
 
@@ -81,8 +80,8 @@ function validate(form_obj){
     appl.notify("Percentage can't be more than 100")
     return false
   }
-  var codes = R.pluck('code', R.reject(function(x){ return x['id'] === Number(form_obj.id)}, appl.discounts.data))
-  var hasDupeCodes = R.contains(form_obj.code, codes)
+  var codes = appl.discounts.data.filter(x => x['id'] !== Number(form_obj.id)).map(i => i.code)
+  var hasDupeCodes = codes.includes(form_obj.code)
  
   if (hasDupeCodes){
     appl.notify("That code is already being used for this event.  Please type another code.")

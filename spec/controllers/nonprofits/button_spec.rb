@@ -10,15 +10,15 @@ describe Nonprofits::ButtonController, :type => :controller do
     end
 
     describe 'basic' do
-      include_context :open_to_registered, :get, :basic, nonprofit_id: :__our_np
+      include_context :open_to_registered, :get, :basic, nonprofit_id: :__our_np, without_json_view: true
     end
 
     describe 'guided' do
-      include_context :open_to_registered, :get, :guided, nonprofit_id: :__our_np
+      include_context :open_to_registered, :get, :guided, nonprofit_id: :__our_np, without_json_view: true
     end
 
     describe 'advanced' do
-      include_context :open_to_registered, :get, :advanced, nonprofit_id: :__our_np
+      include_context :open_to_registered, :get, :advanced, nonprofit_id: :__our_np, without_json_view: true
     end
 
 

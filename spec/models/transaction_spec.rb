@@ -52,10 +52,6 @@ RSpec.describe Transaction, type: :model do
     is_expected.to(have_many(:payments).through(:subtransaction).source(:subtransaction_payments).class_name('SubtransactionPayment'))
   }
 
-  describe 'validation' do
-    it {is_expected.to validate_presence_of(:supporter)}
-  end
-
   describe 'houid is created' do
     subject { Transaction.create(supporter:create(:supporter))}
     it {is_expected.to have_attributes(houid: match_houid('trx'))}

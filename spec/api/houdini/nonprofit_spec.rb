@@ -45,7 +45,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
     }
     it 'validates nothing' do
       input = {}
-      xhr :post, '/api/v1/nonprofit', input
+      post '/api/v1/nonprofit', params: input, xhr: true
       expect(response.code).to eq "400"
       expect_validation_errors(JSON.parse(response.body), create_errors("nonprofit", "user"))
     end
@@ -77,7 +77,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
               password_confirmation: 'doesn\'t match'
           }
       }
-      xhr :post, '/api/v1/nonprofit', input
+      post '/api/v1/nonprofit', params: input, xhr: true
       expect(response.code).to eq "400"
       expect(JSON.parse(response.body)['errors']).to include(h(params:["user[password]", "user[password_confirmation]"], messages: gr_e("is_equal_to")))
 
@@ -92,7 +92,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
       expect_any_instance_of(SlugNonprofitNamingAlgorithm).to receive(:create_copy_name).and_raise(UnableToCreateNameCopyError.new)
 
-      xhr :post, '/api/v1/nonprofit', input
+      post '/api/v1/nonprofit', params:input, xhr: true
       expect(response.code).to eq "400"
 
       expect_validation_errors(JSON.parse(response.body), {
@@ -113,7 +113,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
           user: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
       }
 
-      xhr :post, '/api/v1/nonprofit', input
+      post '/api/v1/nonprofit', params: input, xhr: true
       expect(response.code).to eq "400"
 
       expect_validation_errors(JSON.parse(response.body), {
@@ -144,7 +144,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
       #expect(Houdini::V1::Nonprofit).to receive(:sign_in)
 
-      xhr :post, '/api/v1/nonprofit', input
+      post '/api/v1/nonprofit', params: input, xhr: true
       expect(response.code).to eq "201"
       expect(MailchimpNonprofitUserAddJob).to have_been_enqueued
 

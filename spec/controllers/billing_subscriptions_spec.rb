@@ -11,7 +11,7 @@ describe BillingSubscriptionsController, :type => :controller do
     end
 
     describe 'cancellation' do
-        include_context :open_to_np_admin, :get, :cancellation, nonprofit_id: :__our_np
+        include_context :open_to_np_admin, :get, :cancellation, nonprofit_id: :__our_np, without_json_view: true
     end
   end
 end

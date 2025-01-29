@@ -5,7 +5,7 @@ RSpec.shared_context :new_controller_user_context do
   include_context :general_shared_user_context
 
   def sign_in(user_to_signin)
-    post_via_redirect '/users/sign_in', 'user[email]' => user_to_signin.email, 'user[password]' => user_to_signin.password, format: "json"
+    post '/users/sign_in', params: {'user[email]' => user_to_signin.email, 'user[password]' => user_to_signin.password, format: "json"}
   end
 
   def sign_out
@@ -15,13 +15,13 @@ RSpec.shared_context :new_controller_user_context do
   def send(method, *args)
     case method
     when :get
-      return xhr(:get, *args)
+      return get *args, xhr: true
     when :post
-      return xhr(:post, *args)
+      return post *args, xhr: true
     when :delete
-      return xhr(:delete, *args)
+      return delete *args, xhr: true
     when :put
-      return xhr(:put, *args)
+      return put *args, xhr: true
     end
   end
 

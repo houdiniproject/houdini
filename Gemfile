@@ -138,7 +138,7 @@ gem 'sassc-rails'
 # make logging less terrible in rails
 gem 'lograge'
 
-gem 'config', '> 1.5'
+gem 'config', '~> 2.0'
 gem 'dry-validation' # used only for config validation
 
 gem 'foreman'

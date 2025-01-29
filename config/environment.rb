@@ -31,8 +31,8 @@ end
 #Settings.add_source!("./config/#{@org_name}.#{Rails.env}.yml")
 
 #we load the schema now because we didn't want to do so until we loaded EVERYTHING
-Config.schema do
-
+Config.setup do |config|
+config.schema do
   required(:general).schema do
     # the name of your website. Default in Settings is "Houdini Project"
     required(:name).filled(:str?)
@@ -289,7 +289,7 @@ Config.schema do
   optional(:api_domain).schema do
     required(:url).filled?(:str)
   end
-
+end
 end
 
 Settings.reload!

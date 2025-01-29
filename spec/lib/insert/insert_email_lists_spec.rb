@@ -33,7 +33,7 @@ describe InsertEmailLists  do
                 deleted_result: "deleted correctly"
     }
     expect(result).to eq expected
-    expect(EmailList.find(email_lists[1])).to be_truthy
+    expect(EmailList.find(email_lists[1].id)).to be_truthy
     expect(EmailList.count).to be 1
   end
 

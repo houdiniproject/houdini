@@ -7,7 +7,7 @@ describe SettingsController, :type => :controller do
     include_context :shared_user_context
     describe 'rejects unauthorized users' do
       describe 'index' do
-        include_context :open_to_registered, :get, :index, nonprofit_id: :__our_np
+        include_context :open_to_registered, :get, :index, nonprofit_id: :__our_np, without_json_view: true
       end
     end
   end

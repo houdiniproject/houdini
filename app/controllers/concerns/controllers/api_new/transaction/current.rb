@@ -12,10 +12,7 @@ module Controllers::ApiNew::Transaction::Current
 		def current_transaction
 			result = @current_transaction
 			if result.nil?
-				result = current_nonprofit.transactions.find_by(houid:params[:transaction_id] || params[:id])
-				if Rails.version < '5' && result.nil?
-					raise ActiveRecord::RecordNotFound
-				end
+				result = current_nonprofit.transactions.find_by!(houid:params[:transaction_id] || params[:id])
 			end
 			@current_transaction = result
 		end

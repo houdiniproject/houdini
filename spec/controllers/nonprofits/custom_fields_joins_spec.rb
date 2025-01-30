@@ -6,7 +6,7 @@ describe Nonprofits::CustomFieldJoinsController, :type => :controller do
   include_context :shared_user_context
   describe 'rejects unauthenticated users' do
     describe 'index' do
-      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, supporter_id: 1, without_json_view: true
+      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np, supporter_id: 1
     end
 
     describe 'modify' do

@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const request = require('../common/client') 
-const R = require('ramda') 
 const Chart = require('chart.js')
 const moment = require('moment')
 const dateRange = require('../components/date-range') 
@@ -28,8 +27,8 @@ function query() {
  * @returns 
  */
 function cumulative(data) {
-  var moments = dateRange(R.head(data).date, R.last(data).date, 'days')
-  var dateStrings = R.map((m) => m.format('YYYY-MM-DD'), moments)
+  var moments = dateRange(data[0].date, data[data.length - 1].date, 'days')
+  var dateStrings = moments.map((m) => m.format('YYYY-MM-DD'))
 
   var proto = {
     offsite_cents:   0
@@ -38,24 +37,24 @@ function cumulative(data) {
   , total_cents:     0
   }
 
-  var dateDictionary = R.reduce((a,b) => {
-     a[b] = R.merge(proto, {date: b})
+  var dateDictionary = dateStrings.reduce((a,b) => {
+     a[b] = {...proto, date: b }
      return a
-  }, {}, dateStrings)
+  }, {})
 
-  R.reduce((a, b) => {
+  data.reduce((a, b) => {
     a[b.date] = b
     return a
-  }, dateDictionary, data)
+  }, dateDictionary)
   
-  return R.tail(R.reduce((a, b) => {
-    var last = R.last(a)
+  return Object.values(dateDictionary).reduce((a, b) => {
+    var last = a[a.length - 1];
     b.offsite_cents    += last.offsite_cents
     b.onetime_cents    += last.onetime_cents
     b.recurring_cents  += last.recurring_cents
     b.total_cents      += last.total_cents
-    return R.append(b, a) 
-  }, [proto], R.values(dateDictionary)))
+    return [...a, b]
+  }, [proto]).slice(1)
 }
 
 /**
@@ -98,7 +97,7 @@ function formatData(data) {
 function dataset(label, key, rgb, data) {
   return {
       label: label 
-    , data: R.pluck(key, data) 
+    , data: data.map(i => i[key])
     , borderColor: `rgb(${rgb})`   
     , backgroundColor: `rgba(${rgb},0.2)`
     , fill: false

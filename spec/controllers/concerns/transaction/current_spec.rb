@@ -19,7 +19,7 @@ describe Controllers::ApiNew::Transaction::Current, type: :controller do
 	end
 
 	it 'gets transaction if found' do
-		get :index, { nonprofit_id: nonprofit.houid, id: transaction.houid }
+		get :index, params: { nonprofit_id: nonprofit.houid, id: transaction.houid }
 		expect(JSON.parse(response.body)).to eq(
 			{
 				'transaction' => transaction.id
@@ -29,7 +29,7 @@ describe Controllers::ApiNew::Transaction::Current, type: :controller do
 
 	it 'throw RecordNotFound if not found' do
 		expect do
-			get :index, { nonprofit_id: nonprofit.houid, id: 124_124_905 }
+			get :index, params: { nonprofit_id: nonprofit.houid, id: 124_124_905 }
 		end.to raise_error(ActiveRecord::RecordNotFound)
 	end
 end

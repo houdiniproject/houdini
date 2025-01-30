@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 // npm
 const flyd = require('flyd')
-const R = require('ramda')
 flyd.flatMap = require('flyd/module/flatmap')
 flyd.filter = require('flyd/module/filter')
 flyd.mergeAll = require('flyd/module/mergeall')
@@ -13,7 +12,7 @@ const colorPicker = require('../../../components/color-picker.es6')
 const view = require('./view')
 
 function init() {
-  const np = R.merge(app.nonprofit, {})
+  const np = { ...app.nonprofit }
   const state = {
     nonprofit: np
   , font$: flyd.stream({
@@ -27,7 +26,7 @@ function init() {
   }
 
   const resp$ = flyd.flatMap(
-    state => flyd.map(R.prop('body'), request({
+    state => flyd.map(r => r.body, request({
       method: 'put'
     , path: `/nonprofits/${np.id}`
     , send: {nonprofit: { brand_color: state.colorPicker.color$(), brand_font: state.font$().key }}

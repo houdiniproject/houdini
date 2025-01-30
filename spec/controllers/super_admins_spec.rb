@@ -19,7 +19,7 @@ describe SuperAdminsController, :type => :controller do
       end
 
       describe 'index' do
-          include_context :open_to_super_admin, :get, :index
+          include_context :open_to_super_admin, :get, :index, without_json_view: true
       end
       
       

@@ -5,19 +5,20 @@ describe Nonprofits::SupportersController, type: :request do
 
 
   describe 'throttling' do
+    let!(:nonprofit) { create(:nonprofit_base)}
     before(:each) do
       stub_const('FORCE_THROTTLE', true)
     end
     it 'test number of supporter throttle' do
       11.times {
-         post '/nonprofits/1/supporters',  {email: 'email@i.com'}.to_json, {"CONTENT_TYPE" => "application/json" }
+         post "/nonprofits/#{nonprofit.id}/supporters",  {email: 'email@i.com'}.to_json, {"CONTENT_TYPE" => "application/json" }
 
       }
 
       assert_response 429
 
       Timecop.freeze(61) do
-        post '/nonprofits/1/supporters',  {email: 'email@i.com'}.to_json, {"CONTENT_TYPE" => "application/json" }
+        post "/nonprofits/#{nonprofit.id}/supporters",  {email: 'email@i.com'}.to_json, {"CONTENT_TYPE" => "application/json" }
         expect(@response.status).to_not eq 429
       end
 

@@ -9,7 +9,7 @@ describe EventsController, :type => :controller do
       include_context :open_to_event_editor, :post, :create, nonprofit_id: :__our_np, id: :__our_event
     end
     describe 'update' do
-      include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, id: :__our_event, with_status: 200
+      include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, id: :__our_event
     end
     describe 'duplicate' do
       include_context :open_to_event_editor, :post, :duplicate, nonprofit_id: :__our_np, id: :__our_event

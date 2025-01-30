@@ -10,7 +10,7 @@ describe TicketsController, :type => :controller do
           include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, event_id: :__our_event, id:1111
       end
       describe 'index' do
-          include_context :open_to_event_editor, :get, :index, nonprofit_id: :__our_np, event_id: :__our_event
+          include_context :open_to_event_editor, :get, :index, nonprofit_id: :__our_np, event_id: :__our_event, without_json_view: true
       end
 
 

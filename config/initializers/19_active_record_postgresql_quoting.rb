@@ -51,11 +51,31 @@ if Rails.version < '6.1'
               else
                 super
               end
+            when OID::Array::Data
+              _quote(encode_array(value))
             else
               super
             end
           end
   
+          private
+          def encode_array(array_data)
+            encoder = array_data.encoder
+            values = type_cast_array(array_data.values)
+
+            result = encoder.encode(values)
+            if encoding = determine_encoding_of_strings_in_array(values)
+              result.force_encoding(encoding)
+            end
+            result
+          end
+
+          def determine_encoding_of_strings_in_array(value)
+            case value
+            when ::Array then determine_encoding_of_strings_in_array(value.first)
+            when ::String then value.encoding
+            end
+          end
         end
       end
     end

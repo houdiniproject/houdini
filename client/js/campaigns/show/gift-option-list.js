@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
 const flyd = require('flyd')
-const R = require('ramda')
 const request = require('../../common/request')
 const format = require('../../common/format')
 const branding = require('../../components/nonprofit-branding')
@@ -46,7 +45,7 @@ function index() {
 function view(state) {
   return h('aside.sideGifts.u-marginBottom--15', {
     class: {'u-hide': !state.giftOptions$().length}
-  }, R.map(giftBox(state), state.giftOptions$())
+  }, state.giftOptions$().map(giftBox(state))
   )
 }
 

@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const R = require('ramda')
 const flyd = require('flyd')
 const request = require('../../../common/request')
 const colors = require('../../../common/colors')
@@ -10,7 +9,7 @@ function init() {
     clickSync$: flyd.stream()
   , mailchimpKeyResp$: request({method: 'get', path: `/nonprofits/${app.nonprofit_id}/nonprofit_keys`, query: {select: 'mailchimp_token'}}).load
   }
-  state.mailchimpKey$ = flyd.map(R.prop('response'), flyd.filter(resp => resp.status === 200, state.mailchimpKeyResp$))
+  state.mailchimpKey$ = flyd.map(r => r.response, flyd.filter(resp => resp.status === 200, state.mailchimpKeyResp$))
   return state
 }
 

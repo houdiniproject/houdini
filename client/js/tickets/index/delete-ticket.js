@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const flyd = require('flyd')
 flyd.flatMap = require('flyd/module/flatmap')
 const request = require('../../common/request')
@@ -19,7 +18,7 @@ table.addEventListener('click', ev=> {
 const pathPrefix = `/nonprofits/${app.nonprofit_id}/events/${appl.event_id}/tickets/`
 
 const response = flyd.flatMap(
-  ticketID => flyd.map(R.prop('body'), request({method: 'delete', path: pathPrefix + ticketID})).load
+  ticketID => flyd.map(item => item.body, request({method: 'delete', path: pathPrefix + ticketID})).load
 , stream )
 
 // XXX remove viewscript here 

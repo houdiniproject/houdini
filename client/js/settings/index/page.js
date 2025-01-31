@@ -6,7 +6,6 @@ require('../../common/restful_resource')
 
 const render = require('ff-core/render')
 const h = require('snabbdom/h')
-const R = require('ramda')
 const flyd = require('flyd')
 const snabbdom = require('snabbdom')
 const branding = require('./branding/index')

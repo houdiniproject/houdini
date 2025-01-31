@@ -3,7 +3,6 @@ const snabbdom = require('snabbdom')
 const flyd = require('flyd')
 const render = require('ff-core/render')
 const amount = require("../../../../client/js/nonprofits/donate/amount-step")
-const R = require('ramda')
 const assert = require('assert')
 
 window.log = x => y => console.log(x,y)
@@ -36,14 +35,14 @@ const init = (donationDefaults, params$) => {
   return streams
 }
 
-const allText = R.map(R.prop('textContent'))
+const allText = (input => input.map(item => item.textContent))
 const defaultDesigOptions = ['Choose a designation (optional)', 'Use my donation where most needed']
 
 suite("donate wiz / amount step")
 test("shows a designation dropdown if the multiple_designations param is set", ()=> {
   let streams = init({}, flyd.stream({multiple_designations: ['a','b']}))
   let options = allText(streams.dom$().querySelectorAll('.donate-designationDropdown option'))
-  assert.deepEqual(options, R.concat(defaultDesigOptions, ['a', 'b']))
+  assert.deepEqual(options, [...defaultDesigOptions, 'a', 'b'])
 })
 
 test('sets no designation with a dropdown on the default value', () => {

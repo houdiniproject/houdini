@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 const flyd = require('flyd')
 const h = require('snabbdom/h')
-const R = require('ramda')
 const donateWiz = require('../../nonprofits/donate/wizard')
 const render = require('ff-core/render')
 const snabbdom = require('snabbdom')
@@ -48,7 +47,7 @@ function init() {
   console.error(window.navigator.userAgent)
   state.giftOptions = giftOptions.init(flyd.stream(), state)
 
-  const metricsResp$ = flyd.map(R.prop('body'), request({
+  const metricsResp$ = flyd.map(r => r.body, request({
     method: 'get'
   , path: `/nonprofits/${app.nonprofit_id}/campaigns/${app.campaign.id}/metrics`
   }).load)
@@ -65,11 +64,10 @@ function init() {
   state.activities = activities.init('campaign', `/nonprofits/${app.nonprofit_id}/campaigns/${app.campaign_id}/activities`)
 
  
-  const contributeModalType$ = R.compose(
-    flyd.map(_ => 
-      state.timeRemaining$() && state.giftOptions.giftOptions$().length 
-      ? 'gifts' : 'regular')
-  )(state.metrics.clickContribute$)
+  const contributeModalType$ = flyd.map(
+    () => (state.timeRemaining$() && state.giftOptions.giftOptions$().length ? 'gifts' : 'regular'),
+    state.metrics.clickContribute$
+  );
 
   const clickContributeGifts$ = flyd.filter(x => x === 'gifts', contributeModalType$)
   
@@ -86,8 +84,9 @@ function init() {
   state.selectedModalGift$ = flyd.stream({})
 
   state.modalID$ = flyd.merge(
-      flyd.map(R.always('chooseGiftOptionsModal'), clickContributeGifts$)
-    , flyd.map(R.always('donationModal'), startWiz$))
+    flyd.map(() => 'chooseGiftOptionsModal', clickContributeGifts$),
+    flyd.map(() => 'donationModal', startWiz$)
+  );
 
   // Stream of which gift option you have selected
   const giftOption$ = flyd.map(setGiftParams, state.giftOptions.clickOption$)
@@ -104,17 +103,19 @@ function init() {
   return state
 }
 
-const resetDonateForm = (params, _) => R.merge(params, {
-  single_amount: undefined
-, gift_option: undefined
-, type: undefined
-})
+const resetDonateForm = (params, _) => ({
+  ...params,
+  single_amount: undefined,
+  gift_option: undefined,
+  type: undefined,
+});
 
-const setGiftOption = (params, gift) => R.merge(params, {
-  single_amount: gift.amount / 100 
-, gift_option: gift
-, type: gift.type
-})
+const setGiftOption = (params, gift) => ({
+  ...params,
+  single_amount: gift.amount / 100,
+  gift_option: gift,
+  type: gift.type,
+});
 
 
 // Set the donate wizard parameters using data from a gift option

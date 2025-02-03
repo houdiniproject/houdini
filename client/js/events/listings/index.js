@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('snabbdom/h')
 const flyd = require('flyd')
 const render = require('ff-core/render')
@@ -34,7 +33,7 @@ module.exports = pathPrefix => {
       return mixin([h('p.u-padding--15', 'Loading...')])
     if(!resp$().body.length) 
       return mixin([h('p.u-padding--15', `No ${key} events`)])
-    return mixin(R.map(listing, resp$().body))
+    return mixin(resp$().body.map(listing));
   }
 
   const view = state => 

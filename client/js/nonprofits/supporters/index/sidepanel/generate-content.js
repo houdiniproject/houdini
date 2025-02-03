@@ -163,7 +163,6 @@ exports.SupporterEmail = (data, state) => {
     title: `Email thread started by ${jd.from}`
   , icon: 'fa-envelope'
   , body: body
- // , body: canView ? [...body, ...thread] : [...body, ...signIn]
   }
 }
 

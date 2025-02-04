@@ -130,7 +130,7 @@ function view(state) {
       ? h('p.u-centered', `In ${dedic.dedication_type || 'honor'} of ${dedic.first_name} ${dedic.last_name}`)
       : ''
   , h('div.u-marginBottom--10', [ 
-      cardForm.view({error$: state.error$, hideButton: state.loading$(), ...state.cardForm})
+      cardForm.view({...state.cardForm, error$: state.error$, hideButton: state.loading$()})
     , progressBar(state.progress$())
     ])
   ])

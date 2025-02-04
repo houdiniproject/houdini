@@ -1,4 +1,4 @@
 // License: LGPL-3.0-or-later
-import {customFields} from './legacy';
+import {customFields} from './new';
 
 export default customFields;

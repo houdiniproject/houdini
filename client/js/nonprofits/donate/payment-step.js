@@ -121,7 +121,7 @@ function init(state) {
   const donationWithCardToken$ = flyd.lift(R.assoc('token'), cardToken$, donationWithAmount$)
 
   // Set the sepa transfer details ID into the donation object when it is saved
-  const sepaId$ = flyd.map(R.prop('id'), state.sepaForm.saved$)
+  const sepaId$ = flyd.map(s => s.id, state.sepaForm.saved$)
   const donationWithSepaId$ = flyd.lift(R.assoc('direct_debit_detail_id'), sepaId$, state.donation$)
 
   state.donationParams$ = flyd.immediate(
@@ -193,7 +193,7 @@ function init(state) {
 }
 
 const postGiftOption = (campaign_gift_option_id, result) => {
-  return flyd.map(R.prop('body'), request({
+  return flyd.map(r => r.body, request({
     path: '/campaign_gifts'
     , method: 'post'
     , send: {
@@ -211,7 +211,7 @@ const postTracking = (utmParams, donationResponse) => {
   const params = R.merge(utmParams, { donation_id: donationResponse().donation.id })
 
   if (utmParams.utm_source || utmParams.utm_medium || utmParams.utm_content || utmParams.utm_campaign) {
-    return flyd.map(R.prop('body'), request({
+    return flyd.map(r => r.body, request({
       path: `/nonprofits/${app.nonprofit_id}/tracking`
       , method: 'post'
       , send: params
@@ -246,7 +246,7 @@ const postDonation = (donation) => {
   delete donation.weekly; // needs to be removed to be processed
 
   if (donation.recurring) donation = { recurring_donation: donation }
-  return flyd.map(R.prop('body'), request({
+  return flyd.map(r => r.body, request({
     path: prefix + postfix
     , method: 'post'
     , send: donation

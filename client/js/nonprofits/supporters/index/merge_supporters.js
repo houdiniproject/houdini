@@ -3,7 +3,6 @@ var action_recipient = require("./action_recipient")
 var request = require('../../../common/client')
 require('../../../components/wizard')
 var formatErr = require('../../../common/format_response_error')
-const R = require('ramda')
 
 appl.def('merge.has_any', function(arr) {
 	var supporters =  appl.merge.data.supporters
@@ -42,7 +41,7 @@ appl.def('merge.init', function(){
 
 appl.def('merge.set', function(form_obj, node) {
   var supp = appl.merge.data.new_supporter
-  appl.def('merge.data.new_supporter', R.merge(supp, form_obj))
+  appl.def('merge.data.new_supporter', {...supp, ...form_obj})
 })
 
 appl.def('merge.select_address', function(supp, node) {

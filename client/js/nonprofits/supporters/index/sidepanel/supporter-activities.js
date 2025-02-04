@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('snabbdom/h')
 const flyd = require('flyd')
 const moment = require('moment')
@@ -11,7 +10,7 @@ const generateContent = require('./generate-content')
 
 function init(parentState) {
   const activitiesWithJson$ = flyd.map(
-    R.map(parseActivityJson)
+    i => i.map(parseActivityJson)
   , parentState.activities$
   )
   const response$ = flyd.merge(
@@ -49,7 +48,7 @@ function jsonOrNull(testObj) {
 const parseActivityJson = data => {
   let json_data = jsonOrNull(data.json_data) || {};
   json_data.dedication = tryJSON(json_data.dedication)
-  return R.merge(data, {json_data})
+  return {...data, json_data}
 }
 
 const view = parentState => {
@@ -64,7 +63,7 @@ const view = parentState => {
       h('p.u-color--grey', 'No activity yet...')
     ])
   }
-  return h('ul.timeline-activities', R.map(activityContent(parentState), state.response$()))
+  return h('ul.timeline-activities', state.response$().map(activityContent(parentState)));
 }
 
 // used to construct each activitiy list element 

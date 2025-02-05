@@ -35,7 +35,7 @@ function init(state) {
     supporter => flyd.map(r => r.body, request({
       method: 'put'
     , path: state.path || `/nonprofits/${app.nonprofit_id}/supporters`
-    , send: {supporter, ...(state.payload || {})}
+    , send: {...supporter, ...(state.payload || {})}
     }).load)
   , state.updated$ )
 
@@ -82,7 +82,7 @@ function view(state) {
       ])
     ])
   , h('input', {props: {type: 'hidden', name: 'id', value: supporter.id}})
-  , button(state, pick(['loading$', 'error$'], state))
+  , button(pick(state, ['loading$', 'error$']))
   ])
 }
 

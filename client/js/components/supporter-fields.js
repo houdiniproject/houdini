@@ -15,7 +15,7 @@ function init(state, params$) {
     selectCountry$: flyd.stream()
   , supporter: {
       email: app.user ? app.user.email : undefined
-    , ...pick(app.profile || {}, ['first_name', 'last_name', 'phone', 'address', 'city', 'state_code', 'zip_code'], app.profile || {}) 
+    , ...pick(app.profile || {}, ['first_name', 'last_name', 'phone', 'address', 'city', 'state_code', 'zip_code'])
   }
   , required: {}
   , ...state

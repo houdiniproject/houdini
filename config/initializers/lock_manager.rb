@@ -19,7 +19,7 @@ class LockManager
     lock_id = Zlib.crc32(lock_name.to_s)
     ActiveRecord::Base.transaction do
       lock.retry_with_timeout do 
-        if (ActiveRecord::Base.connection.execute("SELECT pg_try_advisory_xact_lock(#{lock_id})").values[0][0] == 't')
+        if (ActiveRecord::Base.connection.execute("SELECT pg_try_advisory_xact_lock(#{lock_id})").values[0][0])
           yield
           break
         end

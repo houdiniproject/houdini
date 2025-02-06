@@ -1,5 +1,6 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
+const R = require('ramda')
 const validatedForm = require('ff-core/validated-form')
 const button = require('ff-core/button')
 const flyd = require('flyd')
@@ -41,13 +42,13 @@ const init = (state) => {
 
   const response$ = flyd.flatMap(saveTransferData, state.sepa$)
   state.reponseOk$ = flyd.filter(response => !response.error, response$)
-  state.error$ = flyd.map(r => r.error, flyd.filter(response => response.error, state.reponseOk$))
+  state.error$ = flyd.map(R.prop('error'), flyd.filter(response => response.error, state.reponseOk$))
   state.saved$ = flyd.filter(response => !response.error, state.reponseOk$)
 
   state.loading$ = scanMerge([
-    [state.form.validSubmit$, () => true]
-  , [state.error$, () => false]
-  , [state.saved$, () => false]
+    [state.form.validSubmit$, R.always(true)]
+  , [state.error$, R.always(false)]
+  , [state.saved$, R.always(false)]
   ], false)
 
   return state
@@ -55,7 +56,7 @@ const init = (state) => {
 
 // Save transfer details to our own servers, and return a response stream
 function saveTransferData(params){
-  return flyd.map(r => r.body, request({
+  return flyd.map(R.prop('body'), request({
       method: 'post'
     , path: '/sepa'
     , send: params

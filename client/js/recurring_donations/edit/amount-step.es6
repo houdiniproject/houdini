@@ -14,10 +14,11 @@ function init(donationDefaults, params$) {
     }
 
     // A stream of objects that an be used to modify the existing donation by using R.evolve
-    donationDefaults = R.merge(donationDefaults, {
-        amount: format.dollarsToCents(state.params$().single_amount || 0)
+    donationDefaults = {
+        ...donationDefaults
+        , amount: format.dollarsToCents(state.params$().single_amount || 0)
         , recurring: state.params$().type === 'recurring'
-    })
+    }
     // Apply R.evolve using every value on the evolveDonation$ stream, starting with the defaults
     state.donation$ = flyd.scanMerge([
         [state.params$ || flyd.stream(), setDonationFromParams]
@@ -70,12 +71,12 @@ function chooseNewDonationAmount() {
 function amountFields(state) {
     if(state.params$().single_amount) return ''
     return h('div.fieldset-grid', [
-            ...R.map(
+            ...(state.params$().custom_amounts || []).map(
                 amt => h('fieldset', [
                     h('button.button.u-width--full.white.amount', {
                         class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt*100}
                         , on: {click: ev => {
-                            state.evolveDonation$({amount: R.always(format.dollarsToCents(amt))})
+                            state.evolveDonation$({amount: () => format.dollarsToCents(amt)})
                             state.buttonAmountSelected$(true)
                             state.currentStep$(1) // immediately advance steps when selecting an amount button
                         } }
@@ -84,14 +85,14 @@ function amountFields(state) {
                         , String(amt)
                     ])
                 ])
-                , state.params$().custom_amounts || [] )
+            )
         , h('fieldset.prepend--dollar', [
             h('input.amount', {
                 props: {name: 'amount', step: 'any', type: 'number', min: 1, placeholder: 'Custom'}
                 , class: {'is-selected': !state.buttonAmountSelected$()}
                 , on: {
                     focus: ev => state.buttonAmountSelected$(false)
-                    , change: ev => state.evolveDonation$({amount: R.always(format.dollarsToCents(ev.currentTarget.value))})
+                    , change: ev => state.evolveDonation$({amount: () => format.dollarsToCents(ev.currentTarget.value)})
                 }
             })
         ])

@@ -39,7 +39,6 @@ if(app.current_nonprofit_user) {
 const snabbdom = require('snabbdom')
 const h = require('snabbdom/h')
 const flyd = require('flyd')
-const R = require('ramda')
 const donateWiz = require('../../nonprofits/donate/wizard')
 const modal = require('ff-core/modal')
 const render = require('ff-core/render')

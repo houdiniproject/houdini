@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const flyd = require('flimflam/flyd')
 const getValidData = require('../common/get-valid-data')
 
@@ -20,16 +19,16 @@ module.exports = (path, pageLength) => {
   const hasMoreResults$ = flyd.map(x => x && x.length >= pageLength, allResults$)
 
   const data$ = flyd.scanMerge([
-    [searchLessResults$, (data, results) => R.concat(data, results)]
+    [searchLessResults$, (data, results) => [...data, ...results]]
   , [searchResults$, (data, results) => results]
   ], [])
 
   searchLessQuery$({page: 1, page_length: pageLength, search: ''})
 
   const loading$ = flyd.mergeAll([
-    flyd.map(R.always(true), submitSearch$)
-  , flyd.map(R.always(true), searchLessQuery$)
-  , flyd.map(R.always(false), allResults$)
+    flyd.map(() => true, submitSearch$)
+  , flyd.map(() => true, searchLessQuery$)
+  , flyd.map(() => false, allResults$)
   , flyd.stream(true)
   ])
 

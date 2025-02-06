@@ -1,5 +1,4 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const flatMap = require('flyd/module/flatmap')
 const flyd = require('flyd')
 const h = require('snabbdom/h')

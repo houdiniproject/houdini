@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const R = require('ramda')
 const marked = require('marked')
 
 const format = require('../../../../common/format')
@@ -164,7 +163,6 @@ exports.SupporterEmail = (data, state) => {
     title: `Email thread started by ${jd.from}`
   , icon: 'fa-envelope'
   , body: body
- // , body: canView ? R.concat(body, thread) : R.concat(body, signIn)
   }
 }
 

@@ -1,14 +1,8 @@
 // License: LGPL-3.0-or-later
 import customFields from "."
-import {customFields as legacyCustomFields} from './legacy';
-import {customFields as newCustomFields} from './new';
-
-
 
 describe.each([
   ['with index', customFields],
-  ['with legacy', legacyCustomFields],
-  ['with new', newCustomFields]
 ])('customFields', (name, method) => {
   describe(name, () => {
     it('sets the the field correctly', () => {

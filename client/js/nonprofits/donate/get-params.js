@@ -4,18 +4,16 @@ const { parseCustomFields, parseCustomAmounts, splitParam }  = require('./parseF
 
 module.exports = params => {
   // Set defaults
-  const merge = R.merge({ custom_amounts: '' })
+  const merge = (params) => ({ custom_amounts: '', ...params })
   // Preprocess data
   const evolve = R.evolve({
     multiple_designations: splitParam
   , custom_amounts: parseCustomAmounts
   , custom_fields: parseCustomFields
-  , tags: tags => R.map(tag => {
-      return tag.trim()
-    }, R.split(',', tags))
+  , tags: tags => tags.split(',').map(tag => tag.trim())
   })
 
-  const outputParams = R.compose(evolve, merge)(params)
+  const outputParams = evolve(merge(params))
   if (window.app && window.app.widget && window.app.widget.custom_amounts) {
     outputParams.custom_amounts = window.app.widget.custom_amounts
   }

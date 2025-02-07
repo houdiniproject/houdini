@@ -14,7 +14,7 @@ class StaticController < ApplicationController
       if result
         send_file(temp_file, :type => "application/gzip")
       else
-        render :nothing => true, :status => 500
+        head 500
       end
     elsif (ccs_method == 'github')
       git_hash = File.read("#{Rails.root}/CCS_HASH")

@@ -1,7 +1,7 @@
 // License: LGPL-3.0-or-later
 const flyd = require('flyd')
 const h = require('snabbdom/h')
-const R = require('ramda')
+const pick = require('lodash/pick')
 const autocomplete = require('./address-autocomplete')
 flyd.filter = require('flyd/module/filter')
 flyd.lift = require('flyd/module/lift')
@@ -10,14 +10,15 @@ autocomplete.initScript()
 
 function init(state, params$) {
   state = state||{}
-  state = R.merge({
+  state = {
     isManual$: flyd.stream(!app.autocomplete)
-  , data$: flyd.stream(app.profile ? R.pick(['address', 'city', 'state_code', 'zip_code'], app.profile) : {})
+  , data$: flyd.stream(app.profile ? pick(app.profile, ['address', 'city', 'state_code', 'zip_code']) : {})
   , autocompleteInputInserted$: flyd.stream()
-  }, state)
+  , ...state
+  }
 
   const loaded$ = flyd.filter(
-    R.identity
+    i => i
   , flyd.lift((x, input) => input, autocomplete.loaded$, state.autocompleteInputInserted$) )
   
   state.autoData$ = flyd.flatMap(

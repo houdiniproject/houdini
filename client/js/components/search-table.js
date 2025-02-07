@@ -1,12 +1,9 @@
 // License: LGPL-3.0-or-later
-const R = require('ramda')
 const h = require('flimflam/h')
 const search = require('./search')
 
-const map = R.addIndex(R.map)
-
 const table = (data=[], header, row) => 
-  h('table.width-full', R.concat(header, map(row, data)))
+  h('table.width-full', [...header, ...data.map(row)])
 
 const showMore = state => {
   if(!state.hasMoreResults$()) return ''

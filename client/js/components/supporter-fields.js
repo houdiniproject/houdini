@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 const h = require('snabbdom/h')
-const R = require('ramda')
+const pick = require('lodash/pick');
 const flyd = require('flyd')
 const geography = require('../common/geography')
 const addressAutocomplete = require('./address-autocomplete-fields')
@@ -11,13 +11,15 @@ flyd.mergeall = require('flyd/module/mergeall')
 function init(state, params$) {
 //window.param$ = params$; //debug, make it global
   state = state || {}
-  state = R.merge({
+  state = {
     selectCountry$: flyd.stream()
-  , supporter: R.merge({
+  , supporter: {
       email: app.user ? app.user.email : undefined
-    }, R.pick(['first_name', 'last_name', 'phone', 'address', 'city', 'state_code', 'zip_code'], app.profile || {}) )
+    , ...pick(app.profile || {}, ['first_name', 'last_name', 'phone', 'address', 'city', 'state_code', 'zip_code'])
+  }
   , required: {}
-  }, state)
+  , ...state
+  }
   state.addressAutocomplete = addressAutocomplete.init({data$: flyd.stream(state.supporter)}, params$)
   state.notUSA$ = flyd.mergeall([
     flyd.stream(!app.show_state_field)

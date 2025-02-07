@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 const flyd = require('flyd')
 const h = require('snabbdom/h')
-const R = require('ramda')
 
 const request = require('../common/request')
 const {formatResp} = require('./public-activities-base');
@@ -30,7 +29,7 @@ const view = state => {
   if (!state.formattedResp$().length)
     return mixin(h('div.u-padding--15.u-centered.u-color--grey', 'None yet'))
   return mixin(h('table.u-margin--0.table--striped', [
-      h('tbody', R.map(activities, state.formattedResp$()))
+      h('tbody', state.formattedResp$().map(activities))
     ]))
 }
 

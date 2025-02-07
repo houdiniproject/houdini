@@ -49,6 +49,7 @@
 	<%= render 'common/froala' if current_nonprofit_user? %>
 
 	<%= IncludeAsset.js '/client/js/nonprofits/show/page.js' %>
+	<%= IncludeAsset.js '/client/js/nonprofits/edit/page.js' %>
   <% # needs to be after the page load because that's when I18n is included %>
   <script>
       var I18n = I18n || {}

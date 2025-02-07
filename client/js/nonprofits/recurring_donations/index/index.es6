@@ -2,7 +2,6 @@
 const snabbdom = require('snabbdom')
 const flyd = require('flyd')
 const h = require('snabbdom/h')
-const R = require('ramda')
 const modal = require('ff-core/modal')
 const render = require('ff-core/render')
 const request = require('../../../common/request')
@@ -10,7 +9,7 @@ const request = require('../../../common/request')
 function init() {
   var state = {}
   state.modalID$ = flyd.stream()
-  state.data$ = flyd.map(R.prop('body'), request({
+  state.data$ = flyd.map(r => r.body, request({
     path: `/nonprofits/${app.nonprofit_id}/recurring_donation_stats`
   , method: 'get'
   }).load)

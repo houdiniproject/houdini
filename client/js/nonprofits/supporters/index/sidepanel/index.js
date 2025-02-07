@@ -52,14 +52,14 @@ const init = _ => {
   state.offsiteDonationForm = offsiteDonationForm.init(state)
 
   state.editNoteData$ = flyd.merge(
-    flyd.map(R.always({}), state.newNote$)
+    flyd.map(() => ({}), state.newNote$)
   , flyd.map(d => ({id: d.attachment_id, content: d.json_data.content}), state.editNote$))
 
   const deleteNoteId$ = flyd.map(d => d.attachment_id, state.deleteNote$)
 
   state.noteAjaxMethod$ = mergeAll([
-    flyd.map(R.always('post'), state.newNote$)
-  , flyd.map(R.always('put'), state.editNote$)
+    flyd.map(() => 'post', state.newNote$)
+  , flyd.map(() => 'put', state.editNote$)
   ])
 
   state.supporterNoteForm = supporterNoteForm.init(state)
@@ -125,8 +125,8 @@ const view = state => {
     actions.view(state)
   , activities.view(state)
   , notification.view(state.notification)
-  , offsiteDonationForm.view(R.merge(state.offsiteDonationForm))
-  , supporterNoteForm.view(R.merge(state.supporterNoteForm, {modalID$: state.modalID$}))
+  , offsiteDonationForm.view({...state.offsiteDonationForm})
+  , supporterNoteForm.view({...state.supporterNoteForm, modalID$: state.modalID$ })
   , confirm.view(state.confirmDelete, 'Are you sure you want to delete this note?')
   ])
 }

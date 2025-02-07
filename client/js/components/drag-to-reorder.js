@@ -1,12 +1,9 @@
 // License: LGPL-3.0-or-later
 const dragula = require('dragula')
 const serialize = require('form-serialize')
-const R = require('ramda')
 const request = require('../common/request')
 const flyd = require('flyd')
 const flatMap = require('flyd/module/flatmap')
-
-const mapIndex = R.addIndex(R.map)
 
 module.exports = function(path, containerId, afterUpdateFunction) {
 
@@ -21,10 +18,10 @@ module.exports = function(path, containerId, afterUpdateFunction) {
   function getIdAndOrder(el) {
     var form = el.querySelector('input').form
     var ids = serialize(form, {hash: true}).id
-    return {data: mapIndex((v, i) => ({id: v, order: i}), ids)}
+    return {data: ids.map((v, i) => ({id: v, order: i}))}
   }
 
-  const updateOrdering = send => flyd.map(R.prop('body'), request({path, method: 'put' , send}).load)
+  const updateOrdering = send => flyd.map(r => r.body, request({path, method: 'put' , send}).load)
 
   const response$ = flatMap(updateOrdering, giftOptions$) 
 

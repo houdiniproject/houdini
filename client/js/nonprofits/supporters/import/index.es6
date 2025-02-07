@@ -99,7 +99,7 @@ function init() {
 
 // post to /imports after the file is uploaded to S3
 const postImport = R.curry((headers, file) => {
-  return flyd.map(R.prop('body'), request({
+  return flyd.map(r => r.body, request({
     method: 'post'
   , path: `/nonprofits/${app.nonprofit_id}/imports`
   , send: {file_uri: file.uri, header_matches: headers}

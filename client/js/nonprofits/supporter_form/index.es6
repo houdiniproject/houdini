@@ -1,6 +1,5 @@
 // License: LGPL-3.0-or-later
 const flyd = require('flyd')
-const R = require('ramda')
 const flatMap = require('flyd/module/flatmap')
 const request = require('../../common/request')
 const serialize = require('form-serialize')
@@ -23,7 +22,7 @@ const postRequest = ev => {
   }).load
 }
 
-const getReqBody = flyd.map(R.prop('body'))
+const getReqBody = flyd.map(r => r.body)
 
 const response$ = getReqBody(flatMap(postRequest, submit$))
 

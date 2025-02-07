@@ -152,7 +152,7 @@ end
 
 
 group :production, :staging do
-  gem 'heroku_rails_deflate'
+  gem 'heroku-deflater'
   gem "hiredis", "~> 0.6.0"
   gem "redis", ">= 3.2.0"
   gem 'redis-actionpack'

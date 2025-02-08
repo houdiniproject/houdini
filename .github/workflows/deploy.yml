@@ -1,4 +1,5 @@
 name: Deploy
+run-name: Deploy - ${{ inputs.version_tag }}
 on: 
  workflow_dispatch:
     # Inputs the workflow accepts.

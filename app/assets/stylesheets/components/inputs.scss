@@ -162,7 +162,7 @@ input[type="file"]::-webkit-file-upload-button {
 	cursor: pointer;
 	border: none;
 	font-weight: bold;
-	&:focus {outline:none;}
+	&:focus:not(:focus-visible) {outline: none;}
 }
 
 .input--mini {

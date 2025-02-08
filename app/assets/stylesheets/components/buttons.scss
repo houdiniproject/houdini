@@ -15,7 +15,7 @@
 	clear: both;
 	color: white;
 	display: inline-block;
-	&:focus { outline: none; }
+	&:focus:not(:focus-visible) { outline: none; }
 	&.blue {@include setBackgroundAndHover($light-logo-blue);}
 	&.bluegreen {@include setBackgroundAndHover($bluegrass);}
 	&.bluegrey {@include setBackgroundAndHover($sea-foam);}

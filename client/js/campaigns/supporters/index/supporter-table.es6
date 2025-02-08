@@ -4,7 +4,6 @@ const h = require('virtual-dom/h')
 const showMoreBtn = require('../../../components/show-more-button.es6')
 
 const root = state => {
-  console.log({state})
 	var supporters = state.get('supporters')
 	if(state.get('loading')) {
 		return h('p.noResults', ' Loading...')

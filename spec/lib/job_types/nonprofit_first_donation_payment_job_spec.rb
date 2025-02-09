@@ -15,18 +15,18 @@ describe JobTypes::NonprofitFirstDonationPaymentJob do
     
     it 'does not send email if nonprofit isnt found' do
       expect_job_not_queued
-      JobTypes::NonprofitFirstDonationPaymentJob.new(donation_without_np).perform
+      JobTypes::NonprofitFirstDonationPaymentJob.new(donation_without_np.id).perform
     end
 
     it 'does not send email if charge isnt found' do
       expect_job_not_queued
-      JobTypes::NonprofitFirstDonationPaymentJob.new(donation_without_charge).perform
+      JobTypes::NonprofitFirstDonationPaymentJob.new(donation_without_charge.id).perform
     end
 
     it 'does not send email if nonprofit is found but first charge already sent' do
       misc_np_infos_first_charge_sent
       expect_job_not_queued
-      JobTypes::NonprofitFirstDonationPaymentJob.new(donation_without_np).perform
+      JobTypes::NonprofitFirstDonationPaymentJob.new(donation_without_np.id).perform
     end
 
     it 'sends email when everything correct' do

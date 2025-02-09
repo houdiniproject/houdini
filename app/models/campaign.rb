@@ -66,7 +66,7 @@ class Campaign < ApplicationRecord
 	## we already have a recurring_donations relationship but it's broken so we'll create one here just as a workaround
 	has_many :valid_rds, :through => :donations, source: :recurring_donation, class_name: 'RecurringDonation'
 	has_many :charges, through: :donations
-	has_many :payments, through: :donations
+	has_many :payments, through: :donations, source: :payment
 	has_many :campaign_gift_options
 	has_many :campaign_gifts, through: :campaign_gift_options
 	has_many :supporters, :through => :donations

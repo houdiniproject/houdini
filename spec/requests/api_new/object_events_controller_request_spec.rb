@@ -50,7 +50,7 @@ RSpec.describe ApiNew::ObjectEventsController, type: :request do
       context 'with event_entity' do
         context 'and entity doesnt exist' do
           before(:each) do
-            get index_base_path(nonprofit.houid), event_entity: 'fake_entity'
+            get index_base_path(nonprofit.houid), params: {event_entity: 'fake_entity'}
           end
           
           it {
@@ -60,7 +60,7 @@ RSpec.describe ApiNew::ObjectEventsController, type: :request do
 
         context 'and entity does exist' do 
           before(:each) do
-            get index_base_path(nonprofit.houid), event_entity: simple_object_with_parent.houid
+            get index_base_path(nonprofit.houid), params: {event_entity: simple_object_with_parent.houid}
           end
           
           it {
@@ -73,7 +73,7 @@ RSpec.describe ApiNew::ObjectEventsController, type: :request do
       context 'with event_types' do
         context 'and event_types doesnt exist' do
           before(:each) do
-            get index_base_path(nonprofit.houid), event_types: ['soennoet.come']
+            get index_base_path(nonprofit.houid), params: {event_types: ['soennoet.come']}
           end
           
           it {
@@ -83,7 +83,7 @@ RSpec.describe ApiNew::ObjectEventsController, type: :request do
 
         context 'and event_types does exist' do
           before(:each) do
-            get index_base_path(nonprofit.houid), event_types: ['simple_object.created']
+            get index_base_path(nonprofit.houid), params: {event_types: ['simple_object.created']}
           end
       
           it {
@@ -93,7 +93,7 @@ RSpec.describe ApiNew::ObjectEventsController, type: :request do
 
         context 'and multiple event_types do exist' do
           before(:each) do
-            get index_base_path(nonprofit.houid), event_entity: ['simple_object.created', 'simple_object.updated']
+            get index_base_path(nonprofit.houid), params: {event_entity: ['simple_object.created', 'simple_object.updated'] }
           end
       
           it {

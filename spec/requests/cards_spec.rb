@@ -9,13 +9,13 @@ describe CardsController, type: :request do
     let!(:supporter) { create(:supporter_base)}
     it 'test number of card throttle' do
       6.times {
-         post '/cards',  {card:{holder_type:'Supporter', holder_id: supporter.id}}.to_json, {"CONTENT_TYPE" => "application/json" }
+         post '/cards',  params: {card:{holder_type:'Supporter', holder_id: supporter.id}}.to_json, headers: {"CONTENT_TYPE" => "application/json" }
       }
 
       expect(response.status.to_s).to start_with "4"
 
       Timecop.freeze(61) do
-        post '/cards',  {card:{holder_type:'Supporter', holder_id: supporter.id}}.to_json, {"CONTENT_TYPE" => "application/json" }
+        post '/cards',  params: {card:{holder_type:'Supporter', holder_id: supporter.id}}.to_json, headers: {"CONTENT_TYPE" => "application/json" }
         expect(@response.status).to_not eq 429
       end
 

@@ -27,7 +27,7 @@ RSpec.describe Nonprofits::DonationsController, type: :request do
     context 'with nonprofit user' do
       before do
 				sign_in user
-        post create_offsite_base_path(nonprofit.id), {donation: {
+        post create_offsite_base_path(nonprofit.id), params: {donation: {
           amount: 4000,
           supporter_id: supporter.id,
           nonprofit_id: nonprofit.id,
@@ -89,7 +89,7 @@ RSpec.describe Nonprofits::DonationsController, type: :request do
 
       describe 'object events' do
         subject(:transaction_event) do 
-          get "/api_new/nonprofits/#{nonprofit.houid}/object_events", event_entity: transaction.houid
+          get "/api_new/nonprofits/#{nonprofit.houid}/object_events", params: {event_entity: transaction.houid}
           response.body
         end
 

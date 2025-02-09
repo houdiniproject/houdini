@@ -19,7 +19,7 @@ class ApiNew::UsersController < ApiNew::ApiController
 		if np_houid
 			redirect_to api_new_nonprofit_object_events_path(np_houid, request.query_parameters)
 		else
-			render :text => 'Not Found', :status => :not_found
+			render body: 'Not Found', :status => :not_found
 		end
 	end
 end

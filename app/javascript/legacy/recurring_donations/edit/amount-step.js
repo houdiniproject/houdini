@@ -69,9 +69,9 @@ function chooseNewDonationAmount() {
 // All the buttons and the custom input for the amounts to select
 function amountFields(state) {
     if(state.params$().single_amount) return ''
-    return h('div.u-inline.fieldsetLayout--three--evenPadding', [
-        h('span',
-            R.map(
+    return h('div.fieldsetLayout--three--evenPadding', [
+   
+            ...R.map(
                 amt => h('fieldset', [
                     h('button.button.u-width--full.white.amount', {
                         class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt*100}
@@ -86,7 +86,7 @@ function amountFields(state) {
                     ])
                 ])
                 , state.params$().custom_amounts || [] )
-        )
+        
         , h('fieldset.prepend--dollar', [
             h('input.amount', {
                 props: {name: 'amount', step: 'any', type: 'number', min: 1, placeholder: 'Custom'}

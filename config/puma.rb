@@ -21,11 +21,6 @@ end
 
 before_fork do
   Barnes.start
-  require 'puma_worker_killer'
-  PumaWorkerKiller.config do |config|
-    config.ram           = 1024 # mb
-  end
-  PumaWorkerKiller.start
 end
 
 # rackup      DefaultRackup

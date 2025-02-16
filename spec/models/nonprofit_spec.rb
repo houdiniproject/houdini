@@ -17,6 +17,8 @@ RSpec.describe Nonprofit, type: :model do
 
   it {is_expected.to have_many(:supporter_cards).class_name('Card').through(:supporters).source(:cards)}
 
+  it {is_expected.to have_many(:disputes).through(:charges)}
+
   it {is_expected.to have_many(:email_lists)}
   it {is_expected.to have_one(:nonprofit_key)}
 

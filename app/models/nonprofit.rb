@@ -55,6 +55,7 @@ class Nonprofit < ApplicationRecord
   has_many :payouts
   has_many :charges
   has_many :refunds, through: :charges
+  has_many :disputes, through: :charges
   has_many :donations
   has_many :recurring_donations
   has_many :payments do

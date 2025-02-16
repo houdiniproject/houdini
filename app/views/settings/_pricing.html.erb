@@ -13,14 +13,6 @@
 
   <% if @nonprofit.billing_plan.amount > 0 %>
     <p><a class='u-color--red u-small' href='/nonprofits/<%=@nonprofit.id%>/billing_subscription/cancellation'>Unsubscribe from plan</a></p>
-    
-    <p>
-      <strong>
-        <a href='/nonprofits/<%= @nonprofit.id %>/card/edit'>
-          Update payment method
-        </a>
-      </strong>
-    </p>
   <% end %>
 
 	<% if @nonprofit.active_card %>

@@ -235,8 +235,6 @@ GEM
     ffi (1.11.3)
     foreman (0.87.2)
     geocoder (1.2.11)
-    get_process_mem (0.2.7)
-      ffi (~> 1.0)
     grape (1.1.0)
       activesupport
       builder
@@ -359,9 +357,6 @@ GEM
     public_suffix (4.0.6)
     puma (5.6.9)
       nio4r (~> 2.0)
-    puma_worker_killer (0.3.1)
-      get_process_mem (~> 0.2)
-      puma (>= 2.7)
     rabl (0.11.6)
       activesupport (>= 2.3.14)
     racc (1.6.2)
@@ -579,7 +574,6 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (~> 5.6)
-  puma_worker_killer
   qx!
   rabl
   rack!

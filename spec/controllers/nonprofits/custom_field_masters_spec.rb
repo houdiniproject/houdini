@@ -6,7 +6,7 @@ describe Nonprofits::CustomFieldMastersController, :type => :controller do
   include_context :shared_user_context
   describe 'rejects unauthenticated users' do
     describe 'get custom field masters' do
-      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np
+      include_context :open_to_np_associate, :get, :index, nonprofit_id: :__our_np,  with_status: 200
     end
 
     describe 'create' do

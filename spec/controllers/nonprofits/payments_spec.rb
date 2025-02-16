@@ -14,7 +14,7 @@ describe Nonprofits::PaymentsController, :type => :controller do
     end
 
     describe 'show payments' do
-      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1'
+      include_context :open_to_np_associate, :get, :show, nonprofit_id: :__our_np, id: '1', with_status: 200
     end
 
     describe 'update' do

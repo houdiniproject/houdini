@@ -26,10 +26,10 @@ class Charge < ApplicationRecord
   has_one :stripe_charge, through: :payment
 
   scope :paid, -> { where(status: %w[available pending disbursed]) }
-  scope :not_paid, -> { where(status: [nil, 'failed']) }
-  scope :available, -> { where(status: 'available') }
-  scope :pending, -> { where(status: 'pending') }
-  scope :disbursed, -> { where(status: 'disbursed') }
+  scope :not_paid, -> { where(status: [nil, "failed"]) }
+  scope :available, -> { where(status: "available") }
+  scope :pending, -> { where(status: "pending") }
+  scope :disbursed, -> { where(status: "disbursed") }
 
   def paid?
     status.in?(%w[available pending disbursed])

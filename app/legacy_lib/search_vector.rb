@@ -15,7 +15,7 @@ module SearchVector
 
   def self._payments_blob_query
     Qexpr.new.select(
-      'payments.id',
+      "payments.id",
       "concat_ws(' '
         , payments.gross_amount
         , payments.kind
@@ -29,20 +29,20 @@ module SearchVector
         , donations.dedication
         ) AS search_blob"
     )
-         .from(:payments)
-         .left_outer_join('supporters', 'payments.supporter_id=supporters.id')
-         .left_outer_join('donations', 'payments.donation_id=donations.id')
+      .from(:payments)
+      .left_outer_join("supporters", "payments.supporter_id=supporters.id")
+      .left_outer_join("donations", "payments.donation_id=donations.id")
   end
 
   # Construct of query of ids and search blobs for all supporters
   # for use in a sub-query
   def self._supporters_blob_query
-    fields_subquery = Qexpr.new.select("string_agg(value::text, ' ') AS value", 'supporter_id')
-                           .from(:custom_field_joins)
-                           .group_by(:supporter_id)
-                           .as(:custom_field_joins)
+    fields_subquery = Qexpr.new.select("string_agg(value::text, ' ') AS value", "supporter_id")
+      .from(:custom_field_joins)
+      .group_by(:supporter_id)
+      .as(:custom_field_joins)
     Qexpr.new.select(
-      'supporters.id',
+      "supporters.id",
       "concat_ws(' '
         , custom_field_joins.value
         , supporters.name
@@ -57,9 +57,9 @@ module SearchVector
         , payments.towards
         ) AS search_blob"
     )
-         .from(:supporters)
-         .left_outer_join(:payments, 'payments.supporter_id=supporters.id')
-         .left_outer_join(:donations, 'donations.supporter_id=supporters.id')
-         .left_outer_join(fields_subquery, 'custom_field_joins.supporter_id=supporters.id')
+      .from(:supporters)
+      .left_outer_join(:payments, "payments.supporter_id=supporters.id")
+      .left_outer_join(:donations, "donations.supporter_id=supporters.id")
+      .left_outer_join(fields_subquery, "custom_field_joins.supporter_id=supporters.id")
   end
 end

@@ -8,7 +8,7 @@ class EventDiscountsController < ApplicationController
   before_action :authenticate_event_editor!, except: [:index]
 
   def create
-    render json: { data: {event_discount: current_event.event_discounts.create(event_discount_params[:event_discount]) } }
+    render json: {data: {event_discount: current_event.event_discounts.create(event_discount_params[:event_discount])}}
   end
 
   def index
@@ -16,9 +16,8 @@ class EventDiscountsController < ApplicationController
   end
 
   def update
-
     current_event_discount.update event_discount_params[:event_discount]
-    render json: { status: 200, data: current_event_discount }
+    render json: {status: 200, data: current_event_discount}
   end
 
   def destroy
@@ -26,7 +25,7 @@ class EventDiscountsController < ApplicationController
   end
 
   private
-  
+
   def current_event_discount
     current_event.event_discounts.find(params[:id])
   end

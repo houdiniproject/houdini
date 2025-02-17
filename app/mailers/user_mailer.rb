@@ -16,12 +16,12 @@ class UserMailer < BaseMailer
   def recurring_donation_failure(recurring_donation)
     @recurring_donation = recurring_donation
     mail(to: @recurring_donation.email,
-         subject: "We couldn't process your recurring donation towards #{@recurring_donation.nonprofit.name}.")
+      subject: "We couldn't process your recurring donation towards #{@recurring_donation.nonprofit.name}.")
   end
 
   def recurring_donation_cancelled(recurring_donation)
     @recurring_donation = recurring_donation
     mail(to: @recurring_donation.email,
-         subject: "Your recurring donation towards #{@recurring_donation.nonprofit.name} was successfully cancelled.")
+      subject: "Your recurring donation towards #{@recurring_donation.nonprofit.name} was successfully cancelled.")
   end
 end

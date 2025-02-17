@@ -2,9 +2,9 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-json.(supporter, :id, :name, :organization, :phone, :anonymous, :deleted)
+json.call(supporter, :id, :name, :organization, :phone, :anonymous, :deleted)
 
-json.object 'supporter'
+json.object "supporter"
 
 json.merged_into supporter.merged_into&.id
 

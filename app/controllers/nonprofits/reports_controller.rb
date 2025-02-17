@@ -5,7 +5,7 @@
 module Nonprofits
   class ReportsController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
 
     def end_of_year

@@ -20,7 +20,7 @@ class NonprofitAdminMailer < BaseMailer
 
   def supporter_fundraiser(event_or_campaign)
     @fundraiser = event_or_campaign
-    @kind = event_or_campaign.class.name.downcase || 'event'
+    @kind = event_or_campaign.class.name.downcase || "event"
     @nonprofit = event_or_campaign.nonprofit
     @profile = event_or_campaign.profile
     recipients = @nonprofit.nonprofit_personnel_emails

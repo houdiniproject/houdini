@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddCronKeyCronAtIndexToGoodJobs < ActiveRecord::Migration[6.1]
   disable_ddl_transaction!
 
@@ -12,9 +13,9 @@ class AddCronKeyCronAtIndexToGoodJobs < ActiveRecord::Migration[6.1]
     end
 
     add_index :good_jobs,
-              [:cron_key, :cron_at],
-              algorithm: :concurrently,
-              name: :index_good_jobs_on_cron_key_and_cron_at,
-              unique: true
+      [:cron_key, :cron_at],
+      algorithm: :concurrently,
+      name: :index_good_jobs_on_cron_key_and_cron_at,
+      unique: true
   end
 end

@@ -16,8 +16,8 @@ class TagJoin < ApplicationRecord
   end
 
   def self.create_with_name(nonprofit, h)
-    tm = nonprofit.tag_definitions.find_by_name(h['name'])
-    tm = nonprofit.tag_definitions.create(name: h['name']) if tm.nil?
-    create tag_definition: tm, supporter_id: h['supporter_id']
+    tm = nonprofit.tag_definitions.find_by_name(h["name"])
+    tm = nonprofit.tag_definitions.create(name: h["name"]) if tm.nil?
+    create tag_definition: tm, supporter_id: h["supporter_id"]
   end
 end

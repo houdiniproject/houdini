@@ -5,14 +5,14 @@
 module Nonprofits
   class ButtonController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
 
     before_action :authenticate_user!
 
     def send_code
       NonprofitMailer.button_code(current_nonprofit, params[:to_email], params[:to_name], params[:from_email], params[:message], params[:code]).deliver
       render json: {}, status: 200
-  end
+    end
 
     def basic
       @nonprofit = current_nonprofit

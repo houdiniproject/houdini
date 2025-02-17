@@ -7,10 +7,10 @@ FactoryBot.define do
     webhook_service { :open_fn }
     configuration do
       {
-        webhook_url: 'https://www.openfn.org/inbox/my-inbox-id',
-        headers: { 'x-api-key': 'my-secret-key' }
+        webhook_url: "https://www.openfn.org/inbox/my-inbox-id",
+        headers: {"x-api-key": "my-secret-key"}
       }
     end
-    object_event_types { ['supporter.update'] }
+    object_event_types { ["supporter.update"] }
   end
 end

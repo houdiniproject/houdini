@@ -16,7 +16,7 @@ class CreateFullContact < ActiveRecord::Migration[6.0]
       t.text :websites
       t.timestamps
     end
-    
+
     create_table :full_contact_topics do |t|
       t.references :full_contact_infos
       t.string :provider
@@ -26,12 +26,12 @@ class CreateFullContact < ActiveRecord::Migration[6.0]
 
     create_table :full_contact_social_profiles do |t|
       t.references :full_contact_infos
-      t.string :type_id 
-		  t.string :username 
-		  t.string :uid 
-		  t.text :bio 
+      t.string :type_id
+      t.string :username
+      t.string :uid
+      t.text :bio
       t.string :url
-      t.integer :followers 
+      t.integer :followers
       t.integer :following
       t.timestamps
     end

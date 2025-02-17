@@ -9,7 +9,7 @@ class Comment < ApplicationRecord
   # :body
 
   validates :profile, presence: true
-  validates :body, presence: true, length: { maximum: 200 }
+  validates :body, presence: true, length: {maximum: 200}
 
   has_one :activity, as: :attachment, dependent: :destroy
   belongs_to :host, polymorphic: true
@@ -22,7 +22,7 @@ class Comment < ApplicationRecord
 
   after_create do
     create_activity(
-      desc: 'commented',
+      desc: "commented",
       profile_id: profile_id,
       host_id: host_id,
       host_type: host_type,

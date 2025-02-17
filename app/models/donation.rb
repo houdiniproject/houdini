@@ -22,11 +22,11 @@ class Donation < ApplicationRecord
   # :direct_debit_detail_id, :direct_debit_detail,
   # :payment_provider
 
-  validates :amount, presence: true, numericality: { only_integer: true }
+  validates :amount, presence: true, numericality: {only_integer: true}
   validates :supporter, presence: true
   validates :nonprofit, presence: true
   validates_associated :charges
-  validates :payment_provider, inclusion: { in: %w[credit_card sepa] }, allow_blank: true
+  validates :payment_provider, inclusion: {in: %w[credit_card sepa]}, allow_blank: true
 
   has_many :charges
   has_many :campaign_gifts, dependent: :destroy

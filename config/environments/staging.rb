@@ -47,7 +47,7 @@ Rails.application.configure do
   # cdn_url = "https://d2e5we1j08b82a.cloudfront.net"
   # config.action_controller.asset_host = cdn_url
   # config.action_mailer.asset_host = cdn_url
-  config.font_assets.origin = '*'
+  config.font_assets.origin = "*"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile = ['application', 'manifests/*']
@@ -55,7 +55,7 @@ Rails.application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
-  config.action_mailer.default_url_options = { host: Settings.mailer.host }
+  config.action_mailer.default_url_options = {host: Settings.mailer.host}
 
   # Enable threaded mode
   # config.threadsafe!

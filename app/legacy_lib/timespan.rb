@@ -4,18 +4,18 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 # For tracking and calculating timespans/time intervals
 # Relies on activesupport
-require 'active_support/time'
+require "active_support/time"
 
 Timespan = Struct.new(:interval, :time_unit) do
   self::Units = %w[week day month year].freeze
   self::TimeUnits = {
-    '1_week' => 1.week.ago,
-    '2_weeks' => 2.weeks.ago,
-    '1_month' => 1.month.ago,
-    '3_months' => 3.months.ago,
-    '6_months' => 6.months.ago,
-    '1_year' => 1.year.ago,
-    '2_years' => 2.years.ago
+    "1_week" => 1.week.ago,
+    "2_weeks" => 2.weeks.ago,
+    "1_month" => 1.month.ago,
+    "3_months" => 3.months.ago,
+    "6_months" => 6.months.ago,
+    "1_year" => 1.year.ago,
+    "2_years" => 2.years.ago
   }.freeze
 
   # Test if end_date is past start_date by timespan

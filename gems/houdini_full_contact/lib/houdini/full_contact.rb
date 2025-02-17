@@ -1,9 +1,9 @@
 require "houdini/full_contact/engine"
 
 module Houdini::FullContact
-    extend ActiveSupport::Autoload
+  extend ActiveSupport::Autoload
 
-    autoload :InsertInfos
+  autoload :InsertInfos
 
-    mattr_accessor :api_key, :max_attempts
+  mattr_accessor :api_key, :max_attempts
 end

@@ -12,7 +12,7 @@ class TicketsController < ApplicationController
 
   # post /nonprofits/:nonprofit_id/events/:event_id/tickets
   def create
-    authenticate_event_editor! if params[:kind] == 'offsite'
+    authenticate_event_editor! if params[:kind] == "offsite"
     render_json do
       params[:current_user] = current_user
       InsertTickets.create(params)
@@ -35,7 +35,7 @@ class TicketsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        file_date = Date.today.strftime('%m-%d-%Y')
+        file_date = Date.today.strftime("%m-%d-%Y")
         filename = "tickets-#{file_date}"
         @tickets = QueryTickets.for_export(@event.id, params)
         send_data(Format::Csv.from_vectors(@tickets), filename: "#{filename}.csv")

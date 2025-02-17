@@ -9,16 +9,16 @@ module Houdini::FullContact
     config.houdini.full_contact = ActiveSupport::OrderedOptions.new
     config.houdini.full_contact.max_attempts = 5
 
-    initializer 'houdini.full_contact.supporter_extension' do 
-      ActiveSupport.on_load(:houdini_supporter) do 
-        self.has_many :full_contact_infos, class_name: 'Houdini::FullContact::Info'
+    initializer "houdini.full_contact.supporter_extension" do
+      ActiveSupport.on_load(:houdini_supporter) do
+        has_many :full_contact_infos, class_name: "Houdini::FullContact::Info"
       end
     end
 
-    initializer 'houdini.full_contact.configs' do 
+    initializer "houdini.full_contact.configs" do
       config.before_initialize do |app|
-        Houdini::FullContact.api_key = app.config.houdini.full_contact.api_key || 
-                ENV.fetch('FULL_CONTACT_KEY')
+        Houdini::FullContact.api_key = app.config.houdini.full_contact.api_key ||
+          ENV.fetch("FULL_CONTACT_KEY")
         Houdini::FullContact.max_attempts = app.config.houdini.full_contact.max_attempts
       end
     end

@@ -44,7 +44,7 @@ module QexprQueryChunker
         offset = Qexpr.page_offset(limit, page)
         export_returned = block.call(offset, limit, page > 1).to_a
         # we got the titles too if on_first, let's skip one row
-        last_export_length = page == 1 ? export_returned.length - 1 : export_returned.length
+        last_export_length = (page == 1) ? export_returned.length - 1 : export_returned.length
         # efficient? no. Do we care? eh.
         export_returned.each do |i|
           y << i

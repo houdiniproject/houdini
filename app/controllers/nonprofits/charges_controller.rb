@@ -5,7 +5,7 @@
 module Nonprofits
   class ChargesController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
 
     before_action :authenticate_nonprofit_user!, only: :index
 

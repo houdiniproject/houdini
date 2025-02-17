@@ -2,268 +2,268 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe OfflineTransactionDispute do
-	let!(:nonprofit) { create(:nm_justice) }
-	let!(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
+  let!(:nonprofit) { create(:nm_justice) }
+  let!(:supporter) { force_create(:supporter, nonprofit: nonprofit) }
 
-	let(:offline_transaction_dispute) do
-		build(
-			:offline_transaction_dispute,
-			payment:
-				force_create(
-					:payment,
-					gross_amount: 500,
-					net_amount: 400,
-					fee_total: 100,
-					date: Time.zone.now,
-					nonprofit: nonprofit,
-					supporter: supporter
-				)
-		)
-	end
-	let(:offline_transaction_charge) do
-		build(
-			:offline_transaction_charge,
-			payment:
-				force_create(
-					:payment,
-					gross_amount: 400,
-					net_amount: 300,
-					fee_total: 100,
-					date: Time.zone.now,
-					nonprofit: nonprofit,
-					supporter: supporter
-				)
-		)
-	end
+  let(:offline_transaction_dispute) do
+    build(
+      :offline_transaction_dispute,
+      payment:
+         force_create(
+           :payment,
+           gross_amount: 500,
+           net_amount: 400,
+           fee_total: 100,
+           date: Time.zone.now,
+           nonprofit: nonprofit,
+           supporter: supporter
+         )
+    )
+  end
+  let(:offline_transaction_charge) do
+    build(
+      :offline_transaction_charge,
+      payment:
+         force_create(
+           :payment,
+           gross_amount: 400,
+           net_amount: 300,
+           fee_total: 100,
+           date: Time.zone.now,
+           nonprofit: nonprofit,
+           supporter: supporter
+         )
+    )
+  end
 
-	let(:offline_transaction) { build(:offline_transaction) }
-	let(:transaction) do
-		trx = supporter.transactions.build(amount: 500)
-		trx.build_subtransaction(
-			subtransactable: OfflineTransaction.new(amount: 500),
-			payments: [
-				build(:subtransaction_payment, paymentable: offline_transaction_dispute),
-				build(:subtransaction_payment, paymentable: offline_transaction_charge)
-			]
-		)
-		trx.save!
-		trx
-	end
+  let(:offline_transaction) { build(:offline_transaction) }
+  let(:transaction) do
+    trx = supporter.transactions.build(amount: 500)
+    trx.build_subtransaction(
+      subtransactable: OfflineTransaction.new(amount: 500),
+      payments: [
+        build(:subtransaction_payment, paymentable: offline_transaction_dispute),
+        build(:subtransaction_payment, paymentable: offline_transaction_charge)
+      ]
+    )
+    trx.save!
+    trx
+  end
 
-	let(:event_publisher) { double }
+  let(:event_publisher) { double }
 
-	let(:expected_event) do
-		{
-			'data' => {
-				'object' => {
-					'created' => kind_of(Numeric),
-					'fee_total' => { 'cents' => 100, 'currency' => nonprofit.currency },
-					'gross_amount' => { 'cents' => 500, 'currency' => nonprofit.currency },
-					'id' => match_houid('offtrxdspt'),
-					'net_amount' => { 'cents' => 400, 'currency' => nonprofit.currency },
-					'nonprofit' => {
-						'id' => nonprofit.id,
-						'name' => nonprofit.name,
-						'object' => 'nonprofit'
-					},
-					'object' => 'offline_transaction_dispute',
-					'subtransaction' => {
-						'created' => kind_of(Numeric),
-						'id' => match_houid('offlinetrx'),
-						'initial_amount' => { 'cents' => 500, 'currency' => nonprofit.currency },
-						'net_amount' => { 'cents' => 700, 'currency' => nonprofit.currency },
-						'nonprofit' => nonprofit.id,
-						'object' => 'offline_transaction',
-						'payments' => [
-							{
-								'id' => match_houid('offtrxdspt'),
-								'object' => 'offline_transaction_dispute',
-								'type' => 'payment'
-							}, {
-								'id' => match_houid('offtrxchrg'),
-								'object' => 'offline_transaction_charge',
-								'type' => 'payment'
-							}
-						],
-						'supporter' => supporter.id,
-						'transaction' => match_houid('trx'),
-						'type' => 'subtransaction'
-					},
-					'supporter' => {
-						'anonymous' => false,
-						'deleted' => false,
-						'id' => supporter.id,
-						'merged_into' => nil,
-						'name' => supporter.name,
-						'nonprofit' => kind_of(Numeric),
-						'object' => 'supporter',
-						'organization' => nil,
-						'phone' => nil,
-						'supporter_addresses' => [kind_of(Numeric)]
-					},
-					'transaction' => {
-						'amount' => { 'cents' => 500, 'currency' => nonprofit.currency },
-						'created' => kind_of(Numeric),
-						'id' => match_houid('trx'),
-						'nonprofit' => kind_of(Numeric),
-						'object' => 'transaction',
-						'subtransaction' => {
-							'id' => match_houid('offlinetrx'),
-							'object' => 'offline_transaction',
-							'type' => 'subtransaction'
-						},
-						'payments' => [
-							{
-								'id' => match_houid('offtrxdspt'),
-								'object' => 'offline_transaction_dispute',
-								'type' => 'payment'
-							}, {
-								'id' => match_houid('offtrxchrg'),
-								'object' => 'offline_transaction_charge',
-								'type' => 'payment'
-							}
-						],
-						'supporter' => supporter.id,
-						'transaction_assignments' => []
-					},
-					'type' => 'payment'
-				}
-			},
-			'id' => match_houid('objevt'),
-			'object' => 'object_event',
-			'type' => 'event_type'
-		}
-	end
+  let(:expected_event) do
+    {
+      "data" => {
+        "object" => {
+          "created" => kind_of(Numeric),
+          "fee_total" => {"cents" => 100, "currency" => nonprofit.currency},
+          "gross_amount" => {"cents" => 500, "currency" => nonprofit.currency},
+          "id" => match_houid("offtrxdspt"),
+          "net_amount" => {"cents" => 400, "currency" => nonprofit.currency},
+          "nonprofit" => {
+            "id" => nonprofit.id,
+            "name" => nonprofit.name,
+            "object" => "nonprofit"
+          },
+          "object" => "offline_transaction_dispute",
+          "subtransaction" => {
+            "created" => kind_of(Numeric),
+            "id" => match_houid("offlinetrx"),
+            "initial_amount" => {"cents" => 500, "currency" => nonprofit.currency},
+            "net_amount" => {"cents" => 700, "currency" => nonprofit.currency},
+            "nonprofit" => nonprofit.id,
+            "object" => "offline_transaction",
+            "payments" => [
+              {
+                "id" => match_houid("offtrxdspt"),
+                "object" => "offline_transaction_dispute",
+                "type" => "payment"
+              }, {
+                "id" => match_houid("offtrxchrg"),
+                "object" => "offline_transaction_charge",
+                "type" => "payment"
+              }
+            ],
+            "supporter" => supporter.id,
+            "transaction" => match_houid("trx"),
+            "type" => "subtransaction"
+          },
+          "supporter" => {
+            "anonymous" => false,
+            "deleted" => false,
+            "id" => supporter.id,
+            "merged_into" => nil,
+            "name" => supporter.name,
+            "nonprofit" => kind_of(Numeric),
+            "object" => "supporter",
+            "organization" => nil,
+            "phone" => nil,
+            "supporter_addresses" => [kind_of(Numeric)]
+          },
+          "transaction" => {
+            "amount" => {"cents" => 500, "currency" => nonprofit.currency},
+            "created" => kind_of(Numeric),
+            "id" => match_houid("trx"),
+            "nonprofit" => kind_of(Numeric),
+            "object" => "transaction",
+            "subtransaction" => {
+              "id" => match_houid("offlinetrx"),
+              "object" => "offline_transaction",
+              "type" => "subtransaction"
+            },
+            "payments" => [
+              {
+                "id" => match_houid("offtrxdspt"),
+                "object" => "offline_transaction_dispute",
+                "type" => "payment"
+              }, {
+                "id" => match_houid("offtrxchrg"),
+                "object" => "offline_transaction_charge",
+                "type" => "payment"
+              }
+            ],
+            "supporter" => supporter.id,
+            "transaction_assignments" => []
+          },
+          "type" => "payment"
+        }
+      },
+      "id" => match_houid("objevt"),
+      "object" => "object_event",
+      "type" => "event_type"
+    }
+  end
 
-	before do
-		allow(Houdini)
-			.to receive(:event_publisher)
-			.and_return(event_publisher)
-		transaction
-	end
+  before do
+    allow(Houdini)
+      .to receive(:event_publisher)
+      .and_return(event_publisher)
+    transaction
+  end
 
-	describe 'offline transaction dispute' do
-		subject { offline_transaction_dispute }
+  describe "offline transaction dispute" do
+    subject { offline_transaction_dispute }
 
-		it do
-			is_expected
-				.to have_attributes(
-					nonprofit: an_instance_of(Nonprofit),
-					id: match_houid('offtrxdspt')
-				)
-		end
+    it do
+      is_expected
+        .to have_attributes(
+          nonprofit: an_instance_of(Nonprofit),
+          id: match_houid("offtrxdspt")
+        )
+    end
 
-		it { is_expected.to be_persisted }
-	end
+    it { is_expected.to be_persisted }
+  end
 
-	describe '.to_builder' do
-		subject { JSON.parse(offline_transaction_dispute.to_builder.target!) }
+  describe ".to_builder" do
+    subject { JSON.parse(offline_transaction_dispute.to_builder.target!) }
 
-		it do
-			is_expected
-				.to match_json(
-					{
-						object: 'offline_transaction_dispute',
-						nonprofit: kind_of(Numeric),
-						supporter: kind_of(Numeric),
-						id: match_houid('offtrxdspt'),
-						type: 'payment',
-						fee_total: { cents: 100, currency: nonprofit.currency },
-						net_amount: { cents: 400, currency: nonprofit.currency },
-						gross_amount: { cents: 500, currency: nonprofit.currency },
-						created: kind_of(Numeric),
-						subtransaction: {
-							id: match_houid('offlinetrx'),
-							object: 'offline_transaction',
-							type: 'subtransaction'
-						},
-						transaction: match_houid('trx')
-					}
-				)
-		end
-	end
+    it do
+      is_expected
+        .to match_json(
+          {
+            object: "offline_transaction_dispute",
+            nonprofit: kind_of(Numeric),
+            supporter: kind_of(Numeric),
+            id: match_houid("offtrxdspt"),
+            type: "payment",
+            fee_total: {cents: 100, currency: nonprofit.currency},
+            net_amount: {cents: 400, currency: nonprofit.currency},
+            gross_amount: {cents: 500, currency: nonprofit.currency},
+            created: kind_of(Numeric),
+            subtransaction: {
+              id: match_houid("offlinetrx"),
+              object: "offline_transaction",
+              type: "subtransaction"
+            },
+            transaction: match_houid("trx")
+          }
+        )
+    end
+  end
 
-	describe '.publish_created' do
-		before do
-			expected_event['type'] = 'offline_transaction_dispute.created'
+  describe ".publish_created" do
+    before do
+      expected_event["type"] = "offline_transaction_dispute.created"
 
-			allow(event_publisher)
-				.to receive(:announce)
-				.with(:payment_created, anything)
-			allow(event_publisher)
-				.to receive(:announce)
-				.with(
-					:offline_transaction_dispute_created,
-					expected_event
-				)
-		end
+      allow(event_publisher)
+        .to receive(:announce)
+        .with(:payment_created, anything)
+      allow(event_publisher)
+        .to receive(:announce)
+        .with(
+          :offline_transaction_dispute_created,
+          expected_event
+        )
+    end
 
-		it 'announces offline_transaction_dispute.created event' do
-			offline_transaction_dispute.publish_created
+    it "announces offline_transaction_dispute.created event" do
+      offline_transaction_dispute.publish_created
 
-			expect(event_publisher)
-				.to have_received(:announce)
-				.with(
-					:offline_transaction_dispute_created,
-					expected_event
-				)
-		end
-	end
+      expect(event_publisher)
+        .to have_received(:announce)
+        .with(
+          :offline_transaction_dispute_created,
+          expected_event
+        )
+    end
+  end
 
-	describe '.publish_updated' do
-		before do
-			expected_event['type'] = 'offline_transaction_dispute.updated'
+  describe ".publish_updated" do
+    before do
+      expected_event["type"] = "offline_transaction_dispute.updated"
 
-			allow(event_publisher)
-				.to receive(:announce)
-				.with(:payment_updated, anything)
-			allow(event_publisher)
-				.to receive(:announce)
-				.with(
-					:offline_transaction_dispute_updated,
-					expected_event
-				)
-		end
+      allow(event_publisher)
+        .to receive(:announce)
+        .with(:payment_updated, anything)
+      allow(event_publisher)
+        .to receive(:announce)
+        .with(
+          :offline_transaction_dispute_updated,
+          expected_event
+        )
+    end
 
-		it 'announces offline_transaction_dispute.updated event' do
-			offline_transaction_dispute.publish_updated
+    it "announces offline_transaction_dispute.updated event" do
+      offline_transaction_dispute.publish_updated
 
-			expect(event_publisher)
-				.to have_received(:announce)
-				.with(
-					:offline_transaction_dispute_updated,
-					expected_event
-				)
-		end
-	end
+      expect(event_publisher)
+        .to have_received(:announce)
+        .with(
+          :offline_transaction_dispute_updated,
+          expected_event
+        )
+    end
+  end
 
-	describe '.publish_deleted' do
-		before do
-			expected_event['type'] = 'offline_transaction_dispute.deleted'
+  describe ".publish_deleted" do
+    before do
+      expected_event["type"] = "offline_transaction_dispute.deleted"
 
-			allow(event_publisher)
-				.to receive(:announce)
-				.with(:payment_deleted, anything)
-			allow(event_publisher)
-				.to receive(:announce)
-				.with(
-					:offline_transaction_dispute_deleted,
-					expected_event
-				)
-		end
+      allow(event_publisher)
+        .to receive(:announce)
+        .with(:payment_deleted, anything)
+      allow(event_publisher)
+        .to receive(:announce)
+        .with(
+          :offline_transaction_dispute_deleted,
+          expected_event
+        )
+    end
 
-		it 'announces offline_transaction_dispute.deleted event' do
-			offline_transaction_dispute.publish_deleted
+    it "announces offline_transaction_dispute.deleted event" do
+      offline_transaction_dispute.publish_deleted
 
-			expect(event_publisher)
-				.to have_received(:announce)
-				.with(
-					:offline_transaction_dispute_deleted,
-					expected_event
-				)
-		end
-	end
+      expect(event_publisher)
+        .to have_received(:announce)
+        .with(
+          :offline_transaction_dispute_deleted,
+          expected_event
+        )
+    end
+  end
 end

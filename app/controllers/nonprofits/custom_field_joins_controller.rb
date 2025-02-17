@@ -5,14 +5,14 @@
 module Nonprofits
   class CustomFieldJoinsController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
 
     def index
       @custom_field_joins = current_nonprofit
-                            .supporters.find(custom_field_params[:supporter_id])
-                            .custom_field_joins
-                            .order('created_at DESC')
+        .supporters.find(custom_field_params[:supporter_id])
+        .custom_field_joins
+        .order("created_at DESC")
     end
 
     # used for modify a single supporter's custom fields or a group of
@@ -23,10 +23,10 @@ module Nonprofits
         return
       end
 
-      if custom_field_params[:selecting_all]
-        supporter_ids = QuerySupporters.full_filter_expr(current_nonprofit.id, custom_field_params[:query]).select('supporters.id').execute.map { |h| h['id'] }
+      supporter_ids = if custom_field_params[:selecting_all]
+        QuerySupporters.full_filter_expr(current_nonprofit.id, custom_field_params[:query]).select("supporters.id").execute.map { |h| h["id"] }
       else
-        supporter_ids = custom_field_params[:supporter_ids]. map(&:to_i)
+        custom_field_params[:supporter_ids].map(&:to_i)
       end
 
       render InsertCustomFieldJoins.in_bulk(current_nonprofit.id, supporter_ids, custom_field_params[:custom_fields])

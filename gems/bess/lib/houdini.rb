@@ -20,7 +20,7 @@ module Houdini
 
   mattr_accessor :general, default: {}
   mattr_accessor :defaults, default: {}
-  
+
   mattr_accessor :payment_providers, default: {}
 
   mattr_accessor :maps, default: {}
@@ -37,10 +37,9 @@ module Houdini
 
   mattr_accessor :hoster, default: Houdini::Hoster
 
-  mattr_accessor :core_classes, default: {supporter: 'Supporter', nonprofit: 'Nonprofit'}
+  mattr_accessor :core_classes, default: {supporter: "Supporter", nonprofit: "Nonprofit"}
 
   mattr_accessor :event_publisher, default: Houdini::EventPublisher.new
-
 end
 
 # need to have Houdini loaded first before we can add engine

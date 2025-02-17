@@ -13,7 +13,7 @@ class Export < ApplicationRecord
   # :url,
   # :user_id,
   # :nonprofit_id
-  
+
   STATUS = %w[queued started completed failed].freeze
 
   belongs_to :nonprofit

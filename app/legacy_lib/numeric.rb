@@ -7,7 +7,7 @@ class Numeric
   # @param [Integer] delta the integer offsets from zero to round down to
   # @return [Integer]
   def floor_for_delta(delta)
-    raise ArgumentError, 'delta must be a positive integer' unless delta.is_a?(Integer) && delta > 0
+    raise ArgumentError, "delta must be a positive integer" unless delta.is_a?(Integer) && delta > 0
 
     (self % delta).zero? ? self : ((to_i / delta)) * delta
   end
@@ -16,7 +16,7 @@ class Numeric
   # @param [Integer] delta the integer offsets from zero to round up to
   # @return [Integer]
   def ceil_for_delta(delta)
-    raise ArgumentError, 'delta must be a positive integer' unless delta.is_a?(Integer) && delta > 0
+    raise ArgumentError, "delta must be a positive integer" unless delta.is_a?(Integer) && delta > 0
 
     (self % delta).zero? ? self : ((floor.to_i / delta) + 1) * delta
   end

@@ -5,7 +5,7 @@
 module Nonprofits
   class BankAccountsController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
 
     before_action :authenticate_nonprofit_admin!
 
@@ -15,7 +15,7 @@ module Nonprofits
       if password_was_confirmed(params[:pw_token])
         render_json { InsertBankAccount.with_stripe(current_nonprofit, current_user, params[:bank_account]) }
       else
-        render json: ['Please confirm your password'], status: :unprocessable_entity
+        render json: ["Please confirm your password"], status: :unprocessable_entity
       end
     end
 
@@ -31,10 +31,10 @@ module Nonprofits
       bank_account = nonprofit.bank_account
       if params[:token] == bank_account.confirmation_token
         bank_account.update_attribute(:pending_verification, false)
-        flash[:notice] = 'Your bank account is now confirmed!'
+        flash[:notice] = "Your bank account is now confirmed!"
         redirect_to nonprofits_payouts_path(nonprofit)
       else
-        redirect_to(nonprofits_donations_path(nonprofit), flash: { error: 'We could not confirm this bank account. Please follow the exact link provided in the confirmation email.' })
+        redirect_to(nonprofits_donations_path(nonprofit), flash: {error: "We could not confirm this bank account. Please follow the exact link provided in the confirmation email."})
       end
     end
 
@@ -50,10 +50,10 @@ module Nonprofits
       bank_account = nonprofit.bank_account
       if params[:token] == bank_account.confirmation_token
         bank_account.destroy
-        flash[:notice] = 'Your bank account has been removed.'
+        flash[:notice] = "Your bank account has been removed."
         redirect_to nonprofits_donations_path(nonprofit)
       else
-        redirect_to(nonprofits_donations_path(nonprofit), flash: { error: 'We could not remove this bank account. Please follow the exact link provided in the email.' })
+        redirect_to(nonprofits_donations_path(nonprofit), flash: {error: "We could not remove this bank account. Please follow the exact link provided in the email."})
       end
     end
 

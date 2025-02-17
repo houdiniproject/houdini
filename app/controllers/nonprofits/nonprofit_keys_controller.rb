@@ -6,7 +6,7 @@
 module Nonprofits
   class NonprofitKeysController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
 
     # get /nonprofits/:nonprofit_id/nonprofit_keys
@@ -19,7 +19,7 @@ module Nonprofits
     # GET /nonprofits/:nonprofit_id/nonprofit_keys/mailchimp_login
     def mailchimp_login
       session[:current_mailchimp_nonprofit_id] = current_nonprofit.id
-      redirect_to "https://login.mailchimp.com/oauth2/authorize?response_type=code&client_id=#{ENV['MAILCHIMP_OAUTH_CLIENT_ID']}"
+      redirect_to "https://login.mailchimp.com/oauth2/authorize?response_type=code&client_id=#{ENV["MAILCHIMP_OAUTH_CLIENT_ID"]}"
     end
 
     # After the user OAuths mailchimp, they are redirected to /mailchimp-landing
@@ -32,10 +32,10 @@ module Nonprofits
         session[:mailchimp_access_token] = InsertNonprofitKeys.insert_mailchimp_access_token(@nonprofit.id, params[:code])
       rescue Exception => e
         flash[:notice] = "Unable to connect to your Mailchimp account, please try again. (Error: #{e})"
-        redirect_to '/settings'
+        redirect_to "/settings"
         return
       end
-      redirect_to nonprofits_supporters_path @nonprofit, 'show-modal' => 'mailchimpSettingsModal'
+      redirect_to nonprofits_supporters_path @nonprofit, "show-modal" => "mailchimpSettingsModal"
     end
-    end
+  end
 end

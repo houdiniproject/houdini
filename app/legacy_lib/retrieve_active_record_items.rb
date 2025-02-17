@@ -6,10 +6,10 @@ module RetrieveActiveRecordItems
   def self.retrieve(data, optional = false)
     data.map do |k, v|
       our_integer = begin
-                      Integer(v)
-                    rescue StandardError
-                      nil
-                    end
+        Integer(v)
+      rescue
+        nil
+      end
       unless (optional && v.nil?) || (our_integer && our_integer > 0)
         raise ArgumentError, "Value '#{v}' for Key '#{k}' is not valid"
       end
@@ -20,7 +20,7 @@ module RetrieveActiveRecordItems
       if optional && v.nil?
         ret = [k, nil]
       else
-        ret = [k, k.where('id = ?', our_integer).first]
+        ret = [k, k.where("id = ?", our_integer).first]
         if ret[1].nil?
           raise ParamValidation::ValidationError.new("ID #{v} is not a valid #{k}", key: k)
         end
@@ -35,13 +35,13 @@ module RetrieveActiveRecordItems
 
       ret = nil
       begin
-        item = retrieve({ k => input[v] }, optional)
+        item = retrieve({k => input[v]}, optional)
         ret = [v, item[k]]
       rescue ParamValidation::ValidationError
         raise ParamValidation::ValidationError.new("ID #{input[v]} is not a valid #{k}", key: v)
       rescue ArgumentError
         raise ParamValidation::ValidationError.new("#{input[v]} is not a valid ID for Key '#{v}'", key: v)
-      rescue StandardError
+      rescue
         raise ParamValidation::ValidationError.new("#{input[v]} is not a valid ID for Key '#{v}'", key: v)
       end
       ret

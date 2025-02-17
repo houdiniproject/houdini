@@ -7,7 +7,7 @@
 
 # adds support for generating js routes as part of the assets:precompile task
 namespace :assets do
-	task precompile: 'js:routes'
+  task precompile: "js:routes"
 end
 
 # rubocop:enable Rake/Desc

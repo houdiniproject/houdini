@@ -2,14 +2,14 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-json.(supporter_note, :id, :content, :deleted)
+json.call(supporter_note, :id, :content, :deleted)
 
-json.object 'supporter_note'
+json.object "supporter_note"
 
 json.url api_nonprofit_supporter_supporter_note_url(
-	supporter_note.nonprofit,
-	supporter_note.supporter,
-	supporter_note
+  supporter_note.nonprofit,
+  supporter_note.supporter,
+  supporter_note
 )
 
 json.nonprofit supporter_note.nonprofit.id

@@ -11,7 +11,7 @@ task :cron_job_runner, [:name] => :environment do |_t, args|
   # Fetch all the super admin emails so we can send a report
   enum = ScheduledJobs.send(job_name)
 
-  results = ''
+  results = ""
   enum.each do |lamb|
     result = lamb.call
     results += "Success: #{result}\n"
@@ -21,6 +21,6 @@ task :cron_job_runner, [:name] => :environment do |_t, args|
 
   GenericMailer.admin_notice(
     subject: "Scheduled job results on #{Houdini.hoster.casual_name} for '#{job_name}'",
-    body: results.empty? ? 'No jobs to run today.' : results
+    body: results.empty? ? "No jobs to run today." : results
   ).deliver_later
 end

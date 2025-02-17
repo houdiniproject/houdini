@@ -32,7 +32,7 @@ class Supporter < ApplicationRecord
   belongs_to :profile
   belongs_to :nonprofit
   belongs_to :import
-  
+
   has_many :payments
   has_many :offsite_payments
   has_many :charges
@@ -48,13 +48,11 @@ class Supporter < ApplicationRecord
   has_many :custom_field_joins, dependent: :destroy
   has_many :custom_field_definitions, through: :custom_field_joins
   has_many :transactions
-  belongs_to :merged_into, class_name: 'Supporter', foreign_key: 'merged_into'
-  has_many :merged_from, class_name: 'Supporter', :foreign_key => "merged_into"
+  belongs_to :merged_into, class_name: "Supporter", foreign_key: "merged_into"
+  has_many :merged_from, class_name: "Supporter", foreign_key: "merged_into"
 
   validates :nonprofit, presence: true
   scope :not_deleted, -> { where(deleted: false) }
-
-
 
   # TODO replace with Discard gem
   define_model_callbacks :discard
@@ -86,12 +84,12 @@ class Supporter < ApplicationRecord
     h
   end
 
-  concerning :Jbuilder do 
-    included do 
+  concerning :Jbuilder do
+    included do
       def to_builder(*expand)
         supporter_addresses = [self]
         init_builder(*expand) do |json|
-          json.(self, :name, :organization, :phone, :anonymous, :deleted)
+          json.call(self, :name, :organization, :phone, :anonymous, :deleted)
           json.add_builder_expansion :nonprofit, :merged_into
           if expand.include? :supporter_address
             json.supporter_addresses supporter_addresses do |i|
@@ -105,8 +103,8 @@ class Supporter < ApplicationRecord
 
       def to_supporter_address_builder(*expand)
         init_builder(*expand) do |json|
-          json.(self, :address, :state_code, :city, :country, :zip_code, :deleted)
-          json.object 'supporter_address'
+          json.call(self, :address, :state_code, :city, :country, :zip_code, :deleted)
+          json.object "supporter_address"
           if expand.include? :supporter
             json.supporter to_builder
           else
@@ -118,8 +116,6 @@ class Supporter < ApplicationRecord
     end
   end
 
-  
-
   def full_address
     Format::Address.full_address(address, city, state_code)
   end
@@ -129,7 +125,7 @@ class Supporter < ApplicationRecord
   ADDRESS_ATTRIBUTES = [:address, :city, :state_code, :zip_code, :country]
 
   def supporter_address_updated?
-    ADDRESS_ATTRIBUTES.any?{|attrib| saved_change_to_attribute?(attrib)}
+    ADDRESS_ATTRIBUTES.any? { |attrib| saved_change_to_attribute?(attrib) }
   end
 
   def nonsupporter_address_updated?
@@ -137,35 +133,35 @@ class Supporter < ApplicationRecord
   end
 
   def publish_create
-    Houdini.event_publisher.announce(:supporter_created, to_event('supporter.created', :supporter_address, :nonprofit).attributes!)
-    Houdini.event_publisher.announce(:supporter_address_created, to_event('supporter_address.created', :supporter, :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:supporter_created, to_event("supporter.created", :supporter_address, :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:supporter_address_created, to_event("supporter_address.created", :supporter, :nonprofit).attributes!)
   end
 
   def publish_updated
     if !deleted
       if nonsupporter_address_updated?
-        Houdini.event_publisher.announce(:supporter_updated, to_event('supporter.updated', :supporter_address, :nonprofit).attributes!)
+        Houdini.event_publisher.announce(:supporter_updated, to_event("supporter.updated", :supporter_address, :nonprofit).attributes!)
       end
       if supporter_address_updated?
-        Houdini.event_publisher.announce(:supporter_address_updated, to_event('supporter_address.updated', :supporter, :nonprofit).attributes!)
+        Houdini.event_publisher.announce(:supporter_address_updated, to_event("supporter_address.updated", :supporter, :nonprofit).attributes!)
       end
     end
   end
 
   def publish_deleted
-    Houdini.event_publisher.announce(:supporter_deleted, to_event('supporter.deleted', :supporter_address, :nonprofit, :merged_into).attributes!)
-    Houdini.event_publisher.announce(:supporter_address_deleted, to_event('supporter_address.deleted', :supporter, :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:supporter_deleted, to_event("supporter.deleted", :supporter_address, :nonprofit, :merged_into).attributes!)
+    Houdini.event_publisher.announce(:supporter_address_deleted, to_event("supporter_address.deleted", :supporter, :nonprofit).attributes!)
   end
 
   # we do something custom here since Supporter and SupporterAddress are in the same model
   def to_event(event_type, *expand)
     ::Jbuilder.new do |event|
-        event.id "objevt_" + SecureRandom.alphanumeric(22)
-        event.object 'object_event'
-        event.type event_type
-        event.data do 
-          event.object event_type.start_with?('supporter_address') ? to_supporter_address_builder(*expand) : to_builder(*expand)
-        end
+      event.id "objevt_" + SecureRandom.alphanumeric(22)
+      event.object "object_event"
+      event.type event_type
+      event.data do
+        event.object event_type.start_with?("supporter_address") ? to_supporter_address_builder(*expand) : to_builder(*expand)
+      end
     end
   end
 end

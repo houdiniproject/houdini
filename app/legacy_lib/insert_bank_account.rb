@@ -11,20 +11,20 @@ module InsertBankAccount
   #  email: app.user.email
 
   def self.with_stripe(nonprofit, user, params)
-    ParamValidation.new({ nonprofit: nonprofit, user: user },
-                        nonprofit: {
-                          required: true,
-                          is_a: Nonprofit
-                        },
-                        user: {
-                          required: true,
-                          is_a: User
-                        })
+    ParamValidation.new({nonprofit: nonprofit, user: user},
+      nonprofit: {
+        required: true,
+        is_a: Nonprofit
+      },
+      user: {
+        required: true,
+        is_a: User
+      })
     ParamValidation.new(params || {},
-                        stripe_bank_account_token: {
-                          required: true,
-                          not_blank: true
-                        })
+      stripe_bank_account_token: {
+        required: true,
+        not_blank: true
+      })
 
     unless nonprofit.vetted
       raise ArgumentError, "#{nonprofit.id} is not vetted."
@@ -42,7 +42,7 @@ module InsertBankAccount
       ba.default_for_currency = true
       ba.save
 
-      BankAccount.where('nonprofit_id = ?', nonprofit.id).update_all(deleted: true)
+      BankAccount.where("nonprofit_id = ?", nonprofit.id).update_all(deleted: true)
 
       bank_account = BankAccount.create(
         stripe_bank_account_id: ba.id,

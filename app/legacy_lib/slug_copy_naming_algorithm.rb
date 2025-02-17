@@ -11,7 +11,7 @@ class SlugCopyNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def copy_addition
-    '_copy'
+    "_copy"
   end
 
   def max_copies
@@ -24,6 +24,6 @@ class SlugCopyNamingAlgorithm < CopyNamingAlgorithm
 
   def get_already_used_name_entities(base_name)
     end_name = '\\_copy\\_\\d{2}'
-    @klass.method(:where).call('slug SIMILAR TO ? AND nonprofit_id = ? AND (deleted IS NULL OR deleted = false)', base_name + end_name, nonprofit_id).select('slug')
+    @klass.method(:where).call("slug SIMILAR TO ? AND nonprofit_id = ? AND (deleted IS NULL OR deleted = false)", base_name + end_name, nonprofit_id).select("slug")
   end
 end

@@ -1,14 +1,14 @@
 require_relative "lib/houdini_upgrade/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "houdini_upgrade"
-  spec.version     = HoudiniUpgrade::VERSION
-  spec.authors     = ["The Houdini Project"]
-  spec.email       = [""]
-  spec.homepage    = "https://houdiniproject.org"
-  spec.summary     = ""
+  spec.name = "houdini_upgrade"
+  spec.version = HoudiniUpgrade::VERSION
+  spec.authors = ["The Houdini Project"]
+  spec.email = [""]
+  spec.homepage = "https://houdiniproject.org"
+  spec.summary = ""
   spec.description = ""
-  spec.license     = "AGPL-3.0-or-later WITH WTO-AP-3.0-or-later"
+  spec.license = "AGPL-3.0-or-later WITH WTO-AP-3.0-or-later"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.

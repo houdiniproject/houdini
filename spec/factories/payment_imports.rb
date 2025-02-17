@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 FactoryBot.define do
   factory :payment_import do
-    user { '' }
-    nonprofit { '' }
+    user { "" }
+    nonprofit { "" }
   end
 end

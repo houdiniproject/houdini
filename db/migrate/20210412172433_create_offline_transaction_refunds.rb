@@ -5,7 +5,7 @@
 class CreateOfflineTransactionRefunds < ActiveRecord::Migration[6.1]
   def change
     create_table :offline_transaction_refunds, id: :string do |t|
-      t.references :payment, foreign_key:true
+      t.references :payment, foreign_key: true
 
       t.timestamps
     end

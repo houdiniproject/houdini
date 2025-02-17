@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddCronAtToGoodJobs < ActiveRecord::Migration[6.1]
   def change
     reversible do |dir|

@@ -5,5 +5,5 @@
 
 # customize Houdini configuration here.
 Rails.application.configure do
-	config.houdini.hoster.legal_name = 'SET config.houdini.hoster.legal_name IN app/config/houdini_config.rb'
+  config.houdini.hoster.legal_name = "SET config.houdini.hoster.legal_name IN app/config/houdini_config.rb"
 end

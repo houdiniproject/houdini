@@ -2,9 +2,9 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'stringio'
+require "stringio"
 class TestUploadService < ActiveStorage::Service
-  TEST_ERROR_MESSAGE = 'test exception thrown'
+  TEST_ERROR_MESSAGE = "test exception thrown"
 
   attr_reader :output, :options
   def clear
@@ -18,7 +18,7 @@ class TestUploadService < ActiveStorage::Service
     @raise_error = true
   end
 
-  def upload(key, io, checksum:nil, **options)
+  def upload(key, io, checksum: nil, **options)
     @options = options
 
     @output = io.read

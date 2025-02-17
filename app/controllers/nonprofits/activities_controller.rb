@@ -5,7 +5,7 @@
 module Nonprofits
   class ActivitiesController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
     before_action :authenticate_nonprofit_user!
 
     # get /nonprofits/:nonprofit_id/supporters/:supporter_id/activities

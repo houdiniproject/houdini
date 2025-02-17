@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-json.data @payments, partial: '/api/subtransaction_payments/subtransaction_payment', as: :subtransaction_payment
+json.data @payments, partial: "/api/subtransaction_payments/subtransaction_payment", as: :subtransaction_payment
 
 json.current_page @payments.current_page
 json.first_page @payments.first_page?

@@ -10,26 +10,26 @@ class CampaignGiftOptionsController < ApplicationController
 
   def index
     @gift_options = current_campaign.campaign_gift_options.order('"order", amount_recurring, amount_one_time')
-    render json: { data: @gift_options }
+    render json: {data: @gift_options}
   end
 
   def show
-    render json: { data: current_campaign.campaign_gift_options.find(params[:id]) }
+    render json: {data: current_campaign.campaign_gift_options.find(params[:id])}
   end
 
   def create
     json_saved CreateCampaignGiftOption.create(current_campaign, campaign_gift_option_params),
-               'Gift option successfully created!'
+      "Gift option successfully created!"
   end
 
   def update
-    json_saved UpdateCampaignGiftOption.update(current_campaign_gift_option, campaign_gift_option_params), 'Successfully updated'
+    json_saved UpdateCampaignGiftOption.update(current_campaign_gift_option, campaign_gift_option_params), "Successfully updated"
   end
 
   # put /nonprofits/:nonprofit_id/campaigns/:campaign_id/campaign_gift_options/update_order
   # Pass in {data: [{id: 1, order: 1}]}
   def update_order
-    updated_gift_options = UpdateOrder.with_data('campaign_gift_options', params[:data])
+    updated_gift_options = UpdateOrder.with_data("campaign_gift_options", params[:data])
     render json: updated_gift_options
   end
 

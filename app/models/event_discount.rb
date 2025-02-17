@@ -15,7 +15,6 @@ class EventDiscount < ApplicationRecord
   validates :event, presence: true
   validates :percent, presence: true, numericality: {only_integer: true, greater_than: 0, less_than_or_equal_to: 100}
 
-  
   # we use after_create_commit because the db could be in an inconsistent state and the messages will be slightly wrong
   # we use after commit on the rest for consistency
   after_create_commit :publish_create
@@ -29,9 +28,9 @@ class EventDiscount < ApplicationRecord
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :name, :code)
+      json.call(self, :name, :code)
       json.deleted !persisted?
-      json.discount do 
+      json.discount do
         json.percent percent
       end
 
@@ -41,15 +40,16 @@ class EventDiscount < ApplicationRecord
   end
 
   private
+
   def publish_create
-    Houdini.event_publisher.announce(:event_discount_created, to_event('event_discount.created', :event, :nonprofit, :ticket_levels).attributes!)
+    Houdini.event_publisher.announce(:event_discount_created, to_event("event_discount.created", :event, :nonprofit, :ticket_levels).attributes!)
   end
 
   def publish_updated
-    Houdini.event_publisher.announce(:event_discount_updated, to_event('event_discount.updated', :event, :nonprofit, :ticket_levels).attributes!)
+    Houdini.event_publisher.announce(:event_discount_updated, to_event("event_discount.updated", :event, :nonprofit, :ticket_levels).attributes!)
   end
 
   def publish_delete
-    Houdini.event_publisher.announce(:event_discount_deleted, to_event('event_discount.deleted', :event, :nonprofit, :ticket_levels).attributes!)
+    Houdini.event_publisher.announce(:event_discount_deleted, to_event("event_discount.deleted", :event, :nonprofit, :ticket_levels).attributes!)
   end
 end

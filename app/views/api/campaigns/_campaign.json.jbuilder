@@ -2,9 +2,9 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-json.(campaign, :id, :name)
+json.call(campaign, :id, :name)
 
-json.object 'campaign'
+json.object "campaign"
 
 json.url api_nonprofit_campaign_url(campaign.nonprofit, campaign)
 

@@ -27,7 +27,7 @@ RSpec.shared_context :general_shared_user_context do
     __create(:campaign_editor, campaign)
   end
 
-  let(:confirmed_user)  do
+  let(:confirmed_user) do
     force_create(:user, confirmed_at: Time.current)
   end
 
@@ -46,42 +46,42 @@ RSpec.shared_context :general_shared_user_context do
   end
 
   let(:all_users) do
-    { user_as_np_admin: user_as_np_admin,
-      user_as_other_np_admin: user_as_other_np_admin,
-      user_as_np_associate: user_as_np_associate,
-      user_as_other_np_associate: user_as_other_np_associate,
-      unauth_user: unauth_user,
-      campaign_editor: campaign_editor,
-      event_editor: event_editor,
-      super_admin: super_admin,
-      user_with_profile: user_with_profile }
+    {user_as_np_admin: user_as_np_admin,
+     user_as_other_np_admin: user_as_other_np_admin,
+     user_as_np_associate: user_as_np_associate,
+     user_as_other_np_associate: user_as_other_np_associate,
+     unauth_user: unauth_user,
+     campaign_editor: campaign_editor,
+     event_editor: event_editor,
+     super_admin: super_admin,
+     user_with_profile: user_with_profile}
   end
 
   let(:roles__open_to_all) do
     [nil, :user_as_np_admin,
-     :user_as_other_np_admin,
-     :user_as_np_associate,
-     :user_as_other_np_associate,
-     :unauth_user,
-     :campaign_editor,
-     :event_editor,
-     :super_admin,
-     :user_with_profile]
+      :user_as_other_np_admin,
+      :user_as_np_associate,
+      :user_as_other_np_associate,
+      :unauth_user,
+      :campaign_editor,
+      :event_editor,
+      :super_admin,
+      :user_with_profile]
   end
 
   let(:roles__open_to_np_associate) do
     %i[user_as_np_admin
 
-       user_as_np_associate
+      user_as_np_associate
 
-       super_admin]
+      super_admin]
   end
 
   let(:roles__open_to_campaign_editor) do
     %i[user_as_np_admin
-       user_as_np_associate
-       campaign_editor
-       super_admin]
+      user_as_np_associate
+      campaign_editor
+      super_admin]
   end
 
   def __create(name, host)

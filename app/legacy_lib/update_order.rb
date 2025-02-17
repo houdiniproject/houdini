@@ -8,7 +8,7 @@ module UpdateOrder
   #  - id : id of row to update
   #  - order: new order of row to update
   def self.with_data(table_name, data)
-    vals = data.map { |h| "(#{h[:id].to_i}, #{h[:order].to_i})" }.join(', ')
+    vals = data.map { |h| "(#{h[:id].to_i}, #{h[:order].to_i})" }.join(", ")
     from_str = "(VALUES #{vals}) AS data(id, \"order\")"
     Qx.update(table_name.to_s)
       .set('"order"="data"."order"')

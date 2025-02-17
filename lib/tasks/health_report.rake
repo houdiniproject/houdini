@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-desc 'For sending an activity report email of what has been happening on the system'
+desc "For sending an activity report email of what has been happening on the system"
 
 # Clear old activerecord sessions tables daily
 task send_health_report: :environment do

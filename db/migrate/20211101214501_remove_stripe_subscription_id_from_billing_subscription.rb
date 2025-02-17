@@ -4,6 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class RemoveStripeSubscriptionIdFromBillingSubscription < ActiveRecord::Migration[6.1]
   def change
-    remove_column :billing_subscriptions, :stripe_subscription_id 
+    remove_column :billing_subscriptions, :stripe_subscription_id
   end
 end

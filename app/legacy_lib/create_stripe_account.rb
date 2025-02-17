@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'stripe'
+require "stripe"
 
 module CreateStripeAccount
   def self.for_nonprofit(user, params)
@@ -13,25 +13,25 @@ module CreateStripeAccount
       business_name: params[:name],
       business_url: params[:website],
       legal_entity: {
-        type: 'company',
+        type: "company",
         address: {
           line1: params[:address],
           city: params[:city],
           state: params[:state_code],
           postal_code: params[:zip_code],
-          country: 'US'
+          country: "US"
         },
         business_name: params[:name],
         business_tax_id: params[:ein],
         first_name: fst_name,
         last_name: lst_name
       },
-      product_description: 'Nonprofit donations',
+      product_description: "Nonprofit donations",
       tos_acceptance: {
         date: Time.current.to_i,
         ip: user.current_sign_in_ip
       },
-      transfer_schedule: { interval: 'manual' }
+      transfer_schedule: {interval: "manual"}
     )
   end
 end

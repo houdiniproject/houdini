@@ -7,11 +7,11 @@ module Format
     VOWELS = %w[a e i o u].freeze
 
     def self.article(word)
-      VOWELS.include?(word[0].downcase) ? 'an' : 'a'
+      VOWELS.include?(word[0].downcase) ? "an" : "a"
     end
 
     def self.with_article(word)
-      article(word) + ' ' + word
+      article(word) + " " + word
     end
   end
 end

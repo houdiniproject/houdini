@@ -6,9 +6,9 @@ module FetchCampaign
   def self.with_params(params, nonprofit = nil)
     nonprofit ||= FetchNonprofit.with_params(params)
     if params[:campaign_slug]
-      return nonprofit.campaigns.where(slug: params[:campaign_slug]).last
+      nonprofit.campaigns.where(slug: params[:campaign_slug]).last
     elsif params[:campaign_id] || params[:id]
-      return nonprofit.campaigns.find(params[:campaign_id] || params[:id])
+      nonprofit.campaigns.find(params[:campaign_id] || params[:id])
     end
   end
 end

@@ -10,17 +10,17 @@ class RemoveIsValidJsonFunction < ActiveRecord::Migration[6.1]
   end
 
   def down
-    execute <<-SQL
-    CREATE FUNCTION public.is_valid_json(p_json text) RETURNS boolean
-    LANGUAGE plpgsql IMMUTABLE
-    AS $$
-begin
-  return (p_json::json is not null);
-exception
-  when others then
-     return false;
-end;
-$$;
+    execute <<~SQL
+          CREATE FUNCTION public.is_valid_json(p_json text) RETURNS boolean
+          LANGUAGE plpgsql IMMUTABLE
+          AS $$
+      begin
+        return (p_json::json is not null);
+      exception
+        when others then
+           return false;
+      end;
+      $$;
     SQL
   end
 end

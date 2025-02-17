@@ -8,7 +8,7 @@ module FetchStripeAccount
   def self.with_account_id(stripe_account_id)
     begin
       stripe_acct = Stripe::Account.retrieve(stripe_account_id)
-    rescue StandardError
+    rescue
       stripe_acct = nil
     end
     stripe_acct

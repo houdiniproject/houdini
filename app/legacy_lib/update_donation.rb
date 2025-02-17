@@ -13,43 +13,43 @@ module UpdateDonation
 
   # @param [Integer] donation_id the donation for the payment you wish to modify
   def self.update_payment(donation_id, data)
-    ParamValidation.new({ id: donation_id, data: data },
-                        id: { required: true, is_reference: true },
-                        data: { required: true, is_hash: true })
-    existing_payment = Payment.where('donation_id = ?', donation_id).last
+    ParamValidation.new({id: donation_id, data: data},
+      id: {required: true, is_reference: true},
+      data: {required: true, is_hash: true})
+    existing_payment = Payment.where("donation_id = ?", donation_id).last
 
     unless existing_payment
       raise ParamValidation::ValidationError.new("#{donation_id} is does not correspond to a valid donation",
-                                                 key: :id)
+        key: :id)
     end
 
     is_offsite = !existing_payment.offsite_payment.nil?
 
     validations = {
-      designation: { is_a: String },
-      dedication: { is_a: String },
-      comment: { is_a: String },
-      campaign_id: { is_reference: true, required: true },
-      event_id: { is_reference: true, required: true }
+      designation: {is_a: String},
+      dedication: {is_a: String},
+      comment: {is_a: String},
+      campaign_id: {is_reference: true, required: true},
+      event_id: {is_reference: true, required: true}
     }
 
     if is_offsite
       # if offline test the other values (fee_total, gross_amount, check_number, date)
       #
-      validations.merge!(gross_amount: { is_integer: true, min: 1 },
-                         fee_total: { is_integer: true },
-                         check_number: { is_a: String },
-                         date: { can_be_date: true })
+      validations.merge!(gross_amount: {is_integer: true, min: 1},
+        fee_total: {is_integer: true},
+        check_number: {is_a: String},
+        date: {can_be_date: true})
     end
 
     ParamValidation.new(data, validations)
-    set_to_nil = { campaign: data[:campaign_id] == '', event: data[:event_id] == '' }
+    set_to_nil = {campaign: data[:campaign_id] == "", event: data[:event_id] == ""}
 
     # validate campaign and event ids if there and if they belong to nonprofit
     if set_to_nil[:campaign]
       campaign = nil
     else
-      campaign = Campaign.where('id = ?', data[:campaign_id]).first
+      campaign = Campaign.where("id = ?", data[:campaign_id]).first
       unless campaign
         raise ParamValidation::ValidationError.new("#{data[:campaign_id]} is not a valid campaign", key: :campaign_id)
       end
@@ -61,7 +61,7 @@ module UpdateDonation
     if set_to_nil[:event]
       event = nil
     else
-      event = Event.where('id = ?', data[:event_id]).first
+      event = Event.where("id = ?", data[:event_id]).first
       unless event
         raise ParamValidation::ValidationError.new("#{data[:event_id]} is not a valid event", key: :event_id)
       end
@@ -77,9 +77,9 @@ module UpdateDonation
       donation.comment = data[:comment] if data[:comment]
       donation.dedication = data[:dedication] if data[:dedication]
       donation.event = event if event
-      donation.event = nil if data[:event_id] == ''
+      donation.event = nil if data[:event_id] == ""
       donation.campaign = campaign if campaign
-      donation.campaign = nil if data[:campaign_id] == ''
+      donation.campaign = nil if data[:campaign_id] == ""
 
       if is_offsite
         donation.amount = data[:gross_amount] if data[:gross_amount]
@@ -99,15 +99,13 @@ module UpdateDonation
 
         if existing_payment.changed?
           existing_payment.save!
-          if existing_payment.previous_changes.has_key? 'gross_amount'
-            modern_donation.amount  = existing_payment.gross_amount
+          if existing_payment.previous_changes.has_key? "gross_amount"
+            modern_donation.amount = existing_payment.gross_amount
             trx.amount = existing_payment.gross_amount
           end
         end
-      else
-        if donation.designation
-          Payment.where('donation_id = ?', donation.id).update_all(towards: donation.designation, updated_at: Time.now)
-        end
+      elsif donation.designation
+        Payment.where("donation_id = ?", donation.id).update_all(towards: donation.designation, updated_at: Time.now)
       end
 
       # if offsite, set check_number, date, gross_amount
@@ -123,10 +121,9 @@ module UpdateDonation
       donation.save! if donation.changed?
       md_changed = modern_donation.changed?
       modern_donation.save! if modern_donation.changed?
-      if (['dedication', 'designation'].any? {|i| donation.previous_changes.has_key? i} || md_changed)
+      if ["dedication", "designation"].any? { |i| donation.previous_changes.has_key? i } || md_changed
         modern_donation.publish_updated
       end
-        
 
       existing_payment.reload
 

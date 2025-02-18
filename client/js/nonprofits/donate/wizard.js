@@ -21,6 +21,8 @@ const format = require('../../common/format')
 const brandedWizard = require('../../components/styles/branded-wizard')
 const renderStyles = require('../../components/styles/render-styles')
 
+const closeButton = require('../../../../app/assets/images/ui_components/close.svg')
+
 renderStyles()(brandedWizard(null))
 
 // pass in a stream of configuration parameters
@@ -181,7 +183,7 @@ const view = state => {
     class: {'is-modal': state.params$().offsite}
   }, [
     h('img.closeButton', {
-      props: {src: '/assets/ui_components/close.svg'}
+      props: {src: closeButton}
       , on: {click: ev => state.params$().offsite && !state.params$().embedded ? parent.postMessage('commitchange:close', '*') : null}
       , class: {'u-hide': (state.params$().embedded || state.params$().mode === 'embedded') || !state.params$().offsite }
     })

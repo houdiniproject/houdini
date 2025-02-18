@@ -24,7 +24,6 @@ gem 'kaminari'
 
 gem 'bootsnap', require: false
 gem 'rack-timeout'
-gem 'puma_worker_killer'
 
 gem 'test-unit'
 gem 'hamster'

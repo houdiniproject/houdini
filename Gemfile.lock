@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/CommitChange/globalid.git
-  revision: add4f61a0ccf49704ab03dc7505a8727655720a7
-  tag: 0.4.2.1
-  specs:
-    globalid (0.4.2.1)
-      activesupport (>= 4.2.0)
-
-GIT
   remote: https://github.com/commitchange/nokogiri.git
   revision: 845f33399b3063f8f1f6e73a3035ff265ae3965b
   tag: v1.13.11
@@ -227,8 +219,8 @@ GEM
     ffi (1.11.3)
     foreman (0.87.2)
     geocoder (1.2.11)
-    get_process_mem (0.2.7)
-      ffi (~> 1.0)
+    globalid (1.1.0)
+      activesupport (>= 5.0)
     grape (1.8.0)
       activesupport (>= 5)
       builder
@@ -350,10 +342,7 @@ GEM
     public_suffix (4.0.6)
     puma (5.6.9)
       nio4r (~> 2.0)
-    puma_worker_killer (0.3.1)
-      get_process_mem (~> 0.2)
-      puma (>= 2.7)
-    rabl (0.11.6)
+    rabl (0.17.0)
       activesupport (>= 2.3.14)
     racc (1.7.1)
     rack (2.2.8)
@@ -543,7 +532,7 @@ DEPENDENCIES
   foreman
   fx!
   geocoder
-  globalid!
+  globalid (>= 1.0.1)
   grape (~> 1.8.0)
   grape-entity!
   grape-swagger
@@ -575,7 +564,6 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (~> 5.6)
-  puma_worker_killer
   qx!
   rabl
   rack

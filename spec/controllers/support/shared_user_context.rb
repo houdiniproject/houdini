@@ -102,7 +102,7 @@ RSpec.shared_context :shared_user_context do
       send(method, action, reduce_params(*args))
       expect(response.status).to eq 200
     else
-      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(204))
+      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
       send(method, action, reduce_params(*args))
       expect(response.status).to eq(test_variables[:with_status] || 204)
     end

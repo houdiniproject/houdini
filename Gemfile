@@ -26,7 +26,6 @@ gem 'kaminari'
 
 gem 'bootsnap', require: false
 gem 'rack-timeout'
-gem 'puma_worker_killer'
 
 gem 'test-unit'
 gem 'hamster'
@@ -188,6 +187,6 @@ gem 'fx',  git: 'https://github.com/teoljungberg/fx.git', ref: '946cdccbd12333de
 
 gem 'has_scope'
 
-gem 'globalid', git: "https://github.com/CommitChange/globalid.git", tag: "0.4.2.1"
+gem 'globalid', ">= 1.0.1"
 
 gem 'js-routes'

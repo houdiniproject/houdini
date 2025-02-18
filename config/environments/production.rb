@@ -22,10 +22,6 @@ Rails.application.configure do
 												:expires_in => 5.hours, :compress => true, pool_size: 10 
 											}
 
-	config.session_store :redis_store, servers: [ENV['OPENREDIS_URL']], 
-		expire_after: 12.hours,
-		namespace: "_#{Rails.application.class.parent_name.downcase}_session"
-
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true

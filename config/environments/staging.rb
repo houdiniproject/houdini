@@ -16,9 +16,7 @@ Commitchange::Application.configure do
 												:expires_in => 4.hours, :compress => true
 												}
 
-	config.session_store :redis_store, servers: [ENV['OPENREDIS_URL']], 
-		expire_after: 12.hours,
-		namespace: "_#{Rails.application.class.parent_name.downcase}_session"
+
 
 
 	# Full error reports are disabled and caching is turned on

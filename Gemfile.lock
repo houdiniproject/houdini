@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/CommitChange/globalid.git
-  revision: add4f61a0ccf49704ab03dc7505a8727655720a7
-  tag: 0.4.2.1
-  specs:
-    globalid (0.4.2.1)
-      activesupport (>= 4.2.0)
-
-GIT
   remote: https://github.com/commitchange/nokogiri.git
   revision: 845f33399b3063f8f1f6e73a3035ff265ae3965b
   tag: v1.13.11
@@ -227,6 +219,8 @@ GEM
     ffi (1.11.3)
     foreman (0.87.2)
     geocoder (1.2.11)
+    globalid (1.1.0)
+      activesupport (>= 5.0)
     grape (1.8.0)
       activesupport (>= 5)
       builder
@@ -538,7 +532,7 @@ DEPENDENCIES
   foreman
   fx!
   geocoder
-  globalid!
+  globalid (>= 1.0.1)
   grape (~> 1.8.0)
   grape-entity!
   grape-swagger

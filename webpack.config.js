@@ -57,7 +57,8 @@ let common_rules= [
         { test: /\.tsx?$/, loader:"ts-loader"},
         { test: /\.js$/, exclude: /node_modules|froala/, loader: "babel-loader" },
         { test: /\.es6$/, exclude: /node_modules/, loader: "babel-loader" },
-        { test: /\.svg$/, loader: 'url-loader'}
+        { test: /\.svg$/, loader: 'url-loader'},
+        { test: /\.png$/, loader: 'url-loader'}
 ]
 
 

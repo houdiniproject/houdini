@@ -5,7 +5,7 @@ const sanitize = require('./sanitize-slug')
 
 var inputs = document.querySelectorAll('.js-sanitizeSlug')
 
-inputs.map((inp) =>
+inputs.forEach((inp) =>
   inp.addEventListener(
     'change',
     (ev) =>

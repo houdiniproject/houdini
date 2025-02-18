@@ -5,6 +5,9 @@ var footer = require('./footer')
 var radioAndLabelWrapper = require('../../components/radio-and-label-wrapper')
 
 var namePrefix = 'settings.type.'
+const recurringImgSrc = require('../../../../app/assets/images/graphics/recurring.svg')
+const oneTimeImgSrc = require('../../../../app/assets/images/graphics/one-time.svg')
+
 
 var nameStream = flyd.stream()
 
@@ -25,8 +28,8 @@ function body(){
 }
 
 function menu() {
-	var recurringImg = h('img', {src: app.asset_path + "/graphics/recurring.svg"})
-	var oneTimeImg = h('img', {src: app.asset_path + "/graphics/one-time.svg"})
+	var recurringImg = h('img', {src: recurringImgSrc})
+	var oneTimeImg = h('img', {src: oneTimeImgSrc})
 	var message = "We highly recommend that you accept recurring donations whenever possible. They are a great source of recurring revenue!"
 
 	return h('section',[

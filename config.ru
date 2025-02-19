@@ -2,4 +2,4 @@
 
 require ::File.expand_path('../config/environment',  __FILE__)
 
-run Commitchange::Application
+run Rails.application

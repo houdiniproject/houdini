@@ -152,7 +152,7 @@ function amountFields(state) {
           h('button.button.u-width--full.white.amount', {
             class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt.amount*100}
           , on: {click: ev => {
-              state.evolveDonation$({amount: () => dollarsToCents(amt.amount)})
+              state.evolveDonation$({amount: () => dollarsToCentsSafe(amt.amount)})
               state.buttonAmountSelected$(true)
               state.currentStep$(1) // immediately advance steps when selecting an amount button
             } }
@@ -166,7 +166,7 @@ function amountFields(state) {
       , on: {
         focus: ev => {
             state.buttonAmountSelected$(false)
-            state.evolveDonation$({amount: () => dollarsToCents(ev.currentTarget.value)})
+            state.evolveDonation$({amount: () => dollarsToCentsSafe(ev.currentTarget.value)})
         }
         , input: ev =>  {
             state.evolveDonation$({amount: () => dollarsToCentsSafe(ev.currentTarget.value)})

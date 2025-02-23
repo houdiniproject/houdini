@@ -21,7 +21,7 @@
 		@nonprofit = current_nonprofit
 		@url = Format::Url.concat(root_url, @nonprofit.url)
 		@supporters = @nonprofit.supporters.not_deleted
-		@profiles = @nonprofit.profiles.order('total_raised DESC').limit(5).includes(:user).uniq
+		@profiles = @nonprofit.profiles.order('total_raised DESC').limit(5).includes(:user).distinct
 
     events = @nonprofit.events.not_deleted.order('start_datetime desc')
     campaigns = @nonprofit.campaigns.not_deleted.not_a_child.order('created_at desc')

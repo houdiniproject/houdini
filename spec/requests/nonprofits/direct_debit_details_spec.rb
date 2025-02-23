@@ -18,21 +18,21 @@ describe DirectDebitDetailsController, type: :request do
 
     describe 'requires params' do
       it 'is valid when sepa_params, donation_id and supporter_id are present' do
-        post "/sepa", valid_params
+        post "/sepa", params: valid_params
 
         assert_response 200
         assert_equal nil, JSON.parse(@response.body)["errors"]
       end
 
       it 'is not valid without sepa_params' do
-        post "/sepa", valid_params.except(:sepa_params)
+        post "/sepa", params: valid_params.except(:sepa_params)
 
         assert_response 422
         assert_equal ["sepa_params required"], JSON.parse(@response.body)["errors"]
       end
 
       it 'is not valid without supporter_id' do
-        post "/sepa", valid_params.except(:supporter_id)
+        post "/sepa", params: valid_params.except(:supporter_id)
 
         assert_response 422
         assert_equal ["supporter_id required"], JSON.parse(@response.body)["errors"]

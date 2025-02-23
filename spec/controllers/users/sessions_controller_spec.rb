@@ -10,7 +10,7 @@ describe Users::SessionsController, :type => :controller do
       it 'accepts a correct password' do
         user = create(:user, :confirmed)
 
-        post :create, {user: {email: user.email, password: user.password}, format: :json}
+        post :create, params:{user: {email: user.email, password: user.password}}, format: :json
 
         expect(response).to have_http_status(200)
 
@@ -19,7 +19,7 @@ describe Users::SessionsController, :type => :controller do
       it 'rejects an invalid password' do
         user = create(:user, :confirmed)
 
-        post :create, {user: {email: user.email, password: "not valid"}, format: :json}
+        post :create, params:{user: {email: user.email, password: "not valid"}}, format: :json
 
         expect(response).to have_http_status(401)
 
@@ -30,7 +30,7 @@ describe Users::SessionsController, :type => :controller do
         user = create(:user, :confirmed)
 
         expect do
-          post :create, {user: {email: user.email, password: user.password}}
+          post :create, params:{user: {email: user.email, password: user.password}}
         end.to raise_error(ActionController::UnknownFormat)
       end
     end

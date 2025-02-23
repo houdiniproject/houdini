@@ -57,7 +57,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
               phone: "notphone",
               url: ""
           }}
-      xhr :post, '/api/v1/nonprofit', input
+      post '/api/v1/nonprofit', params: input, xhr: true
       expect(response.code).to eq "400"
       expected = create_errors("user")
       expected[:errors].push(h(params:["nonprofit[email]"], messages: gr_e("regexp")))

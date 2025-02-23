@@ -93,7 +93,7 @@ describe ApiNew::UsersController, type: :request do
 
 		describe "with correct password" do
 			before do
-				get "/api_new/users/current", nil, {authorization: "Basic #{Base64.encode64("#{user.email}:valid_password")}"}
+				get "/api_new/users/current", headers: {authorization: "Basic #{Base64.encode64("#{user.email}:valid_password")}"}
 			end
 
 			it {
@@ -103,7 +103,7 @@ describe ApiNew::UsersController, type: :request do
 
 		describe "with incorrect password" do
 			before do
-				get "/api_new/users/current", nil, {authorization: "Basic #{Base64.encode64("#{user.email}:BAD_PASSWORD")}"}
+				get "/api_new/users/current", headers: {authorization: "Basic #{Base64.encode64("#{user.email}:BAD_PASSWORD")}"}
 			end
 
 			it {

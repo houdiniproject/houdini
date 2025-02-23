@@ -36,8 +36,8 @@ describe 'Nonprofits::DonationsController::create_offsite', :type => :request do
     it 'reject non-campaign editors (and np authorized folks)' do
       run_authorization_tests({method: :post, action: "/nonprofits/#{nonprofit.id}/donations/create_offsite",
                                successful_users:  roles__open_to_campaign_editor}) do |_|
-        {nonprofit_id: nonprofit.id,
-         donation: {campaign_id: campaign.id}}
+        { params: {nonprofit_id: nonprofit.id,
+         donation: {campaign_id: campaign.id}} }
       end
     end
     #include_context :open_to_np_associate, :post, :create_offsite, nonprofit_id: :__our_np

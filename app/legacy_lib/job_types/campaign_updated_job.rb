@@ -13,7 +13,7 @@ module JobTypes
 
     def perform
       campaign.children_campaigns.each do |child|
-        JobQueue.queue(JobTypes::ChildCampaignUpdateJob, child)
+        JobQueue.queue(JobTypes::ChildCampaignUpdateJob, child.id)
       end
     end
   end

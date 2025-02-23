@@ -120,6 +120,8 @@ RSpec.shared_context :shared_user_context do
     { params: args.reduce({}, :merge) }
   end
   
+  ## the :without_json_view and :with_status arguments aren't passed to context for testing authorization itself,
+  ## they're used for verifying what should be expected. This removes them so you only have the proper context arguments
   def collect_test_variables(*args)
     test_vars = {}
     args.collect do |items|

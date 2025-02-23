@@ -80,6 +80,11 @@ module Commitchange
 		#
 		#config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 
+		# Require `belongs_to` associations by default. Previous versions had false.
+		# it's a bunch of work to verify everything that should be marked optional actually is.
+		# we should do that over time.
+		config.active_record.belongs_to_required_by_default = false
+
 		# opt into raising errors in transactional callbacks so the deprecation warning goes away
 		config.active_record.raise_in_transactional_callbacks = true
 

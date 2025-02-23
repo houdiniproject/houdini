@@ -3,6 +3,7 @@ const h = require('snabbdom/h')
 const R = require('ramda')
 const flyd = require('flyd')
 const format = require('../../common/format')
+const {dollarsToCentsSafe} = require('../../../../javascripts/src/lib/format');
 flyd.scanMerge = require('flyd/module/scanmerge')
 
 function init(donationDefaults, params$) {
@@ -76,7 +77,7 @@ function amountFields(state) {
                     h('button.button.u-width--full.white.amount', {
                         class: {'is-selected': state.buttonAmountSelected$() && state.donation$().amount === amt*100}
                         , on: {click: ev => {
-                            state.evolveDonation$({amount: () => format.dollarsToCents(amt)})
+                            state.evolveDonation$({amount: () => dollarsToCentsSafe(amt)})
                             state.buttonAmountSelected$(true)
                             state.currentStep$(1) // immediately advance steps when selecting an amount button
                         } }
@@ -92,7 +93,7 @@ function amountFields(state) {
                 , class: {'is-selected': !state.buttonAmountSelected$()}
                 , on: {
                     focus: ev => state.buttonAmountSelected$(false)
-                    , change: ev => state.evolveDonation$({amount: () => format.dollarsToCents(ev.currentTarget.value)})
+                    , change: ev => state.evolveDonation$({amount: () => dollarsToCentsSafe(ev.currentTarget.value)})
                 }
             })
         ])

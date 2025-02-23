@@ -93,19 +93,17 @@ RSpec.shared_context :shared_user_context do
     test_variables = collect_test_variables(args)
     request.accept = 'application/json' unless test_variables[:without_json_view]
     sign_in user_to_signin if user_to_signin
-    # allows us to run the helpers but ignore what the controller action does
-    #
-    
+
+    expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
+    expected_status = test_variables[:with_status] || 204
+
     if test_variables[:without_json_view]
-      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
       expect_any_instance_of(described_class).to receive(:render).and_return(nil)
-      send(method, action, reduce_params(*args))
-      expect(response.status).to eq 200
-    else
-      expect_any_instance_of(described_class).to receive(action).and_return(ActionDispatch::IntegrationTest.new(200))
-      send(method, action, reduce_params(*args))
-      expect(response.status).to eq(test_variables[:with_status] || 204)
+      expected_status = 200
     end
+
+    send(method, action, reduce_params(*args))
+    expect(response.status).to eq(expected_status)
   end
 
   def reject(user_to_signin, method, action, *args)
@@ -120,6 +118,8 @@ RSpec.shared_context :shared_user_context do
     { params: args.reduce({}, :merge) }
   end
   
+  ## the :without_json_view and :with_status arguments aren't passed to context for testing authorization itself,
+  ## they're used for verifying what should be expected. This removes them so you only have the proper context arguments
   def collect_test_variables(*args)
     test_vars = {}
     args.collect do |items|

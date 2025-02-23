@@ -14,8 +14,8 @@ describe JobTypes::CampaignUpdatedJob do
     parent_campaign_id: parent_campaign.id, slug: 'another-slug-of-slugs-2')}
 
     it 'schedules the child campaigns to update' do
-      expect_job_not_queued.with(JobTypes::ChildCampaignUpdateJob, child_campaign.id)
-      expect_job_not_queued.with(JobTypes::ChildCampaignUpdateJob, child_campaign_2.id)
+      expect_job_queued.with(JobTypes::ChildCampaignUpdateJob, child_campaign.id)
+      expect_job_queued.with(JobTypes::ChildCampaignUpdateJob, child_campaign_2.id)
 
       job = JobTypes::CampaignUpdatedJob.new(parent_campaign.id)
       job.perform

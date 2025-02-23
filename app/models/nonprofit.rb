@@ -135,10 +135,10 @@ class Nonprofit < ApplicationRecord
   has_many :campaigns, dependent: :destroy
   has_many :events, dependent: :destroy
   has_many :tickets, through: :events
+  has_many :roles,        as: :host, dependent: :destroy
   has_many :users, through: :roles
   has_many :tag_masters, dependent: :destroy
   has_many :custom_field_masters, dependent: :destroy
-  has_many :roles,        as: :host, dependent: :destroy
   has_many :activities,   as: :host, dependent: :destroy
   has_many :imports
   has_many :email_settings

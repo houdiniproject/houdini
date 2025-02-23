@@ -85,9 +85,6 @@ module Commitchange
 		# we should do that over time.
 		config.active_record.belongs_to_required_by_default = false
 
-		# opt into raising errors in transactional callbacks so the deprecation warning goes away
-		config.active_record.raise_in_transactional_callbacks = true
-
 		config.middleware.insert_before 0, Rack::Cors do
 			allow do
 				origins '*'

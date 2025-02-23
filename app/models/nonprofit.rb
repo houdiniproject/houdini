@@ -80,7 +80,7 @@ class Nonprofit < ApplicationRecord
       end
     end
   end
-  has_many :transactions, through: :supporters
+  
   has_many :supporters, dependent: :destroy do
     def dupes_on_email(strict_mode = true)
       QuerySupporters.dupes_on_email(proxy_association.owner.id, strict_mode)
@@ -130,6 +130,7 @@ class Nonprofit < ApplicationRecord
       QuerySupporters.for_export_enumerable(proxy_association.owner.id, query, chunk_limit)
     end
   end
+  has_many :transactions, through: :supporters
   has_many :supporter_notes, through: :supporters
   has_many :profiles, through: :donations
   has_many :campaigns, dependent: :destroy

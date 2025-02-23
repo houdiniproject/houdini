@@ -80,9 +80,6 @@ module Commitchange
 		#
 		#config.browserify_rails.commandline_options = "-t [ babelify --presets es2015 ]"
 
-		# opt into raising errors in transactional callbacks so the deprecation warning goes away
-		config.active_record.raise_in_transactional_callbacks = true
-
 		config.middleware.insert_before 0, Rack::Cors do
 			allow do
 				origins '*'

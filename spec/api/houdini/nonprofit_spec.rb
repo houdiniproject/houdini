@@ -11,7 +11,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
     }
     def expect_validation_errors(actual, input)
-      expected_errors = input.to_unsafe_h.with_indifferent_access[:errors]
+      expected_errors = input.with_indifferent_access[:errors]
       expect(actual["errors"]).to match_array expected_errors
     end
 
@@ -22,7 +22,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
     end
 
     def h(h = {})
-      h.to_unsafe_h.with_indifferent_access
+      h.with_indifferent_access
     end
 
     let(:totally_empty_errors) {
@@ -41,7 +41,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
             ]
 
 
-      }.to_unsafe_h.with_indifferent_access
+      }.with_indifferent_access
     }
     it 'validates nothing' do
       input = {}
@@ -158,9 +158,9 @@ describe Houdini::V1::Nonprofit, :type => :request do
           city_slug: "appleton",
           slug: "n-00",
           website: 'http://www.cs.c'
-      }.to_unsafe_h.with_indifferent_access
+      }.with_indifferent_access
 
-      expected_np = our_np.attributes.to_unsafe_h.with_indifferent_access.merge(expected_np)
+      expected_np = our_np.attributes.with_indifferent_access.merge(expected_np)
       expect(our_np.attributes).to eq expected_np
 
       expect(our_np.billing_subscription.billing_plan).to eq bp
@@ -169,7 +169,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
       response_body = {
           id: our_np.id
-      }.to_unsafe_h.with_indifferent_access
+      }.with_indifferent_access
 
       expect(JSON.parse(response.body)).to eq response_body
 
@@ -179,7 +179,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
           name: "Name"
       }
 
-      expected_user = user.attributes.to_unsafe_h.with_indifferent_access.merge(expected_user)
+      expected_user = user.attributes.with_indifferent_access.merge(expected_user)
       expect(our_np.roles.nonprofit_admins.count).to eq 1
       expect(our_np.roles.nonprofit_admins.first.user.attributes).to eq expected_user
 

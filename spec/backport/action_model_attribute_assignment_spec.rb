@@ -37,7 +37,7 @@ describe ActiveModel::AttributeAssignment do
       delegate :keys, :key?, :has_key?, :empty?, to: :@parameters
   
       def initialize(attributes)
-        @parameters = attributes.to_unsafe_h.with_indifferent_access
+        @parameters = attributes.with_indifferent_access
         @permitted = false
       end
   

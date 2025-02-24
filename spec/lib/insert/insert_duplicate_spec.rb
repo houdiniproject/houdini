@@ -82,7 +82,7 @@ describe InsertDuplicate do
       slug: copy_slug,
       external_identifier: nil
 
-      }.with_indifferent_access
+      }.to_unsafe_h.with_indifferent_access
     }
 
     describe 'param validation' do
@@ -117,12 +117,12 @@ describe InsertDuplicate do
         result = InsertDuplicate.campaign(campaign.id, profile.id)
         expect(Campaign.count).to eq 2
 
-        expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
+        expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq(common_result_attributes.merge(
             {
                 id: result.id,
                 end_datetime: nil,
                 banner_image: nil
-            }).with_indifferent_access)
+            }).to_unsafe_h.with_indifferent_access)
         validate_cgo(result)
       end
 
@@ -132,13 +132,13 @@ describe InsertDuplicate do
         result = InsertDuplicate.campaign(campaign.id, profile.id)
         expect(Campaign.count).to eq 2
 
-        expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
+        expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq(common_result_attributes.merge(
                                                                  {
                                                                     id: result.id,
 
                                                                     end_datetime: Time.utc(2020,5,12)
 
-                                                                 }).with_indifferent_access)
+                                                                 }).to_unsafe_h.with_indifferent_access)
         validate_cgo(result)
       end
 
@@ -147,13 +147,13 @@ describe InsertDuplicate do
         campaign_gift_option
         result = InsertDuplicate.campaign(campaign.id, profile.id)
         expect(Campaign.count).to eq 2
-        expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
+        expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq(common_result_attributes.merge(
             {
                 id: result.id,
 
                 end_datetime: Time.utc(2020,5,12)
 
-            }).with_indifferent_access)
+            }).to_unsafe_h.with_indifferent_access)
 
         validate_cgo(result)
       end
@@ -163,11 +163,11 @@ describe InsertDuplicate do
         result = InsertDuplicate.campaign(campaign.id, profile.id)
         expect(Campaign.count).to eq 2
 
-        expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
+        expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq(common_result_attributes.merge(
             {
                 id: result.id,
                 end_datetime: campaign.end_datetime.to_time
-            }).with_indifferent_access)
+            }).to_unsafe_h.with_indifferent_access)
         validate_cgo(result)
       end
 
@@ -247,7 +247,7 @@ describe InsertDuplicate do
           show_total_raised: false
 
 
-      }.with_indifferent_access
+      }.to_unsafe_h.with_indifferent_access
     }
 
     describe 'param validation' do
@@ -286,12 +286,12 @@ describe InsertDuplicate do
         expect(Event.count).to eq 2
         result.attributes['start_datetime'] = result.attributes['start_datetime'].to_datetime
         result.attributes['end_datetime'] = result.attributes['end_datetime'].to_datetime
-        expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
+        expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq(common_result_attributes.merge(
             {
                 id: result.id,
                 start_datetime: DateTime.new(2020, 5, 12),
                 end_datetime: DateTime.new(2020,5,12, 4)
-            }).with_indifferent_access)
+            }).to_unsafe_h.with_indifferent_access)
         validate_tls(result)
         validate_eds(result)
       end
@@ -306,14 +306,14 @@ describe InsertDuplicate do
         result.attributes['start_datetime'] = result.attributes['start_datetime']
 
         result.attributes['end_datetime'] = result.attributes['end_datetime'].to_datetime
-        expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
+        expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq(common_result_attributes.merge(
             {
                 id: result.id,
 
                 start_datetime: Time.utc(2020,5,12),
                 end_datetime: Time.utc(2020,5,12, 4)
 
-            }).with_indifferent_access)
+            }).to_unsafe_h.with_indifferent_access)
 
         validate_tls(result)
         validate_eds(result)
@@ -326,12 +326,12 @@ describe InsertDuplicate do
         expect(Event.count).to eq 2
         result.attributes['start_datetime'] = result.attributes['start_datetime'].to_datetime
         result.attributes['end_datetime'] = result.attributes['end_datetime'].to_datetime
-        expect(result.attributes.with_indifferent_access).to eq(common_result_attributes.merge(
+        expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq(common_result_attributes.merge(
             {
                 id: result.id,
                 start_datetime: event.start_datetime.to_time,
                 end_datetime: event.end_datetime.to_time
-            }).with_indifferent_access)
+            }).to_unsafe_h.with_indifferent_access)
         validate_tls(result)
         validate_eds(result)
       end

@@ -68,7 +68,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
         },
 
 
-    }.with_indifferent_access
+    }.to_unsafe_h.with_indifferent_access
 
     unless (payment_id == nil)
       result[:activity] = {}
@@ -154,7 +154,7 @@ RSpec.shared_context :shared_rd_donation_value_context do
   end
 
   def generate_expected_refund(data={})
-    result = {}.with_indifferent_access
+    result = {}.to_unsafe_h.with_indifferent_access
     result
   end
 

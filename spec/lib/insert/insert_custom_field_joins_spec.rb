@@ -216,13 +216,13 @@ describe InsertCustomFieldJoins do
           results = InsertCustomFieldJoins::in_bulk(@nonprofit.id,
                                                     [@supporters[:np_supporter_with_add][:entity].id],
                                                     [{custom_field_master_id: 25, value: "CFM value 25", id: invalid_id, created_at: Time.now.ago(3000), updated_at: Time.now.ago(2999)}])
-          expected = {custom_field_master_id: 25, value: "CFM value 25", created_at: Time.now, updated_at: Time.now, supporter_id: @supporters[:np_supporter_with_add][:entity].id}.with_indifferent_access
+          expected = {custom_field_master_id: 25, value: "CFM value 25", created_at: Time.now, updated_at: Time.now, supporter_id: @supporters[:np_supporter_with_add][:entity].id}.to_unsafe_h.with_indifferent_access
 
           expect(results).to eq(successful_json(1, 0))
 
           result_tag = @supporters[:np_supporter_with_add][:entity].custom_field_joins.where('custom_field_master_id = ?', 25).first
 
-          expect(result_tag.attributes.with_indifferent_access.reject {|k, _| k == 'id'}).to eq(expected)
+          expect(result_tag.attributes.to_unsafe_h.with_indifferent_access.reject {|k, _| k == 'id'}).to eq(expected)
 
           expect(result_tag.attributes[:id]).to_not eq invalid_id
         }

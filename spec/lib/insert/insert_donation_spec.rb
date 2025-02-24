@@ -179,7 +179,7 @@ describe InsertDonation do
 			{
 			  nonprofit_id: nonprofit.id,
 			  supporter_id: supporter.id
-			}.with_indifferent_access
+			}.to_unsafe_h.with_indifferent_access
 		  )
 		end.to raise_error(ParamValidation::ValidationError)
 	  end
@@ -198,8 +198,8 @@ describe InsertDonation do
 				offsite_payment: {
 					check_number: 1234,
 					kind: "check"
-				}.with_indifferent_access
-			}.with_indifferent_access
+				}.to_unsafe_h.with_indifferent_access
+			}.to_unsafe_h.with_indifferent_access
 		  )
           Payment.find(result[:json]['payment']['id']).trx
 		end

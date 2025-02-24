@@ -64,7 +64,7 @@ describe UpdateTickets do
           event_id: event.id,
           ticket_level_id: nil,
           ticket_purchase_id: nil
-      }.with_indifferent_access
+      }.to_unsafe_h.with_indifferent_access
     }
 
     let(:payment) {force_create(:payment)}

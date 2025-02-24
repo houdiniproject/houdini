@@ -61,7 +61,7 @@ module ImportOnecauseEventDonations
             'supporter_id': supporter.id,
             'event_id': event.id,
             'offsite_payment': {}
-          }.with_indifferent_access)
+          }.to_unsafe_h.with_indifferent_access)
         end
 
 

@@ -61,7 +61,7 @@ module ImportCivicrmPayments
                                                       comment: notes,
                                                       date: date_received.to_s,
                                                       offsite_payment: offsite
-                                                  }.with_indifferent_access
+                                                  }.to_unsafe_h.with_indifferent_access
                                              )
       puts d
       pay_imp.donations.push(Donation.find(d[:json]['donation']['id']))

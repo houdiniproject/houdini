@@ -255,17 +255,17 @@ describe UpdateDonation do
                                             comment: new_comment,
                                             campaign_id: campaign.id,
                                             event_id: event.id,
-                                            updated_at: Time.now, fts: an_instance_of(String)}).with_indifferent_access
+                                            updated_at: Time.now, fts: an_instance_of(String)}).to_unsafe_h.with_indifferent_access
 
           donation.reload
           expect(donation.attributes).to match expected_donation
 
-          expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now}).with_indifferent_access
+          expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now}).to_unsafe_h.with_indifferent_access
           payment.reload
           expect(payment.attributes).to eq expected_p1
 
 
-          expected_p2 = payment2.attributes.merge({towards: new_designation, updated_at: Time.now}).with_indifferent_access
+          expected_p2 = payment2.attributes.merge({towards: new_designation, updated_at: Time.now}).to_unsafe_h.with_indifferent_access
 
           payment2.reload
           expect(payment2.attributes).to eq expected_p2
@@ -306,18 +306,18 @@ describe UpdateDonation do
               event_id: event.id,
               updated_at: Time.now,
               fts: an_instance_of(String)
-          }).with_indifferent_access
+          }).to_unsafe_h.with_indifferent_access
 
           donation.reload
           expect(donation.attributes).to match expected_donation
 
-          expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now, date: new_date, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
+          expected_p1 = payment.attributes.merge({towards: new_designation, updated_at: Time.now, date: new_date, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).to_unsafe_h.with_indifferent_access
           payment.reload
           expect(payment.attributes).to eq expected_p1
 
           expect(Payment.count).to eq 1
 
-          expected_offsite_payment= offsite_payment.attributes.merge({check_number:new_check_number, date: new_date.in_time_zone, gross_amount: new_amount, updated_at: Time.now}).with_indifferent_access
+          expected_offsite_payment= offsite_payment.attributes.merge({check_number:new_check_number, date: new_date.in_time_zone, gross_amount: new_amount, updated_at: Time.now}).to_unsafe_h.with_indifferent_access
 
           offsite_payment.reload
           expect(offsite_payment.attributes).to eq expected_offsite_payment
@@ -361,17 +361,17 @@ describe UpdateDonation do
                                                           campaign_id: nil,
                                                           event_id: nil,
                                                           updated_at: Time.now,
-                                                          fts: ''}).with_indifferent_access
+                                                          fts: ''}).to_unsafe_h.with_indifferent_access
             donation.reload
 
             expect(donation.attributes).to eq expected_donation
 
-            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now}).with_indifferent_access
+            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now}).to_unsafe_h.with_indifferent_access
             payment.reload
             expect(payment.attributes).to eq expected_p1
 
 
-            expected_p2 = payment2.attributes.merge({towards: '', updated_at: Time.now}).with_indifferent_access
+            expected_p2 = payment2.attributes.merge({towards: '', updated_at: Time.now}).to_unsafe_h.with_indifferent_access
 
             payment2.reload
             expect(payment2.attributes).to eq expected_p2
@@ -411,18 +411,18 @@ describe UpdateDonation do
                                                               event_id: nil,
                                                               updated_at: Time.now,
                                                               fts: ''
-                                                          }).with_indifferent_access
+                                                          }).to_unsafe_h.with_indifferent_access
 
             donation.reload
             expect(donation.attributes).to eq expected_donation
 
-            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now, date: new_date.in_time_zone, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).with_indifferent_access
+            expected_p1 = payment.attributes.merge({towards: '', updated_at: Time.now, date: new_date.in_time_zone, gross_amount: new_amount, fee_total: new_fee, net_amount: new_amount-new_fee}).to_unsafe_h.with_indifferent_access
             payment.reload
             expect(payment.attributes).to eq expected_p1
 
             expect(Payment.count).to eq 1
 
-            expected_offsite_payment= offsite_payment.attributes.merge({check_number:'', date: new_date.in_time_zone, gross_amount: new_amount, updated_at: Time.now}).with_indifferent_access
+            expected_offsite_payment= offsite_payment.attributes.merge({check_number:'', date: new_date.in_time_zone, gross_amount: new_amount, updated_at: Time.now}).to_unsafe_h.with_indifferent_access
 
             offsite_payment.reload
             expect(offsite_payment.attributes).to eq expected_offsite_payment

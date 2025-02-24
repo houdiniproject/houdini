@@ -158,10 +158,10 @@ describe InsertPayout do
               bank_name: bank_name,
               updated_at: Time.now,
               created_at: Time.now
-          }.with_indifferent_access
+          }.to_unsafe_h.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq(expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid))
+          expect(result.to_unsafe_h.with_indifferent_access).to eq(expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid))
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
           expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
@@ -196,11 +196,11 @@ describe InsertPayout do
               bank_name: bank_name,
               updated_at: Time.now,
               created_at: Time.now
-          }.with_indifferent_access
+          }.to_unsafe_h.with_indifferent_access
 
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
+          expect(result.to_unsafe_h.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
           expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))
@@ -268,10 +268,10 @@ describe InsertPayout do
               bank_name: bank_name,
               updated_at: Time.now,
               created_at: Time.now
-          }.with_indifferent_access
+          }.to_unsafe_h.with_indifferent_access
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
+          expect(result.to_unsafe_h.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: nil}
           
@@ -304,11 +304,11 @@ describe InsertPayout do
               bank_name: bank_name,
               updated_at: Time.now,
               created_at: Time.now
-          }.with_indifferent_access
+          }.to_unsafe_h.with_indifferent_access
 
           expect(Payout.count).to eq 1
           resulted_payout = Payout.first
-          expect(result.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
+          expect(result.to_unsafe_h.with_indifferent_access).to eq expected_result.merge(id: resulted_payout.id, houid: resulted_payout.houid)
 
           empty_db_attributes = {manual: nil, scheduled: nil, failure_message: 'Payout failed', }
           expect(resulted_payout).to have_attributes(expected_result.merge(id: resulted_payout.id).merge(empty_db_attributes))

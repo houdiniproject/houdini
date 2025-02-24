@@ -30,7 +30,7 @@ describe InsertTickets do
               created_at: Time.now,
               updated_at: Time.now
           }
-      }.with_indifferent_access
+      }.to_unsafe_h.with_indifferent_access
 
       if data[:offsite_payment]
         result[:offsite_payment] = {
@@ -98,10 +98,10 @@ describe InsertTickets do
           note: nil,
           deleted: false,
           source_token_id: nil
-        }.with_indifferent_access
+        }.to_unsafe_h.with_indifferent_access
       }
 
-    result.with_indifferent_access
+    result.to_unsafe_h.with_indifferent_access
 
 
 

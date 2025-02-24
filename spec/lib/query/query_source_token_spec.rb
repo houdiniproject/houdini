@@ -98,7 +98,7 @@ describe QuerySourceToken do
           token: our_uuid,
           tokenizable_id: nil,
           tokenizable_type: nil
-      }.with_indifferent_access
+      }.to_unsafe_h.with_indifferent_access
 
       expect(result.attributes).to eq expected
 

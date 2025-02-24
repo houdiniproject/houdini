@@ -90,11 +90,11 @@ describe InsertRefunds do
 
             let!(:modern_refund_call) do
               transaction
-              InsertRefunds.modern_refund(charge.attributes.to_h.with_indifferent_access, {
+              InsertRefunds.modern_refund(charge.attributes.to_h.to_unsafe_h.with_indifferent_access, {
                 amount: amount_to_refund,
                 comment: comment,
                 reason: reason
-            }.with_indifferent_access) 
+            }.to_unsafe_h.with_indifferent_access) 
             end
 
           it 'has an accurate refund_payment' do

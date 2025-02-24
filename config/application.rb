@@ -83,6 +83,7 @@ module Commitchange
 		# Require `belongs_to` associations by default. Previous versions had false.
 		# it's a bunch of work to verify everything that should be marked optional actually is.
 		# we should do that over time.
+		# Added in rails 5.0
 		config.active_record.belongs_to_required_by_default = false
 
 		config.middleware.insert_before 0, Rack::Cors do

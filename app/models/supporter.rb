@@ -116,7 +116,7 @@ class Supporter < ApplicationRecord
     end
 
     def must_update_email_lists?
-      changes.has_key?("name") || changes.has_key?("email")
+      saved_change_to_attribute?("name") || saved_change_to_attribute?("email")
     end
 
     def publish_created

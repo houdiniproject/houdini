@@ -501,6 +501,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86_64-linux
 
 DEPENDENCIES
   action_mailer_matchers (~> 1.2.0)

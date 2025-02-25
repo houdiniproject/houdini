@@ -46,9 +46,9 @@ describe InsertSourceToken do
                       total_uses: 0,
                       max_uses: 1,
                       event_id: nil
-          }.to_unsafe_h.with_indifferent_access
+          }.to_deprecated_h.with_indifferent_access
 
-          expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq expected
+          expect(result.attributes.to_deprecated_h.with_indifferent_access).to eq expected
 
           expect(SourceToken.last.attributes).to eq expected
         end
@@ -73,7 +73,7 @@ describe InsertSourceToken do
                       total_uses: 0,
                       max_uses: 20,
                       event_id: event.id
-          }.to_unsafe_h.with_indifferent_access
+          }.to_deprecated_h.with_indifferent_access
 
           expect(result.attributes).to eq expected
 
@@ -101,9 +101,9 @@ describe InsertSourceToken do
                       total_uses: 0,
                       max_uses: 50,
                       event_id: nil
-          }.to_unsafe_h.with_indifferent_access
+          }.to_deprecated_h.with_indifferent_access
 
-          expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq expected
+          expect(result.attributes.to_deprecated_h.with_indifferent_access).to eq expected
           expect(SourceToken.last.attributes).to eq expected
         end
 
@@ -128,9 +128,9 @@ describe InsertSourceToken do
                       total_uses: 0,
                       max_uses: 50,
                       event_id: event.id
-          }.to_unsafe_h.with_indifferent_access
+          }.to_deprecated_h.with_indifferent_access
 
-          expect(result.attributes.to_unsafe_h.with_indifferent_access).to eq expected
+          expect(result.attributes.to_deprecated_h.with_indifferent_access).to eq expected
           expect(SourceToken.last.attributes).to eq expected
     end
 

@@ -58,7 +58,7 @@ describe InsertEmailLists  do
         mailchimp_list_id: list_id,
         created_at: el.created_at,
         updated_at: el.updated_at
-      }.to_unsafe_h.with_indifferent_access],
+      }.to_deprecated_h.with_indifferent_access],
       inserted_result: inserted_result
     }
 
@@ -86,7 +86,7 @@ describe InsertEmailLists  do
                              mailchimp_list_id: list_id,
                              created_at: el.created_at,
                              updated_at: el.updated_at
-                         }.to_unsafe_h.with_indifferent_access],
+                         }.to_deprecated_h.with_indifferent_access],
         inserted_result: inserted_result,
         deleted: [{"mailchimp_list_id" => 'with_list__mc_list'}],
         deleted_result: "deleted correctly"

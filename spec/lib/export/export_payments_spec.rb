@@ -55,7 +55,7 @@ describe ExportPayments do
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
         stub_const("DelayedJobHelper", double('delayed'))
-        params =  { param1: 'pp' }.to_unsafe_h.with_indifferent_access
+        params =  { param1: 'pp' }.to_deprecated_h.with_indifferent_access
 
         expect(Export).to receive(:create).and_wrap_original {|m, *args|
           e = m.call(*args) # get original create
@@ -75,7 +75,7 @@ describe ExportPayments do
                             created_at: Time.now,
                             url: nil,
                             ended: nil,
-                            exception: nil }.to_unsafe_h.with_indifferent_access
+                            exception: nil }.to_deprecated_h.with_indifferent_access
         expect(export.attributes).to eq(expected_export)
       end
     end

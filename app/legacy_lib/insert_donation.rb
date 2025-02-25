@@ -8,7 +8,7 @@ module InsertDonation
   # designation, dedication
   # recurring_donation if is recurring
   def self.with_stripe(data, current_user=nil)
-    data = data.to_unsafe_h.with_indifferent_access
+    data = data.to_deprecated_h.with_indifferent_access
 
     ParamValidation.new(data, common_param_validations
                                   .merge(token: {required: true, format: UUID::Regex}))
@@ -134,7 +134,7 @@ module InsertDonation
   end
 
   def self.with_sepa(data)
-    data = data.to_unsafe_h.with_indifferent_access
+    data = data.to_deprecated_h.with_indifferent_access
     ParamValidation.new(data, common_param_validations
                                  .merge(direct_debit_detail_id: {required: true, is_reference: true}))
 

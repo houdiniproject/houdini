@@ -190,7 +190,7 @@ describe InsertCharge do
           common_expected = {id: Charge.first.id, amount: 100, fee: fee_total, stripe_charge_id: nil, status: 'failed', failure_message: 'There was an error with your card: The card was declined', created_at: Time.now, updated_at: Time.now, disbursed: nil}
 
 
-          result_expected = common_expected.merge({card_id: card.id, nonprofit_id: nonprofit.id, donation_id: nil, supporter_id: supporter.id, ticket_id: nil, payment_id: nil, profile_id: nil, direct_debit_detail_id: nil}).to_unsafe_h.with_indifferent_access
+          result_expected = common_expected.merge({card_id: card.id, nonprofit_id: nonprofit.id, donation_id: nil, supporter_id: supporter.id, ticket_id: nil, payment_id: nil, profile_id: nil, direct_debit_detail_id: nil}).to_deprecated_h.with_indifferent_access
 
           expect(finished_result['charge'].attributes).to eq result_expected
           expect(Charge.first.attributes).to eq result_expected
@@ -213,7 +213,7 @@ describe InsertCharge do
           common_expected = {id: Charge.first.id, amount: 100, fee: fee_total, stripe_charge_id: nil, status: 'failed', failure_message: "We're sorry, but something went wrong. We've been notified about this issue.", created_at: Time.now, updated_at: Time.now, disbursed: nil}
 
 
-          result_expected = common_expected.merge({card_id: card.id, nonprofit_id: nonprofit.id, donation_id: nil, supporter_id: supporter.id, ticket_id: nil, payment_id: nil, profile_id: nil, direct_debit_detail_id: nil}).to_unsafe_h.with_indifferent_access
+          result_expected = common_expected.merge({card_id: card.id, nonprofit_id: nonprofit.id, donation_id: nil, supporter_id: supporter.id, ticket_id: nil, payment_id: nil, profile_id: nil, direct_debit_detail_id: nil}).to_deprecated_h.with_indifferent_access
 
           expect(finished_result['charge'].attributes).to eq result_expected
           expect(Charge.first.attributes).to eq result_expected
@@ -276,7 +276,7 @@ describe InsertCharge do
               common_charge_expected = {id: Charge.first.id, amount: 100, fee: fee_total, stripe_charge_id:stripe_charge_id, status: 'pending', failure_message: nil, created_at: Time.now, updated_at: Time.now, disbursed: nil}
 
 
-              result_charge_expected = common_charge_expected.merge({card_id: expected_card.id, nonprofit_id: nonprofit.id, donation_id: 555, supporter_id: supporter.id, ticket_id: nil, payment_id: Payment.first.id, profile_id: nil,  direct_debit_detail_id: nil}).to_unsafe_h.with_indifferent_access
+              result_charge_expected = common_charge_expected.merge({card_id: expected_card.id, nonprofit_id: nonprofit.id, donation_id: 555, supporter_id: supporter.id, ticket_id: nil, payment_id: Payment.first.id, profile_id: nil,  direct_debit_detail_id: nil}).to_deprecated_h.with_indifferent_access
 
 
               expect(finished_result['charge'].attributes).to eq result_charge_expected
@@ -297,7 +297,7 @@ describe InsertCharge do
                                         date: Time.now,
                                         created_at: Time.now,
                                         updated_at: Time.now
-              }.to_unsafe_h.with_indifferent_access
+              }.to_deprecated_h.with_indifferent_access
 
               expect(finished_result['payment'].attributes).to eq common_payment_expected
               expect(Payment.first.attributes).to eq common_payment_expected
@@ -318,7 +318,7 @@ describe InsertCharge do
               common_charge_expected = {id: Charge.first.id, amount: 100, fee: fee_total, stripe_charge_id:stripe_charge_id, status: 'pending', failure_message: nil, created_at: Time.now, updated_at: Time.now, disbursed: nil}
 
 
-              result_charge_expected = common_charge_expected.merge({card_id: card.id, nonprofit_id: nonprofit.id, donation_id: 555, supporter_id: supporter.id, ticket_id: nil, payment_id: Payment.first.id, profile_id: nil, direct_debit_detail_id: nil}).to_unsafe_h.with_indifferent_access
+              result_charge_expected = common_charge_expected.merge({card_id: card.id, nonprofit_id: nonprofit.id, donation_id: 555, supporter_id: supporter.id, ticket_id: nil, payment_id: Payment.first.id, profile_id: nil, direct_debit_detail_id: nil}).to_deprecated_h.with_indifferent_access
 
 
               expect(finished_result['charge'].attributes).to eq result_charge_expected
@@ -339,7 +339,7 @@ describe InsertCharge do
                                         date: date,
                                         created_at: Time.now,
                                         updated_at: Time.now
-              }.to_unsafe_h.with_indifferent_access
+              }.to_deprecated_h.with_indifferent_access
 
               expect(finished_result['payment'].attributes).to eq common_payment_expected
               expect(Payment.first.attributes).to eq common_payment_expected

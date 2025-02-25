@@ -90,8 +90,8 @@ describe UpdateRecurringDonations do
       recurring_donation.n_failures = 2
       recurring_donation.save!
 
-      orig_rd = recurring_donation.attributes.to_unsafe_h.with_indifferent_access
-      orig_donation = recurring_donation.donation.attributes.to_unsafe_h.with_indifferent_access
+      orig_rd = recurring_donation.attributes.to_deprecated_h.with_indifferent_access
+      orig_donation = recurring_donation.donation.attributes.to_deprecated_h.with_indifferent_access
 
 
       expect_job_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
@@ -120,8 +120,8 @@ describe UpdateRecurringDonations do
       recurring_donation.n_failures = 2
       recurring_donation.save!
 
-      orig_rd = recurring_donation.attributes.to_unsafe_h.with_indifferent_access
-      orig_donation = recurring_donation.donation.attributes.to_unsafe_h.with_indifferent_access
+      orig_rd = recurring_donation.attributes.to_deprecated_h.with_indifferent_access
+      orig_donation = recurring_donation.donation.attributes.to_deprecated_h.with_indifferent_access
 
       expect_job_queued.with(JobTypes::DonorRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
       expect_job_queued.with(JobTypes::NonprofitRecurringDonationChangeAmountJob, recurring_donation.id, orig_rd['amount'])
@@ -196,8 +196,8 @@ describe UpdateRecurringDonations do
     it 'finishes properly' do
       recurring_donation.n_failures = 2
       recurring_donation.save!
-      orig_rd = recurring_donation.attributes.to_unsafe_h.with_indifferent_access
-      orig_donation = recurring_donation.donation.attributes.to_unsafe_h.with_indifferent_access
+      orig_rd = recurring_donation.attributes.to_deprecated_h.with_indifferent_access
+      orig_donation = recurring_donation.donation.attributes.to_deprecated_h.with_indifferent_access
 
       result = UpdateRecurringDonations.update_card_id({id: recurring_donation.id}, source_token.token)
       expectations = {

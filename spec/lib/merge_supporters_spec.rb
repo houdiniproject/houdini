@@ -166,21 +166,21 @@ describe MergeSupporters do
     it 'new supporter is anonymous if any of the old supporters are.' do
       old_supporter1.anonymous = true
       old_supporter1.save!
-      result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_unsafe_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
+      result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_deprecated_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
       expect(result[:json][:anonymous]).to eq true
       expect(result[:json][:name]).to eq 'Penelope Schultz'
       expect(result[:json][:nonprofit_id]).to eq np.id
     end
 
     it 'new supporter is not anonymous if none of the old supporters are' do
-      result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_unsafe_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
+      result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_deprecated_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
       expect(result[:json][:anonymous]).to eq false
       expect(result[:json][:name]).to eq 'Penelope Schultz'
       expect(result[:json][:nonprofit_id]).to eq np.id
     end
 
     it 'new supporter matches passed in np even if the merged_data says otherwise' do
-      result = MergeSupporters.selected({name: 'Penelope Schultz', nonprofit_id: 3333333}.to_unsafe_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
+      result = MergeSupporters.selected({name: 'Penelope Schultz', nonprofit_id: 3333333}.to_deprecated_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil)
       expect(result[:json][:anonymous]).to eq false
       expect(result[:json][:nonprofit_id]).to eq np.id
       expect(result[:json][:name]).to eq 'Penelope Schultz'
@@ -193,7 +193,7 @@ describe MergeSupporters do
             custom_field_master = np.custom_field_masters.create!(name: 'A Custom Field')
             old_supporter1.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
             old_supporter2.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'bar')
-            result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_unsafe_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, true)
+            result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_deprecated_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, true)
             expect(result[:json]).to match_array([old_supporter1.id, old_supporter2.id])
             expect(result[:status]).to eq(:failure)
           end
@@ -204,7 +204,7 @@ describe MergeSupporters do
             custom_field_master = np.custom_field_masters.create!(name: 'A Custom Field')
             old_supporter1.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
             old_supporter2.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
-            result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_unsafe_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, true)
+            result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_deprecated_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, true)
             expect(result[:json].custom_field_joins.pluck(:value)).to eq(['foo'])
           end
         end
@@ -218,7 +218,7 @@ describe MergeSupporters do
             custom_field_master = np.custom_field_masters.create!(name: 'A Custom Field')
             old_supporter1.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
             old_supporter2.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'bar')
-            resulting_supporter = MergeSupporters.selected({name: 'Penelope Schultz'}.to_unsafe_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, false)[:json]
+            resulting_supporter = MergeSupporters.selected({name: 'Penelope Schultz'}.to_deprecated_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, false)[:json]
             expect(resulting_supporter.custom_field_joins.pluck(:value)).to eq(['bar'])
           end
         end
@@ -228,7 +228,7 @@ describe MergeSupporters do
             custom_field_master = np.custom_field_masters.create!(name: 'A Custom Field')
             old_supporter1.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
             old_supporter2.custom_field_joins.create!(custom_field_master: custom_field_master, value: 'foo')
-            result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_unsafe_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, false)
+            result = MergeSupporters.selected({name: 'Penelope Schultz'}.to_deprecated_h.with_indifferent_access, [old_supporter1.id, old_supporter2.id], np.id, nil, false)
             expect(result[:json].custom_field_joins.pluck(:value)).to eq(['foo'])
           end
         end

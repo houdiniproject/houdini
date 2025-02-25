@@ -87,7 +87,7 @@ class ETapImportJournalEntry < ApplicationRecord
                   corresponding_payment&.donation&.comment ? {
                     comment: corresponding_payment.donation.comment
                   }  : {}
-                ).to_unsafe_h.with_indifferent_access
+                ).to_deprecated_h.with_indifferent_access
               )
           end
 
@@ -99,7 +99,7 @@ class ETapImportJournalEntry < ApplicationRecord
             date: date.to_s,
             designation: designation,
             amount: amount
-          }.to_unsafe_h.with_indifferent_access.merge(self.methods.include?(:to_payment_note) ? {comment: to_payment_note} : {}))
+          }.to_deprecated_h.with_indifferent_access.merge(self.methods.include?(:to_payment_note) ? {comment: to_payment_note} : {}))
           return ::Payment.find(result[:json]['payment']['id'])
         end
         

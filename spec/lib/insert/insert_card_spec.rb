@@ -87,7 +87,7 @@ describe InsertCard do
           holder_type: 'Nonprofit',
           holder_id: nonprofit.id,
           stripe_customer_id: stripe_customer['id']
-      }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+      }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
       expect(card.attributes).to eq expected_card
 
@@ -126,7 +126,7 @@ describe InsertCard do
             holder_type: 'Nonprofit',
             holder_id: nonprofit.id,
           stripe_customer_id: stripe_customer['id']
-        }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+        }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
         expect(card.attributes).to eq expected_card
 
@@ -164,7 +164,7 @@ describe InsertCard do
               holder_type: 'Nonprofit',
               holder_id: nonprofit.id,
               stripe_customer_id: stripe_customer['id']
-          }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+          }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
           expect(card.attributes).to eq expected_card
           expect(Card.where('holder_id = ? and holder_type = ?', nonprofit.id, 'Nonprofit').count).to eq(2)
@@ -258,7 +258,7 @@ describe InsertCard do
           holder_id: supporter.id,
           holder_type: 'Supporter',
           stripe_customer_id: stripe_customer['id'],
-        }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+        }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
         expect(card.attributes).to eq expected_card
 
@@ -293,7 +293,7 @@ describe InsertCard do
             holder_id: supporter.id,
             holder_type: 'Supporter',
             stripe_customer_id: stripe_customer['id'],
-        }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+        }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
         expect(card.attributes).to eq expected_card
 
@@ -339,7 +339,7 @@ describe InsertCard do
               stripe_card_id: 'card_88888',
               stripe_customer_id: stripe_customer['id']
 
-          }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+          }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
           expect(card.attributes).to eq expected_card
 
@@ -365,7 +365,7 @@ describe InsertCard do
             stripe_customer_id: stripe_customer['id'],
             holder_type: 'Supporter',
             holder_id: supporter.id
-        }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+        }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
         expect(card.attributes).to eq expected_card
 
@@ -396,7 +396,7 @@ describe InsertCard do
             holder_id: supporter.id,
             holder_type: 'Supporter',
             stripe_customer_id: stripe_customer['id'],
-        }.merge(default_card_attribs).to_unsafe_h.with_indifferent_access
+        }.merge(default_card_attribs).to_deprecated_h.with_indifferent_access
 
         expect(card.attributes).to eq expected_card
 
@@ -476,7 +476,7 @@ describe InsertCard do
       expiration: expiration_time,
       event_id: event ? event.id : nil,
       token: source_token
-    }.to_unsafe_h.with_indifferent_access
+    }.to_deprecated_h.with_indifferent_access
 
     expect(tok.attributes).to eq expected
   end

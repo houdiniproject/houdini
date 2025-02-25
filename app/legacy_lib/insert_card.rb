@@ -117,7 +117,7 @@ module InsertCard
       return {json: {error: "Oops! There was an error saving your card, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
     end
 
-    return { status: :ok, json: card.attributes.to_unsafe_h.with_indifferent_access.merge(token: source_token) }
+    return { status: :ok, json: card.attributes.to_deprecated_h.with_indifferent_access.merge(token: source_token) }
   end
 
   def self.customer_data(holder, card_data)

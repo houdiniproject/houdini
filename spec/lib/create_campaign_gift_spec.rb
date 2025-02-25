@@ -196,7 +196,7 @@ describe CreateCampaignGift do
             billing_subscription
             donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1
@@ -209,7 +209,7 @@ describe CreateCampaignGift do
             donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 300)
             rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1
@@ -225,7 +225,7 @@ describe CreateCampaignGift do
             billing_subscription
             donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1
@@ -238,7 +238,7 @@ describe CreateCampaignGift do
             donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 300)
             rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1
@@ -254,7 +254,7 @@ describe CreateCampaignGift do
             billing_subscription
             donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1
@@ -267,7 +267,7 @@ describe CreateCampaignGift do
             donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 300)
             rd = force_create(:recurring_donation, :amount => 300, :donation => donation)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1
@@ -283,7 +283,7 @@ describe CreateCampaignGift do
             billing_subscription
             donation = force_create(:donation, :campaign => campaign, :nonprofit => nonprofit, :amount => 5000)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1
@@ -296,7 +296,7 @@ describe CreateCampaignGift do
             donation = force_create(:donation, :campaign => campaign, :amount => 356, :nonprofit => nonprofit)
             rd = force_create(:recurring_donation, :amount => 356, :donation => donation)
             result = CreateCampaignGift.create({:donation_id => donation.id, :campaign_gift_option_id => campaign_gift_option.id})
-            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_unsafe_h.with_indifferent_access
+            expected = {donation_id: donation.id, campaign_gift_option_id: campaign_gift_option.id, created_at: Time.now, updated_at: Time.now, id: result.id, recurring_donation_id: nil}.to_deprecated_h.with_indifferent_access
             expect(result.attributes).to eq expected
             expect(CampaignGift.first.attributes).to eq expected
             expect(Campaign.count).to eq 1

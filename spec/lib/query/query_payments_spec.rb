@@ -85,9 +85,9 @@ describe QueryPayments do
     it 'gives correct payout info' do
       entities_yesterday
       result = QueryPayments.get_payout_totals(QueryPayments.ids_for_payout(nonprofit.id))
-      expected  = {gross_amount: 57900, fee_total: -5000, net_amount: 52900, count: 18}.to_unsafe_h.with_indifferent_access
+      expected  = {gross_amount: 57900, fee_total: -5000, net_amount: 52900, count: 18}.to_deprecated_h.with_indifferent_access
 
-      expect(result.to_unsafe_h.with_indifferent_access).to eq expected
+      expect(result.to_deprecated_h.with_indifferent_access).to eq expected
     end
 
 
@@ -125,7 +125,7 @@ describe QueryPayments do
         date: date,
         dedication: 'dedication',
         designation: 'designation'
-    }.to_unsafe_h.with_indifferent_access
+    }.to_deprecated_h.with_indifferent_access
       InsertDonation.offsite(input)
     end
 
@@ -205,7 +205,7 @@ describe QueryPayments do
             'charge'=> charge.stripe_charge_id
           }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
         expect(InsertActivities).to receive(:for_refunds)
-          InsertRefunds.with_stripe(charge.attributes, {amount: 100}.to_unsafe_h.with_indifferent_access)
+          InsertRefunds.with_stripe(charge.attributes, {amount: 100}.to_deprecated_h.with_indifferent_access)
 
       }
 
@@ -217,7 +217,7 @@ describe QueryPayments do
             'charge'=> charge.stripe_charge_id
           }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
         expect(InsertActivities).to receive(:for_refunds)
-        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.to_unsafe_h.with_indifferent_access)
+        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.to_deprecated_h.with_indifferent_access)
 
       }
 
@@ -704,7 +704,7 @@ describe QueryPayments do
             'charge'=> charge.stripe_charge_id
           }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
         expect(InsertActivities).to receive(:for_refunds)
-        InsertRefunds.with_stripe(charge.attributes, {amount: 100}.to_unsafe_h.with_indifferent_access)
+        InsertRefunds.with_stripe(charge.attributes, {amount: 100}.to_deprecated_h.with_indifferent_access)
 
       }
 
@@ -716,7 +716,7 @@ describe QueryPayments do
             'charge'=> charge.stripe_charge_id
           }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
         expect(InsertActivities).to receive(:for_refunds)
-        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.to_unsafe_h.with_indifferent_access)
+        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.to_deprecated_h.with_indifferent_access)
 
       }
 
@@ -793,7 +793,7 @@ describe QueryPayments do
             'charge'=> charge.stripe_charge_id
           }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
           
-        InsertRefunds.with_stripe(charge.attributes, {amount: 100}.to_unsafe_h.with_indifferent_access)
+        InsertRefunds.with_stripe(charge.attributes, {amount: 100}.to_deprecated_h.with_indifferent_access)
 
       }
 
@@ -805,7 +805,7 @@ describe QueryPayments do
             'charge'=> charge.stripe_charge_id
           }, charge_date: charge.created_at).and_return(perform_stripe_refund_result)
         expect(InsertActivities).to receive(:for_refunds)
-        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.to_unsafe_h.with_indifferent_access)
+        InsertRefunds.with_stripe(charge.attributes, {amount: 50}.to_deprecated_h.with_indifferent_access)
 
       }
 

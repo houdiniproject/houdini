@@ -21,7 +21,7 @@ describe CardsController, :type => :controller do
       it 'handles verification failure' do 
         expect(controller).to receive(:verify_recaptcha).and_return(false)
         expect {
-          post :create, params: {:recaptcha_response_field => "response", 'g-recaptcha-response-data' => 'string'}, type: :json
+          post :create, params: {:recaptcha_response_field => "response", 'g-recaptcha-response-data' => 'string', type: :json}
         }.to change { RecaptchaRejection.count}.by(1)
       
         expect(response).to have_http_status(:unprocessable_entity)

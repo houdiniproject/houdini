@@ -2,6 +2,28 @@
 
 module InsertTickets
 
+  class Model
+    include ActiveModel::Attributes
+    include ActiveModel::AttributeAssignment
+
+    def initialize(data={})
+      assign_attributes(data)
+    end
+
+    attr_accessor :tickets, 
+      :nonprofit_id,
+      :supporter_id,
+      :event_id,
+      :event_discount_id,
+      :kind,
+      :token,
+      :offsite_payment,
+      :amount
+  end
+
+
+
+
   # Will generate rows for payment, offsite_payment or charge, tickets, activities
   # pass in:
   # data: {
@@ -17,7 +39,7 @@ module InsertTickets
   #   fee_covered: boolean
   # }
   def self.create(data, skip_notifications=false)
-    data = data.to_unsafe_h.with_indifferent_access
+    data = ::InsertTickets::Model.new(data).attributes.with_indifferent_access
     ParamValidation.new(data, {
       tickets: {required: true, is_array: true},
       nonprofit_id: {required: true, is_reference: true},

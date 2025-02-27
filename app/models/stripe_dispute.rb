@@ -59,8 +59,8 @@ class StripeDispute < ApplicationRecord
       if after_save_changed_attributes["object"].nil?
         dispute_created_event
       end
-      byebug
-      if balance_transactions_changed?
+
+      if saved_change_to_attribute?(:balance_transactions)
 
         old_bt, _ = balance_transactions_change
         old_state = StripeDispute.calc_balance_transaction_state(old_bt)
@@ -87,7 +87,7 @@ class StripeDispute < ApplicationRecord
         end
       end
 
-      if status_changed?
+      if saved_change_to_attribute?(:status)
         if TERMINAL_DISPUTE_STATUSES.include?(after_save_changed_attributes['status']) && !TERMINAL_DISPUTE_STATUSES.include?(status)
           # if previous status was won or lost and the new one isn't
           raise RuntimeError("Dispute #{dispute.id} was previously #{after_save_changed_attributes['status']} but is now #{status}. " +

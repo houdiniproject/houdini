@@ -195,10 +195,10 @@ describe InsertDonation do
 			  nonprofit_id: nonprofit.id,
 			  supporter_id: supporter.id,
 			  date: created_time.to_s,
-				offsite_payment: {
+				offsite_payment: ActionController::Parameters.new({
 					check_number: 1234,
 					kind: "check"
-				}.with_indifferent_access
+				})
 			}.with_indifferent_access
 		  )
           Payment.find(result[:json]['payment']['id']).trx

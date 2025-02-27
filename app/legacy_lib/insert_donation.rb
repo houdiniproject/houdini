@@ -96,7 +96,7 @@ module InsertDonation
     result['payment'] = self.insert_payment('OffsitePayment', 0, result['donation']['id'], data)
     result['offsite_payment'] = Psql.execute(
       Qexpr.new.insert(:offsite_payments, [
-        (data['offsite_payment'] || {}).merge({
+        (data['offsite_payment']&.to_deprecated_h&.with_indifferent_access || {}).merge({
           gross_amount: data['amount'],
           nonprofit_id: data['nonprofit_id'],
           supporter_id: data['supporter_id'],

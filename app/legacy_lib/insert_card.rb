@@ -20,7 +20,7 @@ module InsertCard
     def self.with_stripe(card_data, stripe_account_id=nil, event_id=nil, current_user = nil)
 
     begin
-      ParamValidation.new(card_data.merge({event_id: event_id}), {
+      ParamValidation.new(card_data.to_deprecated_h.merge({event_id: event_id}), {
           holder_type: {required: true, included_in: ['Nonprofit', 'Supporter']},
           holder_id: {required: true},
           stripe_card_id: {not_blank: true, required: true},

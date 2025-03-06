@@ -8,7 +8,7 @@ module CreatePeerToPeerCampaign
       return { errors: { parent_campaign_id: 'not found' } }.as_json
     end
 
-    p2p_params = campaign_params.except(:nonprofit_id, :summary,:goal_amount, :widget_description_id)
+    p2p_params = campaign_params.except(:nonprofit_id, :summary,:goal_amount, :widget_description_id).to_deprecated_h
     p2p_params.merge!(parent_campaign.child_params)
 
     profile = Profile.find(profile_id)

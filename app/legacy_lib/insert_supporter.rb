@@ -12,7 +12,7 @@ module InsertSupporter
     address_keys = ['name', 'address', 'city', 'country', 'state_code']
     custom_fields = data['customFields']
     tags = data['tags']
-    data = HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data, address_keys))
+    data = HashWithIndifferentAccess.new(Format::RemoveDiacritics.from_hash(data.to_deprecated_h, address_keys))
       .except(:customFields, :tags)
     nonprofit = Nonprofit.find(np_id)
 

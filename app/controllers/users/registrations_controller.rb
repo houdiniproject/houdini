@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # this endpoint only creates donor users
   def create
-    user = User.register_donor!({referer: session[:referer_id]}.merge(params[:user]) )
+    user = User.register_donor!({referer: session[:referer_id]}.merge(params[:user].to_deprecated_h) )
     if user.save
       sign_in user
       render :json => user

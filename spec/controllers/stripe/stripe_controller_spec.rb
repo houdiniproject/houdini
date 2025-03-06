@@ -73,7 +73,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       event = Object.new
       expect(Stripe::Webhook).to receive(:construct_event).and_return(event)
       expect(StripeEvent).to receive(:handle).with(event)
-      post :receive_connect,body:{}.to_json
+      post :receive_connect, body:{}.to_json
       expect(response.body).to eq ({}.to_json)
       expect(response.status).to eq 200
     end

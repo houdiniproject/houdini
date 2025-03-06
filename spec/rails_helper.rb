@@ -7,14 +7,6 @@ require File.expand_path('../../config/environment', __FILE__)
 
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-module ActionController::TestCase::Behavior
-  def raw_post(action, params, body)
-    @request.env['RAW_POST_DATA'] = body
-    response = post(action, params)
-    @request.env.delete('RAW_POST_DATA')
-    response
-  end
-end
 
 require 'spec_helper'
 require 'rspec/rails'

@@ -12,7 +12,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       end
 
       it 'returns on bad signature' do
-        raw_post :receive, {}, {}.to_json
+        post :receive, body: {}.to_json
         expect(response.body).to include('Invalid signature')
         expect(response.status).to eq 400
       end
@@ -20,7 +20,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       it 'returns on other error' do
         expect(JSON).to receive(:parse).and_raise(ArgumentError)
         request.headers['HTTP_STRIPE_SIGNATURE']= ""
-        raw_post :receive, {}, {}.to_json
+        post :receive, body: {}.to_json
         expect(response.body).to include("Unspecified error")
         expect(response.status).to eq 400
       end
@@ -30,7 +30,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       event = Object.new
       expect(Stripe::Webhook).to receive(:construct_event).and_return(event)
       expect(StripeEvent).to receive(:handle).with(event)
-      raw_post :receive, {}, {}.to_json
+      post :receive, body: {}.to_json
       expect(response.body).to eq ({}.to_json)
       expect(response.status).to eq 200
     end
@@ -55,7 +55,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       end
 
       it 'returns on bad signature' do
-        raw_post :receive_connect, {}, {}.to_json
+        post :receive_connect, body:{}.to_json
         expect(response.body).to include('Invalid signature')
         expect(response.status).to eq 400
       end
@@ -63,7 +63,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       it 'returns on other error' do
         expect(JSON).to receive(:parse).and_raise(ArgumentError)
         request.headers['HTTP_STRIPE_SIGNATURE']= ""
-        raw_post :receive_connect, {}, {}.to_json
+        post :receive_connect, body: {}.to_json
         expect(response.body).to include("Unspecified error")
         expect(response.status).to eq 400
       end
@@ -73,7 +73,7 @@ RSpec.describe Webhooks::StripeController, :type => :controller do
       event = Object.new
       expect(Stripe::Webhook).to receive(:construct_event).and_return(event)
       expect(StripeEvent).to receive(:handle).with(event)
-      raw_post :receive_connect, {}, {}.to_json
+      post :receive_connect,body:{}.to_json
       expect(response.body).to eq ({}.to_json)
       expect(response.status).to eq 200
     end

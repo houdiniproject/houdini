@@ -64,7 +64,7 @@ class ParamValidation
     min: lambda {|val, arg, data| val >= arg rescue false},
     max: lambda {|val, arg, data| val <= arg rescue false},
     is_array: lambda {|val, arg, data| val.is_a?(Array)},
-    is_hash: lambda {|val, arg, data| val.is_a?(Hash)},
+    is_hash: lambda {|val, arg, data| val.is_a?(Hash) || val.is_a?(ActionController::Parameters)},
     is_json: lambda {|val, arg, data| ParamValidation.is_valid_json?(val)},
     in_range: lambda {|val, arg, data| arg.cover?(val) rescue false},
     is_a: lambda {|val, arg, data| arg.kind_of?(Enumerable) ? arg.any? {|i| val.is_a?(i)} : val.is_a?(arg)},

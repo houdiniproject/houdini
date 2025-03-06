@@ -11,4 +11,5 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.add_runtime_dependency 'chronic'
+  s.add_runtime_dependency 'actionpack', ">= 5"
 end

@@ -62,7 +62,7 @@ class StripeDispute < ApplicationRecord
 
       if saved_change_to_attribute?(:balance_transactions)
 
-        old_bt, _ = balance_transactions_change
+        old_bt, _ = saved_changes[:balance_transactions]
         old_state = StripeDispute.calc_balance_transaction_state(old_bt)
         if old_state != balance_transactions_state
 

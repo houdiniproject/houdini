@@ -266,7 +266,7 @@ describe InsertRecurringDonation do
                           email: nil,
                           origin_url: nil
 
-                               }.to_deprecated_h.with_indifferent_access
+                               }.with_indifferent_access
 
           expect(rd.attributes.except('edit_token')).to eq(expected_rd)
 
@@ -323,7 +323,7 @@ describe InsertRecurringDonation do
                           end_date: nil,
                           email: nil,
                           origin_url: nil
-          }.to_deprecated_h.with_indifferent_access
+          }.with_indifferent_access
           expect(rd.attributes.except('edit_token')).to eq(expected_rd)
 
           expect(rd.donation.recurring).to eq true

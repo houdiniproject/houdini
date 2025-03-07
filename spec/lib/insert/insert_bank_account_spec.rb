@@ -109,8 +109,8 @@ describe InsertBankAccount do
                     account_number: nil, #doesn't seem to be used
                     nonprofit_id: nonprofit.id,
                     bank_name: nil
-        }.to_deprecated_h.with_indifferent_access
-        expect(result.attributes.to_deprecated_h.with_indifferent_access.except(:confirmation_token, :stripe_bank_account_id, :name)).to eq expected
+        }.with_indifferent_access
+        expect(result.attributes.to_h.with_indifferent_access.except(:confirmation_token, :stripe_bank_account_id, :name)).to eq expected
         expect(result[:confirmation_token]).to_not be_blank
         expect(result[:stripe_bank_account_id]).to_not be_blank
         expect(result[:name]).to_not be_blank
@@ -147,8 +147,8 @@ describe InsertBankAccount do
                     account_number: nil, #doesn't seem to be used
                     nonprofit_id: nonprofit.id,
                     bank_name: nil
-        }.to_deprecated_h.with_indifferent_access
-        expect(result.attributes.to_deprecated_h.with_indifferent_access.except(:confirmation_token, :stripe_bank_account_id, :name)).to eq expected
+        }.with_indifferent_access
+        expect(result.attributes.with_indifferent_access.except(:confirmation_token, :stripe_bank_account_id, :name)).to eq expected
         expect(result[:confirmation_token]).to_not be_blank
         expect(result[:stripe_bank_account_id]).to_not be_blank
         expect(result[:name]).to_not be_blank

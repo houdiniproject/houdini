@@ -179,7 +179,7 @@ describe InsertDonation do
 			{
 			  nonprofit_id: nonprofit.id,
 			  supporter_id: supporter.id
-			}.to_deprecated_h.with_indifferent_access
+			}.with_indifferent_access
 		  )
 		end.to raise_error(ParamValidation::ValidationError)
 	  end
@@ -199,7 +199,7 @@ describe InsertDonation do
 					check_number: 1234,
 					kind: "check"
 				})
-			}.to_deprecated_h.with_indifferent_access
+			}.with_indifferent_access
 		  )
           Payment.find(result[:json]['payment']['id']).trx
 		end

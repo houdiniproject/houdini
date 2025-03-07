@@ -153,11 +153,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
     result
   end
 
-  def generate_expected_refund(data={})
-    result = {}.with_indifferent_access
-    result
-  end
-
   def validation_unauthorized
     expect(QuerySourceToken).to receive(:get_and_increment_source_token).with(fake_uuid, nil).and_raise(AuthenticationError)
     expect {yield()}.to raise_error {|e|
@@ -477,16 +472,6 @@ RSpec.shared_context :shared_rd_donation_value_context do
     if (data[:recurring_donation])
       expect(result['recurring_donation'].attributes).to eq expected[:recurring_donation]
     end
-    return result
-  end
-
-  def process_general_refund(data = {})
-    result = yield
-
-    expected = generate_expected_refund()
-
-    expect(result['payment']).to eq expected[:payment]
-    expect(result['refund']).to eq expected[:refund]
     return result
   end
 

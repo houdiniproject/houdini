@@ -102,7 +102,7 @@ class StripeDispute < ApplicationRecord
             dispute_updated_event
           end
         end
-      elsif (!balance_transactions_changed? && after_save_changed_attributes["object"].nil?)
+      elsif (!saved_change_to_attribute?(:balance_transactions) && after_save_changed_attributes["object"].nil?)
         dispute_updated_event
       end
     end

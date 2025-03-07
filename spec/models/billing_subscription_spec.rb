@@ -9,7 +9,7 @@ RSpec.describe BillingSubscription, type: :model do
       it 'calls Nonprofit#clear_cache after create' do
         billing_subscription = build(:billing_subscription)
         np = billing_subscription.nonprofit
-        expect(np).to receive(:clear_cache).once
+        expect(np).to receive(:clear_cache).thrice # once for nonprofit, once for billing subscription, once for billing plan
         billing_subscription.save!
       end
 

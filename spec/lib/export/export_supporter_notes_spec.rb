@@ -81,7 +81,7 @@ describe ExportSupporterNotes do
     it 'creates an export object and schedules job' do
       Timecop.freeze(2020, 4, 5) do
         stub_const("DelayedJobHelper",double('delayed'))
-        params =  { param1: 'pp', root_url: 'https://localhost:8080' }.to_deprecated_h.with_indifferent_access
+        params =  { param1: 'pp', root_url: 'https://localhost:8080' }.with_indifferent_access
 
         expect(Export).to receive(:create).and_wrap_original {|m, *args|
           e = m.call(*args) # get original create
@@ -102,7 +102,7 @@ describe ExportSupporterNotes do
                             created_at: Time.now,
                             url: nil,
                             ended: nil,
-                            exception: nil }.to_deprecated_h.with_indifferent_access
+                            exception: nil }.with_indifferent_access
         expect(export.attributes).to eq(expected_export)
       end
     end

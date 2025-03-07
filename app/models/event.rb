@@ -53,7 +53,7 @@ class Event < ApplicationRecord
 	has_many :supporters, through: :donations
 	has_many :recurring_donations
 	has_many :ticket_levels, :dependent => :destroy
-  has_many :event_discounts, dependent: :destroy
+	has_many :event_discounts, dependent: :destroy
 	has_many :tickets
 	has_many :payments, through: :tickets
 	has_many :roles,           as: :host, dependent: :destroy

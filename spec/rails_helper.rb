@@ -75,12 +75,6 @@ RSpec.configure do |config|
   end
 
   config.include ActionMailerMatchers
-  
-  
-  # needed for some CVE tests
-  config.include Minitest::Assertions
-  config.include ActiveSupport::Testing::Assertions
-
 
   config.before(:suite) do
 

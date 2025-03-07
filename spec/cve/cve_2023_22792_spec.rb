@@ -8,6 +8,10 @@ require "active_support/key_generator"
 require "active_support/message_verifier"
 
 describe 'CookieJarTest' do
+  
+  include Minitest::Assertions
+  include ActiveSupport::Testing::Assertions
+
   attr_reader :request
 
   before(:each) do
@@ -267,6 +271,9 @@ class TestController < ActionController::Base
 end
 
 describe TestController, type: :controller do
+
+  include Minitest::Assertions
+  include ActiveSupport::Testing::Assertions
 
   around(:each) do |example|
     old_serializers = Rails.application.config.action_dispatch.cookies_serializer

@@ -580,7 +580,7 @@ DEPENDENCIES
   rack-cors
   rack-freeze
   rack-timeout
-  rails (~> 5.2.0)
+  rails (~> 5.2.8.1)
   rails-i18n
   rails_12factor
   rails_autoscale_agent (>= 0.9.1)

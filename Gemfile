@@ -107,7 +107,7 @@ group :development, :ci, :test do
 	gem 'pry-byebug'
 	gem 'binding_of_caller'
   gem 'rspec', "~> 3"
-	gem 'rspec-rails', "~> 4"
+	gem 'rspec-rails', "~> 5"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
 	gem 'stripe-ruby-mock', '~> 2.5.1', :require => 'stripe_mock'

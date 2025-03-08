@@ -23,7 +23,7 @@ describe CreatePeerToPeerCampaign do
 
           expect(result).not_to include 'errors'
           expect(result['parent_campaign_id']).to eq parent_campaign.id
-          expect(result['created_at']).to eq 'Sun, 05 Apr 2020 00:00:00 UTC +00:00'
+          expect(result['created_at']).to eq '2020-04-05T00:00:00.000Z'
         end
       end
 

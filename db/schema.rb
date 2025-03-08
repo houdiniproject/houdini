@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -33,16 +32,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "date"
     t.string   "kind",            limit: 255
     t.jsonb    "json_data"
-  end
-
-  add_index "activities", ["attachment_type", "attachment_id"], name: "index_activities_on_attachment_type_and_attachment_id", using: :btree
-  add_index "activities", ["nonprofit_id"], name: "index_activities_on_nonprofit_id", using: :btree
-  add_index "activities", ["supporter_id"], name: "index_activities_on_supporter_id", using: :btree
-
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.index ["attachment_type", "attachment_id"], name: "index_activities_on_attachment_type_and_attachment_id", using: :btree
+    t.index ["nonprofit_id"], name: "index_activities_on_nonprofit_id", using: :btree
+    t.index ["supporter_id"], name: "index_activities_on_supporter_id", using: :btree
   end
 
   create_table "bank_accounts", force: :cascade do |t|
@@ -65,11 +57,11 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "name",           limit: 255
     t.string   "stripe_plan_id", limit: 255
     t.integer  "amount"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.string   "interval",       limit: 255
-    t.decimal  "percentage_fee",             default: 0.0, null: false
-    t.integer  "flat_fee",                   default: 0,   null: false
+    t.decimal  "percentage_fee",             default: "0.0", null: false
+    t.integer  "flat_fee",                   default: 0,     null: false
   end
 
   create_table "billing_subscriptions", force: :cascade do |t|
@@ -79,10 +71,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.string   "status",                 limit: 255
+    t.index ["nonprofit_id", "billing_plan_id"], name: "index_billing_subscriptions_on_nonprofit_id_and_billing_plan_id", using: :btree
+    t.index ["nonprofit_id"], name: "index_billing_subscriptions_on_nonprofit_id", using: :btree
   end
-
-  add_index "billing_subscriptions", ["nonprofit_id", "billing_plan_id"], name: "index_billing_subscriptions_on_nonprofit_id_and_billing_plan_id", using: :btree
-  add_index "billing_subscriptions", ["nonprofit_id"], name: "index_billing_subscriptions_on_nonprofit_id", using: :btree
 
   create_table "campaign_gift_options", force: :cascade do |t|
     t.integer  "amount_one_time"
@@ -105,10 +96,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "recurring_donation_id"
+    t.index ["campaign_gift_option_id"], name: "index_campaign_gifts_on_campaign_gift_option_id", using: :btree
+    t.index ["donation_id"], name: "index_campaign_gifts_on_donation_id", using: :btree
   end
-
-  add_index "campaign_gifts", ["campaign_gift_option_id"], name: "index_campaign_gifts_on_campaign_gift_option_id", using: :btree
-  add_index "campaign_gifts", ["donation_id"], name: "index_campaign_gifts_on_donation_id", using: :btree
 
   create_table "campaigns", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -149,10 +139,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.text     "default_reason_for_supporting"
     t.string   "banner_image",                  limit: 255
     t.integer  "widget_description_id"
+    t.index ["parent_campaign_id"], name: "index_campaigns_on_parent_campaign_id", using: :btree
+    t.index ["widget_description_id"], name: "index_campaigns_on_widget_description_id", using: :btree
   end
-
-  add_index "campaigns", ["parent_campaign_id"], name: "index_campaigns_on_parent_campaign_id", using: :btree
-  add_index "campaigns", ["widget_description_id"], name: "index_campaigns_on_widget_description_id", using: :btree
 
   create_table "cards", force: :cascade do |t|
     t.string   "name",               limit: 255
@@ -172,10 +161,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "deleted",                        default: false
     t.boolean  "inactive"
     t.string   "country",            limit: 255
+    t.index ["holder_id", "holder_type"], name: "index_cards_on_holder_id_and_holder_type", using: :btree
+    t.index ["id", "holder_type", "holder_id", "inactive"], name: "index_cards_on_id_and_holder_type_and_holder_id_and_inactive", using: :btree
   end
-
-  add_index "cards", ["holder_id", "holder_type"], name: "index_cards_on_holder_id_and_holder_type", using: :btree
-  add_index "cards", ["id", "holder_type", "holder_id", "inactive"], name: "index_cards_on_id_and_holder_type_and_holder_id_and_inactive", using: :btree
 
   create_table "charges", force: :cascade do |t|
     t.integer  "amount"
@@ -194,10 +182,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "status",                 limit: 255
     t.integer  "fee"
     t.integer  "direct_debit_detail_id"
+    t.index ["donation_id"], name: "index_charges_on_donation_id", using: :btree
+    t.index ["payment_id"], name: "index_charges_on_payment_id", using: :btree
   end
-
-  add_index "charges", ["donation_id"], name: "index_charges_on_donation_id", using: :btree
-  add_index "charges", ["payment_id"], name: "index_charges_on_payment_id", using: :btree
 
   create_table "custom_field_joins", force: :cascade do |t|
     t.integer  "custom_field_master_id"
@@ -205,11 +192,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.text     "value"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.index ["custom_field_master_id", "supporter_id"], name: "custom_field_join_supporter_unique_idx", unique: true, using: :btree
+    t.index ["custom_field_master_id"], name: "custom_field_joins_custom_field_master_id", using: :btree
+    t.index ["supporter_id"], name: "index_custom_field_joins_on_supporter_id", using: :btree
   end
-
-  add_index "custom_field_joins", ["custom_field_master_id", "supporter_id"], name: "custom_field_join_supporter_unique_idx", unique: true, using: :btree
-  add_index "custom_field_joins", ["custom_field_master_id"], name: "custom_field_joins_custom_field_master_id", using: :btree
-  add_index "custom_field_joins", ["supporter_id"], name: "index_custom_field_joins_on_supporter_id", using: :btree
 
   create_table "custom_field_masters", force: :cascade do |t|
     t.string   "name",         limit: 255
@@ -217,9 +203,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "deleted",                  default: false
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.index ["nonprofit_id"], name: "index_custom_field_masters_on_nonprofit_id", using: :btree
   end
-
-  add_index "custom_field_masters", ["nonprofit_id"], name: "index_custom_field_masters_on_nonprofit_id", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",               default: 0, null: false
@@ -233,9 +218,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "queue",      limit: 255
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "direct_debit_details", force: :cascade do |t|
     t.string   "iban",                limit: 255
@@ -262,10 +246,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "date"
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
+    t.index ["dispute_id"], name: "index_dispute_transactions_on_dispute_id", using: :btree
+    t.index ["payment_id"], name: "index_dispute_transactions_on_payment_id", using: :btree
   end
-
-  add_index "dispute_transactions", ["dispute_id"], name: "index_dispute_transactions_on_dispute_id", using: :btree
-  add_index "dispute_transactions", ["payment_id"], name: "index_dispute_transactions_on_payment_id", using: :btree
 
   create_table "disputes", force: :cascade do |t|
     t.integer  "gross_amount"
@@ -277,9 +260,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "updated_at",                                    null: false
     t.datetime "started_at"
     t.boolean  "is_legacy",                     default: false
+    t.index ["stripe_dispute_id"], name: "index_disputes_on_stripe_dispute_id", unique: true, using: :btree
   end
-
-  add_index "disputes", ["stripe_dispute_id"], name: "index_disputes_on_stripe_dispute_id", unique: true, using: :btree
 
   create_table "donations", force: :cascade do |t|
     t.integer  "amount"
@@ -309,16 +291,16 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "direct_debit_detail_id"
     t.string   "payment_provider",       limit: 255
     t.tsvector "fts"
+    t.index "lower(designation)", name: "donations_designation", using: :btree
+    t.index ["amount"], name: "donations_amount", using: :btree
+    t.index ["anonymous"], name: "index_donations_on_anonymous", using: :btree
+    t.index ["campaign_id"], name: "donations_campaign_id", using: :btree
+    t.index ["event_id"], name: "donations_event_id", using: :btree
+    t.index ["event_id"], name: "index_donations_on_event_id", using: :btree
+    t.index ["fts"], name: "donations_fts_idx", using: :gin
+    t.index ["nonprofit_id"], name: "index_donations_on_nonprofit_id", using: :btree
+    t.index ["supporter_id"], name: "donations_supporter_id", using: :btree
   end
-
-  add_index "donations", ["amount"], name: "donations_amount", using: :btree
-  add_index "donations", ["anonymous"], name: "index_donations_on_anonymous", using: :btree
-  add_index "donations", ["campaign_id"], name: "donations_campaign_id", using: :btree
-  add_index "donations", ["event_id"], name: "donations_event_id", using: :btree
-  add_index "donations", ["event_id"], name: "index_donations_on_event_id", using: :btree
-  add_index "donations", ["fts"], name: "donations_fts_idx", using: :gin
-  add_index "donations", ["nonprofit_id"], name: "index_donations_on_nonprofit_id", using: :btree
-  add_index "donations", ["supporter_id"], name: "donations_supporter_id", using: :btree
 
   create_table "donations_payment_imports", id: false, force: :cascade do |t|
     t.integer "donation_id"
@@ -337,19 +319,17 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "supporter_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["e_tap_import_id"], name: "index_e_tap_import_contacts_on_e_tap_import_id", using: :btree
+    t.index ["supporter_id"], name: "index_e_tap_import_contacts_on_supporter_id", using: :btree
   end
-
-  add_index "e_tap_import_contacts", ["e_tap_import_id"], name: "index_e_tap_import_contacts_on_e_tap_import_id", using: :btree
-  add_index "e_tap_import_contacts", ["supporter_id"], name: "index_e_tap_import_contacts_on_supporter_id", using: :btree
 
   create_table "e_tap_import_journal_entries", force: :cascade do |t|
     t.integer  "e_tap_import_id"
     t.jsonb    "row"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["e_tap_import_id"], name: "index_e_tap_import_journal_entries_on_e_tap_import_id", using: :btree
   end
-
-  add_index "e_tap_import_journal_entries", ["e_tap_import_id"], name: "index_e_tap_import_journal_entries_on_e_tap_import_id", using: :btree
 
   create_table "e_tap_imports", force: :cascade do |t|
     t.integer  "nonprofit_id"
@@ -363,10 +343,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "nonprofit_id", null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["name"], name: "index_email_customizations_on_name", using: :btree
+    t.index ["nonprofit_id"], name: "index_email_customizations_on_nonprofit_id", using: :btree
   end
-
-  add_index "email_customizations", ["name"], name: "index_email_customizations_on_name", using: :btree
-  add_index "email_customizations", ["nonprofit_id"], name: "index_email_customizations_on_nonprofit_id", using: :btree
 
   create_table "email_lists", force: :cascade do |t|
     t.integer  "nonprofit_id",                  null: false
@@ -428,11 +407,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "organizer_email",    limit: 255
     t.datetime "start_datetime"
     t.datetime "end_datetime"
+    t.index ["nonprofit_id", "deleted", "published", "end_datetime"], name: "events_nonprofit_id_not_deleted_and_published_endtime", using: :btree
+    t.index ["nonprofit_id", "deleted", "published"], name: "index_events_on_nonprofit_id_and_deleted_and_published", using: :btree
+    t.index ["nonprofit_id"], name: "index_events_on_nonprofit_id", using: :btree
   end
-
-  add_index "events", ["nonprofit_id", "deleted", "published", "end_datetime"], name: "events_nonprofit_id_not_deleted_and_published_endtime", using: :btree
-  add_index "events", ["nonprofit_id", "deleted", "published"], name: "index_events_on_nonprofit_id_and_deleted_and_published", using: :btree
-  add_index "events", ["nonprofit_id"], name: "index_events_on_nonprofit_id", using: :btree
 
   create_table "export_formats", force: :cascade do |t|
     t.string  "name",                                     null: false
@@ -440,9 +418,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean "show_currency",             default: true, null: false
     t.jsonb   "custom_columns_and_values"
     t.integer "nonprofit_id",                             null: false
+    t.index ["nonprofit_id"], name: "index_export_formats_on_nonprofit_id", using: :btree
   end
-
-  add_index "export_formats", ["nonprofit_id"], name: "index_export_formats_on_nonprofit_id", using: :btree
 
   create_table "exports", force: :cascade do |t|
     t.integer  "user_id"
@@ -455,10 +432,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "url",          limit: 255
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["nonprofit_id"], name: "index_exports_on_nonprofit_id", using: :btree
+    t.index ["user_id"], name: "index_exports_on_user_id", using: :btree
   end
-
-  add_index "exports", ["nonprofit_id"], name: "index_exports_on_nonprofit_id", using: :btree
-  add_index "exports", ["user_id"], name: "index_exports_on_user_id", using: :btree
 
   create_table "fee_coverage_detail_bases", force: :cascade do |t|
     t.integer  "flat_fee"
@@ -467,9 +443,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "fee_era_id"
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
+    t.index ["fee_era_id"], name: "index_fee_coverage_detail_bases_on_fee_era_id", using: :btree
   end
-
-  add_index "fee_coverage_detail_bases", ["fee_era_id"], name: "index_fee_coverage_detail_bases_on_fee_era_id", using: :btree
 
   create_table "fee_eras", force: :cascade do |t|
     t.datetime "start_time"
@@ -488,9 +463,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "fee_era_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["fee_era_id"], name: "index_fee_structures_on_fee_era_id", using: :btree
   end
-
-  add_index "fee_structures", ["fee_era_id"], name: "index_fee_structures_on_fee_era_id", using: :btree
 
   create_table "full_contact_infos", force: :cascade do |t|
     t.string   "email",            limit: 255
@@ -508,11 +482,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "supporter_id"
     t.string   "location_general", limit: 255
     t.text     "websites"
+    t.index ["supporter_id"], name: "index_full_contact_infos_on_supporter_id", using: :btree
   end
 
-  add_index "full_contact_infos", ["supporter_id"], name: "index_full_contact_infos_on_supporter_id", using: :btree
-
-  create_table "full_contact_jobs", force: :cascade do |t|
+  create_table "full_contact_jobs", id: :bigserial, force: :cascade do |t|
     t.integer "supporter_id"
   end
 
@@ -526,9 +499,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "full_contact_info_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["full_contact_info_id"], name: "index_full_contact_orgs_on_full_contact_info_id", using: :btree
   end
-
-  add_index "full_contact_orgs", ["full_contact_info_id"], name: "index_full_contact_orgs_on_full_contact_info_id", using: :btree
 
   create_table "full_contact_photos", force: :cascade do |t|
     t.integer  "full_contact_info_id"
@@ -537,9 +509,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.text     "url"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["full_contact_info_id", "is_primary"], name: "index_full_context_photo_info_primary", using: :btree
   end
-
-  add_index "full_contact_photos", ["full_contact_info_id", "is_primary"], name: "index_full_context_photo_info_primary", using: :btree
 
   create_table "full_contact_social_profiles", force: :cascade do |t|
     t.integer  "full_contact_info_id"
@@ -552,9 +523,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "updated_at",                       null: false
     t.integer  "followers"
     t.integer  "following"
+    t.index ["full_contact_info_id"], name: "index_full_contact_social_profiles_on_full_contact_info_id", using: :btree
   end
-
-  add_index "full_contact_social_profiles", ["full_contact_info_id"], name: "index_full_contact_social_profiles_on_full_contact_info_id", using: :btree
 
   create_table "full_contact_topics", force: :cascade do |t|
     t.string   "provider",             limit: 255
@@ -562,9 +532,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "full_contact_info_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["full_contact_info_id"], name: "index_full_contact_topics_on_full_contact_info_id", using: :btree
   end
-
-  add_index "full_contact_topics", ["full_contact_info_id"], name: "index_full_contact_topics_on_full_contact_info_id", using: :btree
 
   create_table "image_attachments", force: :cascade do |t|
     t.string   "file",        limit: 255
@@ -612,9 +581,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "hide_cover_fees_option"
     t.boolean  "paused",                     default: false, null: false
     t.string   "fee_coverage_option_config"
+    t.index ["campaign_id"], name: "index_misc_campaign_infos_on_campaign_id", using: :btree
   end
-
-  add_index "misc_campaign_infos", ["campaign_id"], name: "index_misc_campaign_infos_on_campaign_id", using: :btree
 
   create_table "misc_event_infos", force: :cascade do |t|
     t.integer  "event_id"
@@ -630,18 +598,16 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "fee_covered"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["payment_id"], name: "index_misc_payment_infos_on_payment_id", using: :btree
   end
-
-  add_index "misc_payment_infos", ["payment_id"], name: "index_misc_payment_infos_on_payment_id", using: :btree
 
   create_table "misc_recurring_donation_infos", force: :cascade do |t|
     t.integer  "recurring_donation_id"
     t.boolean  "fee_covered"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.index ["recurring_donation_id"], name: "index_misc_recurring_donation_infos_on_recurring_donation_id", using: :btree
   end
-
-  add_index "misc_recurring_donation_infos", ["recurring_donation_id"], name: "index_misc_recurring_donation_infos_on_recurring_donation_id", using: :btree
 
   create_table "misc_refund_infos", force: :cascade do |t|
     t.boolean  "is_modern"
@@ -661,9 +627,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "hide_cover_fees",                        default: false, null: false
     t.boolean  "temp_block",                             default: false
     t.string   "fee_coverage_option_config"
+    t.index ["nonprofit_id"], name: "index_miscellaneous_np_infos_on_nonprofit_id", using: :btree
   end
-
-  add_index "miscellaneous_np_infos", ["nonprofit_id"], name: "index_miscellaneous_np_infos_on_nonprofit_id", using: :btree
 
   create_table "modern_donations", force: :cascade do |t|
     t.integer  "amount"
@@ -671,9 +636,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "houid",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_modern_donations_on_houid", unique: true, using: :btree
   end
-
-  add_index "modern_donations", ["houid"], name: "index_modern_donations_on_houid", unique: true, using: :btree
 
   create_table "nonprofit_deactivations", force: :cascade do |t|
     t.integer  "nonprofit_id"
@@ -697,9 +661,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "region"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["nonprofit_id"], name: "index_nonprofit_s3_keys_on_nonprofit_id", using: :btree
   end
-
-  add_index "nonprofit_s3_keys", ["nonprofit_id"], name: "index_nonprofit_s3_keys_on_nonprofit_id", using: :btree
 
   create_table "nonprofit_verification_backups", force: :cascade do |t|
     t.string "verification_status", limit: 255
@@ -711,9 +674,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "email_to_send_guid", limit: 255
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.index ["stripe_account_id"], name: "index_nonprofit_verification_to_stripe", unique: true, using: :btree
   end
-
-  add_index "nonprofit_verification_process_statuses", ["stripe_account_id"], name: "index_nonprofit_verification_to_stripe", unique: true, using: :btree
 
   create_table "nonprofits", force: :cascade do |t|
     t.datetime "created_at",                                                              null: false
@@ -779,31 +741,28 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.jsonb    "object_json"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.index ["event_entity_houid"], name: "index_object_events_on_event_entity_houid", using: :btree
+    t.index ["event_entity_type", "event_entity_id"], name: "index_object_events_on_event_entity_type_and_event_entity_id", using: :btree
+    t.index ["event_entity_type"], name: "index_object_events_on_event_entity_type", using: :btree
+    t.index ["event_type"], name: "index_object_events_on_event_type", using: :btree
+    t.index ["houid"], name: "index_object_events_on_houid", using: :btree
+    t.index ["nonprofit_id"], name: "index_object_events_on_nonprofit_id", using: :btree
   end
-
-  add_index "object_events", ["event_entity_houid"], name: "index_object_events_on_event_entity_houid", using: :btree
-  add_index "object_events", ["event_entity_type", "event_entity_id"], name: "index_object_events_on_event_entity_type_and_event_entity_id", using: :btree
-  add_index "object_events", ["event_entity_type"], name: "index_object_events_on_event_entity_type", using: :btree
-  add_index "object_events", ["event_type"], name: "index_object_events_on_event_type", using: :btree
-  add_index "object_events", ["houid"], name: "index_object_events_on_houid", using: :btree
-  add_index "object_events", ["nonprofit_id"], name: "index_object_events_on_nonprofit_id", using: :btree
 
   create_table "offline_transaction_charges", force: :cascade do |t|
     t.string   "houid",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_offline_transaction_charges_on_houid", unique: true, using: :btree
   end
-
-  add_index "offline_transaction_charges", ["houid"], name: "index_offline_transaction_charges_on_houid", unique: true, using: :btree
 
   create_table "offline_transactions", force: :cascade do |t|
     t.integer  "amount",     null: false
     t.string   "houid",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_offline_transactions_on_houid", unique: true, using: :btree
   end
-
-  add_index "offline_transactions", ["houid"], name: "index_offline_transactions_on_houid", unique: true, using: :btree
 
   create_table "offsite_payments", force: :cascade do |t|
     t.integer  "gross_amount"
@@ -817,11 +776,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "date"
     t.string   "check_number", limit: 255
     t.integer  "user_id"
+    t.index ["check_number"], name: "index_offsite_payments_on_check_number", using: :btree
+    t.index ["payment_id"], name: "index_offsite_payments_on_payment_id", using: :btree
+    t.index ["supporter_id"], name: "index_offsite_payments_on_supporter_id", using: :btree
   end
-
-  add_index "offsite_payments", ["check_number"], name: "index_offsite_payments_on_check_number", using: :btree
-  add_index "offsite_payments", ["payment_id"], name: "index_offsite_payments_on_payment_id", using: :btree
-  add_index "offsite_payments", ["supporter_id"], name: "index_offsite_payments_on_supporter_id", using: :btree
 
   create_table "payment_dupe_statuses", force: :cascade do |t|
     t.integer  "payment_id"
@@ -829,9 +787,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.integer  "matched_with_offline", default: [],                 array: true
+    t.index ["payment_id"], name: "index_payment_dupe_statuses_on_payment_id", using: :btree
   end
-
-  add_index "payment_dupe_statuses", ["payment_id"], name: "index_payment_dupe_statuses_on_payment_id", using: :btree
 
   create_table "payment_imports", force: :cascade do |t|
     t.integer  "user_id"
@@ -863,14 +820,13 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "updated_at",                           null: false
     t.integer  "donation_id"
     t.datetime "date"
+    t.index ["date"], name: "payments_date", using: :btree
+    t.index ["donation_id"], name: "payments_donation_id", using: :btree
+    t.index ["gross_amount"], name: "payments_gross_amount", using: :btree
+    t.index ["kind"], name: "payments_kind", using: :btree
+    t.index ["nonprofit_id"], name: "payments_nonprofit_id", using: :btree
+    t.index ["supporter_id"], name: "payments_supporter_id", using: :btree
   end
-
-  add_index "payments", ["date"], name: "payments_date", using: :btree
-  add_index "payments", ["donation_id"], name: "payments_donation_id", using: :btree
-  add_index "payments", ["gross_amount"], name: "payments_gross_amount", using: :btree
-  add_index "payments", ["kind"], name: "payments_kind", using: :btree
-  add_index "payments", ["nonprofit_id"], name: "payments_nonprofit_id", using: :btree
-  add_index "payments", ["supporter_id"], name: "payments_supporter_id", using: :btree
 
   create_table "payouts", force: :cascade do |t|
     t.integer  "net_amount"
@@ -890,9 +846,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "user_ip",            limit: 255
     t.integer  "ach_fee"
     t.string   "houid"
+    t.index ["houid"], name: "index_payouts_on_houid", unique: true, using: :btree
   end
-
-  add_index "payouts", ["houid"], name: "index_payouts_on_houid", unique: true, using: :btree
 
   create_table "periodic_reports", force: :cascade do |t|
     t.boolean "active",              default: false, null: false
@@ -902,10 +857,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer "nonprofit_id"
     t.string  "filename"
     t.integer "nonprofit_s3_key_id"
+    t.index ["nonprofit_id"], name: "index_periodic_reports_on_nonprofit_id", using: :btree
+    t.index ["user_id"], name: "index_periodic_reports_on_user_id", using: :btree
   end
-
-  add_index "periodic_reports", ["nonprofit_id"], name: "index_periodic_reports_on_nonprofit_id", using: :btree
-  add_index "periodic_reports", ["user_id"], name: "index_periodic_reports_on_user_id", using: :btree
 
   create_table "periodic_reports_users", force: :cascade do |t|
     t.integer "periodic_report_id"
@@ -940,9 +894,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "updated_at",          null: false
     t.integer  "source_supporter_id"
     t.integer  "target_supporter_id"
+    t.index ["e_tap_import_id"], name: "index_reassignments_on_e_tap_import_id", using: :btree
   end
-
-  add_index "reassignments", ["e_tap_import_id"], name: "index_reassignments_on_e_tap_import_id", using: :btree
 
   create_table "recaptcha_rejections", force: :cascade do |t|
     t.jsonb    "details"
@@ -981,10 +934,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "n_failures"
     t.string   "cancelled_by",    limit: 255
     t.datetime "cancelled_at"
+    t.index ["donation_id"], name: "index_recurring_donations_on_donation_id", using: :btree
+    t.index ["supporter_id"], name: "index_recurring_donations_on_supporter_id", using: :btree
   end
-
-  add_index "recurring_donations", ["donation_id"], name: "index_recurring_donations_on_donation_id", using: :btree
-  add_index "recurring_donations", ["supporter_id"], name: "index_recurring_donations_on_supporter_id", using: :btree
 
   create_table "refunds", force: :cascade do |t|
     t.integer  "amount"
@@ -997,10 +949,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "disbursed"
     t.integer  "user_id"
     t.integer  "payment_id"
+    t.index ["charge_id"], name: "index_refunds_on_charge_id", using: :btree
+    t.index ["payment_id"], name: "index_refunds_on_payment_id", using: :btree
   end
-
-  add_index "refunds", ["charge_id"], name: "index_refunds_on_charge_id", using: :btree
-  add_index "refunds", ["payment_id"], name: "index_refunds_on_payment_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -1009,9 +960,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "host_type",  limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.index ["name", "user_id", "host_id"], name: "index_roles_on_name_and_user_id_and_host_id", using: :btree
   end
-
-  add_index "roles", ["name", "user_id", "host_id"], name: "index_roles_on_name_and_user_id_and_host_id", using: :btree
 
   create_table "simple_objects", force: :cascade do |t|
     t.string   "houid"
@@ -1032,11 +982,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "total_uses",                   default: 0
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.index ["expiration"], name: "index_source_tokens_on_expiration", using: :btree
+    t.index ["token"], name: "index_source_tokens_on_token", unique: true, using: :btree
+    t.index ["tokenizable_id", "tokenizable_type"], name: "index_source_tokens_on_tokenizable_id_and_tokenizable_type", using: :btree
   end
-
-  add_index "source_tokens", ["expiration"], name: "index_source_tokens_on_expiration", using: :btree
-  add_index "source_tokens", ["token"], name: "index_source_tokens_on_token", unique: true, using: :btree
-  add_index "source_tokens", ["tokenizable_id", "tokenizable_type"], name: "index_source_tokens_on_tokenizable_id_and_tokenizable_type", using: :btree
 
   create_table "stripe_accounts", force: :cascade do |t|
     t.string   "stripe_account_id",    limit: 255, null: false
@@ -1050,19 +999,17 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.jsonb    "pending_verification"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["id"], name: "index_stripe_accounts_on_id", using: :btree
+    t.index ["stripe_account_id"], name: "index_stripe_accounts_on_stripe_account_id", using: :btree
   end
-
-  add_index "stripe_accounts", ["id"], name: "index_stripe_accounts_on_id", using: :btree
-  add_index "stripe_accounts", ["stripe_account_id"], name: "index_stripe_accounts_on_stripe_account_id", using: :btree
 
   create_table "stripe_charges", force: :cascade do |t|
     t.jsonb    "object",           null: false
     t.string   "stripe_charge_id", null: false
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.index ["stripe_charge_id"], name: "index_stripe_charges_on_stripe_charge_id", using: :btree
   end
-
-  add_index "stripe_charges", ["stripe_charge_id"], name: "index_stripe_charges_on_stripe_charge_id", using: :btree
 
   create_table "stripe_disputes", force: :cascade do |t|
     t.jsonb    "object"
@@ -1077,11 +1024,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "updated_at",                       null: false
     t.datetime "evidence_due_date"
     t.datetime "started_at"
+    t.index ["id"], name: "index_stripe_disputes_on_id", using: :btree
+    t.index ["stripe_charge_id"], name: "index_stripe_disputes_on_stripe_charge_id", using: :btree
+    t.index ["stripe_dispute_id"], name: "index_stripe_disputes_on_stripe_dispute_id", unique: true, using: :btree
   end
-
-  add_index "stripe_disputes", ["id"], name: "index_stripe_disputes_on_id", using: :btree
-  add_index "stripe_disputes", ["stripe_charge_id"], name: "index_stripe_disputes_on_stripe_charge_id", using: :btree
-  add_index "stripe_disputes", ["stripe_dispute_id"], name: "index_stripe_disputes_on_stripe_dispute_id", unique: true, using: :btree
 
   create_table "stripe_events", force: :cascade do |t|
     t.string   "object_id",  limit: 255
@@ -1089,51 +1035,45 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "event_time"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.index ["event_id"], name: "index_stripe_events_on_event_id", using: :btree
+    t.index ["object_id", "event_time"], name: "index_stripe_events_on_object_id_and_event_time", using: :btree
   end
-
-  add_index "stripe_events", ["event_id"], name: "index_stripe_events_on_event_id", using: :btree
-  add_index "stripe_events", ["object_id", "event_time"], name: "index_stripe_events_on_object_id_and_event_time", using: :btree
 
   create_table "stripe_transaction_charges", force: :cascade do |t|
     t.string   "houid",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_stripe_transaction_charges_on_houid", using: :btree
   end
-
-  add_index "stripe_transaction_charges", ["houid"], name: "index_stripe_transaction_charges_on_houid", using: :btree
 
   create_table "stripe_transaction_dispute_reversals", force: :cascade do |t|
     t.string   "houid",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_stripe_transaction_dispute_reversals_on_houid", using: :btree
   end
-
-  add_index "stripe_transaction_dispute_reversals", ["houid"], name: "index_stripe_transaction_dispute_reversals_on_houid", using: :btree
 
   create_table "stripe_transaction_disputes", force: :cascade do |t|
     t.string   "houid",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_stripe_transaction_disputes_on_houid", using: :btree
   end
-
-  add_index "stripe_transaction_disputes", ["houid"], name: "index_stripe_transaction_disputes_on_houid", using: :btree
 
   create_table "stripe_transaction_refunds", force: :cascade do |t|
     t.string   "houid",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_stripe_transaction_refunds_on_houid", using: :btree
   end
-
-  add_index "stripe_transaction_refunds", ["houid"], name: "index_stripe_transaction_refunds_on_houid", using: :btree
 
   create_table "stripe_transactions", force: :cascade do |t|
     t.integer  "amount",     null: false
     t.string   "houid",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["houid"], name: "index_stripe_transactions_on_houid", using: :btree
   end
-
-  add_index "stripe_transactions", ["houid"], name: "index_stripe_transactions_on_houid", using: :btree
 
   create_table "subtransaction_payments", force: :cascade do |t|
     t.integer  "subtransaction_id", null: false
@@ -1143,10 +1083,9 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "legacy_payment_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["legacy_payment_id"], name: "index_subtransaction_payments_on_legacy_payment_id", unique: true, using: :btree
+    t.index ["paymentable_type", "paymentable_id"], name: "idx_subtrxpayments_on_subtransactable_polymorphic", unique: true, using: :btree
   end
-
-  add_index "subtransaction_payments", ["legacy_payment_id"], name: "index_subtransaction_payments_on_legacy_payment_id", unique: true, using: :btree
-  add_index "subtransaction_payments", ["paymentable_type", "paymentable_id"], name: "idx_subtrxpayments_on_subtransactable_polymorphic", unique: true, using: :btree
 
   create_table "subtransactions", force: :cascade do |t|
     t.integer  "transaction_id",       null: false
@@ -1155,9 +1094,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "created"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["subtransactable_type", "subtransactable_id"], name: "idx_subtrx_on_subtransactable_polymorphic", unique: true, using: :btree
   end
-
-  add_index "subtransactions", ["subtransactable_type", "subtransactable_id"], name: "idx_subtrx_on_subtransactable_polymorphic", unique: true, using: :btree
 
   create_table "supporter_addresses", force: :cascade do |t|
     t.string   "address"
@@ -1169,9 +1107,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "supporter_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.index ["supporter_id"], name: "index_supporter_addresses_on_supporter_id", using: :btree
   end
-
-  add_index "supporter_addresses", ["supporter_id"], name: "index_supporter_addresses_on_supporter_id", using: :btree
 
   create_table "supporter_emails", force: :cascade do |t|
     t.text     "to"
@@ -1194,9 +1131,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "updated_at",                   null: false
     t.integer  "user_id"
     t.boolean  "deleted",      default: false
+    t.index ["supporter_id"], name: "index_supporter_notes_on_supporter_id", using: :btree
   end
-
-  add_index "supporter_notes", ["supporter_id"], name: "index_supporter_notes_on_supporter_id", using: :btree
 
   create_table "supporters", force: :cascade do |t|
     t.integer  "profile_id"
@@ -1231,27 +1167,28 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.string   "phone_index"
     t.integer  "primary_address_id"
     t.string   "houid"
+    t.index "lower((email)::text)", name: "supporters_email", where: "(deleted <> true)", using: :btree
+    t.index "lower((name)::text)", name: "supporters_lower_name", where: "(deleted <> true)", using: :btree
+    t.index "to_tsvector('english'::regconfig, (((COALESCE(name, ''::character varying))::text || ' '::text) || (COALESCE(email, ''::character varying))::text))", name: "supporters_general_idx", using: :gin
+    t.index ["anonymous", "nonprofit_id"], name: "index_supporters_on_anonymous_and_nonprofit_id", using: :btree
+    t.index ["fts"], name: "supporters_fts_idx", using: :gin
+    t.index ["name"], name: "index_supporters_on_name", using: :btree
+    t.index ["nonprofit_id", "deleted"], name: "supporters_nonprofit_id_not_deleted", where: "(NOT deleted)", using: :btree
+    t.index ["nonprofit_id", "imported_at"], name: "index_supporters_on_nonprofit_id_and_imported_at", using: :btree
+    t.index ["nonprofit_id", "phone_index", "deleted"], name: "index_supporters_on_nonprofit_id_and_phone_index_and_deleted", where: "((phone IS NOT NULL) AND ((phone)::text <> ''::text))", using: :btree
+    t.index ["nonprofit_id"], name: "supporters_nonprofit_id", where: "(deleted <> true)", using: :btree
   end
-
-  add_index "supporters", ["anonymous", "nonprofit_id"], name: "index_supporters_on_anonymous_and_nonprofit_id", using: :btree
-  add_index "supporters", ["fts"], name: "supporters_fts_idx", using: :gin
-  add_index "supporters", ["name"], name: "index_supporters_on_name", using: :btree
-  add_index "supporters", ["nonprofit_id", "deleted"], name: "supporters_nonprofit_id_not_deleted", where: "(NOT deleted)", using: :btree
-  add_index "supporters", ["nonprofit_id", "imported_at"], name: "index_supporters_on_nonprofit_id_and_imported_at", using: :btree
-  add_index "supporters", ["nonprofit_id", "phone_index", "deleted"], name: "index_supporters_on_nonprofit_id_and_phone_index_and_deleted", where: "((phone IS NOT NULL) AND ((phone)::text <> ''::text))", using: :btree
-  add_index "supporters", ["nonprofit_id"], name: "supporters_nonprofit_id", where: "(deleted <> true)", using: :btree
 
   create_table "tag_joins", force: :cascade do |t|
     t.integer  "tag_master_id"
     t.integer  "supporter_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["supporter_id"], name: "tag_joins_supporter_id", using: :btree
+    t.index ["tag_master_id", "supporter_id"], name: "tag_join_supporter_unique_idx", unique: true, using: :btree
+    t.index ["tag_master_id"], name: "index_tag_joins_on_tag_master_id", using: :btree
+    t.index ["tag_master_id"], name: "tag_joins_tag_master_id", using: :btree
   end
-
-  add_index "tag_joins", ["supporter_id"], name: "tag_joins_supporter_id", using: :btree
-  add_index "tag_joins", ["tag_master_id", "supporter_id"], name: "tag_join_supporter_unique_idx", unique: true, using: :btree
-  add_index "tag_joins", ["tag_master_id"], name: "index_tag_joins_on_tag_master_id", using: :btree
-  add_index "tag_joins", ["tag_master_id"], name: "tag_joins_tag_master_id", using: :btree
 
   create_table "tag_masters", force: :cascade do |t|
     t.string   "name",         limit: 255
@@ -1259,9 +1196,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "deleted",                  default: false
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
+    t.index ["nonprofit_id", "deleted"], name: "tag_masters_nonprofit_id_not_deleted", where: "(NOT deleted)", using: :btree
   end
-
-  add_index "tag_masters", ["nonprofit_id", "deleted"], name: "tag_masters_nonprofit_id_not_deleted", where: "(NOT deleted)", using: :btree
 
   create_table "ticket_levels", force: :cascade do |t|
     t.integer  "event_id"
@@ -1302,12 +1238,11 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.boolean  "deleted",            default: false
     t.uuid     "source_token_id"
     t.integer  "ticket_purchase_id"
+    t.index ["event_id"], name: "index_tickets_on_event_id", using: :btree
+    t.index ["payment_id"], name: "index_tickets_on_payment_id", using: :btree
+    t.index ["supporter_id"], name: "index_tickets_on_supporter_id", using: :btree
+    t.index ["ticket_purchase_id"], name: "index_tickets_on_ticket_purchase_id", using: :btree
   end
-
-  add_index "tickets", ["event_id"], name: "index_tickets_on_event_id", using: :btree
-  add_index "tickets", ["payment_id"], name: "index_tickets_on_payment_id", using: :btree
-  add_index "tickets", ["supporter_id"], name: "index_tickets_on_supporter_id", using: :btree
-  add_index "tickets", ["ticket_purchase_id"], name: "index_tickets_on_ticket_purchase_id", using: :btree
 
   create_table "trackings", force: :cascade do |t|
     t.string   "utm_campaign", limit: 255
@@ -1323,9 +1258,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer "transaction_id",  null: false
     t.integer "assignable_id",   null: false
     t.string  "assignable_type", null: false
+    t.index ["assignable_type", "assignable_id"], name: "idx_trx_assignments_assignable_polymorphic", unique: true, using: :btree
   end
-
-  add_index "transaction_assignments", ["assignable_type", "assignable_id"], name: "idx_trx_assignments_assignable_polymorphic", unique: true, using: :btree
 
   create_table "transactions", force: :cascade do |t|
     t.integer  "supporter_id"
@@ -1334,11 +1268,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.datetime "created"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["created"], name: "index_transactions_on_created", using: :btree
+    t.index ["houid"], name: "index_transactions_on_houid", unique: true, using: :btree
+    t.index ["supporter_id"], name: "index_transactions_on_supporter_id", using: :btree
   end
-
-  add_index "transactions", ["created"], name: "index_transactions_on_created", using: :btree
-  add_index "transactions", ["houid"], name: "index_transactions_on_houid", unique: true, using: :btree
-  add_index "transactions", ["supporter_id"], name: "index_transactions_on_supporter_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -1377,11 +1310,10 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.integer  "failed_attempts",                    default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "widget_descriptions", force: :cascade do |t|
     t.string   "houid",                            null: false
@@ -1390,9 +1322,8 @@ ActiveRecord::Schema.define(version: 20240209011057) do
     t.jsonb    "postfix_element"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
+    t.index ["houid"], name: "index_widget_descriptions_on_houid", unique: true, using: :btree
   end
-
-  add_index "widget_descriptions", ["houid"], name: "index_widget_descriptions_on_houid", unique: true, using: :btree
 
   add_foreign_key "campaign_gifts", "campaign_gift_options", name: "campaign_gifts_to_option_fk"
   add_foreign_key "email_customizations", "nonprofits"

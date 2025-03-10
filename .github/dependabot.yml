@@ -32,6 +32,6 @@ updates:
         update-types:
           - major
         exclude-patterns:
-          - rails
+          - rails # rails is a whole other thing that we're gonna handle on our own
     schedule:
       interval: "weekly"

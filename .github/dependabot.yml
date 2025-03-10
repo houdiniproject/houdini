@@ -12,13 +12,26 @@ updates:
   
   - package-ecosystem: "bundler"
     directory: "/"
-    allow:
-      - dependency-type: "development"
+    groups:
+      development-dependencies-minor:
+        dependency-type: development
+        update-types:
+          - patch
+          - minor
+      development-dependencies-major:
+        dependency-type: development
+        update-types:
+          - major
+      production-dependencies-minor:
+        dependency-type: production
+        update-types:
+          - patch
+          - minor
+      production-dependencies-major:
+        dependency-type: production
+        update-types:
+          - major
+        exclude-patterns:
+          - rails
     schedule:
       interval: "weekly"
-    groups:
-      development-dependencies:
-        dependency-type: "development"
-        update-types:
-        - "minor"
-        - "patch"

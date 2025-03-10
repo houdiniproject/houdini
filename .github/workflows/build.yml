@@ -18,6 +18,8 @@ jobs:
           ruby: ['2.6.10']
           postgres: ['16']
         fail-fast: false
+      env:
+        RAILS_ENV: test
       steps:
         - uses: actions/checkout@v4
         - uses: dorny/paths-filter@v3

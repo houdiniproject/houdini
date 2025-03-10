@@ -18,6 +18,8 @@ jobs:
           ruby: ['2.6.10']
           postgres: ['16']
         fail-fast: false
+      env:
+        RAILS_ENV: test
       steps:
         - uses: actions/checkout@v4
         - uses: dorny/paths-filter@v3
@@ -58,6 +60,7 @@ jobs:
             postgres_image_tag: ${{ matrix.postgres }}-alpine
             postgres_user: admin
             postgres_password: password
+            postgres_db: commitchange_test
         - uses: actions/setup-node@v4
           with:
             node-version: ${{ matrix.node }}

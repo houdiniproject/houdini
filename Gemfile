@@ -188,3 +188,5 @@ gem 'has_scope'
 gem 'globalid', ">= 1.0.1"
 
 gem 'js-routes'
+
+gem 'concurrent-ruby', '1.3.4' # there's a regression in 1.3.5 that can be removed at Rails 7.1

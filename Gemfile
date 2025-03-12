@@ -12,7 +12,7 @@ gem 'rack', '~> 2.2.13'
 gem 'date', '~> 2.0.3'
 
 # https://stripe.com/docs/api
-gem 'stripe', '~> 4'
+gem 'stripe', '~> 5'
 
 # json serialization
 # https://github.com/nesquena/rabl

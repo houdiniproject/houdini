@@ -7,7 +7,7 @@ gem 'rails', '= 5.0.7.2'
 gem 'mail', '= 2.7.1' # 2.8.1 on Rails 5.0 and Ruby 2.6 raises a `an superclass mismatch for class InternetMessageIO` error
 gem 'sprockets', '~> 3.7' # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
 
-gem 'rack', '~> 2.2.12'
+gem 'rack', '~> 2.2.13'
 
 gem 'date', '~> 2.0.3'
 

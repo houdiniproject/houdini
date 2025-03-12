@@ -74,6 +74,9 @@ jobs:
       
         - run: bin/setup
         - if: steps.changes.outputs.ruby == 'true'
+          name: run zeitwerk:check
+          run: bin/rails zeitwerk:check
+        - if: steps.changes.outputs.ruby == 'true'
           name: run spec
           run: bin/rake spec
         - if: steps.changes.outputs.ruby == 'true'

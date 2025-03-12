@@ -94,11 +94,6 @@ gem 'rails-i18n' # For 4.0.x
 gem 'i18n-js', '~> 3.8' # i18n-js 4 is very different and doesn't work without some big changes
 gem 'countries'
 
-
-group :development, :ci do
-  gem 'traceroute'
-end
-
 group :development, :ci, :test do
   gem 'listen'
   gem 'letter_opener'

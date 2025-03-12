@@ -243,7 +243,6 @@ GEM
     ffi (1.11.3)
     foreman (0.87.2)
     geocoder (1.2.11)
-    glob (0.4.1)
     globalid (1.1.0)
       activesupport (>= 5.0)
     grape (1.8.0)
@@ -280,9 +279,8 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    i18n-js (4.2.3)
-      glob (>= 0.4.0)
-      i18n
+    i18n-js (3.9.2)
+      i18n (>= 0.6.6)
     i18n_data (0.8.0)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
@@ -577,7 +575,7 @@ DEPENDENCIES
   heroku-deflater
   hiredis (~> 0.6.0)
   httparty
-  i18n-js
+  i18n-js (~> 3.8)
   jbuilder
   js-routes
   json (>= 2.3.0)

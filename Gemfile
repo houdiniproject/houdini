@@ -91,7 +91,7 @@ gem 'premailer-rails'
 gem 'table_print'
 
 gem 'rails-i18n' # For 4.0.x
-gem 'i18n-js'
+gem 'i18n-js', '~> 3.8'
 gem 'countries'
 
 

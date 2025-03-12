@@ -480,8 +480,6 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     timecop (0.7.3)
-    traceroute (0.5.0)
-      rails (>= 3.0.0)
     tunemygc (1.0.71)
     tzinfo (1.2.11)
       thread_safe (~> 0.1)
@@ -595,7 +593,6 @@ DEPENDENCIES
   table_print
   test-unit
   timecop
-  traceroute
   tunemygc
   webmock
   yard

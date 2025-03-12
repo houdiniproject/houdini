@@ -1,4 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
+require "active_support/core_ext/integer/time"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -43,10 +45,8 @@ Rails.application.configure do
   config.assets.digest = true
   config.assets.compile = false
 
-  # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
-
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = 'http://assets.example.com'
+  # config.asset_host = 'http://assets.example.com'
 
 	# Specifies the header that your server uses for sending files
 	# config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -69,6 +69,13 @@ Rails.application.configure do
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
+
+  # Use a different cache store in production.
+  # config.cache_store = :mem_cache_store
+
+  # Use a real queuing backend for Active Job (and separate queues per environment).
+  # config.active_job.queue_adapter     = :resque
+  # config.active_job.queue_name_prefix = "commitchange_production"
 
   	# Enable serving of images, stylesheets, and JavaScripts from an asset server
 
@@ -109,11 +116,17 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
+  # Log disallowed deprecations.
+  config.active_support.disallowed_deprecation = :log
+
+  # Tell Active Support which deprecation messages to disallow.
+  config.active_support.disallowed_deprecation_warnings = []
+
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
   # Use a different logger for distributed setups.
-  # require 'syslog/logger'
+  # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?

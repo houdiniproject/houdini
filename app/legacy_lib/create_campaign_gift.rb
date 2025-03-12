@@ -54,7 +54,7 @@ module CreateCampaignGift
 			if campaign_gift_option.quantity.nil? || campaign_gift_option.quantity.zero?|| campaign_gift_option.total_gifts < campaign_gift_option.quantity
 				gift = CampaignGift.new params
 				gift.save!
-				return gift
+				gift
 			end
 		end
 		AdminMailer.delay.notify_failed_gift(donation,donation.payments.first, campaign_gift_option)

@@ -96,11 +96,6 @@ gem 'countries'
 
 gem 'rexml' # needed on Ruby 3
 
-
-group :development, :ci do
-  gem 'traceroute'
-end
-
 group :development, :ci, :test do
   gem 'listen'
   gem 'letter_opener'

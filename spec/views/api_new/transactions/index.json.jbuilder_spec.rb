@@ -22,7 +22,7 @@ RSpec.describe '/api_new/transactions/index.json.jbuilder', type: :view do
 	end
 
 	subject(:json) do
-		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(1)
+		view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2) # Rails does weird things in view specs when you use a route namespace
 		assign(:transactions, Kaminari.paginate_array([transaction]).page)
 		assign(:__expand, Controllers::ApiNew::JbuilderExpansions::ExpansionTree.new('supporter', 'transaction_assignments', 'payments', 'subtransaction.payments'))
 		render

@@ -94,6 +94,8 @@ gem 'rails-i18n' # For 4.0.x
 gem 'i18n-js', '~> 3.8'
 gem 'countries'
 
+gem 'rexml' # needed on Ruby 3
+
 
 group :development, :ci do
   gem 'traceroute'

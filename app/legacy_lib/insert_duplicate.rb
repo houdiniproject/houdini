@@ -37,7 +37,7 @@ module InsertDuplicate
 
       InsertDuplicate.campaign_gift_options(campaign_id, dupe.id)
 
-      return dupe
+      dupe
     end
   end
 
@@ -90,7 +90,7 @@ module InsertDuplicate
       InsertDuplicate.event_discounts(event_id, dupe.id)
       InsertDuplicate.misc_event_info(event, dupe)
 
-      return dupe
+      dupe
     end
   end
 

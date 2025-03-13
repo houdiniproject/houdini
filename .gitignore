@@ -46,9 +46,6 @@ config/environments/*.local.yml
 #local bins we use for builds
 .bin
 
-#generated typescript APIs from Grape
-javascripts/api
-
 # thing we want to keep in public
 !public/*.html
 !public/maintenance.html

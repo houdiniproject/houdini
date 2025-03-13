@@ -105,7 +105,7 @@ group :development, :ci, :test do
 	gem 'rspec-rails', "~> 5"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
-	gem 'stripe-ruby-mock', '~> 2.5.1', :require => 'stripe_mock'
+	gem 'stripe-ruby-mock', '~> 3.0', :require => 'stripe_mock'
   gem 'factory_bot'
 	gem 'factory_bot_rails'
 	gem 'action_mailer_matchers', '~> 1.2.0'

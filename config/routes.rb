@@ -1,7 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Rails.application.routes.draw do
- 
-
   mount Houdini::API => '/api'
 
   if Rails.env == 'development'
@@ -54,7 +52,6 @@ Rails.application.routes.draw do
 			post :account_link, format: :json
 			post :begin_verification, format: :json
 		end
-		
 		resources(:payouts, {only: [:create, :index, :show]})
 		resources(:imports, {only: [:create]})
     resources(:nonprofit_keys, {only: [:index]}) do
@@ -238,7 +235,6 @@ Rails.application.routes.draw do
 		post "/webhooks/stripe/receive" => "webhooks/stripe#receive"
 		post "/webhooks/stripe/receive_connect" => "webhooks/stripe#receive_connect"
 	end
-  
 
 	# Nonprofits
 	get ':state_code/:city/:name' => 'nonprofits#show', :as => :nonprofit_location
@@ -274,15 +270,9 @@ Rails.application.routes.draw do
   get '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
 
   # Webhooks
-  
-	
   get '/static/terms_and_privacy' => 'static#terms_and_privacy'
 	get '/static/ccs' => 'static#ccs'
 	get '/cloudflare_errors/under_attack' => 'cloudflare_errors#under_attack'
 
-
 	root :to => 'front#index'
-
-
-
 end

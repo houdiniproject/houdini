@@ -135,7 +135,7 @@ module UpdateDonation
       if is_offsite
         ret[:offsite_payment] = offsite_payment.attributes
       end
-      return ret
+      ret
     end
   end
 
@@ -172,7 +172,7 @@ module UpdateDonation
 
       donation.save!
 
-      return @payments_corrected
+      @payments_corrected
     end
   end
 

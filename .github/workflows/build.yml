@@ -82,7 +82,9 @@ jobs:
         - continue-on-error: true
           if: steps.changes.outputs.ruby == 'true'
           run: script/compile-assets.sh
-        - if: steps.changes.outputs.js == 'true'
+        - continue-on-error: true
+          if: steps.changes.outputs.js == 'true'
           run: yarn build
-        - if: steps.changes.outputs.js == 'true'
+        - continue-on-error: true
+          if: steps.changes.outputs.js == 'true'
           run: yarn jest

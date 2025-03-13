@@ -13,6 +13,9 @@ jobs:
       env:
         CUSTOM_RUBY_VERSION: ${{ matrix.ruby }}
         RAILS_ENV: test
+        # normally, you'd want to use commitchange_development_legacy but that database hasn't been created
+        # and isn't being for some reason on Rails 5.2+. We'll just use this one.
+        BUILD_DATABASE_URL: postgres://admin:password@localhost/commitchange_test
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
@@ -79,9 +82,7 @@ jobs:
         - continue-on-error: true
           if: steps.changes.outputs.ruby == 'true'
           run: script/compile-assets.sh
-        - continue-on-error: true
-          if: steps.changes.outputs.js == 'true'
+        - if: steps.changes.outputs.js == 'true'
           run: yarn build
-        - continue-on-error: true
-          if: steps.changes.outputs.js == 'true'
+        - if: steps.changes.outputs.js == 'true'
           run: yarn jest

@@ -155,8 +155,6 @@ end
 
 gem 'grape', '~> 1.8.0'
 gem 'grape-entity', git: 'https://github.com/ruby-grape/grape-entity.git', ref: '0e04aa561373b510c2486282979085eaef2ae663'
-gem 'grape-swagger'
-gem 'grape-swagger-entity'
 gem 'grape_url_validator'
 gem 'grape_logging'
 

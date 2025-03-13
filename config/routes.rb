@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       resources :nonprofits, only: [] do
         resources :object_events, only: [:index]
         resources :supporters, only: [:show]
-        resources :transactions, only: [:index, :show]
+        resources :transactions, only: %i[index show]
       end
     end
   end
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :emails, only: [:create]
   resources :settings, only: [:index]
   resources :campaign_gifts, only: [:create]
-  resource :cards, only: [:create, :update, :destroy]
+  resource :cards, only: %i[create update destroy]
   resource :direct_debit_details, path: 'sepa', controller: :direct_debit_details, only: [:create]
 
   # Creating presigned posts for direct-to-S3 upload
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     post :remove, on: :collection
   end
 
-  resources :profiles, only: [:show, :update] do
+  resources :profiles, only: %i[show update] do
     member do
       get :fundraisers
       get :events
@@ -53,7 +53,7 @@ Rails.application.routes.draw do
       post :account_link, format: :json
       post :begin_verification, format: :json
     end
-    resources :payouts, only: [:create, :index, :show]
+    resources :payouts, only: %i[create index show]
     resources :imports, only: [:create]
     resources :nonprofit_keys, only: [:index] do
       collection do
@@ -67,22 +67,22 @@ Rails.application.routes.draw do
         get :end_of_year_custom
       end
     end
-    resources :email_lists, only: [:index, :create]}
-    resources :payments, only: [:index, :show, :update, :destroy] do
+    resources :email_lists, only: %i[index create]
+    resources :payments, only: %i[index show update destroy] do
       post :export, on: :collection
       member do
         post :resend_donor_receipt
         post :resend_admin_receipt
       end
     end
-    resources :donations, only: [:index, :show, :create, :update] do
+    resources :donations, only: %i[index show create update] do
       put :followup, on: :member
       post :create_offsite, on: :collection
     end
-    resource :card, only: [:edit, :update, :show, :create]
+    resource :card, only: %i[edit update show create]
 
     resources :charges, only: [:index] do
-      resources :refunds, only: [:create, :index]
+      resources :refunds, only: %i[create index]
     end
 
     resource :bank_account, only: [:create] do
@@ -93,20 +93,20 @@ Rails.application.routes.draw do
       post :resend_confirmation
     end
 
-    resources :custom_field_masters, only: [:index, :create, :destroy]
+    resources :custom_field_masters, only: %i[index create destroy]
     resources :custom_field_joins, only: [] do
       post :modify, on: :collection
     end
 
-    resources :tag_masters, only: [:index, :create, :destroy]
+    resources :tag_masters, only: %i[index create destroy]
     resources :tag_joins, only: [] do
       post :modify, on: :collection
     end
 
-    resources :supporters, only: [:index, :show, :create, :update, :new] do
-      resources :tag_joins, only: [:index, :destroy]
-      resources :custom_field_joins, only: [:index, :destroy]
-      resources :supporter_notes, only: [:create, :update, :destroy]
+    resources :supporters, only: %i[index show create update new] do
+      resources :tag_joins, only: %i[index destroy]
+      resources :custom_field_joins, only: %i[index destroy]
+      resources :supporter_notes, only: %i[create update destroy]
       resources :activities, only: [:index]
       collection do
         post :export
@@ -122,11 +122,11 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :recurring_donations, only: [:index, :show, :destroy, :update, :create] do
+    resources :recurring_donations, only: %i[index show destroy update create] do
       post :export, on: :collection
     end
 
-    resource :miscellaneous_np_info, only: [:show, :update]
+    resource :miscellaneous_np_info, only: %i[show update]
 
     namespace :button do
       root action: :advanced
@@ -145,7 +145,7 @@ Rails.application.routes.draw do
     resources :campaign_gift_options, only: [:index]
   end
 
-  resources :nonprofits, only: [:show, :create, :update, :destroy] do
+  resources :nonprofits, only: %i[show create update destroy] do
     collection do
       post :onboard
       get :search
@@ -156,15 +156,15 @@ Rails.application.routes.draw do
       get :dashboard_todos
     end
 
-    resources :roles, only: [:create, :destroy]
+    resources :roles, only: %i[create destroy]
     resources :settings, only: [:index]
     resources :pricing, only: [:index]
-    resources :email_settings, only: [:index, :create]
-    resources :users, only: [:index, :create] do
-      resources :email_settings, only: [:index, :create]
+    resources :email_settings, only: %i[index create]
+    resources :users, only: %i[index create] do
+      resources :email_settings, only: %i[index create]
     end
 
-    resources :campaigns, only: [:index, :show, :create, :update] do
+    resources :campaigns, only: %i[index show create update] do
       member do
         get :metrics
         get :totals
@@ -177,7 +177,7 @@ Rails.application.routes.draw do
         get :name_and_id
         post :create_from_template
       end
-      resources :campaign_gift_options, only: [:index, :show, :create, :update, :destroy] do
+      resources :campaign_gift_options, only: %i[index show create update destroy] do
         put :update_order, on: :collection
       end
     end
@@ -187,7 +187,7 @@ Rails.application.routes.draw do
       get :cancellation
     end
 
-    resources :events, only: [:index, :show, :create, :update] do
+    resources :events, only: %i[index show create update] do
       member do
         get :metrics
         get :stats
@@ -200,16 +200,16 @@ Rails.application.routes.draw do
       end
 
       put :soft_delete
-      resources :tickets, only: [:create, :update, :index, :destroy] do
+      resources :tickets, only: %i[create update index destroy] do
         member do
           put :add_note
           post :delete_card_for_ticket
         end
       end
-      resources :ticket_levels, only: [:index, :show, :create, :update, :destroy] do
+      resources :ticket_levels, only: %i[index show create update destroy] do
         put :update_order, on: :collection
       end
-      resources :event_discounts, only: [:create, :index, :update, :destroy]
+      resources :event_discounts, only: %i[create index update destroy]
     end
 
     member do
@@ -224,7 +224,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :recurring_donations, only: [:edit, :destroy, :update] do
+  resources :recurring_donations, only: %i[edit destroy update] do
     put :update_amount, on: :member
   end
 

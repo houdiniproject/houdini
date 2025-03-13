@@ -26,7 +26,7 @@ module DeleteCampaignGiftOption
 
       cgo.destroy
 
-      return cgo
+      cgo
     end
   end
 end

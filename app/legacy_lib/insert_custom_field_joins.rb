@@ -49,7 +49,7 @@ module InsertCustomFieldJoins
         {:custom_field_master_id => cfm.id, :value => value}
       }
 
-      return in_bulk(np_id, supporter_ids, cfm_id_to_value)
+      in_bulk(np_id, supporter_ids, cfm_id_to_value)
     end
   end
 

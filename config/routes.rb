@@ -38,9 +38,11 @@ Rails.application.routes.draw do
   end
 
   resources :profiles, only: [:show, :update] do
-    get :fundraisers, on: :member
-    get :events, on: :member
-    get :donations_history, on: :member
+    member do
+      get :fundraisers
+      get :events
+      get :donations_history
+    end
   end
 
   namespace :nonprofits, path: 'nonprofits/:nonprofit_id' do
@@ -54,18 +56,24 @@ Rails.application.routes.draw do
     resources :payouts, only: [:create, :index, :show]
     resources :imports, only: [:create]
     resources :nonprofit_keys, only: [:index] do
-      get :mailchimp_login, on: :collection
-      get :mailchimp_landing, on: :collection
+      collection do
+        get :mailchimp_login
+        get :mailchimp_landing
+      end
     end
     resources :reports, only: [] do
-      get :end_of_year, on: :collection
-      get :end_of_year_custom, on: :collection
+      collection do
+        get :end_of_year
+        get :end_of_year_custom
+      end
     end
     resources :email_lists, only: [:index, :create]}
     resources :payments, only: [:index, :show, :update, :destroy] do
       post :export, on: :collection
-      post :resend_donor_receipt, on: :member
-      post :resend_admin_receipt, on: :member
+      member do
+        post :resend_donor_receipt
+        post :resend_admin_receipt
+      end
     end
     resources :donations, only: [:index, :show, :create, :update] do
       put :followup, on: :member
@@ -100,14 +108,18 @@ Rails.application.routes.draw do
       resources :custom_field_joins, only: [:index, :destroy]
       resources :supporter_notes, only: [:create, :update, :destroy]
       resources :activities, only: [:index]
-      post :export, on: :collection
-      put :bulk_delete, on: :collection
-      post :merge, on: :collection
-      get :merge_data, on: :collection
-      get :info_card, on: :member
-      get :email_address, on: :member
-      get :full_contact, on: :member
-      get :index_metrics, on: :collection
+      collection do
+        post :export
+        put :bulk_delete
+        post :merge
+        get :merge_data
+        get :index_metrics
+      end
+      member do
+        get :info_card
+        get :email_address
+        get :full_contact
+      end
     end
 
     resources :recurring_donations, only: [:index, :show, :destroy, :update, :create] do
@@ -134,11 +146,15 @@ Rails.application.routes.draw do
   end
 
   resources :nonprofits, only: [:show, :create, :update, :destroy] do
-    post :onboard, on: :collection
-    get :profile_todos, on: :member
-    get :recurring_donation_stats, on: :member
-    get :search, on: :collection
-    get :dashboard_todos, on: :member
+    collection do
+      post :onboard
+      get :search
+    end
+    member do
+      get :profile_todos
+      get :recurring_donation_stats
+      get :dashboard_todos
+    end
 
     resources :roles, only: [:create, :destroy]
     resources :settings, only: [:index]
@@ -149,14 +165,18 @@ Rails.application.routes.draw do
     end
 
     resources :campaigns, only: [:index, :show, :create, :update] do
-      get :metrics, on: :member
-      get :totals, on: :member
-      get :timeline, on: :member
-      post :duplicate, on: :member
-      get :activities, on: :member
-      put :soft_delete, on: :member
-      get :name_and_id, on: :collection
-      post :create_from_template, on: :collection
+      member do
+        get :metrics
+        get :totals
+        get :timeline
+        post :duplicate
+        get :activities
+        put :soft_delete
+      end
+      collection do
+        get :name_and_id
+        post :create_from_template
+      end
       resources :campaign_gift_options, only: [:index, :show, :create, :update, :destroy] do
         put :update_order, on: :collection
       end
@@ -168,16 +188,23 @@ Rails.application.routes.draw do
     end
 
     resources :events, only: [:index, :show, :create, :update] do
-      get :metrics, on: :member
-      get :listings, on: :collection
-      get :stats, on: :member
-      get :name_and_id, on: :collection, defaults: {format: :json}
-      get :activities, on: :member
-      post :duplicate, on: :member
+      member do
+        get :metrics
+        get :stats
+        get :activities
+        post :duplicate
+      end
+      collection do
+        get :listings
+        get :name_and_id, defaults: {format: :json}
+      end
+
       put :soft_delete
       resources :tickets, only: [:create, :update, :index, :destroy] do
-        put :add_note, on: :member
-        post :delete_card_for_ticket, on: :member
+        member do
+          put :add_note
+          post :delete_card_for_ticket
+        end
       end
       resources :ticket_levels, only: [:index, :show, :create, :update, :destroy] do
         put :update_order, on: :collection
@@ -185,15 +212,16 @@ Rails.application.routes.draw do
       resources :event_discounts, only: [:create, :index, :update, :destroy]
     end
 
-    get :donate, on: :member
-    get :btn, on: :member
-    get :supporter_form, on: :member
-    post :custom_supporter, on: :member
-    get :dashboard, on: :member
-    get :dashboard_metrics, on: :member
-    get :payment_history, on: :member
-
-    post :donate, on: :member, as: 'create_donation'
+    member do
+      get :donate
+      get :btn
+      get :supporter_form
+      post :custom_supporter
+      get :dashboard
+      get :dashboard_metrics
+      get :payment_history
+      post :donate, as: 'create_donation'
+    end
   end
 
   resources :recurring_donations, only: [:edit, :destroy, :update] do

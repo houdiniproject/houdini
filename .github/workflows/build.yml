@@ -57,7 +57,10 @@ jobs:
                 - '.babelrc'
                 - '.bootstraprc'
                 - '.browserlistrc'
-              
+                # include Gemfiles because some of the Gems could break yarn build
+                - 'Gemfile' 
+                - 'Gemfile.lock'
+
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
           uses: Daniel-Marynicz/postgresql-action@1.0.0
           with:

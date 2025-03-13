@@ -24,85 +24,83 @@ Rails.application.routes.draw do
     end
   end
 
-  resources(:emails, {only: [:create]})
-  resources(:settings, {only: [:index]})
-  resources(:campaign_gifts, {only: [:create]})
-  resource(:cards, {only: [:create, :update, :destroy]})
-  resource(:direct_debit_details, {path: 'sepa', controller: :direct_debit_details, only: [:create]})
+  resources :emails, {only: [:create]}
+  resources :settings, {only: [:index]}
+  resources :campaign_gifts, {only: [:create]}
+  resource :cards, {only: [:create, :update, :destroy]}
+  resource :direct_debit_details, {path: 'sepa', controller: :direct_debit_details, only: [:create]}
 
   # Creating presigned posts for direct-to-S3 upload
-  resources(:aws_presigned_posts, {only: [:create]})
+  resources :aws_presigned_posts, {only: [:create]}
 
-  resources(:image_attachments, {only: [:create]}) do
-    post(:remove, {on: :collection})
+  resources :image_attachments, {only: [:create]} do
+    post :remove, {on: :collection}
   end
 
-  resources(:profiles, {only: [:show, :update]}) do
-    get(:fundraisers, {on: :member})
-    get(:events, {on: :member})
-    get(:donations_history, {on: :member})
+  resources :profiles, {only: [:show, :update]} do
+    get :fundraisers, {on: :member}
+    get :events, {on: :member}
+    get :donations_history, {on: :member}
   end
 
-
-  namespace(:nonprofits, {path: 'nonprofits/:nonprofit_id'}) do
-    resource(:stripe_account, only: [:index]) do
+  namespace :nonprofits, {path: 'nonprofits/:nonprofit_id'} do
+    resource :stripe_account, only: [:index] do
       get :index, format: :json
       get :verification
       get :confirm
       post :account_link, format: :json
       post :begin_verification, format: :json
     end
-    resources(:payouts, {only: [:create, :index, :show]})
-    resources(:imports, {only: [:create]})
-    resources(:nonprofit_keys, {only: [:index]}) do
-      get(:mailchimp_login, {on: :collection})
-      get(:mailchimp_landing, {on: :collection})
+    resources :payouts, {only: [:create, :index, :show]}
+    resources :imports, {only: [:create]}
+    resources :nonprofit_keys, {only: [:index]} do
+      get :mailchimp_login, {on: :collection}
+      get :mailchimp_landing, {on: :collection}
     end
-    resources(:reports, {only: []}) do
-      get(:end_of_year, {on: :collection})
-      get(:end_of_year_custom, {on: :collection})
+    resources :reports, {only: []} do
+      get :end_of_year, {on: :collection}
+      get :end_of_year_custom, {on: :collection}
     end
-    resources(:email_lists, {only: [:index, :create]})
-    resources(:payments, {only: [:index, :show, :update, :destroy]}) do
-      post(:export, {on: :collection})
-      post(:resend_donor_receipt, {on: :member})
-      post(:resend_admin_receipt, {on: :member})
+    resources :email_lists, {only: [:index, :create]}
+    resources :payments, {only: [:index, :show, :update, :destroy]} do
+      post :export, {on: :collection}
+      post :resend_donor_receipt, {on: :member}
+      post :resend_admin_receipt, {on: :member}
+    end
+    resources :donations, {only: [:index, :show, :create, :update]} do
+      put :followup, {on: :member}
+      post :create_offsite, {on: :collection}
+    end
+    resource :card, {only: [:edit, :update, :show, :create]}
 
-    end
-    resources(:donations, {only: [:index, :show, :create, :update]}) do
-      put(:followup, {on: :member})
-      post(:create_offsite, {on: :collection})
-    end
-    resource(:card, {only: [:edit, :update, :show, :create]})
-
-    resources(:charges, {only: [:index]}) do
-      resources(:refunds, {only: [:create, :index]})
-    end
-
-    resource(:bank_account, {only: [:create]}) do
-      get(:confirmation)
-      post(:confirm)
-      get(:cancellation)
-      post(:cancel)
-      post(:resend_confirmation)
+    resources :charges, {only: [:index]} do
+      resources :refunds, {only: [:create, :index]}
     end
 
-    resources(:custom_field_masters, {only: [:index, :create, :destroy]})
-    resources(:custom_field_joins, {only: []}) do
-      post(:modify, {on: :collection})
+    resource :bank_account, {only: [:create]} do
+      get :confirmation
+      post :confirm
+      get :cancellation
+      post :cancel
+      post :resend_confirmation
     end
 
-    resources(:tag_masters, {only: [:index, :create, :destroy]})
-    resources(:tag_joins, {only: []}) do
-      post(:modify, {on: :collection})
+    resources :custom_field_masters, {only: [:index, :create, :destroy]}
+    resources :custom_field_joins, {only: []} do
+      post :modify, {on: :collection}
     end
 
-    resources(:supporters, {only: [:index, :show, :create, :update, :new]}) do
-      resources(:tag_joins, {only: [:index, :destroy]})
-      resources(:custom_field_joins, {only: [:index, :destroy]})
-      resources(:supporter_notes, {only: [:create, :update, :destroy]})
-      resources(:activities, {only: [:index]})
-      post(:export, {on: :collection})
+    resources :tag_masters, {only: [:index, :create, :destroy]}
+    resources :tag_joins, {only: []} do
+      post :modify, {on: :collection}
+    end
+
+    resources :supporters, {only: [:index, :show, :create, :update, :new]} do
+      resources :tag_joins, {only: [:index, :destroy]}
+      resources :custom_field_joins, {only: [:index, :destroy]}
+      resources :supporter_notes, {only: [:create, :update, :destroy]}
+      resources :activities, {only: [:index]}
+      post :export, {on: :collection}
       put :bulk_delete, on: :collection
       post :merge, on: :collection
       get :merge_data, on: :collection
@@ -112,95 +110,94 @@ Rails.application.routes.draw do
       get :index_metrics, on: :collection
     end
 
-    resources(:recurring_donations, {only: [:index, :show, :destroy, :update, :create]}) do
-      post(:export, on: :collection)
+    resources :recurring_donations, {only: [:index, :show, :destroy, :update, :create]} do
+      post :export, on: :collection
     end
 
-    resource(:miscellaneous_np_info, {only: [:show, :update]})
+    resource :miscellaneous_np_info, {only: [:show, :update]}
 
-    namespace(:button) do
-      root({action: :advanced})
-      get(:basic)
-      get(:guided)
-      get(:advanced)
-      post(:send_code)
+    namespace :button do
+      root {action: :advanced}
+      get :basic
+      get :guided
+      get :advanced
+      post :send_code
     end
 
     post 'tracking', controller: 'trackings', action: 'create'
   end
 
-  namespace(:campaigns, {path: '/nonprofits/:nonprofit_id/campaigns/:campaign_id/admin', only: []}) do
-    resources(:supporters, {only: [:index]})
-    resources(:donations, {only: [:index]})
-    resources(:campaign_gift_options, {only: [:index]})
+  namespace :campaigns, {path: '/nonprofits/:nonprofit_id/campaigns/:campaign_id/admin', only: []} do
+    resources :supporters, {only: [:index]}
+    resources :donations, {only: [:index]}
+    resources :campaign_gift_options, {only: [:index]}
   end
 
-  resources(:nonprofits, {only: [:show, :create, :update, :destroy]}) do
-    post(:onboard, {on: :collection})
-    get(:profile_todos, {on: :member})
-    get(:recurring_donation_stats, {on: :member})
-    get(:search, {on: :collection})
-    get(:dashboard_todos, {on: :member})
+  resources :nonprofits, {only: [:show, :create, :update, :destroy]} do
+    post :onboard, {on: :collection}
+    get :profile_todos, {on: :member}
+    get :recurring_donation_stats, {on: :member}
+    get :search, {on: :collection}
+    get :dashboard_todos, {on: :member}
 
-
-    resources(:roles, {only: [:create, :destroy]})
-    resources(:settings, {only: [:index]})
-    resources(:pricing, {only: [:index]})
-    resources(:email_settings, {only: [:index, :create]})
-    resources(:users, {only: [:index, :create]}) do
-      resources(:email_settings, {only: [:index, :create]})
+    resources :roles, {only: [:create, :destroy]}
+    resources :settings, {only: [:index]}
+    resources :pricing, {only: [:index]}
+    resources :email_settings, {only: [:index, :create]}
+    resources :users, {only: [:index, :create]} do
+      resources :email_settings, {only: [:index, :create]}
     end
 
-    resources(:campaigns, {only: [:index, :show, :create, :update]}) do
-      get(:metrics, {on: :member})
-      get(:totals, {on: :member})
-      get(:timeline, {on: :member})
-      post(:duplicate, {on: :member})
-      get(:activities, {on: :member})
-      put(:soft_delete, {on: :member})
-      get(:name_and_id, {on: :collection})
+    resources :campaigns, {only: [:index, :show, :create, :update]} do
+      get :metrics, {on: :member}
+      get :totals, {on: :member}
+      get :timeline, {on: :member}
+      post :duplicate, {on: :member}
+      get :activities, {on: :member}
+      put :soft_delete, {on: :member}
+      get :name_and_id, {on: :collection}
       post :create_from_template, on: :collection
-      resources(:campaign_gift_options, {only: [:index, :show, :create, :update, :destroy]}) do
-        put(:update_order, {on: :collection})
+      resources :campaign_gift_options, {only: [:index, :show, :create, :update, :destroy]} do
+        put :update_order, {on: :collection}
       end
     end
 
-    resource(:billing_subscription, {only: [:create]}) do
-      post(:cancel)
-      get(:cancellation)
+    resource :billing_subscription, {only: [:create]} do
+      post :cancel
+      get :cancellation
     end
 
-    resources(:events, {only: [:index, :show, :create, :update]}) do
-      get(:metrics, {on: :member})
-      get(:listings, {on: :collection})
-      get(:stats, {on: :member})
-      get(:name_and_id, {on: :collection, defaults: {format: :json}})
-      get(:activities, {on: :member})
-      post(:duplicate, {on: :member})
-      put(:soft_delete)
-      resources(:tickets, {only: [:create, :update, :index, :destroy]}) do
-        put(:add_note, {on: :member})
-        post(:delete_card_for_ticket, {on: :member})
+    resources :events, {only: [:index, :show, :create, :update]} do
+      get :metrics, {on: :member}
+      get :listings, {on: :collection}
+      get :stats, {on: :member}
+      get :name_and_id, {on: :collection, defaults: {format: :json}}
+      get :activities, {on: :member}
+      post :duplicate, {on: :member}
+      put :soft_delete
+      resources :tickets, {only: [:create, :update, :index, :destroy]} do
+        put :add_note, {on: :member}
+        post :delete_card_for_ticket, {on: :member}
       end
-      resources(:ticket_levels, {only: [:index, :show, :create, :update, :destroy]}) do
-        put(:update_order, {on: :collection})
+      resources :ticket_levels, {only: [:index, :show, :create, :update, :destroy]} do
+        put :update_order, {on: :collection}
       end
-      resources(:event_discounts, {only: [:create, :index, :update, :destroy]})
+      resources :event_discounts, {only: [:create, :index, :update, :destroy]}
     end
 
-    get(:donate, {on: :member})
-    get(:btn, {on: :member})
-    get(:supporter_form, {on: :member})
-    post(:custom_supporter, {on: :member})
-    get(:dashboard, {on: :member})
-    get(:dashboard_metrics, {on: :member})
-    get(:payment_history, {on: :member})
+    get :donate, {on: :member}
+    get :btn, {on: :member}
+    get :supporter_form, {on: :member}
+    post :custom_supporter, {on: :member}
+    get :dashboard, {on: :member}
+    get :dashboard_metrics, {on: :member}
+    get :payment_history, {on: :member}
 
-    post(:donate, {on: :member, as: 'create_donation'})
+    post :donate, {on: :member, as: 'create_donation'}
   end
 
-  resources(:recurring_donations, {only: [:edit, :destroy, :update]}) do
-    put(:update_amount, {on: :member})
+  resources :recurring_donations, {only: [:edit, :destroy, :update]} do
+    put :update_amount, {on: :member}
   end
 
   devise_for :users,

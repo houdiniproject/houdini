@@ -78,12 +78,10 @@ jobs:
         - if: steps.changes.outputs.ruby == 'true'
           name: run zeitwerk:check
           run: bin/rails zeitwerk:check
-        - continue-on-error: true
-          if: steps.changes.outputs.ruby == 'true'
+        - if: steps.changes.outputs.ruby == 'true'
           name: run spec
           run: bin/rake spec
-        - continue-on-error: true
-          if: steps.changes.outputs.ruby == 'true'
+        - if: steps.changes.outputs.ruby == 'true'
           run: script/compile-assets.sh
         - if: steps.changes.outputs.js == 'true'
           run: yarn build

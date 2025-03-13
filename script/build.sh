@@ -7,7 +7,7 @@ set -e
 set -o pipefail
 export DATABASE_URL=${BUILD_DATABASE_URL:-postgres://admin:password@localhost/commitchange_development_legacy}
 echo $DATABASE_URL
-yarn export-button-config && yarn export-i18n && yarn generate-api-js
+yarn export-button-config && yarn export-i18n
 
 if [ -n "$HOUDINI_WATCH" ];
 then

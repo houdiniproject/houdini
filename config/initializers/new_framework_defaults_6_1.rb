@@ -37,7 +37,7 @@ Rails.application.config.active_job.skip_after_callbacks_if_terminated = true
 
 # Change the default HTTP status code to `308` when redirecting non-GET/HEAD
 # requests to HTTPS in `ActionDispatch::SSL` middleware.
-# Rails.application.config.action_dispatch.ssl_default_redirect_status = 308
+Rails.application.config.action_dispatch.ssl_default_redirect_status = 308
 
 # Use new connection handling API. For most applications this won't have any
 # effect. For applications using multiple databases, this new API provides

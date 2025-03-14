@@ -117,7 +117,7 @@ describe Mailchimp do
 				'status' => 'subscribed',
 				'merge_fields' => {
 					'NP_ID' => nonprofit.id,
-					'NP_SUPP' => 1,
+					'NP_SUPP' => 0,
 					'FNAME' => "",
 				}
 			})

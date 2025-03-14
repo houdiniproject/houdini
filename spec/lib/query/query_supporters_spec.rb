@@ -1159,25 +1159,25 @@ describe QuerySupporters do
       it 'when supporter has no name, just first name is blank' do
         s = create(:supporter, name: '')
         supporters = QuerySupporters.for_export_enumerable(s.nonprofit.id, {}).to_a
-        expect(supporters[2][2]).to be_blank
+        expect(supporters[1][2]).to be_blank
       end
 
       it 'when supporter has single name, just first name is filled' do
         s = create(:supporter, name: 'Penelope')
         supporters = QuerySupporters.for_export_enumerable(s.nonprofit.id, {}).to_a
-        expect(supporters[2][2]).to eq 'Penelope'
+        expect(supporters[1][2]).to eq 'Penelope'
       end
 
       it 'when supporter has a two word name, just first name is filled' do
         s = create(:supporter, name: 'Penelope Rebecca')
         supporters = QuerySupporters.for_export_enumerable(s.nonprofit.id, {}).to_a
-        expect(supporters[2][2]).to eq 'Penelope'
+        expect(supporters[1][2]).to eq 'Penelope'
       end
 
       it 'when supporter has a three word name, just first name is filled' do
         s = create(:supporter, name: 'Penelope Rebecca Schultz')
         supporters = QuerySupporters.for_export_enumerable(s.nonprofit.id, {}).to_a
-        expect(supporters[2][2]).to eq 'Penelope'
+        expect(supporters[1][2]).to eq 'Penelope'
       end
     end
   end

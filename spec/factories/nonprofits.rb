@@ -18,10 +18,6 @@ FactoryBot.define do
       }
     end
 
-    after(:create) {|nonprofit, evaluator|
-      create(:supporter, nonprofit: nonprofit)
-    }
-
     factory :nonprofit_with_billing_plan_percentage_fee_of_2_5_percent_and_5_cents_flat do 
       
     end

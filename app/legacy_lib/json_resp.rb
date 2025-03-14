@@ -23,12 +23,12 @@ class JsonResp
   end
 
   def when_valid
-    return { status: 422, json: { errors: @errors } } if @errors.any?
+    return {status: 422, json: {errors: @errors}} if @errors.any?
 
     begin
       @response = yield(@params)
     rescue Exception => e
-      @response = { status: 500, json: { error: "We're sorry, but something went wrong. We've been notified about this issue." } }
+      @response = {status: 500, json: {error: "We're sorry, but something went wrong. We've been notified about this issue."}}
       puts e
       puts e.backtrace.first(10)
     end
@@ -97,7 +97,7 @@ class JsonResp
     end
 
     def one_of(*vals)
-      @errors.concat @keys.reject { |k| vals.include?(@params[k]) }.map { |k| "#{k} must be one of: #{vals.join(', ')}" }
+      @errors.concat @keys.reject { |k| vals.include?(@params[k]) }.map { |k| "#{k} must be one of: #{vals.join(", ")}" }
       self
     end
 
@@ -117,10 +117,10 @@ class JsonResp
     end
 
     def as_date
-      with_format /\d\d\d\d-\d\d-\d\d/
-      @errors.concat @keys.map { |k| [k].concat @params[k].split('-').map(&:to_i) }
-                          .reject { |_key, year, month, day| year.present? && year > 1000 && year < 3000 && month.present? && month > 0 && month < 13 && day.present? && day > 0 && day < 32 }
-                          .map { |k, _, _, _| "#{k} must be a valid date" }
+      with_format(/\d\d\d\d-\d\d-\d\d/)
+      @errors.concat @keys.map { |k| [k].concat @params[k].split("-").map(&:to_i) }
+        .reject { |_key, year, month, day| year.present? && year > 1000 && year < 3000 && month.present? && month > 0 && month < 13 && day.present? && day > 0 && day < 32 }
+        .map { |k, _, _, _| "#{k} must be a valid date" }
     end
 
     def min(n)

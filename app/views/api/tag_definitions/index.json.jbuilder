@@ -3,9 +3,9 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 json.data(
-	@tag_definitions,
-	partial: '/api/tag_definitions/tag_definition',
-	as: 'tag_definition'
+  @tag_definitions,
+  partial: "/api/tag_definitions/tag_definition",
+  as: "tag_definition"
 )
 
 json.current_page @tag_definitions.current_page

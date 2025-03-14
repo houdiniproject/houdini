@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module QuerySourceToken
-  EXPIRED_TOKEN_MESSAGE = 'There was an error processing your card and it was not charged. Please try again.'
+  EXPIRED_TOKEN_MESSAGE = "There was an error processing your card and it was not charged. Please try again."
   AUTH_ERROR_MESSAGE = "You're not authorized to make this charge"
 
   # @param [String] source_token
@@ -14,9 +14,9 @@ module QuerySourceToken
   # @raise [ExpiredTokenError] when the source token has already been used too many times
   #           or we're past the expiration date
   def self.get_and_increment_source_token(token, user = nil)
-    ParamValidation.new({ token: token },
-                        token: { required: true, format: UUID::Regex })
-    source_token = SourceToken.where('token = ?', token).first
+    ParamValidation.new({token: token},
+      token: {required: true, format: UUID::Regex})
+    source_token = SourceToken.where("token = ?", token).first
     if source_token
       source_token.with_lock do
         unless source_token_unexpired?(source_token)

@@ -32,7 +32,7 @@ RSpec.shared_context :shared_user_context do
     __create(:campaign_editor, campaign)
   end
 
-  let(:confirmed_user)  do
+  let(:confirmed_user) do
     force_create(:user, confirmed_at: Time.current)
   end
 
@@ -72,7 +72,7 @@ RSpec.shared_context :shared_user_context do
     u
   end
 
-  def send(method, action, args={})
+  def send(method, action, args = {})
     case method
     when :get
       get(action, **args)
@@ -87,7 +87,7 @@ RSpec.shared_context :shared_user_context do
 
   def accept(user_to_signin, method, action, *args)
     test_variables = collect_test_variables(args)
-    request.accept = 'application/json' unless test_variables[:without_json_view]
+    request.accept = "application/json" unless test_variables[:without_json_view]
     sign_in user_to_signin if user_to_signin
     # allows us to run the helpers but ignore what the controller action does
 
@@ -112,19 +112,19 @@ RSpec.shared_context :shared_user_context do
   alias_method :redirects_to, :reject
 
   def reduce_params(*args)
-    { params: args.reduce({}, :merge) }
+    {params: args.reduce({}, :merge)}
   end
 
   def collect_test_variables(*args)
     test_vars = {}
     args.collect do |items|
-      if items.kind_of?(Array)
+      if items.is_a?(Array)
         items.each do |k, v|
-          test_vars.merge!(k.slice(:without_json_view, :with_status)) if k.kind_of?(Hash)
+          test_vars.merge!(k.slice(:without_json_view, :with_status)) if k.is_a?(Hash)
         end
       end
     end
-    return test_vars
+    test_vars
   end
 
   def fix_args(*args)
@@ -161,47 +161,47 @@ RSpec.shared_context :open_to_all do |method, action, *args|
   let(:fixed_args) do
     fix_args(*args)
   end
-  it 'accepts no user' do
+  it "accepts no user" do
     accept(nil, method, action, *fixed_args)
   end
 
-  it 'accepts user with no roles' do
+  it "accepts user with no roles" do
     accept(unauth_user, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit admin' do
+  it "accepts nonprofit admin" do
     accept(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit associate' do
+  it "accepts nonprofit associate" do
     accept(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'accepts other admin' do
+  it "accepts other admin" do
     accept(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'accepts other associate' do
+  it "accepts other associate" do
     accept(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'accepts campaign editor' do
+  it "accepts campaign editor" do
     accept(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'accept confirmed user' do
+  it "accept confirmed user" do
     accept(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'accept event editor' do
+  it "accept event editor" do
     accept(event_editor, method, action, *fixed_args)
   end
 
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'accept profile user' do
+  it "accept profile user" do
     accept(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -212,47 +212,47 @@ RSpec.shared_context :open_to_np_associate do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'rejects user with no roles' do
+  it "rejects user with no roles" do
     reject(unauth_user, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit admin' do
+  it "accepts nonprofit admin" do
     accept(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit associate' do
+  it "accepts nonprofit associate" do
     accept(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects other admin' do
+  it "rejects other admin" do
     reject(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects other associate' do
+  it "rejects other associate" do
     reject(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects campaign editor' do
+  it "rejects campaign editor" do
     reject(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'rejects confirmed user' do
+  it "rejects confirmed user" do
     reject(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'reject event editor' do
+  it "reject event editor" do
     reject(event_editor, method, action, *fixed_args)
   end
 
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'rejects profile user' do
+  it "rejects profile user" do
     reject(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -263,46 +263,46 @@ RSpec.shared_context :open_to_np_admin do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'rejects user with no roles' do
+  it "rejects user with no roles" do
     reject(unauth_user, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit admin' do
+  it "accepts nonprofit admin" do
     accept(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects nonprofit associate' do
+  it "rejects nonprofit associate" do
     reject(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects other admin' do
+  it "rejects other admin" do
     reject(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects other associate' do
+  it "rejects other associate" do
     reject(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects campaign editor' do
+  it "rejects campaign editor" do
     reject(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'rejects confirmed user' do
+  it "rejects confirmed user" do
     reject(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'reject event editor' do
+  it "reject event editor" do
     reject(event_editor, method, action, *fixed_args)
   end
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'rejects profile user' do
+  it "rejects profile user" do
     reject(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -313,46 +313,46 @@ RSpec.shared_context :open_to_registered do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'accepts user with no roles' do
+  it "accepts user with no roles" do
     accept(unauth_user, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit admin' do
+  it "accepts nonprofit admin" do
     accept(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit associate' do
+  it "accepts nonprofit associate" do
     accept(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'accepts other admin' do
+  it "accepts other admin" do
     accept(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'accepts other associate' do
+  it "accepts other associate" do
     accept(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'accepts campaign editor' do
+  it "accepts campaign editor" do
     accept(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'accepts confirmed user' do
+  it "accepts confirmed user" do
     accept(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'accept event editor' do
+  it "accept event editor" do
     accept(event_editor, method, action, *fixed_args)
   end
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'accept profile user' do
+  it "accept profile user" do
     accept(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -363,46 +363,46 @@ RSpec.shared_context :open_to_campaign_editor do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'rejects user with no roles' do
+  it "rejects user with no roles" do
     reject(unauth_user, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit admin' do
+  it "accepts nonprofit admin" do
     accept(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'accepts nonprofit associate' do
+  it "accepts nonprofit associate" do
     accept(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects other admin' do
+  it "rejects other admin" do
     reject(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects other associate' do
+  it "rejects other associate" do
     reject(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'accepts campaign editor' do
+  it "accepts campaign editor" do
     accept(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'rejects confirmed user' do
+  it "rejects confirmed user" do
     reject(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'reject event editor' do
+  it "reject event editor" do
     reject(event_editor, method, action, *fixed_args)
   end
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'rejects profile user' do
+  it "rejects profile user" do
     reject(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -413,46 +413,46 @@ RSpec.shared_context :open_to_confirmed_users do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'rejects user with no roles' do
+  it "rejects user with no roles" do
     reject(unauth_user, method, action, *fixed_args)
   end
 
-  it 'reject nonprofit admin' do
+  it "reject nonprofit admin" do
     reject(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'reject nonprofit associate' do
+  it "reject nonprofit associate" do
     reject(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects other admin' do
+  it "rejects other admin" do
     reject(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects other associate' do
+  it "rejects other associate" do
     reject(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'reject campaign editor' do
+  it "reject campaign editor" do
     reject(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'accepts confirmed user' do
+  it "accepts confirmed user" do
     accept(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'reject event editor' do
+  it "reject event editor" do
     reject(event_editor, method, action, *fixed_args)
   end
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'rejects profile user' do
+  it "rejects profile user" do
     reject(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -463,45 +463,45 @@ RSpec.shared_context :open_to_event_editor do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'rejects user with no roles' do
+  it "rejects user with no roles" do
     reject(unauth_user, method, action, *fixed_args)
   end
 
-  it 'accept nonprofit admin' do
+  it "accept nonprofit admin" do
     accept(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'nonprofit associate' do
+  it "nonprofit associate" do
     accept(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects other admin' do
+  it "rejects other admin" do
     reject(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects other associate' do
+  it "rejects other associate" do
     reject(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'reject campaign editor' do
+  it "reject campaign editor" do
     reject(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'reject confirmed user' do
+  it "reject confirmed user" do
     reject(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'accept event editor' do
+  it "accept event editor" do
     accept(event_editor, method, action, *fixed_args)
   end
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
-  it 'rejects profile user' do
+  it "rejects profile user" do
     reject(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -512,47 +512,47 @@ RSpec.shared_context :open_to_super_admin do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'rejects user with no roles' do
+  it "rejects user with no roles" do
     reject(unauth_user, method, action, *fixed_args)
   end
 
-  it 'rejects nonprofit admin' do
+  it "rejects nonprofit admin" do
     reject(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects nonprofit associate' do
+  it "rejects nonprofit associate" do
     reject(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects other admin' do
+  it "rejects other admin" do
     reject(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects other associate' do
+  it "rejects other associate" do
     reject(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects campaign editor' do
+  it "rejects campaign editor" do
     reject(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'rejects confirmed user' do
+  it "rejects confirmed user" do
     reject(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'reject event editor' do
+  it "reject event editor" do
     reject(event_editor, method, action, *fixed_args)
   end
 
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'rejects profile user' do
+  it "rejects profile user" do
     reject(user_with_profile, method, action, *fixed_args)
   end
 end
@@ -563,47 +563,47 @@ RSpec.shared_context :open_to_profile_owner do |method, action, *args|
     fix_args(*args)
   end
 
-  it 'rejects no user' do
+  it "rejects no user" do
     reject(nil, method, action, *fixed_args)
   end
 
-  it 'rejects user with no roles' do
+  it "rejects user with no roles" do
     reject(unauth_user, method, action, *fixed_args)
   end
 
-  it 'rejects nonprofit admin' do
+  it "rejects nonprofit admin" do
     reject(user_as_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects nonprofit associate' do
+  it "rejects nonprofit associate" do
     reject(user_as_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects other admin' do
+  it "rejects other admin" do
     reject(user_as_other_np_admin, method, action, *fixed_args)
   end
 
-  it 'rejects other associate' do
+  it "rejects other associate" do
     reject(user_as_other_np_associate, method, action, *fixed_args)
   end
 
-  it 'rejects campaign editor' do
+  it "rejects campaign editor" do
     reject(campaign_editor, method, action, *fixed_args)
   end
 
-  it 'rejects confirmed user' do
+  it "rejects confirmed user" do
     reject(confirmed_user, method, action, *fixed_args)
   end
 
-  it 'reject event editor' do
+  it "reject event editor" do
     reject(event_editor, method, action, *fixed_args)
   end
 
-  it 'accepts super admin' do
+  it "accepts super admin" do
     accept(super_admin, method, action, *fixed_args)
   end
 
-  it 'accepts profile user' do
+  it "accepts profile user" do
     accept(user_with_profile, method, action, *fixed_args)
   end
 end

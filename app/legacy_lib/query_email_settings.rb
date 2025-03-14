@@ -19,9 +19,9 @@ module QueryEmailSettings
         SELECT column_name
         FROM information_schema.columns
         WHERE table_name='email_settings'
-      )).map { |h| h['column_name'] }
-               .reject { |name| %w[id nonprofit_id user_id].include?(name) }
-               .each_with_object({}) { |name, h| h[name] = true; }
+      )).map { |h| h["column_name"] }
+        .reject { |name| %w[id nonprofit_id user_id].include?(name) }
+        .each_with_object({}) { |name, h| h[name] = true }
     end
     es
   end

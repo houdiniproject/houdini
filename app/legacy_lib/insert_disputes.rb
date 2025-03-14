@@ -9,43 +9,43 @@ module InsertDisputes
   # A payment row negative gross and net, just like a refund, but with kind "Dispute"
   def self.create_record(stripe_charge_id, stripe_dispute_id)
     # Find the existing charge
-    ch = Qx.select('*').from('charges').where('stripe_charge_id=$id', id: stripe_charge_id).ex.first
-    raise ArgumentError, 'Charge not found' if ch.nil?
+    ch = Qx.select("*").from("charges").where("stripe_charge_id=$id", id: stripe_charge_id).ex.first
+    raise ArgumentError, "Charge not found" if ch.nil?
 
     result = {}
     now = Time.current
 
     result[:payment] = Psql.execute(
       Qexpr.new.insert(:payments, [{
-                         gross_amount: -ch['amount'],
-                         fee_total: 0,
-                         net_amount: -ch['amount'],
-                         kind: 'Dispute',
-                         refund_total: 0,
-                         nonprofit_id: ch['nonprofit_id'],
-                         supporter_id: ch['supporter_id'],
-                         donation_id: ch['donation_id'],
-                         date: now
-                       }]).returning('*')
+        gross_amount: -ch["amount"],
+        fee_total: 0,
+        net_amount: -ch["amount"],
+        kind: "Dispute",
+        refund_total: 0,
+        nonprofit_id: ch["nonprofit_id"],
+        supporter_id: ch["supporter_id"],
+        donation_id: ch["donation_id"],
+        date: now
+      }]).returning("*")
     ).first
 
     # Create a dispute record
     result[:dispute] = Psql.execute(
       Qexpr.new.insert(:disputes, [{
-                         gross_amount: ch['amount'],
-                         status: :needs_response,
-                         charge_id: ch['id'],
-                         reason: :unrecognized,
-                         payment_id: result[:payment]['id'],
-                         stripe_dispute_id: stripe_dispute_id
-                       }]).returning('*')
+        gross_amount: ch["amount"],
+        status: :needs_response,
+        charge_id: ch["id"],
+        reason: :unrecognized,
+        payment_id: result[:payment]["id"],
+        stripe_dispute_id: stripe_dispute_id
+      }]).returning("*")
     ).first
 
     # Prevent refunds from being able to happen on the payment
-    Qx.update(:payments).set(refund_total: ch['amount']).where(id: ch['payment_id']).ex
+    Qx.update(:payments).set(refund_total: ch["amount"]).where(id: ch["payment_id"]).ex
 
     # Insert an activity record
-    InsertActivities.for_disputes([result[:payment]['id']])
+    InsertActivities.for_disputes([result[:payment]["id"]])
 
     result
   end

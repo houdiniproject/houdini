@@ -4,8 +4,8 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
 Rails.autoloaders.each do |autoloader|
-	autoloader.inflector.inflect(
-		'uuid' => 'UUID',
-		'html' => 'HTML'
-	)
+  autoloader.inflector.inflect(
+    "uuid" => "UUID",
+    "html" => "HTML"
+  )
 end

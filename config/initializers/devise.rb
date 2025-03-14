@@ -17,7 +17,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -203,7 +203,7 @@ Devise.setup do |config|
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :get
 
-  config.secret_key = ENV.fetch('DEVISE_SECRET_KEY')
+  config.secret_key = ENV.fetch("DEVISE_SECRET_KEY")
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
@@ -229,14 +229,13 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = "/my_engine/users/auth"
 end
 
-
 ActiveSupport.on_load(:devise_failure_app) do
   module Devise
     class FailureApp
       # we don't every want to return WWW-Authenticate because we never want a popup.
       def http_auth
         self.status = 401
-        #self.headers["WWW-Authenticate"] = %(Basic realm=#{Devise.http_authentication_realm.inspect}) if http_auth_header?
+        # self.headers["WWW-Authenticate"] = %(Basic realm=#{Devise.http_authentication_realm.inspect}) if http_auth_header?
         self.content_type = request.format.to_s
         self.response_body = http_auth_body
       end

@@ -10,7 +10,7 @@ class SlugP2pCampaignNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def copy_addition
-    ''
+    ""
   end
 
   def max_copies
@@ -23,6 +23,6 @@ class SlugP2pCampaignNamingAlgorithm < CopyNamingAlgorithm
 
   def get_already_used_name_entities(base_name)
     end_name = '\\_\\d{3}'
-    Campaign.where('slug SIMILAR TO ? AND nonprofit_id = ?', base_name + end_name, nonprofit_id).select('slug')
+    Campaign.where("slug SIMILAR TO ? AND nonprofit_id = ?", base_name + end_name, nonprofit_id).select("slug")
   end
 end

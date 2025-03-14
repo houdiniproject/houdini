@@ -9,27 +9,27 @@ load "rails/tasks/statistics.rake"
 require "bundler/gem_tasks"
 
 begin
-  require 'bundler/gem_tasks'
+  require "bundler/gem_tasks"
 rescue LoadError
   nil
 end
 
-require 'rubygems'
-require 'bundler'
-require 'rdoc/task'
+require "rubygems"
+require "bundler"
+require "rdoc/task"
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
-  $stderr.puts e.message
-  $stderr.puts "Run `bundle install` to install missing gems"
+  warn e.message
+  warn "Run `bundle install` to install missing gems"
   exit e.status_code
 end
-require 'rake'
+require "rake"
 
-require 'rspec/core'
-require 'rspec/core/rake_task'
+require "rspec/core"
+require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.pattern = FileList['spec/**/*_spec.rb']
+  spec.pattern = FileList["spec/**/*_spec.rb"]
 end
 
-task :default => :spec
+task default: :spec

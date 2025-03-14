@@ -23,7 +23,7 @@ module FetchTodoStatus
       has_bank: np.bank_account.present?,
       is_paying: np.billing_plan.present?,
       has_imported: np.supporters.pluck(:imported_at).any?,
-      is_verified: np.verification_status == 'verified' && np.bank_account.present?,
+      is_verified: np.verification_status == "verified" && np.bank_account.present?,
       has_thank_you: np.thank_you_note.present?
     }
   end

@@ -5,13 +5,13 @@
 class NonprofitMailer < BaseMailer
   def failed_verification_notice(np)
     @nonprofit = np
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_payouts")
     mail(to: @emails, subject: "We need some further account verification on #{Houdini.general.name}")
   end
 
   def successful_verification_notice(np)
     @nonprofit = np
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_payouts")
     mail(to: @emails, subject: "Verification successful on #{Houdini.general.name}!")
   end
 
@@ -20,7 +20,7 @@ class NonprofitMailer < BaseMailer
     @charge = @refund.charge
     @nonprofit = @refund.payment.nonprofit
     @supporter = @refund.payment.supporter
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payments')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_payments")
     return if @emails.blank?
     mail(to: @emails, subject: "A new refund has been made for $#{Format::Currency.cents_to_dollars(@refund.amount)}")
   end
@@ -29,48 +29,48 @@ class NonprofitMailer < BaseMailer
     @nonprofit = ba.nonprofit
     @bank_account = ba
     @emails = QueryUsers.all_nonprofit_user_emails(@nonprofit.id)
-    mail(to: @emails, subject: 'We need to confirm the new bank account')
+    mail(to: @emails, subject: "We need to confirm the new bank account")
   end
 
   def pending_payout_notification(payout_id)
     @payout = Payout.find(payout_id)
     @nonprofit = @payout.nonprofit
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: 'Payout of available balance now pending')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_payouts")
+    mail(to: @emails, subject: "Payout of available balance now pending")
   end
 
   def successful_payout_notification(payout)
     @nonprofit = payout.nonprofit
     @payout = payout
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: 'Payout of available balance succeeded')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_payouts")
+    mail(to: @emails, subject: "Payout of available balance succeeded")
   end
 
   def failed_payout_notification(payout)
     @nonprofit = payout.nonprofit
     @payout = payout
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_payouts')
-    mail(to: @emails, subject: 'Payout could not be completed')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_payouts")
+    mail(to: @emails, subject: "Payout could not be completed")
   end
 
   def failed_recurring_donation(recurring_donation)
     @recurring_donation = recurring_donation
     @nonprofit = recurring_donation.nonprofit
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_recurring_donations')
-    mail(to: @emails, subject: 'A recurring donation from one of your supporters had a payment failure.')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_recurring_donations")
+    mail(to: @emails, subject: "A recurring donation from one of your supporters had a payment failure.")
   end
 
   def cancelled_recurring_donation(recurring_donation)
     @recurring_donation = recurring_donation
     @nonprofit = recurring_donation.nonprofit
-    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, 'notify_recurring_donations')
-    mail(to: @emails, subject: 'A recurring donation from one of your supporters was cancelled.')
+    @emails = QueryUsers.nonprofit_user_emails(@nonprofit.id, "notify_recurring_donations")
+    mail(to: @emails, subject: "A recurring donation from one of your supporters was cancelled.")
   end
 
   def verified_notification(nonprofit)
     @nonprofit = nonprofit
     @emails = QueryUsers.all_nonprofit_user_emails(@nonprofit.id)
-    mail(to: @emails, subject: 'Your nonprofit has been verified!')
+    mail(to: @emails, subject: "Your nonprofit has been verified!")
   end
 
   def button_code(nonprofit, to_email, to_name, from_email, message, code)
@@ -81,7 +81,7 @@ class NonprofitMailer < BaseMailer
     @message = message
     @code = code
     from = Format::Name.email_from_np(@nonprofit.name)
-    mail(to: to_email, from: from, reply_to: from_email, subject: 'Please include this donate button code on the website')
+    mail(to: to_email, from: from, reply_to: from_email, subject: "Please include this donate button code on the website")
   end
 
   # pass in all of:
@@ -99,7 +99,7 @@ class NonprofitMailer < BaseMailer
   def setup_verification(np_id)
     @nonprofit = Nonprofit.find(np_id)
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
-    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Houdini.general.name} Support", subject: "Set up automatic payouts on #{Houdini.general.name}")
+    mail(to: @emails, reply_to: "support@commitchange.com", from: "#{Houdini.general.name} Support", subject: "Set up automatic payouts on #{Houdini.general.name}")
   end
 
   def welcome(np_id)
@@ -107,6 +107,6 @@ class NonprofitMailer < BaseMailer
     @user = @nonprofit.users.first
     @token = @user.make_confirmation_token!
     @emails = QueryUsers.all_nonprofit_user_emails(np_id, [:nonprofit_admin])
-    mail(to: @emails, reply_to: 'support@commitchange.com', from: "#{Houdini.general.name} Support", subject: "A hearty welcome from the #{Houdini.general.name} team")
+    mail(to: @emails, reply_to: "support@commitchange.com", from: "#{Houdini.general.name} Support", subject: "A hearty welcome from the #{Houdini.general.name} team")
   end
 end

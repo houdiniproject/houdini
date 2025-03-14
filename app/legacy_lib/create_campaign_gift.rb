@@ -8,21 +8,21 @@ module CreateCampaignGift
   #      * donation_id
   def self.create(params)
     ParamValidation.new(params,
-                        campaign_gift_option_id: {
-                          required: true,
-                          is_integer: true
-                        },
-                        donation_id: {
-                          required: true,
-                          is_integer: true
-                        })
+      campaign_gift_option_id: {
+        required: true,
+        is_integer: true
+      },
+      donation_id: {
+        required: true,
+        is_integer: true
+      })
 
-    donation = Donation.includes(:nonprofit).includes(:supporter).includes(:recurring_donation).includes(:campaign_gifts).where('id = ?', params[:donation_id]).first
+    donation = Donation.includes(:nonprofit).includes(:supporter).includes(:recurring_donation).includes(:campaign_gifts).where("id = ?", params[:donation_id]).first
     unless donation
       raise ParamValidation::ValidationError.new("#{params[:donation_id]} is not a valid donation id.", key: :donation_id)
     end
 
-    campaign_gift_option = CampaignGiftOption.includes(:campaign).where('id = ?', params[:campaign_gift_option_id]).first
+    campaign_gift_option = CampaignGiftOption.includes(:campaign).where("id = ?", params[:campaign_gift_option_id]).first
     unless campaign_gift_option
       raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} is not a valid campaign gift option", key: :campaign_gift_option_id)
     end

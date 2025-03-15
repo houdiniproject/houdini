@@ -6,12 +6,13 @@ FactoryBot.define do
 
     transient do 
       sequence(:id) {|i| "test_str_plan#{i}"}
+      product { association :stripe_product }
     end
     currency {'usd'}
     amount { 0 }
 
     to_create do |instance, evaluator|
-      plan = StripeMockHelper.stripe_helper.create_plan(**instance, id: evaluator.id)
+      plan = StripeMockHelper.stripe_helper.create_plan(**instance, id: evaluator.id, product: evaluator.product.id)
       instance.update_attributes(plan)
     end
   end

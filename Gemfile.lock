@@ -575,7 +575,6 @@ DEPENDENCIES
   letter_opener
   listen
   lograge
-  mail (= 2.7.1)
   mini_magick
   nearest_time_zone
   nokogiri (~> 1.13.11)!

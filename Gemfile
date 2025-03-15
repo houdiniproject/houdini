@@ -170,8 +170,6 @@ gem 'actionpack-action_caching' # because we use action caching
 
 gem 'rack-cors'
 
-gem 'ruby2_keywords' # needed because we're backporting code from Rails 6.2
-
 gem 'fx'
 
 gem 'has_scope'

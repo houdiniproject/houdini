@@ -592,7 +592,6 @@ DEPENDENCIES
   rspec (~> 3)
   rspec-json_expectations
   rspec-rails (~> 5)
-  ruby2_keywords
   sassc
   sassc-rails
   shoulda-matchers

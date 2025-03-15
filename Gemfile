@@ -172,7 +172,7 @@ gem 'rack-cors'
 
 gem 'ruby2_keywords' # needed because we're backporting code from Rails 6.2
 
-gem 'fx',  git: 'https://github.com/teoljungberg/fx.git', ref: '946cdccbd12333deb8f4566c9852b49c0231a618'
+gem 'fx'
 
 gem 'has_scope'
 

@@ -8,8 +8,6 @@ gem 'sprockets', '~> 3.7' # Sprockets 4.0 stops allowing us to add a proc to the
 
 gem 'rack', '~> 2.2.13'
 
-gem 'date', '~> 2.0.3'
-
 # https://stripe.com/docs/api
 gem 'stripe', '~> 5.0'
 

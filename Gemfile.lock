@@ -175,7 +175,6 @@ GEM
     dalli (3.2.3)
     dante (0.2.0)
     database_cleaner (1.6.1)
-    date (2.0.3)
     debug_inspector (0.0.2)
     deep_merge (1.2.2)
     delayed_job (4.1.10)
@@ -543,7 +542,6 @@ DEPENDENCIES
   countries
   dalli
   database_cleaner
-  date (~> 2.0.3)
   delayed_job_active_record
   devise (~> 4.1)
   dotenv-rails

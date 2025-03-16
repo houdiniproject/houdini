@@ -351,7 +351,7 @@ shared_context 'payments for a payout' do
     end
   
 
-    def refund_create(**args)
+    def refund_create(args={})
       fee_total = args[:fee_total] || 0
 
       gross_amount = args[:gross_amount]
@@ -366,7 +366,7 @@ shared_context 'payments for a payout' do
       force_create(:refund, amount: args[:gross_amount], charge: orig_charge, payment: payment_create( gross_amount:-1 * gross_amount, fee_total: fee_total || 0, net_amount:  (-1 * gross_amount) - fee_total), **args.except(:gross_amount, :original_charge_args))
     end
 
-    def dispute_create(**args)
+    def dispute_create(args={})
       gross_amount = args[:gross_amount]
       temp_charge_args = {gross_amount:gross_amount }
       temp_charge_args = temp_charge_args.merge(args[:original_charge_args]) if args[:original_charge_args]
@@ -380,7 +380,7 @@ shared_context 'payments for a payout' do
           nonprofit: @nonprofit )}
     end
 
-    def charge_create( **args)
+    def charge_create( args={})
       gross_amount = args[:gross_amount]
       fee_total = args[:fee_total] || 0
       other_args = args.except(:gross_amount, :fee_total)
@@ -388,7 +388,7 @@ shared_context 'payments for a payout' do
         payment: payment_create(gross_amount: gross_amount, fee_total: fee_total, net_amount: gross_amount + fee_total), **other_args)
     end
 
-    def manual_balance_adjustment_create(**args)
+    def manual_balance_adjustment_create(args={})
 
       gross_amount = args[:gross_amount]
       fee_total = args[:fee_total] || 0
@@ -403,7 +403,7 @@ shared_context 'payments for a payout' do
 
     end
 
-    def payment_create(**args)
+    def payment_create(args={})
       force_create(:payment, nonprofit:@nonprofit, date: @time, **args)
     end
 

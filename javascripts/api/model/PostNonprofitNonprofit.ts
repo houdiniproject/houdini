@@ -53,13 +53,6 @@ export class PostNonprofitNonprofitException implements Error{
 
     constructor(obj:PostNonprofitNonprofit, message?:string){
             this.item = obj;
-            this.item = obj;
-            this.item = obj;
-            this.item = obj;
-            this.item = obj;
-            this.item = obj;
-            this.item = obj;
-
     }
 
     message: string;

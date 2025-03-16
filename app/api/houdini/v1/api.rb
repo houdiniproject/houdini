@@ -13,10 +13,4 @@ class Houdini::V1::Api < Grape::API
 	mount Houdini::V1::Nonprofit => '/nonprofit'
 	# Additional mounts are added via generators above this line
   # DON'T REMOVE THIS OR THE PREVIOUS LINES!!!
-
-	uri_for_host = URI.parse(Settings.api_domain&.url || Settings.cdn.url)
-	add_swagger_documentation \
-		host: "#{uri_for_host.host}#{uri_for_host.port ? ":#{uri_for_host.port}" : ""}",
-		schemes: [uri_for_host.scheme],
-		base_path: '/api/v1'
 end

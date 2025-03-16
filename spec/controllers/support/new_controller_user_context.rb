@@ -12,16 +12,16 @@ RSpec.shared_context :new_controller_user_context do
     send(:get, '/users/sign_out')
   end
 
-  def send(method, args=[], opts={})
+  def send(method, action, opts={})
     case method
     when :get
-      return get *args, opts.merge(xhr: true)
+      return get action, opts.merge(xhr: true)
     when :post
-      return post *args, opts.merge(xhr: true)
+      return post action, opts.merge(xhr: true)
     when :delete
-      return delete *args, opts.merge(xhr: true)
+      return delete action, opts.merge(xhr: true)
     when :put
-      return put *args, opts.merge(xhr: true)
+      return put action, opts.merge(xhr: true)
     end
   end
 

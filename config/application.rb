@@ -9,6 +9,9 @@ Bundler.require(*Rails.groups)
 
 module Commitchange
 	class Application < Rails::Application
+		# Initialize configuration defaults for originally generated Rails version.
+		config.load_defaults 5.1
+
 		# Settings in config/environments/* take precedence over those specified here.
 		# Application configuration should go into files in config/initializers
 		# -- all .rb files in that directory are automatically loaded.
@@ -90,6 +93,9 @@ module Commitchange
 		# We don't use strong parameters that much yet so let's not do this for now
 		# Added in rails 5.0
 		config.action_controller.raise_on_unfiltered_parameters = false
+
+		# just have unknown assets return path like they did before Rails 5.1
+		Rails.application.config.assets.unknown_asset_fallback = true
 
 		config.middleware.insert_before 0, Rack::Cors do
 			allow do

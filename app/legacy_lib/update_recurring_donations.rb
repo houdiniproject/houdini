@@ -10,7 +10,7 @@ module UpdateRecurringDonations
 
   # Update the card id and name for a given recurring donation (provide rd['donation_id'])
   def self.update_card_id(rd, token)
-    rd = rd&.with_indifferent_access
+    rd = rd&.to_deprecated_h&.with_indifferent_access
 
     ParamValidation.new({rd: rd, token: token},
                         {

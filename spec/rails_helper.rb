@@ -75,6 +75,7 @@ RSpec.configure do |config|
   end
 
   config.include ActionMailerMatchers
+
   config.before(:suite) do
 
     DatabaseCleaner.strategy = :transaction

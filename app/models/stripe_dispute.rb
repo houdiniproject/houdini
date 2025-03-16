@@ -55,13 +55,14 @@ class StripeDispute < ApplicationRecord
   end
   
   def fire_change_events
-    if changed? && !dispute&.is_legacy
-      if changed_attributes["object"].nil?
+    if saved_changes? && !dispute&.is_legacy
+      if after_save_changed_attributes["object"].nil?
         dispute_created_event
       end
-      if balance_transactions_changed?
 
-        old_bt, _ = balance_transactions_change
+      if saved_change_to_attribute?(:balance_transactions)
+
+        old_bt, _ = saved_changes[:balance_transactions]
         old_state = StripeDispute.calc_balance_transaction_state(old_bt)
         if old_state != balance_transactions_state
 
@@ -86,22 +87,22 @@ class StripeDispute < ApplicationRecord
         end
       end
 
-      if status_changed?
-        if TERMINAL_DISPUTE_STATUSES.include?(changed_attributes['status']) && !TERMINAL_DISPUTE_STATUSES.include?(status)
+      if saved_change_to_attribute?(:status)
+        if TERMINAL_DISPUTE_STATUSES.include?(after_save_changed_attributes['status']) && !TERMINAL_DISPUTE_STATUSES.include?(status)
           # if previous status was won or lost and the new one isn't
-          raise RuntimeError("Dispute #{dispute.id} was previously #{changed_attributes['status']} but is now #{status}. " +
+          raise RuntimeError("Dispute #{dispute.id} was previously #{after_save_changed_attributes['status']} but is now #{status}. " +
               "This shouldn't be possible")
-        elsif (!TERMINAL_DISPUTE_STATUSES.include?(changed_attributes['status']) && TERMINAL_DISPUTE_STATUSES.include?(status))
+        elsif (!TERMINAL_DISPUTE_STATUSES.include?(after_save_changed_attributes['status']) && TERMINAL_DISPUTE_STATUSES.include?(status))
           # previous status was not won or lost but the new one is
 
           dispute_closed_event
         else
-          if (changed_attributes["status"] != nil)
+          if (after_save_changed_attributes["status"] != nil)
             # previous status was not won or lost but the new one still isn't but there were changes!
             dispute_updated_event
           end
         end
-      elsif (!balance_transactions_changed? && !changed_attributes["object"].nil?)
+      elsif (!saved_change_to_attribute?(:balance_transactions) && after_save_changed_attributes["object"].nil?)
         dispute_updated_event
       end
     end
@@ -187,5 +188,11 @@ class StripeDispute < ApplicationRecord
            balance_transactions.count == 1 ?
              :funds_withdrawn :
              :funds_reinstated
+  end
+
+  private
+  
+  def after_save_changed_attributes
+    saved_changes.transform_values(&:first)
   end
 end

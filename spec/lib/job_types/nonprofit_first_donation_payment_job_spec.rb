@@ -33,7 +33,7 @@ describe JobTypes::NonprofitFirstDonationPaymentJob do
       misc_np_infos_no_first_charge_sent
       expect_job_queued.with(JobTypes::NonprofitFirstChargeEmailJob, nonprofit.id)
       charge
-      JobTypes::NonprofitFirstDonationPaymentJob.new(donation).perform
+      JobTypes::NonprofitFirstDonationPaymentJob.new(donation.id).perform
       misc_np_infos_no_first_charge_sent.reload
       expect(misc_np_infos_no_first_charge_sent.first_charge_email_sent).to be true
     end

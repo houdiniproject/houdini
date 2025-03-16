@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-# Load the Rails application
+# Load the Rails application.
 require_relative 'application'
 
 Encoding.default_external = Encoding::UTF_8
@@ -294,5 +294,5 @@ end
 
 Settings.reload!
 
-# Initialize the Rails application
+# Initialize the Rails application.
 Rails.application.initialize!

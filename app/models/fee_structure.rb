@@ -95,7 +95,7 @@ class FeeStructure < ApplicationRecord
     validates_numericality_of :amount, greater_than: 0, is_integer: true
     validate :validate_source_is_source_like
 
-    def initialize(**args)
+    def initialize(args={})
       @source = args[:source]
       @amount = args[:amount]
       @fee_structure = args[:fee_structure]
@@ -111,8 +111,8 @@ class FeeStructure < ApplicationRecord
       (BigDecimal(amount) * fee_surcharge).ceil + fee_structure.flat_fee
     end
 
-    def self.calculate(**args)
-      StripeFeeCalculation.new(**args).calculate
+    def self.calculate(args={})
+      StripeFeeCalculation.new(args).calculate
     end
 
     private

@@ -1,5 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 Rails.application.routes.draw do
+ 	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
   mount Houdini::API => '/api'
 
   if Rails.env == 'development'

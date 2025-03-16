@@ -189,6 +189,7 @@ RSpec.describe Nonprofits::DonationsController, type: :request do
       context 'transaction json' do 
 
         let(:transaction) {
+
           payment_id = JSON.parse(main_response.body)['payment']['id']
 
           Payment.find(payment_id).trx

@@ -9,6 +9,68 @@ if Rails.version < '5.2'
       # Provides methods to generate HTML tags programmatically both as a modern
       # HTML5 compliant builder style and legacy XHTML compliant tags.
       module TagHelper
+        class TagBuilder
+          def tag_string(name, content = nil, **options, &block)
+            escape = handle_deprecated_escape_options(options)
+            content = @view_context.capture(self, &block) if block_given?
+            
+            if VOID_ELEMENTS.include?(name) && content.nil?
+              "<#{name.to_s.dasherize}#{tag_options(options, escape)}>".html_safe
+                       else
+            
+              content_tag_string(name.to_s.dasherize, content || "", options, escape)
+              
+            end
+          end
+
+          def content_tag_string(name, content, options, escape = true)
+            tag_options = tag_options(options, escape) if options
+            if escape
+              name = ERB::Util.xml_name_escape(name)
+              content = ERB::Util.unwrapped_html_escape(content)
+            end
+            
+            "<#{name}#{tag_options}>#{PRE_CONTENT_STRINGS[name]}#{content}</#{name}>".html_safe
+          end
+
+          def tag_option(key, value, escape)
+            key = ERB::Util.xml_name_escape(key) if escape
+  
+            if value.is_a?(Array)
+              value = escape ? safe_join(value, " ") : value.join(" ")
+            elsif value.is_a? Regexp
+              value = escape ? ERB::Util.unwrapped_html_escape(value.source) : value.source
+            else
+              value = escape ? ERB::Util.unwrapped_html_escape(value) : value.to_s
+            end
+            %(#{key}="#{value.gsub('"'.freeze, '&quot;'.freeze)}")
+          end
+
+          def handle_deprecated_escape_options(options)
+            # The option :escape_attributes has been merged into the options hash to be
+            # able to warn when it is used, so we need to handle default values here.
+            escape_option_provided = options.has_key?(:escape)
+            escape_attributes_option_provided = options.has_key?(:escape_attributes)
+
+            if escape_attributes_option_provided
+              ActiveSupport::Deprecation.warn(<<~MSG)
+                Use of the option :escape_attributes is deprecated. It currently \
+                escapes both names and values of tags and attributes and it is \
+                equivalent to :escape. If any of them are enabled, the escaping \
+                is fully enabled.
+              MSG
+            end
+
+            return true unless escape_option_provided || escape_attributes_option_provided
+            escape_option = options.delete(:escape)
+            escape_attributes_option = options.delete(:escape_attributes)
+            escape_option || escape_attributes_option
+          end
+
+          def method_missing(called, *args, **options, &block)
+            tag_string(called, *args, **options, &block)
+          end
+        end
                     # Returns an HTML tag.
         #
         # === Building HTML tags
@@ -148,38 +210,13 @@ if Rails.version < '5.2'
         #   tag("div", class: { highlight: current_user.admin? })
         #   # => <div class="highlight" />
         def tag(name = nil, options = nil, open = false, escape = true)
-          name = ERB::Util.xml_name_escape(name) if escape
-          "<#{name}#{tag_options(options, escape) if options}#{open ? ">" : " />"}".html_safe
-        end
-
-        
-
-        private
-
-        def tag_option(key, value, escape)
-          key = ERB::Util.xml_name_escape(key) if escape
-
-          if value.is_a?(Array)
-            value = escape ? safe_join(value, " ") : value.join(" ")
-          elsif value.is_a? Regexp
-            value = escape ? ERB::Util.unwrapped_html_escape(value.source) : value.source
+          if name.nil?
+            tag_builder
           else
-            value = escape ? ERB::Util.unwrapped_html_escape(value) : value.to_s
+            name = ERB::Util.xml_name_escape(name) if escape
+            "<#{name}#{tag_builder.tag_options(options, escape) if options}#{open ? ">" : " />"}".html_safe
           end
-          %(#{key}="#{value.gsub('"'.freeze, '&quot;'.freeze)}")
         end
-
-        def content_tag_string(name, content, options, escape = true)
-          tag_options = tag_options(options, escape) if options
-
-          if escape
-            name = ERB::Util.xml_name_escape(name)
-            content = ERB::Util.unwrapped_html_escape(content)
-          end
-
-          "<#{name}#{tag_options}>#{PRE_CONTENT_STRINGS[name]}#{content}</#{name}>".html_safe
-        end
-
       end
     end
   end

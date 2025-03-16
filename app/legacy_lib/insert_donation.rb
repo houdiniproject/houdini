@@ -8,7 +8,7 @@ module InsertDonation
   # designation, dedication
   # recurring_donation if is recurring
   def self.with_stripe(data, current_user=nil)
-    data = data.with_indifferent_access
+    data = data.to_deprecated_h.with_indifferent_access
 
     ParamValidation.new(data, common_param_validations
                                   .merge(token: {required: true, format: UUID::Regex}))
@@ -96,7 +96,7 @@ module InsertDonation
     result['payment'] = self.insert_payment('OffsitePayment', 0, result['donation']['id'], data)
     result['offsite_payment'] = Psql.execute(
       Qexpr.new.insert(:offsite_payments, [
-        (data['offsite_payment'] || {}).merge({
+        (data['offsite_payment']&.to_deprecated_h&.with_indifferent_access || {}).merge({
           gross_amount: data['amount'],
           nonprofit_id: data['nonprofit_id'],
           supporter_id: data['supporter_id'],
@@ -134,7 +134,7 @@ module InsertDonation
   end
 
   def self.with_sepa(data)
-    data = data.with_indifferent_access
+    data = data.to_deprecated_h.with_indifferent_access
     ParamValidation.new(data, common_param_validations
                                  .merge(direct_debit_detail_id: {required: true, is_reference: true}))
 

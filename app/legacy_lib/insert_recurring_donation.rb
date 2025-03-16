@@ -4,7 +4,7 @@ module InsertRecurringDonation
   # Create a recurring_donation, donation, payment, charge, and activity
   # See controllers/nonprofits/recurring_donations_controller#create for the data params to pass in
   def self.with_stripe(data)
-    data = data.with_indifferent_access
+    data = data.to_deprecated_h.with_indifferent_access
 
     ParamValidation.new(data, InsertDonation.common_param_validations
                                   .merge(token: {required: true, format: UUID::Regex}))
@@ -104,7 +104,7 @@ module InsertRecurringDonation
   end
 
   def self.import_with_stripe(data)
-    data = data.with_indifferent_access
+    data = data.to_deprecated_h.with_indifferent_access
 
     ParamValidation.new(data, InsertDonation.common_param_validations
                                   .merge(card_id: {required: true, is_reference:true}))

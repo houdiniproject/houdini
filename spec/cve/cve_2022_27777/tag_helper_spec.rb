@@ -20,14 +20,14 @@ describe 'CVE Test 2022-27777', type: :view do
   end
 
   #  not in Rails 4.2
-  # it 'test_tag_builder_with_dangerous_name' do
-  #   escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
-  #   assert_equal "<#{escaped_dangerous_chars}></#{escaped_dangerous_chars}>",
-  #                tag.public_send(COMMON_DANGEROUS_CHARS.to_sym)
+  it 'test_tag_builder_with_dangerous_name' do
+    escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
+    assert_equal "<#{escaped_dangerous_chars}></#{escaped_dangerous_chars}>",
+                 tag.public_send(COMMON_DANGEROUS_CHARS.to_sym)
 
-  #   assert_equal "<#{COMMON_DANGEROUS_CHARS}></#{COMMON_DANGEROUS_CHARS}>",
-  #                tag.public_send(COMMON_DANGEROUS_CHARS.to_sym, nil, escape: false)
-  # end
+    assert_equal "<#{COMMON_DANGEROUS_CHARS}></#{COMMON_DANGEROUS_CHARS}>",
+                 tag.public_send(COMMON_DANGEROUS_CHARS.to_sym, nil, escape: false)
+  end
 
   it 'test_tag_with_dangerous_aria_attribute_name' do
     escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
@@ -39,14 +39,14 @@ describe 'CVE Test 2022-27777', type: :view do
   end
   
   # not in Rails 4.2
-  # it 'test_tag_builder_with_dangerous_aria_attribute_name' do
-  #   escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
-  #   assert_equal "<the-name aria-#{escaped_dangerous_chars}=\"the value\"></the-name>",
-  #                tag.public_send(:"the-name", aria: { COMMON_DANGEROUS_CHARS => "the value" })
+  it 'test_tag_builder_with_dangerous_aria_attribute_name' do
+    escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
+    assert_equal "<the-name aria-#{escaped_dangerous_chars}=\"the value\"></the-name>",
+                 tag.public_send(:"the-name", aria: { COMMON_DANGEROUS_CHARS => "the value" })
 
-  #   assert_equal "<the-name aria-#{COMMON_DANGEROUS_CHARS}=\"the value\"></the-name>",
-  #                tag.public_send(:"the-name", aria: { COMMON_DANGEROUS_CHARS => "the value" }, escape: false)
-  # end
+    assert_equal "<the-name aria-#{COMMON_DANGEROUS_CHARS}=\"the value\"></the-name>",
+                 tag.public_send(:"the-name", aria: { COMMON_DANGEROUS_CHARS => "the value" }, escape: false)
+  end
 
   it 'test_tag_with_dangerous_data_attribute_name' do
     escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
@@ -58,14 +58,14 @@ describe 'CVE Test 2022-27777', type: :view do
   end
 
   
-  # it 'test_tag_builder_with_dangerous_data_attribute_name' do 
-  #   escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
-  #   assert_equal "<the-name data-#{escaped_dangerous_chars}=\"the value\"></the-name>",
-  #                tag.public_send(:"the-name", data: { COMMON_DANGEROUS_CHARS => "the value" })
+  it 'test_tag_builder_with_dangerous_data_attribute_name' do 
+    escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
+    assert_equal "<the-name data-#{escaped_dangerous_chars}=\"the value\"></the-name>",
+                 tag.public_send(:"the-name", data: { COMMON_DANGEROUS_CHARS => "the value" })
 
-  #   assert_equal "<the-name data-#{COMMON_DANGEROUS_CHARS}=\"the value\"></the-name>",
-  #                tag.public_send(:"the-name", data: { COMMON_DANGEROUS_CHARS => "the value" }, escape: false)
-  # end
+    assert_equal "<the-name data-#{COMMON_DANGEROUS_CHARS}=\"the value\"></the-name>",
+                 tag.public_send(:"the-name", data: { COMMON_DANGEROUS_CHARS => "the value" }, escape: false)
+  end
 
   it 'test_tag_with_dangerous_unknown_attribute_name' do
     escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
@@ -77,14 +77,14 @@ describe 'CVE Test 2022-27777', type: :view do
   end
 
   # not in rails 4.2
-  # it 'test_tag_builder_with_dangerous_unknown_attribute_name' do
-  #   escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
-  #   assert_equal "<the-name #{escaped_dangerous_chars}=\"the value\"></the-name>",
-  #                tag.public_send(:"the-name", COMMON_DANGEROUS_CHARS => "the value")
+  it 'test_tag_builder_with_dangerous_unknown_attribute_name' do
+    escaped_dangerous_chars = "_" * COMMON_DANGEROUS_CHARS.size
+    assert_equal "<the-name #{escaped_dangerous_chars}=\"the value\"></the-name>",
+                 tag.public_send(:"the-name", COMMON_DANGEROUS_CHARS => "the value")
 
-  #   assert_equal "<the-name #{COMMON_DANGEROUS_CHARS}=\"the value\"></the-name>",
-  #                tag.public_send(:"the-name", COMMON_DANGEROUS_CHARS => "the value", escape: false)
-  # end
+    assert_equal "<the-name #{COMMON_DANGEROUS_CHARS}=\"the value\"></the-name>",
+                 tag.public_send(:"the-name", COMMON_DANGEROUS_CHARS => "the value", escape: false)
+  end
 
   it 'test_tag_builder_with_content' do
     assert_equal "<div id=\"post_1\">Content</div>", content_tag("div", "Content", id: "post_1")

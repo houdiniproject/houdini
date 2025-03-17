@@ -15,13 +15,13 @@ RSpec.shared_context :new_controller_user_context do
   def send(method, action, opts={})
     case method
     when :get
-      return get action, opts.merge(xhr: true)
+      return get action, **opts.merge(xhr: true)
     when :post
-      return post action, opts.merge(xhr: true)
+      return post action, **opts.merge(xhr: true)
     when :delete
-      return delete action, opts.merge(xhr: true)
+      return delete action, **opts.merge(xhr: true)
     when :put
-      return put action, opts.merge(xhr: true)
+      return put action, **opts.merge(xhr: true)
     end
   end
 

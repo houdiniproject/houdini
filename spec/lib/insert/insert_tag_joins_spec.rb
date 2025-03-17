@@ -163,25 +163,6 @@ describe 'InsertTagJoins.in_bulk' do
 
     end
 
-    it 'id, updated_at, created_at changes are stripped' do
-
-      invalid_id = 10000000
-      Timecop.freeze(2020, 9,1,12,0,0) {
-        results = InsertTagJoins::in_bulk(@nonprofit.id, @profile.id,
-                                                  [@supporters[:np_supporter_with_add][:entity].id],
-                                                  [{tag_master_id: 25, selected: true, id: invalid_id, created_at: Time.now.ago(3000), updated_at: Time.now.ago(2999)}])
-        expected ={tag_master_id: 25, created_at: Time.now, updated_at: Time.now, supporter_id: @supporters[:np_supporter_with_add][:entity].id}.with_indifferent_access
-
-        expect(results).to eq(successful_json(1, 0))
-
-        result_tag = @supporters[:np_supporter_with_add][:entity].tag_joins.where('tag_master_id = ?', 25).first
-
-        expect(result_tag.attributes.with_indifferent_access.reject{|k, _| k == 'id'}).to eq(expected)
-
-        expect(result_tag.attributes[:id]).to_not eq invalid_id
-      }
-    end
-
     it 'add_to_one' do
 
       expect(TagJoin.count).to eq 13

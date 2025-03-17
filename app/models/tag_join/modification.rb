@@ -5,8 +5,7 @@ class TagJoin::Modification
   attr_reader :tag_master_id, :selected
 
   def initialize(opts={})
-    # TODO move the parameters further out
-    assign_attributes(ActionController::Parameters.new(opts).permit(:tag_master_id, :selected))
+    assign_attributes(opts)
   end
 
   def tag_master_id=(value)

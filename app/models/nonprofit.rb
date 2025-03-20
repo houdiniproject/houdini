@@ -64,7 +64,7 @@ class Nonprofit < ApplicationRecord
     end
 
     def pending_totals
-      net, gross = pending.pluck('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross').first
+      net, gross = pending.pluck(Arel.sql('SUM("payments"."net_amount") AS net, SUM("payments"."gross_amount") AS gross')).first
       {'net' => net, 'gross' => gross}
     end
 

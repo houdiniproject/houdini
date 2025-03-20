@@ -89,11 +89,6 @@ module Commitchange
 		# Added in rails 5.0
 		config.active_record.belongs_to_required_by_default = false
 
-		# Makes hash conversion of the parameters raise an error if they are not permitted.
-		# We don't use strong parameters that much yet so let's not do this for now
-		# Added in rails 5.0
-		config.action_controller.raise_on_unfiltered_parameters = false
-
 		# just have unknown assets return path like they did before Rails 5.1
 		Rails.application.config.assets.unknown_asset_fallback = true
 

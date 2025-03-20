@@ -21,7 +21,7 @@ if Rails.version < '6.1'
       def underscore(camel_cased_word)
         return camel_cased_word unless camel_cased_word =~ /[A-Z-]|::/
         word = camel_cased_word.to_s.gsub(/::/, '/')
-        word.gsub!(/(?:(?<=([A-Za-z\d]))|\b)(#{inflections.acronym_regex})(?=\b|[^a-z])/) { "#{$1 && '_'}#{$2.downcase}" }
+        word.gsub!(inflections.acronyms_underscore_regex) { "#{$1 && '_' }#{$2.downcase}" }
         word.gsub!(/([A-Z])(?=[A-Z][a-z])|([a-z\d])(?=[A-Z])/) { ($1 || $2) << "_" }
         word.tr!("-", "_")
         word.downcase!

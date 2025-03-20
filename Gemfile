@@ -35,6 +35,8 @@ gem 'aws-sdk-rails'
 
 gem 'json', '>= 2.3.0'
 
+gem 'yaaf' # form objects
+gem 'service_actor-rails' # for the actor pattern
 
 # for blocking ip addressses
 gem 'rack-attack'

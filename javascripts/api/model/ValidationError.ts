@@ -1,15 +1,5 @@
-export interface ValidationError {
-    /**
-     * Params where the following had an error.
-     */
-    params?: Array<string>;
+export type ValidationError = [string, string[]]
 
-    /**
-     * The validation messages for the params
-     */
-    messages?: Array<string>;
-
-}
 export class ValidationErrorException implements Error{
 
     constructor(obj:ValidationError, message?:string){

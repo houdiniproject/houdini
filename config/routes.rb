@@ -2,8 +2,6 @@
 Rails.application.routes.draw do
  	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  mount Houdini::Api => '/api'
-
   if Rails.env == 'development'
     get '/button_debug/embedded' => 'button_debug#embedded'
     get '/button_debug/button' => 'button_debug#button'
@@ -13,6 +11,9 @@ Rails.application.routes.draw do
   get 'onboard' => 'onboard#index'
 
   defaults format: :json do # they're APIs, you have to use JSON
+    namespace :api do
+      resources :nonprofits, only: [:create]
+    end
     namespace :api_new do
       resources :users, only: [] do
         get :current, on: :collection

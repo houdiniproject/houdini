@@ -92,6 +92,10 @@ module Commitchange
 		# just have unknown assets return path like they did before Rails 5.1
 		Rails.application.config.assets.unknown_asset_fallback = true
 
+		# keep our forgery protection in ApplicationController, not ActionController::BaseController
+		# added in Rails 5.2
+		config.action_controller.default_protect_from_forgery = false
+
 		config.middleware.insert_before 0, Rack::Cors do
 			allow do
 				origins '*'

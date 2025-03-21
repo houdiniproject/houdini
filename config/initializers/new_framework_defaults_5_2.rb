@@ -8,7 +8,7 @@
 
 # Make Active Record use stable #cache_key alongside new #cache_version method.
 # This is needed for recyclable cache keys.
-# Rails.application.config.active_record.cache_versioning = true
+Rails.application.config.active_record.cache_versioning = true
 
 # Use AES-256-GCM authenticated encryption for encrypted cookies.
 # Also, embed cookie expiry in signed or encrypted cookies for increased security.
@@ -21,7 +21,7 @@
 
 # Use AES-256-GCM authenticated encryption as default cipher for encrypting messages
 # instead of AES-256-CBC, when use_authenticated_message_encryption is set to true.
-# Rails.application.config.active_support.use_authenticated_message_encryption = true
+Rails.application.config.active_support.use_authenticated_message_encryption = true
 
 # Add default protection from forgery to ActionController::Base instead of in
 # ApplicationController.
@@ -32,7 +32,7 @@
 # Rails.application.config.active_record.sqlite3.represent_boolean_as_integer = true
 
 # Use SHA-1 instead of MD5 to generate non-sensitive digests, such as the ETag header.
-# Rails.application.config.active_support.use_sha1_digests = true
+Rails.application.config.active_support.use_sha1_digests = true
 
 # Make `form_with` generate id attributes for any generated HTML tags.
-# Rails.application.config.action_view.form_with_generates_ids = true
+Rails.application.config.action_view.form_with_generates_ids = true

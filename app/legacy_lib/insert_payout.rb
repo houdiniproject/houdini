@@ -81,7 +81,7 @@ module InsertPayout
       # Create ObjectEvent record for payout.created
       Payout.find(payout['id'].to_i).publish_created
       NonprofitMailer.delay.pending_payout_notification(payout['id'].to_i)
-        return payout
+      payout
       end
     rescue Stripe::StripeError => e
       payout = Psql.execute(

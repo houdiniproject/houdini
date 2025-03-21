@@ -2,7 +2,7 @@
 # Handy class managing a list of requested modifications
 class TagJoin::Modifications < Array
 
-  # accepts an Array containing hash with the keys `tag_master_id`` and `selected` or `TagJoin::Modification`'s
+  # accepts an Array containing hashes with the keys `tag_master_id`` and `selected` or `TagJoin::Modification`'s
   def initialize(tag_modifications_source=[])
     super(tag_modifications_source.map do |i|
       i.is_a?(TagJoin::Modification) ? i : TagJoin::Modification.new(i)
@@ -20,6 +20,7 @@ class TagJoin::Modifications < Array
     TagJoin::Modifications.new(self.select{|i| !i.selected})
   end
 
+  # @return [integer] the TagMaster ids of all of the referenced tags
   def to_tag_master_ids
     self.map{|i| i.tag_master_id}
   end

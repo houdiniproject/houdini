@@ -382,12 +382,7 @@ GEM
     rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
     rails_autoscale_agent (0.9.1)
-    rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.5)
     railties (6.1.7.10)
       actionpack (= 6.1.7.10)
       activesupport (= 6.1.7.10)
@@ -572,7 +567,6 @@ DEPENDENCIES
   rack-timeout
   rails (~> 6.1.7.10)
   rails-i18n
-  rails_12factor
   rails_autoscale_agent (>= 0.9.1)
   rake
   recaptcha (~> 5.8.1)

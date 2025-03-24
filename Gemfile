@@ -146,7 +146,6 @@ group :production, :staging do
   gem "hiredis", "~> 0.6.0"
   gem "redis", ">= 3.2.0"
   gem 'redis-actionpack'
-  gem 'rails_12factor'
 end
 
 gem 'grape', '~> 2.3'

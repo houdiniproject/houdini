@@ -1,4 +1,5 @@
 GIT
+<<<<<<< HEAD
   remote: https://github.com/ruby-grape/grape-entity.git
   revision: 0e04aa561373b510c2486282979085eaef2ae663
   ref: 0e04aa561373b510c2486282979085eaef2ae663
@@ -7,6 +8,52 @@ GIT
       activesupport (>= 3.0.0)
       multi_json (>= 1.3.2)
 
+||||||| 3d0ce81db
+  remote: https://github.com/commitchange/nokogiri.git
+  revision: 845f33399b3063f8f1f6e73a3035ff265ae3965b
+  tag: v1.13.11
+  specs:
+    nokogiri (1.13.11)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+
+GIT
+  remote: https://github.com/ruby-grape/grape-entity.git
+  revision: 0e04aa561373b510c2486282979085eaef2ae663
+  ref: 0e04aa561373b510c2486282979085eaef2ae663
+  specs:
+    grape-entity (0.7.1)
+      activesupport (>= 3.0.0)
+      multi_json (>= 1.3.2)
+
+GIT
+  remote: https://github.com/teoljungberg/fx.git
+  revision: 946cdccbd12333deb8f4566c9852b49c0231a618
+  ref: 946cdccbd12333deb8f4566c9852b49c0231a618
+  specs:
+    fx (0.6.2)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
+
+=======
+  remote: https://github.com/commitchange/nokogiri.git
+  revision: 845f33399b3063f8f1f6e73a3035ff265ae3965b
+  tag: v1.13.11
+  specs:
+    nokogiri (1.13.11)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
+
+GIT
+  remote: https://github.com/teoljungberg/fx.git
+  revision: 946cdccbd12333deb8f4566c9852b49c0231a618
+  ref: 946cdccbd12333deb8f4566c9852b49c0231a618
+  specs:
+    fx (0.6.2)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
+
+>>>>>>> move-to-rails-api
 PATH
   remote: gems/ruby-param-validation
   specs:
@@ -227,6 +274,7 @@ GEM
     geocoder (1.2.11)
     globalid (1.1.0)
       activesupport (>= 5.0)
+<<<<<<< HEAD
     grape (2.3.0)
       activesupport (>= 6)
       dry-types (>= 1.1)
@@ -238,6 +286,21 @@ GEM
       rack
     grape_url_validator (1.0.0)
       grape (>= 0.12.0)
+||||||| 3d0ce81db
+    grape (1.8.0)
+      activesupport (>= 5)
+      builder
+      dry-types (>= 1.1)
+      mustermann-grape (~> 1.0.0)
+      rack (>= 1.3.0)
+      rack-accept
+    grape_logging (1.8.4)
+      grape
+      rack
+    grape_url_validator (1.0.0)
+      grape (>= 0.12.0)
+=======
+>>>>>>> move-to-rails-api
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
     has_scope (0.7.2)
@@ -310,10 +373,18 @@ GEM
     msgpack (1.8.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
+<<<<<<< HEAD
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
+||||||| 3d0ce81db
+    mustermann (3.0.3)
+      ruby2_keywords (~> 0.0.1)
+    mustermann-grape (1.0.2)
+      mustermann (>= 1.0.0)
+=======
+>>>>>>> move-to-rails-api
     nearest_time_zone (0.0.4)
       andand
       kdtree
@@ -493,6 +564,9 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    yaaf (3.0.2)
+      activemodel (>= 5.2)
+      activerecord (>= 5.2)
     yard (0.9.36)
     zeitwerk (2.6.18)
 
@@ -531,10 +605,18 @@ DEPENDENCIES
   fx
   geocoder
   globalid (>= 1.0.1)
+<<<<<<< HEAD
   grape (~> 2.3)
   grape-entity!
   grape_logging
   grape_url_validator
+||||||| 3d0ce81db
+  grape (~> 1.8.0)
+  grape-entity!
+  grape_logging
+  grape_url_validator
+=======
+>>>>>>> move-to-rails-api
   hamster
   has_scope
   hashie
@@ -589,6 +671,7 @@ DEPENDENCIES
   timecop
   tunemygc
   webmock
+  yaaf
   yard
 
 RUBY VERSION

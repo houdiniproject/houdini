@@ -21,7 +21,7 @@ import { Configuration } from '../configuration';
 
 
 export class NonprofitApi {
-    protected basePath = '/api/v1';
+    protected basePath = '/api';
     public defaultHeaders: Array<string> = [];
     public defaultExtraJQueryAjaxSettings?: JQueryAjaxSettings | null = null;
     public configuration: Configuration = new Configuration();
@@ -44,7 +44,7 @@ export class NonprofitApi {
      * @param id Status id.
      */
     public getNonprofitId(id: number, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<models.Nonprofit > {
-        let localVarPath = this.basePath + '/nonprofit/{id}'.replace('{' + 'id' + '}', encodeURIComponent(String(id)));
+        let localVarPath = this.basePath + '/nonprofits/{id}'.replace('{' + 'id' + '}', encodeURIComponent(String(id)));
 
         let queryParameters: any = {};
         let headerParams: any = {};
@@ -102,7 +102,7 @@ export class NonprofitApi {
      * @param Nonprofit 
      */
     public postNonprofit(Nonprofit: models.PostNonprofit, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<models.Nonprofit > {
-        let localVarPath = this.basePath + '/nonprofit';
+        let localVarPath = this.basePath + '/nonprofits';
 
         let queryParameters: any = {};
         let headerParams: any = {};

@@ -28,6 +28,6 @@ class InterpolationDictionary
     end
 
     def sanitize(value)
-        ActionView::Base.white_list_sanitizer.sanitize(value)
+        ActionView::Base.safe_list_sanitizer.sanitize(value)
     end
 end

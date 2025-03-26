@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
 
-describe Houdini::V1::Nonprofit, :type => :request do
+describe Api::NonprofitsController, :type => :request do
 
   describe 'post' do
     around {|e|
@@ -19,12 +19,7 @@ describe Houdini::V1::Nonprofit, :type => :request do
 
     def create_errors(*wrapper_params)
       output = totally_empty_errors
-      # wrapper_params.each {|i| output[:errors].push(h(params: [i], messages: gr_e('presence')))}
       output
-    end
-
-    def h(h = {})
-      h.with_indifferent_access
     end
 
     let(:totally_empty_errors) {
@@ -68,8 +63,6 @@ describe Houdini::V1::Nonprofit, :type => :request do
       expect(response.code).to eq "400"
       expected = create_errors("user")
       expected[:errors]["nonprofit[email]"] = ["is invalid"]
-      #expected[:errors].push(h(params:["nonprofit[phone]"], messages: gr_e("regexp")))
-      #expected[:errors].push(h(params:["nonprofit[url]"], messages: gr_e("regexp")))
       expect_validation_errors(JSON.parse(response.body), expected)
     end
 

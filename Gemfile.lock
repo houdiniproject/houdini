@@ -466,11 +466,6 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    service_actor (3.9.4)
-      zeitwerk (>= 1.0)
-    service_actor-rails (1.0.0)
-      rails (>= 4.2)
-      service_actor
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
     simplecov (0.16.1)
@@ -610,7 +605,6 @@ DEPENDENCIES
   ruby2_keywords
   sassc
   sassc-rails
-  service_actor-rails
   shoulda-matchers
   simplecov (~> 0.16.1)
   sprockets (~> 3.7)

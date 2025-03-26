@@ -135,8 +135,6 @@ describe Api::NonprofitsController, :type => :request do
       bp = force_create(:billing_plan)
       Settings.default_bp.id = bp.id
 
-      #expect(Houdini::V1::Nonprofit).to receive(:sign_in)
-
       post '/api/nonprofits', params: input, xhr: true
 
       expect(response.code).to eq "201"
@@ -179,22 +177,5 @@ describe Api::NonprofitsController, :type => :request do
 
       StripeMockHelper.stop
     end
-
-
   end
-end
-
-
-def find_error_message(json, field_name)
-  errors = json['errors']
-
-  error = errors.select {|i| i["params"].any? {|j| j == field_name}}.first
-  return error if !error
-  return error["messages"]
-
-end
-
-def gr_e(*keys)
-  keys.map {|i| I18n.translate("grape.errors.messages." + i, locale: 'en')}
-
 end

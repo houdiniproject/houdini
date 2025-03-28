@@ -3,11 +3,6 @@ require "rails_helper"
 
 RSpec.describe RegisterNonprofitForm::NonprofitForm, :type => :model do
 
-  # it { is_expected.to allow_value("").for(:email) }
-  # it { is_expected.to allow_value(nil).for(:email) }
-  # it { is_expected.to allow_value("an.email@example.com").for(:email) }
-  # it { is_expected.to_not allow_value("notanemail").for(:email) }
-
   describe "#website" do
     it { is_expected.to allow_value("www.exa.cs").for(:website) }
     it "normalizes with http" do
@@ -57,7 +52,7 @@ RSpec.describe RegisterNonprofitForm::NonprofitForm, :type => :model do
       expect(form.nonprofit.slug).to eq "ending-poverty-in-the-fox-valley-inc"
     end
 
-    it 'generates a new slug' do
+    it 'generates a new slug when the slug is already taken' do
       saved = create(:nonprofit_base, slug: nil) # so the slug is already taken
 
       form = described_class.new(nonprofit_attributes) # nil so it autocreates the slug

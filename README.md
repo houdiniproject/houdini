@@ -13,7 +13,7 @@ All backend code and React components should be well-tested
 
 Houdini is designed and tested to run with the following:
 
-* Ruby 2.7
+* Ruby 3.0
 * Node 14
 * PostgreSQL 12
 * run on Heroku-20
@@ -110,7 +110,7 @@ git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-b
 Ruby install
 ```bash
 cd houdini
-rbenv install 2.7
+rbenv install 3.0
 ```
 
 Run the following command as the `postgres` user and then enter your admin

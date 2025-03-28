@@ -1,6 +1,6 @@
 # CommitChange's version of Houdini
 
-This is a Rails 4.2 app.
+This is a Rails 6.0 app.
 
 The frontend is written in a few custom frameworks, the largest of which is called Flimflam.
 We endeavor to migrate to React as quickly as possible to increase development
@@ -14,8 +14,8 @@ All backend code and React components should be well-tested
 Houdini is designed and tested to run with the following:
 
 * Ruby 2.6
-* Node 14
-* PostgreSQL 12
+* Node 16
+* PostgreSQL 16
 * run on Heroku-20
 
 ## Dev Setup

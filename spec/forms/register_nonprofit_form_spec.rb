@@ -7,8 +7,6 @@ RSpec.describe RegisterNonprofitForm, :type => :model do
     StripeMockHelper.mock do
       old_bp =Settings.default_bp
       
-      
-      
       Settings.default_bp.id = bp.id
       
       e.run

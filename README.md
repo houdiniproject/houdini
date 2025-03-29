@@ -41,7 +41,7 @@ One-time setup:
 ```bash
 touch ~/.netrc #prevents docker compose from creating it as a directory if you don't have it yet
 
-docker-compose run web bin/rake db:setup
+docker-compose run web bin/rails db:setup
 ```
 
 Running:
@@ -207,7 +207,7 @@ When you run foreman in dev, you start up the server, the job runner and webpack
 foreman start
 ```
 
-If you get `ActiveRecord::NoDatabaseError` errors, run `bin/rake db:create:all` to make sure all the databases are built.
+If you get `ActiveRecord::NoDatabaseError` errors, run `bin/rails db:create:all` to make sure all the databases are built.
 
 ## Frontend
 

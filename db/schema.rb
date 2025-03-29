@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_29_172353) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_09_011057) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -1333,7 +1333,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_29_172353) do
   add_foreign_key "periodic_reports", "nonprofits"
   add_foreign_key "periodic_reports", "users"
   add_foreign_key "supporter_addresses", "supporters"
-  create_function :is_valid_json, sql_definition: <<-SQL
+  create_function :is_valid_json, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.is_valid_json(p_json text)
        RETURNS boolean
        LANGUAGE plpgsql
@@ -1347,7 +1347,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_29_172353) do
       end;
       $function$
   SQL
-  create_function :update_fts_on_donations, sql_definition: <<-SQL
+  create_function :update_fts_on_donations, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.update_fts_on_donations()
        RETURNS trigger
        LANGUAGE plpgsql
@@ -1358,7 +1358,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_29_172353) do
               END
             $function$
   SQL
-  create_function :update_fts_on_supporters, sql_definition: <<-SQL
+  create_function :update_fts_on_supporters, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.update_fts_on_supporters()
        RETURNS trigger
        LANGUAGE plpgsql
@@ -1369,7 +1369,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_29_172353) do
               END
             $function$
   SQL
-  create_function :update_phone_index_on_supporters, sql_definition: <<-SQL
+  create_function :update_phone_index_on_supporters, sql_definition: <<-'SQL'
       CREATE OR REPLACE FUNCTION public.update_phone_index_on_supporters()
        RETURNS trigger
        LANGUAGE plpgsql

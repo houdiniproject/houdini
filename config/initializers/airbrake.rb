@@ -49,7 +49,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
     # Airbrake. By default, all "password" attributes will have their contents
     # replaced.
     # https://github.com/airbrake/airbrake-ruby#blacklist_keys
-    c.blacklist_keys = [/password/i, /authorization/i]
+    c.blocklist_keys = [/password/i, /authorization/i]
 
     c.performance_stats = !!ENV['CHECK_PERFORMANCE']
   end

@@ -74,20 +74,6 @@ module QueryDonations
       .limit(15)
   end
 
-  # Return an array of groups of offsite donation payment_ids that exactly match on nonprofit_id, supporter_id, amount, and date
-  # !!! Note this returns the PAYMENT_IDS for each offsite donation
-  def self.dupe_offsite_donations(np_id)
-    payment_ids = Psql.execute_vectors(
-      Qexpr.new.select("ARRAY_AGG(payments.id) AS ids")
-      .from("donations")
-      .join(:offsite_payments, "offsite_payments.donation_id=donations.id")
-      .join(:payments, "payments.donation_id=donations.id")
-      .where("donations.nonprofit_id=$id", id: np_id)
-      .group_by("donations.supporter_id", "donations.amount", "donations.date")
-      .having("COUNT(donations.id) > 1")
-    )[1..-1].map(&:flatten)
-  end
-
   def self.get_first_payment_for_donation(table_selector='donations')
     Qx.select('payments.id, payments.gross_amount').from(:payments)
         .where("payments.donation_id = #{table_selector}.id")

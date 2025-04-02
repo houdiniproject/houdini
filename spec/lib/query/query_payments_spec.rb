@@ -822,6 +822,33 @@ describe QueryPayments do
         expect(result[:data].count).to eq 4
         expect(result[:data]).to_not satisfy {|i| i.any?{|j| j['id'] == donation_result_tomorrow['payment']['id']}}
       end
+
+      context 'when filtering by campaign' do 
+        it 'returns 2 campaign results' do 
+          donation_result_today
+          donation_result_yesterday
+          donation_result_tomorrow
+
+          result = QueryPayments::full_search(nonprofit.id, {campaign_id: campaign.id})
+          expect(result[:data].count).to eq 2
+          expect(result[:data]).to_not satisfy {|i| i.any?{|j| j['id'] == donation_result_tomorrow['campaign']['id']}}
+        end 
+      end 
+
+      context 'and sorts results' do 
+        it 'returns sorted campaign results' do 
+          donation_results = [
+          donation_result_today,
+          donation_result_tomorrow,
+          donation_result_yesterday
+        ]
+
+          sort_order = donation_results.sort
+          expect(sort_order[:data].count).to eq 2
+          expect(sort_order[:data]).to_not include donation_result_tomorrow
+
+        end 
+      end 
     end
 
   end

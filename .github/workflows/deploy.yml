@@ -31,7 +31,7 @@ jobs:
         matrix:
           os: [ubuntu-20.04]
           node: [16]
-          ruby: ['3.0.7']
+          ruby: ['3.1.7']
           postgres: ['16']
         fail-fast: false
       steps:

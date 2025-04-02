@@ -132,9 +132,15 @@ describe QuerySupporters do
   end
 
   describe '.full_search' do
+
+    let(:tag_master1) { create(:tag_master_base, nonprofit: supporter1.nonprofit)}
+    let(:tag_master2) { create(:tag_master_base, nonprofit: supporter1.nonprofit)}
     before do
       supporter1.payments = [payment1, payment4]
       supporter2.payments = [payment5]
+
+      supporter1.tag_joins.create(tag_master: tag_master1)
+      supporter1.tag_joins.create(tag_master: tag_master2)
     end
     it 'returns the UTC date when the timezone is not specified' do
       result = QuerySupporters.full_search(np.id, { search: 'Cacau' })
@@ -157,6 +163,20 @@ describe QuerySupporters do
       np.update_attributes(timezone: 'America/New_York')
       result = QuerySupporters.full_search(np.id, { last_payment_before: payment_utc_time.to_s })
       expect(result[:data].count).to eq 2
+    end
+
+    it 'includes tags as an array on supporter with tags' do
+      result = QuerySupporters.full_search(np.id, {})
+
+      expect(result[:data][0]["tags"]).to be_a Array
+      
+    end
+
+    it 'includes tags as null on supporter without a tag' do
+      result = QuerySupporters.full_search(np.id, {})
+
+      expect(result[:data][1]["tags"]).to eq nil
+      
     end
 
     context 'when searching by "at least" contributed' do

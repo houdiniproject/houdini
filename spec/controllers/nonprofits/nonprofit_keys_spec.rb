@@ -17,7 +17,7 @@ describe Nonprofits::NonprofitKeysController, :type => :controller do
 
         get :mailchimp_login, params: {nonprofit_id: nonprofit.id}
 
-        expect(response).to redirect_to(%r{https://login.mailchimp.com.*})
+        expect(response).to redirect_to(%r{https://login\.mailchimp\.com.*})
       end
     end
 

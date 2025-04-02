@@ -11,6 +11,14 @@ describe Nonprofits::NonprofitKeysController, :type => :controller do
 
     describe 'mailchimp_login' do
       include_context :open_to_np_associate, :get, :mailchimp_login, nonprofit_id: :__our_np
+
+      it 'properly redirects to a mailchimp domain' do
+        sign_in user_as_np_admin
+
+        get :mailchimp_login, params: {nonprofit_id: nonprofit.id}
+
+        expect(response).to redirect_to(%r{https://login.mailchimp.com.*})
+      end
     end
 
     describe 'mailchimp_landing' do

@@ -296,11 +296,11 @@ Rails.application.routes.draw do
   # Mailchimp Landing
   get '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
 
-  direct(:nonprofit_locateable) do |model, options|
+  direct(:slugged_nonprofit) do |model, options|
     { controller: "nonprofits", action: "show", state_code: model.state_code_slug, city: model.city_slug, name: model.slug }.merge(options)
   end
 
-  direct(:nonprofit_locateable_dashboard) do |model, options|
+  direct(:slugged_nonprofit_dashboard) do |model, options|
     { controller: "nonprofits", action: "dashboard", state_code: model.state_code_slug, city: model.city_slug, name: model.slug }.merge(options)
   end
 

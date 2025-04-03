@@ -14,3 +14,7 @@ module ActionController
     end
   end
 end
+
+# unneeded module so zeitwerk:check passes
+module ToDeprecatedH
+end

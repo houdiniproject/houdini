@@ -2,7 +2,7 @@
 Rails.application.routes.draw do
  	# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  mount Houdini::API => '/api'
+  mount Houdini::Api => '/api'
 
   if Rails.env == 'development'
     get '/button_debug/embedded' => 'button_debug#embedded'

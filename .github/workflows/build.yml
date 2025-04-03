@@ -78,6 +78,9 @@ jobs:
             bundler-cache: true
       
         - run: bin/setup
+        - if: steps.changes.outputs.ruby == 'true'
+          name: run zeitwerk:check
+          run: bin/rails zeitwerk:check
         - continue-on-error: true
           if: steps.changes.outputs.ruby == 'true'
           name: run spec

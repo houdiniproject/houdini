@@ -296,6 +296,14 @@ Rails.application.routes.draw do
   # Mailchimp Landing
   get '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
 
+  direct(:nonprofit_locateable) do |model, options|
+    { controller: "nonprofits", action: "show", state_code: model.state_code_slug, city: model.city_slug, name: model.slug }.merge(options)
+  end
+
+  direct(:nonprofit_locateable_dashboard) do |model, options|
+    { controller: "nonprofits", action: "dashboard", state_code: model.state_code_slug, city: model.city_slug, name: model.slug }.merge(options)
+  end
+
   # Webhooks
   get '/static/terms_and_privacy' => 'static#terms_and_privacy'
   get '/static/ccs' => 'static#ccs'

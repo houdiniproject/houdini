@@ -226,7 +226,7 @@ class Nonprofit < ApplicationRecord
   end
 
   def url
-    Rails.application.routes.url_helpers.slugged_nonprofit_path(self)
+    "/#{self.state_code_slug}/#{self.city_slug}/#{self.slug}"
   end
 
   def set_slugs

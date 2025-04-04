@@ -296,6 +296,7 @@ Rails.application.routes.draw do
   # Mailchimp Landing
   get '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing'
 
+  # Will create a slugged route for `Nonprofit`. So, if you have 
   direct(:slugged_nonprofit) do |model, options|
     { controller: "nonprofits", action: "show", state_code: model.state_code_slug, city: model.city_slug, name: model.slug }.merge(options)
   end

@@ -4,8 +4,8 @@
 RSpec.shared_context :shared_user_context do
 
 
-  let(:nonprofit) {force_create(:nonprofit, published:true)}
-  let(:other_nonprofit) { force_create(:nonprofit)}
+  let(:nonprofit) {create(:nonprofit_base, published:true)}
+  let(:other_nonprofit) { create(:nonprofit_base)}
 
 
   let(:user_as_np_admin) {

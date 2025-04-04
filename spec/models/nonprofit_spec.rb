@@ -298,9 +298,6 @@ RSpec.describe Nonprofit, type: :model do
   end
 
   it '#url returns slugged_nonprofit_path' do
-    # this makes sure that our routes have a default host which is what they need for testing
-    allow(Rails.application.routes).to receive(:default_url_options).and_return(ApplicationController.default_url_options)
-
     nonprofit = create(:nonprofit_base)
     expect(nonprofit.url).to eq "/#{nonprofit.state_code_slug}/#{nonprofit.city_slug}/#{nonprofit.slug}"
   end

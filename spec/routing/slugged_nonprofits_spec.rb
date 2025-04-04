@@ -4,7 +4,7 @@ require 'rails_helper'
 describe "Slugged routes", type: :routing do
   before(:each) do
     # this makes sure that our routes have a default host which is what they need for testing
-    allow(Rails.application.routes).to receive(:default_url_options).and_return(ApplicationController.default_url_options)
+    allow(Rails.application.routes).to receive(:default_url_options).and_return(ApplicationMailer.default_url_options)
   end
 
   describe "slugged_nonprofit" do

@@ -22,12 +22,12 @@ describe FrontController, :type => :controller do
     it 'redirect to nonprofit admin' do
       sign_in user_as_np_admin
       get(:index)
-      expect(response).to redirect_to NonprofitPath.dashboard(nonprofit)
+      expect(response).to redirect_to "/#{nonprofit.state_code_slug}/#{nonprofit.city_slug}/#{nonprofit.slug}/dashboard"
     end
     it 'redirect to nonprofit admin' do
       sign_in user_as_np_associate
       get(:index)
-      expect(response).to redirect_to NonprofitPath.dashboard(nonprofit)
+      expect(response).to redirect_to "/#{nonprofit.state_code_slug}/#{nonprofit.city_slug}/#{nonprofit.slug}/dashboard"
     end
 
     it 'redirect to general user' do

@@ -10,7 +10,7 @@
 		</span>
 
 		<% if profile %>
-		<a class='header-profile' href='<%= profile.url%>'><%= profile.name %></a>
+		<a class='header-profile' href='<%= profile_path(profile) %>'><%= profile.name %></a>
 		<% end %>
 	</div>
 </header>

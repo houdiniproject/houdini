@@ -6,7 +6,7 @@
 			<span class='sideNav-text'><%= administered_nonprofit.name %></span>
 		</a>
 
-		<a class='sideNav-link' href='<%= NonprofitPath.dashboard(administered_nonprofit) %>'>
+		<a class='sideNav-link' href='<%= slugged_nonprofit_dashboard_path(administered_nonprofit) %>'>
 			<i class='sideNav-icon icon-camera-graph-2'></i>
 			<span class='sideNav-text'>Dashboard</span>
 		</a>

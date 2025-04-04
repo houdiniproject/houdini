@@ -2,9 +2,8 @@
 require 'rails_helper'
 
 describe "Slugged routes", type: :routing do
-
   before(:each) do
-    
+    # this makes sure that our routes have a default host which is what they need for testing
     allow(Rails.application.routes).to receive(:default_url_options).and_return(ApplicationController.default_url_options)
   end
 
@@ -16,7 +15,7 @@ describe "Slugged routes", type: :routing do
         action: "show", 
         state_code: nonprofit.state_code_slug,
         city: nonprofit.city_slug,
-        name: nonprofit.slug
+        name: nonprofit.slug,
       )
     end
 
@@ -28,7 +27,7 @@ describe "Slugged routes", type: :routing do
         state_code: nonprofit.state_code_slug,
         city: nonprofit.city_slug,
         name: nonprofit.slug,
-        foo: 'bar'
+        foo: 'bar',
       )
     end
   end
@@ -41,7 +40,19 @@ describe "Slugged routes", type: :routing do
         action: "dashboard", 
         state_code: nonprofit.state_code_slug,
         city: nonprofit.city_slug,
-        name: nonprofit.slug
+        name: nonprofit.slug,
+      )
+    end
+
+    it 'routes to a nonprofit dashboard and accepts params' do
+      nonprofit = create(:nonprofit_base)
+      expect(get: slugged_nonprofit_dashboard_path(nonprofit, foo: 'bar')).to route_to(
+        controller: "nonprofits",
+        action: "dashboard", 
+        state_code: nonprofit.state_code_slug,
+        city: nonprofit.city_slug,
+        name: nonprofit.slug,
+        foo: 'bar',
       )
     end
   end

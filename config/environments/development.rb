@@ -40,7 +40,8 @@ Rails.application.configure do
 	config.action_mailer.delivery_method = :letter_opener
 	config.action_mailer.perform_deliveries = true
 
-	config.action_mailer.default_url_options = { host: 'localhost', port: 5000}
+  config.default_url_options = { host: 'localhost', port: 5000}
+	config.action_mailer.default_url_options = config.default_url_options
 	config.action_mailer.smtp_settings = { address: Settings.mailer.address, port: Settings.mailer.port }
         config.action_mailer.smtp_settings['user_name']= Settings.mailer.username if Settings.mailer.username
         config.action_mailer.smtp_settings['password']= Settings.mailer.password if Settings.mailer.password
@@ -53,7 +54,6 @@ Rails.application.configure do
 	# 	region: 'us-east-1'
 	# )
 	# config.action_mailer.delivery_method = :ses
-	config.action_mailer.default_url_options = { host: 'localhost', port: 5000}
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false

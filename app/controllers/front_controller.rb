@@ -4,7 +4,7 @@ class FrontController < ApplicationController
 		if !Nonprofit.any?
 			redirect_to onboard_path
 		elsif current_role?([:nonprofit_admin,:nonprofit_associate])
-			redirect_to NonprofitPath.dashboard(administered_nonprofit)
+			redirect_to slugged_nonprofit_dashboard_path(administered_nonprofit)
 		elsif current_user
 			redirect_to '/profiles/' + current_user.profile.id.to_s
 		else

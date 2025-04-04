@@ -8,8 +8,6 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
-  # Turn false under Spring and add config.action_view.cache_template_loading = true.
   config.cache_classes = true
 
   # Eager loading loads your whole application. When running a single test locally,
@@ -47,7 +45,6 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'localhost:8080' }
 
 
   # Print deprecation notices to the stderr.
@@ -78,6 +75,9 @@ Rails.application.configure do
 
   config.action_controller.allow_forgery_protection = false
   config.cache_store = :memory_store
+
+  config.default_url_options = {host: "example.houdini.instance"}
+  config.action_mailer.default_url_options = config.default_url_options
 
   ENV['THROTTLE_SUPPORTER_LIMIT'] = '10'
   ENV['THROTTLE_SUPPORTER_PERIOD'] = '60'

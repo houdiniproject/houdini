@@ -45,7 +45,7 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
   config.action_mailer.raise_delivery_errors = false
-
+  config.action_mailer.default_url_options = { host: 'localhost:8080' }
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
@@ -76,9 +76,6 @@ Rails.application.configure do
   config.action_controller.allow_forgery_protection = false
   config.cache_store = :memory_store
 
-  config.default_url_options = {host: "example.houdini.instance"}
-  config.action_mailer.default_url_options = config.default_url_options
-  config.action_controller.default_url_options = config.default_url_options
 
   ENV['THROTTLE_SUPPORTER_LIMIT'] = '10'
   ENV['THROTTLE_SUPPORTER_PERIOD'] = '60'

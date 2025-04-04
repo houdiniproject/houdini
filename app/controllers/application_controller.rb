@@ -21,7 +21,8 @@ class ApplicationController < ActionController::Base
 		if (Settings&.maintenance&.maintenance_mode && !current_user)
 			unless (self.class == Users::SessionsController &&
 							((Settings.maintenance.maintenance_token && params[:maintenance_token] == Settings.maintenance.maintenance_token) || params[:format] == 'json'))
-				redirect_to Settings.maintenance.maintenance_page
+				redirect_to Settings.maintenance.maintenance_page,
+					allow_other_host: true
 			end
 		end
 	end

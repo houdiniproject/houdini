@@ -18,7 +18,8 @@ class StaticController < ApplicationController
       end
     elsif (ccs_method == 'github')
       git_hash = File.read("#{Rails.root}/CCS_HASH")
-      redirect_to "https://github.com/#{Settings.ccs.options.account}/#{Settings.ccs.options.repo}/tree/#{git_hash}"
+      redirect_to "https://github.com/#{Settings.ccs.options.account}/#{Settings.ccs.options.repo}/tree/#{git_hash}",
+        allow_other_host: true
     end
 
   end

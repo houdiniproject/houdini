@@ -76,7 +76,6 @@ Rails.application.configure do
   config.action_controller.allow_forgery_protection = false
   config.cache_store = :memory_store
 
-  config.action_mailer.default_url_options = {host: "example.houdini.instance"}
 
   ENV['THROTTLE_SUPPORTER_LIMIT'] = '10'
   ENV['THROTTLE_SUPPORTER_PERIOD'] = '60'

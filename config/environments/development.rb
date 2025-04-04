@@ -52,7 +52,6 @@ Rails.application.configure do
 	# 	region: 'us-east-1'
 	# )
 	# config.action_mailer.delivery_method = :ses
-	config.action_mailer.default_url_options = { host: 'localhost', port: 5000}
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false

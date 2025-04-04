@@ -7,6 +7,7 @@ Rails.application.configure do
 	config.default_url_options = { host: 'commitchange-test.herokuapp.com' }
 	config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
 	config.action_mailer.default_url_options = config.default_url_options
+	config.action_controller.default_url_options = config.default_url_options
 
 	# we want to be able to show mailer previews
 	config.action_mailer.show_previews = true

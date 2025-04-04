@@ -95,10 +95,11 @@ Rails.application.configure do
 
     config.action_mailer.perform_caching = false
 
+    config.default_url_options = { host: Settings.mailer.host }
     # Disable delivery errors, bad email addresses will be ignored
     # config.action_mailer.raise_delivery_errors = false
     config.action_mailer.delivery_method = :ses
-    config.action_mailer.default_url_options = { host: Settings.mailer.host }
+    config.action_mailer.default_url_options = config.default_url_options
           # Precompile all "page" files, it needs to be set here so the proper env is setup
           config.assets.precompile << Proc.new do |path|
       if path =~ /.*page\.(css|js)/

@@ -40,7 +40,7 @@ Rails.application.configure do
 	config.action_mailer.delivery_method = :letter_opener
 	config.action_mailer.perform_deliveries = true
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 5000}
+	config.action_mailer.default_url_options = { host: 'localhost', port: 5000}
 	config.action_mailer.smtp_settings = { address: Settings.mailer.address, port: Settings.mailer.port }
         config.action_mailer.smtp_settings['user_name']= Settings.mailer.username if Settings.mailer.username
         config.action_mailer.smtp_settings['password']= Settings.mailer.password if Settings.mailer.password

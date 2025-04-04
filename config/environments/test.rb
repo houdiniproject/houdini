@@ -78,6 +78,7 @@ Rails.application.configure do
 
   config.default_url_options = {host: "example.houdini.instance"}
   config.action_mailer.default_url_options = config.default_url_options
+  config.action_controller.default_url_options = config.default_url_options
 
   ENV['THROTTLE_SUPPORTER_LIMIT'] = '10'
   ENV['THROTTLE_SUPPORTER_PERIOD'] = '60'

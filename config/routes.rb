@@ -300,14 +300,14 @@ Rails.application.routes.draw do
   # city_slug: appleton and slug: sample-commitchange-nonprofit, then `slugged_nonprofit_path(nonprofit)` would return:
   # /wi/appleton/sample-commitchange-nonprofit
   direct(:slugged_nonprofit) do |model, options|
-    { controller: "nonprofits", action: "show", state_code: model.state_code_slug, city: model.city_slug, name: model.slug }.merge(options)
+    nonprofit_location_path(state_code: model.state_code_slug, city: model.city_slug, name: model.slug, **options)
   end
 
   # Will create a slugged route for `Nonprofit`'s dashboard. So, if `nonprofit` is a `Nonprofit` with a state_code_slug: wi,
   # city_slug: appleton and slug: sample-commitchange-nonprofit, then `slugged_nonprofit_dashboard_path(nonprofit)` would 
   # return: /wi/appleton/sample-commitchange-nonprofit/dashboard
   direct(:slugged_nonprofit_dashboard) do |model, options|
-    { controller: "nonprofits", action: "dashboard", state_code: model.state_code_slug, city: model.city_slug, name: model.slug }.merge(options)
+    np_dashboard_path(state_code: model.state_code_slug, city: model.city_slug, name: model.slug, **options)
   end
 
   # Webhooks

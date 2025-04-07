@@ -1,8 +1,6 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'rails_helper'
-# require 'support/contexts/shared_donation_charge_context'
 describe NonprofitsController, type: :request do
-  
   let(:nonprofit) { create(:nonprofit_base, :with_default_billing_subscription)}
   let(:user) { create(:user_as_nonprofit_associate, nonprofit: nonprofit)  }
 

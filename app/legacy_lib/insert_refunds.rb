@@ -70,7 +70,7 @@ module InsertRefunds
     
       JobQueue.queue JobTypes::RefundCreatedJob, refund
     
-      return {'payment' => payment.attributes, 'refund' => refund.attributes}
+      {'payment' => payment.attributes, 'refund' => refund.attributes}
     end
   end
 

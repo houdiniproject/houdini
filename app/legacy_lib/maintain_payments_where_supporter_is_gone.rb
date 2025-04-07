@@ -103,7 +103,7 @@ module MaintainPaymentsWhereSupporterIsGone
           
         end
       end
-      return {manual_payments: manual_payments, manual_refunds: manual_refunds, manual_disputes: manual_disputes}
+      {manual_payments: manual_payments, manual_refunds: manual_refunds, manual_disputes: manual_disputes}
     end
   end
 end

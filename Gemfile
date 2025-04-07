@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby ENV['CUSTOM_RUBY_VERSION'] || '2.7.8' # heroku needs a specific ruby version in the Gemfile
 
 gem 'rake'
-gem 'rails', '~> 6.0.6.1'
+gem 'rails', '~> 6.1.7.10'
 gem 'mail', '= 2.7.1' # 2.8.1 on Rails 5.0 and Ruby 2.6 raises a `an superclass mismatch for class InternetMessageIO` error
 gem 'sprockets', '~> 3.7' # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
 
@@ -43,7 +43,7 @@ gem 'rack-attack'
 gem 'rack-freeze'
 
 # Database (postgres)
-gem 'pg', "< 1" # Postgresql, must be under 1 because 1.0 and later don't work on Rails 4
+gem 'pg', '~> 1.1'
 gem 'qx', path: 'gems/ruby-qx'
 gem 'dalli'
 
@@ -91,7 +91,7 @@ gem 'premailer-rails'
 gem 'table_print'
 
 gem 'rails-i18n' # For 4.0.x
-gem 'i18n-js'
+gem 'i18n-js', '~> 3.8' # i18n-js 4 is very different and doesn't work without some big changes
 gem 'countries'
 
 group :development, :ci, :test do
@@ -102,7 +102,7 @@ group :development, :ci, :test do
 	gem 'pry-byebug'
 	gem 'binding_of_caller'
   gem 'rspec', "~> 3"
-	gem 'rspec-rails', "~> 5"
+	gem 'rspec-rails', "~> 6"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
 	gem 'stripe-ruby-mock', '~> 2.5.1', :require => 'stripe_mock'
@@ -180,3 +180,5 @@ gem 'has_scope'
 gem 'globalid', ">= 1.0.1"
 
 gem 'js-routes'
+
+gem 'concurrent-ruby', '1.3.4' # there's a regression in 1.3.5 that can be removed at Rails 7.1

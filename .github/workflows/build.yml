@@ -81,8 +81,7 @@ jobs:
         - if: steps.changes.outputs.ruby == 'true'
           name: run zeitwerk:check
           run: bin/rails zeitwerk:check
-        - continue-on-error: true
-          if: steps.changes.outputs.ruby == 'true'
+        - if: steps.changes.outputs.ruby == 'true'
           name: run spec
           run: bin/rails spec
         - continue-on-error: true

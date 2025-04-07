@@ -52,7 +52,7 @@ module InsertBankAccount
         )
 
         NonprofitMailer.delay.new_bank_account_notification(bank_account)
-        return bank_account
+        bank_account
       rescue Stripe::StripeError => error
         params[:failure_message] = "Failed to connect the bank account: #{error.inspect}"
         raise ArgumentError.new("Failed to connect the bank account: #{error.inspect}")

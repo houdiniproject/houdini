@@ -44,8 +44,6 @@ describe NonprofitsController, type: :request do
 
 
   describe '#profile_todos' do
-    # let(:nonprofit) { create(:nonprofit)}
-    # let(:user) { create(:user_as_nonprofit_associate, nonprofit: nonprofit)  }
     context "not logged in" do
       it 'is unauthorized' do
         get "/nonprofits/#{nonprofit.id}/profile_todos"

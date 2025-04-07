@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Houdini::FullContact::Topic < ApplicationRecord
-  self.table_name = 'full_contact_topics'
+  self.table_name = "full_contact_topics"
 
-  belongs_to :info, foreign_key: 'full_contact_info_id'
+  belongs_to :info, foreign_key: "full_contact_info_id"
 end

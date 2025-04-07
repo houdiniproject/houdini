@@ -7,12 +7,12 @@ module UpdateRecurringDonations
   # Update the card id and name for a given recurring donation (provide rd['donation_id'])
   def self.update_card_id(rd, token)
     rd = rd&.with_indifferent_access
-    ParamValidation.new({ rd: rd, token: token },
-                        rd: { is_hash: true, required: true },
-                        token: { format: UUID::Regex, required: true })
+    ParamValidation.new({rd: rd, token: token},
+      rd: {is_hash: true, required: true},
+      token: {format: UUID::Regex, required: true})
 
     ParamValidation.new(rd,
-                        id: { is_reference: true, required: true })
+      id: {is_reference: true, required: true})
 
     source_token = QuerySourceToken.get_and_increment_source_token(token, nil)
     tokenizable = source_token.tokenizable
@@ -31,19 +31,19 @@ module UpdateRecurringDonations
       rec_don.n_failures = 0
       rec_don.save!
       donation.save!
-      InsertSupporterNotes.create([{ content: "This supporter updated their card for their recurring donation with ID #{rec_don.id}", supporter_id: rec_don.supporter.id, user_id: 540 }])
+      InsertSupporterNotes.create([{content: "This supporter updated their card for their recurring donation with ID #{rec_don.id}", supporter_id: rec_don.supporter.id, user_id: 540}])
     end
-    QueryRecurringDonations.fetch_for_edit(rd[:id])['recurring_donation']
+    QueryRecurringDonations.fetch_for_edit(rd[:id])["recurring_donation"]
   end
 
   # Update the paydate for a given recurring donation (provide rd['id'])
   def self.update_paydate(rd, paydate)
-    return ValidationError.new(['Invalid paydate']) unless (1..28).cover?(paydate.to_i)
+    return ValidationError.new(["Invalid paydate"]) unless (1..28).cover?(paydate.to_i)
 
-    Psql.execute(Qexpr.new.update(:recurring_donations, paydate: paydate).where('id=$id', id: rd['id']))
-    recurring_donation = RecurringDonation.find(rd['id'])
+    Psql.execute(Qexpr.new.update(:recurring_donations, paydate: paydate).where("id=$id", id: rd["id"]))
+    recurring_donation = RecurringDonation.find(rd["id"])
     recurring_donation.recurrence.publish_updated
-    rd['paydate'] = paydate
+    rd["paydate"] = paydate
     rd
   end
 
@@ -51,10 +51,10 @@ module UpdateRecurringDonations
   # @param [String] token
   # @param [Integer] amount
   def self.update_amount(rd, token, amount)
-    ParamValidation.new({ amount: amount, rd: rd, token: token },
-                        amount: { is_integer: true, min: 50, required: true },
-                        rd: { required: true, is_a: RecurringDonation },
-                        token: { required: true, format: UUID::Regex })
+    ParamValidation.new({amount: amount, rd: rd, token: token},
+      amount: {is_integer: true, min: 50, required: true},
+      rd: {required: true, is_a: RecurringDonation},
+      token: {required: true, format: UUID::Regex})
     source_token = QuerySourceToken.get_and_increment_source_token(token, nil)
     tokenizable = source_token.tokenizable
 
@@ -80,26 +80,26 @@ module UpdateRecurringDonations
   end
 
   def self.update_from_start_dates
-    RecurringDonation.inactive.where('start_date >= ?', Date.today).update_all(active: true)
+    RecurringDonation.inactive.where("start_date >= ?", Date.today).update_all(active: true)
   end
 
   def self.update_from_end_dates
-    RecurringDonation.active.where('end_date < ?', Date.today).update_all(active: false)
+    RecurringDonation.active.where("end_date < ?", Date.today).update_all(active: false)
   end
 
   # Cancel a recurring donation (set active='f') and record the supporter/user email who did it
   def self.cancel(rd_id, email, dont_notify_nonprofit = false)
     Psql.execute(
       Qexpr.new.update(:recurring_donations,
-                       active: false,
-                       cancelled_by: email,
-                       cancelled_at: Time.current)
-      .where('id=$id', id: rd_id.to_i)
+        active: false,
+        cancelled_by: email,
+        cancelled_at: Time.current)
+      .where("id=$id", id: rd_id.to_i)
     )
-    rd = QueryRecurringDonations.fetch_for_edit(rd_id)['recurring_donation']
-    InsertSupporterNotes.create({ supporter: Supporter.find(rd['supporter_id']), user: nil, content: "This supporter's recurring donation for $#{Format::Currency.cents_to_dollars(rd['amount'])} was cancelled by #{rd['cancelled_by']} on #{Format::Date.simple(rd['cancelled_at'])}"})
+    rd = QueryRecurringDonations.fetch_for_edit(rd_id)["recurring_donation"]
+    InsertSupporterNotes.create({supporter: Supporter.find(rd["supporter_id"]), user: nil, content: "This supporter's recurring donation for $#{Format::Currency.cents_to_dollars(rd["amount"])} was cancelled by #{rd["cancelled_by"]} on #{Format::Date.simple(rd["cancelled_at"])}"})
     unless dont_notify_nonprofit
-      RecurringDonationCancelledJob.perform_later(Donation.find(rd['donation_id']))
+      RecurringDonationCancelledJob.perform_later(Donation.find(rd["donation_id"]))
     end
     rd
   end
@@ -125,10 +125,10 @@ module UpdateRecurringDonations
     end
 
     if params[:end_date_str]
-      if params[:end_date_str].blank? || params[:end_date_str] == 'None'
-        params[:end_date] = nil
+      params[:end_date] = if params[:end_date_str].blank? || params[:end_date_str] == "None"
+        nil
       else
-        params[:end_date] = Chronic.parse(params[:end_date_str])
+        Chronic.parse(params[:end_date_str])
       end
       params = params.except(:end_date_str)
     end

@@ -16,8 +16,10 @@ class Nonprofits::SupporterNotesController < ApplicationController
 
   # put /nonprofits/:nonprofit_id/supporters/:supporter_id/supporter_notes/:id
   def update
-    render_json { UpdateSupporterNotes.update(current_supporter_note,
-      supporter_note_content.merge({user_id: current_user&.id})) }
+    render_json {
+      UpdateSupporterNotes.update(current_supporter_note,
+        supporter_note_content.merge({user_id: current_user&.id}))
+    }
   end
 
   # delete /nonprofits/:nonprofit_id/supporters/:supporter_id/supporter_notes/:id
@@ -26,7 +28,7 @@ class Nonprofits::SupporterNotesController < ApplicationController
   end
 
   private
-  
+
   def current_supporter_note
     current_supporter.supporter_notes.includes(:activities).find(params[:id])
   end

@@ -8,7 +8,7 @@ json.unconfirmed_email user.unconfirmed_email
 json.confirmed user.confirmed?
 
 if user.profile
-	json.profile do
-		json.partial! 'app_data/profile', profile: user.profile
-	end
+  json.profile do
+    json.partial! "app_data/profile", profile: user.profile
+  end
 end

@@ -5,13 +5,13 @@
 module UpdateTickets
   def self.update(data, current_user = nil)
     ParamValidation.new(data,
-                        event_id: { required: true, is_reference: true },
-                        ticket_id: { required: true, is_reference: true },
-                        token: { format: UUID::Regex },
-                        bid_id: { is_integer: true },
-                        # note: nothing to check?
+      event_id: {required: true, is_reference: true},
+      ticket_id: {required: true, is_reference: true},
+      token: {format: UUID::Regex},
+      bid_id: {is_integer: true},
+      # note: nothing to check?
 
-                        checked_in: { included_in: ['true', 'false', true, false] })
+      checked_in: {included_in: ["true", "false", true, false]})
 
     entities = RetrieveActiveRecordItems.retrieve_from_keys(data, Event => :event_id, Ticket => :ticket_id)
     validate_entities(entities)
@@ -55,8 +55,7 @@ module UpdateTickets
   end
 
   def self.delete(event_id, ticket_id)
-
-    Ticket.transaction do 
+    Ticket.transaction do
       ticket = Event.find(event_id).tickets.find(ticket_id)
       ticket.deleted = true
       ticket.save!
@@ -66,26 +65,26 @@ module UpdateTickets
 
   def self.delete_card_for_ticket(event_id, ticket_id)
     begin
-      ParamValidation.new({ event_id: event_id, ticket_id: ticket_id },
-                          event_id: { required: true, is_integer: true },
-                          ticket_id: { required: true, is_integer: true })
+      ParamValidation.new({event_id: event_id, ticket_id: ticket_id},
+        event_id: {required: true, is_integer: true},
+        ticket_id: {required: true, is_integer: true})
     rescue ParamValidation::ValidationError => e
-      return { json: { error: "Validation error\n #{e.message}", errors: e.data }, status: :unprocessable_entity }
+      return {json: {error: "Validation error\n #{e.message}", errors: e.data}, status: :unprocessable_entity}
     end
 
     begin
-      ticket = Ticket.where('id = ? and event_id = ?', ticket_id, event_id).limit(1).first!
+      ticket = Ticket.where("id = ? and event_id = ?", ticket_id, event_id).limit(1).first!
       ticket.card = nil
       ticket.source_token = nil
       ticket.save!
-      return { json: {}, status: :ok }
+      {json: {}, status: :ok}
     rescue ActiveRecord::RecordNotFound => e
       # there's no stinking ticket by that event and ticket
-      return { json: { error: "No ticket with id #{ticket_id} at event with id #{event_id}\n #{e.message}" },
-               status: :unprocessable_entity }
+      {json: {error: "No ticket with id #{ticket_id} at event with id #{event_id}\n #{e.message}"},
+       status: :unprocessable_entity}
     rescue ActiveRecord::ActiveRecordError
-      return { json: { error: 'There was a DB error. Please contact support' },
-               status: :unprocessable_entity }
+      {json: {error: "There was a DB error. Please contact support"},
+       status: :unprocessable_entity}
     end
   end
 

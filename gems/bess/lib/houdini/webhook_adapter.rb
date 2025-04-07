@@ -20,12 +20,11 @@ class Houdini::WebhookAdapter
     )
   end
 
-  ADAPTER = 'Adapter'
+  ADAPTER = "Adapter"
   private_constant :ADAPTER
 
   # based on ActiveJob's configuration
   class << self
-    
     def build(name, options)
       lookup(name).new(**options)
     end

@@ -5,7 +5,7 @@
 
 module ConstructNonprofit
   def self.construct(user, h)
-    h[:verification_status] = 'unverified'
+    h[:verification_status] = "unverified"
     h[:published] = true
     h[:statement] = h[:name][0..16]
     h.except!(:website) if h[:website].blank?

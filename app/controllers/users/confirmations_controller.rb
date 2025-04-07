@@ -8,7 +8,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     @user = User.confirm_by_token(params[:confirmation_token])
 
     if !@user.auto_generated || !@user.valid?
-      flash[:notice] = 'We successfully confirmed your account'
+      flash[:notice] = "We successfully confirmed your account"
       redirect_to session[:donor_signup_url] || root_url
     else
       respond_to do |format|
@@ -27,7 +27,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     @user = User.find(params[:id])
 
     if @user.valid? && @user.update(params[:user].except(:confirmation_token))
-      flash[:notice] = 'Your account is all set!'
+      flash[:notice] = "Your account is all set!"
       sign_in @user
       redirect_to session[:donor_signup_url] || root_url
     else
@@ -36,6 +36,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   end
 
   def is_confirmed
-    render json: { is_confirmed: User.find(params[:user_id]).confirmed? }
+    render json: {is_confirmed: User.find(params[:user_id]).confirmed?}
   end
 end

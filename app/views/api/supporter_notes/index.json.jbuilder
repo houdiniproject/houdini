@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-json.data @supporter_notes, partial: '/api/supporter_notes/supporter_note', as: 'supporter_note'
+json.data @supporter_notes, partial: "/api/supporter_notes/supporter_note", as: "supporter_note"
 
 json.current_page @supporter_notes.current_page
 json.first_page @supporter_notes.first_page?

@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 
-import { readableKind } from "../../../../../javascripts/src/lib/format";
+export { readableKind } from "../../../../../javascripts/src/lib/format";
 
 export function kindIconClass(kind:string) : string {
 	if(kind === "Donation") return "fa-heart"
@@ -14,6 +14,3 @@ export function kindIconClass(kind:string) : string {
 
   return "";
 }
-
-
-export {readableKind};

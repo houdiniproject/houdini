@@ -9,7 +9,7 @@ RSpec.describe '/api_new/users/current.json.jbuilder', type: :view do
 	context 'for user as nonprofit_admin' do 
 		
 		subject(:json) do
-			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(1)
+			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2) # Rails does weird things in view specs when you use a route namespace
 			assign(:user, create(:user_base, roles: [build(:role_base, :as_nonprofit_admin)]))
 			render
 			rendered
@@ -32,7 +32,7 @@ RSpec.describe '/api_new/users/current.json.jbuilder', type: :view do
 	context 'for user as nonprofit_associate' do 
 		
 		subject(:json) do
-			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(1)
+			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2) # Rails does weird things in view specs when you use a route namespace
 			assign(:user, create(:user_as_nonprofit_associate))
 			render
 			rendered
@@ -51,7 +51,7 @@ RSpec.describe '/api_new/users/current.json.jbuilder', type: :view do
 	context 'for user as super_admin' do 
 		
 		subject(:json) do
-			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(1)
+			view.lookup_context.prefixes = view.lookup_context.prefixes.drop(2) # Rails does weird things in view specs when you use a route namespace
 			assign(:user, create(:user_as_super_admin))
 			render
 			rendered

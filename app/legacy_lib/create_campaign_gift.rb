@@ -52,9 +52,7 @@ module CreateCampaignGift
 		successful_gift = Qx.transaction do
 			# are any gifts available?
 			if campaign_gift_option.quantity.nil? || campaign_gift_option.quantity.zero?|| campaign_gift_option.total_gifts < campaign_gift_option.quantity
-				gift = CampaignGift.new params
-				gift.save!
-				gift
+				CampaignGift.create!(params)
 			end
 		end
 

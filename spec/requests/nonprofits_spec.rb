@@ -4,7 +4,7 @@ describe NonprofitsController, type: :request do
   let(:nonprofit) { create(:nonprofit_base, :with_default_billing_subscription)}
   let(:user) { create(:user_as_nonprofit_associate, nonprofit: nonprofit)  }
 
-  # without this, the nonprofit's pages for payments load properly
+  # without this, the nonprofit's pages for payments won't load properly
   let!(:current_fee_era) { create(:fee_era_with_no_end)}
 
   describe '#show' do

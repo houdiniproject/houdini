@@ -56,10 +56,12 @@ module CreateCampaignGift
 			end
 		end
 
-		return successful_gift if successful_gift
-		AdminMailer.delay.notify_failed_gift(donation,donation.payments.first, campaign_gift_option)
-		raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} has no more inventory", {:key => :campaign_gift_option_id})
+		unless successful_gift
+			AdminMailer.delay.notify_failed_gift(donation,donation.payments.first, campaign_gift_option)
+			raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} has no more inventory", {:key => :campaign_gift_option_id})
+		end
 
+		successful_gift
 	end
 
 	def self.validate_campaign_gift(cg)

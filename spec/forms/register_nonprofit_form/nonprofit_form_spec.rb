@@ -58,7 +58,7 @@ RSpec.describe RegisterNonprofitForm::NonprofitForm, type: :model do
     end
 
     it "fails at creating a new slug" do
-      allow_any_instance_of(SlugNonprofitNamingAlgorithm)
+      expect_any_instance_of(SlugNonprofitNamingAlgorithm)
         .to receive(:create_copy_name)
         .and_raise(UnableToCreateNameCopyError.new)
 

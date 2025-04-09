@@ -11,7 +11,7 @@ class RegisterNonprofitForm::NonprofitForm < ApplicationForm
     :zip_code
 
   validates :zip_code, presence: true
-  validates :website, format: {with: URI::RFC2396_Parser.make_regexp}, if: proc { |form| form.website.present? }
+  validates :website, format: {with: URI.regexp}, if: proc { |form| form.website.present? }
   # validates :email, format: {with:  URI::MailTo::EMAIL_REGEXP }, if: Proc.new { |form| form.email.present? }
 
   def initialize(attributes = {})

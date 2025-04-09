@@ -7,10 +7,10 @@ class RegisterNonprofitForm::UserForm < ApplicationForm
 
   validates :name, :password_confirmation, presence: true
 
-  def initialize(attributes={})
-    super(attributes)
+  def initialize(attributes = {})
+    super
     @models = [
-      user,
+      user
     ]
   end
 
@@ -19,7 +19,7 @@ class RegisterNonprofitForm::UserForm < ApplicationForm
       email: email,
       name: name,
       password: password,
-      password_confirmation: password_confirmation,
+      password_confirmation: password_confirmation
     )
   end
 end

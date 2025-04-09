@@ -52,16 +52,16 @@ module CreateCampaignGift
 		successful_gift = Qx.transaction do
 			# are any gifts available?
 			if campaign_gift_option.quantity.nil? || campaign_gift_option.quantity.zero?|| campaign_gift_option.total_gifts < campaign_gift_option.quantity
-				gift = CampaignGift.new params
-				gift.save!
-				gift
+				CampaignGift.create!(params)
 			end
 		end
 
-		return successful_gift if successful_gift
-		AdminMailer.delay.notify_failed_gift(donation,donation.payments.first, campaign_gift_option)
-		raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} has no more inventory", {:key => :campaign_gift_option_id})
+		unless successful_gift
+			AdminMailer.delay.notify_failed_gift(donation,donation.payments.first, campaign_gift_option)
+			raise ParamValidation::ValidationError.new("#{params[:campaign_gift_option_id]} has no more inventory", {:key => :campaign_gift_option_id})
+		end
 
+		successful_gift
 	end
 
 	def self.validate_campaign_gift(cg)

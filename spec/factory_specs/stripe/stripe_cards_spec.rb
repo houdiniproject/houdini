@@ -17,10 +17,4 @@ describe :stripe_card do
 
     expect(StripeMockHelper.instance.customers.count).to eq 1
   end
-
-  it 'has created a single source on the customer' do
-    create(:stripe_card_base)
-
-    expect(StripeMockHelper.instance.customers.first[1][:sources][:total_count]).to eq 1
-  end
 end

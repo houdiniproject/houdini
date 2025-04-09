@@ -12,7 +12,7 @@ gem 'rack', '~> 2.2.13'
 gem 'date', '~> 2.0.3'
 
 # https://stripe.com/docs/api
-gem 'stripe', '~> 4'
+gem 'stripe', '~> 5.0'
 
 # json serialization
 # https://github.com/nesquena/rabl
@@ -105,7 +105,7 @@ group :development, :ci, :test do
 	gem 'rspec-rails', "~> 6"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
-	gem 'stripe-ruby-mock', '~> 2.5.1', :require => 'stripe_mock'
+	gem 'stripe-ruby-mock', '~> 3.0', :require => 'stripe_mock'
   gem 'factory_bot'
 	gem 'factory_bot_rails'
 	gem 'action_mailer_matchers', '~> 1.2.0'
@@ -146,7 +146,6 @@ end
 
 
 group :production, :staging do
-  gem 'heroku-deflater'
   gem "hiredis", "~> 0.6.0"
   gem "redis", ">= 3.2.0"
   gem 'redis-actionpack'

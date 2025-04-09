@@ -1,12 +1,11 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class RegisterNonprofitForm::StripeAccountForm < ApplicationForm
-
   attr_accessor :nonprofit
 
   validate :nonprofit_is_a_nonprofit
 
-  def initialize(attributes={})
-    super(attributes)
+  def initialize(attributes = {})
+    super
     @models = []
   end
 
@@ -15,18 +14,18 @@ class RegisterNonprofitForm::StripeAccountForm < ApplicationForm
     save!(options)
     true
   rescue ActiveRecord::RecordInvalid,
-        ActiveRecord::RecordNotSaved,
-        ActiveModel::ValidationError
+    ActiveRecord::RecordNotSaved,
+    ActiveModel::ValidationError
 
     false
   end
 
   def save!(options = {})
-    super(options)
+    super
 
-    if nonprofit.persisted? &&  nonprofit.stripe_account_id.blank?
+    if nonprofit.persisted? && nonprofit.stripe_account_id.blank?
       stripe_account_id = StripeAccountUtils.create(nonprofit)
-      unless stripe_account_id.present?
+      if stripe_account_id.blank?
         add_couldnt_create_stripe_error
         raise ActiveModel::ValidationError, self
       end
@@ -36,7 +35,6 @@ class RegisterNonprofitForm::StripeAccountForm < ApplicationForm
       raise ActiveModel::ValidationError, self
     end
   end
-
 
   private
 

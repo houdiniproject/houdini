@@ -7,14 +7,14 @@ class RegisterNonprofitForm < ApplicationForm
 
   after_validation :cleanup_the_errors
 
-  def initialize(attributes={})
-    super(attributes)
+  def initialize(attributes = {})
+    super
     @models = [
       nonprofit_form,
       user_form,
       role,
       billing_subscription,
-      stripe_account_form,
+      stripe_account_form
     ]
   end
 
@@ -23,7 +23,7 @@ class RegisterNonprofitForm < ApplicationForm
   end
 
   def billing_subscription
-    @billing_subscription ||= nonprofit.build_billing_subscription(billing_plan: billing_plan, status: 'active')
+    @billing_subscription ||= nonprofit.build_billing_subscription(billing_plan: billing_plan, status: "active")
   end
 
   def id
@@ -33,13 +33,13 @@ class RegisterNonprofitForm < ApplicationForm
   def nonprofit
     nonprofit_form.nonprofit
   end
-  
+
   def nonprofit_form
     @nonprofit_form ||= NonprofitForm.new(nonprofit_attributes)
   end
 
   def role
-    @role ||= user.roles.build(host: nonprofit, name: 'nonprofit_admin')
+    @role ||= user.roles.build(host: nonprofit, name: "nonprofit_admin")
   end
 
   def stripe_account_form
@@ -55,7 +55,7 @@ class RegisterNonprofitForm < ApplicationForm
   end
 
   def add_nonprofit_user_mailchimp
-    MailchimpNonprofitUserAddJob.perform_later( user, nonprofit)
+    MailchimpNonprofitUserAddJob.perform_later(user, nonprofit)
   end
 
   def handle_nonprofit_create_job
@@ -67,11 +67,10 @@ class RegisterNonprofitForm < ApplicationForm
 
     properties = [:nonprofit, :user]
     properties.each do |property_key|
-      property = self.send((property_key.to_s + "_form").to_sym)
+      property = send((property_key.to_s + "_form").to_sym)
       property.errors.each do |error|
-        errors.import(error, attribute: "#{property_key.to_s}[#{error.attribute}]")
+        errors.import(error, attribute: "#{property_key}[#{error.attribute}]")
       end
     end
   end
-  
 end

@@ -9,7 +9,7 @@ require('./payment_details')
 require('../../../components/tables/filtering/apply_filter')('payments')
 require('../../../common/ajax/get_campaign_and_event_names_and_ids')(app.nonprofit_id)
 require('../../supporters/index/import')
-var format = require('../../../common/format')
+const { kindIconClass, readableKind } = require('./utils')
 
 appl.def('format', require('../../../common/format'))
 
@@ -62,22 +62,10 @@ appl.def('payments.toggle_panel', function(id, el){
 })
 
 
-appl.def('readable_kind', function(kind, el) {
-	if(kind === "Donation") return "One-Time Donation"
-  else if(kind === "OffsitePayment") return "Offsite Donation"
-  else if(kind === "Ticket") return "Ticket Purchase"
-  else return format.camelToWords(kind)
-})
+appl.def('readable_kind', readableKind)
 
 
-appl.def('kind_icon_class', function(kind) {
-	if(kind === "Donation") return "fa-heart"
-	if(kind === "OffsitePayment") return "fa-money"
-	if(kind === "RecurringDonation") return "fa-refresh"
-	if(kind === "Ticket") return "fa-ticket"
-	if(kind === "Refund") return "fa-rotate-left"
-	if(kind === "ManualAdjustment") return "fa-plus"
-})
+appl.def('kind_icon_class', kindIconClass)
 
 appl.def('formatted_gross_amount', function(amt) {
 	if(amt < 0) {

@@ -1,122 +1,115 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require "rails_helper"
 
-RSpec.describe RegisterNonprofitForm, :type => :model do
-
+RSpec.describe RegisterNonprofitForm, type: :model do
   around do |e|
     StripeMockHelper.mock do
-      old_bp =Settings.default_bp
-      
+      old_bp = Settings.default_bp
       Settings.default_bp.id = bp.id
-      
       e.run
-     
       Settings.default_bp = old_bp
     end
   end
 
   let(:bp) { force_create(:billing_plan) }
 
-  it 'validates email' do
+  it "validates email" do
     input = {
       nonprofit_attributes: {
-          email: "noemeila",
-          phone: "notphone",
-          website: ""
+        email: "noemeila",
+        phone: "notphone",
+        website: ""
       }
     }
 
-    form = RegisterNonprofitForm.new(input)
+    form = described_class.new(input)
 
-    expect(form.save).to eq false
+    expect(form.save).to be false
 
     expect(form.errors.of_kind?("nonprofit[email]", :invalid)).to be true
-end
+  end
 
-  it 'should reject unmatching passwords ' do
+  it "rejects unmatching passwords" do
     input = {
-        nonprofit_attributes: {},
-        user_attributes: {
-            email: "wmeil@email.com",
-            name: "name",
-            password: 'password',
-            password_confirmation: 'doesn\'t match'
-        }
+      nonprofit_attributes: {},
+      user_attributes: {
+        email: "wmeil@email.com",
+        name: "name",
+        password: "password",
+        password_confirmation: "doesn't match"
+      }
     }
-    form = RegisterNonprofitForm.new(input)
+    form = described_class.new(input)
 
-    expect(form.save).to eq false
-    errors = form.errors.to_hash
+    expect(form.save).to be false
+    form.errors.to_hash
     expect(form.errors.of_kind?("user[password_confirmation]", "doesn't match Password")).to be true
   end
 
-  it 'attempts to make a slug copy and returns the proper errors' do
+  it "attempts to make a slug copy and returns the proper errors" do
     force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
     input = {
-        nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915},
-        user_attributes: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
+      nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915},
+      user_attributes: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
     }
 
-    expect_any_instance_of(SlugNonprofitNamingAlgorithm).to receive(:create_copy_name).and_raise(UnableToCreateNameCopyError.new)
+    allow_any_instance_of(SlugNonprofitNamingAlgorithm)
+      .to receive(:create_copy_name)
+      .and_raise(UnableToCreateNameCopyError.new)
 
-    form = RegisterNonprofitForm.new(input)
+    form = described_class.new(input)
 
-    expect(form.save).to eq false
+    expect(form.save).to be false
     errors = form.errors.to_hash
-    
+
     expect(errors).to eq "nonprofit[name]": ["has an invalid slug. Contact support for help."]
   end
 
-  it 'errors on attempt to add user with email that already exists' do
-    force_create(:user, email: 'em@em.com')
+  it "errors on attempt to add user with email that already exists" do
+    force_create(:user, email: "em@em.com")
 
     input = {
-        nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915},
-        user_attributes: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
+      nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915},
+      user_attributes: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
     }
 
-    form = RegisterNonprofitForm.new(input)
+    form = described_class.new(input)
 
-    expect(form.save).to eq false
+    expect(form.save).to be false
 
     errors = form.errors.to_hash
-
 
     expect(errors).to eq "user[email]": ["has already been taken"]
   end
 
-  it 'validate rollback' do
-
-    ActiveJob::Base.queue_adapter = :test 
+  it "validate rollback" do
+    ActiveJob::Base.queue_adapter = :test
     input = {
-      nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, website: 'www.cs.c'},
+      nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, website: "www.cs.c"},
       user_attributes: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
     }
 
+    form = described_class.new(input)
 
-    form = RegisterNonprofitForm.new(input)
-
-    expect(form.stripe_account_form).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved) # we just need one of the catchable errors
+    # we just need one of the catchable errors
+    expect(form.stripe_account_form).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved)
 
     form.save
 
-    expect(form.nonprofit).to_not be_persisted
-    expect(form.user).to_not be_persisted
-    
+    expect(form.nonprofit).not_to be_persisted
+    expect(form.user).not_to be_persisted
   end
 
   it "succeeds" do
-
-    ActiveJob::Base.queue_adapter = :test 
-    create(:nonprofit_base, name:"not-something", slug: "n", state_code_slug: "wi", city_slug: "appleton")
+    ActiveJob::Base.queue_adapter = :test
+    create(:nonprofit_base, name: "not-something", slug: "n", state_code_slug: "wi", city_slug: "appleton")
 
     input = {
-        nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, website: 'www.cs.c'},
-        user_attributes: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
+      nonprofit_attributes: {name: "n", state_code: "WI", city: "appleton", zip_code: 54915, website: "www.cs.c"},
+      user_attributes: {name: "Name", email: "em@em.com", password: "12345678", password_confirmation: "12345678"}
     }
 
-
-    form = RegisterNonprofitForm.new(input)
+    form = described_class.new(input)
 
     result = form.save
     expect(result).to be true
@@ -125,14 +118,14 @@ end
 
     our_np = form.nonprofit
     expected_np = {
-        name: "n",
-        state_code: "WI",
-        city: "appleton",
-        zip_code: "54915",
-        state_code_slug: "wi",
-        city_slug: "appleton",
-        slug: "n-00",
-        website: 'http://www.cs.c'
+      name: "n",
+      state_code: "WI",
+      city: "appleton",
+      zip_code: "54915",
+      state_code_slug: "wi",
+      city_slug: "appleton",
+      slug: "n-00",
+      website: "http://www.cs.c"
     }.with_indifferent_access
 
     expected_np = our_np.attributes.with_indifferent_access.merge(expected_np)
@@ -140,7 +133,7 @@ end
 
     expect(our_np.billing_subscription.billing_plan).to eq bp
 
-    expect(our_np.stripe_account_id).to_not be_nil
+    expect(our_np.stripe_account_id).not_to be_nil
 
     expect(form.id).to eq our_np.id
 

@@ -41,7 +41,6 @@ RSpec.describe RegisterNonprofitForm, type: :model do
     form = described_class.new(input)
     expect(form.save).to be false
 
-    form.errors.to_hash
     expect(form.errors.of_kind?("user[password_confirmation]", "doesn't match Password")).to be true
   end
 

@@ -92,7 +92,7 @@ RSpec.describe RegisterNonprofitForm, type: :model do
     form = described_class.new(input)
 
     # we just need one of the catchable errors
-    allow(form.stripe_account_form).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved)
+    expect(form.stripe_account_form).to receive(:save!).and_raise(ActiveRecord::RecordNotSaved)
 
     form.save
 

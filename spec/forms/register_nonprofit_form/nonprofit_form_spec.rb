@@ -44,8 +44,7 @@ RSpec.describe RegisterNonprofitForm::NonprofitForm, type: :model do
     it "creates slug when easy" do
       form = described_class.new(nonprofit_attributes) # nil so it autocreates the slug
 
-      expect(form.valid?).to be true
-
+      expect(form).to be_valid
       expect(form.nonprofit.slug).to eq "ending-poverty-in-the-fox-valley-inc"
     end
 
@@ -54,8 +53,7 @@ RSpec.describe RegisterNonprofitForm::NonprofitForm, type: :model do
 
       form = described_class.new(nonprofit_attributes) # nil so it autocreates the slug
 
-      expect(form.valid?).to be true
-
+      expect(form).to be_valid
       expect(form.nonprofit.slug).to eq "ending-poverty-in-the-fox-valley-inc-00"
     end
 
@@ -67,7 +65,7 @@ RSpec.describe RegisterNonprofitForm::NonprofitForm, type: :model do
       force_create(:nonprofit, slug: "n", state_code_slug: "wi", city_slug: "appleton")
       form = described_class.new({name: "n", state_code: "WI", city: "appleton", zip_code: 54915}) # nil so it autocreates the slug
 
-      expect(form.valid?).to be false
+      expect(form).not_to be_valid
 
       errors = form.errors.to_hash
 

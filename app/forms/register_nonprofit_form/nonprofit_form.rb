@@ -4,7 +4,11 @@ class RegisterNonprofitForm::NonprofitForm < ApplicationForm
   attribute :name, :string, default: "" # needed because OnboardAccounts is goofy
 
   attr_reader :website
-  attr_accessor :city, :email, :state_code, :phone, :zip_code
+  attr_accessor :city,
+    :email,
+    :state_code,
+    :phone,
+    :zip_code
 
   validates :zip_code, presence: true
   validates :website, format: {with: URI::RFC2396_Parser.make_regexp}, if: proc { |form| form.website.present? }

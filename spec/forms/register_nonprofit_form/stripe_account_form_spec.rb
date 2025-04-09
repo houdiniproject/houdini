@@ -35,7 +35,7 @@ RSpec.describe RegisterNonprofitForm::StripeAccountForm, type: :model do
 
     it "sets error when StripeAccountUtils.create returns a nil" do
       form = described_class.new(nonprofit: create(:nonprofit))
-      allow(StripeAccountUtils).to receive(:create).and_return nil
+      expect(StripeAccountUtils).to receive(:create).and_return nil
       expect(form.save).to be false
 
       expect(form.errors).not_to be_empty

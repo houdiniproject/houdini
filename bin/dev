@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+if gem list --no-installed --exact --silent foreman; then
+  echo "Installing foreman..."
+  gem install foreman
+fi
+
+exec foreman start -f Procfile.dev --env /dev/null "$@"

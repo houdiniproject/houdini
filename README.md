@@ -204,7 +204,7 @@ bin/setup
 
 When you run foreman in dev, you start up the server, the job runner and webpack.
 ```sh
-foreman start
+bin/dev
 ```
 
 If you get `ActiveRecord::NoDatabaseError` errors, run `bin/rails db:create:all` to make sure all the databases are built.

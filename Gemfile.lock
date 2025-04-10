@@ -169,7 +169,12 @@ GEM
       addressable
     dalli (3.2.3)
     dante (0.2.0)
-    database_cleaner (1.6.1)
+    database_cleaner (2.1.0)
+      database_cleaner-active_record (>= 2, < 3)
+    database_cleaner-active_record (2.2.0)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0.0)
+    database_cleaner-core (2.0.1)
     date (3.4.1)
     debug_inspector (0.0.2)
     deep_merge (1.2.2)

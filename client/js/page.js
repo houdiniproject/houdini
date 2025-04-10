@@ -5,7 +5,6 @@ window.appl = require('./common/application_view') // XXX remove
 
 window.$ = require('jquery') // XXX remove
 window.jQuery = window.$ // XXX remove
-require('./common/polyfills')
 require('./common/vendor/jquery.cookie') // XXX remove
 require('parsleyjs') // XXX remove
 require('./common/jquery_additions') // XXX remove

@@ -214,7 +214,6 @@ GEM
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     ffi (1.17.1)
-    foreman (0.87.2)
     fx (0.6.2)
       activerecord (>= 4.0.0)
       railties (>= 4.0.0)
@@ -515,7 +514,6 @@ DEPENDENCIES
   factory_bot
   factory_bot_rails
   faker
-  foreman
   fx
   geocoder
   globalid (>= 1.0.1)

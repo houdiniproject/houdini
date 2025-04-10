@@ -168,18 +168,15 @@ export class StaticFormToErrorAndBackConverter<T> {
   convertErrorToForm(errorException: ValidationErrorsException, form: HoudiniForm|Form): void {
     runInAction(() => {
       let hForm = form as HoudiniForm
-      _.forEach(errorException.item.errors, (error) => {
-        let message = error.messages.join(", ")
-        _.forEach(error.params, (p) => {
-          if (this.pathToForm[p]) {
-            (hForm.$(this.pathToForm[p]) as HoudiniField).invalidateFromServer(message)
-          }
-          else {
-            console.warn(`We couldn't find a form element for path: "${p}"`)
-          }
-
-        })
-
+      errorException.item.errors?.forEach((error) => {
+        const [field, messages] = error;
+        let message = messages.join(", ")
+        if (this.pathToForm[field]) {
+          (hForm.$(this.pathToForm[field]) as HoudiniField).invalidateFromServer(message)
+        }
+        else {
+          console.warn(`We couldn't find a form element for path: "${field}"`)
+        }
       })
     })
   }

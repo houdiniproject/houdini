@@ -35,6 +35,7 @@ gem 'aws-sdk-rails'
 
 gem 'json', '>= 2.3.0'
 
+gem 'yaaf' # form objects
 
 # for blocking ip addressses
 gem 'rack-attack'
@@ -150,11 +151,6 @@ group :production, :staging do
   gem "redis", ">= 3.2.0"
   gem 'redis-actionpack'
 end
-
-gem 'grape', '~> 1.8.0'
-gem 'grape-entity', git: 'https://github.com/ruby-grape/grape-entity.git', ref: '0e04aa561373b510c2486282979085eaef2ae663'
-gem 'grape_url_validator'
-gem 'grape_logging'
 
 gem 'recaptcha', '~> 5.8.1'
 

@@ -121,7 +121,7 @@
     "mobx-react-devtools": "^5.0.1",
     "mobx-react-form": "github:houdiniproject/mobx-react-form#our_fix",
     "mobx-utils": "^5.0.1",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "moment-range": "2.2.0",
     "moment-timezone": "^0.5.35",
     "parsleyjs": "2.0.7",

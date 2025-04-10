@@ -230,7 +230,6 @@ GEM
     faker (2.2.1)
       i18n (>= 0.8)
     ffi (1.11.3)
-    foreman (0.87.2)
     geocoder (1.2.11)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -516,7 +515,6 @@ DEPENDENCIES
   factory_bot
   factory_bot_rails
   faker
-  foreman
   fx!
   geocoder
   globalid (>= 1.0.1)

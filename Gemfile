@@ -132,10 +132,6 @@ gem 'lograge'
 gem 'config', '~> 2.0'
 gem 'dry-validation' # used only for config validation
 
-gem 'foreman'
-
-
-
 group :production do
   gem 'rails_autoscale_agent', '>= 0.9.1'
   gem 'tunemygc'

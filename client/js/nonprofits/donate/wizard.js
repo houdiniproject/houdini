@@ -15,6 +15,8 @@ const amountStep = require('./amount-step')
 const infoStep = require('./info-step')
 const followupStep = require('./followup-step')
 
+const {handleWizardReport} = require('./wizard/utils');
+
 const request = require('../../common/request')
 const format = require('../../common/format')
 
@@ -103,13 +105,7 @@ const init = params$ => {
   // Handle the Finish button from the followup step -- will close modal, redirect, or refresh
   flyd.lift(
     (ev, params) => {
-      if(!parent) return
-      if(params.redirect) parent.postMessage(`commitchange:redirect:${params.redirect}`, '*')
-      else if(params.mode !== 'embedded'){
-        parent.postMessage('commitchange:close', '*');
-      } else {
-        if (window.parent) {window.parent.postMessage('commitchange:close', '*');};
-      }
+      handleWizardReport(params, parent, window);
     }
   , state.clickFinish$, state.params$ )
 

@@ -125,6 +125,7 @@ end
 # Gems used for asset compilation
 gem 'sassc'
 gem 'sassc-rails'
+gem 'uglifier'
 
 # make logging less terrible in rails
 gem 'lograge'

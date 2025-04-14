@@ -8,7 +8,7 @@ module InsertBankAccount
    #   name: data.stripe_resp.bank_account.bank_name + ' *' + data.stripe_resp.bank_account.last4,
     #  email: app.user.email
 
-  def self.with_stripe(nonprofit, user, params)
+  def self.with_stripe(nonprofit, user, params={})
     ParamValidation.new({nonprofit: nonprofit, user: user}, {
         :nonprofit => {
             :required => true,

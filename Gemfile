@@ -1,15 +1,12 @@
 source 'https://rubygems.org'
 
-ruby ENV['CUSTOM_RUBY_VERSION'] || '2.7.8' # heroku needs a specific ruby version in the Gemfile
+ruby ENV['CUSTOM_RUBY_VERSION'] || '3.0.7' # heroku needs a specific ruby version in the Gemfile
 
 gem 'rake'
 gem 'rails', '~> 6.1.7.10'
-gem 'mail', '= 2.7.1' # 2.8.1 on Rails 5.0 and Ruby 2.6 raises a `an superclass mismatch for class InternetMessageIO` error
 gem 'sprockets', '~> 3.7' # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
 
 gem 'rack', '~> 2.2.13'
-
-gem 'date', '~> 2.0.3'
 
 # https://stripe.com/docs/api
 gem 'stripe', '~> 5.0'
@@ -62,7 +59,7 @@ gem 'chronic'
 
 # Images
 # https://github.com/carrierwaveuploader/carrierwave
-gem 'carrierwave', '~> 1', '< 2'
+gem 'carrierwave', '~> 3.0'
 gem 'carrierwave-aws' # for uploading images to amazon s3
 gem 'mini_magick'
 
@@ -95,6 +92,8 @@ gem 'rails-i18n' # For 4.0.x
 gem 'i18n-js', '~> 3.8' # i18n-js 4 is very different and doesn't work without some big changes
 gem 'countries'
 
+gem 'rexml' # needed on Ruby 3
+
 group :development, :ci, :test do
   gem 'listen'
   gem 'letter_opener'
@@ -117,9 +116,6 @@ group :development, :ci, :test do
   gem 'yard'
   gem 'faker' # test data generation
 end
-
-
-gem 'nokogiri', '~> 1.13.11', require: false, git:"https://github.com/commitchange/nokogiri.git", tag: "v1.13.11"
 
 
 group :test do
@@ -162,9 +158,7 @@ gem 'actionpack-action_caching' # because we use action caching
 
 gem 'rack-cors'
 
-gem 'ruby2_keywords' # needed because we're backporting code from Rails 6.2
-
-gem 'fx',  git: 'https://github.com/teoljungberg/fx.git', ref: '946cdccbd12333deb8f4566c9852b49c0231a618'
+gem 'fx'
 
 gem 'has_scope'
 

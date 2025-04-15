@@ -79,7 +79,7 @@ module CalculateSuggestedAmounts
 
     potential_higher_amount = amount + bracket[:delta]
 
-    # is potential_lower_amount < our MIN? if so, return nil
+    # is potential_higher_amount >= our MAX? if so, return nil
     return nil if potential_higher_amount >= MAX
 
     potential_higher_amount

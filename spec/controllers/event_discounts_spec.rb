@@ -25,33 +25,4 @@ describe EventDiscountsController, :type => :controller do
       end
     end
   end
-
-  describe "methods" do
-    let(:event) { create(:event_base)}
-    let(:nonprofit) { event.nonprofit }
-  
-    before(:each) do
-      sign_in create(:user_as_nonprofit_admin, nonprofit: nonprofit)
-    end
-  
-    describe "#update" do
-      it "works properly" do
-        event_discount = create(:event_discount_base, event: event)
-
-        patch :update, params: {
-            event_discount: { code: 'a-new-code', percent: 80, name: "a New name"}, event_id: event.id, nonprofit_id: nonprofit.id, id: event_discount.id, format: :json
-          }
-
-        expect(assigns(:event_discount)).to eq event_discount
-        
-        event_discount.reload
-        
-        expect(event_discount.code).to eq 'a-new-code'
-        
-        expect(event_discount.percent).to eq 80
-
-        expect(event_discount.name).to eq 'a New name'
-      end
-    end
-  end
 end

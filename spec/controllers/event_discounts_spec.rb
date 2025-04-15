@@ -32,7 +32,6 @@ describe EventDiscountsController, :type => :controller do
   
     before(:each) do
       sign_in create(:user_as_nonprofit_admin, nonprofit: nonprofit)
-      
     end
   
     describe "#update" do
@@ -43,15 +42,15 @@ describe EventDiscountsController, :type => :controller do
             event_discount: { code: 'a-new-code', percent: 80, name: "a New name"}, event_id: event.id, nonprofit_id: nonprofit.id, id: event_discount.id, format: :json
           }
 
-        binding.pry
+        expect(assigns(:event_discount)).to eq event_discount
+        
+        event_discount.reload
+        
+        expect(event_discount.code).to eq 'a-new-code'
+        
+        expect(event_discount.percent).to eq 80
 
-        expect(JSON::parse(response.body)).to match(a_hash_including({
-          "id" => event_discount.id,
-          "event_id" => event_discount.event_id,
-          "name" => "a New name",
-          "percent" => 80,
-          "code" => "a-new-code"
-        }))
+        expect(event_discount.name).to eq 'a New name'
       end
     end
   end

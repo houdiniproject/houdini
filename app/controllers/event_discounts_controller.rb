@@ -3,15 +3,12 @@ class EventDiscountsController < ApplicationController
   include Controllers::EventHelper
 	before_action :authenticate_event_editor!, :except => [:index]
 
-  def create
-    params[:event_discount][:event_id] = current_event.id
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
 
-    render JsonResp.new(params[:event_discount]){|data|
-      requires(:code, :name).as_string
-      requires(:event_id, :percent).as_int
-    }.when_valid{|data|
-      { status: 200, json: { event_discount: current_event.event_discounts.create(data) } }
-    }
+  def create
+    @event_discount = current_event.event_discounts.build(event_discount_params)
+
+    @event_discount.save!
   end
 
   def index
@@ -22,7 +19,6 @@ class EventDiscountsController < ApplicationController
     @event_discount = current_event.event_discounts.find(params[:id])
     
     @event_discount.update!(event_discount_params)
-    binding.pry
     @event_discount
   end
 
@@ -38,6 +34,10 @@ class EventDiscountsController < ApplicationController
 
   def event_discount_params
     params.require(:event_discount).permit(:code, :name, :percent)
+  end
+
+  def record_invalid(error)
+    render status: :unprocessable_entity, json: {errors: error.record.errors }
   end
 
 end

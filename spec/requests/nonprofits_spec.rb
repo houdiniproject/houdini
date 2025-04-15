@@ -25,6 +25,14 @@ describe NonprofitsController, type: :request do
     end
   end
 
+  describe "#dashboard_metrics" do
+    it 'loads properly' do
+      sign_in user
+      get "/nonprofits/#{nonprofit.id}/dashboard_metrics", params: {format: :json}
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe '#donate' do
     it 'allows being put into a frame by not setting X-Frame-Options header' do
       get "/nonprofits/#{nonprofit.id}/donate"

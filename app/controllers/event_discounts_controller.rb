@@ -9,6 +9,8 @@ class EventDiscountsController < ApplicationController
     @event_discount = current_event.event_discounts.build(event_discount_params)
 
     @event_discount.save!
+
+    render status: :created
   end
 
   def index

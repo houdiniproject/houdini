@@ -32,7 +32,7 @@ describe EventDiscountsController, type: :request do
 
       expect(JSON.parse(response.body)).to eq(event_discount.attributes.slice("code", "event_id", "id", "name", "percent"))
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:created)
     end
   end
 
@@ -63,7 +63,7 @@ describe EventDiscountsController, type: :request do
         "code" => "a-new-code"
       })
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:success)
 
       event_discount.reload
 

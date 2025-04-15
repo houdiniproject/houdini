@@ -25,4 +25,34 @@ describe EventDiscountsController, :type => :controller do
       end
     end
   end
+
+  describe "methods" do
+    let(:event) { create(:event_base)}
+    let(:nonprofit) { event.nonprofit }
+  
+    before(:each) do
+      sign_in create(:user_as_nonprofit_admin, nonprofit: nonprofit)
+      
+    end
+  
+    describe "#update" do
+      it "works properly" do
+        event_discount = create(:event_discount_base, event: event)
+
+        patch :update, params: {
+            event_discount: { code: 'a-new-code', percent: 80, name: "a New name"}, event_id: event.id, nonprofit_id: nonprofit.id, id: event_discount.id, format: :json
+          }
+
+        binding.pry
+
+        expect(JSON::parse(response.body)).to match(a_hash_including({
+          "id" => event_discount.id,
+          "event_id" => event_discount.event_id,
+          "name" => "a New name",
+          "percent" => 80,
+          "code" => "a-new-code"
+        }))
+      end
+    end
+  end
 end

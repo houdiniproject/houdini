@@ -2,10 +2,10 @@
 FactoryBot.define do
   factory :event_discount, aliases: [:event_discount_base] do
     event { association :event_base }
-    
-    sequence(:name){|i| "Discount tier #{i}"}
 
-    code {Faker::Emotion.adjective + "-" + Faker::Emotion.noun}
+    sequence(:name) { |i| "Discount tier #{i}" }
+
+    code { Faker::Emotion.adjective + "-" + Faker::Emotion.noun }
     percent { Faker::Number.between(from: 1, to: 99) }
   end
 end

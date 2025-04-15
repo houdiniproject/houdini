@@ -8,9 +8,6 @@ describe "Event discounts", type: :routing do
   let(:event_discount) { create(:event_discount_base, event: event) }
 
   before(:each) do
-    # we don't care about geocoding
-    allow_any_instance_of(Event).to receive(:geocode).and_return(nil)
-
     # this makes sure that our routes have a default host which is what they need for testing
     allow(Rails.application.routes).to receive(:default_url_options).and_return(ApplicationMailer.default_url_options)
   end

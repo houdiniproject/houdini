@@ -248,8 +248,6 @@ GEM
     geocoder (1.2.11)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    hamster (3.0.0)
-      concurrent-ruby (~> 1.0)
     has_scope (0.7.2)
       actionpack (>= 4.1)
       activesupport (>= 4.1)
@@ -276,6 +274,9 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    immutable-ruby (0.2.0)
+      concurrent-ruby (~> 1.1)
+      sorted_set (~> 1.0)
     jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
@@ -428,6 +429,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
+    rbtree (0.4.6)
     rbtree3 (0.7.1)
     rdoc (6.13.1)
       psych (>= 4.0.0)
@@ -489,6 +491,7 @@ GEM
       sprockets-rails
       tilt
     securerandom (0.4.1)
+    set (1.1.1)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
     simplecov (0.16.1)
@@ -497,6 +500,9 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     sixarm_ruby_unaccent (1.2.0)
+    sorted_set (1.0.3)
+      rbtree
+      set (~> 1.0)
     sprockets (3.7.5)
       base64
       concurrent-ruby (~> 1.0)
@@ -579,12 +585,12 @@ DEPENDENCIES
   fx
   geocoder
   globalid (>= 1.0.1)
-  hamster
   has_scope
   hashie
   hiredis (~> 0.6.0)
   httparty
   i18n-js (~> 3.8)
+  immutable-ruby
   jbuilder
   js-routes
   json (>= 2.3.0)

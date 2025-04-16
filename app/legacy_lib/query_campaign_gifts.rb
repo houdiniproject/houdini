@@ -13,6 +13,8 @@ module QueryCampaignGifts
 	# 'name' => String, # name of the gift level
 	#
 	# Includes the overall sum as well as the donations without gift options
+
+	# NOTE: this doesn't include campaign gift options if they don't have any donations. Why? Bad design, I think.
 	def self.report_metrics(campaign_id)
 
 
@@ -35,7 +37,7 @@ module QueryCampaignGifts
 			ORDER BY total_donations DESC
 		))
 
-		return Hamster::Hash[data: data]
+		return {data: data}
 	end
 
 	def self.donations_for_campaign(campaign_id)

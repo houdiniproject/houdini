@@ -25,7 +25,7 @@ gem 'bootsnap', require: false
 gem 'rack-timeout'
 
 gem 'test-unit'
-gem 'hamster'
+gem 'immutable-ruby' # used instead of hamster in a few legacy places
 
 gem 'aws-sdk-s3'
 gem 'aws-sdk-rails'

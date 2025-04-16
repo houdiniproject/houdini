@@ -107,7 +107,7 @@
 	end
 
 	def dashboard_metrics
-		render json: Hamster::Hash[data: NonprofitMetrics.all_metrics(current_nonprofit.id)]
+		render json: { data: NonprofitMetrics.all_metrics(current_nonprofit.id) }
 	end
 
 	def payment_history

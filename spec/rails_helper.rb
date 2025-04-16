@@ -96,5 +96,6 @@ RSpec.configure do |config|
 
   FactoryBot::SyntaxRunner.class_eval do
     include RSpec::Matchers
+    include RSpec::Mocks::ExampleMethods
   end
 end

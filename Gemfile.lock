@@ -162,8 +162,9 @@ GEM
       money (~> 6.9)
       sixarm_ruby_unaccent (~> 1.1)
       unicode_utils (~> 1.4)
-    crack (0.4.2)
-      safe_yaml (~> 1.0.0)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
     css_parser (1.9.0)
       addressable
@@ -240,7 +241,6 @@ GEM
       railties (>= 4.2.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
-    ffi (1.17.1)
     ffi (1.17.1-x86_64-linux-gnu)
     fx (0.9.0)
       activerecord (>= 7.0)
@@ -253,6 +253,7 @@ GEM
     has_scope (0.7.2)
       actionpack (>= 4.1)
       activesupport (>= 4.1)
+    hashdiff (1.1.2)
     hashie (4.0.0)
     hiredis (0.6.3)
     htmlentities (4.3.4)
@@ -322,7 +323,6 @@ GEM
       benchmark
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.8)
     minitest (5.25.5)
     money (6.19.0)
       i18n (>= 0.6.4, <= 2)
@@ -345,9 +345,6 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.0)
-    nokogiri (1.17.2)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -483,7 +480,6 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
-    safe_yaml (1.0.4)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -535,9 +531,10 @@ GEM
     unicode_utils (1.4.0)
     warden (1.2.9)
       rack (>= 2.0.9)
-    webmock (1.21.0)
-      addressable (>= 2.3.6)
+    webmock (3.25.1)
+      addressable (>= 2.8.0)
       crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.9.1)
     websocket-driver (0.7.7)
       base64
@@ -550,7 +547,6 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
-  ruby
   x86_64-linux
 
 DEPENDENCIES

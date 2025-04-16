@@ -2,13 +2,13 @@
 # A module that allows you to construct complex SQL expressions by piecing
 # together methods in ruby.
 #
-# Uses Hamster data structures
+# Uses Immutable data structures
 #
 # Goals:
 #  - composability and reusability of sql fragments
 #  - pretty printing of sql with formatting and color
 
-require 'hamster'
+require 'immutable'
 require 'colorize'
 
 class Qexpr
@@ -17,7 +17,7 @@ class Qexpr
 
 
   def initialize(h=nil)
-    @tree = Hamster::Hash[h]
+    @tree = Immutable::Hash[h]
   end
 
 
@@ -124,7 +124,7 @@ class Qexpr
 
 
   def from(expr, as=nil)
-    Qexpr.new @tree.put(:from, (@tree[:from] || Hamster::Vector[]).add(Qexpr.from_expr(expr, as)))
+    Qexpr.new @tree.put(:from, (@tree[:from] || Immutable::Vector[]).add(Qexpr.from_expr(expr, as)))
   end
 
 
@@ -151,7 +151,7 @@ class Qexpr
     materialized_text = !materialized.nil? ? (materialized ? "MATERIALIZED" : "NOT MATERIALIZED") : ""
     return Qexpr.new(
       @tree.put(:withs, 
-        (@tree[:withs] || Hamster::Vector[]).add(name.to_s.blue + " AS #{materialized_text} (\n  ".bold.light_blue + "   #{expr.is_a?(String) ? expr : expr.parse}".blue + "\n)".bold.light_blue
+        (@tree[:withs] || Immutable::Vector[]).add(name.to_s.blue + " AS #{materialized_text} (\n  ".bold.light_blue + "   #{expr.is_a?(String) ? expr : expr.parse}".blue + "\n)".bold.light_blue
         )
       )
     )
@@ -160,25 +160,25 @@ class Qexpr
   def join(table_name, on_expr, data={})
     on_expr = Qexpr.interpolate_expr(on_expr, data)
     return Qexpr.new @tree
-      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nJOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
+      .put(:joins, (@tree[:joins] || Immutable::Vector[]).add("\nJOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
   end
 
   def inner_join(table_name, on_expr, data={})
     on_expr = Qexpr.interpolate_expr(on_expr, data)
     return Qexpr.new @tree
-      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nINNER JOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
+      .put(:joins, (@tree[:joins] || Immutable::Vector[]).add("\nINNER JOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
   end
 
   def left_outer_join(table_name, on_expr, data={})
     on_expr = Qexpr.interpolate_expr(on_expr, data)
     return Qexpr.new @tree
-      .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\nLEFT OUTER JOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
+      .put(:joins, (@tree[:joins] || Immutable::Vector[]).add("\nLEFT OUTER JOIN".bold.light_blue + " #{table_name}\n  ".blue + "ON".bold.light_blue + " #{on_expr}".blue))
   end
 
   def join_lateral(join_name, select_statement, success_condition=true, data={})
     select_statement = Qexpr.interpolate_expr(select_statement, data)
     return Qexpr.new @tree
-             .put(:joins, (@tree[:joins] || Hamster::Vector[]).add("\n JOIN LATERAL".bold.light_blue + " (#{select_statement})\n  #{join_name} ".blue + "ON".bold.light_blue + " #{success_condition}".blue))
+             .put(:joins, (@tree[:joins] || Immutable::Vector[]).add("\n JOIN LATERAL".bold.light_blue + " (#{select_statement})\n  #{join_name} ".blue + "ON".bold.light_blue + " #{success_condition}".blue))
   end
 
 
@@ -197,7 +197,7 @@ class Qexpr
 
 
   def returning(*cols)
-    Qexpr.new @tree.put(:returning, (@tree[:returning] || Hamster::Vector[]).concat(cols))
+    Qexpr.new @tree.put(:returning, (@tree[:returning] || Immutable::Vector[]).concat(cols))
   end
 
 
@@ -271,7 +271,7 @@ class Qexpr
   def self.interpolate_expr(expr, data)
     expr.gsub(/\$\w+/) do |match|
       val = data[match.gsub(/[ \$]*/, '').to_sym]
-      if val.is_a?(Array) || val.is_a?(Hamster::Vector)
+      if val.is_a?(Array) || val.is_a?(Immutable::Vector)
         val.to_a.map{|x| Qexpr.quote(x)}.join(', ')
       else
         Qexpr.quote val
@@ -286,7 +286,7 @@ private
   # #parse will deal with the from string/hash
   def self.from_expr(expr, as)
     if expr.is_a?(Qexpr)
-      Hamster::Hash[sub_expr: expr, as: as]
+      Immutable::Hash[sub_expr: expr, as: as]
     else
       " #{expr} #{as ? "AS #{as.to_s}" : ""}"
     end

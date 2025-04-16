@@ -29,7 +29,7 @@ jobs:
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-20.04]
+          os: [ubuntu-22.04]
           node: [16]
           ruby: ['3.1.7']
           postgres: ['16']

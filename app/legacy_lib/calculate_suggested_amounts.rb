@@ -1,8 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'numeric'
-require 'param_validation'
 
 module CalculateSuggestedAmounts
+  require_relative './numeric' # this is loading the local numeric
+
   MIN = 25
   MAX = 100000000
   BRACKETS = [{range: MIN...1000, delta:100},
@@ -79,7 +79,7 @@ module CalculateSuggestedAmounts
 
     potential_higher_amount = amount + bracket[:delta]
 
-    # is potential_lower_amount < our MIN? if so, return nil
+    # is potential_higher_amount >= our MAX? if so, return nil
     return nil if potential_higher_amount >= MAX
 
     potential_higher_amount

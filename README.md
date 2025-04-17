@@ -1,6 +1,6 @@
 # CommitChange's version of Houdini
 
-This is a Rails 6.1 app.
+This is a Rails 7.0 app.
 
 The frontend is written in a few custom frameworks, the largest of which is called Flimflam.
 We endeavor to migrate to React as quickly as possible to increase development

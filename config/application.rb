@@ -10,10 +10,7 @@ Bundler.require(*Rails.groups)
 module Commitchange
 	class Application < Rails::Application
 		# Initialize configuration defaults for originally generated Rails version.
-		config.load_defaults 6.1
-
-		config.active_support.cache_format_version = 7.0 # needed until line above is 7.0
-		config.active_support.disable_to_s_conversion = true # needed until line above is 7.0
+		config.load_defaults 7.0
 
 		# Settings in config/environments/* take precedence over those specified here.
 		# Application configuration should go into files in config/initializers

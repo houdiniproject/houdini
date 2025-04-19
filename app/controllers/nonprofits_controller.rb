@@ -6,7 +6,6 @@
 	helper_method :current_nonprofit_user?
 	before_action :authenticate_nonprofit_user!, only: [:dashboard, :dashboard_metrics, :dashboard_todos, :payment_history, :profile_todos, :recurring_donation_stats, :update]
   before_action :authenticate_super_admin!, only: [:destroy]
-  caches_action :btn
 
   after_action :allow_framing, only: [:donate, :btn]
   

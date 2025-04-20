@@ -41,7 +41,7 @@ gem 'rack-attack'
 gem 'rack-freeze'
 
 # Database (postgres)
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.5.9'
 gem 'qx', path: 'gems/ruby-qx'
 gem 'dalli'
 

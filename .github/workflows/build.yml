@@ -47,7 +47,7 @@ jobs:
                 - 'Gemfile.lock'
                 - 'Rakefile'
                 # include workflows because changes to workflows could break a build
-                - '.github/workflows'
+                - '.github/workflows/**'
               js:
                 - '**/*.js*'
                 - '**/*.es6'
@@ -63,7 +63,7 @@ jobs:
                 - 'Gemfile' 
                 - 'Gemfile.lock'
                 # include workflows because changes to workflows could break a build
-                - '.github/workflows'
+                - '.github/workflows/**'
 
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
           uses: ikalnytskyi/action-setup-postgres@v7

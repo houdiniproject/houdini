@@ -19,7 +19,7 @@ jobs:
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-22.04, ubuntu-24.04, macos-latest]
+          os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-latest] # macos-13 is the last Intel mac version
           node: [16]
           ruby: ['3.1.7']
           postgres: ['16']

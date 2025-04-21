@@ -103,3 +103,5 @@ gem 'http_accept_language'
 gem "js-routes"
 
 gem "csv"
+
+gem "concurrent-ruby", "1.3.4" # work around a regression fixed in Rails 7.1

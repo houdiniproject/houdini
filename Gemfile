@@ -66,6 +66,7 @@ group :development, :ci, :test do
   gem "shoulda-matchers", "~> 5.3.0"
   gem "turbo_test"
   gem "erb_lint", require: false
+  eval_gemfile "./gemfiles/rubocop.gemfile"
 end
 
 group :ci, :test do
@@ -102,3 +103,5 @@ gem "http_accept_language"
 gem "js-routes"
 
 gem "csv"
+
+gem "concurrent-ruby", "1.3.4" # work around a regression fixed in Rails 7.1

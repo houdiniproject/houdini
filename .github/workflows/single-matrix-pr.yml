@@ -41,7 +41,7 @@ jobs:
     name: Lint markdown code
     needs: changes
     if: ${{ contains(needs.changes.outputs.filters, 'markdown')}}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Run markdownlint

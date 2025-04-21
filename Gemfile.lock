@@ -511,6 +511,7 @@ DEPENDENCIES
   bootsnap (~> 1.18)
   chronic (~> 0.10.2)
   colorize (~> 0.8.1)
+  concurrent-ruby (= 1.3.4)
   countries (~> 4.2)
   csv
   database_cleaner-active_record

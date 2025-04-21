@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'i18n'
+require "i18n"
 
 module Format
   module RemoveDiacritics
@@ -10,7 +10,7 @@ module Format
       # returns a new hash with any diacritics replaced with a plain character
       # only from values corresponding to specified keys:
       # {"city" => "São Paulo"} ["city"] will return {"city" => "Sao Paulo"}
-      Hash[hash.map { |k, v| [k, (keys.include? k) ? I18n.transliterate(v) : v] }]
+      Hash[hash.map { |k, v| [k, keys.include?(k) ? I18n.transliterate(v) : v] }]
     end
   end
 end

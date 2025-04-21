@@ -2,50 +2,55 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
-require 'controllers/support/shared_user_context'
+require "rails_helper"
+require "controllers/support/shared_user_context"
 
 describe EventsController, type: :controller do
-  describe 'authorization' do
+  describe "authorization" do
     include_context :shared_user_context
-    describe 'create' do
+    describe "create" do
       include_context :open_to_event_editor, :post, :create, nonprofit_id: :__our_np, id: :__our_event
     end
-    describe 'update' do
+
+    describe "update" do
       include_context :open_to_event_editor, :put, :update, nonprofit_id: :__our_np, id: :__our_event, with_status: 200
     end
-    describe 'duplicate' do
+
+    describe "duplicate" do
       include_context :open_to_event_editor, :post, :duplicate, nonprofit_id: :__our_np, id: :__our_event
     end
-    describe 'soft_delete' do
+
+    describe "soft_delete" do
       include_context :open_to_event_editor, :delete, :soft_delete, nonprofit_id: :__our_np, event_id: :__our_event
     end
-    describe 'stats' do
+
+    describe "stats" do
       include_context :open_to_event_editor, :get, :stats, nonprofit_id: :__our_np, id: :__our_event, without_json_view: true
     end
 
-    describe 'name_and_id' do
+    describe "name_and_id" do
       include_context :open_to_np_associate, :get, :name_and_id, nonprofit_id: :__our_np, with_status: 200
     end
   end
 
-  describe 'open to all' do
-    describe 'index' do
+  describe "open to all" do
+    describe "index" do
       include_context :open_to_all, :get, :index, nonprofit_id: :__our_np, without_json_view: true
     end
 
-    describe 'listings' do
+    describe "listings" do
       include_context :open_to_all, :get, :listings, nonprofit_id: :__our_np
     end
 
-    describe 'show' do
+    describe "show" do
       include_context :open_to_all, :get, :show, nonprofit_id: :__our_np, id: :__our_event, without_json_view: true
     end
 
-    describe 'activities' do
+    describe "activities" do
       include_context :open_to_all, :get, :activities, nonprofit_id: :__our_np, id: :__our_event
     end
-    describe 'metrics' do
+
+    describe "metrics" do
       include_context :open_to_all, :get, :metrics, nonprofit_id: :__our_np, id: :__our_event
     end
   end

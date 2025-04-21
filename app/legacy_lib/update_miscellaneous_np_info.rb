@@ -4,13 +4,13 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module UpdateMiscellaneousNpInfo
   def self.update(np_id, misc_settings)
-    ParamValidation.new({ np_id: np_id, misc_settings: misc_settings },
-                        np_id: { required: true, is_integer: true },
-                        misc_settings: { required: true, is_hash: true })
-    np = Nonprofit.where('id = ?', np_id).first
+    ParamValidation.new({np_id: np_id, misc_settings: misc_settings},
+      np_id: {required: true, is_integer: true},
+      misc_settings: {required: true, is_hash: true})
+    np = Nonprofit.where("id = ?", np_id).first
     raise ParamValidation::ValidationError.new("Nonprofit #{np_id} does not exist", key: :np_id) unless np
 
-    misc = MiscellaneousNpInfo.where('nonprofit_id = ?', np_id).first
+    misc = MiscellaneousNpInfo.where("nonprofit_id = ?", np_id).first
     unless misc
       misc = MiscellaneousNpInfo.new
       misc.nonprofit = np
@@ -20,10 +20,10 @@ module UpdateMiscellaneousNpInfo
     end
 
     if misc_settings[:change_amount_message].present?
-      if Format::HTML.has_only_empty_tags(misc_settings[:change_amount_message])
-        misc.change_amount_message = nil
+      misc.change_amount_message = if Format::HTML.has_only_empty_tags(misc_settings[:change_amount_message])
+        nil
       else
-        misc.change_amount_message = misc_settings[:change_amount_message]
+        misc_settings[:change_amount_message]
       end
     end
 

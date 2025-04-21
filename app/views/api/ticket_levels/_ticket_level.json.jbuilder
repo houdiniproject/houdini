@@ -2,15 +2,15 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-json.(ticket_level, :id, :name, :name, :deleted, :order, :limit, :description)
+json.call(ticket_level, :id, :name, :name, :deleted, :order, :limit, :description)
 
-json.object 'ticket_level'
+json.object "ticket_level"
 
 json.amount do
-	json.partial! '/api/common/amount', amount: ticket_level.amount_as_money
+  json.partial! "/api/common/amount", amount: ticket_level.amount_as_money
 end
 
-json.available_to ticket_level.admin_only ? 'admins' : 'everyone'
+json.available_to ticket_level.admin_only ? "admins" : "everyone"
 
 json.url api_nonprofit_event_ticket_level_url(ticket_level.nonprofit, ticket_level.event, ticket_level)
 

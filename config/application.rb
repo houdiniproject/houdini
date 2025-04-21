@@ -2,7 +2,7 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require_relative 'boot'
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
@@ -26,7 +26,7 @@ Bundler.require(*Rails.groups)
 
 module Commitchange
   class Application < Rails::Application
-    config.load_defaults '5.0'
+    config.load_defaults "5.0"
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -34,20 +34,20 @@ module Commitchange
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 
-    config.paths.add File.join('app', 'listeners'), glob: File.join('**', '*.rb')
+    config.paths.add File.join("app", "listeners"), glob: File.join("**", "*.rb")
     # config.eager_load_paths += Dir[Rails.root.join('app', 'api', '*'), Rails.root.join('app', 'listeners', '*')]
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "bin/rails -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = 'UTC'
+    config.time_zone = "UTC"
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-		config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.yml")]
     # config.i18n.default_locale = :de
 
     # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = 'utf-8'
+    config.encoding = "utf-8"
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
@@ -66,7 +66,7 @@ module Commitchange
     # Precompile all "page" files
     config.assets.precompile << proc do |path|
       if /.*page\.(css|js)/.match?(path)
-        puts 'Compiling asset: ' + path
+        puts "Compiling asset: " + path
         true
       else
         false
@@ -74,7 +74,7 @@ module Commitchange
     end
 
     # add fonts to assets pipeline
-    config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+    config.assets.paths << Rails.root.join("app/assets/fonts")
 
     # Version of your assets, change this If you want to expire all your assets
     # config.assets.version = '1.0'
@@ -99,19 +99,23 @@ module Commitchange
     config.active_job.queue_adapter = :good_job
 
     # this works around a bug where the the webpacker proxy
-    # only waits 60 seconds for a compilation to happen. That's not 
+    # only waits 60 seconds for a compilation to happen. That's not
     # fast enough on startup and Webpacker doesn't allow us to override.
-    # 
+    #
     # TODO: figure out how to delete the first instance of DevServerProxy
     initializer "houdini.webpacker.proxy" do |app|
-      insert_middleware = Webpacker.config.dev_server.present? rescue nil
+      insert_middleware = begin
+        Webpacker.config.dev_server.present?
+      rescue
+        nil
+      end
       if insert_middleware
         app.middleware.insert_before 0,
-             Webpacker::DevServerProxy, ssl_verify_none: true, read_timeout: 500
+          Webpacker::DevServerProxy, ssl_verify_none: true, read_timeout: 500
       end
     end
   end
 end
 
 # we want to add the houdini configuration
-require_relative './houdini_config'
+require_relative "houdini_config"

@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 FactoryBot.define do
   factory :supporter do
-    name { 'Fake Supporter Name' }
+    name { "Fake Supporter Name" }
     nonprofit_id { 55352 }
     trait :has_a_card do
       after(:create) do |supporter|
@@ -13,8 +13,8 @@ FactoryBot.define do
     end
   end
 
-  factory :supporter_with_fv_poverty, class: 'Supporter' do
-    name { 'Fake Supporter Name' }
-    nonprofit { association :fv_poverty}
+  factory :supporter_with_fv_poverty, class: "Supporter" do
+    name { "Fake Supporter Name" }
+    nonprofit { association :fv_poverty }
   end
 end

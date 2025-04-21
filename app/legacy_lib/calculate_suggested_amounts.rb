@@ -2,22 +2,22 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require_relative './numeric'
-require 'param_validation'
+require_relative "numeric"
+require "param_validation"
 
 module CalculateSuggestedAmounts
   MIN = 25
   MAX = 100_000_000
-  BRACKETS = [{ range: MIN...1000, delta: 100 },
-              { range: 1000...5000, delta: 500 },
-              { range: 5000...MAX, delta: 2500 }].freeze
+  BRACKETS = [{range: MIN...1000, delta: 100},
+    {range: 1000...5000, delta: 500},
+    {range: 5000...MAX, delta: 2500}].freeze
 
   # Calculates a set of suggested donation amounts based upon our internal special algorithm
   # This is most useful for suggesting amounts a recurring donor could change to
   # @return [Array<Integer>] suggested amounts for your donation
   # @param [Number] amount the amount in cents to start from
   def self.calculate(amount)
-    ParamValidation.new({ amount: amount }, amount: { required: true, is_a: Numeric, min: MIN, max: MAX })
+    ParamValidation.new({amount: amount}, amount: {required: true, is_a: Numeric, min: MIN, max: MAX})
     result = []
 
     step_down_val = step_down_value(amount)
@@ -42,7 +42,7 @@ module CalculateSuggestedAmounts
 
     # not on a delta, just send a floor
     if delta_floor != amount
-      return delta_floor < MIN ? nil : delta_floor
+      return (delta_floor < MIN) ? nil : delta_floor
     end
 
     potential_lower_amount = amount - initial_bracket[:delta]
@@ -68,7 +68,7 @@ module CalculateSuggestedAmounts
 
     # not on a delta, just send a ceil
     if delta_ceil != amount
-      return delta_ceil >= MAX ? nil : delta_ceil
+      return (delta_ceil >= MAX) ? nil : delta_ceil
     end
 
     potential_higher_amount = amount + bracket[:delta]

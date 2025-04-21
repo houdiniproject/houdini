@@ -29,9 +29,8 @@ class TagDefinition < ApplicationRecord
   def no_dupes
     return self if nonprofit.nil?
 
-    errors.add(:base, 'Duplicate tag') if nonprofit.tag_definitions.not_deleted.where(name: name).any?
+    errors.add(:base, "Duplicate tag") if nonprofit.tag_definitions.not_deleted.where(name: name).any?
   end
-
 
   # TODO replace with discard gem
   def discard!
@@ -43,20 +42,20 @@ class TagDefinition < ApplicationRecord
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :name, :deleted)
-      json.object 'tag_definition'
+      json.call(self, :name, :deleted)
+      json.object "tag_definition"
 
       json.add_builder_expansion :nonprofit
     end
   end
 
+  private
 
-private
   def publish_create
-    Houdini.event_publisher.announce(:tag_definition_created, to_event('tag_definition.created', :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:tag_definition_created, to_event("tag_definition.created", :nonprofit).attributes!)
   end
 
   def publish_deleted
-    Houdini.event_publisher.announce(:tag_definition_deleted, to_event('tag_definition.deleted', :nonprofit).attributes!)
+    Houdini.event_publisher.announce(:tag_definition_deleted, to_event("tag_definition.deleted", :nonprofit).attributes!)
   end
 end

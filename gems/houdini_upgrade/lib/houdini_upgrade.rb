@@ -5,16 +5,16 @@
 require "houdini_upgrade/engine"
 
 module HoudiniUpgrade
-  require 'houdini_upgrade/table_to_migrate'
+  require "houdini_upgrade/table_to_migrate"
   UPLOADERS_TO_MIGRATE = [
-    TableToMigrate.new(:nonprofits, [:main_image, 
-      :second_image, 
-      :third_image, 
-      :background_image, 
+    TableToMigrate.new(:nonprofits, [:main_image,
+      :second_image,
+      :third_image,
+      :background_image,
       :logo]),
     TableToMigrate.new(:campaigns, [
-      :main_image,  
-      :background_image, 
+      :main_image,
+      :background_image,
       :banner_image
     ]),
     TableToMigrate.new(:events, [

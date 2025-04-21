@@ -4,8 +4,6 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 # Query code for both campaign_gift_options and campaign_gifts
 
-
-
 module QueryCampaignGifts
   # Create a mapping of: {
   # 'total_donations' => Integer, # total donations for gift options
@@ -38,10 +36,10 @@ module QueryCampaignGifts
   end
 
   def self.donations_for_campaign(campaign_id)
-    Qx.select('donations.id, donations.amount').from(:donations).where('campaign_id IN ($ids)', ids: QueryCampaigns.get_campaign_and_children(campaign_id))
+    Qx.select("donations.id, donations.amount").from(:donations).where("campaign_id IN ($ids)", ids: QueryCampaigns.get_campaign_and_children(campaign_id))
   end
 
-  def self.get_corresponding_payments(campaign_id, recurring_clauses, where_clauses = '')
+  def self.get_corresponding_payments(campaign_id, recurring_clauses, where_clauses = "")
     %(SELECT donations.id, payments.gross_amount AS amount
 			FROM (#{donations_for_campaign(campaign_id).parse}) donations
 				#{recurring_clauses}

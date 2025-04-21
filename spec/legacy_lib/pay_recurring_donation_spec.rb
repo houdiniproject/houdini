@@ -2,8 +2,8 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
-require 'timecop'
+require "rails_helper"
+require "timecop"
 
 describe PayRecurringDonation do
   before(:all) do
@@ -13,7 +13,7 @@ describe PayRecurringDonation do
 
   let(:today) { Time.current.to_date }
 
-  describe '.with_donation', pending: true do
+  describe ".with_donation", pending: true do
     # describe 'create a valid charge and payment when due' do
     #
     # end
@@ -64,7 +64,7 @@ describe PayRecurringDonation do
     # end
   end
 
-  describe '.pay_all_due_with_stripe', pending: true do
+  describe ".pay_all_due_with_stripe", pending: true do
     # it 'queues a job to pay each due recurring donation' do
     #   Timecop.freeze(Time.parse("2020-02-01").utc) do
     #     VCR.use_cassette('PayRecurringDonation/pay_all_due_with_stripe') do
@@ -80,19 +80,19 @@ describe PayRecurringDonation do
     # end
   end
 
-  describe '.ULTIMATE_VERIFICATION' do
-    it 'returns false' do
-      Timecop.freeze(Time.parse('2020-02-01').utc) do
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-02', true, true, false, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', false, true, false, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, false, false, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, true, true, 'run_dangerously')).to be_falsey
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, true, false, 'rd')).to be_falsey
+  describe ".ULTIMATE_VERIFICATION" do
+    it "returns false" do
+      Timecop.freeze(Time.parse("2020-02-01").utc) do
+        expect(PayRecurringDonation.ULTIMATE_VERIFICATION("2020-02-02", true, true, false, "run_dangerously")).to be_falsey
+        expect(PayRecurringDonation.ULTIMATE_VERIFICATION("2020-02-01", false, true, false, "run_dangerously")).to be_falsey
+        expect(PayRecurringDonation.ULTIMATE_VERIFICATION("2020-02-01", true, false, false, "run_dangerously")).to be_falsey
+        expect(PayRecurringDonation.ULTIMATE_VERIFICATION("2020-02-01", true, true, true, "run_dangerously")).to be_falsey
+        expect(PayRecurringDonation.ULTIMATE_VERIFICATION("2020-02-01", true, true, false, "rd")).to be_falsey
       end
     end
-    it 'returns true' do
-      Timecop.freeze(Time.parse('2020-02-01').utc) do
-        expect(PayRecurringDonation.ULTIMATE_VERIFICATION('2020-02-01', true, true, false, 'run dangerously')).to be_truthy
+    it "returns true" do
+      Timecop.freeze(Time.parse("2020-02-01").utc) do
+        expect(PayRecurringDonation.ULTIMATE_VERIFICATION("2020-02-01", true, true, false, "run dangerously")).to be_truthy
       end
     end
   end

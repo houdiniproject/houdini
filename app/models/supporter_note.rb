@@ -14,7 +14,7 @@ class SupporterNote < ApplicationRecord
   has_many :activities, as: :attachment, dependent: :destroy
   belongs_to :user
 
-  validates :content, length: { minimum: 1 }
+  validates :content, length: {minimum: 1}
   validates :supporter_id, presence: true
   # TODO replace with Discard gem
 
@@ -35,24 +35,25 @@ class SupporterNote < ApplicationRecord
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :deleted, :content)
+      json.call(self, :deleted, :content)
 
       json.add_builder_expansion :supporter, :nonprofit, :user
     end
   end
 
   private
+
   def publish_created
-    Houdini.event_publisher.announce(:supporter_note_created, to_event('supporter_note.created', :supporter, :nonprofit, :user).attributes!)
+    Houdini.event_publisher.announce(:supporter_note_created, to_event("supporter_note.created", :supporter, :nonprofit, :user).attributes!)
   end
 
   def publish_updated
     if !deleted
-      Houdini.event_publisher.announce(:supporter_note_updated, to_event('supporter_note.updated', :supporter, :nonprofit, :user).attributes!)
+      Houdini.event_publisher.announce(:supporter_note_updated, to_event("supporter_note.updated", :supporter, :nonprofit, :user).attributes!)
     end
   end
 
   def publish_deleted
-    Houdini.event_publisher.announce(:supporter_note_deleted, to_event('supporter_note.deleted', :supporter, :nonprofit, :user).attributes!)
+    Houdini.event_publisher.announce(:supporter_note_deleted, to_event("supporter_note.deleted", :supporter, :nonprofit, :user).attributes!)
   end
 end

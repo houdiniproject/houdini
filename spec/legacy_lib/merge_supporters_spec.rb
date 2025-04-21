@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 describe MergeSupporters do
-  describe '.update_associations' do
-    around(:each) do |e|
+  describe ".update_associations" do
+    around do |e|
       Timecop.freeze(2020, 3, 4) do
         e.run
       end
@@ -22,28 +22,28 @@ describe MergeSupporters do
     let(:old_supporter2) { force_create(:supporter, nonprofit: np) }
     let(:new_supporter) { force_create(:supporter, nonprofit: np) }
 
-    let(:supporter_note) { force_create(:supporter_note, supporter: old_supporter1, content: 'feoatheoiath') }
+    let(:supporter_note) { force_create(:supporter_note, supporter: old_supporter1, content: "feoatheoiath") }
 
-    let(:tag_definition) { force_create(:tag_definition, nonprofit: np, name: 'something') }
-    let(:tag_definition2) { force_create(:tag_definition, nonprofit: np, name: 'something2') }
-    let(:tag_definition3) { force_create(:tag_definition, nonprofit: np, name: 'something3') }
+    let(:tag_definition) { force_create(:tag_definition, nonprofit: np, name: "something") }
+    let(:tag_definition2) { force_create(:tag_definition, nonprofit: np, name: "something2") }
+    let(:tag_definition3) { force_create(:tag_definition, nonprofit: np, name: "something3") }
 
     let(:tag_on_1) { force_create(:tag_join, tag_definition: tag_definition, supporter_id: old_supporter1.id) }
     let(:tag_on_2) { force_create(:tag_join, tag_definition: tag_definition2, supporter_id: old_supporter2.id) }
     let(:tag_on_both) { [old_supporter1, old_supporter2].each { |i| force_create(:tag_join, tag_definition: tag_definition3, supporter_id: i.id) } }
 
-    let(:custom_field_definition) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm1') }
-    let(:custom_field_definition2) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm2') }
-    let(:custom_field_definition3) { force_create(:custom_field_definition, nonprofit: np, name: 'cfm3') }
+    let(:custom_field_definition) { force_create(:custom_field_definition, nonprofit: np, name: "cfm1") }
+    let(:custom_field_definition2) { force_create(:custom_field_definition, nonprofit: np, name: "cfm2") }
+    let(:custom_field_definition3) { force_create(:custom_field_definition, nonprofit: np, name: "cfm3") }
 
-    let(:cfj_on_1) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_definition: custom_field_definition, value: 'cfj_on_1') }
-    let(:cfj_on_2) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_definition: custom_field_definition2, value: 'cfj_on_2') }
-    let(:cfj_on_3) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_definition: custom_field_definition3, value: 'old_cfj') }
-    let(:cfj_on_4) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_definition: custom_field_definition3, value: 'new_cfj', created_at: Time.now + 1.day) }
+    let(:cfj_on_1) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_definition: custom_field_definition, value: "cfj_on_1") }
+    let(:cfj_on_2) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_definition: custom_field_definition2, value: "cfj_on_2") }
+    let(:cfj_on_3) { force_create(:custom_field_join, supporter: old_supporter1, custom_field_definition: custom_field_definition3, value: "old_cfj") }
+    let(:cfj_on_4) { force_create(:custom_field_join, supporter: old_supporter2, custom_field_definition: custom_field_definition3, value: "new_cfj", created_at: Time.now + 1.day) }
 
     let(:profile) { force_create(:profile) }
 
-    before(:each) do
+    before do
       np
       old_supporter1
       old_supporter2
@@ -51,7 +51,7 @@ describe MergeSupporters do
       supporter_note
     end
 
-    it 'merges everything properly with tags and cfjs on both' do
+    it "merges everything properly with tags and cfjs on both" do
       tag_on_1
       tag_on_2
       tag_on_both
@@ -79,7 +79,7 @@ describe MergeSupporters do
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
     end
 
-    it 'merges with tags and cfjs on first' do
+    it "merges with tags and cfjs on first" do
       tag_on_1
       cfj_on_1
       cfj_on_3
@@ -102,7 +102,7 @@ describe MergeSupporters do
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
     end
 
-    it 'merges with tags and cfjs on second' do
+    it "merges with tags and cfjs on second" do
       tag_on_2
       cfj_on_2
       cfj_on_4
@@ -124,7 +124,7 @@ describe MergeSupporters do
       expect(new_supporter.supporter_notes.first.id).to eq supporter_note.id
     end
 
-    it 'merges with tags and cfjs on neighter' do
+    it "merges with tags and cfjs on neighter" do
       MergeSupporters.update_associations([old_supporter1.id, old_supporter2.id], new_supporter.id, np.id, profile.id)
       old_supporter1.reload
       old_supporter2.reload

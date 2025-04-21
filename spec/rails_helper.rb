@@ -3,22 +3,22 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../../config/environment", __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'rspec/rails'
+require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'devise'
-require 'support/factory_bot'
-require 'support/mock_helpers'
-require 'action_mailer_matchers'
-require 'active_job'
-require 'wisper/rspec/matchers'
-require 'support/contexts'
-require 'support/stripe_mock_helper'
-require 'validate_url/rspec_matcher'
+require "devise"
+require "support/factory_bot"
+require "support/mock_helpers"
+require "action_mailer_matchers"
+require "active_job"
+require "wisper/rspec/matchers"
+require "support/contexts"
+require "support/stripe_mock_helper"
+require "validate_url/rspec_matcher"
 include ActiveJob::TestHelper
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -49,8 +49,8 @@ RSpec.configure do |config|
   ReactOnRails::TestHelper.configure_rspec_to_compile_assets(config)
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
-  
+  config.fixture_path = "#{Rails.root.join("spec/fixtures")}"
+
   ActiveJob::Base.queue_adapter = :test
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -84,18 +84,18 @@ RSpec.configure do |config|
   config.include ActionMailerMatchers
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation, except: %w(ar_internal_metadata))
+    DatabaseCleaner.clean_with(:truncation, except: %w[ar_internal_metadata])
     Rails.application.load_seed
   end
 
-  config.around(:each) do |example|
+  config.around do |example|
     DatabaseCleaner.cleaning do
       example.run
     end
     clear_enqueued_jobs
   end
 
-  config.after(:each) do
+  config.after do
     StripeMockHelper.stop
   end
 
@@ -104,5 +104,5 @@ RSpec.configure do |config|
       with.test_framework :rspec
       with.library :rails
     end
-  end  
+  end
 end

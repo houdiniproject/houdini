@@ -8,15 +8,15 @@ class CampaignGiftPurchase < ApplicationRecord
   setup_houid :cgpur
 
   belongs_to :campaign
-  has_many :campaign_gifts, class_name: 'ModernCampaignGift'
+  has_many :campaign_gifts, class_name: "ModernCampaignGift"
 
   # TODO replace with Discard gem
-	define_model_callbacks :discard
+  define_model_callbacks :discard
 
   validates :amount, presence: true
   validates :campaign, presence: true
-  validates :campaign_gifts, length: { minimum: 1 }
-  
+  validates :campaign_gifts, length: {minimum: 1}
+
   # TODO replace with discard gem
   def discard!
     run_callbacks(:discard) do
@@ -25,20 +25,19 @@ class CampaignGiftPurchase < ApplicationRecord
     end
   end
 
-  	
-	def to_id
-		::Jbuilder.new do |json|
-			json.id id
-			json.object 'campaign_gift_purchase'
-			json.type 'trx_assignment'
-		end
-	end
+  def to_id
+    ::Jbuilder.new do |json|
+      json.id id
+      json.object "campaign_gift_purchase"
+      json.type "trx_assignment"
+    end
+  end
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :deleted)
-      json.type 'trx_assignment'
-      
+      json.call(self, :deleted)
+      json.type "trx_assignment"
+
       json.amount do
         json.cents amount
         json.currency nonprofit.currency
@@ -51,14 +50,14 @@ class CampaignGiftPurchase < ApplicationRecord
   end
 
   def publish_created
-    Houdini.event_publisher.announce(:campaign_gift_purchase_created, to_event('campaign_gift_purchase.created', :nonprofit, :supporter, :trx, :campaign, :campaign_gifts).attributes!)
-	end
-	
-	def publish_updated
-		Houdini.event_publisher.announce(:campaign_gift_purchase_updated, to_event('campaign_gift_purchase.updated', :nonprofit, :supporter, :trx, :campaign, :campaign_gifts).attributes!)
-	end
+    Houdini.event_publisher.announce(:campaign_gift_purchase_created, to_event("campaign_gift_purchase.created", :nonprofit, :supporter, :trx, :campaign, :campaign_gifts).attributes!)
+  end
 
-	def publish_deleted
-		Houdini.event_publisher.announce(:campaign_gift_purchase_deleted, to_event('campaign_gift_purchase.deleted', :nonprofit, :supporter, :trx, :campaign, :campaign_gifts).attributes!)
-	end
+  def publish_updated
+    Houdini.event_publisher.announce(:campaign_gift_purchase_updated, to_event("campaign_gift_purchase.updated", :nonprofit, :supporter, :trx, :campaign, :campaign_gifts).attributes!)
+  end
+
+  def publish_deleted
+    Houdini.event_publisher.announce(:campaign_gift_purchase_deleted, to_event("campaign_gift_purchase.deleted", :nonprofit, :supporter, :trx, :campaign, :campaign_gifts).attributes!)
+  end
 end

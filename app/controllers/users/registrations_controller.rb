@@ -36,25 +36,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
       errs = current_user.errors.full_messages
     else
       success = false
-      errs = { password: :incorrect }
+      errs = {password: :incorrect}
     end
 
     if success
-      if params[:user][:email].present?
-        flash[:notice] = 'We need to confirm your new email address. Check your inbox for a confirmation link.'
+      flash[:notice] = if params[:user][:email].present?
+        "We need to confirm your new email address. Check your inbox for a confirmation link."
       else
-        flash[:notice] = 'Account updated!'
+        "Account updated!"
       end
 
       sign_in(current_user, bypass: true)
       render json: current_user
     else
-      render json: { errors: errs }, status: :unprocessable_entity
+      render json: {errors: errs}, status: :unprocessable_entity
     end
   end
 
-  private 
+  private
+
   def clean_params
-    params.permit(:user => [:name, :email, :password_confirmation, :password])
+    params.permit(user: [:name, :email, :password_confirmation, :password])
   end
 end

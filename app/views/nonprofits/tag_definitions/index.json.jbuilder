@@ -4,5 +4,5 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
 json.data @tag_definitions do |tag_definition|
-	json.(tag_definition, :id, :name, :created_at)
+  json.call(tag_definition, :id, :name, :created_at)
 end

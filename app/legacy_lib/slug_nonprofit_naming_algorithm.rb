@@ -11,7 +11,7 @@ class SlugNonprofitNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def copy_addition
-    ''
+    ""
   end
 
   def max_copies
@@ -19,7 +19,7 @@ class SlugNonprofitNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def separator_before_copy_number
-    '-'
+    "-"
   end
 
   def get_name_for_entity(name_entity)
@@ -28,6 +28,6 @@ class SlugNonprofitNamingAlgorithm < CopyNamingAlgorithm
 
   def get_already_used_name_entities(base_name)
     end_name = '\\-\\d{2}'
-    Nonprofit.method(:where).call('slug SIMILAR TO ?  AND state_code_slug = ? AND city_slug = ?', base_name + end_name, @state_slug, @city_slug).select('slug')
+    Nonprofit.method(:where).call("slug SIMILAR TO ?  AND state_code_slug = ? AND city_slug = ?", base_name + end_name, @state_slug, @city_slug).select("slug")
   end
 end

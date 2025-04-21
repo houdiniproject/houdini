@@ -23,8 +23,8 @@ class CampaignGiftOption < ApplicationRecord
 
   validates :name, presence: true
   validates :campaign, presence: true
-  validates :amount_one_time,  presence: true, numericality: { only_integer: true }, unless: :amount_recurring
-  validates :amount_recurring, presence: true, numericality: { only_integer: true }, unless: :amount_one_time
+  validates :amount_one_time, presence: true, numericality: {only_integer: true}, unless: :amount_recurring
+  validates :amount_recurring, presence: true, numericality: {only_integer: true}, unless: :amount_one_time
 
   after_create_commit :publish_created
   after_update_commit :publish_updated
@@ -43,7 +43,7 @@ class CampaignGiftOption < ApplicationRecord
     if amount_recurring
       output.push(GiftOptionAmount.new(
         Amount.new(amount_recurring, currency),
-        GiftOptionRecurrence.new('monthly', 1)
+        GiftOptionRecurrence.new("monthly", 1)
       ))
     end
     output
@@ -58,16 +58,14 @@ class CampaignGiftOption < ApplicationRecord
   end
 
   def as_json(options = {})
-    h = super(options)
+    h = super
     h[:total_gifts] = total_gifts
     h
   end
 
   def to_builder(*expand)
-
     init_builder(*expand) do |json|
-      json.(self, :name, :description, 
-          :hide_contributions, :order, :to_ship)
+      json.call(self, :name, :description, :hide_contributions, :order, :to_ship)
 
       if quantity
         json.quantity quantity
@@ -76,12 +74,12 @@ class CampaignGiftOption < ApplicationRecord
       json.deleted !persisted?
 
       json.gift_option_amount gift_option_amounts do |desc|
-        json.amount do 
+        json.amount do
           json.currency desc.amount.currency
           json.cents desc.amount.cents
         end
         if desc.recurrence
-          json.recurrence do 
+          json.recurrence do
             json.interval desc.recurrence.interval
             json.type desc.recurrence.type
           end
@@ -95,21 +93,20 @@ class CampaignGiftOption < ApplicationRecord
   end
 
   private
+
   def publish_created
-    Houdini.event_publisher.announce(:campaign_gift_option_created, to_event('campaign_gift_option.created', :nonprofit, :campaign).attributes!)
+    Houdini.event_publisher.announce(:campaign_gift_option_created, to_event("campaign_gift_option.created", :nonprofit, :campaign).attributes!)
   end
 
   def publish_updated
-    Houdini.event_publisher.announce(:campaign_gift_option_updated, to_event('campaign_gift_option.updated', :nonprofit, :campaign).attributes!)
+    Houdini.event_publisher.announce(:campaign_gift_option_updated, to_event("campaign_gift_option.updated", :nonprofit, :campaign).attributes!)
   end
 
   def publish_deleted
-    Houdini.event_publisher.announce(:campaign_gift_option_deleted, to_event('campaign_gift_option.deleted', :nonprofit, :campaign).attributes!)
+    Houdini.event_publisher.announce(:campaign_gift_option_deleted, to_event("campaign_gift_option.deleted", :nonprofit, :campaign).attributes!)
   end
 end
 
 GiftOptionAmount = Struct.new(:amount, :recurrence)
 
 GiftOptionRecurrence = Struct.new(:type, :interval)
-
-

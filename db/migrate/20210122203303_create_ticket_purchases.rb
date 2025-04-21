@@ -11,7 +11,7 @@ class CreateTicketPurchases < ActiveRecord::Migration[6.1]
 
     create_table :transaction_assignments, id: :string do |t|
       t.references :transaction, foreign_key: true, type: :string, null: false
-      t.references :assignable, polymorphic: true, type: :string, index: { unique: true }, null: false
+      t.references :assignable, polymorphic: true, type: :string, index: {unique: true}, null: false
     end
   end
 end

@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-module Format; module Currency
+module Format::Currency
 
 
 	# Converts currency units into subunits.
@@ -18,4 +18,4 @@ module Format; module Currency
 			.gsub(/^(\d+)\.(\d)$/, '\1.\20') # add a second zero if single decimal (eg. "9.9" -> "9.90")
 	end
 
-end; end
+end

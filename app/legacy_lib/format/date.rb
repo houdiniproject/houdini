@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 require 'chronic'
 
-module Format; module Date
+module Format::Date
 
   def self.parse(str)
     Chronic.parse(str)
@@ -55,4 +55,4 @@ module Format; module Date
     Time.new(*str.match(/(\d\d\d\d)-?(\d\d)?-?(\d\d)?/).to_a[1..-1].compact.map(&:to_i))
   end
 
-end; end
+end

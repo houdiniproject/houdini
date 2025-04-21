@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-module Format; module Url
+module Format::Url
 
 	# Given ["What hello", "hi! lol?"]
 	# Return ["what-hello", "hi-lol"]
@@ -20,4 +20,4 @@ module Format; module Url
 		return urls.join('/').gsub(/([^:])\/\/+/,'\1/')
 	end
 
-end; end
+end

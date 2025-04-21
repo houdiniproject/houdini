@@ -2,7 +2,7 @@
 
 cd $(dirname $0)/..
 
-export BUNDLE_GEMFILE=./gemfiles/rubocop.gemfile
+#export BUNDLE_GEMFILE=./gemfiles/rubocop.gemfile
 bundle check > /dev/null || bundle install
 
 bundle exec rubocop $@

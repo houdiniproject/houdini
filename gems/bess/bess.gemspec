@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'rspec', '~> 3.13.0'
   spec.add_development_dependency 'rspec-rails', '~> 4.0.0'
+  spec.add_development_dependency "concurrent-ruby", "1.3.4" # until Rails 7.1 becuase of the regression in concurrent-ruby
 
 
 end

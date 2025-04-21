@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-module Format; module Address
+module Format::Address
 	
 	def self.full_address(street, city, state, zip=nil)
 		# Albuquerque | NM | Albuquerque NM | 1234 Street Ln, Albuquerque NM
@@ -19,5 +19,5 @@ module Format; module Address
 		[[s.address, s.city, s.state_code].reject(&:blank?).join(", "), s.zip_code].reject(&:blank?).join(" ")
 	end
 
-end; end
+end
 

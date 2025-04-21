@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-module Campaigns; class CampaignGiftOptionsController < ApplicationController
+class Campaigns::CampaignGiftOptionsController < ApplicationController
 	include Controllers::CampaignHelper
 
 	before_action :authenticate_campaign_editor!, only: [:index]
@@ -12,4 +12,4 @@ module Campaigns; class CampaignGiftOptionsController < ApplicationController
 		end
 	end
 
-end; end
+end

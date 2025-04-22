@@ -19,7 +19,7 @@ jobs:
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-22.04, ubuntu-24.04]
+          os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-latest] # macos-13 is the last Intel mac version
           node: [16]
           ruby: ['3.2.8']
           postgres: ['16']
@@ -46,6 +46,8 @@ jobs:
                 - 'Gemfile'
                 - 'Gemfile.lock'
                 - 'Rakefile'
+                # include workflows because changes to workflows could break a build
+                - '.github/workflows/**'
               js:
                 - '**/*.js*'
                 - '**/*.es6'
@@ -60,14 +62,16 @@ jobs:
                 # include Gemfiles because some of the Gems could break yarn build
                 - 'Gemfile' 
                 - 'Gemfile.lock'
+                # include workflows because changes to workflows could break a build
+                - '.github/workflows/**'
 
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
-          uses: Daniel-Marynicz/postgresql-action@1.0.0
+          uses: ikalnytskyi/action-setup-postgres@v7
           with:
-            postgres_image_tag: ${{ matrix.postgres }}-alpine
-            postgres_user: admin
-            postgres_password: password
-            postgres_db: commitchange_test
+            postgres-version: ${{ matrix.postgres }}
+            username: admin
+            password: password
+            database: commitchange_test
         - uses: actions/setup-node@v4
           with:
             node-version: ${{ matrix.node }}

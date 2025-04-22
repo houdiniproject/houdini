@@ -48,8 +48,6 @@ GEM
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.2.0)
-    actionpack-action_caching (1.2.2)
-      actionpack (>= 4.0.0)
     actiontext (7.0.8.7)
       actionpack (= 7.0.8.7)
       activerecord (= 7.0.8.7)
@@ -325,10 +323,10 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.0)
-    nokogiri (1.18.7)
+    nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.18.7-x86_64-linux-gnu)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     pg (1.5.9)
@@ -523,7 +521,6 @@ PLATFORMS
 
 DEPENDENCIES
   action_mailer_matchers (~> 1.2.0)
-  actionpack-action_caching
   airbrake
   aws-sdk-rails
   aws-sdk-s3

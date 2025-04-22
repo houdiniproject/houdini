@@ -95,6 +95,7 @@ gem 'countries'
 gem 'rexml' # needed on Ruby 3
 
 group :development, :ci, :test do
+  gem "standard"
   gem 'listen'
   gem 'letter_opener'
 	gem 'timecop'

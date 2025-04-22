@@ -127,7 +127,7 @@ export interface InputStepsState<T> {
 }
 
 
-interface StepsObject<T> extends StepsInitOptions {
+export interface StepsObject<T> extends StepsInitOptions {
 	readonly addStep: (step: KeyedStepWith<T>, before?: number) => void;
 	back: () => void;
 	complete: (step: number) => void;

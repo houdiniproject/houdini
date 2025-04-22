@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'rails_helper'
+require "rails_helper"
 
 describe "Slugged routes", type: :routing do
   before(:each) do
@@ -8,51 +8,51 @@ describe "Slugged routes", type: :routing do
   end
 
   describe "slugged_nonprofit" do
-    it 'routes to a nonprofit' do
+    it "routes to a nonprofit" do
       nonprofit = create(:nonprofit_base)
       expect(get: slugged_nonprofit_path(nonprofit)).to route_to(
         controller: "nonprofits",
-        action: "show", 
+        action: "show",
         state_code: nonprofit.state_code_slug,
         city: nonprofit.city_slug,
-        name: nonprofit.slug,
+        name: nonprofit.slug
       )
     end
 
-    it 'routes to a nonprofit and accepts params' do
+    it "routes to a nonprofit and accepts params" do
       nonprofit = create(:nonprofit_base)
-      expect(get: slugged_nonprofit_path(nonprofit, foo: 'bar')).to route_to(
+      expect(get: slugged_nonprofit_path(nonprofit, foo: "bar")).to route_to(
         controller: "nonprofits",
-        action: "show", 
+        action: "show",
         state_code: nonprofit.state_code_slug,
         city: nonprofit.city_slug,
         name: nonprofit.slug,
-        foo: 'bar',
+        foo: "bar"
       )
     end
   end
 
   describe "slugged_nonprofit_dashboard" do
-    it 'routes to a nonprofit dashboard' do
+    it "routes to a nonprofit dashboard" do
       nonprofit = create(:nonprofit_base)
       expect(get: slugged_nonprofit_dashboard_path(nonprofit)).to route_to(
         controller: "nonprofits",
-        action: "dashboard", 
+        action: "dashboard",
         state_code: nonprofit.state_code_slug,
         city: nonprofit.city_slug,
-        name: nonprofit.slug,
+        name: nonprofit.slug
       )
     end
 
-    it 'routes to a nonprofit dashboard and accepts params' do
+    it "routes to a nonprofit dashboard and accepts params" do
       nonprofit = create(:nonprofit_base)
-      expect(get: slugged_nonprofit_dashboard_path(nonprofit, foo: 'bar')).to route_to(
+      expect(get: slugged_nonprofit_dashboard_path(nonprofit, foo: "bar")).to route_to(
         controller: "nonprofits",
-        action: "dashboard", 
+        action: "dashboard",
         state_code: nonprofit.state_code_slug,
         city: nonprofit.city_slug,
         name: nonprofit.slug,
-        foo: 'bar',
+        foo: "bar"
       )
     end
   end

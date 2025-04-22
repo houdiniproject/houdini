@@ -5,14 +5,14 @@
 
 # this mixin provides a way to set the :created attribute when the model is initialized unless it's already been provided
 module Model::CreatedTimeable
-	extend ActiveSupport::Concern
-	included do
-		after_initialize :set_created_if_needed
+  extend ActiveSupport::Concern
+  included do
+    after_initialize :set_created_if_needed
 
-		private
+    private
 
-		def set_created_if_needed
-			self[:created] = Time.current unless self[:created]
-		end
-	end
+    def set_created_if_needed
+      self[:created] = Time.current unless self[:created]
+    end
+  end
 end

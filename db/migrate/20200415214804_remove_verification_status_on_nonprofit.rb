@@ -16,6 +16,5 @@ class RemoveVerificationStatusOnNonprofit < ActiveRecord::Migration
     SQL
 
     drop_table :nonprofit_verification_backups
-    
   end
 end

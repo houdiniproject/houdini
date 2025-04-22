@@ -6,7 +6,7 @@ class NonprofitS3Key < ApplicationRecord
   validates_presence_of :access_key_id, :secret_access_key, :bucket_name, :region
 
   def aws_client
-    ::Aws::S3::Client.new(credentials:credentials, region: region)
+    ::Aws::S3::Client.new(credentials: credentials, region: region)
   end
 
   def credentials

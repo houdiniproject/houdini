@@ -1,27 +1,25 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module MaintainTicketValidity
-
   # some tickets have invalid records. Find them.
   def self.get_invalid_tickets
-      tickets = Ticket.includes({:charge => [{:supporter => [:nonprofit]}]}, {:supporter => :nonprofit}, {:payment => [{:supporter => :nonprofit}, :nonprofit]}, {:event => :nonprofit})
-      tickets = tickets.map{|t| {ticket:t, issues:[]}}
+    tickets = Ticket.includes({charge: [{supporter: [:nonprofit]}]}, {supporter: :nonprofit}, {payment: [{supporter: :nonprofit}, :nonprofit]}, {event: :nonprofit})
+    tickets = tickets.map { |t| {ticket: t, issues: []} }
 
-      invalid = []
+    invalid = []
 
-      first_level(tickets)
+    first_level(tickets)
 
-      a, tickets = tickets.partition{|i| i[:issues].any?}
-      invalid = invalid.concat a
+    a, tickets = tickets.partition { |i| i[:issues].any? }
+    invalid = invalid.concat a
 
-      second_level(tickets)
-      a, tickets = tickets.partition{|i| i[:issues].any?}
-      invalid = invalid.concat(a)
-      invalid
+    second_level(tickets)
+    a, _ = tickets.partition { |i| i[:issues].any? }
+    invalid.concat(a)
   end
 
   # some tickets have valid records, format a report of them
   def self.report(invalid_records)
-    output = invalid_records.map{|t| 
+    invalid_records.map { |t|
       ticket = t[:ticket]
       {
         ticket_id: ticket.id,
@@ -112,15 +110,15 @@ module MaintainTicketValidity
 
   def self.cleanup_for_no_supporter(ticket)
     np = ticket.event&.nonprofit
-    if (np && !Supporter.exists?(ticket.supporter_id))
+    if np && !Supporter.exists?(ticket.supporter_id)
       supporter = np.supporters.build
       supporter.deleted = true
-      if (ticket.supporter_id)
+      if ticket.supporter_id
         supporter.id = ticket.supporter_id
       end
       supporter.save!
 
-      if (!ticket.supporter_id)
+      if !ticket.supporter_id
         ticket.supporter = supporter
         ticket.save!
       end
@@ -129,19 +127,19 @@ module MaintainTicketValidity
 
   def self.cleanup_for_no_event(ticket, profile_id)
     np = ticket.supporter&.nonprofit
-    if(np && !(Event.exists?(ticket.event_id)))
+    if np && !Event.exists?(ticket.event_id)
       event = np.events.build
       event.deleted = true
       event.name = "Unnamed event #{ticket.event_id || rand(3000)}"
       event.start_datetime = ticket.created_at
       event.end_datetime = ticket.created_at + 1.hour
-      event.address = 'unknown'
+      event.address = "unknown"
       event.city = "city"
       event.state_code = "wi"
       event.zip_code = "55555"
       event.profile_id = profile_id
       event.slug = "unnamed_event__#{rand(4400)}"
-      if (ticket.event_id)
+      if ticket.event_id
         event.id = ticket.event_id
       end
       event.save!
@@ -166,16 +164,15 @@ module MaintainTicketValidity
 
     ticket.supporter = supporter
     ticket.save!
-
   end
 
   def self.find_ticket_groups
-    payments = Ticket.select('payment_id').where('payment_id IS NOT NULL').group('payment_id').map{|i| i.payment_id}
+    payments = Ticket.select("payment_id").where("payment_id IS NOT NULL").group("payment_id").map { |i| i.payment_id }
 
-    payments.select do |p| 
-      tickets = Ticket.where('payment_id = ? ', p)
+    payments.select do |p|
+      tickets = Ticket.where("payment_id = ? ", p)
       supporter = tickets.first.supporter_id
-      !tickets.all? {|t| t.supporter_id == supporter}
+      !tickets.all? { |t| t.supporter_id == supporter }
     end
   end
 end

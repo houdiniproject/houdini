@@ -1,1 +1,1 @@
-BLOCKED_SUPPORTERS = ['nasujo@larjem.com']
+BLOCKED_SUPPORTERS = ["nasujo@larjem.com"]

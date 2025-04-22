@@ -2,7 +2,7 @@
 class AddIndexesForPaymentAndSupporterQueries < ActiveRecord::Migration
   def up
     Qx.transaction do
-      Qx.execute(%Q(
+      Qx.execute(%(
         CREATE INDEX IF NOT EXISTS payments_date ON payments (date);
         CREATE INDEX IF NOT EXISTS payments_gross_amount ON payments (gross_amount);
         CREATE INDEX IF NOT EXISTS payments_kind ON payments (kind);
@@ -29,7 +29,7 @@ class AddIndexesForPaymentAndSupporterQueries < ActiveRecord::Migration
   end
 
   def down
-      Qx.execute(%Q(
+    Qx.execute(%(
         DROP INDEX IF EXISTS payments_date;
         DROP INDEX IF EXISTS payments_gross_amount;
         DROP INDEX IF EXISTS payments_kind;

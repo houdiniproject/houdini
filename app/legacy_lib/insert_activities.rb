@@ -1,11 +1,10 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'qx'
-require 'active_support/core_ext'
-require 'format/currency'
-require 'format/date'
+require "qx"
+require "active_support/core_ext"
+require "format/currency"
+require "format/date"
 
 module InsertActivities
-
   def self.insert_cols
     ["action_type", "public", "created_at", "updated_at", "supporter_id", "attachment_type", "attachment_id", "nonprofit_id", "date", "json_data", "kind"]
   end
@@ -60,7 +59,7 @@ module InsertActivities
       .join(:donations, "donations.id=payments.donation_id")
       .where("payments.kind='Donation'")
   end
-  
+
   def self.for_tickets(ticket_ids)
     insert_tickets_expr
       .and_where("tickets.id IN ($ids)", ids: ticket_ids)
@@ -69,7 +68,7 @@ module InsertActivities
 
   def self.insert_tickets_expr
     Qx.insert_into(:activities, insert_cols)
-    .select(defaults.concat([
+      .select(defaults.concat([
         "tickets.supporter_id",
         "'Ticket' AS attachment_type",
         "tickets.id AS attachment_id",
@@ -115,7 +114,7 @@ module InsertActivities
 
   def self.insert_supporter_notes_expr
     Qx.insert_into(:activities, insert_cols.concat(["user_id"]))
-    .select(defaults.concat([
+      .select(defaults.concat([
         "supporter_notes.supporter_id",
         "'SupporterEmail' AS attachment_type",
         "supporter_notes.id AS attachment_id",
@@ -138,7 +137,7 @@ module InsertActivities
 
   def self.insert_offsite_donations_expr
     Qx.insert_into(:activities, insert_cols.concat(["user_id"]))
-    .select(defaults.concat([
+      .select(defaults.concat([
         "payments.supporter_id",
         "'Payment' AS attachment_type",
         "payments.id AS attachment_id",
@@ -154,6 +153,4 @@ module InsertActivities
       .add_join(:donations, "payments.donation_id=donations.id")
       .add_left_join(:users, "users.id=offsite_payments.user_id")
   end
-
-
 end

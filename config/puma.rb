@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'barnes'
+require "barnes"
 
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
@@ -19,7 +19,7 @@ worker_timeout 3600 if env == "development"
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port        ENV.fetch("PORT") { 5000 }
+port ENV.fetch("PORT") { 5000 }
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -43,15 +43,17 @@ workers ENV.fetch("WEB_CONCURRENCY") { 1 }
 # you need to make sure to reconnect any threads in the `on_worker_boot`
 # block.
 #
-preload_app! if env != 'development'
+preload_app! if env != "development"
 
 # If you are preloading your application and using Active Record, it's
 # recommended that you close any connections to the database before workers
 # are forked to prevent connection leakage.
 #
-before_fork do
-  ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
-end if env != 'development'
+if env != "development"
+  before_fork do
+    ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
+  end
+end
 
 # The code in the `on_worker_boot` will be called if you are using
 # clustered mode by specifying a number of `workers`. After each worker

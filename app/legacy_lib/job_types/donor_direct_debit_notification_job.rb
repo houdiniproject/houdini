@@ -3,7 +3,7 @@ module JobTypes
   class DonorDirectDebitNotificationJob < EmailJob
     attr_reader :donation_id
 
-    def initialize(donation_id, locale=I18n.locale)
+    def initialize(donation_id, locale = I18n.locale)
       @donation_id = donation_id
       @locale = locale
     end

@@ -3,9 +3,9 @@ require "rails_helper"
 
 RSpec.describe DeviseHelper, type: :helper do
   describe "#devise_error_messages!" do
-    let(:valid_user) { build(:user_base)}
-    let(:invalid_user) { build(:user_base, email: "invaliduser", password: "not the same as", password_confirmation: "confirmation")}
-    
+    let(:valid_user) { build(:user_base) }
+    let(:invalid_user) { build(:user_base, email: "invaliduser", password: "not the same as", password_confirmation: "confirmation") }
+
     it "returns nil when no error" do
       assign(:resource, valid_user)
       valid_user.save

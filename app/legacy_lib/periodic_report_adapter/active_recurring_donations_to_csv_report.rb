@@ -14,7 +14,7 @@ class PeriodicReportAdapter::ActiveRecurringDonationsToCsvReport < PeriodicRepor
   private
 
   def params
-    { nonprofit: nonprofit, nonprofit_s3_key: @nonprofit_s3_key, user:  @users.first, filename: @filename}
+    {nonprofit: nonprofit, nonprofit_s3_key: @nonprofit_s3_key, user: @users.first, filename: @filename}
   end
 
   def nonprofit

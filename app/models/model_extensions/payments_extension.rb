@@ -25,12 +25,11 @@ module ModelExtensions
     # orders payments without using SQL. Use this if you need them ordered
     # but the payments haven't been saved yet.
     def ordered
-      sort_by {|i| [i.legacy_payment.date, i.updated_at]}.reverse
+      sort_by { |i| [i.legacy_payment.date, i.updated_at] }.reverse
     end
 
     def owner
       proxy_association.owner
     end
-
   end
 end

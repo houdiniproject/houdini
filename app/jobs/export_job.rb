@@ -12,16 +12,16 @@ class ExportJob < ApplicationJob
   end
 
   after_perform do |job|
-    job.export.update(status: :completed, ended:Time.current)
+    job.export.update(status: :completed, ended: Time.current)
   end
 
-  rescue_from 'Exception' do |exception|
-    self.export.update(status: :failed, ended:Time.current, exception: exception.to_s)
+  rescue_from "Exception" do |exception|
+    export.update(status: :failed, ended: Time.current, exception: exception.to_s)
     raise exception
   end
 
   protected
-  
+
   # we use these where to get the args in various callbacks
   def nonprofit
     arguments.first[:nonprofit]
@@ -30,7 +30,7 @@ class ExportJob < ApplicationJob
   def user
     arguments.first[:user]
   end
-  
+
   def export
     arguments.first[:export]
   end
@@ -38,6 +38,4 @@ class ExportJob < ApplicationJob
   def export=(export)
     arguments.first[:export] = export
   end
-
-
 end

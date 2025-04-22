@@ -3,7 +3,7 @@ class InlineJob::ModernObjectDonationStripeChargeJob < InlineJob
 
   def perform(donation:, legacy_payment:)
     supporter = Supporter.find(donation.supporter_id)
-    trx = supporter.transactions.build(amount: legacy_payment.gross_amount, created: legacy_payment['date'])
+    trx = supporter.transactions.build(amount: legacy_payment.gross_amount, created: legacy_payment["date"])
 
     don = trx.donations.build(amount: legacy_payment.gross_amount, legacy_donation: donation)
 
@@ -13,16 +13,16 @@ class InlineJob::ModernObjectDonationStripeChargeJob < InlineJob
       created: legacy_payment.date
     )
     stripe_t = trx.build_subtransaction(
-      subtransactable: StripeTransaction.new(amount: legacy_payment.gross_amount), 
-      subtransaction_payments:[
+      subtransactable: StripeTransaction.new(amount: legacy_payment.gross_amount),
+      subtransaction_payments: [
         stripe_transaction_charge
       ]
-    );
+    )
     trx.save!
     don.save!
     stripe_t.save!
     stripe_t.subtransaction_payments.each(&:publish_created)
-    #stripe_t.publish_created
+    # stripe_t.publish_created
     don.publish_created
     trx.publish_created
   end

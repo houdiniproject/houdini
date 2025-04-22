@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class AdminMailer < BaseMailer
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #

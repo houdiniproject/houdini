@@ -2,6 +2,6 @@
 FactoryBot.define do
   factory :nonprofit_key do
     nonprofit
-    mailchimp_token {'a token'}
+    mailchimp_token { "a token" }
   end
 end

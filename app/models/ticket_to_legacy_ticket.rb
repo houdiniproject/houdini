@@ -18,12 +18,12 @@ class TicketToLegacyTicket < ApplicationRecord
 
   delegate :original_discount, to: :ticket_purchase
   delegate :checked_in, :deleted, :note, to: :ticket
-  
+
   setup_houid :tkt
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :checked_in, :deleted, :note)
+      json.call(self, :checked_in, :deleted, :note)
       json.object "ticket"
 
       json.amount do
@@ -32,7 +32,7 @@ class TicketToLegacyTicket < ApplicationRecord
       end
 
       if original_discount
-        json.original_discount do 
+        json.original_discount do
           json.percent original_discount
         end
       end
@@ -42,7 +42,7 @@ class TicketToLegacyTicket < ApplicationRecord
   end
 
   def publish_created
-    Houdini.event_publisher.announce(:ticket_created, to_event('ticket.created', 
+    Houdini.event_publisher.announce(:ticket_created, to_event("ticket.created",
       :ticket_purchase,
       :ticket_level,
       :supporter,
@@ -52,7 +52,7 @@ class TicketToLegacyTicket < ApplicationRecord
   end
 
   def publish_updated
-    Houdini.event_publisher.announce(:ticket_updated, to_event('ticket.updated', 
+    Houdini.event_publisher.announce(:ticket_updated, to_event("ticket.updated",
       :ticket_purchase,
       :ticket_level,
       :supporter,
@@ -62,7 +62,7 @@ class TicketToLegacyTicket < ApplicationRecord
   end
 
   def publish_deleted
-    Houdini.event_publisher.announce(:ticket_deleted, to_event('ticket.deleted', 
+    Houdini.event_publisher.announce(:ticket_deleted, to_event("ticket.deleted",
       :ticket_purchase,
       :ticket_level,
       :supporter,
@@ -70,5 +70,4 @@ class TicketToLegacyTicket < ApplicationRecord
       :nonprofit,
       :event_discount).attributes!)
   end
-
 end

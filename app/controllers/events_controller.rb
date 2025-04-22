@@ -16,11 +16,11 @@ class EventsController < ApplicationController
   end
 
   def listings
-    render json: QueryEventMetrics.for_listings('nonprofit', current_nonprofit.id, params)
+    render json: QueryEventMetrics.for_listings("nonprofit", current_nonprofit.id, params)
   end
 
   def show
-    @event = params[:event_slug] ? Event.find_by_slug!(params[:event_slug]) : Event.find_by_id!(params[:id])
+    @event = params[:event_slug] ? Event.find_by_slug!(params[:event_slug]) : Event.find(params[:id])
     @event_background_image = @event.background_image.attached? && url_for(@event.background_image_by_size(:normal))
     @nonprofit = @event.nonprofit
     if @event.deleted && !current_event_editor?
@@ -35,27 +35,27 @@ class EventsController < ApplicationController
     render_json do
       start_datetime = nil
       end_datetime = nil
-      Time.use_zone(current_nonprofit.timezone || 'UTC') do
+      Time.use_zone(current_nonprofit.timezone || "UTC") do
         start_datetime = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
         end_datetime = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
       end
       event = current_nonprofit.events.create!(**event_params, start_datetime: start_datetime, end_datetime: end_datetime)
-      flash[:notice] = 'Your draft event has been created! Well done.'
-      { url: "/events/#{event.slug}" }
+      flash[:notice] = "Your draft event has been created! Well done."
+      {url: "/events/#{event.slug}"}
     end
   end
 
   def update
     start_datetime = current_event.start_datetime
     end_datetime = current_event.end_datetime
-    Time.use_zone(current_nonprofit.timezone || 'UTC') do
+    Time.use_zone(current_nonprofit.timezone || "UTC") do
       start_datetime = Chronic.parse(event_params[:start_datetime]) if event_params[:start_datetime].present?
       end_datetime = Chronic.parse(event_params[:end_datetime]) if event_params[:end_datetime].present?
     end
     current_event.update!(**event_params, start_datetime: start_datetime, end_datetime: end_datetime)
     @event = current_event
 
-    flash[:notice] = 'Successfully updated'
+    flash[:notice] = "Successfully updated"
   end
 
   # post 'nonprofits/:np_id/events/:event_id/duplicate'
@@ -70,7 +70,7 @@ class EventsController < ApplicationController
   def soft_delete
     current_event.update_attribute(:deleted, params[:delete])
     render json: {}
-   end
+  end
 
   def metrics
     render json: QueryEventMetrics.with_event_ids([current_event.id]).first
@@ -80,7 +80,7 @@ class EventsController < ApplicationController
     @event = current_event
     @url = Format::Url.concat(root_url, @event.url)
     @event_background_image = @event.background_image.attached? && url_for(@event.background_image_by_size(:normal))
-    render layout: 'layouts/embed'
+    render layout: "layouts/embed"
   end
 
   def name_and_id
@@ -94,6 +94,6 @@ class EventsController < ApplicationController
   end
 
   def record_invalid_rescue(error)
-    render json: { errors: error.record.errors.full_messages }, status: :unprocessable_entity
+    render json: {errors: error.record.errors.full_messages}, status: :unprocessable_entity
   end
 end

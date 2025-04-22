@@ -3,7 +3,6 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 class ObjectEventHookConfig < ApplicationRecord
-
   # :webhook_service, #str, webhook service to be called
   # :configuration, #jsonb, configuration needed to connect to the webhook
   # :object_event_types, #jsonb, must be an array

@@ -10,7 +10,7 @@ class TicketLevelsController < ApplicationController
 
   def index
     event_id = current_event.id
-    render json: { data: QueryTicketLevels.with_event_id(event_id, current_role?(:event_editor, event_id) || current_role?(:super_admin) || current_role?(:nonprofit_admin, current_event.nonprofit_id)) }
+    render json: {data: QueryTicketLevels.with_event_id(event_id, current_role?(:event_editor, event_id) || current_role?(:super_admin) || current_role?(:nonprofit_admin, current_event.nonprofit_id))}
   end
 
   def show
@@ -19,25 +19,25 @@ class TicketLevelsController < ApplicationController
 
   def create
     ticket_level = current_event.ticket_levels.create ticket_level_params
-    json_saved ticket_level, 'Ticket level created!'
+    json_saved ticket_level, "Ticket level created!"
   end
 
   def update
     current_ticket_level.update ticket_level_params
-    json_saved current_ticket_level, 'Ticket level updated'
+    json_saved current_ticket_level, "Ticket level updated"
   end
 
   # put /nonprofits/:nonprofit_id/events/:event_id/ticket_levels/update_order
   # Pass in {data: [{id: 1, order: 1}]}
   def update_order
-    updated_ticket_levels = UpdateOrder.with_data('ticket_levels', params[:data])
+    updated_ticket_levels = UpdateOrder.with_data("ticket_levels", params[:data])
     render json: updated_ticket_levels
   end
 
   def destroy
     current_ticket_level.destroy
     render json: {}
-   end
+  end
 
   private
 

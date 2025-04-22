@@ -8,7 +8,7 @@ class UserMailer < BaseMailer
     @nonprofit = @refund.payment.nonprofit
     @charge = @refund.charge
     @supporter = @refund.payment.supporter
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     mail(to: @supporter.email, from: from, reply_to: reply_to, subject: "Your refund receipt for #{@nonprofit.name}")
   end
@@ -16,12 +16,12 @@ class UserMailer < BaseMailer
   def recurring_donation_failure(recurring_donation)
     @recurring_donation = recurring_donation
     mail(to: @recurring_donation.email,
-         subject: "We couldn't process your recurring donation towards #{@recurring_donation.nonprofit.name}.")
+      subject: "We couldn't process your recurring donation towards #{@recurring_donation.nonprofit.name}.")
   end
 
   def recurring_donation_cancelled(recurring_donation)
     @recurring_donation = recurring_donation
     mail(to: @recurring_donation.email,
-         subject: "Your recurring donation towards #{@recurring_donation.nonprofit.name} was successfully cancelled.")
+      subject: "Your recurring donation towards #{@recurring_donation.nonprofit.name} was successfully cancelled.")
   end
 end

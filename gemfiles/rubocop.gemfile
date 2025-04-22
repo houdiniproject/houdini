@@ -1,12 +1,11 @@
 source "https://rubygems.org" do
   gem "standard", "~> 1.28"
-  
+
   gem "standard-rails"
-  
+
   gem "rubocop-rspec"
 
   gem "rubocop-factory_bot"
-  
+
   gem "rubocop-rake"
-  
 end

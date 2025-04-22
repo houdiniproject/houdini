@@ -21,6 +21,6 @@ class Ticket < ApplicationRecord
   has_many :ticket_to_legacy_tickets
 
   def related_tickets
-    payment.tickets.where('id != ?', id)
+    payment.tickets.where.not(id: id)
   end
 end

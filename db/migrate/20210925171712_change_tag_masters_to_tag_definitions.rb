@@ -14,6 +14,6 @@ class ChangeTagMastersToTagDefinitions < ActiveRecord::Migration[6.1]
     rename_column :tag_joins_backup, :tag_master_id, :tag_definition_id
 
     add_index :tag_joins, :tag_definition_id
-    add_index :tag_joins, %i(tag_definition_id supporter_id), unique: true
+    add_index :tag_joins, %i[tag_definition_id supporter_id], unique: true
   end
 end

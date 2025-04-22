@@ -39,16 +39,16 @@ class Campaign < ApplicationRecord
   # :reason_for_supporting,
   # :default_reason_for_supporting
 
-  validate  :end_datetime_cannot_be_in_past, on: :create
+  validate :end_datetime_cannot_be_in_past, on: :create
   validates :profile, presence: true
   validates :nonprofit, presence: true
   validates :goal_amount,
-            presence: true,
-            numericality: { only_integer: true, greater_than: 99 }
+    presence: true,
+    numericality: {only_integer: true, greater_than: 99}
   validates :name,
-            presence: true,
-            length: { maximum: 60 }
-  validates :slug, uniqueness: { scope: :nonprofit_id, message: 'You already have a campaign with that URL.' }, presence: true
+    presence: true,
+    length: {maximum: 60}
+  validates :slug, uniqueness: {scope: :nonprofit_id, message: "You already have a campaign with that URL."}, presence: true
 
   attr_accessor :goal_amount_dollars
 
@@ -56,31 +56,31 @@ class Campaign < ApplicationRecord
   has_one_attached :background_image
   has_one_attached :banner_image
 
-  has_one_attached_with_sizes(:main_image, {normal: [524, 360], thumb: [180,150]})
+  has_one_attached_with_sizes(:main_image, {normal: [524, 360], thumb: [180, 150]})
   has_one_attached_with_sizes(:background_image, {normal: [1000, 600]})
 
-  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile, 
+  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile,
     filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
 
   has_many :donations
   has_many :charges, through: :donations
-  has_many :payments, through: :donations, source: 'payment'
+  has_many :payments, through: :donations, source: "payment"
   has_many :campaign_gift_options
   has_many :campaign_gifts, through: :campaign_gift_options
   has_many :supporters, through: :donations
   has_many :recurring_donations
   has_many :campaign_gift_purchases
-  has_many :roles,        as: :host, dependent: :destroy
-  has_many :activities,   as: :host, dependent: :destroy
+  has_many :roles, as: :host, dependent: :destroy
+  has_many :activities, as: :host, dependent: :destroy
   belongs_to :profile
   belongs_to :nonprofit
 
-  belongs_to :parent_campaign, class_name: 'Campaign'
-  has_many :children_campaigns, class_name: 'Campaign', foreign_key: 'parent_campaign_id'
+  belongs_to :parent_campaign, class_name: "Campaign"
+  has_many :children_campaigns, class_name: "Campaign", foreign_key: "parent_campaign_id"
 
-  scope :published, ->   { where(published: true) }
-  scope :active, ->      { where(published: true).where('end_datetime IS NULL OR end_datetime >= ?', Date.today) }
-  scope :past, ->        { where(published: true).where('end_datetime < ?', Date.today) }
+  scope :published, -> { where(published: true) }
+  scope :active, -> { where(published: true).where("end_datetime IS NULL OR end_datetime >= ?", Date.today) }
+  scope :past, -> { where(published: true).where("end_datetime < ?", Date.today) }
   scope :unpublished, -> { where(published: [nil, false]) }
   scope :not_deleted, -> { where(deleted: [nil, false]) }
   scope :deleted, -> { where(deleted: true) }
@@ -88,7 +88,7 @@ class Campaign < ApplicationRecord
 
   before_validation do
     if goal_amount_dollars.present?
-      self.goal_amount = (goal_amount_dollars.delete(',').to_f * 100).to_i
+      self.goal_amount = (goal_amount_dollars.delete(",").to_f * 100).to_i
     end
     self
   end
@@ -117,17 +117,17 @@ class Campaign < ApplicationRecord
   end
 
   def parse_video_id
-    if video_url.include? 'vimeo'
-      self.vimeo_video_id = video_url.split('/').last
+    if video_url.include? "vimeo"
+      self.vimeo_video_id = video_url.split("/").last
       self.youtube_video_id = nil
-    elsif video_url.include? 'youtube'
+    elsif video_url.include? "youtube"
       match = video_url.match(/\?v=(.+)/)
       return if match.nil?
 
-      self.youtube_video_id = match[1].split('&').first
+      self.youtube_video_id = match[1].split("&").first
       self.vimeo_video_id = nil
-    elsif video_url.include? 'youtu.be'
-      self.youtube_video_id = video_url.split('/').last
+    elsif video_url.include? "youtu.be"
+      self.youtube_video_id = video_url.split("/").last
       self.vimeo_video_id = nil
     elsif video_url.blank?
       self.vimeo_video_id = nil
@@ -137,7 +137,7 @@ class Campaign < ApplicationRecord
   end
 
   def total_raised
-    self.payments.sum(:gross_amount)
+    payments.sum(:gross_amount)
   end
 
   def percentage_funded
@@ -157,7 +157,7 @@ class Campaign < ApplicationRecord
   end
 
   def ready_to_publish?
-    [(body && body.length >= 500), (campaign_gift_options.count >= 1)].all?
+    [body && body.length >= 500, (campaign_gift_options.count >= 1)].all?
   end
 
   def url
@@ -192,15 +192,14 @@ class Campaign < ApplicationRecord
   end
 
   def self.get_campaign_and_children(campaign)
-    where('campaigns.id = ? OR campaigns.parent_campaign_id = ? ',campaign, campaign)
+    where("campaigns.id = ? OR campaigns.parent_campaign_id = ? ", campaign, campaign)
   end
 
   def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :name)
+      json.call(self, :name)
 
       json.add_builder_expansion :nonprofit
     end
   end
-
 end

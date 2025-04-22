@@ -6,21 +6,21 @@ module Format
   module Timezone
     def self.to_proxy(str)
       dict = {
-        'Hawaii' => 'Pacific/Honolulu',
-        'Alaska' => 'America/Juneau',
-        'Pacific Time (US & Canada)' => 'America/Los_Angeles',
-        'Arizona' => 'America/Phoenix',
-        'Mountain Time (US & Canada)' => 'America/Denver',
-        'Central Time (US & Canada)' => 'America/Chicago',
-        'Eastern Time (US & Canada)' => 'America/New_York',
-        'Indiana (East)' => 'America/Indiana/Indianapolis'
+        "Hawaii" => "Pacific/Honolulu",
+        "Alaska" => "America/Juneau",
+        "Pacific Time (US & Canada)" => "America/Los_Angeles",
+        "Arizona" => "America/Phoenix",
+        "Mountain Time (US & Canada)" => "America/Denver",
+        "Central Time (US & Canada)" => "America/Chicago",
+        "Eastern Time (US & Canada)" => "America/New_York",
+        "Indiana (East)" => "America/Indiana/Indianapolis"
       }
       if dict.key?(str)
-        return dict[str]
+        dict[str]
       elsif dict.value?(str)
-        return str
+        str
       else
-        return false
+        false
       end
     end
   end

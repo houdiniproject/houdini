@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
 module InsertSupporterNotes
-  #note_supporter_users : array of hashes
+  # note_supporter_users : array of hashes
   # each hash:
   #   supporter: Supporter new note should belong to
   #   user: User creating the note

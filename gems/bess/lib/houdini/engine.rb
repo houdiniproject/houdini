@@ -14,7 +14,7 @@ module Houdini
 
     config.houdini = ActiveSupport::OrderedOptions.new
 
-    config.houdini.core_classes = {supporter: 'Supporter', nonprofit: 'Nonprofit'}
+    config.houdini.core_classes = {supporter: "Supporter", nonprofit: "Nonprofit"}
 
     config.houdini.general = ActiveSupport::OrderedOptions.new
     config.houdini.general.name = "Houdini Project"
@@ -32,8 +32,8 @@ module Houdini
     config.houdini.payment_providers = ActiveSupport::OrderedOptions.new
 
     config.houdini.payment_providers.stripe = ActiveSupport::OrderedOptions.new
-    config.houdini.payment_providers.stripe.public_key = ENV['STRIPE_API_PUBLIC']
-    config.houdini.payment_providers.stripe.private_key = ENV['STRIPE_API_KEY']
+    config.houdini.payment_providers.stripe.public_key = ENV["STRIPE_API_PUBLIC"]
+    config.houdini.payment_providers.stripe.private_key = ENV["STRIPE_API_KEY"]
     config.houdini.payment_providers.stripe.connect = false
     config.houdini.payment_providers.stripe.proprietary_v2_js = false
 
@@ -43,7 +43,7 @@ module Houdini
     config.houdini.default_bp.id = 1
 
     config.houdini.page_editor = ActiveSupport::OrderedOptions.new
-    config.houdini.page_editor.editor = 'quill'
+    config.houdini.page_editor.editor = "quill"
 
     config.houdini.source_tokens = ActiveSupport::OrderedOptions.new
     config.houdini.source_tokens.max_uses = 1
@@ -53,8 +53,6 @@ module Houdini
     config.houdini.source_tokens.event_donation_source.expiration_after_event = 20.days
 
     config.houdini.show_state_field = true
-
-  
 
     config.houdini.nonprofits_must_be_vetted = false
 
@@ -68,13 +66,12 @@ module Houdini
 
     config.houdini.listeners = []
 
-    initializer 'houdini.set_configuration', before: 'houdini.finish_configuration' do |app|
+    initializer "houdini.set_configuration", before: "houdini.finish_configuration" do |app|
       app.config.to_prepare do
         Houdini.core_classes = app.config.houdini.core_classes
-        
 
-        Houdini.button_host = app.config.houdini.button_host || 
-            ActionMailer::Base.default_url_options[:host]
+        Houdini.button_host = app.config.houdini.button_host ||
+          ActionMailer::Base.default_url_options[:host]
 
         Houdini.payment_providers = Houdini::PaymentProvider::Registry.new(app.config.houdini.payment_providers).build_all
 
@@ -83,7 +80,7 @@ module Houdini
 
         ccs = app.config.houdini.ccs
         options = app.config.houdini.ccs_options || {}
-        Houdini.ccs = Houdini::Ccs.build(ccs, 
+        Houdini.ccs = Houdini::Ccs.build(ccs,
             **options)
 
         Houdini.maintenance = Houdini::Maintenance.new(app.config.houdini.maintenance.to_h)
@@ -102,7 +99,7 @@ module Houdini
       end
     end
 
-    initializer 'houdini.finish_configuration', before: 'factory_bot.set_fixture_replacement' do |app|
+    initializer "houdini.finish_configuration", before: "factory_bot.set_fixture_replacement" do |app|
       # nothing to do, we just want to make sure we have proper initializer order
     end
 

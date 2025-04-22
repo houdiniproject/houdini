@@ -7,5 +7,5 @@ class BaseMailer < ActionMailer::Base
   include ApplicationHelper
   helper ApplicationHelper
   default from: Houdini.hoster.support_email
-  layout 'email'
+  layout "email"
 end

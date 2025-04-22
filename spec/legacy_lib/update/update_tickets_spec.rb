@@ -2,21 +2,19 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require "rails_helper"
 
 describe UpdateTickets do
   let(:ticket) do
     create(:ticket, :has_card, :has_event)
   end
 
-
-
-  describe '.update' do
+  describe ".update" do
     include_context :shared_rd_donation_value_context
-    let(:trx) {create(:transaction, supporter: supporter)}
-    
+    let(:trx) { create(:transaction, supporter: supporter) }
+
     let(:basic_valid_ticket_input) do
-      { ticket_id: ticket.id, event_id: event.id }
+      {ticket_id: ticket.id, event_id: event.id}
     end
     let(:include_fake_token) do
       basic_valid_ticket_input.merge(token: fake_uuid)
@@ -68,16 +66,15 @@ describe UpdateTickets do
       }.with_indifferent_access
     end
 
-
     let(:payment) { force_create(:payment) }
     let(:charge) { force_create(:charge) }
 
     let(:ticket) do
       tp = trx.ticket_purchases.create(event: event)
-      
+
       ticket = force_create(:ticket,
-                   general_ticket.merge(event: event))
-      ticket.quantity.times do 
+        general_ticket.merge(event: event))
+      ticket.quantity.times do
         ticket.ticket_to_legacy_tickets.create(ticket_purchase: tp)
       end
       ticket
@@ -85,109 +82,109 @@ describe UpdateTickets do
 
     let(:other_ticket) do
       ticket = force_create(:ticket,
-                   general_ticket.merge(event: other_event))
-      ticket.quantity.times do 
+        general_ticket.merge(event: other_event))
+      ticket.quantity.times do
         ticket.ticket_to_legacy_tickets.create
       end
-      ticket           
+      ticket
     end
 
     def expect_ticket_updated_to_not_be_called
       expect(Houdini.event_publisher).to_not receive(:announce).with(:ticket_updated, any_args)
     end
 
-    it 'basic validation' do
+    it "basic validation" do
       expect_ticket_updated_to_not_be_called
-      expect { UpdateTickets.update(token: 'bhaetiwhet', checked_in: 'blah', bid_id: 'bhalehti') }.to raise_error { |error|
+      expect { UpdateTickets.update(token: "bhaetiwhet", checked_in: "blah", bid_id: "bhalehti") }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
 
         expect_validation_errors(error.data, [
-                                   { key: :event_id, name: :required },
-                                   { key: :event_id, name: :is_reference },
-                                   { key: :ticket_id, name: :required },
-                                   { key: :ticket_id, name: :is_reference },
-                                   { key: :token, name: :format },
-                                   { key: :bid_id, name: :is_integer },
-                                   { key: :checked_in, name: :included_in }
-                                 ])
+          {key: :event_id, name: :required},
+          {key: :event_id, name: :is_reference},
+          {key: :ticket_id, name: :required},
+          {key: :ticket_id, name: :is_reference},
+          {key: :token, name: :format},
+          {key: :bid_id, name: :is_integer},
+          {key: :checked_in, name: :included_in}
+        ])
       }
     end
 
-    it 'event is invalid' do
+    it "event is invalid" do
       expect_ticket_updated_to_not_be_called
       find_error_event { UpdateTickets.update(event_id: 5555, ticket_id: ticket.id) }
     end
 
-    it 'ticket is invalid' do
+    it "ticket is invalid" do
       expect_ticket_updated_to_not_be_called
       find_error_ticket { UpdateTickets.update(event_id: event.id, ticket_id: 5555) }
     end
 
-    it 'ticket is deleted' do
+    it "ticket is deleted" do
       ticket.deleted = true
       ticket.save!
       expect_ticket_updated_to_not_be_called
       expect { UpdateTickets.update(event_id: event.id, ticket_id: ticket.id) }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
-        expect_validation_errors(error.data, [{ key: :ticket_id }])
-        expect(error.message).to include 'deleted'
+        expect_validation_errors(error.data, [{key: :ticket_id}])
+        expect(error.message).to include "deleted"
         expect(error.message).to include "Ticket ID #{ticket.id}"
       }
     end
 
-    it 'event is deleted' do
+    it "event is deleted" do
       event.deleted = true
       event.save!
       expect_ticket_updated_to_not_be_called
       expect { UpdateTickets.update(event_id: event.id, ticket_id: ticket.id) }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
-        expect_validation_errors(error.data, [{ key: :event_id }])
-        expect(error.message).to include 'deleted'
+        expect_validation_errors(error.data, [{key: :event_id}])
+        expect(error.message).to include "deleted"
         expect(error.message).to include "Event ID #{event.id}"
       }
     end
 
-    it 'event and ticket dont match' do
+    it "event and ticket dont match" do
       expect_ticket_updated_to_not_be_called
       expect { UpdateTickets.update(event_id: event.id, ticket_id: other_ticket.id) }.to raise_error { |error|
         expect(error).to be_a ParamValidation::ValidationError
-        expect_validation_errors(error.data, [{ key: :ticket_id }])
+        expect_validation_errors(error.data, [{key: :ticket_id}])
         expect(error.message).to include "Ticket ID #{other_ticket.id} does not belong to event #{event.id}"
       }
     end
 
-    it 'token is invalid' do
+    it "token is invalid" do
       expect_ticket_updated_to_not_be_called
       validation_invalid_token { UpdateTickets.update(include_fake_token) }
     end
 
-    it 'errors out if token is unauthorized' do
+    it "errors out if token is unauthorized" do
       expect_ticket_updated_to_not_be_called
       validation_unauthorized { UpdateTickets.update(include_fake_token) }
     end
 
-    it 'errors out if token is expired' do
+    it "errors out if token is expired" do
       expect_ticket_updated_to_not_be_called
       validation_expired { UpdateTickets.update(include_fake_token) }
     end
 
-    it 'card doesnt belong to supporter' do
+    it "card doesnt belong to supporter" do
       expect_ticket_updated_to_not_be_called
       validation_card_not_with_supporter { UpdateTickets.update(include_fake_token.merge(token: other_source_token.token)) }
     end
 
-    it 'success editing note' do
+    it "success editing note" do
       allow(Houdini.event_publisher).to receive(:announce)
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
-      result = UpdateTickets.update(basic_valid_ticket_input.merge(note: 'noteedited'))
-      expected = general_expected.merge(note: 'noteedited')
+      result = UpdateTickets.update(basic_valid_ticket_input.merge(note: "noteedited"))
+      expected = general_expected.merge(note: "noteedited")
 
       expect(result.attributes).to eq expected
       ticket.reload
       expect(ticket.attributes).to eq expected
     end
 
-    it 'success editing bid_id' do
+    it "success editing bid_id" do
       allow(Houdini.event_publisher).to receive(:announce)
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
       result = UpdateTickets.update(basic_valid_ticket_input.merge(bid_id: 50))
@@ -198,10 +195,10 @@ describe UpdateTickets do
       expect(ticket.attributes).to eq expected
     end
 
-    it 'success editing checked_in' do
+    it "success editing checked_in" do
       allow(Houdini.event_publisher).to receive(:announce)
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
-      result = UpdateTickets.update(basic_valid_ticket_input.merge(checked_in: 'true'))
+      result = UpdateTickets.update(basic_valid_ticket_input.merge(checked_in: "true"))
       expected = general_expected.merge(checked_in: true)
 
       expect(result.attributes).to eq expected
@@ -209,7 +206,7 @@ describe UpdateTickets do
       expect(ticket.attributes).to eq expected
     end
 
-    it 'success editing checked_in as a boolean' do
+    it "success editing checked_in as a boolean" do
       allow(Houdini.event_publisher).to receive(:announce)
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_updated, any_args)
       result = UpdateTickets.update(basic_valid_ticket_input.merge(checked_in: true))
@@ -220,7 +217,7 @@ describe UpdateTickets do
       expect(ticket.attributes).to eq expected
     end
 
-    it 'success editing token' do
+    it "success editing token" do
       expect_ticket_updated_to_not_be_called
       result = UpdateTickets.update(basic_valid_ticket_input.merge(token: source_token.token))
       expected = general_expected.merge(source_token_id: source_token.id)
@@ -231,12 +228,12 @@ describe UpdateTickets do
     end
   end
 
-  describe '.delete' do
+  describe ".delete" do
     include_context :shared_rd_donation_value_context
-    let(:trx) {create(:transaction, supporter: supporter)}
-    
+    let(:trx) { create(:transaction, supporter: supporter) }
+
     let(:basic_valid_ticket_input) do
-      { ticket_id: ticket.id, event_id: event.id }
+      {ticket_id: ticket.id, event_id: event.id}
     end
     let(:include_fake_token) do
       basic_valid_ticket_input.merge(token: fake_uuid)
@@ -288,39 +285,39 @@ describe UpdateTickets do
       }.with_indifferent_access
     end
 
-
     let(:payment) { force_create(:payment) }
     let(:charge) { force_create(:charge) }
 
     let(:ticket) do
       tp = trx.ticket_purchases.create(event: event)
-      
+
       ticket = force_create(:ticket,
-                   general_ticket.merge(event: event))
-      ticket.quantity.times do 
+        general_ticket.merge(event: event))
+      ticket.quantity.times do
         ticket.ticket_to_legacy_tickets.create(ticket_purchase: tp)
       end
       ticket
     end
-    it 'marks the given ticket as deleted=true' do
+
+    it "marks the given ticket as deleted=true" do
       allow(Houdini.event_publisher).to receive(:announce)
       expect(Houdini.event_publisher).to_not receive(:announce).with(:ticket_updated, any_args)
       expect(Houdini.event_publisher).to receive(:announce).with(:ticket_deleted, any_args).exactly(ticket.quantity).times
-      UpdateTickets.delete(ticket['event_id'], ticket['id'])
+      UpdateTickets.delete(ticket["event_id"], ticket["id"])
       ticket.reload
-      expect(ticket['deleted']).to eq(true)
+      expect(ticket["deleted"]).to eq(true)
       expect(ticket.ticket_to_legacy_tickets.all?(&:deleted)).to eq true
       expect(Ticket.count).to eq(1)
     end
   end
 
-  describe '.delete_card_for_ticket' do
-    it 'deletes the card from the ticket' do
+  describe ".delete_card_for_ticket" do
+    it "deletes the card from the ticket" do
       Timecop.freeze(2020, 1, 5) do
         original_ticket = ticket
         card = ticket.card
         expect(ticket.card).to_not be_nil
-        ret = UpdateTickets.delete_card_for_ticket(ticket['event_id'], ticket['id'])
+        ret = UpdateTickets.delete_card_for_ticket(ticket["event_id"], ticket["id"])
         expect(ret[:status]).to eq :ok
         expect(ret[:json]).to eq({})
         ticket.reload
@@ -334,21 +331,21 @@ describe UpdateTickets do
       end
     end
 
-    context 'parameter validation' do
-      it 'validates parameters' do
+    context "parameter validation" do
+      it "validates parameters" do
         result = UpdateTickets.delete_card_for_ticket(nil, nil)
         errors = result[:json][:errors]
         expect(errors.length).to eq(4)
         expect(result[:status]).to eq :unprocessable_entity
         expect_validation_errors(errors, [
-                                   { key: :event_id, name: :required },
-                                   { key: :event_id, name: :is_integer },
-                                   { key: :ticket_id, name: :required },
-                                   { key: :ticket_id, name: :is_integer }
-                                 ])
+          {key: :event_id, name: :required},
+          {key: :event_id, name: :is_integer},
+          {key: :ticket_id, name: :required},
+          {key: :ticket_id, name: :is_integer}
+        ])
       end
 
-      it 'invalid event_id causes no problem' do
+      it "invalid event_id causes no problem" do
         ticket
         tickets = Ticket.all
         events = Event.all
@@ -358,7 +355,7 @@ describe UpdateTickets do
         expect(Event.all).to match_array(events)
       end
 
-      it 'invalid ticket_id causes no problem' do
+      it "invalid ticket_id causes no problem" do
         ticket
         tickets = Ticket.all
         events = Event.all

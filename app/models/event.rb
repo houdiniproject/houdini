@@ -42,7 +42,7 @@ class Event < ApplicationRecord
   validates :address, presence: true
   validates :city, presence: true
   validates :state_code, presence: true
-  validates :slug, presence: true, uniqueness: { scope: :nonprofit_id, message: 'You already have an event with that URL' }
+  validates :slug, presence: true, uniqueness: {scope: :nonprofit_id, message: "You already have an event with that URL"}
   validates :nonprofit_id, presence: true
   validates :profile_id, presence: true
 
@@ -56,10 +56,8 @@ class Event < ApplicationRecord
   has_many :event_discounts, dependent: :destroy
   has_many :tickets
   has_many :payments, through: :tickets
-  has_many :roles,           as: :host, dependent: :destroy
-  has_many :activities,      as: :host, dependent: :destroy
-
-
+  has_many :roles, as: :host, dependent: :destroy
+  has_many :activities, as: :host, dependent: :destroy
 
   accepts_nested_attributes_for :ticket_levels, allow_destroy: true
   has_one_attached :main_image
@@ -68,21 +66,20 @@ class Event < ApplicationRecord
   has_one_attached_with_sizes :main_image, {normal: 400, thumb: 100}
   has_one_attached_with_sizes :background_image, {normal: [1000, 600]}
 
-  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile, 
+  has_one_attached_with_default(:main_image, Houdini.defaults.image.profile,
     filename: "main_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.profile).extname}")
 
-  has_one_attached_with_default(:background_image, Houdini.defaults.image.campaign, 
-      filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.campaign).extname}")
-  
+  has_one_attached_with_default(:background_image, Houdini.defaults.image.campaign,
+    filename: "background_image_#{SecureRandom.uuid}#{Pathname.new(Houdini.defaults.image.campaign).extname}")
 
   scope :not_deleted, -> { where(deleted: [nil, false]) }
   scope :deleted, -> { where(deleted: true) }
   scope :published, -> { where(published: true) }
-  scope :upcoming, -> { where('start_datetime >= ?', Date.today).published }
-  scope :past, -> { where('end_datetime < ?', Date.today).published }
-  scope :unpublished, -> { where('published != ?', true) }
+  scope :upcoming, -> { where("start_datetime >= ?", Date.today).published }
+  scope :past, -> { where("end_datetime < ?", Date.today).published }
+  scope :unpublished, -> { where.not(published: true) }
 
-  validates :slug, uniqueness: { scope: :nonprofit_id, message: 'You already have a campaign with that name.' }
+  validates :slug, uniqueness: {scope: :nonprofit_id, message: "You already have a campaign with that name."}
 
   before_validation(on: :create) do
     self.slug = Format::Url.convert_to_slug(name) unless slug
@@ -98,9 +95,9 @@ class Event < ApplicationRecord
     self
   end
 
-  def to_builder(*expand) 
+  def to_builder(*expand)
     init_builder(*expand) do |json|
-      json.(self, :name)
+      json.call(self, :name)
       json.add_builder_expansion :nonprofit
     end
   end

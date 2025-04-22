@@ -4,8 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module CreateCustomFieldJoin
   def self.create(supporter, _profile_id, params)
-    custom_field = supporter.custom_field_joins.create(params)
-    custom_field
+    supporter.custom_field_joins.create(params)
   end
 
   # In the future, this should create an activity feed entry
@@ -29,8 +28,8 @@ module CreateCustomFieldJoin
           )
         else
           create(supporter, user.profile.id,
-                 custom_field_definition_id: custom_field[:custom_field_definition_id],
-                 value: custom_field[:value])
+            custom_field_definition_id: custom_field[:custom_field_definition_id],
+            value: custom_field[:value])
         end
       end
     end

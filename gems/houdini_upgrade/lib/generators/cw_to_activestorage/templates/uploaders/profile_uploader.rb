@@ -56,6 +56,6 @@ class ProfileUploader < CarrierWave::Uploader::Base
   # end
 
   def cache_dir
-    "#{Rails.root}/tmp/uploads"
+    "#{Rails.root.join("tmp/uploads")}"
   end
 end

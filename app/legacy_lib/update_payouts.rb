@@ -4,21 +4,21 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module UpdatePayouts
   def self.reverse_with_stripe(payout_id, status, failure_message)
-    ParamValidation.new({ payout_id: payout_id, status: status, failure_message: failure_message },
-                        payout_id: { required: true, is_integer: true },
-                        status: { included_in: %w[pending paid canceled failed], required: true },
-                        failure_message: { not_blank: true, required: true })
-    payout = Payout.where('id = ?', payout_id).first
+    ParamValidation.new({payout_id: payout_id, status: status, failure_message: failure_message},
+      payout_id: {required: true, is_integer: true},
+      status: {included_in: %w[pending paid canceled failed], required: true},
+      failure_message: {not_blank: true, required: true})
+    payout = Payout.where("id = ?", payout_id).first
     unless payout
-      raise ParamValidation::ValidationError.new("No payout with id number: #{payout_id} ", [{ key: :payout_id }])
+      raise ParamValidation::ValidationError.new("No payout with id number: #{payout_id} ", [{key: :payout_id}])
     end
 
-    payment_ids = payout.payments.select('payments.id').map(&:id).to_a
+    payment_ids = payout.payments.select("payments.id").map(&:id).to_a
     if payment_ids.count < 1
-      raise ArgumentError, 'No payments are available to reverse.'
+      raise ArgumentError, "No payments are available to reverse."
     end
 
-    now = Time.current
+    Time.current
 
     Psql.transaction do
       # Retrieve all payments with available charges and undisbursed refunds

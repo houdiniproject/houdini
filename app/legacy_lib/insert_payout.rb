@@ -14,24 +14,24 @@ module InsertPayout
   def self.with_stripe(np_id, data, options = {})
     bigger_data = (data || {}).merge(np_id: np_id)
     ParamValidation.new(bigger_data,
-                        np_id: { required: true, is_integer: true },
-                        stripe_account_id: { not_blank: true, required: true },
-                        email: { not_blank: true, required: true },
-                        user_ip: { not_blank: true, required: true },
-                        bank_name: { not_blank: true, required: true })
+      np_id: {required: true, is_integer: true},
+      stripe_account_id: {not_blank: true, required: true},
+      email: {not_blank: true, required: true},
+      user_ip: {not_blank: true, required: true},
+      bank_name: {not_blank: true, required: true})
     options ||= {}
     entities = RetrieveActiveRecordItems.retrieve_from_keys(bigger_data, Nonprofit => :np_id)
     payment_ids = QueryPayments.ids_for_payout(np_id, options)
     if payment_ids.count < 1
-      raise ArgumentError, 'No payments are available for disbursal on this account.'
+      raise ArgumentError, "No payments are available for disbursal on this account."
     end
 
     totals = QueryPayments.get_payout_totals(payment_ids)
     nonprofit_currency = entities[:np_id].currency
-    now = Time.current
+    Time.current
     payout = nil
     begin
-      stripe_transfer = StripeUtils.create_transfer(totals['net_amount'], data[:stripe_account_id], nonprofit_currency)
+      stripe_transfer = StripeUtils.create_transfer(totals["net_amount"], data[:stripe_account_id], nonprofit_currency)
       Psql.transaction do
         # Create the Transfer on Stripe
 
@@ -46,45 +46,44 @@ module InsertPayout
         # Create the payout record (whether it succeeded on Stripe or not)
         payout = Psql.execute(
           Qexpr.new.insert(:payouts, [{
-                             net_amount: totals['net_amount'],
-                             nonprofit_id: np_id,
-                             failure_message: stripe_transfer['failure_message'],
-                             status: stripe_transfer.status,
-                             fee_total: totals['fee_total'],
-                             gross_amount: totals['gross_amount'],
-                             email: data[:email],
-                             count: totals['count'],
-                             stripe_transfer_id: stripe_transfer.id,
-                             user_ip: data[:user_ip],
-                             ach_fee: 0,
-                             bank_name: data[:bank_name]
-                           }])
-          .returning('id', 'net_amount', 'nonprofit_id', 'created_at', 'updated_at', 'status', 'fee_total', 'gross_amount', 'email', 'count', 'stripe_transfer_id', 'user_ip', 'ach_fee', 'bank_name')
+            net_amount: totals["net_amount"],
+            nonprofit_id: np_id,
+            failure_message: stripe_transfer["failure_message"],
+            status: stripe_transfer.status,
+            fee_total: totals["fee_total"],
+            gross_amount: totals["gross_amount"],
+            email: data[:email],
+            count: totals["count"],
+            stripe_transfer_id: stripe_transfer.id,
+            user_ip: data[:user_ip],
+            ach_fee: 0,
+            bank_name: data[:bank_name]
+          }])
+          .returning("id", "net_amount", "nonprofit_id", "created_at", "updated_at", "status", "fee_total", "gross_amount", "email", "count", "stripe_transfer_id", "user_ip", "ach_fee", "bank_name")
         ).first
         # Create PaymentPayout records linking all the payments to the payout
-        pps = Psql.execute(Qexpr.new.insert('payment_payouts', payment_ids.map { |id| { payment_id: id.to_i } }, common_data: { payout_id: payout['id'].to_i }))
-        PayoutPendingJob.perform_later(Payout.find(payout['id'].to_i))
+        Psql.execute(Qexpr.new.insert("payment_payouts", payment_ids.map { |id| {payment_id: id.to_i} }, common_data: {payout_id: payout["id"].to_i}))
+        PayoutPendingJob.perform_later(Payout.find(payout["id"].to_i))
       end
       payout
     rescue Stripe::StripeError => e
-      payout = Psql.execute(
+      Psql.execute(
         Qexpr.new.insert(:payouts, [{
-                           net_amount: totals['net_amount'],
-                           nonprofit_id: np_id,
-                           failure_message: e.message,
-                           status: 'failed',
-                           fee_total: totals['fee_total'],
-                           gross_amount: totals['gross_amount'],
-                           email: data[:email],
-                           count: totals['count'],
-                           stripe_transfer_id: nil,
-                           user_ip: data[:user_ip],
-                           ach_fee: 0,
-                           bank_name: data[:bank_name]
-                         }])
-            .returning('id', 'net_amount', 'nonprofit_id', 'created_at', 'updated_at', 'status', 'fee_total', 'gross_amount', 'email', 'count', 'stripe_transfer_id', 'user_ip', 'ach_fee', 'bank_name')
+          net_amount: totals["net_amount"],
+          nonprofit_id: np_id,
+          failure_message: e.message,
+          status: "failed",
+          fee_total: totals["fee_total"],
+          gross_amount: totals["gross_amount"],
+          email: data[:email],
+          count: totals["count"],
+          stripe_transfer_id: nil,
+          user_ip: data[:user_ip],
+          ach_fee: 0,
+          bank_name: data[:bank_name]
+        }])
+            .returning("id", "net_amount", "nonprofit_id", "created_at", "updated_at", "status", "fee_total", "gross_amount", "email", "count", "stripe_transfer_id", "user_ip", "ach_fee", "bank_name")
       ).first
-      payout
     end
   end
 end

@@ -4,9 +4,9 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/master/LICENSE
 
 json.i18n do
-	json.locale 'en'
+  json.locale "en"
 end
 
 json.hoster do
-	json.(Houdini.hoster, :legal_name, :casual_name)
+  json.call(Houdini.hoster, :legal_name, :casual_name)
 end

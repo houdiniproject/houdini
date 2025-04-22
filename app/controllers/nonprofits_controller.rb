@@ -9,7 +9,7 @@ class NonprofitsController < ApplicationController
 
   helper_method :current_nonprofit_user?
   before_action :authenticate_nonprofit_user!, only: %i[dashboard dashboard_metrics dashboard_todos payment_history profile_todos recurring_donation_stats update verify_identity]
-  before_action :authenticate_super_admin!, if: proc {|c| ( c.action_name == "destroy") || (c.action_name == "show" && !current_nonprofit.published) }
+  before_action :authenticate_super_admin!, if: proc { |c| (c.action_name == "destroy") || (c.action_name == "show" && !current_nonprofit.published) }
 
   # we have to allow nonprofits/:id/donation and nonprofits/:id/btn to be framed
   after_action :allow_framing, only: %i[donate btn]
@@ -21,16 +21,16 @@ class NonprofitsController < ApplicationController
     @url = Format::Url.concat(root_url, @nonprofit.url)
     @supporters = @nonprofit.supporters.not_deleted
 
-    events = @nonprofit.events.not_deleted.order('start_datetime desc')
-    campaigns = @nonprofit.campaigns.not_deleted.not_a_child.order('created_at desc')
+    events = @nonprofit.events.not_deleted.order("start_datetime desc")
+    campaigns = @nonprofit.campaigns.not_deleted.not_a_child.order("created_at desc")
 
     @events = events.upcoming
     @any_past_events = events.past.any?
     @active_campaigns = campaigns.active
     @any_past_campaigns = campaigns.past.any?
 
-    @nonprofit_background_image = @nonprofit.background_image.attached? ? 
-      url_for(@nonprofit.background_image_by_size(:normal)) : 
+    @nonprofit_background_image = @nonprofit.background_image.attached? ?
+      url_for(@nonprofit.background_image_by_size(:normal)) :
       url_for(Houdini.defaults.image.nonprofit)
 
     respond_to do |format|
@@ -52,36 +52,35 @@ class NonprofitsController < ApplicationController
   end
 
   def update
-    flash[:notice] = 'Update successful!'
+    flash[:notice] = "Update successful!"
     current_nonprofit.update! nonprofit_params.except(:verification_status)
-    @current_nonprofit
     render :show
   end
 
   def destroy
     current_nonprofit.destroy
-    flash[:notice] = 'Nonprofit removed'
+    flash[:notice] = "Nonprofit removed"
     render json: {}
   end
 
   # get /nonprofits/:id/donate
   def donate
     @nonprofit = current_nonprofit
-    @referer = params[:origin] || request.env['HTTP_REFERER']
+    @referer = params[:origin] || request.env["HTTP_REFERER"]
     @campaign = current_nonprofit.campaigns.find_by_id(params[:campaign_id]) if params[:campaign_id]
     @countries_translations = countries_list(I18n.locale)
-    respond_to { |format| format.html { render layout: 'layouts/embed' } }
+    respond_to { |format| format.html { render layout: "layouts/embed" } }
   end
 
   def btn
     @nonprofit = current_nonprofit
-    respond_to { |format| format.html { render layout: 'layouts/embed' } }
+    respond_to { |format| format.html { render layout: "layouts/embed" } }
   end
 
   # get /nonprofits/:id/supporter_form
   def supporter_form
     @nonprofit = current_nonprofit
-    respond_to { |format| format.html { render layout: 'layouts/embed' } }
+    respond_to { |format| format.html { render layout: "layouts/embed" } }
   end
 
   # post /nonprofits/:id/supporter_with_tag
@@ -126,8 +125,8 @@ class NonprofitsController < ApplicationController
 
     if Houdini.intl.all_countries
       countries = all_countries.select { |code, _name| Houdini.intl.all_countries.include? code }
-      countries = countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
-      countries
+      countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
+
     else
       all_countries.map { |code, name| [code.upcase, name] }.sort_by { |a| a[1] }
     end

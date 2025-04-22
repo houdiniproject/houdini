@@ -20,12 +20,12 @@ class Profile < ApplicationRecord
   # :city_state,
   # :user_id
 
-  validates :email, format: { with: Email::Regex }, allow_blank: true
+  validates :email, format: {with: Email::Regex}, allow_blank: true
 
   attr_accessor :email, :city_state
 
   has_one_attached :picture
-  has_one_attached_with_sizes(:picture, {normal: 150, medium:100, tiny: 50})
+  has_one_attached_with_sizes(:picture, {normal: 150, medium: 100, tiny: 50})
 
   belongs_to :user
   has_many :activities # Activities this profile has created
@@ -48,19 +48,21 @@ class Profile < ApplicationRecord
   end
 
   def set_defaults
-    self.name    ||= user.name    if user
-    self.email   ||= user.email   if user
-    picture.attach(io: File.open(Houdini.defaults.image.profile), 
-        filename: "profile-image.png") unless self.picture.attached?
+    self.name ||= user.name if user
+    self.email ||= user.email if user
+    unless picture.attached?
+      picture.attach(io: File.open(Houdini.defaults.image.profile),
+        filename: "profile-image.png")
+    end
     if self.name.blank? && first_name.present? && last_name.present?
-      self.name ||= first_name + ' ' + last_name
+      self.name ||= first_name + " " + last_name
     end
   end
 
   # Queries
 
   def recent_donations(npo_id)
-    donations.valid.order('created_at').where(nonprofit_id: npo_id).take(10)
+    donations.valid.order("created_at").where(nonprofit_id: npo_id).take(10)
   end
 
   # Attrs
@@ -82,7 +84,7 @@ class Profile < ApplicationRecord
   end
 
   def supporter_name
-    self.name.blank? ? 'A Supporter' : self.name
+    self.name.presence || "A Supporter"
   end
 
   def get_profile_picture(size = :normal)

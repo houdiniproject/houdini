@@ -5,7 +5,7 @@
 module Nonprofits
   class RecurringDonationsController < ApplicationController
     include Controllers::Nonprofit::Current
-  include Controllers::Nonprofit::Authorization
+    include Controllers::Nonprofit::Authorization
 
     before_action :authenticate_nonprofit_user!, except: [:create]
 
@@ -44,7 +44,7 @@ module Nonprofits
         params[:root_url] = root_url
 
         ExportRecurringDonations.initiate_export(@nonprofit.id, params, current_user.id)
-      rescue StandardError => e
+      rescue => e
         e
       end
       if e.nil?
@@ -57,8 +57,8 @@ module Nonprofits
 
     def show
       @recurring_donation = current_recurring_donation
-      respond_to do |format| 
-        format.json do 
+      respond_to do |format|
+        format.json do
           render locals: {recurring_donation: @recurring_donation}
         end
       end

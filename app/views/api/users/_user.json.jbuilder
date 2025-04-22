@@ -5,7 +5,7 @@
 json.extract! user, :id
 
 json.roles user.roles do |role|
-	json.partial! 'api/roles/role', role: role
+  json.partial! "api/roles/role", role: role
 end
 
-json.object 'user'
+json.object "user"

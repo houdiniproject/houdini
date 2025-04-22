@@ -12,7 +12,7 @@ module Campaigns
     def index
       @panels_layout = true
       @nonprofit = current_nonprofit
-      @campaign  = current_campaign
+      @campaign = current_campaign
 
       respond_to do |format|
         format.json do

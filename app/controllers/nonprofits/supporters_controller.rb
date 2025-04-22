@@ -21,7 +21,7 @@ module Nonprofits
         end
 
         format.csv do
-          file_date = Date.today.strftime('%m-%d-%Y')
+          file_date = Date.today.strftime("%m-%d-%Y")
           supporters = QuerySupporters.for_export(params[:nonprofit_id], params)
           send_data(Format::Csv.from_vectors(supporters), filename: "supporters-#{file_date}.csv")
         end
@@ -33,7 +33,7 @@ module Nonprofits
         @nonprofit = current_nonprofit
         @user = current_user_id
         ExportSupporters.initiate_export(@nonprofit.id, params, @user)
-      rescue StandardError => e
+      rescue => e
         e
       end
       if e.nil?
@@ -51,7 +51,7 @@ module Nonprofits
     end
 
     def show
-      render json: { data: QuerySupporters.for_crm_profile(params[:nonprofit_id], [params[:id]]).first }
+      render json: {data: QuerySupporters.for_crm_profile(params[:nonprofit_id], [params[:id]]).first}
     end
 
     def email_address
@@ -59,15 +59,13 @@ module Nonprofits
     end
 
     def full_contact
-      begin
-        if current_supporter.method_defined? :full_contact_infos && (fc = current_supporter.full_contact_infos.first)
-          render json: { full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id) }
-        else
-          render json: { full_contact: nil }
-        end
-      rescue
-        render json: { full_contact: nil }
+      if current_supporter.method_defined?(fc = current_supporter.full_contact_infos.first)
+        render json: {full_contact: QueryFullContactInfos.fetch_associated_tables(fc.id)}
+      else
+        render json: {full_contact: nil}
       end
+    rescue
+      render json: {full_contact: nil}
     end
 
     def info_card
@@ -85,10 +83,10 @@ module Nonprofits
     end
 
     def bulk_delete
-      if params[:selecting_all]
-        supporter_ids = QuerySupporters.full_filter_expr(current_nonprofit.id, params[:query]).select('supporters.id').execute.map { |h| h['id'] }
+      supporter_ids = if params[:selecting_all]
+        QuerySupporters.full_filter_expr(current_nonprofit.id, params[:query]).select("supporters.id").execute.map { |h| h["id"] }
       else
-        supporter_ids = params[:supporter_ids]. map(&:to_i)
+        params[:supporter_ids].map(&:to_i)
       end
       render_json { UpdateSupporter.bulk_delete(current_nonprofit.id, supporter_ids) }
     end

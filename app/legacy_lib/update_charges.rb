@@ -4,10 +4,10 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 module UpdateCharges
   def self.disburse_all_with_payments(payment_ids)
-    Psql.execute(Qexpr.new.update(:charges, status: 'disbursed').where('payment_id IN ($ids)', ids: payment_ids).returning('id', 'status'))
+    Psql.execute(Qexpr.new.update(:charges, status: "disbursed").where("payment_id IN ($ids)", ids: payment_ids).returning("id", "status"))
   end
 
   def self.reverse_disburse_all_with_payments(payment_ids)
-    Charge.where('payment_id IN (?)', payment_ids).update_all(status: 'available')
+    Charge.where("payment_id IN (?)", payment_ids).update_all(status: "available")
   end
 end

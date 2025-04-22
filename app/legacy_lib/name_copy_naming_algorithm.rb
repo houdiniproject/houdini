@@ -11,11 +11,11 @@ class NameCopyNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def copy_addition
-    " (#{Time.now.strftime('%F')} copy)"
+    " (#{Time.now.strftime("%F")} copy)"
   end
 
   def separator_before_copy_number
-    ' '
+    " "
   end
 
   def max_copies
@@ -31,10 +31,10 @@ class NameCopyNamingAlgorithm < CopyNamingAlgorithm
   end
 
   def get_already_used_name_entities(base_name)
-    end_name = "#{copy_addition.gsub('(', '\\(').gsub(')', '\\)')} \\d{2}"
+    end_name = "#{copy_addition.gsub("(", '\\(').gsub(")", '\\)')} \\d{2}"
     end_name_length = copy_addition.length + 3
     amount_to_strip = end_name_length + base_name.length - max_length
     amount_to_strip = 0 if amount_to_strip < 0
-    @klass.method(:where).call('name SIMILAR TO ? AND nonprofit_id = ? AND (deleted IS NULL OR deleted = false)', "#{base_name[0..base_name.length - amount_to_strip - 1]}_*" + end_name, nonprofit_id).select('name')
+    @klass.method(:where).call("name SIMILAR TO ? AND nonprofit_id = ? AND (deleted IS NULL OR deleted = false)", "#{base_name[0..base_name.length - amount_to_strip - 1]}_*" + end_name, nonprofit_id).select("name")
   end
 end

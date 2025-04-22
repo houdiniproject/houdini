@@ -9,23 +9,23 @@ module InsertRecurringDonation
     data = data.with_indifferent_access
 
     ParamValidation.new(data, InsertDonation.common_param_validations
-                                  .merge(token: { required: true, format: UUID::Regex }))
+                                  .merge(token: {required: true, format: UUID::Regex}))
 
     if data[:recurring_donation].nil?
       data[:recurring_donation] = {}
     else
 
       ParamValidation.new(data[:recurring_donation],
-                          interval: { is_integer: true },
-                          start_date: { can_be_date: true },
-                          time_unit: { included_in: %w[month day week year] },
-                          paydate: { is_integer: true })
+        interval: {is_integer: true},
+        start_date: {can_be_date: true},
+        time_unit: {included_in: %w[month day week year]},
+        paydate: {is_integer: true})
       if data[:recurring_donation][:paydate]
         data[:recurring_donation][:paydate] = data[:recurring_donation][:paydate].to_i
       end
 
       ParamValidation.new(data[:recurring_donation],
-                          paydate: { min: 1, max: 28 })
+        paydate: {min: 1, max: 28})
 
     end
 
@@ -35,7 +35,7 @@ module InsertRecurringDonation
 
     entities = RetrieveActiveRecordItems.retrieve_from_keys(data, Supporter => :supporter_id, Nonprofit => :nonprofit_id)
 
-    entities = entities.merge(RetrieveActiveRecordItems.retrieve_from_keys(data, { Campaign => :campaign_id, Event => :event_id, Profile => :profile_id }, true))
+    entities = entities.merge(RetrieveActiveRecordItems.retrieve_from_keys(data, {Campaign => :campaign_id, Event => :event_id, Profile => :profile_id}, true))
 
     InsertDonation.validate_entities(entities)
 
@@ -44,43 +44,41 @@ module InsertRecurringDonation
       raise ParamValidation::ValidationError.new("Supporter #{entities[:supporter_id].id} does not own card #{tokenizable.id}", key: :token)
     end
 
-    data['card_id'] = tokenizable.id
+    data["card_id"] = tokenizable.id
 
     result = {}
     data[:date] = Time.now
     data = data.merge(payment_provider: payment_provider(data))
-    data = data.except(:old_donation).except('old_donation')
+    data = data.except(:old_donation).except("old_donation")
     # if start date is today, make initial charge first
     test_start_date = get_test_start_date(data)
     if test_start_date.nil? || Time.current >= test_start_date
       result = result.merge(InsertDonation.insert_charge(data))
-      if result['charge']['status'] == 'failed'
-        raise ChargeError, result['charge']['failure_message']
+      if result["charge"]["status"] == "failed"
+        raise ChargeError, result["charge"]["failure_message"]
       end
     end
 
-
-
-
     # Create the donation record
-    result['donation'] = InsertDonation.insert_donation(data, entities)
-    entities[:donation_id] = result['donation']
+    result["donation"] = InsertDonation.insert_donation(data, entities)
+    entities[:donation_id] = result["donation"]
     # Create the recurring_donation record
-    result['recurring_donation'] = insert_recurring_donation(data, entities)
+    result["recurring_donation"] = insert_recurring_donation(data, entities)
     # Update charge foreign keys
-    if result['payment']
+    if result["payment"]
       InsertDonation.update_donation_keys(result)
 
-      trx = entities[:supporter_id].transactions.build(amount: data['amount'], created: data['date'])
-      don = trx.donations.build(amount: result['donation'].amount, legacy_donation: result['donation'])
+      trx = entities[:supporter_id].transactions.build(amount: data["amount"], created: data["date"])
+      don = trx.donations.build(amount: result["donation"].amount, legacy_donation: result["donation"])
       stripe_t = trx.build_subtransaction(
-        subtransactable: StripeTransaction.new(amount: data['amount']),
-        payments:[
+        subtransactable: StripeTransaction.new(amount: data["amount"]),
+        payments: [
           SubtransactionPayment.new(
-            paymentable: StripeCharge.new(payment: Payment.find(result['payment']['id'])))
-          ],
-          created: data['date']
-        );
+            paymentable: StripeCharge.new(payment: Payment.find(result["payment"]["id"]))
+          )
+        ],
+        created: data["date"]
+      )
       trx.save!
       don.save!
       stripe_t.save!
@@ -90,13 +88,13 @@ module InsertRecurringDonation
       trx.publish_created
 
       # Create the activity record
-      result['activity'] = InsertActivities.for_recurring_donations([result['payment'].id])
+      result["activity"] = InsertActivities.for_recurring_donations([result["payment"].id])
     end
 
-    recurrence = result['recurring_donation'].create_recurrence!(supporter: result['recurring_donation'].supporter, start_date:result['recurring_donation'].start_date, amount: result['recurring_donation'].amount )
+    recurrence = result["recurring_donation"].create_recurrence!(supporter: result["recurring_donation"].supporter, start_date: result["recurring_donation"].start_date, amount: result["recurring_donation"].amount)
     recurrence.publish_created
     # Send receipts
-    Houdini.event_publisher.announce(:recurring_donation_create, result['donation'], entities[:supporter_id].locale)
+    Houdini.event_publisher.announce(:recurring_donation_create, result["donation"], entities[:supporter_id].locale)
     result
   end
 
@@ -109,34 +107,34 @@ module InsertRecurringDonation
       result = result.merge(InsertDonation.insert_charge(data))
     end
 
-    result['donation'] = Psql.execute(Qexpr.new.insert(:donations, [
-                                                         data.except(:recurring_donation)
-                                                       ]).returning('*')).first
+    result["donation"] = Psql.execute(Qexpr.new.insert(:donations, [
+      data.except(:recurring_donation)
+    ]).returning("*")).first
 
-    result['recurring_donation'] = Psql.execute(Qexpr.new.insert(:recurring_donations, [
-                                                                   data[:recurring_donation].merge(donation_id: result['donation']['id'])
-                                                                 ]).returning('*')).first
+    result["recurring_donation"] = Psql.execute(Qexpr.new.insert(:recurring_donations, [
+      data[:recurring_donation].merge(donation_id: result["donation"]["id"])
+    ]).returning("*")).first
 
-    InsertDonation.update_donation_keys(result) if result['payment']
+    InsertDonation.update_donation_keys(result) if result["payment"]
 
-    Houdini.event_publisher.announce(:recurring_donation_create, result['donation'], entities[:supporter_id].locale)
+    Houdini.event_publisher.announce(:recurring_donation_create, result["donation"], entities[:supporter_id].locale)
 
-    { status: 200, json: result }
-    end
+    {status: 200, json: result}
+  end
 
   # the data model here is brutal. This needs to get cleaned up.
   def self.convert_donation_to_recurring_donation(donation_id)
-    ParamValidation.new({ donation_id: donation_id }, donation_id: { required: true, is_integer: true })
-    don = Donation.where('id = ? ', donation_id).first
+    ParamValidation.new({donation_id: donation_id}, donation_id: {required: true, is_integer: true})
+    don = Donation.where("id = ? ", donation_id).first
     unless don
       raise ParamValidation::ValidationError.new("#{donation_id} is not a valid donation", key: :donation_id, val: donation_id)
     end
 
-    rd = insert_recurring_donation({ amount: don.amount, email: don.supporter.email, anonymous: don.anonymous, origin_url: don.origin_url, recurring_donation: { start_date: don.created_at, paydate: convert_date_to_valid_paydate(don.created_at) }, date: don.created_at }, supporter_id: don.supporter, nonprofit_id: don.nonprofit, donation_id: don)
+    rd = insert_recurring_donation({amount: don.amount, email: don.supporter.email, anonymous: don.anonymous, origin_url: don.origin_url, recurring_donation: {start_date: don.created_at, paydate: convert_date_to_valid_paydate(don.created_at)}, date: don.created_at}, supporter_id: don.supporter, nonprofit_id: don.nonprofit, donation_id: don)
     don.recurring_donation = rd
     don.recurring = true
 
-    don.payment.kind = 'RecurringDonation'
+    don.payment.kind = "RecurringDonation"
     don.payment.save!
     rd.save!
     don.save!
@@ -154,25 +152,25 @@ module InsertRecurringDonation
     rd.edit_token = SecureRandom.uuid
     rd.n_failures = 0
     rd.email = entities[:supporter_id].email
-    rd.interval = data[:recurring_donation][:interval].blank? ? 1 : data[:recurring_donation][:interval]
-    rd.time_unit = data[:recurring_donation][:time_unit].blank? ? 'month' : data[:recurring_donation][:time_unit]
+    rd.interval = (data[:recurring_donation][:interval].presence || 1)
+    rd.time_unit = (data[:recurring_donation][:time_unit].presence || "month")
     rd.start_date = if data[:recurring_donation][:start_date].blank?
-                      Time.current.beginning_of_day
-                    elsif data[:recurring_donation][:start_date].is_a? Time
-                      data[:recurring_donation][:start_date]
-                    else
-                      Chronic.parse(data[:recurring_donation][:start_date])
-                    end
-
-    if rd.time_unit == 'month' && rd.interval == 1 && data[:recurring_donation][:paydate].nil?
-      rd.paydate = convert_date_to_valid_paydate(rd.start_date)
+      Time.current.beginning_of_day
+    elsif data[:recurring_donation][:start_date].is_a? Time
+      data[:recurring_donation][:start_date]
     else
-      rd.paydate = data[:recurring_donation][:paydate]
+      Chronic.parse(data[:recurring_donation][:start_date])
+    end
+
+    rd.paydate = if rd.time_unit == "month" && rd.interval == 1 && data[:recurring_donation][:paydate].nil?
+      convert_date_to_valid_paydate(rd.start_date)
+    else
+      data[:recurring_donation][:paydate]
     end
 
     rd.save!
     rd
-   end
+  end
 
   def self.get_test_start_date(data)
     unless data[:recurring_donation] && data[:recurring_donation][:start_date]
@@ -180,7 +178,7 @@ module InsertRecurringDonation
     end
 
     Chronic.parse(data[:recurring_donation][:start_date])
-        end
+  end
 
   def self.payment_provider(data)
     if data[:card_id]
@@ -192,6 +190,6 @@ module InsertRecurringDonation
 
   def self.convert_date_to_valid_paydate(date)
     day = date.day
-    day > 28 ? 28 : day
+    (day > 28) ? 28 : day
   end
 end

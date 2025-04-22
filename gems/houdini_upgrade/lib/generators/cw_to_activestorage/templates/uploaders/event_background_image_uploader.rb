@@ -21,7 +21,7 @@ class EventBackgroundImageUploader < CarrierWave::Uploader::Base
   def default_url
     # For Rails 3.1+ asset pipeline compatibility:
     Image::DefaultCampaignUrl
-   end
+  end
 
   # Process files as they are uploaded:
   # process :scale => [200, 300]
@@ -48,6 +48,6 @@ class EventBackgroundImageUploader < CarrierWave::Uploader::Base
   # end
 
   def cache_dir
-    "#{Rails.root}/tmp/uploads"
+    "#{Rails.root.join("tmp/uploads")}"
   end
 end

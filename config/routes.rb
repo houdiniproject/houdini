@@ -4,12 +4,12 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  require_relative "./state_code_constraint"
-  if Rails.env == 'development'
-    get '/button_debug/embedded' => 'button_debug#embedded'
-    get '/button_debug/button' => 'button_debug#button'
-    get '/button_debug/embedded/:id' => 'button_debug#embedded'
-    get '/button_debug/button/:id' => 'button_debug#button'
+  require_relative "state_code_constraint"
+  if Rails.env.development?
+    get "/button_debug/embedded" => "button_debug#embedded"
+    get "/button_debug/button" => "button_debug#button"
+    get "/button_debug/embedded/:id" => "button_debug#embedded"
+    get "/button_debug/button/:id" => "button_debug#button"
   end
 
   defaults format: :json do # they're APIs, you have to use JSON
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
         resources :events, only: [:show] do
           resources :ticket_levels, only: [:index, :show]
         end
-        resources :supporters, only: [:index, :show] do 
+        resources :supporters, only: [:index, :show] do
           resources :supporter_addresses, only: [:index, :show]
           resources :supporter_notes, only: [:index, :show]
         end
@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   resources(:settings, only: [:index])
   resources(:campaign_gifts, only: [:create])
   resource(:cards, only: %i[create update destroy])
-  resource(:direct_debit_details, path: 'sepa', controller: :direct_debit_details, only: [:create])
+  resource(:direct_debit_details, path: "sepa", controller: :direct_debit_details, only: [:create])
 
   # Creating presigned posts for direct-to-S3 upload
   resources(:aws_presigned_posts, only: [:create])
@@ -60,7 +60,7 @@ Rails.application.routes.draw do
     get(:donations_history, on: :member)
   end
 
-  namespace(:nonprofits, path: 'nonprofits/:nonprofit_id') do
+  namespace(:nonprofits, path: "nonprofits/:nonprofit_id") do
     resources(:payouts, only: %i[create index show])
     resources(:imports, only: [:create])
     resources(:nonprofit_keys, only: [:index]) do
@@ -81,7 +81,7 @@ Rails.application.routes.draw do
       put(:followup, on: :member)
       post(:create_offsite, on: :collection)
     end
-    
+
     resources(:charges, only: [:index]) do
       resources(:refunds, only: %i[create index])
     end
@@ -133,10 +133,10 @@ Rails.application.routes.draw do
       post(:send_code)
     end
 
-    post 'tracking', controller: 'trackings', action: 'create'
+    post "tracking", controller: "trackings", action: "create"
   end
 
-  namespace(:campaigns, path: '/nonprofits/:nonprofit_id/campaigns/:campaign_id/admin', only: []) do
+  namespace(:campaigns, path: "/nonprofits/:nonprofit_id/campaigns/:campaign_id/admin", only: []) do
     resources(:supporters, only: [:index])
     resources(:donations, only: [:index])
     resources(:campaign_gift_options, only: [:index])
@@ -197,7 +197,7 @@ Rails.application.routes.draw do
     get(:dashboard_metrics, on: :member)
     get(:payment_history, on: :member)
 
-    post(:donate, on: :member, as: 'create_donation')
+    post(:donate, on: :member, as: "create_donation")
   end
 
   resources(:recurring_donations, only: %i[edit destroy update]) do
@@ -205,109 +205,109 @@ Rails.application.routes.draw do
   end
 
   devise_for :users,
-             controllers: {
-               sessions: 'users/sessions',
-               registrations: 'users/registrations',
-               confirmations: 'users/confirmations'
-             }
+    controllers: {
+      sessions: "users/sessions",
+      registrations: "users/registrations",
+      confirmations: "users/confirmations"
+    }
   devise_scope :user do
-    match '/sign_in' => 'users/sessions#new', via: %i[get post]
-    match '/signup' => 'devise/registrations#new', via: %i[get post]
-    post '/confirm' => 'users/confirmations#confirm', via: [:get]
-    match '/users/is_confirmed' => 'users/confirmations#is_confirmed', via: %i[get post]
-    match '/users/exists' => 'users/confirmations#exists', via: [:get]
-    post '/users/confirm_auth', action: :confirm_auth, controller: 'users/sessions', via: %i[get post]
+    match "/sign_in" => "users/sessions#new", :via => %i[get post]
+    match "/signup" => "devise/registrations#new", :via => %i[get post]
+    post "/confirm" => "users/confirmations#confirm", :via => [:get]
+    match "/users/is_confirmed" => "users/confirmations#is_confirmed", :via => %i[get post]
+    get "/users/exists" => "users/confirmations#exists"
+    post "/users/confirm_auth", action: :confirm_auth, controller: "users/sessions", via: %i[get post]
   end
 
   # Super admin
-  match '/admin' => 'super_admins#index', :as => 'admin', via: %i[get post]
-  match '/admin/search-nonprofits' => 'super_admins#search_nonprofits', via: %i[get post]
-  match '/admin/search-profiles' => 'super_admins#search_profiles', via: %i[get post]
-  match '/admin/search-fullcontact' => 'super_admins#search_fullcontact', via: %i[get post]
-  match '/admin/recurring-donations-without-cards' => 'super_admins#recurring_donations_without_cards', via: %i[get post]
-  match '/admin/export_supporters_with_rds' => 'super_admins#export_supporters_with_rds', via: %i[get post]
-  match '/admin/resend_user_confirmation' => 'super_admins#resend_user_confirmation', via: %i[get post]
+  match "/admin" => "super_admins#index", :as => "admin", :via => %i[get post]
+  match "/admin/search-nonprofits" => "super_admins#search_nonprofits", :via => %i[get post]
+  match "/admin/search-profiles" => "super_admins#search_profiles", :via => %i[get post]
+  match "/admin/search-fullcontact" => "super_admins#search_fullcontact", :via => %i[get post]
+  match "/admin/recurring-donations-without-cards" => "super_admins#recurring_donations_without_cards", :via => %i[get post]
+  match "/admin/export_supporters_with_rds" => "super_admins#export_supporters_with_rds", :via => %i[get post]
+  match "/admin/resend_user_confirmation" => "super_admins#resend_user_confirmation", :via => %i[get post]
 
   # GoodJob dashboard
   authenticate :user, ->(user) { user.super_admin? } do
-    mount GoodJob::Engine => 'good_job'
+    mount GoodJob::Engine => "good_job"
   end
 
   # Events
-  match '/events' => 'events#index', via: [:get]
-  match '/events/:event_slug' => 'events#show', via: %i[get post]
+  get "/events" => "events#index"
+  match "/events/:event_slug" => "events#show", :via => %i[get post]
 
   # Campaigns
-  match '/peer-to-peer' => 'campaigns#peer_to_peer', via: %i[get post]
+  match "/peer-to-peer" => "campaigns#peer_to_peer", :via => %i[get post]
 
-  scope ':state_code/:city/:name' do
+  scope ":state_code/:city/:name" do
     constraints StateCodeConstraint.new do
       # Nonprofits
-      match '' => 'nonprofits#show', :as => :nonprofit_location, via: %i[get post]
-      match 'donate' => 'nonprofits#donate', :as => :nonprofit_donation, via: %i[get post]
-      match 'button' => 'nonprofits/button#guided', via: %i[get post]
+      match "" => "nonprofits#show", :as => :nonprofit_location, :via => %i[get post]
+      match "donate" => "nonprofits#donate", :as => :nonprofit_donation, :via => %i[get post]
+      match "button" => "nonprofits/button#guided", :via => %i[get post]
 
       # Campaigns
-      match 'campaigns' => 'campaigns#index', via: %i[get post]
-      match 'campaigns/:campaign_slug' => 'campaigns#show', via: %i[get post], as: :campaign_location
-      match 'campaigns/:campaign_slug/supporters' => 'campaigns/supporters#index', via: %i[get post]
+      match "campaigns" => "campaigns#index", :via => %i[get post]
+      match "campaigns/:campaign_slug" => "campaigns#show", :via => %i[get post], :as => :campaign_location
+      match "campaigns/:campaign_slug/supporters" => "campaigns/supporters#index", :via => %i[get post]
 
       # Events
-      match 'events' => 'events#index', via: %i[get post]
-      match 'events/:event_slug' => 'events#show', via: %i[get post], as: :event_location
-      match 'events/:event_slug/stats' => 'events#stats', via: %i[get post]
-      match 'events/:event_slug/tickets' => 'tickets#index', via: %i[get post]
+      match "events" => "events#index", :via => %i[get post]
+      match "events/:event_slug" => "events#show", :via => %i[get post], :as => :event_location
+      match "events/:event_slug/stats" => "events#stats", :via => %i[get post]
+      match "events/:event_slug/tickets" => "tickets#index", :via => %i[get post]
 
       # Dashboard
-      match 'dashboard' => 'nonprofits#dashboard', as: :np_dashboard, via: %i[get post]
+      match "dashboard" => "nonprofits#dashboard", :as => :np_dashboard, :via => %i[get post]
     end
   end
 
   direct :campaign_locateable do |model, options|
     nonprofit = model.nonprofit
     route_for(:campaign_location, nonprofit.state_code_slug, nonprofit.city_slug, nonprofit.slug,
-    model.slug, options)
+      model.slug, options)
   end
 
   direct :event_locateable do |model, options|
     nonprofit = model.nonprofit
-    route_for(:event_location, nonprofit.state_code_slug, nonprofit.city_slug, 
+    route_for(:event_location, nonprofit.state_code_slug, nonprofit.city_slug,
       nonprofit.slug, model.slug, options)
   end
 
   # Mailchimp Landing
-  match '/mailchimp-landing' => 'nonprofits/nonprofit_keys#mailchimp_landing', via: %i[get post]
+  match "/mailchimp-landing" => "nonprofits/nonprofit_keys#mailchimp_landing", :via => %i[get post]
 
   # Webhooks
-  post '/webhooks/stripe_subscription_payment' => 'webhooks#subscription_payment'
-  post '/webhooks/stripe' => 'webhooks#stripe'
+  post "/webhooks/stripe_subscription_payment" => "webhooks#subscription_payment"
+  post "/webhooks/stripe" => "webhooks#stripe"
 
-  get '/static/terms_and_privacy' => 'static#terms_and_privacy'
-  get '/static/ccs' => 'static#ccs'
+  get "/static/terms_and_privacy" => "static#terms_and_privacy"
+  get "/static/ccs" => "static#ccs"
 
-  get '/js/donate-button.v2.js' => 'widget#v2'
-  get '/js/i18n.js' => 'widget#i18n'
-  get '/css/donate-button.css' => 'widget#v1_css'
-  get '/css/donate-button.v2.css' => 'widget#v2_css'
+  get "/js/donate-button.v2.js" => "widget#v2"
+  get "/js/i18n.js" => "widget#i18n"
+  get "/css/donate-button.css" => "widget#v1_css"
+  get "/css/donate-button.v2.css" => "widget#v2_css"
 
   scope ActiveStorage.routes_prefix do
-    get "/blobs/redirect/:signed_id/*filename" => "active_storage/blobs/redirect#show", as: :rails_service_blob
-    get "/blobs/proxy/:signed_id/*filename" => "active_storage/blobs/proxy#show", as: :rails_service_blob_proxy
+    get "/blobs/redirect/:signed_id/*filename" => "active_storage/blobs/redirect#show", :as => :rails_service_blob
+    get "/blobs/proxy/:signed_id/*filename" => "active_storage/blobs/proxy#show", :as => :rails_service_blob_proxy
     get "/blobs/:signed_id/*filename" => "active_storage/blobs/redirect#show"
 
-    get "/representations/redirect/:signed_blob_id/:variation_key/*filename" => "active_storage/representations/redirect#show", as: :rails_blob_representation
-    get "/representations/proxy/:signed_blob_id/:variation_key/*filename" => "active_storage/representations/proxy#show", as: :rails_blob_representation_proxy
+    get "/representations/redirect/:signed_blob_id/:variation_key/*filename" => "active_storage/representations/redirect#show", :as => :rails_blob_representation
+    get "/representations/proxy/:signed_blob_id/:variation_key/*filename" => "active_storage/representations/proxy#show", :as => :rails_blob_representation_proxy
     get "/representations/:signed_blob_id/:variation_key/*filename" => "active_storage/representations/redirect#show"
 
-    get  "/disk/:encoded_key/*filename" => "active_storage/disk#show", as: :rails_disk_service
-    put  "/disk/:encoded_token" => "active_storage/disk#update", as: :update_rails_disk_service
-    post "/direct_uploads" => "direct_uploads#create", as: :rails_direct_uploads
+    get "/disk/:encoded_key/*filename" => "active_storage/disk#show", :as => :rails_disk_service
+    put "/disk/:encoded_token" => "active_storage/disk#update", :as => :update_rails_disk_service
+    post "/direct_uploads" => "direct_uploads#create", :as => :rails_direct_uploads
   end
 
   direct :rails_representation do |representation, options|
     signed_blob_id = representation.blob.signed_id
-    variation_key  = representation.variation.key
-    filename       = representation.blob.filename
+    variation_key = representation.variation.key
+    filename = representation.blob.filename
 
     route_for(:rails_blob_representation, signed_blob_id, variation_key, filename, options)
   end
@@ -320,7 +320,7 @@ Rails.application.routes.draw do
     route_for(:rails_service_blob, blob.signed_id, blob.filename, options)
   end
 
-  resolve("ActiveStorage::Blob")       { |blob, options| route_for(ActiveStorage.resolve_model_to_route, blob, options) }
+  resolve("ActiveStorage::Blob") { |blob, options| route_for(ActiveStorage.resolve_model_to_route, blob, options) }
   resolve("ActiveStorage::Attachment") { |attachment, options| route_for(ActiveStorage.resolve_model_to_route, attachment.blob, options) }
 
   direct :rails_storage_proxy do |model, options|
@@ -333,8 +333,8 @@ Rails.application.routes.draw do
       )
     else
       signed_blob_id = model.blob.signed_id
-      variation_key  = model.variation.key
-      filename       = model.blob.filename
+      variation_key = model.variation.key
+      filename = model.blob.filename
 
       route_for(
         :rails_blob_representation_proxy,
@@ -356,8 +356,8 @@ Rails.application.routes.draw do
       )
     else
       signed_blob_id = model.blob.signed_id
-      variation_key  = model.variation.key
-      filename       = model.blob.filename
+      variation_key = model.variation.key
+      filename = model.blob.filename
 
       route_for(
         :rails_blob_representation,
@@ -368,5 +368,5 @@ Rails.application.routes.draw do
       )
     end
   end
-  root to: 'front#index'
+  root to: "front#index"
 end

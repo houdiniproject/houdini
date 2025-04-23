@@ -11,30 +11,32 @@ RSpec.describe User, :type => :model do
   it 'locks correctly after 10 attempts' do
     user = create(:user)
     user.confirm
-    
+
     10.times { user.valid_for_authentication?{ false } }
     assert user.reload.access_locked?
   end
-  
-  describe '.nonprofit_personnel' do 
+
+  describe '.nonprofit_personnel' do
     let!(:user) {create(:user)}
     let!(:user_as_nonprofit_admin) {create(:user_as_nonprofit_admin)}
     let!(:user_as_nonprofit_associate) {create(:user_as_nonprofit_associate)}
 
-    it 'returns a user that is a nonprofit_admin' do 
+    it 'returns a user that is a nonprofit_admin' do
       expect(User.nonprofit_personnel).to include(user_as_nonprofit_admin)
-    end  
-
+    end
 
     it 'returns a user that is a nonprofit_associate' do
       expect(User.nonprofit_personnel).to include(user_as_nonprofit_associate)
-    end 
+    end
 
-    it 'DOES NOT return a user that is a nonprofit_admin OR a nonprofit_associate' do 
+    it 'DOES NOT return a user that is a nonprofit_admin OR a nonprofit_associate' do
       expect(User.nonprofit_personnel).to_not include(user)
-    end 
+    end
 
-  end 
+    it { expect(user.administered_nonprofit).not_to be_present }
+    it { expect(user_as_nonprofit_admin.administered_nonprofit).to be_present }
+    it { expect(user_as_nonprofit_associate.administered_nonprofit).to be_present }
+  end
 
   describe '.send_reset_password_instructions' do
 

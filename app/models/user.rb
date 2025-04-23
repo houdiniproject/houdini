@@ -91,10 +91,14 @@ class User < ApplicationRecord
 		false
 	end
 
-	# This lists the nonprofit_admin rules for the given user. There should only be one.
+	# This lists the nonprofit_admin roles for the given user. There should only be one.
 	def nonprofit_admin_roles
 		roles.where(host_type: "Nonprofit").nonprofit_admins
 	end
+
+  def administered_nonprofit
+    roles.nonprofit_personnel.last&.host
+  end
 
 	def as_json(options={})
 		h = super(options)

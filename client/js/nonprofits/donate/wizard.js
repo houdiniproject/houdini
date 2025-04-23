@@ -15,7 +15,7 @@ const amountStep = require('./amount-step')
 const infoStep = require('./info-step')
 const followupStep = require('./followup-step')
 
-const {handleWizardReport} = require('./wizard/utils');
+const {handleWizardFinished} = require('./wizard/utils');
 
 const request = require('../../common/request')
 const format = require('../../common/format')
@@ -105,7 +105,7 @@ const init = params$ => {
   // Handle the Finish button from the followup step -- will close modal, redirect, or refresh
   flyd.lift(
     (ev, params) => {
-      handleWizardReport(params, parent, window);
+      handleWizardFinished({...params, window});
     }
   , state.clickFinish$, state.params$ )
 

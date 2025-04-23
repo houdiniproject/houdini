@@ -57,7 +57,8 @@ jobs:
             bundler-cache: true
 
         - run: bin/setup
-        - env:
+        - name: Run yarn build-all-${{ github.event.inputs.mode }}
+          env:
             mode: ${{ github.event.inputs.mode }}
             ORG_NAME: commitchange
           run: yarn build-all-${mode}

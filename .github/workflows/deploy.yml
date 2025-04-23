@@ -29,9 +29,9 @@ jobs:
       runs-on: ${{ matrix.os }}
       strategy:
         matrix:
-          os: [ubuntu-20.04]
+          os: [ubuntu-22.04]
           node: [16]
-          ruby: ['2.7.8']
+          ruby: ['3.1.7']
           postgres: ['16']
         fail-fast: false
       steps:
@@ -57,7 +57,8 @@ jobs:
             bundler-cache: true
 
         - run: bin/setup
-        - env:
+        - name: Run yarn build-all-${{ github.event.inputs.mode }}
+          env:
             mode: ${{ github.event.inputs.mode }}
             ORG_NAME: commitchange
           run: yarn build-all-${mode}

@@ -15,7 +15,8 @@ class NonprofitKeysController < ApplicationController
   # GET /nonprofits/:nonprofit_id/nonprofit_keys/mailchimp_login
   def mailchimp_login
     session[:current_mailchimp_nonprofit_id] = current_nonprofit.id
-    redirect_to "https://login.mailchimp.com/oauth2/authorize?response_type=code&client_id=#{ENV['MAILCHIMP_OAUTH_CLIENT_ID']}"
+    redirect_to "https://login.mailchimp.com/oauth2/authorize?response_type=code&client_id=#{ENV['MAILCHIMP_OAUTH_CLIENT_ID']}",
+      allow_other_host: true
   end
 
   # After the user OAuths mailchimp, they are redirected to /mailchimp-landing

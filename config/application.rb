@@ -10,7 +10,7 @@ Bundler.require(*Rails.groups)
 module Commitchange
 	class Application < Rails::Application
 		# Initialize configuration defaults for originally generated Rails version.
-		config.load_defaults 6.1
+		config.load_defaults 7.0
 
 		# Settings in config/environments/* take precedence over those specified here.
 		# Application configuration should go into files in config/initializers
@@ -40,9 +40,6 @@ module Commitchange
 
 		# Configure the default encoding used in templates for Ruby 1.9.
 		config.encoding = "utf-8"
-
-		# Configure sensitive parameters which will be filtered from the log file.
-		config.filter_parameters += [:password]
 
 		# Enable escaping HTML in JSON.
 		config.active_support.escape_html_entities_in_json = true
@@ -102,11 +99,6 @@ module Commitchange
 					methods: [:get, :post, :put, :patch, :delete, :options, :head]
 			end
 		end
-
-
-		config.action_dispatch.default_headers = {
-			'X-XSS-Protection' => '1; mode=block'
-		}
 
 		config.active_job.queue_adapter = :delayed_job
 

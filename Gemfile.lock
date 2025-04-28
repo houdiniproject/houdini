@@ -229,6 +229,7 @@ GEM
       railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
+    ffi (1.17.1)
     ffi (1.17.1-x86_64-linux-gnu)
     fx (0.9.0)
       activerecord (>= 7.0)
@@ -309,6 +310,7 @@ GEM
       benchmark
       logger
     mini_mime (1.1.5)
+    mini_portile2 (2.8.8)
     minitest (5.25.5)
     money (6.19.0)
       i18n (>= 0.6.4, <= 2)
@@ -330,6 +332,9 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.0)
+    nokogiri (1.18.8)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
@@ -563,6 +568,7 @@ GEM
     zeitwerk (2.6.18)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES

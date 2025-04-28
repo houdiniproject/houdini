@@ -124,16 +124,7 @@ class ApplicationController < ActionController::Base
     QueryRoles.user_has_role?(current_user.id, role_names, host_id)
   end
 
-<<<<<<< HEAD
 	# devise config
-=======
-  def administered_nonprofit
-    return nil unless current_user
-    Nonprofit.where(id: QueryRoles.host_ids(current_user_id, [:nonprofit_admin, :nonprofit_associate])).last
-  end
-
-  # devise config
->>>>>>> a41d3d25 (Run standard fix)
 
   def after_sign_in_path_for(resource)
     request.env["omniauth.origin"] || session[:previous_url] || root_path

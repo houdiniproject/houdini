@@ -100,7 +100,7 @@ class User < ApplicationRecord
   end
 
   def as_json(options = {})
-    h = super(options)
+    h = super
     h[:unconfirmed_email] = unconfirmed_email
     h[:confirmed] = confirmed?
     h[:profile] = profile.as_json

@@ -102,10 +102,10 @@ group :development, :ci, :test do
 	gem 'pry-byebug'
 	gem 'binding_of_caller'
   gem 'rspec', "~> 3"
-	gem 'rspec-rails', "~> 6"
+	gem 'rspec-rails', "~> 7"
 	gem 'database_cleaner'
   gem 'dotenv-rails'
-	gem 'stripe-ruby-mock', '~> 3.0', :require => 'stripe_mock'
+	gem 'stripe-ruby-mock', '~> 5.0', :require => 'stripe_mock'
   gem 'factory_bot'
 	gem 'factory_bot_rails'
 	gem 'action_mailer_matchers', '~> 1.2.0'

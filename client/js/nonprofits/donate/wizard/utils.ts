@@ -1,5 +1,7 @@
 // License: LGPL-3.0-or-later
 
+import WindowWrapper from "./WindowWrapper";
+
 
 /**
  * This is a subset of all the params a widget would get. We're just mention the ones here we care about

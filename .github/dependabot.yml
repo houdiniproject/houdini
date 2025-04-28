@@ -12,6 +12,11 @@ updates:
   
   - package-ecosystem: "bundler"
     directory: "/"
+    ignore:
+      - dependency-name: rails # rails is a whole other thing that we're gonna handle on our own
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
     groups:
       development-dependencies-minor:
         dependency-type: development
@@ -31,7 +36,5 @@ updates:
         dependency-type: production
         update-types:
           - major
-        exclude-patterns:
-          - rails # rails is a whole other thing that we're gonna handle on our own
     schedule:
       interval: "weekly"

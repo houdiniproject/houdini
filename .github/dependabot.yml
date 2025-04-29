@@ -12,6 +12,17 @@ updates:
   
   - package-ecosystem: "bundler"
     directory: "/"
+    ignore:
+      - dependency-name: rails # rails is a whole other thing that we're gonna handle on our own
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+      - dependency-name: concurrent-ruby # concurrent-ruby 1.3.5 has a regression that breaks pre-Rails 7.1
+        versions:
+          - ">=1.3.5"
+      - dependency-name: sprockets # Sprockets 4.0 stops allowing us to add a proc to the config.assets.precompile array, which we currently use
+        versions:
+          - ">=4"
     groups:
       development-dependencies-minor:
         dependency-type: development
@@ -31,7 +42,5 @@ updates:
         dependency-type: production
         update-types:
           - major
-        exclude-patterns:
-          - rails # rails is a whole other thing that we're gonna handle on our own
     schedule:
       interval: "weekly"

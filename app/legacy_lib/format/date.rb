@@ -49,10 +49,4 @@ module Format::Date
 		vals = zones.map{|t| t.tzinfo.name}
 		return names.zip(vals).sort_by{|name, val| name}
 	end
-
-  def self.parse_partial_str(str)
-    return nil if str.nil?
-    Time.new(*str.match(/(\d\d\d\d)-?(\d\d)?-?(\d\d)?/).to_a[1..-1].compact.map(&:to_i))
-  end
-
 end

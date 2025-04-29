@@ -317,7 +317,7 @@ GEM
       andand
       kdtree
       require_all
-    net-imap (0.4.19)
+    net-imap (0.4.20)
       date
       net-protocol
     net-pop (0.1.2)

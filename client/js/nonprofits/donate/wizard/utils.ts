@@ -6,7 +6,7 @@ import WindowWrapper from "./WindowWrapper";
 /**
  * This is a subset of all the params a widget would get. We're just mention the ones here we care about
  */
-interface WizardFinishParams extends Record<string, any> {
+interface WizardFinishParams {
   /**
    * What location you'd like to redirect to on success
    */
@@ -19,13 +19,20 @@ interface WizardFinishParams extends Record<string, any> {
   embeddedWidget:boolean;
 }
 
+function prepareParams(inputParams:Record<string, any>): WizardFinishParams {
+   return {
+    redirect: inputParams['redirect'],
+    embeddedWidget: inputParams['mode'] === 'embedded',
+   }
+}
 
-export function handleWizardFinished(params: WizardFinishParams, window:Window) {
+
+export function handleWizardFinished(params: Record<string, any>, window:Window) {
 
   const windowWrapper = new WindowWrapper(window)
-
-  postRedirect(params, windowWrapper);
-  postClose(params, windowWrapper);
+  const innerParams  = prepareParams(params);
+  postRedirect(innerParams, windowWrapper);
+  postClose(innerParams, windowWrapper);
 }
 
 
@@ -35,7 +42,7 @@ export function handleWizardFinished(params: WizardFinishParams, window:Window) 
  * @returns true if inside a widget, false otherwise
  */
 function insideAnIframe(window:WindowWrapper): boolean {
-  return window.self !== window.top;
+  return window.self() !== window.top();
 }
 
 
@@ -48,7 +55,7 @@ function insideAnIframe(window:WindowWrapper): boolean {
 function postRedirect({redirect}:WizardFinishParams, window:WindowWrapper) {
   if (redirect) {
     if (insideAnIframe(window)) {
-      window.postMessageToParent(`commitchange:redirect:${redirect}`, '*')
+      window.safelyPostMessageToParent(`commitchange:redirect:${redirect}`, '*')
     }
     else {
       window.setLocation(redirect);
@@ -57,7 +64,7 @@ function postRedirect({redirect}:WizardFinishParams, window:WindowWrapper) {
 }
 
 function postClose({embeddedWidget}:WizardFinishParams, window:WindowWrapper) {
-  if (embeddedWidget) {
-    window.postMessageToParent('commitchange:close', '*');
+  if (!embeddedWidget) {
+    window.safelyPostMessageToParent('commitchange:close', '*');
   }
 }

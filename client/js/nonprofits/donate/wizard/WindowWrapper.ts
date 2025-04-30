@@ -24,7 +24,7 @@ export default class WindowWrapper {
     this.window.document.location = newLocation;
   }
 
-  postMessageToParent = (message:string, target:string) => {
+  safelyPostMessageToParent = (message:string, target:string) => {
     this.window.parent?.postMessage(message, target);
   }
 }

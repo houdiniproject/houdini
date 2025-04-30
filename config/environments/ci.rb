@@ -19,11 +19,11 @@ Rails.application.configure do
   # config.action_mailer.delivery_method = :aws_ses
   # config.action_mailer.default_url_options = { host: 'commitchange.com' }
   config.action_mailer.delivery_method = Settings.mailer.delivery_method.to_sym
-  config.action_mailer.smtp_settings = { address: Settings.mailer.address, port: Settings.mailer.port }
-  config.action_mailer.smtp_settings['user_name']= Settings.mailer.username if Settings.mailer.username
-  config.action_mailer.smtp_settings['password']= Settings.mailer.password if Settings.mailer.password
+  config.action_mailer.smtp_settings = {address: Settings.mailer.address, port: Settings.mailer.port}
+  config.action_mailer.smtp_settings["user_name"] = Settings.mailer.username if Settings.mailer.username
+  config.action_mailer.smtp_settings["password"] = Settings.mailer.password if Settings.mailer.password
 
-  config.action_mailer.default_url_options = { host: Settings.mailer.host }
+  config.action_mailer.default_url_options = {host: Settings.mailer.host}
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

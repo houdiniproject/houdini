@@ -1,6 +1,6 @@
 class OnboardController < ApplicationController
-  layout 'layouts/apified'
+  layout "layouts/apified"
   def index
-    @theme = 'minimal'
+    @theme = "minimal"
   end
 end

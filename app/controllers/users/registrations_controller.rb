@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :json
-  
+
   before_action :verify_via_recaptcha!, only: [:create]
 
   rescue_from ::Recaptcha::RecaptchaError, with: :handle_recaptcha_failure
@@ -12,12 +12,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # this endpoint only creates donor users
   def create
-    user = User.register_donor!({referer: session[:referer_id]}.merge(params[:user].to_deprecated_h) )
+    user = User.register_donor!({referer: session[:referer_id]}.merge(params[:user].to_deprecated_h))
     if user.save
       sign_in user
-      render :json => user
+      render json: user
     else
-      render :json => user.errors.full_messages, :status => :unprocessable_entity
+      render json: user.errors.full_messages, status: :unprocessable_entity
       clean_up_passwords(user)
     end
   end
@@ -36,41 +36,39 @@ class Users::RegistrationsController < Devise::RegistrationsController
       errs = current_user.errors.full_messages
     else
       success = false
-      errs = {:password => :incorrect}
+      errs = {password: :incorrect}
     end
 
     if success
-      if params[:user][:email].present?
-        flash[:notice] = 'We need to confirm your new email address. Check your inbox for a confirmation link.'
+      flash[:notice] = if params[:user][:email].present?
+        "We need to confirm your new email address. Check your inbox for a confirmation link."
       else
-        flash[:notice] = 'Account updated!'
+        "Account updated!"
       end
 
-      sign_in(current_user, :bypass => true)
-      render :json => current_user
+      sign_in(current_user, bypass: true)
+      render json: current_user
     else
-      render :json => {:errors => errs}, :status => :unprocessable_entity
+      render json: {errors: errs}, status: :unprocessable_entity
     end
   end
 
-
   private
+
   def verify_via_recaptcha!
-    begin
-      verify_recaptcha!(action: 'create_user', minimum_score: ENV['MINIMUM_RECAPTCHA_SCORE'].to_f)
-    rescue ::Recaptcha::RecaptchaError => e
-      failure_details = {
-        params: params,
-        action: 'create_user',
-        minimum_score_required: ENV['MINIMUM_RECAPTCHA_SCORE'],
-        recaptcha_result: recaptcha_reply,
-        recaptcha_value: params['g-recaptcha-response']
-      }
-      failure = RecaptchaRejection.new
-      failure.details = failure_details
-      failure.save!
-      raise e
-    end
+    verify_recaptcha!(action: "create_user", minimum_score: ENV["MINIMUM_RECAPTCHA_SCORE"].to_f)
+  rescue ::Recaptcha::RecaptchaError => e
+    failure_details = {
+      params: params,
+      action: "create_user",
+      minimum_score_required: ENV["MINIMUM_RECAPTCHA_SCORE"],
+      recaptcha_result: recaptcha_reply,
+      recaptcha_value: params["g-recaptcha-response"]
+    }
+    failure = RecaptchaRejection.new
+    failure.details = failure_details
+    failure.save!
+    raise e
   end
 
   def handle_recaptcha_failure

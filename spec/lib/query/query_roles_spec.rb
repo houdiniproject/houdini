@@ -1,37 +1,36 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'rails_helper'
+require "rails_helper"
 
 describe QueryRoles do
   include_context :shared_donation_charge_context
-  let(:nonprofit_admin_role) {force_create(:role, user: user, host: nonprofit, name: :nonprofit_admin)}
-  let(:other_nonprofit_admin_role) {force_create(:role, user: user, host: other_nonprofit, name: :nonprofit_admin)}
-  let(:nonprofit_associate_role) {force_create(:role, user: user, host: nonprofit, name: :nonprofit_associate)}
-  let(:other_nonprofit_associate_role) {force_create(:role, user: user, host: other_nonprofit, name: :nonprofit_associate)}
+  let(:nonprofit_admin_role) { force_create(:role, user: user, host: nonprofit, name: :nonprofit_admin) }
+  let(:other_nonprofit_admin_role) { force_create(:role, user: user, host: other_nonprofit, name: :nonprofit_admin) }
+  let(:nonprofit_associate_role) { force_create(:role, user: user, host: nonprofit, name: :nonprofit_associate) }
+  let(:other_nonprofit_associate_role) { force_create(:role, user: user, host: other_nonprofit, name: :nonprofit_associate) }
 
-  describe 'is_nonprofit_user?' do
-    it 'false for no role' do
+  describe "is_nonprofit_user?" do
+    it "false for no role" do
       expect(QueryRoles.is_nonprofit_user?(user.id, nonprofit.id)).to be_falsey
     end
 
-    it 'false for other nonprofit admin' do
+    it "false for other nonprofit admin" do
       other_nonprofit_admin_role
       expect(QueryRoles.is_nonprofit_user?(user.id, nonprofit.id)).to be_falsey
     end
 
-    it 'false for other nonprofit associate' do
+    it "false for other nonprofit associate" do
       other_nonprofit_associate_role
       expect(QueryRoles.is_nonprofit_user?(user.id, nonprofit.id)).to be_falsey
     end
 
-    it 'true for nonprofit admin' do
+    it "true for nonprofit admin" do
       nonprofit_admin_role
       expect(QueryRoles.is_nonprofit_user?(user.id, nonprofit.id)).to be_truthy
     end
 
-    it 'true for nonprofit admin' do
+    it "true for nonprofit admin" do
       nonprofit_associate_role
       expect(QueryRoles.is_nonprofit_user?(user.id, nonprofit.id)).to be_truthy
     end
   end
-
 end

@@ -2,21 +2,18 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe SubtransactionPayment, type: :model do
-
-
   it {
     is_expected.to(belong_to(:subtransaction).inverse_of(:subtransaction_payments))
   }
 
   it {
     is_expected.to(have_one(:trx)
-      .class_name('Transaction')
-      .with_foreign_key('transaction_id')
-      .through(:subtransaction)
-    )
+      .class_name("Transaction")
+      .with_foreign_key("transaction_id")
+      .through(:subtransaction))
   }
 
   it {
@@ -28,7 +25,7 @@ RSpec.describe SubtransactionPayment, type: :model do
   }
 
   it {
-    is_expected.to(belong_to(:legacy_payment).class_name('Payment').required(true))
+    is_expected.to(belong_to(:legacy_payment).class_name("Payment").required(true))
   }
 
   it {
@@ -58,5 +55,4 @@ RSpec.describe SubtransactionPayment, type: :model do
   it {
     is_expected.to validate_presence_of(:paymentable)
   }
-  
 end

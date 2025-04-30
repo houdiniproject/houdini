@@ -3,4 +3,3 @@ ActiveSupport.on_load(:active_record) do
   Qx.config(type_map: PG::BasicTypeMapForResults.new(ActiveRecord::Base.connection.raw_connection))
   Qx.execute("SET TIME ZONE utc")
 end
-

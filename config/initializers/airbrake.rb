@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'airbrake/delayed_job'
+require "airbrake/delayed_job"
 
 # Airbrake is an online tool that provides robust exception tracking in your Rails
 # applications. In doing so, it allows you to easily review errors, tie an error
@@ -10,14 +10,14 @@ require 'airbrake/delayed_job'
 #
 # Configuration details:
 # https://github.com/airbrake/airbrake-ruby#configuration
-if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
+if ENV["AIRBRAKE_PROJECT_ID"] && ENV["AIRBRAKE_API_KEY"]
   Airbrake.configure do |c|
     # You must set both project_id & project_key. To find your project_id and
     # project_key navigate to your project's General Settings and copy the values
     # from the right sidebar.
     # https://github.com/airbrake/airbrake-ruby#project_id--project_key
-    c.project_id = ENV['AIRBRAKE_PROJECT_ID'] || 1
-    c.project_key = ENV['AIRBRAKE_API_KEY'] || 1
+    c.project_id = ENV["AIRBRAKE_PROJECT_ID"] || 1
+    c.project_key = ENV["AIRBRAKE_API_KEY"] || 1
 
     # Configures the root directory of your project. Expects a String or a
     # Pathname, which represents the path to your project. Providing this option
@@ -43,7 +43,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
     # unwanted environments such as :test.
     # NOTE: This option *does not* work if you don't set the 'environment' option.
     # https://github.com/airbrake/airbrake-ruby#ignore_environments
-    c.ignore_environments = %w(test development staging)
+    c.ignore_environments = %w[test development staging]
 
     # A list of parameters that should be filtered out of what is sent to
     # Airbrake. By default, all "password" attributes will have their contents
@@ -51,7 +51,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
     # https://github.com/airbrake/airbrake-ruby#blacklist_keys
     c.blocklist_keys = [/password/i, /authorization/i]
 
-    c.performance_stats = !!ENV['CHECK_PERFORMANCE']
+    c.performance_stats = !!ENV["CHECK_PERFORMANCE"]
   end
 
   # A filter that collects request body information. Enable it if you are sure you
@@ -59,21 +59,18 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_API_KEY']
   # https://github.com/airbrake/airbrake#requestbodyfilter
   # Airbrake.add_filter(Airbrake::Rack::RequestBodyFilter.new)
 
-
-
-
   #   config.ignore << "ArgumentError: invalid byte sequence in UTF-8"
   # 	config.ignore << "SIGTERM"
   # end
 
   ignore_exceptions = [ActionDispatch::RemoteIp::IpSpoofAttackError, Encoding::CompatibilityError,
-                       EOFError, [SignalException, lambda {|e| e.signo == Signal.list['TERM']}]]
+    EOFError, [SignalException, lambda { |e| e.signo == Signal.list["TERM"] }]]
   Airbrake.add_filter do |notice|
     ignore_exceptions.each do |type|
       if type.class == Array
         notice.ignore! if notice.stash[:exception].is_a?(type[0]) && type[1].call(notice.stash[:exception])
-      else
-        notice.ignore! if notice.stash[:exception].is_a?(type)
+      elsif notice.stash[:exception].is_a?(type)
+        notice.ignore!
       end
     end
   end

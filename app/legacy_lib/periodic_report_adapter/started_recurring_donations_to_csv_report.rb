@@ -13,12 +13,12 @@ class PeriodicReportAdapter::StartedRecurringDonationsToCsvReport < PeriodicRepo
   end
 
   private
-  
+
   def nonprofit
     Nonprofit.find(@nonprofit_id)
   end
 
   def params
-    { nonprofit: nonprofit, nonprofit_s3_key: @nonprofit_s3_key, user: @users.first, filename: @filename }
+    {nonprofit: nonprofit, nonprofit_s3_key: @nonprofit_s3_key, user: @users.first, filename: @filename}
   end
 end

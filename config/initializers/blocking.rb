@@ -7,5 +7,4 @@ Rack::Attack.blocklist("block all icky method requests") do |request|
       request.delete? ||
       request.options? ||
       request.put?)
-
 end

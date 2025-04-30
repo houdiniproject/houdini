@@ -13,8 +13,8 @@ module ModelExtensions::TransactionAssignment::RefundExtension
 
   # Handle a completed refund from a legacy Refund object
   def process_refund(refund)
-    donation = assignments.select{|i| i.assignable.is_a? ModernDonation}.first.assignable
+    donation = assignments.select { |i| i.assignable.is_a? ModernDonation }.first.assignable
     donation.amount = trx.amount
     donation.save!
   end
-end 
+end

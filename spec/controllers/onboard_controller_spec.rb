@@ -1,5 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe OnboardController, :type => :controller do
-
+RSpec.describe OnboardController, type: :controller do
 end

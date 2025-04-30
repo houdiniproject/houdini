@@ -5,7 +5,7 @@
 
 class TicketPurchase < ApplicationRecord
   include Model::TrxAssignable
-  
+
   setup_houid :tktpur, :houid
 
   has_many :tickets

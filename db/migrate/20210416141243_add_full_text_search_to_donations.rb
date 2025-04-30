@@ -2,7 +2,7 @@ class AddFullTextSearchToDonations < ActiveRecord::Migration
   def up
     add_column :donations, :fts, :tsvector
 
-    execute(<<-'eosql'.strip)
+    execute(<<-EOSQL.strip)
       UPDATE donations SET fts = (to_tsvector('english', coalesce(comment, '')));
 
       CREATE FUNCTION update_fts_on_donations() RETURNS TRIGGER AS $$
@@ -14,14 +14,14 @@ class AddFullTextSearchToDonations < ActiveRecord::Migration
 
       CREATE TRIGGER update_donations_fts BEFORE INSERT OR UPDATE
         ON donations FOR EACH ROW EXECUTE PROCEDURE update_fts_on_donations();
-    eosql
+    EOSQL
   end
 
   def down
-    execute(<<-'eosql'.strip)
+    execute(<<-EOSQL.strip)
       DROP FUNCTION update_fts_on_donations () CASCADE;
       DROP TRIGGER IF EXISTS update_donations_fts ON donations;
-    eosql
+    EOSQL
     remove_column :donations, :fts
   end
 end

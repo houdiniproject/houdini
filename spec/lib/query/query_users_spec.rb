@@ -1,11 +1,9 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'rails_helper'
+require "rails_helper"
 
 describe QueryUsers do
-
-	describe '.nonprofit_user_emails', pending: true do
-
-		before(:all) do
+  describe ".nonprofit_user_emails", pending: true do
+    before(:all) do
       # @np = Psql.execute(Qexpr.new.insert('nonprofits', [{name: 'xxyy'}])).first
       #
       # @users = Psql.execute(Qexpr.new.insert('users', [
@@ -42,15 +40,14 @@ describe QueryUsers do
       #   @email_settings.merge({user_id: @users[4]['id'], notify_payouts: false}),
       #   @email_settings.merge({user_id: @users[5]['id'], notify_recurring_donations: false}),
       # ], {common_data: {nonprofit_id: @np['id']}, no_timestamps: true}))
-		end
+    end
 
-
-		it 'Returns all users who have the respective setting enabled (or no settings set), and does not return people without the right role' do 
-      expect(QueryUsers.nonprofit_user_emails(@np['id'], 'notify_payments').sort).to eq([0, 2, 3, 4, 5].map{|id| @users[id]['email']}.concat([@user_no_settings['email']]).sort)
-      expect(QueryUsers.nonprofit_user_emails(@np['id'], 'notify_campaigns').sort).to eq([0, 1, 3, 4, 5].map{|id| @users[id]['email']}.concat([@user_no_settings['email']]).sort)
-      expect(QueryUsers.nonprofit_user_emails(@np['id'], 'notify_events').sort).to eq([0, 1, 2, 4, 5].map{|id| @users[id]['email']}.concat([@user_no_settings['email']]).sort)
-      expect(QueryUsers.nonprofit_user_emails(@np['id'], 'notify_payouts').sort).to eq([0, 1, 2, 3, 5].map{|id| @users[id]['email']}.concat([@user_no_settings['email']]).sort)
-      expect(QueryUsers.nonprofit_user_emails(@np['id'], 'notify_recurring_donations').sort).to eq([0, 1, 2, 3, 4].map{|id| @users[id]['email']}.concat([@user_no_settings['email']]).sort)
-		end
-	end
+    it "Returns all users who have the respective setting enabled (or no settings set), and does not return people without the right role" do
+      expect(QueryUsers.nonprofit_user_emails(@np["id"], "notify_payments").sort).to eq([0, 2, 3, 4, 5].map { |id| @users[id]["email"] }.concat([@user_no_settings["email"]]).sort)
+      expect(QueryUsers.nonprofit_user_emails(@np["id"], "notify_campaigns").sort).to eq([0, 1, 3, 4, 5].map { |id| @users[id]["email"] }.concat([@user_no_settings["email"]]).sort)
+      expect(QueryUsers.nonprofit_user_emails(@np["id"], "notify_events").sort).to eq([0, 1, 2, 4, 5].map { |id| @users[id]["email"] }.concat([@user_no_settings["email"]]).sort)
+      expect(QueryUsers.nonprofit_user_emails(@np["id"], "notify_payouts").sort).to eq([0, 1, 2, 3, 5].map { |id| @users[id]["email"] }.concat([@user_no_settings["email"]]).sort)
+      expect(QueryUsers.nonprofit_user_emails(@np["id"], "notify_recurring_donations").sort).to eq([0, 1, 2, 3, 4].map { |id| @users[id]["email"] }.concat([@user_no_settings["email"]]).sort)
+    end
+  end
 end

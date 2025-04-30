@@ -9,11 +9,10 @@
 #   the prefix is `:supp`.
 # @param [String, symbol] attribute the attribute where houids stored. This is usually `:houid`
 #   but in some cases could be something else
-shared_examples 'an houidable entity' do |prefix, attribute|
-
+shared_examples "an houidable entity" do |prefix, attribute|
   let!(:instance) { subject }
   let(:houid_attribute) { attribute || :houid }
-  
+
   it {
     is_expected.to have_attributes(houid_prefix: prefix.to_sym)
   }
@@ -22,13 +21,13 @@ shared_examples 'an houidable entity' do |prefix, attribute|
     is_expected.to have_attributes(houid_attribute: houid_attribute.to_sym)
   }
 
-  describe 'class methods' do
+  describe "class methods" do
     it {
       expect(instance.class).to have_attributes(houid_prefix: prefix.to_sym)
     }
-  
+
     it {
       expect(instance.class).to have_attributes(houid_attribute: houid_attribute.to_sym)
-    } 
+    }
   end
 end

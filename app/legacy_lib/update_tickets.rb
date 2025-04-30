@@ -1,15 +1,14 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module UpdateTickets
-
-  def self.update(data, current_user=nil)
+  def self.update(data, current_user = nil)
     ParamValidation.new(data, {
-        event_id: {required:true, is_reference: true},
-        ticket_id: {required: true, is_reference: true},
-        token: {format: UUID::Regex},
-        bid_id: {is_integer: true},
-        #note: nothing to check?
+      event_id: {required: true, is_reference: true},
+      ticket_id: {required: true, is_reference: true},
+      token: {format: UUID::Regex},
+      bid_id: {is_integer: true},
+      # note: nothing to check?
 
-        checked_in: {included_in: ['true', 'false', true, false]}
+      checked_in: {included_in: ["true", "false", true, false]}
 
     })
 
@@ -60,71 +59,69 @@ module UpdateTickets
 
   def self.delete_card_for_ticket(event_id, ticket_id)
     begin
-      ParamValidation.new({ event_id: event_id, ticket_id: ticket_id },
-                          event_id: { required: true, is_integer: true },
-                          ticket_id: { required: true, is_integer: true })
+      ParamValidation.new({event_id: event_id, ticket_id: ticket_id},
+        event_id: {required: true, is_integer: true},
+        ticket_id: {required: true, is_integer: true})
     rescue ParamValidation::ValidationError => e
-      return { json: { error: "Validation error\n #{e.message}", errors: e.data }, status: :unprocessable_entity }
+      return {json: {error: "Validation error\n #{e.message}", errors: e.data}, status: :unprocessable_entity}
     end
 
     begin
-      ticket = Ticket.where('id = ? and event_id = ?', ticket_id, event_id).limit(1).first!
+      ticket = Ticket.where("id = ? and event_id = ?", ticket_id, event_id).limit(1).first!
       ticket.card = nil
       ticket.source_token = nil
       ticket.save!
-      return { json: {}, status: :ok }
+      {json: {}, status: :ok}
     rescue ActiveRecord::RecordNotFound => e
       # there's no stinking ticket by that event and ticket
-      return { json: { error: "No ticket with id #{ticket_id} at event with id #{event_id}\n #{e.message}" },
-               status: :unprocessable_entity }
+      {json: {error: "No ticket with id #{ticket_id} at event with id #{event_id}\n #{e.message}"},
+       status: :unprocessable_entity}
     rescue ActiveRecord::ActiveRecordError
-      return { json: { error: "There was a DB error. Please contact support" },
-               status: :unprocessable_entity }
+      {json: {error: "There was a DB error. Please contact support"},
+       status: :unprocessable_entity}
     end
   end
 
   def self.validate_entities(entities)
-    if (entities[:ticket_id].deleted)
+    if entities[:ticket_id].deleted
       raise ParamValidation::ValidationError.new("Ticket ID #{entities[:ticket_id].id} is deleted", key: :ticket_id)
     end
 
-    if (entities[:event_id].deleted)
+    if entities[:event_id].deleted
       raise ParamValidation::ValidationError.new("Event ID #{entities[:event_id].id} is deleted", key: :event_id)
     end
 
-    if (entities[:ticket_id].event != entities[:event_id])
+    if entities[:ticket_id].event != entities[:event_id]
       raise ParamValidation::ValidationError.new("Ticket ID #{entities[:ticket_id].id} does not belong to event #{entities[:event_id].id}", key: :ticket_id)
     end
   end
 
-
   def self.discount_ticket(ticket, discount)
-    if (ticket.class != Ticket)
+    if ticket.class != Ticket
       ticket = Ticket.find(ticket)
     end
 
-    if (discount > 1 || discount < 0 )
+    if discount > 1 || discount < 0
       raise ArgumentError.new("Discount must be between 0 and 1. Value was #{discount}")
     end
 
-    Qx.transaction do 
+    Qx.transaction do
       payment = ticket.payment
-      payment.gross_amount = payment.gross_amount * (1-discount)
-      payment.net_amount = payment.net_amount * (1-discount)
+      payment.gross_amount = payment.gross_amount * (1 - discount)
+      payment.net_amount = payment.net_amount * (1 - discount)
       payment.save!
 
       op = payment.offsite_payment
-      op.gross_amount = op.gross_amount * (1-discount)
+      op.gross_amount = op.gross_amount * (1 - discount)
       op.save!
 
-      activities = ticket.activities.select{|i| i.action_type == 'created'}
+      activities = ticket.activities.select { |i| i.action_type == "created" }
       activities.each do |a|
-        data = JSON::parse(a.json_data)
-        data['gross_amount'] = Integer(data['gross_amount'] * (1-discount))
-        a.json_data = JSON::generate(data)
+        data = JSON.parse(a.json_data)
+        data["gross_amount"] = Integer(data["gross_amount"] * (1 - discount))
+        a.json_data = JSON.generate(data)
         a.save!
       end
     end
-
   end
 end

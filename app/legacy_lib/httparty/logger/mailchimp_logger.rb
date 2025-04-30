@@ -26,7 +26,7 @@ module HTTParty
   module Logger
     class MailchimpLogger < ::HTTParty::Logger::CommitchangeLogger
       def initialize(logger, level)
-        super(logger, level, 'mailchimp')
+        super(logger, level, "mailchimp")
       end
     end
   end

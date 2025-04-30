@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby ENV['CUSTOM_RUBY_VERSION'] || '3.1.7' # heroku needs a specific ruby version in the Gemfile
+ruby ENV['CUSTOM_RUBY_VERSION'] || '3.2.8' # heroku needs a specific ruby version in the Gemfile
 
 gem 'rake'
 gem 'rails', '~> 7.0.8.7'
@@ -41,7 +41,7 @@ gem 'rack-attack'
 gem 'rack-freeze'
 
 # Database (postgres)
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.5.9'
 gem 'qx', path: 'gems/ruby-qx'
 gem 'dalli'
 

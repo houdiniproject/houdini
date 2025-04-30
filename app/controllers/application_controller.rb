@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
 		:current_nonprofit_user?,
 		:administered_nonprofit
 
+  delegate :administered_nonprofit, to: :current_user, allow_nil: true
+
 	def set_locale
 		if params[:locale] && Settings.available_locales.include?(params[:locale])
 			I18n.locale = params[:locale]
@@ -119,14 +121,7 @@ protected
 	def current_role?(role_names, host_id = nil)
     return false unless current_user
     role_names = Array(role_names)
-		key = "current_role_user_#{current_user_id}_names_#{role_names.join("_")}_host_#{host_id}"
     QueryRoles.user_has_role?(current_user.id, role_names, host_id)
-	end
-
-	def administered_nonprofit
-		return nil unless current_user
-		key = "administered_nonprofit_user_#{current_user_id}_nonprofit"
-    Nonprofit.where(id: QueryRoles.host_ids(current_user_id, [:nonprofit_admin, :nonprofit_associate])).last
 	end
 
 	# devise config

@@ -3,7 +3,7 @@ FactoryBot.define do
   factory :source_token do
     token { SecureRandom.uuid }
     max_uses { 1 }
-    expiration { Time.current + 10.minutes }
+    expiration { 10.minutes.from_now }
     factory :source_token_for_supporter_for_fv_poverty do
       tokenizable { build(:card, holder: create(:supporter_with_fv_poverty)) }
     end

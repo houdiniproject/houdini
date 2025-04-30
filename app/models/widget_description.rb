@@ -9,7 +9,7 @@ class WidgetDescription < ApplicationRecord
 
   validate :is_postfix_element_a_hash, :is_postfix_element_correct
 
-  validates_length_of :custom_amounts, minimum: 1, allow_nil: true
+  validates :custom_amounts, length: {minimum: 1, allow_nil: true}
 
   validate :are_custom_amounts_correct
 

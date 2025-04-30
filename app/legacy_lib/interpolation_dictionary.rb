@@ -18,7 +18,7 @@ class InterpolationDictionary
 
   def interpolate(message)
     result = Format::Interpolate.with_hash(message, @entries)
-    sanitize(result) if sanitize(result).present?
+    sanitize(result).presence
   end
 
   private

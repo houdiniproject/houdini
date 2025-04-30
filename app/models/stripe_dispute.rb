@@ -3,7 +3,7 @@ class StripeDispute < ApplicationRecord
   TERMINAL_DISPUTE_STATUSES = ["won", "lost"]
 
   attr_accessible :object, :stripe_dispute_id
-  has_one :dispute, primary_key: :stripe_dispute_id, foreign_key: :stripe_dispute_id
+  has_one :dispute, primary_key: :stripe_dispute_id
   has_one :charge, primary_key: :stripe_charge_id, foreign_key: :stripe_charge_id
   after_save :fire_change_events
 
@@ -30,10 +30,10 @@ class StripeDispute < ApplicationRecord
 
     case input
     when Stripe::Dispute
-      write_attribute(:object, input.to_hash)
+      self[:object] = input.to_hash
       object_json = object
     when String
-      write_attribute(:object, input)
+      self[:object] = input
       object_json = object
     end
 

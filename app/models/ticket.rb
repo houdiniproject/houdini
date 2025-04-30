@@ -16,6 +16,6 @@ class Ticket < ApplicationRecord
   has_many :activities, as: :attachment, dependent: :destroy
 
   def related_tickets
-    payment.tickets.where("id != ?", id)
+    payment.tickets.where.not(id: id)
   end
 end

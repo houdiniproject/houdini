@@ -26,7 +26,7 @@ class FeeStructure < ApplicationRecord
     numericality: {greater_than_or_equal_to: 0, less_than: 1},
     presence: true
 
-  validates_presence_of :fee_era
+  validates :fee_era, presence: true
 
   delegate :charge_international_fee?, :international_surcharge_fee, to: :fee_era
 
@@ -52,8 +52,8 @@ class FeeStructure < ApplicationRecord
     attr_accessor :source, :platform_fee, :flat_fee, :amount, :fee_structure
 
     validates :source, :platform_fee, :amount, presence: true
-    validates_numericality_of :platform_fee, less_than: 1.0, greater_than_or_equal_to: 0.0
-    validates_numericality_of :amount, greater_than: 0, is_integer: true
+    validates :platform_fee, numericality: {less_than: 1.0, greater_than_or_equal_to: 0.0}
+    validates :amount, numericality: {greater_than: 0, is_integer: true}
     validate :validate_source_is_source_like
 
     def initialize(args = {})
@@ -92,7 +92,7 @@ class FeeStructure < ApplicationRecord
     attr_accessor :source, :amount, :fee_structure
 
     validates :source, :amount, :fee_structure, presence: true
-    validates_numericality_of :amount, greater_than: 0, is_integer: true
+    validates :amount, numericality: {greater_than: 0, is_integer: true}
     validate :validate_source_is_source_like
 
     def initialize(args = {})

@@ -145,7 +145,7 @@ class Supporter < ApplicationRecord
   validates :nonprofit, presence: true
   scope :not_deleted, -> { where(deleted: false) }
   scope :deleted, -> { where(deleted: true) }
-  scope :merged, -> { where("merged_at IS NOT NULL") }
+  scope :merged, -> { where.not(merged_at: nil) }
   scope :not_merged, -> { where("merged_at IS NULL") }
 
   geocoded_by :full_address

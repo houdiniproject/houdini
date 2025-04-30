@@ -1,0 +1,13 @@
+# fix: true               # default: false
+parallel: true          # default: false
+format: progress        # default: Standard::Formatter
+# ruby_version: 3.0       # default: RUBY_VERSION
+# default_ignores: false  # default: true
+
+ignore:                 # default: []
+  - 'vendor/**/*'
+  - 'spec/factories/stripe/*':
+    - Rails/ActiveRecordAliases
+
+plugins:                # default: []
+  - standard-rails

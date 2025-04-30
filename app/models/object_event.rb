@@ -88,9 +88,9 @@ class ObjectEvent < ApplicationRecord
   end
 
   before_validation do
-    write_attribute(:object_json, to_object) if event_entity
-    write_attribute(:nonprofit_id, event_entity&.nonprofit&.id) if event_entity.respond_to? :nonprofit
-    write_attribute(:event_entity_houid, event_entity&.houid)
+    self[:object_json] = to_object if event_entity
+    self[:nonprofit_id] = event_entity&.nonprofit&.id if event_entity.respond_to? :nonprofit
+    self[:event_entity_houid] = event_entity&.houid
   end
 
   private

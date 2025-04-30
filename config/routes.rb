@@ -2,7 +2,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  if Rails.env == "development"
+  if Rails.env.development?
     get "/button_debug/embedded" => "button_debug#embedded"
     get "/button_debug/button" => "button_debug#button"
     get "/button_debug/embedded/:id" => "button_debug#embedded"
@@ -242,7 +242,7 @@ Rails.application.routes.draw do
     match "/signup" => "devise/registrations#new", :via => %i[get post]
     post "/confirm" => "users/confirmations#confirm", :via => [:get]
     match "/users/is_confirmed" => "users/confirmations#is_confirmed", :via => %i[get post]
-    match "/users/exists" => "users/confirmations#exists", :via => [:get]
+    get "/users/exists" => "users/confirmations#exists"
     post "/users/confirm_auth", action: :confirm_auth, controller: "users/sessions", via: %i[get post]
   end
 

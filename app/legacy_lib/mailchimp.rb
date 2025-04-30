@@ -107,7 +107,7 @@ module Mailchimp
           permission_reminder: "You are a registered supporter of our nonprofit.",
           campaign_defaults: {
             from_name: npo["name"] || "",
-            from_email: npo["email"].blank? ? "support@commitchange.com" : npo["email"],
+            from_email: npo["email"].presence || "support@commitchange.com",
             subject: "Enter your subject here...",
             language: "en"
           },

@@ -16,10 +16,10 @@ class BillingPlan < ApplicationRecord
   validates :amount, presence: true
   validates :percentage_fee, presence: true
 
-  validates_numericality_of :amount, greater_than_or_equal_to: 0
-  validates_numericality_of :percentage_fee, less_than: 1, greater_than_or_equal_to: 0
+  validates :amount, numericality: {greater_than_or_equal_to: 0}
+  validates :percentage_fee, numericality: {less_than: 1, greater_than_or_equal_to: 0}
 
-  validates_numericality_of :flat_fee, only_integer: true, greater_than_or_equal_to: 0
+  validates :flat_fee, numericality: {only_integer: true, greater_than_or_equal_to: 0}
 
   concerning :PathCaching do
     class_methods do

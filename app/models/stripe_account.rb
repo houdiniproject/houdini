@@ -79,11 +79,11 @@ class StripeAccount < ApplicationRecord
 
     case input
     when Stripe::Account
-      write_attribute(:object, input.to_hash)
+      self[:object] = input.to_hash
       object_json = object
       puts object
     when String
-      write_attribute(:object, input)
+      self[:object] = input
       object_json = object
     end
     self.charges_enabled = !!object_json["charges_enabled"]

@@ -12,7 +12,7 @@ class CampaignGiftOption < ApplicationRecord
     :order, # int (optional)
     :hide_contributions # boolean (optional)
 
-  belongs_to :campaign, required: true
+  belongs_to :campaign, optional: false
   has_many :campaign_gifts
   has_many :donations, through: :campaign_gifts
   has_one :nonprofit, through: :campaign

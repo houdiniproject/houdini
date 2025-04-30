@@ -168,8 +168,8 @@ class Nonprofit < ApplicationRecord
   validates :state_code, presence: true
   validates :email, format: {with: Email::Regex}, allow_blank: true
   validate :timezone_is_valid
-  validates_uniqueness_of :slug, scope: [:city_slug, :state_code_slug]
-  validates_presence_of :slug
+  validates :slug, uniqueness: {scope: [:city_slug, :state_code_slug]}
+  validates :slug, presence: true
 
   scope :vetted, -> { where(vetted: true) }
   scope :published, -> { where(published: true) }

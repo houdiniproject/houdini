@@ -12,9 +12,9 @@ RSpec.describe RecurringDonation, type: :model do
 
     let!(:normal) { force_create(:recurring_donation, active: true, n_failures: 2) }
 
-    let!(:ended) { force_create(:recurring_donation, active: true, n_failures: 2, end_date: Time.current - 1.day) }
+    let!(:ended) { force_create(:recurring_donation, active: true, n_failures: 2, end_date: 1.day.ago) }
 
-    let!(:ends_in_future) { force_create(:recurring_donation, active: true, n_failures: 0, end_date: Time.current + 1.day) }
+    let!(:ends_in_future) { force_create(:recurring_donation, active: true, n_failures: 0, end_date: 1.day.from_now) }
     describe ".will_attempt_again?" do
       it "wont if cancelled" do
         expect(cancelled).to_not be_will_attempt_again

@@ -9,5 +9,5 @@ class FullContactPhoto < ApplicationRecord
 
   belongs_to :full_contact_info
 
-  validates_presence_of :full_contact_info
+  validates :full_contact_info, presence: true
 end

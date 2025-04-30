@@ -17,8 +17,8 @@ FactoryBot.define do
       perform_geocode { false }
     end
     sequence(:name) { |i| "The event of Wonders #{i}" }
-    start_datetime { Time.current + 2.days }
-    end_datetime { Time.current + 2.days + 3.hours }
+    start_datetime { 2.days.from_now }
+    end_datetime { 2.days.from_now + 3.hours }
     address { "100 N Appleton St" }
     city { "Appleton" }
     state_code { "WI" }

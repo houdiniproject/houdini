@@ -203,8 +203,8 @@ module InsertRecurringDonation
     rd.edit_token = SecureRandom.uuid
     rd.n_failures = 0
     rd.email = entities[:supporter_id].email
-    rd.interval = data[:recurring_donation][:interval].blank? ? 1 : data[:recurring_donation][:interval]
-    rd.time_unit = data[:recurring_donation][:time_unit].blank? ? "month" : data[:recurring_donation][:time_unit]
+    rd.interval = (data[:recurring_donation][:interval].presence || 1)
+    rd.time_unit = (data[:recurring_donation][:time_unit].presence || "month")
     rd.start_date = if data[:recurring_donation][:start_date].blank?
       Time.current.beginning_of_day
     elsif data[:recurring_donation][:start_date].is_a? Time

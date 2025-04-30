@@ -251,13 +251,13 @@ describe QueryRecurringDonations do
     let(:active) {
       [
         force_create(:recurring_donation, amount: 3000, active: true, n_failures: 0, nonprofit: @nonprofit, donation: force_create(:donation, card: force_create(:card, stripe_customer_id: "stripe_cus_id")), edit_token: "edit_token_3"),
-        force_create(:recurring_donation, amount: 200, active: true, n_failures: 0, end_date: Time.current + 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_6")
+        force_create(:recurring_donation, amount: 200, active: true, n_failures: 0, end_date: 1.day.from_now, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_6")
       ]
     }
 
     let(:fulfilled) {
       [
-        force_create(:recurring_donation, amount: 100, active: true, n_failures: 0, end_date: Time.current - 1.day, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_5")
+        force_create(:recurring_donation, amount: 100, active: true, n_failures: 0, end_date: 1.day.ago, nonprofit: @nonprofit, donation: force_create(:donation), edit_token: "edit_token_5")
       ]
     }
 

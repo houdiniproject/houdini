@@ -26,7 +26,7 @@ class Rack::Attack::Cache
 end
 
 def run_throttle?
-  Rails.env != "test" || (defined? FORCE_THROTTLE && FORCE_THROTTLE)
+  !Rails.env.test? || (defined? FORCE_THROTTLE && FORCE_THROTTLE)
 end
 
 if ENV["THROTTLE_CARD_L1_LIMIT"] && ENV["THROTTLE_CARD_L1_PERIOD"]

@@ -25,5 +25,5 @@ class Subtransaction < ApplicationRecord
 
   as_money :amount
 
-  validates_presence_of :subtransactable
+  validates :subtransactable, presence: true
 end

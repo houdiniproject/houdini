@@ -12,7 +12,6 @@ module Nonprofits
           render_json { FetchMiscellaneousNpInfo.fetch(params[:nonprofit_id]) }
         end
       end
-
     end
 
     def update
@@ -20,7 +19,7 @@ module Nonprofits
         format.json {
           render_json {
             update = UpdateMiscellaneousNpInfo.update(params[:nonprofit_id], params[:miscellaneous_np_info])
-            #flash[:notice] = "Your Miscellaneous Settings have been saved"
+            # flash[:notice] = "Your Miscellaneous Settings have been saved"
             update
           }
         }

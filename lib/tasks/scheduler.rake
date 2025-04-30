@@ -10,12 +10,10 @@ task :heroku_scheduled_job, [:name] => :environment do |t, args|
 
   results = ""
   enum.each do |lamb|
-    begin 
-      result = lamb.call
-      results += "Success: #{result}\n"
-    rescue Exception => e
-      results += "Failure: #{e}\n"
-    end
+    result = lamb.call
+    results += "Success: #{result}\n"
+  rescue Exception => e
+    results += "Failure: #{e}\n"
   end
   GenericMailer.delay.admin_notice({
     subject: "Scheduled job results on CommitChange for '#{job_name}'",

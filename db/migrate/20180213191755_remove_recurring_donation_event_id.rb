@@ -5,5 +5,4 @@ class RemoveRecurringDonationEventId < ActiveRecord::Migration
       t.remove :event_id
     end
   end
-
 end

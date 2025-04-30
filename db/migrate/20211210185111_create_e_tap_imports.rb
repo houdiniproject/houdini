@@ -6,12 +6,11 @@ class CreateETapImports < ActiveRecord::Migration
     end
 
     create_table :e_tap_import_journal_entries do |t|
-      t.references :e_tap_import, index:true
+      t.references :e_tap_import, index: true
       t.jsonb :row
-      
-    #  t.index "row ->> 'Account Number'", using: "GIN", name: "by_account_number"
 
-      
+      #  t.index "row ->> 'Account Number'", using: "GIN", name: "by_account_number"
+
       t.timestamps null: false
     end
 
@@ -26,7 +25,7 @@ class CreateETapImports < ActiveRecord::Migration
     #     execute <<-SQL
     #       CREATE INDEX by_account_number_journal_entries on e_tap_import_journal_entries
     #         USING GIN ("row" jsonb_path_ops);
-            
+
     #     SQL
     #   end
     #   dir.down do
@@ -37,12 +36,11 @@ class CreateETapImports < ActiveRecord::Migration
     # end
 
     create_table :e_tap_import_contacts do |t|
-      t.references :e_tap_import, index:true
+      t.references :e_tap_import, index: true
       t.jsonb :row
-      #t.index "row ->> 'Account Number'", using: "GIN", name: "by_account_number"
-      t.references :supporter, index:true
+      # t.index "row ->> 'Account Number'", using: "GIN", name: "by_account_number"
+      t.references :supporter, index: true
       t.timestamps null: false
     end
   end
-  
 end

@@ -1,5 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe Nonprofits::StripeAccountsController, :type => :controller do
-    
+RSpec.describe Nonprofits::StripeAccountsController, type: :controller do
 end

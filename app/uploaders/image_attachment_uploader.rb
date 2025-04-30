@@ -2,7 +2,6 @@
 # encoding: utf-8
 
 class ImageAttachmentUploader < CarrierWave::Uploader::Base
-
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
@@ -20,8 +19,8 @@ class ImageAttachmentUploader < CarrierWave::Uploader::Base
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
     # For Rails 3.1+ asset pipeline compatibility:
-		return Image::DefaultProfileUrl
-   end
+    Image::DefaultProfileUrl
+  end
 
   # Process files as they are uploaded:
   # process :scale => [200, 300]
@@ -32,23 +31,23 @@ class ImageAttachmentUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :large do
-    process :resize_to_fill => [600, 400]
+    process resize_to_fill: [600, 400]
   end
   version :medium do
-    process :resize_to_fill => [400, 266]
+    process resize_to_fill: [400, 266]
   end
   version :small do
-    process :resize_to_fill => [400, 266]
+    process resize_to_fill: [400, 266]
   end
   # slightly smaller than the normal thumb
   version :thumb_explore do
-    process :resize_to_fill => [200, 133]
+    process resize_to_fill: [200, 133]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w(jpg jpeg png)
+    %w[jpg jpeg png]
   end
 
   # Override the filename of the uploaded files:
@@ -60,5 +59,4 @@ class ImageAttachmentUploader < CarrierWave::Uploader::Base
   def cache_dir
     "#{Rails.root}/tmp/uploads"
   end
-
 end

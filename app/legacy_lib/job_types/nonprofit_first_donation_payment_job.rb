@@ -12,7 +12,7 @@ module JobTypes
       nonprofit = d.nonprofit
       if nonprofit && d.charges.any?
         np_infos = nonprofit.miscellaneous_np_info || nonprofit.create_miscellaneous_np_info
-        np_infos.with_lock("FOR UPDATE") do 
+        np_infos.with_lock("FOR UPDATE") do
           if !np_infos.first_charge_email_sent
             JobQueue.queue(JobTypes::NonprofitFirstChargeEmailJob, nonprofit.id)
             np_infos.first_charge_email_sent = true

@@ -7,13 +7,13 @@ class PeriodicReportAdapter::FailedRecurringDonationsReport < PeriodicReportAdap
   end
 
   def run
-    ExportRecurringDonations::initiate_export(@nonprofit_id, params, @user_ids, :failed_recurring_donations_automatic_report)
+    ExportRecurringDonations.initiate_export(@nonprofit_id, params, @user_ids, :failed_recurring_donations_automatic_report)
   end
 
   private
 
   def params
-    { :failed => true, :include_last_failed_charge => true }.merge(period)
+    {failed: true, include_last_failed_charge: true}.merge(period)
   end
 
   def period
@@ -22,8 +22,8 @@ class PeriodicReportAdapter::FailedRecurringDonationsReport < PeriodicReportAdap
 
   def last_month
     {
-      :from_date => (Time.current - 1.month).beginning_of_month,
-      :before_date => Time.current.beginning_of_month
+      from_date: (Time.current - 1.month).beginning_of_month,
+      before_date: Time.current.beginning_of_month
     }
   end
 end

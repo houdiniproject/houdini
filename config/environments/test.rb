@@ -25,7 +25,7 @@ Rails.application.configure do
   }
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
 
@@ -45,7 +45,7 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'localhost:8080' }
+  config.action_mailer.default_url_options = {host: "localhost:8080"}
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
@@ -76,9 +76,8 @@ Rails.application.configure do
   config.action_controller.allow_forgery_protection = false
   config.cache_store = :memory_store
 
-
-  ENV['THROTTLE_SUPPORTER_LIMIT'] = '10'
-  ENV['THROTTLE_SUPPORTER_PERIOD'] = '60'
+  ENV["THROTTLE_SUPPORTER_LIMIT"] = "10"
+  ENV["THROTTLE_SUPPORTER_PERIOD"] = "60"
 
   config.after_initialize do
     # ActiveRecord::Base.logger = nil

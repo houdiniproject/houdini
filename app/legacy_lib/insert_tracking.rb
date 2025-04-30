@@ -3,18 +3,18 @@ module InsertTracking
   def self.create(params)
     result = {}
 
-    result['tracking'] = Qx.insert_into(:trackings)
+    result["tracking"] = Qx.insert_into(:trackings)
       .values({
         utm_campaign: params[:utm_campaign],
         utm_content: params[:utm_content],
         utm_medium: params[:utm_medium],
         utm_source: params[:utm_source],
         donation_id: params[:donation_id]
-        })
+      })
       .timestamps
-      .returning('*')
+      .returning("*")
       .execute.first
 
-    { status: 200, json: result }
+    {status: 200, json: result}
   end
 end

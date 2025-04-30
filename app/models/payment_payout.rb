@@ -12,18 +12,16 @@
 # since our fees will continue to change as our transaction volume increases
 
 class PaymentPayout < ApplicationRecord
+  attr_accessible \
+    :payment_id, :payment,
+    :charge_id, :charge, # deprecated
+    :payout_id, :payout,
+    :total_fees # int (cents)
 
-	attr_accessible \
-		:payment_id, :payment,
-		:charge_id, :charge, # deprecated
-		:payout_id, :payout,
-		:total_fees # int (cents)
+  belongs_to :charge # deprecated
+  belongs_to :payment
+  belongs_to :payout
 
-	belongs_to :charge # deprecated
-	belongs_to :payment
-	belongs_to :payout
-
-	validates :payment, presence: true
-	validates :payout, presence: true
+  validates :payment, presence: true
+  validates :payout, presence: true
 end
-

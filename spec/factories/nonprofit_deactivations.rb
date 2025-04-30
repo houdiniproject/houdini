@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :nonprofit_deactivation do
-    deactivated {false}
+    deactivated { false }
   end
 end

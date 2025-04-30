@@ -70,7 +70,7 @@ You'll want to run the next commands as root or via sudo (for Ubuntu 18.04 users
 ```bash
 apt update
 apt install curl -yy
-curl -sL https://deb.nodesource.com/setup_14.x | bash -
+curl -sL https://deb.nodesource.com/setup_16.x | bash -
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 apt update
@@ -130,11 +130,11 @@ Set your Ruby version with `rbenv`.
 ```bash
 brew install rbenv
 rbenv versions # see which ruby versions are already installed
-rbenv install  # the app currently uses version 3.1.7
+rbenv install  # the app currently uses version 3.2.8
 rbenv local # rbenv local --unset reverses the action
 
 # To switch between rbenv versions installed locally, use the following command:
-rbenv shell 3.1.7
+rbenv shell 3.2.8
 
 ```
 
@@ -144,8 +144,8 @@ Set your Node version with `NVM`.
 brew install nvm
 brew info nvm # command that shows the remaining steps to complete to install nvm properly
 mkdir ~/.nvm
-nvm install 14
-nvm use 14
+nvm install 16
+nvm use 16
 # Add the following lines to your ~/.bashprofile or ~/.zshrc:
 echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
 echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.zshrc

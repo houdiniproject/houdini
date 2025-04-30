@@ -5,6 +5,5 @@
 
 FactoryBot.define do
   factory :ticket_purchase do
-    
   end
 end

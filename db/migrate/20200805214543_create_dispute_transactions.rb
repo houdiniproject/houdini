@@ -15,8 +15,8 @@ class CreateDisputeTransactions < ActiveRecord::Migration
     add_index :dispute_transactions, :payment_id
 
     Dispute.all.each do |d|
-      d.dispute_transactions.create(gross_amount: d.gross_amount * -1, disbursed: d.status == "lost_and_paid", payment: Payment.find(d.payment_id), date: d.started_at) if d.status == "lost" || d.status == 'lost_and_paid'
-      if (d.status == "lost_and_paid")
+      d.dispute_transactions.create(gross_amount: d.gross_amount * -1, disbursed: d.status == "lost_and_paid", payment: Payment.find(d.payment_id), date: d.started_at) if d.status == "lost" || d.status == "lost_and_paid"
+      if d.status == "lost_and_paid"
         d.status = :lost
         d.save!
       end
@@ -31,7 +31,7 @@ class CreateDisputeTransactions < ActiveRecord::Migration
     add_index :disputes, :payment_id
 
     Dispute.all.each do |d|
-      if (d.dispute_transactions&.first&.disbursed && d.status == "lost")
+      if d.dispute_transactions&.first&.disbursed && d.status == "lost"
         d.status = :lost_and_paid
       end
       d.save!

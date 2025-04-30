@@ -6,7 +6,7 @@
 #
 # Assumption: the searches start from the least complex and go up. Probably won't work another way.
 
-# A multiple condition search like that can end in a few different ways: 
+# A multiple condition search like that can end in a few different ways:
 # * we get to a condition and there are no records
 # * we get to the last condition and there are mulitiple records left
 # * we get to a condition where there is a single record (success!)
@@ -15,9 +15,9 @@
 # search = MultipleConditionSearch.new([
 #  ['name = ?', "Penelope Schultz"], # you can use any of the styles used by `#where`
 #  {name: "Penelope Schultz", email: 'penelope@schultz.household'}
-# ]) 
+# ])
 # result = search.find(Nonprofit.find(12356).supporters) # result is nil if there was an error otherwise, we get the result
-# 
+#
 # puts 'There were no records found' if search.error == :none
 # puts 'There were multiple records on the last condition' if search.error == :multiple_values
 #
@@ -28,7 +28,7 @@
 # if result
 #   puts result.id
 # end
-# 
+#
 
 class MultipleConditionSearch
   @subconditions = []
@@ -38,9 +38,9 @@ class MultipleConditionSearch
   # 	@return [Symbol,nil] nil if a single result was found at one point. :none if a condition returned no values, :multiple_values if
   #   we got to the last condition and there were multiple records
   attr_reader :error
-  
-  # @!attribute result the result of the last condition attempted in the find. 
-  # 	@return [nil,ActiveRecord::Base,ActiveRecord::Relation] nil if the last condition attempted returned no records, 
+
+  # @!attribute result the result of the last condition attempted in the find.
+  # 	@return [nil,ActiveRecord::Base,ActiveRecord::Relation] nil if the last condition attempted returned no records,
   #     ActiveRecord::Base if the last query attempted had a single record and ActiveRecord::Relation if the last condition
   #     attempted had multiple records
   attr_reader :result
@@ -48,8 +48,8 @@ class MultipleConditionSearch
   # Important note: you MUST wrap all of your conditions into an array
   # @param [Array[string,Array,Hash]] args the subconditions attempted. Each of these correspond to the values you would pass into
   # the method of where. For example, you could
-  
-  def initialize(args=[])
+
+  def initialize(args = [])
     @subconditions = args
     @error = nil
     @result = nil

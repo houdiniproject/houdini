@@ -1,8 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'qx'
-require 'format/csv'
-require 'format/currency'
-
+require "qx"
+require "format/csv"
+require "format/currency"
 
 module HealthReport
   # Send an email report about what has happend on the servers and database in the last 24hrs, and how things are running
@@ -23,16 +22,16 @@ module HealthReport
 
     # Info about disabled nonprofit accounts due to ident verification
     disabled_nps = Nonprofit.includes(:stripe_account)
-    .where('created_at > ?', 3.months.ago).select{|i| i.stripe_account.verification_status != :verified}
-    .map{|np| {id: np.id, name: np.name, stripe_account_id: np.stripe_account_id}}
+      .where("created_at > ?", 3.months.ago).select { |i| i.stripe_account.verification_status != :verified }
+      .map { |np| {id: np.id, name: np.name, stripe_account_id: np.stripe_account_id} }
 
-    return {
-      charges_count: charges['count'],
-      charges_sum: charges['sum'],
-      charges_fees: charges['fees'],
+    {
+      charges_count: charges["count"],
+      charges_sum: charges["sum"],
+      charges_fees: charges["fees"],
       recently_disabled_nps: disabled_nps,
-      active_rec_don_count: rec_dons['count'],
-      active_rec_don_amount: rec_dons['sum']
+      active_rec_don_count: rec_dons["count"],
+      active_rec_don_amount: rec_dons["sum"]
     }
   end
 
@@ -40,7 +39,7 @@ module HealthReport
   def self.format_data data
     disabled_nps = Format::Csv.from_data(data[:recently_disabled_nps])
 
-    return %Q(
+    %(
 Transaction Metrics for the last 24hrs:
 Total count: #{data[:charges_count]}
 Total amount: $#{Format::Currency.cents_to_dollars(data[:charges_sum])}

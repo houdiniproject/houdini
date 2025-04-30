@@ -1,6 +1,5 @@
 class MoveToFxFunctions < ActiveRecord::Migration
   def up
-
     execute("DROP TRIGGER update_donations_fts ON donations")
     execute("DROP TRIGGER update_supporters_fts ON supporters")
     execute("DROP TRIGGER update_supporters_phone_index ON supporters")

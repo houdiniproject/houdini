@@ -2,12 +2,11 @@
 FactoryBot.define do
   factory :refund, aliases: [:refund_base] do
     trait :from_donation do
-      charge { build(:charge_base, payment: build(:payment, donation: build(:donation)))}
+      charge { build(:charge_base, payment: build(:payment, donation: build(:donation))) }
     end
 
-
     trait :not_from_donation do
-      charge { build(:charge_base, payment: build(:payment))}
+      charge { build(:charge_base, payment: build(:payment)) }
     end
   end
 end

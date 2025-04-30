@@ -1,37 +1,36 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'format/name'
-require 'get_data'
-require 'stripe'
+require "format/name"
+require "get_data"
+require "stripe"
 
 module CreateStripeAccount
-
-	def self.for_nonprofit(user, params)
-		fst_name, lst_name = Format::Name.split_full(GetData.chain(user, :profile, :name))
-		return Stripe::Account.create({
-			managed: true,
-			email: params[:email],
-			business_name: params[:name],
-			business_url: params[:website],
-			legal_entity: {
-				type: 'company',
-				address: {
-					line1: params[:address],
-					city: params[:city],
-					state: params[:state_code],
-					postal_code: params[:zip_code],
-					country: 'US'
-				},
-				business_name: params[:name],
-				business_tax_id: params[:ein],
-				first_name: fst_name,
-				last_name: lst_name
-			},
-			product_description: 'Nonprofit donations',
-			tos_acceptance: {
-				date: Time.current.to_i,
-				ip: user.current_sign_in_ip
-			},
-			transfer_schedule: { interval: 'manual' }
-		})
-	end
+  def self.for_nonprofit(user, params)
+    fst_name, lst_name = Format::Name.split_full(GetData.chain(user, :profile, :name))
+    Stripe::Account.create({
+      managed: true,
+      email: params[:email],
+      business_name: params[:name],
+      business_url: params[:website],
+      legal_entity: {
+        type: "company",
+        address: {
+          line1: params[:address],
+          city: params[:city],
+          state: params[:state_code],
+          postal_code: params[:zip_code],
+          country: "US"
+        },
+        business_name: params[:name],
+        business_tax_id: params[:ein],
+        first_name: fst_name,
+        last_name: lst_name
+      },
+      product_description: "Nonprofit donations",
+      tos_acceptance: {
+        date: Time.current.to_i,
+        ip: user.current_sign_in_ip
+      },
+      transfer_schedule: {interval: "manual"}
+    })
+  end
 end

@@ -10,7 +10,7 @@ class AwsPresignedPostsController < ApplicationController
     p = S3Bucket.presigned_post({
       key: "tmp/#{uuid}/${filename}",
       success_action_status: "201",
-      acl: 'public-read',
+      acl: "public-read",
       expires: 30.days.from_now
     })
 
@@ -20,5 +20,4 @@ class AwsPresignedPostsController < ApplicationController
       s3_uuid: uuid
     }
   end
-
 end

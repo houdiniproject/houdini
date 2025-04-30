@@ -1,14 +1,14 @@
 class AddSupportersFtsIndex < ActiveRecord::Migration
   disable_ddl_transaction!
   def up
-    execute(<<-'eosql'.strip)
+    execute(<<-EOSQL.strip)
       CREATE INDEX CONCURRENTLY supporters_fts_idx ON supporters USING gin(fts);
-    eosql
+    EOSQL
   end
 
   def down
-    execute(<<-'eosql'.strip)
+    execute(<<-EOSQL.strip)
       DROP INDEX IF EXISTS supporters_fts_idx;
-    eosql
+    EOSQL
   end
 end

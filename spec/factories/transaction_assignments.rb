@@ -9,11 +9,10 @@ FactoryBot.define do
 
   factory :transaction_assignment_base, class: "TransactionAssignment" do
     transient do
-      legacy_donation { nil}
+      legacy_donation { nil }
     end
     after(:build) do |instance, evaluator|
-      instance.assignable = build(:modern_donation_base, legacy_donation:evaluator.legacy_donation)
+      instance.assignable = build(:modern_donation_base, legacy_donation: evaluator.legacy_donation)
     end
   end
-
 end

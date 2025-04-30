@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'rails_helper'
+require "rails_helper"
 
 describe PeriodicReportAdapter::FailedRecurringDonationsReport do
   let(:nonprofit) { create(:nonprofit_base) }
@@ -7,18 +7,18 @@ describe PeriodicReportAdapter::FailedRecurringDonationsReport do
   let(:users_list) { User.where(user_id: user) }
   let(:options) do
     {
-      :nonprofit_id => nonprofit.id,
-      :period => :last_month,
-      :users => users_list
+      nonprofit_id: nonprofit.id,
+      period: :last_month,
+      users: users_list
     }
   end
 
   let(:params) do
     {
-      :failed => true,
-      :include_last_failed_charge => true,
-      :from_date => Time.new(2021, 9, 1),
-      :before_date => Time.new(2021, 10, 1)
+      failed: true,
+      include_last_failed_charge: true,
+      from_date: Time.new(2021, 9, 1),
+      before_date: Time.new(2021, 10, 1)
     }
   end
 
@@ -39,7 +39,7 @@ describe PeriodicReportAdapter::FailedRecurringDonationsReport do
       .and_return(export_recurring_donations)
   end
 
-  it 'calls ExportRecurringDonations::initiate_export with the correct arguments' do
+  it "calls ExportRecurringDonations::initiate_export with the correct arguments" do
     subject
     expect(ExportRecurringDonations)
       .to have_received(:initiate_export)

@@ -3,10 +3,9 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
-shared_examples 'trx assignable' do |prefix|
+shared_examples "trx assignable" do |prefix|
+  it_behaves_like "an houidable entity", prefix, :houid
 
-  it_behaves_like 'an houidable entity', prefix, :houid
-  
   it {
     is_expected.to have_one(:transaction_assignment)
   }
@@ -15,8 +14,7 @@ shared_examples 'trx assignable' do |prefix|
     is_expected.to(have_one(:trx)
       .class_name("Transaction")
       .through(:transaction_assignment)
-      .with_foreign_key('transaction_id')
-    )
+      .with_foreign_key("transaction_id"))
   }
 
   it {

@@ -3,10 +3,10 @@ module Nonprofits
   class TrackingsController < ApplicationController
     # POST /nonprofits/:nonprofit_id/tracking
     def create
-      render JsonResp.new(params){|data|
+      render JsonResp.new(params) { |data|
         requires(:donation_id).as_int
         optional(:utm_campaign, :utm_content, :utm_medium, :utm_source).as_string
-      }.when_valid{|data|
+      }.when_valid { |data|
         InsertTracking.create(params)
       }
     end

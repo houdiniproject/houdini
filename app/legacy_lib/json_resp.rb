@@ -9,7 +9,6 @@
 # * Respond with proper codes and error messages for everything
 
 class JsonResp
-
   attr_accessor :errors
 
   def initialize(params, &block)
@@ -17,7 +16,6 @@ class JsonResp
     validation = JsonResp::Validation.new(params)
     validation.instance_exec(params, &block)
     @errors = validation.errors
-    return self
   end
 
   def when_valid(&block)
@@ -29,24 +27,21 @@ class JsonResp
       puts e
       puts e.backtrace.first(10)
     end
-    return @response
+    @response
   end
-
 
   # Validation of a set of request parameters
   class Validation
-
     attr_accessor :errors, :params
 
     def initialize(params)
       @params = params
       @errors = []
-      return self
     end
 
     def requires(*keys)
-      @errors.concat keys.select{|k| @params[k].blank? }.map{|k| "#{k} required"}
-      return Param.new(keys, @errors, @params)
+      @errors.concat keys.select { |k| @params[k].blank? }.map { |k| "#{k} required" }
+      Param.new(keys, @errors, @params)
     end
 
     def requires_either(key1, key2)
@@ -54,16 +49,15 @@ class JsonResp
       if @params[key1].blank? && @params[key2].blank?
         @errors << error_message
       else
-        @errors.concat [key1, key2].select{|k| @params[k].blank? }.map{|k| "#{k} required"}
+        @errors.concat [key1, key2].select { |k| @params[k].blank? }.map { |k| "#{k} required" }
       end
-      return Param.new([key1, key2], @errors, @params)
+      Param.new([key1, key2], @errors, @params)
     end
 
     def optional(*keys)
-      keys_to_check = keys.select{|k| @params[k].present?}
-      return Param.new(keys_to_check, @errors, @params)
+      keys_to_check = keys.select { |k| @params[k].present? }
+      Param.new(keys_to_check, @errors, @params)
     end
-
   end
 
   class Param
@@ -74,67 +68,66 @@ class JsonResp
     attr_accessor :keys, :errors, :params
 
     def initialize(keys, errors, params)
-      @keys = keys.reject{|k| params[k].nil? }
+      @keys = keys.reject { |k| params[k].nil? }
       @errors = errors
       @params = params
     end
 
     def as_string
-      @errors.concat @keys.reject{|k| @params[k].is_a?(String)}.map{|k| "#{k} must be a string"}
-      return self
+      @errors.concat @keys.reject { |k| @params[k].is_a?(String) }.map { |k| "#{k} must be a string" }
+      self
     end
 
     def as_int
       @errors.concat @keys
-        .reject{|k| @params[k].is_a?(Integer) || @params[k].to_i.to_s == @params[k]}
-        .map{|k| "#{k} must be an integer"}
-      return self
+        .reject { |k| @params[k].is_a?(Integer) || @params[k].to_i.to_s == @params[k] }
+        .map { |k| "#{k} must be an integer" }
+      self
     end
 
     def with_format(regex)
-      @errors.concat @keys.reject{|k| @params[k] =~ regex}.map{|k| "#{k} must match: #{regex}"}
-      return self
+      @errors.concat @keys.reject { |k| @params[k] =~ regex }.map { |k| "#{k} must match: #{regex}" }
+      self
     end
 
     def one_of(*vals)
-      @errors.concat @keys.reject{|k| vals.include?(@params[k])}.map{|k| "#{k} must be one of: #{vals.join(", ")}"}
-      return self
+      @errors.concat @keys.reject { |k| vals.include?(@params[k]) }.map { |k| "#{k} must be one of: #{vals.join(", ")}" }
+      self
     end
 
     def nested(&block)
-      @errors.concat @keys.map{|k| Validation.new(@params[k]).instance_exec(@params, &block).errors}.flatten
-      return self
+      @errors.concat @keys.map { |k| Validation.new(@params[k]).instance_exec(@params, &block).errors }.flatten
+      self
     end
 
     def as_array
-      @errors.concat @keys.reject{|k| @params[k].is_a?(Array)}.map{|k| "#{k} must be an array"}
+      @errors.concat @keys.reject { |k| @params[k].is_a?(Array) }.map { |k| "#{k} must be an array" }
     end
 
     def array_of(&block)
-      @errors.concat @keys.reject{|k| @params[k].is_a?(Array)}.map{|k| "#{k} must be an array"}
-      @errors.concat @keys.map{|k| @params[k].map{|h| Validation.new(h).instance_exec(@params, &block).errors}}.flatten
-      return self
+      @errors.concat @keys.reject { |k| @params[k].is_a?(Array) }.map { |k| "#{k} must be an array" }
+      @errors.concat @keys.map { |k| @params[k].map { |h| Validation.new(h).instance_exec(@params, &block).errors } }.flatten
+      self
     end
 
     def as_date
-      with_format /\d\d\d\d-\d\d-\d\d/
-      @errors.concat @keys.map{|k| [k].concat @params[k].split('-').map(&:to_i)}
-        .reject{|key, year, month, day| year.present? && year > 1000 && year < 3000 && month.present? && month > 0 && month < 13 && day.present? && day > 0 && day < 32}
-        .map{|k, _,_,_| "#{k} must be a valid date"}
+      with_format(/\d\d\d\d-\d\d-\d\d/)
+      @errors.concat @keys.map { |k| [k].concat @params[k].split("-").map(&:to_i) }
+        .reject { |key, year, month, day| year.present? && year > 1000 && year < 3000 && month.present? && month > 0 && month < 13 && day.present? && day > 0 && day < 32 }
+        .map { |k, _, _, _| "#{k} must be a valid date" }
     end
 
     def min(n)
-      @errors.concat @keys.reject{|k| @params[k].to_i >= n}.map{|k| "#{k} must be at least #{n}"}
-      return self
+      @errors.concat @keys.reject { |k| @params[k].to_i >= n }.map { |k| "#{k} must be at least #{n}" }
+      self
     end
 
     def max(n)
-      @errors.concat @keys.reject{|k| @params[k].to_i <= n}.map{|k| "#{k} must be less than #{n + 1}"}
-      return self
+      @errors.concat @keys.reject { |k| @params[k].to_i <= n }.map { |k| "#{k} must be less than #{n + 1}" }
+      self
     end
 
     # TODO min_len, max_len, as_float, as_currency, as_time, as_datetime
     # TODO return err resp on unrecognized params
-
   end
 end

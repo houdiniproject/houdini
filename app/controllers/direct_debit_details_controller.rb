@@ -1,7 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class DirectDebitDetailsController < ApplicationController
-
-
   # POST /sepa
   # This endpoint is used for saving direct debit account details
   # when SEPA payment is selected in the donation widget. Actual charge is

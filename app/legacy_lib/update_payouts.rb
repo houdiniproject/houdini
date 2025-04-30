@@ -1,22 +1,21 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 module UpdatePayouts
-
   def self.reverse_with_stripe(payout_id, status, failure_message)
-    ParamValidation.new({payout_id:payout_id, status: status, failure_message: failure_message}, {
-        payout_id: {required: true, is_integer: true},
-        status: {included_in:['pending', 'paid', 'canceled', 'failed'], required: true},
-        failure_message: {not_blank: true, required: true}
+    ParamValidation.new({payout_id: payout_id, status: status, failure_message: failure_message}, {
+      payout_id: {required: true, is_integer: true},
+      status: {included_in: ["pending", "paid", "canceled", "failed"], required: true},
+      failure_message: {not_blank: true, required: true}
     })
-    payout = Payout.where('id = ?', payout_id).first
+    payout = Payout.where("id = ?", payout_id).first
     unless payout
       raise ParamValidation::ValidationError.new("No payout with id number: #{payout_id} ", [{key: :payout_id}])
     end
 
-    payment_ids = payout.payments.select('payments.id').map{|i| i.id}.to_a
+    payment_ids = payout.payments.select("payments.id").map { |i| i.id }.to_a
     if payment_ids.count < 1
       raise ArgumentError.new("No payments are available to reverse.")
     end
-    now = Time.current
+    Time.current
 
     Psql.transaction do
       # Retrieve all payments with available charges and undisbursed refunds
@@ -33,8 +32,7 @@ module UpdatePayouts
       payout.failure_message = failure_message
       payout.save!
 
-
-      #NonprofitMailer.delay.pending_payout_notification(payout['id'].to_i)
+      # NonprofitMailer.delay.pending_payout_notification(payout['id'].to_i)
       payout
     end
   end

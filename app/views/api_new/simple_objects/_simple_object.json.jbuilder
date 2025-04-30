@@ -5,7 +5,7 @@
 
 json.id object.houid
 
-json.object 'simple_object'
+json.object "simple_object"
 
 handle_expansion(:parent, object.parent, {json: json, as: :object, __expand: __expand})
 

@@ -4,7 +4,7 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 json.id transaction.houid
 
-json.object 'transaction'
+json.object "transaction"
 
 handle_expansion(:supporter, transaction.supporter, {json: json, __expand: __expand})
 
@@ -13,7 +13,7 @@ handle_expansion(:nonprofit, transaction.nonprofit, {json: json, __expand: __exp
 json.created transaction.created.to_i
 
 json.amount do
-	json.partial! '/api_new/common/amount', amount: transaction.amount_as_money
+  json.partial! "/api_new/common/amount", amount: transaction.amount_as_money
 end
 
 handle_expansion(:subtransaction, transaction.subtransaction, {json: json, __expand: __expand})
@@ -26,4 +26,4 @@ handle_array_expansion(:payments, transaction.payments.ordered, {json: json, __e
   expansion.handle_item_expansion
 end
 
-#json.url api_nonprofit_transaction_url(transaction.nonprofit, transaction)
+# json.url api_nonprofit_transaction_url(transaction.nonprofit, transaction)

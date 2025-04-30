@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class RecurringDonation < ApplicationRecord
-
   # The status is confusing here.
   # A recurring donation can be in one of four status'
   # * active
@@ -14,9 +13,7 @@ class RecurringDonation < ApplicationRecord
   # else if the end_date is set and in the past, "fulfilled"
   # else "active"
 
-
   # The query that displays in nonprofits/:id/recurring_donations is rds that are active OR failed
-
 
   define_model_callbacks :cancel
 
@@ -40,20 +37,20 @@ class RecurringDonation < ApplicationRecord
     :cancelled_at, # datetime of user/supporter who made the cancellation
     :donation_id, :donation,
     :nonprofit_id, :nonprofit,
-    :supporter_id, #used because things are messed up in the datamodel
+    :supporter_id, # used because things are messed up in the datamodel
     :anonymous
 
-  scope :active,   -> {where(active: true)}
-  scope :inactive, -> {where(active: [false,nil])}
-  scope :cancelled, -> {where(active: [false, nil])}
-  scope :monthly,  -> {where(time_unit: 'month', interval: 1)}
-  scope :annual,   -> {where(time_unit: 'year', interval: 1)}
-  scope :failed, -> {where('n_failures >= 3')}
-  scope :unfailed, -> {where('n_failures < 3')}
-  scope :fulfilled, -> {where('recurring_donations.end_date < ?', Time.current.to_date)}
-  scope :unfulfilled, -> {where('recurring_donations.end_date IS NULL OR recurring_donations.end_date IS >= ?', Time.current.to_date)}
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: [false, nil]) }
+  scope :cancelled, -> { where(active: [false, nil]) }
+  scope :monthly, -> { where(time_unit: "month", interval: 1) }
+  scope :annual, -> { where(time_unit: "year", interval: 1) }
+  scope :failed, -> { where("n_failures >= 3") }
+  scope :unfailed, -> { where("n_failures < 3") }
+  scope :fulfilled, -> { where("recurring_donations.end_date < ?", Time.current.to_date) }
+  scope :unfulfilled, -> { where("recurring_donations.end_date IS NULL OR recurring_donations.end_date IS >= ?", Time.current.to_date) }
 
-  scope :may_attempt_again, -> {where('recurring_donations.active AND (recurring_donations.end_date IS NULL OR recurring_donations.end_date > ?) AND recurring_donations.n_failures < 3', Time.current)}
+  scope :may_attempt_again, -> { where("recurring_donations.active AND (recurring_donations.end_date IS NULL OR recurring_donations.end_date > ?) AND recurring_donations.n_failures < 3", Time.current) }
 
   belongs_to :donation
   belongs_to :nonprofit
@@ -62,7 +59,7 @@ class RecurringDonation < ApplicationRecord
   has_one :supporter, through: :donation
   has_one :misc_recurring_donation_info
   has_one :recurring_donation_hold
-  has_many :activities, :as => :attachment
+  has_many :activities, as: :attachment
 
   validates :paydate, numericality: {less_than: 29}, allow_blank: true
   validates :donation_id, presence: true
@@ -73,22 +70,21 @@ class RecurringDonation < ApplicationRecord
   validates_associated :donation
 
   def most_recent_charge
-    if (self.charges)
-      return self.charges.sort_by { |c| c.created_at }.last()
+    if charges
+      charges.sort_by { |c| c.created_at }.last
     end
   end
 
   def most_recent_paid_charge
-    if (self.charges)
-      return self.charges.find_all {|c| c.paid?}.sort_by { |c| c.created_at }.last()
+    if charges
+      charges.find_all { |c| c.paid? }.sort_by { |c| c.created_at }.last
     end
   end
 
   def total_given
-    if (self.charges)
-      return self.charges.find_all(&:paid?).sum(&:amount)
+    if charges
+      charges.find_all(&:paid?).sum(&:amount)
     end
-
   end
 
   def failed?
@@ -101,31 +97,33 @@ class RecurringDonation < ApplicationRecord
 
   # will this recurring donation be attempted again the next time it should be run?
   def will_attempt_again?
-    !failed? && !cancelled? && (end_date.nil? || end_date > Time.current);
+    !failed? && !cancelled? && (end_date.nil? || end_date > Time.current)
   end
 
   def cancel!(email)
-    run_callbacks(:cancel) do
-      self.active = false
-      self.cancelled_by = email
-      self.cancelled_at = Time.current
-      save!
-    end unless cancelled?
+    unless cancelled?
+      run_callbacks(:cancel) do
+        self.active = false
+        self.cancelled_by = email
+        self.cancelled_at = Time.current
+        save!
+      end
+    end
   end
 
   # XXX let's make these monthly_totals a query
   # Or just push it into the front-end
   def self.monthly_total
-    self.all.map(&:monthly_total).sum
+    all.map(&:monthly_total).sum
   end
 
   def monthly_total
     multiple = {
-      'week' => 4,
-      'day' => 30,
-      'year' => 0.0833
-    }[self.interval] || 1
-    return self.donation.amount * multiple
+      "week" => 4,
+      "day" => 30,
+      "year" => 0.0833
+    }[interval] || 1
+    donation.amount * multiple
   end
 
   private

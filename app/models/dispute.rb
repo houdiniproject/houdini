@@ -1,6 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class Dispute < ApplicationRecord
-
   Reasons = [:unrecognized, :duplicate, :fraudulent, :subscription_canceled, :product_unacceptable, :product_not_received, :unrecognized, :credit_not_processed, :goods_services_returned_or_refused, :goods_services_cancelled, :incorrect_account_details, :insufficient_funds, :bank_cannot_process, :debit_not_authorized, :general]
 
   Statuses = [:needs_response, :under_review, :won, :lost]
@@ -11,7 +10,7 @@ class Dispute < ApplicationRecord
     :status,
     :reason,
     :started_at
-  
+
   attr_accessible \
     :withdrawal_transaction,
     :reinstatement_transaction
@@ -25,17 +24,16 @@ class Dispute < ApplicationRecord
   has_one :original_payment, through: :charge, source: :payment
 
   has_many :activities, as: :attachment do
-    def create(event_type, event_time, attributes=nil, options={}, &block)
-			attributes = proxy_association.owner.build_activity_attributes(event_type, event_time) .merge(attributes || {})
-			proxy_association.create(attributes, options, &block)
-		end
+    def create(event_type, event_time, attributes = nil, options = {}, &block)
+      attributes = proxy_association.owner.build_activity_attributes(event_type, event_time).merge(attributes || {})
+      proxy_association.create(attributes, options, &block)
+    end
 
-		def build(event_type, event_time, attributes=nil, options={}, &block)
-			attributes = proxy_association.owner.build_activity_attributes(event_type, event_time).merge(attributes || {})
-			proxy_association.build(attributes, options, &block)
-		end
+    def build(event_type, event_time, attributes = nil, options = {}, &block)
+      attributes = proxy_association.owner.build_activity_attributes(event_type, event_time).merge(attributes || {})
+      proxy_association.build(attributes, options, &block)
+    end
   end
-
 
   def withdrawal_transaction
     dispute_transactions&.first
@@ -50,30 +48,30 @@ class Dispute < ApplicationRecord
   end
 
   def build_activity_json(event_type)
-		dispute = self
-		original_payment = dispute.original_payment
-		case event_type
-    when 'DisputeCreated', 'DisputeUpdated', 'DisputeLost', 'DisputeWon'
-      return {
+    dispute = self
+    original_payment = dispute.original_payment
+    case event_type
+    when "DisputeCreated", "DisputeUpdated", "DisputeLost", "DisputeWon"
+      {
         gross_amount: dispute.gross_amount,
-				reason: dispute.reason,
-				status: dispute.status,
-				original_id: original_payment.id,
-				original_kind: original_payment.kind,
-				original_gross_amount: original_payment.gross_amount,
+        reason: dispute.reason,
+        status: dispute.status,
+        original_id: original_payment.id,
+        original_kind: original_payment.kind,
+        original_gross_amount: original_payment.gross_amount,
         original_date: original_payment.date,
         started_at: dispute.started_at
       }
     else
-      raise RuntimeError, "#{event_type} is not a valid Dispute event type"
-		end
-	end
+      raise "#{event_type} is not a valid Dispute event type"
+    end
+  end
 
   def build_activity_attributes(event_type, event_time)
     dispute = self
-		case event_type
-		when 'DisputeCreated', 'DisputeUpdated', 'DisputeLost', 'DisputeWon'
-      return {
+    case event_type
+    when "DisputeCreated", "DisputeUpdated", "DisputeLost", "DisputeWon"
+      {
         kind: event_type,
         date: event_time,
         nonprofit: dispute.nonprofit,
@@ -81,8 +79,7 @@ class Dispute < ApplicationRecord
         json_data: build_activity_json(event_type)
       }
     else
-      raise RuntimeError, "#{event_type} is not a valid Dispute event type"
-		end
-	end
+      raise "#{event_type} is not a valid Dispute event type"
+    end
+  end
 end
-

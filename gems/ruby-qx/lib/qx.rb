@@ -1,5 +1,5 @@
-require 'active_record'
-require 'colorize'
+require "active_record"
+require "colorize"
 
 class Qx
   ##
@@ -17,7 +17,6 @@ class Qx
   # Qx.new, only used internally
   def initialize(tree)
     @tree = tree
-    self
   end
 
   def self.transaction(&block)
@@ -27,27 +26,27 @@ class Qx
   end
 
   def self.parse_select(expr)
-    str = 'SELECT'
+    str = "SELECT"
     if expr[:DISTINCT_ON]
-      str += " DISTINCT ON (#{expr[:DISTINCT_ON].map(&:to_s).join(', ')})"
+      str += " DISTINCT ON (#{expr[:DISTINCT_ON].map(&:to_s).join(", ")})"
     elsif expr[:DISTINCT]
-      str += ' DISTINCT'
+      str += " DISTINCT"
     end
-    str += ' ' + expr[:SELECT].map { |expr| expr.is_a?(Qx) ? expr.parse : expr }.join(', ')
-    throw ArgumentError.new('FROM clause is missing for SELECT') unless expr[:FROM]
-    str += ' FROM ' + expr[:FROM]
+    str += " " + expr[:SELECT].map { |expr| expr.is_a?(Qx) ? expr.parse : expr }.join(", ")
+    throw ArgumentError.new("FROM clause is missing for SELECT") unless expr[:FROM]
+    str += " FROM " + expr[:FROM]
     str += expr[:JOIN].map { |from, cond| " JOIN #{from} ON #{cond}" }.join if expr[:JOIN]
     str += expr[:LEFT_JOIN].map { |from, cond| " LEFT JOIN #{from} ON #{cond}" }.join if expr[:LEFT_JOIN]
     str += expr[:LEFT_OUTER_JOIN].map { |from, cond| " LEFT OUTER JOIN #{from} ON #{cond}" }.join if expr[:LEFT_OUTER_JOIN]
-    str += expr[:JOIN_LATERAL].map {|i| " JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}"}.join if expr[:JOIN_LATERAL]
+    str += expr[:JOIN_LATERAL].map { |i| " JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}" }.join if expr[:JOIN_LATERAL]
 
-    str += expr[:LEFT_JOIN_LATERAL].map {|i| " LEFT JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}"}.join if expr[:LEFT_JOIN_LATERAL]
-    str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ') if expr[:WHERE]
-    str += ' GROUP BY ' + expr[:GROUP_BY].join(', ') if expr[:GROUP_BY]
-    str += ' HAVING ' + expr[:HAVING].map { |h| "(#{h})" }.join(' AND ') if expr[:HAVING]
-    str += ' ORDER BY ' + expr[:ORDER_BY].map { |col, order| col + (order ? ' ' + order : '') }.join(', ') if expr[:ORDER_BY]
-    str += ' LIMIT ' + expr[:LIMIT] if expr[:LIMIT]
-    str += ' OFFSET ' + expr[:OFFSET] if expr[:OFFSET]
+    str += expr[:LEFT_JOIN_LATERAL].map { |i| " LEFT JOIN LATERAL (#{i[:select_statement]}) #{i[:join_name]} ON #{i[:success_condition]}" }.join if expr[:LEFT_JOIN_LATERAL]
+    str += " WHERE " + expr[:WHERE].map { |w| "(#{w})" }.join(" AND ") if expr[:WHERE]
+    str += " GROUP BY " + expr[:GROUP_BY].join(", ") if expr[:GROUP_BY]
+    str += " HAVING " + expr[:HAVING].map { |h| "(#{h})" }.join(" AND ") if expr[:HAVING]
+    str += " ORDER BY " + expr[:ORDER_BY].map { |col, order| col + (order ? " " + order : "") }.join(", ") if expr[:ORDER_BY]
+    str += " LIMIT " + expr[:LIMIT] if expr[:LIMIT]
+    str += " OFFSET " + expr[:OFFSET] if expr[:OFFSET]
     str = "(#{str}) AS #{expr[:AS]}" if expr[:AS]
     str = "EXPLAIN #{str}" if expr[:EXPLAIN]
     str
@@ -57,9 +56,9 @@ class Qx
   # http://www.postgresql.org/docs/9.0/static/sql-commands.html
   def self.parse(expr)
     if expr.is_a?(String)
-      return expr # already parsed
+      expr # already parsed
     elsif expr.is_a?(Array)
-      return expr.join(',')
+      expr.join(",")
     else
       str = ""
       if expr[:WITHS].present?
@@ -70,45 +69,45 @@ class Qx
         str += " " # add a splitting space before the rest of the query
       end
       if expr[:INSERT_INTO]
-        str +=  "INSERT INTO #{expr[:INSERT_INTO]} (#{expr[:INSERT_COLUMNS].join(', ')})"
-        throw ArgumentError.new('VALUES (or SELECT) clause is missing for INSERT INTO') unless expr[:VALUES] || expr[:SELECT]
+        str += "INSERT INTO #{expr[:INSERT_INTO]} (#{expr[:INSERT_COLUMNS].join(", ")})"
+        throw ArgumentError.new("VALUES (or SELECT) clause is missing for INSERT INTO") unless expr[:VALUES] || expr[:SELECT]
         throw ArgumentError.new("For safety, you can't use SELECT without insert columns for an INSERT INTO") if !expr[:INSERT_COLUMNS] && expr[:SELECT]
-        if expr[:SELECT]
-          str += ' ' + parse_select(expr)
+        str += if expr[:SELECT]
+          " " + parse_select(expr)
         else
-          str += " VALUES #{expr[:VALUES].map { |vals| "(#{vals.join(', ')})" }.join(', ')}"
+          " VALUES #{expr[:VALUES].map { |vals| "(#{vals.join(", ")})" }.join(", ")}"
         end
         if expr[:ON_CONFLICT]
-          str += ' ON CONFLICT'
+          str += " ON CONFLICT"
 
           if expr[:CONFLICT_COLUMNS]
-            str += " (#{expr[:CONFLICT_COLUMNS].join(', ')})"
+            str += " (#{expr[:CONFLICT_COLUMNS].join(", ")})"
           elsif expr[:ON_CONSTRAINT]
             str += " ON CONSTRAINT #{expr[:ON_CONSTRAINT]}"
           end
-          str += ' DO NOTHING' if !expr[:CONFLICT_UPSERT]
+          str += " DO NOTHING" if !expr[:CONFLICT_UPSERT]
           if expr[:CONFLICT_UPSERT]
-            set_str = expr[:INSERT_COLUMNS].select{|i| i != 'created_at'}.map{|i| "#{i} = EXCLUDED.#{i}" }
-            str +=  " DO UPDATE SET #{set_str.join(', ')}"
+            set_str = expr[:INSERT_COLUMNS].select { |i| i != "created_at" }.map { |i| "#{i} = EXCLUDED.#{i}" }
+            str += " DO UPDATE SET #{set_str.join(", ")}"
           end
         end
-        str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
+        str += " RETURNING " + expr[:RETURNING].join(", ") if expr[:RETURNING]
       elsif expr[:SELECT]
         str += parse_select(expr)
       elsif expr[:DELETE_FROM]
-        str += 'DELETE FROM ' + expr[:DELETE_FROM]
-        throw ArgumentError.new('WHERE clause is missing for DELETE FROM') unless expr[:WHERE]
-        str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ')
-        str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
+        str += "DELETE FROM " + expr[:DELETE_FROM]
+        throw ArgumentError.new("WHERE clause is missing for DELETE FROM") unless expr[:WHERE]
+        str += " WHERE " + expr[:WHERE].map { |w| "(#{w})" }.join(" AND ")
+        str += " RETURNING " + expr[:RETURNING].join(", ") if expr[:RETURNING]
       elsif expr[:UPDATE]
-        str +=  'UPDATE ' + expr[:UPDATE]
-        throw ArgumentError.new('SET clause is missing for UPDATE') unless expr[:SET]
-        throw ArgumentError.new('WHERE clause is missing for UPDATE') unless expr[:WHERE]
-        str += ' SET ' + expr[:SET]
-        str += ' FROM ' + expr[:FROM] if expr[:FROM]
-        str += ' WHERE ' + expr[:WHERE].map { |w| "(#{w})" }.join(' AND ')
-        str += ' ' + expr[:ON_CONFLICT] if expr[:ON_CONFLICT]
-        str += ' RETURNING ' + expr[:RETURNING].join(', ') if expr[:RETURNING]
+        str += "UPDATE " + expr[:UPDATE]
+        throw ArgumentError.new("SET clause is missing for UPDATE") unless expr[:SET]
+        throw ArgumentError.new("WHERE clause is missing for UPDATE") unless expr[:WHERE]
+        str += " SET " + expr[:SET]
+        str += " FROM " + expr[:FROM] if expr[:FROM]
+        str += " WHERE " + expr[:WHERE].map { |w| "(#{w})" }.join(" AND ")
+        str += " " + expr[:ON_CONFLICT] if expr[:ON_CONFLICT]
+        str += " RETURNING " + expr[:RETURNING].join(", ") if expr[:RETURNING]
       end
       str
     end
@@ -121,10 +120,10 @@ class Qx
 
   # Qx.select("id").from("supporters").execute
   def execute(options = {})
-    expr = Qx.parse(@tree).to_s.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+    expr = Qx.parse(@tree).to_s.encode("UTF-8", "binary", invalid: :replace, undef: :replace, replace: "")
     Qx.execute_raw(expr, options)
   end
-  alias ex execute
+  alias_method :ex, :execute
 
   # Can pass in an expression string or another Qx object
   # Qx.execute("SELECT id FROM table_name", {format: 'csv'})
@@ -145,7 +144,7 @@ class Qx
     end
     result = ActiveRecord::Base.connection.execute(expr)
     result.map_types!(@@type_map) if @@type_map
-    if options[:format] == 'csv'
+    if options[:format] == "csv"
       data = result.map(&:values)
       data.unshift((result.first || {}).keys)
     else
@@ -157,7 +156,7 @@ class Qx
   end
 
   def self.execute_file(path, data = {}, options = {})
-    Qx.execute_raw(Qx.interpolate_expr(File.open(path, 'r').read, data), options)
+    Qx.execute_raw(Qx.interpolate_expr(File.read(path), data), options)
   end
 
   # helpers for JSON conversion
@@ -255,7 +254,6 @@ class Qx
   end
 
   def order_by(*cols)
-    orders = /(asc)|(desc)( nulls (first)|(last))?/i
     # Sanitize out invalid order keywords
     @tree[:ORDER_BY] = cols.map { |col, order| [col.to_s, order.to_s.downcase.strip.match(order.to_s.downcase) ? order.to_s.upcase : nil] }
     self
@@ -320,16 +318,13 @@ class Qx
     self
   end
 
-  def join_lateral(join_name, select_statement, success_condition=true)
-    
+  def join_lateral(join_name, select_statement, success_condition = true)
     @tree[:JOIN_LATERAL] ||= []
     @tree[:JOIN_LATERAL].concat([{join_name: join_name, select_statement: select_statement, success_condition: success_condition}])
     self
   end
 
-
-  def left_join_lateral(join_name, select_statement, success_condition=true)
-    
+  def left_join_lateral(join_name, select_statement, success_condition = true)
     @tree[:LEFT_JOIN_LATERAL] ||= []
     @tree[:LEFT_JOIN_LATERAL].concat([{join_name: join_name, select_statement: select_statement, success_condition: success_condition}])
     self
@@ -378,7 +373,7 @@ class Qx
     end
     self
   end
-  alias timestamps ts
+  alias_method :timestamps, :ts
 
   def returning(*cols)
     @tree[:RETURNING] = cols.map { |c| Qx.quote_ident(c) }
@@ -388,13 +383,13 @@ class Qx
   # Vals can be a raw SQL string or a hash of data
   def set(vals)
     if vals.is_a? Hash
-      vals = vals.map { |key, val| "#{Qx.quote_ident(key)} = #{Qx.quote(val)}" }.join(', ')
+      vals = vals.map { |key, val| "#{Qx.quote_ident(key)} = #{Qx.quote(val)}" }.join(", ")
     end
     @tree[:SET] = vals.to_s
     self
   end
 
-  def on_conflict()
+  def on_conflict
     @tree[:ON_CONFLICT] = true
     self
   end
@@ -409,7 +404,7 @@ class Qx
     self
   end
 
-  def upsert(on_index, columns=nil)
+  def upsert(on_index, columns = nil)
     @tree[:CONFLICT_UPSERT] = {index: on_index, cols: columns}
     self
   end
@@ -419,9 +414,13 @@ class Qx
     self
   end
 
-  def with(name, expr, materialized:nil)
-    materialized_text = !materialized.nil? ? (materialized ? "MATERIALIZED" : "NOT MATERIALIZED") : ""
-  
+  def with(name, expr, materialized: nil)
+    if !materialized.nil?
+      materialized ? "MATERIALIZED" : "NOT MATERIALIZED"
+    else
+      ""
+    end
+
     raise "expr is not a Qx, that's not safe!" unless expr.is_a? Qx
     @tree[:WITHS] ||= []
     @tree[:WITHS].push({name: name, expr: expr, materialized: materialized})
@@ -429,18 +428,16 @@ class Qx
     self
   end
 
-
   # -- Helpers!
 
   def self.fetch(table_name, data, options = {})
-    expr = Qx.select('*').from(table_name)
-    if data.is_a?(Hash)
-      expr = data.reduce(expr) { |acc, pair| acc.and_where("#{pair.first} IN ($vals)", vals: Array(pair.last)) }
+    expr = Qx.select("*").from(table_name)
+    expr = if data.is_a?(Hash)
+      data.reduce(expr) { |acc, pair| acc.and_where("#{pair.first} IN ($vals)", vals: Array(pair.last)) }
     else
-      expr = expr.where('id IN ($ids)', ids: Array(data))
+      expr.where("id IN ($ids)", ids: Array(data))
     end
-    result = expr.execute(options)
-    result
+    expr.execute(options)
   end
 
   # Given a Qx expression, add a LIMIT and OFFSET for pagination
@@ -453,11 +450,10 @@ class Qx
     str = parse
     # Colorize some tokens
     # TODO indent by paren levels
-    str = str
-          .gsub(/(FROM|WHERE|VALUES|SET|SELECT|UPDATE|INSERT INTO|DELETE FROM)/) { Regexp.last_match(1).to_s.blue.bold }
-          .gsub(/(\(|\))/) { Regexp.last_match(1).to_s.cyan }
-          .gsub('$Q$', "'")
     str
+      .gsub(/(FROM|WHERE|VALUES|SET|SELECT|UPDATE|INSERT INTO|DELETE FROM)/) { Regexp.last_match(1).to_s.blue.bold }
+      .gsub(/(\(|\))/) { Regexp.last_match(1).to_s.cyan }
+      .gsub("$Q$", "'")
   end
 
   # -- utils
@@ -467,9 +463,9 @@ class Qx
   # Safely interpolate some data into a SQL expression
   def self.interpolate_expr(expr, data = {})
     expr.to_s.gsub(/\$\w+/) do |match|
-      val = data[match.gsub(/[ \$]*/, '').to_sym]
+      val = data[match.gsub(/[ \$]*/, "").to_sym]
       vals = val.is_a?(Array) ? val : [val]
-      vals.map { |x| Qx.quote(x) }.join(', ')
+      vals.map { |x| Qx.quote(x) }.join(", ")
     end
   end
 
@@ -485,11 +481,11 @@ class Qx
     elsif val.is_a?(Time)
       "'" + val.to_s + "'" # single-quoted times for a little better readability
     elsif val.nil?
-      'NULL'
+      "NULL"
     elsif !!val == val # is a boolean
       val ? "'t'" : "'f'"
     else
-      '$Q$' + val.to_s + '$Q$'
+      "$Q$" + val.to_s + "$Q$"
     end
   end
 
@@ -498,13 +494,13 @@ class Qx
     if expr.is_a?(Qx)
       Qx.parse(expr.tree)
     else
-      expr.to_s.split('.').map { |s| s == '*' ? s : "\"#{s}\"" }.join('.')
+      expr.to_s.split(".").map { |s| (s == "*") ? s : "\"#{s}\"" }.join(".")
     end
   end
 
   # Remove a clause from the sql tree
   def remove_clause(name)
-    name = name.to_s.upcase.tr(' ', '_').to_sym
+    name = name.to_s.upcase.tr(" ", "_").to_sym
     @tree.delete(name)
     self
   end
@@ -533,7 +529,7 @@ class Qx
   def self.parse_wheres(clauses)
     clauses.map do |expr, data|
       if expr.is_a?(Hash)
-        expr.map { |key, val| "#{Qx.quote_ident(key)} IN (#{Qx.quote(val)})" }.join(' AND ')
+        expr.map { |key, val| "#{Qx.quote_ident(key)} IN (#{Qx.quote(val)})" }.join(" AND ")
       else
         Qx.interpolate_expr(expr, data)
       end

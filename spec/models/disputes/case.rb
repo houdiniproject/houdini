@@ -20,10 +20,9 @@ class DisputeCase
     @supporter ||= create(:supporter_base)
   end
 
-
   def stripe_dispute
     event_json = dispute_on_stripe
-    @stripe_dispute ||= StripeDispute.create(object: event_json['data']['object'])
+    @stripe_dispute ||= StripeDispute.create(object: event_json["data"]["object"])
   end
 
   def legacy_dispute
@@ -62,8 +61,6 @@ class DisputeCase
       transaction_to_be_disputed.ordered_payments.first
     when 3
       transaction_to_be_disputed.ordered_payments.second
-    else
-      nil
     end
   end
 
@@ -71,13 +68,11 @@ class DisputeCase
     transaction_to_be_disputed.reload
     case transaction_to_be_disputed.ordered_payments.count
     when 3
-       transaction_to_be_disputed.ordered_payments.first
-    else
-      nil
+      transaction_to_be_disputed.ordered_payments.first
     end
   end
 
-  def events(types:[])
+  def events(types: [])
     nonprofit.associated_object_events.event_types(types).page
   end
 

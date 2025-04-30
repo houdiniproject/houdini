@@ -4,16 +4,16 @@
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 # rubocop:disable Metrics/BlockLength, Metrics/AbcSize, Metrics/MethodLength
 class OfflineTransaction < ApplicationRecord
-	include Model::Subtransactable
-	delegate :created, to: :subtransaction
+  include Model::Subtransactable
+  delegate :created, to: :subtransaction
 
-	delegate :net_amount, to: :subtransaction_payments
-	as_money :amount, :net_amount
+  delegate :net_amount, to: :subtransaction_payments
+  as_money :amount, :net_amount
 
-	concerning :JBuilder do
-		included do
-			setup_houid :offlinetrx, :houid
-		end
-	end
+  concerning :JBuilder do
+    included do
+      setup_houid :offlinetrx, :houid
+    end
+  end
 end
 # rubocop:enable all

@@ -1,3 +1,3 @@
 class PaymentDupeStatus < ApplicationRecord
-    belongs_to :payment
+  belongs_to :payment
 end

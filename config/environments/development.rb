@@ -12,8 +12,8 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-	# Log error messages when you accidentally call methods on nil.
-	config.whiny_nils = true
+  # Log error messages when you accidentally call methods on nil.
+  config.whiny_nils = true
 
   # Show full error reports.
   config.consider_all_requests_local = true
@@ -40,22 +40,22 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-	config.action_mailer.delivery_method = :letter_opener
-	config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
 
-	config.action_mailer.default_url_options = { host: 'localhost', port: 5000}
-	config.action_mailer.smtp_settings = { address: Settings.mailer.address, port: Settings.mailer.port }
-        config.action_mailer.smtp_settings['user_name']= Settings.mailer.username if Settings.mailer.username
-        config.action_mailer.smtp_settings['password']= Settings.mailer.password if Settings.mailer.password
+  config.action_mailer.default_url_options = {host: "localhost", port: 5000}
+  config.action_mailer.smtp_settings = {address: Settings.mailer.address, port: Settings.mailer.port}
+  config.action_mailer.smtp_settings["user_name"] = Settings.mailer.username if Settings.mailer.username
+  config.action_mailer.smtp_settings["password"] = Settings.mailer.password if Settings.mailer.password
 
-	# creds = Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'])
+  # creds = Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'])
 
-	# Aws::Rails.add_action_mailer_delivery_method(
-	# 	:ses,
-	# 	credentials: creds,
-	# 	region: 'us-east-1'
-	# )
-	# config.action_mailer.delivery_method = :ses
+  # Aws::Rails.add_action_mailer_delivery_method(
+  # 	:ses,
+  # 	credentials: creds,
+  # 	region: 'us-east-1'
+  # )
+  # config.action_mailer.delivery_method = :ses
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -76,18 +76,17 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
- 
-  # Raise exception on mass assignment protection for Active Record models
-	config.active_record.mass_assignment_sanitizer = :strict
 
-	# Do not compress assets
-	config.assets.compress = false
+  # Raise exception on mass assignment protection for Active Record models
+  config.active_record.mass_assignment_sanitizer = :strict
+
+  # Do not compress assets
+  config.assets.compress = false
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
-
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
@@ -104,7 +103,6 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
@@ -113,17 +111,16 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.dependency_loading = true if $rails_rake_task
-	# Turn this on if you want to mess with code inside /node_modules
-	# config.browserify_rails.evaluate_node_modules = true
+  # Turn this on if you want to mess with code inside /node_modules
+  # config.browserify_rails.evaluate_node_modules = true
 
-	config.middleware.use I18n::JS::Middleware
+  config.middleware.use I18n::JS::Middleware
 
   config.middleware.use Rack::Attack
 
   NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 5.minutes
 
-	ActiveSupport::Notifications.subscribe("factory_bot.run_factory") do |name, start, finish, id, payload|
-		Rails.logger.debug(payload)
-
-	end
+  ActiveSupport::Notifications.subscribe("factory_bot.run_factory") do |name, start, finish, id, payload|
+    Rails.logger.debug(payload)
+  end
 end

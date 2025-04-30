@@ -17,6 +17,6 @@ module InsertDirectDebitDetail
       return {json: {error: "Oops! There was an error saving your direct debit details, and it did not complete. Please try again in a moment. Error: #{e}"}, status: :unprocessable_entity}
     end
 
-    return { status: :ok, json: direct_debit_detail }
+    {status: :ok, json: direct_debit_detail}
   end
 end

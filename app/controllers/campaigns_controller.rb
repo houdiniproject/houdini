@@ -10,12 +10,12 @@ class CampaignsController < ApplicationController
 
   def index
     @nonprofit = current_nonprofit
-    if (current_nonprofit_user?)
-      @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.order('created_at desc')
-      @deleted_campaigns = @nonprofit.campaigns.includes(:nonprofit).deleted.order('created_at desc')
+    if current_nonprofit_user?
+      @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.order("created_at desc")
+      @deleted_campaigns = @nonprofit.campaigns.includes(:nonprofit).deleted.order("created_at desc")
     else
-      @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.not_a_child.order('created_at desc')
-      @deleted_campaigns = @nonprofit.campaigns.includes(:nonprofit).deleted.not_a_child.order('created_at desc')
+      @campaigns = @nonprofit.campaigns.includes(:nonprofit).not_deleted.not_a_child.order("created_at desc")
+      @deleted_campaigns = @nonprofit.campaigns.includes(:nonprofit).deleted.not_a_child.order("created_at desc")
     end
 
     respond_to do |format|
@@ -58,13 +58,13 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    Time.use_zone(current_nonprofit.timezone || 'UTC') do
+    Time.use_zone(current_nonprofit.timezone || "UTC") do
       params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
     end
 
     if !params[:campaign][:parent_campaign_id]
       campaign = current_nonprofit.campaigns.create params[:campaign]
-      json_saved campaign, 'Campaign created! Well done.'
+      json_saved campaign, "Campaign created! Well done."
     else
       profile_id = params[:campaign][:profile_id]
       Profile.find(profile_id).update_attributes params[:profile]
@@ -73,23 +73,20 @@ class CampaignsController < ApplicationController
   end
 
   def update
-    Time.use_zone(current_nonprofit.timezone || 'UTC') do
+    Time.use_zone(current_nonprofit.timezone || "UTC") do
       params[:campaign][:end_datetime] = Chronic.parse(params[:campaign][:end_datetime]) if params[:campaign][:end_datetime].present?
     end
     current_campaign.update_attributes params[:campaign]
 
-    json_saved current_campaign, 'Successfully updated!'
+    json_saved current_campaign, "Successfully updated!"
   end
 
   # post 'nonprofits/:np_id/campaigns/:campaign_id/duplicate'
   def duplicate
-
     render_json {
       InsertDuplicate.campaign(current_campaign.id, current_user.profile.id)
     }
-
   end
-
 
   def soft_delete
     current_campaign.update_attribute(:deleted, params[:delete])
@@ -119,12 +116,12 @@ class CampaignsController < ApplicationController
     @parent_campaign = Campaign.find_by_id(params[:campaign_id])
 
     if params[:campaign_id].present? && !@parent_campaign
-      raise ActionController::RoutingError.new('Not Found')
+      raise ActionController::RoutingError.new("Not Found")
     end
 
     if current_user
       @profile = current_user.profile
-      if (@parent_campaign)
+      if @parent_campaign
         @child_campaign = Campaign.where(
           profile_id: @profile.id,
           parent_campaign_id: @parent_campaign.id
@@ -137,12 +134,12 @@ class CampaignsController < ApplicationController
 
   def check_nonprofit_status
     if !current_role?(:super_admin) && !current_nonprofit.published
-      raise ActionController::RoutingError.new('Not Found')
+      raise ActionController::RoutingError.new("Not Found")
     end
   end
 
   def set_access_control_headers
-    headers['Access-Control-Allow-Origin'] = "*"
-    headers['Access-Control-Request-Method'] = %w{GET}.join(",")
+    headers["Access-Control-Allow-Origin"] = "*"
+    headers["Access-Control-Request-Method"] = %w[GET].join(",")
   end
 end

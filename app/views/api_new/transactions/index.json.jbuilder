@@ -3,7 +3,7 @@
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
 
-json.data @transactions, partial: '/api_new/transactions/transaction', as: 'transaction', __expand: @__expand
+json.data @transactions, partial: "/api_new/transactions/transaction", as: "transaction", __expand: @__expand
 
 json.current_page @transactions.current_page
 json.first_page @transactions.first_page?

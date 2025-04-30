@@ -1,9 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'qx'
-require 'enumerator'
+require "qx"
 
 module ScheduledJobs
-
   # Each of these functions should return an Enumerator
   # Each value in the enumerator should be a lambda
   # That way the heroku_scheduled_job task can iterate over each lambda
@@ -25,13 +23,13 @@ module ScheduledJobs
     })
     # Delete orphaned tag joins
     del_tags_orphaned = Qx.delete_from(:tag_joins).where("id IN ($ids)", {
-     ids: Qx.select("tag_joins.id")
-        .from(:tag_joins)
-        .left_join(:supporters, "tag_joins.supporter_id=supporters.id")
-        .where("supporters.id IS NULL")
+      ids: Qx.select("tag_joins.id")
+         .from(:tag_joins)
+         .left_join(:supporters, "tag_joins.supporter_id=supporters.id")
+         .where("supporters.id IS NULL")
     })
 
-    return Enumerator.new do |yielder|
+    Enumerator.new do |yielder|
       yielder << lambda do
         del_cfjs_noval.execute
         "Successfully cleaned up custom field joins with no values"
@@ -47,9 +45,8 @@ module ScheduledJobs
     end
   end
 
-
   def self.pay_recurring_donations
-    return Enumerator.new do |yielder|
+    Enumerator.new do |yielder|
       yielder << lambda do
         ids = PayRecurringDonation.pay_all_due_with_stripe
         "Queued jobs to pay #{ids.count} total recurring donations\n Recurring Donation Ids to run are: \n#{ids.join('\n')}"
@@ -74,7 +71,7 @@ module ScheduledJobs
   end
 
   def self.update_np_balances
-    return Enumerator.new do |yielder|
+    Enumerator.new do |yielder|
       nps = Nonprofit.where("id IN (?)", Charge.pending.uniq.pluck(:nonprofit_id))
       nps.each do |np|
         yielder << lambda do
@@ -86,10 +83,9 @@ module ScheduledJobs
   end
 
   def self.update_pending_payouts
-    return Enumerator.new do |yielder|
+    Enumerator.new do |yielder|
       Payout.pending.includes(:nonprofit).each do |p|
         yielder << lambda do
-          err = false
           if p.transfer_type == :transfer
             p.status = Stripe::Transfer.retrieve(p.stripe_transfer_id, {
               stripe_account: p.nonprofit.stripe_account_id
@@ -99,7 +95,7 @@ module ScheduledJobs
               stripe_account: p.nonprofit.stripe_account_id
             }).status
           end
-          
+
           p.save
           "Updated status for NP #{p.nonprofit.id}, payout # #{p.id}"
         end
@@ -108,7 +104,7 @@ module ScheduledJobs
   end
 
   def self.delete_expired_source_tokens
-    return Enumerator.new do |yielder|
+    Enumerator.new do |yielder|
       yielder << lambda do
         tokens_deleted = SourceToken.where("expiration > ?", DateTime.now - 1.day).delete_all
         "Deleted #{tokens_deleted} source tokens"
@@ -117,7 +113,7 @@ module ScheduledJobs
   end
 
   def self.send_monthly_reports
-    return Enumerator.new do |yielder|
+    Enumerator.new do |yielder|
       yielder << lambda do
         if Time.current.day == 1
           active_periodic_reports = PeriodicReport.active

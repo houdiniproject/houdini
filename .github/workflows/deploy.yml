@@ -41,12 +41,12 @@ jobs:
             token: ${{ secrets.PAT_TO_RUN_AS_ERIC }}
               
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
-          uses: Daniel-Marynicz/postgresql-action@1.0.0
+          uses: ikalnytskyi/action-setup-postgres@v7
           with:
-            postgres_db: commitchange_development_legacy
-            postgres_image_tag: ${{ matrix.postgres }}-alpine
-            postgres_user: admin
-            postgres_password: password
+            postgres-version: ${{ matrix.postgres }}
+            username: admin
+            password: password
+            database: commitchange_test
         - uses: actions/setup-node@v4
           with:
             node-version: ${{ matrix.node }}
@@ -57,7 +57,8 @@ jobs:
             bundler-cache: true
 
         - run: bin/setup
-        - env:
+        - name: Run yarn build-all-${{ github.event.inputs.mode }}
+          env:
             mode: ${{ github.event.inputs.mode }}
             ORG_NAME: commitchange
           run: yarn build-all-${mode}

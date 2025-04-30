@@ -6,7 +6,7 @@ module Nonprofits
     before_action :authenticate_nonprofit_user!
     # post /nonprofits/:nonprofit_id/imports
     def create
-      render_json{
+      render_json {
         InsertImport.delay.from_csv_safe({
           nonprofit_id: params[:nonprofit_id],
           user_id: current_user.id,

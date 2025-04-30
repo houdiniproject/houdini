@@ -12,7 +12,7 @@
 
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'UUID'
-  inflect.acronym 'HTML'
-  inflect.acronym 'HTTParty'
+  inflect.acronym "UUID"
+  inflect.acronym "HTML"
+  inflect.acronym "HTTParty"
 end

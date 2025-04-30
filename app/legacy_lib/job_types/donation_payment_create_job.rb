@@ -3,7 +3,7 @@ module JobTypes
   class DonationPaymentCreateJob < GenericJob
     attr_reader :donation_id, :locale, :payment_id
 
-    def initialize(donation_id, payment_id, locale=I18n.locale)
+    def initialize(donation_id, payment_id, locale = I18n.locale)
       @donation_id = donation_id
       @payment_id = payment_id
       @locale = locale

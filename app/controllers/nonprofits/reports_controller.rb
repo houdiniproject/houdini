@@ -8,7 +8,7 @@ module Nonprofits
       respond_to do |format|
         format.csv do
           filename = "end-of-year-report-#{params[:year]}.csv"
-          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {:year => params[:year]})
+          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {year: params[:year]})
           send_data(Format::Csv.from_array(data), filename: filename)
         end
       end
@@ -18,17 +18,17 @@ module Nonprofits
       respond_to do |format|
         format.csv do
           name_description = nil
-          if (params[:year])
+          if params[:year]
             name_description = params[:year]
-          elsif (params[:start])
+          elsif params[:start]
             name_description = "from-#{params[:start]}"
-            if (params[:end])
+            if params[:end]
               name_description += "-to-#{params[:end]}"
             end
           end
 
           filename = "aggregate-report-#{name_description}.csv"
-          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {:year => params[:year], :start => params[:start], :end => params[:end]})
+          data = QuerySupporters.year_aggregate_report(params[:nonprofit_id], {year: params[:year], start: params[:start], end: params[:end]})
           send_data(Format::Csv.from_array(data), filename: filename)
         end
       end

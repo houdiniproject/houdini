@@ -26,7 +26,7 @@ module HTTParty
   module Logger
     class FullContactLogger < CommitchangeLogger
       def initialize(logger, level)
-        super(logger, level, 'full_contact')
+        super(logger, level, "full_contact")
       end
     end
   end

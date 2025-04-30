@@ -15,6 +15,4 @@ class EmailSettingsController < ApplicationController
     user = current_role?(:super_admin) ? User.find(params[:user_id]) : current_user
     render json: UpdateEmailSettings.save(params[:nonprofit_id], user.id, params[:email_settings])
   end
-
 end
-

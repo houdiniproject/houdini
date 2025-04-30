@@ -13,16 +13,15 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
 
-  config.cache_store = :mem_cache_store, 
-											(ENV["MEMCACHIER_SERVERS"] || "").split(","),
-												{:username => ENV["MEMCACHIER_USERNAME"],
-												:password => ENV["MEMCACHIER_PASSWORD"],
-												:failover => true,
-												:socket_timeout => 1.5,
-												:socket_failure_delay => 0.2,
-												:down_retry_delay => 60,
-												:expires_in => 5.hours, :compress => true, pool_size: 10 
-											}
+  config.cache_store = :mem_cache_store,
+    (ENV["MEMCACHIER_SERVERS"] || "").split(","),
+    {username: ENV["MEMCACHIER_USERNAME"],
+     password: ENV["MEMCACHIER_PASSWORD"],
+     failover: true,
+     socket_timeout: 1.5,
+     socket_failure_delay: 0.2,
+     down_retry_delay: 60,
+     expires_in: 5.hours, compress: true, pool_size: 10}
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local = false
@@ -68,7 +67,7 @@ Rails.application.configure do
   config.force_ssl = true
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # "info" includes generic and useful information about system operation, but avoids logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII). If you
@@ -82,37 +81,36 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "commitchange_production"
 
-  	# Enable serving of images, stylesheets, and JavaScripts from an asset server
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server
 
-    cdn_url= URI(Settings.cdn.url)
-    cdn_url = cdn_url.to_s
-    config.action_controller.asset_host = cdn_url
-    config.action_mailer.asset_host = cdn_url
-  
-    # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-    creds = Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'])
-  
-    Aws::Rails.add_action_mailer_delivery_method(
-      :ses,
-      credentials: creds,
-      region: 'us-east-1'
-    )
+  cdn_url = URI(Settings.cdn.url)
+  cdn_url = cdn_url.to_s
+  config.action_controller.asset_host = cdn_url
+  config.action_mailer.asset_host = cdn_url
 
   config.action_mailer.perform_caching = false
 
-    # Disable delivery errors, bad email addresses will be ignored
-    # config.action_mailer.raise_delivery_errors = false
-    config.action_mailer.delivery_method = :ses
-    config.action_mailer.default_url_options = { host: Settings.mailer.host }
-          # Precompile all "page" files, it needs to be set here so the proper env is setup
-          config.assets.precompile << Proc.new do |path|
-      if path =~ /.*page\.(css|js)/
-        puts "Compiling asset: " + path
-              true
-            else
-              false
-            end
-          end
+  Aws::Rails.add_action_mailer_delivery_method(
+    :ses,
+    credentials: creds,
+    region: "us-east-1"
+  )
+
+  config.action_mailer.perform_caching = false
+
+  # Disable delivery errors, bad email addresses will be ignored
+  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :ses
+  config.action_mailer.default_url_options = {host: Settings.mailer.host}
+  # Precompile all "page" files, it needs to be set here so the proper env is setup
+  config.assets.precompile << proc do |path|
+    if /.*page\.(css|js)/.match?(path)
+      puts "Compiling asset: " + path
+      true
+    else
+      false
+    end
+  end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -138,9 +136,9 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
@@ -156,5 +154,5 @@ Rails.application.configure do
 
   config.dependency_loading = true if $rails_rake_task
 
-	NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours
+  NONPROFIT_VERIFICATION_SEND_EMAIL_DELAY = 2.hours
 end

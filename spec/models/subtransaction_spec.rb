@@ -2,18 +2,16 @@
 
 # License: AGPL-3.0-or-later WITH WTO-AP-3.0-or-later
 # Full license explanation at https://github.com/houdiniproject/houdini/blob/main/LICENSE
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Subtransaction, type: :model do
-
-  it_behaves_like 'a class with payments extension', :subtransaction_payments, :subtransaction_for_testing_payment_extensions
+  it_behaves_like "a class with payments extension", :subtransaction_payments, :subtransaction_for_testing_payment_extensions
 
   it {
     is_expected.to(belong_to(:trx)
-      .class_name('Transaction')
-      .with_foreign_key('transaction_id')
-      .inverse_of(:subtransaction)
-    )
+      .class_name("Transaction")
+      .with_foreign_key("transaction_id")
+      .inverse_of(:subtransaction))
   }
 
   it {
@@ -39,5 +37,4 @@ RSpec.describe Subtransaction, type: :model do
   it {
     is_expected.to validate_presence_of :subtransactable
   }
-  
 end

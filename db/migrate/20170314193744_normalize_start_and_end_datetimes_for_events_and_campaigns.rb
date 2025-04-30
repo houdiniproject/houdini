@@ -5,7 +5,7 @@ class NormalizeStartAndEndDatetimesForEventsAndCampaigns < ActiveRecord::Migrati
     add_column :events, :end_datetime, :datetime
     add_column :campaigns, :end_datetime, :datetime
     Qx.update(:events)
-      .set(%Q(start_datetime = ("date" + start_time), end_datetime = ("date" + end_time)))
+      .set(%(start_datetime = ("date" + start_time), end_datetime = ("date" + end_time)))
       .where("created_at > '2012-01-01'")
       .execute
     Qx.update(:campaigns)
@@ -18,6 +18,7 @@ class NormalizeStartAndEndDatetimesForEventsAndCampaigns < ActiveRecord::Migrati
     remove_column :campaigns, :expiration
     remove_column :campaigns, :end_time
   end
+
   def down
     add_column :events, :end_time, :time
     add_column :events, :start_time, :time
@@ -25,7 +26,7 @@ class NormalizeStartAndEndDatetimesForEventsAndCampaigns < ActiveRecord::Migrati
     add_column :campaigns, :expiration, :date
     add_column :campaigns, :end_time, :time
     Qx.update(:events)
-      .set(%Q(end_time = end_datetime::time, start_time = start_datetime::time, "date" = start_datetime::date))
+      .set(%(end_time = end_datetime::time, start_time = start_datetime::time, "date" = start_datetime::date))
       .where("created_at > '2012-01-01'")
       .execute
     Qx.update(:campaigns)

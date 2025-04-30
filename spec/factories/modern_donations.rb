@@ -6,11 +6,10 @@ FactoryBot.define do
   factory :modern_donation do
     amount { 4000 }
   end
- 
+
   factory :modern_donation_base, class: "ModernDonation" do
     amount {
       legacy_donation.payments.first.gross_amount
     }
   end
-
 end

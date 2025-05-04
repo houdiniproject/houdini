@@ -52,6 +52,12 @@ describe EmailSettingsController, type: :controller do
 
     let(:email_setting_for_nonprofit_admin) { create(:email_setting, nonprofit: nonprofit, user: nonprofit_admin) }
 
+    it do
+      sign_in nonprofit_admin
+      is_expected.to permit(:notify_campaigns, :notify_events, :notify_payments, :notify_payouts, :notify_recurring_donations)
+        .for(:create, params: params_with_user).on(:email_setting)
+    end
+
     describe "when no email setting exists" do
       describe "for non-superadmin" do
         before do

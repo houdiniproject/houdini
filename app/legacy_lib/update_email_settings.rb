@@ -10,7 +10,7 @@ module UpdateEmailSettings
       es = Psql.execute(Qexpr.new.insert("email_settings", [{nonprofit_id: np_id, user_id: user_id}], {no_timestamps: true})).first
     end
     Psql.execute(
-      Qexpr.new.update(:email_settings, params)
+      Qexpr.new.update(:email_settings, params.to_deprecated_h)
       .where("id=$id", id: es["id"])
       .returning("*")
     ).first

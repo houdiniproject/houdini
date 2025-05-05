@@ -55,7 +55,7 @@ describe EmailSettingsController, type: :controller do
     it do
       sign_in nonprofit_admin
       is_expected.to permit(:notify_campaigns, :notify_events, :notify_payments, :notify_payouts, :notify_recurring_donations)
-        .for(:create, params: params_with_user).on(:email_setting)
+        .for(:create, params: params_with_user).on(:email_settings)
     end
 
     describe "when no email setting exists" do

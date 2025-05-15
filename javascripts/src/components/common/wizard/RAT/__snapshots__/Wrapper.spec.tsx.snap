@@ -24,10 +24,10 @@ exports[`Wrapper .createTab 1`] = `
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -35,9 +35,9 @@ exports[`Wrapper .createTab 1`] = `
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -46,8 +46,8 @@ exports[`Wrapper .createTab 1`] = `
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="true"
@@ -62,18 +62,18 @@ exports[`Wrapper .createTab 1`] = `
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -87,7 +87,7 @@ exports[`Wrapper .createTab 1`] = `
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -153,7 +153,7 @@ exports[`Wrapper .createTab 1`] = `
           id="tab1-panel"
           onKeyDown={[Function]}
           role="tabpanel"
-          style={Object {}}
+          style={{}}
         >
           tabPanel1
         </div>
@@ -188,10 +188,10 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -199,9 +199,9 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -210,8 +210,8 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -224,7 +224,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -237,7 +237,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -250,7 +250,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -263,7 +263,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -276,7 +276,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -289,7 +289,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -302,7 +302,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -315,7 +315,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -330,18 +330,18 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -355,7 +355,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -502,7 +502,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -524,7 +524,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
                   id="tab2-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -544,7 +544,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -584,10 +584,10 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -595,9 +595,9 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -606,8 +606,8 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -620,7 +620,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -633,7 +633,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -646,7 +646,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -659,7 +659,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -672,7 +672,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -685,7 +685,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -698,7 +698,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -711,7 +711,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -726,18 +726,18 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -751,7 +751,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -898,7 +898,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -920,7 +920,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
                     id="tab2-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -940,7 +940,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -1041,7 +1041,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -1063,7 +1063,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             id="tab2-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -1083,7 +1083,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via backen
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -1124,10 +1124,10 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -1135,9 +1135,9 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -1146,8 +1146,8 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -1160,7 +1160,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -1173,7 +1173,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -1186,7 +1186,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -1199,7 +1199,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -1212,7 +1212,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -1225,7 +1225,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -1238,7 +1238,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -1251,7 +1251,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -1266,18 +1266,18 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -1291,7 +1291,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -1438,7 +1438,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -1460,7 +1460,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
                   id="tab2-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -1480,7 +1480,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -1520,10 +1520,10 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -1531,9 +1531,9 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -1542,8 +1542,8 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -1556,7 +1556,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -1569,7 +1569,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -1582,7 +1582,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -1595,7 +1595,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -1608,7 +1608,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -1621,7 +1621,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -1634,7 +1634,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -1647,7 +1647,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -1662,18 +1662,18 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -1687,7 +1687,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -1834,7 +1834,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -1856,7 +1856,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
                     id="tab2-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -1876,7 +1876,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -1977,7 +1977,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -1999,7 +1999,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             id="tab2-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -2019,7 +2019,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via next b
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -2060,10 +2060,10 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -2071,9 +2071,9 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -2082,8 +2082,8 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -2096,7 +2096,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -2109,7 +2109,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -2122,7 +2122,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -2135,7 +2135,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -2148,7 +2148,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -2161,7 +2161,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -2174,7 +2174,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -2187,7 +2187,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -2202,18 +2202,18 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -2227,7 +2227,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -2374,7 +2374,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -2396,7 +2396,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
                   id="tab2-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -2416,7 +2416,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -2456,10 +2456,10 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -2467,9 +2467,9 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -2478,8 +2478,8 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -2492,7 +2492,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -2505,7 +2505,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -2518,7 +2518,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -2531,7 +2531,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -2544,7 +2544,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -2557,7 +2557,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -2570,7 +2570,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -2583,7 +2583,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -2598,18 +2598,18 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -2623,7 +2623,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -2770,7 +2770,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -2792,7 +2792,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
                     id="tab2-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -2812,7 +2812,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -2913,7 +2913,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -2935,7 +2935,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             id="tab2-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -2955,7 +2955,7 @@ exports[`Wrapper go to next and back go next twice, then back once go via tab pr
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -2996,10 +2996,10 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -3007,9 +3007,9 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -3018,8 +3018,8 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -3032,7 +3032,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -3045,7 +3045,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -3058,7 +3058,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -3071,7 +3071,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -3086,18 +3086,18 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -3111,7 +3111,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -3258,7 +3258,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -3280,7 +3280,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
                   id="tab2-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -3300,7 +3300,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -3340,10 +3340,10 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -3351,9 +3351,9 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -3362,8 +3362,8 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -3376,7 +3376,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -3389,7 +3389,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -3402,7 +3402,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -3415,7 +3415,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -3430,18 +3430,18 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -3455,7 +3455,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -3602,7 +3602,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -3624,7 +3624,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
                     id="tab2-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -3644,7 +3644,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -3745,7 +3745,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -3767,7 +3767,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             id="tab2-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -3787,7 +3787,7 @@ exports[`Wrapper go to next and back go to next go to next via backend 1`] = `
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -3828,10 +3828,10 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -3839,9 +3839,9 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -3850,8 +3850,8 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -3864,7 +3864,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -3877,7 +3877,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -3890,7 +3890,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -3903,7 +3903,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -3918,18 +3918,18 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -3943,7 +3943,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -4090,7 +4090,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -4112,7 +4112,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
                   id="tab2-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -4132,7 +4132,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -4172,10 +4172,10 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -4183,9 +4183,9 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -4194,8 +4194,8 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -4208,7 +4208,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -4221,7 +4221,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -4234,7 +4234,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -4247,7 +4247,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -4262,18 +4262,18 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -4287,7 +4287,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -4434,7 +4434,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -4456,7 +4456,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
                     id="tab2-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -4476,7 +4476,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -4577,7 +4577,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -4599,7 +4599,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             id="tab2-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -4619,7 +4619,7 @@ exports[`Wrapper go to next and back go to next go to next via click 1`] = `
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -4660,10 +4660,10 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -4671,9 +4671,9 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -4682,8 +4682,8 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -4696,7 +4696,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -4709,7 +4709,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -4722,7 +4722,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -4735,7 +4735,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -4750,18 +4750,18 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -4775,7 +4775,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -4922,7 +4922,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -4944,7 +4944,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
                   id="tab2-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -4964,7 +4964,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -5004,10 +5004,10 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -5015,9 +5015,9 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -5026,8 +5026,8 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -5040,7 +5040,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -5053,7 +5053,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -5066,7 +5066,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -5079,7 +5079,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -5094,18 +5094,18 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -5119,7 +5119,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -5266,7 +5266,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -5288,7 +5288,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
                     id="tab2-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -5308,7 +5308,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -5409,7 +5409,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -5431,7 +5431,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             id="tab2-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -5451,7 +5451,7 @@ exports[`Wrapper go to next and back go to next go to next via next button 1`] =
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -5492,10 +5492,10 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -5503,9 +5503,9 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -5514,8 +5514,8 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="true"
@@ -5528,7 +5528,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -5541,7 +5541,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -5554,7 +5554,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -5567,7 +5567,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="true"
@@ -5580,7 +5580,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -5593,7 +5593,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -5608,18 +5608,18 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -5633,7 +5633,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -5780,7 +5780,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -5803,7 +5803,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -5825,7 +5825,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
                   id="tab3-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -5862,10 +5862,10 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -5873,9 +5873,9 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -5884,8 +5884,8 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="true"
@@ -5898,7 +5898,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -5911,7 +5911,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -5924,7 +5924,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -5937,7 +5937,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="true"
@@ -5950,7 +5950,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -5963,7 +5963,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -5978,18 +5978,18 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -6003,7 +6003,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -6150,7 +6150,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -6173,7 +6173,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -6195,7 +6195,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
                     id="tab3-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -6293,7 +6293,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -6316,7 +6316,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -6338,7 +6338,7 @@ exports[`Wrapper go to next and back go to next twice go to next via backend 1`]
             id="tab3-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -6376,10 +6376,10 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -6387,9 +6387,9 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -6398,8 +6398,8 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="true"
@@ -6412,7 +6412,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -6425,7 +6425,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -6438,7 +6438,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -6451,7 +6451,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="true"
@@ -6464,7 +6464,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -6477,7 +6477,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -6492,18 +6492,18 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -6517,7 +6517,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -6664,7 +6664,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -6687,7 +6687,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -6709,7 +6709,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
                   id="tab3-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -6746,10 +6746,10 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -6757,9 +6757,9 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -6768,8 +6768,8 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="true"
@@ -6782,7 +6782,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -6795,7 +6795,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -6808,7 +6808,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -6821,7 +6821,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="true"
@@ -6834,7 +6834,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -6847,7 +6847,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -6862,18 +6862,18 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -6887,7 +6887,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -7034,7 +7034,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -7057,7 +7057,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -7079,7 +7079,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
                     id="tab3-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -7177,7 +7177,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -7200,7 +7200,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -7222,7 +7222,7 @@ exports[`Wrapper go to next and back go to next twice go to next via click 1`] =
             id="tab3-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -7260,10 +7260,10 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -7271,9 +7271,9 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -7282,8 +7282,8 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="true"
@@ -7296,7 +7296,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -7309,7 +7309,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -7322,7 +7322,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -7335,7 +7335,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="true"
@@ -7348,7 +7348,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -7361,7 +7361,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -7376,18 +7376,18 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -7401,7 +7401,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -7548,7 +7548,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -7571,7 +7571,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -7593,7 +7593,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
                   id="tab3-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -7630,10 +7630,10 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -7641,9 +7641,9 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -7652,8 +7652,8 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="true"
@@ -7666,7 +7666,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -7679,7 +7679,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -7692,7 +7692,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -7705,7 +7705,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="true"
@@ -7718,7 +7718,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -7731,7 +7731,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -7746,18 +7746,18 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -7771,7 +7771,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -7918,7 +7918,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -7941,7 +7941,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -7963,7 +7963,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
                     id="tab3-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -8061,7 +8061,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -8084,7 +8084,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -8106,7 +8106,7 @@ exports[`Wrapper go to next and back go to next twice go to next via next button
             id="tab3-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -8144,10 +8144,10 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -8155,9 +8155,9 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -8166,8 +8166,8 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -8180,7 +8180,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -8192,7 +8192,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="true"
@@ -8205,7 +8205,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -8218,7 +8218,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -8230,7 +8230,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="true"
@@ -8243,7 +8243,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -8255,7 +8255,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -8268,7 +8268,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="true"
@@ -8283,18 +8283,18 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -8308,7 +8308,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -8451,7 +8451,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
                   id="tab1-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -8471,7 +8471,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -8494,7 +8494,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -8534,10 +8534,10 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -8545,9 +8545,9 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -8556,8 +8556,8 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -8570,7 +8570,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -8582,7 +8582,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="true"
@@ -8595,7 +8595,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -8608,7 +8608,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -8620,7 +8620,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="true"
@@ -8633,7 +8633,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -8645,7 +8645,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -8658,7 +8658,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="true"
@@ -8673,18 +8673,18 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -8698,7 +8698,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -8841,7 +8841,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
                     id="tab1-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -8861,7 +8861,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -8884,7 +8884,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -8982,7 +8982,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             id="tab1-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -9002,7 +9002,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -9025,7 +9025,7 @@ exports[`Wrapper handle enabled properly move back to first tab if all but that 
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -9066,10 +9066,10 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -9077,9 +9077,9 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -9088,8 +9088,8 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -9101,7 +9101,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -9114,7 +9114,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -9126,7 +9126,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -9139,7 +9139,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             </div>,
             "text": "label1",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab3-panel"
               aria-selected="false"
@@ -9151,7 +9151,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             </div>,
             "text": "label3",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="true"
@@ -9164,7 +9164,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="false"
@@ -9179,18 +9179,18 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -9204,7 +9204,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -9348,7 +9348,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -9370,7 +9370,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
                   id="tab2-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -9390,7 +9390,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -9430,10 +9430,10 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -9441,9 +9441,9 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -9452,8 +9452,8 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -9465,7 +9465,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -9478,7 +9478,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -9490,7 +9490,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -9503,7 +9503,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               </div>,
               "text": "label1",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab3-panel"
                 aria-selected="false"
@@ -9515,7 +9515,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               </div>,
               "text": "label3",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="true"
@@ -9528,7 +9528,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="false"
@@ -9543,18 +9543,18 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -9568,7 +9568,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -9712,7 +9712,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -9734,7 +9734,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
                     id="tab2-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -9754,7 +9754,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -9853,7 +9853,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -9875,7 +9875,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             id="tab2-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -9895,7 +9895,7 @@ exports[`Wrapper handle enabled properly move back to previous tab if the curren
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -9936,10 +9936,10 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -9947,9 +9947,9 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -9958,8 +9958,8 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -9971,7 +9971,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="true"
@@ -9986,18 +9986,18 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -10011,7 +10011,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -10116,7 +10116,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
                   id="tab1-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -10136,7 +10136,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -10176,10 +10176,10 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -10187,9 +10187,9 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -10198,8 +10198,8 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -10211,7 +10211,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="true"
@@ -10226,18 +10226,18 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -10251,7 +10251,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -10356,7 +10356,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
                     id="tab1-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -10376,7 +10376,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -10454,7 +10454,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
             id="tab1-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -10474,7 +10474,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from backen
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -10515,10 +10515,10 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -10526,9 +10526,9 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -10537,8 +10537,8 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -10550,7 +10550,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="true"
@@ -10565,18 +10565,18 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -10590,7 +10590,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -10695,7 +10695,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
                   id="tab1-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -10715,7 +10715,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -10755,10 +10755,10 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -10766,9 +10766,9 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -10777,8 +10777,8 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -10790,7 +10790,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="true"
@@ -10805,18 +10805,18 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -10830,7 +10830,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -10935,7 +10935,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
                     id="tab1-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -10955,7 +10955,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -11033,7 +11033,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
             id="tab1-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -11053,7 +11053,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores from next b
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }
@@ -11094,10 +11094,10 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
       },
       "focusGroup": FocusGroup {
         "_boundHandleKeydownEvent": [Function],
-        "_keybindingsLookup": Array [
-          Object {
+        "_keybindingsLookup": [
+          {
             "action": "next",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
@@ -11105,9 +11105,9 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
               "shiftKey": false,
             },
           },
-          Object {
+          {
             "action": "prev",
-            "eventMatcher": Object {
+            "eventMatcher": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -11116,8 +11116,8 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
             },
           },
         ],
-        "_members": Array [
-          Object {
+        "_members": [
+          {
             "node": <div
               aria-controls="tab2-panel"
               aria-selected="false"
@@ -11129,7 +11129,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
             </div>,
             "text": "label2",
           },
-          Object {
+          {
             "node": <div
               aria-controls="tab1-panel"
               aria-selected="true"
@@ -11144,18 +11144,18 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
           },
         ],
         "_searchString": "",
-        "_settings": Object {
-          "keybindings": Object {
+        "_settings": {
+          "keybindings": {
             "first": undefined,
             "last": undefined,
-            "next": Object {
+            "next": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 40,
               "metaKey": false,
               "shiftKey": false,
             },
-            "prev": Object {
+            "prev": {
               "altKey": false,
               "ctrlKey": false,
               "keyCode": 38,
@@ -11169,7 +11169,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
         },
       },
       "panelType": [Function],
-      "panels": Array [
+      "panels": [
         MockableTabPanelState {
           "id": "tab1",
           "isEnabled": true,
@@ -11274,7 +11274,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
                   id="tab1-panel"
                   onKeyDown={[Function]}
                   role="tabpanel"
-                  style={Object {}}
+                  style={{}}
                 >
                   <button
                     onClick={[Function]}
@@ -11294,7 +11294,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
                   onKeyDown={[Function]}
                   role="tabpanel"
                   style={
-                    Object {
+                    {
                       "display": "none",
                     }
                   }
@@ -11334,10 +11334,10 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
         },
         "focusGroup": FocusGroup {
           "_boundHandleKeydownEvent": [Function],
-          "_keybindingsLookup": Array [
-            Object {
+          "_keybindingsLookup": [
+            {
               "action": "next",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
@@ -11345,9 +11345,9 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
                 "shiftKey": false,
               },
             },
-            Object {
+            {
               "action": "prev",
-              "eventMatcher": Object {
+              "eventMatcher": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -11356,8 +11356,8 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
               },
             },
           ],
-          "_members": Array [
-            Object {
+          "_members": [
+            {
               "node": <div
                 aria-controls="tab2-panel"
                 aria-selected="false"
@@ -11369,7 +11369,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
               </div>,
               "text": "label2",
             },
-            Object {
+            {
               "node": <div
                 aria-controls="tab1-panel"
                 aria-selected="true"
@@ -11384,18 +11384,18 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
             },
           ],
           "_searchString": "",
-          "_settings": Object {
-            "keybindings": Object {
+          "_settings": {
+            "keybindings": {
               "first": undefined,
               "last": undefined,
-              "next": Object {
+              "next": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 40,
                 "metaKey": false,
                 "shiftKey": false,
               },
-              "prev": Object {
+              "prev": {
                 "altKey": false,
                 "ctrlKey": false,
                 "keyCode": 38,
@@ -11409,7 +11409,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
           },
         },
         "panelType": [Function],
-        "panels": Array [
+        "panels": [
           MockableTabPanelState {
             "id": "tab1",
             "isEnabled": true,
@@ -11514,7 +11514,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
                     id="tab1-panel"
                     onKeyDown={[Function]}
                     role="tabpanel"
-                    style={Object {}}
+                    style={{}}
                   >
                     <button
                       onClick={[Function]}
@@ -11534,7 +11534,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
                     onKeyDown={[Function]}
                     role="tabpanel"
                     style={
-                      Object {
+                      {
                         "display": "none",
                       }
                     }
@@ -11612,7 +11612,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
             id="tab1-panel"
             onKeyDown={[Function]}
             role="tabpanel"
-            style={Object {}}
+            style={{}}
           >
             <button
               onClick={[Function]}
@@ -11632,7 +11632,7 @@ exports[`Wrapper prevents going to next if next isnt enabled ignores if focused 
             onKeyDown={[Function]}
             role="tabpanel"
             style={
-              Object {
+              {
                 "display": "none",
               }
             }

@@ -2,7 +2,7 @@
 
 exports[`ModernStripeFeeStructure constructor returns the expected structure when passing both 1`] = `
 ModernStripeFeeStructure {
-  "props": Object {
+  "props": {
     "flatFee": 30,
     "flatFeeCoveragePercent": 0,
     "percentFee": 0.02,
@@ -12,7 +12,7 @@ ModernStripeFeeStructure {
 
 exports[`ModernStripeFeeStructure constructor returns the expected structure when passing flatFee 1`] = `
 ModernStripeFeeStructure {
-  "props": Object {
+  "props": {
     "flatFee": 30,
     "flatFeeCoveragePercent": 0,
     "percentFee": 0,
@@ -22,7 +22,7 @@ ModernStripeFeeStructure {
 
 exports[`ModernStripeFeeStructure constructor returns the expected structure when passing percentFee 1`] = `
 ModernStripeFeeStructure {
-  "props": Object {
+  "props": {
     "flatFee": 0,
     "flatFeeCoveragePercent": 0,
     "percentFee": 0.02,

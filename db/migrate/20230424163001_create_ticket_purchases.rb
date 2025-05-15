@@ -6,7 +6,7 @@
 class CreateTicketPurchases < ActiveRecord::Migration
   def change
     create_table :ticket_purchases do |t|
-      t.string "houid",  null: false
+      t.string "houid", null: false
       t.references :ticket
 
       t.timestamps null: false

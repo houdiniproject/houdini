@@ -4,9 +4,9 @@
 
 # Actually handled through InsertNonprofitKeys
 class NonprofitKey < ApplicationRecord
-  belongs_to :nonprofit, required: true
+  belongs_to :nonprofit, optional: false
 
-  validates_presence_of :mailchimp_token
+  validates :mailchimp_token, presence: true
 
   def mailchimp_token
     read_attribute(:mailchimp_token).nil? ? nil : Cypher.decrypt(read_attribute(:mailchimp_token))

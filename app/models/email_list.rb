@@ -13,7 +13,7 @@ class EmailList < ApplicationRecord
 
   # the path on the Mailchimp api for the list
   def list_path
-   "lists/#{mailchimp_list_id}"
+    "lists/#{mailchimp_list_id}"
   end
 
   def list_url
@@ -37,7 +37,7 @@ class EmailList < ApplicationRecord
   # The base Mailchimp API uri. This includes getting the proper datacenter
   # using the api key.
   #
-  # NOTE: this value is cached. This is not an awful decision but could be 
+  # NOTE: this value is cached. This is not an awful decision but could be
   # easy to forget this
   def base_uri
     @base_uri ||= Mailchimp.base_uri(api_key)
@@ -67,11 +67,11 @@ class EmailList < ApplicationRecord
   end
 
   def build_supporter_post_operation(supporter)
-    MailchimpBatchOperation.new(method: 'POST', list: self, supporter:supporter)
+    MailchimpBatchOperation.new(method: "POST", list: self, supporter: supporter)
   end
 
   # we don't currently use this but we could in the future
   def build_supporter_delete_operation(supporter)
-    MailchimpBatchOperation.new(method: 'DELETE', list: self, supporter:supporter)
+    MailchimpBatchOperation.new(method: "DELETE", list: self, supporter: supporter)
   end
 end

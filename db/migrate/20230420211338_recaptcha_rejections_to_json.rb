@@ -5,7 +5,7 @@ class RecaptchaRejectionsToJson < ActiveRecord::Migration
       ALTER TABLE "recaptcha_rejections" ALTER COLUMN "details" TYPE jsonb USING details::jsonb
     SQL
   end
-  
+
   def down
     execute <<-SQL
       ALTER TABLE "recaptcha_rejections" ALTER COLUMN "details" TYPE text USING details::text

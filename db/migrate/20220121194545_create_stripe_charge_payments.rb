@@ -1,8 +1,7 @@
 class CreateStripeChargePayments < ActiveRecord::Migration
   def change
-
     create_table :stripe_transactions do |t|
-      t.integer :amount, null:false
+      t.integer :amount, null: false
       t.string :houid, {index: true, null: false}
 
       t.timestamps

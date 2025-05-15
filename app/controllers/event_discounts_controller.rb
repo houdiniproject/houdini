@@ -1,7 +1,7 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
 class EventDiscountsController < ApplicationController
   include Controllers::EventHelper
-	before_action :authenticate_event_editor!, :except => [:index]
+  before_action :authenticate_event_editor!, except: [:index]
 
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
 
@@ -19,7 +19,7 @@ class EventDiscountsController < ApplicationController
 
   def update
     @event_discount = current_event.event_discounts.find(params[:id])
-    
+
     @event_discount.update!(event_discount_params)
     @event_discount
   end
@@ -39,7 +39,6 @@ class EventDiscountsController < ApplicationController
   end
 
   def record_invalid(error)
-    render status: :unprocessable_entity, json: {errors: error.record.errors }
+    render status: :unprocessable_entity, json: {errors: error.record.errors}
   end
-
 end

@@ -1,10 +1,8 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'psql'
-require 'qx'
+require "psql"
+require "qx"
 
 module InsertTagJoins
-
-
   # @param [Integer] np_id id for a [Nonprofit]
   # @param [Integer] profile_id id for the [Profile] corresponding to the current user. Not used currently but needed
   # @param [Array<Integer>] supporter_ids the ids of the all the supporters whose tags should be changed.
@@ -23,11 +21,10 @@ module InsertTagJoins
         np_id: {required: true, is_integer: true},
         profile_id: {required: true, is_integer: true},
         supporter_ids: {is_array: true},
-        tag_data: { required: true
-          # array_of_hashes: {
-          #   selected: {required: true}, tag_master_id: {required: true, is_integer: true}
-          # }
-        }
+        tag_data: {required: true}
+        # array_of_hashes: {
+        #   selected: {required: true}, tag_master_id: {required: true, is_integer: true}
+        # }
       })
     rescue ParamValidation::ValidationError => e
       return {json: {error: "Validation error\n #{e.message}", errors: e.data}, status: :unprocessable_entity}
@@ -50,7 +47,6 @@ module InsertTagJoins
       valid_ids = nonprofit.tag_masters.where("id IN (?)", tag_data.to_tag_master_ids).pluck(:id).to_a
       filtered_tag_data = tag_data.for_given_tags(valid_ids)
 
-
       # first, delete the items which should be removed
       to_remove = filtered_tag_data.unselected.to_tag_master_ids
       deleted = []
@@ -58,23 +54,23 @@ module InsertTagJoins
         deleted = Qx.delete_from(:tag_joins)
           .where("supporter_id IN ($ids)", ids: supporter_ids)
           .and_where("tag_master_id in ($tags)", tags: to_remove)
-          .returning('*')
+          .returning("*")
           .execute
       end
 
       # next add only the selected tag_joins
       to_insert = filtered_tag_data.selected.to_tag_master_ids
-      insert_data = supporter_ids.map{|id| to_insert.map{|tag_master_id| {supporter_id: id, tag_master_id: tag_master_id}}}.flatten
-      if insert_data.any?
-        tags = Qx.insert_into(:tag_joins)
+      insert_data = supporter_ids.map { |id| to_insert.map { |tag_master_id| {supporter_id: id, tag_master_id: tag_master_id} } }.flatten
+      tags = if insert_data.any?
+        Qx.insert_into(:tag_joins)
           .values(insert_data)
           .timestamps
-          .on_conflict()
+          .on_conflict
           .conflict_columns(:supporter_id, :tag_master_id).upsert(:tag_join_supporter_unique_idx)
-          .returning('*')
+          .returning("*")
           .execute
       else
-        tags = []
+        []
       end
     rescue ActiveRecord::ActiveRecordError => e
       return {json: {error: "A DB error occurred. Please contact support. \n #{e.message}"}, status: :unprocessable_entity}
@@ -88,9 +84,8 @@ module InsertTagJoins
     # Sync mailchimp lists, if present
     Mailchimp.delay.sync_supporters_to_list_from_tag_joins(np_id, supporter_ids, tag_data)
 
-    return {json: {inserted_count: tags.count, removed_count: deleted.count }, status: :ok}
+    {json: {inserted_count: tags.count, removed_count: deleted.count}, status: :ok}
   end
-
 
   # Find or create many tag names for every supporter
   # Creates tag masters for tag names that are not present
@@ -105,23 +100,19 @@ module InsertTagJoins
         tm = Qx.insert_into(:tag_masters).values({
           name: name,
           nonprofit_id: np_id
-        }).ts.returning('id').execute.last
+        }).ts.returning("id").execute.last
       end
-      [name, tm['id']]
+      [name, tm["id"]]
     end
 
     tag_join_data = supporter_ids.map do |id|
-      tags.map{|name, tm_id| {supporter_id: id, tag_master_id: tm_id}}
+      tags.map { |name, tm_id| {supporter_id: id, tag_master_id: tm_id} }
     end.flatten
 
-    tag_joins = Qx.insert_into(:tag_joins)
+    Qx.insert_into(:tag_joins)
       .values(tag_join_data)
-      .ts.returning('id').execute
-
-    return tag_joins
+      .ts.returning("id").execute
   end
 
   private
-
-
 end

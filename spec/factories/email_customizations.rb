@@ -3,6 +3,6 @@ FactoryBot.define do
   factory :email_customization do
     name { "name" }
     contents { "email customization contents" }
-    nonprofit {association :nonprofit_base}
+    nonprofit { association :nonprofit_base }
   end
 end

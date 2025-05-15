@@ -1,5 +1,5 @@
 # License: AGPL-3.0-or-later WITH Web-Template-Output-Additional-Permission-3.0-or-later
-require 'rails_helper'
+require "rails_helper"
 
 describe PeriodicReportAdapter::CancelledRecurringDonationsReport do
   let(:nonprofit) { create(:nonprofit_base) }
@@ -7,17 +7,17 @@ describe PeriodicReportAdapter::CancelledRecurringDonationsReport do
   let(:users_list) { User.where(user_id: user) }
   let(:options) do
     {
-      :nonprofit_id => nonprofit.id,
-      :period => :last_month,
-      :users => users_list
+      nonprofit_id: nonprofit.id,
+      period: :last_month,
+      users: users_list
     }
   end
 
   let(:params) do
     {
-      :active => false,
-      :cancelled_at_gt_or_eq => Time.new(2021, 9, 1),
-      :cancelled_at_lt => Time.new(2021, 10, 1)
+      active: false,
+      cancelled_at_gt_or_eq: Time.new(2021, 9, 1),
+      cancelled_at_lt: Time.new(2021, 10, 1)
     }
   end
 
@@ -38,7 +38,7 @@ describe PeriodicReportAdapter::CancelledRecurringDonationsReport do
       .and_return(export_recurring_donations)
   end
 
-  it 'calls ExportRecurringDonations::initiate_export with the correct arguments' do
+  it "calls ExportRecurringDonations::initiate_export with the correct arguments" do
     subject
     expect(ExportRecurringDonations)
       .to have_received(:initiate_export)

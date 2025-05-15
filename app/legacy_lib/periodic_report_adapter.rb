@@ -6,9 +6,8 @@ class PeriodicReportAdapter
   autoload :FailedRecurringDonationsReport
   autoload :ActiveRecurringDonationsToCsvReport
   autoload :StartedRecurringDonationsToCsvReport
-  
 
-  REPORT = 'Report'
+  REPORT = "Report"
   private_constant :REPORT
 
   class << self

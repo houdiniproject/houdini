@@ -7,12 +7,11 @@ class TagJoin::Modification
   attribute :tag_master_id, :integer
   attribute :selected, :boolean, default: false
 
-  def initialize(opts={})
-    super(opts)
+  def initialize(opts = {})
+    super
   end
 
   def tag_master
     TagMaster.find(tag_master_id)
   end
-
 end

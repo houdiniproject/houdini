@@ -2,11 +2,11 @@ class DisputeTransaction < ApplicationRecord
   belongs_to :dispute
   belongs_to :payment
   attr_accessible :gross_amount, :disbursed, :payment, :fee_total,
-  :stripe_transaction_id, :date
+    :stripe_transaction_id, :date
 
   has_one :nonprofit, through: :dispute
   has_one :supporter, through: :dispute
-  has_many  :manual_balance_adjustments, as: :entity
+  has_many :manual_balance_adjustments, as: :entity
 
   def gross_amount=(gross_amount)
     write_attribute(:gross_amount, gross_amount)
@@ -23,6 +23,7 @@ class DisputeTransaction < ApplicationRecord
   end
 
   private
+
   def calculate_net
     self.net_amount = gross_amount + fee_total
   end

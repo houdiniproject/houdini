@@ -2,7 +2,7 @@
 class MiscCampaignInfo < ApplicationRecord
   belongs_to :campaign
 
-  validates_inclusion_of :fee_coverage_option_config, in: ['auto', 'manual', 'none', nil]
+  validates :fee_coverage_option_config, inclusion: {in: ["auto", "manual", "none", nil]}
 
   attr_accessible :manual_cover_fees, :paused
 end

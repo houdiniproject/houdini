@@ -7,13 +7,13 @@ class PeriodicReportAdapter::CancelledRecurringDonationsReport < PeriodicReportA
   end
 
   def run
-    ExportRecurringDonations::initiate_export(@nonprofit_id, params, @user_ids, :cancelled_recurring_donations_automatic_report)
+    ExportRecurringDonations.initiate_export(@nonprofit_id, params, @user_ids, :cancelled_recurring_donations_automatic_report)
   end
 
   private
 
   def params
-    { :active => false }.merge(period)
+    {active: false}.merge(period)
   end
 
   def period
@@ -22,8 +22,8 @@ class PeriodicReportAdapter::CancelledRecurringDonationsReport < PeriodicReportA
 
   def last_month
     {
-      :cancelled_at_gt_or_eq => (Time.current - 1.month).beginning_of_month,
-      :cancelled_at_lt => Time.current.beginning_of_month
+      cancelled_at_gt_or_eq: 1.month.ago.beginning_of_month,
+      cancelled_at_lt: Time.current.beginning_of_month
     }
   end
 end

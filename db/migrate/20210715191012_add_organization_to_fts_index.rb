@@ -1,15 +1,14 @@
 class AddOrganizationToFtsIndex < ActiveRecord::Migration
-
   def drop_fts_triggers
-    execute(<<-'eosql'.strip)
+    execute(<<-EOSQL.strip)
       DROP FUNCTION update_fts_on_supporters () CASCADE;
       DROP TRIGGER IF EXISTS update_supporters_fts ON supporters;
-    eosql
+    EOSQL
   end
 
   def up
     drop_fts_triggers
-    execute(<<-'eosql'.strip)
+    execute(<<-EOSQL.strip)
 
       CREATE FUNCTION update_fts_on_supporters() RETURNS TRIGGER AS $$
         BEGIN
@@ -20,14 +19,12 @@ class AddOrganizationToFtsIndex < ActiveRecord::Migration
 
       CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE
         ON supporters FOR EACH ROW EXECUTE PROCEDURE update_fts_on_supporters();
-    eosql
-    
+    EOSQL
   end
 
   def down
-
     drop_fts_triggers
-    execute(<<-'eosql'.strip)
+    execute(<<-EOSQL.strip)
 
       CREATE FUNCTION update_fts_on_supporters() RETURNS TRIGGER AS $$
         BEGIN
@@ -38,6 +35,6 @@ class AddOrganizationToFtsIndex < ActiveRecord::Migration
 
       CREATE TRIGGER update_supporters_fts BEFORE INSERT OR UPDATE
         ON supporters FOR EACH ROW EXECUTE PROCEDURE update_fts_on_supporters();
-    eosql
+    EOSQL
   end
 end

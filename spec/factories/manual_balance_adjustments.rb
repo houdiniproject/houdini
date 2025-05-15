@@ -4,7 +4,7 @@ FactoryBot.define do
     gross_amount { 0 }
 
     trait :with_entity_and_payment do
-      entity {create(:charge_base)}
+      entity { create(:charge_base) }
     end
   end
 end

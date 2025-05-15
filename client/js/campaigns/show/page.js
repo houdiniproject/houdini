@@ -7,6 +7,7 @@ const snabbdom = require('snabbdom')
 const modal = require('ff-core/modal')
 flyd.mergeAll = require('flyd/module/mergeall')
 flyd.scanMerge = require('flyd/module/scanmerge')
+const url = require('url')
 const format = require('../../common/format')
 const giftOptions = require('./gift-option-list')
 const chooseGiftOptionsModal = require('./choose-gift-options-modal')
@@ -44,7 +45,6 @@ function init() {
     timeRemaining$: timeRemaining(app.end_date_time, app.timezone),
   }
 
-  console.error(window.navigator.userAgent)
   state.giftOptions = giftOptions.init(flyd.stream(), state)
 
   const metricsResp$ = flyd.map(r => r.body, request({
@@ -87,16 +87,19 @@ function init() {
     flyd.map(() => 'chooseGiftOptionsModal', clickContributeGifts$),
     flyd.map(() => 'donationModal', startWiz$)
   );
+  const params = url.parse(location.href, true).query
+  params.hide_cover_fees_option = params.hide_cover_fees_option || app.hide_cover_fees_option
+  params.manual_cover_fees = params.manual_cover_fees || app.manual_cover_fees
+  params.campaign_id = app.campaign.id
+
+
 
   // Stream of which gift option you have selected
   const giftOption$ = flyd.map(setGiftParams, state.giftOptions.clickOption$)
   const donateParam$ = flyd.scanMerge([
     [state.metrics.clickContribute$, resetDonateForm]
   , [giftOption$, setGiftOption]
-  ], {campaign_id: app.campaign.id, 
-    manual_cover_fees: app && app.manual_cover_fees,
-    hide_cover_fees_option: app && app.hide_cover_fees_option
-  } )
+  ], params )
 
   state.donateWiz = donateWiz.init(donateParam$)
 

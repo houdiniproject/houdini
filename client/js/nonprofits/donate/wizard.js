@@ -99,6 +99,14 @@ const init = params$ => {
   const dedicationParams$ = flyd.zip([state.infoStep.savedDedicatee$, state.infoStep.savedSupp$, state.paymentStep.paid$])
   const savedDedication$ = flyd.flatMap(R.apply(postDedication), dedicationParams$)
 
+  flyd.lift(
+    (_completedEv, params) => {
+      if (params['skipFinish']) {
+        handleWizardFinished(params, window);
+      }
+    }
+  , state.wizard.isCompleted$, state.params$ )
+
   // Log people out
   flyd.map(ev => {request({method: 'get', path: '/users/sign_out'}); window.location.reload()}, state.clickLogout$)
 

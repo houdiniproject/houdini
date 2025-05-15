@@ -48,7 +48,7 @@ function insideAnIframe(window:WindowWrapper): boolean {
 
 /**
  * If we have a redirect, do one of two things:
- * * if we're inside a widget, sent a message to the parent (if the parent exists) requesting that a redirect be triggered on the host page
+ * * if we're inside a widget, send a message to the parent (if the parent exists) requesting that a redirect be triggered on the host page
  * * if we're not, just redirect to the new location
  * @param params
  */

@@ -41,12 +41,12 @@ jobs:
             token: ${{ secrets.PAT_TO_RUN_AS_ERIC }}
               
         - name: Setup PostgreSQL with PostgreSQL extensions and unprivileged user
-          uses: ikalnytskyi/action-setup-postgres@v7
+          uses: Daniel-Marynicz/postgresql-action@1.0.0
           with:
-            postgres-version: ${{ matrix.postgres }}
-            username: admin
-            password: password
-            database: commitchange_test
+            postgres_db: commitchange_development_legacy
+            postgres_image_tag: ${{ matrix.postgres }}-alpine
+            postgres_user: admin
+            postgres_password: password
         - uses: actions/setup-node@v4
           with:
             node-version: ${{ matrix.node }}

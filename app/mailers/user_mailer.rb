@@ -5,7 +5,7 @@ class UserMailer < BaseMailer
     @nonprofit = @refund.payment.nonprofit
     @charge = @refund.charge
     @supporter = @refund.payment.supporter
-    reply_to = @nonprofit.email.blank? ? @nonprofit.users.first.email : @nonprofit.email
+    reply_to = @nonprofit.email.presence || @nonprofit.users.first.email
     from = Format::Name.email_from_np(@nonprofit.name)
     mail(to: @supporter.email, from: from, reply_to: reply_to, subject: "Your refund receipt for #{@nonprofit.name}")
   end

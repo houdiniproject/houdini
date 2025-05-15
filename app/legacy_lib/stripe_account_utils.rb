@@ -22,7 +22,7 @@ module StripeAccountUtils
     ParamValidation.new({np: np}, {np: {required: true, is_a: Nonprofit}})
     params = {
       type: "custom",
-      email: np["email"].present? ? np["email"] : np.roles.nonprofit_admins.order("created_at ASC").first.user.email,
+      email: np["email"].presence || np.roles.nonprofit_admins.order("created_at ASC").first.user.email,
       settings: {
         payouts: {
           schedule: {

@@ -167,7 +167,7 @@ module MaintainTicketValidity
   end
 
   def self.find_ticket_groups
-    payments = Ticket.select("payment_id").where("payment_id IS NOT NULL").group("payment_id").map { |i| i.payment_id }
+    payments = Ticket.select("payment_id").where.not(payment_id: nil).group("payment_id").map { |i| i.payment_id }
 
     payments.select do |p|
       tickets = Ticket.where("payment_id = ? ", p)

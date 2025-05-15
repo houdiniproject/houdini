@@ -11,6 +11,6 @@ class SupporterEmail < ApplicationRecord
     :gmail_thread_id
 
   belongs_to :supporter
-  validates_presence_of :nonprofit_id
+  validates :nonprofit_id, presence: true
   has_many :activities, as: :attachment, dependent: :destroy
 end

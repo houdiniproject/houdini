@@ -22,7 +22,7 @@ class PeriodicReportAdapter::CancelledRecurringDonationsReport < PeriodicReportA
 
   def last_month
     {
-      cancelled_at_gt_or_eq: (Time.current - 1.month).beginning_of_month,
+      cancelled_at_gt_or_eq: 1.month.ago.beginning_of_month,
       cancelled_at_lt: Time.current.beginning_of_month
     }
   end

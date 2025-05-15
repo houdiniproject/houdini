@@ -38,9 +38,9 @@ class FeeEra < ApplicationRecord
   validates :international_surcharge_fee,
     numericality: {greater_than_or_equal_to: 0, less_than: 1}, allow_nil: true
 
-  validates_presence_of :international_surcharge_fee, if: -> { local_country.present? }
+  validates :international_surcharge_fee, presence: {if: -> { local_country.present? }}
 
-  validates_presence_of :fee_coverage_detail_base
+  validates :fee_coverage_detail_base, presence: true
   #
   # Should an international surcharge be added
   #

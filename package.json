@@ -26,7 +26,7 @@
     "@types/form-serialize": "^0.7.2",
     "@types/google.maps": "^3.47.2",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^29.0",
     "@types/jquery": "^3.3.1",
     "@types/jsdom": "^11.0.4",
     "@types/lodash": "^4.14.106",

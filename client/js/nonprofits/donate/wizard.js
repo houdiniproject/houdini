@@ -113,7 +113,7 @@ const init = params$ => {
   // Handle the Finish button from the followup step -- will close modal, redirect, or refresh
   flyd.lift(
     (ev, params) => {
-      handleWizardFinished({...params, window});
+      handleWizardFinished(params, window);
     }
   , state.clickFinish$, state.params$ )
 

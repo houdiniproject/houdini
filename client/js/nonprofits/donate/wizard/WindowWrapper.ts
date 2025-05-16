@@ -20,11 +20,15 @@ export default class WindowWrapper {
     return this.window.top;
   }
 
+  parent = (): Window['parent'] | null => {
+    return this.window.parent;
+  }
+
   setLocation = (newLocation:string) => {
     this.window.document.location = newLocation;
   }
 
-  safelyPostMessageToParent = (message:string, target:string) => {
-    this.window.parent?.postMessage(message, target);
+  postMessageToParent = (message:string, target:string) => {
+    this.window.parent.postMessage(message, target);
   }
 }

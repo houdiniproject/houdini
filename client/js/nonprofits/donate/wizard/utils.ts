@@ -1,6 +1,6 @@
 // License: LGPL-3.0-or-later
 
-import WindowWrapper from "./WindowWrapper";
+import WindowWrapper from "./WidgetWindowWrapper";
 
 
 /**
@@ -35,17 +35,6 @@ export function handleWizardFinished(params: Record<string, any>, window:Window)
   postClose(innerParams, windowWrapper);
 }
 
-
-/**
- * Are we in an iframe?
- * 
- * @returns true if inside a widget, false otherwise
- */
-function insideAnIframe(window:WindowWrapper): boolean {
-  return window.self() !== window.top();
-}
-
-
 /**
  * If we have a redirect, do one of two things:
  * * if we're inside a widget, send a message to the parent (if the parent exists) requesting that a redirect be triggered on the host page
@@ -54,8 +43,8 @@ function insideAnIframe(window:WindowWrapper): boolean {
  */
 function postRedirect({redirect}:WizardFinishParams, window:WindowWrapper) {
   if (redirect) {
-    if (insideAnIframe(window)) {
-      window.safelyPostMessageToParent(`commitchange:redirect:${redirect}`, '*')
+    if (window.insideAnIframe()) {
+      window.notifyParentOfRedirect(redirect);
     }
     else {
       window.setLocation(redirect);
@@ -65,6 +54,6 @@ function postRedirect({redirect}:WizardFinishParams, window:WindowWrapper) {
 
 function postClose({embeddedWidget}:WizardFinishParams, window:WindowWrapper) {
   if (!embeddedWidget) {
-    window.safelyPostMessageToParent('commitchange:close', '*');
+    window.notifyParentOfClose();
   }
 }

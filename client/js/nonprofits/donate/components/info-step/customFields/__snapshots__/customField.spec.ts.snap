@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`customField sets the the field correctly 1`] = `
-Object {
+{
   "children": undefined,
-  "data": Object {
-    "props": Object {
+  "data": {
+    "props": {
       "name": "customFields[Name of Field]",
       "placeholder": "Field Label",
     },

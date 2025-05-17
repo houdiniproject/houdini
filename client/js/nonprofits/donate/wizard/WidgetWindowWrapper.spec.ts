@@ -14,9 +14,6 @@ jest.mock('./WindowWrapper', () => {
   })
 });
 
-
-
-import { handleWizardFinished } from "./utils";
 import WidgetWindowWrapper from "./WidgetWindowWrapper";
 
 

@@ -17,7 +17,6 @@ const patch = snabbdom.init([
 ])
 
 const params = parseDonateParams(document.location, app);
-
 const params$ = flyd.stream(params)
 app.params$ = params$
 if(params.campaign_id && params.gift_option_id) {

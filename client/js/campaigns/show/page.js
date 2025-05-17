@@ -90,8 +90,6 @@ function init() {
   const params = parseDonateParams(document.location, app);
   params.campaign_id = app.campaign.id
 
-
-
   // Stream of which gift option you have selected
   const giftOption$ = flyd.map(setGiftParams, state.giftOptions.clickOption$)
   const donateParam$ = flyd.scanMerge([

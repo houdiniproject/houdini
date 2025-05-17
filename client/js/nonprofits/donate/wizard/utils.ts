@@ -1,7 +1,6 @@
 // License: LGPL-3.0-or-later
 
-import WindowWrapper from "./WidgetWindowWrapper";
-
+import WidgetWindowWrapper from "./WidgetWindowWrapper";
 
 /**
  * This is a subset of all the params a widget would get. We're just mention the ones here we care about
@@ -26,10 +25,9 @@ function prepareParams(inputParams:Record<string, any>): WizardFinishParams {
    }
 }
 
-
 export function handleWizardFinished(params: Record<string, any>, window:Window) {
 
-  const windowWrapper = new WindowWrapper(window)
+  const windowWrapper = new WidgetWindowWrapper(window)
   const innerParams  = prepareParams(params);
   postRedirect(innerParams, windowWrapper);
   postClose(innerParams, windowWrapper);
@@ -41,7 +39,7 @@ export function handleWizardFinished(params: Record<string, any>, window:Window)
  * * if we're not, just redirect to the new location
  * @param params
  */
-function postRedirect({redirect}:WizardFinishParams, window:WindowWrapper) {
+function postRedirect({redirect}:WizardFinishParams, window:WidgetWindowWrapper) {
   if (redirect) {
     if (window.insideAnIframe()) {
       window.notifyParentOfRedirect(redirect);
@@ -52,7 +50,7 @@ function postRedirect({redirect}:WizardFinishParams, window:WindowWrapper) {
   }
 }
 
-function postClose({embeddedWidget}:WizardFinishParams, window:WindowWrapper) {
+function postClose({embeddedWidget}:WizardFinishParams, window:WidgetWindowWrapper) {
   if (!embeddedWidget) {
     window.notifyParentOfClose();
   }

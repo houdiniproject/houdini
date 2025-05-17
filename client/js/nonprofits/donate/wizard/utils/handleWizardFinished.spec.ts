@@ -16,7 +16,7 @@ jest.mock('./WidgetWindowWrapper', () => {
 
 
 
-import { handleWizardFinished } from "./utils";
+import handleWizardFinished  from "./handleWizardFinished";
 
 
 /** We just need a window object to pass to the second argument for creating our WidgetWindowWrapper */

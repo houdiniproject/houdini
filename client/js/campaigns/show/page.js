@@ -7,7 +7,6 @@ const snabbdom = require('snabbdom')
 const modal = require('ff-core/modal')
 flyd.mergeAll = require('flyd/module/mergeall')
 flyd.scanMerge = require('flyd/module/scanmerge')
-const url = require('url')
 const format = require('../../common/format')
 const giftOptions = require('./gift-option-list')
 const chooseGiftOptionsModal = require('./choose-gift-options-modal')
@@ -17,6 +16,7 @@ const request = require('../../common/request')
 
 const activities = require('../../components/public-activities')
 
+const { parseDonateParams } = require('../../nonprofits/donate/wizard/utils');
 
 // Viewscript legacy side effect stuff
 require('../../components/branded_fundraising')
@@ -87,9 +87,7 @@ function init() {
     flyd.map(() => 'chooseGiftOptionsModal', clickContributeGifts$),
     flyd.map(() => 'donationModal', startWiz$)
   );
-  const params = url.parse(location.href, true).query
-  params.hide_cover_fees_option = params.hide_cover_fees_option || app.hide_cover_fees_option
-  params.manual_cover_fees = params.manual_cover_fees || app.manual_cover_fees
+  const params = parseDonateParams(document.location, app);
   params.campaign_id = app.campaign.id
 
 

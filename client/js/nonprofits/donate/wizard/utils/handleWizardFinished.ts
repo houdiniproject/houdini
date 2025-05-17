@@ -25,7 +25,7 @@ function prepareParams(inputParams:Record<string, any>): WizardFinishParams {
    }
 }
 
-export function handleWizardFinished(params: Record<string, any>, window:Window) {
+export default function handleWizardFinished(params: Record<string, any>, window:Window) {
 
   const windowWrapper = new WidgetWindowWrapper(window)
   const innerParams  = prepareParams(params);
